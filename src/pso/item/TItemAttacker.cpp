@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/misc/TLobby.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
 typedef char RecoveredGlobal_8010355C_lbl_8043E038_size[sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA ? 1 : -1];
@@ -23,12 +24,124 @@ void TItemAttacker__sub_8010349C(u32 arg0);
 int get_item_chunk_buffer(int a0);
 u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 TLobby__sub_8001EEF4();
-s32 deliver_delayed_weapon_hit();
-u32 __nw__7TObjectFUl(s32);
+void deliver_delayed_weapon_hit(u8 *arg0);
+s32 __nw__7TObjectFUl(int);
 void *mem_alloc(u32 size);
 void queue_destruction__7TObjectFv(void *arg0);
 
 }
+
+struct AttackWeaponBase { char pad[0x18]; };
+
+struct AttackWeapon : AttackWeaponBase {
+virtual void m0();
+virtual void m1();
+virtual void m2();
+virtual void m3();
+virtual void m4();
+virtual void m5();
+virtual void m6();
+virtual void m7();
+virtual void m8();
+virtual void m9();
+virtual void m10();
+virtual void m11();
+virtual void m12();
+virtual void m13();
+virtual void m14();
+virtual void m15();
+virtual void m16();
+virtual void m17();
+virtual void m18();
+virtual void m19();
+virtual void m20();
+virtual void m21();
+virtual void m22();
+virtual void m23();
+virtual void m24();
+virtual void m25();
+virtual void m26();
+virtual void m27();
+virtual void m28();
+virtual void m29();
+virtual void m30();
+virtual void m31();
+virtual void m32();
+virtual void m33();
+virtual void m34();
+virtual void m35();
+virtual void m36();
+virtual void m37();
+virtual void m38();
+virtual void m39();
+virtual void m40();
+virtual void m41();
+virtual void m42();
+virtual void m43();
+virtual void m44();
+virtual void m45();
+virtual void m46();
+virtual void m47();
+virtual void m48();
+virtual void m49();
+virtual void m50();
+virtual void m51();
+virtual void m52();
+virtual void m53();
+virtual void m54();
+virtual void m55();
+virtual void m56();
+virtual void m57();
+virtual void m58();
+virtual void m59(u32,void*,s32,f32,s16);
+};
+
+struct Rec_801031CC { u8 d[0x2c]; };
+
+struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
+
+extern "C" {
+u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+u8 *find_item_by_id(s32);
+f32 horizontal_distance_squared(void *, void *);
+void *resolve_hittable_target(u16 actorId, s16 collider);
+void *get_player_by_client_id(s32 i);
+extern const f32 lbl_805DAAA8;
+void deliver_delayed_weapon_hit(u8 *arg0) {
+    u8 *temp_r3;
+    u8 *temp_r30;
+    u32 player;
+    u8 *item;
+    temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)arg0 + 0x2A), *(s16 *)((s8 *)arg0 + 0x2C)));
+    if (temp_r3 != NULL) {
+        temp_r30 = (u8 *)&((Tbl_801031CC *)(((TObjPlayer *)temp_r3)->m_a4))->r[*(s16 *)((s8 *)arg0 + 0x2C)];
+        if (horizontal_distance_squared(arg0 + 0x38, temp_r30) < lbl_805DAAA8) {
+            player = (u32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x28)));
+            item = (u8 *)(find_item_by_id(*(s32 *)((s8 *)arg0 + 0x24)));
+            if ((player != 0U) && (item != NULL)) {
+                ((AttackWeapon*)item)->m59(player,temp_r3,*(s32*)((s8 *)arg0 + 0x20),*(f32*)((s8 *)arg0 + 0x30),*(s16*)((s8 *)arg0 + 0x2C));
+            }
+        } else {
+            if (horizontal_distance_squared(temp_r30, arg0 + 0x44) < horizontal_distance_squared(arg0 + 0x38, arg0 + 0x44)) {
+                ((TObjPlayer *)temp_r3)->show_miss_for_collider(*(s16 *)((s8 *)arg0 + 0x2C));
+            }
+        }
+    }
+    *(s32 *)((s8 *)arg0 + 0x34) = 1;
+}
+}
+void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
+void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3) {
+    s32 object;
+    if ((arg0 != 0) && (arg3 != NULL) && (arg1 != 0U) && ((u16) *(u16 *)((s8 *)arg3 + 0xC) != 65535U) && ((u16) *(u16 *)((s8 *)arg3 + 0xE) != 65535U)) {
+        object = __nw__7TObjectFUl(0x50);
+        if (object != 0) {
+            object = (s32)__ct__13TItemAttackerFllll((u8 *)object, (s32)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
+        }
+        TItemAttacker::spawn_item_timer(object, (s32)&TItemAttacker__sub_8010349C, arg2);
+    }
+}
+
 TItemAttacker::TItemAttacker(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
     u8* temp_r5;
     u8 *entity;
@@ -67,7 +180,7 @@ void TItemAttacker::spawn_item_timer(s32 arg0, s32 arg1, s32 arg2) {
 
 void TItemAttacker__sub_8010349C(u32 arg0) {
     if (arg0 != 0U) {
-        deliver_delayed_weapon_hit();
+        deliver_delayed_weapon_hit((u8 *)arg0);
     }
 }
 
