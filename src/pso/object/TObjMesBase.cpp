@@ -52,7 +52,7 @@ void TObjMesBase::debug_draw_label() {
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TObjMesBase::vfunc_13(s32) {
+void TObjMesBase::interact(s32) {
     s32 label = messageLabel;
     if (label != 0) {
         void* root = 0;

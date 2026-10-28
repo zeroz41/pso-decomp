@@ -312,7 +312,7 @@ void reset_motion_fields__13TUnk_804AF8A0Fv(void *);
 void update_object_view_visibility__13TUnk_804B9870Fff(void);
 void classify_actor_view_detail__13TUnk_804B9870Ffff(void);
 void get_name__13TUnk_804B9870Fv(void);
-void vfunc_13__13TUnk_804AF8A0Fl(void);
+void interact__13TUnk_804AF8A0Fl(void);
 
 void *__vt__13TItemEffEquip[6] = {
     0, 0, (void *)__dt__13TItemEffEquipFv, (void *)run_task__13TItemEffEquipFv,
@@ -324,6 +324,6 @@ void *__vt__13TUnk_8049F038[14] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__13TUnk_8049F038Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)get_name__13TUnk_804B9870Fv, (void *)vfunc_13__13TUnk_804AF8A0Fl,
+    (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl,
 };
 }

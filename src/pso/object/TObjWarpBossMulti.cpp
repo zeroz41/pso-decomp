@@ -409,7 +409,7 @@ void vfunc_9__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 void vfunc_14__12TObjWarpBaseFv();
 void open_confirm_window__12TObjAreaWarpFUs();
 void vfunc_17__12TObjWarpBaseFv();
@@ -465,7 +465,7 @@ s32 __vt__17TObjWarpBossMulti[21] = {
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,
-    (s32)&vfunc_13__13TUnk_804AF8A0Fl,
+    (s32)&interact__13TUnk_804AF8A0Fl,
     (s32)&vfunc_14__12TObjWarpBaseFv,
     (s32)&open_confirm_window__12TObjAreaWarpFUs,
     (s32)&TObjAreaWarp::is_warp_enabled,

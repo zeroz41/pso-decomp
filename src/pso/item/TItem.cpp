@@ -117,7 +117,7 @@ __declspec(section ".ctors") static void *const item_global_initializer = (void 
 void TItem__sub_801031C0(void *tag) { *(s32 *)tag = 4; }
 
 
-s32 TUnk_804AF8A0::has_interactor() { return m_94 != 0xFFFF; }
+s32 TUnk_804AF8A0::has_interactor() { return interactor != 0xFFFF; }
 
 void FloorItem::clear() {
     source_type = 0;
@@ -482,7 +482,7 @@ void TItem::update_timer() {
     if (has_interactor() != 0) {
         s16 timer = pickup_wait_frames;
         if (timer == 900) {
-            m_94 = 0xFFFF;
+            interactor = 0xFFFF;
             pickup_wait_frames = 0;
         } else {
             pickup_wait_frames = timer + 1;
@@ -491,11 +491,11 @@ void TItem::update_timer() {
     submit_cursor_candidate(this, -1);
 }
 
-void TItem::vfunc_13(s32 client) {
+void TItem::interact(s32 client) {
     u16 id = client;
     if (id != 0xFFFF) {
         if ((get_player_by_client_id(id))->can_pickup_item_by_id(this) != 0 && has_interactor() == 0) {
-            TUnk_804AF8A0::vfunc_13(client);
+            TUnk_804AF8A0::interact(client);
             G_PickUpItemRequest_6x5A cmd;
             cmd.header.client_id = client;
             cmd.item_id = get_item_id();
@@ -504,7 +504,7 @@ void TItem::vfunc_13(s32 client) {
             pickup_wait_frames = 0;
         }
     } else {
-        TUnk_804AF8A0::vfunc_13(0xFFFF);
+        TUnk_804AF8A0::interact(0xFFFF);
     }
 }
 
@@ -515,7 +515,7 @@ void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd) {
     if (player != NULL) {
         TItem *item = find_item_by_id(cmd->item_id);
         if (item != NULL) {
-            item->m_94 = 0xFFFF;
+            item->interactor = 0xFFFF;
             if (item->get_item_type() == 4) {
                 item->handle_pickup(floor, player);
                 item->send_field_state(floor, player);

@@ -1157,7 +1157,7 @@ TUnk_804AF8A0::TUnk_804AF8A0(TObject *parent) : TUnk_804B9870(parent) {
     m_90 = 0;
     body_count = 0;
     m_a4 = NULL;
-    m_94 = 0xFFFF;
+    interactor = 0xFFFF;
     m_9c = 0;
     sub_80156A68();
 }

@@ -42,7 +42,7 @@ struct TItemWeapon : WeaponObjectPrefix {
     virtual void update_object_view_visibility();
     virtual void classify_actor_view_detail();
     virtual const char *get_name();
-    virtual void vfunc_13();
+    virtual void interact(s32 client);
     virtual void vfunc_14();
     virtual void vfunc_15();
     virtual void vfunc_16();

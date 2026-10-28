@@ -71,7 +71,7 @@ s32 get_amount__11TItemObjectFv(void);
 void run_task__5TItemFv(); void render__5TItemFv(); void render_shadows__5TItemFv();
 void vfunc_6__13TUnk_804B9870FPsl(); void apply_object_set_data__13TUnk_804B9870FPv(); void reset_motion_fields__13TUnk_804AF8A0Fv();
 int update_object_view_visibility__5TItemFff(void *p); void classify_actor_view_detail__13TUnk_804B9870Ffff(); void get_name__5TItemFv();
-void vfunc_13__5TItemFl(); void update_in_inventory__5TItemFv(); void update_equipped__5TItemFv();
+void interact__5TItemFl(); void update_in_inventory__5TItemFv(); void update_equipped__5TItemFv();
 void activate_effect__5TItemFl(); void set_attach_slot__5TItemFSc(); void equip__5TItemFv();
 void unequip__5TItemFv(); void add_equip_stats__5TItemFl(); void remove_equip_stats__5TItemFl();
 void subtract_item_stat_bonus__5TItemFllPs(); void subtract_equip_stats__5TItemFPvPsPs(); void render_equipped__5TItemFv();
@@ -84,7 +84,7 @@ void *__vt__11TItemObject[] = {
     (void *)__dt__11TItemObjectFv, (void *)run_task__5TItemFv, (void *)render__5TItemFv,
     (void *)render_shadows__5TItemFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__11TItemObjectFv, (void *)update_object_view_visibility__5TItemFff,
-    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__5TItemFv, (void *)vfunc_13__5TItemFl,
+    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__5TItemFv, (void *)interact__5TItemFl,
     (void *)update_owned__11TItemObjectFv, (void *)update_in_inventory__5TItemFv, (void *)update_equipped__5TItemFv,
     (void *)activate_effect__5TItemFl, (void *)TItemObject__vt16, (void *)set_attach_slot__5TItemFSc,
     (void *)equip__5TItemFv, (void *)unequip__5TItemFv, (void *)add_equip_stats__5TItemFl,

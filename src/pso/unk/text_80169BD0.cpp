@@ -35,10 +35,10 @@ void TOHealGeneral::accept_player(u16 arg1) {
                 return;
             }
             *(s32 *)&this->m_ac = 2;
-            this->m_94 = arg1;
+            this->interactor = arg1;
             play_effect_default__10TObjPlayerFii((s32)p, -1);
         } else {
-            this->m_94 = 0xFFFF;
+            this->interactor = 0xFFFF;
         }
     }
 }
@@ -167,7 +167,7 @@ void TUnk_804B27D8::run_task() {
         submit_cursor_candidate(arg0, -1);
         break;
     case 2:
-        if ((s32) this->m_94 == (s32) local_client_id) {
+        if ((s32) this->interactor == (s32) local_client_id) {
             *(s32 *)&this->m_ac = 3;
             begin_conversation_camera();
             temp_r0_2 = this->m_d4;
@@ -196,7 +196,7 @@ void TUnk_804B27D8::run_task() {
             }
         } else {
             *(s32 *)&this->m_ac = 1;
-            this->m_94 = 0xFFFFU;
+            this->interactor = 0xFFFFU;
         }
         break;
     case 3:
@@ -205,7 +205,7 @@ void TUnk_804B27D8::run_task() {
             *(s32 *)&this->m_ac = 0;
             this->m_dc = 0U;
             end_conversation_camera();
-            if ((s32) this->m_94 == (s32) local_client_id) {
+            if ((s32) this->interactor == (s32) local_client_id) {
                 player = (s32)get_player_by_client_id((local_client_id));
                 if ((player != 0) && (check_player_flag1__6TLobbyFv() != 0)) {
                     TObjPlayer::send_code_45_1(player);

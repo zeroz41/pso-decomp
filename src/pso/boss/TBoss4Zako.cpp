@@ -1157,7 +1157,7 @@ void update_actor_ground_y__13TUnk_804806E8Fv();
 void vfunc_9__13TUnk_804806E8Fv();
 void reset_motion_fields__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 void run_task__10TBoss4ZakoFv();
 void clear_lobby_object_state__9TObjEnemyFv();
 void render_shadows__9TObjEnemyFv(u8 *arg0);
@@ -1184,7 +1184,7 @@ s32 __vt__11TBoss4Bishi[83] = {
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,
-    (s32)vfunc_13__13TUnk_804AF8A0Fl,
+    (s32)interact__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,
     (s32)get_actor_level_index__13TUnk_804806E8Fv,
@@ -1269,7 +1269,7 @@ s32 __vt__9TBoss4Uro[83] = {
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,
-    (s32)vfunc_13__13TUnk_804AF8A0Fl,
+    (s32)interact__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,
     (s32)get_actor_level_index__13TUnk_804806E8Fv,
@@ -1354,7 +1354,7 @@ s32 __vt__10TBoss4Zako[83] = {
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,
-    (s32)vfunc_13__13TUnk_804AF8A0Fl,
+    (s32)interact__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,
     (s32)get_actor_level_index__13TUnk_804806E8Fv,

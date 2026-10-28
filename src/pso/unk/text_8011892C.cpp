@@ -226,7 +226,7 @@ void update_in_inventory__5TItemFv();
 void vfunc_9__13TUnk_804B9870Fv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__5TItemFv();
-void vfunc_13__5TItemFl();
+void interact__5TItemFl();
 void activate_effect__5TItemFl();
 void set_attach_slot__14TItemEquipBaseFSc();
 void equip__14TItemEquipBaseFv();
@@ -265,7 +265,7 @@ void *__vt__12TItemProUnit[51] = {
     (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__5TItemFv,
-    (void *)vfunc_13__5TItemFl,
+    (void *)interact__5TItemFl,
     (void *)update_owned__12TItemProUnitFv,
     (void *)update_in_inventory__5TItemFv,
     (void *)update_equipped__12TItemProUnitFv,

@@ -227,7 +227,7 @@ extern s32 lbl_805D3518;
 extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
-extern "C" void vfunc_13__13TUnk_804AF8A0Fl();
+extern "C" void interact__13TUnk_804AF8A0Fl();
 extern "C" void get_name__13TUnk_804B9870Fv();
 extern "C" void vfunc_9__13TUnk_804B9870Fv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
@@ -259,7 +259,7 @@ void *lbl_804C3ACC[17] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__12TPhotonPillaFPvs, (void *)&run_task__12TPhotonPillaFv,
     (void *)&render__12TPhotonPillaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__10TObjMotionFv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
+    (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
     (void *)0x0,
 };
 u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {

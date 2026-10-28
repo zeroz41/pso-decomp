@@ -429,7 +429,7 @@ void render_shadows__5TItemFv();
 int get_slot_count__5TItemFv(void);
 void is_identified__5TItemFv();
 void run_task__5TItemFv();
-void vfunc_13__5TItemFl();
+void interact__5TItemFl();
 }
 void *item_hp_recovery_vtable[46] = {
     0,
@@ -445,7 +445,7 @@ void *item_hp_recovery_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,
@@ -493,7 +493,7 @@ void *item_mag_transform_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,
@@ -541,7 +541,7 @@ void *item_moon_atomizer_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,
@@ -589,7 +589,7 @@ void *item_status_cure_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,
@@ -637,7 +637,7 @@ void *item_sol_atomizer_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,
@@ -685,7 +685,7 @@ void *item_star_atomizer_vtable[46] = {
     (void *)&update_object_view_visibility__5TItemFff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__5TItemFv,
-    (void *)&vfunc_13__5TItemFl,
+    (void *)&interact__5TItemFl,
     (void *)&update_owned__11TItemObjectFv,
     (void *)&update_in_inventory__5TItemFv,
     (void *)&update_equipped__5TItemFv,

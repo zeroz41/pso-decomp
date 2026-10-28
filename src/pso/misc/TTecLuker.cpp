@@ -295,7 +295,7 @@ u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-void TUnk_804CC9D4::vfunc_13(s32) { this->m_b0 = 1; }
+void TUnk_804CC9D4::interact(s32) { this->m_b0 = 1; }
 
 void TTecLuker::update_player_target() {
     u8 *arg0 = (u8 *)this;

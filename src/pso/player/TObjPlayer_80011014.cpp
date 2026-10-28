@@ -874,7 +874,7 @@ s16 get_ata__10TObjPlayerFv(void* p);
 s16 TObjPlayer__sub_800194E8(void* p);
 s16 get_stats_atp_max__13TUnk_804806E8Fv(void* p);
 s16 get_attack_params_atp_max(void* p);
-void vfunc_13__13TUnk_804AF8A0Fl(void* p, s16 v);
+void interact__13TUnk_804AF8A0Fl(void* p, s16 v);
 u32 obj_testFlags30__13TUnk_804AF8A0FUl(ObjFlags* p, u32 mask);
 u16 obj_getField1c(ObjFlags* p);
 void obj_setFlags30(ObjFlags* p, u32 mask);
@@ -1889,7 +1889,7 @@ void *lbl_804806E8[] = {
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,
-    (void *)vfunc_13__13TUnk_804AF8A0Fl,
+    (void *)interact__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,
     (void *)get_actor_level_index__13TUnk_804806E8Fv,
@@ -4814,7 +4814,7 @@ void TUnk_804806E8::add_flags_2e4(u32 v) { (this->m_2e4) |= v; }
 
 void*TObjPlayer::init_192dc_return_self(void* p) { ((int (*)(void*))reset_status_effect_row)(p); return p; }
 
-void TUnk_804AF8A0::vfunc_13(s32 v) { this->m_94 = v; }
+void TUnk_804AF8A0::interact(s32 client) { this->interactor = client; }
 
 u8 obj_is_hit_receivable(u8 *arg0) {
     return (u8) (*(u16 *)((s8 *)arg0 + 0x96) == 1);

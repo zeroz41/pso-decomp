@@ -350,7 +350,7 @@ void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
             if ((temp_r3 != 0U) && ((s16) this->mode != 3)) {
                 this->mode = 3;
                 this->phase = 0;
-                this->m_94 = arg1;
+                this->interactor = arg1;
                 this->targetId = arg1;
                 *(u32 *)&this->target = temp_r3;
                 if ((s32) this->targetId == (s32) local_client_id) {
@@ -360,7 +360,7 @@ void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
                 this->m_2ac = 0;
             }
         } else {
-            this->m_94 = 0xFFFFU;
+            this->interactor = 0xFFFFU;
             this->targetId = 0xFFFFU;
         }
     }
@@ -369,7 +369,7 @@ void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 void TObjNpcBase::debug_draw_talk() {
-    if ((has_interactor__13TUnk_804AF8A0Fv() != 0) && (((u32 (*)(u16))get_player_by_client_id)(this->m_94) != 0)) {
+    if ((has_interactor__13TUnk_804AF8A0Fv() != 0) && (((u32 (*)(u16))get_player_by_client_id)(this->interactor) != 0)) {
         debug_printf_at(0x1A0020, lbl_8043F544);
     }
 }

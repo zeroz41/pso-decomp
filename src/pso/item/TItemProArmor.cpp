@@ -207,7 +207,7 @@ void vfunc_9__11TItemObjectFv();
 int update_object_view_visibility__5TItemFff(void *p);
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__5TItemFv();
-void vfunc_13__5TItemFl();
+void interact__5TItemFl();
 void update_owned__11TItemObjectFv();
 void update_in_inventory__5TItemFv();
 void update_equipped__5TItemFv();
@@ -273,7 +273,7 @@ void *lbl_8049FF88[46] = {
     (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__5TItemFv,
-    (void *)vfunc_13__5TItemFl,
+    (void *)interact__5TItemFl,
     (void *)update_owned__11TItemObjectFv,
     (void *)update_in_inventory__5TItemFv,
     (void *)update_equipped__5TItemFv,
@@ -322,7 +322,7 @@ void *__vt__13TItemProArmor[51] = {
     (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__5TItemFv,
-    (void *)vfunc_13__5TItemFl,
+    (void *)interact__5TItemFl,
     (void *)update_owned__13TItemProArmorFv,
     (void *)update_in_inventory__5TItemFv,
     (void *)update_equipped__13TItemProArmorFv,

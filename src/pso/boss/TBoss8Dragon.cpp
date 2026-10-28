@@ -1811,7 +1811,7 @@ extern "C" {
 extern u8 TObjPlayer__sub_80018F64[];
 }
 extern "C" {
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 }
 extern "C" {
 void vfunc_74__9TObjEnemyFl();
@@ -2155,7 +2155,7 @@ void *__vt__12TBoss8Dragon[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TBoss8DragonFv, (void *)&run_task__12TBoss8DragonFv,
     (void *)&TBoss8Dragon__sub_802F4380, (void *)&render_shadows__12TBoss8DragonFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&fn_801A1F48,
     (void *)&TObjPlayer__sub_80018F64, (void *)&TObjPlayer__sub_80018F5C, (void *)&fn_801A2340, (void *)&fn_801A212C,
-    (void *)&get_name__9TObjEnemyFv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&TObjPlayer__sub_80011210, (void *)&consume_timer_field__13TUnk_804806E8Fl,
+    (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&TObjPlayer__sub_80011210, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&TObjPlayer__sub_8001119C, (void *)&TObjPlayer__sub_80018EE4, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&TObjPlayer__sub_80011704,
     (void *)&TObjPlayer__sub_80016454, (void *)&TObjPlayer__sub_80015DE8, (void *)&TObjPlayer__sub_80014108, (void *)&calc_direct_attack_damage__12TBoss8DragonFPvPvPviii,
     (void *)&TObjPlayer__sub_80011824, (void *)&TObjPlayer__sub_8001401C, (void *)&try_start_action__13TUnk_804806E8Fll, (void *)&TObjPlayer__sub_800162E0,

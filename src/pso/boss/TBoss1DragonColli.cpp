@@ -235,7 +235,7 @@ void vfunc_9__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 u8 TBoss1DragonColli_sphere_chain_desc[0x2C] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x41, 0xC8, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x80, 0x03,
@@ -262,7 +262,7 @@ s32 __vt__19TBoss1DragonColli_C[] = {
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__13TUnk_804B9870Fv,
-    (s32)vfunc_13__13TUnk_804AF8A0Fl,
+    (s32)interact__13TUnk_804AF8A0Fl,
     0,
 };
 }

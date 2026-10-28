@@ -9,7 +9,7 @@ struct TObjMesBase : public TUnk_804AF8A0 {
     virtual void vfunc_14();
     virtual void clear_ref_if_destroyed();
     virtual void debug_draw_label();
-    virtual void vfunc_13(s32);
+    virtual void interact(s32 client);
     virtual void run_task();
     void* messageChild;
     s32 messagePhase;

@@ -157,7 +157,7 @@ void TObjEneDD__sub_800C2618(void *p);
 void *find_entity_by_id(u16 id);
 
 void vfunc_6__13TUnk_804B9870FPsl();
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 void call_vt16_with_default__13TUnk_804928CCFPvPv();
 void vfunc_16__13TUnk_804928CCFPvPv();
 void call_vt13_with_default__13TUnk_804928CCFPvPvl();
@@ -182,7 +182,7 @@ void *lbl_804933D8[24] = {
     (void *)0x0, (void *)0x0, (void *)&destroy_and_free__21TObjEneRe2Flower_BombFs, (void *)&run_task__21TObjEneRe2Flower_BombFv,
     (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
+    (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
     (void *)&vfunc_16__13TUnk_804928CCFPvPv, (void *)&call_vt16_with_default__13TUnk_804928CCFPvPv, (void *)&area_attack_deliver_physical__13TUnk_804928CCFPvPvf, (void *)&vfunc_19__13TUnk_804928CCFPv,
     (void *)&area_attack_apply_recoil__13TUnk_804928CCFPvf, (void *)&area_attack_receive_direct__13TUnk_804928CCFPvPfPv, (void *)&apply_hit_if_active__13TUnk_804928CCFPvPf, (void *)0x0,
 };

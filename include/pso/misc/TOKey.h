@@ -20,7 +20,7 @@ struct TOKey : public TUnk_804AFBF8 {
     virtual void vfunc_25();
     virtual void debug_draw_key_id();
     virtual void handle_switch_trigger(void *);
-    void vfunc_13(s32);
+    void interact(s32 client);
     s32 update_object_view_visibility(f32, f32);
     u32 m_e4;
     void reset_and_notify();

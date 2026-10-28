@@ -94,7 +94,7 @@ void apply_slow_status__13TUnk_804806E8Fv();
 void update_shock_clock__13TUnk_804806E8Fv();
 void vfunc_43__13TUnk_804806E8Fv();
 void vfunc_18__13TUnk_804806E8FPUc();
-void vfunc_13__13TUnk_804AF8A0Fl();
+void interact__13TUnk_804AF8A0Fl();
 void vfunc_74__9TObjEnemyFl();
 void apply_hit_message_flags__9TObjEnemyFPv();
 void add_actor_exp__13TUnk_804806E8Fl();
@@ -165,7 +165,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__9TObjEnemyFv,
-    (void *)vfunc_13__13TUnk_804AF8A0Fl,
+    (void *)interact__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,
     (void *)get_actor_level_index__13TUnk_804806E8Fv,

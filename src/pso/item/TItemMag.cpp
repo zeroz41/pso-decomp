@@ -245,7 +245,7 @@ extern "C" void run_task__5TItemFv();
 extern "C" void set_attach_slot__14TItemEquipBaseFSc();
 extern "C" void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
 extern "C" void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
-extern "C" void vfunc_13__5TItemFl();
+extern "C" void interact__5TItemFl();
 extern "C" void unequip__14TItemEquipBaseFv();
 extern "C" void update_equip__14TItemEquipBaseFv();
 struct TItemMag_801138F0; struct Self_801134CC; struct Self_80113310; struct Self_801135E0;
@@ -254,7 +254,7 @@ void *__vt__8TItemMag[51] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__8TItemMagFv, (void *)&run_task__5TItemFv,
     (void *)&render__5TItemFv, (void *)&render_shadows__5TItemFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__5TItemFff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__5TItemFv, (void *)&vfunc_13__5TItemFl, (void *)&TItemMag__vt12, (void *)&TItemMag__vt13,
+    (void *)&get_name__5TItemFv, (void *)&interact__5TItemFl, (void *)&TItemMag__vt12, (void *)&TItemMag__vt13,
     (void *)&TItemMag__vt14, (void *)&TItemMag__vt15, (void *)&serialize_to_item__8TItemMagFPv, (void *)&set_attach_slot__14TItemEquipBaseFSc,
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFlPUcPUc, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,

@@ -90,13 +90,14 @@ public:
     void refresh_collision_body_centers();
     u16 unregister_object_by_id();
     void send_object_state_update(void *);
-    virtual void vfunc_13(s32);
+    // A player (client id, 0xFFFF for none) uses the action button on it.
+    virtual void interact(s32 client);
     s32 set_flag8();
     s32 has_interactor();
     void set_shadow_flag();
     void clear_shadow_flag();
     u32 m_90;
-    u16 m_94;
+    u16 interactor;  // client id of the player interacting, 0xFFFF for none
     u8 unk_96[0x2];
     void* m_98;
     void *m_9c;
