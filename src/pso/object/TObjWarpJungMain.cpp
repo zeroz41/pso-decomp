@@ -108,7 +108,6 @@ struct Obj_801A0224 {
 
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
-void * alloc__23TAdSinglePlyChrSelectGCFv(s32);
 int confirm_area_transfer__12TObjAreaWarpFPvi(void*);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *TObjAreaWarp__ct(void *arg0);
@@ -238,7 +237,7 @@ Obj_8019FF24 *TObjWarpJungMain__ct(Obj_8019FF24 *self) {
     }
     self->fAC = lbl_805DC050;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = alloc__23TAdSinglePlyChrSelectGCFv(0x88);
+        void *p = ::operator new(0x88);
         if (p != NULL) {
             p = init__13TAdVIConfigGCFf(p, self->f38, lbl_805DC054);
         }
@@ -319,7 +318,7 @@ Obj_801A0224 *TObjWarpJung__ct(Obj_801A0224 *self) {
     }
     self->fAC = lbl_805DC050;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = alloc__23TAdSinglePlyChrSelectGCFv(0x88);
+        void *p = ::operator new(0x88);
         if (p != NULL) {
             p = init__13TAdVIConfigGCFf(p, self->f38, lbl_805DC054);
         }

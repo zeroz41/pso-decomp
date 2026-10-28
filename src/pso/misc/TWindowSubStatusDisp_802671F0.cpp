@@ -529,7 +529,7 @@ void TUnk_804D0618::create_menu_scroll_bar() {
         temp_f1 = this->m_38 - lbl_805DD180;
         stack.spC = (*(const f32 *)&lbl_805DD188);
         stack.sp8 = temp_f1;
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)0xC)->alloc();
+        temp_r3 = (int)::operator new(0xC);
         var_r0 = temp_r3;
         if (var_r0 != 0U) {
             var_r0 = reset_selection__20TWindowSubStatusDispFv(temp_r3, &stack.sp8);
@@ -543,7 +543,7 @@ void TUnk_804D0618::ensure_status_display(s32 arg1) {
     u32 var_r0;
 
     if ((u32) this->m_80 == 0U) {
-        var_r0 = ((TAdSinglePlyChrSelectGC *)0x24)->alloc();
+        var_r0 = (int)::operator new(0x24);
         if (var_r0 != 0U) {
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, this->m_20);
         }

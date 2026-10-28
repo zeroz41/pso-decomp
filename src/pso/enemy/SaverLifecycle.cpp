@@ -59,7 +59,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void TObjEneMe3ShinowaMirage__sub_800D98D8(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, u8 *arg4, u8 *arg5);
 void draw_trail_with_colors(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 init_trail_buffer__11TBoss4Type3FPvifff(void *, int, f32, f32, f32);
@@ -2081,7 +2080,7 @@ void initialize_saver_resources(void) {
     Vec_800A715C pos;
     Vec_800A715C dir;
     void *r;
-    r = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    r = ::operator new(0x440);
     if (r != NULL) {
         r = load_resource_from_descriptor(r, 1, bm_ene_df1_saver_resource_descriptor, 0, 0, 0);
     }
@@ -2093,17 +2092,17 @@ void initialize_saver_resources(void) {
     ((f32 *)&lbl_80500978)[2] = 0.0f;
     ((f32 *)&lbl_80500978)[1] = 0.0f;
     ((f32 *)&lbl_80500978)[0] = 0.0f;
-    r = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    r = ::operator new(0x18);
     if (r != NULL) {
         r = (void *)init_trail_buffer__11TBoss4Type3FPvifff(r, 2, 15.0f, 60.0f, 1.0f);
     }
     lbl_805D5064 = (s32)r;
-    r = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    r = ::operator new(0x18);
     if (r != NULL) {
         r = (void *)init_trail_buffer__11TBoss4Type3FPvifff(r, 2, 11.0f, 27.0f, 1.0f);
     }
     lbl_805D5068 = r;
-    r = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    r = ::operator new(0x18);
     if (r != NULL) {
         r = (void *)init_trail_buffer__11TBoss4Type3FPvifff(r, 2, 0.0f, 7.0f, 1.0f);
     }

@@ -115,7 +115,7 @@ void TOCapsuleMachine01::alloc_and_load_resource() {
   long long new_var2;
   int var_r4;
   void **new_var;
-  temp_r3 = (new_var2 = ((TAdSinglePlyChrSelectGC *)((void *) 0x440))->alloc());
+  temp_r3 = (new_var2 = (int)::operator new(0x440));
   var_r4 = temp_r3;
   if (var_r4 != 0)
   {

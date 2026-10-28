@@ -69,7 +69,6 @@ extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 typedef char RecoveredGlobal_802E0784_lbl_804E2F78_size[sizeof(RecoveredGlobal_802E0784_lbl_804E2F78) == 0x90 ? 1 : -1];
 
 s32 copy_player_visual_record(void *, void *);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 advance_animation_playback(void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
@@ -289,7 +288,7 @@ void TUnk_804E3008::run_task() {
         switch (F(0x104, s32)) {
         case 0:
             copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
-            p = alloc__23TAdSinglePlyChrSelectGCFv(0x4AC);
+            p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
             }
@@ -298,7 +297,7 @@ void TUnk_804E3008::run_task() {
             break;
         case 1:
             copy_player_visual_record(arg0 + 0x120, get_entry__23TAdSinglePlyChrSelectGCFi(F(0x110, s32)) + 0x370);
-            p = alloc__23TAdSinglePlyChrSelectGCFv(0x4AC);
+            p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
             }
@@ -307,7 +306,7 @@ void TUnk_804E3008::run_task() {
             break;
         case 2:
             copy_player_visual_record(arg0 + 0x120, get_char_index__23TAdSinglePlyChrSelectGCFUi(0xFFFF) + 0x370);
-            p = alloc__23TAdSinglePlyChrSelectGCFv(0x4AC);
+            p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), 0);
             }
@@ -318,7 +317,7 @@ void TUnk_804E3008::run_task() {
         case 4:
         case 5:
             copy_player_visual_record(arg0 + 0x120, get_char_table_entry__23TAdSinglePlyChrSelectGCFi(F(0x10C, s32)) + 0x370);
-            p = alloc__23TAdSinglePlyChrSelectGCFv(0x4AC);
+            p = ::operator new(0x4AC);
             if (p != NULL) {
                 p = init_appearance_load_request__10TNpcPlayerFPvPvii((u8 *)p, (u8 *)arg0, (s32)(arg0 + 0x120), (s32)(F(0x10C, s32)));
             }

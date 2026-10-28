@@ -27,7 +27,7 @@ void load_and_spawn_chao_npc(void) {
     Stack_8035B6B0 stack;
     u8 *temp_r5;
     u8 *var_r9;
-    var_r9 = (u8 *)(((TAdSinglePlyChrSelectGC *)0x440)->alloc());
+    var_r9 = (u8 *)((int)::operator new(0x440));
     if (var_r9 != NULL) {
         var_r9 = (u8 *)(load_resource_from_descriptor(var_r9, 1, bm_ene_npc_chao_resource_descriptor, 0, 0, 0));
     }

@@ -39,7 +39,6 @@ void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 a2, s32 a3, f
 void submit_cursor_candidate(TObjVoloptCage *cage, s32 a1);
 void init_collision_body_parts(TUnk_804AF8A0 *actor, const CollisionBody *bodies, s32 count);
 void free_collision_body_parts(TUnk_804AF8A0 *actor);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32 size);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);
 s32 check_flag__10TObjPlayerFl(void *player, s32 flag);
@@ -189,7 +188,7 @@ void TObjVoloptCage::destroy() {
 void TObjVoloptCage::init_break_model() {
     TBreakUpMdl *model;
     volopt_cage_model = boss3_volopt_resources->models[0x12].model;
-    model = (TBreakUpMdl *)alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    model = (TBreakUpMdl *)::operator new(0x10);
     if (model != NULL) {
         model = (TBreakUpMdl *)model->init_from_model(volopt_cage_model);
     }

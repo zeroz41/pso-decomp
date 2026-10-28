@@ -163,7 +163,6 @@ extern s32 lbl_805D2F68;
 extern u32 cave_door02_model_resource;
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_80440E24[];
@@ -205,14 +204,14 @@ void TODoorCave02::load_resources() {
     void *o;
     cave_door02_resources = (u8 *)mem_alloc(8);
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, &TODoorCave02_resource_descriptor, 0, 0, 0);
         }
         cave_door02_model_resource = (u32)o;
         ((s32 *)cave_door02_resources)[0] = (s32)load_gvm_texture_file((s32)lbl_80440E24);
     } else {
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, &TODoorCave02__resource_descriptor, 0, 0, 0);
         }

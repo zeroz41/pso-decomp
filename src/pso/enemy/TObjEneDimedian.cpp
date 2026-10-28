@@ -482,7 +482,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_enemy_bml_resource_named(void *, void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void draw_trail_with_colors(void *, s32, s32, s32, s32);
 void *init_trail_buffer__11TBoss4Type3FPvifff(void *, s32, f32, f32, f32);
 s32 *mem_alloc(s32);
@@ -753,7 +752,7 @@ void TLobby::load_dimedian_resources() {
     if (TObjEneDD::check_v2_mode() != 0) {
         (*(u8 **)&dimedian_resource_ptr) = load_enemy_bml_resource_named(dimedian_resource_descriptor, lbl_8043AAA4);
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, dimedian_resource_descriptor, 0, 0, 0);
         }
@@ -766,12 +765,12 @@ void TLobby::load_dimedian_resources() {
     dimedian_last_draw_tick[0] = 0;
     dimedian_last_draw_tick[1] = 0;
     dimedian_last_draw_tick[2] = 0;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, 7.0f, 12.0f, 1.0f);
     }
     (*(void **)&dimedian_type3_object) = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, 7.0f, 12.0f, 1.0f);
     }

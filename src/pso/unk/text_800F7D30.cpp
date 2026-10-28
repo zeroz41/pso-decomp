@@ -22,7 +22,7 @@ u32 prs_decompress_alloc(s32 arg0, s32 arg1) {
   var_r28 = arg0;
   var_r29 = arg1;
   var_r3 = 0x30U;
-  var_r31 = ((TAdSinglePlyChrSelectGC *)(0x30))->alloc();
+  var_r31 = (int)::operator new(0x30);
   phi_r30 = saved_reg_r30;
   if (var_r31 != 0U)
   {

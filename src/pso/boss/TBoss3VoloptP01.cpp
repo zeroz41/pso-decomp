@@ -194,7 +194,7 @@ void TBoss3VoloptP01::init_breakup_effect() {
     TBoss3VoloptBreakupPieces *pieces;
 
     TBoss3VoloptP01__resource_bundle = boss3_volopt_resources;
-    pieces = (TBoss3VoloptBreakupPieces *)((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    pieces = (TBoss3VoloptBreakupPieces *)::operator new(0x10);
     if (pieces != NULL) {
         pieces = (TBoss3VoloptBreakupPieces *)((TBreakUpMdl *)pieces)->init_from_model(TBoss3VoloptP01__resource_bundle->models[17].model);
     }

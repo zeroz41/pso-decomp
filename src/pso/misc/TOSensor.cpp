@@ -292,7 +292,6 @@ extern s32 TOSensorAncient01_class_name;
 extern u32 sensor_ancient01_model_resource;
 u8 *TOSensorAncient01__ct(TOSensorAncient01 *arg0, s32 arg1, s32 arg2);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern void *ancient_sensor_resource_pair_table;
@@ -428,7 +427,7 @@ extern const char lbl_80442A18[];
 
 void TOSensorAncient01::load_resources() {
     void *p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &TOSensorAncient01__resource_descriptor, 0, 0, 0);
     }

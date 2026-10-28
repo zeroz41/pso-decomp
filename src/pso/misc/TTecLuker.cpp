@@ -213,7 +213,6 @@ s32 is_split_screen();
 u8 *find_entity_by_id(u16);
 extern s32 local_client_id;
 void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 s32 construct_area_technique_base(void *, void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, s32);
@@ -933,7 +932,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
         if ((s32)arg4 == 0xA) {
             VecCopy((Vec *)&L->pos, (const Vec *)arg3);
         } else {
-            p = alloc__23TAdSinglePlyChrSelectGCFv(0xA8);
+            p = ::operator new(0xA8);
             if (p != NULL) {
                 p = ((TItemList *)p)->init_array();
             }

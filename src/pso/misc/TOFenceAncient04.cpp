@@ -109,7 +109,7 @@ void TOFenceAncient04::destroy() {
 }
 
 void TOFenceAncient04::load_resources() {
-    Big_8016775C *v = (Big_8016775C *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    Big_8016775C *v = (Big_8016775C *)::operator new(0x440);
     if (v != NULL) {
         v = load_resource_from_descriptor(v, 1, &TOFenceAncient04_resource_descriptor, 0, 0, 0);
     }

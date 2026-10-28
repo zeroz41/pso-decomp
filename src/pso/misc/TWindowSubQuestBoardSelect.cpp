@@ -308,7 +308,7 @@ u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_
     ((TWindowDD *)window_sub_quest_board_select)->construct_base((u8 *)&TWindowSubQuestBoardSelect__window_parameters.value, (s16)(4), (u8 *)(get_window_layout_position(0x70)));
     *(s32 **)((s8 *)window_sub_quest_board_select + 0x18) = __vt__26TWindowSubQuestBoardSelect;
     *(s32 *)((s8 *)window_sub_quest_board_select + 0) = (s32) TWindowSubQuestBoardSelect__class_name;
-    var_r30 = ((TAdSinglePlyChrSelectGC *)((void *)0x24))->alloc();
+    var_r30 = (int)::operator new(0x24);
     if (var_r30 != 0) {
         var_r30 = construct_type1_heading__20TWindowSubStatusDispFll(var_r30, get_message_10__20TWindowSubStatusDispFl(0x2B), (s32) window_sub_quest_board_select->m_20);
     }

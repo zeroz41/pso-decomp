@@ -7,7 +7,11 @@ extern "C" {
 int xmalloc__FUl(void*);
 s32 xfree__FPv();
 
-int TAdSinglePlyChrSelectGC::alloc() { return xmalloc__FUl(this); }
+}
+
+void *operator new(size_t size) { return (void *)xmalloc__FUl((void *)size); }
+
+extern "C" {
 void TAdSinglePlyChrSelectGC::safe_free(u32 arg0) {
     if (arg0 != 0U) {
         xfree__FPv();

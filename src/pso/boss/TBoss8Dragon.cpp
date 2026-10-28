@@ -6844,7 +6844,6 @@ struct D_802FD47C {
 };
 extern "C" {
 s32 __ct__14SubtractiveRngFv(void *arg0);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 void init_object__12TObjEneDD_STFv(void *, void *, void *);
 void initialize_enemy_state__9TObjEneDDFv(void *, int);
 void init_model__9TObjEneDDFv(void *, void *, int);
@@ -6948,7 +6947,7 @@ u8 *TBoss8Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
         p = TBoss8DragonEffTail__ct(p, arg0, arg0 + 0x4E8);
     }
     *(void **)((s8 *)arg0 + 0x67C) = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

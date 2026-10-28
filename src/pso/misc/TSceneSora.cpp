@@ -210,7 +210,7 @@ void TSceneSora::load_sky_resources() {
         }
         b.n = 0;
         a.n = 0;
-        o = (u32)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        o = (u32)(int)::operator new(0x440);
         if (o != 0) {
             o = TLobby__sub_8002058C((void *)o, 1, &b, &a, 0, 0, 0);
         }

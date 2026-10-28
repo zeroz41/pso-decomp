@@ -134,7 +134,6 @@ s32 TWindowSubSymbolChat__sub_800771B0(struct TWSC *, s32);
 s32 TWindowSubSymbolChat__sub_800771C4(struct TWSC *, s32);
 s32 refresh_parts__20TWindowSubSymbolChatFv();
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-void * alloc__23TAdSinglePlyChrSelectGCFv(s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -529,14 +528,14 @@ Parts_80285D38 *TWindowSubSymbolChatParts__ct(Parts_80285D38 *arg0, void *arg1, 
     arg0->f76 = 0;
     arg0->f7C = arg2;
     arg0->f80 = arg3;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x24);
+    p = ::operator new(0x24);
     if (p != NULL) {
         p = ((TWindowSubStatusDisp *)p)->construct_type1_heading(get_message_10__20TWindowSubStatusDispFl(0x33), arg0->id);
     }
     arg0->sub88 = p;
     v.x = 0.0f;
     v.y = 0.0f;
-    q = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    q = ::operator new(0xC);
     if (q != NULL) {
         q = reset_selection__20TWindowSubStatusDispFv(q, &v);
     }

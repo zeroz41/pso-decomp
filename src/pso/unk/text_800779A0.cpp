@@ -15,7 +15,7 @@ void fn_800779A0(u8 *src) {
     s32 temp_r3;
     s32 var_r0;
     if ((void *) lbl_805D4E5C == NULL) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x1A84))->alloc();
+        temp_r3 = (int)::operator new(0x1A84);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = ((s32)construct_entry_array((Obj_80077A28 *)(temp_r3)));

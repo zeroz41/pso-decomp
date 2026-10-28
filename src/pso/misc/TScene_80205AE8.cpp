@@ -28,7 +28,6 @@ extern u32 lbl_8044A800[];
 extern u8 lbl_8044A80C[];
 SceneMaterialNode* resolve_indirect_node_record(void*,SceneMaterialStatic*);
 SceneMaterialNode* resolve_indirect_object_record(void*,SceneMaterialAnimated*);
-void* alloc__23TAdSinglePlyChrSelectGCFv(u32);
 
 void TScene__sub_80205AE8(void) {  }
 
@@ -229,7 +228,7 @@ void TScene::initialize_fmt2_materials() {
                     uv->id = def.id; uv->texture = def.texture;
                     uv->u = def.u; uv->v = def.v; uv->du = def.du; uv->dv = def.dv;
                     SceneMaterialNode *node = resolve_indirect_node_record(task, object);
-                    void *buffer = alloc__23TAdSinglePlyChrSelectGCFv(20);
+                    void *buffer = ::operator new(20);
                     if (buffer) buffer = ((TScene *)buffer)->init_buffers((s32)node, uv->texture);
                     uv->buffer = buffer;
                 } else {
@@ -249,7 +248,7 @@ void TScene::initialize_fmt2_materials() {
                     uv2->id = def2.id; uv2->texture = def2.texture;
                     uv2->u = def2.u; uv2->v = def2.v; uv2->du = def2.du; uv2->dv = def2.dv;
                     SceneMaterialNode *node2 = resolve_indirect_object_record(task, anim);
-                    void *buffer2 = alloc__23TAdSinglePlyChrSelectGCFv(20);
+                    void *buffer2 = ::operator new(20);
                     if (buffer2) buffer2 = ((TScene *)buffer2)->init_buffers((s32)node2, uv2->texture);
                     uv2->buffer = buffer2;
                 } else {

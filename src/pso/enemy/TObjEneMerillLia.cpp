@@ -1691,13 +1691,13 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     u8 *res;
 
     if (is_split_screen() != 0) {
-        res = (u8 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        res = (u8 *)::operator new(0x440);
         if (res != NULL) {
             res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_low_resource_descriptor, 0, 0, 0);
         }
         TObjEneMerillLia__entry_params_resource = (u32)res;
     } else {
-        res = (u8 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        res = (u8 *)::operator new(0x440);
         if (res != NULL) {
             res = load_resource_from_descriptor(res, 1, &bm_ene_re8_merill_lia_resource_descriptor, 0, 0, 0);
         }

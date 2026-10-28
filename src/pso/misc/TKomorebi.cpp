@@ -132,7 +132,7 @@ void TKomorebi::free_static() {
     komorebi_last_uv_update_frame = 0;
 }
 void TKomorebi::load_resources() {
-    u8 *p = (u8 *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    u8 *p = (u8 *)::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, &TKomorebi__resource_descriptor, 0, 0, 0);
     }

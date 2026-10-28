@@ -58,7 +58,7 @@ void TBoss6Rock::free_data() {
 void TBoss6Rock::load_resources() {
     u32 r;
     s32 i;
-    r = ((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    r = (int)::operator new(0x440);
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, &boss6_rock_resource_descriptor, 0, 0, 0);
     }

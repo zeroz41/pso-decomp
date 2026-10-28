@@ -19,7 +19,7 @@ void TObjWarpLobby::release_static() {
     TObjWarpLobby__instance = 0;
 }
 void TObjWarpLobby__sub_801A0B38(void) {
-    u8 *p = (u8 *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    u8 *p = (u8 *)::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, warp_lobby_resource_descriptor, 0, 0, 0);
     }

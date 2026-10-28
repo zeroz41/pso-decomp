@@ -615,7 +615,6 @@ struct Pair_80198F14 { s32 a; s32 b; };
 
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 u8 *load_gvm_texture_file(s32 arg0);
 extern char lbl_80446088[];
 extern char lbl_80446098[];
@@ -638,7 +637,7 @@ void TLanguage::load_lobby_textures() {
     c->f18 = 0;
     p->a = 0;
     p->b = 0;
-    obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    obj = ::operator new(0x440);
     if (obj != 0) {
         obj = load_resource_from_descriptor(obj, 5, language_lobby_texture_descriptor, 0, 0, 0);
     }

@@ -20,7 +20,7 @@ s32 fn_8010F210(Slot_8010F210 *arg0) {
             i++;
         }
         if (found != 0) {
-            r = ((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+            r = (int)::operator new(0x10);
             if (r != 0) {
                 r = (s32)TItemDrop__sub_8010F1B8((u8 *)r, (s32)arg0, found);
             }

@@ -49,7 +49,6 @@ extern u32 photon_blast_donation_flags[];
 extern u32 photon_blast_shared_resource;
 extern struct PhotonBlastChain_801AA424 photon_blast_sequence_table[];
 u8 *load_resource_from_descriptor(u8 *, int, void *, int, int, int);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 run_load_callback_table(void *, int);
 void TObjPlayer__sub_801AA3B4(void) {
     s32 i;
@@ -78,7 +77,7 @@ void TObjPlayer::clear_photon_blast_slots() {
 void load_photon_blast_resources(void) {
     u8 *p;
     s32 i;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = (u8 *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &photon_blast_resource_descriptor, 0, 0, 0);
     }

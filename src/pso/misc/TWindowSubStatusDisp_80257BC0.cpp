@@ -91,7 +91,6 @@ typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_8
 
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
-void * alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void mem_free(void *);
 void ** mem_alloc(u32);
 #define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
@@ -187,7 +186,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
         while (cols-- != 0) {
             switch (*rec) {
             case 0:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+                o = ::operator new(0x18);
                 if (o != NULL) {
                     o = init_layout_entry_rect__20TWindowSubStatusDispFPUcs(o, rec, arg2);
                 }
@@ -195,7 +194,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x14 / 4;
                 break;
             case 1:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x28);
+                o = ::operator new(0x28);
                 if (o != NULL) {
                     o = ((Ctor_80257D44)init_from__13TUnk_804CF930FPvi)(o, rec, arg2);
                 }
@@ -203,7 +202,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x24 / 4;
                 break;
             case 2:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x68);
+                o = ::operator new(0x68);
                 if (o != NULL) {
                     o = ((Ctor_80257D44)init_layout_entry_copy__20TWindowSubStatusDispFPUc)(o, rec, arg2);
                 }
@@ -211,7 +210,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x2C / 4;
                 break;
             case 3:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x2C);
+                o = ::operator new(0x2C);
                 if (o != NULL) {
                     o = construct_text_entry((u8 *)o, (u8 *)rec, arg2);
                 }
@@ -219,7 +218,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x1C / 4;
                 break;
             case 4:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x24);
+                o = ::operator new(0x24);
                 if (o != NULL) {
                     o = TWindowSubStatusDisp__sub_80259D3C(o, rec, arg2);
                 }
@@ -227,7 +226,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x1C / 4;
                 break;
             case 5:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x30);
+                o = ::operator new(0x30);
                 if (o != NULL) {
                     o = init_layout_entry_scaled__20TWindowSubStatusDispFPUcl(o, rec, arg2);
                 }
@@ -235,7 +234,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x1C / 4;
                 break;
             case 6:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x38);
+                o = ::operator new(0x38);
                 if (o != NULL) {
                     o = init_part_scaled__20TWindowSubStatusDispFPvPvi(o, rec, arg2);
                 }
@@ -243,7 +242,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x30 / 4;
                 break;
             case 7:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x38);
+                o = ::operator new(0x38);
                 if (o != NULL) {
                     o = init_part_direct__20TWindowSubStatusDispFPUcl(o, rec, arg2);
                 }
@@ -251,7 +250,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0x38 / 4;
                 break;
             case 8:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x38);
+                o = ::operator new(0x38);
                 if (o != NULL) {
                     o = ((TWindowSubStatusDisp *)o)->reset_entry((int)rec, (int)arg2);
                 }
@@ -259,7 +258,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 1;
                 break;
             case 9:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x28);
+                o = ::operator new(0x28);
                 if (o != NULL) {
                     o = ((TWindowSubComCard *)o)->init_fields((int)rec, (int)arg2);
                 }
@@ -267,7 +266,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 1;
                 break;
             case 10:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x14);
+                o = ::operator new(0x14);
                 if (o != NULL) {
                     o = TWindowHelpItem__sub_8025A95C(o, rec, arg2);
                 }
@@ -275,7 +274,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0xC / 4;
                 break;
             case 11:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x24);
+                o = ::operator new(0x24);
                 if (o != NULL) {
                     o = TWindowHelpItem__sub_8025A594(o, rec, arg2);
                 }
@@ -283,7 +282,7 @@ void init_window_layout_entries(List_80257D44 *self, Desc_80257D44 *desc, s32 ar
                 rec += 0xC / 4;
                 break;
             case 12:
-                o = alloc__23TAdSinglePlyChrSelectGCFv(0x28);
+                o = ::operator new(0x28);
                 if (o != NULL) {
                     o = ((TWindowSubStatusDisp *)o)->init_state((int)rec, (int)arg2);
                 }

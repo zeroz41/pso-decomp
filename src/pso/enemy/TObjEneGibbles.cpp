@@ -178,7 +178,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *mem_alloc(u32 size);
 extern Spawn_802DB7C0 gibbles_resource_binding_desc;
 extern s32 gibbles_boss_stat_handle;
@@ -2521,13 +2520,13 @@ void TObjEneGibbles::free_static() {
 void TObjEneGibbles::load_resources() {
     u8 *p;
     if (is_split_screen() != 0) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E28A0, 0, 0, 0);
         }
         TObjEneGibbles__resource_bundle = (u32) p;
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E285C, 0, 0, 0);
         }

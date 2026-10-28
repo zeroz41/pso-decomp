@@ -69,7 +69,7 @@ void TObjEneRecon::load_resources() {
   s32 var_r4;
   u8 *temp_r5;
   TObjEneRecon__recobox_static_instance = (u8 *)TObjEneRecobox__sub_803201D0();
-  temp_r3 = (var_r4 = ((TAdSinglePlyChrSelectGC *)(0x10))->alloc());
+  temp_r3 = (var_r4 = (int)::operator new(0x10));
   if (var_r4 != 0)
   {
     var_r4 = init_from_model__11TBreakUpMdlFl((int) temp_r3, (void *) (*((s32 *) (((s8 *) ((RecoveredFields_8031E708_TObjEneRecon__data_805D6B00 *) TObjEneRecon__recobox_static_instance)->field_42C) + 8))));

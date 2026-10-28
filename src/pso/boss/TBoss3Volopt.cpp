@@ -76,7 +76,6 @@ void obj_setFlags30(void *object, s32 flags);
 void TLobby__sub_8001FE7C(void *resource, s32 flags);
 void *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
 u16 TObjRoomId__sub_801A1DB8(u16 id);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32 size);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 lbl_805D2ECC;
 extern s32 TODoorVoShip__class_name;
@@ -422,13 +421,13 @@ void TBoss3Volopt::load_resources() {
     void *resource;
     v2 = TObjEneDD::check_v2_mode();
     if (v2 != 0) {
-        resource = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        resource = ::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 5, &bm_boss3_volopt_ap_resource_descriptor, 0, 0, 0);
         }
         boss3_volopt_resources = (BmlResource *)resource;
     } else {
-        resource = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        resource = ::operator new(0x440);
         if (resource != NULL) {
             resource = load_resource_from_descriptor(resource, 5, &bm_boss3_volopt_resource_descriptor, 0, 0, 0);
         }

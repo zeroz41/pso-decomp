@@ -43,7 +43,7 @@ void TLobby__sub_8003A874(void) {
 }
 
 void TLobby__sub_8003A8D0(void) {
-    void *p = (void *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    void *p = (void *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 5, &bm_obj_boss2_common_resource_descriptor, 0, 0, 0);
     }

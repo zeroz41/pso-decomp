@@ -99,7 +99,6 @@ extern s32 *door_machine02_texture_param_table;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB524;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_80440FD8[];
@@ -218,14 +217,14 @@ void TODoorMachine02::load_resources() {
     void *o;
     door_machine02_texture_param_table = (s32 *)mem_alloc(8);
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, bm_fs_obj_ki_doa2_a_resource_descriptor, 0, 0, 0);
         }
         door_machine02_model_resource = (u32)o;
         door_machine02_texture_param_table[0] = (s32)load_gvm_texture_file((s32)lbl_80440FD8);
     } else {
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, &TODoorMachine02_resource_descriptor, 0, 0, 0);
         }

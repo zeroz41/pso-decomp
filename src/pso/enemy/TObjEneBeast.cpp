@@ -389,7 +389,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(int);
 u8 *load_enemy_bml_resource_named(void *, void *);
 void draw_trail_with_colors(u8 *boss4_type3, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 u8 *init_trail_buffer__11TBoss4Type3FPvifff(void *, int, f32, f32, f32);
@@ -656,7 +655,7 @@ void TObjEneBeast::load_resources() {
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 1e+01f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 9.0f;
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, beast_resource_descriptor, 0, 0, 0);
         }
@@ -665,12 +664,12 @@ void TObjEneBeast::load_resources() {
         ((Ent_8009241C *)beast_collision_body_table)[1].radius = 7.0f;
         ((Ent_8009241C *)beast_collision_body_table)[2].radius = 8.0f;
     }
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = (u8 *)::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, 7.0f, 12.0f, 1.0f);
     }
     beast_claw_trail_instance = (void *)p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = (u8 *)::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, 7.0f, 12.0f, 1.0f);
     }

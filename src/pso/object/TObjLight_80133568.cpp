@@ -162,7 +162,6 @@ extern s32 TObjLight__active_light_count;
 extern s32 light_entry_file_size;
 __declspec(section ".rodata") char lbl_8043ED80[] = "lightentry.bin";
 s32 read_disc_file(void *, u32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void GXInitLightSpot(void *, s32, f32);
 void GXInitLightDistAttn(void *, s32, f32, f32);
 extern const f32 lbl_805DB098;
@@ -215,7 +214,7 @@ u32 TObjLight::alloc_light_slot() {
     p = ((u32 *)&TObjLight__data_80506370);
     for (i = 0; i < 3; p++, i++) {
         if (*p == 0) {
-            r = alloc__23TAdSinglePlyChrSelectGCFv(0x2C);
+            r = ::operator new(0x2C);
             if (r != 0) {
                 r = ((void *)((TObjLight *)r)->init_light(i));
             }

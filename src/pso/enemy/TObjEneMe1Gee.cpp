@@ -4032,12 +4032,12 @@ void TObjEneMe1Gee::load_resources() {
         gee_shared_handler_a_table[i] = dispatch_shared_handler_a__6TLobbyFl(lbl_8043BCFC[i]);
     }
     TObjEneMe1Gee__render_node_index = 0;
-    p = ((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    p = (int)::operator new(0x10);
     if (p != 0) {
         p = init_from_model__11TBreakUpMdlFl(p, TObjEneMe1Gee__resource_bundle->f42c->f8);
     }
     TObjEneMe1Gee__data_805D51C0 = p;
-    p = ((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    p = (int)::operator new(0x10);
     if (p != 0) {
         p = init_from_model__11TBreakUpMdlFl(p, TObjEneMe1Gee__resource_bundle->f42c->f8);
     }

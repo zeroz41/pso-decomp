@@ -7,7 +7,7 @@ extern u32 lbl_805D4E58;
 
 void TAdSinglePlyChrSelectGC__sub_80077AE8(s32 src) {
     if ((u32) lbl_805D4E58 == 0U) {
-        lbl_805D4E58 = ((TAdSinglePlyChrSelectGC *)0x704)->alloc();
+        lbl_805D4E58 = (int)::operator new(0x704);
     }
     fn_80077B34((u32 *)lbl_805D4E58, (u32 *)src);
 }

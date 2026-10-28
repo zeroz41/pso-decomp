@@ -530,7 +530,6 @@ extern void *__vt__14TOTrapSeabed01[];
 extern s32 TOTrapSeabed01_class_name;
 u8 *TOTrapSeabed01__ct(TOTrapSeabed01 *arg0, s32 arg1, s32 arg2);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_804720E8[];
 extern u8 lbl_80472100[];
@@ -629,7 +628,7 @@ void TOTrapSeabed01::free_static_resources() {
 }
 
 void TOTrapSeabed01::load_resources() {
-    void *p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    void *p = ::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 5, (void *)&seabed_trap_resource_descriptor, 0, 0, 0);
     }

@@ -1725,13 +1725,13 @@ void TObjEneLappy::load_resources() {
         case 1:
             lappy_variant_id = 1;
             if (rare) {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492E08, 0, 0, 0);
                 }
                 (*(u32 *)&rappy_bml_resource) = p;
             } else {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492DC0, 0, 0, 0);
                 }
@@ -1741,13 +1741,13 @@ void TObjEneLappy::load_resources() {
         case 4:
             lappy_variant_id = 2;
             if (rare) {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492CE8, 0, 0, 0);
                 }
                 (*(u32 *)&rappy_bml_resource) = p;
             } else {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492CA0, 0, 0, 0);
                 }
@@ -1757,13 +1757,13 @@ void TObjEneLappy::load_resources() {
         case 5:
             lappy_variant_id = 3;
             if (rare) {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492D78, 0, 0, 0);
                 }
                 (*(u32 *)&rappy_bml_resource) = p;
             } else {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492D30, 0, 0, 0);
                 }
@@ -1773,13 +1773,13 @@ void TObjEneLappy::load_resources() {
         default:
             lappy_variant_id = 0;
             if (rare) {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492C58, 0, 0, 0);
                 }
                 (*(u32 *)&rappy_bml_resource) = p;
             } else {
-                p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+                p = (int)::operator new(0x440);
                 if (p != 0) {
                     p = load_resource_from_descriptor(p, 1, lbl_80492C10, 0, 0, 0);
                 }
@@ -1790,13 +1790,13 @@ void TObjEneLappy::load_resources() {
     } else {
         lappy_variant_id = 0;
         if (rare) {
-            p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+            p = (int)::operator new(0x440);
             if (p != 0) {
                 p = load_resource_from_descriptor(p, 1, lbl_80492C58, 0, 0, 0);
             }
             (*(u32 *)&rappy_bml_resource) = p;
         } else {
-            p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+            p = (int)::operator new(0x440);
             if (p != 0) {
                 p = load_resource_from_descriptor(p, 1, lbl_80492C10, 0, 0, 0);
             }

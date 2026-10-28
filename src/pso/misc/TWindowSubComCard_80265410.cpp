@@ -99,7 +99,6 @@ struct RecoveredGlobal_80266B30_lbl_8050E208 {
 
 typedef char RecoveredGlobal_80266B30_lbl_8050E208_size[sizeof(RecoveredGlobal_80266B30_lbl_8050E208) == 0x1B0 ? 1 : -1];
 
-u32 alloc__23TAdSinglePlyChrSelectGCFv(int, f32, f32);
 void mem_free(void *);
 void *mem_alloc(u32 size);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
@@ -208,7 +207,7 @@ void TWindowSubComCardList::sub_8026556C() {
         temp_f1 = temp_f2 - lbl_805DD15C;
         stack.spC = 0.0f;
         stack.sp8 = temp_f1;
-        temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv(0xC, temp_f1, temp_f2);
+        temp_r3 = ((u32 (*)(u32, f32, f32))(void *(*)(size_t))::operator new)(0xC, temp_f1, temp_f2);
         var_r0 = temp_r3;
         if (var_r0 != 0U) {
             var_r0 = reset_selection__20TWindowSubStatusDispFv(temp_r3, &stack.sp8);
@@ -712,7 +711,7 @@ s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r3;
     s32 var_r0;
     temp_r31 = ((s32)((int (*)(void*, void*, void*))create_window_menu)((void*)arg0, (void*)arg1, (void*)arg3));
-    temp_r3 = ((int (*)(void *))alloc__23TAdSinglePlyChrSelectGCFv)((void *)0x24);
+    temp_r3 = ((int (*)(void *))::operator new)((void *)0x24);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3, arg2, arg3);

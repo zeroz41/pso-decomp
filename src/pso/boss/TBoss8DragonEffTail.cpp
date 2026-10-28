@@ -94,7 +94,6 @@ struct Obj_802FE494 : VB_802FE494 {
 
 extern "C" {
 extern const f32 lbl_805DEF18;
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern u8 boss8_dragon_eff_tail_init_data[];
 extern s32 __vt__19TBoss8DragonEffTail[];
 extern s32 TBoss8DragonEffTail__name;
@@ -204,7 +203,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     }
     arg0->unkB0 = arg1;
     arg0->unkB4 = arg2;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != 0) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

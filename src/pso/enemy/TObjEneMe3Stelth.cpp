@@ -3800,7 +3800,6 @@ s32 load_enemy_bml_resource(u8 *arg0);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 void *init__11TBreakUpMdlFPviif(void *, s32, s32, f32);
 void TObjEneMe3ShinowaMirage__sub_800D98D8(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, u8 *arg4, u8 *arg5);
 void *init_trail_buffer__11TBoss4Type3FPvifff(void *arg0, s32 segs, f32 start, f32 end, f32 step);
@@ -3898,13 +3897,13 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
     ent = (((Res_800F53E8 *)TObjEneMe3Stelth__bml_resource)->f430 + ((Tbl_800F53E8 *)TObjEneMe3Stelth__animation_descriptors)->f54)->f4;
     if (is_split_screen() != 0) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+        p = ::operator new(0x10);
         if (p != NULL) {
             p = init__11TBreakUpMdlFPviif(p, *(s32 *)(((Res_800F53E8 *)TObjEneMe3Stelth__bml_resource)->f42C + 8), (s32)ent, (f32)(*(u32 *)(ent + 4) - 1));
         }
         TObjEneMe3Stelth__breakup_model = (s32)p;
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+        p = ::operator new(0x10);
         if (p != NULL) {
             p = ((TBreakUpMdl *)p)->setup_pieces(*(s32 *)(((Res_800F53E8 *)TObjEneMe3Stelth__bml_resource)->f42C + 8), (s32)ent, (f32)(*(u32 *)(ent + 4) - 1));
         }
@@ -3925,7 +3924,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
         vb.y = TObjEneMe3Stelth__data_805DA840;
         vb.z = TObjEneMe3Stelth__data_805DA840;
         ent2 = (r->f430 + idx)->f4;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+        p = ::operator new(0x18);
         if (p != NULL) {
             p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805DA8B4, lbl_805DA8B8, lbl_805DA8BC);
         }

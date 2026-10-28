@@ -151,7 +151,6 @@ s32 get_bml_model(s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 int is_quest_active(void);
-int alloc__23TAdSinglePlyChrSelectGCFv(void *);
 s32 get_localized_text_entry(s32, s32);
 void run_task__15TObjLaboMapWarpFv(u8 *arg0);
 void TObjLaboMapWarp__vt13(TObjLaboMapWarp *arg0, s32 arg1);
@@ -323,7 +322,7 @@ void TObjLaboMapWarp::release_static_resource() {
 void TObjLaboMapWarp::load_static_resource() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv((void *)0x440);
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_warp_labo_resource_descriptor.value, 0, 0, 0));
@@ -747,7 +746,7 @@ void *TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2) {
         self->b[j] = 0;
     }
     if (is_split_screen() == 1) {
-        p = ((void * (*)(s32))alloc__23TAdSinglePlyChrSelectGCFv)(0x88);
+        p = ((void * (*)(s32))::operator new)(0x88);
         if (p != NULL) {
             p = init__13TAdVIConfigGCFf(p, self->pos, lbl_805DBCA4);
         }

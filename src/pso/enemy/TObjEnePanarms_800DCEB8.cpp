@@ -1197,7 +1197,7 @@ void TObjEnePanarms::free_data() {
     }
 }
 void TObjEnePanarms::load_and_spawn_npc() {
-    Obj_800DF634 *o = (Obj_800DF634 *) ((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    Obj_800DF634 *o = (Obj_800DF634 *) ::operator new(0x440);
     if (o != NULL) {
         o = load_resource_from_descriptor(o, 1, lbl_80494F10, 0, 0, 0);
     }

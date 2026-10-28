@@ -2059,13 +2059,13 @@ void TObjEneMe1GiGue::load_resources() {
     Sub_802CD62C *q;
 
     if (is_split_screen() != 0) {
-        o = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+        o = (int)::operator new(0x440);
         if (o != 0) {
             o = (s32)load_resource_from_descriptor((void *)o, 1, lbl_804E1248, 0, 0, 0);
         }
         TObjEneMe1GiGue__data_805D6838 = o;
     } else {
-        o = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+        o = (int)::operator new(0x440);
         if (o != 0) {
             o = (s32)load_resource_from_descriptor((void *)o, 1, lbl_804E1200, 0, 0, 0);
         }
@@ -2075,7 +2075,7 @@ void TObjEneMe1GiGue::load_resources() {
     lbl_805D682C = dispatch_shared_handler_b__6TLobbyFl(0x1A);
     lbl_805D6830 = register_object__6TLobbyFl(0x1A);
     TObjEneMe1GiGue__param_table = dispatch_shared_handler_a__6TLobbyFl(0x1A);
-    o = ((TAdSinglePlyChrSelectGC *)((void *)0x10))->alloc();
+    o = (int)::operator new(0x10);
     if (o != 0) {
         o = init_from_model__11TBreakUpMdlFl(o, ((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->mdl->a);
     }

@@ -143,7 +143,6 @@ s32 register_boss__6TLobbyFl(int);
 s32 get_bml_motion(void *, int);
 s32 get_bml_model(void *, int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void TObjPlayer__sub_800A4294(void);
 Res_800AA82C *load_enemy_bml_resource_named(void *, void *);
 void draw_trail_with_colors(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -1130,7 +1129,7 @@ void TObjPlayer__sub_800AA82C(void) {
     if (TObjEneDD::check_v2_mode() != 0) {
         lbl_805D5090 = load_enemy_bml_resource_named(bm_ene_dubchik_resource_descriptor, lbl_8043ACA4);
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, bm_ene_dubchik_resource_descriptor, 0, 0, 0);
         }
@@ -1148,31 +1147,31 @@ void TObjPlayer__sub_800AA82C(void) {
     lbl_805D509C = (Node_800AA82C *)find_model_node(lbl_805D5090->mdl->f8, 0x15);
     lbl_805D50A0 = (Node_800AA82C *)find_model_node(lbl_805D5090->mdl->f8, 0x2A);
     ((NJS_OBJECT *)find_model_node(*(s32 *)((u8 *)lbl_805D5090->mdl + 0x18), 0x15))->evalflags |= 8;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = ((TBreakUpMdl *)p)->init_from_model(lbl_805D5090->mdl->f8);
     }
     breakup_model_ptr = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805D9B34, lbl_805D9B38, lbl_805D9AF0);
     }
     lbl_80500AF0[0] = (s32)p;
     draw_trail_with_colors((u8 *)lbl_80500AF0[0], get_bml_model(lbl_805D5090, 0), get_bml_motion(lbl_805D5090, 6), 0x1C, 0x24);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805D9B3C, lbl_805D9B20, lbl_805D9AF0);
     }
     lbl_80500AF8[0] = (s32)p;
     draw_trail_with_colors((u8 *)lbl_80500AF8[0], get_bml_model(lbl_805D5090, 0), get_bml_motion(lbl_805D5090, 6), 0x2E, 0x32);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805D9B40, lbl_805D9B44, lbl_805D9AF0);
     }
     t = lbl_80500AF0;
     t[1] = (s32)p;
     draw_trail_with_colors((u8 *)t[1], get_bml_model(lbl_805D5090, 0), get_bml_motion(lbl_805D5090, 7), 0x1C, 0x24);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805D9B10, lbl_805D9B48, lbl_805D9AF0);
     }

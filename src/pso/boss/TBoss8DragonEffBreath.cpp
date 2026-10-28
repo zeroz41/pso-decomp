@@ -19,7 +19,6 @@ struct Obj_802FE024 {
 };
 
 extern "C" {
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 extern s32 TBoss8DragonEffBreath__name;
 extern const f32 lbl_805DEEF8;
 s32 vec3_add_to(void *, void *);
@@ -62,7 +61,7 @@ TBoss8DragonEffBreath::TBoss8DragonEffBreath(TObject *parent, void *p, void *v, 
     ((Obj_802FE024 *)this)->vel.z = ((Obj_802FE024 *)this)->vel.z * lbl_805DEEF8;
     ((Obj_802FE024 *)this)->a = a;
     ((Obj_802FE024 *)this)->b = b;
-    h = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    h = ::operator new(0x10);
     if (h != NULL) {
         h = TBoss8Dragon__sub_800BC5EC((u8 *)h, 4);
     }

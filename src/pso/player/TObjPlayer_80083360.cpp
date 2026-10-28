@@ -33,7 +33,7 @@ void TObjPlayer::init_render_target_singleton() {
     u32 temp_r3;
     camera_render_target_singleton = 0U;
     if (TOKeyMachine01::get_global_state() == 0x21) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)0x28)->alloc();
+        temp_r3 = (int)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {
             init_render_target__10TObjPlayerFv();

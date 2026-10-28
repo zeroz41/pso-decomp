@@ -263,7 +263,6 @@ extern "C" {
 s32 fn_8026C7AC(void *arg0, s8 arg1);
 s32 handle_list_page_flip_input(int);
 extern s32 lbl_805DD6F4;
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 void *init__21TWindowSubComCardListFiii(void *, int, int, s32);
 s32 get_window_layout_position(int);
 
@@ -386,7 +385,7 @@ SD_80281760 *TWindowSubStatusDisp__ct(SD_80281760 *arg0, s32 arg1) {
     arg0->f62 = arg0->f60;
     arg0->f6c = lbl_805DD70C;
     arg0->f70 = lbl_805DD70C;
-    w = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    w = ::operator new(0xC);
     if (w != NULL) {
         w = init__21TWindowSubComCardListFiii(w, 0, 3, arg1);
     }

@@ -112,12 +112,11 @@ extern u8 *lbl_805D6FB8;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 
 void TObjPlayer::alloc_and_run_object() {
     void *o;
 
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0xB4);
+    o = ::operator new(0xB4);
     if (o != NULL) {
         o = (void *)TObjPlayer::run_and_return_arg((s32)o);
     }
@@ -293,7 +292,7 @@ void TObjPlayer::free_global_805D6FB8() {
 void TObjPlayer::alloc_and_init_object_b4() {
     void *o;
 
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0xB4);
+    o = ::operator new(0xB4);
     if (o != NULL) {
         o = (void *)TObjPlayer::run_and_return_arg((s32)o);
     }

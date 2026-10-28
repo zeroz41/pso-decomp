@@ -7,7 +7,6 @@ extern "C" {
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 s32 TObjControl__ct(s32, s32);
 s32 __nw__7TObjectFUl(s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 
 extern s32 slime_pair_resource_descriptor[];
 extern void *slime_bml_resource;
@@ -19,7 +18,7 @@ void TObjEneSlime::spawn_pair() {
     void *temp_r5;
     void *temp_r5_2;
 
-    temp_r4 = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    temp_r4 = ::operator new(0x440);
     if (temp_r4 != NULL) {
         temp_r4 = load_resource_from_descriptor(temp_r4, 1, slime_pair_resource_descriptor, 0, 0, 0);
     }

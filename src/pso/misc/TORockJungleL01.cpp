@@ -518,7 +518,6 @@ extern s32 TORockJungleS01__name;
 
 extern u32 TORockJungleS01__texture_resource;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_804658EC[];
 extern u8 lbl_80465904[];
@@ -643,7 +642,7 @@ void TORockJungleS01::free_globals() {
 }
 void TORockJungleS01::load_resources() {
     void *o;
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    o = ::operator new(0x440);
     if (o != NULL) {
         o = load_resource_from_descriptor(o, 1, TORockJungleS01_resource_descriptor, 0, 0, 0);
     }

@@ -1465,7 +1465,6 @@ u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 void *TBoss1DragonEffTail__ct(void *, void *, void *);
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 s32 __ct__14SubtractiveRngFv(void *arg0);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void init_object__12TObjEneDD_STFv(void *, void *);
 void initialize_enemy_state__9TObjEneDDFv(void *, s32);
 void init_model__9TObjEneDDFv(void *, void *, s32);
@@ -6557,7 +6556,7 @@ u8 *TBoss1Dragon__ct(u8 *arg0, void *arg1, void *arg2) {
         p = TBoss1DragonEffTail__ct(p, arg0, arg0 + 0x4E4);
     }
     F_29DE4(arg0, void *, 0x684) = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != 0) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

@@ -394,7 +394,7 @@ void TOTrapAncient01::load_resources() {
   int new_var;
   s32 temp_r3;
   s32 var_r0;
-  temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *) 0x440))->alloc();
+  temp_r3 = (int)::operator new(0x440);
   var_r0 = temp_r3;
   temp_r31 = var_r0;
   new_var = 0;

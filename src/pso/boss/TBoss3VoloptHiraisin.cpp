@@ -29,7 +29,6 @@ void post_translate_matrix(const f32 *pos);
 void rotate_matrix_y(void *mtx, s32 angle);
 void scale_matrix(void *mtx, f32 x, f32 y, f32 z);
 
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32 size);
 TUnk_8048FA00 *init_from_model__11TBreakUpMdlFl(TUnk_8048FA00 *obj, s32 model);
 void trigger_dell_biter_events__10TObjPlayerFv(Vec *pos);
 void update_collisions__10TObjPlayerFv(TObjEnemy *obj);
@@ -334,7 +333,7 @@ void TBoss3VoloptHiraisin::init_models() {
     volopt_hiraisin_resources = boss3_volopt_resources;
     volopt_hiraisin_spin_node = (ModelNode *)find_model_node(get_bml_model(boss3_volopt_resources, 0x10), 0xB);
     volopt_hiraisin_spin_node->flags &= ~2;
-    breakup = (TUnk_8048FA00 *)alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    breakup = (TUnk_8048FA00 *)::operator new(0x10);
     if (breakup != NULL) {
         breakup = init_from_model__11TBreakUpMdlFl(breakup, get_bml_model(volopt_hiraisin_resources, 0x10));
     }

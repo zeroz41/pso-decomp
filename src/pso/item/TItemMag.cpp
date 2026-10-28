@@ -1519,7 +1519,6 @@ void TItemMag__vt14(Self_80113310 *self);
 void TObjPlayer__sub_80364198();
 void TObjPlayer__sub_8036414C();
 void TItemMag__vt24(Self_801135E0 *self);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 int fn_800F955C(void *p);
 extern u8 lbl_8043E568[];
 extern u8 lbl_8043E57C[];
@@ -1817,7 +1816,7 @@ void TItemMag::load_data_files() {
         }
     }
     type = NULL;
-    buf = alloc__23TAdSinglePlyChrSelectGCFv(8);
+    buf = ::operator new(8);
     if (buf != NULL) {
         buf = ((TItemLoad *)buf)->load_buffer((u32)lbl_8043E57C, 0x1000);
     }

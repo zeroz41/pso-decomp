@@ -32,7 +32,6 @@ struct VObj_801105AC : Base_801105AC {
 
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *mem_alloc(u32 size);
 void * __nw__7TObjectFUl(s32);
 void *__ct__7TObjectFP7TObject(void *, void *);
@@ -71,7 +70,7 @@ void TItemLoad::init_resources() {
     s32 i;
     TItemLoad::alloc_work_buffer();
     TItemLoad__sub_8010F5A0();
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 5, &item_bml_resource_descriptor, 0, 0, 0);
     }

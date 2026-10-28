@@ -101,7 +101,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 u32 load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 extern u32 cave_rock_resource_bundle;
 extern u32 rock_cave_model_resource;
 void *__dt__10TORockCaveFv(void *arg0, s16 arg1);
@@ -138,7 +137,7 @@ extern s32 __vt__10TORockCave[];
 
 #define MK_80175224(dst, off)                                                   \
     {                                                                           \
-        void *p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);                   \
+        void *p = ::operator new(0x440);                   \
         u32 r = (u32)p;                                                         \
         if (p != 0) {                                                           \
             r = load_resource_from_descriptor(p, 1, tbl + (off), 0, 0, 0);               \

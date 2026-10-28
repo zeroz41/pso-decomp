@@ -309,7 +309,7 @@ void init_item_system() {
     item_registry_count = 0;
     item_registry_sorted_entries = (TItem **)mem_alloc(0x1000);
     memset(item_registry_sorted_entries, 0, 0x1000);
-    void *rocks = alloc__23TAdSinglePlyChrSelectGCFv(1);
+    void *rocks = ::operator new(1);
     if (rocks != NULL) {
         rocks = (void *)TLobby::init_bosses(rocks);
     }

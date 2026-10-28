@@ -123,7 +123,7 @@ TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 arg2, s32 arg3) : TObject(object) 
         p->a = 0;
         p->p = (u8 *)mem_alloc(((Obj_803209F0 *)this)->n * 0x10);
     }
-    ((Obj_803209F0 *)this)->last = (Src_803209F0 *)((TAdSinglePlyChrSelectGC *)8)->alloc();
+    ((Obj_803209F0 *)this)->last = (Src_803209F0 *)::operator new(8);
     ((Obj_803209F0 *)this)->last->a = 0;
     ((Obj_803209F0 *)this)->last->p = (u8 *)mem_alloc(((Obj_803209F0 *)this)->n * 0x10);
 }

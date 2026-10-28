@@ -76,7 +76,6 @@ extern Map_8016CA64 *TOKeyGenericSw__shared_resource_ptrs[];
 void TLobby__sub_8001FE7C(void *, s32);
 void mem_free(void *);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *mem_alloc(u32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern char lbl_80441D04[];
@@ -177,12 +176,12 @@ void TOKeyGenericSw::load_resources() {
     s32 st = TOKeyMachine01::get_global_state();
     void *p;
     if (TContainerAncient01::is_global_state_in_table() == 1 || st == 0x1C || st == 0x1D) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x40, 0, 0, 0);
         }
         TOKeyGenericSw__shared_resource_ptrs[0] = (Map_8016CA64 *)p;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x60, 0, 0, 0);
         }
@@ -192,12 +191,12 @@ void TOKeyGenericSw::load_resources() {
         TOKeyGenericSw__texture_lists[1] = *(s32 *)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1]->area + 0xC);
         TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((s32)lbl_80441D04);
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x8, 0, 0, 0);
         }
         TOKeyGenericSw__shared_resource_ptrs[0] = (Map_8016CA64 *)p;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x28, 0, 0, 0);
         }

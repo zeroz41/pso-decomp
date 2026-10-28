@@ -1131,7 +1131,7 @@ TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg
     for (i = 0; i != 0x11; i++) {
         a = __cvt_fp2unsigned(lbl_805DAAD8 * (lbl_805DAAE4 * (f32)rand()));
         b = __cvt_fp2unsigned(lbl_805DAAD4 * (lbl_805DAAE4 * (f32)rand()));
-        obj = ((TAdSinglePlyChrSelectGC *)0xE8)->alloc();
+        obj = (int)::operator new(0xE8);
         if (obj != 0) {
             obj = run_step__9TItemDropFl(obj, a | b);
         }

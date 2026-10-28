@@ -70,7 +70,7 @@ s32 TObjFish__sub_800E3124(u8 *list, s32 vecs) {
     s32 temp_r3;
     s32 var_r0;
     if (((TObjFish *)list)->is_entry_table_valid() != 0) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)8))->alloc();
+        temp_r3 = (int)::operator new(8);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = (long) (fn_800E31C4((void *) temp_r3, list, vecs));

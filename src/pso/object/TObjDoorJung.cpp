@@ -99,7 +99,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
     Node_8018F4AC *node;
     void *scene;
 
-    handle = ((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    handle = (int)::operator new(0x440);
     if (handle != 0) {
         handle = load_resource_from_descriptor(handle, 5, bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
@@ -119,7 +119,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
     lbl_805D5BEC = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[2]);
     lbl_805D5BF0 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[3]);
     if (lbl_805D5BEC != -1) {
-        scene = (void *)((TAdSinglePlyChrSelectGC *)0x14)->alloc();
+        scene = (void *)::operator new(0x14);
         if (scene != NULL) {
             scene = ((TScene *)scene)->init_buffers((s32)model->child->sibling, lbl_805D5BEC);
         }

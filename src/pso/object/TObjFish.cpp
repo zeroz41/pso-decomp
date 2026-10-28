@@ -32,7 +32,6 @@ struct Fish_8029D5C8;
 struct Vec_8029E170;
 struct Ent_8029E170;
 extern "C" {
-int alloc__23TAdSinglePlyChrSelectGCFv(void *);
 void * __nw__7TObjectFUl(int);
 s32 get_global_state__14TOKeyMachine01Fv();
 void render__8TObjFishFv(u8 *arg0);
@@ -159,7 +158,7 @@ void TOKeyJungleMain::release_static_resource() {
 void TOKeyJungleMain::load_static_resource() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv((void *)0x440);
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_mkey_resource_descriptor.value, 0, 0, 0));
@@ -593,7 +592,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-#define alloc__23TAdSinglePlyChrSelectGCFv ((u8 * (*)(s32))alloc__23TAdSinglePlyChrSelectGCFv)
 #define __nw__7TObjectFUl ((u8 * (*)(s32))__nw__7TObjectFUl)
 #define get_global_state__14TOKeyMachine01Fv ((s32 (*)(void))get_global_state__14TOKeyMachine01Fv)
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
@@ -765,7 +763,7 @@ void TObjFish::load_area_resource() {
     switch (get_global_state__14TOKeyMachine01Fv()) {
     case 24:
         TObjFish__area_event_stage = 1;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x50, 0, 0, 0);
         }
@@ -774,7 +772,7 @@ void TObjFish::load_area_resource() {
     case 27:
     case 34:
         TObjFish__area_event_stage = 2;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x80, 0, 0, 0);
         }
@@ -782,7 +780,7 @@ void TObjFish::load_area_resource() {
         break;
     case 28:
         TObjFish__area_event_stage = 3;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0xB0, 0, 0, 0);
         }
@@ -790,7 +788,7 @@ void TObjFish::load_area_resource() {
         break;
     case 29:
         TObjFish__area_event_stage = 4;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0xE0, 0, 0, 0);
         }
@@ -799,7 +797,7 @@ void TObjFish::load_area_resource() {
     case 15:
     default:
         TObjFish__area_event_stage = 0;
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, base + 0x20, 0, 0, 0);
         }
@@ -809,7 +807,6 @@ void TObjFish::load_area_resource() {
 }
 
 }
-#undef alloc__23TAdSinglePlyChrSelectGCFv
 #undef __nw__7TObjectFUl
 #undef get_global_state__14TOKeyMachine01Fv
 #undef init_fish_school__8TObjFishFPvll

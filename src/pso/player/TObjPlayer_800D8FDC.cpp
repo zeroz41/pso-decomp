@@ -154,7 +154,7 @@ void set_chunk_blend(u32 x);
 extern s32 model_render_flags;
 
 void load_corpse_mark_resource(void) {
-    u8 *p = (u8 *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    u8 *p = (u8 *)::operator new(0x440);
     if (p != 0) {
         p = load_resource_from_descriptor(p, 1, corpse_mark_resource_descriptor, 0, 0, 0);
     }

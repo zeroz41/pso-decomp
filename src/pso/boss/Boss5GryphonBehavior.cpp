@@ -6141,7 +6141,6 @@ void __ct__14SubtractiveRngFv(void *);
 void invoke_initialization_hook__9TObjEneDDFv(void *, void *);
 void init_model__9TObjEneDDFv(void *, void *, s32);
 void initialize_enemy_state__9TObjEneDDFv(void *, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *TBoss8Dragon__sub_800BC5EC(void *, s32);
 void *TBoss5GryphonColli__ct(void *, void *);
 void activate_and_dispatch__10TObjPlayerFv(void *);
@@ -6216,7 +6215,7 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
     VecCopy__FP3VecPC3Vec(&self->m_560, self->position);
     VecCopy__FP3VecPC3Vec(&self->m_56c, self->position);
     *(f32 *)(*(u8 **)((u8 *)self + 0x2B0) + 0x10) = lbl_805D8E10;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC(p, 4);
     }

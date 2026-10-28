@@ -1022,7 +1022,6 @@ struct Res_8018BB64 { u8 pad[0x430]; s32 x430; };
 extern "C" {
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern Param_8018BB64 container_ancient_anim_binding[];
 
 extern s32 TContainerAncient01__effect_id_table[];
@@ -1051,7 +1050,7 @@ void TContainerAncient01::load_resources() {
     void *p;
     TContainerAncient01__bml_resource = 0;
     if (TContainerAncient01::is_global_state_in_table() != 0) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, TContainerAncient01__resource_descriptor_2, 0, 0, 0);
         }
@@ -1059,7 +1058,7 @@ void TContainerAncient01::load_resources() {
         TContainerAncient01__bml_resource = (u32)p;
         TContainerAncient01__effect_id_table[1] = 0x231;
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, TContainerAncient01__resource_descriptor, 0, 0, 0);
         }

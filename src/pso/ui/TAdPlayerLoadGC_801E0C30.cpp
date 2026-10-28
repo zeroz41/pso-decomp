@@ -486,7 +486,7 @@ s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1) 
     s32 size;
     Hdr_801E17F4 *h;
     memset(buf, 0, 0x80);
-    h = (Hdr_801E17F4 *)((TAdSinglePlyChrSelectGC *)0x2048)->alloc();
+    h = (Hdr_801E17F4 *)::operator new(0x2048);
     memset(h->title, 0, 0x20);
     memset(h->sub, 0, 0x20);
     strncpy(h->title, lbl_804496B8, 0x20);

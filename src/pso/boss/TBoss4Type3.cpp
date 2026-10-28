@@ -781,7 +781,6 @@ struct O_80059618;
 struct Obj_8005A1AC;
 struct Ply_80059ABC;
 
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 init_trail_buffer__11TBoss4Type3FPvifff(void *, s32, f32, f32, f32);
 }
 extern "C" {
@@ -911,14 +910,14 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     }
     TObjPlayer::set_global_flag();
     model = get_bml_model(self->f390, ((s32 *)lbl_80486FB0)[0]);
-    p = (s32)alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = (s32)::operator new(0x18);
     if (p != 0) {
         p = init_trail_buffer__11TBoss4Type3FPvifff((void *)p, 2, 3.0f, 9.0f, 0.6f);
     }
     *(s32 *)((u8 *)self + 0x51C) = p;
     draw_trail_with_colors((u8 *)(*(s32 *)((u8 *)self + 0x51C)), model, get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x44 / 4]), 0x16, 0x17);
     *(s32 *)((u8 *)self + 0x524) = create__12TObjEneSaverFPvPv(0xA0303030, 0xFFFF0088);
-    p = (s32)alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = (s32)::operator new(0x18);
     if (p != 0) {
         p = init_trail_buffer__11TBoss4Type3FPvifff((void *)p, 2, 3.0f, 9.0f, 0.6f);
     }
@@ -1068,7 +1067,7 @@ void TBoss4Type3::run_task() {
     if (lim > 29.0f) {
         lim = 29.0f;
     }
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != 0) {
         p = (void *)init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lim, lim, 0.6f);
     }

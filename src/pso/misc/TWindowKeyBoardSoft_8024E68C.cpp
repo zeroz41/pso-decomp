@@ -285,7 +285,7 @@ u32 TWindowKeyBoardSoft::get_or_create_instance() {
     if ((u32) soft_keyboard_instance != 0U) {
         return soft_keyboard_instance;
     }
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)0x4C)->alloc();
+    temp_r3 = (int)::operator new(0x4C);
     var_r0 = temp_r3;
     if (var_r0 != 0U) {
         var_r0 = ((TWindowKeyBoardSoft *)temp_r3)->init_layout();

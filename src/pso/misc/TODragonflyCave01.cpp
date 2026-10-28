@@ -58,14 +58,13 @@ void TODragonflyCave01::release_static_instance() {
 }
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 
 void TODragonflyCave01::load_resources() {
     void *o;
 
     switch (TOKeyMachine01::get_global_state()) {
     default:
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, &dragonfly_cave01_resource_descriptor, 0, 0, 0);
         }
@@ -74,7 +73,7 @@ void TODragonflyCave01::load_resources() {
     case 0x10:
     case 0x15:
     case 0x16:
-        o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        o = ::operator new(0x440);
         if (o != NULL) {
             o = load_resource_from_descriptor(o, 1, &TODragonflyCave01__resource_descriptor, 0, 0, 0);
         }

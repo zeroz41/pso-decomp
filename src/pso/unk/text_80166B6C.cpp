@@ -44,7 +44,6 @@ extern const f32 lbl_805DB610;
 extern const f32 lbl_805DB614;
 extern const f32 lbl_805DB618;
 O_80166C40 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-O_80166C40 *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern char lbl_80441498[];
@@ -94,7 +93,7 @@ void TOFenceAncient01::free_resources() {
 void TOFenceAncient01::load_resources() {
     O_80166C40 *o;
     Arr_80166C40 *r;
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    o = (O_80166C40 *)::operator new(0x440);
     if (o != NULL) {
         o = load_resource_from_descriptor(o, 1, &ofence_ancient01_resource_descriptor, 0, 0, 0);
     }

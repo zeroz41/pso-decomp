@@ -112,7 +112,6 @@ extern s16 TObjComputer__data_805DBCD8[2];
 extern const f32 lbl_805DBCEC;
 void *TObjComputer__ct(void *arg0, void *parent, void *row);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 u8 *load_gvm_texture_file(s32 arg0);
 s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
@@ -231,7 +230,7 @@ void load_computer_resources(void) {
     switch (TOKeyMachine01::get_global_state()) {
     case 23: case 24: case 25: case 26: case 27: case 28: case 29:
     case 34: case 35:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
@@ -240,7 +239,7 @@ void load_computer_resources(void) {
         computer_uv_scroll_phase = 0;
         break;
     default:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }

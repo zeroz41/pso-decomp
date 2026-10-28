@@ -349,7 +349,6 @@ struct Self_8002EFE8 {
 };
 
 extern "C" {
-int alloc__23TAdSinglePlyChrSelectGCFv(void *);
 extern u8 *lbl_805D4BA4;
 void TObjPlayer__sub_8002E7C8(void);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -5565,7 +5564,6 @@ void *TBoss2LaserLight__ct(void *, void *, void *);
 void *create__13TUnk_80482D04Fiii(void *, void *, u16, int);
 void *TBoss2Mine__sub_800381B8(void *, void *, u16, int);
 void *__ct__14TBoss2TentacleFP7TObjectll(void *, void *, void *, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 init_object__12TObjEneDD_STFv(void *, void *);
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 reset_hp__9TObjEneDDFv(void *, int, int, int);
@@ -5915,7 +5913,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     self->f6BC = TBoss2DeRolLe__data_805D827C;
     self->f6C0 = TBoss2DeRolLe__data_805D827C;
     self->f6C4 = TBoss2DeRolLe__data_805D827C;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

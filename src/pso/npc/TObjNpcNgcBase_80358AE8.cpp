@@ -488,7 +488,7 @@ void TObjNpcNgcBase::load_resources() {
     }
     if (p != NULL) {
         while (p->idx != -1) {
-            obj = (void *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+            obj = (void *)::operator new(0x440);
             if (obj != NULL) {
                 obj = load_resource_from_descriptor(obj, 1, p->data, 0, 0, 0);
             }

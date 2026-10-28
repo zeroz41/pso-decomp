@@ -8,7 +8,6 @@
 extern "C" {
 s32 get_bml_model(void *, int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 extern u8 bm_obj_jungle_nokogiri_resource_descriptor[];
 extern s32 seabed_suiso_linked_switch_counts[5];
 extern s32 seabed_suiso_switch_counts[5];
@@ -17,7 +16,7 @@ void TObjSeabedSuisoBrakable::load_shared_models() {
     void *p;
     s32 i;
     s32 h;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 5, bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
     }

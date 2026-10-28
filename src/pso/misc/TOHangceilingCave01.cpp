@@ -178,7 +178,6 @@ s32 get_current_floor();
 void * get_bml_motion(s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
 Big_8016775C * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void * alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 void * __dt__27TOHangceilingCave01KeyQuickFv(void *arg0, s16 arg1);
@@ -816,7 +815,7 @@ void load_turiten_singo_resources(void) {
     switch (TOKeyMachine01::get_global_state()) {
     case 19:
     case 20:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != 0) {
             p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, turiten_singo_resource_descriptor, 0, 0, 0);
         }
@@ -831,7 +830,7 @@ void load_turiten_singo_resources(void) {
         hanging_ceiling_motion_index = 0;
         break;
     default:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != 0) {
             p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, fe_obj_turiten_moto_resource_descriptor, 0, 0, 0);
         }

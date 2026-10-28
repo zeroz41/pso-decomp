@@ -84,7 +84,7 @@ void TWindowInputNumber::create(s32 arg1) {
     u32 var_r0;
 
     if ((u32) this->unknown70 == 0U) {
-        var_r0 = ((TAdSinglePlyChrSelectGC *)0x24)->alloc();
+        var_r0 = (int)::operator new(0x24);
         if (var_r0 != 0U) {
             u32 saved = var_r0;
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(saved, arg1, this->clientIndex);

@@ -25,7 +25,7 @@ extern Obj_8035B788 *lbl_805D6F50;
 extern const f32 lbl_805E0140;
 extern const f32 lbl_805E0144;
 void fn_8035B788(void) {
-    Obj_8035B788 *o = (Obj_8035B788 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    Obj_8035B788 *o = (Obj_8035B788 *)::operator new(0x440);
     if (o != NULL) {
         o = (Obj_8035B788 *)load_resource_from_descriptor(o, 1, &nights_npc_resource_descriptor, 0, 0, 0);
     }

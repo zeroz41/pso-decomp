@@ -11,7 +11,6 @@ extern "C" TObject* item_mgr;
 
 extern "C" char* const item_pmt_filename_descriptor;
 
-extern "C" void*    alloc__23TAdSinglePlyChrSelectGCFv(int size);
 extern "C" void*    get_type__8TItemMagFv(void* pmt);
 
 void free_item_pmt() {
@@ -27,7 +26,7 @@ void unload_items() {
 }
 
 void load_item_pmt() {
-    void* p = alloc__23TAdSinglePlyChrSelectGCFv(8);
+    void* p = ::operator new(8);
     if (p != NULL) {
         p = ((TItemLoad *)p)->load_buffer((u32)item_pmt_filename_descriptor, 0x10000);
     }

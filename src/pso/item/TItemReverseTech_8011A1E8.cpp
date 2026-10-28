@@ -41,7 +41,6 @@ s32 TKeyBoardControl__sub_8000F92C();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 s8 func_801A5E54__Fv();
 extern RecoveredGlobal_8011A3D8_lbl_804A03A8 TItemReverseTech__cleanup_callback_table;
-Hdr_8011A270 *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 s32 prs_decompress_alloc(int, int, int);
 int set_stream_and_load_file__6TLobbyFi(char *);
 void mem_free(void *p);
@@ -110,7 +109,7 @@ void TItemReverseTech::load_textures() {
         e->a = 0;
         e->b = 0;
     }
-    hdr = alloc__23TAdSinglePlyChrSelectGCFv(8);
+    hdr = (Hdr_8011A270 *)::operator new(8);
     TItemReverseTech__texture_archive = (int)hdr;
     hdr->entries = TItemReverseTech__entry_table;
     file = set_stream_and_load_file__6TLobbyFi(name->s);

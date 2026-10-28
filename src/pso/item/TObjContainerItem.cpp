@@ -699,7 +699,6 @@ extern "C" {
 extern BmlResource *container_breakup_model_archive;
 void TLobby::dispatch_fish_event(void* a0) { get_bml_model(container_breakup_model_archive, (s32)a0); }
 
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern u8 seabed_rare_console_texture_filename[];
 extern u8 lbl_80444F48[];
 extern u32 lbl_805D5B8C;
@@ -724,7 +723,7 @@ void TLobby::load_console_resources() {
     case 28:
     case 29:
     case 31:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, &bm_obj_seabed_con_rare_resource_descriptor, 0, 0, 0);
         }
@@ -733,7 +732,7 @@ void TLobby::load_console_resources() {
         break;
     case 30:
     default:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, &fe_obj_con_hahen1_resource_descriptor, 0, 0, 0);
         }
@@ -768,7 +767,7 @@ void load_forest_box_resources(void) {
     case 28:
     case 29:
     case 31:
-        bundle = (void *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        bundle = (void *)::operator new(0x440);
         if (bundle != NULL) {
             bundle = load_resource_from_descriptor(bundle, 5, &bm_obj_seabed_con_resource_descriptor, 0, 0, 0);
         }
@@ -782,7 +781,7 @@ void load_forest_box_resources(void) {
         }
         break;
     default:
-        bundle = (void *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        bundle = (void *)::operator new(0x440);
         if (bundle != NULL) {
             bundle = load_resource_from_descriptor(bundle, 5, &fe_obj_hako01_hahen02_resource_descriptor, 0, 0, 0);
         }

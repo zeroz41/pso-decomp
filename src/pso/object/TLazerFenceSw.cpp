@@ -98,7 +98,6 @@ extern u8 lazer_fence_sw_collision_body_part[];
 extern s32 __vt__13TLazerFenceSw[];
 extern s32 lbl_805D33B0;
 
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 
@@ -293,14 +292,14 @@ void TLazerFenceSw::load_resources() {
     lazer_fence_switch_bml_resource = 0;
     state = TOKeyMachine01::get_global_state();
     if (TContainerAncient01::is_global_state_in_table() == 1 || state == 0x1C || state == 0x1D) {
-        obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        obj = ::operator new(0x440);
         if (obj != NULL) {
             obj = load_resource_from_descriptor(obj, 5, fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
         TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445CF0);
     } else {
-        obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        obj = ::operator new(0x440);
         if (obj != NULL) {
             obj = load_resource_from_descriptor(obj, 5, &laser_fence_switch_resource_descriptor, 0, 0, 0);
         }

@@ -130,7 +130,7 @@ void TOComputerMachine01::reset_state() {
 void TOComputerMachine01::load_model_resource() {
     u8 *o;
     Node_8015B544 *n;
-    o = (u8 *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    o = (u8 *)::operator new(0x440);
     if (o != NULL) {
         o = load_resource_from_descriptor(o, 1, bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, 0);
     }

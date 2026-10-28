@@ -60,7 +60,7 @@ void init_model_node_tables(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2) {
     for (i = 0; i < arg0->count; i++) {
         r = &arg1[i];
         t = (s32)find_model_node(get_bml_model(h, r->a), r->b);
-        p = ((TAdSinglePlyChrSelectGC *)0x14)->alloc();
+        p = (int)::operator new(0x14);
         if (p != 0) {
             p = alloc_tables__6TLobbyFll(p, t, r->c);
         }

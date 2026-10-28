@@ -182,7 +182,7 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s3
         queue_destruction__7TObjectFv(goal_warp_ancient);
     }
     if (is_split_screen() == 1) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)0x88)->alloc();
+        temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3, (u8 *)goal_warp_ancient + 0x38, 2e+01f);

@@ -245,7 +245,6 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 load_resource_from_descriptor(s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern s32 boss_warp_base_model;
 extern s32 warp_boss_model;
 extern s32 warp_boss_bml_motion;
@@ -615,7 +614,7 @@ Obj_8019E238 *TObjWarpBossMulti__ct(Obj_8019E238 *self, void * _w1, void * _w2) 
     ((TObjWarpBossMulti *)self)->update();
     ((TObjWarpBossMulti *)self)->init_warp_params();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        void *p = alloc__23TAdSinglePlyChrSelectGCFv(0x88);
+        void *p = ::operator new(0x88);
         if (p != NULL) {
             p = init__13TAdVIConfigGCFf(p, self->f38, lbl_805DC018);
         }
@@ -1296,7 +1295,7 @@ void TObjFish::load_models() {
     s32 r;
     st = TOKeyMachine01::get_global_state();
     if (st >= 8 && st <= 0xA) {
-        r = ((s32)alloc__23TAdSinglePlyChrSelectGCFv(0x440));
+        r = ((s32)::operator new(0x440));
         if (r != 0) {
             r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94D8, 0, 0, 0);
         }
@@ -1311,7 +1310,7 @@ void TObjFish::load_models() {
         return;
     }
     if (TContainerAncient01::is_global_state_in_table() != 0 || st == 0x1C || st == 0x1D) {
-        r = ((s32)alloc__23TAdSinglePlyChrSelectGCFv(0x440));
+        r = ((s32)::operator new(0x440));
         if (r != 0) {
             r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94FC, 0, 0, 0);
         }
@@ -1325,7 +1324,7 @@ void TObjFish::load_models() {
         (*(s32 *)&lbl_805D5CA4) = TObjFish__sub_8001EDB0((*(s32 *)&boss_warp_resource_bundle), 0);
         return;
     }
-    r = ((s32)alloc__23TAdSinglePlyChrSelectGCFv(0x440));
+    r = ((s32)::operator new(0x440));
     if (r != 0) {
         r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94AC, 0, 0, 0);
     }

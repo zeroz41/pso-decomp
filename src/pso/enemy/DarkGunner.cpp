@@ -1620,7 +1620,7 @@ struct Node_800A2DCC { u32 flags; s32 *model; u8 pad[0x24]; Node_800A2DCC *child
 
 void TObjPlayer__sub_800A2DCC() {
     s32 i;
-    void *res = (void *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    void *res = (void *)::operator new(0x440);
     if (res != NULL) {
         res = load_resource_from_descriptor(res, 1, bm_ene_darkgunner_resource_descriptor, 0, 0, 0);
     }

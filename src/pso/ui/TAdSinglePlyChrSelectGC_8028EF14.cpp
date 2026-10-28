@@ -1136,7 +1136,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     char_select_active_flag = 0;
     char_creation_figure_draw_flag = 0;
     creation_figure_object = (u32)motion;
-    res = (s32)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    res = (s32)(int)::operator new(0x440);
     if (res != 0) {
         res = load_resource_from_descriptor(res, 6, ((s32 *)character_making_resource_descriptor_table)[((TCharaMaking *)cm)->get_display_index()], 0, 0, 0);
     }

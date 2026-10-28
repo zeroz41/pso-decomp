@@ -22,7 +22,6 @@ extern s32 TWindowHelpItem__object_vtable[];
 extern u32 window_help_item_class_name;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
 extern const f32 lbl_805DCE10;
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32 size);
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 void call_if_split_screen(void *self, s32 idx);
 
@@ -108,7 +107,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     ((TWindowSubSymbolChatPartsSet *)((u8 *)self + 0x30))->copy_vec2(pos);
     ((TUnk_804CE018 *)self)->save_position();
     self->m_60 = 0;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0xc);
+    p = ::operator new(0xc);
     if (p != 0) {
         p = init__21TWindowSubComCardListFiii(p, 0, 3, self->m_20);
     }

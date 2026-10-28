@@ -61,7 +61,6 @@ s32 validate_and_clear_slot__10TObjPlayerFv(void *, s16);
 void TWindowSubStatusDisp__sub_80228F5C(s32);
 void text_builder_append();
 u8 *calc_technique_parameters(u16, u8, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 u8 *TWindowMenu__ct(u8 *arg0, u32 arg1, s32 arg2, s32 arg3);
 void *init__21TWindowSubComCardListFiii(void *, s32, s8, s32);
 s32 TWindowSubComCardList__sub_80275360(void *);
@@ -136,7 +135,7 @@ u8 *TWindowSubComCardList__ct(u8 *arg0, void *arg1) {
     if (n <= 0) {
         n = 1;
     }
-    list = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    list = ::operator new(0xC);
     if (list != NULL) {
         list = init__21TWindowSubComCardListFiii(list, 0, n, local_client_id);
     }
@@ -163,7 +162,7 @@ u8 *TWindowSubComCardList__sub_802757AC(u8 *arg0, void *arg1, s32 arg2, s32 arg3
     if (n <= 0) {
         n = 1;
     }
-    list = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    list = ::operator new(0xC);
     if (list != NULL) {
         list = init__21TWindowSubComCardListFiii(list, 0, n, local_client_id);
     }

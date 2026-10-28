@@ -156,7 +156,7 @@ void TOKeyAncient01::free_shared_resources() {
 }
 
 void TOKeyAncient01::load_resources() {
-    Big_8016AF84 *v = (Big_8016AF84 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    Big_8016AF84 *v = (Big_8016AF84 *)::operator new(0x440);
     if (v != NULL) {
         v = load_resource_from_descriptor(v, 1, bm_fd_obj_n_switch_resource_descriptor, 0, 0, 0);
     }

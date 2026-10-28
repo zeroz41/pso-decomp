@@ -220,7 +220,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
     window_sub_area_map_disp->m_74 = (s32)mem_alloc((temp_r3 + 1));
     strncpy((int)window_sub_area_map_disp->m_74, (int)var_r30, (void *)(temp_r3 + 1));
-    temp_r3_2 = ((TAdSinglePlyChrSelectGC *)((void *)0x24))->alloc();
+    temp_r3_2 = (int)::operator new(0x24);
     var_r0 = temp_r3_2;
     if (var_r0 != 0) {
         var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(temp_r3_2, window_sub_area_map_disp->m_74, (int) ((s32) window_sub_area_map_disp->m_20));

@@ -194,7 +194,7 @@ void TObjEneBalClaw__sub_8008D924(void) {
     s32 j;
     s32 m;
     s32 n;
-    p = (u8 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    p = (u8 *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &balclaw_resource_descriptor, 0, 0, 0);
     }

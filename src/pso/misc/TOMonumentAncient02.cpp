@@ -105,7 +105,6 @@ extern const f32 lbl_805DB92C;
 extern const f32 lbl_805DB934;
 extern const f32 lbl_805DB938;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 s32 rand(void);
 int rotate_matrix_y(int, int);
 int push_matrix();
@@ -223,21 +222,21 @@ void TOMonumentAncient02::load_resources() {
     u8 *p;
     switch (TOKeyMachine01::get_global_state()) {
     default:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, tbl + 0x8, 0, 0, 0);
         }
         TOMonumentAncient02__model_resource = (u32)p;
         break;
     case 4:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, tbl + 0x20, 0, 0, 0);
         }
         TOMonumentAncient02__model_resource = (u32)p;
         break;
     case 7:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, tbl + 0x38, 0, 0, 0);
         }

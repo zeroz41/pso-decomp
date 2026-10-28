@@ -48,7 +48,6 @@ struct Cell_802A8FD8
 extern RecoveredGlobal_802A9234_TEffIndirectCtrl__data_80540AF0 TEffIndirectCtrl__source_buffers;
 extern "C" {
 f32 sin_table_lookup(s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 u8 *get_indirect_recipe(u8);
 void set_texture_name(void *, void *, void *, s32);
@@ -83,8 +82,8 @@ Ctrl_802A8B58 *TEffIndirectCtrl__ct(Ctrl_802A8B58 *self, s32 kind, void *parent)
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = ((s32 *)&__vt__16TEffIndirectCtrl);
     self->f0 = TEffIndirectCtrl__name;
-    self->f28 = alloc__23TAdSinglePlyChrSelectGCFv(0x24);
-    self->f2c = (P2C_802A8B58 *)alloc__23TAdSinglePlyChrSelectGCFv(8);
+    self->f28 = ::operator new(0x24);
+    self->f2c = (P2C_802A8B58 *)::operator new(8);
     {
     void *obj = self;
     if (self->f2c == NULL || self->f28 == NULL) {

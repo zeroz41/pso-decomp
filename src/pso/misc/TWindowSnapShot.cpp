@@ -69,7 +69,7 @@ s32 load_player_motion_data(void) {
     if ((void *) (*(u8 * *)&shared_snapshot_capture) != NULL) {
         return 0;
     }
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x40))->alloc();
+    temp_r3 = (int)::operator new(0x40);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TWindowSnapShot *)temp_r3)->init_and_reset());

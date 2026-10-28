@@ -56,7 +56,6 @@ extern const f32 lbl_805DD5E4;
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 void *get_player_by_client_id(s32 i);
 s32 construct_with_parent__13TUnk_804CDFE8FPv(void *, void *, s16, s32);
 s32 get_window_layout_position(int);
@@ -308,14 +307,14 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
         e++;
         (window_sub_custom_select->m_72)++;
     }
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0x24);
+    o = ::operator new(0x24);
     if (o != NULL) {
         o = ((TWindowSubStatusDisp *)o)->construct_type1_heading(get_message_10__20TWindowSubStatusDispFl(0x22), window_sub_custom_select->m_20);
     }
     *(void **)((s8 *)window_sub_custom_select + 0x7C) = o;
     pos.x = lbl_805DD5E8;
     pos.y = TWindowSubCustomSelect__data_805DD5B0 * (f32)(s8)window_sub_custom_select->m_72 + lbl_805DD5EC;
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    o = ::operator new(0xC);
     if (o != NULL) {
         o = reset_selection__20TWindowSubStatusDispFv(o, &pos);
     }

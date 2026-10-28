@@ -349,7 +349,7 @@ void TBoss3VoloptP02::load_resources() {
     s32 n;
 
     lbl_805D4CE4 = boss3_volopt_resources;
-    model = (TUnk_8048FA00 *)((TAdSinglePlyChrSelectGC *)16)->alloc();
+    model = (TUnk_8048FA00 *)::operator new(16);
     if (model != NULL) {
         model = (TUnk_8048FA00 *)((TBreakUpMdl *)model)->init_from_model(lbl_805D4CE4->models[19].model);
     }
@@ -365,7 +365,7 @@ void TBoss3VoloptP02::load_resources() {
     }
     for (j = 0; j < 5; j++) {
         nodes[j]->sibling = NULL;
-        model = (TUnk_8048FA00 *)((TAdSinglePlyChrSelectGC *)16)->alloc();
+        model = (TUnk_8048FA00 *)::operator new(16);
         if (model != NULL) {
             model = (TUnk_8048FA00 *)((TBreakUpMdl *)model)->init_from_model((s32)nodes[j]);
         }

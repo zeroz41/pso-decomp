@@ -195,7 +195,7 @@ void measure_traffic_path_lengths(void) {
     city_air_car_model_handle = TLobby__sub_80184C2C(2);
     for (j = 0; j < 5; j++)
     {
-      p = ((TAdSinglePlyChrSelectGC *)0x14)->alloc();
+      p = (int)::operator new(0x14);
       new_var = city_traffic_car_chunk_index_table;
       if (p != 0)
       {

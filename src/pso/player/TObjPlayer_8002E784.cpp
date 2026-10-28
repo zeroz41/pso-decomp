@@ -131,7 +131,7 @@ void TObjPlayer::clear_target_ref() {
 void TObjPlayer__sub_8002E7C8(void) {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x10))->alloc();
+    temp_r3 = (int)::operator new(0x10);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TBreakUpMdl *)temp_r3)->init_from_model(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x58)));
@@ -253,7 +253,7 @@ extern s32 lbl_804820C0[];
 void TObjPlayer::create_breakup_model() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x10))->alloc();
+    temp_r3 = (int)::operator new(0x10);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TBreakUpMdl *)temp_r3)->init_from_model(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D4BA4 + 0x42C)) + 0x68)));

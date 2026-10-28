@@ -25,7 +25,6 @@ struct VObj_18_a28850 : VBase_18_a28850 {
 struct Vec_80144778 { s32 x, y, z; };
 
 extern "C" {
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(int);
 u8 *load_rel_module(u8 *arg0, s32 arg1);
 char *strncpy(char *, const char *, u32);
 extern u8 lbl_8043F380[];
@@ -104,12 +103,12 @@ TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(pare
     ((TMovie_80144910 *)this)->f48 = a4;
     ((TMovie_80144910 *)this)->obj20 = 0;
     strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(8);
+    p = (u8 *)::operator new(8);
     if (p != 0) {
         p = load_rel_module(p, (s32)lbl_8043F380);
     }
     ((TMovie_80144910 *)this)->obj1C = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0xD0);
+    p = (u8 *)::operator new(0xD0);
     if (p != 0) {
         p = initialize_movie_with_soundtrack(p, name, ((TMovie_80144910 *)this)->f48, (u8)!((TMovie_80144910 *)this)->f48, a5);
     }

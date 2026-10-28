@@ -59,7 +59,7 @@ u8 *TWindowShortCut__ct(TWindowShortCut *window_short_cut, s32 arg1, s32 arg2, s
     ((TWindowDD *)window_short_cut)->construct_base((u8 *)((s32) &window_short_cut_layout.value), (s16)4, (u8 *)arg1);
     *(s32 **)((s8 *)window_short_cut + 0x18) = &(*(RecoveredGlobal_8026E728___vt__15TWindowShortCut *)&__vt__15TWindowShortCut).value;
     *(s32 *)((s8 *)window_short_cut + 0) = (s32) TWindowShortCut__name;
-    var_r31 = ((TAdSinglePlyChrSelectGC *)((void *)0x24))->alloc();
+    var_r31 = (int)::operator new(0x24);
     if (var_r31 != 0) {
         var_r31 = construct_type1_heading__20TWindowSubStatusDispFll(var_r31, get_message_10__20TWindowSubStatusDispFl(0x35), (s32) window_short_cut->m_20);
     }

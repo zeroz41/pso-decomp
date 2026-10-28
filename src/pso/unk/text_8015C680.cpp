@@ -48,7 +48,6 @@ extern "C" {
 extern const f32 lbl_805DB398;
 extern const f32 lbl_805DB39C;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern char lbl_8044083C[];
@@ -69,7 +68,7 @@ void TLanguage::load_container_fragment_textures() {
     void *p;
     if (enable_v2_features == 1 &&
         (state == 0x10 || state == 0x15 || state == 0x16 || state == 0x21)) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, tbl + 0x50, 0, 0, 0);
         }
@@ -80,7 +79,7 @@ void TLanguage::load_container_fragment_textures() {
         ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_8044086C);
     } else if (enable_v2_features == 1 &&
                (state == 0x11 || state == 0x13 || state == 0x14 || state == 0x20)) {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, tbl + 0x30, 0, 0, 0);
         }
@@ -90,7 +89,7 @@ void TLanguage::load_container_fragment_textures() {
         ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)lbl_804408A4);
         ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_804408C4);
     } else {
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, tbl + 0x10, 0, 0, 0);
         }

@@ -22,7 +22,7 @@ void TLobby::free_item_loader() {
 void TLobby::load_draw_line_task() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)8))->alloc();
+    temp_r3 = (int)::operator new(8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (((TItemLoad *)temp_r3)->load_buffer((u32) &lbl_804340D8.value, 0x4800));

@@ -93,7 +93,7 @@ void create_sub_window__20TWindowChoiceSettingFPvi(void *arg0, s32 arg1) {
     u32 var_r0;
 
     if ((u32) *(u32 *)((s8 *)arg0 + 0x78) == 0U) {
-        var_r0 = ((TAdSinglePlyChrSelectGC *)0x24)->alloc();
+        var_r0 = (int)::operator new(0x24);
         if (var_r0 != 0U) {
             var_r0 = construct_type1_heading__20TWindowSubStatusDispFll(var_r0, arg1, *(s16 *)((s8 *)arg0 + 0x20));
         }

@@ -356,7 +356,6 @@ s32 create__12TObjEneSaverFPvPv(s32, s32);
 void initialize_enemy_state__9TObjEneDDFv(void *, s32);
 void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
 void init_collision_body_parts(void *, void *, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 u8 *TBoss8Dragon__sub_800BC5EC(u8 *arg0, s32 arg1);
 void init_and_activate__10TObjPlayerFv(void *);
 extern const s32 lbl_80472318[];
@@ -712,7 +711,7 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     }
     self->f48C = p;
     init_collision_body_parts(self->f48C, (u8 *)lbl_804E1564 + 0x2C, 1);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 8);
     }
@@ -804,12 +803,12 @@ void TBoss4Type3__sub_802D1130(void) {
         lbl_80540B70[i] = (u32)TLobby::register_object(lbl_80472300[i]);
         mericarol_phase_param_table[i] = (u32)TLobby::dispatch_shared_handler_a(lbl_8047230C[i]);
     }
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805DE70C, lbl_805DE704, lbl_805DE754);
     }
     TBoss4Type3_shared_instance = (u32)p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805DE70C, lbl_805DE704, lbl_805DE754);
     }

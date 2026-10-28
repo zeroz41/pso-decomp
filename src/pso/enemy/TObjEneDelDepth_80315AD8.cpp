@@ -168,13 +168,13 @@ void TObjEneDelDepth::load_assets() {
     Sub_80315B10 *g;
 
     if (is_split_screen() != 0) {
-        Obj_80315B10 *p = (Obj_80315B10 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        Obj_80315B10 *p = (Obj_80315B10 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E8158, 0, 0, 0);
         }
         TObjEneDelDepth__shared_resource = p;
     } else {
-        Obj_80315B10 *p = (Obj_80315B10 *)((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        Obj_80315B10 *p = (Obj_80315B10 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, lbl_804E8104, 0, 0, 0);
         }

@@ -30,7 +30,6 @@ struct Wave_80081A30 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void *construct_texture_wave(void *, void *);
 extern u8 __vt__11TEF_PvrWave[];
 extern void *TEF_PvrWave__class_name;
@@ -44,7 +43,7 @@ Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *p
     self->vtable = __vt__11TEF_PvrWave;
     self->name = TEF_PvrWave__class_name;
     self->index = index;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x54);
+    p = ::operator new(0x54);
     if (p != NULL) {
         p = construct_texture_wave(p, &self->tex);
     }

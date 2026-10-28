@@ -37,7 +37,7 @@ void TBoss6Tube::free_resources() {
 void TBoss6Tube::load_resources() {
     s32 r;
     TBoss6Tube::reset_state();
-    r = ((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+    r = (int)::operator new(0x440);
     if (r != 0) {
         r = load_resource_from_descriptor(r, 5, boss06_tube_dat_resource_descriptor, 0, 0, 0);
     }

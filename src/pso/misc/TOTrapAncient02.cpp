@@ -331,7 +331,6 @@ void * get_bml_model(void *, int);
 void TLobby__sub_8001FE7C(void*, int);
 void * load_resource_from_descriptor(void *, int, char *, int, int, int);
 s32 check_player_flag1__6TLobbyFv();
-void * alloc__23TAdSinglePlyChrSelectGCFv(u32);
 s32 free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
 void *__dt__6TOTrapFv(void *arg0, s16 arg1);
@@ -1178,7 +1177,7 @@ void TOTrapAncient02::load_resources() {
     switch (TOKeyMachine01::get_global_state()) {
     case 0x13:
     case 0x14:
-        obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 1, base + 0x20, 0, 0, 0);
         }
@@ -1196,7 +1195,7 @@ void TOTrapAncient02::load_resources() {
     case 0x1D:
     case 0x22:
     case 0x23:
-        obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 1, base + 0x38, 0, 0, 0);
         }
@@ -1206,7 +1205,7 @@ void TOTrapAncient02::load_resources() {
         lbl_805D5ADC = 0;
         break;
     default:
-        obj = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 1, base + 8, 0, 0, 0);
         }

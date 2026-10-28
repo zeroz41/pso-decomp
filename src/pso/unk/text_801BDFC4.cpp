@@ -18,7 +18,7 @@ void TObjPlayer::alloc_shared_buffers() {
         player_shared_buffer_base = (u32)mem_alloc((u32)((void *)0x4800));
     }
     if ((u32) TObjPlayer__shared_photon_blast_state == 0U) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x60))->alloc();
+        temp_r3 = (int)::operator new(0x60);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = (s32)fn_801C2360((void *)temp_r3);

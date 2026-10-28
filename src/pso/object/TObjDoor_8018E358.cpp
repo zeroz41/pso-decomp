@@ -582,7 +582,7 @@ void TObjDoor::free_resources() {
 
 extern "C" const char lbl_80445588[] = "fe_obj_door.gvm";
 void TObjDoor::load_resources() {
-    s32 p = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    s32 p = (int)::operator new(0x440);
     if (p != 0) {
         p = (s32)load_resource_from_descriptor((void *)p, 5, door_resource_descriptor, 0, 0, 0);
     }

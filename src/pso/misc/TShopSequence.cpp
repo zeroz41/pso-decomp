@@ -136,7 +136,7 @@ u8 *TShopSequence__ct(u8 *shop_window_base) {
     __ct__15TShopWindowBaseFv(shop_window_base);
     *(s32 **)((s8 *)shop_window_base + 0x18) = &__vt__13TShopSequence.value;
     *(s32 *)((s8 *)shop_window_base + 0) = (s32) TShopSequence__class_name;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x210))->alloc();
+    temp_r3 = (int)::operator new(0x210);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (__ct__24TMessageWindowControllerFv((void *) temp_r3));

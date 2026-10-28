@@ -116,7 +116,6 @@ extern void *TODoorAncient06__shared_resource;
 
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void copy_model_node(u8 *arg0, u8 *arg1);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_80440B48[];
@@ -153,7 +152,7 @@ void TODoorAncient06::destroy() {
 #define NODE(p, o) (*(u8 **)(p + (o)))
 void TODoorAncient06::load_resources() {
     u8 *p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = (u8 *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, door_ancient_567_resource_descriptor, 0, 0, 0);
     }

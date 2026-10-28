@@ -20,7 +20,6 @@ s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 void subtractive_rng_seed(void *, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32);
 void copy_save_data__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern u8 chr_select_rng_state[];
 extern s32 chr_select_serial_seeds[];
@@ -102,11 +101,11 @@ void TAdSinglePlyChrSelectGC::try_load_system_file() {
 void TAdSinglePlyChrSelectGC__sub_801FBC3C(void *arg0) {
     void *a;
     void *b;
-    a = alloc__23TAdSinglePlyChrSelectGCFv(0x194B0);
+    a = ::operator new(0x194B0);
     if (a != 0) {
         a = ((TAdSinglePlyChrSelectGC *)a)->construct_chardata_array();
     }
-    b = alloc__23TAdSinglePlyChrSelectGCFv(0x194B0);
+    b = ::operator new(0x194B0);
     if (b != 0) {
         b = ((TAdSinglePlyChrSelectGC *)b)->construct_chardata_array();
     }

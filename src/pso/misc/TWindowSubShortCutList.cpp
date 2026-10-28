@@ -13,7 +13,6 @@ extern "C" {
 void TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 void *__nw__7TObjectFUl(int);
 extern s32 lbl_8044FAA8[];
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void fn_802683F4(void *, void *, s32, s16);
 void *init__21TWindowSubComCardListFiii(void *, s8, s32, s32);
 extern s32 __vt__22TWindowSubShortCutList[];
@@ -130,7 +129,7 @@ void *TWindowSubShortCutList__ct(void *window_sub_short_cut_list, void *arg1, vo
     row = (s32)arg2 / 4;
     col = (s32)arg2 % 4;
     ((TUnk_804D0618 *)window_sub_short_cut_list)->ensure_status_display((s32)(TWindowSubStatusDisp::get_message_10(0x2D)));
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0xC);
+    p = ::operator new(0xC);
     if (p != NULL) {
         p = init__21TWindowSubComCardListFiii(p, row, 5, local_client_id);
     }

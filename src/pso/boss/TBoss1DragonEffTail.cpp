@@ -58,7 +58,6 @@ struct Vec_8002BD38 { f32 x, y, z; };
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 extern const f32 lbl_805D8158;
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern u8 TBoss1DragonEffTail__collision_body_templates[];
 extern s32 __vt__19TBoss1DragonEffTail[];
 extern s32 TBoss1DragonEffTail__name;
@@ -162,7 +161,7 @@ EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     }
     arg0->unkB0 = arg1;
     arg0->unkB4 = arg2;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != 0) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

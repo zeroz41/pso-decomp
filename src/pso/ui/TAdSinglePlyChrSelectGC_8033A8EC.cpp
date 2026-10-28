@@ -288,7 +288,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
     case 0:
         seed_character_select_serial_rng(get_field_118__22TAdEnterSerialAccessGCFv());
         src = *(s32 *)((s8 *)((u8 *)this) + 0x20);
-        obj = ((TAdSinglePlyChrSelectGC *)0x1156C)->alloc();
+        obj = (int)::operator new(0x1156C);
         if (obj != 0U) {
             obj = init_char_slots__23TAdSinglePlyChrSelectGCFi();
         }

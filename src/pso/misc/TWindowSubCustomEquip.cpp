@@ -340,7 +340,7 @@ TWindowSubCustomEquip *TWindowSubCustomEquip__ct(TWindowSubCustomEquip *self, s3
     self->m_65 = 1;
     self->m_66 = 0;
     self->m_68 = 0xB200;
-    heading = (void *)((TAdSinglePlyChrSelectGC *)0x24)->alloc();
+    heading = (void *)::operator new(0x24);
     if (heading != NULL) {
         heading = ((TWindowSubStatusDisp *)heading)->construct_type1_heading((s32)TWindowSubStatusDisp::get_message_10(0x23), self->m_20);
     }

@@ -404,7 +404,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 s32 __dt__12TPlyCharDataFv(s32 arg0, s16 arg1);
 void * __ct__12TPlyCharDataFv(void *self);
 u8 * csnVector(s32, s32, s32);
-void * alloc__23TAdSinglePlyChrSelectGCFv(u32);
 s32 is_alive__9TObjEneDDFv(void *);
 s32 find_active_entity_by_id(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -3457,12 +3456,12 @@ Npc_80152168 *TNpcPlayer__ct(Npc_80152168 *self, s32 a, s32 b, s16 kind, s32 arg
     self->f8C = 0;
     self->f8E = 0;
     self->f8D = 0;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x108);
+    p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, a);
     }
     self->f74 = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x108);
+    p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }
@@ -3508,12 +3507,12 @@ Npc_80152330 *construct_partner__10TNpcPlayerFPviisPv(Npc_80152330 *self, s32 a,
     self->f8C = 0;
     self->f8E = 0;
     self->f8D = 0;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x108);
+    p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, a);
     }
     self->f74 = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x108);
+    p = ::operator new(0x108);
     if (p != 0) {
         p = ((void *(*)(void *, u16))init_ai_state__10TNpcPlayerFPvi)(p, b);
     }

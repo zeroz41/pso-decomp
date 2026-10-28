@@ -2579,7 +2579,6 @@ void run_task__17TObjEneDf2BringerFv(u8 *arg0) {
 struct Vec_80099800 { f32 x, y, z; };
 struct Slot_80099800 { u8 pad[0x1C]; };
 
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 s32 reset_hp__9TObjEneDDFv(void *, int, int, int);
 void initialize_enemy_state__9TObjEneDDFv(void *, s32);
 void init_model__9TObjEneDDFv(void *, void *, s32);
@@ -2665,7 +2664,7 @@ void TObjEneDf2Bringer::init_enemy() {
         p = ((TUnk_804928CC *)p)->init_instance(arg0, arg0, (u8 *)lbl_8048FA2C + 0x2C, (void *)2);
     }
     *(void **)((s8 *)arg0 + 0x498) = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 8);
     }
@@ -2835,7 +2834,7 @@ void TObjEneDf2Bringer::load_resources() {
   TObjEneDf2Bringer__render_point_cursor = 0;
   TObjEneDf2Bringer::set_entry_value_clamped(4, *((f32 *)(TObjEneDf2Bringer__data_805D4FB4 + 8)));
   TObjEneDf2Bringer::set_entry_value_clamped(5, *((f32 *)(TObjEneDf2Bringer__data_805D4FB4 + 0xC)));
-  o = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+  o = ::operator new(0x18);
   if (o != 0)
   {
     o = init_trail_buffer__11TBoss4Type3FPvifff(o, 4, TObjEneDf2Bringer__data_805D9808, lbl_805D97FC, *((f32 *) (((u8 *)&lbl_8048FAF8) + 0x48)));
@@ -2879,7 +2878,7 @@ void TObjEneDf2Bringer::load_resources() {
     p3->z = (d.z * s2) + p3->z;
   }
 
-  o = alloc__23TAdSinglePlyChrSelectGCFv(0x14);
+  o = ::operator new(0x14);
   if (o != 0)
   {
     o = ((TLobby *)o)->alloc_tables(*((s32 *) ((*((u8 **) (((u8 *) TObjEneDf2Bringer__resource_bundle) + 0x42C))) + 8)), 1);

@@ -156,7 +156,7 @@ void TProtocol::send_pso_data_long2(char flags, long_game_command &packet, size_
 	const int header_size = sizeof(packet_header);
 	const int command_size = sizeof(long_game_command);
 	if (m_connected) {
-		TRecvPsoDataLong *tmp = (TRecvPsoDataLong *)((TAdSinglePlyChrSelectGC *)(sizeof(TRecvPsoDataLong)))->alloc();
+		TRecvPsoDataLong *tmp = (TRecvPsoDataLong *)::operator new(sizeof(TRecvPsoDataLong));
 		u8 *pkt = as(u8 *, tmp);
 		int packet_size;
 		int cmd_count;

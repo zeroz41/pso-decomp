@@ -371,7 +371,7 @@ void TOHealGeneral::load_resources() {
   if (global_state < 0x24)
   {
     block_5:
-    temp_r3_2 = ((TAdSinglePlyChrSelectGC *)((void *) 0x440))->alloc();
+    temp_r3_2 = (int)::operator new(0x440);
     var_r0 = temp_r3_2;
     if (var_r0 != 0)
     {
@@ -381,7 +381,7 @@ void TOHealGeneral::load_resources() {
     return;
   }
   block_8:
-  temp_r3_3 = (new_var = ((TAdSinglePlyChrSelectGC *)((void *) 0x440))->alloc());
+  temp_r3_3 = (new_var = (int)::operator new(0x440));
   var_r0_2 = temp_r3_3;
   if (var_r0_2 != 0)
   {

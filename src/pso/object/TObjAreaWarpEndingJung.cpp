@@ -1101,7 +1101,7 @@ u8 *TObjAreaWarpForest__ct(u8 *area_warp_forest, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)area_warp_forest + 0xD4) = register_area_warp_object__16TAdStorySelectGCFPv(0);
     *(s32 *)((s8 *)area_warp_forest + 0xD8) = TAdStorySelectGC::get_story_select();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3_2 = ((TAdSinglePlyChrSelectGC *)0x88)->alloc();
+        temp_r3_2 = (int)::operator new(0x88);
         var_r0 = temp_r3_2;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3_2, area_warp_forest + 0x38, 20.0f);
@@ -1214,7 +1214,7 @@ u8 *TObjAreaWarpQuest__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0xD8) = register_area_warp_object__16TAdStorySelectGCFPv(0);
     *(s32 *)((s8 *)arg0 + 0xDC) = TAdStorySelectGC::get_story_select();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)0x88)->alloc();
+        temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3, arg0 + 0x38, 20.0f);
@@ -1350,7 +1350,7 @@ u8 *TObjAreaWarpEnding__ct(u8 *area_warp_ending, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)area_warp_ending + 0xD4) = register_area_warp_object__16TAdStorySelectGCFPv(0);
     *(s32 *)((s8 *)area_warp_ending + 0xD8) = TAdStorySelectGC::get_story_select();
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        temp_r3 = ((TAdSinglePlyChrSelectGC *)0x88)->alloc();
+        temp_r3 = (int)::operator new(0x88);
         var_r0 = temp_r3;
         if (var_r0 != 0) {
             var_r0 = init__13TAdVIConfigGCFf(temp_r3, area_warp_ending + 0x38, 20.0f);

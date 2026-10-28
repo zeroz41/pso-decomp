@@ -96,7 +96,6 @@ extern const f32 lbl_805DA728;
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 u8 *get_instance__15TObjEneSlimeOneFv();
 s32 fn_800ECA28(void *, void *);
 s32 init_collision_body_parts(void *, void *, int);
@@ -2183,7 +2182,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   {
     ((TObjEnemy *)actor)->set_param(0x14);
   }
-  p = alloc__23TAdSinglePlyChrSelectGCFv(0x34);
+  p = ::operator new(0x34);
   if (p != 0)
   {
     p = (void *) fn_800ECA28(p, actor);

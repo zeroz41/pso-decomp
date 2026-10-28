@@ -33,7 +33,6 @@ extern RecoveredGlobal_8028EBCC_TObjCMMainMenu__data_804DB9C8 TObjCMMainMenu__da
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 s32 init_menu_scene_lights(s32 *, s32);
 void *__nw__7TObjectFUl(s32);
 s32 init_and_create__15TChCrCharSelectFv(s32);
@@ -66,7 +65,7 @@ void init_creation_menu_scene(void) {
     TKeyBoardControl__sub_80131F60();
     TWindowCtrlMain::reset_all((void*)1);
     p = (void *)new TWindowCtrlMain();
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, creation_menu_resource_descriptor, 0, 0, 0);
     }

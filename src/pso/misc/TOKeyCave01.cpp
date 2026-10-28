@@ -327,7 +327,7 @@ void TOKeyCave01::load_resources() {
     u8 *var_r0_2;
     global_state = TOKeyMachine01::get_global_state();
     if ((TContainerAncient01::is_global_state_in_table() == 1) || (global_state == 0x1C) || (global_state == 0x1D)) {
-        temp_r3 = (u8 *)(((TAdSinglePlyChrSelectGC *)0x440)->alloc());
+        temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &fs_obj_key_jungle_resource_descriptor.value, 0, 0, 0));
@@ -339,7 +339,7 @@ void TOKeyCave01::load_resources() {
         key_cave_render_state = 1;
         return;
     }
-    temp_r3_2 = (u8 *)(((TAdSinglePlyChrSelectGC *)0x440)->alloc());
+    temp_r3_2 = (u8 *)((int)::operator new(0x440));
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != NULL) {
         var_r0_2 = (u8 *)(load_resource_from_descriptor(temp_r3_2, 1, &bm_fs_obj_do_doa_panel_resource_descriptor.value, 0, 0, 0));

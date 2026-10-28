@@ -15,7 +15,7 @@ Hdr_8020967C *find_chunk_by_id__6TLobbyFPvi(Hdr_8020967C *arg, s32 id);
 u8 *TLobby__sub_80209584(u8 *arg0, s32 arg1) {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0xE8))->alloc();
+    temp_r3 = (int)::operator new(0xE8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = __ct__14SubtractiveRngFv((void *) temp_r3);

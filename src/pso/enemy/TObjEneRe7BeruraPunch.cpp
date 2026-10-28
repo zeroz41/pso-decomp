@@ -426,7 +426,7 @@ void TObjEneRe7BeruraPunch::init() {
     *(f32 *)&this->unk_CC = (f32) 0.0f;
     this->m_d0 = 0;
     this->m_d4 = 0;
-    var_a = ((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    var_a = (int)::operator new(0x10);
     var_r0 = var_a;
     if (var_r0 != 0) {
         var_r0 = (s32)TBoss8Dragon__sub_800BC5EC((u8 *)var_a, 9);

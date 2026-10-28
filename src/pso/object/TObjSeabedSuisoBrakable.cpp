@@ -18,7 +18,6 @@ struct Brk_802A6F98 { s32 a[5]; s32 b[3]; s32 *c[3]; };
 
 void *get_bml_model(u32, int);
 u32 load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 u8 *load_gvm_texture_file(s32 arg0);
 extern Tbl_802A6F98 seabed_suiso_texture_name_table;
 extern Tbl_802A6F98 lbl_80466C80;
@@ -60,7 +59,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
 
     switch (TOKeyMachine01::get_global_state()) {
     case 0x1D:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = (void *)load_resource_from_descriptor(p, 1, bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
         }
@@ -74,7 +73,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
         break;
     case 0x1C:
     default:
-        p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+        p = ::operator new(0x440);
         if (p != NULL) {
             p = (void *)load_resource_from_descriptor(p, 1, bm_obj_seabed_suiso_resource_descriptor, 0, 0, 0);
         }

@@ -205,7 +205,7 @@ void TObjCGrass::load_resources() {
     if (TObjEneDD::check_v2_mode() != 0) {
         TObjCGrass_bml_resource = (u32) load_enemy_bml_resource_named(&bm_ene_cgrass_resource_descriptor.value, &lbl_8043B638.value);
     } else {
-        temp_r3 = (u8 *)(((TAdSinglePlyChrSelectGC *)0x440)->alloc());
+        temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_ene_cgrass_resource_descriptor.value, 0, 0, 0));

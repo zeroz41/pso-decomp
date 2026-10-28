@@ -1437,7 +1437,7 @@ void TObjEneDelDepth::init() {
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     *(s32 *)((s8 *)arg0 + 0x350) = 0;
     ((TObjEnemy *)arg0)->set_param(0x47);
-    var_r0 = ((TAdSinglePlyChrSelectGC *)0x2C)->alloc();
+    var_r0 = (int)::operator new(0x2C);
     if (var_r0 != 0) {
         var_r0 = fn_80316680(var_r0, arg0);
     }

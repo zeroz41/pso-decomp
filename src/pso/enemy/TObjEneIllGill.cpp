@@ -1854,7 +1854,7 @@ void TObjEneIllGill::load_shared_resources() {
     s32 *arr;
     Vec_80368818 *q;
 
-    p = (void *)((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    p = (void *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, lbl_804F2E74, 0, 0, 0);
     }

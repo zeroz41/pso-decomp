@@ -18,7 +18,6 @@ extern s32 __vt__18TObjNpcConnoisseur[];
 extern s32 TObjNpcConnoisseur__name;
 extern u32 TObjNpcConnoisseur__instance;
 void *load_resource_from_descriptor(void *, s32, s32, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern s32 tekker_descriptor_selector_table[];
 extern u8 TLobby__data_805011D8[];
 extern s32 lbl_805D5748;
@@ -37,7 +36,7 @@ void TObjNpcConnoisseur::destroy_instance() {
 void TObjNpcConnoisseur::load_section_motion() {
     void *o;
     lbl_805D5748 = ((TFontSmallTask *)TLobby__data_805011D8)->get_task_id();
-    o = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    o = ::operator new(0x440);
     if (o != 0) {
         o = load_resource_from_descriptor(o, 1, tekker_descriptor_selector_table[lbl_805D5748], 0, 0, 0);
     }

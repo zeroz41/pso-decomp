@@ -22,7 +22,6 @@ extern "C" {
 void release_texture_list(void *);
 void TLobby__sub_8001FE7C(void *, int);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 }
 
 #pragma readonly_strings on
@@ -86,7 +85,7 @@ void free_boss7_common_resources(void) {
 void load_boss7_common_resources(void) {
     void *p;
 
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 5, &boss7_common_resource_descriptor, 0, 0, 0);
     }

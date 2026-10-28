@@ -58,13 +58,13 @@ void TItemLoad__sub_8010F5A0(void) {
     s32 temp_r3_2;
     s32 var_r0;
     s32 var_r0_2;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)0x28)->alloc();
+    temp_r3 = (int)::operator new(0x28);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = ((s32)((TUnk_8049F41C *)temp_r3)->construct((void *)lbl_805D2BE8, 0xB5, 0x144));
     }
     (*(s32 *)&item_texture_archive_loader) = var_r0;
-    temp_r3_2 = ((TAdSinglePlyChrSelectGC *)0x40)->alloc();
+    temp_r3_2 = (int)::operator new(0x40);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
         var_r0_2 = ((TUnk_8049F40C *)temp_r3_2)->construct_with_vtable((void *)lbl_805D2BEC, 0xB4, 0x12F);

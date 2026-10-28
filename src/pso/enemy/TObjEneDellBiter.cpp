@@ -2636,7 +2636,7 @@ void TObjEneDellBiter::init_params() {
     }
     self->f49C = n;
     init_collision_body_parts(self->f49C, &((Part_80306468 *)lbl_804E6B8C)[3], 1);
-    n = (void *)((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    n = (void *)::operator new(0x10);
     if (n != NULL) {
         n = TBoss8Dragon__sub_800BC5EC((u8 *)n, 8);
     }

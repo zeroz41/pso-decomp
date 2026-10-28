@@ -84,7 +84,6 @@ void calc_list_content_extent(void *);
 void * open_default__23TShopJudgmentItemWindowFl(void *);
 extern char lbl_8043EFF8[];
 void open_information_list__6TLobbyFiPv(s32 arg0, Ent_80136FA0 *arg1);
-void * alloc__23TAdSinglePlyChrSelectGCFv(s32);
 s32 TLobby__sub_8013F810(void *, void *, s32, void *);
 void bswap_6x6E_sync_game_state__6TLobbyFPv(void *p);
 void sync_game_state__6TLobbyFv(void *, u16);
@@ -738,10 +737,10 @@ void handle_6x6E_sync_game_state(Pkt_8013566C *arg0) {
   if ((TLobby__data_805D5CE8 == 0) && ((TLobby__data_805D5594 == 0xE) || (TLobby__data_805D5594 == 0xF)))
   {
     lobby_debug_printf_stub(lbl_8043EE90, arg0->len);
-    buf = (Hdr_8013566C *) alloc__23TAdSinglePlyChrSelectGCFv(0x4008);
+    buf = (Hdr_8013566C *) ::operator new(0x4008);
     if (buf != 0)
     {
-      tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+      tmp = ::operator new(0x7230);
       if (tmp != 0)
       {
         new_var2 = buf->data;
@@ -773,7 +772,7 @@ void handle_6x6D_sync_game_state(Pkt_8013574C *arg0) {
         lobby_debug_printf_stub(lbl_8043EEA4, arg0->len);
         buf = mem_alloc(0x8000);
         if (buf != NULL) {
-            tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+            tmp = ::operator new(0x7230);
             if (tmp != NULL) {
                 TLobby__sub_8013F810(tmp, arg0->data + 0, len, buf);
                 ::operator delete(tmp);
@@ -792,7 +791,7 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
     if (TLobby__data_805D5CE8 == 0 && (TLobby__data_805D5594 == 0xE || TLobby__data_805D5594 == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lbl_8043EEC0, arg0->len);
-        p = (u32 *)alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+        p = (u32 *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, quest_object_entries));
             ::operator delete(p);
@@ -814,7 +813,7 @@ void handle_6x6B_sync_game_state(Pkt_801358B4 *arg0) {
     if (TLobby__data_805D5CE8 == 0 && (TLobby__data_805D5594 == 0xE || TLobby__data_805D5594 == 0xF)) {
         n = arg0->len - 8;
         lobby_debug_printf_stub(lbl_8043EEDC, arg0->len);
-        p = (S12_801358B4 *)alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+        p = (S12_801358B4 *)::operator new(0x7230);
         if (p != NULL) {
             r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, TLobby__data_805D6144));
             ::operator delete(p);
@@ -847,7 +846,7 @@ void send_6x6E_sync_game_state__6TLobbyFi(s32 arg0) {
     buf = (Pkt_801359C4 *)mem_alloc(0x4000);
     if (buf != NULL) {
         memset(buf, 0, 0x4000);
-        hdr = (Hdr_801359C4 *)alloc__23TAdSinglePlyChrSelectGCFv(0x4008);
+        hdr = (Hdr_801359C4 *)::operator new(0x4008);
         if (hdr != NULL) {
             memset(hdr, 0, 0x4008);
             hdr->f2 = serialize_area_set_flags(hdr->data);
@@ -858,7 +857,7 @@ void send_6x6E_sync_game_state__6TLobbyFi(s32 arg0) {
             n += hdr->f6;
             hdr->total = n;
             bswap_6x6E_sync_game_state__6TLobbyFPv(hdr);
-            tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+            tmp = ::operator new(0x7230);
             if (tmp != NULL) {
                 len = ((TLobby *)tmp)->lz_compress_packet((void *)hdr, (s32)n, (s32 *)buf->data);
                 ::operator delete(tmp);
@@ -888,7 +887,7 @@ void TLobby::send_6x6D_item_state() {
         if (src != NULL) {
             memset(src, 0, 0x8000);
             n = ((TLobby *)src)->write_sync_item_state();
-            tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+            tmp = ::operator new(0x7230);
             if (tmp != NULL) {
                 len = ((TLobby *)tmp)->lz_compress_packet((void *)src, (s32)n, (s32 *)buf->data);
                 ::operator delete(tmp);
@@ -917,7 +916,7 @@ void TLobby::send_compressed_packet_6c() {
     buf = (Pkt_80135BD0 *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+        tmp = ::operator new(0x7230);
         if (tmp != NULL) {
             src = quest_object_entries;
             size = TLobby__data_805D6148 * 4;
@@ -953,7 +952,7 @@ void TLobby::send_cmd_6B() {
     buf = (Pkt_80135CD8 *)mem_alloc(0x8000);
     if (buf != NULL) {
         memset(buf, 0, 0x8000);
-        tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
+        tmp = ::operator new(0x7230);
         if (tmp != NULL) {
             src = TLobby__data_805D6144;
             size = TLobby__data_805D614C * sizeof(S12_801358B4);

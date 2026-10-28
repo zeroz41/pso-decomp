@@ -446,7 +446,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 void TLobby__sub_8001FE7C(void*, int);
 u32 csnLookAt(void *, void *);
-void * alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 TObjEneRe7Berura__sub_80093470(void *, void *);
 void state_patrol__16TObjEneRe7BeruraFPvi(void *arg0, s32 arg1);
 void TObjEneRe7Berura__sub_80093888(u8 *actor, s32 arg1);
@@ -1320,12 +1319,12 @@ void TObjEneRe7Berura::load_static_resources() {
     }
     berura_node_matrix_ptr_a = ((s32 *)((NJS_OBJECT *)find_model_node(m, 2))->model)[1] + 8;
     berura_node_matrix_ptr_b = ((s32 *)((NJS_OBJECT *)find_model_node(m, 1))->model)[1] + 8;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x14);
+    p = ::operator new(0x14);
     if (p != NULL) {
         p = ((TLobby *)p)->alloc_tables(*(s32 *)(RES->f42C + 8), 2);
     }
     belra_uv_animation_buffer = (u32)p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x18);
+    p = ::operator new(0x18);
     if (p != NULL) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 4, lbl_805D9780, lbl_805D9784, TObjEneRe7Berura__data_805D9738);
     }

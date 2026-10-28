@@ -2444,7 +2444,7 @@ void TObjEneBm3Fly::load_resources() {
     s32 var_r0;
     u8 *temp_r5;
     bm3_fly_nest_resources = ((u8 * (*)(void))TObjEneBm3FlyNest__sub_800B4158)();
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)0x10)->alloc();
+    temp_r3 = (int)::operator new(0x10);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = init_from_model__11TBreakUpMdlFl(temp_r3, (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)bm3_fly_nest_resources + 0x42C)) + 8)));

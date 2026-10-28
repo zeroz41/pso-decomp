@@ -6,7 +6,6 @@
 #include "pso/boss/TBoss1Dragon.h"
 
 extern "C" {
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 extern s32 TBoss1DragonEffBreath__name;
 extern const f32 lbl_805D8138;
 s32 vec3_add_to(void *, void *);
@@ -45,7 +44,7 @@ TBoss1DragonEffBreath::TBoss1DragonEffBreath(TObject *object, void *arg2, void *
     *(f32 *)((s8 *)this + 0x28) = (f32) (*(f32 *)((s8 *)this + 0x28) * lbl_805D8138);
     *(f32 *)((s8 *)this + 0x2C) = (f32) (*(f32 *)((s8 *)this + 0x2C) * lbl_805D8138);
     this->m_30 = (f32) (this->m_30 * lbl_805D8138);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

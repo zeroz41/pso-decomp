@@ -240,7 +240,7 @@ void TLobby::update_model_load() {
         } else {
             return;
         }
-        var_r31 = ((TAdSinglePlyChrSelectGC *)0x440)->alloc();
+        var_r31 = (int)::operator new(0x440);
         if (var_r31 != 0U) {
             var_r31 = TLobby__sub_8002058C(var_r31, 6, (void *) (((u8 *)this) + 0x60), (void *) (((u8 *)this) + 0x64), 0, 0, (int) (((TLobby *)(*(s32 *)((s8 *)((u8 *)this) + 0x24)))->start_load_default()));
         }

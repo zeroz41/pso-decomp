@@ -195,7 +195,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 Node_803627DC *get_bml_model(void *, int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 TObjPlayer__sub_800F0928(void *);
 extern Quad_803627DC lbl_80479FAC;
 extern f32 lbl_80543A18[3];
@@ -266,17 +265,17 @@ void TObjEneEpsilonGuard::load_assets() {
     lbl_80543A18[0] = lbl_805E0248;
     lbl_80543A18[1] = lbl_805E0248;
     lbl_80543A18[2] = lbl_805E0248;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = (u8 *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, &TObjEneEpsilonGuard__resource_descriptor, 0, 0, 0);
     }
     lbl_805D6FA0 = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = (u8 *)::operator new(0x10);
     if (p != NULL) {
         p = ((TBreakUpMdl *)p)->init_from_model((s32)(get_bml_model(lbl_805D6FA0, 5)));
     }
     lbl_805D6FA4 = p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = (u8 *)::operator new(0x10);
     if (p != NULL) {
         p = ((TBreakUpMdl *)p)->init_from_model((s32)(get_bml_model(lbl_805D6FA0, 6)));
     }

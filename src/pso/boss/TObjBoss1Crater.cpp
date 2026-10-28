@@ -94,7 +94,6 @@ struct Crater_8002C288 : VBase_8002C288 {
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 s32 isV2Mode__12TBoss1DragonFv();
-void *alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 create_particle_emitter(void *, int, f32);
 void construct_collision_body(void *);
 s32 rand();
@@ -220,7 +219,7 @@ Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *ar
     r = lbl_805D8164 * (f32)rand();
     self->f60 = (s32)(lbl_805D8160 * r);
     self->fB0 = create_particle_emitter(self->pos, 0x40, r);
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x10);
+    p = ::operator new(0x10);
     if (p != NULL) {
         p = TBoss8Dragon__sub_800BC5EC((u8 *)p, 4);
     }

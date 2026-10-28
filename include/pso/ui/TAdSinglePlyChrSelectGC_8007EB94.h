@@ -6,7 +6,6 @@
 extern "C" {
 // TAdSinglePlyChrSelectGC::alloc() is called with a size in r3: it is an
 // xmalloc wrapper, not a member.
-void *alloc__23TAdSinglePlyChrSelectGCFv(u32 size);
 }
 
 #endif

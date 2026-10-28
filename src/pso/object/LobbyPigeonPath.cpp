@@ -491,7 +491,6 @@ typedef struct { u8 pad[4]; u32 n; } Anim_802C17FC;
 
 void TLobby__sub_8001FE7C(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-int alloc__23TAdSinglePlyChrSelectGCFv(void *);
 s32 TObjMapWarp__sub_80141CB0(s32 *, s32 *, s32, s32);
 
 u8 * load_gvm_texture_file(s32);
@@ -690,7 +689,7 @@ void TObjPlayer::destroy_instance() {
 void TObjPlayer::load_kamome_resources() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv((void *)0x440);
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_kamome_resource_descriptor.value, 0, 0, 0));
@@ -888,7 +887,7 @@ void TObjPlayer::free_statics() {
 void TObjPlayer::load_jungle_bird_resources() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv((void *)0x440);
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_bird_resource_descriptor.value, 0, 0, 0));
@@ -1077,7 +1076,7 @@ void TObjPlayer::free_chr_select() {
 void TObjPlayer::load_jungle_ebi_resources() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv((void *)0x440);
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_jungle_ebi_resource_descriptor.value, 0, 0, 0));
@@ -1288,7 +1287,7 @@ void TObjPlayer__sub_802C2900(void) {
 }
 
 void TObjPlayer::load_seabed_dolphin() {
-    Obj_802C2958 *o = ((Obj_802C2958 * (*)(s32))alloc__23TAdSinglePlyChrSelectGCFv)(0x440);
+    Obj_802C2958 *o = ((Obj_802C2958 * (*)(s32))::operator new)(0x440);
     if (o != 0) {
         o = ((Obj_802C2958 * (*)(Obj_802C2958 *, s32, void *, s32, s32, s32))load_resource_from_descriptor)(o, 5, bm_obj_seabed_dolphin_resource_descriptor, 0, 0, 0);
     }

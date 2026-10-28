@@ -58,7 +58,7 @@ void TObjHashiVersus1::release_static_instance() {
 void TObjHashiVersus1::load_shared_resource() {
     s32 temp_r3;
     s32 var_r0;
-    temp_r3 = ((TAdSinglePlyChrSelectGC *)((void *)0x440))->alloc();
+    temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &TObjHashiVersus1__resource_descriptor.value, 0, 0, 0));

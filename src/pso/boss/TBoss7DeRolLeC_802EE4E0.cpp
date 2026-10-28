@@ -32,7 +32,6 @@ void call_funcs_reverse__6TLobbyFPvUi(s32, u32);
 extern RecoveredGlobal_802EE4E0_lbl_804E3C5C lbl_804E3C5C;
 extern u8 *lbl_805D6918;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-u8 *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 void run_load_callback_table(void *, int);
 extern s32 lbl_804E3D1C[];
 extern Light_802EE574 boss7_derolle_light_pool[];
@@ -71,7 +70,7 @@ void *TBoss7DeRolLeC::create(void *arg0) {
 void TObjPlayer__sub_802EE574(void) {
     s32 i;
     u8 *p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = (u8 *)::operator new(0x440);
     if (p != NULL) {
         p = load_resource_from_descriptor(p, 1, lbl_804E3D1C, 0, 0, 0);
     }

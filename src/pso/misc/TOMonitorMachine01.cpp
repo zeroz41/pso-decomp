@@ -94,7 +94,6 @@ int push_matrix();
 int post_translate_matrix(void *);
 void scale_matrix(s32, f32, f32, f32);
 u32 load_resource_from_descriptor(void *, int, void *, int, int, int);
-void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
 extern u8 monitor_machine01_resource_desc[];
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
@@ -231,7 +230,7 @@ void TOMonitorMachine01::reset_static_state() {
 void TOMonitorMachine01::load_resources() {
     void *temp_r5;
     void *p;
-    p = alloc__23TAdSinglePlyChrSelectGCFv(0x440);
+    p = ::operator new(0x440);
     if (p != NULL) {
         p = (void *)load_resource_from_descriptor(p, 1, monitor_machine01_resource_desc, 0, 0, 0);
     }

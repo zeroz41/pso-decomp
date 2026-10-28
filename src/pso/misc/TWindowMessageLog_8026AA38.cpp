@@ -29,7 +29,6 @@ extern const f32 lbl_805DD254;
 void *__dt__14TWindowMessageFv(void *arg0, s16 arg1);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8026AB3C___vt__17TWindowMessageLog __vt__17TWindowMessageLog;
-s32 alloc__23TAdSinglePlyChrSelectGCFv(int, f32, f32);
 u8 *TWindowMessage__ct(u8 *arg0, s32 arg1, u32 arg2, s32 arg3);
 s32 reset_selection__20TWindowSubStatusDispFv(int, void *);
 extern s32 lbl_805D3990;
@@ -84,7 +83,7 @@ u8 *TWindowMessageLog__ct(TWindowMessageLog *window_message_log, s32 arg1, s32 a
     temp_f1 = temp_f2 - lbl_805DD258;
     stack.spC = lbl_805DD240;
     stack.sp8 = temp_f1;
-    temp_r3 = alloc__23TAdSinglePlyChrSelectGCFv(0xC, temp_f1, temp_f2);
+    temp_r3 = ((s32 (*)(s32, f32, f32))(void *(*)(size_t))::operator new)(0xC, temp_f1, temp_f2);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
         var_r0 = reset_selection__20TWindowSubStatusDispFv(temp_r3, &stack.sp8);
