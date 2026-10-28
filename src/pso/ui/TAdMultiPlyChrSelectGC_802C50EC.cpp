@@ -286,8 +286,8 @@ void TAdMultiPlyChrSelectGC::draw_selection_cursors() {
                 self->r364[2] = lbl_805DE57C + self->r364[0];
                 self->r364[1] = self->e[i][j].y;
                 self->r364[3] = self->e[i][j].w;
-                set_cached_blend_factor(0, 8);
-                set_cached_blend_factor(1, 0xA);
+                set_color_blending_mode(0, 8);
+                set_color_blending_mode(1, 0xA);
                 begin_screen_draw(1);
                 TObjFish::set_global_param(lbl_805D67D4);
                 set_draw_texture_and_color(0, self->sel[i][j]);
@@ -295,8 +295,8 @@ void TAdMultiPlyChrSelectGC::draw_selection_cursors() {
                 draw_textured_quad_at_depth(self->r344, lbl_805DE580);
                 draw_textured_quad_at_depth(self->r364, lbl_805DE580);
                 TWindowSubStatusDisp::get_player();
-                set_cached_blend_factor(0, 8);
-                set_cached_blend_factor(1, 6);
+                set_color_blending_mode(0, 8);
+                set_color_blending_mode(1, 6);
             }
         }
     }

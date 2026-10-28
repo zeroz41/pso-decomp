@@ -8,6 +8,7 @@
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Win_8025B0D0 {
     u16 flags; u8 pad2[6];
@@ -91,7 +92,7 @@ void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1) {
         len = (0.5f);
     }
     if (arg0->flags & 8) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
     }
     if (arg0->flags & 0xC) {
         begin_screen_draw(1);
@@ -118,7 +119,7 @@ void draw_window_uv_sprite_part(Win_8025B0D0 *arg0, Ref_8025B0D0 *arg1) {
         draw_textured_quad_at_depth((f32 *)&q, scale);
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

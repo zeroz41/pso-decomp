@@ -3,6 +3,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TBGLightningCtrl.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 extern "C" void render__16TBGLightningCtrlFv();
 #include "pso/unk/text_803DA798.h"
 
@@ -266,10 +267,10 @@ void render__12TBGLightningFv(s32 arg0) {
         stack.spC = (-1.0f);
         stack.sp10 = cos_table_lookup(temp_r31);
         TParticleCtrl::begin_effect_render();
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         ((s32 (*)(s32, f32 *))fn_802A9F48)(arg0, &stack.sp8);
         ((s32 (*)(s32, f32 *))fn_802A9DF4)(arg0, &stack.sp8);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TParticleCtrl::end_effect_render();
     }
 }

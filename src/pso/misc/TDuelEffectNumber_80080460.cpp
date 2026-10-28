@@ -6,6 +6,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/TDuelEffectString.h"
 #include "pso/TDuelEffectNumber.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 #pragma fp_contract on
 
 extern "C" {
@@ -59,7 +60,7 @@ void render__17TDuelEffectStringFv(u8 *duel_effect_number) {
     s32 temp_r31;
     TDuelEffectNumber::calc_digit_transform((s32)((s32) duel_effect_number), &spC, &sp8, (s32)(*(s32 *)((s8 *)duel_effect_number + 0x28)));
     temp_r31 = __cvt_fp2unsigned(lbl_805D932C * sp8) | 0xFF0000 | 0xFFFF;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, temp_r31);
@@ -72,7 +73,7 @@ void render__17TDuelEffectStringFv(u8 *duel_effect_number) {
         break;
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

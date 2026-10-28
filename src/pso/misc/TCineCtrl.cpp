@@ -43,8 +43,8 @@ void TCineCtrl::render() {
     f32 pos[8];
     if (!(*(f32 *)((s8 *)arg0 + 0x1C) <= TCineCtrl__data_805D91D0)) {
         TCameraCtrl::restore_full_screen_view();
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         vl.pos = pos;
         vl.col = col;
         vl.n = 0;

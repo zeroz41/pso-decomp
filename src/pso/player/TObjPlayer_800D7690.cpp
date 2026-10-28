@@ -2,6 +2,7 @@
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 typedef struct Ent_800D76E8 {
     f32 ax, ay, az;
@@ -23,7 +24,7 @@ s32 defer_render__7TObjectFv();
 void TUnk_80494968::render() {
     u8 *arg0 = (u8 *)this;
     if ((defer_render__7TObjectFv() == 0) && ((s32) *(s32 *)((s8 *)arg0 + 0x1C) > 1)) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         ((TObjPlayer *)(arg0 + 0x20))->draw_trail_strip((void *)(*(s32 *)((s8 *)arg0 + 0x1C) * 2), 1);
     }
 }

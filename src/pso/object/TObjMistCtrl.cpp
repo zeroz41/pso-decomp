@@ -9,6 +9,7 @@
 #include "pso/object/TObjMistCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
     s32 value;
@@ -67,7 +68,7 @@ void TPlayerFootStamp::render() {
     u8 *arg0 = (u8 *)this;
     if (horizontal_distance_squared((void *)(arg0 + 0x7C), (void *)(camera_ctrl_instance + 0x178)) < lbl_805DE1F8) {
         saved_model_render_flags = model_render_flags;
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjFish::set_global_param(player_footstamp_texture_gvm_handle);
         set_texture_num((*(s16 *)((s8 *)arg0 + 0xBE)));
         set_depth_buffer_settings_1();

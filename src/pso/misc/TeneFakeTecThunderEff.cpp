@@ -9,6 +9,7 @@
 #include "pso/misc/TWindowDD.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_800A4204_lbl_80490A18 {
     s32 value;
@@ -349,7 +350,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].u = lbl_805D99F0;
     p[1].v = vv;
     p[1].color = color;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     ((TWindowDD *)verts)->draw_transformed_primitive((void*)(this->m_38 * 2), (void*)TObjPlayer__effect_count, (void*)1);
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;

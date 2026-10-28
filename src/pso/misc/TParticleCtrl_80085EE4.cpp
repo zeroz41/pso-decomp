@@ -12,6 +12,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -258,12 +259,12 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
         if (flags & 4) {
             fn_80141EB4();
         } else {
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
         }
     } else if (flags & 4) {
         setSpriteInverseColorBlend();
     } else {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
     }
     sy = lbl_8058D4F8.scale;
     x = lbl_8058D4F8.cx;
@@ -324,7 +325,7 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     }
     TWindowSubStatusDisp::get_player();
     TParticleCtrl::end_effect_render();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

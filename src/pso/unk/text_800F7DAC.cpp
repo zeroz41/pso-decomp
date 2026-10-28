@@ -14,6 +14,7 @@
 #include "pso/misc/TWindowCtrlMain.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/ModelDrawContext.h"
 
 struct RecoveredGlobal_800F81A8_lbl_80499970 {
     s32 value;
@@ -82,7 +83,6 @@ void __ct__7TObjectFP7TObject(void *);
 s32 TWindowCtrlMain__sub_8024CD5C(s32 viewport_index);
 u32 prs_decompress(int, int, int, int);
 u32 reset_counters__6TLobbyFv();
-void set_cached_blend_factor(s32, s32);
 
 extern RecoveredGlobal_800F81A8_lbl_80499970 lbl_80499970;
 extern RecoveredGlobal_800F8428_lbl_80499988 lbl_80499988;
@@ -141,8 +141,8 @@ void TUnk_80499970::render() {
     f32 pos[8];
 
     TCameraCtrl::restore_full_screen_view();
-    set_cached_blend_factor(0, 8);
-    set_cached_blend_factor(1, 6);
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
     q.pos = pos;
     q.col = col;
     q.start = 0;
@@ -454,8 +454,8 @@ void TUnk_804999E8::render() {
     f32 pos[8];
 
     TCameraCtrl::restore_full_screen_view();
-    set_cached_blend_factor(0, 8);
-    set_cached_blend_factor(1, 6);
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
     q.pos = pos;
     q.col = col;
     q.start = 0;

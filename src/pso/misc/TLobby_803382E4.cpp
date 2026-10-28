@@ -15,6 +15,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct G_80338534 { u8 p0[0x2C]; u8 a[0x40]; u8 b[0x60]; u8 c[0x40]; };
 
@@ -137,7 +138,7 @@ void TLobby__sub_803382E4(void) {
         set_depth_buffer_settings_2();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjFish::set_global_param((s32)lbl_804EF1DC);
         set_texture_num(0);
         TLobby__sub_803E2EE4(0);
@@ -147,9 +148,9 @@ void TLobby__sub_803382E4(void) {
         TLobby__sub_803E2EE4(0);
         draw_projected_textured_strip(lbl_804EF344, 4);
         TLobby::reset_player_state();
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         ((TObjPlayer *)lbl_804EF3E0)->draw_compass_sprite(2, (__cvt_fp2unsigned(lbl_805DF9B4 * alpha) << 24) | 0xFFFFFF, 0x21, lbl_805DF9A0);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
         restore_saved_depth_alpha_state();
@@ -205,7 +206,7 @@ void render_info_icon_overlay(void) {
 void TLobby__sub_80338534(void) {
     G_80338534 *t = &lbl_804EF1B8;
     TCameraCtrl::restore_full_screen_view();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
     TObjBoss2Tunnel__sub_803E2D10(1);
     draw_projected_quads__15TObjBoss2TunnelFPvi(t->a, 4);
@@ -217,18 +218,18 @@ void TLobby__sub_80338534(void) {
         } else {
             set_texture_num(0);
         }
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         TLobby__sub_803E2EE4(1);
         draw_projected_textured_strip(t->b, 4);
         TLobby::reset_player_state();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjFish::set_global_param(lbl_805D63F0);
         set_texture_num(5);
         TLobby__sub_803E2EE4(1);
         draw_projected_textured_strip(t->c, 4);
         TLobby::reset_player_state();
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TCameraCtrl__sub_80068EF0();
     TParticleCtrl::end_effect_render();
 }

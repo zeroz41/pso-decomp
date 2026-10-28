@@ -77,11 +77,11 @@ void TAdTitleGC::render() {
     if (defer_render__7TObjectFv() == 0) {
         set_depth_buffer_settings_2();
 block_5:
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 0xA);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 0xA);
         draw_title_layer((s32)(*(s32 *)((s8 *)arg0 + 0x1C)), 0x1FFFFFFF);
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         fn_802A0A30((s32)arg0, arg0 + 0x120, (s32)(*(s32 *)((s8 *)arg0 + 0x1C)), (s32)((*(s32 *)((s8 *)arg0 + 0x12C) << 0x18) | 0xFF0000 | 0xFFFF), (s32)(get_localized_text_entry(0x13, *(s32 *)((s8 *)arg0 + 0x1C))));
         if ((s32) *(s32 *)((s8 *)arg0 + 0x134) == 0) {
             restore_saved_depth_alpha_state();

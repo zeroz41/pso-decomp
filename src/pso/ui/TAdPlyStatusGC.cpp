@@ -133,7 +133,7 @@ void *ply_status_window_points_second[6] = {
     (void *)0x42700000, (void *)0x42280000, (void *)0x42700000, (void *)0x42780000,
     (void *)0x42700000, (void *)0x42a40000,
 };
-void render__14TAdPlyStatusGCFv(void* p) { if (TMainTask::get_render_pass() != 1) { set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)10)); set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)6)); } }
+void render__14TAdPlyStatusGCFv(void* p) { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
 typedef char RecoveredGlobal_8033F93C_lbl_8050E3B8_size[sizeof(RecoveredGlobal_8033F93C_lbl_8050E3B8) == 0x1B0 ? 1 : -1];
 

@@ -4,6 +4,7 @@
 #include "pso/TObjBoss8Piller.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" {
 u8 *get_enemy_entity(u16 arg0);
@@ -34,7 +35,7 @@ void TObjBoss8Piller::render() {
         scale_matrix(0, lbl_805DF150, lbl_805DF150, lbl_805DF150);
         draw_model_motion(var_r31, (int) (*(s32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x28)));
         pop_matrix();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 void TObjBoss8Piller::run_task() {

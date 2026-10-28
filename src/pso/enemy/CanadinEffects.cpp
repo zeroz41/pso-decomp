@@ -11,6 +11,7 @@
 #include "pso/TTecZondeEff.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 extern "C" {
 extern const char TObjEneMe1Canadin_EffLine__class_name[];
 extern const char TObjEneMe1Canadin_EffDischarge__class_name[];
@@ -111,7 +112,7 @@ void render__26TObjEneMe1Canadin_EffLightFv(Trail_8009F7AC *o) {
             v++;
         }
     }
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     ((TObjPlayer *)(o->verts))->draw_trail_strip((void *)(n * 2), 1);
 }
 #pragma pop
@@ -369,7 +370,7 @@ void render__25TObjEneMe1Canadin_EffLineFv(s32 arg0) {
     stack.spC = arg0 + 0x40;
     stack.sp10 = 0;
     stack.sp14 = 2;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     draw_line_list(&stack.sp8, 1, 5);
 }
 

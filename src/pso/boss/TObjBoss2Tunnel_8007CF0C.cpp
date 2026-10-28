@@ -12,6 +12,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Vec2_8007DD28 { f32 x; f32 y; f32 z; };
 
@@ -149,7 +150,7 @@ void draw_snapshot_capture_overlay(void) {
     Quad_8007D828 q;
     Vtx_8007D828 v[4];
     s32 i;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     for (i = 0; i < 4; i++) {
         v[i].z = 0.25f;
         v[i].color = 0x8F000000;

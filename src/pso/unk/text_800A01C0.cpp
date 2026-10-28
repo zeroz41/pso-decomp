@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/enemy/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Stack_800A01C0 {
     s32 sp8;
@@ -18,7 +19,7 @@ void TObjEneMe1Canadin_EffLineFade::render() {
     stack.spC = arg0 + 0x34;
     stack.sp10 = 0;
     stack.sp14 = 2;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     draw_line_list(&stack.sp8, 1, 5);
 }
 

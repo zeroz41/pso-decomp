@@ -4,6 +4,7 @@
 #include "pso/TObject.h"
 #include "pso/object/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/ModelDrawContext.h"
 
 struct Desc_802C79C8 { f32 *pos; u32 *col; s32 a; s32 b; };
 
@@ -15,7 +16,6 @@ f32 xz_distance_squared(void *, void *);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 draw_color_lines(void *, int, int, f32);
 s32 draw_tri_fan_2d__14TObjCMHairMenuFllf(void *, int, int, f32, f32, f32);
-void set_cached_blend_factor(s32 arg0, s32 arg1);
 f32 lbl_805D6800;
 s8 lbl_805D6804;
 extern const char lbl_80471D70[] = "TAdFadeGC";
@@ -37,8 +37,8 @@ void TAdFadeGC::draw_fade() {
     d.b = 4;
     switch (*(s32 *)((s8 *)arg0 + 0x28)) {
     case 0:
-        set_cached_blend_factor(0, 0xB);
-        set_cached_blend_factor(1, 4);
+        set_color_blending_mode(0, 0xB);
+        set_color_blending_mode(1, 4);
         for (i = 0; i < 120; i++) {
             d.pos[0] = (0.0f);
             y = (8.0f) * (f32) i;
@@ -60,8 +60,8 @@ void TAdFadeGC::draw_fade() {
             }
             draw_color_lines(&d, 4, 7, lbl_805D6800);
         }
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         break;
     case 1:
     case 2:

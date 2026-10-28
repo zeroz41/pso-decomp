@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_80083CEC_lbl_8048E5D0 {
     s32 value;
@@ -297,7 +298,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
     load_list_texture(0, 0, 0, 0);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TObjPlayer::load_screen_space_matrix();
     setup_blended_textured_draw();
     GXSetNumTexGens(1);
@@ -332,7 +333,7 @@ void TObjPlayer::draw_screen_quad(u32 arg0, s32 arg1, f32 farg0) {
     TObjPlayer__sub_80084834(temp_r31);
     TObjPlayer__sub_80084824(lbl_805D93D0, lbl_805D93D8);
     TObjPlayer__sub_800847FC();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     if (arg1 != 0) {
         temp_r4_2 = shared_capture_texture_list.a->b->c;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;
@@ -351,7 +352,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
         *(s32 *)((s8 *)temp_r4 + 0x14) = 0xC0;
     }
     load_list_texture(0, 0, 0, 0);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TObjPlayer::load_screen_space_matrix();
     setup_blended_textured_draw();
     GXSetNumTexGens(1);
@@ -381,7 +382,7 @@ void TObjPlayer::draw_textured_screen_quad(u32 arg0, f32 *arg1, f32 *arg2, s32 a
     TObjPlayer__sub_80084834(temp_r31);
     TObjPlayer__sub_80084824(lbl_805D93D0, lbl_805D93D8);
     TObjPlayer__sub_800847FC();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     if (arg3 != 0) {
         temp_r4_2 = (*(G_800842A4 *)&shared_capture_texture_list).a->b->c;
         *(s32 *)((s8 *)temp_r4_2 + 0x10) = 0x280;

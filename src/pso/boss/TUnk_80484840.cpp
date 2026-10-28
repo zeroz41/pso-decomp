@@ -53,9 +53,9 @@ void TUnk_80484840::render() {
         vec3_add_to(end, &offset);
     }
     pop_matrix();
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     draw_line_list(&volopt_sweep_line, 1, 5);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TUnk_80484840::run_task() {

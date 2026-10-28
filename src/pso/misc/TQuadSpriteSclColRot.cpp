@@ -113,12 +113,12 @@ void TQuadSpriteSclColRot::render() {
         if (flags & 4) {
             fn_80141EB4();
         } else {
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
         }
     } else if (flags & 4) {
         setSpriteInverseColorBlend();
     } else {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
     }
     sw = lbl_8058D4F8.sw;
     cx = lbl_8058D4F8.cx;
@@ -190,7 +190,7 @@ void TQuadSpriteSclColRot::render() {
     }
     TParticleCtrl::end_effect_render();
     quad_sprite_reset_entries();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

@@ -13,6 +13,7 @@
 #include "pso/player/TUnk_804F29F8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TItemLoad.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" {
 void* init_vtable_804F2A10__13TUnk_804F2A10Fv(void*);
@@ -126,7 +127,7 @@ void TUnk_804F2A10::render() {
     s32 *p;
     s32 n;
     VObj_18_1419ea *obj;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -138,14 +139,14 @@ void TUnk_804F2A10::render() {
         if (obj != NULL) {
             set_depth_buffer_settings_id(1);
             obj->m26();
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
             copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
             set_depth_buffer_settings_id(2);
             obj->m26();
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
             copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

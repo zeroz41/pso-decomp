@@ -14,6 +14,7 @@
 #include "pso/misc/TUnk_804949D8.h"
 #include "pso/misc/TUnk_804949F4.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 class TDeadSpot : public TObject {
 public:
     virtual ~TDeadSpot();
@@ -286,7 +287,7 @@ Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * par
 void render__9TDeadSpotFv(u8 *arg0) {
     if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > TDeadSpot__data_805DA38C) && (horizontal_distance_squared(arg0 + 0x7C, camera_ctrl_instance + 0x178) < lbl_805DA39C)) {
         saved_model_render_flags = model_render_flags;
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);
         TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0xB8));
         set_texture_num(*(s32 *)((s8 *)arg0 + 0xBC));

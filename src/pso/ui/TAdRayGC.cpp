@@ -5,6 +5,7 @@
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
+#include "pso/system/ModelDrawContext.h"
 
 struct E_8029BCB4 { u8 b[0x14]; };
 
@@ -18,7 +19,6 @@ extern T_8029BCB4 TAdRayGC_ray_quad_table[];
 extern s32 TAdRayGC__ray_texture_list;
 extern const f32 lbl_805DDD10;
 void __ct__7TObjectFP7TObject(void *);
-void set_cached_blend_factor(s32 arg0, s32 arg1);
 s32 queue_destruction__7TObjectFv();
 
 void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
@@ -51,8 +51,8 @@ void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
 void TAdRayGC::render() {
 
     if (TMainTask::get_render_pass() != 1) {
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 0xA);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 0xA);
         switch (*(s32 *)((s8 *)this + 0x1C)) {
         case 0:
             TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20)), (void *)(-1), 0);
@@ -65,8 +65,8 @@ void TAdRayGC::render() {
             TAdRayGC::draw_ray_quads((s32)this, (u8 *)(*(s32 *)((s8 *)this + 0x20) - 0xD), (void *)(-1), 1);
             break;
         }
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
     }
 }
 

@@ -22,11 +22,11 @@ void render__12TAdBackTxtGCFv(TAdBackTxtGC *ad_back_txt_gc) {
         }
     } else if (TMainTask::get_render_pass() != 1) {
 block_4:
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 0xA);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 0xA);
         ad_back_txt_gc->draw_character_background_frame((s32) *(s32 *)((s8 *)ad_back_txt_gc + 0x1C) / 3, -1);
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         if ((s32) *(s32 *)((s8 *)ad_back_txt_gc + 0x24) == 0) {
             restore_saved_depth_alpha_state();
         }

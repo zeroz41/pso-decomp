@@ -9,6 +9,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
@@ -137,7 +138,7 @@ void TObjCGrass::render() {
             translate_matrix_vec3((u8 *)(0), (u8 *)&arg0->recs[i]);
             rotate_matrix_y(0, arg0->recs[i].f18);
             draw_model_motion((void *)arg0->f34, (void *)*(s32 *)&this->unknownF8, this->m_c0);
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
             pop_matrices(1);
         }
     }

@@ -23,11 +23,11 @@ void TAdBackGC::render() {
     } else if (TMainTask::get_render_pass() != 1) {
 block_4:
         ((TAdBackGC *)arg0)->sub_8029A6EC();
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 0xA);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 0xA);
         draw_title_background_layer(chr_select_ad_pic_2_texture_descriptor, 0, -1, (f32) (*(f32 *)((s8 *)arg0 + 0x1C)));
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x20) == 0) {
             restore_saved_depth_alpha_state();
         }

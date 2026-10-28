@@ -14,6 +14,7 @@
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -106,7 +107,7 @@ void TBoss5GryphonLightningEff::render() {
     model_render_flags = temp_r4 | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     project_lightning_points(this, pts_arg, sp3C, sp8);
     build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp3C, (f32 *)sp8);
     ((TWindowDD *)sp10C)->draw_transformed_primitive((void*)(*(s32 *)((s8 *)this + 0x38) * 2), (void*)(calc_segment_uvs(sp10C)), (void*)1);
@@ -114,7 +115,7 @@ void TBoss5GryphonLightningEff::render() {
         build_lightning_strip((void *)sp10C, (void *)pts_arg, (f32 *)sp8, (f32 *)sp3C);
         ((TWindowDD *)sp10C)->draw_transformed_primitive((void*)(*(s32 *)((s8 *)this + 0x38) * 2), (void*)(calc_segment_uvs(sp10C)), (void*)1);
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TParticleCtrl::end_effect_render();
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;

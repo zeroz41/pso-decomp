@@ -9,6 +9,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Ent_8032A574 { f32 a, b, c, d; u8 pad[0x10]; };
 
@@ -72,9 +73,9 @@ void TAdMcSelectCursorGC::render() {
     if (defer_render__7TObjectFv() == 0) {
         set_depth_buffer_settings_2();
 block_5:
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         render_cursor();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         if ((s32) this->m_13c == 0) {
             restore_saved_depth_alpha_state();
         }

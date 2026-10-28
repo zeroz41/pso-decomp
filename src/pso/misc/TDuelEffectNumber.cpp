@@ -8,6 +8,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_800800EC_lbl_80438D7C {
     s32 value;
@@ -101,14 +102,14 @@ void TDuelEffectNumber::render() {
     char sp8[0x20];
 
     ((s32 (*)(void *, void *, s32))calc_duel_number_uv)(this, &sp8, *(s32 *)((s8 *)this + 0x24));
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(6, -1);
     sub_8007FFF4((s32)((s32 *)&sp8));
     ((s32 (*)(void *, s32 *))sub_8007FF28__17TDuelEffectNumberFl)(this, (s32 *)&sp8);
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 void TDuelEffectNumber::run_task() {
     u8 *arg0 = (u8 *)this;

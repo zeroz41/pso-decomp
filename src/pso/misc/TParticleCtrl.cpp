@@ -12,6 +12,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -341,7 +342,7 @@ void TUnk_8048E6DC::render() {
             self->screen_y = -10.0f;
         }
     }
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_804C5820[31].param);
     set_draw_texture_and_color(lbl_804C5820[31].tex, -1);

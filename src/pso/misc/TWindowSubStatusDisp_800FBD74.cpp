@@ -13,6 +13,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
     s32 value;
@@ -123,7 +124,7 @@ void TWindowSubStatusDisp__sub_800FBD74(s32 arg0, f32 farg0, f32 farg1, f32 farg
     Stack_800FBD74 stack;
     f32 temp_f7;
     f32 temp_f8;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     begin_screen_draw(1);
     render_forward__20TWindowSubStatusDispFPv();
     set_draw_texture_and_color(0, (arg0));
@@ -152,7 +153,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
     Pos_800FBEA8 pos;
     s32 id;
     s32 i;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     begin_screen_draw(1);
     render_forward__20TWindowSubStatusDispFPv();
     set_draw_texture_and_color(0, (s32)color);
@@ -171,7 +172,7 @@ void TWindowSubStatusDisp::draw_number_digits(void *color, s16 value, u16 digits
 void draw_small_font_text(void *color, const char *s, f32 x, f32 y, f32 scale) {
     Pos_800FBFD8 pos;
     s32 id;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     begin_screen_draw(1);
     render_forward__20TWindowSubStatusDispFPv();
     set_draw_texture_and_color(0, (s32)color);

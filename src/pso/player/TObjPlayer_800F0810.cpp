@@ -154,8 +154,8 @@ block_2:
         stack.sp20 = blob_shadow_texture_list;
         stack.sp24 = &blob_shadow_rect_desc.value;
         set_depth_buffer_settings_1();
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         TParticleCtrl::begin_effect_render();
         ((TObjPlayer *)(&stack.sp8))->draw_shadow_quad(0, 0x20);
         stack.sp8 = lbl_805DA7FC;

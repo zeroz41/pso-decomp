@@ -36,6 +36,7 @@
 #include "pso/unk/TUnk_804B8E18.h"
 #include "pso/unk/TUnk_804B8E00.h"
 #include <stddef.h>
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_801982D4_lbl_804B8DAC { s32 value; u8 remaining[0x20]; };
 typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_801982D4_lbl_804B8DAC) == 0x24 ? 1 : -1];
@@ -104,7 +105,7 @@ void TObjSinBoard::render() {
         d.uv = &uv;
         d.col = col;
         d.count = 4;
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjFish::set_global_param((int) signboard_texture_list);
         set_texture_num(0);
         TParticleCtrl::begin_effect_render();
@@ -1108,7 +1109,6 @@ s32 get_bml_model(void *, s32);
 }
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-s32 approach_angle_limited(int, int, int);
 s32 matrix_mult_vec(int, void *, void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_about_axis(int, void *, int);

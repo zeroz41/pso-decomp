@@ -2,6 +2,7 @@
 #include "pso/menu/TAdMultiOkGC.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 struct E_80306AC8 { u8 pad[0x1c]; u32 flags; u8 pad2[0xc4 - 0x20]; };
 struct O_80306AC8 { E_80306AC8 e[12]; u8 pad[0x97c - 12 * 0xc4]; s32 count; };
 extern "C" {
@@ -138,11 +139,11 @@ void TAdMultiOkGC::render() {
     Ok_80306C10 *o = (Ok_80306C10 *)this;
     s32 i;
     if (TMainTask::get_render_pass() != 1) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         for (i = 0; i < o->count; i++) {
             draw_entry(i);
         }
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 #pragma push

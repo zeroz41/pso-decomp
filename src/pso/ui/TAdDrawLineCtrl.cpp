@@ -8,6 +8,7 @@
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);
@@ -24,7 +25,7 @@ void TAdDrawLineCtrl::render() {
         }
     } else if ((get_main_phase() != 2) || (TMainTask::get_render_pass() != 1)) {
 block_5:
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         if ((u32) this->child_root != 0U) {
             ((TObject *)(this->child_root))->render_nodes();
         }

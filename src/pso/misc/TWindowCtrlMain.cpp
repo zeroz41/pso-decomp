@@ -6,6 +6,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Ent_8024D520 { void *obj; u8 pad[0x18]; };
 
@@ -45,12 +46,11 @@ s32 TWindowMainMenu__sub_8024E3D4(void *);
 int spawn_action_palette_slot_light(void*);
 int open_submenu__15TWindowSubEquipFll(void*);
 int render_nodes__7TObjectFv(void);
-int reset_transform_state__10TObjPlayerFv(void*);
 int send_and_handle__6TLobbyFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
 int update_com_card__9TWindowDDFv(void*);
 
-void TWindowCtrlMain::render() { reset_transform_state__10TObjPlayerFv(this); TParticleCtrl::begin_effect_render(); TCameraCtrl::restore_full_screen_view(); TWindowCtrlMain__sub_8024CE24(); render_nodes__7TObjectFv(); TCameraCtrl__sub_80068EF0(); TParticleCtrl::end_effect_render(); }
+void TWindowCtrlMain::render() { set_default_alpha_blend(); TParticleCtrl::begin_effect_render(); TCameraCtrl::restore_full_screen_view(); TWindowCtrlMain__sub_8024CE24(); render_nodes__7TObjectFv(); TCameraCtrl__sub_80068EF0(); TParticleCtrl::end_effect_render(); }
 void TWindowCtrlMain::run_task() { { (void)(update_com_card__9TWindowDDFv(this)); return; } }
 }
 void load_hud_palette_textures(void);

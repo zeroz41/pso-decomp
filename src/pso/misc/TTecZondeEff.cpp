@@ -14,6 +14,7 @@
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
     s32 value;
@@ -428,9 +429,9 @@ void TTecZondeEff::render() {
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
     if (project_lightning_points((Obj_8023D128 *)(self), (Vec_8023D128 *)(m70), (f32 *)m3c, (f32 *)m8) != 0 && ((TTecZondeEff *)self)->build_lightning_strip((Vtx_8023CED4 *)(verts), (Vec_8023CED4 *)(m70), (f32 *)m3c, (f32 *)m8) != 0) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         ((TWindowDD *)verts)->draw_transformed_primitive((void*)(self->count * 2), (void*)TTecZondeEff__beam_vertex_data, (void*)1);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
     TParticleCtrl::end_effect_render();
     set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);

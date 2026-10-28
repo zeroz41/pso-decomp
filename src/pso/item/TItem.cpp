@@ -71,6 +71,7 @@
 #include <string.h>
 #include "pso/map/CurrentArea.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -442,7 +443,7 @@ void TItem::render_shadows() {
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
             restore_draw_list_mask();
         }
         clear_shadow_flag();
@@ -804,7 +805,7 @@ void TItem::visit_model_nodes(u8 *matrices) {
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TItem::apply_sign_effect(u8 *matrices) {
@@ -815,7 +816,7 @@ void TItem::apply_sign_effect(u8 *matrices) {
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TItem::draw_model_nodes(u8 *matrices) {
@@ -826,7 +827,7 @@ void TItem::draw_model_nodes(u8 *matrices) {
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TItem::draw_model() { draw_ginja_object(item_model); }
@@ -839,7 +840,7 @@ void draw_node_tree_with_callback(NJS_OBJECT *object, void (*visit)(NJS_OBJECT *
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 // Walks a Ninja object tree like njDrawObject, handing every node to the
@@ -1483,7 +1484,7 @@ void TItem::render_model() {
         draw_ginja_object(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         restore_draw_list_mask();
     }
 }
@@ -1512,7 +1513,7 @@ void TItem::render_present_box() {
         draw_ginja_model((s32)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         restore_draw_list_mask();
         copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

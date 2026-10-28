@@ -17,6 +17,7 @@
 
 #include "types.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" {
 int set_flags__11TItemMagSubFUl(void *, int);
@@ -449,7 +450,7 @@ void TItemMagSub::apply_placement_matrix() {
 
 void TItemMagSub::render_shadows() {
     TItemMagSub_80114F0C* self = (TItemMagSub_80114F0C*)this;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -484,7 +485,7 @@ void TItemMagSub::render_shadows() {
             ((TItemMagSub *)self)->clear_flags(0x20);
         }
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

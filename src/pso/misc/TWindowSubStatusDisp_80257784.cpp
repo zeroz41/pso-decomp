@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_80258100_lbl_804CF998 {
     s32 value;
@@ -723,7 +724,7 @@ void draw_item_list_row(ItemListRow *row, ItemListWindowView *win) {
       }
       else
       {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         if (row->flags & 0x100)
         {
           pos.x += lbl_805DCF14;
@@ -734,7 +735,7 @@ void draw_item_list_row(ItemListRow *row, ItemListWindowView *win) {
           draw_item_list_icon((s32) win, (u8 *)&pos, row->status_icon, row->status_style, depth);
           pos.x += lbl_805DCF14;
         }
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         draw_item_list_icon((s32) win, (u8 *)&pos, row->category_icon, row->category_style, depth);
         pos.x += lbl_805DCF14;
       }

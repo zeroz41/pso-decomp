@@ -9,6 +9,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC {
     s32 value;
@@ -42,7 +43,7 @@ void TAdGameStartBackGC::render_background_status() {
     TWindowSubStatusDisp::get_player();
 }
 
-void TAdGameStartBackGC::render() { if (TMainTask::get_render_pass() != 1) { TObjPlayer::init_xyz_limits(); render_background_status(); TObjPlayer::reset_transform_state(); } }
+void TAdGameStartBackGC::render() { if (TMainTask::get_render_pass() != 1) { set_additive_blend(); render_background_status(); set_default_alpha_blend(); } }
 
 #pragma push
 #pragma fp_contract on

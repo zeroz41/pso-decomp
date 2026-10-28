@@ -4,6 +4,7 @@
 #include "pso/unk/text_80141A30.h"
 #include "pso/render/depth_buffer.h"
 #include "pso/misc/TWindowCtrlMain.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
@@ -88,7 +89,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
     s32 i;
     f32 buf[8];
     if (split_screen_hud_animation_frame <= 0x1E) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         begin_screen_draw(1);
         TObjFish::set_global_param(TBGMulti__textures);
         set_draw_texture_and_color(0, -1);
@@ -108,7 +109,7 @@ void TWindowSubStatusDisp__sub_8036D994(void) {
             buf[2] += 64.0f;
         } while (i < 10);
         TWindowSubStatusDisp::get_player();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 #pragma pop
@@ -144,7 +145,7 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
     s32 var_r3;
     if ((u32) (*(u32 *)&TBGMulti__textures) != 0U) {
         set_depth_buffer_settings_2();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         TWindowSubStatusDisp::draw_bottom_bar();

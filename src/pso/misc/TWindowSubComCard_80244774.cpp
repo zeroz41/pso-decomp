@@ -15,6 +15,7 @@
 #include "pso/unk/text_801414B0.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct UV_8024503C { f32 u, v; };
 
@@ -429,7 +430,7 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
     y = *(f32 *)((s8 *)window_key_board_soft + 0x14) + *(f32 *)((s8 *)arg1 + 0xC);
     x = *(f32 *)((s8 *)window_key_board_soft + 0x10);
     z = -1.0f / (0.22424999f + *(f32 *)((s8 *)window_key_board_soft + 0x38));
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(2, -1);
@@ -469,7 +470,7 @@ void draw_selection_bar(u8 *window_key_board_soft, u8 *arg1, s32 arg2) {
         draw_textured_quad_at_depth((f32 *)&q, z);
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 extern "C" {
@@ -480,7 +481,7 @@ void TWindowSubComCard__sub_802452DC(s32 texture) {
         return;
     }
     TLobby::reset_player_state();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TObjPlayer::setup_tev_swap();
 }
 
@@ -563,7 +564,7 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
     case 1:
         return;
     }
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     fn_801414B0(3, 3, 3, 3);
     TObjFish::set_global_param(lbl_805D63F0);
     set_texture_num(texture);
@@ -758,13 +759,13 @@ void draw_window_scanlines(u8 *arg0, u8 *arg1) {
         return;
     }
     set_line_width(12.0f * *(f32 *)((s8 *)arg1 + 0x2C));
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     step = 1.0f;
     for (i = 0; i < n2; i++) {
         TWindowSubComCard__sub_80245A10(arg0, i, (TWindowKeyBoardSoft *)arg1, y);
         y -= step;
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     reset_line_width();
 }
 #pragma pop

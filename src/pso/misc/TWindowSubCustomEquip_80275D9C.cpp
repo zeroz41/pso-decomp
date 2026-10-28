@@ -4,6 +4,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Obj_80275DB4 { u8 pad[0x60]; char f60; u8 pad2[0x6c - 0x61]; void *f6c; };
 
@@ -53,7 +54,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 
     }
     t = &custom_equip_cursor_frame_uv_table[arg2 & 0xF];
     scale = lbl_805DD550 / (lbl_805DD554 * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xC, -1);
@@ -69,7 +70,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 
         draw_textured_quad_at_depth((f32 *)&r, scale);
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

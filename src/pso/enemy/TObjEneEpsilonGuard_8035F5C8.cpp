@@ -10,6 +10,7 @@
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TObjEneEpsilonBody.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct SubBase { char pad[0x14]; };
 
@@ -927,9 +928,9 @@ void TObjEneEpsilonGuard::draw_debug_line() {
     s32 arg0 = (s32)this;
     VecCopy__FP3VecPC3Vec((void *) (&lbl_805439FC.value), (void *) (arg0 + 0x2FC));
     VecCopy__FP3VecPC3Vec((void *) ((u8 *)&lbl_805439FC.value + 0xC), (void *) (arg0 + 0x4FC));
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     draw_line_list((void *) (&TObjEneEpsilonGuard__debug_line_list.value), 1, 5);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TObjEneEpsilonBody::sub_803606A0(s32 i) {

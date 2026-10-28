@@ -4,6 +4,7 @@
 #include "pso/ui/TAdGameStartGC.h"
 #include "pso/system/byteswap.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
+#include "pso/system/ModelDrawContext.h"
 class TAdGameStartGC : public TObject {
 public:
     virtual void render();
@@ -263,9 +264,8 @@ void draw_background__17TAdGameStartSubGCFPv(u8 *arg0) {
 
 extern s32 __vt__17TAdGameStartSubGC[];
 extern void *lbl_805D3FB0[2];
-void set_cached_blend_factor(s32 arg0, s32 arg1);
 
-void render__17TAdGameStartSubGCFv(void* p) { if (TMainTask::get_render_pass() != 1) { set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)10)); draw_background__17TAdGameStartSubGCFPv((u8 *)p); set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)6)); } }
+void render__17TAdGameStartSubGCFv(void* p) { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); draw_background__17TAdGameStartSubGCFPv((u8 *)p); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 #pragma push
 #pragma fp_contract on
 void run_task__17TAdGameStartSubGCFv(u8 *arg0) {

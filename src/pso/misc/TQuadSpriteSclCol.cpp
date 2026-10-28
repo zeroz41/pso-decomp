@@ -7,6 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 typedef struct Vec_801E5C24 { f32 x, y, z; } Vec_801E5C24;
 
@@ -92,12 +93,12 @@ void render__17TQuadSpriteSclColFv(Self_801E5C24 *self) {
         if (flags & 4) {
             fn_80141EB4();
         } else {
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
         }
     } else if (flags & 4) {
         setSpriteInverseColorBlend();
     } else {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
     }
     sw = lbl_8058D4F8.sw;
     cx = lbl_8058D4F8.cx;
@@ -158,7 +159,7 @@ void render__17TQuadSpriteSclColFv(Self_801E5C24 *self) {
     }
     TParticleCtrl::end_effect_render();
     ((TUnk_804C57F0 *)self)->quad_sprite_reset_entries();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

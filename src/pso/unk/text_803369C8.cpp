@@ -9,6 +9,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80141A30.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct TitlePulseQuad {
     f32 x0, y0, x1, y1;
@@ -46,7 +47,7 @@ void draw_title_background_pulse(s32 owner, f32 depth, s32 frame) {
     n = frame % 300;
     if (n >= 150 && n <= 170) {
         t = (n - 150) / 20.0f;
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         begin_screen_draw(1);
         bind_title_texture_list();
         c = (s32)(255.0f * (1.0f + -1.0f * t));
@@ -61,7 +62,7 @@ void draw_title_background_pulse(s32 owner, f32 depth, s32 frame) {
         q.v1 = 0.25f;
         draw_textured_quad_at_depth((f32 *)&q, -1.0f / depth);
         TWindowSubStatusDisp::get_player();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 #pragma pop
@@ -104,7 +105,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
     color = calc_pulse_flash_color(0, 0x58, 0x73, frame, 300, 150, 165, 180);
     q.ux = 0.0f;
     q.vx = 0.0f;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     bind_title_texture_list();
     set_draw_texture_and_color(11, color);
@@ -135,7 +136,7 @@ void draw_title_rings(s32 owner, f32 depth, s32 frame) {
         DVDConvertEntrynumToPath((f32 *)&q);
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma pop
 

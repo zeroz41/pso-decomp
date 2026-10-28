@@ -7,6 +7,7 @@
 #include "pso/item/EquippedItemDrawQueue.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct DrawPrefix { u8 prefix[0x18]; };
 
@@ -48,7 +49,7 @@ extern EquippedItemDrawQueue *player_item_id_list;
 
 void TItem::push_equipped_id(s32 id) { ((TObjPlayer *)player_item_id_list)->push_to_list(id); }
 void TUnk_804F29F8::render() {
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -59,7 +60,7 @@ void TUnk_804F29F8::render() {
         DrawTarget *item = (DrawTarget *)find_equipped_item(*id++);
         if (item) {
             item->render();
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
             copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

@@ -985,8 +985,8 @@ s32 TLobby::run_disk_error_check() {
     s32 status;
     Desc_800F8FB8 *pd = &d;
 
-    set_cached_blend_factor(0, 8);
-    set_cached_blend_factor(1, 6);
+    set_color_blending_mode(0, 8);
+    set_color_blending_mode(1, 6);
     d.pos = pos;
     d.ids = ids;
     d.a = 0;

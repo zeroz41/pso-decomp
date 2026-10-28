@@ -7,6 +7,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
     s32 value;
@@ -1087,7 +1088,7 @@ void TRaderMapCore::draw_backdrop(TRaderMapCore *self, s32 mode) {
     colors[1] = color;
     colors[2] = color;
     colors[3] = color;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TParticleCtrl::begin_effect_render();
     ((TObjCMHairMenu *)&desc)->draw_tri_fan_2d(4, 0x16, lbl_805DC574);
     TParticleCtrl::end_effect_render();

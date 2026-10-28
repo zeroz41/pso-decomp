@@ -6,6 +6,7 @@
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 #pragma readonly_strings on
 
 struct RecoveredGlobal_8025A95C_lbl_804CFA10 {
@@ -65,7 +66,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
     if (ctx->f30 < 0) {
         return;
     }
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(1, -1);
@@ -114,7 +115,7 @@ void render_item_rarity_stars(Item_8025A650 *item, Ctx_8025A650 *ctx) {
         x += 17.0f;
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TWindowHelpItem__sub_8025A900(void) {  }

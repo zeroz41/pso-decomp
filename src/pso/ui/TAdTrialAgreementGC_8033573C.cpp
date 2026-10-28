@@ -24,6 +24,7 @@
 #include "pso/misc/TUnk_804EE470.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Base_803357EC_8033573C { char pad[0x18]; };
 struct VObj_803357EC_8033573C : Base_803357EC_8033573C {
@@ -229,7 +230,7 @@ void TAdTrialAgreementGC::render_screen() {
                 var_r31 += 1;
             } while (var_r31 != 0xF);
             bind_title_texture_list();
-            TObjPlayer::init_xyz_limits();
+            set_additive_blend();
             temp_r31 = ((TUnk_804EE458 *)arg0)->sub_8033596C();
             if ((s32) this->m_24 == 1) {
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0xF), 0xF);
@@ -241,7 +242,7 @@ void TAdTrialAgreementGC::render_screen() {
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x1F), 0x1F);
                 draw_record_with_camera__19TAdTrialAgreementGCFlll(arg0, (void *)(temp_r31 + 0x23), 0x23);
             }
-            TObjPlayer::reset_transform_state();
+            set_default_alpha_blend();
         }
         copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
         model_render_flags = saved_model_render_flags;

@@ -8,6 +8,7 @@
 #include "types.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" {
 
@@ -21,7 +22,7 @@ void TObjBoss8DemoRoom::render() {
     TObjFish::set_global_param(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 0xC));
     push_matrix();
     draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)TObjBoss8DemoRoom__shared_resource_object + 0x42C)) + 8)));
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     pop_matrix();
 }
 

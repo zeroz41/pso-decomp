@@ -7,6 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Rect_8032A7C8 { f32 x, y, x2, y2; u8 pad[0x10]; };
 
@@ -52,9 +53,9 @@ void TAdMcSelectMcGC::render() {
     if (defer_render__7TObjectFv() == 0) {
         set_depth_buffer_settings_2();
 block_5:
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         draw_status_window();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         if ((s32) *(s32 *)((s8 *)this + 0x1C) == 0) {
             restore_saved_depth_alpha_state();
         }

@@ -230,11 +230,11 @@ void TAdChrSelSlotGC::render() {
     if (defer_render__7TObjectFv() == 0) {
         set_depth_buffer_settings_2();
 block_5:
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 0xA);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 0xA);
         draw_slot_icons();
-        set_cached_blend_factor(0, 8);
-        set_cached_blend_factor(1, 6);
+        set_color_blending_mode(0, 8);
+        set_color_blending_mode(1, 6);
         if ((s32) this->enabled == 0) {
             restore_saved_depth_alpha_state();
         }

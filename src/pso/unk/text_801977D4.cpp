@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/TObjRain.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 struct Vec_80197904 { f32 x, y, z; };
 
 struct Drop_80197904 {
@@ -49,7 +50,7 @@ void TObjRain::draw_streaks() {
     struct Rain_801977D4 *self = (struct Rain_801977D4 *)this;
     struct Drop_801977D4 *drop;
     u32 i;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     drop = self->drops;
     for (i = 0; i < self->count; drop++, i++) {
         if (drop->active != 0) {
@@ -69,7 +70,7 @@ void TObjRain::draw_streaks() {
         }
     }
     reset_line_width();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TObjRain::update_drops() {

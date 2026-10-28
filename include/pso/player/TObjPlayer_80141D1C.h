@@ -19,6 +19,8 @@ void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 void fn_80141EB4(void);
 }
+void set_additive_blend();
+void set_default_alpha_blend();
 void setSpriteInverseColorBlend(void);
 f32 vec_distance_squared(u8 *arg0, u8 *arg1);
 void vsub(void *arg0, void *arg1, void *arg2);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/ModelDrawContext.h"
 
 struct RecoveredGlobal_803DCBD8_lbl_8058D380 {
     s32 value;
@@ -69,7 +70,6 @@ void init_render_context(C_803DCBF0 *arg0);
 extern RecoveredCallback_1268626c296b motion_node_draw_callback;
 void draw_motion_node_tree_with_context(struct Node_803DCB40 *arg0);
 __declspec(section ".rodata") extern const Tbl_803DCC34 gx_blend_mode_table;
-void set_cached_blend_factor(s32 arg0, s32 arg1);
 s32 apply_quat_rotation__10TObjPlayerFf(void *, f32);
 s32 rotate_matrix_by_node_angles(void *, void *);
 s32 scale_current_matrix(void *);
@@ -214,16 +214,16 @@ void init_render_context(C_803DCBF0 *arg0) {
 }
 
 #define REG_803DCC34 ((Reg_803DCC34 *) current_render_context)
-void set_cached_blend_factor(s32 arg0, s32 arg1) {
+void set_color_blending_mode(s32 target, s32 mode) {
     Tbl_803DCC34 tbl = gx_blend_mode_table;
-    if (arg1 == 0) {
+    if (mode == 0) {
         REG_803DCC34->mode = (REG_803DCC34->mode & 0x03FFFFFF) | 0xB0000000;
-    } else if (arg1 == 0) {
+    } else if (mode == 0) {
         REG_803DCC34->mode = (REG_803DCC34->mode & 0x03FFFFFF) | 0x94000000;
-    } else if (arg0 == 0) {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0x1FFFFFFF) | (tbl.v[arg1] << 29);
+    } else if (target == 0) {
+        REG_803DCC34->mode = (REG_803DCC34->mode & 0x1FFFFFFF) | (tbl.v[mode] << 29);
     } else {
-        REG_803DCC34->mode = (REG_803DCC34->mode & 0xE3FFFFFF) | (tbl.v[arg1] << 26);
+        REG_803DCC34->mode = (REG_803DCC34->mode & 0xE3FFFFFF) | (tbl.v[mode] << 26);
     }
 }
 

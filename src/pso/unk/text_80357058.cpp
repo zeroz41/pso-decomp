@@ -17,6 +17,7 @@
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/item/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot { s32 value; u8 remaining[0x1C]; };
 typedef char RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot_size[sizeof(RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot) == 0x20 ? 1 : -1];
@@ -205,11 +206,11 @@ void TItemEffOrgaFlowShot::render() {
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     TObjPlayer__sub_803DF768(1);
     draw_untextured_trail_strip((void *)(arg0 + 0xC4), (void *)(0xA));
     reset_player_transform();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     restore_saved_depth_alpha_state();
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();

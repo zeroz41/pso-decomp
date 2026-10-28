@@ -108,7 +108,7 @@ extern u8 lbl_804786F0[];
 void __ct__7TObjectFP7TObject(void *);
 
 
-void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)10)); sub_80348E34(); set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)6)); } }
+void TAdChrMoveEffectGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); sub_80348E34(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 
 extern s32 __vt__18TAdChrMoveEffectGC[];
 extern u32 lbl_805D6E78;

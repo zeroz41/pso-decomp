@@ -10,6 +10,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 {
     s32 value;
@@ -219,7 +220,7 @@ void TObjNpcEnemy::update_state() {
     case 0:
         set_global_flag__10TObjPlayerFv(this);
         draw_chunk_object(this->model);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjPlayer::clear_global_state();
         return;
     case 1:
@@ -228,7 +229,7 @@ void TObjNpcEnemy::update_state() {
     case 2:
         set_global_flag__10TObjPlayerFv(this);
         draw_ginja_object(this->model);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TObjPlayer::clear_global_state();
         return;
     case 3:

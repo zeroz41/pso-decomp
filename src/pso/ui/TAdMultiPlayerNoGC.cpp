@@ -42,7 +42,7 @@ void TAdMultiPlayerNoGC::render_status() {
     TWindowSubStatusDisp::get_player();
 }
 
-void TAdMultiPlayerNoGC::render() { if (TMainTask::get_render_pass() != 1) { set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)10)); render_status(); set_cached_blend_factor((s32)((void*)0), (s32)((void*)8)); set_cached_blend_factor((s32)((void*)1), (s32)((void*)6)); } }
+void TAdMultiPlayerNoGC::render() { if (TMainTask::get_render_pass() != 1) { set_color_blending_mode(0, 8); set_color_blending_mode(1, 10); render_status(); set_color_blending_mode(0, 8); set_color_blending_mode(1, 6); } }
 void TAdMultiPlayerNoGC::run_task() {  }
 #pragma fp_contract on
 TAdMultiPlayerNoGC::~TAdMultiPlayerNoGC() {}

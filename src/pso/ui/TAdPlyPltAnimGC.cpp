@@ -7,6 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct V2_80355D5C { f32 x, y; };
 struct Obj_80355D5C { u8 pad0[0x3C]; f32 a, b, c, d; u8 pad4C[0x10]; f32 e, f; };
@@ -70,13 +71,13 @@ void release_texture_list(void*);
 void TAdPlyPltAnimGC::render() {
     u8 *arg0 = (u8 *)this;
     if (((s32) *(s32 *)((s8 *)arg0 + 0x74) != 0) && (TMainTask::get_render_pass() != 1)) {
-        TObjPlayer::init_xyz_limits();
+        set_additive_blend();
         begin_screen_draw(1);
         TObjFish::set_global_param(player_prate_texture_list_ptr);
         set_draw_texture_and_color(0, (*(u8 *)((s8 *)arg0 + 0x6C) << 0x18) | 0xFF0000 | 0xFFFF);
         draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), (lbl_805DFFCC * (f32) *(s32 *)((s8 *)arg0 + 0x70)) + lbl_805DFFC8);
         TWindowSubStatusDisp::get_player();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 #pragma pop

@@ -8,6 +8,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/misc/TUnk_804A7488.h"
 #include "pso/misc/TPlyPhotonChair.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_801426DC_lbl_8050BFF0 {
     s32 value;
@@ -479,7 +480,7 @@ void draw_motion_model_saving_joints(TObjPlayer *player) {
         draw_model_motion((void *)(*(s32 *)((s8 *)player + 0x34)), (void *)player->unknownF8, player->m_c0);
     }
     TObjEneRe7Berura::set_global_state((s32)NULL);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TObjPlayer::draw_model_with_callback() {
@@ -497,7 +498,7 @@ void TObjPlayer::draw_model_with_callback() {
             draw_model_motion((void *)this->model, (void *)this->unknownF8, this->m_c0);
         }
         TObjEneRe7Berura::set_global_state(NULL);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
     }
 }
 
@@ -510,7 +511,7 @@ void TObjEnemy::render_world_model() {
         draw_model_motion((void *)this->model, (void *)this->unknownF8, this->m_c0);
         TObjEneRe7Berura::set_global_state((s32)((s32 *)(0)));
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TObjPlayer::clear_global_state();
 }
 
@@ -524,7 +525,7 @@ void TObjMotion::draw() {
         draw_model_motion((void *)this->model, (void *)this->unknownF8, this->m_c0);
         TObjEneRe7Berura::set_global_state(0);
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     restore_actor_draw_lighting(*(s32 *)&this->m_name);
     TObjPlayer::clear_global_state();
 }
@@ -539,7 +540,7 @@ void TObjEneMe3Stelth::draw_model() {
         draw_ginja_model__10TObjPlayerFl(*(s32 *)&this->model, *(s32 *)&this->unknownF8, this->m_c0);
         set_model_node_callback(0);
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     restore_actor_draw_lighting(*(s32 *)&this->m_name);
     TObjPlayer::clear_global_state();
 }

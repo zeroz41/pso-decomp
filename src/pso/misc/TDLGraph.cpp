@@ -4,6 +4,7 @@
 #include "pso/misc/TDLGraph.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_8007F77C___vt__8TDLGraph {
     s32 value;
@@ -31,7 +32,7 @@ void TDLGraph::sub_8007F644() {
 
 void TDLGraph::render() {
     TDLGraph_8007F66C *self = (TDLGraph_8007F66C *)this;
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TCameraCtrl::restore_full_screen_view();
     fn_8007F27C(self, lbl_80438AA4, lbl_80438AAC);
     ((TDLGraph *)self)->draw_countdown_timer(lbl_805D92CC, lbl_805D92D0);

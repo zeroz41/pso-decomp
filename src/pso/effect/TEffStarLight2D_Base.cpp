@@ -6,6 +6,7 @@
 #include "pso/object/TObjMotion.h"
 
 #include <stddef.h>
+#include "pso/player/TObjPlayer_80141D1C.h"
 struct Stack_80084C10 {
     s32 sp8;
     s32 spC;
@@ -182,7 +183,7 @@ void render__15TEffStarLight2DFv(T_800850CC *arg0) {
             }
         }
     }
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 #pragma opt_propagation reset
 

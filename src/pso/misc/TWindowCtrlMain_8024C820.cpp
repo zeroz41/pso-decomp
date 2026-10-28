@@ -16,6 +16,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/TObjCMHairMenu.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct VObj_8024C820 {
     char pad[0x18];
@@ -49,7 +50,7 @@ s32 is_window_display_enabled();
 void __ct__7TObjectFP7TObject(void *);
 int render_nodes__7TObjectFv(void);
 
-void TWindowCtrlClipOut::render() { if (is_window_display_enabled() != 0) { TObjPlayer::reset_transform_state(); TParticleCtrl::begin_effect_render(); TCameraCtrl::restore_full_screen_view(); TWindowCtrlMain__sub_8024CE34(); render_nodes__7TObjectFv(); TCameraCtrl__sub_80068EF0(); TParticleCtrl::end_effect_render(); } }
+void TWindowCtrlClipOut::render() { if (is_window_display_enabled() != 0) { set_default_alpha_blend(); TParticleCtrl::begin_effect_render(); TCameraCtrl::restore_full_screen_view(); TWindowCtrlMain__sub_8024CE34(); render_nodes__7TObjectFv(); TCameraCtrl__sub_80068EF0(); TParticleCtrl::end_effect_render(); } }
 
 extern void *TWindowCtrlClipOut__name;
 
@@ -123,7 +124,7 @@ void TWindowCtrlScreen::render() {
     u16 viewport_index;
     if (is_window_display_enabled() != 0) {
         viewport_index = get_nth_view_player_id__11TCameraCtrlFl((int) (TCameraCtrl::get_camera_no()));
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         TParticleCtrl::begin_effect_render();
         ((TObject *)TWindowCtrlMain__instance)->render_nodes();
         TWindowCtrlMain__sub_8024D2A4(((s32) viewport_index));

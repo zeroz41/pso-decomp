@@ -1,6 +1,7 @@
 #include "pso/TWindowEffectLight.h"
 #include "pso/misc/TWindowEffectLight.h"
 #include "pso/misc/TCameraCtrl.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 TWindowEffectLight::~TWindowEffectLight() {}
 
@@ -106,7 +107,7 @@ void render__18TWindowEffectLightFv(u8 *window_effect_light) {
   {
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     temp_r0 = *((s16 *) (((s8 *) window_effect_light) + 0x24));
@@ -137,7 +138,7 @@ void render__18TWindowEffectLightFv(u8 *window_effect_light) {
       }
     }
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
     TCameraCtrl__sub_80068EF0();
     TParticleCtrl::end_effect_render();
   }

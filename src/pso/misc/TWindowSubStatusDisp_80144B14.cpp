@@ -5,6 +5,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_8000F764_TKeyBoardControl__data_80506270 {
     s32 value;
@@ -480,7 +481,7 @@ void draw_menu_font_string(const char *s, s32 arg1, u32 flags, f32 x, f32 y, f32
   }
   pos.x = x;
   pos.y = y;
-  TObjPlayer::reset_transform_state();
+  set_default_alpha_blend();
   TWindowSubStatusDisp::reset_gauge((void*)(0));
   flags &= 1;
   while ((*s) != 0)

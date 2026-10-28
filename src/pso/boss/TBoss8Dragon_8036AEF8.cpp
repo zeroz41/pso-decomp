@@ -7,6 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_8036AF40_lbl_804F3610 {
     s32 value;
@@ -78,7 +79,7 @@ void TBoss8Dragon__sub_8036B088(void) {
     f32 p[2];
     s32 ang;
     ang = (-lbl_805D7000 << 16) / 30;
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     TParticleCtrl::begin_effect_render();
     TCameraCtrl::restore_full_screen_view();
     begin_screen_draw(1);
@@ -98,7 +99,7 @@ void TBoss8Dragon__sub_8036B088(void) {
     p[1] = (0.5f);
     TBoss8Dragon__sub_8036AF50(o, p, -0x2000, ang);
     TWindowSubStatusDisp::get_player();
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void fn_8036B18C(void) {

@@ -2,6 +2,7 @@
 #include "pso/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 extern "C" void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 
@@ -19,9 +20,9 @@ static VoloptLineList volopt_line = {
 void TUnk_80484870::render() {
     VecCopy(&volopt_line_points[0], (Vec *)from);
     VecCopy(&volopt_line_points[1], (Vec *)to);
-    TObjPlayer::init_xyz_limits();
+    set_additive_blend();
     draw_line_list(&volopt_line, 1, 5);
-    TObjPlayer::reset_transform_state();
+    set_default_alpha_blend();
 }
 
 void TUnk_80484870::run_task() {}

@@ -54,6 +54,7 @@
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
@@ -5096,7 +5097,7 @@ void TObjPlayer::clear_action_flag() {
 void TObjPlayer::apply_material_color_override() {
     s32 arg0 = (s32)this;
     if (!(((TObjPlayer *)(arg0 + 0x608))->get_mag_scale_f() >= TObjPlayer__data_805DC294)) {
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(-1, 0x800);
         set_constant_material((const NJS_ARGB *)((arg0 + 0x624)));
@@ -7400,7 +7401,7 @@ void TObjPlayer::draw_head_attachments() {
             set_shadow_material_state();
         }
         TObjPlayer::play_phase_transition_sound(this->m_8b4);
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         pop_matrix();
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x8B0) != 0U) {
@@ -7413,7 +7414,7 @@ void TObjPlayer::draw_head_attachments() {
         TCharaMaking::enable_making();
         draw_chunk_object((void *)(*(u32 *)((s8 *)((u8 *)this) + 0x8B0)));
         TCharaMaking::clear_flag_bit0();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         pop_matrix();
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x8AC) != 0U) {
@@ -7429,7 +7430,7 @@ void TObjPlayer::draw_head_attachments() {
         TCharaMaking__draw_colored_hair(alpha, (s32)*(u32 *)((s8 *)((u8 *)this) + 0x8AC),
             (CharacterAppearanceFields *)(((u8 *)this) + 0x85C), var_r31);
         TCharaMaking::clear_flag_bit0();
-        TObjPlayer::reset_transform_state();
+        set_default_alpha_blend();
         pop_matrix();
     }
 }
