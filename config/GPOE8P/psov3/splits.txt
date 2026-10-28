@@ -2790,13 +2790,12 @@ pso/item/TItemProShield_801181D0.cpp:
 	.text       start:0x801181D0 end:0x8011892C
 	.rodata     start:0x8043E658 end:0x8043E660
 
-pso/unk/text_8011892C.cpp:
-	.text       start:0x8011892C end:0x80118F5C
-	.rodata     start:0x8043E670 end:0x8043E678
-	.data       start:0x804A02B0 end:0x804A03A4
-
 pso/item/TItemProUnit.cpp:
-	.text       start:0x80118F5C end:0x80119060
+	.text       start:0x8011892C end:0x80119060
+	.rodata     start:0x8043E660 end:0x8043E678
+	.data       start:0x804A02B0 end:0x804A03A4
+	.sdata      start:0x805D2C40 end:0x805D2C44
+	.sdata2     start:0x805DABF8 end:0x805DAC08
 
 pso/item/TItemLockCountCtrl_80119238.cpp:
 	.text       start:0x80119060 end:0x80119600

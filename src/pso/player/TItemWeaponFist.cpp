@@ -1,7 +1,7 @@
 // ---- pso/unk/text_80126740
 #include "types.h"
 #include "pso/unk/text_80126740.h"
-#include "pso/item/TItemProUnit.h"
+#include "pso/player/PlayerAttackParams.h"
 
 
 extern "C" {
@@ -25,13 +25,13 @@ u8 *create_baranz_launcher(u8 *arg0) {
 }
 
 void fist_reset_attack_rate(u8 *arg0) {
-    ((TItemProUnit *)(*(s32 *)((s8 *)arg0 + 0xF0) + 0x7CC))->set_evp(1.0f);
+    ((PlayerAttackState *)(*(s32 *)((s8 *)arg0 + 0xF0) + 0x7CC))->set_evp(1.0f);
 }
 
 // ---- pso/player/TObjPlayer_801267C4
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemProUnit.h"
+#include "pso/player/PlayerAttackParams.h"
 
 extern "C" {
 
@@ -63,7 +63,7 @@ void TObjPlayer::apply_shield_scale_to_unit() {
         var_f31 = 1.2f;
         break;
     }
-    ((TItemProUnit *)(*(s32 *)&this->unk_F0 + 0x7CC))->set_evp(var_f31);
+    ((PlayerAttackState *)(*(s32 *)&this->unk_F0 + 0x7CC))->set_evp(var_f31);
 }
 
 }

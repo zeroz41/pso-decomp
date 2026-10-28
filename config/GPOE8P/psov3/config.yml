@@ -360,7 +360,7 @@ force_active:
   - __ct__13TUnk_8049F770FP7TObjectPUc
   - __ct__13TUnk_8049F998FP7TObjectPUc
   - __ct__13TUnk_8049FA50FP7TObjectPUc
-  - TItemProUnit__vt16
+  - write_item_data__12TItemProUnitFP9TItemData
   - TItemTexLoad_class_name
   - TItemTexLoad_name
   - TItemTimer__sub_8011D598

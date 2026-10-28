@@ -28,7 +28,7 @@ extern BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor;
 
 #include <stddef.h>
 #include "pso/enemy/TObjEneDD.h"
-#include "pso/item/TItemProUnit.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItem.h"
 struct Stack_803626A8 {
@@ -329,13 +329,13 @@ void *TObjEneEpsilon__ct(void *ene_epsilon) {
 extern s32 lbl_804F26E0[];
 
 void TUnk_804F26E0::vfunc_62() {
-    ((TItemProUnit *)(*(s32 *)&this->player + 0x7CC))->set_evp(lbl_805E0258);
+    ((PlayerAttackState *)(*(s32 *)&this->player + 0x7CC))->set_evp(lbl_805E0258);
 }
 }
 extern s32 tl_05;
 u8 *create_s_rank_knuckle(u8 *arg0);
 void s_rank_knuckle_equip(u8 *arg0) {
-    ((TItemProUnit *)(*(s32 *)((s8 *)arg0 + 0xF0) + 0x7CC))->set_evp(lbl_805E025C);
+    ((PlayerAttackState *)(*(s32 *)((s8 *)arg0 + 0xF0) + 0x7CC))->set_evp(lbl_805E025C);
 }
 
 typedef struct S_80362C80 S_80362C80;

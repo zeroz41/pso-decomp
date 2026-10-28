@@ -37,8 +37,14 @@ AttackParams *get_actor_attack_params(TUnk_804806E8 *actor);
 
 // The player's attack state block (TObjPlayer::attack_state, at 0x7CC).
 struct PlayerAttackState {
-    u8 pad_0[0xC];
+    u8 pad_0[0x8];
+    // Raised to an equipped unit's TItemProUnit::evp_scale, reset to 1.0
+    // when it is removed.
+    f32 evp_scale;
     FlagWord flags;
+
+    void set_evp(f32 scale);
+    f32 get_evp();
 
     // Bit 0x20 follows the item effect pair 0x20/0x40 (TItemEquipBase::effect_flags).
     void set_item_effect();

@@ -2938,7 +2938,6 @@ pso/unk/text_8010F210.cpp
 pso/unk/text_8011085C.cpp
 pso/unk/text_80117FEC.cpp
 pso/unk/text_80118164.cpp
-pso/unk/text_8011892C.cpp
 pso/unk/text_8011B328.cpp
 pso/unk/text_8011B620.cpp
 pso/unk/text_8011B694.cpp
