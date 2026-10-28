@@ -1197,7 +1197,7 @@ s32 TObjPlayer__sub_80082300(void *);
 s32 is_inactive__10TObjPlayerFv();
 s32 init_entry_fields__6TLobbyFiii(int, int, void *, void *);
 u32 activate_d04_slot__10TObjPlayerFv(s32);
-s32 spawn_appearance_effect__10TObjPlayerFl();
+s32 spawn_appearance_effect__10TObjPlayerFUs();
 s32 is_active__8TItemMagFv();
 s16 get_sub_value__8TItemMagFv(void *);
 s16 get_type_id__10TObjPlayerFv(void* p);
@@ -2464,7 +2464,7 @@ void TObjPlayer::update_warp_relocation() {
             activate_body_collision();
             if (((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(this) != 0) {
                 ((s32 (*)(void *))get_entity_id)(this);
-                spawn_appearance_effect__10TObjPlayerFl();
+                spawn_appearance_effect__10TObjPlayerFUs();
             }
         }
         break;

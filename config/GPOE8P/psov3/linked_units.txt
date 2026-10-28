@@ -591,7 +591,6 @@ pso/item/TItemDrop_800F93F0.cpp
 pso/item/TItemDrop_800F9C00.cpp
 pso/item/TItemDrop_80105D0C.cpp
 pso/item/TItemEffArmor.cpp
-pso/item/TItemEffArmorParticle.cpp
 pso/item/TItemEffBringer.cpp
 pso/item/TItemEffCane.cpp
 pso/item/TItemEffEquip.cpp

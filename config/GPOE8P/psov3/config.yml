@@ -3517,7 +3517,7 @@ force_active:
   - create__17TWindowSubComCardFv
   - create__18TChCrTagOccupationFPv
   - create__19TChCrTagInformationFPv
-  - create__21TItemProArmorParticleFllll
+  - create_effect__21TItemProArmorParticleFP7TObjectlUsl
   - create__22TQuestVmDownLoadServerFv
   - create__23TAdSinglePlyChrSelectGCFv
   - create__23TObjOnlineEndingHexLineFPvPv
@@ -4647,7 +4647,7 @@ force_active:
   - init_dice_state__11TBoss6Type1Fv
   - init_drop_table__9TItemDropFv
   - init_effect__11TBoss4Type3FPv
-  - init_effect_flags__13TItemProArmorFv
+  - apply_armor_effect_flags__13TItemProArmorFv
   - init_effect_object__13TUnk_804EDD20Fv
   - init_effect_slot_1__11TBoss6Type1Fv
   - init_enemy__16TObjEneRe7BeruraFv
@@ -4776,7 +4776,7 @@ force_active:
   - init_with_global_table__11TBoss6Type2Fv
   - init_work__11TBoss6Type1Fv
   - init_zeroed_object__10TObjPlayerFv
-  - initialize__13TUnk_804A05C8FPvPvPvPv
+  - initialize__13TUnk_804A05C8FP15TItemHeapObjectUsll
   - initialize__16TItemWeaponRifleFlPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
   - initialize_boss6_type2_appear_particle_origin__Fv

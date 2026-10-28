@@ -1221,7 +1221,7 @@ struct TObjPlayer : public TObjChara {
     void draw_shadowed_node_tree();
     static void rebuild_players_for_stage(s32 arg0);
     static s32 snap_to_ground(s32 arg0, s32 arg1);
-    static void spawn_appearance_effect(s32 idx);
+    static void spawn_appearance_effect(u16 client);
     static u8 *create_vtable_804A08B8(u8 *arg0);
     static u8 *create_substate(u8 *arg0);
     static u8 *create_enter_state_804A0BC0(u8 *arg0);

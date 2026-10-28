@@ -470,9 +470,13 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # generation; the data keeps source order) and built with GC/2.0, like the
     # struct-copy units above.
     "pso/item/TItem.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
-    # TItemProShield.cpp and TItemProUnit.cpp are written from their last
-    # function back (deferred code generation, which also puts each vtable
-    # before the switch tables).
+    # TItemProArmor.cpp, TItemProShield.cpp and TItemProUnit.cpp are written
+    # from their last function back (deferred code generation, which also puts
+    # each vtable before the switch tables).
+    "pso/item/TItemProArmor.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TItemProArmorParticle.cpp is written from its last function back too:
+    # its data (class names, particle table) keeps source order.
+    "pso/item/TItemProArmorParticle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/item/TItemProUnit.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/item/TItemProShield.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TItemEquipBase.cpp keeps its class-name string in .rodata.

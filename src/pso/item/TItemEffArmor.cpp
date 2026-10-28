@@ -184,8 +184,8 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
 
 #pragma defer_codegen on
 
-void TObjPlayer::spawn_appearance_effect(s32 idx) {
-    Player_80108164 *p = (Player_80108164 *)get_player_by_client_id((u16)idx);
+void TObjPlayer::spawn_appearance_effect(u16 client) {
+    Player_80108164 *p = (Player_80108164 *)get_player_by_client_id(client);
     if (p != 0) {
         Quest_80108164 *q = (Quest_80108164 *)((TObjPlayer *)p)->get_stats();
         if (q != 0) {
@@ -285,11 +285,11 @@ void TItemEffArmor::render() {
     pop_matrix();
 }
 
-u8 *fn_80107DA4(u8 *arg0, u8 *arg1, s16 arg2) {
+u8 *fn_80107DA4(u8 *arg0, u8 *arg1, u16 arg2) {
     __ct__7TObjectFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8049EFB8.value;
     *(s32 *)((s8 *)arg0 + 0x1C) = 0;
-    *(s16 *)&((TUnk_8049EFB8 *)arg0)->m_20 = arg2;
+    ((TUnk_8049EFB8 *)arg0)->m_20 = arg2;
     return arg0;
 }
 

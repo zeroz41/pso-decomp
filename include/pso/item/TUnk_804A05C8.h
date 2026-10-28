@@ -6,7 +6,9 @@
 class TUnk_804A05C8 : public TItemTimerEvent {
 public:
     virtual ~TUnk_804A05C8();
-    void *initialize(void *, void *, void *, void *);
+    // The armor particle timer (TItemProArmorParticle::on_equip): plays
+    // particle on the client's player every duration frames.
+    void *initialize(TItemHeapObject *parent, u16 client, s32 duration, s32 particle);
     virtual void vfunc_6();
     u8 unk_2C[0x4];
 };
