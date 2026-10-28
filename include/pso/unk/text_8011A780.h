@@ -10,6 +10,8 @@ u32 advance_item_id_counter(u16 client);
 void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item);
 void remove_item_condition_at(s16 floor, s32 item_id);
 u32 build_item_id(u16 arg0);
+extern s32 build_item_id_mode;
+extern s32 lbl_805D54E0;
 void handle_6x5C_destroy_floor_item(void *arg0);
 void handle_6x60_standard_drop_item_request(void *arg0);
 void handle_6x62(void);

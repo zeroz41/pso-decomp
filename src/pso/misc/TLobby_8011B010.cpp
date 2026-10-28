@@ -5,20 +5,17 @@
 #include "pso/system/byteswap.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItemIdCounters.h"
+#include "pso/unk/text_8011A780.h"
 
 // FloorItem::FloorItem() on the packet's item record.
 extern "C" void *__ct__9FloorItemFv(void *item);
 
 extern "C" {
 void *mem_alloc(u32 size);
-    extern int lbl_805D54E0;
-    extern int build_item_id_mode;
 extern s32 item_sync_counter_table;
 extern s32 item_id_counter_table;
 extern s32 quest_object_entries;
 void mem_free(void *p);
-
-}
 
 TItemIdCounters::~TItemIdCounters() {
     mem_free((void *)item_sync_counter_table);
@@ -34,8 +31,6 @@ TItemIdCounters::TItemIdCounters() {
     lbl_805D54E0 = 0;
     build_item_id_mode = 0;
 }
-
-extern "C" {
 void TLobby::send_item_packet() { bswap_item_packet(); send_subcommand((u8 *)this); }
 void TLobby::bswap_item_packet() { ((G_ClientIDHeader *)this)->bswap(); ((TLobby *)((char*)this + 0x4))->bswap_item(); }
 void *TLobby::init_header_packet() {

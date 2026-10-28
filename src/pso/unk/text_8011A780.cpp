@@ -70,7 +70,6 @@ void set_boss_buf_entry__6TLobbyFii(s32 v, u16 idx);
 void *find_item_condition_entry__6TLobbyFii(s16 a, u32 b);
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
-extern s32 build_item_id_mode;
 void init__9TItemDataFv(void *);
 extern Source_8011AA68 *quest_object_entries;
 void apply_by_index__9TObjEnemyFs(s16, void *);
