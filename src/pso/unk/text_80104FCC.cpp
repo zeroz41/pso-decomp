@@ -123,8 +123,10 @@ int check_class_equip_permission(TObjPlayer *player, s32 perm) {
 }
 
 int roll_weapon_special_channel15(void* p) { return roll_weapon_special_for_stars(p); }
-s32 TLobby::dispatch_item_by_type() {
-    Item_8010542C *src = (Item_8010542C *)this;
+}
+
+TItem *construct_item(TItemData *data) {
+    Item_8010542C *src = (Item_8010542C *)data;
     Fn_8010542C fn;
     if (src != 0) {
         Item_8010542C item = *src;
@@ -134,13 +136,15 @@ s32 TLobby::dispatch_item_by_type() {
                 fn = item_create_fn_table[*(u8 *)src];
                 if (fn != 0) {
                     ((TLobby *)(item.b.w[2]))->observe_item_id();
-                    return fn(&item);
+                    return (TItem *)fn(&item);
                 }
             }
         }
     }
     return 0;
 }
+
+extern "C" {
 
 s32 TLobby__sub_801054E0(In_801054E0 *arg0) {
     if (arg0 != 0) {

@@ -832,7 +832,6 @@ struct TLobby : public TObject {
     static s32 is_entry_valid(s32 arg0);
     static void respawn_missing_floor_items(s32 n);
     static s32 remove_item_condition(s32 n, s32 val);
-    s32 dispatch_item_by_type();
     void observe_item_id();
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();

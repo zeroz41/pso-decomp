@@ -1,3 +1,4 @@
+#include "pso/unk/text_80104FCC.h"
 #include "types.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/player/TObjPlayer.h"
@@ -23,7 +24,6 @@ struct Item_801057A8 {
 extern "C" {
 s8 get_current_floor(void);
 s32 place_on_ground__5TItemFsPfl(Item_801057A8 *, s32, f32 *, s32);
-Item_801057A8 *dispatch_item_by_type__6TLobbyFv(void *);
 Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1);
 Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     Item_801057A8 *item;
@@ -39,7 +39,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
             ok = 1;
         }
         if (ok != 0) {
-            item = dispatch_item_by_type__6TLobbyFv(arg0->item);
+            item = (Item_801057A8 *)construct_item((TItemData *)arg0->item);
             if (item != NULL) {
                 item->x = arg0->x;
                 item->z = arg0->z;

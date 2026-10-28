@@ -333,7 +333,7 @@ void free_item_system() {
     item_registry_count = 0;
 }
 
-TItem *create_item(TItemData *data) { return (TItem *)((TLobby *)data)->dispatch_item_by_type(); }
+TItem *create_item(TItemData *data) { return construct_item(data); }
 
 void advance_item_system_generation() { item_system_generation++; }
 

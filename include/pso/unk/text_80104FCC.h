@@ -10,6 +10,11 @@ int roll_weapon_special_channel15(void *p);
 s32 check_equip_requirements(void *player, void *item, s32 *requirement);
 }
 
+struct TItem;
+struct TItemData;
+// Builds the item object for `data` with its type's create function.
+TItem *construct_item(TItemData *data);
+
 // --- C functions defined in text_80104FCC.cpp ---
 extern "C" {
 int roll_weapon_special_channel15(void *p);

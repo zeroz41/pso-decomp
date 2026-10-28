@@ -1,3 +1,4 @@
+#include "pso/unk/text_80104FCC.h"
 #include "types.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/misc/TShopArmorListWindow.h"
@@ -174,7 +175,6 @@ s32 calc_list_content_extent(void *);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 void *memset(void *, int, unsigned long);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
-s32 check_equip_requirements(int, void *, int);
 s32 get_item_record__23TShopJudgmentItemWindowFPv(int, int, int);
 void set_judgment_target_flag(void *arg0, void *arg1);
 f32 get_scale__15TShopWindowBaseFv(void *);
@@ -421,7 +421,7 @@ void TShopJudgmentItemWindow::update_judge_confirm() {
                     *(u32 *)((s8 *)arg0 + 0x15C) = 0U;
                 }
                 try_spend_actor_meseta((u8 *)(*(s32 *)((s8 *)arg0 + 0x24)), 0x64);
-                if (check_equip_requirements((s32) (*(s32 *)((s8 *)arg0 + 0x24)), arg0 + 0x28, 0) != 0) {
+                if (check_equip_requirements(*(void **)((s8 *)arg0 + 0x24), arg0 + 0x28, NULL) != 0) {
                     ((VObj_18 *)(arg0))->m6(0xC, 1);
                     TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x158)));
                     *(u32 *)((s8 *)arg0 + 0x158) = 0U;
@@ -482,7 +482,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             }
             TItemData__clear_unidentified_flag(((u8 *)&this->unk_28));
             this->m_34 = advance_item_id_counter(((u16) local_client_id));
-            this->m_50 = ((TLobby *)(arg0 + 0x28))->dispatch_item_by_type();
+            this->m_50 = (u32)construct_item((TItemData *)(arg0 + 0x28));
             ((TShopJudgmentItemWindow *)(this->m_154))->add_list_entry(this->m_50, 0);
             ((TWindowSubShortCutList *)(this->m_154))->set_flag70_bit10();
             ((TWindowSubTradeMain *)(this->m_154))->set_visible();
