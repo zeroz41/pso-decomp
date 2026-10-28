@@ -4,13 +4,13 @@
 extern "C" {
 void *find_item_combination_recipe(void *item, void *equip);
 }
-void *find_unique_combination_target(void *player, void *item) {
+TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item) {
     s32 count = 0;
-    void *found;
+    TItem *found;
     s32 i;
-    void *e;
+    TItem *e;
     for (i = 0; i != 13; i++) {
-        e = ((TObjPlayer *)player)->get_equipped_item(i);
+        e = player->get_equipped_item(i);
         if (find_item_combination_recipe(item, e) != NULL) {
             found = e;
             count++;

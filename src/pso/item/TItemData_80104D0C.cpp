@@ -64,7 +64,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
     u8 v;
     rec = NULL;
     if (o != NULL && item != NULL) {
-        it = find_unique_combination_target(o, item);
+        it = find_unique_combination_target((TObjPlayer *)o, (TItemData *)item);
         if (it != NULL) {
             init__9TItemDataFv(&d);
             ((TItem *)it)->copy_to_item_data((TItemData *)&d);

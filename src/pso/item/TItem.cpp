@@ -1556,7 +1556,7 @@ void TItem::use_combination_recipe() {
     TItemData result;
     if (owner != NULL) {
         copy_to_item_data(&data);
-        TItem *target = (TItem *)find_unique_combination_target((void *)owner, &data);
+        TItem *target = find_unique_combination_target(owner, &data);
         u8 *recipe = (u8 *)find_eligible_combination_recipe((s32)owner, (u8 *)&data);
         if (recipe != NULL && target != NULL) {
             result.init();

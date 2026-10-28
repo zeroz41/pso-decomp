@@ -3,6 +3,11 @@
 
 #include "types.h"
 
-void *find_unique_combination_target(void *player, void *item);
+struct TItem;
+struct TItemData;
+struct TObjPlayer;
+
+// The one equipped item item combines with, or NULL when none or several do.
+TItem *find_unique_combination_target(TObjPlayer *player, TItemData *item);
 
 #endif
