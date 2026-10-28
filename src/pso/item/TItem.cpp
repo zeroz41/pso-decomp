@@ -72,6 +72,7 @@
 #include "pso/map/CurrentArea.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/player/TObjPlayer_80104860.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -462,7 +463,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
         copy_to_item_data(&data);
         add_item_condition(floor, position[0], position[2], group_ids[0], (u8 *)&data);
     }
-    if (TObjPlayer::is_active_battle_player() == 1 || floor != get_current_floor()) {
+    if (is_local_player_off_current_floor() == 1 || floor != get_current_floor()) {
         destroy();
         return;
     }

@@ -481,7 +481,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     s32 can_pickup_item_by_id(TItem *item);
     s32 can_pickup_item(TItemData *data);
     f32 get_mag_scale_f();
-    static s32 is_active_battle_player();
     static u8 find_adjacent_matching_slot(u8 arg0);
     static u8 get_next_matching_special_index(u8 arg0);
     static void free_item_globals();

@@ -2,6 +2,7 @@
 #include "types.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80104860.h"
 struct Msg_801057A8 {
     s8 client;
     u8 pad1[3];
@@ -33,7 +34,7 @@ Item_801057A8 *spawn_dropped_item_from_msg(Msg_801057A8 *arg0, s32 arg1) {
     item = NULL;
     if (arg0 != NULL) {
         me = get_current_floor();
-        act = TObjPlayer::is_active_battle_player();
+        act = is_local_player_off_current_floor();
         ok = 0;
         if (arg0->client == me && act != 1) {
             ok = 1;

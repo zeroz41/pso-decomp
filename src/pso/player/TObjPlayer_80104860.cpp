@@ -1,5 +1,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_80104860.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
@@ -7,26 +10,26 @@ s32 get_weapon_special_type_amount(u8, s16 *, s16 *);
 }
 s32 compare_item_data_masked(void *arg0, void *arg1, s32 arg2);
 extern "C" {
-s32 get_current_floor();
-s32 get_player_by_client_id(s32);
-s32 is_split_screen();
 
 extern s32 local_client_id;
+}
 
-s32 TObjPlayer::is_active_battle_player() {
-    s32 current_floor;
-    s32 player;
+s32 is_local_player_off_current_floor() {
+    TObjPlayer *player;
+    s32 floor;
 
     if (is_split_screen() != 0) {
         return 0;
     }
     player = get_player_by_client_id(local_client_id);
-    if (player != 0) {
-        current_floor = get_current_floor();
-        return current_floor - ((TObjPlayer *)player)->get_field_3e4() ? 1 : 0;
+    if (player != NULL) {
+        floor = get_current_floor();
+        return floor - player->get_field_3e4() ? 1 : 0;
     }
     return 0;
 }
+
+extern "C" {
 
 u8 TObjPlayer::find_adjacent_matching_slot(u8 arg0) {
     s16 spC;
