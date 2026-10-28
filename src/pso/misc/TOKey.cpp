@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/object/TObjMotion.h"
 #include "types.h"
 #include "pso/misc/TOKey_8015845C.h"
@@ -61,7 +62,6 @@ void *TOKey__ct(TOKey *arg0);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 u8 is_current_floor_switch_set(u16);
 void __dl__7TObjectFPv(void *);
-int read_be16_field2__10TObjPlayerFv(void*);
 
 void TOKey::trigger_activate_sound() {
     struct VObj_8016A8D0 *o = (struct VObj_8016A8D0 *)this;
@@ -184,6 +184,6 @@ void TOKey::vfunc_16() {  }
 void TOKey::vfunc_17() {  }
 void TOKey::vfunc_25() {  }
 
-void TOKey::bswap_6x05_switch_flag() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x8)); }
+void TOKey::bswap_6x05_switch_flag() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x8)); }
 
 }

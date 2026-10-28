@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
@@ -176,7 +177,6 @@ void* TFontSmallLobby__sub_801D6804(void* p);
 int TFontSmallLobby__sub_801C01BC(void*);
 int TFontSmallLobby__sub_801C0228(void*);
 int clear__8FlagWordFUl(void*, int);
-int read_be16_field2__10TObjPlayerFv(void*);
 int set__8FlagWordFUl(void*, int);
 
 s32 TFontSmallLobby::construct_pb_controller() {
@@ -226,7 +226,7 @@ void TFontSmallLobby::init_6x3A_packet() { *(u8*)((char*)this + 0x0) = 58; *(u8*
 void TFontSmallLobby::draw_and_send() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::init_6x39_packet() { *(u8*)((char*)this + 0x0) = 57; *(u8*)((char*)this + 0x1) = 1; }
 void TFontSmallLobby::update_and_send_60() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
-void TFontSmallLobby::bswap_fields() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void TFontSmallLobby::bswap_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
 void*TFontSmallLobby::copy_packet_header_6x38(void* a1) { TFontSmallLobby__sub_801C0228(this); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)a1 + 0x6); return this; }
 

@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/system/NinjaTypes.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
@@ -144,7 +145,7 @@ G_PickUpItemRequest_6x5A::G_PickUpItemRequest_6x5A() {
 }
 
 void G_PickUpItemRequest_6x5A::bswap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    header.bswap();
     bswap_32(&item_id);
     bswap_16((u16 *)&floor);
     bswap_16(&unused);
@@ -169,7 +170,7 @@ void G_PickUpItem_6x59::send() {
 }
 
 void G_PickUpItem_6x59::bswap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    header.bswap();
     bswap_16((u16 *)&client_id2);
     bswap_16((u16 *)&floor);
     bswap_32(&item_id);
@@ -199,7 +200,7 @@ void G_DropStackedItem_PC_V3_BB_6x5D::send() {
 }
 
 void G_DropStackedItem_PC_V3_BB_6x5D::bswap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    header.bswap();
     bswap_16((u16 *)&floor);
     bswap_16((u16 *)&room_id);
     pos.bswap();
@@ -230,7 +231,7 @@ void G_BuyShopItem_6x5E::send() {
 }
 
 void G_BuyShopItem_6x5E::bswap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    header.bswap();
     ((TItemData *)&item_data)->bswap();
 }
 
@@ -248,7 +249,7 @@ G_ActivateMagEffect_6x61::G_ActivateMagEffect_6x61() {
 }
 
 void G_ActivateMagEffect_6x61::bswap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)&header)->bswap();
     bswap_32(&mag_item_id);
     bswap_32(&effect_number);
 }

@@ -263,7 +263,7 @@ struct TBoss6Type2
     static void capture_player_snapshots();
     s32 get_state();
     void update_and_send();
-    int handle_olga_action();
+    void handle_olga_action();
     void init_packet();
     void apply_rock_hits_to_players();
     void get_phase_values(u16 *a, u16 *b, u16 *out);

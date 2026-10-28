@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
@@ -236,7 +237,7 @@ void VoloptPartsMessage::send() {
 
 void VoloptPartsMessage::swap() {
     s32 i;
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     for (i = 0; i < 4; i++) {
         bswap_16((u16 *)&part_hp[i]);
     }

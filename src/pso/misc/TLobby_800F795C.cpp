@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/boss/TBoss1DragonDemo.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -133,9 +134,8 @@ extern RecoveredGlobal_800F7A6C_lbl_804DB1F0 lbl_804DB1F0;
 extern RecoveredGlobal_800F7A7C_lbl_8048C9D8 challenge_mode_state;
 extern "C" {
 s32 is_area_transfer_pending();
-int read_be16_field2__10TObjPlayerFv(void*);
 
-void TLobby::bswap_field() { read_be16_field2__10TObjPlayerFv(this); bswap_32((u32 *)((char*)this + 0x4)); }
+void TLobby::bswap_field() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 void TLobby::broadcast_state() { bswap_field(); send_subcommand((u8 *)this); }
 }
 
@@ -145,7 +145,7 @@ void init_6x9C_enemy_low_game_flags_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void TLobby::bswap_enemy_state() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void TLobby::bswap_enemy_state() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 void send_6x0A_enemy_state_packet(void* p) { ((TLobby *)p)->bswap_enemy_state(); send_subcommand((u8 *)p); }
 void init_6x0A_enemy_state_packet(void* p) { *(u8*)((char*)p + 0x0) = 10; *(u8*)((char*)p + 0x1) = 3; }
 int get_attack_credit_slot_count(void) { return 4; }

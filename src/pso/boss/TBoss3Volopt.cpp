@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
@@ -328,7 +329,7 @@ void TBoss3VoloptActionPacket::send() {
 }
 
 void TBoss3VoloptActionPacket::swap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)&action);
     bswap_16(&target_id);
     bswap_16((u16 *)&param);
@@ -336,7 +337,7 @@ void TBoss3VoloptActionPacket::swap() {
 }
 
 void TBoss3VoloptTargetsPacket::swap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)&count);
 }
 
@@ -351,7 +352,7 @@ void TBoss3VoloptPositionPacket::send() {
 }
 
 void TBoss3VoloptPositionPacket::swap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)&rotation_y);
     bswap_32((u32 *)&pos.x);
     bswap_32((u32 *)&pos.y);
@@ -359,7 +360,7 @@ void TBoss3VoloptPositionPacket::swap() {
 }
 
 void TBoss3VoloptAttackPacket::swap() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)&tech);
     bswap_16((u16 *)&count);
     bswap_16((u16 *)&reserved);
@@ -367,7 +368,7 @@ void TBoss3VoloptAttackPacket::swap() {
 
 void VoloptPhase2Message::swap() {
     s32 i;
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)&mode);
     for (i = 0; i < 7; i++) {
         bswap_16((u16 *)&delays[i]);

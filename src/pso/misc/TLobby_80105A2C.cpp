@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_80105A2C.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -9,7 +10,7 @@
 
 void TLobby::dispatch_packet_wrapper() { bswap_6x60_drop_request_fields(this); send_subcommand_to_leader(this); }
 
-void bswap_6x60_drop_request_fields(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16((u16 *)((char*)p + 0x6)); bswap_16((u16 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x12)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
+void bswap_6x60_drop_request_fields(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16((u16 *)((char*)p + 0x6)); bswap_16((u16 *)((char*)p + 0x10)); bswap_16((u16 *)((char*)p + 0x12)); bswap_32((u32 *)((char*)p + 0x8)); bswap_32((u32 *)((char*)p + 0xc)); }
 void *build_6x06_send_guild_card(void *arg0) {
     build_6x05_write_switch_flag(arg0);
     *(s8 *)((s8 *)arg0 + 0) = 0x60;

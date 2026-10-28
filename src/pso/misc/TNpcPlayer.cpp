@@ -398,7 +398,6 @@ s16 obj_getS16_2BA(u8 *p);
 s16 obj_getS16_32C(u8 *p);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 obj_getField1c(void *obj);
-int read_be16_field2__10TObjPlayerFv(void*);
 f32 fabs_float(f32);
 f64 atan2_float(int, f32, f32, f32);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -3727,7 +3726,7 @@ void TNpcPlayer__sub_80152A78(s16 *self) {
 
 void TNpcPlayer::update() { bswap_6x45_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
 
-void bswap_6x45_packet(void* p) { read_be16_field2__10TObjPlayerFv((void*)(p)); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x45_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
 void init_6x45_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -3738,7 +3737,7 @@ void init_6x45_attack_packet(u8 *arg0) {
 
 void TNpcPlayer::update_players() { bswap_6x44_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
 
-void bswap_6x44_packet(void* p) { read_be16_field2__10TObjPlayerFv((void*)(p)); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x44_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
 void init_6x44_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -3749,7 +3748,7 @@ void init_6x44_attack_packet(u8 *arg0) {
 
 void TNpcPlayer::update_lobby() { bswap_6x43_packet((void*)(this)); update_players__6TLobbyFv((s32)this); }
 
-void bswap_6x43_packet(void* p) { read_be16_field2__10TObjPlayerFv((void*)(p)); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
+void bswap_6x43_packet(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((void*)((char*)p + 0x4)); bswap_16__FPUs((void*)((char*)p + 0x6)); }
 
 void init_6x43_attack_packet(u8 *arg0) {
     *(s16 *)((s8 *)arg0 + 4) = 0;
@@ -3768,7 +3767,7 @@ void TNpcPlayer::finalize_and_send_packet() {
 void TNpcPlayer::byteswap_positions() {
     N_80152C8C *arg0 = (N_80152C8C *)this;
     s32 i;
-    read_be16_field2__10TObjPlayerFv((void*)(arg0));
+    ((G_ClientIDHeader *)arg0)->bswap();
     for (i = 0; i < arg0->count; i++) {
         ((TNpcPlayer *)(&arg0->pos[i]))->byteswap_pos();
     }
@@ -3790,13 +3789,13 @@ void TNpcPlayer__sub_80152D64(void* p) { *(u8*)((char*)p + 0x3) = 0; *(u8*)((cha
 
 void TNpcPlayer::reset_model() { init_model(); update_players__6TLobbyFv((s32)this); }
 
-void TNpcPlayer::init_model() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
+void TNpcPlayer::init_model() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
 
 void TNpcPlayer::reset_move_state() { *(float*)((char*)this + 0x8) = TNpcPlayer__data_805DB1F0; *(float*)((char*)this + 0x4) = TNpcPlayer__data_805DB1F0; *(unsigned char*)((char*)this + 0x0) = 66; *(unsigned char*)((char*)this + 0x1) = 3; }
 
 void TNpcPlayer::sync_from_lobby() { swap_endian(); update_players__6TLobbyFv((s32)this); }
 
-void TNpcPlayer::swap_endian() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
+void TNpcPlayer::swap_endian() { ((G_ClientIDHeader *)this)->bswap(); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
 
 void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = TNpcPlayer__data_805DB1F0; *(float*)((char*)a0 + 0x4) = TNpcPlayer__data_805DB1F0; *(int*)((char*)a0 + 0xc) = 0; *(unsigned char*)((char*)a0 + 0x0) = 64; *(unsigned char*)((char*)a0 + 0x1) = 4; }
 

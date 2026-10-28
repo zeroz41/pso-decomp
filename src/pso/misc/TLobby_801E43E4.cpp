@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/network/client_id.h"
 #include "types.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
@@ -130,7 +131,7 @@ void TLobby::update_players() {
     dispatching_own_subcommand = 0;
 }
 
-void TLobby::bswap_switch_activate_token() { ((TObjPlayer *)this)->read_be16_field2(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void TLobby::bswap_switch_activate_token() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     char path[0x40];
     void *buf;

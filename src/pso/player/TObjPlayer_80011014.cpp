@@ -1,3 +1,5 @@
+#include "pso/system/byteswap.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/TObject.h"
@@ -4843,9 +4845,9 @@ void obj_setFlags30(ObjFlags* p, u32 mask) {
     p->flags_30 |= mask;
 }
 
-void TObjPlayer::bswap_head16() { read_be16_field2(); bswap_16__FPUs((char*)this + 0x4); }
+void TObjPlayer::bswap_head16() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); }
 
-int TObjPlayer::read_be16_field2() { return bswap_16__FPUs((char*)this + 0x2); }
+void G_ClientIDHeader::bswap() { bswap_16(&client_id); }
 
 void TObjPlayer::send_head() { bswap_head16(); send_subcommand(this); }
 

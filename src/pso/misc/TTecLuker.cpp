@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
@@ -165,7 +166,6 @@ extern "C" {
 void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
-void read_be16_field2__10TObjPlayerFv(void *);
 int fn_80235078(void *arg0);
 u32 get_player_by_client_id(s32);
 s32 play_sound_effect(int, void *, int, int);
@@ -988,7 +988,7 @@ s32 get_pipe_interaction_latch(void* p) { return *(s32*)((char*)p + 0xb0); }
 void TTecLuker::send_swapped_telepipe_packet() { byteswap_telepipe_packet(); send_subcommand((u8 *)this); }
 
 void TTecLuker::byteswap_telepipe_packet() {
-    read_be16_field2__10TObjPlayerFv(this);
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)((void *)((char *)this + 4)));
     bswap_16((u16 *)((void *)((char *)this + 6)));
     bswap_16((u16 *)((void *)((char *)this + 8)));

@@ -6,7 +6,7 @@
 extern "C" {
 int TFontSmallLobby__sub_801C013C(void *p);
 void *TFontSmallLobby__sub_801C0164(void *arg0);
-int TFontSmallLobby__sub_801C01BC(void *p);
+void TFontSmallLobby__sub_801C01BC(void *p);
 void *TFontSmallLobby__sub_801C01DC(void *arg0, void *arg1);
 void *TFontSmallLobby__sub_801C0228(void *p, void *_w1);
 void TFontSmallLobby__sub_801C0258(void *p, void *q);

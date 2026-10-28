@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/player/TObjPlayer_801C721C.h"
@@ -17,7 +18,7 @@ void*TObjPlayer::restore_shrunken_font() { TFontSmallLobby__sub_801C0228(this); 
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_font_update_60() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 
-void TObjPlayer::bswap_shrink() { read_be16_field2(); bswap_32((u32 *)((char*)this + 0x4)); }
+void TObjPlayer::bswap_shrink() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); }
 
 void *TObjPlayer__sub_801C7360(void *arg0, void *arg1) {
     TFontSmallLobby__sub_801C0228(arg0);

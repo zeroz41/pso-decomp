@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/item/TItemAttackCol_802E4798.h"
@@ -147,7 +148,7 @@ void TItemEffOrgaFlowShot__sub_80357210(void) { olga_flow_subordinate_actions_en
 
 void TItemEffOrgaFlowShot::bswap_6xAD_subordinate_action() { read_be16_field2_forward(this); send_subcommand((u8 *)this); }
 
-int read_be16_field2_forward(void* p) { return ((TObjPlayer *)p)->read_be16_field2(); }
+void read_be16_field2_forward(void* p) { ((G_ClientIDHeader *)p)->bswap(); }
 void build_6xAD_olga_flow_subordinate_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 173; *(u8*)((char*)p + 0x1) = 17; }
 
 extern s32 saved_model_render_flags;

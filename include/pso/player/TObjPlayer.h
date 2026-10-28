@@ -366,7 +366,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     s32 add_status_effect_timer(s32 i, s32 v);
     static void*init_192dc_return_self(void* p);
     void bswap_head16();
-    int read_be16_field2();
     void send_head();
     void init_packet_9a();
     s32 get_field_3e4();

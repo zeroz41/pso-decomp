@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/unk/text_800C7FEC.h"
 #include "pso/misc/TCameraCtrl_800687BC.h"
 #include "pso/misc/TLobby.h"
@@ -64,4 +65,4 @@ void clear_legacy_enemy_kill_flags() {
     }
 }
 
-int TLobby::bswap_packet_header() { return ((TObjPlayer *)this)->read_be16_field2(); }
+void TLobby::bswap_packet_header() { ((G_ClientIDHeader *)this)->bswap(); }

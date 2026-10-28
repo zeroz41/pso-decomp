@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/boss/TBoss8Dragon_80065C90.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -27,7 +28,6 @@ struct RecoveredGlobal_80065F08_lbl_80437938_80065C90 {
 struct O_80065FD4 { u16 a; u16 b; u32 c[4]; };
 
 extern "C" {
-s32 read_be16_field2__10TObjPlayerFv(void *);
 
 extern RecoveredGlobal_80065EA0_lbl_80487CCC_80065C90 boss8_dragon_follow_camera_offsets;
 extern RecoveredGlobal_80065EA0_lbl_80487CD8_80065C90 lbl_80487CD8;
@@ -95,7 +95,7 @@ void TBoss8Dragon::init_color() { *(u8 *)&this->m_0 = 160; *(u8*)((char*)this + 
 void TBoss8Dragon::send_spawn_params_packet() { byteswap_action_packet(); send_subcommand((u8 *)this); }
 
 void TBoss8Dragon::byteswap_action_packet() {
-    read_be16_field2__10TObjPlayerFv(this);
+    ((G_ClientIDHeader *)this)->bswap();
     ((TBoss8Dragon *)((char *)this + 20))->byteswap_record();
     bswap_32((u32 *)((void *)((char *)this + 4)));
     bswap_32((u32 *)((void *)((char *)this + 8)));
@@ -117,7 +117,7 @@ void TBoss8Dragon::send_boss_actions() { bswap_boss_actions(); send_subcommand((
 
 void TBoss8Dragon::bswap_boss_actions() {
     s32 arg0 = (s32)this;
-    read_be16_field2__10TObjPlayerFv((void *)arg0);
+    ((G_ClientIDHeader *)arg0)->bswap();
     bswap_32((u32 *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 8));
     bswap_32((u32 *)(arg0 + 0xC));

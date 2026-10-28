@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
@@ -123,7 +124,6 @@ void TNpcPlayer__sub_8034EDB8(void);
 s32 end_camera_pan__10TObjPlayerFv();
 s32 init_photon_blast__10TObjPlayerFl(u32, s16);
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
-int read_be16_field2__10TObjPlayerFv(void*);
 void build_6x69_npc_control(void* p);
 extern E_8034E02C npc_partner_dialogue_state[];
 void clear_partner_dialogue_flags(void);
@@ -611,6 +611,6 @@ void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
 s32 TNpcPlayer::get_field_67c() { return *(s32*)((char*)this + 0x67c); }
 void TNpcPlayer::set_npc_ctrl_state(s32 v) { *(s32*)((char*)this + 0x67c) = v; }
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v) { *(s16*)((char*)p + 0x678) = v; }
-void TNpcPlayer::byteswap_header() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); }
+void TNpcPlayer::byteswap_header() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); }
 void TNpcPlayer::send_state_60() { byteswap_header(); send_subcommand((u8 *)this); }
 void build_6x69_npc_control(void* p) { *(u8*)((char*)p + 0x0) = 105; *(u8*)((char*)p + 0x1) = 3; }

@@ -57,6 +57,7 @@ struct G_ClientIDHeader {
  // Whether the command came from another client.
  s32 is_remote();
  s32 is_local(u16 client);
+ void bswap();
 };
 
 struct G_EntityIDHeader {

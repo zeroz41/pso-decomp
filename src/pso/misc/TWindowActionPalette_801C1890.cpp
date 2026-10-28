@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -22,7 +23,6 @@ struct C_801C1BA8 { u32 w[5]; };
 struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
 extern "C" {
-s32 read_be16_field2__10TObjPlayerFv();
 int set__8FlagWordFUl(void*, int);
 int clear__8FlagWordFUl(void*, int);
 int TWindowActionPalette__sub_801C1C20(void* p);
@@ -46,7 +46,7 @@ void TObjPlayer__sub_801C18E0(void* p) { ((TObjPlayer *)p)->byteswap_set_positio
 
 void TObjPlayer::byteswap_set_position_cmd() {
     s32 arg0 = (s32)this;
-    read_be16_field2__10TObjPlayerFv();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     bswap_16((u16 *)(arg0 + 6));
     bswap_16((u16 *)(arg0 + 8));

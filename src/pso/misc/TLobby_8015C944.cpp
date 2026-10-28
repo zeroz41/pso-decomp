@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_8015C944.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -20,7 +21,6 @@ extern char lbl_80440984[];
 extern const f32 TOCtrlDubchik__data_805DB3A8;
 extern const f32 TOCtrlDubchik__data_805DB3AC;
 
-s32 read_be16_field2__10TObjPlayerFv();
 
 void TLobby::byteswap_and_send() {
     s32 arg0 = (s32)this;
@@ -28,11 +28,11 @@ void TLobby::byteswap_and_send() {
     send_subcommand((u8 *)arg0);
 }
 
-void byteswap_event_packet__6TLobbyFi(s32 arg0) {
-    read_be16_field2__10TObjPlayerFv();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
-    bswap_32((u32 *)(arg0 + 0xC));
+void byteswap_event_packet__6TLobbyFi(s32 packet) {
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_32((u32 *)(packet + 4));
+    bswap_32((u32 *)(packet + 8));
+    bswap_32((u32 *)(packet + 0xC));
 }
 void TLobby::init_packet_67_04() { *(u8 *)&this->m_name = 103; *(u8*)((char*)this + 0x1) = 4; }
 

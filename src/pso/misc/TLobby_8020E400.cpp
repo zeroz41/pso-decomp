@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/misc/TLobby_8020E400.h"
@@ -5,7 +6,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
-void TLobby::bswap_player_fields() { ((TObjPlayer *)this)->read_be16_field2(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
+void TLobby::bswap_player_fields() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 void TLobby::send_player_update() { bswap_player_fields(); send_subcommand((u8 *)this); }
 
 struct Item_8020E484 { u8 pad[0x80]; s32 v; };

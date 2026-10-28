@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/unk/text_801F3774.h"
@@ -27,7 +28,6 @@ struct Stack_801F3778 {
 };
 
 extern "C" {
-void read_be16_field2__10TObjPlayerFv(void *);
 extern s32 game_difficulty_selection;
 extern char offline_quest_filename_buffer_a[],offline_quest_filename_buffer_b[];
 extern char lbl_80449CD8[],lbl_80449CE0[],lbl_80449CE8[],lbl_80449CF0[],lbl_80449CF8[],lbl_80449D00[];
@@ -87,7 +87,7 @@ void send_and_handle_6x75(TLobby *lobby) {
 }
 
 void TLobby::byteswap_6x75_packet() {
-    read_be16_field2__10TObjPlayerFv(this);
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)((void *)((char *)this + 4)));
     bswap_16((u16 *)((void *)((char *)this + 6)));
     bswap_16((u16 *)((void *)((char *)this + 8)));

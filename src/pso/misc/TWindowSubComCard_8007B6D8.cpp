@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TWindowSubComCard_8007A810.h"
 #include "pso/misc/TWindowSubComCard_8007B6D8.h"
@@ -9,7 +10,6 @@ extern "C" {
 s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self);
 int send_subcommand_to_client__6TLobbyFUl(void*, void*);
 int bswap__16TPlyGuildCardTagFv(void*);
-int read_be16_field2__10TObjPlayerFv(void*);
 
 s32 TWindowSubComCard::get_card_id() { return *(s32 *)&this->m_flags; }
 int TWindowSubComCard::is_active() { return *(u8*)((char*)this + 0x8c) & 0x1; }
@@ -22,7 +22,7 @@ s32 TWindowSubComCard__sub_8007B6F4(O_8007B6F4 *self) {
     return 1;
 }
 
-void TWindowSubComCard::bswap_guild_card() { read_be16_field2__10TObjPlayerFv(this); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
+void TWindowSubComCard::bswap_guild_card() { ((G_ClientIDHeader *)this)->bswap(); ((TWindowSubComCard *)((char*)this + 0x4))->bswap_guild_card_tag(); }
 int TWindowSubComCard::bswap_guild_card_tag() { return bswap__16TPlyGuildCardTagFv(this); }
 void TWindowSubComCard::init_card(void* a1) { bswap_guild_card(); send_subcommand_to_client__6TLobbyFUl(this, a1); }
 

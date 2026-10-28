@@ -124,7 +124,7 @@ struct TLobby : public TObject {
     static void send_status_packet();
     static void destroy_global_singleton();
     static void load_freeze_ice_resource();
-    int bswap_packet_header();
+    void bswap_packet_header();
     void *alloc_tables(s32 arg1, s32 arg2);
     static void clear_flag_on_phase_e();
     void bswap_field();

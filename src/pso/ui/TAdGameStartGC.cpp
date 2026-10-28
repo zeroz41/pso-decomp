@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/TObject.h"
 #include "pso/ui/TAdGameStartGC.h"
@@ -60,7 +61,7 @@ void destroy_windows__14TAdGameStartGCFPv(Obj_802E6380 *o);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern u8 controller_physical_port_bank[];
 
-void bswap_6x92__14TAdGameStartGCFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); }
+void bswap_6x92__14TAdGameStartGCFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_32((u32 *)((char*)p + 0x4)); bswap_32((u32 *)((char*)p + 0x8)); }
 void send_6x92__14TAdGameStartGCFPv(void* p) { bswap_6x92__14TAdGameStartGCFPv(p); send_subcommand((u8 *)p); }
 void TAdGameStartGC__sub_802E6368(void* p) { *(u8*)((char*)p + 0x0) = 146; *(u8*)((char*)p + 0x1) = 3; }
 

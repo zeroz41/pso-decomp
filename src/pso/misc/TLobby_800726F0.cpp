@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
@@ -66,7 +67,7 @@ void TLobby__sub_800727A0(void *arg0);
 void TLobby__sub_800727EC(u8 *arg0);
 
 void TLobby::bswap_challenge_dead_flag() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)((char *)this + 4));
 }
 
@@ -86,7 +87,7 @@ void TLobby::send_and_handle_60_wrapper() {
 }
 
 void TLobby__sub_800727A0(void *player) {
-    ((TObjPlayer *)player)->read_be16_field2();
+    ((G_ClientIDHeader *)player)->bswap();
     bswap_32((u32 *)((char *)player + 4));
     bswap_32((u32 *)((char *)player + 8));
     bswap_32((u32 *)((char *)player + 12));
@@ -99,7 +100,7 @@ void TLobby__sub_800727EC(u8 *arg0) {
 }
 
 void TLobby::byteswap_challenge_time_packet() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)((char *)this + 4));
     bswap_32((u32 *)((char *)this + 8));
     bswap_32((u32 *)((char *)this + 12));
@@ -115,7 +116,7 @@ void TLobby__sub_80072880(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 5;
 }
 void TLobby::byteswap_challenge_packet() {
-    ((TObjPlayer *)this)->read_be16_field2();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)((char *)this + 4));
 }
 void TLobby::send_challenge_packet() {
@@ -128,7 +129,7 @@ void TLobby__sub_800728FC(u8 *arg0) {
 }
 void TLobby::bswap_6x7C_packet() {
     s32 arg0 = (s32)this;
-    ((TObjPlayer *)arg0)->read_be16_field2();
+    ((G_ClientIDHeader *)arg0)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     ((TLobby *)(arg0 + 8))->bswap_challenge_battle_records();
 }

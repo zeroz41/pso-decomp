@@ -121,7 +121,7 @@ struct TBoss6Type1 : public TObjEnemy {
     static s32 create(s32 arg0);
     void*get_mag_mine_ptr();
     int is_idle();
-    int read_be16_field2();
+    void read_be16_field2();
     void step_and_send_60();
     void enter_flag800_state();
     void update_attack_countdown();

@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_80156B18.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -5,11 +6,10 @@
 #include "pso/misc/TLobby.h"
 
 extern "C" {
-s32 read_be16_field2__10TObjPlayerFv();
 void TLobby::bswap_60_header(void* p) { ((TLobby *)p)->bswap_header(); }
 void TLobby::bswap_header() {
     s32 arg0 = (s32)this;
-    read_be16_field2__10TObjPlayerFv();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_32((u32 *)(arg0 + 4));
     bswap_32((u32 *)(arg0 + 8));
 }

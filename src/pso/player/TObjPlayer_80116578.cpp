@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -12,7 +13,7 @@ extern "C" {
 Rec_80116620 *TObjPlayer__sub_80116620(Obj_80116620 *self, s32 i);
 
 s32 TItem::get_item_flags() { return this->item_flags; }
-void TObjPlayer::bswap_fields_x4() { read_be16_field2(); { int i; for (i = 0; i < 4; i++) { bswap_16((u16 *)((char*)this + 0x4 + i * 2)); } } }
+void TObjPlayer::bswap_fields_x4() { ((G_ClientIDHeader *)this)->bswap(); { int i; for (i = 0; i < 4; i++) { bswap_16((u16 *)((char*)this + 0x4 + i * 2)); } } }
 void TObjPlayer::bswap_and_send_item() { bswap_fields_x4(); send_subcommand((u8 *)this); }
 void TObjPlayer::set_type_bytes() { *(u8*)((char*)this + 0x0) = 102; *(u8*)((char*)this + 0x1) = 3; }
 

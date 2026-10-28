@@ -21,7 +21,7 @@ void *__dt__15TWindowCallBackFv(void *arg0, s16 arg1);
 }
 void build_6xA3_olga_flow_boss_actions(void *p);
 extern "C" {
-int fn_802ACD40(void *p);
+void fn_802ACD40(void *p);
 void fn_802ACD60(void *p);
 void run_task__15TWindowCallBackFv(void *p);
 void set_field_60__15TWindowCallBackFPvi(void *p, s32 v);

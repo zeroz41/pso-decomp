@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/object/TObjInfoCol.h"
 #include "pso/misc/TPlyJoinLobbyEntry.h"
@@ -28,9 +29,8 @@ extern s32 __vt__11TObjInfoCol[];
 extern s32 TObjInfoCol__class_name;
 void __dl__7TObjectFPv(void *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
-int read_be16_field2__10TObjPlayerFv(void*);
 
-void TObjInfoCol::bswap_6x78() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
+void TObjInfoCol::bswap_6x78() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 
 }
 

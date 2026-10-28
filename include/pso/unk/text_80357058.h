@@ -12,7 +12,7 @@ void TItemEffOrgaFlowShot__sub_80357210(void);
 void *__dt__20TItemEffOrgaFlowShotFv(void *arg0, s16 arg1);
 }
 void build_6xAD_olga_flow_subordinate_boss_actions(void *p);
-int read_be16_field2_forward(void *p);
+void read_be16_field2_forward(void *p);
 extern "C" {
 void run_task__20TItemEffOrgaFlowShotFv(u8 *arg0);
 }

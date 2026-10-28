@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
@@ -5,7 +6,6 @@
 #include "pso/npc/TObjNpcBase.h"
 
 extern "C" {
-s32 read_be16_field2__10TObjPlayerFv();
     extern const float lbl_805DB1C4;
 
 #include "pso/misc/TNpcPlayer.h"
@@ -19,7 +19,7 @@ void TNpcPlayer::send_6x3E() {
 }
 void TNpcPlayer::bswap_6x3E() {
     s32 arg0 = (s32)this;
-    read_be16_field2__10TObjPlayerFv();
+    ((G_ClientIDHeader *)this)->bswap();
     bswap_16((u16 *)(arg0 + 4));
     bswap_16((u16 *)(arg0 + 6));
     bswap_16((u16 *)(arg0 + 8));

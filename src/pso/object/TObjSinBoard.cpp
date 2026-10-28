@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
@@ -1300,7 +1301,6 @@ struct Timer_8019A104 {
 };
 
 extern "C" {
-s32 read_be16_field2__10TObjPlayerFv();
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
 int close_timer_window__11TWindowCtrlFv(void*);
@@ -1532,12 +1532,12 @@ void TWindowTimer::send_gogo_ball() {
     bswap_6x79_gogo_ball__12TWindowTimerFi(arg0);
     send_subcommand((u8 *)arg0);
 }
-void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0) {
-    read_be16_field2__10TObjPlayerFv();
-    bswap_32((u32 *)(arg0 + 4));
-    bswap_32((u32 *)(arg0 + 8));
-    bswap_32((u32 *)(arg0 + 0xC));
-    bswap_32((u32 *)(arg0 + 0x10));
+void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 packet) {
+    ((G_ClientIDHeader *)packet)->bswap();
+    bswap_32((u32 *)(packet + 4));
+    bswap_32((u32 *)(packet + 8));
+    bswap_32((u32 *)(packet + 0xC));
+    bswap_32((u32 *)(packet + 0x10));
 }
 void TWindowTimer__sub_8019A6F8(void* p) { *(u8*)((char*)p + 0x0) = 121; *(u8*)((char*)p + 0x1) = 6; }
 

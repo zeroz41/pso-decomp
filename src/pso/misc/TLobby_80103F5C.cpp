@@ -35,7 +35,6 @@ s32 __construct_new_array(s32, s32 *, s32, s32, s32);
 s32 mem_alloc(s32);
 extern s32 __ct__9FloorItemFv[];
     extern int lbl_805D5868;
-int read_be16_field2__10TObjPlayerFv(void*);
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 void bswap__9TItemDataFv(s32 arg0);
@@ -124,7 +123,7 @@ void TLobby::alloc_objects() {
     TLobby::reset_floor_items();
 }
 int TLobby::get_lobby_flag() {  return lbl_805D5868; }
-void TLobby::bswap_player_packet() { read_be16_field2__10TObjPlayerFv(this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
+void TLobby::bswap_player_packet() { ((G_ClientIDHeader *)this)->bswap(); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TLobby::update_and_send() { bswap_player_packet(); send_subcommand((u8 *)this); }
 void TLobby__sub_801041BC(void *arg0) {
     *(s32 *)((s8 *)arg0 + 4) = -1;

@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -6227,8 +6228,8 @@ void TBoss2DeRolLe::apply_confusion_status() {  }
 void TBoss2DeRolLe::apply_movement_ailment(s32) {  }
 void TBoss2DeRolLe::apply_shock_status() {  }
 void TBoss2DeRolLe::clear_harmful_statuses() {  }
-void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
-void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
+void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
+void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((G_ClientIDHeader *)p)->bswap(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
 void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
 void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
