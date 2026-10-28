@@ -23,7 +23,7 @@ void TUnk_804E71F8::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     ((TObjPlayer *)arg0)->draw_icon(1, (s32) &sp8);
-    ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(this->projectile), 0);
+    ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(this->second_model), 0);
 }
 
 }

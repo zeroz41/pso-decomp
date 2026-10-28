@@ -69,14 +69,14 @@ void TUnk_804A1E28::update_weapon() {
             *(s32 *)((s8 *)arg0 + 0x1F8) = (temp_r3_2 - 1);
         }
     }
-    temp_r3_3 = get_actor_tp(*(u8 * *)&this->player);
+    temp_r3_3 = get_actor_tp(*(u8 * *)&this->owner);
     temp_r0 = this->m_1fc - temp_r3_3;
     if (temp_r0 < 0) {
         this->m_1fc = temp_r3_3;
         return;
     }
     if (temp_r0 > 0) {
-        add_actor_tp(*(u8 * *)&this->player, (lbl_805DAD20 * (f32) temp_r0));
-        this->m_1fc = get_actor_tp(*(u8 * *)&this->player);
+        add_actor_tp(*(u8 * *)&this->owner, (lbl_805DAD20 * (f32) temp_r0));
+        this->m_1fc = get_actor_tp(*(u8 * *)&this->owner);
     }
 }

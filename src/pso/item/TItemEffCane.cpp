@@ -1,6 +1,7 @@
 #include "pso/item/TItemEffCane.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/item/TItem.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -8,7 +9,6 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-u32 test_flags_1b8__11TItemWeaponFUl(TItem* item, u32 flags);
 extern const char* TItemEffCane__class_name;
 }
 
@@ -20,7 +20,7 @@ void TItemEffCane::run_task() {
         return;
     }
     if (((TItem *)item)->get_mode() != 2 ||
-        test_flags_1b8__11TItemWeaponFUl(item, 0x10) == 0 || effect == NULL) {
+        ((TItemWeapon *)item)->test_flags_1b8(0x10) == 0 || effect == NULL) {
         queue_destruction__7TObjectFv(this);
         return;
     }

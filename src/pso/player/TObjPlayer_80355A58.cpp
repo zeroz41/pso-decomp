@@ -25,12 +25,12 @@ void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 void TUnk_804F1320::vfunc_17(s32 item) {
     s32 temp_r31;
 
-    if (((u32) this->player != 0U) && (are_items_enabled_here() != 0)) {
-        temp_r31 = ((TObjPlayer *)(this->player))->get_field_3e4();
+    if (((u32) this->owner != 0U) && (are_items_enabled_here() != 0)) {
+        temp_r31 = ((TObjPlayer *)(this->owner))->get_field_3e4();
         {
         s32 t = get_current_floor();
         if ((t == temp_r31) && (get_mode__5TItemFv((u8 *)this) == 2)) {
-            spawn_pg_effect((void *)(*(u32 *)&this->player + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
+            spawn_pg_effect((void *)(*(u32 *)&this->owner + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }
     }
@@ -39,7 +39,7 @@ void TUnk_804F1320::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
     if (((TObjPlayer *)arg0)->is_mode_two_and_ready() != 0) {
-        temp_r3 = ((TItemMag *)(this->player))->get_sub_value();
+        temp_r3 = ((TItemMag *)(this->owner))->get_sub_value();
         if (temp_r3 >= 0x14) {
             ((TItem *)arg0)->send_activate_effect(temp_r3);
             return;

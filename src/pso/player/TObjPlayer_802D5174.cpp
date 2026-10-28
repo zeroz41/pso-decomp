@@ -101,7 +101,7 @@ void setup_radar_marker__10TObjPlayerFPvPv(TObjPlayer *player, void *arg1) {
     if (player->is_mode_two_and_ready() != 0) {
         player->drain_owner_hp_fraction(lbl_805DE788);
         *(s32 *)((s8 *)arg1 + 0x10) = 0xA;
-        *(s32 *)((s8 *)arg1 + 0x44) = (s32) ((TUnk_804E1CA8 *)player)->projectile;
+        *(s32 *)((s8 *)arg1 + 0x44) = (s32) ((TUnk_804E1CA8 *)player)->second_model;
         *(f32 *)((s8 *)arg1 + 0x4C) = lbl_805DE78C;
     }
 }
@@ -272,7 +272,6 @@ extern "C" {
 s32 send_activate_effect__5TItemFl(void *, s16);
 void spawn_item__10TObjPlayerFi(s32 arg0);
 s32 is_hidden__5TItemFv(void *);
-void draw_weapon_model__11TItemWeaponFv(void);
 void rotate_matrix_x(s32, s32);
 void push_matrix(void);
 s32 pop_matrix(void);
@@ -332,7 +331,7 @@ void TUnk_804E21F8::emit_marker_effects() {
 void TUnk_804E21F8::reserved_53() {
     E_802D56F0 *p;
     s32 n;
-    draw_weapon_model__11TItemWeaponFv();
+    ((TItemWeapon *)this)->draw_weapon_model();
     if (is_hidden__5TItemFv(this) == 0) {
         n = *(s16 *)(((u8 *)this) + 0x24A);
         p = ((S_802D56F0 *)((u8 *)this))->e;
@@ -369,7 +368,7 @@ void TUnk_804E21F8::sub_802D577C() {
         ang = *(s32 *)&this->unk_250;
         cnt = n;
         p = arg0 + 0x20C;
-        q = *(u8 * *)&this->player + 0x2FC;
+        q = *(u8 * *)&this->owner + 0x2FC;
         pa = &lbl_8047259C;
         pb = &player_pb_zero_vec_block;
         ang2 = 0x31C7;

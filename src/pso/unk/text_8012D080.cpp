@@ -21,21 +21,21 @@ void TUnk_804A5838::update_attack() {
     f32 speed;
     f32 flo;
     f32 fhi;
-    if (this->player != NULL) {
-        speed = ((TUnk_804806E8 *)(this->player))->get_speed();
-        flag = ((TObjPlayer *)(this->player))->is_flag_b0_4();
+    if (this->owner != NULL) {
+        speed = ((TUnk_804806E8 *)(this->owner))->get_speed();
+        flag = ((TObjPlayer *)(this->owner))->is_flag_b0_4();
         ok = 1;
-        if (test_action_mask__10TObjPlayerFl(this->player, 0x20) != 0) {
+        if (test_action_mask__10TObjPlayerFl(this->owner, 0x20) != 0) {
             flo = lbl_805DAF00;
             lo = 0;
             fhi = lbl_805DAF04;
             hi = 0x4000;
-        } else if (test_action_mask__10TObjPlayerFl(this->player, 0x40) != 0) {
+        } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x40) != 0) {
             flo = lbl_805DAF08;
             lo = 0x4000;
             fhi = lbl_805DAF0C;
             hi = -0x4000;
-        } else if (test_action_mask__10TObjPlayerFl(this->player, 0x80) != 0) {
+        } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x80) != 0) {
             flo = lbl_805DAF10;
             lo = -0x4000;
             fhi = lbl_805DAF14;

@@ -329,7 +329,7 @@ void *TObjEneEpsilon__ct(void *ene_epsilon) {
 extern s32 lbl_804F26E0[];
 
 void TUnk_804F26E0::vfunc_62() {
-    ((PlayerAttackState *)(*(s32 *)&this->player + 0x7CC))->set_evp(lbl_805E0258);
+    ((PlayerAttackState *)(*(s32 *)&this->owner + 0x7CC))->set_evp(lbl_805E0258);
 }
 }
 extern s32 tl_05;

@@ -97,13 +97,12 @@ f32 post_translate_matrix(void *);
 extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80479FC8;
 void TObjPlayer__sub_80362FB4(u8 *arg0);
 void *__dt__13TUnk_804F27E0Fv(void *arg0, s16 arg1);
-s32 get_attack_stage__11TItemWeaponFv();
 void construct_srank_weapon(void *);
 void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
 void set_status_flags__10TObjPlayerFUl(void *, int);
 
 void TUnk_804F27E0::update_weapon() {
-    if (get_attack_stage__11TItemWeaponFv() == 2) {
+    if (((TItemWeapon *)this)->get_attack_stage() == 2) {
         (*(s32 *)((u8 *)this + 0x1FC)) = (s32) ((*(s32 *)((u8 *)this + 0x1FC)) | 1);
         return;
     }
@@ -111,7 +110,7 @@ void TUnk_804F27E0::update_weapon() {
 }
 
 void TObjPlayer::create_cane_if_ready(s32 arg0, void *position) {
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)arg0)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)arg0, -1, 0x1BD);
     }
 }
@@ -121,8 +120,8 @@ extern s32 lbl_804F27E0[];
 void TUnk_804F27E0::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    ((VObj_18_f1aa6a *)(this->player))->m63(0x30, &sp8);
-    if (get_validated_attack_stage(*(u8 * *)&this->player + 0x7CC) == 2) {
+    ((VObj_18_f1aa6a *)(this->owner))->m63(0x30, &sp8);
+    if (get_validated_attack_stage(*(u8 * *)&this->owner + 0x7CC) == 2) {
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0x1555);
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), -0x1555);

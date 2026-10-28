@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer_801283B8.h"
 #include "pso/player/TUnk_804A3B20.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-s32 get_attack_stage__11TItemWeaponFv();
 void construct_srank_weapon(void *);
 
 void srank_marker_noop(void) {  }
@@ -13,7 +13,7 @@ void srank_marker_noop(void) {  }
 extern s32 tl_05;
 
 void TObjPlayer::spawn_cane_effects_if_ready(s32 arg0) {
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)arg0)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)arg0, 1, 2);
     }
 }

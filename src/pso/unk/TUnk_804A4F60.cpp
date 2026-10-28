@@ -11,7 +11,6 @@ void psycho_wand_node_callback(void *arg0);
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
-s32 get_attack_stage__11TItemWeaponFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
@@ -21,14 +20,14 @@ void TUnk_804A4F60::update_weapon() {
     s16 temp_r3;
 
     if (are_items_enabled_here() != 0) {
-        temp_r3 = get_actor_tp((u8 *)this->player);
+        temp_r3 = get_actor_tp((u8 *)this->owner);
         temp_r0 = *(s16 *)((s8 *)this + 0x1F8) - temp_r3;
         if (temp_r0 != 0) {
             *(s16 *)((s8 *)this + 0x1F8) = temp_r3;
         }
         if (temp_r0 > 0) {
-            TObjectV8047c128_subtract_hp((u8 *)this->player, temp_r0);
-            add_actor_tp((u8 *)this->player, (s16) (temp_r0 / 2));
+            TObjectV8047c128_subtract_hp((u8 *)this->owner, temp_r0);
+            add_actor_tp((u8 *)this->owner, (s16) (temp_r0 / 2));
         }
     }
 }
@@ -37,7 +36,7 @@ extern s32 tl_05;
 
 void TUnk_804A4F60::emit_marker_effects() {
     s32 item = (s32)this;
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 4);
     }
     if (((TObjPlayer *)item)->is_mode_two_and_ready() != 0) {

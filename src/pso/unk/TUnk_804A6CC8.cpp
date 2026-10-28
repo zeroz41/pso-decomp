@@ -63,12 +63,12 @@ void TUnk_804A6CC8::update_weapon() {
         break;
     case 3:
         *(s32 *)((s8 *)((u8 *)this) + 0x208) = 1;
-        temp_r31 = *(s32 *)((s8 *)this->player + 0x60) - 0x4000;
+        temp_r31 = *(s32 *)((s8 *)this->owner + 0x60) - 0x4000;
         buffer_14[0] = sin_table_lookup(temp_r31);
         buffer_14[1] = 1.0f;
         buffer_14[2] = cos_table_lookup(temp_r31);
         buffer_8[0] = 0x4000;
-        buffer_8[1] = *(s32 *)((s8 *)this->player + 0x60);
+        buffer_8[1] = *(s32 *)((s8 *)this->owner + 0x60);
         buffer_8[2] = 0;
         TObjPlayer::launch_weapon_casing(tl_05, (u32) this, 3, (u32) &buffer_14[0], (u32) &buffer_8[0]);
         break;

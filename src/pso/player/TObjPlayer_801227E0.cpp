@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-int roll_technique__11TItemWeaponFv(void*);
 
-void TObjPlayer::update_twice() { roll_technique__11TItemWeaponFv(this); roll_technique__11TItemWeaponFv(this); }
+void TObjPlayer::update_twice() { ((TItemWeapon *)this)->roll_technique(); ((TItemWeapon *)this)->roll_technique(); }
 
 }

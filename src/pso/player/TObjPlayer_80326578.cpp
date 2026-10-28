@@ -119,15 +119,15 @@ void TUnk_804ECFB0::update_weapon() {
     s32 temp_r31;
 
     if (are_items_enabled_here() != 0) {
-        temp_r3 = get_actor_tp((u8 *)this->player);
+        temp_r3 = get_actor_tp((u8 *)this->owner);
         temp_r0 = this->m_1fc - temp_r3;
         if (temp_r0 != 0) {
             this->m_1fc = temp_r3;
         }
         if (temp_r0 > 0) {
             temp_r31 = temp_r0 / 2;
-            TObjectV8047c128_subtract_hp((u8 *)this->player, (s16) temp_r31);
-            add_actor_tp((u8 *)this->player, (s16) temp_r31);
+            TObjectV8047c128_subtract_hp((u8 *)this->owner, (s16) temp_r31);
+            add_actor_tp((u8 *)this->owner, (s16) temp_r31);
         }
     }
     *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) + 1);
@@ -465,13 +465,13 @@ extern "C" {
 void TUnk_804ED488::emit_marker_effects() {
 
     if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
-        if ((s32) ((s16) get_actor_hp((u8 *)this->player) * 8) < ((s16) ((TItemProShield *)(this->player))->get_field_2b8())) {
-            fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, -0x238E);
-            fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, -0x11C7);
-            fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, 0);
-            fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, 0x11C7);
-            fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, 0x238E);
-            play_sound_effect(0x4001A642, *(s32 *)&this->player + 0x38, 0, 0);
+        if ((s32) ((s16) get_actor_hp((u8 *)this->owner) * 8) < ((s16) ((TItemProShield *)(this->owner))->get_field_2b8())) {
+            fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, -0x238E);
+            fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, -0x11C7);
+            fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, 0);
+            fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, 0x11C7);
+            fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, 0x238E);
+            play_sound_effect(0x4001A642, *(s32 *)&this->owner + 0x38, 0, 0);
             return;
         }
         update_active_game_effect__10TObjPlayerFv(this);

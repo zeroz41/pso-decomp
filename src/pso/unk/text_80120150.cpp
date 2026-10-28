@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/items/TItemWeapon.h"
+#include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 
 struct WeaponCallbackBase { u8 padding[0x18]; };
@@ -77,11 +78,6 @@ struct WeaponArgb { f32 alpha, red, green, blue; };
 
 struct WeaponColorDescriptor_80120304 { s32 mode; WeaponArgb first, second; };
 
-typedef struct Sub_80120454 { u8 pad[0x18]; u8 f18; } Sub_80120454;
-
-typedef struct Src_80120454 { u8 pad[0x1A4]; u8 ents[6]; u8 pad2[0x27]; u8 f1d1; u8 f1d2; u8 pad3[9]; Sub_80120454 *f1dc; } Src_80120454;
-
-typedef struct Dst_80120454 { u8 pad[3]; u8 f3; u8 f4; u8 pad2; u8 ents[6]; } Dst_80120454;
 
 extern const f32 lbl_805DAC98;
 extern const f32 lbl_805DAC9C;
@@ -93,7 +89,6 @@ extern "C" {
 s32 test_flags_any(void*,u32);
 WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon);
 extern u8 lbl_805DACA4;
-void TItemWeapon__write_item_data(Src_80120454 *arg0, Dst_80120454 *arg1);
 }
 
 void apply_weapon_node_material() {
@@ -170,26 +165,26 @@ WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon) {
 }
 #pragma pop
 
-void TItemWeapon__write_item_data(Src_80120454 *arg0, Dst_80120454 *arg1) {
+void TItemWeapon::write_item_data(TItemData *data) {
     s32 off;
     u32 i;
     u8 t;
     s32 ok;
     for (i = 0, off = 0; i != 3; i++, off += 2) {
-        ((TObjPlayer *)(&arg1->ents[off]))->copy_entry_bytes(&arg0->ents[off]);
+        ((TObjPlayer *)(data->data1.data_u8 + 6 + off))->copy_entry_bytes(&attributes[off]);
     }
     ok = 1;
-    arg1->f3 = arg0->f1d1;
-    t = arg0->f1d2;
+    data->data1.data_u8[3] = grind;
+    t = special_selector;
     if (t & 0x80) {
         ok = 0;
     }
-    if (arg0->f1dc->f18 == 0) {
-        arg1->f4 = t;
+    if (parameters->special == 0) {
+        data->data1.data_u8[4] = t;
     } else {
-        arg1->f4 = 0;
+        data->data1.data_u8[4] = 0;
     }
     if (ok == 0) {
-        arg1->f4 = arg1->f4 | lbl_805DACA4;
+        data->data1.data_u8[4] = data->data1.data_u8[4] | lbl_805DACA4;
     }
 }

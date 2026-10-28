@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer_8012789C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TTecJelin.h"
@@ -6,10 +7,8 @@
 
 extern "C" {
 
-int roll_technique__11TItemWeaponFv(void*);
-s32 get_attack_stage__11TItemWeaponFv();
 
-void TObjPlayer__sub_8012789C(void* p) { roll_technique__11TItemWeaponFv(p); roll_technique__11TItemWeaponFv(p); }
+void TObjPlayer__sub_8012789C(void* p) { ((TItemWeapon *)p)->roll_technique(); ((TItemWeapon *)p)->roll_technique(); }
 
 extern s32 tl_05;
 
@@ -19,7 +18,7 @@ void TObjPlayer::cast_jellen_zalure() {
     s32 temp_r4;
     s32 temp_r4_2;
 
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)this, 2, 1);
     }
     if (is_mode_two_and_ready() != 0) {
@@ -32,7 +31,7 @@ void TObjPlayer::cast_jellen_zalure() {
             temp_r4_2 = temp_r3_2 + 0x38;
             TTecZarua::create_instance(temp_r3_2, temp_r4_2, temp_r4_2, 4);
         }
-        roll_technique__11TItemWeaponFv(this);
+        ((TItemWeapon *)this)->roll_technique();
         return;
     }
     update_active_game_effect();

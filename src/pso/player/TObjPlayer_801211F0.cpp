@@ -3,7 +3,7 @@
 #include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
-    extern int model_node_counter;
+
 
 void increment_model_node_counter(void) {
     int temp_r3 = model_node_counter;

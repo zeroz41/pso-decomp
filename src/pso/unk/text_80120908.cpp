@@ -48,7 +48,7 @@ extern const f32 lbl_805DACAC;
 s32 TItemWeapon::draw_weapon_model() {
     s32 var_r30;
     u8 *temp_r4;
-    if ((void *) this->player == NULL || (u32) *(u32 *)((s8 *)this + 0xF4) == 0U) {
+    if ((void *) this->owner == NULL || (u32) *(u32 *)((s8 *)this + 0xF4) == 0U) {
         return;
     }
     {
@@ -59,7 +59,7 @@ s32 TItemWeapon::draw_weapon_model() {
             var_r30 = ((VObj_18_26a62c *)(this))->m8(lbl_805DACA8, lbl_805DACAC);
         }
         set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
-        ((TObjMotion *)(this->player))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__14TItemEquipBaseFv(this))));
+        ((TObjMotion *)(this->owner))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__14TItemEquipBaseFv(this))));
         push_matrix_from();
         if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
@@ -95,11 +95,11 @@ s32 TItemWeapon::draw_weapon_model() {
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 if (this->test_flags_1b8(0x40) != 0U) {
-                    ((TItem *)this)->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
+                    ((TItem *)this)->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
                 } else if (this->test_flags_1b8(0x800000) != 0U) {
                     draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                 } else {
-                    ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
+                    ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
                 }
             } else {
                 TObjPlayer::set_global_flag();
@@ -119,7 +119,7 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             item_render_state.reset();
         } else {
-            ((TItem *)this)->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
+            ((TItem *)this)->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
         }
         pop_matrix();
         reset_model_node_counter();

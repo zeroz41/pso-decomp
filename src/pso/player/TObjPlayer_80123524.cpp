@@ -12,7 +12,6 @@ extern "C" {
 
 s32 is_hidden__5TItemFv();
 s32 post_translate_matrix(Sp8Type_80123524 *);
-s32 get_attack_stage__11TItemWeaponFv();
 s32 draw_icon__10TObjPlayerFll(void *, s32, Sp8Type_80123524 *, s32);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
@@ -75,7 +74,7 @@ extern s32 tl_05;
 
 void TUnk_804A1A48::emit_marker_effects() {
     s32 item = (s32)this;
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 4);
     }
 }

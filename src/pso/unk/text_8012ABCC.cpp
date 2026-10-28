@@ -240,7 +240,7 @@ void TUnk_804A4B80::emit_marker_effects() {
     s32 sp8;
     s32 var_r31;
     if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
-        copy_attack_targets((u32 *)((void *) (((u8 *)this) + 0x1F8)), (u32 *)((int) (((TObjPlayer *)(this->player))->get_extended_state())));
+        copy_attack_targets((u32 *)((void *) (((u8 *)this) + 0x1F8)), (u32 *)((int) (((TObjPlayer *)(this->owner))->get_extended_state())));
         ((TObjPlayer *)((u8 *)this))->draw_status_icon((s32)((void *) (((u8 *)this) + 0x224)));
         var_r31 = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {

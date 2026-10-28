@@ -116,9 +116,7 @@ extern s32 tl_05;
 extern const f32 lbl_805DAC94;
 extern const f32 lbl_805DAC98;
 Item_8011F760 *get_weapon_range_record(void *, s32);
-s32 is_active_in_game__11TItemWeaponFv(void*);
 void play_weapon_owner_sounds(void*);
-u32 test_flags_1b8__11TItemWeaponFUl(void*,u32);
 
 s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1);
 
@@ -160,38 +158,38 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
     s32 temp_r31_2;
     u8 *temp_r3;
     if (get_mode__5TItemFv() == 2) {
-        temp_r3 = (u8 *)this->player;
+        temp_r3 = (u8 *)this->owner;
         if ((temp_r3 != NULL) && (arg2 != NULL)) {
             attack_accuracy_scale = get_attack_accuracy_scale((s16 *)(temp_r3 + 0x7CC));
             if ((arg3 == 2) && (((VObj_18_f8c4e0 *)(this))->m33() == 0)) {
                 attack_accuracy_scale *= lbl_805DAC94;
             }
             temp_r31 = arg4 * 0x2C;
-            if (((VObj_18_f8c4e0 *)(arg2))->m19(this->player, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31, 0, attack_accuracy_scale) != 0) {
+            if (((VObj_18_f8c4e0 *)(arg2))->m19(this->owner, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31, 0, attack_accuracy_scale) != 0) {
                 var_f31_2 = lbl_805DAC98;
                 switch (arg3) {
                 case 0:
-                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->player, farg0);
+                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->owner, farg0);
                     break;
                 case 1:
-                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->player, farg0);
-                    ((VObj_18_f8c4e0 *)(arg2))->m23(this->player, lbl_805DAC94 * var_f31_2);
+                    var_f31_2 = ((VObj_18_f8c4e0 *)(arg2))->m20(this->owner, farg0);
+                    ((VObj_18_f8c4e0 *)(arg2))->m23(this->owner, lbl_805DAC94 * var_f31_2);
                     break;
                 case 2:
-                    ((VObj_18_f8c4e0 *)(arg2))->m22(this->player, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31);
+                    ((VObj_18_f8c4e0 *)(arg2))->m22(this->owner, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31);
                     break;
                 }
                 if (((s32 (*)(s32, void *, s32, s32)) *(s32 (**)(s32, void *, s32, s32))((s8 *)((u8 *)this) + 0x1F4)) != NULL) {
                     (*(s32 (**)(s32, void *, s32, s32))((s8 *)((u8 *)this) + 0x1F4))(tl_05, this, get_entity_id(arg2), arg4);
                 }
                 temp_r31_2 = (s32) var_f31_2;
-                TObjPlayer::calc_photon_blast_charge(this->player, temp_r31_2);
-                ((VObj_18_f8c4e0 *)(this->player))->m73();
-                apply_camera_shake__10TObjPlayerFiii((s32)this->player, (s32)arg2, (s32)temp_r31_2);
+                TObjPlayer::calc_photon_blast_charge(this->owner, temp_r31_2);
+                ((VObj_18_f8c4e0 *)(this->owner))->m73();
+                apply_camera_shake__10TObjPlayerFiii((s32)this->owner, (s32)arg2, (s32)temp_r31_2);
                 ((TObjPlayer *)(&stack.sp8))->reset_status_block();
                 stack.sp8 = ((TItem *)((u8 *)this))->get_item_group();
                 stack.sp9 = ((TItem *)((u8 *)this))->get_item_index();
-                stack.spC = (u8 *)this->player;
+                stack.spC = (u8 *)this->owner;
                 stack.sp14 = arg2;
                 stack.sp18 = arg4;
                 play_weapon_hit_sound(&stack.sp8);
@@ -205,33 +203,33 @@ void TItemWeapon::perform_action() {
     WeaponMarkerPacket packet;
     WeaponVector gun_point;
     WeaponVector fallback_point;
-    if (is_active_in_game__11TItemWeaponFv(self) && !((TItem *)self)->is_hidden() && are_items_enabled_here()) {
-        self->heading=self->player->heading;
+    if (((TItemWeapon *)self)->is_active_in_game() && !((TItem *)self)->is_hidden() && are_items_enabled_here()) {
+        self->rotation_y=self->owner->rotation_y;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
         ((TObjPlayer *)(&packet))->reset_status_block();
         packet.kind=((TItem *)self)->get_item_group();
         packet.variant=((TItem *)self)->get_item_index();
-        packet.player=self->player;
+        packet.player=self->owner;
         play_weapon_owner_sounds(&packet);
-        if(test_flags_1b8__11TItemWeaponFUl(self,0x40000)) {
-            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->player));
-        } else if(test_flags_1b8__11TItemWeaponFUl(self,0x80000) && ((TObjPlayer *)self)->is_mode_two_and_ready()) {
-            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->player));
+        if(((TItemWeapon *)self)->test_flags_1b8(0x40000)) {
+            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
+        } else if(((TItemWeapon *)self)->test_flags_1b8(0x80000) && ((TObjPlayer *)self)->is_mode_two_and_ready()) {
+            start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
         }
         self->emit_marker_effects();
         ((TObjPlayer *)self)->set_status_flags(0x1000000);
-        if(!test_flags_1b8__11TItemWeaponFUl(self,2)) {
-            if(test_flags_1b8__11TItemWeaponFUl(self,0x8000)) {
+        if(!((TItemWeapon *)self)->test_flags_1b8(2)) {
+            if(((TItemWeapon *)self)->test_flags_1b8(0x8000)) {
                 ((TObjPlayer *)self)->draw_status_icon((s32)&gun_point);
-                ((TItemWeapon *)self)->fire_shot_at_target((void *)(&gun_point), (void *)(self->projectile), 0);
+                ((TItemWeapon *)self)->fire_shot_at_target((void *)(&gun_point), (void *)(self->second_model), 0);
                 return;
             }
-            if(test_flags_1b8__11TItemWeaponFUl(self,0x20000)) {
+            if(((TItemWeapon *)self)->test_flags_1b8(0x20000)) {
                 ((TObjPlayer *)self)->update_active_game_effect();
                 return;
             }
             ((TObjPlayer *)self)->draw_status_icon((s32)&fallback_point);
-            self->deliver_projectile(&fallback_point,0,0,1);
+            self->launch_shot((u8 *)&fallback_point,0,0,1);
         }
     }
 }

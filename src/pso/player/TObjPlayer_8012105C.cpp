@@ -11,7 +11,7 @@ int TObjPlayer__sub_801D2F4C(void*);
 
 void TObjPlayer__sub_8012105C(void) {  }
 void TObjPlayer__sub_80121060(void) {  }
-u8 TItemWeapon__sub_80121064(void* p) { return *(u8*)((char*)p + 0x1d3); }
+u8 TItemWeapon::get_motion_type() { return motion_type; }
 void TObjPlayer::set_status_flags(u32 v) { this->m_1b8 |= v; }
 void TItemWeapon::clear_equip_flags(u32 v) { *(u32*)((char*)this + 0x1b8) &= ~v; }
 void TObjPlayer::set_flag_8() { set_status_flags(8); }

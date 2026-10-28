@@ -1,6 +1,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/player/TUnk_804EDC28.h"
@@ -47,8 +48,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__dt__13TUnk_804EDC28Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804EDD20Fv(void *arg0, s16 arg1);
-s32 fire_shot_at_target__11TItemWeaponFPvPvl(void *, s32 *, s32, s32);
-s32 get_attack_stage__11TItemWeaponFv(void *);
 void TItemWeapon__ct(void *);
 s16 get_validated_attack_stage(u8 *arg0);
 void __dl__7TObjectFPv(void *);
@@ -60,13 +59,13 @@ void TObjPlayer::launch_guardianna_colliders() {
 
     draw_icon(4, (s32)&sp8);
     if (get_validated_attack_stage((u8 *)(*(s32 *)&this->unk_F0 + 0x7CC)) == 2) {
-        fire_shot_at_target__11TItemWeaponFPvPvl(this, &sp8, *(s32 *)&this->m_f4, 0);
-        fire_shot_at_target__11TItemWeaponFPvPvl(this, &sp8, *(s32 *)&this->m_f4, 0x1555);
-        fire_shot_at_target__11TItemWeaponFPvPvl(this, &sp8, *(s32 *)&this->m_f4, -0x1555);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, 0);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, 0x1555);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, -0x1555);
     } else {
-        fire_shot_at_target__11TItemWeaponFPvPvl(this, &sp8, *(s32 *)&this->m_f4, 0);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, 0);
     }
-    if (get_attack_stage__11TItemWeaponFv(this) == 0) {
+    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)this, 4);
     }
 }

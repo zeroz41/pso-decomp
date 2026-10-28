@@ -119,14 +119,14 @@ void TUnk_804A6AD8::yasminkov_9000m_eject_casing(s32 arg1, s32 arg2) {
     s32 temp_r31;
     s32 temp_r8;
     u8 *temp_r3;
-    temp_r3 = (u8 *)this->player;
+    temp_r3 = (u8 *)this->owner;
     if (temp_r3 != NULL) {
         temp_r31 = *(s32 *)((s8 *)temp_r3 + 0x60) - arg2;
         buffer_14[0] = sin_table_lookup(temp_r31);
         buffer_14[1] = 1.0f;
         buffer_14[2] = cos_table_lookup(temp_r31);
         buffer_8[0] = 0x4000;
-        temp_r8 = *(s32 *)((s8 *)this->player + 0x60);
+        temp_r8 = *(s32 *)((s8 *)this->owner + 0x60);
         buffer_8[1] = temp_r8;
         buffer_8[2] = 0;
         spawn_weapon_casing__10TObjPlayerFlUlUlUlUl((int)tl_05, this, (void *)arg1, &buffer_14[0], &buffer_8[0], (int)temp_r8);

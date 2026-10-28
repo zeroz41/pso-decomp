@@ -62,12 +62,12 @@ void *__dt__13TUnk_804A4D70Fv(void *arg0, s16 arg1) {
 void TUnk_804A4D70::emit_marker_effects() {
     switch (((TItem *)this)->get_item_index()) {
     case 6:
-        if (is_mode_two_and_ready__10TObjPlayerFv(this) && obj_getPtr2B0_20((u8 *)player) >= 10000) {
-            try_spend_actor_meseta((u8 *)player, 10000);
-            show_meseta_label((s32)player, (u32)((WeaponVector*)((u8*)player + 0x2FC)), 0, -10000);
+        if (is_mode_two_and_ready__10TObjPlayerFv(this) && obj_getPtr2B0_20((u8 *)owner) >= 10000) {
+            try_spend_actor_meseta((u8 *)owner, 10000);
+            show_meseta_label((s32)owner, (u32)((WeaponVector*)((u8*)owner + 0x2FC)), 0, -10000);
             apply_scale_if_active(3.0f);
-            spawn_particle_effect((WeaponVector*)((u8*)player + 0x2FC), 0x66);
-            spawn_particle_effect((WeaponVector*)((u8*)player + 0x2FC), 0x66);
+            spawn_particle_effect((WeaponVector*)((u8*)owner + 0x2FC), 0x66);
+            spawn_particle_effect((WeaponVector*)((u8*)owner + 0x2FC), 0x66);
         } else {
             update_active_game_effect__10TObjPlayerFv(this);
         }
@@ -130,7 +130,7 @@ void TUnk_804A4D70::update_weapon() {
     s32 var_r4;
 
     if (get_item_index__5TItemFv() == 6) {
-        var_r4 = obj_getPtr2B0_20((u8 *)this->player) / 100000;
+        var_r4 = obj_getPtr2B0_20((u8 *)this->owner) / 100000;
         var_r4 = var_r4 * 0x222;
         if (var_r4 > 0x1555) {
             var_r4 = 0x1555;

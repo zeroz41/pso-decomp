@@ -27,7 +27,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 item_follow_effect_vtable[];
 u32 __nw__7TObjectFUl(s32 a0 = 0);
 s32 is_mode_two_and_ready__10TObjPlayerFv();
-s32 roll_technique__11TItemWeaponFv(void *);
 s32 get_owner_client__5TItemFv(void *);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
@@ -109,7 +108,7 @@ void TObjPlayer::cast_gifoie() {
     if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
         if ((((TObjPlayer *)(*(s32 *)&this->unk_F0 + 0x7CC))->get_stage_strike_count() == 0) && (draw_icon(0, (s32)&sp8) != 0)) {
             TTecGiFoie::create((void *)(*(s32 *)&this->unk_F0), &sp8, (void *)(get_tp()));
-            roll_technique__11TItemWeaponFv(this);
+            ((TItemWeapon *)this)->roll_technique();
         }
     } else {
         update_active_game_effect();
@@ -125,8 +124,8 @@ void TObjPlayer::create_pro_armor() {
             ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
     }
-    roll_technique__11TItemWeaponFv(this);
-    roll_technique__11TItemWeaponFv(this);
+    ((TItemWeapon *)this)->roll_technique();
+    ((TItemWeapon *)this)->roll_technique();
 }
 void TUnk_804A2678::update_weapon() {
     s32 temp_r3;

@@ -46,7 +46,7 @@ void TUnk_804A3830::reserved_53() {
     update_trail_slot__11TItemWeaponFPvi(this, 0);
     update_trail_slot__11TItemWeaponFPvi(this, 1);
     temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
-    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->projectile;
+    *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->second_model;
     draw_weapon_at_joint(this, 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
     update_trail_slot__11TItemWeaponFPvi(this, 2);

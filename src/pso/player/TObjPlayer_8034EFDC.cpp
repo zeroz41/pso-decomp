@@ -149,7 +149,7 @@ void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 void TUnk_804F0810::emit_marker_effects() {
     u8 sp8[0x18];
-    struct VObj_8034EFDC *o = (struct VObj_8034EFDC *)this->player;
+    struct VObj_8034EFDC *o = (struct VObj_8034EFDC *)this->owner;
     o->m63(0x30, sp8);
     spawn_particle_effect(sp8, 0x1D0);
 }
@@ -219,16 +219,16 @@ void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon) {
     SlicerLaunchData_8012D9C8 launch;
     u8 *t;
     init_slicer_launch_state(&launch);
-    launch.player = get_entity_id(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
+    launch.player = get_entity_id(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner);
     launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);
-    launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->player + 0x7CC));
-    launch.stage = get_validated_attack_stage(*(u8 * *)&((TUnk_804F0908 *)weapon)->player + 0x7CC);
-    launch.multiplier = query_extended_state__10TObjPlayerFv(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
+    launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner + 0x7CC));
+    launch.stage = get_validated_attack_stage(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner + 0x7CC);
+    launch.multiplier = query_extended_state__10TObjPlayerFv(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner);
     get_weapon_color__11TItemWeaponFPv(tmp, weapon);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
-    launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->player) + 0x60);
+    launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner) + 0x60);
     launch.spin = 0;
     ((TObjPlayer *)weapon)->draw_icon(3, (s32)launch.first);
     ((TObjPlayer *)weapon)->draw_icon(2, (s32)launch.second);

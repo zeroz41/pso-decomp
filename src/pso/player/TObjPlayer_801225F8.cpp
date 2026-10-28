@@ -8,7 +8,6 @@ extern "C" {
 s32 rand();
 int rotate_matrix_x(void*, void*);
 s32 is_mode_two_and_ready__10TObjPlayerFv();
-s32 roll_technique__11TItemWeaponFv(void *);
 int get_player_list__10TObjPlayerFv(void*);
 
 void TObjPlayer::set_atp(s16 v) { *(s16 *)&this->unk_1CC = v; }
@@ -20,7 +19,7 @@ void TObjPlayer::cast_tech_gibarta() {
         if (draw_icon(0, (s32)&sp8) != 0) {
             tec_gi_barta = *(void * *)&this->unk_F0;
             ((TTecGiBarta *)tec_gi_barta)->create_ex(&sp8, (void *)(*(s32 *)((s8 *)tec_gi_barta + 0x60)), (void *)(get_tp()));
-            roll_technique__11TItemWeaponFv(this);
+            ((TItemWeapon *)this)->roll_technique();
         }
     } else {
         update_active_game_effect();

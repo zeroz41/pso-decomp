@@ -200,11 +200,11 @@ void receive_srank_hit(TItemWeapon *item_weapon, s32 arg1, u32 arg2, s32 arg3, s
                 if (arg3 == 2) {
                     ((TUnk_804A4948 *)item_weapon)->send_srank_stat_extra(arg2, arg4);
                 } else {
-                    item_weapon->deliver_hit((s32)f, (u8 *)arg2, (s32)arg3, (s32)arg4, (f32)farg0);
+                    item_weapon->TItemWeapon::deliver_hit((s32)f, (u8 *)arg2, (s32)arg3, (s32)arg4, (f32)farg0);
                 }
                 break;
             default:
-                item_weapon->deliver_hit((s32)f, (u8 *)arg2, (s32)arg3, (s32)arg4, (f32)farg0);
+                item_weapon->TItemWeapon::deliver_hit((s32)f, (u8 *)arg2, (s32)arg3, (s32)arg4, (f32)farg0);
                 break;
             }
         }

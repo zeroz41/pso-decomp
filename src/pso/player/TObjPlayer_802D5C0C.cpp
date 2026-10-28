@@ -160,7 +160,6 @@ struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 void fire_spread_shot__10TObjPlayerFPv(u8 *arg0);
-s32 draw_weapon_model__11TItemWeaponFv(TItemWeapon *);
 void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
@@ -172,7 +171,6 @@ void create_cane_effect_from_state__10TObjPlayerFPv(void *arg0);
 void* init_state_445__10TObjPlayerFPv(void* a0);
 void set_radar_marker_params__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 void update_swim_flag__10TObjPlayerFPv(void *arg0);
-s32 get_attack_stage__11TItemWeaponFv();
 s32 get_weapon_color__11TItemWeaponFPv(s32 *, void *);
 int TItemWeapon__ct(void);
 int set_status_flags__10TObjPlayerFUl(void*, void*);
@@ -190,7 +188,7 @@ void set_radar_marker_params__10TObjPlayerFPvPv(u8 *weapon, u8 *arg1) {
 }
 
 void update_swim_flag__10TObjPlayerFPv(void *arg0) {
-    if (get_attack_stage__11TItemWeaponFv() == 2) {
+    if (((TItemWeapon *)arg0)->get_attack_stage() == 2) {
         *(s32 *)((s8 *)arg0 + 0x1F8) = (s32) (*(s32 *)((s8 *)arg0 + 0x1F8) | 1);
         return;
     }
@@ -200,7 +198,7 @@ void update_swim_flag__10TObjPlayerFPv(void *arg0) {
 extern s32 tl_05;
 
 void create_cane_effect_from_state__10TObjPlayerFPv(void *item) {
-    if (get_attack_stage__11TItemWeaponFv() == 0) {
+    if (((TItemWeapon *)item)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)item, -1, (s32)(((TUnk_804E23F0 *)item)->m_1fc));
     }
 }
@@ -212,8 +210,8 @@ void create_cane_effect_from_state__10TObjPlayerFPv(void *item) {
 
 void fire_spread_shot__10TObjPlayerFPv(u8 *arg0) {
     s32 sp8;
-    ((VObj_18 *)(((TUnk_804E23F0 *)arg0)->player))->m63(0x30, &sp8);
-    if (get_validated_attack_stage((*(u8 * *)&((TUnk_804E23F0 *)arg0)->player + 0x7CC)) == 2) {
+    ((VObj_18 *)(((TUnk_804E23F0 *)arg0)->owner))->m63(0x30, &sp8);
+    if (get_validated_attack_stage((*(u8 * *)&((TUnk_804E23F0 *)arg0)->owner + 0x7CC)) == 2) {
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0);
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), 0x1555);
         ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(*(s32 *)((s8 *)arg0 + 0xF4)), -0x1555);
@@ -250,7 +248,7 @@ void TObjPlayer__sub_802D5DE0(u8 *item_weapon) {
 
 void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *item_weapon) {
     if (((TItemWeapon *)item_weapon)->test_flags_1b8(0x01000000U) == 0U) {
-        draw_weapon_model__11TItemWeaponFv((TItemWeapon *)item_weapon);
+        ((TItemWeapon *)item_weapon)->draw_weapon_model();
     }
 }
 

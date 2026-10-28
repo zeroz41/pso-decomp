@@ -21,7 +21,7 @@ void TObjPlayer::set_temp_flag10_and_update() {
         if ((s32) this->m_204 == 0) {
             *temp_r31 |= 0x10;
         }
-        draw_weapon_model__11TItemWeaponFv((TItemWeapon *)this);
+        ((TItemWeapon *)this)->draw_weapon_model();
         update_trail_slot__11TItemWeaponFPvi(this, 0);
         if ((s32) this->m_204 == 0) {
             *temp_r31 &= 0xFFFFFFEF;

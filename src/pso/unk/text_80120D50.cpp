@@ -37,7 +37,7 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     __ct__14TItemEquipBaseFP7TObjectPUc(arg0, parent, item);
     *(void ***)((s8 *)arg0 + 0x18) = __vt__11TItemWeapon;
     ((V_80120D50 *)arg0)->v17(6);
-    arg0->parameters = lookup_item_pmt_record(item);
+    arg0->parameters = (WeaponParams *)lookup_item_pmt_record(item);
     *(s32 *)((s8 *)arg0 + 0x1E0) = TObjPlayer::get_shield_pmt_entry(*(u8 *)((s8 *)arg0->parameters + 0x26));
     *(s16 *)((s8 *)arg0 + 0x1E8) = (s16) (s8) *(u8 *)((s8 *)((unsigned char *) (arg0->parameters)) + 0x17);
     *(u8 *)((s8 *)arg0 + 0x1D1) = (u8) *(u8 *)((s8 *)item + 3);
@@ -70,14 +70,14 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     arg0->technique_roll_range = 0;
     u8 ed = ((u32 (*)(void *))get_item_group__5TItemFv)(arg0);
     if (ed < 0xAA) {
-        *(s8 *)&arg0->special_to_stage = get_weapon_class_motion_type(ed);
+        arg0->motion_type = get_weapon_class_motion_type(ed);
         if ((s16) *(s16 *)((s8 *)arg0 + 0x1E8) != -1) {
             *(s16 *)((s8 *)arg0 + 0x1CC) = (s16) *(u8 *)((s8 *)arg0->parameters + 0x20);
         } else {
             *(s16 *)((s8 *)arg0 + 0x1CC) = -1;
         }
     } else {
-        *(s8 *)&arg0->special_to_stage = 1;
+        arg0->motion_type = 1;
         *(s16 *)((s8 *)arg0 + 0x1CC) = -1;
     }
     arg0->stage = -1;
