@@ -11,6 +11,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/misc/TLobby_80207644.h"
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
 extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);
@@ -216,7 +217,7 @@ void handle_6x60_standard_drop_item_request(void *arg0) {
     bswap_6x60_drop_request_fields(arg0);
     if ((u32)(req->size * 4) == 0x14) {
         client = req->client;
-        slot = TLobby::get_player_floor(client);
+        slot = get_floor_area(client);
     } else {
         client = req->client;
         slot = req->slot;

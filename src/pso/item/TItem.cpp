@@ -74,6 +74,7 @@
 #include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
+#include "pso/misc/TLobby_80207644.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -589,7 +590,7 @@ void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
 
 void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
     cmd->bswap();
-    if (TLobby::get_player_floor(cmd->floor) != 15) {
+    if (get_floor_area(cmd->floor) != 15) {
         FloorItem drop;
         drop.floor = cmd->floor;
         drop.pos.x = cmd->pos.x;

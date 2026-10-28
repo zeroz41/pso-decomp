@@ -27,6 +27,7 @@
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_80121180.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/misc/TLobby_80207644.h"
 
 struct L_801C74BC { u16 f0; u16 f2; s32 f4; };
 
@@ -6008,7 +6009,7 @@ void handle_6x3F_set_position(void *arg0) {
             set_flag_400000__10TObjPlayerFi((s32)p);
             if (m.floor >= 0) {
                 ((TObjPlayer *)p)->set_floor(m.floor);
-                ((TObjPlayer *)p)->set_floor_index(TLobby::get_player_floor(m.floor));
+                ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             }
             if (m.room >= 0) {
                 set__10TObjRoomIdFPvs(p, m.room);
@@ -6040,7 +6041,7 @@ void handle_6x3E_stop_at_position(void *arg0) {
     ((TUnk_804B9870 *)p)->set_position_from(m.vec);
     if (m.floor >= 0) {
         ((TObjPlayer *)p)->set_floor(m.floor);
-        ((TObjPlayer *)p)->set_floor_index(TLobby::get_player_floor(m.floor));
+        ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
     }
     p->ang = m.ang;
     if (is_in_tl03_state__10TObjPlayerFv(p) == 0 || test_action_mask__10TObjPlayerFl(p, 0x8100) != 0 ||

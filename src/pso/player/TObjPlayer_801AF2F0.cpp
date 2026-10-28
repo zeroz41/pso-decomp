@@ -55,6 +55,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/map/CurrentArea.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/misc/TLobby_80207644.h"
 
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
@@ -2431,7 +2432,6 @@ void update_all_units__10TObjPlayerFll(void *, u8);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 s32 is_boss_area();
 int is_item_area_enabled(void);
-s32 get_floor_map_terrain(int);
 s32 __ct__17TMedicalCenterMesFP7TObjectP10TObjPlayer(void *, void *, void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 void set_area__6TLobbyFl(void *, int, int);
@@ -7271,7 +7271,7 @@ void handle_6x20_set_position(void *arg0) {
         p = ((Player_801BA838 *)get_player_by_client_id(m.slot));
         if (p != NULL) {
             ((TUnk_804B9870 *)p)->set_position_from(m.vec);
-            ((TObjPlayer *)p)->set_floor_index(TLobby::get_player_floor(m.floor));
+            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             ((TObjPlayer *)p)->set_floor(m.floor);
             p->ang = m.ang;
             ((void (*)(void *))set_flag_400000__10TObjPlayerFi)(p);
@@ -7291,7 +7291,7 @@ void handle_6x1F_set_player_floor(void *arg0) {
     if (validate_6x1F_set_player_floor((G_ClientIDHeader *)&m) != 0) {
         p = get_player_by_client_id(m.slot);
         if (p != NULL) {
-            ((TObjPlayer *)p)->set_floor_index(TLobby::get_player_floor(m.floor));
+            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             ((TObjPlayer *)p)->set_floor(m.floor);
         }
         pl = ((Player_801BA8D4 * (*)(void))update_battle_controller__10TObjPlayerFv)();
@@ -7340,7 +7340,7 @@ void handle_6x21_inter_level_warp(void *arg0) {
             if ((((s32 (*)(void))obj_isState2_324__13TUnk_804806E8Fv)() != 0) && (m.floor != ((TObjPlayer *)p)->get_field_3e4())) {
                 set_state_flags__10TObjPlayerFUl(p, 0x40000);
             }
-            ((TObjPlayer *)p)->set_floor_index(TLobby::get_player_floor(m.floor));
+            ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             ((TObjPlayer *)p)->set_floor(m.floor);
         }
     }

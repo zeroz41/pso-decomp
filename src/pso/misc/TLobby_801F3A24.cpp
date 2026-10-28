@@ -263,7 +263,7 @@ loop_1:
         if ((sp14 == 2) && (spC == arg0)) {
             lobby = var_r31 + 0x10;
             ((TLobby *)lobby)->bswap_enemy_set_rows(sp8);
-            reserve_enemy_set_actor_ids(lobby, (u32) sp8 / 72U, TLobby::get_player_floor(spC));
+            reserve_enemy_set_actor_ids(lobby, (u32) sp8 / 72U, get_floor_area(spC));
             TLobby::init_floor_enemy_count(spC, lobby, sp8);
             return 1;
         }
@@ -300,7 +300,7 @@ loop_1:
         if ((sp14 == 1) && (spC == arg0)) {
             rows = var_r31 + 0x10;
             convert_quest_object_rows((struct QuestObjRow_801F3AD8 *)rows, byte_size);
-            ((TLobby *)rows)->assign_object_ids((s32)((u32) byte_size / 68U), (void *)(TLobby::get_player_floor(spC)));
+            ((TLobby *)rows)->assign_object_ids((s32)((u32) byte_size / 68U), (void *)(get_floor_area(spC)));
             TLobby::load_object_set_entries(spC, rows, byte_size);
             return 1;
         }

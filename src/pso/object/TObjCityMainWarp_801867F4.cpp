@@ -4,6 +4,7 @@
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/misc/TLobby_80207644.h"
 
 struct RecoveredGlobal_80186AF4_lbl_804FF800 {
     s32 value;
@@ -122,7 +123,7 @@ void TObjCityMainWarp::set_active_bit(s32 _w0) {
 s32 TObjCityMainWarp::get_floor_warp_bit(s32 floor) {
     s32 bit = -1;
     Bits_80186A3C bits = city_main_warp_floor_bit_table;
-    if (is_warp_excluded_area(TLobby::get_player_floor(floor)) == 0) {
+    if (is_warp_excluded_area(get_floor_area(floor)) == 0) {
         bit = bits.v[floor];
     }
     return bit;

@@ -13,6 +13,7 @@
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/object/TObjAreaWarpQuest.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/misc/TLobby_80207644.h"
 
 struct Win_801A0DB4 { u8 pad[4]; u16 flags; };
 
@@ -104,7 +105,6 @@ s32 mark_area_change_pending();
 s32 obj_isState3_324__13TUnk_804806E8Fv(int);
 s32 set__10TObjRoomIdFPvs(int, volatile short);
 s32 send_6x21_inter_level_warp(int, void *);
-s32 get_floor_map_terrain(int);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
 extern s32 lbl_80515BA0[];
@@ -149,7 +149,7 @@ void TObjLuker::update_floor_name_windows() {
                 }
                 *(s32 *)&this->m_a0 = target;
             }
-            ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(TLobby::get_player_floor(target)), 2, 0, -1);
+            ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
             ((TWindowSubComCard *)(self->wins[i]))->calc_window_size();
             align_menu_entry_positions(self->wins[i]);
         }
@@ -182,7 +182,7 @@ void TObjLuker::open_destination_windows() {
             }
             if (self->wins[i] != 0) {
                 this->m_a0 = target;
-                ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(TLobby::get_player_floor(target)), 2, 0, -1);
+                ((TWindowSubTradeMain *)(self->wins[i]))->add_text_entry(get_floor_destination_name(get_floor_area(target)), 2, 0, -1);
                 ((TAdChrSelASlotGC *)(self->wins[i]))->set_flag_40();
                 ((TWindowSubComCard *)(self->wins[i]))->calc_window_size();
                 align_menu_entry_positions(self->wins[i]);

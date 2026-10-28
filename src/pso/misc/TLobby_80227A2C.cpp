@@ -2,6 +2,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/misc/TLobby_80207644.h"
 
 struct RecoveredGlobal_80227AA8_lbl_80514F64 {
     s32 value;
@@ -591,8 +592,8 @@ s32 select_area_entrance(void *arg0) {
     if (*(s32 *)((s8 *)arg0 + 0x20) & 1) {
         return 2;
     }
-    if ((TLobby::get_instance() == 0) && (TLobby::get_player_floor(*(s32 *)((s8 *)arg0 + 0)) == 0xD)) {
-        switch (TLobby::get_player_floor(*(s32 *)((s8 *)arg0 + 4))) {
+    if ((TLobby::get_instance() == 0) && (get_floor_area(*(s32 *)((s8 *)arg0 + 0)) == 0xD)) {
+        switch (get_floor_area(*(s32 *)((s8 *)arg0 + 4))) {
         case 8:
         case 9:
         case 10:

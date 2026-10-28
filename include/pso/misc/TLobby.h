@@ -292,7 +292,6 @@ struct TLobby : public TObject {
     static void clear_story_flags_and_reset_camera();
     static void backup_story_select();
     static void sync_story_select();
-    static s32 get_player_floor(s32 idx);
     void copy_table_entries(u32 size);
     static void reset_story_select_state();
     static int get_team_state(void* p);

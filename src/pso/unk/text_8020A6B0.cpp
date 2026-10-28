@@ -23,7 +23,7 @@ struct MapSetArea {
 extern MapSetArea *TLobby__data_805D6068;
 
 void TLobby__sub_8020A6B0(s32 player) {
-    s32 area = TLobby::get_player_floor(player);
+    s32 area = get_floor_area(player);
     s32 terrain = get_floor_map_terrain(player);
     MapSetVariant *variants;
     MapSetEntry *entries;

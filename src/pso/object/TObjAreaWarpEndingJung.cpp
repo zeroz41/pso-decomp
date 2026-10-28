@@ -39,6 +39,7 @@
 #include "pso/object/TObjWarpBase.h"
 #include "pso/misc/TTecLuker.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/misc/TLobby_80207644.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -954,7 +955,7 @@ void TObjAreaWarp::open_confirm_window(u16 arg1) {
         if (((s32 (*)(void))get_game_play_mode)() == 1) {
             ((TWindowSubTradeMain *)(*(u32 *)((s8 *)this + 0xB0)))->add_text_entry(TObjCityMainWarp__sub_80186AF4(), 2, 0, -1);
         } else {
-            TLobby::get_player_floor(*(s32 *)((s8 *)this + 0xBC));
+            get_floor_area(*(s32 *)((s8 *)this + 0xBC));
             ((TWindowSubTradeMain *)(*(u32 *)((s8 *)this + 0xB0)))->add_text_entry(get_floor_destination_name(), 2, 0, -1);
         }
         ((TWindowSubComCard *)(*(u32 *)((s8 *)this + 0xB0)))->calc_window_size();
