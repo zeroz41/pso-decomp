@@ -5738,7 +5738,7 @@ void TObjPlayer::add_stat(s32 arg1) {
     TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0))), (s16)(*((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()));
 }
 
-void TObjPlayer::vfunc_73() {
+void TObjPlayer::recalc_stats() {
     f32 temp_f31;
     f32 xscale;
     s32 arg0 = (s32)this;

@@ -1160,7 +1160,7 @@ void TItem::set_item_index(u8 value) { item_index = value; }
 s32 TItem::get_name_style() {
     TItemData data;
     copy_to_item_data(&data);
-    return TItemData__sub_8010C738(&data);
+    return data.get_name_style();
 }
 
 s32 TItem::is_model_shown() {
@@ -1342,7 +1342,7 @@ void TItemEquipBase::refresh_owner_stats() {
         s16 tp = get_actor_tp(owner);
         remove_equip_stats(0);
         add_equip_stats(0);
-        owner->vfunc_73();
+        owner->recalc_stats();
         owner->set_hp_clamped(hp);
         owner->set_tp(tp);
         owner->clamp_hp();

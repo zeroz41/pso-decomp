@@ -1098,7 +1098,7 @@ extern "C" const f32 TBoss4Zako_one_third = 0.33333334f;
 extern "C" {
 void vfunc_29__13TUnk_804806E8Fv();
 void apply_anti_technique__13TUnk_804806E8Fl();
-void vfunc_73__13TUnk_804806E8Fv();
+void recalc_stats__13TUnk_804806E8Fv();
 void enemy_spawn_zalure_effect__13TUnk_804806E8Fv();
 void trigger_switch_attack__13TUnk_804806E8Fv(s32 arg0);
 void enemy_spawn_jellen_effect__13TUnk_804806E8Fv();
@@ -1244,7 +1244,7 @@ s32 __vt__11TBoss4Bishi[83] = {
     (s32)enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (s32)trigger_switch_attack__13TUnk_804806E8Fv,
     (s32)enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (s32)vfunc_73__13TUnk_804806E8Fv,
+    (s32)recalc_stats__13TUnk_804806E8Fv,
     (s32)vfunc_74__9TObjEnemyFl,
     (s32)vfunc_75__13TUnk_804806E8Ff,
     (s32)vfunc_76__13TUnk_804806E8Fv,
@@ -1329,7 +1329,7 @@ s32 __vt__9TBoss4Uro[83] = {
     (s32)enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (s32)trigger_switch_attack__13TUnk_804806E8Fv,
     (s32)enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (s32)vfunc_73__13TUnk_804806E8Fv,
+    (s32)recalc_stats__13TUnk_804806E8Fv,
     (s32)vfunc_74__9TObjEnemyFl,
     (s32)vfunc_75__13TUnk_804806E8Ff,
     (s32)vfunc_76__13TUnk_804806E8Fv,
@@ -1414,7 +1414,7 @@ s32 __vt__10TBoss4Zako[83] = {
     (s32)enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (s32)trigger_switch_attack__13TUnk_804806E8Fv,
     (s32)enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (s32)vfunc_73__13TUnk_804806E8Fv,
+    (s32)recalc_stats__13TUnk_804806E8Fv,
     (s32)vfunc_74__9TObjEnemyFl,
     (s32)vfunc_75__13TUnk_804806E8Ff,
     (s32)vfunc_76__13TUnk_804806E8Fv,

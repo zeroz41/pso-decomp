@@ -238,7 +238,7 @@ void TWindowSubStatusDisp::update_item_colors(s32 arg1) {
                 *(s32 *)((s8 *)this + 0x30) = 0xFFFE3C28;
                 return;
             }
-            if (TItemData__sub_8010C738((TItemData *)arg1) == 2) {
+            if (((TItemData *)arg1)->get_name_style() == 2) {
                 *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x800);
                 return;
             }

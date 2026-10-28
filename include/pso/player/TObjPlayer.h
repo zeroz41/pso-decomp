@@ -36,7 +36,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     virtual void get_anim_node_position(s32 node, Vec *out);
     virtual u8 *update_actor_ground_y();
     virtual u8 *vfunc_18(u8 *);
-    virtual void vfunc_73();
+    virtual void recalc_stats();
     virtual s32 vfunc_37();
     virtual s32 update_attack_stat_status();
     virtual s32 update_defense_stat_status();

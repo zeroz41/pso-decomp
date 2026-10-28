@@ -808,7 +808,7 @@ void spawn_poison_effect__10TObjPlayerFii(s32 arg0, s32 arg1);
 void TObjPlayer__sub_8001053C(u8 *arg0);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 int vfunc_74__13TUnk_804806E8Fl(void);
-void vfunc_73__13TUnk_804806E8Fv(void);
+void recalc_stats__13TUnk_804806E8Fv(void);
 void enemy_spawn_zalure_effect__13TUnk_804806E8Fv(s32 arg0);
 void enemy_spawn_jellen_effect__13TUnk_804806E8Fv(s32 arg0);
 void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
@@ -1286,7 +1286,7 @@ void TObjPlayer::clear_s16_arrays(void* p) { { int i; for (i = 0; i < 4; i++) { 
 
 s32 TUnk_804806E8::vfunc_74(s32) { return 0; }
 
-void TUnk_804806E8::vfunc_73() {  }
+void TUnk_804806E8::recalc_stats() {}
 
 void TUnk_804806E8::enemy_spawn_zalure_effect() {
     Stack_80010A84 stack;
@@ -1951,7 +1951,7 @@ void *lbl_804806E8[] = {
     (void *)enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (void *)trigger_switch_attack__13TUnk_804806E8Fv,
     (void *)enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (void *)vfunc_73__13TUnk_804806E8Fv,
+    (void *)recalc_stats__13TUnk_804806E8Fv,
     (void *)vfunc_74__13TUnk_804806E8Fl,
     (void *)vfunc_75__13TUnk_804806E8Ff,
     (void *)vfunc_76__13TUnk_804806E8Fv,

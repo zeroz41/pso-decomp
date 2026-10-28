@@ -108,7 +108,6 @@ struct TItem : public TUnk_804AF8A0 {
     void set_owner_technique_level(s16 technique, s16 level);
     s32 has_no_defer_render();
     s32 is_model_shown();
-    // 2 draws the item name in the window's alternate style; always 0 here.
     s32 get_name_style();
     void set_item_index(u8 index);
     void set_item_group(u8 group);

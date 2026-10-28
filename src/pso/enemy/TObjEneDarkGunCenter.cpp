@@ -78,7 +78,7 @@ extern void *tl_04;
 
 void vfunc_6__13TUnk_804B9870FPsl();
 void vfunc_29__13TUnk_804806E8Fv();
-void vfunc_73__13TUnk_804806E8Fv();
+void recalc_stats__13TUnk_804806E8Fv();
 void vfunc_28__13TUnk_804806E8Fv();
 void consume_timer_field__13TUnk_804806E8Fl();
 void vfunc_67__13TUnk_804806E8Ff();
@@ -225,7 +225,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (void *)trigger_switch_attack__13TUnk_804806E8Fv,
     (void *)enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (void *)vfunc_73__13TUnk_804806E8Fv,
+    (void *)recalc_stats__13TUnk_804806E8Fv,
     (void *)vfunc_74__9TObjEnemyFl,
     (void *)vfunc_75__13TUnk_804806E8Ff,
     (void *)vfunc_76__13TUnk_804806E8Fv,

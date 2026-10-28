@@ -165,7 +165,7 @@ struct Obj_800A677C;
 extern "C" {
 void vfunc_6__13TUnk_804B9870FPsl();
 void vfunc_29__13TUnk_804806E8Fv();
-void vfunc_73__13TUnk_804806E8Fv();
+void recalc_stats__13TUnk_804806E8Fv();
 void vfunc_67__13TUnk_804806E8Ff();
 void vfunc_66__13TUnk_804806E8Fv();
 void get_anim_node_position__13TUnk_804806E8FlP3Vec();
@@ -301,7 +301,7 @@ void *TObjEneSaver__vtable[83] = {
     (void *)&vfunc_60__12TObjEneSaverFv, (void *)&vfunc_61__12TObjEneSaverFv, (void *)&vfunc_62__12TObjEneSaverFv, (void *)&vfunc_63__12TObjEneSaverFv,
     (void *)&reset_pose__13TUnk_804806E8Fv, (void *)&get_anim_node_position__13TUnk_804806E8FlP3Vec, (void *)&vfunc_66__13TUnk_804806E8Fv, (void *)&vfunc_67__13TUnk_804806E8Ff,
     (void *)&get_pos__13TUnk_804806E8Fl, (void *)&apply_switch_attack__13TUnk_804806E8Fv, (void *)&enemy_spawn_jellen_effect__13TUnk_804806E8Fv, (void *)&trigger_switch_attack__13TUnk_804806E8Fv,
-    (void *)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv, (void *)&vfunc_73__13TUnk_804806E8Fv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__13TUnk_804806E8Ff,
+    (void *)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv, (void *)&recalc_stats__13TUnk_804806E8Fv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__13TUnk_804806E8Ff,
     (void *)&vfunc_76__13TUnk_804806E8Fv, (void *)&vfunc_77__13TUnk_804806E8Fv, (void *)&vfunc_78__13TUnk_804806E8Fl, (void *)&vfunc_79__9TObjEnemyFv,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };

@@ -103,7 +103,8 @@ public:
     virtual void enemy_spawn_jellen_effect();
     virtual void trigger_switch_attack();
     virtual void enemy_spawn_zalure_effect();
-    virtual void vfunc_73();
+    // Recomputes the combat stats and clamps HP and TP to their maxima.
+    virtual void recalc_stats();
     virtual s32 vfunc_74(s32);
     virtual void vfunc_75(f32);
     virtual void vfunc_76();

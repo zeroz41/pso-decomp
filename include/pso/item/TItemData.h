@@ -33,6 +33,8 @@ struct TItemData {
     // from the sender's version (0: DC v1, 2: v2 and later) and decoded, and
     // one sent is encoded.
     void convert_from_version(s32 version);
+    // 2 draws the item name in the window's alternate style; always 0 here.
+    s32 get_name_style();
     void decode_from_network();
     void encode_for_network();
     static u8 get_entry_field16();
@@ -85,7 +87,6 @@ struct TItemData {
 };
 
 extern "C" {
-s32 TItemData__sub_8010C738(TItemData *data);
 }
 
 #include <stddef.h>

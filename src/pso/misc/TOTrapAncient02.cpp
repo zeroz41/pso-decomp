@@ -379,7 +379,7 @@ void vfunc_89__6TOTrapFv();
 void apply_knockback_from_attacker__6TOTrapFPUc();
 void vfunc_29__13TUnk_804806E8Fv();
 void vfunc_74__13TUnk_804806E8Fl();
-void vfunc_73__13TUnk_804806E8Fv();
+void recalc_stats__13TUnk_804806E8Fv();
 void vfunc_28__13TUnk_804806E8Fv();
 void vfunc_67__13TUnk_804806E8Ff();
 void vfunc_66__13TUnk_804806E8Fv();
@@ -567,7 +567,7 @@ s32 __vt__16TOTrapAncient02R[90] = {
     (s32)&enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (s32)&trigger_switch_attack__13TUnk_804806E8Fv,
     (s32)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (s32)&vfunc_73__13TUnk_804806E8Fv,
+    (s32)&recalc_stats__13TUnk_804806E8Fv,
     (s32)&vfunc_74__13TUnk_804806E8Fl,
     (s32)&vfunc_75__13TUnk_804806E8Ff,
     (s32)&vfunc_76__13TUnk_804806E8Fv,

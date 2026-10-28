@@ -257,7 +257,7 @@ extern "C" void try_start_action__20TContainerAncient01RFll();
 extern "C" void roll_physical_accuracy__20TContainerAncient01RFPvlf();
 extern "C" void vfunc_29__13TUnk_804806E8Fv();
 extern "C" void vfunc_74__13TUnk_804806E8Fl();
-extern "C" void vfunc_73__13TUnk_804806E8Fv();
+extern "C" void recalc_stats__13TUnk_804806E8Fv();
 extern "C" void vfunc_28__13TUnk_804806E8Fv();
 extern "C" void consume_timer_field__13TUnk_804806E8Fl();
 extern "C" void vfunc_67__13TUnk_804806E8Ff();
@@ -377,7 +377,7 @@ void *__vt__20TContainerAncient01R[79] = {
     (void *)&vfunc_60__13TUnk_804806E8Fv, (void *)&vfunc_61__13TUnk_804806E8Fv, (void *)&vfunc_62__13TUnk_804806E8Fv, (void *)&vfunc_63__13TUnk_804806E8Fv,
     (void *)&reset_pose__13TUnk_804806E8Fv, (void *)&get_anim_node_position__13TUnk_804806E8FlP3Vec, (void *)&vfunc_66__13TUnk_804806E8Fv, (void *)&vfunc_67__13TUnk_804806E8Ff,
     (void *)&get_pos__13TUnk_804806E8Fl, (void *)&apply_switch_attack__13TUnk_804806E8Fv, (void *)&enemy_spawn_jellen_effect__13TUnk_804806E8Fv, (void *)&trigger_switch_attack__13TUnk_804806E8Fv,
-    (void *)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv, (void *)&vfunc_73__13TUnk_804806E8Fv, (void *)&vfunc_74__13TUnk_804806E8Fl, (void *)&vfunc_75__13TUnk_804806E8Ff,
+    (void *)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv, (void *)&recalc_stats__13TUnk_804806E8Fv, (void *)&vfunc_74__13TUnk_804806E8Fl, (void *)&vfunc_75__13TUnk_804806E8Ff,
     (void *)&vfunc_76__13TUnk_804806E8Fv, (void *)&vfunc_77__13TUnk_804806E8Fv, (void *)&vfunc_78__13TUnk_804806E8Fl,
 };
 #define TContainerAncient01__collision_body_parts (*(RecoveredGlobal_8018A9D8_TContainerAncient01__data_804B6DC0 *)TContainerAncient01__collision_body_parts)

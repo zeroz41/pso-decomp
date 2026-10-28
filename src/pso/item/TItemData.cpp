@@ -619,7 +619,7 @@ void bswap__9TItemDataFv(s32 arg0) {
     bswap_32((u32 *)(arg0 + 0xC));
 }
 
-s32 TItemData__sub_8010C738(TItemData *) { return 0; }
+s32 TItemData::get_name_style() { return 0; }
 void TItemData::convert_from_version(s32) {}
 
 void TItemData::unpack_from_item(void *arg1) {

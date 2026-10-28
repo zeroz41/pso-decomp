@@ -708,7 +708,7 @@ u8 TOTrap__sub_801792FC(u8 *arg0, s32 arg1);
 void apply_knockback_from_attacker__6TOTrapFPUc();
 void vfunc_29__13TUnk_804806E8Fv();
 void vfunc_74__13TUnk_804806E8Fl();
-void vfunc_73__13TUnk_804806E8Fv();
+void recalc_stats__13TUnk_804806E8Fv();
 void vfunc_28__13TUnk_804806E8Fv();
 void vfunc_66__13TUnk_804806E8Fv();
 void get_anim_node_position__13TUnk_804806E8FlP3Vec();
@@ -863,7 +863,7 @@ void *__vt__14TOTrapSeabed01[91] = {
     (void *)&enemy_spawn_jellen_effect__13TUnk_804806E8Fv,
     (void *)&trigger_switch_attack__13TUnk_804806E8Fv,
     (void *)&enemy_spawn_zalure_effect__13TUnk_804806E8Fv,
-    (void *)&vfunc_73__13TUnk_804806E8Fv,
+    (void *)&recalc_stats__13TUnk_804806E8Fv,
     (void *)&vfunc_74__13TUnk_804806E8Fl,
     (void *)&vfunc_75__13TUnk_804806E8Ff,
     (void *)&vfunc_76__13TUnk_804806E8Fv,
