@@ -7,6 +7,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct RecoveredGlobal_801186EC___vt__14TItemProShield { s32 value; u8 remaining[0xCC]; };
 
@@ -67,7 +68,7 @@ void TItemProShield::deactivate_shield_effect(s32 arg1) {
         if (this->m_19c & 2) {
             TParticleCtrl::begin_effect_render();
         }
-        TObjPlayer::notify_fish_if_valid(this->texture_id);
+        set_texlist(this->texture_id);
         draw_ginja_object((void *)this->item_model);
         if (this->m_19c & 2) {
             TParticleCtrl::end_effect_render();

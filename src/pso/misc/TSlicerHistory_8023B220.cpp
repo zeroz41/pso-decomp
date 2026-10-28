@@ -8,6 +8,7 @@
 #include "pso/TSlicerHistory.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 extern const f32 lbl_805DC950;
@@ -40,7 +41,7 @@ void TSlicerHistory::render() {
             col.r -= lbl_805DC948;
         }
         if (((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) && ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U)) {
-            TObjPlayer::notify_fish_if_valid(*(u32 *)((s8 *)arg0 + 0x38));
+            set_texlist(*(u32 *)((s8 *)arg0 + 0x38));
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(arg0 + 0x28);

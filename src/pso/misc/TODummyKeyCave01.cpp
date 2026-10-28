@@ -10,6 +10,7 @@
 #include "pso/misc/TODummyKeyCave01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct RecoveredGlobal_80165EE8___vt__16TODummyKeyCave01 { s32 value; u8 remaining[0x34]; };
 
@@ -73,7 +74,7 @@ void TODummyKeyCave01::render() {
     s32 id;
     if (((VObj_80165B50 *)arg0)->m8((4e+02f), (2e+01f)) != 0 && *(void **)(arg0 + 0x34) != NULL &&
         (v = *(u32 *)(arg0 + 0x24)) != 0) {
-        TObjPlayer::notify_fish_if_valid(v);
+        set_texlist(v);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_zyx(0, *(s32 *)(arg0 + 0x5C), *(s32 *)(arg0 + 0x60), *(s32 *)(arg0 + 0x64));

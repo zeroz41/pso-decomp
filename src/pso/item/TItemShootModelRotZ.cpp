@@ -4,6 +4,7 @@
 #include "pso/TItemShootModel.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 void  push_matrix(void);
@@ -15,7 +16,7 @@ extern const char* item_shoot_model_rot_z_class_name;
 void TItemShootModelRotZ::render() {
     if (is_owner_alive()) {
         if (this->m_58 != NULL) {
-            TObjPlayer::notify_fish_if_valid((u32)this->m_5C);
+            set_texlist((u32)this->m_5C);
             TParticleCtrl::begin_effect_render();
             push_matrix();
             post_translate_matrix(&this->m_pos);

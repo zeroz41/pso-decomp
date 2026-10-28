@@ -14,6 +14,7 @@
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct Needle_80109D48 {
     u8 pad0[0x1C];
@@ -52,7 +53,7 @@ void TItemEffNeedleBase::render() {
         model_render_flags = saved_model_render_flags | 0x20;
         copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         set_constant_material((const NJS_ARGB *)(((f32 *)self->m_1c)));
-        TObjPlayer::notify_fish_if_valid(self->m_40);
+        set_texlist(self->m_40);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         post_translate_matrix(self->m_30);

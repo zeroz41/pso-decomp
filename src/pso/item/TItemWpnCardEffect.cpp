@@ -13,6 +13,7 @@
 #include "pso/system/vector.h"
 #include "pso/item/TItemAttackCol.h"
 #include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct RecoveredGlobal_8032DC94_lbl_8050BEC0
 {
@@ -34,7 +35,6 @@ u8 *create_guardianna(u8 *arg0);
 
 extern "C" {
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-s32 notify_fish_if_valid__10TObjPlayerFUl();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
@@ -153,8 +153,7 @@ void TUnk_804EDD20::render() {
         model_render_flags |= 0x20;
         set_constant_material((const NJS_ARGB *)var_r3);
         var_r3 = (s32 *) var_r31;
-        ((TObjPlayer *)var_r3)->get_texture_id();
-        notify_fish_if_valid__10TObjPlayerFUl();
+        set_texlist(((TObjPlayer *)var_r3)->get_texture_id());
         push_matrix();
         var_r3 = (s32 *)(var_r29 + 0x64);
         post_translate_matrix((int) var_r3);

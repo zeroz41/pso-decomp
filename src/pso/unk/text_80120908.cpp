@@ -11,6 +11,7 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -57,7 +58,7 @@ s32 TItemWeapon::draw_weapon_model() {
         } else {
             var_r30 = ((VObj_18_26a62c *)(this))->m8(lbl_805DACA8, lbl_805DACAC);
         }
-        TObjPlayer::notify_fish_if_valid((int) (*(s32 *)((s8 *)this + 0x24)));
+        set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
         ((TObjMotion *)(this->player))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__11TItemWeaponFv(this))));
         push_matrix_from();
         if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {

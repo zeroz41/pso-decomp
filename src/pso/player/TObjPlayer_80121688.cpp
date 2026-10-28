@@ -4,6 +4,7 @@
 #include "pso/player/TUnk_804A0AA8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 
@@ -18,7 +19,7 @@ void TUnk_804A0AA8::render() {
     if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
-        TObjPlayer::notify_fish_if_valid(*(u32 *)&this->m_5C);
+        set_texlist(*(u32 *)&this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_by_node_angles((u8 *)&this->m_28, 1);
         draw_ginja_object(this->m_58);

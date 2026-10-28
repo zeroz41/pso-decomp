@@ -70,6 +70,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -1087,7 +1088,7 @@ void TItem::begin_particle_tev() {
     TItem::begin_effect_render();
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) == 0) {
         setup_particle_tev(0);
-        TObjPlayer::notify_fish_if_valid(texture_id);
+        set_texlist(texture_id);
         item_render_state.set(ITEM_RENDER_PARTICLE_TEV);
     }
 }
@@ -1095,7 +1096,7 @@ void TItem::begin_particle_tev() {
 void TItem::end_particle_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
-        TObjPlayer::notify_fish_if_valid(texture_id);
+        set_texlist(texture_id);
         item_render_state.clear(ITEM_RENDER_PARTICLE_TEV);
     }
 }
@@ -1106,7 +1107,7 @@ void TItem::end_shield_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
         TParticleCtrl::set_tev_direct(1);
-        TObjPlayer::notify_fish_if_valid(texture_id);
+        set_texlist(texture_id);
         item_render_state.clear(ITEM_RENDER_SHIELD_TEV);
     }
 }
@@ -1475,7 +1476,7 @@ void TItem::render_model() {
     if (model != NULL) {
         set_depth_buffer_settings_id(3);
         TParticleCtrl::begin_effect_render();
-        TObjPlayer::notify_fish_if_valid(texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(position);
         rotate_matrix_y(0, rotation_y);
@@ -1501,7 +1502,7 @@ void TItem::render_present_box() {
         model_render_flags |= 0x10;
         set_depth_buffer_settings_id(3);
         TParticleCtrl::begin_effect_render();
-        TObjPlayer::notify_fish_if_valid(texture);
+        set_texlist(texture);
         push_matrix();
         post_translate_matrix(position);
         rotate_matrix_y(0, rotation_y);

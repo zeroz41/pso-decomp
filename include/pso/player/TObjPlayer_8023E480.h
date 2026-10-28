@@ -13,4 +13,7 @@ s32 free_texture_if_valid(u32 arg0);
 void init_buffers(void);
 }
 
+// Makes texlist the current texture list; 0 when texlist is null.
+s32 set_texlist(u32 texlist);
+
 #endif

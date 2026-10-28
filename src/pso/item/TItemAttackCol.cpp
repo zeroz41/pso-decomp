@@ -12,6 +12,7 @@
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
 struct VObj_18_f2ea1e : VBase_18_f2ea1e {
@@ -251,7 +252,7 @@ void TItemAttackCol::render() {
     {
         if ((u32) this->m_e8 != 0U) {
             if ((u32) this->m_ec != 0U) {
-                TObjPlayer::notify_fish_if_valid(this->m_ec);
+                set_texlist(this->m_ec);
             }
             TParticleCtrl::begin_effect_render();
             attack_collider_render_owner = (int)arg0;

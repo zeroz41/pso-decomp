@@ -28,13 +28,17 @@ int release_texture_list();
 s32 load_texture_list();
 int set_global_param__8TObjFishFl();
 
-s32 TObjPlayer::notify_fish_if_valid(u32 arg0) {
-    if (arg0 == 0U) {
+}
+
+s32 set_texlist(u32 texlist) {
+    if (texlist == 0U) {
         return 0;
     }
     set_global_param__8TObjFishFl();
     return 1;
 }
+
+extern "C" {
 
 s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1) {
     s32 h;

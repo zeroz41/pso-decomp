@@ -3,6 +3,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TUnk_804A69C0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 
@@ -17,7 +18,7 @@ void TUnk_804A69C0::render() {
     u8 *arg0 = (u8 *)this;
     if ((is_owner_alive__15TItemShootModelFv() != 0) && ((u32) this->m_58 != 0U) && ((u32) this->m_5C != 0U)) {
         push_matrix();
-        TObjPlayer::notify_fish_if_valid(*(u32 *)&this->m_5C);
+        set_texlist(*(u32 *)&this->m_5C);
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, this->m_count);
         rotate_matrix_x(0, this->m_28);

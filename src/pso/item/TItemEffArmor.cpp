@@ -17,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/TItemLoad.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 u16 get_entity_id(void *);
@@ -278,7 +279,7 @@ void TItemEffArmor::render() {
     model_render_flags |= 0x10;
     copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
     set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
-    TObjPlayer::notify_fish_if_valid(this->m_78);
+    set_texlist(this->m_78);
     draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
     copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;

@@ -16,6 +16,7 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 int set_flags__11TItemMagSubFUl(void *, int);
@@ -455,7 +456,7 @@ void TItemMagSub::render_shadows() {
     copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
     if (self->model) {
         TItemMagSub__oscillating_instance = self;
-        TObjPlayer::notify_fish_if_valid(self->textures);
+        set_texlist(self->textures);
         push_matrix();
         ((TItemMagSub *)self)->apply_placement_matrix();
         TItemMagSub__feed_sequence_index = 0;
@@ -493,7 +494,7 @@ void TItemMagSub::render() {
     TItemMagSub* self = this;
     if (is_point_on_screen(self->owner->center, mag_sub_render_distance_limit, mag_sub_screen_cull_margin) && self->model) {
         TItemMagSub__oscillating_instance = self;
-        TObjPlayer::notify_fish_if_valid(self->textures);
+        set_texlist(self->textures);
         push_matrix();
         ((TItemMagSub *)self)->apply_placement_matrix();
         (*(u32 *)&TItemMagSub__feed_sequence_index) = 0;

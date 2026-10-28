@@ -12,6 +12,7 @@
 #include "pso/boss/TBoss7Crawfish.h"
 #include "pso/object/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct Stack_80308B38 {
     s32 sp8;
@@ -220,7 +221,7 @@ s32 TBoss7Crawfish::sub_80308AA8() {
     return TBoss7Crawfish__data_805DF0D8 == *(f32 *)((s8 *)((u8 *)this) + 0x354);
 }
 
-void TBoss7Crawfish::render() { if (is_visible() != 0) { TObjPlayer::notify_fish_if_valid(this->texture_id); TObjPlayer::set_global_flag(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((s32)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); TObjPlayer::clear_global_state(); } }
+void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texture_id); TObjPlayer::set_global_flag(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((s32)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); TObjPlayer::clear_global_state(); } }
 
 extern const f32 lbl_805DF0EC;
 

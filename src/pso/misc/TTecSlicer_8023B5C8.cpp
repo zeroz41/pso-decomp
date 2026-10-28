@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 struct RecoveredGlobal_8023B770_lbl_8044DC20
 {
@@ -343,7 +344,7 @@ void TTecSlicer::render() {
         set_constant_material((const NJS_ARGB *)(((f32 *)&this->argb)));
     }
     if (this->textureHandle != 0U && this->model != 0U) {
-        TObjPlayer::notify_fish_if_valid(this->textureHandle);
+        set_texlist(this->textureHandle);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

@@ -11,6 +11,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TUnk_804A5D28.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
+#include "pso/player/TObjPlayer_8023E480.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
@@ -46,7 +47,6 @@ s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
 s32 get_texture_id__10TObjPlayerFv();
-s32 notify_fish_if_valid__10TObjPlayerFUl();
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
@@ -59,8 +59,7 @@ void TUnk_804A5D10::render() {
     if (temp_r3 != NULL) {
         temp_r31 = *(u32 *)((s8 *)temp_r3 + 0x188);
         if (temp_r31 != 0U) {
-            get_texture_id__10TObjPlayerFv();
-            notify_fish_if_valid__10TObjPlayerFUl();
+            set_texlist(get_texture_id__10TObjPlayerFv());
             push_matrix();
             post_translate_matrix(arg0 + 0x2C);
             rotate_matrix_y(0, *(s32 *)&this->unk_3C);
