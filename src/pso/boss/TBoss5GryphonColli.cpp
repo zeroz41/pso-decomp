@@ -100,7 +100,6 @@ struct Obj_800663DC {
 
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 int refresh_collision_body_centers__13TUnk_804AF8A0Fv(void*);
@@ -171,7 +170,7 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
     i = 0;
     z = len * (obj->count - 1);
     for (; i < obj->count; i++) {
-        fn_8002B630((u8 *)s, (u8 *)gryphon_demo_collision_body_desc);
+        copy_collision_body((CollisionBody *)s, (const CollisionBody *)gryphon_demo_collision_body_desc);
         s->f0 = zero;
         s->f4 = zero;
         s->f8 = z;

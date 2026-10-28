@@ -43,7 +43,7 @@ static s32 volopt_pillar_textures;
 static s32 volopt_pillar_base_textures;
 
 static CollisionBody volopt_pillar_collision_body[1] = {
-    {{0.0f, 18.0f, 0.0f}, 5.0f, {0}, 0x8005, {0}},
+    {{0.0f, 18.0f, 0.0f}, 5.0f, 0.0f, 0, 0x8005},
 };
 
 void TObjVoloptPillar::render() {

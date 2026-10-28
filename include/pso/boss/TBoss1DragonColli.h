@@ -9,7 +9,6 @@ u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 void TBoss1DragonColli__sub_8002B35C(void *p);
 void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1);
 void draw__17TBoss1DragonColliFPvPvPv(void *p, void *a1, void *a2);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 }
 
 // --- C functions defined in TBoss1DragonColli.cpp ---
@@ -19,7 +18,6 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1);
 void TBoss1DragonColli__sub_8002B35C(void *p);
 void *__dt__19TBoss1DragonColli_CFv(void *arg0, s16 arg1);
 void draw__17TBoss1DragonColliFPvPvPv(void *p, void *a1, void *a2);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 }
 // --- end of C functions
 

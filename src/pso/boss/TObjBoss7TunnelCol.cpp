@@ -44,7 +44,7 @@ void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
     __ct__13TUnk_804AF8A0FP7TObject(arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
     *(void * *)&((TObjBoss7TunnelCol *)arg0)->m_name = lbl_805D3FF0;
-    fn_8002B630((u8 *)self->f_AC, (u8 *)TObjBoss7TunnelCol__col_desc);
+    copy_collision_body((CollisionBody *)self->f_AC, (const CollisionBody *)TObjBoss7TunnelCol__col_desc);
     *(f32 *)((s8 *)arg0 + 0x38) = lbl_805DECA0;
     *(f32 *)((s8 *)arg0 + 0x3C) = lbl_805DEC9C;
     *(f32 *)((s8 *)arg0 + 0x40) = lbl_805DEC9C;

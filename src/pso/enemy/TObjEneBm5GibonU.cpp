@@ -1637,7 +1637,6 @@ void TObjEneBm5GibonU__sub_800CFFBC(u8 *arg0, s32 arg1);
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
 void queue_destruction__7TObjectFv(void *self);
 extern s32 game_difficulty_selection;
-void fn_8002B630(u8 *arg0, u8 *arg1);
 u8 check_hit_sphere__16TObjEneBm5GibonUFPvif(Ene_800CCB74 *arg0, s32 arg1, f32 scale);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Hit_800CCC6C *csnVectorUnder(Vec_800CCC6C *, void *, s32);
@@ -1735,9 +1734,9 @@ u8 check_hit_sphere__16TObjEneBm5GibonUFPvif(Ene_800CCB74 *arg0, s32 arg1, f32 s
     ((TObjPlayer *)arg0)->update_enemy_collision_flags();
     hit = (col->flags & 0x380000) != 0;
     if (arg0->f464 == 1) {
-        fn_8002B630((u8 *)col, gibon_collision_body_templates + 0x2C);
+        copy_collision_body((CollisionBody *)col, (const CollisionBody *)(gibon_collision_body_templates + 0x2C));
     } else {
-        fn_8002B630((u8 *)col, gibon_collision_body_templates);
+        copy_collision_body((CollisionBody *)col, (const CollisionBody *)gibon_collision_body_templates);
     }
     col->flags = savedFlags;
     arg0->f60 = saved60;

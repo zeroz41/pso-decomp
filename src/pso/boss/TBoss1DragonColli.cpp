@@ -58,11 +58,10 @@ extern const f32 lbl_805D8118;
 extern const f32 lbl_805D811C;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
-extern u8 TBoss1DragonColli_sphere_chain_desc[];
+extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 extern s32 __vt__19TBoss1DragonColli_C[];
 extern s32 TBoss1DragonColli_C__name;
 extern const f32 lbl_805D8120;
@@ -85,7 +84,6 @@ TBoss1DragonColli::~TBoss1DragonColli() {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_C { u8 bytes[0xc]; };
 
 extern "C" {
 void render__19TBoss1DragonColli_CFv(void);
@@ -198,7 +196,7 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
     zero = lbl_805D8108;
     z = scale * (self->count - 1);
     for (i = 0; i < self->count; i++) {
-        fn_8002B630((u8 *)e, TBoss1DragonColli_sphere_chain_desc);
+        copy_collision_body((CollisionBody *)e, &TBoss1DragonColli_sphere_chain_desc);
         e->x = zero;
         e->y = zero;
         e->z = z;
@@ -214,15 +212,17 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
 }
 #undef self
 
-void fn_8002B630(u8 *arg0, u8 *arg1) {
-    *(ByteBlock_C *)(arg0) = *(const ByteBlock_C *)(arg1);
-    *(f32 *)((s8 *)arg0 + 0xC) = (f32) *(f32 *)((s8 *)arg1 + 0xC);
-    *(f32 *)((s8 *)arg0 + 0x10) = (f32) *(f32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)((s8 *)arg0 + 0x14) = (s32) *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)((s8 *)arg0 + 0x18) = (s32) *(s32 *)((s8 *)arg1 + 0x18);
-    *(ByteBlock_C *)((s32) arg0 + 0x1C) = *(const ByteBlock_C *)((s32) arg1 + 0x1C);
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) *(f32 *)((s8 *)arg1 + 0x28);
+// *dst = *src. In the original this is the compiler-generated CollisionBody
+// assignment, emitted unscheduled the way CodeWarrior 1.3.2 does (this TU
+// compiles identically under 1.3.2 with `*e = desc` left to the compiler);
+// it is a named function here because the 2.6 TUs that call it must not
+// emit copies of their own.
+#pragma push
+#pragma scheduling off
+void copy_collision_body(CollisionBody *dst, const CollisionBody *src) {
+    *dst = *src;
 }
+#pragma pop
 
 void __dt__17TBoss1DragonColliFv();
 void run_task__7TObjectFv();
@@ -236,9 +236,8 @@ void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
 void interact__13TUnk_804AF8A0Fl();
-u8 TBoss1DragonColli_sphere_chain_desc[0x2C] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x41, 0xC8, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x80, 0x03,
+CollisionBody TBoss1DragonColli_sphere_chain_desc = {
+    {0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003,
 };
 void *__vt__17TBoss1DragonColli[] = {
     0,

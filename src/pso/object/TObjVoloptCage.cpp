@@ -51,7 +51,7 @@ static const char *TObjVoloptCage_name = "TObjVoloptCage";
 
 
 static CollisionBody volopt_cage_collision_body[1] = {
-    {{0.0f, 18.0f, 0.0f}, 20.0f, {0}, 0x8003, {0}},
+    {{0.0f, 18.0f, 0.0f}, 20.0f, 0.0f, 0, 0x8003},
 };
 
 VoloptBreakUpParams volopt_cage_breakup_params = {

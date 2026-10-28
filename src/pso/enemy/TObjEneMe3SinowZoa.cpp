@@ -554,7 +554,6 @@ s32 is_locally_controlled__10TObjPlayerFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
-void fn_8002B630(void *, void *, s32);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void *spawn_particle_effect(void *pos, s32 id);
 s32 get_item_id__5TItemFv();
@@ -3178,7 +3177,7 @@ u8 TObjEneMe3SinowZoa::check_body_collision_at(s32 arg1, f32 farg0) {
     ((Obj_800E750C *)this)->f60 = arg1;
     ((void (*)(void *, s32, f32, f32))check_enemy_body_collisions)(this, arg1, TObjEneMe3SinowZoa__data_805DF31C, f2);
     res = (s->f18 & 0x380000) != 0;
-    fn_8002B630(s, sinow_zoa_collision_parts, s->f18 & 0x380000);
+    copy_collision_body((CollisionBody *)s, (const CollisionBody *)sinow_zoa_collision_parts);
     s->f18 = b;
     ((Obj_800E750C *)this)->f60 = a;
     return res;

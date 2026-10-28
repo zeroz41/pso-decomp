@@ -285,7 +285,7 @@ void *TUnk_8049F038::destroy(s16 arg1) {
 TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
-    fn_8002B630(((Obj_80108C90 *)this)->sub, lbl_8043E1A0);
+    copy_collision_body((CollisionBody *)(((Obj_80108C90 *)this)->sub), (const CollisionBody *)lbl_8043E1A0);
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }

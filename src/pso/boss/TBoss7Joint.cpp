@@ -97,7 +97,7 @@ typedef char RecoveredGlobal_802EEC60___vt__11TBoss7Joint_size[sizeof(RecoveredG
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {
     init_position_vectors();
-    fn_8002B630(&((J_802EEB88 *)this)->sub, (u8 *)lbl_80473FB8);
+    copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), (const CollisionBody *)lbl_80473FB8);
     initialize_linked_object_reference(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
     reset_hp__9TObjEneDDFv(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));

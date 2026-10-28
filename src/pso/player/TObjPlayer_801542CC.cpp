@@ -171,7 +171,6 @@ s32 normalize_vector(void *);
 void* refresh_actor_body_spheres(CollisionBody_80155FBC, CollisionBody_80155FBC);
 extern s32 TObjPlayer__data_8050D460[];
 void *mem_alloc(u32 size);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
@@ -801,7 +800,7 @@ s32 test_player_overlap_with_players(void *arg0, Obj_801559D0 *self, CollisionVe
                 r = refresh_actor_body_spheres(a, b);
                 if (r != 0) {
                     if (out != 0) {
-                        fn_8002B630((u8 *)((Part_80156780 *)out), (u8 *)((Part_80156780 *)r));
+                        copy_collision_body((CollisionBody *)out, (const CollisionBody *)r);
                     }
                     return 1;
                 }
@@ -1111,7 +1110,7 @@ Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src,
         self->count = count;
         self->parts = (Part_80156780 *)mem_alloc(self->count * 0x2c);
         for (i = 0; i < self->count; i++) {
-            fn_8002B630((u8 *)&self->parts[i], (u8 *)(src++));
+            copy_collision_body((CollisionBody *)&self->parts[i], (const CollisionBody *)src++);
         }
         ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
     }

@@ -196,7 +196,6 @@ f32 calc_boss4_scale__10TObjPlayerFi(void *);
 f32 receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll(void *, int, int);
 f32 receive_damage_and_transition__18TObjEneMe3SinowZoaFPviii(u8 *arg0, s32 arg1, Pair_80316A74 arg2, s32 arg3);
 u16 get_entity_id(int);
-s32 fn_8002B630(int, void *);
 u32 get_valid_target_player__10TNpcPlayerFv(int);
 extern u8 sinow_zoa_collision_parts[];
 
@@ -262,7 +261,7 @@ u32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(u8 *arg0, void *arg1) {
     r = (*(u32 *)((s8 *)o + 0x18) & 0x200000) != 0;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&sp8);
     TObjPlayer::init_all_slots();
-    fn_8002B630((int)o, sinow_zoa_collision_parts);
+    copy_collision_body((CollisionBody *)o, (const CollisionBody *)sinow_zoa_collision_parts);
     *(u32 *)((s8 *)o + 0x18) = saved;
     return r;
 }

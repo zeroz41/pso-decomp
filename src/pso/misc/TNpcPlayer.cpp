@@ -21,7 +21,6 @@ extern "C" void render__10TNpcPlayerFv();
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 void rotate_matrix_y(s32, s32);
 s32 push_matrix_from(void *src);
 s32 pop_matrices(s32 arg0);
@@ -1939,7 +1938,7 @@ s32 route_around_object__10TNpcPlayerFv(Self_8014E7A0 *self, Vec_8014E3B0 *out) 
     Vec_8014E3B0 to;
     Vec_8014E3B0 toSelf;
     f32 r;
-    fn_8002B630((u8 *)&info, (u8 *)self->f78->shape);
+    copy_collision_body((CollisionBody *)&info, (const CollisionBody *)self->f78->shape);
     if (info.type == 0 || info.type == 0 ||
         (info.h <= lbl_805DB1FC && info.type == 1 && info.h == info.w)) {
         Target_8014E7A0 *t = self->f78->obj;
@@ -2185,7 +2184,7 @@ s32 partner_probe_obstacles(View_8014F140 *view) {
             if (contact != NULL) {
                 if (actor->flags30 & 0x40000000) {
                     if (!(contact->flags18 & 8) && !(contact->flags18 & 0x100) && !(contact->flags18 & 0x200)) {
-                        fn_8002B630((u8 *)view->hit_d8, (u8 *)contact);
+                        copy_collision_body((CollisionBody *)view->hit_d8, (const CollisionBody *)contact);
                         view->field_0x104 = actor->field_0x60;
                         view->flags8c |= 0x20;
                         return 1;

@@ -34,7 +34,6 @@ struct O_802F31E4 {
 
 extern "C" {
 void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
@@ -182,7 +181,7 @@ s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, i
     zero = lbl_805DED20;
     z = scale * (self->count - 1);
     for (i = 0; i < self->count; i++) {
-        fn_8002B630((u8 *)e, boss8_collision_segment_desc);
+        copy_collision_body((CollisionBody *)e, (const CollisionBody *)boss8_collision_segment_desc);
         e->x = zero;
         e->y = zero;
         e->z = z;

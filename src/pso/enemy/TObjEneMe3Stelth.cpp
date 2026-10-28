@@ -3072,7 +3072,6 @@ struct VObj_14_2ab9de : VBase_14_2ab9de {
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
-void fn_8002B630(void *, void *, s32);
 void *spawn_particle_effect(void *pos, s32 id);
 s32 get_item_id__5TItemFv(void);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
@@ -3549,7 +3548,7 @@ u8 TObjEneMe3Stelth::test_body_collision(s32 arg1, f32 farg0) {
     this->rotation_y = arg1;
     ((void (*)(void *, s32, f32, f32))check_enemy_body_collisions)(arg0, arg1, TObjEneMe3Stelth__data_805DA840, f2);
     res = (s->f18 & 0x380000) != 0;
-    fn_8002B630(s, TObjEneMe3Stelth__collision_body_template, s->f18 & 0x380000);
+    copy_collision_body((CollisionBody *)s, (const CollisionBody *)TObjEneMe3Stelth__collision_body_template);
     s->f18 = b;
     this->rotation_y = a;
     return res;

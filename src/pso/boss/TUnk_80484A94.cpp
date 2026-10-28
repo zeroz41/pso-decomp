@@ -30,7 +30,7 @@ extern GC_Mtx identity_matrix;
 static const Vec volopt_shot_forward = {0.0f, 0.0f, 0.0f};
 
 static CollisionBody volopt_shot_collision_body[1] = {
-    {{0.0f, 0.0f, 0.0f}, 5.0f, {0}, 0x10103, {0}},
+    {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x10103},
 };
 
 s32 TUnk_80484A94::try_capture_target() {

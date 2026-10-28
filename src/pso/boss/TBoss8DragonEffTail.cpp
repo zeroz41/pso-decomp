@@ -199,7 +199,7 @@ EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     data = boss8_dragon_eff_tail_init_data;
     arg0->unk0 = TBoss8DragonEffTail__name;
     for (i = 1; i < 0x11; i++) {
-        fn_8002B630((u8 *)&arg0->spheres[i], (u8 *)data);
+        copy_collision_body((CollisionBody *)&arg0->spheres[i], (const CollisionBody *)data);
     }
     arg0->unkB0 = arg1;
     arg0->unkB4 = arg2;

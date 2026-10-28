@@ -272,7 +272,6 @@ f32 calc_boss4_scale__10TObjPlayerFi(s32 arg0);
 s32 receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll(void *, void *, void *, void *, s32, s32);
 u16 get_entity_id(void *);
 void handle_direct_attack__16TObjEneMe3StelthFPvPviPv(Obj_800F0EC4 *arg0, void *arg1, Pair_800F0EC4 arg2, void *arg3);
-void fn_8002B630(u8 *arg0, u8 *arg1);
 u32 get_valid_target_player__10TNpcPlayerFv(int);
 extern u8 TObjEneMe3Stelth__collision_body_template[];
 s32 TObjEneMe3Stelth__sub_800F0F84(u8 *arg0, Vec_800F0F84 *arg1);
@@ -316,7 +315,7 @@ s32 TObjEneMe3Stelth__sub_800F0F84(u8 *arg0, Vec_800F0F84 *arg1) {
     result = (ent->f18 & 0x200000) != 0;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&sp);
     TObjPlayer::init_all_slots();
-    fn_8002B630((u8 *)ent, (u8 *)TObjEneMe3Stelth__collision_body_template);
+    copy_collision_body((CollisionBody *)ent, (const CollisionBody *)TObjEneMe3Stelth__collision_body_template);
     ent->f18 = saved;
     return result;
 }

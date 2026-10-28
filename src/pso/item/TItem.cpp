@@ -111,7 +111,7 @@ u8 *model_node_matrix_output_cursor;
 
 const char *TItem__name = "TItem";
 
-const CollisionBody item_collider_body = {{0.0f, 0.0f, 0.0f}, 3.0f, {0}, 0x31F0B, {0}};
+const CollisionBody item_collider_body = {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x31F0B};
 
 // The ground model of each item type (weapon, armor, mag, tool, meseta).
 const u8 item_type_drop_models[5] = {0, 1, 1, 2, 3};
@@ -349,7 +349,7 @@ void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     m_name = TItem__name;
     obj_setFlags30(this, 0x80000000);
-    fn_8002B630((u8 *)&collision_body, (u8 *)&item_collider_body);
+    copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
     initialize_linked_object_reference(&collision_body);
     owner_client_id = 0xFFFF;

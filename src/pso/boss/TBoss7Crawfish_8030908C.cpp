@@ -101,7 +101,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss7Crawfish__class_name;
     ((TBoss7Crawfish *)arg0)->texture_id = TObjFish__sub_8001EDB0(TBoss7Crawfish__shared_resource, 0);
-    fn_8002B630((arg0 + 0x374), (u8 *)crawfish_collision_body_desc);
+    copy_collision_body((CollisionBody *)(arg0 + 0x374), (const CollisionBody *)crawfish_collision_body_desc);
     ((TUnk_804AF8A0 *)arg0)->initialize_linked_object_reference(arg0 + 0x374);
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_804E7380);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)((u8 *)TBoss7Crawfish__shared_resource) + 0x430)));

@@ -1475,7 +1475,6 @@ s32 get_main_phase();
 f32 calc_boss4_scale__10TObjPlayerFi(s32);
 s32 is_split_screen();
 void queue_destruction__7TObjectFv(void *arg0);
-void fn_8002B630(void *, void *, s32);
 }
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
@@ -3236,7 +3235,7 @@ u8 TObjEneMe3Shinowa::check_body_collision_at(s32 arg1, f32 farg0) {
     this->rotation_y = arg1;
     ((void (*)(void *, s32, f32, f32))check_enemy_body_collisions)(arg0, arg1, TObjEneMe3ShinowaMirage__data_805DA5B8, f2);
     res = (s->f18 & 0x380000) != 0;
-    fn_8002B630(s, shinowa_mirage_model_init_data, s->f18 & 0x380000);
+    copy_collision_body((CollisionBody *)s, (const CollisionBody *)shinowa_mirage_model_init_data);
     s->f18 = b;
     this->rotation_y = a;
     return res;

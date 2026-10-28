@@ -50,15 +50,19 @@ public:
 extern "C" void *__dt__13TUnk_804B9870Fv(void *, s16);
 extern "C" void *__dt__13TUnk_804AF8A0Fv(void *, s16);
 
-// One collision sphere of an actor (TUnk_804AF8A0::bodies points at the actor's
+// One collision body of an actor (TUnk_804AF8A0::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
 struct CollisionBody {
-    f32 offset[3];
-    f32 radius;
-    u8 pad_10[0x8];
+    Vec offset;      // from the actor's position, turned by its y rotation
+    f32 radius;      // a sphere's radius, a box's half depth (z)
+    f32 half_width;  // a box's half width (x)
+    s32 shape;       // 0 sphere, 1 box
     u32 flags;
-    u8 pad_1c[0x10];
+    Vec center;      // offset placed in the world by refresh_collision_body_centers
+    f32 unk_28;
 };
+// *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
+extern "C" void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
 
 class TUnk_804AF8A0 : public TUnk_804B9870 {
 public:

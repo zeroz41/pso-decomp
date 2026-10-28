@@ -39,7 +39,7 @@ extern GC_Mtx identity_matrix;
 
 
 static CollisionBody volopt_missile_collision_body[1] = {
-    {{0.0f, 0.0f, 0.0f}, 0.0f, {0}, 0x8101, {0}},
+    {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8101},
 };
 
 static s32 volopt_missile_expire_tick;
