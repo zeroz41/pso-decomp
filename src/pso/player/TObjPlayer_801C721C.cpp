@@ -15,7 +15,7 @@ void TObjPlayer::set_flag_0x8000() { sub_8011E204((s32)((void*)32768)); }
 void TObjPlayer::check_flag_0x8000() { check_flag((s32)((void*)32768)); }
 void*TObjPlayer::restore_shrunken_font() { TFontSmallLobby__sub_801C0228(this); return this; }
 void TObjPlayer::init_6x88_packet() { *(u8*)((char*)this + 0x0) = 136; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_font_update_60() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_font_update_60() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_shrink() { read_be16_field2(); bswap_32((u32 *)((char*)this + 0x4)); }
 
@@ -28,7 +28,7 @@ void *TObjPlayer__sub_801C7360(void *arg0, void *arg1) {
     extern const float lbl_805DC320;
 void TObjPlayer::init_shrink_effect() { *(float*)((char*)this + 0x4) = lbl_805DC320; *(unsigned char*)((char*)this + 0x0) = 135; *(unsigned char*)((char*)this + 0x1) = 2; }
 
-void TObjPlayer::update_and_send_60() { bswap_shrink(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::update_and_send_60() { bswap_shrink(); send_subcommand((u8 *)this); }
 
 u16 TObjPlayer::interpolate_angle(void *arg0, u16 arg1, u16 arg2, s32 *arg3) {
     s16 temp_r0;

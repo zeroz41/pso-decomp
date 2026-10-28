@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/system/byteswap.h"
@@ -174,7 +175,6 @@ int TFontSmallLobby__sub_801D677C(void* p);
 void* TFontSmallLobby__sub_801D6804(void* p);
 int TFontSmallLobby__sub_801C01BC(void*);
 int TFontSmallLobby__sub_801C0228(void*);
-void TLobby__send_and_handle_60(u8 *arg0);
 int clear__8FlagWordFUl(void*, int);
 int read_be16_field2__10TObjPlayerFv(void*);
 int set__8FlagWordFUl(void*, int);
@@ -221,11 +221,11 @@ void TFontSmallLobby__sub_801D67C8(void* p) { *(s16*)((char*)p + 0x2) = 6; }
 void*TFontSmallLobby::init_reset_fields() { reset_fields(); return this; }
 void* TFontSmallLobby__sub_801D6804(void* p) { TFontSmallLobby__sub_801C0228(p); return p; }
 void TFontSmallLobby::init_pkt_cmd_3B() { *(u8*)((char*)this + 0x0) = 59; *(u8*)((char*)this + 0x1) = 1; }
-void TFontSmallLobby::update_and_send() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TFontSmallLobby::update_and_send() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::init_6x3A_packet() { *(u8*)((char*)this + 0x0) = 58; *(u8*)((char*)this + 0x1) = 1; }
-void TFontSmallLobby::draw_and_send() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TFontSmallLobby::draw_and_send() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::init_6x39_packet() { *(u8*)((char*)this + 0x0) = 57; *(u8*)((char*)this + 0x1) = 1; }
-void TFontSmallLobby::update_and_send_60() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TFontSmallLobby::update_and_send_60() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TFontSmallLobby::bswap_fields() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
 void*TFontSmallLobby::copy_packet_header_6x38(void* a1) { TFontSmallLobby__sub_801C0228(this); *(short*)((char*)this + 0x4) = *(unsigned short*)((char*)a1 + 0x4); *(short*)((char*)this + 0x6) = *(short*)((char*)a1 + 0x6); return this; }
@@ -237,7 +237,7 @@ void TFontSmallLobby__sub_801D698C(Pkt_801D698C *p) {
     p->size = 2;
 }
 
-void TFontSmallLobby::send_state() { bswap_fields(); TLobby__send_and_handle_60((u8 *)this); }
+void TFontSmallLobby::send_state() { bswap_fields(); send_subcommand((u8 *)this); }
 void*TFontSmallLobby::handle_photon_blast_ready() { TFontSmallLobby__sub_801C0228(this); return this; }
 
 void clear_player_sub_object_slots(Obj_801D6A18 *p) {

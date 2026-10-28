@@ -152,7 +152,7 @@ void G_PickUpItemRequest_6x5A::bswap() {
 
 void G_PickUpItemRequest_6x5A::send() {
     bswap();
-    dispatch_packet__6TLobbyFPv(this);
+    send_subcommand_to_leader(this);
 }
 
 G_PickUpItem_6x59::G_PickUpItem_6x59() {
@@ -165,7 +165,7 @@ G_PickUpItem_6x59::G_PickUpItem_6x59() {
 
 void G_PickUpItem_6x59::send() {
     bswap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void G_PickUpItem_6x59::bswap() {
@@ -195,7 +195,7 @@ G_DropStackedItem_PC_V3_BB_6x5D::G_DropStackedItem_PC_V3_BB_6x5D() {
 
 void G_DropStackedItem_PC_V3_BB_6x5D::send() {
     bswap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void G_DropStackedItem_PC_V3_BB_6x5D::bswap() {
@@ -226,7 +226,7 @@ void ItemData::copy_from(ItemData *src) {
 
 void G_BuyShopItem_6x5E::send() {
     bswap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void G_BuyShopItem_6x5E::bswap() {
@@ -235,7 +235,7 @@ void G_BuyShopItem_6x5E::bswap() {
 }
 
 s32 G_ClientIDHeader::is_local(u16 client) {
-    return lbl_805D5E50 == 0 && client == local_client_id;
+    return dispatching_own_subcommand == 0 && client == local_client_id;
 }
 
 s32 G_ClientIDHeader::is_remote() { return !is_local(client_id); }
@@ -255,7 +255,7 @@ void G_ActivateMagEffect_6x61::bswap() {
 
 void G_ActivateMagEffect_6x61::send() {
     bswap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void VectorXZF::bswap() {

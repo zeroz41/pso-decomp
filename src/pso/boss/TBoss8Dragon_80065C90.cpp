@@ -92,7 +92,7 @@ void TBoss5Gryphon::apply_shock_status() {  }
 void TBoss5Gryphon::clear_harmful_statuses() {  }
 void TBoss8Dragon::init_color() { *(u8 *)&this->m_0 = 160; *(u8*)((char*)this + 0x1) = 10; }
 
-void TBoss8Dragon::send_spawn_params_packet() { byteswap_action_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss8Dragon::send_spawn_params_packet() { byteswap_action_packet(); send_subcommand((u8 *)this); }
 
 void TBoss8Dragon::byteswap_action_packet() {
     read_be16_field2__10TObjPlayerFv(this);
@@ -113,7 +113,7 @@ void TBoss8Dragon::byteswap_record() {
     }
 }
 
-void TBoss8Dragon::send_boss_actions() { bswap_boss_actions(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss8Dragon::send_boss_actions() { bswap_boss_actions(); send_subcommand((u8 *)this); }
 
 void TBoss8Dragon::bswap_boss_actions() {
     s32 arg0 = (s32)this;

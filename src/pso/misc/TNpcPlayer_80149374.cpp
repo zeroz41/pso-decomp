@@ -15,7 +15,7 @@ extern "C" {
 void TNpcPlayer::send_6x3E() {
     s32 arg0 = (s32)this;
     bswap_6x3E();
-    TLobby__send_and_handle_60((u8 *)arg0);
+    send_subcommand((u8 *)arg0);
 }
 void TNpcPlayer::bswap_6x3E() {
     s32 arg0 = (s32)this;

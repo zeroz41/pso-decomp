@@ -50,7 +50,7 @@ bool TOMineTrap__vt19(u8 *arg0, s32 arg1) {
 }
 
 void TOMineTrap::bswap_6x80_trigger_trap() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-void TOMineTrap::send_and_handle_60() { bswap_6x80_trigger_trap(); TLobby__send_and_handle_60((u8 *)this); }
+void TOMineTrap::send_and_handle_60() { bswap_6x80_trigger_trap(); send_subcommand((u8 *)this); }
 
 void TOMineTrap__sub_8017141C(void* p) { *(u8*)((char*)p + 0x0) = 128; *(u8*)((char*)p + 0x1) = 2; }
 

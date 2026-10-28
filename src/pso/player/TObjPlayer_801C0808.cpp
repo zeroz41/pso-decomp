@@ -49,10 +49,10 @@ void TObjPlayer::init_cmd_6x24() {
     *(s8 *)((s8 *)this + 1) = 5;
 }
 
-void TObjPlayer::send_lobby_update() { ((TObjPlayer *)this)->byteswap_packet_body(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_lobby_update() { ((TObjPlayer *)this)->byteswap_packet_body(); send_subcommand((u8 *)this); }
 void TObjPlayer::bswap_status_effect() { read_be16_field2__10TObjPlayerFv(this); ((TObjPlayer *)((char*)this + 0x4))->bswap_status_effect_data(); }
 void TObjPlayer::set_code_13_3() { *(u8*)((char*)this + 0x0) = 13; *(u8*)((char*)this + 0x1) = 3; }
-void TObjPlayer::update_and_send() { bswap_status_effect(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::update_and_send() { bswap_status_effect(); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_14_1() { *(u8*)((char*)this + 0x0) = 14; *(u8*)((char*)this + 0x1) = 1; }
 void apply_status_effect__10TObjPlayerFPv(void* p) { read_be16_field2__10TObjPlayerFv(p); ((TObjPlayer *)((char*)p + 0x4))->bswap_status_effect_data(); }
 #pragma push
@@ -70,15 +70,15 @@ typedef char RecoveredGlobal_801D2CF4_lbl_804C43CC_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_801D2CF4_lbl_804C43D8_size[sizeof(RecoveredGlobal_801D2CF4_lbl_804C43D8) == 0x10 ? 1 : -1];
 
 void TObjPlayer::set_code_12_3() { *(u8*)((char*)this + 0x0) = 12; *(u8*)((char*)this + 0x1) = 3; }
-void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::reinit_update_sub4_and_send() { apply_status_effect__10TObjPlayerFPv(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_161_1() { *(u8*)((char*)this + 0x0) = 161; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::update_font() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
-void TObjPlayer::send_font_state() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::update_font() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
+void TObjPlayer::send_font_state() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_50_1() { *(u8*)((char*)this + 0x0) = 50; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::set_code_49_1() { *(u8*)((char*)this + 0x0) = 49; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::bswap_font_lobby() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_font_lobby() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void TObjPlayer::set_code_45_1() { *(u8*)((char*)this + 0x0) = 45; *(u8*)((char*)this + 0x1) = 1; }
-void TObjPlayer::send_lobby_update_font() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_lobby_update_font() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void* p) { read_be16_field2__10TObjPlayerFv(p); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x10)); ((VectorXZF *)((char*)p + 0x8))->bswap(); }
 void TObjPlayer::build_6x2C_impose_hold_packet() {
     this->m_flags = 0;
@@ -99,7 +99,7 @@ void bswap__9TItemDataFv(s32 arg0);
 void TObjPlayer::bswap_and_send_packet() {
     s32 arg0 = (s32)this;
     bswap_pkt_u16x2_u32__10TObjPlayerFPv();
-    TLobby__send_and_handle_60((u8 *)arg0);
+    send_subcommand((u8 *)arg0);
 }
 void TObjPlayer::bswap_body_dwords() {
     s32 arg0 = (s32)this;
@@ -121,7 +121,7 @@ void TObjPlayer__sub_801C0C04(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 3;
 }
 
-void TObjPlayer::send_swapped_packet_6x30() { swap_endian__10TObjPlayerFi((s32)this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_swapped_packet_6x30() { swap_endian__10TObjPlayerFi((s32)this); send_subcommand((u8 *)this); }
 
 void swap_endian__10TObjPlayerFi(s32 arg0) {
     read_be16_field2__10TObjPlayerFv();
@@ -168,7 +168,7 @@ void TObjPlayer__sub_801C0D7C(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 3;
 }
 
-void TObjPlayer::bswap_and_send_body_dwords2() { bswap_body_dwords2(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_and_send_body_dwords2() { bswap_body_dwords2(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_cmd_u32() {
     s32 arg0 = (s32)this;
@@ -188,7 +188,7 @@ void init_6x27_use_item_cmd(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_use_item_cmd() { bswap_cmd_u32(); send_subcommand((u8 *)this); }
 
 #undef TFontSmallLobby__sub_801C0228
 #undef bswap_pkt_u16x2_u32__10TObjPlayerFPv
@@ -284,7 +284,7 @@ void*TObjPlayer::init_pkt_6x2B() { set_code_43_6(); *(unsigned char*)(this) = 43
 
 void TObjPlayer::set_code_43_6() { *(u8*)((char*)this + 0x0) = 43; *(u8*)((char*)this + 0x1) = 6; }
 
-void TObjPlayer::send_cmd_item_data() { bswap_cmd_item_data(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_cmd_item_data() { bswap_cmd_item_data(); send_subcommand((u8 *)this); }
 
 void bswap_fields__10TObjPlayerFi(s32 arg0) {
     read_be16_field2__10TObjPlayerFv((void*)arg0);
@@ -316,7 +316,7 @@ void TObjPlayer::init_6x2A() {
     *(s8 *)((s8 *)((u8 *)this) + 1) = 6;
 }
 
-void TObjPlayer::bswap_fields_and_send() { bswap_fields__10TObjPlayerFi((s32)this); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_fields_and_send() { bswap_fields__10TObjPlayerFi((s32)this); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_body_words() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
@@ -334,7 +334,7 @@ void TObjPlayer::init_trap_packet() {
   *((s8 *) (((s8 *) this) + 1)) = 2;
 }
 
-void TObjPlayer::bswap_body_words_and_send() { bswap_body_words(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_body_words_and_send() { bswap_body_words(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::byteswap_data() { read_be16_field2__10TObjPlayerFv(this); bswap_32((u32 *)((char*)this + 0x4)); { int i; for (i = 0; i < 30; i++) { bswap_32((u32 *)((char*)this + 0x8 + i * 4)); } } }
 
@@ -371,9 +371,9 @@ void TObjPlayer::init_cmd_6x29() {
     *(s8 *)((s8 *)this + 1) = 3;
 }
 
-void TObjPlayer::bswap_body_dwords3_and_send() { bswap_body_dwords3(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_body_dwords3_and_send() { bswap_body_dwords3(); send_subcommand((u8 *)this); }
 
-void TObjPlayer::bswap_body_dwords4_and_send() { bswap_body_dwords4(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_body_dwords4_and_send() { bswap_body_dwords4(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_body_dwords4() { read_be16_field2__10TObjPlayerFv(this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
 
@@ -400,7 +400,7 @@ void TObjPlayer::init_command() {
     *(s8 *)((s8 *)this + 1) = 3;
 }
 
-void TObjPlayer::bswap_body_dwords5_and_send() { bswap_body_dwords5(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::bswap_body_dwords5_and_send() { bswap_body_dwords5(); send_subcommand((u8 *)this); }
 
 void TObjPlayer::bswap_pkt_u16x2_u32x2() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); bswap_32((u32 *)((char*)this + 0xc)); }
 

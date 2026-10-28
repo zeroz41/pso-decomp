@@ -5,7 +5,7 @@
 
 // This console's client slot in the current game.
 extern s32 local_client_id;
-// Nonzero while no client slot is ours (commands are never local).
-extern s32 lbl_805D5E50;
+// Nonzero while this console runs a subcommand it sent itself.
+extern s32 dispatching_own_subcommand;
 
 #endif

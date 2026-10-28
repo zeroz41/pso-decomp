@@ -17,7 +17,7 @@ void TObjMotion::set_field_d8(s32 v) { (*(s32 *)&this->action_table) = v; }
 void TObjPlayer::reset_lobby_model() { reset_type(); }
 void TObjPlayer::reset_type() { *(s32*)((char*)this + 0x0) = 0; }
 void TObjPlayer::set_type(s32 v) { *(s32*)((char*)this + 0x0) = v; }
-void TObjPlayer::send_6x12_packet() { bswap_6x12_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_6x12_packet() { bswap_6x12_packet(); send_subcommand((u8 *)this); }
 void TObjPlayer::bswap_6x12_packet() { read_be16_field2(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TObjPlayer::set_type_dragon() { *(u8*)((char*)this + 0x0) = 18; *(u8*)((char*)this + 0x1) = 5; }
 void TObjPlayer::bswap_dragon_boss_fields() { read_be16_field2(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }

@@ -9,7 +9,7 @@
 extern "C" {
 void bswap_6x05_switch_flag__5TOKeyFv(void* p);
 
-void TLobby::finalize_and_send_60() { bswap_6x05_switch_flag__5TOKeyFv(this); TLobby__send_and_handle_60((u8 *)this); }
+void TLobby::finalize_and_send_60() { bswap_6x05_switch_flag__5TOKeyFv(this); send_subcommand((u8 *)this); }
 void*TLobby::init_6x05_switch_changed() { init_6x04_packet((u8 *)this); *(unsigned char*)(this) = 5; *(unsigned char*)((char*)this + 0x1) = 3; return this; }
 }
 

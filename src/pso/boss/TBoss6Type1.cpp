@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
@@ -1203,7 +1204,6 @@ extern const f32 lbl_805DE3D0;
 s32 angle_difference_abs(int, int);
 s32 approach_angle_limited(int, int, int);
 s32 TBoss6Type1__ct(s32, s32, s32);
-void TLobby__send_and_handle_60(u8 *arg0);
 s32 TObjControl__ct(s32, s32);
 s32 __nw__7TObjectFUl(s32);
 int read_be16_field2__10TObjPlayerFv(void*);
@@ -2534,5 +2534,5 @@ void TBoss6Type1::clear_harmful_statuses() {  }
 void*TBoss6Type1::get_mag_mine_ptr() { return (char*)this + 0x388; }
 int TBoss6Type1::is_idle() { return this->m_374 == 0; }
 int TBoss6Type1::read_be16_field2() { return read_be16_field2__10TObjPlayerFv(this); }
-void TBoss6Type1::step_and_send_60() { read_be16_field2(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss6Type1::step_and_send_60() { read_be16_field2(); send_subcommand((u8 *)this); }
 void build_6xA4_olga_flow_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 164; *(u8*)((char*)p + 0x1) = 5; }

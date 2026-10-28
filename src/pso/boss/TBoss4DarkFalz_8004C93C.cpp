@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/boss/TBoss4Type1.h"
 #include "pso/object/TObjDFDemo0.h"
@@ -58,7 +59,6 @@ s32 is_ending_or_split_screen__14TBoss4DarkFalzFv();
 void TBoss4DarkFalz__sub_8004C7E8(TBoss4DarkFalz *arg0);
 int TBoss4DarkFalz__sub_8004C1AC(void);
 s32 TBoss4DarkFalz__sub_8004C1B4(void);
-void TLobby__send_and_handle_60(u8 *arg0);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
 int read_be16_field2__10TObjPlayerFv(void*);
@@ -89,7 +89,7 @@ void TBoss4DarkFalz::save_position() {
 
 int TUnk_804B9870::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(this->position, pos); }
 
-void TBoss4DarkFalz::swap_and_send() { swap_bytes(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss4DarkFalz::swap_and_send() { swap_bytes(); send_subcommand((u8 *)this); }
 void TBoss4DarkFalz::swap_bytes() { read_be16_field2__10TObjPlayerFv(this); bswap_16__FPUs((char*)this + 0x4); bswap_16__FPUs((char*)this + 0x6); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }
 void TBoss4DarkFalz::set_code_25_4() { *(u8 *)&this->m_name = 25; *(u8*)((char*)this + 0x1) = 4; }
 

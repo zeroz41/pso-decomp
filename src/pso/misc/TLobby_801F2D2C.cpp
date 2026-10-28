@@ -327,7 +327,7 @@ void TLobby::bswap_4x32() { bswap_32__FPUl(this); bswap_32__FPUl((char*)this + 0
     extern unsigned char camera_capture_flags;
 void TLobby__sub_801F3568(void) { camera_capture_flags = (camera_capture_flags | 0x10); }
 
-void TLobby::sync_quest_register_and_send() { bswap_header__6TLobbyFPv(this); TLobby__send_and_handle_60((u8 *)this); }
+void TLobby::sync_quest_register_and_send() { bswap_header__6TLobbyFPv(this); send_subcommand((u8 *)this); }
 void bswap_header__6TLobbyFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 void build_6x77_sync_quest_register(void* p) { *(u8*)((char*)p + 0x0) = 119; *(u8*)((char*)p + 0x1) = 3; }
 

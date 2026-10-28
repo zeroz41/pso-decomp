@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/misc/TUnk_804CCA0C.h"
@@ -161,7 +162,6 @@ struct VObj_802346F8 : VBase_802346F8 {
 void clear_pipe_interaction_latch(void* p);
 s32 get_pipe_interaction_latch(void* p);
 extern "C" {
-void TLobby__send_and_handle_60(u8 *arg0);
 void TTecLuker__sub_8023503C(void* p);
 void TTecLuker__sub_80235048(void* p);
 int TTecLuker__sub_80235054(void* p);
@@ -985,7 +985,7 @@ void clear_pipe_interaction_latch(void* p) { *(s32*)((char*)p + 0xb0) = 0; }
 
 s32 get_pipe_interaction_latch(void* p) { return *(s32*)((char*)p + 0xb0); }
 
-void TTecLuker::send_swapped_telepipe_packet() { byteswap_telepipe_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TTecLuker::send_swapped_telepipe_packet() { byteswap_telepipe_packet(); send_subcommand((u8 *)this); }
 
 void TTecLuker::byteswap_telepipe_packet() {
     read_be16_field2__10TObjPlayerFv(this);

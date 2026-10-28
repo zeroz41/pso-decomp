@@ -1,3 +1,4 @@
+#include "pso/network/client_id.h"
 #include "types.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80131794.h"
@@ -13,8 +14,6 @@ extern "C" {
 s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
 extern u32 TLobby__protocol_instance;
-extern s32 lbl_805D5E50;
-extern u32 local_client_id;
 void *tmp_buf_use_req__6TLobbyFPCc(char *);
 void *alloc__22TQuestVmDownLoadServerFv(void);
 void debug_print__6TLobbyFle(const char *, ...);
@@ -35,9 +34,9 @@ void TLobby::send_command(u32 arg1) {
     sp8 = *(s32 *)&this->m_flags;
     bswap_32((u32 *)&sp8);
     if ((u32) local_client_id == arg1) {
-        lbl_805D5E50 = 1;
+        dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
-        lbl_805D5E50 = 0;
+        dispatching_own_subcommand = 0;
         return;
     }
     if ((u32) TLobby__protocol_instance != 0U) {
@@ -47,20 +46,23 @@ void TLobby::send_command(u32 arg1) {
 
 extern s32 TLobby__designated_client_id;
 
-void dispatch_packet__6TLobbyFPv(void *src) {
+}
+void send_subcommand_to_leader(void *cmd) {
+    void *src = cmd;
     s32 len;
 
     len = *(u8 *)((s8 *)src + 1) * 4;
     if (get_main_phase() == 0xE) {
-        lbl_805D5E50 = 1;
+        dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(src);
-        lbl_805D5E50 = 0;
+        dispatching_own_subcommand = 0;
         return;
     }
     if ((u32) TLobby__protocol_instance != 0U) {
         ((TProtocol *)TLobby__protocol_instance)->send_subcommand_to_client((s32)TLobby__designated_client_id, (s8 *)src, (s32)len);
     }
 }
+extern "C" {
 
 extern s32 TLobby__join_state_flag;
 extern void *game_protocol_instance;
@@ -69,9 +71,9 @@ void TLobby::send_subcommand_to_client(u32 arg1) {
     s32 size;
     size = *(u8 *)((s8 *)this + 1) * 4;
     if ((u32) local_client_id == arg1) {
-        lbl_805D5E50 = 1;
+        dispatching_own_subcommand = 1;
         dispatch_6x_subcommand(this);
-        lbl_805D5E50 = 0;
+        dispatching_own_subcommand = 0;
         return;
     }
     if ((u32) TLobby__protocol_instance != 0U) {
@@ -86,7 +88,9 @@ void TLobby::send_60_sized() {
     }
 }
 
-void TLobby__send_and_handle_60(u8 *arg0) {
+}
+void send_subcommand(void *cmd) {
+    u8 *arg0 = (u8 *)cmd;
     s32 len;
     u8 *var_r31;
     u8 *var_r3;
@@ -100,17 +104,18 @@ void TLobby__send_and_handle_60(u8 *arg0) {
         TProtocol__send_60((int)var_r3, (int)src, (int)len);
     }
     var_r3 = var_r31;
-    lbl_805D5E50 = 1;
+    dispatching_own_subcommand = 1;
     dispatch_6x_subcommand(var_r3);
-    lbl_805D5E50 = 0;
+    dispatching_own_subcommand = 0;
 }
+extern "C" {
 
 void TLobby::update_players() {
     void *var_r31;
     s32 arg0 = (s32)this;
 
     if ((s32) TLobby__join_state_flag == 1) {
-        TLobby__send_and_handle_60((u8 *)arg0);
+        send_subcommand((u8 *)arg0);
         return;
     }
     if ((void *) game_protocol_instance != NULL) {
@@ -120,9 +125,9 @@ void TLobby::update_players() {
             var_r31 = *(void **)((s8 *)var_r31 + 0xC);
         }
     }
-    lbl_805D5E50 = 1;
+    dispatching_own_subcommand = 1;
     dispatch_6x_subcommand((void *)arg0);
-    lbl_805D5E50 = 0;
+    dispatching_own_subcommand = 0;
 }
 
 void TLobby::bswap_switch_activate_token() { ((TObjPlayer *)this)->read_be16_field2(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }

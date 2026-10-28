@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
@@ -35,7 +36,6 @@ s32 mem_alloc(s32);
 extern s32 __ct__9FloorItemFv[];
     extern int lbl_805D5868;
 int read_be16_field2__10TObjPlayerFv(void*);
-void TLobby__send_and_handle_60(u8 *arg0);
 void TLobby__sub_801041BC(void *arg0);
 void TLobby__sub_801041D8(void);
 void bswap__9TItemDataFv(s32 arg0);
@@ -125,7 +125,7 @@ void TLobby::alloc_objects() {
 }
 int TLobby::get_lobby_flag() {  return lbl_805D5868; }
 void TLobby::bswap_player_packet() { read_be16_field2__10TObjPlayerFv(this); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); }
-void TLobby::update_and_send() { bswap_player_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TLobby::update_and_send() { bswap_player_packet(); send_subcommand((u8 *)this); }
 void TLobby__sub_801041BC(void *arg0) {
     *(s32 *)((s8 *)arg0 + 4) = -1;
     *(s8 *)((s8 *)arg0 + 0) = 0x63;

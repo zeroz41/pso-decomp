@@ -17,7 +17,7 @@ int read_be16_field2__10TObjPlayerFv(void* a0 = 0);
     extern int chat_sensor_table;
 void load_chat_sensor(void) { chat_sensor_table = load_encrypted_archive_data(lbl_804404B0); }
 
-void TOChatSensor::send_state() { swap_state_endian(); TLobby__send_and_handle_60((u8 *)this); }
+void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)this); }
 
 void TOChatSensor::swap_state_endian() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 

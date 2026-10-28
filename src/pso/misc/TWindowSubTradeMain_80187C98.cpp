@@ -10,7 +10,7 @@ void *TObjGbAdvance__ct(void *, void *, void *);
 void *__nw__7TObjectFUl(int);
 int read_be16_field2__10TObjPlayerFv(void* a0 = 0);
 
-void TWindowSubTradeMain::send_60_update() { bswap_6x6A_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TWindowSubTradeMain::send_60_update() { bswap_6x6A_packet(); send_subcommand((u8 *)this); }
 
 void TWindowSubTradeMain::bswap_6x6A_packet() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 

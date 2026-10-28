@@ -40,9 +40,9 @@ void init_6x21_inter_level_warp_packet(u8 *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 2;
 }
 
-void TObjPlayer::send_warp_packet() { bswap_warp_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TObjPlayer::send_warp_packet() { bswap_warp_packet(); send_subcommand((u8 *)this); }
 
-void TObjPlayer__sub_801C18E0(void* p) { ((TObjPlayer *)p)->byteswap_set_position_cmd(); TLobby__send_and_handle_60((u8 *)p); }
+void TObjPlayer__sub_801C18E0(void* p) { ((TObjPlayer *)p)->byteswap_set_position_cmd(); send_subcommand((u8 *)p); }
 
 void TObjPlayer::byteswap_set_position_cmd() {
     s32 arg0 = (s32)this;

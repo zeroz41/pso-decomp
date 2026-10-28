@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/TObject.h"
 #include "pso/object/TUnk_804AF7B0.h"
@@ -463,7 +464,6 @@ void *get_player_by_client_id(s32 i);
 s8 get_cast_technique_level(void *, s16);
 int bswap_16__FPUs(void*);
 int bswap_32__FPUl(void*);
-void TLobby__send_and_handle_60(u8 *arg0);
 void update_players__6TLobbyFv(s32 arg0);
 void __dl__7TObjectFPv(s32);
 void * __nw__7TObjectFUl(u32);
@@ -3762,7 +3762,7 @@ void TNpcPlayer::finalize_and_send_packet() {
     u8 *arg0 = (u8 *)this;
     *(s8 *)((s8 *)arg0 + 1) = (s8) ((((u32)get_6x47_cast_packet_size((u8 *)(arg0))) >> 2U) & 0x3F);
     byteswap_positions();
-    TLobby__send_and_handle_60((u8 *)((void *) (arg0)));
+    send_subcommand((u8 *)((void *) (arg0)));
 }
 
 void TNpcPlayer::byteswap_positions() {

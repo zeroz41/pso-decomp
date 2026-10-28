@@ -25,7 +25,7 @@ s32 read_be16_field2__10TObjPlayerFv();
 void TLobby::byteswap_and_send() {
     s32 arg0 = (s32)this;
     ((s32 (*)())byteswap_event_packet__6TLobbyFi)();
-    TLobby__send_and_handle_60((u8 *)arg0);
+    send_subcommand((u8 *)arg0);
 }
 
 void byteswap_event_packet__6TLobbyFi(s32 arg0) {

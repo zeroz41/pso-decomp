@@ -33,9 +33,9 @@ void TBoss7DeRolLeC::apply_shock_status() {  }
 void TBoss7DeRolLeC::clear_harmful_statuses() {  }
 void TBoss7Joint::read_state() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 void TBoss7Joint::byteswap_action_packet() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
-void TBoss7Joint::update_and_send_60() { byteswap_action_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss7Joint::update_and_send_60() { byteswap_action_packet(); send_subcommand((u8 *)this); }
 void TBoss7Joint__sub_802EE7B8(void* p) { *(u8*)((char*)p + 0x0) = 169; *(u8*)((char*)p + 0x1) = 2; }
-void TBoss7Joint::broadcast_state() { read_state(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss7Joint::broadcast_state() { read_state(); send_subcommand((u8 *)this); }
 void TBoss7Joint__sub_802EE800(void* p) { *(u8*)((char*)p + 0x0) = 170; *(u8*)((char*)p + 0x1) = 3; }
 
 int TBoss7Joint::is_part_active() { return *(u32*)((char*)this + 0x3bc) & 0x1; }

@@ -231,7 +231,7 @@ void VoloptPartsMessage::init() {
 
 void VoloptPartsMessage::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void VoloptPartsMessage::swap() {
@@ -249,7 +249,7 @@ void VoloptPhase2Message::init() {
 
 void VoloptPhase2Message::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 s32 TObjVoloptCage::get_int_param(s32 index) {

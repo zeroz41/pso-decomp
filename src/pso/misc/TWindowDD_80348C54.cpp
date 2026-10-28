@@ -19,7 +19,7 @@ void TWindowDD::send_chat_packet(void *data) {
     ((TWindowDD *)(&pkt))->update_and_send_lobby();
 }
 
-void TWindowDD::update_and_send_lobby() { handle_word_select(); TLobby__send_and_handle_60((u8 *)this); }
+void TWindowDD::update_and_send_lobby() { handle_word_select(); send_subcommand((u8 *)this); }
 void TWindowDD::init_header() { *(u8*)((char*)this + 0x0) = 116; *(u8*)((char*)this + 0x1) = 8; }
 
 }

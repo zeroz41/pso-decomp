@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
@@ -5240,7 +5241,6 @@ s32 TBoss2DeRolLe__sub_80034034(void *);
 void TBoss2Fin__sub_800367C0(void);
 void TBoss2Mine__sub_80038D84(void);
 void TBoss2Tentacle__sub_8003A0A8(void);
-int TLobby__send_and_handle_60(void*);
 void TLobby__sub_8001FE7C(void*, int);
 void TObjPlayer__sub_8002EB88(void);
 void __dl__FPv(void);
@@ -6229,9 +6229,9 @@ void TBoss2DeRolLe::apply_shock_status() {  }
 void TBoss2DeRolLe::clear_harmful_statuses() {  }
 void swap_endian__13TBoss2DeRolLeFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); bswap_32__FPUl((char*)p + 0x8); }
 void swap_6x13_fields__13TBoss2DeRolLeFPv(void* p) { ((TObjPlayer *)p)->read_be16_field2(); bswap_16__FPUs((char*)p + 0x4); bswap_16__FPUs((char*)p + 0x6); }
-void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); TLobby__send_and_handle_60(p); }
+void send_6x13__13TBoss2DeRolLeFPv(void* p) { swap_6x13_fields__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)((char*)p + 0x1) = 2; }
-void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); TLobby__send_and_handle_60(p); }
+void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
 
 typedef char RecoveredGlobal_800365C8_lbl_80435A44_size[sizeof(RecoveredGlobal_800365C8_lbl_80435A44) == 0xC ? 1 : -1];

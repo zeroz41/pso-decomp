@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjMotion.h"
@@ -75,7 +76,6 @@ s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
-void TLobby__send_and_handle_60(u8 *arg0);
 s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
 s32 __dl__7TObjectFPv(void *);
@@ -387,7 +387,7 @@ void TOAttackableCol::apply_knockback_from_attacker(u8 *) {  }
 void TOAttackableCol__sub_80157C20(void* p, s32 v) { *(s32*)((char*)p + 0x33c) = v; }
 s32 TOAttackableCol__sub_80157C28(void* p) { return *(s32*)((char*)p + 0x33c); }
 void TOAttackableCol::bswap_state() { bswap_header__6TLobbyFv(this); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap_16((u16 *)((char*)this + 0x10)); }
-void TOAttackableCol::broadcast_state() { bswap_state(); TLobby__send_and_handle_60((u8 *)this); }
+void TOAttackableCol::broadcast_state() { bswap_state(); send_subcommand((u8 *)this); }
 
 void *fn_80157CA8(void *barrier_energy01) {
     ((TOBarrierEnergy01 *)barrier_energy01)->init();

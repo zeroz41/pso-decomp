@@ -304,7 +304,7 @@ void TBoss3VoloptAttackPacket::init() {
 
 void TBoss3VoloptAttackPacket::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void TBoss3VoloptTargetsPacket::init() {
@@ -314,7 +314,7 @@ void TBoss3VoloptTargetsPacket::init() {
 
 void TBoss3VoloptTargetsPacket::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void TBoss3VoloptActionPacket::init() {
@@ -324,7 +324,7 @@ void TBoss3VoloptActionPacket::init() {
 
 void TBoss3VoloptActionPacket::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void TBoss3VoloptActionPacket::swap() {
@@ -347,7 +347,7 @@ void TBoss3VoloptPositionPacket::init() {
 
 void TBoss3VoloptPositionPacket::send() {
     swap();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void TBoss3VoloptPositionPacket::swap() {

@@ -48,7 +48,7 @@ void TBoss8Dragon::vfunc_47() {  }
 void TBoss8Dragon::vfunc_48(s32) {  }
 void TBoss8Dragon::vfunc_49() {  }
 void TBoss8Dragon::vfunc_50() {  }
-void TBoss8Dragon::send_swapped_packet() { bswap_packet(); TLobby__send_and_handle_60((u8 *)this); }
+void TBoss8Dragon::send_swapped_packet() { bswap_packet(); send_subcommand((u8 *)this); }
 void TBoss8Dragon::bswap_packet() { read_be16_field2__10TObjPlayerFv(this); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 }
 

@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -29,7 +30,6 @@ struct Obj_80072BB0 { u8 pad[0x30]; u32 f30; };
 
 extern "C" {
 void TLobby__sub_80072880(u8 *arg0);
-void TLobby__send_and_handle_60(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
@@ -72,7 +72,7 @@ void TLobby::bswap_challenge_dead_flag() {
 
 void TLobby__sub_80072724(TLobby *lobby) {
     lobby->bswap_challenge_dead_flag();
-    TLobby__send_and_handle_60((u8 *)lobby);
+    send_subcommand((u8 *)lobby);
 }
 
 void TLobby__sub_80072758(u8 *arg0) {
@@ -82,7 +82,7 @@ void TLobby__sub_80072758(u8 *arg0) {
 
 void TLobby::send_and_handle_60_wrapper() {
     TLobby__sub_800727A0(this);
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 
 void TLobby__sub_800727A0(void *player) {
@@ -108,7 +108,7 @@ void TLobby::byteswap_challenge_time_packet() {
 
 void TLobby::send_state() {
     byteswap_challenge_time_packet();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 void TLobby__sub_80072880(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x95;
@@ -120,7 +120,7 @@ void TLobby::byteswap_challenge_packet() {
 }
 void TLobby::send_challenge_packet() {
     byteswap_challenge_packet();
-    TLobby__send_and_handle_60((u8 *)this);
+    send_subcommand((u8 *)this);
 }
 void TLobby__sub_800728FC(u8 *arg0) {
     *(u8 *)((s8 *)arg0 + 0) = 0x8A;
@@ -135,7 +135,7 @@ void TLobby::bswap_6x7C_packet() {
 void TLobby::send_6x7C_packet() {
     s32 arg0 = (s32)this;
     bswap_6x7C_packet();
-    TLobby__send_and_handle_60((u8 *)arg0);
+    send_subcommand((u8 *)arg0);
 }
 void TLobby::init_pkt_cmd_7C() {
     *(s8 *)&this->m_name = 0x7C;

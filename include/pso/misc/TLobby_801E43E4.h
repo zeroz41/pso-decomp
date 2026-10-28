@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+// Sends a 6x subcommand to every client and runs it here too.
+void send_subcommand(void *cmd);
+// Sends a 6x subcommand to the leader (or runs it here offline).
+void send_subcommand_to_leader(void *cmd);
 extern "C" {
-void TLobby__send_and_handle_60(u8 *arg0);
-void dispatch_packet__6TLobbyFPv(void *src);
 void update_players__6TLobbyFv(s32 arg0);
 }
 

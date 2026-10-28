@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
@@ -1322,7 +1323,6 @@ void update_motion__12TWindowTimerFPv(Timer_80199F14 *self);
 f32 atan2_float(f32, f32);
 extern u8 lbl_80446148[];
 extern const f64 lbl_80446150[];
-void TLobby__send_and_handle_60(u8 *arg0);
 
 void TUnk_804B8E18::update_best_time() {
     if ((*(s16 *)((s8 *)gogo_ball_sync_state + 0x12) == 0) && ((s32) this->m_354 <= (s32) *(s32 *)((s8 *)gogo_ball_sync_state + 0x14))) {
@@ -1530,7 +1530,7 @@ u8 *TWindowTimer__sub_8019A574(u8 *arg0) {
 void TWindowTimer::send_gogo_ball() {
     s32 arg0 = (s32)this;
     bswap_6x79_gogo_ball__12TWindowTimerFi(arg0);
-    TLobby__send_and_handle_60((u8 *)arg0);
+    send_subcommand((u8 *)arg0);
 }
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0) {
     read_be16_field2__10TObjPlayerFv();

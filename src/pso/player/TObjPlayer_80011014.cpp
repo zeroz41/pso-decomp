@@ -1,3 +1,4 @@
+#include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
@@ -907,7 +908,6 @@ s32 record_damage_stats__10TOMineTrapFUiUis(void *, void *, void *);
 s32 get_player_by_client_id(s32);
 int get_slot_value__10TObjPlayerFPvi(void*, int);
 int bswap_16__FPUs(void*);
-int TLobby__send_and_handle_60(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 u32 __nw__7TObjectFUl(s32);
@@ -4847,7 +4847,7 @@ void TObjPlayer::bswap_head16() { read_be16_field2(); bswap_16__FPUs((char*)this
 
 int TObjPlayer::read_be16_field2() { return bswap_16__FPUs((char*)this + 0x2); }
 
-void TObjPlayer::send_head() { bswap_head16(); TLobby__send_and_handle_60(this); }
+void TObjPlayer::send_head() { bswap_head16(); send_subcommand(this); }
 
 void TObjPlayer::init_packet_9a() {
     O_80019664 *self = (O_80019664 *)this;
