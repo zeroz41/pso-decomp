@@ -1,6 +1,6 @@
 #include "pso/item/TItemObject.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TItemList.h"
+#include "pso/item/TItemData.h"
 #include "pso/misc/TShopEquipmentListWindow.h"
 
 #include "types.h"
@@ -274,17 +274,15 @@ struct VObj_18 : VBase_18 {
     virtual void m31();
     virtual void m32();
     virtual void m33();
-    virtual u8 m34();
+    virtual s32 m34();
 };
 
 extern "C" {
-s32 set_stack_count__24TShopEquipmentListWindowFSc(void *, void *);
 void *TItemObject__ct(void *arg0, void *arg1, void *arg2);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void *lookup_item_pmt_record(u8 *item);
 s32 is_wrapped__5TItemFv();
-s32 get_item_type_or_default__9TItemListFv(void *);
 s32 use__5TItemFv();
 
 s32 TItemObject::add_amount(s32 arg1) {
@@ -339,7 +337,7 @@ void TItemObject__vt16(u8 *item_object, u8 *item) {
     if (((u8 (*)())get_item_group__5TItemFv)() == 2) {
         *(u8 *)((s8 *)item + 4) = (u8) ((TItemObject *)item_object)->m_100;
     }
-    set_stack_count__24TShopEquipmentListWindowFSc(item, (void *) (((VObj_18 *)(item_object))->m34()));
+    ((TItemData *)item)->set_stack_count(((VObj_18 *)(item_object))->m34());
 }
 
 void *TItemObject__ct(void *arg0, void *arg1, void *item) {
@@ -350,7 +348,7 @@ void *TItemObject__ct(void *arg0, void *arg1, void *item) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2C28;
     *(void **)((s8 *)arg0 + 0xF8) = lookup_item_pmt_record((u8 *)item);
     ((TItemObject *)arg0)->m_100 = (u8) *(u8 *)((s8 *)item + 4);
-    ((TItemObject *)arg0)->store_encoded_value(get_item_type_or_default__9TItemListFv(item));
+    ((TItemObject *)arg0)->store_encoded_value(((TItemData *)item)->get_stack_count());
     if (*(s32 *)((s8 *)(*(void **)((s8 *)arg0 + 0xF8)) + 0x10) & 1) {
         ((TItem *)arg0)->add_item_flags(0x10);
     } else {

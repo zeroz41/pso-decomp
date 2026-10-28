@@ -1,3 +1,4 @@
+#include "pso/item/TItemData.h"
 #include "types.h"
 #include "pso/item/TUnk_804C4498.h"
 #include "pso/item/TUnk_804C4468.h"
@@ -105,7 +106,6 @@ extern const f32 lbl_805DC3D0;
 void *find_placement_obstruction(void *self, Body_801D3E20 *s);
 extern const f32 lbl_805DC3C8;
 void TItemList__sub_801D59A0(void *, int);
-s32 get_item_type_or_default__9TItemListFv(void *);
 void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 void *get_player_by_client_id(u16);
 void *get_ptr_0x44__9TItemListFPv(void *);
@@ -151,11 +151,11 @@ void TUnk_804C4468::run_task() {
                     TObjPlayer::send_code_45_1((s32)player);
                 } else {
                     ((void (*)(TItemData *, s32, f32 *))drop_stacked_item)((TItemData *)r->item, get_client_id(), (f32 *)get_ptr_0x44__9TItemListFPv(this));
-                    send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, get_item_type_or_default__9TItemListFv(r->item));
+                    send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, ((TItemData *)r->item)->get_stack_count());
                     TObjPlayer::send_code_45_1((s32)player);
                 }
             } else {
-                TObjPlayer::send_6x2A_drop_item(player, r->source, get_ptr_0x44__9TItemListFPv(this), get_item_type_or_default__9TItemListFv(r->item));
+                TObjPlayer::send_6x2A_drop_item(player, r->source, get_ptr_0x44__9TItemListFPv(this), ((TItemData *)r->item)->get_stack_count());
                 TObjPlayer::send_code_45_1((s32)player);
             }
         }

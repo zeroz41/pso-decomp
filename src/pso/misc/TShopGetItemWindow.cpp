@@ -1,3 +1,4 @@
+#include "pso/item/TItemData.h"
 #include "types.h"
 #include "pso/misc/TShopWindowBase.h"
 #include "pso/object/TObject_80019A50.h"
@@ -90,7 +91,6 @@ f32 get_scale__15TShopWindowBaseFv(void *);
 void TWindow__close(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
-s32 set_stack_count__24TShopEquipmentListWindowFSc(void *, int);
 s32 compact_items__18TCheckRoomSequenceFi(int);
 s32 remove_bank_item_amount__18TCheckRoomSequenceFiii(int, int, int);
 s32 copy_item_record__18TCheckRoomSequenceFiPvi(int, void *, int);
@@ -149,7 +149,7 @@ void TShopGetItemWindow::handle_withdraw_confirm() {
         stack.sp14 = -1;
         if (TCheckRoomSequence::get_item_def((u32)&stack.sp8) != 0)
         {
-          set_stack_count__24TShopEquipmentListWindowFSc(&stack.sp8, (int) ((s32) ((u8) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_54)));
+          ((TItemData *)&stack.sp8)->set_stack_count(((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_54);
         }
         if (((TObjPlayer *)((int) ((RecoveredFields_8021E5D8_arg0 *) ((u8 *)this))->field_24))->can_inventory_accept_item((u8 *)&stack.sp8) == 0)
         {

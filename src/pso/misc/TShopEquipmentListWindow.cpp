@@ -1,3 +1,4 @@
+#include "pso/item/TItemData.h"
 #include "types.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/item/TItem.h"
@@ -279,7 +280,7 @@ void TShopEquipmentListWindow::handle_equip_offer() {
                 i = select_cursor_entry__22TWindowSubShortCutListFv(w->list);
                 c = w->recs[i];
                 c.w[3] = advance_item_id_counter(local_client_id);
-                ((TShopEquipmentListWindow *)(&c))->set_stack_count(1);
+                ((TItemData *)(&c))->set_stack_count(1);
                 try_buy_item((void *)w->player, &c);
                 ((TShopEquipmentListWindow *)w)->update_list(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
@@ -315,7 +316,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 VObj_18_b34251 *item;
                 u32 e;
                 it.id = advance_item_id_counter(local_client_id);
-                ((TShopEquipmentListWindow *)(&it))->set_stack_count((s8)(1));
+                ((TItemData *)(&it))->set_stack_count(1);
                 try_buy_item(w->player, &it);
                 item = (VObj_18_b34251 *)find_item_by_id(it.id);
                 if (item != NULL && (e = (u32)((TObjPlayer *)w->player)->get_equipped_item(item->m31())) != 0) {
@@ -337,7 +338,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 s32 i = select_cursor_entry__22TWindowSubShortCutListFv(w->list);
                 Rec_8021BC18 it = w->recs[i];
                 it.id = advance_item_id_counter(local_client_id);
-                ((TShopEquipmentListWindow *)(&it))->set_stack_count((s8)(1));
+                ((TItemData *)(&it))->set_stack_count(1);
                 try_buy_item(w->player, &it);
                 update_list(&w->recs[i]);
                 if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {
@@ -355,7 +356,7 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
             s32 i = select_cursor_entry__22TWindowSubShortCutListFv(w->list);
             Rec_8021BC18 it = w->recs[i];
             it.id = advance_item_id_counter(local_client_id);
-            ((TShopEquipmentListWindow *)(&it))->set_stack_count((s8)(1));
+            ((TItemData *)(&it))->set_stack_count(1);
             try_buy_item(w->player, &it);
             update_list(&w->recs[i]);
             if (is_single_purchase_shop_item((u8 *)&w->recs[i]) != 0) {

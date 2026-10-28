@@ -1,3 +1,4 @@
+#include "pso/item/TItemData.h"
 #include "types.h"
 #include "pso/misc/TShopWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -162,7 +163,6 @@ void *get_owner_if_alive__10TObjPlayerFv(u32);
 void *create_cost_window(u16);
 void get_item_count__24TShopEquipmentSellWindowFv(void *, s32);
 extern const f32 lbl_805DC6D8;
-s32 get_item_type_or_default__9TItemListFv(void *);
 f32 get_scale__15TShopWindowBaseFv(void *);
 int sub_802239EC__13TShopSequenceFv(void *);
 int sub_80223A48__15TShopWindowBaseFv(void *);
@@ -298,7 +298,7 @@ void TShopEquipmentSellWindow::handle_selection() {
         w->f37c = 1;
         i = select_cursor_entry__22TWindowSubShortCutListFv(w->list_win);
         if (w->entries[i].item.b[0] == 3) {
-            type = get_item_type_or_default__9TItemListFv(&w->entries[i].item);
+            type = ((TItemData *)&w->entries[i].item)->get_stack_count();
             if (type > 1 && w->qty_win == NULL) {
                 n = __nw__7TObjectFUl(0x7C);
                 if (n != NULL) {

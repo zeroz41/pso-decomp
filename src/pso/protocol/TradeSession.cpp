@@ -1,3 +1,4 @@
+#include "pso/item/TItemData.h"
 #include "types.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/menu/TAdGuideTxtGC.h"
@@ -261,7 +262,6 @@ void handle_trade_state_cancel__6TLobbyFPv(O_802D33C0 *self);
 
 void handle_trade_member_out_of_range(O_802D3384 *self);
 
-s32 set_stack_count__24TShopEquipmentListWindowFSc(void *, u8);
 Ent_802D3134 *get_trade_window_state(s32);
 
 void reset__6TLobbyFi(s32 arg0) {
@@ -330,7 +330,7 @@ void TLobby::build_trade_item_list() {
                 } else if ((p = find_item_by_id(id)) != NULL) {
                     ((TItem *)p)->copy_to_item_data((TItemData *)&item);
                     item.d = -1;
-                    set_stack_count__24TShopEquipmentListWindowFSc(&item, n);
+                    ((TItemData *)&item)->set_stack_count(n);
                     ((TItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((TItemData *)(&item));
                 }
             }

@@ -2012,8 +2012,6 @@ s32 set_tp__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 s32 is_script_controlled__10TObjPlayerFv(TObjPlayer*);
 s32 lookup_item_def__9TItemDataFPv(u8 *);
 s32 init__9TItemDataFv(s8 *);
-s32 get_item_type_or_default__9TItemListFv(void *);
-void set_stack_count__24TShopEquipmentListWindowFSc(Item_801B8AF8 *, u8);
 u16 get_type_id__10TObjPlayerFv();
 s32 TObjPlayer__sub_80116620(void *, int);
 s32 sub_8011E204__10TObjPlayerFl(void *, s32);
@@ -6374,7 +6372,7 @@ s32 try_buy_item(s32 arg0, void *item) {
     if (((s32 (*)(void))can_pickup_item__10TObjPlayerFP9TItemData)() == 0) {
         return 1;
     }
-    if (try_spend_actor_meseta((u8 *)arg0, *(s32 *)((s8 *)item + 0x10) * get_item_type_or_default__9TItemListFv(item)) != 0) {
+    if (try_spend_actor_meseta((u8 *)arg0, *(s32 *)((s8 *)item + 0x10) * ((TItemData *)item)->get_stack_count()) != 0) {
         buy_item_for_client((TItemData *)item, ((u16 (*)(s32))get_entity_id)(arg0));
         return 0;
     }
@@ -6533,7 +6531,7 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
     ((s32 (*)(void *, int))play_effect_default__10TObjPlayerFii)(this, 0x384);
     set_action_flag_2();
     ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
-    set_stack_count__24TShopEquipmentListWindowFSc(&item, arg2);
+    ((TItemData *)&item)->set_stack_count(arg2);
     id = item.id;
     if (owner->m34() - arg2 > 0) {
         item.id = -1;
@@ -6695,7 +6693,7 @@ s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *item_data) {
             }
             temp_r31_2 = ((TItem *)held)->get_max_stack_size();
             temp_r31 = temp_r31_2 - ((V_B *)held)->m34();
-            return ((s32) ((u32 (*)(u8 *))get_item_type_or_default__9TItemListFv)(item_data) <= temp_r31) ? 1 : 0;
+            return (((TItemData *)item_data)->get_stack_count() <= temp_r31) ? 1 : 0;
         }
         goto block_7;
     }
@@ -6733,7 +6731,7 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
         }
         n = ((TItem *)owner)->get_max_stack_size();
         n -= owner->m34();
-        max = ((s32 (*)(u8 *))get_item_type_or_default__9TItemListFv)(item);
+        max = ((TItemData *)item)->get_stack_count();
         return (n < max) ? 0 : n;
     }
     return ((Player_801B91F0 *)this)->inv->count < 30;

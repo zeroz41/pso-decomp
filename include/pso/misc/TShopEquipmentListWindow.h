@@ -34,7 +34,6 @@ struct TShopEquipmentListWindow : public TShopWindowBase {
     void handle_selection();
     s32 check_purchase_eligibility();
     static void create_buy_list_windows(void *p);
-    void set_stack_count(s8 arg1);
 };
 
 typedef char TShopEquipmentListWindow_size[sizeof(TShopEquipmentListWindow) == 0x194 ? 1 : -1];

@@ -11,7 +11,6 @@ public:
     void *dt(s16 arg1);
     void *init_items();
     void *init_array();
-    u8 get_item_type_or_default();
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
     void *destroy(s16 arg1);
     int copy_item_data();

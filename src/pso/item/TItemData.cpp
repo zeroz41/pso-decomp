@@ -631,7 +631,7 @@ void TItemData::unpack_from_item(void *arg1) {
             if ((u8) *(u8 *)((s8 *)this + 1) == 2) {
                 *(u8 *)((s8 *)this + 4) = (u8) *(u32 *)((s8 *)arg1 + 0x30);
             }
-            ((TShopEquipmentListWindow *)this)->set_stack_count(1);
+            set_stack_count(1);
             return;
         case 4:
             *(s32 *)((s8 *)this + 0x10) = (s32) (((u32) *(u32 *)((s8 *)arg1 + 0x34) >> 0x10U) * 0xA);

@@ -1,18 +1,16 @@
 #include "types.h"
-#include "pso/misc/TShopEquipmentListWindow.h"
+#include "pso/item/TItemData.h"
 
 extern "C" {
-
 s32 lookup_item_def__9TItemDataFPv();
-
-void TShopEquipmentListWindow::set_stack_count(s8 arg1) {
-    if (lookup_item_def__9TItemDataFPv() != 0) {
-        *(s8 *)((s8 *)this + 5) = arg1;
-        return;
-    }
-    if ((u8) *(u8 *)&this->m_name == 3) {
-        *(s8 *)((s8 *)this + 5) = 0;
-    }
 }
 
+void TItemData::set_stack_count(u8 count) {
+    if (lookup_item_def__9TItemDataFPv() != 0) {
+        data1.data_u8[5] = count;
+        return;
+    }
+    if (data1.data_u8[0] == 3) {
+        data1.data_u8[5] = 0;
+    }
 }

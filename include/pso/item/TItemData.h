@@ -40,6 +40,9 @@ struct TItemData {
     static u8 get_entry_field16();
     int register_drop();
     s32 get_max_stack_size();
+    // A tool's stack count (data1 byte 5); 1 for an item that does not stack.
+    s32 get_stack_count();
+    void set_stack_count(u8 count);
     void set_unit_modifier(s16 arg1);
     void set_bswapped_field_8(s16 arg1);
     void set_dfp_bonus(s16 arg1);

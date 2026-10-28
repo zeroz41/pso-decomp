@@ -749,7 +749,7 @@ void init_rare_item_data__9TItemDropFPvPv(void *arg0, void *item_data) {
     }
 }
 
-void handle_type3__9TItemDropFPvPv(void* p, void* a1) { if (*(unsigned char*)(a1) == 3) { ((TShopEquipmentListWindow *)a1)->set_stack_count((s8)((void*)1)); } }
+void handle_type3__9TItemDropFPvPv(void* p, void* a1) { if (*(unsigned char*)(a1) == 3) { ((TItemData *)a1)->set_stack_count(1); } }
 
 void apply_item_data__9TItemDropFPvPv(void *arg0, void *item) {
     s32 sp8;
