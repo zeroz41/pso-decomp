@@ -67,7 +67,7 @@ s8 TItemEquipBase::get_attach_joint() { return attach_joint; }
 
 s8 TItemEquipBase::get_attach_slot() { return attach_slot; }
 
-void TItemEquipBase::vfunc_50() {}
+void TItemEquipBase::on_model_loaded() {}
 
 void TItemEquipBase::bind_loaded_resources() {
     ItemModelResource *resource;
@@ -82,7 +82,7 @@ void TItemEquipBase::bind_loaded_resources() {
                 model_motion = resource->motion;
                 model_data[0] = resource->data[0];
                 model_data[1] = resource->data[1];
-                vfunc_50();
+                on_model_loaded();
             }
         }
     }
@@ -120,10 +120,10 @@ void TItemEquipBase::register_technique_boosts(const TechniqueBoostParam *params
     } while (i != 3);
 }
 
-void TItemEquipBase::vfunc_49() {}
-void TItemEquipBase::vfunc_48() {}
-void TItemEquipBase::vfunc_45() {}
-void TItemEquipBase::vfunc_44() {}
+void TItemEquipBase::remove_owner_bonuses() {}
+void TItemEquipBase::apply_owner_bonuses() {}
+void TItemEquipBase::on_unequip() {}
+void TItemEquipBase::on_equip() {}
 
 void TItemEquipBase::apply_equip_effects() {
     if (start_effect(0x2, 0x4)) {
@@ -157,7 +157,7 @@ void TItemEquipBase::apply_equip_effects() {
 
 void TItemEquipBase::remove_equip_effects() {
     if (stop_effect(0x1)) {
-        release();
+        release_model();
     }
     if (stop_effect(0x4)) {
         TItemTimerEvent::clear_timer_slot(get_owner_client());
@@ -291,7 +291,7 @@ void TItemEquipBase::remove_equip_stats(s32 apply) {
         if (apply) {
             add_actor_hp_bonus(owner, (s16)-hp_tp_bonus.hp);
             add_actor_tp_bonus(owner, (s16)-hp_tp_bonus.tp);
-            vfunc_49();
+            remove_owner_bonuses();
             owner->recalc_stats();
             owner->clamp_hp();
             owner->clamp_tp();
@@ -306,7 +306,7 @@ void TItemEquipBase::unequip() {
         clear_item_flags(ITEM_FLAG_EQUIPPED | 0x20);
         remove_equip_stats(1);
         remove_equip_effects();
-        vfunc_45();
+        on_unequip();
         if (effect_objects != NULL) {
             effect_objects->delete_children();
         }
@@ -351,7 +351,7 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
         if (apply) {
             add_actor_hp_bonus(owner, hp_tp_bonus.hp);
             add_actor_tp_bonus(owner, hp_tp_bonus.tp);
-            vfunc_48();
+            apply_owner_bonuses();
             owner->recalc_stats();
         }
     }
@@ -366,14 +366,14 @@ void TItemEquipBase::equip() {
         if ((get_current_area() != 0xF) &&
             !test_flags_any(&effect_flags.bits, EQUIP_EFFECT_MODEL_REQUESTED)) {
             effect_flags.set(EQUIP_EFFECT_MODEL_REQUESTED);
-            vfunc_46();
+            request_equipped_model();
         }
         apply_equip_effects();
-        vfunc_44();
+        on_equip();
     }
 }
 
-void TItemEquipBase::release() {
+void TItemEquipBase::release_model() {
     s16 id = model_resource_id;
     if (id != -1) {
         TItemLoad::release_resource_by_id(id);
@@ -396,9 +396,9 @@ void TItemEquipBase::request_model_load(u8 group) {
     model_resource_id = request_item_model_load(&data.data1.data_u8[0]);
 }
 
-void TItemEquipBase::update_with_player() { request_model_load(get_item_group()); }
+void TItemEquipBase::request_item_model() { request_model_load(get_item_group()); }
 
-void TItemEquipBase::vfunc_46() {}
+void TItemEquipBase::request_equipped_model() {}
 
 TItemEquipBase::~TItemEquipBase() { remove_equip_effects(); }
 

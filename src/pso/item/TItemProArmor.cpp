@@ -59,7 +59,7 @@ void *construct_timer_event__13TUnk_804A0628Fv(void *, void *, s32, s32);
 void *init_item_timer_event__13TUnk_804A0648Fv(void *, void *, s32, s32);
 void *__nw__7TObjectFUl(int);
 void *__nw__15TItemHeapObjectFUl(int);
-void vfunc_44__13TItemProArmorFv(Armor_80117954 *self);
+void on_equip__13TItemProArmorFv(Armor_80117954 *self);
 void *__dt__13TUnk_8049FF88Fv(void *arg0, s16 arg1);
 u8 get_slot_count__13TItemProArmorFv(void* p);
 void TItemProArmor__sub_80117D00(void);
@@ -67,7 +67,7 @@ void TItemProArmor__sub_80117D04(void);
 void update_equipped__13TItemProArmorFv(void *arg0);
 void *__dt__13TItemProArmorFv(void *arg0, s16 arg1);
 void vfunc_44__13TUnk_8049FF88Fv(void *arg0);
-void vfunc_46__13TItemProArmorFv(void* p);
+void request_equipped_model__13TItemProArmorFv(void* p);
 void write_item_data__13TItemProArmorFPvPv(TItemProArmor *arg0, void *arg1);
 void TItemObject__ct(void *);
 s32 get_tool_pmt_amount_byte__11TItemObjectFv(void *);
@@ -250,11 +250,11 @@ s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 int get_amount__5TItemFv(void);
 int remove_amount__5TItemFl(void);
 int add_amount__5TItemFl(void);
-void vfunc_45__14TItemEquipBaseFv();
-void release__14TItemEquipBaseFv();
-void vfunc_48__14TItemEquipBaseFv();
-void vfunc_49__14TItemEquipBaseFv();
-void vfunc_50__14TItemEquipBaseFv();
+void on_unequip__14TItemEquipBaseFv();
+void release_model__14TItemEquipBaseFv();
+void apply_owner_bonuses__14TItemEquipBaseFv();
+void remove_owner_bonuses__14TItemEquipBaseFv();
+void on_model_loaded__14TItemEquipBaseFv();
 }
 
 void *lbl_8049FF88[46] = {
@@ -351,16 +351,16 @@ void *__vt__13TItemProArmor[51] = {
     (void *)feed__5TItemFP9TItemData,
     (void *)snap_to_owner__5TItemFv,
     (void *)get_motion_type__5TItemFv,
-    (void *)vfunc_44__13TItemProArmorFv,
-    (void *)vfunc_45__14TItemEquipBaseFv,
-    (void *)vfunc_46__13TItemProArmorFv,
-    (void *)release__14TItemEquipBaseFv,
-    (void *)vfunc_48__14TItemEquipBaseFv,
-    (void *)vfunc_49__14TItemEquipBaseFv,
-    (void *)vfunc_50__14TItemEquipBaseFv,
+    (void *)on_equip__13TItemProArmorFv,
+    (void *)on_unequip__14TItemEquipBaseFv,
+    (void *)request_equipped_model__13TItemProArmorFv,
+    (void *)release_model__14TItemEquipBaseFv,
+    (void *)apply_owner_bonuses__14TItemEquipBaseFv,
+    (void *)remove_owner_bonuses__14TItemEquipBaseFv,
+    (void *)on_model_loaded__14TItemEquipBaseFv,
 };
 
-void TItemProArmor::vfunc_44() {
+void TItemProArmor::on_equip() {
     Armor_80117954 *self = (Armor_80117954 *)this;
     void *o;
     if (self->owner == NULL) {
@@ -424,7 +424,7 @@ void TItemProArmor::update_equipped() {
     }
 }
 
-void TItemProArmor::vfunc_46() { if (this->is_hidden() == 0) { get_entity_id(*(void* *)&this->owner); spawn_appearance_effect__10TObjPlayerFl(); } }
+void TItemProArmor::request_equipped_model() { if (this->is_hidden() == 0) { get_entity_id(*(void* *)&this->owner); spawn_appearance_effect__10TObjPlayerFl(); } }
 
 typedef char RecoveredGlobal_80117B98___vt__13TItemProArmor_size[sizeof(RecoveredGlobal_80117B98___vt__13TItemProArmor) == 0xCC ? 1 : -1];
 u8 *TItemProArmor__ct(TItemProArmor *item_pro_armor, s32 arg1, u8 *item) {

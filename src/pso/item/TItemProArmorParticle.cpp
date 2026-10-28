@@ -25,8 +25,8 @@ extern s32 TItemProArmorParticle__class_name;
 u8 *TItemProArmorParticle__ct(TItemProArmorParticle *arg0, u8 *arg1);
 void *__dt__21TItemProArmorParticleFv(void *arg0, s16 arg1);
 s32 __ct__21TItemEffArmorParticleFP7TObjectlll(u32, s32, s32, s32, s32);
-s32 vfunc_45__14TItemEquipBaseFv();
-s32 vfunc_44__13TItemProArmorFv();
+s32 on_unequip__14TItemEquipBaseFv();
+s32 on_equip__13TItemProArmorFv();
 void TItemTimerEvent__ct(void *);
 s32 is_item_area_enabled();
 void *__dt__13TItemProArmorFv(void *arg0, s16 arg1);
@@ -58,17 +58,17 @@ void TItemProArmorParticle::update_equipped() {
     }
 }
 
-void TItemProArmorParticle::vfunc_45() {
+void TItemProArmorParticle::on_unequip() {
     if ((s32) this->m_1a0 == 2) {
         this->m_198 = -1;
     }
-    vfunc_45__14TItemEquipBaseFv();
+    on_unequip__14TItemEquipBaseFv();
 }
 
-void TItemProArmorParticle::vfunc_44() {
+void TItemProArmorParticle::on_equip() {
     s32 temp_r3;
 
-    vfunc_44__13TItemProArmorFv();
+    on_equip__13TItemProArmorFv();
     if (((s32) this->m_1a0 == 1) && ((u32) this->effect_objects != 0U)) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {

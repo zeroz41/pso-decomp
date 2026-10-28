@@ -14,10 +14,10 @@ struct TItemProUnit : public TItemEquipBase {
     virtual ~TItemProUnit();
     virtual void update_owned();
     virtual void update_equipped();
-    void vfunc_49();
-    void vfunc_48();
-    void vfunc_45();
-    void vfunc_44();
+    void remove_owner_bonuses();
+    void apply_owner_bonuses();
+    void on_unequip();
+    void on_equip();
     u8 unk_18C[0x2];
     s16 m_18e;
     u8 unk_190[0x12];

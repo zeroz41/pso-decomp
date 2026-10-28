@@ -16,8 +16,8 @@ struct TItemProArmor : public TItemEquipBase {
     virtual void update_owned();
     virtual u8 get_slot_count();
     virtual void add_slot();
-    virtual void vfunc_46();
-    virtual void vfunc_44();
+    virtual void request_equipped_model();
+    virtual void on_equip();
     u32 m_18c;
     u16 m_190;
     u8 m_192;

@@ -13114,7 +13114,7 @@ force_active:
   - vfunc_28__19TObjEneEpsilonGuardFv
   - vfunc_28__20TOTrapChainSawDamageFv
   - vfunc_44__11TItemObjectFv
-  - vfunc_44__12TItemProUnitFv
+  - on_equip__12TItemProUnitFv
   - vfunc_44__13TUnk_8049F770Fv
   - vfunc_44__13TUnk_8049F828Fv
   - vfunc_44__13TUnk_8049F8E0Fv
@@ -13123,9 +13123,9 @@ force_active:
   - vfunc_44__13TUnk_8049FB08Fv
   - vfunc_44__13TUnk_8049FBC0Fv
   - vfunc_44__13TUnk_8049FF88Fv
-  - vfunc_45__12TItemProUnitFv
-  - vfunc_48__12TItemProUnitFv
-  - vfunc_49__12TItemProUnitFv
+  - on_unequip__12TItemProUnitFv
+  - apply_owner_bonuses__12TItemProUnitFv
+  - remove_owner_bonuses__12TItemProUnitFv
   - vfunc_58__12TObjEneLappyFv
   - vfunc_58__12TObjEneSaverFv
   - vfunc_58__14TObjEneDolmOlmFv

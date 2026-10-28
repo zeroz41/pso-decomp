@@ -13,11 +13,11 @@ struct TItemProShield : public TItemEquipBase {
     static void carry_over_stats(TItemData *data, TItem *item);
     virtual ~TItemProShield();
     virtual void vfunc_51();
-    virtual void vfunc_44();
+    virtual void on_equip();
     virtual void vfunc_26();
     virtual void perform_action();
-    virtual void vfunc_45();
-    virtual void vfunc_46();
+    virtual void on_unequip();
+    virtual void request_equipped_model();
     virtual void vfunc_16();
     virtual void vfunc_14();
     void sub_80117FEC();

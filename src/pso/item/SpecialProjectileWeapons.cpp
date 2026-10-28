@@ -305,8 +305,8 @@ extern "C" void update_idle__11TItemWeaponFv();
 extern "C" void update_attack__11TItemWeaponFv();
 extern "C" void vfunc_17__11TItemWeaponFl();
 extern "C" void vfunc_14__11TItemWeaponFv();
-extern "C" void vfunc_50__11TItemWeaponFv();
-extern "C" void vfunc_45__11TItemWeaponFv();
+extern "C" void on_model_loaded__11TItemWeaponFv();
+extern "C" void on_unequip__11TItemWeaponFv();
 extern "C" u8 TItemWeapon__sub_80121064(void *p);
 extern "C" void TItemWeapon__write_item_data();
 extern "C" void snap_to_owner__5TItemFv();
@@ -316,9 +316,9 @@ extern "C" void add_slot__5TItemFv();
 extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
 extern "C" void add_equip_stats__14TItemEquipBaseFl();
-extern "C" void vfunc_44__11TItemWeaponFv();
+extern "C" void on_equip__11TItemWeaponFv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
-extern "C" void vfunc_48__11TItemWeaponFv();
+extern "C" void apply_owner_bonuses__11TItemWeaponFv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
 extern "C" void deliver_hit__11TItemWeaponFlPUcllf();
 extern "C" void perform_action__11TItemWeaponFv();
@@ -330,13 +330,13 @@ extern "C" void equip__14TItemEquipBaseFv();
 extern "C" void get_attack_flags__11TItemWeaponFv();
 extern "C" void get_motion_ptr__11TItemWeaponFv();
 extern "C" void launch_shot__11TItemWeaponFPUclll();
-extern "C" void vfunc_46__11TItemWeaponFv();
+extern "C" void request_equipped_model__11TItemWeaponFv();
 extern "C" void get_name__5TItemFv();
 extern "C" void reset_motion_fields__13TUnk_804AF8A0Fv();
 extern "C" void remove_equip_stats__14TItemEquipBaseFl();
 extern "C" void render_shadows__5TItemFv();
-extern "C" void vfunc_49__11TItemWeaponFv();
-extern "C" void release__11TItemWeaponFv();
+extern "C" void remove_owner_bonuses__11TItemWeaponFv();
+extern "C" void release_model__11TItemWeaponFv();
 extern "C" int get_slot_count__5TItemFv(void);
 extern "C" int add_amount__5TItemFl(void);
 extern "C" int remove_amount__5TItemFl(void);
@@ -364,8 +364,8 @@ void *megid_projectile_weapon_vtable[63] = {
     (void *)&get_attack_flags__11TItemWeaponFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__11TItemWeaponFv, (void *)&TItemWeapon::copy_item_to_data,
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&feed__5TItemFP9TItemData, (void *)&snap_to_owner__5TItemFv, (void *)&TItemWeapon__sub_80121064,
-    (void *)&vfunc_44__11TItemWeaponFv, (void *)&vfunc_45__11TItemWeaponFv, (void *)&vfunc_46__11TItemWeaponFv, (void *)&release__11TItemWeaponFv,
-    (void *)&vfunc_48__11TItemWeaponFv, (void *)&vfunc_49__11TItemWeaponFv, (void *)&vfunc_50__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
+    (void *)&on_equip__11TItemWeaponFv, (void *)&on_unequip__11TItemWeaponFv, (void *)&request_equipped_model__11TItemWeaponFv, (void *)&release_model__11TItemWeaponFv,
+    (void *)&apply_owner_bonuses__11TItemWeaponFv, (void *)&remove_owner_bonuses__11TItemWeaponFv, (void *)&on_model_loaded__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
     (void *)&emit_marker_effects__13TUnk_804A204CFv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&reserved_53__13TUnk_804A204CFv,
     (void *)&update_weapon__13TUnk_804A204CFv, (void *)&init_armor__10TObjPlayerFPv, (void *)&TItemWeapon__sub_8011E5C8, (void *)&TItemWeapon__sub_8011E5C4,
     (void *)&TObjPlayer__sub_8012443C, (void *)&deliver_hit__11TItemWeaponFlPUcllf, (void *)0x0,
@@ -386,8 +386,8 @@ void *recoiling_projectile_weapon_vtable[63] = {
     (void *)&get_attack_flags__11TItemWeaponFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__11TItemWeaponFv, (void *)&TItemWeapon::copy_item_to_data,
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&feed__5TItemFP9TItemData, (void *)&snap_to_owner__5TItemFv, (void *)&TItemWeapon__sub_80121064,
-    (void *)&vfunc_44__11TItemWeaponFv, (void *)&vfunc_45__11TItemWeaponFv, (void *)&vfunc_46__11TItemWeaponFv, (void *)&release__11TItemWeaponFv,
-    (void *)&vfunc_48__11TItemWeaponFv, (void *)&vfunc_49__11TItemWeaponFv, (void *)&vfunc_50__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
+    (void *)&on_equip__11TItemWeaponFv, (void *)&on_unequip__11TItemWeaponFv, (void *)&request_equipped_model__11TItemWeaponFv, (void *)&release_model__11TItemWeaponFv,
+    (void *)&apply_owner_bonuses__11TItemWeaponFv, (void *)&remove_owner_bonuses__11TItemWeaponFv, (void *)&on_model_loaded__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
     (void *)&emit_marker_effects__13TUnk_804A2164Fv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&reserved_53__11TItemWeaponFv,
     (void *)&update_weapon__13TUnk_804A2164Fv, (void *)&TItemWeapon__sub_8011E5CC, (void *)&TItemWeapon__sub_8011E5C8, (void *)&TItemWeapon__sub_8011E5C4,
     (void *)&drill_launcher_node_callback, (void *)&deliver_hit__11TItemWeaponFlPUcllf, (void *)0x0,

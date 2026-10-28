@@ -76,7 +76,7 @@ void TItemProShield::deactivate_shield_effect(s32 arg1) {
     }
 }
 
-void TItemProShield::vfunc_46() { update_with_player(); }
+void TItemProShield::request_equipped_model() { request_item_model(); }
 void TItemProShield::vfunc_51() {  }
 void TItemProShield::carry_over_stats(TItemData *data, TItem *item) {
     data->set_dfp_bonus(((TItemProShield *)item)->m_198);
@@ -104,8 +104,8 @@ void TItemProShield__vt16(TItemProShield *item_pro_shield, void *item_data) {
     ((TItemData *)item_data)->set_dfp_bonus(item_pro_shield->m_198);
     ((TItemData *)item_data)->set_bswapped_field_8(item_pro_shield->m_199);
 }
-void TItemProShield::vfunc_45() { clear_technique_boosts(); }
-void TItemProShield::vfunc_44() {
+void TItemProShield::on_unequip() { clear_technique_boosts(); }
+void TItemProShield::on_equip() {
     s32 temp_r3_2;
     s32 temp_r3_3;
     s32 temp_r3_4;

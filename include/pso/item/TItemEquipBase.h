@@ -51,13 +51,19 @@ struct TItemEquipBase : public TItem {
     virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
     virtual void destroy();
     virtual s8 get_attach_slot();
-    virtual void vfunc_44();
-    virtual void vfunc_45();
-    virtual void vfunc_46();
-    virtual void release();
-    virtual void vfunc_48();
-    virtual void vfunc_49();
-    virtual void vfunc_50();
+    // The last step of equip() / of unequip() (armor and units start and
+    // stop their effect objects, shields and weapons clear technique boosts).
+    virtual void on_equip();
+    virtual void on_unequip();
+    // equip() asks once for the model drawn on the owner (request_model_load).
+    virtual void request_equipped_model();
+    virtual void release_model();
+    // add_equip_stats / remove_equip_stats: what a class adds to its owner
+    // beyond the stat blocks (unit technique levels, weapon attributes).
+    virtual void apply_owner_bonuses();
+    virtual void remove_owner_bonuses();
+    // bind_loaded_resources bound the loaded model.
+    virtual void on_model_loaded();
 
     void refresh_owner_stats();
     void request_model_load(u8 group);
@@ -73,7 +79,7 @@ struct TItemEquipBase : public TItem {
     void set_attach_joint(s32 joint);
     static void deduct_cap_excess(s32 item, s16 *stat, s16 excess);
     void reset();
-    void update_with_player();
+    void request_item_model();
     static void apply_equip_effect_slot(u16 client, u32 slot);
     static void apply_equip_slot_effect(u16 client, u32 slot);
 

@@ -151,4 +151,4 @@ void TItemWeapon::vfunc_14() {
     }
 }
 
-void TItemWeapon::vfunc_50() { ((int (*)(void *, int))set_status_flags__10TObjPlayerFUl)(this, 4); }
+void TItemWeapon::on_model_loaded() { ((int (*)(void *, int))set_status_flags__10TObjPlayerFUl)(this, 4); }

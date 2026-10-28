@@ -216,8 +216,8 @@ extern const f32 lbl_805DABB4;
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
-extern "C" void vfunc_49__14TItemEquipBaseFv();
-extern "C" void vfunc_48__14TItemEquipBaseFv();
+extern "C" void remove_owner_bonuses__14TItemEquipBaseFv();
+extern "C" void apply_owner_bonuses__14TItemEquipBaseFv();
 extern "C" void TItemMag__vt48();
 extern "C" void add_slot__5TItemFv();
 extern "C" void vfunc_34__5TItemFv();
@@ -265,7 +265,7 @@ void *__vt__8TItemMag[51] = {
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&get_motion_type__5TItemFv,
     (void *)&TItemMag__vt42, (void *)&TItemMag__vt43, (void *)&TItemMag__vt44, (void *)&TItemMag__vt45,
-    (void *)&vfunc_48__14TItemEquipBaseFv, (void *)&vfunc_49__14TItemEquipBaseFv, (void *)&TItemMag__vt48,
+    (void *)&apply_owner_bonuses__14TItemEquipBaseFv, (void *)&remove_owner_bonuses__14TItemEquipBaseFv, (void *)&TItemMag__vt48,
 };
 #define __vt__8TItemMag ((s32 *)__vt__8TItemMag)
 
@@ -1508,7 +1508,7 @@ extern s32 lbl_805D2C00;
 extern const f32 lbl_805DABB8;
 void deserialize_mag__9TItemDataFPvPv(void *src, void *dst);
 u8 *TItemMag__ct(Mag_801139F4 *self, s32 a, s32 src);
-void release__14TItemEquipBaseFv(void *arg0);
+void release_model__14TItemEquipBaseFv(void *arg0);
 void TItemMag__vt45(TItemMag_801138F0 *self);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
 s32 push_matrix();
@@ -1717,7 +1717,7 @@ void TItemMag__vt45(TItemMag_801138F0 *self) {
             self->subs[i] = 0;
         }
     }
-    release__14TItemEquipBaseFv(self);
+    release_model__14TItemEquipBaseFv(self);
 }
 
 void TItemMag__vt44(s32 arg0) {

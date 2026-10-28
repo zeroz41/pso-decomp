@@ -2,7 +2,7 @@
 #include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
-void TItemWeapon::vfunc_49() {
+void TItemWeapon::remove_owner_bonuses() {
     s32 i;
     void *temp_r3;
 

@@ -66,7 +66,7 @@ s32 init_item_timer_event__13TUnk_804A0648Fv(int, int, void *, int);
 s32 init_timer_event__13TUnk_804A0608Fv(int, int, void *, int);
 s32 __nw__15TItemHeapObjectFUl(int);
 extern const f32 lbl_805DABFC;
-void vfunc_44__12TItemProUnitFv(u8 *arg0);
+void on_equip__12TItemProUnitFv(u8 *arg0);
 extern const f32 TItemProUnit__data_805DABF8;
 extern const f32 lbl_805DAC00;
 void TItemProUnit__vt16(Self_80118958 *self, Out_80118958 *out);
@@ -75,10 +75,10 @@ void update_equipped__12TItemProUnitFv(Self_80118A78 *self);
 u8 get_technique_learn_limit(u8, u8);
 u8 get_cast_technique_level(void *, s16);
 void set_technique_level_entry(void *, s16, u8);
-void vfunc_48__12TItemProUnitFv(Unit_80118AD4 *self);
+void apply_owner_bonuses__12TItemProUnitFv(Unit_80118AD4 *self);
 s32 memset(void *, s32, s32);
-void vfunc_49__12TItemProUnitFv(u8 *arg0);
-void vfunc_45__12TItemProUnitFv(void *arg0);
+void remove_owner_bonuses__12TItemProUnitFv(u8 *arg0);
+void on_unequip__12TItemProUnitFv(void *arg0);
 void *lookup_item_pmt_record(u8 *item);
 s16 get_field6_bswap__9TItemDataFPv(void *);
 
@@ -100,7 +100,7 @@ void TItemProUnit__vt16(Self_80118958 *self, Out_80118958 *out) {
     ((TItemData *)out)->set_unit_modifier(self->s1bc);
 }
 
-void TItemProUnit::vfunc_49() {
+void TItemProUnit::remove_owner_bonuses() {
     u8 *arg0 = (u8 *)this;
     s32 i;
     if ((s16) *(s16 *)((s8 *)arg0 + 0x18C) == 0x13) {
@@ -114,7 +114,7 @@ void TItemProUnit::vfunc_49() {
     memset(arg0 + 0x192, 0, 0x26);
 }
 
-void TItemProUnit::vfunc_45() {
+void TItemProUnit::on_unequip() {
     struct VObj_80118A48_8011892C *o = (struct VObj_80118A48_8011892C *)this;
     o->m17(9);
 }
@@ -133,7 +133,7 @@ void TItemProUnit::update_equipped() {
 
 #pragma push
 #pragma opt_common_subs off
-void TItemProUnit::vfunc_48() {
+void TItemProUnit::apply_owner_bonuses() {
     Unit_80118AD4 *self = (Unit_80118AD4 *)this;
     u8 v;
     s16 i;
@@ -163,7 +163,7 @@ void TItemProUnit::vfunc_48() {
 }
 #pragma pop
 
-void TItemProUnit::vfunc_44() {
+void TItemProUnit::on_equip() {
     u8 *arg0 = (u8 *)this;
   s32 temp_r3;
   s32 temp_r3_2;
@@ -245,9 +245,9 @@ s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 void vfunc_34__5TItemFv();
 void is_identified__5TItemFv();
 void get_motion_type__5TItemFv();
-void vfunc_46__14TItemEquipBaseFv();
-void release__14TItemEquipBaseFv();
-void vfunc_50__14TItemEquipBaseFv();
+void request_equipped_model__14TItemEquipBaseFv();
+void release_model__14TItemEquipBaseFv();
+void on_model_loaded__14TItemEquipBaseFv();
 }
 
 void *__vt__12TItemProUnit[51] = {
@@ -295,13 +295,13 @@ void *__vt__12TItemProUnit[51] = {
     (void *)feed__5TItemFP9TItemData,
     (void *)snap_to_owner__5TItemFv,
     (void *)get_motion_type__5TItemFv,
-    (void *)vfunc_44__12TItemProUnitFv,
-    (void *)vfunc_45__12TItemProUnitFv,
-    (void *)vfunc_46__14TItemEquipBaseFv,
-    (void *)release__14TItemEquipBaseFv,
-    (void *)vfunc_48__12TItemProUnitFv,
-    (void *)vfunc_49__12TItemProUnitFv,
-    (void *)vfunc_50__14TItemEquipBaseFv,
+    (void *)on_equip__12TItemProUnitFv,
+    (void *)on_unequip__12TItemProUnitFv,
+    (void *)request_equipped_model__14TItemEquipBaseFv,
+    (void *)release_model__14TItemEquipBaseFv,
+    (void *)apply_owner_bonuses__12TItemProUnitFv,
+    (void *)remove_owner_bonuses__12TItemProUnitFv,
+    (void *)on_model_loaded__14TItemEquipBaseFv,
 };
 
 void TItemProUnit::apply_unit_effect_flags() {
