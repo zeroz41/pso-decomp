@@ -104,23 +104,23 @@ TItemEffArmorParticle::TItemEffArmorParticle(TObject *parent, s32 item_id, u16 c
     TObjPlayer *player;
     m_name = item_eff_armor_particle_class_name;
     disallow_rendering();
-    m_item_id = item_id;
-    m_player_id = client;
-    m_item_ctrl = get_item_system_generation();
+    this->item_id = item_id;
+    this->client = client;
+    item_generation = get_item_system_generation();
     player = get_player_by_client_id(client);
     if (player != NULL) {
-        m_20 = spawn_continuous_particle_effect_with_flags(player->get_center(), particle, 0x10);
-        if (m_20 != NULL) {
-            ((TParticleCtrl *)m_20)->set_owner_id(m_player_id);
+        this->particle = (TParticleCtrl *)spawn_continuous_particle_effect_with_flags(player->get_center(), particle, 0x10);
+        if (this->particle != NULL) {
+            this->particle->set_owner_id(this->client);
         }
     } else {
-        m_20 = NULL;
+        this->particle = NULL;
     }
 }
 
 TItemEffArmorParticle::~TItemEffArmorParticle() {
-    if (m_20 != NULL) {
-        ((TObject *)m_20)->queue_destruction();
+    if (particle != NULL) {
+        particle->queue_destruction();
     }
 }
 
@@ -129,29 +129,29 @@ void TItemEffArmorParticle::run_task() {
     TObjPlayer *player;
     TItem *item;
 
-    if (m_item_ctrl != (u32)get_item_system_generation()) {
+    if (item_generation != (u32)get_item_system_generation()) {
         queue_destruction();
         return;
     }
     active = 0;
-    if (m_20 != NULL) {
-        player = get_player_by_client_id(m_player_id);
-        item = find_item_by_id(m_item_id);
+    if (particle != NULL) {
+        player = get_player_by_client_id(client);
+        item = find_item_by_id(item_id);
         if (player != NULL) {
             if (item != NULL) {
                 if (item->get_mode() == 2) {
                     if (player->obj_testFlags30(0x800) == 0) {
                         if (item->is_hidden() == 0) {
-                            ((TParticleCtrl *)m_20)->clear_active_flag();
+                            particle->clear_active_flag();
                         } else {
                             goto enable_particle;
                         }
                     } else {
                     enable_particle:
-                        ((TParticleCtrl *)m_20)->enable();
+                        particle->enable();
                     }
                     active = 1;
-                    ((TNowLoading *)m_20)->copy_pos(&player->m_2fc);
+                    ((TNowLoading *)particle)->copy_pos(&player->m_2fc);
                 }
             }
         }
