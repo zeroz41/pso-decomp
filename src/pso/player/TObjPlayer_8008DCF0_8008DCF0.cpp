@@ -201,7 +201,7 @@ void TObjPlayer__sub_8008DD14(Obj_8008DD14 *self);
 s32 subtract_vector(void *, void *);
 extern const f32 lbl_805D9624;
 extern const f32 lbl_805D9628;
-s16 obj_getS16_32C(u8 *p);
+s16 get_actor_hp(u8 *p);
 void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 void *create_particle_emitter(void *pos, s32 id);
@@ -433,7 +433,7 @@ void TObjPlayer__sub_8008E310(P_8008E310 *arg0_) {
                 E_8008E310 *e2 = (E_8008E310 *)find_entity_by_id(arg0_->ids[i]);
                 if (e2 != NULL) {
                     ((TObjEneBalClawClaw *)e2)->set_claw_flags();
-                    arg0_->f32C += obj_getS16_32C((u8 *)e2);
+                    arg0_->f32C += get_actor_hp((u8 *)e2);
                 }
             }
             arg0_->emit2 = (u32)create_particle_emitter(arg0_->f2FC, 0x12A);

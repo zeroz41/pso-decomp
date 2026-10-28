@@ -142,7 +142,7 @@ extern "C" {
 void * memcpy(void *dst, const void *src, u32 n);
 s32 get_main_phase();
 s32 obj_isState2_324__13TUnk_804806E8Fv(int);
-s16 obj_getS16_32C(s32);
+s16 get_actor_hp(s32);
 s16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_group__5TItemFv(s32);
@@ -378,7 +378,7 @@ s32 TItemMag::check_evolution_cond(u32 arg0, s32 arg1) {
 s32 TItemMag::check_feed_state(s32 arg1) {
     s16 temp_r3;
 
-    temp_r3 = obj_getS16_32C(*(s32 *)&this->m_f0);
+    temp_r3 = get_actor_hp(*(s32 *)&this->m_f0);
     if (arg1 == 7) {
         if (temp_r3 != 0) {
             return 0;
@@ -1089,7 +1089,7 @@ s8 TItemMag::collect_support_events() {
         return 0;
     }
     delta = 0;
-    cur = obj_getS16_32C(*(s32 *)&this->m_f0);
+    cur = get_actor_hp(*(s32 *)&this->m_f0);
     lim = ((TItemProShield *)(*(void * *)&this->m_f0))->get_field_2b8();
     ev = 0;
     if (*(s16 *)&this->m_1dc != cur) {
@@ -1376,7 +1376,7 @@ void TItemMag::check_level_evolve() {
 
     temp_r0 = this->m_1cc;
     if (temp_r0 == 0x5A) {
-        if (obj_getS16_32C(*(s32 *)&this->m_f0) > 0) {
+        if (get_actor_hp(*(s32 *)&this->m_f0) > 0) {
             cast_support_technique(0xF);
         }
     } else if (temp_r0 > 0x5A) {
@@ -1494,7 +1494,7 @@ struct Rec_80113B6C {
 
 extern "C" {
 void TItemMag__vt12(s32 arg0);
-s16 obj_getS16_32E(void *);
+s16 get_actor_tp(void *);
 s32 test_flags_any(void *, int);
 s32 obj_isState7_324(void *);
 void TItemMag__vt42(TItemMag *arg0);
@@ -1700,8 +1700,8 @@ void TItemMag__vt42(TItemMag *item_mag) {
     if ((s16) *(s16 *)((s8 *)item_mag + 0x1D6) == -1) {
         *(s16 *)((s8 *)item_mag + 0x1D6) = TOKeyMachine01::get_global_state();
     }
-    *(s16 *)((s8 *)item_mag + 0x1DC) = ((s16 (*)(void *))obj_getS16_32C)((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
-    *(s16 *)((s8 *)item_mag + 0x1DE) = obj_getS16_32E((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
+    *(s16 *)((s8 *)item_mag + 0x1DC) = ((s16 (*)(void *))get_actor_hp)((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
+    *(s16 *)((s8 *)item_mag + 0x1DE) = get_actor_tp((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
     if (test_flags_any((u8 *)item_mag + 0x178, 1) != 0) {
         *(s32 *)((s8 *)item_mag + 0x18C) = (s32) (*(s32 *)((s8 *)item_mag + 0x18C) & 0xFFFFFFDF);
     } else {

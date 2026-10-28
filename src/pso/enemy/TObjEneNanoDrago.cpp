@@ -1801,7 +1801,7 @@ u8 *TObjEneNanoDrago__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     ((TObjMotion *)arg0)->set_animation(((TObjEneNanoDrago *)arg0)->m_b8);
     ((TObjMotion *)arg0)->set_field_b8(((TObjEneNanoDrago *)arg0)->m_b8);
     ((TObjEneNanoDrago *)arg0)->hp = ((TObjEneNanoDrago *)arg0)->hpmax;
-    ((TObjEneNanoDrago *)arg0)->m_32e = ((TObjEneNanoDrago *)arg0)->m_2ba;
+    ((TObjEneNanoDrago *)arg0)->tp = ((TObjEneNanoDrago *)arg0)->tpmax;
     ((TObjEneNanoDrago *)arg0)->referenceHp = ((TObjEneNanoDrago *)arg0)->hp;
     ((TObjEnemy *)arg0)->update_prev_position();
     initialize_enemy_photon_effect(arg0);

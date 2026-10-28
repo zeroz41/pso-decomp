@@ -270,11 +270,11 @@ s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
 int TObjPlayer::get_equip_field_d04(s32 slot) { return get_slot_value((u8 *)this + 0xD04, slot); }
 
-s32 TObjPlayer::get_stat() { return m_2bc; }
+s32 TObjPlayer::get_hp_bonus() { return hp_bonus; }
 
-s32 TObjPlayer::get_stat_bonus() { return *(s16 *)&unk_2BE; }
+s32 TObjPlayer::get_tp_bonus() { return tp_bonus; }
 
-void TObjPlayer::set_facing(s16 tp) { m_32e = tp; }
+void TObjPlayer::set_tp(s16 value) { tp = value; }
 
 void TItem::show() { item_flags &= ~ITEM_FLAG_HIDDEN; }
 
@@ -1005,7 +1005,7 @@ void TItem::send_activate_effect(s32 effect) {
     }
 }
 
-s16 calc_equip_bonus(u16 client) {
+s16 calc_base_hp_bonus(u16 client) {
     TObjPlayer *player = get_player_by_client_id(client);
     s32 bonus = 0;
     if (player != NULL) {
@@ -1017,13 +1017,13 @@ s16 calc_equip_bonus(u16 client) {
             }
             slot++;
         } while (slot != 13);
-        return player->get_stat() - bonus;
+        return player->get_hp_bonus() - bonus;
     }
     return 0;
 }
 
 // The owner's stat less what the equipped armor, shield and units add.
-s16 calc_stat_bonus_sum(u16 client) {
+s16 calc_base_tp_bonus(u16 client) {
     TObjPlayer *player = get_player_by_client_id(client);
     s32 bonus = 0;
     if (player != NULL) {
@@ -1035,7 +1035,7 @@ s16 calc_stat_bonus_sum(u16 client) {
             }
             slot++;
         } while (slot != 13);
-        return player->get_stat_bonus() - bonus;
+        return player->get_tp_bonus() - bonus;
     }
     return 0;
 }
@@ -1182,8 +1182,8 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
     if (technique >= 0 && technique < 19 && level >= 0 && level <= 29) {
         TObjPlayer *owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
-            s16 hp = obj_getS16_32C(owner);
-            s16 tp = obj_getS16_32E(owner);
+            s16 hp = get_actor_hp(owner);
+            s16 tp = get_actor_tp(owner);
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = (TItem *)owner->get_equip_field_d04(slot);
@@ -1199,7 +1199,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
                 }
             }
             owner->set_hp_clamped(hp);
-            owner->set_facing(tp);
+            owner->set_tp(tp);
         }
     }
 }
@@ -1338,15 +1338,15 @@ void TItem::remove_equip_stats(s32) {}
 void TItemEquipBase::refresh_owner_stats() {
     TObjPlayer *player = owner;
     if (player != NULL) {
-        s16 hp = obj_getS16_32C(player);
-        s16 tp = obj_getS16_32E(owner);
+        s16 hp = get_actor_hp(player);
+        s16 tp = get_actor_tp(owner);
         remove_equip_stats(0);
         add_equip_stats(0);
         owner->vfunc_73();
         owner->set_hp_clamped(hp);
-        owner->set_facing(tp);
-        owner->clamp_value();
-        owner->clamp_field_32E();
+        owner->set_tp(tp);
+        owner->clamp_hp();
+        owner->clamp_tp();
     }
 }
 

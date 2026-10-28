@@ -1172,7 +1172,7 @@ s32 trigger_switch_attack__10TObjPlayerFPvi(void *, s32);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
-s32 obj_getS16_32C(void * a0 = 0);
+s32 get_actor_hp(void * a0 = 0);
 s32 obj_isState3_324__13TUnk_804806E8Fv();
 s32 TObjPlayer__sub_8001943C(void *, s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
@@ -2636,7 +2636,7 @@ void TObjPlayer::send_name_and_state() {
         ((TObjPlayer *)(&b))->init_6x2F_packet_header();
         b.f2 = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         b.f4 = 0;
-        b.f8 = ((s16)obj_getS16_32C(arg0));
+        b.f8 = ((s16)get_actor_hp(arg0));
         b.fa = ((s16)((s32 (*)(void *))get_entity_id)(arg0));
         TObjPlayer__sub_801C0734(&b);
     }
@@ -2658,7 +2658,7 @@ void TObjPlayer::update_gated_action() {
     if (this->phase == 0) {
         if (is_status_flag_200__10TObjPlayerFv() != 0) {
             temp_r31 = ((s32 (*)(void *))get_entity_id)(this);
-            send_6x2F_change_player_hp(temp_r31, temp_r31, obj_getS16_32C(this));
+            send_6x2F_change_player_hp(temp_r31, temp_r31, get_actor_hp(this));
             obj_clearFlags30((u32)0x200);
             return;
         }
@@ -4488,9 +4488,9 @@ void TObjPlayer::pay_tp_and_send_6x48_cast() {
             Pkt_801CCEDC pkt;
             this->phase = 4;
             tech = ((TObjPlayer *)(self->techs))->get_or_init_field_4();
-            *(s16 *)&this->m_32e -= calc_technique_parameters(tech, ((TObjPlayer *)(self->techs))->get_castable_technique_level(), ((s32 (*)(void *))get_entity_id)(self))->cost;
-            if (*(s16 *)&this->m_32e < 0) {
-                *(s16 *)&this->m_32e = 0;
+            *(s16 *)&this->tp -= calc_technique_parameters(tech, ((TObjPlayer *)(self->techs))->get_castable_technique_level(), ((s32 (*)(void *))get_entity_id)(self))->cost;
+            if (*(s16 *)&this->tp < 0) {
+                *(s16 *)&this->tp = 0;
             }
             split_capped_value__10TObjPlayerFUcPUcPSc(((TObjPlayer *)(self->techs))->get_castable_technique_level(), &hi, &lo);
             ((void (*)(void *))init_6x48_cast_complete_packet)(&pkt);

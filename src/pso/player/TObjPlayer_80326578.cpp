@@ -51,7 +51,7 @@ s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 get_owner_client__5TItemFv(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
-s16 obj_getS16_32E(u8 *p);
+s16 get_actor_tp(u8 *p);
 s32 reset_key_machine_state__10TObjPlayerFv();
 void set_status_flags__10TObjPlayerFUl(void *, int);
 
@@ -119,7 +119,7 @@ void TUnk_804ECFB0::update_weapon() {
     s32 temp_r31;
 
     if (reset_key_machine_state__10TObjPlayerFv() != 0) {
-        temp_r3 = obj_getS16_32E((u8 *)this->player);
+        temp_r3 = get_actor_tp((u8 *)this->player);
         temp_r0 = this->m_1fc - temp_r3;
         if (temp_r0 != 0) {
             this->m_1fc = temp_r3;
@@ -148,7 +148,7 @@ void dark_bridge_start_timers(void *arg0) {
     s32 temp_r3_2;
     s32 temp_r3_3;
 
-    ((TUnk_804ECFB0 *)arg0)->m_1fc = obj_getS16_32E((u8 *)(*(s32 *)((s8 *)arg0 + 0xF0)));
+    ((TUnk_804ECFB0 *)arg0)->m_1fc = get_actor_tp((u8 *)(*(s32 *)((s8 *)arg0 + 0xF0)));
     *(s32 *)((s8 *)arg0 + 0x1F8) = 0;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x174) != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
@@ -436,7 +436,7 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 
 s32 is_mode_two_and_ready__10TObjPlayerFv();
-s16 obj_getS16_32C(u8 *p);
+s16 get_actor_hp(u8 *p);
 s32 update_active_game_effect__10TObjPlayerFv(void *);
 
 #define lbl_804ED390 ((unsigned char *)lbl_804ED390)
@@ -465,7 +465,7 @@ extern "C" {
 void TUnk_804ED488::emit_marker_effects() {
 
     if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
-        if ((s32) ((s16) obj_getS16_32C((u8 *)this->player) * 8) < ((s16) ((TItemProShield *)(this->player))->get_field_2b8())) {
+        if ((s32) ((s16) get_actor_hp((u8 *)this->player) * 8) < ((s16) ((TItemProShield *)(this->player))->get_field_2b8())) {
             fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, -0x238E);
             fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, -0x11C7);
             fire_shot_at_target((void *)(*(s32 *)&this->player + 0x38), (void *)0, 0);

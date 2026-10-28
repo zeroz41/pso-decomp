@@ -1176,13 +1176,13 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
             }
               break;
             case 3:
-              if (calc_equip_bonus(id) >= 0xFA)
+              if (calc_base_hp_bonus(id) >= 0xFA)
             {
               hit = 1;
             }
               break;
             case 4:
-              if (calc_stat_bonus_sum(id) >= 0xFA)
+              if (calc_base_tp_bonus(id) >= 0xFA)
             {
               hit = 1;
             }

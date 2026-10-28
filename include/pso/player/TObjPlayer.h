@@ -346,7 +346,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     u16 get_field_2d4();
     s32 is_local_player();
     void apply_velocity();
-    s16 clamp_field_32E();
+    s16 clamp_tp();
     static void clear_s16_arrays(void* p);
     s32 add_capped_counter_999(s32 arg1);
     int get_tp_materials_clamped();
@@ -469,9 +469,9 @@ struct TObjPlayer : public TUnk_804806E8 {
     void *create_hairmove(void *arg1, void *arg2);
     s32 interpolate_along_curve(void *arg1);
     static void load_projection_tex(s32 arg0, s32 arg1);
-    void set_facing(s16 v);
-    s32 get_stat_bonus();
-    s32 get_stat();
+    void set_tp(s16 tp);
+    s32 get_tp_bonus();
+    s32 get_hp_bonus();
     int get_equip_field_d04(s32 slot);
     s32 is_flag_20000_set();
     static s32 test_flag_2000000(void *player);

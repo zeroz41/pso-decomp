@@ -8,10 +8,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_8049FBC0.h"
 
-// calc_stat_bonus_sum/calc_equip_bonus(u16) as this file's callers see them:
+// calc_base_tp_bonus/calc_base_hp_bonus(u16) as this file's callers see them:
 // the client id still in r3 from get_entity_id.
-extern "C" s16 calc_stat_bonus_sum__FUs();
-extern "C" s16 calc_equip_bonus__FUs();
+extern "C" s16 calc_base_tp_bonus__FUs();
+extern "C" s16 calc_base_hp_bonus__FUs();
 
 struct VBase_18_ddf499 { char pad[0x18]; };
 
@@ -152,13 +152,13 @@ void TUnk_8049FBC0::vfunc_44() {
         break;
     case 3:
         get_entity_id((void *)this->owner);
-        if (calc_equip_bonus__FUs() < 0xFA) {
+        if (calc_base_hp_bonus__FUs() < 0xFA) {
             ((TObjPlayer *)(this->owner))->apply_speed_with_camera_scale((u8)(2));
         }
         break;
     case 4:
         get_entity_id((void *)this->owner);
-        if ((calc_stat_bonus_sum__FUs() < 0xFA) && (check_class_equip_permission((void *)this->owner, 0xD7) == 0)) {
+        if ((calc_base_tp_bonus__FUs() < 0xFA) && (check_class_equip_permission((void *)this->owner, 0xD7) == 0)) {
             ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
         }
         break;

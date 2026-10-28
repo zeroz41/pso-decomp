@@ -54,8 +54,8 @@ struct Item_802C3F74 : VBase_802C3F74 {
 };
 
 extern "C" {
-s16 obj_getS16_32E(void *);
-s16 obj_getS16_32C(void *);
+s16 get_actor_tp(void *);
+s16 get_actor_hp(void *);
 void copy_player_visual_record(void *, void *);
 Eq_802C3D38 *get_equip_field_d04__10TObjPlayerFl(void *, s32);
 void TObjPlayer__sub_8013A748(void *, void *);
@@ -95,8 +95,8 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     s32 k;
     ((TObjPlayer *)arg0)->set_flag_80000();
     *(s8 *)((s8 *)arg1 + 0) = query_state_if_present__10TObjPlayerFPv(arg0, get_ptr_4__10TObjPlayerFv((s8 *)arg1));
-    hp = obj_getS16_32C(arg0);
-    facing = obj_getS16_32E(arg0);
+    hp = get_actor_hp(arg0);
+    facing = get_actor_tp(arg0);
     for (i = 0; i != 0xD; i++) {
         eq = get_equip_field_d04__10TObjPlayerFl(arg0, i);
         if (eq != NULL) {
@@ -126,7 +126,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
         }
     }
     ((TObjPlayer *)arg0)->set_hp_clamped(hp);
-    ((TObjPlayer *)arg0)->set_facing(facing);
+    ((TObjPlayer *)arg0)->set_tp(facing);
     *(s8 *)((s8 *)arg1 + 3) = TObjPlayer__sub_801AFD8C(arg0);
     ((TObjPlayer *)arg0)->apply_pending_action((s32)arg1);
     ((TObjPlayer *)arg0)->copy_mag_level_to_record((u8 *)arg1);
@@ -150,8 +150,8 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     s32 m;
     ((TObjPlayer *)arg0)->set_flag_80000();
     arg1[0] = query_state_if_present__10TObjPlayerFPv(arg0, get_ptr_4__10TObjPlayerFv(arg1));
-    hp = obj_getS16_32C(arg0);
-    facing = obj_getS16_32E(arg0);
+    hp = get_actor_hp(arg0);
+    facing = get_actor_tp(arg0);
     p = items;
     for (i = 0; i < 30; i++) {
         *p++ = NULL;
@@ -199,7 +199,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
         }
     }
     ((TObjPlayer *)arg0)->set_hp_clamped(hp);
-    ((TObjPlayer *)arg0)->set_facing(facing);
+    ((TObjPlayer *)arg0)->set_tp(facing);
     arg1[3] = TObjPlayer__sub_801AFD8C(arg0);
     if (TObjPlayer__sub_802A1018() != 0) {
         ((TObjPlayer *)arg1)->set_flag_40();

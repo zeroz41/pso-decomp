@@ -15,7 +15,7 @@ struct RecoveredGlobal_80123CA8_lbl_8043E8D8 {
 
 extern "C" {
 s32 add_actor_tp(u8 *arg0, s32 arg1);
-s16 obj_getS16_32E(u8 *p);
+s16 get_actor_tp(u8 *p);
 extern const f32 lbl_805DAD20;
 s32 scale_current_matrix(void *, int);
 }
@@ -69,7 +69,7 @@ void TUnk_804A1E28::update_weapon() {
             *(s32 *)((s8 *)arg0 + 0x1F8) = (temp_r3_2 - 1);
         }
     }
-    temp_r3_3 = obj_getS16_32E(*(u8 * *)&this->player);
+    temp_r3_3 = get_actor_tp(*(u8 * *)&this->player);
     temp_r0 = this->m_1fc - temp_r3_3;
     if (temp_r0 < 0) {
         this->m_1fc = temp_r3_3;
@@ -77,6 +77,6 @@ void TUnk_804A1E28::update_weapon() {
     }
     if (temp_r0 > 0) {
         add_actor_tp(*(u8 * *)&this->player, (lbl_805DAD20 * (f32) temp_r0));
-        this->m_1fc = obj_getS16_32E(*(u8 * *)&this->player);
+        this->m_1fc = get_actor_tp(*(u8 * *)&this->player);
     }
 }

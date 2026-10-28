@@ -65,7 +65,7 @@ f32 calc_boss4_scale__10TObjPlayerFi(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
-s16 obj_getS16_32C(u8 *p);
+s16 get_actor_hp(u8 *p);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 int rand(void);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
@@ -1553,7 +1553,7 @@ u16 TBoss3Volopt::find_strongest_player() {
     for (i = 0; i < volopt_candidate_count; i++) {
         player = candidate_players[i];
         if (player != NULL) {
-            s16 hp = obj_getS16_32C((u8 *)player);
+            s16 hp = get_actor_hp((u8 *)player);
             if (hp > best_hp) {
                 best_hp = hp;
                 best = player;

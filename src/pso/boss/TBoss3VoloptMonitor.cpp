@@ -214,7 +214,7 @@ void TBoss3VoloptMonitor::init_params() {
     volopt_monitor_stats->hp = fn_80042960(slot % 4 ? 1 : 0);
     recalc_combat_stats(volopt_monitor_stats, volopt_monitor_stats_b, volopt_monitor_object_params, 1.0f, 1.0f);
     hp = hpmax;
-    m_32e = m_2ba;
+    tp = tpmax;
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();

@@ -573,8 +573,8 @@ void TItemEquipBase::remove_equip_stats(s32 arg1) {
       add_actor_tp_bonus((void *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0, (int) ((s32) ((s16) (-((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_16E))));
       (this->vfunc_49());
       (((VObj_18_8e31a0 *)((u8 *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0))->m71());
-      ((TUnk_804806E8 *)((void *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0))->clamp_value();
-      ((TObjPlayer *)((void *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0))->clamp_field_32E();
+      ((TUnk_804806E8 *)((void *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0))->clamp_hp();
+      ((TObjPlayer *)((void *) ((RecoveredFields_8010B0A8_arg0 *) ((u8 *)this))->field_F0))->clamp_tp();
     }
     this->reset();
   }

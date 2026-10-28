@@ -182,7 +182,7 @@ extern const f32 lbl_805D9650;
 extern const f32 lbl_805D9654;
 extern const f32 lbl_805D9658;
 void TObjPlayer__sub_8008EDE8(P_8008EDE8 *arg0);
-s16 obj_getS16_32C();
+s16 get_actor_hp();
 s32 obj_setFlags30(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 T_8008F1DC *find_active_entity_by_id(u16);
@@ -435,7 +435,7 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
             if (FLD(T_8008F1DC *, 0x2A8)->m18(o, lbl_805D9650) != 0) {
                 FLD(T_8008F1DC *, 0x2A8)->m20(o, lbl_805D9650);
                 FLD(T_8008F1DC *, 0x2A8)->m23(o, lbl_805D9658);
-                if (!(FLD(T_8008F1DC *, 0x2A8)->flags30 & 0x800) && obj_getS16_32C() > 0) {
+                if (!(FLD(T_8008F1DC *, 0x2A8)->flags30 & 0x800) && get_actor_hp() > 0) {
                     send_6x2F_change_player_hp(FLD(u16, 0x1C), o->f338, 1);
                 }
             }

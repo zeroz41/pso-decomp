@@ -290,7 +290,7 @@ void TBoss3VoloptP02::init_params() {
     set_animation(m_b8);
     set_field_b8(m_b8);
     hp = hpmax;
-    m_32e = m_2ba;
+    tp = tpmax;
     referenceHp = hp;
     set_param(0x2E);
     update_prev_position();

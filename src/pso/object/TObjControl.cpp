@@ -1153,12 +1153,12 @@ s32 TObjEnemy::bind_enemy_combat_stats(u8 *arg1, u8 *arg2, u8 *arg3) {
         this->hpmax = (s16) (*(s16 *)((s8 *)temp_r6 + 6) + *(s32 *)((s8 *)temp_r6 + 0x18));
         this->hp = (s16) this->hpmax;
         if (obj_testFlag_2E4__13TUnk_804806E8FUl(this, 4U) != 0) {
-            this->m_2ba = 0;
-            this->m_32e = 0;
+            this->tpmax = 0;
+            this->tp = 0;
         } else {
             temp_r4 = this->m_2b0;
-            this->m_2ba = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
-            this->m_32e = (s16) this->m_2ba;
+            this->tpmax = (s16) (*(s16 *)((s8 *)temp_r4 + 2) + *(s32 *)((s8 *)temp_r4 + 0x18));
+            this->tp = (s16) this->tpmax;
         }
         goto block_6;
     }

@@ -759,7 +759,7 @@ void qst_op_va_call(s32 arg0) {
 
 
 extern "C" {
-s16 obj_getS16_32C(u8 *);
+s16 get_actor_hp(u8 *);
 }
 extern const f32 lbl_805DC4C4;
 extern const f32 lbl_805DC4D0;
@@ -1397,7 +1397,7 @@ void TKeyBoardControl__sub_8000F950(void);
 void mark_area_change_pending();
 void VecCopy__FP3VecPC3Vec(Vec_801F0574 *, const void *);
 int obj_isState2_324__13TUnk_804806E8Fv(TObjPlayer*);
-s16 obj_getS16_32E(u8 *);
+s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
 s32 obj_isState3_324__13TUnk_804806E8Fv(int);
@@ -2330,9 +2330,9 @@ void qst_op_get_player_hp_tp(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TItemProShield *)player)->get_field_2b8();
-        qst_registers[i++] = obj_getS16_32C(player);
+        qst_registers[i++] = get_actor_hp(player);
         qst_registers[i++] = obj_getS16_2BA(player);
-        qst_registers[i] = obj_getS16_32E(player);
+        qst_registers[i] = get_actor_tp(player);
     } else {
         qst_registers[i++] = -1;
         qst_registers[i++] = -1;
@@ -5577,7 +5577,7 @@ void qst_op_p_hpstat(void) {
     limit = lbl_805DC4D0 / pct;
     obj = (void *)((s32)get_player_by_client_id(player));
     if (obj != NULL) {
-        hp = obj_getS16_32C((u8 *)obj);
+        hp = get_actor_hp((u8 *)obj);
         if (hp / ((TItemProShield *)obj)->get_field_2b8() < limit) {
             qst_registers[reg] = 1;
             return;

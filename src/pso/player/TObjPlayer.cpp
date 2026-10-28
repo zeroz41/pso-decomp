@@ -149,9 +149,9 @@ void TObjPlayer::set_meseta(s32 arg1) {
     *(s32 *)(this->m_2b0 + 0x20) = arg1;
 }
 
-void TObjPlayer::sub_801BEE24(s16 v) { *(s16 *)&this->unk_2BE = v; }
+void TObjPlayer::sub_801BEE24(s16 v) { *(s16 *)&this->tp_bonus = v; }
 
-void TObjPlayer::sub_801BEE2C(s16 v) { this->m_2bc = v; }
+void TObjPlayer::sub_801BEE2C(s16 v) { this->hp_bonus = v; }
 
 void TObjPlayer::bswap_status_effect_data() {
     bswap_32__FPUl(this);

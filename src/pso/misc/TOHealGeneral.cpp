@@ -23,7 +23,7 @@ s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
 f32 horizontal_distance_squared(s32, void *);
 s32 get_player_by_client_id(u32);
 
-s16 obj_getS16_32C(void *);
+s16 get_actor_hp(void *);
 void send_6x2F_change_player_hp(u16, u16, s16);
 
 #pragma push
@@ -43,7 +43,7 @@ void TOHealGeneral::update_closing() {
         if (TOHangerMachine01::is_valid_slot((s32) arg0, this->m_f4) != 0) {
             player = (u8 *)(get_player_by_client_id((u32) this->m_f4));
             if (player != NULL) {
-                temp_r3_2 = obj_getS16_32C(player);
+                temp_r3_2 = get_actor_hp(player);
                 if (temp_r3_2 > 0) {
                     send_6x2F_change_player_hp(0xFFFFU, this->m_f4, temp_r3_2);
                 }
@@ -138,7 +138,7 @@ s32 get_entity_id(void *obj);
 f32 get_collision_body_radius(void *, s32);
 
 s16 obj_getS16_2BA(u8 *p);
-s16 obj_getS16_32E(u8 *p);
+s16 get_actor_tp(u8 *p);
 u32 get_recovery_need_flags__10TObjPlayerFv(void *);
 void send_6x2C_impose_hold(void *, void *, s32, s32, f32);
 void *spawn_particle_effect_with_flags(void *, s32, s32);
@@ -169,8 +169,8 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
             continue;
         }
         self->m_f4 = id;
-        if (obj_getS16_32C((u8 *)actor) < ((TItemProShield *)actor)->get_field_2b8() ||
-            obj_getS16_32E((u8 *)actor) < obj_getS16_2BA((u8 *)actor) ||
+        if (get_actor_hp((u8 *)actor) < ((TItemProShield *)actor)->get_field_2b8() ||
+            get_actor_tp((u8 *)actor) < obj_getS16_2BA((u8 *)actor) ||
             get_recovery_need_flags__10TObjPlayerFv(actor) != 0 ||
             (((TObjPlayer *)actor)->is_alive_and_ready() != 0 && ((TObjPlayer *)actor)->are_traps_full() == 0)) {
             void *e;

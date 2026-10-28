@@ -72,13 +72,13 @@ void TObjEneDD::reload_stats_keep_hp_tp() {
     Obj_800B9E84 *self = (Obj_800B9E84 *)this;
     s16 a = this->hpmax;
     s16 c = this->hp;
-    s16 b = this->m_2ba;
-    s16 d = *(s16 *)&this->m_32e;
+    s16 b = this->tpmax;
+    s16 d = *(s16 *)&this->tp;
     bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(self);
     this->hpmax = a;
     this->hp = c;
-    this->m_2ba = b;
-    *(s16 *)&this->m_32e = d;
+    this->tpmax = b;
+    *(s16 *)&this->tp = d;
 }
 
 void TObjEneDD::reset_hp() { bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(this); this->referenceHp = this->hp; }

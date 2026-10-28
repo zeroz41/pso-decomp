@@ -1711,7 +1711,7 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     ((TObjMotion *)arg0)->set_animation(arg0->m_b8);
     ((TObjMotion *)arg0)->set_field_b8(arg0->m_b8);
     arg0->hp = (s16) arg0->hpmax;
-    arg0->m_32e = (s16) arg0->m_2ba;
+    arg0->tp = (s16) arg0->tpmax;
     arg0->referenceHp = (s16) arg0->hp;
     temp_r6 = arg0->hp;
     temp_r5 = temp_r6 / 3;

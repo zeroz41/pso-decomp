@@ -41,7 +41,7 @@ public:
     void try_apply_damage(u32, s32);
     s32 subtract_actor_tp(s32);
     void sub_80010DE8(u16, u8, u8);
-    s16 clamp_value();
+    s16 clamp_hp();
     void spawn_freeze_shell_effect(u32, s32);
     s32 check_heavy_damage_flag(f32);
     virtual s32 add_actor_exp(s32);
@@ -196,9 +196,9 @@ public:
     u8 * m_2b0;
     f32 m_2b4;
     s16 hpmax;
-    s16 m_2ba;
-    s16 m_2bc;
-    u8 unk_2BE[0x2];
+    s16 tpmax;
+    s16 hp_bonus;  // what items add to the HP maximum (add_actor_hp_bonus)
+    s16 tp_bonus;  // and to the TP maximum
     s16 m_2c0;
     u8 unk_2C2[0x2];
     s16 m_2c4;
@@ -242,7 +242,7 @@ public:
     s16 phase;
     u8 unk_32A[0x2];
     s16 hp;
-    u16 m_32e;
+    u16 tp;
     u8 unk_330[0x4];
 
     // Typed views of the vectors the fields above split up: the movement

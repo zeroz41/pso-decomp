@@ -1967,7 +1967,7 @@ extern Pair_800993E8 lbl_8043A0CC[];
 extern const f32 lbl_805D9838;
 extern const f32 lbl_805D983C;
 void check_can_act__10TObjPlayerFii(void *, s16);
-s16 obj_getS16_32E(u8 *p);
+s16 get_actor_tp(u8 *p);
 f32 get_random_float__21TObjEneMe3ShinowaRealFv(f32);
 u8 *fn_8009A398(void *, void *, void *, void *);
 #define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
@@ -2127,7 +2127,7 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
         if (is_alive__9TObjEneDDFv(player) != 0) {
             horizontal_distance_squared(self->field2FC, player->pos);
             if (csnLookAt(self->field2FC, player->field2FC) == 0) {
-                dmg = get_random_float__21TObjEneMe3ShinowaRealFv(lbl_805D9828 * (f32)obj_getS16_32E((u8 *)player));
+                dmg = get_random_float__21TObjEneMe3ShinowaRealFv(lbl_805D9828 * (f32)get_actor_tp((u8 *)player));
                 check_can_act__10TObjPlayerFii(player, dmg);
                 total += dmg;
                 o = __nw__7TObjectFUl(0x54);

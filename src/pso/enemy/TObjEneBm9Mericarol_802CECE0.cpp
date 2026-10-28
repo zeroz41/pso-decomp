@@ -969,7 +969,7 @@ void TObjEneBm9Mericarol__sub_802CF4F8(u8 *ene_bm9_mericarol, s32 arg1) {
     else
       if (((temp_r0 == 0x19) && (((s32) (*((s32 *) (((s8 *) ene_bm9_mericarol) + 0x494)))) != 0)) && (is_alive__9TObjEneDDFv((int) (((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_390)) != 0))
     {
-      ((TObjPlayer *)(((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_390))->set_facing(0);
+      ((TObjPlayer *)(((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_390))->set_tp(0);
     }
       temp_r4 = ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_4ac;
       ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_4ac = (temp_r4 + 1);

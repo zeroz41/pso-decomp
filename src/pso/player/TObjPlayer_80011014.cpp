@@ -345,10 +345,10 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
 void show_meseta_label(s32 arg0, u32 arg1, s32 arg2, s32 arg3);
 void show_miss_popup__13TUnk_804806E8FPCf(TObjPlayer *self, const float *pos);
-s16 obj_getS16_32E(u8* p);
+s16 get_actor_tp(u8* p);
 int obj_getPtr2B0_20(u8* p);
 s16 obj_getS16_2BA(u8* p);
-s16 obj_getS16_32C(u8* p);
+s16 get_actor_hp(u8* p);
 u8 obj_testFlag_2E4__13TUnk_804806E8FUl(u8* p, u32 mask);
 int get_item_field_6__10TObjPlayerFPv(void* p);
 void send_6x2F_change_player_hp(u16, u16, s16);
@@ -1167,23 +1167,23 @@ void TObjPlayer::apply_velocity() {
     this->position[2] = (f32) (this->position[2] + *(f32 *)&this->m_310);
 }
 
-s16 TObjPlayer::clamp_field_32E() {
+s16 TObjPlayer::clamp_tp() {
     s16 temp_r0;
     s16 temp_r4;
 
-    temp_r4 = *(s16 *)&this->m_32e;
+    temp_r4 = *(s16 *)&this->tp;
     if (temp_r4 < 0) {
-        *(s16 *)&this->m_32e = 0;
+        *(s16 *)&this->tp = 0;
     } else {
-        temp_r0 = *(s16 *)&this->m_2ba;
+        temp_r0 = *(s16 *)&this->tpmax;
         if (temp_r0 < temp_r4) {
-            *(s16 *)&this->m_32e = temp_r0;
+            *(s16 *)&this->tp = temp_r0;
         }
     }
-    return *(s16 *)&this->m_32e;
+    return *(s16 *)&this->tp;
 }
 
-s16 TUnk_804806E8::clamp_value() {
+s16 TUnk_804806E8::clamp_hp() {
     s16 temp_r0;
     s16 temp_r4;
 
@@ -1625,7 +1625,7 @@ s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1) {
 int TObjPlayer::get_hp_material_points() {
   s16 temp_r0;
   int new_var;
-  new_var = this->m_2bc;
+  new_var = this->hp_bonus;
   temp_r0 = new_var;
   if (temp_r0 < 0)
   {
@@ -2065,7 +2065,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
     }
     switch (kind) {
     case 1:
-        dmg = (0.01f) * (f32)(power * ((s16 (*)(void *))obj_getS16_32C)(self));
+        dmg = (0.01f) * (f32)(power * ((s16 (*)(void *))get_actor_hp)(self));
         cap = (3e+01f) * (game_difficulty_selection + 1);
         if (cap < dmg) {
             dmg = cap;
@@ -2103,7 +2103,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
             }
             self->m20(att, (0.6f));
         }
-        if (((TUnk_804806E8 *)self)->clamp_value() <= 0) {
+        if (((TUnk_804806E8 *)self)->clamp_hp() <= 0) {
             SETF30_W24(self, 0xA00);
             empty_post_damage_hook(self, att);
         } else {
@@ -2228,8 +2228,8 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
         if (TESTF30_W24(self, 0x02000000) == 0) {
             DISPATCH_W24(att, self, &pos);
         }
-        amt = (0.2f) * (f32)((s16 (*)(void *))obj_getS16_32E)(att);
-        if ((1e+01f) <= (f32)((s16 (*)(void *))obj_getS16_32E)(att)) {
+        amt = (0.2f) * (f32)((s16 (*)(void *))get_actor_tp)(att);
+        if ((1e+01f) <= (f32)((s16 (*)(void *))get_actor_tp)(att)) {
             if (TObjPlayer::get_player_count() != 0) {
                 if (ISLOCAL_W24(self) != 0 && ISSTATE2_W24(att) != 0) {
                     SUB10DE8_W24(att, self->f2D4, 1, (s32)amt);
@@ -2253,8 +2253,8 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
         if (TESTF30_W24(self, 0x02000000) == 0) {
             DISPATCH_W24(att, self, &pos);
         }
-        amt = (0.25f) * (f32)((s16 (*)(void *))obj_getS16_32C)(att);
-        if ((1.0f) < (f32)((s16 (*)(void *))obj_getS16_32C)(att)) {
+        amt = (0.25f) * (f32)((s16 (*)(void *))get_actor_hp)(att);
+        if ((1.0f) < (f32)((s16 (*)(void *))get_actor_hp)(att)) {
             if (TObjPlayer::get_player_count() != 0) {
                 if (ISLOCAL_W24(self) != 0 && ISSTATE2_W24(att) != 0) {
                     SUB10DE8_W24(att, self->f2D4, 0, (s32)amt);
@@ -2267,7 +2267,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
                 ((s32 (*)(void *, s32))damage_hp__10TObjPlayerFii)(att, (s32)amt);
                 if (ISLOCAL_W24(att) != 0) {
                     u16 id = FIELD1C_W24(att);
-                    send_6x2F_change_player_hp(id, id, ((s16 (*)(void *))obj_getS16_32C)(att));
+                    send_6x2F_change_player_hp(id, id, ((s16 (*)(void *))get_actor_hp)(att));
                 }
                 self->m20(att, (3.0f));
             }
@@ -2324,7 +2324,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
         dmg = rec.power * ((0.002f) * (f32)(100 - self->f2F2));
         if (immune == 0) {
             SUBHP_W24(self, (s32)dmg);
-            if (((TUnk_804806E8 *)self)->clamp_value() <= 0) {
+            if (((TUnk_804806E8 *)self)->clamp_hp() <= 0) {
                 SETF30_W24(self, 0x800);
                 empty_post_damage_hook(self, att);
             }
@@ -2347,7 +2347,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
         dmg = rec.power * ((0.002f) * (f32)(100 - self->f2F4));
         if (immune == 0) {
             SUBHP_W24(self, (s32)dmg);
-            if (((TUnk_804806E8 *)self)->clamp_value() <= 0) {
+            if (((TUnk_804806E8 *)self)->clamp_hp() <= 0) {
                 SETF30_W24(self, 0x800);
                 empty_post_damage_hook(self, att);
             }
@@ -2375,7 +2375,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
                 DISPATCH_W24(att, self, &pos);
             }
             if (immune == 0) {
-                ((s16 (*)(void *))obj_getS16_32C)(self);
+                ((s16 (*)(void *))get_actor_hp)(self);
                 ((TObjPlayer *)self)->set_hp_clamped(0);
                 SETF30_W24(self, 0xA00);
                 empty_post_damage_hook(self, att);
@@ -2409,13 +2409,13 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
             CLEARCOLL_W24()
         } else if (BOSS4_W24(self) < (0.5f)) {
             dmg = mul * (((1.0f) - (0.01f) * (f32)power) *
-                         (f32)((s16 (*)(void *))obj_getS16_32C)(self));
+                         (f32)((s16 (*)(void *))get_actor_hp)(self));
             if (dmg < (1.0f)) {
                 dmg = (1.0f);
             }
             if (immune == 0) {
                 SUBHP_W24(self, (s32)dmg);
-                if (((TUnk_804806E8 *)self)->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)self)->clamp_hp() <= 0) {
                     SETF30_W24(self, 0x800);
                     empty_post_damage_hook(self, att);
                 }
@@ -2539,7 +2539,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.2f);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -2558,7 +2558,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.002f) * (f32)(100 - ((Actor_8001311C *)this)->resist1);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -2577,7 +2577,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.002f) * (f32)(100 - ((Actor_8001311C *)this)->resist2);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -2604,7 +2604,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.002f) * (f32)(100 - ((Actor_8001311C *)this)->resist3);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -2626,7 +2626,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.002f) * (f32)(100 - ((Actor_8001311C *)this)->resist4);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -2661,7 +2661,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
         heal = (0.5f) * mst + info.power;
         if (immune == 0) {
             ((s32 (*)(Actor_8001311C *, s32))add_actor_hp)(((Actor_8001311C *)this), (s32)heal);
-            ((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value();
+            ((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp();
         }
         ((void (*)(Actor_8001311C *, Vec_8001311C *, s32, s32))draw_hp_label)(((Actor_8001311C *)this), &pos, 0, (s32)heal);
         dmg = (0.0f);
@@ -2743,7 +2743,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg *= (0.002f) * (f32)(100 - ((Actor_8001311C *)this)->resist2);
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     ((Actor_8001311C *)this)->flags30 |= 0x800;
                 }
             }
@@ -2770,7 +2770,7 @@ f32 TUnk_804806E8::receive_direct_attack(void *att, DirectAttackPayload payload,
             dmg = info.power;
             if (immune == 0) {
                 SUB_HP(((Actor_8001311C *)this), (s32)dmg);
-                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_value() <= 0) {
+                if (((TUnk_804806E8 *)((Actor_8001311C *)this))->clamp_hp() <= 0) {
                     SET30(((Actor_8001311C *)this), 0x800);
                 }
             }
@@ -3111,7 +3111,7 @@ int TUnk_804806E8::vfunc_66() { return 0; }
 
 void TUnk_804806E8::get_anim_node_position(s32, Vec *) {  }
 
-void TUnk_804806E8::reset_pose() { obj_clearFlags30((u32)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->m_32e = *(short *)&this->m_2ba; }
+void TUnk_804806E8::reset_pose() { obj_clearFlags30((u32)((void*)2048)); *(short *)&this->hp = *(short *)&this->hpmax; *(short *)&this->tp = *(short *)&this->tpmax; }
 
 void TUnk_804806E8::vfunc_63() {  }
 
@@ -3879,12 +3879,12 @@ s32 TUnk_804806E8::update_poison_status() {
         if ((((TObjPlayer *)((u8 *)this))->add_status_effect_timer(0, 1) % 45) == 0) {
             ((s32 (*)(void *, int))spawn_poison_effect__10TObjPlayerFii)(((u8 *)this), 1);
             ((s32 (*)(void *, int, int))TObjPlayer__sub_800193FC)(this, 0, 0);
-            dmg = (s32) ((0.006666667f) * (f32) ((s16 (*)(void *))obj_getS16_32C)(this));
+            dmg = (s32) ((0.006666667f) * (f32) ((s16 (*)(void *))get_actor_hp)(this));
             if ((s16) dmg < 1) {
                 dmg = 1;
             }
             ((s32 (*)(u8 *, s32, void *))TObjectV8047c128_subtract_hp)(((u8 *)this), dmg + lbl_8043406C[game_difficulty_selection], lbl_8043406C);
-            if (this->clamp_value() <= 0) {
+            if (this->clamp_hp() <= 0) {
                 if (((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(this, 0x800) == 0) {
                     ((TObjPlayer *)((u8 *)this))->set_hp_clamped(1);
                 }
@@ -4525,10 +4525,10 @@ Obj_80019038 *__ct__13TUnk_804806E8FP7TObject(Obj_80019038 *self, void *parent) 
     ((TUnk_804806E8 *)self)->m_318 = 0;
     *(s32 *)((s8 *)self + 0x31C) = 0;
     *(s16 *)((s8 *)self + 0x2BE) = 0;
-    ((TUnk_804806E8 *)self)->m_2bc = 0;
-    ((TUnk_804806E8 *)self)->m_32e = 0;
+    ((TUnk_804806E8 *)self)->hp_bonus = 0;
+    ((TUnk_804806E8 *)self)->tp = 0;
     ((TUnk_804806E8 *)self)->hp = 0;
-    ((TUnk_804806E8 *)self)->m_2ba = 0;
+    ((TUnk_804806E8 *)self)->tpmax = 0;
     ((TUnk_804806E8 *)self)->hpmax = 0;
     ((TUnk_804806E8 *)self)->m_11a = 0;
     ((TUnk_804806E8 *)self)->m_2c8 = 0;
@@ -4671,7 +4671,7 @@ s32 TUnk_804806E8::obj_isState2_324() {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-s16 obj_getS16_32E(u8* p) {
+s16 get_actor_tp(u8* p) {
     return *(s16*)(p + 0x32e);
 }
 #pragma pop
@@ -4707,7 +4707,7 @@ s16 obj_getS16_2BA(u8* p) {
 #pragma scheduling off
 #pragma scheduling on
 #pragma scheduling off
-s16 obj_getS16_32C(u8* p) {
+s16 get_actor_hp(u8* p) {
     return *(s16*)(p + 0x32c);
 }
 #pragma pop

@@ -49,7 +49,7 @@ void __dl__7TObjectFPv(void *);
 void vfunc_14__22TObjFogCollisionSwitchFv(void *self);
 void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80440078[];
-s16 obj_getS16_32C(s32);
+s16 get_actor_hp(s32);
 s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
@@ -217,7 +217,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
     s16 v;
     p = get_player_by_client_id(arg1);
     if (is_valid_target__9TObjEneDDFv(p) != 0) {
-        v = obj_getS16_32C(p) - this->m_98;
+        v = get_actor_hp(p) - this->m_98;
         if (v < 0) {
             v = 0;
         }

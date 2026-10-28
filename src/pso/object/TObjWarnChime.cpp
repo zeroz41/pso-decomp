@@ -5,7 +5,7 @@
 
 extern "C" {
 void play_sound_effect(s32, s32, s32, s32);
-s16 obj_getS16_32C(u8 *p);
+s16 get_actor_hp(u8 *p);
 void* get_player_by_client_id(s32);
 extern const char TObjWarnChime_class_name[] = "TObjWarnChime";
 const char* TObjWarnChime_name = TObjWarnChime_class_name;
@@ -35,7 +35,7 @@ void TObjWarnChime::update_player_hp_ratios() {
             m_player_hp_ratios[i] = 1.0f;
             continue;
         }
-        cur = obj_getS16_32C((u8 *)p);
+        cur = get_actor_hp((u8 *)p);
         max = ((TItemProShield *)p)->get_field_2b8();
         if (0.0f == cur) {
             m_player_hp_ratios[i] = 1.0f;

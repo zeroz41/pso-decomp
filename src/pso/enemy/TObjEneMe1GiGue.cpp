@@ -2159,7 +2159,7 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjMotion *)arg0)->set_animation(((TObjEneMe1GiGue *)arg0)->m_b8);
     ((TObjMotion *)arg0)->set_field_b8(((TObjEneMe1GiGue *)arg0)->m_b8);
     ((TObjEneMe1GiGue *)arg0)->hp = ((TObjEneMe1GiGue *)arg0)->hpmax;
-    ((TObjEneMe1GiGue *)arg0)->m_32e = ((TObjEneMe1GiGue *)arg0)->m_2ba;
+    ((TObjEneMe1GiGue *)arg0)->tp = ((TObjEneMe1GiGue *)arg0)->tpmax;
     ((TObjEneMe1GiGue *)arg0)->referenceHp = ((TObjEneMe1GiGue *)arg0)->hp;
     ((TObjEnemy *)arg0)->update_prev_position();
     initialize_enemy_photon_effect(arg0);
