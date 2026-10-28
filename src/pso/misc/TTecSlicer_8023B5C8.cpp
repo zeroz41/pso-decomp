@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/text_801036CC.h"
 #include "pso/system/FlagWord.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -197,7 +198,6 @@ extern const f32 lbl_805DC95C;
 extern const f32 lbl_805DC960;
 void disallow_rendering__7TObjectFv(TObject *);
 void set_entity_id__13TUnk_804B9870FUs(void *, s32);
-s32 pop_free_id__6TLobbyFv(void);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);
@@ -424,7 +424,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->f0 = lbl_805D3828;
     disallow_rendering__7TObjectFv((TObject *)self);
-    set_entity_id__13TUnk_804B9870FUs(self, pop_free_id__6TLobbyFv());
+    ((TUnk_804B9870 *)self)->set_entity_id(pop_free_entity_id());
     self->f110 = init->f8;
     self->f24 = init->f4;
     self->f114 = init->f0;

@@ -159,7 +159,7 @@ const char *TOMineTrap::get_name() {
     TObjPlayer *player;
 
     name = NULL;
-    player = (TObjPlayer *)get_player_by_client_id((u16)((s32 (*)(void))get_trap_type__10TOMineTrapFv)());
+    player = (TObjPlayer *)get_player_by_client_id((u16)get_trap_type__10TOMineTrapFv((s32)this));
     if (player != NULL) {
         name = player->get_name();
     }

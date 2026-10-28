@@ -62,7 +62,6 @@ extern s32 floor_item_counts_by_floor;
 extern s32 floor_item_free_id_stack;
 extern s32 floor_item_free_id_count;
 extern "C" {
-s32 TLobby__sub_80103B04(u16 arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 test_elt_flag__13TUnk_80493450Fll(void *p, s32 a, s32 mask);
 void queue_destruction__7TObjectFv(void *);
@@ -215,7 +214,7 @@ s32 TLobby::write_sync_item_state() {
 }
 #pragma pop
 
-u16 TLobby::pop_free_id() {
+u16 pop_free_entity_id() {
     s32 temp_r0;
     if ((s32) floor_item_free_id_count != 0) {
         temp_r0 = floor_item_free_id_count - 1;
@@ -225,10 +224,10 @@ u16 TLobby::pop_free_id() {
     return 0xFFFFU;
 }
 
-s32 TLobby__sub_80103B04(u16 arg0) {
-  if ((floor_item_free_id_count < 0x20) && (arg0 != (((((((((-1) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF)))
+s32 push_free_entity_id(u16 id) {
+  if ((floor_item_free_id_count < 0x20) && (id != (((((((((-1) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF)))
   {
-    *((u16 *) (((s8 *) (floor_item_free_id_stack + (floor_item_free_id_count * 2))) + 0)) = arg0;
+    *((u16 *) (((s8 *) (floor_item_free_id_stack + (floor_item_free_id_count * 2))) + 0)) = id;
     floor_item_free_id_count += 1;
     return 1;
   }

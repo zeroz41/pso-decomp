@@ -128,8 +128,8 @@ void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
     }
 }
 
-void TLobby__sub_8011AA44(s16 arg0, s32 _w1) {
-    TLobby::remove_item_condition(arg0, _w1);
+void remove_item_condition_at(s16 floor, s32 item_id) {
+    TLobby::remove_item_condition(floor, item_id);
 }
 
 void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z) {
@@ -254,7 +254,7 @@ void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt) {
     spawn_dropped_item_from_msg(&pkt->client, 0);
 }
 
-void TLobby__sub_8011AED8(f32 farg0, f32 farg1, s16 arg0, s16 arg1, u8 *arg2) {
+void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
     typedef char sp8_offset[(offsetof(Stack_8011AED8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8011AED8, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8011AED8, sp10) == 0x8) ? 1 : -1];
@@ -262,12 +262,12 @@ void TLobby__sub_8011AED8(f32 farg0, f32 farg1, s16 arg0, s16 arg1, u8 *arg2) {
     typedef char sp18_offset[(offsetof(Stack_8011AED8, sp18) == 0x10) ? 1 : -1];
     Stack_8011AED8 stack;
     __ct__9FloorItemFv(&stack.sp8);
-    stack.sp8 = arg0;
-    stack.spC = farg0;
-    stack.sp10 = farg1;
-    stack.sp14 = arg1;
-    ((ItemData *)(&stack.sp18))->copy_from((ItemData *)(arg2));
-    ((TLobby *)(*(s32 *)((s8 *)arg2 + 0xC)))->observe_item_id();
+    stack.sp8 = floor;
+    stack.spC = x;
+    stack.sp10 = z;
+    stack.sp14 = room;
+    ((ItemData *)(&stack.sp18))->copy_from((ItemData *)(item));
+    ((TLobby *)(*(s32 *)((s8 *)item + 0xC)))->observe_item_id();
     ((TLobby *)(&stack.sp8))->insert_sorted_entry();
 }
 

@@ -459,7 +459,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
-        TLobby__sub_8011AED8(position[0], position[2], floor, group_ids[0], (u8 *)&data);
+        add_item_condition(floor, position[0], position[2], group_ids[0], (u8 *)&data);
     }
     if (TObjPlayer::is_active_battle_player() == 1 || floor != get_current_floor()) {
         destroy();
@@ -546,7 +546,7 @@ void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd) {
 }
 
 void TItem::handle_pickup(s16 floor, TObjPlayer *player) {
-    TLobby__sub_8011AA44(floor, get_item_id());
+    remove_item_condition_at(floor, get_item_id());
     if (player != NULL && player->pickup_item(this) != 0) {
         set_mode(ITEM_MODE_OWNED);
         set_flag8();
@@ -924,7 +924,7 @@ void TItem::set_mode(s8 new_mode) {
 
 void TItem::register_in_world(s32 clear_status) {
     if (obj_getField1c(this) == 0xFFFF) {
-        set_entity_id(TLobby::pop_free_id());
+        set_entity_id(pop_free_entity_id());
         ((TObjPlayer *)this)->reset_photon_effect();
         if (clear_status != 0) {
             clear_player_status_flag(0, 1);
@@ -937,7 +937,7 @@ void TItem::register_in_world(s32 clear_status) {
 void TItem::unregister_from_world() {
     if (obj_getField1c(this) != 0xFFFF) {
         unregister_object_by_id();
-        TLobby__sub_80103B04(obj_getField1c(this));
+        push_free_entity_id(obj_getField1c(this));
         set_entity_id(0xFFFF);
         set_indexed_flags(0, 1);
     }

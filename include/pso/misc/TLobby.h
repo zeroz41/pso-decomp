@@ -828,7 +828,6 @@ struct TLobby : public TObject {
     u8 *pop_stack_entry(s16 arg1);
     static s32 is_stat_over_limit(s32 arg0);
     s32 write_sync_item_state();
-    static u16 pop_free_id();
     static struct FloorItemEntry *find_item_condition_entry(int floor, int item_id);
     static s32 is_entry_valid(s32 arg0);
     static void respawn_missing_floor_items(s32 n);

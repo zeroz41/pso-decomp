@@ -1,3 +1,4 @@
+#include "pso/player/TObjPlayer_80011014.h"
 #include "pso/TItemEffEquip.h"
 #include "pso/item/TUnk_8049F038.h"
 #include "pso/TObject.h"
@@ -36,6 +37,7 @@ void *__dt__13TItemEffEquipFv(Equip_Self *self, s16 arg1) {
 }
 }
 #include "types.h"
+#include "pso/unk/text_801036CC.h"
 
 extern "C" {
 
@@ -43,9 +45,7 @@ void *destroy__13TUnk_8049F038Fs(void *arg0, s16 arg1);
 void run_task__13TUnk_8049F038Fv(u8 *arg0);
 u8 *vfunc_9__13TUnk_8049F038Fv(u8 *arg0);
 s32 set_entity_id__13TUnk_804B9870FUs(void *, s32);
-s32 TLobby__sub_80103B04();
 void *get_player_by_client_id(s32 i);
-s32 obj_getField1c(void *);
 struct Obj_80108C90 {
     u8 pad0[0x18];
     void *vt;
@@ -55,7 +55,6 @@ struct Obj_80108C90 {
     s32 f_B0;
     u8 sub[0x10];
 };
-s32 pop_free_id__6TLobbyFv();
 void __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
 extern u8 lbl_8043E1A0[];
 
@@ -271,8 +270,7 @@ void *TUnk_8049F038::destroy(s16 arg1) {
         if ((u32) this->m_a4 != 0U) {
             unregister_object_by_id();
             clear_obj_links();
-            obj_getField1c(this);
-            TLobby__sub_80103B04();
+            push_free_entity_id(obj_getField1c(this));
             set_entity_id__13TUnk_804B9870FUs(this, 0xFFFF);
         }
         __dt__13TUnk_804AF8A0Fv(this, 0);
@@ -288,8 +286,8 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(pare
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
     fn_8002B630(((Obj_80108C90 *)this)->sub, lbl_8043E1A0);
-    if ((u16)obj_getField1c(((Obj_80108C90 *)this)) == 0xFFFF) {
-        set_entity_id__13TUnk_804B9870FUs(((Obj_80108C90 *)this), pop_free_id__6TLobbyFv());
+    if (obj_getField1c(this) == 0xFFFF) {
+        set_entity_id(pop_free_entity_id());
     }
     ((TUnk_804AF8A0 *)this)->initialize_linked_object_reference(((Obj_80108C90 *)this)->sub);
     ((TObjPlayer *)this)->reset_photon_effect();

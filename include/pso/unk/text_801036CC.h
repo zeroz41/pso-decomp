@@ -11,9 +11,9 @@ struct FloorItemEntry {
     TItemData data;
 };
 
-extern "C" {
-// Gives an object id back to the free list TLobby::pop_free_id takes from.
-s32 TLobby__sub_80103B04(u16 id);
-}
+// The stack of up to 32 free entity ids that transient objects take one from
+// and give back; 0xFFFF when it is empty.
+u16 pop_free_entity_id();
+s32 push_free_entity_id(u16 id);
 
 #endif
