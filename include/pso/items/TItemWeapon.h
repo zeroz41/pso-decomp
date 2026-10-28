@@ -62,7 +62,7 @@ struct TItemWeapon : WeaponObjectPrefix {
     virtual void vfunc_31();
     virtual void vfunc_32();
     virtual void vfunc_33();
-    virtual void vfunc_34();
+    virtual void refresh_special();
     virtual void vfunc_35();
     virtual void vfunc_36();
     virtual void vfunc_37();

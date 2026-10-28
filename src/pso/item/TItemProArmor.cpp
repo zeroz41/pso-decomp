@@ -148,7 +148,7 @@ void destroy__5TItemFv();
 void perform_action__5TItemFv();
 void get_attack_flags__5TItemFv();
 void get_attach_slot__5TItemFv();
-void vfunc_34__5TItemFv();
+void refresh_special__5TItemFv();
 void is_identified__5TItemFv();
 int get_slot_count__5TItemFv(void);
 void add_slot__5TItemFv();
@@ -210,7 +210,7 @@ void *__vt__13TItemProArmor[51] = {
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
     (void *)get_attach_slot__14TItemEquipBaseFv,
-    (void *)vfunc_34__5TItemFv,
+    (void *)refresh_special__5TItemFv,
     (void *)is_identified__5TItemFv,
     (void *)get_amount__5TItemFv,
     (void *)remove_amount__5TItemFl,

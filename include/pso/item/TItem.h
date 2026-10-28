@@ -75,7 +75,9 @@ struct TItem : public TUnk_804AF8A0 {
     virtual void use();
     virtual u32 get_attack_flags();
     virtual s8 get_attach_slot();
-    virtual void vfunc_34();
+    // Re-applies the weapon special to the owner (TItemWeapon: an unidentified
+    // weapon's special loses bit 7 first). Nothing in this build calls it.
+    virtual void refresh_special();
     virtual s32 is_identified();
     virtual s32 get_amount();
     virtual s32 remove_amount(s32 count);

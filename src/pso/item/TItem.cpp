@@ -1366,7 +1366,7 @@ void TItem::set_attach_slot(s8) {}
 
 void TItem::activate_effect(s32) {}
 
-void TItem::vfunc_34() {}
+void TItem::refresh_special() {}
 
 s32 TItem::is_identified() { return 1; }
 

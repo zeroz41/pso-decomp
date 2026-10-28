@@ -509,7 +509,7 @@ void TItemWeapon::copy_item_to_data(s32 arg0) {
     ((TItemData *)sp8)->check_item_flags();
 }
 
-void TItemWeapon::vfunc_34() {
+void TItemWeapon::refresh_special() {
     struct VObj_8011E828 *o = (struct VObj_8011E828 *)this;
     if (o->m33() == 0) {
         ((TItemWeapon *)o)->special_selector = ((TItemWeapon *)o)->special_selector & 0x7F;

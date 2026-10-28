@@ -220,7 +220,7 @@ extern "C" void remove_owner_bonuses__14TItemEquipBaseFv();
 extern "C" void apply_owner_bonuses__14TItemEquipBaseFv();
 extern "C" void TItemMag__vt48();
 extern "C" void add_slot__5TItemFv();
-extern "C" void vfunc_34__5TItemFv();
+extern "C" void refresh_special__5TItemFv();
 extern "C" void get_attack_flags__5TItemFv();
 extern "C" void use__5TItemFv();
 extern "C" void render_equipped_deferred__5TItemFv();
@@ -261,7 +261,7 @@ void *__vt__8TItemMag[51] = {
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFPvPsPs, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,
     (void *)&render_equipped_deferred__5TItemFv, (void *)&destroy__14TItemEquipBaseFv, (void *)&perform_action__5TItemFv, (void *)&use__5TItemFv,
-    (void *)&get_attack_flags__5TItemFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__5TItemFv, (void *)&is_identified__5TItemFv,
+    (void *)&get_attack_flags__5TItemFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&refresh_special__5TItemFv, (void *)&is_identified__5TItemFv,
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&get_motion_type__5TItemFv,
     (void *)&TItemMag__vt42, (void *)&TItemMag__vt43, (void *)&TItemMag__vt44, (void *)&TItemMag__vt45,

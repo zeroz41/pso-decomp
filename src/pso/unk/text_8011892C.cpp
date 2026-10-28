@@ -242,7 +242,7 @@ void destroy__14TItemEquipBaseFv();
 void perform_action__5TItemFv();
 void get_attack_flags__5TItemFv();
 s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
-void vfunc_34__5TItemFv();
+void refresh_special__5TItemFv();
 void is_identified__5TItemFv();
 void get_motion_type__5TItemFv();
 void request_equipped_model__14TItemEquipBaseFv();
@@ -285,7 +285,7 @@ void *__vt__12TItemProUnit[51] = {
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
     (void *)get_attach_slot__14TItemEquipBaseFv,
-    (void *)vfunc_34__5TItemFv,
+    (void *)refresh_special__5TItemFv,
     (void *)is_identified__5TItemFv,
     (void *)get_amount__5TItemFv,
     (void *)remove_amount__5TItemFl,
