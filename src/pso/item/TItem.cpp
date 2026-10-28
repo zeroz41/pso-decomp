@@ -27,7 +27,6 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TOTrapAncient02.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/network/client_id.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -254,7 +253,7 @@ G_ActivateMagEffect_6x61::G_ActivateMagEffect_6x61() {
 }
 
 void G_ActivateMagEffect_6x61::bswap() {
-    ((G_ClientIDHeader *)&header)->bswap();
+    header.bswap();
     bswap_32(&mag_item_id);
     bswap_32(&effect_number);
 }
@@ -966,7 +965,7 @@ u32 TItem::get_usable_action_flags(u32 mask, u32 player) {
 s32 TItem::calc_price() {
     TItemData data;
     copy_to_item_data(&data);
-    return ((TShopEquipmentSellWindow *)&data)->get_item_price_if_valid();
+    return TItemData::calc_price_of(&data);
 }
 
 void TItem::destroy() {
@@ -1014,7 +1013,7 @@ s16 calc_base_hp_bonus(u16 client) {
         do {
             TItemEquipBase *equipped = (TItemEquipBase *)player->get_equipped_item(slot);
             if (equipped != NULL) {
-                bonus += *(s16 *)equipped->get_stat_bonus_ptr();
+                bonus += equipped->get_stat_bonus_ptr()->hp;
             }
             slot++;
         } while (slot != 13);
@@ -1032,7 +1031,7 @@ s16 calc_base_tp_bonus(u16 client) {
         do {
             TItemEquipBase *equipped = (TItemEquipBase *)player->get_equipped_item(slot);
             if (equipped != NULL) {
-                bonus += ((s16 *)equipped->get_stat_bonus_ptr())[1];
+                bonus += equipped->get_stat_bonus_ptr()->tp;
             }
             slot++;
         } while (slot != 13);

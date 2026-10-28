@@ -64,7 +64,7 @@ struct G_6x70_Base_V1 {
 };
 
 struct G_ActivateMagEffect_6x61 {
- struct G_UnusedHeader header;
+ struct G_ClientIDHeader header;
  u32 mag_item_id;
  u32 effect_number;
  G_ActivateMagEffect_6x61();

@@ -13,10 +13,9 @@ s32 TShopEquipmentSellWindow::get_item_data_value(u32 arg0) {
     }
     return 0;
 }
-s32 TShopEquipmentSellWindow::get_item_price_if_valid() {
-    u32 arg0 = (u32)this;
-    if (arg0 != 0U) {
-        return ((TItemData *)arg0)->calc_price();
+s32 TItemData::calc_price_of(TItemData *data) {
+    if (data != NULL) {
+        return data->calc_price();
     }
     return 0;
 }

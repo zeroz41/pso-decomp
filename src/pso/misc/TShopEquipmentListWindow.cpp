@@ -497,7 +497,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {
         if (r->price != -1) {
-            r->price = ((TShopEquipmentSellWindow *)r)->get_item_price_if_valid();
+            r->price = TItemData::calc_price_of((TItemData *)r);
         }
     }
     if (W->list == NULL) {

@@ -411,8 +411,7 @@ TItemEquipBase::TItemEquipBase(TObject *parent, u8 *item) : TItem(parent, item) 
     model_data[1] = NULL;
 }
 
-// Out-of-line copies of inlines the functions above use, kept by the linker
-// from this file because it calls them first.
+// Not a header inline: the game keeps this one copy for all 74 callers.
 u8 TItem::get_item_index() { return item_index; }
 
 TechniqueBoost::TechniqueBoost() { clear(); }
