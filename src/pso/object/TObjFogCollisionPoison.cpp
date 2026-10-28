@@ -7,6 +7,7 @@
 #include "pso/misc/TFogCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80153084_lbl_804AF7B0 {
     s32 value;
@@ -229,7 +230,7 @@ void TObjFogCollisionPoison::record_poison_hit(u16 arg1) {
     record_fog_collision_hit(arg1, this->m_84, (s32)((int) ((u8) (this->m_88 == 0))));
 }
 void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x15:
     case 0x16:
         play_persistent_sound(0x4004BC16, arg0, arg0 + 0x38, 0, 0);
@@ -244,7 +245,7 @@ void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
     }
 }
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x15:
     case 0x16:
         play_sound_effect(0x4004C115, arg0 + 0x38, 0, 0);

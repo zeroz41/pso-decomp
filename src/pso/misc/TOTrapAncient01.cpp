@@ -16,6 +16,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80179E34_lbl_804B4834
 {
@@ -265,7 +266,7 @@ void TOTrapAncient01::vfunc_82() {
         ((Trap_801797D4 *)this)->m20(((Trap_801797D4 *)this)->f2A8, lbl_805DBA48);
     }
     submit_cursor_candidate(((Trap_801797D4 *)this), -1);
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 8:
     case 9:
     case 10:

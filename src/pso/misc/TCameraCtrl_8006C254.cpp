@@ -13,6 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/misc/TUnk_80488D70.h"
 #include "pso/misc/TScene.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 void __dl__7TObjectFPv(void *);
@@ -221,7 +222,7 @@ void TCameraCtrl::load_camera_banks() {
     for (i = 0; i < 8; i++) {
         TCameraCtrl__camera_banks.e[i].p = 0;
     }
-    b = &camera_path_bank_table[TOKeyMachine01::get_global_state()];
+    b = &camera_path_bank_table[get_current_area()];
     if (b->entries == 0) {
         return;
     }

@@ -17,6 +17,7 @@
 
 #include "types.h"
 #include "pso/ui/Language.h"
+#include "pso/map/CurrentArea.h"
 
 typedef struct Lobby_801C2898 {
     u8 pad0[0x268];
@@ -535,7 +536,7 @@ void TLobby::start_duel_battle() {
         obj_clear_flag30_20000((void *)p);
     }
     clear_counter__6TLobbyFPv(this);
-    st = TOKeyMachine01::get_global_state();
+    st = get_current_area();
     name = (st == 0x10) ? lbl_80446FF0 : lbl_80446FFC;
     obj = __nw__7TObjectFUl(0x40);
     if (obj != NULL) {

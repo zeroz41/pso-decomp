@@ -20,6 +20,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct BmlResourceBlock_804B3960 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3960_size[(sizeof(BmlResourceBlock_804B3960) == 0x18) ? 1 : -1];
@@ -220,7 +221,7 @@ void TOMonumentAncient02::free_shared_data() {
 void TOMonumentAncient02::load_resources() {
     u8 *tbl = (u8 *)&monument_ancient02_resource_table;
     u8 *p;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     default:
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -271,7 +272,7 @@ u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, (s32) &monument_ancient02_collision_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->reset_photon_effect();
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     default:
         arg0->m_d0 = 0x2C;

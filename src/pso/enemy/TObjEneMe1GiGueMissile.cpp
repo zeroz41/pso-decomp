@@ -7,6 +7,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_802CE428___vt__22TObjEneMe1GiGueMissile {
     s32 value;
@@ -80,7 +81,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
                     obj_setFlags30(p, 0x600);
                 }
             }
-            if (TOKeyMachine01::get_global_state() == 0x23) {
+            if (get_current_area() == 0x23) {
                 play_sound_effect(0x4003A312, (u32)((u8 *)p + 0x38), 0, 0);
             } else {
                 play_sound_effect(0x3A81F, (u32)((u8 *)p + 0x38), 0, 0);

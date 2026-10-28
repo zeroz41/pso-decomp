@@ -17,6 +17,7 @@
 #include "pso/misc/TLobby_802268F4.h"
 #include "pso/misc/obj_band.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 void TObjPlayer__sub_801AC43C(void) {  }
@@ -262,7 +263,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     F_801AC808(self, s32, 0x134) = 2;
     self->m12();
     F_801AC808(self, s32, 0x1AC) = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0xB:
     case 0xC:
     case 0xD:

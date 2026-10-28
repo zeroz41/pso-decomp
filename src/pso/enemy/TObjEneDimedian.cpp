@@ -23,6 +23,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEnePanarms.h"
+#include "pso/map/CurrentArea.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -203,7 +204,7 @@ void TObjEneDimedian::vfunc_94() {
     s32 global_state;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
     ((TObjPlayer *)(arg0 + 0x2FC))->request_two_effects();
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     if ((global_state == 0x13) || (global_state == 0x14)) {
         play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);
         return;

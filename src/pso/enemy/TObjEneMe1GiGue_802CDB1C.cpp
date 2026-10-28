@@ -9,6 +9,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct Vec_802CDEB4 { f32 x, y, z; };
 
@@ -105,7 +106,7 @@ void TObjPlayer__sub_802CDB1C(u8 *arg0) {
             self->timer = 0;
             VecCopy((Vec *)&self->pos, (const Vec *)self->start);
             self->state = 1;
-            if (TOKeyMachine01::get_global_state() == 0x23) {
+            if (get_current_area() == 0x23) {
                 play_sound_effect(0x4003A313, &self->pos, 0, 0);
                 return;
             }

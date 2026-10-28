@@ -350,7 +350,7 @@ void TOMine::update_state() {
 }
 void TOMineTrap::spawn_effect() {
     s32 arg0 = (s32)this;
-    s32 idx = TOKeyMachine01::get_global_state();
+    s32 idx = get_current_area();
     s32 elem = *(s32 *)(mine_trap_effect_table + idx * 4);
     if (elem != -1) {
         play_sound_effect(elem, arg0 + 0x38, 0, 0);
@@ -358,7 +358,7 @@ void TOMineTrap::spawn_effect() {
 }
 void TOMineTrap::attach_to_keymachine() {
     s32 arg0 = (s32)this;
-    s32 idx = TOKeyMachine01::get_global_state();
+    s32 idx = get_current_area();
     s32 elem = *(s32 *)(mine_trap_keymachine_table + idx * 4);
     if (elem != -1) {
         play_sound_effect(elem, arg0 + 0x38, 0, 0);

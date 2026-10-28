@@ -3,6 +3,7 @@
 #include "pso/object/TObjEnvSoundGlobal.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
     s32 value;
@@ -49,7 +50,7 @@ s32 TObjEnvSoundGlobal::setup_sound() {
     s32 var_r31;
     u32 temp_r4;
     var_r31 = 1;
-    temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (TOKeyMachine01::get_global_state() * 4));
+    temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (get_current_area() * 4));
     if (temp_r4 != 0U) {
         copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->m_84 * 8))));
     } else {
@@ -135,7 +136,7 @@ s32 TObjEnvSoundEx::init_sound_params() {
     s32 var_r31;
     u32 temp_r4;
     var_r31 = 1;
-    temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (TOKeyMachine01::get_global_state() * 4));
+    temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (get_current_area() * 4));
     if (temp_r4 != 0U) {
         ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(arg0 + 0x9C, (int) (temp_r4 + (this->m_84 * 8)));
     } else {
@@ -236,7 +237,7 @@ extern "C" {
 f32 xyz_distance_squared(void *, void *, void *);
 
 s32 TObjEnvSound::is_sound_enabled(void *self, s32 cue) {
-    if (TRaderMapCore::is_not_split_screen() == 1 && TOKeyMachine01::get_global_state() == 2) {
+    if (TRaderMapCore::is_not_split_screen() == 1 && get_current_area() == 2) {
         switch (cue) {
         case 0x43704:
         case 0x4BC05:
@@ -357,7 +358,7 @@ void *TObjEnvSound__ct(Obj_80190AA0 *self, void *parent, void *arg2) {
     self->vtbl = __vt__12TObjEnvSound;
     self->unk0 = TObjEnvSound__class_name;
     ((TObjEnvSound *)self)->apply_object_set_data(arg2);
-    table = ((Row_80190AA0 **)&environment_sound_tables_by_area)[TOKeyMachine01::get_global_state()];
+    table = ((Row_80190AA0 **)&environment_sound_tables_by_area)[get_current_area()];
     if (table != NULL) {
         copy_pair__18TObjEnvSoundGlobalFPvPv(&self->sound, &table[self->index]);
     } else {

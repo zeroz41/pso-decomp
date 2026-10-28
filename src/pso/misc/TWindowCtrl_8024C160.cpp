@@ -7,6 +7,7 @@
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 struct TWindowCtrl_8024C160 {
     u8 pad0[0x18];
     void *vt;
@@ -183,7 +184,7 @@ TWindowCtrl_8024C308 *TWindowCtrl__ct(TWindowCtrl_8024C308 *self) {
         }
         self->objs[local_client_id] = p;
         for (i = 0; i < 3; i++) {
-            if (TOKeyMachine01::get_global_state() != 0xF && is_split_screen() == 0) {
+            if (get_current_area() != 0xF && is_split_screen() == 0) {
                 self->wins78[i] = create_party_status_window(i);
                 ((TObject *)(self->wins78[i]))->suspend_update();
             }

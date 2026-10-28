@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "types.h"
@@ -412,7 +413,7 @@ s32 TContainerAncient01R::sub_8018A688() {
 
     advance_animation_playback(self);
     if (1e+01f == this->m_2b4) {
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 0x17:
         case 0x18:
         case 0x19:
@@ -732,7 +733,7 @@ void TContainerAncient01::sub_8018B284() {
     f32 t;
     advance_animation_playback(self);
     if (1e+01f == this->m_2b4) {
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 0x17:
         case 0x18:
         case 0x19:

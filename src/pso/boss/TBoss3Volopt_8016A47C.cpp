@@ -2,6 +2,7 @@
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Base_8016A604 { char pad[0x18]; };
 struct VObj_8016A604 : Base_8016A604 {
@@ -35,7 +36,7 @@ extern s32 enable_v2_features;
 void TOKey::vfunc_23() {
     s32 arg0 = (s32)this;
     u32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 1:
     case 2:
@@ -97,7 +98,7 @@ void TBoss3Volopt::call_vt21() {
 }
 void TOKey::play_activate_sound() {
     u32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 1:
     case 2:

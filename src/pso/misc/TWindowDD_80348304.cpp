@@ -6,6 +6,7 @@
 #include "types.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct W_80348520 {
     u8 pad0[0x24];
@@ -58,7 +59,7 @@ void TWindowDD::dispatch_state() {
 
 s32 TWindowDD::get_word_select_context() {
     s32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     if (global_state == 0 || global_state == 18) {
         return 1;
     }

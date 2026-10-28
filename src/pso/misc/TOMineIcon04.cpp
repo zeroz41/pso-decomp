@@ -6,6 +6,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804806E8.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -254,7 +255,7 @@ void *__vt__12TOMineIcon04[87] = {
 void TOMineIcon04::vfunc_80() {
     s32 arg0 = (s32)this;
     u32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 1:
     case 2:

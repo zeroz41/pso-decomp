@@ -4,6 +4,7 @@
 #include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8
 {
   u32 value;
@@ -473,7 +474,7 @@ void TObjNpcNgcBase::load_resources() {
         ((u32 *)&TObjNpcNgcBase__data_805439A8)[i] = 0;
     }
     p = NULL;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0:
     case 0x12:
         p = &tbl[0x2A];

@@ -2966,7 +2966,7 @@ s32 TObjPlayer::check_technique_castable(s32 arg0) {
         ((TObjPlayer *)arg0)->check_technique_flag();
         return 0;
     }
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 0:
     case 15:
@@ -2983,7 +2983,7 @@ u8 is_key_machine_ready__10TObjPlayerFv(void) {
     s32 global_state;
     s32 var_r0;
 
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     var_r0 = 0;
     if ((global_state == 0) || (global_state == 0x12)) {
         var_r0 = 1;
@@ -2996,7 +2996,7 @@ u8 is_volopt_phase_final__10TObjPlayerFv(void) {
 }
 
 u8 is_lobby_floor_15__15TFontSmallLobbyFv(void) {
-    return (u8) (TOKeyMachine01::get_global_state() == 0xF);
+    return (u8) (get_current_area() == 0xF);
 }
 
 u8 is_on_current_floor__10TObjPlayerFi(s32 arg0) {
@@ -3015,7 +3015,7 @@ void TObjPlayer::sync_current_area() {
     *(s32 *)((s8 *)((u8 *)this) + 0x3E0) = TObjPlayer::get_key_machine_global_state(this);
 }
 
-int TObjPlayer::get_key_machine_global_state(void* p) { return ((int)TOKeyMachine01::get_global_state()); }
+int TObjPlayer::get_key_machine_global_state(void* p) { return ((int)get_current_area()); }
 
 s32 TObjPlayer__sub_801AFFD0(u8 *arg0) {
     f32 v;
@@ -5948,7 +5948,7 @@ void TObjPlayer::update_status_effects() {
   {
     if (set_flag_02000000__10TObjPlayerFv((void *) arg0) == 0)
     {
-      TOKeyMachine01::get_global_state();
+      get_current_area();
       *((s16 *) (((s8 *) arg0) + 0x28)) = TScene::get_player_ctrl_field(((u16 (*)(void *))get_entity_id)(arg0));
     }
   }

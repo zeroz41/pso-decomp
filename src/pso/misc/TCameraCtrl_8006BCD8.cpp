@@ -13,6 +13,7 @@
 #include "pso/system/memory.h"
 #include "pso/misc/TUnk_80488D70.h"
 #include "pso/misc/TScene.h"
+#include "pso/map/CurrentArea.h"
 
 #pragma push
 #pragma fp_contract on
@@ -251,7 +252,7 @@ void configure_scripted_camera_playback(u8* playback_data, s32 unused) {
         camera->playback.frame_step = playback->frame_step;
         const PathBank* paths = (const PathBank*)camera_path_bank_table;
         const MotionBank* motions = (const MotionBank*)&TCameraCtrl__camera_banks;
-        camera->mode = &paths[TOKeyMachine01::get_global_state()].modes[camera->playback.bank];
+        camera->mode = &paths[get_current_area()].modes[camera->playback.bank];
         camera->motion_data = motions[playback->bank].directory->entries[camera->playback.index];
     }
 }

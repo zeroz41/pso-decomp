@@ -4,6 +4,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneGibbles.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -948,7 +949,7 @@ int initialize_enemy_photon_effect(void *p);
 u32 TObjEneGibbles::resolve_sound_id(u32 sound_id) {
   s32 iVar1;
   u32 pvVar2;
-  iVar1 = TOKeyMachine01::get_global_state();
+  iVar1 = get_current_area();
   if (sound_id == 0x3a83d) {
     pvVar2 = (u32)(0x4003a321);
     if (iVar1 != 0x23) {
@@ -2328,7 +2329,7 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
     if (is_split_screen() != 0) {
         cam = get_camera_mode__11TCameraCtrlFv();
     }
-    if (TOKeyMachine01::get_global_state() == 0x23) {
+    if (get_current_area() == 0x23) {
         vis = self->m9(600.0f, 600.0f, 30.0f);
     } else {
         vis = self->m9(lbl_805DE884, lbl_805DE87C, lbl_805DE880);

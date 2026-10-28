@@ -1,6 +1,7 @@
 #include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/misc/TUnk_804CCA0C.h"
 #include "pso/misc/TUnk_804CC990.h"
@@ -382,11 +383,11 @@ Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
             return 0;
         }
         set_state__9TTecLukerFl(p->arrival, 0xffff);
-        if (TOKeyMachine01::get_global_state() == 0) {
+        if (get_current_area() == 0) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table[slot];
         }
-        if (TOKeyMachine01::get_global_state() == 0x12) {
+        if (get_current_area() == 0x12) {
             *heading = telepipe_town_heading_table[slot];
             return &telepipe_town_position_table_b[slot];
         }
@@ -402,7 +403,7 @@ Vec_80233E78 *consume_telepipe_arrival(u16 slot, s32 *heading) {
 
 typedef s32 (*GetField2_80233F8C)(void *);
 void restore_floor_telepipes(void) {
-    s32 area = TOKeyMachine01::get_global_state();
+    s32 area = get_current_area();
     s32 i;
     if (area == 15 || area == 0 || area == 18) {
         return;
@@ -520,7 +521,7 @@ void TUnk_804CCA0C::run_task() {
   s32 st;
   u32 pl;
   best = lbl_805DC864;
-  j = TOKeyMachine01::get_global_state();
+  j = get_current_area();
   st = j;
   if ((st == 0) || (st == 0x12))
   {

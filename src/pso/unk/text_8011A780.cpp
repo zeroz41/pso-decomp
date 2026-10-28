@@ -10,6 +10,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
 extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);
@@ -98,7 +99,7 @@ u32 build_item_id(u16 arg0) {
 
 void TLobby::observe_item_id() {
     int id = (int)this;
-    if (TOKeyMachine01::get_global_state() != 0xf) {
+    if (get_current_area() != 0xf) {
         s32 lo = 0x10000;
         if (lo < id && id < 0x2010000) {
             s32 idx = id >> 21;
@@ -273,7 +274,7 @@ void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
 void handle_6x62(void) {  }
 
 u32 advance_item_id_counter(u16 client) {
-    if (TOKeyMachine01::get_global_state() == 0xF)
+    if (get_current_area() == 0xF)
         return ((u32*)item_id_counter_table)[client]++;
     return ((u32*)item_sync_counter_table)[client]++;
 }

@@ -18,6 +18,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 struct Stack_801ABBAC {
     s32 sp8;
     f32 spC;
@@ -501,7 +502,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     ((TPhotonGolla *)arg0)->m_134 = 5;
     ((TPhotonGolla *)arg0)->enter_scene();
     *(s32 *)((s8 *)arg0 + 0x1C8) = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 11: case 12: case 13: case 14:
     case 30: case 31: case 32: case 33:
         p = (void *)__nw__7TObjectFUl(0xAC);

@@ -6,6 +6,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
     s32 value;
@@ -88,7 +89,7 @@ void TOKeyJungleMain::play_activate_sound() {
     s32 global_state;
 
     var_r31 = 0x4AD12;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 34:
         var_r31 = 0x4004AD12;

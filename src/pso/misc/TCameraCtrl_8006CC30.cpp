@@ -8,6 +8,7 @@
 #include "pso/misc/TUnk_80488E00.h"
 #include "pso/camera/CameraArrivalReset.h"
 #include "pso/camera/FollowCameraController.h"
+#include "pso/map/CurrentArea.h"
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
 __declspec(section ".rodata") FollowVector lbl_80438534 = { 0.0f, 0.0f, 45.42f };
 
@@ -731,7 +732,7 @@ void TCameraCtrl::calc_follow_position() {
 
 void TUnk_80488E00::select_follow_camera_offsets() {
     Cam_8006D9F0 *arg0 = (Cam_8006D9F0 *)this;
-    s32 state = TOKeyMachine01::get_global_state();
+    s32 state = get_current_area();
     if (state == 11) {
         Vec_8006D9F0 b0;
         Vec_8006D9F0 a0;
@@ -867,7 +868,7 @@ void TUnk_80488E00::vfunc_10() {
     Tgt_8006DEF8 *p;
     s32 state;
     p = (Tgt_8006DEF8 *)get_player_by_client_id((u32)local_client_id);
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     if (p != NULL) {
         self->angle = p->angle + 0x8000;
         push_matrix_from(identity_matrix);
@@ -945,7 +946,7 @@ void TCameraCtrl::compute_follow_target() {
     self->pos.x = x;
     self->pos.y = y;
     self->pos.z = z;
-    if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0x12) {
+    if (get_current_area() == 0 || get_current_area() == 0x12) {
         if (self->f100 != 0) {
             k = (-3.0f);
             approach_camera_scalar(&self->f108, &k, (1.4f));
@@ -1001,14 +1002,14 @@ void TCameraCtrl::update_follow_camera() {
     if (*(s32 *)&this->unk_100 != 0) {
         this->m_f4 = 0;
         this->m_54 = approach_angle_limited(this->m_54, 0x22D8, 0xB6);
-    } else if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0x12) {
+    } else if (get_current_area() == 0 || get_current_area() == 0x12) {
         if (is_split_screen() == 0 && is_on_current_screen__11TCameraCtrlFv((u8 *)&controller_input_state + 0x110, 0x20000) == 0) {
             this->m_54 = approach_angle_limited(this->m_54, 0x36C1, 0xB6);
         }
     } else {
         this->m_54 = approach_angle_limited(this->m_54, 0x36C1, 0xB6);
     }
-    if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0x12) {
+    if (get_current_area() == 0 || get_current_area() == 0x12) {
         *(f32 *)&this->unk_E0 = (20.43f);
     }
     ((VObj_18 *)(arg0))->m10();

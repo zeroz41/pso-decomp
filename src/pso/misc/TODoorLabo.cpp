@@ -10,6 +10,7 @@
 #include "pso/misc/TODoorLabo.h"
 #include "pso/misc/TODoorLaboNormal.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 extern char lbl_80465EAC[];
@@ -368,7 +369,7 @@ void TLanguage__sub_8029FF0C(void) {
     s32 global_state;
     s32 var_r0;
     s32 var_r0_2;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 28:
         var_r0 = (int)::operator new(0x440);

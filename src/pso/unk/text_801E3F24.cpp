@@ -2,6 +2,7 @@
 #include "pso/unk/text_801E3F24.h"
 #include "pso/system/debug_print.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Ent_801E3FA4 {
     u16 id;
@@ -58,7 +59,7 @@ void dispatch_6x_subcommand(Msg_801E3FA4 *arg0) {
     char buf[0x80];
     s32 key = arg0->a;
     for (i = 0; pso_command_dispatch_table[i].id != 0; i++) {
-        if (key == pso_command_dispatch_table[i].id && (pso_command_dispatch_table[i].mask & subcommand_area_masks[TOKeyMachine01::get_global_state()])) {
+        if (key == pso_command_dispatch_table[i].id && (pso_command_dispatch_table[i].mask & subcommand_area_masks[get_current_area()])) {
             sprintf(buf, pso_data2_receive_log_format, arg0->a, arg0->b);
             debug_print(buf);
             pso_command_dispatch_table[i].fn(arg0);

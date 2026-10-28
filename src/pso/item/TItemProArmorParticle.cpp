@@ -5,6 +5,7 @@
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_803646F0_lbl_8047A020 {
     s32 value;
@@ -47,7 +48,7 @@ void TItemProArmorParticle::update_equipped() {
     s32 temp_r31;
 
     if ((s32) this->m_1a0 == 2) {
-        temp_r3 = TOKeyMachine01::get_global_state();
+        temp_r3 = get_current_area();
         if (temp_r3 != (s32) this->m_198) {
             this->m_198 = temp_r3;
             if (is_item_area_enabled() != 0) {

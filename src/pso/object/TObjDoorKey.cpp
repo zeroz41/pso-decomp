@@ -17,6 +17,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern char lbl_80445650[];
 extern char lbl_8044566C[];
@@ -213,7 +214,7 @@ void TObjDoorKey::debug_draw_key_id() {
 void TObjDoorKey::vfunc_19() {  }
 
 void TObjDoorKey::trigger_activate_sound() {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
     case 4:
     case 5:

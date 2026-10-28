@@ -14,6 +14,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804806E8.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80167878_lbl_804B1F80 {
     s32 value;
@@ -510,7 +511,7 @@ void TUnk_804B2578::sub_801682E4(s32 arg1) {
 }
 
 void TUnk_804B2578::sub_80168398() {
-    s32 state = TOKeyMachine01::get_global_state();
+    s32 state = get_current_area();
     s32 id = 0;
     switch (this->mode) {
     case 2:
@@ -812,7 +813,7 @@ void load_turiten_singo_resources(void) {
 
     (*(void **)&TOHangceilingCave01__model_archive) = 0;
     (*(Buf_80168AA8 **)&turiten_singo_texture_lists) = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 19:
     case 20:
         p = ::operator new(0x440);

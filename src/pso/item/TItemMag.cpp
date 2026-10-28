@@ -1135,7 +1135,7 @@ s8 TItemMag::collect_support_events() {
         *(s16 *)&this->m_1d4 = (*(VObj_80112720 * *)&this->m_f0)->m14();
         ev |= 0x20;
     }
-    g = TOKeyMachine01::get_global_state();
+    g = get_current_area();
     if (this->m_1d6 != g) {
         this->m_1d6 = g;
         if (is_boss_area() == 1) {
@@ -1697,7 +1697,7 @@ void TItemMag__vt42(TItemMag *item_mag) {
     item_mag->request_support_action(1);
     *(s16 *)((s8 *)item_mag + 0x1D4) = ((VObj_18 *)(*(u8 **)((s8 *)item_mag + 0xF0)))->m14();
     if ((s16) *(s16 *)((s8 *)item_mag + 0x1D6) == -1) {
-        *(s16 *)((s8 *)item_mag + 0x1D6) = TOKeyMachine01::get_global_state();
+        *(s16 *)((s8 *)item_mag + 0x1D6) = get_current_area();
     }
     *(s16 *)((s8 *)item_mag + 0x1DC) = ((s16 (*)(void *))get_actor_hp)((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
     *(s16 *)((s8 *)item_mag + 0x1DE) = get_actor_tp((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));

@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
@@ -323,7 +324,7 @@ s32 find_support_technique_contact(void *self, int target, void *_w2, void *_w3)
     s32 i;
     PlayerData_80236154 *pd;
     Contact_80236154 *c;
-    if (TOKeyMachine01::get_global_state() == 0xE) {
+    if (get_current_area() == 0xE) {
         range = 6.25e+04f;
     } else {
         range = 1e+04f;
@@ -384,7 +385,7 @@ s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
     PD_80236378 *pd;
     s32 i;
     Contact_80236378 *c;
-    if (TOKeyMachine01::get_global_state() == 0xE) {
+    if (get_current_area() == 0xE) {
         range = 6.25e+04f;
     } else {
         range = 6.25e+04f;
@@ -500,7 +501,7 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
     s32 i;
     Contact_802367D8 *c;
     Self_802367D8 *s = (Self_802367D8 *)this;
-    if (TOKeyMachine01::get_global_state() == 0xE) {
+    if (get_current_area() == 0xE) {
         range = 6.25e+04f;
     } else {
         range = 1e+04f;
@@ -559,7 +560,7 @@ u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
     Contact_80236A20 *c;
     s32 j;
     Self_80236A20 *s = (Self_80236A20 *)this;
-    if (TOKeyMachine01::get_global_state() == 0xE) {
+    if (get_current_area() == 0xE) {
         range = 6.25e+04f;
     } else {
         range = 1e+04f;

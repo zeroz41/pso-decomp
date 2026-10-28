@@ -10,6 +10,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct Entry_800FD944 { u8 pad[0x24]; s32 size; };
 
@@ -124,7 +125,7 @@ s32 TLobby::get_resource_file_size() {
 }
 
 void load_area_gsl(void) {
-    s32 current_floor_area_type = TOKeyMachine01::get_global_state();
+    s32 current_floor_area_type = get_current_area();
     if (current_floor_area_type < 23) {
         if (TObjEneDD::check_v2_mode() != 0) {
             open_gsl_archive((char *)ultimate_area_gsl_filename_table[current_floor_area_type]);

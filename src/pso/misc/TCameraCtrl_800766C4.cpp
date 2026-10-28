@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 
@@ -30,7 +31,7 @@ s32 TCameraCtrl::should_update() {
         goto block_6;
     }
 block_6:
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     if (global_state < 0xF) {
         if (global_state == 0) {
             goto block_10;

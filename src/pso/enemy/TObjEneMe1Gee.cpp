@@ -9,6 +9,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
+#include "pso/map/CurrentArea.h"
 class TObjEneMe1Gee_NEEDLE;
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
@@ -3484,7 +3485,7 @@ s32 TObjEneMe1Gee::handle_message(s32 arg0, s32 arg1) {
 
     if (arg1 == 0x3A843) {
         var_r3 = 0x3A843;
-        if (TOKeyMachine01::get_global_state() == 0x22) {
+        if (get_current_area() == 0x22) {
             return 0x4003B20D;
         }
         return var_r3;

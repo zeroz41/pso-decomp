@@ -5,6 +5,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 struct TPhotonYoulla;
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804C3248.h"
@@ -350,7 +351,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     F_801AD970(self, s32, 0x134) = 3;
     self->m12();
     F_801AD970(self, s32, 0x1A4) = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0xB:
     case 0xC:
     case 0xD:

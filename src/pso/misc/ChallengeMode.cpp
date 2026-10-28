@@ -10,6 +10,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TQuestListOnline.h"
 #include "pso/object/TObjTombstone.h"
+#include "pso/map/CurrentArea.h"
 typedef char TChallenge_state_offset[(offsetof(TChallenge, state) == 0x1C) ? 1 : -1];
 typedef char TChallenge_frame_offset[(offsetof(TChallenge, frame_count) == 0x20) ? 1 : -1];
 typedef char TChallenge_size[(sizeof(TChallenge) == 0x30) ? 1 : -1];
@@ -451,7 +452,7 @@ void TLobby::update_quest_challenge_state(void *arg0_) {
 void TLobby__sub_80070170(void *arg0) {
     s32 old;
     s32 v;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0:
     case 18:
         old = challenge_mode_state[2];
@@ -532,7 +533,7 @@ Info_800703D0 *TLobby__sub_800703D0(Info_800703D0 *dst, Info_800703D0 *src) {
 s32 TLobby::destroy_on_phase_change() {
     switch (get_main_phase()) {
     case 15:
-        if (TOKeyMachine01::get_global_state() == 0xF) {
+        if (get_current_area() == 0xF) {
             queue_destruction__7TObjectFv(this);
             return 1;
         }
@@ -567,7 +568,7 @@ void TChallenge::initialize_windows() {
     s32 flag = 0;
     switch (get_main_phase()) {
     case 0xf:
-        if (TOKeyMachine01::get_global_state() != 0xf) {
+        if (get_current_area() != 0xf) {
             flag = 1;
         }
         break;

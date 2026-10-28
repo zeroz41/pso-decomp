@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
 #include "pso/misc/TWindowSubEquip_80275C0C.h"
@@ -154,7 +155,7 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
         return 0;
     }
     *arg2 = 1;
-    st = TOKeyMachine01::get_global_state();
+    st = get_current_area();
     switch (*arg1) {
     case 0:
     case 9:

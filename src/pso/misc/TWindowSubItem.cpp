@@ -299,7 +299,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
   {
     if (((TItem *)item)->get_usable_action_flags(2, 0) != 0U)
     {
-      if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (TOKeyMachine01::get_global_state() == 0xF))
+      if ((((TItem *)item)->get_usable_action_flags(1, 0) != 0U) || (get_current_area() == 0xF))
       {
         TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x60)), 6, 0);
       }
@@ -313,7 +313,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
     {
       if (((TItem *)item)->test_item_flags(8) != 0U)
       {
-        if (TOKeyMachine01::get_global_state() == 0xF)
+        if (get_current_area() == 0xF)
         {
           TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x61)), 6, 2);
         }
@@ -327,7 +327,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
         player = get_player_by_client_id(window_sub_item->m_24);
         if (player != 0)
         {
-          if (((check_equip_requirements__5TItemFP10TObjPlayerPs((int) item, (int) player, &sp8) != 0) && (has_armor_with_unit_slot((TWindowSubItem *)((void *)((void *) window_sub_item)), (int)((int) item)) != 0)) && (TOKeyMachine01::get_global_state() != 0xF))
+          if (((check_equip_requirements__5TItemFP10TObjPlayerPs((int) item, (int) player, &sp8) != 0) && (has_armor_with_unit_slot((TWindowSubItem *)((void *)((void *) window_sub_item)), (int)((int) item)) != 0)) && (get_current_area() != 0xF))
           {
             forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x62)), 6, 1);
           }
@@ -338,7 +338,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
         }
       }
     }
-    if ((TOKeyMachine01::get_global_state() == 0xF) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
+    if ((get_current_area() == 0xF) || (((TItem *)item)->get_usable_action_flags(0x10, 0) != 0U))
     {
       TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 3);
     }
@@ -346,7 +346,7 @@ void add_item_purpose_actions(TWindowSubItem *window_sub_item, s32 arg1, s32 arg
     {
       forward_trade_action_default__16TObjCityMainWarpFPviii((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 3);
     }
-    if (TOKeyMachine01::get_global_state() == 0xF)
+    if (get_current_area() == 0xF)
     {
       TWindowSubComCard::draw_text_gray((s32)((void *) arg1), (s32)((int) get_message_10__20TWindowSubStatusDispFl(0x63)), 6, 7);
       return;
@@ -369,7 +369,7 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
 }
 
 void TWindowSubItem::add_meseta_purpose_actions(s32 arg0, s32 arg1) {
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         TWindowSubComCard::draw_text_gray(arg1, (s32)(get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 6);
         return;
     }

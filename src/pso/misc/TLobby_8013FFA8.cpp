@@ -17,6 +17,7 @@
 #include "pso/object/TObjLight_80133568.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjBgmColCtrl.h"
+#include "pso/map/CurrentArea.h"
 
 struct Light_801401D0 {
     f32 dir[3];
@@ -48,7 +49,7 @@ extern s32 lbl_8043F1B8[];
 extern s32 lbl_8043F188[];
 
 s32 ship_scene_update(void) {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -66,7 +67,7 @@ s32 ship_scene_update(void) {
 
 void TLobby::update_floor_a() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 s32 init_ship_scene(void) {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -83,7 +84,7 @@ s32 init_ship_scene(void) {
 
 void TLobby::update_floor_state() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 s32 load_scene_ship_b(void) {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -109,7 +110,7 @@ void cleanup_dragon_area_scene(void) {
 
 s32 init_dragon_area_scene(void) {
     Light_801401D0 l;
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -163,7 +164,7 @@ void TLobby__sub_80140308(void) {
 }
 
 s32 TLobby::setup_area() {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -180,7 +181,7 @@ s32 TLobby::setup_area() {
 void TLobby__sub_801403B4(s32 _w0) {  }
 void TLobby__sub_801403B8(void) { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 s32 TLobby::spawn_boss3_volopt_ctrl() {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -194,7 +195,7 @@ s32 TLobby::spawn_boss3_volopt_ctrl() {
 }
 void TLobby::reset_subsystems() { TParticleCtrl::free_heap(); TLobby::refresh_render_state(); TLobby::stop_audio_streams(); stop_cue_stream(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 s32 TLobby::init_lobby_scene() {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;

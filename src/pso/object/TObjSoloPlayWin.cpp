@@ -4,6 +4,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);
@@ -24,7 +25,7 @@ s32 TObjSoloPlayWin::has_at_most_one_player() {
     return (TLobby__sub_8006FBE4() <= 1) ? 1 : 0;
 }
 s32 TObjSoloPlayWin::area_allows_win_timer() {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0: case 0xB: case 0xC: case 0xD: case 0xE: case 0x12:
     case 0x1E: case 0x1F: case 0x20: case 0x21:
         return 0;

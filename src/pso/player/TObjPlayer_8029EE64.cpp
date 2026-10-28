@@ -5,6 +5,7 @@
 #include "pso/misc/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Vec_8029EFFC { f32 x, y, z; };
 
@@ -159,7 +160,7 @@ void TUnk_804DC7C4::render_shadows() {
         if (is_boss_area() != 0) {
             if (p != NULL) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(2);
-                if (TOKeyMachine01::get_global_state() == 0x20) {
+                if (get_current_area() == 0x20) {
                     c3.pos.x = p->pos38.x;
                     c3.pos.y = p->pos38.y;
                     c3.pos.z = p->pos38.z;

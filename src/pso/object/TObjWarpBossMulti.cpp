@@ -24,6 +24,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct VWarp_8019DD34 { char pad[0x18]; };
 struct TObjWarpBossMulti_8019DD34 : VWarp_8019DD34 {
@@ -486,7 +487,7 @@ void TObjWarpBossMulti::init_warp_params() { this->m_f0 = get_boss_warp_base_mod
 void TObjWarpBossMulti::update() {
     s32 temp_r0;
 
-    if (TOKeyMachine01::get_global_state() == 0) {
+    if (get_current_area() == 0) {
         *(s32 *)((s8 *)this + 0xF4) = -1;
     } else {
         temp_r0 = *(s32 *)((s8 *)this + 0x88);
@@ -507,7 +508,7 @@ void TObjWarpBossMulti::debug_print_area_num() {
     Wb_8019DE74 *arg0 = (Wb_8019DE74 *)this;
     ((TObjWarpBossMulti *)arg0)->update();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (TOKeyMachine01::get_global_state() == 0) {
+    if (get_current_area() == 0) {
         debug_printf_at(0x130020, lbl_8044663C);
     }
     debug_printf_at(0x130021, lbl_80446650, arg0->fF4);
@@ -1164,7 +1165,7 @@ void TObjWarpBoss::debug_print_area_num() {
         arg0->f16C = t;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (TOKeyMachine01::get_global_state() == 0) {
+    if (get_current_area() == 0) {
         debug_printf_at(0x130020, lbl_8044663C);
     }
     debug_printf_at(0x130021, lbl_80446650, arg0->f16C);
@@ -1241,7 +1242,7 @@ Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     self->f164 = 0;
     self->f168 = 0;
     self->f180 = 0;
-    if (TOKeyMachine01::get_global_state() == 0) {
+    if (get_current_area() == 0) {
         self->f16C = -1;
     } else if (self->f88 < 0 || self->f88 > 0xFF) {
         self->f16C = -1;
@@ -1293,7 +1294,7 @@ void TObjFish__sub_8019F72C(void) {
 void TObjFish::load_models() {
     s32 st;
     s32 r;
-    st = TOKeyMachine01::get_global_state();
+    st = get_current_area();
     if (st >= 8 && st <= 0xA) {
         r = ((s32)::operator new(0x440));
         if (r != 0) {

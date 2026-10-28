@@ -3,6 +3,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC_801C50A8.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 extern int active_character_save_record;
@@ -41,7 +42,7 @@ void TAdSinglePlyChrSelectGC__sub_801C5158(void) { (*(int *)&ad_single_ply_chr_s
 s32 TAdSinglePlyChrSelectGC::create_if_key_pressed() {
     s32 global_state;
     u32 var_r0;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     if ((global_state != 0x10) && (global_state != 0x11)) {
         return 0;
     }

@@ -17,6 +17,7 @@
 #include "pso/misc/TWindowMessagePage.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowCtrl.h"
+#include "pso/map/CurrentArea.h"
 
 struct Stack_8034B158 {
     s8 sp8;
@@ -122,7 +123,7 @@ TChallenge4PResult::~TChallenge4PResult() {
 }
 
 void TChallenge4PResult::run_task() {
-    if ((TOKeyMachine01::get_global_state() != 0xE) || (is_active__11TBoss4Type2Fv() != 1)) {
+    if ((get_current_area() != 0xE) || (is_active__11TBoss4Type2Fv() != 1)) {
         switch (state_1c) {
         case 0:
             update_input();

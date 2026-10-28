@@ -11,6 +11,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -227,7 +228,7 @@ void TObjComputer::free_resources() {
 
 void load_computer_resources(void) {
     void *p;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23: case 24: case 25: case 26: case 27: case 28: case 29:
     case 34: case 35:
         p = ::operator new(0x440);

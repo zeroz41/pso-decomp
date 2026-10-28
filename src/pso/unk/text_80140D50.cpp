@@ -7,6 +7,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct Obj_80140EE4 { u8 pad[0x1c]; void *slots[0x201]; };
 
@@ -28,7 +29,7 @@ void load_floor_sound_bank();
 extern char lbl_8043F260[];
 
 s32 fn_80140D50(void) {
-    TOKeyMachine01::get_global_state();
+    get_current_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -36,7 +37,7 @@ s32 fn_80140D50(void) {
     init_area_lights();
     TLobby::create_tasks();
     if (get_main_phase() != 0xE || is_quest_active() == 0) {
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 0x14:
             TBoss4DarkFalz::dispatch_by_main_phase(0x4B);
             break;

@@ -23,6 +23,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
 extern s32 model_render_flags;
@@ -290,7 +291,7 @@ void TLazerFenceSw::load_resources() {
     s32 i;
     Node_80193CA4 *n;
     lazer_fence_switch_bml_resource = 0;
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     if (TContainerAncient01::is_global_state_in_table() == 1 || state == 0x1C || state == 0x1D) {
         obj = ::operator new(0x440);
         if (obj != NULL) {

@@ -2,6 +2,7 @@
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
@@ -15,7 +16,7 @@ void load_green_door_resources(void) {
     void *p;
     green_door_bml_resource = 0;
     green_door_texture_handle = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x13:
     case 0x14:
         p = ::operator new(0x440);

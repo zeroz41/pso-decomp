@@ -6,6 +6,7 @@
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -1296,7 +1297,7 @@ void render__16TObjEneDellBiterFv(u8 *arg0) {
     if (F(s32, 0x3C0) & 1) {
         vis = 0;
     } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
-        if (TOKeyMachine01::get_global_state() == 0x23) {
+        if (get_current_area() == 0x23) {
             vis = VO->m9(600.0f, 600.0f, 15.0f);
         } else {
             vis = VO->m9(lbl_805D9E88, lbl_805D9E84, TObjEneDellBiter__data_805DEFC0);
@@ -1416,7 +1417,7 @@ void state_death__16TObjEneDellBiterFPvi(u8 *arg0, s32 arg1) {
         ((TObjEneDellBiter *)(arg0))->vfunc_94();
         ((TBoss8Dragon *)arg0)->refresh_and_send_entity_flags();
         TObjPlayer__sub_800A04F0(arg0 + 0x3D4);
-        if (TOKeyMachine01::get_global_state() == 0x23) {
+        if (get_current_area() == 0x23) {
             play_sound_effect(0x4003A358, arg0 + 0x38, 0, 0);
         } else {
             play_sound_effect((int)(copy_target_state__14TObjEnePanarmsFPv(arg0, (void *)(0x4003A31A))), arg0 + 0x38, 0, 0);

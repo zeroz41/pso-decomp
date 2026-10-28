@@ -984,7 +984,7 @@ s32 TItem::is_custom_name_srank() {
 }
 
 void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
-    if (TOKeyMachine01::get_global_state() != 15) {
+    if (get_current_area() != 15) {
         cmd->bswap();
         TItem *mag = find_item_by_id(cmd->mag_item_id);
         if (mag != NULL && mag->owner != NULL) {
@@ -994,7 +994,7 @@ void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
 }
 
 void TItem::send_activate_effect(s32 effect) {
-    if (owner != NULL && TOKeyMachine01::get_global_state() != 15 && owner->obj_isState2_324() == 0) {
+    if (owner != NULL && get_current_area() != 15 && owner->obj_isState2_324() == 0) {
         G_ActivateMagEffect_6x61 cmd;
         cmd.mag_item_id = get_item_id();
         cmd.effect_number = effect;

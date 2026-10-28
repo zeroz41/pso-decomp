@@ -15,6 +15,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8016D1A8_lbl_80441D84 {
     s32 value;
@@ -82,18 +83,18 @@ void TOKeyMachine01::vfunc_19() {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
-    if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 0x10) || (TOKeyMachine01::get_global_state() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)&key_machine01_state_table.value + (TOKeyMachine01::get_global_state() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
+        temp_r3 = *(s32 *)((s8 *)&key_machine01_state_table.value + (get_current_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
-    } else if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 1) || (TOKeyMachine01::get_global_state() == 2))) {
-        temp_r3_2 = *(s32 *)((s8 *)&key_machine01_state_table.value + (TOKeyMachine01::get_global_state() * 4));
+    } else if (((s32) enable_v2_features == 1) && ((get_current_area() == 1) || (get_current_area() == 2))) {
+        temp_r3_2 = *(s32 *)((s8 *)&key_machine01_state_table.value + (get_current_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_3 = *(s32 *)((s8 *)&key_machine01_state_table.value + (TOKeyMachine01::get_global_state() * 4));
+        temp_r3_3 = *(s32 *)((s8 *)&key_machine01_state_table.value + (get_current_area() * 4));
         if (temp_r3_3 >= 0) {
             play_sound_effect(temp_r3_3, arg0 + 0x38, 0, 0);
         }
@@ -106,18 +107,18 @@ void TOKeyMachine01::trigger_activate_sound() {
     s32 temp_r3_2;
     s32 temp_r3_3;
     s32 arg0 = (s32)this;
-    if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 0x10) || (TOKeyMachine01::get_global_state() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (TOKeyMachine01::get_global_state() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
+        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (get_current_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
-    } else if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 1) || (TOKeyMachine01::get_global_state() == 2))) {
-        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (TOKeyMachine01::get_global_state() * 4));
+    } else if (((s32) enable_v2_features == 1) && ((get_current_area() == 1) || (get_current_area() == 2))) {
+        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (get_current_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (TOKeyMachine01::get_global_state() * 4));
+        temp_r3_3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016D2A4_lbl_80441D84 *)&key_machine01_state_table).value) + (get_current_area() * 4));
         if (temp_r3_3 >= 0) {
             play_sound_effect(temp_r3_3, arg0 + 0x38, 0, 0);
         }

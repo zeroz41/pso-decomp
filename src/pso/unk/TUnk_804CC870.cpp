@@ -10,6 +10,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
+#include "pso/map/CurrentArea.h"
 struct Vec_80232934 { f32 x; f32 y; f32 z; };
 
 struct Quad_80232934 { u32 a; u32 b; u32 c; u32 d; };
@@ -247,8 +248,8 @@ void TUnk_804CC870::render() {
     Obj_80232934 *arg0 = (Obj_80232934 *)this;
     TextureFrameSlot ctx;
     s32 id;
-    if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0x12 ||
-        TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0 || get_current_area() == 0x12 ||
+        get_current_area() == 0xF) {
         return;
     }
     init_texture_copy_rect(&ctx, lbl_804CC868, technique_ringwave_texture_list, 0, this->m_48 + 1);

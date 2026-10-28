@@ -10,6 +10,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/misc/TOTrapAncient02.h"
 #include "pso/misc/TOTrapAncient02R.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -887,7 +888,7 @@ void TOTrapAncient02::vfunc_84() {
     case 1:
     case 2:
     case 3:
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 3:
         case 4:
         case 5:
@@ -1174,7 +1175,7 @@ void TOTrapAncient02::destroy_instance() {
 void TOTrapAncient02::load_resources() {
     char *base = (char *)&trap_ancient02_torabasami_resources;
     void *obj;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x13:
     case 0x14:
         obj = ::operator new(0x440);

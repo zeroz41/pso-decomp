@@ -7,6 +7,7 @@
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80149738_lbl_804A8098 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80149738_lbl_804A8098_size[sizeof(RecoveredGlobal_80149738_lbl_804A8098) == 0x10 ? 1 : -1];
@@ -30,7 +31,7 @@ void *__nw__7TObjectFUl(int);
 
 void TObjNpcCloakroomBase::play_voice() {
     s32 arg0 = (s32)this;
-    if (TOKeyMachine01::get_global_state() != 5) {
+    if (get_current_area() != 5) {
         play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);
         return;
     }

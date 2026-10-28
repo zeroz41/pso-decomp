@@ -17,6 +17,7 @@
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TODoorAncient01.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8018D9B0_lbl_804B7158 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8018D9B0_lbl_804B7158_size[sizeof(RecoveredGlobal_8018D9B0_lbl_804B7158) == 0x10 ? 1 : -1];
@@ -103,7 +104,7 @@ void TObjDoaEx01::vfunc_17() {
     if (self->flags & 1) {
         if (is_any_player_within_radius_xz((u8 *)self, (f32)1e+04f) == 0) {
             self->state = 3;
-            switch (TOKeyMachine01::get_global_state()) {
+            switch (get_current_area()) {
             case 19:
             case 20:
                 play_sound_effect(0x4BF0B, self->pos, 0, 0);
@@ -119,7 +120,7 @@ void TObjDoaEx01::vfunc_17() {
         }
     } else {
         self->state = 3;
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 19:
         case 20:
             play_sound_effect(0x4BF0B, self->pos, 0, 0);
@@ -149,7 +150,7 @@ void TObjDoaEx01::play_proximity_sound() {
         if (is_any_player_within_radius_xz((u8 *)self, (f32)4.9e+03f) == 1) {
             self->state = 1;
             ((TUnk_804AF8A0 *)self)->set_indexed_flags(0, 8);
-            switch (TOKeyMachine01::get_global_state()) {
+            switch (get_current_area()) {
             case 19:
             case 20:
                 play_sound_effect(0x4BF0B, self->pos, 0, 0);

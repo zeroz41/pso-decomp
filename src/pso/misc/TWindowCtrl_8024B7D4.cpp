@@ -15,6 +15,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TWindowChat.h"
 #include "pso/misc/TNpcPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 typedef struct Ctrl_8024B8A0 {
     u8 pad0[0x1E];
@@ -42,7 +43,7 @@ s32 TWindowCtrl__sub_8024B7D4(s32 n) {
     if (TWindowCtrl__active_window == NULL) {
         return 0;
     }
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         return 0;
     }
     for (i = 0; i < 3; i++) {
@@ -116,7 +117,7 @@ extern u8 controller_input_state[];
 
 void TWindowCtrl::handle_controller() {
     s32 arg0 = (s32)this;
-    if ((TOKeyMachine01::get_global_state() == 0xF) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id), (s32 *)controller_input_state) != 0)) {
+    if ((get_current_area() == 0xF) && (is_slot_visible__11TWindowCtrlFv(local_client_id) == 0) && (TWindowCtrl__sub_8024B000((void *)arg0, (s32)local_client_id) == 0) && (has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) && (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, fn_8002AE08(local_client_id), (s32 *)controller_input_state) != 0)) {
         TWindowCtrlMain::advance_card_status(local_client_id);
     }
 }

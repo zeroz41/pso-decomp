@@ -16,6 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TOKeyJungleMain.h"
+#include "pso/map/CurrentArea.h"
 
 struct Base_8029D3A4_8029CF68;
 struct Base_8029CF68;
@@ -33,7 +34,6 @@ struct Vec_8029E170;
 struct Ent_8029E170;
 extern "C" {
 void * __nw__7TObjectFUl(int);
-s32 get_global_state__14TOKeyMachine01Fv();
 void render__8TObjFishFv(u8 *arg0);
 s32 init_fish_school__8TObjFishFPvll(u8 *arg0, Vec_8029E170 *arg1, s32 arg2, s32 arg3);
 extern s32 TObjFish__area_bml_resource;
@@ -459,7 +459,7 @@ void render__8TObjFishFv(u8 *arg0) {
             post_translate_matrix(f);
             rotate_matrix_y(0, f->rot + (s32)r);
             set_depth_buffer_settings_id(3);
-            if (get_global_state__14TOKeyMachine01Fv() == 0x1C) {
+            if (get_current_area() == 0x1C) {
                 switch (f->kind) {
                 case 1:
                     TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
@@ -593,7 +593,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 #define __nw__7TObjectFUl ((u8 * (*)(s32))__nw__7TObjectFUl)
-#define get_global_state__14TOKeyMachine01Fv ((s32 (*)(void))get_global_state__14TOKeyMachine01Fv)
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
 extern "C" {
@@ -760,7 +759,7 @@ void *__vt__8TObjFish[13] = {
 void TObjFish::load_area_resource() {
     u8 *base = (u8 *)fish_resource_name_table;
     u8 *p;
-    switch (get_global_state__14TOKeyMachine01Fv()) {
+    switch (get_current_area()) {
     case 24:
         TObjFish__area_event_stage = 1;
         p = (u8 *)::operator new(0x440);
@@ -808,5 +807,4 @@ void TObjFish::load_area_resource() {
 
 }
 #undef __nw__7TObjectFUl
-#undef get_global_state__14TOKeyMachine01Fv
 #undef init_fish_school__8TObjFishFPvll

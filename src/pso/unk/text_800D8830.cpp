@@ -2,12 +2,13 @@
 #include "pso/unk/text_800D8830.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 
 void fn_800D8830(void *owner, void *pos) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:
@@ -26,7 +27,7 @@ void fn_800D8830(void *owner, void *pos) {
 }
 
 void fn_800D88E4(void *pos) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:

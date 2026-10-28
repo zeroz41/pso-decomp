@@ -6,6 +6,7 @@
 #include "pso/misc/TOTrapChainSawKey.h"
 #include "pso/misc/TOTrapChainSaw.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -722,7 +723,7 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
 s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 34:
         p = t.r[1];
         break;

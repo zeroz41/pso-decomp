@@ -4,6 +4,7 @@
 #include "pso/misc/TNeedleShoot_802A4A44.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TNeedleShoot.h"
+#include "pso/map/CurrentArea.h"
 
 
 struct VBase_18_174c10 { char pad[0x18]; };
@@ -55,7 +56,7 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
 }
 
 int TObjEneMe1Gee_NEEDLE::vfunc_6() {
-    if (TOKeyMachine01::get_global_state() == 0x22) {
+    if (get_current_area() == 0x22) {
         play_sound_effect(0x4003B20E, (u8 *)&this->m_6c, 0, 0);
     } else {
         play_sound_effect(0x3A847, (u8 *)&this->m_6c, 0, 0);

@@ -14,7 +14,6 @@ struct TOKeyMachine01 : public TOKey {
     virtual void vfunc_25();
     u8 unk_D8[0x4];
     u32 m_dc;
-    static s32 get_global_state();
     void run_task();
     void render();
     static void *create(void *arg0);

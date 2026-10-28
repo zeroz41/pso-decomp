@@ -8,6 +8,7 @@
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80165538___vt__20TODragonflyMachine01 {
     s32 value;
@@ -161,14 +162,14 @@ void TODummyKeyCave01Sound::play_cave01_key_sound() {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     case 3:
-        global_state = TOKeyMachine01::get_global_state();
+        global_state = get_current_area();
         if ((global_state != 0x10) && (global_state != 0x11)) {
             play_sound_effect(0x52812, 0, 0, 0);
             return;
         }
         break;
     case 4:
-        temp_r3_2 = TOKeyMachine01::get_global_state();
+        temp_r3_2 = get_current_area();
         if ((temp_r3_2 != 0x10) && (temp_r3_2 != 0x11)) {
             play_sound_effect(0x52813, 0, 0, 0);
             return;

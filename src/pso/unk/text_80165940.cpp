@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/misc/TODummyKeyCave01.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 typedef struct Pair_80165940 { u32 a; u32 b; } Pair_80165940;
 
 typedef struct Key_80165940 {
@@ -52,7 +53,7 @@ void TODummyKeyCave01::sub_80165940() {
     if (self->fC4 > 1) {
         self->fC4 = 0;
     }
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
     case 4:
     case 5:

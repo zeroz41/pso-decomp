@@ -15,6 +15,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecGiFoie.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 void disallow_rendering__7TObjectFv(TObject *arg0);
@@ -129,7 +130,7 @@ void TObjPlayer::create_pro_armor() {
 }
 void TUnk_804A2678::update_weapon() {
     s32 temp_r3;
-    temp_r3 = TOKeyMachine01::get_global_state();
+    temp_r3 = get_current_area();
     if ((temp_r3 != (s32) *(s32 *)&this->unk_1F8) && (((TItem *)this)->is_model_shown() != 0)) {
         *(s32 *)&this->unk_1F8 = temp_r3;
         if (is_item_area_enabled(temp_r3) != 0) {

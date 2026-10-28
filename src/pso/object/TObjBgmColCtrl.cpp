@@ -2,6 +2,7 @@
 #include "pso/misc/TLoadCtrl_80227390.h"
 #include "pso/object/TObjBgmColCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Names_8017E1E4 { const char *name[2]; };
 
@@ -19,7 +20,7 @@ extern u32 TObjBgmColCtrl__current_theme_id;
 void TObjBgmColCtrl::play_lobby_theme_music() {
     Names_8017E1E4 names = lbl_80443898[0];
     const char *name;
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         name = names.name[1];
         TObjBgmColCtrl__current_theme_id = TLobby__event_theme_id;
     } else {

@@ -13,6 +13,7 @@
 #include "pso/object/TObjButterflyLobby.h"
 #include "pso/object/TObjMapCsn.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8020650C___vt__6TScene { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_8020650C___vt__6TScene_size[sizeof(RecoveredGlobal_8020650C___vt__6TScene) == 0x18 ? 1 : -1];
@@ -106,7 +107,7 @@ u8 *TScene__ct(TScene *scene, s32 arg1) {
     scene->m_38 = 0x32;
     scene->m_3c = 0;
     TScene__sub_80206410(scene);
-    if ((TOKeyMachine01::get_global_state() == 1) && ((u32) TScene__texture_wave_resource != 0U) && ((void *) (*(u8 * *)&TScene__data_805D5FCC) != NULL) && ((u32) *(u32 *)((s8 *)(*(u8 * *)&TScene__data_805D5FCC) + 0x14) != 0U)) {
+    if ((get_current_area() == 1) && ((u32) TScene__texture_wave_resource != 0U) && ((void *) (*(u8 * *)&TScene__data_805D5FCC) != NULL) && ((u32) *(u32 *)((s8 *)(*(u8 * *)&TScene__data_805D5FCC) + 0x14) != 0U)) {
         TScene::create_texture_wave_tasks((s32)scene);
     }
     scene->init_material_nodes();
@@ -290,7 +291,7 @@ void TScene::load_file_to_buffer(s32 name) {
     scene_file_buffer_size = 0;
     replace_file_extension__6TLobbyFPvPvPv((char *)(sp8), (char *)(name), (char *)(lbl_8044A98C));
     temp_r31 = ((TScene *)sp8)->update_lobby_scene();
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         if ((temp_r31 > 0) && ((u32) temp_r31 <= 0x100U)) {
             temp_r3 = ((TQuestVmDownLoadServer *)0x100)->alloc();
             TScene__material_info_buffer = temp_r3;
@@ -322,7 +323,7 @@ void TScene::load_floor_bin_file(s32 name) {
         replace_file_extension__6TLobbyFPvPvPv((char *)((s32 *)sp8), (char *)name, (char *)((s32 *)lbl_8044A99C));
     }
     size = ((TScene *)sp8)->update_lobby_scene();
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         if (size > 0 && (u32)size <= 0x100U) {
             TScene__data_805D6020 = ((TQuestVmDownLoadServer *)0x100)->alloc();
             if (TScene__data_805D6020 != 0U) {
@@ -346,7 +347,7 @@ void TScene::load_map_texture_archive(s32 name) {
     u32 temp_r3;
     u32 temp_r3_2;
 
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     TScene__texture_animation_buffer = 0U;
     var_r30 = 0;
     lbl_805D6018 = 0;
@@ -398,7 +399,7 @@ void TScene::load_scene_rel_file(s32 arg0) {
     u8 id[0x28];
     s32 state;
     s32 size;
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     TScene__data_805D5FCC = NULL;
     size = 0;
     TScene__map_rel_load_buffer = 0U;
@@ -450,7 +451,7 @@ void TScene::load_scene_data(s32 name) {
     lbl_805D6014 = 0;
     replace_file_extension__6TLobbyFPvPvPv((char *)((s32 *)((s32 *)&sp8)), (char *)(name), (char *)(lbl_8044A950));
     temp_r31 = ((TScene *)((s32 *)&sp8))->update_lobby_scene();
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         if ((temp_r31 > 0) && ((u32) temp_r31 <= 0x10000U)) {
             temp_r3 = ((TQuestVmDownLoadServer *)0x10000)->alloc();
             TScene__collision_file_buffer = temp_r3;

@@ -13,6 +13,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
@@ -668,7 +669,7 @@ void load_particle_entry_resources(void) {
     void *p;
     memset(name, 0, 0x20);
     strcpy(name, lbl_80439494);
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     if (state < 10) {
         if (state < 0) {
             return;

@@ -5,6 +5,7 @@
 #include "pso/object/TObjSeabedSuisoBrakable.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 u8 is_valid_player_motion_variant(u32 arg0);
@@ -57,7 +58,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
     Tbl_802A6F98 t1;
     Tbl_802A6F98 t2;
 
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x1D:
         p = ::operator new(0x440);
         if (p != NULL) {

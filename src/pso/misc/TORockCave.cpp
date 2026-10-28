@@ -9,6 +9,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct BmlResourceBlock_804B3AB8 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3AB8_size[(sizeof(BmlResourceBlock_804B3AB8) == 0x20) ? 1 : -1];
@@ -146,7 +147,7 @@ extern s32 __vt__10TORockCave[];
     }
 void TORockCave::load_resources() {
     u8 *tbl = (u8 *)&rock_cave_resource_table;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
         MK_80175224(cave_rock_resource_bundle, 0x10)
         MK_80175224(rock_cave_model_resource, 0x88)

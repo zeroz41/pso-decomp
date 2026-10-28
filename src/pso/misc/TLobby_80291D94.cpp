@@ -11,6 +11,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80291DC0_lbl_804DB1F0 {
     s32 value;
@@ -1313,7 +1314,7 @@ typedef char RecoveredGlobal_80070358_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8
 void TLobby__sub_802933FC(void *arg0) {
     s32 old;
     s32 v;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0:
     case 18:
         old = lbl_804DB1F0[2];

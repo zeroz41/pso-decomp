@@ -8,6 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Vec_801A1F48 { f32 x, y, z; };
 
@@ -24,11 +25,11 @@ extern u16 lbl_805D5CD8;
 s16 TUnk_804B9870::get_stat_by_key_state() {
     s32 global_state;
 
-    if ((TOKeyMachine01::get_global_state() == 0) || (TOKeyMachine01::get_global_state() == 0x12)) {
+    if ((get_current_area() == 0) || (get_current_area() == 0x12)) {
         return 0;
     }
     if ((u16) this->entity_id < 0x1000U) {
-        global_state = TOKeyMachine01::get_global_state();
+        global_state = get_current_area();
         if (((global_state - 1) <= 1U) || (TContainerAncient01::is_global_state_in_table() != 0) || (global_state == 0xC) || (global_state == 0x20)) {
             return *(s16 *)&(*(short *)((u8 *)this + 0x2E));
         }

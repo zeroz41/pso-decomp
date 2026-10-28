@@ -4,6 +4,7 @@
 #include "pso/misc/TODoorFourLightBase.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
@@ -40,7 +41,7 @@ void TLanguage__sub_802A0204(void) {
     s32 global_state;
     s32 var_r0;
     s32 var_r0_2;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 28:
         var_r0 = (int)::operator new(0x440);

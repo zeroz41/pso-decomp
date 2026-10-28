@@ -7,6 +7,7 @@
 #include "pso/misc/TOSensorAncient01.h"
 #include "pso/misc/TOSensor.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/map/CurrentArea.h"
 
 extern char lbl_80442980[];
 extern char lbl_80442998[];
@@ -75,7 +76,7 @@ void TOSensor::vfunc_25() {  }
 extern s32 __vt__8TOSensor[];
 
 void TOSensor__sub_8017546C(u8 *arg0) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
     case 4:
     case 5:
@@ -109,7 +110,7 @@ void TOSensor__sub_8017546C(u8 *arg0) {
 }
 
 void TOSensor__sub_80175514(u8 *arg0) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
     case 4:
     case 5:

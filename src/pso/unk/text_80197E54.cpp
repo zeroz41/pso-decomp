@@ -5,6 +5,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
@@ -28,7 +29,7 @@ void load_memcard_file(void) {
     s32 slot;
     void *buf;
     s32 r;
-    if (TOKeyMachine01::get_global_state() != 0 && TOKeyMachine01::get_global_state() != 0x12) {
+    if (get_current_area() != 0 && get_current_area() != 0x12) {
         return;
     }
     if (((s32 (*)(void))is_signboard_texture_buffer_missing)() == 0) {

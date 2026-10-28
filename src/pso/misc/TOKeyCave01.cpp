@@ -13,6 +13,7 @@
 #include "pso/misc/TOKeyCol.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TRaderMapCore.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8016BF68_lbl_80441B4C {
     s32 value;
@@ -98,13 +99,13 @@ void TOKeyCave01::vfunc_19() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
     s32 temp_r3_2;
-    if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 0x10) || (TOKeyMachine01::get_global_state() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)&lbl_80441B4C.value + (TOKeyMachine01::get_global_state() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
+        temp_r3 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_2 = *(s32 *)((s8 *)&lbl_80441B4C.value + (TOKeyMachine01::get_global_state() * 4));
+        temp_r3_2 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
@@ -116,13 +117,13 @@ void TOKeyCave01::trigger_activate_sound() {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 arg0 = (s32)this;
-    if (((s32) enable_v2_features == 1) && ((TOKeyMachine01::get_global_state() == 0x10) || (TOKeyMachine01::get_global_state() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (TOKeyMachine01::get_global_state() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
+        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (TOKeyMachine01::get_global_state() * 4));
+        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
@@ -325,7 +326,7 @@ void TOKeyCave01::load_resources() {
     u8 *temp_r3_2;
     u8 *var_r0;
     u8 *var_r0_2;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     if ((TContainerAncient01::is_global_state_in_table() == 1) || (global_state == 0x1C) || (global_state == 0x1D)) {
         temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;

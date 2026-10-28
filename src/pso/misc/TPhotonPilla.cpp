@@ -22,6 +22,7 @@
 #include "pso/misc/obj_band.h"
 #include "pso/unk/text_801AE1F8.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -295,7 +296,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     ((TPhotonPilla *)photon_rainbow)->m_134 = 4;
     ((TPhotonPilla *)photon_rainbow)->enter_scene();
     *(s32 *)((s8 *)photon_rainbow + 0x1A8) = 0;
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     switch (state) {
     case 11:
     case 12:

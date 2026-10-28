@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80227AA8_lbl_80514F64 {
     s32 value;
@@ -262,7 +263,7 @@ void handle_6xB2_play_sound_from_player(void *arg0) {
     s32 player;
 
     bswap_6xB2_play_sound();
-    if ((s8) *(u8 *)((s8 *)arg0 + 4) == TOKeyMachine01::get_global_state()) {
+    if ((s8) *(u8 *)((s8 *)arg0 + 4) == get_current_area()) {
         if (*(s16 *)((s8 *)arg0 + 6) == 0xFFFF) {
             play_sound_effect(*(s32 *)((s8 *)arg0 + 8), 0, 0, 0);
             return;
@@ -569,7 +570,7 @@ void TLobby__sub_80228118(void) {
 }
 
 void TLobby::clear_ready_flag_unless_locked() {
-    if (TOKeyMachine01::get_global_state() != 0xF) {
+    if (get_current_area() != 0xF) {
         *(s32 *)((s8 *)this + 0x20) = (s32) (*(s32 *)((s8 *)this + 0x20) & 0xFFFFFFFE);
     }
 }

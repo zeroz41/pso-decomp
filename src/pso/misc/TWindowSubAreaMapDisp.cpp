@@ -13,6 +13,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 
@@ -215,7 +216,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
         append_padded_number((get_window_count_ratio_value()), (2U));
         var_r30 = (u8 *)(get_shared_text_buffer());
     } else {
-        var_r30 = (u8 *)(get_floor_destination_name(TOKeyMachine01::get_global_state()));
+        var_r30 = (u8 *)(get_floor_destination_name(get_current_area()));
     }
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
     window_sub_area_map_disp->m_74 = (s32)mem_alloc((temp_r3 + 1));

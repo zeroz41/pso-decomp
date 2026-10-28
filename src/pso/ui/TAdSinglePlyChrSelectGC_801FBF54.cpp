@@ -15,6 +15,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLanguage.h"
 #include "pso/ui/Language.h"
+#include "pso/map/CurrentArea.h"
 struct CardFileInfo_804C88C0 {
     char filename[0x20];
     char comment[0x20];
@@ -2608,7 +2609,7 @@ s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
     s32 i;
     s32 p;
     u32 size;
-    if (get_main_phase() == 0xE || (TOKeyMachine01::get_global_state() == 0xF && arg0 != 1) ||
+    if (get_main_phase() == 0xE || (get_current_area() == 0xF && arg0 != 1) ||
         lbl_805D55C0 == 1 || is_technique_ready__8TTecCtrlFv() != 0 || fn_80203284() == 1) {
         return 0xFFFF0000;
     }

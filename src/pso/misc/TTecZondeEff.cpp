@@ -13,6 +13,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
     s32 value;
@@ -415,7 +416,7 @@ void TTecZondeEff::render() {
     u32 m3c[0x34 / 4];
     u32 m8[0x34 / 4];
     u32 id;
-    if (self->active == 0 || TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0xF) {
+    if (self->active == 0 || get_current_area() == 0 || get_current_area() == 0xF) {
         return;
     }
     if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {

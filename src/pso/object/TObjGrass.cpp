@@ -10,6 +10,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjGrass.h"
 #include "pso/enemy/TUnk_80494938.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void render__12TObjGrassWebFv();
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -536,7 +537,7 @@ void TObjGrass::update_dying(void *arg0_) {
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrices(1);
             vec3_add_to(&v, arg0 + 0x38);
-            switch (TOKeyMachine01::get_global_state()) {
+            switch (get_current_area()) {
             case 3:
             case 4:
             case 5: {
@@ -1016,7 +1017,7 @@ void TObjGrass::sub_800BDD70() {
                 (*(VObj_800BDD70 * *)&this->target)->m20(arg0, (1.0f));
                 (*(VObj_800BDD70 * *)&this->target)->m23(arg0);
             }
-            switch (TOKeyMachine01::get_global_state()) {
+            switch (get_current_area()) {
             case 3:
             case 4:
             case 5:

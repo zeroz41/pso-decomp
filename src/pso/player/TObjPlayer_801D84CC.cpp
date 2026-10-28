@@ -9,6 +9,7 @@
 #include "pso/player/PlayerClassStats.h"
 
 #include <stddef.h>
+#include "pso/map/CurrentArea.h"
 struct Stack_801D8664 {
     s8 sp8;
     s8 sp9;
@@ -536,7 +537,7 @@ typedef char RecoveredGlobal_801D8FB4_lbl_804C495C_size[((sizeof(RecoveredGlobal
 s32 TObjPlayer::get_footstep_floor_index() {
     s32 floor;
     s32 (*table)[5];
-    floor = TOKeyMachine01::get_global_state();
+    floor = get_current_area();
     table = player_footstep_floor_table[classify_action_state__10TObjPlayerFv(this)];
     if (floor == 0xE && TBoss4DarkFalz::get_instance_count() == 0) {
         floor = 1;

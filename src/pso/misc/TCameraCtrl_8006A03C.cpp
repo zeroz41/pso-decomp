@@ -4,6 +4,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct O_8006A044 { u8 pad[0x1c0]; s32 id; f32 v; };
 
@@ -83,17 +84,17 @@ void TCameraCtrl::cycle_spectate_target() {
         is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) == 0 ||
         (pl = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl__view_state.busy != 0) ||
-        TOKeyMachine01::get_global_state() == 0xB ||
-        TOKeyMachine01::get_global_state() == 0xC ||
-        TOKeyMachine01::get_global_state() == 0xD ||
-        TOKeyMachine01::get_global_state() == 0xE ||
-        TOKeyMachine01::get_global_state() == 0x1E ||
-        TOKeyMachine01::get_global_state() == 0x1F ||
-        TOKeyMachine01::get_global_state() == 0x20 ||
-        TOKeyMachine01::get_global_state() == 0x21 ||
-        TOKeyMachine01::get_global_state() == 0xF ||
-        TOKeyMachine01::get_global_state() == 0x12 ||
-        TOKeyMachine01::get_global_state() == 0) {
+        get_current_area() == 0xB ||
+        get_current_area() == 0xC ||
+        get_current_area() == 0xD ||
+        get_current_area() == 0xE ||
+        get_current_area() == 0x1E ||
+        get_current_area() == 0x1F ||
+        get_current_area() == 0x20 ||
+        get_current_area() == 0x21 ||
+        get_current_area() == 0xF ||
+        get_current_area() == 0x12 ||
+        get_current_area() == 0) {
         return;
     }
     slot = TCameraCtrl__view_state.slot;

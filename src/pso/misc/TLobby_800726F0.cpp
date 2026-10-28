@@ -10,6 +10,7 @@
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObjChallengeRetry.h"
+#include "pso/map/CurrentArea.h"
 
 struct W4_80072994 { u8 b[4]; };
 
@@ -335,7 +336,7 @@ void TObjChallengeRetry::sub_8007313C() {
   int new_var;
   u32 var_r30;
   u8 *temp_r3_2;
-  global_state = TOKeyMachine01::get_global_state();
+  global_state = get_current_area();
   if (global_state != 0x12)
   {
     if (global_state < 0x12)

@@ -25,6 +25,7 @@
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -376,7 +377,7 @@ void TUnk_804B6C24::spawn_item(s32 arg1) {
 void play_container_break_sound(s32 arg0);
 void play_container_break_sound(s32 arg0) {
     u32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 1:
     case 2:
@@ -719,7 +720,7 @@ void TLobby::free_chr_select_slot() {
 void TLobby::load_console_resources() {
     void *p;
     container_breakup_model_archive = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 28:
     case 29:
     case 31:
@@ -763,7 +764,7 @@ void load_forest_box_resources(void) {
     u32 *node;
     lbl_805D5B78 = NULL;
     lbl_805D5B7C = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 28:
     case 29:
     case 31:

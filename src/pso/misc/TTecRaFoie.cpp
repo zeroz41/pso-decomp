@@ -12,6 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TTecRaFoie.h"
 #include "pso/misc/TUnk_804CCB28.h"
+#include "pso/map/CurrentArea.h"
 #pragma readonly_strings on
 
 struct Vec_80237DAC { f32 x, y, z; };
@@ -347,8 +348,8 @@ void TUnk_804CCB28::render() {
     f32 z;
     s32 id;
     u16 lv;
-    if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 0x12 ||
-        TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0 || get_current_area() == 0x12 ||
+        get_current_area() == 0xF) {
         return;
     }
     TParticleCtrl::begin_effect_render();

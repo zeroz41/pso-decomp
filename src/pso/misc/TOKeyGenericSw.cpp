@@ -11,6 +11,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TOKey.h"
+#include "pso/map/CurrentArea.h"
 
 struct BmlResourceBlock_804B2CC0 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B2CC0_size[(sizeof(BmlResourceBlock_804B2CC0) == 0x18) ? 1 : -1];
@@ -173,7 +174,7 @@ void TOKeyGenericSw::free_shared_resources() {
 
 void TOKeyGenericSw::load_resources() {
     u8 *base = (u8 *)&fs_obj_hanyousu_body1_resource_bundle;
-    s32 st = TOKeyMachine01::get_global_state();
+    s32 st = get_current_area();
     void *p;
     if (TContainerAncient01::is_global_state_in_table() == 1 || st == 0x1C || st == 0x1D) {
         p = ::operator new(0x440);
@@ -242,7 +243,7 @@ void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *sou
     } else {
         *(s32 *)&key_generic_sw->m_d0 = 0;
     }
-    key_generic_sw->m_e8 = TOKeyMachine01::get_global_state();
+    key_generic_sw->m_e8 = get_current_area();
     key_generic_sw->m_ec = 0;
     *(s32 *)((s8 *)key_generic_sw + 0xF0) = 0;
     key_generic_sw->m_f4 = 0;

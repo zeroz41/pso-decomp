@@ -2,6 +2,7 @@
 #include "pso/unk/text_80193018.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern char lbl_80445A30[];
 extern char lbl_80445A44[];
@@ -34,7 +35,7 @@ extern s32 lazer_fence_norm_texture_list;
 extern void *lazer_fence_norm_bml_resource;
 void load_lazer_fence_norm_resources(void) {
     void *obj;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:

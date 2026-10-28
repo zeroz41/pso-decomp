@@ -4,6 +4,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct Dst_8020DEE4 { u16 id; s16 v; u8 pad[4]; };
 
@@ -142,7 +143,7 @@ void TLobby::setup_floor_decorations() {
     TLobby__data_805D6120 = 0;
     TLobby__data_805D6128 = 0;
     TLobby__data_805D6134 &= ~16;
-    lbl_805D60F8 = TOKeyMachine01::get_global_state();
+    lbl_805D60F8 = get_current_area();
     r = get_current_floor();
     TLobby__data_805D60FC = r;
     if (lookup_scene_object__6TLobbyFPv(r, &v) != 0) {

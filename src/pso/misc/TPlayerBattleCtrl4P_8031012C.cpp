@@ -8,6 +8,7 @@
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct Base_803107D0_8031058C { char pad[0x18]; };
 struct VObj_803107D0_8031058C : Base_803107D0_8031058C {
@@ -854,7 +855,7 @@ void TPlayerBattleCtrl4P::start_duel() {
         }
     }
     this->reset_score_counters();
-    name = TOKeyMachine01::get_global_state() == 0x10 ? lbl_80475BAC : lbl_80475BB8;
+    name = get_current_area() == 0x10 ? lbl_80475BAC : lbl_80475BB8;
     w = __nw__7TObjectFUl(0x40);
     if (w != NULL) {
         init_with_name__6TLobbyFPvPvPvPv(w, this, name, 0x2D);

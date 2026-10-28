@@ -6,6 +6,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 
@@ -161,7 +162,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     u8 *p;
     spawn_particle_effect(&this->position, 0x45);
     spawn_particle_effect(&this->position, 0x46);
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     if (state >= 0x17 || state < 0x13) {
         play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
     }

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 struct Handler_801E416C {
     u16 cmd;
     u16 mask;
@@ -31,7 +32,7 @@ void dispatch_pso_data_commands(Buf_801E416C *b) {
             if (pkt[0] == pso_command_dispatch_table[i].cmd) {
                 sprintf(msg, pso_data_receive_log_format, pkt[0], pkt[1]);
                 debug_print(msg);
-                if (pso_command_dispatch_table[i].mask & subcommand_area_masks[TOKeyMachine01::get_global_state()]) {
+                if (pso_command_dispatch_table[i].mask & subcommand_area_masks[get_current_area()]) {
                     pso_command_dispatch_table[i].fn(pkt);
                 }
                 break;

@@ -10,6 +10,7 @@
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 void vfunc_20__17TOBarrierEnergy01Fv(void);
@@ -66,7 +67,7 @@ void TOBarrierEnergy01::vfunc_20() {  }
 void TOBarrierEnergy01::play_ambient_loop_sound() {
     s32 arg0 = (s32)this;
     u32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 1:
     case 2:

@@ -5,6 +5,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 
 typedef struct Web_800BC798 {
     u8 pad0[0x38];
@@ -33,7 +34,7 @@ s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
 int TObjGrassWeb::queue_destruction() { return queue_destruction__7TObjectFv(this); }
 
 void TObjGrassWeb__sub_800BC798(Web_800BC798 *o) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 3:
     case 4:
     case 5:

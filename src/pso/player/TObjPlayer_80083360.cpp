@@ -9,6 +9,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 s32 init_render_target__10TObjPlayerFv();
@@ -32,7 +33,7 @@ void TObjPlayer::free_singleton() {
 void TObjPlayer::init_render_target_singleton() {
     u32 temp_r3;
     camera_render_target_singleton = 0U;
-    if (TOKeyMachine01::get_global_state() == 0x21) {
+    if (get_current_area() == 0x21) {
         temp_r3 = (int)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {

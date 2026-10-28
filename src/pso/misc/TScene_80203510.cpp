@@ -4,6 +4,7 @@
 #include "pso/misc/TScene.h"
 
 #include "pso/misc/TSceneMaterial.h"
+#include "pso/map/CurrentArea.h"
 
 struct Rec_80203510 { s32 id; f32 pos[3]; u8 pad[0xC]; f32 radius; u8 pad2[0x14]; };
 
@@ -475,12 +476,12 @@ s32 TScene__sub_80205874(void *) {
     }
     s32 phase = get_main_phase();
     if (phase == 14) {
-        if (is_split_screen() == 1 && TOKeyMachine01::get_global_state() == 1) {
+        if (is_split_screen() == 1 && get_current_area() == 1) {
             return 1;
         }
         return 0;
     } else if (phase == 15) {
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 1:
         case 2:
             return 1;
@@ -507,7 +508,7 @@ void TScene::render_map_sections() {
             if (sec->flags & 0x10000) {
                 if (sec->flags & 0x80000) {
                     push_matrix();
-                    switch (TOKeyMachine01::get_global_state()) {
+                    switch (get_current_area()) {
                     case 0:
                     case 0xF:
                     case 0x12:

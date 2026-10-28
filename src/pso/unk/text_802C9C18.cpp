@@ -3,6 +3,7 @@
 #include "pso/misc/TOTrapSeabed01.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
+#include "pso/map/CurrentArea.h"
 
 struct Sounds_802C9C18 { s32 a[2]; s32 b[2]; s32 c[2]; s32 d[2]; };
 
@@ -18,7 +19,7 @@ extern Sounds_802C9C18 lbl_804720B8;
 void TOTrapSeabed01::sub_802C9C18(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     Sounds_802C9C18 s = lbl_804720B8;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0x17:
     case 0x18:
     case 0x19:

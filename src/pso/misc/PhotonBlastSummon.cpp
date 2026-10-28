@@ -11,6 +11,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TUnk_804C3248.h"
+#include "pso/map/CurrentArea.h"
 extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
@@ -129,7 +130,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     Stack_801A7310 stack;
     s32 temp_r3;
     stack.sp9 = arg1;
-    stack.sp8 = TOKeyMachine01::get_global_state() == 0xE;
+    stack.sp8 = get_current_area() == 0xE;
     stack.spA = 0;
     stack.spC = 0.0f;
     stack.sp10 = 1.0f;

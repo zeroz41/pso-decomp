@@ -4,6 +4,7 @@
 
 #include "types.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 u32 __nw__7TObjectFUl(int);
@@ -22,7 +23,7 @@ void TObjRainCtrl::run_task() {
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x1C) - 1;
     *(s32 *)((s8 *)arg0 + 0x1C) = temp_r0;
     if (temp_r0 < 0) {
-        if (TOKeyMachine01::get_global_state() == 0x1E) {
+        if (get_current_area() == 0x1E) {
             p = (void *) __nw__7TObjectFUl(0x220);
             if (p != NULL) {
                 __ct__8TObjRainFv((u8 *)p, (tl_particle), 0x24);

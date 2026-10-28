@@ -14,6 +14,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 
@@ -353,7 +354,7 @@ void TOHealGeneral::load_resources() {
   s32 var_r0;
   s32 var_r0_2;
   int new_var;
-  global_state = TOKeyMachine01::get_global_state();
+  global_state = get_current_area();
   if (global_state < 0x22)
   {
     if (global_state < 0x1E)

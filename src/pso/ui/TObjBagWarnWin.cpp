@@ -7,6 +7,7 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Sub_8006EC20 {
     u8 pad[0x1C];
@@ -52,7 +53,7 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     if (ctrl == NULL) {
         return 0;
     }
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0:
         if (ctrl->f38 <= lbl_805D90B8 || ctrl->f38 >= lbl_805D90BC) {
             return 0;

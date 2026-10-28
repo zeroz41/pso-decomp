@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void render__10TNpcPlayerFv();
 #include "pso/object/TObjFogCollisionPoison.h"
 
@@ -3240,7 +3241,7 @@ void TNpcPlayer::decide_action() {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 temp_r3_3;
-    if ((TOKeyMachine01::get_global_state() == 0) || (TOKeyMachine01::get_global_state() == 0x12)) {
+    if ((get_current_area() == 0) || (get_current_area() == 0x12)) {
         calc_follow_goal();
         change_ai_state(1);
         return;

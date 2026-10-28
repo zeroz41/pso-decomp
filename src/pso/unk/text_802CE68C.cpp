@@ -14,6 +14,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 struct Stack_802CE68C {
     s32 sp8;
     s32 spC;
@@ -224,7 +225,7 @@ void TObjEneBm9Mericarol::render() {
         return;
     }
     if (is_main_phase_15__9TObjEneDDFv() != 0) {
-        if (TOKeyMachine01::get_global_state() == 0x23) {
+        if (get_current_area() == 0x23) {
             mode = ((Obj_802CE8CC *)((u8 *)this))->m9(600.0f, 600.0f, lbl_805DE704);
         } else {
             mode = ((Obj_802CE8CC *)((u8 *)this))->m9(lbl_805D9E88, lbl_805D9E84, lbl_805DE704);

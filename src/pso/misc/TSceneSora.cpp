@@ -13,6 +13,7 @@
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_802072E0___vt__10TSceneSora {
     s32 value;
@@ -108,7 +109,7 @@ void TSceneSora::run_task() {
             sky->frame = lbl_805DC608;
         }
     } else {
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 1:
         case 2:
             sky->yaw++;

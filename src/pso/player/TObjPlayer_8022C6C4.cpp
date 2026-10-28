@@ -4,6 +4,7 @@
 #include "pso/object/TObjLight.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void render__8TTecCtrlFv();
 extern "C" void run_task__8TTecCtrlFv();
 
@@ -354,8 +355,8 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     if (pl == NULL) {
         return;
     }
-    if (TOKeyMachine01::get_global_state() == 0 || TOKeyMachine01::get_global_state() == 18 ||
-        TOKeyMachine01::get_global_state() == 15) {
+    if (get_current_area() == 0 || get_current_area() == 18 ||
+        get_current_area() == 15) {
         switch (tech) {
         case 0:
         case 1:

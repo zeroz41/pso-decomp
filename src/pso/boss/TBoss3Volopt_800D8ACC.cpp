@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 struct Stack_800D8F78 {
     s32 sp8;
@@ -34,7 +35,7 @@ void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s3
 void TBoss3Volopt::play_area_variant_sound() {
     s32 arg0 = (s32)this;
     s32 global_state;
-    global_state = TOKeyMachine01::get_global_state();
+    global_state = get_current_area();
     switch (global_state) {
     case 23:
     case 24:
@@ -71,7 +72,7 @@ void TBoss3Volopt::play_area_se_with_particle() {
     s32 arg0 = (s32)this;
     Vec_800D8C48 v;
     f32 y;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:
@@ -108,7 +109,7 @@ void TBoss3Volopt::play_area_se_with_particle() {
 }
 
 void TBoss3Volopt__sub_800D8D88(s32 arg0) {
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:
@@ -135,7 +136,7 @@ void TBoss3Volopt__sub_800D8D88(s32 arg0) {
 
 void TBoss3Volopt::play_area_sound_effect() {
     s32 arg0 = (s32)this;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 23:
     case 24:
     case 25:

@@ -6,6 +6,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
     s32 value;
@@ -614,7 +615,7 @@ void TRaderMapCore::pan_vertical(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
         Glob_801F97C4 *g = (Glob_801F97C4 *)&TRaderMapCore__map_view_state;
         g->f30 -= farg0;
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 0xD:
         case 0xE:
         case 0x1F:
@@ -636,7 +637,7 @@ void TRaderMapCore::pan_horizontal(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
         Glob_801F986C *g = (Glob_801F986C *)&TRaderMapCore__map_view_state;
         g->f28 -= farg0;
-        switch (TOKeyMachine01::get_global_state()) {
+        switch (get_current_area()) {
         case 0xD:
         case 0xE:
         case 0x1F:
@@ -983,14 +984,14 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
     }
     if (this->m_168 & 1) {
         view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
-        if (TOKeyMachine01::get_global_state() == 12) {
+        if (get_current_area() == 12) {
             free_view->rot = 0;
             this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
         } else {
             free_view->rot = 0x8000;
             this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->m_194;
         }
-    } else if (TOKeyMachine01::get_global_state() == 12) {
+    } else if (get_current_area() == 12) {
         view->rot = 0;
         free_view->rot = 0;
         this->m_174 = 0;

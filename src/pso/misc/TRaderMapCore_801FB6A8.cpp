@@ -4,6 +4,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/object/TObjFish.h"
+#include "pso/map/CurrentArea.h"
 
 struct Ent_801FB798 { s32 a; char *name; };
 
@@ -74,7 +75,7 @@ void TRaderMapCore::load_map_resources() {
     Ent_801FB798 *e;
     s32 status;
     s32 state;
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     status = TScene::get_status();
     e = (Ent_801FB798 *)get_floor_scene_table(state);
     replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)lbl_8044A7B0);

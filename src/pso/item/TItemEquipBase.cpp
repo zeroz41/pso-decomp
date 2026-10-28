@@ -8,6 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/items/TItemWeapon.h"
+#include "pso/map/CurrentArea.h"
 
 struct Row_8010A89C { s8 id; u8 level; f32 amount; };
 struct Slot_8010A89C { s16 id; s16 level; f32 amount; };
@@ -644,7 +645,7 @@ void TItemEquipBase::equip() {
         ((TItem *)arg0)->set_mode(2);
         ((TItem *)arg0)->add_item_flags(8);
         this->add_equip_stats(1);
-        if ((TOKeyMachine01::get_global_state() != 0xF) && (test_flags_any((u8 *)&this->m_178, (void *)(1)) == 0)) {
+        if ((get_current_area() != 0xF) && (test_flags_any((u8 *)&this->m_178, (void *)(1)) == 0)) {
             ((FlagWord *)(arg0 + 0x178))->set((u32)((void *)(1)));
             this->vfunc_46();
         }

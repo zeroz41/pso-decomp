@@ -2,13 +2,14 @@
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern s32 item_desync_detected;
 extern TObject *tl_05;
 extern const char *TItemDisconnectCtrl__name;
 
 void TItemDisconnectCtrl::run_task() {
-    if (TOKeyMachine01::get_global_state() != 0xF && item_desync_detected != 0) {
+    if (get_current_area() != 0xF && item_desync_detected != 0) {
         TLobby::disconnect_protocol();
         queue_destruction();
     }

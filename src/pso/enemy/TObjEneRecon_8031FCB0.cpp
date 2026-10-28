@@ -6,6 +6,7 @@
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneRecobox.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -476,7 +477,7 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     if (((s32)(arg0 & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
         return arg0;
     }
-    ret = TOKeyMachine01::get_global_state();
+    ret = get_current_area();
     switch (ret) {
     case 0x22:
         ret = arg0 - 0x40010000 + 0x4E19;

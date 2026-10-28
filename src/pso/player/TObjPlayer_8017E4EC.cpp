@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
+#include "pso/map/CurrentArea.h"
 
 struct Vec_8017E550 { f32 x, y, z; };
 
@@ -72,7 +73,7 @@ void create_bgm_col_zones(void) {
     void *p;
     bgm_zone_category = 4;
     TLobby__sub_80207F30(&set);
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0:
         for (i = 0; i < 12; i++) {
             VecCopy((Vec *)&set.pos, (const Vec *)&lbl_80443690[i].pos);

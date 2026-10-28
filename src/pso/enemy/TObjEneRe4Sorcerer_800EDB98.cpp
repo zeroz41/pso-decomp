@@ -6,6 +6,7 @@
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/CurrentArea.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -2461,7 +2462,7 @@ s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
     s32 masked;
     s32 result;
     s32 state;
-    state = TOKeyMachine01::get_global_state();
+    state = get_current_area();
     if (TLobby::get_instance() != 0) {
         if (state != 0x13 && state != 0x14 && state != 0x15 && state != 0x16 && state != 0x22 && state != 0x23) {
             return arg0;
@@ -2491,7 +2492,7 @@ s32 remap_area_sound_id(s32 arg0, s32 arg1) {
     s32 st;
     s32 base;
     s32 start;
-    st = TOKeyMachine01::get_global_state();
+    st = get_current_area();
     if (TLobby::get_instance() != 0) {
         if (st != 0x13 && st != 0x14 && st != 0x15 && st != 0x16 && st != 0x22 && st != 0x23) {
             return arg0;

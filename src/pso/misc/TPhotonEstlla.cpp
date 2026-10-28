@@ -20,6 +20,7 @@
 #include "pso/unk/text_801AAB74.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 u16 TObjPlayer::get_entity_type() { return *(u16*)((char*)this + 0x0); }
 void* TObjPlayer__sub_801AA66C(void* p, void* a1) { *(short*)(p) = *(unsigned short*)(a1); *(short*)((char*)p + 0x2) = *(short*)((char*)a1 + 0x2); *(void**)((char*)p + 0x4) = *(void**)((char*)a1 + 0x4); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x8), (u8 *)((char*)a1 + 0x8)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0xc), (u8 *)((char*)a1 + 0xc)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x10), (u8 *)((char*)a1 + 0x10)); TObjPlayer__sub_801AA6E4((u8 *)((char*)p + 0x14), (u8 *)((char*)a1 + 0x14)); return p; }
@@ -291,7 +292,7 @@ u8 *TPhotonEstlla__ct(u8 *photon_estlla, u8 *arg1) {
     ((TPhotonEstlla *)photon_estlla)->m_134 = 0;
     ((TPhotonEstlla *)photon_estlla)->enter_scene();
     *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_1a0 = 0;
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 11: case 12: case 13: case 14:
     case 30: case 31: case 32: case 33:
         p = (void *)__nw__7TObjectFUl(0xAC);

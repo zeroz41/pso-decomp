@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 s32 play_sound_effect(s32, void *, s32, s32);
@@ -39,7 +40,7 @@ void *lbl_804B0BB8[21] = {
 void TUnk_804B0BB8::play_door_sound() {
     u8 *arg0 = (u8 *)this;
     if (!(*(s32 *)(arg0 + 0xD0) & 1)) {
-        switch ((u32)TOKeyMachine01::get_global_state()) {
+        switch ((u32)get_current_area()) {
         case 0:
         case 18:
             play_sound_effect(0x42A04, (u8 *)&this->position, 0, 0);

@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/misc/TODragonflyCave01.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/map/CurrentArea.h"
 
 extern char lbl_80441100[];
 extern char lbl_80441110[];
@@ -62,7 +63,7 @@ void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void TODragonflyCave01::load_resources() {
     void *o;
 
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     default:
         o = ::operator new(0x440);
         if (o != NULL) {

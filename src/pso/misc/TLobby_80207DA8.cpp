@@ -8,6 +8,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80207E88_lbl_804C8FC0 {
     s32 value;
@@ -37,7 +38,7 @@ void reset_story_select__6TLobbyFv(void) { TAdStorySelectGC::set_state((s32)((vo
 s32 TLobby::is_scene_ready() {
     s32 temp_r3;
 
-    if (TOKeyMachine01::get_global_state() != 0xF) {
+    if (get_current_area() != 0xF) {
         return 0;
     }
     temp_r3 = TScene::get_status();
@@ -115,7 +116,7 @@ void run_floor_cleanup_callbacks__6TLobbyFi(s32 arg0) {
     }
 }
 
-void TLobby::update_current_floor() { TOKeyMachine01::get_global_state(); ((void (*)(void))run_floor_cleanup_callbacks__6TLobbyFi)(); }
+void TLobby::update_current_floor() { get_current_area(); ((void (*)(void))run_floor_cleanup_callbacks__6TLobbyFi)(); }
 }
 s32 run_floor_initialize_callbacks(s32 arg0);
 s32 run_floor_initialize_callbacks(s32 arg0) {
@@ -134,7 +135,7 @@ s32 run_floor_initialize_callbacks(s32 arg0) {
     return 1;
 }
 
-void TLobby::update_key_machine() { TOKeyMachine01::get_global_state(); ((int (*)(void))run_floor_initialize_callbacks)(); }
+void TLobby::update_key_machine() { get_current_area(); ((int (*)(void))run_floor_initialize_callbacks)(); }
 void bswap_enemy_set_row(void *arg0) {
     ((s32 (*)(s32))bswap_16__FPUs)((s32)arg0);
     bswap_enemy_set_row_fields((void *)((void *)((char *)arg0 + 4)));

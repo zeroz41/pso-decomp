@@ -16,6 +16,7 @@
 #include "pso/misc/TWindowMakeTeam.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
+#include "pso/map/CurrentArea.h"
 class TObjItemNameSelect : public TObject {
 public:
  void* m_1c;
@@ -870,7 +871,7 @@ void load_area_dialogue_script(void) {
     s32 bank;
     void *mem;
 
-    switch (TOKeyMachine01::get_global_state()) {
+    switch (get_current_area()) {
     case 0: if (get_main_phase() == 14) { bank = 0; } else { bank = 1; } break;
     case 1: case 2: bank = 2; break;
     case 3: case 4: case 5: bank = 3; break;

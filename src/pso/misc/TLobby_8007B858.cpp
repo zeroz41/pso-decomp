@@ -13,6 +13,7 @@
 #include "pso/player/TUnk_8048E5F4.h"
 
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_8007BA98_lbl_8048D4C0 {
     s32 value;
@@ -120,13 +121,13 @@ void TLobby::create_tasks() {
     }
     new TSwitch((TObject *)tl_00);
     TQuestColCtrl::init();
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         TLobby__sub_80351F3C();
     }
-    if ((TOKeyMachine01::get_global_state() == 0xF) && (TLobby::is_scene_ready() != 0)) {
+    if ((get_current_area() == 0xF) && (TLobby::is_scene_ready() != 0)) {
         TWindowTimer__sub_80198D98();
     }
-    if ((get_main_phase() == 0xF) && ((TOKeyMachine01::get_global_state() == 0) || (TOKeyMachine01::get_global_state() == 0x12))) {
+    if ((get_main_phase() == 0xF) && ((get_current_area() == 0) || (get_current_area() == 0x12))) {
         tmp = __nw__7TObjectFUl(0x1C);
         if (tmp != 0U) {
             THunterGuildSeqOnlineTask__ct(tmp, tl_01);
@@ -143,12 +144,12 @@ typedef char RecoveredGlobal_8007BA98_lbl_8048D5A8_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_8007BA20_lbl_8048D4C0_size[sizeof(RecoveredGlobal_8007BA20_lbl_8048D4C0) == 0xE8 ? 1 : -1];
 typedef char RecoveredGlobal_8007BA20_lbl_8048D5A8_size[sizeof(RecoveredGlobal_8007BA20_lbl_8048D5A8) == 0x20 ? 1 : -1];
 void TLobby::clear_session_buffers() {
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         TLobby::free_dialing_gc();
         fn_80198E84();
         TLobby__sub_8035202C();
     }
-    if ((TOKeyMachine01::get_global_state() != 0) && (TOKeyMachine01::get_global_state() != 0xF) && (TOKeyMachine01::get_global_state() != 0x12)) {
+    if ((get_current_area() != 0) && (get_current_area() != 0xF) && (get_current_area() != 0x12)) {
         call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D5A8 *)&lbl_8048D5A8).value, 0x20U);
     }
     call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D4C0 *)&lbl_8048D4C0).value, 0xE8U);
@@ -161,13 +162,13 @@ s32 TLobby::run_lobby_load_tables() {
     if (temp_r3_2 == 0) {
         return temp_r3_2;
     }
-    if ((TOKeyMachine01::get_global_state() != 0) && (TOKeyMachine01::get_global_state() != 0xF) && (TOKeyMachine01::get_global_state() != 0x12)) {
+    if ((get_current_area() != 0) && (get_current_area() != 0xF) && (get_current_area() != 0x12)) {
         temp_r3 = run_load_callback_table(&lbl_8048D5A8.value, 0x20);
         if (temp_r3 == 0) {
             return temp_r3;
         }
     }
-    if (TOKeyMachine01::get_global_state() == 0xF) {
+    if (get_current_area() == 0xF) {
         load_obj_lobby_main();
         TLanguage::load_lobby_textures();
         TLobby__sub_802A5154();

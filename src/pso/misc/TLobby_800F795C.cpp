@@ -119,6 +119,7 @@
 #include "pso/object/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_800F7A6C_lbl_804DB1F0 {
     s32 value;
@@ -190,11 +191,11 @@ s32 load_floor_resources(s32 arg0) {
     return 1;
 }
 void unload_current_floor_resources(void) {
-    unload_floor_resources(TOKeyMachine01::get_global_state());
+    unload_floor_resources(get_current_area());
 }
 
 s32 load_current_floor_resources(void) {
-    return load_floor_resources(TOKeyMachine01::get_global_state());
+    return load_floor_resources(get_current_area());
 }
 extern "C" {
 
