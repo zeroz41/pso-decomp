@@ -129,7 +129,7 @@ void TUnk_804EFA88::render() {
         ((void (*)(s32))set_global_param__8TObjFishFl)(((O_8033EB4C *)this)->items[i].p18);
         draw_ginja_object((void *)(((O_8033EB4C *)this)->items[i].p1C));
         pop_matrix();
-        TParticleCtrl::set_tev_direct(1);
+        reset_indirect_tev(1);
         ((void (*)(void *))reset_effects__10TObjPlayerFv)(this);
     }
 }

@@ -601,7 +601,7 @@ void TObjEneMe3Stelth::render() {
             pop_matrix();
             VO->m108();
             if (F(s32, 0x3C0) != 0) {
-                TParticleCtrl::disable_if_single_screen();
+                reset_particle_tev();
             }
         }
         copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);

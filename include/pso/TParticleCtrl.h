@@ -16,7 +16,6 @@ public:
     static u8 *create_particle_obj_90(s32 arg0);
     static u8 *create_particle_obj_ac(s32 arg0);
     void mark_active();
-    static void disable_if_single_screen();
     static void free_heap();
     static void init_heap(void *arg0);
     void generate_child_default(s32 arg1, s32 arg2);
@@ -28,7 +27,6 @@ public:
     static void end_effect_render();
     static void reset_emitter_table();
     static void create_quad_sprites();
-    static void set_tev_direct(s32 arg0);
     static void reset_ind_tev_stages(void * _w0);
     void play_particle(s32 arg1, s16 arg2);
     static void reset_particles();

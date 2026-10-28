@@ -426,7 +426,7 @@ void TOTrapSeabed01::draw_object_tree(u8 *arg1) {
                 TObjFish::set_global_param(TOTrapSeabed01__texture_file);
                 load_projection_tex_matrix(0x38E);
                 draw_ginja_model((*(s32 *)((s8 *)var_r30 + 4)));
-                TParticleCtrl::disable_if_single_screen();
+                reset_particle_tev();
             } else {
                 draw_ginja_model((*(s32 *)((s8 *)var_r30 + 4)));
             }

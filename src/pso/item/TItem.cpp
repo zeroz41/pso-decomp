@@ -1099,7 +1099,7 @@ void TItem::begin_particle_tev() {
 
 void TItem::end_particle_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
-        TParticleCtrl::disable_if_single_screen();
+        reset_particle_tev();
         set_texlist(texture_id);
         item_render_state.clear(ITEM_RENDER_PARTICLE_TEV);
     }
@@ -1109,8 +1109,8 @@ void TItem::request_particle_indirect_effect() { request_indirect_effect(31); }
 
 void TItem::end_shield_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
-        TParticleCtrl::disable_if_single_screen();
-        TParticleCtrl::set_tev_direct(1);
+        reset_particle_tev();
+        reset_indirect_tev(1);
         set_texlist(texture_id);
         item_render_state.clear(ITEM_RENDER_SHIELD_TEV);
     }

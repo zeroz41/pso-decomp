@@ -1075,7 +1075,7 @@ void TOTrapAncient02::render_particle_chain() {
     TObjFish::set_global_param(this->texture_id);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-    TParticleCtrl::disable_if_single_screen();
+    reset_particle_tev();
     push_matrix();
     temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
     translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_2 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0xC) + this->h348), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0x10)));
@@ -1083,7 +1083,7 @@ void TOTrapAncient02::render_particle_chain() {
     TObjFish::set_global_param(this->texture_id);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
-    TParticleCtrl::disable_if_single_screen();
+    reset_particle_tev();
     TParticleCtrl::begin_effect_render();
     push_matrix();
     temp_r31_3 = (unsigned char *) (*(void **)((s8 *)temp_r31_2 + 0x2C));
@@ -1092,7 +1092,7 @@ void TOTrapAncient02::render_particle_chain() {
     TObjFish::set_global_param(this->texture_id);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
-    TParticleCtrl::disable_if_single_screen();
+    reset_particle_tev();
     pop_matrix();
     push_matrix();
     temp_r31_4 = (unsigned char *) (*(void **)((s8 *)temp_r31_3 + 0x30));
@@ -1102,7 +1102,7 @@ void TOTrapAncient02::render_particle_chain() {
     TObjFish::set_global_param(this->texture_id);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
-    TParticleCtrl::disable_if_single_screen();
+    reset_particle_tev();
     pop_matrix();
     TParticleCtrl::end_effect_render();
     pop_matrix();

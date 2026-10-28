@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
+#include "pso/player/TObjPlayer_80083594.h"
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -375,8 +376,8 @@ void TUnk_8048E728::draw_particle_refraction_quad() {
     TObjPlayer::setup_tev_stage();
     TParticleCtrl__sub_803E2A1C(v, 4);
     TParticleCtrl::reset_particles();
-    TParticleCtrl::disable_if_single_screen();
-    TParticleCtrl::set_tev_direct(1);
+    reset_particle_tev();
+    reset_indirect_tev(1);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }

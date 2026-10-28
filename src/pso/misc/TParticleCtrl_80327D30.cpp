@@ -93,7 +93,7 @@ void TUnk_804ED598::render() {
             restore_saved_depth_alpha_state();
         }
         TParticleCtrl::reset_particles();
-        TParticleCtrl::disable_if_single_screen();
+        reset_particle_tev();
         TParticleCtrl::reset_ind_tev_stages(o->f40);
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -154,8 +154,8 @@ u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 a
     return arg0;
 }
 
-void TParticleCtrl::set_tev_direct(s32 arg0) {
-    if (arg0 != 0) {
+void reset_indirect_tev(s32 second_stage) {
+    if (second_stage != 0) {
         GXSetTevDirect(1);
     } else {
         GXSetTevDirect(0);

@@ -12,6 +12,7 @@
 #include "types.h"
 #include "pso/unk/text_80141550.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
+#include "pso/player/TObjPlayer_80083594.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -415,7 +416,7 @@ void TUnk_8048E778::render() {
             draw_ginja_object(p->model);
         }
         if (p->flags & 0x400) {
-            TParticleCtrl::disable_if_single_screen();
+            reset_particle_tev();
         } else {
             model_render_flags = saved_model_render_flags;
         }
