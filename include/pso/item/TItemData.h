@@ -29,7 +29,12 @@ struct TItemData {
         u32 data_u32;
     } data2;
     static s8 char_to_letter_index(void *self, s8 c);
-    void normalize();
+    // Empty in this build: an item received from the network is converted
+    // from the sender's version (0: DC v1, 2: v2 and later) and decoded, and
+    // one sent is encoded.
+    void convert_from_version(s32 version);
+    void decode_from_network();
+    void encode_for_network();
     static u8 get_entry_field16();
     int register_drop();
     s32 get_max_stack_size();
@@ -81,8 +86,6 @@ struct TItemData {
 
 extern "C" {
 s32 TItemData__sub_8010C738(TItemData *data);
-void TItemData__sub_8010C740(void *data, s32 mode);
-void TItemData__sub_8010CCB0(void *data);
 }
 
 #include <stddef.h>

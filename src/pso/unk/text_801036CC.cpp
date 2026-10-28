@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItemData.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItem.h"
@@ -71,7 +72,6 @@ void TLobby__sub_801041BC(void *, void *);
 void bswap_sync_item_state_header(void *);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
 void TLobby__sub_80104258(void *, void *);
-void TItemData__sub_8010CCB0(void *);
 s32 test_flags_any(void *, s32);
 void TLobby__sub_801041D8(void);
 extern u16 *floor_item_next_sort_keys;
@@ -82,7 +82,6 @@ extern char lbl_8043E048[];
 Ent_801037A0 *find_item_condition_entry__6TLobbyFii(s32 n, s32 val);
 void spawn_dropped_item_from_msg(void *, s32);
 s32 get_sync_counter__6TLobbyFi(u16);
-void normalize__9TItemDataFv(void *);
 s32 bswap_player_packet__6TLobbyFv();
 
 void TLobby__sub_801036CC(void) {
@@ -168,7 +167,7 @@ void TLobby::apply_sync_item_state() {
         for (n = 0; n != count; n++, p++) {
             TLobby__sub_80104258(p, &((Save_80103890 *)this)->items[k++]);
             ((TLobby *)p)->bswap_item();
-            TItemData__sub_8010CCB0((u8 *)p + 0x10);
+            ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
     }
     if (test_flags_any(&lbl_805D5440, 1) != 0) {
@@ -205,7 +204,7 @@ s32 TLobby::write_sync_item_state() {
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++, k++) {
             TLobby__sub_80104258(d, p);
-            normalize__9TItemDataFv((u8 *)d + 0x10);
+            ((TItemData *)((u8 *)d + 0x10))->encode_for_network();
             ((TLobby *)d)->bswap_item();
             d++;
         }

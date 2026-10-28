@@ -215,15 +215,17 @@ extern "C" {
 void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
 void *__dt__5TItemFv(void *item, s16 deleting);
 void TItem__sub_801031C0(void *tag);
-// Empty in this build; the debug build checked the data passed.
-void TItem__sub_80101CEC(void *data);
-void TItem__sub_80101CF0(void *data);
-void TItem__sub_80101CF4(void *data);
-void TItem__sub_80101CF8(void *data);
-void TItem__sub_80101DB8(void *data);
 int TObjPlayer__sub_80100F34(void *unused);
 }
 
+// Empty in this build: the inventory of a player record is decoded when
+// the record arrives (a player created here or joining) and encoded when it
+// is saved or uploaded; debug_print_item_param printed an item's parameters.
+void decode_created_player_inventory(void *record);
+void decode_remote_player_inventory(void *record);
+void encode_player_record_inventory(void *record);
+void encode_uploaded_player_inventory(void *record);
+void debug_print_item_param(void *item);
 TItem *find_item_by_id(s32 id);
 s32 consume_item_by_id(s32 id);
 s32 is_item_stackable(s32 type, s32 kind);

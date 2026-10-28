@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TObject.h"
 #include "pso/item/TObjContainerAbeEnemy.h"
@@ -440,7 +441,6 @@ struct Obj_80189E3C {
 };
 
 extern "C" {
-void TItem__sub_80101DB8(Item_80189E3C *);
 void debug_printf_at(s32 id, const char *fmt, ...);
 extern const char lbl_80444F00[];
 extern const char lbl_80444F10[];
@@ -463,7 +463,7 @@ void TUnk_804B6C24::debug_print_item_box_info() {
         item.data[0] = self->data[0];
         item.data[1] = self->data[1];
         item.data[2] = self->data[2];
-        TItem__sub_80101DB8(&item);
+        debug_print_item_param(&item);
     }
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }

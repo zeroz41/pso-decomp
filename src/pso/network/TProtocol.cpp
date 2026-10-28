@@ -24,6 +24,7 @@ extern packet *server_packet;
 extern const char *port_map_copyright;
 
 #include "types.h"
+#include "pso/item/TItem.h"
 struct RecoveredFields_801DD33C_arg0 {
     u8 field_0;
     u8 field_1;
@@ -262,7 +263,6 @@ struct List_801DC1E4 { u8 command; u8 flags; u16 size; u32 entries[30]; };
 struct Text_801DC1E4 { u8 command; u8 flags; u16 size; char text[0x200]; };
 struct Proto_801DC1E4 { u8 pad[0x1910]; s32 connected; u8 pad1914[0x74]; u8 char_data[0x41C]; };
 
-void TItem__sub_80101CF8(void *);
 void TProtocol__sub_801DF774(void *, void *);
 }
 s32 validate_player_visual_record(void *arg0);
@@ -290,7 +290,7 @@ void send_player_data_98__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC1E4 *self, u8 *ch
         strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.size = packet_size & ~3;
-        TItem__sub_80101CF8(tmp.char_data);
+        encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
         destroy__9TProtocolFis((s32)&tmp, -1);
@@ -335,7 +335,7 @@ void send_player_data_61__9TProtocolFPvPvPvPvPvPvPv(Proto_801DC34C *self, u8 *ch
         strncpy(tmp.auto_reply, auto_reply->text, sizeof(tmp.auto_reply) - 1);
         const int packet_size = strlen(tmp.auto_reply) + 0x680;
         tmp.size = packet_size & ~3;
-        TItem__sub_80101CF8(tmp.char_data);
+        encode_uploaded_player_inventory(tmp.char_data);
         bswap_player_record_upload((u8 *)&tmp);
         ((TProtocol *)self)->send((u8 *)&tmp, packet_size & ~3);
         destroy__9TProtocolFis((s32)&tmp, -1);

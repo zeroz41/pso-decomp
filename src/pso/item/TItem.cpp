@@ -580,7 +580,7 @@ void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
     cmd.pos.x = pos[0];
     cmd.pos.z = pos[2];
     cmd.item_data.copy_from((ItemData *)data);
-    ((TItemData *)&cmd.item_data)->normalize();
+    ((TItemData *)&cmd.item_data)->encode_for_network();
     cmd.send();
 }
 
@@ -594,11 +594,11 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
         drop.room_id = cmd->room_id;
         drop.item.copy_from(&cmd->item_data);
         if (cmd->header.size * 4 == sizeof(G_DropStackedItem_DC_6x5D)) {
-            TItemData__sub_8010C740(&cmd->item_data, 0);
+            ((TItemData *)&cmd->item_data)->convert_from_version(0);
         } else {
-            TItemData__sub_8010C740(&cmd->item_data, 2);
+            ((TItemData *)&cmd->item_data)->convert_from_version(2);
         }
-        TItemData__sub_8010CCB0(&drop.item);
+        ((TItemData *)&drop.item)->decode_from_network();
         spawn_dropped_item_from_msg(&drop, 0);
     }
 }
@@ -616,14 +616,14 @@ void send_buy_shop_item(TItemData *data, u16 client) {
     G_BuyShopItem_6x5E cmd;
     cmd.header.client_id = client;
     cmd.item_data.copy_from((ItemData *)data);
-    ((TItemData *)&cmd.item_data)->normalize();
+    ((TItemData *)&cmd.item_data)->encode_for_network();
     cmd.send();
 }
 
 void handle_6x5E_buy_shop_item(G_BuyShopItem_6x5E *cmd) {
     cmd->bswap();
     if (cmd->header.is_remote() != 0) {
-        TItemData__sub_8010CCB0(&cmd->item_data);
+        ((TItemData *)&cmd->item_data)->decode_from_network();
         give_item_to_client(cmd->header.client_id, (TItemData *)&cmd->item_data);
     }
 }
@@ -640,7 +640,7 @@ void TItem::snap_to_ground() {
     }
 }
 
-void TItem__sub_80101DB8(void *) {}
+void debug_print_item_param(void *) {}
 
 void TItem::write_item_data(TItemData *) {}
 
@@ -664,13 +664,13 @@ s32 TItem::copy_to_item_data(TItemData *data) {
     return 0;
 }
 
-void TItem__sub_80101CF8(void *) {}
+void encode_uploaded_player_inventory(void *) {}
 
-void TItem__sub_80101CF4(void *) {}
+void encode_player_record_inventory(void *) {}
 
-void TItem__sub_80101CF0(void *) {}
+void decode_remote_player_inventory(void *) {}
 
-void TItem__sub_80101CEC(void *) {}
+void decode_created_player_inventory(void *) {}
 
 s32 TItem::insert_sorted_by_id() {
     s32 id;

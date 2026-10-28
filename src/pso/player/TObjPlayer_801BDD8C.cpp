@@ -13,7 +13,7 @@ extern void *tl_03;
 void *create_remote_player_object(void *arg0) {
     void *o;
 
-    TItem__sub_80101CF0(arg0);
+    decode_remote_player_inventory(arg0);
     o = __nw__7TObjectFUl(0xDB8);
     if (o != NULL) {
         o = __ct__10TObjPlayerFPvPvPv((TObjPlayer *)o, tl_03, arg0);

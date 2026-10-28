@@ -128,7 +128,7 @@ s32 TLobby::dispatch_item_by_type() {
     Fn_8010542C fn;
     if (src != 0) {
         Item_8010542C item = *src;
-        TItemData__sub_8010CCB0(&item);
+        ((TItemData *)&item)->decode_from_network();
         if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
             if (*(u8 *)src < 5) {
                 fn = item_create_fn_table[*(u8 *)src];

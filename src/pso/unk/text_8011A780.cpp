@@ -72,7 +72,6 @@ void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
 extern s32 build_item_id_mode;
 void init__9TItemDataFv(void *);
-void normalize__9TItemDataFv(void *p);
 extern Source_8011AA68 *quest_object_entries;
 void apply_by_index__9TObjEnemyFs(s16, void *);
 void drop_item_from_slot__10TObjPlayerFlll(s8 arg0, s32 arg1, s32 arg2);
@@ -147,7 +146,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
             TObjPlayer::drop_item(slot, (s32)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
-                normalize__9TItemDataFv(&item);
+                ((TItemData *)&item)->encode_for_network();
                 ((TLobby *)(&delivery))->init_header_packet();
                 delivery.client = client;
                 delivery.kind = 2;
@@ -176,7 +175,7 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
             drop_item_from_slot__10TObjPlayerFlll(area, slot, (s32)&item);
             item.id = id;
             if (((TItemData *)(&item))->isValidGroundDrop() != 0) {
-                normalize__9TItemDataFv(&item);
+                ((TItemData *)&item)->encode_for_network();
                 ((TLobby *)(&delivery))->init_header_packet();
                 delivery.client = client;
                 delivery.kind = 1;
@@ -237,11 +236,11 @@ void handle_6x60_standard_drop_item_request(void *arg0) {
 void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt) {
     ((TLobby *)pkt)->bswap_item_packet();
     if ((u32)pkt->size * 4 == 0x28) {
-        TItemData__sub_8010C740(pkt->item, 0);
+        ((TItemData *)pkt->item)->convert_from_version(0);
     } else {
-        TItemData__sub_8010C740(pkt->item, 2);
+        ((TItemData *)pkt->item)->convert_from_version(2);
     }
-    TItemData__sub_8010CCB0(pkt->item);
+    ((TItemData *)pkt->item)->decode_from_network();
     s32 kind = pkt->kind;
     if (kind == 1) {
         Row12_8011ADF4 row = (*(Row12_8011ADF4 * *)&TLobby__data_805D6144)[pkt->source];

@@ -188,7 +188,6 @@ u8 is_volopt_phase_final__10TObjPlayerFv(void);
 s32 advance_item_id_counter(int);
 s32 obj_isState2_324__13TUnk_804806E8Fv();
 s32 obj_getField1c(void * a0);
-void normalize__9TItemDataFv(TItemData*);
 extern u32 local_client_id;
 s16 get_attack_params_atp_min(void *);
 s16 get_attack_params_atp_max(void *);
@@ -5168,7 +5167,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     }
     ((void (*)(void *, s32))set_hp_clamped__10TObjPlayerFs)(src, a);
     ((void (*)(void *, s32))set_facing__10TObjPlayerFs)(src, b);
-    TItem__sub_80101CF4(dst);
+    encode_player_record_inventory(dst);
     v = TObjPlayer__sub_801BFFA0(src->f41C);
     dst->f142[0].b[1] = v;
     dst->f142[1].b[1] = v >> 8;
@@ -6335,12 +6334,12 @@ void handle_6x2B_create_inventory_item(s32 arg0) {
         if ((player != 0) && (((s32 (*)(void))is_volopt_phase_final__10TObjPlayerFv)() == 0)) {
             if ((u32)(pkt.size * 4) == 0x18) {
                 kind = 0;
-                TItemData__sub_8010C740(pkt.item, 0);
+                ((TItemData *)pkt.item)->convert_from_version(0);
             } else {
                 kind = 2;
-                TItemData__sub_8010C740(pkt.item, 2);
+                ((TItemData *)pkt.item)->convert_from_version(2);
             }
-            TItemData__sub_8010CCB0(pkt.item);
+            ((TItemData *)pkt.item)->decode_from_network();
             item = ((u8 * (*)(s32 *))create_item)((s32 *)pkt.item);
             if ((item != NULL) && (((u32 (*)(int, int))pickup_item__10TObjPlayerFP5TItem)(player, (int)item) != 0U) && (kind == 2) && (pkt.f19 != 0) && (((u32 (*)(void *, void *))get_slot_value__10TObjPlayerFPvi)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31())) == 0U)) {
                 ((s32 (*)(void *, void *, int))set_equip_slot_entry)((void *)(player + 0xD04), (void *)(((VObj_18_p65 *)item)->m31()), (int)item);
@@ -6363,7 +6362,7 @@ void TObjPlayer::request_inventory_item(TItemData* item) {
             ((TObjPlayer *)(&packet))->init_pkt_6x2B();
             packet.actor = ((u16 (*)(TObjPlayer*))obj_getField1c)(player);
             ((ItemData *)(&packet.item))->copy_from((ItemData *)(item));
-            normalize__9TItemDataFv(&packet.item);
+            ((TItemData *)&packet.item)->encode_for_network();
             ((TObjPlayer *)(&packet))->send_cmd_item_data();
         }
     }

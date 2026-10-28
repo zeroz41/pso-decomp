@@ -620,7 +620,7 @@ void bswap__9TItemDataFv(s32 arg0) {
 }
 
 s32 TItemData__sub_8010C738(TItemData *) { return 0; }
-void TItemData__sub_8010C740(void *, s32) {}
+void TItemData::convert_from_version(s32) {}
 
 void TItemData::unpack_from_item(void *arg1) {
     s32 sp8;
@@ -802,8 +802,8 @@ s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0) {
     return 0;
 }
 
-void TItemData__sub_8010CCB0(void *) {}
-void TItemData::normalize() {  }
+void TItemData::decode_from_network() {}
+void TItemData::encode_for_network() {}
 u8 TItemData::get_entry_field16() {
     void *item_pmt_record;
 
