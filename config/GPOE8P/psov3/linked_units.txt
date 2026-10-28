@@ -732,7 +732,7 @@ pso/item/TItemMenuCtrl_80115A28.cpp
 pso/item/TItemMenuCtrl_80115A78.cpp
 pso/item/TItemMenuCtrl_80115AF0.cpp
 pso/item/TItemMoney.cpp
-pso/item/TItemObject_80115D6C.cpp
+pso/item/TItemObject.cpp
 pso/item/TItemProArmor.cpp
 pso/item/TItemProArmorParticle.cpp
 pso/item/TItemProShield_80076B5C.cpp

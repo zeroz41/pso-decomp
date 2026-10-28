@@ -1,3 +1,4 @@
+#include "pso/map/CurrentArea.h"
 #include "pso/item/TItemObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItemData.h"
@@ -16,10 +17,7 @@ f32 horizontal_distance_squared(void *, void *);
 s32 sub_801A1DDC__10TObjPlayerFv(void *);
 void *get_player_by_client_id(s32 i);
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
-s32 set_hp_clamped__10TObjPlayerFs(void *, s32);
-s32 get_field_2b8__14TItemProShieldFv(void *);
 void *spawn_particle_effect(void *pos, s32 id);
-s32 are_items_enabled_here__Fv();
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
 }
@@ -181,8 +179,8 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
             target = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[i]);
             if (target != NULL && target->has_flag_0x800() == 0) {
                 if (user->get_field_3e4() == target->get_field_3e4()) {
-                    set_hp_clamped__10TObjPlayerFs(target, get_field_2b8__14TItemProShieldFv(target));
-                    if (are_items_enabled_here__Fv() != 0) {
+                    target->set_hp_clamped(((TItemProShield *)target)->get_field_2b8());
+                    if (are_items_enabled_here() != 0) {
                         if (i == 0) {
                             spawn_particle_effect((u8 *)target + 0x2FC, 0x19);
                         }

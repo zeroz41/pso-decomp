@@ -474,7 +474,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/item/TItemEquipBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TItemObject's vtable precedes its switch table: deferred, and written
     # from its last function back.
-    "pso/item/TItemObject_80115D6C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/item/TItemObject.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # Two tool classes built the same way: the material's vtable precedes its
     # switch table, and TUnk_8049FED0's TU emits its helper task's vtable first.
     "pso/item/TUnk_8049FBC0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
