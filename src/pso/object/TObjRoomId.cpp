@@ -5,7 +5,6 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -82,7 +81,6 @@ s32 pop_matrices(s32 arg0);
 f32 vec3_dot(Vec_801A1A60 *, Vec_801A1A60 *);
 void *__dt__10TObjRoomIdFv(void *arg0, s16 arg1);
 void *create__10TObjRoomIdFPv(void *arg0);
-void set__10TObjRoomIdFPvs(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 s32 is_split_screen();
@@ -169,14 +167,14 @@ void TObjRoomId::run_task() {
                 *(s16 *)((s8 *)p + 0x28) = (s16)o->room_pos;
                 set_player_room_control_flag((TObjPlayer *)p);
             } else {
-                set__10TObjRoomIdFPvs(p, (s16)o->room_pos);
+                ((TObjPlayer *)p)->set_room((s16)o->room_pos);
             }
         } else {
             if (o->mode == 0x10000) {
                 *(s16 *)((s8 *)p + 0x28) = (s16)o->room_other;
                 set_player_room_control_flag((TObjPlayer *)p);
             } else {
-                set__10TObjRoomIdFPvs(p, (s16)o->room_other);
+                ((TObjPlayer *)p)->set_room((s16)o->room_other);
             }
         }
     }
@@ -237,19 +235,4 @@ u8 TObjPlayer::sub_801A1DDC() {
         return 1U;
     }
     return (u8) (this->entity_id == local_client_id);
-}
-
-const char *TUnk_804B9870::get_name() { return NULL; }
-void set__10TObjRoomIdFPvs(void *arg0, s16 arg1) {
-    u32 global_state;
-
-    if ((u16) *(u16 *)((s8 *)arg0 + 0x1C) < 0x1000U) {
-        global_state = get_current_area();
-        if ((global_state <= 2U) || ((s32) global_state == 0x12) || (TContainerAncient01::is_global_state_in_table() != 0) || ((s32) global_state == 0xC) || ((s32) global_state == 0x20)) {
-            *(s16 *)((s8 *)arg0 + 0x2E) = arg1;
-        }
-        *(s16 *)((s8 *)arg0 + 0x28) = arg1;
-        return;
-    }
-    *(s16 *)((s8 *)arg0 + 0x28) = arg1;
 }

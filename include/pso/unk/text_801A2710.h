@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_801A2640_H
-#define PSO_UNK_TEXT_801A2640_H
+#ifndef PSO_UNK_TEXT_801A2710_H
+#define PSO_UNK_TEXT_801A2710_H
 
 #include "types.h"
 
@@ -19,7 +19,7 @@ void *TObjMapWarpForest__create(void *arg0);
 void *TObjWarpLobby__create(void *arg0);
 }
 
-// --- C functions defined in text_801A2640.cpp ---
+// --- C functions defined in text_801A2710.cpp ---
 extern "C" {
 void *TODoorFourLightRuins__create(void *arg0);
 void *TODoorFourLightSeabedU__create(void *arg0);

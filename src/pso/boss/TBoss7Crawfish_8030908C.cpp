@@ -121,7 +121,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
         ((TBoss7Crawfish *)arg0)->m_3a0 = dispatch_shared_handler_a__6TLobbyFl(9);
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 1);
     }
-    ((TUnk_804806E8 *)arg0)->get_or_assign_actor_id(0);
+    ((TUnk_804806E8 *)arg0)->get_or_assign_entity_id(0);
     ((TObjPlayer *)arg0)->reset_photon_effect();
     ((TBoss7Crawfish *)arg0)->clear_object_state_exchange();
     ((TBoss7Crawfish *)arg0)->change_state(0);

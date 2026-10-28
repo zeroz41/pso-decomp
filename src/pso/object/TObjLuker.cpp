@@ -103,7 +103,6 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
 s32 obj_isState3_324__13TUnk_804806E8Fv(int);
-s32 set__10TObjRoomIdFPvs(int, volatile short);
 s32 send_6x21_inter_level_warp(int, void *);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -347,7 +346,7 @@ void TObjLuker::transfer_to_town() {
       {
         ((TTecLuker *)(p + 0x848))->set_state(arg0->owner);
         send_6x21_inter_level_warp((int) p, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
-        set__10TObjRoomIdFPvs((int) p, (s16) (*((s32 *) (((s8 *) self) + 0x834))));
+        ((TObjMotion *)p)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
       }
     }
   }
@@ -356,7 +355,7 @@ void TObjLuker::transfer_to_town() {
     ((TTecLuker *)(local + 0x848))->set_state(arg0->owner);
     if (((Ctrl_801A0E38 *(*)(s32)) get_player_by_client_id)(arg0->owner) != 0)
     {
-      set__10TObjRoomIdFPvs((int) local, (s16) (*((s32 *) (((s8 *) self) + 0x834))));
+      ((TObjMotion *)local)->set_room((s16) (*((s32 *) (((s8 *) self) + 0x834))));
     }
     send_6x21_inter_level_warp((int) local, (void *) ((TObjAreaWarpQuest *)lbl_80515BA0)->get_dest_area());
   }

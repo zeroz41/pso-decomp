@@ -1021,7 +1021,6 @@ pso/misc/TLobby_80160804.cpp
 pso/misc/TLobby_8016ACC8.cpp
 pso/misc/TLobby_80191218.cpp
 pso/misc/TLobby_80191F80.cpp
-pso/misc/TLobby_801A253C.cpp
 pso/misc/TLobby_801A2D90.cpp
 pso/misc/TLobby_801A3B84.cpp
 pso/misc/TLobby_801A3BF4.cpp
@@ -1411,7 +1410,6 @@ pso/misc/TParticleCtrl_80085EE4.cpp
 pso/misc/TParticleCtrl_800866F8.cpp
 pso/misc/TParticleCtrl_800867AC.cpp
 pso/misc/TParticleCtrl_800867E4.cpp
-pso/misc/TParticleCtrl_801A25B4.cpp
 pso/misc/TParticleCtrl_801D6B3C.cpp
 pso/misc/TParticleCtrl_801D6B8C.cpp
 pso/misc/TParticleCtrl_801E2EFC.cpp
@@ -2217,6 +2215,7 @@ pso/object/TObject_80019A50.cpp
 pso/object/TObject_8001A448.cpp
 pso/object/TObject_800F794C.cpp
 pso/object/TUnk_804A6DC0.cpp
+pso/object/TUnk_804B9870.cpp
 pso/player/PlayerClassStats.cpp
 pso/player/PlayerTaskEffects.cpp
 pso/player/THunterGuildSeqOnlineTask.cpp
@@ -2447,8 +2446,6 @@ pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80166970.cpp
 pso/player/TObjPlayer_80178150.cpp
 pso/player/TObjPlayer_8017E4EC.cpp
-pso/player/TObjPlayer_801A1EB0.cpp
-pso/player/TObjPlayer_801A2570.cpp
 pso/player/TObjPlayer_801A5AEC.cpp
 pso/player/TObjPlayer_801A7080.cpp
 pso/player/TObjPlayer_801A9BAC.cpp
@@ -3178,11 +3175,7 @@ pso/unk/text_8019B0D4.cpp
 pso/unk/text_8019DBB4.cpp
 pso/unk/text_801A0520.cpp
 pso/unk/text_801A069C.cpp
-pso/unk/text_801A210C.cpp
-pso/unk/text_801A2124.cpp
-pso/unk/text_801A212C.cpp
-pso/unk/text_801A2514.cpp
-pso/unk/text_801A2640.cpp
+pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp
 pso/unk/text_801A3BB8.cpp

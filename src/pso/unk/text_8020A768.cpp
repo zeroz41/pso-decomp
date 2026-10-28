@@ -2,7 +2,7 @@
 #include "pso/misc/TLobby_80131794.h"
 #include "pso/misc/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
-#include "pso/unk/text_801A2514.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/unk/text_8020A768.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TLobby_80207644.h"

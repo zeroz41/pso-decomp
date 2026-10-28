@@ -4,7 +4,7 @@
 #include "pso/misc/TLobby_80207DA8.h"
 #include "pso/misc/TLobby_8020A188.h"
 #include "pso/system/TGStream.h"
-#include "pso/unk/text_801A2514.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/unk/text_801F43A8.h"
 #include "pso/unk/text_8020A2AC.h"
 #include "pso/unk/text_8020AB50.h"

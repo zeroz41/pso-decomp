@@ -375,7 +375,7 @@ u16 TUnk_804AF8A0::unregister_object_by_id() {
     return 0xFFFF;
 }
 
-void TObjPlayer::reset_photon_effect() { get_or_assign_actor_id((s32)((void*)0)); register_entity_by_id(this); }
+void TObjPlayer::reset_photon_effect() { get_or_assign_entity_id(0); register_entity_by_id(this); }
 
 #define o ((Obj_80154B60 *)ov)
 #define TBL ((Obj_80154B60 **)TObjPlayer__data_8050D460)

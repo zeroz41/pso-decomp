@@ -5999,32 +5999,11 @@ pso/misc/TTecLuker_801A1880.cpp:
 	.text       start:0x801A1880 end:0x801A1888
 
 pso/object/TObjRoomId.cpp:
-	.text       start:0x801A1888 end:0x801A1EB0
+	.text       start:0x801A1888 end:0x801A1E2C
 	.rodata     start:0x80446898 end:0x804468B8
 
-pso/player/TObjPlayer_801A1EB0.cpp:
-	.text       start:0x801A1EB0 end:0x801A210C
-
-pso/unk/text_801A210C.cpp:
-	.text       start:0x801A210C end:0x801A2124
-
-pso/unk/text_801A2124.cpp:
-	.text       start:0x801A2124 end:0x801A212C
-
-pso/unk/text_801A212C.cpp:
-	.text       start:0x801A212C end:0x801A2514
-
-pso/unk/text_801A2514.cpp:
-	.text       start:0x801A2514 end:0x801A253C
-
-pso/misc/TLobby_801A253C.cpp:
-	.text       start:0x801A253C end:0x801A2570
-
-pso/player/TObjPlayer_801A2570.cpp:
-	.text       start:0x801A2570 end:0x801A25B4
-
-pso/misc/TParticleCtrl_801A25B4.cpp:
-	.text       start:0x801A25B4 end:0x801A2640
+pso/object/TUnk_804B9870.cpp:
+	.text       start:0x801A1E2C end:0x801A2710
 	.data       start:0x804B9870 end:0x804B98A8
 
 pso/map/FloorLifecycleTables.cpp:
@@ -6033,8 +6012,8 @@ pso/map/FloorLifecycleTables.cpp:
 pso/object/ObjectFactoryTables.cpp:
 	.data       start:0x804BB1A8 end:0x804C1F68
 
-pso/unk/text_801A2640.cpp:
-	.text       start:0x801A2640 end:0x801A2AEC
+pso/unk/text_801A2710.cpp:
+	.text       start:0x801A2710 end:0x801A2AEC
 
 pso/object/TObjWarpBoss03_801A2AEC.cpp:
 	.text       start:0x801A2AEC end:0x801A2B38

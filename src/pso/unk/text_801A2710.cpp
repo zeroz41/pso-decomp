@@ -1,12 +1,10 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjInfoCol.h"
-#include "pso/unk/text_801A2640.h"
+#include "pso/unk/text_801A2710.h"
 #include "pso/system/vector.h"
 
 extern "C" {
-extern const f32 lbl_805DC098;
-extern const f32 lbl_805DC0A0;
 u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TODoorFourLightSeabedU__ct(void *, void *, void *);
 void *TODoorFourLightSeabed__ct(void *, void *, void *);
@@ -24,34 +22,6 @@ void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 
 }
-TUnk_804B9870::TUnk_804B9870(TObject *parent) : TObject(parent) {
-    actorFlags = 0;
-    entity_id = 0xFFFF;
-    room = -1;
-    set_group = 0;
-    set_index = -1;
-    m_20 = 1;
-    texture_id = 0;
-    model = NULL;
-    set_entry = NULL;
-    position.x = lbl_805DC098;
-    position.y = lbl_805DC098;
-    position.z = lbl_805DC098;
-    VecCopy(&prev_position, &position);
-    VecCopy(&home_position, &position);
-    rotation_x = 0;
-    rotation_y = 0;
-    rotation_z = 0;
-    scale.x = lbl_805DC0A0;
-    scale.y = lbl_805DC0A0;
-    scale.z = lbl_805DC0A0;
-    center.x = lbl_805DC098;
-    center.y = lbl_805DC098;
-    center.z = lbl_805DC098;
-    visibility = 0;
-}
-
-
 void *TODoorFourLightSeabed__create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xFC);
     if (o != NULL) {

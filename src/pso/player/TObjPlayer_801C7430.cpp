@@ -1232,7 +1232,6 @@ s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(TObjPlayer *player, TUnk_804806E8 *target, s32 damage);
 u8 * find_entity_by_id(s32);
 s32 get_trap_type__10TOMineTrapFv(int);
-void set__10TObjRoomIdFPvs(void *, s16);
 s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 is_final_phase__10TObjPlayerFv();
@@ -6011,7 +6010,7 @@ void handle_6x3F_set_position(void *arg0) {
                 ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));
             }
             if (m.room >= 0) {
-                set__10TObjRoomIdFPvs(p, m.room);
+                ((TObjPlayer *)p)->set_room(m.room);
             }
             p->ang = m.ang;
             if (m.flag != 1) {
@@ -6049,7 +6048,7 @@ void handle_6x3E_stop_at_position(void *arg0) {
         return;
     }
     if (m.room >= 0) {
-        set__10TObjRoomIdFPvs(p, m.room);
+        ((TObjPlayer *)p)->set_room(m.room);
     }
     switch (m.flag) {
     case 0:

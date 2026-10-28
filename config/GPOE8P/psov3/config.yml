@@ -367,7 +367,6 @@ force_active:
   - TItemWeaponMechgun__ct
   - TItemWeaponPartisan__ct
   - TItem__name
-  - set_pick_up__12CursorActionFv
   - TJudgmentSequence__sub_80215BA0
   - TJudgmentSequence__sub_80215BCC
   - TJudgmentSequence__sub_80215BF8
@@ -1286,7 +1285,6 @@ force_active:
   - TTecGiZonde__ct
   - TTecGrants__ct
   - TTecLuker__ct
-  - set_telepipe__12CursorActionFv
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
@@ -2096,6 +2094,7 @@ force_active:
   - __vt__13TUnk_8049F148
   - __vt__13TUnk_804A2018
   - __vt__13TUnk_804AF7B0
+  - __vt__13TUnk_804B9870
   - __vt__13TUnk_804C4498
   - __vt__13TUnk_804C57F0
   - __vt__13TUnk_804CC148
@@ -4155,13 +4154,13 @@ force_active:
   - fn_800E35C8
   - fn_8010EF14
   - fn_8010EFE8
-  - get__12CursorActionFv
   - fn_80156C88
   - fn_80157CA8
   - fn_8017F5F0
   - fn_801908F8
   - fn_8019B480
   - fn_8019F9AC
+  - fn_801A210C
   - fn_801A3BB8
   - fn_801C1E98
   - fn_801C1EE8
@@ -4280,6 +4279,7 @@ force_active:
   - generate_shop_inventory__6TLobbyFl
   - generate_shop_weapon_stock__Fl
   - generate_tool_drop__9TItemDropFiiPv
+  - get__12CursorActionFv
   - get_action_cursor_priority__11TMainCursorFPvll
   - get_anim_entry_value__10TObjMotionFs
   - get_anim_frame__13TUnk_804B5E48Fv
@@ -11772,6 +11772,7 @@ force_active:
   - set_phase_90__11TBoss6Type1Fv
   - set_phase_timer_3E__11TBoss6Type1Fv
   - set_photon_state__18TObjEneRe4SorcererFv
+  - set_pick_up__12CursorActionFv
   - set_player_id__11TPlayerSoulFUs
   - set_player_room_control_flag__FP10TObjPlayer
   - set_pos_target__11TCameraCtrlFPvPvl
@@ -11796,6 +11797,7 @@ force_active:
   - set_state_flags__18TObjEneRe4SorcererFPv
   - set_state_ready__15TPlyPhotonChairFv
   - set_symbol_chat_face_sprite__FPvUc
+  - set_telepipe__12CursorActionFv
   - set_tev_passclr__10TObjPlayerFv
   - set_tev_stage_mode__Fl
   - set_timer_value__12TWindowTimerFii

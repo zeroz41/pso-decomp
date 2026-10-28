@@ -18,6 +18,10 @@ public:
     virtual const char *get_name();
     void obj_clearFlags30(u32);
     s16 get_stat_by_key_state();
+    void set_room(s16 room);
+    // Gives it count + 1 consecutive ids from the pool its actorFlags type
+    // bits pick, unless it already has one; returns its id.
+    u16 get_or_assign_entity_id(s32 count);
     s32 mask_object_set_row_flags(s32);
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
@@ -45,6 +49,17 @@ public:
     void *set_entry;    // its row of the floor's object or enemy set
     s32 set_params[3];  // the set entry's params 4-6
 };
+// The entity id pools (TUnk_804B9870's TU): ids below 0x1000 are players and
+// the like, 0x1000-0x3FFF enemies, 0x4000 and up objects.
+extern "C" {
+u16 fn_801A210C(s32 n);
+u16 TLobby__sub_801A20C8(s32 arg);
+void TLobby__sub_801A2550(void);
+void TLobby__sub_801A2554(void);
+}
+void advance_enemy_id_counter(s32 arg0);
+void advance_object_id_counter(s32 arg0);
+
 // The derived destructors still written out by hand call the base ones by
 // their symbols.
 extern "C" void *__dt__13TUnk_804B9870Fv(void *, s16);
