@@ -2097,7 +2097,6 @@ void for_each_player_slot__10TObjPlayerFv(void (*arg0)(void *));
 s32 handle_set_visible__10TObjPlayerFi(s32 arg0);
 void TObjPlayer__sub_801B1BA4(void);
 void TObjPlayer__sub_801B1C8C(void);
-void send_field_state_if_active__10TObjPlayerFP10TObjPlayerl(s32 arg0, s32 arg1);
 void handle_6x2F_change_player_hp(s32 arg0);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 void handle_6x24_teleport_player(s32 arg0);
@@ -3549,7 +3548,7 @@ void TObjPlayer::send_field_state() {
     if ((this->is_body_collision_inactive() == 0) && (((s32 (*)(s32))check_flag_800000__10TObjPlayerFPv)(arg0) == 0)) {
         ((TObjPlayer *)(arg0 + 0x384))->check_hit_by_id_431_from_packet();
     }
-    ((s32 (*)(s32, s32))send_field_state_if_active__10TObjPlayerFP10TObjPlayerl)(arg0, 0x42D08);
+    ((TObjPlayer *)arg0)->play_sound_if_on_floor(0x42D08);
 }
 
 void TObjPlayer::spawn_effect(s32 arg0) {
@@ -3849,9 +3848,9 @@ void TObjPlayer__sub_801B1C8C(void) {
     }
 }
 
-void send_field_state_if_active__10TObjPlayerFP10TObjPlayerl(s32 arg0, s32 arg1) {
+void TObjPlayer::play_sound_if_on_floor(s32 sound_id) {
     if (((s32 (*)(void))is_on_current_floor__10TObjPlayerFi)() != 0) {
-        play_sound_effect(arg1, ((s32 (*)(s32))get_position_ptr__10TObjPlayerFv)(arg0), 0, 0);
+        play_sound_effect(sound_id, (s32)get_position_ptr(), 0, 0);
     }
 }
 
@@ -4818,7 +4817,7 @@ void TObjPlayer::emit_footstep_effect(f32 farg0, f32 farg1) {
 void TObjPlayer::play_footstep_sound() {
     s32 arg0 = (s32)this;
     if (((int (*)(void))test_ordered_anim_markers__10TObjPlayerFPvff)() != 0) {
-        ((s32 (*)(s32, s32))send_field_state_if_active__10TObjPlayerFP10TObjPlayerl)(arg0, ((TObjPlayer *)arg0)->get_footstep_floor_index());
+        ((TObjPlayer *)arg0)->play_sound_if_on_floor(((TObjPlayer *)arg0)->get_footstep_floor_index());
     }
 }
 
@@ -4964,7 +4963,7 @@ s32 TObjPlayer::can_use_action() {
     return ((TFontSmallLobby *)(arg0 + 0x4AC))->is_ready() != 0 ? 1 : 0;
 }
 
-void send_field_state__10TObjPlayerFPv(void* p) { ((TObjPlayer *)((char*)p + 0x384))->emit_photon_blast_feedback_from_packet(); ((int (*)(void*, void*))send_field_state_if_active__10TObjPlayerFP10TObjPlayerl)(p, (void*)142625); }
+void send_field_state__10TObjPlayerFPv(void* p) { ((TObjPlayer *)((char*)p + 0x384))->emit_photon_blast_feedback_from_packet(); ((TObjPlayer *)p)->play_sound_if_on_floor(142625); }
 
 void TObjPlayer::update_target() {
     s32 current_target_id;
@@ -6620,7 +6619,7 @@ void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
         ((TObjPlayer *)player)->add_meseta((s32)((void *)((TItem *)arg1)->calc_price()));
         ((s32 (*)(void *, void *))TObjPlayer__sub_801B0124)(player, (void *)((TItem *)arg1)->calc_price());
         ((TItem *)arg1)->destroy();
-        ((s32 (*)(void *, int))send_field_state_if_active__10TObjPlayerFP10TObjPlayerl)(player, 0x52802);
+        ((TObjPlayer *)player)->play_sound_if_on_floor(0x52802);
         return 0;
     }
     if (((s32 (*)(void *, void *))can_pickup_item_by_id__10TObjPlayerFP5TItem)(player, arg1) == 0) {

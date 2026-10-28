@@ -474,7 +474,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     s32 is_flag_20000_set();
     s32 is_body_collision_inactive();
     static int get_slot_value(void *slots, int slot);
-    static void send_field_state_if_active(TObjPlayer *player, s32 flags);
+    void play_sound_if_on_floor(s32 sound_id);
     u32 pickup_item(TItem *item);
     s32 can_pickup_item_by_id(TItem *item);
     s32 can_pickup_item(TItemData *data);

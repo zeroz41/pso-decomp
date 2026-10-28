@@ -560,7 +560,7 @@ void TItem::handle_pickup(s16 floor, TObjPlayer *player) {
 void TItem::send_field_state(s16 floor, TObjPlayer *player) {
     if (floor == get_current_floor()) {
         spawn_particle_effect(&position, 0x9B);
-        TObjPlayer::send_field_state_if_active(player, 0x52802);
+        player->play_sound_if_on_floor(0x52802);
     }
 }
 
