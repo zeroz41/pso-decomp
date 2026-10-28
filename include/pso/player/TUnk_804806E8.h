@@ -26,6 +26,8 @@ public:
     s16 get_actor_attack_params_atp_min();
     u8 obj_testFlag_2E4(u32);
     int obj_getPtr2B0_1C();
+    // The character's stat block (ATP, MST, EVP, HP, DFP, ATA, LCK first).
+    u8 *get_stats();
     s16 get_s16_2c4();
     void sub_800192B4(int);
     s16 get_field_2c0();

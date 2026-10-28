@@ -98,7 +98,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     ((TObjPlayer *)arg1)->set_action_flags(get_inventory_state__10TObjPlayerFv(arg0));
     ((TObjPlayer *)arg1)->set_byte_13b(get_equip_flags__10TObjPlayerFv(arg0));
     ((TObjPlayer *)arg1)->set_field_157(TObjPlayer__sub_801BE7BC(arg0));
-    copy_data__6TLobbyFPvPv(arg1 + 0x34C, (void *)((TQuestListVM *)arg0)->get_quest_id());
+    copy_data__6TLobbyFPvPv(arg1 + 0x34C, ((TObjPlayer *)arg0)->get_stats());
     clamp_stats__10TObjPlayerFiPv(arg0, arg1 + 0x34C, get_class_stat_entry__10TObjPlayerFPUc(arg0));
     copy_player_visual_record(arg1 + 0x370, arg0 + 0x85C);
     TObjPlayer__sub_8013A748(arg1 + 0x3C0, arg0 + 0x500);

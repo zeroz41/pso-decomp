@@ -62,7 +62,6 @@ extern "C" {
 
 void queue_destruction__7TObjectFv(void *);
 s32 *get_shared_text_buffer(void);
-u32 get_quest_id__12TQuestListVMFv(void);
 void __dl__FPv(void);
 void *get_player_by_client_id(s32 i);
 void TWindowSubStatusDisp__sub_80228F5C(s32);
@@ -199,7 +198,7 @@ void TWindowSetLevelUp::update_stat_messages() {
     case 0:
     case 1:
         pl = (VObj_8026DA44 *)get_player_by_client_id(self->client);
-        if (pl != NULL && get_quest_id__12TQuestListVMFv() != 0) {
+        if (pl != NULL && ((TObjPlayer *)pl)->get_stats() != 0) {
             text_builder_append((u8 *)lbl_8044F534);
             TWindowSubStatusDisp__sub_80228F5C(pl->get_level() + 1);
             ((TWindowCtrl *)(self->client))->set_window_flags_off((s32)get_shared_text_buffer());

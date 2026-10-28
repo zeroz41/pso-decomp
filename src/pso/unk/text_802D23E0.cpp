@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestListVM.h"
@@ -56,7 +57,7 @@ void TLobby::send_trade_proposal_modify() {
     player = (u8 *) get_player_by_client_id(local_client_id);
     if (player)
     {
-      temp_r3_2 = (u8 *) ((TQuestListVM *)player)->get_quest_id();
+      temp_r3_2 = ((TObjPlayer *)player)->get_stats();
       if (temp_r3_2 != 0)
       {
         stack.spC = 0;

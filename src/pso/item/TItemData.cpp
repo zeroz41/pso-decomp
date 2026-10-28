@@ -91,7 +91,6 @@ u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
 s32 is_quest_active();
 s32 is_flag_set__6TLobbyFv();
-u8 *get_quest_id__12TQuestListVMFv(void *);
 s32 is_item_usable__9TItemDataFlPUc(void *, void *);
 s32 check_equip_requirements(void *, void *, int);
 s32 check_class_equip_permission(void *, int);
@@ -1095,7 +1094,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
         tech = (u8 *) calc_technique_parameters(((u8 *)this)[4], lvl, 0xFFFF);
         if (tech != 0)
         {
-          if ((*((s16 *) (get_quest_id__12TQuestListVMFv(player) + 2))) < (*((s16 *)(tech + 0x14))))
+          if ((*((s16 *) (((TObjPlayer *)player)->get_stats() + 2))) < (*((s16 *)(tech + 0x14))))
           {
             result |= 0x10001;
           }
@@ -1132,7 +1131,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       }
       case 11:
       {
-        u8 *quest = get_quest_id__12TQuestListVMFv(player);
+        u8 *quest = ((TObjPlayer *)player)->get_stats();
         if (quest != 0)
         {
           hit = 0;

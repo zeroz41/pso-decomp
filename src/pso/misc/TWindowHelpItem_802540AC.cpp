@@ -227,7 +227,6 @@ s32 get_array_entry__13TUnk_804CE018Fi(void *, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 check_equip_requirements(s32, s32, s32 *);
 void *get_player_by_client_id(s32 i);
-u32 get_quest_id__12TQuestListVMFv();
 void *lookup_item_pmt_record(u8 *item);
 s32 init_window_layout_entries(void *, void *, int);
 s32 set_help_text__15TWindowHelpItemFUl(void *, int);
@@ -705,7 +704,7 @@ void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self) {
     if (pl == 0) {
         return;
     }
-    q = (Quest_802549B0 *)get_quest_id__12TQuestListVMFv();
+    q = (Quest_802549B0 *)((TObjPlayer *)pl)->get_stats();
     if (q == NULL) {
         return;
     }
@@ -715,7 +714,7 @@ void update_stat_comparison__15TWindowHelpItemFv(Help_802549B0 *self) {
     e4 = get_array_entry__13TUnk_804CE018Fi(self, 4);
     e2 = get_array_entry__13TUnk_804CE018Fi(self, 2);
     e5 = get_array_entry__13TUnk_804CE018Fi(self, 5);
-    ((TWindowHelpItem *)e0)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_field_2c8() + ((TUnk_804806E8 *)pl)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C((void *)pl));
+    ((TWindowHelpItem *)e0)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_field_2c8() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min() + TObjPlayer__sub_800A776C((void *)pl));
     ((TWindowHelpItem *)e3)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_ata());
     ((TWindowHelpItem *)e1)->set_flag4_and_field1c(((TWindowSubStatusDisp *)pl)->get_value());
     ((TWindowHelpItem *)e4)->set_flag4_and_field1c(((TObjPlayer *)pl)->get_hp());
@@ -759,7 +758,7 @@ void update_level_requirement__15TWindowHelpItemFPv(u8 *arg0) {
     u8 *player;
     player = (u8 *)(((u8 *)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 0x20))));
     if (player != NULL) {
-        if (get_quest_id__12TQuestListVMFv() != 0U) {
+        if (((TObjPlayer *)player)->get_stats() != 0U) {
             update_stat_comparison__15TWindowHelpItemFv((Help_802549B0 *)(arg0));
             temp_r30 = (u8 *)(((u8 *)get_array_entry__13TUnk_804CE018Fi(arg0, 0xA)));
             item_pmt_record = (u8 *)(lookup_item_pmt_record((u8 *)(*(s32 *)((s8 *)arg0 + 0x68))));

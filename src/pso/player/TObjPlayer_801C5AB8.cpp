@@ -21,7 +21,7 @@ extern const f32 lbl_805DC334;
 void TObjPlayer::copy_offset_position(void *quest_list_vm) {
     f32 temp_f2;
 
-    temp_f2 = *(f32 *)((s8 *)(((TQuestListVM *)quest_list_vm)->get_quest_id()) + 0x10);
+    temp_f2 = *(f32 *)((s8 *)(((TObjPlayer *)quest_list_vm)->get_stats()) + 0x10);
     *(f32 *)((s8 *)this + 0) = (f32) ((TQuestListVM *)quest_list_vm)->m_38;
     *(f32 *)((s8 *)this + 4) = (f32) ((lbl_805DC334 * temp_f2) + *(f32 *)((s8 *)quest_list_vm + 0x3C));
     *(f32 *)((s8 *)this + 8) = (f32) ((TQuestListVM *)quest_list_vm)->m_40;

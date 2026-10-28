@@ -42,13 +42,6 @@ s32 TObjPlayer__sub_800194E8(AttackParams *params);
 void *resolve_hittable_target(u16 actor_id, s32 collider);
 s32 add_actor_hp_bonus(void *actor, s32 amount);
 s32 add_actor_tp_bonus(void *actor, s32 amount);
-s16 add_stat__10TObjPlayerFl(void *player, s32 amount);
-s16 add_mst__10TObjPlayerFl(void *player, s32 amount);
-s16 add_evp__10TObjPlayerFl(void *player, s32 amount);
-s16 add_hp__10TObjPlayerFl(void *player, s32 amount);
-s16 add_dfp__10TObjPlayerFl(void *player, s32 amount);
-s16 add_ata__10TObjPlayerFl(void *player, s32 amount);
-s16 add_lck__10TObjPlayerFl(void *player, s32 amount);
 void *memset(void *dst, int value, unsigned long size);
 }
 
@@ -287,7 +280,7 @@ void TItemEquipBase::remove_equip_stats(s32 apply) {
     if (owner != NULL) {
         AttackParams *attack = get_actor_attack_params(owner);
         ActorParamBlock *params = get_actor_param_block(owner);
-        s16 *stats = (s16 *)((TQuestListVM *)owner)->get_quest_id();
+        s16 *stats = (s16 *)owner->get_stats();
         subtract_equip_stats(attack, (s16 *)params, stats);
         if (apply) {
             add_actor_hp_bonus(owner, (s16)-hp_tp_bonus.hp);
@@ -339,15 +332,15 @@ void TItemEquipBase::add_equip_stats(s32 apply) {
             params->values[4] += param_bonus.values[4];
             params->values[5] += param_bonus.values[5];
         }
-        if ((s16 *)((TQuestListVM *)owner)->get_quest_id() != NULL) {
-            s16 excess = add_stat__10TObjPlayerFl(owner, stat_bonus.atp);
+        if (owner->get_stats() != NULL) {
+            s16 excess = owner->add_stat(stat_bonus.atp);
             deduct_cap_excess(item, &stat_bonus.atp, excess);
-            deduct_cap_excess(item, &stat_bonus.mst, add_mst__10TObjPlayerFl(owner, stat_bonus.mst));
-            deduct_cap_excess(item, &stat_bonus.evp, add_evp__10TObjPlayerFl(owner, stat_bonus.evp));
-            deduct_cap_excess(item, &stat_bonus.hp, add_hp__10TObjPlayerFl(owner, stat_bonus.hp));
-            deduct_cap_excess(item, &stat_bonus.dfp, add_dfp__10TObjPlayerFl(owner, stat_bonus.dfp));
-            deduct_cap_excess(item, &stat_bonus.ata, add_ata__10TObjPlayerFl(owner, stat_bonus.ata));
-            deduct_cap_excess(item, &stat_bonus.lck, add_lck__10TObjPlayerFl(owner, stat_bonus.lck));
+            deduct_cap_excess(item, &stat_bonus.mst, owner->add_mst(stat_bonus.mst));
+            deduct_cap_excess(item, &stat_bonus.evp, owner->add_evp(stat_bonus.evp));
+            deduct_cap_excess(item, &stat_bonus.hp, owner->add_hp(stat_bonus.hp));
+            deduct_cap_excess(item, &stat_bonus.dfp, owner->add_dfp(stat_bonus.dfp));
+            deduct_cap_excess(item, &stat_bonus.ata, owner->add_ata(stat_bonus.ata));
+            deduct_cap_excess(item, &stat_bonus.lck, owner->add_lck(stat_bonus.lck));
         }
         if (apply) {
             add_actor_hp_bonus(owner, hp_tp_bonus.hp);

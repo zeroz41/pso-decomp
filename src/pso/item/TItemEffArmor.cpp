@@ -167,7 +167,6 @@ extern "C" {
 void play_sound_effect(u32, void *, s32, s32);
 f32 xyz_distance(Vec_80108164 *, Vec_80108164 *);
 void *__nw__7TObjectFUl(u32);
-Quest_80108164 *get_quest_id__12TQuestListVMFv(Player_80108164 *);
 
 void *create_particle_emitter(void *pos, s32 id);
 
@@ -188,7 +187,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
 void TObjPlayer::spawn_appearance_effect(s32 idx) {
     Player_80108164 *p = (Player_80108164 *)get_player_by_client_id((u16)idx);
     if (p != 0) {
-        Quest_80108164 *q = get_quest_id__12TQuestListVMFv(p);
+        Quest_80108164 *q = (Quest_80108164 *)((TObjPlayer *)p)->get_stats();
         if (q != 0) {
             f32 v = q->f10;
             Vec_80108164 a;

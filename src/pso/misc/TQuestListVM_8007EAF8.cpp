@@ -2,15 +2,14 @@
 #include "pso/system/debug_print.h"
 #include "pso/misc/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TQuestListVM.h"
+#include "pso/player/TUnk_804806E8.h"
+
+u8 *TUnk_804806E8::get_stats() { return m_2b0; }
 
 extern "C" {
 
 void TLobby__sub_8007EB20(s32 arg0, ...);
 s32 xfree__FPv();
-
-s32 TQuestListVM::get_quest_id() {
-    return this->m_2b0;
-}
 
     extern int TQuestListVM__decrypted_quest_buffer;
 int TQuestListVM::get_instance() {  return TQuestListVM__decrypted_quest_buffer; }

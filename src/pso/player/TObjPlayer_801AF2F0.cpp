@@ -1999,7 +1999,6 @@ s32 get_position_ptr__10TObjPlayerFv();
 s32 get_mode__11TCameraCtrlFPv(void *p);
 void copy_player_visual_record(void *, void *);
 u8 * csnVectorUnder(s32 *, void *, s32);
-void * get_quest_id__12TQuestListVMFv();
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 is_in_shadow_range(u8 *arg0, f32 farg0);
 s32 get_item_id__5TItemFv();
@@ -2765,7 +2764,7 @@ void clamp_stats__10TObjPlayerFiPv(s32 arg0, void *arg1) {
     void *class_stat_caps;
     void *temp_r31;
 
-    temp_r31 = get_quest_id__12TQuestListVMFv();
+    temp_r31 = ((TObjPlayer *)arg0)->get_stats();
     ((s32 (*)(s32))get_class_index__10TObjPlayerFv)(arg0);
     class_stat_caps = get_class_stat_caps();
     temp_r4 = *(s16 *)((s8 *)temp_r31 + 0);
@@ -4354,7 +4353,7 @@ s32 build_player_class_stat_template(s32 arg0, s32 arg1) {
 #pragma scheduling off
 #pragma scheduling on
 s32 build_player_equipment_requirement_stats(TObjPlayer *self, PlayerRequirementStats *player_requirement_stats) {
-    set_params__10TObjPlayerFPvPvPviPv(player_requirement_stats, self, (void *) ((s32 (*)(void *))get_quest_id__12TQuestListVMFv)(self),
+    set_params__10TObjPlayerFPvPvPviPv(player_requirement_stats, self, self->get_stats(),
                                        get_class_attack_template(self), get_class_defense_template());
     return 1;
 }
@@ -5694,32 +5693,32 @@ s16 TObjPlayer::add_stat_clamped(s32 arg0, s16 *arg1, s16 arg2) {
     return var_r6;
 }
 
-void TObjPlayer::add_lck(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 0xC)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 0xC)));
+s16 TObjPlayer::add_lck(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 0xC)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 0xC)));
 }
 
-void TObjPlayer::add_evp(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 4)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 4)));
+s16 TObjPlayer::add_evp(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 4)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 4)));
 }
 
-void TObjPlayer::add_ata(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 0xA)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 0xA)));
+s16 TObjPlayer::add_ata(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 0xA)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 0xA)));
 }
 
-void TObjPlayer::add_mst(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 2)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 2)));
+s16 TObjPlayer::add_mst(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 2)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 2)));
 }
 
-void TObjPlayer::add_hp(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 6)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 6)));
+s16 TObjPlayer::add_hp(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 6)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 6)));
 }
 
-void TObjPlayer::add_dfp(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 8)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 8)));
+s16 TObjPlayer::add_dfp(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0) + 8)), (s16)(*(s16 *)((s8 *)(((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()) + 8)));
 }
 
-void TObjPlayer::add_stat(s32 arg1) {
-    TObjPlayer::add_stat_clamped(arg1, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0))), (s16)(*((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()));
+s16 TObjPlayer::add_stat(s32 amount) {
+    return add_stat_clamped(amount, (s16 *)((s16 *)(*(s32 *)((s8 *)this + 0x2B0))), (s16)(*((s16 * (*)(void))get_class_stat_entry__10TObjPlayerFPUc)()));
 }
 
 void TObjPlayer::recalc_stats() {
@@ -5729,8 +5728,8 @@ void TObjPlayer::recalc_stats() {
 
     temp_f31 = get_tp_class_factor__10TObjPlayerFv();
     xscale = ((TObjPlayer *)arg0)->get_class_hp_factor();
-    ((TUnk_804806E8 *)arg0)->recalc_combat_stats((void *)0, (void *)0, (void *)0, (f32)xscale, (f32)temp_f31);
-    ((TUnk_804806E8 *)arg0)->clamp_hp();
+    ((TObjPlayer *)arg0)->recalc_combat_stats((void *)0, (void *)0, (void *)0, (f32)xscale, (f32)temp_f31);
+    ((TObjPlayer *)arg0)->clamp_hp();
     ((TObjPlayer *)arg0)->clamp_tp();
 }
 

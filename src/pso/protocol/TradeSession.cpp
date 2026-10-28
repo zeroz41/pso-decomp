@@ -255,7 +255,6 @@ struct Trade_802D3134 { u8 pad[4]; s16 who; u16 count; Item_802D3134 items[1]; }
 
 extern "C" {
 
-u8 *get_quest_id__12TQuestListVMFv(u32);
 u32 get_player_by_client_id(void *);
 
 void handle_trade_state_cancel__6TLobbyFPv(O_802D33C0 *self);
@@ -369,7 +368,7 @@ void send_modify_trade_proposal__6TLobbyFi(s32 arg0) {
     u8 *temp_r3_2;
     build_6xA6_modify_trade_proposal((&packet.header));
     player = get_player_by_client_id((void *)local_client_id);
-    if ((player != 0U) && (temp_r3_2 = get_quest_id__12TQuestListVMFv(player), ((temp_r3_2 == NULL) == 0))) {
+    if ((player != 0U) && (temp_r3_2 = ((TObjPlayer *)player)->get_stats(), ((temp_r3_2 == NULL) == 0))) {
         if ((s32) (*(u8 *)&(*(s8 *)&TLobby__trade_partner_client_id)) != 4) {
             TWindowTradeRequest::close_request_window();
             if ((s8) (*(u8 *)&(*(s8 *)&TLobby__trade_partner_client_id)) == arg0) {

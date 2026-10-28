@@ -23,8 +23,7 @@ struct TQuestListVM : public TShopWindowBase {
     u8 unk_3C[0x4];
     f32 m_40;
     u8 unk_44[0x26C];
-    s32 m_2b0;
-    u8 unk_2B4[0xA4C];
+    u8 unk_2B0[0xA50];
     s32 m_d00;
     u8 unk_D04[0x1664];
     u32 m_2368;
@@ -69,7 +68,6 @@ struct TQuestListVM : public TShopWindowBase {
     static void scan_memcard_quest_files(void *arg0);
     s32 load_quest_vm();
     s32 init();
-    s32 get_quest_id();
     static int get_instance();
     static void reset();
     u32 decrypt_quest_data(s32 arg1, s32 arg2, u32 arg3);

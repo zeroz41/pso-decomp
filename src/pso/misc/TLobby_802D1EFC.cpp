@@ -29,7 +29,6 @@ extern "C" {
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
 Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
-u8 *get_quest_id__12TQuestListVMFv(void *);
 void *get_player_by_client_id(s32 i);
 int TLobby__sub_802D2358(void*);
 
@@ -67,7 +66,7 @@ void snapshot_player_trade_inventory(s32 arg0, s32 arg1) {
             var_r26 += 1;
         }
         temp_r31 = (u8 *) ((TLobby *)(arg0 + 0xF8))->get_trade_obj_ptr();
-        temp_r3_3 = get_quest_id__12TQuestListVMFv(player);
+        temp_r3_3 = ((TObjPlayer *)player)->get_stats();
         *(s32 *)((s8 *)temp_r31 + 0) = -0xFF;
         if (temp_r3_3 != NULL) {
             *(s32 *)((s8 *)temp_r31 + 4) = (s32) *(s32 *)((s8 *)temp_r3_3 + 0x20);

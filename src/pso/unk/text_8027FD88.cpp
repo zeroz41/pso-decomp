@@ -73,7 +73,6 @@ s32 TLobby__sub_801C2614();
 void *get_array_entry__13TUnk_804CE018Fi(void *, s32);
 s32 init_window_layout_entries(void *, s32 *, s16);
 s8 get_type__20TWindowSubStatusDispFv(int);
-Q_80280F14 *get_quest_id__12TQuestListVMFv();
 void *get_player_by_client_id(s32 i);
 void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0);
 }
@@ -281,14 +280,14 @@ void vt12__20TWindowSubStatusDispFv(u8 *arg0) {
     pl = (s32)get_player_by_client_id(*(s16 *)(arg0 + 0x20));
     if (pl != 0) {
         e2 = (Entry_80280B1C *)get_array_entry__13TUnk_804CE018Fi(arg0, 2);
-        e2->value = TObjPlayer__sub_800A776C((void *)pl) + (((TObjPlayer *)pl)->get_field_2c8() + ((TUnk_804806E8 *)pl)->get_actor_attack_params_atp_min());
+        e2->value = TObjPlayer__sub_800A776C((void *)pl) + (((TObjPlayer *)pl)->get_field_2c8() + ((TObjPlayer *)pl)->get_actor_attack_params_atp_min());
         e = (Entry_80280B1C *)get_array_entry__13TUnk_804CE018Fi(arg0, 8);
         e->value = ((TWindowSubStatusDisp *)pl)->get_value();
         e = (Entry_80280B1C *)get_array_entry__13TUnk_804CE018Fi(arg0, 0x14);
         e->value = ((TObjPlayer *)pl)->get_ata();
         e = (Entry_80280B1C *)get_array_entry__13TUnk_804CE018Fi(arg0, 0x1A);
         e->value = ((TObjPlayer *)pl)->get_hp();
-        q = ((u8 *(*)(s32))get_quest_id__12TQuestListVMFv)(pl);
+        q = ((TObjPlayer *)pl)->get_stats();
         if (q != NULL) {
             e = (Entry_80280B1C *)get_array_entry__13TUnk_804CE018Fi(arg0, 0xE);
             e->value = *(s16 *)(q + 2);
@@ -338,7 +337,7 @@ void vt11__20TWindowSubStatusDispFv(Wn_80280F14 *arg0) {
     En_80280F14 *e;
     p = ((VObj_18_eecf68 *)get_player_by_client_id(arg0->f20));
     if (p != NULL) {
-        q = get_quest_id__12TQuestListVMFv();
+        q = (Q_80280F14 *)((TObjPlayer *)p)->get_stats();
         if (q != NULL) {
             e = ((En_80280F14 *)get_array_entry__13TUnk_804CE018Fi(arg0, 2));
             e->v = p->m14() + 1;

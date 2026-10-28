@@ -135,7 +135,6 @@ struct Quest_8027ABFC { u8 pad[0x20]; s32 count; };
 struct Player_8027ABFC { u8 pad[0xD00]; s32 inv; };
 struct Win_8027ABFC { u8 pad0[0x20]; s16 id; u8 pad1[0x72 - 0x22]; s16 sel; u8 pad2[0x8C - 0x74]; u32 n; };
 
-Quest_8027ABFC *get_quest_id__12TQuestListVMFv(void *);
 void calc_list_content_extent(void *);
 void TWindowSubItem__sub_8027AB10(Wn_8027AB10 *arg0);
 void populate_sub_item_list(Win_8027ABFC *arg0);
@@ -637,7 +636,7 @@ void TWindowSubItem::run_task() {
             }
             break;
         case 19: {
-            Quest_8027ABFC *q = get_quest_id__12TQuestListVMFv((void *) p);
+            Quest_8027ABFC *q = (Quest_8027ABFC *)((TObjPlayer *)p)->get_stats();
             s32 n;
             if (q == NULL) {
                 F(u8, 0x1C) = 0x16;
@@ -803,7 +802,7 @@ void populate_sub_item_list(Win_8027ABFC *arg0) {
         for (i = 0; i < 5; i++) {
             add_battle_stat_entry(arg0, i, TWindowSubItem__sub_8027AA78(i), 0);
         }
-        q = get_quest_id__12TQuestListVMFv(pl);
+        q = (Quest_8027ABFC *)((TObjPlayer *)pl)->get_stats();
         if (q != NULL && q->count > 0) {
             push_status_disp_entry(arg0, q->count, -0xFF);
         }

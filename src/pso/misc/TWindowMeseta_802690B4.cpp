@@ -2,25 +2,26 @@
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/misc/TWindowMeseta.h"
 #include "pso/misc/TWindowSubComCard.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
 s32 draw_visible_window_entries(s32, s32, s32);
-void *get_quest_id__12TQuestListVMFv();
 void *get_player_by_client_id(s32 i);
 s32 draw_window_tab(s32, s32, s32, f32);
 
 s32 TWindowMeseta::get_meseta_value() {
-    void *temp_r3;
+    TObjPlayer *player = (TObjPlayer *)get_player_by_client_id(this->m_64);
+    u8 *stats;
 
-    if (get_player_by_client_id(this->m_64) == 0U) {
+    if (player == NULL) {
         return 0;
     }
-    temp_r3 = get_quest_id__12TQuestListVMFv();
-    if (temp_r3 == NULL) {
+    stats = player->get_stats();
+    if (stats == NULL) {
         return 0;
     }
-    return *(s32 *)((s8 *)temp_r3 + 0x20);
+    return *(s32 *)(stats + 0x20);
 }
 void TWindowMeseta::draw_value(s32 arg1) {
     draw_window_tab(arg1, arg1 + 0x10, 3, this->m_60);
