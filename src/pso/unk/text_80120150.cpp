@@ -97,20 +97,20 @@ void TItemWeapon__write_item_data(Src_80120454 *arg0, Dst_80120454 *arg1);
 
 void apply_weapon_node_material() {
     const s32 node = TObjPlayer::get_player_list();
-    TObjPlayer__sub_80101088();
-    TObjPlayer::end_particle_effect();
-    ((TItem *)weapon_render_callback_object)->draw_shield_particle();
-    ((TItem *)weapon_render_callback_object)->update_screen_particle_effect();
+    TItem::end_material_color();
+    TItem::end_effect_render();
+    ((TItem *)weapon_render_callback_object)->end_particle_tev();
+    ((TItem *)weapon_render_callback_object)->end_shield_tev();
     ((WeaponCallbackObject*)weapon_render_callback_object)->materialCallback();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
-        TObjPlayer::enable_first_time_flag((s32)&color);
+        TItem::begin_constant_material_color((s32)&color);
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         if(test_flags_any(&item_render_state,4)) {
             WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
-            TObjPlayer::enable_first_time_flag((s32)&color);
+            TItem::begin_constant_material_color((s32)&color);
         }
     }
     increment_model_node_counter();

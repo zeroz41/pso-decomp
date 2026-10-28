@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_80124C90.h"
 #include "pso/item/TUnk_804A2260.h"
 #include "pso/player/TObjPlayer.h"
@@ -27,11 +28,11 @@ void TObjPlayer::play_side_step_particle() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 1:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
         return;
     case 4:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         rotate_matrix_z(0, -*(s32 *)&this->unk_1F8);
         return;
     }

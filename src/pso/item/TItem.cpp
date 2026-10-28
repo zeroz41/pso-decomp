@@ -1044,7 +1044,7 @@ void TItem::has_bonus_stats() {
     data.has_bonus_stats();
 }
 
-void TObjPlayer::enable_first_time_flag(s32 color) {
+void TItem::begin_constant_material_color(s32 color) {
     if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         model_render_flags &= ~0x20;
         model_render_flags |= 0x10;
@@ -1053,7 +1053,7 @@ void TObjPlayer::enable_first_time_flag(s32 color) {
     }
 }
 
-void TObjPlayer::enable_flag20(s32 color) {
+void TItem::begin_offset_material_color(s32 color) {
     if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         u32 flags = *(volatile u32 *)&model_render_flags & ~0x10;
         *(volatile u32 *)&model_render_flags = flags;
@@ -1063,7 +1063,7 @@ void TObjPlayer::enable_flag20(s32 color) {
     }
 }
 
-void TObjPlayer__sub_80101088() {
+void TItem::end_material_color() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) != 0) {
         ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
@@ -1071,22 +1071,22 @@ void TObjPlayer__sub_80101088() {
     }
 }
 
-void TObjPlayer::play_particle_effect_once() {
+void TItem::begin_effect_render() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) == 0) {
         TParticleCtrl::begin_effect_render();
         item_render_state.set(ITEM_RENDER_EFFECT);
     }
 }
 
-void TObjPlayer::end_particle_effect() {
+void TItem::end_effect_render() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) != 0) {
         TParticleCtrl::end_effect_render();
         item_render_state.clear(ITEM_RENDER_EFFECT);
     }
 }
 
-void TObjPlayer::setup_particle_once() {
-    TObjPlayer::play_particle_effect_once();
+void TItem::begin_particle_tev() {
+    TItem::begin_effect_render();
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) == 0) {
         setup_particle_tev(0);
         TObjPlayer::notify_fish_if_valid(texture_id);
@@ -1094,7 +1094,7 @@ void TObjPlayer::setup_particle_once() {
     }
 }
 
-void TItem::draw_shield_particle() {
+void TItem::end_particle_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
         TObjPlayer::notify_fish_if_valid(texture_id);
@@ -1104,7 +1104,7 @@ void TItem::draw_shield_particle() {
 
 int TObjPlayer__sub_80100F34(void *) { return ((TParticleCtrl *)31)->get_object(); }
 
-void TItem::update_screen_particle_effect() {
+void TItem::end_shield_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
         TParticleCtrl::set_tev_direct(1);

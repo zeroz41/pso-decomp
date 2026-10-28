@@ -301,7 +301,7 @@ void TObjPlayer__sub_80357954(u8 *arg0) {
     case 2:
     case 5:
     case 8:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     case 1:
         rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x1F8)));

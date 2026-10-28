@@ -112,8 +112,15 @@ struct TItem : public TUnk_804AF8A0 {
     void refresh_if_current_player();
     f32 get_owner_alpha();
     void update_owner_visibility();
-    void update_screen_particle_effect();
-    void draw_shield_particle();
+    // Switch the item_render_state settings on once per draw and off again.
+    static void begin_constant_material_color(s32 color);
+    static void begin_offset_material_color(s32 color);
+    static void end_material_color();
+    static void begin_effect_render();
+    static void end_effect_render();
+    void begin_particle_tev();
+    void end_particle_tev();
+    void end_shield_tev();
     void send_activate_effect(s32 effect);
     void has_bonus_stats();
     void is_custom_srank();
@@ -215,7 +222,6 @@ void TItem__sub_80101CF4(void *data);
 void TItem__sub_80101CF8(void *data);
 void TItem__sub_80101DB8(void *data);
 int TObjPlayer__sub_80100F34(void *unused);
-void TObjPlayer__sub_80101088();
 }
 
 TItem *find_equipped_item(s32 id);

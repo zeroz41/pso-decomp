@@ -315,7 +315,7 @@ void TObjPlayer__sub_80326D54(Obj_80326D54 *arg0) {
     case 2: {
         Rec_80326D54 r = lbl_80476760;
         r.a = arg0->x1FC;
-        TObjPlayer::enable_flag20((s32)&r);
+        TItem::begin_offset_material_color((s32)&r);
         break;
     }
     case 3:
@@ -398,7 +398,7 @@ void TObjPlayer__sub_80326F9C(O_80326F9C *arg0) {
     case 2: {
         f32 f = arg0->f;
         scale_matrix(0, lbl_805DF680, f, f);
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         break;
     }
     }

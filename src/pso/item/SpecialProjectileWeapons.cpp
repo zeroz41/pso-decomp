@@ -231,16 +231,16 @@ void TObjPlayer__sub_8012443C(MegidWeaponRenderView *arg0) {
         rotate_matrix_y(0, arg0->f200);
         return;
     case 2:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     case 3:
         rotate_matrix_y(0, (int)(-arg0->f200));
         return;
     case 4:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     case 6:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         break;
     case 0:
     case 5:

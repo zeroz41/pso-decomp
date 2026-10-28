@@ -105,10 +105,10 @@ s32 TItemWeapon::draw_weapon_model() {
                 draw_model_motion((void *)(*(u32 *)((s8 *)this + 0xF4)), (void *)(*(u32 *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
                 TObjPlayer::clear_global_state();
             }
-            TObjPlayer__sub_80101088();
-            TObjPlayer::end_particle_effect();
-            ((TItem *)this)->draw_shield_particle();
-            ((TItem *)this)->update_screen_particle_effect();
+            TItem::end_material_color();
+            TItem::end_effect_render();
+            ((TItem *)this)->end_particle_tev();
+            ((TItem *)this)->end_shield_tev();
             TObjPlayer::warn_if_gauge_low();
             TObjPlayer__sub_8036414C();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {

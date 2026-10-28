@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/TUnk_804A4F60.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8012BC28.h"
@@ -64,7 +65,7 @@ void psycho_wand_node_callback(void *arg0) {
     case 3:
     case 4:
     case 6:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     }
 }

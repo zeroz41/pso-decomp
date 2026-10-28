@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TUnk_804A6108.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,15 +15,15 @@ void TObjPlayer::update_boss2tunnel_move() {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 1:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
         return;
     case 2:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         rotate_matrix_z(0, -*(s32 *)&this->unk_1F8);
         return;
     case 3:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     }
 }

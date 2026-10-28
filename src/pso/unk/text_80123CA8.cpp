@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_804A1E28.h"
 
@@ -31,17 +32,17 @@ void sorcerers_cane_node_callback(u8 *arg0) {
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
     case 1:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         temp_r4 = *(s32 *)((s8 *)arg0 + 0x1F8);
         scale_current_matrix((void *) ((u8 *)&lbl_8043E878.value + (temp_r4 * 0xC)), temp_r4);
         return;
     case 4:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         temp_r4_2 = *(s32 *)((s8 *)arg0 + 0x1F8);
         scale_current_matrix((void *) ((u8 *)&lbl_8043E8D8.value + (temp_r4_2 * 0xC)), temp_r4_2);
         return;
     case 7:
-        TObjPlayer::play_particle_effect_once();
+        TItem::begin_effect_render();
         return;
     }
 }

@@ -471,11 +471,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     void *create_hairmove(void *arg1, void *arg2);
     s32 interpolate_along_curve(void *arg1);
     static void load_projection_tex(s32 arg0, s32 arg1);
-    void setup_particle_once();
-    static void end_particle_effect();
-    static void play_particle_effect_once();
-    static void enable_flag20(s32 arg0);
-    static void enable_first_time_flag(s32 arg0);
     void set_facing(s16 v);
     s32 get_stat_bonus();
     s32 get_stat();
