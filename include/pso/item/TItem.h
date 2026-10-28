@@ -18,7 +18,7 @@ enum {
     ITEM_FLAG_CONSUMABLE = 0x10,
     ITEM_FLAG_HIDDEN = 0x40,         // the owner is not drawn, so neither is the item
     ITEM_FLAG_AT_TEKKER = 0x80,      // handed to the tekker for judging
-    ITEM_FLAG_KILL_COUNTER = 0x100,  // m_e8 counts kills (sealed weapons)
+    ITEM_FLAG_KILL_COUNTER = 0x100,  // kill_count counts kills (sealed weapons)
     ITEM_FLAG_UNSEALED = 0x200,      // the kill count reached its target
     ITEM_FLAG_WRAPPED = 0x400,       // shown as a present box until unwrapped
 };
@@ -166,7 +166,7 @@ struct TItem : public TUnk_804AF8A0 {
     CollisionBody collision_body;  // the pick-up sphere (item_collider_body)
     u32 item_id;
     u32 item_flags;                // ITEM_FLAG_*
-    u32 model_node_callback;       // visit callback for draw_model_nodes
+    void (*model_node_callback)(NJS_OBJECT *object);  // visit callback for draw_model_nodes
     u16 owner_client_id;           // 0xFFFF: nobody's
     s16 pickup_wait_frames;        // frames a pick-up request has been pending
     u16 kill_count;                // ITEM_FLAG_KILL_COUNTER items
@@ -176,8 +176,8 @@ struct TItem : public TUnk_804AF8A0 {
     u8 item_group;
     u8 item_index;
     u8 drop_model;                 // ground model, < ITEM_MODEL_COUNT
-    u32 owner;                     // the TObjPlayer carrying it
-    u32 item_model;                // the NJS_OBJECT tree drawn for it
+    TObjPlayer *owner;             // the player carrying it
+    NJS_OBJECT *item_model;        // the object tree drawn for it
 };
 
 typedef char TItemCollisionOffset[(offsetof(TItem, collision_body) == 0xAC) ? 1 : -1];

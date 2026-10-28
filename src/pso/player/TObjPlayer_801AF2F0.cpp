@@ -7550,7 +7550,7 @@ void TObjPlayer::render_body_pass(f32 f) {
         draw_body__10TObjPlayerFPvi(self, (s32)f);
         model_render_flags &= ~1;
     }
-    save_render_material_state((u8 *)&this->m_608);
+    save_render_material_state((u8 *)&this->render_material_state);
     apply_material_color_override();
     set_depth_buffer_settings_id(1);
     ((void (*)(void *))TObjPlayer__sub_801BAC48)(self);
@@ -7811,7 +7811,7 @@ void TObjPlayer::sub_801BB950() {
       request_player_size_restore(arg0 + 0x5B0);
     }
   }
-  TFontSmallLobby__sub_801C013C(((u8 *)&this->m_428));
+  TFontSmallLobby__sub_801C013C(((u8 *)&this->technique_levels));
   TObjPlayer__sub_80354E7C();
 }
 

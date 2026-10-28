@@ -90,7 +90,7 @@ u8 *TItemProShield__sub_80116744(u8 *arg0) {
 void TUnk_8049F828::vfunc_44() {
     s32 temp_r3;
 
-    temp_r3 = ((TObjPlayer *)(this->owner))->activate_d04_slot();
+    temp_r3 = this->owner->activate_d04_slot();
     if (temp_r3 != 0) {
         apply_transform_action__8TItemMagFUc(temp_r3, get_item_index__5TItemFv(this));
     }
@@ -168,7 +168,7 @@ void TUnk_8049F8E0::vfunc_44() {
     s32 temp_r3;
     u32 temp_r424;
     if (sub_801A1DDC__10TObjPlayerFv(*(void * *)&this->owner) != 0) {
-        temp_r424 = (u32) *(u32 *)(this->owner + 0x424);
+        temp_r424 = (u32)this->owner->m_424;
         if (temp_r424 != 0U) {
             temp_r3 = ((TMainCursor *)temp_r424)->find_by_pos(4, 9);
             if (temp_r3 != 0) {

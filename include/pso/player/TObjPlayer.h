@@ -159,8 +159,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     void* m_41c;
     u8 unk_420[0x4];
     s32 m_424;
-    void* m_428;
-    u8 _pad42C[0x80];
+    u8 technique_levels[0x84];  // set/get_cast_technique_level's table
     void* m_4ac;
     u8 _pad4B0[0x50];
     ActionPalette action_palettes[2];
@@ -175,7 +174,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     u8 _pad5F4[0x8];
     void* m_5fc;
     u8 _pad600[0x8];
-    void* m_608;
+    void* render_material_state;  // save_render_material_state's block
     u8 unk_60C[0x18];
     f32 m_624;
     u8 unk_628[0xC];
@@ -205,7 +204,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     u8 _pad758[0x6C];
     void* m_7c4;
     void* m_7c8;
-    void* m_7cc;
+    void* attack_state;  // the attack accuracy/damage-scale block
     u8 _pad7D0[0x58];
     void* m_828;
     u8 _pad82C[0x4];

@@ -81,7 +81,7 @@ u8 *create_technique_disk_item(u8 *arg0) {
 }
 
 void TUnk_8049FD48::vfunc_44() {
-    launch_technique__10TObjPlayerFv(0xE, 0, this->owner);
+    launch_technique__10TObjPlayerFv(0xE, 0, (s32)this->owner);
 }
 
 extern s32 lbl_8049FD48[];

@@ -5084,8 +5084,8 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
     s32 i;
     int hit = 0;
     s32 *entry;
-    count = get_captured_target_count((s32 *)((TObjPlayer *)&m_7cc)->get_state_ptr());
-    entry = (s32 *)get_captured_target_entry(((TObjPlayer *)&m_7cc)->get_state_ptr(), 0);
+    count = get_captured_target_count((s32 *)((TObjPlayer *)&attack_state)->get_state_ptr());
+    entry = (s32 *)get_captured_target_entry(((TObjPlayer *)&attack_state)->get_state_ptr(), 0);
     for (i = 0; i < count; i++) {
         u16 uid = ((TObjPlayer *)entry)->get_uid();
         s16 collider = get_captured_target_collider_index(entry);
@@ -5101,7 +5101,7 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
             continue;
         }
         f32 accuracy;
-        if (TObjPlayer__sub_801D2F4C((s16 *)&m_7cc) == 2 && get_item_field_6__10TObjPlayerFPv(this) != NULL &&
+        if (TObjPlayer__sub_801D2F4C((s16 *)&attack_state) == 2 && get_item_field_6__10TObjPlayerFPv(this) != NULL &&
             ((TItem *)get_item_field_6__10TObjPlayerFPv(this))->is_identified() == 0) {
             if ((f32)get_ata() < 0.0f) {
                 accuracy = 0.0f;
@@ -5109,19 +5109,19 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
                 accuracy = 0.1f;
             }
         } else {
-            accuracy = get_attack_accuracy_scale((s16 *)&m_7cc);
+            accuracy = get_attack_accuracy_scale((s16 *)&attack_state);
         }
         if (target->roll_physical_accuracy(this, collider, accuracy) != 0) {
             s32 damage;
             f32 dealt;
-            switch (TObjPlayer__sub_801D2F4C((s16 *)&m_7cc)) {
+            switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
             case 0:
-                damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&m_7cc));
+                damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
                 vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                 break;
             case 1:
-                dealt = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&m_7cc));
+                dealt = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
                 damage = dealt;
                 vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
                 apply_camera_shake__10TObjPlayerFiii(this, target, damage);
@@ -5154,11 +5154,11 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
                 ((TObjPlayer *)target)->show_miss_for_collider(collider);
                 break;
             default:
-                switch (TObjPlayer__sub_801D2F4C((s16 *)&m_7cc)) {
+                switch (TObjPlayer__sub_801D2F4C((s16 *)&attack_state)) {
                 case 2:
                     if (target->roll_physical_accuracy(this, collider,
-                                                       ((TObjPlayer *)&m_7cc)->calc_attack_stage_multiplier(2)) != 0) {
-                        s32 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&m_7cc));
+                                                       ((TObjPlayer *)&attack_state)->calc_attack_stage_multiplier(2)) != 0) {
+                        s32 damage = target->receive_physical_attack(this, damage_scale * get_attack_damage_scale((s16 *)&attack_state));
                         vfunc_75(TObjPlayer::calc_photon_blast_charge(this, damage));
                         apply_camera_shake__10TObjPlayerFiii(this, target, damage);
                         hit = 1;
@@ -5310,8 +5310,8 @@ void TObjPlayer::update_anim_action() {
             ((TObjPlayer *)arg0)->select_normal_attack_marker();
             if (objInBand__FP7GameObjf(arg0) != 0) {
                 send_attack_target_packet();
-                increment_burst_counter((u8 *)&this->m_7cc);
-                if (get_burst_counter((u8 *)&this->m_7cc) >= 3) {
+                increment_burst_counter((u8 *)&this->attack_state);
+                if (get_burst_counter((u8 *)&this->attack_state) >= 3) {
                     ((FlagWord *)(((s32 (*)(void *))get_anim_field_c__10TObjPlayerFPv)(arg0 + 0x7CC)))->set(8);
                     ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC, arg0);
                     set_action_flag_40();

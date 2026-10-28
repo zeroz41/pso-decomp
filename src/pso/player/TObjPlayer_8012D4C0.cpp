@@ -33,5 +33,5 @@ void sealed_j_sword_start_timers(void *item_pro_armor) {
             slow_curse_timer_ct(temp_r3, ((TItemProArmor *)item_pro_armor)->m_174, get_owner_client__5TItemFv(item_pro_armor), 0xE10, lbl_805DAF20);
         }
     }
-    *(s16 *)((s8 *)item_pro_armor + 0x1F8) = ((TObjPlayer *)(((TItemProArmor *)item_pro_armor)->owner))->get_kill_count();
+    *(s16 *)((s8 *)item_pro_armor + 0x1F8) = ((TItemProArmor *)item_pro_armor)->owner->get_kill_count();
 }

@@ -114,7 +114,7 @@ void TItemProShield::vfunc_44() {
     s32 temp_r3_5;
     u8 slot_count;
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, this->owner + 0x38, 0, 0);
+        play_sound_effect(0x4000B20A, (int)this->owner->position, 0, 0);
     }
     if ((u32) this->m_174 != 0U) {
         slot_count = this->get_item_index();
@@ -157,7 +157,7 @@ void TItemProShield::vfunc_30() {
             ((TObjPlayer *)(&st))->reset_status_block();
             st.a = this->get_item_group();
             st.b = this->get_item_index();
-            st.c = this->owner;
+            st.c = (u32)this->owner;
             play_shield_sound_cue(&st);
         }
         if (this->m_19c & 1) {

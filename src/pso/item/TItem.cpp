@@ -357,8 +357,8 @@ TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     item_type = item[0];
     item_group = item[1];
     item_index = item[2];
-    owner = 0;
-    item_model = 0;
+    owner = NULL;
+    item_model = NULL;
     kill_count = 0;
     apply_item_flags((TItemData *)item);
     box_color = ((TItemData *)item)->get_type_nibble();
@@ -392,17 +392,17 @@ void TItem::run_task() {
         update_timer();
         return;
     case ITEM_MODE_OWNED:
-        owner = (u32)get_player_by_client_id(get_owner_client());
-        if (owner != 0) {
+        owner = get_player_by_client_id(get_owner_client());
+        if (owner != NULL) {
             update_owner_visibility();
             update_owned();
             update_in_inventory();
         }
         break;
     case ITEM_MODE_EQUIPPED:
-        owner = (u32)get_player_by_client_id(get_owner_client());
-        if (owner != 0) {
-            VecCopy((Vec *)position, (const Vec *)((TUnk_804B9870 *)owner)->position);
+        owner = get_player_by_client_id(get_owner_client());
+        if (owner != NULL) {
+            VecCopy((Vec *)position, (const Vec *)owner->position);
             update_owner_visibility();
             update_owned();
             update_equipped();
@@ -793,14 +793,14 @@ void TItem::check_equip_requirements(TObjPlayer *player, s16 *result) {
 
 void TItem::set_owner_client(u16 client) {
     owner_client_id = client;
-    owner = (u32)get_player_by_client_id(client);
+    owner = get_player_by_client_id(client);
 }
 
 void TItem::visit_model_nodes(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
+    model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = NULL;
-    draw_model_node_tree((NJS_OBJECT *)item_model);
+    draw_model_node_tree(item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
@@ -808,10 +808,10 @@ void TItem::visit_model_nodes(u8 *matrices) {
 }
 
 void TItem::apply_sign_effect(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
+    model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
-    draw_model_node_tree((NJS_OBJECT *)item_model);
+    draw_model_node_tree(item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
@@ -819,17 +819,17 @@ void TItem::apply_sign_effect(u8 *matrices) {
 }
 
 void TItem::draw_model_nodes(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
+    model_node_visit_callback = model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
-    draw_model_node_tree((NJS_OBJECT *)item_model);
+    draw_model_node_tree(item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
     TObjPlayer::reset_transform_state();
 }
 
-void TItem::draw_model() { draw_ginja_object((void *)item_model); }
+void TItem::draw_model() { draw_ginja_object(item_model); }
 
 void draw_node_tree_with_callback(NJS_OBJECT *object, void (*visit)(NJS_OBJECT *)) {
     model_node_visit_callback = visit;
@@ -911,10 +911,10 @@ int TItem::vfunc_12() {
 
 void TItem::set_mode(s8 new_mode) {
     if (new_mode == ITEM_MODE_INACTIVE) {
-        owner = 0;
+        owner = NULL;
     }
     if (new_mode == ITEM_MODE_GROUND) {
-        owner = 0;
+        owner = NULL;
         register_in_world(0);
     } else {
         unregister_from_world();
@@ -947,7 +947,7 @@ u32 TItem::get_usable_action_flags(u32 mask, u32 player) {
     TItemData data;
     copy_to_item_data(&data);
     if (player == 0) {
-        player = owner;
+        player = (u32)owner;
     }
     u32 flags = data.calc_action_flags(mask, (u8 *)player);
     if (test_item_flags(0x200) != 0) {
@@ -988,14 +988,14 @@ void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
     if (TOKeyMachine01::get_global_state() != 15) {
         cmd->bswap();
         TItem *mag = find_item_by_id(cmd->mag_item_id);
-        if (mag != NULL && mag->owner != 0) {
+        if (mag != NULL && mag->owner != NULL) {
             mag->activate_effect(cmd->effect_number);
         }
     }
 }
 
 void TItem::send_activate_effect(s32 effect) {
-    if (owner != 0 && TOKeyMachine01::get_global_state() != 15 && ((TUnk_804806E8 *)owner)->obj_isState2_324() == 0) {
+    if (owner != NULL && TOKeyMachine01::get_global_state() != 15 && owner->obj_isState2_324() == 0) {
         G_ActivateMagEffect_6x61 cmd;
         cmd.mag_item_id = get_item_id();
         cmd.effect_number = effect;
@@ -1119,9 +1119,9 @@ void TObjPlayer::load_projection_tex(s32, s32 trap) {
 
 // Hides the item while its owner is hidden or out of the local view.
 void TItem::update_owner_visibility() {
-    if (owner != 0) {
-        if (TObjPlayer::test_flag_2000000((void *)owner) == 0 && TObjPlayer::reset_key_machine_state() == 1
-            && ((TObjPlayer *)owner)->is_flag_20000_set() == 0) {
+    if (owner != NULL) {
+        if (TObjPlayer::test_flag_2000000(owner) == 0 && TObjPlayer::reset_key_machine_state() == 1
+            && owner->is_flag_20000_set() == 0) {
             show();
             return;
         }
@@ -1132,9 +1132,9 @@ void TItem::update_owner_visibility() {
 }
 
 f32 TItem::get_owner_alpha() {
-    u32 player = owner;
-    if (player != 0) {
-        return ((TObjPlayer *)(player + 0x608))->get_mag_scale_f();
+    TObjPlayer *player = owner;
+    if (player != NULL) {
+        return ((TObjPlayer *)&player->render_material_state)->get_mag_scale_f();
     }
     return 1.0f;
 }
@@ -1189,7 +1189,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
                     equipped->remove_equip_stats(1);
                 }
             }
-            set_technique_level_entry((u8 *)owner + 0x428, technique, (u8)level);
+            set_technique_level_entry(owner->technique_levels, technique, (u8)level);
             for (slot = 9; slot != 13; slot++) {
                 TItem *equipped = (TItem *)owner->get_equip_field_d04(slot);
                 if (equipped != NULL) {
@@ -1334,17 +1334,17 @@ void TItem::remove_equip_stats(s32) {}
 // Takes this item's stats off its owner and puts them back, keeping the
 // owner's current HP and TP.
 void TItemEquipBase::refresh_owner_stats() {
-    TObjPlayer *player = (TObjPlayer *)owner;
+    TObjPlayer *player = owner;
     if (player != NULL) {
         s16 hp = obj_getS16_32C(player);
-        s16 tp = obj_getS16_32E((TObjPlayer *)owner);
+        s16 tp = obj_getS16_32E(owner);
         remove_equip_stats(0);
         add_equip_stats(0);
-        ((TObjPlayer *)owner)->vfunc_73();
-        ((TObjPlayer *)owner)->set_hp_clamped(hp);
-        ((TObjPlayer *)owner)->set_facing(tp);
-        ((TObjPlayer *)owner)->clamp_value();
-        ((TObjPlayer *)owner)->clamp_field_32E();
+        owner->vfunc_73();
+        owner->set_hp_clamped(hp);
+        owner->set_facing(tp);
+        owner->clamp_value();
+        owner->clamp_field_32E();
     }
 }
 
@@ -1396,8 +1396,8 @@ void TItem::update_equipped() {}
 void TItem::vfunc_42() {}
 
 void TItem::apply_switch_attack(s32 effect) {
-    if (owner != 0 && TObjPlayer::test_flag_2000000((void *)owner) == 0) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(owner + 0x2FC), effect, 0x10);
+    if (owner != NULL && TObjPlayer::test_flag_2000000(owner) == 0) {
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags(&owner->m_2fc, effect, 0x10);
         if (particle != NULL) {
             particle->set_owner_id(get_owner_client());
         }
@@ -1405,8 +1405,8 @@ void TItem::apply_switch_attack(s32 effect) {
 }
 
 void TItem::notify_owner(s32 sound) {
-    if (owner != 0 && TObjPlayer::test_flag_2000000((void *)owner) == 0) {
-        play_sound_effect(sound, (void *)(owner + 0x38), 0, 0);
+    if (owner != NULL && TObjPlayer::test_flag_2000000(owner) == 0) {
+        play_sound_effect(sound, owner->position, 0, 0);
     }
 }
 
@@ -1553,10 +1553,10 @@ void TItem::assign_item_id() {
 void TItem::use_combination_recipe() {
     TItemData data;
     TItemData result;
-    if (owner != 0) {
+    if (owner != NULL) {
         copy_to_item_data(&data);
         TItem *target = (TItem *)find_unique_combination_target((void *)owner, &data);
-        u8 *recipe = (u8 *)find_eligible_combination_recipe(owner, (u8 *)&data);
+        u8 *recipe = (u8 *)find_eligible_combination_recipe((s32)owner, (u8 *)&data);
         if (recipe != NULL && target != NULL) {
             result.init();
             result.data1.data_u8[0] = recipe[6];

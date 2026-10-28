@@ -4,13 +4,13 @@
 #include "pso/item/TItemProShield.h"
 
 void TItemProShield::vfunc_26() {
-    s32 temp_r31;
+    NJS_OBJECT *saved_model;
     if (this->m_19c & 8) {
         this->deactivate_shield_effect(0x13);
-        temp_r31 = this->item_model;
-        this->item_model = (s32) this->m_188;
+        saved_model = this->item_model;
+        this->item_model = (NJS_OBJECT *)this->m_188;
         this->deactivate_shield_effect(0xA);
-        this->item_model = temp_r31;
+        this->item_model = saved_model;
         return;
     }
     ((TItemProShield *)((u8 *)this))->deactivate_shield_effect((s32) ((TItemWeapon *)((u8 *)this))->get_attach_joint());
