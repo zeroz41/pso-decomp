@@ -8,7 +8,8 @@ A data range that leaves coverage only fails the check when it could hold
 data. Alignment padding passes: in the original DOL its bytes are zero, no
 symbol starts inside it, and it is shorter than the alignment of the address
 it ends on (at least 8). Splitting a unit off at an aligned address leaves
-such a gap outside every unit.
+such a gap outside every unit. The same padding passes when it was exact or
+linked before (a hand-written table that spelled the pad out as a zero entry).
 """
 from __future__ import annotations
 
@@ -197,13 +198,17 @@ def compare(before: dict, after: dict, read=None, starts=None) -> dict:
     failures = []
     data_regressions = lost_data_ranges(before, after)
     data_coverage_lost = lost_data_ranges(before, after, exact_only=False)
-    if data_coverage_lost:
+    linked_data_lost = lost_data_ranges(before, after, exact_only=False, complete_only=True)
+    if data_coverage_lost or data_regressions or linked_data_lost:
         read = read if read is not None else dol_reader()
         starts = starts if starts is not None else symbol_starts()
     padding_lost = [row for row in data_coverage_lost if is_alignment_padding(row, read, starts)]
     data_coverage_lost = [row for row in data_coverage_lost if row not in padding_lost]
+    # The same alignment padding may also have been exact or linked before
+    # (a data array that spelled the pad out); it leaves those lists too.
+    data_regressions = [row for row in data_regressions if not is_alignment_padding(row, read, starts)]
+    linked_data_lost = [row for row in linked_data_lost if not is_alignment_padding(row, read, starts)]
     data_coverage_gained = lost_data_ranges(after, before, exact_only=False)
-    linked_data_lost = lost_data_ranges(before, after, exact_only=False, complete_only=True)
     linked_data_gained = lost_data_ranges(after, before, exact_only=False, complete_only=True)
     if data_regressions:
         failures.append('Previously exact data ranges regressed or disappeared')
