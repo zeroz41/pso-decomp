@@ -101,11 +101,4 @@ typedef char TItemEquipBase_size[sizeof(TItemEquipBase) == 0x18C ? 1 : -1];
 // A weapon's hit callback: a small burst at the target hit.
 void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 collider);
 
-extern "C" {
-// TItemEquipBase's constructor and destructor under their own symbols, for
-// the derived classes still written as C functions.
-void *__ct__14TItemEquipBaseFP7TObjectPUc(void *item, void *parent, void *data);
-void *__dt__14TItemEquipBaseFv(void *item, s16 deleting);
-}
-
 #endif
