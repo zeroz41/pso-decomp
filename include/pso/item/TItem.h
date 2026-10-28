@@ -210,13 +210,6 @@ extern void (*model_node_visit_callback)(NJS_OBJECT *object);
 extern u8 *model_node_matrix_output_cursor;
 extern s32 model_node_counter;
 
-extern "C" {
-// TItem's constructor and destructor under their own symbols, for the
-// derived classes still written as C functions.
-void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
-void *__dt__5TItemFv(void *item, s16 deleting);
-}
-
 // Empty in this build: the inventory of a player record is decoded when
 // the record arrives (a player created here or joining) and encoded when it
 // is saved or uploaded; debug_print_item_param printed an item's parameters.
