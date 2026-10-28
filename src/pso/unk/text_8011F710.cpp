@@ -200,7 +200,7 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
     }
 }
 }
-void TItemWeapon::vfunc_30() {
+void TItemWeapon::perform_action() {
     TItemWeapon* self=this;
     WeaponMarkerPacket packet;
     WeaponVector gun_point;

@@ -70,7 +70,8 @@ struct TItem : public TUnk_804AF8A0 {
     virtual void render_equipped_shadow();
     virtual void render_equipped_deferred();
     virtual void destroy();
-    virtual void vfunc_30();
+    // The equipped weapon's shot or shield's guard, from the player's action.
+    virtual void perform_action();
     virtual void use();
     virtual u32 get_attack_flags();
     virtual s8 get_attach_slot();
@@ -82,7 +83,8 @@ struct TItem : public TUnk_804AF8A0 {
     virtual u8 get_slot_count();
     virtual void add_slot();
     virtual s32 feed(TItemData *food);
-    virtual void vfunc_42();
+    // Moves what follows the owner (the mag) straight to them after a warp.
+    virtual void snap_to_owner();
     virtual u8 get_motion_type();
 
     static void *operator new(size_t size);

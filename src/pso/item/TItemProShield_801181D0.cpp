@@ -149,7 +149,7 @@ void TItemProShield::vfunc_44() {
     }
 }
 
-void TItemProShield::vfunc_30() {
+void TItemProShield::perform_action() {
     Status_80118558 st;
     if ((u32) this->owner != 0U) {
         if (is_hidden() == 0) {

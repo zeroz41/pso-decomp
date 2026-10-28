@@ -3466,7 +3466,7 @@ void TObjPlayer::refresh_equipment_slot() {
     u8 *temp_r3;
     temp_r3 = activate_d04_slot__10TObjPlayerFv(this);
     if (temp_r3 != NULL) {
-        ((VObj_18 *)(temp_r3))->m40();
+        ((TItem *)temp_r3)->snap_to_owner();
     }
 }
 
@@ -6844,7 +6844,7 @@ void TObjPlayer::use_current_item() {
 
     temp_r3 = test_flag3__9TItemDataFv(this);
     if (temp_r3 != NULL) {
-        ((VObj_801B95C8*)temp_r3)->m28();
+        ((TItem *)temp_r3)->perform_action();
         return;
     }
     this->get_anim_node_position(0x24, (Vec *)&sp8);

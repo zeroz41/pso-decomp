@@ -59,7 +59,7 @@ struct TItemWeapon : WeaponObjectPrefix {
     virtual void vfunc_27();
     virtual void vfunc_28();
     virtual void destroy();
-    virtual void vfunc_30();
+    virtual void perform_action();
     virtual void vfunc_31();
     virtual void vfunc_32();
     virtual void vfunc_33();
@@ -71,7 +71,7 @@ struct TItemWeapon : WeaponObjectPrefix {
     virtual void vfunc_39();
     virtual void vfunc_40();
     virtual void vfunc_41();
-    virtual void vfunc_42();
+    virtual void snap_to_owner();
     virtual void vfunc_43();
     virtual void vfunc_44();
     virtual void vfunc_45();

@@ -1317,7 +1317,7 @@ void TItem::equip() {}
 
 void TItem::unequip() {}
 
-void TItem::vfunc_30() {}
+void TItem::perform_action() {}
 
 void TItem::use() {
     if (is_wrapped()) {
@@ -1393,7 +1393,7 @@ void TItem::update_in_inventory() {}
 
 void TItem::update_equipped() {}
 
-void TItem::vfunc_42() {}
+void TItem::snap_to_owner() {}
 
 void TItem::apply_switch_attack(s32 effect) {
     if (owner != NULL && TObjPlayer::test_flag_2000000(owner) == 0) {

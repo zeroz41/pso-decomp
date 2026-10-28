@@ -222,7 +222,7 @@ extern "C" void vfunc_34__5TItemFv();
 extern "C" void get_attack_flags__5TItemFv();
 extern "C" void use__5TItemFv();
 extern "C" void render_equipped_deferred__5TItemFv();
-extern "C" void vfunc_30__5TItemFv();
+extern "C" void perform_action__5TItemFv();
 extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
 extern "C" void get_motion_type__5TItemFv();
@@ -258,7 +258,7 @@ void *__vt__8TItemMag[51] = {
     (void *)&TItemMag__vt14, (void *)&TItemMag__vt15, (void *)&serialize_to_item__8TItemMagFPv, (void *)&set_attach_slot__14TItemEquipBaseFSc,
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFlPUcPUc, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,
-    (void *)&render_equipped_deferred__5TItemFv, (void *)&update_equip__14TItemEquipBaseFv, (void *)&vfunc_30__5TItemFv, (void *)&use__5TItemFv,
+    (void *)&render_equipped_deferred__5TItemFv, (void *)&update_equip__14TItemEquipBaseFv, (void *)&perform_action__5TItemFv, (void *)&use__5TItemFv,
     (void *)&get_attack_flags__5TItemFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__5TItemFv, (void *)&is_identified__5TItemFv,
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&get_motion_type__5TItemFv,

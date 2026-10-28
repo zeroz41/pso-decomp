@@ -76,9 +76,9 @@ void activate_effect__5TItemFl(); void set_attach_slot__5TItemFSc(); void equip_
 void unequip__5TItemFv(); void add_equip_stats__5TItemFl(); void remove_equip_stats__5TItemFl();
 void subtract_item_stat_bonus__5TItemFllPs(); void subtract_equip_stats__5TItemFPvPsPs(); void render_equipped__5TItemFv();
 void render_equipped_shadow__5TItemFv(); void render_equipped_deferred__5TItemFv(); void destroy__5TItemFv();
-void vfunc_30__5TItemFv(); void get_attack_flags__5TItemFv(); void get_attach_slot__5TItemFv();
+void perform_action__5TItemFv(); void get_attack_flags__5TItemFv(); void get_attach_slot__5TItemFv();
 void vfunc_34__5TItemFv(); void is_identified__5TItemFv(); int get_slot_count__5TItemFv(void); void add_slot__5TItemFv();
-int feed__5TItemFP9TItemData(void); void vfunc_42__5TItemFv(); void get_motion_type__5TItemFv();
+int feed__5TItemFP9TItemData(void); void snap_to_owner__5TItemFv(); void get_motion_type__5TItemFv();
 void *__vt__11TItemObject[] = {
     0, 0,
     (void *)__dt__11TItemObjectFv, (void *)run_task__5TItemFv, (void *)render__5TItemFv,
@@ -90,11 +90,11 @@ void *__vt__11TItemObject[] = {
     (void *)equip__5TItemFv, (void *)unequip__5TItemFv, (void *)add_equip_stats__5TItemFl,
     (void *)remove_equip_stats__5TItemFl, (void *)subtract_item_stat_bonus__5TItemFllPs, (void *)subtract_equip_stats__5TItemFPvPsPs,
     (void *)render_equipped__5TItemFv, (void *)render_equipped_shadow__5TItemFv, (void *)render_equipped_deferred__5TItemFv,
-    (void *)destroy__5TItemFv, (void *)vfunc_30__5TItemFv, (void *)use__11TItemObjectFv,
+    (void *)destroy__5TItemFv, (void *)perform_action__5TItemFv, (void *)use__11TItemObjectFv,
     (void *)get_attack_flags__5TItemFv, (void *)get_attach_slot__5TItemFv, (void *)vfunc_34__5TItemFv,
     (void *)is_identified__5TItemFv, (void *)get_amount__11TItemObjectFv, (void *)remove_amount__11TItemObjectFl,
     (void *)add_amount__11TItemObjectFl, (void *)get_slot_count__5TItemFv, (void *)add_slot__5TItemFv,
-    (void *)feed__5TItemFP9TItemData, (void *)vfunc_42__5TItemFv, (void *)get_motion_type__5TItemFv,
+    (void *)feed__5TItemFP9TItemData, (void *)snap_to_owner__5TItemFv, (void *)get_motion_type__5TItemFv,
     (void *)vfunc_44__11TItemObjectFv,
 };
 

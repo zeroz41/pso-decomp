@@ -395,7 +395,7 @@ void use__11TItemObjectFv();
 s32 remove_amount__11TItemObjectFl(TItemObject *arg0, s32 arg1);
 s32 add_amount__11TItemObjectFl(void *arg0, s32 arg1);
 void vfunc_9__11TItemObjectFv();
-void vfunc_42__5TItemFv();
+void snap_to_owner__5TItemFv();
 void update_equipped__5TItemFv();
 void update_in_inventory__5TItemFv();
 int feed__5TItemFP9TItemData(void);
@@ -411,7 +411,7 @@ void subtract_equip_stats__5TItemFPvPsPs();
 void subtract_item_stat_bonus__5TItemFllPs();
 void remove_equip_stats__5TItemFl();
 void add_equip_stats__5TItemFl();
-void vfunc_30__5TItemFv();
+void perform_action__5TItemFv();
 void unequip__5TItemFv();
 void equip__5TItemFv();
 int update_object_view_visibility__5TItemFff(void *p);
@@ -462,7 +462,7 @@ void *item_hp_recovery_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -474,7 +474,7 @@ void *item_hp_recovery_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049F770Fv,
     0
@@ -510,7 +510,7 @@ void *item_mag_transform_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -522,7 +522,7 @@ void *item_mag_transform_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049F828Fv,
     0
@@ -558,7 +558,7 @@ void *item_moon_atomizer_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -570,7 +570,7 @@ void *item_moon_atomizer_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049F8E0Fv,
     0
@@ -606,7 +606,7 @@ void *item_status_cure_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -618,7 +618,7 @@ void *item_status_cure_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049F998Fv,
     0
@@ -654,7 +654,7 @@ void *item_sol_atomizer_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -666,7 +666,7 @@ void *item_sol_atomizer_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049FA50Fv,
     0
@@ -702,7 +702,7 @@ void *item_star_atomizer_vtable[46] = {
     (void *)&render_equipped_shadow__5TItemFv,
     (void *)&render_equipped_deferred__5TItemFv,
     (void *)&destroy__5TItemFv,
-    (void *)&vfunc_30__5TItemFv,
+    (void *)&perform_action__5TItemFv,
     (void *)&use__11TItemObjectFv,
     (void *)&get_attack_flags__5TItemFv,
     (void *)&get_attach_slot__5TItemFv,
@@ -714,7 +714,7 @@ void *item_star_atomizer_vtable[46] = {
     (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv,
     (void *)&feed__5TItemFP9TItemData,
-    (void *)&vfunc_42__5TItemFv,
+    (void *)&snap_to_owner__5TItemFv,
     (void *)&get_motion_type__5TItemFv,
     (void *)&vfunc_44__13TUnk_8049FB08Fv,
     0

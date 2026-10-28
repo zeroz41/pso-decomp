@@ -225,7 +225,7 @@ void render_equipped_shadow__5TItemFv();
 void render_equipped_deferred__5TItemFv();
 void use__5TItemFv();
 void destroy__5TItemFv();
-void vfunc_30__5TItemFv();
+void perform_action__5TItemFv();
 void use__11TItemObjectFv();
 void get_attack_flags__5TItemFv();
 void get_attach_slot__5TItemFv();
@@ -237,7 +237,7 @@ s32 add_amount__11TItemObjectFl(void *arg0, s32 arg1);
 int get_slot_count__5TItemFv(void);
 void add_slot__5TItemFv();
 int feed__5TItemFP9TItemData(void);
-void vfunc_42__5TItemFv();
+void snap_to_owner__5TItemFv();
 void get_motion_type__5TItemFv();
 void vfunc_9__13TUnk_804B9870Fv();
 void set_attach_slot__14TItemEquipBaseFSc();
@@ -290,7 +290,7 @@ void *lbl_8049FF88[46] = {
     (void *)render_equipped_shadow__5TItemFv,
     (void *)render_equipped_deferred__5TItemFv,
     (void *)destroy__5TItemFv,
-    (void *)vfunc_30__5TItemFv,
+    (void *)perform_action__5TItemFv,
     (void *)use__11TItemObjectFv,
     (void *)get_attack_flags__5TItemFv,
     (void *)get_attach_slot__5TItemFv,
@@ -302,7 +302,7 @@ void *lbl_8049FF88[46] = {
     (void *)get_slot_count__5TItemFv,
     (void *)add_slot__5TItemFv,
     (void *)feed__5TItemFP9TItemData,
-    (void *)vfunc_42__5TItemFv,
+    (void *)snap_to_owner__5TItemFv,
     (void *)get_motion_type__5TItemFv,
     (void *)vfunc_44__13TUnk_8049FF88Fv,
     0,
@@ -339,7 +339,7 @@ void *__vt__13TItemProArmor[51] = {
     (void *)render_equipped_shadow__5TItemFv,
     (void *)render_equipped_deferred__5TItemFv,
     (void *)update_equip__14TItemEquipBaseFv,
-    (void *)vfunc_30__5TItemFv,
+    (void *)perform_action__5TItemFv,
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
     (void *)get_attach_slot__14TItemEquipBaseFv,
@@ -351,7 +351,7 @@ void *__vt__13TItemProArmor[51] = {
     (void *)get_slot_count__13TItemProArmorFv,
     (void *)add_slot__13TItemProArmorFv,
     (void *)feed__5TItemFP9TItemData,
-    (void *)vfunc_42__5TItemFv,
+    (void *)snap_to_owner__5TItemFv,
     (void *)get_motion_type__5TItemFv,
     (void *)vfunc_44__13TItemProArmorFv,
     (void *)vfunc_45__14TItemEquipBaseFv,

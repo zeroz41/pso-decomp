@@ -220,7 +220,7 @@ void feed__5TItemFP9TItemData();
 void get_amount__5TItemFv();
 void get_slot_count__5TItemFv();
 void remove_amount__5TItemFl();
-void vfunc_42__5TItemFv();
+void snap_to_owner__5TItemFv();
 void update_object_view_visibility__5TItemFff();
 void update_in_inventory__5TItemFv();
 void vfunc_9__13TUnk_804B9870Fv();
@@ -240,7 +240,7 @@ void render_equipped_shadow__5TItemFv();
 void render_equipped_deferred__5TItemFv();
 void use__5TItemFv();
 void update_equip__14TItemEquipBaseFv();
-void vfunc_30__5TItemFv();
+void perform_action__5TItemFv();
 void get_attack_flags__5TItemFv();
 s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 void vfunc_34__5TItemFv();
@@ -282,7 +282,7 @@ void *__vt__12TItemProUnit[51] = {
     (void *)render_equipped_shadow__5TItemFv,
     (void *)render_equipped_deferred__5TItemFv,
     (void *)update_equip__14TItemEquipBaseFv,
-    (void *)vfunc_30__5TItemFv,
+    (void *)perform_action__5TItemFv,
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
     (void *)get_attach_slot__14TItemEquipBaseFv,
@@ -294,7 +294,7 @@ void *__vt__12TItemProUnit[51] = {
     (void *)get_slot_count__5TItemFv,
     (void *)add_slot__5TItemFv,
     (void *)feed__5TItemFP9TItemData,
-    (void *)vfunc_42__5TItemFv,
+    (void *)snap_to_owner__5TItemFv,
     (void *)get_motion_type__5TItemFv,
     (void *)vfunc_44__12TItemProUnitFv,
     (void *)vfunc_45__12TItemProUnitFv,

@@ -5200,7 +5200,7 @@ void handle_6x46_attack_finished(s32 arg0) {
         ((s32 (*)(void *, void *))on_attack_finished__10TObjPlayerFPv)((u8 *)pl + 0x7CC, &packet[2]);
         it = get_item_field_6__10TObjPlayerFPv(pl);
         if (it != NULL) {
-            it->v28();
+            ((TItem *)it)->perform_action();
             return;
         }
         if (pl->v65((*(f32 *)&TObjPlayer__data_805DC360)) == 0) {
