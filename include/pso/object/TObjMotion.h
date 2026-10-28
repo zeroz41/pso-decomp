@@ -1,6 +1,7 @@
 #ifndef PSO_OBJECT_TOBJMOTION_H
 #define PSO_OBJECT_TOBJMOTION_H
 #include "pso/TObject.h"
+#include "pso/object/CursorAction.h"
 #include <stddef.h>
 class TUnk_804B9870 : public TObject {
 public:
@@ -94,12 +95,13 @@ public:
     virtual void interact(s32 client);
     s32 set_flag8();
     s32 has_interactor();
+    s32 get_cursor_action();
     void set_shadow_flag();
     void clear_shadow_flag();
     u32 m_90;
     u16 interactor;  // client id of the player interacting, 0xFFFF for none
     u8 unk_96[0x2];
-    void* m_98;
+    CursorAction cursor_action;
     void *m_9c;
     u32 m_a0;
     CollisionBody *m_a4;

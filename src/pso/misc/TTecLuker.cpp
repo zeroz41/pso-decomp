@@ -175,7 +175,6 @@ u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
-void TTecLuker__sub_80234F68(void* p);
 extern RecoveredGlobal_80233D18_lbl_804CC9A8 telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
@@ -335,7 +334,7 @@ u8 *TTecLuker::construct_field_collider(s32 arg1, s32 arg2, s32 ac) {
     init_collision_body_parts(this, &telepipe_field_collision_body_template.value, 1);
     obj_setFlags30(this, 0x40000000);
     ((TObjPlayer *)((u8 *)this))->reset_photon_effect();
-    TTecLuker__sub_80234F68((void*)((void *) (((u8 *)this) + 0x98)));
+    ((TUnk_804CC9D4 *)this)->cursor_action.set_telepipe();
     *(s32 *)&this->unk_B0 = 0;
     this->m_ac = ac;
     return ((u8 *)this);
@@ -979,7 +978,7 @@ void TTecLuker__sub_80234F48(void) {
     }
 }
 
-void TTecLuker__sub_80234F68(void* p) { *(s32*)((char*)p + 0x0) = 6; }
+void CursorAction::set_telepipe() { kind = CURSOR_ACTION_TELEPIPE; }
 s16 get_field_2__9TTecLukerFPv(void* p) { return *(s16*)((char*)p + 0x2); }
 
 void clear_pipe_interaction_latch(void* p) { *(s32*)((char*)p + 0xb0) = 0; }

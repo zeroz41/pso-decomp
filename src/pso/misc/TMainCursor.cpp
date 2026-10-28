@@ -815,7 +815,6 @@ void TMainCursor__sub_8013EA00(void *, s32);
 s32 update_cursor_pos__13TLockOnCursorFv(void *);
 s32 TLockOnCursor__sub_8013EB2C(void *);
 s32 TMainCursor__sub_8013F168(void *p);
-u8 fn_8013F264(void *);
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
 void *__nw__7TObjectFUl(u32);
 extern s32 tl_loc_end;
@@ -1148,7 +1147,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
             if (mode == 1) {
                 continue;
             }
-            TMainCursor__sub_8013E9C0(sub, fn_8013F264(ent));
+            TMainCursor__sub_8013E9C0(sub, (u8)((TUnk_804AF8A0 *)ent)->get_cursor_action());
         }
         cur = TObjPlayer__sub_80116620(sub->x9C, count);
         set_cursor_id__11TMainCursorFs(cur, item->id);

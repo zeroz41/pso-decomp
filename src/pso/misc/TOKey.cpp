@@ -1,3 +1,4 @@
+#include "pso/object/TObjMotion.h"
 #include "types.h"
 #include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/byteswap.h"
@@ -174,7 +175,7 @@ void *TOKey__ct(TOKey *arg0) {
     *(u32 *)((s8 *)arg0 + 0xE0) = 0;
     *(u32 *)((s8 *)arg0 + 0xD8) = 28;
     *(u32 *)((s8 *)arg0 + 0xDC) = 28;
-    ((TOKeyAncient01 *)((char *)arg0 + 152))->set_type();
+    ((TOKey *)arg0)->cursor_action.set_use();
     *(u32 *)((s8 *)arg0 + 0xE4) = 0;
     return arg0;
 }

@@ -368,7 +368,7 @@ force_active:
   - TItemWeaponMechgun__ct
   - TItemWeaponPartisan__ct
   - TItem__name
-  - TItem__sub_801031C0
+  - set_pick_up__12CursorActionFv
   - TJudgmentSequence__sub_80215BA0
   - TJudgmentSequence__sub_80215BCC
   - TJudgmentSequence__sub_80215BF8
@@ -1287,7 +1287,7 @@ force_active:
   - TTecGiZonde__ct
   - TTecGrants__ct
   - TTecLuker__ct
-  - TTecLuker__sub_80234F68
+  - set_telepipe__12CursorActionFv
   - TTecLuker__sub_8023503C
   - TTecLuker__sub_80235048
   - TTecLuker__sub_80235054
@@ -4156,7 +4156,7 @@ force_active:
   - fn_800E35C8
   - fn_8010EF14
   - fn_8010EFE8
-  - fn_8013F288
+  - get__12CursorActionFv
   - fn_80156C88
   - fn_80157CA8
   - fn_8017F5F0

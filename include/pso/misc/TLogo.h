@@ -9,8 +9,6 @@ int TLogo__sub_8013F7E8(int _w0);
 s32 TLogo__sub_8013F800(void *p);
 int TLogo__sub_8013F808(void);
 void *__ct__5TLogoFv(void *object);
-s32 fn_8013F264(void *p);
-s32 fn_8013F288(void *p);
 void init_logo_scene__5TLogoFv(void);
 void render__5TLogoFv(void);
 void run_frame__5TLogoFv(void);

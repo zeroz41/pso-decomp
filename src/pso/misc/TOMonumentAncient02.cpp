@@ -290,7 +290,7 @@ u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
     arg0->m_ac = 0;
     arg0->m_c8 = 0;
     arg0->m_cc = 0;
-    ((TOKeyAncient01 *)((u8 *)arg0 + 0x98))->set_type();
+    ((TOMonumentAncient02 *)arg0)->cursor_action.set_use();
     arg0->m_c0 = (f32) lbl_805DB934;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB938;
     *(f32 *)((s8 *)arg0 + 0xD8) = (f32) lbl_805DB92C;

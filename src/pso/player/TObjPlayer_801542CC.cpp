@@ -165,7 +165,6 @@ int get_player_data__10TObjPlayerFi(int a0);
 extern s32 lbl_805D5868;
 extern const f32 TObjPlayer__data_805DB298;
 void TObjPlayer__sub_80156934(void);
-void TObjPlayer__sub_80156A74(void* p);
 f32 horizontal_distance_squared(void *, void *);
 s16 angle_diff_s16(s32 a, s32 b);
 s32 normalize_vector(void *);
@@ -1152,7 +1151,6 @@ TUnk_804AF8A0::~TUnk_804AF8A0() {
 }
 
 TUnk_804AF8A0::TUnk_804AF8A0(TObject *parent) : TUnk_804B9870(parent) {
-    TObjPlayer__sub_80156A74(&m_98);
     __ct__8FlagWordFv(&m_a0);
     m_90 = 0;
     body_count = 0;
@@ -1163,7 +1161,7 @@ TUnk_804AF8A0::TUnk_804AF8A0(TObject *parent) : TUnk_804B9870(parent) {
 }
 
 void TUnk_804AF8A0::sub_80156A68() { *(s16*)((char*)this + 0x96) = 0; }
-void TObjPlayer__sub_80156A74(void* p) { *(s32*)((char*)p + 0x0) = 0; }
+CursorAction::CursorAction() { kind = CURSOR_ACTION_NONE; }
 s32 TUnk_804AF8A0::access_object_saved_state(void *lobby, s16 arg2) {
     s16 temp_r31;
     u8 *temp_r3;

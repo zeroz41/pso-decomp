@@ -82,7 +82,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 
-void TOKeyAncient01::set_type() { *(s32 *)&this->m_name = 3; }
+void CursorAction::set_use() { kind = CURSOR_ACTION_USE; }
 
 void TOKeyAncient01::vfunc_25() {  }
 

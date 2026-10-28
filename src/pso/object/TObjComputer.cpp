@@ -276,7 +276,7 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     init_collision_body_parts(self, obj_computer_collision_body_parts, 1);
     ((TObjPlayer *)self)->actorFlags |= 0x40000000;
     ((TObjPlayer *)self)->reset_photon_effect();
-    ((TOKeyAncient01 *)(self->aux98))->set_type();
+    ((TObjComputer *)self)->cursor_action.set_use();
     ((TObjPlayer *)self)->m_c0 = lbl_805DBCEC;
     self->unkC4 = 0;
     return self;

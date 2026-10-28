@@ -290,7 +290,7 @@ void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
     Vec_80190020 pos = *(Vec_80190020 *)((s8 *)door_key + 0x38);
     pos.y += lbl_805DBE0C;
     *(s32 *)&door_key->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
-    ((TOKeyAncient01 *)((u8 *)door_key + 0x98))->set_type();
+    door_key->cursor_action.set_use();
     return door_key;
 }
 

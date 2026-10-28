@@ -114,7 +114,7 @@ int item_system_generation;
 void __sinit_TItem_cpp();
 __declspec(section ".ctors") static void *const item_global_initializer = (void *)__sinit_TItem_cpp;
 
-void TItem__sub_801031C0(void *tag) { *(s32 *)tag = 4; }
+void CursorAction::set_pick_up() { kind = CURSOR_ACTION_PICK_UP; }
 
 
 s32 TUnk_804AF8A0::has_interactor() { return interactor != 0xFFFF; }
@@ -347,7 +347,7 @@ TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     m_name = TItem__name;
     obj_setFlags30(this, 0x80000000);
     fn_8002B630((u8 *)&collision_body, (u8 *)&item_collider_body);
-    TItem__sub_801031C0(&m_98);
+    cursor_action.set_pick_up();
     initialize_linked_object_reference(&collision_body);
     owner_client_id = 0xFFFF;
     item_id = ((TItemData *)item)->id;
@@ -569,7 +569,7 @@ void drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
 
 void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
     G_DropStackedItem_PC_V3_BB_6x5D cmd;
-    TUnk_804B9870 *player = (TUnk_804B9870 *)get_player_by_client_id(client);
+    TObjPlayer *player = get_player_by_client_id(client);
     if (player == NULL) {
         item_desync_detected = 1;
         return;

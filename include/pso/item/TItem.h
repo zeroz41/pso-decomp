@@ -214,7 +214,6 @@ extern "C" {
 // derived classes still written as C functions.
 void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
 void *__dt__5TItemFv(void *item, s16 deleting);
-void TItem__sub_801031C0(void *tag);
 int TObjPlayer__sub_80100F34(void *unused);
 }
 

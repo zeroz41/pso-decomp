@@ -2036,7 +2036,6 @@ void TObjPlayer__sub_8013A748(void *);
 void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void *owner, void *p);
 u32 TLockOnCursor__ct(u32, void *, s32);
 u16 get_id__11TMainCursorFv(void* p);
-s32 fn_8013F264(void *p);
 s32 draw_model_with_callback__10TObjPlayerFllf(void *, s32, s32, f32);
 s32 set_animation__10TObjMotionFs(s32, s32);
 s32 advance_animation_playback(void *);
@@ -5542,7 +5541,7 @@ void TObjPlayer::select_contextual_pickup_action() {
         if (((u16 (*)(s32))get_id__11TMainCursorFv)(cursor) != 0xFFFF) {
             ent = ((s32 (*)(u16))find_entity_by_id)(((u16 (*)(s32))get_id__11TMainCursorFv)(cursor));
             if (ent != 0) {
-                type = fn_8013F264((void *)ent);
+                type = ((TUnk_804AF8A0 *)ent)->get_cursor_action();
                 if (type != 0) {
                     switch (type) {
                     case 4:

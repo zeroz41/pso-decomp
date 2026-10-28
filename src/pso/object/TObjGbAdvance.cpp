@@ -64,7 +64,7 @@ u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1) {
     init_collision_body_parts(arg0, (s32) &gb_advance_collision_body_parts.value, 1);
     ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->reset_photon_effect();
-    ((TOKeyAncient01 *)(arg0 + 0x98))->set_type();
+    ((TObjGbAdvance *)arg0)->cursor_action.set_use();
     return arg0;
 }
 void TObjComputer::debug_draw_label() {
