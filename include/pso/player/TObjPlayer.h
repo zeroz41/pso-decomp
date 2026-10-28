@@ -228,8 +228,8 @@ struct TObjPlayer : public TUnk_804806E8 {
     u8 unk_8B8[0x444];
     s32 m_cfc;
     void* inventory_objects;
-    void* m_d04;
-    u8 unk_D08[0x40];
+    void *equipped_items[13];  // by equip slot; read through get_equipped_item
+    u8 unk_D38[0x10];
     f32 m_d48;
     u8 unk_D4C[0x60];
     void* m_dac;
@@ -472,7 +472,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     void set_tp(s16 tp);
     s32 get_tp_bonus();
     s32 get_hp_bonus();
-    int get_equip_field_d04(s32 slot);
+    TItem *get_equipped_item(s32 slot);
     s32 is_flag_20000_set();
     static s32 test_flag_2000000(void *player);
     static int get_slot_value(void *slots, int slot);

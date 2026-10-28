@@ -875,18 +875,6 @@ struct Pkt_801B5254 {
     f32 f10;
 };
 
-struct VBase_801B4CE4 { u8 pad[0x18]; };
-
-struct Equip_801B4CE4 : VBase_801B4CE4 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void restore(s32);
-    virtual void store(s32);
-};
-
 struct Rec12_801B4CE4 { u8 b[0xC]; };
 
 struct Rec1C_801B4CE4 { u8 b[0x1C]; };
@@ -2020,7 +2008,6 @@ u32 create__15TFontSmallLobbyFPv(void *);
 s32 set_owner_client__5TItemFUs(void *, s16);
 s32 check_equip_requirements__5TItemFP10TObjPlayerPs(s32, Pl_801B0B88 *, s32);
 s32 set_tp__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
-Equip_801B4CE4 * get_equip_field_d04__10TObjPlayerFl(void *, s32);
 s32 is_script_controlled__10TObjPlayerFv(TObjPlayer*);
 s32 lookup_item_def__9TItemDataFPv(u8 *);
 s32 init__9TItemDataFv(s8 *);
@@ -5144,9 +5131,9 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     a = get_actor_hp(src);
     b = get_actor_tp(src);
     for (i = 0; i != 0xD; i++) {
-        Equip_801B4CE4 *e = get_equip_field_d04__10TObjPlayerFl(src, i);
+        TItem *e = ((TObjPlayer *)src)->get_equipped_item(i);
         if (e != NULL) {
-            e->store(1);
+            e->remove_equip_stats(1);
         }
     }
     copy_data__6TLobbyFPvPv(dst->f118, src->f2B0);
@@ -5161,9 +5148,9 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
         split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(src->f428, i), &dst->fB4[i], &dst->f142[i]);
     }
     for (j = 0; j != 0xD; j++) {
-        Equip_801B4CE4 *e = get_equip_field_d04__10TObjPlayerFl(src, j);
+        TItem *e = ((TObjPlayer *)src)->get_equipped_item(j);
         if (e != NULL) {
-            e->restore(1);
+            e->add_equip_stats(1);
         }
     }
     ((void (*)(void *, s32))set_hp_clamped__10TObjPlayerFs)(src, a);
@@ -5916,7 +5903,7 @@ void TObjPlayer::check_level_up() {
                 ((TObjPlayer *)(&sp8))->reset_sub_status_disp();
                 var_r30 = 0;
                 do {
-                    temp_r31 = get_slot_value__10TObjPlayerFPvi((u8 *)&this->m_d04, var_r30);
+                    temp_r31 = get_slot_value__10TObjPlayerFPvi(this->equipped_items, var_r30);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((int)temp_r31) != 0)) {
                         ((VObj *)temp_r31)->m21(1);
                     }
@@ -5927,7 +5914,7 @@ void TObjPlayer::check_level_up() {
                 init_shield_params__10TObjPlayerFl(&sp24, arg0, this->m_2b0, this->m_318, (int) (*(s32 *)((s8 *)arg0 + 0x31C)));
                 var_r31 = 0;
                 do {
-                    temp_r30_2 = get_slot_value__10TObjPlayerFPvi((u8 *)&this->m_d04, var_r31);
+                    temp_r30_2 = get_slot_value__10TObjPlayerFPvi(this->equipped_items, var_r31);
                     if ((((s32 (*)(void))can_destroy_with_parents__10TObjPlayerFUi)() != 0) && (is_item_equipped((int)temp_r30_2) != 0)) {
                         ((VObj *)temp_r30_2)->m20(1);
                     }
@@ -6882,7 +6869,7 @@ s32 preview_unequip_stats__10TObjPlayerFv(Self_801B96BC *self, Out_801B96BC *out
     if (owner == NULL) {
         return 0;
     }
-    if (is_item_equipped((int)owner) == 0 && ((u32)get_equip_field_d04__10TObjPlayerFl(self, owner->m31())) == 0U) {
+    if (is_item_equipped((int)owner) == 0 && ((TObjPlayer *)self)->get_equipped_item(owner->m31()) == NULL) {
         return 1;
     }
     ((TLobby *)a)->copy_from((void *)self->f318);

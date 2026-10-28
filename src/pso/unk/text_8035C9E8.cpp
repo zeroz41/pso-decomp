@@ -9,7 +9,6 @@ extern "C" {
 void *get_player_data__10TObjPlayerFi(int);
 void *get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(void *);
-void *get_equip_field_d04__10TObjPlayerFl(void *, int);
 }
 extern u8 lbl_80479B4C[][3];
 s32 any_player_has_listed_item(void) {
@@ -23,7 +22,7 @@ s32 any_player_has_listed_item(void) {
                 u8 *e = lbl_80479B4C[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
-                    void *it = get_equip_field_d04__10TObjPlayerFl(pl, k);
+                    void *it = ((TObjPlayer *)pl)->get_equipped_item(k);
                     if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
                         e[1] == ((TItem *)it)->get_item_group() &&
                         e[2] == ((TItem *)it)->get_item_index()) {

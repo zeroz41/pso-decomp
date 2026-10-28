@@ -16,7 +16,6 @@ struct Out_8035D3E0 { u8 pad[0x40]; s32 f40; s32 f44; u8 pad48[0x60 - 0x48]; f32
 
 extern "C" {
 int get_player_data__10TObjPlayerFi(int a0);
-void *get_equip_field_d04__10TObjPlayerFl(void *, int);
 extern u8 listed_equipment_table[][3];
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
 void fn_8035D3E0(Obj_8035D3E0 *arg0, Out_8035D3E0 *arg1);
@@ -32,7 +31,7 @@ s32 any_player_has_listed_equipment(void) {
                 u8 *e = listed_equipment_table[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
-                    void *it = get_equip_field_d04__10TObjPlayerFl(pl, k);
+                    void *it = ((TObjPlayer *)pl)->get_equipped_item(k);
                     if (it != NULL && e[0] == ((TItem *)it)->get_item_type() &&
                         e[1] == ((TItem *)it)->get_item_group() &&
                         e[2] == ((TItem *)it)->get_item_index()) {

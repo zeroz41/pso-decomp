@@ -272,7 +272,7 @@ f32 TObjPlayer::get_mag_scale_f() { return *(f32 *)((u8 *)this + 0x1C); }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
-int TObjPlayer::get_equip_field_d04(s32 slot) { return get_slot_value((u8 *)this + 0xD04, slot); }
+TItem *TObjPlayer::get_equipped_item(s32 slot) { return (TItem *)get_slot_value(equipped_items, slot); }
 
 s32 TObjPlayer::get_hp_bonus() { return hp_bonus; }
 
@@ -1011,7 +1011,7 @@ s16 calc_base_hp_bonus(u16 client) {
     if (player != NULL) {
         s32 slot = 9;
         do {
-            TItemEquipBase *equipped = (TItemEquipBase *)player->get_equip_field_d04(slot);
+            TItemEquipBase *equipped = (TItemEquipBase *)player->get_equipped_item(slot);
             if (equipped != NULL) {
                 bonus += *(s16 *)equipped->get_stat_bonus_ptr();
             }
@@ -1029,7 +1029,7 @@ s16 calc_base_tp_bonus(u16 client) {
     if (player != NULL) {
         s32 slot = 9;
         do {
-            TItemEquipBase *equipped = (TItemEquipBase *)player->get_equip_field_d04(slot);
+            TItemEquipBase *equipped = (TItemEquipBase *)player->get_equipped_item(slot);
             if (equipped != NULL) {
                 bonus += ((s16 *)equipped->get_stat_bonus_ptr())[1];
             }
@@ -1185,14 +1185,14 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
             s16 tp = get_actor_tp(owner);
             s32 slot;
             for (slot = 9; slot != 13; slot++) {
-                TItem *equipped = (TItem *)owner->get_equip_field_d04(slot);
+                TItem *equipped = owner->get_equipped_item(slot);
                 if (equipped != NULL) {
                     equipped->remove_equip_stats(1);
                 }
             }
             set_technique_level_entry(owner->technique_levels, technique, (u8)level);
             for (slot = 9; slot != 13; slot++) {
-                TItem *equipped = (TItem *)owner->get_equip_field_d04(slot);
+                TItem *equipped = owner->get_equipped_item(slot);
                 if (equipped != NULL) {
                     equipped->add_equip_stats(1);
                 }

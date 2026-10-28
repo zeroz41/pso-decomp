@@ -181,7 +181,6 @@ f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
 extern u8 lbl_8044C1B0[];
-u32 get_equip_field_d04__10TObjPlayerFl(int, s32);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
@@ -356,7 +355,7 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
                 item = (VObj_802209D8 *)find_item_by_id(F(0x34, s32));
-                if (item != NULL && (eq = get_equip_field_d04__10TObjPlayerFl(F(0x24, s32), item->m31())) != 0) {
+                if (item != NULL && (eq = (u32)((TObjPlayer *)(F(0x24, s32)))->get_equipped_item(item->m31())) != 0) {
                     send_6x26_unequip_item__10TObjPlayerFPvPv((void *)(F(0x24, s32)), (void *)(((TItem *)eq)->get_item_id()));
                 }
                 send_6x25_equip_item((void *)(F(0x24, s32)), F(0x34, s32), 0);

@@ -55,7 +55,6 @@ s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
-u32 get_equip_field_d04__10TObjPlayerFl(s32, s32);
 s32 get_item_id__5TItemFv();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 extern void *item_tool_factory_table[];
@@ -270,7 +269,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         case 5:
         case 6:
         case 7:
-            var_r3 = get_equip_field_d04__10TObjPlayerFl(player, arg1 + 5);
+            var_r3 = (u32)((TObjPlayer *)player)->get_equipped_item(arg1 + 5);
             break;
         default:
             break;
