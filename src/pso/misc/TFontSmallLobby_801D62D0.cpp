@@ -7,6 +7,7 @@
 #include "pso/item/TItemMag.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PhotonBlastGauge.h"
 
 struct Lobby_801D6498 {
     u8 pad[0x14];
@@ -125,7 +126,7 @@ void reset_photon_blast_gauge(struct Lobby_801D6498 *s) {
     for (i = 0; i < 10; i++) {
         TFontSmallLobby__sub_80152F28(&s->arr[i]);
     }
-    ((TItemMag *)s)->init_feed_timer();
+    ((PhotonBlastGauge *)s)->clear_charge();
     ((TObjPlayer *)s)->clear_photon_blast_state();
     ((TFontSmallLobby *)(s->fields))->reset_fields();
 }

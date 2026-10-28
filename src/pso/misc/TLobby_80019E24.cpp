@@ -29,6 +29,6 @@ void TLobby::load_draw_line_task() {
     }
     (*(u8 * *)&item_loader_instance) = (unsigned char *) ((void *) var_r0);
     if ((u32) var_r0 != 0U) {
-        lbl_805D49D8 = ((TItemMag *)var_r0)->get_type();
+        lbl_805D49D8 = (s32)((RelocatedFile *)var_r0)->get_root();
     }
 }

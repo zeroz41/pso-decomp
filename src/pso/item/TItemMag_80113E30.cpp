@@ -6,6 +6,7 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemMagSub.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/PhotonBlastGauge.h"
 
 struct Obj_80113EDC { u8 pad[0x44]; u8 arr[1]; };
 
@@ -28,13 +29,12 @@ int test_flags_any(void*, int);
 int TItemMag::get_status_flag() { return this->m_18c & 0x10; }
 void TItemMag__sub_80113E3C(void* p) { *(s8*)((char*)p + 0x0) = -32; }
 
-void TItemMag::copy_record(u8 *arg1) {
-    u8 *arg0 = (u8 *)this;
-    *(u8 *)((s8 *)arg0 + 0) = (u8) *(u8 *)((s8 *)arg1 + 0);
-    this->m_1 = (u8) *(u8 *)((s8 *)arg1 + 1);
-    *(s16 *)((s8 *)arg0 + 2) = (s16) *(s16 *)((s8 *)arg1 + 2);
-    *(s16 *)&this->m_4 = (s16) *(s16 *)((s8 *)arg1 + 4);
-    *(s16 *)((s8 *)arg0 + 6) = (s16) *(s16 *)((s8 *)arg1 + 6);
+void MagNodeOscillationState::copy_from(MagNodeOscillationState *src) {
+    flags = src->flags;
+    speed = src->speed;
+    value = src->value;
+    minimum = src->minimum;
+    maximum = src->maximum;
 }
 
 u8 TItemMag__sub_80113E74(void* p) { return *(u8*)((char*)p + 0xe); }
@@ -58,16 +58,16 @@ f32 TItemMag__sub_80113EEC(void* p) { return *(f32*)((char*)p + 0x3c); }
 
 extern f32 TItemMag__data_805DABA4;
 
-void TItemMag::init_feed_timer() {
-    this->m_3c = (f32) TItemMag__data_805DABA4;
+void PhotonBlastGauge::clear_charge() {
+    charge = TItemMag__data_805DABA4;
 }
 
 s32 TItemMag::get_mag_id() { return *(s32*)((char*)this + 0x0); }
 f32 TItemMag::get_stat_f32() { return *(f32*)((char*)this + 0x8); }
 int TItemMag::check_state_flag_1() { return test_flags_any((char*)this + 0x4, 1); }
-void TItemMag::clear_feed_flags(u32 v) { this->m_4 &= ~v; }
-void TItemMag::set_flags(u32 v) { this->m_4 |= v; }
-int TItemMag::test_flags(u32 m) { return this->m_4 & m; }
+void MagOwnerWatch::clear_flags(u32 mask) { flags &= ~mask; }
+void MagOwnerWatch::set_flags(u32 mask) { flags |= mask; }
+u32 MagOwnerWatch::test_flags(u32 mask) { return flags & mask; }
 
 void TItemMag::add_photon_blast(u8 blast) {
     MagData_80113F64 *data = (MagData_80113F64 *)this;

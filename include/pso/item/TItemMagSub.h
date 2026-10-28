@@ -6,6 +6,9 @@
 
 struct MagDrawOwner { u8 prefix[0x2FC]; f32 center[3]; };
 struct MagNodeOscillationState {
+    // Takes over another state, as the mag model table lists it.
+    void copy_from(MagNodeOscillationState *src);
+
     u8 flags;
     s8 speed;
     s16 value, minimum, maximum;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemMag.h"
+#include "pso/item/TItemLoad_8010FDF0.h"
 
 #pragma inline_depth(1)
 #pragma dont_inline off
@@ -11,7 +11,7 @@ extern "C" {
 void copy_draw_line_record(Rec_8001A470 *d, Rec_8001A470 *s);
 }
 
-s32 TItemMag::get_type() { return this->m_4; }
+void *RelocatedFile::get_root() { return root; }
 
 void copy_draw_line_record(Rec_8001A470 *d, Rec_8001A470 *s) {
     d->f0 = s->f0;

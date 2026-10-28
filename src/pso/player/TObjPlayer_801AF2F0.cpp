@@ -56,6 +56,7 @@
 #include "pso/map/CurrentArea.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/misc/TLobby_80207644.h"
+#include "pso/player/PhotonBlastGauge.h"
 
 #define M0(x) virtual void m##x();
 struct Base_801AF2F0 { char pad[0x18]; };
@@ -7764,7 +7765,7 @@ void TObjPlayer::sub_801BB950() {
   {
     if (are_items_enabled_here() == 0)
     {
-      ((TItemMag *)(arg0 + 0x4AC))->init_feed_timer();
+      ((PhotonBlastGauge *)(arg0 + 0x4AC))->clear_charge();
     }
     reinit_photon_blast_gauge((u16 *)(arg0 + 0x4AC));
     ((TFontSmallLobby *)(arg0 + 0x4AC))->update_if_ready();
