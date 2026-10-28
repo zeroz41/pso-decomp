@@ -5,7 +5,7 @@
 
 extern "C" {
 
-int unregister_object_by_id__13TUnk_804AF8A0Fv(void*);
+int unregister_object_by_id__14TObjCollidableFv(void*);
 int TObjPlayer__sub_801BED98(void*);
 int TObjPlayer__sub_801BEDA0(void*);
 int TObjPlayer__sub_801BEDA8(void*);
@@ -13,7 +13,7 @@ int TObjPlayer__sub_801BEDB0(void*);
 int TObjPlayer__sub_801BEDB8(void*);
 
 s32 TObjPlayer__sub_801BEB0C(void* p) { return *(s32*)((char*)p + 0x334); }
-int TObjPlayer::unregister_sub() { return unregister_object_by_id__13TUnk_804AF8A0Fv(this); }
+int TObjPlayer::unregister_sub() { return unregister_object_by_id__14TObjCollidableFv(this); }
 void TObjPlayer::set_control_role(s32 v) { *(s32 *)&this->unk_3E8 = v; }
 u8 TObjPlayer__sub_801BEB3C(void* p) { return *(u8*)((char*)p + 0x2e7); }
 u8 TObjPlayer__sub_801BEB44(void* p) { return *(u8*)((char*)p + 0x2cb); }

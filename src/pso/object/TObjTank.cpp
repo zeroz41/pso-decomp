@@ -7,7 +7,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_8019A9B8_lbl_80446184 {
     s32 value;
@@ -83,9 +83,9 @@ void TObjTank::run_task() {  }
 void *__dt__8TObjTankFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -98,7 +98,7 @@ extern void *tl_05;
 typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
 u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, arg1);
+    __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8019A880___vt__8TObjTank *)&__vt__8TObjTank).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTank__class_name;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));

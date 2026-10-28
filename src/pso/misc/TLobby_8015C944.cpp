@@ -15,8 +15,8 @@ struct O_8015C9D4 { u8 pad[0x2FC]; V3_8015C9D4 pos; u8 pad308[0x326 - 0x308]; s1
 struct A_8015C9D4 { u8 pad[0x1C]; V3_8015C9D4 pos; };
 
 extern "C" {
-f32 receive_physical_attack__13TUnk_804806E8FPvf(void *, void *, f32);
-s32 select_melee_contact_body__13TUnk_804806E8FPvf(f32);
+f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
+s32 select_melee_contact_body__9TObjCharaFPvf(f32);
 extern char lbl_80440984[];
 extern const f32 TOCtrlDubchik__data_805DB3A8;
 extern const f32 TOCtrlDubchik__data_805DB3AC;
@@ -40,8 +40,8 @@ void TOCtrlDubchik__sub_8015C9D0(void) {  }
 f32 TOCtrlDubchik::receive_weapon_special_attack(void *att, void *arg2) {
     V3_8015C9D4 sp8;
     if (((O_8015C9D4 *)this)->f326 != 0) {
-        if (select_melee_contact_body__13TUnk_804806E8FPvf(TOCtrlDubchik__data_805DB3AC) != 0) {
-            return receive_physical_attack__13TUnk_804806E8FPvf(this, att, TOCtrlDubchik__data_805DB3AC);
+        if (select_melee_contact_body__9TObjCharaFPvf(TOCtrlDubchik__data_805DB3AC) != 0) {
+            return receive_physical_attack__9TObjCharaFPvf(this, att, TOCtrlDubchik__data_805DB3AC);
         }
         if (((A_8015C9D4 *)arg2) != NULL) {
             VecCopy((Vec *)&sp8, (const Vec *)&((A_8015C9D4 *)arg2)->pos);

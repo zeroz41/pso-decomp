@@ -11,7 +11,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 extern "C" {
 s32 gryphon_demo_collision_body_desc[11] = { 0, 0, 0, 0x3F800000, 0, 0, 0x8003, 0, 0, 0, 0 };
@@ -102,7 +102,7 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
-int refresh_collision_body_centers__13TUnk_804AF8A0Fv(void*);
+int refresh_collision_body_centers__14TObjCollidableFv(void*);
 extern s32 gryphon_demo_collision_body_desc[];
 extern s32 lbl_804886AC[];
 extern s32 lbl_805D2808;
@@ -119,7 +119,7 @@ s32 __dl__7TObjectFPv(void *);
 
 void TBoss5GryphonColli_C::render() {  }
 void TBoss5GryphonDemo__sub_8006626C(void* p) { ((TBoss5GryphonColli_C *)p)->clear_entry_flags(); }
-void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; refresh_collision_body_centers__13TUnk_804AF8A0Fv(this); set_all_entry_flags(); }
+void TBoss5GryphonDemo::draw_model(void* a1, s32 a2) { push_matrix(this); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)this + 0xac, (char*)this + 0x38); pop_matrix(); *(s32*)((char*)this + 0x60) = a2; refresh_collision_body_centers__14TObjCollidableFv(this); set_all_entry_flags(); }
 
 void TBoss5GryphonColli_C::clear_entry_flags() {
     Obj_800663DC *self = (Obj_800663DC *)this;
@@ -142,7 +142,7 @@ void *TBoss5GryphonColli_C::destroy(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804886AC;
         unregister_object_by_id();
         free_collision_body_parts(this);
-        __dt__13TUnk_804AF8A0Fv(this, 0);
+        __dt__14TObjCollidableFv(this, 0);
         if ((s16) arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -157,7 +157,7 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
     f32 z;
     Seg_800663DC *s;
     s32 i;
-    __ct__13TUnk_804AF8A0FP7TObject(self, arg1);
+    __ct__14TObjCollidableFP7TObject(self, arg1);
     obj->vt = lbl_804886AC;
     obj->f0 = lbl_805D2808;
     obj->f1c = TLobby::alloc_actor_ids(0);
@@ -179,7 +179,7 @@ TBoss5GryphonColli_C *TBoss5GryphonDemo__sub_800663DC(TBoss5GryphonColli_C *self
         s->flags = 0x10003;
         s++;
     }
-    refresh_collision_body_centers__13TUnk_804AF8A0Fv(obj);
+    refresh_collision_body_centers__14TObjCollidableFv(obj);
     register_entity_by_id(obj);
     self->clear_entry_flags();
     return self;

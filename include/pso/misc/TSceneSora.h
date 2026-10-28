@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TSceneSora : public TUnk_804B9870 {
+struct TSceneSora : public TObjBase {
     virtual ~TSceneSora();
     u32 m_90;
     u32 m_94;

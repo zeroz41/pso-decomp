@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TBoss6RockChase : public TUnk_804AF8A0 {
+struct TBoss6RockChase : public TObjCollidable {
     virtual ~TBoss6RockChase();
     u32 m_ac;
     u32 m_b0;

@@ -9,7 +9,7 @@
 extern "C" {
 u32 get_player_by_client_id(s32);
 s32 TWindowCtrlMain__sub_8024CE58();
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(u32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
 void* get_window_layout_position(s32);
 void* set_window_mode_4__6TLobbyFPvll(void*, void*, s32);
 void* TQuestVmDownLoadServer__sub_8006EF6C(s32);
@@ -35,7 +35,7 @@ s32 TObjSoloPlayWin::area_allows_win_timer() {
 s32 TObjSoloPlayWin::can_start_win_timer() {
     u32 player = get_player_by_client_id(local_client_id);
     if (TWindowCtrlMain__sub_8024CE58() == 1 && area_allows_win_timer() != 0 &&
-        player != 0U && obj_testFlags30__13TUnk_804AF8A0FUl(player, 0x02000000) == 0) {
+        player != 0U && obj_testFlags30__14TObjCollidableFUl(player, 0x02000000) == 0) {
         return 1;
     }
     return 0;

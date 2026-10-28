@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOSymbolchatColli.h"
 #include "pso/misc/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
@@ -64,7 +64,7 @@ f32 newton_sqrtf(f32 x);
 s32 TObjRoomId__sub_80141CF4(void *, void *);
 extern const f32 lbl_805DBA2C;
 extern const f32 lbl_805DBA30;
-void __ct__13TUnk_804806E8FP7TObject(void *);
+void __ct__9TObjCharaFP7TObject(void *);
 void init_collision_body_parts(void *, void *, int);
 extern u8 lbl_804B4550[];
 extern s32 __vt__17TOSymbolchatColli[];
@@ -111,7 +111,7 @@ void TOSymbolchatColli::init_collision_params() {
   self->radiusSq = this->scale.x * this->scale.x;
   memset(self->coll, 0, 0x24);
   this->m_358 = self->y3c / lbl_805DBA28;
-  ((TUnk_804806E8 *)self)->set_motion_params(self->coll);
+  ((TObjChara *)self)->set_motion_params(self->coll);
   for (i = 0; i < 3; i++)
   {
     u32 v = self->ids[i];
@@ -214,9 +214,9 @@ void TOSymbolchatColli::load_symbol_chat_data() {
 void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOSymbolchatColli;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -225,7 +225,7 @@ void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1) {
 }
 Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2) {
     s32 i;
-    __ct__13TUnk_804806E8FP7TObject(arg0);
+    __ct__9TObjCharaFP7TObject(arg0);
     *(u8 **)((u8 *)arg0 + 0x18) = ((u8 *)&__vt__17TOSymbolchatColli);
     *(s32 *)arg0 = lbl_805D3194;
     arg0->v5(arg2);

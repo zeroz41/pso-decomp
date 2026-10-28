@@ -123,11 +123,11 @@ void TODoorCave03::vfunc_17() {
     if (this->m_d0 & 1) {
         if (is_any_player_within_radius_xz(arg0, lbl_805DB4D8) != 1) {
             this->m_ac = 3;
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8U);
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8U);
         }
     } else {
         this->m_ac = 3;
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8U);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8U);
     }
 }
 
@@ -156,7 +156,7 @@ void TODoorCave03::play_proximity_sound() {
     if (temp_r4 & 1) {
         if (is_any_player_within_radius_xz(arg0, lbl_805DB4E0) == 1) {
             this->m_ac = 1;
-            ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
+            ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         }
     } else if (temp_r4 & 0x10000) {
         *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (*(f32 *)((s8 *)arg0 + 0xD8) + lbl_805DB4E4);
@@ -243,7 +243,7 @@ void TODoorCave03::load_resources() {
 void *__dt__12TODoorCave03Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave03;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -262,7 +262,7 @@ u8 *TODoorCave03__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorCave03__model_resource) + 0x42C)) + 8);
     ((TODoorCave03 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorCave03__model_resource) + 0x42C)) + 0xC);
     init_collision_body_parts(arg0, &lbl_804B1548.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorCave03 *)(arg0))->init_door_switch_binding();
     *(f32 *)((s8 *)arg0 + 0xD4) = (f32) TODoorCave03__data_805DB4D4;

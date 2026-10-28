@@ -94,7 +94,7 @@ void TObjDoaEx01::vfunc_18() {
     if (this->m_b0 < 0.0f) {
         this->m_b0 = (f32) 0.0f;
         this->m_ac = 0;
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
 }
 #pragma pop
@@ -149,7 +149,7 @@ void TObjDoaEx01::play_proximity_sound() {
     if (self->flags & 1) {
         if (is_any_player_within_radius_xz((u8 *)self, (f32)4.9e+03f) == 1) {
             self->state = 1;
-            ((TUnk_804AF8A0 *)self)->set_indexed_flags(0, 8);
+            ((TObjCollidable *)self)->set_indexed_flags(0, 8);
             switch (get_current_area()) {
             case 19:
             case 20:
@@ -362,7 +362,7 @@ void *__nw__7TObjectFUl(int);
 void *__dt__11TObjDoaEx01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjDoaEx01;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -383,7 +383,7 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjDoaEx01 *)(arg0))->apply_object_set_data((void *)arg2);
     ((TObjDoaEx01 *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoaEx01 *)arg0)->m_b0 = (f32) 0.0f;
     ((TObjDoaEx01 *)arg0)->m_b8 = (f32) 0.5f;

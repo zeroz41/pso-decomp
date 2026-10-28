@@ -2,9 +2,9 @@
 #include "pso/system/debug_print.h"
 #include "pso/misc/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TQuestListVM.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-u8 *TUnk_804806E8::get_stats() { return m_2b0; }
+u8 *TObjChara::get_stats() { return m_2b0; }
 
 extern "C" {
 

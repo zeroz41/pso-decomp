@@ -32,7 +32,7 @@ void set_cursor_id__11TMainCursorFs(void *, s32);
 void set_target_index__11TMainCursorFs(void *, s32);
 u8 TMainCursor__sub_8013E900(void *);
 u8 get_active__11TMainCursorFv(void *);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
 int matches_type_and_enabled__11TMainCursorFiUcUc(void *, void *a1 = 0, void *a2 = 0);
 u8 *TMainCursor__ct(u8 *main_cursor, s32 parent, s32 target_index, s32 target_id, s32 action_palette, s32 active,
@@ -100,7 +100,7 @@ s32 TMainCursor::check_can_pickup() {
     s32 arg0 = (s32)this;
 
     temp_r3 = (s32)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
-    if ((temp_r3 != 0) && ((u32) (obj_testFlags30__13TUnk_804AF8A0FUl((void *)temp_r3, 0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, temp_r3) == 0)) {
+    if ((temp_r3 != 0) && ((u32) (obj_testFlags30__14TObjCollidableFUl((void *)temp_r3, 0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, temp_r3) == 0)) {
         return 1;
     }
     return 0;
@@ -157,7 +157,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (check_flag_100__10TObjPlayerFPv(t) == 0 && obj_testFlags30__13TUnk_804AF8A0FUl(t, 0x20006) != 0) {
+        if (check_flag_100__10TObjPlayerFPv(t) == 0 && obj_testFlags30__14TObjCollidableFUl(t, 0x20006) != 0) {
             this->update_target_sub();
             return;
         }
@@ -524,18 +524,18 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         return 0;
     }
     if (is_technique_ready__8TTecCtrlFv() == 0) {
-        if (((TUnk_804B9870 *)target)->get_room() != (stat = ((TUnk_804B9870 *)player)->get_room()) && (*(u32 *)(player + 0x30) & 0x60000000) == 0x20000000 && stat != -1) {
+        if (((TObjBase *)target)->get_room() != (stat = ((TObjBase *)player)->get_room()) && (*(u32 *)(player + 0x30) & 0x60000000) == 0x20000000 && stat != -1) {
             return 0;
         }
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(target, 0xA00) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(target, 0xA00) != 0) {
         return 0;
     }
     if (player == NULL || ((TObject *)player)->all_parents_unqueued_for_destruction() == 0) {
         return 0;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(player, ((TMainCursor *)cursor)->get_actor_include_mask()) == 0 ||
-        obj_testFlags30__13TUnk_804AF8A0FUl(player, ((TMainCursor *)cursor)->get_actor_exclude_mask()) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(player, ((TMainCursor *)cursor)->get_actor_include_mask()) == 0 ||
+        obj_testFlags30__14TObjCollidableFUl(player, ((TMainCursor *)cursor)->get_actor_exclude_mask()) != 0) {
         return 0;
     }
     yaw = *(s32 *)(target + 0x60);
@@ -817,7 +817,7 @@ void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2);
 void *__nw__7TObjectFUl(u32);
 extern s32 tl_loc_end;
 void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1);
-s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 get_entity_id(void *);
 void *get_item_field_6__10TObjPlayerFPv(void *);
 s32 get_type__10TObjPlayerFPv(void *p);
@@ -936,7 +936,7 @@ void setup_action_channel__11TMainCursorFiPviii(TMainCursor *self, u8 *player, s
     ((void (*)(void *, u8))TMainCursor__sub_8013E9C0)(cur, id);
     switch ((s16)kind) {
     case 1:
-        if (obj_isState3_324__13TUnk_804806E8Fv(player) == 0) {
+        if (obj_isState3_324__9TObjCharaFv(player) == 0) {
             TMainCursor__sub_8013E9A0(cur);
             ((TMainCursor *)C_8013CDE4)->set_color(0x20000);
             ((TMainCursor *)C_8013CDE4)->set_field_0c(0x8000);
@@ -1145,7 +1145,7 @@ void publish_target_list__11TMainCursorFPvi(Self_8013D4A0 *arg0, s32 arg1) {
             if (mode == 1) {
                 continue;
             }
-            TMainCursor__sub_8013E9C0(sub, (u8)((TUnk_804AF8A0 *)ent)->get_cursor_action());
+            TMainCursor__sub_8013E9C0(sub, (u8)((TObjCollidable *)ent)->get_cursor_action());
         }
         cur = TObjPlayer__sub_80116620(sub->x9C, count);
         set_cursor_id__11TMainCursorFs(cur, item->id);

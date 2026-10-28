@@ -335,7 +335,7 @@ extern "C" {
 s32 get_main_phase();
 void mark_area_change_pending();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState3_324__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
@@ -567,7 +567,7 @@ struct Warp_8019DAC0 : Base_8019DAC0 {
 extern "C" {
 
 f32 xz_distance_squared(void *, void *);
-void __ct__13TUnk_804AF8A0FP7TObject(Warp_8019DAC0 *, void *, void *);
+void __ct__14TObjCollidableFP7TObject(Warp_8019DAC0 *, void *, void *);
 extern s32 __vt__12TObjWarpBase[];
 extern s32 TObjWarpBase__name;
 struct Base_8019DA54_8019D964 { char pad[0x18]; };
@@ -601,7 +601,7 @@ void TObjWarpBase::free_globals() {
 
 Warp_8019DAC0 *TObjWarpBase__ct(Warp_8019DAC0 *self, void *parent, void *set) {
     void *o;
-    __ct__13TUnk_804AF8A0FP7TObject(self, parent, set);
+    __ct__14TObjCollidableFP7TObject(self, parent, set);
     *(void **)((u8 *)self + 0x18) = ((u8 *)&__vt__12TObjWarpBase);
     self->f0 = TObjWarpBase__name;
     self->m5(set);
@@ -621,7 +621,7 @@ void *__dt__12TObjWarpBaseFv(void *arg0, s16 arg1) {
         struct VObj_8019DA54_8019D964 *o = (struct VObj_8019DA54_8019D964 *)arg0;
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjWarpBase;
         o->m12();
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -1322,7 +1322,7 @@ void TObjAreaWarpQuest__vt17(Warp_8019C05C *arg0, void *arg1) {
     if (arg0->fC4 > 1) {
         for (i = 0; i < 4; i++) {
             p = get_player_by_client_id(i);
-            if (p != 0 && obj_isState3_324__13TUnk_804806E8Fv(p) != 0 && (u16)((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
+            if (p != 0 && obj_isState3_324__9TObjCharaFv(p) != 0 && (u16)((TNpcPlayer *)p)->get_action_flags() != 0xFFFF) {
                 TObjAreaWarpQuest__sub_8019DCD8(p, arg0->fC4);
             }
         }

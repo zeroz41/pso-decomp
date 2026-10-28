@@ -30,7 +30,7 @@ u8 *get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, int);
+s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern RecoveredGlobal_80158890_lbl_804AFC54 bind_collision_body_parts;
 extern s32 __vt__6TOBind[];
 extern s32 lbl_805D2EA8;
@@ -108,9 +108,9 @@ void TOBind::load_static_resource() {
 void *__dt__6TOBindFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__6TOBind;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -120,7 +120,7 @@ void *__dt__6TOBindFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80158890_lbl_804AFC54_size[sizeof(RecoveredGlobal_80158890_lbl_804AFC54) == 0x58 ? 1 : -1];
 typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_80158890___vt__6TOBind) == 0x3C ? 1 : -1];
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
-    __ct__13TUnk_804AF8A0FP7TObject(bind, tl_05);
+    __ct__14TObjCollidableFP7TObject(bind, tl_05);
     *(s32 **)((s8 *)bind + 0x18) = &(*(RecoveredGlobal_80158890___vt__6TOBind *)&__vt__6TOBind).value;
     *(s32 *)((s8 *)bind + 0) = (s32) lbl_805D2EA8;
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
@@ -134,7 +134,7 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - lbl_805DB304);
     *(f32 *)((s8 *)bind + 0xC0) = (f32) lbl_805DB304;
     init_collision_body_parts(bind, &bind_collision_body_parts.value, 2);
-    ((TUnk_804AF8A0 *)bind)->refresh_collision_body_centers();
+    ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
     bind->m_b4 = (s32) bind->set_params[0];

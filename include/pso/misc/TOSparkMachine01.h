@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOSparkMachine01 : public TUnk_804B9870 {
+struct TOSparkMachine01 : public TObjBase {
     virtual ~TOSparkMachine01();
     u8 unk_90[0x10];
     u8 m_a0;

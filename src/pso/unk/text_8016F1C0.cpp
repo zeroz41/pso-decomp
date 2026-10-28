@@ -19,7 +19,7 @@ struct VO_8016F320 : VB_8016F320 {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject();
+s32 __ct__8TObjBaseFP7TObject();
 extern RecoveredGlobal_8016F1C0___vt__10TOMineDisp __vt__10TOMineDisp;
 extern s32 TOMineDisp__name;
 extern const f32 lbl_805DB85C;
@@ -41,7 +41,7 @@ extern s32 local_client_id;
 
 typedef char RecoveredGlobal_8016F1C0___vt__10TOMineDisp_size[sizeof(RecoveredGlobal_8016F1C0___vt__10TOMineDisp) == 0x34 ? 1 : -1];
 u8 *TOMineDisp__ct(TOMineDisp *mine_disp, s32 arg1, s16 arg2) {
-    __ct__13TUnk_804B9870FP7TObject();
+    __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)mine_disp + 0x18) = &__vt__10TOMineDisp.value;
     *(s32 *)((s8 *)mine_disp + 0) = (s32) TOMineDisp__name;
     mine_disp->m_a8 = arg2;

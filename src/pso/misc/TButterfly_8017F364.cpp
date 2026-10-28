@@ -7,14 +7,14 @@
 extern "C" {
 
 void TLobby__sub_8001FE7C(void*, int);
-void __ct__13TUnk_804B9870FP7TObject(void *);
+void __ct__8TObjBaseFP7TObject(void *);
 void *__nw__7TObjectFUl(int);
 
 extern s32 __vt__10TButterfly[];
 extern void *TButterfly__name;
 
 void *TButterfly__ct(void *butterfly, void *arg1, void *arg2) {
-    __ct__13TUnk_804B9870FP7TObject(butterfly);
+    __ct__8TObjBaseFP7TObject(butterfly);
     *(s32 **)((s8 *)butterfly + 0x18) = __vt__10TButterfly;
     *(void * *)&((TButterfly *)butterfly)->m_name = TButterfly__name;
     VecCopy((Vec *)((char *)butterfly + 56), (const Vec *)((char *)arg2 + 12));

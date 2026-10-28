@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOVS2Wall01.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -48,7 +48,7 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void __ct__13TUnk_804806E8FP7TObject(void *, void *);
+void __ct__9TObjCharaFP7TObject(void *, void *);
 void obj_setFlags30(void *, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
@@ -134,10 +134,10 @@ void *TOVS2Wall01::create() {
 void *__dt__11TOVS2Wall01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__13TUnk_804949A8Fv((s8 *)arg0 + 0x340, -1);
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -148,17 +148,17 @@ void *__dt__11TOVS2Wall01Fv(void *arg0, s16 arg1) {
 #pragma opt_common_subs off
 void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     s32 t;
-    __ct__13TUnk_804806E8FP7TObject(arg0, tl_05);
+    __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
     ((TObjPlayer *)((u8 *)arg0 + 0x340))->init_and_activate();
     *(s32 *)((s8 *)arg0 + 0) = TOVS2Wall01__class_name;
     arg0->apply_object_set_data(arg1);
-    ((TUnk_804806E8 *)arg0)->calc_attach_pos();
+    ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TOVS2Wall01__bml_resource, 6);
     arg0->texlist = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(arg0, ovs2wall01_collision_parts + 0x108, 1);
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x08000000);
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->mode = 0;
     *(f32 *)((s8 *)arg0 + 0x334) = lbl_805DBAAC;

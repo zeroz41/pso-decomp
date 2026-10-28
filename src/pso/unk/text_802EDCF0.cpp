@@ -67,7 +67,7 @@ u8 *__dt__14TBoss7DeRolLeCFv(u8 *arg0, s16 arg1) {
             o->f6DC[i] = 0;
         }
         mem_free((void *)o->f6D8);
-        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
+        ((TObjCollidable *)arg0)->clear_collision_bodies();
         if (boss7_joint_state == (u32) arg0) {
             boss7_joint_state = 0;
         }

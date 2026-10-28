@@ -1546,7 +1546,7 @@ struct RecoveredGlobal_802C320C___vt__11TObjPathObj {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__11TObjPathObj[];
 extern s32 lbl_805D3EC0;
 void TObjPathObj::render() {
@@ -1564,7 +1564,7 @@ void TObjPathObj::run_task() {
 void *__dt__11TObjPathObjFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjPathObj;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -1574,7 +1574,7 @@ void *__dt__11TObjPathObjFv(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_802C320C___vt__11TObjPathObj_size[sizeof(RecoveredGlobal_802C320C___vt__11TObjPathObj) == 0x3C ? 1 : -1];
 u8 *TObjPathObj__ct(u8 *path_obj, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *) (path_obj), (void *) (parent));
+    __ct__8TObjBaseFP7TObject((void *) (path_obj), (void *) (parent));
     *(s32 **)((s8 *)path_obj + 0x18) = &(*(RecoveredGlobal_802C320C___vt__11TObjPathObj *)&__vt__11TObjPathObj).value;
     *(s32 *)((s8 *)path_obj + 0) = (s32) lbl_805D3EC0;
     ((TObjPathObj *)(path_obj))->apply_object_set_data((void *)arg2);

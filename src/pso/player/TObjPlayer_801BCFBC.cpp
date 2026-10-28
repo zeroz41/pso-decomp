@@ -9,19 +9,19 @@ s32 test_flags_any(void *, s32);
 s32 is_on_current_floor__10TObjPlayerFi(void *);
 s32 run_action_state_phase__10TObjPlayerFisi(void *, s32, s32);
 
-s32 obj_isState2_324__13TUnk_804806E8Fv();
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_isState2_324__9TObjCharaFv();
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 extern const f32 TObjPlayer__data_805DC294;
 
 void TObjPlayer::update_action_animation() {
     u8 *arg0 = (u8 *)this;
-    if (obj_isState2_324__13TUnk_804806E8Fv() == 0) {
+    if (obj_isState2_324__9TObjCharaFv() == 0) {
         ((TObjPlayer *)arg0)->update_position_from_target();
         return;
     }
     if (is_on_current_floor__10TObjPlayerFi(arg0) != 0) {
         ((TObjPlayer *)arg0)->sub_8011E204(4);
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x800) != 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800) != 0) {
             run_action_state_phase__10TObjPlayerFisi(arg0, 0xF, 0);
             if (test_flags_any((u8 *)&this->m_858, 1) != 0) {
                 this->m_b8 = ((TObjPlayer *)arg0)->get_action_animation();

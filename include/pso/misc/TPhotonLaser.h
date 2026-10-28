@@ -2,9 +2,9 @@
 #define PSO_MISC_TPHOTONLASER_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TPhotonLaser : public TUnk_804806E8 {
+struct TPhotonLaser : public TObjChara {
     virtual ~TPhotonLaser();
     virtual void run_task();
     void* m_334;

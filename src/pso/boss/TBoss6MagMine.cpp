@@ -2,7 +2,7 @@
 #include "pso/boss/TBoss6Type1.h"
 #include "pso/misc/TLobby.h"
 #include "pso/boss/TBoss6PlotFalz.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TUnk_804F322C.h"
 
@@ -431,7 +431,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     *(s32 *)((s8 *)self + 0) = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);
-    ((TUnk_804806E8 *)self)->add_flags_2e4(8);
+    ((TObjChara *)self)->add_flags_2e4(8);
     ((TBoss3Volopt *)(self))->apply_set_data((void *)arg2);
     if (((TObjEnemy *)self)->exchange_object_state((s32)&key, (s16)1) != 0) {
         key.a = 0;

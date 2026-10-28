@@ -4,7 +4,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/item/TObjContainerJungEnemy.h"
 #include "pso/item/TObjContainerIdo.h"
 #include "pso/item/TUnk_804B97C0.h"
@@ -71,14 +71,14 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             ((TObjContainerJungEnemy *)arg0)->vfunc_79();
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }
@@ -164,10 +164,10 @@ f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
     Obj_8018CB44 *arg0 = (Obj_8018CB44 *)this;
     s16 sp8;
     Pkt_8018CB44 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
+        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pkt))->init_packet_67_04();
         pkt.b = this->entity_id;
         pkt.c = get_current_floor();
@@ -286,7 +286,7 @@ void *TObjContainerJungEnemy::create(void *arg0) {
 void *__dt__22TObjContainerJungEnemyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjContainerJungEnemy;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {
@@ -422,12 +422,12 @@ void TObjContainerJungEx::vfunc_6(s16 *arg1, s32 arg2) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
             ((TUnk_804B6C24 *)arg0)->spawn_item((s32)arg0);
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }
@@ -468,7 +468,7 @@ void TObjContainerJungEx::vfunc_80() {
 void *__dt__19TObjContainerJungExFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjContainerJungEx;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {
@@ -646,15 +646,15 @@ void TObjContainerJung::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804806E8 *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }
@@ -696,7 +696,7 @@ void TObjContainerJung::vfunc_80() {
 void *__dt__17TObjContainerJungFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjContainerJung;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {

@@ -13,7 +13,7 @@
 #include "pso/player/TObjPlayer_801BFB1C.h"
 #include "pso/player/TObjPlayer_801BFE50.h"
 #include "pso/misc/TFontSmallLobby.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TCharaMaking.h"
 
@@ -73,7 +73,7 @@ void *__dt__10TObjPlayerFv(void *arg0, s16 arg1) {
         TObjPlayer__sub_801BFA4C((s32)((s8 *)arg0 + 0x360), -1);
         TObjPlayer::conditional_delete_ex((s32)((s8 *)arg0 + 0x34C), (s16)(-1));
         TObjPlayer__sub_801BF9F0((u8 *)((s8 *)arg0 + 0x340), -1);
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -91,7 +91,7 @@ void is_flag_set_550__10TObjPlayerFv(void *, void *);
 void sub_801BD240__10TObjPlayerFv(void *, void *);
 void TObjPlayer__sub_801BEC78(void *);
 void init_player_telepipe_record(void *);
-void __ct__13TUnk_804806E8FP7TObject(void *);
+void __ct__9TObjCharaFP7TObject(void *);
 void TObjPlayer__sub_801BBB70(void *, void *);
 void TObjPlayer__sub_80309E9C(void *);
 void TObjPlayer__sub_803374C4(void *);
@@ -99,7 +99,7 @@ void TObjPlayer__sub_80351974(void *);
 extern void *lbl_805D3530;
 
 void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
-    __ct__13TUnk_804806E8FP7TObject(player);
+    __ct__9TObjCharaFP7TObject(player);
     *(s32 **)((s8 *)player + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)((char *)player + 832))->init_subobject();
     ((TObjPlayer *)((char *)player + 844))->setup_ctrl();
@@ -147,7 +147,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
 }
 
 void *__ct__10TObjPlayerFPvPvPv(TObjPlayer *arg0, void *arg1, void *arg2) {
-    __ct__13TUnk_804806E8FP7TObject(arg0);
+    __ct__9TObjCharaFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TObjPlayer;
     ((TObjPlayer *)((char *)arg0 + 832))->init_subobject();
     ((TObjPlayer *)((char *)arg0 + 844))->setup_ctrl();

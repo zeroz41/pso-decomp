@@ -59,7 +59,7 @@ struct S801C295C_801C25B4 { s32 f0; s8 f4; s8 pad[0x13]; };
 s32 check_all_battle_flags__6TLobbyFv(void);
 void clear_counter__6TLobbyFPv(void* a0);
 void build_6x7D_set_battle_mode_data(void *p);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(u32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
 
 extern "C" {
 __declspec(section ".rodata") char lbl_80446F80[] = "TPlayerBattleCtrl";
@@ -84,7 +84,7 @@ s32 check_all_battle_flags__6TLobbyFv(void) {
     var_r31 = 0;
 loop_1:
     temp_r3 = get_player_by_client_id(var_r31);
-    if ((temp_r3 != 0U) && (obj_testFlags30__13TUnk_804AF8A0FUl(temp_r3, 0x02000000) != 0)) {
+    if ((temp_r3 != 0U) && (obj_testFlags30__14TObjCollidableFUl(temp_r3, 0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;

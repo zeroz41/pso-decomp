@@ -150,7 +150,7 @@ struct RecoveredGlobal_801AD330_TPhotonMagicSquare__data_804C3940 { s32 value; u
 struct RecoveredGlobal_801AD330___vt__18TPhotonMagicSquare { s32 value; u8 remaining[0x34]; };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_801AD0F0_TPhotonMagicSquare__data_804C3940 TPhotonMagicSquare__color_palette;
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
 extern s32 TPhotonMagicSquare__data_805D3508;
@@ -166,7 +166,7 @@ TPhotonMagicSquare::~TPhotonMagicSquare() {
 extern "C" {
 
 u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
-    __ct__13TUnk_804B9870FP7TObject(photon_magic_square);
+    __ct__8TObjBaseFP7TObject(photon_magic_square);
     *(s32 **)((s8 *)photon_magic_square + 0x18) = &__vt__18TPhotonMagicSquare.value;
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) TPhotonMagicSquare__data_805D3508;
     *(s32 *)((s8 *)photon_magic_square + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
@@ -189,7 +189,7 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
 }
 }
 u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
-    __ct__13TUnk_804B9870FP7TObject(photon_magic_square);
+    __ct__8TObjBaseFP7TObject(photon_magic_square);
     *(s32 **)((s8 *)photon_magic_square + 0x18) = &(*(RecoveredGlobal_801AD218___vt__18TPhotonMagicSquare *)&__vt__18TPhotonMagicSquare).value;
     *(s32 *)((s8 *)photon_magic_square + 0) = (s32) TPhotonMagicSquare__data_805D3508;
     *(s32 *)((s8 *)photon_magic_square + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);
@@ -213,7 +213,7 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
 
 u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     s32 entity;
-    __ct__13TUnk_804B9870FP7TObject(this);
+    __ct__8TObjBaseFP7TObject(this);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_801AD330___vt__18TPhotonMagicSquare *)&__vt__18TPhotonMagicSquare).value;
     *(s32 *)&this->m_name = (s32) TPhotonMagicSquare__data_805D3508;
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x28);

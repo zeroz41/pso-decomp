@@ -1441,10 +1441,10 @@ void TBoss3Volopt::send_position(TObjPlayer *player, Vec *pos, s32 rotation_y) {
 }
 
 void handle_6x17_set_entity_position_and_angle(TBoss3VoloptPositionPacket *packet) {
-    TUnk_804AF8A0 *actor;
+    TObjCollidable *actor;
 
     packet->swap();
-    actor = (TUnk_804AF8A0 *)find_entity_by_id(packet->id);
+    actor = (TObjCollidable *)find_entity_by_id(packet->id);
     if (actor != NULL) {
         VecCopy(&actor->position, &packet->pos);
         actor->rotation_y = packet->rotation_y;

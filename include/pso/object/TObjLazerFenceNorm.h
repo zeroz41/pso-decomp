@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLazerFenceNorm : public TUnk_804AF8A0 {
+struct TObjLazerFenceNorm : public TObjCollidable {
     virtual ~TObjLazerFenceNorm();
     void update_closed();
     void draw_animated_beam();

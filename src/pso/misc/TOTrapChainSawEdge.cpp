@@ -502,7 +502,7 @@ void *TOTrapChainSawKey::create() {
 void *__dt__17TOTrapChainSawKeyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOTrapChainSawKey;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
         if (arg1 > 0) {
@@ -519,7 +519,7 @@ u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
     ((TOTrapChainSawKey *)(arg0))->decode_params();
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
@@ -665,7 +665,7 @@ void *TOTrapChainSawDamage::create() {
 void *__dt__20TOTrapChainSawDamageFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TOTrapChainSawDamage;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((void (*)(void *, int))__dt__14TOTrapChainSawFv)(arg0, 0);
         if (arg1 > 0) {
@@ -691,7 +691,7 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
     ((TOTrapChainSawDamage *)arg0)->decode_params();
     ((TOTrapChainSawDamage *)arg0)->vfunc_16();
     ((s32 (*)(void *, void *, int))init_collision_body_parts)(arg0, &((Ent_802C8E24 *)chain_saw_damage_collision_body_parts)[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(f32 *)(((u8 *)arg0) + 0x3C) += (5.0f);
     {
@@ -959,14 +959,14 @@ u8 *TOTrapChainSaw__ct(u8 *trap_chain_saw, s32 arg1, s32 arg2) {
 }
 
 void render_shadows__7TObjectFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804AF8A0Fv();
-void get_center__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv();
-void interact__13TUnk_804AF8A0Fl();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__14TObjCollidableFv();
+void get_center__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
+void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv();
+void interact__14TObjCollidableFl();
 void check_player_contact__18TOTrapChainSawEdgeFv();
 void vfunc_18__14TOTrapChainSawFv();
 void vfunc_26__14TOTrapChainSawFv();
@@ -982,14 +982,14 @@ s32 __vt__18TOTrapChainSawEdge[31] = {
     (s32)&run_task__14TOTrapChainSawFv,
     (s32)&render__14TOTrapChainSawFv,
     (s32)&render_shadows__7TObjectFv,
-    (s32)&vfunc_6__13TUnk_804B9870FPsl,
-    (s32)&apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&get_center__13TUnk_804B9870Fv,
-    (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&get_name__13TUnk_804B9870Fv,
-    (s32)&interact__13TUnk_804AF8A0Fl,
+    (s32)&vfunc_6__8TObjBaseFPsl,
+    (s32)&apply_object_set_data__8TObjBaseFPv,
+    (s32)&reset_motion_fields__14TObjCollidableFv,
+    (s32)&get_center__8TObjBaseFv,
+    (s32)&update_object_view_visibility__8TObjBaseFff,
+    (s32)&classify_actor_view_detail__8TObjBaseFfff,
+    (s32)&get_name__8TObjBaseFv,
+    (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__14TOTrapChainSawFv,
     (s32)&decode_params__14TOTrapChainSawFv,
     (s32)&vfunc_16__18TOTrapChainSawEdgeFv,
@@ -1015,14 +1015,14 @@ s32 __vt__17TOTrapChainSawKey[31] = {
     (s32)&run_task__14TOTrapChainSawFv,
     (s32)&render__14TOTrapChainSawFv,
     (s32)&render_shadows__7TObjectFv,
-    (s32)&vfunc_6__13TUnk_804B9870FPsl,
-    (s32)&apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&get_center__13TUnk_804B9870Fv,
-    (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&get_name__13TUnk_804B9870Fv,
-    (s32)&interact__13TUnk_804AF8A0Fl,
+    (s32)&vfunc_6__8TObjBaseFPsl,
+    (s32)&apply_object_set_data__8TObjBaseFPv,
+    (s32)&reset_motion_fields__14TObjCollidableFv,
+    (s32)&get_center__8TObjBaseFv,
+    (s32)&update_object_view_visibility__8TObjBaseFff,
+    (s32)&classify_actor_view_detail__8TObjBaseFfff,
+    (s32)&get_name__8TObjBaseFv,
+    (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__17TOTrapChainSawKeyFv,
     (s32)&decode_params__17TOTrapChainSawKeyFv,
     (s32)&vfunc_16__17TOTrapChainSawKeyFv,
@@ -1048,14 +1048,14 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&run_task__14TOTrapChainSawFv,
     (s32)&render__14TOTrapChainSawFv,
     (s32)&render_shadows__7TObjectFv,
-    (s32)&vfunc_6__13TUnk_804B9870FPsl,
-    (s32)&apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&get_center__13TUnk_804B9870Fv,
-    (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&get_name__13TUnk_804B9870Fv,
-    (s32)&interact__13TUnk_804AF8A0Fl,
+    (s32)&vfunc_6__8TObjBaseFPsl,
+    (s32)&apply_object_set_data__8TObjBaseFPv,
+    (s32)&reset_motion_fields__14TObjCollidableFv,
+    (s32)&get_center__8TObjBaseFv,
+    (s32)&update_object_view_visibility__8TObjBaseFff,
+    (s32)&classify_actor_view_detail__8TObjBaseFfff,
+    (s32)&get_name__8TObjBaseFv,
+    (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__20TOTrapChainSawDamageFv,
     (s32)&decode_params__20TOTrapChainSawDamageFv,
     (s32)&TOTrapChainSawDamage__vt14,
@@ -1081,14 +1081,14 @@ s32 __vt__14TOTrapChainSaw[31] = {
     (s32)&run_task__14TOTrapChainSawFv,
     (s32)&render__14TOTrapChainSawFv,
     (s32)&render_shadows__7TObjectFv,
-    (s32)&vfunc_6__13TUnk_804B9870FPsl,
-    (s32)&apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&get_center__13TUnk_804B9870Fv,
-    (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&get_name__13TUnk_804B9870Fv,
-    (s32)&interact__13TUnk_804AF8A0Fl,
+    (s32)&vfunc_6__8TObjBaseFPsl,
+    (s32)&apply_object_set_data__8TObjBaseFPv,
+    (s32)&reset_motion_fields__14TObjCollidableFv,
+    (s32)&get_center__8TObjBaseFv,
+    (s32)&update_object_view_visibility__8TObjBaseFff,
+    (s32)&classify_actor_view_detail__8TObjBaseFfff,
+    (s32)&get_name__8TObjBaseFv,
+    (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__14TOTrapChainSawFv,
     (s32)&decode_params__14TOTrapChainSawFv,
     (s32)&vfunc_16__14TOTrapChainSawFv,

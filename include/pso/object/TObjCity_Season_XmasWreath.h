@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjCity_Season_XmasWreath : public TUnk_804B9870 {
+struct TObjCity_Season_XmasWreath : public TObjBase {
     virtual ~TObjCity_Season_XmasWreath();
     virtual void render();
     void *dt(s16 arg1);

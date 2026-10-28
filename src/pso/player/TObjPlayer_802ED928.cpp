@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TBoss7DeRolLeC.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"
 #include "pso/enemy/TObjEneDD.h"

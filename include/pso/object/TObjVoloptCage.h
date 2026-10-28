@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemyCustom.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
 // The cage Vol Opt drops over a player: it holds the player (mode 1), can be
 // hit (mode 4) and breaks apart (mode 5); mode 7 is the drop itself.
@@ -49,8 +49,8 @@ extern VoloptCageParams *volopt_cage_params;
 extern "C" {
 void fn_80048C04(TObjVoloptCage *cage);
 
-void obj_set_flag_20000(TUnk_804B9870 *actor);
-void obj_clear_flag30_20000(TUnk_804B9870 *actor);
+void obj_set_flag_20000(TObjBase *actor);
+void obj_clear_flag30_20000(TObjBase *actor);
 }
 
 void set_volopt_cage_flag();

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjRaderHideCol : public TUnk_804B9870 {
+struct TObjRaderHideCol : public TObjBase {
     virtual ~TObjRaderHideCol();
     u8 unk_90[0x4];
     u32 m_94;

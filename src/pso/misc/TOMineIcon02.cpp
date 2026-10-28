@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOMine.h"
 #include "pso/misc/TOMineIcon03.h"
@@ -78,7 +78,7 @@ void *TOMineIcon02::create() {
 void *__dt__12TOMineIcon02Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOMineIcon02;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__6TOMineFv(arg0, 0);
         if (arg1 > 0) {
@@ -97,7 +97,7 @@ void *TOMineIcon02__ct(void *arg0, void *arg1, void *arg2) {
     self->f0 = TOMineIcon02__name;
     ((VIcon_801717C0 *)self)->m5(arg2);
     ((TObjPlayer *)self)->init_position_vectors();
-    ((TUnk_804806E8 *)self)->calc_attach_pos();
+    ((TObjChara *)self)->calc_attach_pos();
     self->f34 = get_bml_model(lbl_805D5A50, 5);
     self->f24 = TObjFish__sub_8001EDB0(lbl_805D5A50, 5);
     self->f374 = get_bml_model(lbl_805D5A50, 0);
@@ -125,7 +125,7 @@ void *TOMineIcon02__ct(void *arg0, void *arg1, void *arg2) {
     self->f35C = 0xFFFF;
     self->f30 |= 0x60000000;
     init_collision_body_parts(self, mine_collision_body_parts, 1);
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
     return self;
 #undef self

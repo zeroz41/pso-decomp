@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TUNK_804B2578_H
 #define PSO_MISC_TUNK_804B2578_H
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-class TUnk_804B2578 : public TUnk_804806E8 {
+class TUnk_804B2578 : public TObjChara {
 public:
     virtual ~TUnk_804B2578();
     bool sub_801688C0();

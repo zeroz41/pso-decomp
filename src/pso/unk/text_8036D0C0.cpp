@@ -20,13 +20,13 @@ struct Hold_8036D0C0 {
 
 extern "C" {
 s16 get_entity_id(void *);
-void __ct__13TUnk_804B9870FP7TObject(void *, s32);
+void __ct__8TObjBaseFP7TObject(void *, s32);
 extern void *__vt__17TObjEneHoldEffect[];
 extern s32 lbl_805D44E8;
 extern s32 tl_07;
 Hold_8036D0C0 *TObjEneHoldEffect__ct(Hold_8036D0C0 *o, u8 *parent, s32 type, s32 arg3);
 Hold_8036D0C0 *TObjEneHoldEffect__ct(Hold_8036D0C0 *o, u8 *parent, s32 type, s32 arg3) {
-    __ct__13TUnk_804B9870FP7TObject(o, tl_07);
+    __ct__8TObjBaseFP7TObject(o, tl_07);
     o->vt = __vt__17TObjEneHoldEffect;
     o->x90 = NULL;
     if (parent != NULL) {

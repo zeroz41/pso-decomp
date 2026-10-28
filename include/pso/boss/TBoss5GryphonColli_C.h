@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TBoss5GryphonColli_C : public TUnk_804AF8A0 {
+class TBoss5GryphonColli_C : public TObjCollidable {
 public:
     virtual ~TBoss5GryphonColli_C();
     void *destroy(s16);

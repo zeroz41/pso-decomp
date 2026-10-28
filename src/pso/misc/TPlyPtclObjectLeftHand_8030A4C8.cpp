@@ -19,7 +19,7 @@ struct Ctrl_8030A5B8 {
 
 extern "C" {
 s16 get_entity_id(void *);
-void __ct__13TUnk_804AF8A0FP7TObject(void *, int);
+void __ct__14TObjCollidableFP7TObject(void *, int);
 extern u8 lbl_804E7578[];
 extern s32 __vt__22TPlyFollowParticleCtrl[];
 extern s32 TPlyFollowParticleCtrl__class_name;
@@ -52,9 +52,9 @@ void TPlyFollowParticleCtrl::run_task() {
 void *__dt__22TPlyFollowParticleCtrlFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TPlyFollowParticleCtrl;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
-        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->clear_collision_bodies();
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -62,15 +62,15 @@ void *__dt__22TPlyFollowParticleCtrlFv(void *arg0, s16 arg1) {
     return arg0;
 }
 Ctrl_8030A5B8 *TPlyFollowParticleCtrl__ct(Ctrl_8030A5B8 *self, u8 *arg1) {
-    __ct__13TUnk_804AF8A0FP7TObject(self, tl_06);
+    __ct__14TObjCollidableFP7TObject(self, tl_06);
     self->vt = ((u8 *)&__vt__22TPlyFollowParticleCtrl);
     *(s32 *)self = TPlyFollowParticleCtrl__class_name;
-    ((TUnk_804AF8A0 *)self)->set_collision_body(lbl_804E7578);
+    ((TObjCollidable *)self)->set_collision_body(lbl_804E7578);
     ((TObjPlayer *)self)->register_object_by_id();
     self->link->flags &= 0xFFFFFFFE;
     self->s_ac = get_entity_id(arg1);
     self->s_ae = 0xFFFF;
-    ((TUnk_804B9870 *)self)->set_position_from(arg1 + 0x74);
+    ((TObjBase *)self)->set_position_from(arg1 + 0x74);
     return self;
 }
 

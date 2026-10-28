@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TPlyFollowParticleCtrl : public TUnk_804AF8A0 {
+struct TPlyFollowParticleCtrl : public TObjCollidable {
     virtual ~TPlyFollowParticleCtrl();
     virtual void run_task();
     virtual void *get_center();

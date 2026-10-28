@@ -112,7 +112,7 @@ struct Junk_8003A314 {
 
 extern "C" {
 s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
-s32 __ct__13TUnk_804B9870FP7TObject();
+s32 __ct__8TObjBaseFP7TObject();
 s32 rand();
 extern RecoveredGlobal_8003A6F4_lbl_80435BD8 TObjBoss2CeilJunk__height_offset_table;
 extern s32 __vt__17TObjBoss2CeilJunk[];
@@ -299,7 +299,7 @@ typedef char RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk_size[sizeof(Reco
 u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2) {
     f32 temp_f1;
     f32 temp_f2;
-    __ct__13TUnk_804B9870FP7TObject();
+    __ct__8TObjBaseFP7TObject();
     arg0->unk18 = &(*(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk *)&__vt__17TObjBoss2CeilJunk).value;
     arg0->field_0 = TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TButterfly : public TUnk_804B9870 {
+struct TButterfly : public TObjBase {
     virtual ~TButterfly();
     u8 unk_90[0xC];
     void* m_9c;

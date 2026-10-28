@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOSwitchTimer : public TUnk_804B9870 {
+struct TOSwitchTimer : public TObjBase {
     virtual ~TOSwitchTimer();
     void sub_801782A0();
     void send_switch_states();

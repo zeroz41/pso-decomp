@@ -14,7 +14,7 @@ struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];
 extern s32 grass_jungle_class_name;
 struct Base_8029CD90 { char pad[0x18]; };
@@ -59,7 +59,7 @@ void TOGrassJungle::render() {
 void *__dt__13TOGrassJungleFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TOGrassJungle;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -69,7 +69,7 @@ void *__dt__13TOGrassJungleFv(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_8029CE64___vt__13TOGrassJungle_size[sizeof(RecoveredGlobal_8029CE64___vt__13TOGrassJungle) == 0x34 ? 1 : -1];
 u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)grass_jungle, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
     *(s32 **)((s8 *)grass_jungle + 0x18) = &(*(RecoveredGlobal_8029CE64___vt__13TOGrassJungle *)&__vt__13TOGrassJungle).value;
     *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;
     ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);

@@ -363,7 +363,7 @@ void TObjChallenge4PRetry::handle_retry_menu_select() {
     }
 }
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 
 s32 TWindowCtrlMain__sub_8024CE58();
 
@@ -397,7 +397,7 @@ void TObjChallenge4PRetry::update_giveup() {
     flag = 1;
     for (i = 0; i < 4; i++) {
         u32 ctrl = get_player_by_client_id(i);
-        if (ctrl != 0U && obj_testFlags30__13TUnk_804AF8A0FUl(ctrl, 0x02000000) != 0) {
+        if (ctrl != 0U && obj_testFlags30__14TObjCollidableFUl(ctrl, 0x02000000) != 0) {
             flag = 0;
             break;
         }

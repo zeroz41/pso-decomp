@@ -3,7 +3,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TOContainerAncientItemNone.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOContainerAncientItemRare.h"
 
 struct Base_8015BF38 { char pad[0x18]; };
@@ -39,10 +39,10 @@ void TOContainerAncientItemRare::vfunc_6(s16 *arg1, s32 arg2) {
     if ((s16) *arg1 == 1) {
         if (arg2 != 0) {
             ((VObj_8015BF38*)arg0)->m77();
-            ((TUnk_804806E8 *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
+            ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
         }
         this->mode = 1;
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv(arg0);
     }
 }

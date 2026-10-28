@@ -5,10 +5,10 @@
 #include "pso/system/FlagWord.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
-class TUnk_804B9870 : public TObject {
+class TObjBase : public TObject {
 public:
-    TUnk_804B9870(TObject *parent);
-    virtual ~TUnk_804B9870();
+    TObjBase(TObject *parent);
+    virtual ~TObjBase();
     virtual void vfunc_6(s16 *, s32);
     virtual void apply_object_set_data(void *);
     virtual void reset_motion_fields();
@@ -49,7 +49,7 @@ public:
     void *set_entry;    // its row of the floor's object or enemy set
     s32 set_params[3];  // the set entry's params 4-6
 };
-// The entity id pools (TUnk_804B9870's TU): ids below 0x1000 are players and
+// The entity id pools (TObjBase's TU): ids below 0x1000 are players and
 // the like, 0x1000-0x3FFF enemies, 0x4000 and up objects.
 extern "C" {
 u16 fn_801A210C(s32 n);
@@ -62,10 +62,10 @@ void advance_object_id_counter(s32 arg0);
 
 // The derived destructors still written out by hand call the base ones by
 // their symbols.
-extern "C" void *__dt__13TUnk_804B9870Fv(void *, s16);
-extern "C" void *__dt__13TUnk_804AF8A0Fv(void *, s16);
+extern "C" void *__dt__8TObjBaseFv(void *, s16);
+extern "C" void *__dt__14TObjCollidableFv(void *, s16);
 
-// One collision body of an actor (TUnk_804AF8A0::bodies points at the actor's
+// One collision body of an actor (TObjCollidable::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
 struct CollisionBody {
     Vec offset;      // from the actor's position, turned by its y rotation
@@ -79,10 +79,10 @@ struct CollisionBody {
 // *dst = *src, the copy CodeWarrior 1.3.2 generates (TBoss1DragonColli's TU).
 extern "C" void copy_collision_body(CollisionBody *dst, const CollisionBody *src);
 
-class TUnk_804AF8A0 : public TUnk_804B9870 {
+class TObjCollidable : public TObjBase {
 public:
-    TUnk_804AF8A0(TObject *parent);
-    virtual ~TUnk_804AF8A0();
+    TObjCollidable(TObject *parent);
+    virtual ~TObjCollidable();
     virtual void reset_motion_fields();
     void*find_actor_body_contact(u8*, f32);
     void set_indexed_flags(s32, s32);
@@ -127,7 +127,7 @@ struct TObjMotionAction {
     u32 flags;
 };
 
-class TObjMotion : public TUnk_804AF8A0 {
+class TObjMotion : public TObjCollidable {
 public:
     virtual ~TObjMotion();
     void draw();
@@ -169,11 +169,11 @@ public:
     void * m_f4;
     u32 unknownF8;
 };
-typedef char TUnk_804B9870Size[sizeof(TUnk_804B9870)==0x90?1:-1];
-typedef char TUnk_804AF8A0Size[sizeof(TUnk_804AF8A0)==0xAC?1:-1];
+typedef char TObjBaseSize[sizeof(TObjBase)==0x90?1:-1];
+typedef char TObjCollidableSize[sizeof(TObjCollidable)==0xAC?1:-1];
 typedef char CollisionBodySize[sizeof(CollisionBody)==0x2C?1:-1];
 typedef char TObjMotionSize[sizeof(TObjMotion)==0xFC?1:-1];
-typedef char WorldActorModelOffset[offsetof(TUnk_804B9870,model)==0x34?1:-1];
+typedef char WorldActorModelOffset[offsetof(TObjBase,model)==0x34?1:-1];
 typedef char MotionActionsOffset[offsetof(TObjMotion,action_table)==0xD8?1:-1];
 typedef char MotionListOffset[offsetof(TObjMotion,motion_list)==0xDC?1:-1];
 typedef char MotionBufferOffset[offsetof(TObjMotion,motion_buffer)==0xE0?1:-1];

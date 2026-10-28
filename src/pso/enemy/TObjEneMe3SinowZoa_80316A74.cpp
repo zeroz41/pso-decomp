@@ -193,7 +193,7 @@ extern const f32 TObjEneMe3SinowZoa__data_805DF310;
 extern const f32 TObjEneMe3SinowZoa__data_805DF314;
 void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1);
 f32 calc_boss4_scale__10TObjPlayerFi(void *);
-f32 receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll(void *, int, int);
+f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, int, int);
 f32 receive_damage_and_transition__18TObjEneMe3SinowZoaFPviii(u8 *arg0, s32 arg1, Pair_80316A74 arg2, s32 arg3);
 u16 get_entity_id(int);
 u32 get_valid_target_player__10TNpcPlayerFv(int);
@@ -223,7 +223,7 @@ inline s32 seek_80316C3C(Obj_80316C3C *arg0, Vec_80316C3C *diff) {
 
 f32 receive_damage_and_transition__18TObjEneMe3SinowZoaFPviii(u8 *actor, s32 arg1, Pair_80316A74 arg2, s32 arg3) {
     f32 temp_f31;
-    temp_f31 = ((f32 (*)(void *, s32, Pair_80316A74, s32, s32, s32))receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll)(actor, arg1, arg2, arg3, -1, -1);
+    temp_f31 = ((f32 (*)(void *, s32, Pair_80316A74, s32, s32, s32))receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll)(actor, arg1, arg2, arg3, -1, -1);
     if (*(s32 *)((s8 *)actor + 0x3C0) == 1 && calc_boss4_scale__10TObjPlayerFi(actor) <= *(f32 *)((s8 *)actor + 0x3F0)) {
         ((TObjEneDD *)actor)->transition_enemy_state(0x12);
     } else if (*(s16 *)((s8 *)actor + 0x326) == 2) {
@@ -302,7 +302,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
                     arg0->sub.m3();
                     arg0->flags |= 0x100000;
                     arg0->flags |= 0x40000;
-                    ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 0x08000000);
+                    ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x08000000);
                     arg0->state = 1;
                 } else {
                     arg0->state = 2;
@@ -369,7 +369,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
             if (arg0->sub.m4() != 0) {
                 arg0->state = 5;
                 arg0->flags |= 0x40000;
-                ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x08000000);
+                ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
             }
             break;
         }
@@ -390,7 +390,7 @@ void TObjEneMe3SinowZoa__sub_803170F0(u8 *ene_dd, s32 arg1) {
         ((VObj_14_0b0741 *)(ene_dd + (1044)))->m1(0x1E);
         *(s32 *)((s8 *)ene_dd + 0x3C0) = 0;
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 0x40000);
-        ((TUnk_804AF8A0 *)ene_dd)->clear_player_status_flag(0, 0x08000000U);
+        ((TObjCollidable *)ene_dd)->clear_player_status_flag(0, 0x08000000U);
         *(s32 *)((s8 *)ene_dd + 0x434) = 0;
         break;
     case 3:
@@ -430,7 +430,7 @@ void TObjEneMe3SinowZoa__sub_80317254(u8 *ene_dd, s32 arg1) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(6);
             *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & ~5);
             *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 0x40000);
-            ((TUnk_804AF8A0 *)ene_dd)->set_indexed_flags(0, 0x08000000);
+            ((TObjCollidable *)ene_dd)->set_indexed_flags(0, 0x08000000);
             break;
         }
     case 5:

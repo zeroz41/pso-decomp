@@ -5,7 +5,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjTradeCollision.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_802C8034___vt__18TObjTradeCollision {
     s32 value;
@@ -44,7 +44,7 @@ extern void *tl_05;
 
 typedef char RecoveredGlobal_802C8034___vt__18TObjTradeCollision_size[sizeof(RecoveredGlobal_802C8034___vt__18TObjTradeCollision) == 0x38 ? 1 : -1];
 u8 *TObjTradeCollision__ct(u8 *trade_collision, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AF8A0FP7TObject(trade_collision, arg1);
+    __ct__14TObjCollidableFP7TObject(trade_collision, arg1);
     *(s32 **)((s8 *)trade_collision + 0x18) = &(*(RecoveredGlobal_802C8034___vt__18TObjTradeCollision *)&__vt__18TObjTradeCollision).value;
     *(s32 *)((s8 *)trade_collision + 0) = (s32) TObjTradeCollision__name;
     ((TObjTradeCollision *)(trade_collision))->apply_object_set_data((void *)arg2);

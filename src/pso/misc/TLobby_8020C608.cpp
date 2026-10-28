@@ -12,7 +12,7 @@ s32 TObjEnemy::send_entity_set_flags() {
     return 0;
 }
 
-s32 TUnk_804AF8A0::set_flag8() {
+s32 TObjCollidable::set_flag8() {
     void *temp_r4;
 
     temp_r4 = this->set_entry;

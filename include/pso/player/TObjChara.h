@@ -1,5 +1,5 @@
-#ifndef PSO_PLAYER_TUNK_804806E8_H
-#define PSO_PLAYER_TUNK_804806E8_H
+#ifndef PSO_PLAYER_TOBJCHARA_H
+#define PSO_PLAYER_TOBJCHARA_H
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
@@ -10,10 +10,10 @@ struct DirectAttackPayload {
     f32 power;
 };
 
-class TUnk_804806E8 : public TObjMotion {
+class TObjChara : public TObjMotion {
 public:
-    TUnk_804806E8(TObject *parent);
-    virtual ~TUnk_804806E8();
+    TObjChara(TObject *parent);
+    virtual ~TObjChara();
     u8 obj_isState3_324();
     s32 obj_isState2_324();
     void calc_attach_pos();

@@ -88,7 +88,7 @@ void TODoorVoShip::run_task() {
         }
         if ((get_story_flag(0x2F) != 0) || (get_main_phase() == 0xF)) {
             this->m_cc = (s32) (this->m_cc & 0xFFFFFFF1);
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, (int)(1U));
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, (int)(1U));
         }
     }
 }
@@ -174,7 +174,7 @@ void TODoorVoShip::load_shared_resource() {
 void *__dt__12TODoorVoShipFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorVoShip;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
         if (arg1 > 0) {
@@ -197,7 +197,7 @@ u8 *TODoorVoShip__ct(TODoorVoShip *arg0, s32 arg1, s32 arg2) {
     arg0->m_d4 = get_bml_model((*(u8 * *)&TODoorVoShip__shared_bml_archive), 0);
     arg0->m_d8 = TObjFish__sub_8001EDB0((*(u8 * *)&TODoorVoShip__shared_bml_archive), 0);
     init_collision_body_parts(arg0, (s32) &door_vo_ship_collision_body_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->m_c0 = (f32) lbl_805DB540;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB544;
@@ -222,7 +222,7 @@ u8 *TODoorVoShip__ct(TODoorVoShip *arg0, s32 arg1, s32 arg2) {
     } else {
 block_8:
         arg0->m_cc = (s32) (arg0->m_cc & 0xFFFFFFF1);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
     }
     return (u8 *)arg0;
 }

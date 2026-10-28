@@ -281,7 +281,7 @@ void TObjButterflyLobby::run_task() {
 
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
-s32 __ct__13TUnk_804B9870FP7TObject();
+s32 __ct__8TObjBaseFP7TObject();
 s32 is_lobby_event_active();
 extern s32 __vt__18TObjButterflyLobby[];
 extern s32 lbl_805D4360;
@@ -292,7 +292,7 @@ void *__nw__7TObjectFUl(int);
 void *__dt__18TObjButterflyLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjButterflyLobby;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -303,7 +303,7 @@ void *__dt__18TObjButterflyLobbyFv(void *arg0, s16 arg1) {
 extern void *tl_05;
 
 u8 *TObjButterflyLobby__ct(TObjButterflyLobby *butterfly_lobby, int arg1, u8 *arg2) {
-    __ct__13TUnk_804B9870FP7TObject();
+    __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)butterfly_lobby + 0x18) = __vt__18TObjButterflyLobby;
     *(s32 *)((s8 *)butterfly_lobby + 0) = (s32) lbl_805D4360;
     VecCopy((Vec *)((u8 *)butterfly_lobby + 0x38), (const Vec *)(arg2 + 0xC));

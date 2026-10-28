@@ -1,9 +1,9 @@
 #ifndef PSO_UNK_TUNK_804B8E18_H
 #define PSO_UNK_TUNK_804B8E18_H
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-class TUnk_804B8E18 : public TUnk_804806E8 {
+class TUnk_804B8E18 : public TObjChara {
 public:
     virtual ~TUnk_804B8E18();
     s32 reflect_velocity_off_collision(void *, void *);

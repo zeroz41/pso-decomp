@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjRoomId : public TUnk_804B9870 {
+struct TObjRoomId : public TObjBase {
     virtual ~TObjRoomId();
     void *create(void *);
     virtual void render();

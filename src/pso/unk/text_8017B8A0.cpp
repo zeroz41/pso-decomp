@@ -145,9 +145,9 @@ void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0) {
             init__11TOVS2Wall01Fi((s32)o);
             break;
         }
-        ((TUnk_804AF8A0 *)o)->access_object_saved_state(&spC, 1);
+        ((TObjCollidable *)o)->access_object_saved_state(&spC, 1);
         spC.a = o->state;
-        ((TUnk_804AF8A0 *)o)->access_object_saved_state(&spC, 0);
+        ((TObjCollidable *)o)->access_object_saved_state(&spC, 0);
         o->m4(&spC, 0);
     } else {
         *(s32 *)&sp8 = *(s32 *)&quest_object_entries[arg0->d];
@@ -166,7 +166,7 @@ void TOVS2Wall01::save_and_send_state(u16 arg1) {
     if (arg1 == 1) {
         v = 1;
     }
-    if ((((Obj_8017BAFC *)this)->sub != NULL) && (((TUnk_804AF8A0 *)((Obj_8017BAFC *)this))->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((((Obj_8017BAFC *)this)->sub != NULL) && (((TObjCollidable *)((Obj_8017BAFC *)this))->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = v;
         this->access_object_saved_state(&sp8, 0);
         sub = ((Obj_8017BAFC *)this)->sub;

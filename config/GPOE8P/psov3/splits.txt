@@ -6023,7 +6023,7 @@ pso/object/TObjRoomId.cpp:
 	.text       start:0x801A1888 end:0x801A1E2C
 	.rodata     start:0x80446898 end:0x804468B8
 
-pso/object/TUnk_804B9870.cpp:
+pso/object/TObjBase.cpp:
 	.text       start:0x801A1E2C end:0x801A2710
 	.data       start:0x804B9870 end:0x804B98A8
 

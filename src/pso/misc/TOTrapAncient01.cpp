@@ -4,7 +4,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_800D7BFC.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOTrapAncient02R.h"
 #include "pso/misc/TOTrap.h"
 #include "pso/misc/TOTrapAncient01.h"
@@ -411,7 +411,7 @@ void TOTrapAncient01::load_resources() {
 Self_80179EC0 *__dt__15TOTrapAncient01Fv(Self_80179EC0 *self, s16 flag) {
     if (self != 0) {
         self->vt = __vt__15TOTrapAncient01;
-        ((TUnk_804AF8A0 *)self)->unregister_object_by_id();
+        ((TObjCollidable *)self)->unregister_object_by_id();
         free_collision_body_parts(self);
         __destroy_arr(self->arr, (void *)__dt__13TUnk_804949A8Fv, 0x1C, 4);
         __dt__6TOTrapFv(self, 0);
@@ -433,7 +433,7 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
     *(s32 *)((s8 *)self + 0) = TOTrapAncient01__class_name;
     ((TOTrapAncient01 *)arg0)->apply_object_set_data((void *)((s32)arg2));
     ((TObjPlayer *)arg0)->init_position_vectors();
-    ((TUnk_804806E8 *)arg0)->calc_attach_pos();
+    ((TObjChara *)arg0)->calc_attach_pos();
     *(s32 *)((s8 *)self + 0x34) = get_bml_model((void *)TOTrapAncient01__bml_resource, 3);
     *(s32 *)((s8 *)self + 0x24) = TObjFish__sub_8001EDB0((void *)TOTrapAncient01__bml_resource, 3);
     *(s16 *)((s8 *)self + 0x326) = 0;
@@ -466,9 +466,9 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
     *(f32 *)((s8 *)self + 0x338) = lbl_805DBA54;
     *(u16 *)((s8 *)self + 0x33C) = 0xFFFF;
     init_collision_body_parts(arg0, lbl_804B4844, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     *(u32 *)((s8 *)self + 0x30) |= 0x60040000;
-    ((TUnk_804806E8 *)arg0)->get_or_assign_entity_id(0);
+    ((TObjChara *)arg0)->get_or_assign_entity_id(0);
     ((TObjPlayer *)arg0)->register_object_by_id();
     for (i = 0; i < 4; i++) {
         ((TObjPlayer *)(((Self_80179F40 *)arg0)->arr[i]))->activate_and_dispatch();

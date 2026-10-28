@@ -2094,7 +2094,7 @@ force_active:
   - __vt__13TUnk_8049F148
   - __vt__13TUnk_804A2018
   - __vt__13TUnk_804AF7B0
-  - __vt__13TUnk_804B9870
+  - __vt__8TObjBase
   - __vt__13TUnk_804C4498
   - __vt__13TUnk_804C57F0
   - __vt__13TUnk_804CC148
@@ -3187,7 +3187,7 @@ force_active:
   - check_flag_or_state__15TObjBoss2TunnelFi
   - check_floor_contact__18TObjEneMe3SinowZoaFPv
   - check_ground_or_fall__13TUnk_804B5BA8Fv
-  - check_heavy_damage_flag__13TUnk_804806E8Ff
+  - check_heavy_damage_flag__9TObjCharaFf
   - check_hit_by_id_276__10TObjPlayerFi
   - check_hit_sphere__16TObjEneBm5GibonUFPvif
   - check_hold_player__14TOTrapSeabed01FPv
@@ -4388,7 +4388,7 @@ force_active:
   - get_split_screen_character_save_record
   - get_state__17TOSymbolchatColliFv
   - get_state__19TBoss8DragonEffTailFv
-  - get_stats_atp_max__13TUnk_804806E8Fv
+  - get_stats_atp_max__9TObjCharaFv
   - get_subcard_field1c__11TWindowChatFv
   - get_surface_contact_point__FPv
   - get_table_entry__19TContainerAncient01Fi
@@ -12136,7 +12136,7 @@ force_active:
   - spawn_fire_explosion__10TObjPlayerFUll
   - spawn_fire_explosion_at_item__10TObjPlayerFll
   - spawn_fire_explosion_for_item__10TObjPlayerFll
-  - spawn_freeze_shell_effect__13TUnk_804806E8FUll
+  - spawn_freeze_shell_effect__9TObjCharaFUll
   - spawn_ground_effect__10TObjPlayerFPv
   - spawn_ground_effects__14TObjEneDolmOlmFPvPv
   - spawn_hamon_effects__10TObjPlayerFllf
@@ -12250,8 +12250,8 @@ force_active:
   - store_position__13TObjEneBm3FlyFv
   - stream_read_be32
   - strstr
-  - sub_80010DE8__13TUnk_804806E8FUsUcUc
-  - sub_800194C4__13TUnk_804806E8Fv
+  - sub_80010DE8__9TObjCharaFUsUcUc
+  - sub_800194C4__9TObjCharaFv
   - sub_8001CCD4__11TLoadingCurFv
   - sub_8002E1CC__13TObjBoss1RockFPUcPUcl
   - sub_8003C21C__15TObjBoss2TunnelFv
@@ -12502,7 +12502,7 @@ force_active:
   - test_flag_256__12TObjEneLappyFv
   - test_flag_256__12TObjEneSaverFv
   - test_flag_8__10TObjPlayerFPv
-  - test_immunity_flags__13TUnk_804806E8Fl
+  - test_immunity_flags__9TObjCharaFl
   - test_input_flag__18TWindowInputNumberFv
   - test_menu_flag__11TWindowMenuFv
   - test_rock_bit__15TBoss6SwordWaveFiUc
@@ -12757,7 +12757,7 @@ force_active:
   - update_fade_sequence__13TObjEneMe1GeeFv
   - update_fade_state__15TBoss3VoloptP02Fv
   - update_farthest_target__18TObjEneRe4SorcererFlPf
-  - update_field_318__13TUnk_804806E8Fv
+  - update_field_318__9TObjCharaFv
   - update_field_40__15TFontSmallLobbyFv
   - update_flag_0x3C0__17TObjEneDf2BringerFPv
   - update_flags

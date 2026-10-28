@@ -60,7 +60,7 @@ void draw_ginja_object(void);
 extern u32 TObjBigTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AF8A0FP7TObject();
+s32 __ct__14TObjCollidableFP7TObject();
 extern s32 big_tuitate_collision_body[];
 extern s32 __vt__14TObjBigTuitate[];
 extern s32 lbl_805D3454;
@@ -114,10 +114,10 @@ void *__dt__14TObjBigTuitateFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
         if (*(void **)((s8 *)arg0 + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xC8)); *(s32 *)((s8 *)arg0 + 0xC8) = 0; }
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__13TUnk_804949A8Fv((s8 *)arg0 + 0xAC, -1);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -132,13 +132,13 @@ extern void *tl_05;
 void *TObjBigTuitate__ct(void *arg0, void *arg1, void *arg2) {
     struct CopyStack_8019ABE8 { u8 bytes[0x3C]; };
     CopyStack_8019ABE8 copy_storage_8019ABE8;
-    __ct__13TUnk_804AF8A0FP7TObject();
+    __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjBigTuitate;
     ((TObjPlayer *)((u8 *)arg0 + 0xAC))->init_and_activate();
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3454;
     ((TObjBigTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
     init_collision_body_parts(arg0, big_tuitate_collision_body, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(ByteBlock_3C *)(copy_storage_8019ABE8.bytes) = *(const ByteBlock_3C *)(((s32)arg2 - 4) + 4);
     (*(f32 *)(copy_storage_8019ABE8.bytes + 0x24)) = 32.0f;
@@ -233,7 +233,7 @@ void draw_ginja_object(void);
 extern u32 TObjTuitate__bml_resource;
 
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AF8A0FP7TObject();
+s32 __ct__14TObjCollidableFP7TObject();
 extern s32 TObjTuitate__collision_parts[];
 extern s32 __vt__11TObjTuitate[];
 extern s32 TObjTuitate__class_name;
@@ -287,10 +287,10 @@ void *__dt__11TObjTuitateFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
         if (*(void **)((s8 *)arg0 + 0xC8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xC8)); *(s32 *)((s8 *)arg0 + 0xC8) = 0; }
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__13TUnk_804949A8Fv((s8 *)arg0 + 0xAC, -1);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -305,13 +305,13 @@ extern void *tl_05;
 void *TObjTuitate__ct(void *arg0, void *arg1, void *arg2) {
     struct CopyStack_8019AF6C { u8 bytes[0x3C]; };
     CopyStack_8019AF6C copy_storage_8019AF6C;
-    __ct__13TUnk_804AF8A0FP7TObject();
+    __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjTuitate;
     ((TObjPlayer *)((u8 *)arg0 + 0xAC))->init_and_activate();
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjTuitate__class_name;
     ((TObjTuitate *)(arg0))->apply_object_set_data((void *)((s32)arg2));
     init_collision_body_parts(arg0, TObjTuitate__collision_parts, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     *(ByteBlock_3C *)(copy_storage_8019AF6C.bytes) = *(const ByteBlock_3C *)(((s32)arg2 - 4) + 4);
     (*(f32 *)(copy_storage_8019AF6C.bytes + 0x24)) = 32.0f;

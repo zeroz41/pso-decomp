@@ -212,7 +212,7 @@ void TOKeyGenericSw::load_resources() {
 void *__dt__14TOKeyGenericSwFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOKeyGenericSw;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__5TOKeyFv(arg0, 0);
         if (arg1 > 0) {
@@ -234,7 +234,7 @@ void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *sou
     key_generic_sw->m_b8 = 2.0f;
     *(u32 *)&key_generic_sw->texlist = TOKeyGenericSw__texture_lists[1];
     init_collision_body_parts(key_generic_sw, key_generic_sw_collision_body, 1);
-    ((TUnk_804AF8A0 *)key_generic_sw)->refresh_collision_body_centers();
+    ((TObjCollidable *)key_generic_sw)->refresh_collision_body_centers();
     ((TObjPlayer *)key_generic_sw)->register_object_by_id();
     key_generic_sw->m_c0 = 4e+02f;
     *(f32 *)((s8 *)key_generic_sw + 0xC4) = 4e+01f;

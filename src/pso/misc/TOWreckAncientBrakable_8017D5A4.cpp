@@ -33,7 +33,7 @@ void TOWreckAncientBrakable::run_task() {
         }
         return;
     case 1:
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv(arg0);
         break;
     }

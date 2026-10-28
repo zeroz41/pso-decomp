@@ -20,7 +20,7 @@ struct TObjPlayer_801D8044 {
 
 extern "C" {
 void init__6gc_tagFv(void *);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u8 get_cast_technique_level(void *, int);
 Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
@@ -60,7 +60,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || are_items_enabled_here() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || are_items_enabled_here() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {
@@ -74,7 +74,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
         }
         return 1;
     case 3:
-        if (((TObjPlayer *)(arg0 + 0x428))->test_bit1_at_10() != 0 || obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (((TObjPlayer *)(arg0 + 0x428))->test_bit1_at_10() != 0 || obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if (*(s16 *)(arg0 + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(arg0 + 0x428, sub), ((s32 (*)(void *))get_entity_id)(arg0))->cost < 0) {
@@ -119,7 +119,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
         }
         return 1;
     case 5:
-        if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) == 0 || obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (TObjPlayer__sub_801C1F50(arg0 + 0x4AC) == 0 || obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         return 1;

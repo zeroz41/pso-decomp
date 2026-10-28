@@ -704,7 +704,7 @@ void TLobby::rebuild_players_for_stage(s32 arg0) {
             }
             __dt__12TPlyCharDataFv(&cd, -1);
             ((TLobby *)((u8 *)p + 0xDAC))->copy_header_struct(&hdr);
-            ((TUnk_804B9870 *)p)->set_position_from(&pos);
+            ((TObjBase *)p)->set_position_from(&pos);
             ((TBoss4DarkFalz *)p)->save_position();
             p->v6();
             ((TObjPlayer *)((u8 *)p + 0x428))->set_all_technique_levels((void *)0xFF);

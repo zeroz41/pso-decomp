@@ -10,7 +10,7 @@ extern "C" {
 
 int load_encrypted_archive_data(void*);
 f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__13TUnk_804B9870Fff(s32, f32, f32);
+s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 }
 
     extern unsigned char lbl_804404B0[];
@@ -27,8 +27,8 @@ extern s32 camera_ctrl_instance;
 
 s32 TOComputerMachine01__vt8(s32 arg0, f32 farg0, f32 farg1) {
     if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        ((TUnk_804B9870 *)arg0)->visibility = 1;
-        return ((TUnk_804B9870 *)arg0)->visibility;
+        ((TObjBase *)arg0)->visibility = 1;
+        return ((TObjBase *)arg0)->visibility;
     }
-    return update_object_view_visibility__13TUnk_804B9870Fff(arg0, farg0, farg1);
+    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
 }

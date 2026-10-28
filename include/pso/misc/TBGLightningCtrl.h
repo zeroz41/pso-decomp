@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TBGLightningCtrl : public TUnk_804B9870 {
+struct TBGLightningCtrl : public TObjBase {
     virtual ~TBGLightningCtrl();
     void spawn_lightning_at_angle(s32);
     virtual void run_task();

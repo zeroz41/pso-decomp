@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_80494E48 : public TUnk_804AF8A0 {
+class TUnk_80494E48 : public TObjCollidable {
 public:
     virtual ~TUnk_80494E48();
     void *destroy_particle_obj(s16);

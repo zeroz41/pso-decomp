@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"
 
 #include "pso/enemy/TObjEnemy.h"
@@ -9,7 +9,7 @@ extern s32 __vt__9TObjEnemy[];
 extern void* TObjEnemy_class_name;
 extern const f32 lbl_805DA8E0;
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-int unregister_object_by_id__13TUnk_804AF8A0Fv(void*);
+int unregister_object_by_id__14TObjCollidableFv(void*);
 s32 __dl__7TObjectFPv(void *);
 s32 copy_header__6TLobbyFPv(s32);
 
@@ -26,7 +26,7 @@ void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1) {
                 *(u32 *)((s8 *)arg0 + 0x80) = 0U;
             }
         }
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -38,7 +38,7 @@ extern s32 TLobby__data_805D6144;
 
 }
 
-TObjEnemy::TObjEnemy(TObject *parent) : TUnk_804806E8(parent) {
+TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     m_name = (const char *)TObjEnemy_class_name;
     targetId = 0xFFFF;
     variant = 0;
@@ -68,6 +68,6 @@ s32 TObjEnemy::apply_by_index(s16 arg0) {
     return 1;
 }
 
-int TObjEnemy::apply_player_54a00() { return unregister_object_by_id__13TUnk_804AF8A0Fv(this); }
-void TUnk_804AF8A0::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
-void TUnk_804AF8A0::set_shadow_flag() { this->m_flags |= 0x400; }
+int TObjEnemy::apply_player_54a00() { return unregister_object_by_id__14TObjCollidableFv(this); }
+void TObjCollidable::clear_shadow_flag() { this->m_flags &= 0xfffffbff; }
+void TObjCollidable::set_shadow_flag() { this->m_flags |= 0x400; }

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TShopGenerator : public TUnk_804B9870 {
+struct TShopGenerator : public TObjBase {
     virtual ~TShopGenerator();
     bool is_player_in_service_range(u8 *, f32);
     virtual void run_task();

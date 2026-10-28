@@ -29,7 +29,7 @@ f32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern const f32 lbl_805DB2E8;
 extern const f32 lbl_805DB2EC;
-int __ct__13TUnk_804AF8A0FP7TObject(void);
+int __ct__14TObjCollidableFP7TObject(void);
 extern s32 lbl_804AFBF8[];
     extern const float lbl_805DB2F0;
     extern const float lbl_805DB2F4;
@@ -67,14 +67,14 @@ void TUnk_804AFBF8::render() {
 void *TUnk_804AFBF8::destroy_key_base(s16 arg1) {
     if (this != NULL) {
         *(s32 * *)((u8 *)this + 0x18) = lbl_804AFBF8;
-        __dt__13TUnk_804AF8A0Fv(this, 0);
+        __dt__14TObjCollidableFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
     }
     return this;
 }
-void* init_map_object_base(void* a0) { __ct__13TUnk_804AF8A0FP7TObject(); *(int*)((char*)a0 + 0x18) = (int)((unsigned char *)&lbl_804AFBF8); ((TUnk_804AFBF8 *)a0)->m_ac = 0; ((TUnk_804AFBF8 *)a0)->m_b0 = lbl_805DB2F0; *(float*)((char*)a0 + 0xb4) = lbl_805DB2F0; ((TUnk_804AFBF8 *)a0)->m_b8 = lbl_805DB2F4; ((TUnk_804AFBF8 *)a0)->m_bc = 0; ((TUnk_804AFBF8 *)a0)->actorFlags = (((TUnk_804AFBF8 *)a0)->actorFlags | 0x40000000); ((TUnk_804AFBF8 *)a0)->m_c0 = lbl_805DB2F8; *(float*)((char*)a0 + 0xc4) = (*(const float *)&lbl_805DB2EC); return a0; }
+void* init_map_object_base(void* a0) { __ct__14TObjCollidableFP7TObject(); *(int*)((char*)a0 + 0x18) = (int)((unsigned char *)&lbl_804AFBF8); ((TUnk_804AFBF8 *)a0)->m_ac = 0; ((TUnk_804AFBF8 *)a0)->m_b0 = lbl_805DB2F0; *(float*)((char*)a0 + 0xb4) = lbl_805DB2F0; ((TUnk_804AFBF8 *)a0)->m_b8 = lbl_805DB2F4; ((TUnk_804AFBF8 *)a0)->m_bc = 0; ((TUnk_804AFBF8 *)a0)->actorFlags = (((TUnk_804AFBF8 *)a0)->actorFlags | 0x40000000); ((TUnk_804AFBF8 *)a0)->m_c0 = lbl_805DB2F8; *(float*)((char*)a0 + 0xc4) = (*(const float *)&lbl_805DB2EC); return a0; }
 void TORainbowCave01__sub_80158604(void) {  }
 
 }

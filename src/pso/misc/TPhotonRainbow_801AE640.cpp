@@ -6,14 +6,14 @@
 
 extern "C" {
 
-s32 __ct__13TUnk_804B9870FP7TObject();
+s32 __ct__8TObjBaseFP7TObject();
 
 extern void *__vt__14TPhotonRainbow[];
 extern s32 lbl_805D3520;
 extern u8 *photon_blast_shared_resource;
 
 u8 *TPhotonRainbow__ct(u8 *photon_rainbow, s32 arg1_unused, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject();
+    __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)photon_rainbow + 0x18) = (s32 *)&__vt__14TPhotonRainbow;
     *(s32 *)((s8 *)photon_rainbow + 0) = (s32) lbl_805D3520;
     if ((s32) ((TPhotonRainbow *)photon_rainbow)->m_a8 == 1) {

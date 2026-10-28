@@ -16,7 +16,7 @@ struct Col_8019750C { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x4C]; f32 f90; s32 f9
 struct Ply_8019750C { u8 pad0[0x38]; f32 pos[3]; };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__12TObjRaderCol[];
 extern s32 lbl_805D3410;
 f32 xz_distance_squared(void *, void *);
@@ -98,7 +98,7 @@ void TObjRaderCol::run_task() {
 
 typedef char RecoveredGlobal_801976F4___vt__12TObjRaderCol_size[sizeof(RecoveredGlobal_801976F4___vt__12TObjRaderCol) == 0x38 ? 1 : -1];
 u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject(rader_col);
+    __ct__8TObjBaseFP7TObject(rader_col);
     *(s32 **)((s8 *)rader_col + 0x18) = &(*(RecoveredGlobal_801976F4___vt__12TObjRaderCol *)&__vt__12TObjRaderCol).value;
     *(s32 *)((s8 *)rader_col + 0) = (s32) lbl_805D3410;
     ((TObjRaderCol *)(rader_col))->apply_object_set_data((void *)arg2);

@@ -2,9 +2,9 @@
 #define PSO_ENEMY_TOBJENERECONBOMB_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TObjEneReconBomb : public TUnk_804806E8 {
+struct TObjEneReconBomb : public TObjChara {
     virtual ~TObjEneReconBomb();
     u32 m_334;
     u16 m_338;

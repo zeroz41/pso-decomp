@@ -4,7 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TUnk_8048E1A4.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
@@ -67,7 +67,7 @@ struct RecoveredFields_8008213C_temp_r3 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 freeze_shell_bml_resource;
-s32 __ct__13TUnk_804806E8FP7TObject(void *, void *);
+s32 __ct__9TObjCharaFP7TObject(void *, void *);
 s16 get_entity_id(void *);
 s32 get_bml_model(void *, int);
 void *create_particle_emitter(void *pos, s32 id);
@@ -102,7 +102,7 @@ void *__dt__13TUnk_8048E1A4Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E1A4;
         if (((TUnk_8048E1A4 *)arg0)->m_350 != NULL) { TBoss4Type2::request_destroy((u32)(((TUnk_8048E1A4 *)arg0)->m_350)); }
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -134,7 +134,7 @@ typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_80
 typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
 u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
     u8 *temp_r3;
-    __ct__13TUnk_804806E8FP7TObject(this, (void *)tl_05);
+    __ct__9TObjCharaFP7TObject(this, (void *)tl_05);
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_18 = lbl_8048E1A4;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model((void *) ((*(s32 *)&freeze_shell_bml_resource)), 1);
     if (arg1 != NULL) {
@@ -144,12 +144,12 @@ u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
             ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D9398 * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
         } else if ((void *) ((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 != NULL) {
-            ((TUnk_804AF8A0 *)arg1)->refresh_collision_body_centers();
+            ((TObjCollidable *)arg1)->refresh_collision_body_centers();
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 + 0x1C));
             ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D9398 * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4) + 0xC));
         } else {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1 + 0x2FC));
-            temp_r3 = ((TUnk_804806E8 *)arg1)->get_stats();
+            temp_r3 = ((TObjChara *)arg1)->get_stats();
             if (temp_r3 != NULL) {
                 ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D939C * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
             } else {

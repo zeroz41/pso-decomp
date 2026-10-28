@@ -128,7 +128,7 @@ __declspec(section ".rodata") extern const char lbl_804416D8[] = "o_fence_ancien
 void *__dt__16TOFenceAncient04Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOFenceAncient04;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B1B80 *)arg0)->destroy(0);
         if (arg1 > 0) {
@@ -154,7 +154,7 @@ u8 *TOFenceAncient04__ct(u8 *arg0, s32 arg1, s32 arg2) {
     temp_f1 = (f32) *(u32 *)((s8 *)temp_r6 + 4);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) (temp_f1 - lbl_805DB640);
     init_collision_body_parts((void *)arg0, &ofence_ancient04_collision_parts.value, 8, (int)temp_r6, (f32)temp_f1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B1B80 *)arg0)->sub_80166E64();
     ((TOFenceAncient04 *)arg0)->m_c0 = (f32) lbl_805DB644;

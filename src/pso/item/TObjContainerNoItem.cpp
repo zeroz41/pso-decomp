@@ -113,7 +113,7 @@ void *TObjContainerNoItem::create(void *arg0) {
 void *__dt__19TObjContainerNoItemFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjContainerNoItem;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {
@@ -145,14 +145,14 @@ void TObjContainerEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }
@@ -192,10 +192,10 @@ f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
     Obj_801894F8 *arg0 = (Obj_801894F8 *)this;
     s16 sp8;
     Pkt_801894F8 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
+        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pkt))->init_packet_67_04();
         pkt.b = this->entity_id;
         pkt.c = get_current_floor();

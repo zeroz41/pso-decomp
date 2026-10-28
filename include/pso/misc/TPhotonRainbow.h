@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TPhotonRainbow : public TUnk_804B9870 {
+struct TPhotonRainbow : public TObjBase {
     virtual ~TPhotonRainbow();
     u32 m_90;
     u32 m_94;

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjBoss2CeilJunk : public TUnk_804B9870 {
+struct TObjBoss2CeilJunk : public TObjBase {
     virtual ~TObjBoss2CeilJunk();
     virtual void run_task();
     void* m_90;

@@ -41,7 +41,7 @@ struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags;
 extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, int);
+s32 __ct__14TObjCollidableFP7TObject(void *, int);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
@@ -184,7 +184,7 @@ void *__dt__19TObjGyaranzoMissileFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjGyaranzoMissile;
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -197,7 +197,7 @@ typedef char RecoveredGlobal_800D4BD0_lbl_80494468_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile_size[sizeof(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile) == 0x3C ? 1 : -1];
 u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) {
     u8 *temp_r4;
-    __ct__13TUnk_804AF8A0FP7TObject(gyaranzo_missile, tl_04);
+    __ct__14TObjCollidableFP7TObject(gyaranzo_missile, tl_04);
     *(s32 **)((s8 *)gyaranzo_missile + 0x18) = &(*(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile *)&__vt__19TObjGyaranzoMissile).value;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b.value, 1);

@@ -75,7 +75,7 @@ void TMedicalCenterMes__sub_80216260(void);
 void *TShopGenerator__create(void *arg0);
 void *TShopGenerator__ct(void *arg0, s32 arg1);
 void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1);
-s32 __ct__13TUnk_804B9870FP7TObject(void *, s32);
+s32 __ct__8TObjBaseFP7TObject(void *, s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -181,7 +181,7 @@ void run_task__14TShopGeneratorFv(u8 *self) {
 void *__dt__14TShopGeneratorFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TShopGenerator;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -195,7 +195,7 @@ extern s32 tl_05;
 void *TShopGenerator__ct(void *shop_generator, s32 arg1) {
     s32 temp_r0;
 
-    __ct__13TUnk_804B9870FP7TObject(shop_generator, tl_05);
+    __ct__8TObjBaseFP7TObject(shop_generator, tl_05);
     *(s32 **)((s8 *)shop_generator + 0x18) = __vt__14TShopGenerator;
     *(s32 *)((s8 *)shop_generator + 0) = (s32) TShopGenerator__class_name;
     ((TShopGenerator *)shop_generator)->apply_object_set_data((void *)arg1);

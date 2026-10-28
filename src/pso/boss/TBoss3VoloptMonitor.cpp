@@ -181,7 +181,7 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObject *parent, void *set_data) : TObj
     set_model(1);
 }
 
-TBoss3VoloptMonitor::TBoss3VoloptMonitor(TUnk_804B9870 *parent, u16 id, s32 index, s32 slot_index, s32 start_timer) : TObjEnemyCustom(parent) {
+TBoss3VoloptMonitor::TBoss3VoloptMonitor(TObjBase *parent, u16 id, s32 index, s32 slot_index, s32 start_timer) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptMonitor_name;
     entity_id = id;
     set_index = index;

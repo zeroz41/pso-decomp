@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJDOOR_H
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-struct TObjDoor : public TUnk_804AF8A0 {
+struct TObjDoor : public TObjCollidable {
     virtual ~TObjDoor();
     virtual void render();
     virtual void run_task();

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjDFDemo4 : public TUnk_804B9870 {
+struct TObjDFDemo4 : public TObjBase {
     virtual ~TObjDFDemo4();
     void sub_8004F2A8();
     void sub_8004F1FC();

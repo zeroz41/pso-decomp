@@ -41,7 +41,7 @@ s32 send_photon_blast_ready__15TFontSmallLobbyFv(void *);
 s32 handle_photon_blast_ready__15TFontSmallLobbyFv(void *, void *);
 s32 validate_6x39_set_photon_blast_ready_flag(void *);
 void send_6x39_photon_blast_ready(u16 *p);
-s32 obj_isState2_324__13TUnk_804806E8Fv();
+s32 obj_isState2_324__9TObjCharaFv();
 void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0);
 s32 is_locally_controlled__10TObjPlayerFPv(int);
 s32 TFontSmallLobby__sub_801D6804(void *, void *);
@@ -104,7 +104,7 @@ void handle_6x3A_clear_photon_blast_ready_flag(s32 arg0) {
 
 void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0) {
     struct Pkt_801D5FC0 pkt;
-    if (((u8 *)get_player_by_client_id((*arg0))) == NULL || obj_isState2_324__13TUnk_804806E8Fv() == 0) {
+    if (((u8 *)get_player_by_client_id((*arg0))) == NULL || obj_isState2_324__9TObjCharaFv() == 0) {
         ((TFontSmallLobby *)(&pkt))->init_6x3A_packet();
         pkt.id = *arg0;
         ((TFontSmallLobby *)(&pkt))->draw_and_send();
@@ -196,7 +196,7 @@ void draw_party_label__15TFontSmallLobbyFiUis(s32 font_small_lobby, u32 arg1, s1
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
     create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);
-    if ((arg1 == 0U) || (((s32 (*)(u32)) obj_isState2_324__13TUnk_804806E8Fv)(arg1) == 0)) {
+    if ((arg1 == 0U) || (((s32 (*)(u32)) obj_isState2_324__9TObjCharaFv)(arg1) == 0)) {
         TFontSmallLobby__sub_801D698C((void *) &sp8);
         sp8.fA = get_entity_id(arg1);
         sp8.fC = arg2;

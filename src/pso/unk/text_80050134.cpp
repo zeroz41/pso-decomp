@@ -41,20 +41,20 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
-void __ct__13TUnk_804B9870FP7TObject(void *, void *);
+void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_sound_effect(s32, void *, s32, s32);
 extern s32 TObjDFDemoF__name;
 extern const f32 lbl_805D8A28;
-void vfunc_6__13TUnk_804B9870FPsl();
-void get_name__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
+void vfunc_6__8TObjBaseFPsl();
+void get_name__8TObjBaseFv();
+void get_center__8TObjBaseFv();
+void apply_object_set_data__8TObjBaseFPv();
+void classify_actor_view_detail__8TObjBaseFfff();
 void render__11TObjDFDemoFFv();
 void run_task__11TObjDFDemoFFv();
 void render_shadows__7TObjectFv();
-void reset_motion_fields__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
+void reset_motion_fields__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
 
 s32 TObjDFDemoF__bml_model_id_table[3] = {0x0, 0x10, 0x11};
 s32 lbl_80485834[3] = {-1, 0x26, 0x27};
@@ -62,13 +62,13 @@ void *lbl_80485840[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *lbl_8048584C[3] = {(void *) 0x0, (void *) 0x0, (void *) 0x0};
 void *lbl_80485858[3] = {(void *) 0x50000, (void *) 0x0, (void *) 0x3f000000};
 void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
-void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__13TUnk_804B9870FPsl, &apply_object_set_data__13TUnk_804B9870FPv, &reset_motion_fields__13TUnk_804B9870Fv, &get_center__13TUnk_804B9870Fv, &update_object_view_visibility__13TUnk_804B9870Fff, &classify_actor_view_detail__13TUnk_804B9870Ffff, &get_name__13TUnk_804B9870Fv, (void *) 0x0};
+void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__8TObjBaseFPsl, &apply_object_set_data__8TObjBaseFPv, &reset_motion_fields__8TObjBaseFv, &get_center__8TObjBaseFv, &update_object_view_visibility__8TObjBaseFff, &classify_actor_view_detail__8TObjBaseFfff, &get_name__8TObjBaseFv, (void *) 0x0};
 
 void *__dt__11TObjDFDemoFFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjDFDemoF;
         restore_player_cameras();
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -84,7 +84,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
   s32 h;
   Obj_80050194 *new_var;
   s32 i;
-  __ct__13TUnk_804B9870FP7TObject(arg0, parent);
+  __ct__8TObjBaseFP7TObject(arg0, parent);
   new_var = arg0;
   new_var->vt = (void *) __vt__11TObjDFDemoF;
   new_var->f0 = TObjDFDemoF__name;

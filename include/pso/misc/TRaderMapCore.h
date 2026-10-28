@@ -17,7 +17,7 @@ struct RadarViewportParameters
     f32 screen_height;
 };
 
-struct TRaderMapCore : public TUnk_804B9870 {
+struct TRaderMapCore : public TObjBase {
     virtual ~TRaderMapCore();
     void update_follow_projection(s32);
     virtual void run_task();

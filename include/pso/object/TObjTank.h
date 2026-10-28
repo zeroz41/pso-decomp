@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjTank : public TUnk_804AF8A0 {
+struct TObjTank : public TObjCollidable {
     virtual ~TObjTank();
     virtual void render();
     virtual void run_task();

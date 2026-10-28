@@ -7,7 +7,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/item/TObjContainerItem.h"
 #include "pso/item/TObjContainerEnemy.h"
@@ -93,7 +93,7 @@ void *TObjContainerEnemy::create(void *arg0) {
 void *__dt__18TObjContainerEnemyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjContainerEnemy;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {
@@ -125,15 +125,15 @@ void TObjContainerItem::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804806E8 *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjChara *)arg0)->request_box_item_drop((u8 *)&this->position, 1);
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }

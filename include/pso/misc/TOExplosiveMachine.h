@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOExplosiveMachine : public TUnk_804B9870 {
+struct TOExplosiveMachine : public TObjBase {
     virtual ~TOExplosiveMachine();
     virtual void run_task();
     u8 unk_90[0x4];

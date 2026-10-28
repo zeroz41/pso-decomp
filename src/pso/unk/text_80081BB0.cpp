@@ -44,7 +44,7 @@ extern RecoveredGlobal_80081CD0_lbl_8058D490 identity_matrix;
 extern const f32 lbl_805D9378;
 extern const f32 lbl_805D9388;
 extern const f32 lbl_805D938C;
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
@@ -70,8 +70,8 @@ s32 TUnk_8048E1A4::freeze_shell_hold() {
         return;
     }
     this->rotation_y += 0x10;
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(p, 0x800) == 0) {
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(p, 0x20) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(p, 0x800) == 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(p, 0x20) != 0) {
             return;
         }
     }

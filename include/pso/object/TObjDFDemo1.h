@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TObjDFDemo1 : public TUnk_804B9870 {
+class TObjDFDemo1 : public TObjBase {
 public:
     virtual ~TObjDFDemo1();
     virtual void run_task();

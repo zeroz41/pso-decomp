@@ -4,12 +4,12 @@
 #include "types.h"
 #include "pso/object/TObjChip.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include <dolphin/mtx.h>
 
 // A pillar Vol Opt drops on the floor: it waits, crashes down, damages and
 // pushes away every actor it hits, then rises out of sight.
-class TObjVoloptPillar : public TUnk_804AF8A0 {
+class TObjVoloptPillar : public TObjCollidable {
 public:
     s32 state;
     u8 pad_b0[0x4];

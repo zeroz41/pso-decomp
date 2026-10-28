@@ -51,7 +51,7 @@ s32 is_locally_controlled__10TObjPlayerFPv();
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 s32 get_player_by_client_id(u16);
 s32 is_script_controlled__10TObjPlayerFv(s32);
-s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
+s32 obj_isState3_324__9TObjCharaFv(s32);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
@@ -239,7 +239,7 @@ void TLobby::forward_to_player(int arg0, void *item) {
     s32 player;
     if (item != NULL) {
         player = get_player_by_client_id(arg0);
-        if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__13TUnk_804806E8Fv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+        if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__9TObjCharaFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
             ((TObjPlayer *)player)->request_inventory_item((TItemData*)item);
             send_6x25_equip_item((void *)player, *(s32 *)((s8 *)item + 0xC), 0);
         }
@@ -249,7 +249,7 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
     s32 player;
     u32 var_r3;
     player = get_player_by_client_id((u16)arg0);
-    if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__13TUnk_804806E8Fv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
+    if ((player != 0) && ((is_locally_controlled__10TObjPlayerFPv() == 1) || ((obj_isState3_324__9TObjCharaFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)) || ((is_script_controlled__10TObjPlayerFv(player) == 1) && ((s32) local_client_id == (s32) TLobby__designated_client_id)))) {
         var_r3 = 0U;
         switch (arg1) {
         case 0:

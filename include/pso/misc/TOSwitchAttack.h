@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOSwitchAttack : public TUnk_804B9870 {
+struct TOSwitchAttack : public TObjBase {
     virtual ~TOSwitchAttack();
     u8 unk_90[0x4];
     f32 m_94;

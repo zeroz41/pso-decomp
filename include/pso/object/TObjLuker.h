@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLuker : public TUnk_804B9870 {
+struct TObjLuker : public TObjBase {
     virtual ~TObjLuker();
     u8 unk_90[0x10];
     u32 m_a0;

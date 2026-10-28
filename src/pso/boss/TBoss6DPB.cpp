@@ -4,7 +4,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEneEpsilonGuard.h"
 #include "types.h"
 #include "pso/boss/TBoss6Type2.h"

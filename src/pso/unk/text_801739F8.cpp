@@ -36,7 +36,7 @@ u8 *TORockCaveBL02__ct(TORockCaveBL02 *rock_cave_bl02, s32 arg1) {
     rock_cave_bl02->texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
     rock_cave_bl02->m_b0 = (f32) lbl_805DB970;
     init_collision_body_parts(rock_cave_bl02, (s32) ((u8 *)&cave_rock_collision_body_templates.value + 0x58), 1);
-    ((TUnk_804AF8A0 *)rock_cave_bl02)->refresh_collision_body_centers();
+    ((TObjCollidable *)rock_cave_bl02)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave_bl02)->register_object_by_id();
     rock_cave_bl02->m_b8 = (s32) rock_cave_bl02->set_params[0];
     temp_r0 = rock_cave_bl02->m_b8;

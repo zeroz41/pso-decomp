@@ -11,7 +11,7 @@
 #include "pso/misc/TechniqueBoost.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/system/FlagWord.h"
 #include "pso/map/CurrentArea.h"
 #include "pso/system/vector.h"
@@ -47,7 +47,7 @@ void *memset(void *dst, int value, unsigned long size);
 
 void play_target_impact_effect(s32 unused0, s32 unused1, u16 actor_id, s16 collider) {
     Vec pos;
-    TUnk_804806E8 *target = (TUnk_804806E8 *)resolve_hittable_target(actor_id, collider);
+    TObjChara *target = (TObjChara *)resolve_hittable_target(actor_id, collider);
     if (target != NULL) {
         VecCopy(&pos, &target->position);
         pos.y = target->m_300;
@@ -432,9 +432,9 @@ void AttackParams::sub_atp_max(s32 amount) { atp_max -= amount; }
 
 void AttackParams::sub_atp_min(s32 amount) { atp_min -= amount; }
 
-ActorParamBlock *get_actor_param_block(TUnk_804806E8 *actor) { return *(ActorParamBlock **)actor->unk_31C; }
+ActorParamBlock *get_actor_param_block(TObjChara *actor) { return *(ActorParamBlock **)actor->unk_31C; }
 
-AttackParams *get_actor_attack_params(TUnk_804806E8 *actor) { return (AttackParams *)actor->m_318; }
+AttackParams *get_actor_attack_params(TObjChara *actor) { return (AttackParams *)actor->m_318; }
 
 void AttackParams::add_ata(s32 amount) { ata += amount; }
 

@@ -173,10 +173,10 @@ void TODoorFourLightBase::update_door_switch_state() {
             ((TUnk_804B0BB8 *)arg0)->play_door_sound();
             this->m_d0 |= 1;
         }
-        if (found == 0 && this->set_entry != NULL && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+        if (found == 0 && this->set_entry != NULL && ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
-            ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
-            ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
+            ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+            ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
         }
         break;
     }

@@ -2,9 +2,9 @@
 #define PSO_MISC_TPHOTONLINE_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TPhotonLine : public TUnk_804806E8 {
+struct TPhotonLine : public TObjChara {
     virtual ~TPhotonLine();
     virtual void run_task();
     void* m_334;

@@ -206,7 +206,7 @@ void TOKeyAncient02::load_resources() {
 void *__dt__14TOKeyAncient02Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOKeyAncient02;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__5TOKeyFv(arg0, 0);
         if (arg1 > 0) {
@@ -225,7 +225,7 @@ u8 *TOKeyAncient02__ct(TOKeyAncient02 *key_ancient02, s32 arg1, s32 arg2) {
     key_ancient02->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOKeyAncient02__model_archive)), 1));
     key_ancient02->texlist = TObjFish__sub_8001EDB0((void *)((void *) ((*(s32 *)&TOKeyAncient02__model_archive))), 1);
     init_collision_body_parts(key_ancient02, &key_ancient02_collision_body.value, 1);
-    ((TUnk_804AF8A0 *)key_ancient02)->refresh_collision_body_centers();
+    ((TObjCollidable *)key_ancient02)->refresh_collision_body_centers();
     ((TObjPlayer *)key_ancient02)->register_object_by_id();
     key_ancient02->m_c0 = (f32) lbl_805DB710;
     *(f32 *)((s8 *)key_ancient02 + 0xC4) = (f32) (lbl_805DB714 + *(f32 *)((s8 *)(*(void **)((s8 *)key_ancient02->model + 4)) + 0x14));

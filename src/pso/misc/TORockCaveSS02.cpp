@@ -24,7 +24,7 @@ extern s32 __vt__14TORockCaveSS02[];
 void *__dt__14TORockCaveSS02Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TORockCaveSS02;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__16TORockCaveSimpleFv(arg0, 0);
         if (arg1 > 0) {

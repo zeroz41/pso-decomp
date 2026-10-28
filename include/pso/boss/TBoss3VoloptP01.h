@@ -10,7 +10,7 @@
 class TObjVoloptShutter;
 struct TBoss3Volopt;
 
-// Collision record behind TUnk_804AF8A0::m_a4.
+// Collision record behind TObjCollidable::m_a4.
 struct TBoss3VoloptP01Collision {
     u8 pad_0[0x4];
     f32 height;

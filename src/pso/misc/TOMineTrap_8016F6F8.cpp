@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOMine.h"
 #include "pso/misc/TOMineTrap.h"
@@ -13,7 +13,7 @@
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 
 extern "C" {
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 s32 get_current_floor(void);
 f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
@@ -157,7 +157,7 @@ s32 TOMineTrap::find_target_in_range() {
     }
     for (i = 0; i < lbl_805D586C + lbl_805D5870; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (p == 0 || p == (u8 *)self || obj_testFlags30__13TUnk_804AF8A0FUl(p, 0x800) != 0) {
+        if (p == 0 || p == (u8 *)self || obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0) {
             continue;
         }
         id = get_entity_id(p);
@@ -191,14 +191,14 @@ s32 TOMineTrap::find_target_in_range() {
 void TOMineTrap::set_triggered() {
     u8 *arg0 = (u8 *)this;
     this->mode = 3;
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 1);
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 
 void TOMineTrap::vfunc_86() {
     u8 *arg0 = (u8 *)this;
     this->mode = 2;
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 1);
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
 }
 
@@ -239,7 +239,7 @@ extern s32 __vt__10TOMineTrap[];
 void *__dt__10TOMineTrapFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TOMineTrap;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__6TOMineFv(arg0, 0);
         if (arg1 > 0) {
@@ -323,7 +323,7 @@ void TOMine::spawn_disp_objects() {
 
 void TOMine::apply_object_set_data(void *set_data) {
     u8 *arg0 = (u8 *)this;
-    TUnk_804B9870::apply_object_set_data(set_data);
+    TObjBase::apply_object_set_data(set_data);
     this->spawn_disp_objects();
     VecCopy((Vec *)(arg0 + 0x334), (const Vec *)(arg0 + 0x38));
 }
@@ -476,10 +476,10 @@ void TOMine::update_trigger() {
 void TOMine::vfunc_86() {
     u8 *arg0 = (u8 *)this;
     this->mode = 2;
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 1);
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
-    ((TUnk_804806E8 *)arg0)->calc_attach_pos();
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjChara *)arg0)->calc_attach_pos();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TOMine *)(arg0))->vfunc_81();
 }
 
@@ -510,9 +510,9 @@ void TOMine::follow_target() {
   ((TObjPlayer *)arg0)->update_enemy_collision_flags();
   temp_f2 = *((f32 *) (((s8 *) arg0) + 0x48));
   *((f32 *) (((s8 *) arg0) + 0x3C)) = (f32) ((lbl_805DB884 * ((lbl_805DB888 + (*((f32 *) ((this->target) + 0x3C)))) - temp_f2)) + temp_f2);
-  ((TUnk_804806E8 *)arg0)->calc_attach_pos();
+  ((TObjChara *)arg0)->calc_attach_pos();
   this->rotation_y = (s32) (lbl_80442200 * atan2_float((f64) stack.sp8, (f64) stack.sp10));
-  ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+  ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
 
 void TOMine::sub_80170BEC() {

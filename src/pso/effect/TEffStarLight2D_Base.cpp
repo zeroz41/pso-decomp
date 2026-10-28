@@ -61,7 +61,7 @@ s32 TObjRoomId__sub_80141CF4(void *, void *, int, int, int, void *, f32);
 extern RecoveredGlobal_80084C10_lbl_804393AC star_light_2d_base_color;
 extern const f32 lbl_805D9450;
 u8 * __ct__15TEffStarLight2DFPvPvP7TObject(void *, s32, s32, s32);
-u8 * __ct__13TUnk_804B9870FP7TObject(void *);
+u8 * __ct__8TObjBaseFP7TObject(void *);
 void * __nw__7TObjectFUl(s32, s32);
 extern s32 lbl_8048E640[];
 extern void *tl_particle;
@@ -111,7 +111,7 @@ void *__dt__20TEffStarLight2D_BaseFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E640;
         if (*(void **)((s8 *)arg0 + 0x90) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x90)); *(s32 *)((s8 *)arg0 + 0x90) = 0; }
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -130,7 +130,7 @@ u8 *TEffStarLight2D_Base__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 temp_r4;
     u8 *eff_star_light2_d;
     u8 *var_r0;
-    __ct__13TUnk_804B9870FP7TObject(arg0);
+    __ct__8TObjBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80084DD4_lbl_8048E640 *)&lbl_8048E640).value;
     ((TUnk_8048E640 *)(arg0))->apply_object_set_data((void *)arg2);
     stack.sp8 = ((TUnk_8048E640 *)arg0)->scale.x;

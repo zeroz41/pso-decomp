@@ -18,11 +18,11 @@ void TWindow__close(u8 *arg0);
 void *__nw__7TObjectFUl(int);
 
     extern int player_unique_pair_entry_count;
-extern "C" void vfunc_6__13TUnk_804B9870FPsl();
-extern "C" void get_name__13TUnk_804B9870Fv();
-extern "C" void get_center__13TUnk_804B9870Fv();
-extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
-extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
+extern "C" void vfunc_6__8TObjBaseFPsl();
+extern "C" void get_name__8TObjBaseFv();
+extern "C" void get_center__8TObjBaseFv();
+extern "C" void apply_object_set_data__8TObjBaseFPv();
+extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" u8 lbl_804729C8[];
 extern "C" u8 lbl_804729DC[];
 extern "C" u8 lbl_804729EC[];
@@ -51,8 +51,8 @@ extern "C" u8 lbl_80472B4C[];
 extern "C" u8 lbl_80472B5C[];
 extern "C" u8 lbl_80472B70[];
 extern "C" void render_shadows__7TObjectFv();
-extern "C" void reset_motion_fields__13TUnk_804B9870Fv();
-extern "C" void update_object_view_visibility__13TUnk_804B9870Fff();
+extern "C" void reset_motion_fields__8TObjBaseFv();
+extern "C" void update_object_view_visibility__8TObjBaseFff();
 struct Obj_802E4E44;
 struct Obj_802E4C70;
 void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1);
@@ -160,9 +160,9 @@ void *online_ending_quad_vertices[8] = {
 };
 void *__vt__16TObjOnlineEnding[13] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__16TObjOnlineEndingFPvs, (void *)&run_task__16TObjOnlineEndingFv,
-    (void *)&render__16TObjOnlineEndingFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv,
+    (void *)&render__16TObjOnlineEndingFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
+    (void *)&get_name__8TObjBaseFv,
 };
 #define lbl_804E3A38 ((f32 *)lbl_804E3A38)
 #define online_ending_quad_vertices ((V2_802E4C70 *)online_ending_quad_vertices)
@@ -358,7 +358,7 @@ void *destroy__16TObjOnlineEndingFPvs(void *arg0, s16 arg1) {
         *(const s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjOnlineEnding;
         ((TObjOnlineEnding *)arg0)->close_window();
         restore_player_cameras();
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -389,7 +389,7 @@ struct Obj_802E4FFC {
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-void __ct__13TUnk_804B9870FP7TObject(void *, void *);
+void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
@@ -408,7 +408,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
     Ent_802E4FFC *e;
     TObject_802E4FFC *obj;
 
-    __ct__13TUnk_804B9870FP7TObject(arg0, parent);
+    __ct__8TObjBaseFP7TObject(arg0, parent);
     SELF->vt = (void *)__vt__16TObjOnlineEnding;
     SELF->f0 = TObjOnlineEnding__name;
     SELF->fA0 = get_current_area();

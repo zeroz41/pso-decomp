@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjTombstone : public TUnk_804AF8A0 {
+struct TObjTombstone : public TObjCollidable {
     virtual ~TObjTombstone();
     u8 unk_AC[0x4];
     f32 m_b0;

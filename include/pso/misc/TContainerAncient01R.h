@@ -2,9 +2,9 @@
 #define PSO_MISC_TCONTAINERANCIENT01R_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TContainerAncient01R : public TUnk_804806E8 {
+struct TContainerAncient01R : public TObjChara {
     virtual ~TContainerAncient01R();
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);

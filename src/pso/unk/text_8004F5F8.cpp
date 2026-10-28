@@ -34,7 +34,7 @@ S_8004F5F8 *__dt__11TObjDFDemo4Fv(S_8004F5F8 *o, s16 flag) {
             }
         }
         restore_player_cameras();
-        __dt__13TUnk_804B9870Fv(o, 0);
+        __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
             __dl__7TObjectFPv(o);
         }

@@ -7,7 +7,7 @@
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TBoss6Type1.h"
 #include "pso/player/TObjPlayer.h"
@@ -2437,7 +2437,7 @@ s32 TBoss6Type1__ct(s32 arg0_, s32 parent, s32 arg2_) {
     __ct__9TObjEnemyFP7TObject(arg0, (void*)parent);
     *(u8 **)((s8 *)arg0 + 0x18) = __vt__11TBoss6Type1;
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D3EB0;
-    ((TUnk_804806E8 *)arg0)->add_flags_2e4(8);
+    ((TObjChara *)arg0)->add_flags_2e4(8);
     *(s32 *)((s8 *)arg0 + 0x3F8) = arg2[0];
     ((VObj_18_f05d67 *)(arg0))->m79(arg2 + 1);
     if (((TObjEnemy *)arg0)->exchange_object_state((s32)&tmp, (s16)1) != 0) {

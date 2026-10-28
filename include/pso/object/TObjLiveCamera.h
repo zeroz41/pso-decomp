@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLiveCamera : public TUnk_804B9870 {
+struct TObjLiveCamera : public TObjBase {
     virtual ~TObjLiveCamera();
     virtual void render();
     virtual void run_task();

@@ -1396,11 +1396,11 @@ s32 memset(void *, int, int);
 void TKeyBoardControl__sub_8000F950(void);
 void mark_area_change_pending();
 void VecCopy__FP3VecPC3Vec(Vec_801F0574 *, const void *);
-int obj_isState2_324__13TUnk_804806E8Fv(TObjPlayer*);
+int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 s16 get_actor_tp(u8 *);
 s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
-s32 obj_isState3_324__13TUnk_804806E8Fv(int);
+s32 obj_isState3_324__9TObjCharaFv(int);
 int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 s32 get_current_floor();
@@ -2318,7 +2318,7 @@ void qst_op_get_player_room(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TObjPlayer *)player)->get_field_3e4();
-        qst_registers[i] = ((TUnk_804B9870 *)player)->get_room();
+        qst_registers[i] = ((TObjBase *)player)->get_room();
     } else {
         qst_registers[i++] = -1;
         qst_registers[i] = -1;
@@ -2922,7 +2922,7 @@ void qst_op_move_coords_object(s32 i, s32 k) {
     v.z = qst_registers[(u8)k];
     u32 r = find_by_id__13TQuestColCtrlFUs((u16)qst_registers[(u8)i]);
     if (r != 0) {
-        ((TUnk_804B9870 *)r)->set_position_from(&v);
+        ((TObjBase *)r)->set_position_from(&v);
     }
 }
 
@@ -3264,7 +3264,7 @@ void qst_op_ba_death_tech_level_up(void) {
 
 void qst_op_set_shrink_size(s32 player_variable, s32 size_variable) {
     TObjPlayer* player = ((TObjPlayer*)((s32 (*)(int, void *))get_player_by_client_id)((int)(qst_registers[(u8)player_variable]), (void *)size_variable));
-    if (player && !obj_isState2_324__13TUnk_804806E8Fv(player)) {
+    if (player && !obj_isState2_324__9TObjCharaFv(player)) {
         s32 whole = qst_registers[(u8)size_variable++];
         s32 numerator = qst_registers[(u8)size_variable++];
         s32 denominator = qst_registers[(u8)size_variable];
@@ -4389,7 +4389,7 @@ void qst_op_set_shrink_cam1(u8 arg0) {
 void qst_op_unshrink(s32 arg0) {
     s32 temp_r3;
     temp_r3 = ((s32)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)qst_registers));
-    if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__13TUnk_804806E8Fv)() == 0)) {
+    if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
         request_player_size_restore((PlayerScaleState *)(temp_r3 + 0x5B0));
     }
 }
@@ -4397,7 +4397,7 @@ void qst_op_unshrink(s32 arg0) {
 void qst_op_shrink(s32 arg0) {
     s32 temp_r3;
     temp_r3 = ((s32)((u32 (*)(int, int))get_player_by_client_id)((int)(qst_registers[(u8)arg0]), (int)qst_registers));
-    if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__13TUnk_804806E8Fv)() == 0)) {
+    if ((temp_r3 != 0) && (((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() == 0)) {
         request_player_shrink((PlayerScaleState *)(temp_r3 + 0x5B0));
     }
 }
@@ -5538,7 +5538,7 @@ void qst_op_p_dead(void) {
     temp_r31 = qst_args[0];
     lobby = (u8 *)(((u8 *)((s32 (*)(s32))get_player_by_client_id)(qst_args[1])));
     if ((lobby != NULL) && (is_script_controlled__10TObjPlayerFv() == 0)) {
-        if (obj_isState3_324__13TUnk_804806E8Fv((int)lobby) != 0) {
+        if (obj_isState3_324__9TObjCharaFv((int)lobby) != 0) {
             if (*(s32 *)((s8 *)lobby + 0x30) & 0x800) {
                 qst_registers[temp_r31] = 1;
                 return;

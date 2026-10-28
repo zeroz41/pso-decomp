@@ -10,7 +10,7 @@ struct TObjEnemyCustom;
 
 // A homing shot of Vol Opt: it steers towards a player, and the first actor it
 // hits is caught in a cage (TBoss3Volopt::create_cage).
-class TUnk_80484A94 : public TUnk_804AF8A0 {
+class TUnk_80484A94 : public TObjCollidable {
 public:
     u8 pad_ac[0x8];
     Vec velocity;

@@ -3,7 +3,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/TBoss6GravBall.h"
 #include "pso/boss/TBoss6PlotFalz.h"
@@ -380,7 +380,7 @@ void *__dt__14TBoss6GravBallFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss6GravBall;
         init_parts__14TBoss6GravBallFv(arg0);
         clear_player_grav_flags__14TBoss6GravBallFv(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -388,7 +388,7 @@ void *__dt__14TBoss6GravBallFv(void *arg0, s16 arg1) {
     return arg0;
 }
 }
-TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TUnk_804AF8A0((TObject *)arg1) {
+TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;
     ((Obj_80323D20 *)this)->f0 = TBoss6GravBall__name;
     ((Obj_80323D20 *)this)->fAC = arg1;

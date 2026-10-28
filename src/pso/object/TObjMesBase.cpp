@@ -30,10 +30,10 @@ extern u8 lbl_80445DAC[];
 s32 TMotorcycle__vt8(s32 arg0, f32 farg0, f32 farg1);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 void *__dt__11TObjMesBaseFv(void *arg0, s16 arg1);
-s32 __ct__13TUnk_804AF8A0FP7TObject();
+s32 __ct__14TObjCollidableFP7TObject();
 void __dl__7TObjectFPv(void *);
 f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__13TUnk_804B9870Fff(s32, f32, f32);
+s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 
 void TObjMesBase::debug_draw_label() {
     Mes_80194AEC *arg0 = (Mes_80194AEC *)this;
@@ -106,7 +106,7 @@ extern "C" {
 extern s32 TObjMesBase__class_name;
 
 void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AF8A0FP7TObject();
+    __ct__14TObjCollidableFP7TObject();
     *(s32 **)((s8 *)mes_base + 0x18) = __vt__11TObjMesBase;
     *(s32 *)((s8 *)mes_base + 0) = (s32) TObjMesBase__class_name;
     mes_base->apply_object_set_data((void *)arg2);
@@ -129,7 +129,7 @@ s32 TMotorcycle__vt8(s32 arg0, f32 farg0, f32 farg1) {
     if (xz_distance_squared(camera_ctrl_instance + 0x178, arg0 + 0x38) < (farg1 * farg1)) {
         return 1;
     }
-    return update_object_view_visibility__13TUnk_804B9870Fff(arg0, farg0, farg1);
+    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
 }
 void TMotorcycle::debug_draw_label() {
     Mc_80194EC4 *arg0 = (Mc_80194EC4 *)this;

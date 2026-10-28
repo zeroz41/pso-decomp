@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjEnvSound : public TUnk_804B9870 {
+struct TObjEnvSound : public TObjBase {
     virtual ~TObjEnvSound();
     u8 unk_90[0x4];
     u32 m_94;

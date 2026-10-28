@@ -347,7 +347,7 @@ extern "C" {
 s32 get_entity_id(void *);
 s32 is_player_entity_id();
 s32 is_alive__9TObjEneDDFv(void *);
-s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, int);
 extern s32 bringer_rush_effect_vtable[];
@@ -408,7 +408,7 @@ void TObjEneDf2Bringer_Eff_Rush::run_task() {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    if (obj_isState2_324__13TUnk_804806E8Fv((void *) (*(u8 **)((s8 *)((u8 *)this) + 0x1C))) != 0) {
+    if (obj_isState2_324__9TObjCharaFv((void *) (*(u8 **)((s8 *)((u8 *)this) + 0x1C))) != 0) {
         queue_destruction__7TObjectFv(this);
         return;
     }

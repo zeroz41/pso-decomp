@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjGrassWeb : public TUnk_804B9870 {
+struct TObjGrassWeb : public TObjBase {
     virtual ~TObjGrassWeb();
     virtual void render();
     u32 m_90;

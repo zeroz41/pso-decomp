@@ -69,7 +69,7 @@ void *find_entity_by_id(u16 id);
 s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
-s32 refresh_collision_body_centers__13TUnk_804AF8A0Fv(void *, void *, f32, f32);
+s32 refresh_collision_body_centers__14TObjCollidableFv(void *, void *, f32, f32);
 extern Pair_80096150 lbl_80439F28[];
 
 struct VObjHang_80095EA0 {
@@ -192,7 +192,7 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     *(f32 *)((s8 *)this->bodies + 0x30) = *(f32 *)&this->unk_CC;
     temp_r4_2 = this->bodies;
     *(f32 *)((s8 *)temp_r4_2 + 0x34) = 1.8f * (3.0f * this->m_f4);
-    refresh_collision_body_centers__13TUnk_804AF8A0Fv(this, temp_r4_2, 3.0f, 1.8f);
+    refresh_collision_body_centers__14TObjCollidableFv(this, temp_r4_2, 3.0f, 1.8f);
     ((TObjPlayer *)this)->update_enemy_collision_flags();
     temp_r4_2 = this->bodies;
     if ((*(s32 *)((s8 *)temp_r4_2 + 0x18) | *(s32 *)((s8 *)temp_r4_2 + 0x44)) & 0x200000) {

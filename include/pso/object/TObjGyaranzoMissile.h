@@ -5,7 +5,7 @@
 #include <dolphin/mtx.h>
 #include "pso/object/TObjMotion.h"
 
-struct TObjGyaranzoMissile : public TUnk_804AF8A0 {
+struct TObjGyaranzoMissile : public TObjCollidable {
     virtual ~TObjGyaranzoMissile();
     void sub_800D47B4();
     Vec velocity;

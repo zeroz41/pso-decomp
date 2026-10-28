@@ -4,7 +4,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOMine.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOMineTrap.h"
@@ -55,7 +55,7 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB854;
 extern const f32 lbl_805DB858;
-void __ct__13TUnk_804806E8FP7TObject(void *);
+void __ct__9TObjCharaFP7TObject(void *);
 void obj_setFlags30(void *, u32);
 extern s32 __vt__6TOMine[];
 extern s32 TOMine__name;
@@ -171,7 +171,7 @@ void TOMine::load_static_resource() {
 void *__dt__6TOMineFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__6TOMine;
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -179,7 +179,7 @@ void *__dt__6TOMineFv(void *arg0, s16 arg1) {
     return arg0;
 }
 Obj_80171278 *TOMine__ct(Obj_80171278 *arg0) {
-    __ct__13TUnk_804806E8FP7TObject(arg0);
+    __ct__9TObjCharaFP7TObject(arg0);
     arg0->vptr = (u32)((s32 *)&__vt__6TOMine);
     arg0->f00 = TOMine__name;
     ((TOMine *)arg0)->phase = 0;

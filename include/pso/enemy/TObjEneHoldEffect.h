@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjEneHoldEffect : public TUnk_804B9870 {
+struct TObjEneHoldEffect : public TObjBase {
     virtual ~TObjEneHoldEffect();
     virtual void run_task();
     u32 m_90;

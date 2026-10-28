@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TEneParticleCtrl : public TUnk_804AF8A0 {
+struct TEneParticleCtrl : public TObjCollidable {
     virtual ~TEneParticleCtrl();
     u16 m_ac;
     u8 _padAE[0x2];

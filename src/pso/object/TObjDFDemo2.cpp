@@ -71,21 +71,21 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 boss4_zanzo_bml_index_table[];
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1);
 void *TObjDFDemo2__ct(void *, void *, void *, void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void vfunc_6__13TUnk_804B9870FPsl();
-void get_name__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
+void vfunc_6__8TObjBaseFPsl();
+void get_name__8TObjBaseFv();
+void get_center__8TObjBaseFv();
+void apply_object_set_data__8TObjBaseFPv();
+void classify_actor_view_detail__8TObjBaseFfff();
 void render_shadows__7TObjectFv();
-void reset_motion_fields__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
+void reset_motion_fields__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
 
 const char *TObjDFDemo2__name = "TObjDFDemo2";
 __declspec(section ".rodata") Pose_8004EB78 lbl_80437384 = {0, 0, 0};
@@ -97,9 +97,9 @@ void *lbl_80485680[3] = {
 };
 void *__vt__11TObjDFDemo2[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo2Fv, (void *)&run_task__11TObjDFDemo2Fv,
-    (void *)&render__11TObjDFDemo2Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv,
+    (void *)&render__11TObjDFDemo2Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
+    (void *)&get_name__8TObjBaseFv,
 };
 
 void TObjDFDemo2::render() {
@@ -166,7 +166,7 @@ void TObjDFDemo2::run_task() {
 void *__dt__11TObjDFDemo2Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__11TObjDFDemo2;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -183,7 +183,7 @@ void *TObjDFDemo2__ct(void *arg0, void *parent, void *arg2, void *arg3, void *ar
     s32 cnt;
     s32 i;
 
-    __ct__13TUnk_804B9870FP7TObject(self, parent);
+    __ct__8TObjBaseFP7TObject(self, parent);
     self->vt18 = (u8 *)__vt__11TObjDFDemo2;
     self->vt0 = (s32) TObjDFDemo2__name;
     VecCopy((Vec *)self->pos, (const Vec *)arg2);

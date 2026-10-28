@@ -287,12 +287,12 @@ void TObjContainerAbeEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     if (arg2 != 0) {
         if ((s16) *arg1 == 1) {
             this->vfunc_79();
-            ((TUnk_804AF8A0 *)arg0)->set_flag8();
+            ((TObjCollidable *)arg0)->set_flag8();
             queue_destruction__7TObjectFv((arg0));
             this->mode = 1;
         }
     } else if ((s16) *arg1 == 1) {
-        ((TUnk_804AF8A0 *)arg0)->set_flag8();
+        ((TObjCollidable *)arg0)->set_flag8();
         queue_destruction__7TObjectFv((arg0));
         this->mode = 1;
     }
@@ -347,10 +347,10 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
     Obj_80188768 *arg0 = (Obj_80188768 *)this;
     s16 sp8;
     Pkt_80188768 pkt;
-    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
-        ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
+        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pkt))->init_packet_67_04();
         pkt.b = this->entity_id;
         pkt.c = get_current_floor();

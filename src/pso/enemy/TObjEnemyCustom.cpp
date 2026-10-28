@@ -26,7 +26,7 @@ extern "C" {
 int rand(void);
 void advance_animation_playback(TObjMotion *motion);
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
-TUnk_804B9870 *find_active_entity_by_id(u16 id);
+TObjBase *find_active_entity_by_id(u16 id);
 s32 push_matrix(void);
 void post_translate_matrix(const f32 *offset);
 void matrix_mult_vec(s32 matrix, const Vec *src, Vec *dst);
@@ -47,7 +47,7 @@ extern s32 lbl_805D5870;
 
 // The actor update() hits, with slot 25 as it is called here: the base declares
 // apply_knockback_from_attacker(u8 *) without the strength.
-struct TObjEnemyCustomVictim : public TUnk_804AF8A0 {
+struct TObjEnemyCustomVictim : public TObjCollidable {
     virtual s32 add_actor_exp(s32 exp);
     virtual s32 consume_timer_field(s32 frames);
     virtual s32 get_actor_level_index();
@@ -166,7 +166,7 @@ void TObjEnemyCustom::update_wander_state() {
     case 1:
         advance_animation_playback(this);
         if (target != NULL) {
-            Vec dest = *((TUnk_804806E8 *)target)->body_center();
+            Vec dest = *((TObjChara *)target)->body_center();
             EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
             f32 distance = update_enemy_wander_move(this, &dest, 1, params, params->min_distance);
             params = (EnemyMoveParams *)movementParameters;
@@ -493,14 +493,14 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
     Vec offset;
     u16 best;
     s32 i;
-    TUnk_804806E8 *entity;
+    TObjChara *entity;
     f32 best_distance;
     f32 distance;
     u16 id;
     best_distance = radius * radius;
     best = 0xFFFF;
     for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
-        entity = (TUnk_804806E8 *)TObjPlayer::get_player_data(i);
+        entity = (TObjChara *)TObjPlayer::get_player_data(i);
         if (entity == NULL) {
             break;
         }
@@ -668,7 +668,7 @@ void TObjEnemyCustom::pick_open_direction(f32 *dir, f32 reach, f32 radius) {
 }
 
 void TObjEnemyCustom::release_destroyed_target() {
-    if (target != NULL && (((TUnk_804B9870 *)target)->actorFlags & 0x800)) {
+    if (target != NULL && (((TObjBase *)target)->actorFlags & 0x800)) {
         target = NULL;
         targetId = 0xFFFF;
     }

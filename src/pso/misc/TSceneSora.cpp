@@ -60,7 +60,7 @@ u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1);
 s32 get_bml_motion(int, int);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 lbl_805D3624;
 extern s32 TSceneSora__has_sky_motion;
 extern const f32 lbl_805DC608;
@@ -122,7 +122,7 @@ u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = &__vt__10TSceneSora.value;
         TSceneSora__instance = 0;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -132,7 +132,7 @@ u8 *__dt__10TSceneSoraFv(u8 *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_80207340___vt__10TSceneSora_size[sizeof(RecoveredGlobal_80207340___vt__10TSceneSora) == 0x38 ? 1 : -1];
 u8 *TSceneSora__ct(TSceneSora *scene_sora, s32 _w1) {
-    __ct__13TUnk_804B9870FP7TObject(scene_sora);
+    __ct__8TObjBaseFP7TObject(scene_sora);
     *(s32 **)((s8 *)scene_sora + 0x18) = &(*(RecoveredGlobal_80207340___vt__10TSceneSora *)&__vt__10TSceneSora).value;
     *(s32 *)((s8 *)scene_sora + 0) = lbl_805D3624;
     scene_sora->m_90 = get_bml_model((int) ((*(s32 *)&TSceneSora__sky_bml_resource)), 0);

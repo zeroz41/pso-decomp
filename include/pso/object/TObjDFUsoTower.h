@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjDFUsoTower : public TUnk_804B9870 {
+struct TObjDFUsoTower : public TObjBase {
     virtual ~TObjDFUsoTower();
     u32 m_90;
     static void *create(void *arg0);

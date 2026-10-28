@@ -14,7 +14,7 @@ u16 get_entity_id(u32);
 void init__11TOVS2Wall01Fi(s32 arg0) {
     s32 var_r31;
 
-    ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
+    ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
     var_r31 = 7;
     do {
         ((TOVS2Wall01 *)arg0)->spawn_debris(var_r31);

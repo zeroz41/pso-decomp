@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOWreckAncient : public TUnk_804AF8A0 {
+struct TOWreckAncient : public TObjCollidable {
     virtual ~TOWreckAncient();
     virtual void render();
     static void free_statics();

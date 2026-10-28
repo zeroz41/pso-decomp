@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOBind : public TUnk_804AF8A0 {
+struct TOBind : public TObjCollidable {
     virtual ~TOBind();
     void sub_8015860C();
     u8 unk_AC[0x4];

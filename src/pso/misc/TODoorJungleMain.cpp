@@ -15,7 +15,7 @@ extern "C" {
 
 s32 TODoorJungleMain__vt8(s32 arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__13TUnk_804B9870Fff(s32, f32, f32);
+s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 void queue_destruction__7TObjectFv(void *arg0);
 
 extern s32 camera_ctrl_instance;
@@ -24,7 +24,7 @@ s32 TODoorJungleMain__vt8(s32 arg0, f32 farg0, f32 farg1) {
     if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
         return 1;
     }
-    return update_object_view_visibility__13TUnk_804B9870Fff(arg0, farg0, farg1);
+    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
 }
 
 void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
@@ -309,9 +309,9 @@ void TODoorJungleMain::update_door_switch_state() {
         } else {
             self->flags &= ~1;
         }
-        if ((self->flags & 1) && ((TUnk_804AF8A0 *)self)->access_object_saved_state(&sp8, 1) == 1) {
+        if ((self->flags & 1) && ((TObjCollidable *)self)->access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
-            ((TUnk_804AF8A0 *)self)->send_object_state_update(&sp8);
+            ((TObjCollidable *)self)->send_object_state_update(&sp8);
         }
     }
 }
@@ -330,7 +330,7 @@ void TODoorJungleMain::run_task() {
         t = *(f32 *)&this->m_b4;
         if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1) - lbl_805DDCD4 < t &&
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1)) {
-            ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
+            ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             if (*(void * *)&this->m_dc != NULL) {
                 queue_destruction__7TObjectFv(*(void * *)&this->m_dc);
                 *(void * *)&this->m_dc = NULL;
@@ -360,14 +360,14 @@ void TODoorJungleMain::run_task() {
         minimap_render_gate((u8 *)&this->position, 0xFF00FF00, this->rotation_y, 0, 0);
     } else {
         minimap_render_gate((u8 *)&this->position, 0xFFFF0000, this->rotation_y, 0, 0);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
 }
 void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
         if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TODoorJungleMain *)arg0)->m_dc = 0; }
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -390,7 +390,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     arg0->m_b8 = (f32) lbl_805DDCD8;
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) lbl_805DDCDC;
     init_collision_body_parts(arg0, (s32) &TODoorJungleMain_collision_body_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->m_c0 = (f32) lbl_805DDCE0;
     temp_r4 = arg2 - 4;

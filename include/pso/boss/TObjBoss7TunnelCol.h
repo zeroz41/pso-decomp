@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjBoss7TunnelCol : public TUnk_804AF8A0 {
+struct TObjBoss7TunnelCol : public TObjCollidable {
     virtual ~TObjBoss7TunnelCol();
     void* m_ac;
     virtual void render();

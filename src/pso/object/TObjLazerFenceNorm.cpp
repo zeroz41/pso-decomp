@@ -78,7 +78,7 @@ void TObjLazerFenceExtra::update_wait_switch() {
 
 void reset_by_door__19TObjLazerFenceExtraFPv(void *arg0) {
     if (is_current_floor_switch_set((u16) *(s16 *)((s8 *)arg0 + 0xB0)) == 0) {
-        ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 1);
+        ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         *(s32 *)((s8 *)arg0 + 0xB4) = 0;
     }
 }
@@ -103,7 +103,7 @@ s32 get_bml_motion(s32, s32);
 Node_80192A3C *get_bml_model(s32, s32);
 extern s32 lazer_fence_norm_bml_resource;
 void init_collision_body_parts(void *, void *, s32);
-void __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+void __ct__14TObjCollidableFP7TObject(void *, void *);
 extern Ent_80192874 laser_fence_collision_body_parts[];
 extern s32 __vt__19TObjLazerFenceExtra[];
 extern s32 lazer_fence_extra_class_name;
@@ -130,9 +130,9 @@ void run_task__19TObjLazerFenceExtraFv(TObjLazerFenceExtra *lazer_fence_extra) {
 void *__dt__19TObjLazerFenceExtraFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjLazerFenceExtra;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -145,7 +145,7 @@ extern void *tl_05;
 #define self ((u8 *)arg0)
 void *TObjLazerFenceExtra__ct(void *arg0, void *arg1, void *arg2) {
     s32 i;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, arg1);
+    __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)self + 0x18) = __vt__19TObjLazerFenceExtra;
     *(s32 *)((s8 *)self + 0) = lazer_fence_extra_class_name;
     ((VObj_80192874 *)self)->m5(arg2);
@@ -171,10 +171,10 @@ void *TObjLazerFenceExtra__ct(void *arg0, void *arg1, void *arg2) {
     *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0xA4)) + 0x10) = *(f32 *)((s8 *)self + 0x6C);
     *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0xA4)) + 0xC) = *(f32 *)((s8 *)self + 0x70);
     ((TObjPlayer *)self)->register_object_by_id();
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     if (*(s32 *)((s8 *)self + 0xD8) == 0) {
         for (i = 1; i < *(s32 *)((s8 *)self + 0xA8); i++) {
-            ((TUnk_804AF8A0 *)self)->clear_player_status_flag(i, 1);
+            ((TObjCollidable *)self)->clear_player_status_flag(i, 1);
         }
     }
     return arg0;
@@ -340,9 +340,9 @@ void TObjLazerFenceNorm::run_task() {
 void *__dt__18TObjLazerFenceNormFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjLazerFenceNorm;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -357,7 +357,7 @@ typedef char RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm_size[sizeof(Rec
 u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *lazer_fence_norm, s32 arg1, s32 arg2) {
     u32 temp_r4;
     u32 temp_r6;
-    __ct__13TUnk_804AF8A0FP7TObject(lazer_fence_norm, (void *)arg1);
+    __ct__14TObjCollidableFP7TObject(lazer_fence_norm, (void *)arg1);
     *(s32 **)((s8 *)lazer_fence_norm + 0x18) = &(*(RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm *)&__vt__18TObjLazerFenceNorm).value;
     *(s32 *)((s8 *)lazer_fence_norm + 0) = (s32) obj_lazer_fence_norm_class_name;
     ((TObjLazerFenceNorm *)(lazer_fence_norm))->apply_object_set_data((void *)arg2);
@@ -377,7 +377,7 @@ u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *lazer_fence_norm, s32 arg1, s32 a
     init_collision_body_parts(lazer_fence_norm, (void *) ((u8 *)laser_fence_collision_body_parts + ((((temp_r4 & 1) ^ temp_r6) - temp_r6) * 0x84)), 3);
     lazer_fence_norm->actorFlags = (s32) (lazer_fence_norm->actorFlags | 0x40000000);
     ((TObjPlayer *)lazer_fence_norm)->register_object_by_id();
-    ((TUnk_804AF8A0 *)lazer_fence_norm)->refresh_collision_body_centers();
+    ((TObjCollidable *)lazer_fence_norm)->refresh_collision_body_centers();
     return (u8 *)lazer_fence_norm;
 }
 

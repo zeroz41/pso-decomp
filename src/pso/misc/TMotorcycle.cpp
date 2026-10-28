@@ -129,7 +129,7 @@ void TMotorcycle::load_resources() {
 void *__dt__11TMotorcycleFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TMotorcycle;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__11TObjMesBaseFv(arg0, 0);
         if (arg1 > 0) {

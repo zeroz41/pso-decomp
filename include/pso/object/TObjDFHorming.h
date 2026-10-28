@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJDFHORMING_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TObjDFHorming : public TUnk_804806E8 {
+struct TObjDFHorming : public TObjChara {
     virtual ~TObjDFHorming();
     void sub_8005076C();
     void check_attack_trigger();

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjFogCollision : public TUnk_804B9870 {
+struct TObjFogCollision : public TObjBase {
     virtual ~TObjFogCollision();
     virtual void vfunc_13(s32);
     virtual void vfunc_14();

@@ -76,7 +76,7 @@ extern const f32 TOSparkMachine01__data_805DB9EC;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80177330_lbl_804B43F0 bm_fe_obj_tank_hikari_resource_descriptor;
 extern u32 TOSparkMachine01__static_resource;
-void __ct__13TUnk_804B9870FP7TObject(void *, s32);
+void __ct__8TObjBaseFP7TObject(void *, s32);
 extern s32 __vt__16TOSparkMachine01[];
 extern s32 lbl_805D3174;
 extern s32 tl_05;
@@ -192,7 +192,7 @@ extern "C" {
 void *TOSparkMachine01__ct(void *arg0, void *arg1) {
     Obj_801773D8 *self = (Obj_801773D8 *)arg0;
     s32 i;
-    __ct__13TUnk_804B9870FP7TObject(self, tl_05);
+    __ct__8TObjBaseFP7TObject(self, tl_05);
     *(void **)((u8 *)self + 0x18) = ((s32 *)&__vt__16TOSparkMachine01);
     *(s32 *)self = lbl_805D3174;
     self->m5(arg1);

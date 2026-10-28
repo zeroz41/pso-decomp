@@ -32,7 +32,7 @@ s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 
 struct Vec_8004F030 { f32 x, y, z; };
@@ -57,13 +57,13 @@ f32 vector_length(void *);
 s32 normalize_vector(void *);
 
 void render_shadows__7TObjectFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__8TObjBaseFv();
+void get_center__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
+void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv();
 S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag);
 u8 *TObjDFDemo3__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
@@ -78,9 +78,9 @@ void *lbl_804856E0[3] = {
 };
 void *__vt__11TObjDFDemo3[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo3Fv, (void *)&run_task__11TObjDFDemo3Fv,
-    (void *)&render__11TObjDFDemo3Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv,
+    (void *)&render__11TObjDFDemo3Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
+    (void *)&get_name__8TObjBaseFv,
 };
 
 void TObjDFDemo3::render() {
@@ -179,7 +179,7 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
         if (is_ending_or_split_screen__14TBoss4DarkFalzFv() == 0) {
             restore_player_cameras();
         }
-        __dt__13TUnk_804B9870Fv(o, 0);
+        __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
             __dl__7TObjectFPv(o);
         }
@@ -190,7 +190,7 @@ S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag) {
 #define lbl_804856C0 ((u8 *)lbl_804856C0)
 u8 *TObjDFDemo3__ct(u8 *arg0, s32 parent, s32 arg2, s32 arg3) {
     s32 cnt;
-    __ct__13TUnk_804B9870FP7TObject(arg0, (void *)parent);
+    __ct__8TObjBaseFP7TObject(arg0, (void *)parent);
     *(void **)((s8 *)arg0 + 0x18) = (void *)__vt__11TObjDFDemo3;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDFDemo3__name;
     VecCopy((Vec *)(arg0 + 0xA0), (const Vec *)arg2);

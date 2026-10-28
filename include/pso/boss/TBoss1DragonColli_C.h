@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TBoss1DragonColli_C : public TUnk_804AF8A0 {
+class TBoss1DragonColli_C : public TObjCollidable {
 public:
     virtual ~TBoss1DragonColli_C();
     void clear_segment_flags();

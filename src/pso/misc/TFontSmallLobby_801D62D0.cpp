@@ -164,7 +164,7 @@ typedef struct Rec_801D6AB4 {
 } Rec_801D6AB4;
 
 extern "C" {
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 f32 fn_801D6AB4(void *, s32, s32);
 s32 accumulate_damage_stats(u8 *arg0, s32 arg1, s32 arg2);
 void TFontSmallLobby__sub_801D698C(Pkt_801D698C *p);
@@ -266,7 +266,7 @@ f32 fn_801D6AB4(void *arg0v, s32 arg1, s32 arg2) {
     f32 k = (f32)arg2;
 
     v = arg0->a;
-    if (obj_testFlags30__13TUnk_804AF8A0FUl((void *)arg1, 0x10000000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl((void *)arg1, 0x10000000) != 0) {
         v = arg0->b;
     }
     return k * v;

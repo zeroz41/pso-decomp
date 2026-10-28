@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby.h"
 
@@ -27,7 +27,7 @@ void TObjPlayer::init_player_data() {
     ((TLobby *)(arg0 + 0xD5C))->copy_from((void *)(get_class_attack_template((TObjPlayer *)arg0)));
     ((TLobby *)(arg0 + 0xD8C))->copy_entry((void *)(get_class_defense_template((TObjPlayer *)arg0)));
     yscale = ((TObjPlayer *)arg0)->get_tp_class_factor();
-    ((TUnk_804806E8 *)arg0)->recalc_combat_stats(this->m_2b0, arg0 + 0xD5C, arg0 + 0xD8C, ((TObjPlayer *)arg0)->get_class_hp_factor(), yscale);
+    ((TObjChara *)arg0)->recalc_combat_stats(this->m_2b0, arg0 + 0xD5C, arg0 + 0xD8C, ((TObjPlayer *)arg0)->get_class_hp_factor(), yscale);
     *(f32 *)((s8 *)this->bodies + 4) = (f32) (TObjPlayer__data_805DC28C * *(f32 *)((s8 *)this->m_2b0 + 0x10));
 }
 

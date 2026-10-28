@@ -50,13 +50,13 @@ void TODoorCave02::vfunc_17() {
         this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 4);
         if (is_any_player_within_radius_xz(arg0, 1e+04f) != 1) {
             this->m_ac = 3;
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
         }
     } else {
         this->m_ac = 3;
         this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 0);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)NULL, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag((s32)NULL, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
     }
 }
@@ -76,7 +76,7 @@ void TODoorCave02::play_proximity_sound() {
     }
     if ((this->m_d0 & 1) && (is_any_player_within_radius_xz((arg0), 4.9e+03f) == 1)) {
         this->m_ac = 1;
-        ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
+        ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
     }
 }
@@ -224,7 +224,7 @@ void TODoorCave02::load_resources() {
 void *__dt__12TODoorCave02Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave02;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -246,7 +246,7 @@ u8 *TODoorCave02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
     ((TODoorCave02 *)arg0)->m_b8 = (f32) 0.5f;
     init_collision_body_parts(arg0, &TODoorCave02__collision_body_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorCave02 *)(arg0))->init_door_switch_binding();
     *(f32 *)((s8 *)arg0 + 0xD4) = (f32) 1.0f;

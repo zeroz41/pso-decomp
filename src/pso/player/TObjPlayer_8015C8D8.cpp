@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TUnk_804AF8D8.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer.h"

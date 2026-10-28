@@ -44,7 +44,7 @@ void TUnk_804B0BB8::run_task() {
     if ((s32) switch_doors_force_closed != 0) {
         this->m_ac = 0;
         this->m_d0 = (s32) (this->m_d0 & 0xFFFFFFFE);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     } else {
         this->update_door_switch_state();
     }

@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_804B5C08 : public TUnk_804B9870 {
+class TUnk_804B5C08 : public TObjBase {
 public:
     virtual ~TUnk_804B5C08();
     virtual void vfunc_13(s32);

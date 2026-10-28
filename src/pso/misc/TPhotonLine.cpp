@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TPhotonLine.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -55,7 +55,7 @@ struct Line_801ACB14 {
 };
 
 extern "C" {
-void __ct__13TUnk_804806E8FP7TObject(void *, void *);
+void __ct__9TObjCharaFP7TObject(void *, void *);
 void *find_entity_by_id(u16);
 void init_collision_body_parts(void *, void *, s32);
 extern u8 photon_line_collision_body_part[];
@@ -91,7 +91,7 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
         return;
     }
     TObjPlayer::init_all_slots();
-    ((TUnk_804AF8A0 *)self)->mark_enemy_body_contacts();
+    ((TObjCollidable *)self)->mark_enemy_body_contacts();
     if (self->fA4->f18 & 0x100000) {
         for (i = 0; i < 16; i++) {
             p = get_battle_param__10TObjPlayerFi(i);
@@ -121,9 +121,9 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
 void *__dt__11TPhotonLineFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TPhotonLine;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -132,7 +132,7 @@ void *__dt__11TPhotonLineFv(void *arg0, s16 arg1) {
 }
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3) {
     s32 i;
-    __ct__13TUnk_804806E8FP7TObject(self, parent);
+    __ct__9TObjCharaFP7TObject(self, parent);
     self->vt18 = ((s32 *)&__vt__11TPhotonLine);
     self->f0 = lbl_805D3500;
     VecCopy((Vec *)&self->f50, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f38), (const Vec *)((const Vec *)&p->pos))));
@@ -143,7 +143,7 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
     self->f344 = p->f1C;
     self->f350 = find_entity_by_id(arg3);
     init_collision_body_parts(self, photon_line_collision_body_part, 1);
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
     for (i = 0; i < 10; i++) {
         self->f354[i] = 0xFFFF;

@@ -2,9 +2,9 @@
 #define PSO_MISC_TOMINE_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TOMine : public TUnk_804806E8 {
+struct TOMine : public TObjChara {
     virtual ~TOMine();
     virtual f32 receive_weapon_special_attack(void *, void *);
     void detonate();

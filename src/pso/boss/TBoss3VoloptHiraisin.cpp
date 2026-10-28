@@ -378,7 +378,7 @@ void TBoss3VoloptHiraisin::init_params() {
     clear_lobby_object_state();
 }
 
-TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 index) : TObjEnemyCustom(parent) {
+TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptHiraisin_name;
     entity_id = id;
     set_index = index;

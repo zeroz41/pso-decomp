@@ -44,7 +44,7 @@ enum {
 
 // The base of every item object: an entry in the id-sorted item registry,
 // drawn on the floor, in an inventory or with its owner.
-struct TItem : public TUnk_804AF8A0 {
+struct TItem : public TObjCollidable {
     TItem(TObject *parent, u8 *item);
     virtual ~TItem();
     virtual void run_task();

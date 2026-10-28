@@ -44,7 +44,7 @@ extern "C" {
 f32 fabs_float(f32);
 f32 atan2_float(f32, f32);
 void init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+void *__ct__14TObjCollidableFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(u32);
 void __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(Vec_802A47C8 *);
@@ -111,7 +111,7 @@ TNeedleShoot_802A47C8 *TNeedleShoot__ct(TNeedleShoot_802A47C8 *self, s32 arg1, V
     self->f54 = 0x40007;
     p = __nw__7TObjectFUl(0xAC);
     if (p != NULL) {
-        p = __ct__13TUnk_804AF8A0FP7TObject(p, self);
+        p = __ct__14TObjCollidableFP7TObject(p, self);
     }
     self->f68 = p;
     if (self->f68 != NULL) {

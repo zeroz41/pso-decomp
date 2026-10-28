@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjButterflyLobby : public TUnk_804B9870 {
+struct TObjButterflyLobby : public TObjBase {
     virtual ~TObjButterflyLobby();
     u32 m_90;
     u8 unk_94[0x10];

@@ -6,7 +6,7 @@ extern "C" {
 u32 get_player_by_client_id(s32);
 s32 TWindowCtrlMain__sub_8024CE58();
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(u32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(u32, s32);
 
 s32 TObjTombstone::check_all_players_active() {
     s32 var_r31;
@@ -18,7 +18,7 @@ s32 TObjTombstone::check_all_players_active() {
     var_r31 = 0;
 loop_3:
     temp_r3 = get_player_by_client_id(var_r31);
-    if ((temp_r3 != 0U) && (obj_testFlags30__13TUnk_804AF8A0FUl(temp_r3, 0x02000000) != 0)) {
+    if ((temp_r3 != 0U) && (obj_testFlags30__14TObjCollidableFUl(temp_r3, 0x02000000) != 0)) {
         return 0;
     }
     var_r31 += 1;

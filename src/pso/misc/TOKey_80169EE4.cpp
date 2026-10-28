@@ -41,7 +41,7 @@ extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void __dl__7TObjectFPv(void *);
 s32 bswap_6x05_switch_flag__5TOKeyFv();
-s32 update_object_view_visibility__13TUnk_804B9870Fff();
+s32 update_object_view_visibility__8TObjBaseFff();
 void *init_map_object_base(void *a0);
 s32 start_camera_pan__10TObjPlayerFs(s32, s32, s32);
 
@@ -75,7 +75,7 @@ void *TUnk_804B27D8::init() {
 
 void TOKey__sub_80169FB0(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 s32 TOKey::update_object_view_visibility(f32, f32) {
-    if (update_object_view_visibility__13TUnk_804B9870Fff() == 1) {
+    if (update_object_view_visibility__8TObjBaseFff() == 1) {
         *(s32 *)((s8 *)this + 0xE4) = 1;
         return 1;
     }

@@ -134,10 +134,10 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
     s16 sp8;
     s32 r4;
     Pk_8015BAE0 pk;
-    if (this->entity_id >= 0x1000U && arg0->f80 != 0U && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0) {
+    if (this->entity_id >= 0x1000U && arg0->f80 != 0U && ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) != 0) {
         sp8 = 1;
-        ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
-        ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
+        ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
+        ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pk))->init_packet_67_04();
         pk.id = this->entity_id;
         pk.a = get_current_floor();
@@ -206,7 +206,7 @@ void TOContainerAncientEnemy::vfunc_80() {
 void *__dt__23TOContainerAncientEnemyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__23TOContainerAncientEnemy;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B6C24 *)arg0)->destroy_container_object(0);
         if (arg1 > 0) {

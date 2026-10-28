@@ -5,7 +5,7 @@
 #include <dolphin/mtx.h>
 #include "pso/object/TObjMotion.h"
 
-class TObjInfoCol : public TUnk_804AF8A0 {
+class TObjInfoCol : public TObjCollidable {
 public:
     virtual ~TObjInfoCol();
     f32 interaction_radius;

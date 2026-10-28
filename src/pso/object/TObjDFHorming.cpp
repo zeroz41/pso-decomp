@@ -38,7 +38,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
     for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) continue;
-        q = *(u8 * *)&((TUnk_804AF8A0 *)p)->bodies;
+        q = *(u8 * *)&((TObjCollidable *)p)->bodies;
         if (q == NULL || !(*(s32 *)((s8 *)q + 0x18) & 0x20000)) continue;
         if (xyz_distance(e, p + 0x38) <= r) continue;
         for (j = 0; j < 3; j++) {
@@ -63,7 +63,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
             v.y = 7.5f;
             vec3_add_to(&v, ev);
             VecCopy((Vec *)(p + 0x38), (const Vec *)&v);
-            ((TUnk_804AF8A0 *)p)->refresh_collision_body_centers();
+            ((TObjCollidable *)p)->refresh_collision_body_centers();
         }
     }
 }
@@ -622,7 +622,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
             Vec_8004B7DC v = base;
             v.x += 2.5e+02f * sin_table_lookup(ang);
             v.z += 2.5e+02f * cos_table_lookup(ang);
-            ((TUnk_804B9870 *)p)->set_position_from(&v);
+            ((TObjBase *)p)->set_position_from(&v);
             ((TBoss4DarkFalz *)p)->save_position();
             get_hit_data__14TBoss4DarkFalzFv(p)->f4 = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
@@ -649,7 +649,7 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
             Vec_8004B8F8 v = base;
             v.x += 12.5f * sin_table_lookup(ang);
             v.z += 12.5f * cos_table_lookup(ang);
-            ((TUnk_804B9870 *)p)->set_position_from((Vec_8004B7DC *)(&v));
+            ((TObjBase *)p)->set_position_from((Vec_8004B7DC *)(&v));
             ((TBoss4DarkFalz *)p)->save_position();
             ((Hit_8004B8F8 *)get_hit_data__14TBoss4DarkFalzFv(p))->f4 = 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();

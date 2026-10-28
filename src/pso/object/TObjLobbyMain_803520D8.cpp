@@ -377,7 +377,7 @@ void *__dt__13TObjLobbyMainFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjLobbyMain;
         if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD8)); ((TObjLobbyMain *)arg0)->m_d8 = 0; }
         if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TObjLobbyMain *)arg0)->m_dc = 0; }
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
         if (arg1 > 0) {
@@ -415,7 +415,7 @@ u8 *TObjLobbyMain__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) (1.2e+02f);
     ((TObjLobbyMain *)arg0)->m_b0 = (f32) (0.0f);
     init_collision_body_parts(arg0, &lobby_main_collision_body.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }

@@ -64,7 +64,7 @@ extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, s32, s8, f32, f32);
 s32 queue_destruction__7TObjectFv();
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 u8 *load_gvm_texture_file(s32 arg0);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
@@ -129,7 +129,7 @@ void TBGLightningCtrl::run_task() {
 void *__dt__16TBGLightningCtrlFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -138,7 +138,7 @@ void *__dt__16TBGLightningCtrlFv(void *arg0, s16 arg1) {
 }
 
 u8 *TBGLightningCtrl__ct(u8 *bg_lightning_ctrl, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)bg_lightning_ctrl, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)bg_lightning_ctrl, (void *)parent);
     *(s32 **)((s8 *)bg_lightning_ctrl + 0x18) = (s32 *)__vt__16TBGLightningCtrl;
     *(s32 *)((s8 *)bg_lightning_ctrl + 0) = (s32) TBGLightningCtrl__name;
     ((TBGLightningCtrl *)(bg_lightning_ctrl))->apply_object_set_data((void *)arg2);
@@ -318,26 +318,26 @@ u8 *__ct__12TBGLightningFv(u8 *object, void *arg1, s32 arg2, f32 farg0) {
 
 void __dt__12TBGLightningFv();
 void render_shadows__7TObjectFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__8TObjBaseFv();
+void get_center__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
+void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv();
 void *__vt__16TBGLightningCtrl[] = {
     0, 0,
     (void *)__dt__16TBGLightningCtrlFv,
     (void *)run_task__16TBGLightningCtrlFv,
     (void *)&render__16TBGLightningCtrlFv,
     (void *)render_shadows__7TObjectFv,
-    (void *)vfunc_6__13TUnk_804B9870FPsl,
-    (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804B9870Fv,
-    (void *)get_center__13TUnk_804B9870Fv,
-    (void *)update_object_view_visibility__13TUnk_804B9870Fff,
-    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)get_name__13TUnk_804B9870Fv,
+    (void *)vfunc_6__8TObjBaseFPsl,
+    (void *)apply_object_set_data__8TObjBaseFPv,
+    (void *)reset_motion_fields__8TObjBaseFv,
+    (void *)get_center__8TObjBaseFv,
+    (void *)update_object_view_visibility__8TObjBaseFff,
+    (void *)classify_actor_view_detail__8TObjBaseFfff,
+    (void *)get_name__8TObjBaseFv,
 };
 void *__vt__12TBGLightning[] = {
     0, 0,

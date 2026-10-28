@@ -233,7 +233,7 @@ S_8004DE44 *__dt__11TObjDFDemo0Fv(S_8004DE44 *o, s16 flag) {
             }
         }
         restore_player_cameras();
-        __dt__13TUnk_804B9870Fv(o, 0);
+        __dt__8TObjBaseFv(o, 0);
         if (flag > 0) {
             __dl__7TObjectFPv(o);
         }
@@ -270,24 +270,24 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void init_model_node_tables(void *, void *, s32);
 void set_scripted_camera_pose(void *, void *, void *);
-void __ct__13TUnk_804B9870FP7TObject(void *, void *);
+void __ct__8TObjBaseFP7TObject(void *, void *);
 extern u8 TObjDFDemo0__model_node_entries[];
 extern s32 lbl_80485EB0[];
 extern s32 TObjDFDemo0__name;
 
-extern "C" void vfunc_6__13TUnk_804B9870FPsl();
-extern "C" void get_name__13TUnk_804B9870Fv();
-extern "C" void get_center__13TUnk_804B9870Fv();
-extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
-extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
+extern "C" void vfunc_6__8TObjBaseFPsl();
+extern "C" void get_name__8TObjBaseFv();
+extern "C" void get_center__8TObjBaseFv();
+extern "C" void apply_object_set_data__8TObjBaseFPv();
+extern "C" void classify_actor_view_detail__8TObjBaseFfff();
 extern "C" void render_shadows__7TObjectFv();
-extern "C" void reset_motion_fields__13TUnk_804B9870Fv();
-extern "C" void update_object_view_visibility__13TUnk_804B9870Fff();
+extern "C" void reset_motion_fields__8TObjBaseFv();
+extern "C" void update_object_view_visibility__8TObjBaseFff();
 void *__vt__11TObjDFDemo0[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo0Fv, (void *)&TBoss3Volopt__sub_8004DA7C,
-    (void *)&fn_8004D9A8, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv,
+    (void *)&fn_8004D9A8, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
+    (void *)&get_name__8TObjBaseFv,
 };
 
 #pragma push
@@ -300,7 +300,7 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
     s32 i;
     s32 j;
 
-    __ct__13TUnk_804B9870FP7TObject(self, parent);
+    __ct__8TObjBaseFP7TObject(self, parent);
     self->vt = (void *)__vt__11TObjDFDemo0;
     self->f0 = TObjDFDemo0__name;
     h = TBoss4Uro::get_instance_count();

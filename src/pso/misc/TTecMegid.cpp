@@ -202,7 +202,7 @@ extern s32 lbl_805D37E8;
 extern const f32 lbl_805DC884;
 u8 *TTecMegid__ct(TTecMegid *arg0, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
-s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_technique_caster_flags(s32, u16);
 void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target);
@@ -358,7 +358,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         HitInfo_80235490 tmp;
         tmp.type = 5;
         tmp.power = self->power;
-        if (get_entity_id(target) < 4 && obj_isState3_324__13TUnk_804806E8Fv(target) != 0) {
+        if (get_entity_id(target) < 4 && obj_isState3_324__9TObjCharaFv(target) != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;

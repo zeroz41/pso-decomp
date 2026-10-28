@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjWarpBase : public TUnk_804AF8A0 {
+struct TObjWarpBase : public TObjCollidable {
     virtual ~TObjWarpBase();
     virtual void vfunc_14();
     virtual void vfunc_15() = 0;

@@ -16,7 +16,7 @@
 
 // The actors check_target_collision hits, with slot 25 as it is called here:
 // the base declares apply_knockback_from_attacker(u8 *) without the strength.
-struct TBoss3VoloptCoreTarget : public TUnk_804AF8A0 {
+struct TBoss3VoloptCoreTarget : public TObjCollidable {
     virtual s32 add_actor_exp(s32 exp);
     virtual s32 consume_timer_field(s32 frames);
     virtual s32 get_actor_level_index();

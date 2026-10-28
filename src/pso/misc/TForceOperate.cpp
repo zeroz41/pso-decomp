@@ -114,7 +114,7 @@ typedef struct Out_801C58CC {
 
 extern "C" {
 void calc_death_pose_height_offset(Out_801C58CC *arg0, Actor_801C58CC *arg1);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(int, int);
+s32 obj_testFlags30__14TObjCollidableFUl(int, int);
 s32 is_inactive__10TObjPlayerFv();
 s32 is_on_current_floor__10TObjPlayerFi(int);
 s32 check_flag_40000__10TObjPlayerFv(int);
@@ -210,7 +210,7 @@ void update_player_appear_fade(u8 *arg0) {
                     }
                     *(s32 *)((s8 *)arg0 + 4) = 1;
                     ((TObjPlayer *)temp_r3)->activate_body_collision();
-                    if (obj_testFlags30__13TUnk_804AF8A0FUl((int)temp_r3, 0x800) == 0) {
+                    if (obj_testFlags30__14TObjCollidableFUl((int)temp_r3, 0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
                     ((TObjPlayer *)temp_r3)->render_material_state.alpha = (f32) lbl_805DC32C[0];
@@ -258,7 +258,7 @@ int clear__8FlagWordFUl(void*, void*);
 s32 clear_target_lock_flag__10TObjPlayerFPv(s32);
 s32 fn_801C6F2C(void *);
 s32 is_room_free_of_active_enemies(s32, s32);
-s32 get_room__13TUnk_804B9870Fv(s32);
+s32 get_room__8TObjBaseFv(s32);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 s32 set_lock_flag__10TObjPlayerFPv(s32);
 int set_lock_timer__10TObjPlayerFPvi(void*, void*);
@@ -303,7 +303,7 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
 void update_target_lock__10TObjPlayerFii(s32 arg0, s32 player) {
 
     if (TObjPlayer__sub_801C6F90() == 0) {
-        if (is_room_free_of_active_enemies(get_current_floor(), get_room__13TUnk_804B9870Fv(player)) != 0) {
+        if (is_room_free_of_active_enemies(get_current_floor(), get_room__8TObjBaseFv(player)) != 0) {
             if (set_lock_flag__10TObjPlayerFPv(arg0) != 0) {
                 clear_target_lock_flag__10TObjPlayerFPv(arg0);
                 set_lock_timer__10TObjPlayerFPvi((void*)arg0, (void*)(0x5A));

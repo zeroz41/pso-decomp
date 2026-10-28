@@ -175,7 +175,7 @@ extern s32 recovery_technique_charge_vtable[];
 u8 *construct_resta_charge_sound(u8 *arg0, s32 arg1, s32 arg2);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern RecoveredGlobal_80233D18_lbl_804CC9A8 telepipe_field_collision_body_template;
 extern s32 telepipe_field_collider_vtable[];
 bool TTecLuker__sub_8023401C(u8 *arg0);
@@ -203,7 +203,7 @@ extern const f32 lbl_805DC860;
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec_8023402C *p, u16 unused);
 void *__nw__7TObjectFUl(int);
 s32 get_entity_id(void *);
-s32 get_room__13TUnk_804B9870Fv(void *);
+s32 get_room__8TObjBaseFv(void *);
 extern s32 tl_07;
 extern s32 tl_05;
 void __dt__7TObjectFv(void *, int);
@@ -226,7 +226,7 @@ extern s32 lbl_805D37E4;
 extern const f32 lbl_805DC878;
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
-s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 play_effect_default__10TObjPlayerFii(void *, s32);
 s32 send_6x21_inter_level_warp(void *, s32);
 s32 get_floor_map_terrain(s32);
@@ -314,10 +314,10 @@ void TTecLuker::update_player_target() {
 void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = telepipe_field_collider_vtable;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804CC9D4 *)arg0)->m_b0 = 0;
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -328,7 +328,7 @@ void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80233D18_lbl_804CC9A8_size[sizeof(RecoveredGlobal_80233D18_lbl_804CC9A8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80233D18_lbl_804CC9D4_size[sizeof(RecoveredGlobal_80233D18_lbl_804CC9D4) == 0x38 ? 1 : -1];
 u8 *TTecLuker::construct_field_collider(s32 arg1, s32 arg2, s32 ac) {
-    __ct__13TUnk_804AF8A0FP7TObject(this, (void *)arg2);
+    __ct__14TObjCollidableFP7TObject(this, (void *)arg2);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80233D18_lbl_804CC9D4 *)&telepipe_field_collider_vtable).value;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1));
     init_collision_body_parts(this, &telepipe_field_collision_body_template.value, 1);
@@ -721,7 +721,7 @@ void TTecLuker::setup_telepipe_field() {
     s->visual = v;
     s->phase = 1;
     if (s->collider != 0) {
-        ((TUnk_804B9870 *)(s->collider))->set_position_from(&s->pos);
+        ((TObjBase *)(s->collider))->set_position_from(&s->pos);
     } else {
         u8 *c = (u8 *)__nw__7TObjectFUl(0xb4);
         if (c != 0) {
@@ -732,7 +732,7 @@ void TTecLuker::setup_telepipe_field() {
     if (s->traveller == (u16)get_entity_id(s->player)) {
         s16 h;
         s->floor = get_current_floor();
-        h = get_room__13TUnk_804B9870Fv(s->player);
+        h = get_room__8TObjBaseFv(s->player);
         ((Write_802347B4)write_telepipe_record)(s->player + 0x830, get_entity_id(s->player), s->floor, (u8 *)&s->pos, h);
         ((TTecLuker *)(s->player + 0x830))->send_telepipe_packet();
     }
@@ -855,7 +855,7 @@ block_43:
                     } else {
                         send_6x21_inter_level_warp(p, 0);
                     }
-                } else if (obj_isState3_324__13TUnk_804806E8Fv(p) != 0) {
+                } else if (obj_isState3_324__9TObjCharaFv(p) != 0) {
                     ((void (*)(void *, u16))set_state__9TTecLukerFl)(p + 0x848, st2);
                     if (TLobby::get_instance() == 1) {
                         send_6x21_inter_level_warp(p, 0);

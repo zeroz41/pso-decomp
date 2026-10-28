@@ -156,33 +156,33 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void TObjEneDD__sub_800C2618(void *p);
 void *find_entity_by_id(u16 id);
 
-void vfunc_6__13TUnk_804B9870FPsl();
-void interact__13TUnk_804AF8A0Fl();
+void vfunc_6__8TObjBaseFPsl();
+void interact__14TObjCollidableFl();
 void call_vt16_with_default__13TUnk_804928CCFPvPv();
 void vfunc_16__13TUnk_804928CCFPvPv();
 void call_vt13_with_default__13TUnk_804928CCFPvPvl();
-void get_name__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
+void get_name__8TObjBaseFv();
+void get_center__8TObjBaseFv();
 void apply_hit_if_active__13TUnk_804928CCFPvPf();
-void apply_object_set_data__13TUnk_804B9870FPv();
+void apply_object_set_data__8TObjBaseFPv();
 void area_attack_apply_recoil__13TUnk_804928CCFPvf();
 void area_attack_deliver_physical__13TUnk_804928CCFPvPvf();
 void area_attack_receive_direct__13TUnk_804928CCFPvPfPv();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
+void classify_actor_view_detail__8TObjBaseFfff();
 void vfunc_19__13TUnk_804928CCFPv();
 void area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf();
-void reset_motion_fields__13TUnk_804AF8A0Fv();
+void reset_motion_fields__14TObjCollidableFv();
 void render_shadows__7TObjectFv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
+void update_object_view_visibility__8TObjBaseFff();
 void run_task__21TObjEneRe2Flower_BombFv(Obj_800C4754 *o);
 extern const u32 lbl_8043BC10[5] = { 0xF, 0x40000000, 0x40000000, 0x0, 0x1 };
 extern const char lbl_8043BC24[] = "TObjEneRe2Flower_Bomb";
 s32 lbl_805D2A50 = (s32)lbl_8043BC24;
 void *lbl_804933D8[24] = {
     (void *)0x0, (void *)0x0, (void *)&destroy_and_free__21TObjEneRe2Flower_BombFs, (void *)&run_task__21TObjEneRe2Flower_BombFv,
-    (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
+    (void *)&render__21TObjEneRe2Flower_BombFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
+    (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&call_vt13_with_default__13TUnk_804928CCFPvPvl, (void *)&area_attack_deliver_direct__21TObjEneRe2Flower_BombFPvlPvf,
     (void *)&vfunc_16__13TUnk_804928CCFPvPv, (void *)&call_vt16_with_default__13TUnk_804928CCFPvPv, (void *)&area_attack_deliver_physical__13TUnk_804928CCFPvPvf, (void *)&vfunc_19__13TUnk_804928CCFPv,
     (void *)&area_attack_apply_recoil__13TUnk_804928CCFPvf, (void *)&area_attack_receive_direct__13TUnk_804928CCFPvPfPv, (void *)&apply_hit_if_active__13TUnk_804928CCFPvPf, (void *)0x0,
 };

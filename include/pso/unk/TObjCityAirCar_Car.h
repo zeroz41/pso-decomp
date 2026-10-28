@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TObjCityAirCar_Car : public TUnk_804B9870 {
+class TObjCityAirCar_Car : public TObjBase {
 public:
     virtual ~TObjCityAirCar_Car();
     virtual void run_task();

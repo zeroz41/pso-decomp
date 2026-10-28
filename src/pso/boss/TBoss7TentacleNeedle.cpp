@@ -113,7 +113,7 @@ struct Ten_802F0A5C;
 
 typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 attach_particle_model(int, int, int, int, int, f32);
 void *spawn_particle_effect(void *pos, s32 id);
 f32 horizontal_distance_squared(void *, void *);
@@ -204,7 +204,7 @@ void damage_nearby_players__14TBoss7TentacleFPv(u8 *boss7_tentacle) {
             if (*(s32 *)(boss7_tentacle + 0x3C) == 0 && ((VObj_18_9935f6 *)p)->m25(*(s32 *)(boss7_tentacle + 0x10), 0, lbl_805DEC10) != 0) {
                 ((VObj_18_9935f6 *)p)->m20(*(s32 *)(boss7_tentacle + 0x10), TBoss7Tentacle__data_805DEC00);
             }
-            if (obj_testFlags30__13TUnk_804AF8A0FUl(p, 0x801) == 0) {
+            if (obj_testFlags30__14TObjCollidableFUl(p, 0x801) == 0) {
                 Hit_802EF99C b;
                 b.a = 15;
                 b.f = lbl_805DEC0C;

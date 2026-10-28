@@ -4,7 +4,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjCollision.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_8006754C___vt__13TObjCollision { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_8006754C___vt__13TObjCollision_size[sizeof(RecoveredGlobal_8006754C___vt__13TObjCollision) == 0x38 ? 1 : -1];
@@ -38,12 +38,12 @@ void *TObjCollision::create(void *arg0) {
 }
 TObjCollision::~TObjCollision() {
     free_collision_body_parts(this);
-    ((TUnk_804AF8A0 *)this)->unregister_object_by_id();
+    ((TObjCollidable *)this)->unregister_object_by_id();
 }
 extern "C" {
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 var_r0;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, arg1);
+    __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8006754C___vt__13TObjCollision *)&__vt__13TObjCollision).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2830;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));

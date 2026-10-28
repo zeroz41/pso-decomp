@@ -51,7 +51,7 @@ extern const f32 lbl_805DF988;
 void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *arg1, V_80337500 *arg2);
 s16 get_entity_id(void *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void __ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+void __ct__14TObjCollidableFP7TObject(void *, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern s32 lbl_804EF130[];
@@ -137,7 +137,7 @@ void *__dt__13TUnk_804EF130Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EF130;
         if (((TUnk_804EF130 *)arg0)->m_e0 != NULL) { queue_destruction__7TObjectFv(((TUnk_804EF130 *)arg0)->m_e0); }
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -146,7 +146,7 @@ void *__dt__13TUnk_804EF130Fv(void *arg0, s16 arg1) {
 }
 O_80337824 *TObjEneMorfos__sub_80337824(O_80337824 *arg0, Vec_80337824 *arg1, s32 arg2, void *arg3) {
     Ang_80337824 a;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, tl_06);
+    __ct__14TObjCollidableFP7TObject(arg0, tl_06);
     arg0->vt = ((u8 *)&lbl_804EF130);
     VecCopy((Vec *)(&arg0->pos), (const Vec *)(arg1));
     arg0->fDC = lbl_805DF994;

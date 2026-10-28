@@ -2,9 +2,9 @@
 #define PSO_MISC_TOATTACKABLECOL_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TOAttackableCol : public TUnk_804806E8 {
+struct TOAttackableCol : public TObjChara {
     virtual ~TOAttackableCol();
     virtual void vfunc_6(s16 *, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);

@@ -14,7 +14,7 @@ typedef char armor_size_check[(sizeof(TItemEffArmorParticle) == 0x2C) ? 1 : -1];
 
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(int, int);
+s32 obj_testFlags30__14TObjCollidableFUl(int, int);
 s8 get_mode__5TItemFv();
 void *get_player_by_client_id(s32 i);
 }
@@ -34,7 +34,7 @@ void TItemEffArmorParticle::run_task() {
         if (player != 0U) {
             if (item != 0U) {
                 if (get_mode__5TItemFv() == 2) {
-                    if (obj_testFlags30__13TUnk_804AF8A0FUl((int)player, 0x800) == 0) {
+                    if (obj_testFlags30__14TObjCollidableFUl((int)player, 0x800) == 0) {
                         if (((TItem *)item)->is_hidden() == 0) {
                             ((TParticleCtrl *)m_20)->clear_active_flag();
                         } else {

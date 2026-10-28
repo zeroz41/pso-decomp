@@ -7,7 +7,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/system/vector.h"
 #include <stddef.h>
 
@@ -46,8 +46,8 @@ extern u16 lbl_805D5CD4;
 extern u16 lbl_805D5CD6;
 extern u16 lbl_805D5CD8;
 
-const char *TUnk_804B9870::get_name() { return NULL; }
-void TUnk_804B9870::set_room(s16 room) {
+const char *TObjBase::get_name() { return NULL; }
+void TObjBase::set_room(s16 room) {
     u32 global_state;
 
     if (entity_id < 0x1000U) {
@@ -61,7 +61,7 @@ void TUnk_804B9870::set_room(s16 room) {
     this->room = room;
 }
 
-s16 TUnk_804B9870::get_room() {
+s16 TObjBase::get_room() {
     s32 global_state;
 
     if ((get_current_area() == 0) || (get_current_area() == 0x12)) {
@@ -77,7 +77,7 @@ s16 TUnk_804B9870::get_room() {
     return room;
 }
 
-void TUnk_804B9870::apply_object_set_data(void *data) {
+void TObjBase::apply_object_set_data(void *data) {
     ObjectSetData *src = (ObjectSetData *)data;
     s32 i;
     entity_id = src->entity_id;
@@ -90,8 +90,8 @@ void TUnk_804B9870::apply_object_set_data(void *data) {
     }
 }
 
-void TUnk_804B9870::vfunc_6(s16 *, s32) {  }
-u16 TUnk_804B9870::get_or_assign_entity_id(s32 count) {
+void TObjBase::vfunc_6(s16 *, s32) {  }
+u16 TObjBase::get_or_assign_entity_id(s32 count) {
 
     if (this->entity_id == 0xFFFF) {
         switch (this->actorFlags & 0x70000000) {
@@ -141,13 +141,13 @@ u16 fn_801A210C(s32 n) {
     return r;
 }
 
-void *TUnk_804B9870::get_center() { return &center; }
+void *TObjBase::get_center() { return &center; }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 #pragma fp_contract on
-s16 TUnk_804B9870::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radius) {
+s16 TObjBase::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32 radius) {
     ViewProbe probe;
     f32 z;
     if (this->m_flags & 0x400) {
@@ -204,7 +204,7 @@ s16 TUnk_804B9870::classify_actor_view_detail(f32 near_depth, f32 far_depth, f32
 #pragma opt_propagation off
 #pragma fp_contract on
 
-s32 TUnk_804B9870::update_object_view_visibility(f32 far_depth, f32 radius) {
+s32 TObjBase::update_object_view_visibility(f32 far_depth, f32 radius) {
     ViewProbe probe;
     if (this->m_flags & 0x400) {
         if (is_in_shadow_range(radius, &position) != 0) {
@@ -278,7 +278,7 @@ void TLobby__sub_801A2554(void) {
     lbl_805D5CD4 = 0x4000;
 }
 
-void TUnk_804B9870::reset_motion_fields() {
+void TObjBase::reset_motion_fields() {
     m_20 = 0;
     prev_position.z = lbl_805DC098;
     prev_position.y = lbl_805DC098;
@@ -295,7 +295,7 @@ void TUnk_804B9870::reset_motion_fields() {
     set_entry = NULL;
 }
 
-TUnk_804B9870::~TUnk_804B9870() {
+TObjBase::~TObjBase() {
     if (set_entry != NULL) {
         u16 id = entity_id;
         if (id >= 0x4000 && id < 0xFFFF) {
@@ -305,7 +305,7 @@ TUnk_804B9870::~TUnk_804B9870() {
     }
 }
 
-TUnk_804B9870::TUnk_804B9870(TObject *parent) : TObject(parent) {
+TObjBase::TObjBase(TObject *parent) : TObject(parent) {
     actorFlags = 0;
     entity_id = 0xFFFF;
     room = -1;

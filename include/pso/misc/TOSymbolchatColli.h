@@ -2,9 +2,9 @@
 #define PSO_MISC_TOSYMBOLCHATCOLLI_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TOSymbolchatColli : public TUnk_804806E8 {
+struct TOSymbolchatColli : public TObjChara {
     virtual ~TOSymbolchatColli();
     virtual void run_task();
     s32 get_state();

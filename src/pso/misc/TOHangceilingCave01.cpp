@@ -13,7 +13,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80167878_lbl_804B1F80 {
@@ -858,7 +858,7 @@ struct RecoveredGlobal_80168C6C_lbl_804B2578 {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804806E8FP7TObject(void *);
+s32 __ct__9TObjCharaFP7TObject(void *);
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_80168C6C_lbl_804B2174 lbl_804B2174;
 extern s32 lbl_804B2578[];
@@ -884,7 +884,7 @@ typedef char RecoveredGlobal_80168C6C_lbl_804B2174_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80168C6C_lbl_804B2578_size[sizeof(RecoveredGlobal_80168C6C_lbl_804B2578) == 0x148 ? 1 : -1];
 u8 *TOHangceilingCave01KeyQuick::init_base(s32 arg1, s32 arg2) {
     u8 *temp_r4;
-    __ct__13TUnk_804806E8FP7TObject(this);
+    __ct__9TObjCharaFP7TObject(this);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80168C6C_lbl_804B2578 *)&lbl_804B2578).value;
     this->apply_object_set_data((void *)arg2);
     *(s32 *)&this->model = get_bml_model((void *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);

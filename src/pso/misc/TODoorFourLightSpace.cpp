@@ -147,10 +147,10 @@ void TODoorFourLightSpace::update_door_switch_state() {
                 this->m_d0 &= ~1;
             }
             if (bad == 0 && this->set_entry != 0 &&
-                ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+                ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
                 sp8 = 1;
-                ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
-                ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
+                ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+                ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
             }
         }
         break;
@@ -271,7 +271,7 @@ void TODoorFourLightSpace::render() {
 void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightSpace;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -288,7 +288,7 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightSpace *)(arg0))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightSpace *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, TODoorFourLight__collision_body_params, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorFourLightSpace *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
@@ -388,10 +388,10 @@ void TODoorFourLightRuins::update_door_switch_state() {
             ((TUnk_804B0BB8 *)arg0)->play_door_sound();
             this->m_d0 |= 1;
         }
-        if (off2 == 0 && this->set_entry != 0 && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+        if (off2 == 0 && this->set_entry != 0 && ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
-            ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
-            ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
+            ((TObjCollidable *)arg0)->send_object_state_update(&sp8);
+            ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
         }
         break;
     default:
@@ -505,7 +505,7 @@ extern s32 __vt__20TODoorFourLightRuins[];
 void *__dt__20TODoorFourLightRuinsFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightRuins;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -537,7 +537,7 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightRuins *)(arg0))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightRuins *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, TODoorFourLight__collision_body_params, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorFourLightRuins *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);

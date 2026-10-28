@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjPathObj : public TUnk_804B9870 {
+struct TObjPathObj : public TObjBase {
     virtual ~TObjPathObj();
     virtual void vfunc_13(s32);
     virtual void vfunc_14();

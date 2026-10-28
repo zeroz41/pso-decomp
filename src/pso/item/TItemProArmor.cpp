@@ -123,11 +123,11 @@ extern "C" {
 void run_task__5TItemFv();
 void render__5TItemFv();
 void render_shadows__5TItemFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804AF8A0Fv();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__14TObjCollidableFv();
 int update_object_view_visibility__5TItemFff(void *p);
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
+void classify_actor_view_detail__8TObjBaseFfff();
 void get_name__5TItemFv();
 void interact__5TItemFl();
 void update_in_inventory__5TItemFv();
@@ -155,7 +155,7 @@ void add_slot__5TItemFv();
 int feed__5TItemFP9TItemData(void);
 void snap_to_owner__5TItemFv();
 void get_motion_type__5TItemFv();
-void get_center__13TUnk_804B9870Fv();
+void get_center__8TObjBaseFv();
 void set_attach_slot__14TItemEquipBaseFSc();
 void equip__14TItemEquipBaseFv();
 void unequip__14TItemEquipBaseFv();
@@ -182,12 +182,12 @@ void *__vt__13TItemProArmor[51] = {
     (void *)run_task__5TItemFv,
     (void *)render__5TItemFv,
     (void *)render_shadows__5TItemFv,
-    (void *)vfunc_6__13TUnk_804B9870FPsl,
-    (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv,
-    (void *)get_center__13TUnk_804B9870Fv,
+    (void *)vfunc_6__8TObjBaseFPsl,
+    (void *)apply_object_set_data__8TObjBaseFPv,
+    (void *)reset_motion_fields__14TObjCollidableFv,
+    (void *)get_center__8TObjBaseFv,
     (void *)update_object_view_visibility__5TItemFff,
-    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)classify_actor_view_detail__8TObjBaseFfff,
     (void *)get_name__5TItemFv,
     (void *)interact__5TItemFl,
     (void *)update_owned__13TItemProArmorFv,

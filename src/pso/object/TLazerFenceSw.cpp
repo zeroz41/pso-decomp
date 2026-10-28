@@ -337,7 +337,7 @@ void TLazerFenceSw::load_resources() {
 void *__dt__13TLazerFenceSwFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TLazerFenceSw;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804AF8D8 *)((s8 *)arg0 + 0xF0))->destroy(-1);
         __dt__5TOKeyFv(arg0, 0);

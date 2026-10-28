@@ -4,7 +4,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/TBoss6Mine.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 
 #pragma inline_depth(1)
@@ -422,7 +422,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
     VecCopyP(THIS + 0x3BC, (u8 *)arg2 + 0x50);
     ((TBoss3Volopt *)THIS)->state = *(s32 *)((s8 *)arg2 + 0x5C);
     ((TBoss3Volopt *)THIS)->m_388 = *(s32 *)((s8 *)arg2 + 0x60);
-    ((TUnk_804806E8 *)THIS)->add_flags_2e4(8);
+    ((TObjChara *)THIS)->add_flags_2e4(8);
     ((TBoss3Volopt *)THIS)->apply_set_data((void *)arg2);
     if (exchange_object_state__9TObjEnemyFls(THIS, &tmp, 1) != 0) {
         tmp.a = 0;

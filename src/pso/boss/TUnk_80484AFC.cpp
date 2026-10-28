@@ -10,7 +10,7 @@
 #include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
@@ -33,7 +33,7 @@ void vec3_add_to(Vec *v, const Vec *add);
 void subtract_vector(Vec *v, const Vec *sub);
 void play_sound_effect(s32 id, const Vec *pos, s32 a2, s32 a3);
 void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
-s32 obj_is_hit_receivable(TUnk_804806E8 *actor);
+s32 obj_is_hit_receivable(TObjChara *actor);
 extern GC_Mtx identity_matrix;
 }
 
@@ -47,7 +47,7 @@ static s32 volopt_missile_expire_tick;
 void TUnk_80484AFC::explode_and_destroy() {
     DirectAttackPayload attack = {0, 0.0f};
     s32 i;
-    TUnk_804806E8 *target;
+    TObjChara *target;
     attack.power = TBoss3VoloptP02::get_int_param(0);
     if (TBoss3Volopt::is_v2_mode() != 0 && 3.0517578e-05f * (f32)rand() < 0.16666667f) {
         attack.kind = 0x11;
@@ -59,7 +59,7 @@ void TUnk_80484AFC::explode_and_destroy() {
     ((TObjPlayer *)this)->check_object_collisions();
     if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
-            target = (TUnk_804806E8 *)TObjPlayer::get_battle_param(i);
+            target = (TObjChara *)TObjPlayer::get_battle_param(i);
             if (target == NULL) {
                 break;
             }
@@ -138,7 +138,7 @@ TUnk_80484AFC::~TUnk_80484AFC() {
     }
 }
 
-TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) : TUnk_804AF8A0(parent) {
+TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) : TObjCollidable(parent) {
     init_collision_body_parts(this, volopt_missile_collision_body, 1);
     bodies->radius = 5.0f;
     VecCopy(&position, pos);

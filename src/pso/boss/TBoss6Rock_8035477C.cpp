@@ -4,7 +4,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss6Rock.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80354948___vt__10TBoss6Rock {
     s32 value;
@@ -92,7 +92,7 @@ u8 *__dt__10TBoss6RockFv(u8 *arg0, s16 arg1) {
         }
         ((TBoss6Rock *)arg0)->release_object();
         *(s32 *)((s8 *)&TBoss6Rock__instance_table.value + (((TBoss6Rock *)arg0)->m_ac * 4)) = 0;
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv((s32) arg0);
         }
@@ -101,7 +101,7 @@ u8 *__dt__10TBoss6RockFv(u8 *arg0, s16 arg1) {
 }
 
 u8 *TBoss6Rock__ct(TBoss6Rock *boss6_rock, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AF8A0FP7TObject(boss6_rock, arg1);
+    __ct__14TObjCollidableFP7TObject(boss6_rock, arg1);
     *(s32 **)((s8 *)boss6_rock + 0x18) = &__vt__10TBoss6Rock.value;
     *(s32 *)((s8 *)boss6_rock + 0) = (s32) lbl_805D438C;
     boss6_rock->m_ac = arg2;

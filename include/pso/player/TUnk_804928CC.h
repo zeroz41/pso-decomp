@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_804928CC : public TUnk_804AF8A0 {
+class TUnk_804928CC : public TObjCollidable {
 public:
     virtual ~TUnk_804928CC();
     void update_body_contact_flag(f32);

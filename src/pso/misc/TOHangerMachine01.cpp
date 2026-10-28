@@ -146,7 +146,7 @@ void TOHangerMachine01::load_shared_resource() {
 void *__dt__17TOHangerMachine01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOHangerMachine01;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
         if (arg1 > 0) {
@@ -171,7 +171,7 @@ u8 *TOHangerMachine01__ct(TOHangerMachine01 *hanger_machine01, s32 arg1) {
     *(f32 *)((s8 *)hanger_machine01 + 0xC4) = (f32) lbl_805DB6B0;
     hanger_machine01->actorFlags = (s32) (hanger_machine01->actorFlags | 0x40000000);
     init_collision_body_parts(hanger_machine01, &hanger_machine01_collision_body_parts.value, 1);
-    ((TUnk_804AF8A0 *)hanger_machine01)->refresh_collision_body_centers();
+    ((TObjCollidable *)hanger_machine01)->refresh_collision_body_centers();
     ((TObjPlayer *)hanger_machine01)->register_object_by_id();
     hanger_machine01->m_c8 = 0;
     return (u8 *)hanger_machine01;

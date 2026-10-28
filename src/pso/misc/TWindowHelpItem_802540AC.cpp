@@ -4,7 +4,7 @@
 #include "pso/misc/TWindowHelpItem_802540AC.h"
 #include "pso/player/TObjPlayer_800A7764.h"
 #include "pso/unk/text_80253974.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TWindowDuelResult.h"

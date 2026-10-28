@@ -5,7 +5,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 
-struct TBoss6Rock : public TUnk_804AF8A0 {
+struct TBoss6Rock : public TObjCollidable {
     virtual ~TBoss6Rock();
     void sub_80353F5C();
     virtual void run_task();

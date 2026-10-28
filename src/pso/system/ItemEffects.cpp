@@ -35,7 +35,7 @@ void run_task__13TUnk_804A2660Fv(void *arg0);
 s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 void queue_destruction__7TObjectFv(void *);
 
 void render__7TObjectFv();
@@ -57,7 +57,7 @@ void TUnk_804A2660::run_task() {
             var_r31 = 1;
             if (((TObjPlayer *)var_r30)->draw_icon(this->m_20, (s32)sp8) != 0) {
                 ((TNowLoading *)(*(u32 *)&this->unk_24))->copy_pos(sp8);
-                if ((((TItem *)var_r30)->is_hidden() == 0) || (obj_testFlags30__13TUnk_804AF8A0FUl(var_r30, 0x08000000) == 0)) {
+                if ((((TItem *)var_r30)->is_hidden() == 0) || (obj_testFlags30__14TObjCollidableFUl(var_r30, 0x08000000) == 0)) {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->clear_active_flag();
                 } else {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();

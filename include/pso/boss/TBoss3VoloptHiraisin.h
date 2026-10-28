@@ -5,7 +5,7 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 
 struct TBoss3VoloptHiraisin : public TObjEnemyCustom {
-    TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 index);
+    TBoss3VoloptHiraisin(TObjBase *parent, u16 id, s32 index);
     TBoss3VoloptHiraisin(TObject *parent, void *set_data);
     virtual ~TBoss3VoloptHiraisin();
     virtual void run_task();

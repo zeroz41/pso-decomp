@@ -59,7 +59,7 @@ void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void __dl__7TObjectFPv(void *);
 extern s32 city_vertical_model_vtable[];
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 void TUnk_804B5C08::vfunc_13(s32) { this->m_9c = lbl_805DBC00; *(int*)((char*)this + 0x90) = 1; }
 typedef struct RecoveredFields_80182E90_arg0 RecoveredFields_80182E90_arg0;
 typedef struct VBase_18_26a62c VBase_18_26a62c;
@@ -140,7 +140,7 @@ void *create_city_vertical_model(void *arg0) {
 void *destroy_city_vertical_model(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = city_vertical_model_vtable;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -149,7 +149,7 @@ void *destroy_city_vertical_model(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_801830BC_lbl_804B5C08_size[sizeof(RecoveredGlobal_801830BC_lbl_804B5C08) == 0x38 ? 1 : -1];
 u8 *construct_city_vertical_model(u8 *arg0, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)arg0, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)arg0, (void *)parent);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801830BC_lbl_804B5C08 *)&city_vertical_model_vtable).value;
     ((TUnk_804B5C08 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x90) = 1;
@@ -167,13 +167,13 @@ __declspec(section ".sdata2") extern const f32 city_vertical_model_min_y_offset 
 __declspec(section ".sdata2") extern const f32 city_vertical_model_max_y_offset = 200.0f;
 __declspec(section ".sdata2") extern const f32 city_vertical_model_y_step = 2.0f;
 void render_shadows__7TObjectFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804B9870Fv();
-void get_center__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__8TObjBaseFv();
+void get_center__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
+void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv();
 }
 s32 city_vertical_model_vtable[14] = {
     0,
@@ -182,12 +182,12 @@ s32 city_vertical_model_vtable[14] = {
     (s32)run_task__13TUnk_804B5C08Fv,
     (s32)render__13TUnk_804B5C08Fv,
     (s32)render_shadows__7TObjectFv,
-    (s32)vfunc_6__13TUnk_804B9870FPsl,
-    (s32)apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)reset_motion_fields__13TUnk_804B9870Fv,
-    (s32)get_center__13TUnk_804B9870Fv,
-    (s32)update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)get_name__13TUnk_804B9870Fv,
+    (s32)vfunc_6__8TObjBaseFPsl,
+    (s32)apply_object_set_data__8TObjBaseFPv,
+    (s32)reset_motion_fields__8TObjBaseFv,
+    (s32)get_center__8TObjBaseFv,
+    (s32)update_object_view_visibility__8TObjBaseFff,
+    (s32)classify_actor_view_detail__8TObjBaseFfff,
+    (s32)get_name__8TObjBaseFv,
     (s32)vfunc_13__13TUnk_804B5C08Fl,
 };

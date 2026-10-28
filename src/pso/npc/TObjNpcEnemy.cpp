@@ -5,7 +5,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
@@ -291,7 +291,7 @@ u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjPlayer *)arg0)->init_position_vectors();
     ((TObjNpcEnemy *)(arg0))->apply_set_params(0, 1);
     ((TObjNpcEnemy *)arg0)->movementParameters = &npc_movement_parameters.value;
-    ((TUnk_804806E8 *)arg0)->set_motion_params(&npc_default_battle_stats.value);
+    ((TObjChara *)arg0)->set_motion_params(&npc_default_battle_stats.value);
     init_collision_body_parts(arg0, &TObjNpcEnemy__collision_body_parts.value, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjEnemy *)arg0)->update_prev_position();

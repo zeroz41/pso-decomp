@@ -2,9 +2,9 @@
 #define PSO_MISC_TOTRAP_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TOTrap : public TUnk_804806E8 {
+struct TOTrap : public TObjChara {
     virtual ~TOTrap();
     virtual void find_target_player();
     virtual void submit_cursor_and_notify();

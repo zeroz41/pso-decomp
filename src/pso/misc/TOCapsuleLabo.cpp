@@ -136,7 +136,7 @@ void TOCapsuleLabo::vfunc_15() {
 void *__dt__13TOCapsuleLaboFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TOCapsuleLabo;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B27D8 *)arg0)->destroy_key_object(0);
         if (arg1 > 0) {
@@ -155,8 +155,8 @@ u8 *TOCapsuleLabo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((void *)((int) ((*(s32 *)&TOCapsuleLabo__model_resource))), 0);
     ((TOCapsuleLabo *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOCapsuleLabo__model_resource)), 0);
     init_collision_body_parts(arg0, &TOCapsuleLabo__collision_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x1288);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x1288);
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOHealGeneral *)arg0)->update_heal_gauge_state();
     ((TOCapsuleLabo *)arg0)->m_c0 = (f32) lbl_805DE1E8;

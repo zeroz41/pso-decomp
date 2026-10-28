@@ -295,8 +295,8 @@ void register_texture_ed_512kabe_c(void) { TEndingC__wall_texture_list = (int)TE
 #define PADV virtual void CAT(pv, __LINE__)();
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
 extern "C" {
-s32 update_movement_status__13TUnk_804806E8Fv();
-s32 update_action_hold_status__13TUnk_804806E8Fv();
+s32 update_movement_status__9TObjCharaFv();
+s32 update_action_hold_status__9TObjCharaFv();
 
     extern int TEndingAB__fade_sequence_state;
 void TEndingAB__sub_8008D5A0(void) { TEndingAB__fade_sequence_state = 1; }
@@ -317,7 +317,7 @@ void TObjEneBalClaw::clear_flag_in_state7() {
 
 s32 TObjEneBalClaw::update_movement_status() {
     s32 arg0 = (s32)this;
-    if (update_movement_status__13TUnk_804806E8Fv() != 0) {
+    if (update_movement_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;
     }
@@ -326,7 +326,7 @@ s32 TObjEneBalClaw::update_movement_status() {
 
 s32 TObjEneBalClaw::update_action_hold_status() {
     s32 arg0 = (s32)this;
-    if (update_action_hold_status__13TUnk_804806E8Fv() != 0) {
+    if (update_action_hold_status__9TObjCharaFv() != 0) {
         ((TObjEneBalClaw *)arg0)->clear_flag_in_state7();
         return 1;
     }

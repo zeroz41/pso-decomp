@@ -50,12 +50,12 @@ void TObjPlayer__sub_80364198(void);
 s32 push_matrix_from();
 s32 pop_matrix();
 s32 get_owner_alpha__5TItemFv(void *);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 
 extern s32 model_render_flags;
 
 void TItemProShield::deactivate_shield_effect(s32 arg1) {
-    if (((u32) this->item_model != 0U) && ((u32) this->owner != 0U) && (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x08000000) == 0) && (is_hidden() == 0)) {
+    if (((u32) this->item_model != 0U) && ((u32) this->owner != 0U) && (obj_testFlags30__14TObjCollidableFUl(this, 0x08000000) == 0) && (is_hidden() == 0)) {
         ((TObjMotion *)(this->owner))->get_item_ptr(arg1);
         push_matrix_from();
         TObjPlayer__sub_80364198();

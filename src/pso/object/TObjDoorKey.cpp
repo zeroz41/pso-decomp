@@ -252,7 +252,7 @@ void TObjDoorKey::run_task() {
 void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjDoorKey;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         if ((u32) ((TObjDoorKey *)arg0)->m_f8 != 0U) {
             queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8));

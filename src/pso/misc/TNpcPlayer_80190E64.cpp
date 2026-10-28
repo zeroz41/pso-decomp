@@ -6,7 +6,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_8019118C_lbl_804B7BD8 {
     s32 value;
@@ -117,7 +117,7 @@ void TUnk_804B7C1C::run_task() {
         return;
     }
     if (horizontal_distance_squared(arg0->pos, p->pos) <= arg0->f68 * arg0->f68) {
-        ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 1);
+        ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         if (arg0->fB4 == 0) {
             arg0->fB4 = 1;
             o = __nw__7TObjectFUl(0x3C);
@@ -128,7 +128,7 @@ void TUnk_804B7C1C::run_task() {
     } else {
         p = (Ply_80190FDC *)get_player_by_client_id(arg0->fAC);
         if (p != 0 && arg0->fB4 == 1 && ((TObjPlayer *)p)->is_inactive() == 1) {
-            ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 1);
+            ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
             arg0->fB4 = 0;
             p = (Ply_80190FDC *)get_player_by_client_id(arg0->fAC);
             if (p != 0) {
@@ -141,7 +141,7 @@ void TUnk_804B7C1C::run_task() {
 Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1) {
     if (arg0 != NULL) {
         arg0->f18 = ((u8 *)&lbl_804B7C1C);
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         u32 id = arg0->fAC;
         if (id != 0xFFFF) {
@@ -150,7 +150,7 @@ Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1) {
                 c->v0(1);
             }
         }
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -159,7 +159,7 @@ Obj_801910F4 *__dt__13TUnk_804B7C1CFv(Obj_801910F4 *arg0, s16 arg1) {
 }
 
 u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, arg1);
+    __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804B7C1C.value;
     ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)arg2);
     *(s16 *)((s8 *)arg0 + 0xAC) = 3;

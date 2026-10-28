@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TEF_LensFlare : public TUnk_804B9870 {
+struct TEF_LensFlare : public TObjBase {
     virtual ~TEF_LensFlare();
     virtual void render();
     virtual void run_task();

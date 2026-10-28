@@ -12,7 +12,7 @@ struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
 
 extern "C" {
 s32 obj_is_hit_receivable(void *);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, u32);
 u16 get_entity_id(void *);
 s32 is_technique_ready__8TTecCtrlFv();
 void queue_destruction__7TObjectFv(void *arg0);
@@ -37,11 +37,11 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
         return 0;
     }
     ok = 1;
-    if (is_technique_ready__8TTecCtrlFv() == 0 && obj_testFlags30__13TUnk_804AF8A0FUl(arg1->obj, 0x60000000) == 0x20000000
-        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TUnk_804B9870 *)(arg1->obj))->get_room()) {
+    if (is_technique_ready__8TTecCtrlFv() == 0 && obj_testFlags30__14TObjCollidableFUl(arg1->obj, 0x60000000) == 0x20000000
+        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TObjBase *)(arg1->obj))->get_room()) {
         ok = 0;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg1->obj, 0x04000000) != 0
+    if (obj_testFlags30__14TObjCollidableFUl(arg1->obj, 0x04000000) != 0
         || ((flags = (*(Rec_802E4798 **)((s8 *)arg1->obj + 0xA4))[arg1->idx].flags) & 0x02000000)
         || (flags & 0x1000) || (flags & 0x80)) {
         ok = 0;

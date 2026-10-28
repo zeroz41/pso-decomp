@@ -86,7 +86,7 @@ void TObjPlayer__sub_801D8664(s32 arg0, s8 arg1, s8 arg2) {
     process_trade_target__10TObjPlayerFiPv(arg0, &stack.sp8);
 }
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 draw_model_with_callback__10TObjPlayerFllf(void *, s32, s32, f32);
 void push_matrix(void);
 s32 pop_matrix(void);
@@ -101,7 +101,7 @@ s32 rotate_matrix_y(int, int);
 void TObjPlayer__sub_801D877C(u8 *arg0);
 void TObjPlayer__sub_801D8864(void);
 
-int TUnk_804C4540::set_position_from(void *pos) { return TUnk_804B9870::set_position_from(pos); }
+int TUnk_804C4540::set_position_from(void *pos) { return TObjBase::set_position_from(pos); }
 void TUnk_804C4540::set_animation_default(s16 index) { set_animation(index); }
 
 TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
@@ -119,7 +119,7 @@ TUnk_804C4540 *TUnk_804C4540::create(TPlyCharData *data) {
 }
 
 void TObjPlayer__sub_801D877C(u8 *arg0) {
-    if ((obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x02000000) == 0) && ((s32) ((TUnk_804C4540 *)arg0)->m_cfc == 0)) {
+    if ((obj_testFlags30__14TObjCollidableFUl(arg0, 0x02000000) == 0) && ((s32) ((TUnk_804C4540 *)arg0)->m_cfc == 0)) {
         select_actor_lighting((s32)arg0);
         push_matrix();
         translate_matrix_vec3(0, (arg0 + 0x38));
@@ -282,7 +282,7 @@ typedef struct Rec_801D8F60 { f32 a, b, c; } Rec_801D8F60;
 extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8);
 s32 get_main_phase();
-s32 obj_isState3_324__13TUnk_804806E8Fv(int);
+s32 obj_isState3_324__9TObjCharaFv(int);
 extern RecoveredGlobal_801D8ADC_lbl_8044929C getup_protection_ticks_table_a;
 extern RecoveredGlobal_801D8ADC_lbl_804492AC getup_protection_ticks_table_b;
 extern RecoveredGlobal_801D8ADC_lbl_804492BC player_getup_protection_ticks_table;
@@ -410,7 +410,7 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
     var_r31 = arg0;
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
-        if (obj_isState3_324__13TUnk_804806E8Fv((int)var_r3) != 0) {
+        if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
             var_r3 = (s32 *)&player_getup_protection_ticks_table_flagged.value;
             var_r3 = (s32 *)&player_getup_protection_ticks_table_flagged.value;
             var_r3 = (s32 *)(*(s32 *)((s8 *)&player_getup_protection_ticks_table_flagged.value + (game_difficulty_selection * 4)));
@@ -422,7 +422,7 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
         return var_r3;
     }
     var_r3 = var_r31;
-    if (obj_isState3_324__13TUnk_804806E8Fv((int)var_r3) != 0) {
+    if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
         var_r3 = (s32 *)&getup_protection_ticks_table_b.value;
         var_r3 = (s32 *)&getup_protection_ticks_table_b.value;
         var_r3 = (s32 *)(*(s32 *)((s8 *)&getup_protection_ticks_table_b.value + (game_difficulty_selection * 4)));
@@ -445,7 +445,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     var_r31 = arg0;
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
-        if (obj_isState3_324__13TUnk_804806E8Fv((int)var_r3) != 0) {
+        if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
             var_r3 = (s32 *)&hurt_protection_ticks_table.value;
             var_r3 = (s32 *)&hurt_protection_ticks_table.value;
             var_r3 = (s32 *)(*(s32 *)((s8 *)&hurt_protection_ticks_table.value + (game_difficulty_selection * 4)));
@@ -457,7 +457,7 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
         return var_r3;
     }
     var_r3 = var_r31;
-    if (obj_isState3_324__13TUnk_804806E8Fv((int)var_r3) != 0) {
+    if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
         var_r3 = (s32 *)&player_hurt_protection_ticks_table_flagged.value;
         var_r3 = (s32 *)&player_hurt_protection_ticks_table_flagged.value;
         var_r3 = (s32 *)(*(s32 *)((s8 *)&player_hurt_protection_ticks_table_flagged.value + (game_difficulty_selection * 4)));

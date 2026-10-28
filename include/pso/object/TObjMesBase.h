@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjMesBase : public TUnk_804AF8A0 {
+struct TObjMesBase : public TObjCollidable {
     virtual ~TObjMesBase();
     virtual void vfunc_14();
     virtual void clear_ref_if_destroyed();

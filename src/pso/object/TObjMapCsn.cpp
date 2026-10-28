@@ -5,7 +5,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80194988___vt__10TObjMapCsn { s32 value; u8 remaining[0x38]; };
 typedef char RecoveredGlobal_80194988___vt__10TObjMapCsn_size[sizeof(RecoveredGlobal_80194988___vt__10TObjMapCsn) == 0x3C ? 1 : -1];
@@ -162,7 +162,7 @@ u8 *__dt__10TObjMapCsnFv(u8 *arg0, s16 arg1) {
         if (((u32)TObjMapCsn::get_map_count()) != 0U) {
             fn_80140DFC((((u32)TObjMapCsn::get_map_count())), (s32)arg0);
         }
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -172,7 +172,7 @@ u8 *__dt__10TObjMapCsnFv(u8 *arg0, s16 arg1) {
 u8 *TObjMapCsn__ct(TObjMapCsn *map_csn, s32 arg1, s32 arg2) {
     f32 temp_f0;
     f32 temp_f1;
-    __ct__13TUnk_804AF8A0FP7TObject(map_csn, arg1);
+    __ct__14TObjCollidableFP7TObject(map_csn, arg1);
     *(s32 **)((s8 *)map_csn + 0x18) = &(*(RecoveredGlobal_801949FC___vt__10TObjMapCsn *)&__vt__10TObjMapCsn).value;
     *(s32 *)((s8 *)map_csn + 0) = (s32) TObjMapCsn__class_name;
     ((TObjMapCsn *)(map_csn))->apply_object_set_data((void *)arg2);

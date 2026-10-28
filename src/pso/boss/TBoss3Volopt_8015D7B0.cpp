@@ -18,7 +18,7 @@ void TUnk_804B0BB8::vfunc_17() {
         return;
     }
     *(s32 *)(arg0 + 0xAC) = 3;
-    ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+    ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     switch ((u32)get_current_area()) {
     case 0:
         break;
@@ -55,7 +55,7 @@ void TUnk_804B0BB8::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
     if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(lbl_805DB3D8) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
-        ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
+        ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         switch ((u32)get_current_area()) {
         case 3:
         case 4:

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLazerFenceExtra : public TUnk_804AF8A0 {
+struct TObjLazerFenceExtra : public TObjCollidable {
     virtual ~TObjLazerFenceExtra();
     void update_wait_switch();
     void render_lazer_fence_model();

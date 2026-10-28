@@ -106,7 +106,7 @@ struct P_800BC250 : VB_800BC250 {
 extern "C" {
 extern const f32 lbl_805D9EB4;
 void subtract_vector(Vec_800BBFD0 *a, Vec_800BBFD0 *b);
-s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 obj_is_hit_receivable();
 Tgt_800BC080 *get_battle_param__10TObjPlayerFi(s32);
 s32 is_area_attack_target_eligible(void *, int);
@@ -139,7 +139,7 @@ extern const f32 lbl_805D9EB0;
 
 void TUnk_804928CC::apply_hit_if_active(void *arg1, f32 *arg2) {
     ((VObj_800bbe90*)arg1)->m20(this->m_ac, lbl_805D9EB0);
-    if (obj_isState2_324__13TUnk_804806E8Fv(arg1) == 0) {
+    if (obj_isState2_324__9TObjCharaFv(arg1) == 0) {
         this->area_attack_apply_recoil(arg1, *arg2);
     }
 }
@@ -151,7 +151,7 @@ void TUnk_804928CC::area_attack_receive_direct(void *dst, f32 *recoil, void *des
         rec = &((Actor_800BBF08 *)dst)->recs[i];
         if (rec->flags & 0x04000000) {
             ((Actor_800BBF08 *)dst)->m21(((Actor_800BBF08 *)this)->owner, *((Desc_800BBF08 *)desc), rec, -1, -1);
-            if (obj_isState2_324__13TUnk_804806E8Fv(((Actor_800BBF08 *)dst)) == 0) {
+            if (obj_isState2_324__9TObjCharaFv(((Actor_800BBF08 *)dst)) == 0) {
                 ((Actor_800BBF08 *)this)->m18(((Actor_800BBF08 *)dst), *recoil);
             }
             return;
@@ -194,7 +194,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
         mask |= 0x80000;
     }
     if (((Arg_800BC080 *)arg1)->flags & 2) {
-        ((TUnk_804AF8A0 *)((P_800BC080 *)this))->mark_enemy_body_contacts();
+        ((TObjCollidable *)((P_800BC080 *)this))->mark_enemy_body_contacts();
         mask |= 0x100000;
     }
     if (((P_800BC080 *)this)->info->mask & mask) {
@@ -250,7 +250,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, s32 arg2, void *obje
         mask |= 0x80000;
     }
     if (((Arg_800BC250 *)recoil)->flags & 2) {
-        ((TUnk_804AF8A0 *)((P_800BC250 *)this))->mark_enemy_body_contacts();
+        ((TObjCollidable *)((P_800BC250 *)this))->mark_enemy_body_contacts();
         mask |= 0x100000;
     }
     if (((P_800BC250 *)this)->info->mask & mask) {

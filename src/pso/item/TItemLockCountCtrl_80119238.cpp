@@ -90,7 +90,7 @@ void fn_80119204(int arg0) {
 void TItemLockCountCtrl__sub_80119238(int arg0) {
     u32 temp = get_player_by_client_id(arg0);
     if (temp != 0U) {
-        ((TUnk_804B9870 *)temp)->obj_clearFlags30(0x40);
+        ((TObjBase *)temp)->obj_clearFlags30(0x40);
     }
 }
 

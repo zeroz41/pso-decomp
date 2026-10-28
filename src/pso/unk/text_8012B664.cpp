@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/item/TUnk_804A4E68.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
@@ -22,7 +22,7 @@ void TUnk_804A4E68::update_attack() {
     f32 flo;
     f32 fhi;
     if (this->owner != NULL) {
-        speed = ((TUnk_804806E8 *)(this->owner))->get_speed();
+        speed = ((TObjChara *)(this->owner))->get_speed();
         flag = ((TObjPlayer *)(this->owner))->is_flag_b0_4();
         ok = 1;
         if (test_action_mask__10TObjPlayerFl(this->owner, 0x20) != 0) {

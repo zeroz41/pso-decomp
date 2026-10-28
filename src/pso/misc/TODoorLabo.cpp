@@ -113,7 +113,7 @@ s32 TODoorLaboNormal__vt19(void) {
 void *__dt__16TODoorLaboNormalFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorLaboNormal;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__19TODoorFourLightBaseFv(arg0, 0);
         if (arg1 > 0) {
@@ -128,7 +128,7 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self) {
     self->vt = ((s32 *)&__vt__16TODoorLaboNormal);
     self->f0 = door_labo_normal_class_name;
     init_collision_body_parts(self, labo_door_collision_body_parts, 1);
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
     ((TODoorLaboNormal *)self)->init_field_d4();
     self->fBC = get_bml_motion((s32)TODoorLabo__model_archive, 0);
@@ -202,7 +202,7 @@ s32 TODoorLabo__vt19(void) {
 void *__dt__10TODoorLaboFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TODoorLabo;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__19TODoorFourLightBaseFv(arg0, 0);
         if (arg1 > 0) {
@@ -220,7 +220,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0) {
     arg0->vt = __vt__10TODoorLabo;
     arg0->f0 = odoor_labo_class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorLabo *)arg0)->init_model_by_type();
     arg0->fBC = (u8 *)get_bml_motion(TODoorLabo__bml_resource, 0);
@@ -285,7 +285,7 @@ extern s32 __vt__22TODoorFourLightSeabedU[];
 void *__dt__22TODoorFourLightSeabedUFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TODoorFourLightSeabedU;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__19TODoorFourLightBaseFv(arg0, 0);
         if (arg1 > 0) {
@@ -325,7 +325,7 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0) {
     self->vt18 = __vt__22TODoorFourLightSeabedU;
     self->f0 = odoor_four_light_seabed_u_class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model((s32)seabed_four_light_door_bml_resource, 0);
     self->infoBC = (Info_8029FD70 *)get_bml_motion((s32)seabed_four_light_door_bml_resource, 0);
@@ -409,7 +409,7 @@ extern s32 __vt__21TODoorFourLightSeabed[];
 void *__dt__21TODoorFourLightSeabedFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TODoorFourLightSeabed;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__19TODoorFourLightBaseFv(arg0, 0);
         if (arg1 > 0) {
@@ -449,7 +449,7 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0) {
     self->vt18 = __vt__21TODoorFourLightSeabed;
     self->f0 = TODoorFourLightSeabed__class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model(door_labo_bml_resource, 0);
     self->infoBC = (Info_802A0068 *)get_bml_motion(door_labo_bml_resource, 0);

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjBigTuitate : public TUnk_804AF8A0 {
+struct TObjBigTuitate : public TObjCollidable {
     virtual ~TObjBigTuitate();
     u32 m_c8;
     void render();

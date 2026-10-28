@@ -81,7 +81,7 @@ struct VObj_18_405891 : VBase_18_405891 {
 struct Pair_8030895C { s32 id; f32 v; };
 
 extern "C" {
-s32 obj_isState2_324__13TUnk_804806E8Fv(int);
+s32 obj_isState2_324__9TObjCharaFv(int);
 int rand(void);
 extern s32 game_difficulty_selection;
 extern const f32 TBoss7Crawfish__data_805DF0DC;
@@ -196,7 +196,7 @@ s32 apply_hit_to_target__14TBoss7CrawfishFPvPv(void *arg0_, void *arg1_) {
             if (((VObj_18_405891 *)(temp_r31))->m18(arg0, TBoss7Crawfish__data_805DF0DC) != 0) {
                 ((VObj_18_405891 *)(temp_r31))->m20(arg0, TBoss7Crawfish__data_805DF0DC);
             }
-        } else if (obj_isState2_324__13TUnk_804806E8Fv((int)temp_r31) == 0) {
+        } else if (obj_isState2_324__9TObjCharaFv((int)temp_r31) == 0) {
             if ((s32) game_difficulty_selection == 3) {
                 if ((lbl_805DF0E0 * (f32) rand()) <= lbl_805DF0E4) {
                     p.id = 0x10;

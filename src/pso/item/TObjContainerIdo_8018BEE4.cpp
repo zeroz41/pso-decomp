@@ -4,7 +4,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/item/TObjContainerJungEnemy.h"
 #include "pso/item/TObjContainerIdo.h"
 #include "pso/item/TUnk_804B97C0.h"
@@ -347,7 +347,7 @@ void TObjContainerIdo::load_resources() {
 void *__dt__16TObjContainerIdoFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__13TUnk_804949A8Fv((s8 *)arg0 + 0xF0, -1);
         ((TUnk_804B97C0 *)arg0)->dt(0);

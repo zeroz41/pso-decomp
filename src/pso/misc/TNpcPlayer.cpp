@@ -455,7 +455,7 @@ void TObjFogCollisionPoison__sub_801535D0(s32 arg0);
 Actor_8014F424 * find_entity_by_id(s32);
 s32 free_collision_body_parts(u32);
 void init_collision_body_parts(void *, void *, s32);
-void * __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+void * __ct__14TObjCollidableFP7TObject(void *, void *);
 s32 is_any_teammate_in_state__10TObjPlayerFv(void *self);
 s32 try_send_6x27_use_item(s32, s32, void *);
 void *get_player_by_client_id(s32 i);
@@ -2180,7 +2180,7 @@ s32 partner_probe_obstacles(View_8014F140 *view) {
     for (i = TLobby::get_game_mode(); i < TLobby::get_game_mode() + TObjEneDD::get_enemy_count() + ((s32 (*)(void))get_registered_object_count)(); i++) {
         actor = (Actor_8014F140 *)get_player_data__10TObjPlayerFi(i);
         if ((actor != NULL) && !(actor->flags30 & 0x80000000)) {
-            contact = (Contact_8014F140 *)((TUnk_804AF8A0 *)((u8 *)view->probe))->find_actor_body_contact((u8 *)actor, (f32)lbl_805DB210);
+            contact = (Contact_8014F140 *)((TObjCollidable *)((u8 *)view->probe))->find_actor_body_contact((u8 *)actor, (f32)lbl_805DB210);
             if (contact != NULL) {
                 if (actor->flags30 & 0x40000000) {
                     if (!(contact->flags18 & 8) && !(contact->flags18 & 0x100) && !(contact->flags18 & 0x200)) {
@@ -2284,7 +2284,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 
     s32 j;
     f32 d;
     found = 0;
-    ((TUnk_804B9870 *)(view->f94))->get_room();
+    ((TObjBase *)(view->f94))->get_room();
     VecCopy__FP3VecPC3Vec(origin, (int)pos);
     view->count = 0;
     for (j = 0; j < 10; j++) {
@@ -2385,7 +2385,7 @@ Npc_8014F844 *init_ai_state__10TNpcPlayerFPvi(Npc_8014F844 *self, s32 id) {
     self->fC4 = 0x1103;
     p = __nw__7TObjectFUl(0xAC);
     if (p != 0) {
-        p = __ct__13TUnk_804AF8A0FP7TObject(p, tl_05);
+        p = __ct__14TObjCollidableFP7TObject(p, tl_05);
     }
     self->fA8 = p;
     if (self->fA8 != 0) {

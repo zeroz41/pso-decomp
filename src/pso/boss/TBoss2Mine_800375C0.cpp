@@ -1195,7 +1195,7 @@ void TBoss2Mine::run_task() {
         ((TBoss8Dragon *)arg0)->set_player_state_default();
         this->vfunc_100();
     }
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
 }
 
 #undef transition_enemy_state__9TObjEneDDFs

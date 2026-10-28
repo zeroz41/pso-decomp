@@ -32,7 +32,7 @@
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/unk/TUnk_804B8E18.h"
 #include "pso/unk/TUnk_804B8E00.h"
 #include <stddef.h>
@@ -66,7 +66,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 lobby_gvm_texture_handles[];
 extern s32 gogo_ball_bml_resource;
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjSinBoard[];
 extern s32 TObjSinBoard__class_name;
 s32 scale_matrix(int, f32, f32, f32);
@@ -126,7 +126,7 @@ void TObjSinBoard::run_task() {  }
 void *__dt__12TObjSinBoardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjSinBoard;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -136,7 +136,7 @@ void *__dt__12TObjSinBoardFv(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_80198228___vt__12TObjSinBoard_size[sizeof(RecoveredGlobal_80198228___vt__12TObjSinBoard) == 0x38 ? 1 : -1];
 u8 *TObjSinBoard__ct(u8 *sin_board, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)sin_board, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)sin_board, (void *)parent);
     *(s32 **)((s8 *)sin_board + 0x18) = &(*(RecoveredGlobal_80198228___vt__12TObjSinBoard *)&__vt__12TObjSinBoard).value;
     *(s32 *)((s8 *)sin_board + 0) = (s32) TObjSinBoard__class_name;
     ((TObjSinBoard *)(sin_board))->apply_object_set_data((void *)arg2);
@@ -1304,7 +1304,7 @@ void bswap_6x79_gogo_ball__12TWindowTimerFi(s32 arg0);
 void TWindowTimer__sub_8019A6F8(void* p);
 int close_timer_window__11TWindowCtrlFv(void*);
 int TWindowTimer__sub_8019A770(void* p);
-u8 * __ct__13TUnk_804806E8FP7TObject(void *);
+u8 * __ct__9TObjCharaFP7TObject(void *);
 }
 extern s32 lbl_804B8E18[];
 void add_gogo_ball_three_point_score(s32 i);
@@ -1491,7 +1491,7 @@ typedef char RecoveredGlobal_8019A574_lbl_804B8E18_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_8019A574_lbl_8050DD58_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DD58) == 0x54 ? 1 : -1];
 typedef char RecoveredGlobal_8019A574_lbl_8050DDAC_size[sizeof(RecoveredGlobal_8019A574_lbl_8050DDAC) == 0x1C ? 1 : -1];
 u8 *TWindowTimer__sub_8019A574(u8 *arg0) {
-    __ct__13TUnk_804806E8FP7TObject(arg0);
+    __ct__9TObjCharaFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8019A574_lbl_804B8E18 *)&lbl_804B8E18).value;
     ((TUnk_804B8E18 *)arg0)->m_390 = (f32) (0.0f);
     *(f32 *)((s8 *)arg0 + 0x394) = (f32) (0.0f);
@@ -1517,7 +1517,7 @@ u8 *TWindowTimer__sub_8019A574(u8 *arg0) {
     ((TUnk_804B8E18 *)arg0)->m_374 = (f32) (1.0f);
     *(s32 *)((s8 *)arg0 + 0x378) = 1;
     ((TUnk_804B8E18 *)arg0)->m_37c = 0x40107;
-    ((TUnk_804AF8A0 *)arg0)->set_collision_body(arg0 + 0x364);
+    ((TObjCollidable *)arg0)->set_collision_body(arg0 + 0x364);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B8E18 *)arg0)->m_35c = 0;
     *(s16 *)((s8 *)(&(*(RecoveredGlobal_8019A574_lbl_8050DDAC *)&gogo_ball_sync_state).value) + 0x10) = 0;

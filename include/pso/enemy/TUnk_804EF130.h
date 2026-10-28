@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_804EF130 : public TUnk_804AF8A0 {
+class TUnk_804EF130 : public TObjCollidable {
 public:
     virtual ~TUnk_804EF130();
     u8 unk_AC[0x34];

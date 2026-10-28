@@ -1,8 +1,8 @@
 #ifndef PSO_ENEMY_TOBJENEMY_H
 #define PSO_ENEMY_TOBJENEMY_H
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
-struct TObjEnemy : public TUnk_804806E8 {
+#include "pso/player/TObjChara.h"
+struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     virtual ~TObjEnemy();
     void send_6x0A_enemy_state(void *);

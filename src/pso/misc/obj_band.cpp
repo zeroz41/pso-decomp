@@ -260,7 +260,7 @@ struct R_80142B3C { u32 r0; u32 val; };
 struct O_80142B3C { u8 pad[0xD8]; A_80142B3C *tab; struct { u32 x; R_80142B3C *r; } *tab2; };
 
 int set_field_d8__10TObjMotionFl(void*);
-f32 get_speed__13TUnk_804806E8Fv();
+f32 get_speed__9TObjCharaFv();
 s32 get_anim_entry_value__10TObjMotionFs(Obj_80142BB4 *self, s16 i);
 void serialize_node_flags__10TObjPlayerFPv(u8 *arg0);
 void apply_animation_transition(void *, s16);
@@ -454,7 +454,7 @@ f32 TObjEneDD_ST::get_speed_or_default() {
     if (this->animationFlags & 4) {
         return 0.0f;
     }
-    return get_speed__13TUnk_804806E8Fv();
+    return get_speed__9TObjCharaFv();
 }
 }
 int objInBand(GameObj* obj, f32 v) {

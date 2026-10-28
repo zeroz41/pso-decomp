@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TPhotonConcentrate : public TUnk_804AF8A0 {
+struct TPhotonConcentrate : public TObjCollidable {
     TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3);
     virtual ~TPhotonConcentrate();
     virtual void render();

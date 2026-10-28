@@ -6,7 +6,7 @@
 #include "pso/player/TObjPlayer_800A7764.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_8027FD88.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/object/TObjLuker.h"

@@ -47,9 +47,9 @@ s32 scale_matrix(int, f32, f32, f32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void render_shadows__7TObjectFv(); void vfunc_6__13TUnk_804B9870FPsl(); void apply_object_set_data__13TUnk_804B9870FPv(); void reset_motion_fields__13TUnk_804AF8A0Fv();
-void get_center__13TUnk_804B9870Fv(); void update_object_view_visibility__13TUnk_804B9870Fff(); void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv(); void interact__13TUnk_804AF8A0Fl();
+void render_shadows__7TObjectFv(); void vfunc_6__8TObjBaseFPsl(); void apply_object_set_data__8TObjBaseFPv(); void reset_motion_fields__14TObjCollidableFv();
+void get_center__8TObjBaseFv(); void update_object_view_visibility__8TObjBaseFff(); void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv(); void interact__14TObjCollidableFl();
 #pragma readonly_strings on
 __declspec(section ".data") void *bm_obj_lobby_suisou_model_names[2] = { (void *)"lobby_suisou_s_waku.gj", 0 };
 #pragma explicit_zero_data on
@@ -59,9 +59,9 @@ void *lobby_suisou_resource_descriptor[4] = { (void *)"bm_obj_lobby_suisou.bml",
 char *lbl_805D44C4 = "TObjSuisouLobby";
 void *__vt__15TObjSuisouLobby[14] = {
     0, 0, (void *)__dt__15TObjSuisouLobbyFv, (void *)run_task__15TObjSuisouLobbyFv, (void *)render__15TObjSuisouLobbyFv,
-    (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff,
-    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl,
+    (void *)render_shadows__7TObjectFv, (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv,
+    (void *)reset_motion_fields__14TObjCollidableFv, (void *)get_center__8TObjBaseFv, (void *)update_object_view_visibility__8TObjBaseFff,
+    (void *)classify_actor_view_detail__8TObjBaseFfff, (void *)get_name__8TObjBaseFv, (void *)interact__14TObjCollidableFl,
 };
 const f32 lbl_8047A3D0[1][3] = { { 0.0f, 0.0f, 60.0f } };
 const f32 lbl_8047A3DC[1][3] = { { 0.0f, 0.0f, -60.0f } };

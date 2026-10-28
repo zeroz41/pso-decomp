@@ -216,7 +216,7 @@ struct VObj_18_a328de : VBase_18_a328de {
 extern "C" {
 extern u16 boss6_plot_falz_player_order_table[];
 u16 TBoss6PlotFalz__sub_802AAE48(s32 i);
-s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
+s32 obj_isState2_324__9TObjCharaFv(void *);
 s16 get_actor_hp(void *);
 s32 send_6x2F_change_player_hp(int, s32, s16);
 
@@ -250,7 +250,7 @@ s32 TBoss6PlotFalz::damage_player_hp(s32 arg0, u32 arg1) {
     if ((u32)hp < v) {
         v = hp;
     }
-    if (obj_isState2_324__13TUnk_804806E8Fv(p) != 0) {
+    if (obj_isState2_324__9TObjCharaFv(p) != 0) {
         return v;
     }
     hp -= v;
@@ -1178,7 +1178,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
             vec3_add_to(&v, lbl_8047059C);
             v.y = 7.5f;
             VecCopy((Vec *)&p->pos, (const Vec *)&v);
-            ((TUnk_804AF8A0 *)p)->refresh_collision_body_centers();
+            ((TObjCollidable *)p)->refresh_collision_body_centers();
         }
     }
 }
@@ -1200,7 +1200,7 @@ void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
 struct V_802AC538 { f32 x, y, z; };
 extern "C" {
 u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
-void set_position_from__13TUnk_804B9870FPv();
+void set_position_from__8TObjBaseFPv();
 }
 void reset_cameras_to_actor(void *, s32);
 extern const V_802AC538 lbl_804705A8;
@@ -1222,7 +1222,7 @@ void place_players_in_warp_circle(void) {
             V_802AC538 pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
-            ((void (*)(void *, void *))set_position_from__13TUnk_804B9870FPv)(p, &pos);
+            ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
             ((TBoss4DarkFalz *)p)->save_position();
             *(s32 *)(get_hit_data__14TBoss4DarkFalzFv(p) + 4) = ang + 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
@@ -1269,9 +1269,9 @@ void TBoss6PlotFalz__sub_802AC724(u8 *boss4_dark_falz, u32 arg1) {
     if (boss4_dark_falz == NULL || arg1 == 0U) {
         return;
     }
-    set_position_from__13TUnk_804B9870FPv();
+    set_position_from__8TObjBaseFPv();
     ((TBoss4DarkFalz *)boss4_dark_falz)->save_position();
-    ((TUnk_804AF8A0 *)boss4_dark_falz)->set_indexed_flags(0, 0x900000);
+    ((TObjCollidable *)boss4_dark_falz)->set_indexed_flags(0, 0x900000);
     *(u32 *)(boss4_dark_falz + 0x30) &= 0xFFFFFFDF;
 }
 }

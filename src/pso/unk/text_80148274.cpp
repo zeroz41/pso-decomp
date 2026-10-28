@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -25,7 +25,7 @@ void *npc_base_collision_body_desc[11] = {
 };
 void TObjNpcBase::setup_common() {
     Obj_80148274 *self = (Obj_80148274 *)this;
-    ((TUnk_804806E8 *)self)->set_motion_params(npc_default_battle_stats);
+    ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);
     this->movementParameters = npc_movement_parameters;
     init_collision_body_parts(self, npc_base_collision_body_desc, 1);
     ((TObjPlayer *)self)->register_object_by_id();

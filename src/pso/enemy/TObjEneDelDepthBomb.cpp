@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneDelDepth.h"
@@ -328,7 +328,7 @@ struct Dep_8031551C {
 
 typedef char RecoveredGlobal_80315A40___vt__15TObjEneDelDepth_size[sizeof(RecoveredGlobal_80315A40___vt__15TObjEneDelDepth) == 0x150 ? 1 : -1];
 
-s32 __ct__13TUnk_804806E8FP7TObject(void *);
+s32 __ct__9TObjCharaFP7TObject(void *);
 void queue_destruction__7TObjectFv(void *);
 s32 TObjFish__sub_8001EDB0(u8 *, int);
 s32 get_bml_model(int, int);
@@ -509,7 +509,7 @@ void * create__19TObjEneDelDepthBombFPvPvPvPv(void *arg0, void *arg1, void *arg2
 void *__dt__19TObjEneDelDepthBombFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjEneDelDepthBomb;
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -520,7 +520,7 @@ void *__dt__19TObjEneDelDepthBombFv(void *arg0, s16 arg1) {
 u8 *TObjEneDelDepthBomb__ct(TObjEneDelDepthBomb *ene_del_depth_bomb, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     f32 temp_f30;
     f32 temp_f31;
-    __ct__13TUnk_804806E8FP7TObject(ene_del_depth_bomb);
+    __ct__9TObjCharaFP7TObject(ene_del_depth_bomb);
     *(s32 **)((s8 *)ene_del_depth_bomb + 0x18) = &(*(RecoveredGlobal_803135B4___vt__19TObjEneDelDepthBomb *)&__vt__19TObjEneDelDepthBomb).value;
     *(s32 *)((s8 *)ene_del_depth_bomb + 0) = (s32) TObjEneDelDepthBomb__name;
     ene_del_depth_bomb->m_348 = arg2;
@@ -1452,7 +1452,7 @@ u8 *TObjEneDelDepth__ct(u8 *ene_del_depth, s32 arg1, s32 arg2) {
     __ct__9TObjEnemyFP7TObject(ene_del_depth);
     *(s32 **)((s8 *)ene_del_depth + 0x18) = &(*(RecoveredGlobal_80315A40___vt__15TObjEneDelDepth *)&__vt__15TObjEneDelDepth).value;
     *(s32 *)((s8 *)ene_del_depth + 0) = (s32) TObjEneDelDepth__name;
-    ((TUnk_804806E8 *)ene_del_depth)->add_flags_2e4(8);
+    ((TObjChara *)ene_del_depth)->add_flags_2e4(8);
     ((TObjEneDelDepth *)(ene_del_depth))->apply_set_data((void *)arg2);
     ((TObjEneDelDepth *)ene_del_depth)->update_target_depth();
     ((TObjEneDelDepth *)ene_del_depth)->init();

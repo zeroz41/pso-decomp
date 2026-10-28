@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLaboDesignBase : public TUnk_804AF8A0 {
+struct TObjLaboDesignBase : public TObjCollidable {
     virtual ~TObjLaboDesignBase();
     void *create_instance(void *);
     void *alloc_and_construct(void *);

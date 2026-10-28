@@ -5,7 +5,7 @@
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
 struct TItemData;
 
@@ -14,7 +14,7 @@ struct player_stats;
 struct TItem;
 struct TechniqueContactList;
 
-struct TObjPlayer : public TUnk_804806E8 {
+struct TObjPlayer : public TObjChara {
     virtual ~TObjPlayer();
     virtual void reset_motion_fields();
     virtual const char *get_name();

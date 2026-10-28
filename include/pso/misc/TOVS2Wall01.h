@@ -2,9 +2,9 @@
 #define PSO_MISC_TOVS2WALL01_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TOVS2Wall01 : public TUnk_804806E8 {
+struct TOVS2Wall01 : public TObjChara {
     virtual ~TOVS2Wall01();
     virtual void vfunc_6(s16 *, s32);
     u8 unk_334[0x4];

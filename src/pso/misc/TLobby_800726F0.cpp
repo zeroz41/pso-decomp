@@ -326,7 +326,7 @@ void TObjChallengeRetry::handle_challenge_retry_confirm() {
     }
 }
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 
 s32 TWindowCtrlMain__sub_8024CE58(void);
 
@@ -359,7 +359,7 @@ void TObjChallengeRetry::sub_8007313C() {
       var_r30 = new_var;
       loop_6:
       temp_r3_2 = (u8 *) ((s32 (*)(u32))get_player_by_client_id)(var_r30);
-      if ((temp_r3_2 != 0) && (obj_testFlags30__13TUnk_804AF8A0FUl(temp_r3_2, 0x02000000) != 0))
+      if ((temp_r3_2 != 0) && (obj_testFlags30__14TObjCollidableFUl(temp_r3_2, 0x02000000) != 0))
       {
         var_r31 = 0;
       }

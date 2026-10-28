@@ -164,7 +164,7 @@ void *__dt__16TOCakeshopCave01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOCakeshopCave01;
         free_collision_body_parts(arg0);
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -185,7 +185,7 @@ void *TOCakeshopCave01__ct(void *arg0_, void *arg1) {
     *(f32 *)((s8 *)arg0 + 0xC4) = lbl_805DB370;
     *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
     init_collision_body_parts(arg0, cakeshop_cave01_collision_body_part, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     for (i = 0; i < 8; i++) {
         ((TOCakeshopCave01_8015A1C0 *)arg0)->val[i] = TOCakeshopCave01__data_805DB360;

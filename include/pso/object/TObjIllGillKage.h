@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjIllGillKage : public TUnk_804B9870 {
+struct TObjIllGillKage : public TObjBase {
     virtual ~TObjIllGillKage();
     virtual void render();
     virtual void run_task();

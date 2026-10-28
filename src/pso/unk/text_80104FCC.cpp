@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/misc/TOKeyMachine01.h"
@@ -196,7 +196,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
     }
 }
 
-void TUnk_804806E8::request_box_item_drop(void *unused, s16 arg2) {
+void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
     Obj_8010567C *self = (Obj_8010567C *)this;
     void *p1;
     void *p2;

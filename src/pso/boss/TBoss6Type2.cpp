@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/vector.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/boss/TBoss6Mag.h"
 #include "pso/boss/TBoss6Type2.h"
 #include <stddef.h>
@@ -238,7 +238,7 @@ void __dl__7TObjectFPv(void *);
 s32 __dt__11TBoss6Type2Fv(s32 self_, s16 flag);
 extern const s32 lbl_8047133C[];
 struct AttackMsg_802BD430 { s32 type; s32 value; };
-f32 receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll(void *self, void *attacker, AttackMsg_802BD430 msg, void *collision, s32 tech, s32 arg5);
+f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *self, void *attacker, AttackMsg_802BD430 msg, void *collision, s32 tech, s32 arg5);
 f32 vfunc_23__11TBoss6Type2FPvPvPvll(TBoss6Type2 *self, void *attacker, AttackMsg_802BD430 msg, void *collision, s32 tech, s32 arg5);
 void set_screen_pos__11TBoss6Type2FPv(void *arg0);
 void TBoss6Type2__sub_802BE4E0(s32 *arg0, s32 *arg1);
@@ -573,7 +573,7 @@ struct Boss_802BC23C {
     s32 f4d0;
 };
 
-f32 receive_physical_attack__13TUnk_804806E8FPvf(void *, u32, f32);
+f32 receive_physical_attack__9TObjCharaFPvf(void *, u32, f32);
 u8 * get_attribute_entry__10TObjPlayerFl(u32, s32);
 u16 obj_getArrU16_FC(void *obj, s32 i);
 u16 get_entity_id(void *);
@@ -2629,7 +2629,7 @@ f32 vfunc_23__11TBoss6Type2FPvPvPvll(TBoss6Type2 *self, void *attacker, AttackMs
         self->spawn_hit_effects();
         return TBoss6Type2__data_805DE410;
     }
-    return receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll(self, attacker, msg, collision, tech, arg5);
+    return receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(self, attacker, msg, collision, tech, arg5);
 }
 
 #pragma push
@@ -2670,7 +2670,7 @@ f32 TBoss6Type2__vt20(TBoss6Type2 *arg0, u32 att, f32 scale) {
         }
     }
     if (var_r31 != 0) {
-        return receive_physical_attack__13TUnk_804806E8FPvf(arg0, att, scale);
+        return receive_physical_attack__9TObjCharaFPvf(arg0, att, scale);
     }
     arg0->sub_802BA078();
     arg0->spawn_hit_effects();
@@ -3173,7 +3173,7 @@ s32 TBoss6Type2__ct(s32 arg0_, s32 parent, s32 arg2_) {
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     ((TObjEnemy *)arg0)->set_param(0x4E);
     id = (s8)((u8 *)arg2)[0x44] % 4;
-    ((TUnk_804806E8 *)arg0)->add_flags_2e4(TBoss6Type2__initial_actor_flag_masks[id]);
+    ((TObjChara *)arg0)->add_flags_2e4(TBoss6Type2__initial_actor_flag_masks[id]);
     *(s32 *)((s8 *)arg0 + 0x428) = id;
     *(s32 *)((s8 *)arg0 + 0x42C) = *(s32 *)((s8 *)arg0 + 0x430) = boss6_type2_variant_id_table[((s8)((u8 *)arg2)[0x44] >> 2) % 4];
     ((TBoss6Type2 *)arg0)->init_segment_range();

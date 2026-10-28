@@ -63,7 +63,7 @@ extern V3_8013F5E8 lbl_8043F150;
 extern V3_8013F5E8 lbl_8043F15C;
 void __ct__7TObjectFP7TObject(void *);
 
-s32 TUnk_804AF8A0::get_cursor_action() { return cursor_action.get(); }
+s32 TObjCollidable::get_cursor_action() { return cursor_action.get(); }
 s32 CursorAction::get() { return kind; }
 void render__5TLogoFv(void) {  }
 

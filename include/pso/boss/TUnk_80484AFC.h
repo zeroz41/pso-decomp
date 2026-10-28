@@ -7,7 +7,7 @@
 
 // A homing missile of Vol Opt: it steers towards a player and explodes on
 // contact, on the floor or when its time runs out, damaging what it hits.
-class TUnk_80484AFC : public TUnk_804AF8A0 {
+class TUnk_80484AFC : public TObjCollidable {
 public:
     s32 model;
     s32 textures;

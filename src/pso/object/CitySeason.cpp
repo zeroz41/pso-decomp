@@ -25,7 +25,7 @@
 #include "pso/object/TObjCity_Season_SonicAdv2.h"
 #include "pso/object/TObjCity_Season_Board.h"
 #include "pso/object/TObjCity_Season_FireWorkCtrl.h"
-extern "C" void *__ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 struct RecoveredGlobal_80184B44_lbl_804440B0 { s32 value; u8 remaining[0x28]; };
 extern "C" {
 const RecoveredGlobal_80184B44_lbl_804440B0 city_season_collision_template = {0, {
@@ -65,7 +65,7 @@ struct RecoveredGlobal_801830BC_lbl_804B5C08 {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 }
 
 extern "C" {
@@ -373,7 +373,7 @@ extern s32 __vt__28TObjCity_Season_FireWorkCtrl[];
 void *TObjCity_Season_FireWorkCtrl::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__28TObjCity_Season_FireWorkCtrl;
-        __dt__13TUnk_804B9870Fv(this, 0);
+        __dt__8TObjBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -408,7 +408,7 @@ struct RecoveredGlobal_8018386C_lbl_804B5C58 {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 TObjCity_Season_FireWorkCtrl__name;
 }
 
@@ -416,7 +416,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_8018386C_lbl_804B5C58_size[sizeof(RecoveredGlobal_8018386C_lbl_804B5C58) == 0x38 ? 1 : -1];
 u8 *TObjCity_Season_FireWorkCtrl__ct(u8 *city_season_fire_work_ctrl, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)city_season_fire_work_ctrl, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)city_season_fire_work_ctrl, (void *)parent);
     *(s32 **)((s8 *)city_season_fire_work_ctrl + 0x18) = &(*(RecoveredGlobal_8018386C_lbl_804B5C58 *)&__vt__28TObjCity_Season_FireWorkCtrl).value;
     *(s32 *)((s8 *)city_season_fire_work_ctrl + 0) = (s32) TObjCity_Season_FireWorkCtrl__name;
     ((TObjCity_Season_FireWorkCtrl *)(city_season_fire_work_ctrl))->apply_object_set_data((void *)arg2);
@@ -506,7 +506,7 @@ extern s32 __vt__21TObjCity_Season_Board[];
 void *TObjCity_Season_Board::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__21TObjCity_Season_Board;
-        __dt__13TUnk_804B9870Fv(this, 0);
+        __dt__8TObjBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -596,7 +596,7 @@ struct Obj_80183AF0 : VBase_80183AF0 {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 TObjCity_Season_Board__name;
 
 extern const char lbl_80444250[];
@@ -610,7 +610,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_80183A38_lbl_804B5C90_size[sizeof(RecoveredGlobal_80183A38_lbl_804B5C90) == 0x34 ? 1 : -1];
 u8 *TObjCity_Season_Board__ct(u8 *city_season_board, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)city_season_board, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)city_season_board, (void *)parent);
     *(s32 **)((s8 *)city_season_board + 0x18) = &(*(RecoveredGlobal_80183A38_lbl_804B5C90 *)&__vt__21TObjCity_Season_Board).value;
     *(s32 *)((s8 *)city_season_board + 0) = (s32) TObjCity_Season_Board__name;
     ((TObjCity_Season_Board *)(city_season_board))->apply_object_set_data((void *)arg2);
@@ -959,7 +959,7 @@ extern s32 __vt__32TObjCity_Season_HalloweenPumpkin[];
 void *TObjCity_Season_HalloweenPumpkin::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__32TObjCity_Season_HalloweenPumpkin;
-        __dt__13TUnk_804B9870Fv(this, 0);
+        __dt__8TObjBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -1024,7 +1024,7 @@ extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 TObjCity_Season_HalloweenPumpkin__name;
 }
 
@@ -1035,7 +1035,7 @@ typedef char RecoveredGlobal_8018417C_lbl_8050DC50_size[sizeof(RecoveredGlobal_8
 
 typedef char RecoveredGlobal_8018411C_lbl_804B5D38_size[sizeof(RecoveredGlobal_8018411C_lbl_804B5D38) == 0x34 ? 1 : -1];
 u8 *TObjCity_Season_HalloweenPumpkin__ct(u8 *city_season_halloween_pumpkin, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)city_season_halloween_pumpkin, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)city_season_halloween_pumpkin, (void *)parent);
     *(s32 **)((s8 *)city_season_halloween_pumpkin + 0x18) = &(*(RecoveredGlobal_8018411C_lbl_804B5D38 *)&__vt__32TObjCity_Season_HalloweenPumpkin).value;
     *(s32 *)((s8 *)city_season_halloween_pumpkin + 0) = (s32) TObjCity_Season_HalloweenPumpkin__name;
     ((TObjCity_Season_HalloweenPumpkin *)(city_season_halloween_pumpkin))->apply_object_set_data((void *)arg2);
@@ -1090,7 +1090,7 @@ struct RecoveredGlobal_801842B4_lbl_804B5D6C {
 };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__26TObjCity_Season_XmasWreath[];
 extern s32 TObjCity_Season_XmasWreath__name;
 }
@@ -1120,7 +1120,7 @@ extern s32 __vt__26TObjCity_Season_XmasWreath[];
 void *TObjCity_Season_XmasWreath::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__26TObjCity_Season_XmasWreath;
-        __dt__13TUnk_804B9870Fv(this, 0);
+        __dt__8TObjBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -1132,7 +1132,7 @@ extern s32 city_season_xmas_model_table[];
 
 typedef char RecoveredGlobal_801842B4_lbl_804B5D6C_size[sizeof(RecoveredGlobal_801842B4_lbl_804B5D6C) == 0x34 ? 1 : -1];
 u8 *TObjCity_Season_XmasWreath__ct(u8 *city_season_xmas_wreath, s32 parent, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject((void *)city_season_xmas_wreath, (void *)parent);
+    __ct__8TObjBaseFP7TObject((void *)city_season_xmas_wreath, (void *)parent);
     *(s32 **)((s8 *)city_season_xmas_wreath + 0x18) = &(*(RecoveredGlobal_801842B4_lbl_804B5D6C *)&__vt__26TObjCity_Season_XmasWreath).value;
     *(s32 *)((s8 *)city_season_xmas_wreath + 0) = (s32) TObjCity_Season_XmasWreath__name;
     ((TObjCity_Season_XmasWreath *)(city_season_xmas_wreath))->apply_object_set_data((void *)arg2);
@@ -1501,7 +1501,7 @@ void *TUnk_804B5E48::destroy_seasonal_object(s16 arg1) {
             unregister_object_by_id();
             free_collision_body_parts(this);
         }
-        __dt__13TUnk_804AF8A0Fv(this, 0);
+        __dt__14TObjCollidableFv(this, 0);
         if (arg1 > 0) {
             ((s32 (*)(void *))__dl__7TObjectFPv)(this);
         }
@@ -1556,7 +1556,7 @@ typedef char RecoveredGlobal_80184B44_lbl_804B5E48_size[sizeof(RecoveredGlobal_8
 u8 *init_city_season_object(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
     struct CopyStack_80184B44 { u8 bytes[0x2C]; };
     CopyStack_80184B44 copy_storage_80184B44;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, arg1);
+    __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80184B44_lbl_804B5E48 *)&lbl_804B5E48).value;
     ((TUnk_804B5E48 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0xAC) = arg3;

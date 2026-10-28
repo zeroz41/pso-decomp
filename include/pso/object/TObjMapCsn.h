@@ -16,7 +16,7 @@ struct MapCsnSetData {
     s32 params[2];
 };
 
-struct TObjMapCsn : public TUnk_804AF8A0 {
+struct TObjMapCsn : public TObjCollidable {
     virtual ~TObjMapCsn();
     u32 m_ac;
     void* m_b0;

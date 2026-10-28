@@ -1,9 +1,9 @@
 #ifndef PSO_PLAYER_TUNK_804B6C24_H
 #define PSO_PLAYER_TUNK_804B6C24_H
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-class TUnk_804B6C24 : public TUnk_804806E8 {
+class TUnk_804B6C24 : public TObjChara {
 public:
     virtual ~TUnk_804B6C24();
     BOOL check_value_equals(s32);

@@ -17,7 +17,7 @@ struct RecoveredGlobal_80052200___vt__14TObjDFUsoTower {
 extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
-u8 * __ct__13TUnk_804B9870FP7TObject(void *);
+u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80052200_lbl_804858A8 lbl_804858A8;
 extern s32 __vt__14TObjDFUsoTower[];
 extern s32 TObjDFUsoTower__name;
@@ -31,7 +31,7 @@ void *__nw__7TObjectFUl(int);
 void *__dt__14TObjDFUsoTowerFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjDFUsoTower;
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -42,7 +42,7 @@ void *__dt__14TObjDFUsoTowerFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80052200_lbl_804858A8_size[sizeof(RecoveredGlobal_80052200_lbl_804858A8) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80052200___vt__14TObjDFUsoTower_size[sizeof(RecoveredGlobal_80052200___vt__14TObjDFUsoTower) == 0x34 ? 1 : -1];
 u8 *TObjDFUsoTower__ct(u8 *obj_df_uso_tower, s32 _w1) {
-    __ct__13TUnk_804B9870FP7TObject(obj_df_uso_tower);
+    __ct__8TObjBaseFP7TObject(obj_df_uso_tower);
     *(s32 **)((s8 *)obj_df_uso_tower + 0x18) = &(*(RecoveredGlobal_80052200___vt__14TObjDFUsoTower *)&__vt__14TObjDFUsoTower).value;
     *(s32 *)((s8 *)obj_df_uso_tower + 0) = (s32) TObjDFUsoTower__name;
     *(s32 *)((s8 *)obj_df_uso_tower + 0x34) = get_bml_model(lbl_805D58A8, 5);

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TWindowFukidasi.h"
 
 #include <stddef.h>
@@ -84,7 +84,7 @@ void *__nw__7TObjectFUl(u32);
 u8 *TWindowFukidasi__sub_80252B74(u8 *arg0, s32 arg1, s32 str, s32 arg3, f32 farg0);
 void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player, s32 flags, void *local);
 s32 is_locally_controlled__10TObjPlayerFPv(u8 *);
-s32 obj_isState2_324__13TUnk_804806E8Fv(u8 *);
+s32 obj_isState2_324__9TObjCharaFv(u8 *);
 s32 obj_is_hit_receivable();
 extern const f32 lbl_805DCBD8;
 extern const f32 lbl_805DCBDC;
@@ -255,13 +255,13 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
         *arg3 = 0;
         return;
     }
-    q = ((TUnk_804806E8 *)obj)->get_stats();
+    q = ((TObjChara *)obj)->get_stats();
     if (q == NULL) {
         *arg2 = lbl_805DCBD8;
     } else {
         *arg2 = lbl_805DCBDC * *(f32 *)((u8 *)q + 0x10);
     }
-    if (obj_isState2_324__13TUnk_804806E8Fv(obj) != 0 || is_locally_controlled__10TObjPlayerFPv(obj) != 0) {
+    if (obj_isState2_324__9TObjCharaFv(obj) != 0 || is_locally_controlled__10TObjPlayerFPv(obj) != 0) {
         u8 *p = obj + 0x85C;
         if (p == NULL) {
             *arg3 = 0;

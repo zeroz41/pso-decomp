@@ -9,7 +9,7 @@ u32 __nw__7TObjectFUl(int);
 extern u32 TOChatSensorFolder__instance;
 extern s32 tl_05;
 u32 TOChatSensor__create(s32 arg0);
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TOChatSensor[];
 extern s32 lbl_805D2ED8;
 extern u32 chat_sensor_table;
@@ -26,7 +26,7 @@ extern "C" {
 u32 TOChatSensor__ct(int arg0, void *parent, void *arg2) {
     s32 n;
     s32 *t;
-    __ct__13TUnk_804B9870FP7TObject((void *) arg0, parent);
+    __ct__8TObjBaseFP7TObject((void *) arg0, parent);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOChatSensor;
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D2ED8;
     ((TOChatSensor *)arg0)->apply_object_set_data(arg2);

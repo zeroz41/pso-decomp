@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjDFDemo5 : public TUnk_804B9870 {
+struct TObjDFDemo5 : public TObjBase {
     virtual ~TObjDFDemo5();
     virtual void run_task();
     void update_particle_emitters();

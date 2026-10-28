@@ -34,11 +34,11 @@ void rotate_matrix_y(s32 matrix, s32 angle);
 s32 rand(void);
 void play_sound_effect(s32 id, const Vec *pos, s32 a2, s32 a3);
 TObjPlayer *get_player_by_client_id(s32 id);
-s32 obj_setFlags30(TUnk_804B9870 *actor, s32 flags);
+s32 obj_setFlags30(TObjBase *actor, s32 flags);
 void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 a2, s32 a3, f32 time);
 void submit_cursor_candidate(TObjVoloptCage *cage, s32 a1);
-void init_collision_body_parts(TUnk_804AF8A0 *actor, const CollisionBody *bodies, s32 count);
-void free_collision_body_parts(TUnk_804AF8A0 *actor);
+void init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
+void free_collision_body_parts(TObjCollidable *actor);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);
 s32 check_flag__10TObjPlayerFl(void *player, s32 flag);
@@ -297,11 +297,11 @@ void set_volopt_cage_flag() {
     boss3_volopt_cage_flag = 1;
 }
 
-void obj_set_flag_20000(TUnk_804B9870 *actor) {
+void obj_set_flag_20000(TObjBase *actor) {
     obj_setFlags30(actor, 0x20000);
 }
 
-void obj_clear_flag30_20000(TUnk_804B9870 *actor) {
+void obj_clear_flag30_20000(TObjBase *actor) {
     actor->obj_clearFlags30(0x20000);
 }
 

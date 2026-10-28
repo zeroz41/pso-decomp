@@ -179,7 +179,7 @@ s32 get_type__10TObjPlayerFPv(void *p);
 f32 atan2_float(f32 y, f32 x);
 void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, int);
-u32 __ct__13TUnk_804AF8A0FP7TObject(u32, void *);
+u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(int);
 f32 vector_length(void *);
 s32 normalize_vector(void *);
@@ -273,7 +273,7 @@ TUnk_804CCC68::TUnk_804CCC68(s32 arg1, u8 *arg2, u8 *arg3, s32 arg4) : TEffect()
     }
     var_r0 = __nw__7TObjectFUl(0xAC);
     if (var_r0 != 0U) {
-        var_r0 = __ct__13TUnk_804AF8A0FP7TObject(var_r0, this);
+        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, this);
     }
     *(u32 *)((s8 *)this + 0x128) = var_r0;
     if (*(u32 *)((s8 *)this + 0x128) != 0U) {
@@ -340,7 +340,7 @@ u8 *construct_facing_technique__10TObjPlayerFPviPvii(u8 *arg0, s32 arg1, u8 *arg
     }
     var_r0 = __nw__7TObjectFUl(0xAC);
     if (var_r0 != 0U) {
-        var_r0 = __ct__13TUnk_804AF8A0FP7TObject(var_r0, arg0);
+        var_r0 = __ct__14TObjCollidableFP7TObject(var_r0, arg0);
     }
     *(u32 *)((s8 *)arg0 + 0x128) = var_r0;
     if (*(u32 *)((s8 *)arg0 + 0x128) != 0U) {

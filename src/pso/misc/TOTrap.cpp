@@ -33,7 +33,7 @@ extern u32 trap_scale_factor_table[];
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
 u16 find_nearest_visible_player(void *, int, f32);
-s32 calc_attach_pos__13TUnk_804806E8Fv();
+s32 calc_attach_pos__9TObjCharaFv();
 f32 horizontal_distance_squared(void *, void *);
 void send_6x2C_impose_hold(void *, void *, s32, int, f32);
 struct Base_80178EF8_80178BC0 { char pad[0x18]; };
@@ -69,7 +69,7 @@ s32 TOTrap::is_any_player_matching_stat() {
     for (i = 0; i < 4; i++) {
         p = ((void *)get_player_by_client_id(i));
         if (p != 0) {
-            if (((s16)((TUnk_804B9870 *)p)->get_room() == (s16)get_room()) && (fn_80171314(p) != 0)) {
+            if (((s16)((TObjBase *)p)->get_room() == (s16)get_room()) && (fn_80171314(p) != 0)) {
                 return 1;
             }
         }
@@ -102,7 +102,7 @@ void TOTrap::vfunc_82() {
 void TOTrap::vfunc_81() {
     u8 *pl;
     Obj_80178CF8 *self = (Obj_80178CF8 *)this;
-    calc_attach_pos__13TUnk_804806E8Fv();
+    calc_attach_pos__9TObjCharaFv();
     this->player = find_nearest_visible_player(self, 0, this->range);
     if (this->player != 0xFFFF) {
         pl = (u8 *)get_player_by_client_id(this->player);
@@ -269,13 +269,13 @@ void TOTrap::render() {
 
 #include "types.h"
 #include "pso/misc/TOTrap_801791EC.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOTrap.h"
 
 struct Self_80179244 { s32 type; u8 pad4[0x18 - 4]; s32 *vt; u8 pad1c[0x334 - 0x1C]; f32 f334; f32 f338; u16 s33c; u8 pad33e[2]; s32 f340; };
 
 extern "C" {
-void *__ct__13TUnk_804806E8FP7TObject(void *, void *, void *);
+void *__ct__9TObjCharaFP7TObject(void *, void *, void *);
 extern s32 __vt__6TOTrap[];
 extern s32 lbl_805D3198;
 
@@ -285,7 +285,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__6TOTrapFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__6TOTrap;
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -294,7 +294,7 @@ void *__dt__6TOTrapFv(void *arg0, s16 arg1) {
 }
 
 Self_80179244 *TOTrap__ct(Self_80179244 *self, void *a, void *b) {
-    __ct__13TUnk_804806E8FP7TObject(self, a, b);
+    __ct__9TObjCharaFP7TObject(self, a, b);
     self->vt = __vt__6TOTrap;
     self->type = lbl_805D3198;
     self->f334 = self->f338 = 0.0f;

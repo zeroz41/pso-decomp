@@ -20,7 +20,7 @@ extern "C" {
 
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 f32 horizontal_distance_squared(s32, void *);
 s32 get_player_by_client_id(u32);
 
@@ -70,7 +70,7 @@ void TOHealGeneral::apply_heal_to_target() {
     u32 id = this->m_f4;
     if ((id != 0xFFFF) && (id < 0x1000U)) {
         temp_r3_2 = get_player_by_client_id(id);
-        if ((temp_r3_2 != 0) && (obj_testFlags30__13TUnk_804AF8A0FUl(temp_r3_2, 0x800) == 0) && (horizontal_distance_squared(temp_r3_2 + 0x38, (u8 *)&this->position) < 225.0f)) {
+        if ((temp_r3_2 != 0) && (obj_testFlags30__14TObjCollidableFUl(temp_r3_2, 0x800) == 0) && (horizontal_distance_squared(temp_r3_2 + 0x38, (u8 *)&this->position) < 225.0f)) {
             add_actor_hp((u8 *)temp_r3_2, 9);
             add_actor_tp((u8 *)temp_r3_2, 9);
         }
@@ -400,7 +400,7 @@ TOHealGeneral_801697C0 *__dt__13TOHealGeneralFv(TOHealGeneral_801697C0 *self, s1
                 TBoss4Type2::request_destroy(self->handles[i]);
             }
         }
-        ((TUnk_804AF8A0 *)self)->unregister_object_by_id();
+        ((TObjCollidable *)self)->unregister_object_by_id();
         free_collision_body_parts(self);
         ((TUnk_804AFBF8 *)self)->destroy_key_base(0);
         if (flag > 0) {
@@ -423,9 +423,9 @@ void *TOHealGeneral__ct(void *arg0, void *arg1) {
     self->f24 = *(s32 *)((s8 *)model + 0xC);
     self->fC4 = 4e+01f;
     init_collision_body_parts(self, heal_general_collision_body_part, 1, model);
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     ((TObjPlayer *)self)->register_object_by_id();
-    ((TUnk_804AF8A0 *)self)->clear_player_status_flag(0, 1);
+    ((TObjCollidable *)self)->clear_player_status_flag(0, 1);
     self->fCC = 0;
     self->fD0 = 0.0f;
     for (i = 0; i < 2; i++) {

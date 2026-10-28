@@ -138,7 +138,7 @@ Obj_8004FD50 *__dt__11TObjDFDemo5Fv(Obj_8004FD50 *arg0, s16 arg1) {
         if (is_ending_or_split_screen__14TBoss4DarkFalzFv() == 0) {
             restore_player_cameras();
         }
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }

@@ -186,10 +186,10 @@ void TODoorAncient08::update_door_switch_state() {
         if ((is_current_floor_switch_set((int) ((u16) *(s32 *)&this->unk_C8)) == 1) && (is_current_floor_switch_set(this->m_d4) == 1) && (is_current_floor_switch_set(this->m_d6) == 1) && (is_current_floor_switch_set(this->m_d8) == 1)) {
             ((TODoorAncient08 *)arg0)->play_open_sound();
             this->m_d0 = (s32) (this->m_d0 | 1);
-            if (((u32) *(u32 *)&this->set_entry != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state((void *) (&sp8), 1) != 0)) {
+            if (((u32) *(u32 *)&this->set_entry != 0U) && (((TObjCollidable *)arg0)->access_object_saved_state((void *) (&sp8), 1) != 0)) {
                 sp8 = 1;
                 ((TODoorAncient08 *)arg0)->door_ancient08_sync_state((void *) (&sp8));
-                ((TUnk_804AF8A0 *)arg0)->access_object_saved_state((void *) (&sp8), 0);
+                ((TObjCollidable *)arg0)->access_object_saved_state((void *) (&sp8), 0);
             }
         }
         return;
@@ -306,7 +306,7 @@ void TODoorAncient08::vfunc_17() {
             return;
         }
         *(s32 *)(arg0 + 0xAC) = 3;
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         *(s32 *)(arg0 + 0xE4) = 0;
         switch ((u32)get_current_area()) {
         case 3:
@@ -330,7 +330,7 @@ void TODoorAncient08::vfunc_17() {
     } else {
         *(s32 *)(arg0 + 0xAC) = 3;
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[1];
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
+        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         *(s32 *)(arg0 + 0xE4) = 0;
     }
 }
@@ -340,7 +340,7 @@ void TODoorAncient08::play_proximity_sound() {
     if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(arg0, lbl_805DB47C) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[0];
-        ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
+        ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         *(s32 *)(arg0 + 0xE4) = 1;
         switch ((u32)get_current_area()) {
         case 3:
@@ -409,7 +409,7 @@ typedef char RecoveredGlobal_8016C010_lbl_80441B4C_size[sizeof(RecoveredGlobal_8
 void *__dt__15TODoorAncient08Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorAncient08;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
         if (arg1 > 0) {
@@ -432,7 +432,7 @@ u8 *TODoorAncient08__ct(TODoorAncient08 *arg0, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DB474);
     arg0->m_b8 = (f32) (*(f32 *)((s8 *)arg0 + 0xB4) / lbl_805DB470);
     init_collision_body_parts(arg0, (void *) (&TODoorAncient08__collision_body.value), 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     temp_r0 = arg0->set_params[0];
     if (temp_r0 < 0) {

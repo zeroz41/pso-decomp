@@ -85,7 +85,7 @@ void __dl__7TObjectFPv(void *);
 void TWindow__close(u8 *arg0);
 extern u8 __vt__9TObjLuker[];
 Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1);
-void __ct__13TUnk_804B9870FP7TObject(void *, void *);
+void __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_805D34A8;
 void *TObjLuker__ct(void *arg0, void *arg1, void *arg2);
 f32 horizontal_distance_squared(void *, void *);
@@ -102,7 +102,7 @@ s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
-s32 obj_isState3_324__13TUnk_804806E8Fv(int);
+s32 obj_isState3_324__9TObjCharaFv(int);
 s32 send_6x21_inter_level_warp(int, void *);
 s32 set_area__6TLobbyFl(void *, int, int);
 s32 init_fields__9TTecLukerFs(void *, int);
@@ -338,7 +338,7 @@ void TObjLuker::transfer_to_town() {
         flag = 1;
       }
       else
-        if (obj_isState3_324__13TUnk_804806E8Fv((int) p) != 0)
+        if (obj_isState3_324__9TObjCharaFv((int) p) != 0)
       {
         flag = 1;
       }
@@ -482,7 +482,7 @@ Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1) {
                 arg0->wins[i] = 0;
             }
         }
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -493,10 +493,10 @@ Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1) {
 #define self ((Luker_801A1768 *)arg0)
 void *TObjLuker__ct(void *arg0, void *parent, void *arg2) {
     s32 i;
-    __ct__13TUnk_804B9870FP7TObject(self, parent);
+    __ct__8TObjBaseFP7TObject(self, parent);
     self->f18 = __vt__9TObjLuker;
     self->f0 = lbl_805D34A8;
-    ((TUnk_804B9870 *)self)->apply_object_set_data(arg2);
+    ((TObjBase *)self)->apply_object_set_data(arg2);
     self->fB0 = 0;
     self->fAA = 0xFFFF;
     self->fA8 = self->f84;

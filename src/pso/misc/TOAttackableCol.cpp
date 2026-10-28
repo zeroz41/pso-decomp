@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/misc/TOAttackableCol.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOBarrierEnergy01.h"
@@ -62,7 +62,7 @@ extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
 extern const f32 lbl_805DB2C8;
-s32 __ct__13TUnk_804806E8FP7TObject(void *, int);
+s32 __ct__9TObjCharaFP7TObject(void *, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_80157AD8_lbl_804AF9A8 TOAttackableCol__collision_parts;
@@ -80,7 +80,7 @@ s32 free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 int bswap_header__6TLobbyFv(void*);
-int clear_player_status_flag__13TUnk_804AF8A0FlUl(void*, int, int);
+int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);
 void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
@@ -116,7 +116,7 @@ void TOAttackableCol::init_params() {
     if (this->scale.y < lbl_805DB2C8) {
         set_indexed_flags(0, 0x08000000);
     } else {
-        clear_player_status_flag__13TUnk_804AF8A0FlUl(this, 0, 0x08000000);
+        clear_player_status_flag__14TObjCollidableFlUl(this, 0, 0x08000000);
     }
     if ((s32) this->m_344 == 0) {
         *(s32 *)&this->unk_348 = (s32) this->scale.z;
@@ -180,7 +180,7 @@ int TOAttackableCol::send_state_change(u16 state) {
     s16 id;
     u8 *parent;
     id = this->mode;
-    ((TUnk_804AF8A0 *)self)->access_object_saved_state(&id, 0);
+    ((TObjCollidable *)self)->access_object_saved_state(&id, 0);
     parent = *(u8 * *)&this->set_entry;
     if (parent != NULL) {
         fn_80157CA8(&msg);
@@ -220,10 +220,10 @@ void TOAttackableCol::vfunc_6(s16 *arg1, s32 arg2) {
         }
     }
     sp8 = this->mode;
-    ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
+    ((TObjCollidable *)arg0)->access_object_saved_state(&sp8, 0);
 }
 
-int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__13TUnk_804AF8A0FlUl(this, 0, 1); }
+int TOAttackableCol::handle_6x91_update_state() { return clear_player_status_flag__14TObjCollidableFlUl(this, 0, 1); }
 
 f32 TOAttackableCol::apply_hit(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -339,9 +339,9 @@ void *TOAttackableCol::create(void *arg0) {
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TOAttackableCol;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804806E8 *)arg0)->destroy_motion_object(0);
+        ((TObjChara *)arg0)->destroy_motion_object(0);
         if ((s16) arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -352,14 +352,14 @@ void *__dt__15TOAttackableColFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80157AD8_lbl_804AF9A8_size[sizeof(RecoveredGlobal_80157AD8_lbl_804AF9A8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
-    __ct__13TUnk_804806E8FP7TObject(arg0, tl_05);
+    __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80157AD8___vt__15TOAttackableCol *)&__vt__15TOAttackableCol).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2E98;
     ((TOAttackableCol *)(arg0))->apply_object_set_data((void *)arg1);
-    ((TUnk_804806E8 *)arg0)->calc_attach_pos();
+    ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
     init_collision_body_parts(arg0, &TOAttackableCol__collision_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x718);
+    ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOAttackableCol *)arg0)->mode = 0;
     *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DB2CC;

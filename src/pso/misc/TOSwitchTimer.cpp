@@ -30,7 +30,7 @@ void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
 void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 lbl_805D3188;
 s32 play_sound_effect(s32, s32, s32, s32);
 u8 is_current_floor_switch_set(u16);
@@ -104,7 +104,7 @@ u8 *__dt__13TOSwitchTimerFv(u8 *arg0, s16 arg1) {
         if ((u32) ((TOSwitchTimer *)arg0)->m_98 == 0U) {
             clear_floor_switch_flag(((TOSwitchTimer *)arg0)->m_a8, (s16) ((TOSwitchTimer *)arg0)->m_b4);
         }
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv((s32) arg0);
         }
@@ -113,7 +113,7 @@ u8 *__dt__13TOSwitchTimerFv(u8 *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_80178604___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_80178604___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
 u8 *TOSwitchTimer__ct(u8 *switch_timer, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject(switch_timer);
+    __ct__8TObjBaseFP7TObject(switch_timer);
     *(s32 **)((s8 *)switch_timer + 0x18) = &(*(RecoveredGlobal_80178604___vt__13TOSwitchTimer *)&__vt__13TOSwitchTimer).value;
     *(s32 *)((s8 *)switch_timer + 0) = (s32) lbl_805D3188;
     ((TOSwitchTimer *)(switch_timer))->apply_object_set_data((void *)arg2);

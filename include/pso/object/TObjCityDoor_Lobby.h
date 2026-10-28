@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjCityDoor_Lobby : public TUnk_804B9870 {
+struct TObjCityDoor_Lobby : public TObjBase {
     virtual ~TObjCityDoor_Lobby();
     virtual void dispatch_lobby_action();
     s32 build_door_collision_triangles();

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjCity_Season_FireWorkCtrl : public TUnk_804B9870 {
+struct TObjCity_Season_FireWorkCtrl : public TObjBase {
     virtual ~TObjCity_Season_FireWorkCtrl();
     virtual void vfunc_13(s32);
     void sub_8018355C();

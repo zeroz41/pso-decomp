@@ -35,7 +35,7 @@ u8 *TORockCaveSL02__ct(u8 *rock_cave_simple, s32 arg1) {
     ((TORockCaveSL02 *)rock_cave_simple)->texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 3);
     ((TORockCaveSL02 *)rock_cave_simple)->m_b0 = (f32) lbl_805DB970;
     init_collision_body_parts(rock_cave_simple, (s32) ((u8 *)&cave_rock_collision_body_templates.value + 0x58), 1);
-    ((TUnk_804AF8A0 *)rock_cave_simple)->refresh_collision_body_centers();
+    ((TObjCollidable *)rock_cave_simple)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave_simple)->register_object_by_id();
     return rock_cave_simple;
 }

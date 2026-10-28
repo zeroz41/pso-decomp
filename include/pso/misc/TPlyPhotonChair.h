@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TPlyPhotonChair : public TUnk_804B9870 {
+struct TPlyPhotonChair : public TObjBase {
     virtual ~TPlyPhotonChair();
     u16 sub_8035B530();
     s8 get_actor_section_id();

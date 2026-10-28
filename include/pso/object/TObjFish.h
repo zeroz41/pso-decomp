@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjFish : public TUnk_804B9870 {
+struct TObjFish : public TObjBase {
     virtual ~TObjFish();
     s32 init_fish_school(void *, s32, s32);
     u8 update_state();

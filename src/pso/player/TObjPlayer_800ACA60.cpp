@@ -481,8 +481,8 @@ typedef struct Moja_800AEBB8 {
 } Moja_800AEBB8;
 
 extern "C" {
-s32 update_movement_status__13TUnk_804806E8Fv();
-s32 update_action_hold_status__13TUnk_804806E8Fv();
+s32 update_movement_status__9TObjCharaFv();
+s32 update_action_hold_status__9TObjCharaFv();
 
 f32 enemy_pursue_point(void *, s32, Vec_800AE18C *, void *, f32, f32);
 s32 select_enemy_destination(void *, Vec_800AE18C *, int);
@@ -496,7 +496,7 @@ extern const f32 lbl_805D9C38;
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, int);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
@@ -754,7 +754,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
     if (id < 0x1000) {
         p = (u8 *)get_player_by_client_id(id);
         if (p != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
-            ((TUnk_804B9870 *)self)->get_room() == ((TUnk_804B9870 *)p)->get_room()) {
+            ((TObjBase *)self)->get_room() == ((TObjBase *)p)->get_room()) {
             self->target = (Tgt_800AD3D8 *) p;
         } else {
             self->target = NULL;
@@ -927,7 +927,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
             TObjPlayer::play_effect_if_v2(-0x300);
         }
         if (objInBand((GameObj *)arg0, (f32)lbl_805D9C04) != 0) {
-            t = obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x10);
+            t = obj_testFlags30__14TObjCollidableFUl(arg0, 0x10);
             n = lbl_805D586C;
             if (t != 0) {
                 n += lbl_805D5870;
@@ -1365,8 +1365,8 @@ void TObjEneMoja::update_idle_state() {
         ((void (*)(f32, void *, s32, f32, f32)) enemy_wander_home__9TObjEnemyFlfff)(self->info->f4, self, self->info->f8, lbl_805D9C4C, lbl_805D9C4C);
         break;
     }
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TUnk_804B9870 *)self)->obj_clearFlags30(0x200000);
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
+    ((TObjBase *)self)->obj_clearFlags30(0x200000);
 }
 
 void TObjEneMoja::vfunc_58() {
@@ -1396,7 +1396,7 @@ void TObjEneMoja::vfunc_58() {
 
 s32 TObjEneMoja::update_movement_status() {
     void *temp_r3;
-    if (update_movement_status__13TUnk_804806E8Fv() != 0) {
+    if (update_movement_status__9TObjCharaFv() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -1418,7 +1418,7 @@ s32 TObjEneMoja::update_movement_status() {
 }
 s32 TObjEneMoja::update_action_hold_status() {
     void *temp_r3;
-    if (update_action_hold_status__13TUnk_804806E8Fv() != 0) {
+    if (update_action_hold_status__9TObjCharaFv() != 0) {
         switch (this->mode) {
         case 0:
         case 1:
@@ -1448,7 +1448,7 @@ void acquire_target__11TObjEneMojaFPv(u8 *arg0) {
     u8 *q;
     u16 tid;
     if (((TObjEneMoja *)arg0)->appearance != 1 && ((((TObjEneMoja *)arg0)->mode != 0 && ((TObjEneMoja *)arg0)->target == NULL) || ((TObjEneMoja *)(arg0))->is_actor_cadence_frame(0x1E) != 0)) {
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x10) != 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x10) != 0) {
             i = 0;
             best_id = 0xFFFF;
             Vec_800AEE54 v = *(Vec_800AEE54 *)lbl_8043B0B4;

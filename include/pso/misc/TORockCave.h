@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TORockCave : public TUnk_804AF8A0 {
+struct TORockCave : public TObjCollidable {
     TORockCave();
     virtual ~TORockCave();
     virtual void vfunc_14();

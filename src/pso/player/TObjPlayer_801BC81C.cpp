@@ -11,7 +11,7 @@ void for_each_player_slot__10TObjPlayerFv(void *);
 int is_script_controlled__10TObjPlayerFv(void*);
 s32 sub_801A1DDC__10TObjPlayerFv(s32);
 s32 is_final_phase__10TObjPlayerFv();
-s32 obj_isState2_324__13TUnk_804806E8Fv();
+s32 obj_isState2_324__9TObjCharaFv();
 
 extern "C" {
 
@@ -113,7 +113,7 @@ void TObjPlayer__sub_801BCA14(u8 *player, void *arg1) {
 void TObjPlayer__sub_801BCAB0(void) {  }
 void TObjPlayer::update_state() {
     s32 arg0 = (s32)this;
-    if (obj_isState2_324__13TUnk_804806E8Fv() != 0) {
+    if (obj_isState2_324__9TObjCharaFv() != 0) {
         ((TObjPlayer *)arg0)->set_flag_400000();
     } else {
         ((TObjPlayer *)arg0)->sync_current_area();

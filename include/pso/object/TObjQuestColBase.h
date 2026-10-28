@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjQuestColBase : public TUnk_804AF8A0 {
+struct TObjQuestColBase : public TObjCollidable {
     virtual ~TObjQuestColBase();
     virtual void update_room_id_check();
     virtual int vfunc_15();

@@ -200,14 +200,14 @@ extern s32 model_render_flags;
 extern const f32 lbl_805DC95C;
 extern const f32 lbl_805DC960;
 void disallow_rendering__7TObjectFv(TObject *);
-void set_entity_id__13TUnk_804B9870FUs(void *, s32);
+void set_entity_id__8TObjBaseFUs(void *, s32);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 s8 get_captured_target_collider_index(s32);
 s32 get_uid__10TObjPlayerFv(s32);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32);
-void __ct__13TUnk_804B9870FP7TObject(void *, s32);
+void __ct__8TObjBaseFP7TObject(void *, s32);
 void fn_8023B590(void *, s32, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
@@ -403,7 +403,7 @@ void *__dt__10TTecSlicerFv(void *arg0, s16 arg1) {
         if (((TTecSlicer *)arg0)->star != NULL) { queue_destruction__7TObjectFv((s32)((void *)(((TTecSlicer *)arg0)->star))); }
         dt__10TTecSlicerFls((s8 *)arg0 + 0xE8, -1);
         dt__10TTecSlicerFls((s8 *)arg0 + 0xC8, -1);
-        __dt__13TUnk_804B9870Fv(arg0, 0);
+        __dt__8TObjBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -420,14 +420,14 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     s32 ext;
     s32 i;
     s32 e;
-    __ct__13TUnk_804B9870FP7TObject(self, tl_05);
+    __ct__8TObjBaseFP7TObject(self, tl_05);
     self->vt = __vt__10TTecSlicer;
     __ct__8FlagWordFv((self->fwd));
     ((TTecSlicer *)(self->fc8))->reset_fields_1e();
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->f0 = lbl_805D3828;
     disallow_rendering__7TObjectFv((TObject *)self);
-    ((TUnk_804B9870 *)self)->set_entity_id(pop_free_entity_id());
+    ((TObjBase *)self)->set_entity_id(pop_free_entity_id());
     self->f110 = init->f8;
     self->f24 = init->f4;
     self->f114 = init->f0;

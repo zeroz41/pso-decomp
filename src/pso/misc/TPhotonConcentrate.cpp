@@ -7,13 +7,13 @@
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"
 
 extern "C" {
 
 void *create_particle_emitter(void *pos, s32 id);
-s32 __ct__13TUnk_804AF8A0FP7TObject(s32, s32);
+s32 __ct__14TObjCollidableFP7TObject(s32, s32);
 s32 find_entity_by_id(s32, f32);
 void __dl__7TObjectFPv(void *);
 extern s32 __vt__18TPhotonConcentrate[];
@@ -146,7 +146,7 @@ TPhotonConcentrate::~TPhotonConcentrate() {
 extern "C" {
 
 }
-TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TUnk_804AF8A0((TObject *)arg2) {
+TPhotonConcentrate::TPhotonConcentrate(u8 *arg1, s32 arg2, s32 arg3) : TObjCollidable((TObject *)arg2) {
     f32 temp_f1;
     *(s32 *)((s8 *)this + 0) = (s32) lbl_805D34D0;
     VecCopy((Vec *)(((u8 *)this) + 0xAC), (const Vec *)(VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)((const Vec *)arg1))));

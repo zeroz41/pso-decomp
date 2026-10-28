@@ -36,7 +36,7 @@ extern "C" {
 void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self);
 void *mem_alloc(u32 size);
 u16 register_entity_by_id(void *ov);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 boss8_collision_segment_desc[];
 extern s32 lbl_804E4BB4[];
 extern s32 lbl_805D4000;
@@ -137,7 +137,7 @@ u8 *TBoss8DragonColli__ct(u8 *object, s32 arg1) {
 
 void TBoss8DragonColli_C::render() {  }
 void TBoss8DragonColli__sub_802F3074(void* p) { ((TBoss8DragonColli_C *)p)->clear_segment_flags(); }
-void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TUnk_804AF8A0 *)p)->refresh_collision_body_centers(); set_all_flags__17TBoss8DragonColliFPv((O_802F3144 *)(p)); }
+void init__17TBoss8DragonColliFPvPvPv(void* p, void* a1, void* a2) { push_matrix(p); set_matrix_identity((void*)0); post_translate_matrix(a1); rotate_matrix_y((void*)0, a2); matrix_mult_vec((void*)0, (char*)p + 0xac, (char*)p + 0x38); pop_matrix(); *(void**)((char*)p + 0x60) = a2; ((TObjCollidable *)p)->refresh_collision_body_centers(); set_all_flags__17TBoss8DragonColliFPv((O_802F3144 *)(p)); }
 
 void TBoss8DragonColli_C::clear_segment_flags() {
     O_802F310C *self = (O_802F310C *)this;
@@ -153,9 +153,9 @@ void set_all_flags__17TBoss8DragonColliFPv(O_802F3144 *self) {
 void *destroy__17TBoss8DragonColliFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E4BB4;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -169,7 +169,7 @@ s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, i
     f32 zero;
     f32 step;
     f32 z;
-    __ct__13TUnk_804AF8A0FP7TObject(self, arg1);
+    __ct__14TObjCollidableFP7TObject(self, arg1);
     self->vt = ((u8 *)&lbl_804E4BB4);
     self->f0 = lbl_805D4000;
     VecCopy((Vec *)self->pos, (const Vec *)arg3);
@@ -190,7 +190,7 @@ s32 init_collision_segments__17TBoss8DragonColliFiPviPvf(int arg0, void *arg1, i
         e->flags = 0x10003;
         e++;
     }
-    ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
+    ((TObjCollidable *)self)->refresh_collision_body_centers();
     register_entity_by_id(self);
     ((TBoss8DragonColli_C *)self)->clear_segment_flags();
     return arg0;
@@ -201,14 +201,14 @@ void __dt__17TBoss8DragonColliFv();
 void run_task__7TObjectFv();
 void render__7TObjectFv();
 void render_shadows__7TObjectFv();
-void vfunc_6__13TUnk_804B9870FPsl();
-void apply_object_set_data__13TUnk_804B9870FPv();
-void reset_motion_fields__13TUnk_804AF8A0Fv();
-void get_center__13TUnk_804B9870Fv();
-void update_object_view_visibility__13TUnk_804B9870Fff();
-void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void get_name__13TUnk_804B9870Fv();
-void interact__13TUnk_804AF8A0Fl();
+void vfunc_6__8TObjBaseFPsl();
+void apply_object_set_data__8TObjBaseFPv();
+void reset_motion_fields__14TObjCollidableFv();
+void get_center__8TObjBaseFv();
+void update_object_view_visibility__8TObjBaseFff();
+void classify_actor_view_detail__8TObjBaseFfff();
+void get_name__8TObjBaseFv();
+void interact__14TObjCollidableFl();
 u8 boss8_collision_segment_desc[0x2C] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x41, 0xC8, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0x80, 0x03,
@@ -228,14 +228,14 @@ s32 lbl_804E4BB4[] = {
     (s32)run_task__7TObjectFv,
     (s32)render__19TBoss8DragonColli_CFv,
     (s32)render_shadows__7TObjectFv,
-    (s32)vfunc_6__13TUnk_804B9870FPsl,
-    (s32)apply_object_set_data__13TUnk_804B9870FPv,
-    (s32)reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)get_center__13TUnk_804B9870Fv,
-    (s32)update_object_view_visibility__13TUnk_804B9870Fff,
-    (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)get_name__13TUnk_804B9870Fv,
-    (s32)interact__13TUnk_804AF8A0Fl,
+    (s32)vfunc_6__8TObjBaseFPsl,
+    (s32)apply_object_set_data__8TObjBaseFPv,
+    (s32)reset_motion_fields__14TObjCollidableFv,
+    (s32)get_center__8TObjBaseFv,
+    (s32)update_object_view_visibility__8TObjBaseFff,
+    (s32)classify_actor_view_detail__8TObjBaseFfff,
+    (s32)get_name__8TObjBaseFv,
+    (s32)interact__14TObjCollidableFl,
     0,
 };
 }

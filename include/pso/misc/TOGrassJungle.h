@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOGrassJungle : public TUnk_804B9870 {
+struct TOGrassJungle : public TObjBase {
     virtual ~TOGrassJungle();
     u32 m_90;
     static void release_static_instance();

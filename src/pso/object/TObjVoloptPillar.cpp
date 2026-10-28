@@ -11,7 +11,7 @@
 #include "pso/object/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss3VoloptP02.h"
@@ -25,7 +25,7 @@
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
-s32 obj_is_hit_receivable(TUnk_804806E8 *actor);
+s32 obj_is_hit_receivable(TObjChara *actor);
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
 void rotate_matrix_x(s32 matrix, s32 angle);
@@ -76,7 +76,7 @@ void TObjVoloptPillar::render() {
 
 void TObjVoloptPillar::run_task() {
     s32 i;
-    TUnk_804806E8 *target;
+    TObjChara *target;
     s32 angle;
     switch (state) {
     case 0:
@@ -98,7 +98,7 @@ void TObjVoloptPillar::run_task() {
             ((TObjPlayer *)this)->check_object_collisions();
             if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
-                    target = (TUnk_804806E8 *)TObjPlayer::get_battle_param(i);
+                    target = (TObjChara *)TObjPlayer::get_battle_param(i);
                     if (target == NULL) {
                         break;
                     }
@@ -159,7 +159,7 @@ TObjVoloptPillar::~TObjVoloptPillar() {
     free_collision_body_parts(this);
 }
 
-TObjVoloptPillar::TObjVoloptPillar(Vec *pos, TObject *owner) : TUnk_804AF8A0(tl_04) {
+TObjVoloptPillar::TObjVoloptPillar(Vec *pos, TObject *owner) : TObjCollidable(tl_04) {
     f32 dist;
     m_name = TObjVoloptPillar_name;
     init_collision_body_parts(this, volopt_pillar_collision_body, 1);

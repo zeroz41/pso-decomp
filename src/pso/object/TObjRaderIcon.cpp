@@ -11,7 +11,7 @@ struct RecoveredGlobal_8019733C___vt__13TObjRaderIcon {
 struct Icon_80197110 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x1C]; s32 f60; u8 pad64[0x2C]; s32 f90; s32 f94; s32 f98; f32 f9C; u32 fA0; };
 
 extern "C" {
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__13TObjRaderIcon[];
 extern s32 lbl_805D3418;
 void add_radar_scaled_gate(void *, u32, u16, s32, s32, f32);
@@ -97,7 +97,7 @@ TObjRaderIcon::~TObjRaderIcon() {
 extern "C" {
 typedef char RecoveredGlobal_8019733C___vt__13TObjRaderIcon_size[sizeof(RecoveredGlobal_8019733C___vt__13TObjRaderIcon) == 0x34 ? 1 : -1];
 u8 *TObjRaderIcon__ct(u8 *rader_icon, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B9870FP7TObject(rader_icon);
+    __ct__8TObjBaseFP7TObject(rader_icon);
     *(s32 **)((s8 *)rader_icon + 0x18) = &(*(RecoveredGlobal_8019733C___vt__13TObjRaderIcon *)&__vt__13TObjRaderIcon).value;
     *(s32 *)((s8 *)rader_icon + 0) = (s32) lbl_805D3418;
     ((TObjRaderIcon *)(rader_icon))->apply_object_set_data((void *)arg2);

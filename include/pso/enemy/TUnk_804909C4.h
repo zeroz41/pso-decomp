@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_804909C4 : public TUnk_804AF8A0 {
+class TUnk_804909C4 : public TObjCollidable {
 public:
     TUnk_804909C4(u8 *player, s32 arg2, s32 arg3);
     virtual ~TUnk_804909C4();

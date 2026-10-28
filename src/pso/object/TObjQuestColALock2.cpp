@@ -150,7 +150,7 @@ block_12:
 void *__dt__18TObjQuestColALock2Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjQuestColALock2;
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         __dt__16TObjQuestColBaseFv((u8 *)arg0, 0);
         if (arg1 > 0) {
@@ -165,10 +165,10 @@ u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *quest_col_a_lock2, s32 arg1, s32 
     *(s32 **)((s8 *)quest_col_a_lock2 + 0x18) = &(*(RecoveredGlobal_80195BEC___vt__18TObjQuestColALock2 *)&__vt__18TObjQuestColALock2).value;
     *(s32 *)((s8 *)quest_col_a_lock2 + 0) = (s32) lbl_805D3408;
     init_collision_body_parts(quest_col_a_lock2, (s32) &TObjQuestColALock__collision_desc.value, 1);
-    ((TUnk_804AF8A0 *)quest_col_a_lock2)->set_indexed_flags(0, 0xF0);
+    ((TObjCollidable *)quest_col_a_lock2)->set_indexed_flags(0, 0xF0);
     temp_r4 = (u8 *)quest_col_a_lock2->bodies;
     *(f32 *)((s8 *)temp_r4 + 4) = (f32) (*(f32 *)((s8 *)temp_r4 + 4) + quest_col_a_lock2->scale.y);
-    ((TUnk_804AF8A0 *)quest_col_a_lock2)->refresh_collision_body_centers();
+    ((TObjCollidable *)quest_col_a_lock2)->refresh_collision_body_centers();
     quest_col_a_lock2->actorFlags = (s32) (quest_col_a_lock2->actorFlags | 0x40000000);
     ((TObjPlayer *)quest_col_a_lock2)->register_object_by_id();
     quest_col_a_lock2->m_c0 = (s32) *(s32 *)((s8 *)quest_col_a_lock2 + 0x88);

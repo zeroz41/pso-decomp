@@ -250,7 +250,7 @@ void *__dt__19TOMonumentAncient02Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TOMonumentAncient02;
         TBoss4Type2::request_destroy((u32)(*(void **)((s8 *)arg0 + 0xE8)));
-        ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
+        ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
         ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
         if (arg1 > 0) {
@@ -270,7 +270,7 @@ u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 8);
     arg0->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 0xC);
     init_collision_body_parts(arg0, (s32) &monument_ancient02_collision_parts.value, 1);
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     global_state = get_current_area();
     switch (global_state) {

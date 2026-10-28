@@ -125,7 +125,7 @@ __declspec(section ".ctors") static void *const item_global_initializer = (void 
 void CursorAction::set_pick_up() { kind = CURSOR_ACTION_PICK_UP; }
 
 
-s32 TUnk_804AF8A0::has_interactor() { return interactor != 0xFFFF; }
+s32 TObjCollidable::has_interactor() { return interactor != 0xFFFF; }
 
 void FloorItem::clear() {
     source_type = 0;
@@ -140,7 +140,7 @@ void FloorItem::clear() {
 
 FloorItem::FloorItem() { clear(); }
 
-void TUnk_804B9870::set_entity_id(u16 id) { entity_id = id; }
+void TObjBase::set_entity_id(u16 id) { entity_id = id; }
 
 G_PickUpItemRequest_6x5A::G_PickUpItemRequest_6x5A() {
     item_id = -1;
@@ -345,7 +345,7 @@ void *TItem::operator new(size_t size) { return obj_heap->heap_alloc(size); }
 
 void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 
-TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
+TItem::TItem(TObject *parent, u8 *item) : TObjCollidable(parent) {
     m_name = TItem__name;
     obj_setFlags30(this, 0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
@@ -497,7 +497,7 @@ void TItem::interact(s32 client) {
     u16 id = client;
     if (id != 0xFFFF) {
         if ((get_player_by_client_id(id))->can_pickup_item_by_id(this) != 0 && has_interactor() == 0) {
-            TUnk_804AF8A0::interact(client);
+            TObjCollidable::interact(client);
             G_PickUpItemRequest_6x5A cmd;
             cmd.header.client_id = client;
             cmd.item_id = get_item_id();
@@ -506,7 +506,7 @@ void TItem::interact(s32 client) {
             pickup_wait_frames = 0;
         }
     } else {
-        TUnk_804AF8A0::interact(0xFFFF);
+        TObjCollidable::interact(0xFFFF);
     }
 }
 

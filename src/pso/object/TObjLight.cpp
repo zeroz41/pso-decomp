@@ -66,7 +66,7 @@ extern "C" {
 s32 is_split_screen(void);
 u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
-s32 __ct__13TUnk_804B9870FP7TObject(void *);
+s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__9TObjLight[];
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 extern s32 lbl_805D33B8;
@@ -195,14 +195,14 @@ void TObjLight::run_task() {
 
 }
 TObjLight::~TObjLight() {
-    ((TUnk_804B9870 *)this)->mask_object_set_row_flags(-3);
+    ((TObjBase *)this)->mask_object_set_row_flags(-3);
 }
 extern "C" {
 
 typedef char RecoveredGlobal_80194528___vt__9TObjLight_size[sizeof(RecoveredGlobal_80194528___vt__9TObjLight) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_80194528_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80194528_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
-    __ct__13TUnk_804B9870FP7TObject(light);
+    __ct__8TObjBaseFP7TObject(light);
     *(s32 **)((s8 *)light + 0x18) = &(*(RecoveredGlobal_80194528___vt__9TObjLight *)&__vt__9TObjLight).value;
     *(s32 *)((s8 *)light + 0) = (s32) lbl_805D33B8;
     ((TObjLight *)(light))->apply_object_set_data(arg2);

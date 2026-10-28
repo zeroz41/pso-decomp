@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjCity_Season_HalloweenPumpkin : public TUnk_804B9870 {
+struct TObjCity_Season_HalloweenPumpkin : public TObjBase {
     virtual ~TObjCity_Season_HalloweenPumpkin();
     virtual void render();
     virtual void run_task();

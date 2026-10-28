@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjLight : public TUnk_804B9870 {
+struct TObjLight : public TObjBase {
     virtual ~TObjLight();
     void *init_from_source(void *, int, int);
     u32 m_90;

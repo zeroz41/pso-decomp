@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TKomorebi : public TUnk_804B9870 {
+struct TKomorebi : public TObjBase {
     virtual ~TKomorebi();
     virtual void render();
     virtual void run_task();

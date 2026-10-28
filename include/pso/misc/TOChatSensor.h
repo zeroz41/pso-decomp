@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOChatSensor : public TUnk_804B9870 {
+struct TOChatSensor : public TObjBase {
     virtual ~TOChatSensor();
     u32 m_90;
     u16 m_94;

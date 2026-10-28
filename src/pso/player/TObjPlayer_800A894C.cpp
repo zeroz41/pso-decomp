@@ -239,7 +239,7 @@ s32 find_active_entity_by_id(u16);
 void TObjPlayer__sub_800AA330(void *);
 s32 submit_cursor_candidate(void *, s32);
 s32 minimap_render_dot(void *, s32, s32, s32);
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 void *TObjControl__ct(void *, void *);
 void *TObjEneDubchik__ct(void *, void *, void *);
 extern void *tl_04;
@@ -281,8 +281,8 @@ s32 update_enemy_wander_move(void *, Vec_800A9E9C *, s32, f32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
-s32 update_shock_clock__13TUnk_804806E8Fv();
-s32 update_movement_status__13TUnk_804806E8Fv();
+s32 update_shock_clock__9TObjCharaFv();
+s32 update_movement_status__9TObjCharaFv();
 
 struct Ids_800AA82C { s16 v[2]; };
 const Ids_800AA82C lbl_805D9AD8 = {{0x1E, 0x1F}};
@@ -322,7 +322,7 @@ void TObjPlayer::clear_state7_flag() {
 
 s32 TObjPlayer::try_apply_800a89b0() {
     s32 arg0 = (s32)this;
-    if (update_movement_status__13TUnk_804806E8Fv() != 0) {
+    if (update_movement_status__9TObjCharaFv() != 0) {
         clear_state7_flag();
         return 1;
     }
@@ -331,7 +331,7 @@ s32 TObjPlayer::try_apply_800a89b0() {
 
 s32 TObjEneDubchik::update_shock_clock() {
     s32 arg0 = (s32)this;
-    if (update_shock_clock__13TUnk_804806E8Fv() != 0) {
+    if (update_shock_clock__9TObjCharaFv() != 0) {
         ((TObjPlayer *)arg0)->clear_state7_flag();
         return 1;
     }
@@ -829,7 +829,7 @@ void TObjPlayer__sub_800A9C38(void *arg0_) {
         break;
     case -1:
         ((TObjPlayer *)arg0)->clear_flag_04000000();
-        ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x200);
+        ((TObjBase *)arg0)->obj_clearFlags30(0x200);
         *(u32 *)((s8 *)arg0 + 0x388) &= ~1;
         *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
         ((TObjEneMe1GiGue *)arg0)->update_if_active(1);
@@ -1065,7 +1065,7 @@ void TObjPlayer::update_synced_state() {
     ((TObjEneDubchik *)arg0)->sub_800AB068();
     ((TObjEnemy *)arg0)->update_prev_position();
     VecCopy(&this->center, (const Vec *)&this->m_2fc);
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x04000000) == 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x04000000) == 0) {
         submit_cursor_candidate(arg0, -1);
     }
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);

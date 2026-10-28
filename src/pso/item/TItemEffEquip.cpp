@@ -44,7 +44,7 @@ extern "C" {
 void *destroy__13TUnk_8049F038Fs(void *arg0, s16 arg1);
 void run_task__13TUnk_8049F038Fv(u8 *arg0);
 u8 *get_center__13TUnk_8049F038Fv(u8 *arg0);
-s32 set_entity_id__13TUnk_804B9870FUs(void *, s32);
+s32 set_entity_id__8TObjBaseFUs(void *, s32);
 void *get_player_by_client_id(s32 i);
 struct Obj_80108C90 {
     u8 pad0[0x18];
@@ -55,7 +55,7 @@ struct Obj_80108C90 {
     s32 f_B0;
     u8 sub[0x10];
 };
-void __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
+void __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 lbl_8043E1A0[];
 
 #include "pso/TItemEffFlame.h"
@@ -271,9 +271,9 @@ void *TUnk_8049F038::destroy(s16 arg1) {
             unregister_object_by_id();
             clear_collision_bodies();
             push_free_entity_id(get_entity_id(this));
-            set_entity_id__13TUnk_804B9870FUs(this, 0xFFFF);
+            set_entity_id__8TObjBaseFUs(this, 0xFFFF);
         }
-        __dt__13TUnk_804AF8A0Fv(this, 0);
+        __dt__14TObjCollidableFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -282,14 +282,14 @@ void *TUnk_8049F038::destroy(s16 arg1) {
 }
 
 }
-TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(parent) {
+TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
     copy_collision_body((CollisionBody *)(((Obj_80108C90 *)this)->sub), (const CollisionBody *)lbl_8043E1A0);
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }
-    ((TUnk_804AF8A0 *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
+    ((TObjCollidable *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
     ((TObjPlayer *)this)->register_object_by_id();
     disallow_rendering__7TObjectFv((TObject *)this);
 }
@@ -304,13 +304,13 @@ void TItemEffFlame::play_effect(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 void render__7TObjectFv(void);
 void render_shadows__7TObjectFv(void);
-void vfunc_6__13TUnk_804B9870FPsl(void);
-void apply_object_set_data__13TUnk_804B9870FPv(void);
-void reset_motion_fields__13TUnk_804AF8A0Fv(void *);
-void update_object_view_visibility__13TUnk_804B9870Fff(void);
-void classify_actor_view_detail__13TUnk_804B9870Ffff(void);
-void get_name__13TUnk_804B9870Fv(void);
-void interact__13TUnk_804AF8A0Fl(void);
+void vfunc_6__8TObjBaseFPsl(void);
+void apply_object_set_data__8TObjBaseFPv(void);
+void reset_motion_fields__14TObjCollidableFv(void *);
+void update_object_view_visibility__8TObjBaseFff(void);
+void classify_actor_view_detail__8TObjBaseFfff(void);
+void get_name__8TObjBaseFv(void);
+void interact__14TObjCollidableFl(void);
 
 void *__vt__13TItemEffEquip[6] = {
     0, 0, (void *)__dt__13TItemEffEquipFv, (void *)run_task__13TItemEffEquipFv,
@@ -319,9 +319,9 @@ void *__vt__13TItemEffEquip[6] = {
 void *__vt__13TUnk_8049F038[14] = {
     0, 0, (void *)destroy__13TUnk_8049F038Fs, (void *)run_task__13TUnk_8049F038Fv,
     (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
-    (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_8049F038Fv,
-    (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl,
+    (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv,
+    (void *)reset_motion_fields__14TObjCollidableFv, (void *)get_center__13TUnk_8049F038Fv,
+    (void *)update_object_view_visibility__8TObjBaseFff, (void *)classify_actor_view_detail__8TObjBaseFfff,
+    (void *)get_name__8TObjBaseFv, (void *)interact__14TObjCollidableFl,
 };
 }

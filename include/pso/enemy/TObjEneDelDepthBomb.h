@@ -2,9 +2,9 @@
 #define PSO_ENEMY_TOBJENEDELDEPTHBOMB_H
 
 #include "types.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 
-struct TObjEneDelDepthBomb : public TUnk_804806E8 {
+struct TObjEneDelDepthBomb : public TObjChara {
     virtual ~TObjEneDelDepthBomb();
     virtual void render();
     virtual void run_task();

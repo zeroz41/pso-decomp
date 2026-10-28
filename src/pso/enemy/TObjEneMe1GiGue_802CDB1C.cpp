@@ -54,7 +54,7 @@ extern "C" {
 f32 atan2_float(f32 y, f32 x);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 u8 *find_entity_by_id(s16);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, s32);
+s32 __ct__14TObjCollidableFP7TObject(void *, s32);
 s32 matrix_mult_vec(void *, Vec_802CDEB4 *, void *);
 s32 rotate_matrix_y(void *, s32);
 s32 rotate_matrix_x(void *, s32);
@@ -176,7 +176,7 @@ void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
         if (*(void **)((s8 *)arg0 + 0xF8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8)); ((TUnk_804E14E8 *)arg0)->m_f8 = 0; }
         if (*(void **)((s8 *)arg0 + 0xFC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xFC)); *(s32 *)((s8 *)arg0 + 0xFC) = 0; }
-        __dt__13TUnk_804AF8A0Fv(arg0, 0);
+        __dt__14TObjCollidableFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -185,7 +185,7 @@ void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1) {
 }
 u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6) {
     Vec_802CDEB4 *pos;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, tl_04);
+    __ct__14TObjCollidableFP7TObject(arg0, tl_04);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
     ((TUnk_804E14E8 *)arg0)->m_108 = arg2;
     *(s16 *)((s8 *)arg0 + 0x10A) = arg6;

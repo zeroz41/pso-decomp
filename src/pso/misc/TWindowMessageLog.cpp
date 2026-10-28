@@ -22,7 +22,7 @@ extern const f32 lbl_805DD248;
 extern const f32 lbl_805DD24C;
 s32 is_locally_controlled__10TObjPlayerFPv(s32);
 s32 find_entity_by_id();
-s32 obj_isState2_324__13TUnk_804806E8Fv();
+s32 obj_isState2_324__9TObjCharaFv();
 
 s32 TWindowMessageLog::get_active_photon_object() {
     s32 temp_r3;
@@ -32,7 +32,7 @@ s32 TWindowMessageLog::get_active_photon_object() {
     if (temp_r3 == 0) {
         return 0;
     }
-    if ((obj_isState2_324__13TUnk_804806E8Fv() == 0) && (is_locally_controlled__10TObjPlayerFPv(temp_r3) == 0)) {
+    if ((obj_isState2_324__9TObjCharaFv() == 0) && (is_locally_controlled__10TObjPlayerFPv(temp_r3) == 0)) {
         return 0;
     }
     var_r3 = temp_r3 + 0x85C;

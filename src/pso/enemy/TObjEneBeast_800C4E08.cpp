@@ -550,7 +550,7 @@ s32 apply_actor_gravity(void *, int, f32);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, int);
+s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 void *spawn_particle_effect(void *pos, s32 id);
 s32 advance_animation_playback();
 extern const f32 lbl_805DA034;
@@ -569,10 +569,10 @@ int __ct__9TObjEnemyFP7TObject(void);
     extern const float lbl_805DA05C;
     extern const float lbl_805DA060;
     extern const float lbl_805DA064;
-s32 update_movement_status__13TUnk_804806E8Fv(void *);
+s32 update_movement_status__9TObjCharaFv(void *);
 s32 submit_cursor_candidate(void *, int);
 extern const f32 lbl_805DA048;
-s32 update_action_hold_status__13TUnk_804806E8Fv(void *);
+s32 update_action_hold_status__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 f32 calc_boss4_scale__10TObjPlayerFi(s32 arg0);
@@ -593,7 +593,7 @@ f32 enemy_backstep_from_point(void *, void *, f32);
 s32 update_angle__10TObjPlayerFlPv(void *, void *, void *);
 s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x100000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
         *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x39C);
         this->m_c8 = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x3A4);
         return;
@@ -616,7 +616,7 @@ s32 TUnk_80493450::update_target_near_flag() {
         temp_f31 = horizontal_distance_squared(temp_r31 + 0x38, (void *) ((u8 *)this + 0x38));
         switch (((TObjPlayer *)temp_r31)->class_flags & CLASS_FLAG_TYPE_MASK) {
         case CLASS_FLAG_HUNTER:
-            if (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x100000) != 0) {
+            if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
                 if (lbl_805DA028 < temp_f31) {
                     obj_clearFlags30(0x100000);
                 }
@@ -625,7 +625,7 @@ s32 TUnk_80493450::update_target_near_flag() {
             }
             break;
         default:
-            if (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x100000) != 0) {
+            if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
                 if (lbl_805DA030 < temp_f31) {
                     obj_clearFlags30(0x100000);
                 }
@@ -654,7 +654,7 @@ void TUnk_80493450::beast_update_dead() {
         move_with_wall_slide((arg0));
         *(f32 *)((s8 *)arg0 + 0x308) = (f32) (*(f32 *)((s8 *)arg0 + 0x308) * lbl_805DA03C);
         this->m_310 = (f32) (this->m_310 * lbl_805DA03C);
-    } else if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x800000) == 0) {
+    } else if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800000) == 0) {
         apply_actor_gravity(arg0, 0, lbl_805DA034);
     }
     *(f32 *)((s8 *)arg0 + 0x380) = (f32) (*(f32 *)((s8 *)arg0 + 0x380) - this->m_384);
@@ -691,11 +691,11 @@ void TUnk_80493450::beast_update_hurt() {
         this->vfunc_97();
     }
     if (((TObjPlayer *)o)->m_b4 != 8) {
-        ((TUnk_804B9870 *)o)->obj_clearFlags30(0x600);
-        ((TUnk_804AF8A0 *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x04000000));
+        ((TObjBase *)o)->obj_clearFlags30(0x600);
+        ((TObjCollidable *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x04000000));
         if (*(s32 *)&((TObjPlayer *)o)->m_334 == 0) {
             if ((f32)((TObjPlayer *)o)->hp < (f32)((TObjPlayer *)o)->hpmax * ((TObjPlayer *)o)->m_354) {
-                ((TUnk_804B9870 *)o)->obj_clearFlags30(0x1000);
+                ((TObjBase *)o)->obj_clearFlags30(0x1000);
                 o->f374 = (s16)(lbl_805DA044 * (lbl_805DA048 + ((TObjPlayer *)o)->m_354));
             }
         }
@@ -749,7 +749,7 @@ void TUnk_80493450::beast_update_attack() {
     case 2:
         ((Self_800C53DC *)this)->f33C--;
         if (((Self_800C53DC *)this)->f33C < 0) {
-            ((TUnk_804B9870 *)((Self_800C53DC *)this))->obj_clearFlags30(0x200000);
+            ((TObjBase *)((Self_800C53DC *)this))->obj_clearFlags30(0x200000);
             ((Self_800C53DC *)this)->f33C = 0;
             this->vfunc_100();
         }
@@ -775,8 +775,8 @@ void TUnk_80493450::vfunc_60() {
             this->mode = 2;
             this->m_b8 = 10;
         }
-        ((TUnk_804B9870 *)o)->obj_clearFlags30(0x04040000);
-        ((TUnk_804AF8A0 *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+        ((TObjBase *)o)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
         break;
     case 2:
         break;
@@ -789,15 +789,15 @@ void TUnk_80493450::vfunc_60() {
             this->m_b8 = 4;
         }
         obj_setFlags30(o, 0x200000);
-        ((TUnk_804B9870 *)o)->obj_clearFlags30(0x04040000);
-        ((TUnk_804AF8A0 *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+        ((TObjBase *)o)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
         break;
     }
 }
 
 s32 TUnk_80493450::update_movement_status() {
     u8 *arg0 = (u8 *)this;
-  if (update_movement_status__13TUnk_804806E8Fv((void *) arg0) != 0)
+  if (update_movement_status__9TObjCharaFv((void *) arg0) != 0)
   {
     if ((this->mode) != 0)
     {
@@ -811,8 +811,8 @@ s32 TUnk_80493450::update_movement_status() {
       this->mode = 1;
       this->phase = 0;
       this->m_b8 = 0;
-      ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04040000);
-      ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
+      ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+      ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -821,7 +821,7 @@ s32 TUnk_80493450::update_movement_status() {
 
 s32 TUnk_80493450::update_action_hold_status() {
     u8 *arg0 = (u8 *)this;
-  if (update_action_hold_status__13TUnk_804806E8Fv((void *) arg0) != 0)
+  if (update_action_hold_status__9TObjCharaFv((void *) arg0) != 0)
   {
     if ((this->mode) != 0)
     {
@@ -835,8 +835,8 @@ s32 TUnk_80493450::update_action_hold_status() {
       this->mode = 1;
       this->phase = 0;
       this->m_b8 = 0;
-      ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04040000);
-      ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
+      ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+      ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
     }
     return 1;
   }
@@ -863,7 +863,7 @@ void TUnk_80493450::beast_update_group_chase() {
         if (d < r * r) {
             arg0->f326 = 3;
             arg0->f328 = 0;
-            ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x1000);
+            ((TObjBase *)arg0)->obj_clearFlags30(0x1000);
             arg0->f374 = 0;
         }
     }
@@ -918,7 +918,7 @@ void TUnk_80493450::beast_update_approach() {
     }
     ((TObjPlayer *)arg0)->update_collisions();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x200000);
+    ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
 }
 
 void TUnk_80493450::update_turn_toward_target() {
@@ -975,7 +975,7 @@ void TUnk_80493450::update_turn_toward_target() {
 
 void TUnk_80493450::vfunc_59() {
     u8 *arg0 = (u8 *)this;
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x1000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x1000) != 0) {
         this->mode = 4;
     }
     switch (this->mode) {
@@ -988,8 +988,8 @@ void TUnk_80493450::vfunc_59() {
             this->mode = 2;
             this->m_b8 = 0xA;
         }
-        ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04040000);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
+        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
         break;
     case 2:
     case 3:
@@ -1001,8 +1001,8 @@ void TUnk_80493450::vfunc_59() {
         this->mode = 3;
         this->phase = 1;
         this->m_b8 = 2;
-        ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04040000);
-        ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
+        ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
+        ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
         break;
     }
 }
@@ -1107,13 +1107,13 @@ void TUnk_80493450::beast_idle_update() {
         this->request_stand_action();
     }
 end:
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x800000) == 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x800000) == 0) {
         apply_actor_gravity(arg0, 0, lbl_805DA034);
     }
-    ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
+    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
-    ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04240000);
-    ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
+    ((TObjBase *)arg0)->obj_clearFlags30(0x04240000);
+    ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
 }
 
 void TObjPlayer::tick_freeze_state() {

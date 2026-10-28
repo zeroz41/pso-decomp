@@ -2,7 +2,7 @@
 #include "pso/system/NinjaUtil.h"
 #include "pso/misc/TOComputerMachine01_8023DD0C.h"
 #include "pso/player/TObjPlayer_800A0408.h"
-#include "pso/player/TUnk_804806E8.h"
+#include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TUnk_80490470.h"
 #include "pso/enemy/TObjEneBalClaw.h"
@@ -247,7 +247,7 @@ u8 *TObjEneBalClaw__ct(TObjEneBalClaw *ene_bal_claw) {
     *(s32 **)((s8 *)ene_bal_claw + 0x18) = &(*(RecoveredGlobal_8008DB6C___vt__14TObjEneBalClaw *)&__vt__14TObjEneBalClaw).value;
     ((TUnk_80490470 *)((u8 *)ene_bal_claw + 0x390))->init_vtable_and_field18();
     ene_bal_claw->m_name = balclaw_class_name;
-    ((TUnk_804806E8 *)ene_bal_claw)->add_flags_2e4(8);
+    ((TObjChara *)ene_bal_claw)->add_flags_2e4(8);
     ene_bal_claw->actorFlags = (s32) (ene_bal_claw->actorFlags | 0x40000);
     ene_bal_claw->m_3b8 = 0;
     ene_bal_claw->m_3bc = 0.0f;

@@ -182,7 +182,7 @@ extern RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 TParticleCtrl__data
 u8 * __dt__7TObjectFv(void *, s16);
 extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
 u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
-s32 __ct__13TUnk_804B9870FP7TObject(void *, void *);
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_8048E6A8[];
 extern s32 lbl_8048E6DC[];
 extern s32 lbl_805D2930;

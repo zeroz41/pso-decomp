@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjMistCtrl : public TUnk_804B9870 {
+struct TObjMistCtrl : public TObjBase {
     virtual ~TObjMistCtrl();
     void sub_802AF64C();
     void run_task();

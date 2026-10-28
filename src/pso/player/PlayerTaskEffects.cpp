@@ -69,7 +69,7 @@ s32 is_script_controlled__10TObjPlayerFv(s32);
 
 s32 check_flag_0x8000__10TObjPlayerFv();
 s32 get_entity_id(s32);
-s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
+s32 obj_isState3_324__9TObjCharaFv(s32);
 
 extern s32 tl_06;
 
@@ -141,11 +141,11 @@ extern const f32 lbl_805DC340;
 
 extern "C" {
 TObjPlayer* get_player_by_client_id(int);
-int obj_isState2_324__13TUnk_804806E8Fv(TObjPlayer*);
+int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 extern s32 local_client_id;
 void request_player_shrink(PlayerScaleState* state);
 TObjPlayer* get_player_by_client_id(int);
-int obj_isState2_324__13TUnk_804806E8Fv(TObjPlayer*);
+int obj_isState2_324__9TObjCharaFv(TObjPlayer*);
 void request_player_size_restore(PlayerScaleState* state);
 TObjPlayer* get_player_by_client_id(int);
 int check_camera_mode__10TObjPlayerFv();
@@ -731,7 +731,7 @@ namespace accessors {
 extern "C" {
 void request_player_shrink(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(get_obj_type__10TObjPlayerFPv(state));
-    if (!player || !obj_isState2_324__13TUnk_804806E8Fv(player)) {
+    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
         if (local_client_id == get_obj_type__10TObjPlayerFPv(state))
             update_player_scale_camera((PlayerScaleState *)(state));
         PlayerShrinkPacket packet;
@@ -776,7 +776,7 @@ namespace accessors {
 extern "C" {
 void request_player_size_restore(PlayerScaleState* state) {
     TObjPlayer* player = get_player_by_client_id(get_obj_type__10TObjPlayerFPv(state));
-    if (!player || !obj_isState2_324__13TUnk_804806E8Fv(player)) {
+    if (!player || !obj_isState2_324__9TObjCharaFv(player)) {
         PlayerRestoreSizePacket packet;
         ((TObjPlayer *)(&packet))->init_6x88_packet();
         packet.actor_id = get_obj_type__10TObjPlayerFPv(state);
@@ -917,7 +917,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     s32 temp_r3;
     s32 player = (s32)this;
 
-    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__13TUnk_804806E8Fv(player) != 0) || (is_script_controlled__10TObjPlayerFv(player) != 0)) {
+    if ((check_flag_0x8000__10TObjPlayerFv() != 0) || (obj_isState3_324__9TObjCharaFv(player) != 0) || (is_script_controlled__10TObjPlayerFv(player) != 0)) {
         ((TObjPlayer *)player)->set_flag_0x8000();
         return;
     }

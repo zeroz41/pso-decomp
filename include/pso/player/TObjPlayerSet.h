@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TObjPlayerSet : public TUnk_804B9870 {
+struct TObjPlayerSet : public TObjBase {
     virtual ~TObjPlayerSet();
     virtual void render();
     virtual void run_task();

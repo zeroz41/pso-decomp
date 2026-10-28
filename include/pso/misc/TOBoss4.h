@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOBoss4 : public TUnk_804B9870 {
+struct TOBoss4 : public TObjBase {
     virtual ~TOBoss4();
     static void free_instance();
     static void load_static_resource();

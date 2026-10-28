@@ -86,7 +86,7 @@ extern const f32 lbl_805DA478;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-s32 __ct__13TUnk_804AF8A0FP7TObject(void *, int);
+s32 __ct__14TObjCollidableFP7TObject(void *, int);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
@@ -212,7 +212,7 @@ extern "C" {
 u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4) {
     Ang_800DC83C ang;
     f32 s;
-    __ct__13TUnk_804AF8A0FP7TObject(arg0, tl_06);
+    __ct__14TObjCollidableFP7TObject(arg0, tl_06);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80494E10;
     ((TUnk_80494E10 *)arg0)->m_f4 = arg3;
     VecCopy((Vec *)(arg0 + 0xAC), (const Vec *)arg1);

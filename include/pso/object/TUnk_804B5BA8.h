@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-class TUnk_804B5BA8 : public TUnk_804AF8A0 {
+class TUnk_804B5BA8 : public TObjCollidable {
 public:
     virtual ~TUnk_804B5BA8();
     virtual s32 check_player_in_range(s32, f32);

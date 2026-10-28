@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TODummyKeyCave01 : public TUnk_804B9870 {
+struct TODummyKeyCave01 : public TObjBase {
     virtual ~TODummyKeyCave01();
     void sub_80165940();
     u32 m_90;

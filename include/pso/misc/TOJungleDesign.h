@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
-struct TOJungleDesign : public TUnk_804AF8A0 {
+struct TOJungleDesign : public TObjCollidable {
     virtual ~TOJungleDesign();
     u32 m_ac;
     u32 m_b0;

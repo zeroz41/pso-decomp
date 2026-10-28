@@ -159,8 +159,8 @@ extern const f32 lbl_805DD118;
 extern const f32 lbl_805DD11C;
 extern const f32 lbl_805DD120;
 
-s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
-s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
+s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
+s32 obj_isState3_324__9TObjCharaFv(void *);
 s32 is_script_controlled__10TObjPlayerFv(void *);
 s32 draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
@@ -191,9 +191,9 @@ void TWindowLockOn::validate_target() {
       }
     }
     else
-      if (((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(item, 0x10000000) == 0)
+      if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(item, 0x10000000) == 0)
     {
-      if (((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(item, 0x20000000) != 0)
+      if (((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(item, 0x20000000) != 0)
       {
         if (PSO_VCALL_VObj_18_7b8813_m31(item) != 0)
         {
@@ -205,7 +205,7 @@ void TWindowLockOn::validate_target() {
         }
       }
       else
-        if ((((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(item, 0x80000000) != 0) && (((TItem *)item)->get_mode() != 0))
+        if ((((s32 (*)(void *, s32))obj_testFlags30__14TObjCollidableFUl)(item, 0x80000000) != 0) && (((TItem *)item)->get_mode() != 0))
       {
         this->m_60 = 0xFFFFU;
         if (((f32) (*(s32 *)&this->m_64)) > lbl_805DD100)
@@ -222,19 +222,19 @@ bool is_lockable_target__13TWindowLockOnFi(s32 arg0) {
     if (arg0 == 0) {
         return 0;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x10000000) != 0) {
-        if ((obj_isState3_324__13TUnk_804806E8Fv((void *)arg0) != 0) || (is_script_controlled__10TObjPlayerFv((void *)arg0) != 0)) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x10000000) != 0) {
+        if ((obj_isState3_324__9TObjCharaFv((void *)arg0) != 0) || (is_script_controlled__10TObjPlayerFv((void *)arg0) != 0)) {
             return 0;
         }
         return 1;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20000000) != 0) {
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x40000000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x20000000) != 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x40000000) != 0) {
             return 0;
         }
         return ((TWindowLockOn *)arg0)->get_target_id() != 0;
     }
-    return obj_testFlags30__13TUnk_804AF8A0FUl(arg0, (s32)((int) (0x80000000))) != 0;
+    return obj_testFlags30__14TObjCollidableFUl(arg0, (s32)((int) (0x80000000))) != 0;
 }
 
 void TWindowLockOn::refresh_enemy_statuses() {
@@ -302,7 +302,7 @@ struct Data_80263014 {
     Cb_80263014 cb;
 };
 
-s32 obj_testFlag_2E4__13TUnk_804806E8FUl(void *, int);
+s32 obj_testFlag_2E4__9TObjCharaFUl(void *, int);
 s32 is_split_screen(void);
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 enemy_name_for_rt_index(int);
@@ -341,15 +341,15 @@ void TWindowLockOn__update_for_enemy(s32 a0, s32 a1) {
     if (is_split_screen() == 0) {
         arg0->h += lbl_805DD108;
     }
-    if (obj_testFlag_2E4__13TUnk_804806E8FUl(obj, 0x40) != 0) {
+    if (obj_testFlag_2E4__9TObjCharaFUl(obj, 0x40) != 0) {
         kind = 4;
-    } else if (obj_testFlag_2E4__13TUnk_804806E8FUl(obj, 1) != 0) {
+    } else if (obj_testFlag_2E4__9TObjCharaFUl(obj, 1) != 0) {
         kind = 0;
-    } else if (obj_testFlag_2E4__13TUnk_804806E8FUl(obj, 2) != 0) {
+    } else if (obj_testFlag_2E4__9TObjCharaFUl(obj, 2) != 0) {
         kind = 1;
-    } else if (obj_testFlag_2E4__13TUnk_804806E8FUl(obj, 4) != 0) {
+    } else if (obj_testFlag_2E4__9TObjCharaFUl(obj, 4) != 0) {
         kind = 2;
-    } else if (obj_testFlag_2E4__13TUnk_804806E8FUl(obj, 8) != 0) {
+    } else if (obj_testFlag_2E4__9TObjCharaFUl(obj, 8) != 0) {
         kind = 3;
     } else {
         kind = 4;
@@ -447,15 +447,15 @@ s32 TWindowLockOn__update_for_other_player(s32 a0, s32 a1) {
 
 void update_for_target__13TWindowLockOnFii(s32 arg0, s32 arg1) {
     ((TWindowSubStatusDisp *)(arg0 + 0x24))->destroy_all_items();
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg1, 0x10000000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg1, 0x10000000) != 0) {
         TWindowLockOn__update_for_other_player(arg0, arg1);
         return;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg1, 0x80000000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg1, 0x80000000) != 0) {
         TWindowLockOn__update_for_item(arg0, arg1);
         return;
     }
-    if (obj_testFlags30__13TUnk_804AF8A0FUl(arg1, 0x20000000) != 0) {
+    if (obj_testFlags30__14TObjCollidableFUl(arg1, 0x20000000) != 0) {
         TWindowLockOn__update_for_enemy(arg0, arg1);
     }
 }
