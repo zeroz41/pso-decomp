@@ -162,7 +162,6 @@ extern const f32 lbl_805DD120;
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
 s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
 s32 is_script_controlled__10TObjPlayerFv(void *);
-u8 calc_display_grade__5TItemFv(void *);
 s32 draw_visible_window_entries(void *, void *, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(u32);
@@ -404,7 +403,7 @@ s32 TWindowLockOn__update_for_item(s32 a0, s32 a1) {
     arg0->h = lbl_805DD11C;
     e2 = (Ent_80263370 *)((TUnk_804CE018 *)arg0)->get_array_entry(1);
     if (((TItem *)item)->get_item_type() == 0 || ((TItem *)item)->get_item_type() == 1) {
-        ((Ent2_80263370 *)e2)->grade = calc_display_grade__5TItemFv(item);
+        ((Ent2_80263370 *)e2)->grade = (u8)((TItem *)item)->calc_display_grade();
         arg0->h += lbl_805DD120;
         e2->flags &= ~2;
         r = get_item_star_row_width((u8 *)e2);

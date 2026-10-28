@@ -60,7 +60,6 @@ extern "C" {
 
 void update_owned__11TItemObjectFv(void *arg0);
 u8 *vfunc_9__11TItemObjectFv(u8 *arg0);
-s32 get_max_stack__5TItemFv(void *);
 
 void *__dt__11TItemObjectFv(void *arg0, s16 arg1);
 void TItemObject__vt16(u8 *arg0, u8 *arg1);
@@ -107,7 +106,7 @@ u8 TItemObject::get_tool_pmt_amount_byte() {
 
 void TItemObject::update_owned() {
 
-    if (this->get_amount() > (((s32 (*)())get_max_stack__5TItemFv)())) {
+    if (this->get_amount() > this->get_max_stack_size()) {
         this->refresh_if_current_player();
     }
 }
@@ -292,7 +291,7 @@ s32 TItemObject::add_amount(s32 arg1) {
     s32 temp_r31;
 
     temp_r31 = arg1 + this->get_amount();
-    if (temp_r31 <= get_max_stack__5TItemFv(this)) {
+    if (temp_r31 <= this->get_max_stack_size()) {
         this->store_encoded_value(temp_r31);
         return 1;
     }

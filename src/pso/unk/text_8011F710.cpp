@@ -114,7 +114,6 @@ void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 extern s32 tl_05;
 extern const f32 lbl_805DAC94;
 extern const f32 lbl_805DAC98;
-s32 get_icon_index__5TItemFv(void *);
 Item_8011F760 *get_weapon_range_record(void *, s32);
 s32 is_active_in_game__11TItemWeaponFv(void*);
 s32 reset_key_machine_state__10TObjPlayerFv();
@@ -136,7 +135,7 @@ s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1) {
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
     Item_8011F760 *it;
-    if (get_icon_index__5TItemFv(this) == 3) {
+    if (((TItem *)this)->get_icon_index() == 3) {
         flags |= 2;
     } else {
         flags |= 1;

@@ -216,7 +216,7 @@ s32 get_window_layout_position(s32);
 extern const f32 lbl_805DC630;
 void begin_meseta_withdrawal__18TCheckRoomSequenceFPv(Seq_8020F478 *self);
 void begin_meseta_deposit__18TCheckRoomSequenceFPv(Seq_8020F730 *self);
-s32 get_item_use_result__9TItemDataFv(void *);
+s32 get_max_stack_size__9TItemDataFv(void *);
 s32 get_item_def__18TCheckRoomSequenceFUl(void *);
 s32 get_bank_deposit_capacity_for_item(Item_80210A04 *item, s32 slot);
 s32 TCheckRoomSequence__sub_80210B34(u8 *, s32, s32);
@@ -932,13 +932,13 @@ s32 get_bank_deposit_capacity_for_item(Item_80210A04 *item, s32 slot) {
         if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
             item->b0 == recs[i].b0 && item->b1 == recs[i].b1 &&
             item->b2 == recs[i].b2 && item->b4 == recs[i].b4) {
-            return get_item_use_result__9TItemDataFv(&recs[i]) - recs[i].f14;
+            return get_max_stack_size__9TItemDataFv(&recs[i]) - recs[i].f14;
         }
     }
     if (((s32 (*)(s32))bank_has_free_row)(slot) == 0) {
         return 0;
     }
-    return get_item_use_result__9TItemDataFv(item);
+    return get_max_stack_size__9TItemDataFv(item);
 }
 }
 #pragma pop
@@ -958,8 +958,8 @@ s32 TCheckRoomSequence__sub_80210B34(u8 *item, s32 amount, s32 slot) {
         if (((s32 (*)(u8 *))is_item_record_empty)((u8 *)&recs[i]) == 0 &&
             item[0] == recs[i].b0 && item[1] == recs[i].b1 && item[2] == recs[i].b2) {
             recs[i].f14 += amount;
-            if (recs[i].f14 > get_item_use_result__9TItemDataFv(&recs[i])) {
-                recs[i].f14 = get_item_use_result__9TItemDataFv(&recs[i]);
+            if (recs[i].f14 > get_max_stack_size__9TItemDataFv(&recs[i])) {
+                recs[i].f14 = get_max_stack_size__9TItemDataFv(&recs[i]);
             }
             return 1;
         }
@@ -1061,7 +1061,7 @@ s32 copy_bank_item_with_stack_limit(s32 idx, void *data, s32 *out, s32 slot) {
   t = (Rec_80210F78 *) (base + (idx * 0x18));
   *out = t->f14;
   {
-    s32 r = ((s32 (*)(void *, void *))get_item_use_result__9TItemDataFv)(data, t);
+    s32 r = ((s32 (*)(void *, void *))get_max_stack_size__9TItemDataFv)(data, t);
     if (r < (*out))
     {
       *out = r;

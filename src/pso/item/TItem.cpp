@@ -774,10 +774,10 @@ s32 is_item_stackable(s32 type, s32 kind) {
     return 0;
 }
 
-void TItem::get_max_stack() {
+s32 TItem::get_max_stack_size() {
     TItemData data;
     copy_to_item_data(&data);
-    data.get_item_use_result();
+    return data.get_max_stack_size();
 }
 
 void TItem::check_equip_requirements(TObjPlayer *player, s16 *result) {
@@ -895,10 +895,10 @@ void draw_model_node_tree(NJS_OBJECT *object) {
     } while (object != NULL);
 }
 
-void TItem::calc_display_grade() {
+int TItem::calc_display_grade() {
     TItemData data;
     copy_to_item_data(&data);
-    data.calc_display_grade();
+    return data.calc_display_grade();
 }
 
 int TItem::vfunc_12() {
@@ -960,10 +960,10 @@ u32 TItem::get_usable_action_flags(u32 mask, u32 player) {
     return flags & mask;
 }
 
-void TItem::get_sell_price() {
+s32 TItem::calc_price() {
     TItemData data;
     copy_to_item_data(&data);
-    ((TShopEquipmentSellWindow *)&data)->get_item_price_if_valid();
+    return ((TShopEquipmentSellWindow *)&data)->get_item_price_if_valid();
 }
 
 void TItem::destroy() {
@@ -972,16 +972,16 @@ void TItem::destroy() {
     queue_destruction();
 }
 
-void TItem::is_rare() {
+s32 TItem::is_rare_item() {
     TItemData data;
     copy_to_item_data(&data);
-    TItemData::is_rare_item(&data);
+    return TItemData::is_rare_item(&data);
 }
 
-void TItem::is_custom_srank() {
+s32 TItem::is_custom_name_srank() {
     TItemData data;
     copy_to_item_data(&data);
-    TItemData::is_custom_name_srank(&data);
+    return TItemData::is_custom_name_srank(&data);
 }
 
 void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
@@ -1038,10 +1038,10 @@ s16 calc_stat_bonus_sum(u16 client) {
     return 0;
 }
 
-void TItem::has_bonus_stats() {
+s32 TItem::has_bonus_stats() {
     TItemData data;
     copy_to_item_data(&data);
-    data.has_bonus_stats();
+    return data.has_bonus_stats();
 }
 
 void TItem::begin_constant_material_color(s32 color) {
@@ -1145,20 +1145,20 @@ void TItem::refresh_if_current_player() {
     }
 }
 
-void TItem::get_icon_index() {
+s32 TItem::get_icon_index() {
     TItemData data;
     copy_to_item_data(&data);
-    TLobby::get_item_data((u32)&data);
+    return TLobby::get_item_data((u32)&data);
 }
 
 void TItem::set_item_group(u8 value) { item_group = value; }
 
 void TItem::set_item_index(u8 value) { item_index = value; }
 
-void TItem::sub_80100D68() {
+s32 TItem::get_name_style() {
     TItemData data;
     copy_to_item_data(&data);
-    TItemData__sub_8010C738(&data);
+    return TItemData__sub_8010C738(&data);
 }
 
 s32 TItem::is_model_shown() {

@@ -32,7 +32,7 @@ struct TItemData {
     void normalize();
     static u8 get_entry_field16();
     int register_drop();
-    s32 get_item_use_result();
+    s32 get_max_stack_size();
     void set_unit_modifier(s16 arg1);
     void set_bswapped_field_8(s16 arg1);
     void set_dfp_bonus(s16 arg1);

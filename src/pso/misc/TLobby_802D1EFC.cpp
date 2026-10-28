@@ -26,7 +26,6 @@ struct VObj802D1F30 : VBase802D1F30 {
 };
 
 extern "C" {
-s32 get_max_stack__5TItemFv(u32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
 Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
@@ -121,7 +120,7 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
                     ((TItem *)found)->copy_to_item_data((TItemData *)&b);
                     if (item_identity_matches((u8 *)&b, (u8 *)&a) != 0) {
                         e->count += arg2;
-                        if (e->count > get_max_stack__5TItemFv(found)) {
+                        if (e->count > ((TItem *)found)->get_max_stack_size()) {
                             return 2;
                         }
                     }

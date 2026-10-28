@@ -815,7 +815,7 @@ u8 TItemData::get_entry_field16() {
 }
 int TItemData::register_drop() { return register_item_drop__10TObjPlayerFv(this); }
 
-s32 TItemData::get_item_use_result() {
+s32 TItemData::get_max_stack_size() {
     u8 *arg0 = (u8 *)this;
     if (lookup_item_def__9TItemDataFPv() != 0) {
         if (((u8) *(u8 *)((s8 *)arg0 + 0) == 3) && ((u8) *(u8 *)((s8 *)arg0 + 1) == 0x10)) {

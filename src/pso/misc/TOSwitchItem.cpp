@@ -28,7 +28,6 @@ void *TOKey__ct(TOKey *arg0);
 extern s32 __vt__12TOSwitchItem[];
 extern s32 lbl_805D3180;
 u8 *TOSwitchItem__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 get_sell_price__5TItemFv(int);
 }
 extern "C" {
 f32 horizontal_distance_squared(Pos_80177E24 *, Pos_80177E24 *);
@@ -120,7 +119,7 @@ void run_task__12TOSwitchItemFv(u8 *switch_item) {
                 break;
             case 7:
                 if (((TItem *)sorted_item_registry_entry)->get_item_type() == 4) {
-                    var_r30 += get_sell_price__5TItemFv((int)sorted_item_registry_entry);
+                    var_r30 += ((TItem *)sorted_item_registry_entry)->calc_price();
                 }
                 break;
             }

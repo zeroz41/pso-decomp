@@ -2015,10 +2015,8 @@ s32 get_item_id__5TItemFv();
 void draw_blob_shadow(s32);
 void __ct__14TFontSmallHelpFUlUllUl(void *, u16, s32, s32, s32);
 u32 create__15TFontSmallLobbyFPv(void *);
-s32 get_sell_price__5TItemFv(void *);
 s32 set_owner_client__5TItemFUs(void *, s16);
 s32 check_equip_requirements__5TItemFP10TObjPlayerPs(s32, Pl_801B0B88 *, s32);
-s32 get_max_stack__5TItemFv();
 s32 set_facing__10TObjPlayerFs(void * a0 = 0, s16 a1 = 0);
 Equip_801B4CE4 * get_equip_field_d04__10TObjPlayerFl(void *, s32);
 s32 is_script_controlled__10TObjPlayerFv(TObjPlayer*);
@@ -6633,8 +6631,8 @@ void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
         return 0;
     }
     if (get_item_type__5TItemFv(arg1) == 4) {
-        ((TObjPlayer *)player)->add_meseta((s32)((void *)get_sell_price__5TItemFv(arg1)));
-        ((s32 (*)(void *, void *))TObjPlayer__sub_801B0124)(player, (void *)get_sell_price__5TItemFv(arg1));
+        ((TObjPlayer *)player)->add_meseta((s32)((void *)((TItem *)arg1)->calc_price()));
+        ((s32 (*)(void *, void *))TObjPlayer__sub_801B0124)(player, (void *)((TItem *)arg1)->calc_price());
         ((TItem *)arg1)->destroy();
         ((s32 (*)(void *, int))send_field_state_if_active__10TObjPlayerFP10TObjPlayerl)(player, 0x52802);
         return 0;
@@ -6699,19 +6697,19 @@ void *pickup_item__10TObjPlayerFP5TItem(u8 *player, u8 *arg1) {
 s32 can_pickup_item__10TObjPlayerFP9TItemData(void *arg0, u8 *item_data) {
     s32 temp_r31;
     s32 temp_r31_2;
-    void *temp_r3;
+    void *held;
 
     if (lookup_item_def__9TItemDataFPv(item_data) != 0) {
         if ((u8) *item_data == 4) {
             return obj_getPtr2B0_20((u8 *)arg0) < 0xF423F;
         }
         if (((u32 (*)(void *, u8 *))set_mode_and_refresh_object__10TObjPlayerFPvi)(*(void **)((s8 *)arg0 + 0xD00), item_data) != 0U) {
-            temp_r3 = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
-            if (temp_r3 == NULL) {
+            held = ((void * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
+            if (held == NULL) {
                 return 0;
             }
-            temp_r31_2 = get_max_stack__5TItemFv();
-            temp_r31 = temp_r31_2 - ((V_B *)temp_r3)->m34();
+            temp_r31_2 = ((TItem *)held)->get_max_stack_size();
+            temp_r31 = temp_r31_2 - ((V_B *)held)->m34();
             return ((s32) ((u32 (*)(u8 *))get_item_type_or_default__9TItemListFv)(item_data) <= temp_r31) ? 1 : 0;
         }
         goto block_7;
@@ -6742,13 +6740,13 @@ s32 TObjPlayer::can_inventory_accept_item(u8 *item) {
             if (((Player_801B91F0 *)this)->inv->count >= 30) {
                 return 0;
             }
-            return ((TItemData *)item)->get_item_use_result();
+            return ((TItemData *)item)->get_max_stack_size();
         }
         owner = ((VObj_801B91F0 * (*)(void))get_owner_if_alive__10TObjPlayerFv)();
         if (owner == NULL) {
             return 0;
         }
-        n = ((s32 (*)(VObj_801B91F0 *))get_max_stack__5TItemFv)(owner);
+        n = ((TItem *)owner)->get_max_stack_size();
         n -= owner->m34();
         max = ((s32 (*)(u8 *))get_item_type_or_default__9TItemListFv)(item);
         return (n < max) ? 0 : n;
