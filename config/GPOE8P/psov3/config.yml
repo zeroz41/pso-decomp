@@ -10599,7 +10599,7 @@ force_active:
   - player_ply_head_texture_lists
   - player_render_target
   - player_render_texture_name
-  - player_rock_objects_handle
+  - item_id_counters
   - ply_status_window_points_first
   - ply_status_window_points_second
   - pm_mdl_model_names

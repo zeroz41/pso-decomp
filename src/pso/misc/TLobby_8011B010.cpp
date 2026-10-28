@@ -4,6 +4,7 @@
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
 #include "pso/misc/TLobby.h"
+#include "pso/item/TItemIdCounters.h"
 
 // FloorItem::FloorItem() on the packet's item record.
 extern "C" void *__ct__9FloorItemFv(void *item);
@@ -17,19 +18,24 @@ extern s32 item_id_counter_table;
 extern s32 quest_object_entries;
 void mem_free(void *p);
 
-s32 TLobby::free_rock_objects(s32 arg0, s16 arg1) {
-    if (arg0 != 0) {
-        mem_free((void *)item_sync_counter_table);
-        item_sync_counter_table = 0;
-        mem_free((void *)item_id_counter_table);
-        item_id_counter_table = 0;
-        if (arg1 > 0) {
-            ::operator delete((void *)arg0);
-        }
-    }
-    return arg0;
 }
-void*TLobby::init_bosses(void* a0) { (*(int *)&item_id_counter_table) = (int)mem_alloc((u32)((void*)48)); (*(int *)&item_sync_counter_table) = (int)mem_alloc((u32)((void*)48)); TLobby::reset_item_id_counters(); lbl_805D54E0 = 0; build_item_id_mode = 0; return a0; }
+
+TItemIdCounters::~TItemIdCounters() {
+    mem_free((void *)item_sync_counter_table);
+    item_sync_counter_table = 0;
+    mem_free((void *)item_id_counter_table);
+    item_id_counter_table = 0;
+}
+
+TItemIdCounters::TItemIdCounters() {
+    item_id_counter_table = (s32)mem_alloc(48);
+    item_sync_counter_table = (s32)mem_alloc(48);
+    TLobby::reset_item_id_counters();
+    lbl_805D54E0 = 0;
+    build_item_id_mode = 0;
+}
+
+extern "C" {
 void TLobby::send_item_packet() { bswap_item_packet(); send_subcommand((u8 *)this); }
 void TLobby::bswap_item_packet() { ((G_ClientIDHeader *)this)->bswap(); ((TLobby *)((char*)this + 0x4))->bswap_item(); }
 void *TLobby::init_header_packet() {

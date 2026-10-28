@@ -171,7 +171,6 @@ struct TLobby : public TObject {
     void process_and_dispatch_packet();
     void bswap_6xa2_fields();
     void *build_6x06_guild_card_packet();
-    static void*init_bosses(void* a0);
     void send_item_packet();
     void bswap_item_packet();
     void *init_header_packet();
@@ -976,7 +975,6 @@ struct TLobby : public TObject {
     static void reset_state_byte();
     static s32 create_file_load_entry(s32 arg0, s32 arg1, u32 arg2, s32 arg3, void **arg4);
     static s32 request_file_read(s32 arg0, s32 arg1, s32 *arg2, void **arg3);
-    static s32 free_rock_objects(s32 arg0, s16 arg1);
     static void reset_lobby_state();
     static void init_keyboard_buffer();
     static s32 poll_connect();

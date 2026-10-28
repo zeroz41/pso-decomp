@@ -196,7 +196,7 @@ extern int item_registry_count;
 extern TItem **item_registry_sorted_entries;
 
 extern FlagWord item_render_state;
-extern u32 player_rock_objects_handle;
+extern struct TItemIdCounters *item_id_counters;
 
 // Bumped each time the item system is set up for a game.
 extern int item_system_generation;

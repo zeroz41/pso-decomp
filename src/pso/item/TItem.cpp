@@ -14,6 +14,7 @@
 #include "pso/item/TItemData_80104D0C.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/item/TItemEquipBase.h"
+#include "pso/item/TItemIdCounters.h"
 #include "pso/item/TItemMag.h"
 #include "pso/item/TItemObject.h"
 #include "pso/item/TItemProShield.h"
@@ -100,7 +101,7 @@ int item_registry_count;
 TItem **item_registry_sorted_entries;
 void (*model_node_draw_callback)(s32 model);
 void (*model_node_visit_callback)(NJS_OBJECT *object);
-u32 player_rock_objects_handle;
+TItemIdCounters *item_id_counters;
 u8 *model_node_matrix_output_cursor;
 
 const char *TItem__name = "TItem";
@@ -308,11 +309,7 @@ void init_item_system() {
     item_registry_count = 0;
     item_registry_sorted_entries = (TItem **)mem_alloc(0x1000);
     memset(item_registry_sorted_entries, 0, 0x1000);
-    void *rocks = ::operator new(1);
-    if (rocks != NULL) {
-        rocks = (void *)TLobby::init_bosses(rocks);
-    }
-    player_rock_objects_handle = (s32)rocks;
+    item_id_counters = new TItemIdCounters;
     TObjPlayer::alloc_and_init_object_b4();
     TObjPlayer::alloc_and_run_object();
     TObjPlayer::init_game_resources();
@@ -323,9 +320,9 @@ void free_item_system() {
     TObjPlayer::free_item_globals();
     TObjPlayer::free_static_buffer();
     TObjPlayer::free_global_805D6FB8();
-    if (player_rock_objects_handle != 0) {
-        TLobby::free_rock_objects(player_rock_objects_handle, 1);
-        player_rock_objects_handle = 0;
+    if (item_id_counters != NULL) {
+        delete item_id_counters;
+        item_id_counters = NULL;
     }
     if (item_registry_sorted_entries != NULL) {
         mem_free(item_registry_sorted_entries);
