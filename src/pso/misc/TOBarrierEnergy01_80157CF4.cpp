@@ -20,7 +20,7 @@ extern "C" void vfunc_16__17TOBarrierEnergy01Fv();
 extern "C" void vfunc_17__17TOBarrierEnergy01Fv();
 extern "C" void vfunc_18__17TOBarrierEnergy01Fv();
 extern "C" void vfunc_13__13TUnk_804AF8A0Fl();
-extern "C" void vfunc_12__13TUnk_804B9870Fv();
+extern "C" void get_name__13TUnk_804B9870Fv();
 extern "C" void vfunc_9__13TUnk_804B9870Fv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
@@ -55,7 +55,7 @@ void *__vt__17TOBarrierEnergy01[21] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__17TOBarrierEnergy01Fv, (void *)&run_task__13TUnk_804B0BB8Fv,
     (void *)&render__17TOBarrierEnergy01Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&update_door_switch_state__13TUnk_804B0BB8Fv, (void *)&play_proximity_sound__17TOBarrierEnergy01Fv,
+    (void *)&get_name__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&update_door_switch_state__13TUnk_804B0BB8Fv, (void *)&play_proximity_sound__17TOBarrierEnergy01Fv,
     (void *)&vfunc_16__17TOBarrierEnergy01Fv, (void *)&vfunc_17__17TOBarrierEnergy01Fv, (void *)&vfunc_18__17TOBarrierEnergy01Fv, (void *)&init_door_switch_binding__13TUnk_804B0BB8Fv,
     (void *)&vfunc_20__17TOBarrierEnergy01Fv,
 };

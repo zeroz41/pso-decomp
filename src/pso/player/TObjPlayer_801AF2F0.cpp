@@ -3133,7 +3133,7 @@ extern "C" void fn_801B0480(u8 *player, void *attacker, s32 amount) {
 void draw_player_status(s32 arg0, void *arg1, s32 arg2) {
     s32 temp_r3;
 
-    temp_r3 = ((TUnk_804B6C24 *)arg1)->vfunc_12();
+    temp_r3 = (s32)((TUnk_804B6C24 *)arg1)->get_name();
     if (temp_r3 != 0) {
         if (check_value_equals__13TUnk_804B6C24Fl(arg1, lbl_805D3530) != 0) {
             ((s32 (*)(s32, s32, s32, s32))draw_status_line)(arg0, arg2, temp_r3, ((s32 (*)(void *))TObjPlayer__sub_801AFFD0)(arg1));

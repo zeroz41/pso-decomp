@@ -27,7 +27,7 @@ struct TObjEnemy : public TUnk_804806E8 {
     virtual s32 vfunc_74(s32);
     s32 exchange_object_state(s32, s16);
     void sub_8002AE64();
-    virtual int vfunc_12();
+    virtual const char *get_name();
     TObjEnemy* groupRoot();
     u32 subtype;
     u16 targetId;

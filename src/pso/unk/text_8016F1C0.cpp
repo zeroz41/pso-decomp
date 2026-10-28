@@ -153,19 +153,17 @@ extern s32 lbl_805D5868;
 extern s32 lbl_805D586C;
 extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(Pkt_8016F418 *arg0);
-struct VObj8016F3C4Base { char pad[0x18]; };
-struct VObj8016F3C4 : VObj8016F3C4Base { virtual s32 m0(); virtual s32 m1(); virtual s32 m2(); virtual s32 m3(); virtual s32 m4(); virtual s32 m5(); virtual s32 m6(); virtual s32 m7(); virtual s32 m8(); virtual s32 m9(); virtual s32 m10(); virtual s32 m11(); };
 
-int TOMineTrap::vfunc_12() {
-    s32 var_r31;
-    void *player;
+const char *TOMineTrap::get_name() {
+    const char *name;
+    TObjPlayer *player;
 
-    var_r31 = 0;
-    player = get_player_by_client_id((u16)((s32 (*)(void))get_trap_type__10TOMineTrapFv)());
+    name = NULL;
+    player = (TObjPlayer *)get_player_by_client_id((u16)((s32 (*)(void))get_trap_type__10TOMineTrapFv)());
     if (player != NULL) {
-        var_r31 = ((VObj8016F3C4 *)player)->m10();
+        name = player->get_name();
     }
-    return var_r31;
+    return name;
 }
 
 void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {

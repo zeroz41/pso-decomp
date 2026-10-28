@@ -1161,7 +1161,7 @@ void vfunc_13__13TUnk_804AF8A0Fl();
 void run_task__10TBoss4ZakoFv();
 void clear_lobby_object_state__9TObjEnemyFv();
 void render_shadows__9TObjEnemyFv(u8 *arg0);
-void vfunc_12__9TObjEnemyFv();
+void get_name__9TObjEnemyFv();
 void vfunc_74__9TObjEnemyFl();
 void apply_hit_message_flags__9TObjEnemyFPv();
 void vfunc_79__9TObjEnemyFv();
@@ -1183,7 +1183,7 @@ s32 __vt__11TBoss4Bishi[83] = {
     (s32)vfunc_9__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)vfunc_12__9TObjEnemyFv,
+    (s32)get_name__9TObjEnemyFv,
     (s32)vfunc_13__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,
@@ -1268,7 +1268,7 @@ s32 __vt__9TBoss4Uro[83] = {
     (s32)vfunc_9__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)vfunc_12__9TObjEnemyFv,
+    (s32)get_name__9TObjEnemyFv,
     (s32)vfunc_13__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,
@@ -1353,7 +1353,7 @@ s32 __vt__10TBoss4Zako[83] = {
     (s32)vfunc_9__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)vfunc_12__9TObjEnemyFv,
+    (s32)get_name__9TObjEnemyFv,
     (s32)vfunc_13__13TUnk_804AF8A0Fl,
     (s32)add_actor_exp__13TUnk_804806E8Fl,
     (s32)consume_timer_field__13TUnk_804806E8Fl,

@@ -38,9 +38,9 @@ TWindowSubComCardList *TWindowSubComCard__sub_802B1C1C(void) {
             continue;
         }
         if (is_trade_range_bit_set(i)) {
-            forward_trade_action_default__16TObjCityMainWarpFPviii(list, player->vfunc_12(), 7, i);
+            forward_trade_action_default__16TObjCityMainWarpFPviii(list, (s32)player->get_name(), 7, i);
         } else {
-            draw_text_gray__17TWindowSubComCardFllll(list, (void *)player->vfunc_12(), 7, i);
+            draw_text_gray__17TWindowSubComCardFllll(list, (void *)player->get_name(), 7, i);
         }
     }
     if (list->get_field_72() <= 0) {

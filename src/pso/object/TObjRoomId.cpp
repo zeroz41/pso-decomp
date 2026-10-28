@@ -238,7 +238,7 @@ u8 TObjPlayer::sub_801A1DDC() {
     return (u8) (this->m_1c == local_client_id);
 }
 
-int TUnk_804B9870::vfunc_12() { return 0; }
+const char *TUnk_804B9870::get_name() { return NULL; }
 void set__10TObjRoomIdFPvs(void *arg0, s16 arg1) {
     u32 global_state;
 

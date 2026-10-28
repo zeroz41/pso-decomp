@@ -16,6 +16,7 @@ struct TechniqueContactList;
 struct TObjPlayer : public TUnk_804806E8 {
     virtual ~TObjPlayer();
     virtual void reset_motion_fields();
+    virtual const char *get_name();
     void update_swim_flag(void *);
     void setup_radar_marker(void *, void *);
     void fire_spread_shot(void *);
@@ -213,8 +214,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     void* m_84c;
     u8 _pad850[0x8];
     void* m_858;
-    void* m_85c;
-    u8 _pad860[0x18];
+    char name[0x1C];
     u8 m_878;
     u8 unk_879[0x14];
     u8 m_88d;

@@ -274,7 +274,7 @@ extern "C" void update_shock_clock__13TUnk_804806E8Fv();
 extern "C" void vfunc_43__13TUnk_804806E8Fv();
 extern "C" void vfunc_18__13TUnk_804806E8FPUc();
 extern "C" void vfunc_13__13TUnk_804AF8A0Fl();
-extern "C" void vfunc_12__13TUnk_804B9870Fv();
+extern "C" void get_name__13TUnk_804B9870Fv();
 extern "C" void add_actor_exp__13TUnk_804806E8Fl();
 extern "C" void apply_action_hold_status__13TUnk_804806E8Ff();
 extern "C" void apply_anti_technique__13TUnk_804806E8Fl();
@@ -362,7 +362,7 @@ void *__vt__20TContainerAncient01R[79] = {
     (void *)0x0, (void *)0x0, (void *)&dt__20TContainerAncient01RFPvs, (void *)&run_task__20TContainerAncient01RFv,
     (void *)&render__20TContainerAncient01RFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__20TContainerAncient01RFPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
+    (void *)&get_name__13TUnk_804B9870Fv, (void *)&vfunc_13__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&is_within_range__19TContainerAncient01Fii, (void *)&calc_distance_accuracy_penalty__20TContainerAncient01RFPvPvPvf, (void *)&receive_physical_attack__20TContainerAncient01RFPvf, (void *)&receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__20TContainerAncient01RFPvPv, (void *)&apply_knockback_from_attacker__20TContainerAncient01RFPUc, (void *)&try_start_action__20TContainerAncient01RFll, (void *)&roll_physical_accuracy__20TContainerAncient01RFPvlf,

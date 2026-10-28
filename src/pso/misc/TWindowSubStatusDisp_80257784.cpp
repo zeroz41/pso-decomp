@@ -500,7 +500,7 @@ void TWindowSubStatusDisp::set_inventory_item(void *arg1, s32 arg2, s32 arg3) {
     *(f32 *)((s8 *)this + 8) = (f32) lbl_805DCF08;
     temp_r29 = ((TItem *)arg1)->get_icon_index();
     select_item_icon__20TWindowSubStatusDispFPviUcUci(this, temp_r29, get_item_type__5TItemFv(arg1), get_item_group__5TItemFv(arg1), is_wrapped__5TItemFv(arg1));
-    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, ((TItem *)arg1)->vfunc_12(), *(s32 *)((s8 *)this + 0x20), 8, 1);
+    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)((TItem *)arg1)->get_name(), *(s32 *)((s8 *)this + 0x20), 8, 1);
     if (TObjPlayer__sub_801C1AC8(arg1) != 0) {
         update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, arg2);
     }
@@ -518,7 +518,7 @@ void TWindowSubStatusDisp::update_from_player(void *arg1, s32 arg2, s32 arg3) {
     *(f32 *)((s8 *)this + 8) = (f32) lbl_805DCF08;
     temp_r29 = ((TItem *)arg1)->get_icon_index();
     select_item_icon__20TWindowSubStatusDispFPviUcUci(this, temp_r29, get_item_type__5TItemFv(arg1), get_item_group__5TItemFv(arg1), is_wrapped__5TItemFv(arg1));
-    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, ((TItem *)arg1)->vfunc_12(), *(s32 *)((s8 *)this + 0x20), 8, 1);
+    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)((TItem *)arg1)->get_name(), *(s32 *)((s8 *)this + 0x20), 8, 1);
     if (TCameraCtrl::get_camera_id() <= 2) {
         text_builder_reset();
         TWindowSubStatusDisp__sub_80228F5C(arg2);
@@ -533,7 +533,7 @@ void TWindowSubStatusDisp::init_item_row(void *arg1, s32 arg2) {
     *(f32 *)((s8 *)this + 8) = (f32) lbl_805DCF08;
     temp_r29 = ((TItem *)arg1)->get_icon_index();
     select_item_icon__20TWindowSubStatusDispFPviUcUci(this, temp_r29, get_item_type__5TItemFv(arg1), get_item_group__5TItemFv(arg1), is_wrapped__5TItemFv(arg1));
-    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, ((TItem *)arg1)->vfunc_12(), *(s32 *)((s8 *)this + 0x20), 8, 1);
+    *(s32 *)((s8 *)this + 0x20) = replace_owned_string__20TWindowSubStatusDispFPviiii(this, (s32)((TItem *)arg1)->get_name(), *(s32 *)((s8 *)this + 0x20), 8, 1);
     if (TObjPlayer__sub_801C1AC8(arg1) != 0) {
         s32 v = ((V_80258F34 *) arg1)->m34();
         update_stat_line_if_positive__20TWindowSubStatusDispFPvi(this, v);

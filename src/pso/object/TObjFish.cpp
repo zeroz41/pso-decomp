@@ -670,7 +670,7 @@ void TObjFish::free_resource() {
     }
 }
 void vfunc_6__13TUnk_804B9870FPsl();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void vfunc_9__13TUnk_804B9870Fv();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
@@ -756,7 +756,7 @@ void *__vt__8TObjFish[13] = {
     (void *)vfunc_9__13TUnk_804B9870Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__13TUnk_804B9870Fv,
+    (void *)get_name__13TUnk_804B9870Fv,
 };
 
 void TObjFish::load_area_resource() {

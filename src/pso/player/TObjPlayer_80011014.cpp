@@ -1854,7 +1854,7 @@ void vfunc_6__13TUnk_804B9870FPsl(void);
 void apply_object_set_data__13TUnk_804B9870FPv(void);
 void update_object_view_visibility__13TUnk_804B9870Fff(void);
 void classify_actor_view_detail__13TUnk_804B9870Ffff(void);
-void vfunc_12__13TUnk_804B9870Fv(void);
+void get_name__13TUnk_804B9870Fv(void);
 int calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf(RangedActor* target,RangedActor* attacker,RangedBody* body,const RangedVec* origin,float multiplier);
 f32 receive_physical_attack__13TUnk_804806E8FPvf(Obj_80014108 *self, Obj_80014108 *att, f32 scale);
 s32 roll_physical_accuracy__13TUnk_804806E8FPvlf(Obj_800162E0 *arg0, void *arg1, s32 arg2, f32 farg0);
@@ -1888,7 +1888,7 @@ void *lbl_804806E8[] = {
     (void *)vfunc_9__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__13TUnk_804B9870Fv,
+    (void *)get_name__13TUnk_804B9870Fv,
     (void *)vfunc_13__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,

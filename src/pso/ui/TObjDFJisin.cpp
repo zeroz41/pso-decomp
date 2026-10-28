@@ -593,7 +593,7 @@ void update_shock_clock__13TUnk_804806E8Fv();
 void vfunc_43__13TUnk_804806E8Fv();
 void vfunc_18__13TUnk_804806E8FPUc();
 void vfunc_13__13TUnk_804AF8A0Fl();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void __dt__11TObjDFJisinFv();
 void __dt__13TObjDFRecBallFv();
 void __dt__16TObjDFBeamCursorFv();
@@ -662,7 +662,7 @@ void *__vt__13TObjDFHorming[] = {
     (void *)vfunc_9__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__13TUnk_804B9870Fv,
+    (void *)get_name__13TUnk_804B9870Fv,
     (void *)vfunc_13__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,

@@ -12,7 +12,7 @@ public:
     virtual void*vfunc_9();
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s16 classify_actor_view_detail(f32, f32, f32);
-    virtual int vfunc_12();
+    virtual const char *get_name();
     void obj_clearFlags30(u32);
     s16 get_stat_by_key_state();
     s32 mask_object_set_row_flags(s32);

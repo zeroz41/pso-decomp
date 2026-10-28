@@ -549,7 +549,7 @@ void append_hero_name(void) {
     u8 *player;
     player = (u8 *)(get_player_by_client_id(local_client_id));
     if (player != NULL) {
-        append_string(((TObjPlayer *)player)->vfunc_12());
+        append_string((s32)((TObjPlayer *)player)->get_name());
     } else {
         append_string((s32)lbl_80449CA8);
     }
@@ -3768,7 +3768,7 @@ void qst_op_get_pl_name(s32 arg0) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(((u8 *)((u32 (*)(int, int))get_player_by_client_id)((int)qst_registers[(u8)arg0], (int)qst_registers)));
     if (temp_r3 != NULL) {
-        strncpy(((void *)(&quest_player_name_buffer.value)), ((TObjPlayer *)temp_r3)->vfunc_12(), 0xF);
+        strncpy(((void *)(&quest_player_name_buffer.value)), (int)((TObjPlayer *)temp_r3)->get_name(), 0xF);
         *(s8 *)((s8 *)(&quest_player_name_buffer.value) + 0xF) = 0;
         qst_registers[(u8)arg0] = 1;
         return;

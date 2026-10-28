@@ -46,7 +46,7 @@ void play_sound_effect(s32, void *, s32, s32);
 extern s32 TObjDFDemoF__name;
 extern const f32 lbl_805D8A28;
 void vfunc_6__13TUnk_804B9870FPsl();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void vfunc_9__13TUnk_804B9870Fv();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
@@ -62,7 +62,7 @@ void *lbl_80485840[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
 void *lbl_8048584C[3] = {(void *) 0x0, (void *) 0x0, (void *) 0x0};
 void *lbl_80485858[3] = {(void *) 0x50000, (void *) 0x0, (void *) 0x3f000000};
 void *three_part_model_translate_offset[3] = {(void *) 0xc69c4000, (void *) 0x0, (void *) 0x0};
-void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__13TUnk_804B9870FPsl, &apply_object_set_data__13TUnk_804B9870FPv, &reset_motion_fields__13TUnk_804B9870Fv, &vfunc_9__13TUnk_804B9870Fv, &update_object_view_visibility__13TUnk_804B9870Fff, &classify_actor_view_detail__13TUnk_804B9870Ffff, &vfunc_12__13TUnk_804B9870Fv, (void *) 0x0};
+void *__vt__11TObjDFDemoF[14] = {(void *) 0x0, (void *) 0x0, &__dt__11TObjDFDemoFFPvs, &run_task__11TObjDFDemoFFv, &render__11TObjDFDemoFFv, &render_shadows__7TObjectFv, &vfunc_6__13TUnk_804B9870FPsl, &apply_object_set_data__13TUnk_804B9870FPv, &reset_motion_fields__13TUnk_804B9870Fv, &vfunc_9__13TUnk_804B9870Fv, &update_object_view_visibility__13TUnk_804B9870Fff, &classify_actor_view_detail__13TUnk_804B9870Ffff, &get_name__13TUnk_804B9870Fv, (void *) 0x0};
 
 void *__dt__11TObjDFDemoFFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

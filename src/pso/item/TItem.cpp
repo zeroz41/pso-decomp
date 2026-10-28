@@ -901,12 +901,12 @@ int TItem::calc_display_grade() {
     return data.calc_display_grade();
 }
 
-int TItem::vfunc_12() {
+const char *TItem::get_name() {
     TItemData data;
     copy_to_item_data(&data);
     char *name = (char *)get_item_chunk_buffer(0);
     data.format_item_name(name);
-    return (int)name;
+    return name;
 }
 
 void TItem::set_mode(s8 new_mode) {

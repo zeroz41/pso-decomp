@@ -1,6 +1,7 @@
 #include "pso/TPlyGuildCardTag.h"
 #include "pso/misc/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/misc/TPlyPhotonChair.h"
+#include "pso/player/TObjPlayer.h"
 
 #include "types.h"
 
@@ -26,4 +27,4 @@ s8 TPlyPhotonChair::get_actor_section_id() {
   return ((s8) ((*new_var) & 0xFFFFFFFFFFFFFFFFu)) & 0xFFFF;
 }
 
-void* TObjPlayer__vt10(void* p) { return (char*)p + 0x85c; }
+const char *TObjPlayer::get_name() { return name; }

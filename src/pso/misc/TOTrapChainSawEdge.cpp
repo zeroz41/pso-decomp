@@ -964,7 +964,7 @@ void reset_motion_fields__13TUnk_804AF8A0Fv();
 void vfunc_9__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void vfunc_13__13TUnk_804AF8A0Fl();
 void check_player_contact__18TOTrapChainSawEdgeFv();
 void vfunc_18__14TOTrapChainSawFv();
@@ -987,7 +987,7 @@ s32 __vt__18TOTrapChainSawEdge[31] = {
     (s32)&vfunc_9__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&vfunc_12__13TUnk_804B9870Fv,
+    (s32)&get_name__13TUnk_804B9870Fv,
     (s32)&vfunc_13__13TUnk_804AF8A0Fl,
     (s32)&vfunc_14__14TOTrapChainSawFv,
     (s32)&decode_params__14TOTrapChainSawFv,
@@ -1020,7 +1020,7 @@ s32 __vt__17TOTrapChainSawKey[31] = {
     (s32)&vfunc_9__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&vfunc_12__13TUnk_804B9870Fv,
+    (s32)&get_name__13TUnk_804B9870Fv,
     (s32)&vfunc_13__13TUnk_804AF8A0Fl,
     (s32)&vfunc_14__17TOTrapChainSawKeyFv,
     (s32)&decode_params__17TOTrapChainSawKeyFv,
@@ -1053,7 +1053,7 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&vfunc_9__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&vfunc_12__13TUnk_804B9870Fv,
+    (s32)&get_name__13TUnk_804B9870Fv,
     (s32)&vfunc_13__13TUnk_804AF8A0Fl,
     (s32)&vfunc_14__20TOTrapChainSawDamageFv,
     (s32)&decode_params__20TOTrapChainSawDamageFv,
@@ -1086,7 +1086,7 @@ s32 __vt__14TOTrapChainSaw[31] = {
     (s32)&vfunc_9__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&vfunc_12__13TUnk_804B9870Fv,
+    (s32)&get_name__13TUnk_804B9870Fv,
     (s32)&vfunc_13__13TUnk_804AF8A0Fl,
     (s32)&vfunc_14__14TOTrapChainSawFv,
     (s32)&decode_params__14TOTrapChainSawFv,

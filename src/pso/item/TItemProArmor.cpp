@@ -206,7 +206,7 @@ void reset_motion_fields__13TUnk_804AF8A0Fv();
 void vfunc_9__11TItemObjectFv();
 int update_object_view_visibility__5TItemFff(void *p);
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void vfunc_12__5TItemFv();
+void get_name__5TItemFv();
 void vfunc_13__5TItemFl();
 void update_owned__11TItemObjectFv();
 void update_in_inventory__5TItemFv();
@@ -272,7 +272,7 @@ void *lbl_8049FF88[46] = {
     (void *)vfunc_9__11TItemObjectFv,
     (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__5TItemFv,
+    (void *)get_name__5TItemFv,
     (void *)vfunc_13__5TItemFl,
     (void *)update_owned__11TItemObjectFv,
     (void *)update_in_inventory__5TItemFv,
@@ -321,7 +321,7 @@ void *__vt__13TItemProArmor[51] = {
     (void *)vfunc_9__13TUnk_804B9870Fv,
     (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__5TItemFv,
+    (void *)get_name__5TItemFv,
     (void *)vfunc_13__5TItemFl,
     (void *)update_owned__13TItemProArmorFv,
     (void *)update_in_inventory__5TItemFv,

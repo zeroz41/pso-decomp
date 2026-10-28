@@ -63,7 +63,7 @@ void reset_motion_fields__13TUnk_804B9870Fv();
 void vfunc_9__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 S_EF94 *__dt__11TObjDFDemo3Fv(S_EF94 *o, s16 flag);
 u8 *TObjDFDemo3__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 
@@ -80,7 +80,7 @@ void *__vt__11TObjDFDemo3[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo3Fv, (void *)&run_task__11TObjDFDemo3Fv,
     (void *)&render__11TObjDFDemo3Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__13TUnk_804B9870Fv,
+    (void *)&get_name__13TUnk_804B9870Fv,
 };
 
 void TObjDFDemo3::render() {

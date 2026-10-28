@@ -323,7 +323,7 @@ void reset_motion_fields__13TUnk_804B9870Fv();
 void vfunc_9__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void *__vt__16TBGLightningCtrl[] = {
     0, 0,
     (void *)__dt__16TBGLightningCtrlFv,
@@ -336,7 +336,7 @@ void *__vt__16TBGLightningCtrl[] = {
     (void *)vfunc_9__13TUnk_804B9870Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__13TUnk_804B9870Fv,
+    (void *)get_name__13TUnk_804B9870Fv,
 };
 void *__vt__12TBGLightning[] = {
     0, 0,

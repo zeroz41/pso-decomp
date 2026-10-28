@@ -328,7 +328,7 @@ void TOMine::apply_object_set_data(void *set_data) {
     VecCopy((Vec *)(arg0 + 0x334), (const Vec *)(arg0 + 0x38));
 }
 void TOMine::vfunc_85() {  }
-int TOMine::vfunc_12() { get_localized_text_entry((s32)((void*)16), (s32)((void*)16)); }
+const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
 void TOMine::update_state() {
     s32 temp_r0;
     *(s32 *)((s8 *)this + 0x348) = (s32) *(f32 *)&this->m_70;

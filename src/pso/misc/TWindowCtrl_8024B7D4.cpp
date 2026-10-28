@@ -52,7 +52,7 @@ s32 TWindowCtrl__sub_8024B7D4(s32 n) {
             if (player == NULL) {
                 return 0;
             }
-            return player->vfunc_12();
+            return (s32)player->get_name();
         }
     }
     return 0;

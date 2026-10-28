@@ -393,7 +393,7 @@ void vfunc_58__13TUnk_804806E8Fv();
 void vfunc_43__13TUnk_804806E8Fv();
 void vfunc_18__13TUnk_804806E8FPUc();
 void vfunc_13__13TUnk_804AF8A0Fl();
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 void add_actor_exp__13TUnk_804806E8Fl();
 void apply_action_hold_status__13TUnk_804806E8Ff();
 void apply_anti_technique__13TUnk_804806E8Fl();
@@ -506,7 +506,7 @@ s32 __vt__16TOTrapAncient02R[90] = {
     (s32)&vfunc_9__13TUnk_804806E8Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (s32)&vfunc_12__13TUnk_804B9870Fv,
+    (s32)&get_name__13TUnk_804B9870Fv,
     (s32)&vfunc_13__13TUnk_804AF8A0Fl,
     (s32)&add_actor_exp__13TUnk_804806E8Fl,
     (s32)&consume_timer_field__13TUnk_804806E8Fl,

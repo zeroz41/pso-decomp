@@ -389,7 +389,7 @@ extern "C" {
 void vfunc_6__13TUnk_804B9870FPsl();
 }
 extern "C" {
-void vfunc_12__13TUnk_804B9870Fv();
+void get_name__13TUnk_804B9870Fv();
 }
 extern "C" {
 void vfunc_9__13TUnk_804B9870Fv();
@@ -494,7 +494,7 @@ void *__vt__12TObjGrassWeb[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TObjGrassWebFv, (void *)&run_task__12TObjGrassWebFv,
     (void *)&render__12TObjGrassWebFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__13TUnk_804B9870Fv,
+    (void *)&get_name__13TUnk_804B9870Fv,
 };
 #define bm_ene_grass_resource_descriptor ((s32 *)bm_ene_grass_resource_descriptor)
 #define TObjGrass__grass_type_param_table ((s32 *)TObjGrass__grass_type_param_table)

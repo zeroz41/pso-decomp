@@ -11,7 +11,7 @@ extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
 extern "C" void test_flag_256__13TUnk_804806E8Fv();
 
-extern "C" void vfunc_12__6TOMineFv();
+extern "C" void get_name__6TOMineFv();
 
 #include "pso/misc/TOKeyMachine01.h"
 
@@ -174,7 +174,7 @@ void *__vt__12TOMineIcon04[87] = {
     (void *)vfunc_9__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__6TOMineFv,
+    (void *)&get_name__6TOMineFv,
     (void *)vfunc_13__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,

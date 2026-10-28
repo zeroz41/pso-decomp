@@ -126,7 +126,7 @@ void vfunc_75__13TUnk_804806E8Ff();
 void clear_lobby_object_state__9TObjEnemyFv();
 void vfunc_9__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
-void vfunc_12__9TObjEnemyFv();
+void get_name__9TObjEnemyFv();
 void get_pos__13TUnk_804806E8Fl();
 void is_actor_cadence_frame__13TUnk_804806E8Fl();
 void is_target_in_attack_range__13TUnk_804806E8Fv();
@@ -164,7 +164,7 @@ void *__vt__20TObjEneDarkGunCenter[83] = {
     (void *)vfunc_9__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)vfunc_12__9TObjEnemyFv,
+    (void *)get_name__9TObjEnemyFv,
     (void *)vfunc_13__13TUnk_804AF8A0Fl,
     (void *)add_actor_exp__13TUnk_804806E8Fl,
     (void *)consume_timer_field__13TUnk_804806E8Fl,

@@ -10,7 +10,7 @@ struct TOMineTrap : public TOMine {
     virtual void vfunc_86();
     virtual void vfunc_82();
     void sub_80171348(s16);
-    virtual int vfunc_12();
+    virtual const char *get_name();
     virtual void run_task();
     u32 m_374;
     u32 m_378;

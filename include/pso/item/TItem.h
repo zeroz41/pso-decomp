@@ -51,7 +51,7 @@ struct TItem : public TUnk_804AF8A0 {
     virtual void render();
     virtual void render_shadows();
     virtual s32 update_object_view_visibility(f32 depth, f32 radius);
-    virtual int vfunc_12();
+    virtual const char *get_name();
     // The player interacting with the item: try to pick it up.
     virtual void vfunc_13(s32 client);
     virtual void update_owned();
