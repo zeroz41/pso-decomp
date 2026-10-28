@@ -10,7 +10,6 @@ public:
     virtual void render();
 public:
     void update_position();
-    void clear_flags(u32 v);
 };
 
 #endif

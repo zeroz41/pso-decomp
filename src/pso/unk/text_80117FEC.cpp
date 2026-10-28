@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -15,11 +16,11 @@ void TItemProShield::sub_80117FEC() {
         this->m_19c = (s32) (this->m_19c | 1);
         break;
     case 22:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x80);
+        ((FlagWord *)(arg0 + 0x178))->set(0x80);
         break;
     case 49:
         ((TItemEquipBase *)arg0)->set_equip_flag(0x3A);
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(2);
+        ((FlagWord *)(arg0 + 0x178))->set(2);
         this->m_19c = (s32) (this->m_19c | 2);
         break;
     case 48:

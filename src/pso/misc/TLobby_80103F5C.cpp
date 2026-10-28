@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/item/TItemObject.h"
 #include "pso/system/byteswap.h"
@@ -110,7 +111,7 @@ void TLobby::free_boss_rocks() {
         mem_free((void *)(TLobby__floor_item_entry_pool - 0x10));
     }
     TLobby__floor_item_entry_pool = 0U;
-    ((TObjPlayer *)(&lbl_805D5430))->clear_id();
+    ((FlagWord *)(&lbl_805D5430))->reset();
 }
 void TLobby::alloc_objects() {
     (*(s32 *)&TLobby__floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), __ct__9FloorItemFv, 0, 0x24, 0xD80);
@@ -119,7 +120,7 @@ void TLobby::alloc_objects() {
     floor_item_free_id_stack = mem_alloc(0x40);
     (*(s32 *)&floor_item_free_id_count) = 0;
     floor_item_next_sort_keys = mem_alloc(0x24);
-    ((TObjPlayer *)(&lbl_805D5430))->clear_id();
+    ((FlagWord *)(&lbl_805D5430))->reset();
     TLobby::reset_floor_items();
 }
 int TLobby::get_lobby_flag() {  return lbl_805D5868; }
@@ -131,7 +132,7 @@ void TLobby__sub_801041BC(void *arg0) {
     *(s8 *)((s8 *)arg0 + 1) = 3;
 }
 void TLobby__sub_801041D8(void) {
-    ((TObjPlayer *)(&lbl_805D5430))->set_flags(1);
+    ((FlagWord *)(&lbl_805D5430))->set(1);
 }
 void TLobby::bswap_item() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap__9TItemDataFv((s32)((char*)this + 0x10)); }
 
@@ -151,7 +152,7 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
 }
 
 void TLobby__sub_80104350(void) {
-    ((TObjPlayer *)(&lbl_805D5430))->init_forward();
+    __ct__8FlagWordFv((&lbl_805D5430));
 }
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }

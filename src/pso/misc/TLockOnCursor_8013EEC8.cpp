@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TLockOnCursor_8013EDC4.h"
 #include "pso/misc/TLockOnCursor_8013EEC8.h"
 #include "pso/misc/TMainCursor_8013F104.h"
@@ -41,7 +42,7 @@ int TLockOnCursor__sub_8013F000(void *self) {
     return (int)self;
 }
 
-void* init_sub__13TLockOnCursorFPv(void* p) { fn_8004438C(p); ((TObjPlayer *)((char*)p + 0x8))->init_forward(); return p; }
+void* init_sub__13TLockOnCursorFPv(void* p) { fn_8004438C(p); __ct__8FlagWordFv(((char*)p + 0x8)); return p; }
 void TLockOnCursor::reset_fields() { *(s32 *)&this->m_name = 0; *(s32 *)&this->m_flags = 0; *(s32 *)&this->m_prev = 0; }
 
 struct VOff_8013F0A0_arg0 { char pad_0[0x8]; char f_8[1]; };

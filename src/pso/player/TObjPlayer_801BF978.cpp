@@ -12,7 +12,7 @@ struct RecoveredGlobal_801BF9F0_lbl_804C3E50 {
 
 extern "C" {
 extern RecoveredGlobal_801BF9F0_lbl_804C3E50 lbl_804C3E50;
-s32 clear_id__10TObjPlayerFv();
+s32 reset__8FlagWordFv();
 
 void TObjPlayer::init_tag() {
     s32 *arg0 = (s32 *)this;
@@ -22,7 +22,7 @@ void TObjPlayer::init_tag() {
 
 void TObjPlayer::reset_counter_field4() {
     *(s32 *)((s8 *)this + 4) = 0;
-    clear_id__10TObjPlayerFv();
+    reset__8FlagWordFv();
 }
 
     extern const float TObjPlayer__data_805DC294;

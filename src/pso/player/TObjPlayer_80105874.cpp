@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_80105874.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
@@ -27,7 +28,7 @@ void TObjPlayer::init_game_resources() {
     fn_80103674();
     TItemLoad::init_resources();
     (*(s32 *)&item_class_load_handle) = fn_8010F210((s32) &item_class_load_unload_table.value);
-    ((TObjPlayer *)(&lbl_805D5440))->clear_id();
+    ((FlagWord *)(&lbl_805D5440))->reset();
 }
 
 void fn_801058E8(void* p) { *(u8*)((char*)p + 0x7) |= 0x1; }

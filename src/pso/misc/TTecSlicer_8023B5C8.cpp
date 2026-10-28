@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/misc/TTecSlicer_8023B5C8.h"
@@ -297,7 +298,7 @@ void TTecSlicer::update() {
     if (horizontal_distance_squared(arg0 + 0x38, arg0 + 0xA8) < lbl_805DC958) {
         deliver_target_hit();
         if (get_next_captured_target(arg0 + 0xC8, arg0 + 0xA8, arg0 + 0xC4, arg0 + 0xC6, arg0 + 0xBC) == 0) {
-            ((TObjPlayer *)(arg0 + 0xC0))->set_flags(1);
+            ((FlagWord *)(arg0 + 0xC0))->set(1);
         } else {
             VecCopy((Vec *)(arg0 + 0x90), (const Vec *)(arg0 + 0xA8));
             subtract_vector(arg0 + 0x90, arg0 + 0x38);
@@ -418,7 +419,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     s32 e;
     __ct__13TUnk_804B9870FP7TObject(self, tl_05);
     self->vt = __vt__10TTecSlicer;
-    ((TObjPlayer *)(self->fwd))->init_forward();
+    __ct__8FlagWordFv((self->fwd));
     ((TTecSlicer *)(self->fc8))->reset_fields_1e();
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->f0 = lbl_805D3828;
@@ -452,7 +453,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     ext = get_extended_state__10TObjPlayerFv(self->f10c);
     if (ext != 0) {
         if (get_captured_target_count(ext) == 0) {
-            ((TObjPlayer *)((s32)self->fwd))->set_flags(1);
+            ((FlagWord *)((s32)self->fwd))->set(1);
         } else {
             for (i = 0; i != get_captured_target_count(ext); i++) {
                 e = get_captured_target_entry(ext, i);

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/TPlyOnCountOver.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/player/TObjPlayer.h"
@@ -168,7 +169,7 @@ void apply_stat_multipliers_default__10TObjPlayerFv(void);
 int clear_shrink_flag__10TObjPlayerFPv(void* p);
 void handle_6x87_shrink__10TObjPlayerFPvf(u8 *arg0, f32 farg0);
 void reset_stat_scale_and_ring__10TObjPlayerFi(s32 arg0);
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 
 extern const f32 lbl_805DC320;
 
@@ -229,7 +230,7 @@ void TObjPlayer__sub_801C6FCC(void* p, f32 v);
 void TObjPlayer__sub_801C6FDC(void);
 void TObjPlayer__sub_801C6FE0(void* p, f32 a, f32 b, f32 c);
 void *__dt__13TForceOperateFv(void *arg0, s16 arg1);
-int clear_target_lock_flag__10TObjPlayerFPv(void* p);
+void clear_target_lock_flag__10TObjPlayerFPv(void* p);
 void free__10TObjPlayerFPv(void* a0);
 u16 get_obj_type__10TObjPlayerFPv(void* p);
 void heap_alloc__10TObjPlayerFPv(void* a0);
@@ -241,7 +242,7 @@ void set_stat_scale__10TObjPlayerFPvf(void* p, f32 v);
 int test_flag_8__10TObjPlayerFPv(void* p);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 
 }
 }
@@ -438,7 +439,7 @@ void set_lock_timer__10TObjPlayerFPvi(void* p, s32 v);
 
 namespace accessors {
 extern "C" {
-int clear_target_lock_flag__10TObjPlayerFPv(void* p);
+void clear_target_lock_flag__10TObjPlayerFPv(void* p);
 }
 }
 
@@ -592,7 +593,7 @@ int set_lock_flag__10TObjPlayerFPv(void* p) { return ((int (*)(void*, int))test_
 
 namespace accessors {
 extern "C" {
-int clear_target_lock_flag__10TObjPlayerFPv(void* p) { return clear_flags__11TAdRicoRingFUl(p, 1); }
+void clear_target_lock_flag__10TObjPlayerFPv(void* p) { ((FlagWord *)p)->clear(1); }
 
 }
 }
@@ -746,7 +747,7 @@ void request_player_shrink(PlayerScaleState* state) {
 namespace accessors {
 extern "C" {
 void handle_6x87_shrink__10TObjPlayerFPvf(u8 *arg0, f32 farg0) {
-    ((TObjPlayer *)(arg0 + 4))->set_flags(1);
+    ((FlagWord *)(arg0 + 4))->set(1);
     *(f32 *)((s8 *)arg0 + 8) = farg0;
 }
 
@@ -787,7 +788,7 @@ void request_player_size_restore(PlayerScaleState* state) {
 
 namespace accessors {
 extern "C" {
-int clear_shrink_flag__10TObjPlayerFPv(void* p) { return clear_flags__11TAdRicoRingFUl((char*)p + 0x4, 1); }
+int clear_shrink_flag__10TObjPlayerFPv(void* p) { return clear__8FlagWordFUl((char*)p + 0x4, 1); }
 
 }
 }

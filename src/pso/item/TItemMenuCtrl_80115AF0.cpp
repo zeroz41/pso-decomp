@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/TItemMenuCtrl.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
@@ -10,9 +11,9 @@ extern "C" {
 s32 is_split_screen(void);
 u8 * __ct__15TEffStarLight2DFPvPvP7TObject(void *, s32, s32, s32);
 u8 *__nw__7TObjectFUl(s32);
-int set_flags__10TObjPlayerFUl(void*);
+int set__8FlagWordFUl(void*);
 
-int TItemMenuCtrl::set_menu_flags() { return set_flags__10TObjPlayerFUl((char*)this + 0x1c); }
+int TItemMenuCtrl::set_menu_flags() { return set__8FlagWordFUl((char*)this + 0x1c); }
 }
 
 extern const f32 lbl_805DABE8;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -231,7 +232,7 @@ void TItemAttackCol::move_with_collision(void *arg1) {
     Cb_802E3D8C cb;
     hit = csnVector((u8 *)&this->m_24, arg1, 0x8100);
     if (hit != NULL) {
-        ((TObjPlayer *)(arg0 + 0xE0))->set_flags(1);
+        ((FlagWord *)(arg0 + 0xE0))->set(1);
         VecCopy((Vec *)(arg0 + 0x24), (const Vec *)(hit->pos));
         cb = *(Cb_802E3D8C *)((s8 *)arg0 + 0x138);
         if (cb != NULL) {

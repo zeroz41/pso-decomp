@@ -16,8 +16,8 @@ void TMainCursor__sub_801540D8(E_801540D8 *arr, s32 n);
 void TMainCursor__sub_801540B8(void *self, E_801540B8 *arr, s32 i);
 void TMainCursor__sub_801540FC(E_801540FC *arr, s32 n);
 s32 test_flags_any(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
-s32 clear_flags__11TAdRicoRingFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
-s32 set_flags__10TObjPlayerFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
+s32 clear__8FlagWordFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
+s32 set__8FlagWordFUl(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0);
 
 void TMainCursor__sub_80154090(void) {  }
 void TMainCursor__sub_80154094(void) {  }
@@ -66,7 +66,7 @@ void TMainCursor::set_flag_bit(s32 arg1, u16 arg2) {
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)this + 0x9C);
-        clear_flags__11TAdRicoRingFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
+        clear__8FlagWordFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
     }
 }
 void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
@@ -74,7 +74,7 @@ void TMainCursor__sub_80154230(void *arg0, s32 arg1, u16 arg2) {
 
     if (((s32 (*)(void))TMainCursor__sub_80154288)() != 0) {
         temp_r5 = *(s32 *)((s8 *)arg0 + 0x9C);
-        set_flags__10TObjPlayerFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
+        set__8FlagWordFUl(temp_r5 + (arg1 * 4), 1 << arg2, temp_r5);
     }
 }
 

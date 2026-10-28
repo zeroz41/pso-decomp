@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/TItemLoad.h"
 #include "pso/item/TItemDrop.h"
@@ -35,7 +36,7 @@ void cleanup_game_objects__9TMainTaskFv(void) {
     TLobby::clear_object_count();
     TLobby::respawn_missing_floor_items(temp_r29);
     if ((global_state == 0) || (global_state == 0x12)) {
-        ((TObjPlayer *)(&lbl_805D5440))->set_flags(1);
+        ((FlagWord *)(&lbl_805D5440))->set(1);
         if ((main_phase != 0xE) && (main_phase == 0xF)) {
             TItemDrop::refresh_drop_table_if_changed();
         }

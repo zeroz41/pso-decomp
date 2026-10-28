@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
 typedef void (*Fn_801Fn)(void);
@@ -61,7 +62,7 @@ void fn_8010F018(Set_8010F0C0 *s) {
                 f();
             }
         }
-        ((TAdRicoRing *)((u8 *)s + 0xC))->clear_flags(1);
+        ((FlagWord *)((u8 *)s + 0xC))->clear(1);
     }
 }
 
@@ -80,7 +81,7 @@ void fn_8010F0C0(Set_8010F0C0 *s) {
                 f();
             }
         }
-        ((TObjPlayer *)((u8 *)s + 0xC))->set_flags(1);
+        ((FlagWord *)((u8 *)s + 0xC))->set(1);
     }
 }
 #pragma pop

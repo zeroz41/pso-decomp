@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/item/TItem.h"
+#include "pso/system/FlagWord.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/player/TUnk_804A4C78.h"
@@ -13,7 +15,6 @@ struct Obj_8012AFF8 {
 extern "C" {
 void update_trail_slot__11TItemWeaponFPvi(void *, s32);
 s32 is_rand_below_threshold__10TObjPlayerFv(void *);
-extern u8 item_render_state;
 void TUnk_804A4C78::reserved_53() {
     s32 saved;
     s32 savedF4;
@@ -21,7 +22,7 @@ void TUnk_804A4C78::reserved_53() {
     savedF4 = ((Obj_8012AFF8 *)this)->unkF4;
     if (is_rand_below_threshold__10TObjPlayerFv(this) == 0) {
         sub_8012B1F0(8);
-        ((TObjPlayer *)(&item_render_state))->set_flags(4);
+        item_render_state.set(4);
     }
     draw_weapon_model();
     if (sub_8012B1F8() != 8) {
@@ -30,7 +31,7 @@ void TUnk_804A4C78::reserved_53() {
     ((Obj_8012AFF8 *)this)->unkF4 = ((Obj_8012AFF8 *)this)->unk188;
     if (is_rand_below_threshold__10TObjPlayerFv(this) == 0) {
         sub_8012B1F0(8);
-        ((TObjPlayer *)(&item_render_state))->set_flags(4);
+        item_render_state.set(4);
     } else {
         sub_8012B1F0(saved);
     }

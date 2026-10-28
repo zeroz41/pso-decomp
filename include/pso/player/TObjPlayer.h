@@ -342,8 +342,8 @@ struct TObjPlayer : public TUnk_804806E8 {
     int copy_vec_at_18();
     int update_action_palette();
     int set_action_palette_mode();
-    int clear_flag0_bit1();
-    int set_flag_2();
+    void clear_flag0_bit1();
+    void set_flag_2();
     u16 get_field_2d4();
     s32 is_local_player();
     void apply_velocity();
@@ -374,9 +374,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     static s32 get_player_count();
     s32 register_object();
     void clear_ground_candidates();
-    void set_flags(u32 v);
-    void*init_forward();
-    void clear_id();
     void copy_xyz(void* q);
     void reset_lobby_model();
     void reset_type();
@@ -709,9 +706,9 @@ struct TObjPlayer : public TUnk_804806E8 {
     void set_state(s16 v);
     void set_anim_state(s16 v);
     void set_action_id(s16 v);
-    int test_flag_16();
-    int set_flag_4();
-    int check_flag_2();
+    void test_flag_16();
+    void set_flag_4();
+    void check_flag_2();
     s16 get_action_id();
     void*get_sub_object();
     s32 get_lock_timer();
@@ -736,7 +733,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     void set_speed(f32 farg0);
     void set_scale_xyz(f32 farg0);
     s32 setup_state();
-    int setup_state_helper();
+    void setup_state_helper();
     u8 *init_subobject();
     int sub_802a7290_fwd();
     int is_handle_valid();
@@ -1170,9 +1167,9 @@ struct TObjPlayer : public TUnk_804806E8 {
     int get_flag_1();
     int is_grounded();
     void set_player_index(s32 v);
-    int set_flag0_bits01();
+    void set_flag0_bits01();
     int clear_lock_flag();
-    int set_flag1();
+    void set_flag1();
     void reset_field4();
     void *reset_field28();
     u8 *create_state_34_alt();
@@ -1423,7 +1420,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     s32 handle_palette_button_input();
     s32 execute_palette_action(s32 arg1, void *arg2);
     int attach_battle_ctrl_sub();
-    int forward_1BF500_at_63c();
+    void forward_1BF500_at_63c();
     static s32 classify_action_state();
     int update_foot_stamp(int arg1);
     void play_footstep_sound();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -46,7 +47,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     init_state__10TObjPlayerFi((void *) (((u8 *)this) + 0x360));
     TObjPlayer__sub_803374C4((void *) (((u8 *)this) + 0x374));
     TObjPlayer__sub_80309E9C((void *) (((u8 *)this) + 0x384));
-    ((TObjPlayer *)(((u8 *)this) + 0x41C))->init_forward();
+    __ct__8FlagWordFv((((u8 *)this) + 0x41C));
     TFontSmallLobby__sub_801C0164((void *) (((u8 *)this) + 0x428));
     ((TFontSmallLobby *)(((u8 *)this) + 0x4AC))->construct_pb_controller();
     __ct__14TPlyDispConfigFv((void *) (((u8 *)this) + 0x500));
@@ -73,7 +74,7 @@ u8 *TObjPlayer::construct_player_instance(s32 arg1, s16 arg2, s32 role, u8 *arg4
     TObjPlayer__sub_801C1A00((void *) (((u8 *)this) + 0x828));
     init_player_telepipe_record((void *) (((u8 *)this) + 0x830));
     TObjPlayer__sub_801BFB4C((void *) (((u8 *)this) + 0x84C));
-    ((TObjPlayer *)(((u8 *)this) + 0x858))->init_forward();
+    __ct__8FlagWordFv((((u8 *)this) + 0x858));
     TObjPlayer::reset_and_return((s32)((void *) (((u8 *)this) + 0xD04)));
     ((TObjPlayer *)(((u8 *)this) + 0xDAC))->clear_header_struct();
     *(s32 *)((s8 *)((u8 *)this) + 0) = (s32) lbl_805D3530;

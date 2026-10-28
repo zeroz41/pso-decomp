@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItemEquipBase.h"
@@ -150,10 +151,10 @@ void TItemProArmor::init_effect_flags() {
     TItemProArmor_8011781C *self = (TItemProArmor_8011781C *)this;
     switch (((TItem *)self)->get_item_index()) {
     case 0x23:
-        ((TObjPlayer *)(self->flags178))->set_flags(2);
+        ((FlagWord *)(self->flags178))->set(2);
         break;
     case 0x33:
-        ((TObjPlayer *)(self->flags178))->set_flags(0x200);
+        ((FlagWord *)(self->flags178))->set(0x200);
         break;
     }
     switch (self->param->variant) {

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/item/TItem.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_8011C000.h"
 #include "pso/unk/text_8011B620.h"
 #include "pso/unk/text_80120D50.h"
@@ -24,7 +26,6 @@ s32 set_weapon_trail_joints(void *, int, int, int);
 s32 memcpy(void *, void *, int);
 s32 memset(void *, int, int);
 extern void *__vt__11TItemWeapon[];
-extern s32 item_render_state;
 extern const f32 lbl_805DAC98;
 extern u8 lbl_805DACA4;
 extern const f32 lbl_805DACB0;
@@ -84,12 +85,12 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     if (get_item_group__5TItemFv(arg0) == 0) {
         *(s16 *)((s8 *)arg0 + 0x1E8) = -1;
     } else {
-        ((TObjPlayer *)(&item_render_state))->clear_id();
+        item_render_state.reset();
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) lbl_805DAC98;
     }
     arg0->set_weapon_category_flags();
     if (*(u8 *)((s8 *)arg0->parameters + 0x27) & 1) {
-        ((TObjPlayer *)((u8 *)arg0 + 0x178))->set_flags(0x20);
+        ((FlagWord *)((u8 *)arg0 + 0x178))->set(0x20);
     }
     if (*(u8 *)((s8 *)arg0->parameters + 0x27) & 2) {
         ((TObjPlayer *)arg0)->set_status_flags(0x40000);

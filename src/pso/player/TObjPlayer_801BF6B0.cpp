@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_801BF6B0.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -8,8 +9,8 @@ s32 is_timer_running();
 s32 TObjPlayer__sub_801BF640();
 int clear_fields__20TWindowSubStatusDispFv(void*);
 int TObjPlayer__sub_801BF8CC(void* p);
-int set_flags__10TObjPlayerFUl(void*, int);
-int clear_id__10TObjPlayerFv(void*);
+int set__8FlagWordFUl(void*, int);
+int reset__8FlagWordFv(void*);
 int get_enabled__11TMainCursorFv(void*);
 int get_type__11TMainCursorFv(void*);
 
@@ -43,11 +44,11 @@ void TObjPlayer::set_state(s16 v) { *(s16*)((char*)this + 0x0) = v; }
 void TObjPlayer::set_anim_state(s16 v) { *(s16*)((char*)this + 0x8) = v; }
 void TObjPlayer::set_action_id(s16 v) { *(s16*)((char*)this + 0x2) = v; }
 f32 TObjPlayer__sub_801BF814(void* p) { return *(f32*)((char*)p + 0x0); }
-int TObjPlayer::test_flag_16() { return set_flags__10TObjPlayerFUl(this, 16); }
-int TObjPlayer__sub_801BF840(void* p) { return set_flags__10TObjPlayerFUl(p, 8); }
-int TObjPlayer::set_flag_4() { return set_flags__10TObjPlayerFUl(this, 4); }
-int TObjPlayer::check_flag_2() { return set_flags__10TObjPlayerFUl(this, 2); }
+void TObjPlayer::test_flag_16() { ((FlagWord *)this)->set(16); }
+void TObjPlayer__sub_801BF840(void* p) { ((FlagWord *)p)->set(8); }
+void TObjPlayer::set_flag_4() { ((FlagWord *)this)->set(4); }
+void TObjPlayer::check_flag_2() { ((FlagWord *)this)->set(2); }
 int TObjPlayer__sub_801BF8AC(void* p) { return TObjPlayer__sub_801BF8CC(p); }
-int TObjPlayer__sub_801BF8CC(void* p) { return clear_id__10TObjPlayerFv(p); }
+int TObjPlayer__sub_801BF8CC(void* p) { return reset__8FlagWordFv(p); }
 
 }

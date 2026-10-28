@@ -1,7 +1,6 @@
 #include "types.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/system/FlagWord.h"
 
-void*TObjPlayer::init_forward() { clear_id(); return this; }
+FlagWord::FlagWord() { reset(); }
 
-void TObjPlayer::clear_id() { *(s32*)((char*)this + 0x0) = 0; }
+void FlagWord::reset() { bits = 0; }

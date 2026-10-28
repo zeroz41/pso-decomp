@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
@@ -37,7 +38,6 @@ s32 pop_matrix();
 void draw_chunk_object(void *child);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
-extern s32 item_render_state;
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
@@ -116,7 +116,7 @@ s32 TItemWeapon::draw_weapon_model() {
             } else {
                 TObjEneRe7Berura::set_global_state(NULL);
             }
-            ((TObjPlayer *)(&item_render_state))->clear_id();
+            item_render_state.reset();
         } else {
             ((TItem *)this)->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
         }

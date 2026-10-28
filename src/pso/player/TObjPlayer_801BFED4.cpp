@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/text_80072004.h"
 #include "pso/misc/TUnk_804DDD28.h"
@@ -14,18 +15,16 @@ struct ByteBlock_8 { u8 bytes[0x8]; };
 extern "C" {
 extern const f32 TObjPlayer__data_805DC278;
 s32 TFontSmallLobby__sub_801C0228();
-int clear_id__10TObjPlayerFv(void*);
 int get_valid_child__6TLobbyFv(void*);
-s32 init_forward__10TObjPlayerFv();
 
 void TObjPlayer__sub_801BFED4(void* p) { *(s32*)((char*)p + 0x4) = -1; }
 s32 TObjPlayer::setup_state() {
     s32 arg0 = (s32)this;
-    init_forward__10TObjPlayerFv();
+    __ct__8FlagWordFv(this);
     setup_state_helper();
     return arg0;
 }
-int TObjPlayer::setup_state_helper() { return clear_id__10TObjPlayerFv(this); }
+void TObjPlayer::setup_state_helper() { ((FlagWord *)this)->reset(); }
 
 extern s32 lbl_804C3E50[];
 

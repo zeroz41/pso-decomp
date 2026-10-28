@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/TObject.h"
 #include "pso/misc/TLOC_ListClear.h"
 #include "pso/misc/TMainCursor_8013AE18.h"
@@ -113,7 +114,7 @@ extern const f32 lbl_805DB0D0;
 #pragma opt_common_subs off
 void TMainCursor::validate_target() {
     Target_8013B70C *t;
-    ((TAdRicoRing *)(((u8 *)this) + 0x20))->clear_flags(0xB);
+    ((FlagWord *)(((u8 *)this) + 0x20))->clear(0xB);
     t = (Target_8013B70C *)this->check_field_24();
     if (t == NULL) {
         this->update_target_sub();
@@ -357,7 +358,7 @@ u8 *TMainCursor__ct(u8 *main_cursor, s32 parent, s32 target_index, s32 target_id
                     u16 offset_y, f32 size) {
     __ct__7TObjectFP7TObject((void *)main_cursor, (void *)parent);
     *(s32 **)((s8 *)main_cursor + 0x18) = &(*(RecoveredGlobal_8013BDCC___vt__11TMainCursor *)&__vt__11TMainCursor).value;
-    ((TObjPlayer *)(main_cursor + 0x20))->init_forward();
+    __ct__8FlagWordFv((main_cursor + 0x20));
     TMainCursor__sub_8013E800(main_cursor + 0x24);
     TMainCursor__sub_8013F1F0((main_cursor + 0x4C));
     ((TMainCursor *)(main_cursor + 0x60))->reset();

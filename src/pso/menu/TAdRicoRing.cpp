@@ -1,4 +1,5 @@
 #include "pso/TAdRicoRing.h"
+#include "pso/system/FlagWord.h"
 #include "pso/menu/TAdRicoRing.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/object/TObject_80019A50.h"
@@ -64,7 +65,7 @@ void TAdRicoRing::run_task() {
       *((f32 *) (((s8 *) arg0) + 0x28)) = (f32) lbl_805D7E4C;
       *((f32 *) (((s8 *) arg0) + 0x24)) = (f32) lbl_805D7E4C;
       *((f32 *) (((s8 *) arg0) + 0x20)) = (f32) lbl_805D7E4C;
-      ((TAdRicoRing *)(arg0 + 0x2C))->clear_flags(2);
+      ((FlagWord *)(arg0 + 0x2C))->clear(2);
     }
   }
   *((s32 *) (((s8 *) arg0) + 0x68)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x68))) + (*((s32 *) (((s8 *) arg0) + 0x30))));
@@ -73,7 +74,7 @@ void TAdRicoRing::run_task() {
     *((s32 *) (((s8 *) arg0) + 0x30)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x30))) + (*((s32 *) (((s8 *) arg0) + 0x48))));
     if (((s32) (*((s32 *) (((s8 *) arg0) + 0x30)))) >= 0xCCC)
     {
-      ((TAdRicoRing *)(arg0 + 0x2C))->clear_flags(4);
+      ((FlagWord *)(arg0 + 0x2C))->clear(4);
     }
   }
   else
@@ -81,7 +82,7 @@ void TAdRicoRing::run_task() {
     *((s32 *) (((s8 *) arg0) + 0x30)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x30))) - (*((s32 *) (((s8 *) arg0) + 0x48))));
     if (((s32) (*((s32 *) (((s8 *) arg0) + 0x30)))) <= 0x5B0)
     {
-      ((TObjPlayer *)(arg0 + 0x2C))->set_flags(4);
+      ((FlagWord *)(arg0 + 0x2C))->set(4);
     }
   }
 }
@@ -89,7 +90,7 @@ TAdRicoRing::~TAdRicoRing() {}
 u8 *__ct__11TAdRicoRingFv(u8 *arg0) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__11TAdRicoRing.value;
-    ((TObjPlayer *)(arg0 + 0x2C))->init_forward();
+    __ct__8FlagWordFv((arg0 + 0x2C));
     *(s32 *)((s8 *)arg0 + 0) = (s32) TAdRicoRing__class_name;
     *(s32 *)((s8 *)arg0 + 0x4C) = get_bml_model((void *)TAdRicoRing__resource_bundle, 0);
     *(s32 *)((s8 *)arg0 + 0x50) = TObjFish__sub_8001EDB0((void *)TAdRicoRing__resource_bundle, 0);
@@ -109,7 +110,7 @@ u8 *__ct__11TAdRicoRingFv(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x64) = 0;
     *(f32 *)((s8 *)arg0 + 0x34) = (f32) lbl_805D7E4C;
     *(s32 *)((s8 *)arg0 + 0x30) = 0x5B0;
-    ((TObjPlayer *)(arg0 + 0x2C))->set_flags((s32)(4U));
+    ((FlagWord *)(arg0 + 0x2C))->set((s32)(4U));
     switch (TKeyBoardControl__sub_8000F828()) {
     case 0:
         *(s32 *)((s8 *)arg0 + 0x48) = 0x12;

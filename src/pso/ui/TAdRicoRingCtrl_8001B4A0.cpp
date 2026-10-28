@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdRicoRingCtrl_8001B4A0.h"
 #include "pso/ui/TAdRicoRingCtrl.h"
@@ -134,9 +135,9 @@ void TAdRicoRingCtrl::start_fade(f32 farg0) {
     f32 temp_f0;
 
     if (test_flags_any(arg0 + 0x2C, 1) != 0) {
-        ((TAdRicoRing *)(arg0 + 0x2C))->clear_flags(1);
+        ((FlagWord *)(arg0 + 0x2C))->clear(1);
     }
-    ((TObjPlayer *)(arg0 + 0x2C))->set_flags(2);
+    ((FlagWord *)(arg0 + 0x2C))->set(2);
     if (lbl_805D7E4C != farg0) {
         *(f32 *)((s8 *)arg0 + 0x38) = (f32) ((*(f32 *)((s8 *)arg0 + 0x34) - *(f32 *)&this->m_1c) / farg0);
         temp_f0 = (*(f32 *)((s8 *)arg0 + 0x34) - *(f32 *)&this->m_20) / farg0;
@@ -151,9 +152,9 @@ void TAdRicoRingCtrl::start_anim(f32 farg0) {
     f32 temp_f0;
 
     if (test_flags_any(arg0 + 0x2C, 2) != 0) {
-        ((TAdRicoRing *)(arg0 + 0x2C))->clear_flags(2);
+        ((FlagWord *)(arg0 + 0x2C))->clear(2);
     }
-    ((TObjPlayer *)(arg0 + 0x2C))->set_flags(1);
+    ((FlagWord *)(arg0 + 0x2C))->set(1);
     if (lbl_805D7E4C != farg0) {
         *(f32 *)((s8 *)arg0 + 0x38) = (f32) ((lbl_805D7E54 - *(f32 *)&this->m_1c) / farg0);
         temp_f0 = (lbl_805D7E54 - *(f32 *)&this->m_20) / farg0;

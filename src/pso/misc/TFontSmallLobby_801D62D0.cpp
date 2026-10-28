@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/system/byteswap.h"
 #include "pso/misc/TFontSmallLobby.h"
 #include "pso/item/TItemMag.h"
@@ -143,7 +144,7 @@ void TFontSmallLobby::reset_state() {
         i++;
     } while (i < 10);
     arg0->g = lbl_805DC3E0;
-    ((TObjPlayer *)(arg0->sub))->clear_id();
+    ((FlagWord *)(arg0->sub))->reset();
     for (k = 0, fp = arg0->flags; k < 6; k++, fp++) {
         *fp = 0;
     }
@@ -174,14 +175,14 @@ void* TFontSmallLobby__sub_801D6804(void* p);
 int TFontSmallLobby__sub_801C01BC(void*);
 int TFontSmallLobby__sub_801C0228(void*);
 void TLobby__send_and_handle_60(u8 *arg0);
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 int read_be16_field2__10TObjPlayerFv(void*);
-int set_flags__10TObjPlayerFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
 
 s32 TFontSmallLobby::construct_pb_controller() {
     s32 arg0 = (s32)this;
     __construct_array((void *)(arg0 + 0x14), fn_80152EF8, 0, 4, 0xA);
-    ((TObjPlayer *)(arg0 + 0x40))->init_forward();
+    __ct__8FlagWordFv((void *)(arg0 + 0x40));
     ((TFontSmallLobby *)(arg0 + 0x4C))->init_reset_fields();
     ((TFontSmallLobby *)arg0)->reset_state();
     return arg0;
@@ -197,19 +198,19 @@ int TFontSmallLobby::is_valid_index(s16 arg0) {
 }
 
 void TFontSmallLobby::reset_fields() { *(s32*)((char*)this + 0x0) = 0; *(s32*)((char*)this + 0x4) = 0; }
-int TFontSmallLobby::set_bit1_at_40() { return clear_flags__11TAdRicoRingFUl((char*)this + 0x40, 2); }
+int TFontSmallLobby::set_bit1_at_40() { return clear__8FlagWordFUl((char*)this + 0x40, 2); }
 void*TFontSmallLobby::clear_photon_blast_ready_flag() { TFontSmallLobby__sub_801C0228(this); return this; }
-int TFontSmallLobby::update_ready() { return set_flags__10TObjPlayerFUl((char*)this + 0x40, 2); }
+int TFontSmallLobby::update_ready() { return set__8FlagWordFUl((char*)this + 0x40, 2); }
 
 s32 TFontSmallLobby::get_state() { return *(s32*)((char*)this + 0x0); }
 s32 TFontSmallLobby::get_field_04() { return *(s32*)((char*)this + 0x4); }
-int TFontSmallLobby::check_flag_at_40() { return clear_flags__11TAdRicoRingFUl((char*)this + 0x40, 32); }
+int TFontSmallLobby::check_flag_at_40() { return clear__8FlagWordFUl((char*)this + 0x40, 32); }
 void TFontSmallLobby::set_target_count(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 void TFontSmallLobby::set_target_index(s32 v) { *(s32*)((char*)this + 0x0) = v; }
 void TFontSmallLobby__sub_801D671C(void* a0, int a1) { *(int*)((char*)a0 + 0x4) = (*(int*)((char*)a0 + 0x4) + a1); }
-int TFontSmallLobby::set_flag_40_bit5() { return set_flags__10TObjPlayerFUl((char*)this + 0x40, 32); }
-int TFontSmallLobby::update_field_40() { return clear_flags__11TAdRicoRingFUl((char*)this + 0x40, 16); }
-int TFontSmallLobby__sub_801D677C(void* p) { return set_flags__10TObjPlayerFUl((char*)p + 0x40, 16); }
+int TFontSmallLobby::set_flag_40_bit5() { return set__8FlagWordFUl((char*)this + 0x40, 32); }
+int TFontSmallLobby::update_field_40() { return clear__8FlagWordFUl((char*)this + 0x40, 16); }
+int TFontSmallLobby__sub_801D677C(void* p) { return set__8FlagWordFUl((char*)p + 0x40, 16); }
 u16 get_type__15TFontSmallLobbyFPv(void* p) { return *(u16*)((char*)p + 0x0); }
 
 s32 TFontSmallLobby__sub_801D67AC(u8 *arg0) {

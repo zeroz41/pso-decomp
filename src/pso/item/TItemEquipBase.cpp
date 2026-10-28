@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemLoad_80110010.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItemData.h"
@@ -466,7 +467,7 @@ void TItemEquipBase::remove_equip_effects() {
 
 s32 TItemEquipBase__sub_8010AC60(s32 arg0, s32 arg1, s32 arg2) {
     if ((test_flags_any((void *)(arg0 + 0x178), (void *)arg1) != 0) && (test_flags_any((void *)(arg0 + 0x178), (void *)arg2) == 0)) {
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(arg2);
+        ((FlagWord *)(arg0 + 0x178))->set(arg2);
         return 1;
     }
     return 0;
@@ -475,7 +476,7 @@ s32 TItemEquipBase__sub_8010AC60(s32 arg0, s32 arg1, s32 arg2) {
 s32 TItemEquipBase::apply_ad_rico_ring(s32 arg1) {
     s32 arg0 = (s32)this;
     if (test_flags_any((void *)(arg0 + 0x178), (void *)arg1) != 0) {
-        ((TAdRicoRing *)(arg0 + 0x178))->clear_flags(arg1);
+        ((FlagWord *)(arg0 + 0x178))->clear(arg1);
         return 1;
     }
     return 0;
@@ -644,7 +645,7 @@ void TItemEquipBase::equip() {
         ((TItem *)arg0)->add_item_flags(8);
         this->add_equip_stats(1);
         if ((TOKeyMachine01::get_global_state() != 0xF) && (test_flags_any((u8 *)&this->m_178, (void *)(1)) == 0)) {
-            ((TObjPlayer *)(arg0 + 0x178))->set_flags((u32)((void *)(1)));
+            ((FlagWord *)(arg0 + 0x178))->set((u32)((void *)(1)));
             this->vfunc_46();
         }
         ((TItemEquipBase *)arg0)->sub_8010A948();
@@ -697,13 +698,13 @@ u8 *TItemEquipBase__ct(u8 *arg0, s32 parent, s32 item) {
     s32 var_r0;
     __ct__5TItemFP7TObjectPUc((arg0), (void *)parent, (u8 *)item);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8010B684___vt__14TItemEquipBase *)&__vt__14TItemEquipBase).value;
-    ((TObjPlayer *)(arg0 + 0x178))->init_forward();
+    __ct__8FlagWordFv((arg0 + 0x178));
     *(s32 *)((s8 *)arg0 + 0) = (s32) item_equip_base_class_name;
     *(s8 *)&((TItemEquipBase *)arg0)->m_170 = 0;
     *(s8 *)&((TItemEquipBase *)arg0)->m_171 = 0;
     ((TItemEquipBase *)arg0)->reset();
     *(s16 *)&((TItemEquipBase *)arg0)->m_172 = -1;
-    ((TObjPlayer *)(arg0 + 0x178))->clear_id();
+    ((FlagWord *)(arg0 + 0x178))->reset();
     ((TItem *)arg0)->add_item_flags(4);
     temp_r3 = __nw__15TItemHeapObjectFUl(0x1C);
     var_r0 = temp_r3;

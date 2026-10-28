@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TUnk_804A2018.h"
 #include "pso/TItemShoot.h"
 #include "pso/TObject.h"
@@ -408,7 +409,7 @@ void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1) {
 void *TObjPlayer__sub_80124694(TObjPlayer *player) {
     TItemWeapon__ct(player);
     *(s32 **)((s8 *)player + 0x18) = megid_projectile_weapon_vtable;
-    ((TObjPlayer *)((char *)player + 376))->set_flags(32);
+    ((FlagWord *)((char *)player + 376))->set(32);
     player->set_status_flags(35);
     player->set_effect_state(12);
     *(u32 *)((s8 *)player + 0x1F8) = 0;

@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerReadyCallback.h"
+#include "pso/system/FlagWord.h"
 #include "pso/system/memory.h"
 
 #include "types.h"
@@ -92,8 +93,8 @@ void TObjPlayer__sub_801BEDB0(void* p, u8 v);
 void TObjPlayer__sub_801BEDB8(void* p, u8 v);
 void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1);
 void TObjPlayer__sub_801BF47C(void* p);
-int clear_flags__11TAdRicoRingFUl(void*, int);
-int set_flags__10TObjPlayerFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
 int set_mode__20TWindowActionPaletteFUc(void*);
 int set_slot__20TWindowActionPaletteFUc(void*);
 s32 try_add_item_count__10TObjPlayerFlllUc(s32 a0 = 0, s32 a1 = 0, s32 a2 = 0, s32 a3 = 0);
@@ -321,5 +322,5 @@ void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1) {
 
 int TObjPlayer::update_action_palette() { return set_slot__20TWindowActionPaletteFUc((char*)this + 0x4); }
 int TObjPlayer::set_action_palette_mode() { return set_mode__20TWindowActionPaletteFUc((char*)this + 0x4); }
-int TObjPlayer::clear_flag0_bit1() { return clear_flags__11TAdRicoRingFUl(this, 2); }
-int TObjPlayer::set_flag_2() { return set_flags__10TObjPlayerFUl(this, 2); }
+void TObjPlayer::clear_flag0_bit1() { ((FlagWord *)this)->clear(2); }
+void TObjPlayer::set_flag_2() { ((FlagWord *)this)->set(2); }

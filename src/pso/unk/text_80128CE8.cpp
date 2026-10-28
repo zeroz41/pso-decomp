@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TUnk_804A403C.h"
 #include "pso/item/SpecialProjectileWeapons.h"
 #include "pso/player/TObjPlayer_80128A70.h"
@@ -84,15 +85,15 @@ void TUnk_804A403C::emit_marker_effects() {
             increment_burst_counter((u8 *)temp_r31);
             var_r30 += 1;
         } while (var_r30 != 2);
-        ((TObjPlayer *)(arg0 + 0x1FC))->set_flags(2);
+        ((FlagWord *)(arg0 + 0x1FC))->set(2);
         TItemAttacker::spawn_item_timer((s32)arg0, (s32)clear_rico_ring_flag__10TObjPlayerFv, 0x3C);
-        ((TObjPlayer *)(arg0 + 0x1FC))->set_flags(4);
+        ((FlagWord *)(arg0 + 0x1FC))->set(4);
         if (((VObj_18 *)(arg0))->m49(arg0 + 0x200, 0, 0, 1) == 1) {
-            ((TAdRicoRing *)(arg0 + 0x1FC))->clear_flags(4);
+            ((FlagWord *)(arg0 + 0x1FC))->clear(4);
             ((VObj_18 *)(arg0))->m49(arg0 + 0x20C, 0, 0, 0);
             return;
         }
-        ((TAdRicoRing *)(arg0 + 0x1FC))->clear_flags(4);
+        ((FlagWord *)(arg0 + 0x1FC))->clear(4);
         ((VObj_18 *)(arg0))->m49(arg0 + 0x20C, 0, 0, 1);
     }
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/unk/TUnk_804A5340.h"
 #include "pso/item/TItemShootModel_dtor.h"
 #include "pso/player/TObjPlayer_8012C950.h"
@@ -16,7 +17,7 @@ TUnk_804A5340::~TUnk_804A5340() {
 }
 void rocket_punch_return_timer(u32 arg0) {
     if (arg0 != 0U) {
-        ((TAdRicoRing *)(arg0 + 0x1F8))->clear_flags(2);
+        ((FlagWord *)(arg0 + 0x1F8))->clear(2);
     }
 }
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLoad_8010FC28.h"
 #include "pso/system/memory.h"
@@ -23,7 +24,7 @@ void TItemLoad::advance_load_state() {
     if (test_flags_any(arg0 + 0x1C, 4) == 0) {
         if ((s32) item_load_work_buffer_busy != 1) {
             item_load_work_buffer_busy = 1;
-            ((TObjPlayer *)(arg0 + 0x1C))->set_flags(4);
+            ((FlagWord *)(arg0 + 0x1C))->set(4);
             goto block_3;
         }
     } else {

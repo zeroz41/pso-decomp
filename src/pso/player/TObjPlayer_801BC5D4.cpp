@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
 #include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/player/TObjPlayer_801BF918.h"
@@ -9,7 +10,7 @@ extern const f32 TObjPlayer__data_805DC278;
 
 void TObjPlayer::reset_state() {
     u8 *arg0 = (u8 *)this;
-    ((TAdRicoRing *)(arg0 + 0x858))->clear_flags(2);
+    ((FlagWord *)(arg0 + 0x858))->clear(2);
     ((TObjPlayer *)(arg0 + 0x63C))->reset_counter_field4();
     ((TObjPlayer *)(arg0 + 0x644))->reset_type();
     ((TObjPlayer *)(arg0 + 0x7CC))->reset_movement_state();

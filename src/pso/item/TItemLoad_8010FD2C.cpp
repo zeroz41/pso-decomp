@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/item/TUnk_8049F42C.h"
 #include "pso/TItemLoad.h"
@@ -17,9 +18,9 @@ void *TUnk_8049F42C::init() {
     struct VOff_8010FD2C_arg0_8010fd2c *self = (struct VOff_8010FD2C_arg0_8010fd2c *)this;
     init_buffer__9TItemLoadFPviii(this);
     *(s32 * *)&(*(TObject * *)((u8 *)this + 0x14)) = lbl_8049F42C;
-    ((TObjPlayer *)(self->f_1C))->init_forward();
+    __ct__8FlagWordFv((self->f_1C));
     *(u32 *)((s8 *)this + 0x18) = 0;
-    ((TObjPlayer *)(self->f_1C))->clear_id();
+    ((FlagWord *)(self->f_1C))->reset();
     return this;
 }
 

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/TItemLoad.h"
 #include "pso/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,9 +17,9 @@ void TItemLoad::update_ring() {
     temp_r3 = get_ring_lobby__9TItemLoadFv();
     if (temp_r3 != 2) {
         if (temp_r3 == 3) {
-            ((TAdRicoRing *)(arg0 + 0x1C))->clear_flags(1);
+            ((FlagWord *)(arg0 + 0x1C))->clear(1);
         } else {
-            ((TObjPlayer *)(arg0 + 0x1C))->set_flags(1);
+            ((FlagWord *)(arg0 + 0x1C))->set(1);
         }
         update_load_state();
     }

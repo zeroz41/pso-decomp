@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/system/memory.h"
 
@@ -132,7 +133,7 @@ void TLockOnCursor::reset_and_spawn_cursors() {
     s32 var_r31_4;
     s32 i;
     s32 arg0 = (s32)this;
-    ((TObjPlayer *)(arg0 + 0x1C))->clear_id();
+    ((FlagWord *)(arg0 + 0x1C))->reset();
     for (i = 0; i < 4; i++) {
         ((TMainCursor *)((s32)&((Cur_8013DAB0 *)arg0)->arr[i]))->reset_state();
     }
@@ -230,7 +231,7 @@ void *TLockOnCursor__ct(void *lock_on_cursor, void *arg1, void *arg2) {
     struct VOff_8013DE3C_arg0_8013D91C *self = (struct VOff_8013DE3C_arg0_8013D91C *)lock_on_cursor;
     __ct__7TObjectFP7TObject(lock_on_cursor);
     *(s32 **)((s8 *)lock_on_cursor + 0x18) = __vt__13TLockOnCursor;
-    ((TObjPlayer *)(self->f_1C))->init_forward();
+    __ct__8FlagWordFv((self->f_1C));
     fn_8013F0A0(((char *)lock_on_cursor + 36));
     ((TLockOnCursor *)((char *)lock_on_cursor + 60))->reset_fields();
     TMainCursor__sub_8013F1F0((u8 *)((char *)lock_on_cursor + 72));
@@ -241,7 +242,7 @@ void *TLockOnCursor__ct(void *lock_on_cursor, void *arg1, void *arg2) {
     ((TLockOnCursor *)((char *)lock_on_cursor + 1312))->init_vtable();
     *(void * *)&((TLockOnCursor *)lock_on_cursor)->m_name = lock_on_cursor_class_name;
     sub_8013EEC0__13TLockOnCursorFs(lock_on_cursor, arg2);
-    ((TObjPlayer *)(self->f_1C))->clear_id();
+    ((FlagWord *)(self->f_1C))->reset();
     return lock_on_cursor;
 }
 

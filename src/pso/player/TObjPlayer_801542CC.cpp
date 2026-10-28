@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804928CC.h"
@@ -172,7 +173,6 @@ void* refresh_actor_body_spheres(CollisionBody_80155FBC, CollisionBody_80155FBC)
 extern s32 TObjPlayer__data_8050D460[];
 void *mem_alloc(u32 size);
 void fn_8002B630(u8 *arg0, u8 *arg1);
-void init_forward__10TObjPlayerFv(void *);
 void *__construct_new_array(void *, void (*)(void *), void *, s32, s32);
 Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src, s32 count);
 void *get_player_by_client_id(u32 id);
@@ -1109,7 +1109,7 @@ Part_80156780 *init_collision_body_parts(Obj_80156780 *self, Part_80156780 *src,
     }
     if (self->f9c == 0) {
         n = self->count;
-        self->f9c = __construct_new_array(mem_alloc(n * 4 + 0x10), init_forward__10TObjPlayerFv, 0, 4, n);
+        self->f9c = __construct_new_array(mem_alloc(n * 4 + 0x10), (void (*)(void *))__ct__8FlagWordFv, 0, 4, n);
     }
     return self->parts;
 }
@@ -1153,7 +1153,7 @@ TUnk_804AF8A0::~TUnk_804AF8A0() {
 
 TUnk_804AF8A0::TUnk_804AF8A0(TObject *parent) : TUnk_804B9870(parent) {
     TObjPlayer__sub_80156A74(&m_98);
-    ((TObjPlayer *)&m_a0)->init_forward();
+    __ct__8FlagWordFv(&m_a0);
     m_90 = 0;
     body_count = 0;
     m_a4 = NULL;

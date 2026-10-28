@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/misc/TFontSmallLobby_801C013C.h"
 #include "pso/system/byteswap.h"
@@ -17,15 +18,15 @@ struct O_801C0708 { u8 a; u8 b; u8 pad[2]; s32 c; u16 d; u16 e; };
 struct O_801C0350 { u8 a; u8 b; u8 pad[2]; u16 c; u16 d; };
 
 extern "C" {
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 extern s32 fn_80152EF8[];
 void __construct_array(void *, void *, int, int, int);
 int read_be16_field2__10TObjPlayerFv(void*);
 void __copy(void *, void *, int);
-int TFontSmallLobby__sub_801C013C(void* p) { return clear_flags__11TAdRicoRingFUl((void*)((char*)p + 0x10), 2); }
+int TFontSmallLobby__sub_801C013C(void* p) { return clear__8FlagWordFUl((void*)((char*)p + 0x10), 2); }
 
 void *TFontSmallLobby__sub_801C0164(void *player) {
-    ((TObjPlayer *)((char *)player + 16))->init_forward();
+    __ct__8FlagWordFv(((char *)player + 16));
     __construct_array((void *)((char *)player + 32), fn_80152EF8, 0, 4, 10);
     ((TObjPlayer *)player)->reset_tech_state();
     return player;

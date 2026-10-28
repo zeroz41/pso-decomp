@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TPlyPhotonChair.h"
 #include "pso/misc/TUnk_804DDD28.h"
@@ -446,7 +447,7 @@ void *TUnk_804ED7D0::init_vtable8() {
 extern s32 lbl_805D6C84;
 
 void TLobby::init_player_forward() {
-    ((TObjPlayer *)(&lbl_805D6C84))->init_forward();
+    __ct__8FlagWordFv((&lbl_805D6C84));
 }
 
 }

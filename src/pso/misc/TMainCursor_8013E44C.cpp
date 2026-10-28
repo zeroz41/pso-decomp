@@ -1,9 +1,10 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TMainCursor_8013E44C.h"
 #include "pso/misc/TMainCursor.h"
 
 extern "C" {
-int set_flags__10TObjPlayerFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
 
 int TMainCursor::is_same_target(void *b) {
     u8 result = 0;
@@ -28,4 +29,4 @@ int TMainCursor__sub_8013E40C(TMainCursor *main_cursor, u16 arg1) {
 #include "pso/misc/TWindowActionPalette.h"
 
 void*TMainCursor::get_list() { return (char*)this + 0xc; }
-int TMainCursor::update_target_sub() { return set_flags__10TObjPlayerFUl((char*)this + 0x20, 1); }
+int TMainCursor::update_target_sub() { return set__8FlagWordFUl((char*)this + 0x20, 1); }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/system/PadRumble.h"
 #include "pso/misc/TKeyBoardControl_803DE9C4.h"
@@ -2146,7 +2147,7 @@ int get_result_entry__18TChallenge4PResultFPv(void* p);
 int get_field_340__18TChallenge4PResultFPv(void* p);
 int get_player_result__18TChallenge4PResultFPv(void* p);
 int TObjPlayer__sub_801B3FD8(void* p);
-int TObjPlayer__sub_801B4044(void* p);
+void TObjPlayer__sub_801B4044(void* p);
 s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *arg0, f32 farg0, f32 farg1);
 void update_rotation__10TObjPlayerFv(void *arg0);
 void handle_6xA1_revive_player_v3(void *arg0);
@@ -3602,7 +3603,7 @@ s32 TObjPlayer::try_pickup_item() {
             return 0;
         }
         ((s32 (*)(s32))recover_full__10TObjPlayerFPv)(arg0);
-        ((TObjPlayer *)(arg0 + 0x858))->set_flags(4);
+        ((FlagWord *)(arg0 + 0x858))->set(4);
         ((s32 (*)(s32, s32, s32))send_6x29_delete_item__10TObjPlayerFPvii)(arg0, ((s32 (*)(s32))get_item_id__5TItemFv)(temp_r3), 1);
         return 1;
     }
@@ -4424,7 +4425,7 @@ void complete_deferred_player_death(void) {
     if (p == NULL) {
         return;
     }
-    ((TAdRicoRing *)((u8 *)p + 0x858))->clear_flags(2);
+    ((FlagWord *)((u8 *)p + 0x858))->clear(2);
     if (((TObjPlayer *)p)->try_pickup_item() != 0) {
         return;
     }
@@ -4767,9 +4768,9 @@ int TObjPlayer__sub_801B3FD8(void* p) { return reset_ring__10TObjPlayerFv((char*
 
 int TObjPlayer::attach_battle_ctrl_sub() { return clear_target_lock__10TObjPlayerFv((char*)this + 0x63c); }
 
-int TObjPlayer::forward_1BF500_at_63c() { return ((TObjPlayer *)((char*)this + 0x63c))->clear_flag0_bit1(); }
+void TObjPlayer::forward_1BF500_at_63c() { ((TObjPlayer *)((char*)this + 0x63c))->clear_flag0_bit1(); }
 
-int TObjPlayer__sub_801B4044(void* p) { return ((TObjPlayer *)((char*)p + 0x63c))->set_flag_2(); }
+void TObjPlayer__sub_801B4044(void* p) { ((TObjPlayer *)((char*)p + 0x63c))->set_flag_2(); }
 
 s32 TObjPlayer::classify_action_state() {
     s8 temp_r3;
@@ -5187,7 +5188,7 @@ Obj_801B4FD8 *init_player_join_record(Obj_801B4FD8 *self) {
     ((TObjPlayer *)(self->f68))->clear_header_struct();
     TObjPlayer__sub_801C1A00(self->f70);
     init_player_telepipe_record(self->f78);
-    ((TObjPlayer *)(self->f94))->init_forward();
+    __ct__8FlagWordFv((self->f94));
     TObjPlayer__sub_801BF660(self->f98);
     init_inventory_list__10TObjPlayerFPv(self->f13C);
     self->f0 = 0xFFFF;

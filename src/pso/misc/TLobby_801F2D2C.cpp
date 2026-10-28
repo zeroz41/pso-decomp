@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/QuestVm.h"
+#include "pso/system/FlagWord.h"
 #include "types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/misc/TLobby_801F2D2C.h"
@@ -86,7 +87,7 @@ void init_quest_script_context(Hdr_801F3124 *h, Ctx_801F3124 *c);
 int test_action_mask__10TObjPlayerFl(void*, int);
 int VecCopy__FP3VecPC3Vec(void*);
 void queue_destruction__7TObjectFv(void *arg0);
-int set_flags__10TObjPlayerFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
 
 unsigned char TLobby::read_packet_byte() { return qst_code[qst_pc++]; }
 
@@ -359,7 +360,7 @@ void TLobby::bswap_entry_words(s32 arg0) {
 }
 #pragma pop
 
-int TLobby__sub_801F3694(void* p) { return set_flags__10TObjPlayerFUl((char*)p + 0x10, 2); }
+int TLobby__sub_801F3694(void* p) { return set__8FlagWordFUl((char*)p + 0x10, 2); }
 
     extern int lobby_online_ready_flag;
 void TLobby__sub_801F36BC(void) { lobby_online_ready_flag = 1; }

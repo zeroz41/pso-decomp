@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/misc/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TWindowActionPalette_801C1890.h"
@@ -22,8 +23,8 @@ struct S_801C1BA8 { u8 a; u8 b; u8 c; u8 d; s32 e; C_801C1BA8 f; };
 
 extern "C" {
 s32 read_be16_field2__10TObjPlayerFv();
-int set_flags__10TObjPlayerFUl(void*, int);
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 int TWindowActionPalette__sub_801C1C20(void* p);
 int test_flags_any(void*, int);
 void reset_settings_to_default__6TLobbyFv(void *);
@@ -108,11 +109,11 @@ void TObjPlayer__sub_801C1AC8(void *self) {
 
 void TObjPlayer__sub_801C1B0C(void) {  }
 
-int TObjPlayer::set_flags_bit2() { return set_flags__10TObjPlayerFUl((char*)this + 0x1c, 2); }
+int TObjPlayer::set_flags_bit2() { return set__8FlagWordFUl((char*)this + 0x1c, 2); }
 
-int TObjPlayer::set_flags_bit1() { return set_flags__10TObjPlayerFUl((char*)this + 0x1c, 1); }
+int TObjPlayer::set_flags_bit1() { return set__8FlagWordFUl((char*)this + 0x1c, 1); }
 
-int TObjPlayer::clear_flag_1_at_1c() { return clear_flags__11TAdRicoRingFUl((char*)this + 0x1c, 1); }
+int TObjPlayer::clear_flag_1_at_1c() { return clear__8FlagWordFUl((char*)this + 0x1c, 1); }
 
 s32 fn_801C1B88(void* p) { return *(s32*)((char*)p + 0x0); }
 

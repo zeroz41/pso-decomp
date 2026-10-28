@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TNpcPlayer_802C3CD0.h"
 #include "pso/player/TObjPlayer_802A1440.h"
 #include "pso/ui/TAdSelectTxtGC.h"
@@ -13,11 +14,11 @@ extern "C" {
 int clear_player_data_block(void*);
 int init_inventory_items__12TPlyCharDataFv(void*);
 
-void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((TObjPlayer *)((char*)this + 0x428))->clear_id(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
+void TObjPlayer::init_select_txt() { *(int*)(this) = 0; TAdSelectTxtGC__sub_802A16A8((char*)this + 0x4); ((FlagWord *)((char*)this + 0x428))->reset(); ((TObjPlayer *)((char*)this + 0xc))->initialize_player_data(); }
 
 void TObjPlayer::copy_lobby_header(s32 arg1) {
     s32 *arg0 = (s32 *)this;
-    ((TObjPlayer *)((s8 *)arg0 + 0x428))->set_flags(1);
+    ((FlagWord *)((s8 *)arg0 + 0x428))->set(1);
     *arg0 = TAdSelectTxtGC__sub_802A16C0((void *)arg1);
     ((TLobby *)((s8 *)arg0 + 4))->copy_header_struct((void *) ((s8 *)arg1 + 0xDAC));
     export_character_data__10TObjPlayerFPvPv((u8 *)arg1, (u8 *)((s8 *)arg0 + 0xC));

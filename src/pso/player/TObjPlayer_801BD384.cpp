@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TPlyDispConfig.h"
 #include "pso/player/TObjPlayer_801BF978.h"
 #include "pso/player/TObjPlayer_801D6C4C.h"
@@ -105,7 +106,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
     init_state__10TObjPlayerFi((s32)((char *)player + 864));
     TObjPlayer__sub_803374C4((void *)((char *)player + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)player + 900));
-    ((TObjPlayer *)((char *)player + 1052))->init_forward();
+    __ct__8FlagWordFv(((char *)player + 1052));
     TFontSmallLobby__sub_801C0164(((char *)player + 1064));
     ((TFontSmallLobby *)((char *)player + 1196))->construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)player + 1280));
@@ -132,7 +133,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
     TObjPlayer__sub_801C1A00(((char *)player + 2088));
     init_player_telepipe_record((void *)((char *)player + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)player + 2124));
-    ((TObjPlayer *)((char *)player + 2136))->init_forward();
+    __ct__8FlagWordFv(((char *)player + 2136));
     TObjPlayer::reset_and_return((s32)((void *)((char *)player + 3332)));
     ((TObjPlayer *)((char *)player + 3500))->clear_header_struct();
     *(void * *)&player->m_name = lbl_805D3530;
@@ -153,7 +154,7 @@ void *__ct__10TObjPlayerFPvPvPv(TObjPlayer *arg0, void *arg1, void *arg2) {
     init_state__10TObjPlayerFi((s32)((char *)arg0 + 864));
     TObjPlayer__sub_803374C4((void *)((char *)arg0 + 884));
     TObjPlayer__sub_80309E9C((void *)((char *)arg0 + 900));
-    ((TObjPlayer *)((char *)arg0 + 1052))->init_forward();
+    __ct__8FlagWordFv(((char *)arg0 + 1052));
     TFontSmallLobby__sub_801C0164(((char *)arg0 + 1064));
     ((TFontSmallLobby *)((char *)arg0 + 1196))->construct_pb_controller();
     __ct__14TPlyDispConfigFv(((char *)arg0 + 1280));
@@ -180,7 +181,7 @@ void *__ct__10TObjPlayerFPvPvPv(TObjPlayer *arg0, void *arg1, void *arg2) {
     TObjPlayer__sub_801C1A00(((char *)arg0 + 2088));
     init_player_telepipe_record((void *)((char *)arg0 + 2096));
     TObjPlayer__sub_801BFB4C((u8 *)((char *)arg0 + 2124));
-    ((TObjPlayer *)((char *)arg0 + 2136))->init_forward();
+    __ct__8FlagWordFv(((char *)arg0 + 2136));
     TObjPlayer::reset_and_return((s32)((void *)((char *)arg0 + 3332)));
     ((TObjPlayer *)((char *)arg0 + 3500))->clear_header_struct();
     *(void * *)&arg0->m_name = lbl_805D3530;

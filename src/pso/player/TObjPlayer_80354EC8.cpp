@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/misc/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_80354EC8.h"
 #include "pso/ui/TAdPlyPltAnimCtrlGC.h"
@@ -31,25 +32,25 @@ __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_8035
 
 extern "C" {
 
-int set_flags__10TObjPlayerFUl(void*, int);
-int clear_flags__11TAdRicoRingFUl(void*, int);
+int set__8FlagWordFUl(void*, int);
+int clear__8FlagWordFUl(void*, int);
 int test_flags_any(void*, int);
 
 s32 get_quest_thread_id__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x4); }
 void TObjPlayer::set_player_index(s32 v) { *(s32*)((char*)this + 0x4) = v; }
 void TObjPlayer__sub_80354F8C(void* p) { fn_8035510C((s32 *)p, (s32)((void*)3)); }
-int TObjPlayer__sub_80354FB0(void* p) { return clear_flags__11TAdRicoRingFUl(p, 2); }
-int TObjPlayer::set_flag0_bits01() { return set_flags__10TObjPlayerFUl(this, 3); }
+void TObjPlayer__sub_80354FB0(void* p) { ((FlagWord *)p)->clear(2); }
+void TObjPlayer::set_flag0_bits01() { ((FlagWord *)this)->set(3); }
 int TObjPlayer::clear_lock_flag() { return test_flags_any(this, 1); }
-int TObjPlayer__sub_8035501C(void* p) { return clear_flags__11TAdRicoRingFUl(p, 3); }
-int TObjPlayer::set_flag1() { return set_flags__10TObjPlayerFUl(this, 1); }
-void TObjPlayer::reset_field4() { clear_id(); *(int*)((char*)this + 0x4) = 0; }
+void TObjPlayer__sub_8035501C(void* p) { ((FlagWord *)p)->clear(3); }
+void TObjPlayer::set_flag1() { ((FlagWord *)this)->set(1); }
+void TObjPlayer::reset_field4() { ((FlagWord *)this)->reset(); *(int*)((char*)this + 0x4) = 0; }
 s32 TObjPlayer__sub_80355098(s32 arg0, s16 arg1) {
     if ((arg0 != 0) && (arg1 > 0)) {
         __dl__FPv();
     }
     return arg0;
 }
-void* init_and_reset_forward__10TObjPlayerFPv(void* p) { ((TObjPlayer *)p)->init_forward(); ((TObjPlayer *)p)->reset_field4(); return p; }
+void* init_and_reset_forward__10TObjPlayerFPv(void* p) { __ct__8FlagWordFv(p); ((TObjPlayer *)p)->reset_field4(); return p; }
 
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItem.h"
@@ -311,31 +312,31 @@ void TItemProUnit::apply_unit_effect_flags() {
         *(s16 *)((s8 *)arg0 + 0x190) = (s16) this->m_18e;
         return;
     case 20:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(8);
+        ((FlagWord *)(arg0 + 0x178))->set(8);
         return;
     case 21:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(2);
+        ((FlagWord *)(arg0 + 0x178))->set(2);
         return;
     case 19:
         *(f32 *)((s8 *)arg0 + 0x1B8) = (f32) (TItemProUnit__data_805DABF8 + ((f32) this->m_18e / lbl_805DAC00));
         return;
     case 22:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x80);
+        ((FlagWord *)(arg0 + 0x178))->set(0x80);
         return;
     case 23:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x200);
+        ((FlagWord *)(arg0 + 0x178))->set(0x200);
         return;
     case 24:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x800);
+        ((FlagWord *)(arg0 + 0x178))->set(0x800);
         return;
     case 25:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x2000);
+        ((FlagWord *)(arg0 + 0x178))->set(0x2000);
         return;
     case 26:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x8000);
+        ((FlagWord *)(arg0 + 0x178))->set(0x8000);
         return;
     case 27:
-        ((TObjPlayer *)(arg0 + 0x178))->set_flags(0x20000);
+        ((FlagWord *)(arg0 + 0x178))->set(0x20000);
     default:
         return;
     }

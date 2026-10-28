@@ -5,6 +5,7 @@
 #include <stddef.h>
 #include "pso/object/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/FlagWord.h"
 
 struct TItemData;
 struct TObjPlayer;
@@ -184,7 +185,7 @@ extern NJS_ARGB item_box_secondary_colors[6];
 extern int item_registry_count;
 extern TItem **item_registry_sorted_entries;
 
-extern s32 item_render_state;
+extern FlagWord item_render_state;
 extern u32 player_rock_objects_handle;
 
 // Bumped each time the item system is set up for a game.

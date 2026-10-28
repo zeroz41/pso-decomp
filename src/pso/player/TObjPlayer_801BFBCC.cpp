@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TObjPlayer_801BFBCC.h"
 #include "pso/player/TObjPlayer.h"
@@ -34,7 +35,7 @@ u8 *TObjPlayer::construct_hurt_timer() {
     return arg0;
 }
 
-void*TObjPlayer::reset_and_clear() { init_forward(); reset_counter_field4(); return this; }
+void*TObjPlayer::reset_and_clear() { __ct__8FlagWordFv(this); reset_counter_field4(); return this; }
 void*TObjPlayer::wrap_update() { TObjPlayer__sub_801BFC90((O_801BFC90 *)(this)); return this; }
 
 void TObjPlayer__sub_801BFC90(O_801BFC90 *p) {
@@ -47,11 +48,11 @@ void*TObjPlayer::set_vec4_const_wrapper() { set_vec4_const(); return this; }
 void*TObjPlayer::init_members() { zero_vec3(this); return this; }
 void*TObjPlayer::init_wrapper() { TObjPlayer__sub_801BFD3C(this); return this; }
 void TObjPlayer__sub_801BFD3C(void* p) { *(s16*)((char*)p + 0x0) = 0; *(s16*)((char*)p + 0x2) = 0; *(s32*)((char*)p + 0x4) = 0; *(s16*)((char*)p + 0x8) = 0; }
-void*TObjPlayer::init_sub() { ((TObjPlayer *)((char*)this + 0xc))->init_forward(); reset_stat_scale_and_ring__10TObjPlayerFi((s32)this); return this; }
-void*TObjPlayer::init_subobjects() { ((TObjPlayer *)((char*)this + 0x4))->init_forward(); ((TObjPlayer *)((char*)this + 0x18))->init_pair(); init_player_scale_state(this); return this; }
+void*TObjPlayer::init_sub() { __ct__8FlagWordFv(((char*)this + 0xc)); reset_stat_scale_and_ring__10TObjPlayerFi((s32)this); return this; }
+void*TObjPlayer::init_subobjects() { __ct__8FlagWordFv(((char*)this + 0x4)); ((TObjPlayer *)((char*)this + 0x18))->init_pair(); init_player_scale_state(this); return this; }
 }
 int init_player_scale_state(TObjPlayer *player) {
     *(u16 *)player = 0xFFFF;
-    ((TObjPlayer *)((u8 *)player + 4))->clear_id();
+    ((FlagWord *)((u8 *)player + 4))->reset();
     player->set_speed(lbl_805DC2DC);
 }

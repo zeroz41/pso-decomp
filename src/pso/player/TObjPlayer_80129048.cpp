@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/FlagWord.h"
 #include "pso/unk/TUnk_804A4020.h"
 #include "pso/player/TUnk_804A4138.h"
 #include "pso/item/TItemShootModel_dtor.h"
@@ -23,7 +24,7 @@ TUnk_804A4020::~TUnk_804A4020() {
 void TObjPlayer::clear_rico_ring_flag() {
     u32 arg0 = (u32)this;
     if (arg0 != 0U) {
-        ((TAdRicoRing *)(arg0 + 0x1FC))->clear_flags(2);
+        ((FlagWord *)(arg0 + 0x1FC))->clear(2);
     }
 }
 

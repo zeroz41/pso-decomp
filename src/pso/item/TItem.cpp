@@ -34,7 +34,6 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/GinjaUvScroll.h"
-#include "pso/TAdRicoRing.h"
 #include "pso/THeap.h"
 #include "pso/TItemLoad.h"
 #include "pso/TParticleCtrl.h"
@@ -49,6 +48,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D853C.h"
+#include "pso/system/FlagWord.h"
 #include "pso/menu/TAdRicoRing_8001BEE8.h"
 #include "pso/boss/TBoss1DragonColli.h"
 #include "pso/item/TItemAttacker.h"
@@ -88,7 +88,12 @@ NJS_ARGB item_box_secondary_colors[6] = {
 // Counts the model nodes drawn this frame.
 s32 model_node_counter;
 // What the item model draw has switched on and must undo (ITEM_RENDER_*).
-s32 item_render_state;
+// Its constructor runs from __sinit_TItem_cpp, spelled out below because the
+// original's static initializer precedes this file's inline copies.
+#pragma push
+#pragma suppress_init_code on
+FlagWord item_render_state;
+#pragma pop
 int item_registry_count;
 TItem **item_registry_sorted_entries;
 void (*model_node_draw_callback)(s32 model);
@@ -104,6 +109,7 @@ const CollisionBody item_collider_body = {{0.0f, 0.0f, 0.0f}, 3.0f, {0}, 0x31F0B
 const u8 item_type_drop_models[5] = {0, 1, 1, 2, 3};
 
 int item_system_generation;
+
 
 void __sinit_TItem_cpp();
 __declspec(section ".ctors") static void *const item_global_initializer = (void *)__sinit_TItem_cpp;
@@ -294,7 +300,7 @@ u8 TItem::get_motion_type() { return 0; }
 s8 TItem::get_attach_slot() { return 0; }
 
 void __sinit_TItem_cpp() {
-    ((TObjPlayer *)&item_render_state)->init_forward();
+    __ct__8FlagWordFv(&item_render_state);
 }
 
 void init_item_system() {
@@ -1039,71 +1045,71 @@ void TItem::has_bonus_stats() {
 }
 
 void TObjPlayer::enable_first_time_flag(s32 color) {
-    if (color != 0 && test_flags_any(&item_render_state, ITEM_RENDER_MATERIAL) == 0) {
+    if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         model_render_flags &= ~0x20;
         model_render_flags |= 0x10;
         ((TUnk_80494AE0 *)color)->set_chunk_material_color();
-        ((TObjPlayer *)&item_render_state)->set_flags(ITEM_RENDER_MATERIAL);
+        item_render_state.set(ITEM_RENDER_MATERIAL);
     }
 }
 
 void TObjPlayer::enable_flag20(s32 color) {
-    if (color != 0 && test_flags_any(&item_render_state, ITEM_RENDER_MATERIAL) == 0) {
+    if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         u32 flags = *(volatile u32 *)&model_render_flags & ~0x10;
         *(volatile u32 *)&model_render_flags = flags;
         *(volatile u32 *)&model_render_flags = flags | 0x20;
         ((TUnk_80494AE0 *)color)->set_chunk_material_color();
-        ((TObjPlayer *)&item_render_state)->set_flags(ITEM_RENDER_MATERIAL);
+        item_render_state.set(ITEM_RENDER_MATERIAL);
     }
 }
 
 void TObjPlayer__sub_80101088() {
-    if (test_flags_any(&item_render_state, ITEM_RENDER_MATERIAL) != 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) != 0) {
         ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
         model_render_flags = lbl_805D5660;
-        ((TAdRicoRing *)&item_render_state)->clear_flags(ITEM_RENDER_MATERIAL);
+        item_render_state.clear(ITEM_RENDER_MATERIAL);
     }
 }
 
 void TObjPlayer::play_particle_effect_once() {
-    if (test_flags_any(&item_render_state, ITEM_RENDER_EFFECT) == 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) == 0) {
         TParticleCtrl::begin_effect_render();
-        ((TObjPlayer *)&item_render_state)->set_flags(ITEM_RENDER_EFFECT);
+        item_render_state.set(ITEM_RENDER_EFFECT);
     }
 }
 
 void TObjPlayer::end_particle_effect() {
-    if (test_flags_any(&item_render_state, ITEM_RENDER_EFFECT) != 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_EFFECT) != 0) {
         TParticleCtrl::end_effect_render();
-        ((TAdRicoRing *)&item_render_state)->clear_flags(ITEM_RENDER_EFFECT);
+        item_render_state.clear(ITEM_RENDER_EFFECT);
     }
 }
 
 void TObjPlayer::setup_particle_once() {
     TObjPlayer::play_particle_effect_once();
-    if (test_flags_any(&item_render_state, ITEM_RENDER_PARTICLE_TEV) == 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) == 0) {
         setup_particle_tev(0);
         TObjPlayer::notify_fish_if_valid(texture_id);
-        ((TObjPlayer *)&item_render_state)->set_flags(ITEM_RENDER_PARTICLE_TEV);
+        item_render_state.set(ITEM_RENDER_PARTICLE_TEV);
     }
 }
 
 void TItem::draw_shield_particle() {
-    if (test_flags_any(&item_render_state, ITEM_RENDER_PARTICLE_TEV) != 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
         TObjPlayer::notify_fish_if_valid(texture_id);
-        ((TAdRicoRing *)&item_render_state)->clear_flags(ITEM_RENDER_PARTICLE_TEV);
+        item_render_state.clear(ITEM_RENDER_PARTICLE_TEV);
     }
 }
 
 int TObjPlayer__sub_80100F34(void *) { return ((TParticleCtrl *)31)->get_object(); }
 
 void TItem::update_screen_particle_effect() {
-    if (test_flags_any(&item_render_state, ITEM_RENDER_SHIELD_TEV) != 0) {
+    if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
         TParticleCtrl::disable_if_single_screen();
         TParticleCtrl::set_tev_direct(1);
         TObjPlayer::notify_fish_if_valid(texture_id);
-        ((TAdRicoRing *)&item_render_state)->clear_flags(ITEM_RENDER_SHIELD_TEV);
+        item_render_state.clear(ITEM_RENDER_SHIELD_TEV);
     }
 }
 
