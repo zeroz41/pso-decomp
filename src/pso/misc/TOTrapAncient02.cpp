@@ -11,6 +11,7 @@
 #include "pso/misc/TOTrapAncient02.h"
 #include "pso/misc/TOTrapAncient02R.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/player/TObjPlayer_80083594.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -1072,7 +1073,7 @@ void TOTrapAncient02::render_particle_chain() {
     translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC) + this->h344), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
     setup_particle_tev(0);
     TObjFish::set_global_param(this->texture_id);
-    ((TOTrapAncient02 *)0x38E)->load_projection_tex_matrix();
+    load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
     TParticleCtrl::disable_if_single_screen();
     push_matrix();
@@ -1080,7 +1081,7 @@ void TOTrapAncient02::render_particle_chain() {
     translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_2 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0xC) + this->h348), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0x10)));
     setup_particle_tev(0);
     TObjFish::set_global_param(this->texture_id);
-    ((TOTrapAncient02 *)0x38E)->load_projection_tex_matrix();
+    load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
     TParticleCtrl::disable_if_single_screen();
     TParticleCtrl::begin_effect_render();
@@ -1089,7 +1090,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(temp_r31_3 + 8);
     setup_particle_tev(1);
     TObjFish::set_global_param(this->texture_id);
-    ((TOTrapAncient02 *)0x38E)->load_projection_tex_matrix();
+    load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
     TParticleCtrl::disable_if_single_screen();
     pop_matrix();
@@ -1099,7 +1100,7 @@ void TOTrapAncient02::render_particle_chain() {
     rotate_matrix_y(0, this->m_34c);
     setup_particle_tev(0);
     TObjFish::set_global_param(this->texture_id);
-    ((TOTrapAncient02 *)0x38E)->load_projection_tex_matrix();
+    load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
     TParticleCtrl::disable_if_single_screen();
     pop_matrix();

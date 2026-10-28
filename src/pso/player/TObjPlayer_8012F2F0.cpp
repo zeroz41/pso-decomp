@@ -11,7 +11,7 @@ u8 get_item_index__5TItemFv();
 void TObjPlayer::update_boss2tunnel() {
     if (((s32) *(s32 *)&this->unk_1F8 != 0) && (TObjPlayer::get_player_list() == 1)) {
         ((TItem *)this)->begin_particle_tev();
-        TObjPlayer::load_projection_tex((s32)this, 0);
+        ((TItem *)this)->load_projection_tex(0);
     }
 }
 

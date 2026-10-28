@@ -24,7 +24,6 @@ struct TOTrapAncient02 : public TOTrap {
     static void *create(void *arg0);
     static void destroy_instance();
     static void load_resources();
-    void load_projection_tex_matrix();
 };
 
 typedef char TOTrapAncient02_size_check[(sizeof(TOTrapAncient02) == 0x35C) ? 1 : -1];

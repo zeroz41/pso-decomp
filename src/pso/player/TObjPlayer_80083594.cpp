@@ -91,8 +91,7 @@ void load_projected_texture_matrix(f32 farg0) {
     }
 }
 
-void TOTrapAncient02::load_projection_tex_matrix() {
-    s32 arg0 = (s32)this;
+void load_projection_tex_matrix(s32 rotation_y) {
     u8 sp10[0x30];
     f32 spC;
     f32 sp8;
@@ -100,7 +99,7 @@ void TOTrapAncient02::load_projection_tex_matrix() {
     if (is_split_screen() == 0) {
         calc_projection_screen_offset(&spC, &sp8);
         push_matrix();
-        rotate_matrix_y(0, (void *)arg0);
+        rotate_matrix_y(0, (void *)rotation_y);
         temp_f31 = (f32) (lbl_80439358 * calc_camera_fov_degrees());
         if (TCameraCtrl__sub_800689F4() != 0) {
             C_MTXLightPerspective(sp10, temp_f31, lbl_805D940C, lbl_805D93DC, lbl_805D9414, (f32) (lbl_805D93DC - spC), (f32) (lbl_805D93DC - sp8));

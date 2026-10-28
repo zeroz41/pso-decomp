@@ -13,6 +13,7 @@
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer_80083594.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -617,7 +618,7 @@ void TObjEneMe3Stelth::render() {
 #undef set_global_param__8TObjFishFl
 #undef TObjEneMe3Stelth__material_color_pointers
 #undef sub_800F47D4__16TObjEneMe3StelthFv
-void TObjEneMe3Stelth::add_instance() { ((TOTrapAncient02 *)(*(int *)&stelth_projection_texture_handle))->load_projection_tex_matrix(); (*(int *)&TObjEneMe3Stelth__render_node_index) = ((*(int *)&TObjEneMe3Stelth__render_node_index) + 0x1); }
+void TObjEneMe3Stelth::add_instance() { load_projection_tex_matrix(*(int *)&stelth_projection_texture_handle); (*(int *)&TObjEneMe3Stelth__render_node_index) = ((*(int *)&TObjEneMe3Stelth__render_node_index) + 0x1); }
 }
 
 typedef struct { f32 x, y, z; } Vec_800F290C;

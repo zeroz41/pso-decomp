@@ -59,7 +59,7 @@ void TObjPlayer__sub_803076F8(u8 *arg0) {
     if ((s32) *(s32 *)((s8 *)arg0 + 0x1F8) == 0) {
         player_list = TObjPlayer::get_player_list();
         ((TItem *)arg0)->begin_particle_tev();
-        TObjPlayer::load_projection_tex((s32)arg0, (s32)((int) ((s32) (lbl_805DF0AC * (f32) (((TUnk_804E70A8 *)arg0)->m_1fc + (player_list * 3))))));
+        ((TItem *)arg0)->load_projection_tex((s32)((int) ((s32) (lbl_805DF0AC * (f32) (((TUnk_804E70A8 *)arg0)->m_1fc + (player_list * 3))))));
     }
 }
 

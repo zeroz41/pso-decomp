@@ -1115,8 +1115,8 @@ void TItem::end_shield_tev() {
     }
 }
 
-void TObjPlayer::load_projection_tex(s32, s32 trap) {
-    ((TOTrapAncient02 *)trap)->load_projection_tex_matrix();
+void TItem::load_projection_tex(s32 rotation_y) {
+    load_projection_tex_matrix(rotation_y);
 }
 
 // Hides the item while its owner is hidden or out of the local view.

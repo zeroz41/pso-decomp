@@ -124,6 +124,7 @@ struct TItem : public TUnk_804AF8A0 {
     void begin_particle_tev();
     void end_particle_tev();
     void request_particle_indirect_effect();
+    void load_projection_tex(s32 rotation_y);
     void end_shield_tev();
     void send_activate_effect(s32 effect);
     s32 has_bonus_stats();

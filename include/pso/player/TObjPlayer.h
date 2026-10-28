@@ -467,7 +467,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     static void set_alt_model_flag();
     void *create_hairmove(void *arg1, void *arg2);
     s32 interpolate_along_curve(void *arg1);
-    static void load_projection_tex(s32 arg0, s32 arg1);
     void set_tp(s16 tp);
     s32 get_tp_bonus();
     s32 get_hp_bonus();

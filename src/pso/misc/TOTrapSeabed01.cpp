@@ -8,6 +8,7 @@
 #include "pso/player/TUnk_804806E8.h"
 #include "pso/misc/TOTrapSeabed01.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer_80083594.h"
 extern "C" void has_flag_0x800__13TUnk_804806E8Fv();
 extern "C" void test_flag30_512__13TUnk_804806E8Fv();
 extern "C" void test_flag_1000__13TUnk_804806E8Fv();
@@ -423,7 +424,7 @@ void TOTrapSeabed01::draw_object_tree(u8 *arg1) {
             if ((s32) this->m_34c != 0) {
                 setup_particle_tev(0);
                 TObjFish::set_global_param(TOTrapSeabed01__texture_file);
-                ((TOTrapAncient02 *)0x38E)->load_projection_tex_matrix();
+                load_projection_tex_matrix(0x38E);
                 draw_ginja_model((*(s32 *)((s8 *)var_r30 + 4)));
                 TParticleCtrl::disable_if_single_screen();
             } else {
