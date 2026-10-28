@@ -268,7 +268,7 @@ void VectorXZF::bswap() {
     bswap_32((u32 *)&z);
 }
 
-f32 TObjPlayer::get_mag_scale_f() { return *(f32 *)((u8 *)this + 0x1C); }
+f32 RenderMaterialState::get_alpha() { return alpha; }
 
 s32 TObjPlayer::is_flag_20000_set() { return check_flag(0x20000); }
 
@@ -1135,7 +1135,7 @@ void TItem::update_owner_visibility() {
 f32 TItem::get_owner_alpha() {
     TObjPlayer *player = owner;
     if (player != NULL) {
-        return ((TObjPlayer *)&player->render_material_state)->get_mag_scale_f();
+        return player->render_material_state.get_alpha();
     }
     return 1.0f;
 }

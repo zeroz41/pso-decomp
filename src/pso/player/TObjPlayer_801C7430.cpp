@@ -2229,7 +2229,7 @@ void TObjPlayer__update_off_floor_state(u8 *player) {
   switch (((TObjPlayer *)player)->phase)
   {
     case 0:
-      var_f31 = ((TObjPlayer *)player)->m_624;
+      var_f31 = ((TObjPlayer *)player)->render_material_state.alpha;
       var_f31 = var_f31 - (*(f32 *)&TObjPlayer__data_805DC368);
       if (var_f31 < (*(f32 *)&TObjPlayer__data_805DC36C))
     {
@@ -2239,7 +2239,7 @@ void TObjPlayer__update_off_floor_state(u8 *player) {
       ((s32 (*)(void *, int))obj_setFlags30)((void *) player, 0x02000000);
       ((TUnk_804AF8A0 *)player)->clear_player_status_flag(0, 1);
     }
-      ((TObjPlayer *)player)->m_624 = var_f31;
+      ((TObjPlayer *)player)->render_material_state.alpha = var_f31;
     case 1:
       return;
   }
@@ -2332,7 +2332,7 @@ void TObjPlayer::start_action_21() {
     ((s32 (*)(void *, s16, s32))run_action_state_phase__10TObjPlayerFisi)(this, this->mode, 6);
     cleanup_idle_entry();
     clear_player_status_flag(0, 1);
-    this->m_624 = (f32) TObjPlayer__data_805DC36C;
+    this->render_material_state.alpha = (f32) TObjPlayer__data_805DC36C;
     refresh_equipment_slot();
     this->update_actor_ground_y();
     if (is_locally_controlled__10TObjPlayerFPv(this) != 0) {
@@ -2429,7 +2429,7 @@ void TObjPlayer::update_warp_relocation() {
 
     switch (this->phase) {
     case 0:
-        var_f31 = this->m_624;
+        var_f31 = this->render_material_state.alpha;
         var_f31 -= 0.1f;
         if (var_f31 < 0.0f) {
             var_f31 = 0.0f;
@@ -2448,7 +2448,7 @@ void TObjPlayer::update_warp_relocation() {
                 reset_cameras_to_actor(this, 1);
             }
         }
-        this->m_624 = var_f31;
+        this->render_material_state.alpha = var_f31;
         break;
     case 1:
         if (((s32 (*)(void *))is_inactive__10TObjPlayerFv)(this) != 0) {
@@ -2472,13 +2472,13 @@ void TObjPlayer::update_warp_relocation() {
         break;
     case 3:
         this->set_flag_4000();
-        var_f2 = this->m_624;
+        var_f2 = this->render_material_state.alpha;
         var_f2 += 0.1f;
         if (var_f2 >= 1.0f) {
             var_f2 = 1.0f;
             this->phase = 4;
         }
-        this->m_624 = var_f2;
+        this->render_material_state.alpha = var_f2;
         break;
     }
 }

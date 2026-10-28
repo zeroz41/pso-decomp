@@ -631,7 +631,7 @@ void TItemMagSub::run_task() {
         ((TItemMagSub *)arg0)->update_special_pose();
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0xB8) = ((TObjPlayer *)(*(u8 * *)&this->owner + 0x608))->get_mag_scale_f();
+    *(f32 *)((s8 *)arg0 + 0xB8) = ((TObjPlayer *)this->owner)->render_material_state.get_alpha();
     if (test_flags__11TItemMagSubFUl(arg0, 8U) != 0U) {
         ((TItemMagSub *)arg0)->update_transition();
     } else {

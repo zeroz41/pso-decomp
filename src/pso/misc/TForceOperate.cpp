@@ -204,7 +204,7 @@ void update_player_appear_fade(u8 *arg0) {
             if ((is_inactive__10TObjPlayerFv() != 0) && (check_flag_40000__10TObjPlayerFv((int)temp_r3) == 0) && (check_flag_04000000__10TObjPlayerFv((int)temp_r3) != 0) && (is_on_current_floor__10TObjPlayerFi((int)temp_r3) != 0)) {
                 if (--*(s16 *)((s8 *)arg0 + 2) < 0) {
                     if (TCameraCtrl::get_mode() != 0) {
-                        ((TObjPlayer *)temp_r3)->m_624 = (f32) lbl_805DC320[0];
+                        ((TObjPlayer *)temp_r3)->render_material_state.alpha = (f32) lbl_805DC320[0];
                         *(s32 *)((s8 *)arg0 + 4) = 2;
                         return;
                     }
@@ -213,14 +213,14 @@ void update_player_appear_fade(u8 *arg0) {
                     if (obj_testFlags30__13TUnk_804AF8A0FUl((int)temp_r3, 0x800) == 0) {
                         TObjPlayer::spawn_appearance_effect((int) (*(u16 *)((s8 *)arg0 + 0)));
                     }
-                    ((TObjPlayer *)temp_r3)->m_624 = (f32) lbl_805DC32C[0];
+                    ((TObjPlayer *)temp_r3)->render_material_state.alpha = (f32) lbl_805DC32C[0];
                     ((TObjPlayer *)temp_r3)->refresh_equipment_slot();
                     return;
                 }
             }
             break;
         case 1:
-            var_f31 = ((TObjPlayer *)temp_r3)->m_624;
+            var_f31 = ((TObjPlayer *)temp_r3)->render_material_state.alpha;
             var_f31 += lbl_805DC330[0];
             if (var_f31 >= lbl_805DC320[0]) {
                 var_f31 = lbl_805DC320[0];
@@ -228,7 +228,7 @@ void update_player_appear_fade(u8 *arg0) {
                 set_flag_2000000_alt__10TObjPlayerFv();
                 ((TObjPlayer *)temp_r3)->activate_body_collision();
             }
-            ((TObjPlayer *)temp_r3)->m_624 = var_f31;
+            ((TObjPlayer *)temp_r3)->render_material_state.alpha = var_f31;
             break;
         }
     }

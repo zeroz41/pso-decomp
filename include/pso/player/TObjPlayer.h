@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
+#include "pso/player/RenderMaterialState.h"
 #include "pso/player/TUnk_804806E8.h"
 
 struct TItemData;
@@ -175,9 +176,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     u8 _pad5F4[0x8];
     void* m_5fc;
     u8 _pad600[0x8];
-    void* render_material_state;  // save_render_material_state's block
-    u8 unk_60C[0x18];
-    f32 m_624;
+    RenderMaterialState render_material_state;
     u8 unk_628[0xC];
     void* m_634;
     u8 _pad638[0x4];
@@ -480,7 +479,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     u32 pickup_item(TItem *item);
     s32 can_pickup_item_by_id(TItem *item);
     s32 can_pickup_item(TItemData *data);
-    f32 get_mag_scale_f();
     static u8 find_adjacent_matching_slot(u8 arg0);
     static u8 get_next_matching_special_index(u8 arg0);
     static void free_item_globals();

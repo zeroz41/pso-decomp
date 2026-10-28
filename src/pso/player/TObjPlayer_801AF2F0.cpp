@@ -5083,7 +5083,7 @@ void TObjPlayer::clear_action_flag() {
 
 void TObjPlayer::apply_material_color_override() {
     s32 arg0 = (s32)this;
-    if (!(((TObjPlayer *)(arg0 + 0x608))->get_mag_scale_f() >= TObjPlayer__data_805DC294)) {
+    if (!(((TObjPlayer *)arg0)->render_material_state.get_alpha() >= TObjPlayer__data_805DC294)) {
         set_default_alpha_blend();
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(-1, 0x800);
@@ -7413,7 +7413,7 @@ void TObjPlayer::draw_head_attachments() {
             var_r31 = 1;
         }
         TCharaMaking::enable_making();
-        f32 alpha = ((TObjPlayer *)(((u8 *)this) + 0x608))->get_mag_scale_f();
+        f32 alpha = this->render_material_state.get_alpha();
         TCharaMaking__draw_colored_hair(alpha, (s32)*(u32 *)((s8 *)((u8 *)this) + 0x8AC),
             (CharacterAppearanceFields *)(((u8 *)this) + 0x85C), var_r31);
         TCharaMaking::clear_flag_bit0();
