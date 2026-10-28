@@ -318,7 +318,7 @@ void post_translate_matrix(void *);
 void draw_ginja_object(void);
 void set_chunk_material_color__13TUnk_80494AE0Fv(void *, s32);
 extern u8 *camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 #pragma push
 #pragma opt_common_subs off
@@ -353,7 +353,7 @@ void TUnk_804CCB28::render() {
     }
     TParticleCtrl::begin_effect_render();
     id = model_render_flags;
-    lbl_805D5660 = id;
+    saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
     set_chunk_material_color__13TUnk_80494AE0Fv(o->m48, id);
     if (o->tev != 0) {
@@ -384,7 +384,7 @@ void TUnk_804CCB28::render() {
     restore_draw_list_mask();
     TObjFish::set_cull_none();
     pop_matrix();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     if (o->tev != 0) {
         TScene::set_indirect_tev((s32)o->tev, 0);
     }

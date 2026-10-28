@@ -146,9 +146,9 @@ s32 defer_render__7TObjectFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 extern Vec_8031BE8C lbl_804760FC;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 recon_intro_stage;
 extern u8 *recon_model_matrix_ptr;
 extern s32 chunk_polygon_flags_or_mask;
@@ -179,9 +179,9 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
         if (var_r31 != 0) {
             var_r29 = 1;
             if (((TObjEneRecon *)ene_recon)->render_model_if_visible() == 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
                     ((Recon_8031BE8C *)ene_recon)->fade.m6();
                     if (defer_render__7TObjectFv(ene_recon) != 0) {
@@ -221,9 +221,9 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                 if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
                     ((Recon_8031BE8C *)ene_recon)->fade.m7();
                 }
-                model_render_flags = lbl_805D5660;
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
+                model_render_flags = saved_model_render_flags;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             }
         }
     }

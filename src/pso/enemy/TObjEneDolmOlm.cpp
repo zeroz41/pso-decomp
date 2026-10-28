@@ -449,9 +449,9 @@ s32 select_actor_lighting(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(int, f32, f32, f32);
 s32 draw_chunk_object(void *);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -1215,9 +1215,9 @@ void TObjEneDolmOlm::render() {
         TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneDolmOlm::toggle_effect_render));
         if (arg0->f390 == 1) {
             if (arg0->sub.m8() != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 arg0->sub.m6();
                 if (defer_render__7TObjectFv(arg0) == 0) {
                     model_render_flags |= 1;
@@ -1225,9 +1225,9 @@ void TObjEneDolmOlm::render() {
                     model_render_flags &= ~1;
                 }
                 arg0->sub.m7();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             }
         } else if (vis == 1) {
             ((TObjMotion *)arg0)->draw();

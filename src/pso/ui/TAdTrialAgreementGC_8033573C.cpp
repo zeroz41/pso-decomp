@@ -143,7 +143,7 @@ s32 TCameraCtrl__sub_80068EF0();
 s32 draw_record_with_camera__19TAdTrialAgreementGCFlll(void *, void *, int);
 extern RecoveredGlobal_80335BD4_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80335BD4_lbl_8058D4C0 model_material_color;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
@@ -212,7 +212,7 @@ void TAdTrialAgreementGC::render_screen() {
     if (TMainTask::get_render_pass() != 0) {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
         if ((s32) this->m_24 == 0) {
             model_render_flags |= 0x10;
@@ -243,7 +243,7 @@ void TAdTrialAgreementGC::render_screen() {
             TObjPlayer::reset_transform_state();
         }
         ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();
     }

@@ -32,7 +32,7 @@ void push_matrix();
 void post_translate_matrix(void *);
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
-extern u32 lbl_805D5660;
+extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 s32 __ct__7TObjectFP7TObject();
 
@@ -47,8 +47,8 @@ void TItemEffNeedleBase::render() {
         return;
     }
     if (self->m_3c != NULL) {
-        lbl_805D5660 = model_render_flags;
-        model_render_flags = lbl_805D5660 | 0x20;
+        saved_model_render_flags = model_render_flags;
+        model_render_flags = saved_model_render_flags | 0x20;
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
         ((TUnk_80494AE0 *)((f32 *)self->m_1c))->set_chunk_material_color();
         TObjPlayer::notify_fish_if_valid(self->m_40);
@@ -60,7 +60,7 @@ void TItemEffNeedleBase::render() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

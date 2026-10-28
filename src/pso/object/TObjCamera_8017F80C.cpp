@@ -162,9 +162,9 @@ void draw_ginja_object(int);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 extern Color_8017FCD0 chip_color_white_c;
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -314,9 +314,9 @@ void TObjChip__vt10(u8 *arg0) {
     s32 i;
     s32 j;
     if (*(s32 *)(arg0 + 0x6C) & 4) {
-        lbl_805D5660 = model_render_flags;
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x8011;
         set_color_blend_mode(1, 4, 5, 0, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
         for (i = 0; i < *(s32 *)(arg0 + 0x54); i++, p++) {
@@ -331,9 +331,9 @@ void TObjChip__vt10(u8 *arg0) {
             pop_matrix();
             ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
         }
-        model_render_flags = lbl_805D5660;
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
+        model_render_flags = saved_model_render_flags;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     } else {
         for (j = 0; j < *(s32 *)(arg0 + 0x54); j++, p++) {
             push_matrix();

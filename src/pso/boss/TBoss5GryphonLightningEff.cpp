@@ -61,7 +61,7 @@ s32 project_lightning_points(void *, void *, void *, void *);
 void TBoss5GryphonLightningEff__sub_80325064(void* p) { *(u8*)((char*)p + 0x260) = 1; }
 
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 s32 TBoss5GryphonLightningEff::calc_segment_uvs(void *p_) {
@@ -102,7 +102,7 @@ void TBoss5GryphonLightningEff::render() {
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
-    lbl_805D5660 = temp_r4;
+    saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
@@ -117,7 +117,7 @@ void TBoss5GryphonLightningEff::render() {
     TObjPlayer::reset_transform_state();
     TParticleCtrl::end_effect_render();
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();
 }
 void TBoss5GryphonLightningEff::run_task() {

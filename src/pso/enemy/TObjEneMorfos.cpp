@@ -385,7 +385,7 @@ s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 update_player_state__9TObjEneDDFv(void *, Vec_80332850 *, s32);
 extern Vec_80332850 lbl_804775E4;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -964,13 +964,13 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
             update_player_state__9TObjEneDDFv(ene_morfos, &v, 0);
         }
         ((TObjEneDD *)ene_morfos)->update_secondary_light();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         model_render_flags &= ~0x810;
         if (*(u32 *)((s8 *)ene_morfos + 0x3C0) & 0x10) {
             ((TObjEneMorfos *)ene_morfos)->draw_body();
         }
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

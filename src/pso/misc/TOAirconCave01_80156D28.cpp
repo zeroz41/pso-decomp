@@ -22,15 +22,15 @@ struct RecoveredGlobal_80156D70_lbl_8058D4C0 {
 extern "C" {
 extern unsigned char saved_model_draw_color[];
 extern unsigned char model_material_color[];
-extern int lbl_805D5660;
-extern int lbl_805D5664;
-extern int lbl_805D5668;
+extern int saved_model_render_flags;
+extern int saved_chunk_polygon_flags_and_mask;
+extern int saved_chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_or_mask;
 extern int chunk_polygon_flags_and_mask;
 extern int model_render_flags;
 void TObjPlayer__sub_800D9718(void *);
 
-void TUnk_804AF8D8::clear_flag_and_notify() { ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color); chunk_polygon_flags_and_mask = lbl_805D5664; chunk_polygon_flags_or_mask = lbl_805D5668; model_render_flags = lbl_805D5660; }
+void TUnk_804AF8D8::clear_flag_and_notify() { ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color); chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
 extern s32 lbl_804AF8D8[];
 
@@ -38,9 +38,9 @@ typedef char RecoveredGlobal_80156D70_lbl_8050BEC0_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80156D70_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80156D70_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TUnk_804AF8D8::set_flags_and_apply_damage_color() {
     u8 *arg0 = (u8 *)this;
-    (*(s32 *)&lbl_805D5660) = (*(s32 *)&model_render_flags);
-    (*(s32 *)&lbl_805D5664) = (*(s32 *)&chunk_polygon_flags_and_mask);
-    (*(s32 *)&lbl_805D5668) = (*(s32 *)&chunk_polygon_flags_or_mask);
+    (*(s32 *)&saved_model_render_flags) = (*(s32 *)&model_render_flags);
+    (*(s32 *)&saved_chunk_polygon_flags_and_mask) = (*(s32 *)&chunk_polygon_flags_and_mask);
+    (*(s32 *)&saved_chunk_polygon_flags_or_mask) = (*(s32 *)&chunk_polygon_flags_or_mask);
     ((TRaderMapCore *)(&(*(RecoveredGlobal_80156D70_lbl_8050BEC0 *)&saved_model_draw_color).value))->copy_vec4((&(*(RecoveredGlobal_80156D70_lbl_8058D4C0 *)&model_material_color).value));
     (*(s32 *)&model_render_flags) |= 0x8021;
     ((TUnk_80494AE0 *)arg0)->set_chunk_material_color();

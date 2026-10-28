@@ -126,7 +126,7 @@ s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(int, f32, f32, f32);
 s32 set_global_state__16TObjEneRe7BeruraFl(void *, int, void *);
 extern Vec_802CE740 lbl_80472490;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 lbl_805D686C;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
@@ -260,7 +260,7 @@ void TObjEneBm9Mericarol::render() {
         (*self->f24)[8] = (*self->f24)[26];
         break;
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     TObjFish::set_global_param((s32)self->f24);
     push_matrix();
     post_translate_matrix(self->pos);
@@ -309,7 +309,7 @@ void TObjEneBm9Mericarol::render() {
     TParticleCtrl::end_effect_render();
     restore_default_scene();
     pop_matrix();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     ((TObjEneDD *)((u8 *)this))->update_primary_light();
     if (((TObjEneBm9Mericarol *)((u8 *)this))->get_phase() != 0) {
         (*self->f24)[2] = s0;

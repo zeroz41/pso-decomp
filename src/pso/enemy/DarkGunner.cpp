@@ -1010,7 +1010,7 @@ struct MaterialColor {
 };
 
 extern "C" {
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern u32 model_render_flags;
 extern const MaterialColor lbl_8043A668;
 extern const Vec_800A159C lbl_8043A678;
@@ -1043,7 +1043,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
             TObjPlayer::toggle_particle_effect();
             drawn = 1;
             push_matrix();
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             model_render_flags &= ~0x10;
             translate_matrix(0, self->pos.x, self->pos.y + self->render_y_offset, self->pos.z);
             rotate_matrix_z(0, self->rotation_z);
@@ -1089,7 +1089,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
                 set_chunk_material_color__13TUnk_80494AE0Fv((f32 *)lbl_804907AC);
                 set_chunk_material_override_pair(0xFF00, 0);
             }
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             pop_matrix();
             ((TObjPlayer *)self)->render_shadow();
             restore_scene_lighting();

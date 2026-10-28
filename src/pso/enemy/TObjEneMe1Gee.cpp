@@ -1853,7 +1853,7 @@ s32 is_main_phase_15__9TObjEneDDFv();
 s32 defer_render__7TObjectFv(void *);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -2110,7 +2110,7 @@ void render__13TObjEneMe1GeeFv(u8 *ene_me1_gee) {
         }
         ((TObjEneDD *)ene_me1_gee)->update_secondary_light();
         TObjFish::set_global_param((int) (((TObjEneMe1Gee *)ene_me1_gee)->texture_id));
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         ((TObjEneMe1Gee *)(ene_me1_gee))->vfunc_113();
@@ -2156,7 +2156,7 @@ void render__13TObjEneMe1GeeFv(u8 *ene_me1_gee) {
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)ene_me1_gee)->update_primary_light();
         return;
     }

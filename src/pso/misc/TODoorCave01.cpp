@@ -201,7 +201,7 @@ extern "C" {
 s32 push_matrix();
 s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 *TODoorCave01__texture_lists;
 extern s32 model_render_flags;
 s32 post_translate_matrix(void *);
@@ -220,7 +220,7 @@ s32 TODoorCave01::draw_door_model(void *p0, int p1, int arg2) {
     temp_r31 = *(u8 **)((s8 *)((u8 *) p1) + 0x2C);
     if (arg2 != 1) {
         temp_r4 = model_render_flags;
-        lbl_805D5660 = temp_r4;
+        saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x10;
         set_chunk_material_color__13TUnk_80494AE0Fv((void *) (((s32) p0) + 0xDC), temp_r4);
     }
@@ -237,7 +237,7 @@ s32 TODoorCave01::draw_door_model(void *p0, int p1, int arg2) {
     TParticleCtrl::end_effect_render();
     if (arg2 != 1) {
         ((void (*)(void *)) set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
     pop_matrix();
 }

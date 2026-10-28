@@ -35,7 +35,7 @@ extern Vec_80232934 lbl_8044D5A8;
 extern Quad_80232934 grants_flash_quad_vertices;
 extern u8 lbl_804CC868[];
 extern u8 technique_ringwave_texture_list[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 technique_effect_bml;
 extern s32 model_render_flags;
 
@@ -258,7 +258,7 @@ void TUnk_804CC870::render() {
     approach_position_if_far(&arg0->pos, &v, arg0->f4c);
     copy_anim_frame_to_slot(&ctx);
     id = model_render_flags;
-    lbl_805D5660 = id;
+    saved_model_render_flags = id;
     model_render_flags = id | 0x10;
     set_chunk_material_color__13TUnk_80494AE0Fv(arg0->f38, id);
     set_depth_buffer_settings_id(3);
@@ -273,7 +273,7 @@ void TUnk_804CC870::render() {
     pop_matrix();
     copy_slot_to_anim_frame(&ctx);
     restore_draw_list_mask();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 #pragma defer_codegen off

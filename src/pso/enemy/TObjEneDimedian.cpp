@@ -130,9 +130,9 @@ s32 draw_chunk_object(void *);
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -351,9 +351,9 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
         TObjPlayer::toggle_particle_effect();
         if (self->f390 == 1) {
             if (self->sub.active() != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->sub.begin();
                 d = 1;
                 if (defer_render__7TObjectFv(self) != 0) {
@@ -363,9 +363,9 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
                     ((TObjMotion *)self)->draw();
                 }
                 self->sub.end();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             }
         } else {
             doDraw = 1;

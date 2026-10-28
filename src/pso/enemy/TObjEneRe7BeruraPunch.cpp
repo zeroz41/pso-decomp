@@ -92,7 +92,7 @@ s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 defer_render__7TObjectFv(void *);
 
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 void TObjEneRe7BeruraPunch::render() {
@@ -100,12 +100,12 @@ void TObjEneRe7BeruraPunch::render() {
     f32 temp_f1;
 
     if ((s32) this->m_b4 != 0) {
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         if ((s32) this->m_b4 == 2) {
             ((VObjHang_80095EA0 *)(arg0 + 0xF8))->m6();
             if (defer_render__7TObjectFv(arg0) != 0) {
-                model_render_flags = lbl_805D5660;
+                model_render_flags = saved_model_render_flags;
                 return;
             }
         }
@@ -123,7 +123,7 @@ void TObjEneRe7BeruraPunch::render() {
             ((VObjHang_80095EA0 *)(arg0 + 0xF8))->m7();
         }
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

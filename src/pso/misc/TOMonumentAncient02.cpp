@@ -110,7 +110,7 @@ s32 rand(void);
 int rotate_matrix_y(int, int);
 int push_matrix();
 int post_translate_matrix(void *);
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern u8 chunk_material_color_half_alpha_f32[];
 extern const f32 lbl_805DB920;
@@ -189,12 +189,12 @@ void TOMonumentAncient02::render() {
             push_matrix();
             translate_matrix(0, n->x, n->y, n->z);
             TParticleCtrl::begin_effect_render();
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x20;
             ((TUnk_80494AE0 *)(&self->fD8))->set_chunk_material_color();
             draw_ginja_model(n->f4);
             ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
             pop_matrix();
         }

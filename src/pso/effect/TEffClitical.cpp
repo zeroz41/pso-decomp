@@ -59,7 +59,7 @@ s32 post_translate_matrix(void *);
 extern s32 lbl_8048E2E0[];
 extern s32 technique_ringwave_texture_list[];
 extern u8 *camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__ct__12TEffCliticalFPv(void *arg0, void *arg1);
 void *__nw__7TObjectFUl(int);
@@ -80,7 +80,7 @@ void TEffClitical::render() {
     set_depth_buffer_settings_1();
     init_texture_copy_rect((void *)((void *)&sp8), (s32)lbl_8048E2E0, (s32)technique_ringwave_texture_list, 0, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x70) + 1)));
     temp_r3 = model_render_flags;
-    lbl_805D5660 = temp_r3;
+    saved_model_render_flags = temp_r3;
     model_render_flags = temp_r3 | 0x10;
     begin_effect_render__13TParticleCtrlFv(temp_r3);
     ((TUnk_80494AE0 *)(arg0 + 0x2C))->set_chunk_material_color();
@@ -93,7 +93,7 @@ void TEffClitical::render() {
     draw_chunk_object((void *)(*(s32 *)effect_rel));
     pop_matrix();
     copy_slot_to_anim_frame((TextureFrameSlot *)&sp8);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     restore_saved_depth_alpha_state();
 }

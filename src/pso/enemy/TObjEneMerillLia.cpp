@@ -486,7 +486,7 @@ void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DA314;
 extern const f32 lbl_805DA324;
@@ -1508,7 +1508,7 @@ void TObjEneMerillLia::render() {
   temp_r3 = (((VObj_18_ca64a0 *)(this))->m9((lbl_805DA324), (lbl_805DA328), (lbl_805DA314)));
   if (temp_r3 != 0)
   {
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     select_actor_lighting((s32)this);
     TObjFish::set_global_param((int) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_24);
     push_matrix();

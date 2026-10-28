@@ -927,9 +927,9 @@ void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, s32 arg1, s32 ar
 }
 }
 void gibbles_render_node_callback(void);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 TObjEneGibbles__render_node_index;
 extern s32 TObjEneGibbles__render_rotation_x;
 extern s32 chunk_polygon_flags_or_mask;
@@ -2362,25 +2362,25 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         case 2:
         case 10:
             if (self->sub.m8() != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 model_render_flags |= 1;
                 self->sub.m6();
                 if (defer_render__7TObjectFv(arg0) == 0) {
                     ((TObjMotion *)arg0)->draw();
                 }
                 self->sub.m7();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             }
             break;
         default:
             if (fade != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 self->fades[cam].m6();
                 if (defer_render__7TObjectFv(arg0) == 0) {
                     if (vis == 1) {
@@ -2390,9 +2390,9 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
                     }
                 }
                 self->fades[cam].m7();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             } else if (vis == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {

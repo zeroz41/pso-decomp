@@ -457,9 +457,9 @@ extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 extern s32 TObjEneMe3Stelth__render_node_index;
 extern s32 stelth_projection_texture_handle;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern const f32 lbl_805D9E84;
@@ -492,11 +492,11 @@ void TObjEneMe3Stelth::render() {
     if (mode != 0) {
         VO->m106();
         ((TObjEneDD *)arg0)->update_secondary_light();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
         if (is_split_screen() != 0) {
             s32 i;
@@ -602,10 +602,10 @@ void TObjEneMe3Stelth::render() {
             }
         }
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)arg0)->update_primary_light();
     }
     TParticleCtrl::end_effect_render();

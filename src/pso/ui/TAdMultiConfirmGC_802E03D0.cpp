@@ -39,9 +39,9 @@ struct Stack_802E0468
 extern "C" {
 void play_phase_transition_sound__10TObjPlayerFl(s32);
 void set_chunk_material_override_pair(s32, s32);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -447,9 +447,9 @@ void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
 void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   Stack_802E0468 stack;
   int new_var;
-  lbl_805D5660 = model_render_flags;
-  lbl_805D5664 = chunk_polygon_flags_and_mask;
-  lbl_805D5668 = chunk_polygon_flags_or_mask;
+  saved_model_render_flags = model_render_flags;
+  saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+  saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
   model_render_flags |= 0x10;
   new_var = 1;
   if (farg0 < lbl_805DE8A8)
@@ -462,9 +462,9 @@ void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   stack.sp14 = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
   ((TUnk_80494AE0 *)(&stack.sp8))->set_chunk_material_color();
   play_phase_transition_sound__10TObjPlayerFl(arg1);
-  chunk_polygon_flags_and_mask = lbl_805D5664;
-  chunk_polygon_flags_or_mask = lbl_805D5668;
-  model_render_flags = lbl_805D5660;
+  chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+  chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+  model_render_flags = saved_model_render_flags;
 }
 
 bool fn_802E0454(u8 *arg0) {

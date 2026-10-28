@@ -58,7 +58,7 @@ void TLobby::init_bosses() { load_dragon_ground_assets(); TObjBoss1Floor__sub_80
 
 extern u8 *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 void render__14TObjBoss1FloorFv(void) {
@@ -67,7 +67,7 @@ void render__14TObjBoss1FloorFv(void) {
 
     if ((TObjPlayer::is_any_teammate_in_state() == 0) && ((TObjEneDD::check_v2_mode() != 0) || (TMainTask::get_render_pass() != 1))) {
         temp_r3 = model_render_flags;
-        lbl_805D5660 = temp_r3;
+        saved_model_render_flags = temp_r3;
         model_render_flags = temp_r3 | 0x400;
         end_effect_render__13TParticleCtrlFv(temp_r3);
         push_matrix();
@@ -81,7 +81,7 @@ void render__14TObjBoss1FloorFv(void) {
         TScene::apply_single_screen_state();
         restore_draw_list_mask();
         pop_matrix();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

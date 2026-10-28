@@ -887,7 +887,7 @@ s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern Vec_800972B0 lbl_8043A0D4[];
 extern s32 TObjEneDf2Bringer__uv_scroll_buffer;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D97D8;
 extern const f32 lbl_805D97DC;
@@ -975,7 +975,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
         TObjEneDf2Bringer__render_node_index = 0;
         TObjEneDf2Bringer__render_rotation_x = S->f480;
         TObjEneDf2Bringer__render_point_cursor = (s32) S->pts;
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         temp_r28 = &S->fades[mode];
@@ -1021,7 +1021,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
             ((VObj_14_aa9368 *)(temp_r28))->m7();
         }
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)arg0)->update_primary_light();
         *(s32 *)((s8 *)(*S->f24) + 0x14) = temp_r27;
         return;

@@ -433,15 +433,15 @@ void TItem::render_shadows() {
         set_shadow_flag();
         if (get_mode() == ITEM_MODE_EQUIPPED && TObjPlayer::reset_key_machine_state() != 0) {
             set_depth_buffer_settings_id(1);
-            lbl_805D5660 = model_render_flags;
-            lbl_805D5664 = chunk_polygon_flags_and_mask;
-            lbl_805D5668 = chunk_polygon_flags_or_mask;
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             ((TRaderMapCore *)&saved_model_draw_color)->copy_vec4(&model_material_color);
             render_equipped_shadow();
             ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
             TObjPlayer::reset_transform_state();
             restore_draw_list_mask();
         }
@@ -1066,7 +1066,7 @@ void TObjPlayer::enable_flag20(s32 color) {
 void TObjPlayer__sub_80101088() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) != 0) {
         ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         item_render_state.clear(ITEM_RENDER_MATERIAL);
     }
 }
@@ -1496,9 +1496,9 @@ void TItem::render_present_box() {
     s32 texture;
     TItemLoad::get_model_ids(6, (s32 *)&box, &texture);
     if (box != NULL) {
-        lbl_805D5660 = model_render_flags;
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         ((TRaderMapCore *)&saved_model_draw_color)->copy_vec4(&model_material_color);
         model_render_flags |= 0x10;
         set_depth_buffer_settings_id(3);
@@ -1516,9 +1516,9 @@ void TItem::render_present_box() {
         TObjPlayer::reset_transform_state();
         restore_draw_list_mask();
         ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
-        model_render_flags = lbl_805D5660;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

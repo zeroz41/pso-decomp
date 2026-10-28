@@ -115,9 +115,9 @@ extern u8 lbl_8047059C[];
 extern u32 TBoss6PlotFalz__type1_instance;
 extern u32 TBoss6PlotFalz__type2_instance;
 int queue_destruction__7TObjectFv(void *);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -912,7 +912,7 @@ s32 TBoss6Type1__sub_802ABDEC(s32 seed) {
     return seed & 0x7FFF;
 }
 
-void TObjFish::reset_fish_globals() { chunk_polygon_flags_and_mask = lbl_805D5664; chunk_polygon_flags_or_mask = lbl_805D5668; model_render_flags = lbl_805D5660; }
+void TObjFish::reset_fish_globals() { chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 kind, f32 range) {
     s32 n;
     s32 i;
@@ -937,9 +937,9 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
     Color_802ABF44 c;
     s32 old = (*(s32 *)&model_render_flags);
     (*(s32 *)&model_render_flags) = old & ~0x10;
-    (*(s32 *)&lbl_805D5660) = old;
-    (*(s32 *)&lbl_805D5664) = (*(s32 *)&chunk_polygon_flags_and_mask);
-    (*(s32 *)&lbl_805D5668) = (*(s32 *)&chunk_polygon_flags_or_mask);
+    (*(s32 *)&saved_model_render_flags) = old;
+    (*(s32 *)&saved_chunk_polygon_flags_and_mask) = (*(s32 *)&chunk_polygon_flags_and_mask);
+    (*(s32 *)&saved_chunk_polygon_flags_or_mask) = (*(s32 *)&chunk_polygon_flags_or_mask);
     (*(s32 *)&model_render_flags) |= lbl_805DE0B8;
     set_chunk_material_override_pair(0xFF00, 0x800, (*(s32 *)&chunk_polygon_flags_or_mask), (*(s32 *)&chunk_polygon_flags_and_mask));
     c.a = -1.0f + f;
@@ -971,9 +971,9 @@ extern "C" {
 bool is_normal_difficulty(void);
 void TBoss6PlotFalz::update_camera_target() {
     if (TBoss6PlotFalz__fade_amount > 0.0f) {
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
-        model_render_flags = lbl_805D5660;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        model_render_flags = saved_model_render_flags;
     }
     TBoss6PlotFalz__fade_amount = (-1.0f);
 }
@@ -1014,9 +1014,9 @@ void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, 
         temp_r8 = model_render_flags;
         temp_r5 = temp_r8 & 0xFFFFFFDF;
         model_render_flags = temp_r5;
-        lbl_805D5660 = temp_r8;
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_model_render_flags = temp_r8;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags = temp_r5 | lbl_805DE0C8;
         set_chunk_material_override_pair(0, 0x800, (int)temp_r5, (void *)chunk_polygon_flags_or_mask, (void *)chunk_polygon_flags_and_mask, (int)temp_r8);
         set_chunk_blend(0x2500);

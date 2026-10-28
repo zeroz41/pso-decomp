@@ -254,7 +254,7 @@ void *__dt__13TUnk_80494A10Fv(void *arg0, s16 arg1) {
 }
 
 extern s32 camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DA39C;
 
@@ -285,14 +285,14 @@ Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * par
 
 void render__9TDeadSpotFv(u8 *arg0) {
     if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > TDeadSpot__data_805DA38C) && (horizontal_distance_squared(arg0 + 0x7C, camera_ctrl_instance + 0x178) < lbl_805DA39C)) {
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjPlayer::reset_transform_state();
         setup_alpha_test_render_state(0x8F);
         TObjFish::set_global_param(*(s32 *)((s8 *)arg0 + 0xB8));
         set_texture_num(*(s32 *)((s8 *)arg0 + 0xBC));
         draw_particle_strip(arg0 + 0x1C, (void *)(4), (void *)(1));
         restore_saved_depth_alpha_state();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 #pragma fp_contract on

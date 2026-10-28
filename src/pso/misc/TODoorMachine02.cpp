@@ -93,7 +93,7 @@ s32 post_translate_matrix(void *);
 void draw_ginja_model(s32 model);
 s32 draw_ginja_model_with_motion(void *, int, f32);
 extern char chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 *door_machine02_texture_param_table;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB524;
@@ -163,7 +163,7 @@ void TODoorMachine02::render() {
             draw_ginja_model(n->f4);
             if (flag != 1) {
                 s32 id = model_render_flags;
-                lbl_805D5660 = id;
+                saved_model_render_flags = id;
                 model_render_flags = id | 0x10;
                 ((TUnk_80494AE0 *)((f32 *)arg0->fD4))->set_chunk_material_color();
             }
@@ -179,7 +179,7 @@ void TODoorMachine02::render() {
             pop_matrix();
             if (flag != 1) {
                 ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-                model_render_flags = lbl_805D5660;
+                model_render_flags = saved_model_render_flags;
             }
             n = arg0->model->root->next30;
             post_translate_matrix(n->f8);

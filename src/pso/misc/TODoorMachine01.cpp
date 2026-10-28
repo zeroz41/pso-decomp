@@ -106,7 +106,7 @@ extern s32 *TODoorMachine01__global_param_id_array;
 extern const f32 lbl_805DB504;
 s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u32 load_resource_from_descriptor(void *, int, void *, int, int, int);
 void *alloc__23TAdSinglePlyChrSelectGCFv(s32);
@@ -230,7 +230,7 @@ void TODoorMachine01::draw_part_models(u8 *arg1, s32 arg2) {
     s32 temp_r4;
     if (arg2 != 1) {
         temp_r4 = model_render_flags;
-        lbl_805D5660 = temp_r4;
+        saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x10;
         set_chunk_material_color__13TUnk_80494AE0Fv((void *)(arg0 + 0xDC), temp_r4);
     }
@@ -247,7 +247,7 @@ void TODoorMachine01::draw_part_models(u8 *arg1, s32 arg2) {
     TParticleCtrl::end_effect_render();
     if (arg2 != 1) {
         ((void (*)(void *))set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

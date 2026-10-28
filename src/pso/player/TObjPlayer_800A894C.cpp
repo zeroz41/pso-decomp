@@ -266,7 +266,7 @@ s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 extern s32 lbl_8043AC78[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9B24;
 extern const f32 lbl_805D9B28;
@@ -986,7 +986,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
             }
             var_r30 = 1;
             push_matrix();
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             ((TObjEneDubchik *)arg0)->sub_800A8A7C();
             post_translate_matrix(arg0 + 0x38);
             rotate_matrix_y(0, (int) (((TObjEneDubchik *)arg0)->rotation_y));
@@ -1017,7 +1017,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
             } else {
                 ((TObjEnemy *)arg0)->render_world_model();
             }
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             pop_matrix();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();

@@ -78,9 +78,9 @@ extern Color_80153B64 fog_collision_color_b;
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
 extern s32 lbl_805D28BC;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -175,10 +175,10 @@ void TObjFogCollision::draw_volume() {
         Color_80153B64 c0 = lbl_8044002C;
         Color_80153B64 c3 = fog_collision_color_a;
         Color_80153B64 cd = fog_collision_color_b;
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(0xFF00, 0x800);
         switch (this->m_90) {
@@ -201,10 +201,10 @@ void TObjFogCollision::draw_volume() {
         scale_matrix(0, s, 3.0f, s);
         draw_chunk_object((void *)lbl_805D28BC);
         pop_matrix();
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

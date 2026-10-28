@@ -26,9 +26,9 @@ void TObjBoss1Floor__sub_8002CB78(void) {  }
 
 extern u8 *lbl_805D4B50;
 extern s32 dragon_common_texture_list;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -40,15 +40,15 @@ void TObjBoss1MokoHill_Solo::render() {
     push_matrix();
     translate_matrix(0, this->m_28, (f32) (*(f32 *)((s8 *)arg0 + 0x34)), this->m_30);
     if ((s32) this->m_48 != 0) {
-        lbl_805D5660 = model_render_flags;
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x800;
         set_chunk_material_override_pair(0xFF00, 0x100, (void *)chunk_polygon_flags_or_mask, (void *)chunk_polygon_flags_and_mask);
         draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
-        model_render_flags = lbl_805D5660;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        model_render_flags = saved_model_render_flags;
     } else {
         draw_chunk_object((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x38)));
     }

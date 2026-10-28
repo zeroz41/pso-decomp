@@ -78,9 +78,9 @@ struct P_8028DCCC { f32 a; f32 b; };
 extern RecoveredGlobal_8028DE78_lbl_804D9164 class_appearance_preset_table;
 extern "C" {
 u8 *get_class_appearance_preset(s32 arg0);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -143,9 +143,9 @@ void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFie
     second = chunk_polygon_flags_or_mask;
     temp_r3 = temp_r8 & 0xFFFFFFDF;
     model_render_flags = temp_r3;
-    lbl_805D5660 = temp_r8;
-    lbl_805D5664 = first;
-    lbl_805D5668 = second;
+    saved_model_render_flags = temp_r8;
+    saved_chunk_polygon_flags_and_mask = first;
+    saved_chunk_polygon_flags_or_mask = second;
     model_render_flags = temp_r3 | lbl_805DD930;
     if (farg0 < 1.0f) {
         set_chunk_material_override_pair(-1, 0x800);
@@ -160,9 +160,9 @@ void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFie
         ((TUnk_80494AE0 *)(&color.a))->set_chunk_material_color();
     }
     draw_chunk_object((void *)arg0);
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
-    model_render_flags = lbl_805D5660;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
 }
 #pragma pop
 

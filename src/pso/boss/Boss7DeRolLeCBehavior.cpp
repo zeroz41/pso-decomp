@@ -568,9 +568,9 @@ void TObjPlayer__sub_802E7FC0(void *arg0);
 extern RecoveredGlobal_802E80F4_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_802E80F4_lbl_805412C0 boss7_derolle_light_pool;
 extern RecoveredGlobal_802E80F4_lbl_8058D4C0 model_material_color;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern u8 *lbl_805D693C;
 extern s32 *lbl_805D6940;
 extern s32 chunk_polygon_flags_or_mask;
@@ -608,9 +608,9 @@ void TBoss7DeRolLeC::render() {
             var_r29 += 1;
             var_r30 = (s32 *)((u8 *)var_r30 + (4));
         } while (var_r29 != 0xA);
-        lbl_805D5660 = model_render_flags;
-        lbl_805D5664 = chunk_polygon_flags_and_mask;
-        lbl_805D5668 = chunk_polygon_flags_or_mask;
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
         TObjEneDD::clear_global_flag_400();
         TParticleCtrl::begin_effect_render();
@@ -627,9 +627,9 @@ void TBoss7DeRolLeC::render() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
         ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
-        model_render_flags = lbl_805D5660;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+        model_render_flags = saved_model_render_flags;
         TObjPlayer__sub_802E7FC0(this);
         ((TObject *)(((u8 *)this) + 0x690))->render_nodes();
     }

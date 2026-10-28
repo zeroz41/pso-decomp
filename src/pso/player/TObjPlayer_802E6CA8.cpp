@@ -99,7 +99,7 @@ void set_chunk_blend(u32 x);
 void draw_chunk_model(void *arg0);
 extern Col_802E6CB0 lbl_80472C9C;
 extern s32 current_scene_light;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern "C" {
 f32 lerp__9TDeadSpotFff(f32, f32);
@@ -163,15 +163,15 @@ void TUnk_804E3BA8::render() {
             draw_chunk_model((void *)node->model);
             break;
         case 2:
-            lbl_805D5660 = model_render_flags;
-            model_render_flags = lbl_805D5660 | 0x8810;
+            saved_model_render_flags = model_render_flags;
+            model_render_flags = saved_model_render_flags | 0x8810;
             c.a = part->f24;
             ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
             draw_chunk_model((void *)node->model);
             set_chunk_material_override_pair(0xFF00, 0);
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             break;
         }
         pop_matrix();
@@ -261,15 +261,15 @@ void TUnk_804E3BC0::render() {
             draw_chunk_model((void *)node->model);
             break;
         case 2:
-            lbl_805D5660 = model_render_flags;
-            model_render_flags = lbl_805D5660 | 0x8810;
+            saved_model_render_flags = model_render_flags;
+            model_render_flags = saved_model_render_flags | 0x8810;
             c.a = part->f24;
             ((TUnk_80494AE0 *)(&c))->set_chunk_material_color();
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
             draw_chunk_model((void *)node->model);
             set_chunk_material_override_pair(0xFF00, 0);
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             break;
         }
         pop_matrix();

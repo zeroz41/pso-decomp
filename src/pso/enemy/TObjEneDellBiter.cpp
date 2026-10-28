@@ -947,7 +947,7 @@ s32 is_main_phase_15__9TObjEneDDFv();
 s32 update_obstruction_fade(void *);
 s32 defer_render__7TObjectFv(void *);
 extern Vec_80303574 lbl_80475294[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
@@ -1318,7 +1318,7 @@ void render__16TObjEneDellBiterFv(u8 *arg0) {
         TObjEneDellBiter__demo_script_step = 0;
         TObjEneDellBiter__demo_rotate_x_angle = F(s32, 0x484);
         TObjEneDellBiter__demo_script_cursor = (s32)(arg0 + 0x460);
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         draw = 1;
@@ -1357,7 +1357,7 @@ void render__16TObjEneDellBiterFv(u8 *arg0) {
             ((VObj_14_aa9368 *)fade)->m7();
         }
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)arg0)->update_primary_light();
     } else if (is_split_screen() == 0) {
         for (i = 0; i < 3; i++) {

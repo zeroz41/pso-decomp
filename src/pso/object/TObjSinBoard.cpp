@@ -1116,9 +1116,9 @@ void set_chunk_material_override_pair(s32, s32);
 s32 draw_chunk_object(s32);
 extern Color_80199A44 fish_draw_color[];
 extern u8 identity_matrix[];
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -1152,10 +1152,10 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
     rotate_matrix_y(0, 0x4000);
     matrix_mult_vec(0, &dir, &dir);
     pop_matrices(1);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= 0x821;
     set_chunk_material_override_pair(-1, 0x800);
     rate = (s32)(182.04445f * (4096.0f * len));
@@ -1220,10 +1220,10 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
     }
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
     pop_matrices(1);
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     draw_shadow_on_ground(arg0);
 }
 }

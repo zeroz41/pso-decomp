@@ -239,7 +239,7 @@ s32 defer_render__7TObjectFv(void *);
 
 int TObjPlayer::reset_enemy_state() { return update_if_active__15TObjEneMe1GiGueFl(this, 0); }
 
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D963C;
 extern const f32 lbl_805D9640;
@@ -511,7 +511,7 @@ void TObjEneBalClawBody::render() {
     u8 *arg0 = (u8 *)this;
 
     if (!(((TObjEneBalClawBody *)arg0)->actorFlags & 0x02000000)) {
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         temp_r3 = ((VObj18_8008e74c_8008DCF0*)arg0)->m9(lbl_805D963C, lbl_805D9640, lbl_805D9628);
         if (temp_r3 != 0) {
             var_r30 = 1;
@@ -559,7 +559,7 @@ void TObjEneBalClawBody::render() {
             pop_matrix();
             restore_scene_lighting();
             TParticleCtrl::end_effect_render();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             ((TObjEneBalClaw *)arg0)->render_scaled(var_r30);
         }
     }

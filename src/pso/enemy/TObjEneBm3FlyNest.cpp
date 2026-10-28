@@ -998,9 +998,9 @@ extern s32 lbl_805D510C;
 extern NestAttachmentPoint *TObjEneBm3FlyNest_attachment_point_ptr;
 extern s32 lbl_805D5114;
 extern s32 bm3_fly_nest_attachment_index;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern const f32 lbl_805D9D08;
@@ -1122,9 +1122,9 @@ void TObjEneBm3FlyNest::render() {
         if (res != 0) {
             draw = 1;
             self->f3AC = 1;
-            lbl_805D5660 = model_render_flags;
-            lbl_805D5664 = chunk_polygon_flags_and_mask;
-            lbl_805D5668 = chunk_polygon_flags_or_mask;
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             cm = &self->cams[cam];
             update_obstruction_fade(cm);
             if (((RenderFadeState *)cm)->updateFromCamera((const f32*)(&self->f2FC)) != 0) {
@@ -1174,9 +1174,9 @@ void TObjEneBm3FlyNest::render() {
             if (((RenderFadeState *)cm)->updateFromCamera((const f32*)(&self->f2FC)) != 0) {
                 ((VObj_14_aa9368 *)(cm))->m7();
             }
-            model_render_flags = lbl_805D5660;
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         }
     }
     VecCopy((Vec *)&self->f2FC, (const Vec *)&self->f3C8);

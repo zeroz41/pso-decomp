@@ -35,7 +35,7 @@ void trigger_dell_biter_events__10TObjPlayerFv(Vec *pos);
 void update_collisions__10TObjPlayerFv(TObjEnemy *obj);
 
 extern u32 model_render_flags;
-extern u32 lbl_805D5660;
+extern u32 saved_model_render_flags;
 extern TObject *tl_04;
 }
 
@@ -242,7 +242,7 @@ void TBoss3VoloptHiraisin::render() {
     f32 scale;
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
         TObjFish::set_global_param(texture_id);
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting((s32)this);
         TObjPlayer::toggle_particle_effect();
@@ -262,7 +262,7 @@ void TBoss3VoloptHiraisin::render() {
         pop_matrix();
         restore_scene_lighting();
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         if (position[1] < 50.0f) {
             push_matrix();
             scale = 1.0f - 0.02202643f * (position[1] - 4.6f);

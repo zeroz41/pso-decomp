@@ -127,7 +127,7 @@ extern f32 TObjBoss2CeilJunk__radius_table[];
 extern Color_8003A1B4 boss2_ceil_junk_render_color;
 extern Holder_8003A1B4 *boss2_tunnel_instance;
 extern s32 lbl_805D4BEC;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 int get_player_data__10TObjPlayerFi(int a0);
 void forward_switch_phase_stats__13TBoss2DeRolLeFi(s32 arg0);
@@ -159,10 +159,10 @@ void TObjBoss2CeilJunk::render() {
     s.x = (s.z = new_var);
     ((TObjEneDD *)(self->f44))->draw_oriented_shadow((s32)self->f9C, 0, (u32)&s);
   }
-  lbl_805D5660 = model_render_flags;
+  saved_model_render_flags = model_render_flags;
   if (self->fB4 < (1.0f))
   {
-    model_render_flags = lbl_805D5660 | 0x8820;
+    model_render_flags = saved_model_render_flags | 0x8820;
     {
       Color_8003A1B4 c = boss2_ceil_junk_render_color;
       c.a = (-1.0f) + self->fB4;
@@ -178,7 +178,7 @@ void TObjBoss2CeilJunk::render() {
   rotate_matrix_x(0, self->f5C);
   draw_ginja_object((void *)(boss2_tunnel_instance->mdls[boss2_ceil_junk_model_index_table[*(s32 *)&this->m_ac]].f8));
   pop_matrix();
-  model_render_flags = lbl_805D5660;
+  model_render_flags = saved_model_render_flags;
   set_chunk_material_override_pair(0xFF00, 0);
 }
 

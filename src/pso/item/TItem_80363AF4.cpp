@@ -41,16 +41,16 @@ struct Color { f32 a, r, g, b; };
 
 extern "C" {
 extern u32 model_render_flags, chunk_polygon_flags_and_mask, chunk_polygon_flags_or_mask;
-extern u32 lbl_805D5660, lbl_805D5664, lbl_805D5668;
+extern u32 saved_model_render_flags, saved_chunk_polygon_flags_and_mask, saved_chunk_polygon_flags_or_mask;
 extern Color saved_model_draw_color, model_material_color;
 extern EquippedItemDrawQueue *player_item_id_list;
 
 void TItem::push_equipped_id(s32 id) { ((TObjPlayer *)player_item_id_list)->push_to_list(id); }
 void TUnk_804F29F8::render() {
     TObjPlayer::reset_transform_state();
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     ((TRaderMapCore *)(&saved_model_draw_color))->copy_vec4(&model_material_color);
     u32 *id = player_item_id_list->item_ids;
     s32 remaining = player_item_id_list->count;
@@ -60,9 +60,9 @@ void TUnk_804F29F8::render() {
             item->render();
             TObjPlayer::reset_transform_state();
             ((TRaderMapCore *)(&model_material_color))->copy_vec4(&saved_model_draw_color);
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
         }
         --remaining;
     }

@@ -157,7 +157,7 @@ void draw_chunk_model(void *arg0);
 extern Color_8002E3D4 player_part_model_white_color;
 extern Holder_8002E3D4 *lbl_805D4BA4;
 extern s32 current_scene_light;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 TObjBoss1Rock::TObjBoss1Rock(TObject *object, void *arg2, void *arg3) : TObject(object) {
     s32 flag;
@@ -204,15 +204,15 @@ void TUnk_80482090::render() {
                 draw_chunk_model((void *)n->f4);
                 break;
             case 2:
-                lbl_805D5660 = model_render_flags;
-                model_render_flags = lbl_805D5660 | 0x8810;
+                saved_model_render_flags = model_render_flags;
+                model_render_flags = saved_model_render_flags | 0x8810;
                 c.a = p->f24;
                 ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
                 set_chunk_material_override_pair(0xFF00, 0x800);
                 set_chunk_blend(0x2500);
                 draw_chunk_model((void *)n->f4);
                 set_chunk_material_override_pair(0xFF00, 0);
-                model_render_flags = lbl_805D5660;
+                model_render_flags = saved_model_render_flags;
                 break;
             }
             pop_matrix();

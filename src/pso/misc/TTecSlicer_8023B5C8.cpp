@@ -191,7 +191,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DC95C;
 extern const f32 lbl_805DC960;
@@ -335,7 +335,7 @@ void TTecSlicer::render() {
         find_equipped_item(this->weaponHandle) == 0U) {
         return;
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     if (this->useColorOverride != 0) {
         model_render_flags |= 0x10;
         ((TUnk_80494AE0 *)((f32 *)&this->argb))->set_chunk_material_color();
@@ -354,7 +354,7 @@ void TTecSlicer::render() {
         TParticleCtrl::end_effect_render();
     }
     pop_matrix();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 void run_task__10TTecSlicerFv(u8 *object) {

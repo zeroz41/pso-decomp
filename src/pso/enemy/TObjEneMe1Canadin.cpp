@@ -578,7 +578,7 @@ extern s32 lbl_8043A268[];
 extern s32 lbl_8043A274[];
 extern u32 lbl_805D4FD4;
 extern s32 TObjEneMe1Canadin__render_point_cursor;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9898;
 extern const f32 lbl_805D98A0;
@@ -2855,7 +2855,7 @@ void TObjEneMe1Canadin::render() {
         }
         ((TObjEneDD *)arg0)->update_secondary_light();
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x24)));
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         ((VObj_18_8dc821 *)(arg0))->m111();
@@ -2901,7 +2901,7 @@ void TObjEneMe1Canadin::render() {
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)arg0)->update_primary_light();
         return;
     }

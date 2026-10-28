@@ -49,7 +49,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 void TObjEneSlimeOne__sub_803E4B54(void *child, void *arg1, void *arg2, f32 farg0);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TLobby__sub_8001FE7C(void*, int);
 s32 free_collision_body_parts(void *);
@@ -109,7 +109,7 @@ void TODoorVoShip::render() {
         TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->m_bc), (void *)(*(s32 *)&this->m_d0), this->m_b0);
         TObjFish::set_global_param((int) (*(s32 *)&this->m_d8));
         temp_r4 = model_render_flags;
-        lbl_805D5660 = temp_r4;
+        saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x20;
         ((TUnk_80494AE0 *)(arg0 + 0xDC))->set_chunk_material_color();
         TParticleCtrl::begin_effect_render();
@@ -140,7 +140,7 @@ void TODoorVoShip::render() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
         ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         pop_matrix();
     }
 }

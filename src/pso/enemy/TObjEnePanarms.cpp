@@ -367,7 +367,7 @@ extern s8 lbl_805D5288;
 extern s8 TObjEnePanarms__sound_ids_initialized;
 extern f32 panarms_particle_frame_window;
 extern u8 panarms_particle_frame_window_initialized;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805DA520;
 extern const f32 lbl_805DA528;
 extern const f32 lbl_805DA534;
@@ -1463,7 +1463,7 @@ void TObjEnePanarms::draw_with_fade() {
     }
     TObjPlayer::toggle_particle_effect();
     temp_r4 = model_render_flags;
-    lbl_805D5660 = temp_r4;
+    saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x01000000 | 1;
     temp_r31 = &((Obj_800E20D0 *) ((u8 *)this))->fades[var_r31];
     update_obstruction_fade((int)temp_r31, (int)temp_r4);
@@ -1480,7 +1480,7 @@ void TObjEnePanarms::draw_with_fade() {
     } else {
         this->draw();
     }
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     this->update_linked_effect();
 }

@@ -56,9 +56,9 @@ extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 extern int TEneEffHamon__fish_model;
 extern int TEneEffHamon__fish_effect_param;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -71,10 +71,10 @@ void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
     if (o->delay > 0) {
         return;
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= 0x810;
     set_chunk_material_override_pair(0xFFFF00FF, 0x800);
     TObjFish::set_global_param(TEneEffHamon__fish_effect_param);
@@ -86,10 +86,10 @@ void render__12TEneEffHamonFv(Hamon_800A36A8 *o) {
     draw_chunk_object((void *)TEneEffHamon__fish_model);
     pop_matrix();
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 void run_task__12TEneEffHamonFv(u8 *arg0) {

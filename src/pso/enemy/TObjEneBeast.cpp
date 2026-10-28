@@ -122,7 +122,7 @@ extern void *boss4_type3_instance;
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 update_obstruction_fade(void *);
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 #define play_sound_effect (*(s32 (*)(s32, s32, s32, s32))&play_sound_effect)
 extern "C" void render_shadows__9TObjEnemyFv(u8 *arg0);
 void TObjEneBeast::vfunc_101() {  }
@@ -278,7 +278,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
         update_obstruction_fade((void *)fade);
         fade = ((RenderFadeState *)fade)->updateFromCamera((const f32*)(&o->f2FC));
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     select_actor_lighting(o);
     set_global_param__8TObjFishFl(o->f24);
     push_matrix();

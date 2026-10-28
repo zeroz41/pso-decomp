@@ -767,7 +767,7 @@ extern s32 gyaranzo_missile_param_table;
 extern u32 *lbl_805D5200;
 extern u32 *lbl_805D5204;
 extern s32 gyaranzo_breakup_model_obj;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805DA27C;
 extern const f32 lbl_805DA284;
 extern const f32 lbl_805DA288;
@@ -1432,13 +1432,13 @@ void TObjEneGyaranzo::render() {
         var_r29 = 1;
         temp_r3 = ((VObj_18_ca64a0 *)(this))->m9(lbl_805DA284, lbl_805DA288, lbl_805DA28C);
         if (temp_r3 != 0) {
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             var_r30 = (s32)&((Obj_800D35D8 *)((u8 *)this))->arr[var_r30];
             update_fade_value(var_r30);
             if (((RenderFadeState *)var_r30)->updateFromCamera((const f32*)(((u8 *)this) + 0x2FC)) != 0) {
                 ((VObj_14_fddec9 *)(var_r30))->m6();
                 if (defer_render__7TObjectFv(this) != 0) {
-                    model_render_flags = lbl_805D5660;
+                    model_render_flags = saved_model_render_flags;
                     return;
                 }
             }

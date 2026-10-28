@@ -150,7 +150,7 @@ void TItemEffOrgaFlowShot::bswap_6xAD_subordinate_action() { read_be16_field2_fo
 int read_be16_field2_forward(void* p) { return ((TObjPlayer *)p)->read_be16_field2(); }
 void build_6xAD_olga_flow_subordinate_boss_actions(void* p) { *(u8*)((char*)p + 0x0) = 173; *(u8*)((char*)p + 0x1) = 17; }
 
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 #pragma push
@@ -202,7 +202,7 @@ void TItemEffOrgaFlowShot::update_position_from_velocity() {
 void TItemEffOrgaFlowShot::render() {
     s32 arg0 = (s32)this;
     TParticleCtrl::begin_effect_render();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     set_depth_buffer_settings_1();
     TObjPlayer::init_xyz_limits();
     TObjPlayer__sub_803DF768(1);
@@ -210,7 +210,7 @@ void TItemEffOrgaFlowShot::render() {
     reset_player_transform();
     TObjPlayer::reset_transform_state();
     restore_saved_depth_alpha_state();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
 }
 

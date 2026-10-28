@@ -46,7 +46,7 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB854;
 extern const f32 lbl_805DB858;
@@ -79,12 +79,12 @@ void TOMineDisp::render() {
     ((TOMine *)temp_r31)->free_parts();
     TParticleCtrl::begin_effect_render();
     temp_r4 = model_render_flags;
-    lbl_805D5660 = temp_r4;
+    saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x20;
     set_chunk_material_color__13TUnk_80494AE0Fv(((u8 *)this) + 0x94, temp_r4);
     ((TOMine *)temp_r31)->free_sub_objects();
     ((s32 (*)(void *))set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

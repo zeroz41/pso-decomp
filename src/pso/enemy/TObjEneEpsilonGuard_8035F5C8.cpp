@@ -484,9 +484,9 @@ extern s32 lbl_805D6FA4;
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
 s32 update_obstruction_fade(void *);
 s32 set_guard_part_colors(void *, void *, void *, int);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 epsilon_guard_camera_sample_phase;
 extern u8 *epsilon_guard_angle_sample_write_ptr;
 extern u8 *epsilon_guard_camera_sample_read_ptr;
@@ -845,39 +845,39 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
     if (is_split_screen() != 0) {
         i = get_camera_mode__11TCameraCtrlFv();
     }
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     set_guard_part_colors((void *)arg0, (void *) (arg0 + 0x4A0), (void *)chunk_polygon_flags_and_mask, (int)model_render_flags);
     r = (VObj_8036033C *)&((Self_8036033C *)arg0)->recs[i];
     update_obstruction_fade(r);
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(arg0 + 0x2FC)) != 0) {
         r->m6();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
-            model_render_flags = lbl_805D5660;
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
     } else if (((VObj_8036033C *)(arg0 + 0x4C0))->m8() != 0) {
         if (TObjEneMe3SinowZoa__sub_800D72A4(arg0 + 0x4C0) != 0) {
             ((VObj_8036033C *)(arg0 + 0x4C0))->m6();
             if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
-                model_render_flags = lbl_805D5660;
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
+                model_render_flags = saved_model_render_flags;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                 return;
             }
         } else if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
-            model_render_flags = lbl_805D5660;
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
     } else {
-        model_render_flags = lbl_805D5660;
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
+        model_render_flags = saved_model_render_flags;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         return;
     }
     ((TObjEneDD *)arg0)->update_secondary_light();
@@ -917,9 +917,9 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
     } else if ((((VObj_8036033C *)(arg0 + 0x4C0))->m8() != 0) && (TObjEneMe3SinowZoa__sub_800D72A4(arg0 + 0x4C0) != 0)) {
         ((VObj_8036033C *)(arg0 + 0x4C0))->m7();
     }
-    model_render_flags = lbl_805D5660;
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
+    model_render_flags = saved_model_render_flags;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
 }
 
 void TObjEneEpsilonGuard::draw_debug_line() {

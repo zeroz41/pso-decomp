@@ -93,7 +93,7 @@ void pop_matrix(void);
 s32 check_object_in_view_cone__6TSceneFiPvPvPvi(s32 arg0, Obj_80204B78 *obj, Vec_80204024 *pos, void *arg3, s32 arg4);
 extern RecoveredCallback_2be3cacebb2e TScene__render_callback;
 extern s32 model_render_flags;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 void prepare_ginja_model(void);
 void push_matrix(void);
 void post_translate_matrix(f32 *);
@@ -502,7 +502,7 @@ void TScene::render_map_sections() {
         }
         sec = TScene__data_805D5FCC->sections;
         prepare_ginja_model();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         for (i = 0; i < TScene__data_805D5FCC->count; i++, sec++) {
             if (sec->flags & 0x10000) {
                 if (sec->flags & 0x80000) {
@@ -537,7 +537,7 @@ void TScene::render_map_sections() {
                 }
             }
         }
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         end_ginja_model_draw();
     }
 }

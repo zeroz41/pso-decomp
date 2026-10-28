@@ -41,7 +41,7 @@ s32 post_translate_matrix(int);
 void draw_ginja_object(void *child);
 extern RecoveredGlobal_8032DC94_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_8032DC94_lbl_8058D4C0 model_material_color;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__dt__13TUnk_804EDC28Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804EDD20Fv(void *arg0, s16 arg1);
@@ -143,7 +143,7 @@ void TUnk_804EDD20::render() {
       {
         var_r3 = &saved_model_draw_color.value;
         var_r4 = &model_material_color.value;
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         var_r3 = &saved_model_draw_color.value;
         var_r4 = &model_material_color.value;
         ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
@@ -169,7 +169,7 @@ void TUnk_804EDD20::render() {
         var_r3 = &model_material_color.value;
         var_r4 = &saved_model_draw_color.value;
         ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
       }
     }
   }

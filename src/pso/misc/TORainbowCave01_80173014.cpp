@@ -55,7 +55,7 @@ void push_matrix(void);
 void scale_current_matrix(void *);
 void post_translate_matrix(void *);
 extern Color_8017310C chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TLobby__sub_8001FE7C(void*, int);
 f32 horizontal_distance_squared(s32, s32);
@@ -97,7 +97,7 @@ void TORainbowCave01::render() {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(self->f24);
         old = model_render_flags;
-        lbl_805D5660 = old;
+        saved_model_render_flags = old;
         model_render_flags = old | 0x20;
         c.d = c.c = c.b = 0.0f;
         if (TObjPlayer::check_demo_mode() == 1) {
@@ -113,7 +113,7 @@ void TORainbowCave01::render() {
         draw_ginja_object((void *)self->f34);
         pop_matrix();
         ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
     }
 }

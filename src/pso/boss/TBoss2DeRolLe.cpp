@@ -372,7 +372,7 @@ void TObjPlayer__sub_8002F61C(void);
 extern Vec_8002EFE8 lbl_804359E4;
 extern u8 controller_input_state[];
 extern s32 current_scene_light;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D8278;
 extern const f32 TBoss2DeRolLe__data_805D827C;
@@ -406,7 +406,7 @@ void TBoss2DeRolLe::render_body() {
     f32 frame;
     f32 max;
     this->update_object_view_visibility(lbl_805D8278, lbl_805D8278);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     push_matrix();
     post_translate_matrix(self->pos);
@@ -609,8 +609,8 @@ extern Light_8002F258 TObjLight__scene_light_state;
 extern Ctx_8002F258 *derolle_texture_list_handle;
 extern void *lbl_805D4BCC;
 extern s32 lbl_805D5564;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 
@@ -625,9 +625,9 @@ void TBoss2DeRolLe::render() {
         return;
     }
     e->m8(1000.0f, 1000.0f);
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     TObjEneDD::clear_global_flag_400();
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -669,9 +669,9 @@ void TBoss2DeRolLe::render() {
     TObjEneRe7Berura::set_global_state((s32)NULL);
     TObjLight__sub_801337F8(current_scene_light);
     pop_matrix();
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
-    model_render_flags = lbl_805D5660;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     {
     Vec_8002F258 v;

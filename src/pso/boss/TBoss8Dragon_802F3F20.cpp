@@ -69,7 +69,7 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 current_scene_light;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern u8 *TBoss8Dragon__data_805D6988;
 extern s32 model_render_flags;
 extern const f32 lbl_805DED70;
@@ -131,7 +131,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
     if (!(*(f32 *)&this->unk_3C <= lbl_805DED70)) {
         TObjFish::set_global_param(this->m_24);
         TObjEneDD::clear_global_flag_400();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
         if (TBoss8Dragon__sub_802F3F20(((u8 *)this)) != 0) {
             ((RenderFadeState *)(&((Obj_802F4114 *)((u8 *)this))->fades[arg2]))->fadeOut();
@@ -164,7 +164,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
         pop_matrix();
         set_chunk_material_override_pair(0xFF00, 0);
         set_material_alpha_compare_reference(0xBF);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

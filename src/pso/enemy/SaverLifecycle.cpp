@@ -1499,9 +1499,9 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix_from(void *);
 extern Vec_800A6C54 lbl_8043A8A4;
 extern u8 identity_matrix[];
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern u8 *anim_model_matrix_array;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
@@ -1904,9 +1904,9 @@ void TObjEneSaver::render() {
         case 1:
         case 2:
             if (((VObj_800A6C54_a *)(arg0 + 0x3A4))->m8() != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 ((VObj_800A6C54_a *)(arg0 + 0x3A4))->m6();
                 v = 1;
                 model_render_flags |= 1;
@@ -1918,9 +1918,9 @@ void TObjEneSaver::render() {
                 }
                 model_render_flags &= ~1;
                 ((VObj_800A6C54_a *)(arg0 + 0x3A4))->m7();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             }
             break;
         case 0:

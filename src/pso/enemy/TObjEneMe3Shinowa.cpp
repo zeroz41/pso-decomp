@@ -1544,7 +1544,7 @@ extern s32 *lbl_80501000[];
 extern u8 identity_matrix[];
 extern void *lbl_805D2AC8;
 extern s32 TObjEneMe3ShinowaMirage__render_node_index;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 extern const f32 lbl_805DA5D8;
@@ -1995,7 +1995,7 @@ void TObjEneMe3ShinowaMirage::draw_model() {
         this->update_player_state_default();
         TObjFish::set_global_param(this->texture_id);
         this->update_secondary_light();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
         for (i = 0; i < 3; i++) {
@@ -2023,7 +2023,7 @@ void TObjEneMe3ShinowaMirage::draw_model() {
             pop_matrix();
         }
         this->dispatch_if_active();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         this->update_primary_light();
         VecCopy((Vec *)((u8 *)this + 0x2FC), (const Vec *)(&lbl_80500FF4));
     } else if ((get_main_phase() == 0xF) || (is_split_screen() == 0)) {

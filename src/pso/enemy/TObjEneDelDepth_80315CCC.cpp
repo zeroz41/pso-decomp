@@ -12,9 +12,9 @@ struct Stack_80315D60 {
 };
 
 extern const f32 TObjEneDelDepth__data_805DF258;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -24,9 +24,9 @@ void TObjEneDelDepth::reset_globals() {
     set_chunk_material_override_pair(0xFF00, 0);
     set_chunk_blend(0x2500);
     set_chunk_blend(0x2500);
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
-    model_render_flags = lbl_805D5660;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
 }
 
     extern int TObjEneDelDepth__shared_resource;
@@ -37,9 +37,9 @@ void TObjEneDelDepth::setup_draw_material_default(f32 farg0) {
 
 void TObjEneDelDepth::setup_draw_material(f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
     Stack_80315D60 stack;
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= 0x8820;
     set_chunk_material_override_pair(0xFF00, 0x800);
     set_chunk_blend(0x2100);

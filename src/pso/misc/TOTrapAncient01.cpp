@@ -169,9 +169,9 @@ int post_translate_matrix(void *);
 int draw_ginja_model(int);
 void translate_matrix(s32, f32, f32, f32);
 extern s32 model_render_flags;
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern const f32 lbl_805DBA58;
@@ -331,9 +331,9 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
     self->f340 = self->m8(lbl_805DBA58, lbl_805DBA5C);
     if (self->f340 == 1) {
         if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(self->pos38)) == 1) {
-            lbl_805D5660 = model_render_flags;
-            lbl_805D5664 = chunk_polygon_flags_and_mask;
-            lbl_805D5668 = chunk_polygon_flags_or_mask;
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             fade->m6();
         }
         push_matrix();
@@ -362,9 +362,9 @@ void render__15TOTrapAncient01Fv(Trap_80179B8C *self) {
         pop_matrix();
         if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(self->pos38)) == 1) {
             fade->m7();
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
         }
     }
 }

@@ -44,7 +44,7 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern Color_801ACE1C chunk_material_color_half_alpha_f32;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void TPhotonMagicSquare::render() {
     Self_801ACE1C *self = (Self_801ACE1C *)this;
@@ -60,7 +60,7 @@ void TPhotonMagicSquare::render() {
         self->color.g = (0.5f);
         self->color.b = (0.5f);
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     if (self->color.a > 1.0f) {
         self->color.a = 1.0f;
@@ -70,7 +70,7 @@ void TPhotonMagicSquare::render() {
     draw_model_motion((void *)self->f34, (void *)this->m_90, self->f9C);
     TObjPlayer::clear_global_state();
     ((TUnk_80494AE0 *)((f32 *)&chunk_material_color_half_alpha_f32))->set_chunk_material_color();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     ((TRaderMapCore *)(&self->color))->copy_vec4(&saved);
     pop_matrix();
     TParticleCtrl::end_effect_render();

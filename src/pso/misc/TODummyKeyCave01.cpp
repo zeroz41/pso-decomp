@@ -58,7 +58,7 @@ s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 u8 is_current_floor_switch_set(u16);
 void *__nw__7TObjectFUl(int);
@@ -82,7 +82,7 @@ void TODummyKeyCave01::render() {
         draw_ginja_model(*(s32 *)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             id = model_render_flags;
-            lbl_805D5660 = id;
+            saved_model_render_flags = id;
             model_render_flags = id | 0x10;
             ((TUnk_80494AE0 *)((f32 *)&this->m_9c))->set_chunk_material_color();
         }
@@ -100,7 +100,7 @@ void TODummyKeyCave01::render() {
         draw_ginja_model(*(s32 *)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
             ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
         }
         TParticleCtrl::end_effect_render();
         pop_matrix();

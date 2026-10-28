@@ -42,9 +42,9 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -88,9 +88,9 @@ void TUnk_804F0BF0::render() {
     {
         if (((void *) this->m_20 != NULL) && (get_render_pass__9TMainTaskFv() == 1)) {
             set_depth_buffer_settings_id(3);
-            lbl_805D5660 = model_render_flags;
-            lbl_805D5664 = chunk_polygon_flags_and_mask;
-            lbl_805D5668 = chunk_polygon_flags_or_mask;
+            saved_model_render_flags = model_render_flags;
+            saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+            saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             ((TRaderMapCore *)saved_model_draw_color)->copy_vec4((model_material_color));
             model_render_flags |= 0x20;
             ((TUnk_80494AE0 *)(arg0 + 0x28))->set_chunk_material_color();
@@ -111,9 +111,9 @@ void TUnk_804F0BF0::render() {
             pop_matrix();
             TParticleCtrl::end_effect_render();
             ((TRaderMapCore *)model_material_color)->copy_vec4((saved_model_draw_color));
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
         }
     }
 }

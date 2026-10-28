@@ -88,7 +88,7 @@ s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_model(s32);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB4E8;
 void render__12TODoorCave03Fv(u8 *arg0);
@@ -182,7 +182,7 @@ void render__12TODoorCave03Fv(u8 *arg0) {
         post_translate_matrix(m->m8);
         draw_ginja_model(m->m4);
         TParticleCtrl::begin_effect_render();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
         ((TUnk_80494AE0 *)(arg0 + 0xD4))->set_chunk_material_color();
         if (*(s32 *)(arg0 + 0xD0) & 1) {
@@ -196,7 +196,7 @@ void render__12TODoorCave03Fv(u8 *arg0) {
         post_translate_matrix(m->m8);
         draw_ginja_model(m->m4);
         ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

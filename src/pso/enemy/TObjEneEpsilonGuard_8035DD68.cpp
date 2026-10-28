@@ -423,9 +423,9 @@ s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -600,31 +600,31 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     if (is_split_screen() != 0) {
         i = get_camera_mode__11TCameraCtrlFv();
     }
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     r = (VObj_8035E018 *)&((Self_8035E018 *)ene_re7_berura)->recs[i];
     update_obstruction_fade(r);
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(ene_re7_berura + 0x2FC)) != 0) {
         r->m6();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
-            model_render_flags = lbl_805D5660;
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
     } else if (*(s16 *)((s8 *)ene_re7_berura + 0x326) == 3) {
         ((VObj_8035E018 *)(ene_re7_berura + 0x4BC))->m6();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
-            model_render_flags = lbl_805D5660;
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
+            model_render_flags = saved_model_render_flags;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             return;
         }
     } else if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
-        model_render_flags = lbl_805D5660;
-        chunk_polygon_flags_and_mask = lbl_805D5664;
-        chunk_polygon_flags_or_mask = lbl_805D5668;
+        model_render_flags = saved_model_render_flags;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         return;
     }
     ((TObjEneDD *)ene_re7_berura)->update_secondary_light();
@@ -655,9 +655,9 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     } else if (*(s16 *)((s8 *)ene_re7_berura + 0x326) == 3) {
         ((VObj_8035E018 *)(ene_re7_berura + 0x4BC))->m7();
     }
-    model_render_flags = lbl_805D5660;
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
+    model_render_flags = saved_model_render_flags;
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
 }
 
 #pragma push

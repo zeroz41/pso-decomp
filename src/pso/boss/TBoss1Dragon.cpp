@@ -1362,7 +1362,7 @@ extern s32 TBoss1Dragon__data_805D4B1C;
 extern s32 TBoss1Dragon__data_805D4B20;
 extern const f32 boss1_dragon_visibility_distance;
 extern u8 *camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805D7F2C;
 extern const f32 lbl_805D7F30;
 extern const f32 lbl_805D7F34;
@@ -1921,17 +1921,17 @@ void TBoss1Dragon::render() {
             Color_80020B54 color = dragon_boss1_render_color;
             saved = *(s32 *)((s8 *)((u8 *)this) + 0x34);
             *(s32 *)((s8 *)((u8 *)this) + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TBoss1Dragon__data_805D4B08 + 0x42C)) + 0x18);
-            lbl_805D5660 = model_render_flags;
-            model_render_flags = lbl_805D5660 | 0x10;
+            saved_model_render_flags = model_render_flags;
+            model_render_flags = saved_model_render_flags | 0x10;
             ((TUnk_80494AE0 *)(&color))->set_chunk_material_color();
             ((TObjMotion *)((u8 *)this))->draw();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             *(s32 *)((s8 *)((u8 *)this) + 0x34) = saved;
             pop_matrix();
         }
         TObjFish::set_global_param(((TBoss1Dragon *)((u8 *)this))->texture_id);
         TObjEneDD::clear_global_flag_400();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);
         state = ((TBoss1Dragon *)((u8 *)this))->mode;
         visible = 1;
@@ -2019,7 +2019,7 @@ void TBoss1Dragon::render() {
         }
         set_chunk_material_override_pair(0xFF00, 0);
         set_material_alpha_compare_reference(0xBF);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     } else {
         ((TBoss1Dragon *)((u8 *)this))->draw();
         SELF->m8(lbl_805D7F30, lbl_805D7F30);
@@ -2028,10 +2028,10 @@ void TBoss1Dragon::render() {
     VecCopy__FP3VecPC3Vec((s32) (((u8 *)this) + 0x418), (s32) (((u8 *)this) + 0x3F4));
     subtract_vector(((u8 *)this) + 0x418, ((u8 *)this) + 0x40C);
     VecCopy__FP3VecPC3Vec((s32) (((u8 *)this) + 0x424), (s32) (((u8 *)this) + 0x400));
-    lbl_805D5660 = model_render_flags;
-    model_render_flags = lbl_805D5660 | 0x400;
+    saved_model_render_flags = model_render_flags;
+    model_render_flags = saved_model_render_flags | 0x400;
     ((TObject *)(((u8 *)this) + 0x3C4))->render_nodes();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 #pragma pop
 

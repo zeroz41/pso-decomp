@@ -418,7 +418,7 @@ extern s32 TObjEneRe4Sorcerer__render_node_index;
 extern s32 TObjEneRe4Sorcerer__saved_render_flags;
 extern f32 TObjEneRe4Sorcerer__effect_render_scale;
 extern s32 re4_sorcerer_render_node_ptr;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__18TObjEneRe4SorcererFv(u8 *arg0);
@@ -1220,7 +1220,7 @@ void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura) {
         }
         ((TObjEneDD *)ene_re7_berura)->update_secondary_light();
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)ene_re7_berura + 0x24)));
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         scroll_strip_uvs((int) ((*(s32 *)&TObjEneRe4Sorcerer__uv_scroll_buffer)), (int) (*(s16 *)((s8 *)ene_re7_berura + 0x3C0)), 0);
         model_render_flags |= 0x20000;
@@ -1263,7 +1263,7 @@ void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura) {
         } else if (temp_r31 != 0) {
             ((VObj_14 *)(((u8 *)var_r30)))->m7();
         }
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         ((TObjEneDD *)ene_re7_berura)->update_primary_light();
         TParticleCtrl::end_effect_render();
     }

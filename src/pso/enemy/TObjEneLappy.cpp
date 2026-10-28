@@ -1397,7 +1397,7 @@ s32 is_main_phase_15__9TObjEneDDFv(void);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 defer_render__7TObjectFv(void *);
 extern Vec_800C220C lbl_8043BBB4[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 lbl_805D5178;
 extern s32 lbl_805D517C;
 extern f32 *lbl_805D5180;
@@ -2072,7 +2072,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
         push_matrix();
         post_translate_matrix(&o->pos);
         rotate_matrix_y(0, o->f3C0);
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         set_scene_override(0);
         TObjEneDD::clear_global_flag_400();
         translate_matrix(0, lbl_805D9FAC, o->f3C8, lbl_805D9FAC);
@@ -2112,7 +2112,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
         }
         TObjEneRe7Berura::set_global_state(0);
         restore_default_scene();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         pop_matrix();
         ((TObjEneDD *)o)->update_primary_light();
         if (((TObjEneRe2Flower *)o)->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(o) != 0) {

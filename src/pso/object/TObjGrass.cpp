@@ -1548,9 +1548,9 @@ void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void draw_chunk_object(void *child);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -1585,17 +1585,17 @@ void TObjGrass::render() {
         TObjEneRe7Berura::set_global_state((s32)((void *)TObjGrass::update_camera_vec_by_stage));
         if (*(s32 *)((s8 *)arg0 + 0x3AC) == 1) {
             if ((&self->sub)->m8() != 0) {
-                lbl_805D5660 = model_render_flags;
-                lbl_805D5664 = chunk_polygon_flags_and_mask;
-                lbl_805D5668 = chunk_polygon_flags_or_mask;
+                saved_model_render_flags = model_render_flags;
+                saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+                saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 (&self->sub)->m6(chunk_polygon_flags_and_mask, model_render_flags);
                 if (defer_render__7TObjectFv(self) == 0) {
                     ((TObjMotion *)self)->draw();
                 }
                 (&self->sub)->m7();
-                chunk_polygon_flags_and_mask = lbl_805D5664;
-                chunk_polygon_flags_or_mask = lbl_805D5668;
-                model_render_flags = lbl_805D5660;
+                chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+                chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+                model_render_flags = saved_model_render_flags;
             }
         } else {
             model_render_flags |= 0x01000000;

@@ -108,7 +108,7 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_object(u32);
 s32 draw_ginja_model_with_motion(u32, u32, f32);
 extern u8 *camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 atan2_float(f32, f32);
 f32 vector_length(void *);
@@ -300,7 +300,7 @@ void TUnk_8048E7A8::render() {
                 setup_particle_tev(0);
             } else {
                 s32 temp_r4 = model_render_flags;
-                lbl_805D5660 = temp_r4;
+                saved_model_render_flags = temp_r4;
                 model_render_flags = temp_r4 | 0x8021;
                 if (is_particle_sprite_additive__13TUnk_8048E728Fv(arg0, temp_r4) != 0) {
                     ((TUnk_8048E728 *)arg0)->apply_particle_model_fade_color(1);
@@ -318,7 +318,7 @@ void TUnk_8048E7A8::render() {
             if (*(u16 *)((s8 *)arg0 + 0x24) & 0x400) {
                 TParticleCtrl::disable_if_single_screen();
             } else {
-                model_render_flags = lbl_805D5660;
+                model_render_flags = saved_model_render_flags;
             }
             TParticleCtrl::end_effect_render();
             pop_matrix();

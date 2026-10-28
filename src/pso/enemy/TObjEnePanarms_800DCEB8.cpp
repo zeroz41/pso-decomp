@@ -1075,7 +1075,7 @@ s32 get_camera_mode__11TCameraCtrlFv();
 void update_obstruction_fade(RenderFadeState *);
 s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 s32 submit_cursor_candidate(void *, s32);
 s32 advance_animation_playback(void *);
 s32 minimap_render_dot(void *, s32, s32, s32);
@@ -1111,7 +1111,7 @@ void TObjEnePanarms::render() {
         return;
     }
     TObjPlayer::toggle_particle_effect();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     fade = &((Obj_800DEF5C *)this)->fades[cam];
     update_obstruction_fade(fade);
     if (fade->updateFromCamera(&this->m_2fc) != 0) {
@@ -1128,7 +1128,7 @@ void TObjEnePanarms::render() {
         model_render_flags |= 0x01000000;
         TObjEnePanarms__sub_800DEEF8(this);
     }
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     if (*(s32 *)&this->unk_3E0 != 0) {
         draw_shadow();

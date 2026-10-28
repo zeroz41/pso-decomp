@@ -562,9 +562,9 @@ s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(s32, f32, f32, f32);
 
 s32 draw_chunk_object(s32);
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -1517,9 +1517,9 @@ void render__11TObjEneMojaFv(u8 *arg0) {
     TObjFish::set_global_param(((TObjEneMoja *)arg0)->texture_id);
     id = model_render_flags;
     fade = &((Body_800AF080 *)arg0)->fades[cam];
-    lbl_805D5660 = id;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = id;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags = id | 1;
     update_obstruction_fade(fade, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask, id);
     draw = 1;
@@ -1555,10 +1555,10 @@ void render__11TObjEneMojaFv(u8 *arg0) {
     if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(arg0 + 0x38)) == 1) {
         fade->m7();
     }
-    chunk_polygon_flags_and_mask = lbl_805D5664;
-    chunk_polygon_flags_or_mask = lbl_805D5668;
-    model_render_flags = lbl_805D5660;
-    restore_scene_lighting(lbl_805D5668, lbl_805D5664);
+    chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+    chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    model_render_flags = saved_model_render_flags;
+    restore_scene_lighting(saved_chunk_polygon_flags_or_mask, saved_chunk_polygon_flags_and_mask);
     switch (((TObjEneMoja *)arg0)->mode) {
     case 0:
     case 1:

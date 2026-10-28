@@ -61,7 +61,7 @@ void push_matrix(void);
 void post_translate_matrix(void *);
 void TObjEneSlimeOne__sub_803E4B54(void *child, void *arg1, void *arg2, f32 farg0);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 s32 rand(void);
 f32 sin_table_lookup(s32);
@@ -337,7 +337,7 @@ void TOKurage::render() {
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x24));
         switch (*(u8 *)(arg0 + 0x100)) {
         case 4:
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x10;
             if (*(f32 *)(arg0 + 0x104) < (0.0f)) {
                 *(u8 *)(arg0 + 0x100) = 3;
@@ -350,14 +350,14 @@ void TOKurage::render() {
                 *(f32 *)(arg0 + 0x104) < (0.0f)) {
                 *(f32 *)(arg0 + 0x104) = (1.0f);
             }
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x10;
             break;
         }
         ((TUnk_80494AE0 *)((f32 *)&this->m_104))->set_chunk_material_color();
         TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)(arg0 + 0x34)), (void *)(*(s32 *)(arg0 + 0xBC)), (void *)(*(s32 *)(arg0 + 0xC8)), *(f32 *)(arg0 + 0xB0));
         ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         pop_matrix();
     }
 }

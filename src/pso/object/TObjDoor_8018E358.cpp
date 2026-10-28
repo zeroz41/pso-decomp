@@ -91,7 +91,7 @@ u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
 extern DoorMotionHeader* TObjDoor__motion_table[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void render__8TObjDoorFPv(Door_8018E40C *arg0);
 s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0);
@@ -237,7 +237,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
     rotate_matrix_y(0, arg0->f60);
     draw_ginja_model_with_motion(((Glob_8018E40C *)&TObjDoor__model_resource_ptrs)->f0, (int)((DoorMotionHeader * *)&TObjDoor__motion_table)[0], ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs), arg0->fB4);
     TParticleCtrl::begin_effect_render();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     Color_8018E40C color = TObjDoor__label_color_table[arg0->fD0];
     color.a = arg0->fC4;
@@ -245,7 +245,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
     Glob_8018E40C *g0 = ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     Glob_8018E40C *g1 = ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
     Glob_8018E40C *g2 = ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs);
@@ -280,7 +280,7 @@ s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     rotate_matrix_y(0, arg0->f60);
     draw_ginja_object((void *)((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs)->f0);
     TParticleCtrl::begin_effect_render();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     Color_8018E5F4 color = ((Color_8018E5F4 *)TObjDoor__label_color_table)[arg0->fD0];
     color.a = arg0->fC4;
@@ -288,7 +288,7 @@ s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     Glob_8018E5F4 *g0 = ((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     Glob_8018E5F4 *g1 = ((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xA);
     Glob_8018E5F4 *g2 = ((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs);
@@ -315,7 +315,7 @@ s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     draw_ginja_object((void *)((Glob_8018E74C *)&TObjDoor__model_resource_ptrs)->f0);
     TParticleCtrl::begin_effect_render();
     draw_ginja_model_with_motion(((Glob_8018E74C *)&TObjDoor__model_resource_ptrs)->f4, (int) ((DoorMotionHeader * *)&TObjDoor__motion_table)[1], TObjDoor__model_resource_ptrs, arg0->fB8);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     Color_8018E74C color = ((Color_8018E74C *)TObjDoor__label_color_table)[arg0->fD0];
     color.a = arg0->fC4;
@@ -323,7 +323,7 @@ s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     Glob_8018E74C *g0 = ((Glob_8018E74C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     Glob_8018E74C *g1 = ((Glob_8018E74C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g1->a->f4))->free_children((void *)0xB);
     Glob_8018E74C *g2 = ((Glob_8018E74C *)&TObjDoor__model_resource_ptrs);

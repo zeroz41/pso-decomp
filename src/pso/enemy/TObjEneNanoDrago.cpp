@@ -1149,7 +1149,7 @@ s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
 s32 pop_matrix();
 s32 draw_chunk_object(int);
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void render_enemy_with_fade__10TObjPlayerFPv(u8 *arg0);
 struct Stack_800DC028 {
@@ -1560,13 +1560,13 @@ void render_enemy_with_fade__10TObjPlayerFPv(u8 *arg0) {
         var_r29 = get_camera_mode__11TCameraCtrlFv();
     }
     if (!(((TObjEneNanoDrago *)arg0)->actorFlags & 0x02000000) && (temp_r3 = ((VObj_18 *)(arg0))->m9(150.0f, 400.0f, 20.0f), ((temp_r3 == 0) == 0)) && ((TObjPlayer::check_demo_mode() == 1) || !(((TObjEneNanoDrago *)arg0)->m_388 & 0x40000))) {
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         var_r29 = (s32)&((Nano_800DBABC *)arg0)->fades[var_r29];
         update_obstruction_fade((int) (((u8 *)var_r29)));
         if (((RenderFadeState *)var_r29)->updateFromCamera((const f32*)(arg0 + 0x2FC)) != 0) {
             ((VObj_14 *)(((u8 *)var_r29)))->m6();
             if (defer_render__7TObjectFv(arg0) != 0) {
-                model_render_flags = lbl_805D5660;
+                model_render_flags = saved_model_render_flags;
                 return;
             }
         }
@@ -1610,7 +1610,7 @@ void render_enemy_with_fade__10TObjPlayerFPv(u8 *arg0) {
             ((TObjEnemy *)arg0)->render_with_position_override((u8 *)&v, 0);
         }
         ((VObj_14 *)(((u8 *)var_r29)))->m7();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 #pragma pop

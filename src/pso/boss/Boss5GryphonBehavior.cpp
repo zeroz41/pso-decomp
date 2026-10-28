@@ -1388,7 +1388,7 @@ extern Obj_80065658 *boss5_gryphon_instance;
 extern f32 lbl_805D4DC0;
 extern u8 *camera_ctrl_instance;
 extern s32 current_scene_light;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern const f32 lbl_805D8D60;
 extern const f32 lbl_805D8D64;
 extern const f32 lbl_805D8D68;
@@ -2224,10 +2224,10 @@ void TBoss5Gryphon::render_nodes_with_flag() {
     s32 temp_r4;
 
     temp_r4 = model_render_flags;
-    lbl_805D5660 = temp_r4;
+    saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x400;
     render_nodes__7TObjectFv(arg0 + 0x4C4, temp_r4);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 s32 TBoss8Dragon__sub_8005DC0C(Obj_8005DC0C *arg0) {
@@ -2274,7 +2274,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     u8 *temp_r31;
     TObjFish::set_global_param(this->texture_id);
     TObjEneDD::clear_global_flag_400();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     set_material_alpha_compare_reference(0);
     if (TBoss8Dragon__sub_8005DC0C((Obj_8005DC0C *) (this)) != 0) {
         ((RenderFadeState *)(&((Boss_8005DD68 *)((u8 *)this))->fades[arg1]))->fadeOut();
@@ -2298,7 +2298,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     pop_matrix();
     set_chunk_material_override_pair(0xFF00, 0);
     set_material_alpha_compare_reference(0xBF);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 void TBoss5Gryphon::render_model() {

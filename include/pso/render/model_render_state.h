@@ -12,8 +12,8 @@ extern u32 chunk_polygon_flags_and_mask;
 extern u32 chunk_polygon_flags_or_mask;
 extern NJS_ARGB model_material_color;
 extern NJS_ARGB saved_model_draw_color;
-extern u32 lbl_805D5660;
-extern u32 lbl_805D5664;
-extern u32 lbl_805D5668;
+extern u32 saved_model_render_flags;
+extern u32 saved_chunk_polygon_flags_and_mask;
+extern u32 saved_chunk_polygon_flags_or_mask;
 
 #endif

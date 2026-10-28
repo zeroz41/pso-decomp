@@ -104,9 +104,9 @@ struct VObj_18_1419ea : VBase_18_1419ea {
 
 extern "C" {
 extern u8 saved_model_draw_color[];
-extern s32 lbl_805D5660;
-extern s32 lbl_805D5664;
-extern s32 lbl_805D5668;
+extern s32 saved_model_render_flags;
+extern s32 saved_chunk_polygon_flags_and_mask;
+extern s32 saved_chunk_polygon_flags_or_mask;
 extern u8 *lbl_805D6FB8;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
@@ -127,9 +127,9 @@ void TUnk_804F2A10::render() {
     s32 n;
     VObj_18_1419ea *obj;
     TObjPlayer::reset_transform_state();
-    lbl_805D5660 = model_render_flags;
-    lbl_805D5664 = chunk_polygon_flags_and_mask;
-    lbl_805D5668 = chunk_polygon_flags_or_mask;
+    saved_model_render_flags = model_render_flags;
+    saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+    saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
     n = *(s32 *)(lbl_805D6FB8 + 0xB0);
     p = (s32 *)(lbl_805D6FB8 + 0x30);
@@ -140,16 +140,16 @@ void TUnk_804F2A10::render() {
             obj->m26();
             TObjPlayer::reset_transform_state();
             ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
             set_depth_buffer_settings_id(2);
             obj->m26();
             TObjPlayer::reset_transform_state();
             ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-            chunk_polygon_flags_and_mask = lbl_805D5664;
-            chunk_polygon_flags_or_mask = lbl_805D5668;
-            model_render_flags = lbl_805D5660;
+            chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+            chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+            model_render_flags = saved_model_render_flags;
         }
         n--;
     }

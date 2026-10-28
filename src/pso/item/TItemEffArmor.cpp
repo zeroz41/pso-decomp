@@ -53,7 +53,7 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(int, int, f32);
 extern RecoveredGlobal_80107DF0_lbl_8050BEC0 saved_model_draw_color;
 extern RecoveredGlobal_80107DF0_lbl_8058D4C0 model_material_color;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 typedef char RecoveredGlobal_80107DA4_lbl_8049EFB8_size[sizeof(RecoveredGlobal_80107DA4_lbl_8049EFB8) == 0x18 ? 1 : -1];
@@ -273,14 +273,14 @@ void TItemEffArmor::render() {
     rotate_matrix_y(0, this->m_68);
     temp_f1 = *(f32 *)&this->unk_28;
     scale_matrix(0, temp_f1, 1.0f, temp_f1);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4(&model_material_color.value);
     ((TUnk_80494AE0 *)(arg0 + 0x38))->set_chunk_material_color();
     TObjPlayer::notify_fish_if_valid(this->m_78);
     draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
     ((TRaderMapCore *)(&model_material_color.value))->copy_vec4(&saved_model_draw_color.value);
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     pop_matrix();
 }
 

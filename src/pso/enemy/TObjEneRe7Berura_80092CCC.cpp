@@ -283,7 +283,7 @@ extern void *TObjEneRe7Berura__demo_target;
 extern s32 *berura_node_matrix_ptr_a;
 extern s16 *berura_node_matrix_ptr_b;
 extern s32 belra_uv_animation_buffer;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 TObjEneRe7Berura__data_805D9724;
 extern const f32 lbl_805D9728;
@@ -327,7 +327,7 @@ void render__16TObjEneRe7BeruraFv(Berura_80092CCC *o) {
             update_player_state__9TObjEneDDFv(o, &v, 0);
         }
         ((TObjEneDD *)o)->update_secondary_light();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         model_render_flags &= ~0x810;
         TObjPlayer::toggle_particle_effect();
@@ -420,7 +420,7 @@ void render__16TObjEneRe7BeruraFv(Berura_80092CCC *o) {
             }
         }
         TParticleCtrl::end_effect_render();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         return;
     }
     if (o->f326 == 5) {

@@ -93,7 +93,7 @@ void post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern u8 door_key_beam_color_table[][0x10];
 extern s32 actor_frame_tick;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void play_sound_effect(int, void *, int, int);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
@@ -160,7 +160,7 @@ s32 TObjDoorKey::draw_active_beam() {
     rotate_matrix_y(0, arg0->f60);
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     ((TUnk_80494AE0 *)((f32 *)door_key_beam_color_table[arg0->f8C]))->set_chunk_material_color();
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[1]);
@@ -169,7 +169,7 @@ s32 TObjDoorKey::draw_active_beam() {
     ((TObjDoorJung *)(((Node_8018FBB8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }
@@ -182,14 +182,14 @@ s32 TObjDoorKey::draw_inactive_badge() {
     rotate_matrix_y(0, arg0->f60);
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[0]);
     TParticleCtrl::begin_effect_render();
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     ((TUnk_80494AE0 *)((f32 *)door_key_beam_color_table[arg0->f8C]))->set_chunk_material_color();
     s32 *g = TObjDoorKey__ginja_model_table;
     ((TObjDoorJung *)(((Node_8018FCD8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();
 }

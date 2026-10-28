@@ -150,7 +150,7 @@ void spawn_particle_effect(Rec_8023D568 *, s32);
 void queue_destruction__7TObjectFv(void *);
 void restore_saved_depth_alpha_state();
 extern f32 chunk_material_color_half_alpha_f32[];
-extern u32 lbl_805D5660;
+extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 void matrix_mult_vec(s32, Vec_8023D128 *, Vec_8023D128 *);
 extern Cam_8023D128 lbl_8058D4F8;
@@ -421,7 +421,7 @@ void TTecZondeEff::render() {
         return;
     }
     id = model_render_flags;
-    lbl_805D5660 = id;
+    saved_model_render_flags = id;
     model_render_flags = id | 0x10;
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
@@ -432,7 +432,7 @@ void TTecZondeEff::render() {
     }
     TParticleCtrl::end_effect_render();
     ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();
 }
 

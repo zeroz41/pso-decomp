@@ -609,7 +609,7 @@ void draw_chunk_object(void *);
 extern Vec_80038200 lbl_80435AD0;
 extern Col_80038200 boss2_mine_render_color;
 extern void *lbl_805D28BC;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *TBoss2Mine__sub_800381B8(void *arg0, s32 arg1, s16 arg2, s16 arg3);
 
@@ -656,7 +656,7 @@ void TBoss2Mine::render() {
         ((TObjEnemy *)self)->render_with_position_override((u8 *)&v, 0);
     }
     TObjFish::set_global_param((s32)self->f24);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();
     set_node_offsets__10TBoss2MineFv(self);
@@ -688,7 +688,7 @@ void TBoss2Mine::render() {
         draw_chunk_object(lbl_805D28BC);
         pop_matrix();
     }
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
 }
 

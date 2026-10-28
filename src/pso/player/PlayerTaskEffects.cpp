@@ -213,7 +213,7 @@ extern u8 shared_effect_texture_list[];
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
 extern void *camera_ctrl_instance;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DC358;
 u8 *__ct__18TPlayerLobbyMarkerFP7TObjectsSc(u8 *arg0, u8 *arg1, s16 arg2, s8 arg3);
@@ -704,7 +704,7 @@ void TPlayerLobbyMarker::render() {
     if ((temp_r3 != 0) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0) && (get_material_index() != 0) && (test_flag_2000000__10TObjPlayerFPv(temp_r3) == 0)) {
         push_matrix();
         TParticleCtrl::begin_effect_render();
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
         TObjFish::set_global_param((s32)shared_effect_texture_list);
         model_render_flags |= 0x11;
@@ -715,7 +715,7 @@ void TPlayerLobbyMarker::render() {
         TMainCursor::get_cursor_state();
         draw_chunk_object();
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }

@@ -58,7 +58,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 set_global_param__8TObjFishFl();
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9390;
 extern const f32 lbl_805D9394;
@@ -172,14 +172,14 @@ void TUnk_8048E1A4::render() {
             draw_ginja_object(this->model);
             break;
         case 2:
-            lbl_805D5660 = model_render_flags;
-            model_render_flags = lbl_805D5660 | 0x8820;
+            saved_model_render_flags = model_render_flags;
+            model_render_flags = saved_model_render_flags | 0x8820;
             ((TUnk_80494AE0 *)(&this->m_340))->set_chunk_material_color();
             draw_ginja_object(this->model);
             model_render_flags &= 0xFFFF77DF;
             set_chunk_material_override_pair(0xFF00, 0);
             ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             break;
         }
         pop_matrix();

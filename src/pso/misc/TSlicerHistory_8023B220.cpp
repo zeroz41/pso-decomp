@@ -21,7 +21,7 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 typedef struct { f32 r, g, b, a; } Col_8023B220;
 extern Col_8023B220 chunk_material_color_half_alpha_f32;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DC948;
 
@@ -31,7 +31,7 @@ void TSlicerHistory::render() {
         return;
     }
     {
-        lbl_805D5660 = model_render_flags;
+        saved_model_render_flags = model_render_flags;
         Col_8023B220 col = *(Col_8023B220 *)((s8 *)arg0 + 0x3C);
         if ((s32) *(s32 *)((s8 *)arg0 + 0x5C) != 0) {
             model_render_flags |= 0x10;
@@ -54,7 +54,7 @@ void TSlicerHistory::render() {
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();
-        model_render_flags = lbl_805D5660;
+        model_render_flags = saved_model_render_flags;
     }
 }
 

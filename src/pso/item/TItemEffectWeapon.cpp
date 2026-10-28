@@ -15,7 +15,7 @@ void restore_saved_depth_alpha_state();
 void TObjPlayer__sub_803DF768(s32);
 void set_render_deferred__7TObjectFv(void*);
 void *mem_alloc(u32 size);
-extern u32 lbl_805D5660;
+extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 
 void *__dt__13TUnk_804F28E0Fv(void *arg0, s16 arg1);
@@ -140,7 +140,7 @@ void TItemEffectWeapon::render_trail() {
     if (get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x200) {
         if (vertex_count != 0 && vertices != NULL) {
             TParticleCtrl::begin_effect_render();
-            lbl_805D5660 = model_render_flags;
+            saved_model_render_flags = model_render_flags;
             set_depth_buffer_settings_1();
             model_render_flags |= 0x8000;
             TObjPlayer::init_xyz_limits();
@@ -150,7 +150,7 @@ void TItemEffectWeapon::render_trail() {
                 reset_player_transform();
             }
             TObjPlayer::reset_transform_state();
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             restore_saved_depth_alpha_state();
             TParticleCtrl::end_effect_render();
         }

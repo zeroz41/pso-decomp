@@ -1822,7 +1822,7 @@ void push_matrix(void);
 void draw_chunk_object(void *child);
 #define set_global_flag__10TObjPlayerFv ((void (*)(void))set_global_flag__10TObjPlayerFv)
 #define clear_global_state__10TObjPlayerFv ((void (*)(void))clear_global_state__10TObjPlayerFv)
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
 #pragma fp_contract on
@@ -1844,11 +1844,11 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
     if (TObjPlayer::check_demo_mode() != 1 && (self->f388 & 0x40000)) {
         return;
     }
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     if (((RenderFadeState *)(&self->s418))->updateFromCamera((const f32*)(self->f2fc)) != 0) {
         self->s418.m6();
         if (defer_render__7TObjectFv(self) != 0) {
-            model_render_flags = lbl_805D5660;
+            model_render_flags = saved_model_render_flags;
             return;
         }
     }
@@ -1898,7 +1898,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
         ((TObjEnemy *)self)->render_with_position_override((u8 *)&v, 0);
     }
     self->s418.m7();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
 }
 
 #undef rotate_matrix_y

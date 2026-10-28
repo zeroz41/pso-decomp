@@ -316,7 +316,7 @@ s32 pop_matrix(void);
 int post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 extern Vec_800ECA40 re4_bit_render_vec;
-extern s32 lbl_805D5660;
+extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805DA768;
@@ -497,7 +497,7 @@ void render__13TObjEneRe4BitFv(Bit_800ECA40 *self) {
     saved = m->x2C;
     m->x2C = m->ents[self->idx].c;
     TObjFish::set_global_param((s32)self->x24);
-    lbl_805D5660 = model_render_flags;
+    saved_model_render_flags = model_render_flags;
     TObjEneDD::clear_global_flag_400();
     TObjPlayer::toggle_particle_effect();
     draw = 1;
@@ -517,7 +517,7 @@ void render__13TObjEneRe4BitFv(Bit_800ECA40 *self) {
         pop_matrix();
     }
     self->light.l7();
-    model_render_flags = lbl_805D5660;
+    model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     ((TObjEneDD *)self)->update_primary_light();
     (*self->x24)->x2C = saved;
