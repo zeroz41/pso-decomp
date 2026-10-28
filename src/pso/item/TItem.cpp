@@ -528,7 +528,7 @@ void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd) {
                 item->send_field_state(floor, player);
             }
         } else {
-            FloorItemEntry *entry = TLobby::find_item_condition_entry(floor, cmd->item_id);
+            FloorItemEntry *entry = find_item_condition(floor, cmd->item_id);
             if (entry != NULL) {
                 TItemData *data = &entry->data;
                 if (data->data1.data_u8[0] == 4) {

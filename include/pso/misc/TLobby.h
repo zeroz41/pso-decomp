@@ -826,11 +826,8 @@ struct TLobby : public TObject {
     u8 *pop_stack_entry(s16 arg1);
     static s32 is_stat_over_limit(s32 arg0);
     s32 write_sync_item_state();
-    static struct FloorItemEntry *find_item_condition_entry(int floor, int item_id);
     static s32 is_entry_valid(s32 arg0);
     static void respawn_missing_floor_items(s32 n);
-    static s32 remove_item_condition(s32 n, s32 val);
-    void observe_item_id();
     static void drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z);
     static void reset_item_id_counters();
     void init_lookup_tables();
@@ -1134,7 +1131,6 @@ struct TLobby : public TObject {
     void adxt_start_mem_idx(u8 *arg1, s32 arg2);
     u8 *dtor_clear_singleton(s16 arg1);
     void apply_sync_item_state();
-    s32 insert_sorted_entry();
     s32 lz_compress_packet(void *src, s32 size, s32 *hdr);
     void assign_object_ids(s32 arg1, void *arg2);
     static s32 init_floor_enemy_count(s32 arg0, u8 *arg1, u32 arg2);

@@ -5,6 +5,7 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/CurrentArea.h"
+#include "pso/unk/text_8011A780.h"
 
 struct Blk_8010542C { u32 w[4]; };
 struct Item_8010542C { u32 a; Blk_8010542C b; };
@@ -136,7 +137,7 @@ TItem *construct_item(TItemData *data) {
             if (*(u8 *)src < 5) {
                 fn = item_create_fn_table[*(u8 *)src];
                 if (fn != 0) {
-                    ((TLobby *)(item.b.w[2]))->observe_item_id();
+                    observe_item_id(item.b.w[2]);
                     return (TItem *)fn(&item);
                 }
             }

@@ -12,6 +12,8 @@ void remove_item_condition_at(s16 floor, s32 item_id);
 u32 build_item_id(u16 arg0);
 extern s32 build_item_id_mode;
 extern s32 lbl_805D54E0;
+// Advances the owning client's item id counter past an item id seen from the network.
+void observe_item_id(s32 item_id);
 void handle_6x5C_destroy_floor_item(void *arg0);
 void handle_6x60_standard_drop_item_request(void *arg0);
 void handle_6x62(void);

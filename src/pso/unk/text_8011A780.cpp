@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/protocol/subcmd_6x.h"
 #include "pso/item/TItem.h"
+#include "pso/unk/text_801036CC.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
@@ -69,7 +70,6 @@ extern "C" {
 s32 bswap_6xa2_fields__6TLobbyFv();
 s32 handle_box_drop_directive(void *);
 void set_boss_buf_entry__6TLobbyFii(s32 v, u16 idx);
-void *find_item_condition_entry__6TLobbyFii(s16 a, u32 b);
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg);
 int is_quest_active(void);
 void init__9TItemDataFv(void *);
@@ -98,8 +98,8 @@ u32 build_item_id(u16 arg0) {
     return id;
 }
 
-void TLobby::observe_item_id() {
-    int id = (int)this;
+void observe_item_id(s32 item_id) {
+    int id = item_id;
     if (get_current_area() != 0xf) {
         s32 lo = 0x10000;
         if (lo < id && id < 0x2010000) {
@@ -113,12 +113,12 @@ void TLobby::observe_item_id() {
 
 void handle_6x5C_destroy_floor_item(void *arg0) {
     bswap_packet__6TLobbyFv();
-    TLobby::remove_item_condition(*(s32 *)((s8 *)arg0 + 8), *(s32 *)((s8 *)arg0 + 4));
+    remove_item_condition(*(s32 *)((s8 *)arg0 + 8), *(s32 *)((s8 *)arg0 + 4));
 }
 
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
     ((G_PickUpItemRequest_6x5A *)msg)->bswap();
-    if (find_item_condition_entry__6TLobbyFii(msg->s8, msg->u4) != 0) {
+    if (find_item_condition(msg->s8, msg->u4) != 0) {
         Cmd_8011A9D8 cmd;
         __ct__17G_PickUpItem_6x59Fv(&cmd);
         cmd.a = msg->u2;
@@ -130,7 +130,7 @@ void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
 }
 
 void remove_item_condition_at(s16 floor, s32 item_id) {
-    TLobby::remove_item_condition(floor, item_id);
+    remove_item_condition(floor, item_id);
 }
 
 void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f32 x, f32 z) {
@@ -268,8 +268,8 @@ void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
     stack.sp10 = z;
     stack.sp14 = room;
     ((TItemData *)(&stack.sp18))->copy_from((TItemData *)(item));
-    ((TLobby *)(*(s32 *)((s8 *)item + 0xC)))->observe_item_id();
-    ((TLobby *)(&stack.sp8))->insert_sorted_entry();
+    observe_item_id(*(s32 *)((s8 *)item + 0xC));
+    insert_item_condition((FloorItem *)&stack.sp8);
 }
 
 void handle_6x62(void) {  }

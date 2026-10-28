@@ -11,6 +11,14 @@ struct FloorItemEntry {
     TItemData data;
 };
 
+struct FloorItem;
+
+// The floor item records ("item conditions") of each floor, sorted by item id.
+FloorItemEntry *find_item_condition(s32 floor, s32 item_id);
+s32 remove_item_condition(s32 floor, s32 item_id);
+// Adds a record unless its item id is already on its floor; 1 when added.
+s32 insert_item_condition(FloorItem *item);
+
 // The stack of up to 32 free entity ids that transient objects take one from
 // and give back; 0xFFFF when it is empty.
 u16 pop_free_entity_id();
