@@ -6956,12 +6956,12 @@ s32 preview_equip_stats__10TObjPlayerFv(u8 *arg0, s16 *out, u8 *incoming) {
         }
     }
     ((TItemData *)incoming)->apply_equip_effects((s32)arg0, (s32)&a, (s32)&d, (s32)&b, 0);
-    b.field[0] = TObjPlayer::clamp_s32(b.field[0], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[0]);
-    b.field[1] = TObjPlayer::clamp_s32(b.field[1], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[1]);
-    b.field[2] = TObjPlayer::clamp_s32(b.field[2], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[2]);
-    b.field[4] = TObjPlayer::clamp_s32(b.field[4], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[4]);
-    b.field[5] = TObjPlayer::clamp_s32(b.field[5], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[5]);
-    b.field[6] = TObjPlayer::clamp_s32(b.field[6], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[6]);
+    b.field[0] = clamp_s32(b.field[0], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[0]);
+    b.field[1] = clamp_s32(b.field[1], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[1]);
+    b.field[2] = clamp_s32(b.field[2], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[2]);
+    b.field[4] = clamp_s32(b.field[4], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[4]);
+    b.field[5] = clamp_s32(b.field[5], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[5]);
+    b.field[6] = clamp_s32(b.field[6], 0, ((s16 *)get_class_stat_entry__10TObjPlayerFPUc(arg0))[6]);
     set_params__10TObjPlayerFPvPvPviPv(out, arg0, (void *)&b, (int)&a, (int)&d);
     rate = TObjPlayer__sub_800192C4(arg0, 2);
     {

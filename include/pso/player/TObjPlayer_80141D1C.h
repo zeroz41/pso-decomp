@@ -13,6 +13,7 @@ s32 angle_difference_abs(s32 a, s32 b);
 u16 approach_angle_adaptive(s32 a0, s32 b0);
 s32 approach_angle_limited(s32 angle, s32 target, s32 max_step);
 }
+s32 clamp_s32(s32 value, s32 min, s32 max);
 void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);

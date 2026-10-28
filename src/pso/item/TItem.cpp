@@ -367,7 +367,7 @@ TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     if (TItemData::is_rare_item(item) != 0) {
         set_drop_model(4);
     } else {
-        set_drop_model(item_type_drop_models[TObjPlayer::clamp_s32(get_item_type(), 0, 4)]);
+        set_drop_model(item_type_drop_models[clamp_s32(get_item_type(), 0, 4)]);
     }
     if (item_object_set_data != NULL) {
         apply_object_set_data(item_object_set_data);

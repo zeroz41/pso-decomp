@@ -589,7 +589,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     static void set_tev_swap_mode(u8 arg0);
     s32 check_camera_distance();
     s32 calc_angle_to(void *arg1);
-    static s32 clamp_s32(s32 arg0, s32 arg1, s32 arg2);
     static u16 lerp_angle_half(u16 arg0, u16 arg1);
     static s32 is_in_range(f32 farg0);
     void draw_model();

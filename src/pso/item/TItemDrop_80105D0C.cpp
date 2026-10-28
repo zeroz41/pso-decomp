@@ -8,6 +8,7 @@
 #include "pso/misc/TShopEquipmentListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -883,7 +884,7 @@ void build_weapon_type_weights__9TItemDropFiPvi(s32 rng, Obj_80106F4C *item, s32
 
 void calc_drop_item__9TItemDropFiPvi(s32 rng, void *arg1, s32 arg2) {
     if ((u8) *(u8 *)((s8 *)arg1 + 0) == 0) {
-        *(s8 *)((s8 *)arg1 + 3) = select_weighted_byte__9TItemDropFiiiii(rng, (s32)((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0xC))), (s32)((s32)(TObjPlayer::clamp_s32(arg2, 0, 3))), 9, 4);
+        *(s8 *)((s8 *)arg1 + 3) = select_weighted_byte__9TItemDropFiiiii(rng, (s32)((s32)(*(s32 *)((s8 *)TItemDrop__common_probability_table + 0xC))), (s32)((s32)(clamp_s32(arg2, 0, 3))), 9, 4);
     }
 }
 

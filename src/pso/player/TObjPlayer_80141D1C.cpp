@@ -123,18 +123,19 @@ f32 approach_vector_fixed_distance(const V3_80141FBC *from, const V3_80141FBC *t
     return len;
 }
 
-s32 TObjPlayer::clamp_s32(s32 arg0, s32 arg1, s32 arg2) {
-    s32 var_r3;
-
-    var_r3 = arg0;
-    if (var_r3 < arg1) {
-        var_r3 = arg1;
-    }
-    if (var_r3 > arg2) {
-        return arg2;
-    }
-    return var_r3;
 }
+
+s32 clamp_s32(s32 value, s32 min, s32 max) {
+    if (value < min) {
+        value = min;
+    }
+    if (value > max) {
+        return max;
+    }
+    return value;
+}
+
+extern "C" {
 
 void TAdSinglePlyChrSelectGC::get_current_date_stamp() {
     DS_80142108 *arg0 = (DS_80142108 *)this;
