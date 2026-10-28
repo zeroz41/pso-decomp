@@ -4,6 +4,7 @@
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/item/TItem.h"
+#include "pso/item/TItemObject.h"
 #include "pso/misc/TWindowSubShortCutList.h"
 #include "pso/misc/TUnk_804D0618.h"
 #include "pso/misc/TWindowShortListCtrl.h"
@@ -63,7 +64,6 @@ struct Buf_8026E884 { s16 h[19]; };
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
 s32 get_player_by_client_id(s32);
-s32 TItemObject__sub_80115DE8(void *item);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 extern s32 lbl_805DD380;
 s32 fn_8002AE08(int);
@@ -164,7 +164,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 arg0, u32 arg1) {
             var_r31 = item;
             if ((var_r31 != 0) && (((TItem *)item)->get_item_type() == 3)) {
                 var_r3 = var_r31;
-                var_r31 = TItemObject__sub_80115DE8((void *)var_r3);
+                var_r31 = get_tool_palette_index((TItem *)var_r3);
                 if ((s32) var_r31 != -1) {
                     var_r4 = player;
                     var_r3 = var_r29 + 0x520;

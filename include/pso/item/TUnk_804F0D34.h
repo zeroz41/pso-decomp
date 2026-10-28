@@ -5,16 +5,13 @@
 #include "pso/TObject.h"
 #include "pso/item/TItemObject.h"
 
+// The tool that starts a quest's event music (create_quest_bgm_object).
 class TUnk_804F0D34 : public TItemObject {
 public:
+    TUnk_804F0D34(TObject *parent, u8 *item);
     virtual ~TUnk_804F0D34();
-    virtual void vfunc_44();
+    virtual void apply_use_effect();
+    static TUnk_804F0D34 *create(u8 *item);
 };
-
-extern "C" {
-void *__dt__13TUnk_804F0D34Fv(TUnk_804F0D34 *self, s16 mode);
-TUnk_804F0D34 *fn_80350588(TUnk_804F0D34 *self, TObject *parent, void *item);
-TUnk_804F0D34 *fn_803505C4(void *item);
-}
 
 #endif

@@ -5,9 +5,11 @@
 
 class TUnk_8049FD48 : public TItemObject {
 public:
+    TUnk_8049FD48(TObject *parent, u8 *item);
     virtual ~TUnk_8049FD48();
-    virtual void vfunc_44();
-    void *init(void *, void *);
+    virtual void apply_use_effect();
 };
+
+TItem *create_telepipe_item(u8 *item);
 
 #endif

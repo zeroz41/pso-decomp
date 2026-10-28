@@ -58,7 +58,6 @@ void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
 s32 get_item_id__5TItemFv();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 extern void *item_tool_factory_table[];
-void create__11TItemObjectFv();
 void *TLobby__sub_8010440C(In_8010440C *arg0);
 void *get_weapon_factory_for_item(In_80104438 *arg0);
 int is_quest_active(void);
@@ -173,7 +172,7 @@ void *TLobby__sub_8010440C(In_8010440C *arg0) {
     if (i < 0x18) {
         return item_tool_factory_table[i];
     }
-    return (void *)create__11TItemObjectFv;
+    return (void *)TItemObject::create;
 }
 
 void *get_weapon_factory_for_item(In_80104438 *arg0) {

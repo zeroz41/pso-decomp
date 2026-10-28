@@ -1,11 +1,9 @@
 #include "types.h"
 #include "pso/system/FlagWord.h"
-#include "pso/item/TItemObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TUnk_804A0688.h"
 #include "pso/item/TUnk_804A0668.h"
-#include "pso/item/TUnk_8049FF88.h"
 #include "pso/item/TItemProArmor.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
@@ -38,11 +36,9 @@ struct Armor_80117954 {
 extern "C" {
 void add_slot__13TItemProArmorFv(u8 *arg0);
 void update_owned__13TItemProArmorFv(u8 *arg0);
-void * TItemProArmor__sub_80117650(void *arg0, void *arg1, void *arg2);
 u8 *__nw__5TItemFUl(s32);
 }
 extern s32 tl_05;
-u8 *create_item_grinder(u8 *arg0);
 extern "C" {
 s16 get_bswap16_field8__9TItemDataFPv(void *);
 s16 getS16_06__9TItemDataFPv(void *);
@@ -60,89 +56,18 @@ void *init_item_timer_event__13TUnk_804A0648Fv(void *, void *, s32, s32);
 void *__nw__7TObjectFUl(int);
 void *__nw__15TItemHeapObjectFUl(int);
 void on_equip__13TItemProArmorFv(Armor_80117954 *self);
-void *__dt__13TUnk_8049FF88Fv(void *arg0, s16 arg1);
 u8 get_slot_count__13TItemProArmorFv(void* p);
 void TItemProArmor__sub_80117D00(void);
 void TItemProArmor__sub_80117D04(void);
 void update_equipped__13TItemProArmorFv(void *arg0);
 void *__dt__13TItemProArmorFv(void *arg0, s16 arg1);
-void vfunc_44__13TUnk_8049FF88Fv(void *arg0);
 void request_equipped_model__13TItemProArmorFv(void* p);
 void write_item_data__13TItemProArmorFPvPv(TItemProArmor *arg0, void *arg1);
-void TItemObject__ct(void *);
-s32 get_tool_pmt_amount_byte__11TItemObjectFv(void *);
 void TItemTimerEvent__ct(void *);
 s32 refresh_owner_stats__14TItemEquipBaseFv();
 int spawn_appearance_effect__10TObjPlayerFl(void);
-s32 add_weapon_grind(s32, s32);
-void *__dt__11TItemObjectFv(void *arg0, s16 arg1);
-int get_item_field_6__10TObjPlayerFPv(void *p);
+
 int get_entity_id(void*);
-
-extern s32 lbl_8049FED0[];
-
-void *TItemProArmor__sub_80117650(void *arg0, void * _w1, void * _w2) {
-    TItemObject__ct(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_8049FED0;
-    return arg0;
-}
-
-u8 *TItemProArmor::create_instance() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x104));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((u8 *)TItemProArmor__sub_80117650((void *)temp_r3, (void *)tl_05, (void *)arg0)));
-        }
-        return var_r0;
-    }
-    return NULL;
-}
-
-void TUnk_8049FF88::vfunc_44() {
-    s32 temp_r3;
-
-    temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)this->owner);
-    if (temp_r3 != 0) {
-        add_weapon_grind(temp_r3, get_tool_pmt_amount_byte__11TItemObjectFv(this));
-    }
-}
-
-extern void *lbl_8049FF88[];
-
-void *__dt__13TUnk_8049FF88Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_8049FF88;
-        __dt__11TItemObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-void *TUnk_8049FF88::init_item_object(void *_w1, void *_w2) {
-    TItemObject__ct(this);
-    *(s32 **)((s8 *)this + 0x18) = (s32 *)lbl_8049FF88;
-    return this;
-}
-}
-
-u8 *create_item_grinder(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x104));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((u8 *)((TUnk_8049FF88 *)temp_r3)->init_item_object((void *)tl_05, (void *)arg0)));
-        }
-        return var_r0;
-    }
-    return NULL;
 }
 
 void TItemProArmor::init_effect_flags() {
@@ -201,16 +126,13 @@ void render_shadows__5TItemFv();
 void vfunc_6__13TUnk_804B9870FPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804AF8A0Fv();
-void vfunc_9__11TItemObjectFv();
 int update_object_view_visibility__5TItemFff(void *p);
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__5TItemFv();
 void interact__5TItemFl();
-void update_owned__11TItemObjectFv();
 void update_in_inventory__5TItemFv();
 void update_equipped__5TItemFv();
 void activate_effect__5TItemFl();
-void TItemObject__vt16(u8 *arg0, u8 *item);
 void set_attach_slot__5TItemFSc();
 void equip__5TItemFv();
 void unequip__5TItemFv();
@@ -224,14 +146,10 @@ void render_equipped_deferred__5TItemFv();
 void use__5TItemFv();
 void destroy__5TItemFv();
 void perform_action__5TItemFv();
-void use__11TItemObjectFv();
 void get_attack_flags__5TItemFv();
 void get_attach_slot__5TItemFv();
 void vfunc_34__5TItemFv();
 void is_identified__5TItemFv();
-void get_amount__11TItemObjectFv();
-s32 remove_amount__11TItemObjectFl(TItemObject *arg0, s32 arg1);
-s32 add_amount__11TItemObjectFl(void *arg0, s32 arg1);
 int get_slot_count__5TItemFv(void);
 void add_slot__5TItemFv();
 int feed__5TItemFP9TItemData(void);
@@ -256,55 +174,6 @@ void apply_owner_bonuses__14TItemEquipBaseFv();
 void remove_owner_bonuses__14TItemEquipBaseFv();
 void on_model_loaded__14TItemEquipBaseFv();
 }
-
-void *lbl_8049FF88[46] = {
-    0,
-    0,
-    (void *)__dt__13TUnk_8049FF88Fv,
-    (void *)run_task__5TItemFv,
-    (void *)render__5TItemFv,
-    (void *)render_shadows__5TItemFv,
-    (void *)vfunc_6__13TUnk_804B9870FPsl,
-    (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv,
-    (void *)vfunc_9__11TItemObjectFv,
-    (void *)update_object_view_visibility__5TItemFff,
-    (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)get_name__5TItemFv,
-    (void *)interact__5TItemFl,
-    (void *)update_owned__11TItemObjectFv,
-    (void *)update_in_inventory__5TItemFv,
-    (void *)update_equipped__5TItemFv,
-    (void *)activate_effect__5TItemFl,
-    (void *)TItemObject__vt16,
-    (void *)set_attach_slot__5TItemFSc,
-    (void *)equip__5TItemFv,
-    (void *)unequip__5TItemFv,
-    (void *)add_equip_stats__5TItemFl,
-    (void *)remove_equip_stats__5TItemFl,
-    (void *)subtract_item_stat_bonus__5TItemFllPs,
-    (void *)subtract_equip_stats__5TItemFPvPsPs,
-    (void *)render_equipped__5TItemFv,
-    (void *)render_equipped_shadow__5TItemFv,
-    (void *)render_equipped_deferred__5TItemFv,
-    (void *)destroy__5TItemFv,
-    (void *)perform_action__5TItemFv,
-    (void *)use__11TItemObjectFv,
-    (void *)get_attack_flags__5TItemFv,
-    (void *)get_attach_slot__5TItemFv,
-    (void *)vfunc_34__5TItemFv,
-    (void *)is_identified__5TItemFv,
-    (void *)get_amount__11TItemObjectFv,
-    (void *)remove_amount__11TItemObjectFl,
-    (void *)add_amount__11TItemObjectFl,
-    (void *)get_slot_count__5TItemFv,
-    (void *)add_slot__5TItemFv,
-    (void *)feed__5TItemFP9TItemData,
-    (void *)snap_to_owner__5TItemFv,
-    (void *)get_motion_type__5TItemFv,
-    (void *)vfunc_44__13TUnk_8049FF88Fv,
-    0,
-};
 
 void *__vt__13TItemProArmor[51] = {
     0,

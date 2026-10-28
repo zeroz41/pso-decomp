@@ -354,12 +354,12 @@ force_active:
   - TItemLockCountCtrl__sub_801192A0
   - TItemLockCountCtrl__sub_8011933C
   - TItemMag__sub_80113EEC
-  - TItemProArmor__sub_8011751C
-  - TItemProArmor__sub_80117650
+  - __ct__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
+  - __ct__13TUnk_8049FED0FP7TObjectPUc
   - TItemProShield__ct
-  - TItemProShield__sub_80116708
-  - TItemProShield__sub_80116B28
-  - TItemProShield__sub_80116C44
+  - __ct__13TUnk_8049F770FP7TObjectPUc
+  - __ct__13TUnk_8049F998FP7TObjectPUc
+  - __ct__13TUnk_8049FA50FP7TObjectPUc
   - TItemProUnit__vt16
   - TItemTexLoad_class_name
   - TItemTexLoad_name
@@ -3375,7 +3375,7 @@ force_active:
   - confirm_and_free__17TWindowSubComCardFv
   - construct__12T_OWEHMS_ExpFP10TObjPlayer
   - construct__13TUnk_8049F41CFPvii
-  - construct__13TUnk_8049FE00FPvPv
+  - __ct__13TUnk_8049FE00FP7TObjectPUc
   - construct__13TUnk_804EF8C0Fv
   - construct__9TTecJelinFPviiii
   - construct_agito__13TUnk_804A3070FlPv
@@ -3398,7 +3398,7 @@ force_active:
   - construct_item_follow_effect__FPUcllll
   - construct_load_quest__12TQuestThreadFPvPvPv
   - construct_lobby_players
-  - construct_material__13TUnk_8049FBC0FPvPv
+  - __ct__13TUnk_8049FBC0FP7TObjectPUc
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
   - construct_panzer_faust__FPUcPUcl
   - construct_particle_obj__13TParticleCtrlFll
@@ -3413,7 +3413,7 @@ force_active:
   - construct_soul_eater_weapon__FPUcPUcl
   - construct_targeted__10TTecRaFoieFPvPvPvPvi
   - construct_tec_barta_facing__FP9TTecBartaPvPvPvPv
-  - construct_technique_disk_item__FPvPvPv
+  - __ct__13TUnk_8049FC90FP7TObjectPUc
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - construct_with_vtable__13TUnk_8049F40CFPvii
@@ -3505,7 +3505,7 @@ force_active:
   - create__12TChCrTagNameFPv
   - create__12T_OWEHMS_ExpFP10TObjPlayer
   - create__13TBoss6MagMineFi
-  - create__13TItemProArmorFiUi
+  - create__13TUnk_8049FEB8FP7TObjectP10TObjPlayer
   - create__13TObjBs4CutAtkFPvPvPv
   - create__13TObjDFRecBallFPvPvPv
   - create__13TObjEneMe1GeeFPvPvPvPv
@@ -4201,7 +4201,7 @@ force_active:
   - fn_80327A38
   - fn_80330240
   - fn_8033068C
-  - fn_80350588
+  - __ct__13TUnk_804F0D34FP7TObjectPUc
   - fn_803519FC
   - fn_80351A14
   - fn_8035D49C
@@ -4588,8 +4588,8 @@ force_active:
   - init__13TObjEneRe4BitFPv
   - init__13TObjSuisoChipFPvPv
   - init__13TUnk_804835D8Fv
-  - init__13TUnk_8049F828FPvPv
-  - init__13TUnk_8049FD48FPvPv
+  - __ct__13TUnk_8049F828FP7TObjectPUc
+  - __ct__13TUnk_8049FD48FP7TObjectPUc
   - init__13TUnk_804A7478Fv
   - init__13TUnk_804F28E0FlPv
   - init__15PSOV3EncryptionFUl
@@ -4677,8 +4677,8 @@ force_active:
   - init_inventory_items__10TObjPlayerFl
   - init_item_counts_max__10TObjPlayerFv
   - init_item_entry__18TCheckRoomSequenceFPv
-  - init_item_object__13TUnk_8049F8E0FPvPv
-  - init_item_object__13TUnk_8049FF88FPvPv
+  - __ct__13TUnk_8049F8E0FP7TObjectPUc
+  - __ct__13TUnk_8049FF88FP7TObjectPUc
   - init_joint_offset__11TBoss2JointFl
   - init_kind_params__18TObjSeabedSuiso_CHFv
   - init_launch_angles__10TTecSlicerFPlPll
@@ -4896,18 +4896,18 @@ force_active:
   - item_box_secondary_colors
   - item_follow_effect_vtable
   - item_help_level_requirement_callback
-  - item_hp_recovery_vtable
+  - __vt__13TUnk_8049F770
   - item_kt_archive_filename
-  - item_mag_transform_vtable
+  - __vt__13TUnk_8049F828
   - item_model_names
-  - item_moon_atomizer_vtable
+  - __vt__13TUnk_8049F8E0
   - item_motion_names
   - item_rarity_star_uv_table
   - item_registry_count
   - item_registry_sorted_entries
-  - item_sol_atomizer_vtable
-  - item_star_atomizer_vtable
-  - item_status_cure_vtable
+  - __vt__13TUnk_8049FA50
+  - __vt__13TUnk_8049FB08
+  - __vt__13TUnk_8049F998
   - item_system_generation
   - item_texture_afs_work_buffer
   - item_texture_filename_buffer
@@ -5250,7 +5250,7 @@ force_active:
   - lbl_8049D970
   - lbl_8049D984
   - lbl_8049DC28
-  - lbl_8049FF88
+  - __vt__13TUnk_8049FF88
   - lbl_804AABB8
   - lbl_804B8A10
   - lbl_804B8D80
@@ -12245,7 +12245,7 @@ force_active:
   - step_placement_search__13TUnk_804C4498Fv
   - stop_if_advanced__6TMovieFv
   - store_challenge_seeds__6TLobbyFl
-  - store_encoded_value__11TItemObjectFl
+  - set_amount__11TItemObjectFl
   - store_position__11TBoss7JointFv
   - store_position__13TObjEneBm3FlyFv
   - stream_read_be32
@@ -13115,19 +13115,19 @@ force_active:
   - vfunc_28__19TObjEneBm9MericarolFv
   - vfunc_28__19TObjEneEpsilonGuardFv
   - vfunc_28__20TOTrapChainSawDamageFv
-  - vfunc_44__11TItemObjectFv
   - on_equip__12TItemProUnitFv
-  - vfunc_44__13TUnk_8049F770Fv
-  - vfunc_44__13TUnk_8049F828Fv
-  - vfunc_44__13TUnk_8049F8E0Fv
-  - vfunc_44__13TUnk_8049F998Fv
-  - vfunc_44__13TUnk_8049FA50Fv
-  - vfunc_44__13TUnk_8049FB08Fv
-  - vfunc_44__13TUnk_8049FBC0Fv
-  - vfunc_44__13TUnk_8049FF88Fv
   - on_unequip__12TItemProUnitFv
   - apply_owner_bonuses__12TItemProUnitFv
   - remove_owner_bonuses__12TItemProUnitFv
+  - apply_use_effect__11TItemObjectFv
+  - apply_use_effect__13TUnk_8049F770Fv
+  - apply_use_effect__13TUnk_8049F828Fv
+  - apply_use_effect__13TUnk_8049F8E0Fv
+  - apply_use_effect__13TUnk_8049F998Fv
+  - apply_use_effect__13TUnk_8049FA50Fv
+  - apply_use_effect__13TUnk_8049FB08Fv
+  - apply_use_effect__13TUnk_8049FBC0Fv
+  - apply_use_effect__13TUnk_8049FF88Fv
   - vfunc_58__12TObjEneLappyFv
   - vfunc_58__12TObjEneSaverFv
   - vfunc_58__14TObjEneDolmOlmFv

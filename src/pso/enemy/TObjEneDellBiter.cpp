@@ -14,7 +14,6 @@ extern "C" void test_flag_256__13TUnk_804806E8Fv();
 #include "pso/object/obj_band.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/enemy/TUnk_804E6FA8.h"
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TUnk_80490470.h"
@@ -744,8 +743,6 @@ void invoke_initialization_hook__9TObjEneDDFv(void *, void *);
 s32 attack_target_history_add(s32, void *);
 void fn_800D8830(void *owner, void *pos);
 s32 TObjEneGibbles__sub_800D8988(s32);
-void TItemObject__ct(void *);
-void *__dt__11TItemObjectFv(void *arg0, s16 arg1);
 f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -782,8 +779,6 @@ void vfunc_28__16TObjEneDellBiterFv(void);
 void run_task__16TObjEneDellBiterFv(u8 *arg0);
 void * TObjEneDellBiter__ct(void *arg0, void *arg1, void *arg2);
 void * TObjEneDellBiter__create(void *arg0);
-void * __dt__13TUnk_804E6FA8Fv(void *arg0, s16 arg1);
-void * TItemObject__sub_80306A28(void *arg0);
 void __construct_array(void *, void *, void *, int, int);
 s32 debug_printf_at(s32, const char *, ...);
 s32 vec3_add_to(void *, void *);
@@ -822,7 +817,6 @@ extern char lbl_804752F8[];
 extern char lbl_8047530C[];
 extern char lbl_80475318[];
 extern s32 __vt__25TObjEneDellBiter_Eff_Rush[];
-extern s32 lbl_804E6FA8[];
 extern RecoveredGlobal_80303894_lbl_80541E48 dellbiter_demo_camera_vec;
 extern s32 TObjEneDellBiter_Eff_Rush__name;
 extern void *TObjEneDellBiter__class_name;
@@ -2726,27 +2720,4 @@ void TObjEneDellBiter::load_resources() {
 }
 #undef G_80306858
 
-void TUnk_804E6FA8::vfunc_44() {
-    struct VObj_80306994_80305BDC *o = (struct VObj_80306994_80305BDC *)((TItemData *)(*(s32 *)((s8 *)this + 0xF0)))->get_item_field_2();
-    if (o != NULL) {
-        o->m38();
-    }
-}
-
-void *__dt__13TUnk_804E6FA8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E6FA8;
-        __dt__11TItemObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-void *TItemObject__sub_80306A28(void *arg0) {
-    TItemObject__ct(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E6FA8;
-    return arg0;
-}
 }

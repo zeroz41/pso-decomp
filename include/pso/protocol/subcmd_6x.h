@@ -972,7 +972,8 @@ struct G_UseMedicalCenter_6x31 {
 
 struct G_UseStarAtomizer_6x66 {
  struct G_UnusedHeader header;
- u16 target_client_ids[4];
+ // The user first; -1 for an empty slot (handle_6x66_use_star_atomizer).
+ s16 target_client_ids[4];
 };
 
 struct G_VolOpt2BossActions_6x18 {

@@ -25,14 +25,8 @@ struct TItemProArmor : public TItemEquipBase {
     u8 m_194;
     u8 m_195;
     u8 m_196;
-    u8 *create_instance();
     void init_effect_flags();
     s32 create_armor_object();
-    int get_stat_value();
-    static s16 calc_scaled_offset();
-    static s16 calc_armor_value();
-    void apply_armor_stat();
-    u8 *create();
     u8 unk_197[0x1];
 };
 

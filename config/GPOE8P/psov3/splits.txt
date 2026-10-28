@@ -2717,42 +2717,64 @@ pso/item/TItemMoney.cpp:
 	.data       start:0x8049F5E8 end:0x8049F698
 	.sdata      start:0x805D2C20 end:0x805D2C24
 
-pso/unk/text_80115D68.cpp:
-	.text       start:0x80115D68 end:0x80115D6C
-
 pso/item/TItemObject_80115D6C.cpp:
-	.text       start:0x80115D6C end:0x80116578
+	.text       start:0x80115D68 end:0x80116578
 	.data       start:0x8049F698 end:0x8049F770
 
 pso/player/TObjPlayer_80116578.cpp:
 	.text       start:0x80116578 end:0x80116634
 
-pso/item/TItemProShield_80116634.cpp:
-	.text       start:0x80116634 end:0x80116D90
-	.data       start:0x8049F770 end:0x8049FBC0
+pso/item/TUnk_8049F770.cpp:
+	.text       start:0x80116634 end:0x8011679C
+	.data       start:0x8049F770 end:0x8049F824
 
-pso/unk/text_80116D90.cpp:
-	.text       start:0x80116D90 end:0x80116DE8
+pso/item/TUnk_8049F828.cpp:
+	.text       start:0x8011679C end:0x801168D4
+	.data       start:0x8049F828 end:0x8049F8DC
 
-pso/unk/text_80116DE8.cpp:
-	.text       start:0x80116DE8 end:0x80116F68
+pso/item/TUnk_8049F8E0.cpp:
+	.text       start:0x801168D4 end:0x80116A5C
+	.data       start:0x8049F8E0 end:0x8049F994
+
+pso/item/TUnk_8049F998.cpp:
+	.text       start:0x80116A5C end:0x80116BBC
+	.data       start:0x8049F998 end:0x8049FA4C
+
+pso/item/TUnk_8049FA50.cpp:
+	.text       start:0x80116BBC end:0x80116CD8
+	.data       start:0x8049FA50 end:0x8049FB04
+
+pso/item/TUnk_8049FB08.cpp:
+	.text       start:0x80116CD8 end:0x80116DE8
+	.data       start:0x8049FB08 end:0x8049FBBC
+
+pso/item/TUnk_8049FBC0.cpp:
+	.text       start:0x80116DE8 end:0x80116FFC
 	.data       start:0x8049FBC0 end:0x8049FC90
 
-pso/item/TItemProArmor_80116F68.cpp:
-	.text       start:0x80116F68 end:0x801172A4
+pso/item/TUnk_8049FC90.cpp:
+	.text       start:0x80116FFC end:0x80117130
+	.data       start:0x8049FC90 end:0x8049FD44
 
-pso/item/TItemProArmor_801172A4.cpp:
-	.text       start:0x801172A4 end:0x801172D8
+pso/item/TUnk_8049FD48.cpp:
+	.text       start:0x80117130 end:0x8011724C
+	.data       start:0x8049FD48 end:0x8049FDFC
 
-pso/item/TItemProArmor_801172D8.cpp:
-	.text       start:0x801172D8 end:0x801173C0
+pso/item/TUnk_8049FE00.cpp:
+	.text       start:0x8011724C end:0x80117454
+	.data       start:0x8049FE00 end:0x8049FEB4
 
-pso/item/TItemProArmor_801173C0.cpp:
-	.text       start:0x801173C0 end:0x80117650
+pso/item/TUnk_8049FED0.cpp:
+	.text       start:0x80117454 end:0x801176E4
+	.data       start:0x8049FEB8 end:0x8049FF84
+
+pso/item/TUnk_8049FF88.cpp:
+	.text       start:0x801176E4 end:0x8011781C
+	.data       start:0x8049FF88 end:0x804A003C
 
 pso/item/TItemProArmor.cpp:
-	.text       start:0x80117650 end:0x80117DD8
-	.data       start:0x8049FF88 end:0x804A0168
+	.text       start:0x8011781C end:0x80117DD8
+	.data       start:0x804A0040 end:0x804A0168
 
 pso/player/TObjPlayer_80117DD8.cpp:
 	.text       start:0x80117DD8 end:0x80117FEC
@@ -10597,13 +10619,14 @@ pso/unk/text_80302FD8.cpp:
 	.text       start:0x80302FD8 end:0x803030D4
 
 pso/enemy/TObjEneDellBiter.cpp:
-	.text       start:0x803030D4 end:0x80306A64
+	.text       start:0x803030D4 end:0x80306994
 	.rodata     start:0x80475330 end:0x80475338
 	.data       start:0x804E6B70 end:0x804E6FA8
 	.sdata2     start:0x805DEFC0 end:0x805DEFC8
 
-pso/unk/text_80306A64.cpp:
-	.text       start:0x80306A64 end:0x80306ABC
+pso/item/TUnk_804E6FA8.cpp:
+	.text       start:0x80306994 end:0x80306ABC
+	.data       start:0x804E6FA8 end:0x804E705C
 
 pso/menu/TAdMultiOkGC.cpp:
 	.text       start:0x80306ABC end:0x80307300
@@ -11769,20 +11792,15 @@ pso/item/TItemEffPG_8034FE28.cpp:
 pso/item/TItemEffPG_8034FF4C.cpp:
 	.text       start:0x8034FF4C end:0x803501BC
 
-pso/unk/text_803501BC.cpp:
-	.text       start:0x803501BC end:0x8035029C
+pso/item/TUnk_804F0C48.cpp:
+	.text       start:0x803501BC end:0x80350394
 	.rodata     start:0x80478CD0 end:0x80478CD8
-
-pso/unk/text_8035029C.cpp:
-	.text       start:0x8035029C end:0x8035033C
-
-pso/unk/text_8035033C.cpp:
-	.text       start:0x8035033C end:0x80350394
+	.data       start:0x804F0C48 end:0x804F0CFC
 
 pso/item/TUnk_804F0D34.cpp:
 	.text       start:0x80350394 end:0x8035061C
 	.rodata     start:0x80478CD8 end:0x80478D38
-	.data       start:0x804F0D00 end:0x804F0D34
+	.data       start:0x804F0D00 end:0x804F0DE8
 	.sbss       start:0x805D6EA8 end:0x805D6EB0
 
 pso/object/TObjRainbowLobby.cpp:
@@ -11816,14 +11834,9 @@ pso/object/TObjLobbyMain_803520D8.cpp:
 	.sdata      start:0x805D4370 end:0x805D4374
 	.sdata2     start:0x805DFEE0 end:0x805DFEF0
 
-pso/unk/text_80352A54.cpp:
-	.text       start:0x80352A54 end:0x80352AC0
-
-pso/unk/text_80352AC0.cpp:
-	.text       start:0x80352AC0 end:0x80352B60
-
-pso/unk/text_80352B60.cpp:
-	.text       start:0x80352B60 end:0x80352BB8
+pso/item/TUnk_804F0FF0.cpp:
+	.text       start:0x80352A54 end:0x80352BB8
+	.data       start:0x804F0FF0 end:0x804F10A4
 
 pso/misc/TEndingPic.cpp:
 	.text       start:0x80352BB8 end:0x803531FC

@@ -5,8 +5,11 @@
 
 class TUnk_8049FC90 : public TItemObject {
 public:
+    TUnk_8049FC90(TObject *parent, u8 *item);
     virtual ~TUnk_8049FC90();
-    virtual void vfunc_44();
+    virtual void apply_use_effect();
 };
+
+TItem *create_technique_disk_item(u8 *item);
 
 #endif

@@ -5,9 +5,11 @@
 
 class TUnk_8049FF88 : public TItemObject {
 public:
+    TUnk_8049FF88(TObject *parent, u8 *item);
     virtual ~TUnk_8049FF88();
-    virtual void vfunc_44();
-    void *init_item_object(void *, void *);
+    virtual void apply_use_effect();
 };
+
+TItem *create_item_grinder(u8 *item);
 
 #endif
