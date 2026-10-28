@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/unk/text_80158360.h"
@@ -184,7 +185,7 @@ void render__12TODoorCave03Fv(u8 *arg0) {
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x10;
-        ((TUnk_80494AE0 *)(arg0 + 0xD4))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((arg0 + 0xD4)));
         if (*(s32 *)(arg0 + 0xD0) & 1) {
             m = (*(Model_801625AC **)(arg0 + 0x34))->child->next;
         } else {
@@ -195,7 +196,7 @@ void render__12TODoorCave03Fv(u8 *arg0) {
         m = m->child;
         post_translate_matrix(m->m8);
         draw_ginja_model(m->m4);
-        ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();

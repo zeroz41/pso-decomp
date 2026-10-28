@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #pragma defer_codegen on
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -460,7 +461,7 @@ void TObjPlayer__sub_802E0468(long long arg1, u8 *arg2, f32 farg0) {
   stack.spC = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x42))));
   stack.sp10 = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x44))));
   stack.sp14 = lbl_805DE8AC * ((f32) (*((s16 *) (((s8 *) arg2) + 0x46))));
-  ((TUnk_80494AE0 *)(&stack.sp8))->set_chunk_material_color();
+  set_constant_material((const NJS_ARGB *)((&stack.sp8)));
   play_phase_transition_sound__10TObjPlayerFl(arg1);
   chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
   chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

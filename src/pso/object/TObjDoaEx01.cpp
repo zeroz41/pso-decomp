@@ -250,9 +250,9 @@ s32 TObjDoaEx01::draw_object_tree(s32 arg1) {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x10;
-            ((TUnk_80494AE0 *)((u8 *)this + 0xD4))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((u8 *)this + 0xD4)));
             draw_ginja_model(obj->model);
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
         } else {

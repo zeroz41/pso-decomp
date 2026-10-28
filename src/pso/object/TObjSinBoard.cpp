@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/TMainTask.h"
 #include "pso/unk/text_80198A2C.h"
@@ -932,7 +933,7 @@ void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *
     col.g = 1.0f;
     col.b = 1.0f;
     col.a = 1.0f;
-    ((TUnk_80494AE0 *)(&col))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((&col)));
     TParticleCtrl::begin_effect_render();
     ((TObjPlayer *)(&fx))->draw_shadow_quad(0, 0x22);
     fx.a = 0.0f;
@@ -945,7 +946,7 @@ void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *
     fx.b = -5.0f;
     ((TObjPlayer *)(&fx))->draw_shadow_quad(0, 0x2E);
     TParticleCtrl::end_effect_render();
-    ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     pop_matrix();
 }
 
@@ -1169,7 +1170,7 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
     translate_matrix_vec3(0, &pos);
     rate = 0.15f * (*(Glob_80199A44 *)&gogo_ball_configuration).scale;
     scale_matrix(0, rate, rate, rate);
-    ((TUnk_80494AE0 *)(&color))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((&color)));
     if (vec_squared_length(&dir)) {
         rotate_matrix_about_axis(0, &dir, F(s32, 0x338));
     }
@@ -1218,7 +1219,7 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
             break;
         }
     }
-    ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     pop_matrices(1);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

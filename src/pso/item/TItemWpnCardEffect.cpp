@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -149,7 +150,7 @@ void TUnk_804EDD20::render() {
         ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
         var_r3 = (s32 *)(var_r29 + 0x80);
         model_render_flags |= 0x20;
-        ((TUnk_80494AE0 *)var_r3)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)var_r3);
         var_r3 = (s32 *) var_r31;
         ((TObjPlayer *)var_r3)->get_entity_id();
         notify_fish_if_valid__10TObjPlayerFUl();

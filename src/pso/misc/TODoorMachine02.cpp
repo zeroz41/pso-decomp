@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/misc/TUnk_804AFBF8.h"
@@ -165,7 +166,7 @@ void TODoorMachine02::render() {
                 s32 id = model_render_flags;
                 saved_model_render_flags = id;
                 model_render_flags = id | 0x10;
-                ((TUnk_80494AE0 *)((f32 *)arg0->fD4))->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)(((f32 *)arg0->fD4)));
             }
             push_matrix();
             n = n->next2C;
@@ -178,7 +179,7 @@ void TODoorMachine02::render() {
             draw_ginja_model(n->f4);
             pop_matrix();
             if (flag != 1) {
-                ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
                 model_render_flags = saved_model_render_flags;
             }
             n = arg0->model->root->next30;

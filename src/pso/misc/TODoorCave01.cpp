@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
@@ -199,7 +200,6 @@ struct VObj_801618fc : VBase_801618fc {
 
 extern "C" {
 s32 push_matrix();
-s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 *TODoorCave01__texture_lists;
@@ -222,7 +222,7 @@ s32 TODoorCave01::draw_door_model(void *p0, int p1, int arg2) {
         temp_r4 = model_render_flags;
         saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x10;
-        set_chunk_material_color__13TUnk_80494AE0Fv((void *) (((s32) p0) + 0xDC), temp_r4);
+        ((void (*)(void *, s32))set_constant_material)((void *) (((s32) p0) + 0xDC), temp_r4);
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -236,7 +236,7 @@ s32 TODoorCave01::draw_door_model(void *p0, int p1, int arg2) {
     pop_matrix();
     TParticleCtrl::end_effect_render();
     if (arg2 != 1) {
-        ((void (*)(void *)) set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
     }
     pop_matrix();

@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "pso/boss/TBoss1Dragon.h"
 #include "pso/boss/TObjBoss1Rock.h"
 #include "pso/system/vector.h"
@@ -1923,7 +1924,7 @@ void TBoss1Dragon::render() {
             *(s32 *)((s8 *)((u8 *)this) + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TBoss1Dragon__data_805D4B08 + 0x42C)) + 0x18);
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x10;
-            ((TUnk_80494AE0 *)(&color))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&color)));
             ((TObjMotion *)((u8 *)this))->draw();
             model_render_flags = saved_model_render_flags;
             *(s32 *)((s8 *)((u8 *)this) + 0x34) = saved;

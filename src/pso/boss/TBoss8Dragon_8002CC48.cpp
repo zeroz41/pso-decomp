@@ -1,3 +1,5 @@
+#include "pso/system/NinjaTypes.h"
+void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/system/memory.h"
@@ -610,7 +612,7 @@ void TObjBoss1Rock::render() {
         saved_model_render_flags = model_render_flags;
         model_render_flags = saved_model_render_flags | 0x810;
         ((void (*)(s32, s32))set_chunk_material_override_pair)(0xFF00, 0x800);
-        ((TUnk_80494AE0 *)(&self->color))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((&self->color)));
         push_matrix();
         TObjFish::set_global_param(dragon_common_texture_list);
         post_translate_matrix(self->pos);

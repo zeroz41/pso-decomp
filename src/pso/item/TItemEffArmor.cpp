@@ -276,7 +276,7 @@ void TItemEffArmor::render() {
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
     ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4(&model_material_color.value);
-    ((TUnk_80494AE0 *)(arg0 + 0x38))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
     TObjPlayer::notify_fish_if_valid(this->m_78);
     draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
     ((TRaderMapCore *)(&model_material_color.value))->copy_vec4(&saved_model_draw_color.value);

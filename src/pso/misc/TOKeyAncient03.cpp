@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TOKeyAncient03.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -133,7 +134,7 @@ void TOKeyAncient03::render() {
             temp_r4 = model_render_flags;
             saved_model_render_flags = temp_r4;
             model_render_flags = temp_r4 | 0x10;
-            ((TUnk_80494AE0 *)(&this->m_e8))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&this->m_e8)));
         }
         temp_r31_2 = *(u8 **)((s8 *)temp_r31 + 0x2C);
         push_matrix();
@@ -149,7 +150,7 @@ void TOKeyAncient03::render() {
         pop_matrix();
         pop_matrix();
         if ((s32) *(s32 *)&this->m_d4 != 1) {
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
         pop_matrix();

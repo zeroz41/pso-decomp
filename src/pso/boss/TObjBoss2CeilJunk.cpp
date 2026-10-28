@@ -166,7 +166,7 @@ void TObjBoss2CeilJunk::render() {
     {
       Color_8003A1B4 c = boss2_ceil_junk_render_color;
       c.a = (-1.0f) + self->fB4;
-      ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+      set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
     }
     set_chunk_material_override_pair(0xFF00, 0x800);
     set_chunk_blend(0x2500);

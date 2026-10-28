@@ -315,7 +315,7 @@ void TObjPlayer__sub_80326D54(Obj_80326D54 *arg0) {
     case 2: {
         Rec_80326D54 r = lbl_80476760;
         r.a = arg0->x1FC;
-        TItem::begin_offset_material_color((s32)&r);
+        TItem::begin_offset_material_color((const NJS_ARGB *)&r);
         break;
     }
     case 3:

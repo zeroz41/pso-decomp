@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "pso/TObject.h"
 #include "pso/object/TObjCamera_8017F80C.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -239,14 +240,14 @@ void draw_chips__8TObjChipFPv(Obj_8017FE58 *o) {
             for (s32 i = 0; i < o->count; i++, c++) {
                 Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
                 col.a = c->alpha;
-                ((TUnk_80494AE0 *)((f32 *)&col))->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
                 push_matrix();
                 post_translate_matrix(c);
                 rotate_matrix_yxz(0, c->rx, c->ry, c->rz);
                 scale_matrix(0, o->scale, o->scale, o->scale);
                 draw_chunk_object((void *)o->model);
                 pop_matrix();
-                ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             }
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -270,14 +271,14 @@ void draw_chips__8TObjChipFPv(Obj_8017FE58 *o) {
         for (s32 i = 0; i < o->count; i++, c++) {
             Color_8017FE58 col = { 0.0f, 0x3F800000, 0x3F800000, 0x3F800000 };
             col.a = c->alpha;
-            ((TUnk_80494AE0 *)((f32 *)&col))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
             push_matrix();
             post_translate_matrix(c);
             rotate_matrix_yxz(0, c->rx, c->ry, c->rz);
             scale_matrix(0, o->scale, o->scale, o->scale);
             draw_chunk_object((void *)o->model);
             pop_matrix();
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         }
         model_render_flags = saved_model_render_flags;
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

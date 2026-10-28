@@ -104,13 +104,13 @@ void apply_weapon_node_material() {
     ((WeaponCallbackObject*)weapon_render_callback_object)->materialCallback();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
-        TItem::begin_constant_material_color((s32)&color);
+        TItem::begin_constant_material_color((const NJS_ARGB *)&color);
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
         TItem::begin_effect_render();
         if(test_flags_any(&item_render_state,4)) {
             WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
-            TItem::begin_constant_material_color((s32)&color);
+            TItem::begin_constant_material_color((const NJS_ARGB *)&color);
         }
     }
     increment_model_node_counter();

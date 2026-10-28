@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TDeadSpot.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -173,11 +174,10 @@ void TUnk_80494AE0::clear_flag_and_notify() {
     set_chunk_blend(0x2500);
 }
 
-s32 set_chunk_material_color__13TUnk_80494AE0Fv();
 
 void TObjPlayer::set_flags_and_apply_damage_color() {
     model_render_flags |= 0x8820;
-    set_chunk_material_color__13TUnk_80494AE0Fv();
+    ((void (*)(void))set_constant_material)();
     set_chunk_material_override_pair(0xFF00, 0x800);
 }
 

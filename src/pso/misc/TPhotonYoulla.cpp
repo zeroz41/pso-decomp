@@ -79,7 +79,7 @@ void TPhotonYoulla::render() {
         TObjPlayer::set_global_flag();
         set_material_alpha_compare_reference(0);
         set_chunk_material_override_pair(-1, 0x800);
-        ((TUnk_80494AE0 *)((f32 *)&self->color))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
         ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         TObjPlayer::clear_global_state();

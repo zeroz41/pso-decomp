@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/system/vector.h"
@@ -674,7 +675,7 @@ void TBoss2Mine::render() {
         c.b = f;
         c.g = f;
         c.r = -f;
-        ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
         draw_chunk_object(self->model);
     } else {
         draw_chunk_object(self->model);

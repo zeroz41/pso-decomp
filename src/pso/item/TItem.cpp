@@ -1044,21 +1044,21 @@ s32 TItem::has_bonus_stats() {
     return data.has_bonus_stats();
 }
 
-void TItem::begin_constant_material_color(s32 color) {
-    if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
+void TItem::begin_constant_material_color(const NJS_ARGB *color) {
+    if (color != NULL && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         model_render_flags &= ~0x20;
         model_render_flags |= 0x10;
-        ((TUnk_80494AE0 *)color)->set_chunk_material_color();
+        set_constant_material(color);
         item_render_state.set(ITEM_RENDER_MATERIAL);
     }
 }
 
-void TItem::begin_offset_material_color(s32 color) {
-    if (color != 0 && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
+void TItem::begin_offset_material_color(const NJS_ARGB *color) {
+    if (color != NULL && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
         u32 flags = *(volatile u32 *)&model_render_flags & ~0x10;
         *(volatile u32 *)&model_render_flags = flags;
         *(volatile u32 *)&model_render_flags = flags | 0x20;
-        ((TUnk_80494AE0 *)color)->set_chunk_material_color();
+        set_constant_material(color);
         item_render_state.set(ITEM_RENDER_MATERIAL);
     }
 }
@@ -1507,9 +1507,9 @@ void TItem::render_present_box() {
         push_matrix();
         post_translate_matrix(position);
         rotate_matrix_y(0, rotation_y);
-        ((TUnk_80494AE0 *)&item_box_primary_colors[box_color])->set_chunk_material_color();
+        set_constant_material(&item_box_primary_colors[box_color]);
         draw_ginja_model((s32)box->model);
-        ((TUnk_80494AE0 *)&item_box_secondary_colors[box_color])->set_chunk_material_color();
+        set_constant_material(&item_box_secondary_colors[box_color]);
         draw_ginja_model((s32)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();

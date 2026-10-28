@@ -111,7 +111,7 @@ void TODoorVoShip::render() {
         temp_r4 = model_render_flags;
         saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x20;
-        ((TUnk_80494AE0 *)(arg0 + 0xDC))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((arg0 + 0xDC)));
         TParticleCtrl::begin_effect_render();
         temp_r31 = *(u8 * *)&this->m_d4;
         push_matrix();
@@ -139,7 +139,7 @@ void TODoorVoShip::render() {
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
     }

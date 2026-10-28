@@ -183,16 +183,16 @@ void TObjFogCollision::draw_volume() {
         set_chunk_material_override_pair(0xFF00, 0x800);
         switch (this->m_90) {
         case 0:
-            ((TUnk_80494AE0 *)((f32 *)&c0))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&c0)));
             break;
         case 1:
         case 2:
         case 4:
         case 5:
-            ((TUnk_80494AE0 *)((f32 *)&cd))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&cd)));
             break;
         case 3:
-            ((TUnk_80494AE0 *)((f32 *)&c3))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&c3)));
             break;
         }
         push_matrix();

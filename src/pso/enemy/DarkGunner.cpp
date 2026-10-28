@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/enemy/TUnk_804909C4.h"
 #include "pso/system/NinjaUtil.h"
@@ -1016,7 +1017,6 @@ extern const MaterialColor lbl_8043A668;
 extern const Vec_800A159C lbl_8043A678;
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 first, s32 second);
-void set_chunk_material_color__13TUnk_80494AE0Fv(f32 *argb);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 f32 sin_table_lookup(s32 angle);
@@ -1057,7 +1057,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
                 color.r = s;
                 color.g = s;
                 color.b = s;
-                set_chunk_material_color__13TUnk_80494AE0Fv((f32 *)&color);
+                set_constant_material((const NJS_ARGB *)&color);
                 TObjFish::set_global_param(TObjPlayer__effect_resource);
             } else {
                 TObjFish::set_global_param(self->texture);
@@ -1086,7 +1086,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
                 ((TObjEnemy *)self)->render_world_model();
             }
             if (self->flags & 0x400000) {
-                set_chunk_material_color__13TUnk_80494AE0Fv((f32 *)lbl_804907AC);
+                set_constant_material((const NJS_ARGB *)lbl_804907AC);
                 set_chunk_material_override_pair(0xFF00, 0);
             }
             model_render_flags = saved_model_render_flags;

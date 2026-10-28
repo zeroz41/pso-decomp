@@ -65,11 +65,11 @@ void TPhotonMagicSquare::render() {
     if (self->color.a > 1.0f) {
         self->color.a = 1.0f;
     }
-    ((TUnk_80494AE0 *)((f32 *)&self->color))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
     TObjPlayer::set_global_flag();
     draw_model_motion((void *)self->f34, (void *)this->m_90, self->f9C);
     TObjPlayer::clear_global_state();
-    ((TUnk_80494AE0 *)((f32 *)&chunk_material_color_half_alpha_f32))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)(((f32 *)&chunk_material_color_half_alpha_f32)));
     model_render_flags = saved_model_render_flags;
     ((TRaderMapCore *)(&self->color))->copy_vec4(&saved);
     pop_matrix();

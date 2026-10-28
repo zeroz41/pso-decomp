@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TPhotonLeilla.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -93,7 +94,7 @@ void TPhotonLeilla::render() {
         model_render_flags |= 0x200820;
         TObjPlayer::set_global_flag();
         set_chunk_material_override_pair(-1, 0x800);
-        ((TUnk_80494AE0 *)((f32 *)&self->color))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
         ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
         ((TObjMotion *)self)->draw();
         TObjPlayer::clear_global_state();

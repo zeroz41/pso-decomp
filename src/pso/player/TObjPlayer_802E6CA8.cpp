@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -166,7 +167,7 @@ void TUnk_804E3BA8::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8810;
             c.a = part->f24;
-            ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
             draw_chunk_model((void *)node->model);
@@ -264,7 +265,7 @@ void TUnk_804E3BC0::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8810;
             c.a = part->f24;
-            ((TUnk_80494AE0 *)(&c))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&c)));
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
             draw_chunk_model((void *)node->model);

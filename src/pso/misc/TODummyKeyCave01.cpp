@@ -84,7 +84,7 @@ void TODummyKeyCave01::render() {
             id = model_render_flags;
             saved_model_render_flags = id;
             model_render_flags = id | 0x10;
-            ((TUnk_80494AE0 *)((f32 *)&this->m_9c))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&this->m_9c)));
         }
         TParticleCtrl::begin_effect_render();
         node = *(u8 **)(node + 0x2C);
@@ -99,7 +99,7 @@ void TODummyKeyCave01::render() {
         post_translate_matrix(node + 8);
         draw_ginja_model(*(s32 *)(node + 4));
         if (*(u16 *)(arg0 + 0x9A) == 0) {
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
         TParticleCtrl::end_effect_render();

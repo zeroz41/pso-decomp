@@ -191,9 +191,9 @@ void TOMonumentAncient02::render() {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x20;
-            ((TUnk_80494AE0 *)(&self->fD8))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&self->fD8)));
             draw_ginja_model(n->f4);
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             TParticleCtrl::end_effect_render();
             pop_matrix();

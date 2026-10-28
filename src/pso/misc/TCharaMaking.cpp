@@ -157,7 +157,7 @@ void TCharaMaking__draw_colored_hair(f32 farg0, s32 arg0, CharacterAppearanceFie
         color.r = lbl_805DD934 * (f32) character_appearance_fields->red;
         color.g = lbl_805DD934 * (f32) character_appearance_fields->green;
         color.b = lbl_805DD934 * (f32) character_appearance_fields->blue;
-        ((TUnk_80494AE0 *)(&color.a))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((&color.a)));
     }
     draw_chunk_object((void *)arg0);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

@@ -256,10 +256,10 @@ inline f32 clampMaterialChannel(f32 value, f32 lower, f32 upper) {
     return upper;
 }
 
-void TUnk_80494AE0::set_chunk_material_color() {
-    model_material_color.alpha = clampMaterialChannel(((f32 *)this)[0], (-1.0f), 1.0f);
-    model_material_color.red = clampMaterialChannel(((f32 *)this)[1], (-1.0f), 1.0f);
-    model_material_color.green = clampMaterialChannel(((f32 *)this)[2], (-1.0f), 1.0f);
-    model_material_color.blue = clampMaterialChannel(((f32 *)this)[3], (-1.0f), 1.0f);
+void set_constant_material(const NJS_ARGB *color) {
+    model_material_color.alpha = clampMaterialChannel(color->a, (-1.0f), 1.0f);
+    model_material_color.red = clampMaterialChannel(color->r, (-1.0f), 1.0f);
+    model_material_color.green = clampMaterialChannel(color->g, (-1.0f), 1.0f);
+    model_material_color.blue = clampMaterialChannel(color->b, (-1.0f), 1.0f);
 }
 #pragma pop

@@ -117,8 +117,8 @@ struct TItem : public TUnk_804AF8A0 {
     f32 get_owner_alpha();
     void update_owner_visibility();
     // Switch the item_render_state settings on once per draw and off again.
-    static void begin_constant_material_color(s32 color);
-    static void begin_offset_material_color(s32 color);
+    static void begin_constant_material_color(const NJS_ARGB *color);
+    static void begin_offset_material_color(const NJS_ARGB *color);
     static void end_material_color();
     static void begin_effect_render();
     static void end_effect_render();

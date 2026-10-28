@@ -116,7 +116,7 @@ void TBoss5GryphonLightningEff::render() {
     }
     TObjPlayer::reset_transform_state();
     TParticleCtrl::end_effect_render();
-    ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();
 }

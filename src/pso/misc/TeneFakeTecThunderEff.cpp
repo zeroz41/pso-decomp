@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "pso/TEneEffHamon.h"
 #include "pso/misc/TeneFakeTecThunderEff.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -350,7 +351,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].color = color;
     TObjPlayer::init_xyz_limits();
     ((TWindowDD *)verts)->draw_transformed_primitive((void*)(this->m_38 * 2), (void*)TObjPlayer__effect_count, (void*)1);
-    ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }
 #pragma pop

@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/misc/TKeyBoardControl_803DE9C4.h"
@@ -275,7 +276,7 @@ void TObjPlayer::enter_battle_state() {
 void reset_player_appearance_opacity(void* a0);
 void reset_player_appearance_opacity(void* a0) { *(float*)((char*)a0 + 0x1c) = lbl_805DC320[0]; }
 
-void TObjPlayer::write_ids() { set_model_render_flags((s32)this->m_name); set_chunk_material_override_pair((s32)(*(void**)((char*)this + 0x4)), (s32)this->m_prev); ((TUnk_80494AE0 *)((char*)this + 0xc))->set_chunk_material_color(); }
+void TObjPlayer::write_ids() { set_model_render_flags((s32)this->m_name); set_chunk_material_override_pair((s32)(*(void**)((char*)this + 0x4)), (s32)this->m_prev); set_constant_material((const NJS_ARGB *)(((char*)this + 0xc))); }
 
 typedef char RecoveredGlobal_801C5B68_lbl_8058D4C0_size[sizeof(RecoveredGlobal_801C5B68_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void save_render_material_state(u8 *arg0) {

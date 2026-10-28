@@ -216,7 +216,7 @@ void TAdTrialAgreementGC::render_screen() {
         ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
         if ((s32) this->m_24 == 0) {
             model_render_flags |= 0x10;
-            ((TUnk_80494AE0 *)(arg0 + 0x28))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
             bind_title_texture_list();
             TLobby::draw_with_camera((int) (TLobby::get_record(0xA)), 0xA, 0x22, (-1e+01f));
         }

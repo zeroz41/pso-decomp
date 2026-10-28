@@ -354,9 +354,9 @@ void TOKurage::render() {
             model_render_flags |= 0x10;
             break;
         }
-        ((TUnk_80494AE0 *)((f32 *)&this->m_104))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&this->m_104)));
         TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)(arg0 + 0x34)), (void *)(*(s32 *)(arg0 + 0xBC)), (void *)(*(s32 *)(arg0 + 0xC8)), *(f32 *)(arg0 + 0xB0));
-        ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
     }

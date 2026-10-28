@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/system/FlagWord.h"
@@ -338,7 +339,7 @@ void TTecSlicer::render() {
     saved_model_render_flags = model_render_flags;
     if (this->useColorOverride != 0) {
         model_render_flags |= 0x10;
-        ((TUnk_80494AE0 *)((f32 *)&this->argb))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&this->argb)));
     }
     if (this->textureHandle != 0U && this->model != 0U) {
         TObjPlayer::notify_fish_if_valid(this->textureHandle);
@@ -350,7 +351,7 @@ void TTecSlicer::render() {
         rotate_matrix_x(0, *(s32 *)((s8 *)arg0 + 0x5C));
         scale_current_matrix((u8 *)&this->scale);
         draw_ginja_object(this->model);
-        ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         TParticleCtrl::end_effect_render();
     }
     pop_matrix();

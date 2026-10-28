@@ -48,9 +48,9 @@ void TSlicerHistory::render() {
             rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x24)));
             rotate_matrix_x(0, (int) (*(s32 *)((s8 *)arg0 + 0x1C)));
             scale_current_matrix(arg0 + 0x4C);
-            ((TUnk_80494AE0 *)((f32 *)&col))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
             draw_ginja_object((void *)(*(u32 *)((s8 *)arg0 + 0x34)));
-            ((TUnk_80494AE0 *)((f32 *)&chunk_material_color_half_alpha_f32))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)(((f32 *)&chunk_material_color_half_alpha_f32)));
             TParticleCtrl::end_effect_render();
         }
         pop_matrix();

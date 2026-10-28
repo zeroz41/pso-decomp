@@ -27,5 +27,5 @@ void TObjPlayer__sub_80052390(f32 x) {
     set_chunk_material_override_pair(0xFF00, 0x800);
     c.a = lbl_805D8AEC + x;
     c.b = c.c = c.d = lbl_805D8ADC;
-    ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
 }

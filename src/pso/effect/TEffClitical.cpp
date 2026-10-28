@@ -83,7 +83,7 @@ void TEffClitical::render() {
     saved_model_render_flags = temp_r3;
     model_render_flags = temp_r3 | 0x10;
     begin_effect_render__13TParticleCtrlFv(temp_r3);
-    ((TUnk_80494AE0 *)(arg0 + 0x2C))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((arg0 + 0x2C)));
     copy_anim_frame_to_slot((TextureFrameSlot *)&sp8);
     push_matrix();
     TObjFish::set_global_param((s32)lbl_8048E2E0);

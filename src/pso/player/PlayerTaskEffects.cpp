@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/TPlyOnCountOver.h"
 #include "pso/system/FlagWord.h"
@@ -711,7 +712,7 @@ void TPlayerLobbyMarker::render() {
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
         rotate_matrix_y(0, *(s32 *)((s8 *)camera_ctrl_instance + 0x194) + rotation);
         scale_matrix(0, lbl_805DC358, lbl_805DC358, lbl_805DC358);
-        ((TUnk_80494AE0 *)(player_lobby_marker_color_table + get_material_index() * 0x10))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((player_lobby_marker_color_table + get_material_index() * 0x10)));
         TMainCursor::get_cursor_state();
         draw_chunk_object();
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);

@@ -19,5 +19,5 @@ void fn_801424DC(s32 arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3) {
     stack.sp14 = farg3;
     set_global_draw_flag_bits(arg0, 0x810);
     set_chunk_material_override_pair(-1, 0x800);
-    ((TUnk_80494AE0 *)(&stack.sp8))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((&stack.sp8)));
 }

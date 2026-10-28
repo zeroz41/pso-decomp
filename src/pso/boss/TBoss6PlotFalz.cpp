@@ -1,3 +1,5 @@
+#include "pso/system/NinjaTypes.h"
+void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -124,7 +126,6 @@ extern s32 model_render_flags;
 extern s32 plot_falz_phase;
 extern s32 lbl_805D586C;
 void set_chunk_material_override_pair(int, int, s32, s32);
-void set_chunk_material_color__13TUnk_80494AE0Fv(Color_802ABF44 *);
 s32 alloc__23TAdSinglePlyChrSelectGCFv(int);
 s32 rand(void);
 }
@@ -944,7 +945,7 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
     set_chunk_material_override_pair(0xFF00, 0x800, (*(s32 *)&chunk_polygon_flags_or_mask), (*(s32 *)&chunk_polygon_flags_and_mask));
     c.a = -1.0f + f;
     c.b = c.c = c.d = 0.0f;
-    set_chunk_material_color__13TUnk_80494AE0Fv(&c);
+    set_constant_material((const NJS_ARGB *)&c);
 }
 
 }
@@ -952,7 +953,7 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 #undef obj_getField1c
 
 #define set_chunk_material_override_pair ((s32 (*)(int, int, int, void *, void *, int))set_chunk_material_override_pair)
-#define set_chunk_material_color__13TUnk_80494AE0Fv ((s32 (*)(void *, f32, f32, f32, f32))set_chunk_material_color__13TUnk_80494AE0Fv)
+#define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)
 
 struct Stack_802AC040 {
     f32 sp8;
@@ -1026,7 +1027,7 @@ void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, 
         stack.spC = temp_f2;
         stack.sp10 = temp_f1;
         stack.sp14 = -((TBoss6PlotFalz__fade_amount * (1.0f - farg3)) - 1.0f);
-        set_chunk_material_color__13TUnk_80494AE0Fv(&stack.sp8, temp_f1, temp_f2, (f32) (1.0f), TBoss6PlotFalz__fade_amount);
+        set_constant_material(&stack.sp8, temp_f1, temp_f2, (f32) (1.0f), TBoss6PlotFalz__fade_amount);
     }
 }
 #pragma pop
@@ -1036,7 +1037,7 @@ bool is_normal_difficulty(void) {
 }
 
 #undef set_chunk_material_override_pair
-#undef set_chunk_material_color__13TUnk_80494AE0Fv
+#undef set_constant_material
 
 int TBoss6PlotFalz::get_phase() {  return plot_falz_phase; }
 }

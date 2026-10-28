@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TOMineDisp_8016EF68.h"
 #include "pso/unk/text_803D96A8.h"
@@ -44,7 +45,6 @@ s32 get_camera_mode__11TCameraCtrlFv();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -81,9 +81,9 @@ void TOMineDisp::render() {
     temp_r4 = model_render_flags;
     saved_model_render_flags = temp_r4;
     model_render_flags = temp_r4 | 0x20;
-    set_chunk_material_color__13TUnk_80494AE0Fv(((u8 *)this) + 0x94, temp_r4);
+    ((void (*)(void *, s32))set_constant_material)(((u8 *)this) + 0x94, temp_r4);
     ((TOMine *)temp_r31)->free_sub_objects();
-    ((s32 (*)(void *))set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     TParticleCtrl::end_effect_render();
     pop_matrix();

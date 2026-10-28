@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TOMineTrap_8016F6F8.h"
 #include "pso/system/GinjaMaterial.h"
@@ -49,7 +50,6 @@ void *get_player_by_client_id(s32 i);
 void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
-void set_chunk_material_color__13TUnk_80494AE0Fv(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -141,9 +141,9 @@ void TOMine::render() {
         t = model_render_flags;
         saved_model_render_flags = t;
         model_render_flags = t | 0x20;
-        ((void (*)(void *, s32)) set_chunk_material_color__13TUnk_80494AE0Fv)((u8 *) arg0 + 0x360, t);
+        ((void (*)(void *, s32)) set_constant_material)((u8 *) arg0 + 0x360, t);
         free_sub_objects();
-        set_chunk_material_color__13TUnk_80494AE0Fv(chunk_material_color_half_alpha_f32);
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();

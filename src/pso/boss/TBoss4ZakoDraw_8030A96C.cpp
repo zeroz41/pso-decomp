@@ -1,3 +1,5 @@
+#include "pso/system/NinjaTypes.h"
+void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/system/vector.h"
@@ -145,7 +147,7 @@ void TObjPlayer__sub_8030A9B0() {
         col.b = lbl_805DF14C;
         col.r = lbl_805DF13C * k + lbl_805DF14C;
         col.g = lbl_805DF14C;
-        ((TUnk_80494AE0 *)((f32 *)&col))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&col)));
         draw_chunk_model((void *)falz_zako_chunk_model);
         pop_matrix();
     }

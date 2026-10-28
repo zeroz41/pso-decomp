@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/unk/text_80141550.h"
 #include "pso/effect/TEffect.h"
@@ -316,7 +317,6 @@ void push_matrix(void);
 s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_object(void);
-void set_chunk_material_color__13TUnk_80494AE0Fv(void *, s32);
 extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -355,7 +355,7 @@ void TUnk_804CCB28::render() {
     id = model_render_flags;
     saved_model_render_flags = id;
     model_render_flags = id | 0x200010;
-    set_chunk_material_color__13TUnk_80494AE0Fv(o->m48, id);
+    ((void (*)(void *, s32))set_constant_material)(o->m48, id);
     if (o->tev != 0) {
         ((TScene *)(o->tev))->draw_field_1c(2, 0, 0);
     }

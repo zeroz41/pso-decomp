@@ -50,7 +50,7 @@ void TItemEffNeedleBase::render() {
         saved_model_render_flags = model_render_flags;
         model_render_flags = saved_model_render_flags | 0x20;
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
-        ((TUnk_80494AE0 *)((f32 *)self->m_1c))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)self->m_1c)));
         TObjPlayer::notify_fish_if_valid(self->m_40);
         TParticleCtrl::begin_effect_render();
         push_matrix();

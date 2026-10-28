@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -512,7 +513,7 @@ void TObjEneMe3Stelth::render() {
                 } else {
                     model_render_flags |= 0x820;
                     Col_800F1CD4 c = stelth_render_color_a;
-                    ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+                    set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
                     set_chunk_material_override_pair(0xFF00, 0x800);
                 }
                 if (defer_render__7TObjectFv(arg0) != 0) {
@@ -525,7 +526,7 @@ void TObjEneMe3Stelth::render() {
             } else {
                 model_render_flags |= 0x820;
                 Col_800F1CD4 c = stelth_render_color_b;
-                ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
                 set_chunk_material_override_pair(0xFF00, 0x800);
             }
             if (draw != 0) {
@@ -557,7 +558,7 @@ void TObjEneMe3Stelth::render() {
                     TObjPlayer::setup_tev_stage();
                     model_render_flags |= 0x8021;
                     Col_800F1CD4 c = me3_stelth_render_color;
-                    ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+                    set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
                     set_color_blend_mode(1, 4, 5, 0);
                 } else {
                     setup_particle_tev(0);
@@ -565,7 +566,7 @@ void TObjEneMe3Stelth::render() {
             } else {
                 model_render_flags |= 0x8021;
                 Col_800F1CD4 c = me3_stelth_secondary_render_color;
-                ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
                 set_color_blend_mode(1, 4, 5, 0);
             }
             set_global_param__8TObjFishFl(F(s32, 0x24));

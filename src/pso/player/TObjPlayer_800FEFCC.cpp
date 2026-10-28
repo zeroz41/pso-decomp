@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/system/vector.h"
@@ -243,7 +244,7 @@ void TObjHMS_EZRope_Player::sub_800FF2D0() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x10;
         set_chunk_material_override_pair(0, 0x800);
-        ((TUnk_80494AE0 *)ezrope_chunk_material_color_table)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)ezrope_chunk_material_color_table);
         for (b = arg0->blobs; b->scale >= lbl_805DAA58; b++) {
             f32 s;
             push_matrix();

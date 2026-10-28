@@ -174,11 +174,11 @@ void TUnk_8048E1A4::render() {
         case 2:
             saved_model_render_flags = model_render_flags;
             model_render_flags = saved_model_render_flags | 0x8820;
-            ((TUnk_80494AE0 *)(&this->m_340))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&this->m_340)));
             draw_ginja_object(this->model);
             model_render_flags &= 0xFFFF77DF;
             set_chunk_material_override_pair(0xFF00, 0);
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
             break;
         }

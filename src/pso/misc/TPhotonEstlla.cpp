@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801AA664.h"
 #include "pso/misc/TPhotonEstlla.h"
@@ -151,7 +152,7 @@ void TPhotonEstlla::render() {
         model_render_flags |= 0x200820;
         TObjPlayer::set_global_flag();
         set_chunk_material_override_pair(-1, 0x800);
-        ((TUnk_80494AE0 *)((f32 *)&self->color))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
         ((TObjMotion *)self)->draw();
         TObjPlayer::clear_global_state();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

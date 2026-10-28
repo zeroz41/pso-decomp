@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
@@ -5098,7 +5099,7 @@ void TObjPlayer::apply_material_color_override() {
         TObjPlayer::reset_transform_state();
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(-1, 0x800);
-        ((TUnk_80494AE0 *)(arg0 + 0x624))->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)((arg0 + 0x624)));
     }
 }
 

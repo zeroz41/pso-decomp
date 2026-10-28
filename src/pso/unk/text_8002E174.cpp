@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/boss/TObjBoss1Rock.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -207,7 +208,7 @@ void TUnk_80482090::render() {
                 saved_model_render_flags = model_render_flags;
                 model_render_flags = saved_model_render_flags | 0x8810;
                 c.a = p->f24;
-                ((TUnk_80494AE0 *)((f32 *)&c))->set_chunk_material_color();
+                set_constant_material((const NJS_ARGB *)(((f32 *)&c)));
                 set_chunk_material_override_pair(0xFF00, 0x800);
                 set_chunk_blend(0x2500);
                 draw_chunk_model((void *)n->f4);

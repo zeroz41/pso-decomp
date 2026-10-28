@@ -167,7 +167,7 @@ void TUnk_804820A8::render() {
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x8810;
             color.a = p->unk24;
-            set_chunk_material_color__13TUnk_80494AE0Fv(&color.a);
+            set_constant_material((const NJS_ARGB *)&color.a);
             set_chunk_material_override_pair(0xFF00, 0x800);
             set_chunk_blend(0x2500);
             draw_chunk_model(node->model);

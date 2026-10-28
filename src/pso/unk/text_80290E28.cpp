@@ -57,7 +57,7 @@ void draw_ui_sprite_tinted(s32 arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 farg0)
         st.q.tbl = creation_sprite_table;
         TCharaMaking__resolve_creation_sprite_table(&st.table, &arg0);
         ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
-        ((TUnk_80494AE0 *)arg3)->set_chunk_material_color();
+        set_constant_material((const NJS_ARGB *)arg3);
         TLobby::draw_with_camera((s32)&st.q, (s32)arg0, 0x22, (f32)farg0);
         ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
     }

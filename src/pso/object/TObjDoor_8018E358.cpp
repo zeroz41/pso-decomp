@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/system/vector.h"
@@ -241,7 +242,7 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
     model_render_flags |= 0x10;
     Color_8018E40C color = TObjDoor__label_color_table[arg0->fD0];
     color.a = arg0->fC4;
-    ((TUnk_80494AE0 *)((f32 *)&color))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)(((f32 *)&color)));
     Glob_8018E40C *g0 = ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
@@ -284,7 +285,7 @@ s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     model_render_flags |= 0x10;
     Color_8018E5F4 color = ((Color_8018E5F4 *)TObjDoor__label_color_table)[arg0->fD0];
     color.a = arg0->fC4;
-    ((TUnk_80494AE0 *)(&color))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((&color)));
     Glob_8018E5F4 *g0 = ((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
@@ -319,7 +320,7 @@ s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     model_render_flags |= 0x10;
     Color_8018E74C color = ((Color_8018E74C *)TObjDoor__label_color_table)[arg0->fD0];
     color.a = arg0->fC4;
-    ((TUnk_80494AE0 *)(&color))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)((&color)));
     Glob_8018E74C *g0 = ((Glob_8018E74C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);

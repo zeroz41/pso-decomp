@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/object/TObjCamera.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -322,14 +323,14 @@ void TObjChip__vt10(u8 *arg0) {
         for (i = 0; i < *(s32 *)(arg0 + 0x54); i++, p++) {
             Color_8017FCD0 c = chip_color_white_c;
             c.a = p->x30;
-            ((TUnk_80494AE0 *)(&c))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((&c)));
             push_matrix();
             post_translate_matrix(p);
             rotate_matrix_yxz(0, p->x18, p->x1c, p->x20);
             scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
             draw_ginja_object(*(s32 *)(arg0 + 0x64));
             pop_matrix();
-            ((TUnk_80494AE0 *)chunk_material_color_half_alpha_f32)->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         }
         model_render_flags = saved_model_render_flags;
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

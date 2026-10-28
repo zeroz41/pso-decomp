@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -396,7 +397,7 @@ void TUnk_8048E728::apply_particle_model_fade_color(s32 mode) {
         f.g = 0.0f;
         f.b = 0.0f;
     }
-    ((TUnk_80494AE0 *)((f32 *)&f))->set_chunk_material_color();
+    set_constant_material((const NJS_ARGB *)(((f32 *)&f)));
 }
 
 u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1) {

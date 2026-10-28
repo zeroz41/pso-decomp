@@ -93,7 +93,7 @@ void TUnk_804F0BF0::render() {
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
             ((TRaderMapCore *)saved_model_draw_color)->copy_vec4((model_material_color));
             model_render_flags |= 0x20;
-            ((TUnk_80494AE0 *)(arg0 + 0x28))->set_chunk_material_color();
+            set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
             TParticleCtrl::begin_effect_render();
             TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x24)));
             push_matrix();

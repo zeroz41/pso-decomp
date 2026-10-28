@@ -1,3 +1,4 @@
+#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/object/TObjMotion.h"
@@ -104,7 +105,6 @@ int draw_ginja_model_with_motion(void *, int, f32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern s32 *TODoorMachine01__global_param_id_array;
 extern const f32 lbl_805DB504;
-s32 set_chunk_material_color__13TUnk_80494AE0Fv(void *, int);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -232,7 +232,7 @@ void TODoorMachine01::draw_part_models(u8 *arg1, s32 arg2) {
         temp_r4 = model_render_flags;
         saved_model_render_flags = temp_r4;
         model_render_flags = temp_r4 | 0x10;
-        set_chunk_material_color__13TUnk_80494AE0Fv((void *)(arg0 + 0xDC), temp_r4);
+        ((void (*)(void *, s32))set_constant_material)((void *)(arg0 + 0xDC), temp_r4);
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();
@@ -246,7 +246,7 @@ void TODoorMachine01::draw_part_models(u8 *arg1, s32 arg2) {
     pop_matrix();
     TParticleCtrl::end_effect_render();
     if (arg2 != 1) {
-        ((void (*)(void *))set_chunk_material_color__13TUnk_80494AE0Fv)(chunk_material_color_half_alpha_f32);
+        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
     }
 }

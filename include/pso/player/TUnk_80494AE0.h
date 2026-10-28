@@ -10,7 +10,6 @@ public:
     float m_c;
     u8 unk_10[0x4];
     virtual ~TUnk_80494AE0();
-    void set_chunk_material_color();
     virtual void set_rate_from_divisor(s32);
     virtual void vfunc_4();
     virtual void reset_obstruction_fade();
