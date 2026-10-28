@@ -27,7 +27,7 @@ u8 *TOWreckAncient05__ct(u8 *wreck_ancient, s32 arg1) {
     *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient05__name;
     ((TOWreckAncient05 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
     init_collision_body_parts(wreck_ancient, (s32) ((u8 *)&TOWreckAncient__collision_body_templates.value + 0x84), 1);
-    ((TObjPlayer *)wreck_ancient)->reset_photon_effect();
+    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
     return wreck_ancient;
 }
 

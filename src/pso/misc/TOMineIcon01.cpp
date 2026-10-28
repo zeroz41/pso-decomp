@@ -126,7 +126,7 @@ void *TOMineIcon01__ct(void *arg0, void *arg1, void *arg2) {
     self->f30 |= 0x60000000;
     init_collision_body_parts(self, mine_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     return self;
 #undef self
 }

@@ -153,7 +153,7 @@ void TObjEneDf2Bringer::update_projectile_motion() {
     }
     *(f32 *)&this->entity_id = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x40) * temp_f2) + *(f32 *)&this->room);
     *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) ((this->prev_position.x * temp_f2) + *(f32 *)&this->set_index);
-    *(f32 *)&this->texture_id = (f32) ((this->prev_position.y * temp_f2) + *(f32 *)&this->actorFlags);
+    *(f32 *)&this->texlist = (f32) ((this->prev_position.y * temp_f2) + *(f32 *)&this->actorFlags);
 }
 #pragma pop
 

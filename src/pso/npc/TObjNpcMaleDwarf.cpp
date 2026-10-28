@@ -71,7 +71,7 @@ u8 *TObjNpcMaleDwarf__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcMaleDwarf *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 8);
-    ((TObjNpcMaleDwarf *)player)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 0xC);
+    ((TObjNpcMaleDwarf *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 0xC);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

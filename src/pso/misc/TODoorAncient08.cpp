@@ -275,7 +275,7 @@ void TODoorAncient08::render() {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->m_bc, this->m_b0);
             pop_matrix();
             return;
@@ -283,7 +283,7 @@ void TODoorAncient08::render() {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->m_bc, *(f32 *)&this->m_b4 - lbl_805DB474);
             pop_matrix();
             return;
@@ -426,14 +426,14 @@ u8 *TODoorAncient08__ct(TODoorAncient08 *arg0, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8016069C___vt__15TODoorAncient08 *)&__vt__15TODoorAncient08).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F50;
     ((TODoorAncient08 *)(arg0))->apply_object_set_data((void *)arg2);
-    arg0->texture_id = (s32) *(*(s32 * *)&TODoorAncient08__switch_texture_lists);
+    arg0->texlist = (s32) *(*(s32 * *)&TODoorAncient08__switch_texture_lists);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&door_ancient08_bml_resource) + 0x42C)) + 8);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&door_ancient08_bml_resource) + 0x430)) + 4));
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DB474);
     arg0->m_b8 = (f32) (*(f32 *)((s8 *)arg0 + 0xB4) / lbl_805DB470);
     init_collision_body_parts(arg0, (void *) (&TODoorAncient08__collision_body.value), 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     temp_r0 = arg0->set_params[0];
     if (temp_r0 < 0) {
         arg0->set_params[0] = 0;

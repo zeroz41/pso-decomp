@@ -310,7 +310,7 @@ void TOHealGeneral::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         temp_r31 = (unsigned char *) (*(void * *)&this->model);
         post_translate_matrix(temp_r31 + 8);
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
@@ -424,7 +424,7 @@ void *TOHealGeneral__ct(void *arg0, void *arg1) {
     self->fC4 = 4e+01f;
     init_collision_body_parts(self, heal_general_collision_body_part, 1, model);
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     ((TUnk_804AF8A0 *)self)->clear_player_status_flag(0, 1);
     self->fCC = 0;
     self->fD0 = 0.0f;
@@ -447,6 +447,6 @@ void *TOHealGeneral__ct(void *arg0, void *arg1) {
     return self;
 }
 
-void*TOHealGeneral::vfunc_9() { return (char*)this + 0xe0; }
+void *TOHealGeneral::get_center() { return (char*)this + 0xe0; }
 
 }

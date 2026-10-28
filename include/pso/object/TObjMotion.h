@@ -12,12 +12,12 @@ public:
     virtual void vfunc_6(s16 *, s32);
     virtual void apply_object_set_data(void *);
     virtual void reset_motion_fields();
-    virtual void*vfunc_9();
+    virtual void *get_center();
     virtual s32 update_object_view_visibility(f32, f32);
     virtual s16 classify_actor_view_detail(f32, f32, f32);
     virtual const char *get_name();
     void obj_clearFlags30(u32);
-    s16 get_stat_by_key_state();
+    s16 get_room();
     void set_room(s16 room);
     // Gives it count + 1 consecutive ids from the pool its actorFlags type
     // bits pick, unless it already has one; returns its id.
@@ -29,7 +29,7 @@ public:
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
     s32 m_20;
-    s32 texture_id;
+    s32 texlist;  // its texture list, made current before it draws
     // Copied from the object's set entry when it is spawned; see
     // TLobby::link_matching_objects.
     s16 room;
@@ -90,11 +90,14 @@ public:
     s32 obj_testFlags30(u32);
     s32 access_object_saved_state(void *, s16);
     void sub_80156A68();
-    void*initialize_linked_object_reference(void*);
-    void clear_obj_links();
+    void*set_collision_body(void*);
+    void clear_collision_bodies();
     u32 check_actor_body_contact(void *, f32);
     void mark_enemy_body_contacts();
     void refresh_collision_body_centers();
+    // Gives it an entity id if it has none and enters it in the id-sorted
+    // entity table (unregister_object_by_id takes it out).
+    void register_object_by_id();
     u16 unregister_object_by_id();
     void send_object_state_update(void *);
     // A player (client id, 0xFFFF for none) uses the action button on it.

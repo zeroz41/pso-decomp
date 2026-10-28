@@ -44,7 +44,7 @@ s32 fn_8029EC3C(Vec_8029EC3C *pos, s32 arg1) {
     if (p == 0) return 0;
     scale = lbl_805DDD98;
     if (get_current_area() == 0x1C) {
-        if ((s16)((TUnk_804B9870 *)p)->get_stat_by_key_state() == 0x5A) {
+        if ((s16)((TUnk_804B9870 *)p)->get_room() == 0x5A) {
             scale = lbl_805DDD9C;
         } else {
             scale = lbl_805DDD98;

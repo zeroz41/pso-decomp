@@ -94,7 +94,7 @@ s32 get_field_3e4__10TObjPlayerFv(void *);
 s32 get_photon_blast_chain(void *, s32);
 void *get_player_by_client_id(u32);
 s32 is_split_screen();
-s32 get_stat_by_key_state__13TUnk_804B9870Fv(void *);
+s32 get_room__13TUnk_804B9870Fv(void *);
 u16 get_entity_id(void *);
 s32 TObjPlayer__sub_801A9E10(void *, int, void *, void *, int, int);
 void set_type__10TObjPlayerFs(void *, s16);
@@ -191,10 +191,10 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
     if (local == NULL) {
         return 0;
     }
-    group = get_stat_by_key_state__13TUnk_804B9870Fv(local);
+    group = get_room__13TUnk_804B9870Fv(local);
     owner = get_player_by_client_id(owner_id);
     if (owner != NULL) {
-        if (get_field_3e4__10TObjPlayerFv(local) == get_field_3e4__10TObjPlayerFv(owner) && group == (s16) get_stat_by_key_state__13TUnk_804B9870Fv(owner)) {
+        if (get_field_3e4__10TObjPlayerFv(local) == get_field_3e4__10TObjPlayerFv(owner) && group == (s16) get_room__13TUnk_804B9870Fv(owner)) {
             return 1;
         }
     }
@@ -217,7 +217,7 @@ void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2) {
                 tmp1.kind = 0x14;
                 Hit_801A86E0 hit1 = tmp1;
                 ((VObj_18_b27ba1 *)plr)->m21(ent, &hit1, 0, -1, -1);
-            } else if (*(s16 *)((s8 *)plr + 0x28) == (s16)get_stat_by_key_state__13TUnk_804B9870Fv(ent)) {
+            } else if (*(s16 *)((s8 *)plr + 0x28) == (s16)get_room__13TUnk_804B9870Fv(ent)) {
                 tmp2.value = (f32)arg1;
                 tmp2.kind = 0x14;
                 Hit_801A86E0 hit2 = tmp2;
@@ -233,7 +233,7 @@ void clear_photon_blast_donations(void) {
         photon_blast_donation_flags[i] = 0;
     }
 }
-#define GET_STAT ((s16 (*)(void *))get_stat_by_key_state__13TUnk_804B9870Fv)
+#define GET_STAT ((s16 (*)(void *))get_room__13TUnk_804B9870Fv)
 #define SET_TYPE ((void (*)(void *, u16))set_type__10TObjPlayerFs)
 void admit_photon_blast_sequence(u8 *players, void *self) {
     Slot_801A8868 a[4];

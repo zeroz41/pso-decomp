@@ -520,7 +520,7 @@ u8 *TOTrapChainSawKey__ct(u8 *arg0, void * _w1, void * _w2) {
     ((TOTrapChainSawKey *)(arg0))->vfunc_16();
     init_collision_body_parts(arg0, (int) ((u8 *)(&((RecoveredGlobal_802C8910_lbl_804E0CC0 *)chain_saw_collision_body_part_table)->value) + (*(s32 *)((s8 *)arg0 + 0xF8) * 0x58)), 2);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 
@@ -692,7 +692,7 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
     ((TOTrapChainSawDamage *)arg0)->vfunc_16();
     ((s32 (*)(void *, void *, int))init_collision_body_parts)(arg0, &((Ent_802C8E24 *)chain_saw_damage_collision_body_parts)[*(s32 *)(((u8 *)arg0) + 0xF8)], 2);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     *(f32 *)(((u8 *)arg0) + 0x3C) += (5.0f);
     {
         Copy_802C8E24 c = *(Copy_802C8E24 *)arg2;
@@ -962,7 +962,7 @@ void render_shadows__7TObjectFv();
 void vfunc_6__13TUnk_804B9870FPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804AF8A0Fv();
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
@@ -985,7 +985,7 @@ s32 __vt__18TOTrapChainSawEdge[31] = {
     (s32)&vfunc_6__13TUnk_804B9870FPsl,
     (s32)&apply_object_set_data__13TUnk_804B9870FPv,
     (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&vfunc_9__13TUnk_804B9870Fv,
+    (s32)&get_center__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,
@@ -1018,7 +1018,7 @@ s32 __vt__17TOTrapChainSawKey[31] = {
     (s32)&vfunc_6__13TUnk_804B9870FPsl,
     (s32)&apply_object_set_data__13TUnk_804B9870FPv,
     (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&vfunc_9__13TUnk_804B9870Fv,
+    (s32)&get_center__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,
@@ -1051,7 +1051,7 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
     (s32)&vfunc_6__13TUnk_804B9870FPsl,
     (s32)&apply_object_set_data__13TUnk_804B9870FPv,
     (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&vfunc_9__13TUnk_804B9870Fv,
+    (s32)&get_center__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,
@@ -1084,7 +1084,7 @@ s32 __vt__14TOTrapChainSaw[31] = {
     (s32)&vfunc_6__13TUnk_804B9870FPsl,
     (s32)&apply_object_set_data__13TUnk_804B9870FPv,
     (s32)&reset_motion_fields__13TUnk_804AF8A0Fv,
-    (s32)&vfunc_9__13TUnk_804B9870Fv,
+    (s32)&get_center__13TUnk_804B9870Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,

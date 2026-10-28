@@ -20,7 +20,7 @@ void *__nw__7TObjectFUl(int);
     extern int player_unique_pair_entry_count;
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
 extern "C" void get_name__13TUnk_804B9870Fv();
-extern "C" void vfunc_9__13TUnk_804B9870Fv();
+extern "C" void get_center__13TUnk_804B9870Fv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
 extern "C" u8 lbl_804729C8[];
@@ -161,7 +161,7 @@ void *online_ending_quad_vertices[8] = {
 void *__vt__16TObjOnlineEnding[13] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__16TObjOnlineEndingFPvs, (void *)&run_task__16TObjOnlineEndingFv,
     (void *)&render__16TObjOnlineEndingFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv,
 };
 #define lbl_804E3A38 ((f32 *)lbl_804E3A38)

@@ -28,7 +28,7 @@ u8 *TOWreckAncientBrakable05__ct(TOWreckAncientBrakable05 *wreck_ancient_brakabl
     *(s32 *)((s8 *)wreck_ancient_brakable05 + 0) = (s32) TOWreckAncientBrakable05__name;
     ((TOWreckAncientBrakable05 *)(wreck_ancient_brakable05))->apply_object_set_data((void *)arg1);
     init_collision_body_parts(wreck_ancient_brakable05, (void *) ((u8 *)&TOWreckAncient__collision_body_templates.value + 0x84), 1);
-    ((TObjPlayer *)wreck_ancient_brakable05)->reset_photon_effect();
+    ((TObjPlayer *)wreck_ancient_brakable05)->register_object_by_id();
     wreck_ancient_brakable05->m_b8 = (s32) wreck_ancient_brakable05->set_params[0];
     temp_r0 = wreck_ancient_brakable05->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {

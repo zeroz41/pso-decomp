@@ -2284,7 +2284,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 
     s32 j;
     f32 d;
     found = 0;
-    ((TUnk_804B9870 *)(view->f94))->get_stat_by_key_state();
+    ((TUnk_804B9870 *)(view->f94))->get_room();
     VecCopy__FP3VecPC3Vec(origin, (int)pos);
     view->count = 0;
     for (j = 0; j < 10; j++) {

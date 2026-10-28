@@ -16,6 +16,6 @@ u8 *TOContainerAncientItemRare__ct(u8 *container_ancient_item_rare, s32 arg1) {
     init_ancient_container(container_ancient_item_rare, arg1);
     *(s32 **)((s8 *)container_ancient_item_rare + 0x18) = &__vt__26TOContainerAncientItemRare.value;
     *(s32 *)((s8 *)container_ancient_item_rare + 0) = (s32) lbl_805D2F00;
-    ((TOContainerAncientItemRare *)container_ancient_item_rare)->texture_id = (s32) *ancient_container_fragment_texture_lists;
+    ((TOContainerAncientItemRare *)container_ancient_item_rare)->texlist = (s32) *ancient_container_fragment_texture_lists;
     return container_ancient_item_rare;
 }

@@ -69,7 +69,7 @@ void TOWreckAncient::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -123,7 +123,7 @@ u8 *TOWreckAncient__ct(u8 *wreck_ancient, s32 arg1) {
     *(s32 **)((s8 *)wreck_ancient + 0x18) = &(*(RecoveredGlobal_8017DE94___vt__14TOWreckAncient *)&__vt__14TOWreckAncient).value;
     *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient__name;
     *(s32 *)((s8 *)wreck_ancient + 0x34) = get_bml_model((void *) ((*(s32 *)&wreck_ancient_bml_resource)), (void *)arg1);
-    ((TOWreckAncient *)wreck_ancient)->texture_id = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&wreck_ancient_bml_resource)), (void *)arg1);
+    ((TOWreckAncient *)wreck_ancient)->texlist = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&wreck_ancient_bml_resource)), (void *)arg1);
     *(f32 *)((s8 *)wreck_ancient + 0xAC) = (f32) lbl_805DBAD0;
     ((TOWreckAncient *)wreck_ancient)->m_b0 = (f32) lbl_805DBAD4;
     return wreck_ancient;

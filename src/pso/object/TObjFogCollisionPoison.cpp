@@ -74,7 +74,7 @@ u8 *TObjFogCollisionPoison::init_base(u8 *arg1, s16 arg2) {
     *(s16 *)&this->room = arg2;
     *(s32 *)&this->entity_id = 0x96;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
-    this->texture_id = 0;
+    this->texlist = 0;
     return ((u8 *)this);
 }
 
@@ -134,7 +134,7 @@ void TObjFogCollisionPoison::record_hit(s32 arg1, s32 arg2) {
     if ((s32) *(s32 *)&this->m_20 <= arg1) {
         *(s32 *)&this->entity_id = (s32) (*(s32 *)&this->entity_id + 1);
         *(s32 *)&this->m_20 = arg1;
-        this->texture_id = arg2;
+        this->texlist = arg2;
     }
 }
 
@@ -166,7 +166,7 @@ u8 *TObjFogCollisionPoison::construct_with_index(u8 *arg1, s32 arg2) {
     *(s32 *)((s8 *)&TObjFogCollisionPoison__instances.value + (*(s32 *)&this->room * 4)) = (long) (this);
     *(s32 *)&this->entity_id = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
-    this->texture_id = 1;
+    this->texlist = 1;
     *(s32 *)&this->set_index = 1;
     return ((u8 *)this);
 }

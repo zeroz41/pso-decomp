@@ -170,7 +170,7 @@ void *TObjLazerFenceExtra__ct(void *arg0, void *arg1, void *arg2) {
     *(u32 *)((s8 *)self + 0x30) |= 0x40000000;
     *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0xA4)) + 0x10) = *(f32 *)((s8 *)self + 0x6C);
     *(f32 *)((s8 *)(*(u8 **)((s8 *)self + 0xA4)) + 0xC) = *(f32 *)((s8 *)self + 0x70);
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
     if (*(s32 *)((s8 *)self + 0xD8) == 0) {
         for (i = 1; i < *(s32 *)((s8 *)self + 0xA8); i++) {
@@ -376,7 +376,7 @@ u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *lazer_fence_norm, s32 arg1, s32 a
     temp_r6 = temp_r4 >> 0x1FU;
     init_collision_body_parts(lazer_fence_norm, (void *) ((u8 *)laser_fence_collision_body_parts + ((((temp_r4 & 1) ^ temp_r6) - temp_r6) * 0x84)), 3);
     lazer_fence_norm->actorFlags = (s32) (lazer_fence_norm->actorFlags | 0x40000000);
-    ((TObjPlayer *)lazer_fence_norm)->reset_photon_effect();
+    ((TObjPlayer *)lazer_fence_norm)->register_object_by_id();
     ((TUnk_804AF8A0 *)lazer_fence_norm)->refresh_collision_body_centers();
     return (u8 *)lazer_fence_norm;
 }

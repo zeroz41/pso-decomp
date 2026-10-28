@@ -287,7 +287,7 @@ void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
     }
     init_collision_body_parts(door_key, TObjDoorKey__collision_body_parts, 1);
     *(s32 *)&door_key->actorFlags |= 0x40000000;
-    ((TObjPlayer *)door_key)->reset_photon_effect();
+    ((TObjPlayer *)door_key)->register_object_by_id();
     Vec_80190020 pos = *(Vec_80190020 *)((s8 *)door_key + 0x38);
     pos.y += lbl_805DBE0C;
     *(s32 *)&door_key->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);

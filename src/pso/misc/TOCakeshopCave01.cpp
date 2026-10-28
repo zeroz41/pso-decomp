@@ -113,7 +113,7 @@ void TOCakeshopCave01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         m = *(Model_80159F78 * *)&this->model;
         post_translate_matrix(m->m8);
         draw_ginja_model(m->m4);
@@ -186,7 +186,7 @@ void *TOCakeshopCave01__ct(void *arg0_, void *arg1) {
     *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
     init_collision_body_parts(arg0, cakeshop_cave01_collision_body_part, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     for (i = 0; i < 8; i++) {
         ((TOCakeshopCave01_8015A1C0 *)arg0)->val[i] = TOCakeshopCave01__data_805DB360;
         ((TOCakeshopCave01_8015A1C0 *)arg0)->state[i] = 0;

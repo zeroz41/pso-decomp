@@ -69,7 +69,7 @@ s32 TOTrap::is_any_player_matching_stat() {
     for (i = 0; i < 4; i++) {
         p = ((void *)get_player_by_client_id(i));
         if (p != 0) {
-            if (((s16)((TUnk_804B9870 *)p)->get_stat_by_key_state() == (s16)get_stat_by_key_state()) && (fn_80171314(p) != 0)) {
+            if (((s16)((TUnk_804B9870 *)p)->get_room() == (s16)get_room()) && (fn_80171314(p) != 0)) {
                 return 1;
             }
         }
@@ -254,7 +254,7 @@ void TOTrap::render() {
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {

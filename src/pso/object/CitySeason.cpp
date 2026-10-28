@@ -1564,7 +1564,7 @@ u8 *init_city_season_object(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0) {
         *(ByteBlock_2C *)(copy_storage_80184B44.bytes) = *(const ByteBlock_2C *)((s32) ((u8 *)&city_season_collision_template.value - 4) + 4);
         (*(f32 *)(copy_storage_80184B44.bytes + 0xC)) = farg0;
         init_collision_body_parts(arg0, (void *) ((copy_storage_80184B44.bytes)), 1);
-        ((TObjPlayer *)arg0)->reset_photon_effect();
+        ((TObjPlayer *)arg0)->register_object_by_id();
     } else {
         *(s32 *)((s8 *)arg0 + 0xA4) = 0;
     }

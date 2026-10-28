@@ -77,7 +77,7 @@ void TKomorebi::render() {
             komorebi_last_uv_update_frame = actor_frame_tick;
         }
         push_matrix();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_yxz(0, *(s32 *)&this->rotation_x, this->rotation_y, this->rotation_z);
         temp_f1 = this->scale.z;
@@ -112,7 +112,7 @@ u8 *TKomorebi__ct(u8 *komorebi, s32 arg1, s32 arg2) {
     ((TObjPlayer *)(komorebi + 0x5C))->copy_xyz((void *)(arg2 + 0x18));
     VecCopy((Vec *)(komorebi + 0x68), (const Vec *)(arg2 + 0x24));
     *(s32 *)((s8 *)komorebi + 0x34) = get_bml_model((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
-    ((TKomorebi *)komorebi)->texture_id = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
+    ((TKomorebi *)komorebi)->texlist = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&TKomorebi__resource_bundle)), 0);
     return komorebi;
 }
 

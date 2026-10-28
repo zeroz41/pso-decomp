@@ -2318,7 +2318,7 @@ void qst_op_get_player_room(void) {
     u8 i = qst_args[1];
     if (player != NULL) {
         qst_registers[i++] = ((TObjPlayer *)player)->get_field_3e4();
-        qst_registers[i] = ((TUnk_804B9870 *)player)->get_stat_by_key_state();
+        qst_registers[i] = ((TUnk_804B9870 *)player)->get_room();
     } else {
         qst_registers[i++] = -1;
         qst_registers[i] = -1;

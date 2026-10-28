@@ -45,7 +45,7 @@ void TObjDFUsoTower::render() {
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (*(f32 *)&this->unk_94 < lbl_805D8A34) {

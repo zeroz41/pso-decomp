@@ -22,7 +22,7 @@ struct TObjEneGibbles : public TObjEnemy {
     virtual int test_flag_256();
     virtual void vfunc_61();
     virtual void vfunc_63();
-    void*vfunc_9();
+    void *get_center();
     u32 resolve_sound_id(u32 sound_id);
     s32 m_374;
     u8 unk_378[0x4];

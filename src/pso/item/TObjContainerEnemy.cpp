@@ -113,7 +113,7 @@ u8 *TObjContainerEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjContainerEnemy *)arg0)->mode = 0;
     ((TObjContainerEnemy *)arg0)->actorFlags = (s32) (((TObjContainerEnemy *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, (void *)&forest_box_collision_body_parts.value, 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + *(f32 *)((s8 *)&forest_box_collision_body_parts.value + 4));

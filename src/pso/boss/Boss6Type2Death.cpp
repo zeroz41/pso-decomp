@@ -408,7 +408,7 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     void *count = get_fish_count__8TObjFishFv();
     *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(count, 4);
     *(s32 *)((s8 *)arg0 + 0x20) = TObjFish__sub_8001EDB0(count, 4);
-    ((TBoss6Type1 *)arg0)->texture_id = get_bml_motion(count, 7);
+    ((TBoss6Type1 *)arg0)->texlist = get_bml_motion(count, 7);
     *(s32 *)((s8 *)arg0 + 0x28) = get_bml_model(count, 5);
     *(s32 *)((s8 *)arg0 + 0x2C) = TObjFish__sub_8001EDB0(count, 5);
     ((TBoss6Type1 *)arg0)->actorFlags = get_bml_motion(count, 7);

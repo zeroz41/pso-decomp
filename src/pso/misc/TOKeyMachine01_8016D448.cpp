@@ -298,7 +298,7 @@ u8 *TOKeyMachine01__ct(TOKeyMachine01 *key_machine01, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)key_machine01 + 0) = (s32) TOKeyMachine01__name;
     ((TOKeyMachine01 *)(key_machine01))->apply_object_set_data((void *)arg2);
     ((TOKey *)key_machine01)->init_switch_id();
-    key_machine01->texture_id = (s32) *TOKeyMachine01__texture_lists;
+    key_machine01->texlist = (s32) *TOKeyMachine01__texture_lists;
     *(s32 *)((s8 *)key_machine01 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&key_machine_model_archive) + 0x42C)) + 8);
     key_machine01->m_c0 = (f32) 4e+02f;
     *(f32 *)((s8 *)key_machine01 + 0xC4) = (f32) 1e+01f;

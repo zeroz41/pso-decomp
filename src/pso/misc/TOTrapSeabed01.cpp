@@ -686,7 +686,7 @@ u8 *TOTrapSeabed01__ct(TOTrapSeabed01 *trap_seabed01, s32 arg1, s32 arg2) {
     trap_seabed01->clamp_params_and_init();
     init_collision_body_parts(trap_seabed01, &seabed_trap_collision_body, 1);
     ((TUnk_804AF8A0 *)trap_seabed01)->refresh_collision_body_centers();
-    ((TObjPlayer *)trap_seabed01)->reset_photon_effect();
+    ((TObjPlayer *)trap_seabed01)->register_object_by_id();
     trap_seabed01->actorFlags = (s32) (trap_seabed01->actorFlags | 0x60040000);
     trap_seabed01->m_344 = 0;
     trap_seabed01->m_358 = -1;
@@ -749,7 +749,7 @@ void vfunc_78__13TUnk_804806E8Fl();
 void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
 void get_scale__6TOTrapFUl();
@@ -799,7 +799,7 @@ void *__vt__14TOTrapSeabed01[91] = {
     (void *)&vfunc_6__14TOTrapSeabed01FPsl,
     (void *)&apply_object_set_data__13TUnk_804B9870FPv,
     (void *)&reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)&vfunc_9__13TUnk_804806E8Fv,
+    (void *)&get_center__13TUnk_804806E8Fv,
     (void *)&update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv,

@@ -170,7 +170,7 @@ u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *quest_col_a_lock2, s32 arg1, s32 
     *(f32 *)((s8 *)temp_r4 + 4) = (f32) (*(f32 *)((s8 *)temp_r4 + 4) + quest_col_a_lock2->scale.y);
     ((TUnk_804AF8A0 *)quest_col_a_lock2)->refresh_collision_body_centers();
     quest_col_a_lock2->actorFlags = (s32) (quest_col_a_lock2->actorFlags | 0x40000000);
-    ((TObjPlayer *)quest_col_a_lock2)->reset_photon_effect();
+    ((TObjPlayer *)quest_col_a_lock2)->register_object_by_id();
     quest_col_a_lock2->m_c0 = (s32) *(s32 *)((s8 *)quest_col_a_lock2 + 0x88);
     if ((s32) quest_col_a_lock2->m_c0 < 0) {
         quest_col_a_lock2->m_c0 = 0;

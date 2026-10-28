@@ -416,7 +416,7 @@ u8 *TObjLobbyMain__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjLobbyMain *)arg0)->m_b0 = (f32) (0.0f);
     init_collision_body_parts(arg0, &lobby_main_collision_body.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

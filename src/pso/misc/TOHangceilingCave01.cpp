@@ -233,7 +233,7 @@ extern const char TOHangceilingCave01KeyQuick__class_name_string[] = "TOHangceil
 void TOHangceilingCave01KeyQuick::vfunc_79() {
     u8 *p;
 
-    this->texture_id = turiten_singo_texture_lists[1];
+    this->texlist = turiten_singo_texture_lists[1];
     *(void * *)&this->unknownF8 = get_bml_motion(TOHangceilingCave01__model_archive, 1);
     *(f32 *)&this->unk_354 = 0.0f;
     ((s32 (*)(void *, int))sub_801682E4__13TUnk_804B2578Fl)(this, 3);
@@ -323,7 +323,7 @@ u8 *TOHangceilingCave01KeyQuick__ct(u8 *arg0, s32 arg1) {
 void TOHangceilingCave01Key::vfunc_79() {
     u8 *p;
 
-    this->texture_id = turiten_singo_texture_lists[1];
+    this->texlist = turiten_singo_texture_lists[1];
     *(void * *)&this->unknownF8 = get_bml_motion(TOHangceilingCave01__model_archive, 1);
     *(f32 *)&this->unk_354 = 0.0f;
     ((s32 (*)(void *, int))sub_801682E4__13TUnk_804B2578Fl)(this, 3);
@@ -391,7 +391,7 @@ void TOHangceilingCave01Normal::vfunc_79() {
     s32 *p;
     *(void * *)&this->unknownF8 = get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
     p = turiten_singo_texture_lists;
-    this->texture_id = (s32) *p;
+    this->texlist = (s32) *p;
     *(f32 *)&this->unk_354 = (f32) (4.0f * this->m_350);
     ((s32 (*)(void *, s32, s32 *, f32))sub_801682E4__13TUnk_804B2578Fl)(this, 0, p, 4.0f);
     temp_r6 = this->bodies;
@@ -891,7 +891,7 @@ u8 *TOHangceilingCave01KeyQuick::init_base(s32 arg1, s32 arg2) {
     this->unknownF8 = (u32)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
     init_collision_body_parts(this, &lbl_804B2174.value, 1);
     this->refresh_collision_body_centers();
-    ((TObjPlayer *)((u8 *)this))->reset_photon_effect();
+    ((TObjPlayer *)((u8 *)this))->register_object_by_id();
     reset_state((((u8 *)this)));
     temp_r4 = (u8 *)this->bodies;
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | 0x1080);

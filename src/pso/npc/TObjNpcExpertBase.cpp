@@ -60,7 +60,7 @@ u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcExpertBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 8);
-    ((TObjNpcExpertBase *)player)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 0xC);
+    ((TObjNpcExpertBase *)player)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcExpertBase__shared_resource) + 0x42C)) + 0xC);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

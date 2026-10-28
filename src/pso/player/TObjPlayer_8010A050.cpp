@@ -106,7 +106,7 @@ s32 get_current_floor();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_group__5TItemFv();
 
-s32 TObjPlayer::get_texture_id() { return this->texture_id; }
+s32 TObjPlayer::get_texture_id() { return this->texlist; }
 s32 TObjPlayer__sub_8010A058(void* p) { return *(s32*)((char*)p + 0xf4); }
 
 extern const f32 lbl_805DAB58;

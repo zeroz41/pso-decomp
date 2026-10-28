@@ -240,7 +240,7 @@ u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
     init_collision_body_parts(arg0, &TObjDoorJung__collision_desc.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoorJung *)(arg0))->init_door_switch_binding();
     ((TObjDoorJung *)arg0)->clamp_state();
     return arg0;

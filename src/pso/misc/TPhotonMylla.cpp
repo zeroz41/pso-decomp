@@ -185,7 +185,7 @@ void TPhotonMylla::render() {
     Self_801AD4C0 *self = (Self_801AD4C0 *)this;
     if (*(s32 *)&this->m_1a0 != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);

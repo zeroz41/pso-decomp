@@ -176,7 +176,7 @@ u8 *TODragonflyCave01__ct(TODragonflyCave01 *dragonfly_cave01, void *arg1) {
     *(s32 *)((s8 *)dragonfly_cave01 + 0) = TODragonflyCave01__class_name;
     ((TODragonflyCave01 *)(dragonfly_cave01))->apply_object_set_data(arg1);
     dragonfly_cave01->model = *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x42C)) + 8);
-    dragonfly_cave01->texture_id = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x42C)) + 0xC);
+    dragonfly_cave01->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x42C)) + 0xC);
     *(void **)((s8 *)dragonfly_cave01 + 0xBC) = *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x430)) + 4);
     *(f32 *)((s8 *)dragonfly_cave01 + 0xB4) = (f32)*(u32 *)((s8 *)(*(u8 **)((s8 *)dragonfly_cave01 + 0xBC)) + 4) - lbl_805DB560;
     dragonfly_cave01->m_b8 = lbl_805DB564;
@@ -301,7 +301,7 @@ void TODragonfly::render() {
         translate_matrix(0, lbl_805DB580, *(f32 *)((s8 *)arg0 + 0xF0), lbl_805DB580);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->m_bc, this->m_b0);
         pop_matrix();
     }

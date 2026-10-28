@@ -230,7 +230,7 @@ Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2) {
     *(s32 *)arg0 = lbl_805D3194;
     arg0->v5(arg2);
     init_collision_body_parts(arg0, lbl_804B4550, 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOSymbolchatColli *)arg0)->init_collision_params();
     for (i = 0; i < 4; i++) {
         arg0->arr[i] = 0;

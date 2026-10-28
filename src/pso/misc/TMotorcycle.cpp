@@ -148,7 +148,7 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
     self->xBC = lbl_80445DF4[self->xBC];
     init_collision_body_parts(arg0, TMotorcycle__collision_parts, 1);
     self->flags |= 0x40000000;
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

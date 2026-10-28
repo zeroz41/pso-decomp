@@ -43,7 +43,7 @@ void TObjEneMorfosArm::render() {
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
     ((TObjMotion *)arg0)->draw();
     TParticleCtrl::end_effect_render();
@@ -82,7 +82,7 @@ u8 *TObjEneMorfosArm__ct(TObjEneMorfosArm *ene_morfos_arm, s32 arg1, u8 *arg2) {
     ene_morfos_arm->rotation_y = TObjEneMorfosArm__sub_803326BC(*(u8 **)((s8 *)ene_morfos_arm + 0xFC));
     *(s32 *)((s8 *)ene_morfos_arm + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x42C)) + 8);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x42C));
-    ene_morfos_arm->texture_id = (s32) *(s32 *)((s8 *)temp_r5 + 0xC);
+    ene_morfos_arm->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0xC);
     set_field_d8__10TObjMotionFl((void *)ene_morfos_arm, &morfos_arm_motion_params.value, (int)temp_r5);
     ((TObjMotion *)ene_morfos_arm)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x430)));
     ene_morfos_arm->m_b8 = 0;

@@ -112,7 +112,7 @@ public:
     void *destroy_motion_object(s16);
     void request_box_item_drop(void *, s16);
     f32 get_speed();
-    virtual void*vfunc_9();
+    virtual void *get_center();
     virtual void reset_motion_fields();
     int m_fc;
     u8 unk_100[0x3];

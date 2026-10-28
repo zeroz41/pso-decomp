@@ -92,7 +92,7 @@ u8 *TObjHashiVersus1__ct(u8 *player, s32 arg1, s32 _w2) {
     *(s32 *)((s8 *)player + 0x24) = TObjFish__sub_8001EDB0((*(u8 * *)&TObjHashiVersus1__resource_bundle), 0);
     init_collision_body_parts(player, (s32) &versus_bridge_collision_bodies.value, 2);
     *(s32 *)((s8 *)player + 0x30) = (s32) (*(s32 *)((s8 *)player + 0x30) | 0x40000000);
-    ((TObjPlayer *)player)->reset_photon_effect();
+    ((TObjPlayer *)player)->register_object_by_id();
     return player;
 }
 

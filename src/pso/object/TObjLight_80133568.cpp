@@ -190,7 +190,7 @@ Light_801347A4 TObjLight__data_805068FC[8];
 __declspec(section ".data") u32 TObjLight__data_80506A5C;
 #define TObjLight__scene_light_state (*(RecoveredGlobal_801336E0_TObjLight__data_80506320 *)TObjLight__scene_light_state)
 
-void*TObjLight::init_light(int a1) { *(int *)&this->m_name = light_type_id_table[a1]; *(float *)&this->m_up = TObjLight__data_805DB088; *(float *)&this->m_next = TObjLight__data_805DB088; *(float *)&this->m_prev = TObjLight__data_805DB088; TAdSinglePlyChrSelectGC__sub_80133548(); *(float *)&this->m_down = lbl_805DB08C; *(float*)((char*)this + 0x18) = lbl_805DB090; TAdSinglePlyChrSelectGC__sub_80133544(this); *(float *)&this->m_20 = lbl_805DB094; *(float *)&this->texture_id = lbl_805DB094; *(float *)&this->room = lbl_805DB094; TAdSinglePlyChrSelectGC__sub_801334E4(this); return this; }
+void*TObjLight::init_light(int a1) { *(int *)&this->m_name = light_type_id_table[a1]; *(float *)&this->m_up = TObjLight__data_805DB088; *(float *)&this->m_next = TObjLight__data_805DB088; *(float *)&this->m_prev = TObjLight__data_805DB088; TAdSinglePlyChrSelectGC__sub_80133548(); *(float *)&this->m_down = lbl_805DB08C; *(float*)((char*)this + 0x18) = lbl_805DB090; TAdSinglePlyChrSelectGC__sub_80133544(this); *(float *)&this->m_20 = lbl_805DB094; *(float *)&this->texlist = lbl_805DB094; *(float *)&this->room = lbl_805DB094; TAdSinglePlyChrSelectGC__sub_801334E4(this); return this; }
 
 void TUnk_804A6F78::render() {  }
 

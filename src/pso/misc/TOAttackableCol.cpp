@@ -360,7 +360,7 @@ u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
     obj_setFlags30(arg0, 0x60000000);
     init_collision_body_parts(arg0, &TOAttackableCol__collision_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x718);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOAttackableCol *)arg0)->mode = 0;
     *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DB2CC;
     ((TOAttackableCol *)arg0)->m_338 = (f32) lbl_805DB2D0;

@@ -420,7 +420,7 @@ void vfunc_78__13TUnk_804806E8Fl();
 void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
 void is_actor_cadence_frame__13TUnk_804806E8Fl();
@@ -504,7 +504,7 @@ s32 __vt__16TOTrapAncient02R[90] = {
     (s32)&vfunc_6__6TOTrapFPsl,
     (s32)&apply_object_set_data__13TUnk_804B9870FPv,
     (s32)&reset_motion_fields__13TUnk_804806E8Fv,
-    (s32)&vfunc_9__13TUnk_804806E8Fv,
+    (s32)&get_center__13TUnk_804806E8Fv,
     (s32)&update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)&get_name__13TUnk_804B9870Fv,
@@ -846,7 +846,7 @@ void *TOTrapAncient02R__ct(TOTrapAncient02R *trap_ancient02_r, void *arg1, void 
     ((TObjPlayer *)trap_ancient02_r)->init_position_vectors();
     ((TUnk_804806E8 *)trap_ancient02_r)->calc_attach_pos();
     *(s32 *)((s8 *)trap_ancient02_r + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 8);
-    trap_ancient02_r->texture_id = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 0xC);
+    trap_ancient02_r->texlist = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 0xC);
     trap_ancient02_r->mode = 0;
     trap_ancient02_r->phase = 0;
     trap_ancient02_r->range = lbl_805DBAA0 * trap_ancient02_r->scale.x + lbl_805DBA9C;
@@ -1072,7 +1072,7 @@ void TOTrapAncient02::render_particle_chain() {
     temp_r31 = (unsigned char *) (this->model);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC) + this->h344), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
     setup_particle_tev(0);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
     reset_particle_tev();
@@ -1080,7 +1080,7 @@ void TOTrapAncient02::render_particle_chain() {
     temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
     translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_2 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0xC) + this->h348), (f32) (*(f32 *)((s8 *)temp_r31_2 + 0x10)));
     setup_particle_tev(0);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
     reset_particle_tev();
@@ -1089,7 +1089,7 @@ void TOTrapAncient02::render_particle_chain() {
     temp_r31_3 = (unsigned char *) (*(void **)((s8 *)temp_r31_2 + 0x2C));
     post_translate_matrix(temp_r31_3 + 8);
     setup_particle_tev(1);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
     reset_particle_tev();
@@ -1099,7 +1099,7 @@ void TOTrapAncient02::render_particle_chain() {
     post_translate_matrix(temp_r31_4 + 8);
     rotate_matrix_y(0, this->m_34c);
     setup_particle_tev(0);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     load_projection_tex_matrix(0x38E);
     draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
     reset_particle_tev();
@@ -1116,7 +1116,7 @@ void TOTrapAncient02::draw_effect_chain() {
     u8 *temp_r31_4;
 
     push_matrix();
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     temp_r31 = (unsigned char *) (this->model);
@@ -1256,7 +1256,7 @@ void *TOTrapAncient02__ct(void *arg0, void *arg1, void *arg2) {
     init_collision_body_parts(((Trap_8017B6D8 *)arg0), (void *)&trap_ancient02_collision_body, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
     ((Trap_8017B6D8 *)arg0)->flags |= 0x60000000;
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((Trap_8017B6D8 *)arg0)->h348 = lbl_805DBA80;
     ((Trap_8017B6D8 *)arg0)->h344 = lbl_805DBA80;
     ((Trap_8017B6D8 *)arg0)->f34C = 0;

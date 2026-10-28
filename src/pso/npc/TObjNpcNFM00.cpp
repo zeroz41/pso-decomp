@@ -54,7 +54,7 @@ u8 *TObjNpcNFM00__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcNFM00 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *TObjNpcNFM00__shared_named_model_object;
-    ((TObjNpcNFM00 *)player)->texture_id = (s32) TObjNpcNFM00__texture_gvm_handle;
+    ((TObjNpcNFM00 *)player)->texlist = (s32) TObjNpcNFM00__texture_gvm_handle;
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

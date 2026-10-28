@@ -51,7 +51,7 @@ u8 *TObjNpcHFW00__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcHFW00 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *TObjNpcHFW00__shared_resource_obj;
-    ((TObjNpcHFW00 *)player)->texture_id = (s32) TObjNpcHFW00__texture_handle;
+    ((TObjNpcHFW00 *)player)->texlist = (s32) TObjNpcHFW00__texture_handle;
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

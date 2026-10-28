@@ -1479,7 +1479,7 @@ void *TUnk_804B8E18::destroy_player_obj(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804B8E18;
         unregister_object_by_id();
-        clear_obj_links();
+        clear_collision_bodies();
         destroy_motion_object(0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
@@ -1517,8 +1517,8 @@ u8 *TWindowTimer__sub_8019A574(u8 *arg0) {
     ((TUnk_804B8E18 *)arg0)->m_374 = (f32) (1.0f);
     *(s32 *)((s8 *)arg0 + 0x378) = 1;
     ((TUnk_804B8E18 *)arg0)->m_37c = 0x40107;
-    ((TUnk_804AF8A0 *)arg0)->initialize_linked_object_reference(arg0 + 0x364);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TUnk_804AF8A0 *)arg0)->set_collision_body(arg0 + 0x364);
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B8E18 *)arg0)->m_35c = 0;
     *(s16 *)((s8 *)(&(*(RecoveredGlobal_8019A574_lbl_8050DDAC *)&gogo_ball_sync_state).value) + 0x10) = 0;
     *(s8 *)((s8 *)(&(*(RecoveredGlobal_8019A574_lbl_8050DDAC *)&gogo_ball_sync_state).value) + 0x18) = 0;

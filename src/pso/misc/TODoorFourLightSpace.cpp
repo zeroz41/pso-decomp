@@ -184,7 +184,7 @@ s32 TODoorFourLightSpace::draw_lights() {
     pa = (u8 **)(self + 0xD8);
     pb = (u8 **)(self + 0xE8);
     push_matrix();
-    ((void (*)(s32))set_global_param__8TObjFishFl)(this->texture_id);
+    ((void (*)(s32))set_global_param__8TObjFishFl)(this->texlist);
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
     post_translate_matrix(mdl + 8);
@@ -203,7 +203,7 @@ s32 TODoorFourLightSpace::draw_lights() {
             TBoss8Dragon::get_instance();
             set_global_param__8TObjFishFl();
         } else {
-            ((void (*)(s32))set_global_param__8TObjFishFl)(this->texture_id);
+            ((void (*)(s32))set_global_param__8TObjFishFl)(this->texlist);
         }
         if (*pa != NULL) {
             push_matrix();
@@ -289,9 +289,9 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightSpace *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, TODoorFourLight__collision_body_params, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorFourLightSpace *)arg0)->m_d4 = (s32)fn_8028A78C(0);
-    ((TODoorFourLightSpace *)arg0)->texture_id = (s32)fn_8028A750(0);
+    ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
     ((TODoorFourLightSpace *)arg0)->m_b8 = (f32) lbl_805DD8F8;
@@ -538,9 +538,9 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightRuins *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, TODoorFourLight__collision_body_params, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorFourLightRuins *)arg0)->m_d4 = (s32)fn_8028A78C(0);
-    ((TODoorFourLightRuins *)arg0)->texture_id = (s32)fn_8028A750(0);
+    ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
     ((TODoorFourLightRuins *)arg0)->m_b8 = (f32) lbl_805DD8F8;

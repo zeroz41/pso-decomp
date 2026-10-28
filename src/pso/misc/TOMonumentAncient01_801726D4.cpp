@@ -92,10 +92,10 @@ u8 *TOMonumentAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOMonumentAncient01__name;
     ((TOMonumentAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(s32 *)&TOMonumentAncient01__resource_bundle)), 2);
-    ((TOMonumentAncient01 *)arg0)->texture_id = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOMonumentAncient01__resource_bundle)), 2);
+    ((TOMonumentAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOMonumentAncient01__resource_bundle)), 2);
     init_collision_body_parts(arg0, &lbl_804B38F0.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOHealGeneral *)arg0)->update_heal_gauge_state();
     ((TOMonumentAncient01 *)arg0)->m_c0 = (f32) lbl_805DB918;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB91C;

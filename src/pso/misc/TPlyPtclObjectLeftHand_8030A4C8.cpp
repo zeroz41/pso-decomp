@@ -53,7 +53,7 @@ void *__dt__22TPlyFollowParticleCtrlFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TPlyFollowParticleCtrl;
         ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
-        ((TUnk_804AF8A0 *)arg0)->clear_obj_links();
+        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
         __dt__13TUnk_804AF8A0Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -65,8 +65,8 @@ Ctrl_8030A5B8 *TPlyFollowParticleCtrl__ct(Ctrl_8030A5B8 *self, u8 *arg1) {
     __ct__13TUnk_804AF8A0FP7TObject(self, tl_06);
     self->vt = ((u8 *)&__vt__22TPlyFollowParticleCtrl);
     *(s32 *)self = TPlyFollowParticleCtrl__class_name;
-    ((TUnk_804AF8A0 *)self)->initialize_linked_object_reference(lbl_804E7578);
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TUnk_804AF8A0 *)self)->set_collision_body(lbl_804E7578);
+    ((TObjPlayer *)self)->register_object_by_id();
     self->link->flags &= 0xFFFFFFFE;
     self->s_ac = get_entity_id(arg1);
     self->s_ae = 0xFFFF;

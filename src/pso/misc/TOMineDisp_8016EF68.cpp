@@ -97,7 +97,7 @@ void TOMineDisp::run_task() {
         p = (u8 *)get_player_by_client_id(this->m_a8);
         if (p != NULL && is_locally_controlled__10TObjPlayerFPv() != 0 && fn_80171314(p) != 0) {
             if (horizontal_distance_squared(((u8 *)this) + 0x38, p + 0x38) <= lbl_805DB850 ||
-                ((TUnk_804B9870 *)p)->get_stat_by_key_state() == this->get_stat_by_key_state()) {
+                ((TUnk_804B9870 *)p)->get_room() == this->get_room()) {
                 this->m_a4 = 2;
             }
         }

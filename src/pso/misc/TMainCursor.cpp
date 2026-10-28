@@ -524,7 +524,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         return 0;
     }
     if (is_technique_ready__8TTecCtrlFv() == 0) {
-        if (((TUnk_804B9870 *)target)->get_stat_by_key_state() != (stat = ((TUnk_804B9870 *)player)->get_stat_by_key_state()) && (*(u32 *)(player + 0x30) & 0x60000000) == 0x20000000 && stat != -1) {
+        if (((TUnk_804B9870 *)target)->get_room() != (stat = ((TUnk_804B9870 *)player)->get_room()) && (*(u32 *)(player + 0x30) & 0x60000000) == 0x20000000 && stat != -1) {
             return 0;
         }
     }

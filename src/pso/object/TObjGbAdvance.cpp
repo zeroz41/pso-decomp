@@ -63,7 +63,7 @@ u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32D0;
     init_collision_body_parts(arg0, (s32) &gb_advance_collision_body_parts.value, 1);
     ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjGbAdvance *)arg0)->cursor_action.set_use();
     return arg0;
 }

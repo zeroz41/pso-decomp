@@ -828,7 +828,7 @@ void TObjEneEpsilonBody::render_body_effect() {
         rotate_matrix_y(0, (int) (this->rotation_y));
         temp_f1 = this->m_4f8;
         scale_matrix(0, temp_f1, lbl_805E0218, temp_f1);
-        TObjFish::set_global_param((int) (this->texture_id));
+        TObjFish::set_global_param((int) (this->texlist));
         TObjPlayer::toggle_particle_effect();
         get_bml_model((s32)(lbl_805D6FA0), 4);
         draw_chunk_object();
@@ -883,7 +883,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
         return;
     }
     ((TObjEneDD *)arg0)->update_secondary_light();
-    TObjFish::set_global_param(((TObjEneDD_ST *)arg0)->texture_id);
+    TObjFish::set_global_param(((TObjEneDD_ST *)arg0)->texlist);
     push_matrix();
     post_translate_matrix(arg0 + 0x38);
     translate_matrix(0, lbl_805E0208, lbl_805E0214, lbl_805E0208);
@@ -1034,7 +1034,7 @@ void TObjEneEpsilonGuard::action_destroy(s32 arg1) {
             (*(s32 *)((s8 *)arg0 + 0x4E8))++;
             if (*(s32 *)((s8 *)arg0 + 0x4E8) >= 0x14) {
                 ((TObjEneEpsilonBody *)(arg0))->vfunc_95();
-                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)(this->texture_id), (s32)(arg0 + 0x2FC), (s32)(this->rotation_y));
+                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)(this->texlist), (s32)(arg0 + 0x2FC), (s32)(this->rotation_y));
                 play_sound_effect(0x4003AD4C, (u8 *)&this->m_2fc, 0, 0);
                 ((TObjPlayer *)(arg0 + 0x2FC))->trigger_dell_biter_events();
                 this->m_438 |= 1;

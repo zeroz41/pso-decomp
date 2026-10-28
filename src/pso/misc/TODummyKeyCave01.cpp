@@ -133,7 +133,7 @@ void TODummyKeyCave01::run_task() {
         }
     }
     if (this->m_9a == 1) {
-        this->texture_id = *(s32 *)&this->m_94;
+        this->texlist = *(s32 *)&this->m_94;
         f32 lo = (-0.7f);
         if (lo < self->fB0) {
             self->fB0 += (-0.023333333f);
@@ -145,7 +145,7 @@ void TODummyKeyCave01::run_task() {
             *(s32 *)&this->m_cc = *(s32 *)&this->m_cc + 0x333;
         }
     } else {
-        this->texture_id = *(s32 *)&this->m_90;
+        this->texlist = *(s32 *)&this->m_90;
         if (self->fB0 < (0.0f)) {
             self->fB0 = self->fB0 - (-0.023333333f);
             if ((0.0f) < self->fB0) {

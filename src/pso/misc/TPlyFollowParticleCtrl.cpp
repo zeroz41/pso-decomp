@@ -11,4 +11,4 @@ s32 __dt__22TPlyFollowParticleCtrlFis(s32 arg0, s16 arg1) {
 }
 void TPlyFollowParticleCtrl__sub_8030A694(void) {  }
 u16 TPlyFollowParticleCtrl::get_lifetime() { return this->m_ac; }
-void*TPlyFollowParticleCtrl::vfunc_9() { return 0; }
+void *TPlyFollowParticleCtrl::get_center() { return 0; }

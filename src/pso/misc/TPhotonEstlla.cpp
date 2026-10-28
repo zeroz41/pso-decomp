@@ -142,7 +142,7 @@ void TPhotonEstlla::render() {
     if (*(s32 *)&this->m_19c != 0) {
         scroll_strip_uvs(estlla_photon_blast_model, self->f14C, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -279,7 +279,7 @@ u8 *TPhotonEstlla__ct(u8 *photon_estlla, u8 *arg1) {
         ((TPhotonEstlla *)photon_estlla)->rotation_y = *(s32 *)((s8 *)e + 0x60);
     }
     *(s32 *)((s8 *)photon_estlla + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98);
-    ((TPhotonEstlla *)photon_estlla)->texture_id = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
+    ((TPhotonEstlla *)photon_estlla)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
     ((TObjMotion *)photon_estlla)->set_field_d8((s32) photon_estlla_param_table);
     ((TObjMotion *)photon_estlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonEstlla *)photon_estlla)->m_b8 = 1;

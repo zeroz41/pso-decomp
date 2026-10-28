@@ -120,7 +120,7 @@ void TPhotonPilla::render() {
     if (this->m_1a4 != 0) {
         scroll_strip_uvs(pilla_photon_buffer_pair, self->f14C, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -231,7 +231,7 @@ extern u8 *photon_blast_shared_resource;
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
 extern "C" void interact__13TUnk_804AF8A0Fl();
 extern "C" void get_name__13TUnk_804B9870Fv();
-extern "C" void vfunc_9__13TUnk_804B9870Fv();
+extern "C" void get_center__13TUnk_804B9870Fv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
 extern "C" void enter_scene__13TUnk_804C3248Fv();
@@ -260,7 +260,7 @@ void *photon_pilla_laser_offset_table[18] = {
 void *lbl_804C3ACC[17] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__12TPhotonPillaFPvs, (void *)&run_task__12TPhotonPillaFv,
     (void *)&render__12TPhotonPillaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
     (void *)0x0,
 };
@@ -276,14 +276,14 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     ((TPhotonPilla *)photon_rainbow)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
     init_collision_body_parts(photon_rainbow, (void *)lbl_804C3A58, 1);
     ((TUnk_804AF8A0 *)photon_rainbow)->refresh_collision_body_centers();
-    ((TObjPlayer *)photon_rainbow)->reset_photon_effect();
+    ((TObjPlayer *)photon_rainbow)->register_object_by_id();
     ((TPhotonPilla *)photon_rainbow)->m_190 = (u8 *)find_entity_by_id(((TPhotonPilla *)photon_rainbow)->m_17c);
     temp_r3 = ((TPhotonPilla *)photon_rainbow)->m_190;
     if (temp_r3 != NULL) {
         ((TPhotonPilla *)photon_rainbow)->rotation_y = *(s32 *)((s8 *)temp_r3 + 0x60);
     }
     *(s32 *)((s8 *)photon_rainbow + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x38);
-    ((TPhotonPilla *)photon_rainbow)->texture_id = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
+    ((TPhotonPilla *)photon_rainbow)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
     ((TObjMotion *)photon_rainbow)->set_field_d8((s32)photon_pilla_action_table);
     ((TObjMotion *)photon_rainbow)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonPilla *)photon_rainbow)->m_b8 = 1;

@@ -60,9 +60,9 @@ void TObjCurtainLobby__sub_8035B8B4(void) {  }
 void TObjCurtainLobby::render() {
     f32 temp_f1;
 
-    if (((s32) this->m_c8 != 0) && ((u32) this->texture_id != 0U)) {
+    if (((s32) this->m_c8 != 0) && ((u32) this->texlist != 0U)) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -156,7 +156,7 @@ void *TObjCurtainLobby__ct(TObjCurtainLobby *curtain_lobby, s32 arg1, s32 arg2) 
     }
     *(f32 *)((s8 *)curtain_lobby + 0xCC) = 1.0f;
     *(s32 *)((s8 *)curtain_lobby + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjCurtainLobby__model_resource) + 0x42C)) + 8);
-    curtain_lobby->texture_id = (s32) curtain_lobby_type;
+    curtain_lobby->texlist = (s32) curtain_lobby_type;
     return curtain_lobby;
 }
 

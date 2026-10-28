@@ -880,7 +880,7 @@ void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
 void clear_lobby_object_state__9TObjEnemyFv();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_name__9TObjEnemyFv();
 void get_pos__13TUnk_804806E8Fl();
@@ -937,7 +937,7 @@ Hit_80491E44 bm3_flynest_hit_action_table[10] = { { 0x1, 0x0, 0xe, 0.30000001192
 void *lbl_80491EE4[106] = {
     0, 0, (void *)TObjEneBm3FlyNest__sub_800B3E40, (void *)run_task__17TObjEneBm3FlyNestFv,
     (void *)render__17TObjEneBm3FlyNestFv, (void *)render_shadows__17TObjEneBm3FlyNestFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804806E8Fv, (void *)vfunc_9__13TUnk_804806E8Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)reset_motion_fields__13TUnk_804806E8Fv, (void *)get_center__13TUnk_804806E8Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__9TObjEnemyFv, (void *)interact__13TUnk_804AF8A0Fl, (void *)add_actor_exp__13TUnk_804806E8Fl, (void *)consume_timer_field__13TUnk_804806E8Fl,
     (void *)get_actor_level_index__13TUnk_804806E8Fv, (void *)update_actor_ground_y__13TUnk_804806E8Fv, (void *)vfunc_18__13TUnk_804806E8FPUc, (void *)is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)select_melee_contact_body__13TUnk_804806E8FPvf, (void *)calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)receive_physical_attack__13TUnk_804806E8FPvf, (void *)receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -1071,7 +1071,7 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
     if (((VObj_18_800B23A0 *)arg0)->m8(500.0f, 120.0f) != 0) {
         Vec_800B23A0 v = lbl_8043B31C;
         update_player_state__9TObjEneDDFv(arg0, &v, 1);
-        set_global_param__8TObjFishFl(this->texture_id);
+        set_global_param__8TObjFishFl(this->texlist);
         ((void (*)(void))push_matrix)();
         ((void (*)(void *))post_translate_matrix)(arg0 + 0x38);
         translate_matrix(0, 0.0f, -5.0f, 0.0f);

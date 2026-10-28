@@ -310,7 +310,7 @@ void TOBoss4Tower::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        set_global_param__8TObjFishFl(this->texture_id);
+        set_global_param__8TObjFishFl(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
     }
@@ -329,7 +329,7 @@ u8 *TOBoss4Tower__ct(u8 *boss4_tower, s32 arg1) {
     ((TOBoss4Tower *)(boss4_tower))->apply_object_set_data((void *)arg1);
     *(s32 *)((s8 *)boss4_tower + 0x34) = get_bml_model((void *)lbl_805D58A8, 5);
     ((TOBoss4Tower *)boss4_tower)->m_94 = (f32) (6e+01f);
-    ((TOBoss4Tower *)boss4_tower)->texture_id = TObjFish__sub_8001EDB0((void *)lbl_805D58A8, 5);
+    ((TOBoss4Tower *)boss4_tower)->texlist = TObjFish__sub_8001EDB0((void *)lbl_805D58A8, 5);
     return boss4_tower;
 }
 

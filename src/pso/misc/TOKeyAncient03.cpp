@@ -206,7 +206,7 @@ u8 *TOKeyAncient03__ct(TOKeyAncient03 *key_ancient03, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)key_ancient03 + 0) = (s32) TOKeyAncient03__class_name;
     ((TOKeyAncient03 *)(key_ancient03))->apply_object_set_data((void *)arg2);
     ((TOKey *)key_ancient03)->init_switch_id();
-    key_ancient03->texture_id = (s32) *(*(s32 * *)&TOKeyAncient03__texture_variants);
+    key_ancient03->texlist = (s32) *(*(s32 * *)&TOKeyAncient03__texture_variants);
     key_ancient03->model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOKeyAncient03__model_archive) + 0x42C)) + 8));
     key_ancient03->m_c0 = (f32) 4e+02f;
     *(f32 *)((s8 *)key_ancient03 + 0xC4) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)key_ancient03->model + 4)) + 0x14);

@@ -859,7 +859,7 @@ void enemy_turn_half_toward_dest(Obj_80018570 *self);
 void enemy_turn_toward_dest(Obj_80018660 *self, s32 turn);
 u8 * vfunc_18__13TUnk_804806E8FPUc(u8 *arg0, u8 *arg1);
 u8 * update_actor_ground_y__13TUnk_804806E8Fv(u8 *arg0);
-void* vfunc_9__13TUnk_804806E8Fv(void* p);
+void* get_center__13TUnk_804806E8Fv(void* p);
 void reset_motion_fields__13TUnk_804806E8Fv(Obj_80018F64 *self);
 void * destroy_motion_object__13TUnk_804806E8Fs(void *arg0, s16 arg1);
 void get_pos__13TUnk_804806E8Fl(s32 arg0, s32 arg1);
@@ -1887,7 +1887,7 @@ void *lbl_804806E8[] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)vfunc_9__13TUnk_804806E8Fv,
+    (void *)get_center__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,
@@ -4475,7 +4475,7 @@ u8 *TUnk_804806E8::update_actor_ground_y() {
     return temp_r3;
 }
 
-void*TUnk_804806E8::vfunc_9() { return (char*)this + 0x2fc; }
+void *TUnk_804806E8::get_center() { return (char*)this + 0x2fc; }
 
 void TUnk_804806E8::reset_motion_fields() {
     Obj_80018F64 *self = (Obj_80018F64 *)this;

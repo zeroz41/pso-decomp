@@ -46,7 +46,7 @@ u8 *TObjDFUsoTower__ct(u8 *obj_df_uso_tower, s32 _w1) {
     *(s32 **)((s8 *)obj_df_uso_tower + 0x18) = &(*(RecoveredGlobal_80052200___vt__14TObjDFUsoTower *)&__vt__14TObjDFUsoTower).value;
     *(s32 *)((s8 *)obj_df_uso_tower + 0) = (s32) TObjDFUsoTower__name;
     *(s32 *)((s8 *)obj_df_uso_tower + 0x34) = get_bml_model(lbl_805D58A8, 5);
-    ((TObjDFUsoTower *)obj_df_uso_tower)->texture_id = TObjFish__sub_8001EDB0(lbl_805D58A8, 5);
+    ((TObjDFUsoTower *)obj_df_uso_tower)->texlist = TObjFish__sub_8001EDB0(lbl_805D58A8, 5);
     VecCopy((Vec *)(obj_df_uso_tower + 0x38), (const Vec *)&lbl_804858A8.value);
     *(f32 *)((s8 *)obj_df_uso_tower + 0x94) = (f32) lbl_805D8A30;
     ((TObjDFUsoTower *)obj_df_uso_tower)->m_90 = 0;

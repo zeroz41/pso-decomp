@@ -390,7 +390,7 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjPlayer *)(arg0 + 0xF0))->activate_and_dispatch();
     init_collision_body_parts(arg0, container_ido_collision_parts, 1);
     ((TObjContainerIdo *)arg0)->actorFlags |= 0x40000000;
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

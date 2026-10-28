@@ -132,7 +132,7 @@ s32 TObjEneDelDepth::is_state_complete() {
         return 0;
     }
     if ((s8) TObjEneDelDepth__state_complete_flag == 0) {
-        f32 temp_f1 = *(f32 *)&this->texture_id;
+        f32 temp_f1 = *(f32 *)&this->texlist;
         TObjEneDelDepth__state_complete_flag = 1;
         lbl_805D6AC8 = temp_f1 - lbl_805DF2E8;
     }

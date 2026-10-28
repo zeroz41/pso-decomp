@@ -352,7 +352,7 @@ TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     obj_setFlags30(this, 0x80000000);
     copy_collision_body(&collision_body, &item_collider_body);
     cursor_action.set_pick_up();
-    initialize_linked_object_reference(&collision_body);
+    set_collision_body(&collision_body);
     owner_client_id = 0xFFFF;
     item_id = ((TItemData *)item)->id;
     item_flags = 0;
@@ -384,7 +384,7 @@ TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
 
 TItem::~TItem() {
     set_mode(ITEM_MODE_INACTIVE);
-    clear_obj_links();
+    clear_collision_bodies();
     unregister_item();
 }
 
@@ -580,7 +580,7 @@ void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
     }
     cmd.header.client_id = client;
     cmd.floor = get_current_floor();
-    cmd.room_id = player->get_stat_by_key_state();
+    cmd.room_id = player->get_room();
     cmd.pos.x = pos[0];
     cmd.pos.z = pos[2];
     cmd.item_data.copy_from(data);
@@ -929,7 +929,7 @@ void TItem::set_mode(s8 new_mode) {
 void TItem::register_in_world(s32 clear_status) {
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
-        ((TObjPlayer *)this)->reset_photon_effect();
+        ((TObjPlayer *)this)->register_object_by_id();
         if (clear_status != 0) {
             clear_player_status_flag(0, 1);
         }
@@ -1092,7 +1092,7 @@ void TItem::begin_particle_tev() {
     TItem::begin_effect_render();
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) == 0) {
         setup_particle_tev(0);
-        set_texlist(texture_id);
+        set_texlist(texlist);
         item_render_state.set(ITEM_RENDER_PARTICLE_TEV);
     }
 }
@@ -1100,7 +1100,7 @@ void TItem::begin_particle_tev() {
 void TItem::end_particle_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_PARTICLE_TEV) != 0) {
         reset_particle_tev();
-        set_texlist(texture_id);
+        set_texlist(texlist);
         item_render_state.clear(ITEM_RENDER_PARTICLE_TEV);
     }
 }
@@ -1111,7 +1111,7 @@ void TItem::end_shield_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {
         reset_particle_tev();
         reset_indirect_tev(1);
-        set_texlist(texture_id);
+        set_texlist(texlist);
         item_render_state.clear(ITEM_RENDER_SHIELD_TEV);
     }
 }

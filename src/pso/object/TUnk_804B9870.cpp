@@ -61,7 +61,7 @@ void TUnk_804B9870::set_room(s16 room) {
     this->room = room;
 }
 
-s16 TUnk_804B9870::get_stat_by_key_state() {
+s16 TUnk_804B9870::get_room() {
     s32 global_state;
 
     if ((get_current_area() == 0) || (get_current_area() == 0x12)) {
@@ -141,7 +141,7 @@ u16 fn_801A210C(s32 n) {
     return r;
 }
 
-void*TUnk_804B9870::vfunc_9() { return (char*)this + 0x74; }
+void *TUnk_804B9870::get_center() { return &center; }
 
 #pragma push
 #pragma opt_common_subs off
@@ -312,7 +312,7 @@ TUnk_804B9870::TUnk_804B9870(TObject *parent) : TObject(parent) {
     set_group = 0;
     set_index = -1;
     m_20 = 1;
-    texture_id = 0;
+    texlist = 0;
     model = NULL;
     set_entry = NULL;
     position.x = lbl_805DC098;

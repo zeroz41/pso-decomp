@@ -621,7 +621,7 @@ void vfunc_78__13TUnk_804806E8Fl();
 void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
 void is_actor_cadence_frame__13TUnk_804806E8Fl();
@@ -659,7 +659,7 @@ void *__vt__13TObjDFHorming[] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)vfunc_9__13TUnk_804806E8Fv,
+    (void *)get_center__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,

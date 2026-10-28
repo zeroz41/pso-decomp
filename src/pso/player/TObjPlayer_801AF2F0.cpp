@@ -2034,7 +2034,7 @@ u16 register_entity_by_id(void *obj);
 u8 * find_entity_by_id(u16);
 s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec_801B5DDC *, Hit_801B5DDC *);
 void check_enemy_body_collisions(void *arg0);
-int clear_obj_links__13TUnk_804AF8A0Fv(void*);
+int clear_collision_bodies__13TUnk_804AF8A0Fv(void*);
 s32 is_state_ec1_ed3__10TObjPlayerFv(void *);
 s32 get_dest_area__17TObjAreaWarpQuestFv(void *);
 void fn_8019DD24(void *p, u32 v);
@@ -7859,7 +7859,7 @@ void TObjPlayer::create_lockon_cursor() {
     }
 }
 
-int clear_links__10TObjPlayerFPv(void* p) { return clear_obj_links__13TUnk_804AF8A0Fv(p); }
+int clear_links__10TObjPlayerFPv(void* p) { return clear_collision_bodies__13TUnk_804AF8A0Fv(p); }
 
 void TObjPlayer::init_collision_body() {
     Player_801BBD58 *self = (Player_801BBD58 *)this;
@@ -7893,7 +7893,7 @@ void TObjPlayer::init_collision_body() {
     self->body.center.y = self->pos.y;
     self->body.center.z = self->pos.z;
     self->body.extra = TObjPlayer__data_805DC278;
-    ((TUnk_804AF8A0 *)self)->initialize_linked_object_reference(&self->body);
+    ((TUnk_804AF8A0 *)self)->set_collision_body(&self->body);
 }
 
 struct Cand_801BBE54 { s16 val; Obj_801BC068 *obj; };

@@ -40,7 +40,7 @@ void TObjPlayer::on_zone_exit() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param((int) (*(s32 *)&this->texture_id));
+        TObjFish::set_global_param((int) (*(s32 *)&this->texlist));
         if ((s32) (*(s32 *)&this->m_d0) == 0) {
             draw_ginja_model_with_motion((void *) (*(void * *)&this->model), (int) (*(s32 *)&this->m_bc), (f32) (*(f32 *)&this->animationFlags));
         } else {

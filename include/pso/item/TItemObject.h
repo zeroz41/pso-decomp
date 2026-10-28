@@ -23,7 +23,7 @@ struct ItemToolPmt {
 struct TItemObject : public TItem {
     TItemObject(TObject *parent, u8 *item);
     virtual ~TItemObject();
-    virtual void *vfunc_9();
+    virtual void *get_center();
     virtual void update_owned();
     virtual void write_item_data(TItemData *data);
     virtual void use();

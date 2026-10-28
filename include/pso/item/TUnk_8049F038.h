@@ -8,7 +8,7 @@ public:
     TUnk_8049F038(TObject *parent, s16 a, s32 b);
     virtual ~TUnk_8049F038();
     void *destroy(s16);
-    virtual void*vfunc_9();
+    virtual void *get_center();
     virtual void run_task();
     u8 unk_AC[0x4];
     s32 m_b0;

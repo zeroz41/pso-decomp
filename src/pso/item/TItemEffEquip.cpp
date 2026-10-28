@@ -43,7 +43,7 @@ extern "C" {
 
 void *destroy__13TUnk_8049F038Fs(void *arg0, s16 arg1);
 void run_task__13TUnk_8049F038Fv(u8 *arg0);
-u8 *vfunc_9__13TUnk_8049F038Fv(u8 *arg0);
+u8 *get_center__13TUnk_8049F038Fv(u8 *arg0);
 s32 set_entity_id__13TUnk_804B9870FUs(void *, s32);
 void *get_player_by_client_id(s32 i);
 struct Obj_80108C90 {
@@ -173,7 +173,7 @@ struct VObj80108B5C_80108b5c : VBase0x18_80108b5c {
     virtual void m63(s32, void *);
 };
 
-void*TUnk_8049F038::vfunc_9() {
+void *TUnk_8049F038::get_center() {
     u8 *arg0 = (u8 *)this;
     u8 *player;
 
@@ -181,7 +181,7 @@ void*TUnk_8049F038::vfunc_9() {
     if (player != NULL) {
         ((VObj80108B5C_80108b5c *)player)->m63(this->m_b0, (u8 *)&this->position);
     }
-    return (u8 *)&this->position;
+    return &this->position;
 }
 
 struct VBase0x18_2_80108bb0 { char pad[0x18]; };
@@ -269,7 +269,7 @@ void *TUnk_8049F038::destroy(s16 arg1) {
         *(s32 **)((s8 *)this + 0x18) = (s32 *)__vt__13TUnk_8049F038;
         if ((u32) this->bodies != 0U) {
             unregister_object_by_id();
-            clear_obj_links();
+            clear_collision_bodies();
             push_free_entity_id(get_entity_id(this));
             set_entity_id__13TUnk_804B9870FUs(this, 0xFFFF);
         }
@@ -289,8 +289,8 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(pare
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }
-    ((TUnk_804AF8A0 *)this)->initialize_linked_object_reference(((Obj_80108C90 *)this)->sub);
-    ((TObjPlayer *)this)->reset_photon_effect();
+    ((TUnk_804AF8A0 *)this)->set_collision_body(((Obj_80108C90 *)this)->sub);
+    ((TObjPlayer *)this)->register_object_by_id();
     disallow_rendering__7TObjectFv((TObject *)this);
 }
 extern "C" {
@@ -320,7 +320,7 @@ void *__vt__13TUnk_8049F038[14] = {
     0, 0, (void *)destroy__13TUnk_8049F038Fs, (void *)run_task__13TUnk_8049F038Fv,
     (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
     (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__13TUnk_8049F038Fv,
+    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_8049F038Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl,
 };

@@ -469,7 +469,7 @@ void *TOTrapAncient01__ct(void *arg0, void *arg1, void *arg2) {
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
     *(u32 *)((s8 *)self + 0x30) |= 0x60040000;
     ((TUnk_804806E8 *)arg0)->get_or_assign_entity_id(0);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     for (i = 0; i < 4; i++) {
         ((TObjPlayer *)(((Self_80179F40 *)arg0)->arr[i]))->activate_and_dispatch();
     }

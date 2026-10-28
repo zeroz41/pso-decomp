@@ -118,7 +118,7 @@ s32 TItemObject::add_amount(s32 count) {
     return 0;
 }
 
-void *TItemObject::vfunc_9() {
+void *TItemObject::get_center() {
     if (owner != NULL) {
         return &owner->position;
     }

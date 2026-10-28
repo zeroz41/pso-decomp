@@ -754,7 +754,7 @@ void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
 void clear_lobby_object_state__9TObjEnemyFv();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_name__9TObjEnemyFv();
 void get_pos__13TUnk_804806E8Fl();
@@ -862,7 +862,7 @@ void *morfos_motion_param_table[20] = {
 void *__vt__13TObjEneMorfos[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TObjEneMorfosFv, (void *)&run_task__13TObjEneMorfosFv,
     (void *)&render__13TObjEneMorfosFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&TObjEneMorfos__vt20, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -919,7 +919,7 @@ void TObjEneMorfos::draw_body() {
 s32 TObjEneMorfos::render_model_if_visible() {
     if (get_mode__11TCameraCtrlFPv((void *) (((s32 *)&main_task))) & 0x20) {
         if (((TObjEneRecon *)(((u8 *)this) + 0x3C8))->push_reflect_matrix() != 0) {
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             push_matrix();
             post_translate_matrix((void *) (((u8 *)this) + 0x38));
             rotate_matrix_y(0, this->rotation_y);
@@ -981,7 +981,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     part = &self->parts[idx];
     update_obstruction_fade(part);
     vis = ((RenderFadeState *)part)->updateFromCamera((const f32*)(self->cam));
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     TObjPlayer::toggle_particle_effect();
     push_matrix();
     post_translate_matrix(self->pos);
@@ -1300,7 +1300,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
             for (i = 0; i < n; i++) {
                 pl = get_player_data__10TObjPlayerFi(i);
                 if (is_alive__9TObjEneDDFv(pl) != 0) {
-                    if (((TUnk_804B9870 *)arg0)->get_stat_by_key_state() == ((TUnk_804B9870 *)pl)->get_stat_by_key_state()) {
+                    if (((TUnk_804B9870 *)arg0)->get_room() == ((TUnk_804B9870 *)pl)->get_room()) {
                         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
                         ((TObjEneDD *)arg0)->update_velocity();
                         F(0x4BC, s32) = (u16)((s32)(TObjEneMorfos__data_80477610 * atan2_float(F(0x3A0, f32), F(0x3A8, f32))) + 0x8000);
@@ -2102,7 +2102,7 @@ void TObjEneMorfos::init_instance() {
 
     init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f18;
-    this->texture_id = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f1C;
+    this->texlist = ((Mgr_80334D74 *)TObjEneMorfos__instance)->res->f1C;
     init_model__9TObjEneDDFv(this, lbl_804EE0DC, 1);
     set_field_d8((s32)morfos_motion_param_table);
     set_field_dc(((Mgr_80334D74 *)TObjEneMorfos__instance)->f430);

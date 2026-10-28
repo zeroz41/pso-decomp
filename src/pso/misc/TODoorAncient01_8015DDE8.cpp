@@ -197,13 +197,13 @@ u8 *TODoorAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F20;
     ((TODoorAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorAncient01__shared_resource) + 0x42C)) + 8);
-    ((TODoorAncient01 *)arg0)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 * *)&TODoorAncient01__texture_lists) + 4);
+    ((TODoorAncient01 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 * *)&TODoorAncient01__texture_lists) + 4);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorAncient01__shared_resource) + 0x430)) + 4));
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DB3EC);
     ((TODoorAncient01 *)arg0)->m_b8 = (f32) (*(f32 *)((s8 *)arg0 + 0xB4) / lbl_805DB3E8);
     init_collision_body_parts(arg0, &TODoorAncient01__collision_body.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorAncient01 *)(arg0))->init_door_switch_binding();
     return arg0;
 }

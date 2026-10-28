@@ -363,7 +363,7 @@ u8 *TOKeyCave01__ct(TOKeyCave01 *key_cave01, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)key_cave01 + 0) = (s32) TOKeyCave01__class_name;
     ((TOKeyCave01 *)(key_cave01))->apply_object_set_data((void *)arg2);
     ((TOKey *)key_cave01)->init_switch_id();
-    key_cave01->texture_id = (s32) *TOKeyCave01__texture_lists;
+    key_cave01->texlist = (s32) *TOKeyCave01__texture_lists;
     *(s32 *)((s8 *)key_cave01 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOKeyCave01__resource_bundle) + 0x42C)) + 8);
     key_cave01->m_c0 = (f32) 4e+02f;
     *(f32 *)((s8 *)key_cave01 + 0xC4) = (f32) 2e+01f;

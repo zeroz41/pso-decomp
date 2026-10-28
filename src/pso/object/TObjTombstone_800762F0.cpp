@@ -49,7 +49,7 @@ extern const f32 TObjTombstone__data_805D9174;
 
 void TObjTombstone::setup(s32 arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
-    this->texture_id = TObjFish__sub_8001EDB0(TObjTombstone__shared_resource_object, 0);
+    this->texlist = TObjFish__sub_8001EDB0(TObjTombstone__shared_resource_object, 0);
     *(s32 *)&this->model = get_bml_model(TObjTombstone__shared_resource_object, 0);
     *(s32 *)&this->unk_AC = arg1;
     TObjTombstone::copy_record(arg0 + 0xC0, arg2);

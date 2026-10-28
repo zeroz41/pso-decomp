@@ -92,7 +92,7 @@ void TOKeyAncient01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, (void *)this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         if ((s32) *(s32 *)&this->m_d4 != 1) {
             draw_ginja_model_with_motion((void *) (*(u8 * *)&this->model), (int) (*(s32 *)&this->m_bc), this->m_b0);
         } else {
@@ -193,14 +193,14 @@ u8 *TOKeyAncient01__ct(TOKeyAncient01 *key_ancient01, s32 arg1, s32 arg2) {
     } else if (temp_r0 > 3) {
         *(s32 *)((s8 *)key_ancient01 + 0x88) = 3;
     }
-    key_ancient01->texture_id = (s32) *(s32 *)((s8 *)(*(s32 *)&TOKeyAncient01__texture_lists) + (*(s32 *)((s8 *)key_ancient01 + 0x88) * 4));
+    key_ancient01->texlist = (s32) *(s32 *)((s8 *)(*(s32 *)&TOKeyAncient01__texture_lists) + (*(s32 *)((s8 *)key_ancient01 + 0x88) * 4));
     *(s32 *)((s8 *)key_ancient01 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOKeyAncient01__shared_resource_object + 0x42C)) + 8);
     *(u8 **)((s8 *)key_ancient01 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)TOKeyAncient01__shared_resource_object + 0x430)) + 4));
     *(f32 *)((s8 *)key_ancient01 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)key_ancient01 + 0xBC)) + 4) - lbl_805DB6E8);
     key_ancient01->m_b8 = (f32) lbl_805DB6EC;
     init_collision_body_parts(key_ancient01, (s32) &key_ancient01_collision_body_part.value, 1);
     ((TUnk_804AF8A0 *)key_ancient01)->refresh_collision_body_centers();
-    ((TObjPlayer *)key_ancient01)->reset_photon_effect();
+    ((TObjPlayer *)key_ancient01)->register_object_by_id();
     key_ancient01->m_c0 = (f32) lbl_805DB6F0;
     *(f32 *)((s8 *)key_ancient01 + 0xC4) = (f32) lbl_805DB6F4;
     if ((s32) key_ancient01->m_d0 != 2) {

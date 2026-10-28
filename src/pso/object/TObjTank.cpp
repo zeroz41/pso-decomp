@@ -106,7 +106,7 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
     init_collision_body_parts(arg0, &tobjtank_collision_body_parts.value, 1);
     ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

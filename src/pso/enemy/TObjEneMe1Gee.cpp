@@ -161,7 +161,7 @@ extern "C" void vfunc_77__13TUnk_804806E8Fv();
 extern "C" void vfunc_76__13TUnk_804806E8Fv();
 extern "C" void vfunc_75__13TUnk_804806E8Ff();
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void vfunc_9__13TUnk_804806E8Fv();
+extern "C" void get_center__13TUnk_804806E8Fv();
 extern "C" void get_actor_level_index__13TUnk_804806E8Fv();
 extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__13TUnk_804806E8Fl();
@@ -247,7 +247,7 @@ void *TObjEneMe1Gee__fade_command_streams[5] = {
 void *me1_gee_dispatch_table[118] = {
     (void *)0x0, (void *)0x0, (void *)__dt__13TUnk_8049387CFv, (void *)TObjEneMe1Gee__sub_800C8BCC,
     (void *)render__13TObjEneMe1GeeFv, (void *)render_shadows__9TObjEnemyFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804806E8Fv, (void *)vfunc_9__13TUnk_804806E8Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)reset_motion_fields__13TUnk_804806E8Fv, (void *)get_center__13TUnk_804806E8Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__9TObjEnemyFv, (void *)interact__13TUnk_804AF8A0Fl, (void *)add_actor_exp__13TUnk_804806E8Fl, (void *)consume_timer_field__13TUnk_804806E8Fl,
     (void *)get_actor_level_index__13TUnk_804806E8Fv, (void *)update_actor_ground_y__13TUnk_804806E8Fv, (void *)vfunc_18__13TUnk_804806E8FPUc, (void *)is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)select_melee_contact_body__13TUnk_804806E8FPvf, (void *)calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)receive_physical_attack__13TUnk_804806E8FPvf, (void *)receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -2016,7 +2016,7 @@ void TUnk_8049387C::vfunc_105() {
     }
 }
 
-void TUnk_8049387C::vfunc_106() { *(int*)((char*)this + 0x34) = *(int*)((char*)*(int*)((char*)(*(int *)&TObjEneMe1Gee__resource_bundle) + 0x42c) + 0x8); this->texture_id = *(int*)((char*)*(int*)((char*)(*(int *)&TObjEneMe1Gee__resource_bundle) + 0x42c) + 0xc); }
+void TUnk_8049387C::vfunc_106() { *(int*)((char*)this + 0x34) = *(int*)((char*)*(int*)((char*)(*(int *)&TObjEneMe1Gee__resource_bundle) + 0x42c) + 0x8); this->texlist = *(int*)((char*)*(int*)((char*)(*(int *)&TObjEneMe1Gee__resource_bundle) + 0x42c) + 0xc); }
 
 void TObjEneMe1Gee__sub_800C8BCC(u8 *arg0) {
     if (TObjPlayer::check_demo_mode() != 0) {
@@ -2073,7 +2073,7 @@ void TObjEneMe1Gee::vfunc_115() {
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DA0BC, TObjEneMe1Gee__data_805DA0C0) != 0) {
         update_player_state__9TObjEneDDFv(arg0, 0, 0);
         TObjPlayer::toggle_particle_effect();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -2110,7 +2110,7 @@ void render__13TObjEneMe1GeeFv(u8 *ene_me1_gee) {
             update_player_state__9TObjEneDDFv(ene_me1_gee, 0, 0);
         }
         ((TObjEneDD *)ene_me1_gee)->update_secondary_light();
-        TObjFish::set_global_param((int) (((TObjEneMe1Gee *)ene_me1_gee)->texture_id));
+        TObjFish::set_global_param((int) (((TObjEneMe1Gee *)ene_me1_gee)->texlist));
         saved_model_render_flags = model_render_flags;
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
@@ -2240,7 +2240,7 @@ void TObjEneMe1Gee::vfunc_112(s32 arg1) {
             *(u8 **)((s8 *)arg0 + 0x3C0) = (u8 *)find_entity_by_id(*(u16 *)((s8 *)arg0 + 0x48C));
             ((VObj_18_0f49f2 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x3C0))))->m115(arg0);
         }
-        create_breakup_mdl__12TBoss3VoloptFlllll(TObjEneMe1Gee__data_805D51C4, 0, this->texture_id, (s32)(arg0 + 0x2FC), this->rotation_y);
+        create_breakup_mdl__12TBoss3VoloptFlllll(TObjEneMe1Gee__data_805D51C4, 0, this->texlist, (s32)(arg0 + 0x2FC), this->rotation_y);
         play_sound_effect(TObjEneMe1Gee::handle_message((s32) arg0, 0x3A843), (u32)(arg0 + 0x38), 0, 0);
         *(s32 *)((s8 *)arg0 + 0x3C8) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C8) | 0x400000);
         this->actorFlags = (s32) (this->actorFlags | 0x01000000);
@@ -3690,7 +3690,7 @@ void calc_position__13TObjEneMe1GeeFiPv(s32 actor, void *arg1) {
 
 void TObjEneMe1Gee::vfunc_106() {
     *(s32 *)((s8 *)this + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&(*(int *)&TObjEneMe1Gee__resource_bundle)) + 0x42C)) + 8);
-    this->texture_id = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&(*(int *)&TObjEneMe1Gee__resource_bundle)) + 0x42C)) + 0xC);
+    this->texlist = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&(*(int *)&TObjEneMe1Gee__resource_bundle)) + 0x42C)) + 0xC);
 }
 
 #pragma push

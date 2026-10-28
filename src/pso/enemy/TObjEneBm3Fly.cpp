@@ -190,13 +190,13 @@ f32 TObjEneGibbles::get_pos_x() { return *(f32 *)&this->m_up; }
 
 void TObjEneMoja::bindModel(int index) {
     model=lbl_805D50D8->models[index].model;
-    (*(void * *)&this->texture_id)=lbl_805D50D8->models[index].textures;
+    (*(void * *)&this->texlist)=lbl_805D50D8->models[index].textures;
 }
 
 void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0) {
     if (((VObj800AFB60_800AFB28 *) arg0)->m8((4e+02f), (15.0f)) != 0) {
         update_player_state__9TObjEneDDFv(arg0, 0, 0);
-        set_global_param__8TObjFishFl(arg0->texture_id);
+        set_global_param__8TObjFishFl(arg0->texlist);
         push_matrix();
         post_translate_matrix((u8 *)arg0 + 0x38);
         rotate_matrix_y(0, arg0->rotation_y);
@@ -230,7 +230,7 @@ void render__13TObjEneBm3FlyFv(VObj_800AFBF0 *o) {
             update_player_state__9TObjEneDDFv(o, (s32)&v, 0);
         }
         ((TObjEneDD *)o)->update_secondary_light();
-        set_global_param__8TObjFishFl(((TObjEneBm3Fly *)o)->texture_id);
+        set_global_param__8TObjFishFl(((TObjEneBm3Fly *)o)->texlist);
         push_matrix();
         translate_matrix(0, *(f32 *)((s8 *)o + 0x38), *(f32 *)((s8 *)o + 0x42C), *(f32 *)((s8 *)o + 0x40));
         rotate_matrix_y(0, ((TObjEneBm3Fly *)o)->rotation_y);
@@ -2002,7 +2002,7 @@ void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
 void clear_lobby_object_state__9TObjEnemyFv();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_name__9TObjEnemyFv();
 void get_pos__13TUnk_804806E8Fl();
@@ -2063,7 +2063,7 @@ void *bm3_fly_action_table[20] = {
 void *__vt__13TObjEneBm3Fly[107] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TObjEneBm3FlyFv, (void *)&run_task__13TObjEneBm3FlyFv,
     (void *)&render__13TObjEneBm3FlyFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -2345,7 +2345,7 @@ void init_model__9TObjEneDDFv(void *, void *, s32);
 s32 TObjEneBm3Fly::init_child_params() {
     init_position_vectors();
     *(s32 *)((s8 *)this + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)bm3_fly_nest_resources + 0x42C)) + 8);
-    this->texture_id = *(s32 *)((s8 *)(*(u8 **)((s8 *)bm3_fly_nest_resources + 0x42C)) + 0xC);
+    this->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)bm3_fly_nest_resources + 0x42C)) + 0xC);
     init_model__9TObjEneDDFv(this, &bm3_fly_collider_params, 1);
     set_field_d8((s32)bm3_fly_action_table);
     set_field_dc(*(s32 *)((s8 *)bm3_fly_nest_resources + 0x430));

@@ -593,7 +593,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     static void apply_status_effect(s32 a);
     static void add_unique_pair_entry(u32 arg0, s32 arg1);
     static void clear_item_table();
-    void reset_photon_effect();
     static void init_all_slots();
     static s32 check_flag_pair(s32 arg0, s32 arg1);
     static s32 check_flags(s32 arg0, s32 arg1);

@@ -39,7 +39,7 @@ void TODoorAncient07::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         if (((u32) this->m_bc != 0U) && (0.0f != this->m_b0)) {
             draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->m_bc, this->m_b0);
         } else {
@@ -56,7 +56,7 @@ void TODoorAncient07::render() {
 void TODoorAncient07::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
-        this->texture_id = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
+        this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
         if (is_any_player_within_radius_xz(arg0, 1e+04f) != 1) {
             this->m_ac = 3;
             ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
@@ -64,7 +64,7 @@ void TODoorAncient07::vfunc_17() {
         }
     } else {
         this->m_ac = 3;
-        this->texture_id = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 0);
+        this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 0);
         ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)NULL, 8);
         play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
     }
@@ -75,14 +75,14 @@ extern void *tl_05;
 void TODoorAncient07::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
-        this->texture_id = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
+        this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
         if (is_any_player_within_radius_xz((u8 *)((s32) arg0), 4.9e+03f) == 1) {
             this->m_ac = 1;
             ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
         }
     } else {
-        this->texture_id = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 0);
+        this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 0);
     }
 }
 
@@ -191,13 +191,13 @@ u8 *TODoorAncient07__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F48;
     ((TODoorAncient07 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorAncient07__bml_resource) + 0x42C)) + 8);
-    ((TODoorAncient07 *)arg0)->texture_id = (s32) *(*(s32 * *)&TODoorAncient07__texture_lists);
+    ((TODoorAncient07 *)arg0)->texlist = (s32) *(*(s32 * *)&TODoorAncient07__texture_lists);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODoorAncient07__bml_resource) + 0x430)) + 4));
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
     ((TODoorAncient07 *)arg0)->m_b8 = (f32) (*(f32 *)((s8 *)arg0 + 0xB4) / 3e+01f);
     init_collision_body_parts(arg0, &door_ancient07_collision_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorAncient07 *)(arg0))->init_door_switch_binding();
     return arg0;
 }

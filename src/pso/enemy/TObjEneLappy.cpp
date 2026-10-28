@@ -494,7 +494,7 @@ void TObjEneLappy::render() {
         temp_r3 = ((VObj_18_ca64a0 *)(this))->m9(lbl_805D9F30, lbl_805D9F34, lbl_805D9F28);
         if (temp_r3 != 0) {
             set_speed_params__12TObjEneLappyFl(this, this->variant);
-            set_global_param__8TObjFishFl(this->texture_id);
+            set_global_param__8TObjFishFl(this->texlist);
             select_actor_lighting(this);
             toggle_particle_effect__10TObjPlayerFv();
             push_matrix();
@@ -1462,7 +1462,7 @@ extern "C" void vfunc_77__13TUnk_804806E8Fv();
 extern "C" void vfunc_76__13TUnk_804806E8Fv();
 extern "C" void vfunc_75__13TUnk_804806E8Ff();
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void vfunc_9__13TUnk_804806E8Fv();
+extern "C" void get_center__13TUnk_804806E8Fv();
 extern "C" void get_actor_level_index__13TUnk_804806E8Fv();
 extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__13TUnk_804806E8Fl();
@@ -1645,7 +1645,7 @@ void *lbl_80492EFC[11] = {
 void *lbl_80492F28[84] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TObjEneLappyFv, (void *)&run_task__12TObjEneLappyFv,
     (void *)&render__12TObjEneLappyFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -1921,7 +1921,7 @@ u8 *TObjEneLappy__ct(u8 *self, s32 arg1, Set_800C1C4C *set) {
     *(s16 *)(self + 0x33E) = *(s16 *)(self + 0x32C);
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     scale = lbl_805D9F84 * (lbl_805D9F60 + calc_boss4_scale__10TObjPlayerFi(self));
     *(s16 *)(self + 0x37E) = lbl_805D9F2C * scale;
     add_flags_2e4__13TUnk_804806E8FUl(self, 1, scale, lbl_805D9F84);
@@ -1960,7 +1960,7 @@ void TObjEneLappy::set_speed_params(s32 arg1) {
     } else {
         var_r0_2 = rappy_alternate_texture_list;
     }
-    this->texture_id = var_r0_2;
+    this->texlist = var_r0_2;
 }
 
 void TObjEneLappy::sub_800C20B0() {

@@ -58,7 +58,7 @@ void TObjKabochaLobby::render() {
 
     if (((s32) *(s32 *)&this->m_c8 != 0) && ((u32) TObjKabochaLobby__lobby_type != 0U) && (((VObj18_8035346c *) arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0)) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -156,7 +156,7 @@ void *TObjKabochaLobby__ct(TObjKabochaLobby *kabocha_lobby, s32 arg1, s32 arg2) 
     }
     *(f32 *)((s8 *)kabocha_lobby + 0xCC) = 1.0f;
     *(s32 *)((s8 *)kabocha_lobby + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjKabochaLobby__model_resource) + 0x42C)) + 8);
-    kabocha_lobby->texture_id = (s32) TObjKabochaLobby__lobby_type;
+    kabocha_lobby->texlist = (s32) TObjKabochaLobby__lobby_type;
     return kabocha_lobby;
 }
 

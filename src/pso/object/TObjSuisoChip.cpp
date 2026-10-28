@@ -310,7 +310,7 @@ u8 *TObjSeabedSuisoBrakable__ct(TObjSeabedSuisoBrakable *seabed_suiso_brakable, 
         seabed_suiso_brakable->m_b8 = -1;
     }
     init_collision_body_parts(seabed_suiso_brakable, (int) ((u8 *)&seabed_suiso_brakable_collision_bodies.value + (seabed_suiso_brakable->m_bc * 0x2C)), 1);
-    ((TObjPlayer *)seabed_suiso_brakable)->reset_photon_effect();
+    ((TObjPlayer *)seabed_suiso_brakable)->register_object_by_id();
     return (u8 *)seabed_suiso_brakable;
 }
 
@@ -589,7 +589,7 @@ Obj_802A6DA8 *TObjSeabedSuiso_CH__ct(Obj_802A6DA8 *self, s32 arg1, s32 arg2) {
         self->kind = 3;
     }
     init_collision_body_parts(self, (int)&seabed_suiso_chip_collision_bodies[self->kind], 1);
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     if (TObjSeabedSuiso__kind_param_table[self->kind].id >= 0) {
         self->fd8 = (s32)create_particle_emitter(self->pos, TObjSeabedSuiso__kind_param_table[self->kind].id);
     } else {
@@ -631,7 +631,7 @@ void update_break_state__18TORockCaveBrakableFv();
 void vfunc_6__13TUnk_804B9870FPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804AF8A0Fv();
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
@@ -643,9 +643,9 @@ void *__vt__13TObjSuisoChip[14] = {
     0, 0, (void *)__dt__13TObjSuisoChipFv, (void *)update__8TObjChipFPv, (void *)dispatch_vt9__8TObjChipFPv, (void *)render_shadows__7TObjectFv, (void *)init_chips__8TObjChipFPv, (void *)spawn_chips__8TObjChipFPvPv, (void *)vfunc_8__13TObjSuisoChipFv, (void *)tick_chips__8TObjChipFPv, (void *)vfunc_10__13TObjSuisoChipFv, (void *)render__8TObjChipFPv, (void *)vfunc_12__13TObjSuisoChipFv, (void *)draw_chips__8TObjChipFPv
 };
 void *__vt__23TObjSeabedSuisoBrakable[20] = {
-    0, 0, (void *)__dt__23TObjSeabedSuisoBrakableFv, (void *)update_break_state__18TORockCaveBrakableFv, (void *)render__23TObjSeabedSuisoBrakableFv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv, (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl, (void *)TObjSeabedSuisoBrakable__vt12, (void *)vfunc_15__10TORockCaveFv, (void *)TObjSeabedSuisoBrakable__vt14, (void *)spawn_break_effect__23TObjSeabedSuisoBrakableFv, (void *)vfunc_18__18TORockCaveBrakableFv, (void *)vfunc_19__23TObjSeabedSuisoBrakableFv
+    0, 0, (void *)__dt__23TObjSeabedSuisoBrakableFv, (void *)update_break_state__18TORockCaveBrakableFv, (void *)render__23TObjSeabedSuisoBrakableFv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv, (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl, (void *)TObjSeabedSuisoBrakable__vt12, (void *)vfunc_15__10TORockCaveFv, (void *)TObjSeabedSuisoBrakable__vt14, (void *)spawn_break_effect__23TObjSeabedSuisoBrakableFv, (void *)vfunc_18__18TORockCaveBrakableFv, (void *)vfunc_19__23TObjSeabedSuisoBrakableFv
 };
 void *__vt__18TObjSeabedSuiso_CH[14] = {
-    0, 0, (void *)__dt__18TObjSeabedSuiso_CHFv, (void *)run_task__18TObjSeabedSuiso_CHFv, (void *)draw_model__23TObjSeabedSuisoBrakableFPv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv, (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl
+    0, 0, (void *)__dt__18TObjSeabedSuiso_CHFv, (void *)run_task__18TObjSeabedSuiso_CHFv, (void *)draw_model__23TObjSeabedSuisoBrakableFPv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv, (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff, (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl
 };
 }

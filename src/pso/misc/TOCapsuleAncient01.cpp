@@ -70,7 +70,7 @@ void TOCapsuleAncient01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         temp_r31 = (unsigned char *) (*(void * *)&this->model);
         translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC)), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
@@ -137,11 +137,11 @@ u8 *TOCapsuleAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2ECC;
     ((TOCapsuleAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCapsuleAncient01__static_model_resource) + 0x42C)) + 8);
-    ((TOCapsuleAncient01 *)arg0)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCapsuleAncient01__static_model_resource) + 0x42C)) + 0xC);
+    ((TOCapsuleAncient01 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCapsuleAncient01__static_model_resource) + 0x42C)) + 0xC);
     init_collision_body_parts(arg0, &capsule_ancient01_collision_body.value, 1);
     ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x1288);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOHealGeneral *)arg0)->update_heal_gauge_state();
     ((TOCapsuleAncient01 *)arg0)->m_c0 = (f32) lbl_805DB378;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB37C;

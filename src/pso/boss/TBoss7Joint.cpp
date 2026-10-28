@@ -83,7 +83,7 @@ void TBoss7Joint::run_task() {
 void *__dt__11TBoss7JointFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TBoss7Joint;
-        ((TUnk_804AF8A0 *)arg0)->clear_obj_links();
+        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
         __dt__9TObjEneDDFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -98,7 +98,7 @@ typedef char RecoveredGlobal_802EEC60___vt__11TBoss7Joint_size[sizeof(RecoveredG
 s32 TBoss7Joint::init_params() {
     init_position_vectors();
     copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), (const CollisionBody *)lbl_80473FB8);
-    initialize_linked_object_reference(&((J_802EEB88 *)this)->sub);
+    set_collision_body(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
     reset_hp__9TObjEneDDFv(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
     *(s16 *)((s8 *)this + 0x32C) = 0x4E20;

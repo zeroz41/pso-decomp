@@ -47,7 +47,7 @@ extern u8 *cave_door02_resources;
 void TODoorCave02::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
-        this->texture_id = (s32) *(s32 *)((s8 *)cave_door02_resources + 4);
+        this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 4);
         if (is_any_player_within_radius_xz(arg0, 1e+04f) != 1) {
             this->m_ac = 3;
             ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag(0, 8);
@@ -55,7 +55,7 @@ void TODoorCave02::vfunc_17() {
         }
     } else {
         this->m_ac = 3;
-        this->texture_id = (s32) *(s32 *)((s8 *)cave_door02_resources + 0);
+        this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 0);
         ((TUnk_804AF8A0 *)arg0)->clear_player_status_flag((s32)NULL, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
     }
@@ -241,13 +241,13 @@ u8 *TODoorCave02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F68;
     ((TODoorCave02 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&cave_door02_model_resource) + 0x42C)) + 8);
-    ((TODoorCave02 *)arg0)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&cave_door02_model_resource) + 0x42C)) + 0xC);
+    ((TODoorCave02 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&cave_door02_model_resource) + 0x42C)) + 0xC);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&cave_door02_model_resource) + 0x430)) + 4));
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
     ((TODoorCave02 *)arg0)->m_b8 = (f32) 0.5f;
     init_collision_body_parts(arg0, &TODoorCave02__collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorCave02 *)(arg0))->init_door_switch_binding();
     *(f32 *)((s8 *)arg0 + 0xD4) = (f32) 1.0f;
     ((TODoorCave02 *)arg0)->m_d8 = (f32) 1.0f;

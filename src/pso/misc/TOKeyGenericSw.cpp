@@ -232,10 +232,10 @@ void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *sou
     *(void **)((s8 *)key_generic_sw + 0xBC) = *(void **)((s8 *)(*(void **)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1] + 0x430)) + 4);
     *(f32 *)((s8 *)key_generic_sw + 0xB4) = (f32) *(u32 *)((s8 *)(*(void **)((s8 *)key_generic_sw + 0xBC)) + 4) - 1.0f;
     key_generic_sw->m_b8 = 2.0f;
-    *(u32 *)&key_generic_sw->texture_id = TOKeyGenericSw__texture_lists[1];
+    *(u32 *)&key_generic_sw->texlist = TOKeyGenericSw__texture_lists[1];
     init_collision_body_parts(key_generic_sw, key_generic_sw_collision_body, 1);
     ((TUnk_804AF8A0 *)key_generic_sw)->refresh_collision_body_centers();
-    ((TObjPlayer *)key_generic_sw)->reset_photon_effect();
+    ((TObjPlayer *)key_generic_sw)->register_object_by_id();
     key_generic_sw->m_c0 = 4e+02f;
     *(f32 *)((s8 *)key_generic_sw + 0xC4) = 4e+01f;
     if ((*(s32 *)&key_generic_sw->m_d0 != 2) && (key_generic_sw->scale.x < 0.0f)) {

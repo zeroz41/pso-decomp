@@ -85,7 +85,7 @@ void *__dt__14TBoss7CrawfishFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
         ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
-        ((TUnk_804AF8A0 *)arg0)->clear_obj_links();
+        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
         ((TBoss7Crawfish *)arg0)->free_child();
         __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
         if (arg1 > 0) {
@@ -100,9 +100,9 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__9TObjEnemyFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TBoss7Crawfish__class_name;
-    ((TBoss7Crawfish *)arg0)->texture_id = TObjFish__sub_8001EDB0(TBoss7Crawfish__shared_resource, 0);
+    ((TBoss7Crawfish *)arg0)->texlist = TObjFish__sub_8001EDB0(TBoss7Crawfish__shared_resource, 0);
     copy_collision_body((CollisionBody *)(arg0 + 0x374), (const CollisionBody *)crawfish_collision_body_desc);
-    ((TUnk_804AF8A0 *)arg0)->initialize_linked_object_reference(arg0 + 0x374);
+    ((TUnk_804AF8A0 *)arg0)->set_collision_body(arg0 + 0x374);
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_804E7380);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)((u8 *)TBoss7Crawfish__shared_resource) + 0x430)));
     ((TBoss7Crawfish *)arg0)->set_anim_timer(2);
@@ -122,7 +122,7 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TBoss7Crawfish__shared_resource, 1);
     }
     ((TUnk_804806E8 *)arg0)->get_or_assign_entity_id(0);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TBoss7Crawfish *)arg0)->clear_object_state_exchange();
     ((TBoss7Crawfish *)arg0)->change_state(0);
     v.z = TBoss7Crawfish__data_805DF0D8;

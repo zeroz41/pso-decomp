@@ -240,7 +240,7 @@ void TBoss3VoloptHiraisin::sub_80041314() {
 void TBoss3VoloptHiraisin::render() {
     f32 scale;
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(texture_id);
+        TObjFish::set_global_param(texlist);
         saved_model_render_flags = model_render_flags;
         model_render_flags |= 0x01000000;
         select_actor_lighting((s32)this);
@@ -403,5 +403,5 @@ void TBoss3VoloptHiraisin::copy_position() {
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {
     model = (void *)volopt_hiraisin_resources->models[index].model;
-    texture_id = volopt_hiraisin_resources->models[index].m_c;
+    texlist = volopt_hiraisin_resources->models[index].m_c;
 }

@@ -384,7 +384,7 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjDoaEx01 *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoaEx01 *)arg0)->m_b0 = (f32) 0.0f;
     ((TObjDoaEx01 *)arg0)->m_b8 = (f32) 0.5f;
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);

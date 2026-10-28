@@ -17,7 +17,7 @@ s32 push_matrix();
 s32 TObjEneRecobox::render_trap_model_if_visible() {
     if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
         if (((TObjEneRecon *)(((u8 *)this) + 0x3E4))->push_reflect_matrix() != 0) {
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             push_matrix();
             post_translate_matrix((void *) (((u8 *)this) + 0x38));
             rotate_matrix_y(0, this->rotation_y);

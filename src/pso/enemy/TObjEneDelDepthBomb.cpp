@@ -1419,7 +1419,7 @@ void TObjEneDelDepth::init() {
     s32 temp_r29;
     s32 temp_r30;
     s32 var_r0;
-    this->texture_id = TObjFish__sub_8001EDB0(TObjEneDelDepth__shared_resource = get_data__15TObjEneDelDepthFv(), 0);
+    this->texlist = TObjFish__sub_8001EDB0(TObjEneDelDepth__shared_resource = get_data__15TObjEneDelDepthFv(), 0);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int)TObjEneDelDepth__shared_resource, 0);
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x50), (const Vec *)(VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38))))));
     *(s32 *)((s8 *)arg0 + 0x380) = init_collision_body_parts(arg0, TObjEneDelDepth_collision_body_parts, 1);

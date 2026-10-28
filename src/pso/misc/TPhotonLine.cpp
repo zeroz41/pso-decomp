@@ -144,7 +144,7 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
     self->f350 = find_entity_by_id(arg3);
     init_collision_body_parts(self, photon_line_collision_body_part, 1);
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     for (i = 0; i < 10; i++) {
         self->f354[i] = 0xFFFF;
     }

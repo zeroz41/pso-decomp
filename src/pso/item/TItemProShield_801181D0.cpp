@@ -65,7 +65,7 @@ void TItemProShield::deactivate_shield_effect(s32 arg1) {
         if (this->m_19c & 2) {
             TParticleCtrl::begin_effect_render();
         }
-        set_texlist(this->texture_id);
+        set_texlist(this->texlist);
         draw_ginja_object((void *)this->item_model);
         if (this->m_19c & 2) {
             TParticleCtrl::end_effect_render();

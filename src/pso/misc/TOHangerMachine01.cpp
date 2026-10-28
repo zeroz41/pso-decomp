@@ -69,7 +69,7 @@ void TOHangerMachine01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         p = (u8 *)(*(u8 * *)&this->model);
         post_translate_matrix(p + 8);
         draw_ginja_model((*(s32 *)((s8 *)p + 4)));
@@ -166,13 +166,13 @@ u8 *TOHangerMachine01__ct(TOHangerMachine01 *hanger_machine01, s32 arg1) {
     *(s32 *)((s8 *)hanger_machine01 + 0) = (s32) TOHangerMachine01__class_name;
     ((TOHangerMachine01 *)(hanger_machine01))->apply_object_set_data((void *)arg1);
     *(s32 *)((s8 *)hanger_machine01 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOHangerMachine01__bml_resource) + 0x42C)) + 8);
-    hanger_machine01->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOHangerMachine01__bml_resource) + 0x42C)) + 0xC);
+    hanger_machine01->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOHangerMachine01__bml_resource) + 0x42C)) + 0xC);
     hanger_machine01->m_c0 = (f32) lbl_805DB6AC;
     *(f32 *)((s8 *)hanger_machine01 + 0xC4) = (f32) lbl_805DB6B0;
     hanger_machine01->actorFlags = (s32) (hanger_machine01->actorFlags | 0x40000000);
     init_collision_body_parts(hanger_machine01, &hanger_machine01_collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)hanger_machine01)->refresh_collision_body_centers();
-    ((TObjPlayer *)hanger_machine01)->reset_photon_effect();
+    ((TObjPlayer *)hanger_machine01)->register_object_by_id();
     hanger_machine01->m_c8 = 0;
     return (u8 *)hanger_machine01;
 }

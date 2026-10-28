@@ -4044,7 +4044,7 @@ void freeze_players_for_photon_blast(s16 arg0, u16 *arg1) {
         obj = *tbl;
         if (obj != NULL && ((s32 (*)(void *))is_on_current_floor__10TObjPlayerFi)(obj) != 0 && test_action_mask__10TObjPlayerFl(obj, 0x8000) == 0 &&
             (is_single_screen__10TObjPlayerFv() != 0 ||
-             (is_single_screen__10TObjPlayerFv() == 0 && arg0 == ((TUnk_804B9870 *)obj)->get_stat_by_key_state()))) {
+             (is_single_screen__10TObjPlayerFv() == 0 && arg0 == ((TUnk_804B9870 *)obj)->get_room()))) {
             TObjPlayer__sub_801D0F70(obj);
             if (arg1 != NULL) {
                 *arg1 = ((u16 (*)(void *))get_entity_id)(obj);
@@ -6073,7 +6073,7 @@ void send_idle_return_event__10TObjPlayerFPvPvs(void *player, void *arg1, s16 ar
         m.f4 = t;
         m.f6 = arg2;
         m.f8 = ((TObjPlayer *)player)->get_field_3e4();
-        m.fa = ((TUnk_804B9870 *)player)->get_stat_by_key_state();
+        m.fa = ((TUnk_804B9870 *)player)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg1);
         TObjPlayer__sub_801C18E0(&m);
     }
@@ -6092,7 +6092,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         ((TObjPlayer *)arg0)->sync_current_floor();
         ((TObjPlayer *)arg0)->sync_current_area();
         m.f8 = ((TObjPlayer *)arg0)->get_field_3e4();
-        m.fa = ((TUnk_804B9870 *)arg0)->get_stat_by_key_state();
+        m.fa = ((TUnk_804B9870 *)arg0)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg0->vec);
         ((TNpcPlayer *)(&m))->send_6x3E();
     }

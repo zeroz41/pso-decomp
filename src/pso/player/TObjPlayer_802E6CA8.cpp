@@ -221,7 +221,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
     TObjPlayer::concat_matrix(0, *(s32 *)((s8 *)((u8 *)this) + 0x2C));
     (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).z = (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).y = (*(Vec_802E6F10 *)((s8 *)((u8 *)this) + 0x30)).x = lbl_805DE9CC;
     matrix_mult_vec(0, ((u8 *)this) + 0x30, ((u8 *)this) + 0x30);
-    for (i = 0; i < this->texture_id; i++) {
+    for (i = 0; i < this->texlist; i++) {
         matrix_mult_vec(0, &(*(Model_802E6F10 **)((s8 *)((u8 *)this) + 0x1C))->bones[i].pos, &part->pos);
         rotate_vector_by_matrix(0, &(*(Model_802E6F10 **)((s8 *)((u8 *)this) + 0x1C))->bones[i].rot, &part->rot);
         part->rot.y = lerp__9TDeadSpotFff(lbl_805DE9D4, lbl_805DE9D8);
@@ -371,7 +371,7 @@ void *TObjPlayer::init_zeroed_object() {
     *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804E3BD8;
     *(u32 *)&this->m_20 = 0;
     *(u32 *)((s8 *)this + 0x1C) = 0;
-    *(u32 *)&this->texture_id = 0;
+    *(u32 *)&this->texlist = 0;
     (*(u32 *)&this->room) = 0;
     return this;
 }

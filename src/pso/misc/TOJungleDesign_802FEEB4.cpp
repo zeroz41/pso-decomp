@@ -48,7 +48,7 @@ extern const f32 lbl_805DEF24;
 void TOJungleDesign::render() {
     u8 *arg0 = (u8 *)this;
     if (((JDVObj_802feeb4 *)arg0)->m8(lbl_805DEF20, lbl_805DEF24) == 1) {
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_yxz(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
@@ -78,7 +78,7 @@ u8 *TOJungleDesign__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TOJungleDesign *)(arg0))->apply_object_set_data((void *)arg2);
     ((TOJungleDesign *)arg0)->init_design_variant();
     init_collision_body_parts(arg0, (int) ((u8 *)&TOJungleDesign__collision_desc_table.value + (((TOJungleDesign *)arg0)->m_b0 * 0x2C)), 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

@@ -515,7 +515,7 @@ void TObjEneBalClawBody::render() {
         temp_r3 = ((VObj18_8008e74c_8008DCF0*)arg0)->m9(lbl_805D963C, lbl_805D9640, lbl_805D9628);
         if (temp_r3 != 0) {
             var_r30 = 1;
-            TObjFish::set_global_param(((TObjEneBalClawBody *)arg0)->texture_id);
+            TObjFish::set_global_param(((TObjEneBalClawBody *)arg0)->texlist);
             select_actor_lighting((s32)arg0);
             TObjPlayer::toggle_particle_effect();
             push_matrix();

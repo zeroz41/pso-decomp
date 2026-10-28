@@ -362,7 +362,7 @@ void * TObjControl__ct(void *, void *);
 s32 angle_diff_s16(s32, s32);
 s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
 void mem_free(void*);
-s32 get_stat_by_key_state__13TUnk_804B9870Fv(void *);
+s32 get_room__13TUnk_804B9870Fv(void *);
 void TObjEneGibbles__sub_802D7E3C(void);
 void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *arg0, s32 arg1, s32 arg2);
 void TObjEneGibbles__sub_802D8034(void);
@@ -375,7 +375,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *);
 void vfunc_60__14TObjEneGibblesFv(u8 *arg0);
 void vfunc_58__14TObjEneGibblesFv(u8 *arg0);
 void run_task__14TObjEneGibblesFv(TObjEneGibbles *arg0);
-void* vfunc_9__14TObjEneGibblesFv(void* p);
+void* get_center__14TObjEneGibblesFv(void* p);
 s32 vec3_add_to(f32 *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_x(s32, s32);
@@ -752,7 +752,7 @@ void *lbl_804E296C[33] = {
 void *lbl_804E29F0[83] = {
     (void *)0x0, (void *)0x0, (void *)&TObjEneGibbles__sub_802DB920, (void *)&run_task__14TObjEneGibblesFv,
     (void *)&draw_model__14TObjEneGibblesFPv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__14TObjEneGibblesFv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__14TObjEneGibblesFv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -792,8 +792,8 @@ void TObjEneGibbles__sub_802D7A54(void *arg0) {
     s16 u;
     u32 r;
     if ((get_main_phase() == 0xF || is_split_screen() == 0) && (r = get_player_by_client_id((void *)local_client_id)) != 0) {
-        t = get_stat_by_key_state__13TUnk_804B9870Fv((void *)r);
-        u = get_stat_by_key_state__13TUnk_804B9870Fv(arg0);
+        t = get_room__13TUnk_804B9870Fv((void *)r);
+        u = get_room__13TUnk_804B9870Fv(arg0);
         if (u == t) {
             TCameraCtrl__sub_8006A044(0x1E, lbl_805DE7E0);
         }
@@ -2338,7 +2338,7 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         update_obstruction_fade(&self->fades[cam]);
         fade = ((RenderFadeState *)(&self->fades[cam]))->updateFromCamera((const f32*)((u8 *)arg0 + 0x2FC));
         select_actor_lighting((s32)arg0);
-        TObjFish::set_global_param(arg0->texture_id);
+        TObjFish::set_global_param(arg0->texlist);
         push_matrix_from(0);
         VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)((u8 *)arg0 + 0x38)));
         switch (arg0->mode) {
@@ -2654,7 +2654,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     return arg0;
 }
 
-void*TObjEneGibbles::vfunc_9() { return (char*)this + 0x2fc; }
+void *TObjEneGibbles::get_center() { return (char*)this + 0x2fc; }
 
 void TObjEneGibbles::sub_802DBC94(s32 i) {
     ((O_802DBC94 *)this)->f34 = (*(G_802DBC94 * *)&TObjEneGibbles__resource_bundle)->e[i].c;

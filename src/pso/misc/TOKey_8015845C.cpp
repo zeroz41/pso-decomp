@@ -47,7 +47,7 @@ void TUnk_804AFBF8::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         temp_r4 = *(u32 *)&this->m_bc;
         if (temp_r4 != 0U) {
             if (temp_r3 == 1) {

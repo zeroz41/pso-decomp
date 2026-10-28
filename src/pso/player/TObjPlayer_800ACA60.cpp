@@ -754,7 +754,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
     if (id < 0x1000) {
         p = (u8 *)get_player_by_client_id(id);
         if (p != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
-            ((TUnk_804B9870 *)self)->get_stat_by_key_state() == ((TUnk_804B9870 *)p)->get_stat_by_key_state()) {
+            ((TUnk_804B9870 *)self)->get_room() == ((TUnk_804B9870 *)p)->get_room()) {
             self->target = (Tgt_800AD3D8 *) p;
         } else {
             self->target = NULL;
@@ -1514,7 +1514,7 @@ void render__11TObjEneMojaFv(u8 *arg0) {
         return;
     }
     select_actor_lighting(arg0);
-    TObjFish::set_global_param(((TObjEneMoja *)arg0)->texture_id);
+    TObjFish::set_global_param(((TObjEneMoja *)arg0)->texlist);
     id = model_render_flags;
     fade = &((Body_800AF080 *)arg0)->fades[cam];
     saved_model_render_flags = id;

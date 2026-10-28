@@ -28,7 +28,7 @@ void TObjNpcBase::setup_common() {
     ((TUnk_804806E8 *)self)->set_motion_params(npc_default_battle_stats);
     this->movementParameters = npc_movement_parameters;
     init_collision_body_parts(self, npc_base_collision_body_desc, 1);
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     this->apply_set_params(0, 1);

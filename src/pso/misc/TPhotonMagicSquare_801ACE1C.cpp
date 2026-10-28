@@ -53,7 +53,7 @@ void TPhotonMagicSquare::render() {
     push_matrix();
     post_translate_matrix(&self->vB8);
     rotate_matrix_y(0, this->rotation_y);
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     scale_current_matrix(&self->v68);
     Color_801ACE1C saved = self->color;
     if ((this->m_b0 % this->m_cc) == 0) {
@@ -174,7 +174,7 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     *(f32 *)((s8 *)photon_magic_square + 0x9C) = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)photon_magic_square + 0x90)) + 4) - (1.0f));
     ((TPhotonMagicSquare *)photon_magic_square)->m_98 = (f32) (0.1f);
-    ((TPhotonMagicSquare *)photon_magic_square)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
+    ((TPhotonMagicSquare *)photon_magic_square)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
@@ -197,7 +197,7 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
     *(f32 *)((s8 *)photon_magic_square + 0x9C) = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)photon_magic_square + 0x90)) + 4) - (1.0f));
     ((TPhotonMagicSquare *)photon_magic_square)->m_98 = (f32) (0.1f);
-    ((TPhotonMagicSquare *)photon_magic_square)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
+    ((TPhotonMagicSquare *)photon_magic_square)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
@@ -221,7 +221,7 @@ u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     *(f32 *)&this->unk_9C = (f32) (0.0f);
     *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 * *)&this->m_90) + 4) - (1.0f));
     this->m_98 = (f32) (0.1f);
-    this->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
+    this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x2C);
     this->scale.x = (f32) (0.0f);
     this->scale.y = (f32) (0.0f);
     this->scale.z = (f32) (0.0f);

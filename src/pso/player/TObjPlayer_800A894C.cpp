@@ -981,7 +981,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
             if (*(s16 *)((s8 *)arg0 + 0x392) != 0) {
                 TObjFish::set_global_param(lbl_805D5094);
             } else {
-                TObjFish::set_global_param((s32)((void *) (((TObjEneDubchik *)arg0)->texture_id)));
+                TObjFish::set_global_param((s32)((void *) (((TObjEneDubchik *)arg0)->texlist)));
             }
             var_r30 = 1;
             push_matrix();

@@ -321,7 +321,7 @@ void render_shadows__7TObjectFv();
 void vfunc_6__13TUnk_804B9870FPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804B9870Fv();
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
@@ -334,7 +334,7 @@ void *__vt__16TBGLightningCtrl[] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804B9870Fv,
-    (void *)vfunc_9__13TUnk_804B9870Fv,
+    (void *)get_center__13TUnk_804B9870Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,

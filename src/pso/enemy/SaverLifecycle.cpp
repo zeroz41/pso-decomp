@@ -87,7 +87,7 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 extern void *TObjEneSaver__vtable[83];
 Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1);
-void* vfunc_9__12TObjEneSaverFv(void* p);
+void* get_center__12TObjEneSaverFv(void* p);
 void copy_position__20TBoss3VoloptHiraisinFv(s32 arg0);
 s32 create__12TObjEneSaverFPvPv(u32, u32);
 void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
@@ -284,7 +284,7 @@ void *saver_collision_body_part_table[11] = {
 void *TObjEneSaver__vtable[83] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TObjEneSaverFv, (void *)&run_task__12TObjEneSaverFv,
     (void *)&render__12TObjEneSaverFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__12TObjEneSaverFv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__12TObjEneSaverFv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -1887,7 +1887,7 @@ void TObjEneSaver::render() {
     v = ((VObj_800A6C54_b *)arg0)->m9(300.0f, 600.0f, 30.0f);
     if (v != 0) {
         select_actor_lighting((s32)arg0);
-        TObjFish::set_global_param(((TObjEneSaver *)arg0)->texture_id);
+        TObjFish::set_global_param(((TObjEneSaver *)arg0)->texlist);
         push_matrix_from(NULL);
         translate_matrix_vec3(0, (u8 *)&this->position);
         rotate_matrix_y(0, ((TObjEneSaver *)arg0)->rotation_y);
@@ -2209,7 +2209,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     return (u8 *)arg0;
 }
 
-void*TObjEneSaver::vfunc_9() { return (char*)this + 0x2fc; }
+void *TObjEneSaver::get_center() { return (char*)this + 0x2fc; }
 void TObjEneSaver::sub_800A7734(s32 i) {
     ((O_800A7734 *)this)->x34 = (*(G_800A7734 * *)&saver_bml_resource)->tbl[i].x8;
     ((O_800A7734 *)this)->x24 = (*(G_800A7734 * *)&saver_bml_resource)->tbl[i].xc;

@@ -25,7 +25,7 @@ void *__dt__18TObjBoss7TunnelColFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
         ((TUnk_804AF8A0 *)arg0)->unregister_object_by_id();
-        ((TUnk_804AF8A0 *)arg0)->clear_obj_links();
+        ((TUnk_804AF8A0 *)arg0)->clear_collision_bodies();
         __dt__13TUnk_804AF8A0Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -48,8 +48,8 @@ void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
     *(f32 *)((s8 *)arg0 + 0x38) = lbl_805DECA0;
     *(f32 *)((s8 *)arg0 + 0x3C) = lbl_805DEC9C;
     *(f32 *)((s8 *)arg0 + 0x40) = lbl_805DEC9C;
-    ((TUnk_804AF8A0 *)arg0)->initialize_linked_object_reference(self->f_AC);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TUnk_804AF8A0 *)arg0)->set_collision_body(self->f_AC);
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 
@@ -67,7 +67,7 @@ s32 TObjBoss7TunnelCol::is_in_camera_range() {
     f32 temp_f1;
 
     if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
-        temp_f1 = *(f32 *)&this->texture_id;
+        temp_f1 = *(f32 *)&this->texlist;
         if ((temp_f1 < lbl_805DECA4) && (lbl_805DECA8 < temp_f1)) {
             return 0;
         }

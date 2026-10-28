@@ -127,7 +127,7 @@ void TOMine::run_task() {
 
 void TOMine::free_sub_objects() { TObjFish::set_global_param((s32)(*(void**)((char*)this + 0x378))); draw_ginja_object(*(void**)((char*)this + 0x374)); }
 
-void TOMine::free_parts() { TObjFish::set_global_param(this->texture_id); draw_ginja_object(this->model); }
+void TOMine::free_parts() { TObjFish::set_global_param(this->texlist); draw_ginja_object(this->model); }
 
 void TOMine::render() {
     VObj_801710E4 *arg0 = (VObj_801710E4 *)this;

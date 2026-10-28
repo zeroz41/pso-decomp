@@ -278,7 +278,7 @@ u8 *TOKeyJungleMain__ct(TOKeyJungleMain *key_jungle_main, s32 arg1, s32 arg2) {
     ((TOKey *)key_jungle_main)->init_switch_id();
     init_collision_body_parts(key_jungle_main, &TOKeyJungleMain_collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)key_jungle_main)->refresh_collision_body_centers();
-    ((TObjPlayer *)key_jungle_main)->reset_photon_effect();
+    ((TObjPlayer *)key_jungle_main)->register_object_by_id();
     key_jungle_main->m_d0 = 0;
     key_jungle_main->m_e4 = (s32) key_jungle_main->set_params[0];
     if ((s32) key_jungle_main->m_e4 < 0) {
@@ -668,7 +668,7 @@ void TObjFish::free_resource() {
 }
 void vfunc_6__13TUnk_804B9870FPsl();
 void get_name__13TUnk_804B9870Fv();
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void render_shadows__7TObjectFv();
@@ -750,7 +750,7 @@ void *__vt__8TObjFish[13] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804B9870Fv,
-    (void *)vfunc_9__13TUnk_804B9870Fv,
+    (void *)get_center__13TUnk_804B9870Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,

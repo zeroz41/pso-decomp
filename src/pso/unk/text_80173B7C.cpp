@@ -33,11 +33,11 @@ u8 *TORockCaveBL01__ct(TORockCaveBL01 *rock_cave_bl01, s32 arg1) {
     *(s32 *)((s8 *)rock_cave_bl01 + 0) = (s32) lbl_805D3134;
     ((TORockCaveBL01 *)(rock_cave_bl01))->apply_object_set_data((void *)arg1);
     *(s32 *)((s8 *)rock_cave_bl01 + 0x34) = get_bml_model(cave_rock_resource_bundle, 0);
-    rock_cave_bl01->texture_id = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
+    rock_cave_bl01->texlist = TObjFish__sub_8001EDB0(cave_rock_resource_bundle, 0);
     rock_cave_bl01->m_b0 = (f32) lbl_805DB970;
     init_collision_body_parts(rock_cave_bl01, (s32) ((u8 *)&cave_rock_collision_body_templates.value + 0x58), 1);
     ((TUnk_804AF8A0 *)rock_cave_bl01)->refresh_collision_body_centers();
-    ((TObjPlayer *)rock_cave_bl01)->reset_photon_effect();
+    ((TObjPlayer *)rock_cave_bl01)->register_object_by_id();
     rock_cave_bl01->m_b8 = (s32) rock_cave_bl01->set_params[0];
     temp_r0 = rock_cave_bl01->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {

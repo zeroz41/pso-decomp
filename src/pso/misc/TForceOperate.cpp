@@ -258,7 +258,7 @@ int clear__8FlagWordFUl(void*, void*);
 s32 clear_target_lock_flag__10TObjPlayerFPv(s32);
 s32 fn_801C6F2C(void *);
 s32 is_room_free_of_active_enemies(s32, s32);
-s32 get_stat_by_key_state__13TUnk_804B9870Fv(s32);
+s32 get_room__13TUnk_804B9870Fv(s32);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 s32 set_lock_flag__10TObjPlayerFPv(s32);
 int set_lock_timer__10TObjPlayerFPvi(void*, void*);
@@ -287,7 +287,7 @@ void save_render_material_state(u8 *arg0) {
     copy_argb((NJS_ARGB *)(arg0 + 0xC), (NJS_ARGB *)&model_material_color.value);
 }
 
-void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = lbl_805DC320[0]; *(float *)&this->m_20 = lbl_805DC320[0]; *(float *)&this->texture_id = lbl_805DC320[0]; *(float *)&this->room = lbl_805DC320[0]; }
+void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = lbl_805DC320[0]; *(float *)&this->m_20 = lbl_805DC320[0]; *(float *)&this->texlist = lbl_805DC320[0]; *(float *)&this->room = lbl_805DC320[0]; }
 
 void TObjPlayer::reset_ring() { clear__8FlagWordFUl(this, (void*)1); set_lock_timer__10TObjPlayerFPvi(this, (void*)((void*)-1)); TLobby::set_target_id((s32)((void*)0)); }
 
@@ -303,7 +303,7 @@ s32 tick_battle_music_timer(Obj_801C5C38 *p) {
 void update_target_lock__10TObjPlayerFii(s32 arg0, s32 player) {
 
     if (TObjPlayer__sub_801C6F90() == 0) {
-        if (is_room_free_of_active_enemies(get_current_floor(), get_stat_by_key_state__13TUnk_804B9870Fv(player)) != 0) {
+        if (is_room_free_of_active_enemies(get_current_floor(), get_room__13TUnk_804B9870Fv(player)) != 0) {
             if (set_lock_flag__10TObjPlayerFPv(arg0) != 0) {
                 clear_target_lock_flag__10TObjPlayerFPv(arg0);
                 set_lock_timer__10TObjPlayerFPvi((void*)arg0, (void*)(0x5A));

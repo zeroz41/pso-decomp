@@ -392,7 +392,7 @@ extern "C" {
 void get_name__13TUnk_804B9870Fv();
 }
 extern "C" {
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 }
 extern "C" {
 void *__dt__12TObjGrassWebFv(void *arg0, s16 arg1);
@@ -493,7 +493,7 @@ void *lbl_80492A00[11] = {
 void *__vt__12TObjGrassWeb[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__12TObjGrassWebFv, (void *)&run_task__12TObjGrassWebFv,
     (void *)&render__12TObjGrassWebFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv,
 };
 #define bm_ene_grass_resource_descriptor ((s32 *)bm_ene_grass_resource_descriptor)
@@ -1834,7 +1834,7 @@ u8 *TObjGrass__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjGrass *)arg0)->referenceHp = ((TObjGrass *)arg0)->hp;
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjGrass *)arg0)->m_398 = (0.0f);
     ((TObjGrass *)arg0)->mode = 0;
     ((TObjGrass *)arg0)->phase = 0;

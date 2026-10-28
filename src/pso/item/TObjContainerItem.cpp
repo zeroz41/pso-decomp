@@ -157,7 +157,7 @@ void render_shadows__7TObjectFv();
 void vfunc_6__21TObjContainerAbeEnemyFPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804806E8Fv();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void update_object_view_visibility__13TUnk_804B9870Fff();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv();
@@ -236,7 +236,7 @@ void *__vt__21TObjContainerAbeEnemy[83] = {
     (void *)vfunc_6__21TObjContainerAbeEnemyFPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)vfunc_9__13TUnk_804806E8Fv,
+    (void *)get_center__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__13TUnk_804B9870Fv,
@@ -362,7 +362,7 @@ u8 *TObjContainerItem__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjContainerItem *)arg0)->mode = 0;
     ((TObjContainerItem *)arg0)->actorFlags = (s32) (((TObjContainerItem *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, &forest_box_collision_body_parts, 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + forest_box_collision_body_parts.center[1]);

@@ -391,7 +391,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) lbl_805DDCDC;
     init_collision_body_parts(arg0, (s32) &TODoorJungleMain_collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->m_c0 = (f32) lbl_805DDCE0;
     temp_r4 = arg2 - 4;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DDCE4;

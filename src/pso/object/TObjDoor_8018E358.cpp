@@ -560,7 +560,7 @@ void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
     }
     init_collision_body_parts(d, TObjDoor__collision_desc, 1);
     d->f30 |= 0x40000000;
-    ((TObjPlayer *)d)->reset_photon_effect();
+    ((TObjPlayer *)d)->register_object_by_id();
     return d;
 }
 

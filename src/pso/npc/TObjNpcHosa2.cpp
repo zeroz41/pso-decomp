@@ -71,7 +71,7 @@ u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, s32 arg2) {
     ((TObjNpcHosa2 *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = get_bml_model((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
-    ((TObjNpcHosa2 *)player)->texture_id = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
+    ((TObjNpcHosa2 *)player)->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TObjNpcHosa2__shared_model_resource)), 0);
     ((TObjNpcBase *)player)->setup_common();
     return player;
 }

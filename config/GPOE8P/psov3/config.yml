@@ -13275,8 +13275,8 @@ force_active:
   - vfunc_99__12TObjEneBeastFv
   - vfunc_99__15TObjEneDimedianFv
   - vfunc_9__12TNeedleShootFPv
-  - vfunc_9__12TObjEneSaverFv
-  - vfunc_9__13TUnk_8049F038Fv
+  - get_center__12TObjEneSaverFv
+  - get_center__13TUnk_8049F038Fv
   - vfunc_9__17TAdLicAgreementGCFv
   - vfunc_9__17TWindowMainMenu4PFv
   - vfunc_9__20TObjEneMe1Gee_NEEDLEFPv

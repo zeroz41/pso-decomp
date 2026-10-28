@@ -48,7 +48,7 @@ void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void render_shadows__7TObjectFv(); void vfunc_6__13TUnk_804B9870FPsl(); void apply_object_set_data__13TUnk_804B9870FPv(); void reset_motion_fields__13TUnk_804AF8A0Fv();
-void vfunc_9__13TUnk_804B9870Fv(); void update_object_view_visibility__13TUnk_804B9870Fff(); void classify_actor_view_detail__13TUnk_804B9870Ffff();
+void get_center__13TUnk_804B9870Fv(); void update_object_view_visibility__13TUnk_804B9870Fff(); void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void get_name__13TUnk_804B9870Fv(); void interact__13TUnk_804AF8A0Fl();
 #pragma readonly_strings on
 __declspec(section ".data") void *bm_obj_lobby_suisou_model_names[2] = { (void *)"lobby_suisou_s_waku.gj", 0 };
@@ -60,7 +60,7 @@ char *lbl_805D44C4 = "TObjSuisouLobby";
 void *__vt__15TObjSuisouLobby[14] = {
     0, 0, (void *)__dt__15TObjSuisouLobbyFv, (void *)run_task__15TObjSuisouLobbyFv, (void *)render__15TObjSuisouLobbyFv,
     (void *)render_shadows__7TObjectFv, (void *)vfunc_6__13TUnk_804B9870FPsl, (void *)apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)vfunc_9__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff,
+    (void *)reset_motion_fields__13TUnk_804AF8A0Fv, (void *)get_center__13TUnk_804B9870Fv, (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff, (void *)get_name__13TUnk_804B9870Fv, (void *)interact__13TUnk_804AF8A0Fl,
 };
 const f32 lbl_8047A3D0[1][3] = { { 0.0f, 0.0f, 60.0f } };
@@ -73,9 +73,9 @@ void TObjSuisouLobby__sub_80369B5C(void) {  }
 void render__15TObjSuisouLobbyFv(TObjSuisouLobby *arg0) {
     f32 temp_f1;
 
-    if (((s32) arg0->m_c8 != 0) && ((u32) arg0->texture_id != 0U)) {
+    if (((s32) arg0->m_c8 != 0) && ((u32) arg0->texlist != 0U)) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(arg0->texture_id);
+        TObjFish::set_global_param(arg0->texlist);
         push_matrix();
         post_translate_matrix((u8 *)arg0 + 0x38);
         rotate_matrix_y(0, arg0->rotation_y);

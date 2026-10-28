@@ -71,7 +71,6 @@ struct Flg_8015610C { u8 pad[0x18]; u32 flags; };
 
 struct P_8015610C { u8 pad[0xA4]; Flg_8015610C *f; };
 
-struct Obj_80154A00 { u8 pad[0x1C]; u16 id; };
 
 struct Vec_80156844 { f32 x, y, z; };
 
@@ -347,18 +346,18 @@ u16 TUnk_804AF8A0::unregister_object_by_id() {
     s32 count;
     u16 id;
     lo = 0;
-    id = ((Obj_80154A00 *)this)->id;
+    id = entity_id;
     count = lbl_805D5868;
     hi = count - 1;
     while (lo < hi) {
         mid = (lo + hi) / 2;
-        if (((Obj_80154A00 *)TObjPlayer__data_8050D460[mid])->id < id) {
+        if (((TObjMotion *)TObjPlayer__data_8050D460[mid])->entity_id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
-    if ((Obj_80154A00 *)TObjPlayer__data_8050D460[lo] == ((Obj_80154A00 *)this)) {
+    if ((TUnk_804AF8A0 *)TObjPlayer__data_8050D460[lo] == this) {
         memcpy(&TObjPlayer__data_8050D460[lo], &TObjPlayer__data_8050D460[lo + 1], (count - (lo + 1)) * 4);
         lbl_805D5868--;
         u16 k = get_entity_id((int)this);
@@ -375,7 +374,10 @@ u16 TUnk_804AF8A0::unregister_object_by_id() {
     return 0xFFFF;
 }
 
-void TObjPlayer::reset_photon_effect() { get_or_assign_entity_id(0); register_entity_by_id(this); }
+void TUnk_804AF8A0::register_object_by_id() {
+    get_or_assign_entity_id(0);
+    register_entity_by_id(this);
+}
 
 #define o ((Obj_80154B60 *)ov)
 #define TBL ((Obj_80154B60 **)TObjPlayer__data_8050D460)
@@ -1077,11 +1079,11 @@ void TObjPlayer::check_object_collisions() {
     }
 }
 void TObjPlayer::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
-void TUnk_804AF8A0::clear_obj_links() {
+void TUnk_804AF8A0::clear_collision_bodies() {
     body_flags = NULL;
     bodies = NULL;
 }
-void*TUnk_804AF8A0::initialize_linked_object_reference(void*a1) {
+void*TUnk_804AF8A0::set_collision_body(void*a1) {
     body_count = 1;
     bodies = (CollisionBody *)a1;
     body_flags = &own_body_flags;

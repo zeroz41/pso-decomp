@@ -238,7 +238,7 @@ void TObjEneDubchik::init_level_stats(s32 arg1) {
     } else {
         var_r0 = lbl_805D5098;
     }
-    this->texture_id = var_r0;
+    this->texlist = var_r0;
 }
 
 void TObjPlayer__sub_800AAFF0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }

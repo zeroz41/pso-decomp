@@ -331,7 +331,7 @@ u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s3
     ((TUnk_8049442C *)arg0)->m_d4 = (f32) 0.0f;
     init_collision_body_parts(arg0, &gyaranzo_missile_collision_body.value, 1);
     *(f32 *)((s8 *)(((TUnk_8049442C *)arg0)->bodies) + 0xC) = (f32) 3.0f;
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_8049442C *)arg0)->m_ec = 0xF;
     return arg0;
 }

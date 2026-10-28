@@ -129,7 +129,7 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self) {
     self->f0 = door_labo_normal_class_name;
     init_collision_body_parts(self, labo_door_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     ((TODoorLaboNormal *)self)->init_field_d4();
     self->fBC = get_bml_motion((s32)TODoorLabo__model_archive, 0);
     self->fB4 = (f32)self->fBC->f4 - lbl_805DDDB8;
@@ -221,7 +221,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0) {
     arg0->f0 = odoor_labo_class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorLabo *)arg0)->init_model_by_type();
     arg0->fBC = (u8 *)get_bml_motion(TODoorLabo__bml_resource, 0);
     arg0->fB4 = (f32)*(u32 *)((s8 *)arg0->fBC + 4) - lbl_805DDDB8;
@@ -326,7 +326,7 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0) {
     self->f0 = odoor_four_light_seabed_u_class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model((s32)seabed_four_light_door_bml_resource, 0);
     self->infoBC = (Info_8029FD70 *)get_bml_motion((s32)seabed_four_light_door_bml_resource, 0);
     self->fB4 = (f32)self->infoBC->v4 - lbl_805DDDB8;
@@ -450,7 +450,7 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0) {
     self->f0 = TODoorFourLightSeabed__class_name;
     init_collision_body_parts(arg0, labo_door_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model(door_labo_bml_resource, 0);
     self->infoBC = (Info_802A0068 *)get_bml_motion(door_labo_bml_resource, 0);
     self->fB4 = (f32)self->infoBC->v4 - lbl_805DDDB8;

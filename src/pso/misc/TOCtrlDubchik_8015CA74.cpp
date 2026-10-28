@@ -367,10 +367,10 @@ u8 *TOCtrlDubchik__ct(TOCtrlDubchik *ctrl_dubchik, s32 arg1, s32 arg2) {
     ((TOCtrlDubchik *)(ctrl_dubchik))->apply_set_data((void *)arg2);
     ((TObjPlayer *)ctrl_dubchik)->init_position_vectors();
     ctrl_dubchik->model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 8));
-    ctrl_dubchik->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 0xC);
+    ctrl_dubchik->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOCtrlDubchik__shared_resource) + 0x42C)) + 0xC);
     init_collision_body_parts(ctrl_dubchik, &TOCtrlDubchik__collision_body.value, 1);
     ((TUnk_804AF8A0 *)ctrl_dubchik)->refresh_collision_body_centers();
-    ((TObjPlayer *)ctrl_dubchik)->reset_photon_effect();
+    ((TObjPlayer *)ctrl_dubchik)->register_object_by_id();
     ((TUnk_804AF8A0 *)ctrl_dubchik)->set_indexed_flags(0, 0x08000000);
     ctrl_dubchik->mode = 0;
     ctrl_dubchik->hp = 0x12C;

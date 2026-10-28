@@ -1154,7 +1154,7 @@ void vfunc_43__13TUnk_804806E8Fv();
 void is_target_in_attack_range__13TUnk_804806E8Fv();
 void vfunc_18__13TUnk_804806E8FPUc();
 void update_actor_ground_y__13TUnk_804806E8Fv();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void reset_motion_fields__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
 void interact__13TUnk_804AF8A0Fl();
@@ -1180,7 +1180,7 @@ s32 __vt__11TBoss4Bishi[83] = {
     (s32)vfunc_6__13TUnk_804B9870FPsl,
     (s32)apply_object_set_data__13TUnk_804B9870FPv,
     (s32)reset_motion_fields__13TUnk_804806E8Fv,
-    (s32)vfunc_9__13TUnk_804806E8Fv,
+    (s32)get_center__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,
@@ -1265,7 +1265,7 @@ s32 __vt__9TBoss4Uro[83] = {
     (s32)vfunc_6__13TUnk_804B9870FPsl,
     (s32)apply_object_set_data__13TUnk_804B9870FPv,
     (s32)reset_motion_fields__13TUnk_804806E8Fv,
-    (s32)vfunc_9__13TUnk_804806E8Fv,
+    (s32)get_center__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,
@@ -1350,7 +1350,7 @@ s32 __vt__10TBoss4Zako[83] = {
     (s32)vfunc_6__13TUnk_804B9870FPsl,
     (s32)apply_object_set_data__13TUnk_804B9870FPv,
     (s32)reset_motion_fields__13TUnk_804806E8Fv,
-    (s32)vfunc_9__13TUnk_804806E8Fv,
+    (s32)get_center__13TUnk_804806E8Fv,
     (s32)update_object_view_visibility__13TUnk_804B9870Fff,
     (s32)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (s32)get_name__9TObjEnemyFv,

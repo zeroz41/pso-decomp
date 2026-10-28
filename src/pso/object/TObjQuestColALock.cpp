@@ -98,7 +98,7 @@ u8 *TObjQuestColALock__ct(TObjQuestColALock *quest_col_a_lock, s32 arg1) {
     *(f32 *)((s8 *)temp_r4 + 4) = (f32) (*(f32 *)((s8 *)temp_r4 + 4) + quest_col_a_lock->scale.y);
     ((TUnk_804AF8A0 *)quest_col_a_lock)->refresh_collision_body_centers();
     quest_col_a_lock->actorFlags = (s32) (quest_col_a_lock->actorFlags | 0x40000000);
-    ((TObjPlayer *)quest_col_a_lock)->reset_photon_effect();
+    ((TObjPlayer *)quest_col_a_lock)->register_object_by_id();
     return (u8 *)quest_col_a_lock;
 }
 

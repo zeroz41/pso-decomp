@@ -391,7 +391,7 @@ extern "C" {
 void get_name__13TUnk_804B9870Fv();
 }
 extern "C" {
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 }
 extern "C" {
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
@@ -498,7 +498,7 @@ void *ill_gill_combat_parameter_variants[4] = {
 void *__vt__15TObjIllGillKage[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__15TObjIllGillKageFv, (void *)&run_task__15TObjIllGillKageFv,
     (void *)&render__15TObjIllGillKageFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv,
 };
 #define ill_gill_combat_parameter_variants ((s32 *)ill_gill_combat_parameter_variants)
@@ -1666,7 +1666,7 @@ void TObjEneIllGill::render() {
     *(s32 *)&this->m_3a8 = ((VObj_18_80368208 *)arg0)->m9(lbl_805E0300, lbl_805E0304, lbl_805E02F4);
     if (*(s32 *)&this->m_3a8 != 0) {
         select_actor_lighting((s32)arg0);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((void (*)(int, s32))rotate_matrix_y)(0, this->rotation_y);
@@ -1797,7 +1797,7 @@ u8 *TObjEneIllGill__ct(u8 *self, s32 arg1, u8 *arg2) {
     init_collision_body_parts(self, lbl_804F2F40, 1);
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     FIG_8036858C(void *, 0x350) = lbl_804F2F24;
     FIG_8036858C(s32, 0x394) = 0;
     ((TObjEnemy *)self)->bind_enemy_combat_stats((u8 *)TObjEneIllGill__boss_registration_id, (u8 *)(((s32 *)ill_gill_combat_parameter_variants)[FIG_8036858C(s32, 0x394)]), (u8 *)lbl_805D6FD8);

@@ -38,7 +38,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     }
     ok = 1;
     if (is_technique_ready__8TTecCtrlFv() == 0 && obj_testFlags30__13TUnk_804AF8A0FUl(arg1->obj, 0x60000000) == 0x20000000
-        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TUnk_804B9870 *)(arg1->obj))->get_stat_by_key_state()) {
+        && *(s16 *)((s8 *)arg0 + 0xAA) != ((TUnk_804B9870 *)(arg1->obj))->get_room()) {
         ok = 0;
     }
     if (obj_testFlags30__13TUnk_804AF8A0FUl(arg1->obj, 0x04000000) != 0

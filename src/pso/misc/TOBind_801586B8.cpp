@@ -67,7 +67,7 @@ void TOBind::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         if ((s32) this->m_b0 != 1) {
             TObjFish::set_global_param(this->m_c8);
@@ -126,7 +126,7 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     ((TOBind *)(bind))->apply_object_set_data((void *)arg1);
     bind->m_b0 = 0;
     *(s32 *)((s8 *)bind + 0x34) = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
-    bind->texture_id = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
+    bind->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 0);
     bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     bind->m_c8 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
@@ -135,7 +135,7 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     *(f32 *)((s8 *)bind + 0xC0) = (f32) lbl_805DB304;
     init_collision_body_parts(bind, &bind_collision_body_parts.value, 2);
     ((TUnk_804AF8A0 *)bind)->refresh_collision_body_centers();
-    ((TObjPlayer *)bind)->reset_photon_effect();
+    ((TObjPlayer *)bind)->register_object_by_id();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
     bind->m_b4 = (s32) bind->set_params[0];
     if ((s32) bind->m_b4 < 0) {

@@ -779,7 +779,7 @@ Obj_80343C64 *TWindowDD__ct(Obj_80343C64 *self, void *parent, void *arg2) {
     {
       floor = get_current_floor();
       s32 r;
-      v = ((TUnk_804B9870 *)p)->get_stat_by_key_state();
+      v = ((TUnk_804B9870 *)p)->get_room();
       if (is_boss_area() != 0)
       {
         r = check_all_ready__9TWindowDDFl(floor);

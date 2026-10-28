@@ -140,7 +140,7 @@ void vfunc_78__13TUnk_804806E8Fl();
 void vfunc_77__13TUnk_804806E8Fv();
 void vfunc_76__13TUnk_804806E8Fv();
 void vfunc_75__13TUnk_804806E8Ff();
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 void get_actor_level_index__13TUnk_804806E8Fv();
 void get_pos__13TUnk_804806E8Fl();
 void is_actor_cadence_frame__13TUnk_804806E8Fl();
@@ -172,7 +172,7 @@ void *__vt__12TOMineIcon04[87] = {
     (void *)vfunc_6__6TOMineFPsl,
     (void *)apply_object_set_data__6TOMineFPv,
     (void *)reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)vfunc_9__13TUnk_804806E8Fv,
+    (void *)get_center__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__6TOMineFv,
@@ -355,7 +355,7 @@ void *TOMineIcon04__ct(void *arg0, void *arg1, void *arg2) {
     self->f30 |= 0x60000000;
     init_collision_body_parts(self, mine_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     return self;
 #undef self
 }

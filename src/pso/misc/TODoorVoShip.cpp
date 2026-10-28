@@ -105,7 +105,7 @@ void TODoorVoShip::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)&this->model), (void *)(*(s32 *)&this->m_bc), (void *)(*(s32 *)&this->m_d0), this->m_b0);
         TObjFish::set_global_param((int) (*(s32 *)&this->m_d8));
         temp_r4 = model_render_flags;
@@ -189,7 +189,7 @@ u8 *TODoorVoShip__ct(TODoorVoShip *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorVoShip__class_name;
     ((TODoorVoShip *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((*(u8 * *)&TODoorVoShip__shared_bml_archive), 1);
-    arg0->texture_id = TObjFish__sub_8001EDB0((*(u8 * *)&TODoorVoShip__shared_bml_archive), 1);
+    arg0->texlist = TObjFish__sub_8001EDB0((*(u8 * *)&TODoorVoShip__shared_bml_archive), 1);
     arg0->m_bc = get_bml_motion((*(u8 * *)&TODoorVoShip__shared_bml_archive), 0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)(arg0->m_bc + 4) - lbl_805DB53C);
     arg0->m_b8 = (f32) lbl_805DB53C;
@@ -198,7 +198,7 @@ u8 *TODoorVoShip__ct(TODoorVoShip *arg0, s32 arg1, s32 arg2) {
     arg0->m_d8 = TObjFish__sub_8001EDB0((*(u8 * *)&TODoorVoShip__shared_bml_archive), 0);
     init_collision_body_parts(arg0, (s32) &door_vo_ship_collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->m_c0 = (f32) lbl_805DB540;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB544;
     arg0->m_cc = 0xE;

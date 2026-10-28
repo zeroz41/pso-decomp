@@ -111,7 +111,7 @@ void TOVS2Wall01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         draw_ginja_object(this->model);
         pop_matrix();
         if (var_r31 != 0) {
@@ -156,10 +156,10 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     ((TUnk_804806E8 *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(TOVS2Wall01__bml_resource, 6);
-    arg0->texture_id = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, 6);
+    arg0->texlist = TObjFish__sub_8001EDB0(TOVS2Wall01__bml_resource, 6);
     init_collision_body_parts(arg0, ovs2wall01_collision_parts + 0x108, 1);
     ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x08000000);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     arg0->mode = 0;
     *(f32 *)((s8 *)arg0 + 0x334) = lbl_805DBAAC;
     arg0->m_338 = lbl_805DBAB0 + *(f32 *)((s8 *)(*(void **)((s8 *)arg0->model + 4)) + 0x14);

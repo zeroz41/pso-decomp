@@ -79,7 +79,7 @@ void TItemEquipBase::bind_loaded_resources() {
             if (resource != NULL) {
                 item_model = resource->model;
                 second_model = resource->second_model;
-                texture_id = resource->texture_id;
+                texlist = resource->texture_id;
                 model_motion = resource->motion;
                 model_data[0] = resource->data[0];
                 model_data[1] = resource->data[1];
@@ -380,7 +380,7 @@ void TItemEquipBase::release_model() {
         TItemLoad::release_resource_by_id(id);
         model_resource_id = -1;
         item_model = NULL;
-        texture_id = 0;
+        texlist = 0;
         second_model = NULL;
         model_motion = NULL;
         model_data[0] = NULL;

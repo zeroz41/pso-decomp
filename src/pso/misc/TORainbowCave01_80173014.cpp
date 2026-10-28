@@ -182,7 +182,7 @@ u8 *TORainbowCave01__ct(TORainbowCave01 *arg0, s32 arg1, s32 arg2) {
     ((TORainbowCave01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TORainbowCave01__static_model_resource) + 0x42C)) + 8);
     temp_r4 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TORainbowCave01__static_model_resource) + 0x42C));
-    arg0->texture_id = (s32) *(s32 *)((s8 *)temp_r4 + 0xC);
+    arg0->texlist = (s32) *(s32 *)((s8 *)temp_r4 + 0xC);
     arg0->m_c0 = (f32) 400.0f;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) (4e+04f);
     arg0->m_cc = (f32) (0.0f);

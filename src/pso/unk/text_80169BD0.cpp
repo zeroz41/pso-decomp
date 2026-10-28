@@ -232,7 +232,7 @@ void TUnk_804B27D8::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         if ((s32) this->m_cc == 1) {
             void *p = *(void * *)&this->m_bc;
             if (p != NULL) {

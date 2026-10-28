@@ -101,13 +101,13 @@ u8 *TOBarrierEnergy01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EA0;
     ((TOBarrierEnergy01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((void *)((void *) ((*(s32 *)&barrier_energy_shared_bml_archive))), 1);
-    ((TOBarrierEnergy01 *)arg0)->texture_id = (s32) *TOBarrierEnergy01__texture_lists;
+    ((TOBarrierEnergy01 *)arg0)->texlist = (s32) *TOBarrierEnergy01__texture_lists;
     *(u8 **)((s8 *)arg0 + 0xBC) = get_bml_motion((*(s32 *)&barrier_energy_shared_bml_archive), 0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DB2D8);
     ((TOBarrierEnergy01 *)arg0)->m_b8 = (f32) lbl_805DB2DC;
     init_collision_body_parts(arg0, &barrier_energy01_collision_body_parts.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOBarrierEnergy01 *)(arg0))->init_door_switch_binding();
     ((TOBarrierEnergy01 *)arg0)->m_c0 = (f32) lbl_805DB2E0;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB2E4;

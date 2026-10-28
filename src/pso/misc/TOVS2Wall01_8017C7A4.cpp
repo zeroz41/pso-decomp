@@ -98,9 +98,9 @@ u8 *TOVS2Wall01::init_wreck_object(s32 arg1, s32 arg2) {
     this->apply_object_set_data((void *)arg1);
     *(u8 * *)&this->model = get_bml_model((*(s32 *)&TOVS2Wall01__bml_resource), arg2);
     *(f32 *)&this->unk_C4 = (f32) (lbl_805DBAB0 + *(f32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&this->model) + 4)) + 0x14));
-    this->texture_id = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOVS2Wall01__bml_resource)), (void *)arg2);
+    this->texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOVS2Wall01__bml_resource)), (void *)arg2);
     init_collision_body_parts(this, (void *) ((u8 *)&ovs2wall01_collision_parts.value + (arg2 * 0x2C)), 1);
-    ((TObjPlayer *)((u8 *)this))->reset_photon_effect();
+    ((TObjPlayer *)((u8 *)this))->register_object_by_id();
     *(s32 *)&this->m_c8 = TObjMapCsn::create(arg1);
     *(s32 *)&this->unk_CC = 1;
     return ((u8 *)this);

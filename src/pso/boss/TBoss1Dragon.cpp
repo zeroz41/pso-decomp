@@ -1534,7 +1534,7 @@ extern "C" void vfunc_77__13TUnk_804806E8Fv();
 extern "C" void vfunc_76__13TUnk_804806E8Fv();
 extern "C" void vfunc_75__13TUnk_804806E8Ff();
 extern "C" void clear_lobby_object_state__9TObjEnemyFv();
-extern "C" void vfunc_9__13TUnk_804806E8Fv();
+extern "C" void get_center__13TUnk_804806E8Fv();
 extern "C" void get_actor_level_index__13TUnk_804806E8Fv();
 extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__13TUnk_804806E8Fl();
@@ -1731,7 +1731,7 @@ static void *boss1_dragon_held_camera_targets[12] = {
 void *lbl_80481280[107] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__12TBoss1DragonFPvs, (void *)&run_task__12TBoss1DragonFv,
     (void *)&render__12TBoss1DragonFv, (void *)&render_shadows__12TBoss1DragonFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -1845,7 +1845,7 @@ void TBoss1Dragon::render_low_detail() {
     if (((DragonVisibilityDispatch*)self)->m8(lbl_805D7F18, TBoss1Dragon__data_805D7F1C) == 0) {
         return;
     }
-    TObjFish::set_global_param(self->texture_id);
+    TObjFish::set_global_param(self->texlist);
     push_matrix();
     post_translate_matrix(&self->position.x);
     rotate_matrix_y(0, self->rotation_y);
@@ -1929,7 +1929,7 @@ void TBoss1Dragon::render() {
             *(s32 *)((s8 *)((u8 *)this) + 0x34) = saved;
             pop_matrix();
         }
-        TObjFish::set_global_param(((TBoss1Dragon *)((u8 *)this))->texture_id);
+        TObjFish::set_global_param(((TBoss1Dragon *)((u8 *)this))->texlist);
         TObjEneDD::clear_global_flag_400();
         saved_model_render_flags = model_render_flags;
         set_material_alpha_compare_reference(0);

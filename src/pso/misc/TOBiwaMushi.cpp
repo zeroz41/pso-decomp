@@ -334,7 +334,7 @@ u8 *TOMekaFish00__ct(TOMekaFish00 *meka_fish00, s32 arg1) {
     *(s32 *)((s8 *)meka_fish00 + 0) = (s32) TOMekaFish00__name;
     ((TOMekaFish00 *)(meka_fish00))->apply_object_set_data((void *)arg1);
     *(s32 *)((s8 *)meka_fish00 + 0x34) = get_bml_model((*(u8 * *)&TOMekaFish00__model_resource), 0);
-    meka_fish00->texture_id = TObjFish__sub_8001EDB0((*(u8 * *)&TOMekaFish00__model_resource), 0);
+    meka_fish00->texlist = TObjFish__sub_8001EDB0((*(u8 * *)&TOMekaFish00__model_resource), 0);
     meka_fish00->m_bc = get_bml_motion((*(u8 * *)&TOMekaFish00__model_resource), 0);
     *(f32 *)((s8 *)meka_fish00 + 0xB4) = (f32) ((f32) *(u32 *)(meka_fish00->m_bc + 4) - lbl_805DE068);
     meka_fish00->m_b8 = (f32) lbl_805DE06C;

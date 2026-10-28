@@ -430,7 +430,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
         exchange_object_state__9TObjEnemyFls(THIS, &tmp, 0);
     }
     ((TBoss3Volopt *)THIS)->next_action = TObjFish::get_fish_count();
-    ((TBoss3Volopt *)THIS)->texture_id = 0;
+    ((TBoss3Volopt *)THIS)->texlist = 0;
     *(s32 *)((s8 *)THIS + 0x34) = 0;
     VecCopyP(THIS + 0x44, VecCopyP(THIS + 0x50, VecCopyP(THIS + 0x74, THIS + 0x38)));
     init_collision_body_parts(THIS, TBoss6Mine__collision_body_template, 1);

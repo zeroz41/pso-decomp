@@ -68,7 +68,7 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
         ((TObjCollision *)arg0)->m_c4 = (s32) (((TObjCollision *)arg0)->m_c4 | 0x100);
     }
     init_collision_body_parts(arg0, (s32)(arg0 + 0xAC), 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;
 }
 

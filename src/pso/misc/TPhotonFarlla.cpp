@@ -108,7 +108,7 @@ void TPhotonFarlla::render() {
     if (this->m_1a0 != 0) {
         scroll_strip_uvs(farlla_photon_blast_model_buffers, self->f14C, 0);
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
@@ -275,7 +275,7 @@ extern u8 *photon_blast_shared_resource;
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
 extern "C" void interact__13TUnk_804AF8A0Fl();
 extern "C" void get_name__13TUnk_804B9870Fv();
-extern "C" void vfunc_9__13TUnk_804B9870Fv();
+extern "C" void get_center__13TUnk_804B9870Fv();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
 extern "C" void enter_scene__13TUnk_804C3248Fv();
@@ -299,7 +299,7 @@ void *lbl_804C3538[11] = {
 void *lbl_804C3564[17] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__13TPhotonFarllaFPvs, (void *)&run_task__13TPhotonFarllaFv,
     (void *)&render__13TPhotonFarllaFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__10TObjMotionFv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&enter_scene__13TUnk_804C3248Fv, (void *)&update_if_active__13TUnk_804C3248Fv,
     (void *)0x0,
 };
@@ -315,14 +315,14 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     ((TPhotonFarlla *)arg0)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
     init_collision_body_parts(arg0, (u8 *)lbl_804C3538, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TPhotonFarlla *)arg0)->m_180 = (u8 *)find_entity_by_id(((TPhotonFarlla *)arg0)->m_17c);
     e = ((TPhotonFarlla *)arg0)->m_180;
     if (e != NULL) {
         ((TPhotonFarlla *)arg0)->rotation_y = *(s32 *)((s8 *)e + 0x60);
     }
     *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x8);
-    ((TPhotonFarlla *)arg0)->texture_id = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xC);
+    ((TPhotonFarlla *)arg0)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xC);
     ((TObjMotion *)arg0)->set_field_d8((s32) photon_blast_farlla_params);
     ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     ((TPhotonFarlla *)arg0)->m_b8 = 1;

@@ -329,7 +329,7 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)player + 0xB0) = arg3;
     *(s32 *)((s8 *)player + 0xAC) = ((s32)get_labo_design_object((int) (*(s32 *)((s8 *)player + 0xB0))));
     init_collision_body_parts(player, (int) (((s32)get_labo_design_entry((int) (*(s32 *)((s8 *)player + 0xB0))))), 1);
-    ((TObjPlayer *)player)->reset_photon_effect();
+    ((TObjPlayer *)player)->register_object_by_id();
     *(f32 *)((s8 *)player + 0xB4) = (f32) lbl_805E02A0;
     *(f32 *)((s8 *)player + 0xB8) = (f32) lbl_805E02A4;
     *(s32 *)((s8 *)player + 0xBC) = 0;

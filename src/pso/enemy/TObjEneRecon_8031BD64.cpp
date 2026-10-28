@@ -28,7 +28,7 @@ void TObjEneRecon::vfunc_106() {
     u8 *arg0 = (u8 *)this;
     if (((VObj800AFB60_8031bd64 *) arg0)->m8(lbl_805DF3BC, TObjEneRecon__data_805DF3C0) != 0) {
         update_player_state__9TObjEneDDFv(arg0, 0, 0);
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

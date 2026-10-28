@@ -165,23 +165,23 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         update_player_state__9TObjEneDDFv(this, &v, 0);
         switch (*(s32 *)&this->variant) {
         case 1:
-            s0 = (**(s32 ** *)&this->texture_id)[2];
-            s1 = (**(s32 ** *)&this->texture_id)[5];
-            s2 = (**(s32 ** *)&this->texture_id)[8];
-            (**(s32 ** *)&this->texture_id)[2] = (**(s32 ** *)&this->texture_id)[11];
-            (**(s32 ** *)&this->texture_id)[5] = (**(s32 ** *)&this->texture_id)[14];
-            (**(s32 ** *)&this->texture_id)[8] = (**(s32 ** *)&this->texture_id)[17];
+            s0 = (**(s32 ** *)&this->texlist)[2];
+            s1 = (**(s32 ** *)&this->texlist)[5];
+            s2 = (**(s32 ** *)&this->texlist)[8];
+            (**(s32 ** *)&this->texlist)[2] = (**(s32 ** *)&this->texlist)[11];
+            (**(s32 ** *)&this->texlist)[5] = (**(s32 ** *)&this->texlist)[14];
+            (**(s32 ** *)&this->texlist)[8] = (**(s32 ** *)&this->texlist)[17];
             break;
         case 2:
-            s0 = (**(s32 ** *)&this->texture_id)[2];
-            s1 = (**(s32 ** *)&this->texture_id)[5];
-            s2 = (**(s32 ** *)&this->texture_id)[8];
-            (**(s32 ** *)&this->texture_id)[2] = (**(s32 ** *)&this->texture_id)[20];
-            (**(s32 ** *)&this->texture_id)[5] = (**(s32 ** *)&this->texture_id)[23];
-            (**(s32 ** *)&this->texture_id)[8] = (**(s32 ** *)&this->texture_id)[26];
+            s0 = (**(s32 ** *)&this->texlist)[2];
+            s1 = (**(s32 ** *)&this->texlist)[5];
+            s2 = (**(s32 ** *)&this->texlist)[8];
+            (**(s32 ** *)&this->texlist)[2] = (**(s32 ** *)&this->texlist)[20];
+            (**(s32 ** *)&this->texlist)[5] = (**(s32 ** *)&this->texlist)[23];
+            (**(s32 ** *)&this->texlist)[8] = (**(s32 ** *)&this->texlist)[26];
             break;
         }
-        TObjFish::set_global_param((s32)(*(void * *)&this->texture_id));
+        TObjFish::set_global_param((s32)(*(void * *)&this->texlist));
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x38);
         rotate_matrix_y(0, this->rotation_y);
@@ -193,9 +193,9 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         if (*(s32 *)&this->variant == 1 || *(s32 *)&this->variant == 2) {
-            (**(s32 ** *)&this->texture_id)[2] = s0;
-            (**(s32 ** *)&this->texture_id)[5] = s1;
-            (**(s32 ** *)&this->texture_id)[8] = s2;
+            (**(s32 ** *)&this->texlist)[2] = s0;
+            (**(s32 ** *)&this->texlist)[5] = s1;
+            (**(s32 ** *)&this->texlist)[8] = s2;
         }
     }
 }

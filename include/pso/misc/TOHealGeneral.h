@@ -6,7 +6,7 @@
 
 struct TOHealGeneral : public TUnk_804AFBF8 {
     virtual ~TOHealGeneral();
-    virtual void*vfunc_9();
+    virtual void *get_center();
     u8 unk_C8[0x4];
     u32 m_cc;
     u8 _padD0[0x4];

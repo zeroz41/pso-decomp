@@ -95,7 +95,7 @@ void TObjVoloptShutter::close() {
 
 void TBoss3VoloptP01::load_model(s32 index) {
     model = (void *)TBoss3VoloptP01__resource_bundle->models[index].model;
-    texture_id = TBoss3VoloptP01__resource_bundle->models[index].m_c;
+    texlist = TBoss3VoloptP01__resource_bundle->models[index].m_c;
 }
 
 s32 TBoss3VoloptP01::sub_800443DC(s32 index) {
@@ -267,7 +267,7 @@ void TBoss3VoloptP01::render() {
     u32 flags;
 
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(texture_id);
+        TObjFish::set_global_param(texlist);
         select_actor_lighting((s32)this);
         TObjPlayer::toggle_particle_effect();
         push_matrix();
@@ -381,7 +381,7 @@ void TBoss3VoloptP01::update_breakup() {
         advance_animation_playback(this);
         (*(s16 *)&timer)--;
         if (*(s16 *)&timer < 0) {
-            TBoss3Volopt::create_breakup_mdl((s32)TBoss3VoloptP01__breakup_model, (s32)&volopt_p01_breakup_params, texture_id, (s32)&m_2fc, rotation_y);
+            TBoss3Volopt::create_breakup_mdl((s32)TBoss3VoloptP01__breakup_model, (s32)&volopt_p01_breakup_params, texlist, (s32)&m_2fc, rotation_y);
             ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
             m_388 |= 0x40000;
             play_sound_effect(0x4003AD07, &position, 0, 0);

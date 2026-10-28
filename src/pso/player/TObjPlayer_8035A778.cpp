@@ -14,7 +14,7 @@ extern s32 player_apply_callback_fn;
 
 void TObjPlayer::apply_with_callback(s32 arg1, f32 farg0) {
     (*(s32 *)&this->m_20) = arg1;
-    *(f32 *)&this->texture_id = farg0;
+    *(f32 *)&this->texlist = farg0;
     player_node_matrix_cursor = 0;
     player_node_matrix_count = *(s32 *)&this->set_index;
     node_matrix_array_base = *(s32 *)&this->room;

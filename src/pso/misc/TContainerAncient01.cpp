@@ -299,7 +299,7 @@ extern "C" void vfunc_78__13TUnk_804806E8Fl();
 extern "C" void vfunc_77__13TUnk_804806E8Fv();
 extern "C" void vfunc_76__13TUnk_804806E8Fv();
 extern "C" void vfunc_75__13TUnk_804806E8Ff();
-extern "C" void vfunc_9__13TUnk_804806E8Fv();
+extern "C" void get_center__13TUnk_804806E8Fv();
 extern "C" void get_actor_level_index__13TUnk_804806E8Fv();
 extern "C" void get_pos__13TUnk_804806E8Fl();
 extern "C" void is_actor_cadence_frame__13TUnk_804806E8Fl();
@@ -362,7 +362,7 @@ void *TContainerAncient01__anim_table[12] = {
 void *__vt__20TContainerAncient01R[79] = {
     (void *)0x0, (void *)0x0, (void *)&dt__20TContainerAncient01RFPvs, (void *)&run_task__20TContainerAncient01RFv,
     (void *)&render__20TContainerAncient01RFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__20TContainerAncient01RFPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&is_within_range__19TContainerAncient01Fii, (void *)&calc_distance_accuracy_penalty__20TContainerAncient01RFPvPvPvf, (void *)&receive_physical_attack__20TContainerAncient01RFPvf, (void *)&receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll,
@@ -580,7 +580,7 @@ s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
 void TContainerAncient01R::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj8018AD04_8018A584 *) arg0)->m8(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -692,7 +692,7 @@ void *TContainerAncient01R__ct(Obj_8018B030 *self, void *arg1, void *parent) {
     ((TObjMotion *)self)->set_field_b8(self->anim);
     self->flags |= 0x60000000;
     init_collision_body_parts(self, (void *)&TContainerAncient01__collision_body_parts, 1);
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     VecCopy((Vec *)&self->pos74, (const Vec *)&self->pos);
     c = (Coll_8018B030 *)&TContainerAncient01__collision_body_parts;
     self->pos74.y = c->y / 2.0f + self->pos74.y;
@@ -949,7 +949,7 @@ s32 TContainerAncient01__vt18(s32 arg0, s32 arg1) {
 void TContainerAncient01::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj8018B8BC_8018B79C *) arg0)->m8(3e+02f, 2e+01f) != 0) {
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -1165,7 +1165,7 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TContainerAncient01__name;
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
-    ((TContainerAncient01 *)arg0)->texture_id = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
+    ((TContainerAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->action_table = (s32 *)TContainerAncient01__anim_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)((void *) (((TContainerAncient01 *)arg0)->action_table)));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&TContainerAncient01__bml_resource) + 0x430);
@@ -1174,7 +1174,7 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjMotion *)arg0)->set_field_b8((int) (((TContainerAncient01 *)arg0)->m_b8));
     ((TContainerAncient01 *)arg0)->actorFlags = (s32) (((TContainerAncient01 *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts.value, 1);
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     *(f32 *)((s8 *)arg0 + 0x78) = (f32) ((*(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4) / 2.0f) + *(f32 *)((s8 *)arg0 + 0x78));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x74));

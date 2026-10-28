@@ -363,7 +363,7 @@ void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
     init_collision_body_parts(arg0, lazer_fence_sw_collision_body_part, 1);
     *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
-    ((TObjPlayer *)arg0)->reset_photon_effect();
+    ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804AF8D8 *)((u8 *)arg0 + 0xF0))->sub_80156CEC();
     TLazerFenceSw__sub_8018A554((u8 *)arg0 + 0xF0, 2.9e+02f);
     *(f32 *)((s8 *)arg0 + 0x110) = 0.0f;

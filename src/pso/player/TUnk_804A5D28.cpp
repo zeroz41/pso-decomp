@@ -112,7 +112,7 @@ u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, 
     ((TObjPlayer *)(((u8 *)this) + 0x38))->copy_xyz(arg5);
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)arg4);
     *(f32 *)&this->m_20 = (f32) (*(f32 *)&this->m_20 * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
-    *(f32 *)&this->texture_id = (f32) (*(f32 *)&this->texture_id * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
+    *(f32 *)&this->texlist = (f32) (*(f32 *)&this->texlist * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
     *(f32 *)&this->room = (f32) (*(f32 *)&this->room * ((0.5f * (3.0517578e-05f * (f32) rand())) + 0.5f));
     return ((u8 *)this);
 }

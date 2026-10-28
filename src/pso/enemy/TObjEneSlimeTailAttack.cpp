@@ -580,7 +580,7 @@ extern "C" {
 void vfunc_75__13TUnk_804806E8Ff();
 }
 extern "C" {
-void vfunc_9__13TUnk_804806E8Fv();
+void get_center__13TUnk_804806E8Fv();
 }
 extern "C" {
 void get_actor_level_index__13TUnk_804806E8Fv();
@@ -840,7 +840,7 @@ void *slime_tail_attack_transform[3] = {
 void *__vt__22TObjEneSlimeTailAttack[83] = {
     (void *)0x0, (void *)0x0, (void *)&dt__22TObjEneSlimeTailAttackFPvs, (void *)&run_task__22TObjEneSlimeTailAttackFv,
     (void *)&render__22TObjEneSlimeTailAttackFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&vfunc_9__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804806E8Fv, (void *)&get_center__13TUnk_804806E8Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__9TObjEnemyFv, (void *)&interact__13TUnk_804AF8A0Fl, (void *)&add_actor_exp__13TUnk_804806E8Fl, (void *)&consume_timer_field__13TUnk_804806E8Fl,
     (void *)&get_actor_level_index__13TUnk_804806E8Fv, (void *)&update_actor_ground_y__13TUnk_804806E8Fv, (void *)&vfunc_18__13TUnk_804806E8FPUc, (void *)&is_actor_cadence_frame__13TUnk_804806E8Fl,
     (void *)&select_melee_contact_body__13TUnk_804806E8FPvf, (void *)&calc_distance_accuracy_penalty__13TUnk_804806E8FPvPvPvf, (void *)&receive_physical_attack__13TUnk_804806E8FPvf, (void *)&receive_direct_attack__13TUnk_804806E8FPv19DirectAttackPayloadPvll,
@@ -960,7 +960,7 @@ void TObjEneSlimeTailAttack::draw_stretched_segment(void *arg1, void *arg2, f32 
         f32 r = lbl_805DA67C - t;
         scale_matrix(0, lbl_805DA67C, lbl_805DA678, r * len / lbl_805DA66C);
     }
-    TObjFish::set_global_param(this->texture_id);
+    TObjFish::set_global_param(this->texlist);
     TObjPlayer__sub_800EBE48(lbl_805DA688 * t + lbl_805DA684);
     saved = this->m_c0;
     this->m_c0 = lbl_805DA68C;
@@ -980,7 +980,7 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, (int) (((TObjEneSlimeTailAttack *)arg0)->rotation_y));
-    TObjFish::set_global_param((int) (((TObjEneSlimeTailAttack *)arg0)->texture_id));
+    TObjFish::set_global_param((int) (((TObjEneSlimeTailAttack *)arg0)->texlist));
     if ((s32) *(s32 *)((s8 *)arg0 + 0x378) != 0) {
         TObjPlayer__sub_800E81A8();
         TObjEneRe7Berura::set_global_state((s32)TObjPlayer__sub_800E8128);
@@ -1147,7 +1147,7 @@ void *TObjEneSlimeTailAttack__ct(TObjEneSlimeTailAttack *ene_slime_tail_attack, 
   *((s32 *) (((s8 *) ene_slime_tail_attack) - -0x374)) = arg4;
   inst = get_instance__15TObjEneSlimeOneFv();
   id = ((s32 *) lbl_804966F4)[((TObjEneSlimeOne *)(*((s32 *) (((s8 *) ene_slime_tail_attack) + (0x374 & 0xFFFF)))))->get_attack_target()];
-  ene_slime_tail_attack->texture_id = TObjFish__sub_8001EDB0((s32) inst, id);
+  ene_slime_tail_attack->texlist = TObjFish__sub_8001EDB0((s32) inst, id);
   *((s32 *) (((s8 *) ene_slime_tail_attack) + 0x34)) = get_bml_model((s32) inst, id);
   ene_slime_tail_attack->action_table = (u8 *) lbl_8049639C;
   ((TObjMotion *)ene_slime_tail_attack)->set_field_d8((s32) ((u8 *) lbl_8049639C));
@@ -2150,7 +2150,7 @@ void TObjEneSlimeOne::initialize_slime_instance_state() {
   }
   new_var2 = &(*((s32 *) (((s8 *) actor) + 0x3F4)));
   id = ((s32 *) lbl_804966DC)[*new_var2];
-  ((TObjEneSlimeOne *)actor)->texture_id = TObjFish__sub_8001EDB0((s32)(((TObjEneSlimeOne *)actor)->m_380), id);
+  ((TObjEneSlimeOne *)actor)->texlist = TObjFish__sub_8001EDB0((s32)(((TObjEneSlimeOne *)actor)->m_380), id);
   *((s32 *) (((s8 *) actor) + 0x34)) = get_bml_model((s32)(((TObjEneSlimeOne *)actor)->m_380), id);
   VecCopy((Vec *)(actor + 0x44), (const Vec *)((u8 *)VecCopy((Vec *)(actor + 0x50), (const Vec *)((void *)VecCopy((Vec *)(actor + 0x74), (const Vec *)(actor + 0x38))))));
   *((s32 *) (((s8 *) actor) + 0x38C)) = init_collision_body_parts(actor, lbl_80496370, 1);

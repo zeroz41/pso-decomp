@@ -114,7 +114,7 @@ int TObjPlayer::get_battle_param(int index) {
 
 void TBoss3VoloptCore::load_entry_params_volopt(s32 index) {
     model = (void *)core_resources->models[index].model;
-    texture_id = core_resources->models[index].m_c;
+    texlist = core_resources->models[index].m_c;
 }
 
 s32 TBoss3VoloptCore::get_orbit_speed(s32 index) {
@@ -266,7 +266,7 @@ void TBoss3VoloptCore::sub_80040558() {}
 
 void TBoss3VoloptCore::render() {
     if (!(actorFlags & 0x02000000) && update_object_view_visibility(400.0f, 40.0f) != 0) {
-        TObjFish::set_global_param(texture_id);
+        TObjFish::set_global_param(texlist);
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);

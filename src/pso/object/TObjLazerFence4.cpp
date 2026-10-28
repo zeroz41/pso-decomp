@@ -273,7 +273,7 @@ void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjLazerFence4 *)self)->init_models();
     init_collision_body_parts(self, laser_fence4_collision_body_sets + (self->f8C % 2) * 0xDC, 5);
     self->flags |= 0x40000000;
-    ((TObjPlayer *)self)->reset_photon_effect();
+    ((TObjPlayer *)self)->register_object_by_id();
     ((TUnk_804AF8A0 *)self)->refresh_collision_body_centers();
     return self;
 }

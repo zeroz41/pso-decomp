@@ -30,7 +30,7 @@ struct TObjEneSaver : public TObjEnemy {
     virtual int test_flag_256();
     virtual void vfunc_61();
     virtual void vfunc_63();
-    virtual void*vfunc_9();
+    virtual void *get_center();
     virtual void vfunc_58();
     virtual void vfunc_59();
     virtual void vfunc_60();

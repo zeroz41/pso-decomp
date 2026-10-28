@@ -80,7 +80,7 @@ void *__nw__7TObjectFUl(int);
 
 void vfunc_6__13TUnk_804B9870FPsl();
 void get_name__13TUnk_804B9870Fv();
-void vfunc_9__13TUnk_804B9870Fv();
+void get_center__13TUnk_804B9870Fv();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void render_shadows__7TObjectFv();
@@ -98,7 +98,7 @@ void *lbl_80485680[3] = {
 void *__vt__11TObjDFDemo2[13] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__11TObjDFDemo2Fv, (void *)&run_task__11TObjDFDemo2Fv,
     (void *)&render__11TObjDFDemo2Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&reset_motion_fields__13TUnk_804B9870Fv, (void *)&get_center__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__13TUnk_804B9870Fff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)&get_name__13TUnk_804B9870Fv,
 };
 

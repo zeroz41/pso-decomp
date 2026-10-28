@@ -15,7 +15,7 @@ void TOBarrierEnergy01::vfunc_17() {
     if (!(this->m_d0 & 1)) {
         this->m_ac = 3;
         this->clear_player_status_flag(0, 8);
-        this->texture_id = (s32) *TOBarrierEnergy01__texture_lists;
+        this->texlist = (s32) *TOBarrierEnergy01__texture_lists;
     }
 }
 

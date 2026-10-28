@@ -1197,7 +1197,7 @@ void render_debug__14TObjEneBm5WolfFPv(u8 *ene_bm5_wolf) {
     }
     if (((VObj_18_26a62c *)(ene_bm5_wolf))->m8(lbl_805D9D70, TObjEneBm5Wolf__data_805D9D74) != 0) {
         update_player_state__9TObjEneDDFv(ene_bm5_wolf, 0, 0);
-        TObjFish::set_global_param(((TObjEneBm5Wolf *)ene_bm5_wolf)->texture_id);
+        TObjFish::set_global_param(((TObjEneBm5Wolf *)ene_bm5_wolf)->texlist);
         push_matrix();
         post_translate_matrix(ene_bm5_wolf + 0x38);
         rotate_matrix_y(0, ((TObjEneBm5Wolf *)ene_bm5_wolf)->rotation_y);
@@ -1289,7 +1289,7 @@ void TObjEneBm5Wolf::render() {
                 pop_matrix();
             }
             this->update_secondary_light();
-            TObjFish::set_global_param(this->texture_id);
+            TObjFish::set_global_param(this->texlist);
             push_matrix();
             post_translate_matrix(((u8 *)this) + 0x38);
             rotate_matrix_y(0, this->rotation_y);
@@ -2474,7 +2474,7 @@ void render_shadows__9TObjEnemyFv(u8 *arg0);
 void vfunc_6__13TUnk_804B9870FPsl(void);
 void apply_object_set_data__13TUnk_804B9870FPv(void);
 void reset_motion_fields__13TUnk_804806E8Fv(void);
-void vfunc_9__13TUnk_804806E8Fv(void);
+void get_center__13TUnk_804806E8Fv(void);
 void update_object_view_visibility__13TUnk_804B9870Fff(void);
 void classify_actor_view_detail__13TUnk_804B9870Ffff(void);
 void get_name__9TObjEnemyFv(void);
@@ -2572,7 +2572,7 @@ void *lbl_804922F8[107] = {
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804806E8Fv,
-    (void *)vfunc_9__13TUnk_804806E8Fv,
+    (void *)get_center__13TUnk_804806E8Fv,
     (void *)update_object_view_visibility__13TUnk_804B9870Fff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)get_name__9TObjEnemyFv,
@@ -3163,12 +3163,12 @@ void TObjEneBm5Wolf::select_subtype() {
     if (this->parameters[1] >= (*(f32 *)&TObjEneBm5Wolf__data_805D9D8C)) {
         this->m_3d8 = 1;
         (*(s32 *)&this->model) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 0x18);
-        this->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 0xC);
+        this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 0xC);
         return;
     }
     this->m_3d8 = 0;
     (*(s32 *)&this->model) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 8);
-    this->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 0xC);
+    this->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8**)&TObjEneBm5Wolf__bml_resource) + 0x42C)) + 0xC);
 }
 
 void TObjEneBm5Wolf::vfunc_88() {

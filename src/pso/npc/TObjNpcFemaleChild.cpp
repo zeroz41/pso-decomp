@@ -48,7 +48,7 @@ u8 *TObjNpcFemaleChild__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjNpcFemaleChild *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjNpcFemaleChild__static_instance + 0x42C)) + 8);
-    ((TObjNpcFemaleChild *)arg0)->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjNpcFemaleChild__static_instance + 0x42C)) + 0xC);
+    ((TObjNpcFemaleChild *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TObjNpcFemaleChild__static_instance + 0x42C)) + 0xC);
     ((TObjNpcBase *)arg0)->setup_common();
     return arg0;
 }

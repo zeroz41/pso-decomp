@@ -203,7 +203,7 @@ extern const f32 lbl_805DC860;
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec_8023402C *p, u16 unused);
 void *__nw__7TObjectFUl(int);
 s32 get_entity_id(void *);
-s32 get_stat_by_key_state__13TUnk_804B9870Fv(void *);
+s32 get_room__13TUnk_804B9870Fv(void *);
 extern s32 tl_07;
 extern s32 tl_05;
 void __dt__7TObjectFv(void *, int);
@@ -333,7 +333,7 @@ u8 *TTecLuker::construct_field_collider(s32 arg1, s32 arg2, s32 ac) {
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1));
     init_collision_body_parts(this, &telepipe_field_collision_body_template.value, 1);
     obj_setFlags30(this, 0x40000000);
-    ((TObjPlayer *)((u8 *)this))->reset_photon_effect();
+    ((TObjPlayer *)((u8 *)this))->register_object_by_id();
     ((TUnk_804CC9D4 *)this)->cursor_action.set_telepipe();
     *(s32 *)&this->unk_B0 = 0;
     this->m_ac = ac;
@@ -732,7 +732,7 @@ void TTecLuker::setup_telepipe_field() {
     if (s->traveller == (u16)get_entity_id(s->player)) {
         s16 h;
         s->floor = get_current_floor();
-        h = get_stat_by_key_state__13TUnk_804B9870Fv(s->player);
+        h = get_room__13TUnk_804B9870Fv(s->player);
         ((Write_802347B4)write_telepipe_record)(s->player + 0x830, get_entity_id(s->player), s->floor, (u8 *)&s->pos, h);
         ((TTecLuker *)(s->player + 0x830))->send_telepipe_packet();
     }

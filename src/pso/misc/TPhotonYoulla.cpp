@@ -68,7 +68,7 @@ void TPhotonYoulla::render() {
     Self_801AE744 *self = (Self_801AE744 *)this;
     if (*(s32 *)&this->m_1a0 != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texture_id);
+        TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix(&self->pos);
         rotate_matrix_y(0, this->rotation_y);
@@ -151,7 +151,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
         photon_youlla->rotation_y = (s32) *(s32 *)((s8 *)temp_r3 + 0x60);
     }
     *(s32 *)((s8 *)photon_youlla + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xB8);
-    photon_youlla->texture_id = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xBC);
+    photon_youlla->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0xBC);
     ((TObjMotion *)photon_youlla)->set_field_d8((s32) photon_blast_youlla_params);
     ((TObjMotion *)photon_youlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
     photon_youlla->m_b8 = 1;
