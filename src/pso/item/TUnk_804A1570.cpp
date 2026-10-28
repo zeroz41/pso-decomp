@@ -36,15 +36,14 @@ void TUnk_804A1570::update_attack() {
 }
 
 extern "C" {
-void update_trail_slot__11TItemWeaponFPvi(void *, s32);
 void TUnk_804A1570::reserved_53() {
   s32 temp_r31;
   s32 new_var;
   temp_r31 = *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4));
   new_var = (s32) this;
   draw_weapon_at_joint(new_var, 0x2F);
-  update_trail_slot__11TItemWeaponFPvi(this, 0);
-  update_trail_slot__11TItemWeaponFPvi(this, 1);
+  update_trail_slot(0);
+  update_trail_slot(1);
   *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = (s32)this->second_model;
   draw_weapon_at_joint(new_var, 0x22);
   *((s32 *) (((s8 *) ((u8 *)this)) + 0xF4)) = temp_r31;
@@ -66,10 +65,9 @@ void *__dt__13TUnk_804A1570Fv(void *arg0, s16 arg1) {
 
 extern "C" {
 
-int TItemWeapon__ct(void);
-int set_status_flags__10TObjPlayerFUl(void*, void*);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 
-void*TUnk_804A1570::enter_state_513() { TItemWeapon__ct(); *(int*)((char*)this + 0x18) = (int)lbl_804A1570; set_status_flags__10TObjPlayerFUl(this, (void*)513); *(float *)&this->unk_200 = 0.0f; *(float *)&(this->m_1fc) = 0.0f; *(float*)((char*)this + 0x1f8) = 0.0f; return this; }
+void*TUnk_804A1570::enter_state_513() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A1570; set_weapon_flags(513); *(float *)&this->unk_200 = 0.0f; *(float *)&(this->m_1fc) = 0.0f; *(float*)((char*)this + 0x1f8) = 0.0f; return this; }
 
 }
 

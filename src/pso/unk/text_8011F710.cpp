@@ -109,7 +109,6 @@ struct Obj_8011F710 { u8 pad[0x1D1]; u8 cur; u8 pad2[0x1DC - 0x1D2]; Stats_8011F
 
 extern "C" {
 s32 get_entity_id(void *);
-s8 get_mode__5TItemFv();
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 extern s32 tl_05;
@@ -157,7 +156,7 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
     s32 temp_r31;
     s32 temp_r31_2;
     u8 *temp_r3;
-    if (get_mode__5TItemFv() == 2) {
+    if (get_mode() == 2) {
         temp_r3 = (u8 *)this->owner;
         if ((temp_r3 != NULL) && (arg2 != NULL)) {
             attack_accuracy_scale = get_attack_accuracy_scale((s16 *)(temp_r3 + 0x7CC));
@@ -211,24 +210,24 @@ void TItemWeapon::perform_action() {
         packet.variant=((TItem *)self)->get_item_index();
         packet.player=self->owner;
         play_weapon_owner_sounds(&packet);
-        if(((TItemWeapon *)self)->test_flags_1b8(0x40000)) {
+        if(((TItemWeapon *)self)->test_weapon_flags(0x40000)) {
             start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
-        } else if(((TItemWeapon *)self)->test_flags_1b8(0x80000) && ((TObjPlayer *)self)->is_mode_two_and_ready()) {
+        } else if(((TItemWeapon *)self)->test_weapon_flags(0x80000) && ((TItemWeapon *)self)->is_mode_two_and_ready()) {
             start_pad_rumble_client(0x80, 5, (s16)get_entity_id(self->owner));
         }
         self->emit_marker_effects();
-        ((TObjPlayer *)self)->set_status_flags(0x1000000);
-        if(!((TItemWeapon *)self)->test_flags_1b8(2)) {
-            if(((TItemWeapon *)self)->test_flags_1b8(0x8000)) {
-                ((TObjPlayer *)self)->draw_status_icon((s32)&gun_point);
+        ((TItemWeapon *)self)->set_weapon_flags(0x1000000);
+        if(!((TItemWeapon *)self)->test_weapon_flags(2)) {
+            if(((TItemWeapon *)self)->test_weapon_flags(0x8000)) {
+                ((TItemWeapon *)self)->get_gun_point(&gun_point);
                 ((TItemWeapon *)self)->fire_shot_at_target((void *)(&gun_point), (void *)(self->second_model), 0);
                 return;
             }
-            if(((TItemWeapon *)self)->test_flags_1b8(0x20000)) {
+            if(((TItemWeapon *)self)->test_weapon_flags(0x20000)) {
                 ((TObjPlayer *)self)->update_active_game_effect();
                 return;
             }
-            ((TObjPlayer *)self)->draw_status_icon((s32)&fallback_point);
+            ((TItemWeapon *)self)->get_gun_point(&fallback_point);
             self->launch_shot((u8 *)&fallback_point,0,0,1);
         }
     }

@@ -8,15 +8,14 @@
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-void TItemWeapon__ct(void *);
-void set_status_flags__10TObjPlayerFUl(void *, int);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 extern s32 lbl_804E71F8[];
 
 void *TUnk_804E71F8::construct_nug2000_bazooka(s32 _w1, void *_w2) {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804E71F8;
-    set_status_flags__10TObjPlayerFUl(this, 2);
+    set_weapon_flags(2);
     return this;
 }
 u8 *TObjPlayer::create_nug2000_bazooka() {

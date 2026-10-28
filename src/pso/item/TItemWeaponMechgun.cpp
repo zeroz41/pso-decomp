@@ -97,9 +97,9 @@ void TUnk_804A3260::reserved_53() {
 }
 
 void *TItemWeaponMechgun__ct(void *arg0, s32 parent, void *item) {
-    TItemWeapon__ct((TItemWeapon *)((u8 *)arg0), (void *)parent, (u8 *)item);
+    __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)arg0), (void *)parent, (u8 *)item);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A3260;
-    ((TObjPlayer *)arg0)->set_status_flags(0x203);
+    ((TItemWeapon *)arg0)->set_weapon_flags(0x203);
     *(void (**)())((s8 *)arg0 + 0x1EC) = &spawn_weapon_impact_effect;
     ((TUnk_804A3260 *)arg0)->m_210 = -1;
     *(s32 *)((s8 *)arg0 + 0x214) = 0;

@@ -116,7 +116,7 @@ u8 *__ct__18TAdGameStartBackGCFv(u8 *object, u8 *arg1) {
 void TUnk_804E70A8::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0x1F8) = 5;
-    ((TItemWeapon *)arg0)->clear_equip_flags(0x800U);
+    ((TItemWeapon *)arg0)->clear_weapon_flags(0x800U);
 }
 
 }

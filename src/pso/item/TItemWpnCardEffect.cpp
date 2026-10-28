@@ -48,16 +48,15 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void *__dt__13TUnk_804EDC28Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804EDD20Fv(void *arg0, s16 arg1);
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s16 get_validated_attack_stage(u8 *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
-void set_status_flags__10TObjPlayerFUl(void *, int);
 
 void TObjPlayer::launch_guardianna_colliders() {
     s32 sp8;
 
-    draw_icon(4, (s32)&sp8);
+    ((TItemWeapon *)this)->get_joint_position(4, &sp8);
     if (get_validated_attack_stage((u8 *)(*(s32 *)&this->unk_F0 + 0x7CC)) == 2) {
         ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, 0);
         ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->m_f4, 0x1555);
@@ -73,9 +72,9 @@ void TObjPlayer::launch_guardianna_colliders() {
 extern s32 lbl_804EDC28[];
 
 void *TUnk_804EDC28::construct_guardianna(s32 _w1, void *_w2) {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804EDC28;
-    set_status_flags__10TObjPlayerFUl(this, 2);
+    set_weapon_flags(2);
     return this;
 }
 }

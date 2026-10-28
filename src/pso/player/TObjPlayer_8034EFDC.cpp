@@ -113,8 +113,7 @@ extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer__sub_8034F1AC(u8 *arg0);
-void TItemWeapon__ct(void *, void *);
-void set_status_flags__10TObjPlayerFUl(void *, int);
+void __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 }
 extern s32 lbl_804F0A00[];
 u8 *construct_gi_gue_bazooka(u8 *arg0, u8 *arg1, s32 _w2);
@@ -143,7 +142,6 @@ void *__dt__13TUnk_804F0908Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804F0A00Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804F0AF8Fv(void *arg0, s16 arg1);
 s32 rotate_matrix_x(s32, s32);
-int update_trail_slot__11TItemWeaponFPvi(void*, void*);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
@@ -162,7 +160,7 @@ void TObjPlayer::rotate_by_player_list() {
     }
 }
 
-void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot__11TItemWeaponFPvi(this, (void*)0); update_trail_slot__11TItemWeaponFPvi(this, (void*)1); }
+void TUnk_804F0810::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
 void TUnk_804F0810::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)(1820)), (s32)((void*)(13653))); }
 void TUnk_804F0810::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)(-4551)), (s32)((void*)(0))); }
 
@@ -180,9 +178,9 @@ void *__dt__13TUnk_804F0810Fv(void *arg0, s16 arg1) {
 }
 
 void *TUnk_804F0810::enter_timed_state(s32 _w1, void *_w2) {
-    TItemWeapon__ct((void *)this, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
     *(s32 **)((s8 *)this + 0x18) = lbl_804F0810;
-    set_status_flags__10TObjPlayerFUl(this, 1);
+    set_weapon_flags(1);
     *(u32 *)&this->unk_1F8 = 13653;
     return this;
 }
@@ -230,8 +228,8 @@ void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon) {
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->owner) + 0x60);
     launch.spin = 0;
-    ((TObjPlayer *)weapon)->draw_icon(3, (s32)launch.first);
-    ((TObjPlayer *)weapon)->draw_icon(2, (s32)launch.second);
+    ((TItemWeapon *)weapon)->get_joint_position(3, launch.first);
+    ((TItemWeapon *)weapon)->get_joint_position(2, launch.second);
     t = create__10TTecSlicerFPUs(&launch);
     if (t != NULL) {
         *(s32 *)((s8 *)t + 0x5C) += 0x4000;
@@ -254,10 +252,10 @@ void *__dt__13TUnk_804F0908Fv(void *arg0, s16 arg1) {
 }
 
 void *TUnk_804F0908::construct_rappys_fan(s32 _w1, void *_w2) {
-    TItemWeapon__ct((void *)this, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
     *(s32 **)((s8 *)this + 0x18) = lbl_804F0908;
     *(s32 **)((s8 *)this + 0x1F4) = ((s32 *)TObjPlayer::spawn_particle_at_entity_slot);
-    set_status_flags__10TObjPlayerFUl(this, 2);
+    set_weapon_flags(2);
     return this;
 }
 
@@ -351,9 +349,9 @@ void *__dt__13TUnk_804F0A00Fv(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_8034F754_lbl_804F0A00_size[sizeof(RecoveredGlobal_8034F754_lbl_804F0A00) == 0xF8 ? 1 : -1];
 u8 *construct_gi_gue_bazooka(u8 *arg0, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8034F754_lbl_804F0A00 *)&lbl_804F0A00).value;
-    set_status_flags__10TObjPlayerFUl(arg0, 0x8000);
+    ((TItemWeapon *)arg0)->set_weapon_flags(0x8000);
     *(s32 *)((s8 *)arg0 + 0x1F8) = -0x1C71;
     ((TUnk_804F0A00 *)arg0)->m_1fc = -0x1555;
     *(s32 *)((s8 *)arg0 + 0x200) = 0x238E;
@@ -388,7 +386,7 @@ void TObjPlayer::dispatch_by_state() {
     }
 }
 
-void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot__11TItemWeaponFPvi(this, (void*)0); update_trail_slot__11TItemWeaponFPvi(this, (void*)1); }
+void TUnk_804F0AF8::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); }
 
 void TUnk_804F0AF8::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)((void*)-8192)), (s32)((void*)((void*)-30947))); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)((void*)-1820)), (s32)((void*)((void*)-7281))); }
 

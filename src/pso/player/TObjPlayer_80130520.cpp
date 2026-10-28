@@ -8,7 +8,6 @@
 extern "C" {
 
 int rotate_matrix_x(void*, void*);
-s32 update_trail_slot__11TItemWeaponFPvi(void *, s32);
 int get_player_list__10TObjPlayerFv(void*);
 
 void TObjPlayer::handle_container_state_3() { if (get_player_list__10TObjPlayerFv(this) == 3) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
@@ -22,7 +21,7 @@ void TObjPlayer::set_temp_flag10_and_update() {
             *temp_r31 |= 0x10;
         }
         ((TItemWeapon *)this)->draw_weapon_model();
-        update_trail_slot__11TItemWeaponFPvi(this, 0);
+        ((TItemWeapon *)this)->update_trail_slot(0);
         if ((s32) this->m_204 == 0) {
             *temp_r31 &= 0xFFFFFFEF;
         }

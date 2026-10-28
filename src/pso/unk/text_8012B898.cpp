@@ -80,7 +80,7 @@ void TUnk_804A4F60::vfunc_17(s32 arg1) {
 void TUnk_804A4F60::psycho_wand_roll_extra() {
     s32 ext;
     s32 item;
-    ((TObjPlayer *)((Self_8012B9B4 *)this))->draw_icon(4, (s32)(((Self_8012B9B4 *)this)->icon));
+    ((TItemWeapon *)((Self_8012B9B4 *)this))->get_joint_position(4, (((Self_8012B9B4 *)this)->icon));
     ext = get_extended_state__10TObjPlayerFv(((Self_8012B9B4 *)this)->owner);
     item = get_captured_target_entry(ext, 0);
     if (get_captured_target_count((s32 *)ext) != 0) {

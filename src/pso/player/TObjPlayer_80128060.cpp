@@ -5,17 +5,16 @@
 
 extern "C" {
 
-void TItemWeapon__ct(void *);
-void set_status_flags__10TObjPlayerFUl(void *, int);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 extern s32 lbl_804A3830[];
 
 void *TUnk_804A3830::construct_state_variant() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A3830;
     set_weapon_trail_joints((s32)this, 2, 1, 2);
     set_weapon_trail_joints((s32)this, 3, 3, 4);
-    set_status_flags__10TObjPlayerFUl(this, 513);
+    set_weapon_flags(513);
     return this;
 }
 

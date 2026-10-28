@@ -18,7 +18,7 @@ struct RecoveredGlobal_80126414_lbl_804A05E8 {
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern RecoveredGlobal_80126334_lbl_804A2960 lbl_804A2960;
 u8 * TItemTimerEvent__ct(void *, s16, s32);
 }
@@ -26,9 +26,9 @@ extern RecoveredGlobal_80126414_lbl_804A05E8 lbl_804A05E8;
 
 typedef char RecoveredGlobal_80126334_lbl_804A2960_size[sizeof(RecoveredGlobal_80126334_lbl_804A2960) == 0xF8 ? 1 : -1];
 u8 *frozen_shooter_ct(u8 *arg0, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A2960.value;
-    ((TObjPlayer *)arg0)->set_status_flags(0x22);
+    ((TItemWeapon *)arg0)->set_weapon_flags(0x22);
     if (((TItem *)arg0)->get_item_index() == 1) {
         *(s32 *)((s8 *)arg0 + 0x1F8) = 0xA;
         *(s32 *)((s8 *)arg0 + 0x200) = 0x1F5;

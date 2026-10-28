@@ -2974,6 +2974,7 @@ pso/unk/text_80120C5C.cpp:
 
 pso/item/TItemEquipVariant_80120CF8.cpp:
 	.text       start:0x80120CF8 end:0x80120D50
+	.data       start:0x804A06C8 end:0x804A07C0
 
 pso/unk/text_80120D50.cpp:
 	.text       start:0x80120D50 end:0x80120FC4

@@ -7,7 +7,7 @@
 extern "C" {
 
 s32 rotate_matrix_z(s32, s32);
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 void TObjPlayer::update_boss2tunnel_move() {
     s32 player_list;
@@ -32,7 +32,7 @@ void TUnk_804A6108::update_weapon() { advance_angle_wrap((s32 *)((char*)this + 0
 extern s32 lbl_804A6108[];
 
 void *TUnk_804A6108::init_effect_state() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A6108;
     *(u32 *)&this->unk_1F8 = 0;
     return this;

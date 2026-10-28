@@ -4,12 +4,12 @@
 
 extern "C" {
 
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 extern s32 lbl_804A1288[];
 
 void *TUnk_804A1288::init_vtable_804a1288() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A1288;
     return this;
 }

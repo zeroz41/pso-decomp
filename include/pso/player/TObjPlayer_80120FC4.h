@@ -3,6 +3,8 @@
 
 #include "types.h"
 
-s32 create_common_weapon(s32 item);
+struct TItemWeapon;
+
+TItemWeapon *create_common_weapon(u8 *item);
 
 #endif

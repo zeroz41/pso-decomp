@@ -262,7 +262,6 @@ struct TObjPlayer : public TObjChara {
     static void add_angle_clamped(s32 *arg0, s32 arg1, s32 arg2);
     static void step_angle_clamped(void *actor, int arg1);
     void drain_owner_hp_fraction(f32 farg0);
-    s32 is_mode_two_and_ready();
     void call_callback_1ec(s32 arg1, s32 arg2);
     void copy_wall_polygon(u8 *arg1);
     static void copy_matrix(u32 arg0, u32 arg1);
@@ -509,8 +508,6 @@ struct TObjPlayer : public TObjChara {
     void set_state_flags(u32 v);
     void update_active_game_effect();
     void draw_status_icons(void* a1, void* a2);
-    s32 draw_icon(s32 arg1, s32 arg2);
-    void draw_status_icon(s32 arg1);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
     int is_status_subsystem_ready();
@@ -1339,8 +1336,6 @@ struct TObjPlayer : public TObjChara {
     void create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id);
     void spawn_cane_effect(TItem* item, s32 attachment);
     void spawn_cane_effects(TItem* item, s32 first_attachment, s32 second_attachment);
-    void set_status_flags(u32 v);
-    void set_flag_8();
     int is_flag_b0_4();
     u16 get_uid();
     static u32 spawn_shot_effect(s32 arg0, s32 arg1, s32 arg2, f32 farg0);

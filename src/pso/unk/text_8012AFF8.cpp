@@ -13,7 +13,6 @@ struct Obj_8012AFF8 {
 };
 
 extern "C" {
-void update_trail_slot__11TItemWeaponFPvi(void *, s32);
 s32 is_rand_below_threshold__10TObjPlayerFv(void *);
 void TUnk_804A4C78::reserved_53() {
     s32 saved;
@@ -26,7 +25,7 @@ void TUnk_804A4C78::reserved_53() {
     }
     draw_weapon_model();
     if (sub_8012B1F8() != 8) {
-        update_trail_slot__11TItemWeaponFPvi(this, 0);
+        update_trail_slot(0);
     }
     ((Obj_8012AFF8 *)this)->unkF4 = ((Obj_8012AFF8 *)this)->unk188;
     if (is_rand_below_threshold__10TObjPlayerFv(this) == 0) {
@@ -37,7 +36,7 @@ void TUnk_804A4C78::reserved_53() {
     }
     draw_weapon_at_joint((s32)this, 0x23);
     if (sub_8012B1F8() != 8) {
-        update_trail_slot__11TItemWeaponFPvi(this, 1);
+        update_trail_slot(1);
     }
     ((Obj_8012AFF8 *)this)->unkF4 = savedF4;
     sub_8012B1F0(saved);

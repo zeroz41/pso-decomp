@@ -9,7 +9,6 @@
 
 extern "C" {
 
-void set_status_flags__10TObjPlayerFUl(void*,u32);
 s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
 void register_technique_boosts__14TItemEquipBaseFPC19TechniqueBoostParam(void*,void*);
 s32 obj_isState7_324(void*);
@@ -17,50 +16,49 @@ void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
 extern const f32 lbl_805DAC9C;
 
-s32 update_trail_slot__11TItemWeaponFPvi(void *, int);
 s32 get_item_id__5TItemFv(void *);
 
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
-    if (((TItemWeapon *)arg0)->test_flags_1b8(0x400U) != 0U) {
+    if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
         draw_weapon_at_joint((s32)arg0, 0x30);
-        update_trail_slot__11TItemWeaponFPvi(arg0, 0);
+        ((TItemWeapon *)arg0)->update_trail_slot(0);
         draw_weapon_at_joint((s32)arg0, 0x23);
-        update_trail_slot__11TItemWeaponFPvi(arg0, 1);
+        ((TItemWeapon *)arg0)->update_trail_slot(1);
         return;
     }
-    if (((TItemWeapon *)arg0)->test_flags_1b8(1U) == 0U) {
+    if (((TItemWeapon *)arg0)->test_weapon_flags(1U) == 0U) {
         ((TItemWeapon *)arg0)->draw_weapon_model();
-        update_trail_slot__11TItemWeaponFPvi(arg0, 0);
-        update_trail_slot__11TItemWeaponFPvi(arg0, 1);
+        ((TItemWeapon *)arg0)->update_trail_slot(0);
+        ((TItemWeapon *)arg0)->update_trail_slot(1);
     }
 }
 
 void TItemWeapon::render_equipped_deferred() {
     u8 *arg0 = (u8 *)this;
-    if (((u32) this->owner != 0U) && (((TItemWeapon *)arg0)->test_flags_1b8(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_flags_1b8(0x80U) == 0U)) {
+    if (((u32) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U)) {
         this->reserved_53();
         update_trails();
     }
 }
 void TItemWeapon::render_equipped_shadow() {
     u8 *arg0 = (u8 *)this;
-    if (((u32) this->owner != 0U) && (((TItemWeapon *)arg0)->test_flags_1b8(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_flags_1b8(0x80U) == 0U) && (((TItemWeapon *)arg0)->test_flags_1b8(0x1000U) == 0U)) {
+    if (((u32) this->owner != 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0xCU) == 0xCU) && (((TItemWeapon *)arg0)->test_weapon_flags(0x80U) == 0U) && (((TItemWeapon *)arg0)->test_weapon_flags(0x1000U) == 0U)) {
         this->reserved_53();
-        if (((TItemWeapon *)arg0)->test_flags_1b8(0x400U) != 0U) {
+        if (((TItemWeapon *)arg0)->test_weapon_flags(0x400U) != 0U) {
             draw_weapon_at_joint((s32)arg0, 0x30);
             draw_weapon_at_joint((s32)arg0, 0x23);
             return;
         }
-        if (((TItemWeapon *)arg0)->test_flags_1b8(1U) == 0U) {
+        if (((TItemWeapon *)arg0)->test_weapon_flags(1U) == 0U) {
             ((TItemWeapon *)arg0)->draw_weapon_model();
         }
     }
 }
 void TItemWeapon::render_equipped() {
     s32 count;
-    if (((u32) this->owner != 0U) && (test_flags_1b8(0xCU) == 0xCU) && (test_flags_1b8(0x80U) == 0U)) {
-        if (test_flags_1b8(0x800U) != 0U) {
+    if (((u32) this->owner != 0U) && (test_weapon_flags(0xCU) == 0xCU) && (test_weapon_flags(0x80U) == 0U)) {
+        if (test_weapon_flags(0x800U) != 0U) {
             TObjPlayer::push_id_to_list(get_item_id__5TItemFv(this));
             return;
         }
@@ -84,16 +82,16 @@ void TItemWeapon::update_equipped() {
     u32 frames;
     s32 count;
     s32 idle_count;
-    if(self->test_flags_1b8(0x100)==0) {
-        if(self->test_flags_1b8(0x4000)!=0) ((TItem *)self)->request_particle_indirect_effect();
+    if(self->test_weapon_flags(0x100)==0) {
+        if(self->test_weapon_flags(0x4000)!=0) ((TItem *)self)->request_particle_indirect_effect();
         ((TItemEquipBase *)self)->bind_loaded_resources();
         stage=self->get_attack_stage();
         if(stage!=self->stage) {
-            self->clear_equip_flags(0x1000000);
+            self->clear_weapon_flags(0x1000000);
             self->stage=stage;
         }
-        if(stage>=0) set_status_flags__10TObjPlayerFUl(self,0x10);
-        else clear_equip_flags(0x10);
+        if(stage>=0) ((TItemWeapon *)self)->set_weapon_flags(0x10);
+        else clear_weapon_flags(0x10);
         if(stage>=0 || test_flag30_bit0x100000__10TObjPlayerFv(self->owner)) self->update_attack();
         else self->update_idle();
         if(self->model_motion) {
@@ -149,4 +147,4 @@ void TItemWeapon::update_owned() {
     }
 }
 
-void TItemWeapon::on_model_loaded() { ((int (*)(void *, int))set_status_flags__10TObjPlayerFUl)(this, 4); }
+void TItemWeapon::on_model_loaded() { set_weapon_flags(4); }

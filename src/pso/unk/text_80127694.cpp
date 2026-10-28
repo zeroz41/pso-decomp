@@ -51,18 +51,17 @@ struct Rec_80127694 {
 };
 
 extern "C" {
-void draw_icon__10TObjPlayerFll(void *, int, void *);
 s16 is_status_subsystem_ready__10TObjPlayerFv(void *);
 void *get_captured_target_entry(void *, int);
 void TUnk_804A3358::emit_marker_effects() {
     u8 pos[12];
     Rec_80127694 rec;
     void *st;
-    draw_icon__10TObjPlayerFll(this, 2, pos);
+    get_joint_position(2, pos);
     spawn_particle_effect(pos, 0x1BE);
-    draw_icon__10TObjPlayerFll(this, 3, pos);
+    get_joint_position(3, pos);
     spawn_particle_effect(pos, 0x1BE);
-    draw_icon__10TObjPlayerFll(this, 0, pos);
+    get_joint_position(0, pos);
     if (is_status_subsystem_ready__10TObjPlayerFv(this->owner) == 2) {
         if (((VObj_18 *)((u8 *)this))->m33() == 1) {
             st = ((TObjPlayer *)(this->owner))->get_extended_state();

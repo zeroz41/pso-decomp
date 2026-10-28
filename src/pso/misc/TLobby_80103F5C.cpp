@@ -1,5 +1,6 @@
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_80120FC4.h"
 #include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/item/TItemObject.h"
@@ -64,7 +65,7 @@ int is_quest_active(void);
 s32 TItemDropSub__sub_80107B74();
 }
 extern void *weapon_factory_table[];
-s32 create_common_weapon(s32 arg0);
+
 extern Tbl_801044B8 item_drop_area_remap_table;
 void normalize_drop_area(s32 *p);
 extern "C" {

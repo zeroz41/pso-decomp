@@ -26,7 +26,7 @@ extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;
 extern const f32 lbl_805DAF54;
 u8 *__nw__5TItemFUl(s32);
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 void init_slicer_launch_state(void *arg0);
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
@@ -58,8 +58,8 @@ void launch_slicer_shot(u8 *weapon) {
     get_weapon_color__11TItemWeaponFPv(tmp, weapon);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner) + 0x60);
-    ((TObjPlayer *)weapon)->draw_icon(1, (s32)launch.first);
-    ((TObjPlayer *)weapon)->draw_icon(2, (s32)launch.second);
+    ((TItemWeapon *)weapon)->get_joint_position(1, launch.first);
+    ((TItemWeapon *)weapon)->get_joint_position(2, launch.second);
     TTecSlicer::create((u16*)&launch);
 }
 
@@ -110,9 +110,9 @@ void TUnk_804A5B20::update_attack() {
 
 typedef char RecoveredGlobal_8012DBF4_lbl_804A5B20_size[sizeof(RecoveredGlobal_8012DBF4_lbl_804A5B20) == 0xF8 ? 1 : -1];
 u8 *construct_slicer_weapon(u8 *arg0, u8 *arg1, u8 *arg2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A5B20.value;
-    ((TObjPlayer *)arg0)->set_status_flags(2);
+    ((TItemWeapon *)arg0)->set_weapon_flags(2);
     *(s32 *)((s8 *)arg0 + 0x1F8) = 0;
     switch ((s32) (*(u8 *)((s8 *)arg2 + 2))) {
     case 6:

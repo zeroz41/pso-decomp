@@ -17,8 +17,7 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 extern const f32 lbl_805DF0AC;
 u8 get_item_index__5TItemFv(void *);
-u8 * TItemWeapon__ct(void *, void *);
-s32 set_status_flags__10TObjPlayerFUl(void *, s32);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 lbl_804E70A8[];
 extern char shared_capture_texture_list[];
 f32 sin_table_lookup(s32);
@@ -31,7 +30,7 @@ void TUnk_804E70A8::reserved_53() {
     s32 temp_r31;
 
     temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
-    ((TItemWeapon *)this)->draw_weapon_model();
+    draw_weapon_model();
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->second_model;
     draw_weapon_at_joint((s32)this, 0x23);
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
@@ -44,7 +43,7 @@ void TUnk_804E70A8::update_weapon() {
         if (get_item_index__5TItemFv(this) == 1) {
             *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) - 1);
             if ((s32) *(s32 *)((s8 *)this + 0x1F8) == 0) {
-                set_status_flags__10TObjPlayerFUl(this, 0x800);
+                set_weapon_flags(0x800);
             }
         }
     } else {
@@ -64,11 +63,11 @@ void TObjPlayer__sub_803076F8(u8 *arg0) {
 
 typedef char RecoveredGlobal_80307784_lbl_804E70A8_size[sizeof(RecoveredGlobal_80307784_lbl_804E70A8) == 0xF8 ? 1 : -1];
 u8 *TObjPlayer__sub_80307784(TObjPlayer *player, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(player, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80307784_lbl_804E70A8 *)&lbl_804E70A8).value;
-    set_status_flags__10TObjPlayerFUl(player, 1);
+    ((TItemWeapon *)player)->set_weapon_flags(1);
     if (get_item_index__5TItemFv(player) == 1) {
-        set_status_flags__10TObjPlayerFUl(player, 0x800);
+        ((TItemWeapon *)player)->set_weapon_flags(0x800);
     }
     *(s32 *)((s8 *)player + 0x1F8) = 5;
     ((TUnk_804E70A8 *)player)->m_1fc = 0;

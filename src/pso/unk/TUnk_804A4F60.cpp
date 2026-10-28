@@ -36,10 +36,10 @@ extern s32 tl_05;
 
 void TUnk_804A4F60::emit_marker_effects() {
     s32 item = (s32)this;
-    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
+    if (get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 4);
     }
-    if (((TObjPlayer *)item)->is_mode_two_and_ready() != 0) {
+    if (((TItemWeapon *)item)->is_mode_two_and_ready() != 0) {
         ((TUnk_804A4F60 *)item)->psycho_wand_roll_extra();
         return;
     }
@@ -91,15 +91,15 @@ typedef char RecoveredGlobal_8012BCD4_lbl_804A4F60_size[sizeof(RecoveredGlobal_8
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 }
 extern RecoveredGlobal_8012BCD4_lbl_804A4F60 psycho_wand_weapon_vtable;
 
 u8 *psycho_wand_ct(u8 *arg0, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &psycho_wand_weapon_vtable.value;
     ((TObjPlayer *)(arg0 + 0x208))->construct_target_cursor_records();
-    ((TObjPlayer *)arg0)->set_status_flags(0x22);
+    ((TItemWeapon *)arg0)->set_weapon_flags(0x22);
     *(s32 *)((s8 *)arg0 + 0x278) = 0;
     ((TUnk_804A4F60 *)arg0)->m_274 = (f32) 0.0f;
     *(s16 *)((s8 *)arg0 + 0x1F8) = -1;

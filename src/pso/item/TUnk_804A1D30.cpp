@@ -51,10 +51,10 @@ void *__dt__13TUnk_804A1D30Fv(void *arg0, s16 arg1) {
 
 extern "C" {
 
-int TItemWeapon__ct(void);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 int set_weapon_trail_joints(void*, void*, void*, void*);
 
-void*TObjPlayer::init_state() { TItemWeapon__ct(); *(int*)((char*)this + 0x18) = (int)lbl_804A1D30; set_weapon_trail_joints(this, (void*)0, (void*)3, (void*)2); set_weapon_trail_joints(this, (void*)1, (void*)4, (void*)5); *(float *)&this->unk_200 = 1.0f; *(float *)&this->m_1fc = 1.0f; *(float *)&this->unk_1F8 = 1.0f; return this; }
+void*TObjPlayer::init_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A1D30; set_weapon_trail_joints(this, (void*)0, (void*)3, (void*)2); set_weapon_trail_joints(this, (void*)1, (void*)4, (void*)5); *(float *)&this->unk_200 = 1.0f; *(float *)&this->m_1fc = 1.0f; *(float *)&this->unk_1F8 = 1.0f; return this; }
 
 }
 

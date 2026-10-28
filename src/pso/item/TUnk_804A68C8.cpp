@@ -12,7 +12,7 @@
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 }
 
 extern s32 lbl_804A68C8[];
@@ -53,7 +53,7 @@ void *__dt__13TUnk_804A68C8Fv(void *arg0, s16 arg1) {
 }
 
 u8 *construct_cane_weapon(u8 *arg0, u8 *arg1, u8 *arg2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A68C8[0];
     *(f32 *)((s8 *)arg0 + 0x1F8) = (f32) 1.0f;
     ((TUnk_804A68C8 *)arg0)->m_1fc = 0;

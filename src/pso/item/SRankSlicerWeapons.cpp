@@ -69,8 +69,8 @@ void TUnk_804A4238::emit_marker_effects() {
     tec.f20 = lbl_805DAE20;
     tec.f24 = lbl_805DAE24;
     tec.f28 = self->owner->f60;
-    ((TObjPlayer *)self)->draw_icon(3, (s32)&tec.pos);
-    ((TObjPlayer *)self)->draw_icon(2, (s32)&tec.dir);
+    ((TItemWeapon *)self)->get_joint_position(3, &tec.pos);
+    ((TItemWeapon *)self)->get_joint_position(2, &tec.dir);
     TItemAttacker::spawn_item_timer((s32)(TTecSlicer::create((u16*)&tec)), (s32)enlarge_s_rank_j_cutter_blade, 3);
 }
 
@@ -93,7 +93,7 @@ void *construct_s_rank_j_cutter_weapon(void *arg0, s32 task_root, void *owner);
 void *construct_s_rank_j_cutter_weapon(void *player, s32 task_root, void *owner) {
     construct_srank_weapon(player);
     *(void ***)((s8 *)player + 0x18) = s_rank_j_cutter_weapon_vtable;
-    ((TObjPlayer *)player)->set_status_flags(2);
+    ((TItemWeapon *)player)->set_weapon_flags(2);
     return player;
 }
 
@@ -210,8 +210,8 @@ void TUnk_804A4338::emit_marker_effects() {
     tec.f20 = lbl_805DAE38;
     tec.f24 = lbl_805DAE3C;
     tec.f28 = self->owner->f60;
-    ((TObjPlayer *)self)->draw_icon(1, (s32)&tec.pos);
-    ((TObjPlayer *)self)->draw_icon(2, (s32)&tec.dir);
+    ((TItemWeapon *)self)->get_joint_position(1, &tec.pos);
+    ((TItemWeapon *)self)->get_joint_position(2, &tec.dir);
     TTecSlicer::create((u16*)&tec);
 }
 }
@@ -221,7 +221,7 @@ void *construct_s_rank_slicer_weapon(void *arg0, s32 task_root, void *owner);
 void *construct_s_rank_slicer_weapon(void *player, s32 task_root, void *owner) {
     construct_srank_weapon(player);
     *(void ***)((s8 *)player + 0x18) = s_rank_slicer_weapon_vtable;
-    ((TObjPlayer *)player)->set_status_flags(2);
+    ((TItemWeapon *)player)->set_weapon_flags(2);
     return player;
 }
 

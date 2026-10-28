@@ -57,7 +57,6 @@ struct VObj_18 : VBase_18 {
 };
 
 extern "C" {
-s32 is_mode_two_and_ready__10TObjPlayerFv();
 u8 * init_vtable_804A08B8__13TUnk_804A08B8Fv(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
@@ -79,8 +78,8 @@ u8 *TObjPlayer::create_vtable_804A08B8(u8 *arg0) {
 void TUnk_804A09B0::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
-        ((TObjPlayer *)arg0)->draw_status_icon((s32)&sp8);
+    if (is_mode_two_and_ready() != 0) {
+        ((TItemWeapon *)arg0)->get_gun_point(&sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 0, 0, 1);
         return;
     }

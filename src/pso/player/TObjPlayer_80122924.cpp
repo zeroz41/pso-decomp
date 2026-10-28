@@ -7,6 +7,6 @@ void TUnk_804A1190::emit_marker_effects() {
     s32 sp8[6];
     s32 arg0 = (s32)this;
 
-    ((TObjPlayer *)arg0)->draw_icon(1, (s32)sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, sp8);
     spawn_particle_effect(sp8, 0xC1);
 }

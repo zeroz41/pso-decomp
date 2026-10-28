@@ -49,16 +49,15 @@ extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 void __dl__7TObjectFPv(void *);
-void set_status_flags__10TObjPlayerFUl(void *, int);
 
 extern s32 lbl_804F0AF8[];
 
 void *TUnk_804F0AF8::init_fields(s32 _w1, void *_w2) {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804F0AF8;
-    set_status_flags__10TObjPlayerFUl(this, 1);
+    set_weapon_flags(1);
     *(u32 *)((s8 *)this + 0x1F8) = -30947;
     this->m_1fc = -7281;
     return this;

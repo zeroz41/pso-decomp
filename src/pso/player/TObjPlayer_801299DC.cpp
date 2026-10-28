@@ -24,6 +24,6 @@ void TUnk_804A444C::update_attack() {
     extern unsigned char create_gun_shot[];
     extern unsigned char s_rank_shot_weapon_vtable[];
     extern const float lbl_805DAE40;
-void* init_s_rank_shot(void* a0) { construct_srank_weapon(); *(int*)((char*)a0 + 0x18) = (int)s_rank_shot_weapon_vtable; *(int*)((char*)a0 + 0x200) = 8192; ((TObjPlayer *)a0)->set_status_flags((u32)((void*)2)); *(int*)((char*)a0 + 0x1f0) = (int)create_gun_shot; *(float*)((char*)a0 + 0x1e4) = lbl_805DAE40; return a0; }
+void* init_s_rank_shot(void* a0) { construct_srank_weapon(); *(int*)((char*)a0 + 0x18) = (int)s_rank_shot_weapon_vtable; *(int*)((char*)a0 + 0x200) = 8192; ((TItemWeapon *)a0)->set_weapon_flags(2); *(int*)((char*)a0 + 0x1f0) = (int)create_gun_shot; *(float*)((char*)a0 + 0x1e4) = lbl_805DAE40; return a0; }
 
 }

@@ -99,7 +99,6 @@ void TObjPlayer__sub_80362FB4(u8 *arg0);
 void *__dt__13TUnk_804F27E0Fv(void *arg0, s16 arg1);
 void construct_srank_weapon(void *);
 void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
-void set_status_flags__10TObjPlayerFUl(void *, int);
 
 void TUnk_804F27E0::update_weapon() {
     if (((TItemWeapon *)this)->get_attack_stage() == 2) {
@@ -158,7 +157,7 @@ void TObjPlayer__sub_80362FB4(u8 *item_weapon) {
 
 void TUnk_804F27E0::reserved_53() {
     u8 *arg0 = (u8 *)this;
-    if (((TItemWeapon *)arg0)->test_flags_1b8(0x01000000U) == 0U) {
+    if (((TItemWeapon *)arg0)->test_weapon_flags(0x01000000U) == 0U) {
         ((TItemWeapon *)arg0)->draw_weapon_model();
     }
 }
@@ -166,7 +165,7 @@ void TUnk_804F27E0::reserved_53() {
 void *TUnk_804F27E0::enter_state_804F27E0(s32 _w1, void *_w2) {
     construct_srank_weapon(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804F27E0;
-    set_status_flags__10TObjPlayerFUl(this, 3);
+    ((TItemWeapon *)this)->set_weapon_flags(3);
     *(u32 *)&(*(s32 *)((u8 *)this + 0x1FC)) = 0;
     return this;
 }

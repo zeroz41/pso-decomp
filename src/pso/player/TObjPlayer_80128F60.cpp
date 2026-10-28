@@ -5,7 +5,6 @@
 
 extern "C" {
 
-void set_status_flags__10TObjPlayerFUl(void *, int);
 void construct_srank_weapon(void *);
 
 extern s32 lbl_804A403C[];
@@ -21,7 +20,7 @@ void *TUnk_804A403C::init_event_callbacks() {
     *(s32 **)((s8 *)this + 0x18) = lbl_804A403C;
     __ct__8FlagWordFv((self->f_1FC));
     ((FlagWord *)((char *)this + 376))->set(32);
-    set_status_flags__10TObjPlayerFUl(this, 515);
+    ((TItemWeapon *)this)->set_weapon_flags(515);
     (*(s32 * *)((u8 *)this + 0x1EC)) = notify_hit_target__10TObjPlayerFUlUlUlUl;
     (*(s32 * *)((u8 *)this + 0x1F4)) = TObjPlayer__sub_80128A74;
     *(s32 **)((s8 *)this + 0x1F0) = spawn_shot_effect__10TObjPlayerFlllf;

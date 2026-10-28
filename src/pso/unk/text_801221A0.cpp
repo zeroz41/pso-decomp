@@ -72,7 +72,7 @@ struct Self_801221A0 : Pl_801221A0 {
 extern "C" {
 void TUnk_804A0EA8::emit_marker_effects() {
     Self_801221A0 *self = (Self_801221A0 *)this;
-    if (((TObjPlayer *)self)->is_mode_two_and_ready() != 0) {
+    if (((TItemWeapon *)self)->is_mode_two_and_ready() != 0) {
         self->fn1f0 = (void *)create_shoot_model_rot_z;
         self->fn1ec = NULL;
     } else {

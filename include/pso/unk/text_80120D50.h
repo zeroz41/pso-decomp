@@ -1,17 +1,12 @@
 #ifndef PSO_UNK_TEXT_80120D50_H
 #define PSO_UNK_TEXT_80120D50_H
 
-#include "types.h"
+#include "pso/items/TItemWeapon.h"
 
-struct TItemWeapon;
 extern "C" {
-u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item);
+// TItemWeapon's constructor under its own symbol, for the derived classes
+// still written as C functions.
+u8 *__ct__11TItemWeaponFP7TObjectPUc(TItemWeapon *weapon, void *parent, u8 *item);
 }
-
-// --- C functions defined in text_80120D50.cpp ---
-extern "C" {
-u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item);
-}
-// --- end of C functions
 
 #endif

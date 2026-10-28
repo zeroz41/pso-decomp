@@ -5,7 +5,7 @@
 
 extern "C" {
 
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 void TUnk_804A1858::update_weapon() {
     void *temp_r3;
@@ -19,7 +19,7 @@ void TUnk_804A1858::update_weapon() {
 extern s32 lbl_804A1858[];
 
 void *TUnk_804A1858::set_state_35() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A1858;
     *(u16 *)((s8 *)this + 0x1F8) = 35;
     return this;

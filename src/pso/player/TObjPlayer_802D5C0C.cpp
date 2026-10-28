@@ -172,8 +172,7 @@ void* init_state_445__10TObjPlayerFPv(void* a0);
 void set_radar_marker_params__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
 void update_swim_flag__10TObjPlayerFPv(void *arg0);
 s32 get_weapon_color__11TItemWeaponFPv(s32 *, void *);
-int TItemWeapon__ct(void);
-int set_status_flags__10TObjPlayerFUl(void*, void*);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 
 void set_radar_marker_params__10TObjPlayerFPvPv(u8 *weapon, u8 *arg1) {
     s32 sp8;
@@ -247,12 +246,12 @@ void TObjPlayer__sub_802D5DE0(u8 *item_weapon) {
 }
 
 void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *item_weapon) {
-    if (((TItemWeapon *)item_weapon)->test_flags_1b8(0x01000000U) == 0U) {
+    if (((TItemWeapon *)item_weapon)->test_weapon_flags(0x01000000U) == 0U) {
         ((TItemWeapon *)item_weapon)->draw_weapon_model();
     }
 }
 
-void* init_state_445__10TObjPlayerFPv(void* a0) { TItemWeapon__ct(); *(int*)((char*)a0 + 0x18) = (int)lbl_804E23F0; set_status_flags__10TObjPlayerFUl(a0, (void*)3); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804E23F0 *)a0)->m_1fc = 445; *(int*)((char*)a0 + 0x204) = (int)TObjPlayer__sub_8032E648; *(int*)((char*)a0 + 0x208) = (int)create_network_object__10TObjPlayerFlPUll; *(float*)((char*)a0 + 0x200) = lbl_805DE7A0; return a0; }
+void* init_state_445__10TObjPlayerFPv(void* a0) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804E23F0; ((TItemWeapon *)a0)->set_weapon_flags(3); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804E23F0 *)a0)->m_1fc = 445; *(int*)((char*)a0 + 0x204) = (int)TObjPlayer__sub_8032E648; *(int*)((char*)a0 + 0x208) = (int)create_network_object__10TObjPlayerFlPUll; *(float*)((char*)a0 + 0x200) = lbl_805DE7A0; return a0; }
 
 }
 

@@ -8,7 +8,6 @@
 extern "C" {
 
 int rotate_matrix_x(void*, void*);
-s32 update_trail_slot__11TItemWeaponFPvi(void *, s32);
 int get_player_list__10TObjPlayerFv(void*);
 }
 
@@ -23,7 +22,7 @@ void TUnk_804A4848::reserved_53() {
             *temp_r31 |= 0x10;
         }
         draw_weapon_model();
-        update_trail_slot__11TItemWeaponFPvi(this, 0);
+        ((TItemWeapon *)this)->update_trail_slot(0);
         if ((s32) *(s32 *)((s8 *)this + 0x208) == 0) {
             *temp_r31 &= 0xFFFFFFEF;
         }

@@ -21,7 +21,7 @@ void TObjPlayer::cast_jellen_zalure() {
     if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)this, 2, 1);
     }
-    if (is_mode_two_and_ready() != 0) {
+    if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
         if (get_tp() == 0) {
             owner = *(s32 *)&this->unk_F0;
             temp_r4 = owner + 0x38;

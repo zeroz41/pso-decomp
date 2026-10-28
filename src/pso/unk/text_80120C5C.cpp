@@ -6,7 +6,7 @@ extern "C" {
 int release_model__14TItemEquipBaseFv(void*);
 int memset(void*, void*, void*);
 
-void TItemWeapon::release_model() { memset((char*)this + 0x18c, (void*)0, (void*)16); clear_equip_flags((u32)((void*)12)); release_model__14TItemEquipBaseFv(this); }
+void TItemWeapon::release_model() { memset((char*)this + 0x18c, (void*)0, (void*)16); clear_weapon_flags((u32)((void*)12)); release_model__14TItemEquipBaseFv(this); }
 
 }
 

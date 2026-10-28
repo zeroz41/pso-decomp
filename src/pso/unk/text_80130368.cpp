@@ -71,7 +71,6 @@ s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
 s32 __nw__7TObjectFUl(int);
 s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
-s32 is_mode_two_and_ready__10TObjPlayerFv();
 void TObjPlayer__sub_801307D0(void *arg0);
 extern const f32 lbl_805DB000;
 typedef struct VBase_18_382324 VBase_18_382324;
@@ -112,8 +111,8 @@ void TUnk_804A69DC::vfunc_17(s32) {
 }
 void TUnk_804A69DC::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
-    if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
-        ((TObjPlayer *)arg0)->draw_status_icon((s32)(arg0 + 0x208));
+    if (is_mode_two_and_ready() != 0) {
+        ((TItemWeapon *)arg0)->get_gun_point((arg0 + 0x208));
         if ((s32) this->m_1fc > 0x1999) {
             ((TItem *)arg0)->send_activate_effect(0);
             TItemAttacker::spawn_item_timer((s32)arg0, (s32)TObjPlayer__sub_801307D0, 0x1E);

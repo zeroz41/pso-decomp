@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80123904.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -10,14 +11,14 @@ struct RecoveredGlobal_80123904_lbl_804A1B40 {
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern RecoveredGlobal_80123904_lbl_804A1B40 lbl_804A1B40;
 
 typedef char RecoveredGlobal_80123904_lbl_804A1B40_size[sizeof(RecoveredGlobal_80123904_lbl_804A1B40) == 0xF8 ? 1 : -1];
 u8 *TObjPlayer__sub_80123904(u8 *player, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(player, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &lbl_804A1B40.value;
-    ((TObjPlayer *)player)->set_status_flags(0x800201);
+    ((TItemWeapon *)player)->set_weapon_flags(0x800201);
     return player;
 }
 

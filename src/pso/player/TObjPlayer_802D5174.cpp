@@ -23,17 +23,16 @@ void do_action_447_from_packet__10TObjPlayerFPvPv(void *self, void *arg);
 void *__dt__13TUnk_804E1BB0Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E1CA8Fv(void *arg0, s16 arg1);
 int spawn_particle_effect(void*, int);
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E23F0Fv(void *arg0, s16 arg1);
-void set_status_flags__10TObjPlayerFUl(void *, int);
 
 extern s32 lbl_804E1BB0[];
 
 void *TUnk_804E1BB0::init_state_513(s32 _w1, void *_w2) {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804E1BB0;
-    set_status_flags__10TObjPlayerFUl(this, 513);
+    set_weapon_flags(513);
     return this;
 }
 
@@ -91,14 +90,13 @@ void setup_radar_marker__10TObjPlayerFPvPv(TObjPlayer *arg0, void *arg1);
 void* setup_state__10TObjPlayerFPv(void* a0);
 int init_state_445__10TObjPlayerFPv(void);
 s32 set_radar_marker_params__10TObjPlayerFPvPv();
-int set_status_flags__10TObjPlayerFUl(void*, void*);
 
 extern const f32 lbl_805DE788;
 extern const f32 lbl_805DE78C;
 
 void setup_radar_marker__10TObjPlayerFPvPv(TObjPlayer *player, void *arg1) {
     set_radar_marker_params__10TObjPlayerFPvPv();
-    if (player->is_mode_two_and_ready() != 0) {
+    if (((TItemWeapon *)player)->is_mode_two_and_ready() != 0) {
         player->drain_owner_hp_fraction(lbl_805DE788);
         *(s32 *)((s8 *)arg1 + 0x10) = 0xA;
         *(s32 *)((s8 *)arg1 + 0x44) = (s32) ((TUnk_804E1CA8 *)player)->second_model;
@@ -110,7 +108,7 @@ void setup_radar_marker__10TObjPlayerFPvPv(TObjPlayer *player, void *arg1) {
     extern unsigned char do_action_447_from_packet__10TObjPlayerFPvPv[];
     extern unsigned char lbl_804E1CA8[];
     extern const float lbl_805DE790;
-void* setup_state__10TObjPlayerFPv(void* a0) { init_state_445__10TObjPlayerFPv(); *(int*)((char*)a0 + 0x18) = (int)lbl_804E1CA8; *(float*)((char*)a0 + 0x200) = lbl_805DE790; set_status_flags__10TObjPlayerFUl(a0, (void*)32); ((TUnk_804E1CA8 *)a0)->m_208 = (int)do_action_447_from_packet__10TObjPlayerFPvPv; *(int*)((char*)a0 + 0x204) = (int)fn_80109974; return a0; }
+void* setup_state__10TObjPlayerFPv(void* a0) { init_state_445__10TObjPlayerFPv(); *(int*)((char*)a0 + 0x18) = (int)lbl_804E1CA8; *(float*)((char*)a0 + 0x200) = lbl_805DE790; ((TItemWeapon *)a0)->set_weapon_flags(32); ((TUnk_804E1CA8 *)a0)->m_208 = (int)do_action_447_from_packet__10TObjPlayerFPvPv; *(int*)((char*)a0 + 0x204) = (int)fn_80109974; return a0; }
 
 }
 

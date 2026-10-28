@@ -207,15 +207,6 @@ struct VObj_8011E77C : Base_8011E77C {
 
 struct Vec_8011E87C { f32 x, y, z; };
 
-struct Pl_8011E87C {
-    u8 pad0[0xF0];
-    void *owner;
-    u8 padF4[0x18C - 0xF4];
-    TItemEffectWeapon *trails[4];
-    s8 iconA[4];
-    s8 iconB[4];
-};
-
 struct Pl_8011E950 {
     u8 pad0[0x174];
     u32 x174;
@@ -340,12 +331,9 @@ u8 * csnVector(void *, void *, s32);
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
 s32 is_model_shown__5TItemFv(void *);
 void send_activate_effect__5TItemFl(void *, s32);
-s8 get_mode__5TItemFv(u8 *arg0);
 s32 init__9TItemDataFv(s32 *);
 void get_weapon_special_type_amount(u32 x, s16 *a, s16 *b);
-void update_trail_slot__11TItemWeaponFPvi(Pl_8011E87C *self, s32 slot);
 V4_8011EA10 get_weapon_color__11TItemWeaponFPv(void *);
-void set_status_flags__10TObjPlayerFUl(void *, u32);
 void query_extended_state__10TObjPlayerFv(void *);
 s32 set_action_type__10TObjPlayerFs(int, int);
 f32 get_attack_accuracy_scale(s16 *arg0);
@@ -371,7 +359,7 @@ void TItemWeapon::set_weapon_category_flags() {
     if (r & 1) {
         flags = 0x20000;
     }
-    set_status_flags__10TObjPlayerFUl(this, flags);
+    set_weapon_flags(flags);
 }
 
 void TObjPlayer::drain_owner_hp_fraction(f32 farg0) {
@@ -380,9 +368,9 @@ void TObjPlayer::drain_owner_hp_fraction(f32 farg0) {
     }
 }
 
-s32 TObjPlayer::is_mode_two_and_ready() {
-    if ((is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&this->unk_F0) == 2) &&
-        (this->update_poison_status() == 1)) {
+s32 TItemWeapon::is_mode_two_and_ready() {
+    if ((is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&owner) == 2) &&
+        (is_identified() == 1)) {
         return 1;
     }
     return 0;
@@ -400,20 +388,20 @@ void TItemWeapon::spawn_light_task() {
 
 void TItemWeapon::restore_action_type() {
     u8 *arg0 = (u8 *)this;
-    if (((TItemWeapon *)arg0)->test_flags_1b8(0x04000000) != 0U) {
+    if (((TItemWeapon *)arg0)->test_weapon_flags(0x04000000) != 0U) {
         set_action_type__10TObjPlayerFs((int) (*(s32 *)&this->owner + 0x7CC), 2);
-        ((TItemWeapon *)arg0)->clear_equip_flags(0x04000000);
+        ((TItemWeapon *)arg0)->clear_weapon_flags(0x04000000);
     }
 }
 
 void TItemWeapon::remap_extra_attack_type() {
-    if ((this->test_flags_1b8(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
-        if (this->test_flags_1b8(0x100000) != 0U) {
+    if ((this->test_weapon_flags(0x20) != 0U) && (TObjPlayer__sub_801D2F4C((s16 *)(*(s32 *)((s8 *)this + 0xF0) + 0x7CC)) == 2)) {
+        if (this->test_weapon_flags(0x100000) != 0U) {
             set_action_type__10TObjPlayerFs((int) (*(s32 *)((s8 *)this + 0xF0) + 0x7CC), 0);
         } else {
             set_action_type__10TObjPlayerFs((int) (*(s32 *)((s8 *)this + 0xF0) + 0x7CC), 1);
         }
-        ((s32 (*)(void *, int))set_status_flags__10TObjPlayerFUl)(this, 0x04000000);
+        set_weapon_flags(0x04000000);
     }
 }
 
@@ -461,8 +449,8 @@ void TObjPlayer::set_flag_8_if_check_passes() {
     u8 *var_r31;
     if (this != NULL) {
         var_r31 = (u8 *)this;
-        if (get_mode__5TItemFv(((u8 *)this)) != 0) {
-            ((TObjPlayer *)var_r31)->set_flag_8();
+        if (((TItem *)(((u8 *)this)))->get_mode() != 0) {
+            ((TItemWeapon *)var_r31)->set_flag_8();
         }
     }
 }
@@ -513,17 +501,17 @@ void TItemWeapon::refresh_special() {
     ((TItemWeapon *)o)->apply_model_params();
 }
 
-void update_trail_slot__11TItemWeaponFPvi(Pl_8011E87C *self, s32 slot) {
+void TItemWeapon::update_trail_slot(s32 slot) {
     Vec_8011E87C a;
     Vec_8011E87C b;
-    if (is_default_camera() != 0 && ((TItem *)self)->has_no_defer_render() == 0 &&
-        test_action_mask__10TObjPlayerFl(self->owner, 0xE0) != 0 &&
-        ((TObjPlayer *)(self->owner))->is_flag_b0_4() == 0 &&
+    if (is_default_camera() != 0 && has_no_defer_render() == 0 &&
+        test_action_mask__10TObjPlayerFl(owner, 0xE0) != 0 &&
+        owner->is_flag_b0_4() == 0 &&
         !(get_mode__11TCameraCtrlFPv(((u8 *)&main_task)) & 0x78)) {
-        if (self->trails[slot] != NULL) {
-            ((TObjPlayer *)self)->draw_icon(self->iconA[slot], (s32)&a);
-            ((TObjPlayer *)self)->draw_icon(self->iconB[slot], (s32)&b);
-            self->trails[slot]->push_trail_interpolated(&a.x, &b.x);
+        if (trails[slot] != NULL) {
+            get_joint_position(trail_start_joints[slot], &a);
+            get_joint_position(trail_end_joints[slot], &b);
+            trails[slot]->push_trail_interpolated(&a.x, &b.x);
         }
     }
 }
@@ -558,10 +546,10 @@ void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {
     if (item < 0 || item >= 200) {
         return;
     }
-    if (((TItemWeapon *)this)->is_active_in_game() == 0) {
+    if (is_active_in_game() == 0) {
         return;
     }
-    ((TItemWeapon *)this)->remap_extra_attack_type();
+    remap_extra_attack_type();
     ((TItemEffPG *)(&prm))->init_params();
     ((TObjPlayer *)((u8 *)this))->fill_status_info(&prm);
     VecCopy((Vec *)&prm.pos, (const Vec *)((Vec_8011EAB8 *)arg1));
@@ -807,7 +795,7 @@ void TUnk_804A69DC::for_each_target_in_range(f32 range) {
     void *ent;
     s32 id;
     s32 ready;
-    if (((TItemWeapon *)this)->is_active_in_game() != 0) {
+    if (is_active_in_game() != 0) {
         ((void (*)(void *))remap_extra_attack_type__11TItemWeaponFv)(this);
         state = ((TObjPlayer *)(((PlSelf_8011F474 *)this)->owner))->get_extended_state();
         if (state != NULL) {

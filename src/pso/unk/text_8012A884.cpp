@@ -18,7 +18,7 @@ struct Self_8012A884 { u8 pad[0x18]; void *vt; u8 pad1C[0x1F8 - 0x1C]; u32 kind;
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 struct Inc_8012A884;
 extern "C" s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
@@ -97,9 +97,9 @@ void *s_rank_weapon_vtable[63] = {
 u8 *construct_srank_weapon(void *arg0, s32 arg1, void *arg2) {
     Self_8012A884 *self = (Self_8012A884 *)arg0;
     Inc_8012A884 *p;
-    TItemWeapon__ct(self);
+    __ct__11TItemWeaponFP7TObjectPUc(self);
     self->vt = s_rank_weapon_vtable;
-    ((TObjPlayer *)self)->set_status_flags(2);
+    ((TItemWeapon *)self)->set_weapon_flags(2);
     self->kind = ((TItem *)self)->get_item_index();
     p = (Inc_8012A884 *)arg0;
     switch (self->kind) {
@@ -109,7 +109,7 @@ u8 *construct_srank_weapon(void *arg0, s32 arg1, void *arg2) {
         break;
     case 1:
     case 2:
-        ((TObjPlayer *)p)->set_status_flags(0x400000);
+        ((TItemWeapon *)p)->set_weapon_flags(0x400000);
         ((TUnk_804A4948 *)self)->set_special_selector(0x1A);
         break;
     case 5:

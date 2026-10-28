@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -24,7 +25,7 @@ u8 *TObjPlayer::create_twin_chakram(u8 *arg0) {
 }
 void TObjPlayer::spawn_particle_at_icon() {
     Vec_8012327C v;
-    draw_icon(2, (s32)&v);
+    ((TItemWeapon *)this)->get_joint_position(2, &v);
     v.y -= lbl_805DAD08;
     spawn_particle_effect(&v, 0x1d2);
 }

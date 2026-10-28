@@ -183,7 +183,6 @@ struct Pl_8012AC68 : PlB_8012AC68 {
 
 extern "C" {
 s32 send_activate_effect__5TItemFl(void *, int);
-s32 is_mode_two_and_ready__10TObjPlayerFv();
 s32 get_current_floor();
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 void spawn_heaven_effect__10TObjPlayerFlUlUsl(s32, s32, u32, s16);
@@ -231,7 +230,7 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
             spawn_heaven_effect__10TObjPlayerFlUlUsl(tl_05, arg0->f0, get_uid__10TObjPlayerFv(e), v);
         }
     } else {
-        ((TObjPlayer *)arg0)->draw_status_icon((s32)buf);
+        ((TItemWeapon *)arg0)->get_gun_point(buf);
         arg0->m49(buf, 0, 0, 1);
     }
 }
@@ -239,9 +238,9 @@ void TUnk_804A4B80::heaven_punisher_strike_locks() {
 void TUnk_804A4B80::emit_marker_effects() {
     s32 sp8;
     s32 var_r31;
-    if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
+    if (is_mode_two_and_ready() != 0) {
         copy_attack_targets((u32 *)((void *) (((u8 *)this) + 0x1F8)), (u32 *)((int) (((TObjPlayer *)(this->owner))->get_extended_state())));
-        ((TObjPlayer *)((u8 *)this))->draw_status_icon((s32)((void *) (((u8 *)this) + 0x224)));
+        ((TItemWeapon *)((u8 *)this))->get_gun_point(((void *) (((u8 *)this) + 0x224)));
         var_r31 = 0;
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
             var_r31 = 1;
@@ -249,7 +248,7 @@ void TUnk_804A4B80::emit_marker_effects() {
         send_activate_effect__5TItemFl(this, var_r31);
         return;
     }
-    ((TObjPlayer *)((u8 *)this))->draw_status_icon((s32)&sp8);
+    ((TItemWeapon *)((u8 *)this))->get_gun_point(&sp8);
     ((VObj_18 *)(this))->m49(&sp8, 0, 0, 1);
 }
 u32 *copy_attack_targets(u32 *dst, u32 *src) {

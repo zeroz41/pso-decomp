@@ -117,18 +117,18 @@ void apply_weapon_node_material() {
 
 void TItemWeapon::advance_weapon_photon_phase() {
     u8 *arg0 = (u8 *)this;
-    if (((TItemWeapon *)arg0)->test_flags_1b8(0x02000000U) == 0U) {
+    if (((TItemWeapon *)arg0)->test_weapon_flags(0x02000000U) == 0U) {
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C8) + lbl_805DACA0);
     } else {
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) (*(f32 *)((s8 *)arg0 + 0x1C8) - lbl_805DACA0);
     }
     if (lbl_805DAC9C <= *(f32 *)((s8 *)arg0 + 0x1C8)) {
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) lbl_805DAC9C;
-        ((TObjPlayer *)arg0)->set_status_flags(0x02000000U);
+        ((TItemWeapon *)arg0)->set_weapon_flags(0x02000000U);
     }
     if (*(f32 *)((s8 *)arg0 + 0x1C8) <= lbl_805DAC98) {
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) lbl_805DAC98;
-        ((TItemWeapon *)arg0)->clear_equip_flags(0x02000000U);
+        ((TItemWeapon *)arg0)->clear_weapon_flags(0x02000000U);
     }
 }
 #pragma pop

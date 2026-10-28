@@ -6,7 +6,7 @@ extern "C" {
 
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)-910), (s32)((void*)-7281)); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)-910), (s32)((void*)-9102)); }
 
@@ -35,7 +35,7 @@ extern s32 spawn_target_needle[];
 extern s32 spawn_needle_wall_impact[];
 
 void *TUnk_804A5150::init_vtable_and_handlers() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = holy_ray_weapon_vtable;
     *(s32 **)((s8 *)this + 0x1F0) = spawn_shoot_particle_attached__10TItemShootFlllf;
     (*(s32 * *)((u8 *)this + 0x1F4)) = spawn_target_needle;

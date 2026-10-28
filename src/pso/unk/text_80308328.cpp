@@ -22,7 +22,7 @@ void config_nug2000_attack_collider__10TObjPlayerFPvPv(void *self, T_80308328 *p
 void TUnk_804E71F8::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
-    ((TObjPlayer *)arg0)->draw_icon(1, (s32) &sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, &sp8);
     ((TItemWeapon *)arg0)->fire_shot_at_target((void *)(&sp8), (void *)(this->second_model), 0);
 }
 

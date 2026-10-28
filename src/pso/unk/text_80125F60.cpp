@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/items/TItemWeapon.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80108F04.h"
 #include "pso/unk/text_80125F60.h"
@@ -18,7 +19,7 @@ extern "C" {
 u8 * TObjPlayer__sub_80125F24(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern RecoveredGlobal_80125FD8_lbl_804A2868 lbl_804A2868;
 extern const f32 lbl_805DAD68;
 void TObjPlayer__sub_80125FB8(Obj_80125FB8 *self, Out_80125FB8 *o);
@@ -45,9 +46,9 @@ void TObjPlayer__sub_80125FB8(Obj_80125FB8 *self, Out_80125FB8 *o) {
 }
 
 u8 *TObjPlayer__sub_80125FD8(u8 *arg0, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A2868.value;
-    ((TObjPlayer *)arg0)->set_status_flags(0x8000);
+    ((TItemWeapon *)arg0)->set_weapon_flags(0x8000);
     *(f32 *)((s8 *)arg0 + 0x1E4) = (f32) lbl_805DAD68;
     if (((TItem *)arg0)->get_item_index() == 1) {
         *(s32 *)((s8 *)arg0 + 0x1F8) = 0xA;

@@ -8,7 +8,6 @@ struct RecoveredGlobal_80127F40_lbl_804A0588 {
 };
 
 extern "C" {
-s32 update_trail_slot__11TItemWeaponFPvi(void *, int);
 s32 draw_weapon_at_joint(void *, int);
 u8 * init_vtable_804A3738__13TUnk_804A3738Fv(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
@@ -43,12 +42,12 @@ u8 *confusion_curse_timer_ct(u8 *arg0, s16 arg1, s32 arg2, f32 farg0) {
 void TUnk_804A3830::reserved_53() {
     s32 temp_r31;
     draw_weapon_at_joint(this, 0x31);
-    update_trail_slot__11TItemWeaponFPvi(this, 0);
-    update_trail_slot__11TItemWeaponFPvi(this, 1);
+    update_trail_slot(0);
+    update_trail_slot(1);
     temp_r31 = *(s32 *)((s8 *)((u8 *)this) + 0xF4);
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = (s32) this->second_model;
     draw_weapon_at_joint(this, 0x24);
     *(s32 *)((s8 *)((u8 *)this) + 0xF4) = temp_r31;
-    update_trail_slot__11TItemWeaponFPvi(this, 2);
-    update_trail_slot__11TItemWeaponFPvi(this, 3);
+    update_trail_slot(2);
+    update_trail_slot(3);
 }

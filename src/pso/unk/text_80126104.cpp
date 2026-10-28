@@ -176,10 +176,10 @@ void frozen_shooter_collider_block(Obj_80126180 *self, Out_80126180 *o) {
 void TUnk_804A2960::emit_marker_effects() {
     u8 buf[16];
     void *p;
-    ((TObjPlayer *)this)->draw_status_icon((s32)buf);
+    get_gun_point(buf);
     ((Pl_801261BC *)this)->f1fc = 0;
     p = buf;
-    if (((TObjPlayer *)this)->is_mode_two_and_ready() != 0) {
+    if (is_mode_two_and_ready() != 0) {
         fire_shot_at_target((void *)p, (void *)(((Pl_801261BC *)this)->f188), 0);
     } else if (((TItem *)this)->get_item_index() == 1) {
         ((Pl_801261BC *)this)->f1fc = 1;

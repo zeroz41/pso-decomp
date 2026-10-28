@@ -1,5 +1,6 @@
 // ---- pso/unk/text_80126740
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
 #include "pso/player/PlayerAttackParams.h"
 
@@ -35,7 +36,6 @@ void fist_reset_attack_rate(u8 *arg0) {
 
 extern "C" {
 
-u8 get_item_index__5TItemFv();
 
 
 
@@ -48,7 +48,7 @@ void TObjPlayer::apply_shield_scale_to_unit() {
     u8 temp_r3;
 
     var_f31 = 1.0f;
-    temp_r3 = get_item_index__5TItemFv();
+    temp_r3 = ((TItem *)this)->get_item_index();
     switch ((s32) temp_r3) {
     case 0:
         var_f31 = 1.05f;

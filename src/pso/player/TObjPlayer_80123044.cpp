@@ -5,7 +5,7 @@
 
 extern "C" {
 
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 void TUnk_804A1668::update_weapon() {
     void *temp_r3;
@@ -20,7 +20,7 @@ extern s32 lbl_804A1668[];
 extern s32 create__15TItemEffBringerFUlllf[];
 
 void *TUnk_804A1668::init_bringer_effect() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A1668;
     *(u16 *)((s8 *)this + 0x1F8) = 2;
     *(s32 **)((s8 *)this + 0x1F0) = create__15TItemEffBringerFUlllf;

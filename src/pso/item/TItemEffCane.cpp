@@ -20,11 +20,11 @@ void TItemEffCane::run_task() {
         return;
     }
     if (((TItem *)item)->get_mode() != 2 ||
-        ((TItemWeapon *)item)->test_flags_1b8(0x10) == 0 || effect == NULL) {
+        ((TItemWeapon *)item)->test_weapon_flags(0x10) == 0 || effect == NULL) {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    ((TObjPlayer *)item)->draw_icon((s32)attachment_index, (s32)position);
+    ((TItemWeapon *)item)->get_joint_position(attachment_index, position);
     ((TNowLoading *)effect)->copy_pos(position);
 }
 
@@ -38,7 +38,7 @@ TItemEffCane::TItemEffCane(TObject* parent, TItem* item, s32 attachment, s32 eff
     m_name = TItemEffCane__class_name;
     item_id = ((TItem *)item)->get_item_id();
     attachment_index = attachment;
-    ((TObjPlayer *)item)->draw_icon((s32)attachment_index, (s32)position);
+    ((TItemWeapon *)item)->get_joint_position(attachment_index, position);
     if (effect_id != -1) {
         effect = create_particle_emitter(position, effect_id);
     } else {

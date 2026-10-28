@@ -82,7 +82,7 @@ s32 TItemWeapon::draw_weapon_model() {
                 set_color_blend_mode(1, 4, 5, 0);
                 set_shadow_material_state();
                 if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
-                    if (this->test_flags_1b8(0x800000) != 0U) {
+                    if (this->test_weapon_flags(0x800000) != 0U) {
                         draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                     } else {
                         ((TItem *)this)->draw_model_nodes(NULL);
@@ -94,9 +94,9 @@ s32 TItemWeapon::draw_weapon_model() {
                 }
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
-                if (this->test_flags_1b8(0x40) != 0U) {
+                if (this->test_weapon_flags(0x40) != 0U) {
                     ((TItem *)this)->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
-                } else if (this->test_flags_1b8(0x800000) != 0U) {
+                } else if (this->test_weapon_flags(0x800000) != 0U) {
                     draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                 } else {
                     ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));

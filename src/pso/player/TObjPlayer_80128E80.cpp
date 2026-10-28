@@ -13,10 +13,10 @@ void TUnk_804A403C::reserved_53() {
     temp_r31 = *(s32 *)((s8 *)arg0 + 0xF4);
     ((FlagWord *)(arg0 + 0x1FC))->set(1);
     draw_weapon_at_joint((s32)arg0, 0x30);
-    ((TObjPlayer *)arg0)->draw_icon(1, (s32)(arg0 + 0x200));
+    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x200));
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) *(s32 *)((s8 *)arg0 + 0x180);
     ((FlagWord *)(arg0 + 0x1FC))->clear(1);
     draw_weapon_at_joint((s32)arg0, 0x23);
-    ((TObjPlayer *)arg0)->draw_icon(1, (s32)(arg0 + 0x20C));
+    ((TItemWeapon *)arg0)->get_joint_position(1, (arg0 + 0x20C));
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }

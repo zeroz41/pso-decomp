@@ -163,12 +163,12 @@ void *__dt__13TUnk_804A6AD8Fv(void *arg0, s16 arg1) {
 
 extern "C" {
 
-int TItemWeapon__ct(void);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 
     extern unsigned char spawn_weapon_impact_effect[];
 
     
     
-void* yasminkov_9000m_ct(void* a0) { TItemWeapon__ct(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6AD8; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; ((TObjPlayer *)a0)->set_status_flags((u32)((void*)515)); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804A6AD8 *)a0)->m_204 = 0.0f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6AD8 *)a0)->m_1fc = 0.0f; return a0; }
+void* yasminkov_9000m_ct(void* a0) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6AD8; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; ((TItemWeapon *)a0)->set_weapon_flags(515); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804A6AD8 *)a0)->m_204 = 0.0f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6AD8 *)a0)->m_1fc = 0.0f; return a0; }
 
 }

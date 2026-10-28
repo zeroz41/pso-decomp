@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 
 s32 weapon_has_extra_attack(TItemWeapon* weapon) {
-    if ((((TItemWeapon *)weapon)->test_flags_1b8(0x400020U) != 0U) ||
+    if ((((TItemWeapon *)weapon)->test_weapon_flags(0x400020U) != 0U) ||
         (weapon->special_selector != 0)) {
         return 1;
     }

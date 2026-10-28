@@ -72,7 +72,7 @@ void TUnk_804A5A28::emit_marker_effects() {
     tec.f20 = lbl_805DAF28;
     tec.f24 = lbl_805DAF30;
     tec.f28 = ((Self_8012D708 *)this)->owner->f60;
-    ((TObjPlayer *)this)->draw_icon(3, (s32)&tec.pos);
-    ((TObjPlayer *)this)->draw_icon(2, (s32)&tec.dir);
+    get_joint_position(3, &tec.pos);
+    get_joint_position(2, &tec.dir);
     TItemAttacker::spawn_item_timer((s32)(TTecSlicer::create((u16*)&tec)), (s32)enlarge_flight_cutter_slicer, 3);
 }

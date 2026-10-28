@@ -112,8 +112,8 @@ void launch_slicer__10TObjPlayerFPv(u8 *weapon) {
     get_weapon_color__11TItemWeaponFPv(tmp, weapon);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804ECDC0 *)weapon)->owner) + 0x60);
-    ((TObjPlayer *)weapon)->draw_icon(0x2, (s32)launch.first);
-    ((TObjPlayer *)weapon)->draw_icon(0x1, (s32)launch.second);
+    ((TItemWeapon *)weapon)->get_joint_position(0x2, launch.first);
+    ((TItemWeapon *)weapon)->get_joint_position(0x1, launch.second);
     TTecSlicer::create((u16*)&launch);
 }
 typedef char RecoveredGlobal_8012DBF4_lbl_804A5B20_size[sizeof(RecoveredGlobal_8012DBF4_lbl_804A5B20) == 0xF8 ? 1 : -1];

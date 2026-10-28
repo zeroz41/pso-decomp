@@ -42,8 +42,8 @@ void *__dt__13TUnk_804A2E80Fv(void *arg0, s16 arg1) {
 
 extern "C" {
 
-int TItemWeapon__ct(void);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 
-void*TUnk_804A2E80::init_shot_effect() { TItemWeapon__ct(); *(int*)((char*)this + 0x18) = (int)lbl_804A2E80; *(float *)&this->unk_200 = 1.0f; *(float *)&(*(s32 *)&this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+void*TUnk_804A2E80::init_shot_effect() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A2E80; *(float *)&this->unk_200 = 1.0f; *(float *)&(*(s32 *)&this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
 
 }

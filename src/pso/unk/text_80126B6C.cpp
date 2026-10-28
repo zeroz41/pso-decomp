@@ -26,7 +26,7 @@ u8 *create_suppressed_gun_weapon(u8 *arg0) {
 }
 
 u8 *construct_handgun_weapon(u8 *player, s32 parent, u8 *item) {
-    TItemWeapon__ct((TItemWeapon *)player, (void *)parent, item);
+    __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)player, (void *)parent, item);
     *(s32 **)((s8 *)player + 0x18) = lbl_804A2C90;
     ((TObjPlayer *)player)->m_1ec = (s32*)&spawn_weapon_impact_effect;
     if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {

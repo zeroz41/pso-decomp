@@ -12,7 +12,7 @@ struct RecoveredGlobal_80355BA0_lbl_804F1320 {
 };
 
 extern "C" {
-u8 * TItemWeapon__ct(void *, void *);
+u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 lbl_804F1320[];
 extern const f32 lbl_805DFFC0;
 extern const f32 lbl_805DFFC4;
@@ -38,7 +38,7 @@ void TUnk_804F1320::vfunc_17(s32 item) {
 void TUnk_804F1320::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    if (((TObjPlayer *)arg0)->is_mode_two_and_ready() != 0) {
+    if (((TItemWeapon *)arg0)->is_mode_two_and_ready() != 0) {
         temp_r3 = ((TItemMag *)(this->owner))->get_sub_value();
         if (temp_r3 >= 0x14) {
             ((TItem *)arg0)->send_activate_effect(temp_r3);
@@ -62,12 +62,12 @@ void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
-    TItemWeapon__ct(player, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&lbl_804F1320).value;
-    player->set_status_flags(0x22);
+    ((TItemWeapon *)player)->set_weapon_flags(0x22);
     if (((TItem *)player)->get_item_group() == 0x3D) {
         *(f32 *)((s8 *)player + 0x1F8) = (f32) lbl_805DFFC0;
-        player->set_status_flags(0x100000);
+        ((TItemWeapon *)player)->set_weapon_flags(0x100000);
     } else {
         *(f32 *)((s8 *)player + 0x1F8) = (f32) lbl_805DFFC4;
     }

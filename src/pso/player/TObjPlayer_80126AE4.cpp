@@ -8,7 +8,7 @@
 extern "C" {
 
 u8 get_item_index__5TItemFv();
-void TItemWeapon__ct(void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 void TUnk_804A2C90::update_weapon() {
     s32 arg0 = (s32)this;
@@ -21,7 +21,7 @@ extern s32 lbl_804A2D88[];
 extern s32 spawn_weapon_impact_effect[];
 
 void *TUnk_804A2D88::init_with_update_handler() {
-    TItemWeapon__ct(this);
+    __ct__11TItemWeaponFP7TObjectPUc(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804A2D88;
     (*(s32 * *)((u8 *)this + 0x1EC)) = spawn_weapon_impact_effect;
     return this;

@@ -186,7 +186,7 @@ void TItemWeapon::on_unequip() {
     }
     arg0->m56();
     clear_technique_boosts__14TItemEquipBaseFv((s32)arg0);
-    ((TItemWeapon *)arg0)->clear_equip_flags(0x03000000);
+    ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
 }
 
 void TItemWeapon::apply_owner_bonuses() {
@@ -205,24 +205,24 @@ void TItemWeapon::on_equip() {
         if (!(((TItem *)arg0)->get_item_flags() & 0x20) && are_items_enabled_here() != 0) {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }
-        ((TItemWeapon *)arg0)->clear_equip_flags(0x100);
+        ((TItemWeapon *)arg0)->clear_weapon_flags(0x100);
         if (((TItem *)arg0)->is_hidden() != 0 || obj_isState7_324(*(s32 *)((s8 *)arg0 + 0xF0)) != 0) {
-            ((TObjPlayer *)arg0)->set_status_flags(8);
+            ((TItemWeapon *)arg0)->set_weapon_flags(8);
         } else {
             TItemAttacker::spawn_item_timer((s32)arg0, (s32)((void *)&set_flag_8_if_check_passes__10TObjPlayerFv), 0x14);
             TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(*(s32 *)((s8 *)arg0 + 0xF0))), (void *)0x30, (void *)0x9D, (void *)0x9E);
-            if (((TItemWeapon *)arg0)->test_flags_1b8(0x200) != 0U) {
+            if (((TItemWeapon *)arg0)->test_weapon_flags(0x200) != 0U) {
                 TItemEffEquip::create((void *)tl_05, (void *)(get_entity_id(*(s32 *)((s8 *)arg0 + 0xF0))), (void *)0x23, (void *)0x9D, (void *)0x9E);
             }
             update_technique_slot__10TTecRaFoieFl(play_sound_effect(0x4000B20A, *(s32 *)((s8 *)arg0 + 0xF0) + 0x38, 0, 0), 0x300, 0);
         }
     } else {
         ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(0);
-        ((TObjPlayer *)arg0)->set_status_flags(0x100);
-        ((TObjPlayer *)arg0)->set_status_flags(8);
+        ((TItemWeapon *)arg0)->set_weapon_flags(0x100);
+        ((TItemWeapon *)arg0)->set_weapon_flags(8);
     }
     arg0->v55();
-    ((TItemWeapon *)arg0)->clear_equip_flags(0x03000000);
+    ((TItemWeapon *)arg0)->clear_weapon_flags(0x03000000);
 }
 
 }

@@ -52,7 +52,7 @@ void TUnk_804E24F0::emit_marker_effects() {
     s32 sp8;
     s32 arg0 = (s32)this;
 
-    ((TObjPlayer *)arg0)->draw_status_icon((s32)&sp8);
+    ((TItemWeapon *)arg0)->get_gun_point(&sp8);
     spawn_particle_effect(&sp8, 9);
     ((TItemWeapon *)arg0)->spawn_light_task();
     ((TItemWeapon *)arg0)->fire_shot_at_target(&sp8, 0, 0);
@@ -73,12 +73,11 @@ void TUnk_804E24F0::update_attack() {
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-int TItemWeapon__ct(void);
-int set_status_flags__10TObjPlayerFUl(void*, void*);
+int __ct__11TItemWeaponFP7TObjectPUc(void);
 
     extern unsigned char lbl_804E24F0[];
     
-void*TUnk_804E24F0::init_object(s32 _w1, void *_w2) { TItemWeapon__ct(); *(int*)((char*)this + 0x18) = (int)lbl_804E24F0; set_status_flags__10TObjPlayerFUl(this, (void*)2); *(float *)&this->unk_1F8 = 0.0f; return this; }
+void*TUnk_804E24F0::init_object(s32 _w1, void *_w2) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804E24F0; set_weapon_flags(2); *(float *)&this->unk_1F8 = 0.0f; return this; }
 u8 *TAdPlayerLoadGC::create_instance() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;

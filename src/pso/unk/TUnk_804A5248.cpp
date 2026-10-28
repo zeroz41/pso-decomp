@@ -53,7 +53,7 @@ extern u32 lbl_804A5248[];
 
 TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
     TItemWeaponRifle* self=this;
-    TItemWeapon__ct((TItemWeapon *)((u8 *)self), (void *)parent, item);
+    __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)parent, item);
     self->dispatch=lbl_804A5248;
     self->impactFactory=spawn_weapon_impact_effect;
     self->phase=1.0f;

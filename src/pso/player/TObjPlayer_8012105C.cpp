@@ -12,9 +12,9 @@ int TObjPlayer__sub_801D2F4C(void*);
 void TObjPlayer__sub_8012105C(void) {  }
 void TObjPlayer__sub_80121060(void) {  }
 u8 TItemWeapon::get_motion_type() { return motion_type; }
-void TObjPlayer::set_status_flags(u32 v) { this->m_1b8 |= v; }
-void TItemWeapon::clear_equip_flags(u32 v) { *(u32*)((char*)this + 0x1b8) &= ~v; }
-void TObjPlayer::set_flag_8() { set_status_flags(8); }
+void TItemWeapon::set_weapon_flags(u32 mask) { weapon_flags |= mask; }
+void TItemWeapon::clear_weapon_flags(u32 mask) { weapon_flags &= ~mask; }
+void TItemWeapon::set_flag_8() { set_weapon_flags(8); }
 
 void set_weapon_trail_joints(s32 arg0, s32 arg1, s8 arg2, s8 arg3) {
     u8 *temp_r3;

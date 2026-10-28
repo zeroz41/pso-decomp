@@ -12,7 +12,6 @@ extern "C" {
 
 s32 is_hidden__5TItemFv();
 s32 post_translate_matrix(Sp8Type_80123524 *);
-s32 draw_icon__10TObjPlayerFll(void *, s32, Sp8Type_80123524 *, s32);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
 s32 set_model_fade_alpha__10TObjPlayerFf();
@@ -52,7 +51,7 @@ void TObjPlayer::draw_mag() {
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFFD);
         temp_r6 = *(s32 *)&this->unk_1F8;
         *(s32 *)((s8 *)temp_r29 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r29 + 0x18) - temp_r6);
-        if (draw_icon__10TObjPlayerFll(this, 1, &sp8, temp_r6) != 0) {
+        if (((TItemWeapon *)this)->get_joint_position(1, &sp8) != 0) {
             push_matrix();
             post_translate_matrix(&sp8);
             rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&this->unk_F0) + 0x60));
@@ -74,7 +73,7 @@ extern s32 tl_05;
 
 void TUnk_804A1A48::emit_marker_effects() {
     s32 item = (s32)this;
-    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
+    if (get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 4);
     }
 }

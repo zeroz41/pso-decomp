@@ -27,7 +27,7 @@ extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer__sub_803265C0(u8 *arg0);
-void TItemWeapon__ct(void *, void *);
+void __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 lbl_804ECFB0[];
 u8 *TObjPlayer__sub_803268D8(u8 *arg0, u8 *arg1, s32 _w2);
 u8 *TItemTimerEvent__ct(void *, u32, s32, s32);
@@ -43,7 +43,6 @@ void TObjPlayer__sub_80326794(void* p);
 s32 rotate_matrix_x(s32, s32);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 int refresh_owner_stats__14TItemEquipBaseFv(void*);
-int update_trail_slot__11TItemWeaponFPvi(void*, void*);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 void set_weapon_trail_joints(s32 arg0, s32 arg1, s8 arg2, s8 arg3);
 s32 freeze_curse_timer_ct(s32, u32, s32, s32, f32);
@@ -53,14 +52,13 @@ s32 __nw__15TItemHeapObjectFUl(s32);
 s32 get_owner_client__5TItemFv(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
-void set_status_flags__10TObjPlayerFUl(void *, int);
 
 extern s32 lbl_804ECDC0[];
 
 void *TUnk_804ECDC0::set_vtable_mode2_alt(s32 _w1, void *_w2) {
-    TItemWeapon__ct((void *)this, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
     *(s32 **)((s8 *)this + 0x18) = lbl_804ECDC0;
-    set_status_flags__10TObjPlayerFUl(this, 2);
+    set_weapon_flags(2);
     return this;
 }
 
@@ -93,7 +91,7 @@ void *__dt__13TUnk_804ECEB8Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 void *TUnk_804ECEB8::init_vtable_variant(s32 _w1, void *_w2) {
-    TItemWeapon__ct((void *)this, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
     *(s32 **)((s8 *)this + 0x18) = lbl_804ECEB8;
     *(s32 **)((s8 *)this + 0x1F0) = create__13TItemShootGunFlllf;
     return this;
@@ -179,7 +177,7 @@ void *__dt__13TUnk_804ECFB0Fv(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_803268D8_lbl_804ECFB0_size[sizeof(RecoveredGlobal_803268D8_lbl_804ECFB0) == 0xF8 ? 1 : -1];
 u8 *TObjPlayer__sub_803268D8(u8 *arg0, u8 *arg1, s32 _w2) {
-    TItemWeapon__ct(arg0, arg1);
+    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_803268D8_lbl_804ECFB0 *)&lbl_804ECFB0).value;
     ((TUnk_804ECFB0 *)arg0)->m_1fc = -1;
     *(s32 *)((s8 *)arg0 + 0x1F8) = 0;
@@ -251,9 +249,9 @@ void *__dt__13TUnk_804ED0A8Fv(void *arg0, s16 arg1) {
 }
 
 void *TUnk_804ED0A8::init_state_1536(s32 _w1, void *_w2) {
-    TItemWeapon__ct((void *)this, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
     *(s32 **)((s8 *)this + 0x18) = lbl_804ED0A8;
-    set_status_flags__10TObjPlayerFUl(this, 1536);
+    set_weapon_flags(1536);
     *(u32 *)((s8 *)this + 0x1F8) = 0;
     this->m_1fc = 0;
     return this;
@@ -274,15 +272,15 @@ u8 *TObjPlayer::create_state_1536() {
 }
 
 void TUnk_804ED1A0::update_weapon() { refresh_owner_stats__14TItemEquipBaseFv(this); }
-void TUnk_804ED1A0::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)48)); update_trail_slot__11TItemWeaponFPvi(this, (void*)0); update_trail_slot__11TItemWeaponFPvi(this, (void*)1); update_trail_slot__11TItemWeaponFPvi(this, (void*)2); }
+void TUnk_804ED1A0::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)48)); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
 
 extern s32 lbl_804ED1A0[];
 
 void *morning_glory_ct(void *player, s32 _w1, void * _w2) {
-    TItemWeapon__ct((void *)player, (void *)_w1);
+    __ct__11TItemWeaponFP7TObjectPUc((void *)player, (void *)_w1);
     *(s32 **)((s8 *)player + 0x18) = lbl_804ED1A0;
     set_weapon_trail_joints((s32)player, 2, 6, 5);
-    set_status_flags__10TObjPlayerFUl(player, 1);
+    ((TItemWeapon *)player)->set_weapon_flags(1);
     return player;
 }
 u8 *create_morning_glory(u8 *arg0) {
@@ -372,7 +370,7 @@ void *__dt__13TUnk_804ED390Fv(void *arg0, s16 arg1);
 
 #define lbl_804ED298 ((unsigned char *)lbl_804ED298)
     extern const float lbl_805DF678;
-void*TUnk_804ED298::set_mode_floats(s32 _w1, void *_w2) { ((int (*)())TItemWeapon__ct)(); *(int*)((char*)this + 0x18) = (int)lbl_804ED298; *(float*)((char*)this + 0x1f8) = (*(const float *)&lbl_805DF660); this->m_1fc = lbl_805DF678; return this; }
+void*TUnk_804ED298::set_mode_floats(s32 _w1, void *_w2) { ((int (*)())__ct__11TItemWeaponFP7TObjectPUc)(); *(int*)((char*)this + 0x18) = (int)lbl_804ED298; *(float*)((char*)this + 0x1f8) = (*(const float *)&lbl_805DF660); this->m_1fc = lbl_805DF678; return this; }
 
 extern const f32 lbl_805DF684;
 extern const f32 lbl_805DF688;
@@ -435,12 +433,11 @@ void config_dark_flow_attack_collider(int a0, void* a1);
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 
-s32 is_mode_two_and_ready__10TObjPlayerFv();
 s16 get_actor_hp(u8 *p);
 s32 update_active_game_effect__10TObjPlayerFv(void *);
 
 #define lbl_804ED390 ((unsigned char *)lbl_804ED390)
-void*TUnk_804ED390::init_vtable_1f8(s32 _w1, void *_w2) { ((int (*)())TItemWeapon__ct)(); *(int*)((char*)this + 0x18) = (int)lbl_804ED390; *(float *)&this->unk_1F8 = (*(const float *)&lbl_805DF680); return this; }
+void*TUnk_804ED390::init_vtable_1f8(s32 _w1, void *_w2) { ((int (*)())__ct__11TItemWeaponFP7TObjectPUc)(); *(int*)((char*)this + 0x18) = (int)lbl_804ED390; *(float *)&this->unk_1F8 = (*(const float *)&lbl_805DF680); return this; }
 
     extern const float lbl_805DF690;
 
@@ -464,7 +461,7 @@ extern "C" {
 
 void TUnk_804ED488::emit_marker_effects() {
 
-    if (is_mode_two_and_ready__10TObjPlayerFv() != 0) {
+    if (is_mode_two_and_ready() != 0) {
         if ((s32) ((s16) get_actor_hp((u8 *)this->owner) * 8) < ((s16) ((TItemProShield *)(this->owner))->get_field_2b8())) {
             fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, -0x238E);
             fire_shot_at_target((void *)(*(s32 *)&this->owner + 0x38), (void *)0, -0x11C7);
@@ -508,9 +505,9 @@ void *__dt__13TUnk_804ED488Fv(void *arg0, s16 arg1) {
 }
 
 void *construct_dark_flow(void *player) {
-    ((void (*)(void *))TItemWeapon__ct)(player);
+    ((void (*)(void *))__ct__11TItemWeaponFP7TObjectPUc)(player);
     *(s32 **)((s8 *)player + 0x18) = lbl_804ED488;
-    set_status_flags__10TObjPlayerFUl(player, 34);
+    ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
 }
 }

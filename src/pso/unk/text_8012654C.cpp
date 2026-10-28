@@ -56,7 +56,6 @@ struct VObj_18 : VBase_18 {
 };
 extern "C" {
 s32 is_model_shown__5TItemFv(void *, int);
-s32 draw_icon__10TObjPlayerFll(void *, int, void *);
 void TUnk_804A2A58::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
@@ -64,13 +63,13 @@ void TUnk_804A2A58::emit_marker_effects() {
     temp_r4 = this->m_1fc;
     this->m_1fc = (temp_r4 + 0x2AAA);
     if (is_model_shown__5TItemFv(arg0, temp_r4) != 0) {
-        draw_icon__10TObjPlayerFll(arg0, 2, &sp8);
+        ((TItemWeapon *)arg0)->get_joint_position(2, &sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 0, 0x4FA, 1);
-        draw_icon__10TObjPlayerFll(arg0, 3, &sp8);
+        ((TItemWeapon *)arg0)->get_joint_position(3, &sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 1, 0xE38, 1);
-        draw_icon__10TObjPlayerFll(arg0, 4, &sp8);
+        ((TItemWeapon *)arg0)->get_joint_position(4, &sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 2, -0x4FA, 1);
-        draw_icon__10TObjPlayerFll(arg0, 5, &sp8);
+        ((TItemWeapon *)arg0)->get_joint_position(5, &sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 3, -0xE38, 1);
     }
 }

@@ -96,7 +96,7 @@ u8 *TObjPlayer::create_effect_object(s32 arg0) {
 void TUnk_804A66D8::emit_marker_effects() {
     u8 *p;
     s32 i;
-    if (((TObjPlayer *)this)->is_mode_two_and_ready() != 0) {
+    if (is_mode_two_and_ready() != 0) {
         p = ((Self_8012FB08 *)this)->owner + 0x7CC;
         for (i = 0; i != 2; i++) {
             increment_burst_counter(p);

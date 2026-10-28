@@ -64,22 +64,21 @@ struct RecoveredGlobal_80129DD4_lbl_8043E968 {
 };
 
 extern "C" {
-s32 draw_icon__10TObjPlayerFll(void *, int, void *);
 extern RecoveredGlobal_80129DD4_lbl_8043E968 lbl_8043E968;
 typedef char RecoveredGlobal_80129DD4_lbl_8043E968_size[sizeof(RecoveredGlobal_80129DD4_lbl_8043E968) == 0x18 ? 1 : -1];
 void TUnk_804A4648::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     TObjPlayer__sub_80128A70();
-    draw_icon__10TObjPlayerFll(arg0, 1, (void *)&sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, (void *)&sp8);
     ((VObj_18_8622c5 *)(arg0))->m49(&sp8, 0, *(s32 *)((s8 *)&lbl_8043E968.value + 0), 1);
-    draw_icon__10TObjPlayerFll(arg0, 1, (void *)&sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, (void *)&sp8);
     ((VObj_18_8622c5 *)(arg0))->m49(&sp8, 1, *(s32 *)((s8 *)&lbl_8043E968.value + 4), 1);
-    draw_icon__10TObjPlayerFll(arg0, 1, (void *)&sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, (void *)&sp8);
     ((VObj_18_8622c5 *)(arg0))->m49(&sp8, 2, *(s32 *)((s8 *)&lbl_8043E968.value + 8), 1);
-    draw_icon__10TObjPlayerFll(arg0, 1, (void *)&sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, (void *)&sp8);
     ((VObj_18_8622c5 *)(arg0))->m49(&sp8, 3, *(s32 *)((s8 *)&lbl_8043E968.value + 0xC), 1);
-    draw_icon__10TObjPlayerFll(arg0, 1, (void *)&sp8);
+    ((TItemWeapon *)arg0)->get_joint_position(1, (void *)&sp8);
     ((VObj_18_8622c5 *)(arg0))->m49(&sp8, 4, *(s32 *)((s8 *)&lbl_8043E968.value + 0x10), 1);
 }
 
