@@ -225,8 +225,7 @@ void TItemData::copy_from(TItemData *src) {
     data1.data_u8[3] = src->data1.data_u8[3];
     data1.data_u8[4] = src->data1.data_u8[4];
     data1.data_u8[5] = src->data1.data_u8[5];
-    *(u32 *)&data1.data_u8[6] = *(u32 *)&src->data1.data_u8[6];
-    data1.data_u16[5] = src->data1.data_u16[5];
+    __memcpy(&data1.data_u8[6], &src->data1.data_u8[6], 6);
     id = src->id;
     data2.data_u32 = src->data2.data_u32;
 }
