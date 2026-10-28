@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/player/TObjPlayer_8012E760.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TItemAttacker.h"
@@ -177,7 +178,6 @@ extern "C" {
 int TItemWeapon__ct(void);
 
     extern unsigned char play_effect__13TItemEffFlameFllll[];
-    extern unsigned char play_target_impact_effect[];
     extern unsigned char create_shoot_model_with_particles[];
     extern unsigned char lbl_804A5D28[];
     

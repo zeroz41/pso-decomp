@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TechniqueBoost.h"
 #include "pso/item/TItemData.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjMotion.h"
@@ -15,7 +16,6 @@ struct Status_80118558 { s8 a; u8 b; u8 pad[2]; u32 c; s32 d; s32 e; s32 f; };
 
 extern "C" {
 void TItemProShield__vt16(TItemProShield *arg0, void *arg1);
-void TItemEquipBase__sub_8010A82C(s32 arg0);
 s32 play_sound_effect(int, int, int, int);
 s32 ct_init__14TItemEffShieldFPUcs(int, int, void *);
 s32 __ct__13TUnk_8049F130FP7TObjectsUc(int, int, void *, int);
@@ -28,12 +28,10 @@ int fn_800F953C(void*);
     extern int TItemProShield__shield_table;
 int fn_800F955C(void *p);
 extern s32 lbl_805D2C3C;
-void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
 extern s32 __vt__14TItemProShield[];
 void *__dt__14TItemProShieldFv(void *arg0, s16 arg1);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u8 * TItemEquipBase__ct(void *);
 s16 get_bswap16_field8__9TItemDataFPv(void *);
 s16 getS16_06__9TItemDataFPv(void *);
 void *lookup_item_pmt_record(u8 *item);
@@ -45,7 +43,6 @@ s16 obj_getS16_2BA(u8 *p);
 s32 create_shield_effect__14TItemProShieldFlUsUl(s32, s32, s32);
 s32 play_shield_sound_cue(Status_80118558 *);
 extern const f32 lbl_805DABF0;
-s32 register_technique_boosts__14TItemEquipBaseFPvPv(void *, s32);
 void draw_ginja_object(void *child);
 s32 set_model_fade_alpha__10TObjPlayerFf();
 void TObjPlayer__sub_8036414C(void);
@@ -97,7 +94,7 @@ void TItemProShield::vfunc_14() {
 
 void TItemProShield::vfunc_16() {
     this->vfunc_51();
-    register_technique_boosts__14TItemEquipBaseFPvPv(this, this->m_194);
+    register_technique_boosts((const TechniqueBoostParam *)this->m_194);
     if (this->m_19c & 4) {
         refresh_owner_stats();
     }
@@ -107,7 +104,7 @@ void TItemProShield__vt16(TItemProShield *item_pro_shield, void *item_data) {
     ((TItemData *)item_data)->set_dfp_bonus(item_pro_shield->m_198);
     ((TItemData *)item_data)->set_bswapped_field_8(item_pro_shield->m_199);
 }
-void TItemProShield::vfunc_45() { TItemEquipBase__sub_8010A82C((s32)this); }
+void TItemProShield::vfunc_45() { clear_technique_boosts(); }
 void TItemProShield::vfunc_44() {
     s32 temp_r3_2;
     s32 temp_r3_3;
@@ -117,26 +114,26 @@ void TItemProShield::vfunc_44() {
     if (is_hidden() == 0) {
         play_sound_effect(0x4000B20A, (int)this->owner->position, 0, 0);
     }
-    if ((u32) this->m_174 != 0U) {
+    if ((u32) this->effect_objects != 0U) {
         slot_count = this->get_item_index();
         switch ((s32) slot_count) {
         case 39:
-            if ((u32) this->m_174 != 0U) {
+            if ((u32) this->effect_objects != 0U) {
                 temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
                 if (temp_r3_2 != 0) {
-                    init_item_timer_event__13TUnk_804A0648Fv(temp_r3_2, this->m_174, (void *) (get_owner_client__5TItemFv(this)), 0x1C2);
+                    init_item_timer_event__13TUnk_804A0648Fv(temp_r3_2, (int)this->effect_objects, (void *) (get_owner_client__5TItemFv(this)), 0x1C2);
                 }
                 temp_r3_3 = __nw__15TItemHeapObjectFUl(0x2C);
                 if (temp_r3_3 != 0) {
-                    construct_timer_event__13TUnk_804A0628Fv(temp_r3_3, this->m_174, (void *) (get_owner_client__5TItemFv(this)), 0x1C2);
+                    construct_timer_event__13TUnk_804A0628Fv(temp_r3_3, (int)this->effect_objects, (void *) (get_owner_client__5TItemFv(this)), 0x1C2);
                 }
             }
             break;
         case 26:
-            if ((u32) this->m_174 != 0U) {
+            if ((u32) this->effect_objects != 0U) {
                 temp_r3_4 = __nw__7TObjectFUl(0x2C);
                 if (temp_r3_4 != 0) {
-                    ct_init__14TItemEffShieldFPUcs(temp_r3_4, this->m_174, (void *) (get_owner_client__5TItemFv(this)));
+                    ct_init__14TItemEffShieldFPUcs(temp_r3_4, (int)this->effect_objects, (void *) (get_owner_client__5TItemFv(this)));
                 }
             }
             break;
@@ -144,7 +141,7 @@ void TItemProShield::vfunc_44() {
         if ((slot_count >= 0x53U) && (slot_count <= 0x82U)) {
             temp_r3_5 = __nw__7TObjectFUl(0x30);
             if (temp_r3_5 != 0) {
-                __ct__13TUnk_8049F130FP7TObjectsUc(temp_r3_5, this->m_174, (void *) (get_owner_client__5TItemFv(this)), slot_count);
+                __ct__13TUnk_8049F130FP7TObjectsUc(temp_r3_5, (int)this->effect_objects, (void *) (get_owner_client__5TItemFv(this)), slot_count);
             }
         }
     }
@@ -176,7 +173,7 @@ void TItemProShield::perform_action() {
 }
 
 u8 *TItemProShield__ct(TItemProShield *item_pro_shield, s32 arg1, u8 *item) {
-    TItemEquipBase__ct(item_pro_shield);
+    __ct__14TItemEquipBaseFP7TObjectPUc(item_pro_shield, (void *)arg1, item);
     *(s32 **)((s8 *)item_pro_shield + 0x18) = &(*(RecoveredGlobal_801186EC___vt__14TItemProShield *)&__vt__14TItemProShield).value;
     *(s32 *)((s8 *)item_pro_shield + 0) = (s32) lbl_805D2C38;
     ((TItemProShield *)(item_pro_shield))->set_attach_slot(3);
@@ -188,7 +185,7 @@ u8 *TItemProShield__ct(TItemProShield *item_pro_shield, s32 arg1, u8 *item) {
     item_pro_shield->m_198 = getS16_06__9TItemDataFPv(item);
     item_pro_shield->m_199 = get_bswap16_field8__9TItemDataFPv(item);
     item_pro_shield->m_19c = 0;
-    ((TItemEquipBase *)item_pro_shield)->set_equip_flag(0x24);
+    item_pro_shield->set_attach_joint(0x24);
     item_pro_shield->sub_80117FEC();
     return (u8 *)item_pro_shield;
 }

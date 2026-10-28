@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_80129B60.h"
 #include "pso/player/TObjPlayer.h"
@@ -63,7 +64,6 @@ extern "C" {
 int construct_srank_weapon(void);
 
     extern unsigned char play_effect__13TItemEffFlameFllll[];
-    extern unsigned char play_target_impact_effect[];
     extern unsigned char create_shoot_model_with_particles[];
     extern unsigned char s_rank_bazooka_weapon_vtable[];
     

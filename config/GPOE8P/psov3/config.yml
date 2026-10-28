@@ -345,8 +345,8 @@ force_active:
   - TItemEffHeaven__class_name
   - TItemEffOrgaFlowShot__ct
   - TItemEffectWeapon__class_name
-  - TItemEquipBase__sub_8010AC60
-  - TItemEquipBase__sub_8022F1F4
+  - start_effect__14TItemEquipBaseFUlUl
+  - copy_from__14TechniqueBoostFP14TechniqueBoost
   - TItemList__sub_801D39C8
   - TItemList__sub_801D58C8
   - TItemLockCountCtrl__sub_80119238
@@ -2484,7 +2484,7 @@ force_active:
   - append_string_to_buffer
   - append_text__24TMessageWindowControllerFPCc
   - append_title_string__24TMessageWindowControllerFv
-  - apply_ad_rico_ring__14TItemEquipBaseFl
+  - stop_effect__14TItemEquipBaseFUl
   - apply_attack_params__16TObjEneRe7BeruraFiPv
   - apply_attack_stat_status__13TObjEneRe4BitFPv
   - apply_battle_ctrl_effect__Fi
@@ -12335,7 +12335,7 @@ force_active:
   - sub_800F8250__13TUnk_80499988Ff
   - sub_800FEC40__17TObjEZBoneRotBaseFPUc
   - sub_800FED0C__17TObjEZBoneRotBaseFv
-  - sub_8010A948__14TItemEquipBaseFv
+  - apply_equip_effects__14TItemEquipBaseFv
   - sub_8011E56C__11TItemWeaponFPUc
   - sub_80140F44__11TMapCsnCtrlFv
   - sub_8015860C__6TOBindFv

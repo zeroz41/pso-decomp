@@ -25,7 +25,6 @@ struct TItemWeapon : WeaponObjectPrefix {
     void apply_model_params();
     void spawn_light_task();
     void set_weapon_category_flags();
-    s8 get_attach_joint();
     int test_flags_1b8(u32);
     void sub_80121208(s32);
     void clear_equip_flags(u32);

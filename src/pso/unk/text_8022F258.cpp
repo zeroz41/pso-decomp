@@ -3,16 +3,17 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_8022F258.h"
 #include "types.h"
-#include "pso/item/TItemEquipBase.h"
+#include "pso/misc/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 extern u32 dark_technique_charge_effect_ids[];
 extern "C" {
 s32 __construct_array(void *, void *, int, int, int);
-extern s32 TItemEquipBase__sub_8010B73C[];
+// TechniqueBoost::TechniqueBoost(), handed to __construct_array.
+extern s32 __ct__14TechniqueBoostFv[];
 
 void *fn_8022F258(void *self) {
-    __construct_array(self, (void *)TItemEquipBase__sub_8010B73C, 0, 8, 6);
-    ((TItemEquipBase *)self)->init_slots();
+    __construct_array(self, (void *)__ct__14TechniqueBoostFv, 0, 8, 6);
+    ((TechniqueBoostTable *)self)->clear();
     return self;
 }
 }

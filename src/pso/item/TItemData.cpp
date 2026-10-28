@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/PlayerAttackParams.h"
 #include "pso/protocol/protocol_types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjWarpBossMulti.h"
@@ -167,36 +168,16 @@ void TItemData__sub_8010EDD8(void *arg0, s32 arg1);
 void TItemData__sub_8010EDC8(void *arg0, s32 arg1);
 void TItemData__sub_8010EDA8(void *arg0, s32 arg1);
 extern u8 lbl_805DAB68;
-void fn_8010B7D8(u8 *arg0, s32 arg1);
-void fn_8010B7E8(u8 *arg0, s32 arg1);
-void subtract_s16_stat(s16 *arg0, s32 arg1);
 void TItemData__sub_8010EE1C(void *arg0, s16 arg1);
 void TItemData__sub_8010EE30(s16 *arg0, s32 arg1);
 }
 s32 get_item_stat_boost_record(s32 arg0, s32 type, s32 id);
 extern "C" {
-s32 TItemData__sub_8010B808(void* p);
-s32 TItemData__sub_8010B810(void* p);
 
 extern "C" {
 u8 is_wrapped__9TItemDataFPv(Item_8010C52C *it);
 }
 
-void subtract_s16_stat(s16 *arg0, s32 arg1) {
-    *arg0 -= arg1;
-}
-s32 TItemData__sub_8010B808(void* p) { return *(s32*)((char*)p + 0x31c); }
-s32 TItemData__sub_8010B810(void* p) { return *(s32*)((char*)p + 0x318); }
-
-void TItemData::add_accuracy(s32 arg1) {
-    *(s16 *)((s8 *)this + 4) = (s16) (*(s16 *)((s8 *)this + 4) + arg1);
-}
-void TItemData::add_stat(s32 arg1) {
-    *(s16 *)((s8 *)this + 2) = (s16) (*(s16 *)((s8 *)this + 2) + arg1);
-}
-void TItemData::add_s16(s16 *arg0, s32 arg1) {
-    *arg0 += arg1;
-}
 
 void TItemData::set_present_color(s8 arg1) {
     switch ((s32) (*(u8 *)((s8 *)((u8 *)this) + 0))) {
@@ -249,11 +230,11 @@ void TItemData::apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b
                 stats->sC += amount;
                 break;
             case 4:
-                a->add_accuracy(amount);
+                ((AttackParams *)a)->add_ata(amount);
                 break;
             case 5:
-                TItemData::add_s16((s16 *)a, amount);
-                a->add_stat(amount);
+                ((AttackParams *)a)->add_atp_min(amount);
+                ((AttackParams *)a)->add_atp_max(amount);
                 break;
             case 6:
                 stats->s2 += amount;
@@ -281,11 +262,11 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
         if (bn != NULL && a != NULL && b != NULL && st != NULL)
         switch (bn->kind) {
         case 1:
-            TItemData::add_s16((s16 *)a, bn->val);
-            ((TItemData *)a)->add_stat(bn->val);
+            ((AttackParams *)a)->add_atp_min(bn->val);
+            ((AttackParams *)a)->add_atp_max(bn->val);
             break;
         case 2:
-            ((TItemData *)a)->add_accuracy((s16)(bn->val * 10));
+            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
             break;
         case 3:
             TItemData::add_stat_ptr((s16 *)b, bn->val);
@@ -303,20 +284,20 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
             st->xC += bn->val;
             break;
         case 8:
-            TItemData::add_s16((s16 *)a, bn->val);
-            ((TItemData *)a)->add_stat(bn->val);
-            ((TItemData *)a)->add_accuracy((s16)(bn->val * 10));
+            ((AttackParams *)a)->add_atp_min(bn->val);
+            ((AttackParams *)a)->add_atp_max(bn->val);
+            ((AttackParams *)a)->add_ata((s16)(bn->val * 10));
             TItemData::add_stat_ptr((s16 *)b, bn->val);
             ((TItemData *)b)->add_bonus(bn->val);
             st->x2 += bn->val;
             st->xC += bn->val;
             break;
         case 9:
-            subtract_s16_stat((s16 *)a, bn->val);
-            fn_8010B7E8(a, bn->val);
+            ((AttackParams *)a)->sub_atp_min(bn->val);
+            ((AttackParams *)a)->sub_atp_max(bn->val);
             break;
         case 10:
-            fn_8010B7D8(a, (s16)(bn->val * 10));
+            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
             break;
         case 11:
             TItemData__sub_8010EE30((s16 *)b, bn->val);
@@ -334,9 +315,9 @@ void apply_bonuses(u8 *item, s32 arg1, u8 *a, u8 *b, Stats_8010BA9C *st) {
             st->xC -= bn->val;
             break;
         case 16:
-            subtract_s16_stat((s16 *)a, bn->val);
-            fn_8010B7E8(a, bn->val);
-            fn_8010B7D8(a, (s16)(bn->val * 10));
+            ((AttackParams *)a)->sub_atp_min(bn->val);
+            ((AttackParams *)a)->sub_atp_max(bn->val);
+            ((AttackParams *)a)->sub_ata((s16)(bn->val * 10));
             TItemData__sub_8010EE30((s16 *)b, bn->val);
             TItemData__sub_8010EE1C(b, bn->val);
             st->x2 -= bn->val;
@@ -499,14 +480,14 @@ void TItemData::add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *o
       s16 grind = ((u8) (hi = ((s8 *) ((u8 *)this))[3])) * 2;
       s16 lo = (mult * ((f32) (parm->atp_min + grind))) + add;
       hi = (mult * ((f32) (parm->atp_max + grind))) + add;
-      TItemData::add_s16(out, lo);
-      ((TItemData *)out)->add_stat(hi);
-      ((TItemData *)out)->add_accuracy((s16) (parm->x19 * 10));
+      ((AttackParams *)out)->add_atp_min(lo);
+      ((AttackParams *)out)->add_atp_max(hi);
+      ((AttackParams *)out)->add_ata((s16) (parm->x19 * 10));
       for (i = 0; i != 3; i++)
       {
         if (((u8 *)this)[6 + (i * 2)] == 5)
         {
-          ((TItemData *)out)->add_accuracy((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
+          ((AttackParams *)out)->add_ata((s16) (((s8) ((u8 *)this)[7 + (i * 2)]) * 10));
         }
       }
     }

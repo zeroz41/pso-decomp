@@ -80,7 +80,6 @@ s32 memset(void *, s32, s32);
 void vfunc_49__12TItemProUnitFv(u8 *arg0);
 void vfunc_45__12TItemProUnitFv(void *arg0);
 void *lookup_item_pmt_record(u8 *item);
-s32 TItemEquipBase__ct();
 s16 get_field6_bswap__9TItemDataFPv(void *);
 
 void TItemProUnit::carry_over_stats(TItemData *, TItem *) {}
@@ -172,34 +171,34 @@ void TItemProUnit::vfunc_44() {
   switch (*((s16 *) (((s8 *) arg0) + 0x18C)))
   {
     case 15:
-      if ((this->m_174) != 0U)
+      if ((this->effect_objects) != 0U)
     {
       temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3 != 0)
       {
-        init_item_timer_event__13TUnk_804A0648Fv((int) temp_r3, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        init_item_timer_event__13TUnk_804A0648Fv((int) temp_r3, (int)this->effect_objects, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
       }
     }
       return;
       return;
     case 16:
-      if ((this->m_174) != 0U)
+      if ((this->effect_objects) != 0U)
     {
       temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3_2 != 0)
       {
-        construct_timer_event__13TUnk_804A0628Fv((int) temp_r3_2, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        construct_timer_event__13TUnk_804A0628Fv((int) temp_r3_2, (int)this->effect_objects, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
         return;
       }
     }
       break;
     case 17:
-      if ((this->m_174) != 0U)
+      if ((this->effect_objects) != 0U)
     {
       temp_r3_3 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3_3 != 0)
       {
-        init_timer_event__13TUnk_804A0608Fv((int) temp_r3_3, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        init_timer_event__13TUnk_804A0608Fv((int) temp_r3_3, (int)this->effect_objects, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
       }
     }
       break;
@@ -234,12 +233,12 @@ void unequip__14TItemEquipBaseFv();
 void add_equip_stats__14TItemEquipBaseFl();
 void remove_equip_stats__14TItemEquipBaseFl();
 void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
-void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
+void subtract_equip_stats__14TItemEquipBaseFPvPsPs();
 void render_equipped__5TItemFv();
 void render_equipped_shadow__5TItemFv();
 void render_equipped_deferred__5TItemFv();
 void use__5TItemFv();
-void update_equip__14TItemEquipBaseFv();
+void destroy__14TItemEquipBaseFv();
 void perform_action__5TItemFv();
 void get_attack_flags__5TItemFv();
 s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
@@ -277,11 +276,11 @@ void *__vt__12TItemProUnit[51] = {
     (void *)add_equip_stats__14TItemEquipBaseFl,
     (void *)remove_equip_stats__14TItemEquipBaseFl,
     (void *)subtract_item_stat_bonus__14TItemEquipBaseFllPs,
-    (void *)subtract_equip_stats__14TItemEquipBaseFlPUcPUc,
+    (void *)subtract_equip_stats__14TItemEquipBaseFPvPsPs,
     (void *)render_equipped__5TItemFv,
     (void *)render_equipped_shadow__5TItemFv,
     (void *)render_equipped_deferred__5TItemFv,
-    (void *)update_equip__14TItemEquipBaseFv,
+    (void *)destroy__14TItemEquipBaseFv,
     (void *)perform_action__5TItemFv,
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
@@ -346,7 +345,7 @@ u8 *TItemProUnit__ct(TItemProUnit *item_pro_unit, s32 arg1, u8 *item) {
     s16 temp_r0;
     u8 *item_pmt_record;
 
-    TItemEquipBase__ct();
+    __ct__14TItemEquipBaseFP7TObjectPUc(item_pro_unit, (void *)arg1, item);
     *(s32 **)((s8 *)item_pro_unit + 0x18) = (s32 *)__vt__12TItemProUnit;
     *(s32 *)((s8 *)item_pro_unit + 0) = (s32) lbl_805D2C40;
     item_pro_unit->set_attach_slot((s8) (*(u8 *)((s8 *)item + 4) + 9));

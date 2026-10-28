@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/TTecCtrl.h"
-#include "pso/item/TItemEquipBase.h"
+#include "pso/misc/TechniqueBoost.h"
 
 struct Slot_8022C5CC { s16 id; u16 flags; f32 amount; };
 
@@ -11,9 +11,6 @@ struct RecoveredGlobal_8022C680_lbl_80515FBC {
 };
 
 extern RecoveredGlobal_8022C680_lbl_80515FBC lbl_80515FBC;
-extern "C" {
-void TItemEquipBase__sub_8022C680(s32 arg0, u16 arg1, s32 arg2);
-}
 f32 calc_technique_boost(s32, u16);
 extern "C" {
 f32 get_battle_value__10TObjPlayerFlil(void *, s32, s16);
@@ -95,8 +92,8 @@ f32 calc_technique_boost(s32 technique, u16 actor) {
 }
 typedef char RecoveredGlobal_8022C680_lbl_80515FBC_size[sizeof(RecoveredGlobal_8022C680_lbl_80515FBC) == 0xC0 ? 1 : -1];
 
-void TItemEquipBase__sub_8022C680(s32 arg0, u16 arg1, s32 arg2) {
-    if (arg1 < 4U) {
-        ((TItemEquipBase *)((u8 *)&lbl_80515FBC.value + (arg1 * 0x30)))->set_slot(arg2, arg0);
+void set_technique_boost(TechniqueBoost *boost, u16 client, s32 index) {
+    if (client < 4U) {
+        ((TechniqueBoostTable *)&lbl_80515FBC)[client].set(index, boost);
     }
 }

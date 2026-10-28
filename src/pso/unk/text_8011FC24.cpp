@@ -12,7 +12,7 @@ extern "C" {
 void clear_equip_flags__11TItemWeaponFUl(void*,u32);
 void set_status_flags__10TObjPlayerFUl(void*,u32);
 s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
-void register_technique_boosts__14TItemEquipBaseFPvPv(void*,void*);
+void register_technique_boosts__14TItemEquipBaseFPC19TechniqueBoostParam(void*,void*);
 s32 obj_isState7_324(void*);
 void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
@@ -103,7 +103,7 @@ void TItemWeapon::vfunc_16() {
             frames=self->motion->frame_count;
             if((f32)frames<=self->motion_frame) self->motion_frame-=(f32)frames;
         }
-        register_technique_boosts__14TItemEquipBaseFPvPv(self,self->material);
+        register_technique_boosts__14TItemEquipBaseFPC19TechniqueBoostParam(self,self->material);
         self->update_weapon();
         if(!obj_isState7_324(self->player)) ((TItemWeapon *)self)->advance_weapon_photon_phase();
         if(((TItem *)self)->is_hidden()) {

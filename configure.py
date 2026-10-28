@@ -470,6 +470,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # generation; the data keeps source order) and built with GC/2.0, like the
     # struct-copy units above.
     "pso/item/TItem.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TItemEquipBase.cpp keeps its class-name string in .rodata.
+    "pso/item/TItemEquipBase.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # Vol Opt's second form also keeps eight-byte tables in .data, a six-byte
     # one in .bss and four-byte pointers in .sbss; its .rodata initializers run
     # from the last function back and its vtable precedes the switch tables.

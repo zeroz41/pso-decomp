@@ -69,9 +69,6 @@ struct TItemData {
     s16 get_level();
     s16 get_percent();
     void update_player_field();
-    void add_accuracy(s32 arg1);
-    void add_stat(s32 arg1);
-    static void add_s16(s16 *arg0, s32 arg1);
     void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);

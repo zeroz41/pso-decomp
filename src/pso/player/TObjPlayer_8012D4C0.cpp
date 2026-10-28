@@ -27,10 +27,10 @@ extern f32 lbl_805DAF20;
 void sealed_j_sword_start_timers(void *item_pro_armor) {
     s32 temp_r3;
 
-    if ((u32) ((TItemProArmor *)item_pro_armor)->m_174 != 0U) {
+    if ((u32) ((TItemProArmor *)item_pro_armor)->effect_objects != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            slow_curse_timer_ct(temp_r3, ((TItemProArmor *)item_pro_armor)->m_174, get_owner_client__5TItemFv(item_pro_armor), 0xE10, lbl_805DAF20);
+            slow_curse_timer_ct(temp_r3, (u32)((TItemProArmor *)item_pro_armor)->effect_objects, get_owner_client__5TItemFv(item_pro_armor), 0xE10, lbl_805DAF20);
         }
     }
     *(s16 *)((s8 *)item_pro_armor + 0x1F8) = ((TItemProArmor *)item_pro_armor)->owner->get_kill_count();

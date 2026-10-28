@@ -44,7 +44,6 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *create_item_grinder(u8 *arg0);
 extern "C" {
-u8 * TItemEquipBase__ct(void *);
 s16 get_bswap16_field8__9TItemDataFPv(void *);
 s16 getS16_06__9TItemDataFPv(void *);
 void *lookup_item_pmt_record(u8 *item);
@@ -77,7 +76,6 @@ s32 refresh_owner_stats__14TItemEquipBaseFv();
 int spawn_appearance_effect__10TObjPlayerFl(void);
 s32 add_weapon_grind(s32, s32);
 void *__dt__11TItemObjectFv(void *arg0, s16 arg1);
-void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 int get_entity_id(void*);
 
@@ -246,8 +244,8 @@ void unequip__14TItemEquipBaseFv();
 void add_equip_stats__14TItemEquipBaseFl();
 void remove_equip_stats__14TItemEquipBaseFl();
 void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
-void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
-void update_equip__14TItemEquipBaseFv();
+void subtract_equip_stats__14TItemEquipBaseFPvPsPs();
+void destroy__14TItemEquipBaseFv();
 s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 int get_amount__5TItemFv(void);
 int remove_amount__5TItemFl(void);
@@ -334,11 +332,11 @@ void *__vt__13TItemProArmor[51] = {
     (void *)add_equip_stats__14TItemEquipBaseFl,
     (void *)remove_equip_stats__14TItemEquipBaseFl,
     (void *)subtract_item_stat_bonus__14TItemEquipBaseFllPs,
-    (void *)subtract_equip_stats__14TItemEquipBaseFlPUcPUc,
+    (void *)subtract_equip_stats__14TItemEquipBaseFPvPsPs,
     (void *)render_equipped__5TItemFv,
     (void *)render_equipped_shadow__5TItemFv,
     (void *)render_equipped_deferred__5TItemFv,
-    (void *)update_equip__14TItemEquipBaseFv,
+    (void *)destroy__14TItemEquipBaseFv,
     (void *)perform_action__5TItemFv,
     (void *)&use__5TItemFv,
     (void *)get_attack_flags__5TItemFv,
@@ -430,7 +428,7 @@ void TItemProArmor::vfunc_46() { if (this->is_hidden() == 0) { get_entity_id(*(v
 
 typedef char RecoveredGlobal_80117B98___vt__13TItemProArmor_size[sizeof(RecoveredGlobal_80117B98___vt__13TItemProArmor) == 0xCC ? 1 : -1];
 u8 *TItemProArmor__ct(TItemProArmor *item_pro_armor, s32 arg1, u8 *item) {
-    TItemEquipBase__ct(item_pro_armor);
+    __ct__14TItemEquipBaseFP7TObjectPUc(item_pro_armor, (void *)arg1, item);
     *(s32 **)((s8 *)item_pro_armor + 0x18) = &(*(RecoveredGlobal_80117B98___vt__13TItemProArmor *)&__vt__13TItemProArmor).value;
     *(s32 *)((s8 *)item_pro_armor + 0) = (s32) lbl_805D2C30;
     ((TItemProArmor *)(item_pro_armor))->set_attach_slot(2);

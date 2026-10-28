@@ -16,10 +16,10 @@ void madam_parasol_scale_canopy(void* p) { if (get_player_list__10TObjPlayerFv(p
 void madam_parasol_start_regen(void *item_pro_armor) {
     s32 temp_r3;
 
-    if ((u32) ((TItemProArmor *)item_pro_armor)->m_174 != 0U) {
+    if ((u32) ((TItemProArmor *)item_pro_armor)->effect_objects != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
         if (temp_r3 != 0) {
-            init_item_timer_event__13TUnk_804A0648Fv(temp_r3, ((TItemProArmor *)item_pro_armor)->m_174, get_owner_client__5TItemFv(item_pro_armor), 0x5A);
+            init_item_timer_event__13TUnk_804A0648Fv(temp_r3, (u32)((TItemProArmor *)item_pro_armor)->effect_objects, get_owner_client__5TItemFv(item_pro_armor), 0x5A);
         }
     }
 }

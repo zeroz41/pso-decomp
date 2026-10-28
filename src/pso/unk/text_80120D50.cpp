@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/FlagWord.h"
 #include "pso/player/TObjPlayer_8011C000.h"
@@ -20,7 +21,6 @@ struct V_80120D50 : Pad_80120D50 {
 
 extern "C" {
 u8 get_item_group__5TItemFv(void *);
-s32 TItemEquipBase__ct(void *, void *, u8 *);
 void *lookup_item_pmt_record(u8 *item);
 s32 set_weapon_trail_joints(void *, int, int, int);
 s32 memcpy(void *, void *, int);
@@ -34,7 +34,7 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     u8 temp_r0;
     u8 *temp_r6;
     u8 *temp_r6_2;
-    TItemEquipBase__ct(arg0, parent, item);
+    __ct__14TItemEquipBaseFP7TObjectPUc(arg0, parent, item);
     *(void ***)((s8 *)arg0 + 0x18) = __vt__11TItemWeapon;
     ((V_80120D50 *)arg0)->v17(6);
     arg0->parameters = lookup_item_pmt_record(item);

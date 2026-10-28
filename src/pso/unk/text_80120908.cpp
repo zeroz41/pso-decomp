@@ -28,7 +28,7 @@ struct VObj_18_26a62c : VBase_18_26a62c {
 };
 
 extern "C" {
-s32 get_attach_joint__11TItemWeaponFv(void *);
+s32 get_attach_joint__14TItemEquipBaseFv(void *);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
 }
 void set_shadow_material_state(void);
@@ -59,7 +59,7 @@ s32 TItemWeapon::draw_weapon_model() {
             var_r30 = ((VObj_18_26a62c *)(this))->m8(lbl_805DACA8, lbl_805DACAC);
         }
         set_texlist((int) (*(s32 *)((s8 *)this + 0x24)));
-        ((TObjMotion *)(this->player))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__11TItemWeaponFv(this))));
+        ((TObjMotion *)(this->player))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__14TItemEquipBaseFv(this))));
         push_matrix_from();
         if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
@@ -128,9 +128,9 @@ s32 TItemWeapon::draw_weapon_model() {
 
 void draw_weapon_at_joint(s32 arg0, s8 arg1) {
     s8 temp_r31;
-    temp_r31 = get_attach_joint__11TItemWeaponFv((void *)arg0);
-    ((TItemEquipBase *)arg0)->set_equip_flag(arg1);
+    temp_r31 = get_attach_joint__14TItemEquipBaseFv((void *)arg0);
+    ((TItemEquipBase *)arg0)->set_attach_joint(arg1);
     ((TItemWeapon *)arg0)->draw_weapon_model();
-    ((TItemEquipBase *)arg0)->set_equip_flag(temp_r31);
+    ((TItemEquipBase *)arg0)->set_attach_joint(temp_r31);
 }
 }

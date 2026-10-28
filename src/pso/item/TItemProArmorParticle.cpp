@@ -69,10 +69,10 @@ void TItemProArmorParticle::vfunc_44() {
     s32 temp_r3;
 
     vfunc_44__13TItemProArmorFv();
-    if (((s32) this->m_1a0 == 1) && ((u32) this->m_174 != 0U)) {
+    if (((s32) this->m_1a0 == 1) && ((u32) this->effect_objects != 0U)) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            ((TUnk_804A05C8 *)temp_r3)->initialize((void *)this->m_174, (void *)(get_owner_client__5TItemFv(this)), (void *)(0x78), (void *)this->m_19c);
+            ((TUnk_804A05C8 *)temp_r3)->initialize((void *)this->effect_objects, (void *)(get_owner_client__5TItemFv(this)), (void *)(0x78), (void *)this->m_19c);
         }
     }
 }

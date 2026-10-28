@@ -19,23 +19,23 @@ void TItemProShield::sub_80117FEC() {
         ((FlagWord *)(arg0 + 0x178))->set(0x80);
         break;
     case 49:
-        ((TItemEquipBase *)arg0)->set_equip_flag(0x3A);
+        ((TItemEquipBase *)arg0)->set_attach_joint(0x3A);
         ((FlagWord *)(arg0 + 0x178))->set(2);
         this->m_19c = (s32) (this->m_19c | 2);
         break;
     case 48:
-        ((TItemEquipBase *)arg0)->set_equip_flag(0x28);
+        ((TItemEquipBase *)arg0)->set_attach_joint(0x28);
         break;
     case 42:
         this->m_19c = (s32) (this->m_19c | 2);
         break;
     case 50:
-        ((TItemEquipBase *)arg0)->set_equip_flag(0x3A);
+        ((TItemEquipBase *)arg0)->set_attach_joint(0x3A);
         this->m_19c = (s32) (this->m_19c | 2);
         break;
     }
     if ((temp_r3 == 0x27) || ((temp_r3 >= 0x33U) && (temp_r3 <= 0x39U)) || ((temp_r3 >= 0x53U) && (temp_r3 <= 0x82U)) || (temp_r3 == 0x52)) {
-        ((TItemEquipBase *)arg0)->set_equip_flag(0x22);
+        ((TItemEquipBase *)arg0)->set_attach_joint(0x22);
         this->m_19c = (s32) (this->m_19c | 2);
     }
     switch ((s32) (*(u8 *)(this->m_18c + 0x1A))) {

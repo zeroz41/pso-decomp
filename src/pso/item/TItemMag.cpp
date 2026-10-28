@@ -245,11 +245,11 @@ extern "C" int get_amount__5TItemFv(void);
 extern "C" void is_identified__5TItemFv();
 extern "C" void run_task__5TItemFv();
 extern "C" void set_attach_slot__14TItemEquipBaseFSc();
-extern "C" void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
+extern "C" void subtract_equip_stats__14TItemEquipBaseFPvPsPs();
 extern "C" void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
 extern "C" void interact__5TItemFl();
 extern "C" void unequip__14TItemEquipBaseFv();
-extern "C" void update_equip__14TItemEquipBaseFv();
+extern "C" void destroy__14TItemEquipBaseFv();
 struct TItemMag_801138F0; struct Self_801134CC; struct Self_80113310; struct Self_801135E0;
 extern "C" { void *__dt__8TItemMagFv(void *, s16); void TItemMag__vt12(s32); int TItemMag__vt13(void*); void TItemMag__vt14(Self_80113310*); void serialize_to_item__8TItemMagFPv(TItemMag *, void *); void TItemMag__vt24(Self_801135E0*); void TItemMag__vt25(Self_801134CC*); void TItemMag__vt42(TItemMag *); void TItemMag__vt43(u8*); void TItemMag__vt44(s32); void TItemMag__vt45(TItemMag_801138F0*); }
 void *__vt__8TItemMag[51] = {
@@ -259,8 +259,8 @@ void *__vt__8TItemMag[51] = {
     (void *)&get_name__5TItemFv, (void *)&interact__5TItemFl, (void *)&TItemMag__vt12, (void *)&TItemMag__vt13,
     (void *)&TItemMag__vt14, (void *)&TItemMag__vt15, (void *)&serialize_to_item__8TItemMagFPv, (void *)&set_attach_slot__14TItemEquipBaseFSc,
     (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
-    (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFlPUcPUc, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,
-    (void *)&render_equipped_deferred__5TItemFv, (void *)&update_equip__14TItemEquipBaseFv, (void *)&perform_action__5TItemFv, (void *)&use__5TItemFv,
+    (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFPvPsPs, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,
+    (void *)&render_equipped_deferred__5TItemFv, (void *)&destroy__14TItemEquipBaseFv, (void *)&perform_action__5TItemFv, (void *)&use__5TItemFv,
     (void *)&get_attack_flags__5TItemFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__5TItemFv, (void *)&is_identified__5TItemFv,
     (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
     (void *)&add_slot__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&get_motion_type__5TItemFv,
@@ -1506,7 +1506,6 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 extern s32 lbl_805D2C00;
 extern const f32 lbl_805DABB8;
-u8 *TItemEquipBase__ct(u8 *arg0, s32 arg1, s32 arg2);
 void deserialize_mag__9TItemDataFPvPv(void *src, void *dst);
 u8 *TItemMag__ct(Mag_801139F4 *self, s32 a, s32 src);
 void release__14TItemEquipBaseFv(void *arg0);
@@ -1528,8 +1527,7 @@ int TItemMag__vt13(void* p);
 void TItemMag__vt44(s32 arg0);
 void *__dt__8TItemMagFv(void *arg0, s16 arg1);
 void serialize_mag__9TItemDataFPvPv(void *, const void *);
-s32 request_model_load__14TItemEquipBaseFl(s32, u8);
-void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
+s32 request_model_load__14TItemEquipBaseFUc(s32, u8);
 s32 *__dt__9TItemLoadFPvs(s32 *arg0, s16 arg1);
 int fn_800F953C(void*);
 
@@ -1731,7 +1729,7 @@ void TItemMag__vt44(s32 arg0) {
     if (temp_r3 >= 0x42U) {
         var_r4 = 0x42;
     }
-    request_model_load__14TItemEquipBaseFl(arg0, var_r4);
+    request_model_load__14TItemEquipBaseFUc(arg0, var_r4);
 }
 
 void *__dt__8TItemMagFv(void *arg0, s16 arg1) {
@@ -1749,7 +1747,7 @@ void *__dt__8TItemMagFv(void *arg0, s16 arg1) {
 #pragma opt_common_subs off
 u8 *TItemMag__ct(Mag_801139F4 *self, s32 a, s32 src) {
     s32 i;
-    TItemEquipBase__ct((u8 *)self, a, src);
+    __ct__14TItemEquipBaseFP7TObjectPUc(self, (void *)a, (void *)src);
     *(s32 **)((u8 *)self + 0x18) = ((s32 *)__vt__8TItemMag);
     ((TItemData *)(self->data198))->initialize_mag_data();
     self->x0 = lbl_805D2C00;

@@ -170,7 +170,7 @@ struct Player_8012065C : VBase_8012065C {
 };
 
 extern "C" {
-void TItemEquipBase__sub_8010A82C(s32 arg0);
+void clear_technique_boosts__14TItemEquipBaseFv(s32 arg0);
 s32 get_entity_id(s32);
 s32 test_flags_any(void *, s32);
 s32 obj_isState7_324(s32);
@@ -185,7 +185,7 @@ void TItemWeapon::vfunc_45() {
         ((TObjPlayer *)(arg0->ctl))->set_action_provider_variant(0);
     }
     arg0->m56();
-    TItemEquipBase__sub_8010A82C((s32)arg0);
+    clear_technique_boosts__14TItemEquipBaseFv((s32)arg0);
     ((TItemWeapon *)arg0)->clear_equip_flags(0x03000000);
 }
 

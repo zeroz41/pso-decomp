@@ -13,7 +13,6 @@ void TItemProUnit__sub_80118FB8(void);
 f32 TItemProUnit__sub_8011901C(void* p);
 void *__dt__12TItemProUnitFv(void *arg0, s16 arg1);
 void TItemTimerEvent__ct(void *);
-void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
 
 u8 *TItemProUnit::create(u8 *arg0) {
     u8 *temp_r3;

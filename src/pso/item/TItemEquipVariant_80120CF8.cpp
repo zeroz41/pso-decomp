@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 
 extern "C" {
 
-void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
 
 extern s32 __vt__11TItemWeapon[];
 

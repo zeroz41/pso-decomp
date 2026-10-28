@@ -8,10 +8,10 @@ void TItemProShield::vfunc_26() {
     if (this->m_19c & 8) {
         this->deactivate_shield_effect(0x13);
         saved_model = this->item_model;
-        this->item_model = (NJS_OBJECT *)this->m_188;
+        this->item_model = (NJS_OBJECT *)this->second_model;
         this->deactivate_shield_effect(0xA);
         this->item_model = saved_model;
         return;
     }
-    ((TItemProShield *)((u8 *)this))->deactivate_shield_effect((s32) ((TItemWeapon *)((u8 *)this))->get_attach_joint());
+    deactivate_shield_effect(get_attach_joint());
 }
