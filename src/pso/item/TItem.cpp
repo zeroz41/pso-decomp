@@ -67,7 +67,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-// The two colours of the present box, by wrapping colour (m_ea).
+// The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
     {1.0f, 1.0f, 1.0f, 1.0f},
     {1.0f, 1.0f, 1.0f, 0.0f},
@@ -268,25 +268,25 @@ s32 TObjPlayer::get_stat_bonus() { return *(s16 *)&unk_2BE; }
 
 void TObjPlayer::set_facing(s16 tp) { m_32e = tp; }
 
-void TItem::show() { m_dc &= ~ITEM_FLAG_HIDDEN; }
+void TItem::show() { item_flags &= ~ITEM_FLAG_HIDDEN; }
 
-void TItem::hide() { m_dc |= ITEM_FLAG_HIDDEN; }
+void TItem::hide() { item_flags |= ITEM_FLAG_HIDDEN; }
 
-int TItem::is_hidden() { return m_dc & ITEM_FLAG_HIDDEN; }
+int TItem::is_hidden() { return item_flags & ITEM_FLAG_HIDDEN; }
 
-u8 TItem::get_item_type() { return m_ec; }
+u8 TItem::get_item_type() { return item_type; }
 
-u16 TItem::get_owner_client() { return m_e4; }
+u16 TItem::get_owner_client() { return owner_client_id; }
 
-s8 TItem::get_mode() { return render_mode; }
+s8 TItem::get_mode() { return mode; }
 
 int TItem::is_at_tekker() { return test_item_flags(0x80); }
 
-void TItem::add_item_flags(u32 mask) { m_dc |= mask; }
+void TItem::add_item_flags(u32 mask) { item_flags |= mask; }
 
-void TItem::clear_item_flags(u32 mask) { m_dc &= ~mask; }
+void TItem::clear_item_flags(u32 mask) { item_flags &= ~mask; }
 
-u32 TItem::test_item_flags(u32 mask) { return m_dc & mask; }
+u32 TItem::test_item_flags(u32 mask) { return item_flags & mask; }
 
 u8 TItem::get_motion_type() { return 0; }
 
@@ -340,22 +340,22 @@ void TItem::operator delete(void *p) { obj_heap->heap_free(p); }
 TItem::TItem(TObject *parent, u8 *item) : TUnk_804AF8A0(parent) {
     m_name = TItem__name;
     obj_setFlags30(this, 0x80000000);
-    fn_8002B630((u8 *)this + 0xAC, (u8 *)&item_collider_body);
+    fn_8002B630((u8 *)&collision_body, (u8 *)&item_collider_body);
     TItem__sub_801031C0(&m_98);
-    initialize_linked_object_reference((u8 *)this + 0xAC);
-    m_e4 = 0xFFFF;
-    m_d8 = ((TItemData *)item)->id;
-    m_dc = 0;
-    m_e6 = 0;
-    m_e0 = 0;
-    m_ec = item[0];
-    m_ed = item[1];
-    m_ee = item[2];
-    m_f0 = 0;
-    m_f4 = 0;
-    m_e8 = 0;
+    initialize_linked_object_reference(&collision_body);
+    owner_client_id = 0xFFFF;
+    item_id = ((TItemData *)item)->id;
+    item_flags = 0;
+    pickup_wait_frames = 0;
+    model_node_callback = 0;
+    item_type = item[0];
+    item_group = item[1];
+    item_index = item[2];
+    owner = 0;
+    item_model = 0;
+    kill_count = 0;
     apply_item_flags((TItemData *)item);
-    m_ea = ((TItemData *)item)->get_type_nibble();
+    box_color = ((TItemData *)item)->get_type_nibble();
     if (TItemData::is_rare_item(item) != 0) {
         set_drop_model(4);
     } else {
@@ -386,17 +386,17 @@ void TItem::run_task() {
         update_timer();
         return;
     case ITEM_MODE_OWNED:
-        m_f0 = (u32)get_player_by_client_id(get_owner_client());
-        if (m_f0 != 0) {
+        owner = (u32)get_player_by_client_id(get_owner_client());
+        if (owner != 0) {
             update_owner_visibility();
             update_owned();
             update_in_inventory();
         }
         break;
     case ITEM_MODE_EQUIPPED:
-        m_f0 = (u32)get_player_by_client_id(get_owner_client());
-        if (m_f0 != 0) {
-            VecCopy((Vec *)position, (const Vec *)((TUnk_804B9870 *)m_f0)->position);
+        owner = (u32)get_player_by_client_id(get_owner_client());
+        if (owner != 0) {
+            VecCopy((Vec *)position, (const Vec *)((TUnk_804B9870 *)owner)->position);
             update_owner_visibility();
             update_owned();
             update_equipped();
@@ -450,7 +450,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     set_parent((TObject *)tl_05);
     set_mode(ITEM_MODE_GROUND);
     VecCopy((Vec *)position, (const Vec *)pos);
-    m_e4 = 0xFFFF;
+    owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
         TLobby__sub_8011AED8(position[0], position[2], floor, group_ids[0], (u8 *)&data);
@@ -474,12 +474,12 @@ void TItem::update_owned() {}
 void TItem::update_timer() {
     rotation_y += 0x200;
     if (has_interactor() != 0) {
-        s16 timer = m_e6;
+        s16 timer = pickup_wait_frames;
         if (timer == 900) {
             m_94 = 0xFFFF;
-            m_e6 = 0;
+            pickup_wait_frames = 0;
         } else {
-            m_e6 = timer + 1;
+            pickup_wait_frames = timer + 1;
         }
     }
     submit_cursor_candidate(this, -1);
@@ -495,7 +495,7 @@ void TItem::vfunc_13(s32 client) {
             cmd.item_id = get_item_id();
             cmd.floor = get_current_floor();
             cmd.send();
-            m_e6 = 0;
+            pickup_wait_frames = 0;
         }
     } else {
         TUnk_804AF8A0::vfunc_13(0xFFFF);
@@ -641,17 +641,17 @@ void TItem::write_item_data(TItemData *) {}
 s32 TItem::copy_to_item_data(TItemData *data) {
     if (data != NULL) {
         data->init();
-        data->data1.data_u8[0] = m_ec;
-        data->data1.data_u8[1] = m_ed;
-        data->data1.data_u8[2] = m_ee;
-        data->id = m_d8;
+        data->data1.data_u8[0] = item_type;
+        data->data1.data_u8[1] = item_group;
+        data->data1.data_u8[2] = item_index;
+        data->id = item_id;
         write_item_data(data);
-        if (m_dc & ITEM_FLAG_KILL_COUNTER) {
-            data->set_packed_value(m_e8);
+        if (item_flags & ITEM_FLAG_KILL_COUNTER) {
+            data->set_packed_value(kill_count);
         }
-        if (m_dc & ITEM_FLAG_WRAPPED) {
+        if (item_flags & ITEM_FLAG_WRAPPED) {
             data->set_wrapped();
-            data->set_present_color(m_ea);
+            data->set_present_color(box_color);
         }
         return 1;
     }
@@ -671,24 +671,24 @@ s32 TItem::insert_sorted_by_id() {
     s32 lo;
     s32 mid;
     s32 hi;
-    id = m_d8;
+    id = item_id;
     hi = item_registry_count - 1;
     if (id == -1) {
         item_desync_detected = 1;
         return id;
     }
-    if (hi > -1 && id < (s32)item_registry_sorted_entries[hi]->m_d8) {
+    if (hi > -1 && id < (s32)item_registry_sorted_entries[hi]->item_id) {
         lo = 0;
         while (lo < hi) {
             mid = (lo + hi) >> 1;
-            if ((s32)item_registry_sorted_entries[mid]->m_d8 < id) {
+            if ((s32)item_registry_sorted_entries[mid]->item_id < id) {
                 lo = mid + 1;
             } else {
                 hi = mid;
             }
         }
         TItem **slot = &item_registry_sorted_entries[lo];
-        if (id == (s32)(*slot)->m_d8) {
+        if (id == (s32)(*slot)->item_id) {
             item_desync_detected = 1;
             return id;
         }
@@ -707,11 +707,11 @@ s32 TItem::unregister_item() {
     s32 mid;
     s32 hi;
     lo = 0;
-    id = m_d8;
+    id = item_id;
     hi = item_registry_count - 1;
     while (lo < hi) {
         mid = (lo + hi) >> 1;
-        if ((s32)item_registry_sorted_entries[mid]->m_d8 < id) {
+        if ((s32)item_registry_sorted_entries[mid]->item_id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
@@ -735,14 +735,14 @@ TItem *find_item_by_id(s32 id) {
     hi = item_registry_count - 1;
     while (lo < hi) {
         mid = (lo + hi) >> 1;
-        if ((s32)item_registry_sorted_entries[mid]->m_d8 < id) {
+        if ((s32)item_registry_sorted_entries[mid]->item_id < id) {
             lo = mid + 1;
         } else {
             hi = mid;
         }
     }
     TItem *item = item_registry_sorted_entries[lo];
-    if (item != NULL && (s32)item->m_d8 == id) {
+    if (item != NULL && (s32)item->item_id == id) {
         return item;
     }
     return NULL;
@@ -786,15 +786,15 @@ void TItem::check_equip_requirements(TObjPlayer *player, s16 *result) {
 }
 
 void TItem::set_owner_client(u16 client) {
-    m_e4 = client;
-    m_f0 = (u32)get_player_by_client_id(client);
+    owner_client_id = client;
+    owner = (u32)get_player_by_client_id(client);
 }
 
 void TItem::visit_model_nodes(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))m_e0;
+    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = NULL;
-    draw_model_node_tree((NJS_OBJECT *)m_f4);
+    draw_model_node_tree((NJS_OBJECT *)item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
@@ -802,10 +802,10 @@ void TItem::visit_model_nodes(u8 *matrices) {
 }
 
 void TItem::apply_sign_effect(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))m_e0;
+    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
-    draw_model_node_tree((NJS_OBJECT *)m_f4);
+    draw_model_node_tree((NJS_OBJECT *)item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
@@ -813,17 +813,17 @@ void TItem::apply_sign_effect(u8 *matrices) {
 }
 
 void TItem::draw_model_nodes(u8 *matrices) {
-    model_node_visit_callback = (void (*)(NJS_OBJECT *))m_e0;
+    model_node_visit_callback = (void (*)(NJS_OBJECT *))model_node_callback;
     model_node_matrix_output_cursor = matrices;
     model_node_draw_callback = ::draw_ginja_model;
-    draw_model_node_tree((NJS_OBJECT *)m_f4);
+    draw_model_node_tree((NJS_OBJECT *)item_model);
     model_node_draw_callback = NULL;
     model_node_matrix_output_cursor = NULL;
     model_node_visit_callback = NULL;
     TObjPlayer::reset_transform_state();
 }
 
-void TItem::draw_model() { draw_ginja_object((void *)m_f4); }
+void TItem::draw_model() { draw_ginja_object((void *)item_model); }
 
 void draw_node_tree_with_callback(NJS_OBJECT *object, void (*visit)(NJS_OBJECT *)) {
     model_node_visit_callback = visit;
@@ -903,17 +903,17 @@ int TItem::vfunc_12() {
     return (int)name;
 }
 
-void TItem::set_mode(s8 mode) {
-    if (mode == ITEM_MODE_INACTIVE) {
-        m_f0 = 0;
+void TItem::set_mode(s8 new_mode) {
+    if (new_mode == ITEM_MODE_INACTIVE) {
+        owner = 0;
     }
-    if (mode == ITEM_MODE_GROUND) {
-        m_f0 = 0;
+    if (new_mode == ITEM_MODE_GROUND) {
+        owner = 0;
         register_in_world(0);
     } else {
         unregister_from_world();
     }
-    render_mode = mode;
+    mode = new_mode;
 }
 
 void TItem::register_in_world(s32 clear_status) {
@@ -941,7 +941,7 @@ u32 TItem::get_usable_action_flags(u32 mask, u32 player) {
     TItemData data;
     copy_to_item_data(&data);
     if (player == 0) {
-        player = m_f0;
+        player = owner;
     }
     u32 flags = data.calc_action_flags(mask, (u8 *)player);
     if (test_item_flags(0x200) != 0) {
@@ -982,14 +982,14 @@ void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
     if (TOKeyMachine01::get_global_state() != 15) {
         cmd->bswap();
         TItem *mag = find_item_by_id(cmd->mag_item_id);
-        if (mag != NULL && mag->m_f0 != 0) {
+        if (mag != NULL && mag->owner != 0) {
             mag->activate_effect(cmd->effect_number);
         }
     }
 }
 
 void TItem::send_activate_effect(s32 effect) {
-    if (m_f0 != 0 && TOKeyMachine01::get_global_state() != 15 && ((TUnk_804806E8 *)m_f0)->obj_isState2_324() == 0) {
+    if (owner != 0 && TOKeyMachine01::get_global_state() != 15 && ((TUnk_804806E8 *)owner)->obj_isState2_324() == 0) {
         G_ActivateMagEffect_6x61 cmd;
         cmd.mag_item_id = get_item_id();
         cmd.effect_number = effect;
@@ -1113,9 +1113,9 @@ void TObjPlayer::load_projection_tex(s32, s32 trap) {
 
 // Hides the item while its owner is hidden or out of the local view.
 void TItem::update_owner_visibility() {
-    if (m_f0 != 0) {
-        if (TObjPlayer::test_flag_2000000((void *)m_f0) == 0 && TObjPlayer::reset_key_machine_state() == 1
-            && ((TObjPlayer *)m_f0)->is_flag_20000_set() == 0) {
+    if (owner != 0) {
+        if (TObjPlayer::test_flag_2000000((void *)owner) == 0 && TObjPlayer::reset_key_machine_state() == 1
+            && ((TObjPlayer *)owner)->is_flag_20000_set() == 0) {
             show();
             return;
         }
@@ -1126,15 +1126,15 @@ void TItem::update_owner_visibility() {
 }
 
 f32 TItem::get_owner_alpha() {
-    u32 owner = m_f0;
-    if (owner != 0) {
-        return ((TObjPlayer *)(owner + 0x608))->get_mag_scale_f();
+    u32 player = owner;
+    if (player != 0) {
+        return ((TObjPlayer *)(player + 0x608))->get_mag_scale_f();
     }
     return 1.0f;
 }
 
 void TItem::refresh_if_current_player() {
-    if ((s32)m_e4 == local_client_id) {
+    if ((s32)owner_client_id == local_client_id) {
         TLobby::mark_selected();
     }
 }
@@ -1145,9 +1145,9 @@ void TItem::get_icon_index() {
     TLobby::get_item_data((u32)&data);
 }
 
-void TItem::set_item_group(u8 value) { m_ed = value; }
+void TItem::set_item_group(u8 value) { item_group = value; }
 
-void TItem::set_item_index(u8 value) { m_ee = value; }
+void TItem::set_item_index(u8 value) { item_index = value; }
 
 void TItem::sub_80100D68() {
     TItemData data;
@@ -1156,7 +1156,7 @@ void TItem::sub_80100D68() {
 }
 
 s32 TItem::is_model_shown() {
-    if (is_hidden() == 0 && m_f4 != 0) {
+    if (is_hidden() == 0 && item_model != 0) {
         return 1;
     }
     return 0;
@@ -1328,17 +1328,17 @@ void TItem::remove_equip_stats(s32) {}
 // Takes this item's stats off its owner and puts them back, keeping the
 // owner's current HP and TP.
 void TItemEquipBase::refresh_owner_stats() {
-    TObjPlayer *owner = (TObjPlayer *)m_f0;
-    if (owner != NULL) {
-        s16 hp = obj_getS16_32C(owner);
-        s16 tp = obj_getS16_32E((TObjPlayer *)m_f0);
+    TObjPlayer *player = (TObjPlayer *)owner;
+    if (player != NULL) {
+        s16 hp = obj_getS16_32C(player);
+        s16 tp = obj_getS16_32E((TObjPlayer *)owner);
         remove_equip_stats(0);
         add_equip_stats(0);
-        ((TObjPlayer *)m_f0)->vfunc_73();
-        ((TObjPlayer *)m_f0)->set_hp_clamped(hp);
-        ((TObjPlayer *)m_f0)->set_facing(tp);
-        ((TObjPlayer *)m_f0)->clamp_value();
-        ((TObjPlayer *)m_f0)->clamp_field_32E();
+        ((TObjPlayer *)owner)->vfunc_73();
+        ((TObjPlayer *)owner)->set_hp_clamped(hp);
+        ((TObjPlayer *)owner)->set_facing(tp);
+        ((TObjPlayer *)owner)->clamp_value();
+        ((TObjPlayer *)owner)->clamp_field_32E();
     }
 }
 
@@ -1390,8 +1390,8 @@ void TItem::update_equipped() {}
 void TItem::vfunc_42() {}
 
 void TItem::apply_switch_attack(s32 effect) {
-    if (m_f0 != 0 && TObjPlayer::test_flag_2000000((void *)m_f0) == 0) {
-        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(m_f0 + 0x2FC), effect, 0x10);
+    if (owner != 0 && TObjPlayer::test_flag_2000000((void *)owner) == 0) {
+        TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags((void *)(owner + 0x2FC), effect, 0x10);
         if (particle != NULL) {
             particle->set_owner_id(get_owner_client());
         }
@@ -1399,8 +1399,8 @@ void TItem::apply_switch_attack(s32 effect) {
 }
 
 void TItem::notify_owner(s32 sound) {
-    if (m_f0 != 0 && TObjPlayer::test_flag_2000000((void *)m_f0) == 0) {
-        play_sound_effect(sound, (void *)(m_f0 + 0x38), 0, 0);
+    if (owner != 0 && TObjPlayer::test_flag_2000000((void *)owner) == 0) {
+        play_sound_effect(sound, (void *)(owner + 0x38), 0, 0);
     }
 }
 
@@ -1420,23 +1420,23 @@ TItem *find_equipped_item(s32 id) {
 }
 
 void TItem::set_kill_count(u16 count) {
-    if (m_dc & ITEM_FLAG_KILL_COUNTER) {
-        m_e8 = count;
+    if (item_flags & ITEM_FLAG_KILL_COUNTER) {
+        kill_count = count;
     }
 }
 
-u16 TItem::get_kill_count() { return m_e8; }
+u16 TItem::get_kill_count() { return kill_count; }
 
 void TItem::set_drop_model(u8 index) {
-    model_index = index;
-    if (model_index < ITEM_MODEL_COUNT) {
-        if (model_index == 7) {
-            m_ea = 5;
+    drop_model = index;
+    if (drop_model < ITEM_MODEL_COUNT) {
+        if (drop_model == 7) {
+            box_color = 5;
         }
         return;
     }
-    model_index = 2;
-    m_ea = 0;
+    drop_model = 2;
+    box_color = 0;
 }
 
 void TItem::render_ground() {
@@ -1454,11 +1454,11 @@ void TItem::render_ground() {
             &TItem::render_model,
             &TItem::render_model,
         };
-        if (model_index < ITEM_MODEL_COUNT) {
+        if (drop_model < ITEM_MODEL_COUNT) {
             if (test_item_flags(ITEM_FLAG_WRAPPED)) {
                 (this->*draw[6])();
             } else {
-                (this->*draw[model_index])();
+                (this->*draw[drop_model])();
             }
         }
     }
@@ -1467,7 +1467,7 @@ void TItem::render_ground() {
 void TItem::render_model() {
     void *model;
     s32 texture;
-    TItemLoad::get_model_ids(model_index, (s32 *)&model, &texture);
+    TItemLoad::get_model_ids(drop_model, (s32 *)&model, &texture);
     if (model != NULL) {
         set_depth_buffer_settings_id(3);
         TParticleCtrl::begin_effect_render();
@@ -1501,9 +1501,9 @@ void TItem::render_present_box() {
         push_matrix();
         post_translate_matrix(position);
         rotate_matrix_y(0, rotation_y);
-        ((TUnk_80494AE0 *)&item_box_primary_colors[m_ea])->set_chunk_material_color();
+        ((TUnk_80494AE0 *)&item_box_primary_colors[box_color])->set_chunk_material_color();
         draw_ginja_model((s32)box->model);
-        ((TUnk_80494AE0 *)&item_box_secondary_colors[m_ea])->set_chunk_material_color();
+        ((TUnk_80494AE0 *)&item_box_secondary_colors[box_color])->set_chunk_material_color();
         draw_ginja_model((s32)box->child->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -1522,24 +1522,24 @@ void TItem::render_following_owner() {}
 
 void TItem::apply_item_flags(TItemData *data) {
     if (TItemData::is_usable(data) != 0) {
-        m_dc |= ITEM_FLAG_KILL_COUNTER;
-        m_e8 = data->get_packed_value();
+        item_flags |= ITEM_FLAG_KILL_COUNTER;
+        kill_count = data->get_packed_value();
     }
     if (TItemData::is_wrapped(data) != 0) {
-        m_dc |= ITEM_FLAG_WRAPPED;
+        item_flags |= ITEM_FLAG_WRAPPED;
     }
 }
 
 void TItem::assign_item_id() {
     if (get_main_phase() == 15) {
-        if ((s32)m_d8 == -1) {
+        if ((s32)item_id == -1) {
             item_desync_detected = 1;
             QuestObjectEntry entry = quest_object_entries[group_index];
-            m_d8 = build_item_id(entry.drop_id_base);
+            item_id = build_item_id(entry.drop_id_base);
         }
-    } else if ((s32)m_d8 == -1) {
+    } else if ((s32)item_id == -1) {
         item_desync_detected = 1;
-        m_d8 = advance_item_id_counter(local_client_id);
+        item_id = advance_item_id_counter(local_client_id);
     }
 }
 
@@ -1547,10 +1547,10 @@ void TItem::assign_item_id() {
 void TItem::use_combination_recipe() {
     TItemData data;
     TItemData result;
-    if (m_f0 != 0) {
+    if (owner != 0) {
         copy_to_item_data(&data);
-        TItem *target = (TItem *)find_unique_combination_target((void *)m_f0, &data);
-        u8 *recipe = (u8 *)find_eligible_combination_recipe(m_f0, (u8 *)&data);
+        TItem *target = (TItem *)find_unique_combination_target((void *)owner, &data);
+        u8 *recipe = (u8 *)find_eligible_combination_recipe(owner, (u8 *)&data);
         if (recipe != NULL && target != NULL) {
             result.init();
             result.data1.data_u8[0] = recipe[6];

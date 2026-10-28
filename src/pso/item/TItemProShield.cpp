@@ -7,7 +7,7 @@ extern "C" {
 
 void* TItemEquipBase__sub_8010B73C(void* p);
 
-u8 TItem::get_item_index() { return this->m_ee; }
+u8 TItem::get_item_index() { return this->item_index; }
 void* TItemEquipBase__sub_8010B73C(void* p) { ((TItemEquipBase *)p)->init_slot(); return p; }
 
 }

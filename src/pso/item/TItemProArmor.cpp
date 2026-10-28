@@ -106,7 +106,7 @@ u8 *TItemProArmor::create_instance() {
 void TUnk_8049FF88::vfunc_44() {
     s32 temp_r3;
 
-    temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)this->m_f0);
+    temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)this->owner);
     if (temp_r3 != 0) {
         add_weapon_grind(temp_r3, get_tool_pmt_amount_byte__11TItemObjectFv(this));
     }
@@ -425,7 +425,7 @@ void TItemProArmor::update_equipped() {
     }
 }
 
-void TItemProArmor::vfunc_46() { if (this->is_hidden() == 0) { obj_getField1c(*(void* *)&this->m_f0); spawn_appearance_effect__10TObjPlayerFl(); } }
+void TItemProArmor::vfunc_46() { if (this->is_hidden() == 0) { obj_getField1c(*(void* *)&this->owner); spawn_appearance_effect__10TObjPlayerFl(); } }
 
 typedef char RecoveredGlobal_80117B98___vt__13TItemProArmor_size[sizeof(RecoveredGlobal_80117B98___vt__13TItemProArmor) == 0xCC ? 1 : -1];
 u8 *TItemProArmor__ct(TItemProArmor *item_pro_armor, s32 arg1, u8 *item) {

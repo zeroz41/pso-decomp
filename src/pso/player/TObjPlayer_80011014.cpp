@@ -4878,7 +4878,7 @@ s32 TObjPlayer::get_player_count() {
 
 int get_item_field_6__10TObjPlayerFPv(void* p) { return get_slot_value__10TObjPlayerFPvi((char*)p + 0xd04, 6); }
 
-u8 TItem::get_item_group() { return this->m_ed; }
+u8 TItem::get_item_group() { return this->item_group; }
 
 s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
 

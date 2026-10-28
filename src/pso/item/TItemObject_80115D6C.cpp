@@ -219,7 +219,7 @@ void send_star_atomizer_targets(void *player) {
 void*TItemObject::vfunc_9() {
     u32 temp_r4;
 
-    temp_r4 = this->m_f0;
+    temp_r4 = this->owner;
     if (temp_r4 != 0U) {
         return (unsigned char *) (temp_r4 + 0x38);
     }
@@ -318,7 +318,7 @@ void TItemObject::use() {
         this->unwrap();
         return;
     }
-    if ((u32) this->m_f0 != 0U) {
+    if ((u32) this->owner != 0U) {
         this->m_101 = 0U;
         o->m42();
         if ((u8) this->m_101 == 0) {

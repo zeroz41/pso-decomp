@@ -57,8 +57,8 @@ s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
 extern s32 model_render_flags;
 
 void TItemProShield::deactivate_shield_effect(s32 arg1) {
-    if (((u32) this->m_f4 != 0U) && ((u32) this->m_f0 != 0U) && (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x08000000) == 0) && (is_hidden() == 0)) {
-        ((TObjMotion *)(this->m_f0))->get_item_ptr(arg1);
+    if (((u32) this->item_model != 0U) && ((u32) this->owner != 0U) && (obj_testFlags30__13TUnk_804AF8A0FUl(this, 0x08000000) == 0) && (is_hidden() == 0)) {
+        ((TObjMotion *)(this->owner))->get_item_ptr(arg1);
         push_matrix_from();
         TObjPlayer__sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
@@ -68,7 +68,7 @@ void TItemProShield::deactivate_shield_effect(s32 arg1) {
             TParticleCtrl::begin_effect_render();
         }
         TObjPlayer::notify_fish_if_valid(this->texture_id);
-        draw_ginja_object((void *)this->m_f4);
+        draw_ginja_object((void *)this->item_model);
         if (this->m_19c & 2) {
             TParticleCtrl::end_effect_render();
         }
@@ -114,7 +114,7 @@ void TItemProShield::vfunc_44() {
     s32 temp_r3_5;
     u8 slot_count;
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, this->m_f0 + 0x38, 0, 0);
+        play_sound_effect(0x4000B20A, this->owner + 0x38, 0, 0);
     }
     if ((u32) this->m_174 != 0U) {
         slot_count = this->get_item_index();
@@ -151,23 +151,23 @@ void TItemProShield::vfunc_44() {
 
 void TItemProShield::vfunc_30() {
     Status_80118558 st;
-    if ((u32) this->m_f0 != 0U) {
+    if ((u32) this->owner != 0U) {
         if (is_hidden() == 0) {
             create_shield_effect__14TItemProShieldFlUsUl(tl_05, get_owner_client__5TItemFv(this), this->m_190);
             ((TObjPlayer *)(&st))->reset_status_block();
             st.a = this->get_item_group();
             st.b = this->get_item_index();
-            st.c = this->m_f0;
+            st.c = this->owner;
             play_shield_sound_cue(&st);
         }
         if (this->m_19c & 1) {
             switch (this->get_item_index()) {
             case 34:
-                add_actor_hp((u8 *)this->m_f0, (lbl_805DABF0 * (f32)((TItemProShield *)(this->m_f0))->get_field_2b8()));
+                add_actor_hp((u8 *)this->owner, (lbl_805DABF0 * (f32)((TItemProShield *)(this->owner))->get_field_2b8()));
                 break;
             case 35:
-                add_actor_hp((u8 *)this->m_f0, (lbl_805DABF0 * (f32)((TItemProShield *)(this->m_f0))->get_field_2b8()));
-                add_actor_tp((u8 *)this->m_f0, (s32)(lbl_805DABF0 * (f32)obj_getS16_2BA((u8 *)this->m_f0)));
+                add_actor_hp((u8 *)this->owner, (lbl_805DABF0 * (f32)((TItemProShield *)(this->owner))->get_field_2b8()));
+                add_actor_tp((u8 *)this->owner, (s32)(lbl_805DABF0 * (f32)obj_getS16_2BA((u8 *)this->owner)));
                 break;
             }
         }

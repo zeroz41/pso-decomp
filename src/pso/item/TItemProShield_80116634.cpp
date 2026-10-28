@@ -48,11 +48,11 @@ void TUnk_8049F770::vfunc_44() {
     t = ((TItemObject *)arg0)->get_tool_pmt_amount_byte();
     new_var = game_difficulty_selection;
     new_var = t + (new_var * (t / 2));
-    add_actor_hp((u8 *)this->m_f0, new_var);
+    add_actor_hp((u8 *)this->owner, new_var);
   }
   else
   {
-    add_actor_hp((u8 *)this->m_f0, ((TItemProShield *)(this->m_f0))->get_field_2b8());
+    add_actor_hp((u8 *)this->owner, ((TItemProShield *)(this->owner))->get_field_2b8());
   }
 }
 
@@ -90,7 +90,7 @@ u8 *TItemProShield__sub_80116744(u8 *arg0) {
 void TUnk_8049F828::vfunc_44() {
     s32 temp_r3;
 
-    temp_r3 = ((TObjPlayer *)(this->m_f0))->activate_d04_slot();
+    temp_r3 = ((TObjPlayer *)(this->owner))->activate_d04_slot();
     if (temp_r3 != 0) {
         apply_transform_action__8TItemMagFUc(temp_r3, get_item_index__5TItemFv(this));
     }
@@ -167,15 +167,15 @@ u8 *TItemProShield::create() {
 void TUnk_8049F8E0::vfunc_44() {
     s32 temp_r3;
     u32 temp_r424;
-    if (sub_801A1DDC__10TObjPlayerFv(*(void * *)&this->m_f0) != 0) {
-        temp_r424 = (u32) *(u32 *)(this->m_f0 + 0x424);
+    if (sub_801A1DDC__10TObjPlayerFv(*(void * *)&this->owner) != 0) {
+        temp_r424 = (u32) *(u32 *)(this->owner + 0x424);
         if (temp_r424 != 0U) {
             temp_r3 = ((TMainCursor *)temp_r424)->find_by_pos(4, 9);
             if (temp_r3 != 0) {
                 TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
                 if ((u16) get_type_id__10TObjPlayerFv() != 0xffffU) {
                     TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
-                    send_6x33_revive_player(obj_getField1c(*(void * *)&this->m_f0), get_type_id__10TObjPlayerFv());
+                    send_6x33_revive_player(obj_getField1c(*(void * *)&this->owner), get_type_id__10TObjPlayerFv());
                 }
             }
         }
@@ -220,11 +220,11 @@ void TUnk_8049F998::vfunc_44() {
 
     switch ((s32) (((u8 (*)())get_item_index__5TItemFv)())) {
     case 0:
-        obj = *(struct VObj_80116A5C_80116634 * *)&this->m_f0;
+        obj = *(struct VObj_80116A5C_80116634 * *)&this->owner;
         obj->m51();
         return;
     case 1:
-        obj = *(struct VObj_80116A5C_80116634 * *)&this->m_f0;
+        obj = *(struct VObj_80116A5C_80116634 * *)&this->owner;
         obj->m52();
         return;
     }
@@ -330,7 +330,7 @@ u8 *create_status_cure_item(u8 *arg0) {
 }
 
 void TUnk_8049FA50::vfunc_44() {
-    struct VObj_80116BBC_80116634 *o = (struct VObj_80116BBC_80116634 *)this->m_f0;
+    struct VObj_80116BBC_80116634 *o = (struct VObj_80116BBC_80116634 *)this->owner;
     o->m48();
 }
 
@@ -368,7 +368,7 @@ u8 *create_sol_atomizer_item(u8 *arg0) {
 }
 extern "C" {
 
-void TUnk_8049FB08::vfunc_44() { send_star_atomizer_targets(*(void* *)&this->m_f0); }
+void TUnk_8049FB08::vfunc_44() { send_star_atomizer_targets(*(void* *)&this->owner); }
 
 extern void *item_star_atomizer_vtable[];
 

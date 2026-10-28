@@ -330,12 +330,12 @@ void TItemEquipBase::vfunc_50() {  }
 void TItemEquipBase::bind_loaded_resources() {
     s16 temp_r3;
     u8 *node;
-    if ((u32) this->m_f4 == 0U) {
+    if ((u32) this->item_model == 0U) {
         temp_r3 = *(s16 *)&this->m_172;
         if ((temp_r3 != -1) && (TItemLoad::has_resource_id((s32) temp_r3) == 1)) {
             node = (u8 *)(TItemLoad::find_node_by_id((s32) *(s16 *)&this->m_172));
             if (node != NULL) {
-                this->m_f4 = (u32) *(u32 *)((s8 *)node + 0);
+                this->item_model = (u32) *(u32 *)((s8 *)node + 0);
                 *(s32 *)&this->m_188 = (s32) *(s32 *)((s8 *)node + 4);
                 this->texture_id = (s32) *(s32 *)((s8 *)node + 0x10);
                 *(s32 *)&this->m_17c = (s32) *(s32 *)((s8 *)node + 0x14);
@@ -404,7 +404,7 @@ void TItemEquipBase::sub_8010A948() {
         apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 0);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x20, 0x40)) != 0) {
-        ((TItemEquipBase *)(this->m_f0 + 0x7CC))->check_flag_32();
+        ((TItemEquipBase *)(this->owner + 0x7CC))->check_flag_32();
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x80, 0x100)) != 0) {
         apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 1);
@@ -439,7 +439,7 @@ void TItemEquipBase::remove_equip_effects() {
         apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 0);
     }
     if (apply_ad_rico_ring(0x40) != 0) {
-        temp_r3 = this->m_f0;
+        temp_r3 = this->owner;
         if (temp_r3 != 0U) {
             ((TItemEquipBase *)(temp_r3 + 0x7CC))->clear_flag_c_bit5();
         }
@@ -581,7 +581,7 @@ void TItemEquipBase::remove_equip_stats(s32 arg1) {
 
 void TItemEquipBase::unequip() {
     u8 *arg0 = (u8 *)this;
-    if ((u32) this->m_f0 != 0U) {
+    if ((u32) this->owner != 0U) {
         ((TItem *)arg0)->set_mode(1);
         ((TItem *)arg0)->clear_item_flags(0x28);
         this->remove_equip_stats(1);
@@ -600,8 +600,8 @@ void TItemEquipBase::add_equip_stats(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     if (*(void **)((s8 *)arg0 + 0xF0) != NULL) {
         ((TItem *)arg0)->copy_to_item_data((TItemData *)&item);
-        ((TItemData *)(&item))->apply_equip_effects((s32)this->m_f0, (s32)((s32)(arg0 + 0x11C)), (s32)((s32)(arg0 + 0x14C)), (s32)(arg0 + 0xF8), (s32)(arg0 + 0x16C));
-        t = TItemData__sub_8010B810(this->m_f0);
+        ((TItemData *)(&item))->apply_equip_effects((s32)this->owner, (s32)((s32)(arg0 + 0x11C)), (s32)((s32)(arg0 + 0x14C)), (s32)(arg0 + 0xF8), (s32)(arg0 + 0x16C));
+        t = TItemData__sub_8010B810(this->owner);
         if (t != 0) {
             TItemData::add_s16((s16 *)t, (s32)(get_attack_params_atp_min(arg0 + 0x11C)));
             ((TItemData *)t)->add_stat(get_attack_params_atp_max(arg0 + 0x11C));
@@ -638,7 +638,7 @@ void TItemEquipBase::add_equip_stats(s32 arg1) {
 
 void TItemEquipBase::equip() {
     u8 *arg0 = (u8 *)this;
-    if ((u32) this->m_f0 != 0U) {
+    if ((u32) this->owner != 0U) {
         ((TItem *)arg0)->update_owner_visibility();
         ((TItem *)arg0)->set_mode(2);
         ((TItem *)arg0)->add_item_flags(8);
@@ -657,7 +657,7 @@ void TItemEquipBase::release() {
     if (temp != -1) {
         TItemLoad::release_resource_by_id(temp);
         *(s16 *)&this->m_172 = -1;
-        *(s32 *)&this->m_f4 = 0;
+        *(s32 *)&this->item_model = 0;
         this->texture_id = 0;
         *(s32 *)&this->m_188 = 0;
         *(s32 *)&this->m_17c = 0;

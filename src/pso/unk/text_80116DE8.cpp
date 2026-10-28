@@ -140,36 +140,36 @@ void *lbl_8049FBC0[45] = {
 void TUnk_8049FBC0::vfunc_44() {
     switch (get_item_index__5TItemFv()) {
     case 0:
-        ((TObjPlayer *)(this->m_f0))->add_stat_and_item(2);
+        ((TObjPlayer *)(this->owner))->add_stat_and_item(2);
         break;
     case 1:
-        if (check_class_equip_permission((void *)this->m_f0, 0xD7) == 0) {
-            ((TObjPlayer *)(this->m_f0))->add_mst_and_item(2);
+        if (check_class_equip_permission((void *)this->owner, 0xD7) == 0) {
+            ((TObjPlayer *)(this->owner))->add_mst_and_item(2);
         }
         break;
     case 2:
-        ((TObjPlayer *)(this->m_f0))->add_evp_material(2);
+        ((TObjPlayer *)(this->owner))->add_evp_material(2);
         break;
     case 3:
-        obj_getField1c((void *)this->m_f0);
+        obj_getField1c((void *)this->owner);
         if (calc_equip_bonus__FUs() < 0xFA) {
-            ((TObjPlayer *)(this->m_f0))->apply_speed_with_camera_scale((u8)(2));
+            ((TObjPlayer *)(this->owner))->apply_speed_with_camera_scale((u8)(2));
         }
         break;
     case 4:
-        obj_getField1c((void *)this->m_f0);
-        if ((calc_stat_bonus_sum__FUs() < 0xFA) && (check_class_equip_permission((void *)this->m_f0, 0xD7) == 0)) {
-            ((TObjPlayer *)(this->m_f0))->set_speed_scaled_by_camera((u8)(2));
+        obj_getField1c((void *)this->owner);
+        if ((calc_stat_bonus_sum__FUs() < 0xFA) && (check_class_equip_permission((void *)this->owner, 0xD7) == 0)) {
+            ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
         }
         break;
     case 5:
-        ((TObjPlayer *)(this->m_f0))->add_dfp_material(2);
+        ((TObjPlayer *)(this->owner))->add_dfp_material(2);
         break;
     case 6:
-        ((TObjPlayer *)(this->m_f0))->apply_luck_reward(2);
+        ((TObjPlayer *)(this->owner))->apply_luck_reward(2);
         break;
     }
-    ((VObj_18_ddf499 *)(this->m_f0))->m71();
+    ((VObj_18_ddf499 *)(this->owner))->m71();
 }
 void *__dt__13TUnk_8049FBC0Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

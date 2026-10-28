@@ -9,7 +9,7 @@
 struct TItemData;
 struct TObjPlayer;
 
-// TItem::m_dc bits.
+// TItem::item_flags bits.
 enum {
     ITEM_FLAG_EQUIPPABLE = 0x4,
     ITEM_FLAG_EQUIPPED = 0x8,
@@ -29,7 +29,7 @@ enum {
     ITEM_RENDER_SHIELD_TEV = 0x10,
 };
 
-// TItem::render_mode values.
+// TItem::mode values.
 enum {
     ITEM_MODE_GROUND = 0,
     ITEM_MODE_OWNED = 1,     // in an inventory
@@ -121,7 +121,7 @@ struct TItem : public TUnk_804AF8A0 {
     u32 get_usable_action_flags(u32 mask, u32 player);
     void unregister_from_world();
     void register_in_world(s32 clear_status);
-    void set_mode(s8 mode);
+    void set_mode(s8 new_mode);
     void calc_display_grade();
     void check_equip_requirements(TObjPlayer *player, s16 *result);
     void draw_model();
@@ -154,28 +154,27 @@ struct TItem : public TUnk_804AF8A0 {
     u8 get_item_index();
     static void push_equipped_id(s32 id);
 
-    void* m_ac;
-    u8 unk_B0[0x24];
-    u32 m_d4;
-    u32 m_d8;
-    u32 m_dc;
-    u32 m_e0;
-    u16 m_e4;
-    s16 m_e6;
-    u16 m_e8;
-    char m_ea;
-    u8 render_mode;
-    u8 m_ec;
-    u8 m_ed;
-    u8 m_ee;
-    u8 model_index;
-    u32 m_f0;
-    u32 m_f4;
+    CollisionBody collision_body;  // the pick-up sphere (item_collider_body)
+    u32 item_id;
+    u32 item_flags;                // ITEM_FLAG_*
+    u32 model_node_callback;       // visit callback for draw_model_nodes
+    u16 owner_client_id;           // 0xFFFF: nobody's
+    s16 pickup_wait_frames;        // frames a pick-up request has been pending
+    u16 kill_count;                // ITEM_FLAG_KILL_COUNTER items
+    char box_color;                // present/drop box colour (item_box_*_colors)
+    u8 mode;                       // ITEM_MODE_*
+    u8 item_type;                  // the item code bytes data1[0..2]
+    u8 item_group;
+    u8 item_index;
+    u8 drop_model;                 // ground model, < ITEM_MODEL_COUNT
+    u32 owner;                     // the TObjPlayer carrying it
+    u32 item_model;                // the NJS_OBJECT tree drawn for it
 };
 
-typedef char TItemModeOffset[(offsetof(TItem, render_mode) == 0xEB) ? 1 : -1];
-typedef char TItemModelOffset[(offsetof(TItem, model_index) == 0xEF) ? 1 : -1];
-typedef char TItemIdOffset[(offsetof(TItem, m_d8) == 0xD8) ? 1 : -1];
+typedef char TItemCollisionOffset[(offsetof(TItem, collision_body) == 0xAC) ? 1 : -1];
+typedef char TItemIdOffset[(offsetof(TItem, item_id) == 0xD8) ? 1 : -1];
+typedef char TItemModeOffset[(offsetof(TItem, mode) == 0xEB) ? 1 : -1];
+typedef char TItemModelOffset[(offsetof(TItem, drop_model) == 0xEF) ? 1 : -1];
 typedef char TItemSize[(sizeof(TItem) == 0xF8) ? 1 : -1];
 
 extern NJS_ARGB item_box_primary_colors[6];

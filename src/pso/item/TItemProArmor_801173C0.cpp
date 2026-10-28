@@ -99,7 +99,7 @@ void create__13TItemProArmorFiUi(s32 arg0, u32 arg1) {
     }
 }
 
-void TUnk_8049FED0::vfunc_44() { create__13TItemProArmorFiUi(tl_05, this->m_f0); }
+void TUnk_8049FED0::vfunc_44() { create__13TItemProArmorFiUi(tl_05, this->owner); }
 
 extern s32 lbl_8049FED0[];
 

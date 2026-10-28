@@ -81,7 +81,7 @@ u8 *create_technique_disk_item(u8 *arg0) {
 }
 
 void TUnk_8049FD48::vfunc_44() {
-    launch_technique__10TObjPlayerFv(0xE, 0, this->m_f0);
+    launch_technique__10TObjPlayerFv(0xE, 0, this->owner);
 }
 
 extern s32 lbl_8049FD48[];
@@ -117,7 +117,7 @@ u8 *create_telepipe_item(u8 *arg0) {
     return NULL;
 }
 
-int TItemProArmor::get_stat_value() { return obj_getS16_2BA(*(void* *)&this->m_f0); }
+int TItemProArmor::get_stat_value() { return obj_getS16_2BA(*(void* *)&this->owner); }
 
 extern s32 game_difficulty_selection;
 

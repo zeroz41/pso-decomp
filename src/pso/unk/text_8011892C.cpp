@@ -104,11 +104,11 @@ void TItemProUnit::vfunc_49() {
     u8 *arg0 = (u8 *)this;
     s32 i;
     if ((s16) *(s16 *)((s8 *)arg0 + 0x18C) == 0x13) {
-        ((TItemProUnit *)(this->m_f0 + 0x7CC))->set_evp(TItemProUnit__data_805DABF8);
+        ((TItemProUnit *)(this->owner + 0x7CC))->set_evp(TItemProUnit__data_805DABF8);
     }
     i = 0;
     do {
-        set_technique_level_entry((void *)(this->m_f0 + 0x428), (s16) i, (u8) (get_cast_technique_level((void *)(this->m_f0 + 0x428), (s16) i) - ((PU_801189AC *)arg0)->arr[i]));
+        set_technique_level_entry((void *)(this->owner + 0x428), (s16) i, (u8) (get_cast_technique_level((void *)(this->owner + 0x428), (s16) i) - ((PU_801189AC *)arg0)->arr[i]));
         i += 1;
     } while (i != 0x13);
     memset(arg0 + 0x192, 0, 0x26);
