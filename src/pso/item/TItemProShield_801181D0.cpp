@@ -112,7 +112,7 @@ void TItemProShield::on_equip() {
     s32 temp_r3_5;
     u8 slot_count;
     if (is_hidden() == 0) {
-        play_sound_effect(0x4000B20A, (int)this->owner->position, 0, 0);
+        play_sound_effect(0x4000B20A, (int)&this->owner->position, 0, 0);
     }
     if ((u32) this->effect_objects != 0U) {
         slot_count = this->get_item_index();

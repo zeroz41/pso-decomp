@@ -71,7 +71,7 @@ void TOSignCave02::render() {
     if (((VObj_18_26a62c *)(this))->m8(m_c0, (*(f32 *)&this->m_c4)) != 0) {
         TObjFish::set_global_param(texture_id);
         push_matrix();
-        post_translate_matrix(position);
+        post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         node1 = (*(CaveSignModel * *)&this->model);
         translate_matrix(0, node1->x, node1->y, node1->z);

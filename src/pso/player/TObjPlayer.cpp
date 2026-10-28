@@ -143,7 +143,7 @@ void *TObjPlayer__sub_801BEDC0(void *arg0, s16 arg1) {
     return arg0;
 }
 
-void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position[0] = a; this->position[1] = b; this->position[2] = c; }
+void TObjPlayer::set_position(f32 a, f32 b, f32 c) { this->position.x = a; this->position.y = b; this->position.z = c; }
 
 void TObjPlayer::set_meseta(s32 arg1) {
     *(s32 *)(this->m_2b0 + 0x20) = arg1;

@@ -114,8 +114,8 @@ void TObjGyaranzoMissile::sub_800D47B4() {
             }
         }
     }
-    spawn_particle_effect(position, 0xFB);
-    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), position, 0, 0);
+    spawn_particle_effect(&position, 0xFB);
+    play_sound_effect((void *)remap_area_sound_id(0x4003A80C, 0x19), &position, 0, 0);
     queue_destruction__7TObjectFv(this);
 }
 
@@ -140,7 +140,7 @@ void TObjGyaranzoMissile::run_task() {
     t = find_active_entity_by_id(target_id);
     if (t != NULL) {
         Vec d = t->pos;
-        subtract_vector(&d, position);
+        subtract_vector(&d, &position);
         dist = vector_length(&d);
         if (timer >= 15 && dist > TObjGyaranzoMissile__max_range) {
             vec_set_length(&d, TObjGyaranzoMissile__max_range);
@@ -148,18 +148,18 @@ void TObjGyaranzoMissile::run_task() {
             vec_set_length(&velocity, TObjGyaranzoMissile__speed_scale);
         }
     }
-    VecCopy(&prev_position, (const Vec *)position);
-    vec3_add_to(position, &velocity);
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
     direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
-        if (csnVector(&prev_position, position, -1) != 0) {
+        if (csnVector(&prev_position, &position, -1) != 0) {
             sub_800D47B4();
             return;
         }
-        Vec p = *(Vec *)position;
+        Vec p = *&position;
         if (project_actor_to_ground(this, &p, 0) == 1) {
-            if (position[1] - p.y < 22.0f) {
+            if (position.y - p.y < 22.0f) {
                 collision->flags |= 2;
                 collision->flags &= ~4;
                 ((TObjPlayer *)this)->check_object_collisions();
@@ -202,7 +202,7 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b.value, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->m_a4)->radius = (f32) 4.0f;
-    VecCopy((Vec *)((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
+    VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
     *(s32 *)((s8 *)gyaranzo_missile + 0x5C) = (s32) *(s32 *)((s8 *)arg2 + 4);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->rotation_y = (s32) *(s32 *)((s8 *)arg2 + 8);

@@ -480,7 +480,7 @@ int release_object__11TBoss6Type1FPv(void*);
 void TBoss6Type1::draw_model() {
     TObjPlayer::toggle_particle_effect();
     push_matrix();
-    Vec pos = *(Vec *)position;
+    Vec pos = *&position;
     pos.y = pos.y + m_4e8;
     post_translate_matrix(&pos);
     rotate_matrix_y(0, rotation_y);
@@ -507,7 +507,7 @@ void TBoss6Type1::release_object(void *) {
 void TBoss6Type1::spawn_map_csn() {
     MapCsnSetData data;
     Vec offset;
-    VecCopy(&data.position, (const Vec *)position);
+    VecCopy(&data.position, &position);
     push_matrix();
     set_matrix_identity(0);
     rotate_matrix_y(0, rotation_y);
@@ -640,7 +640,7 @@ void TBoss6Type1::rotate_around_center(s32 num, s32 den) {
     }
     {
     {
-        VecCopy((Vec *)&v, (const Vec *)&this->position);
+        VecCopy((Vec *)&v, &this->position);
         v.y = TBoss6Type1__data_805DE2D0;
         dist = ((f32 (*)(void *))vector_length)(&v);
         angle = (s32)(TBoss6Type1__data_80471038 * atan2_float(v.x, v.z));
@@ -1705,7 +1705,7 @@ void TBoss6Type1::update_part_positions() {
 }
 
 void TBoss6Type1::update_position() {
-    VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
+    VecCopy((Vec *)&this->m_2fc, &this->position);
     if ((s32) this->m_438 != 0) {
         this->m_300 = (f32) (this->m_300 - lbl_805DE3A4);
         return;
@@ -2075,7 +2075,7 @@ void TBoss6Type1::run_task() {
 }
 
 void TBoss6Type1::render_shadows() {
-    if (this->position[1] >= lbl_805DE3D0) {
+    if (this->position.y >= lbl_805DE3D0) {
         render_shadows__9TObjEnemyFv();
     }
 }

@@ -65,35 +65,35 @@ void TUnk_80484A94::run_task() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL) {
         Vec steer = *(Vec *)&player->m_2fc;
-        subtract_vector(&steer, (Vec *)position);
+        subtract_vector(&steer, &position);
         vec_set_length(&steer, fn_800499FC(1));
         vec3_add_to(&velocity, &steer);
         vec_set_length(&velocity, fn_800499FC(0));
     }
-    VecCopy(&prev_position, (Vec *)position);
-    vec3_add_to((Vec *)position, &velocity);
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
     direction_to_rotation_yx((u8 *)&velocity, &rotation_y, &rotation_z);
     rotation_z -= 0x4000;
     if (trail != NULL) {
-        ((TNowLoading *)trail)->copy_pos(position);
+        ((TNowLoading *)trail)->copy_pos(&position);
         ((TBoss4Type2 *)trail)->copy_vec3(&rotation_x);
     }
     if (glow != NULL) {
-        ((TNowLoading *)glow)->copy_pos(position);
+        ((TNowLoading *)glow)->copy_pos(&position);
         ((TBoss4Type2 *)glow)->copy_vec3(&rotation_x);
     }
-    if (csnVector(&prev_position, (Vec *)position, -1) != 0) {
+    if (csnVector(&prev_position, &position, -1) != 0) {
         queue_destruction();
         return;
     }
-    if (position[1] < 25.0f && try_capture_target() != 0) {
+    if (position.y < 25.0f && try_capture_target() != 0) {
         queue_destruction();
     }
     if (--lifetime <= 0) {
         queue_destruction();
         return;
     }
-    play_persistent_sound(0x4003C11D, this, (Vec *)position, 0, 0);
+    play_persistent_sound(0x4003C11D, this, &position, 0, 0);
 }
 
 TUnk_80484A94::~TUnk_80484A94() {
@@ -112,11 +112,11 @@ TUnk_80484A94::~TUnk_80484A94() {
 TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TUnk_804AF8A0(owner) {
     init_collision_body_parts(this, volopt_shot_collision_body, 1);
     entity_id = get_entity_id(owner);
-    VecCopy((Vec *)position, pos);
+    VecCopy(&position, pos);
     target_id = target;
     rotation_x = 0;
-    trail = spawn_particle_effect_with_rotation(position, &rotation_x, 0x11C, 2);
-    glow = spawn_particle_effect_with_rotation(position, &rotation_x, 0x11D, 2);
+    trail = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x11C, 2);
+    glow = spawn_particle_effect_with_rotation(&position, &rotation_x, 0x11D, 2);
     push_matrix_from(identity_matrix);
     {
         Vec dir = volopt_shot_forward;

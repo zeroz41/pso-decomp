@@ -1052,10 +1052,10 @@ s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self) {
         e = ((Ent_800E8AD0 *(*)(s32))get_player_by_client_id)(id);
         if (e != NULL) {
             TObjPlayer *pl = (TObjPlayer *)e;
-            f32 lo = pl->position[1] - lbl_805DA6AC;
-            f32 hi = lbl_805DA6AC + (pl->position[1] + pl->m_d48);
+            f32 lo = pl->position.y - lbl_805DA6AC;
+            f32 hi = lbl_805DA6AC + (pl->position.y + pl->m_d48);
             if (!(self->m_300 < lo) && !(self->m_300 > hi) &&
-                !(horizontal_distance_squared(&self->m_2fc, pl->position) > lbl_805DA6B0)) {
+                !(horizontal_distance_squared(&self->m_2fc, &pl->position) > lbl_805DA6B0)) {
                 if (e->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != lbl_805DA6B4) {
                     e->m23(self);
                 }
@@ -1394,14 +1394,14 @@ void TBoss8Dragon__sub_800E92D8(TObjEneSlimeOne *self) {
     do {
         Vec next;
         Vec probe;
-        VecCopy(&next, (Vec *)self->position);
+        VecCopy(&next, &self->position);
         vec3_add_to(&next, &self->m_3dc);
         VecCopy(&probe, &next);
         probe.y += lbl_805DA6AC + fabs_float(self->m_3dc.y);
         if (project_actor_to_ground(self, &probe, 0) != 0) {
-            VecCopy((Vec *)self->position, &next);
-            if (!(self->position[1] > probe.y)) {
-                self->position[1] = probe.y;
+            VecCopy(&self->position, &next);
+            if (!(self->position.y > probe.y)) {
+                self->position.y = probe.y;
                 landed = 1;
             }
             break;
@@ -1414,11 +1414,11 @@ void TBoss8Dragon__sub_800E92D8(TObjEneSlimeOne *self) {
     if (tries == 0) {
         Vec probe;
         self->m_3dc.x = self->m_3dc.z = lbl_805DA6B4;
-        VecCopy(&probe, (Vec *)self->position);
+        VecCopy(&probe, &self->position);
         probe.y += lbl_805DA6AC + fabs_float(self->m_3dc.y);
         if (project_actor_to_ground(self, &probe, 0) != 0) {
-            if (!(self->position[1] > probe.y)) {
-                self->position[1] = probe.y;
+            if (!(self->position.y > probe.y)) {
+                self->position.y = probe.y;
                 landed = 1;
             }
         } else {
@@ -1426,7 +1426,7 @@ void TBoss8Dragon__sub_800E92D8(TObjEneSlimeOne *self) {
         }
     }
     if (self->m_3e8 != NULL) {
-        ((TNowLoading *)self->m_3e8)->copy_pos(self->position);
+        ((TNowLoading *)self->m_3e8)->copy_pos(&self->position);
     }
     if (landed != 0) {
         if (self->m_3e8 != NULL) {
@@ -1434,7 +1434,7 @@ void TBoss8Dragon__sub_800E92D8(TObjEneSlimeOne *self) {
             self->m_3e8 = NULL;
         }
         for (angle = 0; angle < 0xFFFF; angle += 0x1000) {
-            Vec p = *(Vec *)self->position;
+            Vec p = *&self->position;
             p.x = lbl_805DA704 * sin_table_lookup(angle) + p.x;
             p.y += lbl_805DA708;
             p.z = lbl_805DA704 * cos_table_lookup(angle) + p.z;

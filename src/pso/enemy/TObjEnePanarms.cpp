@@ -643,7 +643,7 @@ void TObjEnePanarms::update_attack() {
     }
     if (this->m_c0 < TObjEnePanarms__data_805DA544) {
         temp_f3 = *(f32 *)((s8 *)entity + 0x38);
-        this->rotation_y = approach_angle_limited(this->rotation_y, lbl_8043CDA0[this->m_380] + (s32) (TObjEnePanarms__data_8043CDD0 * atan2_float(temp_f3 - *(f32 *)&this->position[0], *(f32 *)((s8 *)entity + 0x40) - this->position[2], temp_f3)), 0x200);
+        this->rotation_y = approach_angle_limited(this->rotation_y, lbl_8043CDA0[this->m_380] + (s32) (TObjEnePanarms__data_8043CDD0 * atan2_float(temp_f3 - this->position.x, *(f32 *)((s8 *)entity + 0x40) - this->position.z, temp_f3)), 0x200);
     }
     if (*(s32 *)&this->animationFlags & 0x10) {
         TObjEnePanarms__sub_800E1C98(arg0, 0xA);
@@ -1121,7 +1121,7 @@ void TObjEnePanarms::init_split() {
 void TObjEnePanarms::snap_to_parent_position() {
     u8 *arg0 = (u8 *)this;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(this->m_39c + 0x38));
-    this->position[0] = (f32) (this->position[0] + lbl_805DA580);
+    this->position.x = (f32) (this->position.x + lbl_805DA580);
     *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (*(f32 *)((s8 *)arg0 + 0x3C) + lbl_805DA580);
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
 }
@@ -1406,10 +1406,10 @@ void TObjEnePanBARA::vfunc_63() {
     default:
         if (st == 0) {
             this->rotation_y = *(s32 *)(this->m_39c + 0x60) + panarms_turn_delta_table[this->m_380];
-            VecCopy((Vec *)&this->position, (const Vec *)(this->m_39c + 0x38));
+            VecCopy(&this->position, (const Vec *)(this->m_39c + 0x38));
             *(f32 *)((s8 *)arg0 + 0x38) += lbl_805DA588 * sin_table_lookup(this->rotation_y);
             *(f32 *)((s8 *)arg0 + 0x40) += lbl_805DA588 * cos_table_lookup(this->rotation_y);
-            VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
+            VecCopy((Vec *)&this->m_2fc, &this->position);
         }
         ((int (*)(void*, int))TObjEnePanarms__sub_800E1C98)(arg0, 7);
         break;

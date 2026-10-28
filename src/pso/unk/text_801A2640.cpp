@@ -34,11 +34,11 @@ TUnk_804B9870::TUnk_804B9870(TObject *parent) : TObject(parent) {
     texture_id = 0;
     model = NULL;
     set_entry = NULL;
-    position[0] = lbl_805DC098;
-    position[1] = lbl_805DC098;
-    position[2] = lbl_805DC098;
-    VecCopy(&prev_position, (const Vec *)position);
-    VecCopy(&home_position, (const Vec *)position);
+    position.x = lbl_805DC098;
+    position.y = lbl_805DC098;
+    position.z = lbl_805DC098;
+    VecCopy(&prev_position, &position);
+    VecCopy(&home_position, &position);
     rotation_x = 0;
     rotation_y = 0;
     rotation_z = 0;

@@ -218,7 +218,7 @@ void send_star_atomizer_targets(void *player) {
 void*TItemObject::vfunc_9() {
     TObjPlayer *player = this->owner;
     if (player != NULL) {
-        return (u8 *)player->position;
+        return (u8 *)&player->position;
     }
     return (u8 *)&this->position;
 }

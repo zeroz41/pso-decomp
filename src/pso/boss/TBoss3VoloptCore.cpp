@@ -198,7 +198,7 @@ void TBoss3VoloptCore::run_task() {
         sub_80040558();
         return;
     }
-    VecCopy(&prev_position, (Vec *)position);
+    VecCopy(&prev_position, &position);
     if (hit_cooldown > 0) {
         hit_cooldown--;
     }
@@ -226,7 +226,7 @@ void TBoss3VoloptCore::run_task() {
             state = 0;
         }
         dispatch_reaction_state();
-        position[1] = (position[1] > 7.0f) ? position[1] : 7.0f;
+        position.y = (position.y > 7.0f) ? position.y : 7.0f;
         update_prev_position();
         TBoss3Volopt::set_camera_focus((Vec *)&m_2fc);
         clear_all_status_effects();
@@ -269,7 +269,7 @@ void TBoss3VoloptCore::render() {
         TObjFish::set_global_param(texture_id);
         push_matrix();
         model_render_flags &= ~0x400;
-        post_translate_matrix(position);
+        post_translate_matrix(&position.x);
         rotate_matrix_x(0, rotation_x);
         if (m_388 & 0x10000) {
             rotate_matrix_y(0, facing_angle);
@@ -300,15 +300,15 @@ void TBoss3VoloptCore::update_charge_state() {
         if ((s32)m_380 == 4) {
             state = charge_step;
         } else {
-            VecCopy(&home_pos, (Vec *)position);
+            VecCopy(&home_pos, &position);
             charge_step = 1;
             state = 1;
             charge_timer = 0x1E;
         }
         break;
     case 1:
-        VecCopy((Vec *)unk_308, (Vec *)((TObjPlayer *)target)->position);
-        subtract_vector((Vec *)unk_308, (Vec *)position);
+        VecCopy((Vec *)unk_308, &((TObjPlayer *)target)->position);
+        subtract_vector((Vec *)unk_308, &position);
         ((TObjPlayer *)this)->update_angle(0x800, unk_308);
         if (--charge_timer <= 0) {
             charge_timer = 0x96;
@@ -328,10 +328,10 @@ void TBoss3VoloptCore::update_charge_state() {
             return;
         }
         VecCopy((Vec *)unk_308, (Vec *)&player->m_2fc);
-        subtract_vector((Vec *)unk_308, (Vec *)position);
+        subtract_vector((Vec *)unk_308, &position);
         vec_set_length((Vec *)unk_308, 5.0f);
         ((TObjPlayer *)this)->update_angle(0x800, unk_308);
-        vec3_add_to((Vec *)position, (Vec *)unk_308);
+        vec3_add_to(&position, (Vec *)unk_308);
         if (check_target_collision() != 0) {
             charge_step = 4;
             state = 4;
@@ -343,10 +343,10 @@ void TBoss3VoloptCore::update_charge_state() {
         break;
     case 4:
         VecCopy((Vec *)unk_308, &home_pos);
-        subtract_vector((Vec *)unk_308, (Vec *)position);
+        subtract_vector((Vec *)unk_308, &position);
         distance = vec_set_length((Vec *)unk_308, 5.0f);
         ((TObjPlayer *)this)->update_angle(0x800, unk_308);
-        vec3_add_to((Vec *)position, (Vec *)unk_308);
+        vec3_add_to(&position, (Vec *)unk_308);
         check_target_collision();
         if (distance < 10.0f) {
             targetId = 0xFFFF;
@@ -355,7 +355,7 @@ void TBoss3VoloptCore::update_charge_state() {
         break;
     }
     advance_animation_playback(this);
-    minimap_render_dot(position, -0x5DB4, 1, 0);
+    minimap_render_dot(&position.x, -0x5DB4, 1, 0);
 }
 
 void TBoss3VoloptCore::update_grabbed_state() {
@@ -487,18 +487,18 @@ void TBoss3VoloptCore::update_orbit_position() {
     s32 offset = ((u16)orbit_angle % 10922) - 0x1555;
     if (m_388 & 0x20000) {
         orbit_radius = 134.0f / cos_table_lookup(offset);
-        position[1] = 50.0f;
+        position.y = 50.0f;
     } else {
         orbit_radius = 128.0f / cos_table_lookup(offset);
-        position[1] = 15.0f;
+        position.y = 15.0f;
     }
     push_matrix();
     radius = orbit_radius;
-    position[0] = radius;
-    position[2] = 0.0f;
+    position.x = radius;
+    position.z = 0.0f;
     set_matrix_identity(0, radius);
     rotate_matrix_y(0, orbit_angle);
-    rotate_vector_by_matrix(0, (Vec *)position, (Vec *)position);
+    rotate_vector_by_matrix(0, &position, &position);
     pop_matrix();
 }
 
@@ -513,7 +513,7 @@ s32 TBoss3VoloptCore::calc_hit_zone_index() {
     angle = orbit_angle;
     zone = -1;
     offset = (u16)angle % 0x2AAA - 0x1555;
-    if (position[1] >= 25.0f) {
+    if (position.y >= 25.0f) {
         if (__abs(offset) <= 0x8DC) {
             zone = 0;
         }
@@ -579,13 +579,13 @@ void TBoss3VoloptCore::update_orbit_state() {
             drop_angle = orbit_angle;
             ((TObjEneMe1GiGue *)this)->update_if_active(9);
         }
-        play_persistent_sound(0x4003BC05, this, position, 0, 0);
+        play_persistent_sound(0x4003BC05, this, &position.x, 0, 0);
         break;
     case -1:
         break;
     }
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
     }
 }
 
@@ -606,10 +606,10 @@ void TBoss3VoloptCore::sub_8003F81C() {
         break;
     case 2:
         if (--*(s16 *)&timer <= 0) {
-            Vec pos = *(Vec *)position;
+            Vec pos = *&position;
             pos.y -= 20.0f;
             effect = create_particle_emitter(&pos, 0x31);
-            play_sound_effect(0x4003AD1E, position, 0, 0);
+            play_sound_effect(0x4003AD1E, &position.x, 0, 0);
             state = 3;
         }
         break;
@@ -628,7 +628,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
     }
     advance_animation_playback(this);
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
     }
 }
 
@@ -688,7 +688,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     case 3:
-        play_persistent_sound(0x4003BC05, this, position, 0, 0);
+        play_persistent_sound(0x4003BC05, this, &position.x, 0, 0);
         advance_animation_playback(this);
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);
@@ -701,7 +701,7 @@ void TBoss3VoloptCore::update_topple_state() {
     }
     advance_animation_playback(this);
     if (vol_opt_active_hit_zone >= 0) {
-        minimap_render_dot(position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position.x, -0x5DB4, 1, 0);
     }
 }
 

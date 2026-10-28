@@ -371,7 +371,7 @@ void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq) {
             case 3: {
                 TUnk_804806E8 *anchor = find_entity_by_id(lbl_805D5D18);
                 if (anchor != NULL) {
-                    VecCopy(&seq->position, (Vec *)anchor->position);
+                    VecCopy(&seq->position, &anchor->position);
                 }
                 break;
             }

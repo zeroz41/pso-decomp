@@ -152,7 +152,7 @@ typedef char RecoveredGlobal_800D9E8C_lbl_8058D490_size[sizeof(RecoveredGlobal_8
 void TObjPlayer::render_model_transformed() {
     f32 temp_f1;
     ((s32 (*)(u32))push_matrix_from)((u32) &identity_matrix.value);
-    translate_matrix(0, (f32) (*(f32 *)&this->position[0]), (f32) (this->m_404 + (*(f32 *)&this->position[1] + *(f32 *)&this->m_3e4)), this->position[2]);
+    translate_matrix(0, (f32) (this->position.x), (f32) (this->m_404 + (this->position.y + *(f32 *)&this->m_3e4)), this->position.z);
     rotate_matrix_y(0, this->rotation_y);
     temp_f1 = this->scale.x;
     scale_matrix(0, temp_f1, temp_f1, temp_f1);
@@ -1709,7 +1709,7 @@ void TObjEneNanoDrago::run_task() {
         temp_r3_4 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->m_a4);
         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 2);
     }
-    if (xz_distance_squared((Vec *)&this->position, &this->prev_position) > 2500.0f) {
+    if (xz_distance_squared(&this->position, &this->prev_position) > 2500.0f) {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x44));
     }
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));

@@ -41,7 +41,7 @@ void TUnk_804B9870::apply_object_set_data(void *src_arg) {
     Src_801A1F48 *src = (Src_801A1F48 *)src_arg;
     s32 i;
     entity_id = src->id;
-    VecCopy(&home_position, VecCopy((Vec *)position, (const Vec *)&src->pos));
+    VecCopy(&home_position, VecCopy(&position, (const Vec *)&src->pos));
     ((TObjPlayer *)&rotation_x)->copy_xyz(&src->rot);
     VecCopy(&scale, (const Vec *)&src->v24);
     room = src->kind;

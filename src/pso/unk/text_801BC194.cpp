@@ -78,7 +78,7 @@ void TObjPlayer::place_on_area_entry() {
     ((TBoss4DarkFalz *)arg0)->save_position();
     ((TUnk_804806E8 *)arg0)->calc_attach_pos();
     ((TObjPlayer *)(arg0 + 0x84C))->copy_offset_position(arg0);
-    ((TObjPlayer *)arg0)->set_position_history_entry(0, this->position[0], this->position[2]);
+    ((TObjPlayer *)arg0)->set_position_history_entry(0, this->position.x, this->position.z);
     clear_movement_history((u8 *)&this->m_6ac);
     if (is_single_screen__10TObjPlayerFv() != 0) {
         reset_cameras_to_actor(arg0, 0);

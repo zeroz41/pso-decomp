@@ -110,7 +110,7 @@ TUnk_80483B88::~TUnk_80483B88() {}
 
 void TUnk_80483B88::run_task() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
-    if (player != NULL && player->position[2] >= 4000.0f) {
+    if (player != NULL && player->position.z >= 4000.0f) {
         init_music_sequencer(3);
         queue_destruction();
     }

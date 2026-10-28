@@ -21,9 +21,9 @@ void PadRumbleLevel::accumulate(s32 client_id, s32 channel) {
             if (effect->is_active() && ((effect->flags & PAD_RUMBLE_ALL_CLIENTS) || client_id == effect->client_id)) {
                 if (effect->flags & PAD_RUMBLE_POSITIONAL) {
                     Vec offset;
-                    offset.x = effect->pos.x - player->position[0];
-                    offset.y = effect->pos.y - player->position[1];
-                    offset.z = effect->pos.z - player->position[2];
+                    offset.x = effect->pos.x - player->position.x;
+                    offset.y = effect->pos.y - player->position.y;
+                    offset.z = effect->pos.z - player->position.z;
                     s16 felt = effect->strength - 0.1f * ((TObjBoss2Tunnel *)&offset)->update_scale();
                     if (felt < 10) {
                         felt = 10;

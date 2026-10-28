@@ -197,9 +197,9 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TUnk_804B9870 *parent, u16 id, s32 inde
     push_matrix();
     set_matrix_identity(NULL);
     rotate_matrix_y(NULL, rotation_y);
-    matrix_mult_vec(NULL, &volopt_monitor_offsets[variant], (Vec *)position);
+    matrix_mult_vec(NULL, &volopt_monitor_offsets[variant], &position);
     pop_matrix();
-    VecCopy(&volopt_slot_positions[slot], (Vec *)position);
+    VecCopy(&volopt_slot_positions[slot], &position);
     volopt_slot_positions[slot].y = (slot & 3) == 0 ? 43.0f : 15.0f;
     init_collision_body_parts(this, &volopt_monitor_collision[variant], 1);
     ((CollisionState *)m_a4)->flags |= 0x500;
@@ -279,7 +279,7 @@ void TBoss3VoloptMonitor::run_task() {
     if (obj_testFlags30(0x800) == 0) {
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         submit_cursor_candidate(this, -1);
-        minimap_render_dot((Vec *)position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
     }
     if (!(actorFlags & 0x800)) {
         if (--anim_timer <= 0) {
@@ -379,7 +379,7 @@ void TBoss3VoloptMonitor::sub_80041E88() {
         anim_timer = 3;
         anim_frame = 0;
         m_388 |= 0x10000;
-        play_sound_effect(0x4003BC03, (Vec *)position, 0, 0);
+        play_sound_effect(0x4003BC03, &position, 0, 0);
         damage_player_if_aligned();
         referenceHp = hp;
         *(s16 *)&timer = 3;
@@ -402,7 +402,7 @@ void TBoss3VoloptMonitor::sub_80041D3C() {
     TBoss3VoloptMonitor *other;
     switch (state) {
     case 0:
-        play_sound_effect(0x4003A804, (Vec *)position, 0, 0);
+        play_sound_effect(0x4003A804, &position, 0, 0);
         damage_player_if_aligned();
         spawn_effects();
         volopt_target_slot_used[slot] = 1;

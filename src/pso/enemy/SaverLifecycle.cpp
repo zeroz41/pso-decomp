@@ -765,7 +765,7 @@ void TObjPlayer__sub_800A49B4(TObjEneSaver *self) {
     }
     ((TObjPlayer *)self)->check_object_collisions();
     check_enemy_body_collisions(self);
-    minimap_render_dot(self->position, -0x5DB4, 1, 0);
+    minimap_render_dot(&self->position, -0x5DB4, 1, 0);
     self->actorFlags &= ~0x200000;
 }
 #pragma pop

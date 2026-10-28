@@ -449,7 +449,7 @@ void TObjDoor::update_state() {
         set_indexed_flags(0, 1);return;
     case 1:
         if(this->cameraMode==1 && activate_camera_mode(9)!=0) {
-            VecCopy((Vec *)target, (const Vec *)this->position);
+            VecCopy((Vec *)target, &this->position);
             VecCopy((Vec *)position, (const Vec *)((f32 *)&this->scale));
             set_active_camera_pose((u8 *)position, (u8 *)target);this->cameraMode=2;
         }
@@ -469,14 +469,14 @@ void TObjDoor::update_state() {
         }
         break;
     case 4:
-        play_persistent_sound(0x49e08, (s32)this, (u32)this->position, 0, 0);
+        play_persistent_sound(0x49e08, (s32)this, (u32)&this->position, 0, 0);
         this->frame+=(1.8f);
         if(this->frame>(TObjDoor__motion_table[0]->frameCount-1)) {
             this->frame=(TObjDoor__motion_table[0]->frameCount-1);this->state=5;
         }
         break;
     case 3:
-        play_persistent_sound(0x49e08, (s32)this, (u32)this->position, 0, 0);
+        play_persistent_sound(0x49e08, (s32)this, (u32)&this->position, 0, 0);
         this->frame-=1.8f;
         if(this->frame<0.0f) {this->frame=0.0f;this->state=2;}
         break;

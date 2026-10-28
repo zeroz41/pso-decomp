@@ -1162,9 +1162,9 @@ void TObjPlayer__sub_8001053C(u8 *arg0) {
 }
 
 void TObjPlayer::apply_velocity() {
-    *(f32 *)&this->position[0] = (f32) (*(f32 *)&this->position[0] + *(f32 *)&this->unk_308);
-    *(f32 *)&this->position[1] = (f32) (*(f32 *)&this->position[1] + this->y_speed);
-    this->position[2] = (f32) (this->position[2] + *(f32 *)&this->m_310);
+    this->position.x = (f32) (this->position.x + *(f32 *)&this->unk_308);
+    this->position.y = (f32) (this->position.y + this->y_speed);
+    this->position.z = (f32) (this->position.z + *(f32 *)&this->m_310);
 }
 
 s16 TObjPlayer::clamp_tp() {
@@ -4430,9 +4430,9 @@ s32 TUnk_804806E8::recalc_combat_stats(void *motion_arg, void *arg2, void *bonus
 void TUnk_804806E8::calc_attach_pos() {
     u8 *arg0 = (u8 *)this;
     if ((void *) this->m_2b0 != NULL) {
-        this->m_2fc = (f32) this->position[0];
-        this->m_300 = (f32) (((0.5f) * *(f32 *)(this->m_2b0 + 0x10)) + this->position[1]);
-        this->m_304 = (f32) this->position[2];
+        this->m_2fc = (f32) this->position.x;
+        this->m_300 = (f32) (((0.5f) * *(f32 *)(this->m_2b0 + 0x10)) + this->position.y);
+        this->m_304 = (f32) this->position.z;
         return;
     }
     ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x2FC, (u8 *)&this->position);

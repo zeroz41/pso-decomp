@@ -1077,7 +1077,7 @@ void TBoss4Type3::run_task() {
     e = ((u8 *(*)(void *, f32))lookup_entry_by_value__10TObjPlayerFPvf)(p, lim);
     push_matrix();
     set_matrix_identity(0);
-    post_translate_matrix(&this->position[0]);
+    post_translate_matrix(&this->position.x);
     rotate_matrix_y(0, this->rotation_y);
     matrix_mult_vec(0, e, v[0]);
     matrix_mult_vec(0, e + 0xC, v[1]);
@@ -1449,9 +1449,9 @@ void TBoss4Type3::interp_position_between_nodes() {
     }
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(arg0 + 0x38, &pts[1]);
     subtract_vector((u8 *)&this->position, &pts[0]);
-    this->position[0] *= this->m_39c;
-    this->position[1] *= this->m_39c;
-    this->position[2] *= this->m_39c;
+    this->position.x *= this->m_39c;
+    this->position.y *= this->m_39c;
+    this->position.z *= this->m_39c;
     vec3_add_to((u8 *)&this->position, &pts[0]);
 }
 #pragma pop

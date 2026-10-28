@@ -71,7 +71,7 @@ void TBoss6Rock::run_task() {
     }
     if (m_e4 != 0) {
         s32 model = get_bml_model(TBoss6Rock__data_805D6EF0, TBoss6Rock__data_80479258[m_b4].model_id);
-        u64 pos = (s32)position;
+        u64 pos = (s32)&position;
         ((TBoss6Rock *)m_e4)->set_target(m_c4 != 0, (s32)pos, (s32)&rotation_x, TBoss6Rock__data_805D6EF4, model,
                                           TBoss6Rock__data_80479258[m_b4].target_radius);
     }

@@ -27,7 +27,7 @@ s32 TPlayerBattleCtrl4P__sub_80211B10(u16 id) {
     for (j = 0; j < 4; j++) {
         if (id != j) {
             TObjPlayer *other = get_player_by_client_id(j);
-            if (other != NULL && xz_distance_squared(self->position, other->position) > 22500.0f) {
+            if (other != NULL && xz_distance_squared(&self->position.x, &other->position.x) > 22500.0f) {
                 result = 2;
             }
         }

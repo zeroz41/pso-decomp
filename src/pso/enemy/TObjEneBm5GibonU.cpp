@@ -3424,8 +3424,8 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
         if (self->play_sound_variant() != 0) {
             f32 dist;
             target = self->m_390;
-            dx = target->position[0] - self->position[0];
-            dz = target->position[2] - self->position[2];
+            dx = target->position.x - self->position.x;
+            dz = target->position.z - self->position.z;
             dist = dx * dx;
             dist += dz * dz;
             if (dist < lbl_805DA218) {

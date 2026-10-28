@@ -886,13 +886,13 @@ void TObjEneGibbles__sub_802D7DAC(s32 arg0) {
 void TObjEneGibbles__sub_802D7E3C(void) {  }
 
 void TObjEneGibbles::update_shadow_height() {
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) (this->m_300 - this->position[1]);
+    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) (this->m_300 - this->position.y);
 }
 
 void TObjEneGibbles::update_position() {
     u8 *arg0 = (u8 *)this;
 
-    VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)&this->position);
+    VecCopy((Vec *)(arg0 + 0x2FC), &this->position);
     this->m_300 = (f32) (this->m_300 + TObjEneGibbles__data_805DE7E8);
     switch (this->mode) {
     case 2:

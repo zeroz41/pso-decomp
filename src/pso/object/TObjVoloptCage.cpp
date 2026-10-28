@@ -84,7 +84,7 @@ void TObjVoloptCage::update_breakup() {
     case -1:
         break;
     case 0:
-        play_sound_effect(0x4001C112, (Vec *)position, 0, 0);
+        play_sound_effect(0x4001C112, &position, 0, 0);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
                                                  volopt_cage_textures, (Vec *)&m_2fc, rotation_y);
         create_breakup_mdl__12TBoss3VoloptFlllll(volopt_cage_breakup_model, &volopt_cage_breakup_params,
@@ -143,7 +143,7 @@ void TObjVoloptCage::update_capture() {
         player = get_player_by_client_id(targetId);
         if (player != NULL) {
             if (TObjPlayer::is_locally_controlled(player) != 0) {
-                send_6x2C_impose_hold(player, (Vec *)position, -1, 0, 10.0f);
+                send_6x2C_impose_hold(player, &position, -1, 0, 10.0f);
                 obj_set_flag_20000(player);
             }
             set_volopt_cage_flag();
@@ -163,12 +163,12 @@ void TObjVoloptCage::sub_80049000() {
     case 0:
         actorFlags |= 0x40000;
         state = 1;
-        play_sound_effect(0x4003A80A, (Vec *)position, 10, 0);
+        play_sound_effect(0x4003A80A, &position, 10, 0);
         break;
     case 1:
-        position[1] += 5.0f;
-        if (position[1] >= 0.0f) {
-            position[1] = 0.0f;
+        position.y += 5.0f;
+        if (position.y >= 0.0f) {
+            position.y = 0.0f;
             countdown = TBoss3VoloptP02::get_int_param(4) + 450;
             m_388 &= ~1;
             vfunc_59();
@@ -202,7 +202,7 @@ void TObjVoloptCage::render() {
         TObjFish::set_global_param(volopt_cage_textures);
         push_matrix();
         model_render_flags &= ~0x400;
-        post_translate_matrix((Vec *)position);
+        post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
         draw_chunk_object((void *)volopt_cage_model);
         pop_matrix();
@@ -270,7 +270,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     targetId = target;
     player = get_player_by_client_id(targetId);
     if (player != NULL) {
-        VecCopy((Vec *)position, (Vec *)player->position);
+        VecCopy(&position, &player->position);
     } else {
         queue_destruction();
         return;
@@ -283,7 +283,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);
-    position[1] = -25.0f;
+    position.y = -25.0f;
     recalc_combat_stats(volopt_cage_combat_stats, NULL, NULL, 1.0f, 1.0f);
     actorFlags |= 0x40000 | 0x8000;
     actorFlags &= ~0xA00;

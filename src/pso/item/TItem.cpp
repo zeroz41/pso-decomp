@@ -405,7 +405,7 @@ void TItem::run_task() {
     case ITEM_MODE_EQUIPPED:
         owner = get_player_by_client_id(get_owner_client());
         if (owner != NULL) {
-            VecCopy((Vec *)position, (const Vec *)owner->position);
+            VecCopy(&position, &owner->position);
             update_owner_visibility();
             update_owned();
             update_equipped();
@@ -458,11 +458,11 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     TItemData data;
     set_parent((TObject *)tl_05);
     set_mode(ITEM_MODE_GROUND);
-    VecCopy((Vec *)position, (const Vec *)pos);
+    VecCopy(&position, (const Vec *)pos);
     owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
-        add_item_condition(floor, position[0], position[2], room, (u8 *)&data);
+        add_item_condition(floor, position.x, position.z, room, (u8 *)&data);
     }
     if (is_local_player_off_current_floor() == 1 || floor != get_current_floor()) {
         destroy();
@@ -474,7 +474,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     snap_to_ground();
     refresh_collision_body_centers();
     if (item_ground_placement_enabled != 0) {
-        spawn_particle_effect(position, 0x9B);
+        spawn_particle_effect(&position, 0x9B);
     }
 }
 
@@ -558,7 +558,7 @@ void TItem::handle_pickup(s16 floor, TObjPlayer *player) {
 
 void TItem::send_field_state(s16 floor, TObjPlayer *player) {
     if (floor == get_current_floor()) {
-        spawn_particle_effect(position, 0x9B);
+        spawn_particle_effect(&position, 0x9B);
         TObjPlayer::send_field_state_if_active(player, 0x52802);
     }
 }
@@ -634,12 +634,12 @@ void handle_6x5E_buy_shop_item(G_BuyShopItem_6x5E *cmd) {
 // Drops the item onto the floor below it.
 void TItem::snap_to_ground() {
     f32 probe[3];
-    probe[0] = position[0];
-    probe[1] = 300.0f + position[1];
-    probe[2] = position[2];
+    probe[0] = position.x;
+    probe[1] = 300.0f + position.y;
+    probe[2] = position.z;
     CsnHit *hit = (CsnHit *)csnVecterUnder((s32)probe, 0x41);
     if (hit != NULL) {
-        position[1] = 6.0f + hit->contact->point.y;
+        position.y = 6.0f + hit->contact->point.y;
     }
 }
 
@@ -1205,7 +1205,7 @@ void TItem::set_owner_technique_level(s16 technique, s16 level) {
 }
 
 s32 TItem::update_object_view_visibility(f32 depth, f32 radius) {
-    return is_point_on_screen(position, depth, radius);
+    return is_point_on_screen(&position.x, depth, radius);
 }
 
 // Whether a sphere of `radius` around `pos` is in front of the camera,
@@ -1408,7 +1408,7 @@ void TItem::apply_switch_attack(s32 effect) {
 
 void TItem::notify_owner(s32 sound) {
     if (owner != NULL && owner->is_body_collision_inactive() == 0) {
-        play_sound_effect(sound, owner->position, 0, 0);
+        play_sound_effect(sound, &owner->position, 0, 0);
     }
 }
 
@@ -1481,7 +1481,7 @@ void TItem::render_model() {
         TParticleCtrl::begin_effect_render();
         set_texlist(texture);
         push_matrix();
-        post_translate_matrix(position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         draw_ginja_object(model);
         pop_matrix();
@@ -1507,7 +1507,7 @@ void TItem::render_present_box() {
         TParticleCtrl::begin_effect_render();
         set_texlist(texture);
         push_matrix();
-        post_translate_matrix(position);
+        post_translate_matrix(&position.x);
         rotate_matrix_y(0, rotation_y);
         set_constant_material(&item_box_primary_colors[box_color]);
         draw_ginja_model((s32)box->model);

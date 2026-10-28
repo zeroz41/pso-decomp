@@ -458,7 +458,7 @@ void TBoss6Rock__sub_803542E8(TBoss6Rock *rock, s32 landed) {
         if (((TBoss6PlotFalz *)player)->is_active() == 0) {
             continue;
         }
-        VecCopy(&d, (const Vec *)player->position);
+        VecCopy(&d, &player->position);
         subtract_vector(&d, &rock->m_d4);
         d.y = TBoss6Rock__data_805DFF50;
         dist = vector_length(&d);

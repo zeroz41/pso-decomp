@@ -1847,7 +1847,7 @@ void TBoss1Dragon::render_low_detail() {
     }
     TObjFish::set_global_param(self->texture_id);
     push_matrix();
-    post_translate_matrix(&self->position[0]);
+    post_translate_matrix(&self->position.x);
     rotate_matrix_y(0, self->rotation_y);
     push_matrix();
     scale_matrix(0, lbl_805D7F20, TBoss1Dragon__data_805D7F24, lbl_805D7F20);
@@ -2086,9 +2086,9 @@ void TBoss1Dragon::action(s32 arg1) {
     case 4:
         this->m_b8 = 0;
         this->stateStep = 0;
-        this->position[1] = (f32) TBoss1Dragon__data_805D7F28;
+        this->position.y = (f32) TBoss1Dragon__data_805D7F28;
         this->heightOffset = (f32) (lbl_805D7F44 + this->defaultHeightOffset);
-        this->height = (f32) (this->defaultHeightOffset + (this->heightOffset + this->position[1]));
+        this->height = (f32) (this->defaultHeightOffset + (this->heightOffset + this->position.y));
         return;
     case 3:
         if ((s32) this->stateStep > 0x96) {
@@ -2466,17 +2466,17 @@ void TBoss1Dragon::handleFallState(u32 reason) {
                 this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon__gravity_accel);
                 this->height = (f32) (this->height + this->fallVelocity);
             }
-            this->heightOffset = (f32) (this->defaultHeightOffset + ((this->height - this->rootHeight) - this->position[1]));
+            this->heightOffset = (f32) (this->defaultHeightOffset + ((this->height - this->rootHeight) - this->position.y));
             return;
         case 1:
             this->fallVelocity = (f32) (this->fallVelocity + TBoss1Dragon__gravity_accel);
             this->height = (f32) (this->height + this->fallVelocity);
-            temp_f3 = this->position[1];
+            temp_f3 = this->position.y;
             temp_f1 = this->rootHeight;
             temp_f2 = this->height;
             if (temp_f2 < (temp_f3 + temp_f1)) {
                 this->stateStep = 2;
-                this->height = (f32) this->position[1];
+                this->height = (f32) this->position.y;
                 this->heightOffset = (f32) this->defaultHeightOffset;
                 play_se_at_pos__12TBoss1DragonFii((s32)this, 0x4003AD0E);
                 return;
@@ -2486,7 +2486,7 @@ void TBoss1Dragon::handleFallState(u32 reason) {
         case 2:
             this->impactAge = (this->impactAge + 1);
             if ((s32) this->impactAge == 4) {
-                spawn_particle_effect_with_flags(((void *) &this->position[0]), (s32)this->effectResource->data, 0x40);
+                spawn_particle_effect_with_flags(((void *) &this->position.x), (s32)this->effectResource->data, 0x40);
                 TCameraCtrl::set_shake_preset(1);
                 apply_landing_attack__12TBoss1DragonFi((s32)this);
                 return;
@@ -2589,9 +2589,9 @@ void TBoss1Dragon::handle_fall_state(u32 arg1) {
         this->vfunc_91();
         this->vfunc_94();
         self->fallVelocity = TBoss1Dragon__data_805D7F28;
-        ext->dir.x = -self->position[0];
+        ext->dir.x = -self->position.x;
         ext->dir.y = TBoss1Dragon__data_805D7F28;
-        ext->dir.z = -self->position[2];
+        ext->dir.z = -self->position.z;
         ((void (*)(void *))clamp_velocity__15TObjBoss2TunnelFv)(arg0 + 0x3A0);
         this->rotation_y = (s32) (boss1_dragon_angle_units_per_radian * atan2_float(ext->dir.x, ext->dir.z));
         ((TBoss8Dragon *)(*(s32 *)((s8 *)arg0 + 0x6D8)))->set_field_3c();
@@ -2615,8 +2615,8 @@ void TBoss1Dragon::handle_fall_state(u32 arg1) {
             self->fallVelocity = TBoss1Dragon__data_805D7F38;
         }
         self->rootHeight = self->rootHeight + self->fallVelocity;
-        self->position[0] = ext->dir.x * self->fallVelocity + self->position[0];
-        self->position[2] = ext->dir.z * self->fallVelocity + self->position[2];
+        self->position.x = ext->dir.x * self->fallVelocity + self->position.x;
+        self->position.z = ext->dir.z * self->fallVelocity + self->position.z;
         TBoss1Dragon__sub_800277D8(arg0);
         return;
     case 5:
@@ -3677,8 +3677,8 @@ void TBoss1Dragon::update_burrow_outward_run(u32 arg1) {
     case 0:
         update_velocity__9TObjEneDDFv(arg0);
         this->rotation_y = approach_angle_limited(this->rotation_y, (s32) (boss1_dragon_angle_units_per_radian * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8))), 0x600);
-        this->position[0] += this->rootHeight * sin_table_lookup(this->rotation_y);
-        this->position[2] += this->rootHeight * cos_table_lookup(this->rotation_y);
+        this->position.x += this->rootHeight * sin_table_lookup(this->rotation_y);
+        this->position.z += this->rootHeight * cos_table_lookup(this->rotation_y);
         TBoss1Dragon__sub_800277D8(arg0);
         this->impactAge += 1;
         if (this->impactAge > 10) {
@@ -4427,8 +4427,8 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         case 1:
             this->fallVelocity += TBoss1Dragon__data_805D7F40;
             t = sample_acceleration_curve(arg0 + 0x5F4, this->fallVelocity);
-            this->position[0] = *(f32 *)((s8 *)arg0 + 0x3A0) * t + base[0];
-            this->position[2] = *(f32 *)((s8 *)arg0 + 0x3A8) * t + base[2];
+            this->position.x = *(f32 *)((s8 *)arg0 + 0x3A0) * t + base[0];
+            this->position.z = *(f32 *)((s8 *)arg0 + 0x3A8) * t + base[2];
             if (((TObjBoss2Tunnel *)(arg0 + 0x5F4))->check_param_threshold(this->fallVelocity) != 0) {
                 this->stateStep = 2;
             }
@@ -4459,7 +4459,7 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
         self->stateStep = 0;
         self->fallVelocity = TBoss1Dragon__data_805D7F28;
         self->impactAge = 0;
-        self->height = self->position[1];
+        self->height = self->position.y;
         return;
     case 2:
     case 11:
@@ -4504,12 +4504,12 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
             play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003A803);
         }
         if (objInBand((GameObj *)self, (f32)lbl_805D806C) != 0) {
-            spawn_particle_effect_with_flags(&self->position[0], self->effectResource->unknown00[1], 0x40);
+            spawn_particle_effect_with_flags(&self->position.x, self->effectResource->unknown00[1], 0x40);
         }
         switch (self->impactAge) {
         case 1:
             self->heightOffset = self->defaultHeightOffset + (self->rootHeight - ((TBoss1Dragon *)self)->sample_root_height());
-            self->height = self->position[1] + self->rootHeight;
+            self->height = self->position.y + self->rootHeight;
             self->rootHeight = self->rootHeight + self->fallVelocity;
             self->fallVelocity = self->fallVelocity + lbl_805D4AF0;
             break;
@@ -4622,7 +4622,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         } else {
             this->targetX = (f32) ((lbl_805D8074 * sin_table_lookup(this->rotation_y)) + *(f32 *)((s8 *)arg0 + 0x40C));
-            this->targetY = (f32) this->position[1];
+            this->targetY = (f32) this->position.y;
             this->targetZ = (f32) ((lbl_805D8074 * cos_table_lookup(this->rotation_y)) + *(f32 *)((s8 *)arg0 + 0x414));
         }
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
@@ -5021,8 +5021,8 @@ s32 filter_input_flags__12TBoss1DragonFiii(s32 arg1, s32 arg2, s32 arg3) {
 }
 
 void TBoss1Dragon::updateFacingPosition() {
-    position[0] = lbl_805D8088 * sin_table_lookup(facingAngle);
-    position[2] = lbl_805D8088 * cos_table_lookup(facingAngle);
+    position.x = lbl_805D8088 * sin_table_lookup(facingAngle);
+    position.z = lbl_805D8088 * cos_table_lookup(facingAngle);
 }
 
 extern "C" {
@@ -5603,8 +5603,8 @@ s32 TBoss1Dragon::update_max_hp_phase() {
 }
 
 void TBoss1Dragon::saveCurrentDestination() {
-    destinationX = position[0];
-    destinationZ = position[2];
+    destinationX = position.x;
+    destinationZ = position.z;
 }
 
 void TBoss1Dragon::setDestinationX(int x) {
@@ -5618,8 +5618,8 @@ void TBoss1Dragon::saveTargetDestination() {
 }
 
 void TBoss1Dragon::restorePosition() {
-    position[0] = savedX;
-    position[2] = savedZ;
+    position.x = savedX;
+    position.z = savedZ;
 }
 
 void TBoss1Dragon::copySavedX(int* x) {
@@ -5881,7 +5881,7 @@ void TBoss1Dragon::set_result_flag(s32 arg1, s32 arg2) {
 
 void TBoss1Dragon::beginHeightTransition() {
     flags |= 0x100;
-    height = position[1];
+    height = position.y;
     heightOffset = defaultHeightOffset;
 }
 
@@ -6117,8 +6117,8 @@ void prepare_flight_destination__12TBoss1DragonFPv(u8 *arg0) {
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::calc_forward_point(f32 *arg1, f32 *arg2) {
-    *arg1 = (lbl_805D80BC * sin_table_lookup(this->rotation_y)) + this->position[0];
-    *arg2 = (lbl_805D80BC * cos_table_lookup(this->rotation_y)) + this->position[2];
+    *arg1 = (lbl_805D80BC * sin_table_lookup(this->rotation_y)) + this->position.x;
+    *arg2 = (lbl_805D80BC * cos_table_lookup(this->rotation_y)) + this->position.z;
 }
 #pragma pop
 

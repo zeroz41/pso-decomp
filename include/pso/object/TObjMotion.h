@@ -33,7 +33,7 @@ public:
     s16 alt_room;   // the room set_room keeps for the key and quest states
     u32 actorFlags;
     void* model;
-    f32 position[3];
+    Vec position;
     Vec prev_position;  // where it stood before this frame's move
     Vec home_position;  // the set position it returns to
     s32 rotation_x;

@@ -87,7 +87,7 @@ void TBoss4DarkFalz::save_position() {
     VecCopy__FP3VecPC3Vec((void*)(arg0 + 0x44), (void*)(arg0 + 0x38));
 }
 
-int TUnk_804B9870::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(this->position, pos); }
+int TUnk_804B9870::set_position_from(void *pos) { return VecCopy__FP3VecPC3Vec(&this->position, pos); }
 
 void TBoss4DarkFalz::swap_and_send() { swap_bytes(); send_subcommand((u8 *)this); }
 void TBoss4DarkFalz::swap_bytes() { ((G_ClientIDHeader *)this)->bswap(); bswap_16__FPUs((char*)this + 0x4); bswap_16__FPUs((char*)this + 0x6); bswap_32__FPUl((char*)this + 0x8); bswap_32__FPUl((char*)this + 0xc); }

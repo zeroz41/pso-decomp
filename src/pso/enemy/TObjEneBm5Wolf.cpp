@@ -2141,8 +2141,8 @@ void TObjEneBm5Wolf::roaming_state(int event) {
         advance_animation_playback(this);
         if (play_variant_sound__14TObjEneBm5WolfFPv(this) != 0) {
             temp_r3 = (u8 *)this->target;
-            temp_f3 = *(f32 *)((s8 *)temp_r3 + 0x38) - this->position[0];
-            temp_f1 = *(f32 *)((s8 *)temp_r3 + 0x40) - this->position[2];
+            temp_f3 = *(f32 *)((s8 *)temp_r3 + 0x38) - this->position.x;
+            temp_f1 = *(f32 *)((s8 *)temp_r3 + 0x40) - this->position.z;
             square = temp_f3 * temp_f3;
             square = (temp_f1 * temp_f1) + square;
             if (square < lbl_805D9E1C) {
@@ -3103,9 +3103,9 @@ void TObjEneBm5Wolf::choose_roaming_destination() {
     f32 temp_f3_2;
     u8 *temp_r3;
     u8 *temp_r4;
-    stack.sp8 = this->position[0] - this->groupAnchor[0];
+    stack.sp8 = this->position.x - this->groupAnchor[0];
     stack.spC = (*(f32 *)&TObjEneBm5Wolf__data_805D9D78);
-    stack.sp10 = this->position[2] - this->groupAnchor[2];
+    stack.sp10 = this->position.z - this->groupAnchor[2];
     clamp_velocity__15TObjBoss2TunnelFv(&stack.sp8);
     rotate_xz_pair_by_angle(&stack.sp8, &stack.sp10, (s32) ((*(f32 *)&lbl_805D9E54) * calc_boss4_scale__10TObjPlayerFi(this)) + 0x4000);
     temp_f3 = (*(f32 *)&lbl_805D9E18) * rand_range__9TObjEneDDFff(this, (*(f32 *)&TObjEneBm5Wolf__data_805D9D84), (*(f32 *)&TObjEneBm5Wolf__data_805D9D8C));
@@ -3114,11 +3114,11 @@ void TObjEneBm5Wolf::choose_roaming_destination() {
     temp_r3 = (u8 *)(csnVector((u8 *)this + 0x2FC, (u8 *)this + 0x394, 0x88E0U));
     if (temp_r3 != NULL) {
         temp_r4 = (u8 *)(*(u8 **)((s8 *)temp_r3 + 4));
-        stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0) - this->position[0];
-        stack.sp10 = *(f32 *)((s8 *)temp_r4 + 8) - this->position[2];
+        stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0) - this->position.x;
+        stack.sp10 = *(f32 *)((s8 *)temp_r4 + 8) - this->position.z;
         temp_f3_2 = clamp_velocity__15TObjBoss2TunnelFv(&stack.sp8) - (*(f32 *)&lbl_805D9E58);
-        this->destination[0] = (f32) ((stack.sp8 * temp_f3_2) + this->position[0]);
-        this->destination[2] = (f32) ((stack.sp10 * temp_f3_2) + this->position[2]);
+        this->destination[0] = (f32) ((stack.sp8 * temp_f3_2) + this->position.x);
+        this->destination[2] = (f32) ((stack.sp10 * temp_f3_2) + this->position.z);
     }
 }
 #pragma pop

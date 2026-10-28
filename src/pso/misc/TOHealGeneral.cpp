@@ -166,7 +166,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
             continue;
         }
         r = 1e+01f - get_collision_body_radius(actor, 0);
-        if (!(horizontal_distance_squared((s32)((u8 *)actor + 0x38), self->position) < r * r)) {
+        if (!(horizontal_distance_squared((s32)((u8 *)actor + 0x38), &self->position) < r * r)) {
             continue;
         }
         self->m_f4 = id;
@@ -177,7 +177,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
             void *e;
             self->m_ac = 1;
             if (TOHangerMachine01::is_valid_slot((int)self, self->m_f4) != 0) {
-                send_6x2C_impose_hold(actor, self->position, 0x3C, 0, r);
+                send_6x2C_impose_hold(actor, &self->position, 0x3C, 0, r);
                 actor->m48();
             }
             if (((TObjPlayer *)actor)->is_alive_and_ready() != 0) {
@@ -191,7 +191,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
             if (e != 0) {
                 ((TParticleCtrl *)e)->set_owner_id(self->m_f4);
             }
-            play_sound_effect(0x4002AB0E, self->position, 0, 0);
+            play_sound_effect(0x4002AB0E, &self->position, 0, 0);
             break;
         }
     }

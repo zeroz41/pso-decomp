@@ -131,16 +131,16 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
         m_388 |= 1;
         m_b8 = 0;
         advance_animation_playback(this);
-        position[1] = 80.0f;
+        position.y = 80.0f;
         actorFlags |= 0x40000;
         ((CollisionState *)m_a4)->flags |= 4;
         ((CollisionState *)m_a4)->flags &= ~2;
-        play_sound_effect(0x4003A306, (Vec *)position, 0, 0);
+        play_sound_effect(0x4003A306, &position, 0, 0);
         state = 1;
     case 1:
-        position[1] -= 0.5f;
-        if (position[1] <= 50.0f) {
-            position[1] = 50.0f;
+        position.y -= 0.5f;
+        if (position.y <= 50.0f) {
+            position.y = 50.0f;
             m_388 &= ~1;
             actorFlags &= ~0x40000;
             vfunc_59();
@@ -156,7 +156,7 @@ void TBoss3VoloptHiraisin::start_attack() {
     TBoss3Volopt::create_breakup_mdl((s32)volopt_hiraisin_breakup_model, (s32)&volopt_hiraisin_breakup_params,
                                      TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0x10), (s32)&m_2fc, rotation_y);
     trigger_dell_biter_events__10TObjPlayerFv((Vec *)&m_2fc);
-    play_sound_effect(0x4001C112, (Vec *)position, 0, 0);
+    play_sound_effect(0x4001C112, &position, 0, 0);
     m_388 &= ~1;
     max_hp = hpmax;
     referenceHp = max_hp;
@@ -191,13 +191,13 @@ void TBoss3VoloptHiraisin::update_drop() {
         break;
     case 1:
         advance_animation_playback(this);
-        position[1] = position[1] + y_speed;
-        if (position[1] <= 4.6f) {
-            position[1] = 4.6f;
+        position.y = position.y + y_speed;
+        if (position.y <= 4.6f) {
+            position.y = 4.6f;
             state = 2;
             ((CollisionState *)m_a4)->flags &= ~4;
             ((CollisionState *)m_a4)->flags |= 2;
-            play_sound_effect(0x4003A808, (Vec *)position, 0, 0);
+            play_sound_effect(0x4003A808, &position, 0, 0);
         }
         break;
     case 2:
@@ -247,7 +247,7 @@ void TBoss3VoloptHiraisin::render() {
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         model_render_flags &= ~0x400;
-        post_translate_matrix(position);
+        post_translate_matrix(&position.x);
         if (m_b4 == 8) {
             translate_matrix(0, 0.0f, 20.0f, 0.0f);
         }
@@ -262,10 +262,10 @@ void TBoss3VoloptHiraisin::render() {
         restore_scene_lighting();
         TParticleCtrl::end_effect_render();
         model_render_flags = saved_model_render_flags;
-        if (position[1] < 50.0f) {
+        if (position.y < 50.0f) {
             push_matrix();
-            scale = 1.0f - 0.02202643f * (position[1] - 4.6f);
-            translate_matrix(0, position[0], 4.5f, position[2]);
+            scale = 1.0f - 0.02202643f * (position.y - 4.6f);
+            translate_matrix(0, position.x, 4.5f, position.z);
             scale_matrix(NULL, scale, scale, scale);
             TObjFish::set_global_param(TObjFish__sub_8001EDB0(volopt_hiraisin_resources, 0));
             draw_chunk_object((void *)get_bml_model(volopt_hiraisin_resources, 0));
@@ -311,13 +311,13 @@ void TBoss3VoloptHiraisin::run_task() {
             state = 0;
         }
         dispatch_state();
-        VecCopy((Vec *)&m_2fc, (Vec *)position);
+        VecCopy((Vec *)&m_2fc, &position);
         if (mode != 5) {
             m_300 -= 30.0f;
         }
         copy_position();
         submit_cursor_candidate(this, -1);
-        minimap_render_dot((Vec *)position, -0x5DB4, 1, 0);
+        minimap_render_dot(&position, -0x5DB4, 1, 0);
         volopt_hiraisin_spin_node->rotation_y += 0x4000;
         clear_all_status_effects();
     }
@@ -353,7 +353,7 @@ TBoss3VoloptHiraisin::~TBoss3VoloptHiraisin() {
 }
 
 void TBoss3VoloptHiraisin::init_params() {
-    VecCopy((Vec *)&m_2fc, (Vec *)position);
+    VecCopy((Vec *)&m_2fc, &position);
     m_300 -= 30.0f;
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
@@ -385,9 +385,9 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 in
     set_entry = NULL;
     room = parent->room;
     set_group = parent->set_group;
-    position[1] = 80.0f;
-    position[0] = boss3_volopt_spawn_pos.x;
-    position[2] = boss3_volopt_spawn_pos.z;
+    position.y = 80.0f;
+    position.x = boss3_volopt_spawn_pos.x;
+    position.z = boss3_volopt_spawn_pos.z;
     init_params();
 }
 

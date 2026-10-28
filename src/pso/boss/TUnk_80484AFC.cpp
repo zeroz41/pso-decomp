@@ -52,8 +52,8 @@ void TUnk_80484AFC::explode_and_destroy() {
     if (TBoss3Volopt::is_v2_mode() != 0 && 3.0517578e-05f * (f32)rand() < 0.16666667f) {
         attack.kind = 0x11;
     }
-    play_sound_effect(0x4003AD15, (Vec *)position, 0, 0);
-    play_sound_effect(0x4001C112, (Vec *)position, 0, 0);
+    play_sound_effect(0x4003AD15, &position, 0, 0);
+    play_sound_effect(0x4001C112, &position, 0, 0);
     m_a4->radius = 15.0f;
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)this)->check_object_collisions();
@@ -68,14 +68,14 @@ void TUnk_80484AFC::explode_and_destroy() {
             }
         }
     }
-    spawn_particle_effect(position, 0xFB);
+    spawn_particle_effect(&position, 0xFB);
     queue_destruction();
 }
 
 void TUnk_80484AFC::render() {
     TObjFish::set_global_param(textures);
     push_matrix();
-    post_translate_matrix((Vec *)position);
+    post_translate_matrix(&position);
     rotate_matrix_x(0, rotation_x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags &= ~0x400;
@@ -87,13 +87,13 @@ void TUnk_80484AFC::run_task() {
     TObjPlayer *player = get_player_by_client_id(target_id);
     if (player != NULL) {
         Vec steer = *(Vec *)&player->m_2fc;
-        subtract_vector(&steer, (Vec *)position);
+        subtract_vector(&steer, &position);
         vec_set_length((Vec *)&steer, TBoss3VoloptP02::get_float_param(1));
         vec3_add_to(&velocity, &steer);
         vec_set_length((Vec *)&velocity, TBoss3VoloptP02::get_float_param(0));
     }
-    VecCopy(&prev_position, (Vec *)position);
-    vec3_add_to((Vec *)position, &velocity);
+    VecCopy(&prev_position, &position);
+    vec3_add_to(&position, &velocity);
     direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     if (trail != NULL) {
         Vec back = velocity;
@@ -104,15 +104,15 @@ void TUnk_80484AFC::run_task() {
         trail_rotation[2] -= 0x4000;
         ((TBoss4Type2 *)trail)->copy_vec3(trail_rotation);
         vec_set_length(&back, 10.0f);
-        vec3_add_to(&back, (Vec *)position);
+        vec3_add_to(&back, &position);
         ((TNowLoading *)trail)->copy_pos(&back);
     }
-    if (csnVector(&prev_position, (Vec *)position, -1) != 0) {
+    if (csnVector(&prev_position, &position, -1) != 0) {
         explode_and_destroy();
         return;
     }
     m_a4->flags &= ~6;
-    if (position[1] < 22.0f) {
+    if (position.y < 22.0f) {
         m_a4->flags |= 2;
     } else {
         m_a4->flags |= 4;
@@ -128,7 +128,7 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    play_persistent_sound(0x4003C114, this, (Vec *)position, 0, 0);
+    play_persistent_sound(0x4003C114, this, &position, 0, 0);
 }
 
 TUnk_80484AFC::~TUnk_80484AFC() {
@@ -141,7 +141,7 @@ TUnk_80484AFC::~TUnk_80484AFC() {
 TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) : TUnk_804AF8A0(parent) {
     init_collision_body_parts(this, volopt_missile_collision_body, 1);
     m_a4->radius = 5.0f;
-    VecCopy((Vec *)position, pos);
+    VecCopy(&position, pos);
     target_id = target;
     rotation_x = 0;
     rotation_y = angle;
@@ -159,6 +159,6 @@ TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) :
     trail_rotation[2] = 0;
     trail_rotation[1] = 0;
     trail_rotation[0] = 0;
-    trail = spawn_particle_effect_with_rotation(position, trail_rotation, 0x112, 2);
+    trail = spawn_particle_effect_with_rotation(&position, trail_rotation, 0x112, 2);
     volopt_missile_expire_tick = (s32)TBoss3VoloptP02::get_float_param(3) + 0xF0;
 }
