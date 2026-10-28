@@ -2,6 +2,7 @@
 #include "pso/player/TUnk_804A4B80.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -184,7 +185,6 @@ extern "C" {
 s32 send_activate_effect__5TItemFl(void *, int);
 s32 is_mode_two_and_ready__10TObjPlayerFv();
 s32 get_current_floor();
-s32 reset_key_machine_state__10TObjPlayerFv();
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 void spawn_heaven_effect__10TObjPlayerFlUlUsl(s32, s32, u32, s16);
 s32 get_captured_target_collider_index(s32);
@@ -200,7 +200,7 @@ typedef struct VObj_18_382324 VObj_18_382324;
 void TUnk_804A4B80::vfunc_17(s32 arg1) {
   if (((u32) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0) != 0U)
   {
-    if (reset_key_machine_state__10TObjPlayerFv() != 0)
+    if (are_items_enabled_here() != 0)
     {
       if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_field_3e4())
       {

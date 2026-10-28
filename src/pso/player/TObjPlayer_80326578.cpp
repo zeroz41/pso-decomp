@@ -12,6 +12,7 @@
 #include "pso/player/TUnk_804ED1A0.h"
 #include "pso/player/TUnk_804ECFB0.h"
 #include "pso/item/TItem.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_803268D8_lbl_804ECFB0 {
     s32 value;
@@ -52,7 +53,6 @@ s32 __nw__15TItemHeapObjectFUl(s32);
 s32 get_owner_client__5TItemFv(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
-s32 reset_key_machine_state__10TObjPlayerFv();
 void set_status_flags__10TObjPlayerFUl(void *, int);
 
 extern s32 lbl_804ECDC0[];
@@ -118,7 +118,7 @@ void TUnk_804ECFB0::update_weapon() {
     s16 temp_r3;
     s32 temp_r31;
 
-    if (reset_key_machine_state__10TObjPlayerFv() != 0) {
+    if (are_items_enabled_here() != 0) {
         temp_r3 = get_actor_tp((u8 *)this->player);
         temp_r0 = this->m_1fc - temp_r3;
         if (temp_r0 != 0) {

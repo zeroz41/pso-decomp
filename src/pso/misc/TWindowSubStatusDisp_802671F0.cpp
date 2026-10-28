@@ -20,6 +20,7 @@
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/map/CurrentArea.h"
 
 struct Stack_80266EB8 {
     f32 sp8;
@@ -108,7 +109,6 @@ void fn_80266BD0(s32 index, u8 *first, u8 *second, s32 player);
 void TWindowSubStatusDisp__sub_80258A28(u8 *arg0, s32 arg1, s32 arg2);
 void *get_player_by_client_id(s32 i);
 s8 clamp_char_at__10TObjPlayerFl(s32, s32);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 finalize_state__20TWindowSubStatusDispFv(s32);
 s32 is_flag80_set__20TWindowSubStatusDispFv(s32);
@@ -249,7 +249,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
             if (var_r31 > 0) {
                 temp_r30 = ((u16 *(*)(void *, s16))get_array_entry__13TUnk_804CE018Fi)(arg0, *(s16 *)((s8 *)arg0 + 0x72));
                 ((TWindowSubStatusDisp *)temp_r30)->setup_stat_line(get_localized_text_entry(0x10, arg1 + 0x13), var_r31, arg2);
-                if ((arg3 != 0) && ((reset_key_machine_state__10TObjPlayerFv() == 0) || (is_boss_area() != 0))) {
+                if ((arg3 != 0) && ((are_items_enabled_here() == 0) || (is_boss_area() != 0))) {
                     *temp_r30 |= 0x80;
                 }
                 *(s16 *)((s8 *)arg0 + 0x72) = (s16) (*(s16 *)((s8 *)arg0 + 0x72) + 1);

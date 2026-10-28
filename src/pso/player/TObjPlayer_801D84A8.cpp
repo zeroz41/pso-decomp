@@ -2,6 +2,7 @@
 #include "pso/object/TObjWarpBossMulti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804C4540.h"
+#include "pso/map/CurrentArea.h"
 struct Tag_801D7D4C { u8 d[4]; };
 
 struct Obj_801D7D4C { s32 n; Tag_801D7D4C x[4]; Tag_801D7D4C y[4]; };
@@ -20,7 +21,6 @@ struct TObjPlayer_801D8044 {
 extern "C" {
 void init__6gc_tagFv(void *);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
-s32 reset_key_machine_state__10TObjPlayerFv();
 u8 get_cast_technique_level(void *, int);
 Tec_801D7DA4 *calc_technique_parameters(s32, s32, s32);
 s32 get_game_play_mode();
@@ -60,7 +60,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || reset_key_machine_state__10TObjPlayerFv() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || are_items_enabled_here() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {

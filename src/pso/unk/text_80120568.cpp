@@ -6,6 +6,7 @@
 #include "pso/TItemEffEquip.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 struct Pair_801205F4 { u8 a; s8 b; };
 
 struct Data_801205F4 { u8 pad[0x27]; u8 flags; };
@@ -173,7 +174,6 @@ void TItemEquipBase__sub_8010A82C(s32 arg0);
 s32 get_entity_id(s32);
 s32 test_flags_any(void *, s32);
 s32 obj_isState7_324(s32);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, s32, s32, s32);
 void set_flag_8_if_check_passes__10TObjPlayerFv();
@@ -202,7 +202,7 @@ void TItemWeapon::vfunc_48() {
 void TItemWeapon::vfunc_44() {
     Player_8012065C *arg0 = (Player_8012065C *)this;
     if (test_flags_any((u8 *)arg0 + 0x178, 1) != 0) {
-        if (!(((TItem *)arg0)->get_item_flags() & 0x20) && reset_key_machine_state__10TObjPlayerFv() != 0) {
+        if (!(((TItem *)arg0)->get_item_flags() & 0x20) && are_items_enabled_here() != 0) {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }
         ((TItemWeapon *)arg0)->clear_equip_flags(0x100);

@@ -9,6 +9,7 @@
 #include "pso/misc/TMainCursor.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 struct Msg_80116004 { u8 hdr[4]; s16 ids[4]; };
 
 struct Obj_80116004 { u8 pad0[0x38]; f32 pos[3]; };
@@ -47,7 +48,6 @@ s32 TItemObject__sub_80115DE8(void *item);
 s32 set_hp_clamped__10TObjPlayerFs(void *, s32);
 s32 get_field_2b8__14TItemProShieldFv(void *);
 void *spawn_particle_effect(void *pos, s32 id);
-s32 reset_key_machine_state__10TObjPlayerFv();
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(void *arg0);
 }
@@ -161,7 +161,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
             if ((temp_r3_2 != NULL) && (((VObj_80115F28 *)temp_r3_2)->m31() == 0)) {
                 if (((TObjPlayer *)player)->get_field_3e4() == ((TObjPlayer *)temp_r3_2)->get_field_3e4()) {
                     set_hp_clamped__10TObjPlayerFs(temp_r3_2, get_field_2b8__14TItemProShieldFv(temp_r3_2));
-                    if (reset_key_machine_state__10TObjPlayerFv() != 0) {
+                    if (are_items_enabled_here() != 0) {
                         if (var_r28 == 0) {
                             spawn_particle_effect(temp_r3_2 + 0x2FC, 0x19);
                         }

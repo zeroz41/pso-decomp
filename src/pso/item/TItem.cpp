@@ -69,6 +69,7 @@
 #include <dolphin/base/PPCArch.h>
 #include <stdlib.h>
 #include <string.h>
+#include "pso/map/CurrentArea.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -429,7 +430,7 @@ void TItem::render() {
 void TItem::render_shadows() {
     if (all_parents_unqueued_for_destruction() != 0) {
         set_shadow_flag();
-        if (get_mode() == ITEM_MODE_EQUIPPED && TObjPlayer::reset_key_machine_state() != 0) {
+        if (get_mode() == ITEM_MODE_EQUIPPED && are_items_enabled_here() != 0) {
             set_depth_buffer_settings_id(1);
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -1117,7 +1118,7 @@ void TObjPlayer::load_projection_tex(s32, s32 trap) {
 // Hides the item while its owner is hidden or out of the local view.
 void TItem::update_owner_visibility() {
     if (owner != NULL) {
-        if (TObjPlayer::test_flag_2000000(owner) == 0 && TObjPlayer::reset_key_machine_state() == 1
+        if (TObjPlayer::test_flag_2000000(owner) == 0 && are_items_enabled_here() == 1
             && owner->is_flag_20000_set() == 0) {
             show();
             return;

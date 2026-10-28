@@ -18,6 +18,7 @@
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TPlyPhotonChair.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
@@ -59,7 +60,6 @@ u8 TMainCursor__sub_8013E358(void *);
 s8 fn_8013F24C(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 is_invalid_slot__10TObjPlayerFUc(u8);
-s32 reset_key_machine_state__10TObjPlayerFv(void);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 can_pickup_item_by_id__10TObjPlayerFP5TItem(u32, s32);
 
@@ -165,7 +165,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (reset_key_machine_state__10TObjPlayerFv() == 0) {
+        if (are_items_enabled_here() == 0) {
             this->update_target_sub();
             return;
         }
@@ -187,7 +187,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (reset_key_machine_state__10TObjPlayerFv() == 0) {
+        if (are_items_enabled_here() == 0) {
             this->update_target_sub();
         }
         return;
@@ -692,7 +692,6 @@ loop_1:
 }
 
 s32 check_flag_100__10TObjPlayerFPv(void *player);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 is_key_machine_ready__10TObjPlayerFv();
 s32 TMainCursor__sub_8013E2A0(void *list);
 s16 TMainCursor__sub_8013E298(void *entry);
@@ -731,7 +730,7 @@ s32 TMainCursor::bind_action_channels() {
     if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && is_channel_active__11TMainCursorFv(&self->channel) != 0) {
         type = self->channel.get_type();
         enabled = self->channel.get_enabled();
-        if (reset_key_machine_state__10TObjPlayerFv() == 0) {
+        if (are_items_enabled_here() == 0) {
             if (is_key_machine_ready__10TObjPlayerFv() == 0) {
                 return;
             }
@@ -806,7 +805,6 @@ extern u8 shared_effect_texture_list[];
 extern u8 *camera_ctrl_instance;
 extern const f32 TMainCursor__data_805DB0C0;
 s32 is_effect_channel_active__10TObjPlayerFll(s32, s32);
-s32 reset_key_machine_state__10TObjPlayerFv();
 void *TObjPlayer__sub_80116620(void *, s32);
 void get_action_palette__11TMainCursorFv(void *, u8);
 void update_action_palette__11TMainCursorFv(void *, u8);
@@ -867,7 +865,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, s32 player, s32 index) {
         }
         break;
     case 4:
-        if (is_effect_channel_active__10TObjPlayerFll(player, index) != 0 && reset_key_machine_state__10TObjPlayerFv() != 0 && test_action_mask__10TObjPlayerFl((void *)player, 0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
+        if (is_effect_channel_active__10TObjPlayerFll(player, index) != 0 && are_items_enabled_here() != 0 && test_action_mask__10TObjPlayerFl((void *)player, 0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
             return 0xF;
         }
         break;

@@ -9,6 +9,7 @@
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 
@@ -16,7 +17,6 @@ extern "C" {
 int get_selection__19TWindowSubTechniqueFPsPll(void*, void* a1);
 void *get_player_by_client_id(s32 i);
 s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 get_message_10__20TWindowSubStatusDispFl(int);
 s32 set_field_1c__6TLobbyFf(int);
 }
@@ -43,7 +43,7 @@ s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
     if (player == 0) {
         return 0;
     }
-    if (reset_key_machine_state__10TObjPlayerFv() == 0) {
+    if (are_items_enabled_here() == 0) {
         return 0;
     }
     if (TWindowSubTechnique::lookup_technique(sub, arg1) != 0) {

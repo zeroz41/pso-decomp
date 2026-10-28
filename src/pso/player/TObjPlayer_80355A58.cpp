@@ -4,6 +4,7 @@
 #include "pso/player/TUnk_804F1320.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct RecoveredGlobal_80355BA0_lbl_804F1320 {
     s32 value;
@@ -20,12 +21,11 @@ void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
 s8 get_mode__5TItemFv(u8 *arg0);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
-s32 reset_key_machine_state__10TObjPlayerFv();
 
 void TUnk_804F1320::vfunc_17(s32 item) {
     s32 temp_r31;
 
-    if (((u32) this->player != 0U) && (reset_key_machine_state__10TObjPlayerFv() != 0)) {
+    if (((u32) this->player != 0U) && (are_items_enabled_here() != 0)) {
         temp_r31 = ((TObjPlayer *)(this->player))->get_field_3e4();
         {
         s32 t = get_current_floor();

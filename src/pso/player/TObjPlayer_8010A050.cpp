@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
+#include "pso/map/CurrentArea.h"
 
 struct Obj_8010A1D0 {
     u8 pad0[0x18];
@@ -104,7 +105,6 @@ void *create_particle_emitter(void *pos, s32 id);
 s32 get_current_floor();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_group__5TItemFv();
-s32 reset_key_machine_state__10TObjPlayerFv();
 
 s32 TObjPlayer::get_texture_id() { return this->texture_id; }
 s32 TObjPlayer__sub_8010A058(void* p) { return *(s32*)((char*)p + 0xf4); }
@@ -173,7 +173,7 @@ void TUnk_8049F148::run_task() {
         temp_r3_2 = get_current_floor();
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
-            if ((reset_key_machine_state__10TObjPlayerFv() != 0) && (temp_r3_2 == ((TObjPlayer *)player)->get_field_3e4())) {
+            if ((are_items_enabled_here() != 0) && (temp_r3_2 == ((TObjPlayer *)player)->get_field_3e4())) {
                 *(u32 *)&this->unk_1C = (u32)create_particle_emitter(sp8, 0x101);
             } else {
                 *(u32 *)&this->unk_1C = 0U;

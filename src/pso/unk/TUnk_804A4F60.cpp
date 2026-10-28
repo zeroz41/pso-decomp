@@ -5,13 +5,13 @@
 #include "pso/player/TObjPlayer_8012BC28.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/unk/text_8012BCD4.h"
+#include "pso/map/CurrentArea.h"
 
 void psycho_wand_node_callback(void *arg0);
 extern "C" {
 s32 rotate_matrix_z(s32, s32);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 get_attack_stage__11TItemWeaponFv();
-s32 reset_key_machine_state__10TObjPlayerFv();
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
@@ -20,7 +20,7 @@ void TUnk_804A4F60::update_weapon() {
     s16 temp_r0;
     s16 temp_r3;
 
-    if (reset_key_machine_state__10TObjPlayerFv() != 0) {
+    if (are_items_enabled_here() != 0) {
         temp_r3 = get_actor_tp((u8 *)this->player);
         temp_r0 = *(s16 *)((s8 *)this + 0x1F8) - temp_r3;
         if (temp_r0 != 0) {

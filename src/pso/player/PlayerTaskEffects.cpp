@@ -13,6 +13,7 @@
 #include "pso/player/TPlayerLevelFeedback.h"
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "types.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 
@@ -54,7 +55,6 @@ extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
 s32 test_action_mask__10TObjPlayerFl(VO_801C6408*, s32);
 s32 is_on_current_floor__10TObjPlayerFi(VO_801C6408*);
-s32 reset_key_machine_state__10TObjPlayerFv();
 extern const f32 lbl_805DC338;
 extern s32 tl_07;
 void* __nw__7TObjectFUl(s32);
@@ -951,7 +951,7 @@ void TPlayerSoul::run_task() {
     TParticleCtrl* h;
     Vec_801C6408 v;
     p = (VO_801C6408*)get_player();
-    if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) != 0 && reset_key_machine_state__10TObjPlayerFv() != 0 &&
+    if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) != 0 && are_items_enabled_here() != 0 &&
         is_on_current_floor__10TObjPlayerFi(p) != 0) {
         h = get_particle();
         if (h != 0) {

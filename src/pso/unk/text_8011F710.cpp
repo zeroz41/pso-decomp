@@ -7,6 +7,7 @@
 #include "pso/item/TItem.h"
 
 #include <stddef.h>
+#include "pso/map/CurrentArea.h"
 struct VBase_18_f8c4e0 { char pad[0x18]; };
 
 struct VObj_18_f8c4e0 : VBase_18_f8c4e0 {
@@ -116,7 +117,6 @@ extern const f32 lbl_805DAC94;
 extern const f32 lbl_805DAC98;
 Item_8011F760 *get_weapon_range_record(void *, s32);
 s32 is_active_in_game__11TItemWeaponFv(void*);
-s32 reset_key_machine_state__10TObjPlayerFv();
 void play_weapon_owner_sounds(void*);
 u32 test_flags_1b8__11TItemWeaponFUl(void*,u32);
 
@@ -205,7 +205,7 @@ void TItemWeapon::perform_action() {
     WeaponMarkerPacket packet;
     WeaponVector gun_point;
     WeaponVector fallback_point;
-    if (is_active_in_game__11TItemWeaponFv(self) && !((TItem *)self)->is_hidden() && reset_key_machine_state__10TObjPlayerFv()) {
+    if (is_active_in_game__11TItemWeaponFv(self) && !((TItem *)self)->is_hidden() && are_items_enabled_here()) {
         self->heading=self->player->heading;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
         ((TObjPlayer *)(&packet))->reset_status_block();

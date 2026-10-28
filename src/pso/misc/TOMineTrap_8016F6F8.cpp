@@ -8,6 +8,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 
@@ -20,7 +21,6 @@ u16 get_entity_id(void *);
 u8 *TOMineTrap__ct(u8 *, u8 *, s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 is_boss_area();
-s32 reset_key_machine_state__10TObjPlayerFv();
 void *__nw__7TObjectFUl(u32);
 extern s32 enable_v2_features;
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
@@ -222,7 +222,7 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
         arg1 < 0 || arg1 >= 4 || arg2 < 0 || arg2 > 0x14) {
         return 0;
     }
-    if (is_boss_area() == 1 || reset_key_machine_state__10TObjPlayerFv() == 0) {
+    if (is_boss_area() == 1 || are_items_enabled_here() == 0) {
         return 0;
     }
     obj = __nw__7TObjectFUl(0x384);

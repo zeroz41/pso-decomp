@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/misc/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 extern "C" {
 
@@ -38,7 +39,6 @@ void *get_player_by_client_id(s32 i);
 int TFontSmallLobby__sub_801C01BC(void *p);
 s32 send_photon_blast_ready__15TFontSmallLobbyFv(void *);
 s32 handle_photon_blast_ready__15TFontSmallLobbyFv(void *, void *);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 validate_6x39_set_photon_blast_ready_flag(void *);
 void send_6x39_photon_blast_ready(u16 *p);
 s32 obj_isState2_324__13TUnk_804806E8Fv();
@@ -121,7 +121,7 @@ void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
     TFontSmallLobby__sub_801C01BC((&sp8));
     if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
         player = (s32)get_player_by_client_id(sp8.b);
-        if ((player != 0) && (reset_key_machine_state__10TObjPlayerFv() != 0)) {
+        if ((player != 0) && (are_items_enabled_here() != 0)) {
             temp_r31 = ((TObjPlayer *)player)->get_field_3e4();
             v = get_current_floor();
             if (v == temp_r31) {
@@ -170,7 +170,7 @@ void handle_6x38_donate_to_photon_blast(s32 arg0) {
     ((TFontSmallLobby *)(&cmd))->bswap_fields();
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
         player = (s32)get_player_by_client_id(cmd.client);
-        if ((player != 0) && (reset_key_machine_state__10TObjPlayerFv() != 0)) {
+        if ((player != 0) && (are_items_enabled_here() != 0)) {
             if (get_current_floor() == ((TObjPlayer *)player)->get_field_3e4()) {
                 TObjPlayer::create_photon_blast_party_effects(cmd.client);
             }

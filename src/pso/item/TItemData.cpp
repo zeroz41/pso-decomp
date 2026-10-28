@@ -8,6 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
+#include "pso/map/CurrentArea.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -101,7 +102,6 @@ s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
 s32 is_invalid_slot__10TObjPlayerFUc();
 s32 is_boss_area();
-s32 reset_key_machine_state__10TObjPlayerFv();
 void *calc_technique_parameters(u8, u8, s32);
 s32 is_challenge_mode_active();
 extern s32 local_client_id;
@@ -1067,7 +1067,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       {
         result |= 0x10001;
       }
-      if ((!(flags & 0x10)) && (reset_key_machine_state__10TObjPlayerFv() == 0))
+      if ((!(flags & 0x10)) && (are_items_enabled_here() == 0))
       {
         result |= 1;
       }

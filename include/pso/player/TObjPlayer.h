@@ -1069,7 +1069,6 @@ struct TObjPlayer : public TUnk_804806E8 {
     void draw_ginja_model(s32 arg1);
     static void render_matrix_chain(void *arg0);
     static void free_if_valid(s32 arg0);
-    static s32 reset_key_machine_state();
     static void play_effect_if_v2(s32 arg0);
     static s32 get_level_tier(s32 arg0);
     static void create_tec_jelin(void *arg0, void *arg1, void *arg2, void *arg3);

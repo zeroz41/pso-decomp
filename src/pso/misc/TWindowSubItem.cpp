@@ -23,6 +23,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TWindowInputNumber.h"
+#include "pso/map/CurrentArea.h"
 
 struct Base_A_80279714 { char pad[0x18]; };
 struct V_A_80279714 : Base_A_80279714 {
@@ -168,7 +169,6 @@ s32 create_sub_item_list_window(s32, s32 *, s32);
 s32 get_array_entry__13TUnk_804CE018Fi(void *, s16);
 s32 get_cursor_pos__14TWindowSubItemFv();
 s32 get_item_id__5TItemFv();
-s32 reset_key_machine_state__10TObjPlayerFv(s32);
 int save_cursor_selection__20TShopArmorListWindowFv(void*);
 
 void TWindowSubItem::set_displayed_item(s32 arg1) {
@@ -361,7 +361,7 @@ void TWindowSubItem::draw_slot(s32 arg1, s32 arg2, s32 arg3) {
 
     temp_r3 = (u32)__cntlzw(4 - (arg3 & 0xF)) >> 5;
     temp_r31 = temp_r3 + 4;
-    if ((reset_key_machine_state__10TObjPlayerFv(temp_r3) == 0) || (is_boss_area() != 0)) {
+    if ((are_items_enabled_here() == 0) || (is_boss_area() != 0)) {
         TWindowSubComCard::draw_text_gray(arg2, (s32)(get_localized_text_entry(0x10, 0xF)), 6, temp_r31);
         return;
     }

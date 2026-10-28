@@ -12,6 +12,7 @@
 #include "pso/misc/TWindowSubEquip.h"
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CurrentArea.h"
 
 struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 
@@ -40,7 +41,6 @@ s32 TWindowCtrl__sub_8024C7C4(void *);
 s32 TWindowCtrl__sub_8024C7E0(void *);
 s32 bind_target__13TWindowLockOnFv(void *, s32);
 u32 create_for_target__13TWindowLockOnFlUs(int, s32);
-s32 reset_key_machine_state__10TObjPlayerFv();
 s32 TKeyBoardControl__sub_801A58B0();
 s32 TKeyBoardControl__sub_801A58D8();
 s32 get_function_key_menu__16TKeyBoardControlFPv(void *arg0);
@@ -278,7 +278,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
         }
         break;
     case 38:
-        if (reset_key_machine_state__10TObjPlayerFv() != 0) {
+        if (are_items_enabled_here() != 0) {
             temp_r3_2 = this->m_34;
             if (temp_r3_2 != 0U) {
                 ((TQuestVmDownLoadServer *)temp_r3_2)->clear_flag4_bit4();
