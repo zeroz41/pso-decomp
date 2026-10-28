@@ -20,6 +20,11 @@ struct WeaponParams {
     u8 pad_20[0x28 - 0x20];
 };
 
+// impact_callback / hit_callback: (task layer, weapon, target, extra).
+typedef s32 (*WeaponHitCallback)(s32 layer, void *weapon, s32 target, s32 extra);
+// shot_callback: draws a shot from origin to end over frames.
+typedef s32 (*WeaponShotCallback)(void *weapon, void *origin, f32 *end, f32 frames);
+
 // The base of every weapon: the equipped weapon's attacks, its trails and
 // the technique it rolls.
 struct TItemWeapon : public TItemEquipBase {
@@ -62,8 +67,10 @@ struct TItemWeapon : public TItemEquipBase {
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
     static void carry_over_stats(TItemData *data, TItem *item);
-    void fire_shot_at_target(void *, void *, s32);
-    void sub_8011E56C(u8 *);
+    void fire_shot_at_target(void *origin, void *model, s32 angle);
+    // csnVector from the owner's centre at point's height to point: the
+    // wall in between, or NULL.
+    u8 *trace_from_owner(u8 *point);
     void remap_extra_attack_type();
     s32 draw_weapon_model();
     void create_weapon_trail_effects();
@@ -102,7 +109,8 @@ struct TItemWeapon : public TItemEquipBase {
     s32 technique_roll;
     s32 previous_technique_roll;
     s32 technique_roll_range;
-    u8 pad_1c8[0x1CE - 0x1C8];
+    f32 photon_phase;              // 0..1, advance_weapon_photon_phase
+    u8 pad_1cc[0x1CE - 0x1CC];
     s16 gun_point_joint;           // get_gun_point
     u8 pad_1d0[0x1D1 - 0x1D0];
     u8 grind;
@@ -111,12 +119,14 @@ struct TItemWeapon : public TItemEquipBase {
     s32 stage;
     f32 motion_frame;
     WeaponParams *parameters;      // the weapon's item parameter record
-    void* material;
+    // The technique boosts it gives (register_technique_boosts).
+    const TechniqueBoostParam *technique_boosts;
     f32 shot_speed;                // distance a shot covers per frame
-    u8 pad_1e8[0x1EC - 0x1E8];
-    void *impact_callback;         // spawn_land_hit_effect when a shot hits a wall
-    void *shot_callback;           // draws the shot (create_gun_shot)
-    u8 pad_1f4[0x1F8 - 0x1F4];
+    s16 photon_color_id;           // get_photon_color_record, -1 for none
+    u8 pad_1ea[0x1EC - 0x1EA];
+    WeaponHitCallback impact_callback;  // when a shot hits a wall (spawn_land_hit_effect)
+    WeaponShotCallback shot_callback;   // draws the shot (create_gun_shot)
+    WeaponHitCallback hit_callback;     // deliver_hit, on the target hit
 };
 
 struct WeaponMarkerPacket { s8 kind,variant; u8 pad[2]; TObjPlayer* player; s32 unobserved[3]; };
@@ -130,12 +140,15 @@ typedef char WeaponAttributesOffset[(offsetof(TItemWeapon,attributes)==0x1A4)?1:
 typedef char WeaponGrindOffset[(offsetof(TItemWeapon,grind)==0x1D1)?1:-1];
 typedef char WeaponStageOffset[(offsetof(TItemWeapon,stage)==0x1D4)?1:-1];
 typedef char WeaponFrameOffset[(offsetof(TItemWeapon,motion_frame)==0x1D8)?1:-1];
-typedef char WeaponMaterialOffset[(offsetof(TItemWeapon,material)==0x1E0)?1:-1];
+typedef char WeaponTechniqueBoostsOffset[(offsetof(TItemWeapon,technique_boosts)==0x1E0)?1:-1];
+typedef char WeaponPhotonPhaseOffset[(offsetof(TItemWeapon,photon_phase)==0x1C8)?1:-1];
+typedef char WeaponPhotonColorOffset[(offsetof(TItemWeapon,photon_color_id)==0x1E8)?1:-1];
 typedef char WeaponParamsSpecialOffset[(offsetof(WeaponParams,special)==0x18)?1:-1];
 typedef char WeaponFlagsOffset[(offsetof(TItemWeapon,weapon_flags)==0x1B8)?1:-1];
 typedef char WeaponShotSpeedOffset[(offsetof(TItemWeapon,shot_speed)==0x1E4)?1:-1];
 typedef char WeaponShotCallbackOffset[(offsetof(TItemWeapon,shot_callback)==0x1F0)?1:-1];
 typedef char WeaponGunPointOffset[(offsetof(TItemWeapon,gun_point_joint)==0x1CE)?1:-1];
+typedef char WeaponHitCallbackOffset[(offsetof(TItemWeapon,hit_callback)==0x1F4)?1:-1];
 typedef char WeaponBaseSize[(sizeof(TItemWeapon)==0x1F8)?1:-1];
 typedef char WeaponMarkerPacketSize[(sizeof(WeaponMarkerPacket)==0x14)?1:-1];
 extern "C" {

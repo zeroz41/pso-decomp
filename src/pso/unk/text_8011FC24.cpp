@@ -10,7 +10,6 @@
 extern "C" {
 
 s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
-void register_technique_boosts__14TItemEquipBaseFPC19TechniqueBoostParam(void*,void*);
 s32 obj_isState7_324(void*);
 void TItemEffectWeapon__sub_8036340C(void*);
 void TItemEffectWeapon__sub_80363410(void*);
@@ -99,7 +98,7 @@ void TItemWeapon::update_equipped() {
             frames=((WeaponMotionRecord *)self->model_motion)->frame_count;
             if((f32)frames<=self->motion_frame) self->motion_frame-=(f32)frames;
         }
-        register_technique_boosts__14TItemEquipBaseFPC19TechniqueBoostParam(self,self->material);
+        register_technique_boosts(technique_boosts);
         self->update_weapon();
         if(!obj_isState7_324(self->owner)) self->advance_weapon_photon_phase();
         if(((TItem *)self)->is_hidden()) {

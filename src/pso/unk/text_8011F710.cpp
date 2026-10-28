@@ -178,8 +178,8 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
                     ((VObj_18_f8c4e0 *)(arg2))->m22(this->owner, *(s32 *)((s8 *)arg2 + 0xA4) + temp_r31);
                     break;
                 }
-                if (((s32 (*)(s32, void *, s32, s32)) *(s32 (**)(s32, void *, s32, s32))((s8 *)((u8 *)this) + 0x1F4)) != NULL) {
-                    (*(s32 (**)(s32, void *, s32, s32))((s8 *)((u8 *)this) + 0x1F4))(tl_05, this, get_entity_id(arg2), arg4);
+                if (hit_callback != NULL) {
+                    hit_callback(tl_05, this, get_entity_id(arg2), arg4);
                 }
                 temp_r31_2 = (s32) var_f31_2;
                 TObjPlayer::calc_photon_blast_charge(this->owner, temp_r31_2);

@@ -12338,7 +12338,7 @@ force_active:
   - sub_800FEC40__17TObjEZBoneRotBaseFPUc
   - sub_800FED0C__17TObjEZBoneRotBaseFv
   - apply_equip_effects__14TItemEquipBaseFv
-  - sub_8011E56C__11TItemWeaponFPUc
+  - trace_from_owner__11TItemWeaponFPUc
   - sub_80140F44__11TMapCsnCtrlFv
   - sub_8015860C__6TOBindFv
   - sub_80160968__15TODoorAncient09Fv

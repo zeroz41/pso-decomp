@@ -24,8 +24,8 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     u8 special;
     set_attach_slot(6);
     parameters = (WeaponParams *)lookup_item_pmt_record(item);
-    *(s32 *)((s8 *)this + 0x1E0) = TObjPlayer::get_shield_pmt_entry(*(u8 *)((s8 *)parameters + 0x26));
-    *(s16 *)((s8 *)this + 0x1E8) = (s16) (s8) *(u8 *)((s8 *)((unsigned char *) (parameters)) + 0x17);
+    technique_boosts = (const TechniqueBoostParam *)TObjPlayer::get_shield_pmt_entry(*(u8 *)((s8 *)parameters + 0x26));
+    photon_color_id = (s16) (s8) *(u8 *)((s8 *)parameters + 0x17);
     grind = item[3];
     identified = ((TItemData *)item)->check_item_flags();
     special = parameters->special;
@@ -39,8 +39,8 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     }
     memcpy(attributes, item + 6, 6);
     impact_callback = 0;
-    *(s32 *)((s8 *)this + 0x1F4) = 0;
-    shot_callback = (void *)create_gun_shot;
+    hit_callback = 0;
+    shot_callback = (WeaponShotCallback)create_gun_shot;
     *(s16 *)((s8 *)this + 0x1CE) = (s16) *(u8 *)((s8 *)parameters + 0x1B);
     set_weapon_trail_joints(this, 0, parameters->trail_joints[0], parameters->trail_joints[1]);
     set_weapon_trail_joints(this, 1, parameters->trail_joints[2], parameters->trail_joints[3]);
@@ -55,7 +55,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     u32 group = get_item_group();
     if (group < 0xAA) {
         motion_type = get_weapon_class_motion_type(group);
-        if ((s16) *(s16 *)((s8 *)this + 0x1E8) != -1) {
+        if (photon_color_id != -1) {
             *(s16 *)((s8 *)this + 0x1CC) = (s16) *(u8 *)((s8 *)parameters + 0x20);
         } else {
             *(s16 *)((s8 *)this + 0x1CC) = -1;
@@ -67,10 +67,10 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     stage = -1;
     motion_frame = lbl_805DAC98;
     if (get_item_group() == 0) {
-        *(s16 *)((s8 *)this + 0x1E8) = -1;
+        photon_color_id = -1;
     } else {
         item_render_state.reset();
-        *(f32 *)((s8 *)this + 0x1C8) = lbl_805DAC98;
+        photon_phase = lbl_805DAC98;
     }
     set_weapon_category_flags();
     if (*(u8 *)((s8 *)parameters + 0x27) & 1) {
