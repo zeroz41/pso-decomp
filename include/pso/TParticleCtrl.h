@@ -29,7 +29,6 @@ public:
     static void reset_emitter_table();
     static void create_quad_sprites();
     static void set_tev_direct(s32 arg0);
-    int get_object();
     static void reset_ind_tev_stages(void * _w0);
     void play_particle(s32 arg1, s16 arg2);
     static void reset_particles();

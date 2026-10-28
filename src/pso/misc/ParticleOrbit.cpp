@@ -9,6 +9,7 @@
 #include "pso/misc/TUnk_8048E790.h"
 
 #include "types.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -407,7 +408,7 @@ u8 *init_orbit_sprite_particle(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg
     o->f68 = (lbl_805D9548 * (f32)rand()) - lbl_805D954C;
     o->fD4 = TParticleCtrl__data_805D9530;
     if (o->f24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return object;
 }
@@ -450,7 +451,7 @@ void *TUnk_8048E790::init_random_particle(void *arg1, void *arg2, void *arg3, vo
     o->f68 = (lbl_805D9548 * (f32)rand()) - lbl_805D954C;
     o->fD4 = TParticleCtrl__data_805D9530;
     if (o->f24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return this;
 }

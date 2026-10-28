@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/misc/TUnk_804ED5B0.h"
+#include "pso/unk/text_802A8210.h"
 #include "pso/unk/text_803281B8.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
 #include "pso/object/TObject_80019A50.h"
@@ -31,7 +32,6 @@ extern s32 lbl_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
 extern s32 lbl_804ED5B0[];
-int register_indirect_effect_ctrl(void*);
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 tl_05;
@@ -168,7 +168,7 @@ void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second) {
     TObjPlayer::play_particle_at_active_slot((s32) arg0, (s32) sampler, 0, 0, 0, second);
 }
 
-int TParticleCtrl::get_object() { return register_indirect_effect_ctrl(this); }
+void request_indirect_effect(s32 kind) { register_indirect_effect_ctrl(kind); }
 void TParticleCtrl::reset_ind_tev_stages(void * _w0) { GXSetTevDirect(1); GXSetNumIndStages(0); set_ginja_post_texgen_count(0); }
 void TParticleCtrl::play_particle(s32 arg1, s16 arg2) {
     if (arg2 < 0) {

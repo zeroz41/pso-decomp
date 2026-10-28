@@ -123,6 +123,7 @@ struct TItem : public TUnk_804AF8A0 {
     static void end_effect_render();
     void begin_particle_tev();
     void end_particle_tev();
+    void request_particle_indirect_effect();
     void end_shield_tev();
     void send_activate_effect(s32 effect);
     s32 has_bonus_stats();
@@ -213,7 +214,6 @@ extern "C" {
 // derived classes still written as C functions.
 void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
 void *__dt__5TItemFv(void *item, s16 deleting);
-int TObjPlayer__sub_80100F34(void *unused);
 }
 
 // Empty in this build: the inventory of a player record is decoded when

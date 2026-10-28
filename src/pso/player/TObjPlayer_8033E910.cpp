@@ -6,6 +6,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -22,7 +23,7 @@ struct Item_8033EB4C {
     s32 p18;
     s32 p1C;
     u16 scene;
-    u8 obj;
+    u8 effect_kind;  // indirect effect kind
     u8 pad23;
 };
 
@@ -115,14 +116,14 @@ void TObjPlayer::copy_node_record(s32 arg1) {
 void TUnk_804EFA88::render() {
     s32 i;
     for (i = 0; i < ((O_8033EB4C *)this)->n; i++) {
-        ((TParticleCtrl *)(((O_8033EB4C *)this)->items[i].obj))->get_object();
+        request_indirect_effect(((O_8033EB4C *)this)->items[i].effect_kind);
         set_material_alpha_compare_reference(((O_8033EB4C *)this)->items[i].scene);
         set_depth_buffer_settings_1();
         set_depth_buffer_settings_id(3);
         push_matrix();
         post_translate_matrix(((O_8033EB4C *)this)->items[i].a);
         rotate_matrix_by_node_angles(((O_8033EB4C *)this)->items[i].b, 1);
-        play_indirect_effect_recipe(((O_8033EB4C *)this)->items[i].obj, 1, 1);
+        play_indirect_effect_recipe(((O_8033EB4C *)this)->items[i].effect_kind, 1, 1);
         ((void (*)(void *))init_particle_effect__10TObjPlayerFv)(this);
         ((void (*)(void *))setup_projection_tex_matrix__10TObjPlayerFv)(this);
         ((void (*)(s32))set_global_param__8TObjFishFl)(((O_8033EB4C *)this)->items[i].p18);

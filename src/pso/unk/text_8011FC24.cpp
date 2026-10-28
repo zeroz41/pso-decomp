@@ -87,7 +87,7 @@ void TItemWeapon::vfunc_16() {
     s32 count;
     s32 idle_count;
     if(test_flags_1b8__11TItemWeaponFUl(self,0x100)==0) {
-        if(test_flags_1b8__11TItemWeaponFUl(self,0x4000)!=0) TObjPlayer__sub_80100F34(self);
+        if(test_flags_1b8__11TItemWeaponFUl(self,0x4000)!=0) ((TItem *)self)->request_particle_indirect_effect();
         ((TItemEquipBase *)self)->bind_loaded_resources();
         stage=((TItemWeapon *)self)->get_attack_stage();
         if(stage!=self->stage) {

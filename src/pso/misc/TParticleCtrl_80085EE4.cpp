@@ -13,6 +13,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -336,7 +337,7 @@ s32 TUnk_8048E728::is_particle_sprite_additive() {
 
 void TParticleCtrl::mark_active() {
     *(u16 *)((s8 *)this + 0x24) = (u16) (*(u16 *)((s8 *)this + 0x24) | 0x2000);
-    ((TParticleCtrl *)0x1F)->get_object();
+    request_indirect_effect(0x1F);
 }
 typedef char RecoveredGlobal_8008655C_lbl_8048E728_size[sizeof(RecoveredGlobal_8008655C_lbl_8048E728) == 0x18 ? 1 : -1];
 

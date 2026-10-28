@@ -11,6 +11,7 @@
 
 #include "types.h"
 #include "pso/unk/text_80141550.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -507,7 +508,7 @@ u8 *construct_ballistic_particle(void *a0, void *a1, void *a2, void *a3, s32 arg
         p->field_68 = (TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500;
     }
     if (p->field_24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return (u8 *)a0;
 }
@@ -576,7 +577,7 @@ void *TUnk_8048E778::init_particle_random_spread(void *a1, void *a2, void *a3) {
         p->field_68 = (TParticleCtrl__data_805D9504 * (f32)rand()) - TParticleCtrl__data_805D9500;
     }
     if (p->field_24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return this;
 }

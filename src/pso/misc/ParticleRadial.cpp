@@ -7,6 +7,7 @@
 #include "pso/misc/TUnk_8048E7A8.h"
 
 #include "types.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -387,7 +388,7 @@ u8 *construct_radial_particle(u8 *object, u8 *arg1, u8 *arg2, s32 arg3, u16 arg4
     ((Fields_arg0*)object)->field_40 = (f32) TParticleCtrl__data_805D955C;
     ((Fields_arg0*)object)->field_44 = (f32) TParticleCtrl__data_805D955C;
     if (((Fields_arg0*)object)->field_24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return object;
 }
@@ -419,7 +420,7 @@ u8 *TParticleCtrl::init_random_particle(u8 *arg1, u8 *arg2, s32 arg3) {
     ((Fields_arg0*)((u8 *)this))->field_40 = (f32) TParticleCtrl__data_805D955C;
     ((Fields_arg0*)((u8 *)this))->field_44 = (f32) TParticleCtrl__data_805D955C;
     if (((Fields_arg0*)((u8 *)this))->field_24 & 0x2000) {
-        ((TParticleCtrl *)((void *)0x1F))->get_object();
+        request_indirect_effect(0x1F);
     }
     return ((u8 *)this);
 }

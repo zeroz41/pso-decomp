@@ -73,6 +73,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/player/TObjPlayer_80104860.h"
+#include "pso/misc/TParticleCtrl_80327D30.h"
 
 // The two colours of the present box, by wrapping colour (box_color).
 NJS_ARGB item_box_primary_colors[6] = {
@@ -1103,7 +1104,7 @@ void TItem::end_particle_tev() {
     }
 }
 
-int TObjPlayer__sub_80100F34(void *) { return ((TParticleCtrl *)31)->get_object(); }
+void TItem::request_particle_indirect_effect() { request_indirect_effect(31); }
 
 void TItem::end_shield_tev() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_SHIELD_TEV) != 0) {

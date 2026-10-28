@@ -9,5 +9,7 @@ void *__dt__13TUnk_804ED5B0Fv(void *arg0, s16 arg1);
 }
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
+// Makes sure an indirect (TEV distortion) effect controller of this kind exists.
+void request_indirect_effect(s32 kind);
 
 #endif
