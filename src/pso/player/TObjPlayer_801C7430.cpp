@@ -1245,7 +1245,6 @@ s32 update_trap_sub__10TOMineTrapFv(void *, int, int);
 s32 fn_801B0480(int, void *, int);
 s32 draw_player_status(void *, void *, void *);
 s32 is_technique_ready__8TTecCtrlFv();
-s32 test_flag_2000000__10TObjPlayerFPv(void *);
 int deactivate_body_collision__10TObjPlayerFv(void*);
 s32 draw__10TObjPlayerFPvf(void *, f32);
 s32 reset_volopt_state__10TObjPlayerFv(void *obj);
@@ -5213,7 +5212,7 @@ void handle_6x46_attack_finished(s32 arg0) {
 void TObjPlayer::send_attack_target_packet() {
     u32 arg0 = (u32)this;
     s16 sp8[0x14];
-    if (((obj_isState2_324__13TUnk_804806E8Fv((void *) (arg0)) == 0) || (reset_volopt_state__10TObjPlayerFv((void *) (arg0)) != 0)) && ((((s32 (*)(void *))obj_isState3_324__13TUnk_804806E8Fv)((void *) (arg0)) != 0) || (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) && (test_flag_2000000__10TObjPlayerFPv((void *) (arg0)) == 0) && ((arg0 == 0U) || (obj_isState2_324__13TUnk_804806E8Fv((void *) (arg0)) == 0))) {
+    if (((obj_isState2_324__13TUnk_804806E8Fv((void *) (arg0)) == 0) || (reset_volopt_state__10TObjPlayerFv((void *) (arg0)) != 0)) && ((((s32 (*)(void *))obj_isState3_324__13TUnk_804806E8Fv)((void *) (arg0)) != 0) || (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) && (((TObjPlayer *)(arg0))->is_body_collision_inactive() == 0) && ((arg0 == 0U) || (obj_isState2_324__13TUnk_804806E8Fv((void *) (arg0)) == 0))) {
         ((TObjPlayer *)sp8)->build_packet_header();
         sp8[1] = get_entity_id((void *) (arg0));
         copy_attack_targets((void *) (&sp8[2]), (void *) (((TObjPlayer *)(arg0 + 0x7CC))->get_state_ptr()));

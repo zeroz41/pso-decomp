@@ -6,6 +6,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowCtrlMain.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
     extern int localized_alphabet_list;
@@ -22,7 +23,6 @@ extern const Vec lbl_8043DA90;
 extern u8 identity_matrix[];
 extern u8 *camera_ctrl_instance;
 void *get_player_by_client_id(u32 client_id);
-s32 test_flag_2000000__10TObjPlayerFPv(void *player);
 void push_matrix_from(void *src);
 void rotate_matrix_y(void *m, s32 angle);
 void rotate_matrix_x(void *m, s32 angle);
@@ -61,7 +61,7 @@ void TFontSmallHelp::render() {
     u32 rgba;
 
     player = get_player_by_client_id(player_id);
-    if (player != NULL && test_flag_2000000__10TObjPlayerFPv(player) != 0) {
+    if (player != NULL && ((TObjPlayer *)player)->is_body_collision_inactive() != 0) {
         return;
     }
     Vec forward = lbl_8043DA90;

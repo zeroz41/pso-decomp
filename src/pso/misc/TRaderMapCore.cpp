@@ -334,7 +334,6 @@ void* __nw__5THeapFUl(u32);
 void TRaderMapCore__sub_801F95CC(void);
 void GXSetScissor(u32, u32, u32, u32);
 s32 TCameraCtrl__sub_80069304();
-s32 test_flag_2000000__10TObjPlayerFPv(u32);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void *get_player_by_client_id(s32 i);
 extern u8 TCameraCtrl__view_state[];
@@ -817,7 +816,7 @@ void TRaderMapCore::gather_player_markers() {
     me = &((Core_801F9E9C *)this)->e[0];
     if (p != NULL) {
         team = TLobby__sub_801C19D0(p->sub828);
-        if (test_flag_2000000__10TObjPlayerFPv((u32)p) == 0) {
+        if (((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
             VecCopy((Vec *)me, (const Vec *)p->pos);
             me->y = lbl_805DC570;
             me->unkC = p->unk60;
@@ -848,7 +847,7 @@ void TRaderMapCore::gather_player_markers() {
         if (SHOW(this) == 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
             if (p != NULL && floor == get_field_3e4__10TObjPlayerFv() &&
-                test_flag_2000000__10TObjPlayerFPv((u32)p) == 0) {
+                ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = lbl_805DC570;
                 e->unkC = p->unk60;
@@ -861,7 +860,7 @@ void TRaderMapCore::gather_player_markers() {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
             if (p != NULL && floor == get_field_3e4__10TObjPlayerFv() &&
                 team == TLobby__sub_801C19D0(p->sub828) &&
-                test_flag_2000000__10TObjPlayerFPv((u32)p) == 0) {
+                ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = lbl_805DC570;
                 e->unkC = p->unk60;
@@ -1242,7 +1241,7 @@ s32 TRaderMapCore::is_render_admitted(void *arg1) {
         return 0;
     }
     if (((Radar_801FADF0 *)this)->f184 != 0) {
-        if (test_flag_2000000__10TObjPlayerFPv(((Radar_801FADF0 *)this)->f184) != 0) {
+        if (((TObjPlayer *)(((Radar_801FADF0 *)this)->f184))->is_body_collision_inactive() != 0) {
             return 0;
         }
         if (check_flag_100__10TObjPlayerFPv((void *)(((Radar_801FADF0 *)this)->f184)) != 0 && TRaderMapCore__view_mode != 1) {

@@ -536,7 +536,6 @@ struct VObj_8019D6F8_8019D4E4 : Base_8019D6F8_8019D4E4 {
 };
 
 int is_flag_400_set__10TObjPlayerFPv(void *p);
-s32 test_flag_2000000__10TObjPlayerFPv(void *);
 
 extern s32 quest_warp_enabled;
 extern s32 lbl_805D55C0;
@@ -678,7 +677,7 @@ u8 TObjWarpBase::vfunc_16() {
     if (player != NULL) {
         return (u8) (is_flag_400_set__10TObjPlayerFPv(player) == 0);
     }
-    if ((player != NULL) && (test_flag_2000000__10TObjPlayerFPv(player) != 0)) {
+    if ((player != NULL) && (((TObjPlayer *)player)->is_body_collision_inactive() != 0)) {
         return 0U;
     }
     return 1U;

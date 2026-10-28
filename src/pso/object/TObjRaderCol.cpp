@@ -4,6 +4,7 @@
 #include "pso/object/TObject_8001A448.h"
 #include "pso/object/TObjRaderCol.h"
 #include "pso/misc/TRaderMapCore.h"
+#include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_801976F4___vt__12TObjRaderCol {
     s32 value;
@@ -19,7 +20,6 @@ s32 __ct__13TUnk_804B9870FP7TObject(void *);
 extern s32 __vt__12TObjRaderCol[];
 extern s32 lbl_805D3410;
 f32 xz_distance_squared(void *, void *);
-int test_flag_2000000__10TObjPlayerFPv(void *);
 void *get_player_by_client_id(s32 i);
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
 extern s32 local_client_id;
@@ -35,7 +35,7 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
     found = 0;
     for (i = 0; i < 4; i++) {
         p = (Ply_8019750C *)get_player_by_client_id(i);
-        if (p != 0 && test_flag_2000000__10TObjPlayerFPv(p) != 0) {
+        if (p != 0 && ((TObjPlayer *)p)->is_body_collision_inactive() != 0) {
             found = 1;
         }
     }
@@ -59,7 +59,7 @@ void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0) {
 void TObjRaderCol::check_local_player_in_range(void *arg0_) {
     Ply_8019750C *p = (Ply_8019750C *)get_player_by_client_id(local_client_id);
     if (p != 0) {
-        if (test_flag_2000000__10TObjPlayerFPv(p) != 0) {
+        if (((TObjPlayer *)p)->is_body_collision_inactive() != 0) {
             return;
         }
     } else {

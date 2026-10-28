@@ -1122,7 +1122,7 @@ void TItem::load_projection_tex(s32 rotation_y) {
 // Hides the item while its owner is hidden or out of the local view.
 void TItem::update_owner_visibility() {
     if (owner != NULL) {
-        if (TObjPlayer::test_flag_2000000(owner) == 0 && are_items_enabled_here() == 1
+        if (owner->is_body_collision_inactive() == 0 && are_items_enabled_here() == 1
             && owner->is_flag_20000_set() == 0) {
             show();
             return;
@@ -1398,7 +1398,7 @@ void TItem::update_equipped() {}
 void TItem::snap_to_owner() {}
 
 void TItem::apply_switch_attack(s32 effect) {
-    if (owner != NULL && TObjPlayer::test_flag_2000000(owner) == 0) {
+    if (owner != NULL && owner->is_body_collision_inactive() == 0) {
         TParticleCtrl *particle = (TParticleCtrl *)spawn_particle_effect_with_flags(&owner->m_2fc, effect, 0x10);
         if (particle != NULL) {
             particle->set_owner_id(get_owner_client());
@@ -1407,7 +1407,7 @@ void TItem::apply_switch_attack(s32 effect) {
 }
 
 void TItem::notify_owner(s32 sound) {
-    if (owner != NULL && TObjPlayer::test_flag_2000000(owner) == 0) {
+    if (owner != NULL && owner->is_body_collision_inactive() == 0) {
         play_sound_effect(sound, owner->position, 0, 0);
     }
 }

@@ -9,6 +9,7 @@
 #include "pso/item/TUnk_804A05A8.h"
 #include "pso/item/TUnk_804A0588.h"
 #include "pso/item/TUnk_804A0568.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 void queue_destruction__7TObjectFv(void*);
@@ -158,7 +159,6 @@ s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
 s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
 s32 rand();
-s32 test_flag_2000000__10TObjPlayerFPv(s32);
 
 extern s32 __vt__10TItemTimer[];
 extern s32 lbl_805D2C88;
@@ -237,7 +237,7 @@ void TUnk_804A05A8::vfunc_6() {
 void TUnk_804A05C8::vfunc_6() {
     s32 particle_effect_with_flags;
 
-    if ((test_flag_2000000__10TObjPlayerFPv(this->m_28) == 0) && (is_flag_20000_set__10TObjPlayerFv(this->m_28) == 0)) {
+    if ((((TObjPlayer *)this->m_28)->is_body_collision_inactive() == 0) && (is_flag_20000_set__10TObjPlayerFv(this->m_28) == 0)) {
         ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
         if ((is_item_area_enabled() == 1) && (obj_testFlags30__13TUnk_804AF8A0FUl((void *)this->m_28, 0x800) == 0)) {
             particle_effect_with_flags = (s32)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), *(s32 *)&this->unk_2C, 0x10);

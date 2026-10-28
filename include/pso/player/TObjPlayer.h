@@ -472,7 +472,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     s32 get_hp_bonus();
     TItem *get_equipped_item(s32 slot);
     s32 is_flag_20000_set();
-    static s32 test_flag_2000000(void *player);
+    s32 is_body_collision_inactive();
     static int get_slot_value(void *slots, int slot);
     static void send_field_state_if_active(TObjPlayer *player, s32 flags);
     u32 pickup_item(TItem *item);

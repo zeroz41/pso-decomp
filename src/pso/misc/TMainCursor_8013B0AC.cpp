@@ -3,6 +3,7 @@
 #include "pso/misc/TLOC_End.h"
 #include "pso/misc/TLOC_Start.h"
 #include "pso/misc/TMainCursor.h"
+#include "pso/player/TObjPlayer.h"
 
 struct Cur_8013B0F0 {
     u8 pad0[0x4EC];
@@ -20,7 +21,6 @@ extern "C" {
 u16 TMainCursor__sub_8013E03C(void *p);
 s32 set_target_index__11TMainCursorFs(void *, int);
 s32 reset_nearest_target_record(void *);
-s32 test_flag_2000000__10TObjPlayerFPv(Pl_8013B0F0 *);
 s32 submit_cursor_candidate(Pl_8013B0F0 *, int);
 void *get_player_by_client_id(s32 i);
 extern Pl_8013B0F0 *player_slot_table[12];
@@ -50,7 +50,7 @@ void TLOC_Start::run_task() {
     if (get_main_phase() == 0xF) {
         for (i = 0; i < 12; i++) {
             Pl_8013B0F0 *p = player_slot_table[i];
-            if (p != NULL && test_flag_2000000__10TObjPlayerFPv(p) == 0) {
+            if (p != NULL && ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 submit_cursor_candidate(p, -1);
             }
         }
