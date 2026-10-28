@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TQuestThreadBoard.h"
+#include "pso/quest/TQuestThread.h"
 
 extern "C" {
 

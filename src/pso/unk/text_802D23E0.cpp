@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 
 #pragma inline_depth(1)

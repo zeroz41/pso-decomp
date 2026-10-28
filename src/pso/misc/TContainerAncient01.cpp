@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "types.h"
@@ -16,7 +16,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/enemy/TObjEnePanarms.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 
 struct Base_8018AC68_8018A584 { char pad[0x18]; };
@@ -413,18 +412,18 @@ s32 TContainerAncient01R::sub_8018A688() {
 
     advance_animation_playback(self);
     if (1e+01f == this->m_2b4) {
-        switch (get_current_area()) {
-        case 0x17:
-        case 0x18:
-        case 0x19:
-        case 0x1A:
-        case 0x1B:
+        switch (get_current_floor_area()) {
+        case AREA_CENTRAL_CONTROL_AREA:
+        case AREA_JUNGLE_NORTH:
+        case AREA_JUNGLE_EAST:
+        case AREA_MOUNTAIN:
+        case AREA_SEASIDE:
             play_sound_effect(0x4BC1C, (u8 *)self + 0x38, 0, 0);
             break;
-        case 0x22:
+        case AREA_SEASIDE_NIGHT:
             play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
             break;
-        case 0x23:
+        case AREA_TOWER:
             play_sound_effect(0x4004BC1C, (u8 *)self + 0x38, 0, 0);
             break;
         default:
@@ -733,18 +732,18 @@ void TContainerAncient01::sub_8018B284() {
     f32 t;
     advance_animation_playback(self);
     if (1e+01f == this->m_2b4) {
-        switch (get_current_area()) {
-        case 0x17:
-        case 0x18:
-        case 0x19:
-        case 0x1A:
-        case 0x1B:
+        switch (get_current_floor_area()) {
+        case AREA_CENTRAL_CONTROL_AREA:
+        case AREA_JUNGLE_NORTH:
+        case AREA_JUNGLE_EAST:
+        case AREA_MOUNTAIN:
+        case AREA_SEASIDE:
             play_sound_effect(0x4BC1C, self->pos, 0, 0);
             break;
-        case 0x22:
+        case AREA_SEASIDE_NIGHT:
             play_sound_effect(0x4004BC1C, self->pos, 0, 0);
             break;
-        case 0x23:
+        case AREA_TOWER:
             play_sound_effect(0x4004BC1C, self->pos, 0, 0);
             break;
         default:

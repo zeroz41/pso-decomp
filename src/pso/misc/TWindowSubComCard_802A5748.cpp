@@ -8,12 +8,12 @@
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/quest/TQuestThread.h"
 
 extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 create_window_menu(s32, s32, s32);
-void set_status_flag_80__12TQuestThreadFPv(void *p);
 s32 get_selected_menu_value(s32);
 int queue_destruction__7TObjectFv(void*);
 int set_selected_index__21TWindowSubComCardListFs(void*);
@@ -47,7 +47,7 @@ void initialize_option_dialog(void *arg0, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 *)((s8 *)arg0 + 0x28) = create_window_menu(arg2, 1, *(s32 *)((s8 *)arg0 + 0x24));
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)(*(s32 *)((s8 *)arg0 + 0x28)), (int)arg1, 0x21, 0);
     ((TAdChrSelASlotGC *)(*(s32 *)((s8 *)arg0 + 0x28)))->set_flag_40();
-    set_status_flag_80__12TQuestThreadFPv((void *)(*(s32 *)((s8 *)arg0 + 0x28)));
+    TQuestThread::set_status_flag_80((void *)(*(s32 *)((s8 *)arg0 + 0x28)));
     ((TWindowSubComCard *)(*(s32 *)((s8 *)arg0 + 0x28)))->calc_layout_height(farg0);
 }
 
@@ -60,7 +60,7 @@ void open_yes_no_prompt(TChCrTagPlBack *ch_cr_tag_pl_back, u32 arg1, s32 arg2, s
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii(((void *) *(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28)), (arg2), 0x21, 0);
     ((TAdChrSelASlotGC *)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28)))->set_flag_40();
-    set_status_flag_80__12TQuestThreadFPv((void *)((int) (*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28))));
+    TQuestThread::set_status_flag_80((void *)((int) (*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28))));
     ((TWindowSubComCard *)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x28)))->calc_layout_height(farg0);
     ch_cr_tag_pl_back->get_position_offset(&sp8);
     *(u8 **)((s8 *)ch_cr_tag_pl_back + 0x2C) = create_yes_no_window((s32)&sp8, (s32)(*(s32 *)((s8 *)ch_cr_tag_pl_back + 0x24)), (u32)(*(u8 **)((s8 *)ch_cr_tag_pl_back + 0x20)), (u32)(*(u32 *)((s8 *)ch_cr_tag_pl_back + 0x1C)));

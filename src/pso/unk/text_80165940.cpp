@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TODummyKeyCave01.h"
 #include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 typedef struct Pair_80165940 { u32 a; u32 b; } Pair_80165940;
 
 typedef struct Key_80165940 {
@@ -53,35 +53,35 @@ void TODummyKeyCave01::sub_80165940() {
     if (self->fC4 > 1) {
         self->fC4 = 0;
     }
-    switch (get_current_area()) {
-    case 3:
-    case 4:
-    case 5:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
         self->f90 = TOKeyCave01__texture_lists->a;
         self->f94 = TOKeyCave01__texture_lists->b;
         break;
-    case 1:
-    case 2:
-    case 6:
-    case 7:
+    case AREA_FOREST1:
+    case AREA_FOREST2:
+    case AREA_MINE1:
+    case AREA_MINE2:
         self->f34 = get_bml_model(key_machine_model_archive, 0);
         self->f90 = TOKeyMachine01__texture_lists->a;
         self->f94 = TOKeyMachine01__texture_lists->b;
         break;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         self->f34 = get_bml_model(TOKeyAncient03__model_archive, 0);
         self->f90 = TOKeyAncient03__texture_variants->a;
         self->f94 = TOKeyAncient03__texture_variants->b;
         break;
-    case 16:
-    case 17:
-    case 19:
-    case 20:
-    case 21:
-    case 22:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         if (self->fBC == 0) {
             self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
             self->f90 = TOKeyCave01__texture_lists->a;
@@ -92,15 +92,15 @@ void TODummyKeyCave01::sub_80165940() {
             self->f94 = TOKeyMachine01__texture_lists->b;
         }
         break;
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
-    case 28:
-    case 29:
-    case 34:
-    case 35:
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
         self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
         self->f90 = TOKeyCave01__texture_lists->a;
         self->f94 = TOKeyCave01__texture_lists->b;

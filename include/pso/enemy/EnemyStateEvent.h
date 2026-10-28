@@ -1,0 +1,10 @@
+#ifndef PSO_ENEMY_ENEMYSTATEEVENT_H
+#define PSO_ENEMY_ENEMYSTATEEVENT_H
+
+enum EnemyStateEvent {
+    ENEMY_STATE_UPDATE = 0,
+    ENEMY_STATE_ENTER = 4,
+    ENEMY_STATE_LEAVE = 5
+};
+
+#endif

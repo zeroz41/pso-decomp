@@ -4,7 +4,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneGibbles.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -20,7 +20,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
@@ -947,24 +946,24 @@ void move_with_wall_slide(u8 *arg0);
 int initialize_enemy_photon_effect(void *p);
 
 u32 TObjEneGibbles::resolve_sound_id(u32 sound_id) {
-  s32 iVar1;
+  s32 area;
   u32 pvVar2;
-  iVar1 = get_current_area();
+  area = get_current_floor_area();
   if (sound_id == 0x3a83d) {
     pvVar2 = (u32)(0x4003a321);
-    if (iVar1 != 0x23) {
+    if (area != AREA_TOWER) {
       pvVar2 = sound_id;
     }
   }
   else if (sound_id == 0x3a83e) {
     pvVar2 = (u32)(0x4003a322);
-    if (iVar1 != 0x23) {
+    if (area != AREA_TOWER) {
       pvVar2 = sound_id;
     }
   }
   else if (sound_id == 0x3a83f) {
     pvVar2 = (u32)(0x4003a323);
-    if (iVar1 != 0x23) {
+    if (area != AREA_TOWER) {
       pvVar2 = sound_id;
     }
   }
@@ -2329,7 +2328,7 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
     if (is_split_screen() != 0) {
         cam = get_camera_mode__11TCameraCtrlFv();
     }
-    if (get_current_area() == 0x23) {
+    if (get_current_floor_area() == AREA_TOWER) {
         vis = self->m9(600.0f, 600.0f, 30.0f);
     } else {
         vis = self->m9(lbl_805DE884, lbl_805DE87C, lbl_805DE880);

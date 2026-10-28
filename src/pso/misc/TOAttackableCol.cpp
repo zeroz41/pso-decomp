@@ -8,6 +8,7 @@
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby.h"
+#include "pso/quest/TQuestThread.h"
 
 void set_floor_switch_flag(u32 id, s16 floor);
 
@@ -57,7 +58,6 @@ u8 is_current_floor_switch_set(int);
 volatile int is_locally_controlled__10TObjPlayerFPv(void *);
 u16 get_entity_id(void *);
 void *spawn_particle_effect(void *pos, s32 id);
-u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
@@ -256,12 +256,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         temp_r0_2 = *((s32 *) (((s8 *) arg0) + 0x340));
         if ((((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8)) && (((u32) quest_mission_manager) != 0U)) && (((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          temp_r3 = ((u32)__nw__7TObjectFUl(0x194));
-          var_r0 = temp_r3;
-          if (var_r0 != 0U)
-          {
-            var_r0 = (u32)__ct__12TQuestThreadFv((u8 *)temp_r3, quest_mission_manager, this->m_344);
-          }
+          var_r0 = (u32)new TQuestThread((TObject *)quest_mission_manager, this->m_344);
           if (var_r0 != 0U)
           {
             ((TObject *)var_r0)->set_parent((TObject *)tl_00);
@@ -270,12 +265,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
         else
           if ((((u32) quest_area_manager) != 0U) && (((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0))
         {
-          temp_r3_2 = ((u32)__nw__7TObjectFUl(0x194));
-          var_r0_2 = temp_r3_2;
-          if (var_r0_2 != 0U)
-          {
-            var_r0_2 = (u32)__ct__12TQuestThreadFv((u8 *)temp_r3_2, quest_area_manager, this->m_344);
-          }
+          var_r0_2 = (u32)new TQuestThread((TObject *)quest_area_manager, this->m_344);
           if (var_r0_2 != 0U)
           {
             ((TObject *)var_r0_2)->set_parent((TObject *)tl_00);

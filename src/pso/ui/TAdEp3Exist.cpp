@@ -2,7 +2,7 @@
 #include "pso/TMainTask.h"
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/ui/TAdEp3Exist.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/TAdAgreementBaseGC.h"
 #include "pso/ui/TAdScrollWinGC_80327504.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801334D4.h"

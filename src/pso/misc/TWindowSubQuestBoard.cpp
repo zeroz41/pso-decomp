@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSubQuestBoard.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/misc/TWindowSubQuestBoard_8027D148.h"
 #include "pso/misc/TWindowSubQuestBoard_8027D1E8.h"
@@ -148,12 +148,12 @@ void TWindowSubQuestBoard::run_task() {
         }
         break;
     case 3:
-        this->m_2c = create_instance__17TQuestThreadBoardFi(
+        this->quest_thread_board = TQuestThreadBoard::create_instance(
             quest_board_handlers[get_page_index__20TWindowSubQuestBoardFv(this->m_28)].f20);
         this->m_1c = 4;
     case 4:
-        if (((TObject *)(this->m_2c))->all_parents_unqueued_for_destruction() == 0) {
-            this->m_2c = 0;
+        if (this->quest_thread_board->all_parents_unqueued_for_destruction() == 0) {
+            this->quest_thread_board = NULL;
             this->m_1c = 1;
         }
         break;

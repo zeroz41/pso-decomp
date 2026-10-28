@@ -8,7 +8,7 @@
 #include "pso/misc/TShopEquipmentGearSequence.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TCheckRoomSequence.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubComCard.h"
 
 struct VBase_18_a93f07

@@ -3,7 +3,7 @@
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 struct Base_8021277C { char pad[0x18]; };
 struct VObj_8021277C : Base_8021277C {

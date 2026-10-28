@@ -8,12 +8,11 @@
 #include "pso/misc/TWindowSubStatusDisp_80228CC0.h"
 #include "pso/misc/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -216,7 +215,7 @@ u8 *TWindowSubAreaMapDisp__ct(TWindowSubAreaMapDisp *window_sub_area_map_disp) {
         append_padded_number((get_window_count_ratio_value()), (2U));
         var_r30 = (u8 *)(get_shared_text_buffer());
     } else {
-        var_r30 = (u8 *)(get_floor_destination_name(get_current_area()));
+        var_r30 = (u8 *)(get_floor_destination_name(get_current_floor_area()));
     }
     temp_r3 = measure_string_len__20TWindowSubStatusDispFv((int)var_r30);
     window_sub_area_map_disp->m_74 = (s32)mem_alloc((temp_r3 + 1));

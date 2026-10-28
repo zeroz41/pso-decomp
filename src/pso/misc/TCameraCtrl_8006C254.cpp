@@ -8,12 +8,11 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/CameraHelpers.h"
 #include <stddef.h>
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TCameraCtrl_8006C580.h"
 #include "pso/system/memory.h"
 #include "pso/misc/TUnk_80488D70.h"
 #include "pso/misc/TScene.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 void __dl__7TObjectFPv(void *);
@@ -222,7 +221,7 @@ void TCameraCtrl::load_camera_banks() {
     for (i = 0; i < 8; i++) {
         TCameraCtrl__camera_banks.e[i].p = 0;
     }
-    b = &camera_path_bank_table[get_current_area()];
+    b = &camera_path_bank_table[get_current_floor_area()];
     if (b->entries == 0) {
         return;
     }

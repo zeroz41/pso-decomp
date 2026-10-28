@@ -12,12 +12,11 @@
 #include "pso/object/TObjDoorKey.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKeyAncient01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern char lbl_80445650[];
 extern char lbl_8044566C[];
@@ -214,18 +213,18 @@ void TObjDoorKey::debug_draw_key_id() {
 void TObjDoorKey::vfunc_19() {  }
 
 void TObjDoorKey::trigger_activate_sound() {
-    switch (get_current_area()) {
-    case 3:
-    case 4:
-    case 5:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_sound_effect(0x42D0A, ((u8 *)this) + 0x38, 0, 0);
         break;
-    case 0x13:
-    case 0x14:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x4C601, ((u8 *)this) + 0x38, 0, 0);
         break;
-    case 0x15:
-    case 0x16:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4004C601, ((u8 *)this) + 0x38, 0, 0);
         break;
     default:

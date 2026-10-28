@@ -5,6 +5,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowMessagePage.h"
+#include "pso/quest/TQuestThread.h"
 #pragma readonly_strings on
 extern "C" {
 void *memset(void *, int, unsigned long);
@@ -16,7 +17,6 @@ const char *get_status_window__20TWindowSubStatusDispFi(u16);
 extern s32 local_client_id;
 const char *get_selected_entry__16TQuestListOnlineFv();
 s32 get_game_play_mode();
-char *get_quest_name__12TQuestThreadFv(void);
 s32 get_shop_text(s32 arg0);
 TWindowMessagePage *create__18TWindowMessagePageFllll(s32, s32, s32, s32);
 TWindowMessagePage *set_text__18TWindowMessagePageFlll(s32, s32, s32);
@@ -72,7 +72,7 @@ void TMessageWindowController::append_quest_title() {
     append_text(message_tag_error);
 }
 void TMessageWindowController::append_quest_name() {
-    const char *text = get_quest_name__12TQuestThreadFv();
+    const char *text = TQuestThread::get_quest_name();
     if (strcmp(text, message_tag_error) == 0) {
         append_text(text);
         return;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TLockOnCursor.h"
 
 extern "C" {

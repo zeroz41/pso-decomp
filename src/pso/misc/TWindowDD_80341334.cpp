@@ -4,7 +4,6 @@
 #include "pso/misc/TWindowDD_WS_String.h"
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/misc/TWindowDD.h"
-#include "pso/misc/TWindowDD_WS_Word.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
@@ -47,11 +46,6 @@ extern const f32 lbl_805DFC20;
 s32 __nw__7TObjectFUl(int);
 extern const f32 TWindowDD__data_805DFB20;
 void __dl__7TObjectFPv(void *);
-u32 TWindowDD__sub_80348B70(s16);
-void TWindowDD__sub_80341674(TWindowDD_WS_Word *, u8 *);
-void draw_visible_window_entries(TWindowDD_WS_Word *, void *, u8 *);
-s32 sub_80342254__17TWindowDD_WS_WordFv(TWindowDD_WS_Word *);
-extern const f32 lbl_805DFCA0;
 
 void *__dt__9TWindowDDFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -111,38 +105,5 @@ void TWindowDD__sub_803414DC(void) {
     *(f32 *)((s8 *)(&(*(RecoveredGlobal_803414DC_TWindowDD__data_804EFC24 *)&TWindowDD__data_804EFC24).value) + 8) = (f32) lbl_805DFC20;
 }
 
-
-void TWindowDD__sub_80341500(TWindowDD_WS_Word *self) {
-    u8 *entry;
-    u8 *item;
-    s32 idx;
-    s32 i;
-    s32 j;
-    entry = (u8 *)TWindowDD::draw_default_entry((s32)self);
-    self->calc_inner_rect(entry);
-    TWindowDD__sub_80341674(self, entry);
-    if (*(s32 *)((s8 *)self + 0x8C) != 0) {
-        *(s32 *)((s8 *)self + 0x8C) = 0;
-        idx = self->m_68 - *(s32 *)((s8 *)self + 0x6C);
-        for (i = 0; i < *(s32 *)((s8 *)self + 0x7C); i++, idx++) {
-            item = (u8 *)self->get_array_entry(i);
-            set_text_entry_string(item, TWindowDD__sub_80348B70(((s16 *)self->m_80)[idx]), 0xC0);
-            *(f32 *)((s8 *)item + 0xC) = (f32)(i * 20);
-            refresh_status_display__9TWindowDDFv((int)item);
-            ((TWindowHelpItem *)item)->reset_float_field();
-            *(s32 *)((s8 *)item + 0x24) = TWindowDD__data_805DFC14;
-        }
-        if (sub_80342254__17TWindowDD_WS_WordFv(self) != 0) {
-            for (j = 0; j < *(s32 *)((s8 *)self + 0x7C); j++) {
-                item = (u8 *)self->get_array_entry(j);
-                if (j == *(s32 *)((s8 *)self + 0x6C)) {
-                    *(s32 *)((s8 *)item + 0x24) = lbl_805DFC18;
-                }
-            }
-        }
-    }
-    *(f32 *)(entry + 0x14) += lbl_805DFCA0;
-    draw_visible_window_entries(self, (s8 *)self + 0x24, entry);
-}
 
 }

@@ -16,7 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TOKeyJungleMain.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Base_8029D3A4_8029CF68;
 struct Base_8029CF68;
@@ -459,7 +459,7 @@ void render__8TObjFishFv(u8 *arg0) {
             post_translate_matrix(f);
             rotate_matrix_y(0, f->rot + (s32)r);
             set_depth_buffer_settings_id(3);
-            if (get_current_area() == 0x1C) {
+            if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->kind) {
                 case 1:
                     TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
@@ -759,8 +759,8 @@ void *__vt__8TObjFish[13] = {
 void TObjFish::load_area_resource() {
     u8 *base = (u8 *)fish_resource_name_table;
     u8 *p;
-    switch (get_current_area()) {
-    case 24:
+    switch (get_current_floor_area()) {
+    case AREA_JUNGLE_NORTH:
         TObjFish__area_event_stage = 1;
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -768,8 +768,8 @@ void TObjFish::load_area_resource() {
         }
         (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
         break;
-    case 27:
-    case 34:
+    case AREA_SEASIDE:
+    case AREA_SEASIDE_NIGHT:
         TObjFish__area_event_stage = 2;
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -777,7 +777,7 @@ void TObjFish::load_area_resource() {
         }
         (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
         break;
-    case 28:
+    case AREA_SEABED_UPPER:
         TObjFish__area_event_stage = 3;
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -785,7 +785,7 @@ void TObjFish::load_area_resource() {
         }
         (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
         break;
-    case 29:
+    case AREA_SEABED_LOWER:
         TObjFish__area_event_stage = 4;
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -793,7 +793,7 @@ void TObjFish::load_area_resource() {
         }
         (*(u32 *)&TObjFish__area_bml_resource) = (u32)p;
         break;
-    case 15:
+    case AREA_LOBBY:
     default:
         TObjFish__area_event_stage = 0;
         p = (u8 *)::operator new(0x440);

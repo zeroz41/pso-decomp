@@ -12,7 +12,7 @@
 #include "pso/misc/TWindowSubEquip.h"
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Pad_8024DCE8 { u8 pad[0x20]; u8 btn[0x30]; };
 
@@ -278,7 +278,7 @@ void TWindowCtrlPlayer::sub_8024E0F0() {
         }
         break;
     case 38:
-        if (are_items_enabled_here() != 0) {
+        if (is_current_area_item_enabled() != 0) {
             temp_r3_2 = this->m_34;
             if (temp_r3_2 != 0U) {
                 ((TQuestVmDownLoadServer *)temp_r3_2)->clear_flag4_bit4();

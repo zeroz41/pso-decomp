@@ -3,6 +3,21 @@
 
 #include "types.h"
 #include "pso/TObject.h"
+#include "pso/item/TItemData.h"
+
+struct TLobbyFloorItemEntry {
+    u8 n;
+    u8 m_1;
+    s16 m_2;
+    f32 m_4;
+    f32 m_8;
+    s16 m_c;
+    u16 key;
+    TItemData item_data;
+};
+
+typedef char TLobbyFloorItemEntrySize[(sizeof(TLobbyFloorItemEntry) == 0x24) ? 1 : -1];
+typedef char TLobbyFloorItemEntryDataOffset[(offsetof(TLobbyFloorItemEntry, item_data) == 0x10) ? 1 : -1];
 
 struct TLobby : public TObject {
     virtual ~TLobby();
@@ -158,6 +173,7 @@ struct TLobby : public TObject {
     void bswap_player_packet();
     void update_and_send();
     void bswap_item();
+    static TLobbyFloorItemEntry *copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src);
     static void set_boss_buf_entry(int a0, int a1);
     static int get_sync_counter(int a0);
     static s32 get_item_data(u32 arg0);
@@ -998,10 +1014,7 @@ struct TLobby : public TObject {
     static s32 load_texture_pvm_file(const char *name, s32 arg1);
     s32 pso_load_texture();
     static unsigned char read_packet_byte();
-    s32 dispatch_quest();
     static void close_windows();
-    void save_quest_state_to_record();
-    void load_quest_globals();
     static void clear_quest_vm_flag();
     static void free_luker_object();
     void set_flag_80000();

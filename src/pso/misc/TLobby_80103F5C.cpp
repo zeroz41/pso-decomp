@@ -134,6 +134,11 @@ void TLobby__sub_801041D8(void) {
 }
 void TLobby::bswap_item() { bswap_16((u16 *)((char*)this + 0x2)); bswap_32((u32 *)((char*)this + 0x4)); bswap_32((u32 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xc)); bswap_16((u16 *)((char*)this + 0xe)); bswap__9TItemDataFv((s32)((char*)this + 0x10)); }
 
+TLobbyFloorItemEntry *TLobby::copy_floor_item_entry(TLobbyFloorItemEntry *dst, TLobbyFloorItemEntry *src) {
+    *dst = *src;
+    return dst;
+}
+
 typedef char SyncItemHeaderPlayerIds[offsetof(G_SyncItemState_6x6D_Decompressed, next_item_id_per_player) == 0x20 ? 1 : -1];
 typedef char SyncItemHeaderFloorCounts[offsetof(G_SyncItemState_6x6D_Decompressed, floor_item_count_per_floor) == 0x50 ? 1 : -1];
 typedef char SyncItemHeaderSize[sizeof(G_SyncItemState_6x6D_Decompressed) == 0x8C ? 1 : -1];
@@ -152,6 +157,9 @@ void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header) {
 void TLobby__sub_80104350(void) {
     __ct__8FlagWordFv((&lbl_805D5430));
 }
+
+__declspec(section ".ctors") static void *const __sinit_TLobby_80103F5C_cpp_ref = (void *)TLobby__sub_80104350;
+
 void TLobby::set_boss_buf_entry(int a0, int a1) { item_sync_counter_table[(unsigned short)(a1)] = a0; }
 int TLobby::get_sync_counter(int a0) {  return item_sync_counter_table[(unsigned short)(a0)]; }
 s32 TLobby::get_item_data(u32 arg0) {

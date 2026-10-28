@@ -4,8 +4,7 @@
 #include "pso/item/TObjContainerBase.h"
 #include "pso/misc/TLanguage.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct BmlResourceBlock_804B0068 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B0068_size[(sizeof(BmlResourceBlock_804B0068) == 0x20) ? 1 : -1];
@@ -65,10 +64,10 @@ extern void *ancient_container_resource_bundle;
 extern u32 *ancient_container_fragment_texture_lists;
 void TLanguage::load_container_fragment_textures() {
     u8 *tbl = (u8 *)&bm_o_container_ancient_resource_bundle;
-    s32 state = get_current_area();
+    s32 area = get_current_floor_area();
     void *p;
     if (enable_v2_features == 1 &&
-        (state == 0x10 || state == 0x15 || state == 0x16 || state == 0x21)) {
+        (area == AREA_BATTLE1 || area == AREA_VR_SPACESHIP_ALPHA || area == AREA_VR_SPACESHIP_BETA || area == AREA_GOL_DRAGON)) {
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, tbl + 0x50, 0, 0, 0);
@@ -79,7 +78,7 @@ void TLanguage::load_container_fragment_textures() {
         ancient_container_fragment_texture_lists[1] = (u32)load_gvm_texture_file((s32)lbl_80440850);
         ancient_container_fragment_texture_lists[2] = (u32)load_gvm_texture_file((s32)lbl_8044086C);
     } else if (enable_v2_features == 1 &&
-               (state == 0x11 || state == 0x13 || state == 0x14 || state == 0x20)) {
+               (area == AREA_BATTLE2 || area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA || area == AREA_BARBA_RAY)) {
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 1, tbl + 0x30, 0, 0, 0);

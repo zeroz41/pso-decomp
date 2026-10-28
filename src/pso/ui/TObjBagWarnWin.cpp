@@ -3,11 +3,11 @@
 #include "pso/unk/text_8006EF80.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Sub_8006EC20 {
     u8 pad[0x1C];
@@ -53,13 +53,13 @@ s32 TObjBagWarnWin::should_show_warning(void *arg0) {
     if (ctrl == NULL) {
         return 0;
     }
-    switch (get_current_area()) {
-    case 0:
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
         if (ctrl->f38 <= lbl_805D90B8 || ctrl->f38 >= lbl_805D90BC) {
             return 0;
         }
         break;
-    case 18:
+    case AREA_PIONEER2_EP2:
         if (ctrl->f38 <= lbl_805D90C0 || ctrl->f40 <= lbl_805D90C4) {
             return 0;
         }

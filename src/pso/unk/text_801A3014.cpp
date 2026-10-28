@@ -13,10 +13,12 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLoadCtrl.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/quest/TQuestThread.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_801A3540_lbl_804C1F68 {
     s32 value;
@@ -121,8 +123,6 @@ s32 get_current_floor();
 void find_leader_section_id(void *, s32);
 void unlock_main_warp_destination(s32);
 void reset_controller_input_state();
-u8 *create_floor_quest_thread(void);
-void __ct__12TQuestThreadFv(void *, u32, int);
 void load_area_scene_and_init(void *);
 void promote_area_floor(void *);
 void *__nw__7TObjectFUl(u32);
@@ -138,8 +138,6 @@ s32 TLobby__sub_80207E48();
 s32 get_team_state__6TLobbyFPv();
 s32 TLobby__sub_8020DC78();
 s32 get_game_play_mode();
-s32 clear_all_floor_handlers();
-s32 create_by_mode__12TQuestThreadFv();
 s32 TKeyBoardControl__sub_8000F95C();
 s32 clear_keyboard_key_state();
 s32 TKeyBoardControl__sub_8000F9CC(s32);
@@ -166,7 +164,6 @@ s32 TObjPlayer__sub_801B1C8C();
 s32 set_copy_clear_color_argb(s32, s32, s32);
 s32 TLobby__sub_801F3774();
 s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv();
-s32 set_current_floor_area(s32);
 }
 void clear_resource_load_tasks(void);
 void run_single_view_frame(void);
@@ -296,7 +293,7 @@ void TLobby::rebuild_area_keep_players() {
     TLobby::reset_quest_state();
     get_team_state__6TLobbyFPv();
     TLobby__sub_8020DC78();
-    clear_all_floor_handlers();
+    TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     if (TRaderMapCore::is_not_split_screen() == 1) {
@@ -311,13 +308,10 @@ void TLobby::rebuild_area_keep_players() {
         }
     }
     TLoadCtrl::start_loading(1);
-    create_by_mode__12TQuestThreadFv();
+    TQuestThread::create_by_mode();
     clear_quest_floor_designations();
     {
-        void *t = __nw__7TObjectFUl(0x194);
-        if (t != NULL) {
-            t = ((void *(*)(void *, u32, int))__ct__12TQuestThreadFv)(t, quest_mission_manager, 0);
-        }
+        void *t = new TQuestThread((TObject *)quest_mission_manager, 0);
         ((VObj_801A31D8 *)t)->m1();
     }
     TLobby::set_enemy_mode_flag();
@@ -343,7 +337,7 @@ void TLobby::rebuild_area_keep_players() {
             for_each_player_slot__10TObjPlayerFv(fn_801B309C);
         }
     }
-    create_floor_quest_thread();
+    TQuestThread::create_for_floor();
     __dt__7TObjectFv(&holder, -1);
 }
 
@@ -383,12 +377,9 @@ void run_offline_area_transfer(void) {
             ((VObj_801A33DC *)p)->m6();
         }
     }
-    create_floor_quest_thread();
+    TQuestThread::create_for_floor();
     if (quest_area_manager != 0) {
-        p = __nw__7TObjectFUl(0x194);
-        if (p != NULL) {
-            __ct__12TQuestThreadFv(p, quest_area_manager, 0);
-        }
+        new TQuestThread((TObject *)quest_area_manager, 0);
     }
     __dt__7TObjectFv(&holder, -1);
 }
@@ -598,10 +589,7 @@ void init_offline_game_scene(void) {
     }
     TObjPlayer__sub_801B1BA4();
     if (quest_area_manager != 0) {
-        void *q = __nw__7TObjectFUl(0x194);
-        if (q != NULL) {
-            __ct__12TQuestThreadFv(q, quest_area_manager, 0);
-        }
+        new TQuestThread((TObject *)quest_area_manager, 0);
     }
     if (save_character_to_card__23TAdSinglePlyChrSelectGCFv() == 0) {
         if (is_quest_active() != 0) {

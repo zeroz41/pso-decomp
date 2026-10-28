@@ -9,12 +9,12 @@
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/item/TUnk_804A05C8.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_802034B0.h"
+extern "C" s32 is_item_area_enabled(s32 area);
 #include "pso/TMainTask.h"
 
 extern "C" {
@@ -82,7 +82,7 @@ void TItemProArmorParticle::on_unequip() {
 void TItemProArmorParticle::update_equipped() {
     s32 area;
     if (particle_mode == ARMOR_PARTICLE_PER_AREA) {
-        area = get_current_area();
+        area = get_current_floor_area();
         if (area != last_area) {
             last_area = area;
             if (is_item_area_enabled(area) != 0) {

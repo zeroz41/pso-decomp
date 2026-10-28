@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Base_8016A604 { char pad[0x18]; };
 struct VObj_8016A604 : Base_8016A604 {
@@ -35,58 +34,58 @@ s32 play_sound_effect(int, void *, int, int);
 extern s32 enable_v2_features;
 void TOKey::vfunc_23() {
     s32 arg0 = (s32)this;
-    u32 global_state;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 1:
-    case 2:
+    u32 area;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_FOREST1:
+    case AREA_FOREST2:
         play_sound_effect(0x4AD0C, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 3:
-    case 4:
-    case 5:
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_sound_effect(0x42D0B, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         play_sound_effect(0x4004AD05, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_sound_effect(0x4004AD0C, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 16:
-    case 17:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
         if ((s32) enable_v2_features == 1) {
             play_sound_effect(0x4004AD03, (void *)(arg0 + 0x38), 0, 0);
             break;
         }
     default:
         break;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x4AD03, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4004AD03, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x4AD13, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4004AD13, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4004AD13, (void *)(arg0 + 0x38), 0, 0);
         break;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4004AD13, (void *)(arg0 + 0x38), 0, 0);
         break;
     }
@@ -97,11 +96,11 @@ void TBoss3Volopt::call_vt21() {
     o->m21();
 }
 void TOKey::play_activate_sound() {
-    u32 global_state;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 1:
-    case 2:
+    u32 area;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_FOREST1:
+    case AREA_FOREST2:
         switch (this->m_d0) {
         case 0:
             play_sound_effect(0x4C60A, (u8 *)&this->position, 0, 0);
@@ -111,9 +110,9 @@ void TOKey::play_activate_sound() {
             return;
         }
         break;
-    case 3:
-    case 4:
-    case 5:
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         switch (this->m_d0) {
         case 0:
             play_sound_effect(0x44609, (u8 *)&this->position, 0, 0);
@@ -123,8 +122,8 @@ void TOKey::play_activate_sound() {
             return;
         }
         break;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         switch (this->m_d0) {
         case 0:
             play_sound_effect(0x4004C603, (u8 *)&this->position, 0, 0);
@@ -134,9 +133,9 @@ void TOKey::play_activate_sound() {
             return;
         }
         break;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         switch (this->m_d0) {
         case 0:
             play_sound_effect(0x4004C60A, (u8 *)&this->position, 0, 0);
@@ -146,8 +145,8 @@ void TOKey::play_activate_sound() {
             return;
         }
         break;
-    case 16:
-    case 17:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
         if ((s32) enable_v2_features == 1) {
             switch (this->m_d0) {
             case 0:
@@ -159,29 +158,29 @@ void TOKey::play_activate_sound() {
             }
         }
         break;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x4C601, (u8 *)&this->position, 0, 0);
         return;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4004C601, (u8 *)&this->position, 0, 0);
         return;
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x4C611, (u8 *)&this->position, 0, 0);
         return;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4004C611, (u8 *)&this->position, 0, 0);
         return;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4004C611, (u8 *)&this->position, 0, 0);
         return;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4004C611, (u8 *)&this->position, 0, 0);
         break;
     }

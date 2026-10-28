@@ -1,9 +1,10 @@
 #include "types.h"
 #include "pso/system/FlagWord.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_80354EC8.h"
 #include "pso/ui/TAdPlyPltAnimCtrlGC.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/quest/TQuestThread.h"
 
 extern "C" {
 s32 __destroy_arr(void *, void *, int, int);
@@ -11,9 +12,8 @@ extern u8 lbl_80543984[];
 void __register_global_object(void *, void *, void *);
 void __construct_array(void *, void *, void *, u32, u32);
 extern u8 lbl_80543978[];
-int create_quest_thread(void);
 
-void TObjPlayer::finish_quest_thread() { ((int (*)())get_quest_thread_id__10TObjPlayerFPv)(); create_quest_thread(); }
+void TObjPlayer::finish_quest_thread() { TQuestThread::create_in_root(((int (*)())get_quest_thread_id__10TObjPlayerFPv)()); }
 
 void TObjPlayer__sub_80354EEC(void) {
     __construct_array(lbl_80543984, (void *)init_and_reset_forward__10TObjPlayerFPv, (void *)TObjPlayer__sub_80355098, 8, 4);

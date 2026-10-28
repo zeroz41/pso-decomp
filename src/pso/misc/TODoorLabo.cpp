@@ -2,7 +2,6 @@
 #include "pso/system/NinjaUtil.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TODoorFourLightBase.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
 #include "pso/player/TObjPlayer.h"
@@ -10,7 +9,7 @@
 #include "pso/misc/TODoorLabo.h"
 #include "pso/misc/TODoorLaboNormal.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 extern char lbl_80465EAC[];
@@ -366,12 +365,12 @@ void TLobby::free_global_buffers() {
     }
 }
 void TLanguage__sub_8029FF0C(void) {
-    s32 global_state;
+    s32 area;
     s32 var_r0;
     s32 var_r0_2;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 28:
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_SEABED_UPPER:
         var_r0 = (int)::operator new(0x440);
         if (var_r0 != 0) {
             var_r0 = load_resource_from_descriptor(var_r0, 5, bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);
@@ -380,7 +379,7 @@ void TLanguage__sub_8029FF0C(void) {
         seabed_four_light_door_textures = (s32)load_gvm_texture_file((s32)lbl_804660AC);
         TODoorFourLightSeabedU__texture_list = (s32)load_gvm_texture_file((s32)lbl_804660C8);
         return;
-    case 29:
+    case AREA_SEABED_LOWER:
         var_r0_2 = (int)::operator new(0x440);
         if (var_r0_2 != 0) {
             var_r0_2 = load_resource_from_descriptor(var_r0_2, 5, bm_o_door_seabed01_u_resource_descriptor, 0, 0, 0);

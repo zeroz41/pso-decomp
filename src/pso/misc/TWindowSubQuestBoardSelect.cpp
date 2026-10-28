@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -87,7 +87,7 @@ s32 get_slot_flag__26TWindowSubQuestBoardSelectFic(s32 arg0, s8 arg1) {
     if (arg1 > 6) {
         return 0;
     }
-    return get_register__12TQuestThreadFPvi((u8 *)quest_mission_manager, arg1 + 0x4A);
+    return TQuestThread::get_register((u8 *)quest_mission_manager, arg1 + 0x4A);
 }
 
 void TWindowSubQuestBoardSelect::update_slot_display_flags() {
@@ -315,7 +315,7 @@ u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_
     *(s32 *)&window_sub_quest_board_select->m_64 = var_r30;
     *(s8 *)&window_sub_quest_board_select->m_60 = 0;
     temp_r30 = ((TUnk_804CE018 *)window_sub_quest_board_select)->get_array_entry(0);
-    set_text_entry_string((u8 *)temp_r30, (u32)(get_quest_name__12TQuestThreadFv()), 0);
+    set_text_entry_string((u8 *)temp_r30, (u32)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();
     *(f32 *)((s8 *)temp_r30 + 8) = 210.0f - 0.5f * temp_f2;

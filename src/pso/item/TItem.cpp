@@ -68,7 +68,7 @@
 #include <dolphin/base/PPCArch.h>
 #include <stdlib.h>
 #include <string.h>
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/player/TObjPlayer_80104860.h"
@@ -433,7 +433,7 @@ void TItem::render() {
 void TItem::render_shadows() {
     if (all_parents_unqueued_for_destruction() != 0) {
         set_shadow_flag();
-        if (get_mode() == ITEM_MODE_EQUIPPED && are_items_enabled_here() != 0) {
+        if (get_mode() == ITEM_MODE_EQUIPPED && is_current_area_item_enabled() != 0) {
             set_depth_buffer_settings_id(1);
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
@@ -987,7 +987,7 @@ s32 TItem::is_custom_name_srank() {
 }
 
 void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
-    if (get_current_area() != 15) {
+    if (get_current_floor_area() != AREA_LOBBY) {
         cmd->bswap();
         TItem *mag = find_item_by_id(cmd->mag_item_id);
         if (mag != NULL && mag->owner != NULL) {
@@ -997,7 +997,7 @@ void handle_6x61_activate_item_effect(G_ActivateMagEffect_6x61 *cmd) {
 }
 
 void TItem::send_activate_effect(s32 effect) {
-    if (owner != NULL && get_current_area() != 15 && owner->obj_isState2_324() == 0) {
+    if (owner != NULL && get_current_floor_area() != AREA_LOBBY && owner->obj_isState2_324() == 0) {
         G_ActivateMagEffect_6x61 cmd;
         cmd.mag_item_id = get_item_id();
         cmd.effect_number = effect;
@@ -1121,7 +1121,7 @@ void TItem::load_projection_tex(s32 rotation_y) {
 // Hides the item while its owner is hidden or out of the local view.
 void TItem::update_owner_visibility() {
     if (owner != NULL) {
-        if (owner->is_body_collision_inactive() == 0 && are_items_enabled_here() == 1
+        if (owner->is_body_collision_inactive() == 0 && is_current_area_item_enabled() == 1
             && owner->is_flag_20000_set() == 0) {
             show();
             return;

@@ -7,9 +7,10 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
+#include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct Stack_801D8664 {
     s8 sp8;
     s8 sp9;
@@ -151,7 +152,6 @@ void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_en
 }
 
 #include "pso/boss/TBoss4DarkFalz.h"
-#include "pso/misc/TOKeyMachine01.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -537,7 +537,7 @@ typedef char RecoveredGlobal_801D8FB4_lbl_804C495C_size[((sizeof(RecoveredGlobal
 s32 TObjPlayer::get_footstep_floor_index() {
     s32 floor;
     s32 (*table)[5];
-    floor = get_current_area();
+    floor = get_current_floor_area();
     table = player_footstep_floor_table[classify_action_state__10TObjPlayerFv(this)];
     if (floor == 0xE && TBoss4DarkFalz::get_instance_count() == 0) {
         floor = 1;

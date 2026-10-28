@@ -4,6 +4,12 @@
 #include "types.h"
 #include "pso/misc/TUnk_804CE018.h"
 
+struct SoundBalanceSettings {
+    u8 unknown_00[4];
+    s16 music_gain;
+    s8 sound_effect_gain;
+};
+
 struct TWindowSoundBalance : public TUnk_804CE018 {
     virtual ~TWindowSoundBalance();
     int is_active();
@@ -12,11 +18,14 @@ struct TWindowSoundBalance : public TUnk_804CE018 {
     void* m_24;
     u8 _pad28[0x38];
     u8 m_60;
-    u8 m_61;
-    u16 m_62;
-    u16 m_64;
+    s8 selection;
+    s16 music_gain;
+    s16 sound_effect_gain;
+    void set_sound_effect_gain(s16 gain);
+    void set_music_gain(s16 gain);
     void play_open_sound();
     void handle_lr_input();
+    void sub_8027095C();
     virtual void run_task();
     void apply_balance(void *arg1);
     void handle_cancel();

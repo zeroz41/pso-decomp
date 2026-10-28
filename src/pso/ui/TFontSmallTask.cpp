@@ -7,6 +7,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowKeyBoardHard.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/map/FloorArea.h"
 
 struct Vec_800FD4D4 {
     f32 x, y, z;
@@ -79,7 +80,6 @@ void rotate_matrix_x(int, s32);
 void rotate_matrix_z(int, s32);
 void rotate_vector_by_matrix(int, Vec_800FCD40 *, Vec_800FCD40 *);
 void pop_matrix(void);
-s32 is_boss_area(void);
 f32 vec3_dot(Vec_800FCD40 *, Vec_800FCD40 *);
 void push_matrix(void);
 void project_world_to_screen(int, f32 *, f32 *);

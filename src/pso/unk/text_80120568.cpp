@@ -6,7 +6,7 @@
 #include "pso/TItemEffEquip.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct Pair_801205F4 { u8 a; s8 b; };
 
 struct Data_801205F4 { u8 pad[0x27]; u8 flags; };
@@ -202,7 +202,7 @@ void TItemWeapon::apply_owner_bonuses() {
 void TItemWeapon::on_equip() {
     Player_8012065C *arg0 = (Player_8012065C *)this;
     if (test_flags_any((u8 *)arg0 + 0x178, 1) != 0) {
-        if (!(((TItem *)arg0)->get_item_flags() & 0x20) && are_items_enabled_here() != 0) {
+        if (!(((TItem *)arg0)->get_item_flags() & 0x20) && is_current_area_item_enabled() != 0) {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }
         ((TItemWeapon *)arg0)->clear_weapon_flags(0x100);

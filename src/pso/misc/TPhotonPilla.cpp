@@ -21,8 +21,7 @@
 #include "pso/misc/TLobby_802268F4.h"
 #include "pso/misc/obj_band.h"
 #include "pso/unk/text_801AE1F8.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 typedef struct { f32 x; f32 y; f32 z; } Vec3;
 
@@ -266,7 +265,7 @@ void *lbl_804C3ACC[17] = {
 };
 u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     u8 *temp_r3;
-    s32 state;
+    s32 area;
     void *mem;
     photon_base_ct(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
@@ -296,12 +295,12 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     ((TPhotonPilla *)photon_rainbow)->m_134 = 4;
     ((TPhotonPilla *)photon_rainbow)->enter_scene();
     *(s32 *)((s8 *)photon_rainbow + 0x1A8) = 0;
-    state = get_current_area();
-    switch (state) {
-    case 11:
-    case 12:
-    case 13:
-    case 14:
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_DRAGON:
+    case AREA_DE_ROL_LE:
+    case AREA_VOL_OPT:
+    case AREA_DARK_FALZ:
         mem = __nw__7TObjectFUl(0xAC);
         if (mem != NULL) {
             TPhotonRainbow__ct(mem, photon_rainbow, photon_rainbow + 0x38, 1);

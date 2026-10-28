@@ -8,7 +8,7 @@
 struct TCameraCtrl;
 #include "pso/player/TObjPlayer_8023E480.h"
 
-#include "pso/unk/text_80203418.h"
+#include "pso/map/FloorArea.h"
 #include "pso/unk/text_802A1144.h"
 
 #include "pso/unk/TUnk_804EEF80.h"
@@ -265,7 +265,7 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     if (p != 0) {
         ((TLobby *)p)->init_fade((void *)tl_fade, (void *)TLobby::destroy_download_server);
     }
-    TItemReverseTechCtrl::create(arg0);
+    TItemReverseTechCtrl::create((TObject *)arg0);
     return arg0;
 }
 

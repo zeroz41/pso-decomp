@@ -5,12 +5,11 @@
 #include "pso/misc/TODoorAncient09.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TODoorAncient01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8016BF68_lbl_80441B4C {
     s32 value;
@@ -105,29 +104,29 @@ s32 TODoorAncient09::init_door_switch_binding() {
 void TODoorAncient09::sub_80160968() {
     u8 *arg0 = (u8 *)this;
     if (!(*(s32 *)(arg0 + 0xD0) & 1)) {
-        switch ((u32)get_current_area()) {
-        case 0:
+        switch ((u32)get_current_floor_area()) {
+        case AREA_PIONEER2_EP1:
             play_sound_effect(0x42A04, (u8 *)&this->position, 0, 0);
             break;
-        case 1:
-        case 2:
+        case AREA_FOREST1:
+        case AREA_FOREST2:
             play_sound_effect(0x4BC07, (u8 *)&this->position, 0, 0);
             break;
-        case 3:
-        case 4:
-        case 5:
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
             break;
-        case 6:
-        case 7:
+        case AREA_MINE1:
+        case AREA_MINE2:
             play_sound_effect(0x4004BC00, (u8 *)&this->position, 0, 0);
             break;
-        case 8:
-        case 9:
-        case 10:
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
             play_sound_effect(0x4004BC07, (u8 *)&this->position, 0, 0);
             break;
-        case 15:
+        case AREA_LOBBY:
             break;
         }
     }
@@ -268,23 +267,23 @@ void TODoorAncient09::vfunc_17() {
         *(s32 *)(arg0 + 0xAC) = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         *(s32 *)(arg0 + 0xE0) = 0;
-        switch ((u32)get_current_area()) {
-        case 3:
-        case 4:
-        case 5:
+        switch ((u32)get_current_floor_area()) {
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
             break;
-        case 6:
-        case 7:
+        case AREA_MINE1:
+        case AREA_MINE2:
             play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
             break;
-        case 8:
-        case 9:
-        case 10:
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
             break;
-        case 0:
-        case 15:
+        case AREA_PIONEER2_EP1:
+        case AREA_LOBBY:
             break;
         }
     } else {
@@ -302,23 +301,23 @@ void TODoorAncient09::play_proximity_sound() {
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient09__texture_lists)[1];
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         *(s32 *)(arg0 + 0xE0) = 1;
-        switch ((u32)get_current_area()) {
-        case 3:
-        case 4:
-        case 5:
+        switch ((u32)get_current_floor_area()) {
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
             break;
-        case 6:
-        case 7:
+        case AREA_MINE1:
+        case AREA_MINE2:
             play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
             break;
-        case 8:
-        case 9:
-        case 10:
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
             break;
-        case 0:
-        case 15:
+        case AREA_PIONEER2_EP1:
+        case AREA_LOBBY:
             break;
         }
     }

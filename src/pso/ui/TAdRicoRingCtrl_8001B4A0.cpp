@@ -6,6 +6,7 @@
 
 #include <stddef.h>
 #include "pso/TAdRicoRing.h"
+#include "pso/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
 struct Stack_8001B8AC {
     s32 sp8;
@@ -42,6 +43,30 @@ extern const f32 lbl_805D7E48;
 void TAdRicoRingCtrl__sub_8001B4A0(Obj_8001B4A0 *self, f32 x);
 extern const f32 lbl_805D7E54;
 s32 test_flags_any(void *, int);
+extern const f32 lbl_805D7E58;
+extern const f32 lbl_805D7E5C;
+extern const f32 lbl_805D7E60;
+extern const f32 lbl_805D7E64;
+extern const f32 lbl_805D7E68;
+extern f32 lbl_805D4A04;
+extern s8 lbl_805D4A08;
+extern f32 lbl_805D4A0C;
+extern s8 lbl_805D4A10;
+extern f32 lbl_805D4A14;
+extern s8 lbl_805D4A18;
+extern f32 lbl_805D4A1C;
+extern s8 lbl_805D4A20;
+extern f32 lbl_805D4A24;
+extern s8 lbl_805D4A28;
+extern f32 lbl_805D4A2C;
+extern s8 lbl_805D4A30;
+extern s8 lbl_805D4A31;
+extern const f32 lbl_80434828[];
+extern const u32 rico_ring_render_params[];
+extern char lbl_804809E0[];
+extern char lbl_80480A10[];
+extern u32 lbl_804FE138[];
+u32 __cvt_fp2unsigned(f32);
 
 typedef char RecoveredGlobal_8001B8AC_lbl_8043481C_size[sizeof(RecoveredGlobal_8001B8AC_lbl_8043481C) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl_size[sizeof(RecoveredGlobal_8001B8AC___vt__15TAdRicoRingCtrl) == 0x18 ? 1 : -1];
@@ -72,6 +97,77 @@ void TAdRicoRingCtrl::start_fade_all(f32 x) {
         this->m_28 = lbl_805D7E54 / x;
     }
 }
+
+#pragma push
+#pragma opt_common_subs off
+void TAdRicoRingCtrl::render() {
+    f32 t = *(f32 *)&this->unk_24;
+    if (t >= TAdRicoRingCtrl__data_805D7E50) {
+        return;
+    }
+    if (lbl_805D4A08 == 0) {
+        lbl_805D4A08 = 1;
+        lbl_805D4A04 = lbl_80434828[0] - lbl_805D7E58;
+    }
+    if (lbl_805D4A10 == 0) {
+        lbl_805D4A10 = 1;
+        lbl_805D4A0C = lbl_805D7E58 + lbl_80434828[0];
+    }
+    if (lbl_805D4A18 == 0) {
+        lbl_805D4A18 = 1;
+        lbl_805D4A14 = lbl_805D7E5C + (lbl_80434828[1] - TAdRicoRingCtrl__data_805D7E50);
+    }
+    if (lbl_805D4A20 == 0) {
+        lbl_805D4A20 = 1;
+        lbl_805D4A1C = lbl_805D7E60 + (lbl_80434828[1] - TAdRicoRingCtrl__data_805D7E50);
+    }
+    if (lbl_805D4A28 == 0) {
+        lbl_805D4A28 = 1;
+        lbl_805D4A24 = lbl_80434828[2];
+    }
+    if (lbl_805D4A30 == 0) {
+        lbl_805D4A30 = 1;
+        lbl_805D4A2C = lbl_805D7E58 + lbl_80434828[2];
+    }
+    if (lbl_805D4A31 == 0) {
+        f32 b = lbl_805D4A1C;
+        f32 c = lbl_805D4A24;
+        f32 d = lbl_805D4A0C;
+        f32 a = lbl_805D4A04;
+        f32 e = lbl_805D4A14;
+        f32 g = lbl_805D4A2C;
+        f32 *v = (f32 *)lbl_804809E0;
+        v[0] = a;
+        v[1] = b;
+        v[2] = c;
+        v[3] = d;
+        v[4] = b;
+        v[5] = c;
+        v[6] = d;
+        v[7] = e;
+        v[8] = g;
+        v[9] = a;
+        v[10] = e;
+        v[11] = g;
+        lbl_805D4A31 = 1;
+    }
+    ((TObjPlayer *)lbl_80480A10)->draw_tri_fan_3d(4, 6);
+    t = *(f32 *)&this->unk_24;
+    if (t > lbl_805D7E4C) {
+        u32 args[4];
+        args[0] = rico_ring_render_params[0];
+        args[1] = rico_ring_render_params[1];
+        args[2] = rico_ring_render_params[2];
+        args[3] = rico_ring_render_params[3];
+        u32 cnt = __cvt_fp2unsigned(lbl_805D7E64 * t);
+        s32 i;
+        for (i = 0; i < 4; i++) {
+            lbl_804FE138[i] = cnt;
+        }
+        ((TObjCMHairMenu *)args)->draw_tri_fan_2d(4, 6, lbl_805D7E68);
+    }
+}
+#pragma pop
 
 #pragma push
 #pragma opt_common_subs off

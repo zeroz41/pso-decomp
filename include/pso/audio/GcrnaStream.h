@@ -2,6 +2,7 @@
 #define PSO_AUDIO_GCRNA_STREAM_H
 
 #include "pso/system/SjRingBuffer.h"
+#include "pso/audio/GcrnaError.h"
 
 struct GcrnaStream {
     u8 in_use;
@@ -11,11 +12,13 @@ struct GcrnaStream {
     u32 flags;
     s32 allocated_channels;
     s32 stream_count;
-    u8 unknown14[8];
+    s32 frequency;
+    s32 sample_bits;
     u32 buffer_size;
     u8* buffers[2];
     SjRingBuffer* ring_buffers[2];
-    u8 unknown30[0x10];
+    SjRingBuffer* input_buffers[2];
+    u32 callback_ids[2];
     u32 stream_ids[2];
     s32 stream_started[2];
     u8 unknown50[4];
@@ -26,7 +29,8 @@ struct GcrnaStream {
     s32 aux_a_send;
     s32 aux_b_send;
     s32 surround_pan;
-    u8 unknown74[0xC];
+    s32 frequency_mode;
+    u8 unknown78[8];
 };
 
 #include <stddef.h>
@@ -41,6 +45,12 @@ extern "C" {
 void GCRNA_SetPlaySw(GcrnaStream* stream, s32 enabled);
 u32 gcrna_stream_callback(void* buffer1, u32 length1, void* buffer2, u32 length2, u32 user);
 void GCRNA_SetTransSw(GcrnaStream* stream, s32 enabled);
+void gcrna_destroy_stream(GcrnaStream* stream);
+GcrnaStream* GCRNA_Create(SjRingBuffer** inputs, s32 channels);
+void gcrna_shutdown(void);
+void gcrna_initialize(void);
+void gcrna_set_error_callback(GcrnaErrorCallback callback, void* context);
+void gcrna_set_audio_buffer_storage(u8* buffer, u32 size, s32 count);
 }
 
 #endif

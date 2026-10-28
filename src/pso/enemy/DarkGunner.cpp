@@ -1063,7 +1063,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
                 TObjFish::set_global_param(self->texture);
             }
             if (self->flags & 4) {
-                if (self->fade.vfunc_10() != 0) {
+                if (self->fade.has_visible_opacity() != 0) {
                     self->fade.set_flags_and_apply_damage_color();
                     visible = 1;
                     if (((TObject *)self)->defer_render() != 0) {

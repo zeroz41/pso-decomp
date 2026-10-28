@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemProShield.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 extern "C" {
 

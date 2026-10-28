@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowSubComCard_80269064.h"
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/misc/TWindowSubComCard.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowMeseta.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 

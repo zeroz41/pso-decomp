@@ -143,6 +143,7 @@ struct Obj_80343C64
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowSubItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/FloorArea.h"
 struct NumberWindow;
 struct WordSelectPage;
 struct WordSelectWindowState {
@@ -274,7 +275,6 @@ void copy_chat_entry__9TWindowDDFPvPv(R_80343BC0 *arg0, R_80343BC0 *arg1);
 void __ct__7TObjectFP7TObject(void *);
 void *get_player_by_client_id(s32);
 s32 get_current_floor(void);
-s32 is_boss_area(void);
 s32 check_all_ready__9TWindowDDFl(s32);
 s32 is_room_free_of_active_enemies(s32 floor, s16 room);
 void init_item_slots__9TWindowDDFv(void *);

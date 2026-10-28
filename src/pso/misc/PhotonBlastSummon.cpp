@@ -8,10 +8,9 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TFogCtrl.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TUnk_804C3248.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
@@ -130,7 +129,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     Stack_801A7310 stack;
     s32 temp_r3;
     stack.sp9 = arg1;
-    stack.sp8 = get_current_area() == 0xE;
+    stack.sp8 = get_current_floor_area() == AREA_DARK_FALZ;
     stack.spA = 0;
     stack.spC = 0.0f;
     stack.sp10 = 1.0f;

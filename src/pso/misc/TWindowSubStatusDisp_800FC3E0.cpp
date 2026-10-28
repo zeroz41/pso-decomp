@@ -1,6 +1,8 @@
 #include "pso/TFontSmallHelp.h"
 #include "pso/misc/TWindowSubStatusDisp_800FBD74.h"
 #include "types.h"
+#include <string.h>
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TCameraCtrl.h"
@@ -9,8 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-    extern int localized_alphabet_list;
-s32 strncpy(void *, void *, s32);
+extern s32 localized_alphabet_list;
 extern const f32 lbl_805DA9C0;
 extern const f32 lbl_805DA9C4;
 extern const f32 lbl_805DA9C8;
@@ -21,8 +22,7 @@ extern const f32 lbl_805DA9D8;
 extern const f32 lbl_805DA9DC;
 extern const Vec lbl_8043DA90;
 extern u8 identity_matrix[];
-extern u8 *camera_ctrl_instance;
-void *get_player_by_client_id(u32 client_id);
+extern TCameraCtrl *camera_ctrl_instance;
 void push_matrix_from(void *src);
 void rotate_matrix_y(void *m, s32 angle);
 void rotate_matrix_x(void *m, s32 angle);
@@ -35,8 +35,14 @@ void project_world_to_screen(void *m, Vec *pos, f32 *screen);
 s32 is_split_screen(void);
 s32 get_screen_height__11TCameraCtrlFv(void);
 s32 get_screen_width__11TCameraCtrlFv(void);
-void TWindowSubStatusDisp::render_forward(void* p) { TWindowSubStatusDisp::begin_render((s32)p); }
-void TWindowSubStatusDisp::begin_render(s32 _w0) { TObjFish::set_global_param(localized_alphabet_list); }
+}
+
+void TWindowSubStatusDisp::render_forward(void *context) {
+    begin_render((s32)context);
+}
+
+void TWindowSubStatusDisp::begin_render(s32) {
+    TObjFish::set_global_param(localized_alphabet_list);
 }
 
 void TFontSmallHelp::set_color(u32 text_color) {
@@ -48,7 +54,7 @@ void TFontSmallHelp::set_help_text(const char *text_source) {
         text_width = (f32) lbl_805DA9C0;
         return;
     }
-    strncpy(text, (void*)text_source, 0x1F);
+    strncpy(text, text_source, sizeof(text) - 1);
     text[31] = 0;
     text_width = (f32) calc_small_font_text_width(text);
 }
@@ -56,7 +62,7 @@ void TFontSmallHelp::set_help_text(const char *text_source) {
 #pragma push
 #pragma fp_contract on
 void TFontSmallHelp::render() {
-    void *player;
+    TObjPlayer *player;
     f32 fade;
     u32 rgba;
 
@@ -70,14 +76,14 @@ void TFontSmallHelp::render() {
     f32 screen[2];
     VecCopy(&pos, &position);
     push_matrix_from(identity_matrix);
-    rotate_matrix_y(NULL, *(s32 *)(camera_ctrl_instance + 0x194));
-    rotate_matrix_x(NULL, *(s32 *)(camera_ctrl_instance + 0x190));
-    rotate_matrix_z(NULL, *(s32 *)(camera_ctrl_instance + 0x198));
+    rotate_matrix_y(NULL, camera_ctrl_instance->m_194);
+    rotate_matrix_x(NULL, camera_ctrl_instance->m_190);
+    rotate_matrix_z(NULL, camera_ctrl_instance->m_198);
     rotate_vector_by_matrix(NULL, &forward, &forward);
     pop_matrix();
-    diff.x = pos.x - *(f32 *)(camera_ctrl_instance + 0x178);
-    diff.y = pos.y - *(f32 *)(camera_ctrl_instance + 0x17C);
-    diff.z = pos.z - *(f32 *)(camera_ctrl_instance + 0x180);
+    diff.x = pos.x - camera_ctrl_instance->m_178;
+    diff.y = pos.y - camera_ctrl_instance->m_17c;
+    diff.z = pos.z - camera_ctrl_instance->m_180;
     {
         f32 xx = diff.x * diff.x;
         f32 yy = diff.y * diff.y;

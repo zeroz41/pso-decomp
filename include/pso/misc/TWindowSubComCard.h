@@ -48,7 +48,6 @@ struct TWindowSubComCard : public TObject {
     u32 m_80;
     u32 m_84;
     static s32 get_card_slot(s32 arg0);
-    s32 process_keyboard_input();
     void clear_flag_and_release();
     int get_status_flag();
     s32 find_value_by_key(u16 key);

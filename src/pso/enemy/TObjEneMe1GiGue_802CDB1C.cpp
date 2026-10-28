@@ -6,10 +6,9 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Vec_802CDEB4 { f32 x, y, z; };
 
@@ -106,7 +105,7 @@ void TObjPlayer__sub_802CDB1C(u8 *arg0) {
             self->timer = 0;
             VecCopy((Vec *)&self->pos, (const Vec *)self->start);
             self->state = 1;
-            if (get_current_area() == 0x23) {
+            if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A313, &self->pos, 0, 0);
                 return;
             }

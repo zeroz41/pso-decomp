@@ -12,6 +12,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/TQuestThread.h"
 
 extern "C" {
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -133,7 +134,6 @@ void end_conversation_camera(void);
 void begin_conversation_camera(void);
 s32 is_any_player_within_radius_xz(u8 *self, f32 radius);
 void *get_player_by_client_id(s32 i);
-u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 u32 __nw__7TObjectFUl(int);
 extern s32 local_client_id;
 extern u32 quest_mission_manager;
@@ -172,23 +172,13 @@ void TUnk_804B27D8::run_task() {
             begin_conversation_camera();
             temp_r0_2 = this->m_d4;
             if ((temp_r0_2 >= 0x64) && (temp_r0_2 < 0x3E8) && ((u32) quest_mission_manager != 0U) && (((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0)) {
-                temp_r3 = __nw__7TObjectFUl(0x194);
-                var_r0 = temp_r3;
-                if (var_r0 != 0U) {
-                    var_r0 = (u32)__ct__12TQuestThreadFv((u8 *)temp_r3, (quest_mission_manager), (*(s32 *)&this->unk_D8));
-                }
-                this->m_dc = var_r0;
+                this->m_dc = (u32)new TQuestThread((TObject *)quest_mission_manager, *(s32 *)&this->unk_D8);
                 dc = this->m_dc;
                 if (dc != 0U) {
                     ((TObject *)dc)->set_parent((TObject *)tl_00);
                 }
             } else if (((u32) quest_area_manager != 0U) && (((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0)) {
-                temp_r3_3 = __nw__7TObjectFUl(0x194);
-                var_r0_2 = temp_r3_3;
-                if (var_r0_2 != 0U) {
-                    var_r0_2 = (u32)__ct__12TQuestThreadFv((u8 *)temp_r3_3, (quest_area_manager), (*(s32 *)&this->unk_D8));
-                }
-                this->m_dc = var_r0_2;
+                this->m_dc = (u32)new TQuestThread((TObject *)quest_area_manager, *(s32 *)&this->unk_D8);
                 temp_r3_4 = this->m_dc;
                 if (temp_r3_4 != 0U) {
                     ((TObject *)temp_r3_4)->set_parent((TObject *)tl_00);

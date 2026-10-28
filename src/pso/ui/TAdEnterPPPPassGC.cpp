@@ -8,6 +8,7 @@
 #include "pso/ui/TAdEnterBaseGC.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/TQuestThread.h"
 
 struct RecoveredGlobal_80339480_lbl_804EF500 {
     s32 value;
@@ -44,8 +45,7 @@ extern s32 password_entry_dispatch_state;
 extern const f32 lbl_805DF9E8;
 void strncpy(s32, s32, s32);
 s32 memset(void *, int, int);
-void fn_8032B318(void *, void *);
-extern u8 password_screen_status_line_position[];
+extern TAdEnterBaseGC::Position password_screen_status_line_position[];
 s32 create_default_callback__22TAdEnterSerialAccessGCFv(void *);
 extern RecoveredGlobal_803392F4_lbl_80477C20 TAdEnterPPPPassGC__selection_positions;
 void TKeyBoardControl__sub_8000F9CC(int);
@@ -62,7 +62,6 @@ char *realloc_buffer__17TWindowSubComCardFv(u8 *);
 void mem_free(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-void free_menu_object(void *);
 void play_sound_effect(int, int, int, int);
 s32 forward_input__22TAdEnterSerialAccessGCFPv(void *, int, char *);
 s32 strlen(const char *);
@@ -189,7 +188,7 @@ void *ppp_password_buffer[8] = {
 };
 
 void run_task__17TAdEnterPPPPassGCFv(TAdEnterPPPPassGC_80339378 *self) {
-    fn_8032B318(self, password_screen_status_line_position);
+    ((TAdEnterBaseGC *)self)->fn_8032B318(password_screen_status_line_position);
     self->state = password_entry_dispatch_state;
     static Pmf_80339378 tbl[5] = {
         (Pmf_80339378)&TAdEnterPPPPassGC::open_keyboard_window,

@@ -10,7 +10,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjGrass.h"
 #include "pso/enemy/TUnk_80494938.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void render__12TObjGrassWebFv();
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -20,7 +20,6 @@ extern "C" void render__12TObjGrassWebFv();
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 
 #include "pso/player/TObjPlayer.h"
@@ -537,10 +536,10 @@ void TObjGrass::update_dying(void *arg0_) {
             rotate_vector_by_matrix(0, &v, &v);
             pop_matrices(1);
             vec3_add_to(&v, arg0 + 0x38);
-            switch (get_current_area()) {
-            case 3:
-            case 4:
-            case 5: {
+            switch (get_current_floor_area()) {
+            case AREA_CAVE1:
+            case AREA_CAVE2:
+            case AREA_CAVE3: {
                 void *o = __nw__7TObjectFUl(0x14C);
                 if (o != NULL) {
                     Vec_800BCA30 t = v;
@@ -1017,22 +1016,22 @@ void TObjGrass::sub_800BDD70() {
                 (*(VObj_800BDD70 * *)&this->target)->m20(arg0, (1.0f));
                 (*(VObj_800BDD70 * *)&this->target)->m23(arg0);
             }
-            switch (get_current_area()) {
-            case 3:
-            case 4:
-            case 5:
+            switch (get_current_floor_area()) {
+            case AREA_CAVE1:
+            case AREA_CAVE2:
+            case AREA_CAVE3:
                 play_sound_effect((void *)0x4003A60D, (u8 *)&this->position, 0, 0);
                 break;
-            case 16:
-            case 17:
+            case AREA_BATTLE1:
+            case AREA_BATTLE2:
                 if (enable_v2_features == 1) {
                     play_sound_effect((void *)0x30022, (u8 *)&this->position, 0, 0);
                 }
                 break;
-            case 18:
+            case AREA_PIONEER2_EP2:
                 break;
-            case 19:
-            case 20:
+            case AREA_VR_TEMPLE_ALPHA:
+            case AREA_VR_TEMPLE_BETA:
                 play_sound_effect((void *)0x3A316, (u8 *)&this->position, 0, 0);
                 break;
             }

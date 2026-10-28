@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer_8012BC28.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/unk/text_8012BCD4.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 void psycho_wand_node_callback(void *arg0);
 extern "C" {
@@ -19,7 +19,7 @@ void TUnk_804A4F60::update_weapon() {
     s16 temp_r0;
     s16 temp_r3;
 
-    if (are_items_enabled_here() != 0) {
+    if (is_current_area_item_enabled() != 0) {
         temp_r3 = get_actor_tp((u8 *)this->owner);
         temp_r0 = *(s16 *)((s8 *)this + 0x1F8) - temp_r3;
         if (temp_r0 != 0) {

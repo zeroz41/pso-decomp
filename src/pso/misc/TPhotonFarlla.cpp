@@ -27,8 +27,7 @@
 #include "pso/misc/TPhotonRainbow_801AE640.h"
 #include "pso/misc/obj_band.h"
 #include "pso/unk/text_801AB370.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Color_801AAF00 { f32 a, r, g, b; };
 
@@ -335,9 +334,9 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     ((TPhotonFarlla *)arg0)->m_134 = 1;
     ((TPhotonFarlla *)arg0)->enter_scene();
     *(s32 *)((s8 *)arg0 + 0x1A4) = 0;
-    switch (get_current_area()) {
-    case 11: case 12: case 13: case 14:
-    case 30: case 31: case 32: case 33:
+    switch (get_current_floor_area()) {
+    case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
+    case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
         p = (void *)__nw__7TObjectFUl(0xAC);
         if (p != NULL) {
             ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, arg0, arg0 + 0x38, 1);

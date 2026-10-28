@@ -2,6 +2,7 @@
 #define PSO_MISC_TLOBBY_801F2D2C_H
 
 #include "types.h"
+#include "pso/quest/QuestVm.h"
 
 extern "C" {
 void TLobby__sub_801F3314(s32 arg0);
@@ -27,7 +28,7 @@ s32 *TObjItemOKWindow__sub_801F3268(void);
 void bswap_header__6TLobbyFPv(void *p);
 }
 void build_6x77_sync_quest_register(void *p);
-s32 dispatch_quest_opcode(void);
+quest_suspend_reason dispatch_quest_opcode(void);
 extern "C" {
 int fn_801F3480(void *p);
 int fn_801F34A0(void *p);

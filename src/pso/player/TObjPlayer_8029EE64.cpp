@@ -4,8 +4,7 @@
 #include "pso/misc/TUnk_804DC7C4.h"
 #include "pso/misc/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Vec_8029EFFC { f32 x, y, z; };
 
@@ -61,7 +60,6 @@ int set_instance__6TSceneFi(void *f);
 void VecCopy__FP3VecPC3Vec(Vec_8029EFFC *, Vec_8029EFFC *);
 f32 fabs_float(f32);
 void *get_player_by_client_id(s32 i);
-s32 is_boss_area();
 s32 fn_8029E7BC(s32 arg0, u8 *arg1);
 s32 fn_8029EC3C(Vec_8029EFFC *, s32);
 void TScene__sub_8029F5D8();
@@ -160,7 +158,7 @@ void TUnk_804DC7C4::render_shadows() {
         if (is_boss_area() != 0) {
             if (p != NULL) {
                 ((TMainTask *)((u8 *)&main_task))->render_object_layers(2);
-                if (get_current_area() == 0x20) {
+                if (get_current_floor_area() == AREA_BARBA_RAY) {
                     c3.pos.x = p->pos38.x;
                     c3.pos.y = p->pos38.y;
                     c3.pos.z = p->pos38.z;

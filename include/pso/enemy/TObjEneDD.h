@@ -18,7 +18,7 @@ struct TObjEneDD : public TObjEnemy {
     virtual void vfunc_84();
     virtual void vfunc_85();
     virtual u8 vfunc_86();
-    virtual void vfunc_87() = 0;
+    virtual void dispatch_action(u32 state, s32 reason) = 0;
     virtual void vfunc_88();
     virtual void vfunc_89();
     virtual s32 vfunc_90();

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/TObjEneSlimeOne_800EC394.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/enemy/TObjEneRe4Bit.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneSlimeWaterBomb.h"

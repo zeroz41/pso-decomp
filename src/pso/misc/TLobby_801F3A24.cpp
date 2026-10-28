@@ -12,7 +12,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestListOnline.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct QuestObjRow_801F3AD8 {

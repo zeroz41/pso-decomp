@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/TMainTask.h"
 #include "pso/misc/TCameraCtrl.h"
@@ -48,11 +48,11 @@ extern u16 lbl_805D5CD8;
 
 const char *TObjBase::get_name() { return NULL; }
 void TObjBase::set_room(s16 room) {
-    u32 global_state;
+    u32 area;
 
     if (entity_id < 0x1000U) {
-        global_state = get_current_area();
-        if ((global_state <= 2U) || ((s32) global_state == 0x12) || (TContainerAncient01::is_global_state_in_table() != 0) || ((s32) global_state == 0xC) || ((s32) global_state == 0x20)) {
+        area = get_current_floor_area();
+        if ((area <= 2U) || ((s32) area == AREA_PIONEER2_EP2) || (TContainerAncient01::is_global_state_in_table() != 0) || ((s32) area == AREA_DE_ROL_LE) || ((s32) area == AREA_BARBA_RAY)) {
             alt_room = room;
         }
         this->room = room;
@@ -62,14 +62,14 @@ void TObjBase::set_room(s16 room) {
 }
 
 s16 TObjBase::get_room() {
-    s32 global_state;
+    s32 area;
 
-    if ((get_current_area() == 0) || (get_current_area() == 0x12)) {
+    if ((get_current_floor_area() == AREA_PIONEER2_EP1) || (get_current_floor_area() == AREA_PIONEER2_EP2)) {
         return 0;
     }
     if ((u16) this->entity_id < 0x1000U) {
-        global_state = get_current_area();
-        if (((global_state - 1) <= 1U) || (TContainerAncient01::is_global_state_in_table() != 0) || (global_state == 0xC) || (global_state == 0x20)) {
+        area = get_current_floor_area();
+        if (((area - 1) <= 1U) || (TContainerAncient01::is_global_state_in_table() != 0) || (area == AREA_DE_ROL_LE) || (area == AREA_BARBA_RAY)) {
             return alt_room;
         }
         return room;

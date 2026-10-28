@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -19,7 +18,7 @@ short TCameraCtrl::get_screen_height() {  return TCameraCtrl__viewport_x; }
 extern s32 local_client_id;
 
 s32 TCameraCtrl::should_update() {
-    s32 global_state;
+    s32 area;
 
     if (is_split_screen() == 0) {
         if ((get_player_by_client_id(local_client_id) == 0U) || (check_player_state_flag_2__6TLobbyFv() != 0)) {
@@ -31,14 +30,14 @@ s32 TCameraCtrl::should_update() {
         goto block_6;
     }
 block_6:
-    global_state = get_current_area();
-    if (global_state < 0xF) {
-        if (global_state == 0) {
+    area = get_current_floor_area();
+    if (area < 0xF) {
+        if (area == AREA_PIONEER2_EP1) {
             goto block_10;
         }
         goto block_11;
     }
-    if (global_state < 0x13) {
+    if (area < 0x13) {
 block_10:
         return 0;
     }

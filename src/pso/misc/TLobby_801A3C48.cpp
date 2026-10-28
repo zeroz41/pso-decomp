@@ -18,6 +18,8 @@
 #include "pso/object/TObjBgmColCtrl.h"
 #include "pso/object/TObjDoor.h"
 #include "pso/ui/TAdDialingGC.h"
+#include "pso/quest/TQuestThread.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_801A4820_main_task { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_801A4820_main_task_size[sizeof(RecoveredGlobal_801A4820_main_task) == 0x34 ? 1 : -1];
@@ -151,10 +153,6 @@ int reset_controller_input_state(void);
 s32 TObjPlayer__sub_801B1BA4();
 s32 TObjPlayer__sub_801B1C8C();
 void *get_player_by_client_id(s32);
-s32 create_floor_quest_thread();
-void *__ct__12TQuestThreadFv(void *, u32, s32);
-s32 clear_all_floor_handlers();
-s32 create_by_mode__12TQuestThreadFv();
 s32 get_team_state__6TLobbyFPv();
 s32 TLobby__sub_8020DC78();
 s32 load_area_scene_and_init(void *);
@@ -180,7 +178,6 @@ s32 set_copy_clear_color_argb(int, int, int);
 s32 TGameProtocol__ct(void *, void *);
 s32 TLobby__sub_801F3774();
 int init__23TAdSinglePlyChrSelectGCFv(void);
-s32 set_current_floor_area(int);
 s32 TLobby__sub_80207F10();
 s32 TLobby__sub_8020A6B0(int);
 s32 TAdDialingGC__sub_80328730();
@@ -450,17 +447,14 @@ s32 start_quest_mission(void) {
     TLobby::free_objects();
     get_team_state__6TLobbyFPv();
     TLobby__sub_8020DC78();
-    clear_all_floor_handlers();
+    TQuestThread::clear_all_floor_handlers();
     TLobby::create_map_csn_ctrl();
     TParticleCtrl::create_quad_sprites();
     TLoadCtrl::start_loading(1);
-    create_by_mode__12TQuestThreadFv();
+    TQuestThread::create_by_mode();
     clear_quest_floor_designations();
     if (quest_mission_manager != 0) {
-        q = (VObj_18_801A4268 *) __nw__7TObjectFUl(0x194);
-        if (q != NULL) {
-            q = (VObj_18_801A4268 *) __ct__12TQuestThreadFv(q, quest_mission_manager, 0);
-        }
+        q = (VObj_18_801A4268 *)new TQuestThread((TObject *)quest_mission_manager, 0);
         q->m1();
     }
     TLobby::setup_quest_list();
@@ -482,7 +476,7 @@ s32 start_quest_mission(void) {
     }
     process_deferred_player_setup__6TLobbyFv();
     TObjPlayer__sub_801B1BA4();
-    create_floor_quest_thread();
+    TQuestThread::create_for_floor();
     __dt__7TObjectFv(tmp, -1);
 }
 
@@ -544,15 +538,12 @@ s32 change_floor_reload_area(void) {
     }
     TObjPlayer__sub_801B1BA4();
     process_deferred_player_setup__6TLobbyFv();
-    create_floor_quest_thread();
+    TQuestThread::create_for_floor();
     if (r != 0) {
         load_character_from_card__23TAdSinglePlyChrSelectGCFi(0);
     }
     if (quest_area_manager != 0) {
-        q = __nw__7TObjectFUl(0x194);
-        if (q != NULL) {
-            __ct__12TQuestThreadFv(q, quest_area_manager, 0);
-        }
+        new TQuestThread((TObject *)quest_area_manager, 0);
     }
     if (is_area_transfer_pending() != 0) {
         TLobby::reset_keyboard_state();

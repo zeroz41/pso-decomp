@@ -31,7 +31,7 @@ void __dl__7TObjectFPv(void *);
 void mem_free(void *);
 
 extern "C" {
-void TWindowDD__sub_80341500();
+void render__17TWindowDD_WS_WordFv();
 }
 extern "C" {
 void handle_scroll_input__9TWindowDDFv();
@@ -54,12 +54,12 @@ void *lbl_804EFC7C[5] = {
 };
 void *lbl_804EFC90[6] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__17TWindowDD_WS_WordFs, (void *)&handle_scroll_input__9TWindowDDFv,
-    (void *)&TWindowDD__sub_80341500, (void *)&render_shadows__7TObjectFv,
+    (void *)&render__17TWindowDD_WS_WordFv, (void *)&render_shadows__7TObjectFv,
 };
 #define TWindowDD__data_804EFC50 (*(RecoveredGlobal_80342384_TWindowDD__data_804EFC50 *)TWindowDD__data_804EFC50)
 #define lbl_804EFC90 ((s32 *)lbl_804EFC90)
 
-u8 TWindowDD_WS_Word::sub_80342254() {
+s32 TWindowDD_WS_Word::sub_80342254() {
     TWindowDD_WS_Word *self = this;
     return !(self->m_60 & 1);
 }

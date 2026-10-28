@@ -11,10 +11,9 @@
 #include "pso/TObject.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -348,18 +347,18 @@ void TOHealGeneral::close_dialog_window() {
 typedef struct RecoveredGlobal_80169710_lbl_804B2748 RecoveredGlobal_80169710_lbl_804B2748;
 typedef struct RecoveredGlobal_80169710_lbl_804B2760 RecoveredGlobal_80169710_lbl_804B2760;
 void TOHealGeneral::load_resources() {
-  s32 global_state;
+  s32 area;
   s32 temp_r3_2;
   s32 temp_r3_3;
   s32 var_r0;
   s32 var_r0_2;
   int new_var;
-  global_state = get_current_area();
-  if (global_state < 0x22)
+  area = get_current_floor_area();
+  if (area < 0x22)
   {
-    if (global_state < 0x1E)
+    if (area < 0x1E)
     {
-      if (global_state < 0x17)
+      if (area < 0x17)
       {
         temp_r3_2++;
         temp_r3_2--;
@@ -369,7 +368,7 @@ void TOHealGeneral::load_resources() {
     }
     goto block_8;
   }
-  if (global_state < 0x24)
+  if (area < 0x24)
   {
     block_5:
     temp_r3_2 = (int)::operator new(0x440);

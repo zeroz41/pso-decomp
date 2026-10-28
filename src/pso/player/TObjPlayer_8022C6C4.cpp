@@ -4,12 +4,11 @@
 #include "pso/object/TObjLight.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void render__8TTecCtrlFv();
 extern "C" void run_task__8TTecCtrlFv();
 
 #include "pso/misc/TLockOnCursor.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecAnti.h"
 #include "pso/misc/TTecBarta.h"
 #include "pso/misc/TTecFoie.h"
@@ -355,8 +354,8 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     if (pl == NULL) {
         return;
     }
-    if (get_current_area() == 0 || get_current_area() == 18 ||
-        get_current_area() == 15) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2 ||
+        get_current_floor_area() == AREA_LOBBY) {
         switch (tech) {
         case 0:
         case 1:

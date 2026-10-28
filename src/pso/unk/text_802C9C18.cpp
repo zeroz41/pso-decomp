@@ -1,9 +1,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TOTrapSeabed01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Sounds_802C9C18 { s32 a[2]; s32 b[2]; s32 c[2]; s32 d[2]; };
 
@@ -19,22 +18,22 @@ extern Sounds_802C9C18 lbl_804720B8;
 void TOTrapSeabed01::sub_802C9C18(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     Sounds_802C9C18 s = lbl_804720B8;
-    switch (get_current_area()) {
-    case 0x17:
-    case 0x18:
-    case 0x19:
-    case 0x1A:
-    case 0x1B:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         *(s32 *)(arg0 + 0x358) = play_sound_effect(s.a[arg1], (u8 *)&this->position, 0, 0);
         break;
-    case 0x1C:
-    case 0x1D:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         *(s32 *)(arg0 + 0x358) = play_sound_effect(s.b[arg1], (u8 *)&this->position, 0, 0);
         break;
-    case 0x22:
+    case AREA_SEASIDE_NIGHT:
         *(s32 *)(arg0 + 0x358) = play_sound_effect(s.c[arg1], (u8 *)&this->position, 0, 0);
         break;
-    case 0x23:
+    case AREA_TOWER:
         *(s32 *)(arg0 + 0x358) = play_sound_effect(s.d[arg1], (u8 *)&this->position, 0, 0);
         break;
     }

@@ -5,13 +5,13 @@
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
+#include "pso/map/FloorArea.h"
 
 #include <stddef.h>
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItemData.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TLobby_80207644.h"
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
@@ -100,7 +100,7 @@ u32 build_item_id(u16 arg0) {
 
 void observe_item_id(s32 item_id) {
     int id = item_id;
-    if (get_current_area() != 0xf) {
+    if (get_current_floor_area() != AREA_LOBBY) {
         s32 lo = 0x10000;
         if (lo < id && id < 0x2010000) {
             s32 idx = id >> 21;
@@ -275,7 +275,7 @@ void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
 void handle_6x62(void) {  }
 
 u32 advance_item_id_counter(u16 client) {
-    if (get_current_area() == 0xF)
+    if (get_current_floor_area() == AREA_LOBBY)
         return ((u32*)item_id_counter_table)[client]++;
     return ((u32*)item_sync_counter_table)[client]++;
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/quest/TQuestThread.h"
 class TChCrTagPlBack;
 #include "pso/misc/TWindowSubShortMail.h"
 #include "pso/misc/TCameraCtrl.h"
@@ -68,7 +69,6 @@ int send_find_user_self_tag__6TLobbyFi(void*);
 s32 __nw__7TObjectFUl(s32);
 u8 *fn_80267F38(s32 arg0, s32 arg1, s32 arg2, s16 arg3);
 int get_flag_bit0__6TLobbyFv(void);
-void set_status_flag_80__12TQuestThreadFPv(void *p);
 }
 void update_chat_window(void *p);
 
@@ -160,7 +160,7 @@ s32 create_window__19TWindowSubShortMailFv(void) {
         TWindowSubComCard::draw_text_gray(temp_r31, get_card_window_area__6TLobbyFv(), 0, 0);
     }
     ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-    set_status_flag_80__12TQuestThreadFPv((void *)temp_r31);
+    TQuestThread::set_status_flag_80((void *)temp_r31);
     ((TWindowSubComCardList *)temp_r31)->set_scroll_target(TWindowSubShortMail__data_805DD6C8, lbl_805DD6CC);
     return temp_r31;
 }
@@ -339,7 +339,6 @@ void *send_cmd_133__17TWindowSubComCardFv(void);
 void *send_command__17TWindowSubComCardFi(s32);
 void update_display_value__17TWindowSubComCardFUiUiPv(u32 arg0, u32 arg1, s32 *arg2);
 s32 TWindowSubShortMail__sub_8007B834(void *);
-void free_menu_object(void *);
 void TWindowSubShortMail__sub_80131998(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
 }

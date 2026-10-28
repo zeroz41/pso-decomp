@@ -3,8 +3,7 @@
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 u32 get_player_by_client_id(s32);
@@ -25,9 +24,9 @@ s32 TObjSoloPlayWin::has_at_most_one_player() {
     return (TLobby__sub_8006FBE4() <= 1) ? 1 : 0;
 }
 s32 TObjSoloPlayWin::area_allows_win_timer() {
-    switch (get_current_area()) {
-    case 0: case 0xB: case 0xC: case 0xD: case 0xE: case 0x12:
-    case 0x1E: case 0x1F: case 0x20: case 0x21:
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1: case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ: case AREA_PIONEER2_EP2:
+    case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
         return 0;
     }
     return 1;

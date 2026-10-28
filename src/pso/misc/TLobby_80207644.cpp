@@ -1,9 +1,8 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/TAdStorySelectGC.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80207798_lbl_80513920 {
     s32 value;
@@ -73,7 +72,7 @@ s32 get_boss_warp_destination(void) {
     Tbl_8020765C a = boss_warp_destination_table;
     Tbl_8020765C b = boss_warp_destination_table_b;
     if (get_game_play_mode() == 1) {
-        return b.w[0][get_current_area()];
+        return b.w[0][get_current_floor_area()];
     }
     s32 i = TLobby::get_instance();
     s32 p = get_current_floor();

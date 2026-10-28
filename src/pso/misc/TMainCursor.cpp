@@ -18,7 +18,7 @@
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TPlyPhotonChair.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 s32 check_visible__11TMainCursorFv(void *, void *, s32, s32);
@@ -165,7 +165,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (are_items_enabled_here() == 0) {
+        if (is_current_area_item_enabled() == 0) {
             this->update_target_sub();
             return;
         }
@@ -187,7 +187,7 @@ void TMainCursor::validate_target() {
             this->update_target_sub();
             return;
         }
-        if (are_items_enabled_here() == 0) {
+        if (is_current_area_item_enabled() == 0) {
             this->update_target_sub();
         }
         return;
@@ -730,7 +730,7 @@ s32 TMainCursor::bind_action_channels() {
     if (check_flag_100__10TObjPlayerFPv((void *)player) != 0 && is_channel_active__11TMainCursorFv(&self->channel) != 0) {
         type = self->channel.get_type();
         enabled = self->channel.get_enabled();
-        if (are_items_enabled_here() == 0) {
+        if (is_current_area_item_enabled() == 0) {
             if (is_key_machine_ready__10TObjPlayerFv() == 0) {
                 return;
             }
@@ -865,7 +865,7 @@ s32 TMainCursor::get_action_cursor_priority(void *arg0, s32 player, s32 index) {
         }
         break;
     case 4:
-        if (is_effect_channel_active__10TObjPlayerFll(player, index) != 0 && are_items_enabled_here() != 0 && test_action_mask__10TObjPlayerFl((void *)player, 0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
+        if (is_effect_channel_active__10TObjPlayerFll(player, index) != 0 && is_current_area_item_enabled() != 0 && test_action_mask__10TObjPlayerFl((void *)player, 0x43001E) != 0 && ((s32)sub == 0xA || (s32)sub == 9)) {
             return 0xF;
         }
         break;

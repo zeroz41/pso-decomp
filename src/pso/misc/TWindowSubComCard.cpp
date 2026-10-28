@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TQuestListOnline.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 

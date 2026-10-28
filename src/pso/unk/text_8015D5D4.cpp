@@ -4,8 +4,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804B0BB8.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 s32 play_sound_effect(s32, void *, s32, s32);
@@ -40,31 +39,31 @@ void *lbl_804B0BB8[21] = {
 void TUnk_804B0BB8::play_door_sound() {
     u8 *arg0 = (u8 *)this;
     if (!(*(s32 *)(arg0 + 0xD0) & 1)) {
-        switch ((u32)get_current_area()) {
-        case 0:
-        case 18:
+        switch ((u32)get_current_floor_area()) {
+        case AREA_PIONEER2_EP1:
+        case AREA_PIONEER2_EP2:
             play_sound_effect(0x42A04, (u8 *)&this->position, 0, 0);
             break;
-        case 1:
-        case 2:
+        case AREA_FOREST1:
+        case AREA_FOREST2:
             play_sound_effect(0x4BC07, (u8 *)&this->position, 0, 0);
             break;
-        case 3:
-        case 4:
-        case 5:
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
             break;
-        case 6:
-        case 7:
+        case AREA_MINE1:
+        case AREA_MINE2:
             play_sound_effect(0x4004BC00, (u8 *)&this->position, 0, 0);
             break;
-        case 8:
-        case 9:
-        case 10:
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
             play_sound_effect(0x4004BC07, (u8 *)&this->position, 0, 0);
             break;
-        case 16:
-        case 17:
+        case AREA_BATTLE1:
+        case AREA_BATTLE2:
             play_sound_effect(0x4004BC00, (u8 *)&this->position, 0, 0);
             break;
         }

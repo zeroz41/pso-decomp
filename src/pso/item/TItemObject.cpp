@@ -1,4 +1,4 @@
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/item/TItemObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TItemData.h"
@@ -180,7 +180,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
             if (target != NULL && target->has_flag_0x800() == 0) {
                 if (user->get_field_3e4() == target->get_field_3e4()) {
                     target->set_hp_clamped(((TItemProShield *)target)->get_field_2b8());
-                    if (are_items_enabled_here() != 0) {
+                    if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {
                             spawn_particle_effect((u8 *)target + 0x2FC, 0x19);
                         }

@@ -1999,6 +1999,16 @@ void TObjEneSlimeOne::vfunc_62() {
 
 void TObjEneSlimeOne::vfunc_63() { if (*(int *)&this->m_384 != 13) { set_state((s32)((void*)((void*)13))); } }
 
+f32 TObjEneSlimeOne::receive_direct_attack(void *attacker, DirectAttackPayload payload,
+                                         void *source, s32, s32) {
+    if (payload.kind == 2 && m_3f0 != 0 &&
+        ((TObjEneSlimeOne *)m_3f0)->all_parents_unqueued_for_destruction()) {
+        ((TObjEneSlimeOne *)m_3f0)->try_spawn_child(&position);
+    }
+    TObjChara::receive_direct_attack(attacker, payload, source, -1, -1);
+    return lbl_805DA6B4;
+}
+
 void TObjEneSlimeOne::clear_child_flag() {
     void *temp_r3;
 

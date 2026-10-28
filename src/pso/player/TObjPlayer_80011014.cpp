@@ -23,6 +23,7 @@ extern "C" void apply_anti_technique__9TObjCharaFl();
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOCtrlDubchik.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };
 
@@ -333,7 +334,6 @@ u8 is_locally_controlled__10TObjPlayerFPv(u8 *arg0);
 u8 obj_isState3_324__9TObjCharaFv(u8* p);
 s32 get_type__10TObjPlayerFPv(void* p);
 void create_hit_effect__10TObjPlayerFPv(void *);
-s32 is_boss_area(void);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(Actor_8001311C *self, Actor_8001311C *att, Info_8001311C *arg, Coll_8001311C *coll, s32 tech, s32 arg5);
 u8 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);

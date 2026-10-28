@@ -3,6 +3,8 @@
 #include "types.h"
 #include "pso/misc/TUnk_804CDFE8.h"
 
+struct Scroll_8026D790;
+
 class TUnk_804D0618 : public TUnk_804CDFE8 {
 public:
     virtual ~TUnk_804D0618();
@@ -37,11 +39,13 @@ public:
     u8 unk_6C[0x4];
     u16 m_70;
     s16 m_72;
-    u8 unk_74[0x2];
+    s16 unk_74;
     s16 m_76;
-    u8 unk_78[0x8];
+    s16 m_78;
+    u8 unk_7A[0x2];
+    s32 m_7c;
     void * m_80;
-    u8 unk_84[0x4];
+    Scroll_8026D790 *unk_84;
 };
 typedef char TUnk_804D0618_size[sizeof(TUnk_804D0618) == 0x88 ? 1 : -1];
 

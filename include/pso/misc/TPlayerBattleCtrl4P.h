@@ -85,6 +85,7 @@ public:
     void start_match();
     u8 is_battle_decided();
     static s32 check_all_players_flag();
+    static s32 fn_80211B10(s32 client_id);
     static void remove_player(void *arg0, u16 arg1, s32 arg2);
     void apply_rule_configuration(s32 arg1);
     void set_score(s32 v);

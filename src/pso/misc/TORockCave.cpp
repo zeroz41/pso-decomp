@@ -6,10 +6,9 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TORockCave.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct BmlResourceBlock_804B3AB8 { const char *model_filenames[4]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3AB8_size[(sizeof(BmlResourceBlock_804B3AB8) == 0x20) ? 1 : -1];
@@ -147,16 +146,16 @@ extern s32 __vt__10TORockCave[];
     }
 void TORockCave::load_resources() {
     u8 *tbl = (u8 *)&rock_cave_resource_table;
-    switch (get_current_area()) {
-    case 3:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
         MK_80175224(cave_rock_resource_bundle, 0x10)
         MK_80175224(rock_cave_model_resource, 0x88)
         break;
-    case 4:
+    case AREA_CAVE2:
         MK_80175224(cave_rock_resource_bundle, 0x3C)
         MK_80175224(rock_cave_model_resource, 0xB4)
         break;
-    case 5:
+    case AREA_CAVE3:
         MK_80175224(cave_rock_resource_bundle, 0x5C)
         MK_80175224(rock_cave_model_resource, 0xE0)
         break;

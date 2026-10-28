@@ -2,12 +2,11 @@
 #include "pso/system/vector.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TORockCave.h"
 #include "pso/misc/TOSensorAncient01.h"
 #include "pso/misc/TOSensor.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern char lbl_80442980[];
 extern char lbl_80442998[];
@@ -76,69 +75,69 @@ void TOSensor::vfunc_25() {  }
 extern s32 __vt__8TOSensor[];
 
 void TOSensor__sub_8017546C(u8 *arg0) {
-    switch (get_current_area()) {
-    case 3:
-    case 4:
-    case 5:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_persistent_sound(0x43C1C, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
         return;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         play_persistent_sound(0x4004BC13, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
         return;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_persistent_sound(0x46419, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
-    case 0:
+    case AREA_PIONEER2_EP1:
         return;
-    case 1:
+    case AREA_FOREST1:
         return;
-    case 2:
+    case AREA_FOREST2:
         return;
-    case 11:
+    case AREA_DRAGON:
         return;
-    case 12:
+    case AREA_DE_ROL_LE:
         return;
-    case 13:
+    case AREA_VOL_OPT:
         return;
-    case 14:
+    case AREA_DARK_FALZ:
         return;
-    case 15:
+    case AREA_LOBBY:
         return;
     }
 }
 
 void TOSensor__sub_80175514(u8 *arg0) {
-    switch (get_current_area()) {
-    case 3:
-    case 4:
-    case 5:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_persistent_sound(0x4411D, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
         return;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         play_persistent_sound(0x4004C114, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
         return;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_persistent_sound(0x4641A, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
-    case 0:
+    case AREA_PIONEER2_EP1:
         return;
-    case 1:
+    case AREA_FOREST1:
         return;
-    case 2:
+    case AREA_FOREST2:
         return;
-    case 11:
+    case AREA_DRAGON:
         return;
-    case 12:
+    case AREA_DE_ROL_LE:
         return;
-    case 13:
+    case AREA_VOL_OPT:
         return;
-    case 14:
+    case AREA_DARK_FALZ:
         return;
-    case 15:
+    case AREA_LOBBY:
         return;
     }
 }

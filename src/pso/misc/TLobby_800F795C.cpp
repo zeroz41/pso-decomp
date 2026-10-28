@@ -28,6 +28,7 @@
 #include "pso/enemy/TObjEneGyaranzo.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/enemy/TObjEnePanarms.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/misc/TLobby.h"
@@ -69,7 +70,6 @@
 #include "pso/enemy/TObjEneSlime.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/misc/TOCtrlDubchik.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TPlyPhotonChair.h"
 #include "pso/npc/TObjNpcAHM01.h"
 #include "pso/npc/TObjNpcARM00.h"
@@ -119,7 +119,7 @@
 #include "pso/object/TObjGrass.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_800F7A6C_lbl_804DB1F0 {
     s32 value;
@@ -191,11 +191,11 @@ s32 load_floor_resources(s32 arg0) {
     return 1;
 }
 void unload_current_floor_resources(void) {
-    unload_floor_resources(get_current_area());
+    unload_floor_resources(get_current_floor_area());
 }
 
 s32 load_current_floor_resources(void) {
-    return load_floor_resources(get_current_area());
+    return load_floor_resources(get_current_floor_area());
 }
 extern "C" {
 

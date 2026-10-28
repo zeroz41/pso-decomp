@@ -9,8 +9,7 @@
 #include "pso/misc/TOAttackableCol.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 void vfunc_20__17TOBarrierEnergy01Fv(void);
@@ -66,38 +65,38 @@ void*TOBarrierEnergy01::init() { TLobby__sub_80156BA8(this); return this; }
 void TOBarrierEnergy01::vfunc_20() {  }
 void TOBarrierEnergy01::play_ambient_loop_sound() {
     s32 arg0 = (s32)this;
-    u32 global_state;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 1:
-    case 2:
+    u32 area;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_FOREST1:
+    case AREA_FOREST2:
         play_persistent_sound(0x4CB09, (arg0), (arg0 + 0x38), 0, 0);
         return;
-    case 3:
-    case 4:
-    case 5:
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_persistent_sound(0x44B08, (arg0), (arg0 + 0x38), 0, 0);
         return;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         play_persistent_sound(0x4004CB02, (arg0), (arg0 + 0x38), 0, 0);
         return;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_persistent_sound(0x4004CB09, (arg0), (arg0 + 0x38), 0, 0);
         return;
-    case 0:
+    case AREA_PIONEER2_EP1:
         return;
-    case 11:
+    case AREA_DRAGON:
         return;
-    case 12:
+    case AREA_DE_ROL_LE:
         return;
-    case 13:
+    case AREA_VOL_OPT:
         return;
-    case 14:
+    case AREA_DARK_FALZ:
         return;
-    case 15:
+    case AREA_LOBBY:
         return;
     }
 }

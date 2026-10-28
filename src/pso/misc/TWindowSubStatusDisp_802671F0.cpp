@@ -2,7 +2,7 @@
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/misc/TWindowSubStatusDisp_802671F0.h"
 #include "pso/unk/text_801C53D4.h"
-#include "pso/unk/text_80203418.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 #include "pso/misc/TUnk_804CDFE8.h"
@@ -20,7 +20,7 @@
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Stack_80266EB8 {
     f32 sp8;
@@ -249,7 +249,7 @@ void add_battle_stat_entry(void *arg0, s32 arg1, s32 arg2, s32 arg3) {
             if (var_r31 > 0) {
                 temp_r30 = ((u16 *(*)(void *, s16))get_array_entry__13TUnk_804CE018Fi)(arg0, *(s16 *)((s8 *)arg0 + 0x72));
                 ((TWindowSubStatusDisp *)temp_r30)->setup_stat_line(get_localized_text_entry(0x10, arg1 + 0x13), var_r31, arg2);
-                if ((arg3 != 0) && ((are_items_enabled_here() == 0) || (is_boss_area() != 0))) {
+                if ((arg3 != 0) && ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0))) {
                     *temp_r30 |= 0x80;
                 }
                 *(s16 *)((s8 *)arg0 + 0x72) = (s16) (*(s16 *)((s8 *)arg0 + 0x72) + 1);

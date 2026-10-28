@@ -2,8 +2,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_8029E7BC.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Stack_8029E7BC
 {
@@ -16,13 +15,13 @@ extern const f32 lbl_805DDD88;
 typedef struct Stack_8029E7BC Stack_8029E7BC;
 s32 fn_8029E7BC(s32 arg0, u8 *arg1) {
   Stack_8029E7BC stack;
-  s32 new_var;
+  s32 area;
   s32 var_r31;
   u8 *temp_r3;
   u8 *temp_r4;
-  new_var = get_current_area();
+  area = get_current_floor_area();
   var_r31 = 0x56EF;
-  if (new_var == 0x20)
+  if (area == AREA_BARBA_RAY)
   {
     var_r31 = 0x4000;
   }

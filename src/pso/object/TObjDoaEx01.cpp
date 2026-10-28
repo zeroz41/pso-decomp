@@ -4,7 +4,6 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/item/TObjContainerJungEx.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -17,7 +16,7 @@
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TODoorAncient01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8018D9B0_lbl_804B7158 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8018D9B0_lbl_804B7158_size[sizeof(RecoveredGlobal_8018D9B0_lbl_804B7158) == 0x10 ? 1 : -1];
@@ -104,13 +103,13 @@ void TObjDoaEx01::vfunc_17() {
     if (self->flags & 1) {
         if (is_any_player_within_radius_xz((u8 *)self, (f32)1e+04f) == 0) {
             self->state = 3;
-            switch (get_current_area()) {
-            case 19:
-            case 20:
+            switch (get_current_floor_area()) {
+            case AREA_VR_TEMPLE_ALPHA:
+            case AREA_VR_TEMPLE_BETA:
                 play_sound_effect(0x4BF0B, self->pos, 0, 0);
                 break;
-            case 21:
-            case 22:
+            case AREA_VR_SPACESHIP_ALPHA:
+            case AREA_VR_SPACESHIP_BETA:
                 play_sound_effect(0x4004AA0B, self->pos, 0, 0);
                 break;
             default:
@@ -120,13 +119,13 @@ void TObjDoaEx01::vfunc_17() {
         }
     } else {
         self->state = 3;
-        switch (get_current_area()) {
-        case 19:
-        case 20:
+        switch (get_current_floor_area()) {
+        case AREA_VR_TEMPLE_ALPHA:
+        case AREA_VR_TEMPLE_BETA:
             play_sound_effect(0x4BF0B, self->pos, 0, 0);
             break;
-        case 21:
-        case 22:
+        case AREA_VR_SPACESHIP_ALPHA:
+        case AREA_VR_SPACESHIP_BETA:
             play_sound_effect(0x4004AA0B, self->pos, 0, 0);
             break;
         default:
@@ -150,13 +149,13 @@ void TObjDoaEx01::play_proximity_sound() {
         if (is_any_player_within_radius_xz((u8 *)self, (f32)4.9e+03f) == 1) {
             self->state = 1;
             ((TObjCollidable *)self)->set_indexed_flags(0, 8);
-            switch (get_current_area()) {
-            case 19:
-            case 20:
+            switch (get_current_floor_area()) {
+            case AREA_VR_TEMPLE_ALPHA:
+            case AREA_VR_TEMPLE_BETA:
                 play_sound_effect(0x4BF0B, self->pos, 0, 0);
                 break;
-            case 21:
-            case 22:
+            case AREA_VR_SPACESHIP_ALPHA:
+            case AREA_VR_SPACESHIP_BETA:
                 play_sound_effect(0x4004AA0B, self->pos, 0, 0);
                 break;
             default:

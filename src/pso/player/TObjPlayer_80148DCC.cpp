@@ -7,6 +7,7 @@
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
+#include "pso/quest/TQuestThread.h"
 
 struct Base1_80148e54 { char pad[0x18]; };
 struct VObj1_80148e54 : Base1_80148e54 {
@@ -109,7 +110,6 @@ struct VObj_18_3eea3b : VBase_18_3eea3b {
 };
 
 extern "C" {
-s32 get_register__12TQuestThreadFPvi(u8 *arg0, s32 arg1);
 s32 advance_animation_playback(void *);
 s32 submit_cursor_candidate(void *, int);
 extern u8 *quest_mission_manager;
@@ -193,7 +193,7 @@ void TObjNpcBase::run_task() {
     temp_r4 = this->m_3a0;
     if (temp_r4 > 0)
     {
-      if (get_register__12TQuestThreadFPvi(var_r31, temp_r4) != 0)
+      if (TQuestThread::get_register(var_r31, temp_r4) != 0)
       {
         this->m_390 = 1;
         set_indexed_flags(0, 1);
@@ -205,7 +205,7 @@ void TObjNpcBase::run_task() {
       }
     }
     temp_r4_2 = this->m_3a4;
-    if ((temp_r4_2 > 0) && (get_register__12TQuestThreadFPvi(var_r31, temp_r4_2) != 0))
+    if ((temp_r4_2 > 0) && (TQuestThread::get_register(var_r31, temp_r4_2) != 0))
     {
       this->m_390 = 0;
       this->clear_player_status_flag(0, 1U);

@@ -10,8 +10,9 @@
 #include "pso/THunterGuildWarning.h"
 #include "pso/TObject.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubComCard.h"
+#include "pso/quest/TQuestThread.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -80,7 +81,6 @@ struct Seq_802129FC : Base_802129FC {
 };
 
 extern "C" {
-u8 *create_quest_thread(s32 arg0);
 s32 get_selected_menu_value(void *);
 extern RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 THunterGuildSeqOffline__quest_result_callbacks;
 List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
@@ -133,7 +133,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 ((VObj_18_97738d *)(arg0))->m7(9, 1);
                 *(s32 *)&this->unk_38 = 1;
                 if ((s32) *(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8) != -1) {
-                    this->m_34 = (s32)create_quest_thread(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8));
+                    this->m_34 = (s32)TQuestThread::create_in_root(*(s32 *)((s8 *)&THunterGuildSeqOffline__quest_result_callbacks.value + 8));
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(5);
                 return;

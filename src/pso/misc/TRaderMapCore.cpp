@@ -6,7 +6,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
@@ -23,7 +23,6 @@ struct RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 {
 #include "pso/THeap.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjLight.h"
@@ -615,11 +614,11 @@ void TRaderMapCore::pan_vertical(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
         Glob_801F97C4 *g = (Glob_801F97C4 *)&TRaderMapCore__map_view_state;
         g->f30 -= farg0;
-        switch (get_current_area()) {
-        case 0xD:
-        case 0xE:
-        case 0x1F:
-        case 0x23:
+        switch (get_current_floor_area()) {
+        case AREA_VOL_OPT:
+        case AREA_DARK_FALZ:
+        case AREA_OLGA_FLOW:
+        case AREA_TOWER:
             return;
         default:
             if (g->f30 < -6000.0f) {
@@ -637,11 +636,11 @@ void TRaderMapCore::pan_horizontal(f32 farg0) {
     if (TRaderMapCore__view_mode == 1 || TRaderMapCore__view_mode == 2) {
         Glob_801F986C *g = (Glob_801F986C *)&TRaderMapCore__map_view_state;
         g->f28 -= farg0;
-        switch (get_current_area()) {
-        case 0xD:
-        case 0xE:
-        case 0x1F:
-        case 0x23:
+        switch (get_current_floor_area()) {
+        case AREA_VOL_OPT:
+        case AREA_DARK_FALZ:
+        case AREA_OLGA_FLOW:
+        case AREA_TOWER:
             return;
         default:
             if (g->f28 < -6000.0f) {
@@ -984,14 +983,14 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
     }
     if (this->m_168 & 1) {
         view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
-        if (get_current_area() == 12) {
+        if (get_current_floor_area() == AREA_DE_ROL_LE) {
             free_view->rot = 0;
             this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
         } else {
             free_view->rot = 0x8000;
             this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->m_194;
         }
-    } else if (get_current_area() == 12) {
+    } else if (get_current_floor_area() == AREA_DE_ROL_LE) {
         view->rot = 0;
         free_view->rot = 0;
         this->m_174 = 0;

@@ -2,7 +2,7 @@
 #include "pso/player/TUnk_804A4B80.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -199,7 +199,7 @@ typedef struct VObj_18_382324 VObj_18_382324;
 void TUnk_804A4B80::vfunc_17(s32 arg1) {
   if (((u32) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0) != 0U)
   {
-    if (are_items_enabled_here() != 0)
+    if (is_current_area_item_enabled() != 0)
     {
       if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_field_3e4())
       {

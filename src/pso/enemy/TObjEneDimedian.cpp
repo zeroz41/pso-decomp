@@ -13,7 +13,6 @@
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/RenderFadeState.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjChara.h"
@@ -23,7 +22,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEnePanarms.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -201,11 +200,11 @@ void TObjEneDimedian::vfunc_95() {
 
 void TObjEneDimedian::vfunc_94() {
     s32 arg0 = (s32)this;
-    s32 global_state;
+    s32 area;
     TObjPlayer::apply_effect_variant_a(arg0 + 0x38, 0);
     ((TObjPlayer *)(arg0 + 0x2FC))->request_two_effects();
-    global_state = get_current_area();
-    if ((global_state == 0x13) || (global_state == 0x14)) {
+    area = get_current_floor_area();
+    if ((area == AREA_VR_TEMPLE_ALPHA) || (area == AREA_VR_TEMPLE_BETA)) {
         play_sound_effect(0x3AD3F, arg0 + 0x38, 0, 0);
         return;
     }

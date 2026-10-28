@@ -3,8 +3,7 @@
 #include "pso/enemy/TObjEneRe4Sorcerer_800EDB98.h"
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss3Volopt.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Stack_800D8F78 {
     s32 sp8;
@@ -34,32 +33,32 @@ void TBoss3Volopt::create_breakup_mdl(s32 arg0, s32 arg1, s32 arg2, s32 arg3, s3
 
 void TBoss3Volopt::play_area_variant_sound() {
     s32 arg0 = (s32)this;
-    s32 global_state;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    s32 area;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
         return;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4003AD32, (void *)arg0, 0, 0);
         return;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
         return;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4003A35A, (void *)arg0, 0, 0);
         return;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x3AD43, (void *)arg0, 0, 0);
         return;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4003AD3F, (void *)arg0, 0, 0);
         return;
     default:
@@ -72,30 +71,30 @@ void TBoss3Volopt::play_area_se_with_particle() {
     s32 arg0 = (s32)this;
     Vec_800D8C48 v;
     f32 y;
-    switch (get_current_area()) {
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
         break;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4003AD32, (void *)arg0, 0, 0);
         break;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
         break;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4003A35A, (void *)arg0, 0, 0);
         break;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x3AD43, (void *)arg0, 0, 0);
         break;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4003AD3F, (void *)arg0, 0, 0);
         break;
     default:
@@ -109,22 +108,22 @@ void TBoss3Volopt::play_area_se_with_particle() {
 }
 
 void TBoss3Volopt__sub_800D8D88(s32 arg0) {
-    switch (get_current_area()) {
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
         break;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4003AB31, (void *)arg0, 0, 0);
         break;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
         break;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4003A359, (void *)arg0, 0, 0);
         break;
     default:
@@ -136,22 +135,22 @@ void TBoss3Volopt__sub_800D8D88(s32 arg0) {
 
 void TBoss3Volopt::play_area_sound_effect() {
     s32 arg0 = (s32)this;
-    switch (get_current_area()) {
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x3AB3C, (void *)arg0, 0, 0);
         break;
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4003AB31, (void *)arg0, 0, 0);
         break;
-    case 34:
+    case AREA_SEASIDE_NIGHT:
         play_sound_effect(0x4003B22A, (void *)arg0, 0, 0);
         break;
-    case 35:
+    case AREA_TOWER:
         play_sound_effect(0x4003A359, (void *)arg0, 0, 0);
         break;
     default:

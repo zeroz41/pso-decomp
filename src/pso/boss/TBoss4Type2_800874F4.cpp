@@ -10,10 +10,9 @@
 #include "pso/misc/TUnk_8048E790.h"
 #include "pso/misc/TUnk_8048E7A8.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct O_80087638 { u8 pad[0x2e]; u16 x2e; };
 
@@ -665,18 +664,18 @@ s32 TParticleCtrl::get_particle_by_index(s32 arg0) {
 
 void load_particle_entry_resources(void) {
     char name[0x20];
-    s32 state;
+    s32 area;
     void *p;
     memset(name, 0, 0x20);
     strcpy(name, lbl_80439494);
-    state = get_current_area();
-    if (state < 10) {
-        if (state < 0) {
+    area = get_current_floor_area();
+    if (area < 10) {
+        if (area < 0) {
             return;
         }
-        sprintf(name, lbl_804394A4, state);
+        sprintf(name, lbl_804394A4, area);
     } else {
-        sprintf(name, lbl_804394BC, state);
+        sprintf(name, lbl_804394BC, area);
     }
     read_disc_file((s32)name, particle_area_entry_table = mem_alloc(0x2600));
     p = ::operator new(0x440);

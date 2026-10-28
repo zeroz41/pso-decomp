@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcBase.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Npc_801491B4 {
     s32 f0;
@@ -67,8 +66,8 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
     self->f0 = TObjNpcBase__name;
     self->f388 = 0;
     self->f390 = 1;
-    switch (get_current_area()) {
-    case 15:
+    switch (get_current_floor_area()) {
+    case AREA_LOBBY:
         self->f394 = 1;
         break;
     default:

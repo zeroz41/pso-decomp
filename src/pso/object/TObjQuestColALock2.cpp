@@ -3,7 +3,7 @@
 #include "pso/object/TObjQuestColALock2.h"
 #include "pso/object/TObjQuestColBase.h"
 #include "pso/TObject.h"
-#include "pso/TQuestThreadBoard.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObjQuestCol.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -38,7 +38,6 @@ struct RecoveredGlobal_801959A0_lbl_804A7438 {
 };
 
 extern "C" {
-u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 void *__nw__7TObjectFUl(int);
 extern s32 tl_00;
 u8 *TObjQuestColALock2__vt14(TObjQuestColALock2 *arg0);
@@ -94,23 +93,16 @@ void TObjQuestColALock2::update_room_id_check() {
 }
 
 u8 *TObjQuestColALock2__vt14(TObjQuestColALock2 *quest_col_a_lock2) {
-    u8 *quest_thread;
-    u8 *var_r0;
-    u8 *var_r31;
+    TQuestThread *thread;
     TQuestThreadBoard::destroy_board();
-    var_r31 = NULL;
+    thread = NULL;
     if ((u32) *(u32 *)((s8 *)quest_col_a_lock2 + 0xBC) != 0U) {
-        quest_thread = (u8 *)(((u8 *)__nw__7TObjectFUl(0x194)));
-        var_r0 = quest_thread;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(__ct__12TQuestThreadFv(quest_thread, (s32) *(u32 *)((s8 *)quest_col_a_lock2 + 0xBC), quest_col_a_lock2->m_b0));
-        }
-        var_r31 = var_r0;
-        if (var_r0 != NULL) {
-            ((TObject *)var_r0)->set_parent((TObject *)tl_00);
+        thread = new TQuestThread(*(TObject **)((s8 *)quest_col_a_lock2 + 0xBC), quest_col_a_lock2->m_b0);
+        if (thread != NULL) {
+            thread->set_parent((TObject *)tl_00);
         }
     }
-    return var_r31;
+    return (u8 *)thread;
 }
 
 int TObjQuestColALock2::vfunc_15() {

@@ -12,7 +12,7 @@ public:
     virtual void vfunc_4();
     virtual void reset_obstruction_fade();
     virtual s32 advance_toward_max();
-    virtual s32 vfunc_10();
+    virtual s32 has_visible_opacity();
     void*init_vtable_and_field18();
     void calc_recoil_offsets();
     u8 unk_18[0x4];

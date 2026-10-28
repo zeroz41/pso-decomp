@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TUnk_804CC048.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TLobby_80207644.h"
 
 struct RecoveredGlobal_80227AA8_lbl_80514F64 {
@@ -87,7 +87,6 @@ struct RecoveredGlobal_8000F91C_lbl_804FE120 {
 };
 
 #include <stddef.h>
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 struct RecoveredGlobal_80069094_camera_controller_registry { s32 value; u8 remaining[0x64]; };
 
@@ -264,7 +263,7 @@ void handle_6xB2_play_sound_from_player(void *arg0) {
     s32 player;
 
     bswap_6xB2_play_sound();
-    if ((s8) *(u8 *)((s8 *)arg0 + 4) == get_current_area()) {
+    if ((s8) *(u8 *)((s8 *)arg0 + 4) == get_current_floor_area()) {
         if (*(s16 *)((s8 *)arg0 + 6) == 0xFFFF) {
             play_sound_effect(*(s32 *)((s8 *)arg0 + 8), 0, 0, 0);
             return;
@@ -479,7 +478,6 @@ s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 extern RecoveredGlobal_80228634_lbl_804CBE98 area_initializer_dispatch_table;
 void run_area_scene_cleanup(u8 *arg0);
 void promote_area_floor(u8 *arg0);
-void set_current_floor_area(s32 arg0);
 void load_area_scene_and_init(u8 *arg0);
 s32 TLobby__sub_802401C8(void *);
 s32 update_sound_frame(void *);
@@ -571,7 +569,7 @@ void TLobby__sub_80228118(void) {
 }
 
 void TLobby::clear_ready_flag_unless_locked() {
-    if (get_current_area() != 0xF) {
+    if (get_current_floor_area() != AREA_LOBBY) {
         *(s32 *)((s8 *)this + 0x20) = (s32) (*(s32 *)((s8 *)this + 0x20) & 0xFFFFFFFE);
     }
 }

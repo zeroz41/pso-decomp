@@ -3,10 +3,9 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TOKeyJungleMain.h"
 #include "pso/misc/TOGrassJungle.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
     s32 value;
@@ -86,15 +85,15 @@ u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
 void TOKeyJungleMain::play_activate_sound() {
     s32 arg0 = (s32)this;
     s32 var_r31;
-    s32 global_state;
+    s32 area;
 
     var_r31 = 0x4AD12;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 34:
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_SEASIDE_NIGHT:
         var_r31 = 0x4004AD12;
         break;
-    case 35:
+    case AREA_TOWER:
         var_r31 = 0x4004AD12;
         break;
     }

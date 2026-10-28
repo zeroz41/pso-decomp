@@ -3,6 +3,7 @@
 #include "pso/misc/TMotorcycle.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/quest/TQuestThread.h"
 
 #include "pso/TObject.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -19,7 +20,6 @@ extern void* quest_mission_manager;
 extern void* quest_area_manager;
 extern void* tl_00;
 void* __nw__7TObjectFUl(unsigned long);
-u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 f32 fabs_float(f32);
 void debug_printf_at(int, void *, ...);
 extern s32 lbl_80445DF4[];
@@ -63,9 +63,7 @@ void TObjMesBase::interact(s32) {
         switch (messagePhase) {
         case 0:
             if (!messageChild && label != 0 && root) {
-                void* child = __nw__7TObjectFUl(0x194);
-                if (child) child = __ct__12TQuestThreadFv((u8 *)child, (s32)root, messageLabel);
-                messageChild = child;
+                messageChild = new TQuestThread((TObject *)root, messageLabel);
                 if (messageChild) ((TObject *)messageChild)->set_parent((TObject *)tl_00);
                 messagePhase = 1;
             }

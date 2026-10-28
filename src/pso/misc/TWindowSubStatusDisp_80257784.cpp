@@ -7,7 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_80258100_lbl_804CF998 {
@@ -122,7 +122,6 @@ void update_item_icon_colors__20TWindowSubStatusDispFPvPv(void *arg0, void *arg1
 s32 is_wrapped__9TItemDataFPv(s32);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 s32 is_rare_item__9TItemDataFPv(u8 *item);
-s32 is_boss_area();
 void *get_player_by_client_id(s32 i);
 s32 check_equip_requirements(s32, s32, s32 *);
 u8 calc_display_grade__9TItemDataFv(s32);
@@ -391,7 +390,7 @@ void TWindowSubStatusDisp::setup_stat_line(s32 src, s32 arg2, s32 arg3) {
         *(s32 *)((s8 *)this + 0x30) = 0xFF909090;
         this->m_2c = 0xFFAAAAAA;
         *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0xC5);
-    } else if ((are_items_enabled_here() == 0) || (is_boss_area() != 0)) {
+    } else if ((is_current_area_item_enabled() == 0) || (is_boss_area() != 0)) {
         *(s32 *)((s8 *)this + 0x30) = 0xFF909090;
         this->m_2c = 0xFFAAAAAA;
         *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);

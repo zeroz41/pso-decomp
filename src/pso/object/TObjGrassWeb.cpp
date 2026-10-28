@@ -3,9 +3,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjGrassWeb.h"
 #include "pso/TObject.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 typedef struct Web_800BC798 {
     u8 pad0[0x38];
@@ -34,22 +33,22 @@ s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 int TObjGrassWeb::queue_destruction() { return queue_destruction__7TObjectFv(this); }
 
 void TObjGrassWeb__sub_800BC798(Web_800BC798 *o) {
-    switch (get_current_area()) {
-    case 3:
-    case 4:
-    case 5:
+    switch (get_current_floor_area()) {
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_persistent_sound(0x4003A809, (s32)o, (u32)o->pos, 0, 0);
         break;
-    case 16:
-    case 17:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
         if (enable_v2_features == 1) {
             play_persistent_sound(0x3051E, (s32)o, (u32)o->pos, 0, 0);
         }
         break;
-    case 18:
+    case AREA_PIONEER2_EP2:
         break;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_persistent_sound(0x3A81D, (s32)o, (u32)o->pos, 0, 0);
         break;
     }

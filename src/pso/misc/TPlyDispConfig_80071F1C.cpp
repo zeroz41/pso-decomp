@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/TPlyDispData.h"
 #include "pso/misc/TPlyDispConfig_80071F1C.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 
 extern "C" {
 

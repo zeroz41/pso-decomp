@@ -16,11 +16,10 @@
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TOKeyAncient01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct BmlResourceBlock_804B3960 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3960_size[(sizeof(BmlResourceBlock_804B3960) == 0x18) ? 1 : -1];
@@ -221,7 +220,7 @@ void TOMonumentAncient02::free_shared_data() {
 void TOMonumentAncient02::load_resources() {
     u8 *tbl = (u8 *)&monument_ancient02_resource_table;
     u8 *p;
-    switch (get_current_area()) {
+    switch (get_current_floor_area()) {
     default:
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
@@ -229,14 +228,14 @@ void TOMonumentAncient02::load_resources() {
         }
         TOMonumentAncient02__model_resource = (u32)p;
         break;
-    case 4:
+    case AREA_CAVE2:
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, tbl + 0x20, 0, 0, 0);
         }
         TOMonumentAncient02__model_resource = (u32)p;
         break;
-    case 7:
+    case AREA_MINE2:
         p = (u8 *)::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, tbl + 0x38, 0, 0, 0);
@@ -262,7 +261,7 @@ void *__dt__19TOMonumentAncient02Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80172EA0_lbl_804B39A8_size[sizeof(RecoveredGlobal_80172EA0_lbl_804B39A8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02_size[sizeof(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02) == 0x3C ? 1 : -1];
 u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
-    s32 global_state;
+    s32 area;
     init_map_object_base(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02 *)&__vt__19TOMonumentAncient02).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOMonumentAncient02__name;
@@ -272,17 +271,17 @@ u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, (s32) &monument_ancient02_collision_parts.value, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    global_state = get_current_area();
-    switch (global_state) {
+    area = get_current_floor_area();
+    switch (area) {
     default:
         arg0->m_d0 = 0x2C;
         arg0->m_d4 = 0x4C119;
         break;
-    case 4:
+    case AREA_CAVE2:
         arg0->m_d0 = 0x2D;
         arg0->m_d4 = 0x44116;
         break;
-    case 7:
+    case AREA_MINE2:
         arg0->m_d0 = 0x2E;
         arg0->m_d4 = 0x4004C10F;
         break;

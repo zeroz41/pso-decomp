@@ -163,7 +163,7 @@ void load_corpse_mark_resource(void) {
 }
 extern "C" {
 
-s32 TUnk_80494AE0::vfunc_10() {
+s32 TUnk_80494AE0::has_visible_opacity() {
     f32 *arg0 = (f32 *)this;
     return *arg0 > lbl_805DA3D8;
 }

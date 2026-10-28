@@ -5,6 +5,54 @@
 #include "pso/misc/TWindowDD_80341A08.h"
 #include "pso/misc/TUnk_804CE018.h"
 
+#include "pso/misc/TWindowDD.h"
+#include "pso/misc/TWindowHelpItem.h"
+#include "pso/misc/TWindowKeyBoardSoft.h"
+#include "pso/misc/TUnk_804CFA28.h"
+
+extern "C" {
+int refresh_status_display__9TWindowDDFv(void *);
+void TWindowDD__sub_80341674(TWindowDD_WS_Word *, u8 *);
+void draw_visible_window_entries(TWindowDD_WS_Word *, TWindowDDWordEntryList *, TWindowKeyBoardSoft *);
+extern const s32 TWindowDD__data_805DFC14;
+extern const s32 lbl_805DFC18;
+extern const f32 lbl_805DFCA0;
+}
+
+void TWindowDD_WS_Word::render() {
+    TWindowDD_WS_Word *self = this;
+    TWindowKeyBoardSoft *entry;
+    TUnk_804CFA28 *item;
+    s32 idx;
+    s32 i;
+    s32 j;
+    entry = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
+    self->calc_inner_rect((u8 *)entry);
+    TWindowDD__sub_80341674(self, (u8 *)entry);
+    if (self->m_8c != 0) {
+        self->m_8c = 0;
+        idx = self->m_68 - self->m_6c;
+        for (i = 0; i < self->m_7c; i++, idx++) {
+            item = (TUnk_804CFA28 *)self->get_array_entry(i);
+            set_text_entry_string((u8 *)item, TWindowDD__sub_80348B70(((s16 *)self->m_80)[idx]), 0xC0);
+            item->y = (f32)(i * 20);
+            refresh_status_display__9TWindowDDFv(item);
+            ((TWindowHelpItem *)item)->reset_float_field();
+            item->color = TWindowDD__data_805DFC14;
+        }
+        if (self->sub_80342254() != 0) {
+            for (j = 0; j < self->m_7c; j++) {
+                item = (TUnk_804CFA28 *)self->get_array_entry(j);
+                if (j == self->m_6c) {
+                    item->color = lbl_805DFC18;
+                }
+            }
+        }
+    }
+    entry->inner_y += lbl_805DFCA0;
+    draw_visible_window_entries(self, &self->entries, entry);
+}
+
 #define sub_80341AC0__17TWindowDD_WS_WordFv ((s32 (*)(void))sub_80341AC0__17TWindowDD_WS_WordFv)
 
 s32 TWindowDD_WS_Word::can_scroll(s32 arg1) {
@@ -87,7 +135,6 @@ s32 init_window_layout_entries(void *, void *, int);
 extern RecoveredGlobal_80341F9C_TWindowDD__data_804EFC50 TWindowDD__data_804EFC50;
 void *mem_alloc(u32 size);
 s32 get_array_entry__13TUnk_804CE018Fi(void * a0, s32 a1);
-int refresh_status_display__9TWindowDDFv(void *);
 Elem_80341FFC *get_element_ptr__9TWindowDDFl(s32);
 void mem_free(void *);
 s32 get_array_entry__13TUnk_804CE018Fi(void * a0 = 0, s32 a1 = 0);

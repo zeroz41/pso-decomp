@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TTecBarta.h"
 #include "pso/misc/TTecFoie.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Owner_8012B9B4 { u8 pad[0x38]; f32 pos[3]; u8 pad44[0x60 - 0x44]; s32 f60; };
 
@@ -55,7 +55,7 @@ void TUnk_804A4F60::vfunc_17(s32 arg1) {
   s32 temp_r31;
   if (((u32) (*((u32 *) (((s8 *) arg0) + 0xF0)))) != 0U)
   {
-    if (are_items_enabled_here() != 0)
+    if (is_current_area_item_enabled() != 0)
     {
       temp_r31 = ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_field_3e4();
       new_var = get_current_floor();

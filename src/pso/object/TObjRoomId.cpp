@@ -2,9 +2,9 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 

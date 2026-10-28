@@ -10,7 +10,7 @@ extern "C" {
 s32 calc_recoil_offsets__13TUnk_80490470Fv(f32);
 
 
-s32 TUnk_80490470::vfunc_10() {
+s32 TUnk_80490470::has_visible_opacity() {
     return *(f32 *)&this->unk_18 > 0.0f;
 }
 

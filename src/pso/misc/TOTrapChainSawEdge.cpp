@@ -6,7 +6,7 @@
 #include "pso/misc/TOTrapChainSawKey.h"
 #include "pso/misc/TOTrapChainSaw.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -17,7 +17,6 @@ extern "C" void update_extension__14TOTrapChainSawFv();
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
@@ -723,11 +722,11 @@ void *TOTrapChainSawDamage__ct(void *arg0, void *arg1, void *arg2) {
 s32 get_area_table_value__17TOTrapChainSawKeyFii(s32 arg0, s32 arg1) {
     T_802C8F68 t = chainsaw_area_table_values;
     s32 *p = t.r[0];
-    switch (get_current_area()) {
-    case 34:
+    switch (get_current_floor_area()) {
+    case AREA_SEASIDE_NIGHT:
         p = t.r[1];
         break;
-    case 35:
+    case AREA_TOWER:
         p = t.r[2];
         break;
     }

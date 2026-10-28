@@ -1,10 +1,9 @@
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/object/TObjFish.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Ent_801FB798 { s32 a; char *name; };
 
@@ -74,10 +73,10 @@ void TRaderMapCore::load_map_resources() {
     char buf[32];
     Ent_801FB798 *e;
     s32 status;
-    s32 state;
-    state = get_current_area();
+    s32 area;
+    area = get_current_floor_area();
     status = TScene::get_status();
-    e = (Ent_801FB798 *)get_floor_scene_table(state);
+    e = (Ent_801FB798 *)get_floor_scene_table(area);
     replace_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)e[status].name, (char *)lbl_8044A7B0);
     TRaderMapCore__floor_map_resource = (u8 *)create_named_object((s32)buf);
     if (TRaderMapCore__floor_map_resource != NULL && *(u32 *)(TRaderMapCore__floor_map_resource + 4) != 0) {

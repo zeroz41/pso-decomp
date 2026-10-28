@@ -1,4 +1,5 @@
 #include "pso/TGameProtocol.h"
+#include "pso/quest/TQuestThread.h"
 struct TBoss3Volopt;
 struct TBoss8Dragon;
 struct TLobby;
@@ -132,7 +133,6 @@ void handle_6x73_exit_quest();
 void handle_6x74_word_select(u8 *arg0);
 void handle_6x75_update_quest_flag_dc(TLobby *arg0);
 extern "C" void handle_6x76_set_entity_set_flags();
-void handle_6x77_sync_quest_register(u8 *arg0);
 void handle_6x78(void *arg0);
 void handle_6x79_gogo_ball(u8 *arg0);
 extern "C" void handle_6x7A_enable_stealth_suit_effect(void *arg0);

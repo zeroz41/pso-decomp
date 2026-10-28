@@ -19,11 +19,10 @@
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TOAirconCave01.h"
 #include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
 extern s32 model_render_flags;
@@ -285,14 +284,14 @@ void TLazerFenceSw__sub_80193C5C(void) {
 #pragma push
 #pragma opt_propagation off
 void TLazerFenceSw::load_resources() {
-    s32 state;
+    s32 area;
     void *obj;
     s32 j;
     s32 i;
     Node_80193CA4 *n;
     lazer_fence_switch_bml_resource = 0;
-    state = get_current_area();
-    if (TContainerAncient01::is_global_state_in_table() == 1 || state == 0x1C || state == 0x1D) {
+    area = get_current_floor_area();
+    if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         obj = ::operator new(0x440);
         if (obj != NULL) {
             obj = load_resource_from_descriptor(obj, 5, fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);

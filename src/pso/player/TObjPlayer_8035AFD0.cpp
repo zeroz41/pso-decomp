@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer.h"
 
 s32 TObjPlayer::conditional_delete_ex(s32 arg0, s16 arg1) {

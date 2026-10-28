@@ -434,6 +434,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
     "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
+    "pso/enemy/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0"},
     "pso/boss/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
     # GC/1.3.2: the container files 0x8018807C-0x8018D900, the CRC-32 pair
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
@@ -450,6 +451,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TKeyBoardControl_8025EC04.cpp": {"mw_version": "GC/1.3.2"},
     "pso/menu/TAdMultiOkGC.cpp": {"mw_version": "GC/1.3.2"},
     "pso/misc/TLobby_802A5120.cpp": {"mw_version": "GC/1.3.2"},
+    "pso/unk/text_8032B318.cpp": {"mw_version": "GC/1.3.2"},
     # GC/1.3: the compiler-generated TMenuList<> copy constructor.
     "pso/misc/TRegister.cpp": {"mw_version": "GC/1.3"},
     "pso/misc/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
@@ -515,6 +517,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # in the runtime lib under its own name.
     "pso/unk/text_8039739C.cpp": {"cflags": _switch(cflags_pso, "-O4,p")},
     "pso/quest/QuestOpcodeHandlers.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
+    "pso/quest/TQuestThread.cpp": {"cflags": _switch(cflags_pso, "-inline on")},
 }
 
 # MusyX (Factor 5). Its objects carry extab/extabindex for every non-leaf

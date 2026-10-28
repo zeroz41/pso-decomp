@@ -6,12 +6,11 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Disp_8026F9F4 { u8 p0[0x20]; s16 id; u8 p1[0x42]; void *windows[5]; };
 
@@ -430,7 +429,7 @@ void update_status_help_item(s32 arg0) {
     s32 var_r31;
 
     var_r31 = get_width__19TWindowSimpleStatusFv();
-    if (get_current_area() == 0xF) {
+    if (get_current_floor_area() == AREA_LOBBY) {
         var_r31 = 0;
     }
     update_photon_blast_player_marker((s32)(((s32 (*)(s32, s32))get_array_entry__13TUnk_804CE018Fi)(arg0, 0)), var_r31);

@@ -2,7 +2,7 @@
 #include "pso/object/TObjWarpBossMulti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804C4540.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct Tag_801D7D4C { u8 d[4]; };
 
 struct Obj_801D7D4C { s32 n; Tag_801D7D4C x[4]; Tag_801D7D4C y[4]; };
@@ -33,7 +33,6 @@ int check_flag_100__10TObjPlayerFPv(void *p);
 s32 validate_and_clear_slot__10TObjPlayerFv(void *, s32);
 void init__9TItemDataFv(void *);
 void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *, TItemData_801D8044 *);
-s32 is_boss_area(void);
 s32 TObjPlayer__sub_801AF694(void *, s32);
 u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(s32);
@@ -60,7 +59,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
     case 1:
         return 1;
     case 2:
-        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || are_items_enabled_here() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
+        if (obj_testFlags30__14TObjCollidableFUl(arg0, 0x20006) != 0 || is_current_area_item_enabled() == 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
         if ((u8)sub == 2) {

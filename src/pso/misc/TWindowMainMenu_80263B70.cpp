@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
 #include "pso/misc/TWindowSubEquip_80275C0C.h"
@@ -15,7 +15,6 @@ struct TWindowSubMag;
 #include "pso/unk/text_80263A20.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowMainMenu.h"
 
 extern "C" {
@@ -145,7 +144,7 @@ void TWindowMainMenu::update_keyboard_card_state() {
 s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
     u8 *base;
     u8 *p;
-    s32 st;
+    s32 area;
     base = ((u8 *(*)(s32))get_player_by_client_id)(*(s32 *)((s8 *)((u8 *)this) + 0x54));
     if (base == NULL) {
         return 0;
@@ -155,12 +154,12 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
         return 0;
     }
     *arg2 = 1;
-    st = get_current_area();
+    area = get_current_floor_area();
     switch (*arg1) {
     case 0:
     case 9:
     case 23:
-        if (st == 0xF) {
+        if (area == AREA_LOBBY) {
             *arg2 = 0;
         }
         break;
@@ -181,12 +180,12 @@ s32 TWindowMainMenu::filter_menu_entry(s16 *arg1, s32 *arg2) {
         if (*(s32 *)((s8 *)p + 0x34) & 0x10) {
             return 0;
         }
-        if (st == 0xF || st == 0 || st == 0x12) {
+        if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
             *arg1 = 4;
         }
         break;
     case 12:
-        if (st == 0xF || st == 0 || st == 0x12) {
+        if (area == AREA_LOBBY || area == AREA_PIONEER2_EP1 || area == AREA_PIONEER2_EP2) {
             *arg2 = 0;
         }
         break;

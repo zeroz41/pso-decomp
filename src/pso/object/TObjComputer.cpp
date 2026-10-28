@@ -2,16 +2,16 @@
 #include "pso/object/TObjComputer.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/item/TObjContainerAbeEnemy.h"
+#include "pso/map/FloorArea.h"
 
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyAncient01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -228,9 +228,9 @@ void TObjComputer::free_resources() {
 
 void load_computer_resources(void) {
     void *p;
-    switch (get_current_area()) {
-    case 23: case 24: case 25: case 26: case 27: case 28: case 29:
-    case 34: case 35:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA: case AREA_JUNGLE_NORTH: case AREA_JUNGLE_EAST: case AREA_MOUNTAIN: case AREA_SEASIDE: case AREA_SEABED_UPPER: case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);

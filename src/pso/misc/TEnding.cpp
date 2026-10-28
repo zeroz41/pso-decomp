@@ -1,5 +1,5 @@
 #include "pso/misc/TEnding.h"
-#include "pso/unk/text_80203418.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TEndingPicStage.h"
 #include "pso/misc/ParticleRadial.h"
 #include "pso/misc/TEndingAB_8008CE08.h"

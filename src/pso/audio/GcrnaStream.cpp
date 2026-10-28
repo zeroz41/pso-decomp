@@ -1,5 +1,6 @@
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaError.h"
+#include <dolphin/os/OSAlloc.h>
 #include "pso/misc/TLobby_803D43C8.h"
 
 #define OS_CORE_CLOCK (*(u32 *)0x800000FC)
@@ -10,12 +11,28 @@ extern "C" {
 void sndStreamMixParameterEx(u32 stream_id, u8 volume, u8 pan, u8 surround_pan, u8 aux_a, u8 aux_b);
 u32 sndStreamActivate(u32 stream_id);
 void sndStreamDeactivate(u32 stream_id);
+void sndStreamFree(u32 stream_id);
+void sndStreamFrq(u32 stream_id, s32 frequency);
+struct SND_ADPCMSTREAM_INFO;
+u32 sndStreamAllocEx(u8 priority, void *buffer, u32 samples, u32 frequency, u8 volume,
+                     u8 pan, u8 surround_pan, u8 aux_a, u8 aux_b, u8 studio, u32 flags,
+                     u32 (*callback)(void *, u32, void *, u32, u32), u32 user,
+                     SND_ADPCMSTREAM_INFO *adpcm_info);
+void DCFlushRange(void *buffer, u32 size);
 void *memset(void *, int, unsigned long);
 }
 
 extern u8 gcrna_volume_table[1000];
 extern u32 gcrna_pan_table[31];
 extern GcrnaStream gcrna_stream_pool[16];
+extern u8 *gcrna_audio_buffers[32];
+extern u32 gcrna_init_count;
+extern u32 gcrna_audio_buffer_count;
+extern u32 lbl_805D7688;
+extern u8 *gcrna_audio_allocation;
+extern s32 gcrna_uses_caller_buffer;
+extern u32 gcrna_aligned_audio_storage;
+extern s32 lbl_805D7694;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
 
@@ -134,6 +151,7 @@ inline s32 gcrna_get_transfer_switch(GcrnaStream *stream) {
     return stream->flags & 1;
 }
 
+#pragma auto_inline on
 void GCRNA_SetTransSw(GcrnaStream *stream, s32 enabled) {
     if (stream == 0) {
         return;
@@ -153,6 +171,292 @@ void GCRNA_SetTransSw(GcrnaStream *stream, s32 enabled) {
     } else {
         gcrna_report_error("E1042601:Illigal prameter 'sw'.(GCRNA_SetTransSw)\n");
     }
+}
+
+inline void gcrna_release_stream_channels(GcrnaStream *stream) {
+    for (s32 channel = 0; channel < stream->allocated_channels; ++channel) {
+        if (stream->ring_buffers[channel] != 0) {
+            stream->ring_buffers[channel]->interface->destroy(stream->ring_buffers[channel]);
+        }
+    }
+    for (s32 channel = 0; channel < stream->allocated_channels; ++channel) {
+        if (stream->stream_ids[channel] != 0xFFFFFFFF) {
+            sndStreamFree(stream->stream_ids[channel]);
+        }
+    }
+}
+
+void gcrna_destroy_stream(GcrnaStream *stream) {
+    if (stream == 0) {
+        return;
+    }
+    GCRNA_SetPlaySw(stream, 0);
+    GCRNA_SetTransSw(stream, 0);
+    gcrna_release_stream_channels(stream);
+    memset(stream, 0, sizeof(*stream));
+}
+
+inline s32 gcrna_clamp_upper(s32 value, s32 maximum) {
+    return value < maximum ? value : maximum;
+}
+
+inline s32 gcrna_get_frequency(GcrnaStream *stream) {
+    if (stream == 0) {
+        return -1;
+    }
+    return stream->frequency;
+}
+
+inline void gcrna_set_frequency_mode(GcrnaStream *stream, s32 mode) {
+    if (stream != 0) {
+        stream->frequency_mode = mode;
+    }
+}
+
+inline void gcrna_set_frequency(GcrnaStream *stream, s32 frequency) {
+    if (stream == 0) {
+        return;
+    }
+    stream->frequency = frequency;
+    for (s32 channel = 0; channel < stream->allocated_channels; ++channel) {
+        if (stream->frequency_mode == 1) {
+            sndStreamFrq(stream->stream_ids[channel], (stream->frequency * 1124 + 1124) / 1125);
+        } else {
+            sndStreamFrq(stream->stream_ids[channel], stream->frequency);
+        }
+    }
+}
+
+inline void gcrna_set_sample_bits(GcrnaStream *stream, s32 bits) {
+    if (stream != 0) {
+        stream->sample_bits = bits;
+    }
+}
+
+inline void gcrna_update_mix(GcrnaStream *stream) {
+    if (gcrna_get_play_switch(stream) != 1) {
+        return;
+    }
+    for (s32 channel = 0; channel < stream->stream_count; ++channel) {
+        sndStreamMixParameterEx(stream->stream_ids[channel], gcrna_volume_table[-stream->output_volume],
+                               gcrna_pan_table[stream->pan[channel] + 15], 127 - stream->surround_pan,
+                               (u32)(gcrna_volume_table[-stream->volume] * gcrna_volume_table[-stream->aux_a_send]) >> 7,
+                               (u32)(gcrna_volume_table[-stream->volume] * gcrna_volume_table[-stream->aux_b_send]) >> 7);
+    }
+}
+
+inline void gcrna_set_volume(GcrnaStream *stream, s32 value) {
+    if (stream == 0) {
+        return;
+    }
+    value = gcrna_clamp_upper(value, 0);
+    value = value > -999 ? value : -999;
+    if (value == stream->volume) {
+        return;
+    }
+    stream->volume = value;
+    stream->output_volume = stream->volume;
+    gcrna_update_mix(stream);
+}
+
+inline void gcrna_set_output_volume(GcrnaStream *stream, s32 value) {
+    if (stream == 0) {
+        return;
+    }
+    value = gcrna_clamp_upper(value, 0);
+    value = value > -999 ? value : -999;
+    if (value == stream->output_volume) {
+        return;
+    }
+    stream->output_volume = value;
+    gcrna_update_mix(stream);
+}
+
+inline void gcrna_set_surround_pan(GcrnaStream *stream, s32 value) {
+    if (stream == 0) {
+        return;
+    }
+    value = gcrna_clamp_upper(value, 127);
+    value = value > 0 ? value : 0;
+    if (value == stream->surround_pan) {
+        return;
+    }
+    stream->surround_pan = value;
+    gcrna_update_mix(stream);
+}
+
+inline void gcrna_set_aux_a_send(GcrnaStream *stream, s32 value) {
+    if (stream == 0) {
+        return;
+    }
+    value = gcrna_clamp_upper(value, 0);
+    value = value > -999 ? value : -999;
+    if (value == stream->aux_a_send) {
+        return;
+    }
+    stream->aux_a_send = value;
+    gcrna_update_mix(stream);
+}
+
+inline void gcrna_set_aux_b_send(GcrnaStream *stream, s32 value) {
+    if (stream == 0) {
+        return;
+    }
+    value = gcrna_clamp_upper(value, 0);
+    value = value > -999 ? value : -999;
+    if (value == stream->aux_b_send) {
+        return;
+    }
+    stream->aux_b_send = value;
+    gcrna_update_mix(stream);
+}
+
+inline void gcrna_set_channel_pan(GcrnaStream *stream, s32 channel, s32 pan) {
+    if (stream == 0) {
+        return;
+    }
+    pan = gcrna_clamp_upper(pan, 15);
+    pan = pan > -15 ? pan : -15;
+    if (pan == stream->pan[channel]) {
+        return;
+    }
+    stream->pan[channel] = pan;
+    if (gcrna_get_play_switch(stream) != 1) {
+        return;
+    }
+    sndStreamMixParameterEx(stream->stream_ids[channel], gcrna_volume_table[-stream->output_volume],
+                           gcrna_pan_table[stream->pan[channel] + 15], 127 - stream->surround_pan,
+                           (u32)(gcrna_volume_table[-stream->volume] * gcrna_volume_table[-stream->aux_a_send]) >> 7,
+                           (u32)(gcrna_volume_table[-stream->volume] * gcrna_volume_table[-stream->aux_b_send]) >> 7);
+}
+
+GcrnaStream *GCRNA_Create(SjRingBuffer **inputs, s32 channels) {
+    if (channels <= 0) {
+        return 0;
+    }
+    if (inputs == 0) {
+        return 0;
+    }
+    for (u32 channel = 0; channel < channels; ++channel) {
+        if (inputs[channel] == 0) {
+            return 0;
+        }
+    }
+    u32 index;
+    for (index = 0; index < 16; ++index) {
+        if ((s8)gcrna_stream_pool[index].in_use == 0) {
+            break;
+        }
+    }
+    if (index == 16) {
+        return 0;
+    }
+    GcrnaStream *stream = &gcrna_stream_pool[index];
+    stream->stream_count = channels;
+    stream->allocated_channels = channels;
+    stream->stream_ids[0] = 0xFFFFFFFF;
+    stream->stream_ids[1] = 0xFFFFFFFF;
+    for (u32 channel = 0; channel < stream->allocated_channels; ++channel) {
+        stream->input_buffers[channel] = inputs[channel];
+    }
+    stream->buffer_size = 0x2000;
+    for (u32 channel = 0; channel < stream->allocated_channels; ++channel) {
+        stream->callback_ids[channel] = (index * 2 + channel) | 0x80000000;
+        stream->buffers[channel] = gcrna_audio_buffers[stream->callback_ids[channel] & 0x7FFFFFFF];
+        DCFlushRange(stream->buffers[channel], stream->buffer_size);
+        SjRingBuffer *ring = sj_ring_buffer_create(stream->buffers[channel], stream->buffer_size, 0);
+        stream->ring_buffers[channel] = ring;
+        if (ring == 0) {
+            gcrna_destroy_stream(stream);
+            return 0;
+        }
+        u8 volume = gcrna_volume_table[-stream->output_volume];
+        u8 pan = gcrna_pan_table[stream->pan[channel] + 15];
+        u8 surround_pan = 127 - stream->surround_pan;
+        u8 aux_a = gcrna_volume_table[-stream->aux_a_send];
+        u8 aux_b = gcrna_volume_table[-stream->aux_b_send];
+        stream->stream_ids[channel] = sndStreamAllocEx(255, stream->buffers[channel], stream->buffer_size / 2,
+            gcrna_get_frequency(stream), volume, pan, surround_pan, aux_a, aux_b,
+            0, 0x30000, gcrna_stream_callback, stream->callback_ids[channel], 0);
+        if (stream->stream_ids[channel] == 0xFFFFFFFF) {
+            gcrna_report_error("E1090501:sndStreamAllocEx return error ID.(GCRNA_Create)\n");
+            gcrna_destroy_stream(stream);
+            return 0;
+        }
+    }
+    gcrna_set_frequency_mode(stream, lbl_805D7694);
+    gcrna_set_frequency(stream, 48000);
+    gcrna_set_sample_bits(stream, 16);
+    gcrna_set_volume(stream, 0);
+    gcrna_set_output_volume(stream, 0);
+    if (stream->allocated_channels == 2) {
+        gcrna_set_channel_pan(stream, 0, -15);
+        gcrna_set_channel_pan(stream, 1, 15);
+    } else {
+        gcrna_set_channel_pan(stream, 0, 0);
+    }
+    gcrna_set_surround_pan(stream, 127);
+    gcrna_set_aux_a_send(stream, -999);
+    gcrna_set_aux_b_send(stream, -999);
+    stream->flags = 0;
+    stream->in_use = 1;
+    return stream;
+}
+
+void gcrna_shutdown(void) {
+    if (--gcrna_init_count == 0) {
+        for (s32 index = 0; index < 16; ++index) {
+            if ((s32)gcrna_stream_pool[index].in_use == 1) {
+                gcrna_destroy_stream(&gcrna_stream_pool[index]);
+            }
+        }
+        memset(gcrna_stream_pool, 0, sizeof(gcrna_stream_pool));
+        gcrna_error_shutdown();
+    }
+}
+
+inline void gcrna_initialize_buffer_table(void) {
+    for (s32 index = 0; index < gcrna_audio_buffer_count; ++index) {
+        gcrna_audio_buffers[index] = (u8 *)(gcrna_aligned_audio_storage + index * 0x2000);
+    }
+}
+
+void gcrna_initialize(void) {
+    gcrna_version_pointer;
+    if (gcrna_init_count == 0) {
+        gcrna_error_initialize();
+        if (gcrna_uses_caller_buffer == 0) {
+            gcrna_audio_buffer_count = 32;
+            lbl_805D7688 = 0x2000;
+            gcrna_audio_allocation = (u8 *)OSAlloc(32 * 0x2000 + 32);
+        }
+        gcrna_aligned_audio_storage = ((u32)gcrna_audio_allocation + 31) & ~31ULL;
+        gcrna_initialize_buffer_table();
+        memset(gcrna_stream_pool, 0, sizeof(gcrna_stream_pool));
+    }
+    ++gcrna_init_count;
+}
+void gcrna_set_error_callback(GcrnaErrorCallback callback, void *context) {
+    gcrna_error_set_callback(callback, context);
+}
+
+void gcrna_set_audio_buffer_storage(u8 *buffer, u32 size, s32 count) {
+    if (buffer == 0) {
+        gcrna_report_error("E1070310:Illigal parameter(buf=null).\n");
+        return;
+    }
+    if (size == 0) {
+        gcrna_report_error("E1070311:Illigal parameter(bsize<=0).\n");
+        return;
+    }
+    if (size < (u32)(count << 13)) {
+        gcrna_report_error("E1070312:Not enough bsize.\n");
+        return;
+    }
+    gcrna_audio_buffer_count = count;
+    lbl_805D7688 = size;
+    gcrna_audio_allocation = buffer;
+    gcrna_uses_caller_buffer = 1;
 }
 #pragma pop
 

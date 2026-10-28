@@ -7,10 +7,9 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -411,7 +410,7 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
     __ct__8TObjBaseFP7TObject(arg0, parent);
     SELF->vt = (void *)__vt__16TObjOnlineEnding;
     SELF->f0 = TObjOnlineEnding__name;
-    SELF->fA0 = get_current_area();
+    SELF->fA0 = get_current_floor_area();
     SELF->f9C = 0;
     obj = (TObject_802E4FFC *)arg0;
     switch (SELF->fA0) {

@@ -1,13 +1,14 @@
+#include "pso/quest/TQuestThread.h"
+#include "pso/map/FloorArea.h"
 #pragma push
 
 #include "types.h"
 #include "pso/misc/TWindowSubComCard.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 class TChCrTagPlBack;
 #include "pso/misc/TWindowComCard.h"
 #include "pso/TProtocol.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/misc/TUnk_804D0658.h"
 #include "pso/misc/TWindowKeyBoardHard.h"
@@ -447,7 +448,7 @@ s32 create_menu_window__17TWindowSubComCardFv(void) {
   title = (0, ((s32)((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0x1D)));
   temp_r31 = draw_card_icon__17TWindowSubComCardFll((int)((s32)((int) get_window_layout_position(0x8f))), 2, (void *)((s32)((int) title)));
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)((s32)((int) temp_r31)), (int)((s32)((int) ((s32)((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0x57)))), 6, 0x21);
-  if (get_current_area() == 0xF)
+  if (get_current_floor_area() == AREA_LOBBY)
   {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)((s32)((int) temp_r31)), (int)((s32)((int) ((s32)((void* (*)(int))get_message_10__20TWindowSubStatusDispFl)(0x58)))), 6, 0x25);
   }
@@ -678,7 +679,6 @@ s32 update_press__17TWindowSubComCardFv(int);
 void TWindowSubShortMail__sub_80131998(void *arg0);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
-void free_menu_object(void *p);
 s32 play_sound_effect(int, int, int, int);
 void find_and_load_com_card__6TLobbyFUi(u32 arg0);
 s32 TLobby__sub_8024259C();
@@ -808,7 +808,7 @@ s32 TWindowSubComCard__sub_8027346C(void) {
   temp_r31_2 = (0, ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x1D));
   temp_r31 = ((s32 (*)(s32, s32, s32))draw_card_icon__17TWindowSubComCardFll)((s32)((int) get_window_layout_position(0x8B)), 2, (s32)((int) temp_r31_2));
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)((int) temp_r31), (int)((int) ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x57)), 6, 0x21);
-  if (get_current_area() == 0xF)
+  if (get_current_floor_area() == AREA_LOBBY)
   {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)((int) temp_r31), (int)((int) ((s32 (*)(s32))get_message_10__20TWindowSubStatusDispFl)(0x58)), 6, 0x25);
   }

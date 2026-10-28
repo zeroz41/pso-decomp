@@ -1,11 +1,10 @@
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObject_8001A448.h"
 #include "pso/object/TObjQuestCol2.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/TObject.h"
-#include "pso/TQuestThreadBoard.h"
 
 struct RecoveredGlobal_80195720___vt__13TObjPlayerSet {
     s32 value;
@@ -74,23 +73,16 @@ void *TObjQuestCol2__create(void *arg0) {
     return o;
 }
 u8 *TObjQuestCol2__vt14(TObjQuestCol2 *quest_col2) {
-    u8 *quest_thread;
-    u8 *var_r0;
-    u8 *var_r31;
+    TQuestThread *thread;
     TQuestThreadBoard::destroy_board();
-    var_r31 = NULL;
+    thread = NULL;
     if ((u32) *(u32 *)((s8 *)quest_col2 + 0xBC) != 0U) {
-        quest_thread = (u8 *)(((u8 *)__nw__7TObjectFUl(0x194)));
-        var_r0 = quest_thread;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(__ct__12TQuestThreadFv(quest_thread, (s32) *(u32 *)((s8 *)quest_col2 + 0xBC), quest_col2->m_b0));
-        }
-        var_r31 = var_r0;
-        if (var_r0 != NULL) {
-            ((TObject *)var_r0)->set_parent((TObject *)tl_00);
+        thread = new TQuestThread(*(TObject **)((s8 *)quest_col2 + 0xBC), quest_col2->m_b0);
+        if (thread != NULL) {
+            thread->set_parent((TObject *)tl_00);
         }
     }
-    return var_r31;
+    return (u8 *)thread;
 }
 
 }

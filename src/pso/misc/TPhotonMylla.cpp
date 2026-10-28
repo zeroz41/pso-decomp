@@ -5,7 +5,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct TPhotonYoulla;
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804C3248.h"
@@ -15,7 +15,6 @@ struct TPhotonYoulla;
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 struct Stack_801AD5D8 {
@@ -351,15 +350,15 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     F_801AD970(self, s32, 0x134) = 3;
     self->m12();
     F_801AD970(self, s32, 0x1A4) = 0;
-    switch (get_current_area()) {
-    case 0xB:
-    case 0xC:
-    case 0xD:
-    case 0xE:
-    case 0x1E:
-    case 0x1F:
-    case 0x20:
-    case 0x21:
+    switch (get_current_floor_area()) {
+    case AREA_DRAGON:
+    case AREA_DE_ROL_LE:
+    case AREA_VOL_OPT:
+    case AREA_DARK_FALZ:
+    case AREA_GAL_GRYPHON:
+    case AREA_OLGA_FLOW:
+    case AREA_BARBA_RAY:
+    case AREA_GOL_DRAGON:
         o = NEW_801AD970(0xAC);
         if (o != NULL) {
             TPhotonRainbow__ct(o, self, &self->pos, 1);

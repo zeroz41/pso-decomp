@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80193018.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern char lbl_80445A30[];
 extern char lbl_80445A44[];
@@ -35,16 +34,16 @@ extern s32 lazer_fence_norm_texture_list;
 extern void *lazer_fence_norm_bml_resource;
 void load_lazer_fence_norm_resources(void) {
     void *obj;
-    switch (get_current_area()) {
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
-    case 28:
-    case 29:
-    case 34:
-    case 35:
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
         obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);

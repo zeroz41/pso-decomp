@@ -4,7 +4,7 @@
 #include "pso/item/TUnk_804A69DC.h"
 #include "pso/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_18_382324
 {
@@ -96,7 +96,7 @@ s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg
 void TUnk_804A69DC::vfunc_17(s32) {
     u8 *arg0 = (u8 *)this;
   s32 temp_r31;
-  if ((((u32) (*((u32 *) (((s8 *) arg0) + 0xF0)))) != 0U) && (are_items_enabled_here() != 0))
+  if ((((u32) (*((u32 *) (((s8 *) arg0) + 0xF0)))) != 0U) && (is_current_area_item_enabled() != 0))
   {
     ;
     if ((get_current_floor() == ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_field_3e4()) && (((TItem *)arg0)->get_mode() == 2))

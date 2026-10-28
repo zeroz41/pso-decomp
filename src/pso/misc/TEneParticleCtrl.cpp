@@ -7,6 +7,7 @@
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TUnk_804EF4E0.h"
 
 struct RecoveredGlobal_80338C88_lbl_804EF458 {
     s32 value;
@@ -86,49 +87,26 @@ void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void 
 
 }
 
-struct Entry_80338DE8 {
-    u8 pad0[0xC];
-    f32 f0C;
-};
-
-class TUnk_804EF4E0 : public TUnk_804CE018 {
-public:
-    void vfunc_6(u32 count, s32 id);
-
-    u8 pad1C[0x4];
-    s16 f20;
-    u8 pad22[0x4E];
-    s16 f70;
-    s16 f72;
-    s16 f74;
-    s16 f76;
-    s16 f78;
-    u8 pad7A[0x2];
-    s32 f7C;
-    s32 f80;
-    s32 f84;
-};
-
 extern "C" {
 extern const char *lbl_805D4260;
 }
 
 void TUnk_804EF4E0::vfunc_6(u32 count, s32 id) {
     s32 i;
-    Entry_80338DE8 *entry;
+    TUnk_804EF4E0::Entry *entry;
 
     m_name = lbl_805D4260;
-    f20 = id;
-    f72 = 0;
-    f74 = 0;
-    f76 = count;
-    f78 = 0;
-    f7C = 0;
-    f70 = 0;
-    f80 = 0;
-    f84 = 0;
+    m_20 = id;
+    m_72 = 0;
+    unk_74 = 0;
+    m_76 = count;
+    m_78 = 0;
+    m_7c = 0;
+    m_70 = 0;
+    m_80 = 0;
+    unk_84 = 0;
     for (i = 0; i < (s32)count; i++) {
-        entry = (Entry_80338DE8 *)get_array_entry(i);
-        entry->f0C = i * 20;
+        entry = (TUnk_804EF4E0::Entry *)get_array_entry(i);
+        entry->m_0c = i * 20;
     }
 }

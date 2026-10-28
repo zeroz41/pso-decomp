@@ -4,7 +4,7 @@
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Base_8029c054_8029C030 { char pad[0x14]; };
 struct VObj_8029c054_8029C030 : Base_8029c054_8029C030 {
@@ -460,7 +460,6 @@ void TORockJungleM01::vfunc_14() {
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TORockJungleS01.h"
 #include "pso/misc/TMotorcycle.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -648,14 +647,14 @@ void TORockJungleS01::load_resources() {
         o = load_resource_from_descriptor(o, 1, TORockJungleS01_resource_descriptor, 0, 0, 0);
     }
     TORockJungleS01__bml_resource = (u32)o;
-    switch (get_current_area()) {
-    case 27:
+    switch (get_current_floor_area()) {
+    case AREA_SEASIDE:
         TORockJungleS01__texture_resource = (u32)load_gvm_texture_file((s32)lbl_804658EC);
         break;
-    case 26:
+    case AREA_MOUNTAIN:
         TORockJungleS01__texture_resource = (u32)load_gvm_texture_file((s32)lbl_80465904);
         break;
-    case 25:
+    case AREA_JUNGLE_EAST:
     default:
         TORockJungleS01__texture_resource = (u32)load_gvm_texture_file((s32)lbl_8046591C);
         break;

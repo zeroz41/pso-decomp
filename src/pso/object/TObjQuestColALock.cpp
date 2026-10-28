@@ -4,6 +4,7 @@
 #include "pso/object/TObjQuestColBase.h"
 #include "pso/object/TObjQuestCol.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/quest/TQuestThread.h"
 
 struct RecoveredGlobal_8019677C_lbl_80445E84 {
     s32 value;
@@ -31,10 +32,8 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1);
 s32 check_flag_100__10TObjPlayerFPv();
-u32 create__12TQuestThreadFi(s32 arg0);
-int destroy_board__17TQuestThreadBoardFv(void*);
 
-int TObjQuestColALock::vfunc_16() { destroy_board__17TQuestThreadBoardFv(this); create__12TQuestThreadFi(this->m_b0); }
+int TObjQuestColALock::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
 
 extern s32 controller_input_state[];
 extern s32 local_client_id;

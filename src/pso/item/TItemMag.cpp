@@ -1,6 +1,7 @@
 #include "pso/system/NinjaTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemMagSub.h"
+#include "pso/map/FloorArea.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/system/byteswap.h"
@@ -11,7 +12,6 @@
 #include "pso/item/TItemData.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemProShield.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TTecResta.h"
 #include "pso/misc/TTecReverser.h"
@@ -20,7 +20,7 @@
 
 #include "types.h"
 #include "pso/item/TItemMag.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/player/PhotonBlastGauge.h"
 #include "pso/TMainTask.h"
@@ -188,7 +188,6 @@ void assign_default_photon_blast_palette_slots(u8 *arg0);
 void assign_photon_blast_palette_slot(u8 *arg0, s32 arg1);
 
 extern "C" {
-s32 is_boss_area();
 s32 play_sound_effect(int, int, int, int);
 void create__10TTecDebandFlll(void *, void *, int);
 s32 is_challenge_mode_active();
@@ -425,7 +424,7 @@ void TItemMag::on_equip() {
     item_mag->request_support_action(1);
     *(s16 *)((s8 *)item_mag + 0x1D4) = ((VObj_18 *)(*(u8 **)((s8 *)item_mag + 0xF0)))->m14();
     if ((s16) *(s16 *)((s8 *)item_mag + 0x1D6) == -1) {
-        *(s16 *)((s8 *)item_mag + 0x1D6) = get_current_area();
+        *(s16 *)((s8 *)item_mag + 0x1D6) = get_current_floor_area();
     }
     *(s16 *)((s8 *)item_mag + 0x1DC) = ((s16 (*)(void *))get_actor_hp)((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
     *(s16 *)((s8 *)item_mag + 0x1DE) = get_actor_tp((void *) (*(u8 **)((s8 *)item_mag + 0xF0)));
@@ -536,7 +535,7 @@ void TItemMag::update_equipped() {
     }
     events = collect_support_events();
     if (get_status_flag() != 0) {
-        if (are_items_enabled_here() != 0) {
+        if (is_current_area_item_enabled() != 0) {
             feed_by_item_flags(events);
             ((void (*)(void *))TItemMag__sub_8011271C)(this);
         } else {
@@ -885,7 +884,7 @@ s8 TItemMag::collect_support_events() {
         this->owner_watch.owner_level = (*(VObj_80112720 * *)&this->owner)->m14();
         ev |= 0x20;
     }
-    g = get_current_area();
+    g = get_current_floor_area();
     if (this->owner_watch.area != g) {
         this->owner_watch.area = g;
         if (is_boss_area() == 1) {

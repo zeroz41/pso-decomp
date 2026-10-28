@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby_80132ED0.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdMcCheckGC.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -39,7 +39,7 @@ s32 TAdMcCheckGC::create(s32 arg1) {
     temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_804783B8 + temp_r5, 1, temp_r5);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_localized_text_entry(0x16, arg1)), 0x20, 0);
     ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-    set_status_flag_80__12TQuestThreadFPv((void *)temp_r31);
+    TQuestThread::set_status_flag_80((void *)temp_r31);
     ((TWindowSubComCard *)temp_r31)->calc_layout_height(lbl_805DFAD8);
     return temp_r31;
 }

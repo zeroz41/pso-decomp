@@ -11,12 +11,11 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TMotorcycle.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80179E34_lbl_804B4834
 {
@@ -266,51 +265,51 @@ void TOTrapAncient01::vfunc_82() {
         ((Trap_801797D4 *)this)->m20(((Trap_801797D4 *)this)->f2A8, lbl_805DBA48);
     }
     submit_cursor_candidate(((Trap_801797D4 *)this), -1);
-    switch (get_current_area()) {
-    case 8:
-    case 9:
-    case 10:
+    switch (get_current_floor_area()) {
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_persistent_sound(0x4004C618, ((Trap_801797D4 *)this), (u8 *)((Trap_801797D4 *)this) + 0x38, 0, 0);
         break;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_persistent_sound(0x4004C610, ((Trap_801797D4 *)this), (u8 *)((Trap_801797D4 *)this) + 0x38, 0, 0);
         break;
-    case 0:
+    case AREA_PIONEER2_EP1:
         return;
-    case 1:
+    case AREA_FOREST1:
         break;
-    case 2:
+    case AREA_FOREST2:
         return;
-    case 3:
+    case AREA_CAVE1:
         break;
-    case 4:
+    case AREA_CAVE2:
         return;
-    case 5:
+    case AREA_CAVE3:
         break;
-    case 6:
+    case AREA_MINE1:
         return;
-    case 7:
+    case AREA_MINE2:
         break;
-    case 11:
+    case AREA_DRAGON:
         break;
-    case 12:
+    case AREA_DE_ROL_LE:
         return;
-    case 13:
+    case AREA_VOL_OPT:
         break;
-    case 14:
+    case AREA_DARK_FALZ:
         return;
-    case 15:
+    case AREA_LOBBY:
         break;
-    case 16:
+    case AREA_BATTLE1:
         return;
-    case 17:
+    case AREA_BATTLE2:
         break;
-    case 18:
+    case AREA_PIONEER2_EP2:
         return;
-    case 19:
+    case AREA_VR_TEMPLE_ALPHA:
         break;
-    case 20:
+    case AREA_VR_TEMPLE_BETA:
         return;
     }
 }

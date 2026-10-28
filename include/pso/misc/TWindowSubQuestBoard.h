@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/TObject.h"
 
+class TQuestThreadBoard;
+
 struct TWindowSubQuestBoard : public TObject {
     TWindowSubQuestBoard(TObject *arg1, void *arg2);
     virtual ~TWindowSubQuestBoard();
@@ -12,7 +14,7 @@ struct TWindowSubQuestBoard : public TObject {
     u32 m_20;
     u32 m_24;
     u32 m_28;
-    u32 m_2c;
+    TQuestThreadBoard *quest_thread_board;
     void set_board_flags(s32 arg1);
     void set_card_window_flags(s32 arg1);
     void clear_card_window_flags(s32 arg1);

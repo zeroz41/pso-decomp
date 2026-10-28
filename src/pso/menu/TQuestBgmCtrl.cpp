@@ -1,6 +1,6 @@
 #include "pso/menu/TQuestBgmCtrl.h"
 #include "pso/misc/TLoadCtrl_80227390.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 
 s32 TQuestBgmCtrl__bgm_issued_flag;
 s32 TQuestBgmCtrl__bgm_forced_flag;
@@ -44,7 +44,7 @@ void TQuestBgmCtrl::defer_bgm(int index) {
 }
 
 void TQuestBgmCtrl::run_task() {
-    if (((s32) TQuestBgmCtrl__bgm_issued_flag == 0) && ((get_register__12TQuestThreadFPvi((u8 *)quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
+    if (((s32) TQuestBgmCtrl__bgm_issued_flag == 0) && ((TQuestThread::get_register((u8 *)quest_mission_manager, 0xFF) != 0) || ((s32) TQuestBgmCtrl__bgm_forced_flag != 0)) && ((s32) TQuestBgmCtrl__area_bgm_index > 0) && ((s32) TQuestBgmCtrl__area_bgm_index <= 0x11)) {
         play_area_music((char *)quest_bgm_area_filename_table[TQuestBgmCtrl__area_bgm_index - 1]);
         TQuestBgmCtrl__bgm_issued_flag = 1;
     }

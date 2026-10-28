@@ -6,7 +6,7 @@
 #include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneRecobox.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -19,7 +19,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 
 extern "C" {
 
@@ -477,7 +476,7 @@ u32 TObjEneRecobox::remap_area_sound_id(u32 arg0) {
     if (((s32)(arg0 & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
         return arg0;
     }
-    ret = get_current_area();
+    ret = get_current_floor_area();
     switch (ret) {
     case 0x22:
         ret = arg0 - 0x40010000 + 0x4E19;

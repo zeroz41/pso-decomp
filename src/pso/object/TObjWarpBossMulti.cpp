@@ -12,7 +12,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TContainerAncient01.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowCtrl.h"
@@ -24,7 +23,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct VWarp_8019DD34 { char pad[0x18]; };
 struct TObjWarpBossMulti_8019DD34 : VWarp_8019DD34 {
@@ -487,7 +486,7 @@ void TObjWarpBossMulti::init_warp_params() { this->m_f0 = get_boss_warp_base_mod
 void TObjWarpBossMulti::update() {
     s32 temp_r0;
 
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         *(s32 *)((s8 *)this + 0xF4) = -1;
     } else {
         temp_r0 = *(s32 *)((s8 *)this + 0x88);
@@ -508,7 +507,7 @@ void TObjWarpBossMulti::debug_print_area_num() {
     Wb_8019DE74 *arg0 = (Wb_8019DE74 *)this;
     ((TObjWarpBossMulti *)arg0)->update();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, lbl_8044663C);
     }
     debug_printf_at(0x130021, lbl_80446650, arg0->fF4);
@@ -1165,7 +1164,7 @@ void TObjWarpBoss::debug_print_area_num() {
         arg0->f16C = t;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, lbl_8044663C);
     }
     debug_printf_at(0x130021, lbl_80446650, arg0->f16C);
@@ -1242,7 +1241,7 @@ Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     self->f164 = 0;
     self->f168 = 0;
     self->f180 = 0;
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         self->f16C = -1;
     } else if (self->f88 < 0 || self->f88 > 0xFF) {
         self->f16C = -1;
@@ -1292,10 +1291,10 @@ void TObjFish__sub_8019F72C(void) {
     }
 }
 void TObjFish::load_models() {
-    s32 st;
+    s32 area;
     s32 r;
-    st = get_current_area();
-    if (st >= 8 && st <= 0xA) {
+    area = get_current_floor_area();
+    if (area >= 8 && area <= 0xA) {
         r = ((s32)::operator new(0x440));
         if (r != 0) {
             r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94D8, 0, 0, 0);
@@ -1310,7 +1309,7 @@ void TObjFish::load_models() {
         (*(s32 *)&lbl_805D5CA4) = TObjFish__sub_8001EDB0((*(s32 *)&boss_warp_resource_bundle), 2);
         return;
     }
-    if (TContainerAncient01::is_global_state_in_table() != 0 || st == 0x1C || st == 0x1D) {
+    if (TContainerAncient01::is_global_state_in_table() != 0 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         r = ((s32)::operator new(0x440));
         if (r != 0) {
             r = ((s32 (*)(s32, s32, void *, s32, s32, s32)) load_resource_from_descriptor)(r, 5, lbl_804B94FC, 0, 0, 0);

@@ -4,13 +4,12 @@
 #include "pso/system/byteswap.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObjChallengeRetry.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct W4_80072994 { u8 b[4]; };
 
@@ -331,17 +330,17 @@ s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 TWindowCtrlMain__sub_8024CE58(void);
 
 void TObjChallengeRetry::sub_8007313C() {
-  s32 global_state;
+  s32 area;
   s32 var_r31;
   int new_var;
   u32 var_r30;
   u8 *temp_r3_2;
-  global_state = get_current_area();
-  if (global_state != 0x12)
+  area = get_current_floor_area();
+  if (area != AREA_PIONEER2_EP2)
   {
-    if (global_state < 0x12)
+    if (area < 0x12)
     {
-      if (global_state != 0)
+      if (area != AREA_PIONEER2_EP1)
       {
         return;
       }

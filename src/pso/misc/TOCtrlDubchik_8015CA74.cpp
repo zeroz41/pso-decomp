@@ -3,10 +3,9 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOCtrlDubchik.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 
@@ -157,13 +156,13 @@ void *__nw__7TObjectFUl(int);
 
 void TOCtrlDubchik::sub_8015CA74() {
     u8 *arg0 = (u8 *)this;
-    s32 state;
+    s32 area;
     s32 i;
     u8 *p;
     spawn_particle_effect(&this->position, 0x45);
     spawn_particle_effect(&this->position, 0x46);
-    state = get_current_area();
-    if (state >= 0x17 || state < 0x13) {
+    area = get_current_floor_area();
+    if (area >= 0x17 || area < 0x13) {
         play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
     }
     for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {

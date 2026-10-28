@@ -3,9 +3,8 @@
 #include "pso/object/TObjDoorJung.h"
 #include "pso/misc/TUnk_804DDD28.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 u8 is_valid_player_motion_variant(u32 arg0);
@@ -58,8 +57,8 @@ void TObjSeabedSuisoBrakable::load_resources() {
     Tbl_802A6F98 t1;
     Tbl_802A6F98 t2;
 
-    switch (get_current_area()) {
-    case 0x1D:
+    switch (get_current_floor_area()) {
+    case AREA_SEABED_LOWER:
         p = ::operator new(0x440);
         if (p != NULL) {
             p = (void *)load_resource_from_descriptor(p, 1, bm_obj_seabed_suiso_2_resource_descriptor, 0, 0, 0);
@@ -72,7 +71,7 @@ void TObjSeabedSuisoBrakable::load_resources() {
             }
         }
         break;
-    case 0x1C:
+    case AREA_SEABED_UPPER:
     default:
         p = ::operator new(0x440);
         if (p != NULL) {

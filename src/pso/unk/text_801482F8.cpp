@@ -9,6 +9,7 @@
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/quest/TQuestThread.h"
 
 struct VBase18_801482f8 { char pad[0x18]; };
 struct VObj18_801482f8 : VBase18_801482f8 {
@@ -326,7 +327,6 @@ s32 end_conversation_camera(void);
 s32 begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
 u32 get_player_by_client_id();
-void *__ct__12TQuestThreadFv(void *, u32, s32);
 void *__nw__7TObjectFUl(u32);
 s32 subtract_vector(void *, void *);
 extern const f64 lbl_8043F550[];
@@ -486,16 +486,10 @@ void TObjNpcBase::update_conversation() {
             }
         }
         if (F(s32, 0x3AC) >= 100 && F(s32, 0x3AC) < 1000 && quest_mission_manager != 0 && ((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0) {
-            m = __nw__7TObjectFUl(0x194);
-            if (m != 0) {
-                m = __ct__12TQuestThreadFv(m, quest_mission_manager, F(s32, 0x3A8));
-            }
+            m = new TQuestThread((TObject *)quest_mission_manager, F(s32, 0x3A8));
             F(void *, 0x3B0) = m;
         } else if (F(s32, 0x3AC) >= 1000 && quest_area_manager != 0 && ((TObject *)quest_area_manager)->all_parents_unqueued_for_destruction() != 0) {
-            m = __nw__7TObjectFUl(0x194);
-            if (m != 0) {
-                m = __ct__12TQuestThreadFv(m, quest_area_manager, F(s32, 0x3A8));
-            }
+            m = new TQuestThread((TObject *)quest_area_manager, F(s32, 0x3A8));
             F(void *, 0x3B0) = m;
         }
         break;

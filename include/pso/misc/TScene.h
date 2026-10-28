@@ -44,11 +44,16 @@ public:
     void render_static_map_section(SceneMaterialSection *arg1, s32 arg2);
     void render_animated_map_section(SceneMaterialSection *arg1, s32 arg2);
     void update_room_object_visibility(SceneMaterialSection *room);
-    static void set_field4();
+    void set_field4();
+    void advance_scene_object_animations();
     void init_material_nodes();
     static void create_texture_wave_tasks(s32 arg0);
     void copy_header_and_vec(void* q);
     void initialize_fmt1_materials();
+    void initialize_materials();
+    void cleanup_materials();
+    void cleanup_fmt1_materials();
+    void cleanup_fmt2_materials();
     static void create();
     static void load_floor_rel_file(s32 arg0);
     static void load_tam_file(s32 arg0);

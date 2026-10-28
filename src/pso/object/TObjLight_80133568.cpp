@@ -8,7 +8,8 @@
 #include "pso/system/memory.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/quest/TQuestThread.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_801336E0_TObjLight__data_80506320 {
     s32 value;
@@ -83,7 +84,6 @@ struct RecoveredGlobal_80134724_TObjLight__data_8050637C {
 #include <stddef.h>
 #include "pso/object/TObjLight.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -174,7 +174,6 @@ extern void *lbl_805D5564;
 int TAdSinglePlyChrSelectGC__sub_801334E4(void*);
 int TAdSinglePlyChrSelectGC__sub_80133544(void*);
 int TAdSinglePlyChrSelectGC__sub_80133548(void);
-int create_quest_thread(void*);
 void __ct__7TObjectFP7TObject(void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -460,7 +459,7 @@ void init_area_lights(void) {
     CopyStack_80133D78 copy_storage_80133D78;
     s32 global_state;
     if ((u32) TObjLight__light_entry_data != 0U) {
-        global_state = get_current_area();
+        global_state = get_current_floor_area();
         if (TLobby::is_online_ready() != 0) {
             global_state = (s32) ((f32) global_state + lbl_805DB0A4);
         }
@@ -531,7 +530,7 @@ void TObjLight::set_light(void *arg1, f32 farg0) {
 typedef char RecoveredGlobal_80134098_TObjLight__data_80506320_size[sizeof(RecoveredGlobal_80134098_TObjLight__data_80506320) == 0x50 ? 1 : -1];
 typedef char RecoveredGlobal_80134098_TObjLight__data_8058D528_size[sizeof(RecoveredGlobal_80134098_TObjLight__data_8058D528) == 0x140 ? 1 : -1];
 void restore_scene_lighting(void) {
-    if (get_current_area() == 0xF) {
+    if (get_current_floor_area() == AREA_LOBBY) {
         init_distant_light(0, *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0xC), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x10), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x14));
         GXInitLightDir((s32 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_8058D528 *)&TObjLight__gx_light_objects).value), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0xC), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x10), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x14));
         set_gx_light_color(0, *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x28), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x2C), *(f32 *)((s8 *)(&(*(RecoveredGlobal_80134098_TObjLight__data_80506320 *)&TObjLight__scene_light_state).value) + 0x30));
@@ -578,7 +577,7 @@ void select_actor_lighting(s32 obj) {
                 load_gx_light_slot(0);
                 return;
             }
-            if (get_current_area() == 0xF) {
+            if (get_current_floor_area() == AREA_LOBBY) {
                 init_distant_light(0, L2_80134194[i].dir[0], L2_80134194[i].dir[1], L2_80134194[i].dir[2]);
                 GXInitLightDir(TObjLight__gx_light_objects, L2_80134194[i].dir[0], L2_80134194[i].dir[1], L2_80134194[i].dir[2]);
                 set_gx_light_color(0, L2_80134194[i].color[1], L2_80134194[i].color[2], L2_80134194[i].color[3]);
@@ -764,7 +763,7 @@ void *__dt__13TUnk_804A7008Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-int TLobby__sub_80134A20(void* p) { return create_quest_thread(p); }
+int TLobby__sub_80134A20(void* p) { return (int)TQuestThread::create_in_root((s32)p); }
 
 __declspec(section ".sdata2") extern const float TObjLight__data_805DB088 = 0.0f;
 __declspec(section ".sdata2") extern const float lbl_805DB08C = 5.0f;

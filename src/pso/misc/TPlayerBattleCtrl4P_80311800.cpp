@@ -1,6 +1,7 @@
 #include "pso/misc/TPlayerBattleCtrl4P.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TWindowMenu.h"
+#include "pso/quest/TQuestThread.h"
 
 #include "types.h"
 #include "pso/misc/TCheckRoomSequence.h"
@@ -39,7 +40,6 @@ void *set_window_mode_4__6TLobbyFPvll(void *, void *, int);
 void *get_window_layout_position(int);
 extern u8 lbl_80475B70[];
 void TLobby__sub_801036CC();
-void clear_buffer__12TQuestThreadFPv(void *);
 void TLobby__sub_8020BC50();
 extern void *quest_mission_manager;
 extern s32 TPlayerBattleCtrl4P__init_flag;
@@ -88,7 +88,7 @@ void TPlayerBattleCtrl4P::begin_battle_reload_fade() {
         TLobby__sub_8020BC50();
         TLobby__sub_801036CC();
         if (quest_mission_manager != NULL) {
-            clear_buffer__12TQuestThreadFPv(quest_mission_manager);
+            TQuestThread::clear_buffer(quest_mission_manager);
         }
         TLobby::stop_audio_streams();
         TPlayerBattleCtrl4P__init_flag = 0;

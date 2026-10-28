@@ -12,7 +12,7 @@
 #include "pso/player/TUnk_804ED1A0.h"
 #include "pso/player/TUnk_804ECFB0.h"
 #include "pso/item/TItem.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_803268D8_lbl_804ECFB0 {
     s32 value;
@@ -115,7 +115,7 @@ void TUnk_804ECFB0::update_weapon() {
     s16 temp_r3;
     s32 temp_r31;
 
-    if (are_items_enabled_here() != 0) {
+    if (is_current_area_item_enabled() != 0) {
         temp_r3 = get_actor_tp((u8 *)this->owner);
         temp_r0 = this->m_1fc - temp_r3;
         if (temp_r0 != 0) {

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 struct Base_80212644 { char pad[0x18]; };
 struct VObj_80212644 : Base_80212644 {

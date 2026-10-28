@@ -52,9 +52,9 @@ struct TCameraCtrl : public TObject {
     int m_110;
     u8 unk_114[0x60];
     u32 m_174;
-    u8 unk_178[0x4];
+    f32 m_178;
     f32 m_17c;
-    u8 unk_180[0x4];
+    f32 m_180;
     f32 m_184;
     u8 unk_188[0x4];
     f32 m_18c;

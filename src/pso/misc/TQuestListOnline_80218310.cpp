@@ -4,7 +4,7 @@
 #include "pso/misc/TShopWindowBase.h"
 #include "pso/misc/TQuestListOnline.h"
 #include "pso/TShopWindowBase.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 extern "C" {
 

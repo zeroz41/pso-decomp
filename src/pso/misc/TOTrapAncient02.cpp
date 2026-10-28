@@ -10,7 +10,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/misc/TOTrapAncient02.h"
 #include "pso/misc/TOTrapAncient02R.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80083594.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -22,7 +22,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TTecZonde.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/misc/TOKeyMachine01.h"
 
 #include "pso/misc/TTecFoie.h"
 #include "pso/misc/TTecGiBarta.h"
@@ -889,49 +888,49 @@ void TOTrapAncient02::vfunc_84() {
     case 1:
     case 2:
     case 3:
-        switch (get_current_area()) {
-        case 3:
-        case 4:
-        case 5:
+        switch (get_current_floor_area()) {
+        case AREA_CAVE1:
+        case AREA_CAVE2:
+        case AREA_CAVE3:
             play_persistent_sound(0x4461B, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
             return;
-        case 6:
-        case 7:
+        case AREA_MINE1:
+        case AREA_MINE2:
             play_persistent_sound(0x4004C612, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
             return;
-        case 8:
-        case 9:
-        case 10:
+        case AREA_RUINS1:
+        case AREA_RUINS2:
+        case AREA_RUINS3:
             play_persistent_sound(0x4004C618, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
             return;
-        case 21:
-        case 22:
+        case AREA_VR_SPACESHIP_ALPHA:
+        case AREA_VR_SPACESHIP_BETA:
             play_persistent_sound(0x4004C610, (s32)self, (u32)((u8 *)self + 0x38), 0, 0);
-        case 0:
+        case AREA_PIONEER2_EP1:
             return;
-        case 1:
+        case AREA_FOREST1:
             return;
-        case 2:
+        case AREA_FOREST2:
             return;
-        case 11:
+        case AREA_DRAGON:
             return;
-        case 12:
+        case AREA_DE_ROL_LE:
             return;
-        case 13:
+        case AREA_VOL_OPT:
             return;
-        case 14:
+        case AREA_DARK_FALZ:
             return;
-        case 15:
+        case AREA_LOBBY:
             return;
-        case 16:
+        case AREA_BATTLE1:
             return;
-        case 17:
+        case AREA_BATTLE2:
             return;
-        case 18:
+        case AREA_PIONEER2_EP2:
             return;
-        case 19:
+        case AREA_VR_TEMPLE_ALPHA:
             return;
-        case 20:
+        case AREA_VR_TEMPLE_BETA:
             return;
         }
         break;
@@ -1176,9 +1175,9 @@ void TOTrapAncient02::destroy_instance() {
 void TOTrapAncient02::load_resources() {
     char *base = (char *)&trap_ancient02_torabasami_resources;
     void *obj;
-    switch (get_current_area()) {
-    case 0x13:
-    case 0x14:
+    switch (get_current_floor_area()) {
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 1, base + 0x20, 0, 0, 0);
@@ -1188,15 +1187,15 @@ void TOTrapAncient02::load_resources() {
         lbl_805D5AE4 = 2;
         lbl_805D5ADC = 0;
         break;
-    case 0x17:
-    case 0x18:
-    case 0x19:
-    case 0x1A:
-    case 0x1B:
-    case 0x1C:
-    case 0x1D:
-    case 0x22:
-    case 0x23:
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
         obj = ::operator new(0x440);
         if (obj != 0) {
             obj = load_resource_from_descriptor(obj, 1, base + 0x38, 0, 0, 0);

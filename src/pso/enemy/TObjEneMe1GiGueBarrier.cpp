@@ -7,14 +7,14 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/map/FloorArea.h"
 
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80325BCC_lbl_804ECD40 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_80325BCC_lbl_804ECD40_size[sizeof(RecoveredGlobal_80325BCC_lbl_804ECD40) == 0x30 ? 1 : -1];
@@ -68,7 +68,7 @@ void TObjEneMe1GiGueBarrier::render() {
         queue_destruction__7TObjectFv((arg0));
         return;
     }
-    if (get_current_area() == 0x23) {
+    if (get_current_floor_area() == AREA_TOWER) {
         if (((VObj_18_ca64a0 *)(arg0))->m9(lbl_805DF620, lbl_805DF620, lbl_805DF624) == 0) {
             return;
         }
@@ -106,7 +106,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
         if (this->animationFlags & 0x10) {
             this->m_104 = 1;
             this->m_b8 = 1;
-            if (get_current_area() == 0x23) {
+            if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A316, (u8 *)&this->position, 0, 0);
             } else {
                 play_sound_effect(0x3A346, (u8 *)&this->position, 0, 0);

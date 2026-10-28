@@ -7,13 +7,13 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/menu/TAdRicoRing_8001BEE8.h"
 #include "pso/misc/TOKeyMachine01.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TechniqueBoost.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
 #include "pso/system/FlagWord.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/TItemLoad.h"
@@ -357,7 +357,7 @@ void TItemEquipBase::equip() {
         set_mode(ITEM_MODE_EQUIPPED);
         add_item_flags(ITEM_FLAG_EQUIPPED);
         add_equip_stats(1);
-        if ((get_current_area() != 0xF) &&
+        if ((get_current_floor_area() != AREA_LOBBY) &&
             !test_flags_any(&effect_flags.bits, EQUIP_EFFECT_MODEL_REQUESTED)) {
             effect_flags.set(EQUIP_EFFECT_MODEL_REQUESTED);
             request_equipped_model();

@@ -210,6 +210,22 @@ s32 TLobby::start_gba_joyboot() {
 }
 }
 
+void TLobby__sub_8032CB6C(void) {
+    TLobby__data_805434A8[0].probe_counter = TLobby__data_805434A8[0].probe_counter + 1;
+    if (SIProbe(3) == 0x40000) {
+        TLobby__data_805434A8[0].probe_counter = 0;
+        TLobby__data_805434A8[0].device_present = 1;
+    } else {
+        if (TLobby__data_805434A8[0].probe_counter >= TLobby__data_805DF7A4) {
+            *(volatile u16 *)&TLobby__data_805434A8[0].probe_counter = 0x78;
+            *(volatile s8 *)&TLobby__data_805434A8[0].device_present = 0;
+            *(volatile s32 *)&TLobby__data_805D6CCC = 2;
+        } else {
+            *(volatile s32 *)&TLobby__data_805D6CCC = 1;
+        }
+    }
+}
+
 void update_gba_joyboot_transfer(void) {
     TLobby__sub_8032CB6C();
     if (TLobby__sub_801F34F8() == 2) {
@@ -246,22 +262,6 @@ void update_gba_joyboot_transfer(void) {
             TLobby__data_805434A8[0].phase = 0;
         }
         break;
-    }
-}
-
-void TLobby__sub_8032CB6C(void) {
-    TLobby__data_805434A8[0].probe_counter = TLobby__data_805434A8[0].probe_counter + 1;
-    if (SIProbe(3) == 0x40000) {
-        TLobby__data_805434A8[0].probe_counter = 0;
-        *(s8 *)((s8 *)TLobby__data_805434A8 + 7) = 1;
-    } else {
-        if (TLobby__data_805434A8[0].probe_counter >= TLobby__data_805DF7A4) {
-            *(volatile u16 *)&TLobby__data_805434A8[0].probe_counter = 0x78;
-            *(volatile s8 *)((s8 *)TLobby__data_805434A8 + 7) = 0;
-            *(volatile s32 *)&TLobby__data_805D6CCC = 2;
-        } else {
-            *(volatile s32 *)&TLobby__data_805D6CCC = 1;
-        }
     }
 }
 

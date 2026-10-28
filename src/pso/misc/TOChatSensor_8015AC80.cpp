@@ -3,6 +3,7 @@
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
+#include "pso/quest/TQuestThread.h"
 
 struct Stack_8015AF10
 {
@@ -29,7 +30,6 @@ extern const f32 lbl_805DB388;
 extern const f32 lbl_805DB38C;
 void *strncpy(void *, void *, s32);
 s32 get_current_floor(void);
-u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 s32 find_chat_keyword(void *, void *, s32);
 void *__nw__7TObjectFUl(u32);
 extern void *quest_mission_manager;
@@ -86,10 +86,7 @@ void TOChatSensor::handle_chat_message(void *arg1) {
         if (r > -1) {
             if (*(u32 *)(arg0 + 0x90) == 0) {
                 if (quest_mission_manager != NULL) {
-                    o = __nw__7TObjectFUl(0x194);
-                    if (o != NULL) {
-                        o = __ct__12TQuestThreadFv((u8 *)o, (s32)quest_mission_manager, *(u32 *)(arg0 + 0x94));
-                    }
+                    o = new TQuestThread((TObject *)quest_mission_manager, *(u32 *)(arg0 + 0x94));
                     *(void **)(arg0 + 0xC4) = o;
                     if (*(void **)(arg0 + 0xC4) != NULL) {
                         ((TObject *)(*(void **)(arg0 + 0xC4)))->set_parent((TObject *)tl_00);

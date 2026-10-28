@@ -1,5 +1,5 @@
 #include "pso/map/FloorLifecycleTables.h"
-#include "pso/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/misc/TODoorLabo.h"
 #include "pso/misc/TODragonflyCave01.h"
 #include "pso/misc/TOKeyJungleMain.h"
@@ -138,7 +138,6 @@ void fn_8019B09C();
 void fn_8019B0D4();
 void TObjFish__sub_8019F72C();
 void TObjWarpLobby__sub_801A0B38();
-void destroy_quest_obj__12TQuestThreadFv();
 void TLanguage__sub_8029FF0C();
 void TLanguage__sub_802A0204();
 void TObjPlayer__sub_802C2900();
@@ -159,13 +158,12 @@ void load_lazer_fence_norm_resources();
 void load_forest_warp_resources();
 void free_warp_jung_beam_resources();
 void load_warp_beam_resources();
-void load_area_dialogue_script();
 void load_green_door_resources();
 void load_labo_door_resources();
 void load_bg_lightning();
 void free_object_table();
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TShopGenerator::run_fn_table_forward, TShopGenerator::run_fn_table_reverse },
@@ -180,7 +178,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_00[12] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_01[30] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjDoor::load_resources, TObjDoor::free_resources },
     { TKomorebi::load_resources, TKomorebi::free_static },
     { fn_8017F45C, TButterfly::destroy_instance },
@@ -213,7 +211,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_01[30] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_02[32] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjDoor::load_resources, TObjDoor::free_resources },
     { TKomorebi::load_resources, TKomorebi::free_static },
     { fn_8017F45C, TButterfly::destroy_instance },
@@ -248,7 +246,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_02[32] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_03[27] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOMine::load_static_resource, TOMine::free_instance },
@@ -278,7 +276,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_03[27] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_04[38] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOBarrierEnergy01::load_resources, TOBarrierEnergy01::free_resources },
@@ -319,7 +317,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_04[38] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_05[36] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOBarrierEnergy01::load_resources, TOBarrierEnergy01::free_resources },
@@ -358,7 +356,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_05[36] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_06[34] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOKeyGenericSw::load_resources, TOKeyGenericSw::free_shared_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
@@ -395,7 +393,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_06[34] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_07[36] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOKeyGenericSw::load_resources, TOKeyGenericSw::free_shared_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
@@ -434,7 +432,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_07[36] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_08[34] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOMine::load_static_resource, TOMine::free_instance },
     { TOSensorAncient01::load_resources, TOSensorAncient01::destroy },
@@ -471,7 +469,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_08[34] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_09[34] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOMine::load_static_resource, TOMine::free_instance },
     { TOSensorAncient01::load_resources, TOSensorAncient01::destroy },
@@ -508,7 +506,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_09[34] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_10[35] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { TOMine::load_static_resource, TOMine::free_instance },
     { TOSensorAncient01::load_resources, TOSensorAncient01::destroy },
@@ -554,7 +552,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_11_12[5] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_13[8] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOCapsuleAncient01::load_resource_instance, TOCapsuleAncient01::destroy_static_instance },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TMainCursor__sub_80154094, TMainCursor__sub_80154090 },
@@ -641,7 +639,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_17[20] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_18[16] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TShopGenerator::run_fn_table_forward, TShopGenerator::run_fn_table_reverse },
@@ -660,7 +658,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_18[16] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOHealGeneral::load_resources, TOHealGeneral::close_dialog_window },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
@@ -692,7 +690,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floors_19_20[27] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOHealGeneral::load_resources, TOHealGeneral::close_dialog_window },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
@@ -722,7 +720,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_19_20[27] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_23[29] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -754,7 +752,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_23[29] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_24[31] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -788,7 +786,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_24[31] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_25[30] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -821,7 +819,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_25[30] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_26[27] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -851,7 +849,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_26[27] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_27[30] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -884,7 +882,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_27[30] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_34[27] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -914,7 +912,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_34[27] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_35[33] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { load_warp_beam_resources, free_warp_jung_beam_resources },
     { TObjDoorJung__sub_8018F4AC, TObjDoorJung::free_buffers },
@@ -950,7 +948,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_35[33] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_28[26] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOMine::load_static_resource, TOMine::free_instance },
     { load_computer_resources, TObjComputer::free_resources },
     { TObjFish::load_area_resource, TObjFish::free_resource },
@@ -979,7 +977,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_28[26] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_29[26] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TOMine::load_static_resource, TOMine::free_instance },
     { load_computer_resources, TObjComputer::free_resources },
     { TObjFish::load_area_resource, TObjFish::free_resource },
@@ -1008,7 +1006,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_29[26] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_30[8] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjContainerJung::load_resources, TObjContainerJung::release },
     { TObjContainerJungEx::load_resource_instance, TObjContainerJungEx::free_data },
@@ -1019,7 +1017,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_30[8] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_31[7] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { load_forest_box_resources, TLobby::free_char_select_resources },
     { TLobby::load_console_resources, TLobby::free_chr_select_slot },
@@ -1029,7 +1027,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_31[7] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_32[5] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TLanguage::load_container_fragment_textures, fn_8015C5F8 },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_static_data },
@@ -1037,7 +1035,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_32[5] = {
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_33[6] = {
-    { load_area_dialogue_script, destroy_quest_obj__12TQuestThreadFv },
+    { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TLanguage::load_container_fragment_textures, fn_8015C5F8 },
     { fn_8030B7B8, fn_8030B7B4 },

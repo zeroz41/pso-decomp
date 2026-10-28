@@ -9,7 +9,8 @@
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/quest/TQuestThread.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1);
 
@@ -43,7 +44,7 @@ s32 TWindowSubTechnique::is_technique_available(s32 sub, s32 arg1) {
     if (player == 0) {
         return 0;
     }
-    if (are_items_enabled_here() == 0) {
+    if (is_current_area_item_enabled() == 0) {
         return 0;
     }
     if (TWindowSubTechnique::lookup_technique(sub, arg1) != 0) {
@@ -140,7 +141,6 @@ s32 send_and_handle__6TLobbyFii(int, void *, int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 try_equip_item__10TObjPlayerFii(s32, s32);
-void set_status_flag_80__12TQuestThreadFPv(void *);
 void play_sound_effect(s32, s32, s32, s32);
 void TWindow__close(u8 *arg0);
 // set_field_1c__6TLobbyFf declared above
@@ -244,7 +244,7 @@ void TWindowSubTechnique::run_task() {
             self->sel = create_title_window__19TWindowSubTechniqueFv(self, get_selected_menu_value(self->list));
         }
         ((TAdChrSelASlotGC *)(self->sel))->set_flag_40();
-        set_status_flag_80__12TQuestThreadFPv(self->sel);
+        TQuestThread::set_status_flag_80(self->sel);
         get_current_selection__19TWindowSubTechniqueFPv(self->f20, self->f24, self->player);
         ((TWindowSubComCard *)(self->list))->clear_flag_and_release();
         self->state = 2;

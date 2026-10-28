@@ -2,9 +2,8 @@
 #include "pso/unk/text_80359420.h"
 #include "pso/npc/TObjNpcNgcBase_80358AE8.h"
 #include "pso/npc/TObjNpcNgcBase.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8
 {
   u32 value;
@@ -474,16 +473,16 @@ void TObjNpcNgcBase::load_resources() {
         ((u32 *)&TObjNpcNgcBase__data_805439A8)[i] = 0;
     }
     p = NULL;
-    switch (get_current_area()) {
-    case 0:
-    case 0x12:
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+    case AREA_PIONEER2_EP2:
         p = &tbl[0x2A];
         break;
-    case 0x17: case 0x18: case 0x19: case 0x1A: case 0x1B:
-    case 0x22: case 0x23:
+    case AREA_CENTRAL_CONTROL_AREA: case AREA_JUNGLE_NORTH: case AREA_JUNGLE_EAST: case AREA_MOUNTAIN: case AREA_SEASIDE:
+    case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = &tbl[0x39];
         break;
-    case 0x1C: case 0x1D:
+    case AREA_SEABED_UPPER: case AREA_SEABED_LOWER:
         p = &tbl[0x3C];
         break;
     }

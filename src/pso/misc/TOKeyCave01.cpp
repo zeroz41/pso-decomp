@@ -6,14 +6,13 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/TOKeyCol.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8016BF68_lbl_80441B4C {
     s32 value;
@@ -99,13 +98,13 @@ void TOKeyCave01::vfunc_19() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
     s32 temp_r3_2;
-    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_area() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_floor_area() == AREA_BATTLE1) || (get_current_floor_area() == AREA_BATTLE2))) {
+        temp_r3 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_floor_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_2 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_area() * 4));
+        temp_r3_2 = *(s32 *)((s8 *)&lbl_80441B4C.value + (get_current_floor_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
@@ -117,13 +116,13 @@ void TOKeyCave01::trigger_activate_sound() {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 arg0 = (s32)this;
-    if (((s32) enable_v2_features == 1) && ((get_current_area() == 0x10) || (get_current_area() == 0x11))) {
-        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_area() * 4));
+    if (((s32) enable_v2_features == 1) && ((get_current_floor_area() == AREA_BATTLE1) || (get_current_floor_area() == AREA_BATTLE2))) {
+        temp_r3 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_floor_area() * 4));
         if (temp_r3 >= 0) {
             play_sound_effect(temp_r3, arg0 + 0x38, 0, 0);
         }
     } else {
-        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_area() * 4));
+        temp_r3_2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_8016C010_lbl_80441B4C *)&lbl_80441B4C).value) + (get_current_floor_area() * 4));
         if (temp_r3_2 >= 0) {
             play_sound_effect(temp_r3_2, arg0 + 0x38, 0, 0);
         }
@@ -321,13 +320,13 @@ void TOKeyCave01::free_objects() {
 }
 
 void TOKeyCave01::load_resources() {
-    s32 global_state;
+    s32 area;
     u8 *temp_r3;
     u8 *temp_r3_2;
     u8 *var_r0;
     u8 *var_r0_2;
-    global_state = get_current_area();
-    if ((TContainerAncient01::is_global_state_in_table() == 1) || (global_state == 0x1C) || (global_state == 0x1D)) {
+    area = get_current_floor_area();
+    if ((TContainerAncient01::is_global_state_in_table() == 1) || (area == AREA_SEABED_UPPER) || (area == AREA_SEABED_LOWER)) {
         temp_r3 = (u8 *)((int)::operator new(0x440));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {

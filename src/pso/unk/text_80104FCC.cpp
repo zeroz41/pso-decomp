@@ -2,9 +2,8 @@
 #include "pso/player/TObjChara.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItemData.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/unk/text_8011A780.h"
 
 struct Blk_8010542C { u32 w[4]; };
@@ -181,7 +180,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
                         pkt.x = self->x;
                         pkt.z = self->z;
                         pkt.f10 = self->f28;
-                        pkt.f14 = get_current_area();
+                        pkt.f14 = get_current_floor_area();
                         Vec_80105538 v;
                         v.x = pkt.x;
                         v.y = lbl_805DAAB4;
@@ -203,7 +202,7 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
     if (self != 0) {
         p1 = get_player_by_client_id(TLobby__designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
-        if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_area()) != 0 &&
+        if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
             (((TObjPlayer *)p1)->get_field_3e4() != ((TObjPlayer *)p2)->get_field_3e4() ||
              TLobby__designated_client_id == local_client_id)) {
             if (self->f2c != -1) {
@@ -218,7 +217,7 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
                     pkt.f10 = self->f28;
                     pkt.f12 = arg2;
                     pkt.f6 = self->f2c;
-                    pkt.f14 = get_current_area();
+                    pkt.f14 = get_current_floor_area();
                     pkt.f18 = self->f70;
                     pkt.f1c = this->set_params[0];
                     pkt.f20 = self->f88;

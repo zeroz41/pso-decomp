@@ -7,7 +7,7 @@
 #include "pso/item/TItem.h"
 
 #include <stddef.h>
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 struct VBase_18_f8c4e0 { char pad[0x18]; };
 
 struct VObj_18_f8c4e0 : VBase_18_f8c4e0 {
@@ -102,6 +102,7 @@ struct Item_8011F760 { u8 pad[0x10]; s32 count; };
 #include "pso/boss/TBoss4Type3.h"
 #include "pso/item/TItemMag.h"
 #include "pso/item/TItemProShield.h"
+#include "pso/map/FloorArea.h"
 
 struct Stats_8011F710 { u8 pad[0x16]; u8 max; };
 
@@ -202,7 +203,7 @@ void TItemWeapon::perform_action() {
     WeaponMarkerPacket packet;
     WeaponVector gun_point;
     WeaponVector fallback_point;
-    if (((TItemWeapon *)self)->is_active_in_game() && !((TItem *)self)->is_hidden() && are_items_enabled_here()) {
+    if (((TItemWeapon *)self)->is_active_in_game() && !((TItem *)self)->is_hidden() && is_current_area_item_enabled()) {
         self->rotation_y=self->owner->rotation_y;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
         ((TObjPlayer *)(&packet))->reset_status_block();

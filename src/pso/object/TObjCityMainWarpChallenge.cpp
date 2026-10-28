@@ -5,12 +5,11 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjCityMainWarpChallenge.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct CityMainWarpChalBase_80187824 { char pad[0x18]; };
 struct CityMainWarpChalVObj_80187824 : CityMainWarpChalBase_80187824 {
@@ -83,7 +82,7 @@ void TObjCityMainWarpChallenge::debug_print_area_num() {
         *(s32 *)((u8 *)this + 0x16C) = v;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         debug_printf_at(0x130020, lbl_80444A44, *(s32 *)((u8 *)this + 0x84));
     }
     debug_printf_at(0x130021, lbl_80444A58, *(s32 *)((u8 *)this + 0x16C));
@@ -163,7 +162,7 @@ u8 *TObjCityMainWarpChallenge__ct(u8 *city_main_warp_challenge) {
     register_entity_by_id(city_main_warp_challenge, temp_r4, lbl_805DBCCC);
     *(s32 *)((s8 *)city_main_warp_challenge + 0x164) = 0;
     *(s32 *)((s8 *)city_main_warp_challenge + 0x168) = 0;
-    if (get_current_area() == 0) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1) {
         *(s32 *)((s8 *)city_main_warp_challenge + 0x16C) = -1;
     } else {
         temp_r0 = *(s32 *)((s8 *)city_main_warp_challenge + 0x88);

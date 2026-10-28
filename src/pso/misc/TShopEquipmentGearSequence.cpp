@@ -2,7 +2,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TShopEquipmentGearSequence.h"
 #include "pso/TShopWindowBase.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 struct Base_8021B2E8 { char pad[0x18]; };
 struct VObj_8021B2E8 : Base_8021B2E8 {

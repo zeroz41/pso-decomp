@@ -2,9 +2,8 @@
 #include "pso/system/PadRumble.h"
 #include "pso/misc/TCameraCtrl_8006A03C.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct O_8006A044 { u8 pad[0x1c0]; s32 id; f32 v; };
 
@@ -84,17 +83,17 @@ void TCameraCtrl::cycle_spectate_target() {
         is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) == 0 ||
         (pl = get_player_by_client_id(local_client_id)) == 0 ||
         (tries = 0, TCameraCtrl__view_state.busy != 0) ||
-        get_current_area() == 0xB ||
-        get_current_area() == 0xC ||
-        get_current_area() == 0xD ||
-        get_current_area() == 0xE ||
-        get_current_area() == 0x1E ||
-        get_current_area() == 0x1F ||
-        get_current_area() == 0x20 ||
-        get_current_area() == 0x21 ||
-        get_current_area() == 0xF ||
-        get_current_area() == 0x12 ||
-        get_current_area() == 0) {
+        get_current_floor_area() == AREA_DRAGON ||
+        get_current_floor_area() == AREA_DE_ROL_LE ||
+        get_current_floor_area() == AREA_VOL_OPT ||
+        get_current_floor_area() == AREA_DARK_FALZ ||
+        get_current_floor_area() == AREA_GAL_GRYPHON ||
+        get_current_floor_area() == AREA_OLGA_FLOW ||
+        get_current_floor_area() == AREA_BARBA_RAY ||
+        get_current_floor_area() == AREA_GOL_DRAGON ||
+        get_current_floor_area() == AREA_LOBBY ||
+        get_current_floor_area() == AREA_PIONEER2_EP2 ||
+        get_current_floor_area() == AREA_PIONEER2_EP1) {
         return;
     }
     slot = TCameraCtrl__view_state.slot;

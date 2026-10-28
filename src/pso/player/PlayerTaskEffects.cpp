@@ -13,7 +13,7 @@
 #include "pso/player/TPlayerLevelFeedback.h"
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "types.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -287,6 +287,7 @@ typedef char RecoveredGlobal_801C6FF8_lbl_804C4008_size[sizeof(RecoveredGlobal_8
 #include "pso/misc/TMainCursor.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 
@@ -950,7 +951,7 @@ void TPlayerSoul::run_task() {
     TParticleCtrl* h;
     Vec_801C6408 v;
     p = (VO_801C6408*)get_player();
-    if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) != 0 && are_items_enabled_here() != 0 &&
+    if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) != 0 && is_current_area_item_enabled() != 0 &&
         is_on_current_floor__10TObjPlayerFi(p) != 0) {
         h = get_particle();
         if (h != 0) {

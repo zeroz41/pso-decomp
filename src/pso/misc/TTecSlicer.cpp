@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TUnk_804CCD0C.h"
 #include "pso/misc/TLobby_80226070.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/unk/text_80087278.h"
 
 #include "pso/system/vector.h"

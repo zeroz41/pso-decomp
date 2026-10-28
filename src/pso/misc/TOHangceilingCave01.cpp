@@ -10,11 +10,10 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOFenceAncient01.h"
 #include "pso/misc/TOFenceAncient04.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80167878_lbl_804B1F80 {
     s32 value;
@@ -511,17 +510,17 @@ void TUnk_804B2578::sub_801682E4(s32 arg1) {
 }
 
 void TUnk_804B2578::sub_80168398() {
-    s32 state = get_current_area();
+    s32 area = get_current_floor_area();
     s32 id = 0;
     switch (this->mode) {
     case 2:
-        switch (state) {
-        case 0x13:
-        case 0x14:
+        switch (area) {
+        case AREA_VR_TEMPLE_ALPHA:
+        case AREA_VR_TEMPLE_BETA:
             id = 0x4BC11;
             break;
-        case 0x15:
-        case 0x16:
+        case AREA_VR_SPACESHIP_ALPHA:
+        case AREA_VR_SPACESHIP_BETA:
             id = 0x4004BC11;
             break;
         default:
@@ -530,13 +529,13 @@ void TUnk_804B2578::sub_80168398() {
         }
         break;
     case 1:
-        switch (state) {
-        case 0x13:
-        case 0x14:
+        switch (area) {
+        case AREA_VR_TEMPLE_ALPHA:
+        case AREA_VR_TEMPLE_BETA:
             id = 0x4B212;
             break;
-        case 0x15:
-        case 0x16:
+        case AREA_VR_SPACESHIP_ALPHA:
+        case AREA_VR_SPACESHIP_BETA:
             id = 0x4004B212;
             break;
         default:
@@ -813,9 +812,9 @@ void load_turiten_singo_resources(void) {
 
     (*(void **)&TOHangceilingCave01__model_archive) = 0;
     (*(Buf_80168AA8 **)&turiten_singo_texture_lists) = 0;
-    switch (get_current_area()) {
-    case 19:
-    case 20:
+    switch (get_current_floor_area()) {
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         p = ::operator new(0x440);
         if (p != 0) {
             p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, turiten_singo_resource_descriptor, 0, 0, 0);

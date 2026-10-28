@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TPlyFollowParticleCtrl.h"
 
 void TPlyFollowParticleCtrl::set_type(s16 v) { *(s16 *)&this->m_name = v; }

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObjQuestColApc.h"
 
 struct Obj_80196448 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0xac - 0x44]; f32 radius; };
@@ -9,9 +9,8 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 s32 obj_isState3_324__9TObjCharaFv(void *);
 void TObjQuestColBase__ct(void *);
-int destroy_board__17TQuestThreadBoardFv(void*);
 
-int TObjQuestColApc::vfunc_16() { destroy_board__17TQuestThreadBoardFv(this); create__12TQuestThreadFi(this->m_b0); }
+int TObjQuestColApc::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
 
 extern s32 __vt__15TObjQuestColApc[];
 extern void *obj_quest_col_apc_class_name;

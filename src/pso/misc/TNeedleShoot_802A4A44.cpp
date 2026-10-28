@@ -4,7 +4,7 @@
 #include "pso/misc/TNeedleShoot_802A4A44.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TNeedleShoot.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 
 struct VBase_18_174c10 { char pad[0x18]; };
@@ -41,7 +41,6 @@ s32 play_sound_effect(int, void *, int, int);
 
 void*TNeedleShoot::get_shoot_data() { return (char*)this + 0x28; }
 
-#include "pso/misc/TOKeyMachine01.h"
 
 extern "C" {
 
@@ -56,7 +55,7 @@ int TObjEneMe1Gee_NEEDLE::queue_destruction() {
 }
 
 int TObjEneMe1Gee_NEEDLE::vfunc_6() {
-    if (get_current_area() == 0x22) {
+    if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
         play_sound_effect(0x4003B20E, (u8 *)&this->m_6c, 0, 0);
     } else {
         play_sound_effect(0x3A847, (u8 *)&this->m_6c, 0, 0);

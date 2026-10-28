@@ -4,16 +4,16 @@
 #include "pso/render/depth_buffer.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TTecZonde.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
 
 struct RecoveredGlobal_8023D988___vt__12TTecZondeEff {
@@ -417,7 +417,7 @@ void TTecZondeEff::render() {
     u32 m3c[0x34 / 4];
     u32 m8[0x34 / 4];
     u32 id;
-    if (self->active == 0 || get_current_area() == 0 || get_current_area() == 0xF) {
+    if (self->active == 0 || get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_LOBBY) {
         return;
     }
     if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0) {

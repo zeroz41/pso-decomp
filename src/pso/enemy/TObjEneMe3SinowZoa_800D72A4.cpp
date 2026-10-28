@@ -21,7 +21,7 @@ s32 TObjEneMe3SinowZoa__sub_800D72A4(O_800D72A4 *self) {
     return self->f18 > (*(const f32 *)&lbl_805DA348) && self->f18 < lbl_805DA34C;
 }
 
-s32 TUnk_80494938::vfunc_10() {
+s32 TUnk_80494938::has_visible_opacity() {
     return *(f32 *)&this->unk_18 > (*(const f32 *)&lbl_805DA348);
 }
 

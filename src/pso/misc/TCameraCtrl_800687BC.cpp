@@ -945,17 +945,17 @@ void TCameraCtrl::update_target_smoothing() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     u8 *temp_r3_2;
-    *(f32 *)&this->unk_178 = (f32) *(f32 *)&this->unk_1A0;
+    this->m_178 = (f32) *(f32 *)&this->unk_1A0;
     this->m_17c = (f32) this->m_1a4;
-    *(f32 *)&this->unk_180 = (f32) *(f32 *)&this->unk_1A8;
-    this->m_1c8 = (f32) *(f32 *)&this->unk_178;
+    this->m_180 = (f32) *(f32 *)&this->unk_1A8;
+    this->m_1c8 = (f32) this->m_178;
     *(f32 *)&this->unk_1CC = (f32) this->m_17c;
-    this->m_1d0 = (f32) *(f32 *)&this->unk_180;
+    this->m_1d0 = (f32) this->m_180;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) *(f32 *)&this->unk_178;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->m_178;
         *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->m_17c;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) *(f32 *)&this->unk_180;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->m_180;
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)((u8 *)(&(*(RecoveredGlobal_80069A6C_camera_controller_registry *)&camera_controller_registry).value) + ((*(RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4)) + 0));
     if ((temp_r3_2 != NULL) && !(*(s32 *)((s8 *)temp_r3_2 + 0x38) & 0x10)) {
@@ -968,20 +968,20 @@ void TCameraCtrl::update_position() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    *(f32 *)&this->unk_178 = (f32) *(f32 *)&this->unk_1A0;
+    this->m_178 = (f32) *(f32 *)&this->unk_1A0;
     this->m_17c = (f32) this->m_1a4;
-    *(f32 *)&this->unk_180 = (f32) *(f32 *)&this->unk_1A8;
+    this->m_180 = (f32) *(f32 *)&this->unk_1A8;
     this->m_184 = (f32) this->m_1ac;
     *(f32 *)&this->unk_188 = (f32) *(f32 *)&this->unk_1B0;
     this->m_18c = (f32) this->m_1b4;
-    this->m_1c8 = (f32) *(f32 *)&this->unk_178;
+    this->m_1c8 = (f32) this->m_178;
     *(f32 *)&this->unk_1CC = (f32) this->m_17c;
-    this->m_1d0 = (f32) *(f32 *)&this->unk_180;
+    this->m_1d0 = (f32) this->m_180;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) *(f32 *)&this->unk_178;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->m_178;
         *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->m_17c;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) *(f32 *)&this->unk_180;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->m_180;
     }
 }
 void TCameraCtrl::update_pose_smoothing() {
@@ -1008,7 +1008,7 @@ void TCameraCtrl::update_pose_smoothing() {
     VecCopy((Vec *)(arg0 + 0x184), (const Vec *)current);
     return;
   }
-  approach_camera_vector((u8 *)&this->unk_178, (u8 *)&this->unk_1A0, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
+  approach_camera_vector((u8 *)&this->m_178, (u8 *)&this->unk_1A0, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
   approach_camera_vector((u8 *)&this->m_184, (u8 *)&this->m_1ac, this->m_1bc);
 }
 typedef char RecoveredGlobal_80069C94_camera_controller_registry_size[sizeof(RecoveredGlobal_80069C94_camera_controller_registry) == 0x68 ? 1 : -1];

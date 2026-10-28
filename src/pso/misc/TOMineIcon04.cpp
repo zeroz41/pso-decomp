@@ -6,7 +6,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -14,7 +14,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 extern "C" void get_name__6TOMineFv();
 
-#include "pso/misc/TOKeyMachine01.h"
 
 struct Base_80171E7C { char pad[0x18]; };
 
@@ -254,43 +253,43 @@ void *__vt__12TOMineIcon04[87] = {
 
 void TOMineIcon04::vfunc_80() {
     s32 arg0 = (s32)this;
-    u32 global_state;
-    global_state = get_current_area();
-    switch (global_state) {
-    case 1:
-    case 2:
+    u32 area;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_FOREST1:
+    case AREA_FOREST2:
         play_sound_effect(0x4C111, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 3:
-    case 4:
-    case 5:
+    case AREA_CAVE1:
+    case AREA_CAVE2:
+    case AREA_CAVE3:
         play_sound_effect(0x44110, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 6:
-    case 7:
+    case AREA_MINE1:
+    case AREA_MINE2:
         play_sound_effect(0x4004C10A, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 8:
-    case 9:
-    case 10:
+    case AREA_RUINS1:
+    case AREA_RUINS2:
+    case AREA_RUINS3:
         play_sound_effect(0x4004C111, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 19:
-    case 20:
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         play_sound_effect(0x4BC07, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 21:
-    case 22:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4004BC07, (void *)(arg0 + 0x38), 0, 0);
         return;
-    case 23:
-    case 24:
-    case 25:
-    case 26:
-    case 27:
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
         play_sound_effect(0x4BC19, (void *)(arg0 + 0x38), 0, 0);
-    case 28:
-    case 29:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4004BC19, (void *)(arg0 + 0x38), 0, 0);
     default:
         return;

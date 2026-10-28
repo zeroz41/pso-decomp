@@ -5,7 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -17,7 +17,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEneMe1GiGueBarrier.h"
 #include "pso/enemy/TObjEneMe1GiGueMissile.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
@@ -874,9 +873,9 @@ s32 enemy_wander_home__9TObjEnemyFlfff(void *, s32, f32, f32, f32);
 u32 get_player_by_client_id(s32);
 
 s32 TObjEneMe1GiGue::remap_sound_id(void *obj, s32 id) {
-    s32 st = get_current_area();
-    if (id == 0x3A344) return st == 0x23 ? 0x40039E14 : id;
-    if (id == 0x3A345) return st == 0x23 ? 0x40039415 : id;
+    s32 area = get_current_floor_area();
+    if (id == 0x3A344) return area == AREA_TOWER ? 0x40039E14 : id;
+    if (id == 0x3A345) return area == AREA_TOWER ? 0x40039415 : id;
     return ((s32 (*)(void *, s32))copy_target_state__14TObjEnePanarmsFPv)(obj, id);
 }
 
@@ -1834,7 +1833,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
     if (self->f30 & 0x2000000) {
         return;
     }
-    if (get_current_area() == 0x23) {
+    if (get_current_floor_area() == AREA_TOWER) {
         vis = self->m9(600.0f, 600.0f, 20.0f);
     } else {
         vis = self->m9(150.0f, 400.0f, 20.0f);

@@ -16,8 +16,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby_802268F4.h"
 #include "pso/misc/obj_band.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 void TObjPlayer__sub_801AC43C(void) {  }
@@ -263,11 +262,11 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     F_801AC808(self, s32, 0x134) = 2;
     self->m12();
     F_801AC808(self, s32, 0x1AC) = 0;
-    switch (get_current_area()) {
-    case 0xB:
-    case 0xC:
-    case 0xD:
-    case 0xE:
+    switch (get_current_floor_area()) {
+    case AREA_DRAGON:
+    case AREA_DE_ROL_LE:
+    case AREA_VOL_OPT:
+    case AREA_DARK_FALZ:
         o = NEW_801AC808(0xAC);
         if (o != NULL) {
             TPhotonRainbow__ct(o, self, &self->pos, 1);

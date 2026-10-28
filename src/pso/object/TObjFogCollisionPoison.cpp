@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/object/TUnk_804AF7B0.h"
+#include "pso/map/FloorArea.h"
 
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/object/TObjFogCollision_Manager.h"
 #include "pso/object/TObjFogCollisionPoison.h"
 #include "pso/misc/TFogCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80153084_lbl_804AF7B0 {
     s32 value;
@@ -230,13 +230,13 @@ void TObjFogCollisionPoison::record_poison_hit(u16 arg1) {
     record_fog_collision_hit(arg1, this->set_params[0], (s32)((int) ((u8) (this->set_params[1] == 0))));
 }
 void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
-    switch (get_current_area()) {
-    case 0x15:
-    case 0x16:
+    switch (get_current_floor_area()) {
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_persistent_sound(0x4004BC16, arg0, arg0 + 0x38, 0, 0);
         break;
-    case 0x1C:
-    case 0x1D:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_persistent_sound(0x4004BC24, arg0, arg0 + 0x38, 0, 0);
         break;
     default:
@@ -245,13 +245,13 @@ void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
     }
 }
 void TObjFogCollisionPoison__sub_801535D0(s32 arg0) {
-    switch (get_current_area()) {
-    case 0x15:
-    case 0x16:
+    switch (get_current_floor_area()) {
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         play_sound_effect(0x4004C115, arg0 + 0x38, 0, 0);
         break;
-    case 0x1C:
-    case 0x1D:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
         play_sound_effect(0x4004C123, arg0 + 0x38, 0, 0);
         break;
     default:

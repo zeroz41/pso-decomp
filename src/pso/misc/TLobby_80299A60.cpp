@@ -5,14 +5,14 @@
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss6EmptyWarp.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowSubComCardList.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 s32 get_main_phase();
@@ -45,7 +45,7 @@ extern s32 tl_particlemodel;
 
 s32 TLobby::init_particle_model() {
     void* obj;
-    get_current_area();
+    get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -64,7 +64,7 @@ void TLobby::update_field_state() { TLobby::refresh_render_state(); TLobby::stop
 extern s32 lbl_804651A0[];
 
 s32 load_dragon2_scene(void) {
-    get_current_area();
+    get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -83,7 +83,7 @@ extern s32 lbl_804651B0[];
 
 s32 init_scene_delo2(void) {
     void *obj;
-    get_current_area();
+    get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -103,7 +103,7 @@ s32 init_scene_delo2(void) {
 void TLobby::update_floor_state_deferred() { TLobby::refresh_render_state(); TLobby::stop_audio_streams(); unload_current_floor_resources(); TLobby::update_current_floor(); TLobby::clear_session_buffers(); }
 
 s32 TLobby__sub_80299C7C(void) {
-    get_current_area();
+    get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -111,7 +111,7 @@ s32 TLobby__sub_80299C7C(void) {
     init_area_lights();
     TLobby::create_tasks();
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
-        switch (((s32)get_current_area())) {
+        switch (((s32)get_current_floor_area())) {
         case 0x17:
             TBoss4DarkFalz::dispatch_by_main_phase(0x51);
             break;
@@ -122,7 +122,7 @@ s32 TLobby__sub_80299C7C(void) {
     } else {
         init_music_sequencer(5);
     }
-    if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_area()) == 0x17)) {
+    if ((TRaderMapCore::is_not_split_screen() == 0) && (((s32)get_current_floor_area()) == AREA_CENTRAL_CONTROL_AREA)) {
         TLobby::create_mist_ctrl(tl_05, NULL);
     }
     return 1;
@@ -134,10 +134,10 @@ void TLobby::update_scene_alt() { TLobby::refresh_render_state(); TLobby::stop_a
 extern s32 lbl_804651C8[];
 
 s32 initialize_boss_scene(void) {
-    s32 global_state;
+    s32 area;
     u32 temp_new;
 
-    get_current_area();
+    get_current_floor_area();
     load_floor_sound_bank();
     if (TLobby::check_disconnect_conditions() != 0) {
         return 0;
@@ -157,12 +157,12 @@ s32 initialize_boss_scene(void) {
         init_music_sequencer(6);
     }
     if ((get_main_phase() != 0xE) || (is_quest_active() == 0)) {
-        global_state = get_current_area();
-        switch (global_state) {
-        case 28:
+        area = get_current_floor_area();
+        switch (area) {
+        case AREA_SEABED_UPPER:
             TBoss4DarkFalz::dispatch_by_main_phase(0x54);
             break;
-        case 29:
+        case AREA_SEABED_LOWER:
             TBoss4DarkFalz::dispatch_by_main_phase(0x55);
             break;
         }
@@ -383,9 +383,9 @@ void TObjChallenge4PRetry::update_challenge_4p_retry() {
 void TObjChallenge4PRetry::update_giveup() {
     s32 flag;
     s32 i;
-    switch (get_current_area()) {
-    case 0:
-    case 0x12:
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+    case AREA_PIONEER2_EP2:
         if (TWindowCtrlMain__sub_8024CE58() != 0) {
             break;
         }

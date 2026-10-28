@@ -1,9 +1,8 @@
 #include "types.h"
 #include "pso/object/TObjBgmColCtrl.h"
 #include "pso/TObject.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct B_8017E410 { u8 pad[0x18]; };
 
@@ -36,7 +35,7 @@ void TObjBgmColCtrl::run_task() {
 
     temp_r4 = this->m_1c;
     this->m_1c = (temp_r4 - 1);
-    if ((temp_r4 <= 0) && ((get_current_area() == 0xF) || (get_player_by_client_id(local_client_id) != 0U)) && (get_quest_bgm_issued_flag() == 0)) {
+    if ((temp_r4 <= 0) && ((get_current_floor_area() == AREA_LOBBY) || (get_player_by_client_id(local_client_id) != 0U)) && (get_quest_bgm_issued_flag() == 0)) {
         if (TRaderMapCore::is_not_split_screen() == 1) {
             if (is_active__14TObjBgmColCtrlFv() == 0) {
                 TObjBgmColCtrl::play_lobby_theme_music();
@@ -51,7 +50,7 @@ void TObjBgmColCtrl::run_task() {
                 if (is_active__14TObjBgmColCtrlFv() == 0) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
-                if ((get_current_area() == 0xF) && ((s32) TLobby__event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {
+                if ((get_current_floor_area() == AREA_LOBBY) && ((s32) TLobby__event_theme_id != (s32) TObjBgmColCtrl__current_theme_id)) {
                     TObjBgmColCtrl::play_lobby_theme_music();
                 }
             }

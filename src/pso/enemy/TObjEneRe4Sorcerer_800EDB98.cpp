@@ -6,7 +6,7 @@
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -160,7 +160,6 @@ s32 TObjEneRe4Sorcerer::vfunc_83() { if (((int (*)(void*))get_target_info__9TObj
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecGiZonde.h"
 #include "pso/misc/TTecGrants.h"
 #include "pso/misc/TTecMegid.h"
@@ -2461,24 +2460,24 @@ void TBoss3Volopt__sub_800F059C(void) {  }
 s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
     s32 masked;
     s32 result;
-    s32 state;
-    state = get_current_area();
+    s32 area;
+    area = get_current_floor_area();
     if (TLobby::get_instance() != 0) {
-        if (state != 0x13 && state != 0x14 && state != 0x15 && state != 0x16 && state != 0x22 && state != 0x23) {
+        if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
             return arg0;
         }
-    } else if (state != 0x10 && state != 0x11) {
+    } else if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
         return arg0;
     }
     masked = arg0 & 0x8FFFFF00;
     if (TLobby::get_instance() != 0) {
-        if (state == 0x13 || state == 0x14) {
+        if (area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA) {
             result = 0x3AB42;
-        } else if (state == 0x15 || state == 0x16) {
+        } else if (area == AREA_VR_SPACESHIP_ALPHA || area == AREA_VR_SPACESHIP_BETA) {
             result = 0x4003AB3D;
-        } else if (state == 0x22) {
+        } else if (area == AREA_SEASIDE_NIGHT) {
             result = 0x4003B22A;
-        } else if (state == 0x23) {
+        } else if (area == AREA_TOWER) {
             result = 0x4003A359;
         }
     } else {
@@ -2489,16 +2488,16 @@ s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
 }
 
 s32 remap_area_sound_id(s32 arg0, s32 arg1) {
-    s32 st;
+    s32 area;
     s32 base;
     s32 start;
-    st = get_current_area();
+    area = get_current_floor_area();
     if (TLobby::get_instance() != 0) {
-        if (st != 0x13 && st != 0x14 && st != 0x15 && st != 0x16 && st != 0x22 && st != 0x23) {
+        if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
             return arg0;
         }
     } else {
-        if (st != 0x10 && st != 0x11) {
+        if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
             return arg0;
         }
     }

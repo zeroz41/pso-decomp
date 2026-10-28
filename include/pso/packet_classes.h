@@ -388,9 +388,17 @@ public:
 	void bswap();
 };
 
+struct PsoCommandHandler {
+    u16 command;
+    u16 area_mask;
+    void (*handle)(game_command_header *);
+};
+
+typedef char PsoCommandHandler_size[sizeof(PsoCommandHandler) == 8 ? 1 : -1];
+
 class TPsoDataBuf {
 public:
-	void recv_pso_data_buf(size_t size) {};
+	void recv_pso_data_buf(size_t size);
 };
 
 class TPsoDataLong : public TPsoDataBuf {

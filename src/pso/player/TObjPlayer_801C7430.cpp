@@ -26,7 +26,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/unk/text_80121180.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TLobby_80207644.h"
 
 struct L_801C74BC { u16 f0; u16 f2; s32 f4; };
@@ -2886,7 +2886,7 @@ void TObjPlayer::init_action() {
     TObjPlayer__sub_8000FF4C(arg0, 0xFFFF);
     ((s32 (*)(void *, s32, s16))set_action_state__10TObjPlayerFPvss)(arg0, 0x12, (s16) ((s32 (*)(void))ret_801D26AC)());
     fn_800660B8(arg0);
-    if (are_items_enabled_here() != 0) {
+    if (is_current_area_item_enabled() != 0) {
         void *new_obj = (void *)(size_t)__nw__7TObjectFUl(0x38);
         if (new_obj != 0U) {
             construct_revival_particle_effect(new_obj, arg0, tl_07);
@@ -3998,7 +3998,7 @@ void TObjPlayer::vfunc_75(f32 farg0) {
     s32 arg0 = (s32)this;
     if (((s32 (*)(void))is_locally_controlled__10TObjPlayerFPv)() == 0 || obj_testFlags30__14TObjCollidableFUl(arg0, 0x800) != 0 ||
         activate_d04_slot__10TObjPlayerFv(arg0) == 0 || ((s32 (*)(s32, s32))is_alt_photon_blast_bank_empty__10TObjPlayerFPv)(arg0 + 0x500, 1) != 0 ||
-        are_items_enabled_here() == 0) {
+        is_current_area_item_enabled() == 0) {
         return;
     }
     add_photon_blast_charge((u8 *)(arg0 + 0x4AC), farg0);
@@ -4222,7 +4222,7 @@ void handle_6x49_execute_photon_blast(void *arg0) {
     ((TObjPlayer *)(&m))->byteswap_6x49_packet();
     if (((TObjEneHoldEffect *)(&m))->validate_6x49_packet() != 0) {
         p = ((Player_801CC6B8 * (*)(s32))get_player_by_client_id)(m.id);
-        if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) == 0 && are_items_enabled_here() != 0) {
+        if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) == 0 && is_current_area_item_enabled() != 0) {
             if (get_current_floor() == ((TObjPlayer *)p)->get_field_3e4()) {
                 s32 count;
                 u32 *dst;

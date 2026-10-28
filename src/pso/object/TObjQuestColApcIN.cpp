@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/object/TObjQuestColApcIN.h"
 
 struct Pl_801962B4 { u8 pad0[0x38]; f32 pos[3]; };
@@ -11,9 +11,8 @@ extern "C" {
 void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 void TObjQuestColBase__ct(void *);
-int destroy_board__17TQuestThreadBoardFv(void*);
 
-int TObjQuestColApcIN::vfunc_16() { destroy_board__17TQuestThreadBoardFv(this); create__12TQuestThreadFi(this->m_b0); }
+int TObjQuestColApcIN::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
 
 extern s32 __vt__17TObjQuestColApcIN[];
 extern void *lbl_805D33FC;

@@ -71,7 +71,6 @@ void TLobby__sub_801036CC(void);
 void TLobby__sub_801041BC(void *, void *);
 void bswap_sync_item_state_header(void *);
 void set_boss_buf_entry__6TLobbyFii(s32, u16);
-void TLobby__sub_80104258(void *, void *);
 s32 test_flags_any(void *, s32);
 void TLobby__sub_801041D8(void);
 extern u16 *floor_item_next_sort_keys;
@@ -164,7 +163,7 @@ void TLobby::apply_sync_item_state() {
         count = (*(s32 **)&floor_item_counts_by_floor)[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++) {
-            TLobby__sub_80104258(p, &((Save_80103890 *)this)->items[k++]);
+            TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)p, (TLobbyFloorItemEntry *)&((Save_80103890 *)this)->items[k++]);
             ((TLobby *)p)->bswap_item();
             ((TItemData *)((u8 *)p + 0x10))->decode_from_network();
         }
@@ -202,7 +201,7 @@ s32 TLobby::write_sync_item_state() {
         count = (*(s32 **)&floor_item_counts_by_floor)[j];
         p = floor_item_row_table[j];
         for (n = 0; n != count; n++, p++, k++) {
-            TLobby__sub_80104258(d, p);
+            TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)d, (TLobbyFloorItemEntry *)p);
             ((TItemData *)((u8 *)d + 0x10))->encode_for_network();
             ((TLobby *)d)->bswap_item();
             d++;
@@ -370,7 +369,7 @@ s32 insert_item_condition(FloorItem *item) {
                 if (floor_item_next_sort_keys[item->floor] != 0xFFFF) {
                     floor_item_next_sort_keys[item->floor]++;
                 }
-                TLobby__sub_80104258(&list[lo], item);
+                TLobby::copy_floor_item_entry((TLobbyFloorItemEntry *)&list[lo], (TLobbyFloorItemEntry *)item);
                 counts[idx]++;
                 return 1;
             }

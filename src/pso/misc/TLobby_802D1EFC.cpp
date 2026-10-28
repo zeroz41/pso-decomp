@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TLobby_802D1EFC.h"
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItem.h"

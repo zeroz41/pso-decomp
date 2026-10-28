@@ -21,7 +21,7 @@ TWindowSubQuestBoard::TWindowSubQuestBoard(TObject *object, void *arg2) : TObjec
         o = TWindowSubQuestBoardSelect__ct((TWindowSubQuestBoardSelect *)((u8 *)o));
     }
     *(void **)((s8 *)this + 0x28) = o;
-    this->m_2c = 0;
+    this->quest_thread_board = NULL;
     this->m_1c = 0;
     TWindowCtrl__sub_8027D214();
 }

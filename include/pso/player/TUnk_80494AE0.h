@@ -17,7 +17,7 @@ public:
     virtual s32 advance_toward_max();
     virtual void set_flags_and_apply_damage_color();
     virtual void clear_flag_and_notify();
-    virtual s32 vfunc_10();
+    virtual s32 has_visible_opacity();
 };
 
 #endif

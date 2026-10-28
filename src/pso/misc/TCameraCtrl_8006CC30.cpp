@@ -8,7 +8,7 @@
 #include "pso/misc/TUnk_80488E00.h"
 #include "pso/camera/CameraArrivalReset.h"
 #include "pso/camera/FollowCameraController.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" __declspec(section ".rodata") FollowVector lbl_80438528 = { 0.0f, 0.0f, 45.42f };
 __declspec(section ".rodata") FollowVector lbl_80438534 = { 0.0f, 0.0f, 45.42f };
 
@@ -239,7 +239,6 @@ struct Cam_8006D9F0 : CamBase_8006D9F0 {
 };
 
 #include <stddef.h>
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowCtrl.h"
 struct VBase_18_f70dca { char pad[0x18]; };
 
@@ -732,8 +731,8 @@ void TCameraCtrl::calc_follow_position() {
 
 void TUnk_80488E00::select_follow_camera_offsets() {
     Cam_8006D9F0 *arg0 = (Cam_8006D9F0 *)this;
-    s32 state = get_current_area();
-    if (state == 11) {
+    s32 area = get_current_floor_area();
+    if (area == AREA_DRAGON) {
         Vec_8006D9F0 b0;
         Vec_8006D9F0 a0;
         Vec_8006D9F0 b1;
@@ -742,12 +741,12 @@ void TUnk_80488E00::select_follow_camera_offsets() {
         request_follow_camera_offsets(&a0, &b0, 0xFFFF);
         get_dragon_follow_camera_offsets((u8 *)&a1, (u8 *)&b1);
         request_follow_camera_offsets(&a1, &b1, 0xFFFF);
-    } else if (state == 30) {
+    } else if (area == AREA_GAL_GRYPHON) {
         Vec_8006D9F0 b;
         Vec_8006D9F0 a;
         ((TBoss8Dragon *)(&a))->get_follow_camera_offsets((u8 *)&b);
         request_follow_camera_offsets(&a, &b, 0xFFFF);
-    } else if (state == 33) {
+    } else if (area == AREA_GOL_DRAGON) {
         Vec_8006D9F0 b;
         Vec_8006D9F0 a;
         get_camera_offsets__12TBoss8DragonFPvPv(&a, &b);
@@ -866,9 +865,9 @@ void TUnk_80488E00::vfunc_10() {
     Cam_8006DEF8 *self = (Cam_8006DEF8 *)this;
     FollowVector v = lbl_80438528;
     Tgt_8006DEF8 *p;
-    s32 state;
+    s32 area;
     p = (Tgt_8006DEF8 *)get_player_by_client_id((u32)local_client_id);
-    state = get_current_area();
+    area = get_current_floor_area();
     if (p != NULL) {
         self->angle = p->angle + 0x8000;
         push_matrix_from(identity_matrix);
@@ -882,20 +881,20 @@ void TUnk_80488E00::vfunc_10() {
         self->pos.y = self->target.y + v.y;
         self->pos.z = self->target.z + v.z;
     } else {
-        switch (state) {
-        case 0:
+        switch (area) {
+        case AREA_PIONEER2_EP1:
             VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][0].pos);
             VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][0].target);
             self->id = follow_camera_init_pose_table[0][0].id;
             TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][0].a, follow_camera_init_pose_table[0][0].b);
             break;
-        case 15:
+        case AREA_LOBBY:
             VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][1].pos);
             VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][1].target);
             self->id = follow_camera_init_pose_table[0][1].id;
             TCameraCtrl::set_clamped_offsets(follow_camera_init_pose_table[0][1].a, follow_camera_init_pose_table[0][1].b);
             break;
-        case 18:
+        case AREA_PIONEER2_EP2:
             VecCopy((Vec *)&self->pos, (const Vec *)&follow_camera_init_pose_table[0][2].pos);
             VecCopy((Vec *)&self->target, (const Vec *)&follow_camera_init_pose_table[0][2].target);
             self->id = follow_camera_init_pose_table[0][2].id;
@@ -946,7 +945,7 @@ void TCameraCtrl::compute_follow_target() {
     self->pos.x = x;
     self->pos.y = y;
     self->pos.z = z;
-    if (get_current_area() == 0 || get_current_area() == 0x12) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         if (self->f100 != 0) {
             k = (-3.0f);
             approach_camera_scalar(&self->f108, &k, (1.4f));
@@ -1002,14 +1001,14 @@ void TCameraCtrl::update_follow_camera() {
     if (*(s32 *)&this->unk_100 != 0) {
         this->m_f4 = 0;
         this->m_54 = approach_angle_limited(this->m_54, 0x22D8, 0xB6);
-    } else if (get_current_area() == 0 || get_current_area() == 0x12) {
+    } else if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         if (is_split_screen() == 0 && is_on_current_screen__11TCameraCtrlFv((u8 *)&controller_input_state + 0x110, 0x20000) == 0) {
             this->m_54 = approach_angle_limited(this->m_54, 0x36C1, 0xB6);
         }
     } else {
         this->m_54 = approach_angle_limited(this->m_54, 0x36C1, 0xB6);
     }
-    if (get_current_area() == 0 || get_current_area() == 0x12) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2) {
         *(f32 *)&this->unk_E0 = (20.43f);
     }
     ((VObj_18 *)(arg0))->m10();

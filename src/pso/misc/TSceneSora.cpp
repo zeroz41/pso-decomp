@@ -8,12 +8,11 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TSceneSora.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_802072E0___vt__10TSceneSora {
     s32 value;
@@ -109,9 +108,9 @@ void TSceneSora::run_task() {
             sky->frame = lbl_805DC608;
         }
     } else {
-        switch (get_current_area()) {
-        case 1:
-        case 2:
+        switch (get_current_floor_area()) {
+        case AREA_FOREST1:
+        case AREA_FOREST2:
             sky->yaw++;
             break;
         }

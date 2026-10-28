@@ -5,6 +5,7 @@
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/quest/TQuestThread.h"
 
 typedef struct S_802DC294 { u8 pad0[0x5C]; s32 f5C; } S_802DC294;
 
@@ -18,7 +19,6 @@ struct Sel_802DC118 { u8 pad[0x64]; u32 win; };
 
 extern "C" {
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
-void set_status_flag_80__12TQuestThreadFPv(void *p);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 extern const f32 lbl_805DE890;
@@ -84,7 +84,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBE4C(long long arg1) {
   temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((void *) arg1, 1);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 7)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-  set_status_flag_80__12TQuestThreadFPv((void *)temp_r31);
+  TQuestThread::set_status_flag_80((void *)temp_r31);
   ((TWindowSubComCard *)temp_r31)->calc_layout_height((f32) lbl_805DE890);
   return temp_r31;
 }
@@ -94,7 +94,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DBEC4(unsigned long long arg1) {
   temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl((void *) arg1, 1);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) get_localized_text_entry(0x1F, 6)), 0x21, 0);
   ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
-  set_status_flag_80__12TQuestThreadFPv((void *)temp_r31);
+  TQuestThread::set_status_flag_80((void *)temp_r31);
   ((TWindowSubComCard *)temp_r31)->calc_layout_height((f32) lbl_805DE890);
   return temp_r31;
 }

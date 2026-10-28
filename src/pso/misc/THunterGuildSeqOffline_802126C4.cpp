@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 
 extern "C" {
 

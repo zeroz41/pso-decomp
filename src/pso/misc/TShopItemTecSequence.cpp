@@ -8,7 +8,7 @@
 #include "pso/misc/TWindowMenu.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/TCheckRoomSequence.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"

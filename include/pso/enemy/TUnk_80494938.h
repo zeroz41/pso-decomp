@@ -12,7 +12,7 @@ public:
     virtual s32 decay_value_toward_floor();
     virtual s32 advance_toward_max();
     virtual void set_flags_and_apply_damage_color();
-    virtual s32 vfunc_10();
+    virtual s32 has_visible_opacity();
     void*init_common();
     void sub_800D741C();
     u8 unk_18[0x4];

@@ -9,7 +9,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 class TObjEneMe1Gee_NEEDLE;
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -24,7 +24,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/enemy/TObjEneEpsilon.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 
 struct D_800CC950;
@@ -3485,7 +3484,7 @@ s32 TObjEneMe1Gee::handle_message(s32 arg0, s32 arg1) {
 
     if (arg1 == 0x3A843) {
         var_r3 = 0x3A843;
-        if (get_current_area() == 0x22) {
+        if (get_current_floor_area() == AREA_SEASIDE_NIGHT) {
             return 0x4003B20D;
         }
         return var_r3;

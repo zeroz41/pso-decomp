@@ -7,9 +7,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 s32 init_render_target__10TObjPlayerFv();
@@ -33,7 +32,7 @@ void TObjPlayer::free_singleton() {
 void TObjPlayer::init_render_target_singleton() {
     u32 temp_r3;
     camera_render_target_singleton = 0U;
-    if (get_current_area() == 0x21) {
+    if (get_current_floor_area() == AREA_GOL_DRAGON) {
         temp_r3 = (int)::operator new(0x28);
         camera_render_target_singleton = temp_r3;
         if (temp_r3 != 0U) {

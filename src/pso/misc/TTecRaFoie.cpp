@@ -12,7 +12,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TTecRaFoie.h"
 #include "pso/misc/TUnk_804CCB28.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 #pragma readonly_strings on
 
 struct Vec_80237DAC { f32 x, y, z; };
@@ -233,7 +233,6 @@ void TTecRaFoie::vfunc_8(void *) {
 
 #include <stddef.h>
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TTecAnti.h"
 #include "pso/misc/TTecResta.h"
@@ -348,8 +347,8 @@ void TUnk_804CCB28::render() {
     f32 z;
     s32 id;
     u16 lv;
-    if (get_current_area() == 0 || get_current_area() == 0x12 ||
-        get_current_area() == 0xF) {
+    if (get_current_floor_area() == AREA_PIONEER2_EP1 || get_current_floor_area() == AREA_PIONEER2_EP2 ||
+        get_current_floor_area() == AREA_LOBBY) {
         return;
     }
     TParticleCtrl::begin_effect_render();

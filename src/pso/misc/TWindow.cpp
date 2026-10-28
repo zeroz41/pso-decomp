@@ -10,7 +10,7 @@
 #include "pso/misc/TQuestListOffline.h"
 #include "pso/misc/TWindow.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubComCard.h"
 
 struct Base_80216BCC_80216B44 { char pad[0x18]; };

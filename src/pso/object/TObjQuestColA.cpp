@@ -3,6 +3,7 @@
 #include "pso/object/TObjQuestColA.h"
 #include "pso/object/TObjQuestColBase.h"
 #include "pso/object/TObjQuestCol.h"
+#include "pso/quest/TQuestThread.h"
 
 extern "C" {
 
@@ -12,10 +13,8 @@ void TObjQuestColBase__ct(void *);
 void *get_player_by_client_id(s32 i);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
-u32 create__12TQuestThreadFi(s32 arg0);
-int destroy_board__17TQuestThreadBoardFv(void*);
 
-int TObjQuestColA::vfunc_16() { destroy_board__17TQuestThreadBoardFv(this); create__12TQuestThreadFi(this->m_b0); }
+int TObjQuestColA::vfunc_16() { TQuestThreadBoard::destroy_board(); TQuestThread::create(this->m_b0); }
 
 extern s8 controller_input_state[];
 extern s32 local_client_id;

@@ -8,10 +8,9 @@
 #include "pso/misc/TLobby.h"
 #include "pso/TObjChallenge4PRetry.h"
 #include "pso/boss/TBoss4DarkFalz.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80291DC0_lbl_804DB1F0 {
     s32 value;
@@ -1314,9 +1313,9 @@ typedef char RecoveredGlobal_80070358_lbl_8048C9D8_size[sizeof(RecoveredGlobal_8
 void TLobby__sub_802933FC(void *arg0) {
     s32 old;
     s32 v;
-    switch (get_current_area()) {
-    case 0:
-    case 18:
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+    case AREA_PIONEER2_EP2:
         old = lbl_804DB1F0[2];
         lbl_804DB1F0[2] = -1;
         if (old != -1) {
@@ -1326,11 +1325,11 @@ void TLobby__sub_802933FC(void *arg0) {
             }
         }
         break;
-    case 15:
+    case AREA_LOBBY:
         lbl_804DB1F0[2] = -1;
         break;
-    case 16:
-    case 17:
+    case AREA_BATTLE1:
+    case AREA_BATTLE2:
         lbl_804DB1F0[2] = -1;
         break;
     default:

@@ -8,6 +8,8 @@ struct TAdEnterBaseGC : public TObject {
     virtual ~TAdEnterBaseGC();
     void sub_8032B460(int);
     void create_parts();
+    struct Position { f32 x, y; };
+    void fn_8032B318(Position *position);
     virtual void render();
     virtual void run_task();
     u8 unk_1C[0x4];

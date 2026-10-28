@@ -2,6 +2,27 @@
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/ui/TAdPlayerLoadGC_803F3CF4.h"
 
+#pragma push
+#pragma peephole off
+s32 update_network_info_request(void) {
+    if (get_network_config_mode() == 0) {
+        return -1;
+    }
+    switch (network_info_load_state.request_kind) {
+    case 2:
+        update_network_info_load();
+        break;
+    case 1:
+        update_network_info_exists();
+        break;
+    case 3:
+    case 4:
+        break;
+    }
+    return 0;
+}
+#pragma pop
+
 extern "C" {
 s32 OSFreeToHeap(int, void *);
 extern s32 __OSCurrHeap;

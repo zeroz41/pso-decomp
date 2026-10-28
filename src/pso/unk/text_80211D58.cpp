@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TPlayerBattleCtrl4P.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_8030A6A8.h"
 #include "pso/unk/text_80211D58.h"
@@ -10,7 +11,6 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 get_map_id__13TRaderMapCoreFv();
 u32 get_player_by_client_id(s32);
 s32 is_active__19THunterGuildWarningFv();
-s32 TPlayerBattleCtrl4P__sub_80211B10(s32);
 s32 THunterGuildSeqOffline__sub_80211FEC(s32);
 s32 THunterGuildSeqOffline__sub_80212000(s32);
 s32 THunterGuildSeqOffline__sub_80212060(s32);
@@ -31,7 +31,7 @@ s32 TLobby__sub_80211D58(s32 arg0) {
             if (is_active__19THunterGuildWarningFv() != 0) {
                 return 1;
             }
-            kind = TPlayerBattleCtrl4P__sub_80211B10(player);
+            kind = TPlayerBattleCtrl4P::fn_80211B10(player);
             if (kind != 0) {
                 if (get_player_by_client_id((u16)player) != 0) {
                     if (TWindowShortListCtrl__check_controller_button(&controller_input_state[get_map_id__13TRaderMapCoreFv()][0x20], 4) != 0 &&

@@ -1,8 +1,7 @@
 #include "types.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_8028A820.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 }
@@ -16,9 +15,9 @@ void load_green_door_resources(void) {
     void *p;
     green_door_bml_resource = 0;
     green_door_texture_handle = 0;
-    switch (get_current_area()) {
-    case 0x13:
-    case 0x14:
+    switch (get_current_floor_area()) {
+    case AREA_VR_TEMPLE_ALPHA:
+    case AREA_VR_TEMPLE_BETA:
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, bm_obj_door_ruins_resource_descriptor, 0, 0, 0);
@@ -26,8 +25,8 @@ void load_green_door_resources(void) {
         green_door_bml_resource = p;
         green_door_texture_handle = load_gvm_texture_file((s32)lbl_80450C50);
         break;
-    case 0x15:
-    case 0x16:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
         p = ::operator new(0x440);
         if (p != NULL) {
             p = load_resource_from_descriptor(p, 5, bm_obj_door_space_resource_descriptor, 0, 0, 0);

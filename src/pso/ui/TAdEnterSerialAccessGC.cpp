@@ -2,7 +2,7 @@
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/misc/TLobby_80132ED0.h"
-#include "pso/misc/TQuestThread.h"
+#include "pso/quest/TQuestThread.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/misc/TWindowSubStatusDisp_80144B14.h"
 #include "pso/object/TObject_80019A50.h"

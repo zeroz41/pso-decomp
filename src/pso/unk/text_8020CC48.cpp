@@ -1,9 +1,9 @@
 #include "pso/enemy/EnemyFactoryTables.h"
 #include "pso/misc/TLobby_8020CCD0.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/misc/TOKeyMachine01.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 typedef struct SpawnRecord_8020CC48 {
     s16 type;
     u16 flags;
@@ -26,7 +26,7 @@ extern "C" {
 s32 find_enemy_factory_entry(SpawnRecord_8020CC48 *row, SpawnFactory_8020CC48 *out);
 s32 find_enemy_factory_entry(SpawnRecord_8020CC48 *row, SpawnFactory_8020CC48 *out) {
     s32 index = 0;
-    SpawnFactory_8020CC48 *table = enemy_factory_area_table[get_current_area()];
+    SpawnFactory_8020CC48 *table = enemy_factory_area_table[get_current_floor_area()];
     SpawnFactory_8020CC48 *entry = table;
     while (table != NULL && entry->type != -1) {
         if (entry->type == row->type) {

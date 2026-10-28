@@ -6,7 +6,7 @@
 #include "pso/ui/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/misc/TQuestListVM.h"
+#include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"

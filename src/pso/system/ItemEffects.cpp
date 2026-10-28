@@ -4,7 +4,8 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/system/ItemEffects.h"
-#include "pso/unk/text_802034B0.h"
+#include "pso/map/FloorArea.h"
+extern "C" s32 is_item_area_enabled(s32 area);
 #include "pso/item/TUnk_804A2678.h"
 #include "pso/system/TUnk_804A2660.h"
 
@@ -13,9 +14,8 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/item/TItemMag.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TTecGiFoie.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 extern "C" {
 void disallow_rendering__7TObjectFv(TObject *arg0);
@@ -127,11 +127,11 @@ void TObjPlayer::create_pro_armor() {
     ((TItemWeapon *)this)->roll_technique();
 }
 void TUnk_804A2678::update_weapon() {
-    s32 temp_r3;
-    temp_r3 = get_current_area();
-    if ((temp_r3 != (s32) *(s32 *)&this->unk_1F8) && (((TItem *)this)->is_model_shown() != 0)) {
-        *(s32 *)&this->unk_1F8 = temp_r3;
-        if (is_item_area_enabled(temp_r3) != 0) {
+    s32 area;
+    area = get_current_floor_area();
+    if ((area != (s32) *(s32 *)&this->unk_1F8) && (((TItem *)this)->is_model_shown() != 0)) {
+        *(s32 *)&this->unk_1F8 = area;
+        if (is_item_area_enabled(area) != 0) {
             spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);
             spawn_item_follow_effect((s32)tl_05, (u32)this, 2, 0x1AE);
         }

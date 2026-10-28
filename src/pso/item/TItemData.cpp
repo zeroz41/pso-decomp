@@ -9,7 +9,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct Parm_8010C1E0;
 struct Item_8010C498;
@@ -101,7 +101,6 @@ s32 get_player_by_client_id(s32);
 s16 *get_class_stat_entry__10TObjPlayerFPUc(void *);
 u8 get_cast_technique_level(void *, int);
 s32 is_invalid_slot__10TObjPlayerFUc();
-s32 is_boss_area();
 void *calc_technique_parameters(u8, u8, s32);
 s32 is_challenge_mode_active();
 extern s32 local_client_id;
@@ -817,6 +816,7 @@ s32 TItemData::get_max_stack_size() {
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/FloorArea.h"
 
 #define calc_clock_bonus__9TItemDataFPv ((s32 (*)(void *, s32))calc_clock_bonus__9TItemDataFPv)
 #define add_armor_stat_contribution__9TItemDataFPviiPv ((s32 (*)(void *, s32, s32, s32, s32, s32))add_armor_stat_contribution__9TItemDataFPviiPv)
@@ -1047,7 +1047,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
       {
         result |= 0x10001;
       }
-      if ((!(flags & 0x10)) && (are_items_enabled_here() == 0))
+      if ((!(flags & 0x10)) && (is_current_area_item_enabled() == 0))
       {
         result |= 1;
       }

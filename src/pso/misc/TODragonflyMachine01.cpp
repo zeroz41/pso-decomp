@@ -4,11 +4,11 @@
 #include "pso/misc/TODragonfly.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/TODummyKeyCave01Sound.h"
+#include "pso/map/FloorArea.h"
 
 #include "pso/enemy/TObjEneMe3Stelth.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_80165538___vt__20TODragonflyMachine01 {
     s32 value;
@@ -151,7 +151,7 @@ u8 *TODragonflyMachine01__ct(u8 *dragonfly_machine01, int arg1) {
 #pragma pop
 
 void TODummyKeyCave01Sound::play_cave01_key_sound() {
-    s32 global_state;
+    s32 area;
     s32 temp_r3_2;
 
     switch (*(s32 *)((s8 *)this + 0x1C)) {
@@ -162,15 +162,15 @@ void TODummyKeyCave01Sound::play_cave01_key_sound() {
         play_sound_effect(0x53F06, 0, 0, 0);
         return;
     case 3:
-        global_state = get_current_area();
-        if ((global_state != 0x10) && (global_state != 0x11)) {
+        area = get_current_floor_area();
+        if ((area != AREA_BATTLE1) && (area != AREA_BATTLE2)) {
             play_sound_effect(0x52812, 0, 0, 0);
             return;
         }
         break;
     case 4:
-        temp_r3_2 = get_current_area();
-        if ((temp_r3_2 != 0x10) && (temp_r3_2 != 0x11)) {
+        temp_r3_2 = get_current_floor_area();
+        if ((temp_r3_2 != AREA_BATTLE1) && (temp_r3_2 != AREA_BATTLE2)) {
             play_sound_effect(0x52813, 0, 0, 0);
             return;
         }

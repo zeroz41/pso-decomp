@@ -1,13 +1,13 @@
 #include "pso/object/ObjectFactoryTables.h"
 #include "pso/misc/TCameraCtrl.h"
+#include "pso/map/FloorArea.h"
 
 #include "types.h"
 #include "pso/TSetManager.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8020D2B4_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_8020D2B4_lbl_8058D490_size[sizeof(RecoveredGlobal_8020D2B4_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -182,7 +182,7 @@ void spawn_decorations_in_range(void *arg0) {
     Rec_8020D5AC *p;
     s32 i;
     u8 *obj;
-    tbl = floor_object_factory_tables[get_current_area()];
+    tbl = floor_object_factory_tables[get_current_floor_area()];
     if (tbl == NULL) {
         return;
     }

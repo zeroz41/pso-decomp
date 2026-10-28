@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TLockOnCursor_8013E0D0.h"
 #include "pso/misc/TMainCursor_8013DF5C.h"
-#include "pso/misc/TQuestListVM_8007EAF8.h"
+#include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/misc/TUnk_804A7260.h"
 #include "pso/misc/TForceOperate.h"
 #include "pso/misc/TMainCursor.h"

@@ -6,6 +6,7 @@
 #include "pso/misc/TSceneSora.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/map/FloorArea.h"
 
 struct Vec_8029EA4C { f32 x, y, z; };
 
@@ -36,7 +37,7 @@ s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {
     s32 var_r3;
     u32 player;
 
-    if (TOKeyMachine01::is_state_active() == 0) {
+    if (is_central_control_area() == 0) {
         return 0;
     }
     if ((u16) scene_sora_reflect_active == 0) {
@@ -147,7 +148,7 @@ extern u32 scene_sora_recon_object;
 
 void TObjEneRecon::destroy_instance() {
     scene_sora_instance = 0;
-    if (TOKeyMachine01::is_state_active() != 0) {
+    if (is_central_control_area() != 0) {
         if ((u32) scene_sora_recon_object != 0U) {
             ((TObjPlayer *)scene_sora_recon_object)->reset_lobby_subobject();
         }
@@ -163,7 +164,7 @@ extern s32 lbl_805D65F0;
 void TObjEneRecon::alloc_if_valid_state() {
     u32 temp_r3;
 
-    if (TOKeyMachine01::is_state_active() != 0) {
+    if (is_central_control_area() != 0) {
         scene_sora_instance = 0;
         temp_r3 = (int)::operator new(0x28);
         scene_sora_recon_object = temp_r3;

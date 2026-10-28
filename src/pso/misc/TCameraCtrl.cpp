@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/camera/CreationCamera.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_8006ABAC_lbl_804FF610 {
     s32 value;
@@ -176,7 +177,6 @@ s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, int);
 extern u8 *camera_ctrl_instance;
 s32 get_entity_id(void *);
 s32 *get_character_select_request_buffer(void);
-s32 is_boss_area(void);
 void reset__11TCameraCtrlFv(void);
 void TCameraCtrl__sub_80068354(void);
 

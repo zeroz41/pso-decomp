@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/enemy/TObjEneMe1GiGueMissile.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
+#include "pso/map/FloorArea.h"
 
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TNeedleShoot.h"
-#include "pso/misc/TOKeyMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/CurrentArea.h"
+#include "pso/map/FloorArea.h"
 
 struct RecoveredGlobal_802CE428___vt__22TObjEneMe1GiGueMissile {
     s32 value;
@@ -81,7 +81,7 @@ void TObjEneMe1GiGueMissile::explode(void *pos) {
                     obj_setFlags30(p, 0x600);
                 }
             }
-            if (get_current_area() == 0x23) {
+            if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A312, (u32)((u8 *)p + 0x38), 0, 0);
             } else {
                 play_sound_effect(0x3A81F, (u32)((u8 *)p + 0x38), 0, 0);
