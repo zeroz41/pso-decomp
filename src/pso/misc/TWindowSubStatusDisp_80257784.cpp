@@ -122,7 +122,6 @@ void update_item_icon_colors__20TWindowSubStatusDispFPvPv(void *arg0, void *arg1
 s32 is_wrapped__9TItemDataFPv(s32);
 s32 is_custom_name_srank__9TItemDataFPv(u8 *arg0);
 s32 is_rare_item__9TItemDataFPv(u8 *item);
-s32 get_usable_action_flags__5TItemFUlUl(void *, s32, s32);
 s32 is_boss_area();
 void *get_player_by_client_id(s32 i);
 s32 check_equip_requirements(s32, s32, s32 *);
@@ -145,7 +144,7 @@ void update_item_icon_colors__20TWindowSubStatusDispFPvPv(void *arg0, void *item
     player = (s32)get_player_by_client_id(*(s16 *)((s8 *)arg0 + 2));
     if (player != 0) {
         temp_r26 = ((TItem *)item)->test_item_flags(8);
-        temp_r28 = get_usable_action_flags__5TItemFUlUl(item, 0x10, player);
+        temp_r28 = ((TItem *)item)->get_usable_action_flags(0x10, (TObjPlayer *)player);
         temp_r27 = check_equip_requirements__5TItemFP10TObjPlayerPs(item, player, &sp8);
         temp_r28_2 = ((VObj18B_802582c4_80257784 *) item)->vm8C();
         if (temp_r28 != 0) {
@@ -189,7 +188,7 @@ void update_item_icon_colors__20TWindowSubStatusDispFPvPv(void *arg0, void *item
                 *(s32 *)((s8 *)arg0 + 0x30) = 0xFF61E853;
                 return;
             }
-            if (get_usable_action_flags__5TItemFUlUl(item, 0x10000, player) != 0U) {
+            if (((TItem *)item)->get_usable_action_flags(0x10000, (TObjPlayer *)player) != 0U) {
                 *(s32 *)((s8 *)arg0 + 0x30) = 0xFF909090;
                 return;
             }

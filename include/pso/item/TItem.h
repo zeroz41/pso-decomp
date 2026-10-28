@@ -133,7 +133,9 @@ struct TItem : public TUnk_804AF8A0 {
     s32 is_custom_name_srank();
     s32 is_rare_item();
     s32 calc_price();
-    u32 get_usable_action_flags(u32 mask, u32 player);
+    // Which of the action flags in mask the player (the owner when NULL) may
+    // use the item for.
+    u32 get_usable_action_flags(u32 mask, TObjPlayer *player);
     void unregister_from_world();
     void register_in_world(s32 clear_status);
     void set_mode(s8 new_mode);

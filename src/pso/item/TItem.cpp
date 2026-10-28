@@ -945,11 +945,11 @@ void TItem::unregister_from_world() {
     }
 }
 
-u32 TItem::get_usable_action_flags(u32 mask, u32 player) {
+u32 TItem::get_usable_action_flags(u32 mask, TObjPlayer *player) {
     TItemData data;
     copy_to_item_data(&data);
-    if (player == 0) {
-        player = (u32)owner;
+    if (player == NULL) {
+        player = owner;
     }
     u32 flags = data.calc_action_flags(mask, (u8 *)player);
     if (test_item_flags(0x200) != 0) {
