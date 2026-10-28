@@ -20,7 +20,6 @@ u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
 void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
 s8 get_mode__5TItemFv(u8 *arg0);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 void TUnk_804F1320::vfunc_17(s32 item) {
     s32 temp_r31;

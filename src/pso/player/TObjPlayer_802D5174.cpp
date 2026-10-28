@@ -24,7 +24,6 @@ void *__dt__13TUnk_804E1BB0Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E1CA8Fv(void *arg0, s16 arg1);
 int spawn_particle_effect(void*, int);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E23F0Fv(void *arg0, s16 arg1);
 
 extern s32 lbl_804E1BB0[];

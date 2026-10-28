@@ -50,7 +50,6 @@ s32 confusion_curse_timer_ct(s32, u32, s32, s32, f32);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 get_owner_client__5TItemFv(void *);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s16 get_actor_tp(u8 *p);
 
 extern s32 lbl_804ECDC0[];

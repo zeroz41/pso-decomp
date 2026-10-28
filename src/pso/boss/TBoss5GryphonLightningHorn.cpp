@@ -50,7 +50,6 @@ void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 void launch_slicer__10TObjPlayerFPv(u8 *weapon);
 void *__dt__13TUnk_804ECDC0Fv(void *arg0, s16 arg1);
 void fn_80325F7C(void *arg0);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 void TBoss5GryphonLightningHorn::render() {  }
 void TBoss5GryphonLightningHorn::run_task() { rebuild_lightning_segments(); fn_80325F7C(this); spawn_gryphon_lightning(); }

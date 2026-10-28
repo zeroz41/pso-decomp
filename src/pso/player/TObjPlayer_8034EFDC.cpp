@@ -143,7 +143,6 @@ void *__dt__13TUnk_804F0A00Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804F0AF8Fv(void *arg0, s16 arg1);
 s32 rotate_matrix_x(s32, s32);
 void draw_weapon_at_joint(s32 arg0, s8 arg1);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 void TUnk_804F0810::emit_marker_effects() {
     u8 sp8[0x18];

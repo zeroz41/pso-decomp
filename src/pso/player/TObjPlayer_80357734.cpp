@@ -243,7 +243,6 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s32 TObjPlayer__sub_802E451C();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s32 set_position_xy__10TObjPlayerFff(f32, f32);
 s32 update_battle_control_if_unlocked__10TObjPlayerFv();
 

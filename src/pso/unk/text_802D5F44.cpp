@@ -24,7 +24,6 @@ void *__dt__13TUnk_804E20FCFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E21F8Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E22F4Fv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804E23F0Fv(void *arg0, s16 arg1);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 extern s32 lbl_804E1E08[];
 

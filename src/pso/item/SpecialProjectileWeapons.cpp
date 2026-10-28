@@ -58,7 +58,6 @@ void emit_marker_effects__13TUnk_804A2164Fv(RecoilWeaponView *arg0);
 s32 rotate_matrix_z(s32, s32);
 void draw_ginja_object(void *child);
 void update_weapon__13TUnk_804A2164Fv(void *arg0);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);

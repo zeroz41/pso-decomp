@@ -51,7 +51,6 @@ void *__dt__13TUnk_804EDD20Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s16 get_validated_attack_stage(u8 *arg0);
 void __dl__7TObjectFPv(void *);
-void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 
 void TObjPlayer::launch_guardianna_colliders() {
     s32 sp8;
