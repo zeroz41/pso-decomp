@@ -1158,7 +1158,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         activate_camera_mode(5, 0.0f);
         ((TCameraCtrl *)&cam)->cache_target_and_forward(0x160A);
         rotation_y = 0;
-        set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, &m_5c);
+        set_scripted_camera_pose(&boss3_volopt_spawn_pos, &boss3_volopt_spawn_pos, &rotation_x);
         TObjPlayer::freeze_all_players();
         TWindowCtrl::init_all_slots();
         state = 2;

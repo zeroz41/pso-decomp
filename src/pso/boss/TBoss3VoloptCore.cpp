@@ -270,7 +270,7 @@ void TBoss3VoloptCore::render() {
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(position);
-        rotate_matrix_x(0, m_5c);
+        rotate_matrix_x(0, rotation_x);
         if (m_388 & 0x10000) {
             rotate_matrix_y(0, facing_angle);
             scale_matrix(0, 1.0f, 1.0f, 0.05f);
@@ -296,7 +296,7 @@ void TBoss3VoloptCore::update_charge_state() {
     case 0:
         m_388 &= ~0x10000;
         m_b8 = 0;
-        m_5c = 0;
+        rotation_x = 0;
         if ((s32)m_380 == 4) {
             state = charge_step;
         } else {
@@ -459,7 +459,7 @@ void TBoss3VoloptCore::update_state_spin() {
         targetId = 0xFFFF;
         m_388 |= 0x10000;
         m_b8 = 0;
-        m_5c = 0;
+        rotation_x = 0;
         update_orbit_position();
         facing_angle = calc_spin_value();
         rotation_y = facing_angle;
@@ -554,7 +554,7 @@ void TBoss3VoloptCore::update_orbit_state() {
     case 0:
         m_388 |= 0x10000;
         m_b8 = 0;
-        m_5c = 0;
+        rotation_x = 0;
         state = 1;
         break;
     case 1:

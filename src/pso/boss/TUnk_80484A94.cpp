@@ -76,11 +76,11 @@ void TUnk_80484A94::run_task() {
     rotation_z -= 0x4000;
     if (trail != NULL) {
         ((TNowLoading *)trail)->copy_pos(position);
-        ((TBoss4Type2 *)trail)->copy_vec3(&m_5c);
+        ((TBoss4Type2 *)trail)->copy_vec3(&rotation_x);
     }
     if (glow != NULL) {
         ((TNowLoading *)glow)->copy_pos(position);
-        ((TBoss4Type2 *)glow)->copy_vec3(&m_5c);
+        ((TBoss4Type2 *)glow)->copy_vec3(&rotation_x);
     }
     if (csnVector((Vec *)&m_44, (Vec *)position, -1) != 0) {
         queue_destruction();
@@ -114,9 +114,9 @@ TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TUnk_804A
     entity_id = get_entity_id(owner);
     VecCopy((Vec *)position, pos);
     target_id = target;
-    m_5c = 0;
-    trail = spawn_particle_effect_with_rotation(position, &m_5c, 0x11C, 2);
-    glow = spawn_particle_effect_with_rotation(position, &m_5c, 0x11D, 2);
+    rotation_x = 0;
+    trail = spawn_particle_effect_with_rotation(position, &rotation_x, 0x11C, 2);
+    glow = spawn_particle_effect_with_rotation(position, &rotation_x, 0x11D, 2);
     push_matrix_from(identity_matrix);
     {
         Vec dir = volopt_shot_forward;

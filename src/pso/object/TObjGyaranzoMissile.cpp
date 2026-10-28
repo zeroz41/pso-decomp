@@ -124,7 +124,7 @@ void TObjGyaranzoMissile::render() {
     set_global_param__8TObjFishFl();
     push_matrix();
     post_translate_matrix((u8 *)&this->position);
-    rotate_matrix_x(0, (int)this->m_5c);
+    rotate_matrix_x(0, (int)this->rotation_x);
     rotate_matrix_y(0, this->rotation_y);
     translate_matrix(0, 0.0f, (f32) (this->wobble_height * sin_table_lookup((int) this->wobble_phase)), 0.0f);
     model_render_flags &= 0xFFFFFBFF;
@@ -150,7 +150,7 @@ void TObjGyaranzoMissile::run_task() {
     }
     VecCopy((Vec *)&m_44, (const Vec *)position);
     vec3_add_to(position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &m_5c, &rotation_y);
+    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
         if (csnVector(&m_44, position, -1) != 0) {

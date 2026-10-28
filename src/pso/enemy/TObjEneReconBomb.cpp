@@ -153,7 +153,7 @@ void TObjEneReconBomb::render() {
     temp_r30 = TObjFish__sub_8001EDB0((void *)recon_bomb_bml_resource, 2);
     push_matrix();
     translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) ((2.0f) + *(f32 *)((s8 *)arg0 + 0x3C)), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
-    rotate_matrix_zyx(0, (*(s32 *)&this->m_5c), (this->rotation_y), (this->rotation_z));
+    rotate_matrix_zyx(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
     TObjFish::set_global_param(temp_r30);
     draw_chunk_object((void *)bml_model);
     pop_matrix();

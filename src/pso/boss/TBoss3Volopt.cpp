@@ -1139,7 +1139,7 @@ void TBoss3Volopt::update_phase2_intro() {
         playback.frame_step = 1.0f;
         activate_camera_mode(5);
         ((TCameraCtrl *)&playback)->cache_target_and_forward(0x160A);
-        set_scripted_camera_pose((Vec *)position, (Vec *)position, (CameraAngles *)&m_5c);
+        set_scripted_camera_pose((Vec *)position, (Vec *)position, (CameraAngles *)&rotation_x);
         state = 4;
         return;
     case 4:

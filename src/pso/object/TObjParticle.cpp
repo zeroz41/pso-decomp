@@ -84,7 +84,7 @@ void TObjParticle::run_task() {
     }
     if ((u32) this->m_90 != 0U) {
         ((TNowLoading *)(this->m_90))->copy_pos((u8 *)&this->position);
-        ((TBoss4Type2 *)(this->m_90))->copy_vec3((u8 *)&this->m_5c);
+        ((TBoss4Type2 *)(this->m_90))->copy_vec3((u8 *)&this->rotation_x);
     }
 }
 

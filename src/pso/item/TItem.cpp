@@ -467,7 +467,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
         destroy();
         return;
     }
-    m_5c = 0;
+    rotation_x = 0;
     rotation_z = 0;
     rotation_y = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
     snap_to_ground();

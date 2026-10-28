@@ -138,7 +138,7 @@ void TUnk_804C3248::begin_photon_summon_camera(s8 arg1) {
     }
     ((TCameraCtrl *)(&stack.sp8))->cache_target_and_forward(0x4222);
     temp_r3 = (long) (arg0 + 0x38);
-    set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->m_5c);
+    set_scripted_camera_pose(temp_r3, temp_r3, (u8 *)&this->rotation_x);
     *(s32 *)((s8 *)arg0 + 0xFC) = 1;
 }
 

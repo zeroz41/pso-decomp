@@ -2288,7 +2288,7 @@ void TBoss5Gryphon::render_with_fade(s32 arg1) {
     push_matrix();
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, (int) (this->m_5c));
+    rotate_matrix_x(0, (int) (this->rotation_x));
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, lbl_805D8D58, lbl_805D8D58, lbl_805D8D58);
     TObjPlayer::toggle_particle_effect();
@@ -2308,7 +2308,7 @@ void TBoss5Gryphon::render_model() {
     push_matrix();
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, (int) (this->m_5c));
+    rotate_matrix_x(0, (int) (this->rotation_x));
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, lbl_805D8D58, lbl_805D8D58, lbl_805D8D58);
     temp_r31 = *(s32 *)&this->model;
@@ -3278,7 +3278,7 @@ void TBoss8Dragon__sub_800605E8(TBoss5Gryphon *self, s32 event) {
             if (self->m_6e0 >= 0x28) {
                 ((TBoss8Dragon *)self)->set_phase();
                 ((TBoss8Dragon *)self)->reset_radius();
-                self->m_5c = 0x4000;
+                self->rotation_x = 0x4000;
                 self->advance_motion_entry();
             }
             break;
@@ -3289,7 +3289,7 @@ void TBoss8Dragon__sub_800605E8(TBoss5Gryphon *self, s32 event) {
         self->m_4c0 &= ~4;
         ((TBoss8Dragon *)self)->set_phase();
         ((TBoss8Dragon *)self)->reset_radius();
-        self->m_5c = 0x4000;
+        self->rotation_x = 0x4000;
         break;
     case 10:
     case 11:
@@ -3739,12 +3739,12 @@ void TBoss8Dragon__sub_800615FC(TBoss5Gryphon *self, s32 event) {
                 d = -lbl_805D8E40 * d + lbl_805D8E40;
                 self->position[1] = lbl_805D8E20 + d;
             }
-            self->m_5c = (s32)(lbl_805D8E44 * f / lbl_805D8E10);
+            self->rotation_x = (s32)(lbl_805D8E44 * f / lbl_805D8E10);
             self->m_6e0++;
             if (self->m_6e0 > 0x14) {
                 ((TBoss8Dragon *)self)->set_attack_phase();
                 ((TBoss8Dragon *)self)->set_anim_speed();
-                self->m_5c = 0;
+                self->rotation_x = 0;
                 self->m_6dc = 2;
             }
             break;
@@ -3764,7 +3764,7 @@ void TBoss8Dragon__sub_800615FC(TBoss5Gryphon *self, s32 event) {
         self->m_4c0 &= ~4;
         ((TBoss8Dragon *)self)->set_attack_phase();
         ((TBoss8Dragon *)self)->set_anim_speed();
-        self->m_5c = 0;
+        self->rotation_x = 0;
         break;
     case 10:
     case 11:
@@ -4064,12 +4064,12 @@ void TBoss8Dragon__sub_80062114(TBoss5Gryphon *self, s32 event) {
                 d = -lbl_805D8E48 * d + lbl_805D8E48;
                 self->position[1] = lbl_805D8E20 + d;
             }
-            self->m_5c = (s32)(lbl_805D8E44 * f / lbl_805D8E00);
+            self->rotation_x = (s32)(lbl_805D8E44 * f / lbl_805D8E00);
             self->m_6e0++;
             if (self->m_6e0 > 0x1E) {
                 ((TBoss8Dragon *)self)->set_attack_phase();
                 ((TBoss8Dragon *)self)->set_anim_speed();
-                self->m_5c = 0;
+                self->rotation_x = 0;
                 self->m_6dc = 2;
             }
             break;
@@ -4089,7 +4089,7 @@ void TBoss8Dragon__sub_80062114(TBoss5Gryphon *self, s32 event) {
         self->m_4c0 &= ~4;
         ((TBoss8Dragon *)self)->set_attack_phase();
         ((TBoss8Dragon *)self)->set_anim_speed();
-        self->m_5c = 0;
+        self->rotation_x = 0;
         break;
     case 10:
     case 11:

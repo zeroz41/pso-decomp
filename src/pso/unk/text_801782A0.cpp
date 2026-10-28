@@ -12,7 +12,7 @@ void TOSwitchTimer::sub_801782A0() {
 
     this->m_90 = 0;
     this->m_94 = 0;
-    this->m_98 = (u32)this->m_5c;
+    this->m_98 = (u32)this->rotation_x;
     if (this->m_98 >= 2) {
         this->m_98 = 1;
     }

@@ -80,7 +80,7 @@ void TMotorcycle::render() {
             TObjFish::set_global_param((s32) TMotorcycle__texture_list);
             push_matrix();
             post_translate_matrix((u8 *)&this->position);
-            rotate_matrix_yxz(0, (*(s32 *)&this->m_5c), (this->rotation_y), (this->rotation_z));
+            rotate_matrix_yxz(0, (*(s32 *)&this->rotation_x), (this->rotation_y), (this->rotation_z));
             get_bml_model((void *) ((*(s32 *)&TMotorcycle__bml_resource)), this->m_bc);
             draw_ginja_object();
             pop_matrix();

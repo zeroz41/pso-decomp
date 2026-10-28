@@ -554,8 +554,8 @@ void TOMine::update_float_height() {
             this->m_340 = (s32) (this->m_340 | 2);
         }
     } else {
-        *(s32 *)&this->m_5c = (s32) (*(s32 *)&this->m_5c + 0x800);
-        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (*(f32 *)((s8 *)arg0 + 0x338) + sin_table_lookup(*(s32 *)&this->m_5c));
+        *(s32 *)&this->rotation_x = (s32) (*(s32 *)&this->rotation_x + 0x800);
+        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (*(f32 *)((s8 *)arg0 + 0x338) + sin_table_lookup(*(s32 *)&this->rotation_x));
     }
 }
 #pragma pop

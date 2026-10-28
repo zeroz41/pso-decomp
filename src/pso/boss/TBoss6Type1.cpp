@@ -484,7 +484,7 @@ void TBoss6Type1::draw_model() {
     pos.y = pos.y + m_4e8;
     post_translate_matrix(&pos);
     rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, m_5c);
+    rotate_matrix_x(0, rotation_x);
     TBoss6PlotFalz__sub_802AC008(m_4d4, m_4d8);
     draw_part_motions();
     TBoss6PlotFalz::update_camera_target();

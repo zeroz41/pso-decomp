@@ -76,7 +76,7 @@ void TUnk_80484AFC::render() {
     TObjFish::set_global_param(textures);
     push_matrix();
     post_translate_matrix((Vec *)position);
-    rotate_matrix_x(0, m_5c);
+    rotate_matrix_x(0, rotation_x);
     rotate_matrix_y(0, rotation_y);
     model_render_flags &= ~0x400;
     draw_chunk_object((void *)model);
@@ -94,7 +94,7 @@ void TUnk_80484AFC::run_task() {
     }
     VecCopy((Vec *)&m_44, (Vec *)position);
     vec3_add_to((Vec *)position, &velocity);
-    direction_to_rotation_xy((u8 *)&velocity, &m_5c, &rotation_y);
+    direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     if (trail != NULL) {
         Vec back = velocity;
         back.x = -back.x;
@@ -143,14 +143,14 @@ TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) :
     m_a4->radius = 5.0f;
     VecCopy((Vec *)position, pos);
     target_id = target;
-    m_5c = 0;
+    rotation_x = 0;
     rotation_y = angle;
     velocity.x = 0.0f;
     velocity.y = 0.0f;
     velocity.z = TBoss3VoloptP02::get_float_param(0);
     push_matrix_from(identity_matrix);
     rotate_matrix_y(0, rotation_y);
-    rotate_matrix_x(0, m_5c);
+    rotate_matrix_x(0, rotation_x);
     matrix_mult_vec(0, &velocity, &velocity);
     pop_matrix();
     model = boss3_volopt_resources->models[0x16].model;

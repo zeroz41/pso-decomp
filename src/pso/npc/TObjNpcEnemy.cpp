@@ -180,7 +180,7 @@ void TObjNpcEnemy::draw_debug_info() {
     debug_printf_at(0x130018, lbl_80472600);
     debug_printf_at(0x13001A, lbl_80472610);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    p = TObjNpcEnemy::get_entry_by_index((s16) this->m_5c);
+    p = TObjNpcEnemy::get_entry_by_index((s16) this->rotation_x);
     if (p != *(s16 * *)&this->m_3b8) {
         ((TObjNpcEnemy *)arg0)->set_npc_data(p);
     }

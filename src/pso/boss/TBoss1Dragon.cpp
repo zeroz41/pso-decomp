@@ -2046,7 +2046,7 @@ void TBoss1Dragon::draw() {
     post_translate_matrix(((u8 *)this) + 0x38);
     translate_matrix(0, TBoss1Dragon__data_805D7F28, this->heightOffset, TBoss1Dragon__data_805D7F28);
     rotate_matrix_y(0, this->rotation_y);
-    rotate_matrix_x(0, *(s32 *)&this->m_5c);
+    rotate_matrix_x(0, *(s32 *)&this->rotation_x);
     rotate_matrix_z(0, this->rotation_z);
     scale_matrix(0, TBoss1Dragon__data_805D7F24, TBoss1Dragon__data_805D7F24, TBoss1Dragon__data_805D7F24);
     ((TObjMotion *)((u8 *)this))->draw();

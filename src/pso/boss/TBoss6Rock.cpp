@@ -404,7 +404,7 @@ void TBoss6Rock::sub_80353F5C() {
 #pragma fp_contract on
 void TBoss6Rock::randomize_motion() {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)&this->m_5c = (s32) (lbl_805DFF68 * ((lbl_805DFF6C * (f32) rand()) - TBoss6Rock__data_805DFF4C));
+    *(s32 *)&this->rotation_x = (s32) (lbl_805DFF68 * ((lbl_805DFF6C * (f32) rand()) - TBoss6Rock__data_805DFF4C));
     this->rotation_y = (s32) (lbl_805DFF70 * (lbl_805DFF6C * (f32) rand()));
     this->rotation_z = (s32) (lbl_805DFF68 * ((lbl_805DFF6C * (f32) rand()) - TBoss6Rock__data_805DFF4C));
     this->m_d0 = (s32) (lbl_805DFF74 * ((lbl_805DFF6C * (f32) rand()) - TBoss6Rock__data_805DFF4C));

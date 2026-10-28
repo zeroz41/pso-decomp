@@ -79,7 +79,7 @@ void TKomorebi::render() {
         push_matrix();
         TObjFish::set_global_param(this->texture_id);
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_yxz(0, *(s32 *)&this->m_5c, this->rotation_y, this->rotation_z);
+        rotate_matrix_yxz(0, *(s32 *)&this->rotation_x, this->rotation_y, this->rotation_z);
         temp_f1 = *(f32 *)&this->m_70;
         scale_matrix(0, temp_f1, this->target_scale, temp_f1);
         draw_ginja_object(*(void * *)&this->model);
