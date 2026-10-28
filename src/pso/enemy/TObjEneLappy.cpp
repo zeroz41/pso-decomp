@@ -883,7 +883,7 @@ void TObjEneLappy::vfunc_59() {
                 }
             }
         }
-        temp_r3 = this->m_a4;
+        temp_r3 = this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
     }
 }

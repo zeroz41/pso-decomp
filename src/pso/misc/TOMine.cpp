@@ -97,7 +97,7 @@ void TOMine::run_task() {
         case 0:
             find_target_player();
             VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x334));
-            VecCopy((Vec *)(*(s32 *)&this->m_a4 + 0x1C), (const Vec *)(arg0 + 0x334));
+            VecCopy((Vec *)(*(s32 *)&this->bodies + 0x1C), (const Vec *)(arg0 + 0x334));
             return;
         case 3:
             temp_r3 = this->set_params[2];

@@ -4424,7 +4424,7 @@ void TLobby__sub_8001FE7C(void*, int);
 void __dl__FPv(void);
 
 void TObjEneBm5GibonU::vfunc_88() {
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) TObjEneBm5GibonU__data_805DA178;
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) TObjEneBm5GibonU__data_805DA178;
 }
 
 void TObjEneBm5GibonU::update_center_position() {

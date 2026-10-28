@@ -40,7 +40,7 @@ void TObjQuestColALock::update_room_id_check() {
     u8 *temp_r5;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
         TObjRoomId__sub_80141CF4((u8 *)&this->position, &lbl_804A7438.value, (f32) (lbl_805DBF00 * *(f32 *)&this->unk_AC));
-        temp_r5 = (u8 *)this->m_a4;
+        temp_r5 = (u8 *)this->bodies;
         fn_80141CBC((u8 *)&this->position, &lbl_804A7428.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));
     }
 }

@@ -1333,10 +1333,10 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
     for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
-        if (actor->m_a4 == NULL) continue;
+        if (actor->bodies == NULL) continue;
         if (((TUnk_804B6C24 *)actor)->check_value_equals(lbl_805D2ECC) != 0) continue;
         if (((TUnk_804B6C24 *)actor)->check_value_equals(TODoorVoShip__class_name) != 0) continue;
-        if (!(actor->m_a4->flags & 0x20000)) continue;
+        if (!(actor->bodies->flags & 0x20000)) continue;
         if (fabs_float(actor->position.z - center_z) > 1000.0f) {
             Vec pos = *&actor->position;
             pos.z += (f32)((phase2 != 0) ? -5000 : 5000);

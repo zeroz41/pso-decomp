@@ -93,7 +93,7 @@ void TPhotonFarlla::update_all_slots() {
 
     TObjPlayer::init_all_slots();
     mark_enemy_body_contacts();
-    if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 0x100000) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 0x100000) {
         var_r31 = 0;
         do {
             if (TObjPlayer::get_battle_param(var_r31) != 0U) {

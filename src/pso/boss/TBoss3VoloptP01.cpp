@@ -174,7 +174,7 @@ void TBoss3VoloptP01::init_params() {
     ((TBoss3Volopt *)this)->reset_photon_effect();
     load_model(17);
     start_rise();
-    ((TBoss3VoloptP01Collision *)m_a4)->flags &= ~1;
+    ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
     charge_effect = NULL;
     glow_effect = NULL;
     add_flags_2e4(4);
@@ -243,7 +243,7 @@ void TBoss3VoloptP01::run_task() {
         VecCopy((Vec *)&m_2fc, &position);
         y = m_300;
         m_300 = y + (18.0f + y_offset);
-        ((TBoss3VoloptP01Collision *)m_a4)->height = 18.0f + y_offset;
+        ((TBoss3VoloptP01Collision *)bodies)->height = 18.0f + y_offset;
         ((TBoss3VoloptHiraisin *)this)->copy_position();
         angle = pulse_angle;
         pulse_angle = angle + 0x400;
@@ -366,7 +366,7 @@ void TBoss3VoloptP01::update_breakup() {
         set_flags_30();
         actorFlags |= 0x44040000;
         actorFlags &= ~0x20000000;
-        ((TBoss3VoloptP01Collision *)m_a4)->flags |= 0x1000;
+        ((TBoss3VoloptP01Collision *)bodies)->flags |= 0x1000;
         m_b8 = 4;
         state = 1;
         *(s16 *)&timer = 0x5A;
@@ -645,7 +645,7 @@ void TBoss3VoloptP01::update_attack() {
 void TBoss3VoloptP01::start_rise() {
     rise_phase = 0;
     y_offset = -40.0f;
-    ((TBoss3VoloptP01Collision *)m_a4)->flags |= 1;
+    ((TBoss3VoloptP01Collision *)bodies)->flags |= 1;
 }
 
 s32 TBoss3VoloptP01::update_rise() {
@@ -679,7 +679,7 @@ s32 TBoss3VoloptP01::update_sink() {
     if (y_offset <= -40.0f) {
         y_offset = -40.0f;
         rise_phase = 0;
-        ((TBoss3VoloptP01Collision *)m_a4)->flags &= ~1;
+        ((TBoss3VoloptP01Collision *)bodies)->flags &= ~1;
         return 1;
     }
     return 0;

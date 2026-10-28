@@ -1662,7 +1662,7 @@ void TObjEneDolmOlm::check_path_ahead(s32 arg1, f32 farg0) {
     Stack_80301264 stack;
     stack.spC = TObjEneDolmOlm__data_805DEF54;
     stack.sp8 = TObjEneDolmOlm__data_805DEF54;
-    stack.sp10 = (TObjEneDolmOlm__data_805DEF68 * farg0) + *(f32 *)((s8 *)this->m_a4 + 0xC);
+    stack.sp10 = (TObjEneDolmOlm__data_805DEF68 * farg0) + *(f32 *)((s8 *)this->bodies + 0xC);
     push_matrix_from((void *) (&(*(RecoveredGlobal_80301264_lbl_8058D490 *)&identity_matrix).value));
     rotate_matrix_y(0, arg1);
     rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);

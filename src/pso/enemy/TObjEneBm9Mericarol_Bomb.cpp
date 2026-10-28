@@ -63,7 +63,7 @@ s32 TObjPlayer::apply_area_attack_hits(u8 *arg1, s32 arg2, u32 object, f32 range
         this->mark_enemy_body_contacts();
         mask |= 0x100000;
     }
-    if (*(u32 *)((s8 *)this->m_a4 + 0x18) & mask) {
+    if (*(u32 *)((s8 *)this->bodies + 0x18) & mask) {
         for (i = 0; i < 0x10; i++) {
             obj = TObjPlayer::get_battle_param(i);
             if (obj == 0) {
@@ -169,13 +169,13 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
         *(f32 *)((s8 *)arg0 + 0x40) = this->m_bc;
         d = *(f32 *)&this->unk_B8 - *(f32 *)((s8 *)arg0 + 0x3C);
         if (d > 2e+01f) {
-            *(s32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0x18) |= 4;
-            *(s32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0x18) &= ~2;
+            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) |= 4;
+            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) &= ~2;
         } else {
-            *(s32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0x18) &= ~4;
-            *(s32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0x18) |= 2;
+            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) &= ~4;
+            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) |= 2;
         }
-        *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 4) = d;
+        *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 4) = d;
         if (((VObj_18_64db54 *)(arg0))->m14((u8 *)&this->m_e4, (u8 *)&this->unk_F0) != 0) {
             TObjEneBm9Mericarol__sub_802CED40(find_entity_by_id(*(u16 *)((s8 *)arg0 + 0xB0)));
             if (*(s32 *)((s8 *)arg0 + 0xF0) == 0 && this->m_108 != 0) {
@@ -286,7 +286,7 @@ u8 *TObjEneBm9Mericarol__sub_802D1880(u8 *ene_bm9_mericarol_bomb, u8 *ene_bm9_me
         *(s32 *)((s8 *)ene_bm9_mericarol_bomb + 0x104) = 0x208;
         break;
     }
-    *(f32 *)((s8 *)(((TObjEneBm9Mericarol_Bomb *)ene_bm9_mericarol_bomb)->m_a4) + 0xC) = 2.0f;
+    *(f32 *)((s8 *)(((TObjEneBm9Mericarol_Bomb *)ene_bm9_mericarol_bomb)->bodies) + 0xC) = 2.0f;
     *(s16 *)((s8 *)ene_bm9_mericarol_bomb + 0xB0) = get_entity_id(ene_bm9_mericarol);
     VecCopy((Vec *)(ene_bm9_mericarol_bomb + 0xB4), (const Vec *)arg2);
     VecCopy((Vec *)(ene_bm9_mericarol_bomb + 0x38), (const Vec *)(ene_bm9_mericarol_bomb + 0xB4));

@@ -34,7 +34,7 @@ void TBoss7Crawfish::update_attack_state() {
         change_state(1);
     }
     if ((get_floor() == 2) && (objInBand((GameObj *)this, (f32)lbl_805DF0F8) != 0)) {
-        temp_r4 = this->m_a4;
+        temp_r4 = this->bodies;
         if (*(s32 *)((s8 *)temp_r4 + 0x18) & 0x02000000) {
             *(s32 *)((s8 *)temp_r4 + 0x18) &= ~0x02000000;
         }
@@ -44,7 +44,7 @@ void TBoss7Crawfish::update_attack_state() {
             spawn_effect(0x3A80B);
         }
     }
-    if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 0x02000000) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 0x02000000) {
         register_attack_hits();
     }
 }

@@ -188,13 +188,13 @@ s32 TObjEneRe7BeruraPunch::sub_80096150() {
     u8 *entity;
     void *temp_r4_2;
     entity = (u8 *)find_entity_by_id(this->m_b0);
-    *(f32 *)((s8 *)this->m_a4 + 4) = *(f32 *)&this->unk_CC;
-    *(f32 *)((s8 *)this->m_a4 + 0x30) = *(f32 *)&this->unk_CC;
-    temp_r4_2 = this->m_a4;
+    *(f32 *)((s8 *)this->bodies + 4) = *(f32 *)&this->unk_CC;
+    *(f32 *)((s8 *)this->bodies + 0x30) = *(f32 *)&this->unk_CC;
+    temp_r4_2 = this->bodies;
     *(f32 *)((s8 *)temp_r4_2 + 0x34) = 1.8f * (3.0f * this->m_f4);
     refresh_collision_body_centers__13TUnk_804AF8A0Fv(this, temp_r4_2, 3.0f, 1.8f);
     ((TObjPlayer *)this)->update_enemy_collision_flags();
-    temp_r4_2 = this->m_a4;
+    temp_r4_2 = this->bodies;
     if ((*(s32 *)((s8 *)temp_r4_2 + 0x18) | *(s32 *)((s8 *)temp_r4_2 + 0x44)) & 0x200000) {
         return 1;
     }

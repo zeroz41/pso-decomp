@@ -298,7 +298,7 @@ void TOTrapSeabed01::vfunc_82() {
     temp_r0 = this->m_348 - 1;
     this->m_348 = temp_r0;
     if (temp_r0 < 0) {
-        *(f32 *)((s8 *)this->m_a4 + 0xC) = (f32) lbl_805DE64C;
+        *(f32 *)((s8 *)this->bodies + 0xC) = (f32) lbl_805DE64C;
         ((TUnk_804AF8A0 *)arg0)->set_indexed_flags(0, 0x100);
         TObjPlayer::init_all_slots();
         ((TObjPlayer *)arg0)->check_object_collisions();

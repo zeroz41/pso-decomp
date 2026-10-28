@@ -435,7 +435,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
         this->mark_enemy_body_contacts();
         flags |= 0x100000;
     }
-    if (*(s32 *)((s8 *)(this->m_a4) + 0x18) & flags) {
+    if (*(s32 *)((s8 *)(this->bodies) + 0x18) & flags) {
         for (i = 0; i < 0x10; i++) {
             p = TObjPlayer::get_battle_param(i);
             if (p == 0) {

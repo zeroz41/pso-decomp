@@ -3726,7 +3726,7 @@ void TObjEneMe1Gee::vfunc_88() {
     } else {
         o->m95();
     }
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) *(f32 *)((s8 *)this + 0x3F4);
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) *(f32 *)((s8 *)this + 0x3F4);
 }
 
 void TObjEneMe1Gee::copy_pos() {

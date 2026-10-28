@@ -1691,7 +1691,7 @@ void TObjEneNanoDrago::run_task() {
     }
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     ((TObjEneNanoDrago *)arg0)->m_300 = (f32) (((TObjEneNanoDrago *)arg0)->m_300 + (15.0f + ((TObjEneNanoDrago *)arg0)->m_404));
-    *(f32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->m_a4) + 4) = (f32) (15.0f + ((TObjEneNanoDrago *)arg0)->m_404);
+    *(f32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->bodies) + 4) = (f32) (15.0f + ((TObjEneNanoDrago *)arg0)->m_404);
     if (!(((TObjEneNanoDrago *)arg0)->m_388 & 0x40000)) {
         submit_cursor_candidate(arg0, -1);
         minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
@@ -1700,13 +1700,13 @@ void TObjEneNanoDrago::run_task() {
     if (temp_r3 > 0) {
         ((TObjEneNanoDrago *)arg0)->m_3dc = (temp_r3 - 1);
     }
-    temp_r3_2 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->m_a4);
+    temp_r3_2 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->bodies);
     *(s32 *)((s8 *)temp_r3_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 0x18) & 0xFFFFFFF9);
     if (((TObjEneNanoDrago *)arg0)->m_404 > 5.0f) {
-        temp_r3_3 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->m_a4);
+        temp_r3_3 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->bodies);
         *(s32 *)((s8 *)temp_r3_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x18) | 4);
     } else {
-        temp_r3_4 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->m_a4);
+        temp_r3_4 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->bodies);
         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 2);
     }
     if (xz_distance_squared(&this->position, &this->prev_position) > 2500.0f) {
@@ -1793,7 +1793,7 @@ u8 *TObjEneNanoDrago__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     ((TObjEneNanoDrago *)arg0)->action_table = lbl_80494B5C;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneNanoDrago *)arg0)->action_table));
     init_collision_body_parts(arg0, lbl_80494C38, 2);
-    *(u32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->m_a4) + 0x44) &= ~1;
+    *(u32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->bodies) + 0x44) &= ~1;
     ((TObjEneNanoDrago *)arg0)->movementParameters = lbl_80494C1C;
     ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)lbl_805D5248, (u8 *)lbl_805D524C, (u8 *)lbl_805D5250);
     ((void (*)(void *))TObjPlayer__sub_800D9E08)(arg0);

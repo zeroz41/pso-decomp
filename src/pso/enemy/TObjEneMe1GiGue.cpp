@@ -1992,7 +1992,7 @@ void TObjEneMe1GiGue::run_task() {
     }
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     ((TObjEneMe1GiGue *)arg0)->m_300 = (f32) (((TObjEneMe1GiGue *)arg0)->m_300 + (15.0f + ((TObjEneMe1GiGue *)arg0)->m_3ec));
-    *(f32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->m_a4) + 4) = (f32) (25.0f + ((TObjEneMe1GiGue *)arg0)->m_3ec);
+    *(f32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->bodies) + 4) = (f32) (25.0f + ((TObjEneMe1GiGue *)arg0)->m_3ec);
     if (!(((TObjEneMe1GiGue *)arg0)->m_388 & 0x40000)) {
         submit_cursor_candidate(arg0, -1);
         minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);
@@ -2001,13 +2001,13 @@ void TObjEneMe1GiGue::run_task() {
     if (temp_r3 > 0) {
         ((TObjEneMe1GiGue *)arg0)->m_3f4 = (temp_r3 - 1);
     }
-    temp_r3_2 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->m_a4);
+    temp_r3_2 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->bodies);
     *(s32 *)((s8 *)temp_r3_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 0x18) & 0xFFFFFFF9);
     if (((TObjEneMe1GiGue *)arg0)->m_3ec > 5.0f) {
-        temp_r3_3 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->m_a4);
+        temp_r3_3 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->bodies);
         *(s32 *)((s8 *)temp_r3_3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_3 + 0x18) | 4);
     } else {
-        temp_r3_4 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->m_a4);
+        temp_r3_4 = (unsigned char *) (((TObjEneMe1GiGue *)arg0)->bodies);
         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 2);
     }
     update_obstruction_fade((u8 *)&this->m_418);
@@ -2151,7 +2151,7 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjEneMe1GiGue *)arg0)->action_table = gigue_enemy_param_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneMe1GiGue *)arg0)->action_table));
     init_collision_body_parts(arg0, lbl_804E1304, 2);
-    *(u32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->m_a4) + 0x44) &= ~1;
+    *(u32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->bodies) + 0x44) &= ~1;
     ((TObjEneMe1GiGue *)arg0)->movementParameters = lbl_804E12E8;
     ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)lbl_805D682C, (u8 *)lbl_805D6830);
     ((TObjEneMe1GiGue *)arg0)->update_direction();

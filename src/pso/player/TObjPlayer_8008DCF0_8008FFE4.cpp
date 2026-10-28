@@ -45,7 +45,7 @@ void TObjPlayer::update_control_state() {
     temp_f2 = *(f32 *)&this->m_300;
     *(f32 *)&this->m_300 = (f32) (temp_f2 + (*(f32 *)&this->m_3b4 + *(f32 *)&this->m_3bc));
     temp_f1 = *(f32 *)&this->m_3b4;
-    temp_r5 = (unsigned char *) (*(void * *)&this->m_a4);
+    temp_r5 = (unsigned char *) (*(void * *)&this->bodies);
     *(f32 *)((s8 *)temp_r5 + 4) = (f32) (temp_f1 + *(f32 *)&this->m_3bc);
     submit_cursor_candidate((void *)arg0, -1, (int)temp_r5, (f32)temp_f1, (f32)temp_f2);
     minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);

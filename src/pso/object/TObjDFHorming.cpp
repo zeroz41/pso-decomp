@@ -38,7 +38,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
     for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) continue;
-        q = *(u8 * *)&((TUnk_804AF8A0 *)p)->m_a4;
+        q = *(u8 * *)&((TUnk_804AF8A0 *)p)->bodies;
         if (q == NULL || !(*(s32 *)((s8 *)q + 0x18) & 0x20000)) continue;
         if (xyz_distance(e, p + 0x38) <= r) continue;
         for (j = 0; j < 3; j++) {

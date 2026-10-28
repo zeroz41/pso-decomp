@@ -905,7 +905,7 @@ void TObjEneIllGill::vfunc_63() {
         this->mode = 8;
         this->phase = 0;
         this->m_b8 = 6;
-        temp_r5 = (u8 *)this->m_a4;
+        temp_r5 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFF7FFE);
         ((TObjEneIllGill *)arg0)->free_resources();
         spawn_particle_effect(((u8 *)&this->m_2fc), 0xF2);
@@ -926,7 +926,7 @@ void TObjEneIllGill__sub_803667B8(u8 *arg0) {
     }
     if (((TObjPlayer *)arg0)->m_b4 != 8) {
         ((TObjPlayer *)arg0)->actorFlags &= ~0x600;
-        *(u32 *)((s8 *)(((TObjPlayer *)arg0)->m_a4) + 0x18) &= ~0x04000000;
+        *(u32 *)((s8 *)(((TObjPlayer *)arg0)->bodies) + 0x18) &= ~0x04000000;
         if ((f32)((TObjPlayer *)arg0)->hp < lbl_805E02E8 * (f32)((TObjPlayer *)arg0)->hpmax) {
             ((TObjPlayer *)arg0)->actorFlags |= 0x2000;
             *(s32 *)((s8 *)arg0 + 0x2A8) = 0;
@@ -949,7 +949,7 @@ void TObjEneIllGill::vfunc_62() {
         this->referenceHp = (s16) this->hp;
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
         this->m_2dc = 0;
-        temp_r3 = this->m_a4;
+        temp_r3 = this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFBFFFFFF);
         return;
     }
@@ -1308,7 +1308,7 @@ void TObjEneIllGill::update_chase_target(void *arg0_) {
                 enemy_pursue_point(arg0, id, &tgt, r, lbl_805E02F4, t);
             }
             d = horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x2FC);
-            t = r + *(f32 *)((s8 *)(((TObjPlayer *)arg0)->m_a4) + 0xC);
+            t = r + *(f32 *)((s8 *)(((TObjPlayer *)arg0)->bodies) + 0xC);
             if (d < t * t) {
                 if (*(u16 *)((s8 *)arg0 + 0x338) == 0xFFFF) {
                     ((TObjPlayer *)arg0)->target = NULL;

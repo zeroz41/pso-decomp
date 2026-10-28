@@ -59,7 +59,7 @@ int TObjPlayer::draw_fading_motion() {
     rotate_matrix_y(0, (*(s32 *)&this->motion_buffer));
     TObjFish::set_global_param(this->body_count);
     ((TObjFish *)(this->m_ec))->set_draw_callback_list();
-    draw_model_motion((void *)(*(s32 *)&this->m_a4), (void *)(*(s32 *)&this->unknownAC), *(f32 *)&this->unk_E8);
+    draw_model_motion((void *)(*(s32 *)&this->bodies), (void *)(*(s32 *)&this->unknownAC), *(f32 *)&this->unk_E8);
     clear_render_callback__8TObjFishFv(this->m_ec);
     frac = (s32)*(f32 *)&this->unk_E8 % 30;
     TObjFish::set_global_param(*(s32 *)&this->m_b4);

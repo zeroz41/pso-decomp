@@ -202,7 +202,7 @@ TBoss3VoloptMonitor::TBoss3VoloptMonitor(TUnk_804B9870 *parent, u16 id, s32 inde
     VecCopy(&volopt_slot_positions[slot], &position);
     volopt_slot_positions[slot].y = (slot & 3) == 0 ? 43.0f : 15.0f;
     init_collision_body_parts(this, &volopt_monitor_collision[variant], 1);
-    ((CollisionState *)m_a4)->flags |= 0x500;
+    ((CollisionState *)bodies)->flags |= 0x500;
 }
 
 TBoss3VoloptMonitor::~TBoss3VoloptMonitor() {

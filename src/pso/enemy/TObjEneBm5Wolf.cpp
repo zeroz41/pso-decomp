@@ -3172,7 +3172,7 @@ void TObjEneBm5Wolf::select_subtype() {
 }
 
 void TObjEneBm5Wolf::vfunc_88() {
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) ((*(f32 *)&TObjEneBm5Wolf__data_805D9DB4) + *(f32 *)((s8 *)this + 0x40C));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) ((*(f32 *)&TObjEneBm5Wolf__data_805D9DB4) + *(f32 *)((s8 *)this + 0x40C));
 }
 
 }

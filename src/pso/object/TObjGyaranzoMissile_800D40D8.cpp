@@ -142,11 +142,11 @@ void TUnk_8049442C::sub_800D4200() {
     u8 *t;
     u8 *arg0 = (u8 *)this;
     self = (u8 *)find_entity_by_id(*(u16 *)((s8 *)arg0 + 0xD8));
-    (*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->m_a4)->xc = 5.0f;
+    (*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->bodies)->xc = 5.0f;
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)arg0)->check_object_collisions();
     check_enemy_body_collisions(arg0);
-    if ((*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->m_a4)->flags & 0x180000) {
+    if ((*(Info_800D4200 * *)&((TUnk_8049442C *)arg0)->bodies)->flags & 0x180000) {
         for (i = 0; i < 0x10; i++) {
             t = get_battle_param__10TObjPlayerFi(i);
             if (t == NULL) {
@@ -330,7 +330,7 @@ u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s3
     pop_matrix();
     ((TUnk_8049442C *)arg0)->m_d4 = (f32) 0.0f;
     init_collision_body_parts(arg0, &gyaranzo_missile_collision_body.value, 1);
-    *(f32 *)((s8 *)(((TUnk_8049442C *)arg0)->m_a4) + 0xC) = (f32) 3.0f;
+    *(f32 *)((s8 *)(((TUnk_8049442C *)arg0)->bodies) + 0xC) = (f32) 3.0f;
     ((TObjPlayer *)arg0)->reset_photon_effect();
     ((TUnk_8049442C *)arg0)->m_ec = 0xF;
     return arg0;

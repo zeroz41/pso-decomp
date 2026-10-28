@@ -154,7 +154,7 @@ void TObjNpcEnemy::set_npc_data(void *arg1) {
         this->model = 0;
         this->texture_id = 0;
         this->m_b8 = 0;
-        *(f32 *)((s8 *)this->m_a4 + 0xC) = (f32) lbl_805DE7D8;
+        *(f32 *)((s8 *)this->bodies + 0xC) = (f32) lbl_805DE7D8;
         return;
     }
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)temp_r5 + 8);
@@ -170,7 +170,7 @@ void TObjNpcEnemy::set_npc_data(void *arg1) {
         init_npc_animation__10TObjPlayerFPvPvPv(this, *(s32 *)((s8 *)temp_r5 + 0x18), *(s32 *)((s8 *)temp_r5 + 0x14), this->m_b8);
         break;
     }
-    *(f32 *)((s8 *)this->m_a4 + 0xC) = (f32) *(f32 *)(this->m_3b8 + 0x10);
+    *(f32 *)((s8 *)this->bodies + 0xC) = (f32) *(f32 *)(this->m_3b8 + 0x10);
 }
 
 void TObjNpcEnemy::draw_debug_info() {

@@ -95,7 +95,7 @@ void TObjGyaranzoMissile::sub_800D47B4() {
     void *owner;
     s32 i;
     Obj_800D47B4 *q;
-    Col_800D4990 *&collision = (Col_800D4990 *&)m_a4;
+    Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
     owner = find_entity_by_id(owner_id);
     collision->radius = 6.0f;
     init_all_slots__10TObjPlayerFv(owner);
@@ -136,7 +136,7 @@ void TObjGyaranzoMissile::render() {
 void TObjGyaranzoMissile::run_task() {
     Target_800D4990 *t;
     f32 dist;
-    Col_800D4990 *&collision = (Col_800D4990 *&)m_a4;
+    Col_800D4990 *&collision = (Col_800D4990 *&)bodies;
     t = find_active_entity_by_id(target_id);
     if (t != NULL) {
         Vec d = t->pos;
@@ -201,7 +201,7 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     *(s32 **)((s8 *)gyaranzo_missile + 0x18) = &(*(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile *)&__vt__19TObjGyaranzoMissile).value;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
     init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b.value, 1);
-    ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->m_a4)->radius = (f32) 4.0f;
+    ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = (f32) 4.0f;
     VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;
     *(s32 *)((s8 *)gyaranzo_missile + 0x5C) = (s32) *(s32 *)((s8 *)arg2 + 4);

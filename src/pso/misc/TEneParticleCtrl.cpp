@@ -62,7 +62,7 @@ u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TEneParticleCtrl__name;
     init_collision_body_parts(arg0, &lbl_804EF458.value, 1);
     ((TObjPlayer *)arg0)->reset_photon_effect();
-    temp_r4 = (u8 *)(((TEneParticleCtrl *)arg0)->m_a4);
+    temp_r4 = (u8 *)(((TEneParticleCtrl *)arg0)->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
     ((TEneParticleCtrl *)arg0)->m_ac = get_entity_id((void *)arg1);
     ((TUnk_804B9870 *)arg0)->set_position_from((void *)(arg1 + 0x74));

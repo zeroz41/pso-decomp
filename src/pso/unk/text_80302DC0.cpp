@@ -46,10 +46,10 @@ void fn_80302DC0(u8 *arg0) {
             return;
         }
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&a);
-        *(f32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->m_a4) + 0x10) = lbl_805DEFA8;
-        *(f32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->m_a4) + 0xC) = lbl_805DEFA8;
+        *(f32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->bodies) + 0x10) = lbl_805DEFA8;
+        *(f32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->bodies) + 0xC) = lbl_805DEFA8;
         ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-        if (*(s32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->m_a4) + 0x18) & 0x200000) {
+        if (*(s32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)arg0)->bodies) + 0x18) & 0x200000) {
             queue_destruction__7TObjectFv(arg0);
             return;
         }

@@ -376,7 +376,7 @@ void TBoss7Tentacle__sub_802F0B70(void* p);
 void TObjFish__sub_802E7B94(Fish_802E7B94* o);
 #define queue_boss_effect__10TObjPlayerFPv ((u32 (*)(int))queue_boss_effect__10TObjPlayerFPv)
 void TBoss7DeRolLeC::render_shadows() {
-    if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 1) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
         render_shadows__9TObjEnemyFv((u8 *)this);
     }
 }
@@ -3991,7 +3991,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
 }
 
 void TBoss7DeRolLeC::flee_if_disturbed() {
-    if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 1) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
         set_player_state_default__12TBoss8DragonFv(this);
         add_radar_scaled_marker((void *) (((u8 *)this) + 0x38), -0x5DB4, 1, 1, lbl_805DEA44);
     }
@@ -4021,8 +4021,8 @@ void TBoss7DeRolLeC::vfunc_88() {
         clr = 7;
     }
     for (i = 0; i != this->body_count; i++) {
-        (*(Elem_802ED73C * *)&this->m_a4)[i].flags |= set;
-        (*(Elem_802ED73C * *)&this->m_a4)[i].flags &= ~clr;
+        (*(Elem_802ED73C * *)&this->bodies)[i].flags |= set;
+        (*(Elem_802ED73C * *)&this->bodies)[i].flags &= ~clr;
     }
 }
 
@@ -4042,7 +4042,7 @@ void TBoss7DeRolLeC::vfunc_62() {
     temp_r4 = this->hpmax - this->hp;
     if (*(s32 *)((s8 *)arg0 + 0x628) & 8) {
         this->m_718 = (s32) (this->m_718 - temp_r4);
-        TObjFish__sub_802EC468((int) (*(s32 *)&this->m_a4 + 0x1C), lbl_805DEA44, lbl_805DEA48);
+        TObjFish__sub_802EC468((int) (*(s32 *)&this->bodies + 0x1C), lbl_805DEA44, lbl_805DEA48);
         TObjFish::set_effect_target_position(arg0, (void *)0x3B213, arg0 + 0x50C);
     } else {
         this->m_71c = (s32) (this->m_71c - temp_r4);

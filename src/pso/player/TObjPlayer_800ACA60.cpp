@@ -112,7 +112,7 @@ void TObjEneMoja::vfunc_63() {
     if ((s16) this->mode != 9) {
         this->mode = 9;
         this->m_b8 = 7;
-        temp_r6 = (u8 *)this->m_a4;
+        temp_r6 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
         spawn_particle_effect((s32)(arg0 + 0x2FC), 0xF1);
         ((TObjPlayer *)arg0)->refresh_lobby_state();
@@ -137,7 +137,7 @@ void TObjPlayer::update_ground_effect() {
     this->update_collisions();
     if ((u32) this->m_b4 != 8U) {
         this->actorFlags = (s32) (this->actorFlags & 0xFBFFF9FF);
-        temp_r4 = (unsigned char *) (this->m_a4);
+        temp_r4 = (unsigned char *) (this->bodies);
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFBFFFFFF);
         this->m_33e = (s16) this->hp;
         *(s32 *)&this->unk_388 = 0;
@@ -603,7 +603,7 @@ void TObjEneMoja::vfunc_62() {
     switch (mode) {
     case 4:
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xF9FFF9FF);
-        moja_collision_state = (*(MojaCollisionState * *)&this->m_a4);
+        moja_collision_state = (*(MojaCollisionState * *)&this->bodies);
         moja_collision_state->flags = (s32) (moja_collision_state->flags & 0xFBFFFFFF);
         referenceHp = (s16) hp;
         roar = 0;
@@ -632,7 +632,7 @@ void TObjPlayer::update_invincibility() {
     *(s16 *)&this->unk_33C = (temp_r4 - 1);
     if (temp_r4 < 0) {
         this->actorFlags &= 0xFFFFFEFF;
-        *(s32 *)((s8 *)this->m_a4 + 0x18) |= lbl_805D9BFC;
+        *(s32 *)((s8 *)this->bodies + 0x18) |= lbl_805D9BFC;
         *(s16 *)&this->unk_33C = (s16) *(s16 *)((s8 *)this + 0x33A);
         this->m_33e = (s16) this->hp;
     }
@@ -644,7 +644,7 @@ void TObjEneMoja::vfunc_61() {
     switch (mode) {
     case 4:
         (this->actorFlags) &= 0xFFFFFEFF;
-        ((*(MojaCollisionState * *)&this->m_a4))->flags |= lbl_805D9BFC;
+        ((*(MojaCollisionState * *)&this->bodies))->flags |= lbl_805D9BFC;
         referenceHp = (s16) hp;
         roar = 0;
         break;
@@ -1135,7 +1135,7 @@ s32 TObjEneMoja::update_approach_state() {
             if (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) * *(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 0) < enemy_pursue_point(arg0, *(s32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 8), &v3, temp_r4, *(f32 *)((s8 *)temp_r4 + 8), lbl_805D9BF0)) {
                 this->target = NULL;
             }
-            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC)) * (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC))
+            if (horizontal_distance_squared((int)(arg0 + 0x29C), (void *)(arg0 + 0x38)) < (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * (*(f32 *)((s8 *)((*(u8 * *)&this->movementParameters)) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC))
                 || --(*(s16 *)&this->timer) < 0) {
                 this->attackSequence = 0;
             }
@@ -1167,7 +1167,7 @@ void TObjEneMoja::vfunc_59() {
         }
         attackSequence = -1;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xF9FBFFFF);
-        moja_collision_state = (*(MojaCollisionState * *)&this->m_a4);
+        moja_collision_state = (*(MojaCollisionState * *)&this->bodies);
         moja_collision_state->flags = (s32) (moja_collision_state->flags | 1);
         appearance = 0;
     }
@@ -1408,7 +1408,7 @@ s32 TObjEneMoja::update_movement_status() {
             this->appearance = 0;
             this->m_b8 = 2;
             obj_clearFlags30(0x06040000);
-            temp_r3 = this->m_a4;
+            temp_r3 = this->bodies;
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
             break;
         }
@@ -1430,7 +1430,7 @@ s32 TObjEneMoja::update_action_hold_status() {
             this->appearance = 0;
             this->m_b8 = 2;
             obj_clearFlags30(0x06040000);
-            temp_r3 = this->m_a4;
+            temp_r3 = this->bodies;
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
             break;
         }

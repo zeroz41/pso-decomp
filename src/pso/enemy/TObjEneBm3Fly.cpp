@@ -1605,7 +1605,7 @@ void TObjEneBm3Fly::vfunc_88() {
     } else {
         this->vfunc_98();
     }
-    *(f32 *)((s8 *)this->m_a4 + 4) = temp_f31;
+    *(f32 *)((s8 *)this->bodies + 4) = temp_f31;
 }
 
 void TObjEneBm3Fly::vfunc_89() { vfunc_89__9TObjEneDDFv(this); clamp_flight_height__13TObjEneBm3FlyFv(this); }

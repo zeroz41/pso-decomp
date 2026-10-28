@@ -6158,7 +6158,7 @@ void TBoss1Dragon::vfunc_88() {
     i = 0;
     off = 0;
     do {
-        c = (Coll_80029408 *)(*(u8 * *)&this->m_a4 + off);
+        c = (Coll_80029408 *)(*(u8 * *)&this->bodies + off);
         if (c->local.y >= lim) {
             set_collider_contact_high((u8 *)c);
         } else {
@@ -6168,16 +6168,16 @@ void TBoss1Dragon::vfunc_88() {
         off += 0x2C;
     } while (i < 7);
     if (this->mode != 9) {
-        set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->m_a4 + 3));
-        set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->m_a4 + 4));
+        set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->bodies + 3));
+        set_collider_contact_high((u8 *)(*(Coll_80029408 * *)&this->bodies + 4));
     }
-    (*(Coll_80029408 * *)&this->m_a4)[0].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
-    (*(Coll_80029408 * *)&this->m_a4)[1].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x1C);
-    (*(Coll_80029408 * *)&this->m_a4)[2].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x1C);
-    (*(Coll_80029408 * *)&this->m_a4)[3].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
-    (*(Coll_80029408 * *)&this->m_a4)[4].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
-    (*(Coll_80029408 * *)&this->m_a4)[5].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x18);
-    (*(Coll_80029408 * *)&this->m_a4)[6].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[0].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[1].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x1C);
+    (*(Coll_80029408 * *)&this->bodies)[2].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x1C);
+    (*(Coll_80029408 * *)&this->bodies)[3].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[4].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
+    (*(Coll_80029408 * *)&this->bodies)[5].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x18);
+    (*(Coll_80029408 * *)&this->bodies)[6].defense = *(s32 *)((s8 *)TBoss1Dragon__data_804FE17C.value + 0x20);
 }
 
 void TBoss1Dragon::update_position_history() {

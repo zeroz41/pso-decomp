@@ -1619,16 +1619,16 @@ void TBoss6Type1::enable_parts() {
     void *temp_r4_3;
     void *temp_r4_4;
 
-    temp_r4 = this->m_a4;
+    temp_r4 = this->bodies;
     if (temp_r4 != NULL) {
         *(s32 *)((s8 *)temp_r4 + 0x70) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x70) | 1);
-        temp_r4_2 = this->m_a4;
+        temp_r4_2 = this->bodies;
         *(s32 *)((s8 *)temp_r4_2 + 0x9C) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0x9C) | 1);
-        temp_r4_3 = this->m_a4;
+        temp_r4_3 = this->bodies;
         *(s32 *)((s8 *)temp_r4_3 + 0xC8) = (s32) (*(s32 *)((s8 *)temp_r4_3 + 0xC8) | 1);
-        temp_r4_4 = this->m_a4;
+        temp_r4_4 = this->bodies;
         *(s32 *)((s8 *)temp_r4_4 + 0xF4) = (s32) (*(s32 *)((s8 *)temp_r4_4 + 0xF4) | 1);
-        temp_r3 = this->m_a4;
+        temp_r3 = this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x120) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x120) | 1);
     }
 }
@@ -1637,10 +1637,10 @@ void TBoss6Type1::set_child_flags() {
     void *temp_r3;
     void *temp_r4;
 
-    temp_r4 = this->m_a4;
+    temp_r4 = this->bodies;
     if (temp_r4 != NULL) {
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | 1);
-        temp_r3 = this->m_a4;
+        temp_r3 = this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x44) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x44) | 1);
     }
 }
@@ -1674,7 +1674,7 @@ void TBoss6Type1::update_part_positions() {
     s32 i;
     Vec_802B79DC *base;
     Ent_802B79DC *e;
-    if (this->m_a4 != NULL) {
+    if (this->bodies != NULL) {
         for (i = 0; i < 7; i++) {
             Tbl_802B79DC *t;
             e = &arg0->ents[i];

@@ -114,7 +114,7 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
     u8 *item;
     temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)arg0 + 0x2A), *(s16 *)((s8 *)arg0 + 0x2C)));
     if (temp_r3 != NULL) {
-        temp_r30 = (u8 *)&((Tbl_801031CC *)(((TObjPlayer *)temp_r3)->m_a4))->r[*(s16 *)((s8 *)arg0 + 0x2C)];
+        temp_r30 = (u8 *)&((Tbl_801031CC *)(((TObjPlayer *)temp_r3)->bodies))->r[*(s16 *)((s8 *)arg0 + 0x2C)];
         if (horizontal_distance_squared(arg0 + 0x38, temp_r30) < lbl_805DAAA8) {
             player = (u32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x28)));
             item = (u8 *)(find_item_by_id(*(s32 *)((s8 *)arg0 + 0x24)));

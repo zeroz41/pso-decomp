@@ -1497,7 +1497,7 @@ extern s32 lbl_804B5E48[];
 void *TUnk_804B5E48::destroy_seasonal_object(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804B5E48;
-        if (((u32) this->m_a4) != 0U) {
+        if (((u32) this->bodies) != 0U) {
             unregister_object_by_id();
             free_collision_body_parts(this);
         }

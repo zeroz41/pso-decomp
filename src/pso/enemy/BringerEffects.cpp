@@ -137,7 +137,7 @@ void *__dt__13TUnk_8048FE08Fv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-void*TUnk_8048FE08::init(int a1, int a2, int a3) { construct_collision_body(); *(int*)((char*)this + 0x18) = (int)((unsigned char *)&lbl_8048FE08); *(int *)&this->m_name = bringer_tp_absorb_effect_name; *(int*)((char*)this + 0xb0) = 0; *(float *)&this->unk_D0 = 0.0f; *(float*)((char*)this + 0xc8) = 0.0f; this->m_cc = 0.0f; this->m_b4 = 0; *(float*)((char*)this + 0x38) = 0.0f; *(float*)((char*)this + 0x3c) = 0.0f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0xb8) = 0.0f; this->m_bc = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; this->m_c4 = a3; *(int*)((char*)*(int *)&this->m_a4 + 0x14) = 1; return this; }
+void*TUnk_8048FE08::init(int a1, int a2, int a3) { construct_collision_body(); *(int*)((char*)this + 0x18) = (int)((unsigned char *)&lbl_8048FE08); *(int *)&this->m_name = bringer_tp_absorb_effect_name; *(int*)((char*)this + 0xb0) = 0; *(float *)&this->unk_D0 = 0.0f; *(float*)((char*)this + 0xc8) = 0.0f; this->m_cc = 0.0f; this->m_b4 = 0; *(float*)((char*)this + 0x38) = 0.0f; *(float*)((char*)this + 0x3c) = 0.0f; *(float*)((char*)this + 0x40) = 0.0f; *(float*)((char*)this + 0xb8) = 0.0f; this->m_bc = 0.0f; *(float*)((char*)this + 0xc0) = 0.0f; this->m_c4 = a3; *(int*)((char*)*(int *)&this->bodies + 0x14) = 1; return this; }
 void TUnk_8048FE64::render() {  }
 
 #pragma push

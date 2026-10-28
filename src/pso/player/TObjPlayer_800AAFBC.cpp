@@ -246,7 +246,7 @@ void TObjPlayer__sub_800AAFF0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
 void TObjPlayer::clear_flag_04000000() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r6;
-    temp_r6 = (u8 *)this->m_a4;
+    temp_r6 = (u8 *)this->bodies;
     *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xF5FFFFFF);
     ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04000000U);
 }
@@ -254,7 +254,7 @@ void TObjPlayer::clear_flag_04000000() {
 void TObjPlayer::set_invuln_flags() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
-    temp_r5 = (u8 *)this->m_a4;
+    temp_r5 = (u8 *)this->bodies;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x0A000000);
     obj_setFlags30(arg0, 0x04000000U);
 }

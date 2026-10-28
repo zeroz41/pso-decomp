@@ -1274,7 +1274,7 @@ void TBoss3VoloptP02::fn_800457A0() {
     u32 flags = m_388;
     if (!(flags & 0x20000)) {
         m_388 = flags | 0x20000;
-        m_a4[1].flags &= ~0x10000001;
+        bodies[1].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x32, &pos);
         TBoss3Volopt::create_breakup_mdl((s32)breakup_models[2], (s32)&part_breakup_params, texture_id, (s32)&pos, rotation_y);
@@ -1293,7 +1293,7 @@ void TBoss3VoloptP02::fn_800456E4() {
     u32 flags = m_388;
     if (!(flags & 0x40000)) {
         m_388 = flags | 0x40000;
-        m_a4[2].flags &= ~0x10000001;
+        bodies[2].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x22, &pos);
         TBoss3Volopt::create_breakup_mdl((s32)breakup_models[3], (s32)&part_breakup_params, texture_id, (s32)&pos, rotation_y);
@@ -1308,7 +1308,7 @@ void TBoss3VoloptP02::trigger_breakup() {
     u32 flags = m_388;
     if (!(flags & 0x80000)) {
         m_388 = flags | 0x80000;
-        m_a4[3].flags &= ~0x10000001;
+        bodies[3].flags &= ~0x10000001;
         render_anim_model_at_pos();
         get_anim_node_position(0x29, &pos);
         TBoss3Volopt::create_breakup_mdl((s32)breakup_models[4], (s32)&part_breakup_params, texture_id, (s32)&m_2fc, rotation_y);
@@ -1556,7 +1556,7 @@ f32 TBoss3VoloptP02::receive_physical_attack(void *source, f32 damage) {
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (m_a4[i].flags & 0x04000000) {
+        if (bodies[i].flags & 0x04000000) {
             m_388 |= mask;
         }
         mask <<= 1;
@@ -1568,7 +1568,7 @@ f32 TBoss3VoloptP02::receive_direct_attack(void *source, DirectAttackPayload pay
     u32 mask = 0x800000;
     s32 i;
     for (i = 0; i < 4; i++) {
-        if (m_a4[i].flags & 0x04000000) {
+        if (bodies[i].flags & 0x04000000) {
             m_388 |= mask;
         }
         mask <<= 1;

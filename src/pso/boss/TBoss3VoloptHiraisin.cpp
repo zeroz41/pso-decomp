@@ -120,7 +120,7 @@ void TBoss3VoloptHiraisin::set_flag_08000000() {
 }
 
 s32 TBoss3VoloptHiraisin::sub_80040FCC() {
-    return (m_a4->flags >> 1) & 1;
+    return (bodies->flags >> 1) & 1;
 }
 
 void TBoss3VoloptHiraisin::sub_80040FDC() {
@@ -133,8 +133,8 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
         advance_animation_playback(this);
         position.y = 80.0f;
         actorFlags |= 0x40000;
-        ((CollisionState *)m_a4)->flags |= 4;
-        ((CollisionState *)m_a4)->flags &= ~2;
+        ((CollisionState *)bodies)->flags |= 4;
+        ((CollisionState *)bodies)->flags &= ~2;
         play_sound_effect(0x4003A306, &position, 0, 0);
         state = 1;
     case 1:
@@ -195,8 +195,8 @@ void TBoss3VoloptHiraisin::update_drop() {
         if (position.y <= 4.6f) {
             position.y = 4.6f;
             state = 2;
-            ((CollisionState *)m_a4)->flags &= ~4;
-            ((CollisionState *)m_a4)->flags |= 2;
+            ((CollisionState *)bodies)->flags &= ~4;
+            ((CollisionState *)bodies)->flags |= 2;
             play_sound_effect(0x4003A808, &position, 0, 0);
         }
         break;

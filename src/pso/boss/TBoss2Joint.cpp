@@ -361,7 +361,7 @@ void TBoss2Joint__vt102(Obj_80036ACC *self) {
 }
 
 void TBoss2Joint::vfunc_93() {
-    if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 6) {
+    if (*(s32 *)((s8 *)this->bodies + 0x18) & 6) {
         vfunc_93__9TObjEneDDFv(this);
         return;
     }
@@ -373,7 +373,7 @@ void TBoss2Joint::vfunc_88() {
     u8 *temp_r3;
     if (*(f32 *)((s8 *)arg0 + 0x3C) < (lbl_805D8258 - lbl_805D847C)) {
         vfunc_94__9TObjEneDDFv(arg0);
-        temp_r3 = (u8 *)this->m_a4;
+        temp_r3 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFF9);
     } else {
         vfunc_93__9TObjEneDDFv(arg0);

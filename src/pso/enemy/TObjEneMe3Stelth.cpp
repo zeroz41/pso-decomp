@@ -3536,7 +3536,7 @@ bool TObjEneMe3Stelth__sub_800F4C10(u8 *arg0) {
 u8 TObjEneMe3Stelth::test_body_collision(s32 arg1, f32 farg0) {
     Obj_800F4CC8 *arg0 = (Obj_800F4CC8 *)this;
     f32 f2 = farg0 * lbl_805DA81C;
-    Sub_800F4CC8 *s = *(Sub_800F4CC8 * *)&this->m_a4;
+    Sub_800F4CC8 *s = *(Sub_800F4CC8 * *)&this->bodies;
     u8 res;
     s32 a = this->rotation_y;
     s32 b = s->f18;
@@ -3592,7 +3592,7 @@ void TObjEneMe3Stelth::setup_move_bounds() {
 }
 
 void TObjEneMe3Stelth::vfunc_88() {
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
 }
 
 void TObjEneMe3Stelth::copy_pos_with_height_offset() {

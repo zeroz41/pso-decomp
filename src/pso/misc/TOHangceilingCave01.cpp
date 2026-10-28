@@ -237,7 +237,7 @@ void TOHangceilingCave01KeyQuick::vfunc_79() {
     *(void * *)&this->unknownF8 = get_bml_motion(TOHangceilingCave01__model_archive, 1);
     *(f32 *)&this->unk_354 = 0.0f;
     ((s32 (*)(void *, int))sub_801682E4__13TUnk_804B2578Fl)(this, 3);
-    p = *(u8 * *)&this->m_a4;
+    p = *(u8 * *)&this->bodies;
     *(s32 *)((s8 *)p + 0x18) &= ~8;
     this->m_c0 = 0.0f;
     this->m_c8 = 1.0f;
@@ -263,7 +263,7 @@ void TOHangceilingCave01KeyQuick::vfunc_80() {
         ((s32 (*)(void *))advance_wrap_offset__13TUnk_804B2578Fv)(arg0);
         ((TUnk_804B2578 *)arg0)->sub_80168488();
         if (4.0f < this->m_c0) {
-            temp_r3 = (u8 *)(*(u8 * *)&this->m_a4);
+            temp_r3 = (u8 *)(*(u8 * *)&this->bodies);
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFF7);
         }
         if (23.0f == this->m_c0) {
@@ -276,7 +276,7 @@ void TOHangceilingCave01KeyQuick::vfunc_80() {
                 ((s32 (*)(void *))advance_wrap_offset__13TUnk_804B2578Fv)(arg0);
             }
             if (5e+01f == this->m_c0) {
-                temp_r4 = (u8 *)(*(u8 * *)&this->m_a4);
+                temp_r4 = (u8 *)(*(u8 * *)&this->bodies);
                 *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | hang_flag_8[0]);
                 return;
             }
@@ -327,7 +327,7 @@ void TOHangceilingCave01Key::vfunc_79() {
     *(void * *)&this->unknownF8 = get_bml_motion(TOHangceilingCave01__model_archive, 1);
     *(f32 *)&this->unk_354 = 0.0f;
     ((s32 (*)(void *, int))sub_801682E4__13TUnk_804B2578Fl)(this, 3);
-    p = *(u8 * *)&this->m_a4;
+    p = *(u8 * *)&this->bodies;
     *(s32 *)((s8 *)p + 0x18) &= ~8;
     this->m_c0 = 0.0f;
     this->m_c8 = 1.0f;
@@ -394,7 +394,7 @@ void TOHangceilingCave01Normal::vfunc_79() {
     this->texture_id = (s32) *p;
     *(f32 *)&this->unk_354 = (f32) (4.0f * this->m_350);
     ((s32 (*)(void *, s32, s32 *, f32))sub_801682E4__13TUnk_804B2578Fl)(this, 0, p, 4.0f);
-    temp_r6 = this->m_a4;
+    temp_r6 = this->bodies;
     *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) | hang_flag_8[0]);
     this->m_c0 = (f32) 0.0f;
     this->m_c8 = (f32) 1.0f;
@@ -893,7 +893,7 @@ u8 *TOHangceilingCave01KeyQuick::init_base(s32 arg1, s32 arg2) {
     this->refresh_collision_body_centers();
     ((TObjPlayer *)((u8 *)this))->reset_photon_effect();
     reset_state((((u8 *)this)));
-    temp_r4 = (u8 *)this->m_a4;
+    temp_r4 = (u8 *)this->bodies;
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | 0x1080);
     return ((u8 *)this);
 }

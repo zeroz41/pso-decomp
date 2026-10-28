@@ -73,7 +73,7 @@ void TBoss7Joint::run_task() {
         this->vfunc_83();
         store_position();
         this->vfunc_88();
-        if (*(s32 *)((s8 *)this->m_a4 + 0x18) & 1) {
+        if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
             ((TBoss8Dragon *)arg0)->set_player_state_default();
             add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, lbl_805DEBB8);
         }

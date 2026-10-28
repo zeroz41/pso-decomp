@@ -329,7 +329,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
         pitch[0] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[0].pitch;
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
         pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
-        pos = (u8 *)((TUnk_804AF8A0 *)target)->m_a4 + c->part * 0x2C + 0x1C;
+        pos = (u8 *)((TUnk_804AF8A0 *)target)->bodies + c->part * 0x2C + 0x1C;
         type = get_entity_id(target);
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;

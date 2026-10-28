@@ -907,7 +907,7 @@ void TUnk_80493450::beast_update_approach() {
                 enemy_move_toward(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
-                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC)) * r ||
+                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
                     lbl_805DA044 < (f32) (*(s32 *)&this->m_2ac)++) {
                     *(u32 *)&this->target = 0U;
                     *(s32 *)&this->m_2ac = 0;
@@ -1040,7 +1040,7 @@ void TUnk_80493450::beast_idle_update() {
         }
     }
     dist = horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position);
-    range = *(f32 *)((s8 *)arg0 + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC));
+    range = *(f32 *)((s8 *)arg0 + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC));
     if (range * range < dist) {
         VecCopy((Vec *)&this->m_29c, &this->home_position);
         VecCopy((Vec *)&this->m_290, (const Vec *)&this->m_2fc);

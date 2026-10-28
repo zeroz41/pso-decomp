@@ -159,7 +159,7 @@ void TObjEneBalClawClaw::update_chase_state() {
             break;
         }
         *(f32 *)((s8 *)((u8 *)this) + 0x30C) = (0.0f);
-        move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(this, *(Vec_80090504 *)((s8 *)this->target + 0x2FC), this->m_a4, (-0.6f), *(f32 *)((s8 *)this->m_a4 + 0xC));
+        move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff(this, *(Vec_80090504 *)((s8 *)this->target + 0x2FC), this->bodies, (-0.6f), *(f32 *)((s8 *)this->bodies + 0xC));
         update_angle__10TObjPlayerFlPv(this, *(s32 *)((s8 *)this->movementParameters + 8), ((u8 *)this) + 0x308);
         advance_animation_playback(this);
         apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), (0.0f));
@@ -1183,7 +1183,7 @@ void TObjEneBalClawClaw::run_task() {
         temp_f2 = this->m_300;
         this->m_300 = (f32) (temp_f2 + (this->m_3b4 + *(f32 *)((s8 *)arg0 + 0x3BC)));
         temp_f1 = this->m_3b4;
-        temp_r5 = (unsigned char *) (this->m_a4);
+        temp_r5 = (unsigned char *) (this->bodies);
         *(f32 *)((s8 *)temp_r5 + 4) = (f32) (temp_f1 + *(f32 *)((s8 *)arg0 + 0x3BC));
         submit_cursor_candidate((void *)arg0, -1, (int)temp_r5, (f32)temp_f1, (f32)temp_f2);
         minimap_render_dot((u8 *)&this->position, -0x5DB4, 1, 0);

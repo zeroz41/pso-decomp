@@ -264,7 +264,7 @@ void TUnk_804AF8A0::set_indexed_flags(s32 index, s32 flags) {
 u8 TUnk_80493450::test_elt_flag(s32 arg1, s32 arg2) {
     struct Elt_801542CC *temp_r3;
 
-    temp_r3 = *(struct Elt_801542CC * *)&this->m_a4;
+    temp_r3 = *(struct Elt_801542CC * *)&this->bodies;
     if (temp_r3 != 0) {
         return (u8) ((arg2 & temp_r3[arg1].f18) != 0);
     }
@@ -486,7 +486,7 @@ void TUnk_804AF8A0::refresh_collision_body_centers() {
     V3_80154E3C sp8;
     s32 n;
     s32 i;
-    if (arg0 != NULL && this->m_a4 != NULL && ((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0) {
+    if (arg0 != NULL && this->bodies != NULL && ((TObject *)arg0)->all_parents_unqueued_for_destruction() != 0) {
         n = arg0->count;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, this->rotation_y);
@@ -981,8 +981,8 @@ u32 TUnk_804AF8A0::check_actor_body_contact(void *o_arg, f32 range) {
         if (range * range < horizontal_distance_squared(&self->pos, &o->pos)) {
             return 0;
         }
-        if (this->m_a4 != 0 && o->a4 != 0) {
-            a.colliders = this->m_a4;
+        if (this->bodies != 0 && o->a4 != 0) {
+            a.colliders = this->bodies;
             a.count = self->a8;
             VecCopy__FP3VecPC3Vec(&a.position, &self->pos);
             a.facing = this->rotation_y;
@@ -1078,8 +1078,17 @@ void TObjPlayer::check_object_collisions() {
     }
 }
 void TObjPlayer::update_collisions() { check_object_collisions(); check_enemy_body_collisions(this); }
-void TUnk_804AF8A0::clear_obj_links() { *(s32*)((char*)this + 0x9c) = 0; *(s32*)((char*)this + 0xa4) = 0; }
-void*TUnk_804AF8A0::initialize_linked_object_reference(void*a1) { *(int*)((char*)this + 0xa8) = 1; this->m_a4 = (CollisionBody *)a1; *(void**)((char*)this + 0x9c) = (char*)this + 0xa0; refresh_collision_body_centers(); return this->m_a4; }
+void TUnk_804AF8A0::clear_obj_links() {
+    body_flags = NULL;
+    bodies = NULL;
+}
+void*TUnk_804AF8A0::initialize_linked_object_reference(void*a1) {
+    body_count = 1;
+    bodies = (CollisionBody *)a1;
+    body_flags = &own_body_flags;
+    refresh_collision_body_centers();
+    return bodies;
+}
 
 void free_collision_body_parts(G_80156720 *arg0) {
     u8 *p = arg0->f9c;
@@ -1142,21 +1151,24 @@ s32 project_actor_to_ground(Obj_80156844 *self, Vec_80156844 *pos, Vec_80156844 
     return 1;
 }
 
-void TUnk_804AF8A0::reset_motion_fields() { void* m = *(void**)((char*)this + 0x90); if (m) ((TObjPlayer *)m)->clear_ground_candidates(); }
+void TUnk_804AF8A0::reset_motion_fields() {
+    if (ground_cache != NULL) {
+        ((TObjPlayer *)ground_cache)->clear_ground_candidates();
+    }
+}
 void TObjPlayer__sub_80156934(void) { TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }
 void TObjPlayer::reset() { (*(int *)&lbl_805D5868) = 0; (*(int *)&lbl_805D586C) = 0; (*(int *)&lbl_805D5870) = 0; (*(int *)&registered_entity_count) = 0; TObjPlayer::clear_item_table(); TObjPlayer::init_all_slots(); }
 TUnk_804AF8A0::~TUnk_804AF8A0() {
     body_count = 0;
-    m_a4 = NULL;
+    bodies = NULL;
 }
 
 TUnk_804AF8A0::TUnk_804AF8A0(TObject *parent) : TUnk_804B9870(parent) {
-    __ct__8FlagWordFv(&m_a0);
-    m_90 = 0;
+    ground_cache = NULL;
     body_count = 0;
-    m_a4 = NULL;
+    bodies = NULL;
     interactor = 0xFFFF;
-    m_9c = 0;
+    body_flags = NULL;
     sub_80156A68();
 }
 

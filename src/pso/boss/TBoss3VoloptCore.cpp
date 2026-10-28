@@ -160,7 +160,7 @@ void TBoss3VoloptCore::init_params() {
     load_entry_params_volopt(0x18);
     m_388 |= 0x10000;
     orbit_angle = 0;
-    m_a4->flags |= 0xC00;
+    bodies->flags |= 0xC00;
     vfunc_58();
     add_flags_2e4(4);
     hit_cooldown = 0;
@@ -429,7 +429,7 @@ s32 TBoss3VoloptCore::check_target_collision() {
     found = 0;
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)this)->check_object_collisions();
-    if (m_a4->flags & 0x80000) {
+    if (bodies->flags & 0x80000) {
         for (i = 0; i < 0x10; i++) {
             object = (TBoss3VoloptCoreTarget *)TObjPlayer::get_battle_param(i);
             if (object == NULL) {
@@ -657,7 +657,7 @@ void TBoss3VoloptCore::link_photon(u16 id, s32) {
     if (core != NULL && core->hit_cooldown <= 0) {
         TObject *source = (TObject *)find_entity_by_id(id);
         if (source != NULL) {
-            core->m_a4->flags |= 0x04000000;
+            core->bodies->flags |= 0x04000000;
             core->receive_physical_attack(source, 1.0f);
         }
     }

@@ -3301,9 +3301,9 @@ void TObjPlayer::prepare_death() {
 
 void TObjPlayer::set_death_marker_pos() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)(this->m_a4) + 0x1C) = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    *(f32 *)((s8 *)(this->m_a4) + 0x20) = (f32) (lbl_805DC388 + *(f32 *)((s8 *)arg0 + 0x3C));
-    *(f32 *)((s8 *)(this->m_a4) + 0x24) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    *(f32 *)((s8 *)(this->bodies) + 0x1C) = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    *(f32 *)((s8 *)(this->bodies) + 0x20) = (f32) (lbl_805DC388 + *(f32 *)((s8 *)arg0 + 0x3C));
+    *(f32 *)((s8 *)(this->bodies) + 0x24) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     obj_setFlags30(arg0, 0x800U);
 }
 
@@ -5097,7 +5097,7 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
             test_elt_flag__13TUnk_80493450Fll(target, collider, 0x2000) == 0) {
             continue;
         }
-        if ((((TargetCollider *)m_a4)->flags ^ ((TargetCollider *)target->m_a4)[collider].flags) & 6) {
+        if ((((TargetCollider *)bodies)->flags ^ ((TargetCollider *)target->bodies)[collider].flags) & 6) {
             continue;
         }
         f32 accuracy;
@@ -5128,7 +5128,7 @@ int TObjPlayer::vfunc_67(f32 damage_scale) {
                 ((KnockbackReceiver *)target)->apply_knockback(this, 0.1f * dealt);
                 break;
             case 2:
-                target->receive_weapon_special_attack(this, &((TargetCollider *)target->m_a4)[collider]);
+                target->receive_weapon_special_attack(this, &((TargetCollider *)target->bodies)[collider]);
                 break;
             }
             hit = 1;

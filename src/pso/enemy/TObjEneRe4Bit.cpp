@@ -1017,7 +1017,7 @@ void TObjEneRe4Bit::update_position_flag() {
 }
 
 void TObjEneRe4Bit::vfunc_88() {
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (this->m_300 - *(f32 *)((s8 *)this + 0x3C));
 }
 void TObjEneRe4Bit::copy_pos() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }
 void TObjEneRe4Bit::vfunc_61() {  }

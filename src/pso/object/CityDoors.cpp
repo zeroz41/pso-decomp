@@ -609,7 +609,7 @@ void TObjCityDoor_Warp::run_task() {
     }
     this->dispatch_state();
     if (((s32 (*)(void *))is_rader_map_active)((void *) (arg0)) == 0) {
-        temp_r3 = *(u8 * *)&this->m_a4;
+        temp_r3 = *(u8 * *)&this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
     }
 }
@@ -1087,7 +1087,7 @@ void TUnk_804B5BA8::begin_state_1() {
     if (obj->m12(*(f32 *)((s8 *)(*(void * *)&this->unk_B8) + 4)) != 0) {
         *(s32 *)((s8 *)this + 0xAC) = 1;
         obj->m18();
-        temp_r3 = this->m_a4;
+        temp_r3 = this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFFE);
     }
 }

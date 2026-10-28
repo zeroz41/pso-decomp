@@ -93,10 +93,10 @@ void TObjVoloptPillar::run_task() {
         if (position.y <= 0.0f) {
             timer = 15;
             state = 3;
-            m_a4->flags |= 2;
+            bodies->flags |= 2;
             TObjPlayer::init_all_slots();
             ((TObjPlayer *)this)->check_object_collisions();
-            if (m_a4->flags & 0x80000) {
+            if (bodies->flags & 0x80000) {
                 for (i = 0; i < 16; i++) {
                     target = (TUnk_804806E8 *)TObjPlayer::get_battle_param(i);
                     if (target == NULL) {
@@ -124,7 +124,7 @@ void TObjVoloptPillar::run_task() {
                     }
                 }
             }
-            m_a4->flags &= ~1;
+            bodies->flags &= ~1;
             {
                 Vec pos = *&position;
                 pos.y = 5.0f;

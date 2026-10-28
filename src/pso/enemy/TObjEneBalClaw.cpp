@@ -132,7 +132,7 @@ void TObjEneBalClaw::update_claw_angle() {
     void *temp_r4;
 
     if (!(this->actorFlags & 0x800)) {
-        temp_r4 = this->m_a4;
+        temp_r4 = this->bodies;
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFF9);
         if (this->m_388 & 0x10000) {
             if (this->m_3b4 < this->m_3b0) {
@@ -140,7 +140,7 @@ void TObjEneBalClaw::update_claw_angle() {
                 return;
             }
             this->m_3b4 = this->m_3b0;
-            temp_r3 = this->m_a4;
+            temp_r3 = this->bodies;
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 4);
             return;
         }
@@ -151,7 +151,7 @@ void TObjEneBalClaw::update_claw_angle() {
             return;
         }
         this->m_3b4 = temp_f0_2;
-        temp_r3_2 = this->m_a4;
+        temp_r3_2 = this->bodies;
         *(s32 *)((s8 *)temp_r3_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_2 + 0x18) | 2);
     }
 }

@@ -3223,7 +3223,7 @@ s32 check_in_range__23TObjEneMe3ShinowaMirageFPv(void *arg0) {
 u8 TObjEneMe3Shinowa::check_body_collision_at(s32 arg1, f32 farg0) {
     Obj_800E750C *arg0 = (Obj_800E750C *)this;
     f32 f2 = farg0 * lbl_805DA64C;
-    Sub_800E750C *s = *(Sub_800E750C * *)&this->m_a4;
+    Sub_800E750C *s = *(Sub_800E750C * *)&this->bodies;
     u8 res;
     s32 a = this->rotation_y;
     s32 b = s->f18;
@@ -3267,7 +3267,7 @@ void fn_800E762C(void) {  }
 
 void TObjEneMe3Shinowa::vfunc_88() {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)this->m_a4 + 4) = (f32) (*(f32 *)((s8 *)arg0 + 0x3CC) + (this->m_300 - *(f32 *)((s8 *)arg0 + 0x3C)));
+    *(f32 *)((s8 *)this->bodies + 4) = (f32) (*(f32 *)((s8 *)arg0 + 0x3CC) + (this->m_300 - *(f32 *)((s8 *)arg0 + 0x3C)));
 }
 
 void TObjEneMe3Shinowa::copy_position_vector() { VecCopy((Vec *)((char*)this + 0x74), (const Vec *)((char*)this + 0x2fc)); }

@@ -267,7 +267,7 @@ extern void *__vt__13TUnk_8049F038[];
 void *TUnk_8049F038::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = (s32 *)__vt__13TUnk_8049F038;
-        if ((u32) this->m_a4 != 0U) {
+        if ((u32) this->bodies != 0U) {
             unregister_object_by_id();
             clear_obj_links();
             push_free_entity_id(get_entity_id(this));

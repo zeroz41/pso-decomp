@@ -54,10 +54,10 @@ void TUnk_80484AFC::explode_and_destroy() {
     }
     play_sound_effect(0x4003AD15, &position, 0, 0);
     play_sound_effect(0x4001C112, &position, 0, 0);
-    m_a4->radius = 15.0f;
+    bodies->radius = 15.0f;
     TObjPlayer::init_all_slots();
     ((TObjPlayer *)this)->check_object_collisions();
-    if (m_a4->flags & 0x80000) {
+    if (bodies->flags & 0x80000) {
         for (i = 0; i < 16; i++) {
             target = (TUnk_804806E8 *)TObjPlayer::get_battle_param(i);
             if (target == NULL) {
@@ -111,15 +111,15 @@ void TUnk_80484AFC::run_task() {
         explode_and_destroy();
         return;
     }
-    m_a4->flags &= ~6;
+    bodies->flags &= ~6;
     if (position.y < 22.0f) {
-        m_a4->flags |= 2;
+        bodies->flags |= 2;
     } else {
-        m_a4->flags |= 4;
+        bodies->flags |= 4;
     }
     ((TObjPlayer *)this)->check_object_collisions();
     check_enemy_body_collisions(this);
-    if (m_a4->flags & 0x180000) {
+    if (bodies->flags & 0x180000) {
         explode_and_destroy();
         return;
     }
@@ -140,7 +140,7 @@ TUnk_80484AFC::~TUnk_80484AFC() {
 
 TUnk_80484AFC::TUnk_80484AFC(TObject *parent, Vec *pos, s32 angle, s32 target) : TUnk_804AF8A0(parent) {
     init_collision_body_parts(this, volopt_missile_collision_body, 1);
-    m_a4->radius = 5.0f;
+    bodies->radius = 5.0f;
     VecCopy(&position, pos);
     target_id = target;
     rotation_x = 0;

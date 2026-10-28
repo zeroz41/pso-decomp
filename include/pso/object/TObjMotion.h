@@ -2,6 +2,7 @@
 #define PSO_OBJECT_TOBJMOTION_H
 #include "pso/TObject.h"
 #include "pso/object/CursorAction.h"
+#include "pso/system/FlagWord.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
 class TUnk_804B9870 : public TObject {
@@ -49,7 +50,7 @@ public:
 extern "C" void *__dt__13TUnk_804B9870Fv(void *, s16);
 extern "C" void *__dt__13TUnk_804AF8A0Fv(void *, s16);
 
-// One collision sphere of an actor (TUnk_804AF8A0::m_a4 points at the actor's
+// One collision sphere of an actor (TUnk_804AF8A0::bodies points at the actor's
 // array of them); init_collision_body_parts copies a static table of these.
 struct CollisionBody {
     f32 offset[3];
@@ -84,13 +85,15 @@ public:
     s32 get_cursor_action();
     void set_shadow_flag();
     void clear_shadow_flag();
-    u32 m_90;
+    // The ground polygons project_actor_to_ground last found (csnVectorUnder's
+    // cache), NULL to query without one.
+    void *ground_cache;
     u16 interactor;  // client id of the player interacting, 0xFFFF for none
     u8 unk_96[0x2];
     CursorAction cursor_action;
-    void *m_9c;
-    u32 m_a0;
-    CollisionBody *m_a4;
+    FlagWord *body_flags;  // one word per collision body
+    FlagWord own_body_flags;  // body_flags of an actor with a single body
+    CollisionBody *bodies;
     s32 body_count;
 };
 // One entry of TObjMotion::action_table.

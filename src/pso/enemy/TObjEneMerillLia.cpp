@@ -1484,7 +1484,7 @@ void TObjEneMerillLia::beast_update_approach() {
                 enemy_move_toward(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
             }
             if (this->targetId == 0xFFFF) {
-                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC)) * r ||
+                if (horizontal_distance_squared((u8 *)&this->m_29c, (u8 *)&this->position) < (r = *(f32 *)&this->unk_394 + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC)) * r ||
                     lbl_805DA320 < (f32) (*(s32 *)&this->m_2ac)++) {
                     *(u32 *)&this->target = 0U;
                     *(s32 *)&this->m_2ac = 0;

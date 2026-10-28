@@ -48,7 +48,7 @@ u8 *fn_80302FD8(u8 *ene_dell_biter_eff_tp_absorb1, s32 arg1, s32 arg2, s32 arg3,
     ((TObjEneDellBiter_Eff_TpAbsorb1 *)ene_dell_biter_eff_tp_absorb1)->m_b4 = (f32) lbl_805DEFAC;
     *(f32 *)((s8 *)ene_dell_biter_eff_tp_absorb1 + 0xB8) = cos_table_lookup((void *)arg4);
     ((TObjEneDellBiter_Eff_TpAbsorb1 *)ene_dell_biter_eff_tp_absorb1)->m_bc = arg5;
-    *(s32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)ene_dell_biter_eff_tp_absorb1)->m_a4) + 0x14) = 1;
+    *(s32 *)((s8 *)(((TObjEneDellBiter_Eff_TpAbsorb1 *)ene_dell_biter_eff_tp_absorb1)->bodies) + 0x14) = 1;
     stack.spC = *(s32 *)((s8 *)&lbl_8047512C.value + 4);
     stack.sp8 = *(s32 *)((s8 *)&lbl_8047512C.value + 0);
     stack.sp10 = *(s32 *)((s8 *)&lbl_8047512C.value + 8);

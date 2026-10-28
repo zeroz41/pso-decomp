@@ -1036,7 +1036,7 @@ void TUnk_804806E8::spawn_freeze_shell_effect(u32 arg1, s32 arg2) {
         if (arg1 != 0U) {
             create__10TObjPlayerFUiii((u32) this, (s32) arg1, 0x96);
         } else {
-            temp_r4 = *(u32 *)&this->m_a4;
+            temp_r4 = *(u32 *)&this->bodies;
             if (temp_r4 != 0U) {
                 create__10TObjPlayerFUiii((u32) this, (s32) temp_r4, 0x96);
             }
@@ -3566,7 +3566,7 @@ void TUnk_804806E8::show_miss_popup(const float *pos) {
     }
 }
 void TObjPlayer::show_miss_for_collider(s32 collider) {
-    show_miss_popup__13TUnk_804806E8FPCf(this, (const float*)((*(u32 *)&this->m_a4) + collider*0x2C + 0x1C));
+    show_miss_popup__13TUnk_804806E8FPCf(this, (const float*)((*(u32 *)&this->bodies) + collider*0x2C + 0x1C));
 }
 
 #pragma push
