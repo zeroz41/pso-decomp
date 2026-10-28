@@ -354,7 +354,6 @@ force_active:
   - TItemLockCountCtrl__sub_801192A0
   - TItemLockCountCtrl__sub_8011933C
   - TItemMag__sub_80113EEC
-  - TItemMoney__ct
   - TItemProArmor__sub_8011751C
   - TItemProArmor__sub_80117650
   - TItemProShield__ct

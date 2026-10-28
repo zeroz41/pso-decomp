@@ -2711,13 +2711,13 @@ pso/item/TItemMenuCtrl_80115AF0.cpp:
 	.text       start:0x80115AF0 end:0x80115C24
 
 pso/item/TItemEffectWeapon_80115C24.cpp:
-	.text       start:0x80115C24 end:0x80115C50
+	.text       start:0x80115C24 end:0x80115C44
 
 pso/item/TItemMoney.cpp:
-	.text       start:0x80115C50 end:0x80115CA8
-
-pso/unk/text_80115CA8.cpp:
-	.text       start:0x80115CA8 end:0x80115D68
+	.text       start:0x80115C44 end:0x80115D68
+	.rodata     start:0x8043E5F0 end:0x8043E600
+	.data       start:0x8049F5E8 end:0x8049F698
+	.sdata      start:0x805D2C20 end:0x805D2C24
 
 pso/unk/text_80115D68.cpp:
 	.text       start:0x80115D68 end:0x80115D6C
