@@ -64,6 +64,11 @@ struct TItemMag : public TItemEquipBase {
     u32 m_1cc;
     u8 _pad1D0[0x4];
     MagOwnerWatch owner_watch;
+    // Changes the mag into form (its item group) unless it has evolved
+    // past the third stage.
+    void evolve_into(u8 form);
+    // Counts down the frames until the mag gets hungry again after a feed.
+    void tick_fullness_timer();
     void resolve_sentinel_color();
     // Copies what an item of this class keeps when it is replaced by a new
     // item code (replace_item_with_new_code) into the new item's data.
