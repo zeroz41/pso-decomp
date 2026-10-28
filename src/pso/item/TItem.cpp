@@ -1053,9 +1053,8 @@ void TItem::begin_constant_material_color(const NJS_ARGB *color) {
 
 void TItem::begin_offset_material_color(const NJS_ARGB *color) {
     if (color != NULL && test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) == 0) {
-        u32 flags = *(volatile u32 *)&model_render_flags & ~0x10;
-        *(volatile u32 *)&model_render_flags = flags;
-        *(volatile u32 *)&model_render_flags = flags | 0x20;
+        model_render_flags &= ~0x10;
+        model_render_flags |= 0x20;
         set_constant_material(color);
         item_render_state.set(ITEM_RENDER_MATERIAL);
     }
