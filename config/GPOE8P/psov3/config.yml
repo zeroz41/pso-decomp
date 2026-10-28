@@ -1850,6 +1850,7 @@ force_active:
   - __dt__15TAdMcSelectMcGCFv
   - __dt__15TAdPlayerLoadGCFv
   - __dt__15TAdPlyPltAnimGCFv
+  - __dt__15TAdRicoRingCtrlFv
   - __dt__15TAdSubPlyItemGCFv
   - __dt__15TBoss2PhotonPadFv
   - __dt__15TBoss3VoloptP01Fv
@@ -2295,6 +2296,7 @@ force_active:
   - __vt__15TAdMcSelectMcGC
   - __vt__15TAdPlayerLoadGC
   - __vt__15TAdPlyPltAnimGC
+  - __vt__15TAdRicoRingCtrl
   - __vt__15TAdSubPlyItemGC
   - __vt__15TBoss2PhotonPad
   - __vt__15TBoss3VoloptP01
@@ -11354,6 +11356,7 @@ force_active:
   - render__15TAdDrawLineCtrlFv
   - render__15TAdPlayerLoadGCFv
   - render__15TAdPlyPltAnimGCFv
+  - render__15TAdRicoRingCtrlFv
   - render__15TAdSubPlyItemGCFv
   - render__15TBoss2PhotonPadFv
   - render__15TBoss3VoloptP01Fv
@@ -11836,6 +11839,7 @@ force_active:
   - run_task__15TAdDrawLineCtrlFv
   - run_task__15TAdPlayerLoadGCFv
   - run_task__15TAdPlyPltAnimGCFv
+  - run_task__15TAdRicoRingCtrlFv
   - run_task__15TAdSubPlyItemGCFv
   - run_task__15TBoss2PhotonPadFv
   - run_task__15TBoss3VoloptP01Fv
@@ -12699,6 +12703,7 @@ force_active:
   - split_bit_index__15TBoss6SwordWaveFlUcPvPv
   - standing_state__14TObjEneBm5WolfFl
   - start_action_if_idle__11TBoss6Type1Fv
+  - start_anim__15TAdRicoRingCtrlFf
   - start_attack__11TBoss6Type1Fv
   - start_bone_rotation__12T_OWEHMS_ExpFv
   - start_bone_rotation_sequence__19TObjEZBoneRotPlayerFl
@@ -12707,6 +12712,7 @@ force_active:
   - start_duel_battle__6TLobbyFv
   - start_effect__14TItemEquipBaseFUlUl
   - start_entry_timer__6TLobbyFUsl
+  - start_fade__15TAdRicoRingCtrlFf
   - start_fade__9TAdFadeGCFPv
   - start_gba_joyboot__6TLobbyFv
   - start_get_type_async__16TKeyBoardControlFllll

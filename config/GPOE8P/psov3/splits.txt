@@ -86,6 +86,7 @@ pso/unk/text_8001B424.cpp:
 
 pso/ui/TAdRicoRingCtrl_8001B4A0.cpp:
 	.text       start:0x8001B4A0 end:0x8001BAC8
+	.data       start:0x80480A40 end:0x80480A58
 
 pso/menu/TAdRicoRing.cpp:
 	.text       start:0x8001BAC8 end:0x8001BE00
