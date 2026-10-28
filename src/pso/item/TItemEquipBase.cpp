@@ -246,7 +246,7 @@ struct VObj_8010B224 : VBase_8010B224 {
 };
 
 extern "C" {
-s32 get_id__13TItemProArmorFv(void *);
+s32 get_owner_client__5TItemFv(void *);
 s32 apply_equip_slot_effect__14TItemEquipBaseFUsUl(s32, int);
 s32 start_event_by_index__15TItemTimerEventFUs();
 void *TItemEquipBase__sub_8010B73C(void *p);
@@ -264,7 +264,6 @@ s32 add_actor_tp_bonus(void *, int);
 s32 add_actor_hp_bonus(void *, int);
 s32 TItemData__sub_8010B808(void *);
 s32 TItemData__sub_8010B810(int);
-u8 *__ct__5TItemFP7TObjectPUc(u8 *self, void *parent, u8 *item);
 s32 __nw__15TItemHeapObjectFUl(int);
 s32 __ct__15TItemHeapObjectFP7TObject(int, void *);
 extern s32 __vt__14TItemEquipBase[];
@@ -297,12 +296,11 @@ struct VObj_8010B054_8010A710 : Base_8010B054_8010A710 {
 void register_technique_boosts__14TItemEquipBaseFPvPv(void *arg0, Row_8010A89C *row);
 void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1);
 s32 subtract_s16_stat(void *, void *);
-s8 sub_80102C30__5TItemFv();
-void *__dt__5TItemFv(void *arg0, s16 arg1);
+s8 get_mode__5TItemFv();
 s32 destroy__5TItemFv(void *);
 s32 fn_8010B7D8(void *, void *);
 s32 fn_8010B7E8(void *, void *);
-s32 get_field_ed__5TItemFv(void*);
+s32 get_item_group__5TItemFv(void*);
 
 void play_target_impact_effect(s32 arg0, s32 arg1, s32 arg2, s16 arg3) {
     typedef char sp8_offset[(offsetof(Stack_8010A710, sp8) == 0x0) ? 1 : -1];
@@ -323,8 +321,8 @@ s8 TItemWeapon::get_attach_joint() {
     return (s8) (*(u8 *)((u8 *)this + 0x171));
 }
 
-int TItemEquipBase::vfunc_33() {
-    return (s8) this->m_170;
+s8 TItemEquipBase::get_attach_slot() {
+    return m_170;
 }
 
 void TItemEquipBase::vfunc_50() {  }
@@ -353,11 +351,11 @@ void TItemEquipBase__sub_8010A82C(s32 arg0) {
     s32 sp8;
     s32 temp_r31;
     s32 var_r30;
-    temp_r31 = (((TItem *)arg0)->get_field_ec() != 0) ? 3 : 0;
+    temp_r31 = (((TItem *)arg0)->get_item_type() != 0) ? 3 : 0;
     TItemEquipBase__sub_8010B73C((&sp8));
     var_r30 = 0;
     do {
-        TItemEquipBase__sub_8022C680(&sp8, (void *) (((s32)get_id__13TItemProArmorFv((void *)arg0))), (void *) (temp_r31 + var_r30));
+        TItemEquipBase__sub_8022C680(&sp8, (void *) (((s32)get_owner_client__5TItemFv((void *)arg0))), (void *) (temp_r31 + var_r30));
         var_r30 += 1;
     } while (var_r30 != 3);
 }
@@ -374,7 +372,7 @@ void register_technique_boosts__14TItemEquipBaseFPvPv(void *item, Row_8010A89C *
     if (row == NULL) {
         return;
     }
-    base = (((TItem *)item)->get_field_ec() != 0) ? 3 : 0;
+    base = (((TItem *)item)->get_item_type() != 0) ? 3 : 0;
     p = row;
     i = 0;
     do {
@@ -385,7 +383,7 @@ void register_technique_boosts__14TItemEquipBaseFPvPv(void *item, Row_8010A89C *
         slot.id = id;
         slot.level = lv;
         slot.amount = amt;
-        TItemEquipBase__sub_8022C680((void *)&slot, (void *)((s32 (*)(void *, int))get_id__13TItemProArmorFv)(item, id), (void *)(base + i));
+        TItemEquipBase__sub_8022C680((void *)&slot, (void *)((s32 (*)(void *, int))get_owner_client__5TItemFv)(item, id), (void *)(base + i));
         i++;
         p++;
     } while (i != 3);
@@ -399,32 +397,32 @@ void TItemEquipBase::vfunc_44() {  }
 
 void TItemEquipBase::sub_8010A948() {
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 2, 4)) != 0) {
-        get_id__13TItemProArmorFv(this);
+        get_owner_client__5TItemFv(this);
         start_event_by_index__15TItemTimerEventFUs();
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 8, 0x10)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 0);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 0);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x20, 0x40)) != 0) {
         ((TItemEquipBase *)(this->m_f0 + 0x7CC))->check_flag_32();
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x80, 0x100)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 1);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 1);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x200, 0x400)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 2);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 2);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x800, 0x1000)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 3);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 3);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x2000, 0x4000)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 4);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 4);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x8000, 0x10000)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 5);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 5);
     }
     if (((s32)TItemEquipBase__sub_8010AC60((s32)this, 0x20000, 0x40000)) != 0) {
-        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_id__13TItemProArmorFv(this), 6);
+        apply_equip_slot_effect__14TItemEquipBaseFUsUl(get_owner_client__5TItemFv(this), 6);
     }
 }
 
@@ -435,10 +433,10 @@ void TItemEquipBase::remove_equip_effects() {
         this->release();
     }
     if (apply_ad_rico_ring(4) != 0) {
-        clear_timer_slot__15TItemTimerEventFUs((void *) (((s32)get_id__13TItemProArmorFv(arg0))));
+        clear_timer_slot__15TItemTimerEventFUs((void *) (((s32)get_owner_client__5TItemFv(arg0))));
     }
     if (apply_ad_rico_ring(0x10) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 0);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 0);
     }
     if (apply_ad_rico_ring(0x40) != 0) {
         temp_r3 = this->m_f0;
@@ -447,22 +445,22 @@ void TItemEquipBase::remove_equip_effects() {
         }
     }
     if (apply_ad_rico_ring(0x100) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 1);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 1);
     }
     if (apply_ad_rico_ring(0x400) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 2);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 2);
     }
     if (apply_ad_rico_ring(0x1000) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 3);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 3);
     }
     if (apply_ad_rico_ring(0x4000) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 4);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 4);
     }
     if (apply_ad_rico_ring(0x10000) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 5);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 5);
     }
     if (apply_ad_rico_ring(0x40000) != 0) {
-        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_id__13TItemProArmorFv(arg0))), 6);
+        apply_equip_effect_slot__14TItemEquipBaseFUsUl((void *) (((s32)get_owner_client__5TItemFv(arg0))), 6);
     }
 }
 
@@ -529,7 +527,7 @@ void TItemEquipBase::subtract_item_stat_bonus(s32 arg1, s32 arg2, s16 *out) {
     u32 extra;
     ItemData_8010AEFC item;
     Stats_8010AEFC st;
-    ((TItem *)self)->copy_to_item_data(&item);
+    ((TItem *)self)->copy_to_item_data((TItemData *)&item);
     memset(&st, (void *)0, (void *)0x24);
     memset(&extra, (void *)0, (void *)4);
     ((TItemData *)(&item))->apply_equip_effects(self->m_f0, (s32)arg1, (s32)arg2, (s32)&st, (s32)&extra);
@@ -547,7 +545,7 @@ void TItemEquipBase::subtract_item_stat_bonus(s32 arg1, s32 arg2, s16 *out) {
 void TItemEquipBase::reset() { memset((char*)this + 0xf8, (void*)0, (void*)36); memset((char*)this + 0x11c, (void*)0, (void*)48); memset((char*)this + 0x14c, (void*)0, (void*)32); memset((char*)this + 0x16c, (void*)0, (void*)4); }
 
 void TItemEquipBase::update_equip() {
-    if (sub_80102C30__5TItemFv() == 2) {
+    if (get_mode__5TItemFv() == 2) {
         ((VObj_8010B054_8010A710 *)this)->m19();
     }
     destroy__5TItemFv(this);
@@ -586,7 +584,7 @@ void TItemEquipBase::unequip() {
     if ((u32) this->m_f0 != 0U) {
         ((TItem *)arg0)->set_mode(1);
         ((TItem *)arg0)->clear_item_flags(0x28);
-        this->vfunc_23(1);
+        this->remove_equip_stats(1);
         remove_equip_effects();
         this->vfunc_45();
         if ((u32) this->m_174 != 0U) {
@@ -601,7 +599,7 @@ void TItemEquipBase::add_equip_stats(s32 arg1) {
     u8 *p;
     u8 *arg0 = (u8 *)this;
     if (*(void **)((s8 *)arg0 + 0xF0) != NULL) {
-        ((TItem *)arg0)->copy_to_item_data(&item);
+        ((TItem *)arg0)->copy_to_item_data((TItemData *)&item);
         ((TItemData *)(&item))->apply_equip_effects((s32)this->m_f0, (s32)((s32)(arg0 + 0x11C)), (s32)((s32)(arg0 + 0x14C)), (s32)(arg0 + 0xF8), (s32)(arg0 + 0x16C));
         t = TItemData__sub_8010B810(this->m_f0);
         if (t != 0) {
@@ -638,13 +636,13 @@ void TItemEquipBase::add_equip_stats(s32 arg1) {
     }
 }
 
-void TItemEquipBase::vfunc_20() {
+void TItemEquipBase::equip() {
     u8 *arg0 = (u8 *)this;
     if ((u32) this->m_f0 != 0U) {
         ((TItem *)arg0)->update_owner_visibility();
         ((TItem *)arg0)->set_mode(2);
-        ((TObjPlayer *)arg0)->add_item_flags(8);
-        this->vfunc_22(1);
+        ((TItem *)arg0)->add_item_flags(8);
+        this->add_equip_stats(1);
         if ((TOKeyMachine01::get_global_state() != 0xF) && (test_flags_any((u8 *)&this->m_178, (void *)(1)) == 0)) {
             ((TObjPlayer *)(arg0 + 0x178))->set_flags((u32)((void *)(1)));
             this->vfunc_46();
@@ -671,15 +669,15 @@ void TItemEquipBase::release() {
 void TItemEquipBase::request_model_load(s32 arg1) {
     TItemData item_data;
     init__9TItemDataFv(&item_data.data1.data_u8[0]);
-    item_data.data1.data_u8[0] = this->get_field_ec();
+    item_data.data1.data_u8[0] = this->get_item_type();
     item_data.data1.data_u8[1] = arg1;
-    item_data.data1.data_u8[2] = this->get_slot_count();
+    item_data.data1.data_u8[2] = this->get_item_index();
     this->m_172 = request_item_model_load((&item_data.data1.data_u8[0]));
 }
 
 void TItemEquipBase::update_with_player() {
     s32 object = (s32)this;
-    ((TItemEquipBase *)object)->request_model_load(get_field_ed__5TItemFv((void*)object));
+    ((TItemEquipBase *)object)->request_model_load(get_item_group__5TItemFv((void*)object));
 }
 void TItemEquipBase::vfunc_46() {  }
 
@@ -689,7 +687,7 @@ void *__dt__14TItemEquipBaseFv(void *arg0, s16 arg1) {
         ((TItemEquipBase *)arg0)->remove_equip_effects();
         __dt__5TItemFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -706,7 +704,7 @@ u8 *TItemEquipBase__ct(u8 *arg0, s32 parent, s32 item) {
     ((TItemEquipBase *)arg0)->reset();
     *(s16 *)&((TItemEquipBase *)arg0)->m_172 = -1;
     ((TObjPlayer *)(arg0 + 0x178))->clear_id();
-    ((TObjPlayer *)arg0)->add_item_flags(4);
+    ((TItem *)arg0)->add_item_flags(4);
     temp_r3 = __nw__15TItemHeapObjectFUl(0x1C);
     var_r0 = temp_r3;
     if (var_r0 != 0) {

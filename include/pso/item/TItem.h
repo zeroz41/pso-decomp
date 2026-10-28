@@ -4,59 +4,156 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/object/TObjMotion.h"
+#include "pso/system/NinjaTypes.h"
 
+struct TItemData;
+struct TObjPlayer;
+
+// TItem::m_dc bits.
+enum {
+    ITEM_FLAG_EQUIPPABLE = 0x4,
+    ITEM_FLAG_EQUIPPED = 0x8,
+    ITEM_FLAG_CONSUMABLE = 0x10,
+    ITEM_FLAG_HIDDEN = 0x40,         // the owner is not drawn, so neither is the item
+    ITEM_FLAG_AT_TEKKER = 0x80,      // handed to the tekker for judging
+    ITEM_FLAG_KILL_COUNTER = 0x100,  // m_e8 counts kills (sealed weapons)
+    ITEM_FLAG_UNSEALED = 0x200,      // the kill count reached its target
+    ITEM_FLAG_WRAPPED = 0x400,       // shown as a present box until unwrapped
+};
+
+// item_render_state bits: what the item model draw switched on.
+enum {
+    ITEM_RENDER_MATERIAL = 0x1,       // the material colour was overridden
+    ITEM_RENDER_EFFECT = 0x2,         // TParticleCtrl::begin_effect_render ran
+    ITEM_RENDER_PARTICLE_TEV = 0x8,
+    ITEM_RENDER_SHIELD_TEV = 0x10,
+};
+
+// TItem::render_mode values.
+enum {
+    ITEM_MODE_GROUND = 0,
+    ITEM_MODE_OWNED = 1,     // in an inventory
+    ITEM_MODE_EQUIPPED = 2,  // carried and drawn with its owner
+    ITEM_MODE_INACTIVE = 3,
+};
+
+// Ground models; 6 and 7 are the present boxes, wrapped items use 6.
+#define ITEM_MODEL_COUNT 11
+
+// The base of every item object: an entry in the id-sorted item registry,
+// drawn on the floor, in an inventory or with its owner.
 struct TItem : public TUnk_804AF8A0 {
     TItem(TObject *parent, u8 *item);
     virtual ~TItem();
+    virtual void run_task();
+    virtual void render();
+    virtual void render_shadows();
+    virtual s32 update_object_view_visibility(f32 depth, f32 radius);
     virtual int vfunc_12();
-    u8 get_slot_count();
-    s8 sub_80102C30();
-    void clear_item_flags(u32);
-    u16 sub_80100474();
-    s32 get_field_d8();
-    u8 get_field_ed();
-    virtual void vfunc_14();
-    virtual void vfunc_15();
-    virtual void vfunc_16();
-    virtual void vfunc_17();
-    virtual void vfunc_18();
-    virtual void vfunc_19(s8);
-    virtual void vfunc_20();
-    virtual s32 vfunc_21(u8 *, s32, s32, s32);
-    virtual void vfunc_22(s32);
-    virtual void vfunc_23(s32);
-    virtual void vfunc_24(s32, s32, s16 *);
-    virtual void vfunc_25();
-    virtual void vfunc_26();
-    virtual void vfunc_27();
-    virtual void vfunc_28();
+    // The player interacting with the item: try to pick it up.
+    virtual void vfunc_13(s32 client);
+    virtual void update_owned();
+    virtual void update_in_inventory();
+    virtual void update_equipped();
+    virtual void activate_effect(s32 effect);
+    virtual void write_item_data(TItemData *data);
+    virtual void set_attach_slot(s8 slot);
+    virtual void equip();
+    virtual void unequip();
+    virtual void add_equip_stats(s32 apply);
+    virtual void remove_equip_stats(s32 apply);
+    virtual void subtract_item_stat_bonus(s32 player, s32 unused, s16 *stats);
+    virtual void subtract_equip_stats(void *atp, s16 *stats, s16 *stats2);
+    virtual void render_equipped();
+    virtual void render_equipped_shadow();
+    virtual void render_equipped_deferred();
     virtual void destroy();
     virtual void vfunc_30();
-    virtual void vfunc_31();
-    virtual int vfunc_32();
-    virtual int vfunc_33();
+    virtual void use();
+    virtual u32 get_attack_flags();
+    virtual s8 get_attach_slot();
     virtual void vfunc_34();
-    virtual int vfunc_35();
-    virtual int vfunc_36();
-    virtual int vfunc_37(s32);
-    virtual int vfunc_38(s32);
-    virtual int vfunc_39();
-    virtual void vfunc_40();
-    virtual int vfunc_41();
+    virtual s32 is_identified();
+    virtual s32 get_amount();
+    virtual s32 remove_amount(s32 count);
+    virtual s32 add_amount(s32 count);
+    virtual u8 get_slot_count();
+    virtual void add_slot();
+    virtual s32 feed(TItemData *food);
     virtual void vfunc_42();
-    virtual int vfunc_43();
-    s32 get_item_flags();
-    void sub_80102C68();
-    void sub_80102C58();
-    u8 get_field_ec();
-    void refresh_if_current_player();
-    void sub_8010043C(u8);
-    void apply_item_flags(s32);
+    virtual u8 get_motion_type();
+
+    static void *operator new(size_t size);
+    static void operator delete(void *p);
+
+    s32 is_wrapped();
+    void unwrap();
+    void use_combination_recipe();
     void assign_item_id();
-    virtual void render_shadows();
+    void apply_item_flags(TItemData *data);
     void render_ground();
     void render_owned();
     void render_following_owner();
+    void render_present_box();
+    void render_model();
+    void set_drop_model(u8 model);
+    u16 get_kill_count();
+    void set_kill_count(u16 count);
+    void notify_owner(s32 sound);
+    void apply_switch_attack(s32 effect);
+    void set_owner_technique_level(s16 technique, s16 level);
+    s32 has_no_defer_render();
+    s32 is_model_shown();
+    void sub_80100D68();
+    void set_item_index(u8 index);
+    void set_item_group(u8 group);
+    void get_icon_index();
+    void refresh_if_current_player();
+    f32 get_owner_alpha();
+    void update_owner_visibility();
+    void update_screen_particle_effect();
+    void draw_shield_particle();
+    void send_activate_effect(s32 effect);
+    void has_bonus_stats();
+    void is_custom_srank();
+    void is_rare();
+    void get_sell_price();
+    u32 get_usable_action_flags(u32 mask, u32 player);
+    void unregister_from_world();
+    void register_in_world(s32 clear_status);
+    void set_mode(s8 mode);
+    void calc_display_grade();
+    void check_equip_requirements(TObjPlayer *player, s16 *result);
+    void draw_model();
+    void draw_model_nodes(u8 *matrices);
+    void apply_sign_effect(u8 *matrices);
+    void visit_model_nodes(u8 *matrices);
+    void get_max_stack();
+    void set_owner_client(u16 client);
+    s32 unregister_item();
+    s32 insert_sorted_by_id();
+    s32 copy_to_item_data(TItemData *data);
+    void snap_to_ground();
+    void send_field_state(s16 floor, TObjPlayer *player);
+    void handle_pickup(s16 floor, TObjPlayer *player);
+    void update_timer();
+    void place_on_ground(s16 floor, f32 *pos, s32 quiet);
+    u32 test_item_flags(u32 mask);
+    void clear_item_flags(u32 mask);
+    void add_item_flags(u32 mask);
+    int is_at_tekker();
+    s8 get_mode();
+    u16 get_owner_client();
+    u8 get_item_type();
+    int is_hidden();
+    void hide();
+    void show();
+    s32 get_item_id();
+    s32 get_item_flags();
+    u8 get_item_group();
+    u8 get_item_index();
+    static void push_equipped_id(s32 id);
+
     void* m_ac;
     u8 unk_B0[0x24];
     u32 m_d4;
@@ -64,9 +161,9 @@ struct TItem : public TUnk_804AF8A0 {
     u32 m_dc;
     u32 m_e0;
     u16 m_e4;
-    u16 m_e6;
+    s16 m_e6;
     u16 m_e8;
-    u8 m_ea;
+    char m_ea;
     u8 render_mode;
     u8 m_ec;
     u8 m_ed;
@@ -74,36 +171,77 @@ struct TItem : public TUnk_804AF8A0 {
     u8 model_index;
     u32 m_f0;
     u32 m_f4;
-    void dispatch_state();
-    virtual void run_task();
-    void use_combination_recipe();
-    void notify_owner(s32 arg1);
-    void apply_switch_attack(s32 arg1);
-    static void update_pickup_flag(s32 arg0);
-    void update_item_data();
-    void copy_item_data_and_process();
-    void unregister_from_world();
-    void set_mode(s8 arg1);
-    void calc_display_grade();
-    s32 unregister_item();
-    s32 insert_sorted_by_id();
-    s32 copy_to_item_data(void *arg1);
-    void snap_to_ground();
-    static void send_owner_item_packet(void *item, u16 client_id);
-    void init_owner(u16 arg1);
-    void assign_id_and_init(s32 arg1, s32 arg2);
-    void send_field_state(s16 arg1, s32 arg2);
-    void update_timer();
-    static void push_to_player_list(void* a0);
-    void update_owner_visibility();
-    void set_owner_client(u16 arg1);
-    u32 get_usable_action_flags(u32 mask, u32 kind);
-    void try_pick_up_item(s32 id);
 };
 
 typedef char TItemModeOffset[(offsetof(TItem, render_mode) == 0xEB) ? 1 : -1];
 typedef char TItemModelOffset[(offsetof(TItem, model_index) == 0xEF) ? 1 : -1];
 typedef char TItemIdOffset[(offsetof(TItem, m_d8) == 0xD8) ? 1 : -1];
 typedef char TItemSize[(sizeof(TItem) == 0xF8) ? 1 : -1];
+
+extern NJS_ARGB item_box_primary_colors[6];
+extern NJS_ARGB item_box_secondary_colors[6];
+
+// The item registry: every live item, sorted by id.
+extern int item_registry_count;
+extern TItem **item_registry_sorted_entries;
+
+extern s32 item_render_state;
+extern u32 player_rock_objects_handle;
+
+// Bumped each time the item system is set up for a game.
+extern int item_system_generation;
+
+// draw_model_node_tree's callbacks; when model_node_matrix_output_cursor
+// is set each node's matrix is stored there.
+extern void (*model_node_draw_callback)(s32 model);
+extern void (*model_node_visit_callback)(NJS_OBJECT *object);
+extern u8 *model_node_matrix_output_cursor;
+extern s32 model_node_counter;
+
+extern "C" {
+// TItem's constructor and destructor under their own symbols, for the
+// derived classes still written as C functions.
+void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
+void *__dt__5TItemFv(void *item, s16 deleting);
+TItem *find_item_by_id(s32 id);
+s32 consume_item_by_id(s32 id);
+s32 is_item_stackable(s32 type, s32 kind);
+void handle_6x59_pick_up_item(struct G_PickUpItem_6x59 *cmd);
+void TItem__sub_801031C0(void *tag);
+// Empty in this build; the debug build checked the data passed.
+void TItem__sub_80101CEC(void *data);
+void TItem__sub_80101CF0(void *data);
+void TItem__sub_80101CF4(void *data);
+void TItem__sub_80101CF8(void *data);
+void TItem__sub_80101DB8(void *data);
+int TObjPlayer__sub_80100F34(void *unused);
+void TObjPlayer__sub_80101088();
+}
+
+TItem *find_equipped_item(s32 id);
+void scroll_item_model_uvs(NJS_OBJECT *object, s16 du, s16 dv, u16 mesh);
+s32 feed_item_to_mag(TItem *mag, TItem *item);
+void give_item_to_client(u16 client, TItemData *data);
+void replace_item_with_new_code(const TItemData *data, TItem *item);
+s32 is_point_on_screen(const f32 *pos, f32 range, f32 radius);
+s32 is_default_camera();
+s16 calc_stat_bonus_sum(u16 client);
+s16 calc_equip_bonus(u16 client);
+void handle_6x61_activate_item_effect(struct G_ActivateMagEffect_6x61 *cmd);
+void draw_model_node_tree(NJS_OBJECT *object);
+void draw_node_tree_with_callback(NJS_OBJECT *object, void (*visit)(NJS_OBJECT *));
+TItem *get_sorted_item_registry_entry(int index);
+int get_item_registry_count();
+void handle_6x5E_buy_shop_item(struct G_BuyShopItem_6x5E *cmd);
+void send_buy_shop_item(TItemData *data, u16 client);
+void buy_item_for_client(TItemData *data, u16 client);
+void handle_6x5D_drop_stacked_item(struct G_DropStackedItem_PC_V3_BB_6x5D *cmd);
+void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos);
+void drop_stacked_item(TItemData *data, u16 client, f32 *pos);
+int get_item_system_generation();
+void advance_item_system_generation();
+TItem *create_item(TItemData *data);
+void free_item_system();
+void init_item_system();
 
 #endif

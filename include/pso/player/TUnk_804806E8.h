@@ -15,7 +15,7 @@ public:
     TUnk_804806E8(TObject *parent);
     virtual ~TUnk_804806E8();
     u8 obj_isState3_324();
-    u8 obj_isState2_324();
+    s32 obj_isState2_324();
     void calc_attach_pos();
     u16 get_or_assign_actor_id(s32);
     void add_flags_2e4(u32);

@@ -1457,7 +1457,6 @@ u32 prs_decompress_buffer(s32, s32);
 void *TLobby__sub_800F8498(void *arg0, void *arg1, s32 arg2, s32 arg3, u8 arg4, u8 arg5, u8 arg6, u8 arg7);
 u32 get_serial_access__22TQuestVmDownLoadServerFv();
 u32 poll_serial_access__22TQuestVmDownLoadServerFv();
-void * find_item_by_id(s32);
 s32 TLobby__sub_801036CC();
 s32 is_script_controlled__10TObjPlayerFv();
 s32 activate_d04_slot__10TObjPlayerFv();
@@ -2417,7 +2416,7 @@ void qst_op_wrap_item_with_color() {
     n = ((s32 *)&qst_args)[1];
     obj = find_item_by_id(id);
     if (obj != NULL) {
-        ((TItem *)obj)->copy_to_item_data(&item);
+        ((TItem *)obj)->copy_to_item_data((TItemData *)&item);
     } else {
         return;
     }
@@ -2440,7 +2439,7 @@ void qst_op_wrap_item() {
     id = ((s32 *)&qst_args)[0];
     obj = find_item_by_id(id);
     if (obj != NULL) {
-        ((TItem *)obj)->copy_to_item_data(&item);
+        ((TItem *)obj)->copy_to_item_data((TItemData *)&item);
     } else {
         return;
     }
@@ -2461,7 +2460,7 @@ void qst_op_get_item_info() {
     r = qst_args[1];
     item = find_item_by_id(qst_args[0]);
     if (item != NULL) {
-        ((TItem *)item)->copy_to_item_data(&d);
+        ((TItem *)item)->copy_to_item_data((TItemData *)&d);
         qst_registers[r++] = d.b0;
         qst_registers[r++] = d.b1;
         qst_registers[r++] = d.b2;
@@ -4990,7 +4989,7 @@ void qst_op_find_inventory_item_ex(u8 arg0, u8 arg1) {
         if (obj != NULL) {
             obj = get_owner_if_alive__10TObjPlayerFv(obj);
             if (obj != NULL) {
-                qst_registers[arg1] = ((TItem *)obj)->get_field_d8();
+                qst_registers[arg1] = ((TItem *)obj)->get_item_id();
             } else {
                 qst_registers[arg1] = -1;
             }
@@ -5018,7 +5017,7 @@ void qst_op_item_check(u32 first, u32 destination) {
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
-                qst_registers[(u8) destination] = ((TItem *)owner)->get_field_d8();
+                qst_registers[(u8) destination] = ((TItem *)owner)->get_item_id();
                 return;
             }
             qst_registers[(u8) destination] = -1;
@@ -5048,7 +5047,7 @@ void qst_op_item_delete2(u32 src, u32 dst) {
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
-                ((TItem *)owner)->copy_to_item_data(&item);
+                ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
                 qst_registers[(u8)dst++] = item.data[0];
                 qst_registers[(u8)dst++] = item.data[1];
                 qst_registers[(u8)dst++] = item.data[2];
@@ -5087,7 +5086,7 @@ void qst_op_item_delete(u32 src, u32 dst) {
         if (slot != 0) {
             owner = get_owner_if_alive__10TObjPlayerFv(slot);
             if (owner != 0) {
-                ((TItem *)owner)->copy_to_item_data(&item);
+                ((TItem *)owner)->copy_to_item_data((TItemData *)&item);
                 qst_registers[(u8)dst++] = item.data[0];
                 qst_registers[(u8)dst++] = item.data[1];
                 qst_registers[(u8)dst++] = item.data[2];

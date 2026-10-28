@@ -2,9 +2,15 @@
 #define PSO_ITEM_TITEMPROSHIELD_H
 
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include "pso/item/TItemEquipBase.h"
 
 struct TItemProShield : public TItemEquipBase {
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     virtual ~TItemProShield();
     virtual void vfunc_51();
     virtual void vfunc_44();
@@ -30,7 +36,6 @@ struct TItemProShield : public TItemEquipBase {
     u8 *create_instance();
     static void free();
     static void load_data();
-    static void set_params(s32 arg0, void *arg1);
 };
 
 typedef char TItemProShield_size[sizeof(TItemProShield) == 0x1A0 ? 1 : -1];

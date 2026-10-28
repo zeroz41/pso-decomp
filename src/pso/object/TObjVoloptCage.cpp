@@ -310,6 +310,6 @@ s32 TLobby::check_player_flag1() {
     return check_flag__10TObjPlayerFl(this, 1);
 }
 
-u8 TObjPlayer::check_flag(s32 flag) {
+s32 TObjPlayer::check_flag(s32 flag) {
     return (m_334 & flag) != 0;
 }

@@ -2,12 +2,18 @@
 #define PSO_ITEM_TITEMPROUNIT_H
 
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include "pso/item/TItemEquipBase.h"
 
 struct TItemProUnit : public TItemEquipBase {
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     virtual ~TItemProUnit();
-    virtual void vfunc_14();
-    virtual void vfunc_16();
+    virtual void update_owned();
+    virtual void update_equipped();
     void vfunc_49();
     void vfunc_48();
     void vfunc_45();

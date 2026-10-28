@@ -155,9 +155,9 @@ Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item) {
             if ((id[0] == r->k[0] || r->k[0] == 0xFF) &&
                 (id[1] == r->k[1] || r->k[1] == 0xFF) &&
                 (id[2] == r->k[2] || r->k[2] == 0xFF) &&
-                (r->k[3] == ((TItem *)item)->get_field_ec() || r->k[3] == 0xFF) &&
-                (r->k[4] == ((TItem *)item)->get_field_ed() || r->k[4] == 0xFF) &&
-                (r->k[5] == ((TItem *)item)->get_slot_count() || r->k[5] == 0xFF)) {
+                (r->k[3] == ((TItem *)item)->get_item_type() || r->k[3] == 0xFF) &&
+                (r->k[4] == ((TItem *)item)->get_item_group() || r->k[4] == 0xFF) &&
+                (r->k[5] == ((TItem *)item)->get_item_index() || r->k[5] == 0xFF)) {
                 return r;
             }
             r++;
@@ -490,9 +490,9 @@ block_6:
 }
 Entry_8011CB18 *get_weapon_range_record(Item_8011CB18 *item, s16 mode) {
     if (item != 0) {
-        u8 id = ((TItem *)item)->get_field_ed();
+        u8 id = ((TItem *)item)->get_item_group();
         if (id < 0xAA) {
-            u8 slots = ((TItem *)item)->get_slot_count();
+            u8 slots = ((TItem *)item)->get_item_index();
             Rule_8011CB18 *r = (*(Pmt_8011CB18 **)&item_pmt_tbl)->rules->rules;
             s32 v = item->m33();
             s32 i;

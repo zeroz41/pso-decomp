@@ -6,6 +6,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/protocol/protocol_types.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -78,7 +79,7 @@ void TObjPlayer::set_code_49_1() { *(u8*)((char*)this + 0x0) = 49; *(u8*)((char*
 void TObjPlayer::bswap_font_lobby() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
 void TObjPlayer::set_code_45_1() { *(u8*)((char*)this + 0x0) = 45; *(u8*)((char*)this + 0x1) = 1; }
 void TObjPlayer::send_lobby_update_font() { TFontSmallLobby__sub_801C01BC(this); TLobby__send_and_handle_60((u8 *)this); }
-void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void* p) { read_be16_field2__10TObjPlayerFv(p); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x10)); ((TObjPlayer *)((char*)p + 0x8))->bswap_pkt_u32x2(); }
+void bswap_pkt_u16x2_u32__10TObjPlayerFPv(void* p) { read_be16_field2__10TObjPlayerFv(p); bswap_16((u16 *)((char*)p + 0x4)); bswap_16((u16 *)((char*)p + 0x6)); bswap_32((u32 *)((char*)p + 0x10)); ((VectorXZF *)((char*)p + 0x8))->bswap(); }
 void TObjPlayer::build_6x2C_impose_hold_packet() {
     this->m_flags = 0;
     this->m_id = 0;

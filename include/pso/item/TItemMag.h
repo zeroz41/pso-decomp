@@ -2,6 +2,9 @@
 #define PSO_ITEM_TITEMMAG_H
 
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include "pso/item/TItemMagSub.h"
 #include <stddef.h>
 
@@ -55,7 +58,9 @@ struct TItemMag
     u16 m_1dc;
     u16 m_1de;
     void resolve_sentinel_color();
-    void call_preserve_flag(s32 arg1);
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     static s32 check_evolution_cond(u32 arg0, s32 arg1);
     s32 check_feed_state(s32 arg1);
     void copy_owner_data();
@@ -101,7 +106,6 @@ struct TItemMag
     void add_clamped_stat(s32 arg1);
     static void add_stat_clamped(s16 *arg0, s32 arg1);
     s32 get_photon_blast_at_slot(s32 slot);
-    void set_field_EE(u8 v);
     void apply_transform_action(u8 arg1);
     void apply_natural_evolution();
     void select_support_action(s32 arg1);

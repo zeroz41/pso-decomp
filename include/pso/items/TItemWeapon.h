@@ -1,6 +1,9 @@
 #ifndef PSO_ITEMS_TITEMWEAPON_H
 #define PSO_ITEMS_TITEMWEAPON_H
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include <stddef.h>
 struct WeaponVector { f32 x,y,z; };
 
@@ -11,28 +14,23 @@ struct WeaponPlayerPrefix { u8 object[0x60]; s32 heading; };
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 struct TItemWeapon : WeaponObjectPrefix {
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     void fire_shot_at_target(void *, void *, s32);
     void sub_8011E56C(u8 *);
     void remap_extra_attack_type();
     s32 draw_weapon_model();
-    s32 item_model_is_shown();
     void create_weapon_trail_effects();
     void apply_model_params();
     void spawn_light_task();
     void set_weapon_category_flags();
     s8 get_attach_joint();
     int test_flags_1b8(u32);
-    void apply_to_child(int);
-    void apply_sign_effect(int);
-    void run_with_callback(int);
-    int check_boss2tunnel_field_f4();
-    void draw_shield_particle();
-    void update_screen_particle_effect();
     void sub_80121208(s32);
     void clear_equip_flags(u32);
     void advance_weapon_photon_phase();
     u8 is_active_in_game();
-    int is_flag_400();
     virtual void reserved_0();
     virtual void run_task();
     virtual void render();

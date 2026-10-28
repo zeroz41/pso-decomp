@@ -181,7 +181,7 @@ struct Pl_8012AC68 : PlB_8012AC68 {
 };
 
 extern "C" {
-s32 send_6x61_activate_mag_effect__14TItemEquipBaseFl(void *, int);
+s32 send_activate_effect__5TItemFl(void *, int);
 s32 is_mode_two_and_ready__10TObjPlayerFv();
 s32 get_current_floor();
 s32 reset_key_machine_state__10TObjPlayerFv();
@@ -246,7 +246,7 @@ void TUnk_804A4B80::emit_marker_effects() {
         if (!((TLobby::get_internet_beat() / 100) & 1)) {
             var_r31 = 1;
         }
-        send_6x61_activate_mag_effect__14TItemEquipBaseFl(this, var_r31);
+        send_activate_effect__5TItemFl(this, var_r31);
         return;
     }
     ((TObjPlayer *)((u8 *)this))->draw_status_icon((s32)&sp8);

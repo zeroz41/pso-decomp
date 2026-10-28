@@ -4,6 +4,9 @@
 #include "pso/system/byteswap.h"
 #include "pso/misc/TLobby.h"
 
+// FloorItem::FloorItem() on the packet's item record.
+extern "C" void *__ct__9FloorItemFv(void *item);
+
 extern "C" {
 void *mem_alloc(u32 size);
     extern int lbl_805D54E0;
@@ -11,7 +14,7 @@ void *mem_alloc(u32 size);
 extern s32 item_sync_counter_table;
 extern s32 item_id_counter_table;
 int read_be16_field2__10TObjPlayerFv(void*);
-extern s32 TLobby__data_805D6140;
+extern s32 quest_object_entries;
 void mem_free(void *p);
 
 s32 TLobby::free_rock_objects(s32 arg0, s16 arg1) {
@@ -40,7 +43,7 @@ void *TLobby::init_header_packet() {
     return this;
 }
 void *TLobby::init_header() {
-    ((TLobby *)((char *)this + 4))->drop_stacked_item_passthrough();
+    __ct__9FloorItemFv((char *)this + 4);
     *(u8 *)&this->m_name = 95;
     *(u8 *)((s8 *)this + 0x1) = 10;
     return this;
@@ -50,7 +53,7 @@ s32 TLobby::apply_table_entry(s16 arg0, void * _w1) {
     if (arg0 > 0xB9F) {
         return 0;
     }
-    ((TLobby *)(TLobby__data_805D6140 + (arg0 * 4)))->copy_short_fields(_w1);
+    ((TLobby *)(quest_object_entries + (arg0 * 4)))->copy_short_fields(_w1);
     return 1;
 }
 void TLobby::copy_short_fields(void *arg1) {

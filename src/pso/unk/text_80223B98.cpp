@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/unk/text_80223B98.h"
 #include "pso/misc/TLobby.h"
@@ -259,7 +260,7 @@ void generate_shop_technique_pool(s32 shop) {
                 it.b[4] = shop_technique_pool_table[b];
                 roll_shop_technique_level((Obj_80223EE0 *)&it, b);
                 if (TLobby__sub_80223DD8(&it, shop) == 1) {
-                    ((TLobby *)(&arr[shop_tool_stock_counts[shop]++]))->copy_item_data(&it);
+                    ((ItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((ItemData *)(&it));
                     i++;
                 }
             }
@@ -311,7 +312,7 @@ void generate_shop_rare_tool_pool(s32 shop) {
                     it.b[1] = shop_tool_group_subtype_table[b].a;
                     it.b[2] = shop_tool_group_subtype_table[b].b;
                     if (TLobby__sub_80223E64(&it, shop) == 1) {
-                        ((TLobby *)(&arr[shop_tool_stock_counts[shop]++]))->copy_item_data(&it);
+                        ((ItemData *)(&arr[shop_tool_stock_counts[shop]++]))->copy_from((ItemData *)(&it));
                         j++;
                     }
                 }
@@ -339,7 +340,7 @@ void generate_shop_common_tool_pool(s32 arg0) {
                 it.b[0] = 3;
                 it.b[1] = shop_tool_group_subtype_table[*p].a;
                 it.b[2] = shop_tool_group_subtype_table[*p].b;
-                ((TLobby *)(&arr[shop_tool_stock_counts[arg0]++]))->copy_item_data(&it);
+                ((ItemData *)(&arr[shop_tool_stock_counts[arg0]++]))->copy_from((ItemData *)(&it));
             }
         }
     }

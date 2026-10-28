@@ -5,7 +5,7 @@
 extern "C" {
 
 s32 scale_current_matrix(void *);
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
@@ -24,7 +24,7 @@ void enlarge_flight_cutter_slicer(void *arg0) {
 void TObjPlayer::setup_item_render() {
     s32 player_list;
 
-    switch ((s32) get_slot_count__5TItemFv()) {
+    switch ((s32) get_item_index__5TItemFv()) {
     case 5:
         player_list = TObjPlayer::get_player_list();
         switch (player_list) {

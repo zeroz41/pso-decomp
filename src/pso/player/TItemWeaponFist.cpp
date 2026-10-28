@@ -6,7 +6,7 @@
 
 extern "C" {
 u8 * baranz_launcher_ct(void *, s32, void *);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 }
 extern s32 tl_05;
 
@@ -14,7 +14,7 @@ u8 *create_baranz_launcher(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(baranz_launcher_ct(temp_r3, tl_05, arg0));
@@ -35,7 +35,7 @@ void fist_reset_attack_rate(u8 *arg0) {
 
 extern "C" {
 
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 
 
 
@@ -48,7 +48,7 @@ void TObjPlayer::apply_shield_scale_to_unit() {
     u8 temp_r3;
 
     var_f31 = 1.0f;
-    temp_r3 = get_slot_count__5TItemFv();
+    temp_r3 = get_item_index__5TItemFv();
     switch ((s32) temp_r3) {
     case 0:
         var_f31 = 1.05f;
@@ -169,7 +169,7 @@ extern s32 knuckle_marker_joint_table[];
 extern s32 tl_05;
 void reflect_knuckle_second_hand(s32 arg0) {
     Stack_8012685C stack;
-    if ((TObjPlayer::get_player_list() == 0) && (((TItem *)arg0)->get_slot_count() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
+    if ((TObjPlayer::get_player_list() == 0) && (((TItem *)arg0)->get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
         stack.sp10 = 0.0f;
         stack.spC = 0.0f;
         stack.sp8 = 0.0f;
@@ -186,7 +186,7 @@ void TItemWeaponFist::emit_marker_effects() {
   s32 k;
   s16 stage;
   s32 index;
-  if (((TItem *)arg0)->get_slot_count() == 3)
+  if (((TItem *)arg0)->get_item_index() == 3)
   {
     if (((TItemWeapon *)arg0)->get_attack_stage() == 0)
     {

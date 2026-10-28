@@ -193,7 +193,7 @@ s32 post_translate_matrix(void *);
 void draw_chunk_object(void *child);
 void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
 void project_world_to_screen(int, Vec_8018085C *, Out_8018085C *, Vec_8018085C *);
-extern Vec_8018085C lbl_804FF610;
+extern Vec_8018085C camera_right;
 s32 TObjChip__vt8(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1);
 int rand(void);
 s32 spawn_chips__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
@@ -427,18 +427,18 @@ s32 TObjChip__vt8(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
         return 0;
     }
     if (v.x < 0.0f) {
-        v.x = arg1->x - lbl_804FF610.x * farg1;
-        v.y = arg1->y + lbl_804FF610.y * farg1;
-        v.z = arg1->z + lbl_804FF610.z * farg1;
-        project_world_to_screen(0, &v, &o1, &lbl_804FF610);
+        v.x = arg1->x - camera_right.x * farg1;
+        v.y = arg1->y + camera_right.y * farg1;
+        v.z = arg1->z + camera_right.z * farg1;
+        project_world_to_screen(0, &v, &o1, &camera_right);
         if (o1.x < 0.0f) {
             return 0;
         }
     } else {
-        v.x = arg1->x + lbl_804FF610.x * farg1;
-        v.y = arg1->y - lbl_804FF610.y * farg1;
-        v.z = arg1->z - lbl_804FF610.z * farg1;
-        project_world_to_screen(0, &v, &o2, &lbl_804FF610);
+        v.x = arg1->x + camera_right.x * farg1;
+        v.y = arg1->y - camera_right.y * farg1;
+        v.z = arg1->z - camera_right.z * farg1;
+        project_world_to_screen(0, &v, &o2, &camera_right);
         if (o2.x > 640.0f) {
             return 0;
         }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/ChunkMaterialState.h"
@@ -11,7 +12,6 @@
 extern "C" {
 extern const f32 lbl_805DC950;
 extern const f32 lbl_805DC94C;
-u32 query_game_join_id__10TObjPlayerFv(int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
@@ -27,7 +27,7 @@ extern const f32 lbl_805DC948;
 
 void TSlicerHistory::render() {
     u8 *arg0 = (u8 *)this;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || query_game_join_id__10TObjPlayerFv((int) (*(s32 *)((s8 *)arg0 + 0x58))) == 0U) {
+    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x58))) == 0U) {
         return;
     }
     {

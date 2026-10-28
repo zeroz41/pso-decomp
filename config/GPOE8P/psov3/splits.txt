@@ -2373,93 +2373,14 @@ pso/object/TObjTailsTailsMove.cpp:
 pso/misc/KeyboardCharacterMaps.cpp:
 	.data       start:0x8049DD78 end:0x8049E8F8
 
-pso/misc/TWindowSubStatusDisp_800FFE1C.cpp:
-	.text       start:0x800FFE1C end:0x800FFE4C
-
-pso/item/TItemObject_800FFE4C.cpp:
-	.text       start:0x800FFE4C end:0x800FFFF8
-
-pso/player/TObjPlayer_800FFFF8.cpp:
-	.text       start:0x800FFFF8 end:0x80100508
-
-pso/item/TItem_80100508.cpp:
-	.text       start:0x80100508 end:0x8010064C
-
-pso/misc/pso_const_ids6.cpp:
-	.text       start:0x8010064C end:0x80100674
-
-pso/item/TItem_80100674.cpp:
-	.text       start:0x80100674 end:0x80100BB0
-
-pso/unk/text_80100BB0.cpp:
-	.text       start:0x80100BB0 end:0x80100CC8
-
-pso/player/TObjPlayer_80100CC8.cpp:
-	.text       start:0x80100CC8 end:0x80100DD0
-
-pso/misc/TWindowSubStatusDisp_80100DD0.cpp:
-	.text       start:0x80100DD0 end:0x80100E00
-
-pso/player/TObjPlayer_80100E00.cpp:
-	.text       start:0x80100E00 end:0x801013BC
-
-pso/item/TItem_801013BC.cpp:
-	.text       start:0x801013BC end:0x80101824
-
-pso/player/TObjPlayer_80101824.cpp:
-	.text       start:0x80101824 end:0x80101A1C
-
-pso/item/TItemObject.cpp:
-	.text       start:0x80101A1C end:0x80101B20
-
-pso/item/TItem_80101B20.cpp:
-	.text       start:0x80101B20 end:0x80101CEC
-
-pso/item/TItem_80101CEC.cpp:
-	.text       start:0x80101CEC end:0x80101DB4
-
 pso/item/TItem.cpp:
-	.text       start:0x80101DB4 end:0x80101DBC
-
-pso/item/TItem_80101DBC.cpp:
-	.text       start:0x80101DBC end:0x80101ED4
-
-pso/item/TItem_80101ED4.cpp:
-	.text       start:0x80101ED4 end:0x80101F38
-
-pso/item/TItem_80101F38.cpp:
-	.text       start:0x80101F38 end:0x80102088
-
-pso/item/TItem_80102088.cpp:
-	.text       start:0x80102088 end:0x801021AC
-
-pso/unk/text_801021AC.cpp:
-	.text       start:0x801021AC end:0x801022FC
-
-pso/item/TItem_801023A8.cpp:
-	.text       start:0x801022FC end:0x80102424
-
-pso/item/TItemDispatch.cpp:
-	.text       start:0x80102424 end:0x80102C3C
+	.text       start:0x800FFE1C end:0x801031CC
 	.ctors      start:0x80433F74 end:0x80433F78
-	.rodata     start:0x8043E020 end:0x8043E028
-	.data       start:0x8049E8F8 end:0x8049EA0C
-	.sbss       start:0x805D5408 end:0x805D5410
-
-pso/item/TItemProArmor_80102C3C.cpp:
-	.text       start:0x80102C3C end:0x80102C44
-
-pso/misc/TOSwitchItem_80102C44.cpp:
-	.text       start:0x80102C44 end:0x80102C4C
-
-pso/item/TItemMag_80102C4C.cpp:
-	.text       start:0x80102C4C end:0x80102C78
-
-pso/player/TObjPlayer_80102C78.cpp:
-	.text       start:0x80102C78 end:0x80102DD4
-
-pso/misc/TLobby_80102DD4.cpp:
-	.text       start:0x80102DD4 end:0x801031CC
+	.rodata     start:0x8043DF60 end:0x8043E028
+	.data       start:0x8049E8F8 end:0x8049EB40
+	.sdata      start:0x805D2B60 end:0x805D2B64
+	.sbss       start:0x805D53E8 end:0x805D5410
+	.sdata2     start:0x805DAA80 end:0x805DAAA4
 
 pso/item/TItemAttacker.cpp:
 	.text       start:0x801031CC end:0x8010361C

@@ -23,8 +23,13 @@ struct NJS_ARGB {
     f32 b;
 };
 
-// NJS_OBJECT evalflags bit: the node is not drawn.
-#define NJD_EVAL_HIDE 0x8
+// NJS_OBJECT evalflags bits.
+#define NJD_EVAL_UNIT_POS 0x1  // pos is zero: no translation
+#define NJD_EVAL_UNIT_ANG 0x2  // ang is zero: no rotation
+#define NJD_EVAL_UNIT_SCL 0x4  // scl is one: no scaling
+#define NJD_EVAL_HIDE 0x8      // the node is not drawn
+#define NJD_EVAL_BREAK 0x10    // the node's children are skipped
+#define NJD_EVAL_ZXY_ANG 0x20  // ang is applied in Z, X, Y order
 
 // Ninja model hierarchy node.
 struct NJS_OBJECT {

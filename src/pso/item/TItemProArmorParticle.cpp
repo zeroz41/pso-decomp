@@ -31,7 +31,7 @@ s32 is_item_area_enabled();
 void *__dt__13TItemProArmorFv(void *arg0, s16 arg1);
 u32 __nw__7TObjectFUl(s32);
 s32 __nw__15TItemHeapObjectFUl(s32);
-s32 get_id__13TItemProArmorFv(void *);
+s32 get_owner_client__5TItemFv(void *);
 
 void TItemProArmorParticle::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     u32 obj;
@@ -42,7 +42,7 @@ void TItemProArmorParticle::create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
 
 extern s32 tl_05;
 
-void TItemProArmorParticle::vfunc_16() {
+void TItemProArmorParticle::update_equipped() {
     s32 temp_r3;
     s32 temp_r31;
 
@@ -51,7 +51,7 @@ void TItemProArmorParticle::vfunc_16() {
         if (temp_r3 != (s32) this->m_198) {
             this->m_198 = temp_r3;
             if (is_item_area_enabled() != 0) {
-                TItemProArmorParticle::create(tl_05, (s32)(this->get_field_d8()), (s32)(get_id__13TItemProArmorFv(this)), this->m_19c);
+                TItemProArmorParticle::create(tl_05, (s32)(this->get_item_id()), (s32)(get_owner_client__5TItemFv(this)), this->m_19c);
             }
         }
     }
@@ -71,7 +71,7 @@ void TItemProArmorParticle::vfunc_44() {
     if (((s32) this->m_1a0 == 1) && ((u32) this->m_174 != 0U)) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            ((TUnk_804A05C8 *)temp_r3)->initialize((void *)this->m_174, (void *)(get_id__13TItemProArmorFv(this)), (void *)(0x78), (void *)this->m_19c);
+            ((TUnk_804A05C8 *)temp_r3)->initialize((void *)this->m_174, (void *)(get_owner_client__5TItemFv(this)), (void *)(0x78), (void *)this->m_19c);
         }
     }
 }
@@ -86,7 +86,7 @@ u8 *TItemProArmorParticle__ct(TItemProArmorParticle *item_pro_armor_particle, u8
     *(s32 **)((s8 *)item_pro_armor_particle + 0x18) = &(*(RecoveredGlobal_803646F0___vt__21TItemProArmorParticle *)&__vt__21TItemProArmorParticle).value;
     *(s32 *)((s8 *)item_pro_armor_particle + 0) = (s32) TItemProArmorParticle__class_name;
     item_pro_armor_particle->m_198 = -1;
-    temp_r0 = ((TItem *)item_pro_armor_particle)->get_slot_count() - 0x29;
+    temp_r0 = ((TItem *)item_pro_armor_particle)->get_item_index() - 0x29;
     if (temp_r0 < 0xCU) {
         item_pro_armor_particle->m_19c = (s32) *(s32 *)((s8 *)&TItemProArmorParticle__particle_id_table.value + ((temp_r0 * 4) & 0x3FC));
         if (temp_r0 < 5U) {
@@ -113,7 +113,7 @@ void *__dt__21TItemProArmorParticleFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TItemProArmorParticle;
         __dt__13TItemProArmorFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

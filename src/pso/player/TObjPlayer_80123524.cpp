@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -9,7 +10,7 @@ struct Sp8Type_80123524 { s32 a; s32 b; s32 c; s32 d; };
 
 extern "C" {
 
-s32 get_flag_40__14TItemEquipBaseFv();
+s32 is_hidden__5TItemFv();
 s32 post_translate_matrix(Sp8Type_80123524 *);
 s32 get_attack_stage__11TItemWeaponFv();
 s32 draw_icon__10TObjPlayerFll(void *, s32, Sp8Type_80123524 *, s32);
@@ -30,7 +31,7 @@ void TObjPlayer::draw_mag() {
     void *temp_r30;
     void *temp_r29;
 
-    if (((void *) this->m_f4 != NULL) && (get_flag_40__14TItemEquipBaseFv() == 0)) {
+    if (((void *) this->m_f4 != NULL) && (is_hidden__5TItemFv() == 0)) {
         temp_r5 = this->m_f4;
         temp_r31 = *(void **)((s8 *)temp_r5 + 0x2C);
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 8);
@@ -44,7 +45,7 @@ void TObjPlayer::draw_mag() {
         *(s32 *)((s8 *)temp_r29 + 0) = (s32) (*(s32 *)((s8 *)temp_r29 + 0) & 0xFFFFFFF7);
         TObjPlayer__sub_80364198();
         model_render_flags &= 0xFFFFFFEF;
-        get_mag_scale();
+        ((TItem *)this)->get_owner_alpha();
         set_model_fade_alpha__10TObjPlayerFf();
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 1);
         *(s32 *)((s8 *)temp_r30 + 0) = (s32) (*(s32 *)((s8 *)temp_r30 + 0) & 0xFFFFFFFD);

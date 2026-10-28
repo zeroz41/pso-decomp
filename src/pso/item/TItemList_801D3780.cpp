@@ -147,11 +147,11 @@ void TUnk_804C4468::run_task() {
         if (player != NULL) {
             if (r->id == -1) {
                 if (r->source == -1) {
-                    ((TItem *)(r->item))->assign_id_and_init((s32)(sub_801D58DC__13TUnk_804C4468Fv(this)), (s32)(get_ptr_0x44__9TItemListFPv(this)));
+                    ((void (*)(TItemData *, s32, f32 *))drop_stacked_item)((TItemData *)(r->item), sub_801D58DC__13TUnk_804C4468Fv(this), (f32 *)(get_ptr_0x44__9TItemListFPv(this)));
                     send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, r->extra);
                     TObjPlayer::send_code_45_1((s32)player);
                 } else {
-                    ((TItem *)(r->item))->assign_id_and_init((s32)(sub_801D58DC__13TUnk_804C4468Fv(this)), (s32)(get_ptr_0x44__9TItemListFPv(this)));
+                    ((void (*)(TItemData *, s32, f32 *))drop_stacked_item)((TItemData *)(r->item), sub_801D58DC__13TUnk_804C4468Fv(this), (f32 *)(get_ptr_0x44__9TItemListFPv(this)));
                     send_6x29_delete_item__10TObjPlayerFPvii(player, r->source, get_item_type_or_default__9TItemListFv(r->item));
                     TObjPlayer::send_code_45_1((s32)player);
                 }

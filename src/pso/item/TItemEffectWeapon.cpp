@@ -4,6 +4,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"
+#include "pso/item/TItem.h"
 
 #pragma readonly_strings on
 const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";
@@ -34,7 +35,7 @@ void *__dt__13TUnk_804F28E0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F28E0;
         __dt__13TUnk_804A4948Fv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

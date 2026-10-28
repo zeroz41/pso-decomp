@@ -2237,7 +2237,7 @@ s32 TObjEneDf2Bringer__sub_80099248(void *bringer) {
                         if (is_locally_controlled__10TObjPlayerFPv(player) != 0) {
                             TItem *item = get_item_field_6__10TObjPlayerFPv(player);
                             if (item != NULL) {
-                                send_6x26_unequip_item__10TObjPlayerFPvPv(player, item->get_field_d8());
+                                send_6x26_unequip_item__10TObjPlayerFPvPv(player, item->get_item_id());
                             }
                         }
                     } else if (calc_boss4_scale__10TObjPlayerFi(bringer) <= lbl_805D9834) {

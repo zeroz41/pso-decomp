@@ -15,6 +15,7 @@ extern "C" void render__10TNpcPlayerFv();
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFogCollision.h"
+#include "pso/protocol/protocol_types.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, int);
@@ -3789,13 +3790,13 @@ void TNpcPlayer__sub_80152D64(void* p) { *(u8*)((char*)p + 0x3) = 0; *(u8*)((cha
 
 void TNpcPlayer::reset_model() { init_model(); update_players__6TLobbyFv((s32)this); }
 
-void TNpcPlayer::init_model() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((TObjPlayer *)((char*)this + 0x4))->bswap_pkt_u32x2(); }
+void TNpcPlayer::init_model() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((VectorXZF *)((char*)this + 0x4))->bswap(); }
 
 void TNpcPlayer::reset_move_state() { *(float*)((char*)this + 0x8) = TNpcPlayer__data_805DB1F0; *(float*)((char*)this + 0x4) = TNpcPlayer__data_805DB1F0; *(unsigned char*)((char*)this + 0x0) = 66; *(unsigned char*)((char*)this + 0x1) = 3; }
 
 void TNpcPlayer::sync_from_lobby() { swap_endian(); update_players__6TLobbyFv((s32)this); }
 
-void TNpcPlayer::swap_endian() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((TObjPlayer *)((char*)this + 0x4))->bswap_pkt_u32x2(); bswap_32__FPUl((char*)this + 0xc); }
+void TNpcPlayer::swap_endian() { read_be16_field2__10TObjPlayerFv((void*)(this)); ((VectorXZF *)((char*)this + 0x4))->bswap(); bswap_32__FPUl((char*)this + 0xc); }
 
 void init_6x40_walk_packet(void* a0) { *(float*)((char*)a0 + 0x8) = TNpcPlayer__data_805DB1F0; *(float*)((char*)a0 + 0x4) = TNpcPlayer__data_805DB1F0; *(int*)((char*)a0 + 0xc) = 0; *(unsigned char*)((char*)a0 + 0x0) = 64; *(unsigned char*)((char*)a0 + 0x1) = 4; }
 

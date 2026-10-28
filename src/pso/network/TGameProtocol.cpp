@@ -6,6 +6,7 @@ struct TObjPlayer;
 #include "pso/misc/TPacket.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/unk/text_800C7FEC.h"
+#include "pso/item/TItem.h"
 
 extern s32 game_protocol_instance;
 
@@ -106,14 +107,10 @@ extern "C" void handle_6x55_intra_map_warp(s32 arg0);
 extern "C" void handle_6x56_set_player_position_and_angle(void *arg0);
 extern "C" void handle_6x57(void *arg0);
 extern "C" void handle_6x58_lobby_animation(void *arg0);
-extern "C" void handle_6x59_pick_up_item();
 extern "C" void handle_6x5A_pick_up_item_request();
 void handle_6x5C_destroy_floor_item(void *arg0);
-void handle_6x5D_drop_stacked_item(u8 *arg0);
-void handle_6x5E_buy_shop_item(void *arg0);
 extern "C" void handle_6x5F_drop_item();
 void handle_6x60_standard_drop_item_request(void *arg0);
-void handle_6x61_activate_mag_effect(TObjPlayer *arg0);
 void handle_6x62();
 void handle_6x63_destroy_floor_item(void *arg0);
 extern "C" void handle_6x64();
@@ -222,7 +219,7 @@ void *pso_command_dispatch_table[336] = {
     (void *)0x5a0006, (void *)&handle_6x5A_pick_up_item_request, (void *)0x5c0006, (void *)&handle_6x5C_destroy_floor_item,
     (void *)0x5d0006, (void *)&handle_6x5D_drop_stacked_item, (void *)0x5e0006, (void *)&handle_6x5E_buy_shop_item,
     (void *)0x5f0006, (void *)&handle_6x5F_drop_item, (void *)0x600006, (void *)&handle_6x60_standard_drop_item_request,
-    (void *)0xa20006, (void *)&handle_6xA2_specializable_item_drop_request, (void *)0x610006, (void *)&handle_6x61_activate_mag_effect,
+    (void *)0xa20006, (void *)&handle_6xA2_specializable_item_drop_request, (void *)0x610006, (void *)&handle_6x61_activate_item_effect,
     (void *)0x620006, (void *)&handle_6x62, (void *)0x630006, (void *)&handle_6x63_destroy_floor_item,
     (void *)0x660006, (void *)&handle_6x66_use_star_atomizer, (void *)0x980007, (void *)&handle_6x98,
     (void *)0x990007, (void *)&handle_6x99, (void *)0x1b0007, (void *)&handle_6x1B_enable_pk_mode_for_player,

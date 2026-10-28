@@ -31,7 +31,7 @@ struct RecoveredGlobal_8012B524_lbl_804A4D70 { s32 value; u8 remaining[0xF4]; };
 typedef char RecoveredGlobal_8012B524_lbl_804A4D70_size[sizeof(RecoveredGlobal_8012B524_lbl_804A4D70) == 0xF8 ? 1 : -1];
 
 extern "C" {
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 s32 is_mode_two_and_ready__10TObjPlayerFv(TItemWeapon*);
 int obj_getPtr2B0_20(u8 *p);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
@@ -41,7 +41,7 @@ void *spawn_particle_effect(void *pos, s32 id);
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(int, int);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * TItemWeapon__ct(void *, void *);
 extern RecoveredGlobal_8012B524_lbl_804A4D70 partisan_weapon_vtable;
@@ -53,14 +53,14 @@ void *__dt__13TUnk_804A4D70Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = &partisan_weapon_vtable.value;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
 }
 
 void TUnk_804A4D70::emit_marker_effects() {
-    switch (((TItem *)this)->get_slot_count()) {
+    switch (((TItem *)this)->get_item_index()) {
     case 6:
         if (is_mode_two_and_ready__10TObjPlayerFv(this) && obj_getPtr2B0_20((u8 *)player) >= 10000) {
             try_spend_actor_meseta((u8 *)player, 10000);
@@ -83,7 +83,7 @@ extern "C" {
 void TObjPlayer::update_area_effect_objects() {
     s32 player_list;
 
-    switch ((s32) get_slot_count__5TItemFv()) {
+    switch ((s32) get_item_index__5TItemFv()) {
     case 6:
         if (TObjPlayer::get_player_list() == 4) {
             rotate_matrix_z(0, (int) (*(s32 *)&this->unk_1F8));
@@ -107,7 +107,7 @@ void TObjPlayer::update_area_effect_objects() {
 }
 
 void TUnk_804A4D70::update_idle() {
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(((u8 *)this) + 0x204), (f32)0.2f, (f32)0.0f);
         if (this->m_204 <= 0.0f) {
             TItemEffOrgaFlowShot::approach_value((f32 *)(((u8 *)this) + 0x20C), (f32)(-0.2f), (f32)(-1.055f));
@@ -117,7 +117,7 @@ void TUnk_804A4D70::update_idle() {
 }
 void TUnk_804A4D70::update_attack() {
     u8 *arg0 = (u8 *)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x20C), (f32)0.5f, (f32)0.0f);
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x218), (f32)(-0.25f), (f32)0.0f);
         if (0.0f <= this->m_20c) {
@@ -129,7 +129,7 @@ void TUnk_804A4D70::update_attack() {
 void TUnk_804A4D70::update_weapon() {
     s32 var_r4;
 
-    if (get_slot_count__5TItemFv() == 6) {
+    if (get_item_index__5TItemFv() == 6) {
         var_r4 = obj_getPtr2B0_20((u8 *)this->player) / 100000;
         var_r4 = var_r4 * 0x222;
         if (var_r4 > 0x1555) {
@@ -153,7 +153,7 @@ u8 *TItemWeaponPartisan__ct(u8 *arg0, u8 *arg1, s32 _w2) {
     *(f32 *)((s8 *)arg0 + 0x218) = (f32) 0.0f;
     ((TUnk_804A4D70 *)arg0)->m_21c = (f32) 0.0f;
     ((TObjPlayer *)arg0)->set_status_flags(2);
-    if (((TItem *)arg0)->get_slot_count() == 6) {
+    if (((TItem *)arg0)->get_item_index() == 6) {
         ((TObjPlayer *)arg0)->set_status_flags(0x20);
     }
     return arg0;
@@ -164,7 +164,7 @@ u8 *create_partisan_weapon(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x220));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x220));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(TItemWeaponPartisan__ct((u8 *)temp_r3, (u8 *)tl_05, (s32)arg0));

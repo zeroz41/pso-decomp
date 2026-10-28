@@ -70,7 +70,7 @@ void TUnk_804E24F0::update_attack() {
 }
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 int TItemWeapon__ct(void);
 int set_status_flags__10TObjPlayerFUl(void*, void*);
@@ -83,7 +83,7 @@ u8 *TAdPlayerLoadGC::create_instance() {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804E24F0 *)temp_r3)->init_object(tl_05, arg0)));

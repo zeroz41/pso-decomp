@@ -206,7 +206,7 @@ void TItemWeapon::vfunc_44() {
             ((TObjPlayer *)(*(void **)((s8 *)arg0 + 0xF0)))->set_action_provider_variant(arg0->v41());
         }
         ((TItemWeapon *)arg0)->clear_equip_flags(0x100);
-        if (((TItemEquipBase *)arg0)->get_flag_40() != 0 || obj_isState7_324(*(s32 *)((s8 *)arg0 + 0xF0)) != 0) {
+        if (((TItem *)arg0)->is_hidden() != 0 || obj_isState7_324(*(s32 *)((s8 *)arg0 + 0xF0)) != 0) {
             ((TObjPlayer *)arg0)->set_status_flags(8);
         } else {
             TItemAttacker::spawn_item_timer((s32)arg0, (s32)((void *)&set_flag_8_if_check_passes__10TObjPlayerFv), 0x14);

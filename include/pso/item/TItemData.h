@@ -8,24 +8,13 @@ struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
 
 struct TItemData {
     int isValidGroundDrop();
-    void init() {
-        data1.data_u8[0] = 0;
-        data1.data_u8[1] = 0;
-        data1.data_u8[2] = 0;
-        data1.data_u8[3] = 0;
-        data1.data_u8[4] = 0;
-        data1.data_u8[5] = 0;
-        data2.data_u32 = 0;
-        for (int i = 0; i < 3; ++i) {
-            data1.data_u8_pair[3+i][0] = 0;
-            data1.data_u8_pair[3+i][1] = 0;
-        }
-        id = -1;
-    };
-    void bswap() {
-        bswap_32(&data2.data_u32);
-        bswap_32(&id);
-    };
+    void init();
+    void bswap();
+    static s32 is_usable(void *data);
+    static s32 is_wrapped(void *data);
+    static s32 is_rare_item(void *data);
+    static s32 is_custom_name_srank(void *data);
+
 
     union {
         u8 data_u8[12];
@@ -40,7 +29,7 @@ struct TItemData {
         u32 data_u32;
     } data2;
     static s8 char_to_letter_index(void *self, s8 c);
-    static void normalize();
+    void normalize();
     static u8 get_entry_field16();
     int register_drop();
     s32 get_item_use_result();
@@ -76,7 +65,7 @@ struct TItemData {
     void add_accuracy(s32 arg1);
     void add_stat(s32 arg1);
     static void add_s16(s16 *arg0, s32 arg1);
-    void set_present_color(s32 arg1);
+    void set_present_color(s8 color);
     s32 get_type_nibble();
     void add_weapon_stat_bonuses(s32 player, s16 *out, s32 unused, s16 *out2, s32 _w5);
     void set_wrapped();
@@ -89,6 +78,12 @@ struct TItemData {
     u16 get_packed_value();
     void decode_packed_name_chars(s8 *out);
 };
+
+extern "C" {
+s32 TItemData__sub_8010C738(TItemData *data);
+void TItemData__sub_8010C740(void *data, s32 mode);
+void TItemData__sub_8010CCB0(void *data);
+}
 
 #include <stddef.h>
 typedef char ItemDataSize[(sizeof(TItemData) == 0x14) ? 1 : -1];

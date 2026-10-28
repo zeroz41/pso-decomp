@@ -8,7 +8,8 @@ public:
     virtual ~TParticleCtrl();
     virtual void run_task();
 public:
-    void set_owner_id(u16 x);
+    // Who owns the effect; a client id of 0xFFFF leaves it unchanged.
+    void set_owner_id(u16 id);
     void set_tint_color(s32 arg1);
     void clear_active_flag();
     static void *create_random_spread(void *arg0, void *arg1, void *arg2);

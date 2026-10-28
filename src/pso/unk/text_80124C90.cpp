@@ -91,7 +91,7 @@ void TUnk_804A2260::sub_80124C90() {
             atk.b = 1;
             atk.id0 = obj_getField1c(me->pl);
             atk.id1 = obj_getField1c(t);
-            atk.d8 = ((TItem *)((u8 *)this))->get_field_d8();
+            atk.d8 = ((TItem *)((u8 *)this))->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
             atk.f = query_extended_state__10TObjPlayerFv(me->pl);
             spawn_item_attacker((s32)tl_05, (u32)&me->pl->pos38, (s32)(xyz_distance(pos, &part->v) / me->scale), (u8 *)&atk);

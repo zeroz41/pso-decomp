@@ -1,5 +1,6 @@
 #include "types.h"
-#include "pso/misc/TLobby_80102DD4.h"
+#include "pso/protocol/subcmd_6x.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
@@ -9,6 +10,11 @@
 #include "pso/item/TItemData.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/player/TObjPlayer.h"
+
+// G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
+extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);
+// FloorItem::FloorItem() on a record built here.
+extern "C" void *__ct__9FloorItemFv(void *item);
 struct Stack_8011AED8 {
     s8 sp8;
     u8 pad_9[0x3];
@@ -67,12 +73,10 @@ int is_quest_active(void);
 extern s32 build_item_id_mode;
 void init__9TItemDataFv(void *);
 void normalize__9TItemDataFv(void *p);
-extern Source_8011AA68 *TLobby__data_805D6140;
+extern Source_8011AA68 *quest_object_entries;
 void apply_by_index__9TObjEnemyFs(s16, void *);
 void drop_item_from_slot__10TObjPlayerFlll(s8 arg0, s32 arg1, s32 arg2);
 extern Source_8011AB64 *TLobby__data_805D6144;
-s32 TItemData__sub_8010C740(void *, int);
-s32 TItemData__sub_8010CCB0(void *);
 s32 spawn_dropped_item_from_msg(void *, int);
 void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt);
 s32 bswap_packet__6TLobbyFv();
@@ -113,15 +117,15 @@ void handle_6x5C_destroy_floor_item(void *arg0) {
 }
 
 void handle_6x5A_pick_up_item_request(Msg_8011A9D8 *msg) {
-    bswap_pick_up_item_request__6TLobbyFi((s32)msg);
+    ((G_PickUpItemRequest_6x5A *)msg)->bswap();
     if (find_item_condition_entry__6TLobbyFii(msg->s8, msg->u4) != 0) {
         Cmd_8011A9D8 cmd;
-        ((TLobby *)(&cmd))->init_6x59_packet();
+        __ct__17G_PickUpItem_6x59Fv(&cmd);
         cmd.a = msg->u2;
         cmd.b = msg->u2;
         cmd.c = msg->s8;
         cmd.d = msg->u4;
-        ((TLobby *)(&cmd))->send_pick_up_item();
+        ((G_PickUpItem_6x59 *)&cmd)->send();
     }
 }
 
@@ -134,7 +138,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
     Item_8011AA68 item;
     u32 id;
     if (source != -1) {
-        Source_8011AA68 row = TLobby__data_805D6140[source];
+        Source_8011AA68 row = quest_object_entries[source];
         if (row.claim != 0xFFFF) {
             id = build_item_id(row.claim);
             row.claim = 0xFFFF;
@@ -151,7 +155,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
                 delivery.x = x;
                 delivery.z = z;
                 delivery.room = room;
-                ((TLobby *)(delivery.item))->copy_item_data(&item);
+                ((ItemData *)(delivery.item))->copy_from((ItemData *)(&item));
                 ((TLobby *)(&delivery))->send_item_packet();
             }
         }
@@ -179,7 +183,7 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
                 delivery.source = source;
                 delivery.x = x;
                 delivery.z = z;
-                ((TLobby *)(delivery.item))->copy_item_data(&item);
+                ((ItemData *)(delivery.item))->copy_from((ItemData *)(&item));
                 delivery.room = room;
                 ((TLobby *)(&delivery))->send_item_packet();
             }
@@ -244,36 +248,36 @@ void handle_6x5F_drop_item(Pkt_8011ADF4 *pkt) {
         row.claim = 0xFFFF;
         apply_by_index__9TObjEnemyFs(pkt->source, &row);
     } else {
-        Row4_8011ADF4 row = (*(Row4_8011ADF4 * *)&TLobby__data_805D6140)[pkt->source];
+        Row4_8011ADF4 row = (*(Row4_8011ADF4 * *)&quest_object_entries)[pkt->source];
         row.claim = 0xFFFF;
         TLobby::apply_table_entry(pkt->source, (Source_8011AA68 *)(&row));
     }
     spawn_dropped_item_from_msg(&pkt->client, 0);
 }
 
-void TLobby__sub_8011AED8(s8 arg0, s16 arg1, u8 *arg2, f32 farg0, f32 farg1) {
+void TLobby__sub_8011AED8(f32 farg0, f32 farg1, s16 arg0, s16 arg1, u8 *arg2) {
     typedef char sp8_offset[(offsetof(Stack_8011AED8, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8011AED8, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_8011AED8, sp10) == 0x8) ? 1 : -1];
     typedef char sp14_offset[(offsetof(Stack_8011AED8, sp14) == 0xC) ? 1 : -1];
     typedef char sp18_offset[(offsetof(Stack_8011AED8, sp18) == 0x10) ? 1 : -1];
     Stack_8011AED8 stack;
-    ((TLobby *)(&stack.sp8))->drop_stacked_item_passthrough();
+    __ct__9FloorItemFv(&stack.sp8);
     stack.sp8 = arg0;
     stack.spC = farg0;
     stack.sp10 = farg1;
     stack.sp14 = arg1;
-    ((TLobby *)(&stack.sp18))->copy_item_data(arg2);
+    ((ItemData *)(&stack.sp18))->copy_from((ItemData *)(arg2));
     ((TLobby *)(*(s32 *)((s8 *)arg2 + 0xC)))->observe_item_id();
     ((TLobby *)(&stack.sp8))->insert_sorted_entry();
 }
 
 void handle_6x62(void) {  }
 
-u32 advance_item_id_counter(s32 client) {
+u32 advance_item_id_counter(u16 client) {
     if (TOKeyMachine01::get_global_state() == 0xF)
-        return ((u32*)item_id_counter_table)[(u16)client]++;
-    return ((u32*)item_sync_counter_table)[(u16)client]++;
+        return ((u32*)item_id_counter_table)[client]++;
+    return ((u32*)item_sync_counter_table)[client]++;
 }
 void TLobby::reset_item_id_counters() {
     s32 i;

@@ -4,13 +4,13 @@
 extern "C" {
 
 s32 play_sound_effect(s32, s32, s32, s32);
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 
 extern f32 lbl_805DADB0;
 extern f32 lbl_805DADB4;
 
 void TObjPlayer::start_shield_action() {
-    if (get_slot_count__5TItemFv() == 0) {
+    if (get_item_index__5TItemFv() == 0) {
         if (is_mode_two_and_ready() != 0) {
             drain_owner_hp_fraction(lbl_805DADB0);
             launch_rare_weapon_special(0, 1, lbl_805DADB4);

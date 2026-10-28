@@ -23,7 +23,7 @@ extern V3_8017F624 camera_slot_positions[];
 extern s32 TObjCamera__camera_slot_scan_index;
 void matrix_mult_vec(s32, Vec_8017F6C0 *, Vec_8017F6C0 *);
 void project_world_to_screen(s32, Vec_8017F6C0 *, Out_8017F6C0 *);
-extern Vec_8017F6C0 lbl_804FF610;
+extern Vec_8017F6C0 camera_right;
 
 void TObjCamera::update_camera_slots() {
     s32 i;
@@ -47,17 +47,17 @@ s32 TObjCamera::update_object_view_visibility(f32 r, f32 d) {
         return 0;
     }
     if (v.x < 0.0f) {
-        v.x = o->pos.x - lbl_804FF610.x * d;
-        v.y = lbl_804FF610.y * d + o->pos.y;
-        v.z = lbl_804FF610.z * d + o->pos.z;
+        v.x = o->pos.x - camera_right.x * d;
+        v.y = camera_right.y * d + o->pos.y;
+        v.z = camera_right.z * d + o->pos.z;
         project_world_to_screen(0, &v, &out);
         if (out.x < 0.0f) {
             return 0;
         }
     } else {
-        v.x = lbl_804FF610.x * d + o->pos.x;
-        v.y = o->pos.y - lbl_804FF610.y * d;
-        v.z = o->pos.z - lbl_804FF610.z * d;
+        v.x = camera_right.x * d + o->pos.x;
+        v.y = o->pos.y - camera_right.y * d;
+        v.z = o->pos.z - camera_right.z * d;
         project_world_to_screen(0, &v, &out);
         if (out.x > 6.4e+02f) {
             return 0;

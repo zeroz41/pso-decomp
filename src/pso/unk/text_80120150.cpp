@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/item_param.h"
 #include "pso/boss/TBoss2DeRolLe.h"
-#include "pso/player/TObjPlayer_80100E00.h"
 #include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/unk/text_80120150.h"
 #include "pso/items/TItemWeapon.h"
@@ -88,7 +88,6 @@ extern const f32 lbl_805DACA0;
 extern s16 weapon_node_material_index;
 extern s16 TObjPlayer__weapon_node_ids[];
 extern u8* weapon_render_callback_object;
-extern u32 lbl_805D53EC;
 extern "C" {
 s32 test_flags_any(void*,u32);
 WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon);
@@ -100,8 +99,8 @@ void apply_weapon_node_material() {
     const s32 node = TObjPlayer::get_player_list();
     TObjPlayer__sub_80101088();
     TObjPlayer::end_particle_effect();
-    ((TItemWeapon *)weapon_render_callback_object)->draw_shield_particle();
-    ((TItemWeapon *)weapon_render_callback_object)->update_screen_particle_effect();
+    ((TItem *)weapon_render_callback_object)->draw_shield_particle();
+    ((TItem *)weapon_render_callback_object)->update_screen_particle_effect();
     ((WeaponCallbackObject*)weapon_render_callback_object)->materialCallback();
     if(node == weapon_node_material_index) {
         WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
@@ -109,7 +108,7 @@ void apply_weapon_node_material() {
     }
     if(node == TObjPlayer__weapon_node_ids[0] || node == TObjPlayer__weapon_node_ids[1] || node == TObjPlayer__weapon_node_ids[2]) {
         TObjPlayer::play_particle_effect_once();
-        if(test_flags_any(&lbl_805D53EC,4)) {
+        if(test_flags_any(&item_render_state,4)) {
             WeaponArgb color = get_weapon_color__11TItemWeaponFPv(weapon_render_callback_object);
             TObjPlayer::enable_first_time_flag((s32)&color);
         }
@@ -153,7 +152,7 @@ WeaponArgb get_weapon_color__11TItemWeaponFPv(void *weapon) {
             first.red = *(f32 *)((s8 *)weapon + 0x1C8) * (second.red - first.red) + first.red;
             first.green = *(f32 *)((s8 *)weapon + 0x1C8) * (second.green - first.green) + first.green;
             first.blue = *(f32 *)((s8 *)weapon + 0x1C8) * (second.blue - first.blue) + first.blue;
-            override_alpha = ((TObjPlayer *)weapon)->get_mag_scale();
+            override_alpha = ((TItem *)weapon)->get_owner_alpha();
             if (lbl_805DAC9C != override_alpha) {
                 first.alpha = override_alpha;
             }

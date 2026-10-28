@@ -61,7 +61,7 @@ void TUnk_804A5A28::emit_marker_effects() {
 
     init_slicer_launch_state((SlicerState_801295FC *)&tec);
     tec.id = obj_getField1c(((Self_8012D708 *)this)->owner);
-    tec.fC = ((TItem *)this)->get_field_d8();
+    tec.fC = ((TItem *)this)->get_item_id();
     tec.f4 = ((Self_8012D708 *)this)->f24;
     tec.f8 = ((Self_8012D708 *)this)->f188;
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)((Self_8012D708 *)this)->owner + 0x7CC));

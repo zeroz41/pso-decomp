@@ -25,7 +25,7 @@ s32 init_collision_body_parts(void *, void *, int);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 void matrix_mult_vec(int, void *, void *);
 void project_world_to_screen(int, void *, void *, void *);
-extern Vec_8018BEE4 lbl_804FF610;
+extern Vec_8018BEE4 camera_right;
 extern u8 *camera_ctrl_instance;
 
 s32 free_collision_body_parts(void *);
@@ -48,18 +48,18 @@ s32 TObjContainerIdo::update_object_view_visibility(f32 farg0, f32 farg1) {
         return 0;
     }
     if (p.x < 0.0f) {
-        p.x = lbl_804FF610.x * farg1 + *(f32 *)((s8 *)arg0 + 0x38);
-        p.y = lbl_804FF610.y * farg1 + *(f32 *)((s8 *)arg0 + 0x3C);
-        p.z = lbl_804FF610.z * farg1 + *(f32 *)((s8 *)arg0 + 0x40);
-        project_world_to_screen(0, &p, out, &lbl_804FF610);
+        p.x = camera_right.x * farg1 + *(f32 *)((s8 *)arg0 + 0x38);
+        p.y = camera_right.y * farg1 + *(f32 *)((s8 *)arg0 + 0x3C);
+        p.z = camera_right.z * farg1 + *(f32 *)((s8 *)arg0 + 0x40);
+        project_world_to_screen(0, &p, out, &camera_right);
         if (out[0] < 0.0f) {
             return 0;
         }
     } else {
-        p.x = *(f32 *)((s8 *)arg0 + 0x38) - lbl_804FF610.x * farg1;
-        p.y = *(f32 *)((s8 *)arg0 + 0x3C) - lbl_804FF610.y * farg1;
-        p.z = *(f32 *)((s8 *)arg0 + 0x40) - lbl_804FF610.z * farg1;
-        project_world_to_screen(0, &p, out, &lbl_804FF610);
+        p.x = *(f32 *)((s8 *)arg0 + 0x38) - camera_right.x * farg1;
+        p.y = *(f32 *)((s8 *)arg0 + 0x3C) - camera_right.y * farg1;
+        p.z = *(f32 *)((s8 *)arg0 + 0x40) - camera_right.z * farg1;
+        project_world_to_screen(0, &p, out, &camera_right);
         if (out[0] > 6.4e+02f) {
             return 0;
         }

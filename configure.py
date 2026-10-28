@@ -466,6 +466,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # inlined (the inline TUnk_804999E8 destructor and TObject::queue_destruction
     # stay calls).
     "pso/boss/TUnk_804848A0.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TItem.cpp is written from its last function back (deferred code
+    # generation; the data keeps source order) and built with GC/2.0, like the
+    # struct-copy units above.
+    "pso/item/TItem.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     # Vol Opt's second form also keeps eight-byte tables in .data, a six-byte
     # one in .bss and four-byte pointers in .sbss; its .rodata initializers run
     # from the last function back and its vtable precedes the switch tables.

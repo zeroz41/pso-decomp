@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby.h"
 struct Entry_802C3A50 {
     u8 a;
@@ -28,7 +29,7 @@ void copy_item_entry_array(s32 n, struct Entry_802C3A50 *src, struct Entry_802C3
         dst->a = src->a;
         dst->b = src->b;
         dst->c = src->c;
-        ((TLobby *)(dst->item))->copy_item_data(src->item);
+        ((ItemData *)(dst->item))->copy_from((ItemData *)(src->item));
         dst++;
         src++;
     }

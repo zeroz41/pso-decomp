@@ -11,7 +11,7 @@ struct Self_801223E0 { u8 pad[0x1f8]; f32 f1f8; };
 
 extern "C" {
 u8 * guld_milla_ct(void *, s32, s32);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void scale_matrix(s32, f32, f32, f32);
 
@@ -21,7 +21,7 @@ u8 *create_guld_milla(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x210));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x210));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(guld_milla_ct(temp_r3, tl_05, arg0));
@@ -32,7 +32,7 @@ u8 *create_guld_milla(s32 arg0) {
 }
 
 void apply_blade_dance_model_scale(Self_801223E0 *self) {
-    if (((TItem *)self)->get_slot_count() == 5) {
+    if (((TItem *)self)->get_item_index() == 5) {
         s32 n = TObjPlayer::get_player_list();
         switch (n) {
         case 3:
@@ -45,18 +45,18 @@ void apply_blade_dance_model_scale(Self_801223E0 *self) {
 
 extern "C" {
 
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 
 void TUnk_804A0FA0::update_idle() {
     s32 arg0 = (s32)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.2f, (f32)0.0f);
     }
 }
 
 void TUnk_804A0FA0::update_attack() {
     s32 arg0 = (s32)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.5f, (f32)1.0f);
     }
 }
@@ -69,7 +69,7 @@ struct RecoveredGlobal_801224D4_lbl_804A0FA0 {
 };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * TItemWeapon__ct(void *, void *);
 }
@@ -93,7 +93,7 @@ u8 *create_dagger_weapon(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(construct_dagger_weapon((u8 *)temp_r3, (u8 *)tl_05, (u8 *)arg0));

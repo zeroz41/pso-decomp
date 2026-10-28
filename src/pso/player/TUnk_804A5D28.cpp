@@ -45,7 +45,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-u8 *query_game_join_id__10TObjPlayerFv(s32);
 s32 get_entity_id__10TObjPlayerFv();
 s32 notify_fish_if_valid__10TObjPlayerFUl();
 s32 rotate_matrix_y(s32, s32);
@@ -56,7 +55,7 @@ void TUnk_804A5D10::render() {
     u32 temp_r31;
     u8 *temp_r3;
 
-    temp_r3 = query_game_join_id__10TObjPlayerFv(*(s32 *)((s8 *)arg0 + 0x1C));
+    temp_r3 = (u8 *)find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
         temp_r31 = *(u32 *)((s8 *)temp_r3 + 0x188);
         if (temp_r31 != 0U) {
@@ -81,7 +80,7 @@ s32 vec3_add_to(void *, void *);
 
 void TUnk_804A5D10::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (query_game_join_id__10TObjPlayerFv(*(s32 *)((s8 *)arg0 + 0x1C)) == 0U) {
+    if (find_equipped_item(*(s32 *)((s8 *)arg0 + 0x1C)) == 0U) {
         queue_destruction__7TObjectFv(arg0);
         return;
     }
@@ -108,7 +107,7 @@ typedef char RecoveredGlobal_8012E414_lbl_804A5D10_size[sizeof(RecoveredGlobal_8
 u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, u8 *arg5) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &__vt__13TUnk_804A5D10.value;
-    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = ((TItem *)arg2)->get_field_d8();
+    *(s32 *)((s8 *)((u8 *)this) + 0x1C) = ((TItem *)arg2)->get_item_id();
     VecCopy((Vec *)(((u8 *)this) + 0x2C), (const Vec *)arg3);
     ((TObjPlayer *)(((u8 *)this) + 0x38))->copy_xyz(arg5);
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)arg4);

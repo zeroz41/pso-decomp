@@ -24,9 +24,9 @@ extern "C" {
 s32 get_current_floor();
 s32 reset_key_machine_state__10TObjPlayerFv();
 u8 * init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv(void *, s32, void *);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-void send_6x61_activate_mag_effect__14TItemEquipBaseFl(void *, s32);
+void send_activate_effect__5TItemFl(void *, s32);
 s32 get_extended_state__10TObjPlayerFv(void *);
 s16 get_captured_target_collider_index(void *p);
 s32 get_captured_target_entry(s32, s32);
@@ -39,7 +39,7 @@ u8 *TObjPlayer::create_vtable_clear_field1f8(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv(temp_r3, tl_05, arg0));
@@ -92,7 +92,7 @@ void TUnk_804A4F60::psycho_wand_roll_extra() {
     }
     ((Self_8012B9B4 *)this)->f264 = ((Self_8012B9B4 *)this)->owner->f60;
     VecCopy((Vec *)(((Self_8012B9B4 *)this)->f268), (const Vec *)(((Self_8012B9B4 *)this)->owner->pos));
-    send_6x61_activate_mag_effect__14TItemEquipBaseFl(this, lbl_805DAEC0 * (lbl_805DAEC4 * (f32)rand()));
+    send_activate_effect__5TItemFl(this, lbl_805DAEC0 * (lbl_805DAEC4 * (f32)rand()));
 }
 
 }

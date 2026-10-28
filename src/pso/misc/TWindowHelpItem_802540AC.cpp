@@ -229,7 +229,6 @@ s32 check_equip_requirements(s32, s32, s32 *);
 void *get_player_by_client_id(s32 i);
 u32 get_quest_id__12TQuestListVMFv();
 void *lookup_item_pmt_record(u8 *item);
-u8 * find_item_by_id(s32);
 s32 init_window_layout_entries(void *, void *, int);
 s32 set_help_text__15TWindowHelpItemFUl(void *, int);
 void TWindowHelpItem__vt9(HelpItem_80254F18 *self);
@@ -1112,7 +1111,7 @@ void TWindowHelpItem__set_displayed_item_by_id(u8 *window_help_item, s32 arg1) {
         ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(NULL, (void*)((void*)((void *) arg1)));
         return;
     }
-    ((TItem *)item)->copy_to_item_data(window_help_item + 0x88);
+    ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x88));
     ((TWindowHelpItem *)window_help_item)->set_displayed_item_data(window_help_item + 0x88, (void*)((void*)((void *) arg1)));
 }
 void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, s32 arg1) {
@@ -1126,7 +1125,7 @@ void show_item_by_id__15TWindowHelpItemFPvi(u8 *window_help_item, s32 arg1) {
         ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(NULL, (void*)((void*)((void *) arg1)));
         return;
     }
-    ((TItem *)item)->copy_to_item_data(window_help_item + 0x74);
+    ((TItem *)item)->copy_to_item_data((TItemData *)(window_help_item + 0x74));
     ((TWindowHelpItem *)window_help_item)->set_items_and_refresh(window_help_item + 0x74, (void*)((void*)((void *) arg1)));
 }
 void TWindowHelpItem::set_displayed_item_colored(u32 arg1) {

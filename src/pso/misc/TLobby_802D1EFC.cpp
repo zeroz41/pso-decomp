@@ -26,8 +26,7 @@ struct VObj802D1F30 : VBase802D1F30 {
 };
 
 extern "C" {
-s32 copy_and_register_item_data__11TItemObjectFv(u32);
-u32 find_item_by_id();
+s32 get_max_stack__5TItemFv(u32);
 s32 item_identity_matches(u8 *arg0, u8 *arg1);
 s32 TObjPlayer__sub_801C1AC8();
 Entry_802D20C8 *find_free_trade_slot__6TLobbyFPv(void *);
@@ -88,7 +87,7 @@ void TLobby::clear_stale_entries(u8 *arg0) {
     var_r29 = arg0;
     var_r28 = 0;
     do {
-        if (((u32) (*(s32 *)((s8 *)var_r29 + 0) + 0x10000) != 0xFFFFU) && ((find_item_by_id() == 0U) || ((s32) *(s32 *)((s8 *)var_r29 + 4) <= 0))) {
+        if (((u32) (*(s32 *)((s8 *)var_r29 + 0) + 0x10000) != 0xFFFFU) && ((find_item_by_id(*(s32 *)((s8 *)var_r29 + 0)) == NULL) || ((s32) *(s32 *)((s8 *)var_r29 + 4) <= 0))) {
             *(s32 *)((s8 *)var_r29 + 0) = -1;
             *(s32 *)((s8 *)var_r29 + 4) = 0;
         }
@@ -113,16 +112,16 @@ s32 TLobby::add_trade_item(u32 arg1, s32 arg2) {
         return 0;
     }
     if (TObjPlayer__sub_801C1AC8() != 0) {
-        ((TItem *)item)->copy_to_item_data(&a);
+        ((TItem *)item)->copy_to_item_data((TItemData *)&a);
         e = ((Entry_802D20C8 *)this);
         for (i = 0; i < 30; i++, e++) {
             if (e->id != 0xFFFFFFFF && e->id != 0xFFFFFF01) {
                 found = ((u32 (*)(u32)) find_item_by_id)(e->id);
                 if (found != 0) {
-                    ((TItem *)found)->copy_to_item_data(&b);
+                    ((TItem *)found)->copy_to_item_data((TItemData *)&b);
                     if (item_identity_matches((u8 *)&b, (u8 *)&a) != 0) {
                         e->count += arg2;
-                        if (e->count > copy_and_register_item_data__11TItemObjectFv(found)) {
+                        if (e->count > get_max_stack__5TItemFv(found)) {
                             return 2;
                         }
                     }

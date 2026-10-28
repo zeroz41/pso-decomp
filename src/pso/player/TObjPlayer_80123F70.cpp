@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TUnk_804A1F20.h"
 #include "pso/player/TObjPlayer_80123F70.h"
 #include "pso/item/TUnk_804A1E28.h"
@@ -6,7 +7,6 @@
 
 extern "C" {
 
-s32 submit_computer_command__10TObjPlayerFv(s32, s32, s32, s32);
 s32 refresh_owner_stats__14TItemEquipBaseFv();
 }
 
@@ -18,6 +18,6 @@ void TUnk_804A1F20::update_weapon() {
     refresh_owner_stats__14TItemEquipBaseFv();
     temp_r3 = (*(void * *)((u8 *)this + 0xF4));
     if (temp_r3 != NULL) {
-        submit_computer_command__10TObjPlayerFv(*(s32 *)((s8 *)temp_r3 + 0x2C), 2, 0, 1);
+        scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)temp_r3 + 0x2C), 2, 0, 1);
     }
 }

@@ -4,7 +4,7 @@
 extern "C" {
 
 void *get_player_by_client_id(s32 i);
-s32 get_field_d8__5TItemFv();
+s32 get_item_id__5TItemFv();
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 void TWindowHelpItem__set_displayed_item_by_id(u8 *arg0, s32 arg1);
 void show_item_by_id__15TWindowHelpItemFPvi(u8 *arg0, s32 arg1);
@@ -31,7 +31,7 @@ void TWindowSubEquip::update() {
         if (get_slot_value__10TObjPlayerFPvi((s32 *)(player + 0xD04), temp_r0) == 0U) {
             var_r3 = -1;
         } else {
-            var_r3 = get_field_d8__5TItemFv();
+            var_r3 = get_item_id__5TItemFv();
         }
         if (var_r3 != (s32) this->m_20) {
             this->m_20 = var_r3;

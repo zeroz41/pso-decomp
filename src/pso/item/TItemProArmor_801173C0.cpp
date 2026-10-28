@@ -5,6 +5,7 @@
 #include "pso/item/TUnk_8049FEB8.h"
 #include "pso/item/TItemProArmor.h"
 #include "pso/item/TItemTimerEvent.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_8011751C_lbl_8049FEB8 {
     s32 value;
@@ -12,7 +13,7 @@ struct RecoveredGlobal_8011751C_lbl_8049FEB8 {
 };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern int tl_05;
 u16 obj_getField1c(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -41,7 +42,7 @@ u8 *TItemProArmor::create() {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x104));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x104));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_8049FE00 *)temp_r3)->construct((void *)((void *)((*(s32 *)&tl_05))), arg0)));
@@ -107,7 +108,7 @@ void *__dt__13TUnk_8049FED0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_8049FED0;
         __dt__11TItemObjectFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/ShopWeaponStock.h"
 #include "pso/unk/text_80104FCC.h"
 #include "pso/unk/text_8020EEFC.h"
@@ -616,7 +617,7 @@ void generate_shop_weapon_stock(s32 tbl) {
       item.b13 = 0;
       if (is_duplicate_shop_weapon((C14_80224B7C *)(&item), tbl) == 1)
       {
-        ((TLobby *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_item_data(&item);
+        ((ItemData *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_from((ItemData *)(&item));
       }
     }
     sort_shop_items((s32)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);

@@ -1,4 +1,5 @@
 #include "pso/system/TSetEvtDestroy.h"
+#include "pso/item/TItem.h"
 #include "pso/TObject.h"
 #include "pso/misc/TUnk_804C3E88.h"
 #include "pso/TPlayerBattleCtrl.h"
@@ -744,7 +745,6 @@ void handle_6x7E(void);
 extern void *TLobby__battle_mode_data_ptr;
 void TLobby__sub_801C38A4(void);
 void TLobby__sub_801B09A4(void);
-void advance_item_system_generation(void);
     extern int lbl_805D5DB4;
 void init_and_set_flag__6TLobbyFv(void);
 u32 __nw__7TObjectFUl(s32);

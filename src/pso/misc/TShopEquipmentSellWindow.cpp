@@ -206,7 +206,7 @@ void TShopEquipmentSellWindow::handle_sell_confirm() {
         r = get_selected_menu_value(w->card);
         if (r == 0) {
             s32 i = select_cursor_entry__22TWindowSubShortCutListFv(w->list);
-            if (((TObjPlayer *)(w->player))->try_add_sale_meseta(((TItem *)(w->recs[i].item))->get_field_d8(), w->recs[i].price * w->count, w->count) != 0) {
+            if (((TObjPlayer *)(w->player))->try_add_sale_meseta(((TItem *)(w->recs[i].item))->get_item_id(), w->recs[i].price * w->count, w->count) != 0) {
                 TWindow__close((u8 *)w->card);
                 w->card = NULL;
                 w->sel = i;
@@ -338,7 +338,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
     for (i = 0; i < n; i++) {
         if (ids[i] != 0) {
             v = TShopEquipmentSellWindow::get_item_data_value(ids[i]);
-            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data(&self->entries[self->count].item) != 0) {
+            if (v > 0 && ((TItem *)(ids[i]))->copy_to_item_data((TItemData *)&self->entries[self->count].item) != 0) {
                 self->entries[self->count].id = ids[i];
                 self->entries[self->count].price = v / 8;
                 self->entries[self->count].index = i;

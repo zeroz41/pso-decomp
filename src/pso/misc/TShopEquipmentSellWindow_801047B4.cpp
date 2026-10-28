@@ -8,7 +8,7 @@ s32 TShopEquipmentSellWindow::get_item_data_value(u32 arg0) {
     s32 sp8[4];
 
     if (arg0 != 0U) {
-        ((TItem *)arg0)->copy_to_item_data(sp8);
+        ((TItem *)arg0)->copy_to_item_data((TItemData *)sp8);
         return ((TItemData *)sp8)->calc_price();
     }
     return 0;

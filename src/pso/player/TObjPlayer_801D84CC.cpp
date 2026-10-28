@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/system/vector.h"
@@ -44,12 +45,11 @@ struct VObj_84_801d859c_801D84CC : VObj_84Base_801d859c_801D84CC {
 
 s32 advance_item_id_counter();
 void send_6x29_delete_item__10TObjPlayerFPvii(void *obj, s32 a, s32 b);
-void *pickup_item__10TObjPlayerFv(u8 *arg0, u8 *arg1);
+void *pickup_item__10TObjPlayerFP5TItem(u8 *arg0, u8 *arg1);
 void TObjPlayer__sub_801BE9A8(s32 arg0);
 void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
-s32 get_field_d8__5TItemFv();
+s32 get_item_id__5TItemFv();
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
-void *lookup_inventory_item__10TObjPlayerFv(void *);
 u16 obj_getField1c(void *);
 void set_flag_20000__10TObjPlayerFi(s32 arg0);
 
@@ -58,15 +58,15 @@ void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
 
     ((s32 (*)())obj_getField1c)();
     *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
-    temp_r3 = lookup_inventory_item__10TObjPlayerFv(player);
+    temp_r3 = create_item((TItemData *)player);
     if (temp_r3 != NULL) {
         s8 val = ((VObj_84_801d859c_801D84CC *)temp_r3)->m31();
         s32 val_ext = (s32)val;
         if (get_slot_value__10TObjPlayerFPvi((s32 *)(arg0 + 0xD04), val_ext) != 0U) {
-            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_field_d8__5TItemFv(), 1);
+            send_6x29_delete_item__10TObjPlayerFPvii((void *)arg0, get_item_id__5TItemFv(), 1);
             set_equip_slot_entry(arg0 + 0xD04, val_ext, 0);
         }
-        if (pickup_item__10TObjPlayerFv((u8 *)arg0, (u8 *)temp_r3) != 0U) {
+        if (pickup_item__10TObjPlayerFP5TItem((u8 *)arg0, (u8 *)temp_r3) != 0U) {
             set_flag_20000__10TObjPlayerFi(arg0);
             ((TObjPlayer *)arg0)->equip_item_to_slot(temp_r3, 0);
             TObjPlayer__sub_801BE9A8(arg0);

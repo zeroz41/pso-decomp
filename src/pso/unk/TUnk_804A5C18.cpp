@@ -10,10 +10,11 @@
 #include "pso/unk/text_8012DF60.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012E190.h"
+#include "pso/item/TItem.h"
 
 extern "C" {
 
-u8 get_slot_count__5TItemFv(void *);
+u8 get_item_index__5TItemFv(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
 
@@ -22,7 +23,7 @@ void TObjPlayer::apply_frame_camera_shake() {
     s32 var_r30;
 
     player_list = TObjPlayer::get_player_list();
-    if (get_slot_count__5TItemFv(this) != 6) {
+    if (get_item_index__5TItemFv(this) != 6) {
         if (player_list == (s32) this->m_21c) {
             translate_matrix(0, 0.0f, this->m_224, 0.0f);
         }
@@ -137,7 +138,7 @@ void TUnk_804A5C18::update_attack() {
 }
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 }
 extern s32 tl_05;
 extern u8 lbl_804A5C18[];
@@ -206,7 +207,7 @@ u8 *create_shot_weapon(u8 *item) {
     u8 *temp_r3;
     u8 *var_r0;
     if (item != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x22C));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x22C));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(construct_shot_weapon(temp_r3, tl_05, item));
@@ -221,7 +222,7 @@ void *__dt__13TUnk_804A5C18Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_804A5C18;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

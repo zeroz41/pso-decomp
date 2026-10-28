@@ -25,7 +25,6 @@ struct Needle_80109D48 {
 };
 
 extern "C" {
-u32 query_game_join_id__10TObjPlayerFv(int);
 extern const f32 lbl_805DAB50;
 extern const f32 lbl_805DAB54;
 void rotate_matrix_by_node_angles(void *, s32);
@@ -44,7 +43,7 @@ extern const f32 lbl_805DAB4C;
 void TItemEffNeedleBase::render() {
     Needle_80109D48 *self = (Needle_80109D48 *)this;
     if (((TObject *)self)->all_parents_unqueued_for_destruction() == 0 ||
-        query_game_join_id__10TObjPlayerFv(*(int *)self->m_2c) == 0) {
+        find_equipped_item(*(int *)self->m_2c) == 0) {
         return;
     }
     if (self->m_3c != NULL) {
@@ -67,7 +66,7 @@ void TItemEffNeedleBase::render() {
 
 void TItemEffNeedleBase::run_task() {
     u8 *arg0 = (u8 *)this;
-    if (query_game_join_id__10TObjPlayerFv((int) (*(s32 *)((s8 *)arg0 + 0x2C))) == 0U) {
+    if (find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x2C))) == 0U) {
         queue_destruction__7TObjectFv((arg0));
         disallow_rendering__7TObjectFv((TObject *)(arg0));
         return;
@@ -86,7 +85,7 @@ u8 *__ct__18TItemEffNeedleBaseFv(u8 *object, void *arg1, u8 *item) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)object + 0x18) = __vt__18TItemEffNeedleBase;
     *(s32 *)((s8 *)object + 0) = (s32) TItemEffNeedleBase__class_name;
-    *(s32 *)((s8 *)object + 0x2C) = ((TItem *)item)->get_field_d8();
+    *(s32 *)((s8 *)object + 0x2C) = ((TItem *)item)->get_item_id();
     *(s32 *)((s8 *)object + 0x48) = (((TItem *)item)->rotation_y);
     *(s32 *)((s8 *)object + 0x4C) = 0;
     *(s32 *)((s8 *)object + 0x44) = 0;

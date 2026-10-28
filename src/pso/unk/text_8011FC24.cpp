@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipBase.h"
@@ -8,7 +9,6 @@
 
 extern "C" {
 
-void TObjPlayer__sub_80100F34(void*);
 void clear_equip_flags__11TItemWeaponFUl(void*,u32);
 void set_status_flags__10TObjPlayerFUl(void*,u32);
 s32 test_flag30_bit0x100000__10TObjPlayerFv(void*);
@@ -20,7 +20,7 @@ extern const f32 lbl_805DAC9C;
 
 u32 test_flags_1b8__11TItemWeaponFUl(void *, u32);
 s32 update_trail_slot__11TItemWeaponFPvi(void *, int);
-s32 get_field_d8__5TItemFv(void *);
+s32 get_item_id__5TItemFv(void *);
 
 void TItemWeapon::update_trails() {
     u8 *arg0 = (u8 *)this;
@@ -63,7 +63,7 @@ void TItemWeapon::vfunc_26() {
     s32 count;
     if (((u32) this->player != 0U) && (test_flags_1b8__11TItemWeaponFUl(this, 0xCU) == 0xCU) && (test_flags_1b8__11TItemWeaponFUl(this, 0x80U) == 0U)) {
         if (test_flags_1b8__11TItemWeaponFUl(this, 0x800U) != 0U) {
-            TObjPlayer::push_id_to_list(get_field_d8__5TItemFv(this));
+            TObjPlayer::push_id_to_list(get_item_id__5TItemFv(this));
             return;
         }
         this->reserved_53();
@@ -106,7 +106,7 @@ void TItemWeapon::vfunc_16() {
         register_technique_boosts__14TItemEquipBaseFPvPv(self,self->material);
         self->update_weapon();
         if(!obj_isState7_324(self->player)) ((TItemWeapon *)self)->advance_weapon_photon_phase();
-        if(((TItemEquipBase *)self)->get_flag_40()) {
+        if(((TItem *)self)->is_hidden()) {
             count=0;
             do {
                 void* trail=self->trails[count];

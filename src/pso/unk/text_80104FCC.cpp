@@ -73,7 +73,6 @@ struct Obj_80105538 {
 };
 
 extern "C" {
-void TItemData__sub_8010CCB0(void *);
 typedef s32 (*Fn_8010542C)(void *);
 extern Fn_8010542C item_create_fn_table[];
 struct In_801054E0 { u8 pad0; u8 idx; };
@@ -85,7 +84,7 @@ void *get_player_by_client_id(s32);
 s32 get_current_floor(void);
 s32 TObjPlayer__sub_80104840(s32);
 extern s32 TLobby__designated_client_id;
-extern Entry_8010567C *TLobby__data_805D6140;
+extern Entry_8010567C *quest_object_entries;
 extern s32 local_client_id;
 int check_class_equip_permission(TObjPlayer *player, s32 perm);
 s32 *csnVecterUnder(s32 origin, s32 mask);
@@ -202,7 +201,7 @@ void TUnk_804806E8::request_box_item_drop(void *unused, s16 arg2) {
             (((TObjPlayer *)p1)->get_field_3e4() != ((TObjPlayer *)p2)->get_field_3e4() ||
              TLobby__designated_client_id == local_client_id)) {
             if (self->f2c != -1) {
-                Entry_8010567C e = TLobby__data_805D6140[self->f2c];
+                Entry_8010567C e = quest_object_entries[self->f2c];
                 if (e.b != 0xFFFF) {
                     Pkt_8010567C pkt;
                     ((TLobby *)(&pkt))->build_6x06_guild_card_packet();

@@ -45,7 +45,7 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 f32 xz_distance_squared(void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 s32 project_world_to_screen(int, void *, void *);
-extern RecoveredGlobal_80191874_lbl_804FF610 lbl_804FF610;
+extern RecoveredGlobal_80191874_lbl_804FF610 camera_right;
 extern s32 camera_ctrl_instance;
 extern const f32 lbl_805DBE2C;
 extern const f32 lbl_805DBE30;
@@ -86,9 +86,9 @@ s32 TObjHashiBase::update_object_view_visibility(f32 farg0, f32 farg1) {
         return 0;
     }
     if (stack.sp10 < lbl_805DBE2C) {
-        stack.sp10 = (*(f32 *)((s8 *)&lbl_804FF610.value + 0) * farg1) + *(f32 *)((s8 *)arg0 + 0x38);
-        stack.sp14 = (*(f32 *)((s8 *)&lbl_804FF610.value + 4) * farg1) + *(f32 *)((s8 *)arg0 + 0x3C);
-        stack.sp18 = (*(f32 *)((s8 *)&lbl_804FF610.value + 8) * farg1) + *(f32 *)((s8 *)arg0 + 0x40);
+        stack.sp10 = (*(f32 *)((s8 *)&camera_right.value + 0) * farg1) + *(f32 *)((s8 *)arg0 + 0x38);
+        stack.sp14 = (*(f32 *)((s8 *)&camera_right.value + 4) * farg1) + *(f32 *)((s8 *)arg0 + 0x3C);
+        stack.sp18 = (*(f32 *)((s8 *)&camera_right.value + 8) * farg1) + *(f32 *)((s8 *)arg0 + 0x40);
         project_world_to_screen(0, (void *)&stack.sp10, (void *)&stack.sp8);
         if (stack.sp8 < lbl_805DBE2C) {
             this->m_1e = 0;
@@ -96,9 +96,9 @@ s32 TObjHashiBase::update_object_view_visibility(f32 farg0, f32 farg1) {
         }
         goto block_13;
     }
-    stack.sp10 = -((*(f32 *)((s8 *)&lbl_804FF610.value + 0) * farg1) - *(f32 *)((s8 *)arg0 + 0x38));
-    stack.sp14 = -((*(f32 *)((s8 *)&lbl_804FF610.value + 4) * farg1) - *(f32 *)((s8 *)arg0 + 0x3C));
-    stack.sp18 = -((*(f32 *)((s8 *)&lbl_804FF610.value + 8) * farg1) - *(f32 *)((s8 *)arg0 + 0x40));
+    stack.sp10 = -((*(f32 *)((s8 *)&camera_right.value + 0) * farg1) - *(f32 *)((s8 *)arg0 + 0x38));
+    stack.sp14 = -((*(f32 *)((s8 *)&camera_right.value + 4) * farg1) - *(f32 *)((s8 *)arg0 + 0x3C));
+    stack.sp18 = -((*(f32 *)((s8 *)&camera_right.value + 8) * farg1) - *(f32 *)((s8 *)arg0 + 0x40));
     project_world_to_screen(0, (void *)&stack.sp10, (void *)&stack.sp8);
     if (stack.sp8 > lbl_805DBE30) {
         this->m_1e = 0;

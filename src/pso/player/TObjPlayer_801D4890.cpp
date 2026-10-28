@@ -48,7 +48,7 @@ extern "C" {
 void remove_equipped_item__10TObjPlayerFPvii(void *, s32, s32);
 s32 start_inventory_update__10TObjPlayerFi(void *, s32);
 s32 TObjPlayer__sub_801D49F4(void *arg0, void *arg1, s32 *arg2, s32 arg3);
-s32 place_on_ground__5TItemFPvsPvi(void *, s16, s32, s32);
+s32 place_on_ground__5TItemFsPfl(void *, s16, s32, s32);
 void unequip_item__10TObjPlayerFiPv(s32 arg0, void *arg1);
 s32 is_item_equipped(void *);
 void *get_owner_if_alive__10TObjPlayerFv();
@@ -85,7 +85,7 @@ s32 TObjPlayer::update_inventory_item(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s3
         unequip_item__10TObjPlayerFiPv(arg1, temp_r3_2);
     }
     *(s16 *)((s8 *)temp_r3_2 + 0x28) = ((TUnk_804B9870 *)arg1)->get_stat_by_key_state();
-    place_on_ground__5TItemFPvsPvi(temp_r3_2, client, arg3, 0);
+    place_on_ground__5TItemFsPfl(temp_r3_2, client, arg3, 0);
     temp_r4 = *(s16 *)&this->m_1c;
     *(s16 *)&this->m_1c = (temp_r4 - 1);
     queue_destruction__7TObjectFv(temp_r3, temp_r4);

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8010A050.h"
+#include "pso/item/TItem.h"
 
 struct Vec_80109A30 { f32 x, y, z; };
 
@@ -9,7 +10,6 @@ void *__ct__17TItemEffNeedlePosFv(void *, s32, void *, Vec_80109A30 *, Vec_80109
 void *__nw__7TObjectFUl(u32);
 void subtract_vector(Vec_80109A30 *, Vec_80109A30 *);
 void spawn_needle_wall_impact(s32 arg0, void *arg1, Vec_80109A30 *arg2, Vec_80109A30 *arg3);
-u8 *find_item_by_id(s32 id);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 extern TObject *tl_05;
 

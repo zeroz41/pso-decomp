@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TUnk_804CDFE8.h"
 #include "pso/misc/TWindowMenu.h"
@@ -212,8 +213,7 @@ void *create_item_list_window(s32, s32, u16);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);
 extern const f32 lbl_805DC6D0;
-VObj_18_b34251 *find_item_by_id(s32);
-u32 get_equip_field_d04__10TObjPlayerFv(void *, s32);
+u32 get_equip_field_d04__10TObjPlayerFl(void *, s32);
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
@@ -318,9 +318,9 @@ void TShopEquipmentListWindow::handle_buy_confirm() {
                 it.id = advance_item_id_counter(local_client_id);
                 ((TShopEquipmentListWindow *)(&it))->set_stack_count((s8)(1));
                 try_buy_item(w->player, &it);
-                item = find_item_by_id(it.id);
-                if (item != NULL && (e = get_equip_field_d04__10TObjPlayerFv(w->player, item->m31())) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(w->player, ((TItem *)e)->get_field_d8());
+                item = (VObj_18_b34251 *)find_item_by_id(it.id);
+                if (item != NULL && (e = get_equip_field_d04__10TObjPlayerFl(w->player, item->m31())) != 0) {
+                    send_6x26_unequip_item__10TObjPlayerFPvPv(w->player, ((TItem *)e)->get_item_id());
                 }
                 send_6x25_equip_item(w->player, it.id, 0);
                 update_list(&w->recs[i]);
@@ -492,7 +492,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
     W->count = TShopEquipmentListWindow__sub_8021C85C(sub_8022397C__15TShopWindowBaseFv(W));
     for (i = 0; i < W->count; i++) {
         get_shop_weapon_stock_item(&tmp, i, sub_8022397C__15TShopWindowBaseFv(W));
-        ((TLobby *)(&W->recs[i]))->copy_item_data(&tmp);
+        ((ItemData *)(&W->recs[i]))->copy_from((ItemData *)(&tmp));
     }
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {

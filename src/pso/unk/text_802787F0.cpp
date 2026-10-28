@@ -12,7 +12,6 @@ struct Wn_802787F0 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 struct Ent_802787F0 { u32 id; s32 count; };
 
 extern "C" {
-u8 *find_item_by_id(s32 id);
 void *get_player_by_client_id(s32 i);
 void calc_list_content_extent(void *);
 void build_usable_item_list(Wn_802788A8 *arg0);
@@ -35,7 +34,7 @@ void fill_trade_item_list(Wn_802787F0 *arg0, Ent_802787F0 *arg1) {
                     push_status_disp_entry(arg0, count, id);
                 } else {
                     sid = id;
-                    item = find_item_by_id(sid);
+                    item = (u8 *)find_item_by_id(sid);
                     if (item != NULL) {
                         ((TWindowSubStatusDisp *)arg0)->add_inventory_item((s32)item, (s32)count, (s32)sid);
                     }
@@ -61,7 +60,7 @@ void build_usable_item_list(Wn_802788A8 *arg0) {
     if (p != NULL) {
         count = ((TObjPlayer *)(*(s32 *)(p + 0xD00)))->run_and_get_result((int)list);
         for (i = 0; i < count; i++) {
-            id = find_item_by_id(list[i]);
+            id = (u8 *)find_item_by_id(list[i]);
             if (id != NULL && ((TItem *)id)->get_usable_action_flags(4, 0) != 0) {
                 ((TShopJudgmentItemWindow *)arg0)->add_list_entry((s32)id, list[i]);
             }

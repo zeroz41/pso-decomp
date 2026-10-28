@@ -15,8 +15,7 @@ typedef char armor_size_check[(sizeof(TItemEffArmorParticle) == 0x2C) ? 1 : -1];
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(int, int);
-u8 *find_item_by_id(s32 id);
-s8 sub_80102C30__5TItemFv();
+s8 get_mode__5TItemFv();
 void *get_player_by_client_id(s32 i);
 }
 int get_item_system_generation(void);
@@ -34,9 +33,9 @@ void TItemEffArmorParticle::run_task() {
         item = (u32)find_item_by_id(m_item_id);
         if (player != 0U) {
             if (item != 0U) {
-                if (sub_80102C30__5TItemFv() == 2) {
+                if (get_mode__5TItemFv() == 2) {
                     if (obj_testFlags30__13TUnk_804AF8A0FUl((int)player, 0x800) == 0) {
-                        if (((TItemEquipBase *)item)->get_flag_40() == 0) {
+                        if (((TItem *)item)->is_hidden() == 0) {
                             ((TParticleCtrl *)m_20)->clear_active_flag();
                         } else {
                             goto enable_particle;
@@ -61,6 +60,7 @@ TItemEffArmorParticle::~TItemEffArmorParticle() {
 }
 
 #include "types.h"
+#include "pso/item/TItem.h"
 
 struct Base_A_80364364 { char pad[0x18]; };
 struct V_A_80364364 : Base_A_80364364 {

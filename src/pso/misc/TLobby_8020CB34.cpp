@@ -15,7 +15,7 @@ struct VObj8020 {
     virtual void m4(s32, s32);
 };
 extern s32 TLobby__data_805D60FC;
-extern s32 TLobby__data_805D6140;
+extern s32 quest_object_entries;
 
 s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
     s16 temp_r0;
@@ -42,7 +42,7 @@ s32 TLobby::spawn_objects_at_pos(s16 arg0, s16 arg1) {
                 *(void **)((s8 *)set_object + 0x80) = var_r29;
                 temp_r0 = *(s16 *)((s8 *)set_object + 0x2C);
                 if (temp_r0 != -1) {
-                    ((VObj8020*)set_object)->m4(TLobby__data_805D6140 + (temp_r0 * 4), 0);
+                    ((VObj8020*)set_object)->m4(quest_object_entries + (temp_r0 * 4), 0);
                 }
                 var_r30 += 1;
             } else {

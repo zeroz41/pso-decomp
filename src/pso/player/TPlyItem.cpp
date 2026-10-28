@@ -149,8 +149,8 @@ void TLobby::reduce_owner_matched_items() {
     for (it = self->child; it != NULL; it = it->next) {
         if (is_item_valid__9TItemListFl(it) != 0) {
             owner = (VObj_801D5004 *)get_owner_if_alive__10TObjPlayerFv(it);
-            if (owner != NULL && item_reduce_owner_match_field_ec == ((TItem *)owner)->get_field_ec() &&
-                reduce_owner_match_id == ((TItem *)owner)->get_field_ed()) {
+            if (owner != NULL && item_reduce_owner_match_field_ec == ((TItem *)owner)->get_item_type() &&
+                reduce_owner_match_id == ((TItem *)owner)->get_item_group()) {
                 if (item_reduce_owner_match_field_ec == 3) {
                     lobby = item_reduce_target_player;
                     ((TLobby *)(*(s32 *)(lobby + 0xD00)))->reduce_item_amount((s32)lobby, (s32)it, (s32)(owner->v34()));
@@ -170,7 +170,7 @@ void TLobby::reduce_child_item_amounts() {
     for (it = self->child; it != NULL; it = it->next) {
         if (is_item_valid__9TItemListFl(it) != 0) {
             owner = (VObj_801D50E0 *)get_owner_if_alive__10TObjPlayerFv(it);
-            if (owner != NULL && item_reduce_owner_match_field_ec == ((TItem *)owner)->get_field_ec()) {
+            if (owner != NULL && item_reduce_owner_match_field_ec == ((TItem *)owner)->get_item_type()) {
                 if (item_reduce_owner_match_field_ec == 3) {
                     lobby = item_reduce_target_player;
                     ((TLobby *)(*(s32 *)(lobby + 0xD00)))->reduce_item_amount((s32)lobby, (s32)it, (s32)(owner->v34()));
@@ -188,7 +188,7 @@ void TObjPlayer::collect_owner_fields_recursive() {
     void *owner;
     for (it = self->child; it != NULL; it = it->next) {
         if (is_item_valid__9TItemListFl(it) != 0 && (owner = get_owner_if_alive__10TObjPlayerFv(it)) != NULL) {
-            *TObjPlayer__owner_field_write_cursor++ = ((TItem *)owner)->get_field_d8();
+            *TObjPlayer__owner_field_write_cursor++ = ((TItem *)owner)->get_item_id();
             inventory_walk_visit_count++;
         }
         ((TObjPlayer *)it)->collect_owner_fields_recursive();

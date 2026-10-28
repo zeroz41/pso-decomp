@@ -28,10 +28,8 @@ void *TOKey__ct(TOKey *arg0);
 extern s32 __vt__12TOSwitchItem[];
 extern s32 lbl_805D3180;
 u8 *TOSwitchItem__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 copy_item_data_and_process__5TItemFv(int);
+s32 get_sell_price__5TItemFv(int);
 }
-int get_sorted_item_registry_entry(int a0);
-int get_item_registry_count(void);
 extern "C" {
 f32 horizontal_distance_squared(Pos_80177E24 *, Pos_80177E24 *);
 s32 is_state_ec1_ed3__10TObjPlayerFv(int);
@@ -85,23 +83,23 @@ void run_task__12TOSwitchItemFv(u8 *switch_item) {
     var_r29 = 0;
     while (var_r29 != temp_r31) {
         sorted_item_registry_entry = (u8 *)(get_sorted_item_registry_entry(var_r29));
-        if ((((TItem *)sorted_item_registry_entry)->sub_80102C30() == 0) && (horizontal_distance_squared(&((Obj_80177E24 *)sorted_item_registry_entry)->pos, &((Obj_80177E24 *)switch_item)->pos) < ((TOSwitchItem *)switch_item)->m_e8)) {
+        if ((((TItem *)sorted_item_registry_entry)->get_mode() == 0) && (horizontal_distance_squared(&((Obj_80177E24 *)sorted_item_registry_entry)->pos, &((Obj_80177E24 *)switch_item)->pos) < ((TOSwitchItem *)switch_item)->m_e8)) {
             switch (((TOSwitchItem *)switch_item)->m_f0) {
             case 0:
                 var_r30 += 1;
                 break;
             case 1:
-                if (((TItem *)sorted_item_registry_entry)->get_field_ec() == 0) {
+                if (((TItem *)sorted_item_registry_entry)->get_item_type() == 0) {
                     var_r30 += 1;
                 }
                 break;
             case 2:
-                if ((((TItem *)sorted_item_registry_entry)->get_field_ec() == 1) && (((TItem *)sorted_item_registry_entry)->get_field_ed() == 1)) {
+                if ((((TItem *)sorted_item_registry_entry)->get_item_type() == 1) && (((TItem *)sorted_item_registry_entry)->get_item_group() == 1)) {
                     var_r30 += 1;
                 }
                 break;
             case 3:
-                if ((((TItem *)sorted_item_registry_entry)->get_field_ec() == 1) && (((TItem *)sorted_item_registry_entry)->get_field_ed() == 2)) {
+                if ((((TItem *)sorted_item_registry_entry)->get_item_type() == 1) && (((TItem *)sorted_item_registry_entry)->get_item_group() == 2)) {
                     var_r30 += 1;
                 }
                 break;
@@ -111,18 +109,18 @@ void run_task__12TOSwitchItemFv(u8 *switch_item) {
                 }
                 break;
             case 5:
-                if (((TItem *)sorted_item_registry_entry)->get_field_ec() == 2) {
+                if (((TItem *)sorted_item_registry_entry)->get_item_type() == 2) {
                     var_r30 += 1;
                 }
                 break;
             case 6:
-                if (((TItem *)sorted_item_registry_entry)->get_field_ec() == 3) {
-                    var_r30 += ((TItem *)(sorted_item_registry_entry))->vfunc_36();
+                if (((TItem *)sorted_item_registry_entry)->get_item_type() == 3) {
+                    var_r30 += ((TItem *)(sorted_item_registry_entry))->get_amount();
                 }
                 break;
             case 7:
-                if (((TItem *)sorted_item_registry_entry)->get_field_ec() == 4) {
-                    var_r30 += copy_item_data_and_process__5TItemFv((int)sorted_item_registry_entry);
+                if (((TItem *)sorted_item_registry_entry)->get_item_type() == 4) {
+                    var_r30 += get_sell_price__5TItemFv((int)sorted_item_registry_entry);
                 }
                 break;
             }

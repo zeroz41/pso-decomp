@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_802230F8.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/TLobby.h"
@@ -53,9 +54,9 @@ u32 TLobby__sub_8022318C(u8 *arg0, u8 *arg1) {
 void TLobby::swap_item_data(s32 *arg1) {
     s32 sp8[8];
 
-    ((TLobby *)sp8)->copy_item_data(this);
-    copy_item_data(arg1);
-    ((TLobby *)arg1)->copy_item_data(sp8);
+    ((ItemData *)sp8)->copy_from((ItemData *)(this));
+    ((ItemData *)this)->copy_from((ItemData *)arg1);
+    ((ItemData *)arg1)->copy_from((ItemData *)(sp8));
 }
 
 void TLobby::sort_records(s32 arg1, s32 arg2) {

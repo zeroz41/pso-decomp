@@ -73,6 +73,7 @@ struct VObj_18_f1aa6a : VBase_18_f1aa6a {
 };
 
 #include <stddef.h>
+#include "pso/item/TItem.h"
 struct Stack_80362FB4 {
     s32 sp8;
     s32 spC;
@@ -86,7 +87,7 @@ struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
 
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer__sub_803630F0(u8 *arg0);
 s32 rotate_matrix_x(int, int);
@@ -146,11 +147,11 @@ void TObjPlayer__sub_80362FB4(u8 *item_weapon) {
         if (*(s32 *)((s8 *)item_weapon + 0x1FC) & 1) {
             push_matrix();
             rotate_matrix_x(0, 0x2AAA);
-            ((TItemWeapon *)item_weapon)->check_boss2tunnel_field_f4();
+            ((TItem *)item_weapon)->draw_model();
             pop_matrix();
             push_matrix();
             rotate_matrix_x(0, -0x2AAA);
-            ((TItemWeapon *)item_weapon)->check_boss2tunnel_field_f4();
+            ((TItem *)item_weapon)->draw_model();
             pop_matrix();
         }
     }
@@ -174,7 +175,7 @@ u8 *TObjPlayer__sub_803630F0(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804F27E0 *)temp_r3)->enter_state_804F27E0(tl_05, arg0)));
@@ -189,7 +190,7 @@ void *__dt__13TUnk_804F27E0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F27E0;
         __dt__13TUnk_804A4948Fv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

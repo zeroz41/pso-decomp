@@ -92,6 +92,7 @@ typedef char RecoveredGlobal_803589F8_lbl_804F15C8_size[sizeof(RecoveredGlobal_8
 
 #include <stddef.h>
 #include "pso/misc/TNowLoading.h"
+#include "pso/item/TItem.h"
 struct Stack_80358048 {
     s32 sp8;
     s32 spC;
@@ -210,11 +211,11 @@ struct Info_80357784 {
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
 extern const f32 lbl_805E006C;
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u16 obj_getField1c(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
-u8 get_field_ec__5TItemFv();
+u8 get_item_type__5TItemFv();
 s32 reset_key_machine_state__10TObjPlayerFv();
 extern RecoveredGlobal_803589F8_lbl_804F15C8 weapon_special_effect_callbacks;
 void dispatch_weapon_special_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3);
@@ -322,7 +323,7 @@ void *__dt__13TUnk_804F14A8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = item_equip_variant_vtable;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -344,7 +345,7 @@ u8 *TObjPlayer::create_state_34_alt() {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804F14A8 *)temp_r3)->init_state_34_alt(tl_05, arg0)));
@@ -820,7 +821,7 @@ void dispatch_weapon_special_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     s32 (*temp_r12)(s32, u32, s32, s32);
     s32 temp_r3;
     u8 temp_r3_2;
-    if (((arg0 != 0) || (arg1 != 0U)) && ((s32) obj_getField1c((void *)arg0) < 0xC) && (reset_key_machine_state__10TObjPlayerFv() != 0) && (temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)arg0), ((temp_r3 == 0) == 0)) && (get_field_ec__5TItemFv() == 0)) {
+    if (((arg0 != 0) || (arg1 != 0U)) && ((s32) obj_getField1c((void *)arg0) < 0xC) && (reset_key_machine_state__10TObjPlayerFv() != 0) && (temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)arg0), ((temp_r3 == 0) == 0)) && (get_item_type__5TItemFv() == 0)) {
         if (((TItemWeapon *)temp_r3)->test_flags_1b8(0x400020) != 0U) {
             TObjPlayer::update_battle_control_on_unlock((void *)arg0, (void *)arg1, (void *)arg2, (s32)arg3);
             return;

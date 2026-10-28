@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80100E00.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801211F0.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
 #include "pso/unk/text_80120150.h"
@@ -37,7 +37,7 @@ s32 pop_matrix();
 void draw_chunk_object(void *child);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
-extern s32 lbl_805D53EC;
+extern s32 item_render_state;
 extern s16 weapon_node_material_index;
 extern u8 *weapon_render_callback_object;
 extern s32 model_render_flags;
@@ -52,7 +52,7 @@ s32 TItemWeapon::draw_weapon_model() {
     }
     {
         reset_model_node_counter();
-        if (this->is_flag_400() != 0) {
+        if (((TItem *)this)->has_no_defer_render() != 0) {
             var_r30 = 1;
         } else {
             var_r30 = ((VObj_18_26a62c *)(this))->m8(lbl_805DACA8, lbl_805DACAC);
@@ -60,7 +60,7 @@ s32 TItemWeapon::draw_weapon_model() {
         TObjPlayer::notify_fish_if_valid((int) (*(s32 *)((s8 *)this + 0x24)));
         ((TObjMotion *)(this->player))->get_item_ptr((s32)((void *) ((s8)get_attach_joint__11TItemWeaponFv(this))));
         push_matrix_from();
-        if ((var_r30 != 0) && (((TItemEquipBase *)this)->get_flag_40() == 0)) {
+        if ((var_r30 != 0) && (((TItem *)this)->is_hidden() == 0)) {
             weapon_render_callback_object = (u8 *)this;
             weapon_node_material_index = *(s16 *)((s8 *)this + 0x1CC);
             temp_r4 = (u8 *)this->parameters;
@@ -74,9 +74,9 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
-            ((TObjPlayer *)this)->get_mag_scale();
+            ((TItem *)this)->get_owner_alpha();
             set_model_fade_alpha__10TObjPlayerFf();
-            if (this->is_flag_400() != 0) {
+            if (((TItem *)this)->has_no_defer_render() != 0) {
                 model_render_flags |= 0x8011;
                 set_color_blend_mode(1, 4, 5, 0);
                 set_shadow_material_state();
@@ -84,7 +84,7 @@ s32 TItemWeapon::draw_weapon_model() {
                     if (this->test_flags_1b8(0x800000) != 0U) {
                         draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                     } else {
-                        this->run_with_callback((int)((void *) (0)));
+                        ((TItem *)this)->draw_model_nodes(NULL);
                     }
                 } else {
                     TObjPlayer::set_global_flag();
@@ -94,11 +94,11 @@ s32 TItemWeapon::draw_weapon_model() {
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 if (this->test_flags_1b8(0x40) != 0U) {
-                    this->apply_sign_effect((int)((void *) (*(s32 *)((s8 *)this->player + 0xDB4))));
+                    ((TItem *)this)->apply_sign_effect((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
                 } else if (this->test_flags_1b8(0x800000) != 0U) {
                     draw_chunk_object((void *)(*(u32 *)((s8 *)this + 0xF4)));
                 } else {
-                    this->run_with_callback((int)((void *) (*(s32 *)((s8 *)this->player + 0xDB4))));
+                    ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
                 }
             } else {
                 TObjPlayer::set_global_flag();
@@ -107,8 +107,8 @@ s32 TItemWeapon::draw_weapon_model() {
             }
             TObjPlayer__sub_80101088();
             TObjPlayer::end_particle_effect();
-            this->draw_shield_particle();
-            this->update_screen_particle_effect();
+            ((TItem *)this)->draw_shield_particle();
+            ((TItem *)this)->update_screen_particle_effect();
             TObjPlayer::warn_if_gauge_low();
             TObjPlayer__sub_8036414C();
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
@@ -116,9 +116,9 @@ s32 TItemWeapon::draw_weapon_model() {
             } else {
                 TObjEneRe7Berura::set_global_state(NULL);
             }
-            ((TObjPlayer *)(&lbl_805D53EC))->clear_id();
+            ((TObjPlayer *)(&item_render_state))->clear_id();
         } else {
-            this->apply_to_child((int)((void *) (*(s32 *)((s8 *)this->player + 0xDB4))));
+            ((TItem *)this)->visit_model_nodes((u8 *)(*(s32 *)((s8 *)this->player + 0xDB4)));
         }
         pop_matrix();
         reset_model_node_counter();

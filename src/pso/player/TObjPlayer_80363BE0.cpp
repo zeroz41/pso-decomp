@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
@@ -102,7 +103,6 @@ struct VObj_18_1419ea : VBase_18_1419ea {
 };
 
 extern "C" {
-VObj_18_1419ea *query_game_join_id__10TObjPlayerFv(s32);
 extern u8 saved_model_draw_color[];
 extern s32 lbl_805D5660;
 extern s32 lbl_805D5664;
@@ -134,7 +134,7 @@ void TUnk_804F2A10::render() {
     n = *(s32 *)(lbl_805D6FB8 + 0xB0);
     p = (s32 *)(lbl_805D6FB8 + 0x30);
     while (n != 0) {
-        obj = query_game_join_id__10TObjPlayerFv(*p++);
+        obj = (VObj_18_1419ea *)find_equipped_item(*p++);
         if (obj != NULL) {
             set_depth_buffer_settings_id(1);
             obj->m26();
@@ -157,7 +157,6 @@ void TUnk_804F2A10::render() {
     *(s32 *)(lbl_805D6FB8 + 0xB0) = 0;
 }
 
-s32 submit_computer_command__10TObjPlayerFv(s32, s32, s32, s32);
 
 void TUnk_804F2A10::run_task() {
     void *spC;
@@ -165,7 +164,7 @@ void TUnk_804F2A10::run_task() {
 
     TItemLoad::get_model_ids((u8)5, (s32 *)&spC, (s32 *)&sp8);
     if (spC != NULL) {
-        submit_computer_command__10TObjPlayerFv(*(s32 *)((s8 *)spC + 0x2C), 2, 2, 0xB);
+        scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)spC + 0x2C), 2, 2, 0xB);
     }
 }
 

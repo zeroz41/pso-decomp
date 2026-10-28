@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 test_flags_any(s32 *arg0, s32 arg1);
+s32 test_flags_any(s32 *flags, s32 mask);
 }
 
 // --- C functions defined in TAdRicoRing_8001BEE8.cpp ---
 extern "C" {
-u8 test_flags_any(s32 *arg0, s32 arg1);
+s32 test_flags_any(s32 *flags, s32 mask);
 }
 // --- end of C functions
 

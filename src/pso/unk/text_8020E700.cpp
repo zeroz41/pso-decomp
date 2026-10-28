@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/misc/TLobby.h"
@@ -117,7 +118,7 @@ void generate_shop_unit_pool(s32 arg0) {
         item.b[1] = 3;
         item.b[2] = b;
         if (is_duplicate_shop_shield_or_unit(&item, arg0) == 1) {
-            ((TLobby *)(&dst[lbl_80513D68[arg0]++]))->copy_item_data(&item);
+            ((ItemData *)(&dst[lbl_80513D68[arg0]++]))->copy_from((ItemData *)(&item));
             cnt++;
         }
     }
@@ -174,7 +175,7 @@ void generate_shop_shield_pool(s32 arg0) {
             item.b[2] = b;
         }
         if (is_duplicate_shop_shield_or_unit(&item, arg0) == 1) {
-            ((TLobby *)(&dst[counts[arg0]++]))->copy_item_data(&item);
+            ((ItemData *)(&dst[counts[arg0]++]))->copy_from((ItemData *)(&item));
             j++;
         }
     }
@@ -234,7 +235,7 @@ void generate_shop_armor_pool(s32 arg0) {
         }
         ((TItemData *)&item)->register_drop();
         if (is_duplicate_shop_armor((Rec_8020E700 *)&item, arg0) == 1) {
-            ((TLobby *)(&dst[counts[arg0]++]))->copy_item_data(&item);
+            ((ItemData *)(&dst[counts[arg0]++]))->copy_from((ItemData *)(&item));
             j++;
         }
     }

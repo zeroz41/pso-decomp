@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_804E23F0.h"
 #include "pso/items/TItemWeapon.h"
@@ -236,11 +237,11 @@ void TObjPlayer__sub_802D5DE0(u8 *item_weapon) {
         if (*(s32 *)((s8 *)item_weapon + 0x1f8) & 1) {
             push_matrix();
             rotate_matrix_x(0, 0x2AAA);
-            ((TItemWeapon *)item_weapon)->check_boss2tunnel_field_f4();
+            ((TItem *)item_weapon)->draw_model();
             pop_matrix();
             push_matrix();
             rotate_matrix_x(0, -0x2AAA);
-            ((TItemWeapon *)item_weapon)->check_boss2tunnel_field_f4();
+            ((TItem *)item_weapon)->draw_model();
             pop_matrix();
         }
     }

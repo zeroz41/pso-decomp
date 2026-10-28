@@ -8,6 +8,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_8023B770_lbl_8044DC20
 {
@@ -170,7 +171,6 @@ s32 __ct__14TSlicerHistoryFv(void *, void *, s32, void *, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 allow_rendering__7TObjectFv(void *);
 s32 copy_position__15TEffStarLight2DFPv(void *, void *);
-u32 query_game_join_id__10TObjPlayerFv(s32);
 s32 queue_destruction__7TObjectFv(s32);
 void __dl__7TObjectFPv(void *);
 void dt__10TTecSlicerFls(void *, int);
@@ -195,8 +195,7 @@ extern s32 model_render_flags;
 extern const f32 lbl_805DC95C;
 extern const f32 lbl_805DC960;
 void disallow_rendering__7TObjectFv(TObject *);
-s32 find_item_by_id(s32);
-void set_item_count__13TUnk_804B9870Fs(void *, s32);
+void set_entity_id__13TUnk_804B9870FUs(void *, s32);
 s32 pop_free_id__6TLobbyFv(void);
 f32 *get_weapon_range_record(s32, s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
@@ -332,7 +331,7 @@ void TTecSlicer::render() {
     u8 *arg0 = (u8 *)this;
     if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 ||
         ((VObj_18_8023B900 *)arg0)->m8(lbl_805DC95C, lbl_805DC960) == 0 ||
-        query_game_join_id__10TObjPlayerFv(this->weaponHandle) == 0U) {
+        find_equipped_item(this->weaponHandle) == 0U) {
         return;
     }
     lbl_805D5660 = model_render_flags;
@@ -362,7 +361,7 @@ void run_task__10TTecSlicerFv(u8 *object) {
     u8 *var_r31;
     void *new_obj;
     *(u32 *)((s8 *)object + 0x10C) = get_player_by_client_id(*(u16 *)((s8 *)object + 0x114));
-    *(u32 *)((s8 *)object + 0x108) = query_game_join_id__10TObjPlayerFv(((TTecSlicer *)object)->weaponHandle);
+    *(u32 *)((s8 *)object + 0x108) = (s32)find_equipped_item(((TTecSlicer *)object)->weaponHandle);
     if (((u32) *(u32 *)((s8 *)object + 0x108) == 0U) || ((u32) *(u32 *)((s8 *)object + 0x10C) == 0U)) {
         queue_destruction__7TObjectFv((s32)object);
         return;
@@ -424,7 +423,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     ((TTecSlicer *)(self->fe8))->reset_fields_1e();
     self->f0 = lbl_805D3828;
     disallow_rendering__7TObjectFv((TObject *)self);
-    set_item_count__13TUnk_804B9870Fs(self, pop_free_id__6TLobbyFv());
+    set_entity_id__13TUnk_804B9870FUs(self, pop_free_id__6TLobbyFv());
     self->f110 = init->f8;
     self->f24 = init->f4;
     self->f114 = init->f0;
@@ -442,7 +441,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
         normalize_vector((s32)&self->dir);
     }
     self->f10c = (s32)arg2;
-    self->f108 = find_item_by_id(self->f118);
+    self->f108 = (s32)find_item_by_id(self->f118);
     TTecSlicer::init_launch_angles((s32 *)self, (s32 *)self->f10c, init->f28);
     ((TTecSlicer *)self)->set_launch_midpoint((void *)self->f10c, &init->a, &init->b);
     self->fb8 = *get_weapon_range_record(self->f108, 0);

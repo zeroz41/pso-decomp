@@ -17,14 +17,14 @@ struct V_80120D50 : Pad_80120D50 {
 };
 
 extern "C" {
-u8 get_field_ed__5TItemFv(void *);
+u8 get_item_group__5TItemFv(void *);
 s32 TItemEquipBase__ct(void *, void *, u8 *);
 void *lookup_item_pmt_record(u8 *item);
 s32 set_weapon_trail_joints(void *, int, int, int);
 s32 memcpy(void *, void *, int);
 s32 memset(void *, int, int);
 extern void *__vt__11TItemWeapon[];
-extern s32 lbl_805D53EC;
+extern s32 item_render_state;
 extern const f32 lbl_805DAC98;
 extern u8 lbl_805DACA4;
 extern const f32 lbl_805DACB0;
@@ -67,7 +67,7 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     arg0->technique_roll = 0;
     arg0->previous_technique_roll = 0;
     arg0->technique_roll_range = 0;
-    u8 ed = ((u32 (*)(void *))get_field_ed__5TItemFv)(arg0);
+    u8 ed = ((u32 (*)(void *))get_item_group__5TItemFv)(arg0);
     if (ed < 0xAA) {
         *(s8 *)&arg0->special_to_stage = get_weapon_class_motion_type(ed);
         if ((s16) *(s16 *)((s8 *)arg0 + 0x1E8) != -1) {
@@ -81,10 +81,10 @@ u8 *TItemWeapon__ct(TItemWeapon *arg0, void *parent, u8 *item) {
     }
     arg0->stage = -1;
     arg0->motion_frame = (f32) lbl_805DAC98;
-    if (get_field_ed__5TItemFv(arg0) == 0) {
+    if (get_item_group__5TItemFv(arg0) == 0) {
         *(s16 *)((s8 *)arg0 + 0x1E8) = -1;
     } else {
-        ((TObjPlayer *)(&lbl_805D53EC))->clear_id();
+        ((TObjPlayer *)(&item_render_state))->clear_id();
         *(f32 *)((s8 *)arg0 + 0x1C8) = (f32) lbl_805DAC98;
     }
     arg0->set_weapon_category_flags();

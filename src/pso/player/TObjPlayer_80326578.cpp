@@ -11,6 +11,7 @@
 #include "pso/boss/TUnk_804ECDC0.h"
 #include "pso/player/TUnk_804ED1A0.h"
 #include "pso/player/TUnk_804ECFB0.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_803268D8_lbl_804ECFB0 {
     s32 value;
@@ -22,7 +23,7 @@ struct Rec_80326D54 { f32 a; s32 b; s32 c; s32 d; };
 struct Obj_80326D54 { u8 pad[0x1F8]; f32 x1F8; f32 x1FC; };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer__sub_803265C0(u8 *arg0);
 void TItemWeapon__ct(void *, void *);
@@ -48,7 +49,7 @@ s32 freeze_curse_timer_ct(s32, u32, s32, s32, f32);
 s32 confusion_curse_timer_ct(s32, u32, s32, s32, f32);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 __nw__15TItemHeapObjectFUl(s32);
-s32 get_id__13TItemProArmorFv(void *);
+s32 get_owner_client__5TItemFv(void *);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s16 obj_getS16_32E(u8 *p);
 s32 reset_key_machine_state__10TObjPlayerFv();
@@ -71,7 +72,7 @@ u8 *TObjPlayer__sub_803265C0(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1F8));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804ECDC0 *)temp_r3)->set_vtable_mode2_alt(tl_05, arg0)));
@@ -86,7 +87,7 @@ void *__dt__13TUnk_804ECEB8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ECEB8;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -102,7 +103,7 @@ u8 *TObjPlayer::create_vtable_variant() {
     u8 *temp_r3;
     u8 *var_r0;
     if (this != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1F8));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804ECEB8 *)temp_r3)->init_vtable_variant(tl_05, this)));
@@ -152,15 +153,15 @@ void dark_bridge_start_timers(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x174) != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            freeze_curse_timer_ct(temp_r3, *(u32 *)((s8 *)arg0 + 0x174), get_id__13TItemProArmorFv(arg0), 0x2328, lbl_805DF658);
+            freeze_curse_timer_ct(temp_r3, *(u32 *)((s8 *)arg0 + 0x174), get_owner_client__5TItemFv(arg0), 0x2328, lbl_805DF658);
         }
         temp_r3_2 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3_2 != 0) {
-            confusion_curse_timer_ct(temp_r3_2, *(u32 *)((s8 *)arg0 + 0x174), get_id__13TItemProArmorFv(arg0), 0x2328, lbl_805DF658);
+            confusion_curse_timer_ct(temp_r3_2, *(u32 *)((s8 *)arg0 + 0x174), get_owner_client__5TItemFv(arg0), 0x2328, lbl_805DF658);
         }
         temp_r3_3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3_3 != 0) {
-            paralysis_curse_timer_ct((u8 *)temp_r3_3, (u32)(*(u32 *)((s8 *)arg0 + 0x174)), (s32)(get_id__13TItemProArmorFv(arg0)), 0x2328, lbl_805DF658);
+            paralysis_curse_timer_ct((u8 *)temp_r3_3, (u32)(*(u32 *)((s8 *)arg0 + 0x174)), (s32)(get_owner_client__5TItemFv(arg0)), 0x2328, lbl_805DF658);
         }
     }
 }
@@ -170,7 +171,7 @@ void *__dt__13TUnk_804ECFB0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ECFB0;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -189,7 +190,7 @@ u8 *dark_bridge_create(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(TObjPlayer__sub_803268D8((u8 *)temp_r3, (u8 *)tl_05, (s32)arg0));
@@ -243,7 +244,7 @@ void *__dt__13TUnk_804ED0A8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED0A8;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -262,7 +263,7 @@ u8 *TObjPlayer::create_state_1536() {
     u8 *temp_r3;
     u8 *var_r0;
     if (this != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804ED0A8 *)temp_r3)->init_state_1536(tl_05, this)));
@@ -288,7 +289,7 @@ u8 *create_morning_glory(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1F8));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)morning_glory_ct(temp_r3, tl_05, arg0)));
@@ -304,7 +305,7 @@ void *__dt__13TUnk_804ED1A0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED1A0;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -354,7 +355,7 @@ void *__dt__13TUnk_804ED298Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED298;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -380,7 +381,7 @@ u8 *TObjPlayer::create_mode_floats_state() {
     u8 *temp_r3;
     u8 *var_r0;
     if (this != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804ED298 *)temp_r3)->set_mode_floats(tl_05, this)));
@@ -422,7 +423,7 @@ void *__dt__13TUnk_804ED390Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED390;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -447,7 +448,7 @@ u8 *TObjPlayer::create_vtable_1f8_state() {
     u8 *temp_r3;
     u8 *var_r0;
     if (this != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804ED390 *)temp_r3)->init_vtable_1f8(tl_05, this)));
@@ -483,14 +484,13 @@ void TUnk_804ED488::emit_marker_effects() {
 void *__dt__13TUnk_804ED488Fv(void *arg0, s16 arg1);
 void *construct_dark_flow(void *arg0);
 
-s32 submit_computer_command__10TObjPlayerFv(s32, s32, s32, s32);
 
 void TUnk_804ED488::update_weapon() {
     void *temp_r3;
 
     temp_r3 = (*(void * *)((u8 *)this + 0xF4));
     if (temp_r3 != NULL) {
-        submit_computer_command__10TObjPlayerFv(*(s32 *)((s8 *)(*(void **)((s8 *)temp_r3 + 0x2C)) + 0x30), 0x10, 0, 0);
+        scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)(*(void **)((s8 *)temp_r3 + 0x2C)) + 0x30), 0x10, 0, 0);
     }
 }
 
@@ -501,7 +501,7 @@ void *__dt__13TUnk_804ED488Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED488;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

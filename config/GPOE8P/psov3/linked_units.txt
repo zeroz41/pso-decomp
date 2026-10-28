@@ -397,7 +397,10 @@ pso/effect/TDPBShower.cpp
 pso/effect/TEffClitical.cpp
 pso/effect/TEffGuard.cpp
 pso/effect/TEffHit.cpp
+pso/effect/TEffIndirectCtrl.cpp
+pso/effect/TEffIndirectCtrl_802A9284.cpp
 pso/effect/TEffect.cpp
+pso/effect/TUnk_804CCC68.cpp
 pso/encryption/PSOV3Encryption.cpp
 pso/encryption/PSOV3EncryptionTCP.cpp
 pso/enemy/BringerEffects.cpp
@@ -579,7 +582,6 @@ pso/item/TItemData_8010EDA8.cpp
 pso/item/TItemData_801146A4.cpp
 pso/item/TItemDisconnectCtrl.cpp
 pso/item/TItemDisconnectCtrl_80105BE8.cpp
-pso/item/TItemDispatch.cpp
 pso/item/TItemDrop.cpp
 pso/item/TItemDropSub.cpp
 pso/item/TItemDropSub_80107B74.cpp
@@ -725,7 +727,6 @@ pso/item/TItemMagSub_80113D84.cpp
 pso/item/TItemMagSub_80114524.cpp
 pso/item/TItemMagSub_80114714.cpp
 pso/item/TItemMag_8001A468.cpp
-pso/item/TItemMag_80102C4C.cpp
 pso/item/TItemMag_80113E30.cpp
 pso/item/TItemMenuCtrl.cpp
 pso/item/TItemMenuCtrl_801059E8.cpp
@@ -733,12 +734,9 @@ pso/item/TItemMenuCtrl_80115A28.cpp
 pso/item/TItemMenuCtrl_80115A78.cpp
 pso/item/TItemMenuCtrl_80115AF0.cpp
 pso/item/TItemMoney.cpp
-pso/item/TItemObject.cpp
-pso/item/TItemObject_800FFE4C.cpp
 pso/item/TItemObject_80115D6C.cpp
 pso/item/TItemProArmor.cpp
 pso/item/TItemProArmorParticle.cpp
-pso/item/TItemProArmor_80102C3C.cpp
 pso/item/TItemProArmor_80116F68.cpp
 pso/item/TItemProArmor_801172A4.cpp
 pso/item/TItemProArmor_801172D8.cpp
@@ -773,15 +771,6 @@ pso/item/TItemTimer.cpp
 pso/item/TItemTimerEvent.cpp
 pso/item/TItemWeaponMechgun.cpp
 pso/item/TItemWpnCardEffect.cpp
-pso/item/TItem_80100508.cpp
-pso/item/TItem_801013BC.cpp
-pso/item/TItem_80101B20.cpp
-pso/item/TItem_80101CEC.cpp
-pso/item/TItem_80101DBC.cpp
-pso/item/TItem_80101ED4.cpp
-pso/item/TItem_80101F38.cpp
-pso/item/TItem_80102088.cpp
-pso/item/TItem_801023A8.cpp
 pso/item/TItem_80363AF4.cpp
 pso/item/TObjContainerAbeEnemy.cpp
 pso/item/TObjContainerBase.cpp
@@ -913,8 +902,6 @@ pso/misc/TDLGraph_8007F85C.cpp
 pso/misc/TDeadSpot.cpp
 pso/misc/TDuelEffectNumber.cpp
 pso/misc/TDuelEffectNumber_80080460.cpp
-pso/effect/TEffIndirectCtrl.cpp
-pso/effect/TEffIndirectCtrl_802A9284.cpp
 pso/misc/TEnding.cpp
 pso/misc/TEndingAB.cpp
 pso/misc/TEndingAB_8008C9FC.cpp
@@ -1015,7 +1002,6 @@ pso/misc/TLobby_800FA774.cpp
 pso/misc/TLobby_800FA848.cpp
 pso/misc/TLobby_800FC3CC.cpp
 pso/misc/TLobby_800FD78C.cpp
-pso/misc/TLobby_80102DD4.cpp
 pso/misc/TLobby_80105A2C.cpp
 pso/misc/TLobby_8011B010.cpp
 pso/misc/TLobby_80131794.cpp
@@ -1389,7 +1375,6 @@ pso/misc/TOSignCave03.cpp
 pso/misc/TOSparkMachine01.cpp
 pso/misc/TOSwitchAttack_801778A4.cpp
 pso/misc/TOSwitchItem.cpp
-pso/misc/TOSwitchItem_80102C44.cpp
 pso/misc/TOSwitchTimer.cpp
 pso/misc/TOSymbolchatColli.cpp
 pso/misc/TOTrap.cpp
@@ -1752,7 +1737,6 @@ pso/misc/TWindowKeyBoardHard_8025EB68.cpp
 pso/misc/TWindowKeyBoardHard_802601D4.cpp
 pso/misc/TWindowKeyBoardHard_8026038C.cpp
 pso/misc/TWindowKeyBoardSoft_80080798.cpp
-pso/ui/TLanguage_80132A5C.cpp
 pso/misc/TWindowKeyBoardSoft_80228BEC.cpp
 pso/misc/TWindowKeyBoardSoft_8024E68C.cpp
 pso/misc/TWindowKeyBoardSoft_8025B85C.cpp
@@ -1901,8 +1885,6 @@ pso/misc/TWindowSubStatusDisp_8006F044.cpp
 pso/misc/TWindowSubStatusDisp_80071774.cpp
 pso/misc/TWindowSubStatusDisp_80077760.cpp
 pso/misc/TWindowSubStatusDisp_800FBD74.cpp
-pso/misc/TWindowSubStatusDisp_800FFE1C.cpp
-pso/misc/TWindowSubStatusDisp_80100DD0.cpp
 pso/misc/TWindowSubStatusDisp_801059B4.cpp
 pso/misc/TWindowSubStatusDisp_8010EEF0.cpp
 pso/misc/TWindowSubStatusDisp_80144B14.cpp
@@ -1983,7 +1965,6 @@ pso/misc/pso_const_ids.cpp
 pso/misc/pso_const_ids3.cpp
 pso/misc/pso_const_ids4.cpp
 pso/misc/pso_const_ids5.cpp
-pso/misc/pso_const_ids6.cpp
 pso/misc/pso_const_ids7.cpp
 pso/misc/pso_date.cpp
 pso/network/NetworkInfoCodec.cpp
@@ -2290,10 +2271,6 @@ pso/player/TObjPlayer_800E80A4.cpp
 pso/player/TObjPlayer_800F0810.cpp
 pso/player/TObjPlayer_800FEFCC.cpp
 pso/player/TObjPlayer_800FFA88.cpp
-pso/player/TObjPlayer_80100CC8.cpp
-pso/player/TObjPlayer_80100E00.cpp
-pso/player/TObjPlayer_80101824.cpp
-pso/player/TObjPlayer_80102C78.cpp
 pso/player/TObjPlayer_80104860.cpp
 pso/player/TObjPlayer_80105874.cpp
 pso/player/TObjPlayer_8010853C.cpp
@@ -2602,7 +2579,6 @@ pso/player/TObjPlayer_803E5470.cpp
 pso/player/TPlyItem.cpp
 pso/player/TUnk_80490470.cpp
 pso/player/TUnk_804A5D28.cpp
-pso/effect/TUnk_804CCC68.cpp
 pso/protocol/TradeSession.cpp
 pso/protocol/subcommand_validation_actions.cpp
 pso/protocol/subcommand_validation_movement.cpp
@@ -2812,6 +2788,7 @@ pso/ui/TAdWarningBaseGC_8032D1A4.cpp
 pso/ui/TAdYesNoBaseGC.cpp
 pso/ui/TChallenge4PItemSelect.cpp
 pso/ui/TFontSmallTask.cpp
+pso/ui/TLanguage_80132A5C.cpp
 pso/ui/TMessageWindowController.cpp
 pso/ui/TObjBagWarnWin.cpp
 pso/ui/TObjBagWarnWin_8006EED4.cpp
@@ -2955,7 +2932,6 @@ pso/unk/text_800FCC78.cpp
 pso/unk/text_800FD8A0.cpp
 pso/unk/text_800FD930.cpp
 pso/unk/text_800FFC6C.cpp
-pso/unk/text_80100BB0.cpp
 pso/unk/text_80103674.cpp
 pso/unk/text_801036CC.cpp
 pso/unk/text_80104F4C.cpp

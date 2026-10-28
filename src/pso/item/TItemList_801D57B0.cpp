@@ -19,7 +19,7 @@ Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
 s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
 int VecCopy__FP3VecPC3Vec(void*);
 void __ct__7TObjectFP7TObject(void *);
-int copy_item_data__6TLobbyFPv(void*);
+int copy_from__8ItemDataFP8ItemData(void*);
 
 extern s32 __vt__9TItemList[];
 extern void *TItemList__name;
@@ -37,7 +37,7 @@ void TItemList__sub_801D5804(s32 *arg0) {
     *arg0 += 1;
 }
 
-int TItemList::copy_item_data() { return copy_item_data__6TLobbyFPv((char*)this + 0x8); }
+int TItemList::copy_item_data() { return copy_from__8ItemDataFP8ItemData((char*)this + 0x8); }
 void TItemList__sub_801D5838(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 int TItemList__sub_801D5844(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 

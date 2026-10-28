@@ -1,5 +1,7 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby.h"
+#include "pso/item/TItem.h"
 
 struct Base_80103748 { char pad[0x18]; };
 struct VObj_80103748 : Base_80103748 {
@@ -78,7 +80,6 @@ void debug_print__6TLobbyFle(const char *, ...);
 void *memcpy(void *, const void *, u32);
 extern char lbl_8043E048[];
 Ent_801037A0 *find_item_condition_entry__6TLobbyFii(s32 n, s32 val);
-u8 *find_item_by_id(s32 id);
 void spawn_dropped_item_from_msg(void *, s32);
 s32 get_sync_counter__6TLobbyFi(u16);
 void normalize__9TItemDataFv(void *);
@@ -284,7 +285,7 @@ s32 TLobby::remove_item_condition(s32 n, s32 val) {
         if (val == list[lo].val) {
             memcpy(&list[lo], &list[lo + 1], (count - (lo + 1)) * 0x24);
             (*(s32 **)&floor_item_counts_by_floor)[n]--;
-            ((TLobby *)(&list[(*(s32 **)&floor_item_counts_by_floor)[n]]))->init_floor_item_entry();
+            ((FloorItem *)(&list[(*(s32 **)&floor_item_counts_by_floor)[n]]))->clear();
             return 1;
         }
         return 0;

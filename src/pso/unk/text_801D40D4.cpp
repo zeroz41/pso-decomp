@@ -1,12 +1,11 @@
 #include "types.h"
-#include "pso/item/TItemDispatch.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_8030A6A8.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItem.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
@@ -35,7 +34,7 @@ typedef struct List_801D4744 {
 } List_801D4744;
 
 extern "C" {
-u8 get_field_ec__5TItemFv(void *, int);
+u8 get_item_type__5TItemFv(void *, int);
 s32 is_item_equipped(void *, int);
 s32 start_inventory_update__10TObjPlayerFi(void *, void *);
 u8 *get_ptr_4__10TObjPlayerFv();
@@ -119,8 +118,8 @@ s32 fn_801D4270(s32 arg0) {
 int reset(void* p) { return memset(p, 0, 28); }
 
 s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
-    if (((TItem *)arg0)->copy_to_item_data(arg1 + 8) != 0) {
-        *(s8 *)((s8 *)arg1 + 0) = ((TItem *)arg0)->sub_80102C30();
+    if (((TItem *)arg0)->copy_to_item_data((TItemData *)(arg1 + 8)) != 0) {
+        *(s8 *)((s8 *)arg1 + 0) = ((TItem *)arg0)->get_mode();
         *(s32 *)((s8 *)arg1 + 4) = ((TItem *)arg0)->get_item_flags();
         return 1;
     }
@@ -131,14 +130,14 @@ void TObjPlayer__sub_801D45B0(s32 *arg0, s32 arg1) {
     s32 temp_r4;
     u8 player;
     *arg0 = 0;
-    temp_r4 = get_field_ec__5TItemFv((void *)arg1, (int)arg1) << 0x19;
+    temp_r4 = get_item_type__5TItemFv((void *)arg1, (int)arg1) << 0x19;
     *arg0 |= temp_r4;
-    if (get_field_ec__5TItemFv((void *)arg1, (int)temp_r4) == 1) {
-        *arg0 |= (((TItem *)arg1)->get_field_ed() << 0x11) & 0x01FE0000;
+    if (get_item_type__5TItemFv((void *)arg1, (int)temp_r4) == 1) {
+        *arg0 |= (((TItem *)arg1)->get_item_group() << 0x11) & 0x01FE0000;
     } else {
-        *arg0 |= (((TItem *)arg1)->get_field_ed() << 8) & 0xFF00;
+        *arg0 |= (((TItem *)arg1)->get_item_group() << 8) & 0xFF00;
     }
-    player = ((TItem *)arg1)->get_slot_count();
+    player = ((TItem *)arg1)->get_item_index();
     *arg0 |= player;
     if (is_item_equipped((void *)arg1, (int)player) == 0) {
         *arg0 |= 0x10000;

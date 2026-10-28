@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemDispatch.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TWindowHelpItem_8025A60C.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/misc/TWindowSubStatusDisp_8026F6DC.h"
@@ -8,7 +8,6 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowComCard.h"
 #include "pso/misc/TUnk_804CE018.h"
-#include "pso/item/TItem.h"
 #include <stddef.h>
 #include "pso/misc/TWindowLockOn.h"
 #include "pso/TObject.h"
@@ -207,7 +206,7 @@ void TWindowLockOn::validate_target() {
         }
       }
       else
-        if ((((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(item, 0x80000000) != 0) && (((TItem *)item)->sub_80102C30() != 0))
+        if ((((s32 (*)(void *, s32))obj_testFlags30__13TUnk_804AF8A0FUl)(item, 0x80000000) != 0) && (((TItem *)item)->get_mode() != 0))
       {
         this->m_60 = 0xFFFFU;
         if (((f32) (*(s32 *)&this->m_64)) > lbl_805DD100)
@@ -404,7 +403,7 @@ s32 TWindowLockOn__update_for_item(s32 a0, s32 a1) {
     arg0->w = e->w;
     arg0->h = lbl_805DD11C;
     e2 = (Ent_80263370 *)((TUnk_804CE018 *)arg0)->get_array_entry(1);
-    if (((TItem *)item)->get_field_ec() == 0 || ((TItem *)item)->get_field_ec() == 1) {
+    if (((TItem *)item)->get_item_type() == 0 || ((TItem *)item)->get_item_type() == 1) {
         ((Ent2_80263370 *)e2)->grade = calc_display_grade__5TItemFv(item);
         arg0->h += lbl_805DD120;
         e2->flags &= ~2;

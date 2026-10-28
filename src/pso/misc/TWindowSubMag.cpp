@@ -20,6 +20,7 @@
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/object/TObjCityMainWarp.h"
+#include "pso/item/TItem.h"
 
 struct Obj_8027C0C4 { u8 pad[0x61]; s8 f61; u8 pad2[2]; s32 arr[1]; };
 
@@ -75,7 +76,6 @@ struct TWindowSubMag_8027B62C {
     s32 field_0x30;
 };
 extern "C" {
-u8 *find_item_by_id(s32);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 *get_shared_text_buffer(void);
@@ -248,7 +248,7 @@ void *TWindowSubMag::create_action_menu(s32 id) {
     void *window;
     u8 *item;
     ((TItemData *)mag)->initialize_mag_data();
-    item = find_item_by_id(id);
+    item = (u8 *)find_item_by_id(id);
     window = (void *)create_titled_window_menu(get_window_layout_position(8), 2, get_message_10__20TWindowSubStatusDispFl(0x1D), menu->field_0x28);
     TWindowSubEquip__sub_80263AF8(menu->field_0x30, 1);
     set_field_1c__6TLobbyFf(window);

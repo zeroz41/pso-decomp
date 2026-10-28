@@ -108,13 +108,13 @@ struct Obj_8011F710 { u8 pad[0x1D1]; u8 cur; u8 pad2[0x1DC - 0x1D2]; Stats_8011F
 
 extern "C" {
 s32 obj_getField1c(void *);
-s8 sub_80102C30__5TItemFv();
+s8 get_mode__5TItemFv();
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 extern s32 tl_05;
 extern const f32 lbl_805DAC94;
 extern const f32 lbl_805DAC98;
-s32 lookup_item_data__20TWindowSubStatusDispFv(void *);
+s32 get_icon_index__5TItemFv(void *);
 Item_8011F760 *get_weapon_range_record(void *, s32);
 s32 is_active_in_game__11TItemWeaponFv(void*);
 s32 reset_key_machine_state__10TObjPlayerFv();
@@ -136,7 +136,7 @@ s32 add_weapon_grind(Obj_8011F710 *arg0, s32 arg1) {
 u32 TItemWeapon::get_attack_flags() {
     u32 flags = 0;
     Item_8011F760 *it;
-    if (lookup_item_data__20TWindowSubStatusDispFv(this) == 3) {
+    if (get_icon_index__5TItemFv(this) == 3) {
         flags |= 2;
     } else {
         flags |= 1;
@@ -160,7 +160,7 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
     s32 temp_r31;
     s32 temp_r31_2;
     u8 *temp_r3;
-    if (sub_80102C30__5TItemFv() == 2) {
+    if (get_mode__5TItemFv() == 2) {
         temp_r3 = (u8 *)this->player;
         if ((temp_r3 != NULL) && (arg2 != NULL)) {
             attack_accuracy_scale = get_attack_accuracy_scale((s16 *)(temp_r3 + 0x7CC));
@@ -190,8 +190,8 @@ void TItemWeapon::deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0)
                 ((VObj_18_f8c4e0 *)(this->player))->m73();
                 apply_camera_shake__10TObjPlayerFiii((s32)this->player, (s32)arg2, (s32)temp_r31_2);
                 ((TObjPlayer *)(&stack.sp8))->reset_status_block();
-                stack.sp8 = ((TItem *)((u8 *)this))->get_field_ed();
-                stack.sp9 = ((TItem *)((u8 *)this))->get_slot_count();
+                stack.sp8 = ((TItem *)((u8 *)this))->get_item_group();
+                stack.sp9 = ((TItem *)((u8 *)this))->get_item_index();
                 stack.spC = (u8 *)this->player;
                 stack.sp14 = arg2;
                 stack.sp18 = arg4;
@@ -206,12 +206,12 @@ void TItemWeapon::vfunc_30() {
     WeaponMarkerPacket packet;
     WeaponVector gun_point;
     WeaponVector fallback_point;
-    if (is_active_in_game__11TItemWeaponFv(self) && !((TItemEquipBase *)self)->get_flag_40() && reset_key_machine_state__10TObjPlayerFv()) {
+    if (is_active_in_game__11TItemWeaponFv(self) && !((TItem *)self)->is_hidden() && reset_key_machine_state__10TObjPlayerFv()) {
         self->heading=self->player->heading;
         self->stage=((TItemWeapon *)self)->get_attack_stage();
         ((TObjPlayer *)(&packet))->reset_status_block();
-        packet.kind=((TItem *)self)->get_field_ed();
-        packet.variant=((TItem *)self)->get_slot_count();
+        packet.kind=((TItem *)self)->get_item_group();
+        packet.variant=((TItem *)self)->get_item_index();
         packet.player=self->player;
         play_weapon_owner_sounds(&packet);
         if(test_flags_1b8__11TItemWeaponFUl(self,0x40000)) {

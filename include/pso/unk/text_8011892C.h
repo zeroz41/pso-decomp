@@ -6,7 +6,6 @@
 struct TItemProUnit;
 extern "C" {
 u8 *TItemProUnit__ct(TItemProUnit *arg0, s32 arg1, u8 *arg2);
-void TItem__sub_8011892C(void);
 }
 
 #endif

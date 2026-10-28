@@ -57,7 +57,7 @@ extern "C" {
 s16 obj_getS16_32E(void *);
 s16 obj_getS16_32C(void *);
 void copy_player_visual_record(void *, void *);
-Eq_802C3D38 *get_equip_field_d04__10TObjPlayerFv(void *, s32);
+Eq_802C3D38 *get_equip_field_d04__10TObjPlayerFl(void *, s32);
 void TObjPlayer__sub_8013A748(void *, void *);
 void clamp_stats__10TObjPlayerFiPv(void *, void *, s32);
 s8 TObjPlayer__sub_801AFD8C(void *);
@@ -98,7 +98,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
     hp = obj_getS16_32C(arg0);
     facing = obj_getS16_32E(arg0);
     for (i = 0; i != 0xD; i++) {
-        eq = get_equip_field_d04__10TObjPlayerFv(arg0, i);
+        eq = get_equip_field_d04__10TObjPlayerFl(arg0, i);
         if (eq != NULL) {
             eq->on(1);
         }
@@ -120,7 +120,7 @@ void export_character_data__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1) {
             TObjPlayer__sub_802C4688((O_802C4688 *)arg1, j), e);
     }
     for (k = 0; k != 0xD; k++) {
-        eq = get_equip_field_d04__10TObjPlayerFv(arg0, k);
+        eq = get_equip_field_d04__10TObjPlayerFl(arg0, k);
         if (eq != NULL) {
             eq->off(1);
         }
@@ -159,7 +159,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
     p = items;
     n = 0;
     for (i2 = 0; i2 != 13; i2++) {
-        item = (Item_802C3F74 *)get_equip_field_d04__10TObjPlayerFv(arg0, i2);
+        item = (Item_802C3F74 *)get_equip_field_d04__10TObjPlayerFl(arg0, i2);
         if (item != NULL) {
             item->m21(1);
             *p++ = item;
@@ -193,7 +193,7 @@ void export_state_to_record__10TObjPlayerFPvPv(u8 *arg0, s8 *arg1) {
         split_capped_value__10TObjPlayerFUcPUcPSc(TObjPlayer__sub_801C0124(arg0 + 0x428, k), TObjPlayer__sub_802C4688((O_802C4688 *)arg1, k), (E_802C4698 *)a);
     }
     for (m = 0; m != 13; m++) {
-        item = (Item_802C3F74 *)get_equip_field_d04__10TObjPlayerFv(arg0, m);
+        item = (Item_802C3F74 *)get_equip_field_d04__10TObjPlayerFl(arg0, m);
         if (item != NULL) {
             item->m20(1);
         }

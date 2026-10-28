@@ -6,13 +6,13 @@
 
 extern "C" {
 
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 s32 scale_matrix(s32, f32, f32, f32);
 
 
 
 void TObjPlayer::check_shield_combo() {
-    if ((get_slot_count__5TItemFv() == 5) && (TObjPlayer::get_player_list() == 3)) {
+    if ((get_item_index__5TItemFv() == 5) && (TObjPlayer::get_player_list() == 3)) {
         scale_matrix(0, 1.0f, *(f32 *)((s8 *)this + 0x1F8), 1.0f);
     }
 }
@@ -22,7 +22,7 @@ void TObjPlayer::check_shield_combo() {
 
 void TUnk_804A5248::update_idle() {
     s32 arg0 = (s32)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.1f, (f32)0.6f);
     }
 }
@@ -31,7 +31,7 @@ void TUnk_804A5248::update_idle() {
 
 void TUnk_804A5248::update_attack() {
     s32 arg0 = (s32)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x1F8), (f32)0.2f, (f32)1.0f);
     }
 }
@@ -63,14 +63,14 @@ TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
 
 extern "C" {
 
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 }
 extern s32 tl_05;
 u8 *create_rifle_weapon(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((TItemWeaponRifle*)temp_r3)->initialize(tl_05, arg0));

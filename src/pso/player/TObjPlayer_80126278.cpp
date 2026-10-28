@@ -4,7 +4,7 @@
 
 extern "C" {
 
-s32 get_id__13TItemProArmorFv(void *);
+s32 get_owner_client__5TItemFv(void *);
 s32 freeze_curse_timer_ct(s32, u32, s32, s32, f32);
 s32 __nw__15TItemHeapObjectFUl(s32);
 }
@@ -17,7 +17,7 @@ void frozen_shooter_start_curse(void *item_pro_armor) {
     if ((u32) ((TItemProArmor *)item_pro_armor)->m_174 != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            freeze_curse_timer_ct(temp_r3, ((TItemProArmor *)item_pro_armor)->m_174, get_id__13TItemProArmorFv(item_pro_armor), 0xE10, lbl_805DAD74);
+            freeze_curse_timer_ct(temp_r3, ((TItemProArmor *)item_pro_armor)->m_174, get_owner_client__5TItemFv(item_pro_armor), 0xE10, lbl_805DAD74);
         }
     }
 }

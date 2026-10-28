@@ -2042,7 +2042,7 @@ f32 TUnk_804806E8::receive_weapon_special_attack(void *attacker, void *collision
         if (item == NULL) {
             mul = (1.0f);
         } else {
-            switch (((TItem *)item)->get_field_ed()) {
+            switch (((TItem *)item)->get_item_group()) {
             case 2:
             case 3:
             case 4:
@@ -4660,7 +4660,7 @@ void obj_clearArrS16_FC(ObjArrFC* p, int i) {
 #pragma scheduling on
 #pragma scheduling off
 
-u8 TUnk_804806E8::obj_isState2_324() {
+s32 TUnk_804806E8::obj_isState2_324() {
     return this->m_324 == 2;
 }
 #pragma pop
@@ -4878,7 +4878,7 @@ s32 TObjPlayer::get_player_count() {
 
 int get_item_field_6__10TObjPlayerFPv(void* p) { return get_slot_value__10TObjPlayerFPvi((char*)p + 0xd04, 6); }
 
-u8 TItem::get_field_ed() { return this->m_ed; }
+u8 TItem::get_item_group() { return this->m_ed; }
 
 s32 get_type__10TObjPlayerFPv(void* p) { return *(s32*)((char*)p + 0x0); }
 

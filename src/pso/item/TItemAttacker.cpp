@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_8010355C_lbl_8043E038 { char value[0xA]; };
 typedef char RecoveredGlobal_8010355C_lbl_8043E038_size[sizeof(RecoveredGlobal_8010355C_lbl_8043E038) == 0xA ? 1 : -1];
@@ -102,7 +103,6 @@ struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
 
 extern "C" {
 u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-u8 *find_item_by_id(s32);
 f32 horizontal_distance_squared(void *, void *);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 void *get_player_by_client_id(s32 i);

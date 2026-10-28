@@ -2,14 +2,20 @@
 #define PSO_ITEM_TITEMPROARMOR_H
 
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include "pso/item/TItemEquipBase.h"
 
 struct TItemProArmor : public TItemEquipBase {
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     virtual ~TItemProArmor();
-    virtual void vfunc_16();
-    virtual void vfunc_14();
-    virtual int vfunc_39();
-    virtual void vfunc_40();
+    virtual void update_equipped();
+    virtual void update_owned();
+    virtual u8 get_slot_count();
+    virtual void add_slot();
     virtual void vfunc_46();
     virtual void vfunc_44();
     u32 m_18c;
@@ -22,7 +28,6 @@ struct TItemProArmor : public TItemEquipBase {
     u8 *create_instance();
     void init_effect_flags();
     s32 create_armor_object();
-    u16 get_id();
     int get_stat_value();
     static s16 calc_scaled_offset();
     static s16 calc_armor_value();

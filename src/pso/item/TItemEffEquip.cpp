@@ -42,7 +42,7 @@ extern "C" {
 void *destroy__13TUnk_8049F038Fs(void *arg0, s16 arg1);
 void run_task__13TUnk_8049F038Fv(u8 *arg0);
 u8 *vfunc_9__13TUnk_8049F038Fv(u8 *arg0);
-s32 set_item_count__13TUnk_804B9870Fs(void *, s32);
+s32 set_entity_id__13TUnk_804B9870FUs(void *, s32);
 s32 TLobby__sub_80103B04();
 void *get_player_by_client_id(s32 i);
 s32 obj_getField1c(void *);
@@ -273,7 +273,7 @@ void *TUnk_8049F038::destroy(s16 arg1) {
             clear_obj_links();
             obj_getField1c(this);
             TLobby__sub_80103B04();
-            set_item_count__13TUnk_804B9870Fs(this, 0xFFFF);
+            set_entity_id__13TUnk_804B9870FUs(this, 0xFFFF);
         }
         __dt__13TUnk_804AF8A0Fv(this, 0);
         if (arg1 > 0) {
@@ -289,7 +289,7 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(pare
     ((Obj_80108C90 *)this)->f_B0 = b;
     fn_8002B630(((Obj_80108C90 *)this)->sub, lbl_8043E1A0);
     if ((u16)obj_getField1c(((Obj_80108C90 *)this)) == 0xFFFF) {
-        set_item_count__13TUnk_804B9870Fs(((Obj_80108C90 *)this), pop_free_id__6TLobbyFv());
+        set_entity_id__13TUnk_804B9870FUs(((Obj_80108C90 *)this), pop_free_id__6TLobbyFv());
     }
     ((TUnk_804AF8A0 *)this)->initialize_linked_object_reference(((Obj_80108C90 *)this)->sub);
     ((TObjPlayer *)this)->reset_photon_effect();

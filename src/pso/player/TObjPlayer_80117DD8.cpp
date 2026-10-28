@@ -46,7 +46,7 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
                 if (other != NULL && key == ((TObjPlayer *)other)->get_field_3e4() &&
                     horizontal_distance_squared(me->pos, other->pos) < lbl_8043E650[0] &&
                     (it = (void *)((TItemData *)other)->test_flag3()) != NULL &&
-                    item[2] == ((TItem *)it)->get_slot_count()) {
+                    item[2] == ((TItem *)it)->get_item_index()) {
                     count++;
                 }
             }

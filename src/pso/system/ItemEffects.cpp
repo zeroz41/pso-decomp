@@ -2,10 +2,9 @@
 #include "pso/TObject.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
-#include "pso/player/TObjPlayer_80100CC8.h"
+#include "pso/item/TItem.h"
 #include "pso/system/ItemEffects.h"
 #include "pso/unk/text_802034B0.h"
-#include "pso/item/TItem.h"
 #include "pso/item/TUnk_804A2678.h"
 #include "pso/system/TUnk_804A2660.h"
 
@@ -28,13 +27,12 @@ extern s32 item_follow_effect_vtable[];
 u32 __nw__7TObjectFUl(s32 a0 = 0);
 s32 is_mode_two_and_ready__10TObjPlayerFv();
 s32 roll_technique__11TItemWeaponFv(void *);
-s32 get_id__13TItemProArmorFv(void *);
+s32 get_owner_client__5TItemFv(void *);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
 extern s32 tl_05;
 void run_task__13TUnk_804A2660Fv(void *arg0);
-u8 *find_item_by_id(s32 id);
-s8 sub_80102C30__5TItemFv();
+s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(s32, s32);
@@ -55,11 +53,11 @@ void TUnk_804A2660::run_task() {
     var_r31 = 0;
     if ((u32) *(u32 *)&this->unk_24 != 0U) {
         var_r30 = (s32)find_item_by_id(*(s32 *)&this->unk_1C);
-        if ((var_r30 != 0) && (sub_80102C30__5TItemFv() == 2)) {
+        if ((var_r30 != 0) && (get_mode__5TItemFv() == 2)) {
             var_r31 = 1;
             if (((TObjPlayer *)var_r30)->draw_icon(this->m_20, (s32)sp8) != 0) {
                 ((TNowLoading *)(*(u32 *)&this->unk_24))->copy_pos(sp8);
-                if ((((TItemEquipBase *)var_r30)->get_flag_40() == 0) || (obj_testFlags30__13TUnk_804AF8A0FUl(var_r30, 0x08000000) == 0)) {
+                if ((((TItem *)var_r30)->is_hidden() == 0) || (obj_testFlags30__13TUnk_804AF8A0FUl(var_r30, 0x08000000) == 0)) {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->clear_active_flag();
                 } else {
                     ((TParticleCtrl *)(*(u32 *)&this->unk_24))->enable();
@@ -91,7 +89,7 @@ u8 *construct_item_follow_effect(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = item_follow_effect_vtable;
     disallow_rendering__7TObjectFv((TObject *)(arg0));
-    *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_field_d8();
+    *(s32 *)((s8 *)arg0 + 0x1C) = ((TItem *)arg2)->get_item_id();
     ((TUnk_804A2660 *)arg0)->m_20 = arg3;
     ((TObjPlayer *)arg2)->draw_icon((s32)((s32)((int) (((TUnk_804A2660 *)arg0)->m_20))), (s32)&position);
     *(s32 *)((s8 *)arg0 + 0x24) = (s32)create_particle_emitter((&position), (arg4));
@@ -123,7 +121,7 @@ void TObjPlayer::create_pro_armor() {
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
         if (temp_r3 != 0) {
-            ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_id__13TItemProArmorFv(this), 0x5A);
+            ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
         }
     }
     roll_technique__11TItemWeaponFv(this);
@@ -132,7 +130,7 @@ void TObjPlayer::create_pro_armor() {
 void TUnk_804A2678::update_weapon() {
     s32 temp_r3;
     temp_r3 = TOKeyMachine01::get_global_state();
-    if ((temp_r3 != (s32) *(s32 *)&this->unk_1F8) && (item_model_is_shown() != 0)) {
+    if ((temp_r3 != (s32) *(s32 *)&this->unk_1F8) && (((TItem *)this)->is_model_shown() != 0)) {
         *(s32 *)&this->unk_1F8 = temp_r3;
         if (is_item_area_enabled(temp_r3) != 0) {
             spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);

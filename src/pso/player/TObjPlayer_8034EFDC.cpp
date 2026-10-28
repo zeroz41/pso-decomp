@@ -109,8 +109,7 @@ struct Info_8034F4FC {
 };
 
 extern "C" {
-u32 find_item_by_id(void);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 *TObjPlayer__sub_8034F1AC(u8 *arg0);
 void TItemWeapon__ct(void *, void *);
@@ -173,7 +172,7 @@ void *__dt__13TUnk_804F0810Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F0810;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -193,7 +192,7 @@ u8 *TObjPlayer__sub_8034F1AC(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804F0810 *)temp_r3)->enter_timed_state(tl_05, arg0)));
@@ -220,7 +219,7 @@ void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon) {
     u8 *t;
     init_slicer_launch_state(&launch);
     launch.player = obj_getField1c(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
-    launch.weapon = ((TItem *)weapon)->get_field_d8();
+    launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->player + 0x7CC));
@@ -247,7 +246,7 @@ void *__dt__13TUnk_804F0908Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F0908;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -265,7 +264,7 @@ u8 *TObjPlayer::create_rappys_fan() {
     u8 *temp_r3;
     u8 *var_r0;
     if (this != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1F8));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804F0908 *)temp_r3)->construct_rappys_fan(tl_05, this)));
@@ -276,7 +275,7 @@ u8 *TObjPlayer::create_rappys_fan() {
 }
 
 void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
-    u32 temp_r3 = find_item_by_id();
+    u32 temp_r3 = (u32)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         TObjPlayer::spawn_fire_explosion(temp_r3, arg1);
     }
@@ -284,7 +283,7 @@ void TObjPlayer::spawn_fire_explosion_for_item(s32 arg0, s32 arg1) {
 
 void TObjPlayer::spawn_fire_explosion_at_item(s32 arg0, s32 arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    u32 p = find_item_by_id();
+    u32 p = (u32)find_item_by_id(arg0);
     if (p != 0U) {
         TObjPlayer::spawn_fire_explosion(p, (s32)((s32)ctx->obj->elems[ctx->idx].f1c));
     }
@@ -342,7 +341,7 @@ void *__dt__13TUnk_804F0A00Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F0A00;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -364,7 +363,7 @@ u8 *TObjPlayer::create_gi_gue_bazooka(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x204));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(construct_gi_gue_bazooka((u8 *)temp_r3, (u8 *)tl_05, (s32)arg0));
@@ -401,7 +400,7 @@ void *__dt__13TUnk_804F0AF8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F0AF8;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

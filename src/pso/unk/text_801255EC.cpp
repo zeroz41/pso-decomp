@@ -23,19 +23,18 @@ struct Self_8012573C { u8 pad[0x23c]; u32 f23c; };
 struct Out_8012573C { u8 pad[0x40]; u32 f40; u8 pad44[0x50 - 0x44]; s32 f50; u8 pad54[0x70 - 0x54]; void *f70; void *f74; s32 f78; s32 f7c; };
 
 extern "C" {
-u32 find_item_by_id(void);
 void config_faust_attack_collider__10TObjPlayerFPvPv(Self_8012573C *self, Out_8012573C *out);
 }
 s32 spawn_faust_explosion(u32 a0, const Vec &pos);
 void TObjPlayer::spawn_faust_wall_explosion(s32 arg0, s32 arg1) {
-    u32 temp_r3 = find_item_by_id();
+    u32 temp_r3 = (u32)find_item_by_id(arg0);
     if (temp_r3 != 0U) {
         spawn_faust_explosion(temp_r3, *(const Vec *)arg1);
     }
 }
 void spawn_faust_hit_explosion(s32 arg0, s32 arg1) {
     Ctx_80125628 *ctx = (Ctx_80125628 *)arg1;
-    u32 p = find_item_by_id();
+    u32 p = (u32)find_item_by_id(arg0);
     if (p != 0U) {
         spawn_faust_explosion(p, *(const Vec *)ctx->obj->elems[ctx->idx].f1c);
     }
@@ -49,7 +48,7 @@ extern TObject *tl_05;
 }
 
 s32 spawn_faust_explosion(u32 a0, const Vec &pos) {
-    if (((TItem *)a0)->get_slot_count() == 1) {
+    if (((TItem *)a0)->get_item_index() == 1) {
         Info_80125678 info;
         void *o;
         TObjPlayer__sub_802E449C(&info);

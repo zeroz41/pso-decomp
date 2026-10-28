@@ -3,6 +3,11 @@
 
 #include "pso/TObject.h"
 
+// Set when the item lists stop agreeing with the other clients (an id that
+// cannot be assigned or is already taken); TItemDisconnectCtrl leaves the
+// game when it sees it.
+extern s32 item_desync_detected;
+
 class TItemDisconnectCtrl : public TObject {
 public:
     TItemDisconnectCtrl();

@@ -17,7 +17,7 @@ public:
     s16 get_stat_by_key_state();
     s32 mask_object_set_row_flags(s32);
     s32 set_event_source_flag(s32);
-    void set_item_count(s16);
+    void set_entity_id(u16 id);
     int set_position_from(void *pos);
     u16 m_1c;
     s16 m_1e;
@@ -92,7 +92,7 @@ public:
     void send_object_state_update(void *);
     virtual void vfunc_13(s32);
     s32 set_flag8();
-    u8 sub_8010319C();
+    s32 has_interactor();
     void set_shadow_flag();
     void clear_shadow_flag();
     u32 m_90;

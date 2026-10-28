@@ -55,7 +55,7 @@ extern const f32 lbl_805DBA78;
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, int);
 void *find_entity_by_id(u16 id);
 extern s32 TOVS2Wall01__class_name;
-extern Ent_8017B9B0 *TLobby__data_805D6140;
+extern Ent_8017B9B0 *quest_object_entries;
 void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0);
 
 f32 TOTrapAncient02R::receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32) {
@@ -150,7 +150,7 @@ void handle_6x86_hit_destructible_object(Pkt_8017B9B0 *arg0) {
         ((TUnk_804AF8A0 *)o)->access_object_saved_state(&spC, 0);
         o->m4(&spC, 0);
     } else {
-        *(s32 *)&sp8 = *(s32 *)&TLobby__data_805D6140[arg0->d];
+        *(s32 *)&sp8 = *(s32 *)&quest_object_entries[arg0->d];
         if (sp8.a != 1) {
             sp8.a = arg0->c;
             TLobby::apply_table_entry(arg0->d, &sp8);

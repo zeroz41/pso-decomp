@@ -6,13 +6,11 @@
 
 struct TItemEquipBase : public TItem {
     virtual ~TItemEquipBase();
-    virtual void vfunc_20();
-    virtual int vfunc_33();
-    int get_flag_40();
+    virtual void equip();
+    virtual s8 get_attach_slot();
     void refresh_owner_stats();
     void request_model_load(s32);
     void sub_8010A948();
-    void send_6x61_activate_mag_effect(s32);
     virtual void vfunc_44();
     virtual void vfunc_45();
     virtual void vfunc_46();
@@ -20,7 +18,6 @@ struct TItemEquipBase : public TItem {
     virtual void vfunc_48();
     virtual void vfunc_49();
     virtual void vfunc_50();
-    virtual s32 vfunc_21(u8 *, s32, s32, s32);
     u8 unk_F8[0x2];
     s16 m_fa;
     u8 unk_FC[0x2];
@@ -59,7 +56,7 @@ struct TItemEquipBase : public TItem {
     void subtract_item_stat_bonus(s32 arg1, s32 arg2, s16 *out);
     void reset();
     void update_equip();
-    void unequip();
+    virtual void unequip();
     void update_with_player();
     void init_slot();
     int check_flag_32();

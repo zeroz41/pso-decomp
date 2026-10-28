@@ -84,7 +84,7 @@ int clear_player_status_flag__13TUnk_804AF8A0FlUl(void*, int, int);
 void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
-extern SetEntry_80157454 *TLobby__data_805D6140;
+extern SetEntry_80157454 *quest_object_entries;
 
 void TOAttackableCol__sub_80157310(void * _w0) {  }
 
@@ -163,7 +163,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
                     col->vfunc_6(&saved.id, 0);
                 }
             } else {
-                SetEntry_80157454 entry = TLobby__data_805D6140[msg->type];
+                SetEntry_80157454 entry = quest_object_entries[msg->type];
                 entry.id = msg->id;
                 TLobby::apply_table_entry(msg->type, &entry);
             }

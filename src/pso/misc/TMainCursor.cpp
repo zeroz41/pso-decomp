@@ -60,7 +60,7 @@ s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 is_invalid_slot__10TObjPlayerFUc(u8);
 s32 reset_key_machine_state__10TObjPlayerFv(void);
 s32 play_sound_effect(s32, void *, s32, s32);
-s32 can_pickup_item_by_id__10TObjPlayerFii(u32, s32);
+s32 can_pickup_item_by_id__10TObjPlayerFP5TItem(u32, s32);
 
 extern "C" u8 lbl_8043F090[];
 extern "C" u8 lbl_8043F0A4[];
@@ -99,7 +99,7 @@ s32 TMainCursor::check_can_pickup() {
     s32 arg0 = (s32)this;
 
     temp_r3 = (s32)find_entity_by_id(((TMainCursor *)(arg0 + 0x60))->get_id());
-    if ((temp_r3 != 0) && ((u32) (obj_testFlags30__13TUnk_804AF8A0FUl((void *)temp_r3, 0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFii(temp_r3b, temp_r3) == 0)) {
+    if ((temp_r3 != 0) && ((u32) (obj_testFlags30__13TUnk_804AF8A0FUl((void *)temp_r3, 0x80000000) + 0x80000000) == 0U) && ((temp_r3b = ((TMainCursor *)arg0)->check_field_24()) != 0U) && (can_pickup_item_by_id__10TObjPlayerFP5TItem(temp_r3b, temp_r3) == 0)) {
         return 1;
     }
     return 0;

@@ -61,7 +61,6 @@ struct Ctrl_8026ECBC {
 struct Buf_8026E884 { s16 h[19]; };
 
 extern "C" {
-u8 * find_item_by_id(s32);
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
 s32 get_player_by_client_id(s32);
 s32 TItemObject__sub_80115DE8(void *item);
@@ -163,7 +162,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 arg0, u32 arg1) {
             var_r3 = var_r31;
             item = (unsigned long) (find_item_by_id((s32) var_r3));
             var_r31 = item;
-            if ((var_r31 != 0) && (((TItem *)item)->get_field_ec() == 3)) {
+            if ((var_r31 != 0) && (((TItem *)item)->get_item_type() == 3)) {
                 var_r3 = var_r31;
                 var_r31 = TItemObject__sub_80115DE8((void *)var_r3);
                 if ((s32) var_r31 != -1) {

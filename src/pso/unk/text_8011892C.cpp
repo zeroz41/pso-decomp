@@ -1,12 +1,9 @@
 #include "types.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/item/TItem_80100508.h"
-#include "pso/item/TItem_80100674.h"
-#include "pso/misc/pso_const_ids6.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_8011892C.h"
 #include "pso/item/TItemProUnit.h"
-#include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -61,8 +58,8 @@ struct Unit_80118AD4 { u8 pad0[0xF0]; Owner_80118AD4 *owner; u8 padF4[0x190 - 0x
 struct PU_801189AC { u8 pad[0x192]; s16 arr[0x13]; };
 
 extern "C" {
-void vfunc_14__12TItemProUnitFv(u8 *arg0);
-s32 get_id__13TItemProArmorFv(void *);
+void update_owned__12TItemProUnitFv(u8 *arg0);
+s32 get_owner_client__5TItemFv(void *);
 s32 construct_timer_event__13TUnk_804A0628Fv(int, int, void *, int);
 s32 init_item_timer_event__13TUnk_804A0648Fv(int, int, void *, int);
 s32 init_timer_event__13TUnk_804A0608Fv(int, int, void *, int);
@@ -73,7 +70,7 @@ extern const f32 TItemProUnit__data_805DABF8;
 extern const f32 lbl_805DAC00;
 void TItemProUnit__vt16(Self_80118958 *self, Out_80118958 *out);
 f32 TItemProUnit__sub_8011901C(void *);
-void vfunc_16__12TItemProUnitFv(Self_80118A78 *self);
+void update_equipped__12TItemProUnitFv(Self_80118A78 *self);
 u8 get_technique_learn_limit(u8, u8);
 u8 get_cast_technique_level(void *, s16);
 void set_technique_level_entry(void *, s16, u8);
@@ -85,9 +82,9 @@ void *lookup_item_pmt_record(u8 *item);
 s32 TItemEquipBase__ct();
 s16 get_field6_bswap__9TItemDataFPv(void *);
 
-void TItem__sub_8011892C(void) {  }
+void TItemProUnit::carry_over_stats(TItemData *, TItem *) {}
 
-void TItemProUnit::vfunc_14() {
+void TItemProUnit::update_owned() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r0;
     s16 temp_r4;
@@ -125,7 +122,7 @@ void TItemProUnit::vfunc_45() {
 extern void *__vt__12TItemProUnit[];
 extern s32 lbl_805D2C40;
 
-void TItemProUnit::vfunc_16() {
+void TItemProUnit::update_equipped() {
     Self_80118A78 *self = (Self_80118A78 *)this;
     if (self->s18c == 0x13) {
         if (TItemProUnit__sub_8011901C(self->data->unit) < self->evp) {
@@ -179,7 +176,7 @@ void TItemProUnit::vfunc_44() {
       temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3 != 0)
       {
-        init_item_timer_event__13TUnk_804A0648Fv((int) temp_r3, this->m_174, (void *) get_id__13TItemProArmorFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        init_item_timer_event__13TUnk_804A0648Fv((int) temp_r3, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
       }
     }
       return;
@@ -190,7 +187,7 @@ void TItemProUnit::vfunc_44() {
       temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3_2 != 0)
       {
-        construct_timer_event__13TUnk_804A0628Fv((int) temp_r3_2, this->m_174, (void *) get_id__13TItemProArmorFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        construct_timer_event__13TUnk_804A0628Fv((int) temp_r3_2, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
         return;
       }
     }
@@ -201,7 +198,7 @@ void TItemProUnit::vfunc_44() {
       temp_r3_3 = __nw__15TItemHeapObjectFUl(0x2C);
       if (temp_r3_3 != 0)
       {
-        init_timer_event__13TUnk_804A0608Fv((int) temp_r3_3, this->m_174, (void *) get_id__13TItemProArmorFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
+        init_timer_event__13TUnk_804A0608Fv((int) temp_r3_3, this->m_174, (void *) get_owner_client__5TItemFv((void *) arg0), (int) ((s32) (lbl_805DABFC * (this->m_18e))));
       }
     }
       break;
@@ -211,33 +208,43 @@ void TItemProUnit::vfunc_44() {
 extern "C" {
 void *__dt__12TItemProUnitFv(void *arg0, s16 arg1);
 void run_task__5TItemFv();
-void dispatch_state__5TItemFv();
+void render__5TItemFv();
 void render_shadows__5TItemFv();
 void vfunc_6__13TUnk_804B9870FPsl();
 void apply_object_set_data__13TUnk_804B9870FPv();
 void reset_motion_fields__13TUnk_804AF8A0Fv();
+void add_amount__5TItemFl();
+void add_slot__5TItemFv();
+void feed__5TItemFP9TItemData();
+void get_amount__5TItemFv();
+void get_slot_count__5TItemFv();
+void remove_amount__5TItemFl();
+void vfunc_42__5TItemFv();
+void update_object_view_visibility__5TItemFff();
+void update_in_inventory__5TItemFv();
 void vfunc_9__13TUnk_804B9870Fv();
 void classify_actor_view_detail__13TUnk_804B9870Ffff();
 void vfunc_12__5TItemFv();
-void try_pick_up_item__5TItemFl();
-void vfunc_17__5TItemFv();
+void vfunc_13__5TItemFl();
+void activate_effect__5TItemFl();
 void set_attach_slot__14TItemEquipBaseFSc();
-void vfunc_20__14TItemEquipBaseFv();
+void equip__14TItemEquipBaseFv();
 void unequip__14TItemEquipBaseFv();
 void add_equip_stats__14TItemEquipBaseFl();
 void remove_equip_stats__14TItemEquipBaseFl();
 void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
 void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
-void vfunc_26__5TItemFv();
-void vfunc_27__5TItemFv();
-void vfunc_28__5TItemFv();
+void render_equipped__5TItemFv();
+void render_equipped_shadow__5TItemFv();
+void render_equipped_deferred__5TItemFv();
+void use__5TItemFv();
 void update_equip__14TItemEquipBaseFv();
 void vfunc_30__5TItemFv();
-void vfunc_32__5TItemFv();
-s8 vfunc_33__14TItemEquipBaseFv(TItemEquipBase *arg0);
+void get_attack_flags__5TItemFv();
+s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 void vfunc_34__5TItemFv();
-void vfunc_35__5TItemFv();
-void vfunc_43__5TItemFv();
+void is_identified__5TItemFv();
+void get_motion_type__5TItemFv();
 void vfunc_46__14TItemEquipBaseFv();
 void release__14TItemEquipBaseFv();
 void vfunc_50__14TItemEquipBaseFv();
@@ -248,46 +255,46 @@ void *__vt__12TItemProUnit[51] = {
     0,
     (void *)__dt__12TItemProUnitFv,
     (void *)run_task__5TItemFv,
-    (void *)dispatch_state__5TItemFv,
+    (void *)render__5TItemFv,
     (void *)render_shadows__5TItemFv,
     (void *)vfunc_6__13TUnk_804B9870FPsl,
     (void *)apply_object_set_data__13TUnk_804B9870FPv,
     (void *)reset_motion_fields__13TUnk_804AF8A0Fv,
     (void *)vfunc_9__13TUnk_804B9870Fv,
-    (void *)TItem__sub_80100B8C,
+    (void *)update_object_view_visibility__5TItemFff,
     (void *)classify_actor_view_detail__13TUnk_804B9870Ffff,
     (void *)vfunc_12__5TItemFv,
-    (void *)try_pick_up_item__5TItemFl,
-    (void *)vfunc_14__12TItemProUnitFv,
-    (void *)vfunc_15__5TItemFv,
-    (void *)vfunc_16__12TItemProUnitFv,
-    (void *)vfunc_17__5TItemFv,
+    (void *)vfunc_13__5TItemFl,
+    (void *)update_owned__12TItemProUnitFv,
+    (void *)update_in_inventory__5TItemFv,
+    (void *)update_equipped__12TItemProUnitFv,
+    (void *)activate_effect__5TItemFl,
     (void *)TItemProUnit__vt16,
     (void *)set_attach_slot__14TItemEquipBaseFSc,
-    (void *)vfunc_20__14TItemEquipBaseFv,
+    (void *)equip__14TItemEquipBaseFv,
     (void *)unequip__14TItemEquipBaseFv,
     (void *)add_equip_stats__14TItemEquipBaseFl,
     (void *)remove_equip_stats__14TItemEquipBaseFl,
     (void *)subtract_item_stat_bonus__14TItemEquipBaseFllPs,
     (void *)subtract_equip_stats__14TItemEquipBaseFlPUcPUc,
-    (void *)vfunc_26__5TItemFv,
-    (void *)vfunc_27__5TItemFv,
-    (void *)vfunc_28__5TItemFv,
+    (void *)render_equipped__5TItemFv,
+    (void *)render_equipped_shadow__5TItemFv,
+    (void *)render_equipped_deferred__5TItemFv,
     (void *)update_equip__14TItemEquipBaseFv,
     (void *)vfunc_30__5TItemFv,
-    (void *)TItem::update_pickup_flag,
-    (void *)vfunc_32__5TItemFv,
-    (void *)vfunc_33__14TItemEquipBaseFv,
+    (void *)&use__5TItemFv,
+    (void *)get_attack_flags__5TItemFv,
+    (void *)get_attach_slot__14TItemEquipBaseFv,
     (void *)vfunc_34__5TItemFv,
-    (void *)vfunc_35__5TItemFv,
-    (void *)vfunc_36__5TItemFv,
-    (void *)ret_8010065C,
-    (void *)ret_80100654,
-    (void *)vfunc_39__5TItemFv,
-    (void *)vfunc_40__5TItemFv,
-    (void *)vfunc_41__5TItemFv,
+    (void *)is_identified__5TItemFv,
+    (void *)get_amount__5TItemFv,
+    (void *)remove_amount__5TItemFl,
+    (void *)add_amount__5TItemFl,
+    (void *)get_slot_count__5TItemFv,
+    (void *)add_slot__5TItemFv,
+    (void *)feed__5TItemFP9TItemData,
     (void *)vfunc_42__5TItemFv,
-    (void *)vfunc_43__5TItemFv,
+    (void *)get_motion_type__5TItemFv,
     (void *)vfunc_44__12TItemProUnitFv,
     (void *)vfunc_45__12TItemProUnitFv,
     (void *)vfunc_46__14TItemEquipBaseFv,
@@ -341,7 +348,7 @@ u8 *TItemProUnit__ct(TItemProUnit *item_pro_unit, s32 arg1, u8 *item) {
     TItemEquipBase__ct();
     *(s32 **)((s8 *)item_pro_unit + 0x18) = (s32 *)__vt__12TItemProUnit;
     *(s32 *)((s8 *)item_pro_unit + 0) = (s32) lbl_805D2C40;
-    item_pro_unit->vfunc_19((s8) (*(u8 *)((s8 *)item + 4) + 9));
+    item_pro_unit->set_attach_slot((s8) (*(u8 *)((s8 *)item + 4) + 9));
     *(s16 *)((s8 *)item_pro_unit + 0x190) = 0;
     *(f32 *)((s8 *)item_pro_unit + 0x1B8) = (f32) TItemProUnit__data_805DABF8;
     item_pmt_record = (u8 *)lookup_item_pmt_record(item);

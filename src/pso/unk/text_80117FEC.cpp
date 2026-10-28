@@ -4,11 +4,11 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 void TItemProShield::sub_80117FEC() {
     u8 *arg0 = (u8 *)this;
     u8 temp_r3;
-    temp_r3 = get_slot_count__5TItemFv();
+    temp_r3 = get_item_index__5TItemFv();
     switch (temp_r3) {
     case 34:
     case 35:

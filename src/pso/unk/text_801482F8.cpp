@@ -336,7 +336,7 @@ extern u32 quest_area_manager;
 extern const f32 lbl_805DB1B8;
 extern const f32 lbl_805DB1BC;
 extern const f32 lbl_805DB1C0;
-s32 sub_8010319C__13TUnk_804AF8A0Fv();
+s32 has_interactor__13TUnk_804AF8A0Fv();
 s32 debug_printf_at(s32, const char *, ...);
 extern char lbl_8043F544[];
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -369,7 +369,7 @@ void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 void TObjNpcBase::debug_draw_talk() {
-    if ((sub_8010319C__13TUnk_804AF8A0Fv() != 0) && (((u32 (*)(u16))get_player_by_client_id)(this->m_94) != 0)) {
+    if ((has_interactor__13TUnk_804AF8A0Fv() != 0) && (((u32 (*)(u16))get_player_by_client_id)(this->m_94) != 0)) {
         debug_printf_at(0x1A0020, lbl_8043F544);
     }
 }

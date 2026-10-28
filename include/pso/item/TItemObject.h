@@ -2,17 +2,23 @@
 #define PSO_ITEM_TITEMOBJECT_H
 
 #include "types.h"
+
+struct TItem;
+struct TItemData;
 #include <stddef.h>
 #include "pso/item/TItem.h"
 
 struct TItemObject : public TItem {
+    // Copies what an item of this class keeps when it is replaced by a new
+    // item code (replace_item_with_new_code) into the new item's data.
+    static void carry_over_stats(TItemData *data, TItem *item);
     virtual ~TItemObject();
-    virtual int vfunc_37(s32);
-    virtual int vfunc_38(s32);
+    virtual s32 remove_amount(s32 count);
+    virtual s32 add_amount(s32 count);
     virtual void vfunc_44();
-    virtual void vfunc_14();
-    virtual int vfunc_36();
-    virtual void vfunc_31();
+    virtual void update_owned();
+    virtual s32 get_amount();
+    virtual void use();
     u8 get_tool_pmt_amount_byte();
     u8 sub_80115D7C();
     void*vfunc_9();
@@ -21,8 +27,6 @@ struct TItemObject : public TItem {
     s32 encoded_value;
     u8 m_100;
     u8 m_101;
-    void copy_and_register_item_data();
-    int set_flag_1024();
     u8 *create();
     static s32 call_dispatch(s32 arg0);
 };

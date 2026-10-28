@@ -3,12 +3,12 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyMachine01.h"
 
-extern s32 lbl_805D5450;
+extern s32 item_desync_detected;
 extern TObject *tl_05;
 extern const char *TItemDisconnectCtrl__name;
 
 void TItemDisconnectCtrl::run_task() {
-    if (TOKeyMachine01::get_global_state() != 0xF && lbl_805D5450 != 0) {
+    if (TOKeyMachine01::get_global_state() != 0xF && item_desync_detected != 0) {
         TLobby::disconnect_protocol();
         queue_destruction();
     }

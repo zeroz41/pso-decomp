@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TUnk_804A1668.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
-s32 submit_computer_command__10TObjPlayerFv(s32, s16, s32, s32);
 void TItemWeapon__ct(void *);
 
 void TUnk_804A1668::update_weapon() {
@@ -12,7 +12,7 @@ void TUnk_804A1668::update_weapon() {
 
     temp_r3 = (*(void * *)((u8 *)this + 0xF4));
     if (temp_r3 != NULL) {
-        submit_computer_command__10TObjPlayerFv(*(s32 *)((s8 *)temp_r3 + 0x2C), *(s16 *)&this->unk_1F8, 0, 1);
+        scroll_item_model_uvs(*(NJS_OBJECT **)((s8 *)temp_r3 + 0x2C), *(s16 *)&this->unk_1F8, 0, 1);
     }
 }
 

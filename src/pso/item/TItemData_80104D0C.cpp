@@ -67,7 +67,7 @@ s32 find_eligible_combination_recipe(s32 arg0, u8 *item) {
         it = find_unique_combination_target(o, item);
         if (it != NULL) {
             init__9TItemDataFv(&d);
-            ((TItem *)it)->copy_to_item_data(&d);
+            ((TItem *)it)->copy_to_item_data((TItemData *)&d);
             rec = find_item_combination_recipe(item, it);
         } else {
             return 0;

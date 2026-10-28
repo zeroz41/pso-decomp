@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TUnk_804F0BF0.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -27,14 +28,13 @@ struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {
 extern "C" {
 extern const f32 lbl_805DFE08;
 extern const f32 lbl_805DFE0C;
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void *create_particle_emitter(void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
 extern const f32 lbl_805DFE10;
 s32 get_render_pass__9TMainTaskFv();
-u32 query_game_join_id__10TObjPlayerFv(int);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -68,7 +68,7 @@ u8 *TItemEffPG::create() {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x200));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804F0AF8 *)temp_r3)->init_fields(tl_05, arg0)));
@@ -82,7 +82,7 @@ void TItemEffPG__begin_visual_fade(void* p) { *(s32*)((char*)p + 0x58) = 1; }
 
 void TUnk_804F0BF0::render() {
     u8 *arg0 = (u8 *)this;
-    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || query_game_join_id__10TObjPlayerFv((int) (*(s32 *)((s8 *)arg0 + 0x1C))) == 0U) {
+    if (all_parents_unqueued_for_destruction__7TObjectFv() == 0 || find_equipped_item((int) (*(s32 *)((s8 *)arg0 + 0x1C))) == 0U) {
         return;
     }
     {

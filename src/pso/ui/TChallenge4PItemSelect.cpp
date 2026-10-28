@@ -1,4 +1,5 @@
 #include "pso/ui/TChallenge4PItemSelect.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/item/TItemData_8010EDA8.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
@@ -317,7 +318,7 @@ void TChallenge4PResult::close_window() { if (this->message_window != 0) { TWind
 extern "C" {
 void TChallenge4PResult::set_entry_item(void *arg1, s32 arg2) {
     W_8034B694 *arg0 = (W_8034B694 *)this;
-    ((TLobby *)(&arg0->e[arg2]))->copy_item_data(arg1);
+    ((ItemData *)(&arg0->e[arg2]))->copy_from((ItemData *)(arg1));
     arg0->f[arg2].v = 1;
 }
 }

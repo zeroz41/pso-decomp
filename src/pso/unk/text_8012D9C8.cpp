@@ -19,12 +19,12 @@ typedef struct SlicerLaunchData_8012D9C8 {
 } SlicerLaunchData_8012D9C8;
 
 extern "C" {
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 extern const f32 lbl_805DAF38;
 extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;
 extern const f32 lbl_805DAF54;
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 u8 * TItemWeapon__ct(void *, void *);
 void init_slicer_launch_state(void *arg0);
 u16 obj_getField1c(void *);
@@ -48,7 +48,7 @@ void launch_slicer_shot(u8 *weapon) {
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
     launch.player = obj_getField1c(*(u8 * *)&((TUnk_804A5B20 *)weapon)->player);
-    launch.weapon = ((TItem *)weapon)->get_field_d8();
+    launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804A5B20 *)weapon)->player + 0x7CC));
@@ -65,7 +65,7 @@ void launch_slicer_shot(u8 *weapon) {
 void TUnk_804A5B20::update_idle() {
     u8 *arg0 = (u8 *)this;
   int new_var;
-  switch ((s32) get_slot_count__5TItemFv())
+  switch ((s32) get_item_index__5TItemFv())
   {
     case 5:
     {
@@ -89,7 +89,7 @@ void TUnk_804A5B20::update_idle() {
 
 void TUnk_804A5B20::update_attack() {
     u8 *arg0 = (u8 *)this;
-  switch ((s32) get_slot_count__5TItemFv())
+  switch ((s32) get_item_index__5TItemFv())
   {
     case 5:
       TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x204), (f32)((f32) lbl_805DAF50), (f32)((f32) lbl_805DAF38));
@@ -134,7 +134,7 @@ u8 *create_slicer_weapon(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x208));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(construct_slicer_weapon((u8 *)temp_r3, (u8 *)tl_05, (u8 *)arg0));

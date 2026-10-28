@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/item/TItemObject.h"
 #include "pso/system/byteswap.h"
 #include "pso/protocol/subcmd_6x.h"
@@ -30,7 +31,7 @@ extern s32 floor_item_next_sort_keys;
 extern s32 lbl_805D5430;
 s32 __construct_new_array(s32, s32 *, s32, s32, s32);
 s32 mem_alloc(s32);
-extern s32 drop_stacked_item_passthrough__6TLobbyFv[];
+extern s32 __ct__9FloorItemFv[];
     extern int lbl_805D5868;
 int read_be16_field2__10TObjPlayerFv(void*);
 void TLobby__send_and_handle_60(u8 *arg0);
@@ -54,8 +55,8 @@ s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
-u32 get_equip_field_d04__10TObjPlayerFv(s32, s32);
-s32 get_field_d8__5TItemFv();
+u32 get_equip_field_d04__10TObjPlayerFl(s32, s32);
+s32 get_item_id__5TItemFv();
 int get_item_field_6__10TObjPlayerFPv(void *p);
 extern void *item_tool_factory_table[];
 void create__11TItemObjectFv();
@@ -78,7 +79,7 @@ void TLobby::reset_floor_items() {
     s32 k;
     for (i = 0; i != 0xD80; i++) {
         if (*(Ent_80103F68 **)&TLobby__floor_item_entry_pool != NULL) {
-            ((TLobby *)(&(*(Ent_80103F68 **)&TLobby__floor_item_entry_pool)[i]))->init_floor_item_entry();
+            ((FloorItem *)(&(*(Ent_80103F68 **)&TLobby__floor_item_entry_pool)[i]))->clear();
         }
     }
     for (j = 0; j < 0x12; j++) {
@@ -112,7 +113,7 @@ void TLobby::free_boss_rocks() {
     ((TObjPlayer *)(&lbl_805D5430))->clear_id();
 }
 void TLobby::alloc_objects() {
-    (*(s32 *)&TLobby__floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), drop_stacked_item_passthrough__6TLobbyFv, 0, 0x24, 0xD80);
+    (*(s32 *)&TLobby__floor_item_entry_pool) = __construct_new_array(mem_alloc(0x1E610), __ct__9FloorItemFv, 0, 0x24, 0xD80);
     floor_item_row_table = mem_alloc(0x48);
     floor_item_counts_by_floor = mem_alloc(0x48);
     floor_item_free_id_stack = mem_alloc(0x40);
@@ -269,13 +270,13 @@ void TLobby::handle_player_event(s32 arg0, s32 arg1) {
         case 5:
         case 6:
         case 7:
-            var_r3 = get_equip_field_d04__10TObjPlayerFv(player, arg1 + 5);
+            var_r3 = get_equip_field_d04__10TObjPlayerFl(player, arg1 + 5);
             break;
         default:
             break;
         }
         if (var_r3 != 0U) {
-            send_6x26_unequip_item__10TObjPlayerFPvPv((void *)player, (void *)(get_field_d8__5TItemFv()));
+            send_6x26_unequip_item__10TObjPlayerFPvPv((void *)player, (void *)(get_item_id__5TItemFv()));
         }
     }
 }

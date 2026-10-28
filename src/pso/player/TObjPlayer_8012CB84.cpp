@@ -6,11 +6,11 @@
 
 extern "C" {
 
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 
 void TUnk_804A5550::update_weapon() {
     s32 arg0 = (s32)this;
-    if (get_slot_count__5TItemFv() == 5) {
+    if (get_item_index__5TItemFv() == 5) {
         ((TItemEquipBase *)arg0)->refresh_owner_stats();
     }
 }

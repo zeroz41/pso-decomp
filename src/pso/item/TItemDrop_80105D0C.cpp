@@ -57,9 +57,9 @@ void unload_item_drop_globals(void);
 s32 is_unsealable_item(u8 *id);
 void unload_item_drop_globals(void) {  }
 
-    extern int lbl_805D5450;
+    extern int item_desync_detected;
 
-void TItemDrop__sub_80105D10(void) { lbl_805D5450 = 0; }
+void TItemDrop__sub_80105D10(void) { item_desync_detected = 0; }
 
 void TItemDrop::clear_item_if_player_picked_up(void* p, void* a1) { if (is_unsealable_item((u8 *)a1) == 1) { ((TItemData *)a1)->set_packed_value((u16)((void*)0)); } }
 

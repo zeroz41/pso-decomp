@@ -10,6 +10,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItemAttackCol.h"
+#include "pso/item/TItem.h"
 
 struct RecoveredGlobal_8032DC94_lbl_8050BEC0
 {
@@ -24,13 +25,12 @@ struct RecoveredGlobal_8032DC94_lbl_8058D4C0
 };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 }
 extern s32 tl_05;
 u8 *create_guardianna(u8 *arg0);
 
 extern "C" {
-s32 *query_game_join_id__10TObjPlayerFv(s32 *);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 notify_fish_if_valid__10TObjPlayerFUl();
 s32 rotate_matrix_y(int, int);
@@ -85,7 +85,7 @@ u8 *create_guardianna(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1F8));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)((TUnk_804EDC28 *)temp_r3)->construct_guardianna(tl_05, arg0)));
@@ -101,7 +101,7 @@ void *__dt__13TUnk_804EDC28Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EDC28;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -134,7 +134,7 @@ void TUnk_804EDD20::render() {
   if ((!((this->m_80) <= var_f0)) && (all_parents_unqueued_for_destruction__7TObjectFv() != 0))
   {
     var_r3 = (s32 *) (*((s32 **) (((s8 *) var_r29) + 0x60)));
-    var_r31 = (s32 *) query_game_join_id__10TObjPlayerFv(var_r3);
+    var_r31 = (s32 *) find_equipped_item((s32)var_r3);
     if (var_r31 != 0)
     {
       new_var = (s32 *) (*((s32 **) (((s8 *) var_r31) + 0x188)));
@@ -261,8 +261,7 @@ void *spawn_particle_effect(void *pos, s32 id);
 
 void *find_entity_by_id(u16 id);
 void queue_destruction__7TObjectFv(void *);
-u8 *find_item_by_id(s32 id);
-s8 sub_80102C30__5TItemFv();
+s8 get_mode__5TItemFv();
 
 void TUnk_804EDD44::anchor_card_effect() {
   u16 temp_r3;
@@ -328,7 +327,7 @@ void TUnk_804EDD44::run_task() {
         queue_destruction__7TObjectFv(arg0);
         return;
     }
-    if (sub_80102C30__5TItemFv() != 2) {
+    if (get_mode__5TItemFv() != 2) {
         queue_destruction__7TObjectFv(arg0);
         return;
     }

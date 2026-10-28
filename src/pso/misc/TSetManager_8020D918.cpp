@@ -37,7 +37,7 @@ extern SrcB_8020DEE4 *TLobby__data_805D6114;
 void depart_floor_population(int unused);
 s32 lookup_scene_object__6TLobbyFPv(s32, void *);
 void *memset(void *, int, unsigned long);
-extern A_8020DBCC *TLobby__data_805D6140;
+extern A_8020DBCC *quest_object_entries;
 extern B_8020DBCC *TLobby__data_805D6144;
 void read_disc_file(char *, void *);
 s32 replace_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
@@ -155,12 +155,12 @@ void TLobby::setup_floor_decorations() {
 void TLobby::reset_id_tables() {
     s32 i;
     s32 n = 0;
-    if (TLobby__data_805D6140 != 0) {
-        memset(TLobby__data_805D6140, 0, 0x2E80);
+    if (quest_object_entries != 0) {
+        memset(quest_object_entries, 0, 0x2E80);
         for (i = 0; i < 0xBA0; i++) {
             s16 t = n + 0x100;
             n++;
-            TLobby__data_805D6140[i].b = t;
+            quest_object_entries[i].b = t;
         }
     }
     if (TLobby__data_805D6144 != 0) {

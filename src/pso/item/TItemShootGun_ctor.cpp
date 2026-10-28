@@ -25,7 +25,7 @@ extern const GunStarLightBlock gun_shot_star_light_parameters[];
 WeaponColor get_weapon_color__11TItemWeaponFPv(void *arg0);
 void lookup_item_data__9TItemLoadFlPl(s32, s32 *);
 void get_data_entry__9TItemLoadFlPl(s32, s32 *);
-u8 get_slot_count__5TItemFv(void *);
+u8 get_item_index__5TItemFv(void *);
 TObject *spawn_star_light_2d__Flll(Vec *pos, const GunStarLightBlock *params, TObject *parent);
 }
 
@@ -42,7 +42,7 @@ TItemShootGun::TItemShootGun(void *owner, const Vec *pos, const Vec *endpoint, f
     TItemLoad::lookup_item_data(0, (s32 *)&this->m_58);
     TItemLoad::get_data_entry(0, (s32 *)&this->m_5C);
     this->m_6C = 0;
-    this->m_70 = item->get_slot_count();
+    this->m_70 = item->get_item_index();
     if ((s32)this->m_70 < 0 || (s32)this->m_70 > 4) {
         this->m_70 = 4;
     }

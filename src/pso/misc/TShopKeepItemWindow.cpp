@@ -179,7 +179,7 @@ void TShopKeepItemWindow::handle_deposit_confirm() {
         if (r == 0) {
             i = select_cursor_entry__22TWindowSubShortCutListFv(this->m_384);
             if (store_item_in_bank((u8 *)&self->ents[i].f4, this->m_378, base) != 0) {
-                get_item_record__23TShopJudgmentItemWindowFPv(this->m_24, ((TItem *)(self->ents[i].f0))->get_field_d8(), this->m_378);
+                get_item_record__23TShopJudgmentItemWindowFPv(this->m_24, ((TItem *)(self->ents[i].f0))->get_item_id(), this->m_378);
                 copy_bank_to_card_window(base);
                 play_sound_effect(0x52D01, 0, 0, 0);
                 TWindow__close((u8 *)self->f388);
@@ -246,7 +246,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     count = ((TObjPlayer *)(*(s32 *)((s8 *)self->f24 + 0xD00)))->count_matching_items((int)buf);
     self->f374 = 0;
     for (i = 0; i < count; i++) {
-        if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data(self->ents[self->f374].item) != 0) {
+        if (buf[i] != 0 && ((TItem *)(buf[i]))->copy_to_item_data((TItemData *)self->ents[self->f374].item) != 0) {
             self->ents[self->f374].f0 = buf[i];
             self->ents[self->f374].f18 = i;
             self->f374++;
@@ -282,10 +282,10 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
         if (self->f390 != 0U && TLobby::is_camera_ctrl_active() > 2) {
             ((TLobby *)(self->f390))->set_position(lbl_805DC710, lbl_805DC710);
         }
-        TWindowHelpItem__set_displayed_item_by_id(self->f390, ((TItem *)(self->ents[cur].f0))->get_field_d8());
+        TWindowHelpItem__set_displayed_item_by_id(self->f390, ((TItem *)(self->ents[cur].f0))->get_item_id());
         self->f37C = cur;
     } else {
-        TWindowHelpItem__set_displayed_item_by_id(self->f390, ((TItem *)(self->ents[cur].f0))->get_field_d8());
+        TWindowHelpItem__set_displayed_item_by_id(self->f390, ((TItem *)(self->ents[cur].f0))->get_item_id());
         self->f37C = cur;
     }
 }

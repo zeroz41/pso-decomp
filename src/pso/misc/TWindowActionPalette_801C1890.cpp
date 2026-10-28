@@ -9,6 +9,7 @@
 #include "pso/enemy/TObjEneBm5Wolf.h"
 #include "pso/misc/TFontSmallLobby.h"
 #include "pso/misc/TMainCursor.h"
+#include "pso/item/TItem.h"
 
 struct O_801C1C68 { u8 pad[4]; u8 a[0x10]; u8 b[0x10]; };
 
@@ -27,9 +28,8 @@ int TWindowActionPalette__sub_801C1C20(void* p);
 int test_flags_any(void*, int);
 void reset_settings_to_default__6TLobbyFv(void *);
 void *TWindowActionPalette__sub_801C1C68(O_801C1C68 *self, s32 i);
-s32 get_field_ed__5TItemFv(void *p);
-s32 get_field_ec__5TItemFv(void *p);
-s32 is_item_stackable(u8, u8);
+u8 get_item_group__5TItemFv(void *p);
+u8 get_item_type__5TItemFv(void *p);
 S_801C1BA8 *fn_801C1BA8(S_801C1BA8 *arg0, S_801C1BA8 *arg1);
 }
 
@@ -95,7 +95,7 @@ void *TObjPlayer::reset_lobby_settings() {
 u8 is_item_equipped(TObjPlayer *player) {
   unsigned int var_r31;
   var_r31 = 0;
-  if ((player->test_item_flags(4) != 0U) && (player->test_item_flags(8) != 0U))
+  if ((((TItem *)player)->test_item_flags(4) != 0U) && (((TItem *)player)->test_item_flags(8) != 0U))
   {
     var_r31 = 1;
   }
@@ -103,7 +103,7 @@ u8 is_item_equipped(TObjPlayer *player) {
 }
 
 void TObjPlayer__sub_801C1AC8(void *self) {
-    is_item_stackable(get_field_ec__5TItemFv(self), get_field_ed__5TItemFv(self));
+    is_item_stackable(get_item_type__5TItemFv(self), get_item_group__5TItemFv(self));
 }
 
 void TObjPlayer__sub_801C1B0C(void) {  }

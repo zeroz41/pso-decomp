@@ -16,7 +16,7 @@ struct RecoveredGlobal_80126414_lbl_804A05E8 {
 };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * TItemWeapon__ct(void *, void *);
 extern RecoveredGlobal_80126334_lbl_804A2960 lbl_804A2960;
@@ -29,7 +29,7 @@ u8 *frozen_shooter_ct(u8 *arg0, u8 *arg1, s32 _w2) {
     TItemWeapon__ct(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A2960.value;
     ((TObjPlayer *)arg0)->set_status_flags(0x22);
-    if (((TItem *)arg0)->get_slot_count() == 1) {
+    if (((TItem *)arg0)->get_item_index() == 1) {
         *(s32 *)((s8 *)arg0 + 0x1F8) = 0xA;
         *(s32 *)((s8 *)arg0 + 0x200) = 0x1F5;
     } else {
@@ -44,7 +44,7 @@ u8 *frozen_shooter_create(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x204));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(frozen_shooter_ct((u8 *)temp_r3, (u8 *)tl_05, (s32)arg0));

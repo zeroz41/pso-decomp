@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TUnk_804CDFE8.h"
 #include "pso/misc/TWindowMenu.h"
@@ -216,8 +217,7 @@ extern const s32 local_client_id;
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 play_sound_effect(int, int, int, int);
-VObj_18_b34251 *find_item_by_id(s32);
-u32 get_equip_field_d04__10TObjPlayerFv(s32, s32);
+u32 get_equip_field_d04__10TObjPlayerFl(s32, s32);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(s32, s32);
 void send_6x25_equip_item(s32, s32, s32);
 void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w);
@@ -318,9 +318,9 @@ void handle_buy_confirm__20TShopArmorListWindowFv(Win_8021A634 *w) {
                 u32 e;
                 it.id = advance_item_id_counter(local_client_id);
                 try_buy_item(w->player, &it);
-                item = find_item_by_id(it.id);
-                if (item != NULL && (e = get_equip_field_d04__10TObjPlayerFv(w->player, item->m31())) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(w->player, ((TItem *)e)->get_field_d8());
+                item = (VObj_18_b34251 *)find_item_by_id(it.id);
+                if (item != NULL && (e = get_equip_field_d04__10TObjPlayerFl(w->player, item->m31())) != 0) {
+                    send_6x26_unequip_item__10TObjPlayerFPvPv(w->player, ((TItem *)e)->get_item_id());
                 }
                 send_6x25_equip_item(w->player, it.id, 0);
                 ((TShopArmorListWindow *)w)->update_selection(&w->recs[i]);
@@ -494,7 +494,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     W->count = TLobby__sub_8021B274();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
-        ((TLobby *)(&W->recs[i]))->copy_item_data(&tmp);
+        ((ItemData *)(&W->recs[i]))->copy_from((ItemData *)(&tmp));
     }
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {

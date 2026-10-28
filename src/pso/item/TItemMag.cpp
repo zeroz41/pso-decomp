@@ -144,20 +144,20 @@ s32 obj_isState2_324__13TUnk_804806E8Fv(int);
 s16 obj_getS16_32C(s32);
 s16 obj_getField1c(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
-u8 get_field_ed__5TItemFv(s32);
+u8 get_item_group__5TItemFv(s32);
 u8 * get_type__8TItemMagFv(s32);
 s32 is_quest_active();
 s32 is_flag_set__6TLobbyFv();
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 void *spawn_particle_effect(void *pos, s32 id);
-s32 get_field_d8__5TItemFv(int);
+s32 get_item_id__5TItemFv(int);
 s32 apply_switch_attack__5TItemFl(void *, s32);
-int fn_80100D9C(s32, s32);
-s32 send_6x61_activate_mag_effect__14TItemEquipBaseFl(void *, s32);
-s32 get_item_info__10TObjPlayerFllPs(int, int, int);
+int set_item_group__5TItemFUc(s32, s32);
+s32 send_activate_effect__5TItemFl(void *, s32);
+s32 check_equip_requirements__5TItemFP10TObjPlayerPs(int, int, int);
 s32 check_class_equip_permission(void *, int);
 s32 activate_d04_slot__10TObjPlayerFv();
-u8 get_slot_count__5TItemFv();
+u8 get_item_index__5TItemFv();
 void *lookup_item_pmt_record(u8 *item);
 void try_add_action__8TItemMagFii(s32 arg0, s32 arg1);
 void TItemMag__vt40(TItemMag_80110B94 *self);
@@ -213,54 +213,55 @@ extern const f32 lbl_805DABB4;
 #pragma inline_depth(4)
 #pragma auto_inline off
 #pragma dont_inline off
-extern "C" s8 vfunc_33__14TItemEquipBaseFv(TItemEquipBase *arg0);
+extern "C" s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
 extern "C" void vfunc_49__14TItemEquipBaseFv();
 extern "C" void vfunc_48__14TItemEquipBaseFv();
 extern "C" void TItemMag__vt48();
-extern "C" void vfunc_40__5TItemFv();
+extern "C" void add_slot__5TItemFv();
 extern "C" void vfunc_34__5TItemFv();
-extern "C" void vfunc_32__5TItemFv();
-extern "C" void vfunc_28__5TItemFv();
+extern "C" void get_attack_flags__5TItemFv();
+extern "C" void use__5TItemFv();
+extern "C" void render_equipped_deferred__5TItemFv();
 extern "C" void vfunc_30__5TItemFv();
-extern "C" int TItem__sub_80100B8C(void *p);
+extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void vfunc_6__13TUnk_804B9870FPsl();
-extern "C" void vfunc_43__5TItemFv();
+extern "C" void get_motion_type__5TItemFv();
 extern "C" void vfunc_9__13TUnk_804B9870Fv();
 extern "C" void add_equip_stats__14TItemEquipBaseFl();
 extern "C" void apply_object_set_data__13TUnk_804B9870FPv();
 extern "C" void classify_actor_view_detail__13TUnk_804B9870Ffff();
-extern "C" void dispatch_state__5TItemFv();
-extern "C" void vfunc_20__14TItemEquipBaseFv();
+extern "C" void render__5TItemFv();
+extern "C" void equip__14TItemEquipBaseFv();
 extern "C" void vfunc_12__5TItemFv();
 extern "C" void reset_motion_fields__13TUnk_804AF8A0Fv();
 extern "C" void remove_equip_stats__14TItemEquipBaseFl();
 extern "C" void render_shadows__5TItemFv();
-extern "C" int vfunc_39__5TItemFv(void);
-extern "C" int ret_80100654(void);
-extern "C" int ret_8010065C(void);
-extern "C" int vfunc_36__5TItemFv(void);
-extern "C" void vfunc_35__5TItemFv();
+extern "C" int get_slot_count__5TItemFv(void);
+extern "C" int add_amount__5TItemFl(void);
+extern "C" int remove_amount__5TItemFl(void);
+extern "C" int get_amount__5TItemFv(void);
+extern "C" void is_identified__5TItemFv();
 extern "C" void run_task__5TItemFv();
 extern "C" void set_attach_slot__14TItemEquipBaseFSc();
 extern "C" void subtract_equip_stats__14TItemEquipBaseFlPUcPUc();
 extern "C" void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
-extern "C" void try_pick_up_item__5TItemFl();
+extern "C" void vfunc_13__5TItemFl();
 extern "C" void unequip__14TItemEquipBaseFv();
 extern "C" void update_equip__14TItemEquipBaseFv();
 struct TItemMag_801138F0; struct Self_801134CC; struct Self_80113310; struct Self_801135E0;
 extern "C" { void *__dt__8TItemMagFv(void *, s16); void TItemMag__vt12(s32); int TItemMag__vt13(void*); void TItemMag__vt14(Self_80113310*); void serialize_to_item__8TItemMagFPv(TItemMag *, void *); void TItemMag__vt24(Self_801135E0*); void TItemMag__vt25(Self_801134CC*); void TItemMag__vt42(TItemMag *); void TItemMag__vt43(u8*); void TItemMag__vt44(s32); void TItemMag__vt45(TItemMag_801138F0*); }
 void *__vt__8TItemMag[51] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__8TItemMagFv, (void *)&run_task__5TItemFv,
-    (void *)&dispatch_state__5TItemFv, (void *)&render_shadows__5TItemFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
-    (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&TItem__sub_80100B8C, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
-    (void *)&vfunc_12__5TItemFv, (void *)&try_pick_up_item__5TItemFl, (void *)&TItemMag__vt12, (void *)&TItemMag__vt13,
+    (void *)&render__5TItemFv, (void *)&render_shadows__5TItemFv, (void *)&vfunc_6__13TUnk_804B9870FPsl, (void *)&apply_object_set_data__13TUnk_804B9870FPv,
+    (void *)&reset_motion_fields__13TUnk_804AF8A0Fv, (void *)&vfunc_9__13TUnk_804B9870Fv, (void *)&update_object_view_visibility__5TItemFff, (void *)&classify_actor_view_detail__13TUnk_804B9870Ffff,
+    (void *)&vfunc_12__5TItemFv, (void *)&vfunc_13__5TItemFl, (void *)&TItemMag__vt12, (void *)&TItemMag__vt13,
     (void *)&TItemMag__vt14, (void *)&TItemMag__vt15, (void *)&serialize_to_item__8TItemMagFPv, (void *)&set_attach_slot__14TItemEquipBaseFSc,
-    (void *)&vfunc_20__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
+    (void *)&equip__14TItemEquipBaseFv, (void *)&unequip__14TItemEquipBaseFv, (void *)&add_equip_stats__14TItemEquipBaseFl, (void *)&remove_equip_stats__14TItemEquipBaseFl,
     (void *)&subtract_item_stat_bonus__14TItemEquipBaseFllPs, (void *)&subtract_equip_stats__14TItemEquipBaseFlPUcPUc, (void *)&TItemMag__vt24, (void *)&TItemMag__vt25,
-    (void *)&vfunc_28__5TItemFv, (void *)&update_equip__14TItemEquipBaseFv, (void *)&vfunc_30__5TItemFv, (void *)&TItem::update_pickup_flag,
-    (void *)&vfunc_32__5TItemFv, (void *)&vfunc_33__14TItemEquipBaseFv, (void *)&vfunc_34__5TItemFv, (void *)&vfunc_35__5TItemFv,
-    (void *)&vfunc_36__5TItemFv, (void *)&ret_8010065C, (void *)&ret_80100654, (void *)&vfunc_39__5TItemFv,
-    (void *)&vfunc_40__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&vfunc_43__5TItemFv,
+    (void *)&render_equipped_deferred__5TItemFv, (void *)&update_equip__14TItemEquipBaseFv, (void *)&vfunc_30__5TItemFv, (void *)&use__5TItemFv,
+    (void *)&get_attack_flags__5TItemFv, (void *)&get_attach_slot__14TItemEquipBaseFv, (void *)&vfunc_34__5TItemFv, (void *)&is_identified__5TItemFv,
+    (void *)&get_amount__5TItemFv, (void *)&remove_amount__5TItemFl, (void *)&add_amount__5TItemFl, (void *)&get_slot_count__5TItemFv,
+    (void *)&add_slot__5TItemFv, (void *)&TItemMag__vt39, (void *)&TItemMag__vt40, (void *)&get_motion_type__5TItemFv,
     (void *)&TItemMag__vt42, (void *)&TItemMag__vt43, (void *)&TItemMag__vt44, (void *)&TItemMag__vt45,
     (void *)&vfunc_48__14TItemEquipBaseFv, (void *)&vfunc_49__14TItemEquipBaseFv, (void *)&TItemMag__vt48,
 };
@@ -297,17 +298,15 @@ void TItemMag::resolve_sentinel_color() {
 }
 #pragma pop
 
-void TItemMag::call_preserve_flag(s32 arg1) {
-    u8 temp_r31;
-
-    temp_r31 = this->m_1;
-    ((TItem *)arg1)->copy_to_item_data(this);
-    this->m_1 = temp_r31;
+void TItemMag::carry_over_stats(TItemData *data, TItem *mag) {
+    u8 type = data->data1.data_u8[1];
+    mag->copy_to_item_data(data);
+    data->data1.data_u8[1] = type;
 }
 
 void try_add_action__8TItemMagFii(s32 arg0, s32 arg1) {
     if (((s32 (*)(void))get_evolution_stage__8TItemMagFPv)() < 4) {
-        fn_80100D9C(arg0, arg1);
+        set_item_group__5TItemFUc(arg0, arg1);
     }
 }
 
@@ -328,12 +327,12 @@ s32 TItemMag::check_evolution_cond(u32 arg0, s32 arg1) {
     if ((arg0 != 0U) && (temp_r3 = activate_d04_slot__10TObjPlayerFv(), ((temp_r3 == 0) == 0))) {
         switch (arg1) {
         case 0:
-            if (get_slot_count__5TItemFv() >= 0x64U) {
+            if (get_item_index__5TItemFv() >= 0x64U) {
                 return 1;
             }
             break;
         case 1:
-            if (get_slot_count__5TItemFv() >= 0x64U) {
+            if (get_item_index__5TItemFv() >= 0x64U) {
                 return 1;
             }
             break;
@@ -356,12 +355,12 @@ s32 TItemMag::check_evolution_cond(u32 arg0, s32 arg1) {
             }
             break;
         case 3:
-            if (get_slot_count__5TItemFv() >= 0x64U) {
+            if (get_item_index__5TItemFv() >= 0x64U) {
                 return 1;
             }
             break;
         case 4:
-            if ((get_slot_count__5TItemFv() >= 0x78U) && (((TObjPlayer *)temp_r3)->get_mag_data() >= 0xB4) && (TObjPlayer__sub_80113D90((void *)temp_r3) >= 0x6E)) {
+            if ((get_item_index__5TItemFv() >= 0x78U) && (((TObjPlayer *)temp_r3)->get_mag_data() >= 0xB4) && (TObjPlayer__sub_80113D90((void *)temp_r3) >= 0x6E)) {
                 return 1;
             }
             break;
@@ -396,7 +395,7 @@ void TItemMag::copy_owner_data() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    temp_r3 = get_pmt_record__10TObjPlayerFi(((int (*)(void))get_field_ed__5TItemFv)());
+    temp_r3 = get_pmt_record__10TObjPlayerFi(((int (*)(void))get_item_group__5TItemFv)());
     if (temp_r3 != NULL) {
         this->m_1b8 = (s32) *(s16 *)((s8 *)temp_r3 + 8);
         *(u8 *)((s8 *)arg0 + 0x1BC) = (u8) *(u8 *)((s8 *)temp_r3 + 0xB);
@@ -413,7 +412,7 @@ void TItemMag::register_photon_blasts() {
     do {
         i = ((TItemMag *)(arg0 + 0x198))->get_photon_blast_at_slot(slot);
         if (i != -1) {
-            TItemMag__sub_80113EDC(*(s32 *)((s8 *)arg0 + 0xF0) + 0x4AC, (s16) i, ((u8 (*)(void *)) get_slot_count__5TItemFv)(arg0));
+            TItemMag__sub_80113EDC(*(s32 *)((s8 *)arg0 + 0xF0) + 0x4AC, (s16) i, ((u8 (*)(void *)) get_item_index__5TItemFv)(arg0));
             assign_photon_blast_palette_slot(*(u8 **)((s8 *)arg0 + 0xF0) + 0x500, (s16) i);
         }
         slot += 1;
@@ -516,7 +515,7 @@ void TItemMag::copy_owner_pair(void *a, void *b) {
 
 void TItemMag::apply_transform_action(u8 arg1) {
     u8 temp_r31;
-    temp_r31 = ((u8 (*)(void *))get_field_ed__5TItemFv)(this);
+    temp_r31 = ((u8 (*)(void *))get_item_group__5TItemFv)(this);
     switch ((s32) arg1) {
     case 0:
         if (*(u8 *)((s8 *)(*(u8 **)((s8 *)((u8 *)this) + 0xF0)) + 0x88C) & 1) {
@@ -545,7 +544,7 @@ void TItemMag::apply_transform_action(u8 arg1) {
         ((s32 (*)(void *, int))try_add_action__8TItemMagFii)(this, 0x2B);
         break;
     }
-    if (temp_r31 != ((u8 (*)(void *))get_field_ed__5TItemFv)(this)) {
+    if (temp_r31 != ((u8 (*)(void *))get_item_group__5TItemFv)(this)) {
         this->apply_form_change();
     }
 }
@@ -588,7 +587,7 @@ void TItemMag::set_subs_visible(s32 on) {
 s32 get_evolution_stage__8TItemMagFPv(void * _w0) {
     u8 temp_r3;
     u8 var_r31;
-    temp_r3 = ((u8 (*)(void *))get_field_ed__5TItemFv)(_w0);
+    temp_r3 = ((u8 (*)(void *))get_item_group__5TItemFv)(_w0);
     var_r31 = temp_r3;
     if (temp_r3 >= 0x42U) {
         var_r31 = 0x42;
@@ -660,7 +659,7 @@ u8 evolve_rare_form__8TItemMagFPv(u8 *arg0) {
     s32 idx;
     s16 pct;
     s8 group;
-    before = ((u8 (*)(void *))get_field_ed__5TItemFv)(arg0);
+    before = ((u8 (*)(void *))get_item_group__5TItemFv)(arg0);
     if (*(u8 **)((s8 *)arg0 + 0xF0) != NULL && get_mag_total_level(arg0 + 0x198) >= 100) {
         group = (s8)*(u8 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xF0)) + 0x88C) % 3;
         pct = ((s16 (*)(s32))get_mag_item_percent)((s32)arg0);
@@ -732,7 +731,7 @@ u8 evolve_rare_form__8TItemMagFPv(u8 *arg0) {
             }
         }
     }
-    return ((u8 (*)(void *))get_field_ed__5TItemFv)(arg0) != before;
+    return ((u8 (*)(void *))get_item_group__5TItemFv)(arg0) != before;
 }
 
 void TItemMag::update_feed_anim() {
@@ -918,7 +917,7 @@ void TItemMag::do_action_by_class() {
     u8 temp_r3;
 
     temp_r31 = ((s32 (*)(void))get_max_stat_flags__8TItemMagFi)();
-    temp_r3 = get_field_ed__5TItemFv(arg0);
+    temp_r3 = get_item_group__5TItemFv(arg0);
     switch ((s32) temp_r3) {
     case 1:
         if (temp_r31 & 0x108) {
@@ -985,17 +984,17 @@ void TItemMag::evolve_first_form() {
 void TItemMag::apply_form_change() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((u8 * (*)(int))get_pmt_record__10TObjPlayerFi)((s32) get_field_ed__5TItemFv((s32)arg0)));
+    temp_r3 = (u8 *)(((u8 * (*)(int))get_pmt_record__10TObjPlayerFi)((s32) get_item_group__5TItemFv((s32)arg0)));
     if (temp_r3 != NULL) {
         ((TItemMag *)(arg0 + 0x198))->add_photon_blast((int) (*(u8 *)((s8 *)temp_r3 + 0xA)));
     }
-    if (((TItem *)arg0)->sub_80102C30() == 2) {
+    if (((TItem *)arg0)->get_mode() == 2) {
         ((VObj_18_8b050c *)(arg0))->m45();
         *(s32 *)&this->m_18c = (s32) (*(s32 *)&this->m_18c | 0x40);
         ((VObj_18_8b050c *)(arg0))->m44();
         ((TItemMag *)arg0)->register_photon_blasts();
     }
-    if (((TItemEquipBase *)arg0)->get_flag_40() == 0) {
+    if (((TItem *)arg0)->is_hidden() == 0) {
         play_sound_effect(0x4000B20A, (int) (*(s32 *)&this->m_f0 + 0x38), 0, 0);
     }
     copy_owner_data();
@@ -1008,7 +1007,7 @@ void TItemMag::apply_natural_evolution() {
   u8 before;
   stage = ((s8 (*)(void *))get_evolution_stage__8TItemMagFPv)(this);
   level = get_mag_total_level(((Self_801124C4 *)this)->data);
-  before = get_field_ed__5TItemFv((s32) this);
+  before = get_item_group__5TItemFv((s32) this);
   {
     new_var = (s32) this;
     if ((lbl_8043E534[0] <= level) && (level < lbl_8043E534[1]))
@@ -1031,7 +1030,7 @@ void TItemMag::apply_natural_evolution() {
     {
       this->update_feed_anim();
     }
-    if (before != get_field_ed__5TItemFv(new_var))
+    if (before != get_item_group__5TItemFv(new_var))
     {
       this->apply_form_change();
     }
@@ -1192,7 +1191,7 @@ s32 TItemMag__vt39(u8 *arg0, u8 *item) {
             }
         }
     }
-    if (((TItemEquipBase *)arg0)->get_flag_40() == 0) {
+    if (((TItem *)arg0)->is_hidden() == 0) {
         for (i = 0; i != 2; i++) {
             if (((Mag_80112A3C *)arg0)->subs[i] != NULL &&
                 ((TItemMagSub *)(((Mag_80112A3C *)arg0)->subs[i]))->get_world_position(pos) != 0) {
@@ -1248,13 +1247,13 @@ s32 TItemMag::apply_feed_stats(u8 *arg1) {
         TItemMag__sub_80114198((arg0 + 0x198), (*(s16 *)((s8 *)arg1 + 8)));
         TItemMag::add_stat_clamped((s16 *)(arg0 + 0x198), (s32)((int) (*(s16 *)((s8 *)arg1 + 0))));
         ((TItemMag *)(arg0 + 0x198))->add_clamped_stat((int) (*(s16 *)((s8 *)arg1 + 2)));
-        ((TItemMag *)arg0)->set_field_EE((u8)((void *) (((u8 (*)(void *))get_mag_total_level)(arg0 + 0x198))));
-        if (((TItem *)arg0)->sub_80102C30() == 2) {
+        ((TItem *)arg0)->set_item_index((u8)((void *) (((u8 (*)(void *))get_mag_total_level)(arg0 + 0x198))));
+        if (((TItem *)arg0)->get_mode() == 2) {
             ((TItemEquipBase *)arg0)->refresh_owner_stats();
             if (obj_isState2_324__13TUnk_804806E8Fv((int)this->m_f0) == 0) {
                 arg1 = (u8 *) get_item_field_6__10TObjPlayerFPv(this->m_f0);
-                if ((arg1 != NULL) && (get_item_info__10TObjPlayerFllPs((int)arg1, (int)this->m_f0, 0) == 0)) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(this->m_f0, (void *)(get_field_d8__5TItemFv((int)arg1)));
+                if ((arg1 != NULL) && (check_equip_requirements__5TItemFP10TObjPlayerPs((int)arg1, (int)this->m_f0, 0) == 0)) {
+                    send_6x26_unequip_item__10TObjPlayerFPvPv(this->m_f0, (void *)(get_item_id__5TItemFv((int)arg1)));
                 }
             }
         }
@@ -1287,7 +1286,7 @@ void TItemMag::request_support_action(s32 arg1) {
     }
     if (arg1 != 1) {
         if (get_status_flag() != 0 && !(TItemMag__data_805DABA4 < this->m_1c8) && check_feed_state(arg1) != 0) {
-            send_6x61_activate_mag_effect__14TItemEquipBaseFl(this, arg1);
+            send_activate_effect__5TItemFl(this, arg1);
         }
     } else {
         select_support_action(arg1);
@@ -1501,7 +1500,7 @@ void TItemMag__vt42(TItemMag *arg0);
 s32 is_flag_20000_set__10TObjPlayerFv(void *);
 void send_6x3A_clear_photon_blast_ready_flag(u16 *arg0);
 void TItemMag__vt43(u8 *arg0);
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 extern s32 lbl_805D2C00;
 extern const f32 lbl_805DABB8;
@@ -1606,7 +1605,7 @@ void TItemMag__vt25(Self_801134CC *self) {
     VObj_18_801134CC *child;
     s32 i;
     f32 scale;
-    if (self->owner != NULL && obj_testFlags30__13TUnk_804AF8A0FUl(self, 0x08000000) == 0 && ((TItemEquipBase *)self)->get_flag_40() == 0) {
+    if (self->owner != NULL && obj_testFlags30__13TUnk_804AF8A0FUl(self, 0x08000000) == 0 && ((TItem *)self)->is_hidden() == 0) {
     scaled = ((TItemMag *)(self->owner->stats))->check_state_flag_1();
     scale = ((TItemMag *)(self->owner->stats))->get_stat_f32();
     push_matrix();
@@ -1631,12 +1630,12 @@ void TItemMag__vt24(Self_801135E0 *self) {
     VObj_18_801135E0 *child;
     s32 i;
     f32 scale;
-    if (self->owner != NULL && obj_testFlags30__13TUnk_804AF8A0FUl(self, 0x08000000) == 0 && ((TItemEquipBase *)self)->get_flag_40() == 0) {
+    if (self->owner != NULL && obj_testFlags30__13TUnk_804AF8A0FUl(self, 0x08000000) == 0 && ((TItem *)self)->is_hidden() == 0) {
     scaled = ((TItemMag *)(self->owner->stats))->check_state_flag_1();
     scale = ((TItemMag *)(self->owner->stats))->get_stat_f32();
     push_matrix();
     TObjPlayer__sub_80364198();
-    TObjPlayer::set_model_fade_alpha(((TObjPlayer *)self)->get_mag_scale());
+    TObjPlayer::set_model_fade_alpha(((TItem *)self)->get_owner_alpha());
     for (i = 0; i != 2; i++) {
         if (self->subs[i] != NULL && ((TItemMagSub *)(self->subs[i]))->is_growth_inactive() != 0) {
             child = self->subs[i];
@@ -1707,7 +1706,7 @@ void TItemMag__vt42(TItemMag *item_mag) {
     } else {
         *(s32 *)((s8 *)item_mag + 0x18C) = (s32) (*(s32 *)((s8 *)item_mag + 0x18C) | 0x20);
     }
-    if ((((TItemEquipBase *)item_mag)->get_flag_40() == 0) && (obj_isState7_324((void *) (*(u8 **)((s8 *)item_mag + 0xF0))) == 0)) {
+    if ((((TItem *)item_mag)->is_hidden() == 0) && (obj_isState7_324((void *) (*(u8 **)((s8 *)item_mag + 0xF0))) == 0)) {
         ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4000B20A, (void *) (*(u8 **)((s8 *)item_mag + 0xF0) + 0x38), 0, 0);
     }
 }
@@ -1727,7 +1726,7 @@ void TItemMag__vt44(s32 arg0) {
     u8 temp_r3;
     u8 var_r4;
 
-    temp_r3 = ((u8 (*)())get_field_ed__5TItemFv)();
+    temp_r3 = ((u8 (*)())get_item_group__5TItemFv)();
     var_r4 = temp_r3;
     if (temp_r3 >= 0x42U) {
         var_r4 = 0x42;
@@ -1740,7 +1739,7 @@ void *__dt__8TItemMagFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TItemMag;
         __dt__14TItemEquipBaseFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -1759,7 +1758,7 @@ u8 *TItemMag__ct(Mag_801139F4 *self, s32 a, s32 src) {
     self->x194 = lbl_805DABB8;
     deserialize_mag__9TItemDataFPvPv((void *)src, self->data198);
     self->flags1a4 &= ~0x40;
-    ((TItemMag *)self)->set_field_EE((u8)(get_mag_total_level(self->data198)));
+    ((TItem *)self)->set_item_index((u8)(get_mag_total_level(self->data198)));
     self->m17(1);
     self->x18c = 0;
     for (i = 0; i < 2; i++) {
@@ -1775,7 +1774,7 @@ u8 *TItemMag::create(s32 src) {
     u8 *temp_r3;
     u8 *var_r0;
     if (src != 0) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1E0));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1E0));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(TItemMag__ct((Mag_801139F4 *)(temp_r3), tl_05, src));

@@ -9,6 +9,7 @@ class TUnk_804B9870;
 struct EnemyMoveParams;
 
 extern "C" {
+void obj_setFlags30(void *object, u32 flags);
 void TObjPlayer__sub_8000FF4C(void *p, s16 v);
 void TObjPlayer__sub_8001053C(u8 *arg0);
 s16 TObjPlayer__sub_800194E8(void *p);
@@ -43,8 +44,8 @@ void main(void);
 f32 newton_sqrtf(f32 x);
 int obj_getPtr2B0_20(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
-s16 obj_getS16_32C(u8 *p);
-s16 obj_getS16_32E(u8 *p);
+s16 obj_getS16_32C(void *object);
+s16 obj_getS16_32E(void *object);
 u8 obj_is_hit_receivable(u8 *arg0);
 void play_shock_feedback__10TObjPlayerFii(s32 arg0, s32 arg1);
 void show_meseta_label(s32 arg0, u32 arg1, s32 arg2, s32 arg3);

@@ -29,6 +29,7 @@ extern BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor;
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/item/TItemProUnit.h"
 #include "pso/misc/TLobby.h"
+#include "pso/item/TItem.h"
 struct Stack_803626A8 {
     s32 sp8;
     s32 spC;
@@ -164,7 +165,7 @@ extern const f32 lbl_805E025C;
 void s_rank_knuckle_equip(u8 *arg0);
 void * init_s_rank_knuckle(void *, s32, void *);
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 s32 matrix_mult_vec(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
@@ -358,7 +359,7 @@ u8 *create_s_rank_knuckle(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x1FC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(((u8 *)init_s_rank_knuckle(temp_r3, tl_05, arg0)));
@@ -374,7 +375,7 @@ void *__dt__13TUnk_804F26E0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F26E0;
         __dt__13TUnk_804A4948Fv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

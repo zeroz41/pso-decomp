@@ -3071,7 +3071,7 @@ u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void fn_8002B630(void *, void *, s32);
 void *spawn_particle_effect(void *pos, s32 id);
-s32 get_field_d8__5TItemFv(void);
+s32 get_item_id__5TItemFv(void);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 reset_hp__9TObjEneDDFv(void *, int, int, int);
@@ -3503,7 +3503,7 @@ void attack_and_unequip__16TObjEneMe3StelthFPv(Stelth_800F4A90 *self) {
             if (((s32 (*)(void *))sub_800F47D4__16TObjEneMe3StelthFv)(self) != 0) {
                 VObj_800F4A90 *t = self->target;
                 if (is_locally_controlled__10TObjPlayerFPv(t) != 0 && get_item_field_6__10TObjPlayerFPv(t) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv(t, get_field_d8__5TItemFv());
+                    send_6x26_unequip_item__10TObjPlayerFPvPv(t, get_item_id__5TItemFv());
                     ((TObjPlayer *)t)->get_hand_joint_position((s32)self->f3F8);
                     spawn_particle_effect(self->f3F8, 0x1D0);
                 }

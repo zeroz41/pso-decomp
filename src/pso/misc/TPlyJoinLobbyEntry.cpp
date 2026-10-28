@@ -418,7 +418,7 @@ s32 TLobby__player_setup_pending;
 s32 lobby_selected_game_list_index;
 s32 TLobby__join_lobby_controller;
 s32 TLobby__idle_timeout_object;
-extern u32 *TLobby__data_805D6140;
+extern u32 *quest_object_entries;
 extern S12_801358B4 *TLobby__data_805D6144;
 extern u32 TLobby__data_805D6148;
 extern u32 TLobby__data_805D614C;
@@ -793,10 +793,10 @@ void handle_6x6C_sync_game_state(Pkt_801357F8 *arg0) {
         lobby_debug_printf_stub(lbl_8043EEC0, arg0->len);
         p = (u32 *)alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
         if (p != NULL) {
-            r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, TLobby__data_805D6140));
+            r = ((u32)TLobby__sub_8013F810(p, arg0->data, n, quest_object_entries));
             ::operator delete(p);
             n = r >> 2;
-            p = TLobby__data_805D6140;
+            p = quest_object_entries;
             TLobby__data_805D6148 = n;
             for (i = 0; i < n; i++) {
                 bswap_object_source_record(&p[i]);
@@ -918,7 +918,7 @@ void TLobby::send_compressed_packet_6c() {
         memset(buf, 0, 0x8000);
         tmp = alloc__23TAdSinglePlyChrSelectGCFv(0x7230);
         if (tmp != NULL) {
-            src = TLobby__data_805D6140;
+            src = quest_object_entries;
             size = TLobby__data_805D6148 * 4;
             n = size / 4;
             p = (u32 *)mem_alloc(size);

@@ -5,7 +5,6 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
-u8 *find_item_by_id(s32 id);
 void *get_player_by_client_id(s32 i);
 void calc_list_content_extent(void *);
 void fn_802789E0(u8 *arg0) {

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TUnk_8049F148.h"
 #include "pso/boss/TBoss4Type2_80086C44.h"
-#include "pso/item/TItemDispatch.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TItemEffShield_8010A390.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"

@@ -60,12 +60,12 @@ struct Pl_80120C5C : PlB_80120C5C {
 struct T_80120C5C { s32 a; s32 b; s32 c; u16 d; u8 e; };
 
 extern "C" {
-u8 get_field_ed__5TItemFv();
+u8 get_item_group__5TItemFv();
 void request_model_load__14TItemEquipBaseFl(void *, u8);
 extern T_80120C5C lbl_8043E828[];
 void TItemWeapon::vfunc_46() {
     Pl_80120C5C *arg0 = (Pl_80120C5C *)this;
-    u8 v = get_field_ed__5TItemFv();
+    u8 v = get_item_group__5TItemFv();
     if (v >= 0xAA) {
         T_80120C5C t;
         t.a = lbl_8043E828[0].a;

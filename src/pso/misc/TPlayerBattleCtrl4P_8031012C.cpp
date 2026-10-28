@@ -1,4 +1,5 @@
 #include "pso/system/TSetEvtDestroy.h"
+#include "pso/item/TItem.h"
 #include "types.h"
 #include "pso/misc/TPlayerBattleCtrl4P.h"
 #include "pso/misc/TLobby.h"
@@ -182,7 +183,6 @@ s32 calculate_split_screen_battle_rankings(void *);
 void TLobby__sub_801B09A4(void);
 void play_cue_stream_file(s32 name);
 void show_duel_result_window(s32 arg0, s32 arg1);
-void advance_item_system_generation(void);
 
 void TLobby__sub_8020BB18(void);
 void TLobby__sub_8020BCE4(void);

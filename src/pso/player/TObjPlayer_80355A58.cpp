@@ -18,7 +18,7 @@ extern const f32 lbl_805DFFC4;
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
 void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
-s8 sub_80102C30__5TItemFv(u8 *arg0);
+s8 get_mode__5TItemFv(u8 *arg0);
 void *__dt__11TItemWeaponFv(void *arg0, s16 arg1);
 s32 reset_key_machine_state__10TObjPlayerFv();
 
@@ -29,7 +29,7 @@ void TUnk_804F1320::vfunc_17(s32 item) {
         temp_r31 = ((TObjPlayer *)(this->player))->get_field_3e4();
         {
         s32 t = get_current_floor();
-        if ((t == temp_r31) && (sub_80102C30__5TItemFv((u8 *)this) == 2)) {
+        if ((t == temp_r31) && (get_mode__5TItemFv((u8 *)this) == 2)) {
             spawn_pg_effect((void *)(*(u32 *)&this->player + 0x2FC), (s32)item, (f32)(*(f32 *)&this->unk_1F8));
         }
         }
@@ -41,7 +41,7 @@ void TUnk_804F1320::emit_marker_effects() {
     if (((TObjPlayer *)arg0)->is_mode_two_and_ready() != 0) {
         temp_r3 = ((TItemMag *)(this->player))->get_sub_value();
         if (temp_r3 >= 0x14) {
-            ((TItemEquipBase *)arg0)->send_6x61_activate_mag_effect(temp_r3);
+            ((TItem *)arg0)->send_activate_effect(temp_r3);
             return;
         }
         ((TObjPlayer *)arg0)->update_active_game_effect();
@@ -56,7 +56,7 @@ void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F1320;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -65,7 +65,7 @@ u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     TItemWeapon__ct(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&lbl_804F1320).value;
     player->set_status_flags(0x22);
-    if (((TItem *)player)->get_field_ed() == 0x3D) {
+    if (((TItem *)player)->get_item_group() == 0x3D) {
         *(f32 *)((s8 *)player + 0x1F8) = (f32) lbl_805DFFC0;
         player->set_status_flags(0x100000);
     } else {

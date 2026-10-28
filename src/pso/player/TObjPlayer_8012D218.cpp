@@ -3,8 +3,8 @@
 
 extern "C" {
 
-s32 get_id__13TItemProArmorFv(void *);
-u8 get_slot_count__5TItemFv();
+s32 get_owner_client__5TItemFv(void *);
+u8 get_item_index__5TItemFv();
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 create_ex__9TTecMegidFllll(void *, s32 *, s32, s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
@@ -14,15 +14,15 @@ void TObjPlayer::create_shield() {
     s32 temp_r3_2;
 
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
-        if (get_slot_count__5TItemFv() == 0) {
+        if (get_item_index__5TItemFv() == 0) {
             temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
             if (temp_r3 != 0) {
-                ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_id__13TItemProArmorFv(this), 0x96);
+                ct__13TUnk_804A0688Fv(temp_r3, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x96);
             }
         } else {
             temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
             if (temp_r3_2 != 0) {
-                ct__13TUnk_804A0688Fv(temp_r3_2, *(u32 *)((s8 *)this + 0x174), get_id__13TItemProArmorFv(this), 0x5A);
+                ct__13TUnk_804A0688Fv(temp_r3_2, *(u32 *)((s8 *)this + 0x174), get_owner_client__5TItemFv(this), 0x5A);
             }
         }
     }
@@ -35,7 +35,7 @@ void TObjPlayer::trigger_megid_special() {
     s32 sp8;
     void *tec_megid;
 
-    if (get_slot_count__5TItemFv() == 1) {
+    if (get_item_index__5TItemFv() == 1) {
         ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)this, 2, 0x101);
         if (is_mode_two_and_ready() != 0) {
             if (draw_icon(2, (s32)&sp8) != 0) {

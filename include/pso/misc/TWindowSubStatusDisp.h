@@ -65,7 +65,6 @@ struct TWindowSubStatusDisp : public TUnk_804CE018 {
     static void draw_number_digits(void *color, s16 value, u16 digits, f32 x, f32 y, f32 scale);
     static void render_forward(void* p);
     static void begin_render(s32 _w0);
-    static u8 check_flag_400();
     void clear_fields();
     static int get_download_server();
     static u32 calc_text_width(char *s);
@@ -142,7 +141,6 @@ struct TWindowSubStatusDisp : public TUnk_804CE018 {
     static void draw_bottom_bar();
     static void draw_split_screen_hud();
     static void get_player();
-    void lookup_item_data();
     void set_entry_display_value(s32 arg1);
     s32 get_display_mode();
     static void vt16();

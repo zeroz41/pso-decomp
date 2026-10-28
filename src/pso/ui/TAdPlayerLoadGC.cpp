@@ -1,4 +1,5 @@
 #include "pso/TObject.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/ui/TAdPlayerLoadGC.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,7 +53,7 @@ void *__dt__13TUnk_804E24F0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E24F0;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;
@@ -264,6 +265,7 @@ public:
 
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+#include "pso/item/TItem.h"
 
 struct Vec2_802D6E7C { f32 x, y; };
 

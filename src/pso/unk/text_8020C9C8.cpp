@@ -29,7 +29,7 @@ s32 get_current_floor();
 s32 set_room_group_flags__6TLobbyFlssl(s32, s32, s32, s32);
 int get_object_count__6TLobbyFPv(void *p);
 Obj_8020C9C8 *create_set_object_from_row(Set_8020C9C8 *);
-extern u8 *TLobby__data_805D6140;
+extern u8 *quest_object_entries;
 s32 unhide_room_set_objects(s32 arg0, s32 arg1, s32 arg2);
 s32 unhide_room_set_objects(s32 arg0, s32 arg1, s32 arg2) {
     s32 n;
@@ -64,7 +64,7 @@ s32 unhide_room_set_objects(s32 arg0, s32 arg1, s32 arg2) {
                 obj->kind = set->f4;
                 obj->set = set;
                 if (obj->kind != -1) {
-                    obj->v4(TLobby__data_805D6140 + obj->kind * 4, 0);
+                    obj->v4(quest_object_entries + obj->kind * 4, 0);
                 }
                 count++;
             } else {

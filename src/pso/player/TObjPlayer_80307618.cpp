@@ -4,6 +4,7 @@
 #include "pso/player/TObjPlayer_80307618.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804E70A8.h"
+#include "pso/item/TItem.h"
 
 
 struct RecoveredGlobal_80307784_lbl_804E70A8 {
@@ -12,10 +13,10 @@ struct RecoveredGlobal_80307784_lbl_804E70A8 {
 };
 
 extern "C" {
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 extern const f32 lbl_805DF0AC;
-u8 get_slot_count__5TItemFv(void *);
+u8 get_item_index__5TItemFv(void *);
 u8 * TItemWeapon__ct(void *, void *);
 s32 set_status_flags__10TObjPlayerFUl(void *, s32);
 extern s32 lbl_804E70A8[];
@@ -41,7 +42,7 @@ extern f32 lbl_805DF0A8;
 
 void TUnk_804E70A8::update_weapon() {
     if ((s32) *(s32 *)((s8 *)this + 0x1F8) > 0) {
-        if (get_slot_count__5TItemFv(this) == 1) {
+        if (get_item_index__5TItemFv(this) == 1) {
             *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) - 1);
             if ((s32) *(s32 *)((s8 *)this + 0x1F8) == 0) {
                 set_status_flags__10TObjPlayerFUl(this, 0x800);
@@ -67,7 +68,7 @@ u8 *TObjPlayer__sub_80307784(TObjPlayer *player, u8 *arg1, s32 _w2) {
     TItemWeapon__ct(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80307784_lbl_804E70A8 *)&lbl_804E70A8).value;
     set_status_flags__10TObjPlayerFUl(player, 1);
-    if (get_slot_count__5TItemFv(player) == 1) {
+    if (get_item_index__5TItemFv(player) == 1) {
         set_status_flags__10TObjPlayerFUl(player, 0x800);
     }
     *(s32 *)((s8 *)player + 0x1F8) = 5;
@@ -80,7 +81,7 @@ u8 *TObjPlayer__sub_80307800(s32 arg0) {
     u8 *temp_r3;
     u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0x204));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(TObjPlayer__sub_80307784((TObjPlayer *)((u8 *)temp_r3), (u8 *)((u8 *)tl_05), (s32)((s32)arg0)));
@@ -95,7 +96,7 @@ void *__dt__13TUnk_804E70A8Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E70A8;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

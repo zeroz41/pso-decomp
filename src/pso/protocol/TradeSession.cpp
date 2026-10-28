@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/menu/TAdGuideTxtGC.h"
 #include "pso/boss/TBoss6Type2_803309D8.h"
 #include "pso/misc/TLobby_802D3970.h"
@@ -53,7 +54,7 @@ void handle_trade_received_items(S_802D2BC0 *arg0) {
     if ((s32)TLobby__trade_proposal_state == 8 && arg0 != 0) {
         p = arg0->e;
         for (i = 0; i < arg0->count; i++, p++) {
-            ((TItem *)p)->init_owner(local_client_id);
+            buy_item_for_client((TItemData *)p, local_client_id);
         }
         TLobby__trade_proposal_state = 9;
     }
@@ -137,7 +138,6 @@ struct VObj_802D2E28_0x30_802D2B64 {
 extern "C" {
 
 s32 get_shared_text_buffer();
-u8 *find_item_by_id(s32 id);
 s32 text_builder_append();
 s32 refresh_player_status__6TLobbyFv(s32);
 }
@@ -326,12 +326,12 @@ void TLobby::build_trade_item_list() {
             if (n > 0) {
                 if (id == 0xFFFFFF01) {
                     ((TObjPlayer *)(&item))->init_item_data(n);
-                    ((TLobby *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_item_data(&item);
+                    ((ItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((ItemData *)(&item));
                 } else if ((p = find_item_by_id(id)) != NULL) {
-                    ((TItem *)p)->copy_to_item_data(&item);
+                    ((TItem *)p)->copy_to_item_data((TItemData *)&item);
                     item.d = -1;
                     set_stack_count__24TShopEquipmentListWindowFSc(&item, n);
-                    ((TLobby *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_item_data(&item);
+                    ((ItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((ItemData *)(&item));
                 }
             }
         }

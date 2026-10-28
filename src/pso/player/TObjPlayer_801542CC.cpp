@@ -140,7 +140,7 @@ f64 atan2_float(f32, f32);
 extern const f64 lbl_804400F0;
 s32 angle_difference_abs(s32, s32);
 void *find_entity_by_id(u16 id);
-extern s32 TLobby__data_805D6140;
+extern s32 quest_object_entries;
 void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet);
 }
 extern const f32 TObjPlayer__data_805DB270;
@@ -308,7 +308,7 @@ void handle_6x0B_update_object_state(G_UpdateObjectState_6x0B *packet) {
         ((TUnk_804AF8A0 *)object)->access_object_saved_state(&state, (s16)(0));
         object->m4(&state, 1);
     } else {
-        fallback.word = (*(ObjectSavedState_801548A8 * *)&TLobby__data_805D6140)[packet->object_index].word;
+        fallback.word = (*(ObjectSavedState_801548A8 * *)&quest_object_entries)[packet->object_index].word;
         fallback.halves.flags = packet->flags;
         TLobby::apply_table_entry(packet->object_index, &fallback);
     }
@@ -1176,10 +1176,10 @@ s32 TUnk_804AF8A0::access_object_saved_state(void *lobby, s16 arg2) {
         return 0;
     }
     if (arg2 == 0) {
-        ((TLobby *)(TLobby__data_805D6140 + (temp_r31 * 4)))->copy_short_fields(lobby);
+        ((TLobby *)(quest_object_entries + (temp_r31 * 4)))->copy_short_fields(lobby);
     }
     if (arg2 == 1) {
-        ((TLobby *)lobby)->copy_short_fields((void *) (TLobby__data_805D6140 + (temp_r31 * 4)));
+        ((TLobby *)lobby)->copy_short_fields((void *) (quest_object_entries + (temp_r31 * 4)));
     }
     return 1;
 }

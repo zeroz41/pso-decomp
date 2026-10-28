@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/item/TItemDispatch.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_80115CA8.h"
 
 extern "C" {
 extern s32 __vt__10TItemMoney[];
 extern s32 lbl_805D2C20;
-u8 *alloc_from_obj_heap__10TObjPlayerFPv(s32);
+u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 }
 
@@ -41,7 +41,7 @@ u8 *fn_80115D10(u8 *datav) {
     u8 *temp_r3;
     u8 *var_r0;
     if (datav != NULL) {
-        temp_r3 = (u8 *)(alloc_from_obj_heap__10TObjPlayerFPv(0xFC));
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0xFC));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
             var_r0 = (u8 *)(TItemMoney__ct(temp_r3, tl_05, datav));

@@ -366,7 +366,6 @@ struct A_801F4340 { s16 a; s16 b; };
 
 struct B_801F4340 { s32 a; s16 b; u8 rest[6]; };
 
-extern A_801F4340* TLobby__data_805D6140;
 extern B_801F4340* TLobby__data_805D6144;
 
 extern s16 TLobby__data_805D6134;
@@ -392,7 +391,7 @@ void TLobby::init_id_tables() {
     for (i = 0; i < 0xBA0; i++) {
         s16 v = n + 0x100;
         n++;
-        TLobby__data_805D6140[i].b = v;
+        quest_object_entries[i].drop_id_base = v;
     }
     for (i = 0; i < 0xB50; i++) {
         s16 v = n + 0x100;

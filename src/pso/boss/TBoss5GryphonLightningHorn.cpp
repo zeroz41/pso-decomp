@@ -102,7 +102,7 @@ void launch_slicer__10TObjPlayerFPv(u8 *weapon) {
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
     launch.player = obj_getField1c(*(u8 * *)&((TUnk_804ECDC0 *)weapon)->player);
-    launch.weapon = ((TItem *)weapon)->get_field_d8();
+    launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);
     launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804ECDC0 *)weapon)->player + 0x7CC));
@@ -122,7 +122,7 @@ void *__dt__13TUnk_804ECDC0Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ECDC0;
         __dt__11TItemWeaponFv(arg0, 0);
         if (arg1 > 0) {
-            TObjPlayer::free_obj_heap(arg0);
+            TItem::operator delete(arg0);
         }
     }
     return arg0;

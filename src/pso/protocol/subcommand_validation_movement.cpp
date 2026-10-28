@@ -3,7 +3,7 @@
 extern "C" {
 s32 is_in_view__17TObjEneHoldEffectFv(s32);
 void *find_entity_by_id(u16 id);
-s32 is_matching_id__6TLobbyFlUs(void *, u16);
+s32 is_local__16G_ClientIDHeaderFUs(void *, u16);
 }
 
 s32 validate_6x21_inter_level_warp(G_ClientIDHeader *packet) {
@@ -32,7 +32,7 @@ s32 validate_6x20_set_position(G_ClientIDHeader *packet) {
 
 s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet) {
     s32 temp_r0;
-    if (is_matching_id__6TLobbyFlUs(packet, *(u16 *)((s8 *)packet + 2)) != 0) {
+    if (is_local__16G_ClientIDHeaderFUs(packet, *(u16 *)((s8 *)packet + 2)) != 0) {
         return 0;
     }
     temp_r0 = *(s32 *)((s8 *)packet + 4);
@@ -96,5 +96,5 @@ s32 validate_subcommand_client(G_ClientIDHeader *packet) {
     if (find_entity_by_id(packet->client_id) == 0U) {
         return 0;
     }
-    return (u32) __cntlzw(is_matching_id__6TLobbyFlUs(packet, packet->client_id)) >> 5;
+    return (u32) __cntlzw(is_local__16G_ClientIDHeaderFUs(packet, packet->client_id)) >> 5;
 }

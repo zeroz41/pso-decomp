@@ -1,5 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemMagSub.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -268,8 +269,6 @@ struct Sub_80115334 {
 extern "C" {
 
 s32 memset(void *, int, int);
-s32 TItem__sub_80100A40(f32 *, f32, f32);
-void run_with_transform_context__10TObjPlayerFii(void *, void (*)(void *));
 u32 mag_owner_has_motion_action(s32);
 int set_flags__11TItemMagSubFUl(void*, int);
 u32 test_flags__11TItemMagSubFUl(void *, u32);
@@ -491,7 +490,7 @@ void TItemMagSub::render_shadows() {
 }
 void TItemMagSub::render() {
     TItemMagSub* self = this;
-    if (TItem__sub_80100A40(self->owner->center, mag_sub_render_distance_limit, mag_sub_screen_cull_margin) && self->model) {
+    if (is_point_on_screen(self->owner->center, mag_sub_render_distance_limit, mag_sub_screen_cull_margin) && self->model) {
         TItemMagSub__oscillating_instance = self;
         TObjPlayer::notify_fish_if_valid(self->textures);
         push_matrix();
@@ -505,7 +504,7 @@ void TItemMagSub::render() {
             TObjPlayer::clear_global_state();
             TObjEneRe7Berura::set_global_state(0);
         } else {
-            run_with_transform_context__10TObjPlayerFii(self->model, TItemMagSub::update_node_oscillation);
+            draw_node_tree_with_callback((NJS_OBJECT *)self->model, (void (*)(NJS_OBJECT *))TItemMagSub::update_node_oscillation);
         }
         (*(u32 *)&TItemMagSub__feed_sequence_index) = 0;
         pop_matrix();

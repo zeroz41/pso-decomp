@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/protocol/protocol_types.h"
 #include "pso/misc/TShopArmorListWindow.h"
 #include "pso/misc/TUnk_804CDFE8.h"
 #include "pso/misc/TWindowSubComCardList.h"
@@ -180,8 +181,7 @@ f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_window_layout_position(s32);
 extern u8 lbl_8044C1B0[];
-u8 *find_item_by_id(s32 id);
-u32 get_equip_field_d04__10TObjPlayerFv(int, s32);
+u32 get_equip_field_d04__10TObjPlayerFl(int, s32);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
 void send_6x25_equip_item(void *arg0, s32 arg1, s32 arg2);
 void TItemData__clear_unidentified_flag(void *arg0);
@@ -356,8 +356,8 @@ void TShopJudgmentItemWindow::handle_equip_prompt() {
                 ((TObjPlayer *)(F(0x24, s32)))->request_inventory_item((TItemData*)(arg0 + 0x28));
                 set_judgment_target_flag(arg0, &this->unk_28);
                 item = (VObj_802209D8 *)find_item_by_id(F(0x34, s32));
-                if (item != NULL && (eq = get_equip_field_d04__10TObjPlayerFv(F(0x24, s32), item->m31())) != 0) {
-                    send_6x26_unequip_item__10TObjPlayerFPvPv((void *)(F(0x24, s32)), (void *)(((TItem *)eq)->get_field_d8()));
+                if (item != NULL && (eq = get_equip_field_d04__10TObjPlayerFl(F(0x24, s32), item->m31())) != 0) {
+                    send_6x26_unequip_item__10TObjPlayerFPvPv((void *)(F(0x24, s32)), (void *)(((TItem *)eq)->get_item_id()));
                 }
                 send_6x25_equip_item((void *)(F(0x24, s32)), F(0x34, s32), 0);
                 ((VObj_18 *)(arg0))->m6(0xB, 1);
@@ -527,9 +527,9 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                     return;
                 }
                 temp_r31 = arg0 + (select_cursor_entry__22TWindowSubShortCutListFv(this->m_154) * 8);
-                if (((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->copy_to_item_data(arg0 + 0x3C) != 0) {
-                    *(s32 *)((s8 *)arg0 + 0x168) = ((TObjPlayer *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->has_flag_128();
-                    ((TLobby *)(arg0 + 0x28))->copy_item_data(arg0 + 0x3C);
+                if (((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->copy_to_item_data((TItemData *)(arg0 + 0x3C)) != 0) {
+                    *(s32 *)((s8 *)arg0 + 0x168) = ((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->is_at_tekker();
+                    ((ItemData *)(arg0 + 0x28))->copy_from((ItemData *)(arg0 + 0x3C));
                     update_all__6TLobbyFi((s32)(arg0 + 0x28));
                     *(s32 *)((s8 *)arg0 + 0x14C) = 0x5F;
                     if (*(void **)((s8 *)arg0 + 0x154) != NULL) {

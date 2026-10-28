@@ -11,7 +11,7 @@ extern u32 TLobby__data_805D6104;
 extern u32 TLobby__data_805D6108;
 extern u32 TLobby__data_805D6138;
 extern u32 TLobby__data_805D613C;
-extern u32 TLobby__data_805D6140;
+extern u32 quest_object_entries;
 extern u32 TLobby__data_805D6144;
 
 void TLobby::free_resources() {
@@ -19,9 +19,9 @@ void TLobby::free_resources() {
         TAdSinglePlyChrSelectGC::safe_free((u32)((void*)TLobby__data_805D6144));
         TLobby__data_805D6144 = 0U;
     }
-    if ((u32) TLobby__data_805D6140 != 0U) {
-        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)TLobby__data_805D6140));
-        TLobby__data_805D6140 = 0U;
+    if ((u32) quest_object_entries != 0U) {
+        TAdSinglePlyChrSelectGC::safe_free((u32)((void*)quest_object_entries));
+        quest_object_entries = 0U;
     }
     if ((u32) TLobby__data_805D6108 != 0U) {
         __dt__5THeapFv((void*)TLobby__data_805D6108, 1);

@@ -12,6 +12,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
 
 struct Base_8021FEE0_8021FE6C { char pad[0x18]; };
 struct VObj_8021FEE0_8021FE6C : Base_8021FEE0_8021FE6C {
@@ -131,7 +132,6 @@ struct VObj_8021FE80_8021FE6C : Base_8021FE80_8021FE6C {
     virtual void m4(int, int);
 };
 
-u8 *find_item_by_id(s32 id);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 close_if_single_screen__13TShopSequenceFv(void *);
@@ -337,7 +337,7 @@ void TShopItemTecSequence__sub_80220560(void) {
 void set_judgment_target_flag(void *arg0, void *arg1) {
     u32 temp_r3;
     if ((TRaderMapCore::is_not_split_screen() == 1) && ((temp_r3 = (u32)find_item_by_id(*(s32 *)((s8 *)arg1 + 0xC))) != 0U) && ((s32) *(s32 *)((s8 *)arg0 + 0x168) != 0)) {
-        ((TObjPlayer *)temp_r3)->add_item_flags(0x80);
+        ((TItem *)temp_r3)->add_item_flags(0x80);
     }
 }
 
