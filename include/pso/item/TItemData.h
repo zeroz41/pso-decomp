@@ -46,6 +46,10 @@ struct TItemData {
     void set_unit_modifier(s16 arg1);
     // The item data's byte-swapped s16 at +6 (a unit's modifier).
     static s16 get_field6_bswap(void *data);
+    // The byte-swapped s16s at +6 and +8 (an armor's or shield's DFP and
+    // EVP bonus).
+    static s16 getS16_06(void *data);
+    static s16 get_bswap16_field8(void *data);
     void set_bswapped_field_8(s16 arg1);
     void set_dfp_bonus(s16 arg1);
     s16 get_technique_level();

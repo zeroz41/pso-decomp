@@ -2779,16 +2779,12 @@ pso/item/TItemProArmor.cpp:
 pso/player/TObjPlayer_80117DD8.cpp:
 	.text       start:0x80117DD8 end:0x80117FEC
 
-pso/unk/text_80117FEC.cpp:
-	.text       start:0x80117FEC end:0x80118164
-	.data       start:0x804A0238 end:0x804A02AC
-
-pso/unk/text_80118164.cpp:
-	.text       start:0x80118164 end:0x801181D0
-
-pso/item/TItemProShield_801181D0.cpp:
-	.text       start:0x801181D0 end:0x8011892C
+pso/item/TItemProShield.cpp:
+	.text       start:0x80117FEC end:0x8011892C
 	.rodata     start:0x8043E658 end:0x8043E660
+	.data       start:0x804A0168 end:0x804A02AC
+	.sbss       start:0x805D54C8 end:0x805D54CC
+	.sdata2     start:0x805DABF0 end:0x805DABF8
 
 pso/item/TItemProUnit.cpp:
 	.text       start:0x8011892C end:0x80119060
