@@ -304,7 +304,7 @@ u8 *TObjSeabedSuisoBrakable__ct(TObjSeabedSuisoBrakable *seabed_suiso_brakable, 
         seabed_suiso_brakable->m_bc = 2;
     }
     seabed_suiso_brakable->sub_802A6438();
-    seabed_suiso_brakable->m_b8 = (s32) seabed_suiso_brakable->m_84;
+    seabed_suiso_brakable->m_b8 = (s32) seabed_suiso_brakable->set_params[0];
     temp_r0 = seabed_suiso_brakable->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
         seabed_suiso_brakable->m_b8 = -1;

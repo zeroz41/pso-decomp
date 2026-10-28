@@ -4056,7 +4056,7 @@ f32 TObjEnemy::enemy_wander_home(s32 arg1, f32 farg0, f32 farg1, f32 farg2) {
         pop_matrix();
         v.x *= farg1;
         v.z *= farg2;
-        vec3_add_to(&v, (u8 *)&this->m_50);
+        vec3_add_to(&v, (u8 *)&this->home_position);
         {
             Vec_80017BA8 c = v;
             select_enemy_destination((Obj_800182A0 *) arg0, (Vec_800182A0 *) &c, 1);

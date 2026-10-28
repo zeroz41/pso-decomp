@@ -74,7 +74,7 @@ void TOHangerMachine01::render() {
         post_translate_matrix(p + 8);
         draw_ginja_model((*(s32 *)((s8 *)p + 4)));
         p = (u8 *)(*(u8 **)((s8 *)p + 0x2C));
-        if (lbl_805DB6A8 < this->target_scale) {
+        if (lbl_805DB6A8 < this->scale.y) {
             post_translate_matrix(p + 8);
             draw_ginja_model((*(s32 *)((s8 *)p + 4)));
         }
@@ -108,7 +108,7 @@ void TOHangerMachine01::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         p = (u8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 * *)&this->model) + 0x2C)) + 0x30)) + 0x30)) + 0x30)) + 0x30));
-        if (lbl_805DB6A8 < this->scale) {
+        if (lbl_805DB6A8 < this->scale.x) {
             post_translate_matrix(p + 8);
             draw_ginja_model((*(s32 *)((s8 *)p + 4)));
         }

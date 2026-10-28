@@ -59,18 +59,18 @@ extern s32 map_csn_collision_flag_table[];
 void TObjMapCsn::update_state() {
     s32 temp_r0;
 
-    temp_r0 = this->m_84;
+    temp_r0 = this->set_params[0];
     if (temp_r0 == 0) {
-        if ((s32) this->m_88 == 0) {
-            *(s32 *)&this->m_88 = 1;
+        if ((s32) this->set_params[1] == 0) {
+            *(s32 *)&this->set_params[1] = 1;
         }
     } else {
         if ((u32) temp_r0 > 5U) {
-            this->m_84 = 1;
+            this->set_params[0] = 1;
         }
-        *(s32 *)&this->m_88 = (s32) map_csn_collision_flag_table[this->m_84];
+        *(s32 *)&this->set_params[1] = (s32) map_csn_collision_flag_table[this->set_params[0]];
     }
-    *(s32 *)&this->m_88 = (s32) (*(s32 *)&this->m_88 | 0x40000000);
+    *(s32 *)&this->set_params[1] = (s32) (*(s32 *)&this->set_params[1] | 0x40000000);
 }
 
 s32 TObjMapCsn::build_box_triangles() {
@@ -185,7 +185,7 @@ u8 *TObjMapCsn__ct(TObjMapCsn *map_csn, s32 arg1, s32 arg2) {
     *(u8 **)((s8 *)map_csn + 0xD0) = (unsigned char *) ((u8 *)map_csn + 0xD4);
     *(u8 **)((s8 *)map_csn + 0xAC) = (unsigned char *) ((u8 *)map_csn + 0xC4);
     VecCopy((Vec *)((u8 *)map_csn + 0xB0), (const Vec *)((u8 *)map_csn + 0x38));
-    temp_f1 = (0.5f) * map_csn->scale;
+    temp_f1 = (0.5f) * map_csn->scale.x;
     temp_f0 = (0.5f) * *(f32 *)((s8 *)map_csn + 0x70);
     map_csn->m_bc = (f32) ((temp_f1 * temp_f1) + (temp_f0 * temp_f0));
     map_csn->m_c0 = (s32) *(s32 *)((s8 *)map_csn + 0x88);

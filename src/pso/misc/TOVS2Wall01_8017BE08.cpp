@@ -163,7 +163,7 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     arg0->mode = 0;
     *(f32 *)((s8 *)arg0 + 0x334) = lbl_805DBAAC;
     arg0->m_338 = lbl_805DBAB0 + *(f32 *)((s8 *)(*(void **)((s8 *)arg0->model + 4)) + 0x14);
-    t = arg0->m_84;
+    t = arg0->set_params[0];
     arg0->m_33c = t + 0x100;
     activate_and_dispatch__10TObjPlayerFv((u8 *)arg0 + 0x340, t, lbl_805DBAB0);
     arg0->m_35c = 1;

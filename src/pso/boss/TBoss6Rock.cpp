@@ -150,7 +150,7 @@ void TBoss6Rock::set_target(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f3
     if ((s32) *(s32 *)&this->entity_id != 0) {
         VecCopy((Vec *)(arg0 + 0x20), (const Vec *)((const void *)(arg2)));
         ((TObjPlayer *)(arg0 + 0x30))->copy_xyz((void *)arg3);
-        *(f32 *)&this->m_2c = farg0;
+        *(f32 *)&this->set_index = farg0;
         *(s32 *)((s8 *)arg0 + 0x3C) = arg4;
         *(s32 *)((s8 *)arg0 + 0x40) = arg5;
     }

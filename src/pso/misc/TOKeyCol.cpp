@@ -67,7 +67,7 @@ void *TOKeyCol__ct(TOKeyCol *key_col, s32 arg1, s32 arg2) {
     ((TOKey *)key_col)->init_switch_id();
     key_col->m_c0 = (f32) lbl_805DB758;
     *(f32 *)((s8 *)key_col + 0xC4) = (f32) lbl_805DB75C;
-    *(f32 *)((s8 *)key_col + 0xCC) = (f32) (lbl_805DB760 + key_col->scale);
+    *(f32 *)((s8 *)key_col + 0xCC) = (f32) (lbl_805DB760 + key_col->scale.x);
     if (((s32) key_col->m_d0 != 2) && ((s32) *(s32 *)((s8 *)key_col + 0x88) < 0)) {
         key_col->m_d0 = 1;
     } else {

@@ -247,7 +247,7 @@ void TUnk_8048E6A8::run_task() {
 
     player = (u32)get_player_by_client_id((local_client_id));
     if ((player != 0U) && (horizontal_distance_squared((void *)(player + 0x38), (void *)(arg0 + 0x38)) < 400.0f)) {
-        if (this->scale > 0.0f) {
+        if (this->scale.x > 0.0f) {
             lbl_805D2930 = 1;
             return;
         }

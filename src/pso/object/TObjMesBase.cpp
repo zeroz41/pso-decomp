@@ -110,8 +110,8 @@ void *TObjMesBase__ct(TObjMesBase *mes_base, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)mes_base + 0x18) = __vt__11TObjMesBase;
     *(s32 *)((s8 *)mes_base + 0) = (s32) TObjMesBase__class_name;
     mes_base->apply_object_set_data((void *)arg2);
-    mes_base->messageLabel = (s32) mes_base->m_84;
-    mes_base->messageBank = (s32) mes_base->m_8c;
+    mes_base->messageLabel = (s32) mes_base->set_params[0];
+    mes_base->messageBank = (s32) mes_base->set_params[2];
     if ((s32) mes_base->messageBank < 0) {
         mes_base->messageBank = 0;
     }

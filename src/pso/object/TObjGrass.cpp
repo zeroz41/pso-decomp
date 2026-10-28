@@ -553,9 +553,9 @@ void TObjGrass::update_dying(void *arg0_) {
             TObjPlayer::spawn_dead_spot_default((s32)(arg0 + 0x38), 0xA);
             ((TObjPlayer *)(arg0 + 0x38))->spawn_ground_effect(0x1E);
         }
-        ((TObjEnePanarms *)arg0)->target_scale -= 0.01f;
-        if (((TObjEnePanarms *)arg0)->target_scale < 0.0f) {
-            ((TObjEnePanarms *)arg0)->target_scale = 0.0f;
+        ((TObjEnePanarms *)arg0)->scale.y -= 0.01f;
+        if (((TObjEnePanarms *)arg0)->scale.y < 0.0f) {
+            ((TObjEnePanarms *)arg0)->scale.y = 0.0f;
         }
         *(f32 *)((s8 *)arg0 + 0x35C) -= (0.01f);
         if (*(f32 *)((s8 *)arg0 + 0x35C) < (-5.0f)) {
@@ -1810,7 +1810,7 @@ u8 *TObjGrass__ct(u8 *arg0, s32 arg1, s32 arg2) {
     apply_actor_gravity(arg0, 0, (0.0f));
     t = *(s32 *)((s8 *)TObjGrass__resource_bundle + 0x430);
     *(s32 *)((s8 *)arg0 + 0xDC) = t;
-    ((TObjGrass *)arg0)->target_scale = (1.3f);
+    ((TObjGrass *)arg0)->scale.y = (1.3f);
     *(s32 *)&((TObjGrass *)arg0)->variant = 0;
     set_param__9TObjEnemyFl(arg0, 0xC, t);
     *(s16 *)&((TObjGrass *)arg0)->resetTimer = 0x1E;

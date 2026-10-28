@@ -329,7 +329,7 @@ void TOSensorAncient01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(*(s32 *)((s8 *)ancient_sensor_resource_pair_table + (*(s32 *)&this->m_8c * 8)));
+        TObjFish::set_global_param(*(s32 *)((s8 *)ancient_sensor_resource_pair_table + (*(s32 *)&this->set_params[2] * 8)));
         temp_r30 = (u8 *)(*(u8 * *)&this->model);
         post_translate_matrix(temp_r30 + 8);
         draw_ginja_model(*(s32 *)((s8 *)temp_r30 + 4));
@@ -469,11 +469,11 @@ u8 *TOSensorAncient01__ct(TOSensorAncient01 *sensor_ancient01, s32 arg1, s32 arg
     *(s32 *)((s8 *)sensor_ancient01 + 0) = (s32) TOSensorAncient01_class_name;
     ((TOSensorAncient01 *)(sensor_ancient01))->apply_object_set_data((void *)arg2);
     ((TOKey *)sensor_ancient01)->init_switch_id();
-    temp_r0 = *(s32 *)&sensor_ancient01->m_8c;
+    temp_r0 = *(s32 *)&sensor_ancient01->set_params[2];
     if (temp_r0 < 0) {
-        *(s32 *)&sensor_ancient01->m_8c = 0;
+        *(s32 *)&sensor_ancient01->set_params[2] = 0;
     } else if (temp_r0 >= 2) {
-        *(s32 *)&sensor_ancient01->m_8c = 1;
+        *(s32 *)&sensor_ancient01->set_params[2] = 1;
     }
     *(u8 * *)&sensor_ancient01->model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&sensor_ancient01_model_resource) + 0x42C)) + 8));
     *(u8 **)((s8 *)sensor_ancient01 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&sensor_ancient01_model_resource) + 0x430)) + 4));
@@ -481,7 +481,7 @@ u8 *TOSensorAncient01__ct(TOSensorAncient01 *sensor_ancient01, s32 arg1, s32 arg
     sensor_ancient01->m_b8 = (f32) (1.0f);
     sensor_ancient01->m_c0 = (f32) (4e+02f);
     *(f32 *)((s8 *)sensor_ancient01 + 0xC4) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&sensor_ancient01->model) + 4)) + 0x14);
-    *(f32 *)((s8 *)sensor_ancient01 + 0xCC) = (f32) ((5e+01f) + sensor_ancient01->scale);
+    *(f32 *)((s8 *)sensor_ancient01 + 0xCC) = (f32) ((5e+01f) + sensor_ancient01->scale.x);
     if (*(f32 *)((s8 *)sensor_ancient01 + 0xCC) < (0.0f)) {
         *(f32 *)((s8 *)sensor_ancient01 + 0xCC) = (f32) (0.0f);
     }

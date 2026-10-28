@@ -25,7 +25,7 @@ void TOSwitchTimer::sub_801782A0() {
         this->m_a0 = 0;
     }
     this->m_a4 = (s32)this->m_a0 * 3 / 4;
-    this->m_a8 = this->m_84;
+    this->m_a8 = this->set_params[0];
     if (this->m_a8 < 0x100) {
         this->m_b0 = is_current_floor_switch_set(this->m_a8);
     } else {

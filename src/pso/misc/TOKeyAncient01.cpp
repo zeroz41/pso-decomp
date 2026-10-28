@@ -204,7 +204,7 @@ u8 *TOKeyAncient01__ct(TOKeyAncient01 *key_ancient01, s32 arg1, s32 arg2) {
     key_ancient01->m_c0 = (f32) lbl_805DB6F0;
     *(f32 *)((s8 *)key_ancient01 + 0xC4) = (f32) lbl_805DB6F4;
     if ((s32) key_ancient01->m_d0 != 2) {
-        if (key_ancient01->scale < lbl_805DB6F8) {
+        if (key_ancient01->scale.x < lbl_805DB6F8) {
             key_ancient01->m_d0 = 1;
         } else {
             goto block_7;

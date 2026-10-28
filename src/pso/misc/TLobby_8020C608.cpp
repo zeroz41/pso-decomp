@@ -5,7 +5,7 @@
 #include "pso/object/TObjMotion.h"
 
 s32 TObjEnemy::send_entity_set_flags() {
-    if ((u32) this->m_80 != 0U) {
+    if ((u32) this->set_entry != 0U) {
         send_6x76_set_entity_set_flags(this, 8);
         return 1;
     }
@@ -15,7 +15,7 @@ s32 TObjEnemy::send_entity_set_flags() {
 s32 TUnk_804AF8A0::set_flag8() {
     void *temp_r4;
 
-    temp_r4 = this->m_80;
+    temp_r4 = this->set_entry;
     if (temp_r4 != NULL) {
         *(s16 *)((s8 *)temp_r4 + 2) = (s16) (*(s16 *)((s8 *)temp_r4 + 2) | 8);
         return 1;

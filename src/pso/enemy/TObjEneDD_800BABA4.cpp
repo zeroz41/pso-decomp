@@ -203,9 +203,9 @@ u8 *TObjEneDD::vfunc_102() {
     if (temp_r3 != NULL) {
         VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
     }
-    *(f32 *)&this->m_44 = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    *(f32 *)&this->m_48 = temp_f31;
-    *(f32 *)&this->m_4c = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->prev_position.y = temp_f31;
+    this->prev_position.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     *(s32 *)((s8 *)arg0 + 0x384) = 0;
     return temp_r3;
 }
@@ -218,9 +218,9 @@ u8 *TObjEneDD::vfunc_101(u8 *arg1) {
     if (temp_r3 != NULL) {
         VecCopy((Vec *)(arg0 + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));
     }
-    *(f32 *)&this->m_44 = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    *(f32 *)&this->m_48 = temp_f31;
-    *(f32 *)&this->m_4c = (f32) *(f32 *)((s8 *)arg0 + 0x40);
+    this->prev_position.x = (f32) *(f32 *)((s8 *)arg0 + 0x38);
+    this->prev_position.y = temp_f31;
+    this->prev_position.z = (f32) *(f32 *)((s8 *)arg0 + 0x40);
     *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
     *(f32 *)((s8 *)arg0 + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
     *(s32 *)((s8 *)arg0 + 0x384) = 0;
@@ -232,9 +232,9 @@ u8 *TBoss5Gryphon::try_move_actor_xz_on_ground(u8 *arg1) {
     temp_f31 = *(f32 *)((s8 *)((u8 *)this) + 0x3C);
     temp_r3 = (unsigned char *) (((VObj_18_3f4583 *)(this))->m101());
     if (temp_r3 != NULL) {
-        *(f32 *)&this->m_44 = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x38);
-        *(f32 *)&this->m_48 = temp_f31;
-        *(f32 *)&this->m_4c = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x40);
+        this->prev_position.x = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x38);
+        this->prev_position.y = temp_f31;
+        this->prev_position.z = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x40);
         *(f32 *)((s8 *)((u8 *)this) + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0);
         *(f32 *)((s8 *)((u8 *)this) + 0x40) = (f32) *(f32 *)((s8 *)arg1 + 8);
         VecCopy((Vec *)(((u8 *)this) + 0x248), (const Vec *)(*(s32 *)((s8 *)temp_r3 + 4) + 0xC));

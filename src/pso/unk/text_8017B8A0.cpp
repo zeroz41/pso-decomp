@@ -70,7 +70,7 @@ f32 TOTrapAncient02R::receive_weapon_special_attack(void *, void *) {
 
 void TOTrapAncient02R::init_trap_param_clamped() {
     s32 temp_r0;
-    this->m_368 = (s32) this->target_scale;
+    this->m_368 = (s32) this->scale.y;
     temp_r0 = this->m_368;
     if (temp_r0 < 1) {
         this->m_368 = 1;
@@ -83,7 +83,7 @@ void TOTrapAncient02R::init_trap_param_clamped() {
 
 void TOTrapAncient02R::clamp_trap_level_param() {
     s32 temp_r0;
-    this->m_35c = (s32) this->m_8c;
+    this->m_35c = (s32) this->set_params[2];
     temp_r0 = this->m_35c;
     if (temp_r0 < 0) {
         this->m_35c = 0;
@@ -96,7 +96,7 @@ void TOTrapAncient02R::clamp_trap_level_param() {
 
 void TOTrapAncient02R::init_trap_object_id() {
     s32 temp_r0;
-    this->m_364 = (s32) this->m_88;
+    this->m_364 = (s32) this->set_params[1];
     temp_r0 = this->m_364;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
         this->m_364 = -1;

@@ -871,7 +871,7 @@ void TBoss6PlotFalz::spawn_type2() {
         stack.sp4C = this->m_37c;
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
         stack.sp14 = 1;
-        stack.spC = *(s16 *)&this->m_2c + 0x1FF;
+        stack.spC = *(s16 *)&this->set_index + 0x1FF;
         temp_r4 = this->entity_id;
         stack.sp12 = temp_r4 + 0x1FF;
         TBoss6PlotFalz__type2_instance = create__11TBoss6Type2Fl(&sp8, temp_r4);
@@ -887,7 +887,7 @@ void TBoss6PlotFalz::spawn_type1() {
         sp8 = arg0;
         stack.sp4C = this->m_37c;
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
-        stack.spC = *(s16 *)&this->m_2c + 0x200;
+        stack.spC = *(s16 *)&this->set_index + 0x200;
         temp_r4 = this->entity_id;
         stack.sp12 = temp_r4 + 0x200;
         TBoss6PlotFalz__type1_instance = create__11TBoss6Type1Fl(&sp8, temp_r4);

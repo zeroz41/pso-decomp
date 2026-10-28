@@ -107,13 +107,13 @@ void __dl__7TObjectFPv(void *);
 s32 TODoorFourLightBase::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->m_84;
+    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
     temp_r0 = *(s32 *)&this->unk_C8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
         this->m_cc = 1;
-    } else if ((s32) this->m_8c < 0) {
+    } else if ((s32) this->set_params[2] < 0) {
         if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
             this->m_cc = 3;
         } else {
@@ -173,7 +173,7 @@ void TODoorFourLightBase::update_door_switch_state() {
             ((TUnk_804B0BB8 *)arg0)->play_door_sound();
             this->m_d0 |= 1;
         }
-        if (found == 0 && this->m_80 != NULL && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
+        if (found == 0 && this->set_entry != NULL && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) == 1) {
             sp8 = 1;
             ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
             ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);

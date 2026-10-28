@@ -82,7 +82,7 @@ void TOTrap::vfunc_82() {
 
     calc_attach_pos();
     refresh_collision_body_centers();
-    if ((s32) this->m_84 < 0) {
+    if ((s32) this->set_params[0] < 0) {
         u32 p;
         this->receive_physical_attack(this->target, 1.0f);
         p = *(u32 *)&this->target;
@@ -111,7 +111,7 @@ void TOTrap::vfunc_81() {
             if (horizontal_distance_squared(this->target + 0x38, self->pos) < this->dist * this->dist) {
                 this->mode = 3;
                 if (is_locally_controlled__10TObjPlayerFPv((int)pl) != 0) {
-                    ((void (*)(f32, void *, void *, s32, int))send_6x2C_impose_hold)(this->dist, pl, self->pos, this->m_84, 0);
+                    ((void (*)(f32, void *, void *, s32, int))send_6x2C_impose_hold)(this->dist, pl, self->pos, this->set_params[0], 0);
                 }
             } else {
                 this->player = 0xFFFF;

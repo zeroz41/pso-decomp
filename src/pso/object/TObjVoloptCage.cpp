@@ -277,10 +277,10 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
     }
     init_collision_body_parts(this, volopt_cage_collision_body, 1);
     entity_id = id;
-    *(s16 *)&m_2c = group;
-    m_80 = 0;
-    *(s16 *)&m_28 = *(s16 *)&boss->m_28;
-    *((s16 *)&m_28 + 1) = *((s16 *)&boss->m_28 + 1);
+    *(s16 *)&set_index = group;
+    set_entry = 0;
+    *(s16 *)&room = *(s16 *)&boss->room;
+    *((s16 *)&room + 1) = *((s16 *)&boss->room + 1);
     ((TBoss3Volopt *)this)->reset_photon_effect();
     set_param(0x2E);
     position[1] = -25.0f;

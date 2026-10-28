@@ -4,32 +4,6 @@
 #include "pso/unk/text_801A2640.h"
 #include "pso/system/vector.h"
 
-struct Vec_801A2640 { f32 x, y, z; };
-
-struct Obj_801A2640 {
-    u8 pad[0x18];
-    void *vtable;
-    u16 f1c;
-    s16 f1e;
-    s32 f20;
-    s32 f24;
-    s16 f28;
-    s16 f2a;
-    s16 f2c;
-    u8 pad2e[2];
-    s32 f30;
-    s32 f34;
-    Vec_801A2640 v38;
-    Vec_801A2640 v44;
-    Vec_801A2640 v50;
-    s32 f5c;
-    s32 f60;
-    s32 f64;
-    Vec_801A2640 v68;
-    Vec_801A2640 v74;
-    s32 f80;
-};
-
 extern "C" {
 extern const f32 lbl_805DC098;
 extern const f32 lbl_805DC0A0;
@@ -51,30 +25,30 @@ extern void *tl_05;
 
 }
 TUnk_804B9870::TUnk_804B9870(TObject *parent) : TObject(parent) {
-    ((Obj_801A2640 *)this)->f30 = 0;
-    ((Obj_801A2640 *)this)->f1c = 0xFFFF;
-    ((Obj_801A2640 *)this)->f28 = -1;
-    ((Obj_801A2640 *)this)->f2a = 0;
-    ((Obj_801A2640 *)this)->f2c = -1;
-    ((Obj_801A2640 *)this)->f20 = 1;
-    ((Obj_801A2640 *)this)->f24 = 0;
-    ((Obj_801A2640 *)this)->f34 = 0;
-    ((Obj_801A2640 *)this)->f80 = 0;
-    ((Obj_801A2640 *)this)->v38.x = lbl_805DC098;
-    ((Obj_801A2640 *)this)->v38.y = lbl_805DC098;
-    ((Obj_801A2640 *)this)->v38.z = lbl_805DC098;
-    VecCopy((Vec *)&((Obj_801A2640 *)this)->v44, (const Vec *)&((Obj_801A2640 *)this)->v38);
-    VecCopy((Vec *)&((Obj_801A2640 *)this)->v50, (const Vec *)&((Obj_801A2640 *)this)->v38);
-    ((Obj_801A2640 *)this)->f5c = 0;
-    ((Obj_801A2640 *)this)->f60 = 0;
-    ((Obj_801A2640 *)this)->f64 = 0;
-    ((Obj_801A2640 *)this)->v68.x = lbl_805DC0A0;
-    ((Obj_801A2640 *)this)->v68.y = lbl_805DC0A0;
-    ((Obj_801A2640 *)this)->v68.z = lbl_805DC0A0;
-    ((Obj_801A2640 *)this)->v74.x = lbl_805DC098;
-    ((Obj_801A2640 *)this)->v74.y = lbl_805DC098;
-    ((Obj_801A2640 *)this)->v74.z = lbl_805DC098;
-    ((Obj_801A2640 *)this)->f1e = 0;
+    actorFlags = 0;
+    entity_id = 0xFFFF;
+    room = -1;
+    set_group = 0;
+    set_index = -1;
+    m_20 = 1;
+    texture_id = 0;
+    model = NULL;
+    set_entry = NULL;
+    position[0] = lbl_805DC098;
+    position[1] = lbl_805DC098;
+    position[2] = lbl_805DC098;
+    VecCopy(&prev_position, (const Vec *)position);
+    VecCopy(&home_position, (const Vec *)position);
+    rotation_x = 0;
+    rotation_y = 0;
+    rotation_z = 0;
+    scale.x = lbl_805DC0A0;
+    scale.y = lbl_805DC0A0;
+    scale.z = lbl_805DC0A0;
+    center.x = lbl_805DC098;
+    center.y = lbl_805DC098;
+    center.z = lbl_805DC098;
+    visibility = 0;
 }
 
 

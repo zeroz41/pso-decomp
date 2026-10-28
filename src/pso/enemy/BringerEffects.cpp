@@ -144,16 +144,16 @@ void TUnk_8048FE64::render() {  }
 #pragma fp_contract on
 void TObjEneDf2Bringer::update_projectile_motion() {
     f32 temp_f2;
-    *(f32 *)&this->m_50 += 1.0f;
-    temp_f2 = 6.0f * *(f32 *)&this->m_50;
-    if (temp_f2 >= *(f32 *)&this->m_4c) {
+    this->home_position.x += 1.0f;
+    temp_f2 = 6.0f * this->home_position.x;
+    if (temp_f2 >= this->prev_position.z) {
         VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)((const void *)(((u8 *)this) + 0x34)));
         queue_destruction__7TObjectFv(this);
         return;
     }
-    *(f32 *)&this->entity_id = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x40) * temp_f2) + *(f32 *)&this->m_28);
-    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) ((*(f32 *)&this->m_44 * temp_f2) + *(f32 *)&this->m_2c);
-    *(f32 *)&this->texture_id = (f32) ((*(f32 *)&this->m_48 * temp_f2) + *(f32 *)&this->actorFlags);
+    *(f32 *)&this->entity_id = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x40) * temp_f2) + *(f32 *)&this->room);
+    *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) ((this->prev_position.x * temp_f2) + *(f32 *)&this->set_index);
+    *(f32 *)&this->texture_id = (f32) ((this->prev_position.y * temp_f2) + *(f32 *)&this->actorFlags);
 }
 #pragma pop
 

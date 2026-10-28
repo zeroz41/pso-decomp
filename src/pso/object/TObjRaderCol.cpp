@@ -102,8 +102,8 @@ u8 *TObjRaderCol__ct(TObjRaderCol *rader_col, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)rader_col + 0x18) = &(*(RecoveredGlobal_801976F4___vt__12TObjRaderCol *)&__vt__12TObjRaderCol).value;
     *(s32 *)((s8 *)rader_col + 0) = (s32) lbl_805D3410;
     ((TObjRaderCol *)(rader_col))->apply_object_set_data((void *)arg2);
-    *(f32 *)((s8 *)rader_col + 0x90) = (f32) rader_col->scale;
-    rader_col->m_94 = (s32) rader_col->m_84;
+    *(f32 *)((s8 *)rader_col + 0x90) = (f32) rader_col->scale.x;
+    rader_col->m_94 = (s32) rader_col->set_params[0];
     rader_col->m_98 = 0;
     rader_col->m_9c = 3;
     disallow_rendering__7TObjectFv((rader_col));

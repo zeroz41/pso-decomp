@@ -557,7 +557,7 @@ void TObjNpcBase::update_wandering() {
         pop_matrix();
         v.x = v.x * *(f32 *)((s8 *)arg0 + 0x354);
         v.z = v.z * *(f32 *)((s8 *)arg0 + 0x354);
-        vec3_add_to(&v, (u8 *)&this->m_50);
+        vec3_add_to(&v, (u8 *)&this->home_position);
         if (lbl_805DB1D4 < horizontal_distance_squared(&v, (u8 *)&this->position)) {
             Vec_801489B8 d = v;
             select_enemy_destination(arg0, &d, 0);

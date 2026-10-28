@@ -137,7 +137,7 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     ((TUnk_804AF8A0 *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->reset_photon_effect();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
-    bind->m_b4 = (s32) bind->m_84;
+    bind->m_b4 = (s32) bind->set_params[0];
     if ((s32) bind->m_b4 < 0) {
         bind->m_b4 = 0;
     }

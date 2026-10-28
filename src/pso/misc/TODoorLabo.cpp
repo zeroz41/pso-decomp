@@ -180,13 +180,13 @@ void TODoorLabo::init_model_by_type() {
     s32 tbl[2];
     tbl[0] = lbl_80465FF8[0];
     tbl[1] = lbl_80465FF8[1];
-    if (*(s32 *)&this->m_88 < 0) {
-        this->m_88 = 0;
+    if (*(s32 *)&this->set_params[1] < 0) {
+        this->set_params[1] = 0;
     }
-    if (*(s32 *)&this->m_88 > 1) {
-        *(s32 *)&this->m_88 = 1;
+    if (*(s32 *)&this->set_params[1] > 1) {
+        *(s32 *)&this->set_params[1] = 1;
     }
-    *(s32 *)&this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[*(s32 *)&this->m_88]);
+    *(s32 *)&this->m_d4 = get_bml_model(TODoorLabo__bml_resource, tbl[*(s32 *)&this->set_params[1]]);
 }
 
 s32 TODoorLabo__vt20(void) {

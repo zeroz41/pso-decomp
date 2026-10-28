@@ -411,7 +411,7 @@ u8 *TORockJungleM01__ct(u8 *rock_cave_brakable, s32 arg1) {
     init_collision_body_parts(rock_cave_brakable, (void *) ((u8 *)rock_jungle_collision_body_parts + 0x2C), 1);
     ((TUnk_804AF8A0 *)rock_cave_brakable)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_cave_brakable)->reset_photon_effect();
-    ((TORockJungleM01 *)rock_cave_brakable)->m_b8 = (s32) ((TORockJungleM01 *)rock_cave_brakable)->m_84;
+    ((TORockJungleM01 *)rock_cave_brakable)->m_b8 = (s32) ((TORockJungleM01 *)rock_cave_brakable)->set_params[0];
     temp_r0 = ((TORockJungleM01 *)rock_cave_brakable)->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
         ((TORockJungleM01 *)rock_cave_brakable)->m_b8 = -1;
@@ -607,7 +607,7 @@ u8 *TORockJungleS01__ct(TORockJungleS01 *rock_jungle_s01, s32 arg1) {
     init_collision_body_parts(rock_jungle_s01, rock_jungle_collision_body_parts, 1);
     ((TUnk_804AF8A0 *)rock_jungle_s01)->refresh_collision_body_centers();
     ((TObjPlayer *)rock_jungle_s01)->reset_photon_effect();
-    rock_jungle_s01->m_b8 = (s32) rock_jungle_s01->m_84;
+    rock_jungle_s01->m_b8 = (s32) rock_jungle_s01->set_params[0];
     temp_r0 = rock_jungle_s01->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
         rock_jungle_s01->m_b8 = -1;

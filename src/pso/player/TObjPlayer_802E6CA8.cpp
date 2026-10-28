@@ -215,7 +215,7 @@ u8 *TObjPlayer::init_breakup_pieces(void *arg1, s32 arg2) {
     *(u8 **)((s8 *)((u8 *)this) + 0x18) = ((u8 *)&lbl_804E3BA8);
     ((TUnk_804E3BD8 *)((u8 *)this))->alloc_breakup_model(((s32)queue_boss_effect__10TObjPlayerFPv(2)));
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = arg2;
-    part = *(Part_802E6F10 * *)&this->m_28;
+    part = *(Part_802E6F10 * *)&this->room;
     push_matrix();
     set_matrix_identity(0);
     TObjPlayer::concat_matrix(0, *(s32 *)((s8 *)((u8 *)this) + 0x2C));
@@ -372,7 +372,7 @@ void *TObjPlayer::init_zeroed_object() {
     *(u32 *)&this->m_20 = 0;
     *(u32 *)((s8 *)this + 0x1C) = 0;
     *(u32 *)&this->texture_id = 0;
-    (*(u32 *)&this->m_28) = 0;
+    (*(u32 *)&this->room) = 0;
     return this;
 }
 

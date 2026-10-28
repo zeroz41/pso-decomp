@@ -87,7 +87,7 @@ void TOHealGeneral::set_script_entry(s32 arg1) {
 s32 TOHealGeneral::update_heal_gauge_state() {
     s32 temp_r0;
 
-    *(s32 *)&this->_padD0 = (s32) this->m_84;
+    *(s32 *)&this->_padD0 = (s32) this->set_params[0];
     temp_r0 = *(s32 *)&this->_padD0;
     if (temp_r0 > 0xFF) {
         *(s32 *)&this->unk_C8 = 0;
@@ -96,8 +96,8 @@ s32 TOHealGeneral::update_heal_gauge_state() {
     } else {
         *(s32 *)&this->unk_C8 = 2;
     }
-    set_script_entry((s32)this->m_88);
-    set_enable_count(this->m_8c);
+    set_script_entry((s32)this->set_params[1]);
+    set_enable_count(this->set_params[2]);
     return *(s32 *)&this->_padD0;
 }
 

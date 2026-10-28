@@ -59,11 +59,11 @@ extern s32 camera_ctrl_instance;
 s32 TObjLazerFence4::update_object_view_visibility(f32 farg0, f32 farg1) {
     u8 *arg0 = (u8 *)this;
     if (TMainTask::get_render_pass() == 1) {
-        return this->m_1e;
+        return this->visibility;
     }
     if (xz_distance_squared((u8 *)&this->position, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        this->m_1e = 1;
-        return this->m_1e;
+        this->visibility = 1;
+        return this->visibility;
     }
     return update_object_view_visibility__13TUnk_804B9870Fff(arg0, farg0, farg1);
 }

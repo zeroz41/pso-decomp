@@ -891,7 +891,7 @@ void TUnk_80493450::beast_update_approach() {
         if (*(u32 *)&this->target != 0U) {
             if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
                 if (this->m_38c++ < lbl_805DA054) {
-                    VecCopy((Vec *)&sp14, (const Vec *)&this->m_50);
+                    VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
                     VecCopy((Vec *)&sp14, (const Vec *)(*(u32 *)&this->target + 0x2FC));
                 }
@@ -1039,13 +1039,13 @@ void TUnk_80493450::beast_idle_update() {
             *(s32 *)((s8 *)other + 0x37C) = *(s32 *)((s8 *)other + 0x37C) + 1;
         }
     }
-    dist = horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->m_50);
+    dist = horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position);
     range = *(f32 *)((s8 *)arg0 + 0x358) + (*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->m_a4) + 0xC));
     if (range * range < dist) {
-        VecCopy((Vec *)&this->m_29c, (const Vec *)&this->m_50);
+        VecCopy((Vec *)&this->m_29c, &this->home_position);
         VecCopy((Vec *)&this->m_290, (const Vec *)&this->m_2fc);
-        VecCopy((Vec *)&this->m_44, (const Vec *)&this->position);
-        VecCopy((Vec *)&lbl_8050BEE0, (const Vec *)&this->m_50);
+        VecCopy(&this->prev_position, (const Vec *)&this->position);
+        VecCopy((Vec *)&lbl_8050BEE0, &this->home_position);
         subtract_vector(&lbl_8050BEE0, (u8 *)&this->position);
         angle = lbl_8043BC88 * atan2_float(lbl_8050BEE0.x, lbl_8050BEE0.z);
         lbl_8050BF00.x = lbl_8050BF00.y = lbl_805DA034;

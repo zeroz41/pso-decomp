@@ -71,12 +71,12 @@ void TObjParticle::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 var_f31;
 
-    if (((get_current_area() == 0xE) || ((s32) this->m_84 == 1)) && ((s32) this->m_8c != 1)) {
+    if (((get_current_area() == 0xE) || ((s32) this->set_params[0] == 1)) && ((s32) this->set_params[2] != 1)) {
         var_f31 = lbl_805DBEE0;
     } else {
         var_f31 = lbl_805DBEE4;
     }
-    if (((s32) this->m_8c == 1) && ((s32) this->m_84 == 1)) {
+    if (((s32) this->set_params[2] == 1) && ((s32) this->set_params[0] == 1)) {
         var_f31 = lbl_805DBEE8;
     }
     if (xyz_distance_squared((Vec *)&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {

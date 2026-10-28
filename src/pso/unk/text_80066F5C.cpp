@@ -26,7 +26,7 @@ void TObjPlayer::draw_shadowed_node_tree() {
             ::draw_ginja_model((*(u32 *)((s8 *)arg0 + 4)));
             TScene::apply_single_screen_state();
         }
-        ((TObjPlayer *)(this->m_2c))->draw_shadowed_node_tree();
+        (*(TObjPlayer **)&this->set_index)->draw_shadowed_node_tree();
         pop_matrix();
         ((TObjPlayer *)(this->actorFlags))->draw_shadowed_node_tree();
     }

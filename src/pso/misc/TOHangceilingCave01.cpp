@@ -630,16 +630,16 @@ void TUnk_804B2578::init_geometry() {
     f32 temp_f2;
     VObj_80168588 *self = (VObj_80168588 *)this;
 
-    *(s32 *)((s8 *)this + 0x35C) = (s32) this->m_84;
-    this->m_358 = (u32) this->m_8c;
+    *(s32 *)((s8 *)this + 0x35C) = (s32) this->set_params[0];
+    this->m_358 = (u32) this->set_params[2];
     if ((u32) this->m_358 >= 3U) {
         this->m_358 = 2U;
     }
-    temp_f2 = 3e+01f + this->scale;
+    temp_f2 = 3e+01f + this->scale.x;
     this->m_350 = (f32) (temp_f2 - 1.0f);
-    ((void (*)(void *, f32, f32))set_scale__13TUnk_804B2578Ff)(this, 1e+02f + *(f32 *)&this->m_70, temp_f2);
+    ((void (*)(void *, f32, f32))set_scale__13TUnk_804B2578Ff)(this, 1e+02f + this->scale.z, temp_f2);
     self->v77();
-    *(f32 *)&this->unk_354 = (f32) (1.0f - this->target_scale);
+    *(f32 *)&this->unk_354 = (f32) (1.0f - this->scale.y);
 }
 
 int TUnk_804B2578::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
@@ -728,7 +728,7 @@ bool TUnk_804B2578::sub_801688C0() {
     u8 *arg0 = (u8 *)this;
 
     if (xz_distance_squared((void *)(arg0 + 0x38), (void *)(camera_ctrl_instance + 0x178)) < 2.5e+03f) {
-        ((TUnk_804B2578 *)arg0)->m_1e = 1;
+        ((TUnk_804B2578 *)arg0)->visibility = 1;
         return 1;
     }
     if (((VObj_18_26a62c *)(arg0))->m8(3e+02f, 5e+01f) == 0) {

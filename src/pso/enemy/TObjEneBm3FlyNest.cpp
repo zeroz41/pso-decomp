@@ -2013,7 +2013,7 @@ void TObjEneBm3FlyNest::render_parts() {
     u8 *arg0 = (u8 *)this;
     ((s32 (*)(s32, void *))set_global_param__8TObjFishFl)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 0xC), (*(u8 * *)&lbl_805D5108));
     push_matrix();
-    if ((s32) this->m_2c == 0) {
+    if (*(s32 *)&this->set_index == 0) {
         post_translate_matrix(*(void * *)&this->actorFlags);
     } else {
         post_translate_matrix(this->model);
@@ -2021,7 +2021,7 @@ void TObjEneBm3FlyNest::render_parts() {
     post_translate_matrix((u8 *)&this->entity_id);
     ((s32 (*)(s32, s32))rotate_matrix_y)(0, *(s32 *)((s8 *)arg0 + 0x40));
     TObjPlayer::set_global_flag();
-    draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), (void *)(*(s32 *)&this->m_48), *(f32 *)&this->m_4c);
+    draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), (void *)(*(s32 *)&this->prev_position.y), this->prev_position.z);
     TObjPlayer::clear_global_state();
     pop_matrix();
 }

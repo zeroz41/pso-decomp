@@ -53,8 +53,8 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)arg0 + 0xAC) = (f32) lbl_805D8F20;
     *(f32 *)((s8 *)arg0 + 0xB0) = (f32) lbl_805D8F20;
     ((TObjCollision *)arg0)->m_b4 = (f32) lbl_805D8F20;
-    *(f32 *)((s8 *)arg0 + 0xB8) = (f32) ((TObjCollision *)arg0)->scale;
-    ((TObjCollision *)arg0)->m_bc = (f32) ((TObjCollision *)arg0)->target_scale;
+    *(f32 *)((s8 *)arg0 + 0xB8) = (f32) ((TObjCollision *)arg0)->scale.x;
+    ((TObjCollision *)arg0)->m_bc = (f32) ((TObjCollision *)arg0)->scale.y;
     if (*(f32 *)((s8 *)arg0 + 0x70) < lbl_805D8F20) {
         var_r0 = 1;
     } else {

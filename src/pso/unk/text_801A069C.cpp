@@ -11,13 +11,13 @@ void TObjWarpJungMain::debug_print_area_num() {  }
 void TObjWarpLobby::debug_print_area_num() {
     s32 base;
     debug_print_area_num__12TObjAreaWarpFv();
-    if ((s32) this->m_88 < 0) {
-        this->m_88 = 0;
+    if ((s32) this->set_params[1] < 0) {
+        this->set_params[1] = 0;
     }
-    if ((s32) this->m_88 > 1) {
-        *(s32 *)&this->m_88 = 1;
+    if ((s32) this->set_params[1] > 1) {
+        *(s32 *)&this->set_params[1] = 1;
     }
-    switch (*(s32 *)&this->m_88) {
+    switch (*(s32 *)&this->set_params[1]) {
     case 0:
         *(s32 *)((s8 *)this + 0xCC) = 1;
         break;

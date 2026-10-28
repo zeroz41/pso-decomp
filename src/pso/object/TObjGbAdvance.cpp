@@ -69,8 +69,8 @@ u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1) {
 }
 void TObjComputer::debug_draw_label() {
     this->TObjMesBase::debug_draw_label();
-    *(s32 *)&this->m_88 = *(s32 *)&this->m_88 % 2;
-    *(s32 *)&this->m_bc = get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[*(s32 *)&this->m_88]);
+    *(s32 *)&this->set_params[1] = *(s32 *)&this->set_params[1] % 2;
+    *(s32 *)&this->m_bc = get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[*(s32 *)&this->set_params[1]]);
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130021, lbl_80444B48);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);

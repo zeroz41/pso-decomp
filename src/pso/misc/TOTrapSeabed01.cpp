@@ -586,25 +586,25 @@ inline s32 clampi_802CA5F4(s32 lo, s32 hi, s32 v) {
 #pragma push
 #pragma opt_common_subs off
 void TOTrapSeabed01::clamp_params_and_init() {
-    this->scale = clampf_802CA5F4(lbl_805DE650[0], lbl_805DE654[0], this->scale);
-    this->m_84 = CLAMPI(this->m_84, 1, 0x3C);
-    *(s32 *)&this->m_88 = CLAMPI(*(s32 *)&this->m_88, 0, 1);
+    this->scale.x = clampf_802CA5F4(lbl_805DE650[0], lbl_805DE654[0], this->scale.x);
+    this->set_params[0] = CLAMPI(this->set_params[0], 1, 0x3C);
+    *(s32 *)&this->set_params[1] = CLAMPI(*(s32 *)&this->set_params[1], 0, 1);
     this->mode = 0;
     this->range = lbl_805DE64C[0];
     this->dist = lbl_805DE64C[0];
-    *(s32 *)&this->m_348 = (s32) (lbl_805DE658 * (f32) this->m_84);
-    if (*(s32 *)&this->m_88 != 0) {
+    *(s32 *)&this->m_348 = (s32) (lbl_805DE658 * (f32) this->set_params[0]);
+    if (*(s32 *)&this->set_params[1] != 0) {
         *(s32 *)&this->m_34c = 1;
     } else {
         *(s32 *)&this->m_34c = 0;
     }
-    this->m_c8 = this->scale;
-    if (this->target_scale < TOTrapSeabed01__data_805DE644[0]) {
-        this->target_scale = TOTrapSeabed01__data_805DE644[0];
+    this->m_c8 = this->scale.x;
+    if (this->scale.y < TOTrapSeabed01__data_805DE644[0]) {
+        this->scale.y = TOTrapSeabed01__data_805DE644[0];
     }
-    *(f32 *)&this->m_354 = this->vfunc_87(this->target_scale);
-    *(s32 *)&this->m_8c = CLAMPI(*(s32 *)&this->m_8c, 0, 5);
-    *(s32 *)&this->m_350 = trap_seabed01_param_index_table[*(s32 *)&this->m_8c];
+    *(f32 *)&this->m_354 = this->vfunc_87(this->scale.y);
+    *(s32 *)&this->set_params[2] = CLAMPI(*(s32 *)&this->set_params[2], 0, 5);
+    *(s32 *)&this->m_350 = trap_seabed01_param_index_table[*(s32 *)&this->set_params[2]];
 }
 #pragma pop
 

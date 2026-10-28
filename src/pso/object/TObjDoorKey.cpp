@@ -279,11 +279,11 @@ void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
     *(s32 *)((s8 *)door_key + 0xF4) = 0;
     *(s32 *)&door_key->m_f8 = 0;
     door_key->m_id = (*(u16 *)&door_key_id_counter)++;
-    if (*(s32 *)&door_key->m_8c < 0) {
-        *(s32 *)&door_key->m_8c = 0;
+    if (*(s32 *)&door_key->set_params[2] < 0) {
+        *(s32 *)&door_key->set_params[2] = 0;
     }
-    if (*(s32 *)&door_key->m_8c > 9) {
-        *(s32 *)&door_key->m_8c = 9;
+    if (*(s32 *)&door_key->set_params[2] > 9) {
+        *(s32 *)&door_key->set_params[2] = 9;
     }
     init_collision_body_parts(door_key, TObjDoorKey__collision_body_parts, 1);
     *(s32 *)&door_key->actorFlags |= 0x40000000;

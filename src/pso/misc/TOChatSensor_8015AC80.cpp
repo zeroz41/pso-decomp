@@ -119,17 +119,17 @@ void TOChatSensor::init_params() {
     if ((u32) this->m_98 >= 2U) {
         this->m_90 = 0U;
     }
-    temp_f0 = this->scale;
+    temp_f0 = this->scale.x;
     *(f32 *)&this->unk_9C = (f32) (temp_f0 * temp_f0);
     if ((u32) this->m_90 == 0U) {
-        *(s32 *)&this->m_94 = (s32) this->m_84;
+        *(s32 *)&this->m_94 = (s32) this->set_params[0];
     } else {
-        this->m_94 = (u16) this->m_84;
+        this->m_94 = (u16) this->set_params[0];
         if ((u16) this->m_94 > 0x100U) {
             this->m_94 = 0xFFFF;
         }
     }
-    *(s32 *)&this->m_cc = (s32) *(s32 *)&this->m_88;
+    *(s32 *)&this->m_cc = (s32) *(s32 *)&this->set_params[1];
     temp_r5 = *(s32 *)&this->m_cc;
     if ((temp_r5 != 0) && ((temp_r5 < 0) || ((s32) *chat_sensor_table <= temp_r5))) {
         *(s32 *)&this->m_cc = 0;

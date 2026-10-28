@@ -131,12 +131,12 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TBoss7Crawfish__sub_80308ED8(arg0, &v);
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
         *(f32 *)((s8 *)arg0 + 0x70) = (f32) lbl_805DF100;
-        ((TBoss7Crawfish *)arg0)->target_scale = (f32) lbl_805DF100;
-        ((TBoss7Crawfish *)arg0)->scale = (f32) lbl_805DF100;
+        ((TBoss7Crawfish *)arg0)->scale.y = (f32) lbl_805DF100;
+        ((TBoss7Crawfish *)arg0)->scale.x = (f32) lbl_805DF100;
     } else {
         *(f32 *)((s8 *)arg0 + 0x70) = (f32) TBoss7Crawfish__data_805DF0DC;
-        ((TBoss7Crawfish *)arg0)->target_scale = (f32) TBoss7Crawfish__data_805DF0DC;
-        ((TBoss7Crawfish *)arg0)->scale = (f32) TBoss7Crawfish__data_805DF0DC;
+        ((TBoss7Crawfish *)arg0)->scale.y = (f32) TBoss7Crawfish__data_805DF0DC;
+        ((TBoss7Crawfish *)arg0)->scale.x = (f32) TBoss7Crawfish__data_805DF0DC;
     }
     ((TBoss7Crawfish *)arg0)->m_3cc = 0;
     return arg0;

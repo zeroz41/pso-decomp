@@ -1400,7 +1400,7 @@ void TObjEneIllGill::run_attack_phase() {
     case 2:
         ((TUnk_804B9870 *)arg0)->obj_clearFlags30(0x04040000);
         this->m_b8 = 1;
-        if (horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->m_50) > lbl_805E02C8) {
+        if (horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position) > lbl_805E02C8) {
             move_toward_dest_with_detour();
         } else {
             this->m_300 = (f32) (this->m_300 + TObjEneIllGill__data_805E02DC);
@@ -1670,7 +1670,7 @@ void TObjEneIllGill::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         ((void (*)(int, s32))rotate_matrix_y)(0, this->rotation_y);
-        scale_matrix(0, this->scale, this->target_scale, *(f32 *)((s8 *)arg0 + 0x70));
+        scale_matrix(0, this->scale.x, this->scale.y, *(f32 *)((s8 *)arg0 + 0x70));
         TObjEneIllGill__data_805D6FE0 = 0;
         TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneIllGill::advance_camera_vec_stage));
         if (*(s32 *)&this->m_390 != 0 && TObjPlayer::check_demo_mode() == 0) {

@@ -29,7 +29,7 @@ u8 *TOWreckAncientBrakable05__ct(TOWreckAncientBrakable05 *wreck_ancient_brakabl
     ((TOWreckAncientBrakable05 *)(wreck_ancient_brakable05))->apply_object_set_data((void *)arg1);
     init_collision_body_parts(wreck_ancient_brakable05, (void *) ((u8 *)&TOWreckAncient__collision_body_templates.value + 0x84), 1);
     ((TObjPlayer *)wreck_ancient_brakable05)->reset_photon_effect();
-    wreck_ancient_brakable05->m_b8 = (s32) wreck_ancient_brakable05->m_84;
+    wreck_ancient_brakable05->m_b8 = (s32) wreck_ancient_brakable05->set_params[0];
     temp_r0 = wreck_ancient_brakable05->m_b8;
     if ((temp_r0 < 0) || (temp_r0 >= 0x100)) {
         wreck_ancient_brakable05->m_b8 = -1;

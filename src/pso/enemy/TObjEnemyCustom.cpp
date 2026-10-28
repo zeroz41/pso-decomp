@@ -104,7 +104,7 @@ void TObjEnemyCustom::run_task() {
         state = 0;
     }
     update_prev_position();
-    VecCopy((Vec *)&m_74, body_center());
+    VecCopy(&center, body_center());
 }
 
 void TObjEnemyCustom::dispatch_state() {
@@ -395,7 +395,7 @@ s32 TObjEnemyCustom::turn_toward_point(Vec *point, s32 max_step, s32 angle_offse
 }
 
 void TObjEnemyCustom::sub_800C73F4() {
-    if (xz_distance_squared((Vec *)position, (Vec *)&m_50) > 100.0f) {
+    if (xz_distance_squared((Vec *)position, &home_position) > 100.0f) {
         ((TObjEneMe1GiGue *)this)->update_if_active(8);
         return;
     }
@@ -408,7 +408,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
     s32 angle;
     s32 i;
     calc_velocity_toward_destination(this, *(Vec *)position, dest, speed);
-    VecCopy((Vec *)&m_44, (const Vec *)position);
+    VecCopy(&prev_position, (const Vec *)position);
     VecCopy(&probe_end, body_center());
     Vec step = *velocity();
     Vec up;
@@ -451,7 +451,7 @@ void TObjEnemyCustom::move_along_ground_avoiding_walls(Vec dest, f32 speed, f32 
         if (project_actor_to_ground(this, &next, 0) == 1) {
             VecCopy((Vec *)position, &next);
             VecCopy(velocity(), (const Vec *)position);
-            subtract_vector(velocity(), (Vec *)&m_44);
+            subtract_vector(velocity(), &prev_position);
             return;
         }
     }

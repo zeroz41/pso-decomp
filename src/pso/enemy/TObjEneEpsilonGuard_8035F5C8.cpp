@@ -1620,9 +1620,9 @@ void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
         this->m_438 = (s32) (this->m_438 | 0x43);
         this->m_438 = (s32) (this->m_438 & 0xFFFFFDFF);
         set_guard_state__18TObjEneEpsilonBodyFl(arg0);
-        VecCopy__FP3VecPC3Vec((u8 *)&this->position, (u8 *)&this->m_50);
-        VecCopy__FP3VecPC3Vec((u8 *)&this->m_44, (u8 *)&this->m_50);
-        VecCopy__FP3VecPC3Vec((u8 *)&this->m_2fc, (u8 *)&this->m_50);
+        VecCopy__FP3VecPC3Vec((u8 *)&this->position, (u8 *)&this->home_position);
+        VecCopy__FP3VecPC3Vec((u8 *)&this->prev_position, (u8 *)&this->home_position);
+        VecCopy__FP3VecPC3Vec((u8 *)&this->m_2fc, (u8 *)&this->home_position);
         *(s32 *)((s8 *)arg0 + 0x440) = (s32) this->m_450;
         this->m_444 = (s32) *(s32 *)((s8 *)arg0 + 0x454);
         return;

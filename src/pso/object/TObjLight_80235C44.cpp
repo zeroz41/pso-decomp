@@ -123,13 +123,13 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
     *(s32 *)&this->entity_id = arg3;
-    *(s32 *)&this->m_4c = 0;
-    *(f32 *)&this->m_50 = farg0;
-    *(s32 *)&this->m_54 = arg4;
+    *(s32 *)&this->prev_position.z = 0;
+    this->home_position.x = farg0;
+    *(s32 *)&this->home_position.y = arg4;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 1;
-    *(f32 *)&this->m_58 = farg1;
+    this->home_position.z = farg1;
     *(f32 *)&this->rotation_x = farg2;
-    *(u16 *)&this->rotation_y = get_entity_id((void *)(int) (*(s32 *)&this->m_54));
+    *(u16 *)&this->rotation_y = get_entity_id((void *)(int) (*(s32 *)&this->home_position.y));
     TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
     return ((u8 *)this);
 }

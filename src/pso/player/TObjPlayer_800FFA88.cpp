@@ -32,7 +32,7 @@ s32 TObjPlayer::interpolate_along_curve(void *arg1) {
     }
     temp_f2 = temp_f1 - lbl_805DAA6C;
     temp_f31 = temp_f2 / lbl_805DAA70;
-    *(f32 *)((s8 *)arg1 + 0) = (lbl_805DAA74 * temp_f31) * sin_table_lookup(*(s32 *)&this->m_28 + (s32) (lbl_805DAA78 * temp_f31), lbl_805DAA70, temp_f2) + *(f32 *)((s8 *)arg1 + 0);
+    *(f32 *)((s8 *)arg1 + 0) = (lbl_805DAA74 * temp_f31) * sin_table_lookup(*(s32 *)&this->room + (s32) (lbl_805DAA78 * temp_f31), lbl_805DAA70, temp_f2) + *(f32 *)((s8 *)arg1 + 0);
     return 1;
 }
 #pragma pop

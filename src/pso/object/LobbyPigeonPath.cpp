@@ -145,12 +145,12 @@ s32 filter_lobby_pigeon_theme(void *);
 void TUnk_804E0898::select_lobby_pigeon_model() {
     s32 temp_r3;
 
-    if ((s32) this->m_8c < 1) {
+    if ((s32) this->set_params[2] < 1) {
         this->m_a0 = 0;
     } else {
         this->m_a0 = 1;
     }
-    temp_r3 = *(s32 *)&this->m_88;
+    temp_r3 = *(s32 *)&this->set_params[1];
     if (temp_r3 < 1) {
         *(s32 *)((s8 *)this + 0xA4) = 0;
     } else if ((s32) this->m_a0 == 0) {
@@ -851,7 +851,7 @@ void *TObjPlayer__sub_802C19E8(void *arg0) {
     *(s32 **)((s8 *)arg0 + 0x18) = jungle_seagull_vtable;
     *(s32 *)((s8 *)arg0 + 0x98) = ((s32 (*)(s32, s32))get_bml_model)((*(s32 *)&lobby_kamome_model_resource), 0);
     ((TUnk_804E08D4 *)arg0)->m_9c = ((s32 (*)(s32, s32))get_bml_motion)((*(s32 *)&lobby_kamome_model_resource), 0);
-    temp_r3 = ((TUnk_804E08D4 *)arg0)->m_84;
+    temp_r3 = ((TUnk_804E08D4 *)arg0)->set_params[0];
     var_r0 = (temp_r3 < 0) ? 0 : (temp_r3 > 2) ? 2 : temp_r3;
     ((TUnk_804E08D4 *)arg0)->m_c8 = var_r0;
     *(s32 *)((s8 *)arg0 + 0xA0) = ((s32 (*)(s32, s32))get_bml_motion)((*(s32 *)&lobby_kamome_model_resource), *(s32 *)((s8 *)((s32 *)&jungle_seagull_path_profiles) + (((TUnk_804E08D4 *)arg0)->m_c8 * 0x14)));
@@ -1032,7 +1032,7 @@ u8 *TObjPlayer__sub_802C20E8(u8 *arg0, s32 arg1, const void* _w2) {
   *((s32 **) (((s8 *) arg0) + 0x18)) = &(*(RecoveredGlobal_802C20E8_lbl_804E0910 *)&lbl_804E0910).value;
   *((s32 *) (((s8 *) arg0) + 0x98)) = get_bml_model((*(u8 * *)&jungle_bird_bml_resource), 0);
   ((TUnk_804E0910 *)arg0)->m_9c = get_bml_motion((*(u8 * *)&jungle_bird_bml_resource), 0);
-  temp_r3 = ((TUnk_804E0910 *)arg0)->m_84;
+  temp_r3 = ((TUnk_804E0910 *)arg0)->set_params[0];
   if (temp_r3 < 0)
   {
     var_r0 = 0;
@@ -1109,7 +1109,7 @@ s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
     r = ((s32 (*)(void *, s32, s32, Vec_802C22A4 *,
                   f32))sample_clamped_path_position)(self, self->f98, self->fA0,
                                                      &b, this->m_a4 + e->d);
-    if (this->m_1e != 0) {
+    if (this->visibility != 0) {
         Vec_802C22A4 p = self->vAC;
         Hit_802C22A4 *hit;
         vec3_add_to(&p, &self->pos);
@@ -1245,7 +1245,7 @@ u8 *TObjPlayer__sub_802C27FC(u8 *arg0, s32 arg1, const void* _w2) {
   *((s32 **) (((s8 *) arg0) + 0x18)) = &(*(RecoveredGlobal_802C27FC_lbl_804E094C *)&lbl_804E094C).value;
   *((s32 *) (((s8 *) arg0) + 0x98)) = get_bml_model((*(u8 * *)&jungle_ebi_model_resource), 0);
   ((TUnk_804E094C *)arg0)->m_9c = get_bml_motion((*(u8 * *)&jungle_ebi_model_resource), 0);
-  temp_r3 = ((TUnk_804E094C *)arg0)->m_84;
+  temp_r3 = ((TUnk_804E094C *)arg0)->set_params[0];
   if (temp_r3 < 0)
   {
     var_r0 = 0;
@@ -1436,7 +1436,7 @@ u8 *TObjPlayer__sub_802C2F04(u8 *arg0, s32 arg1, const void* _w2) {
   *((s32 **) (((s8 *) arg0) + 0x18)) = &(*(RecoveredGlobal_802C2F04_lbl_804E0988 *)&seabed_dolphin_vtable).value;
   *((s32 *) (((s8 *) arg0) + 0x98)) = get_bml_model((*(u8 * *)&seabed_dolphin_bml_archive), 0);
   ((TUnk_804E0988 *)arg0)->m_9c = get_bml_motion((*(u8 * *)&seabed_dolphin_bml_archive), 5);
-  temp_r3 = ((TUnk_804E0988 *)arg0)->m_84;
+  temp_r3 = ((TUnk_804E0988 *)arg0)->set_params[0];
   if (temp_r3 < 0)
   {
     var_r0 = 0;

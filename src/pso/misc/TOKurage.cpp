@@ -96,7 +96,7 @@ void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TOKurage::check_player_distance() {
-    if ((xyz_distance((u8 *)&this->m_e4, (u8 *)&this->position) > this->target_scale) && ((u8) this->m_100 != 4)) {
+    if ((xyz_distance((u8 *)&this->m_e4, (u8 *)&this->position) > this->scale.y) && ((u8) this->m_100 != 4)) {
         this->m_100 = 3U;
     }
 }
@@ -104,7 +104,7 @@ void TOKurage::check_player_distance() {
 void TOKurage::update_state() {
     f32 temp_f0;
 
-    temp_f0 = this->scale;
+    temp_f0 = this->scale.x;
     if (is_any_player_within_radius_xz(temp_f0 * temp_f0) == 1) {
         this->m_100 = 4;
     }

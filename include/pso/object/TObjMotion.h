@@ -3,6 +3,7 @@
 #include "pso/TObject.h"
 #include "pso/object/CursorAction.h"
 #include <stddef.h>
+#include <dolphin/mtx/GeoTypes.h>
 class TUnk_804B9870 : public TObject {
 public:
     TUnk_804B9870(TObject *parent);
@@ -21,42 +22,27 @@ public:
     void set_entity_id(u16 id);
     int set_position_from(void *pos);
     u16 entity_id;  // the object table id, 0xFFFF while unregistered
-    s16 m_1e;
-    u8 m_20;
-    u8 unk_21[0x1];
-    u8 m_22;
-    u8 unk_23[0x1];
+    s16 visibility; // update_object_view_visibility: 0 culled, 1 visible, 2 near
+    s32 m_20;
     s32 texture_id;
-    union {
-        void* m_28;
-        s16 group_ids[2];
-    };
-    union {
-        void * m_2c;
-        s16 group_index;
-    };
+    // Copied from the object's set entry when it is spawned; see
+    // TLobby::link_matching_objects.
+    s16 room;
+    s16 set_group;  // the object's group, or an enemy's wave number
+    s16 set_index;  // index of its set entry, -1 for none
+    s16 alt_room;   // the room set_room keeps for the key and quest states
     u32 actorFlags;
     void* model;
     f32 position[3];
-    u32 m_44;
-    u32 m_48;
-    void* m_4c;
-    void* m_50;
-    f32 m_54;
-    void* m_58;
+    Vec prev_position;  // where it stood before this frame's move
+    Vec home_position;  // the set position it returns to
     s32 rotation_x;
     s32 rotation_y;
     s32 rotation_z;
-    f32 scale;
-    f32 target_scale;
-    u32 m_70;
-    void* m_74;
-    u32 m_78;
-    void* m_7c;
-    void * m_80;
-    s32 m_84;
-    u8 * m_88;
-    u32 m_8c;
+    Vec scale;        // the set entry's params 1-3, a scale for most objects
+    Vec center;         // the point the virtual center getter returns
+    void *set_entry;    // its row of the floor's object or enemy set
+    s32 set_params[3];  // the set entry's params 4-6
 };
 // The derived destructors still written out by hand call the base ones by
 // their symbols.

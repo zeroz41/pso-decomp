@@ -130,7 +130,7 @@ void TOKey::reset_and_notify() {
 void TOKey::init_switch_id() {
     s32 temp_r0;
 
-    temp_r0 = this->m_84;
+    temp_r0 = this->set_params[0];
     if ((temp_r0 < 0) || (temp_r0 > 0xFF)) {
         this->m_e4 = -1;
         this->m_d0 = 2;
@@ -144,7 +144,7 @@ void TOKey::init_key() {
     u8 *arg0 = (u8 *)this;
     ((VObj0_8016ab58_8016A8D0*)arg0)->m5();
     init_switch_id();
-    VecCopy((Vec *)&this->m_74, (const Vec *)&this->position);
+    VecCopy(&this->center, (const Vec *)&this->position);
     *(s32 *)((s8 *)arg0 + 0x20) = 2;
 }
 

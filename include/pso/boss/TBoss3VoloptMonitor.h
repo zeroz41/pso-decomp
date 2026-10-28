@@ -9,7 +9,7 @@
 #define VOLOPT_MONITOR_SLOTS 24
 
 struct TBoss3VoloptMonitor : public TObjEnemyCustom {
-    TBoss3VoloptMonitor(TUnk_804B9870 *parent, u16 id, s32 group, s32 slot_index, s32 start_timer);
+    TBoss3VoloptMonitor(TUnk_804B9870 *parent, u16 id, s32 index, s32 slot_index, s32 start_timer);
     TBoss3VoloptMonitor(TObject *parent, void *set_data);
     virtual ~TBoss3VoloptMonitor();
     virtual void run_task();

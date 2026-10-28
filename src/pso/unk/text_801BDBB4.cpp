@@ -62,7 +62,7 @@ TObjPlayerSet *find_player_arrival_set(TObjPlayer *player, s32 slot) {
     }
     for (set = (TObjPlayerSet *)tl_06->m_down; set != NULL; set = (TObjPlayerSet *)set->m_next) {
         if (check_value_equals__13TUnk_804B6C24Fl(set, TObjPlayer__player_set_class_name) != 0 &&
-            slot == (s32)set->scale && set->m_84 == side) {
+            slot == (s32)set->scale.x && set->set_params[0] == side) {
             return set;
         }
     }

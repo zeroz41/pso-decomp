@@ -822,7 +822,7 @@ void TObjEneDelDepth::move_toward_target() {
     v.y *= lbl_805DF28C;
     v.z *= lbl_805DF28C;
     vec3_add_to((u8 *)&this->position, &v);
-    if (project_actor_to_ground(arg0, (u8 *)&this->position, (void *)0) == 0 || csnLookAt((u8 *)&this->m_44, (u8 *)&this->position) != 0) {
+    if (project_actor_to_ground(arg0, (u8 *)&this->position, (void *)0) == 0 || csnLookAt((u8 *)&this->prev_position, (u8 *)&this->position) != 0) {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x44));
     }
     if (--this->m_384 <= 0) {

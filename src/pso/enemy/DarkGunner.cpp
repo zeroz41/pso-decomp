@@ -703,7 +703,7 @@ void TObjPlayer::step_along_ground() {
     u8 *hit;
     u8 *q;
 
-    VecCopy((Vec *)&this->m_44, (const Vec *)&this->position);
+    VecCopy(&this->prev_position, (const Vec *)&this->position);
     VecCopy((Vec *)&pos, (const Vec *)&this->m_2fc);
     vel = *(Raw_800A10A0 *)(arg0 + 0x308);
     vec_set_length((Vec *)&vel, 10.0f + ((f32 (*)(int))TObjPlayer__sub_800A3200)(0));
@@ -734,7 +734,7 @@ void TObjPlayer::step_along_ground() {
         if (project_actor_to_ground(arg0, &v, 0) == 1) {
             VecCopy((Vec *)&this->position, (const Vec *)&v);
             VecCopy((Vec *)&this->unk_308, (const Vec *)&this->position);
-            ((void (*)(void *, void *))subtract_vector)(arg0 + 0x308, (u8 *)&this->m_44);
+            ((void (*)(void *, void *))subtract_vector)(arg0 + 0x308, (u8 *)&this->prev_position);
             return;
         }
     }

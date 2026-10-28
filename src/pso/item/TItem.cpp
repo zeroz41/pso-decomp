@@ -462,7 +462,7 @@ void TItem::place_on_ground(s16 floor, f32 *pos, s32 quiet) {
     owner_client_id = 0xFFFF;
     if (quiet == 0) {
         copy_to_item_data(&data);
-        add_item_condition(floor, position[0], position[2], group_ids[0], (u8 *)&data);
+        add_item_condition(floor, position[0], position[2], room, (u8 *)&data);
     }
     if (is_local_player_off_current_floor() == 1 || floor != get_current_floor()) {
         destroy();
@@ -1542,7 +1542,7 @@ void TItem::assign_item_id() {
     if (get_main_phase() == 15) {
         if ((s32)item_id == -1) {
             item_desync_detected = 1;
-            QuestObjectEntry entry = quest_object_entries[group_index];
+            QuestObjectEntry entry = quest_object_entries[set_index];
             item_id = build_item_id(entry.drop_id_base);
         }
     } else if ((s32)item_id == -1) {

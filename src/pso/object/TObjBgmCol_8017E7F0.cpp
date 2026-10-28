@@ -29,8 +29,8 @@ void *TObjBgmCol__ct(TObjBgmCol *bgm_col, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)bgm_col + 0) = (s32) TObjBgmCol__name;
     bgm_col->apply_object_set_data((void *)arg2);
     bgm_col->m_90 = 1;
-    bgm_col->m_98 = (f32) bgm_col->scale;
-    bgm_col->m_9c = (s32) (bgm_col->m_84 % 6);
+    bgm_col->m_98 = (f32) bgm_col->scale.x;
+    bgm_col->m_9c = (s32) (bgm_col->set_params[0] % 6);
     if ((s32) bgm_col->m_9c < 0) {
         bgm_col->m_9c = 0;
     }

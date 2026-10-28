@@ -171,7 +171,7 @@ f32 TObjContainerJungEnemy::receive_physical_attack(void *, f32) {
         ((TLobby *)(&pkt))->init_packet_67_04();
         pkt.b = this->entity_id;
         pkt.c = get_current_floor();
-        pkt.d = this->m_84;
+        pkt.d = this->set_params[0];
         pkt.e = local_client_id;
         ((TLobby *)(&pkt))->byteswap_and_send();
     }
@@ -182,7 +182,7 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
     Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
     ((TObjContainerJungEnemy *)self)->load_models();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80445430, this->m_84);
+    debug_printf_at(0x130020, lbl_80445430, this->set_params[0]);
     debug_printf_at(0x130021, lbl_8044543C);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
@@ -245,7 +245,7 @@ void TObjContainerJungEnemy::vfunc_80() {
 
 void TObjContainerJungEnemy::load_models() {
     s32 var_r0;
-    s32 temp_r3 = *(s32 *)&this->m_88;
+    s32 temp_r3 = *(s32 *)&this->set_params[1];
     if (temp_r3 < 0) {
         var_r0 = 0;
     } else {

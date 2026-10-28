@@ -25,7 +25,7 @@ void TObjPlayer::bswap_dragon_boss_fields() { ((G_ClientIDHeader *)this)->bswap(
 void TObjPlayer::bswap_stats() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_32((u32 *)((char*)this + 0x8)); }
 s32 TObjEnemy::exchange_object_state(s32 arg1, s16 arg2) {
     s16 temp_r31;
-    temp_r31 = *(s16 *)&this->m_2c;
+    temp_r31 = *(s16 *)&this->set_index;
     if ((temp_r31 < 0) || (temp_r31 > 0xB4F)) {
         return 0;
     }

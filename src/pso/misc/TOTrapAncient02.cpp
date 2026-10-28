@@ -590,7 +590,7 @@ s32 __vt__16TOTrapAncient02R[90] = {
 void TOTrapAncient02R::calc_trap_count() {
     s32 temp_r4;
 
-    *(s32 *)&this->m_360 = (s32) (*(f32 *)&this->m_70 + ((lbl_805DBA7C * (f32) game_difficulty_selection) + lbl_805DBA78));
+    *(s32 *)&this->m_360 = (s32) (this->scale.z + ((lbl_805DBA7C * (f32) game_difficulty_selection) + lbl_805DBA78));
     temp_r4 = *(s32 *)&this->m_360;
     if (temp_r4 < 0) {
         *(s32 *)&this->m_360 = 0;
@@ -849,9 +849,9 @@ void *TOTrapAncient02R__ct(TOTrapAncient02R *trap_ancient02_r, void *arg1, void 
     trap_ancient02_r->texture_id = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)(*(void * *)&TOTrapAncient02__shared_resource) + 0x42C)) + 0xC);
     trap_ancient02_r->mode = 0;
     trap_ancient02_r->phase = 0;
-    trap_ancient02_r->range = lbl_805DBAA0 * trap_ancient02_r->scale + lbl_805DBA9C;
+    trap_ancient02_r->range = lbl_805DBAA0 * trap_ancient02_r->scale.x + lbl_805DBA9C;
     trap_ancient02_r->dist = trap_ancient02_r->range;
-    trap_ancient02_r->reset = (s32) (lbl_805DBA9C + (f32) trap_ancient02_r->m_84);
+    trap_ancient02_r->reset = (s32) (lbl_805DBA9C + (f32) trap_ancient02_r->set_params[0]);
     if (trap_ancient02_r->reset < 0) {
         trap_ancient02_r->reset = 0;
     }

@@ -104,7 +104,7 @@ void TObjStendGlassLobby::run_task() {
 }
 
 void TObjStendGlassLobby::update_state() {
-    if ((s32) this->m_84 < 1) {
+    if ((s32) this->set_params[0] < 1) {
         this->m_d0 = 0;
     } else {
         this->m_d0 = 1;

@@ -341,7 +341,7 @@ u8 *TOMekaFish00__ct(TOMekaFish00 *meka_fish00, s32 arg1) {
     meka_fish00->m_c0 = (f32) lbl_805DE070;
     *(f32 *)((s8 *)meka_fish00 + 0xC4) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)(*(s32 *)((s8 *)meka_fish00 + 0x34)) + 4)) + 0x14);
     meka_fish00->m_ac = 0;
-    meka_fish00->m_f4 = (f32) ((lbl_805DE074 * (f32) meka_fish00->m_84) + lbl_805DE068);
+    meka_fish00->m_f4 = (f32) ((lbl_805DE074 * (f32) meka_fish00->set_params[0]) + lbl_805DE068);
     meka_fish00->m_f8 = (s32) (lbl_805DE078 * (lbl_805DE07C / (lbl_805DE080 / meka_fish00->m_f4)));
     meka_fish00->m_fc = (s32) (lbl_805DE078 * (lbl_805DE07C * (lbl_805DE084 * (f32) rand())));
     meka_fish00->m_ec = (f32) ((lbl_805DE074 * (f32) *(s32 *)((s8 *)meka_fish00 + 0x88)) + lbl_805DE068);

@@ -163,7 +163,7 @@ u8 *TLobby__sub_8019118C(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804B7C1C.value;
     ((TUnk_804B7C1C *)(arg0))->apply_object_set_data((void *)arg2);
     *(s16 *)((s8 *)arg0 + 0xAC) = 3;
-    ((TUnk_804B7C1C *)arg0)->m_b0 = (s32) ((TUnk_804B7C1C *)arg0)->m_84;
+    ((TUnk_804B7C1C *)arg0)->m_b0 = (s32) ((TUnk_804B7C1C *)arg0)->set_params[0];
     *(s32 *)((s8 *)arg0 + 0xB4) = 0;
     init_collision_body_parts(arg0, &npc_player_collision_body_part.value, 1);
     ((TObjPlayer *)arg0)->reset_photon_effect();

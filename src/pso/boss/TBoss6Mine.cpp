@@ -155,7 +155,7 @@ void TBoss6Mine::update_facing_angles() {
     case 5:
     case 6:
         VecCopy__FP3VecPC3Vec((s32) &v, (s32)(arg0 + 0x38));
-        subtract_vector(&v, (u8 *)&this->m_44);
+        subtract_vector(&v, (u8 *)&this->prev_position);
         if (vector_length(&v) <= 0.00001f) {
             a = 0;
             b = 0;
@@ -357,7 +357,7 @@ void TBoss6Mine::run_task() {
     if (query_teammate_state__9TObjEneDDFv() != 0) {
         return;
     }
-    VecCopy((Vec *)&this->m_44, (Vec *)this->position);
+    VecCopy(&this->prev_position, (Vec *)this->position);
     static void (TBoss6Mine::*const handlers[8])() = {
         &TBoss6Mine::state_0, &TBoss6Mine::state_1, &TBoss6Mine::state_2, &TBoss6Mine::state_3,
         &TBoss6Mine::state_4, &TBoss6Mine::state_5, &TBoss6Mine::state_6, &TBoss6Mine::state_7,

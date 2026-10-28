@@ -130,7 +130,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
 }
 
 void TObjDoorJung::clamp_state() {
-    *(s32 *)&this->unk_D4 = (s32) *(s32 *)&this->m_88;
+    *(s32 *)&this->unk_D4 = (s32) *(s32 *)&this->set_params[1];
     if ((s32) *(s32 *)&this->unk_D4 < 0) {
         *(s32 *)&this->unk_D4 = 0;
     }

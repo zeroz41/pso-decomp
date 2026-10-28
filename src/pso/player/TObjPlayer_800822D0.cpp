@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *) {  }
-void TObjPlayer::set_position_xy(f32 a, f32 b) { this->position[2] = a; *(f32 *)&this->m_44 = b; }
+void TObjPlayer::set_position_xy(f32 a, f32 b) { this->position[2] = a; this->prev_position.x = b; }
 
 f32 TUnk_804806E8::get_speed() { return this->m_c0; }
 

@@ -167,7 +167,7 @@ void TOKeyJungleMain::load_static_resource() {
 }
 
 void TOKeyJungleMain::debug_draw_key_id() {
-    *(s32 *)&this->m_e4 = this->m_84;
+    *(s32 *)&this->m_e4 = this->set_params[0];
     if (*(s32 *)&this->m_e4 < 0) {
         *(s32 *)&this->m_e4 = 0;
     }
@@ -280,7 +280,7 @@ u8 *TOKeyJungleMain__ct(TOKeyJungleMain *key_jungle_main, s32 arg1, s32 arg2) {
     ((TUnk_804AF8A0 *)key_jungle_main)->refresh_collision_body_centers();
     ((TObjPlayer *)key_jungle_main)->reset_photon_effect();
     key_jungle_main->m_d0 = 0;
-    key_jungle_main->m_e4 = (s32) key_jungle_main->m_84;
+    key_jungle_main->m_e4 = (s32) key_jungle_main->set_params[0];
     if ((s32) key_jungle_main->m_e4 < 0) {
         key_jungle_main->m_e4 = 0;
     }
@@ -626,8 +626,8 @@ u8 *TObjFish__ct(u8 *fish, s32 arg1, u8 *arg2) {
     VecCopy((Vec *)(fish + 0x38), (const Vec *)(arg2 + 0xC));
     ((TObjPlayer *)(fish + 0x5C))->copy_xyz(arg2 + 0x18);
     VecCopy((Vec *)(fish + 0x68), (const Vec *)(arg2 + 0x24));
-    var_f1 = ((TObjFish *)fish)->scale;
-    temp_f0 = ((TObjFish *)fish)->target_scale;
+    var_f1 = ((TObjFish *)fish)->scale.x;
+    temp_f0 = ((TObjFish *)fish)->scale.y;
     if (var_f1 < temp_f0) {
         var_f1 = temp_f0;
     }

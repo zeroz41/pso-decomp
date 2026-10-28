@@ -107,7 +107,7 @@ void TObjLobbyMain::resolve_theme_index() {
 }
 
 void TObjLobbyMain::set_mode_index_from_state() {
-    switch (this->m_84) {
+    switch (this->set_params[0]) {
     case 1:
         *(s16 *)&this->unk_D2 = 1;
         return;

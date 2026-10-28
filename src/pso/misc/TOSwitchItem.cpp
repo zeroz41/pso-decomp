@@ -45,13 +45,13 @@ void TOSwitchItem::update_anim() {
     f32 temp_f0;
 
     init_switch_id__5TOKeyFv();
-    temp_f0 = this->scale;
+    temp_f0 = this->scale.x;
     this->m_e8 = (f32) (temp_f0 * temp_f0);
-    this->m_f0 = (s32) this->m_88;
+    this->m_f0 = (s32) this->set_params[1];
     if ((s32) this->m_f0 >= 8) {
         this->m_f0 = 0;
     }
-    *(s32 *)&this->unk_F4 = (s32) (*(s32 *)&this->m_8c + 1);
+    *(s32 *)&this->unk_F4 = (s32) (*(s32 *)&this->set_params[2] + 1);
 }
 
 void TOSwitchItem::render() {

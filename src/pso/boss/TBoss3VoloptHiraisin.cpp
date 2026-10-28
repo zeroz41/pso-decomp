@@ -378,13 +378,13 @@ void TBoss3VoloptHiraisin::init_params() {
     clear_lobby_object_state();
 }
 
-TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 group) : TObjEnemyCustom(parent) {
+TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 index) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptHiraisin_name;
     entity_id = id;
-    group_index = group;
-    m_80 = NULL;
-    group_ids[0] = parent->group_ids[0];
-    group_ids[1] = parent->group_ids[1];
+    set_index = index;
+    set_entry = NULL;
+    room = parent->room;
+    set_group = parent->set_group;
     position[1] = 80.0f;
     position[0] = boss3_volopt_spawn_pos.x;
     position[2] = boss3_volopt_spawn_pos.z;
@@ -398,7 +398,7 @@ TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TObject *parent, void *set_data) : TO
 }
 
 void TBoss3VoloptHiraisin::copy_position() {
-    VecCopy((Vec *)&m_74, (Vec *)&m_2fc);
+    VecCopy(&center, (Vec *)&m_2fc);
 }
 
 void TBoss3VoloptHiraisin::load_params_from_table(s32 index) {

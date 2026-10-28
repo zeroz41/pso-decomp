@@ -132,7 +132,7 @@ void run_task__14TShopGeneratorFv(u8 *self) {
     s32 i;
     s32 p;
     s32 (*fn)(u16);
-    e = (Ent_8021DDB8 *)&TShopGenerator__service_dispatch_table.e[((TShopGenerator *)self)->m_84];
+    e = (Ent_8021DDB8 *)&TShopGenerator__service_dispatch_table.e[((TShopGenerator *)self)->set_params[0]];
     if (*(s32 *)&((TShopGenerator *)self)->m_94 > 0) {
         (*(s32 *)&((TShopGenerator *)self)->m_94)--;
         return;
@@ -201,7 +201,7 @@ void *TShopGenerator__ct(void *shop_generator, s32 arg1) {
     ((TShopGenerator *)shop_generator)->apply_object_set_data((void *)arg1);
     ((TShopGenerator *)shop_generator)->m_90 = 0;
     ((TShopGenerator *)shop_generator)->m_94 = 5;
-    temp_r0 = ((TShopGenerator *)shop_generator)->m_84;
+    temp_r0 = ((TShopGenerator *)shop_generator)->set_params[0];
     if (temp_r0 < 0) {
         queue_destruction__7TObjectFv(shop_generator);
         return shop_generator;

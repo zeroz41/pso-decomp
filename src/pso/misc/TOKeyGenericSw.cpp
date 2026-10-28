@@ -238,7 +238,7 @@ void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *sou
     ((TObjPlayer *)key_generic_sw)->reset_photon_effect();
     key_generic_sw->m_c0 = 4e+02f;
     *(f32 *)((s8 *)key_generic_sw + 0xC4) = 4e+01f;
-    if ((*(s32 *)&key_generic_sw->m_d0 != 2) && (key_generic_sw->scale < 0.0f)) {
+    if ((*(s32 *)&key_generic_sw->m_d0 != 2) && (key_generic_sw->scale.x < 0.0f)) {
         *(s32 *)&key_generic_sw->m_d0 = 1;
     } else {
         *(s32 *)&key_generic_sw->m_d0 = 0;

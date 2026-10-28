@@ -141,10 +141,10 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
     ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TBoss3VoloptP01_class_name;
     entity_id = id;
-    *(s16 *)&m_2c = angle_param;
-    m_80 = NULL;
-    *(s16 *)&m_28 = *(s16 *)&parent->m_28;
-    *((s16 *)&m_28 + 1) = *((s16 *)&parent->m_28 + 1);
+    *(s16 *)&set_index = angle_param;
+    set_entry = NULL;
+    *(s16 *)&room = *(s16 *)&parent->room;
+    *((s16 *)&room + 1) = *((s16 *)&parent->room + 1);
     init_params();
     angle = (s32)(182.04445f * (f32)(index * 60));
     position[0] = 76.0f * cos_table_lookup(angle) + boss3_volopt_spawn_pos.x;

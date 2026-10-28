@@ -148,12 +148,12 @@ void TObjGyaranzoMissile::run_task() {
             vec_set_length(&velocity, TObjGyaranzoMissile__speed_scale);
         }
     }
-    VecCopy((Vec *)&m_44, (const Vec *)position);
+    VecCopy(&prev_position, (const Vec *)position);
     vec3_add_to(position, &velocity);
     direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     wobble_phase += wobble_speed;
     if (timer >= 10) {
-        if (csnVector(&m_44, position, -1) != 0) {
+        if (csnVector(&prev_position, position, -1) != 0) {
             sub_800D47B4();
             return;
         }

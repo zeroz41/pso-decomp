@@ -156,7 +156,7 @@ u8 *TObjCityMainWarpChallenge__ct(u8 *city_main_warp_challenge) {
     *(s32 *)((s8 *)city_main_warp_challenge + 0) = (s32) lbl_805D32B8;
     *(f32 *)((s8 *)city_main_warp_challenge + 0xC4) = (f32) lbl_805DBCCC;
     *(f32 *)((s8 *)city_main_warp_challenge + 0xAC) = (f32) lbl_805DBCD0;
-    *(s32 *)((s8 *)city_main_warp_challenge + 0xBC) = (s32) ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->m_84;
+    *(s32 *)((s8 *)city_main_warp_challenge + 0xBC) = (s32) ((TObjCityMainWarpChallenge *)city_main_warp_challenge)->set_params[0];
     temp_r4 = *(s32 *)((s8 *)city_main_warp_challenge + 0xBC);
     city_main_warp_destination_id = temp_r4;
     *(s32 *)((s8 *)city_main_warp_challenge + 0xA4) = 0;

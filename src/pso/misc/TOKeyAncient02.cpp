@@ -237,8 +237,8 @@ u8 *TOKeyAncient02__ct(TOKeyAncient02 *key_ancient02, s32 arg1, s32 arg2) {
         key_ancient02->m_d0 = 0;
     }
     *(f32 *)((s8 *)key_ancient02 + 0x70) = (f32) TOKeyAncient02__data_805DB70C;
-    key_ancient02->target_scale = (f32) TOKeyAncient02__data_805DB70C;
-    key_ancient02->scale = (f32) TOKeyAncient02__data_805DB70C;
+    key_ancient02->scale.y = (f32) TOKeyAncient02__data_805DB70C;
+    key_ancient02->scale.x = (f32) TOKeyAncient02__data_805DB70C;
     return (u8 *)key_ancient02;
 }
 

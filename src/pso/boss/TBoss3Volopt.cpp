@@ -290,7 +290,7 @@ u16 TBoss3Volopt::get_part_id(s32 index) {
 }
 
 s32 TBoss3Volopt::get_part_group(s32 index) {
-    return group_index + index;
+    return set_index + index;
 }
 
 BOOL TBoss3Volopt::is_v2_mode() {

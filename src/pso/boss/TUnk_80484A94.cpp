@@ -70,7 +70,7 @@ void TUnk_80484A94::run_task() {
         vec3_add_to(&velocity, &steer);
         vec_set_length(&velocity, fn_800499FC(0));
     }
-    VecCopy((Vec *)&m_44, (Vec *)position);
+    VecCopy(&prev_position, (Vec *)position);
     vec3_add_to((Vec *)position, &velocity);
     direction_to_rotation_yx((u8 *)&velocity, &rotation_y, &rotation_z);
     rotation_z -= 0x4000;
@@ -82,7 +82,7 @@ void TUnk_80484A94::run_task() {
         ((TNowLoading *)glow)->copy_pos(position);
         ((TBoss4Type2 *)glow)->copy_vec3(&rotation_x);
     }
-    if (csnVector((Vec *)&m_44, (Vec *)position, -1) != 0) {
+    if (csnVector(&prev_position, (Vec *)position, -1) != 0) {
         queue_destruction();
         return;
     }

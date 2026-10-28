@@ -331,7 +331,7 @@ void TOMine::vfunc_85() {  }
 const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
 void TOMine::update_state() {
     s32 temp_r0;
-    *(s32 *)((s8 *)this + 0x348) = (s32) *(f32 *)&this->m_70;
+    *(s32 *)((s8 *)this + 0x348) = (s32) this->scale.z;
     temp_r0 = *(s32 *)((s8 *)this + 0x348);
     if (temp_r0 < 0) {
         *(s32 *)&this->m_344 = 0;
@@ -343,7 +343,7 @@ void TOMine::update_state() {
     }
     if (get_main_phase() == 0xE) {
         *(s32 *)&this->m_344 = 0;
-        *(s32 *)&this->m_8c = 0x1E;
+        *(s32 *)&this->set_params[2] = 0x1E;
         return;
     }
     *(s32 *)&this->m_344 = 2;
@@ -402,7 +402,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
 
 f32 TOMine::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 5;
         sp8 = this->mode;
         send_object_state_update(&sp8);
@@ -467,7 +467,7 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
 
 void TOMine::update_trigger() {
     s16 sp8;
-    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 3;
         sp8 = this->mode;
         send_object_state_update(&sp8);
@@ -547,8 +547,8 @@ void TOMine::update_float_height() {
     f32 temp_f4;
     if (!(this->m_340 & 2)) {
         temp_f4 = *(f32 *)((s8 *)arg0 + 0x338);
-        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (temp_f4 + ((lbl_805DB884 * ((lbl_805DB888 + this->m_54) - temp_f4)) + (*(const f32 *)&TOMineTrap__data_805DB868)));
-        temp_f1 = lbl_805DB888 + this->m_54;
+        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (temp_f4 + ((lbl_805DB884 * ((lbl_805DB888 + this->home_position.y) - temp_f4)) + (*(const f32 *)&TOMineTrap__data_805DB868)));
+        temp_f1 = lbl_805DB888 + this->home_position.y;
         if (temp_f1 <= *(f32 *)((s8 *)arg0 + 0x338)) {
             *(f32 *)((s8 *)arg0 + 0x338) = temp_f1;
             this->m_340 = (s32) (this->m_340 | 2);

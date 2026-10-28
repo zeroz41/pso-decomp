@@ -230,7 +230,7 @@ s32 TObjEneSlimeOne::is_reached_target_depth() {
         return 0;
     }
     if ((s8) TObjEneSlimeOne__target_depth_initialized == 0) {
-        f32 tmp = *(f32 *)&this->m_2c;
+        f32 tmp = *(f32 *)&this->set_index;
         TObjEneSlimeOne__target_depth_initialized = 1;
         TObjEneSlimeOne__target_depth = tmp - lbl_805DA760;
     }

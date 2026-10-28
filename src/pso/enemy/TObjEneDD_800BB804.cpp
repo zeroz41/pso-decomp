@@ -358,7 +358,7 @@ extern s32 area_random_seed;
 
 void TObjEneDD::init_common_from(u8 *arg1) {
     reset_state_fields();
-    *(s16 *)&this->m_28 = (s16) *(s16 *)((s8 *)arg1 + 0x28);
+    *(s16 *)&this->room = (s16) *(s16 *)((s8 *)arg1 + 0x28);
     *(s16 *)((s8 *)((u8 *)this) + 0x2A) = (s16) *(s16 *)((s8 *)arg1 + 0x2A);
     subtractive_rng_seed((void *) (((u8 *)this) + 0x160), (int) (this->entity_id + area_random_seed));
 }
@@ -477,9 +477,9 @@ s32 TObjEneDD::vfunc_83() {
 
 void TObjEneDD::init_position_vectors() {
     u8 *arg0 = (u8 *)this;
-    VecCopy((Vec *)&this->m_44, (const Vec *)&this->position);
-    VecCopy((Vec *)&this->m_50, (const Vec *)&this->position);
-    VecCopy((Vec *)&this->m_74, (const Vec *)&this->position);
+    VecCopy(&this->prev_position, (const Vec *)&this->position);
+    VecCopy(&this->home_position, (const Vec *)&this->position);
+    VecCopy(&this->center, (const Vec *)&this->position);
     ((TBoss3Volopt *)arg0)->reset_photon_effect();
     VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
     *(f32 *)((s8 *)arg0 + 0x308) = (f32) TObjEneDD__data_805D9E8C;

@@ -416,9 +416,9 @@ void *TBoss6Demo21_TYPE2_DEAD__ct(void *arg0p, void *arg1, void *arg2) {
     *(s32 *)((s8 *)arg0 + 0x38) = TObjFish__sub_8001EDB0(count, 8);
     *(s32 *)((s8 *)arg0 + 0x3C) = get_bml_motion(count, 8);
     *(s32 *)((s8 *)arg0 + 0x40) = get_bml_model(count, 0xD);
-    ((TBoss6Type1 *)arg0)->m_44 = TObjFish__sub_8001EDB0(count, 0xD);
-    ((TBoss6Type1 *)arg0)->m_48 = get_bml_motion(count, 0x3D);
-    ((TBoss6Type1 *)arg0)->m_70 = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (s32)(arg0 + 0x64));
+    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.x = TObjFish__sub_8001EDB0(count, 0xD);
+    *(s32 *)&((TBoss6Type1 *)arg0)->prev_position.y = get_bml_motion(count, 0x3D);
+    *(s32 *)&((TBoss6Type1 *)arg0)->scale.z = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_a, (s32)(arg0 + 0x64));
     *(s32 *)((s8 *)arg0 + 0x80) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_b, (s32)(arg0 + 0x74));
     *(s32 *)((s8 *)arg0 + 0x9C) = TObjFish__sub_800E3124(boss6_type2_death_effect_desc_c, (s32)(arg0 + 0x84));
     activate_camera_mode(5);

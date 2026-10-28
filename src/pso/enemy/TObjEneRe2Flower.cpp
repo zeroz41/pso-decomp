@@ -53,7 +53,7 @@ void TObjEneRe2Flower::vfunc_88() {
 void TObjEneRe2Flower::sub_800C3DC4() {
     VecCopy((Vec *)&this->m_2fc, (const Vec *)&this->position);
     this->m_300 = (f32) (this->m_300 + lbl_805D9FF8);
-    VecCopy((Vec *)&this->m_74, (const Vec *)&this->m_2fc);
+    VecCopy(&this->center, (const Vec *)&this->m_2fc);
 }
 
 }

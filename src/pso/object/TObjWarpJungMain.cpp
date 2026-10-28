@@ -263,7 +263,7 @@ void TObjWarpJung::render() {
         if (TObjWarpJung::update_warp_display() != 0) {
             PPCSync();
         }
-        switch (this->m_8c) {
+        switch (this->set_params[2]) {
         case 0:
             TObjWarpJung__sub_801A0404(0);
             break;

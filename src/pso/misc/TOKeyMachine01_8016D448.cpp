@@ -138,15 +138,15 @@ void TOKeyMachine01::vfunc_17() {
             this->m_f8 = 1;
         }
     }
-    temp_f1 = this->target_scale;
+    temp_f1 = this->scale.y;
     if (temp_f1 < 0.0f) {
-        this->target_scale = (f32) (temp_f1 - (-0.023333333f));
+        this->scale.y = (f32) (temp_f1 - (-0.023333333f));
     }
 }
 void TOKeyMachine01::vfunc_16() {
     TOKeyMachine01 *self = this;
-    if ((-0.7f) < self->target_scale) {
-        self->target_scale += (-0.023333333f);
+    if ((-0.7f) < self->scale.y) {
+        self->scale.y += (-0.023333333f);
     }
 }
 
@@ -326,7 +326,7 @@ block_5:
     key_machine01->m_f4 = (f32) 1.0f;
     key_machine01->m_f8 = 0;
     *(f32 *)((s8 *)key_machine01 + 0x70) = (f32) 0.0f;
-    key_machine01->target_scale = (f32) 0.0f;
-    key_machine01->scale = (f32) 0.0f;
+    key_machine01->scale.y = (f32) 0.0f;
+    key_machine01->scale.x = (f32) 0.0f;
     return (u8 *)key_machine01;
 }

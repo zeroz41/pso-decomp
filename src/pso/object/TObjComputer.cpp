@@ -354,7 +354,7 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
         ((TLobby *)(&pkt))->init_packet_67_04();
         pkt.b = this->entity_id;
         pkt.c = get_current_floor();
-        pkt.d = this->m_84;
+        pkt.d = this->set_params[0];
         pkt.e = local_client_id;
         ((TLobby *)(&pkt))->byteswap_and_send();
     }
@@ -364,7 +364,7 @@ f32 TObjContainerAbeEnemy::receive_physical_attack(void *, f32) {
 void TObjContainerAbeEnemy::debug_print_item_box_info() {
     Obj_80188814 *self = (Obj_80188814 *)this;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80444EF4, this->m_84);
+    debug_printf_at(0x130020, lbl_80444EF4, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     TObjRoomId__sub_80141CF4(self->pos, lbl_804A7448, lbl_805DBCF8);
 }

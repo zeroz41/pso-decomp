@@ -52,7 +52,7 @@ void *TObjQuestColApcINW__ct(TObjQuestColApcINW *quest_col_apc_inw) {
     TObjQuestColBase__ct(quest_col_apc_inw);
     *(s32 **)((s8 *)quest_col_apc_inw + 0x18) = __vt__18TObjQuestColApcINW;
     *(void * *)&quest_col_apc_inw->m_name = lbl_805D3400;
-    *(f32 *)((s8 *)quest_col_apc_inw + 0xBC) = quest_col_apc_inw->target_scale;
+    *(f32 *)((s8 *)quest_col_apc_inw + 0xBC) = quest_col_apc_inw->scale.y;
     quest_col_apc_inw->m_c8 = lbl_805DBF04;
     *(f32 *)((s8 *)quest_col_apc_inw + 0xC4) = lbl_805DBF04;
     *(f32 *)((s8 *)quest_col_apc_inw + 0xC0) = lbl_805DBF04;

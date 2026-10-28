@@ -86,13 +86,13 @@ void TODoorAncient09::vfunc_6(s16 *arg1, s32) {
 s32 TODoorAncient09::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->m_84;
+    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
     temp_r0 = *(s32 *)&this->unk_C8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
         this->m_cc = 1;
-    } else if (((s32) this->m_8c < 0) && ((get_main_phase() == 0xF) || (is_split_screen() == 1))) {
+    } else if (((s32) this->set_params[2] < 0) && ((get_main_phase() == 0xF) || (is_split_screen() == 1))) {
         this->m_cc = 3;
     } else {
         this->m_cc = 2;
@@ -159,7 +159,7 @@ void TODoorAncient09::update_door_switch_state() {
         if ((is_current_floor_switch_set((int) ((u16) *(s32 *)&this->unk_C8)) == 1) && (is_current_floor_switch_set(this->m_d4) == 1)) {
             ((TODoorAncient09 *)arg0)->sub_80160968();
             this->m_d0 = (s32) (this->m_d0 | 1);
-            if (((u32) *(u32 *)&this->m_80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state((void *) (&sp8), 1) != 0)) {
+            if (((u32) *(u32 *)&this->set_entry != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state((void *) (&sp8), 1) != 0)) {
                 sp8 = 1;
                 ((TODoorAncient09 *)arg0)->door_ancient09_sync_state((void *) (&sp8));
                 ((TUnk_804AF8A0 *)arg0)->access_object_saved_state((void *) (&sp8), 0);
@@ -418,14 +418,14 @@ u8 *TODoorAncient09__ct(TODoorAncient09 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, &TODoorAncient09__collision_body_template.value, 1);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->reset_photon_effect();
-    temp_r0 = arg0->m_84;
+    temp_r0 = arg0->set_params[0];
     if (temp_r0 < 0) {
-        arg0->m_84 = 0;
+        arg0->set_params[0] = 0;
     } else if (temp_r0 > 0xFE) {
-        arg0->m_84 = 0xFE;
+        arg0->set_params[0] = 0xFE;
     }
     ((TODoorAncient09 *)(arg0))->init_door_switch_binding();
-    arg0->m_d4 = (arg0->m_84 + 1);
+    arg0->m_d4 = (arg0->set_params[0] + 1);
     arg0->m_d8 = 0;
     arg0->m_dc = 0;
     arg0->m_e0 = 0;

@@ -22,7 +22,7 @@ void TODoorAncient08::door_ancient08_sync_state(void *src_arg) {
     } else {
         ((TUnk_804AF8A0 *)self)->access_object_saved_state((void *)((s32)&st), (s16)1);
     }
-    obj = *(Obj_8015FC40 * *)&this->m_80;
+    obj = *(Obj_8015FC40 * *)&this->set_entry;
     if (obj != 0) {
         Pkt_8015FC40 pkt;
         ((TOBarrierEnergy01 *)(&pkt))->init();

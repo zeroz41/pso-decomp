@@ -133,7 +133,7 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
 TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
     entity_id = id;
     *(s16 *)((u8 *)this + 0x2C) = param;
-    m_80 = 0;
+    set_entry = 0;
     *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);
     *(s16 *)((u8 *)this + 0x2A) = *(s16 *)((u8 *)parent + 0x2A);
     init_params();
@@ -198,7 +198,7 @@ void TBoss3VoloptCore::run_task() {
         sub_80040558();
         return;
     }
-    VecCopy((Vec *)&m_44, (Vec *)position);
+    VecCopy(&prev_position, (Vec *)position);
     if (hit_cooldown > 0) {
         hit_cooldown--;
     }

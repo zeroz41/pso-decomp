@@ -376,17 +376,17 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
         *(s32 *)&((TObjContainerIdo *)arg0)->m_dc = 4;
     }
     for (i = 0; i < *(s32 *)&((TObjContainerIdo *)arg0)->m_dc; i++) {
-        ((Ido_8018C7BC *)arg0)->ids[i] = ((TObjContainerIdo *)arg0)->m_84 + i;
+        ((Ido_8018C7BC *)arg0)->ids[i] = ((TObjContainerIdo *)arg0)->set_params[0] + i;
     }
     ((TObjContainerIdo *)arg0)->m_e0 = 0;
-    if (*(s32 *)&((TObjContainerIdo *)arg0)->m_8c != 0) {
+    if (*(s32 *)&((TObjContainerIdo *)arg0)->set_params[2] != 0) {
         ((TObjContainerIdo *)arg0)->m_e0 |= 0x08000000;
     } else {
         ((TObjContainerIdo *)arg0)->m_e0 &= ~0x08000000;
     }
     *(f32 *)((s8 *)arg0 + 0xE4) = 0.0f;
-    ((TObjContainerIdo *)arg0)->m_e8 = ((TObjContainerIdo *)arg0)->scale / *(s32 *)&((TObjContainerIdo *)arg0)->m_dc;
-    *(f32 *)((s8 *)arg0 + 0xEC) = ((TObjContainerIdo *)arg0)->target_scale;
+    ((TObjContainerIdo *)arg0)->m_e8 = ((TObjContainerIdo *)arg0)->scale.x / *(s32 *)&((TObjContainerIdo *)arg0)->m_dc;
+    *(f32 *)((s8 *)arg0 + 0xEC) = ((TObjContainerIdo *)arg0)->scale.y;
     ((TObjPlayer *)(arg0 + 0xF0))->activate_and_dispatch();
     init_collision_body_parts(arg0, container_ido_collision_parts, 1);
     ((TObjContainerIdo *)arg0)->actorFlags |= 0x40000000;

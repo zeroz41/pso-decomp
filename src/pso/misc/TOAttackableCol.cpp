@@ -93,33 +93,33 @@ void TOAttackableCol::init_params() {
     s32 temp_r0_2;
     s32 temp_r0_3;
 
-    *(s32 *)&this->m_33c = (this->m_84 + 1);
+    *(s32 *)&this->m_33c = (this->set_params[0] + 1);
     temp_r0 = *(s32 *)&this->m_33c;
     if (temp_r0 < 1) {
         *(s32 *)&this->m_33c = 1;
     } else if (temp_r0 > 0x100) {
         *(s32 *)&this->m_33c = 0x100;
     }
-    *(s32 *)&this->unk_340 = (s32) *(s32 *)&this->m_88;
+    *(s32 *)&this->unk_340 = (s32) *(s32 *)&this->set_params[1];
     if ((s32) *(s32 *)&this->unk_340 < 0) {
         *(s32 *)&this->unk_340 = 0;
     }
-    this->m_344 = (s32) *(s32 *)&this->m_8c;
+    this->m_344 = (s32) *(s32 *)&this->set_params[2];
     if ((s32) this->m_344 < 0) {
         this->m_344 = 0;
     }
-    this->m_34c = (s32) this->scale;
+    this->m_34c = (s32) this->scale.x;
     temp_r0_2 = this->m_34c;
     if ((temp_r0_2 < 0) || (temp_r0_2 >= 0x100)) {
         this->m_34c = -1;
     }
-    if (this->target_scale < lbl_805DB2C8) {
+    if (this->scale.y < lbl_805DB2C8) {
         set_indexed_flags(0, 0x08000000);
     } else {
         clear_player_status_flag__13TUnk_804AF8A0FlUl(this, 0, 0x08000000);
     }
     if ((s32) this->m_344 == 0) {
-        *(s32 *)&this->unk_348 = (s32) *(f32 *)&this->m_70;
+        *(s32 *)&this->unk_348 = (s32) this->scale.z;
         temp_r0_3 = *(s32 *)&this->unk_348;
         if ((temp_r0_3 < 0) || (temp_r0_3 >= 0x100)) {
             *(s32 *)&this->unk_348 = -1;
@@ -181,7 +181,7 @@ int TOAttackableCol::send_state_change(u16 state) {
     u8 *parent;
     id = this->mode;
     ((TUnk_804AF8A0 *)self)->access_object_saved_state(&id, 0);
-    parent = *(u8 * *)&this->m_80;
+    parent = *(u8 * *)&this->set_entry;
     if (parent != NULL) {
         fn_80157CA8(&msg);
         msg.room = this->entity_id;

@@ -1601,9 +1601,9 @@ void TObjEneSaver::sub_800A62D4() {
         *(s16 *)((s8 *)((u8 *)this) + 0x37E) = (temp_r4_2 + 1);
         if (30.0f < (f32) temp_r4_2) {
             this->phase = 1;
-            *(f32 *)&this->m_70 = (f32) 1.0f;
-            this->target_scale = (f32) 1.0f;
-            this->scale = (f32) 1.0f;
+            this->scale.z = (f32) 1.0f;
+            this->scale.y = (f32) 1.0f;
+            this->scale.x = (f32) 1.0f;
             *(s16 *)((s8 *)((u8 *)this) + 0x37E) = 0;
             TObjPlayer__sub_800A04F0((void *) (((u8 *)this) + 0x3A4));
             apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
@@ -1611,12 +1611,12 @@ void TObjEneSaver::sub_800A62D4() {
         }
         break;
     case 1:
-        this->scale = (f32) (this->scale - 0.1f);
-        if (this->scale < 1e-5f) {
-            this->scale = (f32) 0.0f;
+        this->scale.x = (f32) (this->scale.x - 0.1f);
+        if (this->scale.x < 1e-5f) {
+            this->scale.x = (f32) 0.0f;
         }
-        this->target_scale += 0.1f;
-        *(f32 *)&this->m_70 = (f32) this->scale;
+        this->scale.y += 0.1f;
+        this->scale.z = (f32) this->scale.x;
         if (((VObj62D4 *) (((u8 *)this) + 0x3A4))->m4() == 1) {
             this->phase = 2;
         }
@@ -1624,9 +1624,9 @@ void TObjEneSaver::sub_800A62D4() {
     case 2:
         ((TUnk_804B9870 *)((u8 *)this))->set_position_from((void *) (((u8 *)this) + 0x50));
         this->update_prev_position();
-        *(f32 *)&this->m_70 = (f32) 1.0f;
-        this->target_scale = (f32) 1.0f;
-        this->scale = (f32) 1.0f;
+        this->scale.z = (f32) 1.0f;
+        this->scale.y = (f32) 1.0f;
+        this->scale.x = (f32) 1.0f;
         *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
         *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 1);
         break;
@@ -1639,7 +1639,7 @@ void TObjEneSaver::init_render_flags() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    ((TUnk_804B9870 *)arg0)->set_position_from((u8 *)&this->m_50);
+    ((TUnk_804B9870 *)arg0)->set_position_from((u8 *)&this->home_position);
     ((TUnk_804AF8A0 *)arg0)->refresh_collision_body_centers();
     *(s32 *)&(this->actorFlags) = (s32) (*(s32 *)&(this->actorFlags) & 0xFFDFFFFF);
     *(s32 *)&(this->actorFlags) = (s32) (*(s32 *)&(this->actorFlags) | 0x06040000);
@@ -2156,8 +2156,8 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     arg0->apply_set_data(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(f32 *)((s8 *)arg0 + 0x70) = 1.0f;
-    arg0->target_scale = 1.0f;
-    arg0->scale = 1.0f;
+    arg0->scale.y = 1.0f;
+    arg0->scale.x = 1.0f;
     t = (s16)(100.0f + *(f32 *)((s8 *)arg0 + 0x354));
     *(s16 *)((s8 *)arg0 + 0x388) = t;
     *(s16 *)((s8 *)arg0 + 0x38A) = t;

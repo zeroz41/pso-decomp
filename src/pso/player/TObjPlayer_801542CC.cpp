@@ -1165,7 +1165,7 @@ CursorAction::CursorAction() { kind = CURSOR_ACTION_NONE; }
 s32 TUnk_804AF8A0::access_object_saved_state(void *lobby, s16 arg2) {
     s16 temp_r31;
     u8 *temp_r3;
-    temp_r3 = *(u8 * *)&this->m_80;
+    temp_r3 = *(u8 * *)&this->set_entry;
     if (temp_r3 == NULL) {
         return 0;
     }

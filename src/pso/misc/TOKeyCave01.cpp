@@ -144,9 +144,9 @@ void TOKeyCave01::vfunc_17() {
             this->m_f8 = 1;
         }
     }
-    temp_f1 = this->target_scale;
+    temp_f1 = this->scale.y;
     if (temp_f1 < 0.0f) {
-        this->target_scale = (f32) (temp_f1 - (-0.023333333f));
+        this->scale.y = (f32) (temp_f1 - (-0.023333333f));
     }
     temp_r4 = *(s32 *)&this->unk_FC;
     if (temp_r4 > 0) {
@@ -219,8 +219,8 @@ void mem_free(void *p);
 void TOKeyCave01::vfunc_16() {
     s32 temp_r4;
 
-    if ((-0.7f) < this->target_scale) {
-        this->target_scale += (-0.023333333f);
+    if ((-0.7f) < this->scale.y) {
+        this->scale.y += (-0.023333333f);
     }
     temp_r4 = *(s32 *)&this->unk_FC;
     if (temp_r4 < 0x2000) {
@@ -391,8 +391,8 @@ block_5:
     key_cave01->m_f4 = (f32) 1.0f;
     key_cave01->m_f8 = 0;
     *(f32 *)((s8 *)key_cave01 + 0x70) = (f32) 0.0f;
-    key_cave01->target_scale = (f32) 0.0f;
-    key_cave01->scale = (f32) 0.0f;
+    key_cave01->scale.y = (f32) 0.0f;
+    key_cave01->scale.x = (f32) 0.0f;
     *(s32 *)((s8 *)key_cave01 + 0xFC) = 0;
     return (u8 *)key_cave01;
 }

@@ -2011,7 +2011,7 @@ void TObjEneMe1GiGue::run_task() {
         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 2);
     }
     update_obstruction_fade((u8 *)&this->m_418);
-    if (xz_distance_squared((Vec *)&this->position, (Vec *)&this->m_44) > 2500.0f) {
+    if (xz_distance_squared((Vec *)&this->position, &this->prev_position) > 2500.0f) {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x44));
     }
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
@@ -2165,8 +2165,8 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjEnemy *)arg0)->update_prev_position();
     initialize_enemy_photon_effect(arg0);
     ((TObjEneMe1GiGue *)arg0)->m_38c = 0;
-    ((TObjEneMe1GiGue *)arg0)->scale = 1.0f;
-    ((TObjEneMe1GiGue *)arg0)->m_3e4 = *(f32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->movementParameters) + 4) * ((TObjEneMe1GiGue *)arg0)->scale;
+    ((TObjEneMe1GiGue *)arg0)->scale.x = 1.0f;
+    ((TObjEneMe1GiGue *)arg0)->m_3e4 = *(f32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->movementParameters) + 4) * ((TObjEneMe1GiGue *)arg0)->scale.x;
     VecCopy((Vec *)(arg0 + 0x50), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(arg0 + 0x38));
     *(f32 *)((s8 *)arg0 + 0x440) = 0.5f + *(f32 *)((s8 *)arg0 + 0x360);

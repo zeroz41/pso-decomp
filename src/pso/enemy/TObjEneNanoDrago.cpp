@@ -154,7 +154,7 @@ void TObjPlayer::render_model_transformed() {
     ((s32 (*)(u32))push_matrix_from)((u32) &identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)&this->position[0]), (f32) (this->m_404 + (*(f32 *)&this->position[1] + *(f32 *)&this->m_3e4)), this->position[2]);
     rotate_matrix_y(0, this->rotation_y);
-    temp_f1 = this->scale;
+    temp_f1 = this->scale.x;
     scale_matrix(0, temp_f1, temp_f1, temp_f1);
     ((TObjEnemy *)((u8 *)this))->render_anim_model(*(f32 *)&this->m_c0);
     pop_matrix();
@@ -198,8 +198,8 @@ void TObjPlayer::add_target_in_front_arc(void *p) {
 
 }
 #include <stddef.h>
-typedef char NanoGrow_scale[offsetof(TObjEneNanoDrago, scale) == 0x68 ? 1 : -1];
-typedef char NanoGrow_target_scale[offsetof(TObjEneNanoDrago, target_scale) == 0x6c ? 1 : -1];
+typedef char NanoGrow_scale[offsetof(TObjEneNanoDrago, scale.x) == 0x68 ? 1 : -1];
+typedef char NanoGrow_target_scale[offsetof(TObjEneNanoDrago, scale.y) == 0x6c ? 1 : -1];
 typedef char NanoGrow_m_2c0[offsetof(TObjEneNanoDrago, m_2c0) == 0x2c0 ? 1 : -1];
 typedef char NanoGrow_m_2c8[offsetof(TObjEneNanoDrago, m_2c8) == 0x2c8 ? 1 : -1];
 typedef char NanoGrow_m_2fc[offsetof(TObjEneNanoDrago, m_2fc) == 0x2fc ? 1 : -1];
@@ -666,29 +666,29 @@ void TObjEneNanoDrago::update_growth_state() {
             p->growth_count++;
             p->m_b8 = 5;
             p->state = 1;
-            p->target_scale = 0.1f + p->scale;
+            p->scale.y = 0.1f + p->scale.x;
             spawn_particle_effect(&p->m_2fc, 0xFA);
-            p->speed = (*(NanoDragoMovementParams * *)&p->movementParameters)->base_speed * p->scale;
+            p->speed = (*(NanoDragoMovementParams * *)&p->movementParameters)->base_speed * p->scale.x;
             play_sound_effect(0x4003A824, (NanoDragoVector *)&p->position, 0, 0);
             p->m_2c8 += 8;
             p->m_2c0 += 8;
         } else {
-            p->target_scale = p->scale;
+            p->scale.y = p->scale.x;
             p->state = -1;
         }
     case 1:
         advance_animation_playback(p);
         apply_actor_gravity(p, 0, 0.0f);
         ((TObjPlayer *)p)->update_collisions();
-        t = p->target_scale;
-        v = 0.0016000001f + p->scale;
-        p->scale = (v < t) ? v : t;
+        t = p->scale.y;
+        v = 0.0016000001f + p->scale.x;
+        p->scale.x = (v < t) ? v : t;
         if (p->m_b8 != 5) {
             (p->state) = -1;
         }
         break;
     case -1:
-        p->scale = p->target_scale;
+        p->scale.x = p->scale.y;
         (p->m_388) &= 0xFFFDFFFE;
         (p->next_action) = 1;
         break;
@@ -1577,7 +1577,7 @@ void render_enemy_with_fade__10TObjPlayerFPv(u8 *arg0) {
         push_matrix();
         translate_matrix(0, (f32) (*(f32 *)((s8 *)arg0 + 0x38)), (f32) (((TObjEneNanoDrago *)arg0)->m_404 + (*(f32 *)((s8 *)arg0 + 0x3C) + *(f32 *)((s8 *)arg0 + 0x3E4))), (f32) (*(f32 *)((s8 *)arg0 + 0x40)));
         rotate_matrix_y(0, (int) (((TObjEneNanoDrago *)arg0)->rotation_y));
-        temp_f1 = ((TObjEneNanoDrago *)arg0)->scale;
+        temp_f1 = ((TObjEneNanoDrago *)arg0)->scale.x;
         scale_matrix(0, temp_f1, temp_f1, temp_f1);
         model_render_flags &= 0xFFFFFBFF;
         if (TObjPlayer::check_demo_mode() == 1) {
@@ -1603,7 +1603,7 @@ void render_enemy_with_fade__10TObjPlayerFPv(u8 *arg0) {
         restore_scene_lighting();
         TParticleCtrl::end_effect_render();
         if (!(((TObjEneNanoDrago *)arg0)->actorFlags & 0x800) && (var_r28 != 0)) {
-            temp_f0 = -(0.01f * ((TObjEneNanoDrago *)arg0)->m_404 - 1.0f) * (5.0f * ((TObjEneNanoDrago *)arg0)->scale);
+            temp_f0 = -(0.01f * ((TObjEneNanoDrago *)arg0)->m_404 - 1.0f) * (5.0f * ((TObjEneNanoDrago *)arg0)->scale.x);
             v.z = temp_f0;
             v.y = temp_f0;
             v.x = temp_f0;
@@ -1709,7 +1709,7 @@ void TObjEneNanoDrago::run_task() {
         temp_r3_4 = (unsigned char *) (((TObjEneNanoDrago *)arg0)->m_a4);
         *(s32 *)((s8 *)temp_r3_4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3_4 + 0x18) | 2);
     }
-    if (xz_distance_squared((Vec *)&this->position, (Vec *)&this->m_44) > 2500.0f) {
+    if (xz_distance_squared((Vec *)&this->position, &this->prev_position) > 2500.0f) {
         VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg0 + 0x44));
     }
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(arg0 + 0x38));
@@ -1806,8 +1806,8 @@ u8 *TObjEneNanoDrago__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     ((TObjEnemy *)arg0)->update_prev_position();
     initialize_enemy_photon_effect(arg0);
     ((TObjEneNanoDrago *)arg0)->growth_count = 0;
-    ((TObjEneNanoDrago *)arg0)->scale = 0.6f;
-    ((TObjEneNanoDrago *)arg0)->speed = *(f32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->movementParameters) + 4) * ((TObjEneNanoDrago *)arg0)->scale;
+    ((TObjEneNanoDrago *)arg0)->scale.x = 0.6f;
+    ((TObjEneNanoDrago *)arg0)->speed = *(f32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->movementParameters) + 4) * ((TObjEneNanoDrago *)arg0)->scale.x;
     VecCopy((Vec *)(arg0 + 0x50), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x390), (const Vec *)(arg0 + 0x38));
     if ((s32)*(f32 *)((s8 *)arg0 + 0x354) == 1) {

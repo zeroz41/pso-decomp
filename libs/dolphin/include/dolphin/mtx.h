@@ -2,6 +2,7 @@
 #define MTX_H
 
 #include "types.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -10,22 +11,6 @@ extern "C" {
 #define MTX_PS
 
 #define MTXDegToRad(a) ((a) * 0.01745329252f)
-
-typedef struct Vec {
-	f32 x, y, z;
-} Vec, *VecPtr, Point3d, *Point3dPtr;
-
-typedef f32 Mtx34[3][4];
-typedef f32 Mtx23[2][3];
-typedef f32 Mtx33[3][3];
-typedef f32 Mtx44[4][4];
-typedef f32 (*MtxP)[4];
-typedef f32 PSQuaternion[4];
-typedef Mtx34 GC_Mtx;
-
-typedef struct Quaternion {
-    f32 x, y, z, w;
-} Quaternion;
 
 void PSMTXIdentity(GC_Mtx mtx);
 void PSMTXCopy(const GC_Mtx src, GC_Mtx dest);

@@ -92,7 +92,7 @@ void TUnk_80484AFC::run_task() {
         vec3_add_to(&velocity, &steer);
         vec_set_length((Vec *)&velocity, TBoss3VoloptP02::get_float_param(0));
     }
-    VecCopy((Vec *)&m_44, (Vec *)position);
+    VecCopy(&prev_position, (Vec *)position);
     vec3_add_to((Vec *)position, &velocity);
     direction_to_rotation_xy((u8 *)&velocity, &rotation_x, &rotation_y);
     if (trail != NULL) {
@@ -107,7 +107,7 @@ void TUnk_80484AFC::run_task() {
         vec3_add_to(&back, (Vec *)position);
         ((TNowLoading *)trail)->copy_pos(&back);
     }
-    if (csnVector((Vec *)&m_44, (Vec *)position, -1) != 0) {
+    if (csnVector(&prev_position, (Vec *)position, -1) != 0) {
         explode_and_destroy();
         return;
     }

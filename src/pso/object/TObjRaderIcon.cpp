@@ -62,20 +62,20 @@ void TObjRaderIcon::initialize_from_placement() {
     *(s32 *)&this->m_98 = 0;
     *(f32 *)&this->_pad9C = 1.0f;
     *(s32 *)&this->m_a0 = 0;
-    *(s32 *)&this->m_90 = (s32) this->m_84;
+    *(s32 *)&this->m_90 = (s32) this->set_params[0];
     if ((s32) *(s32 *)&this->m_90 < 0) {
         *(s32 *)&this->m_90 = 0;
     }
     if ((s32) *(s32 *)&this->m_90 > 1) {
         *(s32 *)&this->m_90 = 1;
     }
-    *(f32 *)&this->_pad9C = (f32) this->scale;
+    *(f32 *)&this->_pad9C = (f32) this->scale.x;
     if (*(f32 *)&this->_pad9C < 0.0f) {
         *(f32 *)&this->_pad9C = 0.0f;
     }
-    *(s32 *)&this->m_a0 = (s32) *(s32 *)&this->m_8c;
-    *(s32 *)&this->m_94 = (s32) (u16) ((s32) *(s32 *)&this->m_88 >> 0x10);
-    *(s32 *)&this->m_98 = (s32) (u16) *(s32 *)&this->m_88;
+    *(s32 *)&this->m_a0 = (s32) *(s32 *)&this->set_params[2];
+    *(s32 *)&this->m_94 = (s32) (u16) ((s32) *(s32 *)&this->set_params[1] >> 0x10);
+    *(s32 *)&this->m_98 = (s32) (u16) *(s32 *)&this->set_params[1];
     if ((s32) *(s32 *)&this->m_94 < 0) {
         *(s32 *)&this->m_94 = 0;
     }

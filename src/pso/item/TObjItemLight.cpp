@@ -64,7 +64,7 @@ u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)item_light + 0) = (s32) TObjItemLight__class_name;
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
-    *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale;
+    *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;
     if (*(f32 *)((s8 *)item_light + 0x90) < lbl_805DBE40) {
         *(f32 *)((s8 *)item_light + 0x90) = (f32) lbl_805DBE44;
     }

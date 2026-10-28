@@ -98,7 +98,7 @@ typedef char RecoveredFields_8017CCA4_arg0_E8_offset[offsetof(RecoveredFields_80
 void TObjGoalWarpAncient::debug_print_area_num() {
     debug_print_area_num__12TObjAreaWarpFv();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    if ((s32) this->m_8c < 0) {
+    if ((s32) this->set_params[2] < 0) {
         *(s32 *)((s8 *)this + 0xD8) = TObjGoalWarpAncient::get_instance();
         debug_printf_at(0x130022, lbl_80443288);
     } else {
@@ -169,7 +169,7 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s3
     goal_warp_ancient->m_e8 = TObjGoalWarpAncient__sub_8017D2D4(1);
     *(s32 *)((s8 *)goal_warp_ancient + 0xD0) = TObjGoalWarpAncient__sub_8017D2D4(3);
     *(s32 *)((s8 *)goal_warp_ancient + 0xD4) = TObjGoalWarpAncient__sub_8017D2D4(5);
-    if ((s32) goal_warp_ancient->m_8c < 0) {
+    if ((s32) goal_warp_ancient->set_params[2] < 0) {
         *(s32 *)((s8 *)goal_warp_ancient + 0xD8) = TObjGoalWarpAncient::get_instance();
     } else {
         *(s32 *)((s8 *)goal_warp_ancient + 0xD8) = register_warp_object__19TObjGoalWarpAncientFPv(1);
@@ -178,7 +178,7 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s3
     *(s32 *)((s8 *)goal_warp_ancient + 0xE0) = register_warp_object__19TObjGoalWarpAncientFPv(5);
     *(s32 *)((s8 *)goal_warp_ancient + 0xE4) = register_warp__19TObjGoalWarpAncientFPv(0);
     *(s32 *)((s8 *)goal_warp_ancient + 0xE8) = register_warp__19TObjGoalWarpAncientFPv(2);
-    if ((get_game_play_mode() == 1) && ((s32) goal_warp_ancient->m_8c >= 0)) {
+    if ((get_game_play_mode() == 1) && ((s32) goal_warp_ancient->set_params[2] >= 0)) {
         queue_destruction__7TObjectFv(goal_warp_ancient);
     }
     if (is_split_screen() == 1) {

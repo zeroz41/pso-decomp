@@ -147,7 +147,7 @@ u8 *TOFenceAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
 
 s32 TUnk_804B1B80::sub_80166E64() {
     s32 temp_r0;
-    this->m_cc = (s32) this->m_84;
+    this->m_cc = (s32) this->set_params[0];
     temp_r0 = this->m_cc;
     if (temp_r0 > 0x100) {
         *(s32 *)&this->unk_C8 = 0;
@@ -161,7 +161,7 @@ s32 TUnk_804B1B80::sub_80166E64() {
 
 s32 TUnk_804B1B80::sub_80166EA8(int _w1) {
     s32 temp_r0;
-    this->m_d4 = (s32) this->m_88;
+    this->m_d4 = (s32) this->set_params[1];
     temp_r0 = this->m_d4;
     if (temp_r0 < 0) {
         this->m_d4 = 0;

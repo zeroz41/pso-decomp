@@ -52,7 +52,7 @@ void *__nw__7TObjectFUl(int);
 void TOLightMachine01::run_task() {
     this->m_a8 = (s32) (this->m_a8 + this->m_a4);
     this->m_9c = (f32) (*(f32 *)&this->unk_98 * sin_table_lookup(*(s32 *)&this->m_a8));
-    this->m_ac = (s32) (this->m_ac + this->m_8c);
+    this->m_ac = (s32) (this->m_ac + this->set_params[2]);
 }
 
 extern const f32 lbl_805DB828;
@@ -128,7 +128,7 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     *(f32 *)((s8 *)light_machine01 + 0x90) = (f32) lbl_805DB82C;
     light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
-    *(f32 *)((s8 *)light_machine01 + 0xA0) = (f32) ((lbl_805DB834 * (f32) light_machine01->m_84) + lbl_805DB830);
+    *(f32 *)((s8 *)light_machine01 + 0xA0) = (f32) ((lbl_805DB834 * (f32) light_machine01->set_params[0]) + lbl_805DB830);
     light_machine01->m_a4 = (s32) (lbl_805DB838 * (lbl_805DB83C / (lbl_805DB840 / *(f32 *)((s8 *)light_machine01 + 0xA0))));
     light_machine01->m_a8 = (s32) (lbl_805DB838 * (lbl_805DB83C * (lbl_805DB844 * (f32) rand())));
     *(f32 *)((s8 *)light_machine01 + 0x98) = (f32) ((lbl_805DB834 * (f32) *(s32 *)((s8 *)light_machine01 + 0x88)) + lbl_805DB848);

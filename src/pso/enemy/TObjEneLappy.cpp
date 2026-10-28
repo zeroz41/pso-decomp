@@ -428,7 +428,7 @@ s32 TObjEneLappy::advance_flee_step() {
     s32 var_r31;
     s32 var_r30;
     s32 var_r29;
-    VecCopy((Vec *)((LappyVec *)&arg0->m_44), (const Vec *)&arg0->position);
+    VecCopy((Vec *)((LappyVec *)&arg0->prev_position), (const Vec *)&arg0->position);
     VecCopy((Vec *)&sp20, (const Vec *)((LappyVec *)&arg0->m_2fc));
     vec3_add_to(&sp20, (LappyVec *)&arg0->unk_308);
     if (arg0->is_actor_cadence_frame(0x1E) != 0) {
@@ -456,7 +456,7 @@ loop_7:
         if (((s32)project_actor_to_ground(arg0, &sp8, 0)) == 1) {
             VecCopy((Vec *)&arg0->position, (const Vec *)&sp8);
             VecCopy((Vec *)((LappyVec *)&arg0->unk_308), (const Vec *)&arg0->position);
-            subtract_vector((LappyVec *)&arg0->unk_308, (LappyVec *)&arg0->m_44);
+            subtract_vector((LappyVec *)&arg0->unk_308, (LappyVec *)&arg0->prev_position);
             return 1;
         }
         var_r29 += 1;
@@ -469,7 +469,7 @@ loop_7:
     if (((s32)project_actor_to_ground(arg0, &sp20, 0)) == 1) {
         VecCopy((Vec *)((LappyVec *)&arg0->position), (const Vec *)&sp20);
         VecCopy((Vec *)((LappyVec *)&arg0->unk_308), (const Vec *)((LappyVec *)&arg0->position));
-        subtract_vector((LappyVec *)&arg0->unk_308, (LappyVec *)&arg0->m_44);
+        subtract_vector((LappyVec *)&arg0->unk_308, (LappyVec *)&arg0->prev_position);
         return 1;
     }
     return 0;

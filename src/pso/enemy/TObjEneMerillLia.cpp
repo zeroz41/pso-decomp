@@ -1468,7 +1468,7 @@ void TObjEneMerillLia::beast_update_approach() {
         if (*(u32 *)&this->target != 0U) {
             if (test_elt_flag__13TUnk_80493450Fll(arg0, 0, 0x300000) != 0) {
                 if (this->m_38c++ < lbl_805DA31C) {
-                    VecCopy((Vec *)&sp14, (const Vec *)&this->m_50);
+                    VecCopy((Vec *)&sp14, &this->home_position);
                 } else {
                     VecCopy((Vec *)&sp14, (const Vec *)(*(u32 *)&this->target + 0x2FC));
                 }

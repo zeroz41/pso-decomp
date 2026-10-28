@@ -71,7 +71,7 @@ typedef char RecoveredGlobal_80153084_lbl_804AF7B0_size[sizeof(RecoveredGlobal_8
 u8 *TObjFogCollisionPoison::init_base(u8 *arg1, s16 arg2) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80153084_lbl_804AF7B0 *)&__vt__13TUnk_804AF7B0).value;
-    *(s16 *)&this->m_28 = arg2;
+    *(s16 *)&this->room = arg2;
     *(s32 *)&this->entity_id = 0x96;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
     this->texture_id = 0;
@@ -162,12 +162,12 @@ u8 *TObjFogCollisionPoison::construct_with_index(u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &lbl_804AF7C8.value;
     *(s32 *)&this->m_name = (s32) lbl_805D2E84;
-    *(s32 *)&this->m_28 = arg2;
-    *(s32 *)((s8 *)&TObjFogCollisionPoison__instances.value + (*(s32 *)&this->m_28 * 4)) = (long) (this);
+    *(s32 *)&this->room = arg2;
+    *(s32 *)((s8 *)&TObjFogCollisionPoison__instances.value + (*(s32 *)&this->room * 4)) = (long) (this);
     *(s32 *)&this->entity_id = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
     this->texture_id = 1;
-    *(s32 *)&this->m_2c = 1;
+    *(s32 *)&this->set_index = 1;
     return ((u8 *)this);
 }
 
@@ -210,7 +210,7 @@ u8 TObjFogCollisionPoison::check_switch() {
     s32 temp_r31;
 
     temp_r31 = sub_80153A0C__22TObjFogCollisionSwitchFv();
-    return (u8) (temp_r31 == is_current_floor_switch_set((u16) this->m_8c));
+    return (u8) (temp_r31 == is_current_floor_switch_set((u16) this->set_params[2]));
 }
 
 void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
@@ -227,7 +227,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
 }
 
 void TObjFogCollisionPoison::record_poison_hit(u16 arg1) {
-    record_fog_collision_hit(arg1, this->m_84, (s32)((int) ((u8) (this->m_88 == 0))));
+    record_fog_collision_hit(arg1, this->set_params[0], (s32)((int) ((u8) (this->set_params[1] == 0))));
 }
 void TObjFogCollisionPoison__sub_80153520(s32 arg0) {
     switch (get_current_area()) {

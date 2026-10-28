@@ -133,12 +133,12 @@ u8 *TEffStarLight2D_Base__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__13TUnk_804B9870FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80084DD4_lbl_8048E640 *)&lbl_8048E640).value;
     ((TUnk_8048E640 *)(arg0))->apply_object_set_data((void *)arg2);
-    stack.sp8 = ((TUnk_8048E640 *)arg0)->scale;
-    stack.spC = ((TUnk_8048E640 *)arg0)->target_scale;
+    stack.sp8 = ((TUnk_8048E640 *)arg0)->scale.x;
+    stack.spC = ((TUnk_8048E640 *)arg0)->scale.y;
     stack.sp10 = (s8) *(f32 *)((s8 *)arg0 + 0x70);
-    stack.sp11 = (s8) ((TUnk_8048E640 *)arg0)->m_84;
+    stack.sp11 = (s8) ((TUnk_8048E640 *)arg0)->set_params[0];
     stack.sp12 = (s8) *(s32 *)((s8 *)arg0 + 0x88);
-    temp_r4 = ((TUnk_8048E640 *)arg0)->m_8c;
+    temp_r4 = ((TUnk_8048E640 *)arg0)->set_params[2];
     stack.sp13 = (s8) temp_r4;
     stack.sp14 = 0;
     eff_star_light2_d = (u8 *)(((u8 *)__nw__7TObjectFUl(0x4C, temp_r4)));

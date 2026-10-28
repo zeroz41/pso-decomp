@@ -252,7 +252,7 @@ s32 update_battle_control_if_unlocked__10TObjPlayerFv();
 
 void *TObjPlayer::reset_field28() {
     TObjPlayer__sub_802E451C();
-    this->m_28 = 0;
+    *(s32 *)&this->room = 0;
     return this;
 }
 

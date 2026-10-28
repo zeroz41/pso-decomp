@@ -52,13 +52,13 @@ s32 TObjEnvSoundGlobal::setup_sound() {
     var_r31 = 1;
     temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (get_current_area() * 4));
     if (temp_r4 != 0U) {
-        copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->m_84 * 8))));
+        copy_pair__18TObjEnvSoundGlobalFPvPv((u8 *)&this->m_94, (void*)((int) (temp_r4 + (this->set_params[0] * 8))));
     } else {
         var_r31 = 0;
         this->m_94 = -1;
         this->m_98 = -1;
     }
-    *(f32 *)&this->unk_90 = (f32) *(s32 *)&this->m_88;
+    *(f32 *)&this->unk_90 = (f32) *(s32 *)&this->set_params[1];
     if (*(f32 *)&this->unk_90 < (-127.0f)) {
         *(f32 *)&this->unk_90 = (f32) (-127.0f);
     }
@@ -138,18 +138,18 @@ s32 TObjEnvSoundEx::init_sound_params() {
     var_r31 = 1;
     temp_r4 = *(s32 *)((s8 *)&environment_sound_tables_by_area.value + (get_current_area() * 4));
     if (temp_r4 != 0U) {
-        ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(arg0 + 0x9C, (int) (temp_r4 + (this->m_84 * 8)));
+        ((s32 (*)(void *, int))copy_pair__18TObjEnvSoundGlobalFPvPv)(arg0 + 0x9C, (int) (temp_r4 + (this->set_params[0] * 8)));
     } else {
         var_r31 = 0;
         this->m_9c = -1;
         this->m_a0 = -1;
     }
-    this->m_98 = fabs_float(this->target_scale);
-    *(f32 *)&this->unk_A4 = (f32) *(f32 *)&this->m_70;
+    this->m_98 = fabs_float(this->scale.y);
+    *(f32 *)&this->unk_A4 = (f32) this->scale.z;
     if (*(f32 *)&this->unk_A4 <= 0.0f) {
         *(f32 *)&this->unk_A4 = (f32) 2e+02f;
     }
-    this->m_90 = (s32) this->m_88;
+    this->m_90 = (s32) this->set_params[1];
     if ((s32) this->m_90 < -0x7F) {
         this->m_90 = -0x7F;
     }

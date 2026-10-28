@@ -193,7 +193,7 @@ void TObjLazerFenceNorm::select_models() {
     s32 i;
     Node_80192A3C *node;
     s32 j;
-    if (*(s32 *)&this->m_8c % 2 == 0) {
+    if (*(s32 *)&this->set_params[2] % 2 == 0) {
         *(Node_80192A3C * *)&this->m_bc = get_bml_model(lazer_fence_norm_bml_resource, 1);
         arg0->fC0 = get_bml_model(lazer_fence_norm_bml_resource, 0);
         this->m_c4 = get_bml_motion(lazer_fence_norm_bml_resource, 0);
@@ -363,16 +363,16 @@ u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *lazer_fence_norm, s32 arg1, s32 a
     ((TObjLazerFenceNorm *)(lazer_fence_norm))->apply_object_set_data((void *)arg2);
     lazer_fence_norm->m_b4 = 0;
     *(f32 *)((s8 *)lazer_fence_norm + 0xB8) = lbl_805DBE58[0];
-    lazer_fence_norm->m_ac = (s32) lazer_fence_norm->scale;
+    lazer_fence_norm->m_ac = (s32) lazer_fence_norm->scale.x;
     if ((s32) lazer_fence_norm->m_ac < 0) {
         lazer_fence_norm->m_ac = 0;
     }
     if ((s32) lazer_fence_norm->m_ac > 3) {
         lazer_fence_norm->m_ac = 3;
     }
-    lazer_fence_norm->m_b0 = (s16) lazer_fence_norm->m_84;
+    lazer_fence_norm->m_b0 = (s16) lazer_fence_norm->set_params[0];
     lazer_fence_norm->select_models();
-    temp_r4 = lazer_fence_norm->m_8c;
+    temp_r4 = lazer_fence_norm->set_params[2];
     temp_r6 = temp_r4 >> 0x1FU;
     init_collision_body_parts(lazer_fence_norm, (void *) ((u8 *)laser_fence_collision_body_parts + ((((temp_r4 & 1) ^ temp_r6) - temp_r6) * 0x84)), 3);
     lazer_fence_norm->actorFlags = (s32) (lazer_fence_norm->actorFlags | 0x40000000);

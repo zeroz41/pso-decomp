@@ -56,7 +56,7 @@ void TODoorCave01::send_state(void *src_arg) {
     } else {
         ((TUnk_804AF8A0 *)self)->access_object_saved_state((void *)((s32)&st), (s16)1);
     }
-    obj = *(Obj_80161320 * *)&this->m_80;
+    obj = *(Obj_80161320 * *)&this->set_entry;
     if (obj != 0) {
         Pkt_80161320 pkt;
         ((TOBarrierEnergy01 *)(&pkt))->init();
@@ -76,13 +76,13 @@ void TODoorCave01::vfunc_6(s16 *arg1, s32) {
 s32 TODoorCave01::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->m_84;
+    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
     temp_r0 = *(s32 *)&this->unk_C8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
         this->m_cc = 1;
-    } else if ((s32) this->m_8c < 0) {
+    } else if ((s32) this->set_params[2] < 0) {
         if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
             this->m_cc = 3;
         } else {

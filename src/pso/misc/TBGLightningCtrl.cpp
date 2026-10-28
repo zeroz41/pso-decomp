@@ -99,9 +99,9 @@ void TBGLightningCtrl::spawn_lightning_at_angle(s32 arg1) {
     typedef char sp10_offset[(offsetof(Stack_802A9A2C, sp10) == 0x8) ? 1 : -1];
     Stack_802A9A2C stack;
 
-    stack.sp8 = this->scale * sin_table_lookup(arg1);
-    stack.spC = this->target_scale;
-    stack.sp10 = this->scale * cos_table_lookup(arg1);
+    stack.sp8 = this->scale.x * sin_table_lookup(arg1);
+    stack.spC = this->scale.y;
+    stack.sp10 = this->scale.x * cos_table_lookup(arg1);
     ((s32 (*)(s32, s32, f32))create__12TBGLightningFiif)((s32) this, (s32) &stack.sp8, *(f32 *)((s8 *)this + 0x70) * (((0.3f) * ((3.0517578e-05f) * (f32) rand())) + (1.0f)));
 }
 #pragma pop
@@ -121,7 +121,7 @@ void TBGLightningCtrl::run_task() {
         temp_f2 = (f32) ((int (*)(void))rand)();
         temp_f1 = (3.0517578e-05f) * temp_f2;
         ((void (*)(void *, s32, f32, f32))spawn_lightning_at_angle__16TBGLightningCtrlFl)(this, (s32) ((65536.0f) * temp_f1), temp_f1, temp_f2);
-        this->m_90 = (s32) (((f32) *(s32 *)((s8 *)this + 0x88) * ((3.0517578e-05f) * (f32) ((int (*)(void))rand)())) + (f32) this->m_84);
+        this->m_90 = (s32) (((f32) *(s32 *)((s8 *)this + 0x88) * ((3.0517578e-05f) * (f32) ((int (*)(void))rand)())) + (f32) this->set_params[0]);
     }
 }
 #pragma pop

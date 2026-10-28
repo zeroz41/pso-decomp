@@ -1064,7 +1064,7 @@ void TObjPlayer::update_synced_state() {
     run_synced_state_handler();
     ((TObjEneDubchik *)arg0)->sub_800AB068();
     ((TObjEnemy *)arg0)->update_prev_position();
-    VecCopy((Vec *)&this->m_74, (const Vec *)&this->m_2fc);
+    VecCopy(&this->center, (const Vec *)&this->m_2fc);
     if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x04000000) == 0) {
         submit_cursor_candidate(arg0, -1);
     }

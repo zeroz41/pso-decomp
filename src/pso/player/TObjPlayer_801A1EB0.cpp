@@ -14,7 +14,6 @@ struct Vec_801A1F48 { f32 x, y, z; };
 
 struct Src_801A1F48 { u8 pad[4]; u16 id; u8 pad6[2]; s16 kind; u8 padA[2]; Vec_801A1F48 pos; Vec_801A1F48 rot; Vec_801A1F48 v24; s32 vals[3]; };
 
-struct Dst_801A1F48 { u8 pad[0x1C]; u16 id; u8 pad1e[0xA]; s16 kind; u8 pad2a[0xE]; Vec_801A1F48 pos; Vec_801A1F48 v44; Vec_801A1F48 pos2; Vec_801A1F48 rot; Vec_801A1F48 v68; u8 pad74[0x10]; s32 vals[3]; };
 
 
 extern u16 lbl_805D5CD4;
@@ -31,24 +30,23 @@ s16 TUnk_804B9870::get_stat_by_key_state() {
     if ((u16) this->entity_id < 0x1000U) {
         global_state = get_current_area();
         if (((global_state - 1) <= 1U) || (TContainerAncient01::is_global_state_in_table() != 0) || (global_state == 0xC) || (global_state == 0x20)) {
-            return *(s16 *)&(*(short *)((u8 *)this + 0x2E));
+            return alt_room;
         }
-        return *(s16 *)&this->m_28;
+        return room;
     }
-    return *(s16 *)&this->m_28;
+    return room;
 }
 
 void TUnk_804B9870::apply_object_set_data(void *src_arg) {
-    Dst_801A1F48 *self = (Dst_801A1F48 *)this;
     Src_801A1F48 *src = (Src_801A1F48 *)src_arg;
     s32 i;
-    self->id = src->id;
-    VecCopy((Vec *)&self->pos2, (const Vec *)(VecCopy((Vec *)((Vec *)&self->pos), (const Vec *)((const Vec *)&src->pos))));
-    ((TObjPlayer *)(&self->rot))->copy_xyz(&src->rot);
-    VecCopy((Vec *)&self->v68, (const Vec *)&src->v24);
-    self->kind = src->kind;
+    entity_id = src->id;
+    VecCopy(&home_position, VecCopy((Vec *)position, (const Vec *)&src->pos));
+    ((TObjPlayer *)&rotation_x)->copy_xyz(&src->rot);
+    VecCopy(&scale, (const Vec *)&src->v24);
+    room = src->kind;
     for (i = 0; i < 3; i++) {
-        self->vals[i] = src->vals[i];
+        set_params[i] = src->vals[i];
     }
 }
 

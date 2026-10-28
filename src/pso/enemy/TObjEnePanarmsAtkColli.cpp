@@ -495,7 +495,7 @@ void TObjEnePanarmsAtkColli::run_task() {
         queue_destruction__7TObjectFv((arg0));
         return;
     }
-    VecCopy((Vec *)&this->m_44, (const Vec *)&this->position);
+    VecCopy(&this->prev_position, (const Vec *)&this->position);
     vec3_add_to((u8 *)&this->position, (u8 *)&this->unk_308);
     *(f32 *)&this->unk_378 = (f32) (*(f32 *)&this->unk_378 + this->m_37c);
     switch (*(s32 *)&this->m_374) {

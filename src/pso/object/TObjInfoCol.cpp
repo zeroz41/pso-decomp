@@ -64,7 +64,7 @@ u8 *TObjInfoCol__ct(u8 *info_col, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)info_col + 0x18) = &(*(RecoveredGlobal_80191EC0___vt__11TObjInfoCol *)&__vt__11TObjInfoCol).value;
     *(s32 *)((s8 *)info_col + 0) = (s32) TObjInfoCol__class_name;
     ((TObjInfoCol *)(info_col))->apply_object_set_data((void *)arg2);
-    ((TObjInfoCol *)info_col)->interaction_radius = (f32) ((TObjInfoCol *)info_col)->scale;
+    ((TObjInfoCol *)info_col)->interaction_radius = (f32) ((TObjInfoCol *)info_col)->scale.x;
     return info_col;
 }
 

@@ -107,23 +107,23 @@ void TOSwitchAttack::init_params() {
     f32 temp_f0;
 
     this->m_a7 = (u8) this->rotation_x;
-    temp_f0 = this->scale;
+    temp_f0 = this->scale.x;
     this->m_94 = (f32) (temp_f0 * temp_f0);
-    *(f32 *)&this->unk_98 = (f32) (this->target_scale * (2.0f * (game_difficulty_selection + 1)));
-    *(f32 *)&this->unk_90 = (f32) *(f32 *)&this->m_70;
+    *(f32 *)&this->unk_98 = (f32) (this->scale.y * (2.0f * (game_difficulty_selection + 1)));
+    *(f32 *)&this->unk_90 = (f32) this->scale.z;
     if ((u8) this->m_a7 >= 0x15U) {
         this->m_a7 = 0U;
     }
     this->m_9c = 0;
-    this->m_a0 = (u16) this->m_84;
+    this->m_a0 = (u16) this->set_params[0];
     if ((u16) this->m_a0 >= 0x100U) {
         this->m_a0 = 0xFFFFU;
     }
-    this->m_a2 = (u16) this->m_88;
+    this->m_a2 = (u16) this->set_params[1];
     if ((u16) this->m_a2 >= 0x100U) {
         this->m_a2 = 0xFFFFU;
     }
-    this->m_a4 = (u16) this->m_8c;
+    this->m_a4 = (u16) this->set_params[2];
     if ((u16) this->m_a4 > 1U) {
         this->m_a4 = 1U;
     }

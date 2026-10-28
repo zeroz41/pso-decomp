@@ -2019,9 +2019,9 @@ void TObjEneGibbles::sub_802DA7A4() {
     case 3:
         ((TUnk_804B9870 *)((u8 *)this))->set_position_from((void *) (((u8 *)this) + 0x50));
         this->update_prev_position();
-        *(f32 *)&this->m_70 = (f32) TObjEneGibbles__data_805DE7EC;
-        this->target_scale = (f32) TObjEneGibbles__data_805DE7EC;
-        this->scale = (f32) TObjEneGibbles__data_805DE7EC;
+        this->scale.z = (f32) TObjEneGibbles__data_805DE7EC;
+        this->scale.y = (f32) TObjEneGibbles__data_805DE7EC;
+        this->scale.x = (f32) TObjEneGibbles__data_805DE7EC;
         this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
         this->m_374 = (s32) (this->m_374 | 1);
         break;
@@ -2603,7 +2603,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D3F60;
     ((TObjEneGibbles *)arg0)->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
-    ((TObjEneGibbles *)arg0)->scale = ((TObjEneGibbles *)arg0)->target_scale = *(f32 *)((s8 *)arg0 + 0x70) = TObjEneGibbles__data_805DE7EC;
+    ((TObjEneGibbles *)arg0)->scale.x = ((TObjEneGibbles *)arg0)->scale.y = *(f32 *)((s8 *)arg0 + 0x70) = TObjEneGibbles__data_805DE7EC;
     ((TObjEneGibbles *)arg0)->init_params();
     ((TObjEneGibbles *)arg0)->mode = 0;
     ((TObjEneGibbles *)arg0)->phase = 0;

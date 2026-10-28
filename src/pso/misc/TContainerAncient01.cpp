@@ -499,10 +499,10 @@ void TContainerAncient01R::check_open_trigger() {
 #pragma fp_contract on
 void TContainerAncient01::init_positions() {
     u8 *arg0 = (u8 *)this;
-    this->m_33c = (f32) (3e+02f + (this->scale - TContainerAncient01__data_805DBD10[0]));
-    *(f32 *)&this->unk_340 = (f32) (2.1e+02f + (this->target_scale - TContainerAncient01__data_805DBD10[0]));
-    this->m_344 = (f32) (4e+02f + (*(f32 *)&this->m_70 - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)((s8 *)arg0 + 0x370) = (s32) (*(s32 *)&this->m_8c + 4);
+    this->m_33c = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
+    *(f32 *)&this->unk_340 = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
+    this->m_344 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    *(s32 *)((s8 *)arg0 + 0x370) = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy((Vec *)&this->unk_348, (const Vec *)&this->position);
     this->m_34c = (f32) (this->m_34c + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
     VecCopy((Vec *)&this->m_354, (const Vec *)&this->unk_348);
@@ -551,7 +551,7 @@ f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
     s16 sp8;
     if ((u16) this->entity_id >= 0x1000U) {
         this->m_338 = (this->m_338 + 1);
-        if (((u32) this->m_80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+        if (((u32) this->set_entry != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = this->m_338;
             ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
             ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
@@ -818,10 +818,10 @@ void TContainerAncient01::update_wait_for_player() {
 }
 
 void TContainerAncient01::init_state_vectors() {
-    *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale - TContainerAncient01__data_805DBD10[0]));
-    this->m_33c = (f32) (2.1e+02f + (this->target_scale - TContainerAncient01__data_805DBD10[0]));
-    *(f32 *)&this->unk_340 = (f32) (4e+02f + (*(f32 *)&this->m_70 - TContainerAncient01__data_805DBD10[0]));
-    *(s32 *)&this->unk_36C = (s32) (*(s32 *)&this->m_8c + 4);
+    *(f32 *)&this->m_338 = (f32) (3e+02f + (this->scale.x - TContainerAncient01__data_805DBD10[0]));
+    this->m_33c = (f32) (2.1e+02f + (this->scale.y - TContainerAncient01__data_805DBD10[0]));
+    *(f32 *)&this->unk_340 = (f32) (4e+02f + (this->scale.z - TContainerAncient01__data_805DBD10[0]));
+    *(s32 *)&this->unk_36C = (s32) (*(s32 *)&this->set_params[2] + 4);
     VecCopy((Vec *)&this->m_344, (const Vec *)&this->position);
     *(f32 *)&this->unk_348 = (f32) (*(f32 *)&this->unk_348 + *(f32 *)((s8 *)&TContainerAncient01__collision_body_parts.value + 4));
     VecCopy((Vec *)&this->unk_350, (const Vec *)&this->m_344);
@@ -920,7 +920,7 @@ f32 TContainerAncient01::receive_physical_attack(void *, f32) {
 
     if ((u16) this->entity_id >= 0x1000U) {
         reset_state__19TContainerAncient01Fv();
-        if (((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+        if (((u32) this->set_entry != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = 1;
             access_object_saved_state(&sp8, 0);
             send_object_state_update(&sp8);

@@ -4,7 +4,7 @@
 s32 TUnk_804B0BB8::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->m_84;
+    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
     temp_r0 = *(s32 *)&this->unk_C8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;

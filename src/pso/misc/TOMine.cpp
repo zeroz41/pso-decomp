@@ -100,8 +100,8 @@ void TOMine::run_task() {
             VecCopy((Vec *)(*(s32 *)&this->m_a4 + 0x1C), (const Vec *)(arg0 + 0x334));
             return;
         case 3:
-            temp_r3 = this->m_8c;
-            this->m_8c = (temp_r3 - 1);
+            temp_r3 = this->set_params[2];
+            this->set_params[2] = (temp_r3 - 1);
             if (temp_r3 < 0) {
                 this->mode = 4;
             }

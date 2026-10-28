@@ -208,8 +208,8 @@ u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     ((TObjLight *)(light))->apply_object_set_data(arg2);
     light->m_90 = (s32) *(s16 *)((s8 *)arg2 + 8);
     *(f32 *)((s8 *)light + 0xF0) = (f32) 0.5f;
-    light->m_f4 = (f32) light->scale;
-    *(f32 *)((s8 *)light + 0xF8) = (f32) light->target_scale;
+    light->m_f4 = (f32) light->scale.x;
+    *(f32 *)((s8 *)light + 0xF8) = (f32) light->scale.y;
     light->m_fc = (f32) *(f32 *)((s8 *)light + 0x70);
     light->m_e4 = (f32) (0.0f);
     *(f32 *)((s8 *)light + 0xE8) = (f32) (0.0f);

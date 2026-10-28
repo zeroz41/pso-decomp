@@ -92,7 +92,7 @@ void TObjParticleLobby::setup_emitter() {
     s32 v;
     f32 f;
     flags = 0;
-    switch (*(u32 *)&this->m_84) {
+    switch (*(u32 *)&this->set_params[0]) {
     case 1:
         *(s32 *)&this->m_d0 = 1;
         break;
@@ -129,7 +129,7 @@ void TObjParticleLobby::setup_emitter() {
     } else {
         *(s32 *)&this->m_c8 = 0;
     }
-    v = (s32)this->scale;
+    v = (s32)this->scale.x;
     if (v < 0) {
         v = 0;
     }
@@ -139,39 +139,39 @@ void TObjParticleLobby::setup_emitter() {
     if (*(void * *)&this->m_d4 != NULL) {
         ((TBoss4Type2 *)(*(void * *)&this->m_d4))->set_param_ptr(v);
     }
-    f = *(f32 *)&this->m_70;
+    f = this->scale.z;
     if (f < 0.0f) {
         t = 0x2;
-        if (*(s32 *)&this->m_88 == 1) {
+        if (*(s32 *)&this->set_params[1] == 1) {
             t = 0x42;
         }
         flags = t;
-        if (*(s32 *)&this->m_8c == 1) {
+        if (*(s32 *)&this->set_params[2] == 1) {
             flags = t | 0x2000;
         }
     } else if ((s32)f == 2) {
         t = 0x8;
-        if (*(s32 *)&this->m_88 == 1) {
+        if (*(s32 *)&this->set_params[1] == 1) {
             t = 0x48;
         }
         flags = t;
-        if (*(s32 *)&this->m_8c == 1) {
+        if (*(s32 *)&this->set_params[2] == 1) {
             flags = t | 0x2000;
         }
     } else if ((s32)f == 3) {
         t = 0x4;
-        if (*(s32 *)&this->m_88 == 1) {
+        if (*(s32 *)&this->set_params[1] == 1) {
             t = 0x44;
         }
         flags = t;
-        if (*(s32 *)&this->m_8c == 1) {
+        if (*(s32 *)&this->set_params[2] == 1) {
             flags = t | 0x2000;
         }
     } else {
-        if (*(s32 *)&this->m_88 == 1) {
+        if (*(s32 *)&this->set_params[1] == 1) {
             flags = 0x40;
         }
-        if (*(s32 *)&this->m_8c == 1) {
+        if (*(s32 *)&this->set_params[2] == 1) {
             flags |= 0x2000;
         }
     }

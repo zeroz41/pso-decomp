@@ -811,7 +811,7 @@ void TObjMapWarp::process_player_warps() {
                     if (((TObjPlayer *)t)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t)->get_map_id()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &d->ends[j]) == 0) {
-                                send_6x55_intra_map_warp(get_entity_id(t), &d->ends[j], this->m_84);
+                                send_6x55_intra_map_warp(get_entity_id(t), &d->ends[j], this->set_params[0]);
                             }
                         }
                     }
@@ -840,7 +840,7 @@ void TObjMapWarp::process_player_warps() {
             if (((TObjPlayer *)t2)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t2)->get_map_id()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(((VObj_8019D250 *)this), t2, &d->ends[j2]) == 0) {
-                        send_6x55_intra_map_warp(get_entity_id(t2), &d->ends[j2], this->m_84);
+                        send_6x55_intra_map_warp(get_entity_id(t2), &d->ends[j2], this->set_params[0]);
                     }
                 }
             }
@@ -920,7 +920,7 @@ void *TObjAreaWarp__ct(void *area_warp, void *parent, void *set) {
     TObjWarpBase__ct((Warp_8019DAC0 *)area_warp, parent, set);
     *(s32 **)((s8 *)area_warp + 0x18) = __vt__12TObjAreaWarp;
     *(s32 *)((s8 *)area_warp + 0) = (s32) TObjAreaWarp__name;
-    *(s32 *)((s8 *)area_warp + 0xBC) = (s32) ((TObjAreaWarp *)area_warp)->m_84;
+    *(s32 *)((s8 *)area_warp + 0xBC) = (s32) ((TObjAreaWarp *)area_warp)->set_params[0];
     if ((s32) lobby_quest_progress_flag != 0) {
         *(s32 *)((s8 *)area_warp + 0xBC) = (s32) (get_current_floor() + 1);
     }
@@ -1088,10 +1088,10 @@ u8 *TObjAreaWarpForest__ct(u8 *area_warp_forest, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)area_warp_forest + 0) = (s32) TObjAreaWarpForest__name;
     ((TObjAreaWarpForest *)area_warp_forest)->m_c4 = (f32) 0.0f;
     *(s32 *)((s8 *)area_warp_forest + 0xC8) = 0;
-    temp_r0 = ((TObjAreaWarpForest *)area_warp_forest)->m_8c;
+    temp_r0 = ((TObjAreaWarpForest *)area_warp_forest)->set_params[2];
     temp_r3 = temp_r0 >> 0x1FU;
-    ((TObjAreaWarpForest *)area_warp_forest)->m_8c = (u32) (((temp_r0 & 1) ^ temp_r3) - temp_r3);
-    if ((get_game_play_mode(temp_r3) == 1) && ((s32) ((TObjAreaWarpForest *)area_warp_forest)->m_8c == 0)) {
+    ((TObjAreaWarpForest *)area_warp_forest)->set_params[2] = (u32) (((temp_r0 & 1) ^ temp_r3) - temp_r3);
+    if ((get_game_play_mode(temp_r3) == 1) && ((s32) ((TObjAreaWarpForest *)area_warp_forest)->set_params[2] == 0)) {
         ((s32 (*)(void *))queue_destruction__7TObjectFv)(area_warp_forest);
         return area_warp_forest;
     }
@@ -1145,7 +1145,7 @@ void TObjAreaWarpForest::render() {
         n = self->fD4->next2C;
         while (n != NULL) {
             if (n->f4 != 0) {
-                ((TObjDoorJung *)(n->f4))->free_children((void *)cols.c[this->m_8c]);
+                ((TObjDoorJung *)(n->f4))->free_children((void *)cols.c[this->set_params[2]]);
             }
             n = n->next2C;
         }
@@ -1341,9 +1341,9 @@ u8 *TObjAreaWarpEnding__ct(u8 *area_warp_ending, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)area_warp_ending + 0) = (s32) TObjAreaWarpEnding__name;
     ((TObjAreaWarpEnding *)area_warp_ending)->m_c4 = (f32) 0.0f;
     *(s32 *)((s8 *)area_warp_ending + 0xC8) = 0;
-    temp_r0 = ((TObjAreaWarpEnding *)area_warp_ending)->m_8c;
+    temp_r0 = ((TObjAreaWarpEnding *)area_warp_ending)->set_params[2];
     temp_r4 = temp_r0 >> 0x1FU;
-    ((TObjAreaWarpEnding *)area_warp_ending)->m_8c = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
+    ((TObjAreaWarpEnding *)area_warp_ending)->set_params[2] = (u32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
     *(s32 *)((s8 *)area_warp_ending + 0xCC) = register_warp__16TObjMapForceWarpFPv(0);
     *(s32 *)((s8 *)area_warp_ending + 0xD0) = register_warp__16TObjMapForceWarpFPv(1);
     *(s32 *)((s8 *)area_warp_ending + 0xD4) = register_area_warp_object__16TAdStorySelectGCFPv(0);
@@ -1487,7 +1487,7 @@ void *TObjMapForceWarp__ct(void *map_force_warp, void *parent, void *set) {
     TObjMapWarp__ct(map_force_warp, parent, set);
     *(s32 **)((s8 *)map_force_warp + 0x18) = __vt__16TObjMapForceWarp;
     *(s32 *)((s8 *)map_force_warp + 0) = (s32) TObjMapForceWarp__name;
-    if ((s32) ((TObjMapForceWarp *)map_force_warp)->m_8c > 0) {
+    if ((s32) ((TObjMapForceWarp *)map_force_warp)->set_params[2] > 0) {
         ((TObjMapForceWarp *)map_force_warp)->m_fc = 0;
     } else {
         ((TObjMapForceWarp *)map_force_warp)->m_fc = 1;
@@ -1692,12 +1692,12 @@ void *TObjAreaWarpEndingJung__ct(void *area_warp_ending_jung, void *parent, void
     TObjAreaWarpEnding__ct((u8 *)area_warp_ending_jung, (s32)parent, (s32)set);
     *(s32 **)((s8 *)area_warp_ending_jung + 0x18) = __vt__22TObjAreaWarpEndingJung;
     *(s32 *)((s8 *)area_warp_ending_jung + 0) = (s32) TObjAreaWarpEndingJung__name;
-    if ((s32) ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->m_8c < 0) {
-        ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->m_8c = 0;
+    if ((s32) ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->set_params[2] < 0) {
+        ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->set_params[2] = 0;
     }
-    temp_r0 = ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->m_8c;
+    temp_r0 = ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->set_params[2];
     temp_r4 = (u32) temp_r0 >> 0x1FU;
-    ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->m_8c = (s32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
+    ((TObjAreaWarpEndingJung *)area_warp_ending_jung)->set_params[2] = (s32) (((temp_r0 & 1) ^ temp_r4) - temp_r4);
     return area_warp_ending_jung;
 }
 
@@ -1730,7 +1730,7 @@ void TObjAreaWarpEndingJung::render() {
         if (TObjWarpJung::update_warp_display() != 0) {
             PPCSync();
         }
-        switch (this->m_8c) {
+        switch (this->set_params[2]) {
         case 0:
             TObjWarpJung__sub_801A0404(0);
             break;
