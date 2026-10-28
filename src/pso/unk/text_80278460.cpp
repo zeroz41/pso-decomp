@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/unk/text_80278460.h"
 #include "pso/misc/TWindowSubItem.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
@@ -7,7 +8,6 @@ struct Wn_80278460 { u8 pad0[0x20]; s16 f20; u8 pad22[0x54]; s16 f76; };
 
 extern "C" {
 s32 check_equip_requirements__5TItemFP10TObjPlayerPs(u32, void *, void *);
-u32 find_item_by_id();
 void *get_player_by_client_id(s32 i);
 u16 *get_array_entry__13TUnk_804CE018Fi(void *, s16);
 s32 is_flag_4_set__20TWindowSubStatusDispFv();
@@ -23,8 +23,7 @@ void mark_unequippable_items(Wn_80278460 *arg0) {
         for (i = 0; (s16)i < arg0->f76; i++) {
             e = get_array_entry__13TUnk_804CE018Fi(arg0, i);
             if (e != NULL && is_flag_4_set__20TWindowSubStatusDispFv() != 0 && ((TWindowSubStatusDisp *)e)->is_flag80_set() == 0) {
-                ((TWindowSubItem *)e)->get_cursor_pos();
-                if ((t = find_item_by_id()) != 0 && check_equip_requirements__5TItemFP10TObjPlayerPs(t, item, sp8) == 0) {
+                if ((t = (u32)find_item_by_id(((TWindowSubItem *)e)->get_cursor_pos())) != 0 && check_equip_requirements__5TItemFP10TObjPlayerPs(t, item, sp8) == 0) {
                     *e |= 0x80;
                 }
             }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/item/TItemEffNeedle_80109B5C.h"
 #include "pso/player/TObjPlayer_8010A050.h"
 #include "pso/system/vector.h"
@@ -13,7 +14,6 @@ extern s32 __vt__14TItemEffNeedle[];
 extern s32 TItemEffNeedle__class_name;
 s32 obj_getField1c(void *);
 s32 create_timed_particle_emitter(void *, s32, s32, s32, void *);
-s32 find_item_by_id();
 void *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 
@@ -37,13 +37,13 @@ void *__ct__14TItemEffNeedleFv(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg
 }
 #undef self
 
-void create_needle_effect(s32 arg0, void *arg1) {
+void create_needle_effect(s32 item_id, void *arg1) {
     void *var_r31;
     void *temp_r30;
     s32 temp_r29;
     void *temp_r7;
 
-    temp_r29 = find_item_by_id();
+    temp_r29 = (s32)find_item_by_id(item_id);
     var_r31 = __nw__7TObjectFUl(0x64);
     if (var_r31 != NULL) {
         temp_r30 = *(void **)((s8 *)arg1 + 0);

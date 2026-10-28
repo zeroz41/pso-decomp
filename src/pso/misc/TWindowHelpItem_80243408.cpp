@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TItem.h"
 #include "pso/misc/TWindowHelpItem_80243408.h"
 #include "pso/misc/TWindowSubStatusDisp_802598E4.h"
 #include "pso/misc/TWindowHelpItem.h"
@@ -44,7 +45,6 @@ extern const f32 lbl_805DCA3C;
 extern const f32 lbl_805DCA40;
 extern const f32 lbl_805DCA44;
 void draw_action_palette_icon(Icon_80243630 *icon, u16 group, u16 index);
-void *find_item_by_id();
 s32 fn_801B7CEC(void *player, s32 kind, u8 group, u8 index);
 }
 s32 get_palette_consumable_count(u16 slot, s32 client_id);
@@ -66,10 +66,11 @@ void TWindowHelpItem::set_help_text(s32 arg0, s32 arg1) {
 s32 get_help_value__15TWindowHelpItemFv(void) {
     struct VObj_80243464 *o;
 
-    if (((s32 (*)(void))get_palette_consumable_count)() == -1) {
+    s32 id = ((s32 (*)(void))get_palette_consumable_count)();
+    if (id == -1) {
         return 0;
     }
-    o = (struct VObj_80243464 *)find_item_by_id();
+    o = (struct VObj_80243464 *)find_item_by_id(id);
     if (o == NULL) {
         return 0;
     }

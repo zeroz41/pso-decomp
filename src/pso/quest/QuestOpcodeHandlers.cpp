@@ -600,8 +600,6 @@ struct Tbl_801E6CA4 { u32 w[18]; };
 
 extern "C" {
 void qst_op_olga_flow_is_dead(s32 arg0);
-namespace pf2_p3 { extern "C" { u32 find_item_by_id(int); } }
-#define find_item_by_id pf2_p3::find_item_by_id
 s32 TObjPlayer__sub_801C1AC8();
 void qst_op_get_guildcard_num(void);
 void TLobby__sub_80141038(u8 *arg0, s32 arg1, s32 arg2);
@@ -680,7 +678,6 @@ void qst_op_check_for_keyword(void) {
     qst_registers[(u8)idx] = 0;
 }
 
-#undef find_item_by_id
 #undef TLobby__quest_script_read_ptr
 
 extern s16 TLobby__quest_state_word_170;

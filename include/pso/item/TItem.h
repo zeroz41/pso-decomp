@@ -9,6 +9,7 @@
 
 struct TItemData;
 struct TObjPlayer;
+struct G_PickUpItem_6x59;
 
 // TItem::item_flags bits.
 enum {
@@ -210,10 +211,6 @@ extern "C" {
 // derived classes still written as C functions.
 void *__ct__5TItemFP7TObjectPUc(void *item, void *parent, void *data);
 void *__dt__5TItemFv(void *item, s16 deleting);
-TItem *find_item_by_id(s32 id);
-s32 consume_item_by_id(s32 id);
-s32 is_item_stackable(s32 type, s32 kind);
-void handle_6x59_pick_up_item(struct G_PickUpItem_6x59 *cmd);
 void TItem__sub_801031C0(void *tag);
 // Empty in this build; the debug build checked the data passed.
 void TItem__sub_80101CEC(void *data);
@@ -224,6 +221,10 @@ void TItem__sub_80101DB8(void *data);
 int TObjPlayer__sub_80100F34(void *unused);
 }
 
+TItem *find_item_by_id(s32 id);
+s32 consume_item_by_id(s32 id);
+s32 is_item_stackable(s32 type, s32 kind);
+void handle_6x59_pick_up_item(G_PickUpItem_6x59 *cmd);
 TItem *find_equipped_item(s32 id);
 void scroll_item_model_uvs(NJS_OBJECT *object, s16 du, s16 dv, u16 mesh);
 s32 feed_item_to_mag(TItem *mag, TItem *item);
