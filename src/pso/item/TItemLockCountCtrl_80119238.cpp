@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemEquipBase_80119060.h"
+#include "pso/unk/text_8011085C.h"
 #include "pso/item/TItemLockCountCtrl_80119238.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -11,12 +11,81 @@ struct VObj_801193D8 : Base_801193D8 {
     virtual void m0(s32);
 };
 
+// The lock-counted item effects (TItemLockCountCtrl objects), one per effect.
 extern VObj_801193D8 *item_effect_object_table[7];
 extern "C" {
 void *TItemLockCountCtrl__ct(void *, s32, s32, void (*)(int), void (*)(int));
 void *__nw__7TObjectFUl(u32);
 u32 get_player_by_client_id(u16);
 s32 obj_setFlags30(u32, s32);
+}
+
+// Releases client's hold on item effect `effect`; the last release stops it.
+void TItemLockCountCtrl::unlock_effect(u16 client, u32 effect) {
+    VObj_801193D8 *ctrl;
+    if ((client < 12) && (effect < 7)) {
+        ctrl = item_effect_object_table[effect];
+        if (ctrl != NULL) {
+            fn_8011085C((u8 *)ctrl, client);
+        }
+    }
+}
+
+// Takes a hold on item effect `effect` for client; the first hold starts it.
+void TItemLockCountCtrl::lock_effect(u16 client, u32 effect) {
+    VObj_801193D8 *ctrl;
+    if ((client < 12) && (effect < 7)) {
+        ctrl = item_effect_object_table[effect];
+        if (ctrl != NULL) {
+            fn_801108C8((u8 *)ctrl, client);
+        }
+    }
+}
+
+extern "C" {
+void TItemEquipBase__sub_80119100(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(0x20);
+    }
+}
+}
+
+void notify_stealth_enemies_10(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(0x10);
+    }
+}
+
+extern "C" {
+void TItemEquipBase__sub_80119168(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(8);
+    }
+}
+
+void TItemEquipBase__sub_8011919C(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(4);
+    }
+}
+
+void TItemEquipBase__sub_801191D0(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(2);
+    }
+}
+
+void fn_80119204(int arg0) {
+    u32 temp = get_player_by_client_id(arg0);
+    if (temp != 0U) {
+        ((TObjEneDD_ST *)temp)->sub_800F5864(1);
+    }
+}
 
 void TItemLockCountCtrl__sub_80119238(int arg0) {
     u32 temp = get_player_by_client_id(arg0);

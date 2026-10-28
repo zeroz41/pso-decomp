@@ -80,8 +80,6 @@ struct TItemEquipBase : public TItem {
     static void deduct_cap_excess(s32 item, s16 *stat, s16 excess);
     void reset();
     void request_item_model();
-    static void apply_equip_effect_slot(u16 client, u32 slot);
-    static void apply_equip_slot_effect(u16 client, u32 slot);
 
     EquipStatBonus stat_bonus;
     AttackParams attack_bonus;

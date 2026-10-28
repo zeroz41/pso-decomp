@@ -614,7 +614,6 @@ pso/item/TItemEffShield_8010A390.cpp
 pso/item/TItemEffectWeapon.cpp
 pso/item/TItemEffectWeapon_80115C24.cpp
 pso/item/TItemEquipBase.cpp
-pso/item/TItemEquipBase_80119060.cpp
 pso/item/TItemEquipBase_8022F1C0.cpp
 pso/item/TItemEquipVariant_80120CF8.cpp
 pso/item/TItemEquipVariant_80121278.cpp

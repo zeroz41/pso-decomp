@@ -17,6 +17,7 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/TItemLoad.h"
+#include "pso/TItemLockCountCtrl.h"
 
 // A loaded item model as TItemLoad::find_node_by_id hands it out.
 struct ItemModelResource {
@@ -130,28 +131,28 @@ void TItemEquipBase::apply_equip_effects() {
         TItemTimerEvent::start_event_by_index(get_owner_client());
     }
     if (start_effect(0x8, 0x10)) {
-        apply_equip_slot_effect(get_owner_client(), 0);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 0);
     }
     if (start_effect(0x20, 0x40)) {
         ((PlayerAttackState *)&owner->attack_state)->set_item_effect();
     }
     if (start_effect(0x80, 0x100)) {
-        apply_equip_slot_effect(get_owner_client(), 1);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 1);
     }
     if (start_effect(0x200, 0x400)) {
-        apply_equip_slot_effect(get_owner_client(), 2);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 2);
     }
     if (start_effect(0x800, 0x1000)) {
-        apply_equip_slot_effect(get_owner_client(), 3);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 3);
     }
     if (start_effect(0x2000, 0x4000)) {
-        apply_equip_slot_effect(get_owner_client(), 4);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 4);
     }
     if (start_effect(0x8000, 0x10000)) {
-        apply_equip_slot_effect(get_owner_client(), 5);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 5);
     }
     if (start_effect(0x20000, 0x40000)) {
-        apply_equip_slot_effect(get_owner_client(), 6);
+        TItemLockCountCtrl::lock_effect(get_owner_client(), 6);
     }
 }
 
@@ -163,7 +164,7 @@ void TItemEquipBase::remove_equip_effects() {
         TItemTimerEvent::clear_timer_slot(get_owner_client());
     }
     if (stop_effect(0x10)) {
-        apply_equip_effect_slot(get_owner_client(), 0);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 0);
     }
     if (stop_effect(0x40)) {
         TObjPlayer *player = owner;
@@ -172,22 +173,22 @@ void TItemEquipBase::remove_equip_effects() {
         }
     }
     if (stop_effect(0x100)) {
-        apply_equip_effect_slot(get_owner_client(), 1);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 1);
     }
     if (stop_effect(0x400)) {
-        apply_equip_effect_slot(get_owner_client(), 2);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 2);
     }
     if (stop_effect(0x1000)) {
-        apply_equip_effect_slot(get_owner_client(), 3);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 3);
     }
     if (stop_effect(0x4000)) {
-        apply_equip_effect_slot(get_owner_client(), 4);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 4);
     }
     if (stop_effect(0x10000)) {
-        apply_equip_effect_slot(get_owner_client(), 5);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 5);
     }
     if (stop_effect(0x40000)) {
-        apply_equip_effect_slot(get_owner_client(), 6);
+        TItemLockCountCtrl::unlock_effect(get_owner_client(), 6);
     }
 }
 
