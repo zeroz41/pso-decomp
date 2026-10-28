@@ -26,7 +26,7 @@ struct Ply_800F7118 {
 
 extern "C" {
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 extern s32 lbl_805D586C;
 extern s32 lbl_805D5870;
 extern u32 TObjPlayer__data_8050D460[];
@@ -652,7 +652,7 @@ void TObjEnemy::send_6x0A_enemy_state(void *state_in) {
         return;
     }
     init_6x0A_enemy_state_packet(&msg);
-    msg.f2 = this->m_1c;
+    msg.f2 = this->entity_id;
     msg.f4 = ((Ene_800F6510 *)this)->f2C;
     msg.f6 = state.diff;
     if (game_difficulty_selection == 3) {
@@ -673,7 +673,7 @@ s32 TObjEnemy::vfunc_74(s32 kind) {
     Pkt_800F65D0 pkt;
     s32 ret;
     ret = 0;
-    if (this->m_1c >= 0x1000 && this->m_1c < 0x4000) {
+    if (this->entity_id >= 0x1000 && this->entity_id < 0x4000) {
         exchange_object_state__9TObjEnemyFls(this, &pkt, 1);
         pkt.diff = this->hpmax - this->hp;
         pkt.id = this->actorFlags;
@@ -775,14 +775,14 @@ u8 *get_enemy_entity(u16 arg0) {
         low = lbl_805D586C;
         while (low < high) {
             mid = (low + high) / 2;
-            if (obj_getField1c((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
+            if (get_entity_id((void *)TObjPlayer__data_8050D460[mid]) < arg0) {
                 low = mid + 1;
             } else {
                 high = mid;
             }
         }
         u32 e = TObjPlayer__data_8050D460[low];
-        if (e != 0 && arg0 == obj_getField1c((void *)e)) {
+        if (e != 0 && arg0 == get_entity_id((void *)e)) {
             return (u8 *)e;
         }
     }
@@ -838,7 +838,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
         }
     }
     p->m12(val);
-    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, &lbl_805DA8D8, val, obj_getField1c(p));
+    create_font_small_task(((u8 *)this) + 0x2FC, 0xFFFF00FF, 0x14, 0x14, &lbl_805DA8D8, val, get_entity_id(p));
 }
 
 #pragma push
@@ -1037,7 +1037,7 @@ void TUnk_80493450::link_into_group_chain() {
             if (p == NULL || p == self) {
                 continue;
             }
-            id = obj_getField1c(p);
+            id = get_entity_id(p);
             if (id < 0x1000 || id >= 0x4000) {
                 continue;
             }

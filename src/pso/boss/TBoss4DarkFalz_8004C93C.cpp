@@ -191,7 +191,7 @@ void TBoss4DarkFalz__sub_8004C5E8(u8 *arg0) {
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (&TBoss4DarkFalz__data_804FF1E8.value));
         stack.sp14 = 2;
         stack.spC = *(s16 *)((s8 *)arg0 + 0x2C) + 0x1FE;
-        stack.sp12 = ((TBoss4DarkFalz *)arg0)->m_1c + 0x1FE;
+        stack.sp12 = ((TBoss4DarkFalz *)arg0)->entity_id + 0x1FE;
         (*(s32 *)&TBoss4DarkFalz__type3_instance) = TBoss4Type3::create((s32)&stack.sp8);
         ((TBoss4DarkFalz *)arg0)->change_state(0xD);
     }
@@ -378,7 +378,7 @@ void TBoss4DarkFalz::update_spawn_type2_countdown() {
         TBoss4DarkFalz__sub_8004B4F0(&a.d, &TBoss4DarkFalz__data_804FF1E8);
         a.d.a8 = 1;
         a.d.a0 = o->f2c + 0x1FF;
-        a.d.a6 = this->m_1c + 0x1FF;
+        a.d.a6 = this->entity_id + 0x1FF;
         (*(void * *)&TBoss4DarkFalz__type2_instance) = create__11TBoss4Type2Fl(&a);
         TBoss4DarkFalz::dispatch_by_main_phase(0x34);
         ((TBoss4DarkFalz *)o)->change_state(8);
@@ -423,7 +423,7 @@ void TBoss4DarkFalz::spawn_type1() {
     TBoss4DarkFalz__sub_8004B4F0(&params.sub, &TBoss4DarkFalz__data_804FF1E8);
     params.sub.f8 = 1;
     params.sub.x = self->f2c + 0x200;
-    params.sub.id = this->m_1c + 0x200;
+    params.sub.id = this->entity_id + 0x200;
     TBoss4DarkFalz__type1_instance = TBoss4Type1::create((s32)&params);
     self->f380 = 0;
     TBoss4DarkFalz::end_player_camera_pans(self);

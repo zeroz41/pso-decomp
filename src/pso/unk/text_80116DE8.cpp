@@ -9,7 +9,7 @@
 #include "pso/unk/TUnk_8049FBC0.h"
 
 // calc_stat_bonus_sum/calc_equip_bonus(u16) as this file's callers see them:
-// the client id still in r3 from obj_getField1c.
+// the client id still in r3 from get_entity_id.
 extern "C" s16 calc_stat_bonus_sum__FUs();
 extern "C" s16 calc_equip_bonus__FUs();
 
@@ -91,7 +91,7 @@ struct VObj_18_ddf499 : VBase_18_ddf499 {
 };
 
 extern "C" {
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 check_class_equip_permission(void *, int);
 u8 get_item_index__5TItemFv();
 void vfunc_44__13TUnk_8049FBC0Fv(u8 *arg0);
@@ -151,13 +151,13 @@ void TUnk_8049FBC0::vfunc_44() {
         ((TObjPlayer *)(this->owner))->add_evp_material(2);
         break;
     case 3:
-        obj_getField1c((void *)this->owner);
+        get_entity_id((void *)this->owner);
         if (calc_equip_bonus__FUs() < 0xFA) {
             ((TObjPlayer *)(this->owner))->apply_speed_with_camera_scale((u8)(2));
         }
         break;
     case 4:
-        obj_getField1c((void *)this->owner);
+        get_entity_id((void *)this->owner);
         if ((calc_stat_bonus_sum__FUs() < 0xFA) && (check_class_equip_permission((void *)this->owner, 0xD7) == 0)) {
             ((TObjPlayer *)(this->owner))->set_speed_scaled_by_camera((u8)(2));
         }

@@ -294,7 +294,7 @@ u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, int);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 get_current_floor();
 u8 *get_enemy_entity(u16);
 u8 *get_player_by_client_id(u16);
@@ -896,7 +896,7 @@ void TObjGrass::sub_800BD4D8() {
                 if (p == NULL) {
                     break;
                 }
-                if ((u16)obj_getField1c(p) >= 0x1000) {
+                if ((u16)get_entity_id(p) >= 0x1000) {
                     break;
                 }
                 if (obj_is_hit_receivable(p) != 0 && ((TUnk_804AF8A0 *)o)->find_actor_body_contact((u8*)p, (f32)((1e+04f))) != 0 &&
@@ -904,7 +904,7 @@ void TObjGrass::sub_800BD4D8() {
                     f32 dmg = p->m20(o, (1.0f));
                     obj_setFlags30(p, 0x400);
                     p->m23(o, (2.0f) * dmg);
-                    if (is_split_screen() == 0 && local_client_id == (u16)obj_getField1c(p)) {
+                    if (is_split_screen() == 0 && local_client_id == (u16)get_entity_id(p)) {
                         TCameraCtrl::set_shake_preset(1);
                     }
                     *(VObj_18_800BD4D8 **)((u8 *)o + k) = p;
@@ -1138,7 +1138,7 @@ s32 TObjGrass::is_target_in_attack_range() {
     } else {
         r = (1e+01f);
     }
-    kind = obj_getField1c(t);
+    kind = get_entity_id(t);
     if (kind < 0x1000) {
         t = this->target;
         if (((TLobby *)t)->check_player_flag1() == 1 || (enable_v2_features == 1 && obj_testFlags30__13TUnk_804AF8A0FUl(t, 0x20) != 0)) {
@@ -1477,8 +1477,8 @@ void TObjGrass::vfunc_28() {
                 if (p == NULL) {
                     break;
                 }
-                id = obj_getField1c(p);
-                if ((u16)id < 0x4000 && (u16)id != this->m_1c && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
+                id = get_entity_id(p);
+                if ((u16)id < 0x4000 && (u16)id != this->entity_id && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));

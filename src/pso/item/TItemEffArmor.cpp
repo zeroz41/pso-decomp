@@ -19,7 +19,7 @@
 #include "pso/TItemLoad.h"
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 get_field_3e0__12TBoss3VoloptFv();
 s32 TObjPlayer__sub_80117E50();
 void *get_player_by_client_id(s32 i);
@@ -43,7 +43,7 @@ struct RecoveredGlobal_80107DF0_lbl_8058D4C0 {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_80107DA4_lbl_8049EFB8 __vt__13TUnk_8049EFB8;
@@ -254,7 +254,7 @@ void TItemEffArmor::run_task() {
     *(f32 *)&this->m_38 = (f32) (1.0f - (this->m_24 / 29.0f));
     temp_r3_2 = (u8 *)this->m_6c;
     if (temp_r3_2 != NULL) {
-        publish_actor_light_scalars((obj_getField1c(temp_r3_2)), this->m_60, (f32) (*(f32 *)&this->unk_5C));
+        publish_actor_light_scalars((get_entity_id(temp_r3_2)), this->m_60, (f32) (*(f32 *)&this->unk_5C));
     }
     if (*(f32 *)&this->unk_5C >= 1.0f) {
         *(f32 *)&this->unk_64 = (f32) ((-1.0f) * *(f32 *)&this->unk_64);
@@ -304,7 +304,7 @@ void TUnk_8049EFB8::run_task() {
         if (player != 0) {
             get_field_3e0__12TBoss3VoloptFv();
             if (is_item_area_enabled() == 1) {
-                obj_getField1c((void *)player);
+                get_entity_id((void *)player);
                 if (TObjPlayer__sub_80117E50() != 0) {
                     spawn_particle_effect((void *)(player + 0x2FC), 0x1BE);
                 }

@@ -117,7 +117,7 @@ s32 get_player_by_client_id(s32);
 s32 obj_isState3_324__13TUnk_804806E8Fv();
 s32 set_arrival_override_coords(s32, s32, f32, f32, f32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 notify_field1c__10TObjPlayerFl();
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 void TNpcPlayer__sub_8034EDB8(void);
@@ -324,7 +324,7 @@ void notify_partner_room_cleared(s32 arg0) {
     do {
         p = get_player_by_client_id(i);
         if (p != 0 && obj_isState3_324__13TUnk_804806E8Fv() != 0 && arg0 == ((TUnk_804B9870 *)p)->get_stat_by_key_state() && !(lbl_805D6EA0 & 2) && *win != 0) {
-            TWindowCtrl::open((s32)((s32)(obj_getField1c(p))), (s32)((void *)((s32)win)), 0x1B);
+            TWindowCtrl::open((s32)((s32)(get_entity_id(p))), (s32)((void *)((s32)win)), 0x1B);
         }
         i += 1;
     } while (i < 4);
@@ -337,7 +337,7 @@ void show_partner_chatter_for_key(s16 key) {
         player = get_player_by_client_id(i);
         if (player && obj_isState3_324__13TUnk_804806E8Fv() && key == ((TUnk_804B9870 *)player)->get_stat_by_key_state()
             && !(lbl_805D6EA0 & 2) && (*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e) {
-            TWindowCtrl::open((s32)(obj_getField1c(player)), (s32)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
+            TWindowCtrl::open((s32)(get_entity_id(player)), (s32)(&(*(Global_8034E5A8 *)&npc_partner_dialogue_state).f46e), 0x1B);
         }
     }
 }
@@ -355,7 +355,7 @@ void TNpcPlayer::send_6x3e_to_all_players(void *pos, s16 arg) {
                 flag = 1;
             }
             ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
-            pkt.id = obj_getField1c(p);
+            pkt.id = get_entity_id(p);
             VecCopy((Vec *)&pkt.x, (const Vec *)pos);
             pkt.arg = arg;
             pkt.flag = flag;
@@ -371,7 +371,7 @@ void TNpcPlayer::apply_to_players(s32 arg0, void *arg1, s32 arg2) {
     do {
         temp_r3 = get_player_by_client_id(var_r31);
         if ((temp_r3 != 0) && (obj_isState3_324__13TUnk_804806E8Fv() != 0) && ((u16) ((TNpcPlayer *)temp_r3)->get_action_flags() != 0xFFFF)) {
-            set_arrival_override_coords(obj_getField1c(temp_r3), arg2, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
+            set_arrival_override_coords(get_entity_id(temp_r3), arg2, *(f32 *)((s8 *)arg1 + 0), *(f32 *)((s8 *)arg1 + 4), *(f32 *)((s8 *)arg1 + 8));
             send_6x21_inter_level_warp((void *)temp_r3, arg0);
         }
         var_r31 += 1;

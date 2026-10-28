@@ -53,7 +53,7 @@ struct Chain_80231C58 {
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 is_parents_unqueued__9TTecLukerFUl();
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 copy_technique_target_list(void *, void *);
@@ -341,7 +341,7 @@ u8 *TTecGiZonde__ct(u8 *arg0, void *arg1, void *arg2, void *arg3, void * _w4) {
         break;
     }
     if (((TTecGiZonde *)arg0)->source != 0U) {
-        ((TTecGiZonde *)arg0)->sourceId = obj_getField1c((void *)((TTecGiZonde *)arg0)->source);
+        ((TTecGiZonde *)arg0)->sourceId = get_entity_id((void *)((TTecGiZonde *)arg0)->source);
     }
     return arg0;
 }

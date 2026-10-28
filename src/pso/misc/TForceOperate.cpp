@@ -134,7 +134,7 @@ void __ct__7TObjectFP7TObject(void *);
 void fn_8013E020(void *);
 void *get_state__11TMainCursorFv(s32);
 s32 is_target_valid__10TObjPlayerFv();
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 void queue_destruction__7TObjectFv(void *arg0);
 void set_field_0__13TForceOperateFs(void *, void *);
 
@@ -148,7 +148,7 @@ void run_task__13TForceOperateFv(s32 arg0) {
             ((TMainCursor *)(((TObjPlayer *)temp_r31)->m_424 + 0x4F8))->get_id();
             entity = find_entity_by_id();
             if (entity != NULL) {
-                ((VObj_801C57D0 *)entity)->m11(obj_getField1c(temp_r31));
+                ((VObj_801C57D0 *)entity)->m11(get_entity_id(temp_r31));
                 queue_destruction__7TObjectFv((void *)arg0);
             }
         }

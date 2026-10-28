@@ -63,7 +63,7 @@ extern s32 __vt__11TPhotonLine[];
 extern s32 lbl_805D3500;
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
 s32 check_path_obstructed(void *, Vec_801ACD14 *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void queue_destruction__7TObjectFv(void *);
 u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(void *pos, s32 id);
@@ -99,16 +99,16 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
                 break;
             }
             for (j = 0; j < self->count; j++) {
-                if (self->ids[j] == obj_getField1c(p)) {
+                if (self->ids[j] == get_entity_id(p)) {
                     break;
                 }
             }
             if (j == self->count) {
-                self->ids[self->count++] = obj_getField1c(p);
+                self->ids[self->count++] = get_entity_id(p);
                 if ((s32)self->count >= 9) {
                     break;
                 }
-                queue_photon_blast_hit(obj_getField1c(p), 1, 0, self->f344);
+                queue_photon_blast_hit(get_entity_id(p), 1, 0, self->f344);
                 spawn_particle_effect(p + 0x38, 0x162);
                 spawn_particle_effect(p + 0x38, 0x163);
             }

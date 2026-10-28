@@ -548,7 +548,7 @@ void TContainerAncient01R::open_container() {
 f32 TContainerAncient01R::receive_physical_attack(void *, f32) {
     u8 *arg0 = (u8 *)this;
     s16 sp8;
-    if ((u16) this->m_1c >= 0x1000U) {
+    if ((u16) this->entity_id >= 0x1000U) {
         this->m_338 = (this->m_338 + 1);
         if (((u32) this->m_80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = this->m_338;
@@ -917,7 +917,7 @@ s32 reset_state__19TContainerAncient01Fv();
 f32 TContainerAncient01::receive_physical_attack(void *, f32) {
     s16 sp8;
 
-    if ((u16) this->m_1c >= 0x1000U) {
+    if ((u16) this->entity_id >= 0x1000U) {
         reset_state__19TContainerAncient01Fv();
         if (((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
             sp8 = 1;

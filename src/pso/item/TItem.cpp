@@ -134,7 +134,7 @@ void FloorItem::clear() {
 
 FloorItem::FloorItem() { clear(); }
 
-void TUnk_804B9870::set_entity_id(u16 id) { m_1c = id; }
+void TUnk_804B9870::set_entity_id(u16 id) { entity_id = id; }
 
 G_PickUpItemRequest_6x5A::G_PickUpItemRequest_6x5A() {
     item_id = -1;
@@ -925,7 +925,7 @@ void TItem::set_mode(s8 new_mode) {
 }
 
 void TItem::register_in_world(s32 clear_status) {
-    if (obj_getField1c(this) == 0xFFFF) {
+    if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
         ((TObjPlayer *)this)->reset_photon_effect();
         if (clear_status != 0) {
@@ -937,9 +937,9 @@ void TItem::register_in_world(s32 clear_status) {
 // Gives the object id back to the free list and drops the item out of the
 // world's object table.
 void TItem::unregister_from_world() {
-    if (obj_getField1c(this) != 0xFFFF) {
+    if (get_entity_id(this) != 0xFFFF) {
         unregister_object_by_id();
-        push_free_entity_id(obj_getField1c(this));
+        push_free_entity_id(get_entity_id(this));
         set_entity_id(0xFFFF);
         set_indexed_flags(0, 1);
     }

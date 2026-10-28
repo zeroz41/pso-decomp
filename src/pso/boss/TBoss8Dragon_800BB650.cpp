@@ -11,7 +11,7 @@ struct Obj_800BB780 { u8 pad[0x30]; u32 flags; u8 pad1[0x70]; Part_800BB780 *par
 
 extern "C" {
 s32 get_player_data__10TObjPlayerFi(int);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 s32 is_alive__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -41,7 +41,7 @@ s32 enemy_nearest_visible_player_sq(u8 *arg0, f32 farg0) {
         if (is_alive__9TObjEneDDFv(p) != 0) {
             d = horizontal_distance_squared(arg0 + 0x2FC, p + 0x38);
             if (d < best && csnLookAt(arg0 + 0x2FC, p + 0x2FC) == 0) {
-                result = obj_getField1c(p);
+                result = get_entity_id(p);
                 best = d;
             }
         }

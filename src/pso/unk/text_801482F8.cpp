@@ -315,7 +315,7 @@ extern const f32 lbl_805DB1D0;
 extern const f32 lbl_805DB1D4;
 extern const f32 lbl_805DB1D8;
 extern const f32 lbl_805DB1DC;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f64 atan2_float(f32, f32);
 s32 queue_destruction__7TObjectFv(void *);
 }
@@ -431,7 +431,7 @@ void TObjNpcBase::update_conversation() {
             F(s16, 0x328) = 1;
             ((VObj_18_f3aa6a *)arg0)->m86(0);
             ((TNpcPlayer *)(&pkt1))->init_6x3E_packet();
-            pkt1.id = obj_getField1c(F(void *, 0x2A8));
+            pkt1.id = get_entity_id(F(void *, 0x2A8));
             VecCopy((Vec *)&pkt1.pos, (const Vec *)(F(u8 *, 0x2A8) + 0x38));
             pkt1.ang = ang + 0x8000;
             ((TNpcPlayer *)(&pkt1))->send_6x3E();
@@ -442,7 +442,7 @@ void TObjNpcBase::update_conversation() {
                 F(s32, 0x60) = ang;
                 ((VObj_18_f3aa6a *)arg0)->m86(0);
                 ((TNpcPlayer *)(&pkt2))->init_6x3E_packet();
-                pkt2.id = obj_getField1c(F(void *, 0x2A8));
+                pkt2.id = get_entity_id(F(void *, 0x2A8));
                 VecCopy((Vec *)&pkt2.pos, (const Vec *)(F(u8 *, 0x2A8) + 0x38));
                 pkt2.ang = F(s32, 0x60) + 0x8000;
                 ((TNpcPlayer *)(&pkt2))->send_6x3E();
@@ -520,7 +520,7 @@ void TObjNpcBase::update_conversation() {
                 end_conversation_camera();
                 break;
             }
-            if (F(void *, 0x2A8) != 0 && local_client_id == obj_getField1c(F(void *, 0x2A8))) {
+            if (F(void *, 0x2A8) != 0 && local_client_id == get_entity_id(F(void *, 0x2A8))) {
                 p = ((u32 (*)(s32))get_player_by_client_id)(local_client_id);
                 if (p != 0 && ((TLobby *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)((void *)p));

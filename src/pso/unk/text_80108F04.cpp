@@ -23,7 +23,7 @@ struct Flame_80108F04 {
 extern "C" {
 void *__nw__7TObjectFUl(u32 size);
 extern void *tl_05;
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__13TItemEffFlame[];
 extern s32 TItemEffFlame__class_name;
@@ -34,7 +34,7 @@ void *TItemEffFlame__ct(void *arg0, void *parent, void *target) {
     __ct__7TObjectFP7TObject(arg0, parent);
     self->vt = __vt__13TItemEffFlame;
     self->name = TItemEffFlame__class_name;
-    self->x20 = obj_getField1c(arg2->src);
+    self->x20 = get_entity_id(arg2->src);
     self->idx = arg2->idx;
     {
         Src_80108F04 *src = arg2->src;

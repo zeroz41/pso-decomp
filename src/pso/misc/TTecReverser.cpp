@@ -47,7 +47,7 @@ void queue_destruction__7TObjectFv(void *arg0);
 void *find_entity_by_id(u16 id);
 s32 is_active__12TTecReverserFv();
 void run_task__12TTecReverserFv(u8 *arg0);
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 play_sound_effect(int, void *, int, int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
@@ -167,7 +167,7 @@ u8 *TTecReverser__ct(u8 *tec_reverser, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     play_sound_effect(0x4002A812, tec_reverser + 0x20, 0, 0);
     temp_r3 = ((TTecReverser *)tec_reverser)->source;
     if (temp_r3 != 0U) {
-        ((TTecReverser *)tec_reverser)->m_b4 = obj_getField1c(temp_r3);
+        ((TTecReverser *)tec_reverser)->m_b4 = get_entity_id(temp_r3);
     }
     return tec_reverser;
 }
@@ -178,7 +178,7 @@ void TUnk_804CCC68::dispatch_technique_contact() {
         queue_destruction__7TObjectFv((this));
         return;
     }
-    if ((u16) obj_getField1c((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             var_r31 = query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {
@@ -208,7 +208,7 @@ void TUnk_804CCC68::dispatch_all_technique_contacts() {
         queue_destruction__7TObjectFv((this));
         return;
     }
-    if ((u16) obj_getField1c((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
+    if ((u16) get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x1C))) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x1C) + 0x828)) != 0) {
             list = (List_8023A244 *) query_technique_player_contacts(*(s32 *)((s8 *)((u8 *)this) + 0x1C));
         } else {

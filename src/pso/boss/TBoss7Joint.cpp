@@ -117,7 +117,7 @@ u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32
     *(s32 **)((s8 *)boss7_joint + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
     *(s32 *)((s8 *)boss7_joint + 0) = (s32) lbl_805D3FC0;
     ((TObjEneDD *)boss7_joint)->init_common_from(arg1);
-    ((TBoss7Joint *)boss7_joint)->m_1c = arg2;
+    ((TBoss7Joint *)boss7_joint)->entity_id = arg2;
     *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;
     *(s32 *)((s8 *)boss7_joint + 0x3C0) = arg4;
     *(s32 *)((s8 *)boss7_joint + 0x3B8) = arg5;

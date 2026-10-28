@@ -371,7 +371,7 @@ void apply_ground_movement__12TBoss8DragonFPvPv(u8 *arg0, f32 *arg1);
 void sync_target_pos__12TBoss8DragonFPv(void* p);
 void TBoss8Dragon__sub_802FC500(u8 *arg0);
 void state_turn_and_charge__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1);
-u16 obj_getField1c(u8 *);
+u16 get_entity_id(u8 *);
 void *spawn_particle_effect_with_rotation(void *, void *, s32, s32);
 s32 enemy_validate_retained_target(void *);
 void * __nw__7TObjectFUl(int);
@@ -2578,7 +2578,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
                     v.y = TBoss8Dragon__data_805DED50;
                     v.z = TBoss8Dragon__data_805DEDA8 * (o->f460 + o->f478);
                     fill_value_array(o->f680);
-                    create_boss8_piller_ctrl((s32)&v, (s32)(((s32 (*)(void *))obj_getField1c)(o)), (f32)TBoss8Dragon__data_805DEDB0);
+                    create_boss8_piller_ctrl((s32)&v, (s32)(((s32 (*)(void *))get_entity_id)(o)), (f32)TBoss8Dragon__data_805DEDB0);
                     spawn_particle_effect_with_flags(&o->pos, (void *)o->info->a, 0x40);
                     if (o->info->b != -1) {
                         spawn_particle_effect_with_flags(&o->pos, (void *)o->info->b, 0x40);
@@ -3954,7 +3954,7 @@ void handle_leap_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
                 ((TBoss8Dragon *)arg0)->set_state();
                 TBoss8Dragon::init_state((s32)arg0);
                 fill_value_array(F(s32, 0x680));
-                create_boss8_piller_ctrl((s32)(arg0 + 0x38), (s32)(((s32 (*)(void *))obj_getField1c)(arg0)), (f32)TBoss8Dragon__data_805DEDB0);
+                create_boss8_piller_ctrl((s32)(arg0 + 0x38), (s32)(((s32 (*)(void *))get_entity_id)(arg0)), (f32)TBoss8Dragon__data_805DEDB0);
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003AD0F);
             }
             break;
@@ -4463,7 +4463,7 @@ void TBoss8Dragon__sub_802F7B70(Obj_802F7B70 *arg0, u32 arg1) {
             if (arg0->pos.y <= TBoss8Dragon__data_805DED50 && arg0->spawned == 0) {
                 TBoss8Dragon::init_state((s32)arg0);
                 fill_value_array(arg0->f680);
-                create_boss8_piller_ctrl((s32)&arg0->pos, (s32)(((s32 (*)(u8 *))obj_getField1c)((u8 *)arg0)), (f32)TBoss8Dragon__data_805DEDB0);
+                create_boss8_piller_ctrl((s32)&arg0->pos, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)arg0)), (f32)TBoss8Dragon__data_805DEDB0);
                 arg0->spawned = 1;
                 arg0->m89();
                 arg0->m92();
@@ -4755,7 +4755,7 @@ void TBoss8Dragon__sub_802F8578(Dragon_802F8578 *arg0, u32 arg1) {
             }
             if (objInBand__FP7GameObjf(arg0, TBoss8Dragon__data_805DEE30) != 0) {
                 fill_value_array(arg0->field_680);
-                create_boss8_piller_ctrl((s32)&arg0->pos, (s32)(((s32 (*)(u8 *))obj_getField1c)((u8 *)arg0)), (f32)TBoss8Dragon__data_805DEDB0);
+                create_boss8_piller_ctrl((s32)&arg0->pos, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)arg0)), (f32)TBoss8Dragon__data_805DEDB0);
                 spawn_particle_effect_with_flags(&arg0->pos, (void *)arg0->field_760->id8, 0x40);
                 if (arg0->field_760->idC != -1) {
                     spawn_particle_effect_with_flags(&arg0->pos, (void *)arg0->field_760->idC, 0x40);
@@ -5055,7 +5055,7 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
                 {
                     void *b = __nw__7TObjectFUl(0x58);
                     if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))obj_getField1c)(arg0));
+                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))get_entity_id)(arg0));
                     }
                 }
                 rotate_vec_xz(&dir, &rot, 0x1000);
@@ -5066,7 +5066,7 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
                 {
                     void *b = __nw__7TObjectFUl(0x58);
                     if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))obj_getField1c)(arg0));
+                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))get_entity_id)(arg0));
                     }
                 }
                 rotate_vec_xz(&dir, &rot, -0x1000);
@@ -5077,7 +5077,7 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
                 {
                     void *b = __nw__7TObjectFUl(0x58);
                     if (b != 0) {
-                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))obj_getField1c)(arg0));
+                        TBoss8DragonEffBullet__ct(b, arg0 + 0x3C4, arg0 + 0x410, &v, F(s32, 0x75C), ((s32 (*)(void *))get_entity_id)(arg0));
                     }
                 }
                 spawn_particle_effect_with_flags(arg0 + 0x410, (void *)*(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x24), 0x40);
@@ -5430,7 +5430,7 @@ void state_breath_attack__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
                 if (F(s32, 0x850) >= 2) {
                     mem = __nw__7TObjectFUl(0x40);
                     if (mem != 0) {
-                        __ct__21TBoss8DragonEffBreathFP7TObjectPvPvls(mem, arg0 + 0x3C4, arg0 + 0x410, arg0 + 0x41C, F(s32, 0x75C), obj_getField1c(arg0));
+                        __ct__21TBoss8DragonEffBreathFP7TObjectPvPvls(mem, arg0 + 0x3C4, arg0 + 0x410, arg0 + 0x41C, F(s32, 0x75C), get_entity_id(arg0));
                     }
                     F(s32, 0x850) = 0;
                 }
@@ -6287,7 +6287,7 @@ s32 select_target_in_front__12TBoss8DragonFPv(u8 *ene_dd_st) {
             subtract_vector(&d, ene_dd_st + 0x38);
             clamp_velocity__15TObjBoss2TunnelFv(&d);
             if (vec3_dot(&d, &ref) > lim) {
-                ids[n++] = obj_getField1c(player);
+                ids[n++] = get_entity_id(player);
             }
         }
     }

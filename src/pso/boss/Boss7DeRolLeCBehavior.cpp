@@ -410,7 +410,7 @@ void TObjFish__sub_802E7B94(Fish_802E7B94* o) {
 
 extern "C" {
 void *memset(void *, int, unsigned long);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s16 TObjFish__sub_802E7CC4(void *self);
 }
 
@@ -423,9 +423,9 @@ s16 TObjFish__sub_802E7CC4(void *self) {
     TObject *child;
     s16 i;
     memset(used, 0, sizeof(used));
-    base = obj_getField1c(self) + 11;
+    base = get_entity_id(self) + 11;
     for (child = ((Boss_802E7CC4 *)self)->group->m_down; child != NULL; child = child->m_next) {
-        used[obj_getField1c(child) - base] = 1;
+        used[get_entity_id(child) - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
         if (used[i] == 0) {
@@ -3976,7 +3976,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
     ((V_802ED62C *)((u8 *)this))->m85(arg1, 6);
     if (((arg1 - 0x13) <= 1U) || ((arg1 - 0x40) <= 1U) || (arg1 == 0x44) || (arg1 == 0x18)) {
         TBoss7Joint__sub_802EE800(&pa);
-        pa.a = this->m_1c;
+        pa.a = this->entity_id;
         pa.b = arg1;
         pa.c = (s16)this->m_6d0;
         pa.d = this->m_38c;
@@ -3984,7 +3984,7 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
         return;
     }
     TBoss7Joint__sub_802EE7B8(&pb);
-    pb.a = this->m_1c;
+    pb.a = this->entity_id;
     pb.b = arg1;
     pb.c = (s16)this->m_6d0;
     ((TBoss7Joint *)(&pb))->update_and_send_60();

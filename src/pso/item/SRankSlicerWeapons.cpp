@@ -38,7 +38,7 @@ struct Tec_801293FC {
 };
 
 extern "C" {
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 f32 query_extended_state__10TObjPlayerFv(void *);
 void TObjPlayer__sub_80128A70(void);
 void init_slicer_launch_state(void *);
@@ -57,7 +57,7 @@ void TUnk_804A4238::emit_marker_effects() {
     Tec_801293FC tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state(&tec);
-    tec.id = obj_getField1c(self->owner);
+    tec.id = get_entity_id(self->owner);
     tec.fC = ((TItem *)self)->get_item_id();
     tec.f4 = self->f24;
     tec.f8 = self->f188;
@@ -198,7 +198,7 @@ void TUnk_804A4338::emit_marker_effects() {
     Tec_80129648 tec;
     TObjPlayer__sub_80128A70();
     init_slicer_launch_state((struct SlicerState_801295FC *)((SlicerState_801295FC *)&tec));
-    tec.id = obj_getField1c(self->owner);
+    tec.id = get_entity_id(self->owner);
     tec.fC = ((TItem *)self)->get_item_id();
     tec.f4 = self->f24;
     tec.f8 = self->f188;

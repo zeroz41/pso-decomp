@@ -67,7 +67,7 @@ extern s32 lbl_805D5254;
 f32 TObjPlayer__sub_800DC434(s32 arg0, s32 arg1);
 s32 TObjPlayer__sub_800DC420(void *self, s32 i);
 extern D_800DC448 *nano_drago_entry_params_resource;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 spawn_particle_effect(void *, int);
 extern const f32 lbl_805D525C;
@@ -144,7 +144,7 @@ void hit_object_in_radius__10TObjPlayerFPvPvPv(Src_800DC4B4 *arg0, Obj_800DC4B4 
         if (obj->flags & 0x800) {
             ((TObjPlayer *)attacker)->set_flag_20000();
         }
-        if (is_split_screen() == 0 && local_client_id == obj_getField1c(obj)) {
+        if (is_split_screen() == 0 && local_client_id == get_entity_id(obj)) {
             ((TObjPlayer *)attacker)->trigger_hit_camera_shake((u32)obj);
         }
     }
@@ -223,7 +223,7 @@ u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, 
     ((TUnk_80494E10 *)arg0)->m_b8*= s;
     *(f32 *)((s8 *)arg0 + 0xBC) *= s;
     ((TUnk_80494E10 *)arg0)->m_c0*= s;
-    ((TUnk_80494E10 *)arg0)->m_fc = obj_getField1c(arg4);
+    ((TUnk_80494E10 *)arg0)->m_fc = get_entity_id(arg4);
     ang.x = 0;
     ang.y = (s32)(10430.38043493439 * atan2_float(arg2->x - arg1->x, arg2->z - arg1->z)) + 0x4000;
     ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(arg2->y - arg1->y, vec_xz_distance((Vec *)arg2, (Vec *)arg1)));

@@ -153,7 +153,7 @@ void TUnk_804EDD20::render() {
         model_render_flags |= 0x20;
         set_constant_material((const NJS_ARGB *)var_r3);
         var_r3 = (s32 *) var_r31;
-        ((TObjPlayer *)var_r3)->get_entity_id();
+        ((TObjPlayer *)var_r3)->get_texture_id();
         notify_fish_if_valid__10TObjPlayerFUl();
         push_matrix();
         var_r3 = (s32 *)(var_r29 + 0x64);
@@ -460,7 +460,7 @@ TUnk_804EDD44::TUnk_804EDD44(TObject *parent, f32 *arg2, f32 *arg3, s32 arg4, s3
 }
 
 extern "C" {
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 f32 atan2_float(f32, f32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern const f64 lbl_804773A8[];
@@ -468,7 +468,7 @@ extern const f64 lbl_804773A8[];
 Obj_8032E400 *construct_card_effect_on_target(Obj_8032E400 *arg0, void *arg1, Ref_8032E400 *arg2, Vec_8032E400 *arg3, s32 arg4, s32 arg5) {
     __ct__7TObjectFP7TObject(arg0, arg1);
     arg0->vt = __vt__13TUnk_804EDD44;
-    arg0->f34 = obj_getField1c(arg2->owner);
+    arg0->f34 = get_entity_id(arg2->owner);
     arg0->f60 = arg5;
     ((TItemAttackCol *)(arg0->col))->copy_pos(arg2);
     VecCopy((Vec *)&arg0->pos, (const Vec *)arg3);

@@ -51,7 +51,7 @@ struct Self_801AC45C {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *find_entity_by_id(u16 id);
 }
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
@@ -149,7 +149,7 @@ void TPhotonLeilla::run_task() {
     if (1.3e+02f == (f32) *(s32 *)&this->m_1ac) {
         temp_r3_3 = (u8 *)(find_entity_by_id(this->m_17c));
         if (temp_r3_3 != NULL) {
-            queue_photon_blast_hit((int) (obj_getField1c(temp_r3_3)), 4, 0, this->m_150);
+            queue_photon_blast_hit((int) (get_entity_id(temp_r3_3)), 4, 0, this->m_150);
         }
     }
     if ((f32) *(s32 *)&this->m_1ac > 109.0f) {

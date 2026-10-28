@@ -576,7 +576,7 @@ struct Boss_802BC23C {
 f32 receive_physical_attack__13TUnk_804806E8FPvf(void *, u32, f32);
 u8 * get_attribute_entry__10TObjPlayerFl(u32, s32);
 u16 obj_getArrU16_FC(void *obj, s32 i);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
@@ -1523,7 +1523,7 @@ s32 request_player_camera_offsets__11TBoss6Type2FPvff(Obj_802BB1E0 *self, f32 a,
                     }
                 }
             }
-            request_follow_camera_offsets(&off, &cam, obj_getField1c(p));
+            request_follow_camera_offsets(&off, &cam, get_entity_id(p));
             if (flag == 0) {
                 break;
             }
@@ -1744,7 +1744,7 @@ s32 TBoss6Type2::push_players_away(void *target, f32 range) {
                 break;
             }
         }
-        mask |= 1 << obj_getField1c(pl);
+        mask |= 1 << get_entity_id(pl);
     }
     return mask;
 }

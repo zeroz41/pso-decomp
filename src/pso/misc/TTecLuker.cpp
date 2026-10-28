@@ -201,7 +201,7 @@ f32 vector_length(void *);
 extern const f32 lbl_805DC860;
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec_8023402C *p, u16 unused);
 void *__nw__7TObjectFUl(int);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 get_stat_by_key_state__13TUnk_804B9870Fv(void *);
 extern s32 tl_07;
 extern s32 tl_05;
@@ -713,7 +713,7 @@ void TTecLuker::create(void *arg1, void *arg2, void *arg3) {
 typedef void (*Write_802347B4)(u8 *, s32, s16, u8 *, s32);
 void TTecLuker::setup_telepipe_field() {
     Pipe_802347B4 *s = (Pipe_802347B4 *)this;
-    u16 id = obj_getField1c(s->player);
+    u16 id = get_entity_id(s->player);
     void *v = __nw__7TObjectFUl(0x44);
     if (v != 0) {
         v = create_telepipe_visual(v, (Vec_802347B4 *)(&s->pos), id, tl_07);
@@ -729,11 +729,11 @@ void TTecLuker::setup_telepipe_field() {
         }
         s->collider = c;
     }
-    if (s->traveller == (u16)obj_getField1c(s->player)) {
+    if (s->traveller == (u16)get_entity_id(s->player)) {
         s16 h;
         s->floor = get_current_floor();
         h = get_stat_by_key_state__13TUnk_804B9870Fv(s->player);
-        ((Write_802347B4)write_telepipe_record)(s->player + 0x830, obj_getField1c(s->player), s->floor, (u8 *)&s->pos, h);
+        ((Write_802347B4)write_telepipe_record)(s->player + 0x830, get_entity_id(s->player), s->floor, (u8 *)&s->pos, h);
         ((TTecLuker *)(s->player + 0x830))->send_telepipe_packet();
     }
 }
@@ -760,7 +760,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
     }
     switch (((TTecLuker *)arg0)->m_108) {
     case 0:
-        temp_r3 = obj_getField1c(owner);
+        temp_r3 = get_entity_id(owner);
         if (temp_r3 != 0xFFFFU) {
             if (temp_r3 > 0xCU) {
                 ((TTecLuker *)arg0)->m_108 = 4;
@@ -816,7 +816,7 @@ void run_task__9TTecLukerFv(u8 *arg0) {
         }
         break;
     case 3:
-        temp_r30 = obj_getField1c(owner);
+        temp_r30 = get_entity_id(owner);
         temp_r29 = (u8 *)get_player_by_client_id(((TTecLuker *)arg0)->m_f6);
         if ((is_split_screen() == 0) && (temp_r29 != NULL)) {
             if (*(s32 *)((s8 *)temp_r29 + 0x30) & 0x800) {
@@ -923,7 +923,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
     L->fF4 = get_current_floor();
     L->fx = NULL;
     if (L->owner != NULL) {
-        L->owner_id = obj_getField1c(L->owner);
+        L->owner_id = get_entity_id(L->owner);
     }
     L->fF6 = local_client_id;
     if (is_split_screen() == 0 && L->owner_id != local_client_id) {

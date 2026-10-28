@@ -86,7 +86,7 @@ extern RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 THunterGui
 List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
 void *__nw__7TObjectFUl(u32);
 extern s32 tl_05;
-void obj_getField1c(s32);
+void get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180();
 void fn_802233F8(void *);
 void close_window__13TShopSequenceFv(void *);
@@ -182,7 +182,7 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_0);
         }
-        obj_getField1c(arg0->f24);
+        get_entity_id(arg0->f24);
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 2:
@@ -190,7 +190,7 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_1);
         }
-        obj_getField1c(arg0->f24);
+        get_entity_id(arg0->f24);
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 3:
@@ -198,7 +198,7 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)TQuestListVM::set_enemy_mode_3);
         }
-        obj_getField1c(arg0->f24);
+        get_entity_id(arg0->f24);
         THunterGuildSeqOffline__sub_8021E180();
         break;
     case 4:
@@ -206,7 +206,7 @@ void THunterGuildSeqOffline::close_window() {
         if (o != NULL) {
             ((THunterGuildSeqOffline *)o)->init(tl_00, (void *)THunterGuildSeqOffline::set_enemy_mode_5);
         }
-        obj_getField1c(arg0->f24);
+        get_entity_id(arg0->f24);
         THunterGuildSeqOffline__sub_8021E180();
         break;
     }

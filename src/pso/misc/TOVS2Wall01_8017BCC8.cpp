@@ -9,7 +9,7 @@ extern "C" {
 
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 is_locally_controlled__10TObjPlayerFPv(u32);
-u16 obj_getField1c(u32);
+u16 get_entity_id(u32);
 
 void init__11TOVS2Wall01Fi(s32 arg0) {
     s32 var_r31;
@@ -31,8 +31,8 @@ f32 take_hit__11TOVS2Wall01FPvUi(u8 *ovs2_wall01, u32 arg1) {
     u32 var_r31;
 
     var_r31 = 0U;
-    obj_getField1c(arg1);
-    if (obj_getField1c(arg1) < 4U) {
+    get_entity_id(arg1);
+    if (get_entity_id(arg1) < 4U) {
         var_r31 = arg1;
     }
     if ((var_r31 != 0U) && (is_locally_controlled__10TObjPlayerFPv(var_r31) == 1)) {

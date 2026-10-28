@@ -1788,7 +1788,7 @@ struct Arr_8009F004 { s32 v[3]; };
 struct Tbl_8009F004 { Arr_8009F004 a, b, c, d; };
 
 f32 calc_boss4_scale__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 f32 get_random_float__21TObjEneMe3ShinowaRealFv(f32);
 bool is_vec_xz_cross_negative(u8 *arg0, u8 *arg1);
@@ -3494,7 +3494,7 @@ void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1) {
                 if (TObjEneMe1Canadin__sub_8009E76C((u8 *)o) != 0 && ((VObj_8009CC74 *)o->target)->m18(o, lbl_805D98D4) != 0) {
                     ((VObj_8009CC74 *)o->target)->m20(o, lbl_805D98D4);
                     ((VObj_8009CC74 *)o->target)->m23(o, lbl_805D9904);
-                    if ((s32)is_player_entity_id(obj_getField1c(o->target)) != 0 && is_target_android(o->target) != 0 && calc_boss4_scale__10TObjPlayerFi((s32)o) < lbl_805D9908) {
+                    if ((s32)is_player_entity_id(get_entity_id(o->target)) != 0 && is_target_android(o->target) != 0 && calc_boss4_scale__10TObjPlayerFi((s32)o) < lbl_805D9908) {
                         ((VObj_8009CC74 *)o->target)->m47();
                         ((VObj_8009CC74 *)o->target)->m72(0);
                     }
@@ -4500,7 +4500,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     *(s16 *)((s8 *)arg0 + 0x326) = 0;
     ((VObj_8009F004 *)arg0)->m85(*(s16 *)((s8 *)arg0 + 0x326), 4);
     if (*(void **)((s8 *)arg0 + 0x3C0) != NULL) {
-        *(u16 *)((s8 *)arg0 + 0x4C8) = ((u16 (*)(void *))obj_getField1c)(*(void **)((s8 *)arg0 + 0x3C0));
+        *(u16 *)((s8 *)arg0 + 0x4C8) = ((u16 (*)(void *))get_entity_id)(*(void **)((s8 *)arg0 + 0x3C0));
     } else {
         *(u16 *)((s8 *)arg0 + 0x4C8) = 0xFFFF;
     }

@@ -85,7 +85,7 @@ struct Win_8021EA48 : VBase_8021EA48 {
 };
 
 extern "C" {
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
 void TWindow__close(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
@@ -193,7 +193,7 @@ void TShopGetItemWindow::update_input_number() {
     w = this->m_30;
     if ((w != 0U) && (((TWindowInputNumber *)w)->is_confirmed() != 0)) {
         if ((u32) this->m_2c == 0U) {
-            this->m_2c = (u32)create_yes_no_window(get_window_layout_position(0x2B), (u16) obj_getField1c(this->m_24), 0, 0);
+            this->m_2c = (u32)create_yes_no_window(get_window_layout_position(0x2B), (u16) get_entity_id(this->m_24), 0, 0);
             ((TCheckRoomSequence *)(this->m_2c))->set_ready_flag();
             ((TUnk_804CDFE8 *)(this->m_2c))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
         }
@@ -248,7 +248,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
                 ((TShopWindowBase *)arg0)->set_field_20(2);
                 return;
             }
-            sel = (u16)obj_getField1c(arg0->f24);
+            sel = (u16)get_entity_id(arg0->f24);
             arg0->f2C = (u32)create_yes_no_window(get_window_layout_position(0x2B), sel, 0, 0);
             ((TCheckRoomSequence *)(arg0->f2C))->set_ready_flag();
             scale = get_scale__15TShopWindowBaseFv(arg0);
@@ -278,7 +278,7 @@ void TShopGetItemWindow::rebuild_item_list() {
     if (arg0->f28 == 0U) {
         Item_8021EA48 item;
         s32 count;
-        arg0->f28 = create_item_list_window(get_shop_text(0x30), 0xC8, obj_getField1c(arg0->f24));
+        arg0->f28 = create_item_list_window(get_shop_text(0x30), 0xC8, get_entity_id(arg0->f24));
         TWindowSetLevelUp__sub_8026DE28(arg0->f28, 0xC8);
         for (i = 0; i < 0xC8; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, x) != 0) {
@@ -315,7 +315,7 @@ void TShopGetItemWindow::rebuild_item_list() {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(sel, &arg0->item, x) != 0) {
             obj = __nw__7TObjectFUl(0xBC);
             if (obj != NULL) {
-                id = (u16)obj_getField1c(arg0->f24);
+                id = (u16)get_entity_id(arg0->f24);
                 obj = (void *)__ct__15TWindowHelpItemFPvUs(obj, get_window_layout_position(0x27), id);
             }
             arg0->f34 = (u32)obj;

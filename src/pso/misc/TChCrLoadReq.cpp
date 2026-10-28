@@ -15,7 +15,7 @@ struct B_8028D214 { s32 a0; s32 a4; s32 a8; };
 struct Rq_8028D214 { u8 pad0[0x38]; void *f38; s32 f3c; s32 f40; s32 *f44; B_8028D214 *f48; u8 pad4c[0xC]; s32 f58; u8 *f5c; s32 f60; s32 f64; u8 pad68[0xC]; s32 w[6]; s32 f8c; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TChCrLoadReq[];
 extern void *lbl_805D3B60;
@@ -102,7 +102,7 @@ u8 *TChCrLoadReq__sub_8028D360(TChCrLoadReq *ch_cr_load_req, s32 arg1) {
     *(s32 *)((s8 *)ch_cr_load_req + 0) = (s32) (*(s32 *)&lbl_805D3B60);
     ch_cr_load_req->m_38 = (arg1 + 0x85C);
     *(s32 *)((s8 *)ch_cr_load_req + 0x3C) = (arg1 + 0xCFC);
-    ch_cr_load_req->m_40 = (s32) obj_getField1c((void *)arg1);
+    ch_cr_load_req->m_40 = (s32) get_entity_id((void *)arg1);
     *(s32 *)((s8 *)ch_cr_load_req + 0x44) = (arg1 + 0x34);
     ch_cr_load_req->m_48 = (arg1 + 0x8AC);
     *(s32 *)((s8 *)ch_cr_load_req + 0x4C) = (arg1 + 0xCF4);

@@ -885,7 +885,7 @@ extern u8 identity_matrix[];
 extern u8 *anim_model_matrix_array;
 extern const f32 lbl_805DA124;
 void TObjEneMe1Gee__sub_800CA454(void *arg0, s32 arg1);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 reset_hp__9TObjEneDDFv(void *, int, int, int);
 s32 initialize_enemy_state__9TObjEneDDFv(void *, int);
 s32 set_part_position__9TObjEneDDFPvPvi(void *, int, int);
@@ -3853,7 +3853,7 @@ void TObjEneMe1Gee::init_state() {
     *(s16 *)((s8 *)((u8 *)this) + 0x326) = 0;
     ((VObj_18_3bc1aa *)(this))->m85(*(s16 *)((s8 *)((u8 *)this) + 0x326), 4);
     if (*(void **)((s8 *)((u8 *)this) + 0x3C0) != NULL) {
-        *(s16 *)((s8 *)((u8 *)this) + 0x48C) = obj_getField1c(*(void **)((s8 *)((u8 *)this) + 0x3C0));
+        *(s16 *)((s8 *)((u8 *)this) + 0x48C) = get_entity_id(*(void **)((s8 *)((u8 *)this) + 0x3C0));
         return;
     }
     *(u16 *)((s8 *)((u8 *)this) + 0x48C) = 0xFFFF;
@@ -3867,7 +3867,7 @@ u8 *TObjEneMe1Gee__ct(u8 *ene_me1_gee, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s
     *(s32 *)((s8 *)ene_me1_gee + 0) = (s32) lbl_805D2A68;
     *(u8 **)((s8 *)ene_me1_gee + 0x3C0) = arg2;
     ((TObjEneDD *)ene_me1_gee)->init_common_from((u8 *)(*(u8 **)((s8 *)ene_me1_gee + 0x3C0)));
-    ((TObjEneMe1Gee *)ene_me1_gee)->m_1c = arg4;
+    ((TObjEneMe1Gee *)ene_me1_gee)->entity_id = arg4;
     *(s16 *)((s8 *)ene_me1_gee + 0x2C) = arg5;
     ((s32 (*)(void *, void *))calc_position__13TObjEneMe1GeeFiPv)((void *) (*(u8 **)((s8 *)ene_me1_gee + 0x3C0)), ene_me1_gee + 0x38);
     VecCopy__FP3VecPC3Vec(ene_me1_gee + 0x38, (void *)arg3);

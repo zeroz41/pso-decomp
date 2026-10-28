@@ -134,12 +134,12 @@ f32 TOContainerAncientEnemy::receive_physical_attack(void *, f32) {
     s16 sp8;
     s32 r4;
     Pk_8015BAE0 pk;
-    if (this->m_1c >= 0x1000U && arg0->f80 != 0U && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0) {
+    if (this->entity_id >= 0x1000U && arg0->f80 != 0U && ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0) {
         sp8 = 1;
         ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
         ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pk))->init_packet_67_04();
-        pk.id = this->m_1c;
+        pk.id = this->entity_id;
         pk.a = get_current_floor();
         r4 = this->m_84;
         pk.b = r4;

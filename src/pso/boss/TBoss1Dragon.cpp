@@ -1447,7 +1447,7 @@ f32 rand_range__9TObjEneDDFff(void *, f32, f32);
 extern const f32 lbl_805D7FE0;
 s32 choose_burrow_ring_destination__12TBoss1DragonFPvPv(Dragon_80028EA8 *arg0, Vec_80028EA8 *arg1);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 s32 is_alive__9TObjEneDDFv(void *);
 s32 select_forward_target__12TBoss1DragonFPv(u8 *self);
@@ -5970,7 +5970,7 @@ s32 select_forward_target__12TBoss1DragonFPv(u8 *self) {
             subtract_vector(&delta, self + 0x38);
             ((void (*)(void *))clamp_velocity__15TObjBoss2TunnelFv)(&delta);
             if (vec3_dot(&delta, &fwd) > cutoff) {
-                selected[n++] = obj_getField1c(p);
+                selected[n++] = get_entity_id(p);
             }
         }
     }

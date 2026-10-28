@@ -984,7 +984,7 @@ void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 init_object__12TObjEneDD_STFv();
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 
 #pragma push
 #pragma fp_contract on
@@ -1128,8 +1128,8 @@ u8 *TObjEneRe4Bit__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5
     ((TUnk_80490470 *)(arg0 + 0x3DC))->init_vtable_and_field18();
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2AE8;
     ((TObjEneDD *)arg0)->init_common_from((u8 *)arg2);
-    *(s16 *)((s8 *)arg0 + 0x3C4) = obj_getField1c((void *)arg2);
-    ((TObjEneRe4Bit *)arg0)->m_1c = arg5;
+    *(s16 *)((s8 *)arg0 + 0x3C4) = get_entity_id((void *)arg2);
+    ((TObjEneRe4Bit *)arg0)->entity_id = arg5;
     *(s16 *)((s8 *)arg0 + 0x2C) = arg6;
     *(s32 *)((s8 *)arg0 + 0x3C0) = arg3;
     *(s32 *)((s8 *)arg0 + 0x3C8) = arg4;

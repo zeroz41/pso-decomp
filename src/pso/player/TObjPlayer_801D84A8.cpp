@@ -35,7 +35,7 @@ void init__9TItemDataFv(void *);
 void *set_mode_and_refresh_object__10TObjPlayerFPvi(void *, TItemData_801D8044 *);
 s32 is_boss_area(void);
 s32 TObjPlayer__sub_801AF694(void *, s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 TWindowCtrl__sub_8024A228(s32);
 s32 TMainCursor__sub_8013F244(void *);
 s32 fn_8013F24C(void *, s32);
@@ -77,7 +77,7 @@ s32 is_palette_entry_displayable__10TObjPlayerFv(u8 *arg0, u8 kind, u8 sub) {
         if (((TObjPlayer *)(arg0 + 0x428))->test_bit1_at_10() != 0 || obj_testFlags30__13TUnk_804AF8A0FUl(arg0, 0x20006) != 0 || ((TObjPlayer *)arg0)->get_camera_field() == 0) {
             return 0;
         }
-        if (*(s16 *)(arg0 + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(arg0 + 0x428, sub), ((s32 (*)(void *))obj_getField1c)(arg0))->cost < 0) {
+        if (*(s16 *)(arg0 + 0x32E) - calc_technique_parameters(tec = sub, get_cast_technique_level(arg0 + 0x428, sub), ((s32 (*)(void *))get_entity_id)(arg0))->cost < 0) {
             return 0;
         }
         switch (tec) {
@@ -242,7 +242,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 0) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(obj_getField1c(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
                     return 0;
                 }
                 break;
@@ -250,7 +250,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 1) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(obj_getField1c(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
                     return 0;
                 }
                 break;
@@ -258,7 +258,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 2) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(obj_getField1c(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
                     return 0;
                 }
                 break;
@@ -266,7 +266,7 @@ bool can_use_palette_action__10TObjPlayerFPvUcUc(TObjPlayer_801D8044 *self, u8 k
                 if (TObjPlayer__sub_801AF694(self, 3) != 0) {
                     return 0;
                 }
-                if (TWindowCtrl__sub_8024A228(obj_getField1c(self)) == 0) {
+                if (TWindowCtrl__sub_8024A228(get_entity_id(self)) == 0) {
                     return 0;
                 }
                 break;

@@ -20,7 +20,7 @@ void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TObjEnemy;
         arg0->apply_player_54a00();
         if ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) {
-            temp_r0 = arg0->m_1c;
+            temp_r0 = arg0->entity_id;
             if ((temp_r0 >= 0x1000U) && (temp_r0 < 0x4000U)) {
                 arg0->mask_sub_flags(-3);
                 *(u32 *)((s8 *)arg0 + 0x80) = 0U;

@@ -17,7 +17,7 @@ extern "C" {
 s32 TObjPlayer__sub_802A445C(void *, s32);
 void *find_entity_by_id(u16 id);
 s32 update_lifetime__22TObjEneMe1GiGueMissileFv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u8 * TNeedleShoot__ct(void *, s32, void *, void *);
 extern RecoveredGlobal_802A4CC4_lbl_804DCFF8 __vt__20TObjEneMe1Gee_NEEDLE;
 extern s32 TObjEneMe1Gee_NEEDLE__name;
@@ -75,7 +75,7 @@ u8 *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *arg0, s32 arg1, u8 *from, u8 
     arg0->m_b0 = 1;
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
-        arg0->m_34 = obj_getField1c(temp_r3);
+        arg0->m_34 = get_entity_id(temp_r3);
     }
     return (u8 *)arg0;
 }

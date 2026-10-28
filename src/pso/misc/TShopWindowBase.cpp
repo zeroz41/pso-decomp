@@ -19,7 +19,7 @@ struct RecoveredGlobal_80223A48_lbl_8050E208 {
 };
 
 extern "C" {
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern RecoveredGlobal_802239EC_lbl_8050E208 controller_input_state;
 void __ct__7TObjectFP7TObject(void *);
@@ -41,7 +41,7 @@ u16 TShopWindowBase::sub_8022397C() {
     u32 temp_r3;
     temp_r3 = *(u32 *)((s8 *)arg0 + 0x24);
     if (temp_r3 != 0U) {
-        return TShopGenerator__sub_80222DAC((obj_getField1c((void *)temp_r3)));
+        return TShopGenerator__sub_80222DAC((get_entity_id((void *)temp_r3)));
     }
     return 0U;
 }
@@ -49,7 +49,7 @@ u16 TShopWindowBase::sub_8022397C() {
 s32 TShopSequence::get_child_field1c() {
     void *temp_r3 = *(void **)((s8 *)this + 0x24);
     if (temp_r3 != NULL) {
-        return obj_getField1c(temp_r3);
+        return get_entity_id(temp_r3);
     }
     return 0;
 }

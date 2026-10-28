@@ -334,7 +334,7 @@ struct Self_8011EDFC {
 int memcpy(void*, void*, void*);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 get_mode__11TCameraCtrlFPv(void *);
 u8 * csnVector(void *, void *, s32);
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
@@ -628,7 +628,7 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *owner, s32 angle) {
 
 void TObjPlayer::fill_status_info(void *arg1) {
     ((s32 (*)(void))remap_extra_attack_type__11TItemWeaponFv)();
-    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))obj_getField1c)(*(s32 *)&this->unk_F0);
+    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&this->unk_F0);
     *(s16 *)((s8 *)arg1 + 0x16) = ((TUnk_804B9870 *)(*(s32 *)&this->unk_F0))->get_stat_by_key_state();
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
     *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&this->unk_F0 + 0x7CC));
@@ -693,8 +693,8 @@ void TObjPlayer::launch_rare_weapon_special(void *origin, s32 enable, f32 scale)
                 Spawn_8011EDFC sp;
                 sp.a = 0;
                 sp.b = 1;
-                sp.d = obj_getField1c(((Self_8011EDFC *)this)->owner);
-                sp.e = obj_getField1c(t);
+                sp.d = get_entity_id(((Self_8011EDFC *)this)->owner);
+                sp.e = get_entity_id(t);
                 sp.c = ((TItem *)this)->get_item_id();
                 sp.f = get_captured_target_collider_index(e2);
                 sp.g = scale * ((f32 (*)(void *))query_extended_state__10TObjPlayerFv)(((Self_8011EDFC *)this)->owner);
@@ -775,8 +775,8 @@ s32 TItemWeapon::launch_shot(u8 *arg1, s32 i, s32 arg3, s32 arg4) {
                         ((void (*)(void *))remap_extra_attack_type__11TItemWeaponFv)(this);
                         hit.reserved = 0;
                         hit.kind = (s32) ((s16 (*)(void *))is_status_subsystem_ready__10TObjPlayerFv)((void *)this->player);
-                        hit.source = obj_getField1c((void *)this->player);
-                        hit.target = obj_getField1c(var_r29);
+                        hit.source = get_entity_id((void *)this->player);
+                        hit.target = get_entity_id(var_r29);
                         hit.weapon = ((TItem *)((u8 *)this))->get_item_id();
                         hit.collider = get_captured_target_collider_index(temp_r22_3);
                         hit.damage = ((f32 (*)(void *))query_extended_state__10TObjPlayerFv)((void *)this->player);

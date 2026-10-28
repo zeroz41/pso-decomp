@@ -17,7 +17,7 @@ void spawn_target_needle(s32 a, Obj_80109CBC *p, s32 id, s32 c) {
         }
         if (e != 0) {
             e->f_3C = p->f_188;
-            e->f_40 = ((TObjPlayer *)p)->get_entity_id();
+            e->f_40 = ((TObjPlayer *)p)->get_texture_id();
         }
     }
 }

@@ -504,8 +504,8 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         if (entity == NULL) {
             break;
         }
-        id = obj_getField1c(entity);
-        if (id == m_1c) {
+        id = get_entity_id(entity);
+        if (id == entity_id) {
             continue;
         }
         if (id < 0x1000 || id >= 0x4000) {
@@ -516,7 +516,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
         }
         distance = calc_xz_distance_sq(this, entity, &offset);
         if (distance < best_distance) {
-            best = obj_getField1c(entity);
+            best = get_entity_id(entity);
             best_distance = distance;
             if (out != NULL) {
                 VecCopy(out, &offset);

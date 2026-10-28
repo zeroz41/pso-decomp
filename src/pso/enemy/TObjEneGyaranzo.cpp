@@ -307,7 +307,7 @@ extern "C" {
 void init_params_from_table__15TObjEneGyaranzoFv(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
 extern Entry_800D20BC TObjGyaranzoMissile_target_slots[];
 extern s32 lbl_805D586C;
@@ -391,7 +391,7 @@ void TObjEneGyaranzo::select_targets() {
         if (!(dist < lbl_805DA260)) continue;
         if (check_path_obstructed(arg0, p + 0x2FC) == 1) continue;
         TObjGyaranzoMissile_target_slots[n].dist = dist;
-        TObjGyaranzoMissile_target_slots[n].id = obj_getField1c(p);
+        TObjGyaranzoMissile_target_slots[n].id = get_entity_id(p);
         if (n > 0 && TObjGyaranzoMissile_target_slots[n].dist > TObjGyaranzoMissile_target_slots[best].dist) {
             best = n;
         }

@@ -84,7 +84,7 @@ struct Obj_8031B808 {
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
-s16 obj_getField1c(int);
+s16 get_entity_id(int);
 f32 horizontal_distance_squared(void *, void *);
 s32 fn_8031B618(Obj_8031B618 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
@@ -229,7 +229,7 @@ void TObjEneReconBomb::run_task() {
         spawn_particle_effect_with_flags(&arg0->pos, 0x46, 0x40);
         for (i = 0; i < lbl_805D5868; i++) {
             pl = (VObj_8031B808 *)get_player_data__10TObjPlayerFi(i);
-            if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)obj_getField1c((int)pl) < 0x1000 && pl->m31() == 0) {
+            if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)get_entity_id((int)pl) < 0x1000 && pl->m31() == 0) {
                 if (horizontal_distance_squared((u8 *)pl + 0x2FC, &arg0->pos2) <= arg0->range * arg0->range) {
                     P_8031B808 d;
                     d.a = 0;
@@ -266,7 +266,7 @@ u8 *TObjEneReconBomb__ct(TObjEneReconBomb *ene_recon_bomb, s32 arg1, s32 arg2, s
     *(s32 **)((s8 *)ene_recon_bomb + 0x18) = (s32 *) __vt__16TObjEneReconBomb;
     *(s32 *)((s8 *)ene_recon_bomb + 0) = (s32) TObjEneReconBomb__name;
     ene_recon_bomb->m_334 = arg2;
-    ene_recon_bomb->m_338 = obj_getField1c(ene_recon_bomb->m_334);
+    ene_recon_bomb->m_338 = get_entity_id(ene_recon_bomb->m_334);
     *(f32 *)((s8 *)ene_recon_bomb + 0x34C) = TObjEneRecon__sub_8031C2D4(ene_recon_bomb->m_334);
     ene_recon_bomb->m_350 = TObjEneRecon__sub_8031C2C8(ene_recon_bomb->m_334);
     *(f32 *)((s8 *)ene_recon_bomb + 0x354) = TObjEneRecon__sub_8031C2BC(ene_recon_bomb->m_334);

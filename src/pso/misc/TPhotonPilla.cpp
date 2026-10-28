@@ -71,7 +71,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
-u32 obj_getField1c();
+u32 get_entity_id();
 
     extern int lbl_805D5D50;
 void TObjPlayer__sub_801ADC6C(void) { lbl_805D5D50 = 0; }
@@ -89,7 +89,7 @@ void TPhotonPilla::apply_photon_blast_effects() {
         var_r31 = 0;
         do {
             if (TObjPlayer::get_battle_param(var_r31) != 0U) {
-                queue_photon_blast_hit((u16) obj_getField1c(), 2, 0, *(f32 *)((s8 *)this + 0x150));
+                queue_photon_blast_hit((u16) get_entity_id(), 2, 0, *(f32 *)((s8 *)this + 0x150));
             }
             var_r31 += 1;
         } while (var_r31 < 0x10);

@@ -132,7 +132,7 @@ typedef struct Player_801BD0C0 {
 } Player_801BD0C0;
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
 s32 get_handle_value__10TObjPlayerFv(void *);
@@ -166,10 +166,10 @@ void TObjPlayer::init_idle_animation() {
 
 void TObjPlayer::sub_801BD240() {
     P_801BD240 *arg0 = (P_801BD240 *)this;
-    s32 t = obj_getField1c(arg0) * 0xC00;
+    s32 t = get_entity_id(arg0) * 0xC00;
     arg0->fE0 = TObjPlayer__shared_model_buffer + t;
     select_class_action_provider__10TObjPlayerFv(arg0, t);
-    arg0->f380->m3(obj_getField1c(arg0));
+    arg0->f380->m3(get_entity_id(arg0));
     ((TObjPlayer *)arg0)->init_idle_animation();
     ((TObjPlayer *)arg0)->update_input_and_draw();
 }

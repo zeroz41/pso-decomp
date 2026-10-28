@@ -38,7 +38,7 @@ struct Core_801FB490 {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 get_player_by_client_id(int);
 s32 update_radar_auto_discovery(void *, int, void *);
 s32 update_pan_zoom_input__13TRaderMapCoreFv();
@@ -97,7 +97,7 @@ void run_task__13TRaderMapCoreFv(TRaderMapCore *rader_map_core) {
         }
         rader_map_core->gather_player_markers();
         if ((TRaderMapCore::is_not_split_screen() == 1) && ((u32) *(u32 *)((s8 *)rader_map_core + 0x184) != 0U)) {
-            rader_map_core->m_134 = (s32) obj_getField1c(rader_map_core->m_184);
+            rader_map_core->m_134 = (s32) get_entity_id(rader_map_core->m_184);
         }
         ((TRaderMapCore *)rader_map_core)->update_follow_projection((s32)((void *)TRaderMapCore__view_mode));
         if (TRaderMapCore::is_not_split_screen() == 1) {

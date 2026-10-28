@@ -129,7 +129,7 @@ struct RecoveredGlobal_8023CD48___vt__9TTecZonde { s32 value; u8 remaining[0x24]
 typedef char RecoveredGlobal_8023CD48___vt__9TTecZonde_size[sizeof(RecoveredGlobal_8023CD48___vt__9TTecZonde) == 0x28 ? 1 : -1];
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void copy_technique_target_list(void *, void *);
 u8 * construct_facing_technique__10TObjPlayerFPviPvii(void *, s32, void *, s32, s16);
 extern s32 __vt__9TTecZonde[];
@@ -325,7 +325,7 @@ u8 *TTecZonde__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     copy_technique_target_list(arg0 + 0x130, arg3);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
-        ((TTecZonde *)arg0)->sourceId = obj_getField1c(temp_r3);
+        ((TTecZonde *)arg0)->sourceId = get_entity_id(temp_r3);
     }
     return arg0;
 }

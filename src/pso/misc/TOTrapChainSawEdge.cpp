@@ -185,7 +185,7 @@ struct VObj_802C936C : Base_802C936C {
 };
 
 int memset(void*, int, int);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 obj_setFlags30(void *, int);
 s8 get_current_floor(int);
 f32 fabs_float(f32);
@@ -764,7 +764,7 @@ int TOTrapChainSaw::clear_field_d8() { return memset((char*)this + 0xd8, 0, 16);
 
 void TOTrapChainSaw::set_hit_cooldown_for_player(void *arg1) {
     S_802C9124 *arg0 = (S_802C9124 *)this;
-    s32 i = obj_getField1c(arg1);
+    s32 i = get_entity_id(arg1);
     if (i >= 0 && i < 4) {
         arg0->f[i] = 0x96;
     }
@@ -772,7 +772,7 @@ void TOTrapChainSaw::set_hit_cooldown_for_player(void *arg1) {
 
 s32 TOTrapChainSaw::consume_counter(void *arg1) {
     S_802C9174 *arg0 = (S_802C9174 *)this;
-    s32 i = obj_getField1c(arg1);
+    s32 i = get_entity_id(arg1);
     if (i >= 0 && i < 4) {
         if (arg0->f[i] > 0) {
             arg0->f[i] = arg0->f[i] - 1;

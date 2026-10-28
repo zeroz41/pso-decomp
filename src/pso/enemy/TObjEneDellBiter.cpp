@@ -718,7 +718,7 @@ s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(void);
 Obj_80098FF4 * get_player_data__10TObjPlayerFi(s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 void obj_setFlags30(void *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
 void TLobby__sub_8001FE7C(void*, int);
@@ -1167,7 +1167,7 @@ void TObjEneDellBiter_Eff_Rush::render() {  }
 void TObjEneDellBiter_Eff_Rush::run_task() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f1;
-    obj_getField1c((void *) (*(u8 **)((s8 *)arg0 + 0x1C)));
+    get_entity_id((void *) (*(u8 **)((s8 *)arg0 + 0x1C)));
     if (is_player_entity_id() != 0) {
         queue_destruction__7TObjectFv((arg0));
         return;
@@ -2244,7 +2244,7 @@ s32 TObjEneDellBiter__sub_80305788(Obj_80098FF4 *self) {
             dist = horizontal_distance_squared(self->field2FC, player->pos);
             if (dist < lbl_805DF018 && dist > best &&
                 csnLookAt(self->field2FC, player->field2FC) == 0) {
-                id = ((u16 (*)(void *))obj_getField1c)(player);
+                id = ((u16 (*)(void *))get_entity_id)(player);
                 best = dist;
             }
         }

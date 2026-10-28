@@ -497,7 +497,7 @@ u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, int);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
 u8 *get_enemy_entity(u16);
@@ -700,7 +700,7 @@ void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *arg0) {
             arg0->f328 = 2;
             for (i = 0; i < lbl_805D5868; i++) {
                 p = get_player_data__10TObjPlayerFi(i);
-                if (p == NULL || (u16)obj_getField1c(p) >= 0x1000) {
+                if (p == NULL || (u16)get_entity_id(p) >= 0x1000) {
                     break;
                 }
                 if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
@@ -712,7 +712,7 @@ void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *arg0) {
                         ((VObj_800ACFE8 *)p)->m21(arg0, hit, 0, -1, -1);
                         ((VObj_800ACFE8 *)p)->m23(arg0);
                     }
-                    if (d <= lbl_805D9C0C && is_split_screen() == 0 && local_client_id == (u16)obj_getField1c(p)) {
+                    if (d <= lbl_805D9C0C && is_split_screen() == 0 && local_client_id == (u16)get_entity_id(p)) {
                         TCameraCtrl::set_shake_preset(0);
                     }
                 }
@@ -1225,7 +1225,7 @@ void update_appearance_drop__11TObjEneMojaFv(Moja_800AE450 *self) {
             if (p == NULL) {
                 break;
             }
-            if ((u16)obj_getField1c(p) >= 0x1000) {
+            if ((u16)get_entity_id(p) >= 0x1000) {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
@@ -1234,7 +1234,7 @@ void update_appearance_drop__11TObjEneMojaFv(Moja_800AE450 *self) {
                     p->m21(self, Hit_800AE450(lbl_805D9C40), 0, -1, -1);
                     p->m23(self);
                 }
-                if (dist <= lbl_805D9C0C && !is_split_screen() && local_client_id == (u16)obj_getField1c(p)) {
+                if (dist <= lbl_805D9C0C && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -1310,7 +1310,7 @@ void update_appearance_jump__11TObjEneMojaFv(Moja_800AE7F4 *self) {
             if (p == NULL) {
                 break;
             }
-            if ((u16)obj_getField1c(p) >= 0x1000) {
+            if ((u16)get_entity_id(p) >= 0x1000) {
                 break;
             }
             if (((s32 (*)(void *))obj_is_hit_receivable)(p) != 0) {
@@ -1319,7 +1319,7 @@ void update_appearance_jump__11TObjEneMojaFv(Moja_800AE7F4 *self) {
                     p->m21(self, Hit_800AE7F4(lbl_805D9C40), 0, -1, -1);
                     p->m23(self);
                 }
-                if (dist <= lbl_805D9C0C && !is_split_screen() && local_client_id == (u16)obj_getField1c(p)) {
+                if (dist <= lbl_805D9C0C && !is_split_screen() && local_client_id == (u16)get_entity_id(p)) {
                     TCameraCtrl::set_shake_preset(0);
                 }
             }
@@ -1458,8 +1458,8 @@ void acquire_target__11TObjEneMojaFPv(u8 *arg0) {
                 if (p == NULL) {
                     break;
                 }
-                id = obj_getField1c(p);
-                if ((u16)id < 0x4000 && (u16)id != ((TObjEneMoja *)arg0)->m_1c && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
+                id = get_entity_id(p);
+                if ((u16)id < 0x4000 && (u16)id != ((TObjEneMoja *)arg0)->entity_id && !(*(s32 *)((s8 *)p + 0x30) & 0x02000800)) {
                     f32 xx;
                     f32 zz;
                     VecCopy((Vec *)&v, (const Vec *)(p + 0x2FC));

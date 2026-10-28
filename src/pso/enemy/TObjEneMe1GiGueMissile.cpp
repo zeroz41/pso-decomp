@@ -24,7 +24,7 @@ s32 pop_matrix();
 f32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern int TObjEneMe1GiGue_barrier_count;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 play_sound_effect(s32, u32, s16, s32);
 u8 * TNeedleShoot__ct(void *, s32, void *, void *);
 extern s32 __vt__22TObjEneMe1GiGueMissile[];
@@ -165,7 +165,7 @@ u8 *TObjEneMe1GiGueMissile__ct(u8 *arg0, s32 arg1, u8 *from, u8 *to, f32 farg0, 
     play_sound_effect(0x4002A600, (u32)(arg0 + 0x6C), 0, 0);
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x1C));
     if (temp_r3 != NULL) {
-        ((TObjEneMe1GiGueMissile *)arg0)->m_34 = obj_getField1c(temp_r3);
+        ((TObjEneMe1GiGueMissile *)arg0)->m_34 = get_entity_id(temp_r3);
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x68));
     if (temp_r3_2 != NULL) {

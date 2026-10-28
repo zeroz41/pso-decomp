@@ -397,7 +397,7 @@ s16 obj_getS16_32E(u8 *p);
 s16 obj_getS16_2BA(u8 *p);
 s16 obj_getS16_32C(u8 *p);
 int get_player_data__10TObjPlayerFi(int a0);
-s32 obj_getField1c(void *obj);
+s32 get_entity_id(void *obj);
 f32 fabs_float(f32);
 f64 atan2_float(int, f32, f32, f32);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -1786,7 +1786,7 @@ void deliver_partner_chatter(Npc_8014E250 *self) {
     if (is_any_teammate_in_state__10TObjPlayerFv(self) != 0) {
         return;
     }
-    id = obj_getField1c(self->owner->obj);
+    id = get_entity_id(self->owner->obj);
     if (id != 0xFFFF) {
         text = (char *)get_partner_custom_text(self->state, id);
         if (text != 0) {
@@ -2262,7 +2262,7 @@ s32 find_parts_in_range__10TNpcPlayerFPvPvif(View_8014F424 *view, void *pos, s32
             d = horizontal_distance_squared(pos, actor->cols + i * 0x2C + 0x1C);
             if (d < range) {
                 found = 1;
-                view->c[view->count].id = (u16)obj_getField1c(actor);
+                view->c[view->count].id = (u16)get_entity_id(actor);
                 view->c[view->count].dist = d;
                 view->c[view->count].idx = i;
                 if (view->count >= 9) {
@@ -2309,7 +2309,7 @@ s32 scan_nearby_enemies__10TNpcPlayerFPvPvf(View_8014F57C *view, void *pos, f32 
             d = horizontal_distance_squared(origin, actor->cols[c].pos);
             if (d < range) {
                 found = 1;
-                view->c[view->count].id = (u16)obj_getField1c(actor);
+                view->c[view->count].id = (u16)get_entity_id(actor);
                 view->c[view->count].dist = d;
                 view->c[view->count].idx = c;
                 if (view->count >= 9) {

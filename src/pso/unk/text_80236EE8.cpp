@@ -40,7 +40,7 @@ struct Tec_80236EE8 {
 };
 
 extern "C" {
-u16 obj_getField1c(u32);
+u16 get_entity_id(u32);
 List_802370D8 *find_support_technique_contact_for_target__10TObjPlayerFl(void *, u32);
 List_802370D8 *gather_contacts_for_self__10TObjPlayerFl(void *, u32);
 void deliver_technique_to_party_targets(Obj_802370D8 *arg0);
@@ -131,7 +131,7 @@ void deliver_technique_to_party_targets(Obj_802370D8 *arg0) {
         queue_destruction__7TObjectFv(arg0);
         return;
     }
-    if (obj_getField1c(*(u32 *)((s8 *)arg0 + 0x1C)) < 4) {
+    if (get_entity_id(*(u32 *)((s8 *)arg0 + 0x1C)) < 4) {
         list = gather_contacts_for_self__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));
     } else {
         list = find_support_technique_contact_for_target__10TObjPlayerFl(arg0, *(u32 *)((s8 *)arg0 + 0x1C));

@@ -63,7 +63,7 @@ extern s32 __vt__14TOSwitchAttack[];
 extern s32 lbl_805D3178;
 u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 get_current_floor();
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 f32 horizontal_distance_squared(void *, void *);
 void *resolve_hittable_target(u16 actorId, s16 collider);
@@ -212,7 +212,7 @@ u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
 void TOSwitchItem::send_switch_on() {
     Pkt_80177CF4 pkt;
     ((TLobby *)(&pkt))->init_6x05_switch_changed();
-    pkt.object = obj_getField1c(this);
+    pkt.object = get_entity_id(this);
     pkt.zero = 0;
     pkt.switchId = ((Self_80177CF4 *)this)->switchId;
     pkt.area = get_current_floor();

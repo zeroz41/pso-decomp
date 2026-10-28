@@ -148,7 +148,7 @@ struct RaBarta_802377FC {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 
 void *__nw__7TObjectFUl(u32);
 void *get_bml_motion(void *, int);
@@ -305,12 +305,12 @@ void TTecRaBarta::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == obj_getField1c(((VObj_80237900 *)target))) {
+        if (self->ids[i] == get_entity_id(((VObj_80237900 *)target))) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = obj_getField1c(((VObj_80237900 *)target));
+        self->ids[*(s32 *)&this->m_138] = get_entity_id(((VObj_80237900 *)target));
         *(s32 *)&this->m_138 += 1;
         if (*(s32 *)&this->m_138 >= 32) {
             *(s32 *)&this->m_138 = 31;
@@ -485,7 +485,7 @@ void *TTecRaBarta__ct(void *self_, void *source, void *origin, void *pos, void *
     ((TTecRaBarta *)self)->vfunc_8((void *)((s32)self->pos));
     ((TTecRaBarta *)self)->vfunc_9();
     if (self->source != 0) {
-        self->fb4 = obj_getField1c(self->source);
+        self->fb4 = get_entity_id(self->source);
     }
     return self_;
 }
@@ -509,7 +509,7 @@ void *TTecRaBarta::construct_area(void *source, void *origin, void *level) {
     this->vfunc_8(0);
     this->vfunc_9();
     if (this->source != NULL) {
-        this->m_b4 = obj_getField1c(*(void * *)&this->source);
+        this->m_b4 = get_entity_id(*(void * *)&this->source);
     }
     return this;
 }

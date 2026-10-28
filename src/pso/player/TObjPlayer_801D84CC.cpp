@@ -50,13 +50,13 @@ void TObjPlayer__sub_801BE9A8(s32 arg0);
 void set_equip_slot_entry(s32 arg0, s32 arg1, s32 arg2);
 s32 get_item_id__5TItemFv();
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void set_flag_20000__10TObjPlayerFi(s32 arg0);
 
 void process_trade_target__10TObjPlayerFiPv(s32 arg0, void *player) {
     void *temp_r3;
 
-    ((s32 (*)())obj_getField1c)();
+    ((s32 (*)())get_entity_id)();
     *(s32 *)((s8 *)player + 0xC) = advance_item_id_counter();
     temp_r3 = create_item((TItemData *)player);
     if (temp_r3 != NULL) {
@@ -355,7 +355,7 @@ Player_801D88C8 *create_ending_sequence_player(Player_801D88C8 *self, void *pare
     VecCopy((Vec *)self->pos, (const Vec *)(((TObjPlayer *)(src->sub))->get_sub_object()));
     self->ang = ((TObjPlayer *)(src->sub))->get_lock_timer();
     ((TObjPlayer *)self)->select_class_action_provider();
-    self->model = TObjPlayer__shared_model_buffer + obj_getField1c(self) * 0xC00;
+    self->model = TObjPlayer__shared_model_buffer + get_entity_id(self) * 0xC00;
     ((TObjPlayer *)self)->init_npc_animation((void*)(((TObjPlayer *)self)->get_table_entry_by_clamped_index()), (void*)(*(s32 *)player_ending_motion_object), (void*)1);
     self->frame = src->frame;
     ((TObjPlayer *)self)->set_action_flag_40();
@@ -486,7 +486,7 @@ s32 TObjPlayer::get_guild_return_yaw() {
 }
 
 Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player) {
-    return guild_return_position_table_by_episode[TLobby::get_instance()] + obj_getField1c(player);
+    return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(player);
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
@@ -494,7 +494,7 @@ s32 TObjPlayer::get_hospital_yaw() {
 }
 
 u8 *TObjPlayer::get_hospital_position() {
-    return hospital_position_table_by_episode[TLobby::get_instance()] + (obj_getField1c(this) * 0xC);
+    return hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
 }
 
 s32 get_class_starting_inventory(s8 arg0) {

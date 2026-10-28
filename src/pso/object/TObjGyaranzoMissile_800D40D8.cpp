@@ -252,7 +252,7 @@ struct RecoveredGlobal_800D4668_lbl_8049442C {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, int);
 
@@ -314,7 +314,7 @@ u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s3
     ((TUnk_8049442C *)arg0)->m_c4 = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x58);
     *(s32 *)((s8 *)arg0 + 0xC8) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x42C)) + 0x5C);
     *(s16 *)((s8 *)arg0 + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    *(u16 *)((s8 *)arg0 + 0xD8) = obj_getField1c(arg1);
+    *(u16 *)((s8 *)arg0 + 0xD8) = get_entity_id(arg1);
     ((TUnk_8049442C *)arg0)->m_b8 = 0;
     ((TUnk_8049442C *)arg0)->m_bc = (arg3 + 0x8000);
     *(s32 *)((s8 *)arg0 + 0xC0) = -0x4000;

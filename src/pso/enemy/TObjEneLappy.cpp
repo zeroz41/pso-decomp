@@ -332,7 +332,7 @@ s32 advance_animation_playback(void *);
 void apply_variant_speeds__12TObjEneLappyFv(Obj_800BFCD4 *self);
 s32 check_path_obstructed(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
 extern s32 lappy_target_zero_vec[];
 extern s32 lbl_805D586C;
@@ -1018,7 +1018,7 @@ void TObjEneLappy::vfunc_28() {
                 if (p == NULL) {
                     break;
                 }
-                id = obj_getField1c(p);
+                id = get_entity_id(p);
                 if ((u16)id < 0x4000 && (u16)id != *(u16 *)((s8 *)arg0 + 0x1C) && !(*(s32 *)((s8 *)p + 0x30) & 0x800)) {
                     f32 xx;
                     f32 zz;
@@ -1043,7 +1043,7 @@ void TObjEneLappy::vfunc_28() {
         u8 *q;
         for (j = 0; j < lbl_805D586C; j++) {
             q = (u8 *)get_player_data__10TObjPlayerFi(j);
-            if (q != NULL && *(s16 *)((s8 *)arg0 + 0x382) != (u16) obj_getField1c(q) && !(*(s32 *)((s8 *)q + 0x30) & 0x800)) {
+            if (q != NULL && *(s16 *)((s8 *)arg0 + 0x382) != (u16) get_entity_id(q) && !(*(s32 *)((s8 *)q + 0x30) & 0x800)) {
                 if (xz_distance_squared((Vec *)(q + 0x2FC), (Vec *)(arg0 + 0x2FC)) < lbl_805D9F88) {
                     *(u16 *)((s8 *)arg0 + 0x338) = j;
                 }

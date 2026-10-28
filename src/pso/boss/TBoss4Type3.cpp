@@ -374,7 +374,7 @@ struct VObj_8005B218 : VBase_8005B218 {
 
 f32 calc_boss4_scale__10TObjPlayerFi(void *);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_split_screen();
 void queue_destruction__7TObjectFv(void *);
 s16 * register_boss__6TLobbyFl(s32);
@@ -834,7 +834,7 @@ void TObjBs4CutAtk::run_task() {
     }
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = (VObj_8005B218 *)get_player_data__10TObjPlayerFi(i);
-        if (TBoss4Type3__sub_8005254C(obj_getField1c(p)) == 0) {
+        if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
             continue;
         }
         ang = (s32)(10430.38043493439 * atan2_float(-(*(f32 *)((s8 *)p + 0x38) - 10000.0f), *(f32 *)((s8 *)p + 0x40)));

@@ -1916,7 +1916,7 @@ typedef struct Nest_800B39CC {
     u8 f3D4[0xC];
 } Nest_800B39CC;
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -2403,9 +2403,9 @@ u8 *TObjEneBm3Fly__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5
     ((TObjEneDD_ST *)arg0)->init_object();
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800B2168___vt__13TObjEneBm3Fly *)__vt__13TObjEneBm3Fly).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjEneBm3Fly__name;
-    ((TObjEneBm3Fly *)arg0)->owner_id = obj_getField1c(arg2);
+    ((TObjEneBm3Fly *)arg0)->owner_id = get_entity_id(arg2);
     ((TObjEneDD *)arg0)->init_common_from((u8 *)arg2);
-    ((TObjEneBm3Fly *)arg0)->m_1c = arg3;
+    ((TObjEneBm3Fly *)arg0)->entity_id = arg3;
     *(s16 *)((s8 *)arg0 + 0x2C) = arg4;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg5));
     VecCopy((Vec *)(arg0 + 0x41C), (const Vec *)(arg2 + 0x38));

@@ -37,7 +37,7 @@ struct Msg_801160E0 { u8 hdr[4]; s16 id; s16 types[3]; u8 pad[0xC]; };
 struct Item_801160E0 { u8 pad[0x424]; u32 f424; };
 
 extern "C" {
-s16 obj_getField1c(Obj_80116004 *);
+s16 get_entity_id(Obj_80116004 *);
 f32 horizontal_distance_squared(void *, void *);
 s32 sub_801A1DDC__10TObjPlayerFv(void *);
 void *get_player_by_client_id(s32 i);
@@ -186,7 +186,7 @@ void send_nearby_player_ids(Obj_80116004 *self, f32 range) {
             pl = (Obj_80116004 *)get_player_by_client_id(i);
             if (pl != NULL) {
                 if (horizontal_distance_squared(self->pos, pl->pos) < range) {
-                    msg.ids[j++] = obj_getField1c(pl);
+                    msg.ids[j++] = get_entity_id(pl);
                 } else {
                     msg.ids[j++] = -1;
                 }
@@ -206,7 +206,7 @@ void send_star_atomizer_targets(void *player) {
         t = ((TMainCursor *)(((Item_801160E0 *)player)->f424))->find_by_pos(4, 0xA);
         if (t != 0) {
             ((TObjPlayer *)(&msg))->set_type_bytes();
-            msg.id = obj_getField1c((Obj_80116004 *)player);
+            msg.id = get_entity_id((Obj_80116004 *)player);
             for (i = 0; i != 3; i++) {
                 msg.types[i] = ((TObjPlayer *)(TObjPlayer__sub_80116620((void *)(t + 0x9C), i)))->get_type_id();
             }

@@ -438,7 +438,7 @@ extern "C" {
 
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 Player_800951AC * get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void queue_destruction__7TObjectFv(void *);
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
@@ -1060,7 +1060,7 @@ s32 TObjEneRe7Berura::acquire_target_in_view() {
             if (d < TObjEneRe7Berura__data_805D9724 && d > best &&
                 s * v.x + c * v.z > limit &&
                 csnLookAt(&self->pos, &p->pos) == 0) {
-                id = obj_getField1c(p);
+                id = get_entity_id(p);
                 best = d;
             }
         }

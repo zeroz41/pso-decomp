@@ -166,7 +166,7 @@ extern s32 lbl_805D3658;
 u8 *THunterGuildSeqOffline__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 get_selected_menu_value(void *);
 void THunterGuildSeqOffline__sub_8021339C(void);
-u16 obj_getField1c(s32);
+u16 get_entity_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(void);
 void close_window__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
@@ -202,7 +202,7 @@ void THunterGuildSeqOffline::open_judgment_window() {
 
     if ((this->vfunc_10() != 0)
         && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        *(s32 *)&this->m_2c = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)obj_getField1c(this->m_24), 0, 0);
+        *(s32 *)&this->m_2c = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
         ((TWindowSubComCardList *)(this->m_2c))->set_selected_index(1);
         ((TUnk_804CDFE8 *)(this->m_2c))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
         ((VObj_802136A4_80212e50_80212D9C *)this)->m9(8, 1);
@@ -373,7 +373,7 @@ void THunterGuildSeqOffline__sub_80213474(void *shop_sequence) {
             if (o != NULL) {
                 ((THunterGuildSeqOffline *)o)->init(tl_00, reset_random_enemies_mode);
             }
-            obj_getField1c(*(s32 *)((s8 *)shop_sequence + 0x24));
+            get_entity_id(*(s32 *)((s8 *)shop_sequence + 0x24));
             THunterGuildSeqOffline__sub_8021E180();
             break;
         }
@@ -429,7 +429,7 @@ void THunterGuildSeqOffline::open_judgment_item_window() {
 
     if ((this->vfunc_10() != 0)
         && ((sub_80223A48__15TShopWindowBaseFv(this) != 0) || (sub_802239EC__13TShopSequenceFv(this) != 0))) {
-        *(s32 *)((s8 *)this + 0x3C) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)obj_getField1c(this->m_24), 0, 0);
+        *(s32 *)((s8 *)this + 0x3C) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(this->m_24), 0, 0);
         ((TWindowSubComCardList *)(*(s32 *)((s8 *)this + 0x3C)))->set_selected_index(1);
         ((TUnk_804CDFE8 *)(*(s32 *)((s8 *)this + 0x3C)))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
         ((VObj_802136A4_80212D9C *)this)->m9(8, 1);

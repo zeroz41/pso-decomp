@@ -24,7 +24,7 @@ void fn_80109974(s32 id, const Vec_80109A30 &pos, Vec_80109A30 *dir) {
     }
     if (eff != NULL) {
         *(s32 *)((s8 *)eff + 0x3C) = TObjPlayer__sub_8010A058(player);
-        *(s32 *)((s8 *)eff + 0x40) = player->get_entity_id();
+        *(s32 *)((s8 *)eff + 0x40) = player->get_texture_id();
         *(s32 *)((s8 *)eff + 0x44) += 0x8000;
     }
     Vec_80109A30 v = pos;
@@ -42,7 +42,7 @@ void spawn_needle_wall_impact(s32 arg0, void *arg1, Vec_80109A30 *arg2, Vec_8010
         }
         if (var_r31 != NULL) {
             *(s32 *)((s8 *)var_r31 + 0x3C) = *(s32 *)((s8 *)arg1 + 0x188);
-            *(s32 *)((s8 *)var_r31 + 0x40) = ((TObjPlayer *)arg1)->get_entity_id();
+            *(s32 *)((s8 *)var_r31 + 0x40) = ((TObjPlayer *)arg1)->get_texture_id();
         }
     }
 }

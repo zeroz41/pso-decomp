@@ -23,7 +23,7 @@ void vec3_add_to(Vec *v, const Vec *add);
 void subtract_vector(Vec *v, const Vec *sub);
 void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(TUnk_804806E8 *actor);
-u16 obj_getField1c(TObject *object);
+u16 get_entity_id(TObject *object);
 extern GC_Mtx identity_matrix;
 }
 
@@ -50,7 +50,7 @@ s32 TUnk_80484A94::try_capture_target() {
                 target->receive_direct_attack(m_up, hit, NULL, -1, -1);
                 owner = m_up;
                 if (owner != NULL) {
-                    ((TBoss3Volopt *)owner)->create_cage(obj_getField1c(target));
+                    ((TBoss3Volopt *)owner)->create_cage(get_entity_id(target));
                 }
                 return 1;
             }
@@ -111,7 +111,7 @@ TUnk_80484A94::~TUnk_80484A94() {
 
 TUnk_80484A94::TUnk_80484A94(TObjEnemy *owner, Vec *pos, s32 target) : TUnk_804AF8A0(owner) {
     init_collision_body_parts(this, volopt_shot_collision_body, 1);
-    entity_id = obj_getField1c(owner);
+    entity_id = get_entity_id(owner);
     VecCopy((Vec *)position, pos);
     target_id = target;
     m_5c = 0;

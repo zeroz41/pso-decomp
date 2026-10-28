@@ -32,7 +32,7 @@
 #include "pso/unk/text_803E2D70.h"
 
 extern "C" {
-u16 obj_getField1c(void *obj);
+u16 get_entity_id(void *obj);
 void obj_setFlags30(void *obj, u32 flags);
 s32 play_sound_effect(s32 id, void *pos, s32 a2, s32 a3);
 s32 subtract_vector(Vec *a, const Vec *b);
@@ -140,7 +140,7 @@ TBoss3VoloptP01::TBoss3VoloptP01(TBoss3Volopt *parent, s32 index, u16 id, s32 an
 
     ((TObjPlayer *)&targets)->construct_target_cursor_records();
     m_name = TBoss3VoloptP01_class_name;
-    m_1c = id;
+    entity_id = id;
     *(s16 *)&m_2c = angle_param;
     m_80 = NULL;
     *(s16 *)&m_28 = *(s16 *)&parent->m_28;
@@ -716,7 +716,7 @@ void TBoss3VoloptP01::push_nearby_players() {
     radius_sq = 64.0f;
     for (i = 0; i < lbl_805D586C; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || obj_getField1c(player) >= 0x1000) {
+        if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
         {
@@ -758,7 +758,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
     n = 0;
     for (i = 0; i < lbl_805D586C; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || obj_getField1c(player) >= 0x1000) {
+        if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
         if (!(player->actorFlags & 0x02000800)) {
@@ -793,7 +793,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
             if (hiraisin->sub_80040FCC() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 2;
                 packet.send();
             }
@@ -819,8 +819,8 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         n = 0;
         for (i = 0; i < lbl_805D586C; i++) {
             player = TObjPlayer::get_player_data(i);
-            if (player != NULL && obj_getField1c(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
-                targets.records[n].id = obj_getField1c(player);
+            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
+                targets.records[n].id = get_entity_id(player);
                 targets.records[n].flag = 1;
                 n++;
             }
@@ -833,7 +833,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 1:
         for (j = 0; j < lbl_805D586C; j++) {
             player = TObjPlayer::get_player_data(j);
-            if (player != NULL && obj_getField1c(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
+            if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
                 TTecFoie::create_ex(this, &pos, &player->m_2fc, (void *)0x1D);
             }
         }
@@ -841,7 +841,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 2:
         for (k = 0; k < lbl_805D586C; k++) {
             target = TObjPlayer::get_player_data(k);
-            if (target != NULL && obj_getField1c(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
+            if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
                 ((TTecGiBarta *)this)->create(&pos, &target->m_2fc, (void *)0x1D);
             }
         }

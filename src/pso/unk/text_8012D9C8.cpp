@@ -28,7 +28,7 @@ extern const f32 lbl_805DAF54;
 u8 *__nw__5TItemFUl(s32);
 u8 * TItemWeapon__ct(void *, void *);
 void init_slicer_launch_state(void *arg0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 f32 query_extended_state__10TObjPlayerFv(void *);
@@ -48,7 +48,7 @@ void launch_slicer_shot(u8 *weapon) {
     f32 tmp[4];
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
-    launch.player = obj_getField1c(*(u8 * *)&((TUnk_804A5B20 *)weapon)->player);
+    launch.player = get_entity_id(*(u8 * *)&((TUnk_804A5B20 *)weapon)->player);
     launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);

@@ -1316,7 +1316,7 @@ void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);
 void rotate_vec_xz(void *, void *, s32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 void vec3_add_to(void *, void *);
 extern u8 lbl_8044613C[];
 void update_motion__12TWindowTimerFPv(Timer_80199F14 *self);
@@ -1346,7 +1346,7 @@ void update_motion__12TWindowTimerFPv(Timer_80199F14 *self) {
         p.y += ((Tbl_80199F14 *)&(*(RecoveredGlobal_8019A574_lbl_8050DD58 *)&gogo_ball_configuration))->yofs;
         spawn_particle_effect_with_flags(&p, 0x45, 0x40);
         spawn_particle_effect_with_flags(&p, 0x46, 0x40);
-        TWindowCtrl::open((s32)(obj_getField1c(self)), (s32)lbl_8044613C, 0x1B);
+        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)lbl_8044613C, 0x1B);
         queue_destruction__7TObjectFv(self);
         return;
     }
@@ -1428,7 +1428,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
         }
     }
     if ((ST.flags & 2 || ST.flags & 1 || ST.flags & 0x20 || ST.flags & 0x10) && !(ST.flags & 8) && !(ST.flags & 4)) {
-        TWindowCtrl::open((s32)(obj_getField1c(self)), (s32)lbl_80446148, 0x1B);
+        TWindowCtrl::open((s32)(get_entity_id(self)), (s32)lbl_80446148, 0x1B);
     }
     if (!(ST.flags & 0x33) && self->f360 != 0) {
         self->f360 = 0;
@@ -1436,7 +1436,7 @@ void TUnk_804B8E18::update_goal_checks(u16 id) {
     len = ((f32 (*)(void *))vector_length)(&self->vel);
     if ((0.0f) == len) {
         if (self->f358 == 0) {
-            TWindowCtrl::open((s32)(((s32 (*)(void *, s32))obj_getField1c)(self, self->f35C++)), (s32)((void *)&lbl_805DBF94), 0x1B);
+            TWindowCtrl::open((s32)(((s32 (*)(void *, s32))get_entity_id)(self, self->f35C++)), (s32)((void *)&lbl_805DBF94), 0x1B);
         }
         self->f358 = 1;
     } else {

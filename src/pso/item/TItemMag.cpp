@@ -143,7 +143,7 @@ void * memcpy(void *dst, const void *src, u32 n);
 s32 get_main_phase();
 s32 obj_isState2_324__13TUnk_804806E8Fv(int);
 s16 obj_getS16_32C(s32);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_group__5TItemFv(s32);
 u8 * get_type__8TItemMagFv(s32);
@@ -1224,7 +1224,7 @@ void TItemMag::cast_support_technique(s32 technique) {
     case 17:
         ((TObjPlayer *)(&targets))->construct_target_cursor_records();
         targets.count = 1;
-        targets.ids[0] = obj_getField1c(*(u8 * *)&this->m_f0);
+        targets.ids[0] = get_entity_id(*(u8 * *)&this->m_f0);
         targets.ids[1] = 0;
         TTecReverser::create((void *)(*(u8 * *)&this->m_f0), (void *)(*(u8 * *)&this->m_f0 + 0x38), &targets, (void *)level);
         break;

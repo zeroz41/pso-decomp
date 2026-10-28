@@ -22,7 +22,7 @@ struct Pl_80124C90 { u8 pad0[0x38]; Vec_80124C90 pos38; u8 pad44[0x60 - 0x44]; s
 struct Me_80124C90 { u8 pad0[0xF0]; Pl_80124C90 *pl; u8 padf4[0x1E4 - 0xF4]; f32 scale; };
 
 extern "C" {
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 Hit_80124C90 *csnVector(void *, void *, int);
 }
 void spawn_item_attacker(s32 arg0, u32 arg1, s32 arg2, u8 *arg3);
@@ -89,8 +89,8 @@ void TUnk_804A2260::sub_80124C90() {
             void *e2 = get_captured_target_entry(ext, i);
             atk.a = 0;
             atk.b = 1;
-            atk.id0 = obj_getField1c(me->pl);
-            atk.id1 = obj_getField1c(t);
+            atk.id0 = get_entity_id(me->pl);
+            atk.id1 = get_entity_id(t);
             atk.d8 = ((TItem *)((u8 *)this))->get_item_id();
             atk.idx = get_captured_target_collider_index(e2);
             atk.f = query_extended_state__10TObjPlayerFv(me->pl);

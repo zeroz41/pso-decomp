@@ -487,7 +487,7 @@ u8 *TBoss2Joint__ct(u8 *boss2_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32
     *(s32 **)((s8 *)boss2_joint + 0x18) = &(*(RecoveredGlobal_80036FC8___vt__11TBoss2Joint *)&__vt__11TBoss2Joint).value;
     *(s32 *)((s8 *)boss2_joint + 0) = (s32) TBoss2Joint__name;
     ((TObjEneDD *)boss2_joint)->init_common_from(arg1);
-    ((TBoss2Joint *)boss2_joint)->m_1c = arg2;
+    ((TBoss2Joint *)boss2_joint)->entity_id = arg2;
     *(s16 *)((s8 *)boss2_joint + 0x2C) = arg3;
     *(s32 *)((s8 *)boss2_joint + 0x390) = arg4;
     *(s32 *)((s8 *)boss2_joint + 0x398) = arg5;

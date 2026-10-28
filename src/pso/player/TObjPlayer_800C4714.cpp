@@ -79,7 +79,7 @@ extern "C" {
 s32 vec3_add_to(void *, void *);
 
 void __dl__7TObjectFPv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u8 *construct_collision_body(u8 *arg0, s32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -284,7 +284,7 @@ Obj_800C4A5C *TObjPlayer__sub_800C4A5C(Obj_800C4A5C *o, void *owner, Vec_800C4A5
     o->f0 = lbl_805D2A50;
     o->coll->radius = lbl_8043BC10[0].z;
     o->angle = angle;
-    o->ownerId = obj_getField1c(owner);
+    o->ownerId = get_entity_id(owner);
     VecCopy((Vec *)&o->start, (const Vec *)start);
     VecCopy((Vec *)&o->pos, (const Vec *)&o->start);
     o->accel.x = (0.0f);

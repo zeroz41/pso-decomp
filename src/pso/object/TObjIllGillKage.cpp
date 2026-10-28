@@ -10,7 +10,7 @@ typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(Recove
 
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 s32 __ct__13TUnk_804B9870FP7TObject(void *);
 extern s32 __vt__15TObjIllGillKage[];
@@ -76,7 +76,7 @@ u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2) {
     *(s32 *)((s8 *)ill_gill_kage + 0) = (s32) lbl_805D44AC;
     if (arg2 != 0U) {
         VecCopy((Vec *)(ill_gill_kage + 0x38), (const Vec *)(arg2 + 0x38));
-        ((TObjIllGillKage *)ill_gill_kage)->m_98 = obj_getField1c((void *)arg2);
+        ((TObjIllGillKage *)ill_gill_kage)->m_98 = get_entity_id((void *)arg2);
         ((TObjIllGillKage *)ill_gill_kage)->m_94 = 0xB4;
         ((TObjIllGillKage *)ill_gill_kage)->m_90 = 0;
     } else {

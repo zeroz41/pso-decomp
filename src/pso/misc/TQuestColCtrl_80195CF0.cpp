@@ -7,7 +7,7 @@ struct Obj_80195CF0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195CF0 *next; u8 pad
 struct Obj_80195DE0 { u8 pad0[6]; u16 f6; u8 pad8[4]; Obj_80195DE0 *next; u8 pad10[4]; Obj_80195DE0 *child; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 TObjQuestCol__class_name;
 extern s32 TObjQuestColA__class_name;
@@ -36,7 +36,7 @@ Obj_80195CF0 *find_by_id__13TQuestColCtrlFUs(u16 arg0) {
              || check_value_equals__13TUnk_804B6C24Fl(cur, obj_quest_col_apc_class_name) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D33FC) != 0
              || check_value_equals__13TUnk_804B6C24Fl(cur, lbl_805D3400) != 0)
-            && arg0 == obj_getField1c(cur)) {
+            && arg0 == get_entity_id(cur)) {
             return cur;
         }
     }

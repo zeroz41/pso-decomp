@@ -77,7 +77,7 @@ void apply_technique_to_area_targets__13TUnk_804CC148Fv(void *);
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(Obj_80237DAC *self);
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void construct_area_technique_base(void *, void *, void *, void *, int);
 #define construct_area_technique_base ((void (*)(void *, void *, void *, void *, void *))construct_area_technique_base)
 s32 is_split_screen();
@@ -770,7 +770,7 @@ Obj_80238AE8 *TTecRaFoie__ct(Obj_80238AE8 *arg0, void * _w1, void * _w2, void * 
         *(f32 *)((s8 *)t->inner + 0xC) = ((TTecRaFoie *)arg0)->m_90;
     }
     if (arg0->source != NULL) {
-        ((TTecRaFoie *)arg0)->m_b4 = obj_getField1c(arg0->source);
+        ((TTecRaFoie *)arg0)->m_b4 = get_entity_id(arg0->source);
     }
     arg0->m6(0);
     arg0->m7();
@@ -788,7 +788,7 @@ u8 *construct_targeted__10TTecRaFoieFPvPvPvPvi(u8 *self, void *source, void *ori
     ((TTecRaFoie *)self)->m_148 = 0;
     copy_technique_target_list(self + 0xEC, targets);
     if (*(void **)((s8 *)self + 0x1C) != NULL) {
-        ((TTecRaFoie *)self)->m_b4 = obj_getField1c(*(void **)((s8 *)self + 0x1C));
+        ((TTecRaFoie *)self)->m_b4 = get_entity_id(*(void **)((s8 *)self + 0x1C));
     }
     proxy = *(u8 **)((s8 *)self + 0xE8);
     if (proxy != NULL) {

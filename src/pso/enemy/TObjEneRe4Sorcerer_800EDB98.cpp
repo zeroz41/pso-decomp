@@ -423,7 +423,7 @@ extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
 void render__18TObjEneRe4SorcererFv(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 *csnLookAt(s32 arg0, s32 arg1);
 s32 enemy_bind_or_clear_target(void *, u16);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
@@ -1987,7 +1987,7 @@ s32 TObjEneRe4Sorcerer::cast_technique() {
         if (*(s32 *)((s8 *)arg0 + 0x3E8) == 0) {
             fn_80044330(arg0 + 0x418);
             *(s32 *)((s8 *)arg0 + 0x418) = 1;
-            *(s16 *)((s8 *)arg0 + 0x41C) = obj_getField1c(*(void **)((s8 *)arg0 + 0x390));
+            *(s16 *)((s8 *)arg0 + 0x41C) = get_entity_id(*(void **)((s8 *)arg0 + 0x390));
             *(s16 *)((s8 *)arg0 + 0x41E) = 0;
             if (TObjEneDD::check_v2_mode() != 0) {
                 TTecGrants::create((void *)arg0, (void *)src, arg0 + 0x418, (void *)(TObjEneDD::clamp_frame_index(*(s32 *)((s8 *)sorcerer_behavior_params + 0x18))));
@@ -2058,7 +2058,7 @@ s32 TObjEneRe4Sorcerer::update_farthest_target(s32 item_pro_shield, f32 *arg2) {
         temp_f1 = horizontal_distance_squared((void *) (((u8 *)this) + 0x38), (void *)(item_pro_shield + 0x38));
         if ((temp_f1 <= lbl_805DA7E4) && (temp_f1 > *arg2)) {
             *arg2 = temp_f1;
-            *(s16 *)((s8 *)((u8 *)this) + 0x38C) = obj_getField1c((void *)item_pro_shield);
+            *(s16 *)((s8 *)((u8 *)this) + 0x38C) = get_entity_id((void *)item_pro_shield);
             *(s32 *)((s8 *)((u8 *)this) + 0x390) = item_pro_shield;
             return 1;
         }
@@ -2190,7 +2190,7 @@ s32 select_attack_target__18TObjEneRe4SorcererFiff(s32 arg0, f32 farg0, f32 farg
             if (p != (u8 *)self && (u32)p != o1 && (u32)p != o2 && is_alive__9TObjEneDDFv((s32)p) != 0) {
                 d = horizontal_distance_squared((void *)(arg0 + 0x2FC), p + 0x38);
                 if (d < best && csnLookAt((arg0 + 0x2FC), (s32)(p + 0x2FC)) == 0) {
-                    id = ((s32 (*)(void *))obj_getField1c)(p);
+                    id = ((s32 (*)(void *))get_entity_id)(p);
                     best = d;
                 }
             }
@@ -2211,11 +2211,11 @@ s32 select_attack_target__18TObjEneRe4SorcererFiff(s32 arg0, f32 farg0, f32 farg
             if (is_target_ranger(q) != 0) {
                 if (e < farg0 && transform_relative_position__9TObjEneDDFPv(self, q) != 0) {
                     farg0 = e;
-                    tA = ((s32 (*)(void *))obj_getField1c)(q);
+                    tA = ((s32 (*)(void *))get_entity_id)(q);
                 }
             } else if (e < farg1 && transform_relative_position__9TObjEneDDFPv(self, q) != 0) {
                 farg1 = e;
-                tB = ((s32 (*)(void *))obj_getField1c)(q);
+                tB = ((s32 (*)(void *))get_entity_id)(q);
             }
         }
     }

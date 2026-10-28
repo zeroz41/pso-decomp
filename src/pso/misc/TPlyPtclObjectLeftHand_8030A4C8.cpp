@@ -18,7 +18,7 @@ struct Ctrl_8030A5B8 {
 };
 
 extern "C" {
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 void __ct__13TUnk_804AF8A0FP7TObject(void *, int);
 extern u8 lbl_804E7578[];
 extern s32 __vt__22TPlyFollowParticleCtrl[];
@@ -68,7 +68,7 @@ Ctrl_8030A5B8 *TPlyFollowParticleCtrl__ct(Ctrl_8030A5B8 *self, u8 *arg1) {
     ((TUnk_804AF8A0 *)self)->initialize_linked_object_reference(lbl_804E7578);
     ((TObjPlayer *)self)->reset_photon_effect();
     self->link->flags &= 0xFFFFFFFE;
-    self->s_ac = obj_getField1c(arg1);
+    self->s_ac = get_entity_id(arg1);
     self->s_ae = 0xFFFF;
     ((TUnk_804B9870 *)self)->set_position_from(arg1 + 0x74);
     return self;

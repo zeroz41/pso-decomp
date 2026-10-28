@@ -198,7 +198,7 @@ extern char lbl_8044BEE8[];
 extern char lbl_8044BF50[];
 s32 strcmp(const char *, const char *);
 s32 is_downloadable_new_entry__12TQuestListVMFPvPv(QL_802193F0 *q, Ent_802193F0 *e);
-int obj_getField1c(int);
+int get_entity_id(int);
 f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 void send_and_handle__6TLobbyFii(u32, void *, int);
@@ -463,7 +463,7 @@ void TQuestListVM::handle_confirm_window() {
 void TQuestListVM::open_confirm_window() {
     if (this->m_2380 == 0U) {
         Pair_80218D40 sp8 = lbl_8044BF48[0];
-        u16 id = obj_getField1c(*(s32 *)&this->m_24);
+        u16 id = get_entity_id(*(s32 *)&this->m_24);
         this->m_2380 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &sp8, 1, id);
         send_and_handle__6TLobbyFii(this->m_2380, (void *)(TQuestListVM__decrypted_quest_buffer + 0xB4), 1);
         ((TLobby *)(this->m_2380))->set_field_1c(lbl_805DC6B8);
@@ -477,7 +477,7 @@ void TQuestListVM::open_confirm_window() {
             return;
         }
         {
-            u16 id = obj_getField1c(*(s32 *)&this->m_24);
+            u16 id = get_entity_id(*(s32 *)&this->m_24);
             this->m_2378 = (u32)create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
         }
         ((TUnk_804CDFE8 *)(this->m_2378))->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
@@ -594,14 +594,14 @@ s32 TQuestListVM::build_download_list(void *p) {
         } else {
             switch (current_language) {
             case LANGUAGE_JAPANESE:
-                *(u32 *)(arg0 + 0x2374) = create_item_list_window(lbl_8044BF04, 0x40, obj_getField1c(*(s32 *)(arg0 + 0x24)));
+                *(u32 *)(arg0 + 0x2374) = create_item_list_window(lbl_8044BF04, 0x40, get_entity_id(*(s32 *)(arg0 + 0x24)));
                 break;
             case LANGUAGE_ENGLISH:
             case LANGUAGE_GERMAN:
             case LANGUAGE_FRENCH:
             case LANGUAGE_SPANISH:
             default:
-                *(u32 *)(arg0 + 0x2374) = create_item_list_window(lbl_8044BF14, 0x40, obj_getField1c(*(s32 *)(arg0 + 0x24)));
+                *(u32 *)(arg0 + 0x2374) = create_item_list_window(lbl_8044BF14, 0x40, get_entity_id(*(s32 *)(arg0 + 0x24)));
                 break;
             }
         }

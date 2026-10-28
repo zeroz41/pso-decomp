@@ -146,7 +146,7 @@ s32 calc_technique_parameters(int, int, int);
 s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_802308A0_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_802308A0_lbl_804CC55C lbl_804CC55C;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
 extern void *__vt__11TTecGiBarta[];
@@ -309,12 +309,12 @@ void TTecGiBarta::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == obj_getField1c(((VObj_802309AC *)target))) {
+        if (self->ids[i] == get_entity_id(((VObj_802309AC *)target))) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_174] = obj_getField1c(((VObj_802309AC *)target));
+        self->ids[*(s32 *)&this->m_174] = get_entity_id(((VObj_802309AC *)target));
         *(s32 *)&this->m_174 += 1;
         if (*(s32 *)&this->m_174 >= 32) {
             *(s32 *)&this->m_174 = 31;
@@ -382,7 +382,7 @@ TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, vo
     }
     self->f174 = 0;
     if (self->owner) {
-        self->fc8 = ((s16)obj_getField1c(self->owner));
+        self->fc8 = ((s16)get_entity_id(self->owner));
     }
     ((TTecGiBarta *)self)->create_particles();
     ((TTecGiBarta *)self)->update_technique_by_phase();
@@ -401,7 +401,7 @@ u8 *TTecGiBarta::construct_facing(void * _w1, void * _w2, void * _w3, void * _w4
     }
     this->m_174 = 0;
     if (this->source != 0) {
-        *(s16 *)&this->sourceId = obj_getField1c(*(void * *)&this->source);
+        *(s16 *)&this->sourceId = get_entity_id(*(void * *)&this->source);
     }
     create_particles();
     update_technique_by_phase();

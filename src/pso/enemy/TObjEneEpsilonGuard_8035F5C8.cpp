@@ -474,7 +474,7 @@ extern Tbl_8035FFA8 epsilon_guard_attack_pattern_table[];
 extern const f32 lbl_805E0210;
 f32 receive_weapon_special_attack__13TUnk_804806E8FPvPv(void *, void *, void *);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, int);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void play_sound_effect(s32, void *, s32, s32);
 void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(W_80361508 *self, s32 arg1);
 void queue_destruction__7TObjectFv(void *);
@@ -537,7 +537,7 @@ f32 TObjEneEpsilonBody::receive_weapon_special_attack(void *src, void *hit) {
         s32 strong;
         obj_getS16_118((u8 *)src);
         strong = 0;
-        if (src == NULL || obj_getField1c(src) == 0xFFFF) {
+        if (src == NULL || get_entity_id(src) == 0xFFFF) {
             ((TUnk_804806E8 *)((Self_8035F5C8 *)this))->show_miss_popup((const float *)(((Self_8035F5C8 *)this)->x38));
             return lbl_805E0208;
         }

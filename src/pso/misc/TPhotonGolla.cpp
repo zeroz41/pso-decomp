@@ -153,7 +153,7 @@ extern u8 identity_matrix[];
 Target_801AB868 *get_battle_param__10TObjPlayerFi(s32);
 f32 vec_squared_length(u8 *arg0);
 f32 vec3_dot(void *, void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 }
 
 void *destroy_buffer_pair(void *arg0, s16 arg1);
@@ -292,7 +292,7 @@ void TPhotonGolla::collect_hit_targets(void *arg0) {
         }
     }
     if (self->f1a8 != NULL) {
-        queue_photon_blast_hit(obj_getField1c(self->f1a8), 2, 0, self->f150);
+        queue_photon_blast_hit(get_entity_id(self->f1a8), 2, 0, self->f150);
     }
     self->f19c = self->f1a8;
 }

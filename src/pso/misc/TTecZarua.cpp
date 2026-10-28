@@ -136,7 +136,7 @@ extern s32 lbl_805D3830;
 extern s32 __vt__9TTecZarua[];
 s32 play_sound_effect(int, void *, int, int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 Zarua_8023C420 *init_instance__9TTecZaruaFPviiii(Zarua_8023C420 *self, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void copy_technique_target_list(void *, void *);
 void __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
@@ -241,7 +241,7 @@ Zarua_8023C2D0 *TTecZarua__ct(Zarua_8023C2D0 *self, void *_w1, void *_w2, void *
         break;
     }
     if (self->source != 0) {
-        self->field_b4 = obj_getField1c(self->source);
+        self->field_b4 = get_entity_id(self->source);
     }
     return self;
 }
@@ -279,7 +279,7 @@ Zarua_8023C420 *init_instance__9TTecZaruaFPviiii(Zarua_8023C420 *self, s32 _w1, 
         break;
     }
     if (self->source != 0) {
-        self->field_b4 = obj_getField1c(self->source);
+        self->field_b4 = get_entity_id(self->source);
     }
     return self;
 }

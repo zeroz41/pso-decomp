@@ -59,7 +59,7 @@ u16 find_nearest_visible_player(TObjEnemy *enemy, Vec *out, f32 radius);
 void calc_velocity_toward_destination(TObjEnemy *enemy, Vec from, Vec to, f32 speed);
 f32 update_enemy_wander_move(TObjEnemy *enemy, Vec *dest, s32 mode, EnemyMoveParams *params, f32 min_distance);
 void enemy_turn_toward_dest(TObjEnemy *enemy, s32 turn_speed);
-u16 obj_getField1c(TUnk_804B9870 *object);
+u16 get_entity_id(TUnk_804B9870 *object);
 }
 
 void move_with_wall_slide(u8 *actor);

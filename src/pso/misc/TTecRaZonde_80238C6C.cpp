@@ -77,7 +77,7 @@ s32 calc_technique_parameters(int, int, int);
 s32 is_technique_ready__8TTecCtrlFv();
 extern RecoveredGlobal_80230D9C_lbl_804CC510 tech_high_level_linear_power_table;
 extern RecoveredGlobal_80230D9C_lbl_804CC55C lbl_804CC55C;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void update_technique_slot__10TTecRaFoieFl(s32 handle, s32 pitch, s32 c);
 s32 play_sound_effect(s32 id, void *pos, s32 a, s32 b);
 void *__nw__7TObjectFUl(int);
@@ -411,7 +411,7 @@ void *TTecRaZonde__ct(void *self_, void *source, void *origin, void *level) {
     }
     }
     if (self->source != 0) {
-        self->fb4 = obj_getField1c(self->source);
+        self->fb4 = get_entity_id(self->source);
     }
     return self_;
 }

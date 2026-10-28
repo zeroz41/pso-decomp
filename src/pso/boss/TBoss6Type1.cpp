@@ -341,7 +341,7 @@ f32 vector_length(void *, f32);
 f32 subtract_vector(void *, void *);
 Player_802B6B34 *get_player_data__10TObjPlayerFi(s32);
 f32 fabs_float(f32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 extern const Vec_802B57D4 TBoss6Type1__data_80470FB4;
 extern const f32 TBoss6Type1__data_805DE2D0;
 extern const f32 TBoss6Type1__data_805DE2E4;
@@ -997,7 +997,7 @@ void fire_at_all_players__11TBoss6Type1FPvf(Boss_802B5AD4 *self, f32 dy) {
                 }
             }
         }
-        TBoss6Type1::request_jittered_camera(self, &ofs, &out, obj_getField1c(p));
+        TBoss6Type1::request_jittered_camera(self, &ofs, &out, get_entity_id(p));
     }
 }
 #pragma pop
@@ -2314,7 +2314,7 @@ void TBoss6Type1::load_params(void *arg1) {
 extern f32 lbl_805DE3EC;
 
 void TBoss6Type1::set_sync_data(void *arg1) {
-    *(u16 *)((s8 *)arg1 + 2) = (u16) this->m_1c;
+    *(u16 *)((s8 *)arg1 + 2) = (u16) this->entity_id;
     *(s8 *)((s8 *)arg1 + 8) = (s8) this->m_438;
     *(s8 *)((s8 *)arg1 + 9) = (s8) this->m_414;
     *(s8 *)((s8 *)arg1 + 0xA) = (s8) (lbl_805DE3EC * (TBoss6Type1__data_805DE304 * (f32) rand()));

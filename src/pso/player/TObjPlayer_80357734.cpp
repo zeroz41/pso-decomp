@@ -213,7 +213,7 @@ void queue_destruction__7TObjectFv(void *);
 extern const f32 lbl_805E006C;
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *p);
 u8 get_item_type__5TItemFv();
 s32 reset_key_machine_state__10TObjPlayerFv();
@@ -821,7 +821,7 @@ void dispatch_weapon_special_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     s32 (*temp_r12)(s32, u32, s32, s32);
     s32 temp_r3;
     u8 temp_r3_2;
-    if (((arg0 != 0) || (arg1 != 0U)) && ((s32) obj_getField1c((void *)arg0) < 0xC) && (reset_key_machine_state__10TObjPlayerFv() != 0) && (temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)arg0), ((temp_r3 == 0) == 0)) && (get_item_type__5TItemFv() == 0)) {
+    if (((arg0 != 0) || (arg1 != 0U)) && ((s32) get_entity_id((void *)arg0) < 0xC) && (reset_key_machine_state__10TObjPlayerFv() != 0) && (temp_r3 = get_item_field_6__10TObjPlayerFPv((void *)arg0), ((temp_r3 == 0) == 0)) && (get_item_type__5TItemFv() == 0)) {
         if (((TItemWeapon *)temp_r3)->test_flags_1b8(0x400020) != 0U) {
             TObjPlayer::update_battle_control_on_unlock((void *)arg0, (void *)arg1, (void *)arg2, (s32)arg3);
             return;

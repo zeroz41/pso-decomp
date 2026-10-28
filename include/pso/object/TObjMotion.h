@@ -20,7 +20,7 @@ public:
     s32 set_event_source_flag(s32);
     void set_entity_id(u16 id);
     int set_position_from(void *pos);
-    u16 m_1c;
+    u16 entity_id;  // the object table id, 0xFFFF while unregistered
     s16 m_1e;
     u8 m_20;
     u8 unk_21[0x1];

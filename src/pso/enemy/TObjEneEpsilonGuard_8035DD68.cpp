@@ -992,7 +992,7 @@ void vfunc_89__19TObjEneEpsilonGuardFv(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 vfunc_89__9TObjEneDDFv();
 s32 TObjEneEpsilonGuard__sub_8035F950();
-s16 obj_getField1c(int);
+s16 get_entity_id(int);
 
 void TObjEneEpsilonGuard::update_guard_state() {
     s16 temp_r0;
@@ -1008,7 +1008,7 @@ void TObjEneEpsilonGuard::update_guard_state() {
             }
         } else {
             *(s32 *)((s8 *)((u8 *)this) + 0x390) = entity;
-            *(s16 *)((s8 *)((u8 *)this) + 0x38C) = obj_getField1c((int) (*(s32 *)((s8 *)((u8 *)this) + 0x390)));
+            *(s16 *)((s8 *)((u8 *)this) + 0x38C) = get_entity_id((int) (*(s32 *)((s8 *)((u8 *)this) + 0x390)));
             enemy_copy_target_destination();
             sub_8035EA90();
         }
@@ -1405,7 +1405,7 @@ void *TObjEneEpsilonGuard__ct(void *ene_epsilon_guard, void *arg1, void *arg2, v
     *(void ***)((s8 *)ene_epsilon_guard + 0x18) = __vt__19TObjEneEpsilonGuard;
     ((TUnk_80494938 *)((u8 *)ene_epsilon_guard + 0x4BC))->init_common();
     *(s32 *)((s8 *)ene_epsilon_guard + 0) = (s32) TObjEneEpsilonGuard__class_name;
-    *(s16 *)((s8 *)ene_epsilon_guard + 0x470) = ((s16 (*)(void *))obj_getField1c)(arg2);
+    *(s16 *)((s8 *)ene_epsilon_guard + 0x470) = ((s16 (*)(void *))get_entity_id)(arg2);
     ((TObjEneDD *)ene_epsilon_guard)->init_common_from((u8 *)arg2);
     *(s16 *)((s8 *)ene_epsilon_guard + 0x1C) = (s16)(s32)arg3;
     *(s16 *)((s8 *)ene_epsilon_guard + 0x2C) = (s16)(s32)arg4;

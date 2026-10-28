@@ -80,7 +80,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
 
 extern "C" {
 
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 s32 rand(void);
 extern s32 lbl_805D586C;
@@ -149,8 +149,8 @@ u16 TBoss4Type3::pick_random_target_player() {
     n = 0;
     for (i = 0; i < lbl_805D586C; i++) {
         p = get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(obj_getField1c(p)) != 0) {
-            buf[n++] = obj_getField1c(p);
+        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
+            buf[n++] = get_entity_id(p);
             if (n >= 4) {
                 break;
             }
@@ -378,7 +378,7 @@ void TBoss4DarkFalz::send_code_25_4(s32 arg) {
     TBoss4DarkFalz *self = this;
     Msg_8004B16C msg;
     ((TBoss4DarkFalz *)(&msg))->set_code_25_4();
-    msg.id = self->m_1c;
+    msg.id = self->entity_id;
     msg.a = -1;
     msg.b = arg;
     ((TBoss4DarkFalz *)(&msg))->swap_and_send();
@@ -388,7 +388,7 @@ void TBoss4DarkFalz::send_action_packet(s32 arg) {
     TBoss4DarkFalz *self = this;
     Msg_8004B1BC msg;
     ((TBoss4DarkFalz *)(&msg))->set_code_25_4();
-    msg.id = self->m_1c;
+    msg.id = self->entity_id;
     msg.a = arg;
     msg.b = -1;
     ((TBoss4DarkFalz *)(&msg))->swap_and_send();

@@ -573,7 +573,7 @@ s32 update_movement_status__13TUnk_804806E8Fv(void *);
 s32 submit_cursor_candidate(void *, int);
 extern const f32 lbl_805DA048;
 s32 update_action_hold_status__13TUnk_804806E8Fv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 f32 calc_boss4_scale__10TObjPlayerFi(s32 arg0);
 s32 enemy_move_toward(void *, s32, void *, int, f32);
@@ -611,7 +611,7 @@ s32 TUnk_80493450::update_target_near_flag() {
         obj_clearFlags30(0x100000);
         return;
     }
-    if ((obj_getField1c(temp_r0) < 0x1000U) && (this->is_actor_cadence_frame(0x1E) != 0)) {
+    if ((get_entity_id(temp_r0) < 0x1000U) && (this->is_actor_cadence_frame(0x1E) != 0)) {
         temp_r31 = this->target;
         temp_f31 = horizontal_distance_squared(temp_r31 + 0x38, (void *) ((u8 *)this + 0x38));
         switch (((TObjPlayer *)temp_r31)->class_flags & CLASS_FLAG_TYPE_MASK) {
@@ -1185,8 +1185,8 @@ void beast_select_target(TUnk_80493450 *self) {
                 if (player == NULL) {
                     break;
                 }
-                id = obj_getField1c(player);
-                if (id < 0x4000 && id != self->m_1c && player->obj_testFlags30(0x03000800) == 0) {
+                id = get_entity_id(player);
+                if (id < 0x4000 && id != self->entity_id && player->obj_testFlags30(0x03000800) == 0) {
                     VecCopy(&d, (Vec *)&player->m_2fc);
                     subtract_vector(&d, &self->m_2fc);
                     dist = d.x * d.x + d.z * d.z;

@@ -81,7 +81,7 @@ void play_effect_default__10TObjPlayerFii(TObjPlayer *, s32);
 void obj_set_flag_20000(TObjPlayer *);
 void get_player_result__18TChallenge4PResultFPv(TObjPlayer *, s32);
 void fn_8034BE48(TObjPlayer *);
-u32 obj_getField1c(TObjPlayer *);
+u32 get_entity_id(TObjPlayer *);
 void TObjPlayer__sub_8024ABDC(u16);
 void request_active_window_close();
 void obj_clear_flag30_20000(TObjPlayer *);
@@ -361,7 +361,7 @@ s32 update_challenge_result_player_locks() {
                 get_player_result__18TChallenge4PResultFPv(player, 2);
                 get_player_result__18TChallenge4PResultFPv(player, 3);
                 if (((TObjPlayer *)player)->check_flag_0x40000000() == 0) fn_8034BE48(player);
-                TObjPlayer__sub_8024ABDC(obj_getField1c(player));
+                TObjPlayer__sub_8024ABDC(get_entity_id(player));
                 request_active_window_close();
                 TWindowCtrl::set_close_flag();
             }
@@ -374,7 +374,7 @@ s32 update_challenge_result_player_locks() {
                 obj_clear_flag30_20000(player);
                 ((TChallenge4PResult *)player)->get_player_rank();
                 if (((TObjPlayer *)player)->check_flag_0x40000000()) fn_8034BE38(player);
-                TLobby__sub_8024AC20(obj_getField1c(player));
+                TLobby__sub_8024AC20(get_entity_id(player));
                 TWindowCtrl::clear_flag();
                 TWindowCtrl::clear_flag_2();
             }

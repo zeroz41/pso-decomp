@@ -124,7 +124,7 @@ struct Trap_80179B8C : VObj_80179B8C {
 
 extern "C" {
 void receive_physical_attack__6TOTrapFPvf(void *, void *, f32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void obj_clear_flag30_20000(void *arg0);
 s32 check_player_flag1__6TLobbyFv();
 void *get_player_by_client_id(s32 i);
@@ -205,7 +205,7 @@ void TOTrapAncient01::release_trapped_player() {
     s32 temp_r3_2;
     if (TRaderMapCore::is_not_split_screen() == 1) {
         if (this->target != NULL) {
-            temp_r3 = (s32)get_player_by_client_id((obj_getField1c(this->target)));
+            temp_r3 = (s32)get_player_by_client_id((get_entity_id(this->target)));
             if (temp_r3 != 0) {
                 if (check_player_flag1__6TLobbyFv() != 0) {
                     TObjPlayer::send_code_45_1(temp_r3);
@@ -213,7 +213,7 @@ void TOTrapAncient01::release_trapped_player() {
                 obj_clear_flag30_20000((void *)temp_r3);
             }
         }
-    } else if ((this->target != NULL) && ((s32) local_client_id == (s32) obj_getField1c(this->target))) {
+    } else if ((this->target != NULL) && ((s32) local_client_id == (s32) get_entity_id(this->target))) {
         temp_r3_2 = (s32)get_player_by_client_id(local_client_id);
         if (temp_r3_2 != 0) {
             if (check_player_flag1__6TLobbyFv() != 0) {

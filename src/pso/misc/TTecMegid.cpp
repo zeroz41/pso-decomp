@@ -196,7 +196,7 @@ void __dl__7TObjectFPv(void *);
 extern TTecGiBartaData_80230B48 TTecMegid__emitter_bands[];
 extern void *__vt__9TTecMegid[];
 TTecGiBarta_80230B48 *__dt__9TTecMegidFv(TTecGiBarta_80230B48 *self, s16 deleting);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
 extern s32 lbl_805D37E8;
 extern const f32 lbl_805DC884;
@@ -345,12 +345,12 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == obj_getField1c(target)) {
+        if (self->ids[i] == get_entity_id(target)) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[self->cursor] = obj_getField1c(target);
+        self->ids[self->cursor] = get_entity_id(target);
         self->cursor += 1;
         if (self->cursor >= 32) {
             self->cursor = 31;
@@ -358,7 +358,7 @@ void TTecMegid__vt6(Obj_80235490 *self, VObj_80235490 *target) {
         HitInfo_80235490 tmp;
         tmp.type = 5;
         tmp.power = self->power;
-        if (obj_getField1c(target) < 4 && obj_isState3_324__13TUnk_804806E8Fv(target) != 0) {
+        if (get_entity_id(target) < 4 && obj_isState3_324__13TUnk_804806E8Fv(target) != 0) {
             return;
         }
         HitInfo_80235490 info = tmp;
@@ -450,7 +450,7 @@ u8 *TTecMegid__ct(TTecMegid *tec_megid, s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     tec_megid->spawn_particle_emitters();
     tec_megid->update_by_state();
     if (*(void **)((s8 *)tec_megid + 0x1C) != 0) {
-        tec_megid->sourceId = obj_getField1c(*(void **)((s8 *)tec_megid + 0x1C));
+        tec_megid->sourceId = get_entity_id(*(void **)((s8 *)tec_megid + 0x1C));
     }
     return (u8 *)tec_megid;
 }
@@ -470,7 +470,7 @@ u8 *TTecMegid::construct_facing(s32 _w1, s32 _w2, s32 _w3, s32 _w4) {
     spawn_particle_emitters();
     update_by_state();
     if (*(void **)((s8 *)arg0 + 0x1C) != 0) {
-        this->sourceId = obj_getField1c(*(void **)((s8 *)arg0 + 0x1C));
+        this->sourceId = get_entity_id(*(void **)((s8 *)arg0 + 0x1C));
     }
     return arg0;
 }

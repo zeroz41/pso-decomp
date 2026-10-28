@@ -338,7 +338,7 @@ extern s16 TCameraCtrl__viewport_x;
 extern s16 TCameraCtrl__viewport_y;
 extern const f32 TCameraCtrl__data_805D8FA8;
 extern f32 TCameraCtrl__data_805D8FAC;
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 TCameraCtrl__sub_8006B358(int);
 extern RecoveredGlobal_80069094_camera_controller_registry camera_controller_registry;
@@ -619,7 +619,7 @@ s32 TCameraCtrl::get_camera_target_id(s32 arg0) {
     if ((void *) camera_ctrl_instance != NULL) {
         temp_r3 = *(u32 *)((s8 *)camera_ctrl_instance + 0x90);
         if (temp_r3 != 0U) {
-            return obj_getField1c(temp_r3);
+            return get_entity_id(temp_r3);
         }
     }
     return 0xFFFF;

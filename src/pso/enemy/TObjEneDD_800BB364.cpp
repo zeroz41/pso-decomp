@@ -21,7 +21,7 @@ typedef struct Ent_800BB388 {
 } Ent_800BB388;
 
 Ent_800BB388 *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 s32 is_alive__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -49,7 +49,7 @@ u16 enemy_nearest_visible_enemy_sq(Ent_800BB388 *self, f32 range) {
         if (p != self && !(p->flags30 & 0x01000000) && is_alive__9TObjEneDDFv(p) != 0) {
             d = horizontal_distance_squared(self->f2FC, p->pos);
             if (d < range && csnLookAt(self->f2FC, p->f2FC) == 0) {
-                best = obj_getField1c(p);
+                best = get_entity_id(p);
                 range = d;
             }
         }
@@ -78,7 +78,7 @@ s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0) {
             if (is_alive__9TObjEneDDFv(p) != 0) {
                 d = horizontal_distance_squared((void *)(arg0 + 0x38), p + 0x38);
                 if (d < farg0) {
-                    out[n].id = obj_getField1c(p);
+                    out[n].id = get_entity_id(p);
                     out[n].dist = d;
                     n++;
                 }
@@ -89,7 +89,7 @@ s32 collect_enemy_target_candidates(s32 arg0, Ent_800BB484 *out, f32 farg0) {
             p = ((u8 *)get_player_data__10TObjPlayerFi(i));
             if (is_alive__9TObjEneDDFv(p) != 0) {
                 d = horizontal_distance_squared((void *)(arg0 + 0x38), p + 0x38);
-                out[n].id = obj_getField1c(p);
+                out[n].id = get_entity_id(p);
                 out[n].dist = d;
                 n++;
             }

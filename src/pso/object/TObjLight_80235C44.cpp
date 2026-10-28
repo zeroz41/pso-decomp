@@ -54,7 +54,7 @@ struct Light_80235C44 {
 struct Base_80235C44 { u8 pad[0x1C]; f32 f1c; f32 f20; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804CCAA8[];
 
@@ -87,7 +87,7 @@ void TUnk_804CCAA8::run_task() {
         frac = (f32) arg0->age / mid;
         amb1 = frac * (arg0->peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
         inten1 = frac * (arg0->intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
-        publish_actor_light_scalars((u16) obj_getField1c((void *)arg0->source), inten1, amb1);
+        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten1, amb1);
         copy_argb((NJS_ARGB *)&unused, (NJS_ARGB *)&baseColor);
         approach_vector_fixed_distance(&arg0->direction, &arg0->desired, &arg0->direction, arg0->step);
         approach_rgb_clamped(&unused, &arg0->color, 0.1f);
@@ -97,11 +97,11 @@ void TUnk_804CCAA8::run_task() {
         frac = ((f32) arg0->age - mid) / mid;
         amb2 = frac * (TObjLight__scene_light_state.f20 - arg0->peak) + arg0->peak;
         inten2 = frac * (TObjLight__scene_light_state.f1c - arg0->intensity) + arg0->intensity;
-        publish_actor_light_scalars((u16) obj_getField1c((void *)arg0->source), inten2, amb2);
+        publish_actor_light_scalars((u16) get_entity_id((void *)arg0->source), inten2, amb2);
         approach_vector_fixed_distance(&arg0->direction, &baseDir, &arg0->direction, arg0->step);
         approach_rgb_clamped(&arg0->color, &baseColor, 0.1f);
     }
-    publish_light_direction_color((u16) obj_getField1c((void *)arg0->source), &arg0->direction, &arg0->color);
+    publish_light_direction_color((u16) get_entity_id((void *)arg0->source), &arg0->direction, &arg0->color);
     arg0->age++;
     if (arg0->duration < arg0->age) {
         queue_destruction__7TObjectFv(arg0);
@@ -121,14 +121,14 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80235E9C_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
     copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
-    *(s32 *)&this->m_1c = arg3;
+    *(s32 *)&this->entity_id = arg3;
     *(s32 *)&this->m_4c = 0;
     *(f32 *)&this->m_50 = farg0;
     *(s32 *)&this->m_54 = arg4;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 1;
     *(f32 *)&this->m_58 = farg1;
     *(f32 *)&this->m_5c = farg2;
-    *(u16 *)&this->rotation_y = obj_getField1c((void *)(int) (*(s32 *)&this->m_54));
+    *(u16 *)&this->rotation_y = get_entity_id((void *)(int) (*(s32 *)&this->m_54));
     TObjLight::find_light_params((f32 *)(((u8 *)this) + 0x40), (f32 *)&stack.sp8, (u32)((int) ((s32) *(u16 *)&this->rotation_y)));
     return ((u8 *)this);
 }
@@ -146,7 +146,7 @@ u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4,
     ((TUnk_804CCAA8 *)arg0)->m_20 = 0;
     *(f32 *)((s8 *)arg0 + 0x58) = (f32) lbl_805DC888[0];
     ((TUnk_804CCAA8 *)arg0)->m_5c = (f32) lbl_805DC888[0];
-    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)obj_getField1c((void *)(int)(((TUnk_804CCAA8 *)arg0)->m_54)));
+    *(u16 *)((s8 *)arg0 + 0x60) = ((u16)get_entity_id((void *)(int)(((TUnk_804CCAA8 *)arg0)->m_54)));
     TObjLight::find_light_params((f32 *)(arg0 + 0x40), (f32 *)((s32) &sp8), (u32)((int)((u32) *(u16 *)((s8 *)arg0 + 0x60))));
     return arg0;
 }
@@ -397,7 +397,7 @@ s32 find_area_technique_contact(void *self, int target, void *_w2, void *arg3) {
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
     for (i = TLobby::get_game_mode(); i < TLobby::get_lobby_flag(); i++) {
         pd = (PD_80236378 *)get_player_data__10TObjPlayerFi(i);
-        if (pd != 0 && (pd->flags & 0x20000000) && obj_getField1c(pd) != obj_getField1c(arg3)) {
+        if (pd != 0 && (pd->flags & 0x20000000) && get_entity_id(pd) != get_entity_id(arg3)) {
             c = (Contact_80236378 *)((TUnk_804AF8A0 *)target)->find_actor_body_contact((u8 *)pd, range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236378 *)&technique_contact_query_results)->bodies[((List_80236378 *)&technique_contact_query_results)->count] = c;
@@ -427,13 +427,13 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
         return (s32)&technique_contact_query_results;
     }
     VecCopy((Vec *)((u8 *)target + 0x38), (const Vec *)&pos);
-    if (obj_getField1c(player) < 4) {
+    if (get_entity_id(player) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = (PD_802364D8 *)get_player_data__10TObjPlayerFi(i);
-            if (pd != 0 && obj_getField1c(pd) != obj_getField1c(player)) {
+            if (pd != 0 && get_entity_id(pd) != get_entity_id(player)) {
                 ok = 1;
-                if (obj_getField1c(pd) < 4) {
+                if (get_entity_id(pd) < 4) {
                     if (((TObjPlayer *)player)->get_field_3e4() == ((TObjPlayer *)pd)->get_field_3e4()) {
                         ok = 1;
                     } else {
@@ -456,7 +456,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
     } else {
         for (j = 0; j < 4; j++) {
             e = (PD_802364D8 *)find_entity_by_id(j);
-            if (e != 0 && obj_getField1c(e) != obj_getField1c(player) && (e->flags & 0x10000000)) {
+            if (e != 0 && get_entity_id(e) != get_entity_id(player) && (e->flags & 0x10000000)) {
                 c = (Contact_802364D8 *)((TUnk_804AF8A0 *)target)->find_actor_body_contact((u8 *)e, 1e+04f);
                 if (c != 0) {
                     ((List_802364D8 *)&technique_contact_query_results)->bodies[((List_802364D8 *)&technique_contact_query_results)->count] = c;
@@ -528,7 +528,7 @@ u8 *TUnk_804CCC68::query_technique_enemy_contacts(s32 arg) {
         pd = (PD_802367D8 *)get_player_data__10TObjPlayerFi(i);
         if (pd == 0) continue;
         if (pd->flags & 0x20000000) {
-            if (obj_getField1c(pd) == obj_getField1c((void *)arg)) continue;
+            if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
             c = (Contact_802367D8 *)((TUnk_804AF8A0 *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)pd, (f32)range);
             if (c != 0 && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_802367D8 *)&technique_contact_query_results)->bodies[((List_802367D8 *)&technique_contact_query_results)->count] = c;
@@ -583,12 +583,12 @@ u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
     pos.z = 0.5f * (pos.z + pp[2]);
     VecCopy((Vec *)((u8 *)s->proxy + 0x38), (const Vec *)&pos);
     ((TObjPlayer *)((u8 *)s->proxy + 0x5C))->copy_xyz((u8 *)this + 0x54);
-    if (obj_getField1c((void *)arg) < 4) {
+    if (get_entity_id((void *)arg) < 4) {
         n = TLobby::get_lobby_flag();
         for (i = 0; i < n; i++) {
             pd = (PD_80236A20 *)get_player_data__10TObjPlayerFi(i);
             if (pd == 0) continue;
-            if (obj_getField1c(pd) == obj_getField1c((void *)arg)) continue;
+            if (get_entity_id(pd) == get_entity_id((void *)arg)) continue;
             c = (Contact_80236A20 *)((TUnk_804AF8A0 *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)pd, (f32)range);
             if (c != 0 && ((pd->flags & 0x20000000) || (pd->flags & 0x10000000)) && ((c->flags & 1) || !(c->flags & 0x02000000))) {
                 ((List_80236A20 *)&technique_contact_query_results)->bodies[((List_80236A20 *)&technique_contact_query_results)->count] = c;
@@ -603,7 +603,7 @@ u8 *TUnk_804CCC68::query_technique_player_contacts(s32 arg) {
         for (j = 0; j < 4; j++) {
             e = (PD_80236A20 *)find_entity_by_id(j);
             if (e == 0) continue;
-            if (obj_getField1c(e) == obj_getField1c((void *)arg)) continue;
+            if (get_entity_id(e) == get_entity_id((void *)arg)) continue;
             c = (Contact_80236A20 *)((TUnk_804AF8A0 *)((u8 *)s->proxy))->find_actor_body_contact((u8 *)e, (f32)1e+04f);
             if (c != 0 && (e->flags & 0x10000000)) {
                 ((List_80236A20 *)&technique_contact_query_results)->bodies[((List_80236A20 *)&technique_contact_query_results)->count] = c;

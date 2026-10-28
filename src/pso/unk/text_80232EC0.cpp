@@ -21,7 +21,7 @@ struct Task_80232EC0 {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *mem_alloc(u32 size);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
@@ -32,7 +32,7 @@ TUnk_804CC888::TUnk_804CC888(u8 *src, s32 level, TObject *parent) : TObject(pare
     u32 i;
     VecCopy((Vec *)(((Task_80232EC0 *)this)->pos), (const Vec *)(src + 0x38));
     ((Task_80232EC0 *)this)->x2c = 0;
-    ((Task_80232EC0 *)this)->owner = obj_getField1c(src);
+    ((Task_80232EC0 *)this)->owner = get_entity_id(src);
     ((Task_80232EC0 *)this)->level = level;
     if (((Task_80232EC0 *)this)->level < 0) {
         ((Task_80232EC0 *)this)->level = 0;

@@ -270,7 +270,7 @@ void *TUnk_8049F038::destroy(s16 arg1) {
         if ((u32) this->m_a4 != 0U) {
             unregister_object_by_id();
             clear_obj_links();
-            push_free_entity_id(obj_getField1c(this));
+            push_free_entity_id(get_entity_id(this));
             set_entity_id__13TUnk_804B9870FUs(this, 0xFFFF);
         }
         __dt__13TUnk_804AF8A0Fv(this, 0);
@@ -286,7 +286,7 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TUnk_804AF8A0(pare
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
     fn_8002B630(((Obj_80108C90 *)this)->sub, lbl_8043E1A0);
-    if (obj_getField1c(this) == 0xFFFF) {
+    if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }
     ((TUnk_804AF8A0 *)this)->initialize_linked_object_reference(((Obj_80108C90 *)this)->sub);

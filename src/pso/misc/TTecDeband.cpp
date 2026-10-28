@@ -62,7 +62,7 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 struct Obj_8022F588 { u8 pad[0x1C]; u8 *source; u8 pad20[0x74 - 0x20]; f32 power; };
 
 extern "C" {
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__10TTecDeband[];
 extern s32 tec_deband_class_name_ptr;
@@ -98,7 +98,7 @@ void TTecDeband::vfunc_7(void *arg1_arg) {
         HitInfo_8022F588 c = h;
         player->m21(arg0->source, &c, 0, 0xA, -1);
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect((void*)(obj_getField1c((int)arg0->source)), (void*)(obj_getField1c((int)player)), (void*)0xA);
+            TWindowCtrl::show_party_effect((void*)(get_entity_id((int)arg0->source)), (void*)(get_entity_id((int)player)), (void*)0xA);
         }
     }
 }
@@ -179,7 +179,7 @@ s32 TTecDeband__ct(u32 a0, s32 owner, s32 pos, s32 arg3, s32 level) {
     }
     temp_r3_2 = ((TTecDeband *)arg0)->source;
     if (temp_r3_2 != 0U) {
-        *(s16 *)&((TTecDeband *)arg0)->m_a8 = obj_getField1c(temp_r3_2);
+        *(s16 *)&((TTecDeband *)arg0)->m_a8 = get_entity_id(temp_r3_2);
     }
     if (*(s32 *)&((TTecDeband *)arg0)->m_ac != 0) {
         ((TTecDeband *)arg0)->init_params();
@@ -205,7 +205,7 @@ u8 *TTecDeband__sub_8022F948(TTecDeband *arg0, s32 owner, s32 pos, s32 level) {
     }
     temp_r3_2 = arg0->source;
     if (temp_r3_2 != 0U) {
-        arg0->m_a8 = obj_getField1c(temp_r3_2);
+        arg0->m_a8 = get_entity_id(temp_r3_2);
     }
     arg0->init_params();
     arg0->play_state_sound();

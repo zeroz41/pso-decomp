@@ -110,7 +110,7 @@ struct Color_802ABF44 { f32 a, b, c, d; };
 extern "C" {
 void *get_player_data__10TObjPlayerFi(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 u8 *get_player_by_client_id(s32);
 s32 get_field_3e0__12TBoss3VoloptFv(void *p);
 extern u8 lbl_8047059C[];
@@ -283,7 +283,7 @@ s32 TBoss6PlotFalz::sort_active_players() {
     for (i = 0; i < lbl_805D586C; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 && p->f32c != 0) {
-            boss6_plot_falz_player_order_table[n] = obj_getField1c(p);
+            boss6_plot_falz_player_order_table[n] = get_entity_id(p);
             vals[n] = p->f32c;
             n++;
         }
@@ -314,7 +314,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
     for (i = 0; i < lbl_805D586C; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0) {
-            ids[n] = obj_getField1c(p);
+            ids[n] = get_entity_id(p);
             n++;
         }
     }
@@ -806,7 +806,7 @@ void queue_instance_destruction__14TBoss6PlotFalzFv(void) {
 }
 
 #define get_player_data__10TObjPlayerFi ((s32 (*)(s32))get_player_data__10TObjPlayerFi)
-#define obj_getField1c ((s16 (*)(s32))obj_getField1c)
+#define get_entity_id ((s16 (*)(s32))get_entity_id)
 
 struct Stack_802ABCDC {
     s16 spC;
@@ -873,7 +873,7 @@ void TBoss6PlotFalz::spawn_type2() {
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
         stack.sp14 = 1;
         stack.spC = *(s16 *)&this->m_2c + 0x1FF;
-        temp_r4 = this->m_1c;
+        temp_r4 = this->entity_id;
         stack.sp12 = temp_r4 + 0x1FF;
         TBoss6PlotFalz__type2_instance = create__11TBoss6Type2Fl(&sp8, temp_r4);
     }
@@ -889,7 +889,7 @@ void TBoss6PlotFalz::spawn_type1() {
         stack.sp4C = this->m_37c;
         TBoss4DarkFalz__sub_8004B4F0((&stack.spC), (arg0 + 0x388));
         stack.spC = *(s16 *)&this->m_2c + 0x200;
-        temp_r4 = this->m_1c;
+        temp_r4 = this->entity_id;
         stack.sp12 = temp_r4 + 0x200;
         TBoss6PlotFalz__type1_instance = create__11TBoss6Type1Fl(&sp8, temp_r4);
     }
@@ -925,7 +925,7 @@ void TBoss6PlotFalz::apply_radial_effect_to_players(void *pos, s16 amount, s16 k
         if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0 && is_locally_controlled__10TObjPlayerFPv(p) != 0) {
             d = xyz_distance((void *)(p + 0x38), pos);
             if (!(d >= range)) {
-                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((s32 (*)(s32))obj_getField1c)(p));
+                start_pad_rumble_client((s16)((f32)amount * (1.0f - d / range)), kind, (s16)((s32 (*)(s32))get_entity_id)(p));
             }
         }
     }
@@ -950,7 +950,7 @@ void TBoss6PlotFalz::set_fade_material_color(f32 f) {
 
 }
 #undef get_player_data__10TObjPlayerFi
-#undef obj_getField1c
+#undef get_entity_id
 
 #define set_chunk_material_override_pair ((s32 (*)(int, int, int, void *, void *, int))set_chunk_material_override_pair)
 #define set_constant_material ((s32 (*)(void *, f32, f32, f32, f32))set_constant_material)

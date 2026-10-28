@@ -136,7 +136,7 @@ block_5:
 
 void TObjEneDD_ST::enemy_init_validate_period(s32 arg1) {
     *(s32 *)((s8 *)((u8 *)this) + 0x3BC) = arg1;
-    *(s32 *)((s8 *)((u8 *)this) + 0x3B8) = (s32) ((this->m_1c + 3) % *(s32 *)((s8 *)((u8 *)this) + 0x3BC));
+    *(s32 *)((s8 *)((u8 *)this) + 0x3B8) = (s32) ((this->entity_id + 3) % *(s32 *)((s8 *)((u8 *)this) + 0x3BC));
 }
 
 int copy_position__14TObjEneEpsilonFPv(void* p, void * _w1) { return VecCopy__FP3VecPC3Vec((char*)p + 0x394); }
@@ -332,7 +332,7 @@ extern "C" {
 s32 find_active_entity_by_id(u16);
 void enemy_set_target_id(Obj_800B9958 *self, u16 id);
 void *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 
 s32 enemy_bind_or_clear_target(void *self, u16 x) {
     if (x != 0xFFFF) {
@@ -346,7 +346,7 @@ s32 enemy_bind_or_clear_target(void *self, u16 x) {
 int TObjEneEpsilon__vt101(void* p) { return spawn_part__14TObjEneEpsilonFi(p); }
 
 void TObjEneDD_ST::enemy_init_acquire_period(s32 arg1) {
-    *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = (s32) (this->m_1c % arg1);
+    *(s32 *)((s8 *)((u8 *)this) + 0x3B0) = (s32) (this->entity_id % arg1);
     *(s32 *)((s8 *)((u8 *)this) + 0x3B4) = arg1;
 }
 
@@ -364,7 +364,7 @@ void TObjEneDD_ST::set_target_player(void *player) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         if (player == get_player_data__10TObjPlayerFi(i)) {
-            self->target_id = obj_getField1c(player);
+            self->target_id = get_entity_id(player);
             self->target = player;
             return;
         }

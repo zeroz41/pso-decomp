@@ -248,7 +248,7 @@ typedef struct Entry_801C2B04 {
 } Entry_801C2B04;
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 Player_801C29F0 *update_battle_controller__10TObjPlayerFv(void);
 s32 assign_player_id__6TLobbyFv(void *);
 void build_6x7D_set_battle_mode_data(void *);
@@ -290,7 +290,7 @@ void send_battle_mode_state__6TLobbyFPv(void *self) {
         id = assign_player_id__6TLobbyFv(self);
         build_6x7D_set_battle_mode_data(&m);
         m.kind = 3;
-        m.id = obj_getField1c(p);
+        m.id = get_entity_id(p);
         m.player = id;
         on = 1;
         if (p->flags & 0x800) {
@@ -379,7 +379,7 @@ extern char lbl_80446FFC[];
 void queue_destruction__7TObjectFv(void *arg0);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D2A98;
-s32 obj_getField1c();
+s32 get_entity_id();
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
 extern "C" {
@@ -462,7 +462,7 @@ void TLobby::finish_chr_select_scene_init() {
     TLobby::init_scene_objects();
     temp_r3 = update_battle_controller__10TObjPlayerFv();
     if (temp_r3 != 0) {
-        TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)obj_getField1c()]);
+        TObjPlayer__send_selected_spawn_position(temp_r3, battle_mode_data_table[(u16)get_entity_id()]);
         reset_cameras_to_actor((void *)temp_r3, 0);
     }
     ((TLobby *)tl_05)->destroy_matching_children();
@@ -894,7 +894,7 @@ extern char battle_intro_message_buffer[];
 extern s32 lbl_805D5DA4;
 void update_battle_intro__6TLobbyFPv(Lobby_801C49B8 *self);
 u32 get_player_by_client_id(u16);
-s16 obj_getField1c(u32);
+s16 get_entity_id(u32);
 s32 TLobby__sub_801C19D0(void *);
 void TLobby__sub_801C36E4(void *arg0, void *arg1);
 s32 TLobby__sub_801C4FC4(void *p);
@@ -1012,7 +1012,7 @@ s32 record_local_battle_placement(void *arg0) {
     slot = -1;
     for (i = 0; i < 4; i++) {
         pl = get_player_by_client_id(*(u16 *)&TLobby__duel_result_table[i * 2]);
-        if (pl != 0 && local_client_id == (u16)obj_getField1c(pl)) {
+        if (pl != 0 && local_client_id == (u16)get_entity_id(pl)) {
             slot = TBL_801C32B4[i].slot;
             break;
         }
@@ -1086,7 +1086,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = obj_getField1c(p);
+                TBL_801C343C[n].id = get_entity_id(p);
                 TBL_801C343C[n].score = team.v[TLobby__sub_801C19D0((void *)(p + 0x828)) != 1 ? 1 : 0];
                 n++;
             }
@@ -1095,7 +1095,7 @@ s32 calc_player_rankings__6TLobbyFPv(Lobby_801C484C *) {
         for (k = 0; k < 4; k++) {
             p = PLAYER_801C343C(k);
             if (p != 0) {
-                TBL_801C343C[n].id = obj_getField1c(p);
+                TBL_801C343C[n].id = get_entity_id(p);
                 TBL_801C343C[n].score = TLobby__sub_801C4FC4((void *)(p + 0x7AC));
                 n++;
             }

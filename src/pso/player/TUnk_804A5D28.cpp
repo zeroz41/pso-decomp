@@ -45,7 +45,7 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-s32 get_entity_id__10TObjPlayerFv();
+s32 get_texture_id__10TObjPlayerFv();
 s32 notify_fish_if_valid__10TObjPlayerFUl();
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
@@ -59,7 +59,7 @@ void TUnk_804A5D10::render() {
     if (temp_r3 != NULL) {
         temp_r31 = *(u32 *)((s8 *)temp_r3 + 0x188);
         if (temp_r31 != 0U) {
-            get_entity_id__10TObjPlayerFv();
+            get_texture_id__10TObjPlayerFv();
             notify_fish_if_valid__10TObjPlayerFUl();
             push_matrix();
             post_translate_matrix(arg0 + 0x2C);

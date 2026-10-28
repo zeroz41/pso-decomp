@@ -86,8 +86,8 @@ s32 TObjPlayer::update_inventory_item(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s3
     }
     *(s16 *)((s8 *)temp_r3_2 + 0x28) = ((TUnk_804B9870 *)arg1)->get_stat_by_key_state();
     place_on_ground__5TItemFsPfl(temp_r3_2, client, arg3, 0);
-    temp_r4 = *(s16 *)&this->m_1c;
-    *(s16 *)&this->m_1c = (temp_r4 - 1);
+    temp_r4 = *(s16 *)&this->entity_id;
+    *(s16 *)&this->entity_id = (temp_r4 - 1);
     queue_destruction__7TObjectFv(temp_r3, temp_r4);
     return 1;
 }

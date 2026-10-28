@@ -244,7 +244,7 @@ f32 sin_table_lookup(int);
 int spawn_landing_effect__16TObjEneBm5GibonUFPvPv(Ene_800CCC6C *arg0, void *arg1);
 int is_active__16TObjEneBm5GibonUFPv(void* p);
 s32 TObjEneBm5GibonU__sub_800D1D70(void* p);
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 update_angle__10TObjPlayerFlPv(void *, s32, void *);
 void *find_entity_by_id(u16 id);
 void * __nw__7TObjectFUl(u32);
@@ -2100,7 +2100,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                         if (r < ((TObjPlayer *)(F(s32, 0x318)))->get_field_0c() / 2 && F(u32, 0x390) != 0) {
                             fn_80044330(arg0 + 0x4B0);
                             F(s32, 0x4B0) = 1;
-                            F(s16, 0x4B4) = obj_getField1c(F(u32, 0x390));
+                            F(s16, 0x4B4) = get_entity_id(F(u32, 0x390));
                             F(s16, 0x4B6) = 0;
                             ((TTecGiZonde *)arg0)->create(&p, arg0 + 0x4B0, (void *)(CB24(arg0)));
                         } else {
@@ -3765,7 +3765,7 @@ void TObjEneBm5GibonU::handle_state(s32 arg1) {
       temp_r3 = ((u32)find_enemy_by_id__16TObjEneBm5GibonUFi((s32)((int) (*((s32 *) (((s8 *) ((u8 *)this)) + 0x46C))))));
       if (temp_r3)
     {
-      *((s16 *) (((s8 *) ((u8 *)this)) + 0x474)) = obj_getField1c((int) temp_r3);
+      *((s16 *) (((s8 *) ((u8 *)this)) + 0x474)) = get_entity_id((int) temp_r3);
     }
       if ((((s32) (*((s32 *) (((s8 *) ((u8 *)this)) + 0x464)))) != 0) || (temp_r3 == 0U))
     {
@@ -4194,7 +4194,7 @@ void TObjEneBm5GibonU::sub_800D10A0() {
 #define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 #define update_shock_clock__13TUnk_804806E8Fv ((s32 (*)())update_shock_clock__13TUnk_804806E8Fv)
 #define update_movement_status__13TUnk_804806E8Fv ((s32 (*)())update_movement_status__13TUnk_804806E8Fv)
-#define obj_getField1c ((s16 (*)(s32))obj_getField1c)
+#define get_entity_id ((s16 (*)(s32))get_entity_id)
 
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
@@ -4714,7 +4714,7 @@ void update_photon_mylla__16TObjEneBm5GibonUFPv(void *arg0) {
     find_entity_by_id(*(u16 *)((s8 *)arg0 + 8));
 }
 void TObjEneBm5GibonU::set_field8_from_obj(s32 arg1) {
-    *(s16 *)((s8 *)this + 8) = obj_getField1c(arg1);
+    *(s16 *)((s8 *)this + 8) = get_entity_id(arg1);
 }
 
 void TObjEneBm5GibonU::push_list_node(void **arg1, void **arg2) {
@@ -4809,7 +4809,7 @@ s32 TObjEneBm5GibonU::try_activate() {
 #undef __nw__7TObjectFUl
 #undef update_shock_clock__13TUnk_804806E8Fv
 #undef update_movement_status__13TUnk_804806E8Fv
-#undef obj_getField1c
+#undef get_entity_id
 #pragma pop
 
 __declspec(section ".ctors") static void *const __sinit_TObjEneBm5GibonU_cpp_ref = (void *)TObjEneBm5GibonU::register_global_objects;

@@ -10,7 +10,7 @@ void __dt__7TObjectFv(void *, int);
 
     extern const float TRaderMapCore__data_805DC528;
     extern const float TRaderMapCore__data_805DC534;
-void TRaderMapCore::reset() { *(float *)&this->m_prev = TRaderMapCore__data_805DC528; *(float *)&this->m_flags = TRaderMapCore__data_805DC528; *(float *)&this->m_name = TRaderMapCore__data_805DC528; *(int *)&this->m_next = 0; *(float *)&this->m_up = TRaderMapCore__data_805DC534; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texture_id = TRaderMapCore__data_805DC534; *(float *)&this->m_20 = TRaderMapCore__data_805DC534; *(float *)&this->m_1c = TRaderMapCore__data_805DC534; *(float*)((char*)this + 0x18) = TRaderMapCore__data_805DC534; }
+void TRaderMapCore::reset() { *(float *)&this->m_prev = TRaderMapCore__data_805DC528; *(float *)&this->m_flags = TRaderMapCore__data_805DC528; *(float *)&this->m_name = TRaderMapCore__data_805DC528; *(int *)&this->m_next = 0; *(float *)&this->m_up = TRaderMapCore__data_805DC534; *(short *)&this->m_down = 0; *(short*)((char*)this + 0x16) = -1; *(float *)&this->texture_id = TRaderMapCore__data_805DC534; *(float *)&this->m_20 = TRaderMapCore__data_805DC534; *(float *)&this->entity_id = TRaderMapCore__data_805DC534; *(float*)((char*)this + 0x18) = TRaderMapCore__data_805DC534; }
 
 extern s32 TRaderMapCore__frame_model_resource;
 

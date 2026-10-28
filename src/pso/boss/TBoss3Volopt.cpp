@@ -71,7 +71,7 @@ int rand(void);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
 void request_follow_camera_offsets(Vec *position, Vec *target, s32 id, f32 blend);
-u16 obj_getField1c(void *object);
+u16 get_entity_id(void *object);
 void obj_setFlags30(void *object, s32 flags);
 void TLobby__sub_8001FE7C(void *resource, s32 flags);
 void *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
@@ -287,7 +287,7 @@ void clear_volopt_cage_flag() {
 }
 
 u16 TBoss3Volopt::get_part_id(s32 index) {
-    return m_1c + index;
+    return entity_id + index;
 }
 
 s32 TBoss3Volopt::get_part_group(s32 index) {
@@ -568,7 +568,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
         if (phase2 != 0) {
             for (i = 0; i < lbl_805D586C; i++) {
                 player = TObjPlayer::get_player_data(i);
-                if (player != NULL && TObjRoomId__sub_801A1DB8(obj_getField1c(player)) == 0 &&
+                if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
                     ((TBoss3Volopt *)player)->get_field_3e0() == 0xD) {
                     send_position(player, &volopt_phase2_player_positions[i], volopt_phase2_player_angles[i]);
                 }
@@ -608,7 +608,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
                     moves = (s32)(2.0f * calc_boss4_scale__10TObjPlayerFi(this)) + 2;
                     move_core.init();
-                    move_core.id = m_1c;
+                    move_core.id = entity_id;
                     move_core.action = 0;
                     move_core.param = core_slot;
                     move_core.param2 = moves;
@@ -638,7 +638,7 @@ void TBoss3Volopt::select_phase1_attack() {
             if (volopt_breakup_flag == 1 || breakup_tries >= 2) {
                 volopt_breakup_flag = 1;
                 release_core.init();
-                release_core.id = m_1c;
+                release_core.id = entity_id;
                 release_core.action = 1;
                 release_core.send();
                 attack_step = 0;
@@ -647,7 +647,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 breakup_tries++;
                 count = shuffle_p01_order();
                 attack.init();
-                attack.id = m_1c;
+                attack.id = entity_id;
                 attack.count = max_targets < count ? max_targets : count;
                 attack.tech = 3.0f * calc_boss4_scale__10TObjPlayerFi(this);
                 ((TLobby *)attack.order)->move_data(volopt_p01_order, 6);
@@ -672,7 +672,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 if ((core = (TBoss3VoloptCore *)find_entity_by_id(volopt_core_id)) != NULL && core->is_mode_0() != 0) {
                     moves = (s32)(2.0f * calc_boss4_scale__10TObjPlayerFi(this)) + 2;
                     move_core_v1.init();
-                    move_core_v1.id = m_1c;
+                    move_core_v1.id = entity_id;
                     move_core_v1.action = 0;
                     move_core_v1.param = core_slot;
                     move_core_v1.param2 = moves;
@@ -702,7 +702,7 @@ void TBoss3Volopt::select_phase1_attack() {
             if (volopt_breakup_flag == 1 || breakup_tries >= 2) {
                 volopt_breakup_flag = 1;
                 release_core_v1.init();
-                release_core_v1.id = m_1c;
+                release_core_v1.id = entity_id;
                 release_core_v1.action = 1;
                 release_core_v1.send();
                 attack_step = 0;
@@ -711,7 +711,7 @@ void TBoss3Volopt::select_phase1_attack() {
                 breakup_tries++;
                 count_v1 = shuffle_p01_order();
                 targets.init();
-                targets.id = m_1c;
+                targets.id = entity_id;
                 targets.count = max_targets < count_v1 ? max_targets : count_v1;
                 ((TLobby *)targets.order)->move_data(volopt_p01_order, 6);
                 targets.send();
@@ -800,7 +800,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action_wait() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 3;
                 packet.target_id = target;
                 packet.send();
@@ -812,7 +812,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0 && targetId != 0xFFFF) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 4;
                 if (is_v2_mode() != 0) {
                     TBoss3VoloptP02::send_random_params();
@@ -827,7 +827,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_trigger() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 5;
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
@@ -838,7 +838,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_set_motion() != 0 && target != 0xFFFF) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 6;
                 packet.target_id = target;
                 packet.send();
@@ -850,7 +850,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 7;
                 packet.param = 40.0f * calc_boss4_scale__10TObjPlayerFi(this);
                 packet.send();
@@ -864,7 +864,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action_wait() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 3;
                 packet.target_id = p02->find_facing_player();
                 packet.send();
@@ -878,7 +878,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 if (target != 0xFFFF) {
                     TBoss3VoloptActionPacket packet;
                     packet.init();
-                    packet.id = m_1c;
+                    packet.id = entity_id;
                     packet.action = 4;
                     if (is_v2_mode() != 0) {
                         TBoss3VoloptP02::send_random_params();
@@ -894,7 +894,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_trigger() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 5;
                 packet.send();
                 attack_delay = 30.0f * (f32)p02->count_dead_parts() + 30.0f;
@@ -907,7 +907,7 @@ void TBoss3Volopt::select_phase2_attack() {
                 if (target != 0xFFFF) {
                     TBoss3VoloptActionPacket packet;
                     packet.init();
-                    packet.id = m_1c;
+                    packet.id = entity_id;
                     packet.action = 6;
                     packet.target_id = target;
                     packet.send();
@@ -920,7 +920,7 @@ void TBoss3Volopt::select_phase2_attack() {
             if (p02->can_action() != 0) {
                 TBoss3VoloptActionPacket packet;
                 packet.init();
-                packet.id = m_1c;
+                packet.id = entity_id;
                 packet.action = 7;
                 packet.param = 40.0f * calc_boss4_scale__10TObjPlayerFi(this);
                 packet.send();
@@ -1434,7 +1434,7 @@ void TBoss3Volopt::send_position(TObjPlayer *player, Vec *pos, s32 rotation_y) {
     TBoss3VoloptPositionPacket packet;
     if (player != NULL) {
         packet.init();
-        packet.id = obj_getField1c(player);
+        packet.id = get_entity_id(player);
         VecCopy(&packet.pos, pos);
         packet.rotation_y = rotation_y;
         packet.send();
@@ -1534,7 +1534,7 @@ u16 TBoss3Volopt::find_random_player() {
     }
     player = candidate_players[(s32)((f32)volopt_candidate_count * (3.0517578e-05f * (f32)rand()))];
     if (player != NULL) {
-        return obj_getField1c(player);
+        return get_entity_id(player);
     }
     return 0xFFFF;
 }
@@ -1561,7 +1561,7 @@ u16 TBoss3Volopt::find_strongest_player() {
         }
     }
     if (best != NULL) {
-        return obj_getField1c(best);
+        return get_entity_id(best);
     }
     return 0xFFFF;
 }

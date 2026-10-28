@@ -69,7 +69,7 @@ void TOKeyMachine01::send_switch_changed(s32 flags) {
     TOKeyMachine01 *self = this;
     Pkt_8016D148 pkt;
     ((TLobby *)(&pkt))->init_6x05_switch_changed();
-    pkt.object = self->m_1c;
+    pkt.object = self->entity_id;
     pkt.zero = local_client_id;
     pkt.switchId = self->m_e4;
     pkt.area = get_current_floor();

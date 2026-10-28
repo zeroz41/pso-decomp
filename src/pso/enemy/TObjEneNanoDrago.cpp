@@ -76,7 +76,7 @@ extern Vec_800D9C7C lbl_8043C8E4;
 extern Vec_800D9C7C find_open_direction_zero_vec;
 extern const f64 lbl_8043C900[];
 void find_open_direction__10TObjPlayerFPvPv(u8 *arg0, f32 *arg1);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 angle_difference_abs(s32, s32);
 void subtract_vector(void *, void *);
 s32 update_action_hold_status__16TObjEneNanoDragoFv(s32 arg0);
@@ -188,7 +188,7 @@ void TObjPlayer::add_target_in_front_arc(void *p) {
       new_var2 = (-((s32) (lbl_8043C900[0] * atan2_float(v.z, new_var)))) + 0x4000;
       if (angle_difference_abs(new_var2, ((Obj_800D9FC4 *) this)->angle) <= 0xAAA)
       {
-        s16 id = obj_getField1c(p);
+        s16 id = get_entity_id(p);
         s16 *ids = ((Obj_800D9FC4 *) this)->ids;
         ids[((Obj_800D9FC4 *) this)->count++] = id;
       }

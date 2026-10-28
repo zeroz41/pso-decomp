@@ -64,7 +64,7 @@ void TObjPlayer__sub_801BF488(s32 *arg0, s32 arg1);
 void TObjPlayer__sub_801BF4A0(s32 *arg0, s32 arg1);
 void emit_idle_water_effect(s32 arg0);
 void TObjPlayer__sub_801BEEAC(u8 *arg0, u8 *arg1);
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 }
 int emit_zalure_support_effect(void* p, int a1);
 int emit_deband_support_effect(void* p, int a1);
@@ -205,8 +205,8 @@ void TObjPlayer::prepare_heavy_attack_particles_default() { prepare_heavy_attack
 #pragma fp_contract on
 void prepare_heavy_attack_particles(u8 *arg0) {
     if (*(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 4))))), 0x11);
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 4))))), 0x12);
+        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x11);
+        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x12);
     }
 }
 #pragma pop
@@ -227,10 +227,10 @@ void TObjPlayer::emit_jellen_support_effect_default() { emit_jellen_support_effe
 #pragma fp_contract on
 void emit_jellen_support_effect(u8 *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0) != 0U) {
-        create_attached_oneshot_emitter(arg0, (int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 0)))), 0x1C);
+        create_attached_oneshot_emitter(arg0, (int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0)))), 0x1C);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U) {
-        create_attached_oneshot_emitter(arg0, (int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 4)))), 0x1C);
+        create_attached_oneshot_emitter(arg0, (int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4)))), 0x1C);
     }
 }
 #pragma pop
@@ -241,10 +241,10 @@ void TObjPlayer::emit_shifta_support() { emit_shifta_support_effect((u8 *)((char
 #pragma fp_contract on
 void emit_shifta_support_effect(u8 *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 0))))), 0x1C);
+        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 0))))), 0x1C);
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 4) != 0U) {
-        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (obj_getField1c((int) *(u32 *)((s8 *)arg0 + 4))))), 0x1C);
+        TObjPlayer::check_hit_by_id((s32)arg0, (s32)((int)((int) (get_entity_id((int) *(u32 *)((s8 *)arg0 + 4))))), 0x1C);
     }
 }
 #pragma pop

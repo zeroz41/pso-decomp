@@ -532,7 +532,7 @@ struct Seq_80214104 : Base_80214104 {
 };
 
 extern "C" {
-void *obj_getField1c(void *);
+void *get_entity_id(void *);
 void queue_destruction__7TObjectFv(void *);
 int is_quest_active(void);
 void close_window__13TShopSequenceFv(void *);
@@ -561,14 +561,14 @@ void handle_random_enemies_choice__6TLobbyFPv(Seq_80214104 *self) {
     case 1:
         mem = __nw__7TObjectFUl(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)reset_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((s32)(obj_getField1c(self->player)));
+        THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(self->player)));
         close_window__13TShopSequenceFv(self);
         queue_destruction__7TObjectFv(self);
         break;
     case 2:
         mem = __nw__7TObjectFUl(0x28);
         if (mem != NULL) ((THunterGuildSeqOffline *)mem)->init((void *)tl_00, (void *)set_random_enemies_mode);
-        THunterGuildSeqOffline__sub_8021E180((s32)(obj_getField1c(self->player)));
+        THunterGuildSeqOffline__sub_8021E180((s32)(get_entity_id(self->player)));
         close_window__13TShopSequenceFv(self);
         queue_destruction__7TObjectFv(self);
         break;
@@ -726,14 +726,14 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s32 get_window_layout_position(s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
-u16 obj_getField1c(s32);
+u16 get_entity_id(s32);
 s32 restore_player_state__13TShopSequenceFv();
 
 void create_judgment_item_window__15TShopWindowBaseFPv(void *shop_sequence) {
     VObj_802143AC *vobj = (VObj_802143AC *)shop_sequence;
 
     if ((vobj->m8r() != 0) && ((sub_80223A48__15TShopWindowBaseFv(shop_sequence) != 0) || (sub_802239EC__13TShopSequenceFv(shop_sequence) != 0))) {
-        *(s32 *)((s8 *)shop_sequence + 0x38) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)obj_getField1c(*(s32 *)((s8 *)shop_sequence + 0x24)), 0, 0);
+        *(s32 *)((s8 *)shop_sequence + 0x38) = (s32)create_yes_no_window(get_window_layout_position(0x2B), (u16)get_entity_id(*(s32 *)((s8 *)shop_sequence + 0x24)), 0, 0);
         ((TWindowSubComCardList *)(*(s32 *)((s8 *)shop_sequence + 0x38)))->set_selected_index(1);
         ((TUnk_804CDFE8 *)(*(s32 *)((s8 *)shop_sequence + 0x38)))->set_position_xy(get_scale__15TShopWindowBaseFv(shop_sequence), get_scale__15TShopWindowBaseFv(shop_sequence));
         vobj->m7(8, 1);

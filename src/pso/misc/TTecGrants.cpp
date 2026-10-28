@@ -74,7 +74,7 @@ u8 * __ct__13TUnk_804CC888FPUclP7TObject(void *, s32, s32, s32);
 void *__nw__7TObjectFUl(int);
 extern s32 tl_07;
 void run_task__10TTecGrantsFv(TTecGrants *arg0);
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 copy_technique_target_list(void *, void *);
 s32 __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
 extern s32 __vt__10TTecGrants[];
@@ -152,7 +152,7 @@ u8 *TTecGrants__ct(u8 *tec_grants, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     ((TTecGrants *)tec_grants)->m_148 = 0;
     temp_r3 = ((TTecGrants *)tec_grants)->source;
     if (temp_r3 != 0U) {
-        ((TTecGrants *)tec_grants)->m_b4 = obj_getField1c(temp_r3);
+        ((TTecGrants *)tec_grants)->m_b4 = get_entity_id(temp_r3);
     }
     return tec_grants;
 }

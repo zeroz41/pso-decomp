@@ -1273,7 +1273,7 @@ s32 TObjEneBalClawClaw__ct(void *arg0) {
 u8 *TObjEneBalClawClaw__sub_80091B98(u8 *ene_bal_claw_claw, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5, s32 arg6, s32 _w7) {
     TObjEneBalClaw__ct((TObjEneBalClaw *)ene_bal_claw_claw);
     *(s32 **)((s8 *)ene_bal_claw_claw + 0x18) = &(*(RecoveredGlobal_80091B98_lbl_8048F148 *)__vt__18TObjEneBalClawClaw).value;
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_1c = arg3;
+    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->entity_id = arg3;
     *(s16 *)((s8 *)ene_bal_claw_claw + 0x2C) = arg4;
     *(s16 *)((s8 *)ene_bal_claw_claw + 0x28) = (s16) *(s16 *)((s8 *)arg2 + 0x28);
     *(s16 *)((s8 *)ene_bal_claw_claw + 0x2A) = (s16) *(s16 *)((s8 *)arg2 + 0x2A);

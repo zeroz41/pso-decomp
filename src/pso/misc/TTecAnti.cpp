@@ -127,7 +127,7 @@ struct Anti_8022AEF8 {
 };
 
 extern "C" {
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 int TTecAnti__sub_8022AD74(void* p);
 void TTecAnti__sub_8022AD94(void *);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
@@ -212,23 +212,23 @@ void TTecAnti::vfunc_7(void *pl_arg) {
     }
     pl->m21(self->caster, hit, 0, 0x10, self->level);
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((void*)(obj_getField1c((int)self->caster)), (void*)(obj_getField1c((int)pl)), (void*)7);
+        TWindowCtrl::show_party_effect((void*)(get_entity_id((int)self->caster)), (void*)(get_entity_id((int)pl)), (void*)7);
     }
-    if ((u16)obj_getField1c((int)self->caster) == (u16)obj_getField1c((int)pl)) {
+    if ((u16)get_entity_id((int)self->caster) == (u16)get_entity_id((int)pl)) {
         if (self->xAC != 0) {
             o = __nw__7TObjectFUl(0x48);
             if (o != NULL) {
-                construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec_8022AE10 *)pl->x2FC, (const Vec_8022AE10 *)pl->pos, obj_getField1c((int)pl), tl_07);
+                construct_self_effect__8TTecAntiFPvPvPviPv((Obj_8022AE10 *)o, (const Vec_8022AE10 *)pl->x2FC, (const Vec_8022AE10 *)pl->pos, get_entity_id((int)pl), tl_07);
             }
         }
     } else if (self->xAC != 0) {
         o = spawn_particle_effect_with_flags(pl->x2FC, 0x1F8, 0x10);
         if (o != NULL) {
-            set_owner_id__13TParticleCtrlFUs(o, obj_getField1c((int)pl));
+            set_owner_id__13TParticleCtrlFUs(o, get_entity_id((int)pl));
         }
         o = spawn_particle_effect_with_flags(pl->x2FC, 0x1FF, 0x10);
         if (o != NULL) {
-            set_owner_id__13TParticleCtrlFUs(o, obj_getField1c((int)pl));
+            set_owner_id__13TParticleCtrlFUs(o, get_entity_id((int)pl));
         }
     }
     if (self->xAC != 0) {
@@ -305,7 +305,7 @@ u8 *TTecAnti__ct(u8 *arg0, s32 owner, s32 pos, s32 arg3, s32 level) {
     }
     temp_r3_2 = ((TTecAnti *)arg0)->source;
     if (temp_r3_2 != 0U) {
-        ((TTecAnti *)arg0)->m_a8 = obj_getField1c(temp_r3_2);
+        ((TTecAnti *)arg0)->m_a8 = get_entity_id(temp_r3_2);
     }
     if ((s32) ((TTecAnti *)arg0)->m_ac != 0) {
         ((TTecAnti *)arg0)->play_anti_cast_sound();

@@ -58,7 +58,7 @@ s32 update_obstruction_fade(void *);
 s32 submit_cursor_candidate(void *, int);
 s32 play_sound_effect(s32, void *, s16, s32);
 void advance_animation_playback(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 atan2_float(f32, f32);
 f32 fabs_float(f32);
 s32 angle_difference_abs(s32, s32);
@@ -304,7 +304,7 @@ void TBoss3VoloptP02::init_params() {
     }
     animationFlags &= ~1;
     reset_visual_state();
-    volopt_p02_id = m_1c;
+    volopt_p02_id = entity_id;
     heal_emitter = NULL;
     emitter = NULL;
     add_flags_2e4(4);
@@ -1350,7 +1350,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
     front_target_count = 0;
     for (i = 0; i < lbl_805D586C; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || obj_getField1c(player) >= 0x1000) {
+        if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
         if (((TBoss3Volopt *)player)->get_field_3e0() != 0xD) {
@@ -1366,7 +1366,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
                 continue;
             }
         }
-        front_target_ids[front_target_count++] = obj_getField1c(player);
+        front_target_ids[front_target_count++] = get_entity_id(player);
         if (front_target_count >= 4) {
             break;
         }
@@ -1382,7 +1382,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
     s32 d;
     for (i = 0; i < lbl_805D586C; i++) {
         player = TObjPlayer::get_player_data(i);
-        if (player == NULL || obj_getField1c(player) >= 0x1000) {
+        if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
         }
         if (((TBoss3Volopt *)player)->get_field_3e0() != 0xD) {
@@ -1397,7 +1397,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
             d = ABS(angle_difference_abs(rotation_y + 0x8000, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z))));
             if (d <= best) {
                 best = d;
-                id = obj_getField1c(player);
+                id = get_entity_id(player);
             }
         }
     }
@@ -1408,7 +1408,7 @@ void TBoss3VoloptP02::broadcast_values() {
     VoloptPartsMessage message;
     s32 i;
     message.init();
-    message.entity_id = m_1c;
+    message.entity_id = entity_id;
     for (i = 0; i < 4; i++) {
         message.part_hp[i] = part_hp[i];
     }
@@ -1460,7 +1460,7 @@ void TBoss3VoloptP02::push_players_out_of_radius() {
         if (player == NULL) {
             continue;
         }
-        obj_getField1c(player);
+        get_entity_id(player);
         if (TObjRoomId__sub_801A1DB8() != 0) {
             continue;
         }
@@ -1519,7 +1519,7 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
         if (player == NULL) {
             continue;
         }
-        if (obj_getField1c(player) >= 0x1000) {
+        if (get_entity_id(player) >= 0x1000) {
             continue;
         }
         if (player->actorFlags & 0x02000800) {
@@ -1532,7 +1532,7 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
                 continue;
             }
         }
-        arc_target_ids[arc_target_count] = obj_getField1c(player);
+        arc_target_ids[arc_target_count] = get_entity_id(player);
         VecCopy(&arc_target_positions[arc_target_count], (Vec *)player->position);
         arc_target_count++;
         if (arc_target_count >= 4) {

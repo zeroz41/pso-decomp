@@ -235,7 +235,7 @@ u8 TObjPlayer::sub_801A1DDC() {
     if (is_split_screen() != 0) {
         return 1U;
     }
-    return (u8) (this->m_1c == local_client_id);
+    return (u8) (this->entity_id == local_client_id);
 }
 
 const char *TUnk_804B9870::get_name() { return NULL; }

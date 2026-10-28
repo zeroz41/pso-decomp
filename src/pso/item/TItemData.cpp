@@ -85,7 +85,7 @@ struct Parm_8010C320
 
 extern "C" {
 s32 obj_getArrWord_254(void *, int);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 int get_item_field_6__10TObjPlayerFPv(void *);
 s32 is_quest_active();
 s32 is_flag_set__6TLobbyFv();
@@ -234,7 +234,7 @@ void TItemData::apply_custom_shield_bonus(s32 player, TItemData *a, TItemData *b
     if (data1.data_u8[0] == 1 && data1.data_u8[1] == 2) {
         u8 id = data1.data_u8[2];
         if (id >= 0x53 && id <= 0x82) {
-            s32 count = TObjPlayer::count_nearby_players_with_shield(obj_getField1c((void *)player), data1.data_u8);
+            s32 count = TObjPlayer::count_nearby_players_with_shield(get_entity_id((void *)player), data1.data_u8);
             u8 kind = (data1.data_u8[2] - 0x53) % 8;
             s16 bonus_per_player[8] = {0, 50, 25, 25, 100, 50, 50, 10};
             s16 amount = count * bonus_per_player[kind];
@@ -1025,7 +1025,7 @@ s32 TItemData::calc_action_flags(s32 mask, u8 *player) {
   }
   else
   {
-    id = obj_getField1c(player);
+    id = get_entity_id(player);
   }
   if (player == 0)
   {
@@ -1414,7 +1414,7 @@ f32 TItemData::get_armor_set_multiplier(u8 *arg1) {
         }
         break;
     case 45:
-        if (TObjPlayer__sub_80117E50(obj_getField1c(arg1)) != 0) {
+        if (TObjPlayer__sub_80117E50(get_entity_id(arg1)) != 0) {
             v = TItemData__data_805DAB78;
         }
         break;

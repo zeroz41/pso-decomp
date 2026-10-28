@@ -325,7 +325,7 @@ typedef struct { u8 pad0[0xA]; char name[0x12]; } Ent_8013703C;
 s32 memcpy(void *, void *, int);
 void * memset(void *, int, u32);
 void mark_area_change_pending();
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void * get_current_floor();
 char * get_card_window_area__6TLobbyFv(void);
 s32 get_flag_bit0__6TLobbyFv(void);
@@ -694,9 +694,9 @@ void handle_6x70_sync_player_disp_and_inventory(Pkt_801354AC *arg0) {
                 delete p;
             }
             plr = (Plr_801354AC *)create_remote_player_object(disp);
-            strncpy(TLobby__player_names[obj_getField1c(plr)], plr->m10(), 0x10);
+            strncpy(TLobby__player_names[get_entity_id(plr)], plr->m10(), 0x10);
             ((TLobby *)(disp->id))->open_udp_socket_for_player();
-            lobby_debug_printf_stub(lbl_8043EE7C, obj_getField1c(plr));
+            lobby_debug_printf_stub(lbl_8043EE7C, get_entity_id(plr));
         }
     }
 }

@@ -64,7 +64,7 @@ extern void *farlla_photon_blast_model_buffers;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
-u32 obj_getField1c();
+u32 get_entity_id();
 
 void TObjPlayer::destroy_global_buffer() {
     if ((u32) estlla_photon_blast_model != 0U) {
@@ -96,7 +96,7 @@ void TPhotonFarlla::update_all_slots() {
         var_r31 = 0;
         do {
             if (TObjPlayer::get_battle_param(var_r31) != 0U) {
-                queue_photon_blast_hit((u16) obj_getField1c(), 0, 0, this->m_150);
+                queue_photon_blast_hit((u16) get_entity_id(), 0, 0, this->m_150);
             }
             var_r31 += 1;
         } while (var_r31 < 0x10);

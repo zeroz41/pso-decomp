@@ -91,7 +91,7 @@ void update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 extern const f32 lbl_805DAC74;
 extern s32 weapon_special_roll_channel_table[];
 Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
@@ -330,7 +330,7 @@ void play_weapon_hit_sound(Ctx_8011C7C8 *c) {
         key[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].key;
         pitch[1] = ((Pmt_8011C7C8 *)item_pmt_tbl)->weapons[group].target[1].pitch;
         pos = (u8 *)((TUnk_804AF8A0 *)target)->m_a4 + c->part * 0x2C + 0x1C;
-        type = obj_getField1c(target);
+        type = get_entity_id(target);
         if (type < 0x1000) {
             cls = *(s8 *)&((TObjPlayer *)target)->m_88d;
             mode = 1;

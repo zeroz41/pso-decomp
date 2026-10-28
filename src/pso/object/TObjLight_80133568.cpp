@@ -556,7 +556,7 @@ struct LightData_80134194 {
     f32 color[3];
     u8 pad34[0x28];
 };
-u16 obj_getField1c(s32);
+u16 get_entity_id(s32);
 #define LD_80134194 ((LightData_80134194 *)&TObjLight__scene_light_state)
 #define L1_80134194 TObjLight__data_8050637C
 #define L2_80134194 TObjLight__data_805068FC
@@ -564,7 +564,7 @@ void select_actor_lighting(s32 obj) {
     s32 i;
 
     for (i = 0; i < TObjLight__light_count; i++) {
-        if (L2_80134194[i].id == obj_getField1c(obj)) {
+        if (L2_80134194[i].id == get_entity_id(obj)) {
             if (((u32)L2_80134194[i].f24 & 1) && ((u32)L2_80134194[i].f24 & 2)) {
                 set_light_ambient_color(L2_80134194[i].f20, L2_80134194[i].f20, L2_80134194[i].f20);
                 init_distant_light(0, L2_80134194[i].dir[0], L2_80134194[i].dir[1], L2_80134194[i].dir[2]);
@@ -592,7 +592,7 @@ void select_actor_lighting(s32 obj) {
         }
     }
     for (i = 0; i < TObjLight__actor_light_count; i++) {
-        if (L1_80134194[i].id == obj_getField1c(obj)) {
+        if (L1_80134194[i].id == get_entity_id(obj)) {
             init_distant_light(0, L1_80134194[i].dir[0], L1_80134194[i].dir[1], L1_80134194[i].dir[2]);
             GXInitLightDir(TObjLight__gx_light_objects, L1_80134194[i].dir[0], L1_80134194[i].dir[1], L1_80134194[i].dir[2]);
             set_light_ambient_color(LD_80134194->amb, LD_80134194->amb, LD_80134194->amb);

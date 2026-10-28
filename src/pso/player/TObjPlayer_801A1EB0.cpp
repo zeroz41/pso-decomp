@@ -27,7 +27,7 @@ s16 TUnk_804B9870::get_stat_by_key_state() {
     if ((TOKeyMachine01::get_global_state() == 0) || (TOKeyMachine01::get_global_state() == 0x12)) {
         return 0;
     }
-    if ((u16) this->m_1c < 0x1000U) {
+    if ((u16) this->entity_id < 0x1000U) {
         global_state = TOKeyMachine01::get_global_state();
         if (((global_state - 1) <= 1U) || (TContainerAncient01::is_global_state_in_table() != 0) || (global_state == 0xC) || (global_state == 0x20)) {
             return *(s16 *)&(*(short *)((u8 *)this + 0x2E));
@@ -54,21 +54,21 @@ void TUnk_804B9870::apply_object_set_data(void *src_arg) {
 void TUnk_804B9870::vfunc_6(s16 *, s32) {  }
 u16 TUnk_804806E8::get_or_assign_actor_id(s32 arg1) {
 
-    if (this->m_1c == 0xFFFF) {
+    if (this->entity_id == 0xFFFF) {
         switch (this->actorFlags & 0x70000000) {
         case 0x10000000:
-            this->m_1c = fn_801A210C(arg1);
+            this->entity_id = fn_801A210C(arg1);
             break;
         case 0x20000000:
-            this->m_1c = TLobby__sub_801A20C8(arg1);
+            this->entity_id = TLobby__sub_801A20C8(arg1);
             break;
         default:
         case 0x40000000:
-            this->m_1c = TLobby::alloc_actor_ids(arg1);
+            this->entity_id = TLobby::alloc_actor_ids(arg1);
             break;
         }
     }
-    return this->m_1c;
+    return this->entity_id;
 }
 u16 TLobby::alloc_actor_ids(s32 arg) {
     u16 n = arg;

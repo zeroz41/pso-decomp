@@ -108,7 +108,7 @@ s32 check_v2_mode__9TObjEneDDFv();
 void select_subtype__14TObjEneBm5WolfFv(u8 *arg0);
 Wolf_800B850C * find_pack_leader__14TObjEneBm5WolfFi(s32 id);
 void *fn_800B8B00(void *p);
-s16 obj_getField1c();
+s16 get_entity_id();
 void update_collision_center__14TObjEneBm5WolfFv(u8 *arg0);
 u8 * __dt__14TObjEneBm5WolfFv(u8 *arg0, s16 arg1);
 void run_task__14TObjEneBm5WolfFv(u8 *arg0);
@@ -2457,7 +2457,7 @@ void TObjEneBm5Wolf::anchor_state(s32 arg1) {
     case 0:
         temp_r3 = find_pack_leader__14TObjEneBm5WolfFi((s32)(*(s32 *)((s8 *)arg0 + 0x3DC)));
         if (temp_r3 != 0U) {
-            this->m_3e0 = obj_getField1c();
+            this->m_3e0 = get_entity_id();
         }
         if (((s32) this->m_3d8 != 0) || (temp_r3 == 0U)) {
             VecCopy((Vec *)(arg0 + 0x3F4), (const Vec *)(arg0 + 0x3E8));
@@ -3661,7 +3661,7 @@ void TObjEneBm5Wolf::release_global_805D5120() {
 #undef lbl_804922F8
 
 #define check_v2_mode__9TObjEneDDFv ((s32 (*)(void))check_v2_mode__9TObjEneDDFv)
-#define obj_getField1c ((s16 (*)(s32))obj_getField1c)
+#define get_entity_id ((s16 (*)(s32))get_entity_id)
 #define TObjEneBm5Wolf__collider_params ((f32 *)&TObjEneBm5Wolf__collider_params)
 #define bm_ene_bm5_wolf_resource_descriptor ((u8 *)&bm_ene_bm5_wolf_resource_descriptor)
 
@@ -3759,7 +3759,7 @@ void play_sound__14TObjEneBm5WolfFPv(void *arg0) {
     find_entity_by_id(*(u16 *)((s8 *)arg0 + 8));
 }
 void TObjEneBm5Wolf::set_field8_from_obj(s32 arg1) {
-    *(s16 *)((s8 *)this + 8) = obj_getField1c(arg1);
+    *(s16 *)((s8 *)this + 8) = get_entity_id(arg1);
 }
 
 void TObjEneBm5Wolf::push_list_node(void **arg1, void **arg2) {
@@ -3826,7 +3826,7 @@ s32 get_group_id__14TObjEneBm5WolfFPv(void* p) { return *(s32*)((char*)p + 0x3dc
 }
 
 #undef check_v2_mode__9TObjEneDDFv
-#undef obj_getField1c
+#undef get_entity_id
 #undef TObjEneBm5Wolf__collider_params
 #undef bm_ene_bm5_wolf_resource_descriptor
 

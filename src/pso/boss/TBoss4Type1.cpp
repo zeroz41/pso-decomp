@@ -280,7 +280,7 @@ struct Stack_80053670 {
 f32 calc_boss4_scale__10TObjPlayerFi(void *);
 void VecCopy__FP3VecPC3Vec(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 get_bml_motion(s32, s32);
@@ -1225,7 +1225,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
         if (p == NULL) {
             continue;
         }
-        if (TBoss4Type3__sub_8005254C(obj_getField1c(p)) == 0) {
+        if (TBoss4Type3__sub_8005254C(get_entity_id(p)) == 0) {
             continue;
         }
         {
@@ -1825,7 +1825,7 @@ void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
         if (player == NULL) {
             continue;
         }
-        if (TBoss4Type3__sub_8005254C(obj_getField1c(player)) == 0) {
+        if (TBoss4Type3__sub_8005254C(get_entity_id(player)) == 0) {
             continue;
         }
         target = (Vec_80053914 *)&TBoss4Type2__tenchu_furu_array;

@@ -13,7 +13,7 @@ typedef char RecoveredGlobal_802A9880___vt__9TTecKafun_size[sizeof(RecoveredGlob
 
 extern "C" {
 void *find_entity_by_id(u16 id);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 play_sound_effect(s32, u32, s16, s32);
 u8 * construct_area_technique_base(void *, s32, s32, s32, s16);
 extern s32 __vt__9TTecKafun[];
@@ -72,7 +72,7 @@ u8 *TTecKafun__ct(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, s32 arg4, 
     play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
     if (temp_r3_2 != NULL) {
-        tec_kafun->m_b4 = obj_getField1c(temp_r3_2);
+        tec_kafun->m_b4 = get_entity_id(temp_r3_2);
     }
     return (u8 *)tec_kafun;
 }
@@ -94,7 +94,7 @@ u8 *TTecKafun__sub_802A9948(TTecKafun *tec_kafun, s32 arg1, s32 arg2, s32 arg3, 
     play_sound_effect(0x4002A50A, (u32)((u8 *)tec_kafun + 0x20), 0, 0);
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)tec_kafun + 0x1C));
     if (temp_r3_2 != NULL) {
-        tec_kafun->m_b4 = obj_getField1c(temp_r3_2);
+        tec_kafun->m_b4 = get_entity_id(temp_r3_2);
     }
     return (u8 *)tec_kafun;
 }

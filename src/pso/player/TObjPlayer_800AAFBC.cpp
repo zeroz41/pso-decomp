@@ -215,7 +215,7 @@ f32 newton_sqrtf();
 s32 project_actor_to_ground(void *, Vec_800AB4F4 *, int);
 s32 subtract_vector(void *, void *);
 
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 u8 *csnLookAt(void *, Vec_800AB7A0 *);
 u32 TObjPlayer__sub_800A4204(void *, void *, void *, void *, int);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
@@ -466,7 +466,7 @@ u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4) {
     __ct__13TUnk_804AF8A0FP7TObject(arg0, tl_06);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_80491478;
     *(s16 *)((s8 *)arg0 + 0xAC) = arg1;
-    *(s16 *)((s8 *)arg0 + 0xD4) = obj_getField1c(arg2);
+    *(s16 *)((s8 *)arg0 + 0xD4) = get_entity_id(arg2);
     ((TUnk_80491478 *)arg0)->m_ae = 0;
     t = player_sub_800ab7a0_id_table[arg1];
     ((TUnk_80491478 *)arg0)->m_d8 = arg3;

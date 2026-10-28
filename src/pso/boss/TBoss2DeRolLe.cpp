@@ -5865,7 +5865,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
     }
     {
         locals.v = lbl_804359C0[0];
-        a = ((TBoss2DeRolLe *)self)->m_1c + 1;
+        a = ((TBoss2DeRolLe *)self)->entity_id + 1;
         b = *(s16 *)((s8 *)self + 0x2C) + 1;
         for (j = 0; j < 10; j++) {
             VecCopy__FP3VecPC3Vec(&self->v540[j], &locals.v);

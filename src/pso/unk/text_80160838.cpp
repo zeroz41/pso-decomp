@@ -26,7 +26,7 @@ void TODoorAncient09::door_ancient09_sync_state(void *src_arg) {
     if (obj != 0) {
         Pkt_80160838 pkt;
         ((TOBarrierEnergy01 *)(&pkt))->init();
-        pkt.id = this->m_1c;
+        pkt.id = this->entity_id;
         pkt.state = st.a;
         pkt.kind = obj->kind;
         update_and_send_60__6TLobbyFPv(&pkt);

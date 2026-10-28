@@ -16,7 +16,7 @@ struct Del_80223850 {
 };
 
 extern "C" {
-s32 obj_getField1c(u32);
+s32 get_entity_id(u32);
 u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32);
 u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 u8 * __ct__24TMessageWindowControllerFv(void *);
@@ -66,7 +66,7 @@ u32 TShopSequence::create_message_window(s32 arg1, s32 arg2) {
     if (message_window_controller != NULL) {
         temp_r3 = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x24));
         if (temp_r3 != NULL) {
-            return create_message_window__24TMessageWindowControllerFlll(*(u8 **)((s8 *)((u8 *)this) + 0x28), arg1, arg2, (s32) ((u16)obj_getField1c((u32)temp_r3)));
+            return create_message_window__24TMessageWindowControllerFlll(*(u8 **)((s8 *)((u8 *)this) + 0x28), arg1, arg2, (s32) ((u16)get_entity_id((u32)temp_r3)));
         }
         return create_window__24TMessageWindowControllerFll(message_window_controller, arg1, arg2);
     }
@@ -86,7 +86,7 @@ void TShopSequence::close_window() {
     s32 var_r31;
 
     if ((u32) *(u32 *)((s8 *)this + 0x24) != 0U) {
-        unsuppress_slot__11TWindowCtrlFv(obj_getField1c(*(u32 *)((s8 *)this + 0x24)));
+        unsuppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
         if (TRaderMapCore::is_not_split_screen() != 1) {
             var_r31 = 0;
             do {
@@ -113,7 +113,7 @@ void TShopSequence::restore_player_state() {
                 var_r31 += 1;
             } while (var_r31 < 4);
         }
-        suppress_slot__11TWindowCtrlFv(obj_getField1c(*(u32 *)((s8 *)this + 0x24)));
+        suppress_slot__11TWindowCtrlFv(get_entity_id(*(u32 *)((s8 *)this + 0x24)));
     }
 }
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1) {

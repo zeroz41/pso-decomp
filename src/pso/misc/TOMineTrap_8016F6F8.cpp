@@ -16,7 +16,7 @@ s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
 s32 get_current_floor(void);
 f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u8 *TOMineTrap__ct(u8 *, u8 *, s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 is_boss_area();
@@ -160,7 +160,7 @@ s32 TOMineTrap::find_target_in_range() {
         if (p == 0 || p == (u8 *)self || obj_testFlags30__13TUnk_804AF8A0FUl(p, 0x800) != 0) {
             continue;
         }
-        id = obj_getField1c(p);
+        id = get_entity_id(p);
         if (id == 0xFFFF) {
             continue;
         }
@@ -217,7 +217,7 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     u16 id;
     void *player;
     void *obj;
-    if (enable_v2_features != 1 || arg0 == 0 || (id = obj_getField1c((void *)arg0)) == 0xFFFF || id >= 0x1000 ||
+    if (enable_v2_features != 1 || arg0 == 0 || (id = get_entity_id((void *)arg0)) == 0xFFFF || id >= 0x1000 ||
         (player = (void *)get_player_by_client_id(id)) == 0 || ((TObjPlayer *)player)->get_field_3e4() != get_current_floor() ||
         arg1 < 0 || arg1 >= 4 || arg2 < 0 || arg2 > 0x14) {
         return 0;
@@ -252,7 +252,7 @@ void *__dt__10TOMineTrapFv(void *arg0, s16 arg1) {
 s32 TOMine::is_target_in_list(void *obj) {
     TOMine *self = this;
     if (obj != 0) {
-        u32 id = obj_getField1c(obj);
+        u32 id = get_entity_id(obj);
         if (id < 4) {
             Node_801702C8 *n;
             for (n = *(Node_801702C8 * *)&self->m_down; n != 0; n = n->next) {
@@ -402,7 +402,7 @@ void TOMine::vfunc_6(s16 *arg1, s32 arg2) {
 
 f32 TOMine::receive_physical_attack(void *, f32) {
     s16 sp8;
-    if (((u16) this->m_1c >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 5;
         sp8 = this->mode;
         send_object_state_update(&sp8);
@@ -433,7 +433,7 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
     return (*(const f32 *)&lbl_805DB85C);
   }
   var_r31 = 0;
-  if ((obj_getField1c((void *) arg1) < 4U) && (is_locally_controlled__10TObjPlayerFPv((u32)((void *) arg1)) != 0))
+  if ((get_entity_id((void *) arg1) < 4U) && (is_locally_controlled__10TObjPlayerFPv((u32)((void *) arg1)) != 0))
   {
     var_r31 = 1;
   }
@@ -467,7 +467,7 @@ f32 TOMine::receive_direct_attack(void *arg1, DirectAttackPayload payload, void 
 
 void TOMine::update_trigger() {
     s16 sp8;
-    if (((u16) this->m_1c >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
+    if (((u16) this->entity_id >= 0x4000U) && ((u32) this->m_80 != 0U) && (access_object_saved_state(&sp8, 1) != 0)) {
         this->mode = 3;
         sp8 = this->mode;
         send_object_state_update(&sp8);

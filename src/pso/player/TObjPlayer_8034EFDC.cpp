@@ -122,7 +122,7 @@ extern "C" {
 void init_fire_explosion_config__10TObjPlayerFPvPv(void *a, O_8034F590 *o);
 s32 rotate_matrix_z(s32, s32);
 void init_slicer_launch_state(void *arg0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 f32 query_extended_state__10TObjPlayerFv(void *);
@@ -219,7 +219,7 @@ void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon) {
     SlicerLaunchData_8012D9C8 launch;
     u8 *t;
     init_slicer_launch_state(&launch);
-    launch.player = obj_getField1c(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
+    launch.player = get_entity_id(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
     launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);

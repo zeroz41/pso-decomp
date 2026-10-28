@@ -75,7 +75,7 @@ struct QList_80217C1C { u8 f0; u8 count; u8 pad2[2]; QEnt_80217C1C ents[1]; };
 struct T_80217B30 { u8 pad[0x38]; s32 f38; };
 
 extern "C" {
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 s32 send_and_handle__6TLobbyFii(int, void *, int);
 u32 create_message_window__6TLobbyFllUls(int, void *, int, int);
@@ -267,7 +267,7 @@ void TQuestListOnline::handle_list_selection() {
             return;
         } else if (selection_stage == 2) {
             if (confirm_window == 0) {
-                u16 id = obj_getField1c(window_owner);
+                u16 id = get_entity_id(window_owner);
                 confirm_window = (u32)create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
                 ((TUnk_804CDFE8 *)confirm_window)->set_position_xy(get_scale__15TShopWindowBaseFv(this), get_scale__15TShopWindowBaseFv(this));
                 if (sequence != NULL) {
@@ -289,7 +289,7 @@ void TQuestListOnline::show_info_window() {
     if ((u32) info_window == 0U) {
         stack.sp8 = *(s32 *)((s8 *)&lbl_8044BEDC.value + 0);
         stack.spC = *(s32 *)((s8 *)&lbl_8044BEDC.value + 4);
-        temp_r31 = obj_getField1c(window_owner);
+        temp_r31 = get_entity_id(window_owner);
         info_window = create_message_window__6TLobbyFllUls((int) (get_window_layout_position(0x2E)), (void *)&stack.sp8, 1, (int) ((s32) temp_r31));
         ((TLobby *)info_window)->set_field_1c(lbl_805DC6A4);
         if (TCameraCtrl::get_camera_id() >= 2) {
@@ -309,7 +309,7 @@ void TQuestListOnline::build_list_window() {
     u8 *e;
     if (((VObj_18_80217F88 *)this->sequence)->m8() != 0) {
         if (list_window == 0U) {
-            id = obj_getField1c(window_owner);
+            id = get_entity_id(window_owner);
             list_window = (u32)create_item_list_window(get_guild_text(0), 0x40, id);
         } else {
             ((TShopArmorListWindow *)list_window)->reset_list();

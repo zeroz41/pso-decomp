@@ -131,7 +131,7 @@ TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, void *set_data) : TObjEnemyC
 }
 
 TBoss3VoloptCore::TBoss3VoloptCore(TObject *parent, u16 id, s32 param) : TObjEnemyCustom(parent) {
-    m_1c = id;
+    entity_id = id;
     *(s16 *)((u8 *)this + 0x2C) = param;
     m_80 = 0;
     *(s16 *)((u8 *)this + 0x28) = *(s16 *)((u8 *)parent + 0x28);

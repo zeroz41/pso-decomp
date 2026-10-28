@@ -759,7 +759,7 @@ void TObjWarpBoss::send_cmd_6A(u16 value) {
     TObjWarpBoss *self = this;
     Pkt_8019E6C0 pkt;
     ((TWindowSubTradeMain *)(&pkt))->init_pkt_cmd_6A();
-    pkt.id = self->m_1c;
+    pkt.id = self->entity_id;
     pkt.value = value;
     ((TWindowSubTradeMain *)(&pkt))->send_60_update();
 }

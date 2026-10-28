@@ -15,7 +15,7 @@ typedef struct Web_800BC798 {
 } Web_800BC798;
 
 extern "C" {
-s16 obj_getField1c(u32);
+s16 get_entity_id(u32);
 int queue_destruction__7TObjectFv(void*);
 s32 __ct__13TUnk_804B9870FP7TObject();
 extern s32 __vt__12TObjGrassWeb[];
@@ -103,7 +103,7 @@ u8 *TObjGrassWeb__ct(u8 *grass_web, s32 arg1, u32 arg2) {
         *(s32 *)((s8 *)grass_web + 0) = (s32) lbl_805D2A3C;
         VecCopy((Vec *)(grass_web + 0x38), (const Vec *)(arg2 + 0x38));
         ((TObjGrassWeb *)grass_web)->m_90 = 0;
-        ((TObjGrassWeb *)grass_web)->m_a4 = obj_getField1c(arg2);
+        ((TObjGrassWeb *)grass_web)->m_a4 = get_entity_id(arg2);
         ((TObjGrassWeb *)grass_web)->m_84 = 0xB4;
     } else {
         queue_destruction__7TObjectFv(grass_web);

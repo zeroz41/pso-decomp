@@ -324,7 +324,7 @@ struct Trap_8017B6D8 {
     s32 f358;
 };
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void obj_setFlags30(void *, u32);
 s32 is_split_screen();
 void * get_bml_model(void *, int);
@@ -954,7 +954,7 @@ void TOTrapAncient02::vfunc_82() {
             if (self->timer < 0) {
                 self->state = 3;
                 self->timer = self->reset;
-                if (self->target != NULL && local_client_id == obj_getField1c(self->target)) {
+                if (self->target != NULL && local_client_id == get_entity_id(self->target)) {
                     p = (s32)get_player_by_client_id(local_client_id);
                     if (p != 0 && check_player_flag1__6TLobbyFv() != 0) {
                         TObjPlayer::send_code_45_1(p);

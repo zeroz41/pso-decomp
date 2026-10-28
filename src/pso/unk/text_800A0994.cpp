@@ -30,7 +30,7 @@ struct Gunner_800A0994 {
 
 extern "C" {
 int get_player_data__10TObjPlayerFi(int a0);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 u8 *get_enemy_entity(u16 arg0);
 extern s32 dark_gunner_class_name_ptr;
@@ -51,7 +51,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
         if (p != NULL && check_value_equals__13TUnk_804B6C24Fl(p, dark_gunner_class_name_ptr) != 0 &&
             self->f354 == p->f354 && self->f28 == p->f28) {
             p->f428 = self->f1C;
-            self->ids[self->count++] = obj_getField1c(p);
+            self->ids[self->count++] = get_entity_id(p);
             if (self->count >= 16) {
                 break;
             }

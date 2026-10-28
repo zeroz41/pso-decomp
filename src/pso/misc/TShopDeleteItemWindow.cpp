@@ -88,7 +88,7 @@ s32 get_selected_menu_value(int);
 s32 select_cursor_entry__22TWindowSubShortCutListFv(int);
 void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win);
 void calc_list_content_extent(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 void *get_window_layout_position(int);
@@ -177,7 +177,7 @@ block_8:
 void TShopDeleteItemWindow::handle_number_input() {
     if (*(void **)(((u8 *)this) + 0x38) != 0 && ((TWindowInputNumber *)(*(void **)(((u8 *)this) + 0x38)))->is_confirmed() != 0) {
         if (*(void **)(((u8 *)this) + 0x34) == 0) {
-            u32 id = obj_getField1c(*(void **)(((u8 *)this) + 0x24));
+            u32 id = get_entity_id(*(void **)(((u8 *)this) + 0x24));
             *(void **)(((u8 *)this) + 0x34) = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
             ((TCheckRoomSequence *)(*(void **)(((u8 *)this) + 0x34)))->set_ready_flag();
             ((TWindowSubComCardList *)(*(void **)(((u8 *)this) + 0x34)))->set_selected_index(1);
@@ -233,7 +233,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
                 }
                 ((TShopWindowBase *)self)->set_field_20(2);
             } else {
-                id = obj_getField1c(self->item);
+                id = get_entity_id(self->item);
                 self->f34 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), id, 0, 0);
                 ((TCheckRoomSequence *)(self->f34))->set_ready_flag();
                 ((TWindowSubComCardList *)(self->f34))->set_selected_index(1);
@@ -268,7 +268,7 @@ void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win) {
     if (win->f30 == NULL) {
         Kind_80337C2C item;
         s32 count;
-        win->f30 = create_item_list_window(get_shop_text(0x30), 200, obj_getField1c(win->item));
+        win->f30 = create_item_list_window(get_shop_text(0x30), 200, get_entity_id(win->item));
         TWindowSetLevelUp__sub_8026DE28(win->f30, 200);
         for (i = 0; i < 200; i++) {
             if (copy_bank_item_with_stack_limit(i, &item, &count, base) != 0) {
@@ -303,7 +303,7 @@ void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win) {
     }
     if (win->f3c == NULL) {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, win->f40, base) != 0) {
-            win->f3c = new TWindowHelpItem(get_window_layout_position(0x27), (u32)obj_getField1c(win->item));
+            win->f3c = new TWindowHelpItem(get_window_layout_position(0x27), (u32)get_entity_id(win->item));
             if (win->f3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
                 ((TLobby *)win->f3c)->set_position(lbl_805DF998, lbl_805DF998);
             }

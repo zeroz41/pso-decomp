@@ -55,7 +55,7 @@ void *fn_80157CA8(void *arg0);
 void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(int);
 volatile int is_locally_controlled__10TObjPlayerFPv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *spawn_particle_effect(void *pos, s32 id);
 u8 *__ct__12TQuestThreadFv(u8 *arg0, s32 arg1, s32 arg2);
 extern u32 quest_mission_manager;
@@ -184,7 +184,7 @@ int TOAttackableCol::send_state_change(u16 state) {
     parent = *(u8 * *)&this->m_80;
     if (parent != NULL) {
         fn_80157CA8(&msg);
-        msg.room = this->m_1c;
+        msg.room = this->entity_id;
         msg.id = id;
         msg.type = *(s16 *)(parent + 4);
         msg.state = state;
@@ -235,7 +235,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   u32 var_r0;
   u32 var_r0_2;
   var_r30 = 0;
-  if (((arg1 != 0) && (obj_getField1c((void *) arg1) < 4U)) && (is_locally_controlled__10TObjPlayerFPv((void *) arg1) != 0))
+  if (((arg1 != 0) && (get_entity_id((void *) arg1) < 4U)) && (is_locally_controlled__10TObjPlayerFPv((void *) arg1) != 0))
   {
     var_r30 = 1;
   }

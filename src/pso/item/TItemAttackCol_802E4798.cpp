@@ -13,7 +13,7 @@ struct Rec_802E4798 { u8 pad[0x18]; s32 flags; u8 pad2[0x2C - 0x1C]; };
 extern "C" {
 s32 obj_is_hit_receivable(void *);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, u32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_technique_ready__8TTecCtrlFv();
 void queue_destruction__7TObjectFv(void *arg0);
 void TObjPlayer__sub_801542F4(s32 a);
@@ -33,7 +33,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     if (((TUnk_804E355C *)arg0)->m_a0 >= 8) {
         return 0;
     }
-    if (((TUnk_804E355C *)arg0)->m_a8 == obj_getField1c(arg1->obj)) {
+    if (((TUnk_804E355C *)arg0)->m_a8 == get_entity_id(arg1->obj)) {
         return 0;
     }
     ok = 1;

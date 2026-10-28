@@ -70,7 +70,7 @@ extern s32 __vt__9TObjLight[];
 extern RecoveredGlobal_80194528_TObjLight__data_80506320 TObjLight__scene_light_state;
 extern s32 lbl_805D33B8;
 Actor_80193FE8 *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 xyz_distance_squared(void *, void *);
 void register_actor_light(s32, void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -160,7 +160,7 @@ void TObjLight::run_task() {
                     self->out_dir.x = t * (self->dir.x - self->base_dir.x) + self->base_dir.x;
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
-                    register_actor_light(obj_getField1c(a), self);
+                    register_actor_light(get_entity_id(a), self);
                 }
             }
         }
@@ -183,7 +183,7 @@ void TObjLight::run_task() {
                     self->out_dir.y = t * (self->dir.y - self->base_dir.y) + self->base_dir.y;
                     self->out_dir.z = t * (self->dir.z - self->base_dir.z) + self->base_dir.z;
                     if (TOKeyMachine01::get_global_state() != 0xF) {
-                        register_actor_light(obj_getField1c(a), self);
+                        register_actor_light(get_entity_id(a), self);
                     }
                 }
             }

@@ -9,7 +9,7 @@
 extern "C" {
 
 s32 init_object__12TObjEneDD_STFv();
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 
 extern s32 __vt__12TObjEneRecon[];
 extern s32 TObjEneRecon_name_ref;
@@ -19,9 +19,9 @@ u8 *TObjEneRecon__ct(u8 *ene_recon, s32 arg1, s32 arg2, s16 arg3, s16 arg4, s32 
     *(s32 **)((s8 *)ene_recon + 0x18) = __vt__12TObjEneRecon;
     ((TUnk_80494938 *)(ene_recon + 0x480))->init_common();
     *(s32 *)((s8 *)ene_recon + 0) = (s32) TObjEneRecon_name_ref;
-    *(s16 *)((s8 *)ene_recon + 0x434) = obj_getField1c((void *)arg2);
+    *(s16 *)((s8 *)ene_recon + 0x434) = get_entity_id((void *)arg2);
     ((TObjEneDD *)ene_recon)->init_common_from((u8 *)arg2);
-    ((TObjEneRecon *)ene_recon)->m_1c = arg3;
+    ((TObjEneRecon *)ene_recon)->entity_id = arg3;
     *(s16 *)((s8 *)ene_recon + 0x2C) = arg4;
     VecCopy((Vec *)(ene_recon + 0x38), (const Vec *)(arg5));
     VecCopy((Vec *)(ene_recon + 0x438), (const Vec *)(arg2 + 0x38));

@@ -62,7 +62,7 @@ struct Sifta_8023AF94 {
 };
 
 extern "C" {
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 int TTecSifta__sub_8023AC88(void* p);
 extern s32 __vt__9TTecSifta[];
@@ -141,7 +141,7 @@ void TTecSifta::vfunc_7(void *arg1_arg) {
         h.type = 9;
         h.power = arg0->power;
         if (is_split_screen() == 0) {
-            TWindowCtrl::show_party_effect((void*)(obj_getField1c((int)arg0->source)), (void*)(obj_getField1c((int)player)), (void*)9);
+            TWindowCtrl::show_party_effect((void*)(get_entity_id((int)arg0->source)), (void*)(get_entity_id((int)player)), (void*)9);
         }
         HitInfo_8023AE8C c = h;
         player->m21(arg0->source, &c, 0, 0xD, -1);
@@ -206,7 +206,7 @@ void *TTecSifta__ct(void *arg0_, void *owner, void *pos, void *arg3, void *level
     }
     t = ((TTecSifta *)arg0)->source;
     if (t != 0U) {
-        *(s16 *)&((TTecSifta *)arg0)->m_a8 = obj_getField1c((int)t);
+        *(s16 *)&((TTecSifta *)arg0)->m_a8 = get_entity_id((int)t);
     }
     if (*(s32 *)&((TTecSifta *)arg0)->m_ac != 0) {
         TTecSifta__sub_8023AC88(arg0);
@@ -232,7 +232,7 @@ u8 *TTecSifta__sub_8023B17C(TTecSifta *arg0, s32 owner, s32 pos, s32 level) {
     }
     temp_r3_2 = arg0->source;
     if (temp_r3_2 != 0U) {
-        arg0->m_a8 = obj_getField1c(temp_r3_2);
+        arg0->m_a8 = get_entity_id(temp_r3_2);
     }
     TTecSifta__sub_8023AC88(arg0);
     arg0->play_sifta_cast_sound();

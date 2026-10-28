@@ -68,7 +68,7 @@ s32 __ct__11TPlayerSoulFP7TObjectUs();
 s32 is_script_controlled__10TObjPlayerFv(s32);
 
 s32 check_flag_0x8000__10TObjPlayerFv();
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
 
 extern s32 tl_06;
@@ -924,7 +924,7 @@ void TObjPlayer::revive_or_spawn_marker() {
     }
     temp_r3 = ((s32 (*)(s32)) __nw__7TObjectFUl)(0x24);
     if (temp_r3 != 0) {
-        ((s32 (*)(s32, s32, s32)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, obj_getField1c(player));
+        ((s32 (*)(s32, s32, s32)) __ct__11TPlayerSoulFP7TObjectUs)(temp_r3, tl_06, get_entity_id(player));
     }
 }
 

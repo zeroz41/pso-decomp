@@ -42,7 +42,7 @@ s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
 extern const f32 lbl_805DF654;
 void init_slicer_launch_state(void *arg0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 f32 query_extended_state__10TObjPlayerFv(void *);
@@ -102,7 +102,7 @@ void launch_slicer__10TObjPlayerFPv(u8 *weapon) {
     f32 tmp[4];
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
-    launch.player = obj_getField1c(*(u8 * *)&((TUnk_804ECDC0 *)weapon)->player);
+    launch.player = get_entity_id(*(u8 * *)&((TUnk_804ECDC0 *)weapon)->player);
     launch.weapon = ((TItem *)weapon)->get_item_id();
     launch.textures = *(void **)((s8 *)weapon + 0x24);
     launch.model = *(void **)((s8 *)weapon + 0x188);

@@ -225,7 +225,7 @@ struct Vec_802D1880 { f32 x, y, z; };
 
 extern "C" {
 
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 f32 vector_length(Vec_802D1880 *);
 s32 normalize_vector(Vec_802D1880 *);
 extern s32 lbl_804E18A8[];
@@ -287,7 +287,7 @@ u8 *TObjEneBm9Mericarol__sub_802D1880(u8 *ene_bm9_mericarol_bomb, u8 *ene_bm9_me
         break;
     }
     *(f32 *)((s8 *)(((TObjEneBm9Mericarol_Bomb *)ene_bm9_mericarol_bomb)->m_a4) + 0xC) = 2.0f;
-    *(s16 *)((s8 *)ene_bm9_mericarol_bomb + 0xB0) = obj_getField1c(ene_bm9_mericarol);
+    *(s16 *)((s8 *)ene_bm9_mericarol_bomb + 0xB0) = get_entity_id(ene_bm9_mericarol);
     VecCopy((Vec *)(ene_bm9_mericarol_bomb + 0xB4), (const Vec *)arg2);
     VecCopy((Vec *)(ene_bm9_mericarol_bomb + 0x38), (const Vec *)(ene_bm9_mericarol_bomb + 0xB4));
     *(f32 *)((s8 *)ene_bm9_mericarol_bomb + 0xD8) = 0.0f;

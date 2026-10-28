@@ -58,7 +58,7 @@ extern const f32 lbl_805DF3C8;
 u8 TObjEneRecon__sub_8031C250(T_8031C250 *self);
 s16 get_attack_params_atp_min(void *p);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *spawn_particle_effect(void *pos, s32 id);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -922,7 +922,7 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             if (F(s32, 0x3C8) == 1) {
                 for (i = 0; i < lbl_805D5868; i++) {
                     p = (u8 *)get_player_data__10TObjPlayerFi(i);
-                    if (is_valid_and_active__10TObjPlayerFUl() != 0 && p != NULL && obj_getField1c(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
+                    if (is_valid_and_active__10TObjPlayerFUl() != 0 && p != NULL && get_entity_id(p) < 0x1000 && ((VB_8031CF30 *)p)->m31() == 0) {
                         d = horizontal_distance_squared(p + 0x2FC, arg0 + 0x40C);
                         if (d <= ((TObjEneGibbles *)(F(s32, 0x318)))->get_pos_x() * ((TObjEneGibbles *)(F(s32, 0x318)))->get_pos_x()) {
                             Pair_8031CF30 t;

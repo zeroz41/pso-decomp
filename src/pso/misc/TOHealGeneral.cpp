@@ -134,7 +134,7 @@ struct Actor_80169334 : VBase_80169334 {
 
 extern "C" {
 int get_player_data__10TObjPlayerFi(int a0);
-s32 obj_getField1c(void *obj);
+s32 get_entity_id(void *obj);
 f32 get_collision_body_radius(void *, s32);
 
 s16 obj_getS16_2BA(u8 *p);
@@ -157,7 +157,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
     self->m_f4 = 0xFFFF;
     for (i = 0; i < lbl_805D586C; i++) {
         actor = (Actor_80169334 *)get_player_data__10TObjPlayerFi(i);
-        id = obj_getField1c(actor);
+        id = get_entity_id(actor);
         if (actor == 0) {
             continue;
         }

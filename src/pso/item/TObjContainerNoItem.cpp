@@ -192,12 +192,12 @@ f32 TObjContainerEnemy::receive_physical_attack(void *, f32) {
     Obj_801894F8 *arg0 = (Obj_801894F8 *)this;
     s16 sp8;
     Pkt_801894F8 pkt;
-    if ((this->m_1c >= 0x1000U) && (arg0->f80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
+    if ((this->entity_id >= 0x1000U) && (arg0->f80 != 0U) && (((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 1) != 0)) {
         sp8 = 1;
         ((TUnk_804AF8A0 *)arg0)->access_object_saved_state(&sp8, 0);
         ((TUnk_804AF8A0 *)arg0)->send_object_state_update(&sp8);
         ((TLobby *)(&pkt))->init_packet_67_04();
-        pkt.b = this->m_1c;
+        pkt.b = this->entity_id;
         pkt.c = get_current_floor();
         pkt.d = this->m_84;
         pkt.e = local_client_id;

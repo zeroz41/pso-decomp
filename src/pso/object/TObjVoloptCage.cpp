@@ -277,7 +277,7 @@ TObjVoloptCage::TObjVoloptCage(TObjEnemy *boss, u16 target, u16 id, s32 group) :
         return;
     }
     init_collision_body_parts(this, volopt_cage_collision_body, 1);
-    m_1c = id;
+    entity_id = id;
     *(s16 *)&m_2c = group;
     m_80 = 0;
     *(s16 *)&m_28 = *(s16 *)&boss->m_28;

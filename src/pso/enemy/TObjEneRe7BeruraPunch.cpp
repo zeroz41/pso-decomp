@@ -23,7 +23,7 @@ s32 is_player_entity_id();
 void *find_entity_by_id(u16 id);
 s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
 f32 calc_boss4_scale__10TObjPlayerFi();
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->m_b0 >> 2) & 0x1; }
 
@@ -32,7 +32,7 @@ void TObjEneRe7BeruraPunch__vt20(TObjEneRe7BeruraPunch *ene_re7_berura_punch, s3
 
     apply_hit_if_active__13TUnk_804928CCFPvPf();
     if (TObjEneDD::check_v2_mode() != 0) {
-        obj_getField1c((void *)target);
+        get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
             entity = (s32)find_entity_by_id(ene_re7_berura_punch->m_b0);
             if ((entity != 0) && (calc_boss4_scale__10TObjPlayerFi() < 0.1f)) {
@@ -258,7 +258,7 @@ struct Ang_8009640C { s32 x, y, z; };
 extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 extern RecoveredGlobal_80096750_lbl_8048F930 TObjEneRe7BeruraPunch__collision_body_templates;
 extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern s32 lbl_805D2990;
@@ -442,7 +442,7 @@ u8 *TObjEneRe7BeruraPunch__ct(u8 *ene_re7_berura_punch, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)ene_re7_berura_punch + 0x18) = &(*(RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch *)&__vt__21TObjEneRe7BeruraPunch).value;
     ((TUnk_80490470 *)(ene_re7_berura_punch + 0xF8))->init_vtable_and_field18();
     *(s32 *)((s8 *)ene_re7_berura_punch + 0) = (s32) lbl_805D2990;
-    ((TObjEneRe7BeruraPunch *)ene_re7_berura_punch)->m_b0 = obj_getField1c((void *)arg2);
+    ((TObjEneRe7BeruraPunch *)ene_re7_berura_punch)->m_b0 = get_entity_id((void *)arg2);
     ((TObjEneRe7BeruraPunch *)ene_re7_berura_punch)->init();
     return ene_re7_berura_punch;
 }

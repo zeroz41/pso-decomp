@@ -153,7 +153,7 @@ s32 is_item_area_enabled();
 s32 __ct__7TObjectFP7TObject();
 void disallow_rendering__7TObjectFv(TObject *arg0);
 s32 is_flag_20000_set__10TObjPlayerFv(s32);
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
 s32 obj_isState3_324__13TUnk_804806E8Fv(s32);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
@@ -242,7 +242,7 @@ void TUnk_804A05C8::vfunc_6() {
         if ((is_item_area_enabled() == 1) && (obj_testFlags30__13TUnk_804AF8A0FUl((void *)this->m_28, 0x800) == 0)) {
             particle_effect_with_flags = (s32)spawn_particle_effect_with_flags((void *)(*(s32 *)&this->m_28 + 0x2FC), *(s32 *)&this->unk_2C, 0x10);
             if (particle_effect_with_flags != 0) {
-                set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, obj_getField1c(this->m_28));
+                set_owner_id__13TParticleCtrlFUs(particle_effect_with_flags, get_entity_id(this->m_28));
             }
         }
     }

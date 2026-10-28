@@ -39,7 +39,7 @@ struct Target_800D4990 {
 struct Col_800D4990 { u8 pad[0xC]; f32 radius; u8 pad10[0x18 - 0x10]; u32 flags; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, int);
 s32 rotate_matrix_y(int, int);
@@ -210,7 +210,7 @@ u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) 
     ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_speed = (s32) (*(f32 *)((s8 *)arg2 + 0xC) * (0.5f * ((3.0517578e-05f * (f32) rand()) + 1.0f)));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->wobble_height = (f32) *(f32 *)((s8 *)arg2 + 0x10);
     *(s16 *)((s8 *)gyaranzo_missile + 0x28) = (s16) *(s16 *)((s8 *)arg1 + 0x28);
-    ((TObjGyaranzoMissile *)gyaranzo_missile)->owner_id = obj_getField1c(arg1);
+    ((TObjGyaranzoMissile *)gyaranzo_missile)->owner_id = get_entity_id(arg1);
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.x = (f32) 0.0f;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.y = (f32) 0.0f;
     ((TObjGyaranzoMissile *)gyaranzo_missile)->velocity.z = (f32) TObjGyaranzoMissile__speed_scale;

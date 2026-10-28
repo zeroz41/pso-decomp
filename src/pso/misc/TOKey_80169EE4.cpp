@@ -145,7 +145,7 @@ extern s8 controller_input_state[];
 void TOKey::send_switch_on() {
     SwitchPacket packet;
     ((TLobby *)(&packet))->init_6x05_switch_changed();
-    packet.object=this->m_1c;
+    packet.object=this->entity_id;
     packet.zero=0;
     packet.switchId=this->m_e4;
     packet.area=((s8)get_current_floor());

@@ -3,7 +3,7 @@
 
 TUnk_804B9870::~TUnk_804B9870() {
     if (m_80 != NULL) {
-        u16 id = m_1c;
+        u16 id = entity_id;
         if (id >= 0x4000 && id < 0xFFFF) {
             mask_object_set_row_flags(-3);
             m_80 = NULL;

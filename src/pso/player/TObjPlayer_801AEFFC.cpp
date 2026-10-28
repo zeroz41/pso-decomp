@@ -4,7 +4,7 @@
 
 extern "C" {
 int is_locally_controlled__10TObjPlayerFPv(void*);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 init_pad_binding(void *, void *, int);
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 update_movement_by_screen__10TObjPlayerFv(s32);
@@ -17,12 +17,12 @@ int test_flag_2000000__10TObjPlayerFPv(void*);
 void TObjPlayer__sub_801BEF60(void *p, s32 v);
 
 s32 TObjPlayer::get_card_window_field_244() {
-    return *(s32 *)((s8 *)(get_character_save_record((u32) ((u16)obj_getField1c(this)))) + 0x244);
+    return *(s32 *)((s8 *)(get_character_save_record((u32) ((u16)get_entity_id(this)))) + 0x244);
 }
 
 void TObjPlayer::init_local_pad_binding() {
     if (((s32)is_locally_controlled__10TObjPlayerFPv(this)) != 0) {
-        init_pad_binding((void *) (((u8 *)this) + 0x550), (void *) (obj_getField1c(this)), (int) ((s16) this->m_3d0));
+        init_pad_binding((void *) (((u8 *)this) + 0x550), (void *) (get_entity_id(this)), (int) ((s16) this->m_3d0));
     }
 }
 

@@ -352,7 +352,7 @@ s32 __dt__15TObjEneSlimeOneFis(s32 arg0, s16 arg1);
 void draw_blob_shadow(s32 arg0);
 void * TObjControl__ct(void *, s32);
 u8 *get_enemy_entity(u16 arg0);
-int obj_getField1c(void *);
+int get_entity_id(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 __ct__9TObjEnemyFP7TObject(void *);
 f32 horizontal_distance_squared(void *, void *);
@@ -1068,7 +1068,7 @@ s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self) {
     id2 = self->find_nearest_enemy_with_flag(lbl_805DA6A8);
     if (id2 != 0xFFFF) {
         void *owner = *(void **)((u8 *)self + 0x374);
-        if (owner == NULL || id2 != (u16)obj_getField1c(owner)) {
+        if (owner == NULL || id2 != (u16)get_entity_id(owner)) {
             e2 = (Ent_800E8AD0 *)get_enemy_entity(id2);
             if (e2 != NULL && !(horizontal_distance_squared(&self->m_2fc, (u8 *)e2 + 0x2FC) > lbl_805DA6B0)) {
                 if (e2->m21(*(s32 *)((u8 *)self + 0x374), hit, 0, -1, -1) != lbl_805DA6B4) {

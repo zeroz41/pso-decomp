@@ -25,7 +25,7 @@ void *TBoss2Mine__ct(void *boss2_mine, s32 ene_dd, s16 arg2, s16 arg3, s32 arg4)
     if (temp_r3 != 0) {
         ((TObjEneDD *)boss2_mine)->init_common_from((u8 *)temp_r3);
     }
-    ((TBoss2Mine *)boss2_mine)->m_1c = arg2;
+    ((TBoss2Mine *)boss2_mine)->entity_id = arg2;
     *(s16 *)((s8 *)boss2_mine + 0x2C) = arg3;
     init__10TBoss2MineFPvi((u8 *)boss2_mine, arg4);
     return boss2_mine;

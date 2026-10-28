@@ -10,7 +10,7 @@ extern "C" {
 s32 get_main_phase();
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 check_flag__10TObjPlayerFl(void *, int);
 }
 void reset_cameras_to_actor(void *actor, s32 arg1);
@@ -52,20 +52,20 @@ void TObjPlayer::place_on_area_entry() {
         TObjPlayer::set_camera_mode(3);
         obj = __nw__7TObjectFUl(0x24);
         if (obj != NULL) {
-            TForceOperate__ct(obj, tl_02, obj_getField1c(arg0));
+            TForceOperate__ct(obj, tl_02, get_entity_id(arg0));
         }
     } else if (obj_isState2_324__13TUnk_804806E8Fv(arg0) == 0) {
-        p = consume_telepipe_arrival(obj_getField1c(arg0), (u8 *)&this->rotation_y);
+        p = consume_telepipe_arrival(get_entity_id(arg0), (u8 *)&this->rotation_y);
         if (p != NULL) {
             ((TUnk_804B9870 *)arg0)->set_position_from(p);
         } else {
-            e = &TObjPlayer__arrival_override_table[obj_getField1c(arg0)];
+            e = &TObjPlayer__arrival_override_table[get_entity_id(arg0)];
             if (obj_isState2_324__13TUnk_804806E8Fv(arg0) == 0 && TObjPlayer__sub_801BF95C(e) == 1) {
                 TObjPlayer__sub_801BF954(e, 0);
                 this->rotation_y = ((TObjPlayer *)e)->get_lock_timer();
                 ((TUnk_804B9870 *)arg0)->set_position_from(((TObjPlayer *)e)->get_sub_object());
             } else {
-                other = find_player_arrival_set(arg0, obj_getField1c(arg0));
+                other = find_player_arrival_set(arg0, get_entity_id(arg0));
                 if (other != NULL) {
                     ((TUnk_804B9870 *)arg0)->set_position_from(other + 0x38);
                     this->rotation_y = *(s32 *)((s8 *)other + 0x60);

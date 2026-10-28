@@ -174,7 +174,7 @@ s32 apply_camera_controller_pose(int);
 s32 resolve_anchor_obstruction__11TCameraCtrlFv(void *, int);
 s32 clamp_to_target_obstruction__11TCameraCtrlFv(void *, int);
 extern u8 *camera_ctrl_instance;
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 *get_character_select_request_buffer(void);
 s32 is_boss_area(void);
 void reset__11TCameraCtrlFv(void);
@@ -241,7 +241,7 @@ void reset_cameras_to_actor(void *actor, s32 arg1) {
   {
     return;
   }
-  new_var = (u16) obj_getField1c(actor);
+  new_var = (u16) get_entity_id(actor);
   id = new_var;
   if (is_split_screen() == 0)
   {

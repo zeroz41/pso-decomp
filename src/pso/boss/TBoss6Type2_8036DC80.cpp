@@ -10,13 +10,13 @@ extern "C" {
 extern s8 boss6_type2_player_snapshot_table[];
 void *get_player_by_client_id(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
-u16 obj_getField1c();
+u16 get_entity_id();
 
 void TBoss6Type2::apply_pending_effect() {
     u16 temp_r3;
     u8 *temp_r31;
 
-    temp_r3 = obj_getField1c();
+    temp_r3 = get_entity_id();
     if (temp_r3 < 4U) {
         temp_r31 = (unsigned char *) (boss6_type2_player_snapshot_table + (temp_r3 * 0x2C));
         if ((s32) *(s32 *)((s8 *)temp_r31 + 0) != 0) {

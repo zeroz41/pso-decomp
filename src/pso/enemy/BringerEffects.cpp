@@ -151,7 +151,7 @@ void TObjEneDf2Bringer::update_projectile_motion() {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    *(f32 *)&this->m_1c = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x40) * temp_f2) + *(f32 *)&this->m_28);
+    *(f32 *)&this->entity_id = (f32) ((*(f32 *)((s8 *)((u8 *)this) + 0x40) * temp_f2) + *(f32 *)&this->m_28);
     *(f32 *)((s8 *)((u8 *)this) + 0x20) = (f32) ((*(f32 *)&this->m_44 * temp_f2) + *(f32 *)&this->m_2c);
     *(f32 *)&this->texture_id = (f32) ((*(f32 *)&this->m_48 * temp_f2) + *(f32 *)&this->actorFlags);
 }
@@ -344,7 +344,7 @@ struct Stack_8009AA64 {
 };
 struct RecoveredGlobal_8009AA64_lbl_8048FE94 { s32 value; u8 remaining[0x18]; };
 extern "C" {
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 is_player_entity_id();
 s32 is_alive__9TObjEneDDFv(void *);
 s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
@@ -399,7 +399,7 @@ void TObjEneDf2Bringer_Eff_Rush::render() {  }
 
 void TObjEneDf2Bringer_Eff_Rush::run_task() {
     f32 temp_f1;
-    obj_getField1c((void *) (*(u8 **)((s8 *)((u8 *)this) + 0x1C)));
+    get_entity_id((void *) (*(u8 **)((s8 *)((u8 *)this) + 0x1C)));
     if (is_player_entity_id() != 0) {
         queue_destruction__7TObjectFv(this);
         return;

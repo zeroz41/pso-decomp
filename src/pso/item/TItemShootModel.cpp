@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-void* get_entity_id__10TObjPlayerFv(void*);
+void* get_texture_id__10TObjPlayerFv(void*);
 f32   newton_sqrtf(f32);
 f32 atan2_float(f32 y, f32 x);
 void  push_matrix(void);
@@ -36,7 +36,7 @@ TItemShootModel::TItemShootModel(void* owner, const Vec* pos, const Vec* dir, f3
     : TItemShoot(owner, pos, dir, life) {
     this->m_name = TItemShootModel__class_name;
     this->m_58 = *(void**)((u8*)owner + 0x188);
-    this->m_5C = get_entity_id__10TObjPlayerFv(owner);
+    this->m_5C = get_texture_id__10TObjPlayerFv(owner);
     if (lbl_805DAC60 != this->m_dir.y) {
         f32 horiz = newton_sqrtf(this->m_dir.x * this->m_dir.x + this->m_dir.z * this->m_dir.z);
         this->m_28 = -(s32)(lbl_8043E7A0[0] * atan2_float(this->m_dir.y, horiz));

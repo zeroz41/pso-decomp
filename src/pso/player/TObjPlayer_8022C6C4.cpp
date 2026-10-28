@@ -71,7 +71,7 @@ s32 get_obj_id__10TObjPlayerFv(void *);
 void set_slot_type_state__10TObjPlayerFllss(void *, int, u16, s32);
 void capture_technique_targets__10TObjPlayerFv(int kind, Owner_8022CDE8 *owner);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_split_screen();
 Ent_8022D27C *find_entity_by_id(u16);
 void get_hand_joint_position__10TObjPlayerFl(void *, void *);
@@ -466,7 +466,7 @@ void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl)
     case 14:
         if (is_split_screen() != 0) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
-        } else if (local_client_id == obj_getField1c(pl)) {
+        } else if (local_client_id == get_entity_id(pl)) {
             ((TTecLuker *)pl)->create(&hand, &ofs, 0);
         }
         break;

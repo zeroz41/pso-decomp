@@ -116,7 +116,7 @@ void queue_destruction__7TObjectFv(void *arg0);
 void mem_free(void *p);
 void __dl__7TObjectFPv(TTecBarta*);
 TTecBarta* __dt__9TTecBartaFv(TTecBarta* self,s16 deleting);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
 extern s32 tec_barta_class_name_ptr;
 TTecBarta_8022BC10 *TTecBarta__ct(TTecBarta_8022BC10 *self, void * _w1, void * _w2, void * _w3, void * _w4);
@@ -265,12 +265,12 @@ void TTecBarta::vfunc_8(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == obj_getField1c(((VObj_8022B8F4 *)target))) {
+        if (self->ids[i] == get_entity_id(((VObj_8022B8F4 *)target))) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[this->hitCursor] = obj_getField1c(((VObj_8022B8F4 *)target));
+        self->ids[this->hitCursor] = get_entity_id(((VObj_8022B8F4 *)target));
         this->hitCursor += 1;
         if (this->hitCursor >= 32) {
             this->hitCursor = 31;
@@ -345,7 +345,7 @@ TTecBarta_8022BC10 *TTecBarta__ct(TTecBarta_8022BC10 *self, void * _w1, void * _
     ((TTecBarta *)self)->create_particle_emitters();
     ((TTecBarta *)self)->update_technique_by_state();
     if (self->owner) {
-        self->fc8 = ((s16)obj_getField1c(self->owner));
+        self->fc8 = ((s16)get_entity_id(self->owner));
     }
     return self;
 }
@@ -366,7 +366,7 @@ u8 *construct_tec_barta_facing(TTecBarta *tec_barta, void * _w1, void * _w2, voi
     tec_barta->create_particle_emitters();
     tec_barta->update_technique_by_state();
     if (*(void **)((s8 *)tec_barta + 0x1C) != 0) {
-        tec_barta->sourceId = obj_getField1c(*(void **)((s8 *)tec_barta + 0x1C));
+        tec_barta->sourceId = get_entity_id(*(void **)((s8 *)tec_barta + 0x1C));
     }
     return (u8 *)tec_barta;
 }
@@ -381,7 +381,7 @@ void TUnk_804CC148::apply_technique_to_area_targets() {
         queue_destruction__7TObjectFv((TechniqueParticleEmitter *)((Tec_8022BD74 *)this));
         return;
     }
-    if (obj_getField1c(((Tec_8022BD74 *)this)->owner) < 4) {
+    if (get_entity_id(((Tec_8022BD74 *)this)->owner) < 4) {
         if (get_type__10TObjPlayerFPv((u8 *)((Tec_8022BD74 *)this)->owner + 0x828) != 0) {
             list = collect_body_contacts_for_target__10TObjPlayerFl(((Tec_8022BD74 *)this), ((Tec_8022BD74 *)this)->owner);
         } else {

@@ -68,7 +68,7 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 freeze_shell_bml_resource;
 s32 __ct__13TUnk_804806E8FP7TObject(void *, void *);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 get_bml_model(void *, int);
 u8 *get_quest_id__12TQuestListVMFv(void *);
 void *create_particle_emitter(void *pos, s32 id);
@@ -139,7 +139,7 @@ u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_18 = lbl_8048E1A4;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model((void *) ((*(s32 *)&freeze_shell_bml_resource)), 1);
     if (arg1 != NULL) {
-        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = obj_getField1c(arg1);
+        ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(arg1);
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(arg1 + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));

@@ -381,7 +381,7 @@ void TBoss3VoloptHiraisin::init_params() {
 
 TBoss3VoloptHiraisin::TBoss3VoloptHiraisin(TUnk_804B9870 *parent, u16 id, s32 group) : TObjEnemyCustom(parent) {
     m_name = TBoss3VoloptHiraisin_name;
-    m_1c = id;
+    entity_id = id;
     group_index = group;
     m_80 = NULL;
     group_ids[0] = parent->group_ids[0];

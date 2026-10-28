@@ -179,7 +179,7 @@ struct Obj_80050AF8 { u8 pad[0x358]; u32 objs[2]; };
 
 s32 __ct__13TUnk_804806E8FP7TObject(void *, s32);
 Player_80050D74 * get_player_data__10TObjPlayerFi(s32);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(f32);
 s32 is_state_ready__14TBoss4DarkFalzFv();
@@ -393,7 +393,7 @@ void damage_players_near_point(s32 arg0, Vec_80050D74 *arg1) {
     hit.value = lbl_805D8A30;
     for (i = 0; i < TLobby::get_game_mode(); i++) {
         p = get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(obj_getField1c(p)) != 0 &&
+        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
             !(xyz_distance(&pos, &p->pos) > lbl_805D8A8C)) {
             Hit_80050D74 h = hit;

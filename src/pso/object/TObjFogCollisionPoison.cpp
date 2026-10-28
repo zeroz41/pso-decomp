@@ -50,7 +50,7 @@ void vfunc_14__22TObjFogCollisionSwitchFv(void *self);
 void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80440078[];
 s16 obj_getS16_32C(s32);
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 is_valid_target__9TObjEneDDFv(s32);
 s32 send_6x2F_change_player_hp(s32, s32, s16);
 s32 get_player_by_client_id(u16);
@@ -71,7 +71,7 @@ u8 *TObjFogCollisionPoison::init_base(u8 *arg1, s16 arg2) {
     __ct__7TObjectFP7TObject(this, arg1);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80153084_lbl_804AF7B0 *)&__vt__13TUnk_804AF7B0).value;
     *(s16 *)&this->m_28 = arg2;
-    *(s32 *)&this->m_1c = 0x96;
+    *(s32 *)&this->entity_id = 0x96;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
     this->texture_id = 0;
     return ((u8 *)this);
@@ -131,7 +131,7 @@ void record_fog_collision_hit(s32 arg0, s32 arg1, s32 arg2) {
 
 void TObjFogCollisionPoison::record_hit(s32 arg1, s32 arg2) {
     if ((s32) *(s32 *)&this->m_20 <= arg1) {
-        *(s32 *)&this->m_1c = (s32) (*(s32 *)&this->m_1c + 1);
+        *(s32 *)&this->entity_id = (s32) (*(s32 *)&this->entity_id + 1);
         *(s32 *)&this->m_20 = arg1;
         this->texture_id = arg2;
     }
@@ -163,7 +163,7 @@ u8 *TObjFogCollisionPoison::construct_with_index(u8 *arg1, s32 arg2) {
     *(s32 *)&this->m_name = (s32) lbl_805D2E84;
     *(s32 *)&this->m_28 = arg2;
     *(s32 *)((s8 *)&TObjFogCollisionPoison__instances.value + (*(s32 *)&this->m_28 * 4)) = (long) (this);
-    *(s32 *)&this->m_1c = 0;
+    *(s32 *)&this->entity_id = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x20) = 0;
     this->texture_id = 1;
     *(s32 *)&this->m_2c = 1;
@@ -221,7 +221,7 @@ void TObjFogCollisionPoison::apply_poison_damage(s32 arg1) {
         if (v < 0) {
             v = 0;
         }
-        send_6x2F_change_player_hp(0xFFFF, obj_getField1c(p), v);
+        send_6x2F_change_player_hp(0xFFFF, get_entity_id(p), v);
     }
 }
 

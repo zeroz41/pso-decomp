@@ -86,7 +86,7 @@ struct Search_801D3C38 {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 check_player_action_allowed(void);
 s32 fn_801D4270(s32);
@@ -356,7 +356,7 @@ u8 *construct_placement_search_base(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3, s8 a
         ((TUnk_804C4498 *)arg0)->m_24 = 0;
         *(s32 *)((s8 *)arg0 + 0x28) = 0;
     } else {
-        ((TUnk_804C4498 *)arg0)->m_20 = obj_getField1c(arg2);
+        ((TUnk_804C4498 *)arg0)->m_20 = get_entity_id(arg2);
         ((TUnk_804C4498 *)arg0)->m_24 = (s32) ((TUnk_804B9870 *)arg2)->get_stat_by_key_state();
         *(s32 *)((s8 *)arg0 + 0x28) = (s32) ((TUnk_804B9870 *)arg2)->rotation_y;
     }

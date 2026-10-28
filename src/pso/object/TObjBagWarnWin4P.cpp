@@ -19,7 +19,7 @@ void __ct__7TObjectFP7TObject(void *);
 s32 get_character_save_record(u32 arg0);
 s32 is_active__19THunterGuildWarningFv();
 s32 is_level_capped__23TAdSinglePlyChrSelectGCFv();
-s32 obj_getField1c();
+s32 get_entity_id();
 s32 send_and_handle__6TLobbyFii(u32, void *, s32);
 s32 strncpy(void *, s32, s32);
 
@@ -28,12 +28,12 @@ s32 TObjBagWarnWin4P::check_can_open(void * _w0) {
     s32 var_r30;
 
     for (i = 0; i < 4; i++) {
-        if ((get_player_by_client_id(i) != 0U) && (has_player_active_menu__11TWindowCtrlFv(obj_getField1c()) != 0)) {
+        if ((get_player_by_client_id(i) != 0U) && (has_player_active_menu__11TWindowCtrlFv(get_entity_id()) != 0)) {
             return 0;
         }
     }
     for (i = 0; i < 4; i++) {
-        if ((get_player_by_client_id(i) != 0U) && (is_slot_visible__11TWindowCtrlFv(obj_getField1c()) != 0)) {
+        if ((get_player_by_client_id(i) != 0U) && (is_slot_visible__11TWindowCtrlFv(get_entity_id()) != 0)) {
             return 0;
         }
     }

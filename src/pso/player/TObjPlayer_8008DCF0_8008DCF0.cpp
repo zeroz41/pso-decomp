@@ -172,7 +172,7 @@ struct Self_8008E934 { u8 pad[0x3C4]; s32 ids[4]; };
 extern "C" {
 int update_if_active__15TObjEneMe1GiGueFl(void*, int);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void enter_hit_state__18TObjEneBalClawClawFs(u32, u16);
 u32 find_entity_by_id(u16);
 extern s32 lbl_805D586C;
@@ -330,7 +330,7 @@ s32 TObjPlayer__sub_8008E098(Obj_8008E098 *self) {
         p = (Obj_8008E098 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->field28 == p->field28 && ((TObjEneBalClawClaw *)p)->check_active() != 0) {
-            self->ids[self->count++] = obj_getField1c(p);
+            self->ids[self->count++] = get_entity_id(p);
             if (self->count >= 4) {
                 break;
             }

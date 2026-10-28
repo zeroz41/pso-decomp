@@ -184,7 +184,7 @@ s32 subtract_photon_blast_charge(TFontSmallLobby *arg0, f32 farg0);
 void TFontSmallLobby__sub_801D671C(void *a0, int a1);
 s32 set_flag_40_bit5__15TFontSmallLobbyFv();
 s32 create_party_effect__11TWindowCtrlFPvPv(s16, s16);
-s16 obj_getField1c(u32);
+s16 get_entity_id(u32);
 
 struct Sp801D6230_801d6230 { s16 f0; s16 fA; s16 fC; };
 
@@ -195,10 +195,10 @@ void draw_party_label__15TFontSmallLobbyFiUis(s32 font_small_lobby, u32 arg1, s1
     subtract_photon_blast_charge((TFontSmallLobby *)((u8 *)font_small_lobby), lbl_805DC3D8);
     ((TFontSmallLobby *)(font_small_lobby + 0x4C))->set_target_index(8);
     TFontSmallLobby__sub_801D671C((void *)(font_small_lobby + 0x4C), 1);
-    create_party_effect__11TWindowCtrlFPvPv(obj_getField1c(arg1), arg2);
+    create_party_effect__11TWindowCtrlFPvPv(get_entity_id(arg1), arg2);
     if ((arg1 == 0U) || (((s32 (*)(u32)) obj_isState2_324__13TUnk_804806E8Fv)(arg1) == 0)) {
         TFontSmallLobby__sub_801D698C((void *) &sp8);
-        sp8.fA = obj_getField1c(arg1);
+        sp8.fA = get_entity_id(arg1);
         sp8.fC = arg2;
         ((TFontSmallLobby *)((s32 *) &sp8))->send_state();
     }

@@ -138,7 +138,7 @@ void *TObjPlayer__ct(TObjPlayer *player, void *arg1, void *arg2) {
     ((TObjPlayer *)((char *)player + 3500))->clear_header_struct();
     *(void * *)&player->m_name = lbl_805D3530;
     player->init_action_provider();
-    player->m_1c = 0;
+    player->entity_id = 0;
     player->setup_control_role(7);
     ((Fn_vpvp_801BD570)update_body_parts__10TObjPlayerFv)(player, arg2);
     init_player_data__10TObjPlayerFv(player, (void *)((char *)arg2 + 136));

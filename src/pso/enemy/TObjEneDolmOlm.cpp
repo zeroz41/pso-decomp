@@ -463,7 +463,7 @@ void render__14TObjEneDolmOlmFv(Ene_803021AC *arg0);
 s32 apply_actor_gravity(void *, int, f32);
 s32 update_angle__10TObjPlayerFlPv(void *, s32, void *);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 f64 atan2_float(f32, f32);
 s32 angle_difference_abs(s32, s32);
 s32 minimap_render_dot(void *, int, int, int);
@@ -1425,7 +1425,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
     ((void (*)(void *))advance_animation_playback)(arg0);
     switch (arg0->f328) {
     case 0:
-        if (arg0->target == 0 || (u16)obj_getField1c(arg0->target) >= 0x1000) {
+        if (arg0->target == 0 || (u16)get_entity_id(arg0->target) >= 0x1000) {
             arg0->f30 &= ~0x200000;
             arg0->f328 = 2;
             arg0->fb8 = 2;
@@ -1483,7 +1483,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
             d = horizontal_distance_squared(&arg0->target->pos, &arg0->pos);
             t = (*(Param_8030177C ** *)&TObjEneDolmOlm__behavior_params_by_variant)[arg0->kind];
             if (a < t->angle && d < t->range * t->range) {
-                a = obj_getField1c(arg0->target);
+                a = get_entity_id(arg0->target);
                 if (obj_testFlags30__13TUnk_804AF8A0FUl(arg0->target, 0x4000000) == 0) {
                     Obj_8030177C *pl = (Obj_8030177C *)get_player_by_client_id((u16)a);
                     if (pl != 0 && is_locally_controlled__10TObjPlayerFPv(pl) != 0 &&

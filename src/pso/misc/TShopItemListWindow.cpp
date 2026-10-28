@@ -124,7 +124,7 @@ s32 play_sound_effect(int, int, int, int);
 s32 select_cursor_entry__22TWindowSubShortCutListFv(void *);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 int obj_getPtr2B0_20(u8 *p);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 TShopItemTecSequence__sub_8021FE6C();
 s32 get_shop_text(int);
 void *__nw__7TObjectFUl(u32);
@@ -264,7 +264,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         }
     }
     if (W->list == NULL) {
-        W->list = create_item_list_window(get_shop_text(0x2D), W->count, obj_getField1c(W->player));
+        W->list = create_item_list_window(get_shop_text(0x2D), W->count, get_entity_id(W->player));
     } else {
         ((TShopArmorListWindow *)(W->list))->reset_list();
     }
@@ -282,7 +282,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     if (W->help == NULL) {
         o = __nw__7TObjectFUl(0xBC);
         if (o != NULL) {
-            o = __ct__15TWindowHelpItemFPvUs(o, get_window_layout_position(0x27), obj_getField1c(W->player));
+            o = __ct__15TWindowHelpItemFPvUs(o, get_window_layout_position(0x27), get_entity_id(W->player));
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
@@ -296,7 +296,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         ((TWindowSubStatusDisp *)(W->status))->set_entry1_field20(n);
     }
     if (W->cost == NULL) {
-        W->cost = create_cost_window(obj_getField1c(W->player));
+        W->cost = create_cost_window(get_entity_id(W->player));
         if ((c = W->cost) != NULL && W->recs[0].price > 0) {
             get_item_count__24TShopEquipmentSellWindowFv(c, W->recs[0].price);
         }

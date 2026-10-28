@@ -15,7 +15,7 @@ struct RecoveredGlobal_8011751C_lbl_8049FEB8 {
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern int tl_05;
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_8049FEB8[];
 u8 *TItemProArmor__sub_8011751C(u8 *arg0, u8 *arg1, u8 *arg2);
@@ -83,7 +83,7 @@ typedef char RecoveredGlobal_8011751C_lbl_8049FEB8_size[sizeof(RecoveredGlobal_8
 u8 *TItemProArmor__sub_8011751C(u8 *arg0, u8 *arg1, u8 *arg2) {
     __ct__7TObjectFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8011751C_lbl_8049FEB8 *)&lbl_8049FEB8).value;
-    *(u16 *)((s8 *)arg0 + 0x1C) = obj_getField1c(arg2);
+    *(u16 *)((s8 *)arg0 + 0x1C) = get_entity_id(arg2);
     TItemTimerEvent::start_event_by_index(*(u16 *)((s8 *)arg0 + 0x1C));
     ((TUnk_8049FEB8 *)arg0)->m_1e = 3;
     return arg0;

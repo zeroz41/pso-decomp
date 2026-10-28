@@ -136,7 +136,7 @@ extern s32 tec_jelin_class_name_ptr;
 extern s32 __vt__9TTecJelin[];
 s32 play_sound_effect(int, void *, int, int);
 s32 update_technique_slot__10TTecRaFoieFl(s32, s32, s32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 _w2, s32 _w3, s32 _w4);
 void copy_technique_target_list(void *, void *);
 void __ct__13TUnk_804CC148Flll(void *, void *, void *, void *);
@@ -238,7 +238,7 @@ Jelin_80233808 *TTecJelin__ct(Jelin_80233808 *self, void *_w1, void *_w2, void *
         break;
     }
     if (self->source != 0) {
-        self->field_b4 = obj_getField1c(self->source);
+        self->field_b4 = get_entity_id(self->source);
     }
     return self;
 }
@@ -276,7 +276,7 @@ Jelin_80233958 *construct__9TTecJelinFPviiii(Jelin_80233958 *self, s32 _w1, s32 
         break;
     }
     if (self->source != 0) {
-        self->field_b4 = obj_getField1c(self->source);
+        self->field_b4 = get_entity_id(self->source);
     }
     return self;
 }

@@ -12,7 +12,7 @@ struct TMedicalCenterMesMessagePos { s32 x; s32 y; };
 
 extern "C" {
 s32 TShopGenerator__sub_80222DAC(s32);
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 void *get_player_by_client_id(s32);
 void THunterGuildSeqOffline__sub_8021E180(s32);
 s32 get_window_layout_position(int, f32);
@@ -337,7 +337,7 @@ void TMedicalCenterSequence::show_already_healthy() {
 void TMedicalCenterSequence::show_fee_prompt() {
     u16 v;
     ((VObj_802164A4 *)this)->m4(0x20, 1);
-    v = obj_getField1c(((VObj_802164A4 *)this)->f24);
+    v = get_entity_id(((VObj_802164A4 *)this)->f24);
     ((VObj_802164A4 *)this)->f30 = (s32)create_yes_no_window(((s32 (*)(int))get_window_layout_position)(0x2B), v, 0, 0);
     ((TUnk_804CDFE8 *)(((VObj_802164A4 *)this)->f30))->set_position_xy(get_scale__15TShopWindowBaseFv(((VObj_802164A4 *)this)), get_scale__15TShopWindowBaseFv(((VObj_802164A4 *)this)));
     this->set_field_20((s32)((void *)3));
@@ -364,14 +364,14 @@ TMedicalCenterMes::TMedicalCenterMes(TObject *parent, TObjPlayer *player) : TObj
     state = 0;
     this->player = player;
     if (this->player != NULL) {
-        s32 slot = TShopGenerator__sub_80222DAC(obj_getField1c((s32)this->player));
+        s32 slot = TShopGenerator__sub_80222DAC(get_entity_id((s32)this->player));
         TMedicalCenterMes__slot_flags[(u16)slot] = 1;
     }
 }
 
 TMedicalCenterMes::~TMedicalCenterMes() {
     if (player != NULL) {
-        s32 slot = TShopGenerator__sub_80222DAC(obj_getField1c((s32)player));
+        s32 slot = TShopGenerator__sub_80222DAC(get_entity_id((s32)player));
         TMedicalCenterMes__slot_flags[(u16)slot] = 0;
     }
 }
@@ -396,10 +396,10 @@ void TMedicalCenterMes::run_task() {
         if (player == NULL) {
             player = (TObjPlayer *)get_player_by_client_id(local_client_id);
         }
-        THunterGuildSeqOffline__sub_8021E180(obj_getField1c((s32)player));
-        ((TWindowCtrl *)((u16)obj_getField1c((s32)player)))->suppress_slot();
+        THunterGuildSeqOffline__sub_8021E180(get_entity_id((s32)player));
+        ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->suppress_slot();
         TMedicalCenterMesMessagePos pos = lbl_8044BD94[0];
-        u16 id = (u16)obj_getField1c((s32)player);
+        u16 id = (u16)get_entity_id((s32)player);
         create_message_window(((s32 (*)(int))get_window_layout_position)(0x2C), (s32)&pos, id);
         format_shop_message(0x25, 1);
         if (player != NULL) {
@@ -421,9 +421,9 @@ void TMedicalCenterMes::run_task() {
         }
         close();
         if (player != NULL) {
-            ((TWindowCtrl *)((u16)obj_getField1c((s32)player)))->unsuppress_slot();
+            ((TWindowCtrl *)((u16)get_entity_id((s32)player)))->unsuppress_slot();
         }
-        TShopGenerator::clear_slot_active(obj_getField1c((s32)player));
+        TShopGenerator::clear_slot_active(get_entity_id((s32)player));
         queue_destruction__7TObjectFv(this);
         break;
     }

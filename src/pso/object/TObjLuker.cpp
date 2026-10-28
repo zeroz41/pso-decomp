@@ -97,7 +97,7 @@ s32 play_persistent_sound(int, void *, void *, int, int);
 void *__nw__7TObjectFUl(int);
 s32 TTecLuker__sub_8023401C(void *);
 void *create_telepipe_visual(void *, void *, int, int);
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0);
 s32 get_main_phase();
 s32 mark_area_change_pending();
@@ -271,17 +271,17 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0) {
                 if (horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(p + 0x38)) < (farg0 * farg0)) {
                     found = 1;
                     if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 0)) {
-                        ((TObjLuker *)arg0)->show_part((int) (obj_getField1c(p)));
+                        ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                     }
                 } else {
-                    C38_801A10A0((void *)arg0, (int) (obj_getField1c((int)p)));
+                    C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
                 }
             }
         }
         for (s32 i = 0; i < 4; i++) {
             p = PBC_801A10A0((void *)i);
             if ((p != 0U) && (check_flag_100__10TObjPlayerFPv((void *)p) == 1)) {
-                C38_801A10A0((void *)arg0, (int) (obj_getField1c((int)p)));
+                C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
             }
         }
     } else {
@@ -292,9 +292,9 @@ s32 is_player_in_range__9TObjLukerFv(s32 arg0, f32 farg0) {
         if (found != 0) {
             if (p != 0U) {
                 if (check_flag_100__10TObjPlayerFPv((void *)p) == 0) {
-                    ((TObjLuker *)arg0)->show_part((int) (obj_getField1c(p)));
+                    ((TObjLuker *)arg0)->show_part((int) (get_entity_id(p)));
                 } else {
-                    C38_801A10A0((void *)arg0, (int) (obj_getField1c((int)p)));
+                    C38_801A10A0((void *)arg0, (int) (get_entity_id((int)p)));
                 }
             }
             return 1;

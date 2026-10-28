@@ -547,7 +547,7 @@ void matrix_mult_vec(int, Vec_802CAD98 *, void *);
 extern Vec_802CAD98 lbl_80472280;
 extern Vec_802CAD98 lbl_8047228C;
 extern const f64 TObjEneMe1GiGue__data_80472298;
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 s32 angle_difference_abs(s32, s32);
 void subtract_vector(Vec_802CB170 *, Vec_802CB170 *);
 s32 update_action_hold_status__13TUnk_804806E8Fv();
@@ -692,7 +692,7 @@ void add_target_in_cone__15TObjEneMe1GiGueFPvPv(Gi_802CB170 *self, Tgt_802CB170 
       new_var = (-((s32) (((const f64 *)&TObjEneMe1GiGue__data_80472298)[0] * atan2_float(v.z, v.x)))) + 0x4000;
       if (angle_difference_abs(new_var, self->angle) <= (self->fov / 2))
       {
-        self->list[self->count++] = obj_getField1c(t);
+        self->list[self->count++] = get_entity_id(t);
       }
     }
   }

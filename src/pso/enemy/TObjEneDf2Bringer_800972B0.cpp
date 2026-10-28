@@ -1954,7 +1954,7 @@ extern const f32 lbl_805D9830;
 #define copy_target_state__14TObjEnePanarmsFPv ((s32 (*)(void *, int))copy_target_state__14TObjEnePanarmsFPv)
 #define play_persistent_sound ((s32 (*)(void *, void *, void *, int, int))play_persistent_sound)
 Obj_80098FF4 *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u32 csnLookAt(void *, void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
@@ -2156,7 +2156,7 @@ s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self) {
             dist = horizontal_distance_squared(self->field2FC, player->pos);
             if (dist < lbl_805D982C && dist > best &&
                 csnLookAt(self->field2FC, player->field2FC) == 0) {
-                id = obj_getField1c(player);
+                id = get_entity_id(player);
                 best = dist;
             }
         }
@@ -2232,7 +2232,7 @@ s32 TObjEneDf2Bringer__sub_80099248(void *bringer) {
                 h.kind = 0;
                 h.power = TObjEneDf2Bringer__data_805D4FB4->i20;
                 player->receive_direct_attack(bringer, h, 0, -1, -1);
-                if (is_player_entity_id(obj_getField1c(player)) != 0) {
+                if (is_player_entity_id(get_entity_id(player)) != 0) {
                     if (TObjEneDD::check_v2_mode() != 0) {
                         if (is_locally_controlled__10TObjPlayerFPv(player) != 0) {
                             TItem *item = get_item_field_6__10TObjPlayerFPv(player);

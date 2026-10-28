@@ -95,7 +95,7 @@ void enter_quest_list__26TShopEquipmentGearSequenceFv(void *);
 void open_gear_shop__26TShopEquipmentGearSequenceFv(void *);
 extern void *tl_05;
 u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 get_shop_text(s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
 s32 get_selected_menu_value(void *);
@@ -133,7 +133,7 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
     u16 id;
     s32 r;
     if (arg0->win == NULL) {
-        id = obj_getField1c(arg0->f24);
+        id = get_entity_id(arg0->f24);
         arg0->win = (void *)create_window_menu(((s32 (*)(int)) get_window_layout_position)(0x2B), 2, id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(arg0->win, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(arg0->win, get_shop_text(6), 6, 1);

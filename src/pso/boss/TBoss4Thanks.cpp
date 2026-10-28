@@ -60,7 +60,7 @@ void TBoss4Thanks__sub_8035C480(s32 arg0);
 extern u8 TBoss4Thanks__data_80479B40[];
 extern Ent_8035C35C boss4_thanks_emitter_table[];
 void *get_player_data__10TObjPlayerFi(s32);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s32);
 f32 xyz_distance(void *, void *);
 extern const f32 lbl_805E0180;
@@ -133,7 +133,7 @@ int TBoss4Thanks::is_player_nearby(void *arg0) {
     lim = lbl_805E0180;
     for (i = 0; i < n; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
-        if (p != NULL && TBoss4Type3__sub_8005254C(obj_getField1c(p)) != 0 &&
+        if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             xyz_distance(p + 0x38, TBoss4Thanks__data_80479B40) <= lim) {
             return 1;
         }

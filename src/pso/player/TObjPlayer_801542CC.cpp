@@ -181,7 +181,7 @@ extern unsigned char lbl_8050DAD0[];
 extern int player_unique_pair_entry_count;
 void mem_free(void *p);
 void free_collision_body_parts(G_80156720 *arg0);
-u16 obj_getField1c(int);
+u16 get_entity_id(int);
 extern const f32 lbl_805DB29C;
 void *memcpy(void *, const void *, u32);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
@@ -362,7 +362,7 @@ u16 TUnk_804AF8A0::unregister_object_by_id() {
     if ((Obj_80154A00 *)TObjPlayer__data_8050D460[lo] == ((Obj_80154A00 *)this)) {
         memcpy(&TObjPlayer__data_8050D460[lo], &TObjPlayer__data_8050D460[lo + 1], (count - (lo + 1)) * 4);
         lbl_805D5868--;
-        u16 k = obj_getField1c((int)this);
+        u16 k = get_entity_id((int)this);
         if (k < 0x1000) {
             lbl_805D586C--;
         } else if (k < 0x4000) {
@@ -411,7 +411,7 @@ u16 register_entity_by_id(void *ov) {
     }
     TBL[lo] = o;
     lbl_805D5868++;
-    t = obj_getField1c((int)o);
+    t = get_entity_id((int)o);
     if (t < 0x1000) {
         lbl_805D586C++;
     } else if (t < 0x4000) {
@@ -949,7 +949,7 @@ void TUnk_804AF8A0::mark_enemy_body_contacts() {
             if (obj == 0U) {
                 break;
             }
-            u16 t = obj_getField1c(obj);
+            u16 t = get_entity_id(obj);
             if (t >= 0x1000U && t < 0x4000U && check_actor_body_contact((Obj_80156268 *)obj, lbl_805DB29C) != 0U) {
                 ((P_8015610C *)this)->f->flags = ((P_8015610C *)this)->f->flags | 0x100000;
             }

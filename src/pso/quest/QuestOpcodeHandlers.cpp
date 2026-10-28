@@ -1402,7 +1402,7 @@ s32 obj_getPtr2B0_20();
 s16 obj_getS16_2BA(u8 *);
 s32 obj_isState3_324__13TUnk_804806E8Fv(int);
 int get_player_data__10TObjPlayerFi(int a0);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 get_current_floor();
 f64 atan2_float(void *, f32, f32);
 void TLobby__sub_8001DE30(void *);
@@ -2145,7 +2145,7 @@ void qst_op_chat_bubble(void) {
     for (i = start; i < end; i++) {
         player = (void *)get_player_data__10TObjPlayerFi(i);
         if (player != NULL) {
-            win = obj_getField1c(player);
+            win = get_entity_id(player);
             if (win < 0x4000) {
                 v = fn_get_field_3ac(player);
             } else {
@@ -2700,7 +2700,7 @@ void qst_op_check_npc_straggle_ex(u8 i, u8 slot) {
         v.y = qst_registers[i++];
         v.z = qst_registers[i];
         TLobby__sub_801F3500(obj, &v);
-        qst_registers[slot] = (u16)((int (*)(int))obj_getField1c)((int)obj);
+        qst_registers[slot] = (u16)((int (*)(int))get_entity_id)((int)obj);
     }
 }
 
@@ -2716,7 +2716,7 @@ void qst_op_set_obj_param_ex(u8 i, u8 out) {
     s.b = qst_registers[i];
     obj = create_quest_col_alock(&s, &qst_registers[out]);
     if (obj != NULL) {
-        qst_registers[out] = obj_getField1c(obj);
+        qst_registers[out] = get_entity_id(obj);
     }
 }
 
@@ -2733,7 +2733,7 @@ void qst_op_party_coords_call_ex(u8 i, u8 out) {
     s.c = qst_registers[i];
     obj = fn_80196214(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = obj_getField1c(obj);
+        qst_registers[out] = get_entity_id(obj);
     }
 }
 
@@ -2749,7 +2749,7 @@ void qst_op_npc_coords_call_ex(u8 i, u8 out) {
     s.c = qst_registers[i];
     obj = fn_801963A8(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = obj_getField1c(obj);
+        qst_registers[out] = get_entity_id(obj);
     }
 }
 
@@ -2765,7 +2765,7 @@ void qst_op_at_coords_talk_ex(u8 i, u8 out) {
     s.c = qst_registers[i];
     obj = fn_80196814(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = obj_getField1c(obj);
+        qst_registers[out] = get_entity_id(obj);
     }
 }
 
@@ -2781,7 +2781,7 @@ void qst_op_at_coords_call_ex(u8 i, u8 out) {
     s.c = qst_registers[i];
     obj = create_quest_col(&s, &qst_registers[first]);
     if (obj != NULL) {
-        qst_registers[out] = obj_getField1c(obj);
+        qst_registers[out] = get_entity_id(obj);
     }
 }
 
@@ -6038,7 +6038,7 @@ void qst_op_mesend(void) {
     for (i = start; i < end; i++) {
         p = (void *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL) {
-            f = obj_getField1c(p);
+            f = get_entity_id(p);
             if (f < 0x4000) {
                 v = fn_get_field_3ac(p);
             } else {
@@ -6173,7 +6173,7 @@ void qst_op_message(void) {
         for (i = first; i < end; i++) {
             actor = (void *)get_player_data__10TObjPlayerFi(i);
             if (actor != NULL) {
-                s32 identity = obj_getField1c(actor);
+                s32 identity = get_entity_id(actor);
                 s32 entity;
                 if (identity < 0x4000) {
                     entity = fn_get_field_3ac(actor);

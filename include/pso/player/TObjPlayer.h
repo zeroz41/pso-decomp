@@ -492,7 +492,7 @@ struct TObjPlayer : public TUnk_804806E8 {
     void spawn_hit_particle_trio();
     static void forward_item_effect_callback(s32 arg0, s32 arg1);
     static void invoke_menu_callback_if_set(u32 arg0);
-    s32 get_entity_id();
+    s32 get_texture_id();
     void init_item_data(s32 arg1);
     void bswap_fields_x4();
     void bswap_and_send_item();

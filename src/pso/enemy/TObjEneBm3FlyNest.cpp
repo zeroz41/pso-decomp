@@ -2018,7 +2018,7 @@ void TObjEneBm3FlyNest::render_parts() {
     } else {
         post_translate_matrix(this->model);
     }
-    post_translate_matrix((u8 *)&this->m_1c);
+    post_translate_matrix((u8 *)&this->entity_id);
     ((s32 (*)(s32, s32))rotate_matrix_y)(0, *(s32 *)((s8 *)arg0 + 0x40));
     TObjPlayer::set_global_flag();
     draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), (void *)(*(s32 *)&this->m_48), *(f32 *)&this->m_4c);

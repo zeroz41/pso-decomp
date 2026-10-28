@@ -169,7 +169,7 @@ s32 rotate_matrix_y(int, void *);
 s32 push_matrix_from(void *);
 s32 pop_matrices(s32 arg0);
 u8 *get_player_data__10TObjPlayerFi(s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void enemy_set_heading_velocity(void *, s32, f32);
 void enemy_turn_toward_dest(void *, s32);
 f32 horizontal_distance_squared(void *, void *);
@@ -638,7 +638,7 @@ void TObjEneIllGill::update_ai() {
                 if (p == NULL) {
                     break;
                 }
-                if (obj_getField1c(p) >= 0x1000) {
+                if (get_entity_id(p) >= 0x1000) {
                     break;
                 }
                 if (((TUnk_804AF8A0 *)o)->find_actor_body_contact((u8 *)p, (f32)lbl_805E02C8) != 0 &&
@@ -647,7 +647,7 @@ void TObjEneIllGill::update_ai() {
                     obj_setFlags30(p, 0x400);
                     p->m23(o, lbl_805E02B8 * dmg);
                     *(VObj_18_80365688 **)((u8 *)o + k) = p;
-                    if (is_split_screen() == 0 && local_client_id == obj_getField1c(p)) {
+                    if (is_split_screen() == 0 && local_client_id == get_entity_id(p)) {
                         TCameraCtrl::set_shake_preset(1);
                     }
                 }
@@ -1227,7 +1227,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         } else {
             rad = TObjEneIllGill__data_805E02D8;
         }
-        id = obj_getField1c(pl);
+        id = get_entity_id(pl);
         if (id < 0x1000) {
             s32 i;
             pl = F(u8 *, 0x2A8);
@@ -1591,7 +1591,7 @@ void TObjEneIllGill::vfunc_28() {
                 pl = get_player_data__10TObjPlayerFi(i);
                 if (pl == NULL) break;
                 if (obj_is_hit_receivable(pl) == 0) continue;
-                id = obj_getField1c(pl);
+                id = get_entity_id(pl);
                 if (id >= 0x4000) continue;
                 if (id == ((Gill_80367FDC *)this)->f1C) continue;
                 if (*(s32 *)((s8 *)pl + 0x30) & 0x02000800) continue;

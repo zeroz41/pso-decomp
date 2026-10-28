@@ -98,7 +98,7 @@ u16 find_nearest_visible_player(void *, int, f32);
 u8 * csnVectorUnder(s32, void *, s32);
 Pl_80314758 *get_battle_param__10TObjPlayerFi(s32);
 s32 obj_is_hit_receivable(void *);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 is_player_entity_id(s32);
 Hit_80314758 *csnVector(void *, void *, s32);
 extern u8 *TObjEneDelDepth__tune_params;
@@ -979,7 +979,7 @@ void TObjEneDelDepth::update_movement() {
             if (pl == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(obj_getField1c(pl)) != 0) {
+            if (obj_is_hit_receivable(pl) != 0 && is_player_entity_id(get_entity_id(pl)) != 0) {
                 pl->m18(arg0, TObjEneDelDepth__data_805DF260);
                 pl->m20(arg0, TObjEneDelDepth__data_805DF260);
                 pl->m23(arg0, TObjEneDelDepth__data_805DF268);

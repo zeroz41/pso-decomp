@@ -113,7 +113,7 @@ struct Obj_800C2E64 : Obj_800C2E64Base {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_alive__9TObjEneDDFv(void *);
 s32 is_player_entity_id(u16);
 void send_6x2F_change_player_hp(s32, u16, s32);
@@ -201,8 +201,8 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
         } else if (F(self, s32, 0x410) == 0x19 && F(self, s32, 0x414) != 0 &&
                    is_alive__9TObjEneDDFv(F(self, void *, 0x390)) != 0) {
             if (((TObjEneRe2Flower *)self)->get_flag_11() != 0) {
-                if (is_player_entity_id(obj_getField1c(F(self, void *, 0x390))) != 0) {
-                    send_6x2F_change_player_hp(F(self, u16, 0x1C), obj_getField1c(F(self, void *, 0x390)), 1);
+                if (is_player_entity_id(get_entity_id(F(self, void *, 0x390))) != 0) {
+                    send_6x2F_change_player_hp(F(self, u16, 0x1C), get_entity_id(F(self, void *, 0x390)), 1);
                 }
             } else {
                 Pair_800C2E64 p = lbl_8043BA60[0];

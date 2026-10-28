@@ -105,7 +105,7 @@ struct QLC_80288DA4 {
 
 extern "C" {
 
-s32 obj_getField1c(s32);
+s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
 f32 get_scale__15TShopWindowBaseFv(void *);
 s32 TWindow__close(void *);
@@ -300,7 +300,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
     if (self->f40 == NULL) {
         p.a = lbl_80450AB4[0].a;
         p.b = lbl_80450AB4[0].b;
-        id = (u16)obj_getField1c(self->f24);
+        id = (u16)get_entity_id(self->f24);
         self->f40 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &p, 1, id);
         text2 = SUB_80222C28(self->f50, self->entries[sel].f8);
         ((TLobby *)(self->f40))->send_and_handle(text2, 0x80);
@@ -310,7 +310,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
         }
     }
     if (self->f34 == NULL) {
-        id = (u16)obj_getField1c(self->f24);
+        id = (u16)get_entity_id(self->f24);
         self->f34 = create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
         ((TUnk_804CDFE8 *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
         if (self->obj != NULL) {
@@ -327,7 +327,7 @@ void create_quest_list_window__19TQuestListChallengeFv(QLC_80288FDC *arg0) {
     s32 e;
 
     if (arg0->obj->v8() != 0 && arg0->list == 0) {
-        id = obj_getField1c(arg0->f24);
+        id = get_entity_id(arg0->f24);
         arg0->list = (u32)create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < arg0->count; i++) {
             e = ((s32 (*)(s32, s32))get_quest_list_text)(arg0->f50, arg0->entries[i].id);

@@ -146,8 +146,8 @@ int is_active__10TBoss6RockFv(void*);
 
 void TBoss6Rock::set_target(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, f32 farg0) {
     u8 *arg0 = (u8 *)this;
-    *(s32 *)&this->m_1c = arg1;
-    if ((s32) *(s32 *)&this->m_1c != 0) {
+    *(s32 *)&this->entity_id = arg1;
+    if ((s32) *(s32 *)&this->entity_id != 0) {
         VecCopy((Vec *)(arg0 + 0x20), (const Vec *)((const void *)(arg2)));
         ((TObjPlayer *)(arg0 + 0x30))->copy_xyz((void *)arg3);
         *(f32 *)&this->m_2c = farg0;

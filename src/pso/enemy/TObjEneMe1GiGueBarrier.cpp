@@ -41,7 +41,7 @@ void *__nw__7TObjectFUl(int);
 s32 advance_animation_playback(void *);
 s32 play_sound_effect(int, void *, int, int);
 s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 set_field_d8__10TObjMotionFl(void *, void *, int);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
 extern RecoveredGlobal_80325BCC_lbl_804ECD40 TObjEneMe1GiGueBarrier__animation_definitions;
@@ -139,7 +139,7 @@ u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *ene_me1_gi_gue_barrier, s
     *(s32 **)((s8 *)ene_me1_gi_gue_barrier + 0x18) = &(*(RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier *)&__vt__22TObjEneMe1GiGueBarrier).value;
     *(s32 *)((s8 *)ene_me1_gi_gue_barrier + 0) = (s32) lbl_805D4198;
     *(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC) = arg2;
-    ene_me1_gi_gue_barrier->m_100 = obj_getField1c(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC));
+    ene_me1_gi_gue_barrier->m_100 = get_entity_id(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC));
     VecCopy((Vec *)((u8 *)ene_me1_gi_gue_barrier + 0x38), (const Vec *)((void *) (((TObjEneMe1GiGueBarrier *)((s32) *(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->update_and_get_pos())));
     ene_me1_gi_gue_barrier->rotation_y = ((TObjEneMe1GiGueBarrier *)(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->get_timer();
     ene_me1_gi_gue_barrier->m_108 = ((TObjEneMe1GiGueBarrier *)(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->get_field_44c();

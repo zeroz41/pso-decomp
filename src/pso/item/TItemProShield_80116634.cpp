@@ -109,7 +109,7 @@ void *__dt__13TUnk_8049F828Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 int get_type_id__10TObjPlayerFv();
 s32 TObjPlayer__sub_80116620(s32, s32);
 s32 sub_801A1DDC__10TObjPlayerFv(void *);
@@ -175,7 +175,7 @@ void TUnk_8049F8E0::vfunc_44() {
                 TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
                 if ((u16) get_type_id__10TObjPlayerFv() != 0xffffU) {
                     TObjPlayer__sub_80116620(temp_r3 + 0x9C, 0);
-                    send_6x33_revive_player(obj_getField1c(*(void * *)&this->owner), get_type_id__10TObjPlayerFv());
+                    send_6x33_revive_player(get_entity_id(*(void * *)&this->owner), get_type_id__10TObjPlayerFv());
                 }
             }
         }

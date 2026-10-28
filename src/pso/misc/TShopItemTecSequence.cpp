@@ -116,7 +116,7 @@ s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern void *tl_05;
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
 f32 get_scale__15TShopWindowBaseFv(void *);
 s32 get_selected_menu_value(void *);
@@ -200,7 +200,7 @@ void TShopItemTecSequence::open_item_list_window() {
 void TShopItemTecSequence::update_buy_sell_choice() {
     s32 r;
     if (((Seq_80220110 *)this)->win == NULL) {
-        u16 id = obj_getField1c(((Seq_80220110 *)this)->x24);
+        u16 id = get_entity_id(((Seq_80220110 *)this)->x24);
         ((Seq_80220110 *)this)->win = (void *)create_window_menu((s32)((void *)((s32 (*)(int))get_window_layout_position)(0x2B)), (s32)((void *)2), id);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(4), 6, 0);
         forward_trade_action_default__16TObjCityMainWarpFPviii(((Seq_80220110 *)this)->win, get_shop_text(6), 6, 1);

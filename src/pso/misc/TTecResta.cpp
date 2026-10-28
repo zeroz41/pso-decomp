@@ -105,7 +105,7 @@ struct VObj_18_9c98dd : VBase_18_9c98dd {
 struct Obj_80239CF4 { u8 pad[0x1C]; void *source; u8 pad20[0x88 - 0x20]; f32 power; };
 
 extern "C" {
-s32 obj_getField1c(int);
+s32 get_entity_id(int);
 s32 TTecPlayerInfluence__ct(void *, void *, void *, void *);
 extern s32 __vt__9TTecResta[];
 extern s32 lbl_805D3810;
@@ -215,7 +215,7 @@ Resta_8023967C *construct_self_recovery__9TTecRestaFPvPviPv(Resta_8023967C *self
             self->emitters[i] = create_timed_particle_emitter_with_flags(&v, row->entry, row->delay, row->duration, 0x10);
         }
         if (self->emitters[i] != 0) {
-            set_owner_id__13TParticleCtrlFUs(self->emitters[i], obj_getField1c(self->owner));
+            set_owner_id__13TParticleCtrlFUs(self->emitters[i], get_entity_id(self->owner));
         }
     }
     return self;
@@ -250,11 +250,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     h.type = 6;
     h.power = arg0->m_74;
     if (is_split_screen() == 0) {
-        TWindowCtrl::show_party_effect((void*)(obj_getField1c(arg0->source)), (void*)(obj_getField1c((int)player)), (void*)6);
+        TWindowCtrl::show_party_effect((void*)(get_entity_id(arg0->source)), (void*)(get_entity_id((int)player)), (void*)6);
     }
     HitInfo_8023985C c = h;
     player->m21((void *)arg0->source, &c, 0, 0xF, -1);
-    if ((u16)obj_getField1c(arg0->source) == (u16)obj_getField1c((int)player)) {
+    if ((u16)get_entity_id(arg0->source) == (u16)get_entity_id((int)player)) {
         if (*(s32 *)&arg0->m_ac != 0) {
             void *o = __nw__7TObjectFUl(0x30);
             if (o != NULL) {
@@ -264,11 +264,11 @@ void TTecResta::vfunc_7(void *arg1_arg) {
     } else if (*(s32 *)&arg0->m_ac != 0) {
         void *e = spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F6, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, obj_getField1c((int)player));
+            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((int)player));
         }
         e = spawn_particle_effect_with_flags((u8 *)player + 0x2FC, 0x1F7, 0x10);
         if (e != NULL) {
-            set_owner_id__13TParticleCtrlFUs(e, obj_getField1c((int)player));
+            set_owner_id__13TParticleCtrlFUs(e, get_entity_id((int)player));
         }
     }
     if (*(s32 *)&arg0->m_ac != 0) {
@@ -342,7 +342,7 @@ void *TTecResta__ct(TTecResta *arg0, void *owner, void *pos, void *arg3, void *l
     }
     src = arg0->source;
     if (src != 0) {
-        *(s16 *)&arg0->m_a8 = obj_getField1c(src);
+        *(s16 *)&arg0->m_a8 = get_entity_id(src);
     }
     if (*(s32 *)&arg0->m_ac != 0) {
         arg0->init_cast();
@@ -367,7 +367,7 @@ u8 *TTecResta__sub_80239C48(TTecResta *arg0, s32 owner, s32 pos, s32 level) {
     }
     temp_r3_2 = arg0->source;
     if (temp_r3_2 != 0U) {
-        arg0->m_a8 = obj_getField1c(temp_r3_2);
+        arg0->m_a8 = get_entity_id(temp_r3_2);
     }
     if ((s32) arg0->m_ac != 0) {
         arg0->init_cast();

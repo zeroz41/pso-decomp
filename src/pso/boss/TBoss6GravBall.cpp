@@ -36,7 +36,7 @@ void TBoss6GravBall__sub_803236F8(TBoss6GravBall *arg0);
 s32 project_actor_to_ground(void *, void *, int);
 
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 void vec3_add_to(void *, void *);
@@ -74,7 +74,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (PL_803233AC *)get_player_data__10TObjPlayerFi(i);
-        id = obj_getField1c(pl) + 5;
+        id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
             continue;
@@ -89,7 +89,7 @@ void TBoss6GravBall__sub_803233AC(u8 *self) {
             continue;
         }
         if (d <= 1e+01f) {
-            s32 a = obj_getField1c(pl) << 14;
+            s32 a = get_entity_id(pl) << 14;
             v.x = 2.5f * sin_table_lookup(a) + v.x;
             v.z = 2.5f * cos_table_lookup(a) + v.z;
             flag = 1;
@@ -124,7 +124,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
     n = TLobby::get_game_mode();
     for (i = 0; i < n; i++) {
         pl = (PL_80323544 *)get_player_data__10TObjPlayerFi(i);
-        id = obj_getField1c(pl) + 5;
+        id = get_entity_id(pl) + 5;
         if (((TBoss6PlotFalz *)pl)->is_active() == 0) {
             ((TBoss6GravBall *)self)->destroy_part((s32)((void *)id));
             continue;
@@ -132,7 +132,7 @@ void TBoss6GravBall__sub_80323544(u8 *self) {
         flag = 1;
         VecCopy((Vec *)&v, (const Vec *)(self + 0xC8));
         {
-            s32 a = obj_getField1c(pl) << 14;
+            s32 a = get_entity_id(pl) << 14;
             v.x = 2.5f * sin_table_lookup(a) + v.x;
             v.z = 2.5f * cos_table_lookup(a) + v.z;
         }

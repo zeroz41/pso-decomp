@@ -25,7 +25,7 @@ struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 p
 
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(int);
-s32 obj_getField1c(u32);
+s32 get_entity_id(u32);
 void *get_player_by_client_id(s32 i);
 
 s32 submit_cursor_candidate(void *, s32);
@@ -87,7 +87,7 @@ void TOTrap::vfunc_82() {
         this->receive_physical_attack(this->target, 1.0f);
         p = *(u32 *)&this->target;
         if (p != 0U) {
-            u32 v = (u16) obj_getField1c(p);
+            u32 v = (u16) get_entity_id(p);
             if (v < 0x1000U) {
                 temp_r31 = (s32)get_player_by_client_id(v);
                 if ((is_locally_controlled__10TObjPlayerFPv(temp_r31) != 0) && (((TLobby *)temp_r31)->check_player_flag1() != 0)) {
@@ -168,7 +168,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
   s16 sp8;
   s32 temp_r3_2;
   u16 temp_r3;
-  if ((((this->m_1c) >= 0x4000U) && (((u32) (*((u32 *) (((s8 *) ((u8 *)this)) + 0x80)))) != 0U)) && (access_object_saved_state(&sp8, 1) != 0))
+  if ((((this->entity_id) >= 0x4000U) && (((u32) (*((u32 *) (((s8 *) ((u8 *)this)) + 0x80)))) != 0U)) && (access_object_saved_state(&sp8, 1) != 0))
   {
     this->mode = 4;
     sp8 = this->mode;
@@ -176,7 +176,7 @@ f32 TOTrap::receive_physical_attack(void *arg1, f32) {
     send_object_state_update(&sp8);
     if (arg1 != 0U)
     {
-      temp_r3 = obj_getField1c((u32)((void *) arg1));
+      temp_r3 = get_entity_id((u32)((void *) arg1));
       if (temp_r3 < 0x1000U)
       {
         temp_r3_2 = (s32)get_player_by_client_id(((int) ((s32) temp_r3)));

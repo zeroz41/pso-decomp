@@ -709,7 +709,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0);
 s32 update_angle__10TObjPlayerFlPv(void *, s32, void *);
 s32 check_path_obstructed(void *, void *);
 s32 obj_testFlags30__13TUnk_804AF8A0FUl(void *, s32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 extern s32 lbl_805D5870;
 void TObjPlayer__sub_800A5960(void *arg0);
 void advance_motion_state__12TObjEneSaverFv(u8 *arg0);
@@ -1201,7 +1201,7 @@ void TObjPlayer__sub_800A5960(void *arg0) {
     for (i = 0; i < n; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (TObjPlayer::is_valid_and_active((u32)p) != 0 && p != (u8 *)self &&
-            obj_getField1c(p) < limit && !(*(s32 *)(p + 0x30) & 0x02000800) &&
+            get_entity_id(p) < limit && !(*(s32 *)(p + 0x30) & 0x02000800) &&
             ((VObj_18_217cff *)p)->m18(self, 1.0f) != 0) {
             ((VObj_18_217cff *)p)->m20(self, 1.0f);
             ((VObj_18_217cff *)p)->m23(self);
@@ -1509,7 +1509,7 @@ extern s32 model_render_flags;
 
 #define get_player_data__10TObjPlayerFi ((u8* (*)(s32))(get_player_data__10TObjPlayerFi))
 #define obj_testFlags30__13TUnk_804AF8A0FUl ((s32 (*)(void*, int))(obj_testFlags30__13TUnk_804AF8A0FUl))
-#define obj_getField1c ((s32 (*)(void*))(obj_getField1c))
+#define get_entity_id ((s32 (*)(void*))(get_entity_id))
 #define get_field_3e4__10TObjPlayerFv ((s32 (*)(int))(get_field_3e4__10TObjPlayerFv))
 #define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
 extern s32 lbl_8043A8B0[];
@@ -1756,7 +1756,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         for (; i < lbl_805D586C + lbl_805D5870; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p != NULL && p != (u8 *)self) {
-                id = obj_getField1c(p);
+                id = get_entity_id(p);
                 if ((u16)id < 0x4000 && (u16)id != self->f1C && !(P_800A677C(p)->f30 & 0x02000800)) {
                     VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
                     subtract_vector(&v, &self->pos);
@@ -1807,7 +1807,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         for (; i < lbl_805D586C; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
-            if ((u16)obj_getField1c(p) >= 0x1000) continue;
+            if ((u16)get_entity_id(p) >= 0x1000) continue;
             if (get_field_3e4__10TObjPlayerFv((int)p) != get_current_floor()) continue;
             if (P_800A677C(p)->f30 & 0x02000800) continue;
             VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
@@ -1815,12 +1815,12 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
             d = v.x * v.x + v.z * v.z;
             if ((((TObjPlayer *)p)->class_flags & self->target_class_mask) && d < best &&
                 check_path_obstructed(self, p + 0x2FC) != 1) {
-                best_id = obj_getField1c(p);
+                best_id = get_entity_id(p);
                 best = d;
                 best_p = p;
             }
             if (d < best2 && check_path_obstructed(self, p + 0x2FC) != 1) {
-                best_id2 = obj_getField1c(p);
+                best_id2 = get_entity_id(p);
                 best2 = d;
                 best_p2 = p;
             }
@@ -2227,7 +2227,7 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 #undef sub_800A62D4__12TObjEneSaverFv
 #undef get_player_data__10TObjPlayerFi
 #undef obj_testFlags30__13TUnk_804AF8A0FUl
-#undef obj_getField1c
+#undef get_entity_id
 #undef get_field_3e4__10TObjPlayerFv
 #undef get_player_by_client_id
 #undef advance_animation_playback

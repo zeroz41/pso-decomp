@@ -21,7 +21,7 @@ struct RecoveredGlobal_80338C88___vt__16TEneParticleCtrl {
 struct O_80338D58 { u8 pad[0x72]; s16 idx; u8 pad2[2]; s16 count; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__13TUnk_804AF8A0FP7TObject(void *, void *);
@@ -64,14 +64,14 @@ u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjPlayer *)arg0)->reset_photon_effect();
     temp_r4 = (u8 *)(((TEneParticleCtrl *)arg0)->m_a4);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    ((TEneParticleCtrl *)arg0)->m_ac = obj_getField1c((void *)arg1);
+    ((TEneParticleCtrl *)arg0)->m_ac = get_entity_id((void *)arg1);
     ((TUnk_804B9870 *)arg0)->set_position_from((void *)(arg1 + 0x74));
     VecCopy((Vec *)(arg0 + 0xB4), (const Vec *)(arg1 + 0x2FC));
     ((TEneParticleCtrl *)arg0)->m_b0 = arg2;
     ((TEneParticleCtrl *)arg0)->m_c0 = (u32)spawn_continuous_particle_effect_with_flags((arg0 + 0xB4), (((TEneParticleCtrl *)arg0)->m_b0), 0x10);
     temp_r3 = ((TEneParticleCtrl *)arg0)->m_c0;
     if (temp_r3 != 0U) {
-        ((TParticleCtrl *)temp_r3)->set_owner_id((int) (((TEneParticleCtrl *)arg0)->m_1c));
+        ((TParticleCtrl *)temp_r3)->set_owner_id((int) (((TEneParticleCtrl *)arg0)->entity_id));
     }
     return arg0;
 }

@@ -642,7 +642,7 @@ struct VObj_14_c1c33b : VBase_14_c1c33b {
 };
 
 f32 receive_physical_attack__13TUnk_804806E8FPvf(void *, void *, f32);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 void TLobby__sub_8001FE7C(void*, int);
 f32 get_random_float__21TObjEneMe3ShinowaRealFv(f32);
 s32 get_mode__11TCameraCtrlFPv(void *);
@@ -1794,7 +1794,7 @@ s32 TObjEneMorfos::select_target_in_view() {
         d = ((TObjBoss2Tunnel *)(&v))->clamp_velocity();
         if (d < TObjEneMorfos__data_805DF86C && d > best && dx * v.x + dz * v.z > cosLim &&
             csnLookAt(&arg0->pos, p + 0x2FC) == 0) {
-            id = obj_getField1c(p);
+            id = get_entity_id(p);
             best = d;
         }
     }

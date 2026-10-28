@@ -36,7 +36,7 @@ struct Tec_8012F704 {
     Vec_8012F704 dir;
 };
 
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 f32 query_extended_state__10TObjPlayerFv(void *);
 struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
@@ -50,7 +50,7 @@ void TUnk_804A64E8::emit_marker_effects() {
     Tec_8012F704 tec;
 
     init_slicer_launch_state((SlicerState_801295FC *)&tec);
-    tec.id = obj_getField1c(((Self_8012F704 *)this)->owner);
+    tec.id = get_entity_id(((Self_8012F704 *)this)->owner);
     tec.fC = ((TItem *)this)->get_item_id();
     tec.f4 = ((Self_8012F704 *)this)->f24;
     tec.f8 = ((Self_8012F704 *)this)->f188;

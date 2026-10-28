@@ -17,7 +17,7 @@ struct Band_802301EC { void *bindings; u32 count; };
 struct Foie_802301EC { u8 pad[0x1C]; u32 owner; u8 pos[0xA6]; s16 band; u16 ownerId; u8 pad2[0x66]; void **emitters; };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 u8 * __ct__13TUnk_804CCC68FlPUcPUcl(void *, s32, void *, void *, s16);
 extern RecoveredGlobal_802302A0___vt__8TTecFoie __vt__8TTecFoie;
 u8 * construct_facing_technique__10TObjPlayerFPviPvii(void *, s32, void *, s32, s16);
@@ -51,7 +51,7 @@ u8 *TTecFoie::construct_aimed(s32 arg1, u8 *arg2, u8 *arg3, s16 arg4) {
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__8TTecFoie.value;
     temp_r3 = (u8 *)this->source;
     if (temp_r3 != NULL) {
-        this->sourceId = obj_getField1c(temp_r3);
+        this->sourceId = get_entity_id(temp_r3);
     }
     ((TTecFoie *)arg0)->init_projectile_params();
     ((TTecFoie *)arg0)->create_particle_emitters();
@@ -65,7 +65,7 @@ u8 *TTecFoie__ct(TTecFoie *tec_foie, s32 arg1, u8 *arg2, s32 arg3, s16 arg4) {
     *(s32 *)((s8 *)tec_foie + 0) = (s32) TTecFoie__name;
     temp_r3 = (u8 *)(*(u8 **)((s8 *)tec_foie + 0x1C));
     if (temp_r3 != NULL) {
-        tec_foie->sourceId = obj_getField1c(temp_r3);
+        tec_foie->sourceId = get_entity_id(temp_r3);
     }
     tec_foie->init_projectile_params();
     tec_foie->create_particle_emitters();

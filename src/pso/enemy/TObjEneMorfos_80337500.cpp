@@ -49,7 +49,7 @@ extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
 extern const f32 lbl_805DF988;
 void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *arg1, V_80337500 *arg2);
-s16 obj_getField1c(void *);
+s16 get_entity_id(void *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void __ct__13TUnk_804AF8A0FP7TObject(void *, s32);
 f32 sin_table_lookup(s32);
@@ -150,7 +150,7 @@ O_80337824 *TObjEneMorfos__sub_80337824(O_80337824 *arg0, Vec_80337824 *arg1, s3
     arg0->vt = ((u8 *)&lbl_804EF130);
     VecCopy((Vec *)(&arg0->pos), (const Vec *)(arg1));
     arg0->fDC = lbl_805DF994;
-    arg0->fF8 = obj_getField1c(arg3);
+    arg0->fF8 = get_entity_id(arg3);
     a.x = 0;
     a.y = arg2 - 0x4000;
     a.z = 0x4000;

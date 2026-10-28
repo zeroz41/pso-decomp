@@ -24,7 +24,7 @@ extern "C" {
 void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 s32 advance_animation_playback();
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 set_field_d8__10TObjMotionFl(void *, void *, int);
 extern RecoveredGlobal_80335354_lbl_804EE3B0 morfos_arm_motion_params;
 extern s32 __vt__16TObjEneMorfosArm[];
@@ -77,7 +77,7 @@ u8 *TObjEneMorfosArm__ct(TObjEneMorfosArm *ene_morfos_arm, s32 arg1, u8 *arg2) {
     *(s32 **)((s8 *)ene_morfos_arm + 0x18) = &(*(RecoveredGlobal_80335354___vt__16TObjEneMorfosArm *)&__vt__16TObjEneMorfosArm).value;
     *(s32 *)((s8 *)ene_morfos_arm + 0) = (s32) TObjEneMorfosArm__name;
     *(u8 **)((s8 *)ene_morfos_arm + 0xFC) = arg2;
-    ene_morfos_arm->m_100 = obj_getField1c(*(u8 **)((s8 *)ene_morfos_arm + 0xFC));
+    ene_morfos_arm->m_100 = get_entity_id(*(u8 **)((s8 *)ene_morfos_arm + 0xFC));
     VecCopy((Vec *)((u8 *)ene_morfos_arm + 0x38), (const Vec *)((void *) (((s32)TObjEneMorfosArm__sub_803326B4((void *)((s32) *(u8 **)((s8 *)ene_morfos_arm + 0xFC)))))));
     ene_morfos_arm->rotation_y = TObjEneMorfosArm__sub_803326BC(*(u8 **)((s8 *)ene_morfos_arm + 0xFC));
     *(s32 *)((s8 *)ene_morfos_arm + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x42C)) + 8);

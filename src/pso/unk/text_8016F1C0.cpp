@@ -222,7 +222,7 @@ void TOMineTrap::send_state_packet(u16 idx) {
     if (idx < 3) {
         Pkt_8016F558 pkt;
         TOMineTrap__sub_8017141C(&pkt);
-        pkt.object = self->m_1c;
+        pkt.object = self->entity_id;
         pkt.sub = self->m_37e;
         pkt.idx = idx;
         ((TOMineTrap *)(&pkt))->send_and_handle_60();

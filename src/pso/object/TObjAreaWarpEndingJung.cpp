@@ -335,7 +335,7 @@ s32 get_main_phase();
 void mark_area_change_pending();
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 s32 obj_isState3_324__13TUnk_804806E8Fv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 is_split_screen();
 s32 get_current_floor();
 void queue_destruction__7TObjectFv(void *);
@@ -808,11 +808,11 @@ void TObjMapWarp::process_player_warps() {
                 }
                 t = find_warp_player_in_range(this, i, d->fAC);
                 if (t != NULL) {
-                    ((VObj_8019D250 *)this)->m13(obj_getField1c(t));
+                    ((VObj_8019D250 *)this)->m13(get_entity_id(t));
                     if (((TObjPlayer *)t)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t)->get_map_id()) != 0) {
                         for (j = 0; j < 4; j++) {
                             if (test_player_body_overlap_at(this, t, &d->ends[j]) == 0) {
-                                send_6x55_intra_map_warp(obj_getField1c(t), &d->ends[j], this->m_84);
+                                send_6x55_intra_map_warp(get_entity_id(t), &d->ends[j], this->m_84);
                             }
                         }
                     }
@@ -841,7 +841,7 @@ void TObjMapWarp::process_player_warps() {
             if (((TObjPlayer *)t2)->is_target_valid() != 0 && ((VObj_8019D250 *)this)->m16(((TRaderMapCore *)t2)->get_map_id()) != 0) {
                 for (j2 = 0; j2 < 4; j2++) {
                     if (test_player_body_overlap_at(((VObj_8019D250 *)this), t2, &d->ends[j2]) == 0) {
-                        send_6x55_intra_map_warp(obj_getField1c(t2), &d->ends[j2], this->m_84);
+                        send_6x55_intra_map_warp(get_entity_id(t2), &d->ends[j2], this->m_84);
                     }
                 }
             }
@@ -1021,7 +1021,7 @@ void TObjAreaWarp::handle_area_selection() {
                     if (d->fC0 != NULL) {
                         ((VObj_8019CAB0 *)this)->m13(find_active_player__12TObjAreaWarpFv(d->fC0));
                     } else {
-                        ((VObj_8019CAB0 *)this)->m13(obj_getField1c(t));
+                        ((VObj_8019CAB0 *)this)->m13(get_entity_id(t));
                     }
                     if (((VObj_8019CAB0 *)this)->m16(i) != 0) {
                         this->vfunc_14();

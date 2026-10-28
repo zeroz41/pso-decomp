@@ -10,7 +10,7 @@ s32 assign_inventory_item_ids(void *, s32, u8);
 s32 bind_saved_inventory_equipment__10TObjPlayerFPvPvi(void *, s32, u8);
 
 s32 obj_isState2_324__13TUnk_804806E8Fv(void *);
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 extern s32 player_shared_buffer_base;
 extern s32 shared_state_flags;
 
@@ -28,7 +28,7 @@ void TObjPlayer::load_character_state(u8 *player) {
         }
         bind_saved_inventory_equipment__10TObjPlayerFPvPvi(this, temp_r30, count);
     }
-    this->m_db4 = (s32) (player_shared_buffer_base + (obj_getField1c(this) * 0x600));
+    this->m_db4 = (s32) (player_shared_buffer_base + (get_entity_id(this) * 0x600));
 }
 
 }

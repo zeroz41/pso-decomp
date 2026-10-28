@@ -156,7 +156,7 @@ struct Task_802312E4;
 
 struct Vec_802312E4;
 
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 void queue_destruction__7TObjectFv(void *arg0);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
@@ -297,12 +297,12 @@ void TTecGiFoie::vfunc_6(void *target) {
     s32 found = 0;
     s32 i;
     for (i = 0; i < 32; i++) {
-        if (self->ids[i] == obj_getField1c(((VObj_8023154C *)target))) {
+        if (self->ids[i] == get_entity_id(((VObj_8023154C *)target))) {
             found = 1;
         }
     }
     if (found == 0) {
-        self->ids[*(s32 *)&this->m_138] = obj_getField1c(((VObj_8023154C *)target));
+        self->ids[*(s32 *)&this->m_138] = get_entity_id(((VObj_8023154C *)target));
         *(s32 *)&this->m_138 += 1;
         if (*(s32 *)&this->m_138 >= 32) {
             *(s32 *)&this->m_138 = 31;
@@ -454,7 +454,7 @@ void *TTecGiFoie__ct(void *self_, void *source, void *origin, void *level) {
         break;
     }
     if (self->source != NULL) {
-        self->fb4 = obj_getField1c(self->source);
+        self->fb4 = get_entity_id(self->source);
     }
     return self_;
 #undef self

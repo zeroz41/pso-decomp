@@ -110,7 +110,7 @@ struct Win_80216F50 {
 };
 
 extern "C" {
-u16 obj_getField1c(void *);
+u16 get_entity_id(void *);
 s32 get_quest_list_text(s32, s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
 void TWindow__close(u8 *arg0);
@@ -221,7 +221,7 @@ void TQuestListOffline::update_list_navigation() {
         if (((Win_80216CF8 *)this)->f44 == NULL) {
             pos.a = lbl_8044BEA4[0].a;
             pos.b = lbl_8044BEA4[0].b;
-            ((Win_80216CF8 *)this)->f44 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &pos, 1, obj_getField1c(((Win_80216CF8 *)this)->f24));
+            ((Win_80216CF8 *)this)->f44 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &pos, 1, get_entity_id(((Win_80216CF8 *)this)->f24));
             msg2 = get_quest_list_text(0xE, ((Win_80216CF8 *)this)->f54[sel].fC);
             ((TLobby *)(((Win_80216CF8 *)this)->f44))->send_and_handle(msg2, 0x80);
             ((TLobby *)(((Win_80216CF8 *)this)->f44))->set_field_1c(lbl_805DC694);
@@ -230,7 +230,7 @@ void TQuestListOffline::update_list_navigation() {
             }
         }
         if (((Win_80216CF8 *)this)->f38 == NULL) {
-            ((Win_80216CF8 *)this)->f38 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), obj_getField1c(((Win_80216CF8 *)this)->f24), 0, 0);
+            ((Win_80216CF8 *)this)->f38 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), get_entity_id(((Win_80216CF8 *)this)->f24), 0, 0);
             ((TUnk_804CDFE8 *)(((Win_80216CF8 *)this)->f38))->set_position_xy(get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)), get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)));
             if (((Win_80216CF8 *)this)->f34 != NULL) {
                 ((Win_80216CF8 *)this)->f34->m7(5, 1);
@@ -253,7 +253,7 @@ void TQuestListOffline::init_quest_list_window() {
     refresh_story_quest_availability(story_quest_list_resource);
     if (self->f3C == NULL) {
         t = (void *)get_guild_text(0);
-        self->f3C = create_item_list_window((s32)t, 0x40, obj_getField1c(self->f24));
+        self->f3C = create_item_list_window((s32)t, 0x40, get_entity_id(self->f24));
         if (are_all_story_quests_complete() == 1) {
             e = self->f54;
             i = 0;

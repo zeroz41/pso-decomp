@@ -91,7 +91,7 @@ void TObjEneDelDepth::draw_model_part() {
         TObjFish::set_global_param((int) (*(s32 *)&this->m_next));
         draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (f32) (*(f32 *)&this->m_28));
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x18)));
-        draw_model_motion((void *)(*(s32 *)&this->m_down), (void *)(*(s32 *)&this->m_1c), (f32) (*(f32 *)&this->m_28));
+        draw_model_motion((void *)(*(s32 *)&this->m_down), (void *)(*(s32 *)&this->entity_id), (f32) (*(f32 *)&this->m_28));
         TObjPlayer::clear_global_state();
     }
 }

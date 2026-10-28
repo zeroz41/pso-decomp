@@ -5,7 +5,7 @@
 extern "C" {
 
 s32 is_locally_controlled__10TObjPlayerFPv(void);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
 s32 fn_80171314(void *);
@@ -47,13 +47,13 @@ void TOMineTrapDisp::run_task() {
                 pl = get_player_by_client_id(i);
                 if (pl != 0 && is_locally_controlled__10TObjPlayerFPv() != 0) {
                     if (fn_80171314(pl) != 0 ||
-                        (is_technique_ready__8TTecCtrlFv() != 0 && fAC == (u16)obj_getField1c(pl))) {
+                        (is_technique_ready__8TTecCtrlFv() != 0 && fAC == (u16)get_entity_id(pl))) {
                         if (!(horizontal_distance_squared(pos, pl + 0x38) <= lbl_805DB850)) {
                             if ((s16)get_stat_by_key_state__13TUnk_804B9870Fv(pl) != (s16)get_stat_by_key_state__13TUnk_804B9870Fv(this)) {
                                 continue;
                             }
                         }
-                        if (fA8 == (u16)obj_getField1c(pl)) {
+                        if (fA8 == (u16)get_entity_id(pl)) {
                             hit = 1;
                         }
                     }

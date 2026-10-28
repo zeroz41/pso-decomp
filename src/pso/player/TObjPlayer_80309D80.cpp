@@ -68,7 +68,7 @@ struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
 s32 TObjPlayer__sub_80309E4C(s32 arg0, s16 arg1);
 int TPlyFollowParticleCtrl__sub_8030A694(void*);
 s32 __dt__22TPlyFollowParticleCtrlFis(s32 arg0, s16 arg1);
-s32 obj_getField1c(void *);
+s32 get_entity_id(void *);
 s32 set_type__22TPlyFollowParticleCtrlFs(void *, void *);
 
 void TObjPlayer::enable_foot_stamp(s32 arg1, s32 arg2) {
@@ -87,7 +87,7 @@ void TObjPlayer::update_child(void *ply_ptcl_object_right_hand) {
 
 void TObjPlayer::update_follow_particle(s32 arg1) {
     s32 arg0 = (s32)this;
-    set_type__22TPlyFollowParticleCtrlFs((void *)arg0, (void *) (obj_getField1c((void *)arg1)));
+    set_type__22TPlyFollowParticleCtrlFs((void *)arg0, (void *) (get_entity_id((void *)arg1)));
 }
 
 s32 TObjPlayer__sub_80309E4C(s32 arg0, s16 arg1) {
