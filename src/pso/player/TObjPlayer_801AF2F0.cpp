@@ -6361,7 +6361,7 @@ void TObjPlayer::request_inventory_item(TItemData* item) {
         if (player == 0 || ((s32 (*)(TObjPlayer*))obj_isState2_324__13TUnk_804806E8Fv)(player) == 0) {
             ((TObjPlayer *)(&packet))->init_pkt_6x2B();
             packet.actor = ((u16 (*)(TObjPlayer*))get_entity_id)(player);
-            ((ItemData *)(&packet.item))->copy_from((ItemData *)(item));
+            ((TItemData *)(&packet.item))->copy_from((TItemData *)(item));
             ((TItemData *)&packet.item)->encode_for_network();
             ((TObjPlayer *)(&packet))->send_cmd_item_data();
         }

@@ -110,7 +110,7 @@ struct G_BarbaRayBossActions_6xAA {
 
 struct G_BuyShopItem_6x5E {
  struct G_ClientIDHeader header;
- struct ItemData item_data;
+ TItemData item_data;
  G_BuyShopItem_6x5E();
  void bswap();
  void send();
@@ -168,7 +168,7 @@ struct G_ClearTemporaryPhotonBlastStateFlags_6x3B {
 
 struct G_CreateInventoryItem_DC_6x2B {
  struct G_ClientIDHeader header;
- struct ItemData item_data;
+ TItemData item_data;
 };
 
 struct G_CreateInventoryItem_PC_V3_BB_6x2B {
@@ -275,12 +275,14 @@ struct G_DropStackedItem_DC_6x5D {
  s16 floor;
  s16 room_id;
  struct VectorXZF pos;
- struct ItemData item_data;
+ TItemData item_data;
  G_DropStackedItem_DC_6x5D();
 };
 
 struct G_DropStackedItem_PC_V3_BB_6x5D : G_DropStackedItem_DC_6x5D {
- u32 unused3;
+ // The item data's version (2: v2 and later; a DC packet has none and is v0).
+ u8 item_version;
+ u8 unused3[3];
  G_DropStackedItem_PC_V3_BB_6x5D();
  void bswap();
  void send();

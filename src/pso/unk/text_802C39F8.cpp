@@ -29,7 +29,7 @@ void copy_item_entry_array(s32 n, struct Entry_802C3A50 *src, struct Entry_802C3
         dst->a = src->a;
         dst->b = src->b;
         dst->c = src->c;
-        ((ItemData *)(dst->item))->copy_from((ItemData *)(src->item));
+        ((TItemData *)(dst->item))->copy_from((TItemData *)(src->item));
         dst++;
         src++;
     }

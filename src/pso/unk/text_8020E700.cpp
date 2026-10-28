@@ -118,7 +118,7 @@ void generate_shop_unit_pool(s32 arg0) {
         item.b[1] = 3;
         item.b[2] = b;
         if (is_duplicate_shop_shield_or_unit(&item, arg0) == 1) {
-            ((ItemData *)(&dst[lbl_80513D68[arg0]++]))->copy_from((ItemData *)(&item));
+            ((TItemData *)(&dst[lbl_80513D68[arg0]++]))->copy_from((TItemData *)(&item));
             cnt++;
         }
     }
@@ -175,7 +175,7 @@ void generate_shop_shield_pool(s32 arg0) {
             item.b[2] = b;
         }
         if (is_duplicate_shop_shield_or_unit(&item, arg0) == 1) {
-            ((ItemData *)(&dst[counts[arg0]++]))->copy_from((ItemData *)(&item));
+            ((TItemData *)(&dst[counts[arg0]++]))->copy_from((TItemData *)(&item));
             j++;
         }
     }
@@ -235,7 +235,7 @@ void generate_shop_armor_pool(s32 arg0) {
         }
         ((TItemData *)&item)->register_drop();
         if (is_duplicate_shop_armor((Rec_8020E700 *)&item, arg0) == 1) {
-            ((ItemData *)(&dst[counts[arg0]++]))->copy_from((ItemData *)(&item));
+            ((TItemData *)(&dst[counts[arg0]++]))->copy_from((TItemData *)(&item));
             j++;
         }
     }

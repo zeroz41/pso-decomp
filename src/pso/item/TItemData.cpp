@@ -1254,7 +1254,7 @@ void serialize_mag__9TItemDataFPvPv(Item_8010D510 *item, const Mag_8010D510 *mag
     copy.b18 = mag->b0c;
     copy.b19 = mag->b0e;
     ((TItemData *)(&copy))->bswap_fields();
-    ((ItemData *)item)->copy_from((ItemData *)(&copy));
+    ((TItemData *)item)->copy_from((TItemData *)(&copy));
 }
 
 void TItemData::bswap_fields() { bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); bswap_16((u16 *)((char*)this + 0x8)); bswap_16((u16 *)((char*)this + 0xa)); }

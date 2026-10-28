@@ -19,7 +19,7 @@ Ent_801D5854 *TItemList__sub_801D5854(Obj_801D5854 *p, s32 i);
 s32 TItemList__sub_801D598C(Obj_801D598C *arg0, s32 arg1);
 int VecCopy__FP3VecPC3Vec(void*);
 void __ct__7TObjectFP7TObject(void *);
-int copy_from__8ItemDataFP8ItemData(void*);
+int copy_from__9TItemDataFP9TItemData(void*);
 
 extern s32 __vt__9TItemList[];
 extern void *TItemList__name;
@@ -37,7 +37,7 @@ void TItemList__sub_801D5804(s32 *arg0) {
     *arg0 += 1;
 }
 
-int TItemList::copy_item_data() { return copy_from__8ItemDataFP8ItemData((char*)this + 0x8); }
+int TItemList::copy_item_data() { return copy_from__9TItemDataFP9TItemData((char*)this + 0x8); }
 void TItemList__sub_801D5838(void* p) { *(s32*)((char*)p + 0x0) = 1; }
 int TItemList__sub_801D5844(void* p) { return *(u32*)((char*)p + 0x0) == 0; }
 
@@ -58,7 +58,7 @@ void TItemList::lookup_entry_by_count(s32 arg1) {
 
 void TItemList__sub_801D58C8(void* p) { *(s32*)((char*)p + 0x0) = 3; }
 u8 TItemList::get_item_count() { return *(u8*)((char*)this + 0x1c); }
-u16 TUnk_804C4468::sub_801D58DC() { return this->m_20; }
+s32 TUnk_804C4468::get_client_id() { return this->m_20; }
 
 void TItemList::run_item_count_update() {
     u8 *arg0 = (u8 *)this;

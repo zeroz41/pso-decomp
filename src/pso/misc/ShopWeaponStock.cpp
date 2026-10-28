@@ -617,7 +617,7 @@ void generate_shop_weapon_stock(s32 tbl) {
       item.b13 = 0;
       if (is_duplicate_shop_weapon((C14_80224B7C *)(&item), tbl) == 1)
       {
-        ((ItemData *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_from((ItemData *)(&item));
+        ((TItemData *)(buf + ((((s32 *)shop_weapon_stock_counts)[tbl]++) * 0x14)))->copy_from((TItemData *)(&item));
       }
     }
     sort_shop_items((s32)buf, (s32)(((s32 *)shop_weapon_stock_counts)[tbl]), 2);

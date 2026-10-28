@@ -529,7 +529,7 @@ void TShopJudgmentItemWindow::handle_judge_confirm() {
                 temp_r31 = arg0 + (select_cursor_entry__22TWindowSubShortCutListFv(this->m_154) * 8);
                 if (((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->copy_to_item_data((TItemData *)(arg0 + 0x3C)) != 0) {
                     *(s32 *)((s8 *)arg0 + 0x168) = ((TItem *)(*(s32 *)((s8 *)temp_r31 + 0x54)))->is_at_tekker();
-                    ((ItemData *)(arg0 + 0x28))->copy_from((ItemData *)(arg0 + 0x3C));
+                    ((TItemData *)(arg0 + 0x28))->copy_from((TItemData *)(arg0 + 0x3C));
                     update_all__6TLobbyFi((s32)(arg0 + 0x28));
                     *(s32 *)((s8 *)arg0 + 0x14C) = 0x5F;
                     if (*(void **)((s8 *)arg0 + 0x154) != NULL) {

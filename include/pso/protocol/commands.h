@@ -235,7 +235,7 @@ struct SC_TextHeader_01_06_11_B0_EE {
 struct SC_TradeItems_D0_D3 {
  u16 target_client_id;
  u16 item_count;
- struct ItemData item_datas[0x20];
+ TItemData item_datas[0x20];
 };
 
 struct S_ArrowUpdateEntry_88 {

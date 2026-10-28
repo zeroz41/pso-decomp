@@ -24,18 +24,12 @@
 #define PSO_PROTOCOL_TYPES_H
 
 #include "types.h"
+#include "pso/item/TItemData.h"
 
 struct VectorXZF {
  f32 x;
  f32 z;
  void bswap();
-};
-
-struct ItemData {
- u8 _anon_u_0[0xC];
- u32 id;
- u8 _anon_u_10[0x4];
- void copy_from(ItemData *src);
 };
 
 struct FloorItem {
@@ -45,7 +39,7 @@ struct FloorItem {
  struct VectorXZF pos;
  s16 room_id;
  u16 drop_number;
- struct ItemData item;
+ TItemData item;
  FloorItem();
  void clear();
 };

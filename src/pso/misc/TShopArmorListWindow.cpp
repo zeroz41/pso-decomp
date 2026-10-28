@@ -494,7 +494,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
     W->count = TLobby__sub_8021B274();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_armor_shop_entry(i, base);
-        ((ItemData *)(&W->recs[i]))->copy_from((ItemData *)(&tmp));
+        ((TItemData *)(&W->recs[i]))->copy_from((TItemData *)(&tmp));
     }
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {

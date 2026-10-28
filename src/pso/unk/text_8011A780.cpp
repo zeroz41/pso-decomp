@@ -154,7 +154,7 @@ void TLobby::drop_item_from_source(s16 source, int client, s16 room, int slot, f
                 delivery.x = x;
                 delivery.z = z;
                 delivery.room = room;
-                ((ItemData *)(delivery.item))->copy_from((ItemData *)(&item));
+                ((TItemData *)(delivery.item))->copy_from((TItemData *)(&item));
                 ((TLobby *)(&delivery))->send_item_packet();
             }
         }
@@ -182,7 +182,7 @@ void process_enemy_drop_request(s8 area, s16 source, int client, s16 room, int s
                 delivery.source = source;
                 delivery.x = x;
                 delivery.z = z;
-                ((ItemData *)(delivery.item))->copy_from((ItemData *)(&item));
+                ((TItemData *)(delivery.item))->copy_from((TItemData *)(&item));
                 delivery.room = room;
                 ((TLobby *)(&delivery))->send_item_packet();
             }
@@ -266,7 +266,7 @@ void add_item_condition(s16 floor, f32 x, f32 z, s16 room, u8 *item) {
     stack.spC = x;
     stack.sp10 = z;
     stack.sp14 = room;
-    ((ItemData *)(&stack.sp18))->copy_from((ItemData *)(item));
+    ((TItemData *)(&stack.sp18))->copy_from((TItemData *)(item));
     ((TLobby *)(*(s32 *)((s8 *)item + 0xC)))->observe_item_id();
     ((TLobby *)(&stack.sp8))->insert_sorted_entry();
 }

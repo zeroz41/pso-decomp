@@ -255,7 +255,7 @@ void TShopItemListWindow::build_item_list(void *p) {
     W->count = TShopItemTecSequence__sub_8021FE6C();
     for (i = 0; i < W->count; i++) {
         ((TLobby *)(&tmp))->copy_shop_item_entry(i, sub_8022397C__15TShopWindowBaseFv(W));
-        ((ItemData *)(&W->recs[i]))->copy_from((ItemData *)(&tmp));
+        ((TItemData *)(&W->recs[i]))->copy_from((TItemData *)(&tmp));
     }
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {

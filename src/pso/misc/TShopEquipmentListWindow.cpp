@@ -492,7 +492,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
     W->count = TShopEquipmentListWindow__sub_8021C85C(sub_8022397C__15TShopWindowBaseFv(W));
     for (i = 0; i < W->count; i++) {
         get_shop_weapon_stock_item(&tmp, i, sub_8022397C__15TShopWindowBaseFv(W));
-        ((ItemData *)(&W->recs[i]))->copy_from((ItemData *)(&tmp));
+        ((TItemData *)(&W->recs[i]))->copy_from((TItemData *)(&tmp));
     }
     r = W->recs;
     for (j = 0; j < W->count; j++, r++) {

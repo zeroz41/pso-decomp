@@ -129,7 +129,7 @@ void FloorItem::clear() {
     pos.z = 0.0f;
     room_id = -1;
     drop_number = 0;
-    ((TItemData *)&item)->init();
+    item.init();
 }
 
 FloorItem::FloorItem() { clear(); }
@@ -186,11 +186,10 @@ G_DropStackedItem_DC_6x5D::G_DropStackedItem_DC_6x5D() {
 }
 
 G_DropStackedItem_PC_V3_BB_6x5D::G_DropStackedItem_PC_V3_BB_6x5D() {
-    u8 *trailer = (u8 *)&unused3;
-    trailer[0] = 2;
-    trailer[1] = 0;
-    trailer[2] = 0;
-    trailer[3] = 0;
+    item_version = 2;
+    unused3[0] = 0;
+    unused3[1] = 0;
+    unused3[2] = 0;
     header.size = 10;
 }
 
@@ -204,7 +203,7 @@ void G_DropStackedItem_PC_V3_BB_6x5D::bswap() {
     bswap_16((u16 *)&floor);
     bswap_16((u16 *)&room_id);
     pos.bswap();
-    ((TItemData *)&item_data)->bswap();
+    item_data.bswap();
 }
 
 G_BuyShopItem_6x5E::G_BuyShopItem_6x5E() {
@@ -212,17 +211,17 @@ G_BuyShopItem_6x5E::G_BuyShopItem_6x5E() {
     header.size = 6;
 }
 
-void ItemData::copy_from(ItemData *src) {
-    _anon_u_0[0] = src->_anon_u_0[0];
-    _anon_u_0[1] = src->_anon_u_0[1];
-    _anon_u_0[2] = src->_anon_u_0[2];
-    _anon_u_0[3] = src->_anon_u_0[3];
-    _anon_u_0[4] = src->_anon_u_0[4];
-    _anon_u_0[5] = src->_anon_u_0[5];
-    *(u32 *)&_anon_u_0[6] = *(u32 *)&src->_anon_u_0[6];
-    *(u16 *)&_anon_u_0[10] = *(u16 *)&src->_anon_u_0[10];
+void TItemData::copy_from(TItemData *src) {
+    data1.data_u8[0] = src->data1.data_u8[0];
+    data1.data_u8[1] = src->data1.data_u8[1];
+    data1.data_u8[2] = src->data1.data_u8[2];
+    data1.data_u8[3] = src->data1.data_u8[3];
+    data1.data_u8[4] = src->data1.data_u8[4];
+    data1.data_u8[5] = src->data1.data_u8[5];
+    *(u32 *)&data1.data_u8[6] = *(u32 *)&src->data1.data_u8[6];
+    data1.data_u16[5] = src->data1.data_u16[5];
     id = src->id;
-    *(u32 *)_anon_u_10 = *(u32 *)src->_anon_u_10;
+    data2.data_u32 = src->data2.data_u32;
 }
 
 void G_BuyShopItem_6x5E::send() {
@@ -232,7 +231,7 @@ void G_BuyShopItem_6x5E::send() {
 
 void G_BuyShopItem_6x5E::bswap() {
     header.bswap();
-    ((TItemData *)&item_data)->bswap();
+    item_data.bswap();
 }
 
 s32 G_ClientIDHeader::is_local(u16 client) {
@@ -581,8 +580,8 @@ void send_drop_stacked_item(TItemData *data, u16 client, f32 *pos) {
     cmd.room_id = player->get_stat_by_key_state();
     cmd.pos.x = pos[0];
     cmd.pos.z = pos[2];
-    cmd.item_data.copy_from((ItemData *)data);
-    ((TItemData *)&cmd.item_data)->encode_for_network();
+    cmd.item_data.copy_from(data);
+    cmd.item_data.encode_for_network();
     cmd.send();
 }
 
@@ -596,11 +595,11 @@ void handle_6x5D_drop_stacked_item(G_DropStackedItem_PC_V3_BB_6x5D *cmd) {
         drop.room_id = cmd->room_id;
         drop.item.copy_from(&cmd->item_data);
         if (cmd->header.size * 4 == sizeof(G_DropStackedItem_DC_6x5D)) {
-            ((TItemData *)&cmd->item_data)->convert_from_version(0);
+            cmd->item_data.convert_from_version(0);
         } else {
-            ((TItemData *)&cmd->item_data)->convert_from_version(2);
+            cmd->item_data.convert_from_version(2);
         }
-        ((TItemData *)&drop.item)->decode_from_network();
+        drop.item.decode_from_network();
         spawn_dropped_item_from_msg(&drop, 0);
     }
 }
@@ -617,16 +616,16 @@ void buy_item_for_client(TItemData *data, u16 client) {
 void send_buy_shop_item(TItemData *data, u16 client) {
     G_BuyShopItem_6x5E cmd;
     cmd.header.client_id = client;
-    cmd.item_data.copy_from((ItemData *)data);
-    ((TItemData *)&cmd.item_data)->encode_for_network();
+    cmd.item_data.copy_from(data);
+    cmd.item_data.encode_for_network();
     cmd.send();
 }
 
 void handle_6x5E_buy_shop_item(G_BuyShopItem_6x5E *cmd) {
     cmd->bswap();
     if (cmd->header.is_remote() != 0) {
-        ((TItemData *)&cmd->item_data)->decode_from_network();
-        give_item_to_client(cmd->header.client_id, (TItemData *)&cmd->item_data);
+        cmd->item_data.decode_from_network();
+        give_item_to_client(cmd->header.client_id, &cmd->item_data);
     }
 }
 

@@ -2,7 +2,6 @@
 #define PSO_ITEM_TITEMDATA_H
 
 #include "types.h"
-#include "pso/protocol.h"
 
 struct EquipStats { s16 s0; s16 s2; s16 s4; s16 s6; s16 s8; s16 sA; s16 sC; };
 
@@ -29,6 +28,7 @@ struct TItemData {
         u32 data_u32;
     } data2;
     static s8 char_to_letter_index(void *self, s8 c);
+    void copy_from(TItemData *src);
     // Empty in this build: an item received from the network is converted
     // from the sender's version (0: DC v1, 2: v2 and later) and decoded, and
     // one sent is encoded.

@@ -10,7 +10,6 @@ void TItemList__sub_801D5838(void *p);
 int TItemList__sub_801D5844(void *p);
 void sub_801D5884__13TUnk_804C4498FUc(void *p, u8 v);
 void TItemList__sub_801D58C8(void *p);
-u16 sub_801D58DC__13TUnk_804C4468Fv(void *p);
 void sub_801D591C__13TUnk_804C4468Fv(u8 *arg0);
 void TItemList__sub_801D59A0(TItemList *arg0, s32 arg1);
 void *__ct__9TItemListFv(void *arg0);

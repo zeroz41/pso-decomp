@@ -318,7 +318,7 @@ void TChallenge4PResult::close_window() { if (this->message_window != 0) { TWind
 extern "C" {
 void TChallenge4PResult::set_entry_item(void *arg1, s32 arg2) {
     W_8034B694 *arg0 = (W_8034B694 *)this;
-    ((ItemData *)(&arg0->e[arg2]))->copy_from((ItemData *)(arg1));
+    ((TItemData *)(&arg0->e[arg2]))->copy_from((TItemData *)(arg1));
     arg0->f[arg2].v = 1;
 }
 }

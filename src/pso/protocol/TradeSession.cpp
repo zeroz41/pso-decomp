@@ -326,12 +326,12 @@ void TLobby::build_trade_item_list() {
             if (n > 0) {
                 if (id == 0xFFFFFF01) {
                     ((TObjPlayer *)(&item))->init_item_data(n);
-                    ((ItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((ItemData *)(&item));
+                    ((TItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((TItemData *)(&item));
                 } else if ((p = find_item_by_id(id)) != NULL) {
                     ((TItem *)p)->copy_to_item_data((TItemData *)&item);
                     item.d = -1;
                     set_stack_count__24TShopEquipmentListWindowFSc(&item, n);
-                    ((ItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((ItemData *)(&item));
+                    ((TItemData *)(&((Trade_802D3134 *)this)->items[((Trade_802D3134 *)this)->count++]))->copy_from((TItemData *)(&item));
                 }
             }
         }
