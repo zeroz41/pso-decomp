@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
@@ -433,7 +434,7 @@ s32 TTecSlicer__ct(void *arg0, void *arg1, void *arg2, void *arg3, int arg4) {
     self->f11c = init->f10;
     self->f11e = init->f12;
     self->f120 = init->f14;
-    ((TRaderMapCore *)(self->color))->copy_vec4(init->color);
+    copy_argb((NJS_ARGB *)self->color, (NJS_ARGB *)init->color);
     self->f138 = init->f2c;
     self->f13c = 1;
     self->dir.x = sin_table_lookup(arg4);

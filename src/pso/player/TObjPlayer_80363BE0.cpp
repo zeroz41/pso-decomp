@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -130,7 +131,7 @@ void TUnk_804F2A10::render() {
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+    copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
     n = *(s32 *)(lbl_805D6FB8 + 0xB0);
     p = (s32 *)(lbl_805D6FB8 + 0x30);
     while (n != 0) {
@@ -139,14 +140,14 @@ void TUnk_804F2A10::render() {
             set_depth_buffer_settings_id(1);
             obj->m26();
             TObjPlayer::reset_transform_state();
-            ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
             set_depth_buffer_settings_id(2);
             obj->m26();
             TObjPlayer::reset_transform_state();
-            ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
@@ -254,28 +255,28 @@ void TObjPlayer::set_model_fade_alpha(f32 farg0) {
 }
 
 void TObjPlayer::copy_gauge_warn_vec() {
-    ((TRaderMapCore *)(&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color).value))->copy_vec4((void *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C));
+    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color).value), (NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C));
 }
 typedef char RecoveredGlobal_8036414C_lbl_8058D4C0_size[sizeof(RecoveredGlobal_8036414C_lbl_8058D4C0) == 0x10 ? 1 : -1];
 
 typedef char RecoveredGlobal_803640F8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640F8_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TObjPlayer::push_model_fade_color() {
-    ((TRaderMapCore *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C))->copy_vec4((&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
+    copy_argb((NJS_ARGB *)((*(s32 *)&(*(void **)&lbl_805D6FB8)) + 0x1C), (NJS_ARGB *)(&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
     if (this != NULL) {
-        ((TRaderMapCore *)(&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value))->copy_vec4((this));
+        copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_803640F8_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value), (NJS_ARGB *)this);
     }
 }
 
 void TObjPlayer__sub_8036414C(void) {
     model_render_flags = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0);
-    ((TRaderMapCore *)(&(*(RecoveredGlobal_8036414C_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value))->copy_vec4(((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
+    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_8036414C_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value), (NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC));
     chunk_polygon_flags_and_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4);
     chunk_polygon_flags_or_mask = *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8);
 }
 typedef char RecoveredGlobal_80364198_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80364198_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TObjPlayer__sub_80364198(void) {
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0) = (s32) model_render_flags;
-    ((TRaderMapCore *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC))->copy_vec4((&(*(RecoveredGlobal_80364198_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
+    copy_argb((NJS_ARGB *)((*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 0xC), (NJS_ARGB *)(&(*(RecoveredGlobal_80364198_lbl_8058D4C0 *)&(*(RecoveredGlobal_803640C8_lbl_8058D4C0 *)&model_material_color)).value));
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)(*(u8 * *)&(*(void **)&lbl_805D6FB8)) + 8) = (s32) chunk_polygon_flags_or_mask;
 }

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -183,7 +184,7 @@ void set_radar_marker_params__10TObjPlayerFPvPv(u8 *weapon, u8 *arg1) {
     *(s32 *)((s8 *)arg1 + 0x58) = 0xC000;
     *(s32 *)((s8 *)arg1 + 0x40) = (s32) (*(s32 *)((s8 *)arg1 + 0x40) | 2);
     get_weapon_color__11TItemWeaponFPv(&sp8, weapon);
-    ((TRaderMapCore *)(arg1 + 0x60))->copy_vec4(&sp8);
+    copy_argb((NJS_ARGB *)(arg1 + 0x60), (NJS_ARGB *)&sp8);
     *(s32 *)((s8 *)arg1 + 0x74) = (s32) *(s32 *)((s8 *)weapon + 0x208);
     *(s32 *)((s8 *)arg1 + 0x70) = (s32) *(s32 *)((s8 *)weapon + 0x204);
 }

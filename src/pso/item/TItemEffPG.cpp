@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TUnk_804F0BF0.h"
@@ -91,7 +92,7 @@ void TUnk_804F0BF0::render() {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-            ((TRaderMapCore *)saved_model_draw_color)->copy_vec4((model_material_color));
+            copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
             model_render_flags |= 0x20;
             set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
             TParticleCtrl::begin_effect_render();
@@ -110,7 +111,7 @@ void TUnk_804F0BF0::render() {
             pop_matrix();
             pop_matrix();
             TParticleCtrl::end_effect_render();
-            ((TRaderMapCore *)model_material_color)->copy_vec4((saved_model_draw_color));
+            copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;

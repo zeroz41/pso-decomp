@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TMainCursor_8013F104.h"
 #include "pso/system/memory.h"
@@ -20,7 +21,6 @@ extern "C" {
 extern s32 lbl_804A7254[];
 Rec_8013F154 *get_record_at__11TMainCursorFPvi(Obj_8013F154 *self, s32 i);
 u8 fn_8013F24C(Obj_8013F24C *self, s16 i);
-int copy_vec4__13TRaderMapCoreFPv(void*);
 
 void TMainCursor__sub_8013F104(void* p, s32 v) { *(s32*)((char*)p + 0x4) = v; }
 void TMainCursor__sub_8013F10C(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
@@ -46,7 +46,7 @@ void TMainCursor__sub_8013F170(void* p, s32 v) { *(s32*)((char*)p + 0x0) = v; }
 f32 TMainCursor::get_pos() { return *(f32 *)&this->m_name; }
 void TMainCursor__sub_8013F180(void* p, f32 v) { *(f32*)((char*)p + 0x0) = v; }
 
-int TMainCursor::get_rader_map() { return copy_vec4__13TRaderMapCoreFPv(this); }
+int TMainCursor::get_rader_map() { return ((int (*)(void *))copy_argb)(this); }
 
 void *TMainCursor::destroy(s16 arg1) {
     if (this != NULL) {

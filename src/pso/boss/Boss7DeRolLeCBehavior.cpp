@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -611,7 +612,7 @@ void TBoss7DeRolLeC::render() {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
+        copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
         TObjEneDD::clear_global_flag_400();
         TParticleCtrl::begin_effect_render();
         push_matrix();
@@ -626,7 +627,7 @@ void TBoss7DeRolLeC::render() {
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
+        copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;

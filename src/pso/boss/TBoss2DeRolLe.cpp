@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -655,7 +656,7 @@ void TBoss2DeRolLe::render() {
     {
     Vec4_8002F258 saved;
     col = &TObjLight__scene_light_state.col;
-    ((TRaderMapCore *)(&saved))->copy_vec4(col);
+    copy_argb((NJS_ARGB *)&saved, (NJS_ARGB *)col);
     if (TObjBoss2Tunnel::is_active() != 0) {
         TObjLight__scene_light_state.col.y = 0.3f;
         TObjLight__scene_light_state.col.z = 0.4f;
@@ -664,7 +665,7 @@ void TBoss2DeRolLe::render() {
         TObjLight__sub_801336DC(lbl_805D5564);
     }
     this->draw();
-    ((TRaderMapCore *)col)->copy_vec4(&saved);
+    copy_argb((NJS_ARGB *)col, (NJS_ARGB *)&saved);
     }
     TObjEneRe7Berura::set_global_state((s32)NULL);
     TObjLight__sub_801337F8(current_scene_light);
@@ -706,7 +707,12 @@ void TBoss2DeRolLe::render() {
 
 #pragma push
 
-void TRaderMapCore::copy_vec4(void* q) { *(f32*)((char*)this + 0x0) = *(f32*)((char*)q + 0x0); *(f32*)((char*)this + 0x4) = *(f32*)((char*)q + 0x4); *(f32*)((char*)this + 0x8) = *(f32*)((char*)q + 0x8); *(f32*)((char*)this + 0xc) = *(f32*)((char*)q + 0xc); }
+void copy_argb(NJS_ARGB *dst, NJS_ARGB *src) {
+    dst->a = src->a;
+    dst->r = src->r;
+    dst->g = src->g;
+    dst->b = src->b;
+}
 
 }
 
@@ -730,7 +736,7 @@ extern s32 lbl_805D4BC0;
 typedef char RecoveredGlobal_8002F5AC_lbl_804FE30C_size[sizeof(RecoveredGlobal_8002F5AC_lbl_804FE30C) == 0x10 ? 1 : -1];
 void fn_8002F5AC(u8 *arg0) {
     TBoss2DeRolLe__current_attack_id = 0;
-    ((TRaderMapCore *)(&lbl_804FE30C.value))->copy_vec4((arg0 + 0x608));
+    copy_argb((NJS_ARGB *)&lbl_804FE30C.value, (NJS_ARGB *)(arg0 + 0x608));
     lbl_805D4BB0 = *(s32 *)((s8 *)arg0 + 0x3C0);
     TBoss2DeRolLe__sequence_match_index = 0;
     lbl_805D4BB4 = arg0 + 0x3F8;

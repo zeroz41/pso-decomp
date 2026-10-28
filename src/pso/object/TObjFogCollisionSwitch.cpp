@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 // Folded unit: pso/unk/text_80153674 + pso/object/TObjFogCollisionSwitch + pso/unk/text_80153A7C.
 #include "types.h"
 #include "pso/object/TObjFogCollision.h"
@@ -176,7 +177,7 @@ void TObjFogCollision::draw_volume() {
         Color_80153B64 c3 = fog_collision_color_a;
         Color_80153B64 cd = fog_collision_color_b;
         saved_model_render_flags = model_render_flags;
-        ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x810;
@@ -203,7 +204,7 @@ void TObjFogCollision::draw_volume() {
         pop_matrix();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
     }
 }

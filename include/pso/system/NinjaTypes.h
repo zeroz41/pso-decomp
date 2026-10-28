@@ -16,6 +16,10 @@ struct NJS_TEXLIST {
 };
 
 // A Ninja colour with float channels, alpha first.
+struct NJS_ARGB;
+// Copies the four channels of `src` into `dst`.
+void copy_argb(NJS_ARGB *dst, NJS_ARGB *src);
+
 struct NJS_ARGB {
     f32 a;
     f32 r;

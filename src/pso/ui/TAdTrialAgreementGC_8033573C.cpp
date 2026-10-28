@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/ui/TAdTrialAgreementGC.h"
 #include "pso/ui/TAdPlayerLoadGC_801E0C30.h"
@@ -213,7 +214,7 @@ void TAdTrialAgreementGC::render_screen() {
         TParticleCtrl::begin_effect_render();
         TCameraCtrl::restore_full_screen_view();
         saved_model_render_flags = model_render_flags;
-        ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
+        copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
         if ((s32) this->m_24 == 0) {
             model_render_flags |= 0x10;
             set_constant_material((const NJS_ARGB *)((arg0 + 0x28)));
@@ -242,7 +243,7 @@ void TAdTrialAgreementGC::render_screen() {
             }
             TObjPlayer::reset_transform_state();
         }
-        ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
+        copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
         model_render_flags = saved_model_render_flags;
         TCameraCtrl__sub_80068EF0();
         TParticleCtrl::end_effect_render();

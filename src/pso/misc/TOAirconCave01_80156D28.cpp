@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TUnk_80494AE0.h"
@@ -30,7 +31,7 @@ extern int chunk_polygon_flags_and_mask;
 extern int model_render_flags;
 void TObjPlayer__sub_800D9718(void *);
 
-void TUnk_804AF8D8::clear_flag_and_notify() { ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color); chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
+void TUnk_804AF8D8::clear_flag_and_notify() { copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color); chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask; chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask; model_render_flags = saved_model_render_flags; }
 
 extern s32 lbl_804AF8D8[];
 
@@ -41,7 +42,7 @@ void TUnk_804AF8D8::set_flags_and_apply_damage_color() {
     (*(s32 *)&saved_model_render_flags) = (*(s32 *)&model_render_flags);
     (*(s32 *)&saved_chunk_polygon_flags_and_mask) = (*(s32 *)&chunk_polygon_flags_and_mask);
     (*(s32 *)&saved_chunk_polygon_flags_or_mask) = (*(s32 *)&chunk_polygon_flags_or_mask);
-    ((TRaderMapCore *)(&(*(RecoveredGlobal_80156D70_lbl_8050BEC0 *)&saved_model_draw_color).value))->copy_vec4((&(*(RecoveredGlobal_80156D70_lbl_8058D4C0 *)&model_material_color).value));
+    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_80156D70_lbl_8050BEC0 *)&saved_model_draw_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_80156D70_lbl_8058D4C0 *)&model_material_color).value));
     (*(s32 *)&model_render_flags) |= 0x8021;
     set_constant_material((const NJS_ARGB *)arg0);
     set_color_blend_mode(1, 4, 5, 0);

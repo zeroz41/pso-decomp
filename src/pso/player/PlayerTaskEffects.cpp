@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/TPlyOnCountOver.h"
@@ -706,7 +707,7 @@ void TPlayerLobbyMarker::render() {
         push_matrix();
         TParticleCtrl::begin_effect_render();
         saved_model_render_flags = model_render_flags;
-        ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         TObjFish::set_global_param((s32)shared_effect_texture_list);
         model_render_flags |= 0x11;
         translate_matrix_vec3(0, TObjPlayer__sub_801BF914(temp_r3 + 0x84C));
@@ -715,7 +716,7 @@ void TPlayerLobbyMarker::render() {
         set_constant_material((const NJS_ARGB *)((player_lobby_marker_color_table + get_material_index() * 0x10)));
         TMainCursor::get_cursor_state();
         draw_chunk_object();
-        ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         TParticleCtrl::end_effect_render();
         pop_matrix();

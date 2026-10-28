@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801AA664.h"
@@ -146,7 +147,7 @@ void TPhotonEstlla::render() {
         rotate_matrix_y(0, this->rotation_y);
         ((TUnk_804C3248 *)self)->set_photon_blast_joint_callback();
         saved_model_render_flags = model_render_flags;
-        ((TRaderMapCore *)(&saved_model_draw_color))->copy_vec4(&model_material_color);
+        copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x200820;
@@ -157,7 +158,7 @@ void TPhotonEstlla::render() {
         TObjPlayer::clear_global_state();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)(&model_material_color))->copy_vec4(&saved_model_draw_color);
+        copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         clear_render_context__10TObjPlayerFv(self);
         pop_matrix();

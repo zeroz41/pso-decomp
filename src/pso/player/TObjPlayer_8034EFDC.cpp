@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/system/vector.h"
@@ -226,7 +227,7 @@ void launch_rappys_fan_slicer__10TObjPlayerFPv(u8 *weapon) {
     launch.stage = get_validated_attack_stage(*(u8 * *)&((TUnk_804F0908 *)weapon)->player + 0x7CC);
     launch.multiplier = query_extended_state__10TObjPlayerFv(*(u8 * *)&((TUnk_804F0908 *)weapon)->player);
     get_weapon_color__11TItemWeaponFPv(tmp, weapon);
-    ((TRaderMapCore *)(launch.color))->copy_vec4(tmp);
+    copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
     launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804F0908 *)weapon)->player) + 0x60);
     launch.spin = 0;
     ((TObjPlayer *)weapon)->draw_icon(3, (s32)launch.first);

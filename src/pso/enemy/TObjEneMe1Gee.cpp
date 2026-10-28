@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -35,7 +36,6 @@ struct Obj_800C88D4;
 struct Obj_800C8B4C;
 extern "C" {
 s32 advance_animation_playback(void *, s32);
-s32 copy_vec4__13TRaderMapCoreFPv(void *, void *);
 s32 create_breakup_mdl__12TBoss3VoloptFlllll(s32, s32, s32, void *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
 int TObjEneMe1Gee__sub_800CB628(void* p);
@@ -448,7 +448,7 @@ void TUnk_8049387C::sub_800C84C8() {
         if (*(s32 *)((s8 *)arg0 + 0x47C) == 0) {
             *(u32 *)((s8 *)arg0 + 0x4B8) = 3;
             *(s32 *)((s8 *)arg0 + 0x3C8) &= ~8;
-            copy_vec4__13TRaderMapCoreFPv(arg0 + 0x468, (void *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb((NJS_ARGB *)(arg0 + 0x468), (NJS_ARGB *)((void *)&TObjEneMe1Gee__data_8043BDB0));
             for (i = 0; i < self->count; i++) {
                 if (TObjEneMe1Gee__sub_800CB5A0(self->arr[i], 0x200) != 0) {
                     ((TObjEneMe1Gee *)(self->arr[i]))->set_flag3c8_bit4();
@@ -467,7 +467,7 @@ void TUnk_8049387C::sub_800C84C8() {
         break;
     case 5:
         if (*(s32 *)((s8 *)arg0 + 0x47C) == 0) {
-            copy_vec4__13TRaderMapCoreFPv(arg0 + 0x468, (void *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb((NJS_ARGB *)(arg0 + 0x468), (NJS_ARGB *)((void *)&TObjEneMe1Gee__data_8043BDB0));
             *(u32 *)((s8 *)arg0 + 0x4B8) = 6;
             for (i = 0; i < self->count; i++) {
                 if (TObjEneMe1Gee__sub_800CB5A0(self->arr[i], 0x100) != 0) {
@@ -483,7 +483,7 @@ void TUnk_8049387C::sub_800C84C8() {
     case 8:
         if (*(s32 *)((s8 *)arg0 + 0x47C) == 0) {
             *(u32 *)((s8 *)arg0 + 0x4B8) = 9;
-            copy_vec4__13TRaderMapCoreFPv(arg0 + 0x468, (void *)&TObjEneMe1Gee__data_8043BDB0);
+            copy_argb((NJS_ARGB *)(arg0 + 0x468), (NJS_ARGB *)((void *)&TObjEneMe1Gee__data_8043BDB0));
             for (j = 0; j < self->count; j++) {
                 TObjEneMe1Gee__sub_800CB4DC((u8 *)self->arr[j]);
             }
@@ -541,7 +541,7 @@ int TUnk_8049387C::vfunc_116() {
 #pragma push
 #define advance_animation_playback ((s32 (*)())advance_animation_playback)
 #define TObjEneMe1Gee__data_8043BDB0 ((const u8 *)&TObjEneMe1Gee__data_8043BDB0)
-#define copy_vec4__13TRaderMapCoreFPv ((int (*)(void *, void *))copy_vec4__13TRaderMapCoreFPv)
+#define copy_argb ((int (*)(void *, void *))copy_argb)
 #define sub_800C84C8__13TUnk_8049387CFv ((s32 (*)(void *))sub_800C84C8__13TUnk_8049387CFv)
 #define create_breakup_mdl__12TBoss3VoloptFlllll ((void (*)(s32, s32, s32, s32, s32))create_breakup_mdl__12TBoss3VoloptFlllll)
 #define TObjEneMe1Gee__fade_command_streams ((char * *)&TObjEneMe1Gee__fade_command_streams)
@@ -3417,7 +3417,7 @@ void TObjEneMe1Gee::update_packed_color() {
 #pragma pop
 }
 
-void destroy_subobj__13TObjEneMe1GeeFPv(void* p, void * _w1) { copy_vec4__13TRaderMapCoreFPv((void *)((char*)p + 0x468), _w1); ((TObjEneMe1Gee *)p)->update_packed_color(); }
+void destroy_subobj__13TObjEneMe1GeeFPv(void* p, void * _w1) { copy_argb((void *)((char*)p + 0x468), _w1); ((TObjEneMe1Gee *)p)->update_packed_color(); }
 
 void TUnk_8049387C::sub_800CB764(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -3461,7 +3461,7 @@ void TObjEneMe1Gee::update_fade_sequence() {
                 break;
             case 'c':
                 *(s32 *)((s8 *)arg0 + 0x47C) = 0;
-                ((void (*)(void *, void *))copy_vec4__13TRaderMapCoreFPv)(arg0 + 0x468, (void *)TObjEneMe1Gee__data_8043BDB0);
+                ((void (*)(void *, void *))copy_argb)(arg0 + 0x468, (void *)TObjEneMe1Gee__data_8043BDB0);
                 break;
             case 'a':
                 *(f32 *)((s8 *)arg0 + 0x468) = TObjEneMe1Gee__data_805DA0EC;
@@ -3841,7 +3841,7 @@ void TObjEneMe1Gee::init_state() {
     *(f32 *)((s8 *)((u8 *)this) + 0x45C) = (f32) TObjEneMe1Gee__data_805DA0B4;
     *(s32 *)((s8 *)((u8 *)this) + 0x460) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x464) = 0;
-    copy_vec4__13TRaderMapCoreFPv(((u8 *)this) + 0x468, (void *)((void *) (((u8 *)&TObjEneMe1Gee__data_8043BDC0))));
+    copy_argb(((u8 *)this) + 0x468, (void *)((void *) (((u8 *)&TObjEneMe1Gee__data_8043BDC0))));
     ((Gee_800CC430 *)((u8 *)this))->f468 = TObjEneMe1Gee__data_805DA0B4;
     *(s32 *)((s8 *)((u8 *)this) + 0x47C) = 0;
     *(s32 *)((s8 *)((u8 *)this) + 0x478) = 0;
@@ -3880,7 +3880,7 @@ u8 *TObjEneMe1Gee__ct(u8 *ene_me1_gee, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s
 
 #undef advance_animation_playback
 #undef TObjEneMe1Gee__data_8043BDB0
-#undef copy_vec4__13TRaderMapCoreFPv
+#undef copy_argb
 #undef sub_800C84C8__13TUnk_8049387CFv
 #undef create_breakup_mdl__12TBoss3VoloptFlllll
 #undef TObjEneMe1Gee__fade_command_streams

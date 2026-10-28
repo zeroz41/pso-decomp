@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/ui/TUnk_804E24F0.h"
@@ -40,7 +41,7 @@ void TAdPlayerLoadGC__sub_802D6390(A_802D6390 *weapon, B_802D6390 *arg1) {
     u8 sp8[16];
     arg1->f40 |= 0x11C;
     get_weapon_color__11TItemWeaponFPv(sp8, weapon);
-    ((TRaderMapCore *)(arg1->v60))->copy_vec4(sp8);
+    copy_argb((NJS_ARGB *)arg1->v60, (NJS_ARGB *)sp8);
     arg1->f44 = weapon->f188;
     arg1->f10 = 4;
     arg1->f4C = 2.0f;

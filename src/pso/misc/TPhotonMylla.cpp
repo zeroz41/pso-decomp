@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TPhotonMylla.h"
@@ -188,7 +189,7 @@ void TPhotonMylla::render() {
         translate_matrix(0, self->pos.x, self->pos.y, self->pos.z);
         rotate_matrix_y(0, this->rotation_y);
         saved_model_render_flags = model_render_flags;
-        ((TRaderMapCore *)(&saved_model_draw_color))->copy_vec4(&model_material_color);
+        copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x200820;
@@ -202,7 +203,7 @@ void TPhotonMylla::render() {
         set_material_alpha_compare_reference(0xBF);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)(&model_material_color))->copy_vec4(&saved_model_draw_color);
+        copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         clear_render_context__10TObjPlayerFv(self);
         pop_matrix();

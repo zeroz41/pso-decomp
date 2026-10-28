@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TPhotonMagicSquare.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -71,7 +72,7 @@ void TPhotonMagicSquare::render() {
     TObjPlayer::clear_global_state();
     set_constant_material((const NJS_ARGB *)(((f32 *)&chunk_material_color_half_alpha_f32)));
     model_render_flags = saved_model_render_flags;
-    ((TRaderMapCore *)(&self->color))->copy_vec4(&saved);
+    copy_argb((NJS_ARGB *)&self->color, (NJS_ARGB *)&saved);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -177,7 +178,7 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     ((TPhotonMagicSquare *)photon_magic_square)->scale = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->target_scale = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
-    ((TRaderMapCore *)(photon_magic_square + 0xA0))->copy_vec4(((u8 *)&TPhotonMagicSquare__color_palette.value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)&TPhotonMagicSquare__color_palette.value + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_b4 = 0;
@@ -200,7 +201,7 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
     ((TPhotonMagicSquare *)photon_magic_square)->scale = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->target_scale = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
-    ((TRaderMapCore *)(photon_magic_square + 0xA0))->copy_vec4(((u8 *)&(*(RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)&(*(RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_b4 = 0;
@@ -224,7 +225,7 @@ u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     this->scale = (f32) (0.0f);
     this->target_scale = (f32) (0.0f);
     *(f32 *)&this->m_70 = (f32) (0.0f);
-    ((TRaderMapCore *)(((u8 *)this) + 0xA0))->copy_vec4(((u8 *)&(*(RecoveredGlobal_801AD330_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)&(*(RecoveredGlobal_801AD330_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
     entity = find_entity_by_id((void *)arg3);
     if (entity != 0) {
         VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)(entity + 0x38));

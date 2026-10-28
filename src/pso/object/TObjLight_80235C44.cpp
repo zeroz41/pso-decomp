@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
 #include "pso/object/TUnk_804CCAA8.h"
@@ -87,7 +88,7 @@ void TUnk_804CCAA8::run_task() {
         amb1 = frac * (arg0->peak - TObjLight__scene_light_state.f20) + TObjLight__scene_light_state.f20;
         inten1 = frac * (arg0->intensity - TObjLight__scene_light_state.f1c) + TObjLight__scene_light_state.f1c;
         publish_actor_light_scalars((u16) obj_getField1c((void *)arg0->source), inten1, amb1);
-        ((TRaderMapCore *)(&unused))->copy_vec4(&baseColor);
+        copy_argb((NJS_ARGB *)&unused, (NJS_ARGB *)&baseColor);
         approach_vector_fixed_distance(&arg0->direction, &arg0->desired, &arg0->direction, arg0->step);
         approach_rgb_clamped(&unused, &arg0->color, 0.1f);
     } else {
@@ -118,7 +119,7 @@ u8 *TObjLight::construct_actor_light(s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32
     Stack_80235E9C stack;
     __ct__7TObjectFP7TObject(this, (void *)arg5);
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80235E9C_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
-    ((TRaderMapCore *)(((u8 *)this) + 0x24))->copy_vec4((void *)arg1);
+    copy_argb((NJS_ARGB *)(((u8 *)this) + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(((u8 *)this) + 0x34), (const Vec *)(arg2));
     *(s32 *)&this->m_1c = arg3;
     *(s32 *)&this->m_4c = 0;
@@ -136,7 +137,7 @@ u8 *construct_actor_light_task(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, u8 *arg4,
     s32 sp8;
     __ct__7TObjectFP7TObject(arg0, arg5);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80235F60_lbl_804CCAA8 *)&__vt__13TUnk_804CCAA8).value;
-    ((TRaderMapCore *)(arg0 + 0x24))->copy_vec4(arg1);
+    copy_argb((NJS_ARGB *)(arg0 + 0x24), (NJS_ARGB *)arg1);
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)arg2);
     *(s32 *)((s8 *)arg0 + 0x1C) = arg3;
     ((TUnk_804CCAA8 *)arg0)->m_4c = 0;

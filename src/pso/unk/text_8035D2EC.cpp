@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -48,7 +49,7 @@ void fn_8035D3E0(Obj_8035D3E0 *weapon, Out_8035D3E0 *arg1) {
     f32 sp8[4];
     arg1->f40 |= 0x1C;
     get_weapon_color__11TItemWeaponFPv(sp8, weapon);
-    ((TRaderMapCore *)(arg1->v60))->copy_vec4(sp8);
+    copy_argb((NJS_ARGB *)arg1->v60, (NJS_ARGB *)sp8);
     arg1->f44 = weapon->f188;
     arg1->f70 = (void *)TObjPlayer::forward_item_effect_callback;
 }

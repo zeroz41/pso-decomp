@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -147,7 +148,7 @@ void TUnk_804EDD20::render() {
         saved_model_render_flags = model_render_flags;
         var_r3 = &saved_model_draw_color.value;
         var_r4 = &model_material_color.value;
-        ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4((&model_material_color.value));
+        copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
         var_r3 = (s32 *)(var_r29 + 0x80);
         model_render_flags |= 0x20;
         set_constant_material((const NJS_ARGB *)var_r3);
@@ -169,7 +170,7 @@ void TUnk_804EDD20::render() {
         var_r4 = &saved_model_draw_color.value;
         var_r3 = &model_material_color.value;
         var_r4 = &saved_model_draw_color.value;
-        ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&saved_model_draw_color.value));
+        copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
         model_render_flags = saved_model_render_flags;
       }
     }

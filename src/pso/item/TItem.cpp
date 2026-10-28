@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 // TItem, the base of every item object, with the item registry, the item
 // packets (6x59/5A/5D/5E/61) and the item system's set-up. The data is
 // emitted before the vtable; the static initializer is followed by this
@@ -436,9 +437,9 @@ void TItem::render_shadows() {
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-            ((TRaderMapCore *)&saved_model_draw_color)->copy_vec4(&model_material_color);
+            copy_argb(&saved_model_draw_color, &model_material_color);
             render_equipped_shadow();
-            ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
+            copy_argb(&model_material_color, &saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;
@@ -1065,7 +1066,7 @@ void TItem::begin_offset_material_color(const NJS_ARGB *color) {
 
 void TItem::end_material_color() {
     if (test_flags_any(&item_render_state.bits, ITEM_RENDER_MATERIAL) != 0) {
-        ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         model_render_flags = saved_model_render_flags;
         item_render_state.clear(ITEM_RENDER_MATERIAL);
     }
@@ -1499,7 +1500,7 @@ void TItem::render_present_box() {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)&saved_model_draw_color)->copy_vec4(&model_material_color);
+        copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x10;
         set_depth_buffer_settings_id(3);
         TParticleCtrl::begin_effect_render();
@@ -1515,7 +1516,7 @@ void TItem::render_present_box() {
         TParticleCtrl::end_effect_render();
         TObjPlayer::reset_transform_state();
         restore_draw_list_mask();
-        ((TRaderMapCore *)&model_material_color)->copy_vec4(&saved_model_draw_color);
+        copy_argb(&model_material_color, &saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/TMainTask.h"
@@ -988,13 +989,13 @@ void draw_shadow_on_ground(u8 *arg0) {
         scale.x = s;
         scale.y = s;
         scale.z = s;
-        ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         k = 2.0f * t + 0.5f;
         if (k >= 1.0f) {
             k = 1.0f;
         }
         TObjPlayer__sub_801994DC((s32)arg0, (void *)&seg.a, (void *)&seg.b, 0, (void *)&scale, (f32)k);
-        ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
     }
 }
 #pragma pop
@@ -1154,7 +1155,7 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
     matrix_mult_vec(0, &dir, &dir);
     pop_matrices(1);
     saved_model_render_flags = model_render_flags;
-    ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+    copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
     model_render_flags |= 0x821;
@@ -1223,7 +1224,7 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
     pop_matrices(1);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
-    ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+    copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
     model_render_flags = saved_model_render_flags;
     draw_shadow_on_ground(arg0);
 }

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
@@ -283,7 +284,7 @@ void save_render_material_state(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) model_render_flags;
     *(s32 *)((s8 *)arg0 + 4) = (s32) chunk_polygon_flags_and_mask;
     *(s32 *)((s8 *)arg0 + 8) = (s32) chunk_polygon_flags_or_mask;
-    ((TRaderMapCore *)(arg0 + 0xC))->copy_vec4((&model_material_color.value));
+    copy_argb((NJS_ARGB *)(arg0 + 0xC), (NJS_ARGB *)&model_material_color.value);
 }
 
 void TObjPlayer::set_vec4_const() { *(float*)((char*)this + 0x1c) = lbl_805DC320[0]; *(float *)&this->m_20 = lbl_805DC320[0]; *(float *)&this->texture_id = lbl_805DC320[0]; *(float *)&this->m_28 = lbl_805DC320[0]; }

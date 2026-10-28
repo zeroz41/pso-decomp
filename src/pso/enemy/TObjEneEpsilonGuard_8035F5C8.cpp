@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjMotion.h"
@@ -1177,7 +1178,7 @@ void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
                 g->alpha = 1.0f;
                 g->state = 1;
                 g->timer = 0x1E;
-                ((TRaderMapCore *)(&g->pos))->copy_vec4(&lbl_80479CAC[g->idx]);
+                copy_argb((NJS_ARGB *)&g->pos, (NJS_ARGB *)&lbl_80479CAC[g->idx]);
                 g->idx = (g->idx + 1) % 4;
                 g->vx = (lbl_80479CAC[g->idx].y - g->pos.y) / 30.0f;
                 g->vy = (lbl_80479CAC[g->idx].z - g->pos.z) / 30.0f;
@@ -1191,7 +1192,7 @@ void TObjEneEpsilonGuard::handle_warp_state(s32 arg1) {
             g->pos.z += g->vy;
             g->pos.w += g->vz;
             if (g->timer <= 0) {
-                ((TRaderMapCore *)(&g->pos))->copy_vec4(&lbl_80479CAC[g->idx]);
+                copy_argb((NJS_ARGB *)&g->pos, (NJS_ARGB *)&lbl_80479CAC[g->idx]);
                 g->alpha = 1.0f;
                 g->state = 2;
             }

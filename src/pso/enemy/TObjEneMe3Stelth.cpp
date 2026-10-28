@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
@@ -498,7 +499,7 @@ void TObjEneMe3Stelth::render() {
         TObjPlayer::toggle_particle_effect();
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        ((TRaderMapCore *)saved_model_draw_color)->copy_vec4(model_material_color);
+        copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         if (is_split_screen() != 0) {
             s32 i;
             for (i = 0; i < 3; i++) {
@@ -602,7 +603,7 @@ void TObjEneMe3Stelth::render() {
                 TParticleCtrl::disable_if_single_screen();
             }
         }
-        ((TRaderMapCore *)model_material_color)->copy_vec4(saved_model_draw_color);
+        copy_argb((NJS_ARGB *)model_material_color, (NJS_ARGB *)saved_model_draw_color);
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         TParticleCtrl::end_effect_render();

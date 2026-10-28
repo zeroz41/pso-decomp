@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -87,7 +88,7 @@ void TPlyPhotonChair::restore_state(s32 _w0) { (*(int *)&model_render_flags) = l
 typedef char RecoveredGlobal_801426DC_lbl_8050BFF0_size[sizeof(RecoveredGlobal_801426DC_lbl_8050BFF0) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_801426DC_lbl_8058D4C0_size[sizeof(RecoveredGlobal_801426DC_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TPlyPhotonChair::copy_vec4_forward(s32 _w0) {
-    ((TRaderMapCore *)(&model_material_color.value))->copy_vec4((&photon_chair_color_vec4.value));
+    copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&photon_chair_color_vec4.value);
 }
 
 int TPlyPhotonChair__sub_8014270C(s32 _w0) { chunk_polygon_flags_and_mask = lbl_805D5670; chunk_polygon_flags_or_mask = lbl_805D5674; return lbl_805D5670; }
@@ -96,7 +97,7 @@ int TPlyPhotonChair__sub_80142720(s32 _w0) { lbl_805D5670 = chunk_polygon_flags_
 typedef char RecoveredGlobal_80142734_lbl_8050BFF0_size[sizeof(RecoveredGlobal_80142734_lbl_8050BFF0) == 0x10 ? 1 : -1];
 typedef char RecoveredGlobal_80142734_lbl_8058D4C0_size[sizeof(RecoveredGlobal_80142734_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TPlyPhotonChair::copy_vec4_reverse(s32 _w0) {
-    ((TRaderMapCore *)(&(*(RecoveredGlobal_80142734_lbl_8050BFF0 *)&photon_chair_color_vec4).value))->copy_vec4((&(*(RecoveredGlobal_80142734_lbl_8058D4C0 *)&model_material_color).value));
+    copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_80142734_lbl_8050BFF0 *)&photon_chair_color_vec4).value), (NJS_ARGB *)(&(*(RecoveredGlobal_80142734_lbl_8058D4C0 *)&model_material_color).value));
 }
 
 void TPlyPhotonChair::save_state(s32 _w0) { lbl_805D566C = (*(int *)&model_render_flags); }

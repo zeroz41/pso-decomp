@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TSlicerHistory.h"
@@ -23,7 +24,7 @@ u8 *__ct__14TSlicerHistoryFv(u8 *arg0, s32 arg1, s32 arg2, u32 arg3, s32 arg4) {
     *(s32 *)((s8 *)arg0 + 0x38) = arg2;
     if (arg3 != 0U) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 1;
-        ((TRaderMapCore *)(arg0 + 0x3C))->copy_vec4((void *)arg3);
+        copy_argb((NJS_ARGB *)(arg0 + 0x3C), (NJS_ARGB *)arg3);
     } else {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0;
         *(f32 *)((s8 *)arg0 + 0x3C) = (f32) lbl_805DC948;

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -301,7 +302,7 @@ u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
 int TPlyPhotonChair__sub_8035B520(void* p) { return *(u32*)((char*)p + 0x94) == 0; }
 u16 TPlyPhotonChair::sub_8035B530() { return *(u16 *)&this->unk_90; }
 void TPlyPhotonChair::set_field90(s32 v) { *(s16 *)&this->unk_90 = v; }
-void TPlyPhotonChair::render(void* p, void* a1) { ((TRaderMapCore *)a1)->copy_vec4(p); }
+void TPlyPhotonChair::render(void* p, void* a1) { copy_argb((NJS_ARGB *)a1, (NJS_ARGB *)p); }
 void TPlyPhotonChair__sub_8035B56C(void* p, f32 v) { *(f32*)((char*)p + 0x14) = v; }
 void TPlyPhotonChair::set_state_ready() { *(s32*)((char*)this + 0x18) = 2; }
 

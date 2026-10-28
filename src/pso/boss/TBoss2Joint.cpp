@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/enemy/TObjEneDD_800BB804.h"
@@ -328,7 +329,7 @@ void TBoss2Joint__sub_80036940(void *arg) {
 typedef char RecoveredGlobal_80036A90_lbl_80435A68_size[sizeof(RecoveredGlobal_80036A90_lbl_80435A68) == 0x20 ? 1 : -1];
 void TBoss2Joint::init_joint_offset(s32 arg1) {
     this->m_3a8 = (f32) TBoss2Joint__data_805D8474;
-    ((TRaderMapCore *)((u8 *)&this->unk_3AC))->copy_vec4(((u8 *)&TBoss2Joint__joint_offset_vec4_table.value + (arg1 * 0x10)));
+    copy_argb((NJS_ARGB *)((u8 *)&this->unk_3AC), (NJS_ARGB *)((u8 *)&TBoss2Joint__joint_offset_vec4_table.value + (arg1 * 0x10)));
 }
 
 struct Ent_80036ACC { s32 a; s32 b; };
@@ -477,7 +478,7 @@ s32 TBoss2Joint::init_params() {
     self->unk3A0 = -1;
     self->unk3A4 = TBoss2Joint__data_805D8474;
     self->unk3A8 = lbl_805D846C;
-    ((TRaderMapCore *)(self->unk3AC))->copy_vec4(&TBoss2Joint__joint_offset_vec4_table);
+    copy_argb((NJS_ARGB *)self->unk3AC, (NJS_ARGB *)&TBoss2Joint__joint_offset_vec4_table);
 }
 #pragma pop
 

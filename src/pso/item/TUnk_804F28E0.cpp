@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -33,7 +34,7 @@ void s_rank_launcher_collider_block(Src_803631E8 *weapon, Obj_803631E8 *arg1) {
     u8 sp8[16];
     arg1->flags |= 0x39C;
     get_weapon_color__11TItemWeaponFPv(sp8, weapon);
-    ((TRaderMapCore *)(arg1->v60))->copy_vec4(sp8);
+    copy_argb((NJS_ARGB *)arg1->v60, (NJS_ARGB *)sp8);
     arg1->i44 = weapon->i188;
     arg1->i10 = 4;
     arg1->f4C = 2.0f;

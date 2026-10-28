@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TUnk_804A6FA8.h"
@@ -613,11 +614,11 @@ void TObjLight::find_light_params(f32 *dir, f32 *color, u32 id) {
         LightEntry_801344A4 *e = &((LightEntry_801344A4 *)&TObjLight__data_8050637C)[i];
         if (id == e->id) {
             VecCopy((Vec *)dir, (const Vec *)e->dir);
-            ((TRaderMapCore *)color)->copy_vec4(e->color);
+            copy_argb((NJS_ARGB *)color, (NJS_ARGB *)e->color);
             return;
         }
     }
-    ((TRaderMapCore *)color)->copy_vec4((*(LightDefault_801344A4 *)&TObjLight__scene_light_state).color);
+    copy_argb((NJS_ARGB *)color, (NJS_ARGB *)((*(LightDefault_801344A4 *)&TObjLight__scene_light_state).color));
     VecCopy((Vec *)dir, (const Vec *)((*(LightDefault_801344A4 *)&TObjLight__scene_light_state).dir));
 }
 
@@ -663,7 +664,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
             if (id == e->id) {
                 TObjLight__data_805068FC[i].id = id;
                 VecCopy((Vec *)e, (const Vec *)dir);
-                ((TRaderMapCore *)(e->color))->copy_vec4(color);
+                copy_argb((NJS_ARGB *)e->color, (NJS_ARGB *)color);
                 add = 0;
                 TObjLight__data_805068FC[i].f24 |= 2;
                 break;
@@ -675,7 +676,7 @@ void publish_light_direction_color(u32 id, void *dir, void *color) {
         if (add) {
             TObjLight__data_805068FC[TObjLight__light_count].id = id;
             VecCopy((Vec *)&TObjLight__data_805068FC[TObjLight__light_count], (const Vec *)dir);
-            ((TRaderMapCore *)(TObjLight__data_805068FC[TObjLight__light_count].color))->copy_vec4(color);
+            copy_argb((NJS_ARGB *)TObjLight__data_805068FC[TObjLight__light_count].color, (NJS_ARGB *)color);
             TObjLight__data_805068FC[TObjLight__light_count].f24 |= 2;
             TObjLight__light_count++;
         }
@@ -688,7 +689,7 @@ void register_actor_light(s32 arg0, s32 arg1) {
         temp_r5 = (u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C);
         *(s32 *)((s8 *)temp_r5 + 0x28) = arg0;
         VecCopy((Vec *)(temp_r5), (const Vec *)(arg1 + 0xE4));
-        ((TRaderMapCore *)((u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C) + 0xC))->copy_vec4((void *)(arg1 + 0xF0));
+        copy_argb((NJS_ARGB *)((u8 *)TObjLight__data_8050637C + (TObjLight__actor_light_count * 0x2C) + 0xC), (NJS_ARGB *)(arg1 + 0xF0));
         TObjLight__actor_light_count += 1;
     }
 }

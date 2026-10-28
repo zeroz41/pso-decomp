@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjLight.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -213,7 +214,7 @@ u8 *TObjLight__ct(TObjLight *light, s32 arg1, u8 *arg2) {
     *(f32 *)((s8 *)light + 0xE8) = (f32) (0.0f);
     light->m_ec = (f32) (0.0f);
     light->m_9c = 0;
-    ((TRaderMapCore *)((u8 *)light + 0xBC))->copy_vec4(((u8 *)&TObjLight__scene_light_state.value + 0x24));
+    copy_argb((NJS_ARGB *)((u8 *)light + 0xBC), (NJS_ARGB *)((u8 *)&TObjLight__scene_light_state.value + 0x24));
     VecCopy((Vec *)((u8 *)light + 0xD8), (const Vec *)((u8 *)&TObjLight__scene_light_state.value + 0xC));
     *(f32 *)((s8 *)light + 0xF0) = (f32) 0.5f;
     light->m_f4 = (f32) (0.0f);

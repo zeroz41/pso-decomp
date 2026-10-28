@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemMagSub.h"
 #include "pso/object/TObjMotion.h"
@@ -1833,7 +1834,7 @@ void TItemMag::load_data_files() {
 void TItemMagSub::set_flags(u32 value) { flags |= value; }
 
 void TItemMagSub::set_node_id(s32 index, s32 id) { node_ids[index] = id; }
-void TItemMagSub::set_material_node(s32 node, void* parameters) { node_ids[0] = node; if (parameters != 0) ((TRaderMapCore *)material_parameters)->copy_vec4(parameters); }
+void TItemMagSub::set_material_node(s32 node, void* parameters) { node_ids[0] = node; if (parameters != 0) copy_argb((NJS_ARGB *)material_parameters, (NJS_ARGB *)parameters); }
 
 void TItemMagSub::set_model(void* model_arg, u32 textures_arg, void* animation_arg) {
     void* arg0=this; s32 arg1=(s32)model_arg; s32 arg2=(s32)textures_arg; void* arg3=animation_arg;

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/enemy/TObjEneEpsilon.h"
@@ -386,7 +387,7 @@ void init_weapon_effect_descriptor__10TObjPlayerFPvPv(void *weapon, Obj_80362DE8
     arg1->i58 = 0xC000;
     arg1->flags |= 0x282;
     get_weapon_color__11TItemWeaponFPv(sp8, weapon);
-    ((TRaderMapCore *)(arg1->v60))->copy_vec4(sp8);
+    copy_argb((NJS_ARGB *)arg1->v60, (NJS_ARGB *)sp8);
     arg1->fn74 = (void *)TObjPlayer::create_network_object;
     arg1->fn70 = (void *)TObjPlayer__sub_8032E648;
 }

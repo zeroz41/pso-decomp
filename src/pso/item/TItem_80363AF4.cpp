@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
@@ -51,7 +52,7 @@ void TUnk_804F29F8::render() {
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    ((TRaderMapCore *)(&saved_model_draw_color))->copy_vec4(&model_material_color);
+    copy_argb((NJS_ARGB *)&saved_model_draw_color, (NJS_ARGB *)&model_material_color);
     u32 *id = player_item_id_list->item_ids;
     s32 remaining = player_item_id_list->count;
     while (remaining != 0) {
@@ -59,7 +60,7 @@ void TUnk_804F29F8::render() {
         if (item) {
             item->render();
             TObjPlayer::reset_transform_state();
-            ((TRaderMapCore *)(&model_material_color))->copy_vec4(&saved_model_draw_color);
+            copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
             chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
             model_render_flags = saved_model_render_flags;

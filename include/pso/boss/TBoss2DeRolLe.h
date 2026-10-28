@@ -112,7 +112,6 @@ void apply_damage_taken__13TBoss2DeRolLeFPv(TBoss2DeRolLe *arg0);
 void apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void backup_pos__13TBoss2DeRolLeFi(s32 arg0);
 void calc_offset_position__13TBoss2DeRolLeFPv(u8 *arg0);
-void copy_vec4__13TRaderMapCoreFPv(void *p, void *q);
 void *create__13TBoss2DeRolLeFPv(void *arg0);
 void dispatch_action__13TBoss2DeRolLeFiUii(s32 arg0, u32 arg1, s32 arg2);
 void emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1);

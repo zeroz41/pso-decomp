@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/TUnk_8049EFB8.h"
@@ -220,7 +221,7 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f60 = default_scene_light_config.f1C;
     self->f64 = (1.0f - self->f5C) / 14.5f;
     self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
-    ((TRaderMapCore *)(self->v38))->copy_vec4(lbl_8043E140);
+    copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)lbl_8043E140);
     {
         Vec_80108020 v = lbl_8043E160[0];
         p = __nw__7TObjectFUl(0x64);
@@ -275,11 +276,11 @@ void TItemEffArmor::render() {
     scale_matrix(0, temp_f1, 1.0f, temp_f1);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    ((TRaderMapCore *)(&saved_model_draw_color.value))->copy_vec4(&model_material_color.value);
+    copy_argb((NJS_ARGB *)&saved_model_draw_color.value, (NJS_ARGB *)&model_material_color.value);
     set_constant_material((const NJS_ARGB *)((arg0 + 0x38)));
     TObjPlayer::notify_fish_if_valid(this->m_78);
     draw_ginja_model_with_motion(this->m_70, this->m_74, this->m_24);
-    ((TRaderMapCore *)(&model_material_color.value))->copy_vec4(&saved_model_draw_color.value);
+    copy_argb((NJS_ARGB *)&model_material_color.value, (NJS_ARGB *)&saved_model_draw_color.value);
     model_render_flags = saved_model_render_flags;
     pop_matrix();
 }
