@@ -5026,7 +5026,11 @@ pso/misc/TODoorCave02.cpp:
 
 pso/misc/TODoorCave03.cpp:
 	.text       start:0x80162384 end:0x80162914
-	.data       start:0x804B1508 end:0x804B1548
+	.rodata     start:0x80440E60 end:0x80440ED0
+	.data       start:0x804B1508 end:0x804B15C8
+	.sdata      start:0x805D2F70 end:0x805D2F78
+	.sbss       start:0x805D5968 end:0x805D5970
+	.sdata2     start:0x805DB4D0 end:0x805DB4EC
 
 pso/misc/TODoorMachine01.cpp:
 	.text       start:0x80162914 end:0x801632AC
