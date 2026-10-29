@@ -1679,7 +1679,7 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-void enemy_set_heading_velocity(TObjEnemy *arg0, s32 arg1, f32 farg0);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, Vec_800CD5F4, s32);
 void copy_position_if_valid__10TObjPlayerFii(void *, Vec_800CD5F4);
 s32 enemy_turn_toward_dest(void *, s32);
@@ -2049,7 +2049,7 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                 if (select_enemy_destination(arg0, V(0x394), 1) != 0) {
                     copy_position_if_valid__10TObjPlayerFii(arg0, V(0x2FC));
                     r = enemy_turn_toward_dest(arg0, *(s32 *)(F(u8 *, 0x350) + 8));
-                    enemy_set_heading_velocity((TObjEnemy *)arg0, F(s32, 0x60), *(f32 *)(F(u8 *, 0x350) + 4));
+                    enemy_set_heading_velocity(*(f32 *)(F(u8 *, 0x350) + 4), (TObjEnemy *)arg0, F(s32, 0x60));
                     move_with_wall_slide(arg0);
                 } else {
                     VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x394));

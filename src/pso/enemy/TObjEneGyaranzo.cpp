@@ -1,3 +1,4 @@
+#include "pso/enemy/EnemyTargetCandidate.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TObjEneBm5GibonU.h"
@@ -214,7 +215,6 @@ struct V_Sub_800D1F84 : Base_Sub_800D1F84 {
     virtual s32 m5();
 };
 
-struct Entry_800D20BC { u32 id; f32 dist; };
 
 struct Vec_800D20BC { f32 x, y, z; };
 
@@ -304,7 +304,7 @@ s32 check_path_obstructed(void *, void *);
 u8 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
-extern Entry_800D20BC TObjGyaranzoMissile_target_slots[];
+extern EnemyTargetCandidate TObjGyaranzoMissile_target_slots[];
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805DA260;
@@ -367,7 +367,7 @@ void TObjEneGyaranzo::select_targets() {
     Vec_800D20BC d;
     u8 *arg0 = (u8 *)this;
     TObjGyaranzoMissile_target_slots[0].id = 0xFFFF;
-    TObjGyaranzoMissile_target_slots[0].dist = lbl_805DA258;
+    TObjGyaranzoMissile_target_slots[0].distance_squared = lbl_805DA258;
     n = 0;
     best = 0;
     k = ((TObjCollidable *)arg0)->obj_testFlags30(0x10);
@@ -385,30 +385,30 @@ void TObjEneGyaranzo::select_targets() {
         dist = d.x * d.x + d.z * d.z;
         if (!(dist < lbl_805DA260)) continue;
         if (check_path_obstructed(arg0, p + 0x2FC) == 1) continue;
-        TObjGyaranzoMissile_target_slots[n].dist = dist;
+        TObjGyaranzoMissile_target_slots[n].distance_squared = dist;
         TObjGyaranzoMissile_target_slots[n].id = get_entity_id(p);
-        if (n > 0 && TObjGyaranzoMissile_target_slots[n].dist > TObjGyaranzoMissile_target_slots[best].dist) {
+        if (n > 0 && TObjGyaranzoMissile_target_slots[n].distance_squared > TObjGyaranzoMissile_target_slots[best].distance_squared) {
             best = n;
         }
         n++;
         if (n >= 4) break;
     }
     {
-        Entry_800D20BC def = { 0xFFFF, 0.0f };
+        EnemyTargetCandidate def = { 0xFFFF, 0.0f };
         switch (n) {
         case 0:
             for (i = 0; i < 4; i++) {
-                ((TObjGyaranzoMissile *)(&TObjGyaranzoMissile_target_slots[i]))->copy_from(&def);
+                TObjGyaranzoMissile_target_slots[i].copy_from(&def);
             }
             break;
         case 2:
             for (i = n; i < 4; i++) {
-                ((TObjGyaranzoMissile *)(&TObjGyaranzoMissile_target_slots[i]))->copy_from(&TObjGyaranzoMissile_target_slots[i % n]);
+                TObjGyaranzoMissile_target_slots[i].copy_from(&TObjGyaranzoMissile_target_slots[i % n]);
             }
             break;
         default:
             for (i = n; i < 4; i++) {
-                ((TObjGyaranzoMissile *)(&TObjGyaranzoMissile_target_slots[i]))->copy_from(&TObjGyaranzoMissile_target_slots[best]);
+                TObjGyaranzoMissile_target_slots[i].copy_from(&TObjGyaranzoMissile_target_slots[best]);
             }
             break;
         }
@@ -416,11 +416,11 @@ void TObjEneGyaranzo::select_targets() {
     *(s32 *)((s8 *)arg0 + 0x3CC) = n;
     for (i = 0; i < 3; i++) {
         for (j = i + 1; j < 4; j++) {
-            if (TObjGyaranzoMissile_target_slots[i].dist > TObjGyaranzoMissile_target_slots[j].dist) {
-                Entry_800D20BC tmp;
-                ((TObjGyaranzoMissile *)(&tmp))->copy_from(&TObjGyaranzoMissile_target_slots[i]);
-                ((TObjGyaranzoMissile *)(&TObjGyaranzoMissile_target_slots[i]))->copy_from(&TObjGyaranzoMissile_target_slots[j]);
-                ((TObjGyaranzoMissile *)(&TObjGyaranzoMissile_target_slots[j]))->copy_from(&tmp);
+            if (TObjGyaranzoMissile_target_slots[i].distance_squared > TObjGyaranzoMissile_target_slots[j].distance_squared) {
+                EnemyTargetCandidate tmp;
+                tmp.copy_from(&TObjGyaranzoMissile_target_slots[i]);
+                TObjGyaranzoMissile_target_slots[i].copy_from(&TObjGyaranzoMissile_target_slots[j]);
+                TObjGyaranzoMissile_target_slots[j].copy_from(&tmp);
             }
         }
     }
@@ -429,7 +429,13 @@ void TObjEneGyaranzo::select_targets() {
     }
 }
 
-void TObjGyaranzoMissile::copy_from(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(f32 *)&this->m_flags = *(f32*)((char*)q + 0x4); }
+#pragma push
+#pragma scheduling off
+void EnemyTargetCandidate::copy_from(const EnemyTargetCandidate *source) {
+    id = source->id;
+    distance_squared = source->distance_squared;
+}
+#pragma pop
 #define V ((VObj_18_f1aa6a *)(arg0))
 #define NEW(d, id) { void *o = __nw__7TObjectFUl(0xDC); if (o != NULL) { TObjGyaranzoMissile__ct(o, arg0, &d, id); } }
 #pragma pool_data off

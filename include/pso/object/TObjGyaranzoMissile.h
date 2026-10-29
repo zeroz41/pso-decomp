@@ -20,7 +20,6 @@ struct TObjGyaranzoMissile : public TObjCollidable {
     virtual void render();
     virtual void run_task();
     u8 pad_DA[0x2];
-    void copy_from(void* q);
 };
 
 typedef char TObjGyaranzoMissile_size[sizeof(TObjGyaranzoMissile) == 0xDC ? 1 : -1];

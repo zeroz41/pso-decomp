@@ -689,7 +689,7 @@ s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 f32 horizontal_distance_squared(int, void *);
 
 void update_move_toward_target__12TObjEneSaverFv(u8 *arg0);
-s32 enemy_set_heading_velocity(void *, s32, f32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 calc_velocity_toward_destination(void *, Vec_800A5DC4, Vec_800A5DC4, f32);
 s32 get_current_floor();
 s32 get_field_3e4__10TObjPlayerFv(void *);
@@ -913,7 +913,7 @@ void TObjEneSaver::sub_800A4D9C() {
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         }
         if (F(u32, 0xB4) != 4) {
-            ((s32 (*)(f32, void *, s32))enemy_set_heading_velocity)(0.0f, arg0, F(s32, 0x60));
+            enemy_set_heading_velocity(0.0f, (TObjEnemy *)(arg0), F(s32, 0x60));
             F(u32, 0x30) &= 0xF9DFFFFF;
             F(u32 *, 0xA4)[6] |= 1;
         }

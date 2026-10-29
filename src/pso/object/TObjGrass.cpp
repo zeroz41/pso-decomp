@@ -357,8 +357,7 @@ s32 spawn_directional_particle(void *, void *, s32);
 s32 TObjGrassWeb__ct(void *, s32, void *);
 extern s32 game_difficulty_selection;
 extern s32 tl_05;
-void enemy_wander_home__9TObjEnemyFlfff(void *, s32, f32, f32, f32);
-void enemy_set_heading_velocity(void *, s32, f32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void enemy_turn_toward_dest(void *, s32);
 f32 fabs_float(f32);
 void TObjEneMe3SinowZoa__sub_800D758C(void *);
@@ -930,7 +929,7 @@ void TObjGrass::sub_800BD4D8() {
                 spd *= (2.0f);
             }
             enemy_turn_toward_dest(o, (s32)((2.0f) * (f32)prm->turn));
-            enemy_set_heading_velocity(o, o->angle, spd);
+            enemy_set_heading_velocity(spd, (TObjEnemy *)(o), o->angle);
             move_with_wall_slide((u8 *)o);
             d2 = horizontal_distance_squared(&o->f29c, &o->p2fc);
             if (o->f338 == 0xFFFF) {
@@ -1380,10 +1379,10 @@ void TObjGrass::update_ai(void *arg0) {
                     }
                 }
                 enemy_turn_toward_dest(o, o->param->turn);
-                enemy_set_heading_velocity(o, o->angle, o->param->speed);
+                enemy_set_heading_velocity(o->param->speed, (TObjEnemy *)(o), o->angle);
                 move_with_wall_slide((u8 *)o);
             } else {
-                ((void (*)(void *, f32, f32, f32, s32))enemy_wander_home__9TObjEnemyFlfff)(o, (0.25f) * o->param->speed, (1e+02f), (5e+01f), o->param->turn);
+                ((TObjEnemy *)(o))->enemy_wander_home((0.25f) * o->param->speed, (1e+02f), (5e+01f), o->param->turn);
             }
             ((TObjCollidable *)o)->refresh_collision_body_centers();
             break;

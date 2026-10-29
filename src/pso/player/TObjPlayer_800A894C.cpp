@@ -108,7 +108,7 @@ struct Node_800AA82C { u32 flags; u8 pad[0x30 - 4]; s32 f30; };
 struct Desc_800AA82C { s32 a; void *b; s32 c; s32 d; };
 
 extern "C" {
-void enemy_set_heading_velocity(TObjEnemy *arg0, s32 arg1, f32 farg0);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 check_path_obstructed(void *, void *);
 s32 TObjPlayer__sub_800AAF98(void *, s32);
 extern const f32 lbl_805D9AFC;
@@ -780,7 +780,7 @@ void TObjPlayer__sub_800A9C38(void *arg0_) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         } else {
             *(s16 *)((s8 *)arg0 + 0xB8) = 3;
-            enemy_set_heading_velocity((TObjEnemy *)arg0, (s32)(*(s32 *)((s8 *)arg0 + 0x60)), (f32)lbl_805D9AFC);
+            enemy_set_heading_velocity((f32)lbl_805D9AFC, (TObjEnemy *)arg0, (s32)(*(s32 *)((s8 *)arg0 + 0x60)));
             *(s32 *)((s8 *)arg0 + 0x37C) = 1;
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A806)), arg0 + 0x38, 0, 0);
             *(s32 *)((s8 *)arg0 + 0x3CC) = TObjPlayer__sub_800AAF98(arg0, 2);

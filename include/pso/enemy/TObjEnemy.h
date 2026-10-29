@@ -11,7 +11,7 @@ struct TObjEnemy : public TObjChara {
     s32 bind_enemy_combat_stats(u8 *, u8 *, u8 *);
     void set_param(s32);
     s32 remap_sound_for_area(s32 sound_id);
-    f32 enemy_wander_home(s32, f32, f32, f32);
+    f32 enemy_wander_home(f32 speed, f32 range_x, f32 range_z, s32 turn_speed);
     virtual void render_shadows();
     s32 send_entity_set_flags();
     void update_prev_position();

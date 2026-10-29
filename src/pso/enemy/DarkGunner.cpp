@@ -126,7 +126,7 @@ s32 submit_cursor_candidate(void *, s32);
 s32 play_sound_effect(int, void *, int, int);
 void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
-void enemy_set_heading_velocity(void *, f32, s32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 TObjPlayer__sub_800A3200(s32 arg0);
 s32 play_persistent_sound(int, void *, void *, int, int);
 extern s32 actor_frame_tick;
@@ -1419,7 +1419,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         enemy->fA4->f18 |= 2;
     case 5:
         ((TObjMotion *)enemy)->advance_animation();
-        enemy_set_heading_velocity(enemy, enemy->f3A0, enemy->f3A8);
+        enemy_set_heading_velocity(enemy->f3A0, (TObjEnemy *)(enemy), enemy->f3A8);
         ((TObjPlayer *)enemy)->step_along_ground();
         enemy->f3A4 += enemy->f3A0;
         enemy->f3A0 = fmax_800A2390(-0.2f + enemy->f3A0, 0.5f);

@@ -260,8 +260,7 @@ typedef NanoDragoVector Vec_800DB5A8;
 extern "C" {
 u16 find_nearest_visible_player(void *, s32, f32);
 s32 apply_actor_gravity(void *, int, f32);
-s32 enemy_wander_home__9TObjEnemyFlfff(void *, int, f32, f32, f32);
-void enemy_set_heading_velocity(void *, f32, s32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 atan2_float(f32 y, f32 x);
 s32 update_if_active__15TObjEneMe1GiGueFl(void *, s32, s32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
@@ -501,7 +500,7 @@ void update_circle_move__10TObjPlayerFPvPvf(Ene_800DA508 *actor, Vec_800DA508 *c
     }
     VecCopy((Vec *)&actor->v29C, (const Vec *)&actor->dest);
     enemy_turn_toward_dest(actor, actor->param->turn);
-    enemy_set_heading_velocity(actor, actor->speed, actor->angle);
+    enemy_set_heading_velocity(actor->speed, (TObjEnemy *)(actor), actor->angle);
     move_with_wall_slide((u8 *)actor);
 }
 #pragma pop
@@ -859,7 +858,7 @@ void TObjPlayer__sub_800DB0F8(Obj_800DB0F8 *o) {
         }
         break;
     case 4:
-        enemy_wander_home__9TObjEnemyFlfff(o, o->home->f8, o->f3D8, 100.0f, 100.0f);
+        ((TObjEnemy *)(o))->enemy_wander_home(o->f3D8, 100.0f, 100.0f, o->home->f8);
         ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         ((TObjPlayer *)o)->update_collisions();
@@ -1001,7 +1000,7 @@ void TObjEneNanoDrago::update_circling_state() {
             }
         }
         e->rotation_y += (*(NanoDragoMovementParams * *)&e->movementParameters)->turn / 2;
-        enemy_set_heading_velocity(arg0, e->speed, e->rotation_y);
+        enemy_set_heading_velocity(e->speed, (TObjEnemy *)(arg0), e->rotation_y);
         move_with_wall_slide(arg0);
         e->accum += (*(NanoDragoMovementParams * *)&e->movementParameters)->turn / 2;
         if (e->accum > 0x10000) {
@@ -1012,7 +1011,7 @@ void TObjEneNanoDrago::update_circling_state() {
         check_enemy_body_collisions(arg0);
         break;
     case 2:
-        ((s32 (*)(void *, f32, f32, f32, int))enemy_wander_home__9TObjEnemyFlfff)(arg0, e->speed, 100.0f, 50.0f, (*(NanoDragoMovementParams * *)&e->movementParameters)->turn);
+        ((TObjEnemy *)(arg0))->enemy_wander_home(e->speed, 100.0f, 50.0f, (*(NanoDragoMovementParams * *)&e->movementParameters)->turn);
         ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(20.0f)) != 0) {

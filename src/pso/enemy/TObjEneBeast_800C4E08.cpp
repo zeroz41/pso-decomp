@@ -528,7 +528,6 @@ extern "C" {
 s32 check_path_obstructed(void *, void *);
 f32 get_collision_body_radius(void *, s32);
 s32 pop_matrix();
-s32 enemy_wander_home__9TObjEnemyFlfff(void *, int, f32, f32, f32);
 f32 fabs_float(f32);
 f64 atan2_float(f32, f32);
 s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
@@ -1101,7 +1100,7 @@ void TUnk_80493450::beast_idle_update() {
         }
     } else if (*(s32 *)&this->m_37c == 0 && lbl_805DA034 < *(f32 *)((s8 *)arg0 + 0x358)) {
         this->requested_action = 2;
-        ((s32 (*)(void *, f32, int, f32, f32))enemy_wander_home__9TObjEnemyFlfff)(arg0, *(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), *(f32 *)((s8 *)arg0 + 0x358), *(f32 *)((s8 *)arg0 + 0x358));
+        ((TObjEnemy *)(arg0))->enemy_wander_home(*(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(f32 *)((s8 *)arg0 + 0x358), *(f32 *)((s8 *)arg0 + 0x358), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
     } else {
         this->request_stand_action();
     }

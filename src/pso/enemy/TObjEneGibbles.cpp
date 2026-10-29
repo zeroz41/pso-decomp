@@ -164,7 +164,7 @@ u8 * get_player_data__10TObjPlayerFi(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 u16 get_entity_id(void *);
 s32 is_valid_and_active__10TObjPlayerFUl();
-void enemy_set_heading_velocity(void *, s32, f32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void calc_velocity_toward_destination(void *, Vec_802DA0BC, Vec_802DA0BC, f32);
 f32 newton_sqrtf(f32);
 s32 TObjEneGibbles__sub_800D8988(void *);
@@ -1241,7 +1241,7 @@ int TObjEneGibbles::test_flag_256() {
 #pragma dont_inline off
 #pragma inline_depth(4)
 inline void to_idle_802D8984(Gib_802D8984 *o) {
-    enemy_set_heading_velocity(o, o->angle, TObjEneGibbles__data_805DE7E4);
+    enemy_set_heading_velocity(TObjEneGibbles__data_805DE7E4, (TObjEnemy *)(o), o->angle);
     o->f374 &= ~0x100;
     o->mode = 3;
     o->sub = 0;
@@ -1313,7 +1313,7 @@ void TObjEneGibbles::sub_802D8984() {
                     goto done;
                 }
             }
-            ((void (*)(f32, void *, s32))enemy_set_heading_velocity)(TObjEneGibbles__data_805DE7E4, o, o->angle);
+            enemy_set_heading_velocity(TObjEneGibbles__data_805DE7E4, (TObjEnemy *)(o), o->angle);
             o->f374 &= ~0x100;
             o->mode = 3;
             o->sub = 0;
@@ -2039,7 +2039,7 @@ void TObjEneGibbles::update_wander() {
     var_f3 = var_f2;
     var_f1 = *(f32 *)((s8 *)var_r4 + 4);
     var_r4 = (u8 *)(*(u8 **)((s8 *)var_r4 + 8));
-    ((TObjEnemy *)var_r3)->enemy_wander_home((s32)var_r4, (f32)var_f1, (f32)var_f2, (f32)var_f3);
+    ((TObjEnemy *)var_r3)->enemy_wander_home((f32)var_f1, (f32)var_f2, (f32)var_f3, (s32)var_r4);
     var_r3 = var_r31;
     ((TObjCollidable *)var_r3)->refresh_collision_body_centers();
     var_r3 = var_r31;

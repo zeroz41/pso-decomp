@@ -476,7 +476,7 @@ struct Elem_80301C3C { u8 pad[0xC]; f32 r; u8 pad2[0x1C]; };
 struct Tgt_80301C3C { u8 pad[0xA4]; Elem_80301C3C *arr; s32 count; };
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 enemy_set_heading_velocity(void *, s32, f32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 select_enemy_destination(void *, void *, int);
 s32 copy_position_if_valid__10TObjPlayerFii(void *, void *);
 s32 enemy_turn_toward_dest(void *, s32);
@@ -1366,7 +1366,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
             f = lbl_805DEF7C * *(f32 *)((s8 *)arg0 + 0x394);
             if (((s32 (*)(u8 *, s32, f32))check_path_ahead__14TObjEneDolmOlmFlf)(arg0, *(s32 *)((s8 *)arg0 + 0x60) + 0x8000, f) == 0) {
                 enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
-                enemy_set_heading_velocity(arg0, *(s32 *)((s8 *)arg0 + 0x60) + 0x8000, f);
+                enemy_set_heading_velocity(f, (TObjEnemy *)(arg0), *(s32 *)((s8 *)arg0 + 0x60) + 0x8000);
                 move_with_wall_slide(arg0);
                 *(f32 *)((s8 *)arg0 + 0x3D4) += f;
                 if (*(f32 *)((s8 *)arg0 + 0x3D4) >= lbl_805DEF80) {

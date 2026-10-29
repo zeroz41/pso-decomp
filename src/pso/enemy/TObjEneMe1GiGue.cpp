@@ -851,7 +851,7 @@ f32 random_ratio__9TObjCharaFv(void *);
 }
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 enemy_set_heading_velocity(void *, f32, s32);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 enemy_turn_toward_dest(void *, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
@@ -868,7 +868,6 @@ s32 check_enemy_body_collisions(void *);
 s32 check_object_collisions__14TObjCollidableFv(void *);
 s32 check_path_obstructed(void *, Vec_802CBA98 *);
 void *find_entity_by_id(u16 id);
-s32 enemy_wander_home__9TObjEnemyFlfff(void *, s32, f32, f32, f32);
 #define subtract_vector ((void (*)(void *, void *))subtract_vector)
 u32 get_player_by_client_id(s32);
 
@@ -955,7 +954,7 @@ void move_around_center__15TObjEneMe1GiGueFPvPvf(Obj_802CB8F0 *o, Vec_802CB8F0 *
     }
     VecCopy((Vec *)&o->v29C, (const Vec *)&o->v390);
     enemy_turn_toward_dest(o, o->f350->f8);
-    enemy_set_heading_velocity(o, o->f3E4, o->f60);
+    enemy_set_heading_velocity(o->f3E4, (TObjEnemy *)(o), o->f60);
     move_with_wall_slide((u8 *)o);
 }
 
@@ -1118,7 +1117,7 @@ void update_rush_attack__15TObjEneMe1GiGueFPv(Obj_802CBCC0 *o) {
         break;
     case 1:
         o->f30 &= ~0x1000000;
-        enemy_wander_home__9TObjEnemyFlfff(o, o->f350->f8, o->f3E4, 100.0f, 50.0f);
+        ((TObjEnemy *)(o))->enemy_wander_home(o->f3E4, 100.0f, 50.0f, o->f350->f8);
         ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         o->f454--;
@@ -1267,7 +1266,7 @@ void action__15TObjEneMe1GiGueFPv(void *enemy) {
         ((TObjPlayer *)enemy)->update_collisions();
         return;
     case 2:
-        enemy_wander_home__9TObjEnemyFlfff(enemy, *(s32 *)((s8 *)(*(void **)((s8 *)enemy + 0x350)) + 8), *(f32 *)((s8 *)enemy + 0x3E4), 100.0f, 100.0f);
+        ((TObjEnemy *)(enemy))->enemy_wander_home(*(f32 *)((s8 *)enemy + 0x3E4), 100.0f, 100.0f, *(s32 *)((s8 *)(*(void **)((s8 *)enemy + 0x350)) + 8));
         ((TObjMotion *)enemy)->advance_animation();
         apply_actor_gravity(enemy, 0, 0.0f);
         ((TObjPlayer *)enemy)->update_collisions();
@@ -1409,7 +1408,7 @@ void TObjEneMe1GiGue__sub_802CC614(u8 *enemy) {
         }
         break;
     case 4:
-        enemy_wander_home__9TObjEnemyFlfff(enemy, *(s32 *)((s8 *)(*(u8 **)((s8 *)enemy + 0x350)) + 8), *(f32 *)((s8 *)enemy + 0x3E4), 100.0f, 100.0f);
+        ((TObjEnemy *)(enemy))->enemy_wander_home(*(f32 *)((s8 *)enemy + 0x3E4), 100.0f, 100.0f, *(s32 *)((s8 *)(*(u8 **)((s8 *)enemy + 0x350)) + 8));
         ((TObjMotion *)enemy)->advance_animation();
         apply_actor_gravity(enemy, 0, 0.0f);
         ((TObjPlayer *)enemy)->update_collisions();
@@ -1601,7 +1600,7 @@ void TObjEneMe1GiGue__sub_802CCBAC(Obj_802CCBAC *o) {
             }
         }
         o->f60 += o->f350->f8 / 2;
-        enemy_set_heading_velocity(o, o->f3E4, o->f60);
+        enemy_set_heading_velocity(o->f3E4, (TObjEnemy *)(o), o->f60);
         move_with_wall_slide((u8 *)o);
         o->f3DC += o->f350->f8 / 2;
         if (o->f3DC > 0x10000) {
@@ -1612,7 +1611,7 @@ void TObjEneMe1GiGue__sub_802CCBAC(Obj_802CCBAC *o) {
     case -1:
         break;
     case 2:
-        ((s32 (*)(f32, f32, f32, void *, s32))enemy_wander_home__9TObjEnemyFlfff)(o->f3E4, 100.0f, 50.0f, o, o->f350->f8);
+        ((TObjEnemy *)(o))->enemy_wander_home(o->f3E4, 100.0f, 50.0f, o->f350->f8);
         ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         o->f3E0 += o->f3E4;

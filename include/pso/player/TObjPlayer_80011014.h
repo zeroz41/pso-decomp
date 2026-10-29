@@ -29,7 +29,7 @@ f32 calc_xz_distance_sq(TObjBase *actor, TObjBase *other, Vec *offset);
 s32 check_can_act__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 damage_hp__10TObjPlayerFii(s32 arg0, s32 arg1);
-void enemy_set_heading_velocity(TObjEnemy *enemy, s32 arg1, f32 farg0);
+void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 f32 fabs_float(f32 x);
 u16 fn_80010F4C(void *p);
 s16 get_attack_params_atp_max(void *p);
