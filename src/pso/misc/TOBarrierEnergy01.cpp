@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/ModelDrawContext.h"
@@ -43,13 +44,6 @@ CollisionBody barrier_energy01_collision_body_parts[1] = {
 };
 
 const char *TOBarrierEnergy01_name = "TOBarrierEnergy01";
-
-// Defined in TLobby_8001EF5C.cpp, whose header cannot declare them yet (its
-// definitions take that file's private archive types).
-extern "C" {
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, const BmlResourceDescriptor *desc, s32, s32, s32);
-BmlResource *TLobby__sub_8001FE7C(BmlResource *resource, s16 del);
-}
 
 static BmlResource *barrier_energy_shared_bml_archive;
 // [0] closed, [1] open, [2] the frame model's texture list.
