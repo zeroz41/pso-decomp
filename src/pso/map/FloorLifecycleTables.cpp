@@ -607,14 +607,14 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_16[24] = {
     { load_computer_resources, TObjComputer::free_resources },
     { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
     { load_chat_sensor, TOChatSensor::destroy_global },
-    { TODoorVS2Door01::load_resources, TODoorVS2Door01::free_resources },
+    { TODoorVS2Door01::load_resources, TODoorVS2Door01::destroy },
     { TOVS2Wall01::load_resources, TOVS2Wall01::release_model },
     { 0, 0 },
 };
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_17[20] = {
     { TOMine::load_static_resource, TOMine::free_instance },
-    { TODoorVS2Door01::load_resources, TODoorVS2Door01::free_resources },
+    { TODoorVS2Door01::load_resources, TODoorVS2Door01::destroy },
     { TOVS2Wall01::load_resources, TOVS2Wall01::release_model },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, TLazerFenceSw__sub_80193C5C },
@@ -703,7 +703,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_19_20[27] = {
     { TODummyKeyCave01__sub_80165E8C, TODummyKeyCave01__sub_80165E88 },
     { TOSwitchTimer__sub_80178588, TOSwitchTimer__sub_80178584 },
     { load_chat_sensor, TOChatSensor::destroy_global },
-    { TODoorVS2Door01::load_resources, TODoorVS2Door01::free_resources },
+    { TODoorVS2Door01::load_resources, TODoorVS2Door01::destroy },
     { TLanguage::load_container_fragment_textures, fn_8015C5F8 },
     { TOVS2Wall01::load_resources, TOVS2Wall01::release_model },
     { TObjHashiVersus1::load_shared_resource, TObjHashiVersus1::unload_static_data },

@@ -5065,6 +5065,10 @@ pso/misc/TODoorVoShip.cpp:
 
 pso/misc/TODoorVS2Door01.cpp:
 	.text       start:0x80163E14 end:0x80164414
+	.rodata     start:0x804410A0 end:0x80441100
+	.data       start:0x804B17D8 end:0x804B1870
+	.sdata      start:0x805D2F90 end:0x805D2F98
+	.sbss       start:0x805D5988 end:0x805D5990
 	.sdata2     start:0x805DB548 end:0x805DB55C
 
 pso/misc/TODragonflyCave01.cpp:
