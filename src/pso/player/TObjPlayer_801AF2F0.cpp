@@ -2033,7 +2033,6 @@ u8 * find_entity_by_id(u16);
 s32 test_player_overlap_with_players(Obj_801B5DDC *, Obj_801B5DDC *, Vec_801B5DDC *, Hit_801B5DDC *);
 void check_enemy_body_collisions(void *arg0);
 int clear_collision_bodies__14TObjCollidableFv(void*);
-s32 is_state_ec1_ed3__10TObjPlayerFv(void *);
 s32 get_dest_area__17TObjAreaWarpQuestFv(void *);
 void fn_8019DD24(void *p, u32 v);
 u16 TObjRoomId__sub_801A1DB8(s32);
@@ -7026,7 +7025,7 @@ void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item) {
 void TObjPlayer::equip_item_to_slot(void *item, s32 slot) {
     Player_801B9F40 *p = (Player_801B9F40 *)this;
     void *cur;
-    if (is_state_ec1_ed3__10TObjPlayerFv(item) != 0) {
+    if (((TItem *)item)->is_unit() != 0) {
         if (slot < 9 || slot > 12) {
             slot = 9;
         }

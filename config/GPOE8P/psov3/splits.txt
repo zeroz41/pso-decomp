@@ -5489,15 +5489,18 @@ pso/system/TOSwitchAttackSub.cpp:
 	.sdata2     start:0x805DBA00 end:0x805DBA08
 
 pso/misc/TOSwitchAttack_801778A4.cpp:
-	.text       start:0x801778A4 end:0x80177D60
+	.text       start:0x801778A4 end:0x80177CF4
 	.data       start:0x804B4450 end:0x804B4484
 
 pso/misc/TOSwitchItem.cpp:
-	.text       start:0x80177D60 end:0x80178150
-	.data       start:0x804B44F8 end:0x804B4518
+	.text       start:0x80177CF4 end:0x80178178
+	.rodata     start:0x80442C80 end:0x80442C8D
+	.data       start:0x804B4488 end:0x804B4518
+	.sdata      start:0x805D3180 end:0x805D3184
+	.sdata2     start:0x805DBA10 end:0x805DBA18
 
 pso/player/TObjPlayer_80178150.cpp:
-	.text       start:0x80178150 end:0x801782A0
+	.text       start:0x80178178 end:0x801782A0
 
 pso/unk/text_801782A0.cpp:
 	.text       start:0x801782A0 end:0x801783BC

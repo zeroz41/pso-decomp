@@ -30,7 +30,7 @@ void fn_80141CBC(void *a, void *b, f32 s) {
 
 void TOTrapAncient02R__sub_80141CF0(void * _w0, Vec_80141CBC * _w1, void * _w2) {  }
 
-void TObjRoomId__sub_80141CF4(void) {  }
+void TObjRoomId__sub_80141CF4(const Vec *pos, const NJS_ARGB *color, f32 radius) {  }
 #pragma fp_contract on
 f32 horizontal_distance_squared(const Vec *a, const Vec *b) {
     f32 dx = b->x - a->x;

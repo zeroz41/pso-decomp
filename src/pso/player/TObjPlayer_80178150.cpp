@@ -23,16 +23,6 @@ void set_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
 s32 get_current_floor();
 void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p);
-u8 TObjPlayer::is_state_ec1_ed3() {
-    int var_r4;
-
-    var_r4 = 0;
-    if (((u8) *(u8 *)&this->blend.frame[0] == 1) && ((u8) *(u8 *)((s8 *)this + 0xED) == 3)) {
-        var_r4 = 1;
-    }
-    return (u8)var_r4;
-}
-
 void handle_6x93_set_switch_flag_from_timer(Pkt_80178178 *p) {
     ((TOChatSensor *)p)->swap_state_endian();
     if (p->mode == 1) {

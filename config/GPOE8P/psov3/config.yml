@@ -676,7 +676,7 @@ force_active:
   - TOSparkMachine01__ct
   - TOSwitchAttackSub__ct
   - TOSwitchAttack__ct
-  - TOSwitchItem__ct
+  - __ct__12TOSwitchItemFP7TObjectPv
   - TOSwitchTimer__ct
   - TOSymbolchatColli__ct
   - TOTrapAncient02R__ct
@@ -13337,7 +13337,7 @@ force_active:
   - update_and_reset__6TLobbyFi
   - update_and_send_lobby__9TWindowDDFv
   - update_angle__13TObjEneMe1GeeFv
-  - update_anim__12TOSwitchItemFv
+  - init_params__12TOSwitchItemFv
   - update_anim__8TObjDoorFPv
   - update_animation_frame__13TObjEneMe1GeeFv
   - update_appear__11TBoss4Type3Fv

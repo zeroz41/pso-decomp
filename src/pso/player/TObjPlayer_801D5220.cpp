@@ -94,7 +94,6 @@ extern u32 *player_owner_collect_cursor;
 s32 is_item_equipped();
 extern u8 *player_item_collect_cursor;
 void TObjPlayer__sub_801D52A8(Node_801D52A8 *arg0);
-s32 is_state_ec1_ed3__10TObjPlayerFv(void *);
 void unequip_item__10TObjPlayerFiPv(s32 arg0, void *arg1);
 s32 get_slot_value__10TObjPlayerFPvi(s32 *arg0, s32 arg1);
 }
@@ -182,7 +181,7 @@ void TObjPlayer::unequip_invalid_items_recursive() {
     for (n = arg0->child; n != NULL; n = n->next) {
         if (is_item_valid__9TItemListFl(n) != 0) {
             o = (Obj_801D5468 *)((TObjPlayer *)n)->get_owner_if_alive();
-            if ((o != NULL) && (is_item_equipped() != 0) && (is_state_ec1_ed3__10TObjPlayerFv(o) == 0) &&
+            if ((o != NULL) && (is_item_equipped() != 0) && (((TItem *)o)->is_unit() == 0) &&
                 (get_slot_value__10TObjPlayerFPvi((s32 *)(item_reduce_target_player + 0xD04), o->v31()) != 0U)) {
                 unequip_item__10TObjPlayerFiPv(item_reduce_target_player, o);
             }

@@ -1,7 +1,6 @@
 #include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TOSwitchAttack.h"
-#include "pso/misc/TOSwitchItem.h"
 #include "pso/misc/TOSwitchAttack.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TCameraCtrl.h"
@@ -12,10 +11,6 @@ struct RecoveredGlobal_80177C80___vt__14TOSwitchAttack {
     s32 value;
     u8 remaining[0x34];
 };
-
-struct Pkt_80177CF4 { u8 code, words; u16 object, zero, reserved, switchId; u8 area, flags; };
-
-struct Self_80177CF4 { u8 pad[0xC8]; s32 switchId; u8 padcc[0xEC - 0xCC]; s32 on; };
 
 struct Vec_801778A8 { f32 x, y, z; };
 
@@ -209,16 +204,6 @@ u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
     ((TOSwitchAttack *)switch_attack)->m_a6 = 0;
     ((TOSwitchAttack *)switch_attack)->m_a8 = 0;
     return switch_attack;
-}
-void TOSwitchItem::send_switch_on() {
-    Pkt_80177CF4 pkt;
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
-    pkt.object = get_entity_id(this);
-    pkt.zero = 0;
-    pkt.switchId = ((Self_80177CF4 *)this)->switchId;
-    pkt.area = get_current_floor();
-    pkt.flags = ((Self_80177CF4 *)this)->on != 0;
-    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 }

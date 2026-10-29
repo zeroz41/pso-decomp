@@ -170,6 +170,8 @@ struct TItem : public TObjCollidable {
     s32 get_item_id();
     s32 get_item_flags();
     u8 get_item_group();
+    // data1[0] 1 (armour class), data1[1] 3: a unit.
+    s32 is_unit();
     u8 get_item_index();
     NJS_OBJECT *get_item_model();
     static void push_equipped_id(s32 id);
