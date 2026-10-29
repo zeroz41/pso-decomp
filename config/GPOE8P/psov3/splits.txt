@@ -4808,28 +4808,13 @@ pso/misc/TOAirconCave02.cpp:
 pso/misc/TOAttackableCol.cpp:
 	.text       start:0x80157310 end:0x80157CF4
 
-pso/misc/TOBarrierEnergy01_80157CF4.cpp:
-	.text       start:0x80157CF4 end:0x80157DF0
-	.data       start:0x804AFB10 end:0x804AFBF4
-
 pso/misc/TOBarrierEnergy01.cpp:
-	.text       start:0x80157DF0 end:0x80157E2C
-
-pso/misc/TOBarrierEnergy01_80157E2C.cpp:
-	.text       start:0x80157E2C end:0x80157E90
-
-pso/misc/TOBarrierEnergy01_80157E90.cpp:
-	.text       start:0x80157E90 end:0x80157ECC
-
-pso/misc/TOBarrierEnergy01_80157ECC.cpp:
-	.text       start:0x80157ECC end:0x80157F30
-
-pso/misc/TOBarrierEnergy01_80157F30.cpp:
-	.text       start:0x80157F30 end:0x80158014
-
-pso/misc/TOBarrierEnergy01_80158014.cpp:
-	.text       start:0x80158014 end:0x80158298
-	.rodata     start:0x80440218 end:0x80440220
+	.text       start:0x80157CF4 end:0x80158298
+	.rodata     start:0x80440188 end:0x80440220
+	.data       start:0x804AFB10 end:0x804AFBF4
+	.sdata      start:0x805D2EA0 end:0x805D2EA4
+	.sbss       start:0x805D5890 end:0x805D589C
+	.sdata2     start:0x805DB2D8 end:0x805DB2E8
 
 pso/object/TObjMapObject.cpp:
 	.text       start:0x80158298 end:0x80158608

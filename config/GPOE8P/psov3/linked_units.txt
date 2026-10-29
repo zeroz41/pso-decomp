@@ -1241,12 +1241,6 @@ pso/misc/TOAirconCave01_80156D28.cpp
 pso/misc/TOAirconCave02.cpp
 pso/misc/TOAttackableCol.cpp
 pso/misc/TOBarrierEnergy01.cpp
-pso/misc/TOBarrierEnergy01_80157CF4.cpp
-pso/misc/TOBarrierEnergy01_80157E2C.cpp
-pso/misc/TOBarrierEnergy01_80157E90.cpp
-pso/misc/TOBarrierEnergy01_80157ECC.cpp
-pso/misc/TOBarrierEnergy01_80157F30.cpp
-pso/misc/TOBarrierEnergy01_80158014.cpp
 pso/misc/TOBind.cpp
 pso/misc/TOBind_80158608.cpp
 pso/misc/TOBind_801586B8.cpp
