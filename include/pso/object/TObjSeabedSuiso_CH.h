@@ -1,11 +1,11 @@
 #ifndef PSO_OBJECT_TOBJSEABEDSUISO_CH_H
 #define PSO_OBJECT_TOBJSEABEDSUISO_CH_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 class TParticleCtrl;
 
-class TObjSeabedSuiso_CH : public TUnk_804AFBF8 {
+class TObjSeabedSuiso_CH : public TObjMapObject {
 public:
     TObjSeabedSuiso_CH(TObject *parent, void *set_data);
     virtual ~TObjSeabedSuiso_CH();

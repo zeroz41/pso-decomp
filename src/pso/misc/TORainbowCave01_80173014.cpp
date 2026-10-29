@@ -5,7 +5,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TORainbowCave01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKey.h"
@@ -100,7 +100,7 @@ void TORainbowCave01::run_task() {
         }
         break;
     }
-    TUnk_804AFBF8::run_task();
+    TObjMapObject::run_task();
 }
 
 void *TORainbowCave01::create(void *arg0) {
@@ -127,7 +127,7 @@ void TORainbowCave01::load_resource_instance() {
 
 TORainbowCave01::~TORainbowCave01() {}
 
-TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
     u8 *temp_r4;
     m_name = TORainbowCave01__name;
     apply_object_set_data(set_data);

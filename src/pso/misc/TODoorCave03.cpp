@@ -1,7 +1,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -120,7 +120,7 @@ void TODoorCave03::vfunc_18() {
 void TODoorCave03::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB4D8) != 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB4D8) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8U);
         }
@@ -153,7 +153,7 @@ void TODoorCave03::play_proximity_sound() {
     s32 temp_r4;
     temp_r4 = this->m_d0;
     if (temp_r4 & 1) {
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB4E0) == 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB4E0) == 1) {
             this->m_ac = 1;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         }
@@ -173,7 +173,7 @@ void TODoorCave03::play_proximity_sound() {
 void render__12TODoorCave03Fv(u8 *arg0) {
     Model_801625AC *m;
     if (((VObj_18_26a62c *)(arg0))->m8(*(f32 *)(arg0 + 0xC0), *(f32 *)(arg0 + 0xC4)) != 0 &&
-        ((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DB4E8) != 0) {
+        ((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DB4E8) != 0) {
         TObjFish::set_global_param(*(s32 *)(arg0 + 0x24));
         push_matrix();
         post_translate_matrix(arg0 + 0x38);

@@ -81,11 +81,11 @@ void draw_ginja_model(s32 model);
 void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(s32, void *, s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
-s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
+s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-s32 is_in_view_depth__13TUnk_804AFBF8Ff();
+s32 is_in_view_depth__13TObjMapObjectFf();
 void mem_free(void *p);
 
 void TODoorVS2Door01::vfunc_20() {  }
@@ -103,7 +103,7 @@ void TODoorVS2Door01::vfunc_18() {
 
 void TODoorVS2Door01::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff((1e+04f)) == 0)) {
+    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf((1e+04f)) == 0)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);
@@ -121,7 +121,7 @@ void TODoorVS2Door01::vfunc_16() {
 
 void TODoorVS2Door01::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff((4.9e+03f)) != 0)) {
+    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf((4.9e+03f)) != 0)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);
@@ -132,7 +132,7 @@ u8 TODoorVS2Door01::is_open() {
     int var_r31;
 
     var_r31 = 0;
-    if ((is_in_view_depth__13TUnk_804AFBF8Ff() != 0) || ((s32) this->m_ac != 0)) {
+    if ((is_in_view_depth__13TObjMapObjectFf() != 0) || ((s32) this->m_ac != 0)) {
         var_r31 = 1;
     }
     return (u8) var_r31;

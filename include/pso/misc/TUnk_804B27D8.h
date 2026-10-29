@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TUNK_804B27D8_H
 #define PSO_MISC_TUNK_804B27D8_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-class TUnk_804B27D8 : public TUnk_804AFBF8 {
+class TUnk_804B27D8 : public TObjMapObject {
 public:
     virtual ~TUnk_804B27D8();
     virtual s32 update_active_state();

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjKabochaLobby.h"
 #include "pso/TParticleCtrl.h"
@@ -107,7 +107,7 @@ void TObjKabochaLobby::load_resources() {
     TObjKabochaLobby__lobby_type = TLobby::get_lobby_type();
 }
 TObjKabochaLobby::~TObjKabochaLobby() {}
-TObjKabochaLobby::TObjKabochaLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjKabochaLobby::TObjKabochaLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = (const char *)lbl_805D4384;
     apply_object_set_data(set_data);
     if (TLobby::get_filtered_event_theme() == 5) {

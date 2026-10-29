@@ -5,7 +5,7 @@
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjCamera_8017F80C.h"
 #include "pso/object/TObject_8001A448.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOKey.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
@@ -220,7 +220,7 @@ TObjCamera::~TObjCamera() {}
 
 extern void *tl_05;
 
-TObjCamera::TObjCamera(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) {
     s32 i;
     void *obj;
     m_name = (const char *)TObjCamera__name;

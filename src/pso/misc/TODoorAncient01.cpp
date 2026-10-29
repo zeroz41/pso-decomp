@@ -4,7 +4,7 @@
 
 extern const float lbl_805DB3DC;
 
-TUnk_804B0BB8::TUnk_804B0BB8(TObject *parent) : TUnk_804AFBF8(parent) {
+TUnk_804B0BB8::TUnk_804B0BB8(TObject *parent) : TObjMapObject(parent) {
     m_c8 = -1;
     m_cc = 0;
     m_d0 = 0;

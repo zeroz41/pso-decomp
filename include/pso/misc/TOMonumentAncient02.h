@@ -2,9 +2,9 @@
 #define PSO_MISC_TOMONUMENTANCIENT02_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOMonumentAncient02 : public TUnk_804AFBF8 {
+struct TOMonumentAncient02 : public TObjMapObject {
     TOMonumentAncient02(TObject *parent, void *set_data);
     virtual ~TOMonumentAncient02();
     virtual void vfunc_6(s16 *, s32);

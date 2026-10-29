@@ -2,9 +2,9 @@
 #define PSO_MISC_TOCAPSULEMACHINE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOCapsuleMachine01 : public TUnk_804AFBF8 {
+struct TOCapsuleMachine01 : public TObjMapObject {
     TOCapsuleMachine01(void *set_data);
     virtual ~TOCapsuleMachine01();
     virtual void run_task();

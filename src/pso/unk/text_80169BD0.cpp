@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TUnk_804B27D8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOHealGeneral.h"
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
@@ -47,7 +47,7 @@ s32 TOHealGeneral::update_active_state() {
 
     switch (*(s32 *)&this->unk_C8) {
     case 1:
-        if (((TUnk_804AFBF8 *)this)->is_any_player_within_radius_xz(4.9e+03f) != 0) {
+        if (((TObjMapObject *)this)->is_any_player_within_radius_xz(4.9e+03f) != 0) {
             *(s32 *)&this->m_cc = 1;
         } else {
             *(s32 *)&this->m_cc = 0;
@@ -157,7 +157,7 @@ void TUnk_804B27D8::run_task() {
     }
     switch (*(s32 *)&this->m_ac) {
     case 0:
-        if ((this->update_active_state() != 0) && (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) != 0) && ((s32) *(s32 *)&this->unk_D8 > 0)) {
+        if ((this->update_active_state() != 0) && (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) != 0) && ((s32) *(s32 *)&this->unk_D8 > 0)) {
             *(s32 *)&this->m_ac = 1;
         }
         break;

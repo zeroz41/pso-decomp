@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/unk/text_8028A714.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/misc/TODoorFourLightRuins.h"
@@ -229,7 +229,7 @@ void TODoorFourLightSpace::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_802898E8 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+    if ((((VObj_802898E8 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
         switch (*(s32 *)&this->m_ac) {
         case 1:
         case 3:
@@ -461,7 +461,7 @@ void TODoorFourLightRuins::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_8028A030 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+    if ((((VObj_8028A030 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
         switch (*(s32 *)&this->m_ac) {
         case 1:
         case 3:

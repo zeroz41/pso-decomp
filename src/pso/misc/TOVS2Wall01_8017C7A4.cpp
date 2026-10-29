@@ -10,7 +10,7 @@ struct TObjGoalWarpAncient;
 #include "pso/object/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOVS2.h"
 
 struct RecoveredGlobal_8017C8EC_lbl_804B4ECC {
@@ -87,7 +87,7 @@ void *__dt__5TOVS2Fv(void *self, s16 del) {
         }
         ((TOVS2 *)self)->unregister_object_by_id();
         free_collision_body_parts((TOVS2 *)self);
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -96,7 +96,7 @@ void *__dt__5TOVS2Fv(void *self, s16 del) {
 }
 }
 
-TOVS2::TOVS2(void *set_data, s32 index) : TUnk_804AFBF8((TObject *)tl_05) {
+TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
     m_name = lbl_805D31C4;
     apply_object_set_data(set_data);
     model = get_bml_model(TOVS2Wall01__bml_resource, index);

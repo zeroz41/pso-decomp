@@ -4,7 +4,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjSuisouLobby.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
@@ -158,7 +158,7 @@ TObjSuisouLobby::~TObjSuisouLobby() {
 
 #pragma push
 #pragma opt_common_subs off
-TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = lbl_805D44C4;
     apply_object_set_data(set_data);
     {

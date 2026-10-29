@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjRainbowLobby.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
@@ -110,7 +110,7 @@ void TObjRainbowLobby::load_shared_resource() {
     (*(s32 *)&TObjRainbowLobby__shared_model_resource) = var_r0;
 }
 TObjRainbowLobby::~TObjRainbowLobby() {}
-TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = lbl_805D435C;
     apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {

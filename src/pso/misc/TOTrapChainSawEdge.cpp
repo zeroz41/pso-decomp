@@ -13,7 +13,7 @@ extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__17TOTrapChainSawKeyFv();
 extern "C" void update_extension__14TOTrapChainSawFv();
 
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKey.h"
@@ -925,7 +925,7 @@ void TOTrapChainSaw::decode_params() {
 
 TOTrapChainSaw::~TOTrapChainSaw() {}
 
-TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TOTrapChainSaw::TOTrapChainSaw(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TOTrapChainSaw__name;
     apply_object_set_data(set_data);
     clear_field_d8();

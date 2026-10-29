@@ -2,9 +2,9 @@
 #define PSO_MISC_TOHEALGENERAL_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOHealGeneral : public TUnk_804AFBF8 {
+struct TOHealGeneral : public TObjMapObject {
     // The object factories' create() passes its own r3, the set entry, on.
     TOHealGeneral(void *set_data);
     virtual ~TOHealGeneral();

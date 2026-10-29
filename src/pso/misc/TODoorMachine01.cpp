@@ -1,6 +1,6 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -81,7 +81,7 @@ struct Door_80162D7C : VObj_80162D7C {
 };
 
 extern "C" {
-s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
+s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern const f32 lbl_805DB4F4;
 extern const f32 lbl_805DB4F8;
@@ -128,7 +128,7 @@ extern const f32 lbl_805DB4F0;
 
 void TODoorMachine01::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB4F0) != 1)) {
+    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F0) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -139,7 +139,7 @@ extern void *tl_05;
 
 void TODoorMachine01::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB4F4) == 1)) {
+    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F4) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -255,7 +255,7 @@ void TODoorMachine01::render() {
     u32 bit;
     Node_80162D7C *n;
     u32 fl;
-    if (self->m8(self->fC0, self->fC4) != 0 && ((TUnk_804AFBF8 *)self)->is_in_view_depth(lbl_805DB504) != 0) {
+    if (self->m8(self->fC0, self->fC4) != 0 && ((TObjMapObject *)self)->is_in_view_depth(lbl_805DB504) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)self + 0x38);
         rotate_matrix_y(0, self->f60);

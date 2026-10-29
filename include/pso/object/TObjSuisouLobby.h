@@ -2,11 +2,11 @@
 #define PSO_OBJECT_TOBJSUISOULOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 class TParticleCtrl;
 
-struct TObjSuisouLobby : public TUnk_804AFBF8 {
+struct TObjSuisouLobby : public TObjMapObject {
     TObjSuisouLobby(TObject *parent, void *set_data);
     virtual ~TObjSuisouLobby();
     virtual void render();

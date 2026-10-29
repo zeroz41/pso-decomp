@@ -2,9 +2,9 @@
 #define PSO_MISC_TOKURAGE_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOKurage : public TUnk_804AFBF8 {
+struct TOKurage : public TObjMapObject {
     TOKurage(TObject *parent, void *set_data);
     virtual ~TOKurage();
     void sub_8016D8F8();

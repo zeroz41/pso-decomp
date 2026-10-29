@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TOSIGNCAVE01_H
 #define PSO_MISC_TOSIGNCAVE01_H
 #include "pso/misc/CaveSignModel.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-class TOSignCave01 : public TUnk_804AFBF8 {
+class TOSignCave01 : public TObjMapObject {
 public:
     TOSignCave01(TObject *parent, void *set_data);
     virtual ~TOSignCave01();

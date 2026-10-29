@@ -1,12 +1,12 @@
 #ifndef PSO_OBJECT_TOBJHASHIBASE_H
 #define PSO_OBJECT_TOBJHASHIBASE_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 // A bridge that rises into place once its floor switch is set.
 // m_ac is its phase: 0 waiting for the switch, 1 rising, 2 raised (its
 // collision bodies get enabled), 3 done.
-struct TObjHashiBase : public TUnk_804AFBF8 {
+struct TObjHashiBase : public TObjMapObject {
     TObjHashiBase(TObject *parent, void *set_data);
     virtual ~TObjHashiBase();
     virtual void run_task();

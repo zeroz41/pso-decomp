@@ -2,9 +2,9 @@
 #define PSO_MISC_TODOORVOSHIP_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TODoorVoShip : public TUnk_804AFBF8 {
+struct TODoorVoShip : public TObjMapObject {
     TODoorVoShip(TObject *parent, void *set_data);
     virtual ~TODoorVoShip();
     u8 unk_C8[0x4];

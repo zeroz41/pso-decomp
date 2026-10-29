@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyAncient01.h"
@@ -113,7 +113,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *self, s16 del) {
     if (self != NULL) {
         *(void **)((u8 *)self + 0x18) = __vt__5TOKey;
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -125,7 +125,7 @@ void *__dt__5TOKeyFv(void *self, s16 del) {
 extern const f32 lbl_805DB6E0;
 extern const char *TOKey__class_name;
 
-TOKey::TOKey(TObject *parent) : TUnk_804AFBF8(parent) {
+TOKey::TOKey(TObject *parent) : TObjMapObject(parent) {
     this->m_name = TOKey__class_name;
     this->m_e4 = -1;
     *(f32 *)((s8 *)this + 0xCC) = lbl_805DB6E0;

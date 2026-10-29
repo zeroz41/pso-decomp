@@ -2,9 +2,9 @@
 #define PSO_MISC_TODRAGONFLY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TODragonfly : public TUnk_804AFBF8 {
+struct TODragonfly : public TObjMapObject {
     TODragonfly();
     virtual ~TODragonfly();
     virtual void vfunc_14();

@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJSTENDGLASSLOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjStendGlassLobby : public TUnk_804AFBF8 {
+struct TObjStendGlassLobby : public TObjMapObject {
     TObjStendGlassLobby(TObject *parent, void *set_data);
     virtual ~TObjStendGlassLobby();
     s32 fade_state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out

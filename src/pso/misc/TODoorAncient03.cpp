@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -75,7 +75,7 @@ u8 *TODoorAncient03__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *__dt__15TODoorAncient03Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(s32, void *, s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
-s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
+s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -87,7 +87,7 @@ extern const f32 lbl_805DB3F0;
 
 void TODoorAncient03::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB3F0) == 0)) {
+    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3F0) == 0)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -98,7 +98,7 @@ extern const f32 lbl_805DB3F4;
 
 void TODoorAncient03::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB3F4) != 0)) {
+    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3F4) != 0)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -113,7 +113,7 @@ void TODoorAncient03::render() {
     u8 *temp_r31_2;
     u8 *temp_r31_3;
     u8 *temp_r31_4;
-    if ((((VObj *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DB3F8) != 0)) {
+    if ((((VObj *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DB3F8) != 0)) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

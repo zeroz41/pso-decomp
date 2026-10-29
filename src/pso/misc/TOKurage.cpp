@@ -4,7 +4,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOKurage.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TOKey.h"
@@ -349,7 +349,7 @@ void *__dt__8TOKurageFv(void *self, s16 del) {
     if (self != NULL) {
         *(void **)((u8 *)self + 0x18) = __vt__8TOKurage;
 
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -358,7 +358,7 @@ void *__dt__8TOKurageFv(void *self, s16 del) {
 }
 }
 
-TOKurage::TOKurage(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = (const char *)TOKurage__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((int) ((*(s32 *)&TOKurage__static_model_resource)), 0);

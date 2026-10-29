@@ -1,11 +1,11 @@
 #ifndef PSO_MISC_TOVS2_H
 #define PSO_MISC_TOVS2_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 // The base of the VS2 wreck objects (TOVS2Wreck01-06): one model of the
 // VS2 resource with its collision body and a map-collision object.
-class TOVS2 : public TUnk_804AFBF8 {
+class TOVS2 : public TObjMapObject {
 public:
     TOVS2(void *set_data, s32 index);
     virtual ~TOVS2();

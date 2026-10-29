@@ -2,7 +2,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOCapsuleMachine01.h"
 #include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
@@ -114,7 +114,7 @@ void *__dt__18TOCapsuleMachine01Fv(void *self, s16 del) {
         *(void **)((u8 *)self + 0x18) = __vt__18TOCapsuleMachine01;
         free_collision_body_parts((TOCapsuleMachine01 *)self);
         ((TOCapsuleMachine01 *)self)->unregister_object_by_id();
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -125,7 +125,7 @@ void *__dt__18TOCapsuleMachine01Fv(void *self, s16 del) {
 
 typedef char RecoveredGlobal_8015A814_lbl_804AFF10_size[sizeof(RecoveredGlobal_8015A814_lbl_804AFF10) == 0x2C ? 1 : -1];
 
-TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject((TObject *)tl_05) {
     m_name = lbl_805D2ED4;
     apply_object_set_data(set_data);
     model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)TOCapsuleMachine01__model_resource + 0x42C)) + 8);

@@ -1,11 +1,11 @@
 #ifndef PSO_UNK_TUNK_804B0BB8_H
 #define PSO_UNK_TUNK_804B0BB8_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 // The base of the switch-driven doors (TODoorAncient*, TODoorCave*,
 // TODoorMachine*, TODoorFourLight*, TObjDoorJung, TOBarrierEnergy01).
-class TUnk_804B0BB8 : public TUnk_804AFBF8 {
+class TUnk_804B0BB8 : public TObjMapObject {
 public:
     TUnk_804B0BB8(TObject *parent);
     virtual ~TUnk_804B0BB8();

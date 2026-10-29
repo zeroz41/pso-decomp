@@ -2,7 +2,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOMonitorMachine01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKey.h"
@@ -172,7 +172,7 @@ TOMonitorMachine01::~TOMonitorMachine01() {}
 
 #pragma push
 #pragma opt_common_subs off
-TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject((TObject *)tl_05) {
     m_name = (const char *)TOMonitorMachine01__name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOMonitorMachine01__shared_bml_archive, 0);

@@ -3,7 +3,7 @@
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 struct Base_8016A0E0_80169EE4 { char pad[0x18]; };
 struct VObj_8016A0E0_80169EE4 : Base_8016A0E0_80169EE4 {
@@ -43,7 +43,7 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void __dl__7TObjectFPv(void *);
 s32 bswap_6x05_switch_flag__5TOKeyFv();
 s32 update_object_view_visibility__8TObjBaseFff();
-void *__ct__13TUnk_804AFBF8FP7TObject(void *a0);
+void *__ct__13TObjMapObjectFP7TObject(void *a0);
 s32 start_camera_pan__10TObjPlayerFs(s32, s32, s32);
 
 extern s32 lbl_804B27D8[];
@@ -51,7 +51,7 @@ extern s32 lbl_804B27D8[];
 void *TUnk_804B27D8::destroy_key_object(s16 arg1) {
     if (this != NULL) {
         *(s32 * *)((u8 *)this + 0x18) = lbl_804B27D8;
-        __dt__13TUnk_804AFBF8Fv(this, 0);
+        __dt__13TObjMapObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -60,7 +60,7 @@ void *TUnk_804B27D8::destroy_key_object(s16 arg1) {
 }
 
 void *TUnk_804B27D8::init() {
-    __ct__13TUnk_804AFBF8FP7TObject(this);
+    __ct__13TObjMapObjectFP7TObject(this);
     *(s32 * *)((u8 *)this + 0x18) = lbl_804B27D8;
     *(u32 *)&this->unk_D0 = -1;
     (*(u32 *)&this->unk_C8) = 0;

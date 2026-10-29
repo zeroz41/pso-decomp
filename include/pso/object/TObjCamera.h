@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJCAMERA_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjCamera : public TUnk_804AFBF8 {
+struct TObjCamera : public TObjMapObject {
     TObjCamera(TObject *parent, void *set_data);
     virtual ~TObjCamera();
     virtual s32 update_object_view_visibility(f32, f32);

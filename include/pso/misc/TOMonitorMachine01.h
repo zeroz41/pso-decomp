@@ -2,9 +2,9 @@
 #define PSO_MISC_TOMONITORMACHINE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOMonitorMachine01 : public TUnk_804AFBF8 {
+struct TOMonitorMachine01 : public TObjMapObject {
     // The object factories' create() passes its own r3, the set entry, on.
     TOMonitorMachine01(void *set_data);
     virtual ~TOMonitorMachine01();

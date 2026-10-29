@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/TObject.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TUnk_804B0BB8.h"
@@ -21,14 +21,14 @@ extern "C" void vfunc_18__13TUnk_804B0BB8Fv();
 extern "C" void init_door_switch_binding__13TUnk_804B0BB8Fv();
 extern "C" void play_proximity_sound__13TUnk_804B0BB8Fv();
 extern "C" void reset_motion_fields__14TObjCollidableFv();
-extern "C" void render__13TUnk_804AFBF8Fv();
+extern "C" void render__13TObjMapObjectFv();
 extern "C" void render_shadows__7TObjectFv();
 extern "C" void run_task__13TUnk_804B0BB8Fv();
 extern "C" void update_door_switch_state__13TUnk_804B0BB8Fv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
 void *__vt__13TUnk_804B0BB8[21] = {
     (void *)0x0, (void *)0x0, (void *)&__dt__13TUnk_804B0BB8Fv, (void *)&run_task__13TUnk_804B0BB8Fv,
-    (void *)&render__13TUnk_804AFBF8Fv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__13TObjMapObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&update_door_switch_state__13TUnk_804B0BB8Fv, (void *)&play_proximity_sound__13TUnk_804B0BB8Fv,
     (void *)&vfunc_16__13TUnk_804B0BB8Fv, (void *)&vfunc_17__13TUnk_804B0BB8Fv, (void *)&vfunc_18__13TUnk_804B0BB8Fv, (void *)&init_door_switch_binding__13TUnk_804B0BB8Fv,

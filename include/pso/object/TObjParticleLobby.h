@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJPARTICLELOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjParticleLobby : public TUnk_804AFBF8 {
+struct TObjParticleLobby : public TObjMapObject {
     virtual ~TObjParticleLobby();
     u32 m_c8;
     u8 _padCC[0x4];

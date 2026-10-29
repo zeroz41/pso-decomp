@@ -2,7 +2,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOCakeshopCave01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKey.h"
@@ -135,7 +135,7 @@ void *__dt__16TOCakeshopCave01Fv(void *self, s16 del) {
         *(void **)((u8 *)self + 0x18) = __vt__16TOCakeshopCave01;
         free_collision_body_parts((TOCakeshopCave01 *)self);
         ((TOCakeshopCave01 *)self)->unregister_object_by_id();
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -144,7 +144,7 @@ void *__dt__16TOCakeshopCave01Fv(void *self, s16 del) {
 }
 }
 
-TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TObjMapObject((TObject *)tl_05) {
     s32 i;
     m_name = lbl_805D2EC4;
     apply_object_set_data(set_data);

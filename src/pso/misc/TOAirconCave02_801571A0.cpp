@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOAirconCave02.h"
 #include "pso/misc/TOKey.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -37,7 +37,7 @@ void TOAirconCave02::load_shared_resource() {
 
 TOAirconCave02::~TOAirconCave02() {}
 
-TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TOAirconCave02::TOAirconCave02(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = lbl_805D2E94;
     apply_object_set_data(set_data);
     model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOAirconCave02__bml_resource) + 0x42C)) + 8);

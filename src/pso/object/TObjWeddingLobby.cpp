@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjWeddingLobby.h"
 #include "pso/TParticleCtrl.h"
@@ -131,7 +131,7 @@ void TObjWeddingLobby::load_resources() {
 
 TObjWeddingLobby::~TObjWeddingLobby() {}
 
-TObjWeddingLobby::TObjWeddingLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjWeddingLobby::TObjWeddingLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TObjWeddingLobby__class_name;
     apply_object_set_data(set_data);
     if (TLobby::get_filtered_event_theme() == 0xA) {

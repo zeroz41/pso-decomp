@@ -2,9 +2,9 @@
 #define PSO_MISC_TOHANGERMACHINE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOHangerMachine01 : public TUnk_804AFBF8 {
+struct TOHangerMachine01 : public TObjMapObject {
     TOHangerMachine01(void *set_data);
     virtual ~TOHangerMachine01();
     virtual void run_task();

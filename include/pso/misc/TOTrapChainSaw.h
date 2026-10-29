@@ -2,9 +2,9 @@
 #define PSO_MISC_TOTRAPCHAINSAW_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOTrapChainSaw : public TUnk_804AFBF8 {
+struct TOTrapChainSaw : public TObjMapObject {
     TOTrapChainSaw(TObject *parent, void *set_data);
     virtual ~TOTrapChainSaw();
     virtual void vfunc_14();

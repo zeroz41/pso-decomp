@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/player/TUnk_804B1B80.h"
 #include "pso/misc/TOFenceAncient01.h"
 #include "pso/player/TObjPlayer.h"
@@ -46,7 +46,7 @@ void TUnk_804B1B80::render() {
 
 TUnk_804B1B80::~TUnk_804B1B80() {}
 
-TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TUnk_804AFBF8(parent) {
+TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TObjMapObject(parent) {
     m_ac = 0;
     m_cc = -1;
     trigger_mode = 0;

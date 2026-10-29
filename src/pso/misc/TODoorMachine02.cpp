@@ -1,7 +1,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -73,7 +73,7 @@ struct Door_80163408 {
 };
 
 extern "C" {
-s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
+s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern const f32 lbl_805DB514;
 extern const f32 lbl_805DB518;
@@ -118,7 +118,7 @@ extern const f32 lbl_805DB510;
 
 void TODoorMachine02::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB510) != 1)) {
+    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB510) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -129,7 +129,7 @@ extern void *tl_05;
 
 void TODoorMachine02::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB514) == 1)) {
+    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB514) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -151,7 +151,7 @@ void TODoorMachine02::render() {
     Door_80163408 *arg0 = (Door_80163408 *)this;
     s32 flag;
     Node_80163408 *n;
-    if (((VObj_80163408 *)arg0)->m8(arg0->fC0, arg0->fC4) != 0 && ((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DB524) != 0) {
+    if (((VObj_80163408 *)arg0)->m8(arg0->fC0, arg0->fC4) != 0 && ((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DB524) != 0) {
         push_matrix();
         post_translate_matrix(arg0->f38);
         rotate_matrix_y(0, arg0->f60);

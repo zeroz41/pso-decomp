@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TODragonfly.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TODragonflyCave01.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/map/FloorArea.h"
@@ -221,7 +221,7 @@ void TODragonfly::sub_80164990() {
     temp_r5 = this->m_cc;
     this->m_cc = (temp_r5 + 1);
     if (lbl_805DB578 < (f32) temp_r5) {
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB588) == 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB588) == 1) {
             if (((TODragonfly *)arg0)->pick_random_destination(lbl_805DB578 + this->scale.y) == 1) {
                 this->m_ac = 3;
                 this->m_cc = 0;
@@ -238,7 +238,7 @@ void TODragonfly::sub_80164A90() {
     O_80164A90 *arg0 = (O_80164A90 *)this;
     f32 t;
     f32 d;
-    if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
+    if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
         if (((TODragonfly *)arg0)->pick_random_destination(lbl_805DB578 + this->scale.y) == 1) {
             this->m_ac = 3;
             this->m_cc = 0;
@@ -259,7 +259,7 @@ void TODragonfly::sub_80164A90() {
 void TODragonfly::update_idle() {
     s32 arg0 = (s32)this;
     s32 temp_r4;
-    if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
+    if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
         if (pick_random_destination(lbl_805DB578 + *(f32 *)((s8 *)arg0 + 0x6C)) == 1) {
             *(s32 *)((s8 *)arg0 + 0xAC) = 3;
             *(s32 *)((s8 *)arg0 + 0xCC) = 0;
@@ -321,7 +321,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__11TODragonflyFv(void *self, s16 del) {
     if (self != NULL) {
         *(void **)((u8 *)self + 0x18) = __vt__11TODragonfly;
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -331,7 +331,7 @@ void *__dt__11TODragonflyFv(void *self, s16 del) {
 }
 #pragma push
 #pragma fp_contract on
-TODragonfly::TODragonfly() : TUnk_804AFBF8((TObject *)tl_05) {
+TODragonfly::TODragonfly() : TObjMapObject((TObject *)tl_05) {
     this->m_name = TODragonfly__class_name;
     this->m_cc = 0;
     this->wander_radius = (f32) (lbl_805DB594 + this->scale.x);

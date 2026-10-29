@@ -5,7 +5,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjLobbyMain.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -361,7 +361,7 @@ void *__dt__13TObjLobbyMainFv(TObjLobbyMain *self, s16 del) {
         if ((void *)self->m_dc != NULL) { queue_destruction__7TObjectFv((void *)self->m_dc); self->m_dc = 0; }
         self->unregister_object_by_id();
         free_collision_body_parts(self);
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -369,7 +369,7 @@ void *__dt__13TObjLobbyMainFv(TObjLobbyMain *self, s16 del) {
     return self;
 }
 }
-TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(parent) {
     u32 temp_r3;
     u32 temp_r3_2;
     m_name = lbl_805D4370;

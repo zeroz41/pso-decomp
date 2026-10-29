@@ -1,7 +1,7 @@
 #include "pso/TParticleCtrl.h"
 #include "types.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjParticleLobby.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TLobby.h"
@@ -25,7 +25,7 @@ struct Self_803696A0 { u8 pad0[0xC8]; s32 state; f32 t; s32 target; void *ctrl; 
 
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
-s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
+s32 __ct__13TObjMapObjectFP7TObject(void *, void *);
 extern s32 __vt__17TObjParticleLobby[];
 extern const char *lbl_805D44B8;
 void set_flags__11TBoss4Type2FUl(void *, u16);
@@ -205,7 +205,7 @@ void *__dt__17TObjParticleLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjParticleLobby;
         if (*(void **)((s8 *)arg0 + 0xD4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD4)); ((TObjParticleLobby *)arg0)->m_d4 = 0; }
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
+        __dt__13TObjMapObjectFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -214,7 +214,7 @@ void *__dt__17TObjParticleLobbyFv(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_80369ADC___vt__17TObjParticleLobby_size[sizeof(RecoveredGlobal_80369ADC___vt__17TObjParticleLobby) == 0x38 ? 1 : -1];
 u8 *TObjParticleLobby__ct(u8 *particle_lobby, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject((void *)particle_lobby, (void *)arg1);
+    __ct__13TObjMapObjectFP7TObject((void *)particle_lobby, (void *)arg1);
     *(s32 **)((s8 *)particle_lobby + 0x18) = &(*(RecoveredGlobal_80369ADC___vt__17TObjParticleLobby *)&__vt__17TObjParticleLobby).value;
     *(s32 *)((s8 *)particle_lobby + 0) = (s32) ((s32)lbl_805D44B8);
     ((TObjParticleLobby *)(particle_lobby))->apply_object_set_data((void *)arg2);

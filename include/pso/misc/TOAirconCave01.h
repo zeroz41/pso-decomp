@@ -2,9 +2,9 @@
 #define PSO_MISC_TOAIRCONCAVE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOAirconCave01 : public TUnk_804AFBF8 {
+struct TOAirconCave01 : public TObjMapObject {
     TOAirconCave01(TObject *parent, void *set_data);
     virtual ~TOAirconCave01();
     virtual void render();

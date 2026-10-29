@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TODoorCave02.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
@@ -47,7 +47,7 @@ void TODoorCave02::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 4);
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
             play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -73,7 +73,7 @@ void TODoorCave02::play_proximity_sound() {
             this->m_d0 = (s32) (this->m_d0 | 0x100000);
         }
     }
-    if ((this->m_d0 & 1) && (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1)) {
+    if ((this->m_d0 & 1) && (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -112,7 +112,7 @@ s32 TODoorCave02::draw_parts(void *arg1_) {
 
 void TODoorCave02::render() {
     u8 *arg0 = (u8 *)this;
-    if ((((VObj_80161D38 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(3e+01f) != 0)) {
+    if ((((VObj_80161D38 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) && (((TObjMapObject *)arg0)->is_in_view_depth(3e+01f) != 0)) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);

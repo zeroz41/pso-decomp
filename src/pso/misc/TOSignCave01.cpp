@@ -2,7 +2,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 #include "types.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -129,7 +129,7 @@ void TOSignCave01::load_shared_resource() {
 
 TOSignCave01::~TOSignCave01() {}
 
-TOSignCave01::TOSignCave01(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TOSignCave01::TOSignCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = lbl_805D315C;
     apply_object_set_data(set_data);
     model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOSignCave01__shared_resource) + 0x42C)) + 8);

@@ -11,7 +11,7 @@ extern const f32 lbl_805DB968;
 extern const f32 lbl_805DB96C;
 }
 
-TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TORevlightCave01__name;
     apply_object_set_data(set_data);
     model = *(void **)((s8 *)(*(void **)((s8 *)TORevlightCave01__static_model_resource + 0x42C)) + 8);

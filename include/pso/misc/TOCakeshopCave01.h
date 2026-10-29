@@ -2,9 +2,9 @@
 #define PSO_MISC_TOCAKESHOPCAVE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOCakeshopCave01 : public TUnk_804AFBF8 {
+struct TOCakeshopCave01 : public TObjMapObject {
     TOCakeshopCave01(void *set_data);
     virtual ~TOCakeshopCave01();
     void update_blink_state(void *arg1);

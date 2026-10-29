@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80191D14.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjHashiBase.h"
 #include <stddef.h>
 
@@ -155,7 +155,7 @@ void *__dt__13TObjHashiBaseFv(void *self, s16 del) {
     if (self != NULL) {
         *(void **)((u8 *)self + 0x18) = __vt__13TObjHashiBase;
 
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -170,7 +170,7 @@ extern const f32 lbl_805DBE28;
 extern const f32 lbl_805DBE34;
 extern const f32 lbl_805DBE38;
 
-TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TObjMapObject(parent) {
     this->m_name = lbl_805D3374;
     this->apply_object_set_data(set_data);
     this->switchId = this->set_params[0];

@@ -7,7 +7,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TUnk_804B27D8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/TObject.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TOKey.h"
@@ -354,7 +354,7 @@ void *__dt__13TOHealGeneralFv(void *self, s16 del) {
         }
         ((TOHealGeneral *)self)->unregister_object_by_id();
         free_collision_body_parts((TOHealGeneral *)self);
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -363,7 +363,7 @@ void *__dt__13TOHealGeneralFv(void *self, s16 del) {
 }
 }
 
-TOHealGeneral::TOHealGeneral(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+TOHealGeneral::TOHealGeneral(void *set_data) : TObjMapObject((TObject *)tl_05) {
     s32 i;
     u8 *model;
     m_name = (const char *)TOHealGeneral__class_name;

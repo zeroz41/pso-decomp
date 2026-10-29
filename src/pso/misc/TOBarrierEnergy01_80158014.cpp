@@ -3,7 +3,7 @@
 #include "pso/misc/TOBarrierEnergy01_80158014.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/player/TObjPlayer.h"

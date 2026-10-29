@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJLOBBYMAIN_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjLobbyMain : public TUnk_804AFBF8 {
+struct TObjLobbyMain : public TObjMapObject {
     TObjLobbyMain(TObject *parent, void *set_data);
     virtual ~TObjLobbyMain();
     void update_fade();

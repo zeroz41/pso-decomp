@@ -85,7 +85,7 @@ void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
-s32 update_anim_phase__13TUnk_804AFBF8Fv();
+s32 update_anim_phase__13TObjMapObjectFv();
 s32 init_collision_body_parts(void *, void *, s32);
 void *__ct__5TOKeyFP7TObject(void *, void *);
 extern s32 key_generic_sw_collision_body[];
@@ -124,7 +124,7 @@ void TOKeyGenericSw::render() {
 }
 
 void TOKeyGenericSw::vfunc_17() {
-    update_anim_phase__13TUnk_804AFBF8Fv();
+    update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
     this->m_f4 = 1;
     this->m_ec = 0;
@@ -133,7 +133,7 @@ void TOKeyGenericSw::vfunc_17() {
 }
 
 void TOKeyGenericSw::vfunc_16() {
-    update_anim_phase__13TUnk_804AFBF8Fv();
+    update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
     this->m_ec = 1;
     this->m_f4 = 0;

@@ -3,7 +3,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TUnk_804B2578.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOHangerMachine01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKey.h"
@@ -135,7 +135,7 @@ void *__dt__17TOHangerMachine01Fv(void *self, s16 del) {
         *(void **)((u8 *)self + 0x18) = __vt__17TOHangerMachine01;
         ((TOHangerMachine01 *)self)->unregister_object_by_id();
         free_collision_body_parts((TOHangerMachine01 *)self);
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -146,7 +146,7 @@ void *__dt__17TOHangerMachine01Fv(void *self, s16 del) {
 
 typedef char RecoveredGlobal_8016904C_lbl_804B26D8_size[sizeof(RecoveredGlobal_8016904C_lbl_804B26D8) == 0x2C ? 1 : -1];
 
-TOHangerMachine01::TOHangerMachine01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject((TObject *)tl_05) {
     m_name = TOHangerMachine01__class_name;
     apply_object_set_data(set_data);
     model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOHangerMachine01__bml_resource) + 0x42C)) + 8);

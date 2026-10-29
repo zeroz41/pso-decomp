@@ -47,7 +47,7 @@ struct Big_8016AF84 { u8 pad[0x42C]; Inner_8016AF84 *p; };
 struct Buf_8016AF84 { s32 a; s32 b; s32 c; s32 d; };
 
 extern "C" {
-s32 update_anim_phase__13TUnk_804AFBF8Fv();
+s32 update_anim_phase__13TObjMapObjectFv();
 s32 rotate_matrix_y(int, void *);
 s32 rotate_matrix_z(int, void *);
 s32 rotate_matrix_x(int, void *);
@@ -109,7 +109,7 @@ void TOKeyAncient01::render() {
 }
 
 void TOKeyAncient01::vfunc_17() {
-    update_anim_phase__13TUnk_804AFBF8Fv();
+    update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
 }
 

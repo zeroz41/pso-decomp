@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJRAINBOWLOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjRainbowLobby : public TUnk_804AFBF8 {
+struct TObjRainbowLobby : public TObjMapObject {
     TObjRainbowLobby(TObject *parent, void *set_data);
     virtual ~TObjRainbowLobby();
     s32 state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out

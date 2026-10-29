@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMapWarp_80141C68.h"
 #include "pso/player/TObjPlayer.h"
@@ -11,7 +11,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803E2D70.h"
 
-void TUnk_804AFBF8::update_anim_phase() {
+void TObjMapObject::update_anim_phase() {
     f32 frame;
     f32 end;
     m_b0 = m_b0 + m_b8;
@@ -22,7 +22,7 @@ void TUnk_804AFBF8::update_anim_phase() {
     }
 }
 
-s32 TUnk_804AFBF8::is_in_view_depth(f32 min_radius) {
+s32 TObjMapObject::is_in_view_depth(f32 min_radius) {
     Vec view;
     if (bodies != NULL) {
         f32 radius = get_collision_body_radius(this, 0);
@@ -37,7 +37,7 @@ s32 TUnk_804AFBF8::is_in_view_depth(f32 min_radius) {
     return 1;
 }
 
-s32 TUnk_804AFBF8::is_any_player_within_radius_xz(f32 radius_sq) {
+s32 TObjMapObject::is_any_player_within_radius_xz(f32 radius_sq) {
     u16 slot;
     TObjPlayer *player;
     for (slot = 0; (s32)slot < registered_player_count; slot++) {
@@ -52,7 +52,7 @@ s32 TUnk_804AFBF8::is_any_player_within_radius_xz(f32 radius_sq) {
     return 0;
 }
 
-void TUnk_804AFBF8::run_task() {
+void TObjMapObject::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
         sub_80158604();
         return;
@@ -62,7 +62,7 @@ void TUnk_804AFBF8::run_task() {
     }
 }
 
-void TUnk_804AFBF8::render() {
+void TObjMapObject::render() {
     f32 range = m_c0;
     s32 detail = classify_actor_view_detail(0.5f * range, range, model_radius);
     if (detail != 0 && is_in_view_depth(30.0f) != 0) {
@@ -85,10 +85,10 @@ void TUnk_804AFBF8::render() {
     }
 }
 
-TUnk_804AFBF8::~TUnk_804AFBF8() {
+TObjMapObject::~TObjMapObject() {
 }
 
-TUnk_804AFBF8::TUnk_804AFBF8(TObject *parent) : TObjCollidable(parent) {
+TObjMapObject::TObjMapObject(TObject *parent) : TObjCollidable(parent) {
     m_ac = 0;
     m_b0 = 0.0f;
     animation_end_frame = 0.0f;
@@ -99,5 +99,5 @@ TUnk_804AFBF8::TUnk_804AFBF8(TObject *parent) : TObjCollidable(parent) {
     model_radius = 30.0f;
 }
 
-void TUnk_804AFBF8::sub_80158604() {
+void TObjMapObject::sub_80158604() {
 }

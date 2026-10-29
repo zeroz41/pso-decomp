@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TODoorAncient07_8015F930.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TODoorAncient07.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
@@ -34,7 +34,7 @@ void *__nw__7TObjectFUl(int);
 void TODoorAncient07::render() {
     u8 *arg0 = (u8 *)this;
     VObj1 *self = (VObj1 *)arg0;
-    if ((self->m8(4e+02f, 2e+01f) != 0) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(3e+01f) != 0)) {
+    if ((self->m8(4e+02f, 2e+01f) != 0) && (((TObjMapObject *)arg0)->is_in_view_depth(3e+01f) != 0)) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -56,7 +56,7 @@ void TODoorAncient07::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -75,7 +75,7 @@ void TODoorAncient07::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient07__texture_lists + 4);
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
             this->m_ac = 1;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);

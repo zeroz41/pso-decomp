@@ -2,9 +2,9 @@
 #define PSO_MISC_TOREVLIGHTCAVE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-class TORevlightCave01 : public TUnk_804AFBF8 {
+class TORevlightCave01 : public TObjMapObject {
 public:
     TORevlightCave01(TObject *parent, void *set_data);
     virtual ~TORevlightCave01();

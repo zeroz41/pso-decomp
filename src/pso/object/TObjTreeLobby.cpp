@@ -2,7 +2,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TUnk_804F2B60.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjTreeLobby.h"
@@ -144,7 +144,7 @@ void TObjTreeLobby::load_resources() {
 
 TObjTreeLobby::~TObjTreeLobby() {}
 
-TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TObjTreeLobby__class_name;
     apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {

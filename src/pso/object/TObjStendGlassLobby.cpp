@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjStendGlassLobby.h"
 #include "pso/TParticleCtrl.h"
@@ -132,7 +132,7 @@ void TObjStendGlassLobby::load_resources() {
 
 TObjStendGlassLobby::~TObjStendGlassLobby() {}
 
-TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjStendGlassLobby::TObjStendGlassLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = TObjStendGlassLobby__name;
     apply_object_set_data(set_data);
     update_state();

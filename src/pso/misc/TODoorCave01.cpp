@@ -12,7 +12,7 @@
 #include "pso/misc/TODoorCave01_80161A30.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -38,7 +38,7 @@ struct Door_801615C4 {
 };
 
 extern "C" {
-s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
+s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 void update_and_send_60__6TLobbyFPv(void *);
 u8 is_current_floor_switch_set(u16);
@@ -96,7 +96,7 @@ s32 TODoorCave01::init_door_switch_binding() {
 
 void TODoorCave01::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if (((u8) ((u32) __cntlzw(this->m_d0 & 1) >> 5) == 1) || (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(1e+04f) != 1)) {
+    if (((u8) ((u32) __cntlzw(this->m_d0 & 1) >> 5) == 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(1e+04f) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -104,7 +104,7 @@ void TODoorCave01::vfunc_17() {
 }
 void TODoorCave01::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(4.9e+03f) == 1)) {
+    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(4.9e+03f) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -246,7 +246,7 @@ void render__12TODoorCave01Fv(TODoorCave01 *arg0) {
     u8 *var_r30;
     s32 var_r29;
 
-    if ((((VObj_801618fc *) arg0)->m8(arg0->m_c0, *(f32 *)((s8 *)arg0 + 0xC4)) != 0) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(3e+01f) != 0)) {
+    if ((((VObj_801618fc *) arg0)->m8(arg0->m_c0, *(f32 *)((s8 *)arg0 + 0xC4)) != 0) && (((TObjMapObject *)arg0)->is_in_view_depth(3e+01f) != 0)) {
         push_matrix();
         post_translate_matrix((u8 *)arg0 + 0x38);
         rotate_matrix_y(0, arg0->rotation_y);

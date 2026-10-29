@@ -2,9 +2,9 @@
 #define PSO_MISC_TOKEY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TOKey : public TUnk_804AFBF8 {
+struct TOKey : public TObjMapObject {
     TOKey(TObject *parent);
     virtual ~TOKey();
     virtual void run_task();

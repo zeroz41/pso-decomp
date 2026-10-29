@@ -8,7 +8,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TOMonumentAncient02.h"
 #include "pso/TParticleCtrl.h"
@@ -197,7 +197,7 @@ TOMonumentAncient02::~TOMonumentAncient02() {
     free_collision_body_parts(this);
 }
 
-TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObjMapObject(parent) {
     s32 area;
     m_name = (const char *)TOMonumentAncient02__name;
     apply_object_set_data(set_data);

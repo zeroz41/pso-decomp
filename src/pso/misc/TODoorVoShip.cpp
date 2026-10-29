@@ -6,7 +6,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TODoorVoShip.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOBarrierEnergy01.h"
@@ -168,7 +168,7 @@ void *__dt__12TODoorVoShipFv(void *self, s16 del) {
         *(void **)((u8 *)self + 0x18) = __vt__12TODoorVoShip;
         ((TODoorVoShip *)self)->unregister_object_by_id();
         free_collision_body_parts((TODoorVoShip *)self);
-        __dt__13TUnk_804AFBF8Fv(self, 0);
+        __dt__13TObjMapObjectFv(self, 0);
         if (del > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -177,7 +177,7 @@ void *__dt__12TODoorVoShipFv(void *self, s16 del) {
 }
 }
 
-TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = (const char *)TODoorVoShip__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model((*(u8 * *)&TODoorVoShip__shared_bml_archive), 1);

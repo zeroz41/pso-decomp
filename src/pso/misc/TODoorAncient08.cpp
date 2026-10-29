@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
 #include "pso/misc/TODoorAncient08.h"
@@ -266,7 +266,7 @@ void TODoorAncient08::draw_switch_lights() {
 void TODoorAncient08::render() {
     u8 *arg0 = (u8 *)this;
 
-    if ((VCALL_m8(arg0) != 0) && (((TUnk_804AFBF8 *)arg0)->is_in_view_depth(lbl_805DB470) != 0)) {
+    if ((VCALL_m8(arg0) != 0) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DB470) != 0)) {
         switch (this->m_ac) {
         case 1:
         case 3:
@@ -300,7 +300,7 @@ void TODoorAncient08::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)(arg0 + 0xD0) & 1) {
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[0];
-        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB478) == 1) {
+        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB478) == 1) {
             return;
         }
         *(s32 *)(arg0 + 0xAC) = 3;
@@ -335,7 +335,7 @@ void TODoorAncient08::vfunc_17() {
 
 void TODoorAncient08::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((*(s32 *)(arg0 + 0xD0) & 1) && ((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB47C) == 1) {
+    if ((*(s32 *)(arg0 + 0xD0) & 1) && ((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB47C) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[0];
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);

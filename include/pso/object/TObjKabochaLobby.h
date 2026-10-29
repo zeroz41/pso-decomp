@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJKABOCHALOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjKabochaLobby : public TUnk_804AFBF8 {
+struct TObjKabochaLobby : public TObjMapObject {
     TObjKabochaLobby(TObject *parent, void *set_data);
     virtual ~TObjKabochaLobby();
     s32 state;  // 0 hidden, 2 growing, 3 shown, 1 shrinking

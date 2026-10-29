@@ -1,11 +1,11 @@
 #ifndef PSO_PLAYER_TUNK_804B1B80_H
 #define PSO_PLAYER_TUNK_804B1B80_H
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 // The base of the fences (TOFenceAncient01-04): a map object that opens
 // when a player comes near or a floor switch is set (trigger_mode 1 or 2).
-class TUnk_804B1B80 : public TUnk_804AFBF8 {
+class TUnk_804B1B80 : public TObjMapObject {
 public:
     TUnk_804B1B80(TObject *parent);
     virtual ~TUnk_804B1B80();

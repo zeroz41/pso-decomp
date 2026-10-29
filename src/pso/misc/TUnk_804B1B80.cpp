@@ -1,7 +1,7 @@
 #include "pso/player/TUnk_804B1B80.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
 extern "C" {
 u8 is_current_floor_switch_set(u16);
@@ -15,7 +15,7 @@ void TUnk_804B1B80::check_trigger() {
     case 0:
         break;
     case 1:
-        if (((TUnk_804AFBF8 *)this)->is_any_player_within_radius_xz(lbl_805DB600) == 1) {
+        if (((TObjMapObject *)this)->is_any_player_within_radius_xz(lbl_805DB600) == 1) {
             vfunc_14();
         }
         break;
@@ -32,7 +32,7 @@ void TUnk_804B1B80::update_trigger() {
     case 0:
         break;
     case 1:
-        if (((TUnk_804AFBF8 *)this)->is_any_player_within_radius_xz(lbl_805DB604) != 1) {
+        if (((TObjMapObject *)this)->is_any_player_within_radius_xz(lbl_805DB604) != 1) {
             vfunc_15();
         }
         break;

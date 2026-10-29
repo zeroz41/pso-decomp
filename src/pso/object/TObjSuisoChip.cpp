@@ -9,7 +9,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjSeabedSuiso_CH.h"
 
 extern "C" {
@@ -543,7 +543,7 @@ void TObjSeabedSuiso_CH::init_kind_params() {
 
 #pragma push
 #pragma opt_propagation off
-TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, void *set_data) : TObjMapObject(parent) {
     m_name = (const char *)TObjSeabedSuiso_CH__name;
     apply_object_set_data(set_data);
     init_kind_params();

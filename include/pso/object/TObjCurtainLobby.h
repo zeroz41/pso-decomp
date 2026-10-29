@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJCURTAINLOBBY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804AFBF8.h"
+#include "pso/object/TObjMapObject.h"
 
-struct TObjCurtainLobby : public TUnk_804AFBF8 {
+struct TObjCurtainLobby : public TObjMapObject {
     TObjCurtainLobby(TObject *parent, void *set_data);
     virtual ~TObjCurtainLobby();
     s32 state;  // 0 hidden, 2 growing, 3 shown, 1 shrinking
