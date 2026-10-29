@@ -523,6 +523,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TODoorAncient08.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/misc/TODoorAncient09.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/misc/TODoorCave01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    "pso/misc/TODoorCave02.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     # TItemMagSub.cpp (with TItemMagGrowEff) keeps its strings in .rodata, and
     # is written from its last function back: deferred code generation puts
     # the TItemMagGrowEff vtable first.

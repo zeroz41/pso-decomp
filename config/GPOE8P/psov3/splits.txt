@@ -5010,8 +5010,10 @@ pso/misc/TODoorCave01.cpp:
 
 pso/misc/TODoorCave02.cpp:
 	.text       start:0x80161D38 end:0x80162384
-	.rodata     start:0x80440E58 end:0x80440E60
-	.data       start:0x804B1448 end:0x804B1488
+	.rodata     start:0x80440DB8 end:0x80440E60
+	.data       start:0x804B1448 end:0x804B1508
+	.sdata      start:0x805D2F68 end:0x805D2F70
+	.sbss       start:0x805D5960 end:0x805D5968
 	.sdata2     start:0x805DB4B0 end:0x805DB4CC
 
 pso/misc/TODoorCave03.cpp:
