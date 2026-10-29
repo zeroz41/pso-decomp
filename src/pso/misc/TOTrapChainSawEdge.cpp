@@ -1058,3 +1058,123 @@ s32 __vt__20TOTrapChainSawDamage[31] = {
 };
 
 }
+#include "types.h"
+
+extern "C" {
+u8 * TObjFish__sub_8001EDB0(void *, int);
+u8 *fn_802C9924(s32 arg0) {
+    if ((void *) lbl_805D6808 != NULL) {
+        return TObjFish__sub_8001EDB0(lbl_805D6808, arg0);
+    }
+    return NULL;
+}
+
+}
+#include "types.h"
+#include "pso/misc/TOTrapChainSawKey.h"
+
+extern "C" {
+u8 * get_bml_motion(void *, int);
+u8 * get_bml_model(void *, int);
+u8 *TOTrapChainSawKey::get_motion(s32 arg0) {
+    if ((void *) lbl_805D6808 != NULL) {
+        return get_bml_motion(lbl_805D6808, arg0);
+    }
+    return NULL;
+}
+u8 *TOTrapChainSawKey::get_model(s32 arg0) {
+    if ((void *) lbl_805D6808 != NULL) {
+        return get_bml_model(lbl_805D6808, arg0);
+    }
+    return NULL;
+}
+
+}
+#include "types.h"
+
+extern "C" {
+void TLobby__sub_8001FE7C(void *, int);
+
+void fn_802C99D8(void) {
+    s32 i;
+    if (lbl_805D6808 != NULL) {
+        TLobby__sub_8001FE7C(lbl_805D6808, 1);
+        lbl_805D6808 = NULL;
+    }
+    for (i = 0; i < 5; i++) {
+        seabed_suiso_linked_switch_counts[i] = 0;
+    }
+    for (i = 0; i < 5; i++) {
+        seabed_suiso_switch_counts[i] = 0;
+    }
+}
+
+}
+#include "types.h"
+#include "pso/system/NinjaUtil.h"
+#include "pso/misc/TOTrapChainSaw.h"
+#include "pso/misc/TOTrapChainSawEdge.h"
+#include "pso/object/TObjSeabedSuisoBrakable.h"
+#include "pso/misc/TOTrapChainSawDamage.h"
+
+extern "C" {
+void *load_resource_from_descriptor(void *, int, void *, int, int, int);
+void TObjSeabedSuisoBrakable::load_shared_models() {
+    void *p;
+    s32 i;
+    s32 h;
+    p = ::operator new(0x440);
+    if (p != NULL) {
+        p = load_resource_from_descriptor(p, 5, bm_obj_jungle_nokogiri_resource_descriptor, 0, 0, 0);
+    }
+    lbl_805D6808 = (u8 *)p;
+    for (i = 0; i < 5; i++) {
+        seabed_suiso_linked_switch_counts[i] = 0;
+    }
+    for (i = 0; i < 5; i++) {
+        seabed_suiso_switch_counts[i] = 0;
+    }
+    if (p != NULL) {
+        h = (s32)get_bml_model(p, 3);
+        if (h != 0) {
+            seabed_suiso_linked_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
+            seabed_suiso_linked_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
+            seabed_suiso_linked_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
+            seabed_suiso_linked_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+        }
+        h = (s32)get_bml_model(lbl_805D6808, 4);
+        if (h != 0) {
+            seabed_suiso_switch_counts[1] = (s32)find_object_node((NJS_OBJECT *)h, 3);
+            seabed_suiso_switch_counts[2] = (s32)find_object_node((NJS_OBJECT *)h, 4);
+            seabed_suiso_switch_counts[3] = (s32)find_object_node((NJS_OBJECT *)h, 5);
+            seabed_suiso_switch_counts[4] = (s32)find_object_node((NJS_OBJECT *)h, 6);
+        }
+    }
+}
+
+int TOTrapChainSawEdge::check_player_contact() {  }
+
+}
+#include "types.h"
+#include "pso/misc/TOTrapChainSawEdge.h"
+#include "pso/misc/TOTrapChainSaw.h"
+#include "pso/misc/TOTrapChainSawDamage.h"
+
+void TOTrapChainSaw::vfunc_18() {  }
+void TOTrapChainSaw::vfunc_26() {  }
+void TOTrapChainSaw::vfunc_27() {  }
+void TOTrapChainSaw::vfunc_28() {  }
+void TOTrapChainSaw::vfunc_29() {  }
+#include "types.h"
+#include "pso/misc/TOTrapChainSawEdge.h"
+#include "pso/misc/TOTrapChainSaw.h"
+#include "pso/misc/TOTrapChainSawDamage.h"
+
+void TOTrapChainSawDamage::set_damage(s32 v) { this->m_f8 = v; }
+
+void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1) {
+    *(s32 *)((s8 *)arg0 + 0x100) = (s32) (*(s32 *)((s8 *)arg0 + 0x100) + arg1);
+}
+
+void TOTrapChainSaw::vfunc_25() {  }
+void TOTrapChainSaw::vfunc_16() {  }

@@ -10142,30 +10142,12 @@ pso/object/TObjTradeCollision.cpp:
 	.sdata      start:0x805D3EF8 end:0x805D3F00
 
 pso/misc/TOTrapChainSawEdge.cpp:
-	.text       start:0x802C80F0 end:0x802C9924
+	.text       start:0x802C80F0 end:0x802C9C18
 	.rodata     start:0x80471DA0 end:0x80471FB8
 	.data       start:0x804E0BD0 end:0x804E0F90
 	.sdata      start:0x805D3F00 end:0x805D3F10
 	.sbss       start:0x805D6808 end:0x805D6810
 	.sdata2     start:0x805DE618 end:0x805DE63C
-
-pso/unk/text_802C9924.cpp:
-	.text       start:0x802C9924 end:0x802C9960
-
-pso/unk/text_802C9960.cpp:
-	.text       start:0x802C9960 end:0x802C99D8
-
-pso/unk/text_802C99D8.cpp:
-	.text       start:0x802C99D8 end:0x802C9A58
-
-pso/unk/text_802C9A58.cpp:
-	.text       start:0x802C9A58 end:0x802C9BE4
-
-pso/misc/TOTrapChainSaw_802C9BE4.cpp:
-	.text       start:0x802C9BE4 end:0x802C9BF8
-
-pso/misc/TOTrapChainSawDamage_802C9BF8.cpp:
-	.text       start:0x802C9BF8 end:0x802C9C18
 
 pso/unk/text_802C9C18.cpp:
 	.text       start:0x802C9C18 end:0x802C9DF0

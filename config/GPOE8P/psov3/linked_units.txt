@@ -1366,9 +1366,7 @@ pso/misc/TOTrap.cpp
 pso/misc/TOTrapAncient01_80226534.cpp
 pso/misc/TOTrapAncient02.cpp
 pso/misc/TOTrapAncient02R.cpp
-pso/misc/TOTrapChainSawDamage_802C9BF8.cpp
 pso/misc/TOTrapChainSawEdge.cpp
-pso/misc/TOTrapChainSaw_802C9BE4.cpp
 pso/misc/TOTrapSeabed01.cpp
 pso/misc/TOVS2Wall01.cpp
 pso/misc/TOVS2Wall01_8017BCC8.cpp
@@ -3390,10 +3388,6 @@ pso/unk/text_802C095C.cpp
 pso/unk/text_802C09E0.cpp
 pso/unk/text_802C39F8.cpp
 pso/unk/text_802C3AC0.cpp
-pso/unk/text_802C9924.cpp
-pso/unk/text_802C9960.cpp
-pso/unk/text_802C99D8.cpp
-pso/unk/text_802C9A58.cpp
 pso/unk/text_802C9C18.cpp
 pso/unk/text_802CE510.cpp
 pso/unk/text_802CE68C.cpp
