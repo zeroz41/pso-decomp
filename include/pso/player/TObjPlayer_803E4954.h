@@ -4,7 +4,8 @@
 #include "types.h"
 
 extern "C" {
-void TObjEneSlimeOne__sub_803E4B54(void *child, void *arg1, void *arg2, f32 farg0);
+// Draws model posed by motion and deformed by shape (a Ninja shape motion) at frame.
+void draw_chunk_model_with_shape_motion(void *model, void *motion, void *shape, f32 frame);
 void draw_blend_motion_tree__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 }
 void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);

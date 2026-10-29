@@ -78,7 +78,7 @@ void TLobby__sub_8001FE7C(void *resource, s32 flags);
 void *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
-extern s32 TODoorVoShip__class_name;
+extern s32 door_vo_ship_class_name;
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
 extern s32 registered_player_count;
@@ -1335,7 +1335,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;
         if (((TUnk_804B6C24 *)actor)->check_value_equals((s32)TOCapsuleAncient01::class_name) != 0) continue;
-        if (((TUnk_804B6C24 *)actor)->check_value_equals(TODoorVoShip__class_name) != 0) continue;
+        if (((TUnk_804B6C24 *)actor)->check_value_equals(door_vo_ship_class_name) != 0) continue;
         if (!(actor->bodies->flags & 0x20000)) continue;
         if (fabs_float(actor->position.z - center_z) > 1000.0f) {
             Vec pos = *&actor->position;

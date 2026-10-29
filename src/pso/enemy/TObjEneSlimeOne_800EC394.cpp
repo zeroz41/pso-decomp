@@ -68,7 +68,7 @@ extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 s32 TObjFish__sub_8001EDB0(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-void TObjEneSlimeOne__sub_803E4B54(void *child, void *arg1, void *arg2, f32 farg0);
+void draw_chunk_model_with_shape_motion(void *child, void *arg1, void *arg2, f32 farg0);
 extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 s32 get_bml_motion(s32, s32);
@@ -146,16 +146,16 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         if (arg1 != 0) {
             model_render_flags |= 0x400000;
             set_chunk_render_flags(1);
-            TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
+            draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
             clear_chunk_render_flags();
             model_render_flags &= ~0x400000;
             return;
         }
         set_chunk_render_flags(2);
         TObjFish::set_cull_back();
-        TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
+        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
         TObjFish::set_cull_mode_front();
-        TObjEneSlimeOne__sub_803E4B54((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
+        draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
         TObjFish::set_cull_none();
         clear_chunk_render_flags();
         return;
