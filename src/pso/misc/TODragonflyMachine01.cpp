@@ -2,20 +2,24 @@
 #include "pso/misc/TODragonflyMachine01.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/GinjaModel.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/ModelDrawContext.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D8F74.h"
 #include "pso/TODummyKeyCave01Sound.h"
 #include "pso/map/FloorArea.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/SoundEffect.h"
+#include <stdlib.h>
 
-struct DragonflyModelBounds {
-    GinjaModel geometry;
-    f32 radius;
-};
-
+// The motion setup TObjEneMe3Stelth::spawn_attack registers the model with.
 struct DragonflyMotionSetup {
     BmlMotionEntry *motions;
     TObjMotionAction *actions;
@@ -25,52 +29,31 @@ struct DragonflyMotionSetup {
     s16 unknown_e;
 };
 
-extern "C" {
-s32 rand(void);
-f32 sin_table_lookup(s32);
-extern s32 __vt__20TODragonflyMachine01[];
-extern const char *TODragonflyMachine01__class_name;
-extern BmlResource *TODragonflyMachine01__model_resource;
-extern const f32 lbl_805DB598;
-extern const f32 lbl_805DB5B8;
-extern const f32 lbl_805DB5BC;
-extern const f32 lbl_805DB5C0;
-extern const f32 lbl_805DB5C4;
-extern const f32 lbl_805DB5C8;
-extern const f32 lbl_805DB5CC;
-BmlResource *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-extern DragonflyMotionSetup dragonfly_machine_attack_effect_params;
-extern BmlResourceDescriptor TODragonflyMachine01__attack_effect_descriptor;
-extern s32 dragonfly_machine_node_index;
-extern s32 dragonfly_machine_node_yaw;
-extern const f32 lbl_805DB5B0;
-extern const f32 lbl_805DB5B4;
-s32 play_sound_effect(s32, s32, s32, s32);
-void TLobby__sub_8001FE7C(void *, int);
-extern const f32 lbl_805DB59C;
-extern const f32 lbl_805DB5A0;
-extern const f32 lbl_805DB5A4;
-extern const f32 lbl_805DB5A8;
-extern const f32 lbl_805DB5AC;
-s32 push_matrix();
-s32 pop_matrix();
-void translate_matrix(u32, f32, f32, f32);
-s32 post_translate_matrix(Vec *);
-s32 draw_ginja_model_with_motion(void *, AnimationMotion *, f32);
-s32 rotate_matrix_y(s32, s32);
-u8 *__ct__11TODragonflyFv(TODragonfly *);
-}
+const char *bm_fs_obj_mekatombo_model_names[2] = { "fs_obj_mekatombo.gj", NULL };
+const char *bm_fs_obj_mekatombo_motion_names[2] = { "fs_obj_mekatombo.njm", NULL };
+BmlResourceDescriptor bm_fs_obj_mekatombo_resource_descriptor = {
+    "bm_fs_obj_mekatombo.bml", bm_fs_obj_mekatombo_model_names, bm_fs_obj_mekatombo_motion_names, 1, 1
+};
+TObjMotionAction dragonfly_machine_motion_actions[1] = { { 1, 0, 0, 1.0f, 0 } };
+
+const char *TODragonflyMachine01::class_name = "TODragonflyMachine01";
+const DragonflyMotionSetup dragonfly_machine_attack_effect_params = {
+    NULL, dragonfly_machine_motion_actions, 0, 0, 1, 0
+};
+BmlResource *TODragonflyMachine01::model_resource;
+s32 TODragonflyMachine01::node_index;
+s32 TODragonflyMachine01::node_yaw;
 
 void TODragonflyMachine01::update_yaw_animation() {
     s32 full_turn;
     f32 choice;
     switch (yaw_animation_state) {
     case 0:
-        choice = lbl_805DB598 * (f32)rand();
-        if (choice <= lbl_805DB59C) yaw_animation_state = 1;
-        else if (choice <= lbl_805DB5A0) yaw_animation_state = 2;
-        else if (choice <= lbl_805DB5A4) yaw_animation_state = 3;
-        else if (choice <= lbl_805DB5A8) yaw_animation_state = 4;
+        choice = 3.0517578e-05f * (f32)rand();
+        if (choice <= 0.125f) yaw_animation_state = 1;
+        else if (choice <= 0.25f) yaw_animation_state = 2;
+        else if (choice <= 0.375f) yaw_animation_state = 3;
+        else if (choice <= 0.5f) yaw_animation_state = 4;
         else yaw_animation_state = 5;
         break;
     case 1:
@@ -115,30 +98,30 @@ void TODragonflyMachine01::update_yaw_animation() {
 }
 
 void TODragonflyMachine01::rotate_animated_node() {
-    if (dragonfly_machine_node_index == 6) {
-        rotate_matrix_y(0, dragonfly_machine_node_yaw);
+    if (node_index == 6) {
+        rotate_matrix_y(NULL, node_yaw);
     }
-    dragonfly_machine_node_index += 1;
+    node_index += 1;
 }
 
 void TODragonflyMachine01::render() {
     if (update_object_view_visibility(m_c0, model_radius)) {
         push_matrix();
-        translate_matrix(0, lbl_805DB5AC, bob_offset, lbl_805DB5AC);
-        post_translate_matrix(&position);
+        translate_matrix(0, 0.0f, bob_offset, 0.0f);
+        post_translate_matrix(&position.x);
         switch (yaw_animation_state) {
         case 3:
         case 4:
-            rotate_matrix_y(0, rotation_y - animation_yaw);
+            rotate_matrix_y(NULL, rotation_y - animation_yaw);
             break;
         default:
-            rotate_matrix_y(0, rotation_y);
+            rotate_matrix_y(NULL, rotation_y);
             break;
         }
         TObjFish::set_global_param(texlist);
-        dragonfly_machine_node_index = 0;
-        dragonfly_machine_node_yaw = animation_yaw;
-        TObjEneRe7Berura::set_global_state((s32)rotate_animated_node);
+        node_index = 0;
+        node_yaw = animation_yaw;
+        TObjEneRe7Berura::set_global_state((s32)&rotate_animated_node);
         draw_ginja_model_with_motion(model, motion, m_b0);
         TObjEneRe7Berura::set_global_state(0);
         pop_matrix();
@@ -146,93 +129,82 @@ void TODragonflyMachine01::render() {
 }
 
 void TODragonflyMachine01::run_task() {
-    this->m_fc = (s32) (this->m_fc + this->m_f8);
-    bob_offset = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
+    bob_angle = (s32) (bob_angle + bob_angle_step);
+    bob_offset = (f32) (bob_height * sin_table_lookup(bob_angle));
     if (TObjPlayer::check_demo_mode() == 1) {
-        this->vfunc_14();
+        update_demo();
         return;
     }
     update_anim_phase();
-    switch (this->m_ac) {
+    switch (m_ac) {
     case 0:
         update_yaw_animation();
         update_idle();
         return;
     case 1:
-        sub_80164A90();
+        update_wander_flight();
         return;
     case 2:
         update_yaw_animation();
-        sub_80164990();
+        update_rest();
         return;
     case 3:
-        move_toward_target();
+        update_flee_flight();
         return;
     }
 }
 
-void *TODragonflyMachine01::create(void *arg0) {
-    TODragonflyMachine01 *object = (TODragonflyMachine01 *)TObject::operator new(sizeof(TODragonflyMachine01));
-    if (object != NULL) {
-        object = object->initialize(arg0);
-    }
-    return object;
+void *TODragonflyMachine01::create(void *set_data) {
+    return new TODragonflyMachine01(set_data);
 }
 
 void TODragonflyMachine01::unload_static_data() {
-    if (TODragonflyMachine01__model_resource != NULL) {
-        TLobby__sub_8001FE7C(TODragonflyMachine01__model_resource, 1);
-        TODragonflyMachine01__model_resource = NULL;
+    if (model_resource != NULL) {
+        TLobby__sub_8001FE7C(model_resource, 1);
+        model_resource = NULL;
     }
 }
 
-void TODragonflyMachine01::create_attack_effect() {
+void TODragonflyMachine01::load_resources() {
     BmlResource *resource;
-    s32 zero = 0;
     resource = (BmlResource *)::operator new(0x440);
     if (resource != NULL) {
-        resource = load_resource_from_descriptor(resource, 1, &TODragonflyMachine01__attack_effect_descriptor, 0, 0, 0);
+        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_mekatombo_resource_descriptor, 0, 0, 0);
     }
-    TODragonflyMachine01__model_resource = resource;
-    dragonfly_machine_node_index = zero;
-    dragonfly_machine_node_yaw = zero;
+    model_resource = resource;
+    node_index = 0;
+    node_yaw = 0;
     DragonflyMotionSetup setup = dragonfly_machine_attack_effect_params;
     setup.motions = resource->motions;
-    TObjEneMe3Stelth::spawn_attack(0x38, resource->models->model, resource->models->m_c, (s32)&setup, lbl_805DB5B0, lbl_805DB5B4);
+    TObjEneMe3Stelth::spawn_attack(0x38, resource->models->model, resource->models->m_c, (s32)&setup, 3.0f, 15.0f);
 }
 
 TODragonflyMachine01::~TODragonflyMachine01() {}
 
-#pragma push
-#pragma fp_contract on
-TODragonflyMachine01 *TODragonflyMachine01::initialize(void *set_data) {
-    __ct__11TODragonflyFv(this);
-    *(s32 **)((u8 *)this + 0x18) = __vt__20TODragonflyMachine01;
-    m_name = TODragonflyMachine01__class_name;
+TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
+    m_name = class_name;
     apply_object_set_data(set_data);
-    model = (NJS_OBJECT *)TODragonflyMachine01__model_resource->models->model;
-    texlist = TODragonflyMachine01__model_resource->models->m_c;
-    motion = TODragonflyMachine01__model_resource->motions->motion;
-    animation_end_frame = (f32)motion->frameCount - lbl_805DB5B8;
-    m_b8 = (f32) lbl_805DB5B8;
-    m_c0 = (f32) lbl_805DB5BC;
-    model_radius = ((DragonflyModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    model = (NJS_OBJECT *)model_resource->models->model;
+    texlist = model_resource->models->m_c;
+    motion = model_resource->motions->motion;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    m_b8 = 1.0f;
+    m_c0 = 500.0f;
+    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     m_ac = 0;
-    m_f4 = (f32) ((lbl_805DB5C0 * (f32) set_params[0]) + lbl_805DB5B8);
-    m_f8 = (int) (lbl_805DB5C4 * (lbl_805DB5C8 / (lbl_805DB5CC / m_f4)));
-    m_fc = (int) (lbl_805DB5C4 * (lbl_805DB5C8 * (lbl_805DB598 * (f32) rand())));
-    m_ec = (f32) ((lbl_805DB5C0 * (f32) set_params[1]) + lbl_805DB5B8);
-    bob_offset = (f32) (m_ec * sin_table_lookup(m_fc));
+    bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
+    bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
+    bob_angle = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));
+    bob_height = 0.1f * (f32)set_params[1] + 1.0f;
+    bob_offset = bob_height * sin_table_lookup(bob_angle);
     yaw_animation_state = 0;
     yaw_animation_cycles = 0;
     animation_yaw = 0;
-    return this;
 }
-#pragma pop
 
 void TODummyKeyCave01Sound::play_cave01_key_sound() {
     s32 area;
-    s32 temp_r3_2;
+    s32 area_again;
 
     switch (sound_kind) {
     case 1:
@@ -249,8 +221,8 @@ void TODummyKeyCave01Sound::play_cave01_key_sound() {
         }
         break;
     case 4:
-        temp_r3_2 = get_current_floor_area();
-        if ((temp_r3_2 != AREA_BATTLE1) && (temp_r3_2 != AREA_BATTLE2)) {
+        area_again = get_current_floor_area();
+        if ((area_again != AREA_BATTLE1) && (area_again != AREA_BATTLE2)) {
             play_sound_effect(0x52813, 0, 0, 0);
             return;
         }

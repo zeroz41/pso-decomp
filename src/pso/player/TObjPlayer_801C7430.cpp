@@ -1658,7 +1658,7 @@ extern u8 lbl_80447138[0x20];
 extern const f64 lbl_80447148;
 extern RecoveredGlobal_801D2CF4_lbl_804C43CC attack_type_accuracy_scales;
 extern RecoveredGlobal_801D2CF4_lbl_804C43D8 attack_combo_accuracy_multipliers;
-extern f32 lbl_8050BEE0[];
+extern f32 scratch_vec[];
 extern f32 player_feedback_light_color[];
 extern void *player_slot_table[];
 extern u8 *lbl_805D3530;
@@ -5007,13 +5007,13 @@ void TObjPlayer::start_attack_preparation() {
         *(s16 *)(arg0 + 0x328) = 1;
         ((TObjPlayer *)arg0)->set_state_flags(0x80);
         ((TObjPlayer *)(arg0 + 0x384))->request_heavy_attack_particles();
-        lbl_8050BEE0[1] = lbl_8050BEE0[0] = 0.0f;
-        player_feedback_light_color[0] = lbl_8050BEE0[2] = 1.0f;
+        scratch_vec[1] = scratch_vec[0] = 0.0f;
+        player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = lbl_805DC3A8;
         player_feedback_light_color[3] = 1.0f;
         p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
         if (p != NULL) {
-            construct_actor_light_task(p, player_feedback_light_color, lbl_8050BEE0, 8, arg0, TObjPlayer__data_805DC39C, tl_07);
+            construct_actor_light_task(p, player_feedback_light_color, scratch_vec, 8, arg0, TObjPlayer__data_805DC39C, tl_07);
         }
         publish_actor_light_scalars(get_entity_id(arg0), TObjPlayer__data_805DC360, TObjPlayer__data_805DC3AC);
         ((TObjPlayer *)arg0)->play_sound_if_on_floor(0x1AD1C);
@@ -5022,13 +5022,13 @@ void TObjPlayer::start_attack_preparation() {
         *(s16 *)(arg0 + 0x328) = 1;
         ((TObjPlayer *)arg0)->set_state_flags(0x80);
         dispatch_weapon_special_effect(arg0, 0, 0, 0);
-        lbl_8050BEE0[1] = lbl_8050BEE0[0] = 0.0f;
-        player_feedback_light_color[0] = lbl_8050BEE0[2] = 1.0f;
+        scratch_vec[1] = scratch_vec[0] = 0.0f;
+        player_feedback_light_color[0] = scratch_vec[2] = 1.0f;
         player_feedback_light_color[2] = player_feedback_light_color[1] = lbl_805DC3A8;
         player_feedback_light_color[3] = 1.0f;
         p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
         if (p != NULL) {
-            construct_actor_light_task(p, player_feedback_light_color, lbl_8050BEE0, 8, arg0, TObjPlayer__data_805DC39C, tl_07);
+            construct_actor_light_task(p, player_feedback_light_color, scratch_vec, 8, arg0, TObjPlayer__data_805DC39C, tl_07);
         }
         publish_actor_light_scalars(get_entity_id(arg0), TObjPlayer__data_805DC360, TObjPlayer__data_805DC3AC);
         ((TObjPlayer *)arg0)->play_sound_if_on_floor(0x1AD1D);

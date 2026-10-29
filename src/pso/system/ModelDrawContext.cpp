@@ -49,7 +49,7 @@ void compose_motion_node_matrix(void *arg0);
 s32 push_matrix();
 s32 pop_matrix();
 s32 queue_model_draw_matrix(int, void *);
-void bind_motion_context(void *);
+void bind_motion_context(void *motion, f32 frame);
 void init_model_draw_queue(void *);
 }
 extern s32 model_node_callback;
@@ -61,7 +61,6 @@ void prepare_ginja_model(void *);
 void draw_ginja_model_lists(void);
 extern struct MotionCtx_803DC894 * const model_draw_context;
 extern RecoveredCallback_2be3cacebb2e ginja_draw_end_callback;
-void draw_ginja_model_with_motion(void *arg0, void *arg1);
 void copy_rotation_to_current_matrix(struct Mtx_803DC994 *src);
 void GXSetBlendMode(int, int, int, int);
 __declspec(section ".rodata") extern const u32 cached_blend_factor_table[];
@@ -81,8 +80,8 @@ void set_model_node_callback(s32 arg0) {
 }
 typedef char RecoveredGlobal_803DCBD8_lbl_8058D380_size[sizeof(RecoveredGlobal_803DCBD8_lbl_8058D380) == 0xF0 ? 1 : -1];
 
-void draw_ginja_model_with_motion(void *arg0, void *arg1) {
-    bind_motion_context(arg1);
+void draw_ginja_model_with_motion(void *arg0, void *arg1, f32 frame) {
+    bind_motion_context(arg1, frame);
     model_draw_context->fn = draw_ginja_model_lists;
     prepare_ginja_model(model_draw_context);
     init_model_draw_queue((void *) draw_ginja_model_lists);

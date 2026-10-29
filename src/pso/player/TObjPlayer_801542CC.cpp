@@ -135,7 +135,7 @@ s32 build_collision_box_corners(s32 arg0, s32 arg1, Box_80154EF8 *box, u32 out);
 s32 subtract_vector(void *, void *);
 extern s32 enable_v2_features;
 f32 get_collision_body_radius(Obj_801547E0 *self, s32 i);
-extern Vec_80155294 lbl_8050BEE0;
+extern Vec_80155294 scratch_vec;
 f64 atan2_float(f32, f32);
 extern const f64 lbl_804400F0;
 s32 angle_difference_abs(s32, s32);
@@ -650,13 +650,13 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         moved = 0;
         xl = hw * hw + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
         zl = hd * hd + get_collision_body_radius((Obj_801547E0 *)arg0, 0);
-        VecCopy__FP3VecPC3Vec(&lbl_8050BEE0, &radial);
+        VecCopy__FP3VecPC3Vec(&scratch_vec, &radial);
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, -*(s32 *)(arg1 + 0x60));
-        rotate_vector_by_current_matrix(&lbl_8050BEE0, &lbl_8050BEE0);
+        rotate_vector_by_current_matrix(&scratch_vec, &scratch_vec);
         pop_matrix();
-        xx = lbl_8050BEE0.x * lbl_8050BEE0.x;
-        zz = lbl_8050BEE0.z * lbl_8050BEE0.z;
+        xx = scratch_vec.x * scratch_vec.x;
+        zz = scratch_vec.z * scratch_vec.z;
         dx = xl - xx;
         dz = zl - zz;
         if (xx + zz < lbl_805DB284) {
@@ -667,13 +667,13 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         } else if (*(u32 *)(arg2 + 0x18) & 0x20000000) {
             v.x = v.y = v.z = TObjPlayer__data_805DB270;
             if (hd < hw) {
-                if (TObjPlayer__data_805DB270 < lbl_8050BEE0.z) {
+                if (TObjPlayer__data_805DB270 < scratch_vec.z) {
                     v.z = lbl_805DB288;
                 } else {
                     v.z = lbl_805DB28C;
                 }
             } else {
-                if (TObjPlayer__data_805DB270 < lbl_8050BEE0.x) {
+                if (TObjPlayer__data_805DB270 < scratch_vec.x) {
                     v.x = lbl_805DB288;
                 } else {
                     v.x = lbl_805DB28C;
@@ -681,12 +681,12 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
             }
             SHIFT_80155294(*(s32 *)(arg1 + 0x60));
         } else if (dx < dz) {
-            v.x = lbl_8050BEE0.x < 0.0f ? lbl_805DB28C : lbl_805DB288;
+            v.x = scratch_vec.x < 0.0f ? lbl_805DB28C : lbl_805DB288;
             v.z = v.y = TObjPlayer__data_805DB270;
             SHIFT_80155294(*(s32 *)(arg1 + 0x60));
             v.x = TObjPlayer__data_805DB270;
             v.y = TObjPlayer__data_805DB270;
-            if (lbl_8050BEE0.z < TObjPlayer__data_805DB270) {
+            if (scratch_vec.z < TObjPlayer__data_805DB270) {
                 v.z = lbl_805DB290;
             } else {
                 v.z = lbl_805DB294;
@@ -695,13 +695,13 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
         } else {
             v.x = TObjPlayer__data_805DB270;
             v.y = TObjPlayer__data_805DB270;
-            if (lbl_8050BEE0.z < TObjPlayer__data_805DB270) {
+            if (scratch_vec.z < TObjPlayer__data_805DB270) {
                 v.z = lbl_805DB28C;
             } else {
                 v.z = lbl_805DB288;
             }
             SHIFT_80155294(*(s32 *)(arg1 + 0x60));
-            v.x = lbl_8050BEE0.x < 0.0f ? lbl_805DB290 : lbl_805DB294;
+            v.x = scratch_vec.x < 0.0f ? lbl_805DB290 : lbl_805DB294;
             v.z = v.y = TObjPlayer__data_805DB270;
             SHIFT_80155294(*(s32 *)(arg1 + 0x60));
         }

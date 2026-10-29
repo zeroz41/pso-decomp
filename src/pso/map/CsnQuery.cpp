@@ -157,7 +157,7 @@ s32 query_segment_wall_meshes(void *arg0, void *arg1, u32 arg2, Node_8007970C **
 s32 check_line_hits_walls__10TObjPlayerFPvPviPv(void *arg0, void *arg1, int arg2, Node_800797DC **list);
 f32 vec3_dot(void *, void *);
 void vec3_cross(void *, void *, void *);
-extern Vec_800798A0 lbl_8050BEE0;
+extern Vec_800798A0 scratch_vec;
 extern Vec_800798A0 lbl_8050BF00;
 extern Vec_800798A0 lbl_8050BF20;
 extern Vec_800798A0 lbl_8050BF40;
@@ -371,10 +371,10 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
         return 0;
     }
     v = &VERTS[FACE->idx[0]];
-    lbl_8050BEE0.x = ORG->x - v->x;
-    lbl_8050BEE0.y = ORG->y - v->y;
-    lbl_8050BEE0.z = ORG->z - v->z;
-    t = vec3_dot(&lbl_8050BEE0, &n);
+    scratch_vec.x = ORG->x - v->x;
+    scratch_vec.y = ORG->y - v->y;
+    scratch_vec.z = ORG->z - v->z;
+    t = vec3_dot(&scratch_vec, &n);
     if (t <= lbl_805D91FC) {
         return 0;
     }
@@ -386,9 +386,9 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
     lbl_8050BF60.y = DIR->y * t + ORG->y;
     lbl_8050BF60.z = DIR->z * t + ORG->z;
     v1 = &VERTS[FACE->idx[1]];
-    vsub(&lbl_8050BF60, v, &lbl_8050BEE0);
+    vsub(&lbl_8050BF60, v, &scratch_vec);
     vsub(&lbl_8050BF60, v1, &lbl_8050BF00);
-    vec3_cross(&lbl_8050BEE0, &lbl_8050BF00, &lbl_8050BF40);
+    vec3_cross(&scratch_vec, &lbl_8050BF00, &lbl_8050BF40);
     if (vec3_dot(&lbl_8050BF40, &n) < lbl_805D91F0) {
         return 0;
     }
@@ -397,7 +397,7 @@ s32 intersect_wall_triangle_one_sided(void *arg0, void *arg1, void *arg2, E_8007
     if (vec3_dot(&lbl_8050BF40, &n) < lbl_805D91F0) {
         return 0;
     }
-    vec3_cross(&lbl_8050BF20, &lbl_8050BEE0, &lbl_8050BF40);
+    vec3_cross(&lbl_8050BF20, &scratch_vec, &lbl_8050BF40);
     if (vec3_dot(&lbl_8050BF40, &n) < lbl_805D91F0) {
         return 0;
     }
@@ -544,8 +544,8 @@ u32 TObjPlayer__sub_80079DE0(void *a, void *b) {
     len = newton_sqrtf(lenSq);
     while ((w = *src++) != NULL) {
         if (w->flags & 0x8000) {
-            vsub(a, &w->pos, &lbl_8050BEE0);
-            dsq = vec_squared_length(&lbl_8050BEE0);
+            vsub(a, &w->pos, &scratch_vec);
+            dsq = vec_squared_length(&scratch_vec);
             r = len + w->radius;
             r *= r;
             if (dsq <= r) {
@@ -663,9 +663,9 @@ Wall_8007A138 *query_collision_segment_groups(Vec_8007A138 *a, Vec_8007A138 *b, 
     newton_sqrtf(lenSq);
     while ((w = *src++) != NULL) {
         if (w->flags & mask) {
-            (*(Vec_8007A138 *)&lbl_8050BEE0).x = w->pos.x - a->x;
-            (*(Vec_8007A138 *)&lbl_8050BEE0).z = w->pos.z - a->z;
-            dsq = (*(Vec_8007A138 *)&lbl_8050BEE0).x * (*(Vec_8007A138 *)&lbl_8050BEE0).x + (*(Vec_8007A138 *)&lbl_8050BEE0).z * (*(Vec_8007A138 *)&lbl_8050BEE0).z;
+            (*(Vec_8007A138 *)&scratch_vec).x = w->pos.x - a->x;
+            (*(Vec_8007A138 *)&scratch_vec).z = w->pos.z - a->z;
+            dsq = (*(Vec_8007A138 *)&scratch_vec).x * (*(Vec_8007A138 *)&scratch_vec).x + (*(Vec_8007A138 *)&scratch_vec).z * (*(Vec_8007A138 *)&scratch_vec).z;
             r = len + w->radius;
             r *= r;
             if (dsq <= r) {

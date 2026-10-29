@@ -543,7 +543,7 @@ s32 subtract_vector(void *, void *);
 s32 push_matrix_from(void *);
 s32 pop_matrices(int);
 extern const f64 lbl_8043BC88;
-extern Vec_800C5164 lbl_8050BEE0;
+extern Vec_800C5164 scratch_vec;
 extern Vec_800C5164 lbl_8050BF00;
 extern u8 identity_matrix[];
 
@@ -670,13 +670,13 @@ void TUnk_80493450::beast_update_hurt() {
 
     advance_animation_playback();
     VecCopy((Vec *)&v, (const Vec *)&o->f2FC);
-    lbl_8050BEE0.x = lbl_8050BEE0.y = lbl_805DA034;
-    lbl_8050BEE0.z = get_collision_body_radius(o, 0);
-    ((void (*)(void *, void *))push_matrix_from)(identity_matrix, &lbl_8050BEE0);
+    scratch_vec.x = scratch_vec.y = lbl_805DA034;
+    scratch_vec.z = get_collision_body_radius(o, 0);
+    ((void (*)(void *, void *))push_matrix_from)(identity_matrix, &scratch_vec);
     rotate_matrix_y(0, -((TObjPlayer *)o)->rotation_y);
-    rotate_vector_by_matrix(0, &lbl_8050BEE0, &lbl_8050BEE0);
+    rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
-    vec3_add_to(&v, &lbl_8050BEE0);
+    vec3_add_to(&v, &scratch_vec);
     v.x += o->f308;
     v.z += ((TObjPlayer *)o)->m_310;
     if (check_path_obstructed(o, &v) == 0) {
@@ -1045,9 +1045,9 @@ void TUnk_80493450::beast_idle_update() {
         VecCopy((Vec *)&this->m_29c, &this->home_position);
         VecCopy((Vec *)&this->m_290, (const Vec *)&this->m_2fc);
         VecCopy(&this->prev_position, (const Vec *)&this->position);
-        VecCopy((Vec *)&lbl_8050BEE0, &this->home_position);
-        subtract_vector(&lbl_8050BEE0, (u8 *)&this->position);
-        angle = lbl_8043BC88 * atan2_float(lbl_8050BEE0.x, lbl_8050BEE0.z);
+        VecCopy((Vec *)&scratch_vec, &this->home_position);
+        subtract_vector(&scratch_vec, (u8 *)&this->position);
+        angle = lbl_8043BC88 * atan2_float(scratch_vec.x, scratch_vec.z);
         lbl_8050BF00.x = lbl_8050BF00.y = lbl_805DA034;
         lbl_8050BF00.z = *(f32 *)&this->unk_394;
         push_matrix_from(identity_matrix);
@@ -1061,11 +1061,11 @@ void TUnk_80493450::beast_idle_update() {
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
             goto end;
         }
-        r = fabs_float(lbl_8050BEE0.z);
-        if (fabs_float(lbl_8050BEE0.x) < r) {
-            angle = lbl_8043BC88 * atan2_float(lbl_8050BEE0.x, lbl_805DA034);
+        r = fabs_float(scratch_vec.z);
+        if (fabs_float(scratch_vec.x) < r) {
+            angle = lbl_8043BC88 * atan2_float(scratch_vec.x, lbl_805DA034);
         } else {
-            angle = lbl_8043BC88 * atan2_float(lbl_805DA034, lbl_8050BEE0.z);
+            angle = lbl_8043BC88 * atan2_float(lbl_805DA034, scratch_vec.z);
         }
         lbl_8050BF00.x = lbl_8050BF00.y = lbl_805DA034;
         lbl_8050BF00.z = *(f32 *)&this->unk_394;
@@ -1080,11 +1080,11 @@ void TUnk_80493450::beast_idle_update() {
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
             goto end;
         }
-        r = fabs_float(lbl_8050BEE0.z);
-        if (fabs_float(lbl_8050BEE0.x) < r) {
-            angle2 = lbl_8043BC88 * atan2_float(lbl_805DA034, lbl_8050BEE0.z);
+        r = fabs_float(scratch_vec.z);
+        if (fabs_float(scratch_vec.x) < r) {
+            angle2 = lbl_8043BC88 * atan2_float(lbl_805DA034, scratch_vec.z);
         } else {
-            angle2 = lbl_8043BC88 * atan2_float(lbl_8050BEE0.x, lbl_805DA034);
+            angle2 = lbl_8043BC88 * atan2_float(scratch_vec.x, lbl_805DA034);
         }
         lbl_8050BF00.x = lbl_8050BF00.y = lbl_805DA034;
         lbl_8050BF00.z = *(f32 *)&this->unk_394;

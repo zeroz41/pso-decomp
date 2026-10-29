@@ -364,7 +364,7 @@ f32 fabs_float(f32);
 void TObjEneMe3SinowZoa__sub_800D758C(void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
-extern Vec_800BE8FC lbl_8050BEE0;
+extern Vec_800BE8FC scratch_vec;
 extern Vec_800BE8FC lbl_8050BF00;
 f32 get_collision_body_radius(void *, int);
 s32 select_enemy_destination(void *, Vec_800BD4D8, int);
@@ -1319,9 +1319,9 @@ void TObjGrass::update_ai(void *arg0) {
                 VecCopy((Vec *)&o->f29C, (const Vec *)&o->home);
                 VecCopy((Vec *)&o->f290, (const Vec *)&o->f2FC);
                 VecCopy((Vec *)&o->prev, (const Vec *)&o->pos);
-                VecCopy((Vec *)&lbl_8050BEE0, (const Vec *)&o->home);
-                subtract_vector(&lbl_8050BEE0, &o->pos);
-                d = &lbl_8050BEE0;
+                VecCopy((Vec *)&scratch_vec, (const Vec *)&o->home);
+                subtract_vector(&scratch_vec, &o->pos);
+                d = &scratch_vec;
                 ang = (s32)((10430.38043493439) * atan2_float(d->x, d->z));
                 v = &lbl_8050BF00;
                 v->x = v->y = (0.0f);
@@ -1337,8 +1337,8 @@ void TObjGrass::update_ai(void *arg0) {
                     o->angle = approach_angle_limited(o->angle, ang, o->param->turn);
                 } else {
                     f32 r = fabs_float(d->z);
-                    if (fabs_float(lbl_8050BEE0.x) < r) {
-                        ang = (s32)((10430.38043493439) * atan2_float(lbl_8050BEE0.x, (0.0f)));
+                    if (fabs_float(scratch_vec.x) < r) {
+                        ang = (s32)((10430.38043493439) * atan2_float(scratch_vec.x, (0.0f)));
                     } else {
                         ang = (s32)((10430.38043493439) * atan2_float((0.0f), d->z));
                     }
@@ -1357,10 +1357,10 @@ void TObjGrass::update_ai(void *arg0) {
                     } else {
                         s32 ang2;
                         r = fabs_float(d->z);
-                        if (fabs_float(lbl_8050BEE0.x) < r) {
+                        if (fabs_float(scratch_vec.x) < r) {
                             ang2 = (s32)((10430.38043493439) * atan2_float((0.0f), d->z));
                         } else {
-                            ang2 = (s32)((10430.38043493439) * atan2_float(lbl_8050BEE0.x, (0.0f)));
+                            ang2 = (s32)((10430.38043493439) * atan2_float(scratch_vec.x, (0.0f)));
                         }
                         v->y = (0.0f);
                         lbl_8050BF00.x = (0.0f);

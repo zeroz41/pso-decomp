@@ -8,13 +8,9 @@ struct RecoveredGlobal_8001EDF4_lbl_804FE148 {
     u8 remaining[0x1F];
 };
 
-struct FishEntry8_8001ED9C { s32 a; s32 b; };
 
-struct Fish_8001ED9C { u8 pad[0x430]; FishEntry8_8001ED9C *entries; };
 
-struct FishEntry16_8001EDB0 { s32 a; s32 b; s32 c; s32 d; };
 
-struct Fish_8001EDB0 { u8 pad[0x42C]; FishEntry16_8001EDB0 *entries; };
 
 
 
@@ -26,8 +22,6 @@ extern "C" {
 s32 strcmp(void *, void *);
 extern RecoveredGlobal_8001EDF4_lbl_804FE148 TLobby__tmp_buf_name;
 extern s32 tmp_buf_in_use_flag;
-s32 get_bml_motion(Fish_8001ED9C *self, s32 i);
-s32 TObjFish__sub_8001EDB0(Fish_8001EDB0 *self, s32 i);
 void TLobby__sub_8001EDD8(List_8001EDD8 *self, s32 item);
 char *strncpy(char *d, const char *s, u32 n);
 extern char lbl_80434AE8[];
@@ -37,12 +31,12 @@ extern char lbl_80434AC0[];
 
 int fn_8001ED90(void* p) { return (*(u32*)((char*)p + 0x0) >> 10) & 0x1; }
 
-s32 get_bml_motion(Fish_8001ED9C *self, s32 i) {
-    return self->entries[i].b;
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
+    return resource->motions[index].motion;
 }
 
-s32 TObjFish__sub_8001EDB0(Fish_8001EDB0 *self, s32 i) {
-    return self->entries[i].d;
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index) {
+    return resource->models[index].m_c;
 }
 
 s32 get_bml_model(BmlResource *resource, s32 index) {

@@ -109,7 +109,7 @@ void subtract_vector(void *, void *);
 s32 push_matrix_from(void *src);
 s32 pop_matrix();
 extern const f64 lbl_80442F38;
-extern Vec_8017A3C0 lbl_8050BEE0[];
+extern Vec_8017A3C0 scratch_vec[];
 extern Vec_8017A3C0 lbl_8050BF00[];
 extern u8 identity_matrix[];
 extern const f32 lbl_805DBA78;
@@ -678,10 +678,10 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
                 if (d < o->f338 * o->f338) {
                     o->mode = 3;
                     o->sub = 2;
-                    VecCopy((Vec *)lbl_8050BEE0, (const Vec *)&o->pos);
-                    lbl_8050BEE0->y += o->f344 + o->f348;
+                    VecCopy((Vec *)scratch_vec, (const Vec *)&o->pos);
+                    scratch_vec->y += o->f344 + o->f348;
                     VecCopy((Vec *)lbl_8050BF00, (const Vec *)&o->target->f2FC);
-                    subtract_vector(lbl_8050BF00, lbl_8050BEE0);
+                    subtract_vector(lbl_8050BF00, scratch_vec);
                     if (((TObjBoss2Tunnel *)lbl_8050BF00)->update_scale() < lbl_805DBA8C) {
                         lbl_8050BF00->x = lbl_8050BF00->y = lbl_805DBA80;
                         lbl_8050BF00->z = lbl_805DBA78;
@@ -697,28 +697,28 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
                         dmg.type = 3;
                         dmg.v = ((TOTrapAncient02R *)o)->vfunc_87(lbl_805DBA94 * (f32)o->level + lbl_805DBA90);
                         ((Trap_8017A3C0 *)o->target)->m21(o, dmg, 0, -1, -1);
-                        spawn_particle_effect(lbl_8050BEE0, 0xB9);
-                        spawn_particle_effect(lbl_8050BEE0, 0xBA);
+                        spawn_particle_effect(scratch_vec, 0xB9);
+                        spawn_particle_effect(scratch_vec, 0xBA);
                         {
                             void *t = __nw__7TObjectFUl(0x260);
                             if (t != NULL) {
-                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)lbl_8050BEE0, (u8 *)lbl_8050BF00, 0x14000000, 0x14, o->range, (f32)lbl_805DBA98);
+                                ((TTecZonde *)t)->construct_bolt_effect((u8 *)tl_07, (u8 *)scratch_vec, (u8 *)lbl_8050BF00, 0x14000000, 0x14, o->range, (f32)lbl_805DBA98);
                             }
                         }
-                        play_sound_effect(0x4002A408, lbl_8050BEE0, 0, 0);
+                        play_sound_effect(0x4002A408, scratch_vec, 0, 0);
                         break;
                     }
                     case 0:
-                        TTecFoie::create_ex((void *)o, (void *)lbl_8050BEE0, &o->target->f2FC, (void *)o->level);
+                        TTecFoie::create_ex((void *)o, (void *)scratch_vec, &o->target->f2FC, (void *)o->level);
                         break;
                     case 2:
-                        ((TTecGiBarta *)o)->create_ex((void *)lbl_8050BEE0, (void *)ang, (void *)o->level);
+                        ((TTecGiBarta *)o)->create_ex((void *)scratch_vec, (void *)ang, (void *)o->level);
                         break;
                     case 3:
-                        TTecMegid::create((s32)o, (s32)lbl_8050BEE0, (s32)&o->target->f2FC, o->level);
+                        TTecMegid::create((s32)o, (s32)scratch_vec, (s32)&o->target->f2FC, o->level);
                         break;
                     case 4:
-                        TTecGiFoie::create((void *)o, (void *)lbl_8050BEE0, (void *)o->level);
+                        TTecGiFoie::create((void *)o, (void *)scratch_vec, (void *)o->level);
                         break;
                     }
                 } else {

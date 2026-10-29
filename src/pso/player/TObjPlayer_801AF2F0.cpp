@@ -2532,7 +2532,7 @@ extern u8 lbl_80446F50[];
 extern u8 lbl_80446F5C[];
 extern const f64 lbl_80446F68;
 extern u8 main_phase_state[];
-extern Vec_801B6964 lbl_8050BEE0[];
+extern Vec_801B6964 scratch_vec[];
 extern DeathItemPosition lbl_8050BF60;
 extern Color_801B6964 player_feedback_light_color[];
 extern void *player_slot_table[];
@@ -5763,16 +5763,16 @@ void spawn_level_change_feedback__10TObjPlayerFv(s32 arg0, s32 arg1) {
         __ct__14TFontSmallHelpFUlUllUl(p, ((s32 (*)(s32))get_entity_id)(arg0), -1, 0x3C, arg1);
     }
     TObjPlayer::new_child_object(((s32 (*)(s32))get_entity_id)(arg0));
-    lbl_8050BEE0[0].x = 0.0f;
-    lbl_8050BEE0[0].y = -1.0f;
-    lbl_8050BEE0[0].z = 0.0f;
+    scratch_vec[0].x = 0.0f;
+    scratch_vec[0].y = -1.0f;
+    scratch_vec[0].z = 0.0f;
     player_feedback_light_color[0].r = 1.0f;
     player_feedback_light_color[0].g = 1.0f;
     player_feedback_light_color[0].b = 0.8f;
     player_feedback_light_color[0].a = 0.63f;
     p = ((void * (*)(u32))__nw__7TObjectFUl)(0x64);
     if (p != NULL) {
-        ((void (*)(void *, Color_801B6964 *, f32, Vec_801B6964 *, s32, s32, s32))construct_actor_light_task)(p, player_feedback_light_color, 0.2f, lbl_8050BEE0, 10, arg0, tl_07);
+        ((void (*)(void *, Color_801B6964 *, f32, Vec_801B6964 *, s32, s32, s32))construct_actor_light_task)(p, player_feedback_light_color, 0.2f, scratch_vec, 10, arg0, tl_07);
     }
     publish_actor_light_scalars(((s32 (*)(s32))get_entity_id)(arg0), 1.0f, 0.5f);
 }

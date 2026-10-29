@@ -17,6 +17,11 @@ typedef struct GinjaModel {
   u16 primary_count;
   u16 secondary_count;
 } GinjaModel;
+// A Ginja model followed by its bounding radius.
+typedef struct GinjaModelBounds {
+  GinjaModel model;
+  f32 radius;
+} GinjaModelBounds;
 typedef char GinjaDrawRecordSize[(sizeof(GinjaDrawRecord) == 0x10) ? 1 : -1];
 typedef char GinjaModelPrefixSize[(sizeof(GinjaModel) == 0x14) ? 1 : -1];
 #endif

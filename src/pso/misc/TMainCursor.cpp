@@ -395,7 +395,7 @@ extern const f32 TMainCursor__data_805DB0C0;
 extern const f32 TMainCursor__data_805DB0CC;
 extern const f32 lbl_805DB0E0;
 s32 target_in_vertical_cone(Vec_8013BF0C *p, Vec_8013BF0C *q, s32 yaw, f32 range, f32 dist);
-extern Vec_8013C0A0 lbl_8050BEE0;
+extern Vec_8013C0A0 scratch_vec;
 s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw, f32 range, f32 dist);
 s32 get_entity_id(void *);
 s32 set_size__11TMainCursorFf(f32);
@@ -489,11 +489,11 @@ s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw
             if (vec3_dot(&a, &b) < range) {
                 return 0;
             }
-            lbl_8050BEE0.x = q->x - r->x;
-            lbl_8050BEE0.y = TMainCursor__data_805DB0C0;
-            lbl_8050BEE0.z = q->z - r->z;
-            ((TObjBoss2Tunnel *)(&lbl_8050BEE0))->update_scale();
-            if (vec3_dot(&a, &lbl_8050BEE0) < TMainCursor__data_805DB0C0) {
+            scratch_vec.x = q->x - r->x;
+            scratch_vec.y = TMainCursor__data_805DB0C0;
+            scratch_vec.z = q->z - r->z;
+            ((TObjBoss2Tunnel *)(&scratch_vec))->update_scale();
+            if (vec3_dot(&a, &scratch_vec) < TMainCursor__data_805DB0C0) {
                 return 0;
             }
         }

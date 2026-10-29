@@ -5059,13 +5059,19 @@ pso/misc/TODoorVS2Door01.cpp:
 
 pso/misc/TODragonflyCave01.cpp:
 	.text       start:0x80164414 end:0x80164F50
-	.rodata     start:0x804411A0 end:0x804411B0
-	.data       start:0x804B1870 end:0x804B18B0
+	.rodata     start:0x80441100 end:0x804411B8
+	.data       start:0x804B1870 end:0x804B1928
+	.sdata      start:0x805D2F98 end:0x805D2FA0
+	.sbss       start:0x805D5990 end:0x805D5994
+	.sdata2     start:0x805DB560 end:0x805DB598
 
 pso/misc/TODragonflyMachine01.cpp:
 	.text       start:0x80164F50 end:0x8016582C
-	.rodata     start:0x80441228 end:0x80441238
-	.data       start:0x804B1958 end:0x804B1994
+	.rodata     start:0x804411B8 end:0x80441238
+	.data       start:0x804B1928 end:0x804B1994
+	.sdata      start:0x805D2FA0 end:0x805D2FA4
+	.sbss       start:0x805D5998 end:0x805D59A4
+	.sdata2     start:0x805DB598 end:0x805DB5D0
 
 pso/system/TODummyKeyCave01Sound.cpp:
 	.text       start:0x8016582C end:0x80165940
@@ -9894,9 +9900,11 @@ pso/misc/TBGLightningCtrl.cpp:
 
 pso/misc/TOBiwaMushi.cpp:
 	.text       start:0x802AA2D4 end:0x802AABEC
-	.rodata     start:0x8046FDA8 end:0x8046FDB8
-	.data       start:0x804DDFB0 end:0x804DDFF0
-	.sdata      start:0x805D3E40 end:0x805D3E48
+	.rodata     start:0x8046FCB8 end:0x8046FDB8
+	.data       start:0x804DDFB0 end:0x804DE0C4
+	.sdata      start:0x805D3E40 end:0x805D3E4C
+	.sbss       start:0x805D66D8 end:0x805D66E4
+	.sdata2     start:0x805DE068 end:0x805DE088
 
 pso/unk/text_802AA8FC.cpp:
 	.text       start:0x802AABEC end:0x802AACF4

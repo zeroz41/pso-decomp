@@ -374,7 +374,7 @@ extern const f32 lbl_805E02F4;
 extern const f32 lbl_805E02F8;
 f32 fabs_float(f32);
 s32 approach_angle_limited(s32, s32, s32);
-extern Vec_80367B00 lbl_8050BEE0;
+extern Vec_80367B00 scratch_vec;
 void *__dt__14TObjEneIllGillFv(void *arg0, s16 arg1);
 int TLobby__sub_8001FE7C(void*, void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -1434,28 +1434,28 @@ void TObjEneIllGill::move_toward_dest_with_detour() {
     VecCopy((Vec *)&o->v29C, (const Vec *)&o->v50);
     VecCopy((Vec *)&o->v290, (const Vec *)&o->v2FC);
     VecCopy((Vec *)&o->prev, (const Vec *)&o->pos);
-    VecCopy((Vec *)&lbl_8050BEE0, (const Vec *)&o->v50);
-    subtract_vector(&lbl_8050BEE0, &o->pos);
-    ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(lbl_8050BEE0.x, lbl_8050BEE0.z));
+    VecCopy((Vec *)&scratch_vec, (const Vec *)&o->v50);
+    subtract_vector(&scratch_vec, &o->pos);
+    ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(scratch_vec.x, scratch_vec.z));
     if (TRY_80367B00((u8 *)o, ang) == 1) {
         o->fB8 = 1;
         VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
         o->f60 = approach_angle_limited(o->f60, ang, o->f350->f8);
     } else {
-        if (fabs_float(lbl_8050BEE0.x) < fabs_float(lbl_8050BEE0.z)) {
-            ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(lbl_8050BEE0.x, TObjEneIllGill__data_805E02BC));
+        if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
+            ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(scratch_vec.x, TObjEneIllGill__data_805E02BC));
         } else {
-            ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(TObjEneIllGill__data_805E02BC, lbl_8050BEE0.z));
+            ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(TObjEneIllGill__data_805E02BC, scratch_vec.z));
         }
         if (TRY_80367B00((u8 *)o, ang) == 1) {
             o->fB8 = 1;
             VecCopy((Vec *)&o->pos, (const Vec *)&lbl_8050BF00);
             o->f60 = approach_angle_limited(o->f60, ang, o->f350->f8);
         } else {
-            if (fabs_float(lbl_8050BEE0.x) < fabs_float(lbl_8050BEE0.z)) {
-                ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(TObjEneIllGill__data_805E02BC, lbl_8050BEE0.z));
+            if (fabs_float(scratch_vec.x) < fabs_float(scratch_vec.z)) {
+                ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(TObjEneIllGill__data_805E02BC, scratch_vec.z));
             } else {
-                ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(lbl_8050BEE0.x, TObjEneIllGill__data_805E02BC));
+                ang = (s32)(TObjEneIllGill__data_8047A348 * atan2_float(scratch_vec.x, TObjEneIllGill__data_805E02BC));
             }
             if (TRY_80367B00((u8 *)o, ang) == 1) {
                 o->fB8 = 1;

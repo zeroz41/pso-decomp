@@ -477,6 +477,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItem.cpp is written from its last function back (deferred code
     # generation; the data keeps source order) and built with GC/2.0, like the
     # struct-copy units above.
+    # The dragonfly base and its cave subclass: vtables come out subclass first.
+    "pso/misc/TOBiwaMushi.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
+    "pso/misc/TODragonflyCave01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
+    "pso/misc/TODragonflyMachine01.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4")},
     "pso/item/TItem.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TItemProArmor.cpp, TItemProShield.cpp and TItemProUnit.cpp are written
     # from their last function back (deferred code generation, which also puts

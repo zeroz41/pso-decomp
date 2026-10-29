@@ -4,21 +4,20 @@
 #include "types.h"
 #include "pso/misc/TODragonfly.h"
 
+struct BmlResource;
+
+// The cave dragonfly (the VR spaceships and battle stage use its ex model).
 struct TODragonflyCave01 : public TODragonfly {
+    TODragonflyCave01(void *set_data);
     virtual ~TODragonflyCave01();
+    static void *create(void *set_data);
     static void release_static_instance();
     static void load_resources();
+
+    static const char *class_name;
+    static BmlResource *model_resource;
 };
 
 typedef char TODragonflyCave01_size[sizeof(TODragonflyCave01) == 0x100 ? 1 : -1];
-
-struct TODragonfly;
-extern "C" {
-void *TODragonflyCave01__create(void *arg0);
-u8 *TODragonflyCave01__ct(TODragonflyCave01 *arg0, void *arg1);
-u8 *TODragonfly__ct(TODragonfly *arg0);
-void *__dt__11TODragonflyFv(void *arg0, s16 arg1);
-void *__dt__17TODragonflyCave01Fv(void *arg0, s16 arg1);
-}
 
 #endif

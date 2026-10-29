@@ -583,7 +583,6 @@ struct TObjPlayer : public TObjChara {
     void set_temp_flag10_and_update();
     static void setup_tev_swap();
     static void set_tev_swap_mode(u8 arg0);
-    s32 check_camera_distance();
     s32 calc_angle_to(void *arg1);
     static u16 lerp_angle_half(u16 arg0, u16 arg1);
     static s32 is_in_range(f32 farg0);

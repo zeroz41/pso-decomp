@@ -38,12 +38,12 @@ void set_shadow_material_state(void) {
     model_render_flags |= 0x400;
 }
 u32 saved_model_draw_color[8];
-f32 lbl_8050BEE0[8];
+f32 scratch_vec[8];
 f32 lbl_8050BF00[8];
 u32 lbl_8050BF20[8];
 u32 lbl_8050BF40[8];
 f32 lbl_8050BF60[16];
-u32 dragonfly_random_destination[16];
+u32 scratch_rotation[16];
 f32 player_feedback_light_color[4];
 u32 photon_chair_color_vec4[4];
 Cfg_80141604 depth_buffer_settings;

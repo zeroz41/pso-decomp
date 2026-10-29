@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+struct BmlResource;
+struct AnimationMotion;
+
 extern "C" {
 void TLobby__sub_8001EDF4(u8 *arg0);
 s32 TLobby__sub_8001EEF4(void);
@@ -14,6 +17,9 @@ extern "C" {
 void TLobby__sub_8001EDF4(u8 *arg0);
 s32 TLobby__sub_8001EEF4(void);
 int fn_8001ED90(void *p);
+// The index-th motion and texture list of a loaded BML archive.
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 }
 // --- end of C functions
 

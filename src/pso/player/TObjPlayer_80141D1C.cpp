@@ -25,12 +25,11 @@ void normalize_vector(void *);
 
 extern f32 lbl_805DB158;
 
-s32 TObjPlayer::check_camera_distance() {
-    s32 arg0 = (s32)this;
-    if (vec_squared_length((u8 *)arg0) < lbl_805DB158) {
+s32 normalize_if_nonzero(Vec *v) {
+    if (vec_squared_length((u8 *)v) < lbl_805DB158) {
         return 0;
     }
-    normalize_vector((void *)arg0);
+    normalize_vector(v);
     return 1;
 }
 

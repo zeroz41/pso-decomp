@@ -5,7 +5,8 @@
 
 extern "C" {
 void apply_cached_blend_mode(s32 arg0);
-void draw_ginja_model_with_motion(void *arg0, void *arg1);
+// Draws a model posed by motion at the given frame.
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame);
 }
 void draw_ginja_motion_node_tree(u8 *arg0);
 extern "C" {

@@ -1,356 +1,239 @@
 #include "types.h"
-#include "pso/system/vector.h"
 #include "pso/misc/TODragonfly.h"
-#include "pso/object/TObjMapObject.h"
 #include "pso/misc/TODragonflyCave01.h"
+#include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/vector.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/GinjaModel.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/ModelDrawContext.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/ScratchVectors.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
 #include "pso/map/FloorArea.h"
-
-extern char lbl_80441100[];
-extern char lbl_80441110[];
-extern char lbl_80441124[];
-extern char lbl_80441138[];
-extern char lbl_80441150[];
-extern char lbl_80441168[];
-extern const char *bm_fs_obj_tombo_model_names[2];
-extern const char *bm_fs_obj_tombo_motion_names[2];
-extern BmlResourceDescriptor dragonfly_cave01_resource_descriptor;
-extern const char *fs_obj_ex_entombo_model_names[2];
-extern const char *fs_obj_ex_entombo_motion_names[2];
-extern BmlResourceDescriptor TODragonflyCave01__resource_descriptor;
-
-extern "C" {
-u8 *__ct__11TODragonflyFv(TODragonfly *arg0);
-f32 sin_table_lookup(s32);
-s32 rand(void);
-extern s32 __vt__17TODragonflyCave01[];
-extern s32 TODragonflyCave01__class_name;
-extern u32 TODragonflyCave01__static_model_resource;
-extern const f32 lbl_805DB560;
-extern const f32 lbl_805DB564;
-extern const f32 lbl_805DB568;
-extern const f32 lbl_805DB56C;
-extern const f32 lbl_805DB570;
-extern const f32 lbl_805DB574;
-extern const f32 lbl_805DB578;
-extern const f32 lbl_805DB57C;
-u8 *TODragonflyCave01__ct(TODragonflyCave01 *arg0, void *arg1);
-void *TODragonflyCave01__create(void *arg0);
-void *__dt__17TODragonflyCave01Fv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__dt__11TODragonflyFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
-
-void *TODragonflyCave01__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x100);
-    if (o != NULL) {
-        o = TODragonflyCave01__ct((TODragonflyCave01 *)((u8 *)o), (void *)arg0);
-    }
-    return o;
-}
-
-void TODragonflyCave01::release_static_instance() {
-    if ((u32) TODragonflyCave01__static_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TODragonflyCave01__static_model_resource, 1);
-        TODragonflyCave01__static_model_resource = 0U;
-    }
-}
-
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-
-void TODragonflyCave01::load_resources() {
-    void *o;
-
-    switch (get_current_floor_area()) {
-    default:
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &dragonfly_cave01_resource_descriptor, 0, 0, 0);
-        }
-        TODragonflyCave01__static_model_resource = (u32)o;
-        break;
-    case AREA_BATTLE1:
-    case AREA_VR_SPACESHIP_ALPHA:
-    case AREA_VR_SPACESHIP_BETA:
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &TODragonflyCave01__resource_descriptor, 0, 0, 0);
-        }
-        TODragonflyCave01__static_model_resource = (u32)o;
-        break;
-    }
-}
-
-void *__dt__17TODragonflyCave01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TODragonflyCave01;
-        __dt__11TODragonflyFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-
-#pragma push
-#pragma fp_contract on
-
-#pragma pop
-
-}
-
-#include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
+#include "pso/object/TObjMapWarp_80141C68.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/TMainTask.h"
+#include <stdlib.h>
 
-struct RecoveredGlobal_80164764_lbl_8050BEE0 {
-    s32 value;
-    u8 remaining[0x1C];
+// The source is written from the last function back: the unit is built
+// -inline off,deferred, which emits it in reverse.
+
+const char *bm_fs_obj_tombo_model_names[2] = { "fs_obj_tombo.gj", NULL };
+const char *bm_fs_obj_tombo_motion_names[2] = { "fs_obj_tombo.njm", NULL };
+BmlResourceDescriptor bm_fs_obj_tombo_resource_descriptor = {
+    "bm_fs_obj_tombo.bml", bm_fs_obj_tombo_model_names, bm_fs_obj_tombo_motion_names, 1, 1
+};
+const char *fs_obj_ex_entombo_model_names[2] = { "fs_obj_ex_entombo.gj", NULL };
+const char *fs_obj_ex_entombo_motion_names[2] = { "fs_obj_ex_entombo.njm", NULL };
+BmlResourceDescriptor fs_obj_ex_entombo_resource_descriptor = {
+    "fs_obj_ex_entombo.bml", fs_obj_ex_entombo_model_names, fs_obj_ex_entombo_motion_names, 1, 1
 };
 
-struct RecoveredGlobal_80164764_lbl_8050BFA0 {
-    s32 value;
-    u8 remaining[0x3C];
-};
+const char *TODragonfly::class_name = "TODragonfly";
+const char *TODragonflyCave01::class_name = "TODragonflyCave01";
+BmlResource *TODragonflyCave01::model_resource;
 
-struct RecoveredGlobal_80164764_lbl_8058D490 {
-    s32 value;
-    u8 remaining[0x2C];
-};
-
-struct Self_8016492C { u8 pad[0x38]; u8 pos[0x70 - 0x38]; f32 radius; u8 pad74[0xAC - 0x74]; s32 state; u8 padb0[0xD4 - 0xB0]; u8 target[0xE0 - 0xD4]; u8 vec[0xC]; };
-
-struct O_80164A90 { u8 pad[0x38]; u8 pos[0x34]; f32 f6c; f32 f70; u8 pad74[0xAC - 0x74]; s32 st; u8 padb0[0xCC - 0xB0]; s32 cc; u8 padd0[4]; u8 d4[0xC]; u8 e0[0xC]; };
-
-extern "C" {
-extern const f32 lbl_805DB588;
-extern const f32 lbl_805DB58C;
-extern const f32 lbl_805DB590;
-f32 atan2_float(f32 y, f32 x);
-f32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(s32, s32);
-f32 subtract_vector(void *, void *);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
-extern const f64 lbl_804411B0;
-extern RecoveredGlobal_80164764_lbl_8050BEE0 lbl_8050BEE0;
-extern RecoveredGlobal_80164764_lbl_8050BFA0 dragonfly_random_destination;
-extern RecoveredGlobal_80164764_lbl_8058D490 identity_matrix;
-extern const f32 lbl_805DB580;
-extern const char *TODragonfly__class_name;
-extern s32 tl_05;
-extern const f32 lbl_805DB594;
-f32 horizontal_distance_squared(void *, void *);
-extern const f32 lbl_805DB584;
-
-s32 post_translate_matrix(void *);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 push_matrix();
-
-#pragma push
-#pragma fp_contract on
-u8 *TODragonflyCave01__ct(TODragonflyCave01 *dragonfly_cave01, void *arg1) {
-    __ct__11TODragonflyFv(dragonfly_cave01);
-    *(s32 **)((s8 *)dragonfly_cave01 + 0x18) = __vt__17TODragonflyCave01;
-    *(s32 *)((s8 *)dragonfly_cave01 + 0) = TODragonflyCave01__class_name;
-    ((TODragonflyCave01 *)(dragonfly_cave01))->apply_object_set_data(arg1);
-    dragonfly_cave01->model = *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x42C)) + 8);
-    dragonfly_cave01->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x42C)) + 0xC);
-    *(void **)((s8 *)dragonfly_cave01 + 0xBC) = *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TODragonflyCave01__static_model_resource) + 0x430)) + 4);
-    *(f32 *)((s8 *)dragonfly_cave01 + 0xB4) = (f32)*(u32 *)((s8 *)(*(u8 **)((s8 *)dragonfly_cave01 + 0xBC)) + 4) - lbl_805DB560;
-    dragonfly_cave01->m_b8 = lbl_805DB564;
-    dragonfly_cave01->m_c0 = lbl_805DB568;
-    *(f32 *)((s8 *)dragonfly_cave01 + 0xC4) = *(f32 *)((s8 *)(*(u8 **)((s8 *)dragonfly_cave01->model + 4)) + 0x14);
-    dragonfly_cave01->m_ac = 0;
-    dragonfly_cave01->m_f4 = lbl_805DB56C * (f32)dragonfly_cave01->set_params[0] + lbl_805DB560;
-    dragonfly_cave01->m_f8 = (s32)(lbl_805DB570 * (lbl_805DB574 / (lbl_805DB578 / dragonfly_cave01->m_f4)));
-    dragonfly_cave01->m_fc = (s32)(lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32)rand())));
-    dragonfly_cave01->m_ec = lbl_805DB56C * (f32)*(s32 *)((s8 *)dragonfly_cave01 + 0x88) + lbl_805DB560;
-    *(f32 *)((s8 *)dragonfly_cave01 + 0xF0) = dragonfly_cave01->m_ec * sin_table_lookup(dragonfly_cave01->m_fc);
-    return (u8 *)dragonfly_cave01;
+TODragonfly::TODragonfly() : TObjMapObject(tl_05) {
+    m_name = class_name;
+    wait_timer = 0;
+    wander_radius = 50.0f + scale.x;
+    VecCopy(&destination, &position);
+    step.z = 0.0f;
+    step.y = 0.0f;
+    step.x = 0.0f;
+    bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
+    bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
+    bob_angle = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));
+    bob_height = 0.1f * (f32)set_params[1] + 1.0f;
+    bob_offset = bob_height * sin_table_lookup(bob_angle);
 }
-#pragma pop
 
-void TODragonfly::vfunc_14() {  }
+TODragonfly::~TODragonfly() {}
 
-typedef char RecoveredGlobal_80164764_lbl_8050BEE0_size[sizeof(RecoveredGlobal_80164764_lbl_8050BEE0) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_80164764_lbl_8050BFA0_size[sizeof(RecoveredGlobal_80164764_lbl_8050BFA0) == 0x40 ? 1 : -1];
-typedef char RecoveredGlobal_80164764_lbl_8058D490_size[sizeof(RecoveredGlobal_80164764_lbl_8058D490) == 0x30 ? 1 : -1];
-s32 TODragonfly::pick_random_destination(f32 farg0) {
-    *(f32 *)((s8 *)&lbl_8050BEE0.value + 0) = (f32) lbl_805DB580;
-    *(f32 *)((s8 *)&lbl_8050BEE0.value + 4) = farg0;
-    *(f32 *)((s8 *)&lbl_8050BEE0.value + 8) = (f32) (this->wander_radius * (lbl_805DB57C * (f32) rand()));
-    *(s32 *)((s8 *)&dragonfly_random_destination.value + 4) = (s32) (lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32) rand())));
-    push_matrix_from((void *)&identity_matrix.value);
-    rotate_matrix_y(0, (s32)((int) (*(s32 *)((s8 *)&dragonfly_random_destination.value + 4))));
-    rotate_vector_by_matrix(0, (void *)&lbl_8050BEE0.value, (void *)&lbl_8050BEE0.value);
+void TODragonfly::run_task() {
+    bob_angle = bob_angle + bob_angle_step;
+    bob_offset = bob_height * sin_table_lookup(bob_angle);
+    if (TObjPlayer::check_demo_mode() == 1) {
+        update_demo();
+        return;
+    }
+    update_anim_phase();
+    switch (m_ac) {
+    case 0:
+        update_idle();
+        return;
+    case 1:
+        update_wander_flight();
+        return;
+    case 2:
+        update_rest();
+        return;
+    case 3:
+        update_flee_flight();
+        return;
+    }
+}
+
+void TODragonfly::render() {
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+        push_matrix();
+        translate_matrix(0, 0.0f, bob_offset, 0.0f);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        TObjFish::set_global_param(texlist);
+        draw_ginja_model_with_motion(model, motion, m_b0);
+        pop_matrix();
+    }
+}
+
+void TODragonfly::update_idle() {
+    s32 wait;
+    if (is_any_player_within_radius_xz(900.0f) == 1) {
+        if (pick_random_destination(30.0f + scale.y) == 1) {
+            m_ac = 3;
+            wait_timer = 0;
+        }
+    } else {
+        wait = wait_timer;
+        wait_timer = wait + 1;
+        if (30.0f < (f32)wait && pick_random_destination(scale.y * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f)) == 1) {
+            m_ac = 1;
+            wait_timer = 0;
+        }
+    }
+}
+
+void TODragonfly::update_wander_flight() {
+    f32 reach;
+    f32 d;
+    if (is_any_player_within_radius_xz(900.0f) == 1) {
+        if (pick_random_destination(30.0f + scale.y) == 1) {
+            m_ac = 3;
+            wait_timer = 0;
+        }
+    } else {
+        d = horizontal_distance_squared(&destination, &position);
+        reach = 1e-05f + scale.z;
+        if (d < reach * reach) {
+            m_ac = 0;
+            return;
+        }
+        vec3_add_to(&position, &step);
+    }
+}
+
+void TODragonfly::update_rest() {
+    s32 wait;
+    wait = wait_timer;
+    wait_timer = wait + 1;
+    if (30.0f < (f32)wait) {
+        if (is_any_player_within_radius_xz(1225.0f) == 1) {
+            if (pick_random_destination(30.0f + scale.y) == 1) {
+                m_ac = 3;
+                wait_timer = 0;
+            }
+        } else if (pick_random_destination(scale.y * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f)) == 1) {
+            m_ac = 1;
+            wait_timer = 0;
+        }
+    }
+}
+
+void TODragonfly::update_flee_flight() {
+    f32 d = horizontal_distance_squared(&destination, &position);
+    if (d < (1e-05f + scale.z) * (1e-05f + scale.z)) {
+        m_ac = 2;
+    } else {
+        vec3_add_to(&position, &step);
+    }
+}
+
+s32 TODragonfly::pick_random_destination(f32 height) {
+    scratch_vec.x = 0.0f;
+    scratch_vec.y = height;
+    scratch_vec.z = wander_radius * (3.0517578e-05f * (f32)rand());
+    scratch_rotation.y = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));
+    push_matrix_from(&identity_matrix);
+    rotate_matrix_y(NULL, scratch_rotation.y);
+    rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
-    vec3_add_to((void *)&lbl_8050BEE0.value, (u8 *)&this->home_position);
-    VecCopy(&this->destination, (const Vec *)(&lbl_8050BEE0.value));
-    subtract_vector((void *)&lbl_8050BEE0.value, (u8 *)&this->position);
-    if (((TObjPlayer *)(&lbl_8050BEE0.value))->check_camera_distance() == 1) {
-        *(s32 *)&this->m_ac = 1;
-        *(s32 *)&this->m_cc = 0;
-        this->rotation_y = (s32) (lbl_804411B0 * atan2_float((f64) *(f32 *)((s8 *)&lbl_8050BEE0.value + 0), (f64) *(f32 *)((s8 *)&lbl_8050BEE0.value + 8)));
-        this->step.x = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 0) * this->scale.z);
-        this->step.y = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 4) * this->scale.z);
-        this->step.z = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 8) * this->scale.z);
+    vec3_add_to(&scratch_vec, &home_position);
+    VecCopy(&destination, &scratch_vec);
+    subtract_vector(&scratch_vec, &position);
+    if (normalize_if_nonzero(&scratch_vec) == 1) {
+        m_ac = 1;
+        wait_timer = 0;
+        rotation_y = (32768.0 / 3.141592f) * atan2_float(scratch_vec.x, scratch_vec.z);
+        step.x = scratch_vec.x * scale.z;
+        step.y = scratch_vec.y * scale.z;
+        step.z = scratch_vec.z * scale.z;
         return 1;
     }
     return 0;
 }
 
-void TODragonfly::move_toward_target() {
-    Self_8016492C *self = (Self_8016492C *)this;
-    f32 d = horizontal_distance_squared(self->target, self->pos);
-    if (d < (lbl_805DB584 + self->radius) * (lbl_805DB584 + self->radius)) {
-        this->m_ac = 2;
-    } else {
-        vec3_add_to(self->pos, self->vec);
-    }
+void TODragonfly::update_demo() {}
+
+TODragonflyCave01::TODragonflyCave01(void *set_data) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    model = (void *)model_resource->models->model;
+    texlist = model_resource->models->m_c;
+    motion = model_resource->motions->motion;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    m_b8 = 1.1f;
+    m_c0 = 500.0f;
+    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    m_ac = 0;
+    bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
+    bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
+    bob_angle = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));
+    bob_height = 0.1f * (f32)set_params[1] + 1.0f;
+    bob_offset = bob_height * sin_table_lookup(bob_angle);
 }
 
-#pragma push
-#pragma fp_contract on
-void TODragonfly::sub_80164990() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r5;
-    temp_r5 = this->m_cc;
-    this->m_cc = (temp_r5 + 1);
-    if (lbl_805DB578 < (f32) temp_r5) {
-        if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB588) == 1) {
-            if (((TODragonfly *)arg0)->pick_random_destination(lbl_805DB578 + this->scale.y) == 1) {
-                this->m_ac = 3;
-                this->m_cc = 0;
-            }
-        } else if (((TODragonfly *)arg0)->pick_random_destination(this->scale.y * ((lbl_805DB58C * (lbl_805DB57C * (f32) rand())) - lbl_805DB560)) == 1) {
-            this->m_ac = 1;
-            this->m_cc = 0;
+TODragonflyCave01::~TODragonflyCave01() {}
+
+void TODragonflyCave01::load_resources() {
+    BmlResource *resource;
+
+    switch (get_current_floor_area()) {
+    default:
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_tombo_resource_descriptor, 0, 0, 0);
         }
-    }
-}
-#pragma pop
-
-void TODragonfly::sub_80164A90() {
-    O_80164A90 *arg0 = (O_80164A90 *)this;
-    f32 t;
-    f32 d;
-    if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
-        if (((TODragonfly *)arg0)->pick_random_destination(lbl_805DB578 + this->scale.y) == 1) {
-            this->m_ac = 3;
-            this->m_cc = 0;
+        model_resource = resource;
+        break;
+    case AREA_BATTLE1:
+    case AREA_VR_SPACESHIP_ALPHA:
+    case AREA_VR_SPACESHIP_BETA:
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &fs_obj_ex_entombo_resource_descriptor, 0, 0, 0);
         }
-    } else {
-        d = horizontal_distance_squared(arg0->d4, arg0->pos);
-        t = lbl_805DB584 + arg0->f70;
-        if (d < t * t) {
-            this->m_ac = 0;
-            return;
-        }
-        vec3_add_to(arg0->pos, arg0->e0);
+        model_resource = resource;
+        break;
     }
 }
 
-#pragma push
-#pragma fp_contract on
-void TODragonfly::update_idle() {
-    s32 arg0 = (s32)this;
-    s32 temp_r4;
-    if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB590) == 1) {
-        if (pick_random_destination(lbl_805DB578 + *(f32 *)((s8 *)arg0 + 0x6C)) == 1) {
-            *(s32 *)((s8 *)arg0 + 0xAC) = 3;
-            *(s32 *)((s8 *)arg0 + 0xCC) = 0;
-        }
-    } else {
-        temp_r4 = *(s32 *)((s8 *)arg0 + 0xCC);
-        *(s32 *)((s8 *)arg0 + 0xCC) = (temp_r4 + 1);
-        if ((lbl_805DB578 < (f32) temp_r4) && (pick_random_destination(*(f32 *)((s8 *)arg0 + 0x6C) * ((lbl_805DB58C * (lbl_805DB57C * (f32) rand())) - lbl_805DB560)) == 1)) {
-            *(s32 *)((s8 *)arg0 + 0xAC) = 1;
-            *(s32 *)((s8 *)arg0 + 0xCC) = 0;
-        }
-    }
-}
-#pragma pop
-
-void TODragonfly::render() {
-    if (this->update_object_view_visibility(this->m_c0, this->model_radius) != 0) {
-        push_matrix();
-        translate_matrix(0, lbl_805DB580, this->bob_offset, lbl_805DB580);
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
-        draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->m_bc, this->m_b0);
-        pop_matrix();
+void TODragonflyCave01::release_static_instance() {
+    if (model_resource != NULL) {
+        TLobby__sub_8001FE7C(model_resource, 1);
+        model_resource = NULL;
     }
 }
 
-void TODragonfly::run_task() {
-
-    this->m_fc = (s32) (this->m_fc + this->m_f8);
-    this->bob_offset = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
-    if (TObjPlayer::check_demo_mode() == 1) {
-        this->vfunc_14();
-        return;
-    }
-    update_anim_phase();
-    switch (this->m_ac) {
-    case 0:
-        update_idle();
-        return;
-    case 1:
-        sub_80164A90();
-        return;
-    case 2:
-        sub_80164990();
-        return;
-    case 3:
-        move_toward_target();
-        return;
-    }
-}
-
-// The destructor is still written out by hand: compiled, it would put the
-// vtable after TODragonflyCave01's, where the original has it before.
-extern "C" {
-extern void *__vt__11TODragonfly[];
-void __dl__7TObjectFPv(void *);
-
-void *__dt__11TODragonflyFv(void *self, s16 del) {
-    if (self != NULL) {
-        *(void **)((u8 *)self + 0x18) = __vt__11TODragonfly;
-        __dt__13TObjMapObjectFv(self, 0);
-        if (del > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
-}
-}
-#pragma push
-#pragma fp_contract on
-TODragonfly::TODragonfly() : TObjMapObject((TObject *)tl_05) {
-    this->m_name = TODragonfly__class_name;
-    this->m_cc = 0;
-    this->wander_radius = (f32) (lbl_805DB594 + this->scale.x);
-    VecCopy(&this->destination, &this->position);
-    this->step.z = (f32) lbl_805DB580;
-    this->step.y = (f32) lbl_805DB580;
-    this->step.x = (f32) lbl_805DB580;
-    this->m_f4 = (f32) ((lbl_805DB56C * (f32) this->set_params[0]) + lbl_805DB560);
-    this->m_f8 = (s32) (lbl_805DB570 * (lbl_805DB574 / (lbl_805DB578 / this->m_f4)));
-    this->m_fc = (s32) (lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32) rand())));
-    this->m_ec = (f32) ((lbl_805DB56C * (f32) this->set_params[1]) + lbl_805DB560);
-    this->bob_offset = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
-}
-#pragma pop
-
-__declspec(section ".data") const char *bm_fs_obj_tombo_model_names[2] = { lbl_80441100, NULL };
-__declspec(section ".data") const char *bm_fs_obj_tombo_motion_names[2] = { lbl_80441110, NULL };
-BmlResourceDescriptor dragonfly_cave01_resource_descriptor = { lbl_80441124, bm_fs_obj_tombo_model_names, bm_fs_obj_tombo_motion_names, 1, 1 };
-__declspec(section ".data") const char *fs_obj_ex_entombo_model_names[2] = { lbl_80441138, NULL };
-__declspec(section ".data") const char *fs_obj_ex_entombo_motion_names[2] = { lbl_80441150, NULL };
-BmlResourceDescriptor TODragonflyCave01__resource_descriptor = { lbl_80441168, fs_obj_ex_entombo_model_names, fs_obj_ex_entombo_motion_names, 1, 1 };
+void *TODragonflyCave01::create(void *set_data) {
+    return new TODragonflyCave01(set_data);
 }
