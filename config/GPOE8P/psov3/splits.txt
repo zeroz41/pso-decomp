@@ -12198,14 +12198,18 @@ pso/unk/text_8035B788.cpp:
 
 pso/object/TObjCurtainLobby_8035B87C.cpp:
 	.text       start:0x8035B87C end:0x8035BC20
+	.rodata     start:0x804798F0 end:0x80479940
 	.data       start:0x804F1D90 end:0x804F1DE0
-	.sdata      start:0x805D4420 end:0x805D4424
+	.sdata      start:0x805D4420 end:0x805D4428
+	.sbss       start:0x805D6F58 end:0x805D6F60
 	.sdata2     start:0x805E0148 end:0x805E0158
 
 pso/object/TObjWeddingLobby.cpp:
 	.text       start:0x8035BC20 end:0x8035BFF8
-	.rodata     start:0x804799C0 end:0x804799C8
+	.rodata     start:0x80479940 end:0x804799C8
 	.data       start:0x804F1DE0 end:0x804F1E3C
+	.sdata      start:0x805D4428 end:0x805D442C
+	.sbss       start:0x805D6F60 end:0x805D6F68
 	.sdata2     start:0x805E0158 end:0x805E0168
 
 pso/unk/text_8035BFF8.cpp:
