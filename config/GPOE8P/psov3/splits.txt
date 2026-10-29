@@ -5042,8 +5042,11 @@ pso/misc/TODoorMachine01.cpp:
 
 pso/misc/TODoorMachine02.cpp:
 	.text       start:0x801632AC end:0x80163878
-	.rodata     start:0x80441008 end:0x80441010
-	.data       start:0x804B1688 end:0x804B16A8
+	.rodata     start:0x80440F70 end:0x80441010
+	.data       start:0x804B1688 end:0x804B1748
+	.sdata      start:0x805D2F80 end:0x805D2F88
+	.sbss       start:0x805D5978 end:0x805D5980
+	.sdata2     start:0x805DB510 end:0x805DB52C
 
 pso/misc/TODoorVoShip.cpp:
 	.text       start:0x80163878 end:0x80163E14

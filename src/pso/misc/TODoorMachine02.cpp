@@ -1,274 +1,180 @@
-#include "pso/system/ChunkMaterialState.h"
-#include "types.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/object/TObjMapObject.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TODoorBase.h"
-#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TODoorMachine02.h"
+
+#include "pso/TMainTask.h"
+#include "pso/TObject.h"
+#include "pso/TParticleCtrl.h"
+#include "pso/TProtocol.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/misc/TLanguage_801E4874.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TODoorAncient01.h"
+#include "pso/misc/TOBoss4Rock.h"
+#include "pso/misc/TSwitch.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/ChunkMaterialColor.h"
+#include "pso/system/ChunkMaterialState.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/ModelDrawContext.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_803D8F74.h"
 
-extern char lbl_80440F70[];
-extern char lbl_80440F84[];
-extern char lbl_80440F98[];
-extern const char *bm_fs_obj_ki_doa2_model_names[2];
-extern const char *bm_fs_obj_ki_doa2_motion_names[2];
-extern BmlResourceDescriptor TODoorMachine02_resource_descriptor;
-
-struct RecoveredGlobal_80163760_lbl_804B16C8 {
-    s32 value;
-    u8 remaining[0x28];
+const char *fs_obj_ki_doa2_model_names[] = {"fs_obj_ki_doa.gj", NULL};
+const char *fs_obj_ki_doa2_motion_names[] = {"fs_obj_ki_doa.njm", NULL};
+BmlResourceDescriptor door_machine02_resource_descriptor = {
+    "bm_fs_obj_ki_doa2.bml", fs_obj_ki_doa2_model_names, fs_obj_ki_doa2_motion_names, 1, 1,
+};
+// The version-2 model set.
+const char *fs_obj_ki_doa2_a_model_names[] = {"fs_obj_ki_doa.gj", NULL};
+const char *fs_obj_ki_doa2_a_motion_names[] = {"fs_obj_ki_doa.njm", NULL};
+BmlResourceDescriptor door_machine02_a_resource_descriptor = {
+    "bm_fs_obj_ki_doa2_a.bml", fs_obj_ki_doa2_a_model_names, fs_obj_ki_doa2_a_motion_names, 1, 1,
 };
 
-struct RecoveredGlobal_80163760___vt__15TODoorMachine02 {
-    s32 value;
-    u8 remaining[0x50];
+const char *door_machine02_class_name = "TODoorMachine02";
+
+static CollisionBody door_machine02_collision_body[1] = {
+    {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003},
 };
 
-struct VBase_80163408 { char pad[0x18]; };
+BmlResource *TODoorMachine02::bml_resource;
+s32 *TODoorMachine02::texture_lists;
 
-struct VObj_80163408 : VBase_80163408 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Node_80163408 {
-    u8 pad0[4];
-    s32 f4;
-    u8 f8[0x2C - 8];
-    Node_80163408 *next2C;
-    Node_80163408 *next30;
-};
-
-struct Model_80163408 {
-    u8 pad[0x2C];
-    Node_80163408 *root;
-};
-
-struct Door_80163408 {
-    u8 pad0[0x34];
-    Model_80163408 *model;
-    u8 f38[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0xAC - 0x64];
-    s32 fAC;
-    f32 fB0;
-    u8 padB4[0xBC - 0xB4];
-    s32 fBC;
-    f32 fC0;
-    f32 fC4;
-    u8 padC8[0xD0 - 0xC8];
-    s32 fD0;
-    u8 fD4[4];
-};
-
-extern "C" {
-s32 play_sound_effect(s32, void *, s32, s32);
-extern const f32 lbl_805DB514;
-extern const f32 lbl_805DB518;
-extern const f32 lbl_805DB51C;
-extern const f32 lbl_805DB520;
-s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern RecoveredGlobal_80163760_lbl_804B16C8 door_machine02_collision_body;
-extern s32 __vt__15TODoorMachine02[];
-extern s32 TODoorMachine02__class_name;
-extern u32 door_machine02_model_resource;
-extern const f32 lbl_805DB528;
-u8 *TODoorMachine02__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
-s32 post_translate_matrix(void *);
-void draw_ginja_model(s32 model);
-s32 draw_ginja_model_with_motion(void *, int, f32);
-extern char chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 *door_machine02_texture_param_table;
-extern s32 model_render_flags;
-extern const f32 lbl_805DB524;
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32 size);
-u8 *load_gvm_texture_file(s32 arg0);
-extern u8 lbl_80440FD8[];
-extern u8 lbl_80440FF0[];
-extern u8 bm_fs_obj_ki_doa2_a_resource_descriptor[];
-extern s32 enable_v2_features;
-void *__dt__15TODoorMachine02Fv(void *arg0, s16 arg1);
-void TLobby__sub_8001FE7C(void*, int);
-s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-void mem_free(void *p);
-
-void TODoorMachine02::update_demo() {  }
-
-extern const f32 lbl_805DB510;
+void TODoorMachine02::update_demo() {}
 
 void TODoorMachine02::update_open() {
-    u8 *arg0 = (u8 *)this;
-    if (!(this->door_flags & 1) || (this->is_any_player_within_radius_xz(lbl_805DB510) != 1)) {
-        this->m_ac = 3;
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
-        play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
+    if (!(door_flags & 1) || is_any_player_within_radius_xz(10000.0f) != 1) {
+        m_ac = DOOR_CLOSING;
+        clear_player_status_flag(0, 8);
+        play_sound_effect(0x4004BC01, &position, 0, 0);
     }
 }
 
-extern void *tl_05;
-
 void TODoorMachine02::update_closed() {
-    u8 *arg0 = (u8 *)this;
-    if ((this->door_flags & 1) && (this->is_any_player_within_radius_xz(lbl_805DB514) == 1)) {
-        this->m_ac = 1;
-        ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
-        play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
+    if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
+        m_ac = DOOR_OPENING;
+        set_indexed_flags(0, 8);
+        play_sound_effect(0x4004BC01, &position, 0, 0);
     }
-    if (this->door_flags & 0x10000) {
-        *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (*(f32 *)((s8 *)arg0 + 0xD8) + lbl_805DB518);
-        if (lbl_805DB51C <= *(f32 *)((s8 *)arg0 + 0xD8)) {
-            this->door_flags = (s32) (this->door_flags & 0xFFFEFFFF);
+    if (door_flags & PULSE_RISING) {
+        light_color.r += 0.1f;
+        if (1.0f <= light_color.r) {
+            door_flags &= ~PULSE_RISING;
         }
     } else {
-        *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (*(f32 *)((s8 *)arg0 + 0xD8) - lbl_805DB518);
-        if (*(f32 *)((s8 *)arg0 + 0xD8) <= lbl_805DB520) {
-            this->door_flags = (s32) (this->door_flags | 0x10000);
+        light_color.r = light_color.r - 0.1f;
+        if (light_color.r <= 0.0f) {
+            door_flags |= PULSE_RISING;
         }
     }
 }
 
 void TODoorMachine02::render() {
-    Door_80163408 *arg0 = (Door_80163408 *)this;
-    s32 flag;
-    Node_80163408 *n;
-    if (((VObj_80163408 *)arg0)->m8(arg0->fC0, arg0->fC4) != 0 && ((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DB524) != 0) {
+    NJS_OBJECT *node;
+    s32 unlocked;
+    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
-        post_translate_matrix(arg0->f38);
-        rotate_matrix_y(0, arg0->f60);
-        flag = arg0->fD0 & 1;
-        TObjFish::set_global_param(door_machine02_texture_param_table[arg0->fD0 & 1]);
-        if (arg0->fAC == 0) {
-            n = arg0->model->root;
-            post_translate_matrix(n->f8);
-            draw_ginja_model(n->f4);
-            if (flag != 1) {
-                s32 id = model_render_flags;
-                saved_model_render_flags = id;
-                model_render_flags = id | 0x10;
-                set_constant_material((const NJS_ARGB *)(((f32 *)arg0->fD4)));
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        unlocked = door_flags & 1;
+        TObjFish::set_global_param(texture_lists[door_flags & 1]);
+        if (m_ac == DOOR_CLOSED) {
+            node = ((NJS_OBJECT *)model)->child;
+            post_translate_matrix(node->pos);
+            draw_ginja_model((s32)node->model);
+            if (unlocked != 1) {
+                u32 flags = model_render_flags;
+                saved_model_render_flags = flags;
+                model_render_flags = flags | 0x10;
+                set_constant_material(&light_color);
             }
             push_matrix();
-            n = n->next2C;
-            post_translate_matrix(n->f8);
-            draw_ginja_model(n->f4);
+            node = node->child;
+            post_translate_matrix(node->pos);
+            draw_ginja_model((s32)node->model);
             pop_matrix();
             push_matrix();
-            n = n->next30;
-            post_translate_matrix(n->f8);
-            draw_ginja_model(n->f4);
+            node = node->sibling;
+            post_translate_matrix(node->pos);
+            draw_ginja_model((s32)node->model);
             pop_matrix();
-            if (flag != 1) {
-                set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            if (unlocked != 1) {
+                set_constant_material(&chunk_material_color_half_alpha_f32);
                 model_render_flags = saved_model_render_flags;
             }
-            n = arg0->model->root->next30;
-            post_translate_matrix(n->f8);
-            draw_ginja_model(n->f4);
+            node = ((NJS_OBJECT *)model)->child->sibling;
+            post_translate_matrix(node->pos);
+            draw_ginja_model((s32)node->model);
         } else {
-            draw_ginja_model_with_motion(arg0->model, arg0->fBC, arg0->fB0);
+            draw_ginja_model_with_motion(model, motion, m_b0);
         }
         pop_matrix();
     }
 }
 
-void *TODoorMachine02::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE4);
-    if (o != NULL) {
-        o = TODoorMachine02__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+void *TODoorMachine02::create(void *set_data) {
+    return new TODoorMachine02(tl_05, set_data);
 }
 
-void TODoorMachine02::free_statics() {
-    if ((s32 *) door_machine02_texture_param_table != NULL) {
-        TObjPlayer::free_if_valid(*door_machine02_texture_param_table);
-        if ((s32 *) door_machine02_texture_param_table != NULL) {
-            mem_free(door_machine02_texture_param_table);
-            door_machine02_texture_param_table = NULL;
+void TODoorMachine02::destroy() {
+    if (texture_lists != NULL) {
+        TObjPlayer::free_if_valid(texture_lists[0]);
+        if (texture_lists != NULL) {
+            mem_free(texture_lists);
+            texture_lists = NULL;
         }
     }
-    if ((u32) door_machine02_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)door_machine02_model_resource, 1);
-        door_machine02_model_resource = 0U;
+    if (bml_resource != NULL) {
+        TLobby__sub_8001FE7C(bml_resource, 1);
+        bml_resource = NULL;
     }
 }
 
 void TODoorMachine02::load_resources() {
-    void *o;
-    door_machine02_texture_param_table = (s32 *)mem_alloc(8);
+    BmlResource *resource;
+    texture_lists = (s32 *)mem_alloc(8);
     if (enable_v2_features == 1 && TLobby::is_online_ready() != 0) {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, bm_fs_obj_ki_doa2_a_resource_descriptor, 0, 0, 0);
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &door_machine02_a_resource_descriptor, 0, 0, 0);
         }
-        door_machine02_model_resource = (u32)o;
-        door_machine02_texture_param_table[0] = (s32)load_gvm_texture_file((s32)lbl_80440FD8);
+        bml_resource = resource;
+        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_ki_doa2_r_a.gvm");
     } else {
-        o = ::operator new(0x440);
-        if (o != NULL) {
-            o = load_resource_from_descriptor(o, 1, &TODoorMachine02_resource_descriptor, 0, 0, 0);
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &door_machine02_resource_descriptor, 0, 0, 0);
         }
-        door_machine02_model_resource = (u32)o;
-        door_machine02_texture_param_table[0] = (s32)load_gvm_texture_file((s32)lbl_80440FF0);
+        bml_resource = resource;
+        texture_lists[0] = (s32)load_gvm_texture_file((s32)"fs_obj_ki_doa2_r.gvm");
     }
-    door_machine02_texture_param_table[1] = *(s32 *)(*(u8 **)((u8 *)door_machine02_model_resource + 0x42C) + 0xC);
+    texture_lists[1] = bml_resource->models[0].m_c;
 }
 
-void *__dt__15TODoorMachine02Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorMachine02;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__10TODoorBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-typedef char RecoveredGlobal_80163760_lbl_804B16C8_size[sizeof(RecoveredGlobal_80163760_lbl_804B16C8) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_80163760___vt__15TODoorMachine02_size[sizeof(RecoveredGlobal_80163760___vt__15TODoorMachine02) == 0x54 ? 1 : -1];
-u8 *TODoorMachine02__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__10TODoorBaseFP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80163760___vt__15TODoorMachine02 *)&__vt__15TODoorMachine02).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorMachine02__class_name;
-    ((TODoorMachine02 *)(arg0))->apply_object_set_data((void *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&door_machine02_model_resource) + 0x42C)) + 8);
-    ((TODoorMachine02 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&door_machine02_model_resource) + 0x42C)) + 0xC);
-    *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&door_machine02_model_resource) + 0x430)) + 4));
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DB51C);
-    ((TODoorMachine02 *)arg0)->m_b8 = (f32) lbl_805DB528;
-    init_collision_body_parts(arg0, &door_machine02_collision_body.value, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TODoorMachine02 *)(arg0))->init_door_switch_binding();
-    *(f32 *)((s8 *)arg0 + 0xD4) = (f32) lbl_805DB51C;
-    *(f32 *)((s8 *)arg0 + 0xD8) = (f32) lbl_805DB51C;
-    ((TODoorMachine02 *)arg0)->m_dc = (f32) lbl_805DB51C;
-    *(f32 *)((s8 *)arg0 + 0xE0) = (f32) lbl_805DB51C;
-    return arg0;
+TODoorMachine02::~TODoorMachine02() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
-__declspec(section ".data") const char *bm_fs_obj_ki_doa2_model_names[2] = { lbl_80440F70, NULL };
-__declspec(section ".data") const char *bm_fs_obj_ki_doa2_motion_names[2] = { lbl_80440F84, NULL };
-BmlResourceDescriptor TODoorMachine02_resource_descriptor = { lbl_80440F98, bm_fs_obj_ki_doa2_model_names, bm_fs_obj_ki_doa2_motion_names, 1, 1 };
+TODoorMachine02::TODoorMachine02(TObject *parent, void *set_data) : TODoorBase(parent) {
+    m_name = door_machine02_class_name;
+    apply_object_set_data(set_data);
+    model = (void *)bml_resource->models[0].model;
+    texlist = bml_resource->models[0].m_c;
+    motion = bml_resource->motions[0].motion;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    m_b8 = 0.5f;
+    init_collision_body_parts(this, door_machine02_collision_body, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    init_door_switch_binding();
+    light_color.a = 1.0f;
+    light_color.r = 1.0f;
+    light_color.g = 1.0f;
+    light_color.b = 1.0f;
 }
