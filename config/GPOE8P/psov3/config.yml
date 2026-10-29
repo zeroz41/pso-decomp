@@ -669,9 +669,9 @@ force_active:
   - play_off_loop_sound__8TOSensorFv
   - play_on_loop_sound__8TOSensorFv
   - TOSignCave01__ct
-  - TOSignCave01__resource_descriptor
+  - bm_fs_obj_dokanban01_resource_descriptor
   - TOSignCave02__ct
-  - TOSignCave02__resource_descriptor
+  - bm_fs_obj_dokanban02_resource_descriptor
   - TOSignCave03__ct
   - TOSparkMachine01__ct
   - TOSwitchAttackSub__ct

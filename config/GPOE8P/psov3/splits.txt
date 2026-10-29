@@ -5452,16 +5452,27 @@ pso/misc/TOSensorGeneral01.cpp:
 
 pso/misc/TOSignCave01.cpp:
 	.text       start:0x801764DC end:0x80176890
+	.rodata     start:0x80442A98 end:0x80442AE0
 	.data       start:0x804B42F8 end:0x804B4348
+	.sdata      start:0x805D3158 end:0x805D3160 align:4
+	.sbss       start:0x805D5AA8 end:0x805D5AAC
+	.sdata2     start:0x805DB9D0 end:0x805DB9D8
 
 pso/misc/TOSignCave02.cpp:
 	.text       start:0x80176890 end:0x80176C44
+	.rodata     start:0x80442AE0 end:0x80442B28
 	.data       start:0x804B4348 end:0x804B4398
-	.sdata      start:0x805D3160 end:0x805D3164
+	.sdata      start:0x805D3160 end:0x805D3168
+	.sbss       start:0x805D5AB0 end:0x805D5AB4
+	.sdata2     start:0x805DB9D8 end:0x805DB9E0
 
 pso/misc/TOSignCave03.cpp:
 	.text       start:0x80176C44 end:0x80177088
-	.data       start:0x804B43B0 end:0x804B43E8
+	.rodata     start:0x80442B28 end:0x80442B70
+	.data       start:0x804B4398 end:0x804B43E8
+	.sdata      start:0x805D3168 end:0x805D3170
+	.sbss       start:0x805D5AB8 end:0x805D5ABC
+	.sdata2     start:0x805DB9E0 end:0x805DB9E8
 
 pso/misc/TOSparkMachine01.cpp:
 	.text       start:0x80177088 end:0x801774BC
