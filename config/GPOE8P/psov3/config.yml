@@ -634,7 +634,7 @@ force_active:
   - TOHangceilingCave01Normal__ct
   - TOHangerMachine01__ct
   - TOHealGeneral__ct
-  - TOKeyAncient01__ct
+  - __ct__14TOKeyAncient01FP7TObjectPv
   - TOKeyAncient02__ct
   - TOKeyAncient03__ct
   - TOKeyCave01__ct
