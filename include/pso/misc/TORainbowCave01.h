@@ -11,7 +11,7 @@ public:
     virtual void run_task();
     virtual void render();
     s32 is_player_in_range(f32 farg0);
-    void init_light_params(int _w1, f32 _w2, f32 _w3);
+    void init_light_params();
     static void *create(void *arg0);
     static void free_static_data();
     static void load_resource_instance();

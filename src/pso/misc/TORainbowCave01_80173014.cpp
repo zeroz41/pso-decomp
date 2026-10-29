@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/BmlResource.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/misc/TORainbowCave01_80173014.h"
 #include "pso/system/ChunkMaterialState.h"
@@ -48,7 +49,7 @@ extern void *tl_05;
 
 #pragma push
 #pragma fp_contract on
-void TORainbowCave01::init_light_params(int _w1, f32 _w2, f32 _w3) {
+void TORainbowCave01::init_light_params() {
     f32 k = 0.0009765625f;
     m_c8 = 1.0f / ((f32) this->set_params[0] * k + 29.999998f);
     this->m_d0 = 4e+04f + (f32) *(s32 *)&this->set_params[2];
@@ -128,16 +129,14 @@ void TORainbowCave01::load_resource_instance() {
 TORainbowCave01::~TORainbowCave01() {}
 
 TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    u8 *temp_r4;
     m_name = TORainbowCave01__name;
     apply_object_set_data(set_data);
-    model = *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TORainbowCave01__static_model_resource) + 0x42C)) + 8);
-    temp_r4 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TORainbowCave01__static_model_resource) + 0x42C));
-    texlist = (s32) *(s32 *)((s8 *)temp_r4 + 0xC);
-    m_c0 = (f32) 400.0f;
-    model_radius = (f32) (4e+04f);
-    m_cc = (f32) (0.0f);
-    init_light_params((int)temp_r4, (f32) ((4e+04f)), (f32) (400.0f));
+    model = (void *)((BmlResource *)TORainbowCave01__static_model_resource)->models[0].model;
+    texlist = ((BmlResource *)TORainbowCave01__static_model_resource)->models[0].m_c;
+    m_c0 = 400.0f;
+    model_radius = 40000.0f;
+    m_cc = 0.0f;
+    init_light_params();
 }
 
 }

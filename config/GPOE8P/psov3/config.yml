@@ -5124,7 +5124,7 @@ force_active:
   - init_layout__17TWindowSubComCardFv
   - init_layout__19TWindowKeyBoardSoftFv
   - init_light__9TObjLightFi
-  - init_light_params__15TORainbowCave01Fiff
+  - init_light_params__15TORainbowCave01Fv
   - init_light_tables__9TObjLightFv
   - init_link_points__9TBoss2FinFv
   - init_lookup_tables__6TLobbyFv
