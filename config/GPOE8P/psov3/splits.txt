@@ -4380,6 +4380,7 @@ pso/object/TObjMotion.cpp:
 	.rodata     start:0x8043F2C8 end:0x8043F2E0
 	.data       start:0x804A7498 end:0x804A74D0
 	.sdata      start:0x805D2CE0 end:0x805D2CE4
+	.sbss       start:0x805D5678 end:0x805D5688
 	.sdata2     start:0x805DB168 end:0x805DB174
 
 pso/misc/TMovie_80143988.cpp:

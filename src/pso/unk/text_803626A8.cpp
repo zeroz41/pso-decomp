@@ -1,6 +1,7 @@
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/enemy/TObjEneEpsilon.h"
 #include "pso/misc/TBreakUpMdl.h"
@@ -175,7 +176,6 @@ s32 pop_matrix();
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_803626A8_lbl_80479FBC lbl_80479FBC;
 extern RecoveredGlobal_803626A8_lbl_8058D490 identity_matrix;
-extern s32 anim_model_matrix_array;
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dl__7TObjectFPv(void *);
 s32 __destroy_arr(void *, void *, int, int);
@@ -239,7 +239,7 @@ void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
     rotate_matrix_y(0, this->rotation_y);
     this->calc_joint_matrices(this->frame);
     pop_matrix();
-    push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
+    push_matrix_from(anim_model_matrix_array[arg2]);
     matrix_mult_vec(0, (void *)&stack.sp8, (void *)arg1);
     pop_matrix();
 }

@@ -263,7 +263,6 @@ extern IVec_800F1098 lbl_8043D680;
 extern Tbl_800F1098 *TObjEneMe3Stelth__behavior_params_by_variant[];
 extern u8 identity_matrix[];
 extern s32 game_difficulty_selection;
-extern u8 *anim_model_matrix_array;
 extern const f32 TObjEneMe3Stelth__data_805DA820;
 extern const f32 TObjEneMe3Stelth__data_805DA824;
 void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1);
@@ -385,7 +384,7 @@ void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1) {
                 ((TObjEnemy *)arg0)->calc_joint_matrices(TObjEneMe3Stelth__data_805DA824);
                 clear_motion_packed_rotation();
                 pop_matrix();
-                push_matrix_from(anim_model_matrix_array + 0x90);
+                push_matrix_from(anim_model_matrix_array[3]);
                 c.a = lbl_8043D680.a;
                 c.b = lbl_8043D680.b;
                 c.c = lbl_8043D680.c;

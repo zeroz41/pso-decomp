@@ -34,7 +34,6 @@ void vec3_add_to(Vec *dst, const Vec *add);
 f32 vec3_dot(const Vec *a, const Vec *b);
 void vec3_cross(const Vec *a, const Vec *b, Vec *out);
 extern Mtx34 identity_matrix;
-extern Mtx34 *anim_model_matrix_array;
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
 extern s32 registered_player_count;

@@ -111,7 +111,6 @@ s32 rotate_matrix_y(int, int);
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_802CE68C_lbl_804724A8 player_sub_802ce68c_zero_vec;
 extern RecoveredGlobal_802CE68C_lbl_8058D490 identity_matrix;
-extern s32 anim_model_matrix_array;
 s32 update_player_state__9TObjEneDDFv(void *, Vec_802CE740 *, int);
 }
 void restore_alpha_ref(void);
@@ -149,7 +148,7 @@ void TObjPlayer__sub_802CE68C(u8 *enemy, s32 arg1, s32 arg2) {
     ((TObjEnemy *)enemy)->calc_joint_matrices((f32) (((TObjEnemy *)enemy)->frame));
     clear_motion_packed_rotation();
     pop_matrix();
-    push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
+    push_matrix_from(anim_model_matrix_array[arg2]);
     stack.sp8 = *(s32 *)((s8 *)&player_sub_802ce68c_zero_vec.value + 0);
     stack.spC = *(s32 *)((s8 *)&player_sub_802ce68c_zero_vec.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&player_sub_802ce68c_zero_vec.value + 8);

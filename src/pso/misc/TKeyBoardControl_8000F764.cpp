@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/render_util.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/effect/TEffect.h"
 #include "pso/system/PadRumble.h"
 #include "pso/misc/TKeyBoardControl_803DE9C4.h"
@@ -168,8 +169,6 @@ extern int lbl_805D49A4;
 extern int player_matrix_stack_buffer;
 extern s32 keyboard_input_buffer;
 extern int resource_decompress_buffer;
-extern int anim_model_matrix_array;
-extern int lbl_805D5680;
 void init_game_systems(void);
 void shutdown_and_reset_system(void);
 void update_music_sequencer(void);

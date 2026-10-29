@@ -421,7 +421,6 @@ extern Tbl_803606A0 epsilon_guard_attack_offset_table;
 extern Vec_803606A0 lbl_80479D10;
 extern const f64 lbl_80479E90[];
 extern u8 identity_matrix[];
-extern u8 *anim_model_matrix_array;
 f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 extern const f32 lbl_805E0208;
 s32 get_bml_model(s32, s32);
@@ -950,7 +949,7 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     ((TObjEnemy *)g6)->calc_joint_matrices(g6->xC0);
     clear_motion_packed_rotation();
     pop_matrix();
-    push_matrix_from(anim_model_matrix_array + t.v[i] * 0x30);
+    push_matrix_from(anim_model_matrix_array[t.v[i]]);
     {
         Vec_803606A0 v = lbl_80479D10;
         matrix_mult_vec(0, &v, &g6->pts[i]);

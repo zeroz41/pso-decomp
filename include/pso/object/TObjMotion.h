@@ -271,6 +271,12 @@ void make_node_flag_table(NJS_OBJECT *object, NodeFlagEntry *table);
 void save_joint_matrix_callback();
 
 extern NodeFlagEntry *node_flag_cursor;
+// The joint matrices calc_joint_matrices(f32) stores (110 of them).
+extern Mtx34 *anim_model_matrix_array;
+// Where save_joint_matrix_callback stores the next node's matrix.
+extern Mtx34 *player_joint_matrix_write_ptr;
+// A 0x6000-byte buffer init_game_systems allocates.
+extern void *lbl_805D5680;
 
 // The name every TObjMotion constructor gives the object.
 extern const char *TObjMotion__class_name;

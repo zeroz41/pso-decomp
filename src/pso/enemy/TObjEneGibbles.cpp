@@ -375,7 +375,6 @@ extern const f32 TObjEneGibbles__data_805DE81C;
 extern RecoveredGlobal_802D7ED4_lbl_80472780 gibbles_joint_zero_vec;
 extern RecoveredGlobal_802D7ED4_lbl_8058D490 identity_matrix;
 extern s32 local_client_id;
-extern s32 anim_model_matrix_array;
 extern s32 lbl_805D5868;
 extern const f32 lbl_805DE7E0;
 extern const f32 lbl_805DE7FC;
@@ -902,7 +901,7 @@ void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, s32 arg1, s32 ar
     ((TObjEnemy *)enemy)->calc_joint_matrices((f32) (((TObjEnemy *)enemy)->frame));
     clear_motion_packed_rotation();
     pop_matrix();
-    push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
+    push_matrix_from(anim_model_matrix_array[arg2]);
     stack.sp8 = *(s32 *)((s8 *)(&gibbles_joint_zero_vec.value) + 0);
     stack.spC = *(s32 *)((s8 *)(&gibbles_joint_zero_vec.value) + 4);
     stack.sp10 = *(s32 *)((s8 *)(&gibbles_joint_zero_vec.value) + 8);

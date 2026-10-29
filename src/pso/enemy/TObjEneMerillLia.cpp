@@ -507,7 +507,6 @@ s32 minimap_render_dot(void *, int, int, int);
 s32 create__9TTecKafunFlllllff(void *, void *, int, int, int, f32, f32);
 s32 matrix_mult_vec(int, void *, void *);
 extern u32 TObjEneMerillLia__rock_param_table;
-extern s32 anim_model_matrix_array;
 extern const f32 lbl_805DA30C;
 extern const f32 lbl_805DA310;
 s32 apply_actor_gravity(void *, int, f32);
@@ -1119,7 +1118,7 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
             rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
             ((TObjEnemy *)arg0)->calc_joint_matrices(lbl_805DA30C);
             pop_matrix();
-            push_matrix_from((void *)(anim_model_matrix_array + 0x450));
+            push_matrix_from(anim_model_matrix_array[23]);
             {
                 Vec_800D57C8 sp8 = zero_offset;
                 matrix_mult_vec(0, &sp8, &sp14);

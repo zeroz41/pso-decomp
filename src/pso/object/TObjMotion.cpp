@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/misc/TUnk_804A7478.h"
@@ -19,11 +18,10 @@
 #include "pso/misc/pso_date.h"
 #include "pso/player/TObjPlayer_801E2D1C.h"
 
-// Still unowned (this unit's .sbss and the model draw module's).
-extern s32 anim_model_matrix_array;
-extern s32 player_joint_matrix_write_ptr;
-extern s32 model_node_callback;
-extern s32 chunk_model_node_callback;
+Mtx34 *anim_model_matrix_array;
+Mtx34 *player_joint_matrix_write_ptr;
+void *lbl_805D5680;
+NodeFlagEntry *node_flag_cursor;
 
 const char *TObjMotion__class_name = "TObjMotion";
 
@@ -219,7 +217,7 @@ s32 TObjMotion::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices
         return 0;
     }
     set_motion_packed_rotation();
-    player_joint_matrix_write_ptr = matrices;
+    player_joint_matrix_write_ptr = (Mtx34 *)matrices;
     set_chunk_model_node_callback((s32)save_joint_matrix_callback);
     draw_motion((NJS_OBJECT *)model, with, at_frame);
     set_chunk_model_node_callback(0);
@@ -258,13 +256,13 @@ int TObjMotion::is_passing_frame(f32 at_frame) {
 }
 
 void save_joint_matrix_callback() {
-    get_current_matrix((void *)player_joint_matrix_write_ptr);
-    player_joint_matrix_write_ptr = player_joint_matrix_write_ptr + 0x30;
+    get_current_matrix(player_joint_matrix_write_ptr);
+    player_joint_matrix_write_ptr++;
 }
 
 void TObjMotion::draw_saving_joints() {
     u32 flags;
-    player_joint_matrix_write_ptr = (s32)joint_matrices;
+    player_joint_matrix_write_ptr = (Mtx34 *)joint_matrices;
     set_chunk_model_node_callback((s32)save_joint_matrix_callback);
     flags = motion_flags;
     if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
@@ -278,10 +276,10 @@ void TObjMotion::draw_saving_joints() {
 
 void TObjMotion::draw_saving_joints_checked() {
     u32 flags;
-    u32 matrices;
+    Mtx34 *matrices;
 
-    matrices = (u32)joint_matrices;
-    if (matrices != 0) {
+    matrices = (Mtx34 *)joint_matrices;
+    if (matrices != NULL) {
         player_joint_matrix_write_ptr = matrices;
         set_chunk_model_node_callback((s32)save_joint_matrix_callback);
         flags = motion_flags;

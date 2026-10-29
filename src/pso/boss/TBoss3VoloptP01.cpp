@@ -49,7 +49,6 @@ s32 minimap_render_dot(void *pos, s32 color, s32 a2, s32 a3);
 f32 fabs_float(f32 x);
 void *__construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
 extern Mtx34 identity_matrix;
-extern Mtx34 *anim_model_matrix_array;
 extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.

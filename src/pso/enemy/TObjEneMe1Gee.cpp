@@ -883,7 +883,6 @@ s32 post_translate_matrix(void *);
 extern const u8 TObjEneMe1Gee__data_8043BDC0[];
 extern Vec_800CA454 lbl_8043BE7C[];
 extern u8 identity_matrix[];
-extern u8 *anim_model_matrix_array;
 extern const f32 lbl_805DA124;
 void TObjEneMe1Gee__sub_800CA454(void *arg0, s32 arg1);
 s16 get_entity_id(void *);
@@ -2900,7 +2899,7 @@ void TObjEneMe1Gee__sub_800CA454(void *arg0, s32 arg1) {
                 clear_motion_packed_rotation();
                 pop_matrix();
                 o->timer = 0;
-                push_matrix_from(anim_model_matrix_array + 0x150);
+                push_matrix_from(anim_model_matrix_array[7]);
                 {
                     Vec_800CA454 out;
                     Vec_800CA454 in = lbl_8043BE7C[0];

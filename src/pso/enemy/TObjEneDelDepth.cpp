@@ -106,7 +106,6 @@ extern s32 identity_matrix[];
 extern const char *TObjEneDelDepth__name;
 extern const char *TObjEneDelDepthBomb__name;
 extern s32 game_difficulty_selection;
-extern s32 anim_model_matrix_array;
 extern const f32 lbl_805DF264;
 extern const f32 lbl_805DF274;
 extern const f32 lbl_805DF27C;
@@ -971,7 +970,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         rotate_matrix_y(0, this->rotation_y);
         ((TObjEnemy *)arg0)->calc_joint_matrices(lbl_805DF284);
         pop_matrix();
-        push_matrix_from((void *)(anim_model_matrix_array + 0x450));
+        push_matrix_from(anim_model_matrix_array[23]);
         {
         Vec v = lbl_80475DB0;
         matrix_mult_vec(0, &v, &out);

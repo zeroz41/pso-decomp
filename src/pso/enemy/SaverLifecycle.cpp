@@ -1496,7 +1496,6 @@ extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern u8 *anim_model_matrix_array;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -1942,7 +1941,7 @@ void TObjEneSaver::render() {
         ((TObjEnemy *)arg0)->calc_joint_matrices(((TObjEneSaver *)arg0)->frame);
         clear_motion_packed_rotation();
         pop_matrix();
-        push_matrix_from(anim_model_matrix_array + 0x4E0);
+        push_matrix_from(anim_model_matrix_array[26]);
         {
             Vec_800A6C54 t = lbl_8043A8A4;
             matrix_mult_vec(0, &t, arg0 + 0x390);

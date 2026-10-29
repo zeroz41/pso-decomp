@@ -184,7 +184,6 @@ extern Vec_80316C3C lbl_80475FC8[];
 extern Def_80316C3C *TObjEneMe3SinowZoa__kind_param_tbls[];
 extern u8 identity_matrix[];
 extern s32 game_difficulty_selection;
-extern u8 *anim_model_matrix_array;
 extern const f32 TObjEneMe3SinowZoa__data_805DF308;
 extern const f32 TObjEneMe3SinowZoa__data_805DF30C;
 extern const f32 TObjEneMe3SinowZoa__data_805DF310;
@@ -330,7 +329,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
                 ((TObjEnemy *)arg0)->calc_joint_matrices(TObjEneMe3SinowZoa__data_805DF314);
                 clear_motion_packed_rotation();
                 pop_matrix();
-                push_matrix_from(anim_model_matrix_array + 0x90);
+                push_matrix_from(anim_model_matrix_array[3]);
                 matrix_mult_vec(0, lbl_80475FC8[0], &out);
                 pop_matrix();
                 if (arg0->hasDest != 0) {
