@@ -12,6 +12,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 
 struct RecoveredGlobal_80369DF0_lbl_804F33E0 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80369DF0_lbl_804F33E0_size[sizeof(RecoveredGlobal_80369DF0_lbl_804F33E0) == 0x10 ? 1 : -1];
@@ -25,7 +26,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TObjSuisouLobby__instance;
 extern s32 TObjSuisouLobby__lobby_type;
 u32 create_particle_emitter(void *, int);
-s32 is_lobby_event_active(void);
 s32 matrix_mult_vec(int, void *, void *);
 s32 set_matrix_identity(int);
 s32 rotate_matrix_y(int, int);
@@ -142,7 +142,7 @@ void TObjSuisouLobby::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &lobby_suisou_resource_descriptor.value, 0, 0, 0));
     }
     (*(s32 *)&TObjSuisouLobby__instance) = var_r0;
-    TObjSuisouLobby__lobby_type = TLobby::get_lobby_type();
+    TObjSuisouLobby__lobby_type = TLobby::get_lobby_texlist();
 }
 
 TObjSuisouLobby::~TObjSuisouLobby() {

@@ -17,6 +17,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 
 struct Base_8029D3A4_8029CF68;
 struct Base_8029CF68;
@@ -121,7 +122,6 @@ void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 extern s32 __vt__15TOKeyJungleMain[];
 void *__dt__15TOKeyJungleMainFv(void *arg0, s16 arg1);
-s32 is_lobby_event_active();
 extern s32 TObjFish__area_event_stage;
 u8 update_state__8TObjFishFv(void *arg0);
 extern const f32 lbl_805DDD38;

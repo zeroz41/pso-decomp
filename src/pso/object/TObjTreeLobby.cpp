@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjTreeLobby.h"
-#include "pso/object/TUnk_804F2B60.h"
+#include "pso/object/TQuestDamageTask.h"
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
@@ -13,15 +13,13 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 void TLobby__sub_8001FE7C(BmlResource *resource, s32 del);
 BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
-// Defined (returning u8) in the lobby-event module; the original callers test
-// the full register.
-s32 is_lobby_event_active(void);
 }
 
 __declspec(section ".sdata") const char *bm_obj_lobby_tree_motion_names[1] = { NULL };
@@ -31,14 +29,14 @@ const char *obj_tree_lobby_class_name = "TObjTreeLobby";
 BmlResource *TObjTreeLobby::model_resource;
 u32 TObjTreeLobby::lobby_texlist;
 
-TUnk_804F2B60::TUnk_804F2B60(u16 client_id, TObject *parent, f32 damage) : TObject(parent) {
+TQuestDamageTask::TQuestDamageTask(u16 client_id, TObject *parent, f32 damage) : TObject(parent) {
     this->damage = damage;
     this->client_id = client_id;
 }
 
-TUnk_804F2B60::~TUnk_804F2B60() {}
+TQuestDamageTask::~TQuestDamageTask() {}
 
-void TUnk_804F2B60::run_task() {
+void TQuestDamageTask::run_task() {
     TObjPlayer *player = get_player_by_client_id(client_id);
     if (player != NULL) {
         DirectAttackPayload attack;
@@ -70,7 +68,7 @@ void TObjTreeLobby::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_tree_resource_descriptor, 0, 0, 0);
     }
     model_resource = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_type();
+    lobby_texlist = TLobby::get_lobby_texlist();
 }
 
 void TObjTreeLobby::destroy_static_instance() {

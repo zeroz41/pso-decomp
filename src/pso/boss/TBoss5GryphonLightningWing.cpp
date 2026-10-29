@@ -161,8 +161,8 @@ s32 TLobby::get_filtered_event_theme() {
     return 0;
 }
 
-u8 is_lobby_event_active(void) {
-    return (u8) (TLobby::get_filtered_event_theme() != 0);
+s32 is_lobby_event_active(void) {
+    return TLobby::get_filtered_event_theme() != 0;
 }
 
 }

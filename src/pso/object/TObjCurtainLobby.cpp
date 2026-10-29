@@ -105,7 +105,7 @@ void TObjCurtainLobby::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_curtain_resource_descriptor, 0, 0, 0);
     }
     model_resource = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_type();
+    lobby_texlist = TLobby::get_lobby_texlist();
 }
 
 TObjCurtainLobby::~TObjCurtainLobby() {}

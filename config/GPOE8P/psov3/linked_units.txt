@@ -2063,7 +2063,7 @@ pso/object/TObjCityMainWarp_80186E24.cpp
 pso/object/TObjCollision.cpp
 pso/object/TObjComputer.cpp
 pso/object/TObjControl.cpp
-pso/object/TObjCurtainLobby_8035B87C.cpp
+pso/object/TObjCurtainLobby.cpp
 pso/object/TObjDFDemo2.cpp
 pso/object/TObjDFDemo3.cpp
 pso/object/TObjDFDemo4.cpp

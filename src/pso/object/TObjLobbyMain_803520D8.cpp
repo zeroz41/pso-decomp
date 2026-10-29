@@ -341,7 +341,7 @@ void TObjLobbyMain::load_resources() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_lobby_main_resource_descriptor.value, 0, 0, 0));
     }
     (*(u8 * *)&(*(u32 *)&TObjLobbyMain__bml_resource)) = (unsigned char *) ((void *) var_r0);
-    (*(s32 *)&lobby_main_lobby_type) = TLobby::get_lobby_type();
+    (*(s32 *)&lobby_main_lobby_type) = TLobby::get_lobby_texlist();
     lobby_main_computer_ginja_model = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((*(u8 * *)&(*(u32 *)&TObjLobbyMain__bml_resource)), 6)) + 0x2C)) + 0x30)) + 0x30)) + 0x30)) + 0x30)) + 0x30)) + 0x30)) + 4);
     lobby_main_computer_ginja_model_b = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(get_bml_model((*(u8 * *)&(*(u32 *)&TObjLobbyMain__bml_resource)), 2)) + 0x2C)) + 0x30)) + 0x30)) + 0x30)) + 4);
     lobby_computer_last_frame_tick = 0;

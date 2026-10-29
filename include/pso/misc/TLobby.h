@@ -494,7 +494,7 @@ struct TLobby : public TObject {
     static void reset_info_board();
     static s32 is_connected();
     static s32 is_lobby_obj_active();
-    static int get_lobby_type();
+    static int get_lobby_texlist();
     void set_timer(f32 v);
     static s32 open_message_scroll_window(s32 arg0, s32 arg1, s32 arg2);
     static void *create_dialing_message_window(void *arg0, void *arg1);

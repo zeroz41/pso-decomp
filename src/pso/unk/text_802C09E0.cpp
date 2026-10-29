@@ -32,7 +32,7 @@ void TObjPlayer::load_lobby_pigeon_resource() {
         var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_lobby_pigeon_resource_descriptor, 0, 0, 0));
     }
     lobby_pigeon_bml_archive = var_r0;
-    lobby_pigeon_lobby_type = TLobby::get_lobby_type();
+    lobby_pigeon_lobby_type = TLobby::get_lobby_texlist();
 }
 
 }

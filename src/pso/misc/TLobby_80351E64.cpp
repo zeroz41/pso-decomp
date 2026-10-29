@@ -37,7 +37,7 @@ s32 TLobby::is_lobby_obj_active() {
     return 0;
 }
 
-int TLobby::get_lobby_type() {  return lobby_main_texture_gvm; }
+int TLobby::get_lobby_texlist() {  return lobby_main_texture_gvm; }
 
 void TUnk_804F0EA8::run_task() {
     L_80351EAC *arg0 = (L_80351EAC *)this;

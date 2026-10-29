@@ -45,7 +45,7 @@ int qst_label_address(int label);
 #include "pso/ui/TChallenge4PResult.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/TObject.h"
-#include "pso/object/TUnk_804F2B60.h"
+#include "pso/object/TQuestDamageTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss1Dragon.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -2468,7 +2468,7 @@ void qst_op_item_delete_noreturn() {
 void qst_op_add_damage_to(void) {
     u16 client_id = qst_args[0];
     f32 damage = (f32)qst_args[1];
-    new TUnk_804F2B60(client_id, tl_03, damage);
+    new TQuestDamageTask(client_id, tl_03, damage);
 }
 
 int qst_op_gba_update_dl_graph(void* p) { return get_selected_slot__6TLobbyFv(p); }

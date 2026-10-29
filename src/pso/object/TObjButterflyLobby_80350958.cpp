@@ -7,6 +7,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 
 struct ButterflyLobbyBase_80350958 { char pad[0x18]; };
 struct ButterflyLobbyVObj_80350958 : ButterflyLobbyBase_80350958 {
@@ -282,7 +283,6 @@ void TObjButterflyLobby::run_task() {
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 __ct__8TObjBaseFP7TObject();
-s32 is_lobby_event_active();
 extern s32 __vt__18TObjButterflyLobby[];
 extern s32 lbl_805D4360;
 void TLobby__sub_8001FE7C(void*, int);

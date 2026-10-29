@@ -104,7 +104,7 @@ void TObjWeddingLobby::load_resources() {
         resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_bell_resource_descriptor, 0, 0, 0);
     }
     resource_bundle = (BmlResource *)resource;
-    lobby_texlist = TLobby::get_lobby_type();
+    lobby_texlist = TLobby::get_lobby_texlist();
 }
 
 TObjWeddingLobby::~TObjWeddingLobby() {}
