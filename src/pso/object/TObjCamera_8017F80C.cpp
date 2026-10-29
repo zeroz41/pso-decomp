@@ -208,7 +208,7 @@ void run_task__10TObjCameraFv(Obj_8017F910 *self) {
             for (j = 0; j < 8; j++) {
                 if (self->lights[j] != NULL) {
                     disallow_rendering__7TObjectFv((TObject *)self->lights[j]);
-                    ((TObjCamera *)(self->lights[j]))->queue_target_destruction();
+                    ((TEffStarLight2D *)self->lights[j])->queue_child_destruction();
                 }
             }
             self->visible = 0;

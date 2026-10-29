@@ -143,3 +143,9 @@ void TEffStarLight2D::render() {
     set_default_alpha_blend();
 }
 #pragma pop
+
+void TEffStarLight2D::queue_child_destruction() {
+    if (m_down != NULL && m_down->all_parents_unqueued_for_destruction() != 0) {
+        m_down->queue_destruction();
+    }
+}

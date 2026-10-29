@@ -144,7 +144,7 @@ void TUnk_804A2018::run_task() {
                 ((TEffStarLight2D *)*(u32 *)&this->unk_24)->copy_position((const Vec *)&sp8);
                 return;
             }
-            ((TObjCamera *)(*(u32 *)&this->unk_24))->queue_target_destruction();
+            ((TEffStarLight2D *)*(u32 *)&this->unk_24)->queue_child_destruction();
             return;
         }
     }

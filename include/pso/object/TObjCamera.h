@@ -10,7 +10,6 @@ struct TObjCamera : public TObjMapObject {
     virtual s32 update_object_view_visibility(f32, f32);
     virtual void run_task();
     s32 lights_visible;  // 1 while the local player is near enough to see its lights
-    void queue_target_destruction();
     virtual void render();
     static void *create(void *arg0);
     static void release_static_resource();

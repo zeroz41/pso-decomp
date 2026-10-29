@@ -28,6 +28,7 @@ public:
     void copy_from_subobject(void* a1);
     void copy_from(void* q);
     void copy_position(const Vec *position);
+    void queue_child_destruction();
     void draw_segment(ColorLineVertex *a, ColorLineVertex *b,
                       ColorLineVertex *c, ColorLineVertex *d, s32 index);
 

@@ -1342,13 +1342,10 @@ pso/player/TObjPlayer_80084B84.cpp:
 	.text       start:0x80084B84 end:0x80084BC4
 
 pso/effect/TEffStarLight2D_Base.cpp:
-	.text       start:0x80084BC4 end:0x80085168
+	.text       start:0x80084BC4 end:0x800851B0
 	.rodata     start:0x80439388 end:0x804393D0
 	.data       start:0x8048E640 end:0x8048E674
 	.sdata      start:0x805D2928 end:0x805D2930
-
-pso/object/TObjCamera.cpp:
-	.text       start:0x80085168 end:0x800851B0
 
 pso/effect/TEffStarLight2D.cpp:
 	.text       start:0x800851B0 end:0x80085774

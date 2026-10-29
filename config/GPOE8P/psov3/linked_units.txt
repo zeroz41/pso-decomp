@@ -2053,7 +2053,6 @@ pso/object/TObjCMMainMenu_8028D9A8.cpp
 pso/object/TObjCMMainMenu_8028EA88.cpp
 pso/object/TObjCMMainMenu_8029427C.cpp
 pso/object/TObjCMProportion_80298FAC.cpp
-pso/object/TObjCamera.cpp
 pso/object/TObjCamera_8017F80C.cpp
 pso/object/TObjChip.cpp
 pso/object/TObjCityMainWarpChallenge.cpp
