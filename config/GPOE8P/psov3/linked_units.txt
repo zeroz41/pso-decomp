@@ -1326,7 +1326,7 @@ pso/misc/TOMineTrap_8016ED9C.cpp
 pso/misc/TOMonitorMachine01.cpp
 pso/misc/TOMonumentAncient01.cpp
 pso/misc/TOMonumentAncient02.cpp
-pso/misc/TORainbowCave01_80173014.cpp
+pso/misc/TORainbowCave01.cpp
 pso/misc/TORevlightCave01.cpp
 pso/misc/TORevlightCave01_80173478.cpp
 pso/misc/TORevlightCave01_80173664.cpp

@@ -1,6 +1,0 @@
-#ifndef PSO_MISC_TORAINBOWCAVE01_80173014_H
-#define PSO_MISC_TORAINBOWCAVE01_80173014_H
-
-#include "pso/misc/TORainbowCave01.h"
-
-#endif
