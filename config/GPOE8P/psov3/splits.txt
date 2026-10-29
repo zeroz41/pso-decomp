@@ -5112,7 +5112,7 @@ pso/misc/TOHangceilingCave01.cpp:
 	.sdata2     start:0x805DB650 end:0x805DB6A4
 
 pso/misc/TOHangerMachine01.cpp:
-	.text       start:0x80168D3C end:0x8016916C
+	.text       start:0x80168D3C end:0x80169118
 	.rodata     start:0x80441890 end:0x804418D8
 	.data       start:0x804B26C0 end:0x804B2740
 	.sdata      start:0x805D2FF8 end:0x805D3000
@@ -5120,15 +5120,17 @@ pso/misc/TOHangerMachine01.cpp:
 	.sdata2     start:0x805DB6A8 end:0x805DB6B8
 
 pso/misc/TOHealGeneral.cpp:
-	.text       start:0x8016916C end:0x801699F4
+	.text       start:0x80169118 end:0x801699F4
+	.rodata     start:0x804418D8 end:0x80441950
+	.data       start:0x804B2740 end:0x804B27D8
+	.sdata      start:0x805D3000 end:0x805D3010
+	.sbss       start:0x805D59F0 end:0x805D59F8
 	.sdata2     start:0x805DB6B8 end:0x805DB6D4
 
-pso/unk/text_80169BD0.cpp:
-	.text       start:0x801699F4 end:0x80169EE4
+pso/misc/TUnk_804B27D8.cpp:
+	.text       start:0x801699F4 end:0x80169FBC
+	.data       start:0x804B27D8 end:0x804B2820
 	.sdata2     start:0x805DB6D8 end:0x805DB6E0
-
-pso/misc/TOKey_80169EE4.cpp:
-	.text       start:0x80169EE4 end:0x80169FBC
 
 pso/misc/TOKey.cpp:
 	.text       start:0x80169FBC end:0x8016AD64

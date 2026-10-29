@@ -7,7 +7,6 @@
 #include "pso/misc/TUnk_804B27D8.h"
 #include "pso/misc/TOCapsuleAncient01.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOHealGeneral.h"
 #include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -65,8 +64,8 @@ void TOCapsuleAncient01::render() {
     u8 *temp_r31;
     u8 *temp_r31_2;
 
-    this->m_e0 = ((VObj_8015a2b8 *) arg0)->m8(this->m_c0, *(f32 *)&this->m_c4);
-    if ((s32) this->m_e0 == 1) {
+    this->visible = ((VObj_8015a2b8 *) arg0)->m8(this->m_c0, *(f32 *)&this->m_c4);
+    if ((s32) this->visible == 1) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -74,7 +73,7 @@ void TOCapsuleAncient01::render() {
         temp_r31 = (unsigned char *) (*(void * *)&this->model);
         translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31 + 8)), (f32) (*(f32 *)((s8 *)temp_r31 + 0xC)), (f32) (*(f32 *)((s8 *)temp_r31 + 0x10)));
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-        if ((s32) this->m_cc == 1) {
+        if ((s32) this->active == 1) {
             TParticleCtrl::begin_effect_render();
             temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
             push_matrix();
@@ -121,7 +120,7 @@ void *__dt__18TOCapsuleAncient01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TOCapsuleAncient01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B27D8 *)arg0)->destroy_key_object(0);
+        __dt__13TUnk_804B27D8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -132,7 +131,7 @@ void *__dt__18TOCapsuleAncient01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8015A4D0_lbl_804AFE88_size[sizeof(RecoveredGlobal_8015A4D0_lbl_804AFE88) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8015A4D0___vt__18TOCapsuleAncient01_size[sizeof(RecoveredGlobal_8015A4D0___vt__18TOCapsuleAncient01) == 0x44 ? 1 : -1];
 u8 *TOCapsuleAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804B27D8 *)arg0)->init();
+    __ct__13TUnk_804B27D8FP7TObject(arg0, (TObject *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015A4D0___vt__18TOCapsuleAncient01 *)&__vt__18TOCapsuleAncient01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2ECC;
     ((TOCapsuleAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
@@ -142,7 +141,7 @@ u8 *TOCapsuleAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x1288);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TOHealGeneral *)arg0)->update_heal_gauge_state();
+    ((TUnk_804B27D8 *)arg0)->read_set_params();
     ((TOCapsuleAncient01 *)arg0)->m_c0 = (f32) lbl_805DB378;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB37C;
     ((TOCapsuleAncient01 *)arg0)->m_e4 = 0;

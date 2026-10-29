@@ -5,7 +5,6 @@
 #include "pso/misc/TUnk_804B27D8.h"
 #include "pso/misc/TOComputerMachine01.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOHealGeneral.h"
 #include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -57,7 +56,6 @@ extern RecoveredGlobal_8015B350_TOComputerMachine01__data_8050DB50 TOComputerMac
 extern s32 actor_frame_tick;
 extern s32 TOComputerMachine01__last_render_frame_tick;
 s32 init_collision_body_parts(void *, void *, int);
-s32 init__13TUnk_804B27D8Fv(void *, int);
 extern RecoveredGlobal_8015B644_lbl_804AFFF8 computer_machine01_collision_body;
 extern s32 __vt__19TOComputerMachine01[];
 extern s32 lbl_805D2EEC;
@@ -79,8 +77,8 @@ void TOComputerMachine01::render() {
     u8 *temp_r31_2;
     u8 *temp_r31_3;
     u8 *temp_r31_4;
-    this->m_e0 = ((VObj_18_26a62c *)(arg0))->m8(this->m_c0, *(f32 *)&this->m_c4);
-    if ((s32) this->m_e0 == 1) {
+    this->visible = ((VObj_18_26a62c *)(arg0))->m8(this->m_c0, *(f32 *)&this->m_c4);
+    if ((s32) this->visible == 1) {
         if ((s32) TOComputerMachine01__last_render_frame_tick != (s32) actor_frame_tick) {
             TOComputerMachine01__last_render_frame_tick = actor_frame_tick;
             scroll_ginja_mesh_uvs((int) (*(s32 *)((s8 *)&TOComputerMachine01__scroll_mesh_ptrs.value + 0)), 0, 2, 7, 1);
@@ -148,7 +146,7 @@ void *__dt__19TOComputerMachine01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TOComputerMachine01;
         free_collision_body_parts(arg0);
         ((TObjCollidable *)arg0)->unregister_object_by_id();
-        ((TUnk_804B27D8 *)arg0)->destroy_key_object(0);
+        __dt__13TUnk_804B27D8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -158,7 +156,7 @@ void *__dt__19TOComputerMachine01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8015B644_lbl_804AFFF8_size[sizeof(RecoveredGlobal_8015B644_lbl_804AFFF8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8015B644___vt__19TOComputerMachine01_size[sizeof(RecoveredGlobal_8015B644___vt__19TOComputerMachine01) == 0x44 ? 1 : -1];
 u8 *TOComputerMachine01__ct(u8 *arg0, s32 arg1) {
-    init__13TUnk_804B27D8Fv(arg0, tl_05);
+    __ct__13TUnk_804B27D8FP7TObject(arg0, (TObject *)tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015B644___vt__19TOComputerMachine01 *)&__vt__19TOComputerMachine01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EEC;
     ((TOComputerMachine01 *)(arg0))->apply_object_set_data((void *)arg1);
@@ -170,7 +168,7 @@ u8 *TOComputerMachine01__ct(u8 *arg0, s32 arg1) {
     init_collision_body_parts(arg0, &computer_machine01_collision_body.value, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TOHealGeneral *)arg0)->update_heal_gauge_state();
+    ((TUnk_804B27D8 *)arg0)->read_set_params();
     return arg0;
 }
 

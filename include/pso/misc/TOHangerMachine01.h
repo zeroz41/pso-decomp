@@ -12,14 +12,9 @@ struct TOHangerMachine01 : public TObjMapObject {
     static void *create(void *set_data);
     static void free_static_model();
     static void load_shared_resource();
-    static s32 is_valid_slot(int, u16 client_id);
     s32 fan_angle;
 };
 
 typedef char TOHangerMachine01_size[sizeof(TOHangerMachine01) == 0xCC ? 1 : -1];
-
-extern "C" {
-void TOHangerMachine01__sub_80169168(void *self);
-}
 
 #endif

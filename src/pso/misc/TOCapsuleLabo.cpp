@@ -8,7 +8,6 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TOCapsuleLabo.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOHealGeneral.h"
 #include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
@@ -98,10 +97,10 @@ void TOCapsuleLabo::render() {
     u8 *temp_r31;
     u8 *temp_r31_2;
 
-    this->m_e0 = ((VObj802AF370_802af370_802AF2C8 *) arg0)->m8(this->m_c0, *(f32 *)&this->m_c4);
-    if ((s32) this->m_e0 == 1) {
+    this->visible = ((VObj802AF370_802af370_802AF2C8 *) arg0)->m8(this->m_c0, *(f32 *)&this->m_c4);
+    if ((s32) this->visible == 1) {
         TObjFish::set_global_param(this->texlist);
-        if ((s32) this->m_cc == 1) {
+        if ((s32) this->active == 1) {
             if ((s32 *) capsule_labo_switch_flags_ptr != NULL) {
                 *capsule_labo_switch_flags_ptr &= 0xFFFFFFF7;
             }
@@ -138,7 +137,7 @@ void *__dt__13TOCapsuleLaboFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TOCapsuleLabo;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B27D8 *)arg0)->destroy_key_object(0);
+        __dt__13TUnk_804B27D8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -148,7 +147,7 @@ void *__dt__13TOCapsuleLaboFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_802AF4F4_lbl_804DE450_size[sizeof(RecoveredGlobal_802AF4F4_lbl_804DE450) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_802AF4F4___vt__13TOCapsuleLabo_size[sizeof(RecoveredGlobal_802AF4F4___vt__13TOCapsuleLabo) == 0x44 ? 1 : -1];
 u8 *TOCapsuleLabo__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    ((TUnk_804B27D8 *)arg0)->init();
+    __ct__13TUnk_804B27D8FP7TObject(arg0, (TObject *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802AF4F4___vt__13TOCapsuleLabo *)&__vt__13TOCapsuleLabo).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3E7C;
     ((TOCapsuleLabo *)(arg0))->apply_object_set_data((void *)arg2);
@@ -158,7 +157,7 @@ u8 *TOCapsuleLabo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x1288);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TOHealGeneral *)arg0)->update_heal_gauge_state();
+    ((TUnk_804B27D8 *)arg0)->read_set_params();
     ((TOCapsuleLabo *)arg0)->m_c0 = (f32) lbl_805DE1E8;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DE1EC;
     ((TOCapsuleLabo *)arg0)->m_e4 = 0;

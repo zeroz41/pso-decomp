@@ -3,8 +3,6 @@
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOHangerMachine01.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/network/client_id.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResourceLoad.h"
@@ -121,12 +119,3 @@ TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
     register_object_by_id();
     fan_angle = 0;
 }
-
-s32 TOHangerMachine01::is_valid_slot(int, u16 client_id) {
-    if (TRaderMapCore::is_not_split_screen() == 1) {
-        return 1;
-    }
-    return (u32)__cntlzw((u32)(local_client_id - client_id)) >> 5;
-}
-
-extern "C" void TOHangerMachine01__sub_80169168(void *self) {}

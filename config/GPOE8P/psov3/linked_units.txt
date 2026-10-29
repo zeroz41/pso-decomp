@@ -1310,7 +1310,6 @@ pso/misc/TOKeyCol.cpp
 pso/misc/TOKeyGenericSw.cpp
 pso/misc/TOKeyJungleMain.cpp
 pso/misc/TOKeyMachine01_8016D448.cpp
-pso/misc/TOKey_80169EE4.cpp
 pso/misc/TOKurage.cpp
 pso/misc/TOLightMachine01.cpp
 pso/misc/TOMine.cpp
@@ -1585,6 +1584,7 @@ pso/misc/TTecZonde.cpp
 pso/misc/TTecZondeEff.cpp
 pso/misc/TUdpSocket.cpp
 pso/misc/TUnk_804B1B80.cpp
+pso/misc/TUnk_804B27D8.cpp
 pso/misc/TUserAns.cpp
 pso/misc/TUserAns_801E0198.cpp
 pso/misc/TWindow.cpp
@@ -3076,7 +3076,6 @@ pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp
 pso/unk/text_80165940.cpp
 pso/unk/text_80166B6C.cpp
-pso/unk/text_80169BD0.cpp
 pso/unk/text_8016D8F8.cpp
 pso/unk/text_8016F1C0.cpp
 pso/unk/text_80171A98.cpp
