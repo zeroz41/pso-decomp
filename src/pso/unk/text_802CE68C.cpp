@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/text_802CE68C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -125,7 +127,6 @@ s32 is_main_phase_15__9TObjEneDDFv();
 s32 update__15RenderFadeStateFv(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(int, f32, f32, f32);
-s32 set_global_state__16TObjEneRe7BeruraFl(void *, int, void *);
 extern Vec_802CE740 lbl_80472490;
 extern s32 saved_model_render_flags;
 extern s32 lbl_805D686C;
@@ -140,13 +141,13 @@ void TObjPlayer__sub_802CE68C(u8 *enemy, s32 arg1, s32 arg2) {
     typedef char spC_offset[(offsetof(Stack_802CE68C, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_802CE68C, sp10) == 0x8) ? 1 : -1];
     Stack_802CE68C stack;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     push_matrix_from((void *)&identity_matrix.value);
     post_translate_matrix(enemy + 0x38);
     rotate_matrix_y(0, (int) (((TObjEnemy *)enemy)->rotation_y));
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     ((TObjEnemy *)enemy)->calc_joint_matrices((f32) (((TObjEnemy *)enemy)->frame));
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
     stack.sp8 = *(s32 *)((s8 *)&player_sub_802ce68c_zero_vec.value + 0);
@@ -154,7 +155,7 @@ void TObjPlayer__sub_802CE68C(u8 *enemy, s32 arg1, s32 arg2) {
     stack.sp10 = *(s32 *)((s8 *)&player_sub_802ce68c_zero_vec.value + 8);
     matrix_mult_vec(0, (void *)&stack.sp8, (void *)arg1);
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 void TObjEneBm9Mericarol::draw_color_variant() {
     s32 s0;
@@ -273,12 +274,9 @@ void TObjEneBm9Mericarol::render() {
     TObjPlayer::toggle_particle_effect();
     if (!(self->f438 & 0x10)) {
         n = self->f34->n2C->n30->n30->n30->n4->n4;
-        {
-            s16 t = n->fA;
-            saved = t;
-            n->fA = (u8)t;
-            set_global_state__16TObjEneRe7BeruraFl((void *)TObjEneBm9Mericarol::update_particle_effect, t, n);
-        }
+        saved = n->fA;
+        n->fA = (u8)n->fA;
+        set_chunk_model_node_callback((s32)TObjEneBm9Mericarol::update_particle_effect);
     }
     if (self->f438 & 8) {
         if (self->f46C.m8() != 0) {
@@ -304,7 +302,7 @@ void TObjEneBm9Mericarol::render() {
         ((TObjEnemy *)((u8 *)this))->draw_motion_model();
     }
     if (!(self->f438 & 0x10)) {
-        ((void (*)(void *))set_global_state__16TObjEneRe7BeruraFl)(NULL);
+        set_chunk_model_node_callback(NULL);
         self->f34->n2C->n30->n30->n4->n4->fA = saved;
     }
     TParticleCtrl::end_effect_render();

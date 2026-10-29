@@ -1,4 +1,5 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/TObject.h"
@@ -1673,7 +1674,7 @@ void TObjEneIllGill::render() {
         ((void (*)(int, s32))rotate_matrix_y)(0, this->rotation_y);
         scale_matrix(0, this->scale.x, this->scale.y, *(f32 *)((s8 *)arg0 + 0x70));
         TObjEneIllGill__data_805D6FE0 = 0;
-        TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneIllGill::advance_camera_vec_stage));
+        set_chunk_model_node_callback((s32)((void *)TObjEneIllGill::advance_camera_vec_stage));
         if (*(s32 *)&this->m_390 != 0 && TObjPlayer::check_demo_mode() == 0) {
             if (((VObj_14_80368208 *)(arg0 + 0x374))->m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -1691,7 +1692,7 @@ void TObjEneIllGill::render() {
         } else {
             ((TObjEnemy *)arg0)->draw_motion_model();
         }
-        TObjEneRe7Berura::set_global_state((s32)NULL);
+        set_chunk_model_node_callback((s32)NULL);
         VecCopy((Vec *)(arg0 + 0x3B0), (const Vec *)&TObjEneIllGill__camera_vec_table);
         VecCopy((Vec *)(arg0 + 0x3BC), (const Vec *)&lbl_80543A6C);
         VecCopy((Vec *)(arg0 + 0x3C8), (const Vec *)&lbl_80543A78);

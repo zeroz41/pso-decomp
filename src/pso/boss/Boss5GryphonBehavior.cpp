@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/misc/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/EnemyStateEvent.h"
@@ -1460,18 +1462,18 @@ void TBoss5Gryphon::draw_body() {
     boss5_gryphon_bone_capture_index = 0;
     boss5_gryphon_bone_capture_output = (s32)((Obj_8005E0C0 *)this)->f3c0;
     boss5_gryphon_render_flags = ((Obj_8005E0C0 *)this)->f4c0;
-    TObjEneRe7Berura::set_global_state((s32)((void *)TBoss8Dragon__sub_8005E17C));
+    set_chunk_model_node_callback((s32)((void *)TBoss8Dragon__sub_8005E17C));
     ((void (*)(void))push_matrix)();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     ((void (*)(void *))post_translate_matrix)((u8 *)this + 0x38);
     ((void (*)(int, int))rotate_matrix_y)(0, ((Obj_8005E0C0 *)this)->f60);
     ((void (*)(int, int))rotate_matrix_x)(0, ((Obj_8005E0C0 *)this)->f5c);
     ((void (*)(int, int))rotate_matrix_z)(0, ((Obj_8005E0C0 *)this)->f64);
     ((void (*)(int, f32, f32, f32))scale_matrix)(0, lbl_805D8D58, lbl_805D8D58, lbl_805D8D58);
     draw_motion((NJS_OBJECT *)((Obj_8005E0C0 *)this)->f34, (NJS_MOTION *)((Obj_8005E0C0 *)this)->ff8, this->get_motion_frame());
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     ((void (*)(void))pop_matrix)();
-    TObjEneRe7Berura::set_global_state(0);
+    set_chunk_model_node_callback(0);
 }
 
 void TBoss8Dragon__sub_8005E17C(void) {

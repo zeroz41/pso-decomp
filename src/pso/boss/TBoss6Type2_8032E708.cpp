@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/misc/TLobby.h"
 #include "pso/boss/TBoss6Mag.h"
 #include "pso/object/TObjMotion.h"
@@ -1031,7 +1032,7 @@ void TBoss6Mag::draw_model_motion_blend() {
     Stack_8032FE50 stack;
     s32 temp_r31;
     s32 bml_model;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     temp_r31 = TObjFish__sub_8001EDB0(*(s32 *)((s8 *)this + 0x374), 1);
     bml_model = get_bml_model(*(s32 *)((s8 *)this + 0x374), 1);
     TObjFish::set_global_param(temp_r31);
@@ -1048,7 +1049,7 @@ void TBoss6Mag::draw_model_motion_blend() {
         draw_model_blend_motion((void *)bml_model, &stack.sp8, *(f32 *)((s8 *)this + 0x3E8));
         clear_render_callback__8TObjFishFv(*(s32 *)((s8 *)this + 0x458));
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 #pragma push

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
@@ -86,9 +87,9 @@ void TObjEneRe7Berura::vfunc_105() {
         } else if (frame > (mot->count - 1)) {
             frame = (f32)mot->count;
         }
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)self->f34, mot, frame);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

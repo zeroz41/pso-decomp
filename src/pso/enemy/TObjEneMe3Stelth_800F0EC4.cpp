@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
@@ -380,9 +381,9 @@ void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1) {
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, F(s32, 0x60));
-                TObjPlayer::set_global_flag();
+                set_motion_packed_rotation();
                 ((TObjEnemy *)arg0)->calc_joint_matrices(TObjEneMe3Stelth__data_805DA824);
-                TObjPlayer::clear_global_state();
+                clear_motion_packed_rotation();
                 pop_matrix();
                 push_matrix_from(anim_model_matrix_array + 0x90);
                 c.a = lbl_8043D680.a;

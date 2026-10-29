@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
@@ -990,7 +991,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     rotate_matrix_y(0, this->rotation_y);
     TObjEneMorfos__phase = 0;
     TObjEneMorfos__camera_path_cursor = (s32)self->f498;
-    TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneMorfos::record_camera_path_point));
+    set_chunk_model_node_callback((s32)((void *)TObjEneMorfos::record_camera_path_point));
     if (self->f3C0 & 2) {
         if (self->body.m8() != 0) {
             self->body.m6();
@@ -1012,7 +1013,7 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
             ((TObjEnemy *)self)->draw_motion_model();
         }
     }
-    TObjEneRe7Berura::set_global_state((s32)NULL);
+    set_chunk_model_node_callback((s32)NULL);
     pop_matrix();
     ((TObjEneDD *)self)->update_primary_light();
     TParticleCtrl::end_effect_render();

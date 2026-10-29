@@ -134,7 +134,7 @@ void TBoss6Mine::draw() {
     s32 bml_motion;
     s32 bml_model;
 
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     temp_r31 = TObjFish__sub_8001EDB0(this->m_374, 2);
     bml_model = get_bml_model(this->m_374, 2);
     bml_motion = get_bml_motion(this->m_374, 0);
@@ -142,7 +142,7 @@ void TBoss6Mine::draw() {
     TBoss6PlotFalz__sub_802AC008(this->fade_amount, 0.0f);
     draw_model_motion((void *)bml_model, (void *)bml_motion, this->anim_frame);
     TBoss6PlotFalz::update_camera_target();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TBoss6Mine::render() { push_matrix(this); post_translate_matrix((char*)this + 0x38); rotate_matrix_y((void*)0, *(void* *)&this->m_390); rotate_matrix_x((void*)0, *(void* *)&this->m_394); rotate_matrix_y((void*)0, *(void* *)&this->m_398); draw(); pop_matrix(); }

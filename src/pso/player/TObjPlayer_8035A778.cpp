@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TLobby_801E2F94.h"
@@ -19,9 +20,9 @@ void TObjPlayer::apply_with_callback(s32 arg1, f32 farg0) {
     player_node_matrix_count = *(s32 *)&this->set_index;
     node_matrix_array_base = *(s32 *)&this->room;
     player_apply_callback_fn = *(s32 *)&this->position.x;
-    TObjEneRe7Berura::set_global_state((s32)process_callback_list__10TObjPlayerFl);
+    set_chunk_model_node_callback((s32)process_callback_list__10TObjPlayerFl);
     draw_motion(*(NJS_OBJECT **)((s8 *)this + 0x1C), (NJS_MOTION *)arg1, farg0);
-    TObjEneRe7Berura::set_global_state((s32)NULL);
+    set_chunk_model_node_callback((s32)NULL);
 }
 
 }

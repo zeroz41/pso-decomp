@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_801AA664.h"
@@ -149,11 +150,11 @@ void TPhotonEstlla::render() {
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         model_render_flags |= 0x200820;
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         set_chunk_material_override_pair(-1, 0x800);
         set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
         ((TObjMotion *)self)->draw();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         copy_argb((NJS_ARGB *)&model_material_color, (NJS_ARGB *)&saved_model_draw_color);

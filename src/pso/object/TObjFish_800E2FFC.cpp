@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/object/TObjFish_800E2FFC.h"
 #include "pso/object/TObjFish.h"
@@ -45,7 +46,7 @@ void TObjFish::set_draw_callback_list() {
     (*(State_800E3074 *)&TObjFish_draw_callback_state).counter = 0;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).list = arg->list;
     (*(State_800E3074 *)&TObjFish_draw_callback_state).params = arg->params;
-    TObjEneRe7Berura::set_global_state((s32)((void *)TObjFish::draw_callback_transform_to_view));
+    set_chunk_model_node_callback((s32)((void *)TObjFish::draw_callback_transform_to_view));
 }
 
 s32 TObjFish::is_entry_table_valid() {

@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 struct Node_803E49FC {
@@ -99,11 +100,11 @@ void draw_chunk_model_with_shape_motion(void *child, void *arg1, void *arg2, f32
     TObjPlayer::end_chunk_draw();
 }
 
-void TObjPlayer::set_global_flag() {
+void set_motion_packed_rotation() {
     motion_packed_rotation_mode = 1;
 }
 
-void TObjPlayer::clear_global_state() {
+void clear_motion_packed_rotation() {
     motion_packed_rotation_mode = 0;
 }
 void draw_motion_tree__10TObjPlayerFPvPvi(void *arg0, void *arg1, s32 arg2) {

@@ -25,7 +25,7 @@ struct Fish_8033CDF8 { u8 pad[0x4C]; Vec_8033CDF8 vecs[3]; };
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
 extern Range_8033CDF8 fish_spawn_entry_table[];
-int clear_render_callback__8TObjFishFv(void);
+void clear_render_callback__8TObjFishFv(void);
 s32 push_matrix(void);
 f32 post_translate_matrix(void);
 extern const f32 lbl_805DFA58;
@@ -53,7 +53,7 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         ((f32 (*)(void *))post_translate_matrix)(arg0 + 0x1C);
         TObjFish::set_global_param(*(s32 *)&(*(void * *)((u8 *)this + 0x2C)));
         draw_model_motion((void *)(*(s32 *)&(this->m_28)), (void *)(*(s32 *)&(this->m_30)), this->m_40);
@@ -61,7 +61,7 @@ void TBoss6Demo11_TYPE1_DEAD::render_fade_model() {
         ((TObjFish *)((this->m_88)))->set_draw_callback_list();
         draw_model_motion((void *)(*(s32 *)&(*(void * *)((u8 *)this + 0x34))), (void *)(*(s32 *)((s8 *)arg0 + 0x3C)), this->m_40);
         ((int (*)(void *))clear_render_callback__8TObjFishFv)((this->m_88));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < lbl_805DFA58) {
             TObjFish::reset_fish_globals();

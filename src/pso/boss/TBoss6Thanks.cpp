@@ -155,7 +155,7 @@ void TBoss6Thanks::render() {
         return;
     }
     TBoss6PlotFalz::set_fade_material_color(o->opacity);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix(TBoss6Thanks__data_80479BA8);
     TObjFish::set_global_param(o->texture0);
@@ -168,7 +168,7 @@ void TBoss6Thanks::render() {
     scale_matrix(0, lbl_805E01A0, lbl_805E01A0, lbl_805E01A0);
     draw_model_motion(o->model1, o->motion1, o->frame1);
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     TObjFish::reset_fish_globals();
 }
 

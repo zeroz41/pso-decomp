@@ -1,4 +1,5 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
@@ -1876,7 +1877,7 @@ void TBoss6Type1::draw_part_motions() {
     s32 p;
     Anim_802B81A4 *a;
     u32 cb;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
         {
             s32 t = lbl_804DF614[i];
@@ -1903,7 +1904,7 @@ void TBoss6Type1::draw_part_motions() {
             }
         }
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TBoss6Type1::set_motion_set(s32 arg1) {

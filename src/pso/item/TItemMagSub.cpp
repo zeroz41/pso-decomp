@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemMagSub.h"
 #include <string.h>
@@ -268,11 +269,11 @@ void TItemMagSub::render() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            TObjEneRe7Berura::set_global_state((s32)TItemMagSub::update_node_oscillation);
-            TObjPlayer::set_global_flag();
+            set_chunk_model_node_callback((s32)TItemMagSub::update_node_oscillation);
+            set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
-            TObjPlayer::clear_global_state();
-            TObjEneRe7Berura::set_global_state(0);
+            clear_motion_packed_rotation();
+            set_chunk_model_node_callback(0);
         } else {
             draw_node_tree_with_callback((NJS_OBJECT *)model, (void (*)(NJS_OBJECT *))TItemMagSub::update_node_oscillation);
         }
@@ -302,11 +303,11 @@ void TItemMagSub::render_shadows() {
         drawn_node = 0;
         selected_node = 0;
         if (animation != NULL) {
-            TObjEneRe7Berura::set_global_state((s32)TItemMagSub::update_node_oscillation);
-            TObjPlayer::set_global_flag();
+            set_chunk_model_node_callback((s32)TItemMagSub::update_node_oscillation);
+            set_motion_packed_rotation();
             draw_model_motion(model, animation, animation_frame);
-            TObjPlayer::clear_global_state();
-            TObjEneRe7Berura::set_global_state(0);
+            clear_motion_packed_rotation();
+            set_chunk_model_node_callback(0);
         } else {
             model_render_flags |= 0x8011;
             set_color_blend_mode(1, 4, 5, 0);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"
@@ -982,18 +983,18 @@ void TObjEneSlimeTailAttack::sub_800E841C() {
     TObjFish::set_global_param((int) (((TObjEneSlimeTailAttack *)arg0)->texlist));
     if ((s32) *(s32 *)((s8 *)arg0 + 0x378) != 0) {
         TObjPlayer__sub_800E81A8();
-        TObjEneRe7Berura::set_global_state((s32)TObjPlayer__sub_800E8128);
+        set_chunk_model_node_callback((s32)TObjPlayer__sub_800E8128);
         ((TObjMotion *)arg0)->draw();
-        TObjEneRe7Berura::set_global_state(NULL);
+        set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0(arg0 + 0x390);
         VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x390));
     } else {
         TObjPlayer__sub_800EBE48((f32) (*(f32 *)((s8 *)arg0 + 0x38C)));
         scale_matrix_vec3(0, (arg0 + 0x380));
         TObjPlayer__sub_800E81A8();
-        TObjEneRe7Berura::set_global_state((s32)TObjPlayer__sub_800E8128);
+        set_chunk_model_node_callback((s32)TObjPlayer__sub_800E8128);
         ((TObjMotion *)arg0)->draw();
-        TObjEneRe7Berura::set_global_state(NULL);
+        set_chunk_model_node_callback(NULL);
         TObjPlayer__sub_800E80C0(arg0 + 0x390);
         VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x390));
         TObjPlayer::init_render_globals();

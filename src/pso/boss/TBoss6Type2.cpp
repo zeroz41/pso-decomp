@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
@@ -2271,7 +2272,7 @@ void TBoss6Type2::draw_body_models() {
     Ent_802BCAB8 *e;
     s32 p0;
     s32 p1;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     obj = this->m_764;
     done = 0;
     if (obj != 0) {
@@ -2323,7 +2324,7 @@ void TBoss6Type2::draw_body_models() {
             }
         }
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TBoss6Type2__sub_802BCC54(void *p, int motion) {

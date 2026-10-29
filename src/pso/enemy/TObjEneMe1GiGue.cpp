@@ -1,5 +1,6 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
@@ -537,8 +538,6 @@ s32 push_matrix_from(void *src);
 s32 pop_matrix(void);
 s32 rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 set_global_flag__10TObjPlayerFv();
-s32 clear_global_state__10TObjPlayerFv();
 extern RecoveredGlobal_802CB03C_lbl_8058D490 identity_matrix;
 int get_player_data__10TObjPlayerFi(int a0);
 extern s32 registered_player_count;
@@ -663,9 +662,9 @@ void TObjEneMe1GiGue__sub_802CB03C(u8 *enemy) {
     push_matrix_from(&identity_matrix.value);
     translate_matrix(0, (f32) (*(f32 *)((s8 *)enemy + 0x38)), (f32) (*(f32 *)((s8 *)enemy + 0x3EC) + (*(f32 *)((s8 *)enemy + 0x3C) + *(f32 *)((s8 *)enemy + 0x3E8))), (f32) (*(f32 *)((s8 *)enemy + 0x40)));
     rotate_matrix_y(0, (int) (((TObjEnemy *)enemy)->rotation_y));
-    set_global_flag__10TObjPlayerFv();
+    set_motion_packed_rotation();
     ((TObjEnemy *)enemy)->calc_joint_matrices(((TObjEnemy *)enemy)->frame);
-    clear_global_state__10TObjPlayerFv();
+    clear_motion_packed_rotation();
     pop_matrix();
     ((TObjEnemy *)(enemy))->get_anim_node_position(0, (Vec *)(enemy + 0x3B4));
     ((TObjEnemy *)(enemy))->get_anim_node_position(0x2A, (Vec *)(enemy + 0x39C));
@@ -1820,8 +1819,6 @@ s32 defer_render__7TObjectFv(void *);
 #define rotate_matrix_y ((void (*)(s32, s32))rotate_matrix_y)
 void push_matrix(void);
 void draw_chunk_object(void *child);
-#define set_global_flag__10TObjPlayerFv ((void (*)(void))set_global_flag__10TObjPlayerFv)
-#define clear_global_state__10TObjPlayerFv ((void (*)(void))clear_global_state__10TObjPlayerFv)
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
@@ -1866,13 +1863,13 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
         if (self->s3fc.m8() != 0) {
             self->s3fc.m6();
             if (vis == 1) {
-                set_global_flag__10TObjPlayerFv();
+                set_motion_packed_rotation();
                 ((TObjMotion *)self)->draw();
-                clear_global_state__10TObjPlayerFv();
+                clear_motion_packed_rotation();
             } else {
-                set_global_flag__10TObjPlayerFv();
+                set_motion_packed_rotation();
                 ((TObjEnemy *)self)->draw_motion_model();
-                clear_global_state__10TObjPlayerFv();
+                clear_motion_packed_rotation();
             }
             self->s3fc.m7();
         } else {
@@ -1880,13 +1877,13 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
         }
     } else {
         if (vis == 1) {
-            set_global_flag__10TObjPlayerFv();
+            set_motion_packed_rotation();
             ((TObjMotion *)self)->draw();
-            clear_global_state__10TObjPlayerFv();
+            clear_motion_packed_rotation();
         } else {
-            set_global_flag__10TObjPlayerFv();
+            set_motion_packed_rotation();
             ((TObjEnemy *)self)->draw_motion_model();
-            clear_global_state__10TObjPlayerFv();
+            clear_motion_packed_rotation();
         }
     }
     pop_matrix();
@@ -1902,8 +1899,6 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
 }
 
 #undef rotate_matrix_y
-#undef set_global_flag__10TObjPlayerFv
-#undef clear_global_state__10TObjPlayerFv
 #define load_params__15TObjEneMe1GiGueFv ((s32 (*)(void *))load_params__15TObjEneMe1GiGueFv)
 #define sub_802CB6D4__15TObjEneMe1GiGueFv ((s32 (*)(void *))sub_802CB6D4__15TObjEneMe1GiGueFv)
 #define update_rush_attack__15TObjEneMe1GiGueFPv ((s32 (*)(void *))update_rush_attack__15TObjEneMe1GiGueFPv)

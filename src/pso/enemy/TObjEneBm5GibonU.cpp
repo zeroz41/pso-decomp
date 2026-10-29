@@ -1,4 +1,6 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/TParticleCtrl.h"
 #include "types.h"
@@ -1875,9 +1877,9 @@ void TObjEneBm5GibonU::render_debug() {
         }
         translate_matrix(0, 0.0f, 0.0f, TObjEneBm5GibonU__data_805DA18C);
         TObjPlayer::toggle_particle_effect();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)self->model, motion, frame);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -1967,7 +1969,7 @@ void TObjEneBm5GibonU::render() {
             }
             TObjEneBm5GibonU__render_node_index = 0;
             TObjEneBm5GibonU__render_joint_y_rotation = -(*(s32 *)((s8 *)((u8 *)this) + 0x478) / 2);
-            TObjEneRe7Berura::set_global_state((s32)((s32 *)TObjEneBm5GibonU::advance_anim_frame));
+            set_chunk_model_node_callback((s32)((s32 *)TObjEneBm5GibonU::advance_anim_frame));
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (fade != 0) {
@@ -1983,7 +1985,7 @@ void TObjEneBm5GibonU::render() {
             } else {
                 this->draw_motion_model();
             }
-            TObjEneRe7Berura::set_global_state((s32)NULL);
+            set_chunk_model_node_callback((s32)NULL);
             if (this->mode == 1 || this->mode == 2) {
                 ((Obj_800CD204 *)((u8 *)this))->sub.m7();
             } else if (fade != 0) {

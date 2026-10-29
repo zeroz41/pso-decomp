@@ -123,14 +123,14 @@ void TObjDFDemo2::render() {
         TObjPlayer__sub_80052390(alpha);
     }
     push_matrix();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     post_translate_matrix(arg0->fac);
     rotate_matrix_y(0, arg0->fb8);
     for (i = 0; i < 2; i++) {
         TObjFish::set_global_param(arg0->recs[i].b);
         draw_model_motion((void *)arg0->recs[i].a, (void *)arg0->recs[i].c, arg0->fc0);
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();

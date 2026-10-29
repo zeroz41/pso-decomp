@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/misc/TLobby_801E2F94.h"
 #include "pso/misc/RenderFadeState.h"
 #include "types.h"
@@ -2218,18 +2220,18 @@ void TBoss8Dragon::render_body_model() {
     TBoss8Dragon__data_805D6998 = 0;
     TBoss8Dragon__data_805D699C = (s32)((Obj_802F44D8 *)this)->f434;
     TBoss8Dragon__data_805D69A0 = ((Obj_802F44D8 *)this)->f3C0;
-    TObjEneRe7Berura::set_global_state((s32)(TBoss8Dragon::update_camera_script));
+    set_chunk_model_node_callback((s32)(TBoss8Dragon::update_camera_script));
     push_matrix();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     post_translate_matrix(((Obj_802F44D8 *)this)->v38);
     rotate_matrix_y(0, ((Obj_802F44D8 *)this)->f60);
     rotate_matrix_x(0, ((Obj_802F44D8 *)this)->f5C);
     rotate_matrix_z(0, ((Obj_802F44D8 *)this)->f64);
     scale_current_matrix(((Obj_802F44D8 *)this)->v68);
     draw_motion((NJS_OBJECT *)((Obj_802F44D8 *)this)->f34, (NJS_MOTION *)((Obj_802F44D8 *)this)->fF8, ((TObjEneDD_ST *)this)->get_motion_frame());
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
-    TObjEneRe7Berura::set_global_state((s32)NULL);
+    set_chunk_model_node_callback((s32)NULL);
     ((Obj_802F44D8 *)this)->f34 = saved;
 }
 

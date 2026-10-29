@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -304,7 +305,7 @@ u8 TObjEnePanarms__sub_800E2E54(void *arg0);
 u8 TObjEnePanarms__sub_800E2E68(void *arg0);
 u8 is_below_half_hp__14TObjEnePanarmsFPv(void *arg0);
 s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self);
-int clear_render_callback__8TObjFishFv(void);
+void clear_render_callback__8TObjFishFv(void);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void refresh_lobby_state__10TObjPlayerFv();
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
@@ -336,7 +337,6 @@ s32 rotate_matrix_x(int, void *);
 s32 normalize_vector(void *);
 s32 push_matrix();
 s32 post_translate_matrix(void *, f32);
-int set_global_state__16TObjEneRe7BeruraFl(void*);
 
 extern const f64 TObjEnePanarms__data_8043CDD0;
 extern u8 *TObjEnePanarms__entry_params_resource;
@@ -1639,5 +1639,5 @@ s32 TObjEnePanarms__sub_800E2FB4(O_800E2FB4 *self) {
     return self->state == 9 || self->state == 11;
 }
 
-int clear_render_callback__8TObjFishFv(void) { return set_global_state__16TObjEneRe7BeruraFl((void*)(0)); }
+void clear_render_callback__8TObjFishFv(void) { set_chunk_model_node_callback(0); }
 }

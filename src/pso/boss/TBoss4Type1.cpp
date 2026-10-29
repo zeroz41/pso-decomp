@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
@@ -1476,7 +1477,7 @@ void TBoss4Type1::draw_parts() {
     s32 i;
     s32 off;
     s32 a;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     for (i = 0; i < 6; i++) {
         TObjFish__sub_8001EDB0(*(s32 *)((s8 *)arg0 + 0x390), lbl_80485EB0[i]);
         set_global_param__8TObjFishFl();
@@ -1502,7 +1503,7 @@ void TBoss4Type1::draw_parts() {
             break;
         }
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     *(s32 *)((s8 *)arg0 + 0x3D4) = 0;
 }
 #pragma pop

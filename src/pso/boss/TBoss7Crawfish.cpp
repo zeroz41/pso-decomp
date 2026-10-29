@@ -1,4 +1,5 @@
 #include <dolphin/mtx.h>
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
@@ -221,7 +222,7 @@ s32 TBoss7Crawfish::sub_80308AA8() {
     return TBoss7Crawfish__data_805DF0D8 == *(f32 *)((s8 *)((u8 *)this) + 0x354);
 }
 
-void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texlist); TObjPlayer::set_global_flag(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((s32)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); TObjPlayer::clear_global_state(); } }
+void TBoss7Crawfish::render() { if (is_visible() != 0) { set_texlist(this->texlist); set_motion_packed_rotation(); push_matrix(); post_translate_matrix((char*)this + 0x38); rotate_matrix_yxz((s32)((void*)0), (s32)this->rotation_x, this->rotation_y, this->rotation_z); scale_current_matrix((char*)this + 0x68); draw(); pop_matrix(); clear_motion_packed_rotation(); } }
 
 extern const f32 lbl_805DF0EC;
 

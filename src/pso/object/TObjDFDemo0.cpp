@@ -154,7 +154,7 @@ void TObjDFDemo1::sub_8004E068() {
   model_render_flags |= 0x20000;
   TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, self->f118);
   push_matrix();
-  TObjPlayer::set_global_flag();
+  set_motion_packed_rotation();
   post_translate_matrix(self->f100);
   rotate_matrix_y(0, this->m_10c);
   for (j = 0; j < 2; j++)
@@ -162,7 +162,7 @@ void TObjDFDemo1::sub_8004E068() {
     TObjFish::set_global_param(self->recs[j].b);
     draw_model_motion((void *)((*(&self->recs[j])).a), (void *)self->recs[j].c, this->m_114);
   }
-  TObjPlayer::clear_global_state();
+  clear_motion_packed_rotation();
   pop_matrix();
   model_render_flags &= ~0x20000;
   if (alpha < 1.0f)
@@ -188,7 +188,7 @@ void TObjDFDemo1::draw_fading_model() {
         TObjPlayer__sub_80052390(alpha);
     }
     push_matrix();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     post_translate_matrix(arg0->f100);
     rotate_matrix_y(0, this->m_10c);
     max = 30.0f;
@@ -205,7 +205,7 @@ void TObjDFDemo1::draw_fading_model() {
         }
         draw_model_motion((void *)arg0->recs[i].a, (void *)arg0->recs[i].c, f);
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();
@@ -331,9 +331,6 @@ TObjDFDemo1::~TObjDFDemo1() {
         }
     }
     restore_player_cameras();
-}
-extern "C" {
-
 }
 
 #pragma pop

@@ -1,6 +1,7 @@
 #pragma push
 
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TLobby.h"
@@ -1396,9 +1397,9 @@ void TUnk_804E0988::vfunc_14() {
     post_translate_matrix((u8 *)&this->unk_AC);
     rotate_matrix_y(0, this->m_b8);
     rotate_matrix_z(0, this->m_c0);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     draw_model_motion((void *)(*(s32 *)&this->unk_98), (void *)this->m_9c, this->m_a8);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
 }
 

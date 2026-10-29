@@ -1,4 +1,5 @@
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/TBoss2Tentacle.h"
 
 TBoss2Tentacle::~TBoss2Tentacle() {}
@@ -134,7 +135,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
     s32 var_r5;
     u8 *temp_r7;
     u8 *temp_r8;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     TObjFish::set_global_param(lbl_805D4BD8);
     push_matrix();
     switch (*(s32 *)((s8 *)arg0 + 0x1C)) {
@@ -172,7 +173,7 @@ void render__14TBoss2TentacleFv(u8 *arg0) {
         break;
     }
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 typedef V3_80039DE0 V3_800394DC;

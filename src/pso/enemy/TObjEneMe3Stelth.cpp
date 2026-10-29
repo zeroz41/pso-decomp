@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
@@ -274,9 +275,9 @@ void TObjEneMe3Stelth::draw_with_debug_info() {
                 frame = (motion->nframes - 1);
             }
             set_ginja_draw_list_mask(3);
-            TObjPlayer::set_global_flag();
+            set_motion_packed_rotation();
             draw_ginja_model_with_motion(arg0->f34, motion, frame);
-            TObjPlayer::clear_global_state();
+            clear_motion_packed_rotation();
             set_ginja_draw_list_mask(1);
             arg0->fF8 = motion;
             arg0->fc0 = frame;

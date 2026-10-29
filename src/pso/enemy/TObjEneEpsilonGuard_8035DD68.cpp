@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -592,9 +594,9 @@ void TObjEneEpsilonGuard::render_guard_effect() {
         translate_matrix(0, 0.0f, 24.0f, 0.0f);
         temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x458);
         scale_matrix(0, temp_f1, temp_f1, temp_f1);
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)(*(s32 *)((s8 *)((u8 *)this) + 0x444)), (void *)(*(s32 *)((s8 *)((u8 *)this) + 0x448)), (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x454)));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
     }
 }
@@ -645,7 +647,7 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     *(f32 *)((s8 *)ene_re7_berura + 0x460) = 0.0f;
     *(f32 *)((s8 *)ene_re7_berura + 0x464) = 0.0f;
     *(f32 *)((s8 *)ene_re7_berura + 0x468) = 0.0f;
-    TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneEpsilonGuard::advance_camera_ctrl_step));
+    set_chunk_model_node_callback((s32)((void *)TObjEneEpsilonGuard::advance_camera_ctrl_step));
     TObjPlayer::toggle_particle_effect();
     if (arg1 == 1) {
         ((TObjMotion *)ene_re7_berura)->draw();
@@ -653,7 +655,7 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
         ((TObjEnemy *)ene_re7_berura)->draw_motion_model();
     }
     TParticleCtrl::end_effect_render();
-    TObjEneRe7Berura::set_global_state((s32)NULL);
+    set_chunk_model_node_callback((s32)NULL);
     pop_matrix();
     ((TObjEneDD *)ene_re7_berura)->update_primary_light();
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(ene_re7_berura + 0x2FC)) != 0) {

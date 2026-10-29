@@ -36,7 +36,7 @@ void fn_8004D9A8(u8 *arg0) {
             TObjPlayer__sub_80052390();
         }
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix(lbl_80485550);
         for (i = 0; i < 6; i++) {
             s = o->f108;
@@ -46,7 +46,7 @@ void fn_8004D9A8(u8 *arg0) {
             TObjFish::set_global_param(o->d4[i]);
             draw_model_motion((void *)o->bc[i], (void *)o->ec[i], s);
         }
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         if (o->f10c < (1.0f)) {
             TObjPlayer::sync_player_globals();

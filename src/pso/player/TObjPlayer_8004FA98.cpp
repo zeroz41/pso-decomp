@@ -25,14 +25,14 @@ void TObjPlayer::release_subobjects() {
     if ((s32) *(s32 *)((s8 *)arg0 + 0xE4) >= 0xB4) {
         TObjPlayer__sub_80052390(0.99f);
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix((u8 *)&this->override_blend_speed);
         rotate_matrix_y(0, (*(s32 *)&this->joint_matrices));
         TObjFish::set_global_param(*(s32 *)&this->blend_speed);
         ((TObjFish *)(this->m_108))->set_draw_callback_list();
         draw_model_motion((void *)(*(s32 *)&this->play_speed), (void *)(*(s32 *)&this->override_speed), *(f32 *)&this->blend.motion[1]);
         clear_render_callback__8TObjFishFv(this->m_108);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         TObjPlayer::sync_player_globals();
     }
@@ -55,7 +55,7 @@ int TObjPlayer::draw_fading_motion() {
         TObjPlayer__sub_80052390(alpha);
     }
     push_matrix();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     post_translate_matrix((u8 *)&this->override_blend_speed);
     rotate_matrix_y(0, (*(s32 *)&this->joint_matrices));
     TObjFish::set_global_param(this->body_count);
@@ -67,7 +67,7 @@ int TObjPlayer::draw_fading_motion() {
     draw_model_motion((void *)(*(s32 *)&this->motion_flags), (void *)(*(s32 *)&this->requested_action), frac);
     TObjFish::set_global_param((*(s32 *)&this->frame));
     draw_model_motion((void *)(*(s32 *)&this->previous_action), (void *)(*(s32 *)&this->frame_count), frac);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     if (alpha < 1.0f) {
         TObjPlayer::sync_player_globals();

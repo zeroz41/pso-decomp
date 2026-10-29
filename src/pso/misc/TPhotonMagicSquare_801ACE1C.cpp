@@ -74,9 +74,9 @@ void TPhotonMagicSquare::render() {
         self->color.a = 1.0f;
     }
     set_constant_material((const NJS_ARGB *)(((f32 *)&self->color)));
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     draw_model_motion((void *)self->f34, (void *)this->m_90, self->f9C);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     set_constant_material((const NJS_ARGB *)(((f32 *)&chunk_material_color_half_alpha_f32)));
     model_render_flags = saved_model_render_flags;
     copy_argb((NJS_ARGB *)&self->color, (NJS_ARGB *)&saved);

@@ -1,4 +1,5 @@
 #include "pso/unk/TUnk_80494968.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
@@ -445,7 +446,7 @@ void TObjEneShark::render() {
     }
     TObjPlayer::toggle_particle_effect();
     shark_render_node_index = 0;
-    TObjEneRe7Berura::set_global_state((s32)((void *) TObjPlayer::update_particle_by_phase));
+    set_chunk_model_node_callback((s32)((void *) TObjPlayer::update_particle_by_phase));
     if ((*(s32 *)&this->m_390) == 1)
     {
       if (((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m8() != 0)
@@ -500,7 +501,7 @@ void TObjEneShark::render() {
         ((Owner_800ABDD8 *) arg0)->fades[mode].m7();
       }
     }
-    TObjEneRe7Berura::set_global_state(0);
+    set_chunk_model_node_callback(0);
     TParticleCtrl::end_effect_render();
     if ((*(s32 *)&this->m_378) == 0)
     {

@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/system/vector.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
@@ -2877,22 +2878,22 @@ void TObjEneMe1Canadin::render() {
                 TObjEneMe1Canadin__render_point_cursor = (s32)(arg0 + 0x414);
                 VecCopy((Vec *)(arg0 + 0x438), (const Vec *)(lbl_8043A268));
                 VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(lbl_8043A274));
-                TObjEneRe7Berura::set_global_state((s32)&fn_8009BD00);
+                set_chunk_model_node_callback((s32)&fn_8009BD00);
                 if (var_r30 == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
                     ((TObjEnemy *)arg0)->draw_motion_model();
                 }
-                TObjEneRe7Berura::set_global_state(NULL);
+                set_chunk_model_node_callback(NULL);
             } else {
                 rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x64)));
                 lbl_805D4FD4 = -1;
                 TObjEneMe1Canadin__render_point_cursor = (s32)(arg0 + 0x414);
                 VecCopy((Vec *)(arg0 + 0x438), (const Vec *)(lbl_8043A268));
                 VecCopy((Vec *)(arg0 + 0x420), (const Vec *)(lbl_8043A274));
-                TObjEneRe7Berura::set_global_state((s32)&fn_8009BD00);
+                set_chunk_model_node_callback((s32)&fn_8009BD00);
                 ((TObjEneDD_ST *)arg0)->draw_with_alt_model((int) (*(s32 *)((s8 *)arg0 + 0x410)));
-                TObjEneRe7Berura::set_global_state(NULL);
+                set_chunk_model_node_callback(NULL);
             }
         }
         temp_r0_2 = *(s16 *)((s8 *)arg0 + 0x326);

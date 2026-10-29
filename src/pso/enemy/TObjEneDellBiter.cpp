@@ -1,5 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TObjPlayer_800D8FDC.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
@@ -1616,13 +1618,13 @@ void TObjEneDellBiter::render() {
             post_translate_matrix(&position);
             rotate_matrix_y(0, rotation_y);
             scale_matrix(0, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8);
-            TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneDellBiter::step_demo_script));
+            set_chunk_model_node_callback((s32)((void *)TObjEneDellBiter::step_demo_script));
             if (vis == 1) {
                 this->draw();
             } else {
                 draw_motion_model();
             }
-            TObjEneRe7Berura::set_global_state((s32)NULL);
+            set_chunk_model_node_callback((s32)NULL);
             pop_matrix();
         }
         if (flags & 2) {
@@ -1664,9 +1666,9 @@ void TObjEneDellBiter::vfunc_106() {
         post_translate_matrix(&position);
         rotate_matrix_y(0, (int) (rotation_y));
         scale_matrix(0, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8);
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_chunk_object((void *)(model));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

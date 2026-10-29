@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/FlagWord.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_801211F0.h"
@@ -71,7 +73,7 @@ s32 TItemWeapon::draw_weapon_model() {
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208((s32)apply_weapon_node_material);
             } else {
-                TObjEneRe7Berura::set_global_state((s32)apply_weapon_node_material);
+                set_chunk_model_node_callback((s32)apply_weapon_node_material);
             }
             TObjPlayer__sub_80364198();
             model_render_flags &= 0xFFFFFFEF;
@@ -88,9 +90,9 @@ s32 TItemWeapon::draw_weapon_model() {
                         ((TItem *)this)->draw_model_nodes(NULL);
                     }
                 } else {
-                    TObjPlayer::set_global_flag();
+                    set_motion_packed_rotation();
                     draw_model_motion((void *)(*(u32 *)((s8 *)this + 0xF4)), (void *)(*(u32 *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
-                    TObjPlayer::clear_global_state();
+                    clear_motion_packed_rotation();
                 }
                 model_render_flags &= 0xFFFF7FEE;
             } else if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
@@ -102,9 +104,9 @@ s32 TItemWeapon::draw_weapon_model() {
                     ((TItem *)this)->draw_model_nodes((u8 *)(*(s32 *)((s8 *)this->owner + 0xDB4)));
                 }
             } else {
-                TObjPlayer::set_global_flag();
+                set_motion_packed_rotation();
                 draw_model_motion((void *)(*(u32 *)((s8 *)this + 0xF4)), (void *)(*(u32 *)((s8 *)this + 0x17C)), (f32)this->motion_frame);
-                TObjPlayer::clear_global_state();
+                clear_motion_packed_rotation();
             }
             TItem::end_material_color();
             TItem::end_effect_render();
@@ -115,7 +117,7 @@ s32 TItemWeapon::draw_weapon_model() {
             if ((u32) *(u32 *)((s8 *)this + 0x17C) == 0U) {
                 this->sub_80121208(NULL);
             } else {
-                TObjEneRe7Berura::set_global_state(NULL);
+                set_chunk_model_node_callback(NULL);
             }
             item_render_state.reset();
         } else {

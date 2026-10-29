@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -1215,9 +1217,9 @@ void render_debug__14TObjEneBm5WolfFPv(u8 *ene_bm5_wolf) {
         }
         translate_matrix(0, TObjEneBm5Wolf__data_805D9D78, TObjEneBm5Wolf__data_805D9D78, TObjEneBm5Wolf__data_805D9D7C);
         TObjPlayer::toggle_particle_effect();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)(*(s32 *)((s8 *)ene_bm5_wolf + 0x34)), temp_r30, var_f31);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -1295,7 +1297,7 @@ void TObjEneBm5Wolf::render() {
             }
             TObjEneBm5Wolf__spawn_timer = 0;
             TObjEneBm5Wolf__data_805D5128 = -((s32) this->turnOffset / 2);
-            TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneBm5Wolf::advance_spawn_timer));
+            set_chunk_model_node_callback((s32)((void *)TObjEneBm5Wolf::advance_spawn_timer));
             TObjEneDD::clear_global_flag_400();
             TObjPlayer::toggle_particle_effect();
             if (var_r31 == 1) {
@@ -1303,7 +1305,7 @@ void TObjEneBm5Wolf::render() {
             } else {
                 this->draw_motion_model();
             }
-            TObjEneRe7Berura::set_global_state((s32)NULL);
+            set_chunk_model_node_callback((s32)NULL);
             pop_matrix();
             this->update_primary_light();
         }

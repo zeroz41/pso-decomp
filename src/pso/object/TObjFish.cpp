@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/math/MatrixVector.h"
@@ -481,7 +482,7 @@ void render__8TObjFishFv(u8 *arg0) {
                     break;
                 }
             } else {
-                TObjPlayer::set_global_flag();
+                set_motion_packed_rotation();
                 switch (f->kind) {
                 case 1:
                     TObjFish__sub_8001EDB0(TObjFish__area_bml_resource, 1);
@@ -499,7 +500,7 @@ void render__8TObjFishFv(u8 *arg0) {
                     draw_ginja_model_with_motion(get_bml_model(TObjFish__area_bml_resource, 0), get_bml_motion(TObjFish__area_bml_resource, 0), f->frame);
                     break;
                 }
-                TObjPlayer::clear_global_state();
+                clear_motion_packed_rotation();
             }
             restore_draw_list_mask();
             pop_matrix();

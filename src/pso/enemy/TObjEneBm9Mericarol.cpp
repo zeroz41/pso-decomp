@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -813,12 +814,12 @@ void TBoss4Type3__sub_802D1130(void) {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lbl_805DE70C, lbl_805DE704, lbl_805DE754);
     }
     lbl_805D6864 = (u32)p;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     pair = (MotionPair_802D1130 *)((Res_802D0D3C *)lbl_805D6868)->f430 + ((MotionEntry_802D1130 *)lbl_804E1634)[8].index;
     draw_trail_with_colors((u8 *)TBoss4Type3_shared_instance, ((Res_802D0D3C *)lbl_805D6868)->f42C[2], pair->motion, 0x20, 0x21);
     pair = (MotionPair_802D1130 *)((Res_802D0D3C *)lbl_805D6868)->f430 + ((MotionEntry_802D1130 *)lbl_804E1634)[8].index;
     draw_trail_with_colors((u8 *)lbl_805D6864, ((Res_802D0D3C *)lbl_805D6868)->f42C[2], pair->motion, 0x2A, 0x2B);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     {
         SpawnPos_802D1130 pos = lbl_80472480;
         pair = (MotionPair_802D1130 *)((Res_802D0D3C *)lbl_805D6868)->f430;

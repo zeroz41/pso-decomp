@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
@@ -1248,7 +1249,7 @@ void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura) {
             TObjEneRe4Sorcerer__saved_render_flags = 0;
             TObjEneRe4Sorcerer__effect_render_scale = *(f32 *)((s8 *)ene_re7_berura + 0x3F8);
             (*(u8 * *)&re4_sorcerer_render_node_ptr) = ene_re7_berura + 0x3CC;
-            TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneRe4Sorcerer::step_effect_sequence));
+            set_chunk_model_node_callback((s32)((void *)TObjEneRe4Sorcerer::step_effect_sequence));
             model_render_flags |= 0x01000000;
             if (var_r28 == 1) {
                 ((TObjMotion *)ene_re7_berura)->draw();
@@ -1256,7 +1257,7 @@ void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura) {
                 ((TObjEnemy *)ene_re7_berura)->draw_motion_model();
             }
             model_render_flags &= 0xFEFFFFFF;
-            TObjEneRe7Berura::set_global_state((s32)NULL);
+            set_chunk_model_node_callback((s32)NULL);
             pop_matrix();
         }
         if (*(s32 *)((s8 *)ene_re7_berura + 0x3C8) & 4) {

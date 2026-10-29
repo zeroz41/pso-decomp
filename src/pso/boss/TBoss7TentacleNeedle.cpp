@@ -255,13 +255,13 @@ void TBoss7TentacleNeedle::advance_needle_timer() {
 
 void TBoss7TentacleNeedle::render() {
     draw_effect__10TObjPlayerFv(this);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     push_matrix();
     post_translate_matrix((void *)((char *)this + 28));
     rotate_matrix_by_node_angles((void *)((char *)this + 40), 1);
     draw_model_motion((*(void * *)&lbl_805D6948), *(void * *)&this->m_78, this->m_74);
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TBoss7TentacleNeedle::run_task() {
@@ -323,22 +323,22 @@ void render__14TBoss7TentacleFv(u8 *arg0) {
     ((s32 (*)(void))push_matrix)();
     switch (*(s32 *)((s8 *)arg0 + 0x30)) {
     case 0:
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         TObjPlayer::concat_matrix(0, (int) (*(s32 *)((s8 *)arg0 + 0x130)));
         rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x13C)));
         scale_current_matrix((void *) ((u8 *)(arg0) + 0x24));
         ((s32 (*)(void *, int, f32))draw_model_motion)((void *) (*(s32 **)((s8 *)arg0 + 0x1C)), (int) (*(s32 *)((s8 *)arg0 + 0x20)), (f32) (*(f32 *)((s8 *)arg0 + 0x134)));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         break;
     case 1:
     case 4:
     case 5:
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         TObjPlayer::concat_matrix(0, (int) (*(s32 *)((s8 *)arg0 + 0x130)));
         rotate_matrix_zyx(0, (*(s32 *)((s8 *)arg0 + 0x140)), (*(s32 *)((s8 *)arg0 + 0x13C)), 0);
         scale_current_matrix((void *) ((u8 *)(arg0) + 0x24));
         ((s32 (*)(void *, int, f32))draw_model_motion)((void *) (*(s32 **)((s8 *)arg0 + 0x1C)), (int) (*(s32 *)((s8 *)arg0 + 0x20)), (f32) (*(f32 *)((s8 *)arg0 + 0x134)));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         break;
     case 2:
         TObjPlayer::concat_matrix(0, (int) (*(s32 *)((s8 *)arg0 + 0x130)));

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/object/TObjFish.h"
@@ -120,9 +121,9 @@ void TBoss8Dragon::draw_motion_model() {
         } else if (f > (f32)(anim->nframes - 1)) {
             f = anim->nframes;
         }
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)(*(s32 *)(arg0 + 0x34)), anim, f);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         TObjLight__sub_801337F8(current_scene_light);
         pop_matrix();
     }

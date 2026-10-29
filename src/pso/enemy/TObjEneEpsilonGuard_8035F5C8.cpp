@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -889,7 +891,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
     rotate_matrix_y(0, ((TObjEneDD_ST *)arg0)->rotation_y);
     TObjEneDD::clear_global_flag_400();
     if (*(s32 *)((s8 *)arg0 + 0x438) & 2) {
-        TObjEneRe7Berura::set_global_state((s32)((void *) TObjEneEpsilonGuard::record_camera_angle_samples));
+        set_chunk_model_node_callback((s32)((void *) TObjEneEpsilonGuard::record_camera_angle_samples));
     }
     TObjPlayer::toggle_particle_effect();
     epsilon_guard_camera_sample_read_ptr = arg0 + 0x470;
@@ -909,7 +911,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
     }
     TParticleCtrl::end_effect_render();
     if (*(s32 *)((s8 *)arg0 + 0x438) & 2) {
-        TObjEneRe7Berura::set_global_state((s32)NULL);
+        set_chunk_model_node_callback((s32)NULL);
     }
     pop_matrix();
     ((TObjEneDD *)arg0)->update_primary_light();
@@ -944,9 +946,9 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     push_matrix_from(identity_matrix);
     post_translate_matrix(&g6->pos);
     rotate_matrix_y(0, g6->x60);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     ((TObjEnemy *)g6)->calc_joint_matrices(g6->xC0);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array + t.v[i] * 0x30);
     {

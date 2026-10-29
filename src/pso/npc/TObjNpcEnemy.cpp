@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TObjLight_80133568.h"
@@ -71,10 +72,7 @@ s32 translate_matrix(int, int, f32, f32, f32);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
-s32 draw__10TObjMotionFv();
-s32 draw_ginja_motion_model__10TObjMotionFv();
 s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
-s32 set_global_flag__10TObjPlayerFv(void *);
 
 typedef char RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0_size[sizeof(RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0) == 0x240 ? 1 : -1];
 s16 *TObjNpcEnemy::get_entry_by_index(s16 arg0) {
@@ -217,22 +215,22 @@ void TObjNpcEnemy::update_state() {
     sp4 = *(void * *)&this->m_3b8;
     switch ((s32) (*(u16 *)((s8 *)sp4 + 2))) {
     case 0:
-        set_global_flag__10TObjPlayerFv(this);
+        set_motion_packed_rotation();
         draw_chunk_object(this->model);
         set_default_alpha_blend();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         return;
     case 1:
-        draw__10TObjMotionFv();
+        draw();
         return;
     case 2:
-        set_global_flag__10TObjPlayerFv(this);
+        set_motion_packed_rotation();
         draw_ginja_object(this->model);
         set_default_alpha_blend();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         return;
     case 3:
-        draw_ginja_motion_model__10TObjMotionFv();
+        draw_ginja_motion_model();
     case 4:
         return;
     }

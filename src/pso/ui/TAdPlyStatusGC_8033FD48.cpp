@@ -44,7 +44,7 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
   u8 *temp_r30;
   s32 var_r29;
   push_matrix();
-  TObjPlayer::set_global_flag();
+  set_motion_packed_rotation();
   post_translate_matrix(&lbl_80478430.value);
   var_r29 = 0;
   var_r31 = 0;
@@ -57,7 +57,7 @@ void TObjPlayer__sub_8033FDB0(s32 arg0) {
     var_r31 += 0xC;
   }
   while (var_r29 < 2);
-  TObjPlayer::clear_global_state();
+  clear_motion_packed_rotation();
   pop_matrix();
 }
 

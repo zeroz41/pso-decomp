@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -154,13 +155,13 @@ void TObjPlayer::draw_model() {
         push_matrix_from(0);
         translate_matrix_vec3((u8 *)(0), (u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         if ((s32) this->m_394 != 0) {
             draw_chunk_object(this->model);
         } else {
             ((TObjMotion *)arg0)->draw();
         }
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         model_render_flags &= 0xFFFFFFFE;
         restore_scene_lighting();

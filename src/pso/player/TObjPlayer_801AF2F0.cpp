@@ -1,4 +1,5 @@
 #include "pso/system/ChunkMaterialState.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/protocol/protocol_types.h"
@@ -7436,7 +7437,7 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
         set_shadow_material_state();
     }
     TObjFish::set_global_param((s32)(player + 0xCF4));
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     if (arg1 == 2) {
         ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags | 0x400);
         ((TObjPlayer *)player)->draw_saving_joints();
@@ -7444,7 +7445,7 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
         ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags & 0xFFFFFBFF);
         ((TObjPlayer *)player)->draw_saving_joints_checked();
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     ((TObjPlayer *)player)->draw_head_attachments();
     ((TObjPlayer *)(player + 0x608))->write_ids();
     pop_matrix();
@@ -7493,20 +7494,20 @@ void render__10TObjPlayerFv(u8 *arg0) {
             }
         } else {
             obj_setFlags30(arg0, 0x08000000);
-            TObjPlayer::set_global_flag();
+            set_motion_packed_rotation();
             ((TObjChara *)arg0)->get_frame();
             ((s32 (*)(void *))draw__10TObjPlayerFPvf)(arg0);
-            TObjPlayer::clear_global_state();
+            clear_motion_packed_rotation();
             save_render_material_state(arg0 + 0x608);
             ((TObjPlayer *)arg0)->apply_material_color_override();
             ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(arg0);
             ((TObjPlayer *)(arg0 + 0x608))->write_ids();
         }
     } else {
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         ((TObjChara *)arg0)->get_frame();
         ((s32 (*)(void *))draw__10TObjPlayerFPvf)(arg0);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         save_render_material_state(arg0 + 0x608);
         ((TObjPlayer *)arg0)->apply_material_color_override();
         ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(arg0);

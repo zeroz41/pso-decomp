@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"
@@ -907,9 +908,8 @@ extern RecoveredGlobal_80051AD0_lbl_804FF228 lbl_804FF228;
 extern RecoveredGlobal_80051AD0_lbl_804FF234 lbl_804FF234;
 s32 is_active__14TBoss4DarkFalzFv();
 extern const f32 lbl_805D8AC0;
-int TObjDFTenchuFuru__sub_80051A7C(void);
+void TObjDFTenchuFuru__sub_80051A7C(void);
 void *__nw__7TObjectFUl(int);
-int set_global_state__16TObjEneRe7BeruraFl(void*);
 
 #pragma push
 #pragma fp_contract on
@@ -970,9 +970,9 @@ void TObjDFTenchuFuru::capture_matrix_by_frame() {
     (*(s32 *)&TObjDFTenchuFuru__matrix_node_index) += 1;
 }
 
-int TObjDFTenchuFuru__sub_80051A7C(void) { return set_global_state__16TObjEneRe7BeruraFl((void*)(0)); }
+void TObjDFTenchuFuru__sub_80051A7C(void) { set_chunk_model_node_callback(0); }
 
-void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_global_state__16TObjEneRe7BeruraFl(((unsigned char *)TObjDFTenchuFuru::capture_matrix_by_frame)); }
+void TObjDFTenchuFuru::register_callback() { TObjDFTenchuFuru__matrix_node_index = 0; set_chunk_model_node_callback((s32)TObjDFTenchuFuru::capture_matrix_by_frame); }
 typedef char RecoveredGlobal_80051AD0_lbl_804858B4_size[sizeof(RecoveredGlobal_80051AD0_lbl_804858B4) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80051AD0_lbl_804FF228_size[sizeof(RecoveredGlobal_80051AD0_lbl_804FF228) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80051AD0_lbl_804FF234_size[sizeof(RecoveredGlobal_80051AD0_lbl_804FF234) == 0xC ? 1 : -1];

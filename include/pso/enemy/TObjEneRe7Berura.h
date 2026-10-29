@@ -59,7 +59,6 @@ struct TObjEneRe7Berura : public TObjEneDD_ST {
     void run_flash_warning_state(s32 arg1);
     void handle_state(s32 arg1);
     static void *spawn_punch(void *arg0);
-    static void set_global_state(s32 arg0);
     u8 unk_430[0x88];
     s32 m_4b8;
     s32 m_4bc;

@@ -14,6 +14,9 @@ void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void draw_motion_tree__10TObjPlayerFPvPvi(void *arg0, void *arg1, s32 arg2);
 }
 s32 draw_object_tree_recursive(void *arg);
+// Motions sample packed (16-bit) rotation keys while set.
+void set_motion_packed_rotation();
+void clear_motion_packed_rotation();
 void traverse_animated_node_tree(void *arg);
 
 #endif

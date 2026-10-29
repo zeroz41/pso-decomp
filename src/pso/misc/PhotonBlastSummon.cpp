@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/misc/PhotonBlastSummon.h"
 #include "pso/player/TObjPlayer_800D8A2C.h"
 #include "pso/system/vector.h"
@@ -313,18 +314,17 @@ struct Self_801A7680 {
 
 extern "C" {
 
-int set_global_state__16TObjEneRe7BeruraFl(void*);
 void mem_free(void *p);
 int update_all__8TFogCtrlFl(void*);
 
-int TObjPlayer::clear_render_context() { return set_global_state__16TObjEneRe7BeruraFl((void*)(0)); }
+void TObjPlayer::clear_render_context() { set_chunk_model_node_callback(0); }
 
 void TUnk_804C3248::set_photon_blast_joint_callback() {
     PhotonDrawOwner_801A7638 *self = (PhotonDrawOwner_801A7638 *)this;
     photon_blast_joint_index=0;
     photon_blast_joint_origins[0].list=(Node_801A7578 *)self->bindings;
     photon_blast_joint_origins[0].count=self->binding_count;
-    set_global_state__16TObjEneRe7BeruraFl((void*)publish_photon_blast_joint_origins);
+    set_chunk_model_node_callback((s32)publish_photon_blast_joint_origins);
 }
 
 void TUnk_804C3248::update_photon_blast_attachments() {

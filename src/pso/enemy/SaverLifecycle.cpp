@@ -1,4 +1,6 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -1885,7 +1887,7 @@ void TObjEneSaver::render() {
         rotate_matrix_y(0, ((TObjEneSaver *)arg0)->rotation_y);
         lbl_805D505C = 0;
         lbl_805D5060 = *(s32 *)((s8 *)arg0 + 0x39C);
-        TObjEneRe7Berura::set_global_state((s32)((void *)TObjPlayer::step_cutscene_frame));
+        set_chunk_model_node_callback((s32)((void *)TObjPlayer::step_cutscene_frame));
         TObjPlayer::toggle_particle_effect();
         switch (((TObjEneSaver *)arg0)->mode) {
         case 11:
@@ -1925,7 +1927,7 @@ void TObjEneSaver::render() {
             break;
         }
         TParticleCtrl::end_effect_render();
-        TObjEneRe7Berura::set_global_state((s32)NULL);
+        set_chunk_model_node_callback((s32)NULL);
         VecCopy((Vec *)((Vec_800A6B14 *)(arg0 + 0x390)), (const Vec *)((Vec_800A6B14 *)&lbl_80500978));
         pop_matrix();
         restore_scene_lighting();
@@ -1936,9 +1938,9 @@ void TObjEneSaver::render() {
         push_matrix_from(identity_matrix);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, ((TObjEneSaver *)arg0)->rotation_y);
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         ((TObjEnemy *)arg0)->calc_joint_matrices(((TObjEneSaver *)arg0)->frame);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         push_matrix_from(anim_model_matrix_array + 0x4E0);
         {

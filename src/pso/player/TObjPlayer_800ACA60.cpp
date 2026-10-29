@@ -1,4 +1,5 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/object/TObjMotion.h"
@@ -1530,7 +1531,7 @@ void render__11TObjEneMojaFv(u8 *arg0) {
         }
     }
     if (draw != 0) {
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         push_matrix();
         translate_matrix(0, lbl_805D9BD8, ((TObjEneMoja *)arg0)->sinkOffset, lbl_805D9BD8);
         post_translate_matrix(arg0 + 0x38);
@@ -1547,7 +1548,7 @@ void render__11TObjEneMojaFv(u8 *arg0) {
             TParticleCtrl::end_effect_render();
         }
         ((s32 (*)())pop_matrix)();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
     }
     model_render_flags &= ~1;
     if (((RenderFadeState *)fade)->updateFromCamera((const f32*)(arg0 + 0x38)) == 1) {

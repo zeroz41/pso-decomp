@@ -1,4 +1,5 @@
 #include "pso/unk/TUnk_80494968.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/system/PadRumble.h"
 #include "pso/object/TObjMotion.h"
@@ -909,7 +910,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     for (i = 0; i < 3; i++) {
         self->a438[i] = TObjFish__sub_800E3124((u8 *)(((void **)boss4_type3_effect_desc_ptr_table)[i]), (s32)&self->a444[i]);
     }
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     model = get_bml_model(self->f390, ((s32 *)lbl_80486FB0)[0]);
     p = (s32)::operator new(0x18);
     if (p != 0) {
@@ -925,7 +926,7 @@ Self_8005AE60 *TBoss4Type3__ct(Self_8005AE60 *self, s32 parent, s32 *arg2) {
     *(s32 *)((u8 *)self + 0x520) = p;
     draw_trail_with_colors((u8 *)(*(s32 *)((u8 *)self + 0x520)), model, get_bml_motion(self->f390, ((s32 *)&TBoss4Type3__anim_state_table)[0x58 / 4]), 9, 10);
     *(s32 *)((u8 *)self + 0x528) = create__13TUnk_80494968FUlUl(0xA0303030, 0xFFFF0088);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     ((TBoss4Type3 *)self)->create_particle_emitters();
     init_model_node_tables(self->f378, (void *)boss4_type3_model_node_specs, 2);
     self->f3D4 = self->f32C;
@@ -1072,9 +1073,9 @@ void TBoss4Type3::run_task() {
     if (p != 0) {
         p = (void *)init_trail_buffer__11TBoss4Type3FPvifff(p, 2, lim, lim, 0.6f);
     }
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     ((TBoss4Type3 *)p)->draw_motion_trail((s32)(get_bml_model(this->m_390, ((s32 *)lbl_80486FB0)[0])), (s32)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[0])), (s32)boss4_type3_run_task_params, 0);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     e = ((u8 *(*)(void *, f32))lookup_entry_by_value__10TObjPlayerFPvf)(p, lim);
     push_matrix();
     set_matrix_identity(0);
@@ -1193,7 +1194,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
     }
     model_render_flags |= 0x20000;
     TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, this->m_3dc);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     for (i = 0; i < 3; i++) {
         TObjFish::set_global_param(TObjFish__sub_8001EDB0(this->m_390, tbl[i]));
         off = i;
@@ -1201,7 +1202,7 @@ void TBoss4Type3::draw_model_set(const s32 *tbl, f32 t) {
         draw_model_motion((void *)(get_bml_model(this->m_390, tbl[i])), (void *)(get_bml_motion(this->m_390, TBoss4Type3__anim_state_table[this->m_3f0].motions[i])), this->m_3f4);
         clear_render_callback__8TObjFishFv((s32)this->render_lists[off]);
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     model_render_flags &= ~0x20000;
     if (t < 1.0f) {
         TObjPlayer::sync_player_globals();

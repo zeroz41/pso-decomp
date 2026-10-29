@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
 #include "pso/misc/RenderFadeState.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
@@ -1299,10 +1300,10 @@ void TObjEneRe7Berura::load_static_resources() {
     for (i = 0; i < 2; i++) {
         Elem_800959F8 *e = &TObjEneRe7Berura__detached_part_states[i];
         u8 *ent = RES->f430[TObjEneRe7Berura__animation_definitions[e->fC].f4].f4;
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         bind_motion_context((s32)ent, e->f14);
         ((void (*)(u32, void *))apply_attack_params__16TObjEneRe7BeruraFiPv)(m, e);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         e->f18 = (s32 *)find_model_node(m, e->f4);
         e->f1C = (s32)find_model_node(m, e->f8);
         e->f20 = 7;

@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/system/vector.h"
@@ -1005,15 +1007,15 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
             push_matrix();
             post_translate_matrix(arg0 + 0x38);
             rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
-            TObjEneRe7Berura::set_global_state((s32)&bringer_render_node_callback);
-            TObjPlayer::set_global_flag();
+            set_chunk_model_node_callback((s32)&bringer_render_node_callback);
+            set_motion_packed_rotation();
             if (var_r31 == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {
                 ((TObjEnemy *)arg0)->draw_motion_model();
             }
-            TObjPlayer::clear_global_state();
-            TObjEneRe7Berura::set_global_state(NULL);
+            clear_motion_packed_rotation();
+            set_chunk_model_node_callback(NULL);
             pop_matrix();
         }
         if (*(s32 *)((s8 *)arg0 + 0x3C0) & 2) {

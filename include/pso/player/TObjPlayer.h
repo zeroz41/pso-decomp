@@ -1188,8 +1188,6 @@ struct TObjPlayer : public TObjChara {
     static void setup_tex_gen();
     static void clear_move_state_bits();
     static void set_global_state(s32 arg0);
-    static void set_global_flag();
-    static void clear_global_state();
     static void set_global_7778(s32 arg0);
     static void update_render_state();
     void collect_owner_fields_recursive();
@@ -1301,7 +1299,7 @@ struct TObjPlayer : public TObjChara {
     void set_flag_8_if_check_passes();
     void fill_status_info(void *arg1);
     void launch_rare_weapon_special(void *origin, s32 enable, f32 scale);
-    static int clear_render_context();
+    static void clear_render_context();
     u8 *construct_freeze_shell(u8 *arg1, u8 *arg2);
     static void create_tec_zonde(void *arg0, void *arg1, void *arg2, void *arg3);
     TechniqueContactList *collect_technique_contacts(void *src);

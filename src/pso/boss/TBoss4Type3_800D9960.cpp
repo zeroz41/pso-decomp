@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss4Type3_800D9960.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/misc/TCameraCtrl_803D6538.h"
@@ -57,7 +58,7 @@ void draw_trail_with_colors(u8 *boss4_type3, s32 arg1, s32 arg2, s32 arg3, s32 a
 void TBoss4Type3::draw_motion_trail(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     f32 f;
     s32 i;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     lbl_80500F80.x = lbl_805DA3EC;
     lbl_80500F80.y = lbl_805DA3EC;
     lbl_80500F80.z = lbl_805DA3EC;
@@ -75,7 +76,7 @@ void TBoss4Type3::draw_motion_trail(s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
         f += ((Arg_800D9994 *)this)->step;
     }
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 s32 *__dt__11TBoss4Type3FPvs(s32 *arg0, s16 arg1) {

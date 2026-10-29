@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_802F19C0.h"
 
 #include "pso/TParticleCtrl.h"
@@ -31,11 +32,11 @@ void draw_particle_effect(void* a0) {
 
     TParticleCtrl::begin_effect_render();
     TObjFish::set_global_param(boss7_common_texture_list);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
 
     draw_ginja_model_with_motion((void*)(*(int*)((char*)a0 + 0x1c)), (void*)(*(int*)((char*)a0 + 0x20)), *(float*)((char*)a0 + 0x28));
 
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     TParticleCtrl::end_effect_render();
     restore_draw_list_mask();
 }

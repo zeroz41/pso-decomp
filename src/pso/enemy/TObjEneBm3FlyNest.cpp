@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/enemy/TObjEneBm3FlyNest_CarryFly.h"
@@ -1075,9 +1077,9 @@ void TObjEneBm3FlyNest::render_with_state_debug() {
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion(this->model, var_r30, var_f31);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         TParticleCtrl::end_effect_render();
         ((void (*)(void))pop_matrix)();
     }
@@ -1151,9 +1153,9 @@ void TObjEneBm3FlyNest::render() {
                 if (self->f326 == 0) {
                     bm3_fly_nest_attachment_index = 0;
                     lbl_805D5114 = (s32)self->f3E0;
-                    TObjEneRe7Berura::set_global_state((s32)((void *)handle_attachment_sample__17TObjEneBm3FlyNestFi));
+                    set_chunk_model_node_callback((s32)((void *)handle_attachment_sample__17TObjEneBm3FlyNestFi));
                 } else {
-                    TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneBm3FlyNest::capture_attachment));
+                    set_chunk_model_node_callback((s32)((void *)TObjEneBm3FlyNest::capture_attachment));
                 }
                 ((s32 (*)(int, int))rotate_matrix_y)(0, self->f60);
                 TObjEneDD::clear_global_flag_400();
@@ -1164,7 +1166,7 @@ void TObjEneBm3FlyNest::render() {
                     this->draw_motion_model();
                 }
                 TParticleCtrl::end_effect_render();
-                TObjEneRe7Berura::set_global_state((s32)NULL);
+                set_chunk_model_node_callback((s32)NULL);
                 pop_matrix();
             }
             this->update_primary_light();
@@ -2017,9 +2019,9 @@ void TObjEneBm3FlyNest::render_parts() {
     }
     post_translate_matrix((u8 *)&this->entity_id);
     ((s32 (*)(s32, s32))rotate_matrix_y)(0, *(s32 *)((s8 *)arg0 + 0x40));
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), (void *)(*(s32 *)&this->prev_position.y), this->prev_position.z);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
 }
 

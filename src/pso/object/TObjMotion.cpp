@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResource.h"
@@ -217,12 +218,12 @@ s32 TObjMotion::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices
     if (with == NULL || model == NULL) {
         return 0;
     }
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     player_joint_matrix_write_ptr = matrices;
-    TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
     draw_motion((NJS_OBJECT *)model, with, at_frame);
-    TObjEneRe7Berura::set_global_state(0);
-    TObjPlayer::clear_global_state();
+    set_chunk_model_node_callback(0);
+    clear_motion_packed_rotation();
     return 1;
 }
 
@@ -230,12 +231,12 @@ s32 TObjMotion::calc_joint_matrices(f32 at_frame) {
     if (current_motion == NULL || model == NULL) {
         return 0;
     }
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     player_joint_matrix_write_ptr = anim_model_matrix_array;
-    TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
     draw_motion((NJS_OBJECT *)model, current_motion, at_frame);
-    TObjEneRe7Berura::set_global_state(0);
-    TObjPlayer::clear_global_state();
+    set_chunk_model_node_callback(0);
+    clear_motion_packed_rotation();
     return 1;
 }
 
@@ -264,14 +265,14 @@ void save_joint_matrix_callback() {
 void TObjMotion::draw_saving_joints() {
     u32 flags;
     player_joint_matrix_write_ptr = (s32)joint_matrices;
-    TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
+    set_chunk_model_node_callback((s32)save_joint_matrix_callback);
     flags = motion_flags;
     if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
         draw_model_blend_motion(model, &blend, frame);
     } else {
         draw_model_motion(model, current_motion, frame);
     }
-    TObjEneRe7Berura::set_global_state(0);
+    set_chunk_model_node_callback(0);
     set_default_alpha_blend();
 }
 
@@ -282,48 +283,48 @@ void TObjMotion::draw_saving_joints_checked() {
     matrices = (u32)joint_matrices;
     if (matrices != 0) {
         player_joint_matrix_write_ptr = matrices;
-        TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
+        set_chunk_model_node_callback((s32)save_joint_matrix_callback);
         flags = motion_flags;
         if ((flags & MOTION_BLENDING) && !(flags & MOTION_DRAW_UNBLENDED)) {
             draw_model_blend_motion(model, &blend, frame);
         } else {
             draw_model_motion(model, current_motion, frame);
         }
-        TObjEneRe7Berura::set_global_state(0);
+        set_chunk_model_node_callback(0);
         set_default_alpha_blend();
     }
 }
 
 void TObjMotion::draw_motion_model() {
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     if (motion_flags & MOTION_BLENDING) {
         draw_model_blend_motion(model, &blend, frame);
     } else {
-        TObjEneRe7Berura::set_global_state(chunk_model_node_callback);
+        set_chunk_model_node_callback(chunk_model_node_callback);
         draw_model_motion(model, current_motion, frame);
-        TObjEneRe7Berura::set_global_state(0);
+        set_chunk_model_node_callback(0);
     }
     set_default_alpha_blend();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TObjMotion::draw() {
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     setup_actor_draw_lighting();
     if (motion_flags & MOTION_BLENDING) {
         draw_model_blend_motion(model, &blend, frame);
     } else {
-        TObjEneRe7Berura::set_global_state(chunk_model_node_callback);
+        set_chunk_model_node_callback(chunk_model_node_callback);
         draw_model_motion(model, current_motion, frame);
-        TObjEneRe7Berura::set_global_state(0);
+        set_chunk_model_node_callback(0);
     }
     set_default_alpha_blend();
     restore_actor_draw_lighting(m_name);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TObjMotion::draw_ginja_motion_model() {
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     setup_actor_draw_lighting();
     if (motion_flags & MOTION_BLENDING) {
         draw_ginja_motion_link((NJS_OBJECT *)model, &blend, frame);
@@ -334,7 +335,7 @@ void TObjMotion::draw_ginja_motion_model() {
     }
     set_default_alpha_blend();
     restore_actor_draw_lighting(m_name);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TObjMotion::change_action(s16 action) {

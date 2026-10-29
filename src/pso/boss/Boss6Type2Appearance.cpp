@@ -53,11 +53,11 @@ s32 clear_render_callback__8TObjFishFv(s32);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
     push_matrix();
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     post_translate_matrix((void *)&boss6_type2_appear_origin);
     TObjFish::set_global_param(*(s32 *)((s8 *)this + 0xD8));
     draw_model_motion((void *)this->m_d4, (void *)this->m_dc, *(f32 *)((s8 *)this + 0xE0));
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
 }
 
@@ -78,7 +78,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         TObjFish::set_global_param(this->m_cc);
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         push_matrix();
         post_translate_matrix((s32 *)((u8 *)this + 0x4C));
         draw_model_motion((void *)(*(s32 *)((s8 *)this + 0xC8)), (void *)(*(s32 *)((s8 *)this + 0xD0)), this->m_e4);
@@ -87,7 +87,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         post_translate_matrix((s32 *)((u8 *)this + 0x58));
         draw_model_motion((void *)(*(s32 *)((s8 *)this + 0xC8)), (void *)(*(s32 *)((s8 *)this + 0xD0)), this->m_e4);
         pop_matrix();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         if (var_f31 < lbl_805DFA74) {
             TObjFish::reset_fish_globals();
         }
@@ -112,13 +112,13 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix((void *)&boss6_type2_appear_origin);
         TObjFish::set_global_param(*(s32 *)((s8 *)this + 0xC0));
         ((TObjFish *)(this->m_7c))->set_draw_callback_list();
         draw_model_motion((void *)this->m_bc, (void *)this->m_c4, *(f32 *)((s8 *)this + 0xE0));
         clear_render_callback__8TObjFishFv(this->m_7c);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < lbl_805DFA74) {
             TObjFish::reset_fish_globals();
@@ -145,7 +145,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix((void *)&boss6_type2_appear_origin);
         var_r29 = 0;
         var_r31 = 0;
@@ -156,7 +156,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
             var_r29 += 1;
             var_r31 += 0xC;
         } while (var_r29 < 2);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         if (var_f31 < lbl_805DFA74) {
             TObjFish::reset_fish_globals();

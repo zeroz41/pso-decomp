@@ -17,7 +17,7 @@ void TObjDFDemo4::sub_8004F1FC() {
     s32 var_r29;
     if ((s32) this->m_f8 >= 0x44) {
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix((u8 *)&this->m_e8);
         rotate_matrix_y(0, this->m_f4);
         var_r29 = 0;
@@ -35,7 +35,7 @@ void TObjDFDemo4::sub_8004F1FC() {
             var_r29 += 1;
             var_r31 += 0xC;
         } while (var_r29 < 3);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
     }
 }

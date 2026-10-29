@@ -1,5 +1,6 @@
 #pragma readonly_strings on
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/PadRumble.h"
 #include "pso/boss/TBoss4Type3_800524E8.h"
 #include "pso/boss/TBoss4Zanzo.h"
@@ -482,7 +483,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 f32 xyz_distance(Vec_80056C30 *, Vec_80056C30 *);
-s32 draw_model_motion(int, int, f32);
 
 extern u8 TBoss4DarkFalz__data_804FF1E8[];
 extern RecoveredGlobal_8005A678_TBoss4Type3__data_80486FC8 TBoss4Type3__anim_state_table;
@@ -589,14 +589,14 @@ void render__11TBoss4ZanzoFv(u8 *arg0) {
     temp_f31 = (((f32) *(s32 *)((s8 *)arg0 + 0x48) / (f32) *(s32 *)((s8 *)arg0 + 0x44)) * (*(f32 *)((s8 *)arg0 + 0x40) - temp_f5)) + temp_f5;
     if (!(temp_f31 <= 0.01f)) {
         push_matrix();
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         post_translate_matrix(arg0 + 0x1C);
         rotate_matrix_y(0, (int) (*(s32 *)((s8 *)arg0 + 0x28)));
         TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x2C)));
         TObjPlayer__sub_80052390(temp_f31);
-        draw_model_motion((int) (*(s32 *)((s8 *)arg0 + 0x30)), (int) (*(s32 *)((s8 *)arg0 + 0x34)), (f32) (*(f32 *)((s8 *)arg0 + 0x38)));
+        draw_model_motion(*(void **)((s8 *)arg0 + 0x30), *(void **)((s8 *)arg0 + 0x34), *(f32 *)((s8 *)arg0 + 0x38));
         TObjPlayer::sync_player_globals();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
     }
 }
@@ -1454,8 +1454,6 @@ struct Obj_80057128 {
     f32 wave;
 };
 
-extern "C" {
-}
 
 #pragma push
 #pragma fp_contract on
@@ -1486,7 +1484,7 @@ s32 TBoss4Type2::sub_80057224() {
 void TUnk_80486924::draw_hanger() {
     Obj_80057270 *arg0 = (Obj_80057270 *)this;
     s32 i;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     for (i = 0; i < 2; i++) {
         TObjFish::set_global_param(TObjFish__sub_8001EDB0(arg0->f390, boss4_zanzo_bml_index_table[i]));
         switch (i) {
@@ -1494,22 +1492,22 @@ void TUnk_80486924::draw_hanger() {
             model_render_flags |= 0x20000;
             TObjEneRe4Sorcerer__sub_801E3F1C(0.0f, arg0->f3c0);
             ((TObjFish *)(arg0->f44c))->set_draw_callback_list();
-            ((s32 (*)(s32, s32, f32))draw_model_motion)(get_bml_model(arg0->f390, boss4_zanzo_bml_index_table[i]),
-                get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
+            draw_model_motion((void *)get_bml_model(arg0->f390, boss4_zanzo_bml_index_table[i]),
+                (void *)get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
             clear_render_callback__8TObjFishFv(arg0->f44c);
             model_render_flags &= ~0x20000;
             break;
         default:
             TBoss6PlotFalz__sub_802AC008(arg0->f3f0, arg0->f3f4);
-            ((s32 (*)(s32, s32, f32))draw_model_motion)(get_bml_model(arg0->f390, boss4_zanzo_bml_index_table[i]),
-                get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
+            draw_model_motion((void *)get_bml_model(arg0->f390, boss4_zanzo_bml_index_table[i]),
+                (void *)get_bml_motion(arg0->f390, (s32)(((Row_80057270 *)&TBoss4Type2__attack_pattern_table)[arg0->f3c8].c[i])),
                 arg0->f3d0);
             TBoss6PlotFalz::update_camera_target();
             break;
         }
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     arg0->f3e4 = 0;
 }
 

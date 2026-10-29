@@ -1,4 +1,6 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
@@ -2128,24 +2130,24 @@ void render__13TObjEneMe1GeeFv(u8 *ene_me1_gee) {
             if ((s16) ((TObjEneMe1Gee *)ene_me1_gee)->mode != 0xB) {
                 TObjEneMe1Gee__render_node_index = 0;
                 gee_camera_ctrl_step_ptr = (s32)(ene_me1_gee + 0x414);
-                TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
                 if (var_r30 == 1) {
-                    TObjPlayer::set_global_flag();
+                    set_motion_packed_rotation();
                     ((TObjMotion *)ene_me1_gee)->draw();
-                    TObjPlayer::clear_global_state();
+                    clear_motion_packed_rotation();
                 } else {
-                    TObjPlayer::set_global_flag();
+                    set_motion_packed_rotation();
                     ((TObjEnemy *)ene_me1_gee)->draw_motion_model();
-                    TObjPlayer::clear_global_state();
+                    clear_motion_packed_rotation();
                 }
-                TObjEneRe7Berura::set_global_state((s32)NULL);
+                set_chunk_model_node_callback((s32)NULL);
             } else {
                 rotate_matrix_z(0, (int) (((TObjEneMe1Gee *)ene_me1_gee)->rotation_z));
                 TObjEneMe1Gee__render_node_index = -1;
                 gee_camera_ctrl_step_ptr = (s32)(ene_me1_gee + 0x414);
-                TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
+                set_chunk_model_node_callback((s32)((void *)TObjEneMe1Gee::advance_camera_ctrl_step));
                 ((TObjEneDD_ST *)ene_me1_gee)->draw_with_alt_model((int) (*(s32 *)((s8 *)ene_me1_gee + 0x410)));
-                TObjEneRe7Berura::set_global_state((s32)NULL);
+                set_chunk_model_node_callback((s32)NULL);
             }
         }
         temp_r0_2 = ((TObjEneMe1Gee *)ene_me1_gee)->mode;
@@ -2893,9 +2895,9 @@ void TObjEneMe1Gee__sub_800CA454(void *arg0, s32 arg1) {
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(&o->pos38);
                 rotate_matrix_y(0, o->angle);
-                TObjPlayer::set_global_flag();
+                set_motion_packed_rotation();
                 ((TObjEnemy *)o)->calc_joint_matrices(o->timer);
-                TObjPlayer::clear_global_state();
+                clear_motion_packed_rotation();
                 pop_matrix();
                 o->timer = 0;
                 push_matrix_from(anim_model_matrix_array + 0x150);

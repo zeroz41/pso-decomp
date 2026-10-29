@@ -1,4 +1,6 @@
 #include "pso/render/reflection.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #pragma defer_codegen on
 
 #include "types.h"
@@ -1039,12 +1041,12 @@ void TObjEneDolmOlm::load_shared_resources() {
         p = init_trail_buffer__11TBoss4Type3FPvifff(p, 2, TObjEneDolmOlm__data_805DEF54, TObjEneDolmOlm__data_805DEF6C, lbl_805DEF90);
     }
     TObjEneDolmOlm__data_805D6A18 = (u32) p;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     draw_trail_with_colors(TObjEneDolmOlm__data_805D6A14, ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8,
         ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[13]].b, 0x1C, 0x1D);
     draw_trail_with_colors(TObjEneDolmOlm__data_805D6A18, ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x42C->f8,
         ((Res_80302784 *)TObjEneDolmOlm__resource_bundle)->x430[((s32 *) TObjEneDolmOlm__param_table)[17]].b, 0x14, 0x15);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     dolm_olm_combat_stat_id_pair = (u32) mem_alloc(8);
     TObjEneDolmOlm__shared_handler_ids = (u32) mem_alloc(8);
     TObjEneDolmOlm__registered_object_ids = (u32) mem_alloc(8);
@@ -1209,7 +1211,7 @@ void TObjEneDolmOlm::render() {
         }
         TObjPlayer::toggle_particle_effect();
         TObjEneDolmOlm__effect_render_state = 0;
-        TObjEneRe7Berura::set_global_state((s32)((void *)TObjEneDolmOlm::toggle_effect_render));
+        set_chunk_model_node_callback((s32)((void *)TObjEneDolmOlm::toggle_effect_render));
         if (arg0->f390 == 1) {
             if (arg0->sub.m8() != 0) {
                 saved_model_render_flags = model_render_flags;
@@ -1231,7 +1233,7 @@ void TObjEneDolmOlm::render() {
         } else {
             ((TObjEnemy *)arg0)->draw_motion_model();
         }
-        TObjEneRe7Berura::set_global_state((s32)NULL);
+        set_chunk_model_node_callback((s32)NULL);
         TParticleCtrl::end_effect_render();
         switch (arg0->state) {
         case 0:
@@ -1678,14 +1680,14 @@ void TObjEneDolmOlm::sub_80301148() {
         this->set_param(0x41);
     }
     this->load_params_from_table(*(s32 *)&this->variant);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     draw_trail_with_colors(TObjEneDolmOlm__data_805D6A14,
         ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v,
         ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[13]].v, 0x1C, 0x1D);
     draw_trail_with_colors(TObjEneDolmOlm__data_805D6A18,
         ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->a[*(s32 *)&this->variant].v,
         ((T_80301148 *)TObjEneDolmOlm__resource_bundle)->b[TObjEneDolmOlm__param_table[17]].v, 0x14, 0x15);
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     *(f32 *)((s8 *)((u8 *)this) + 0x3CC) = lbl_805DEF64 + *(f32 *)((s8 *)((u8 *)this) + 0x35C);
     this->m_3d0 = lbl_805DEF64 + *(f32 *)((s8 *)((u8 *)this) + 0x360);
 }

@@ -54,17 +54,17 @@ void DelDepthMotion::draw_model_part() {
         }
         if (temp_r0 < 0xA) {
             TObjFish::set_global_param((int) (texture));
-            TObjPlayer::set_global_flag();
+            set_motion_packed_rotation();
             draw_model_motion((void *)(model), (void *)(animation), (f32) (frame));
-            TObjPlayer::clear_global_state();
+            clear_motion_packed_rotation();
             return;
         }
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         TObjFish::set_global_param((int) (texture));
         draw_model_motion((void *)(model), (void *)(animation), (f32) (frame));
         TObjFish::set_global_param((int) (secondTexture));
         draw_model_motion((void *)(secondModel), (void *)(secondAnimation), (f32) (frame));
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
     }
 }
 #pragma pop

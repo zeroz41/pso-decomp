@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/TObjEneSlimeOne_800EC394.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
@@ -162,7 +163,7 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         return;
     }
     TObjFish::set_global_param(*(s32 *)&this->m_next);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     if (arg1 != 0) {
         model_render_flags |= 0x400000;
         set_chunk_render_flags(1);
@@ -185,7 +186,7 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         set_cull_none();
         clear_chunk_render_flags();
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 
 void TObjEneSlimeOne::advance_animation_state() {

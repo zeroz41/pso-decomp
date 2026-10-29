@@ -1,4 +1,6 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/TParticleCtrl.h"
 #include "types.h"
 #include "pso/player/TObjChara.h"
@@ -891,14 +893,14 @@ void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, s32 arg1, s32 ar
     typedef char spC_offset[(offsetof(Stack_802D7ED4, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_802D7ED4, sp10) == 0x8) ? 1 : -1];
     Stack_802D7ED4 stack;
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     push_matrix_from((void *) (&identity_matrix.value));
     post_translate_matrix((void *) (enemy + 0x38));
     rotate_matrix_y(0, (int) (((TObjEnemy *)enemy)->rotation_y));
     scale_matrix_vec3(0, (enemy + 0x68));
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     ((TObjEnemy *)enemy)->calc_joint_matrices((f32) (((TObjEnemy *)enemy)->frame));
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
     push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
     stack.sp8 = *(s32 *)((s8 *)(&gibbles_joint_zero_vec.value) + 0);
@@ -906,7 +908,7 @@ void render_and_get_joint_pos__14TObjEneGibblesFPvii(u8 *enemy, s32 arg1, s32 ar
     stack.sp10 = *(s32 *)((s8 *)(&gibbles_joint_zero_vec.value) + 8);
     matrix_mult_vec(0, (void *) (&stack.sp8), (void *)arg1);
     pop_matrix();
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
 }
 }
 void gibbles_render_node_callback(void);
@@ -2331,7 +2333,7 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
         scale_matrix_vec3(0, (u8 *)arg0 + 0x68);
         TObjEneGibbles__render_node_index = 0;
         TObjEneGibbles__render_rotation_x = arg0->m_3bc;
-        TObjEneRe7Berura::set_global_state((s32)((void *)gibbles_render_node_callback));
+        set_chunk_model_node_callback((s32)((void *)gibbles_render_node_callback));
         TObjPlayer::toggle_particle_effect();
         switch (arg0->mode) {
         case 0:
@@ -2379,7 +2381,7 @@ void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0) {
             break;
         }
         TParticleCtrl::end_effect_render();
-        TObjEneRe7Berura::set_global_state((s32)NULL);
+        set_chunk_model_node_callback((s32)NULL);
         pop_matrix();
         restore_scene_lighting();
         if (!(arg0->m_374 & 1)) {

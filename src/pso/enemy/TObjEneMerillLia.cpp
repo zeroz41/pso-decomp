@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
@@ -1539,15 +1540,15 @@ void TObjEneMerillLia::render() {
       {
         if (temp_r3 == 1)
         {
-          TObjPlayer::set_global_flag();
+          set_motion_packed_rotation();
           this->draw();
-          TObjPlayer::clear_global_state();
+          clear_motion_packed_rotation();
         }
         else
         {
-          TObjPlayer::set_global_flag();
+          set_motion_packed_rotation();
           this->draw_motion_model();
-          TObjPlayer::clear_global_state();
+          clear_motion_packed_rotation();
         }
       }
       TParticleCtrl::end_effect_render();

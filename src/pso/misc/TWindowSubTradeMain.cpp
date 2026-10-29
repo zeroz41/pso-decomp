@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -95,9 +96,9 @@ void TObjEneMorfos::vfunc_106() {
         } else if (frame > (anim->count - 1)) {
             frame = (f32)anim->count;
         }
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         draw_model_motion((void *)arg0->f34, anim, frame);
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }

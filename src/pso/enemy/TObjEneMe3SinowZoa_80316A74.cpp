@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TObjEneMe3SinowZoa_80316A74.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
@@ -151,7 +152,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
-s32 draw_model_motion(s32, void *, f32);
 extern char lbl_80475FD4[];
 extern char lbl_80475FE4[];
 extern char lbl_80475FF4[];
@@ -326,9 +326,9 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(&arg0->pos);
                 rotate_matrix_y(0, arg0->rotY);
-                TObjPlayer::set_global_flag();
+                set_motion_packed_rotation();
                 ((TObjEnemy *)arg0)->calc_joint_matrices(TObjEneMe3SinowZoa__data_805DF314);
-                TObjPlayer::clear_global_state();
+                clear_motion_packed_rotation();
                 pop_matrix();
                 push_matrix_from(anim_model_matrix_array + 0x90);
                 matrix_mult_vec(0, lbl_80475FC8[0], &out);
@@ -510,9 +510,9 @@ void TObjEneMe3SinowZoa::vfunc_115() {
             } else if (frame > (motion->nframes - 1)) {
                 frame = (motion->nframes - 1);
             }
-            TObjPlayer::set_global_flag();
-            draw_model_motion(arg0->f34, motion, frame);
-            TObjPlayer::clear_global_state();
+            set_motion_packed_rotation();
+            draw_model_motion((void *)arg0->f34, motion, frame);
+            clear_motion_packed_rotation();
             arg0->fF8 = motion;
             arg0->fc0 = frame;
             frame = ((TObjEneMe3SinowZoa *)arg0)->get_node_height();

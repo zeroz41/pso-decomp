@@ -1,4 +1,5 @@
 #include "pso/enemy/DelDepthData.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "types.h"
 #include "pso/map/CsnQuery.h"
@@ -964,7 +965,7 @@ void TObjEneDelDepth::update_bomb_drop() {
     this->attackTimer = (s32) (this->attackTimer - 1);
     temp_r0 = this->attackTimer;
     if ((temp_r0 <= 0) && (temp_r0 == 0)) {
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         push_matrix_from(identity_matrix);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -976,7 +977,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         matrix_mult_vec(0, &v, &out);
         }
         pop_matrix();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         play_sound_effect(0x4003A81D, (u8 *)&this->position, 0, 0);
         TObjEneDelDepthBomb::create(this, this, (Vec *)&out, TObjEneDelDepth__tune_params->techniqueLevel);
     }

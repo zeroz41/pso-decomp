@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TObjEneRe2Flower.h"
 #include "pso/player/TObjChara.h"
@@ -503,7 +505,7 @@ void TObjEneLappy::render() {
                 TObjEneDD__sub_800B9B24(lbl_805D9F40);
             }
             model_render_flags &= 0xFFFFFBFF;
-            TObjPlayer::set_global_flag();
+            set_motion_packed_rotation();
             if (is_item_light_interaction_blocked() == 1) {
                 draw_chunk_object((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)));
             } else {
@@ -515,7 +517,7 @@ void TObjEneLappy::render() {
                 }
                 model_render_flags &= 0xFEFFFFFF;
             }
-            TObjPlayer::clear_global_state();
+            clear_motion_packed_rotation();
             if (this->m_374 & 0x400) {
                 TObjEneDD::init_lights();
             }
@@ -2083,7 +2085,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
         o->f3EC = lbl_805D9FB4;
         o->f3F0 = lbl_805D9FAC;
         scale_matrix(0, lbl_805D9FB8, lbl_805D9FB8, lbl_805D9FB8);
-        TObjEneRe7Berura::set_global_state((s32)((void *)TObjPlayer::update_effect_sequence));
+        set_chunk_model_node_callback((s32)((void *)TObjPlayer::update_effect_sequence));
         if (o->f326 == 8) {
             s32 c = (o->f3D8 & 0xFF) << 16;
             lbl_805D5178 = -1;
@@ -2108,7 +2110,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
             }
             end_effect_render__13TParticleCtrlFv();
         }
-        TObjEneRe7Berura::set_global_state(0);
+        set_chunk_model_node_callback(0);
         restore_alpha_ref();
         model_render_flags = saved_model_render_flags;
         pop_matrix();

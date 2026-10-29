@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_802ED928.h"
@@ -237,7 +238,7 @@ void TBoss7DeRolLeC::run_task() {
         ((TObject *)(((u8 *)this) + 0x690))->run_tasks();
     }
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7AC) != 0U) {
-        TObjPlayer::set_global_flag();
+        set_motion_packed_rotation();
         push_matrix();
         set_matrix_identity(0);
         post_translate_matrix(((u8 *)this) + 0x38);
@@ -248,7 +249,7 @@ void TBoss7DeRolLeC::run_task() {
         this->get_frame();
         apply_with_callback__10TObjPlayerFlf((int) (*(u32 *)((s8 *)((u8 *)this) + 0x7AC)), (s32)this->current_motion);
         pop_matrix();
-        TObjPlayer::clear_global_state();
+        clear_motion_packed_rotation();
         fn_802E79B0(this);
     }
 }

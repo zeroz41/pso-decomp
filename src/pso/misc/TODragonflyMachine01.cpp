@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/misc/TODragonflyMachine01.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -121,9 +122,9 @@ void TODragonflyMachine01::render() {
         TObjFish::set_global_param(texlist);
         node_index = 0;
         node_yaw = animation_yaw;
-        TObjEneRe7Berura::set_global_state((s32)&rotate_animated_node);
+        set_chunk_model_node_callback((s32)&rotate_animated_node);
         draw_ginja_model_with_motion(model, motion, animation_frame);
-        TObjEneRe7Berura::set_global_state(0);
+        set_chunk_model_node_callback(0);
         pop_matrix();
     }
 }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TObjBoss2Tunnel_8007E418.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -46,11 +47,11 @@ void TObjEneDD::transform_part_positions() {
     set_matrix_identity(0);
     post_translate_matrix(self->f38);
     rotate_matrix_y(0, self->f60);
-    TObjPlayer::set_global_flag();
+    set_motion_packed_rotation();
     for (i = 0; i < self->count; i++) {
         matrix_mult_vec(0, &self->parts[i], self->parts[i].f1c);
     }
-    TObjPlayer::clear_global_state();
+    clear_motion_packed_rotation();
     pop_matrix();
 }
 

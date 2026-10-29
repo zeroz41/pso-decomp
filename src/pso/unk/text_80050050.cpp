@@ -29,7 +29,7 @@ void TObjDFDemoF::render() {
   u8 *temp_r30;
   int var_r29;
   push_matrix();
-  TObjPlayer::set_global_flag();
+  set_motion_packed_rotation();
   post_translate_matrix(&three_part_model_translate_offset.value);
   var_r29 = 0;
   var_r31 = 0;
@@ -50,7 +50,7 @@ void TObjDFDemoF::render() {
     var_r31 += 4;
   }
   while (var_r29 < 3);
-  TObjPlayer::clear_global_state();
+  clear_motion_packed_rotation();
   pop_matrix();
 }
 
