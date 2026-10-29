@@ -791,7 +791,6 @@ void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-s32 advance_animation_playback(void *);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 send_entity_set_flags__9TObjEnemyFv();
@@ -1280,7 +1279,7 @@ void state_dying__17TObjEneBm3FlyNestFPvi(u8 *actor, s32 arg1) {
     case 0:
         switch (*(s32 *)((s8 *)actor + 0x4D0)) {
         case 0:
-            ((s32 (*)(void))advance_animation_playback)();
+            ((TObjMotion *)actor)->advance_animation();
             if (get_flag_b4__9TObjEneDDFv(actor) != 0) {
                 *(s32 *)((s8 *)actor + 0x4D0) = 1;
                 v.x = lbl_805D9D24;
@@ -1351,7 +1350,7 @@ void handle_motion_event__17TObjEneBm3FlyNestFPvi(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)(void))advance_animation_playback)();
+        ((TObjMotion *)arg0)->advance_animation();
         ((TObjEneDD *)arg0)->vfunc_102();
         return;
     case 5:
@@ -1381,7 +1380,7 @@ void state_spawn__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->spawn_child();
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 = (s32) (((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 - 1);
         }
-        advance_animation_playback(ene_bm3_fly_nest);
+        ((TObjMotion *)ene_bm3_fly_nest)->advance_animation();
         ((TObjEneDD *)ene_bm3_fly_nest)->vfunc_102();
         break;
     }
@@ -1409,7 +1408,7 @@ void update_state__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_bm3_fly_nest);
+        ((TObjMotion *)ene_bm3_fly_nest)->advance_animation();
         ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->update_replenish();
         ((TObjEneDD *)ene_bm3_fly_nest)->vfunc_102();
         break;
@@ -1439,7 +1438,7 @@ void TObjEneBm3FlyNest__sub_800B318C(u8 *ene_dd, s32 arg1) {
         }
         break;
     case 0:
-        ((s32)advance_animation_playback(ene_dd));
+        (((TObjMotion *)ene_dd)->advance_animation());
         if ((is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D10) != 0) || (is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D34) != 0)) {
             play_sound_effect((void *) (((TObjEnemy *)(ene_dd))->remap_sound_for_area((s32)(0x4003B72A))), ene_dd + 0x38, 0, 0);
         }
@@ -1481,7 +1480,7 @@ void handle_event__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_bm3_fly_nest);
+        ((TObjMotion *)ene_bm3_fly_nest)->advance_animation();
         if (is_passing_frame__10TObjMotionFf(ene_bm3_fly_nest, lbl_805D9D30) != 0) {
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->spawn_child();
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 = (s32) (((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 - 1);
@@ -1509,7 +1508,7 @@ void state_wait__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_bm3_fly_nest);
+        ((TObjMotion *)ene_bm3_fly_nest)->advance_animation();
         ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->update_replenish();
         ((struct VObj_800B3428_800B30B0 *)ene_bm3_fly_nest)->m100();
         break;
@@ -1529,7 +1528,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x4D0) = 0;
         break;
     case 3:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (*(s32 *)((s8 *)arg0 + 0x4D0) == 3) {
             switch (*(s32 *)&this->m_3a8) {
             case 2:
@@ -1540,9 +1539,9 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 arg1) {
                 break;
             case 9:
                 this->requested_action = 7;
-                advance_animation_playback(arg0);
+                ((TObjMotion *)arg0)->advance_animation();
                 this->frame = lbl_805D9D14;
-                advance_animation_playback(arg0);
+                ((TObjMotion *)arg0)->advance_animation();
                 this->frame = *(f32 *)&this->frame_count - lbl_805D9D18;
                 *(s32 *)&this->actorFlags |= 0x800;
                 *(s32 *)((s8 *)arg0 + 0x3A8) = 1;
@@ -1554,7 +1553,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x4C8) += 1;
         switch (*(s32 *)((s8 *)arg0 + 0x4D0)) {
         case 0:
@@ -1609,7 +1608,7 @@ void handle_appear__17TObjEneBm3FlyNestFPvi(u8 *ene_dd, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd + 0x4D0)) {
         case 0:
             *(s32 *)((s8 *)ene_dd + 0x4C8) += 1;

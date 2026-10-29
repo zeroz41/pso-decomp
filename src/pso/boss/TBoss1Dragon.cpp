@@ -448,7 +448,6 @@ extern s32 lbl_805D264C;
 extern s32 lbl_805D4B24;
 extern s32 TLobby__designated_client_id;
 s32 clearState__12TBoss1DragonFv(void *);
-s32 advance_animation_playback();
 s32 isV2Mode__12TBoss1DragonFv(void);
 u8 *__nw__7TObjectFUl(s32);
 u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
@@ -1324,7 +1323,6 @@ void TBoss1Dragon::wait_for_players(s32 arg1) {
     }
 }
 
-#define ANIM(s) ((s32 (*)(void *)) advance_animation_playback)(s)
 void TBoss1Dragon::update_appearance_state(u32 reason) {
     Dragon_80021490 *self = (Dragon_80021490 *)this;
     s32 *demo = &self->demo_active;
@@ -1333,7 +1331,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
     case ENEMY_STATE_ENTER:
         self->action = 0;
         clearState__12TBoss1DragonFv(self);
-        ANIM(self);
+        advance_animation();
         self->pos.x = (0.0f);
         self->pos.y = (0.0f);
         self->pos.z = (0.0f);
@@ -1374,7 +1372,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
         case 0:
             break;
         case 1:
-            ANIM(self);
+            advance_animation();
             if (((TObjEneDD *)self)->get_flag_b4() != 0) {
                 self->phase = 4;
                 TWindowCtrl::init_all_slots2();
@@ -1441,7 +1439,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             break;
         case 2:
-            ANIM(self);
+            advance_animation();
             if (((TObjEneDD *)self)->get_flag_b4() != 0) {
                 self->phase = 4;
                 TWindowCtrl::init_all_slots2();
@@ -1507,7 +1505,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             break;
         case 3:
-            ANIM(self);
+            advance_animation();
             if (((TObjEneDD *)self)->get_flag_b4() != 0) {
                 self->phase = 4;
                 TWindowCtrl::init_all_slots2();
@@ -1570,7 +1568,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             break;
         case 4:
-            ANIM(self);
+            advance_animation();
             break;
         }
         break;
@@ -1602,7 +1600,7 @@ void TBoss1Dragon::update_wander_state(s32 arg1) {
                 this->requested_action = 0;
             }
         }
-        advance_animation_playback();
+        advance_animation();
     case 3:
     case ENEMY_STATE_LEAVE:
     case 1:
@@ -1938,7 +1936,7 @@ void TBoss1Dragon__sub_800224A4(TBoss1Dragon *arg0, u32 arg1) {
         arg0->setDestinationX(*saved);
         return;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         arg0->play_nearby_se();
         TBoss1Dragon__sub_800274A4((s32)arg0);
         arg0->rotation_y = approach_angle_limited(arg0->rotation_y, *saved, 0x200);
@@ -2014,7 +2012,7 @@ void TBoss1Dragon__sub_80022740(TBoss1Dragon *arg0, u32 arg1) {
         self->saveCurrentDestination();
         return;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         arg0->play_nearby_se();
         TBoss1Dragon__sub_800274A4((s32)arg0);
         break;
@@ -2110,7 +2108,7 @@ void TBoss1Dragon__sub_800228E8(TBoss1Dragon *arg0, u32 arg1) {
         arg0->setDestinationX(arg0->rotation_y);
         return;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         if ((s16) arg0->requested_action == 1) {
             TBoss1Dragon__sub_80028BE0((u8 *)arg0);
         }
@@ -2205,7 +2203,7 @@ void TBoss1Dragon__sub_80022C38(TBoss1Dragon *arg0, u32 arg1) {
         self->saveCurrentDestination();
         return;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         break;
     default:
         return;
@@ -2228,7 +2226,7 @@ void TBoss1Dragon::update_fade_state(u32 arg1) {
         }
         break;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback();
+        advance_animation();
         for (i = 0; i < 4; i++) {
             if (this->viewFade[i].decay_value_toward_floor() != 0) {
                 queue_destruction__7TObjectFv(this);
@@ -2320,7 +2318,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x864)) {
         case 0:
             if (((TObjMotion *)arg0)->is_passing_frame((f32)(60.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)(98.0f))) != 0) {
@@ -2418,7 +2416,6 @@ struct Vec_80023450 { f32 x, y, z; };
 #define TGT_80023450 ((const Vec_80023450 *)TBoss1Dragon__data_80434E80)
 #define CLAMP_80023450 ((f32 (*)(void *))normalize_vector_xz__FP3Vec)
 #define UPDVEL_80023450 ((s32 (*)(void *, f32))update_velocity__9TObjEneDDFv)
-#define PLAY_80023450 ((s32 (*)(void *))advance_animation_playback)
 
 void TBoss1Dragon::update_emergence_state(u32 arg1) {
     f32 factor;
@@ -2429,7 +2426,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
     switch (arg1) {
     case ENEMY_STATE_ENTER:
         this->requested_action = 0x18;
-        PLAY_80023450(this);
+        advance_animation();
         this->vfunc_96();
         this->setPhase2();
         TBoss1Dragon__sub_80028AFC(((u8 *)this));
@@ -2533,7 +2530,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
             this->heightOffset = this->defaultHeightOffset + (this->height - *(f32 *)((s8 *)((u8 *)this) + 0x3C));
             break;
         case 3:
-            PLAY_80023450(this);
+            advance_animation();
             this->rootHeight += (-0.4017857015132904f);
             this->height += this->rootHeight;
             if (this->frame >= (15.0f)) {
@@ -2545,7 +2542,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
             this->heightOffset = this->height - *(f32 *)((s8 *)((u8 *)this) + 0x3C);
             break;
         case 4:
-            PLAY_80023450(this);
+            advance_animation();
             if (this->requested_action == 0x10) {
                 this->play_nearby_se();
             }
@@ -2557,7 +2554,7 @@ void TBoss1Dragon::update_emergence_state(u32 arg1) {
             vec3_add_to(((u8 *)this) + 0x38, v);
             break;
         case 5:
-            PLAY_80023450(this);
+            advance_animation();
             this->play_nearby_se();
             (this->impactAge)++;
             if (this->impactAge >= 50) {
@@ -2930,7 +2927,7 @@ void update_dive_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x864)) {
         case 0:
             ((TBoss1Dragon *)arg0)->play_nearby_se();
@@ -3062,7 +3059,7 @@ void TBoss1Dragon::update_roar_state(u32 arg1) {
         saveCurrentDestination__12TBoss1DragonFv(arg0);
         return;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback();
+        advance_animation();
         this->stateStep = this->stateStep + 1;
         play_nearby_se();
         TBoss1Dragon__sub_800274A4(arg0);
@@ -3115,7 +3112,7 @@ void TBoss1Dragon::update_stretch_state(u32 arg1) {
         saveCurrentDestination__12TBoss1DragonFv(arg0);
         return;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback();
+        advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame((20.0f)) != 0) {
             play_cue_stream_file(lbl_80435388);
             return;
@@ -3184,7 +3181,7 @@ void TBoss1Dragon::update_head_down_attack_state(u32 arg1) {
         saveCurrentDestination__12TBoss1DragonFv();
         return;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback();
+        advance_animation();
         switch (this->impactAge) {
         case 0:
             if (((TObjMotion *)arg0)->is_passing_frame(lbl_805D8014) != 0) {
@@ -3294,7 +3291,7 @@ void TBoss1Dragon::handleFallState(u32 reason) {
         case 1:
             break;
         case 0:
-            advance_animation_playback();
+            advance_animation();
             this->rootHeight = sample_root_height();
             if (this->frame >= lbl_805D8020) {
                 this->stateStep = 1;
@@ -3307,7 +3304,7 @@ void TBoss1Dragon::handleFallState(u32 reason) {
             }
             break;
         case 2:
-            advance_animation_playback();
+            advance_animation();
             break;
         }
         switch (this->stateStep) {
@@ -3395,14 +3392,14 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
     case ENEMY_STATE_UPDATE:
         switch (self->stateStep) {
         case 0:
-            ((s32 (*)(void *))advance_animation_playback)(self);
+            self->advance_animation();
             if (self->frame >= TBoss1Dragon__data_805D8008) {
                 self->stateStep = 1;
                 play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003B210);
             }
             break;
         case 1:
-            ((s32 (*)(void *))advance_animation_playback)(self);
+            self->advance_animation();
             if (self->frame > lbl_805D8028) {
                 self->rotation_x = (s32)(lbl_805D802C * ((self->frame - lbl_805D8028) / (self->frame_count - lbl_805D8028)));
             }
@@ -3412,7 +3409,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
             }
             break;
         case 2:
-            ((s32 (*)(void *))advance_animation_playback)(self);
+            self->advance_animation();
             self->rotation_x = 0;
             if (self->frame > lbl_805D8028) {
                 self->m_874 = 0x1000;
@@ -3482,7 +3479,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
         }
         case 5: {
             f32 delta;
-            ((s32 (*)(void *))advance_animation_playback)(self);
+            self->advance_animation();
             delta = (f32)angle_diff_s16(self->rotation_y, self->m_878);
             delta *= lbl_805D8034;
             if ((delta < lbl_805D8038 && delta >= lbl_805D803C) || self->get_flag_b4() != 0) {
@@ -3494,7 +3491,7 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
             break;
         }
         case 6:
-            ((s32 (*)(void *))advance_animation_playback)(self);
+            self->advance_animation();
             break;
         }
         if (self->stateStep == 1 || self->stateStep == 2) {
@@ -3525,7 +3522,6 @@ void TBoss1Dragon::update_spinning_projectile_attack(u32 reason) {
 #pragma pop
 
 #define VecCopy__FP3VecPC3Vec ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)
-#define advance_animation_playback ((s32 (*)(void *))advance_animation_playback)
 #pragma push
 #pragma fp_contract on
 void TBoss1Dragon::update_air_fire_state(u32 arg1) {
@@ -3563,7 +3559,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
         }
         break;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (this->stateStep) {
         case 0:
             if (((TBoss1Dragon *)arg0)->select_air_fire_target(tgt) != 0) {
@@ -3749,7 +3745,7 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         break;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         play_nearby_se();
         TBoss1Dragon__sub_800274A4((s32)arg0);
         switch (this->stateStep) {
@@ -3780,7 +3776,6 @@ void TBoss1Dragon::update_flight_state(u32 arg1) {
 }
 #pragma pop
 #undef prepare_flight_destination__12TBoss1DragonFPv
-#undef advance_animation_playback
 
 void TBoss1Dragon::update_lift_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -3789,7 +3784,7 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
     switch (arg1) {
     case 4:
         self->requested_action = 0xF;
-        advance_animation_playback();
+        advance_animation();
         this->vfunc_96();
         self->clearState();
         self->beginHeightTransition();
@@ -3833,7 +3828,7 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
             }
             break;
         }
-        ((s32 (*)(void *))advance_animation_playback)(self);
+        self->advance_animation();
         if (((TObjMotion *)self)->is_passing_frame((f32)TBoss1Dragon__data_805D8018) != 0) {
             play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003A804);
         }
@@ -3862,7 +3857,6 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
 #define next_sequence_action__12TBoss1DragonFv ((s32 (*)(void *))next_sequence_action__12TBoss1DragonFv)
 #define beginHeightTransition__12TBoss1DragonFv ((void (*)(void *))beginHeightTransition__12TBoss1DragonFv)
 #define clearState__12TBoss1DragonFv ((void (*)(void *))clearState__12TBoss1DragonFv)
-#define advance_animation_playback ((s32 (*)(void))advance_animation_playback)
 void TBoss1Dragon::update_tail_attack_state(u32 arg1) {
     TBoss1Dragon *self = this;
     switch (arg1) {
@@ -3888,7 +3882,7 @@ void TBoss1Dragon::update_tail_attack_state(u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         self->stateStep++;
         if (((TObjMotion *)self)->is_passing_frame((f32)(0.0f)) != 0 ||
             ((TObjMotion *)self)->is_passing_frame((f32)(12.0f)) != 0) {
@@ -3908,7 +3902,6 @@ void TBoss1Dragon::update_tail_attack_state(u32 arg1) {
 #undef next_sequence_action__12TBoss1DragonFv
 #undef beginHeightTransition__12TBoss1DragonFv
 #undef clearState__12TBoss1DragonFv
-#undef advance_animation_playback
 
 #define next_sequence_action__12TBoss1DragonFv ((s32 (*)(void))next_sequence_action__12TBoss1DragonFv)
 #define spawn_trap__12TBoss1DragonFii ((void (*)(s32, s32))spawn_trap__12TBoss1DragonFii)
@@ -3964,7 +3957,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
         ((TBoss1Dragon *)arg0)->saveTargetDestination();
         return;
     case ENEMY_STATE_UPDATE:
-        advance_animation_playback();
+        advance_animation();
         switch (this->stateStep) {
         case 0:
             update_velocity__9TObjEneDDFv(arg0);
@@ -4068,12 +4061,10 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
 #undef sin_table_lookup
 #undef cos_table_lookup
 
-#define advance_animation_playback ((s32 (*)(void *))advance_animation_playback)
 
 #define LINKED_800267B8 ((s32 (*)(void))TBoss1Dragon::update_linked_epsilon_position)
 #define NEAR_800267B8 ((s32 (*)(void *))is_destination_ahead__12TBoss1DragonFPv)
 #define VALID_800267B8 ((s32 (*)(void *))enemy_validate_retained_target)
-#define PLAY_800267B8 ((void (*)(void *))advance_animation_playback)
 void TBoss1Dragon::update_walking_state(u32 arg1) {
     u8 *arg0 = (u8 *)this;
     extern u8 TBoss1Dragon__data_80434E80[0xC];
@@ -4164,7 +4155,7 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         } else {
             this->play_speed = lbl_805D8080 * scale;
         }
-        PLAY_800267B8(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         TBoss1Dragon__sub_80028BE0(arg0);
         update_velocity__9TObjEneDDFv(arg0);
         calc_target_vector__12TBoss1DragonFPv(arg0);
@@ -4217,11 +4208,10 @@ void TBoss1Dragon__sub_80026B98(TBoss1Dragon *arg0, u32 arg1) {
         break;
     case 0:
         arg0->stateStep = arg0->stateStep + 1;
-        advance_animation_playback(arg0);
+        arg0->advance_animation();
         break;
     }
 }
-#undef advance_animation_playback
 
 void TBoss1Dragon__sub_80026C98(TBoss1Dragon *arg0, u32 arg1) {
     switch (arg1) {

@@ -41,7 +41,6 @@ extern s32 local_client_id;
 extern u32 model_render_flags;
 void *find_entity_by_id(u16 id);
 TObjPlayer *get_player_by_client_id(s32 client_id);
-void advance_animation_playback(TObjMotion *motion);
 void minimap_render_dot(f32 *pos, s32 color, s32, s32);
 void play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
 void play_sound_effect(u32 id, f32 *pos, s32, s32);
@@ -354,7 +353,7 @@ void TBoss3VoloptCore::update_charge_state() {
         }
         break;
     }
-    advance_animation_playback(this);
+    advance_animation();
     minimap_render_dot(&position.x, -0x5DB4, 1, 0);
 }
 
@@ -375,7 +374,7 @@ void TBoss3VoloptCore::update_grabbed_state() {
         hit_cooldown = 0x14;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->action_flags != 8) {
             m_388 &= ~1;
             if (m_388 & 0x40000) {
@@ -397,7 +396,7 @@ void TBoss3VoloptCore::update_reaction_animation() {
         this->requested_action = 4;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         break;
     case -1:
         return;
@@ -466,7 +465,7 @@ void TBoss3VoloptCore::update_state_spin() {
         *(s16 *)&timer = 0x5A;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (--*(s16 *)&timer <= 0) {
             actorFlags &= ~0x40000;
             m_388 &= ~1;
@@ -558,7 +557,7 @@ void TBoss3VoloptCore::update_orbit_state() {
         state = 1;
         break;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);
         update_orbit_position();
@@ -626,7 +625,7 @@ void TBoss3VoloptCore::sub_8003F81C() {
         }
         break;
     }
-    advance_animation_playback(this);
+    advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
         minimap_render_dot(&position.x, -0x5DB4, 1, 0);
     }
@@ -689,7 +688,7 @@ void TBoss3VoloptCore::update_topple_state() {
         break;
     case 3:
         play_persistent_sound(0x4003BC05, this, &position.x, 0, 0);
-        advance_animation_playback(this);
+        advance_animation();
         orbit_angle -= get_orbit_speed(0);
         sweep_angle -= get_orbit_speed(0);
         update_orbit_position();
@@ -699,7 +698,7 @@ void TBoss3VoloptCore::update_topple_state() {
         }
         break;
     }
-    advance_animation_playback(this);
+    advance_animation();
     if (vol_opt_active_hit_zone >= 0) {
         minimap_render_dot(&position.x, -0x5DB4, 1, 0);
     }

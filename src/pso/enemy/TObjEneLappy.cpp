@@ -328,7 +328,6 @@ u8 *find_active_entity_by_id(u16);
 s32 submit_cursor_candidate(void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
-s32 advance_animation_playback(void *);
 void apply_variant_speeds__12TObjEneLappyFv(Obj_800BFCD4 *self);
 s32 check_path_obstructed(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
@@ -546,7 +545,7 @@ void TObjEneLappy::set_boss4_state() {
 }
 s32 TObjEneLappy::apply_move_friction() {
     sub_800C20B0__12TObjEneLappyFv();
-    advance_animation_playback(this);
+    advance_animation();
     if (!(this->actorFlags & 0x800000)) {
         apply_actor_gravity(this, 0, lbl_805D9F4C);
     }
@@ -582,7 +581,7 @@ void TObjEneLappy::vfunc_63() {
 
 void TObjEneLappy::update_hurt() {
     u8 *arg0 = (u8 *)this;
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     Lappy_800C0318 *self = (Lappy_800C0318 *)arg0;
     Vec_800C0318 v = self->pos;
     v.x += self->vx;
@@ -628,7 +627,7 @@ void TObjEneLappy::vfunc_62() {
 void TObjEneLappy::update_invuln_timer() {
     u8 *arg0 = (u8 *)this;
     s16 temp_r4;
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     if (!(*(s32 *)&this->actorFlags & 0x800000)) {
         apply_actor_gravity(arg0, NULL, lbl_805D9F4C);
     }
@@ -653,7 +652,7 @@ void TObjEneLappy::vfunc_61() {
 void TObjEneLappy::update_attacking() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 0:
         enemy_turn_toward_dest(arg0, (void *) *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
@@ -753,7 +752,7 @@ void TObjEneLappy::update_moving() {
     u8 *temp_r6;
     u8 *temp_r7;
     u8 *temp_r7_2;
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     if ((*(s32 *)&this->actorFlags & 0x1000) && !(this->m_374 & 2)) {
         temp_r6 = this->target;
         if (temp_r6 != NULL) {
@@ -931,11 +930,11 @@ void TObjEneLappy::update_idle_state(void *ov) {
             }
             break;
         }
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         break;
     case 1:
         ((TObjPlayer *)arg0)->requested_action = 0;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         (*(s16 *)((s8 *)arg0 + 0x37E))--;
         if (*(s16 *)((s8 *)arg0 + 0x37E) < 0) {
             play_sound_effect(remap_area_sound_id(0x3B20B, 5), (u32)(arg0 + 0x38), 0, 0);
@@ -943,7 +942,7 @@ void TObjEneLappy::update_idle_state(void *ov) {
         }
         break;
     case 2: {
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         Vec_800C0E30 v = *(Vec_800C0E30 *)((s8 *)arg0 + 0x50);
         update_enemy_wander_move(arg0, &v, 7, *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4));
         ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((u8 *)((TObjEnemy *)arg0)->movementParameters + 8), (Vec *)((u8 *)arg0 + 0x308));

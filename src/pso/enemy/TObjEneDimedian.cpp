@@ -111,7 +111,6 @@ struct Player_800A7CA4 : VBase18_800A7CA4 {
 extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
-s32 advance_animation_playback();
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -282,7 +281,7 @@ void TObjEneDimedian::sub_800A7B54() {
 }
 void TObjEneDimedian::vfunc_83() {
     Obj_800A7BEC *arg0 = (Obj_800A7BEC *)this;
-    advance_animation_playback();
+    advance_animation();
     switch (this->phase) {
     case 0:
     default:

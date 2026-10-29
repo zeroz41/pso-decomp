@@ -361,7 +361,6 @@ f32 random_ratio__9TObjCharaFv(s32);
 f32 atan2_float(f32, f32);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
-s32 advance_animation_playback(void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 extern const f64 TObjEneMorfos__data_80477610;
@@ -1061,7 +1060,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         this->requested_action = 4;
         this->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFF8);
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
         this->m_4c4 = (f32) *(s32 *)((s8 *)arg0 + 0x3D4);
         this->m_4b4 = 0;
@@ -1079,7 +1078,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         temp_r0 = this->m_4b4;
         switch (temp_r0) {
         case 0:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
             if ((((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) && (temp_r30 != 0)) {
                 fn_800D911C((Vec *)(arg0 + 0x38));
@@ -1113,7 +1112,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         ((TObjEneMorfos *)ene_morfos)->requested_action = 3;
         ((TObjEneDD *)ene_morfos)->vfunc_96();
         *(s32 *)((s8 *)ene_morfos + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_morfos + 0x3C0) & 0xFFFFFFF8);
-        advance_animation_playback(ene_morfos);
+        ((TObjMotion *)ene_morfos)->advance_animation();
         ((TObjEneDD_ST *)ene_morfos)->set_active();
         return;
     case 3:
@@ -1134,7 +1133,7 @@ void TObjEneMorfos__sub_80332DBC(u8 *ene_morfos, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_morfos);
+        ((TObjMotion *)ene_morfos)->advance_animation();
         return;
     case 5:
         clear_attack_receipts__9TObjEneDDFv();
@@ -1163,7 +1162,7 @@ void TObjEneMorfos::state_patrol(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         if (is_patrol_active__21TObjEneRe7BeruraPunchFv(this) == 0) {
             this->play_speed = (f32) lbl_805DF878;
         }
@@ -1204,7 +1203,7 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        arg0->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
         case 0:
             if (enemy_validate_retained_target((u8 *)arg0) != 0) {
@@ -1278,7 +1277,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(0x4B0, s32)) {
         case 0:
             if (F(0x494, u32) != 0) {
@@ -1395,7 +1394,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        ((s32 (*)(void))advance_animation_playback)();
+        arg0->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
         case 0:
             if (arg0->approach_value(arg0->m_4bc, *(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfos__param_table) + 0x1C)) != 0) {
@@ -1509,7 +1508,7 @@ void TObjEneMorfos__sub_80333AD0(u8 *ene_morfos, s32 arg1) {
     case 5:
         break;
     case 0:
-        ((s32 (*)(void)) advance_animation_playback)();
+        ((TObjMotion *)ene_morfos)->advance_animation();
         ((TObjEneMorfos *)ene_morfos)->play_sound_in_band();
         if (((s32 (*)(void *, f32)) update_linked_position__12TObjEneDD_STFf)(ene_morfos, TObjEneMorfos__data_805DF86C) != 0) {
             ((TObjEneDD_ST *)ene_morfos)->enemy_copy_target_destination();
@@ -1595,7 +1594,7 @@ void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_dd_st);
+        ((TObjMotion *)ene_dd_st)->advance_animation();
         temp_r0_2 = *(s32 *)((s8 *)ene_dd_st + 0x4B0);
         switch (temp_r0_2) {
         case 0:
@@ -1717,7 +1716,7 @@ void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
         }
         return;
     case 0:
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         ((TObjEneDD *)(ene_dd))->vfunc_102();
         ((TObjEneDD *)(ene_dd))->vfunc_88();
         return;

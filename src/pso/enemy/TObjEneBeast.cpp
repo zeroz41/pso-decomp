@@ -22,7 +22,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" {
 void obj_clearFlags30__8TObjBaseFUl(void *, u32);
 void obj_setFlags30(void *, u32);
-void advance_animation_playback(void *);
 s32 post_translate_matrix(void *);
 s32 draw_chunk_object(s32);
 s32 restore_scene_lighting();
@@ -257,7 +256,7 @@ void TObjEneBeast::vfunc_83() {
         *(s16 *)((s8 *)arg0 + 0x326) = 1;
         break;
     }
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
 }
 void render__12TObjEneBeastFPv(Obj_8009211C *o) {
     s32 drawMode;
@@ -339,7 +338,6 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
 #undef post_translate_matrix
 #undef obj_clearFlags30__8TObjBaseFUl
 #undef obj_setFlags30
-#undef advance_animation_playback
 #undef play_sound_effect
 #undef translate_matrix
 #undef set_global_param__8TObjFishFl

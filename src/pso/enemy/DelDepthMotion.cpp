@@ -21,7 +21,6 @@ u8 *get_bml_motion(s32, s32);
 DelDepthMotionBinding lbl_804E8760[] = {{4, 0.3f}, {4, 0.3f}, {2, 0.6f}, {3, 0.4f}};
 DelDepthPairBinding lbl_804E8780[] = {{{1, 1}, {0, 8}, 0.6f}, {{1, 0}, {0, 7}, 0.6f}};
 extern const f32 lbl_805DF2EC;
-void advance_animation_playback(void *);
 extern f32 TObjEneDelDepth__animation_end_frame;
 extern u8 TObjEneDelDepth__animation_end_frame_initialized;
 
@@ -75,7 +74,7 @@ void DelDepthMotion::update_animation_frame() {
         return;
     }
     if (motion < 6) {
-        advance_animation_playback(actor);
+        actor->advance_animation();
     } else if (motion < 10) {
         if ((frame += speed) >= endFrame) {
             frame -= endFrame;

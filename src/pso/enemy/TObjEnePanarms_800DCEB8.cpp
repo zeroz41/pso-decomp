@@ -1076,7 +1076,6 @@ s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 s32 submit_cursor_candidate(void *, s32);
-s32 advance_animation_playback(void *);
 s32 minimap_render_dot(void *, s32, s32, s32);
 }
 
@@ -1152,7 +1151,7 @@ void TObjEnePanarms::run_task() {
         if (*(s32 *)&this->unk_374 != 0) {
             if (*(s32 *)&this->m_3dc != 0) {
                 submit_cursor_candidate(this, -1);
-                advance_animation_playback(this);
+                advance_animation();
             }
             if ((*(s32 *)&this->m_3dc != 0 && *(s32 *)&this->unk_374 != 4) || *(s32 *)&this->unk_374 == 1) {
                 minimap_render_dot(&this->m_2fc, -0x5DB4, 1, 0);

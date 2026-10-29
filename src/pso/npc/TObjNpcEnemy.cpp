@@ -49,7 +49,6 @@ extern RecoveredGlobal_802D78A0_lbl_804E2680 TObjNpcEnemy__collision_body_parts;
 extern s32 __vt__12TObjNpcEnemy[];
 extern s32 TObjNpcEnemy_class_name;
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 advance_animation_playback(void *);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
 extern char lbl_80472600[];
@@ -207,7 +206,7 @@ void TObjNpcEnemy::draw_debug_info() {
         } else {
             this->requested_action = this->rotation_z;
         }
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         break;
     }
 }

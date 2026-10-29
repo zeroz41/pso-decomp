@@ -159,7 +159,6 @@ struct RecoveredFields_800C2AC4_arg0
 
 extern "C" {
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 advance_animation_playback(void *);
 s32 play_sound_effect(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -214,7 +213,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       switch (((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410)
     {
       case 0:
-        advance_animation_playback((void *) arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0)
       {
         ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 1;

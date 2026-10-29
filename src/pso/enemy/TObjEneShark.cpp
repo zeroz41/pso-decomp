@@ -189,7 +189,6 @@ extern const f32 lbl_805D9BA4;
 extern const f32 lbl_805D9BA8;
 void vfunc_94__12TObjEneSharkFv(u8 *arg0);
 s32 TObjEneMe3SinowZoa__sub_800D758C(void *);
-s32 advance_animation_playback();
 void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
@@ -329,7 +328,7 @@ void TObjEneShark::apply_clamped_mode_param() {
 
 void TObjEneShark::vfunc_83() {
     Obj_800ABCBC *arg0 = (Obj_800ABCBC *)this;
-    advance_animation_playback();
+    ((TObjMotion *)this)->advance_animation();
     switch (*(s16 *)&this->m_328) {
     case 0:
     default:

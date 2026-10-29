@@ -17,7 +17,6 @@ struct Prm_800C2628 { f32 a, b, c, d, e; };
 
 extern "C" {
 s32 noop__9TObjEneDDFv(void *, s32);
-s32 advance_animation_playback();
 s32 play_sound_effect(s32, void *, s32, s32);
 extern Prm_800C2628 enemy_dd_attack_param_block;
 extern Prm_800C2628 lbl_8043BBA0;
@@ -73,7 +72,7 @@ void TObjEneDD__sub_800C2628(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (F(s32, 0x3D4) > 0) {
             F(s32, 0x3D4)--;
             if (F(s32, 0x3D4) == 0) {
@@ -146,7 +145,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         this->vfunc_88();
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         temp_r4 = *(s32 *)((s8 *)arg0 + 0x410);
         *(s32 *)((s8 *)arg0 + 0x410) = (temp_r4 + 1);
         noop__9TObjEneDDFv(arg0, temp_r4);

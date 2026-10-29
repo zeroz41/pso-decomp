@@ -405,7 +405,6 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *);
 extern const f32 TObjEneDolmOlm__data_805DEF50;
 void run_task__14TObjEneDolmOlmFv(u8 *arg0);
 extern u32 TObjEneDolmOlm__resource_bundle;
-void advance_animation_playback(void);
 void TObjEneMe3SinowZoa__sub_800D758C(void *);
 void vfunc_83__14TObjEneDolmOlmFv(Ene_80302004 *self);
 void queue_destruction__7TObjectFv(void *);
@@ -1294,7 +1293,7 @@ void TObjEneDolmOlm::toggle_effect_render() {
 }
 void TObjEneDolmOlm::vfunc_83() {
     Ene_80302004 *self = (Ene_80302004 *)this;
-    advance_animation_playback();
+    advance_animation();
     switch (this->phase) {
     case 0:
     default:
@@ -1326,7 +1325,6 @@ void TObjEneDolmOlm::vfunc_100() {
 }
 #pragma push
 #pragma opt_common_subs off
-#define ADV ((void (*)(void *))advance_animation_playback)
 #define arg0 ((u8 *)arg0_)
 s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
     Vec_80301C3C v;
@@ -1335,7 +1333,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
     switch (*(s16 *)((s8 *)arg0 + 0x328)) {
     case 0:
         apply_actor_gravity(arg0, 0, TObjEneDolmOlm__data_805DEF54);
-        ADV(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s16 *)((s8 *)arg0 + 0x328) = 1;
         *(s16 *)((s8 *)arg0 + 0xB8) = 2;
         *(f32 *)((s8 *)arg0 + 0x3D4) = TObjEneDolmOlm__data_805DEF54;
@@ -1354,7 +1352,7 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
                 *(u32 *)((s8 *)arg0 + 0x38C) = 0;
                 VecCopy((Vec *)&v, (const Vec *)(*(u8 **)((s8 *)arg0 + 0x2A8) + 0x2FC));
             }
-            ADV(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003B205)), arg0 + 0x38, 0, 0);
             if (horizontal_distance_squared(arg0 + 0x29C, arg0 + 0x38) < lbl_805DEF78 || ((VObj_18_cc39a7 *)(arg0))->m17(0x1E) != 0) {
                 Vec_80301C3C a = v;
@@ -1400,7 +1398,6 @@ s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_) {
     ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
 }
 #undef arg0
-#undef ADV
 #pragma pop
 #pragma push
 #pragma opt_common_subs off
@@ -1420,7 +1417,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
         arg0->target = 0;
     }
     ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
-    ((void (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     switch (arg0->f328) {
     case 0:
         if (arg0->target == 0 || (u16)get_entity_id(arg0->target) >= 0x1000) {

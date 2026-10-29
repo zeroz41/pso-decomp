@@ -594,7 +594,6 @@ void TObjEneMe1Canadin__sub_8009E930(u8 *arg0);
 void TObjEneMe1Canadin__sub_8009E948(u8 *arg0);
 void push_history_entry__17TObjEneMe1CanadinFPvfPvi(s32, f32, void *, s32);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
-s32 advance_animation_playback();
 f32 subtract_vector(void *, void *);
 extern const f64 lbl_8043A3C8;
 extern const f32 TObjEneMe1Canadin__data_805D988C;
@@ -2366,7 +2365,7 @@ void TObjEneMe1CanadinLeader__vt109(TObjEneMe1Canadin *self, s32 mode) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        self->advance_animation();
         self->update_linked_position(TObjEneMe1Canadin__data_805D988C);
         TObjEneMe1Canadin::update_move(self);
         self->update_hover_height();
@@ -2406,7 +2405,7 @@ void TObjEneMe1CanadinLeader__vt108(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        ((void (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         ((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe1Canadin__data_805D988C);
         switch (self->sub) {
         case 0:
@@ -2957,7 +2956,7 @@ void TObjEneMe1Canadin::update_by_state(s32 arg1) {
         *(f32 *)((s8 *)this + 0x488) = ((f32 (*)(s32))cos_table_lookup)(*(s32 *)((s8 *)this + 0x60));
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         *(f32 *)((s8 *)this + 0x3F8) = (f32) (*(f32 *)((s8 *)this + 0x3C) + *(f32 *)((s8 *)this + 0x3EC));
         *(f32 *)((s8 *)this + 0x300) = (f32) *(f32 *)((s8 *)this + 0x3F8);
         move_with_wall_slide_commit(*(f32 *)((s8 *)this + 0x484), *(f32 *)((s8 *)this + 0x488), lbl_805D98A8);
@@ -2975,7 +2974,7 @@ void TObjEneMe1Canadin::update_walk_animation(s32 arg1) {
         *(s32 *)((s8 *)this + 0x470) = 0;
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         *(s32 *)((s8 *)this + 0x470) = (s32) (*(s32 *)((s8 *)this + 0x470) + 1);
         if ((s32) *(s32 *)((s8 *)this + 0x470) > 0x5A) {
             *(s32 *)((s8 *)this + 0x470) = 0;
@@ -3034,7 +3033,7 @@ void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe1Canadin__data_805D988C) != 0) {
             *(s32 *)((s8 *)arg0 + 0x470) = 2;
         }
@@ -3115,7 +3114,7 @@ void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1) {
     case 1:
         break;
     case 0: {
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe1Canadin__data_805D988C) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         }
@@ -3153,7 +3152,7 @@ void TObjEneMe1Canadin__sub_8009C510(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)arg0 + 0xB8) = I_8009C510(0x3FC);
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         fn_8009E378(arg0);
         I_8009C510(0x3C8) &= 0xFFBFFFFF;
         ((TObjEneDD *)arg0)->vfunc_96();
@@ -3172,7 +3171,7 @@ void TObjEneMe1Canadin__sub_8009C510(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x308));
         f = normalize_vector_xz((Vec *)(&v));
         ((TObjEneDD *)arg0)->move_with_wall_slide_on_ground(v.x, v.z, f);
@@ -3247,7 +3246,7 @@ void TObjEneMe1Canadin::run_task(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         ((TObjEneEpsilon *)arg0)->copy_position((arg0 + 0x50));
         ((TObjEneDD *)arg0)->update_velocity();
         update_angle();
@@ -3289,7 +3288,7 @@ void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD_ST *)o)->update_linked_position(TObjEneMe1Canadin__data_805D988C) != 0) {
             switch (o->mode) {
             case 1: {
@@ -3380,7 +3379,7 @@ void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (o->mode == 0) {
             if (((TObjEneDD_ST *)o)->update_linked_position(TObjEneMe1Canadin__data_805D988C) == 0) {
                 break;
@@ -3562,7 +3561,7 @@ void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (o->mode == 1) {
             if (((TObjEneDD_ST *)o)->update_linked_position(TObjEneMe1Canadin__data_805D988C) == 0) {
                 break;
@@ -3704,7 +3703,7 @@ void TObjEneMe1Canadin::move(s32 arg1) {
     case 1:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         update_linked_position(TObjEneMe1Canadin__data_805D988C);
         switch (*(s32 *)((s8 *)this + 0x470)) {
         case 0:
@@ -3766,7 +3765,7 @@ void TObjEneMe1Canadin::vfunc_111(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         update_linked_position(TObjEneMe1Canadin__data_805D988C);
         TObjEneMe1Canadin::update_move(this);
         this->update_hover_height();
@@ -3812,7 +3811,7 @@ void TObjEneMe1Canadin::vfunc_110(s32 arg1) {
     case 1:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         ((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe1Canadin__data_805D988C);
         switch (*(s32 *)((s8 *)arg0 + 0x470)) {
         case 2:
@@ -3876,7 +3875,7 @@ void TObjEneMe1Canadin::action(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         if ((s32) *(s32 *)((s8 *)this + 0x3C4) != 1) {
             update_linked_position(TObjEneMe1Canadin__data_805D988C);
         }
@@ -3914,7 +3913,7 @@ void TObjEneMe1Canadin__sub_8009DE90(void *argv0, s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)argv0)->advance_animation();
         if ((s32) *(s32 *)((s8 *)arg0 + 0x3C4) == 2) {
             ((s32 (*)(void *, f32))TObjEneMe1Canadin__sub_8009EB14)(arg0, lbl_805D9890 + *(f32 *)((s8 *)arg0 + 0x3C));
         } else {

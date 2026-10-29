@@ -39,7 +39,6 @@ struct Vec_803181A8 { f32 x, y, z; };
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, int);
-void advance_animation_playback(void *);
 void play_sound_effect(s32, void *, s32, s32);
 extern const f32 lbl_805DF334;
 struct VBase_14_948132 { char pad[0x14]; };
@@ -1363,7 +1362,7 @@ void TObjEneMe3SinowZoa__sub_80317B50(void *arg0_, s32 arg1) {
     case 0:
         switch (*(s32 *)((s8 *)ene_me3_sinow_zoa + 0x434)) {
         case 0:
-            advance_animation_playback(ene_me3_sinow_zoa);
+            ((TObjMotion *)ene_me3_sinow_zoa)->advance_animation();
             if (((TObjEneDD *)ene_me3_sinow_zoa)->get_flag_b4() != 0) {
                 *(s32 *)((s8 *)ene_me3_sinow_zoa + 0x3CC) |= 4;
                 play_sound_effect(0x4003AD2F, ene_me3_sinow_zoa + 0x38, 0, 0);
@@ -1438,7 +1437,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(u8 *arg0, s32 arg1) {
     case 0:
         switch (*(s32 *)((s8 *)arg0 + 0x434)) {
         case 0:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF330) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DF300)) != 0) {
                 play_sound_effect(0x4003A82A, arg0 + 0x38, 0, 0);
             }
@@ -1493,7 +1492,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)arg0 + 0xB8) = 4;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         ((TObjEneDD_ST *)arg0)->set_active();
         play_sound_effect(0x4003A82D, arg0 + 0x38, 0, 0);
         *(s32 *)((s8 *)arg0 + 0x3CC) &= 0xFFEFFFF8;
@@ -1508,7 +1507,7 @@ void TObjEneMe3SinowZoa::state_knockback(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x308));
         len = normalize_vector_xz((Vec *)(&v));
         ((TObjEneDD *)arg0)->move_clamped_on_ground(v.x, v.z, len);
@@ -1541,7 +1540,7 @@ void TObjEneMe3SinowZoa__sub_803182F8(u8 *ene_dd, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd + 0x434)) {
         case 0:
             if (((TObjEneDD *)ene_dd)->get_flag_b4() != 0) {
@@ -1587,7 +1586,7 @@ void TObjEneMe3SinowZoa::handle_state_substate(s32 arg1) {
         break;
     case 0:
         (*(s32 *)((s8 *)this + 0x434))++;
-        advance_animation_playback(this);
+        advance_animation();
         this->vfunc_102();
         this->vfunc_89();
         break;
@@ -1746,10 +1745,10 @@ void TObjEneMe3SinowZoa__sub_80318564(u8 *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x434)) {
         case 0:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((TObjEneMe3SinowZoa *)(arg0 + 0x414))->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 F(s32, 0x434) = 1;
             }
@@ -1960,7 +1959,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(void *arg0_, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x434)) {
         case 0:
             *(s32 *)((s8 *)arg0 + 0x60) = approach_angle_limited((int) (*(s32 *)((s8 *)arg0 + 0x60)), (int) (*(s32 *)((s8 *)arg0 + 0x43C)), 0x31C7);
@@ -2162,7 +2161,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(void *arg0_, s32 arg1) {
                 *(s32 *)((s8 *)ene_epsilon + 0x434) = 1;
             }
         case 1:
-            advance_animation_playback(ene_epsilon);
+            ((TObjMotion *)ene_epsilon)->advance_animation();
             ((VObj_18_4f5f2e *)(ene_epsilon))->m103();
             if (*(f32 *)((s8 *)ene_epsilon + 0xC0) < TObjEneMe3SinowZoa__data_805DF320) {
                 if (((TObjEneEpsilon *)ene_epsilon)->update_death_check() != 0) {
@@ -2347,7 +2346,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
     case 0:
         switch ((u32)self->f434) {
         case 0:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (self->fB0 & 8) {
                 self->f434 = 1;
             }
@@ -2356,7 +2355,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
             break;
         case 1: {
             s32 target;
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (((TObjEneEpsilon *)self)->update_death_check() != 0) {
                 ((TObjEneDD_ST *)self)->enemy_copy_target_destination();
                 ((TObjEneDD *)self)->update_velocity();
@@ -2373,7 +2372,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
             break;
         }
         case 2:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (((TObjEneEpsilon *)self)->update_death_check() != 0) {
                 ((TObjEneDD_ST *)self)->enemy_copy_target_destination();
                 ((TObjEneDD *)self)->update_velocity();
@@ -2419,7 +2418,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
                 self->f434 = 4;
             }
         case 4:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (self->fC0 + self->fC8 >= lbl_805DF2F8) {
                 if (self->f3CC & 0x100000) {
                     self->f434 = 5;
@@ -2440,7 +2439,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
                 ((TObjCollidable *)self)->set_indexed_flags(0, 0x08000000);
             }
         case 6:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DF350) != 0 && ((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0) {
                 if (self->f390->m18(self, TObjEneMe3SinowZoa__data_805DF2F4) != 0) {
                     self->f390->m20(self, TObjEneMe3SinowZoa__data_805DF2F4);
@@ -2495,7 +2494,7 @@ void TObjEneMe3SinowZoa::state_chase_target(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe3SinowZoa__data_805DF324) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             ((TObjEneDD *)arg0)->update_velocity();
@@ -2542,14 +2541,14 @@ void TObjEneMe3SinowZoa__sub_80319748(u8 *ene_me3_sinow_zoa, s32 arg1) {
         switch (*(s32 *)((s8 *)ene_me3_sinow_zoa + 0x434)) {
         case 0:
             temp_f31 = ((TObjEneMe3SinowZoa *)ene_me3_sinow_zoa)->get_node_height();
-            advance_animation_playback(ene_me3_sinow_zoa);
+            ((TObjMotion *)ene_me3_sinow_zoa)->advance_animation();
             *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x444) = ((TObjEneMe3SinowZoa *)ene_me3_sinow_zoa)->get_node_height();
             *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E0) = (f32) (*(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E0) + (temp_f31 - *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x444)));
             *(s32 *)((s8 *)ene_me3_sinow_zoa + 0x434) = 1;
             *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E4) = (f32) (*(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E0) - *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3C));
             break;
         case 1:
-            advance_animation_playback(ene_me3_sinow_zoa);
+            ((TObjMotion *)ene_me3_sinow_zoa)->advance_animation();
             if (*(f32 *)((s8 *)ene_me3_sinow_zoa + 0xC0) > 29.0f) {
                 *(f32 *)((s8 *)ene_me3_sinow_zoa + 0xC0) = 29.0f;
             }
@@ -2575,7 +2574,7 @@ void TObjEneMe3SinowZoa__sub_80319748(u8 *ene_me3_sinow_zoa, s32 arg1) {
                 *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E0) = (f32) *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3C);
                 *(f32 *)((s8 *)ene_me3_sinow_zoa + 0x3E4) = (f32) TObjEneMe3SinowZoa__data_805DF31C;
             }
-            advance_animation_playback(ene_me3_sinow_zoa);
+            ((TObjMotion *)ene_me3_sinow_zoa)->advance_animation();
             break;
         }
         ((TObjEneDD *)(ene_me3_sinow_zoa))->vfunc_102();
@@ -2611,7 +2610,7 @@ void TObjEneMe3SinowZoa::update_state_action(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         if (*(s32 *)((s8 *)this + 0x434) == 0) {
             if (update_linked_position(TObjEneMe3SinowZoa__data_805DF324) != 0) {
                 *(s32 *)((s8 *)this + 0x434) = 1;
@@ -2829,7 +2828,7 @@ void TObjEneMe3SinowZoa::state_chase(s32 arg1) {
         break;
     case 0:
         (*(s32 *)((s8 *)arg0 + 0x434))++;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneMe3SinowZoa__data_805DF324) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             ((TObjEneDD *)arg0)->update_velocity();
@@ -2880,7 +2879,7 @@ void TObjEneMe3SinowZoa::sub_80319E74(s32 arg1) {
         break;
     case 0:
         if (*TBoss3Volopt__sub_800F059C(arg0 + 0x414) >= lbl_805DF374) {
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
         }
         ((TObjEneMe3SinowZoa *)arg0)->vfunc_102();
         ((TObjEneMe3SinowZoa *)arg0)->vfunc_89();

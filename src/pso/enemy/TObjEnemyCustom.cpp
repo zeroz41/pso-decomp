@@ -26,7 +26,6 @@
 // MSL headers are not on this unit's include path (rand).
 extern "C" {
 int rand(void);
-void advance_animation_playback(TObjMotion *motion);
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
 TObjBase *find_active_entity_by_id(u16 id);
 s32 push_matrix(void);
@@ -144,7 +143,7 @@ void TObjEnemyCustom::update_state() {
         this->requested_action = 0;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (!(actorFlags & 0x800000)) {
             apply_actor_gravity(this, NULL, 0.0f);
         }
@@ -165,7 +164,7 @@ void TObjEnemyCustom::update_wander_state() {
         this->requested_action = 1;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (target != NULL) {
             Vec dest = *((TObjChara *)target)->body_center();
             EnemyMoveParams *params = (EnemyMoveParams *)movementParameters;
@@ -192,7 +191,7 @@ void TObjEnemyCustom::update() {
         state = 1;
     case 1:
         enemy_turn_toward_dest(this, ((EnemyMoveParams *)movementParameters)->turn_speed);
-        advance_animation_playback(this);
+        advance_animation();
         if (is_passing_frame(10.0f) != 0) {
             if (((TObjEnemyCustomVictim *)target)->select_melee_contact_body(this, 1.0f) != 0) {
                 ((TObjEnemyCustomVictim *)target)->receive_physical_attack(this, 1.0f);
@@ -222,7 +221,7 @@ void TObjEnemyCustom::update_state_machine() {
         actorFlags &= ~0x600000;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (!(actorFlags & 0x800000)) {
             apply_actor_gravity(this, NULL, 0.0f);
         }
@@ -254,7 +253,7 @@ void TObjEnemyCustom::update_knockback_state() {
         this->requested_action = 3;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         move_with_wall_slide((u8 *)this);
         velocity()->x *= 0.5f;
         m_310 *= 0.5f;
@@ -291,7 +290,7 @@ void TObjEnemyCustom::update_dying_state() {
         this->requested_action = 4;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
         if (this->frame < 0.5f * (30.0f * this->play_speed)) {

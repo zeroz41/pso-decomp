@@ -15,7 +15,6 @@
 #include "pso/unk/text_803E2D70.h"
 
 extern "C" {
-void advance_animation_playback(TObjMotion *obj);
 s32 play_sound_effect(s32 id, Vec *pos, s32 a2, s32 flags);
 s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 void obj_setFlags30(TObject *obj, u32 mask);
@@ -123,7 +122,7 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
     case 0:
         m_388 |= 1;
         this->requested_action = 0;
-        advance_animation_playback(this);
+        advance_animation();
         position.y = 80.0f;
         actorFlags |= 0x40000;
         ((CollisionState *)bodies)->flags |= 4;
@@ -183,7 +182,7 @@ void TBoss3VoloptHiraisin::update_drop() {
         hover_angle = 0;
         break;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         position.y = position.y + y_speed;
         if (position.y <= 4.6f) {
             position.y = 4.6f;
@@ -194,7 +193,7 @@ void TBoss3VoloptHiraisin::update_drop() {
         }
         break;
     case 2:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->frame >= this->frame_count - 1.5f) {
             state = 3;
         }
@@ -216,7 +215,7 @@ void TBoss3VoloptHiraisin::sub_80041314() {
         this->requested_action = 3;
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->action_flags != 8) {
             referenceHp = hp;
             actorFlags &= ~0x200;

@@ -32,7 +32,6 @@ typedef char RecoveredGlobal_80335354___vt__16TObjEneMorfosArm_size[sizeof(Recov
 extern "C" {
 void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
-s32 advance_animation_playback();
 u16 get_entity_id(void *);
 s32 set_field_d8__10TObjMotionFl(void *, void *, int);
 extern RecoveredGlobal_80335354_lbl_804EE3B0 morfos_arm_motion_params;
@@ -62,7 +61,7 @@ void TObjEneMorfosArm::render() {
 void TObjEneMorfosArm::run_task() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    advance_animation_playback();
+    advance_animation();
     temp_r3 = (u8 *)this->m_fc;
     if (temp_r3 == NULL) {
         queue_destruction__7TObjectFv((arg0));

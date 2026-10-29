@@ -57,7 +57,6 @@ void *find_entity_by_id(u16 id);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 advance_animation_playback(void *);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *__nw__7TObjectFUl(s32, f32);
 extern const f64 lbl_80446DE8;
@@ -142,7 +141,7 @@ void TPhotonLeilla::run_task() {
     }
     *(s16 *)&this->m_190 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);

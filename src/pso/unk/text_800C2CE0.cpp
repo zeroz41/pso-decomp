@@ -125,7 +125,6 @@ s32 TBoss8Dragon__sub_800BB7D4(void *, int);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 s32 noop__9TObjEneDDFv(void *, s32);
 s32 fn_800C3A60(void *, s32);
-s32 advance_animation_playback();
 s32 play_sound_effect(s32, void *, s32, s32);
 extern const f32 lbl_805D9FD0;
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
@@ -155,7 +154,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         this->vfunc_102();
         this->vfunc_88();
         ((s32 (*)(void *))noop__9TObjEneDDFv)(arg0);
@@ -188,7 +187,7 @@ void TObjEneRe2Flower__sub_800C2E64(Obj_800C2E64 *self, s32 state) {
         }
         break;
     case 0:
-        ((void (*)(void *))advance_animation_playback)(self);
+        ((TObjMotion *)self)->advance_animation();
         if (F(self, s32, 0x410) == 6) {
             t = ((TObjEneRe2Flower *)self)->find_target_in_range();
             if (t != NULL) {

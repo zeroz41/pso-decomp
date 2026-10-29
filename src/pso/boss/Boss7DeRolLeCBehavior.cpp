@@ -72,7 +72,6 @@ void TObjFish::destroy_child() {
 }
 
 extern "C" {
-s32 advance_animation_playback(void *);
 s32 TBoss7DeRolLeC__try_spawn_pattern_crawfish(void *, s32, s32);
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *arg0, u32 arg1, s32 arg2);
 }
@@ -1321,7 +1320,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
         }
         break;
     case 0:
-        advance_animation_playback(boss);
+        ((TObjMotion *)boss)->advance_animation();
         if (self->count > 0) {
             if (self->timer == 0) {
                 self->timer = 20;
@@ -1347,7 +1346,7 @@ void TObjFish__sub_802E83E8(u8 *boss, u32 k) {
 void TObjFish__sub_802E8528(void* o, u32 k) {
     switch (k) {
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         TObjFish__sub_802E7B40(o);
         ((TBoss7DeRolLeC *)o)->advance_action_sequence();
         return;
@@ -1366,7 +1365,7 @@ void TObjFish__sub_802E8528(void* o, u32 k) {
 void TObjFish__sub_802E8584(void* o, u32 k) {
     switch (k) {
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         TObjFish__sub_802E7B94(o);
         ((TBoss7DeRolLeC *)o)->advance_action_sequence();
         return;
@@ -1424,7 +1423,7 @@ void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2) {
         }
         return;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         switch (self->state) {
         case 0:
             self->timer++;
@@ -1498,7 +1497,7 @@ void TObjFish__sub_802E88F8(u8 *boss7_de_rol_le_c, u32 arg1) {
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = lbl_804E3C2C[game_difficulty_selection][*(s32 *)((s8 *)boss7_de_rol_le_c + 0x6B4)].b * 0x1E;
         return;
     case 0:
-        advance_animation_playback(boss7_de_rol_le_c);
+        ((TObjMotion *)boss7_de_rol_le_c)->advance_animation();
         temp_r3 = *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728);
         *(s32 *)((s8 *)boss7_de_rol_le_c + 0x728) = temp_r3 - 1;
         if (temp_r3 == 0) {
@@ -1523,7 +1522,7 @@ void TObjFish__sub_802E8990(u8 *boss7_de_rol_le_c, u32 arg1) {
         *(s16 *)((s8 *)boss7_de_rol_le_c + 0xF4) = 1;
         return;
     case 0:
-        advance_animation_playback(boss7_de_rol_le_c);
+        ((TObjMotion *)boss7_de_rol_le_c)->advance_animation();
         if (((TObject *)(*(s32 *)((s8 *)boss7_de_rol_le_c + 0x7A4)))->get_node_count() == 0) {
             ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->advance_action_sequence();
         }
@@ -1551,7 +1550,7 @@ void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 varian
         ((TObjMotion *)self)->set_field_b8(1);
         return;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         index = *(s32 *)((s8 *)self + 0x728);
         if (index < *(s32 *)((s8 *)self + 0x72C)) {
             if (*(s32 *)((s8 *)self + 0x730) <= 0) {
@@ -1672,7 +1671,7 @@ void TObjFish::handle_death_state(u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         if (*(u16 *)(get_scripted_camera_playback() + 2) & 1) {
             o->phase = 1;
             TWindowCtrl::init_all_slots2();
@@ -1770,7 +1769,7 @@ void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEA48) != 0) {
             TObjFish::set_effect_target_position(arg0, (void*)(0x39906), arg0 + 0x50C);
         }
@@ -1824,7 +1823,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        ((s32)advance_animation_playback(arg0));
+        (((TObjMotion *)arg0)->advance_animation());
         *(s32 *)((s8 *)arg0 + 0x7A0) = 6;
         switch (*(s32 *)((s8 *)arg0 + 0x728)) {
         case 0:
@@ -1973,7 +1972,7 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x728) = (s32) (*(s32 *)((s8 *)arg0 + 0x728) + 1);
         temp_f1 = *(f32 *)((s8 *)arg0 + 0xC0);
         if ((temp_f1 >= lbl_805DEA50) && (temp_f1 <= lbl_805DEA54) && ((f32) *(s32 *)((s8 *)arg0 + 0x728) >= lbl_805DEA58)) {
@@ -2024,7 +2023,7 @@ void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x72C)) {
         case 0:
             if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
@@ -2095,7 +2094,7 @@ void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir) {
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->state) {
         case 0:
             o->v74C += lbl_805DEA74;
@@ -2181,7 +2180,7 @@ void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->phase) {
         case 0:
             o->timer++;
@@ -2291,7 +2290,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         switch (self->state) {
         case 0:
             self->timer++;
@@ -2496,7 +2495,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x728)) {
         case 0:
             (*(s32 *)((s8 *)arg0 + 0x730))++;
@@ -2688,13 +2687,13 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
     case 0:
         switch (self->phase) {
         case 0:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (!(self->fB0 & 4)) {
                 self->phase = 1;
             }
             break;
         case 1:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             switch (self->step) {
             case 0:
                 if (self->frame >= lbl_805DEA50) {
@@ -2916,7 +2915,7 @@ void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (!(arg0->fB0 & 4)) {
             arg0->fC8 -= lbl_805DEB70;
             if (arg0->fC8 < lbl_805DEB74) {
@@ -2981,7 +2980,7 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 *(s32 *)((s8 *)arg0 + 0x72C) = 1;
             }
         } else {
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB54) != 0) {
                 play_sound_effect((void *) 0x39E00, 0, 0, 0);
             }
@@ -3026,7 +3025,7 @@ void TObjFish__sub_802EBE50(void* o, u32 k) {
         set_state_and_send__14TBoss7DeRolLeCFl(o, 1);
         return;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         return;
     case 1: return;
     case 3: return;

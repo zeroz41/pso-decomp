@@ -110,7 +110,6 @@ struct VObj_18_3eea3b : VBase_18_3eea3b {
 };
 
 extern "C" {
-s32 advance_animation_playback(void *);
 s32 submit_cursor_candidate(void *, int);
 extern u8 *quest_mission_manager;
 extern u8 *quest_area_manager;
@@ -226,7 +225,7 @@ void TObjNpcBase::run_task() {
       (this->update_conversation());
       break;
   }
-  advance_animation_playback((void *) ((u8 *)this));
+  advance_animation();
   this->update_prev_position();
   new_var = ((u8 *)this);
   ((TBoss3VoloptHiraisin *)new_var)->copy_position();

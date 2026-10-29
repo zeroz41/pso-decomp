@@ -34,7 +34,6 @@ struct VObj_802D06E0_802D05BC : Base_802D06E0_802D05BC {
 #undef VM
 };
 
-s32 advance_animation_playback();
 s32 TObjEneBm9Mericarol__sub_802D093C(void *);
 s32 TObjEneMe3SinowZoa__sub_800D758C(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
@@ -59,7 +58,7 @@ void TObjEneBm9Mericarol__sub_802D05BC(u8 *ene_dd_st, s32 arg1) {
     case 1:
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)ene_dd_st)->advance_animation();
         ((TObjEneDD *)ene_dd_st)->vfunc_102();
         ((TObjEneDD *)ene_dd_st)->vfunc_88();
         return;

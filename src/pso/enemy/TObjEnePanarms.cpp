@@ -315,7 +315,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 approach_angle_limited(s32, s32, s32);
 int draw__10TObjMotionFv(void*);
-void advance_animation_playback(void *);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
@@ -1516,7 +1515,7 @@ void run_state_machine__14TObjEnePanarmsFPv(Panarms_800E2200 *self) {
         if (self->state != 7) {
             submit_cursor_candidate(self, -1);
         }
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         switch (self->state) {
         case 7:
             break;

@@ -265,7 +265,6 @@ void enemy_set_heading_velocity(void *, f32, s32);
 f32 atan2_float(f32 y, f32 x);
 s32 update_if_active__15TObjEneMe1GiGueFl(void *, s32, s32);
 s32 sub_8004292C__15TObjEnemyCustomFv();
-s32 advance_animation_playback(void *);
 s32 check_enemy_body_collisions(void *);
 void check_object_collisions__14TObjCollidableFv(void *);
 s32 play_sound_effect(int, void *, int, int);
@@ -289,7 +288,7 @@ void TObjPlayer::update_death_state() {
         TObjEneMe3SinowZoa__sub_800D758C(((u8 *)this) + 0x3E8);
         this->m_37c = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         if (((V_Sub_800da0b8 *) (((u8 *)this) + 0x3E8))->m5() == 1) {
             this->m_37c = -1;
         }
@@ -536,7 +535,7 @@ void update_death_sequence__10TObjPlayerFPv(u8 *enemy) {
         *(s32 *)((s8 *)enemy + 0x37C) = 1;
         return;
     case 1:
-        ((s32 (*)())advance_animation_playback)();
+        ((TObjMotion *)enemy)->advance_animation();
         apply_actor_gravity(enemy, 0, (f32) (0.0f));
         if (((TObjEnemy *)enemy)->frame >= 30.0f) {
             spawn_particle_effect((enemy + 0x38), 0xF0);
@@ -545,7 +544,7 @@ void update_death_sequence__10TObjPlayerFPv(u8 *enemy) {
         }
         break;
     case 2:
-        ((s32 (*)())advance_animation_playback)();
+        ((TObjMotion *)enemy)->advance_animation();
         apply_actor_gravity(enemy, 0, (f32) (0.0f));
         {
         f32 lim = 0.0f;
@@ -600,7 +599,7 @@ void TObjPlayer__sub_800DA7E4(u8 *player) {
         play_sound_effect(0x40039E22, player + 0x38, 0, 0);
         ((TObjPlayer *)player)->m_37c = 1;
     case 1:
-        advance_animation_playback(player);
+        ((TObjMotion *)player)->advance_animation();
         if (!(((TObjPlayer *)player)->actorFlags & 0x01000000)) {
             Vec_800DA7E4 v = *(Vec_800DA7E4 *)((s8 *)player + 0x2FC);
             v.x += *(f32 *)((s8 *)player + 0x308);
@@ -677,7 +676,7 @@ void TObjEneNanoDrago::update_growth_state() {
             p->state = -1;
         }
     case 1:
-        advance_animation_playback(p);
+        p->advance_animation();
         apply_actor_gravity(p, 0, 0.0f);
         ((TObjPlayer *)p)->update_collisions();
         t = p->scale.y;
@@ -732,7 +731,7 @@ void TObjPlayer__sub_800DAB98(u8 *arg0) {
         }
         break;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         calc_velocity_toward_destination(arg0, POS, DEST, TObjPlayer__sub_800DC434((s32)arg0, 0));
         if (F(f32, 0x404) < 50.0f) {
             s32 ok = 1;
@@ -769,7 +768,7 @@ void TObjPlayer__sub_800DAB98(u8 *arg0) {
         break;
     case 2:
         *(s32 *)(F(u8 *, 0xA4) + 0x44) |= 1;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         F(f32, 0x404) += -2.3f;
         if (F(f32, 0x404) <= 0.0f) {
             F(f32, 0x404) = 0.0f;
@@ -849,7 +848,7 @@ void TObjPlayer__sub_800DB0F8(Obj_800DB0F8 *o) {
             }
             break;
         }
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         ((TObjPlayer *)o)->update_collisions();
         o->timer--;
@@ -861,7 +860,7 @@ void TObjPlayer__sub_800DB0F8(Obj_800DB0F8 *o) {
         break;
     case 4:
         enemy_wander_home__9TObjEnemyFlfff(o, o->home->f8, o->f3D8, 100.0f, 100.0f);
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         apply_actor_gravity(o, 0, 0.0f);
         ((TObjPlayer *)o)->update_collisions();
         if (((TObjMotion *)o)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)o)->is_passing_frame((f32)(20.0f)) != 0) {
@@ -897,7 +896,7 @@ void TObjPlayer__sub_800DB390(u8 *arg0) {
             ((TObjPlayer *)arg0)->requested_action = 9;
         }
         ((TObjPlayer *)arg0)->m_37c = 1;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x388) = (s32) (*(s32 *)((s8 *)arg0 + 0x388) & 0xFFFBFFFF);
         break;
     case 3:
@@ -931,7 +930,7 @@ void TObjPlayer__sub_800DB390(u8 *arg0) {
         }
         VecCopy((Vec *)(arg0 + 0x29C), (const Vec *)(*(u32 *)((s8 *)arg0 + 0x2A8) + 0x2FC));
         enemy_turn_half_toward_dest(arg0);
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (!(((TObjPlayer *)arg0)->actorFlags & 0x01000000)) {
             apply_actor_gravity(arg0, 0, (f32) (0.0f));
         }
@@ -976,7 +975,7 @@ void TObjEneNanoDrago::update_circling_state() {
         }
         e->state = 1;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, (NanoDragoVector *)&e->position, 0, 0);
@@ -1014,7 +1013,7 @@ void TObjEneNanoDrago::update_circling_state() {
         break;
     case 2:
         ((s32 (*)(void *, f32, f32, f32, int))enemy_wander_home__9TObjEnemyFlfff)(arg0, e->speed, 100.0f, 50.0f, (*(NanoDragoMovementParams * *)&e->movementParameters)->turn);
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity(arg0, 0, 0.0f);
         if (((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, (NanoDragoVector *)&e->position, 0, 0);
@@ -1066,7 +1065,7 @@ void TObjEneNanoDrago::sub_800DB970() {
         this->m_384 = 0x96;
         ((s32 (*)(void *))sub_8004292C__15TObjEnemyCustomFv)(this);
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         ((s32 (*)(void *, void *, f32))update_circle_move__10TObjPlayerFPvPvf)(this, ((u8 *)this) + 0x50, this->parameters[1]);
         if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, ((u8 *)this) + 0x38, 0, 0);
@@ -1081,7 +1080,7 @@ void TObjEneNanoDrago::sub_800DB970() {
         apply_actor_gravity(this, 0, 0.0f);
         break;
     case 2:
-        advance_animation_playback(this);
+        advance_animation();
         ((s32 (*)(void *))check_object_collisions__14TObjCollidableFv)(this);
         this->m_384 = this->m_384 - 1;
         if (this->m_384 <= 0) {

@@ -240,7 +240,6 @@ struct Ent_800F0F84 { u8 pad0[0x18]; u32 f18; };
 
 extern "C" {
 s32 is_split_screen();
-s32 advance_animation_playback(void *);
 s32 play_sound_effect(int, void *, int, int);
 extern const Quad_800F1440 me3_stelth_offset_vec;
 extern const f32 lbl_805DA828;
@@ -371,13 +370,13 @@ void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1) {
             }
             break;
         case 1:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
                 F(s32, 0x428) = 0;
                 F(s32, 0x424) = 2;
             }
             if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3Stelth__data_805DA824) != 0) {
-                advance_animation_playback(arg0);
+                ((TObjMotion *)arg0)->advance_animation();
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(arg0 + 0x38);
                 rotate_matrix_y(0, F(s32, 0x60));
@@ -443,7 +442,7 @@ void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
             F(s32, 0x424) = 3;
         } else if (is_split_screen() != 0) {

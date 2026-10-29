@@ -41,7 +41,6 @@ void matrix_mult_vec(s32 matrix, const Vec *in, Vec *out);
 s32 rotate_matrix_y(s32 matrix, s32 angle);
 s32 push_matrix();
 s32 post_translate_matrix(const void *pos);
-s32 advance_animation_playback(void *obj);
 void *find_entity_by_id(u16 id);
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 void free_collision_body_parts(void *obj);
@@ -329,7 +328,7 @@ void TBoss3VoloptP01::update_state() {
             this->requested_action = 3;
             state = 1;
         case 1:
-            advance_animation_playback(this);
+            advance_animation();
             if (this->action_flags != 8) {
                 flags = m_388;
                 if (flags & 0x10000) {
@@ -377,7 +376,7 @@ void TBoss3VoloptP01::update_breakup() {
         }
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         (*(s16 *)&timer)--;
         if (*(s16 *)&timer < 0) {
             TBoss3Volopt::create_breakup_mdl((s32)TBoss3VoloptP01__breakup_model, (s32)&volopt_p01_breakup_params, texlist, (s32)&m_2fc, rotation_y);
@@ -401,7 +400,7 @@ void TBoss3VoloptP01::sub_80043758() {
     case 0:
         actorFlags |= 0x40000;
         this->requested_action = 0;
-        advance_animation_playback(this);
+        advance_animation();
         y_offset = -40.0f;
         shutter->close();
         is_primary = 0;
@@ -423,7 +422,7 @@ void TBoss3VoloptP01::run_state_machine() {
     switch (state) {
     case 0:
         this->requested_action = 0;
-        advance_animation_playback(this);
+        advance_animation();
         glow_effect = NULL;
         if (!(m_388 & 0x20000)) {
             effect_timer = 0x96;
@@ -505,7 +504,7 @@ void TBoss3VoloptP01::update_attack() {
             }
             case 6:
                 this->requested_action = 2;
-                advance_animation_playback(this);
+                advance_animation();
                 this->frame = 8.0f;
                 state = 7;
                 break;
@@ -527,7 +526,7 @@ void TBoss3VoloptP01::update_attack() {
         } else {
             m_388 &= ~0x80000;
         }
-        advance_animation_playback(this);
+        advance_animation();
         break;
     case 1:
         set_flags_30();
@@ -544,7 +543,7 @@ void TBoss3VoloptP01::update_attack() {
         }
         break;
     case 3:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->requested_action == 2) {
             if (is_primary != 0) {
                 resume_state = 4;
@@ -577,7 +576,7 @@ void TBoss3VoloptP01::update_attack() {
         }
         break;
     case 6:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->frame >= 8.0f) {
             state = 7;
         }
@@ -601,7 +600,7 @@ void TBoss3VoloptP01::update_attack() {
         }
         break;
     case 9:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->action_flags != 4) {
             if (cast_count >= 2) {
                 state = 0xA;

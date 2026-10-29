@@ -117,7 +117,6 @@ s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 s32 get_enemy_entity();
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-s32 advance_animation_playback();
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 u32 get_player_by_client_id(void *);
@@ -1014,7 +1013,7 @@ void TObjEneGibbles::sub_802D8140() {
       play_sound_effect((int)((void *) ((s32)this->resolve_sound_id((u32)(0x3A333)))), (void *)(((u8 *)this) + 0x38), 0, 0);
       return;
     case 1:
-      advance_animation_playback();
+      advance_animation();
       if ((this->motion_flags) & 0x10)
     {
       this->phase = 4;
@@ -1062,7 +1061,7 @@ void TObjEneGibbles::update_action_state() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
 
-    advance_animation_playback();
+    advance_animation();
     clamp_angle(0);
     switch (this->phase) {
     case 2:
@@ -1138,7 +1137,7 @@ s16 TObjPlayer__sub_800A776C(void *p);
 #pragma push
 #pragma fp_contract on
 void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self) {
-    advance_animation_playback();
+    self->advance_animation();
     self->clamp_angle(0);
     if (!(self->actorFlags & 0x800000)) {
         apply_actor_gravity(self, (s32 *)0, TObjEneGibbles__data_805DE7E4);
@@ -1265,7 +1264,7 @@ void TObjEneGibbles::sub_802D8984() {
         o->idx = 0xFFFF;
         o->target = NULL;
     }
-    ((s32 (*)(void *))advance_animation_playback)(o);
+    ((TObjMotion *)o)->advance_animation();
     ((TObjEneGibbles *)o)->clamp_angle(0);
     switch (o->sub) {
     case 2:
@@ -1389,7 +1388,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     *(s32 *)((s8 *)F_802D(0xA4, u8 *) + 0x18) |= 1;
     F_802D(0x30, s32) &= 0xF9FBFFFF;
     TObjEneGibbles__sub_802D7DAC((s32)arg0);
-    ((void (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TObjEneGibbles *)arg0)->clamp_angle(0);
     switch (F_802D(0x328, s16)) {
     case 0:
@@ -1596,7 +1595,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
         break;
     }
     ((TObjEneGibbles *)self)->play_distance_sound();
-    ((void (*)(void *))advance_animation_playback)(self);
+    ((TObjMotion *)self)->advance_animation();
     ((TObjEneGibbles *)self)->clamp_angle(0);
     ((TObjPlayer *)self)->check_object_collisions();
     check_enemy_body_collisions(self);
@@ -1811,7 +1810,7 @@ void TObjEneGibbles::sub_802DA0BC() {
         break;
     }
     TObjEneGibbles__sub_802D7DAC((s32)this);
-    ((void (*)(void *))advance_animation_playback)(this);
+    advance_animation();
     turn_toward_target();
     ((TObjPlayer *)((u8 *)this))->check_object_collisions();
     check_enemy_body_collisions(this);
@@ -1830,7 +1829,7 @@ void TObjEneGibbles::update_death_sequence() {
     (this->actorFlags) = (s32) ((this->actorFlags) | 0x06040000);
     temp_r4 = (unsigned char *) (this->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    ((s32 (*)(int))advance_animation_playback)((int)(arg0));
+    ((TObjMotion *)arg0)->advance_animation();
     switch (this->phase) {
     case 2:
         break;
@@ -1973,7 +1972,7 @@ void TObjEneGibbles::sub_802DA7A4() {
     this->m_374 = (s32) (this->m_374 & ~0x107);
     temp_r4 = (unsigned char *) (this->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    ((s32 (*)(void *, void *))advance_animation_playback)(this, temp_r4);
+    advance_animation();
     switch (this->phase) {
     default:
     case 0:
@@ -2023,7 +2022,7 @@ void TObjEneGibbles::update_wander() {
     u8 *var_r3;
     u8 *var_r4;
     var_r31 = (u8 *)(this);
-    ((s32 (*)(int))advance_animation_playback)((int)(this));
+    ((TObjMotion *)this)->advance_animation();
     if ((u32) *(u32 *)((s8 *)var_r31 + 0x2A8) != 0U) {
         var_r3 = (u8 *)((void *)3);
         *(s16 *)((s8 *)var_r31 + 0x326) = 3;

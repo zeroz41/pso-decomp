@@ -15,7 +15,6 @@ struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
 };
 extern "C" {
 
-s32 advance_animation_playback();
 s32 TObjEneMe3SinowZoa__sub_800D758C(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 
@@ -43,7 +42,7 @@ void TObjEneDD::handle_state(s32 arg1) {
     case 1:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         this->vfunc_102();
         this->vfunc_88();
         return;

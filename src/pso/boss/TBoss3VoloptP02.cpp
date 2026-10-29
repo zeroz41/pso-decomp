@@ -55,7 +55,6 @@ extern s32 actor_frame_tick;
 s32 minimap_render_dot(void *, s32, s16, s32);
 s32 submit_cursor_candidate(void *, int);
 s32 play_sound_effect(s32, void *, s16, s32);
-void advance_animation_playback(void *);
 u16 get_entity_id(void *);
 f32 atan2_float(f32, f32);
 f32 fabs_float(f32);
@@ -568,7 +567,7 @@ void TBoss3VoloptP02::fn_800472D4() {
         reset_visual_state();
         state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         break;
     case -1:
         break;
@@ -601,7 +600,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
         turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
         play_persistent_sound(0x4003A60E, this, &position, 0, 0);
-        advance_animation_playback(this);
+        advance_animation();
         render_anim_model_at_pos();
         get_anim_node_position(0x3C, &line_origin);
         if (--*(s16 *)&timer <= 0) {
@@ -620,7 +619,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
         turn_toward_point((Vec *)(target + 0x38), 0x566, -0x4000);
         play_persistent_sound(0x4003A60E, this, &position, 0, 0);
-        advance_animation_playback(this);
+        advance_animation();
         render_anim_model_at_pos();
         get_anim_node_position(0x3C, &line_origin);
         if (this->frame >= 33.0f) {
@@ -706,7 +705,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         }
         break;
     case 8:
-        advance_animation_playback(this);
+        advance_animation();
         if (--*(s16 *)&timer <= 0) {
             if (++wave_index < 3) {
                 state = 5;
@@ -757,7 +756,7 @@ void TBoss3VoloptP02::fn_800465B0() {
     case 1:
         if (target != NULL) {
             s32 turn;
-            advance_animation_playback(this);
+            advance_animation();
             push_players_out_of_radius();
             turn = turn_toward_point((Vec *)(target + 0x38), 0x566, 0);
             play_persistent_sound(0x4003A60E, this, &position, 0, 0);
@@ -802,7 +801,7 @@ void TBoss3VoloptP02::fn_800465B0() {
         }
         break;
     case 4:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->frame >= 30.0f) {
             timer = duration;
             state = 5;
@@ -877,7 +876,7 @@ void TBoss3VoloptP02::fn_800465B0() {
         }
         break;
     case 8:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->action_flags != 4) {
             vfunc_58();
         }
@@ -922,13 +921,13 @@ void TBoss3VoloptP02::fn_80046260() {
         }
         if (--*(s16 *)&timer <= 0) {
             this->requested_action = 7;
-            advance_animation_playback(this);
+            advance_animation();
             state = 2;
         }
         push_players_out_of_radius();
         break;
     case 2:
-        advance_animation_playback(this);
+        advance_animation();
         if (is_passing_frame(15.0f) != 0) {
             play_sound_effect(0x4003A811, &position, 0, 0);
         }
@@ -974,7 +973,7 @@ void TBoss3VoloptP02::fn_80046260() {
         }
         break;
     case 6:
-        advance_animation_playback(this);
+        advance_animation();
         if (is_passing_frame(35.0f) != 0) {
             play_sound_effect(0x4003A312, &position, 0, 0);
         }
@@ -1003,7 +1002,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     case 1: {
         f32 f;
         f32 t;
-        advance_animation_playback(this);
+        advance_animation();
         if (is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003A80B, &position, 0, 0);
         }
@@ -1065,7 +1064,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
         break;
     }
     case 4:
-        advance_animation_playback(this);
+        advance_animation();
         if (this->action_flags != 4U) {
             vfunc_58();
         }
@@ -1090,7 +1089,7 @@ void TBoss3VoloptP02::update_fade_state() {
         this->requested_action = 8;
         state = 2;
     case 2:
-        advance_animation_playback(this);
+        advance_animation();
         frame = this->frame;
         alpha = 0;
         if (frame >= 20.0f) {
@@ -1121,7 +1120,7 @@ void TBoss3VoloptP02::update_death_sequence() {
     case 0:
         destroy_children();
         this->requested_action = 0;
-        advance_animation_playback(this);
+        advance_animation();
         timer = 0x3C;
         TCameraCtrl__sub_8006A044(0xB4, 0.04f);
         state = 1;
@@ -1154,7 +1153,7 @@ void TBoss3VoloptP02::update_death_sequence() {
         spawn_ambient_particles();
         break;
     case 3:
-        advance_animation_playback(this);
+        advance_animation();
         spawn_ambient_particles();
         position.y = 0.5319149f * this->frame;
         if (this->frame >= 47.0f) {
@@ -1602,7 +1601,7 @@ void TBoss3VoloptP02::fn_80044680() {
     }
     switch ((s32)state) {
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         this->requested_action = 2;
         cycle_count = 0;
         ring_angle = 0;
@@ -1613,7 +1612,7 @@ void TBoss3VoloptP02::fn_80044680() {
         break;
     case 1:
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
-        advance_animation_playback(this);
+        advance_animation();
         if (this->frame >= 33.0f) {
             render_anim_model_at_pos();
             get_anim_node_position(0x39, &pos);

@@ -200,7 +200,7 @@ public:
     // side or MOTION_NO_BLEND forbids it.
     void change_action(s16 action);
     // Steps the frame and the play mode; every actor calls it each update.
-    void update_motion();
+    void advance_animation();
     s32 is_anim_finished();
     // The current action has reached its last frame (MOTION_MODE_ONCE).
     int is_motion_held();
@@ -225,7 +225,7 @@ public:
     u32 extra;  // left to the subclass (a bomb's thrower, ...)
     u32 motion_flags;      // MOTION_*
     u32 action_flags;      // the current action's TObjMotionAction::flags
-    s16 requested_action;  // update_motion changes to it when it differs
+    s16 requested_action;  // advance_animation changes to it when it differs
     s16 current_action;
     s16 previous_action;   // the action a blend comes from
     u8 pad_BE[0x2];

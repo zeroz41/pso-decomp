@@ -64,7 +64,6 @@ struct Slime_800EC7F4
 
 extern "C" {
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, void *, f32);
-void advance_animation_playback(s32);
 extern s8 slime_one_animation_end_initialized;
 extern f32 slime_one_animation_end_frame;
 s32 TObjFish__sub_8001EDB0(s32, s32);
@@ -195,7 +194,7 @@ void TObjEneSlimeOne::advance_animation_state() {
         return;
     }
     if (s < 7) {
-        advance_animation_playback(arg0->f0);
+        ((TObjMotion *)arg0->f0)->advance_animation();
     } else if (s < 9) {
         f32 v = arg0->f30 + arg0->f28;
         arg0->f30 = v;

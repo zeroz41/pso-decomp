@@ -276,7 +276,6 @@ void run_task__17TObjEneMe3ShinowaFv(u8 *arg0);
 void *find_entity_by_id(u16 id);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 create_particle_emitter(s32, s32);
-s32 advance_animation_playback(void *, int);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern const f32 lbl_805DA5C8;
@@ -363,7 +362,7 @@ void TObjEneMe3ShinowaMirage::activate_mirage(s32 arg1) {
         temp_r4_2 = *(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFDFF;
         *(s32 *)((s8 *)arg0 + 0x3C4) = temp_r4_2;
         this->requested_action = 0xA;
-        advance_animation_playback(arg0, temp_r4_2);
+        ((TObjMotion *)arg0)->advance_animation();
         this->frame = (f32) (u32) (this->current_motion->nbFrame - 1);
         transition_enemy_state__9TObjEneDDFl(arg0, 8);
         clear_mirage();
@@ -489,7 +488,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
     case 0:
         switch (*(s32 *)((s8 *)((u8 *)this) + 0x404)) {
         case 0:
-            advance_animation_playback((void *)this, arg1);
+            advance_animation();
             if (this->get_flag_b4() != 0) {
                 temp_r3 = *(s32 *)((s8 *)((u8 *)this) + 0x3C4);
                 if (temp_r3 & 0x80000) {
@@ -591,7 +590,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(this, arg1);
+        advance_animation();
         if (R(0xC0) >= lbl_805DA5C8) {
             if (P(0x424) == NULL) {
                 P(0x424) = (u8 *)create_particle_emitter((s32)(((u8 *)this) + 0x38), 0x114);

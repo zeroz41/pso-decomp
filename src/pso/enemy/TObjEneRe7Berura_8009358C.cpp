@@ -164,7 +164,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 check_death_trigger__16TObjEneRe7BeruraFv();
 s32 is_over_limit__16TObjEneRe7BeruraFv(void *);
 s32 TObjEneRe7Berura__sub_8009518C(void *);
-s32 advance_animation_playback();
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 extern const f64 lbl_80439EF0;
@@ -346,7 +345,7 @@ extern "C" void state_patrol__16TObjEneRe7BeruraFPvi(void *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneRe7BeruraPunch *)arg0)->is_patrol_active() == 0) {
             *(f32 *)((s8 *)arg0 + 0xC8) = (f32) lbl_805D973C;
         }
@@ -387,7 +386,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         *(s32 *)((s8 *)arg0 + 0x4C0) = *(s32 *)((s8 *)arg0 + 0x4C0) + 1;
         t = *(s32 *)((s8 *)arg0 + 0x4C8);
         if (t > 0) {
@@ -456,7 +455,7 @@ void TObjEneRe7Berura__sub_80093888(u8 *actor, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)actor)->advance_animation();
         switch (*(s32 *)((s8 *)actor + 0x4C0)) {
         case 0:
             if (enemy_validate_retained_target(actor) != 0) {
@@ -562,7 +561,7 @@ void TObjEneRe7Berura__sub_80093C80(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x4C0)) {
         case 0:
             ok = 1;
@@ -665,7 +664,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         arg0->play_band_sound();
         if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneRe7Berura__data_805D9724) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
@@ -749,7 +748,7 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x4C0)) {
         case 0:
             if (((TObjEneDD_ST *)arg0)->update_linked_position(TObjEneRe7Berura__data_805D9724) != 0) {

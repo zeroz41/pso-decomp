@@ -4,7 +4,6 @@
 
 extern "C" {
 
-s32 advance_animation_playback();
 s32 get_flag_b4__9TObjEneDDFv();
 
 void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
@@ -24,7 +23,7 @@ void TObjEneRecon__sub_8031F408(void *ene_dd, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)ene_dd)->advance_animation();
         break;
     }
 }

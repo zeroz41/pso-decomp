@@ -208,7 +208,6 @@ void run_task__20TContainerAncient01RFv(u8 *arg0);
 f32 xyz_distance_squared(void *, void *, void *);
 
 s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1);
-void advance_animation_playback(void *);
 unsigned int __cvt_fp2unsigned(f32);
 
 f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
@@ -410,7 +409,7 @@ s32 TContainerAncient01R::sub_8018A688() {
     f32 t;
     u32 rem;
 
-    advance_animation_playback(self);
+    ((TObjMotion *)self)->advance_animation();
     if (1e+01f == this->m_2b4) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
@@ -454,7 +453,7 @@ s32 TContainerAncient01R::sub_8018A688() {
 
 void TContainerAncient01R::update_spawning() {
     u8 *arg0 = (u8 *)this;
-  advance_animation_playback(arg0);
+  ((TObjMotion *)arg0)->advance_animation();
   if ((__cvt_fp2unsigned(this->m_2b4) % 15) == 0)
   {
     TContainerAncient01::trigger_spawn(arg0, (u8 *)&this->unk_348, (void *) 0x7D);
@@ -474,7 +473,7 @@ void TContainerAncient01R::check_open_trigger() {
     Player_8018A914 *pl;
     f32 range;
 
-    advance_animation_playback(self);
+    ((TObjMotion *)self)->advance_animation();
     hit = 0;
     if (this->m_33c <= this->m_2b4) {
         hit = 1;
@@ -730,7 +729,7 @@ void TContainerAncient01::sub_8018B284() {
     u32 period;
     u32 phase;
     f32 t;
-    advance_animation_playback(self);
+    ((TObjMotion *)self)->advance_animation();
     if (1e+01f == this->m_2b4) {
         switch (get_current_floor_area()) {
         case AREA_CENTRAL_CONTROL_AREA:
@@ -773,7 +772,7 @@ void TContainerAncient01::sub_8018B284() {
 
 void TContainerAncient01::sub_8018B48C() {
     u8 *arg0 = (u8 *)this;
-  advance_animation_playback(arg0);
+  ((TObjMotion *)arg0)->advance_animation();
   if (((__cvt_fp2unsigned(this->m_2b4) & 0xFFFFFFFF) % 15) == 0)
   {
     TContainerAncient01::spawn_effect(arg0, (u8 *)&this->m_344, (void*)((void *) 0x7D));
@@ -796,7 +795,7 @@ void TContainerAncient01::update_wait_for_player() {
     u16 i;
     u8 *p;
     f32 c;
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     flag = 0;
     if (arg0->f338 <= this->m_2b4) {
         flag = 1;

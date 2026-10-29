@@ -429,64 +429,64 @@ void TObjMotion::set_animation(s16 action) {
     }
 }
 
-extern "C" void advance_animation_playback(TObjMotion *self) {
+void TObjMotion::advance_animation() {
     f32 last;
-    if (self->motion_flags & MOTION_PAUSED) {
+    if (motion_flags & MOTION_PAUSED) {
         return;
     }
-    self->frame += self->play_speed;
-    last = self->frame_count - 1.0f;
-    self->motion_flags &= ~(MOTION_CHAINED | MOTION_ENDED | MOTION_BLEND_DONE | MOTION_STARTED_BLEND);
-    if (self->requested_action != self->current_action) {
-        if (self->frame >= self->frame_count) {
-            self->frame -= self->play_speed;
+    frame += play_speed;
+    last = frame_count - 1.0f;
+    motion_flags &= ~(MOTION_CHAINED | MOTION_ENDED | MOTION_BLEND_DONE | MOTION_STARTED_BLEND);
+    if (requested_action != current_action) {
+        if (frame >= frame_count) {
+            frame -= play_speed;
         }
-        self->change_action(self->requested_action);
+        change_action(requested_action);
     }
-    switch (self->play_mode) {
+    switch (play_mode) {
     case MOTION_MODE_LOOP:
-        if (self->frame >= self->frame_count) {
-            self->frame -= self->frame_count;
-            if (self->test_motion_flags(MOTION_OVERRIDE_SPEED) != 0) {
-                self->play_speed = self->override_speed;
+        if (frame >= frame_count) {
+            frame -= frame_count;
+            if (test_motion_flags(MOTION_OVERRIDE_SPEED) != 0) {
+                play_speed = override_speed;
             }
         }
         break;
     case MOTION_MODE_CHAIN:
-        if (self->frame >= last) {
-            if (self->get_action_motion(self->action_table[self->requested_action].next) == NULL) {
-                self->frame -= self->frame_count;
+        if (frame >= last) {
+            if (get_action_motion(action_table[requested_action].next) == NULL) {
+                frame -= frame_count;
             } else {
-                self->requested_action = self->action_table[self->requested_action].next;
-                self->change_action(self->requested_action);
-                self->motion_flags |= MOTION_CHAINED;
+                requested_action = action_table[requested_action].next;
+                change_action(requested_action);
+                motion_flags |= MOTION_CHAINED;
             }
         }
         break;
     case MOTION_MODE_ONCE:
-        if (self->frame >= last) {
-            self->play_mode = MOTION_MODE_STOPPED;
-            self->frame -= self->play_speed;
-            self->play_speed = 0.0f;
-            self->motion_flags |= MOTION_HELD | MOTION_ENDED;
+        if (frame >= last) {
+            play_mode = MOTION_MODE_STOPPED;
+            frame -= play_speed;
+            play_speed = 0.0f;
+            motion_flags |= MOTION_HELD | MOTION_ENDED;
         }
         break;
     case MOTION_MODE_BLEND:
-        if (self->frame >= 1.0f) {
-            self->frame = 0.0f;
-            if (self->test_motion_flags(MOTION_OVERRIDE_SPEED) != 0) {
-                self->clear_motion_flags(MOTION_OVERRIDE_SPEED);
-                self->play_speed = self->override_speed;
+        if (frame >= 1.0f) {
+            frame = 0.0f;
+            if (test_motion_flags(MOTION_OVERRIDE_SPEED) != 0) {
+                clear_motion_flags(MOTION_OVERRIDE_SPEED);
+                play_speed = override_speed;
             } else {
-                self->play_speed = self->action_table[self->requested_action].speed;
+                play_speed = action_table[requested_action].speed;
             }
-            self->play_mode = self->next_play_mode;
-            self->motion_flags &= ~MOTION_BLENDING;
-            self->motion_flags |= MOTION_BLEND_DONE;
+            play_mode = next_play_mode;
+            motion_flags &= ~MOTION_BLENDING;
+            motion_flags |= MOTION_BLEND_DONE;
         }
         break;
     case MOTION_MODE_STOPPED:
-        self->frame -= self->play_speed;
+        frame -= play_speed;
         break;
     }
 }

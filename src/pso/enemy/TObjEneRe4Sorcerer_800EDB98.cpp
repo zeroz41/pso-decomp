@@ -408,7 +408,6 @@ s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 int TObjEneRe4Sorcerer__sub_800ED498(u8 *arg0);
 void TObjEneRe4Sorcerer__sub_800EF214(s32 arg0);
-s32 advance_animation_playback(void *);
 void *find_entity_by_id(u16 id);
 extern const f64 TObjEneRe4Sorcerer__data_8043D408;
 void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *arg0, s32 arg1);
@@ -1312,7 +1311,7 @@ void TObjEneRe4Sorcerer::handle_death_state(s32 arg1) {
         play_sound_effect((void *) (((s32)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD19)))), arg0 + 0x38, 0, 0);
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((VObj_14_c1c33b *)(arg0 + (1020)))->m4() != 0) {
             TObjPlayer::apply_effect_variant_b((s32)(arg0 + 0x38), 0);
             queue_destruction__7TObjectFv((arg0));
@@ -1329,7 +1328,7 @@ void TObjEneRe4Sorcerer__sub_800EE0F8(u8 *ene_dd, s32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)ene_dd + 0xB8) = 5;
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         break;
     case 3:
         if (((TObjEneDD *)ene_dd)->get_flag_b4() != 0) {
@@ -1337,7 +1336,7 @@ void TObjEneRe4Sorcerer__sub_800EE0F8(u8 *ene_dd, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         VecCopy__FP3VecPC3Vec(&v, ene_dd + 0x308);
         c = normalize_vector_xz((Vec *)(&v));
         ((TObjEneDD *)ene_dd)->move_to_wall_clamped_destination(v.x, v.z, c);
@@ -1372,7 +1371,7 @@ void TObjEneRe4Sorcerer__sub_800EE1CC(u8 *arg0, s32 arg1) {
         }
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x4E4) = (s32) (*(s32 *)((s8 *)arg0 + 0x4E4) + 1);
         temp_r0 = *(s32 *)((s8 *)arg0 + 0x4E8);
         switch (temp_r0) {
@@ -1600,7 +1599,7 @@ void TObjEneRe4Sorcerer__sub_800EE7DC(TObjEneRe4Sorcerer *ene_re4_sorcerer, s32 
         }
         return;
     case 0:
-        advance_animation_playback(ene_re4_sorcerer);
+        ene_re4_sorcerer->advance_animation();
         *(s32 *)((s8 *)ene_re4_sorcerer + 0x4E4) = (s32) (*(s32 *)((s8 *)ene_re4_sorcerer + 0x4E4) + 1);
         temp_r0 = *(s32 *)((s8 *)ene_re4_sorcerer + 0x4E8);
         switch (temp_r0) {
@@ -1741,7 +1740,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEC00(void *arg0p, void *arg1p) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_re4_sorcerer);
+        ((TObjMotion *)ene_re4_sorcerer)->advance_animation();
         switch (*(s32 *)((s8 *)ene_re4_sorcerer + 0x4E8)) {
         case 0:
             temp_f2 = *(f32 *)((s8 *)ene_re4_sorcerer + 0x3F8);
@@ -1832,7 +1831,7 @@ s32 TObjEneRe4Sorcerer__sub_800EEDE4(void *arg0p, void *arg1p) {
         break;
     case 0:
         if (*((f32 * (*)(void *))TBoss3Volopt__sub_800F059C)(arg0 + 0x3FC) >= lbl_805DA7D4) {
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             ((TObjEneRe4Sorcerer *)arg0)->turn_to_target();
         }
         switch (*(s32 *)((s8 *)arg0 + 0x4E8)) {

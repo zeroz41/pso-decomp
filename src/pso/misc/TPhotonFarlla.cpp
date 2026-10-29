@@ -145,7 +145,6 @@ struct Stack_801AB018 {
 };
 
 extern "C" {
-s32 advance_animation_playback(void *);
 void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 }
@@ -192,7 +191,7 @@ void TPhotonFarlla::run_task() {
     }
     this->m_194 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);

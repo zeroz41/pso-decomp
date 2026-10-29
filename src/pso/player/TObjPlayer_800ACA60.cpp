@@ -22,7 +22,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 spawn_dead_spot_scale15(void *, int);
-s32 advance_animation_playback(void *);
 s32 play_sound_effect(s32, void *, int, int);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -74,7 +73,7 @@ void TObjEneMoja::update_death_state() {
     extern const f32 lbl_805D9BD8;
     Vec_800ACB58 v;
 
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BD8) != 0) {
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A809)), (u8 *)&this->position, 0, 0);
     }
@@ -126,7 +125,7 @@ extern const f32 lbl_805D9BD8;
 void TObjPlayer::update_ground_effect() {
     u8 *temp_r4;
 
-    ((s32 (*)())advance_animation_playback)();
+    advance_animation();
     if (is_passing_frame(lbl_805D9BD8) != 0) {
         ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(this))->remap_sound_for_area((s32)(0x3A807)), (void *) (((u8 *)this) + 0x38), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
@@ -622,7 +621,7 @@ extern const s32 lbl_805D9BFC;
 void TObjPlayer::update_invincibility() {
     s16 temp_r4;
 
-    ((s32 (*)())advance_animation_playback)();
+    advance_animation();
     if (!(this->actorFlags & 0x800000)) {
         ((s32 (*)(void *, s32, f32))apply_actor_gravity)(this, 0, lbl_805D9BD8);
     }
@@ -666,7 +665,7 @@ void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *arg0) {
 
     arg0->f30 |= 0x06000000;
     arg0->fA4->f18 &= ~1;
-    ((s32 (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     switch (arg0->f328) {
     case 0:
     default:
@@ -764,7 +763,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
         self->target_id = 0xFFFF;
         self->target = NULL;
     }
-    ((s32 (*)(void *)) advance_animation_playback)(self);
+    ((TObjMotion *)self)->advance_animation();
     switch (self->phase) {
     case 0:
     default:
@@ -920,7 +919,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)lbl_805D50D4[*(s32 *)(arg0 + 0x368)]);
         *(s16 *)(arg0 + 0x328) = 1;
     case 1:
-        ((s32 (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C28) != 0) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD04)), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x300);
@@ -976,7 +975,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         }
         break;
     case 2:
-        ((s32 (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BD8) != 0) && (*(s32 *)(arg0 + 0x388) == 1)) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0A)), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
@@ -1145,7 +1144,7 @@ s32 TObjEneMoja::update_approach_state() {
         }
         break;
     }
-    ((s32 (*)(void *)) advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TObjPlayer *)arg0)->update_collisions();
 }
 
@@ -1186,7 +1185,7 @@ void update_appearance_drop__11TObjEneMojaFv(Moja_800AE450 *self) {
     s32 i;
     self->flags |= 0x06000000;
     self->collision->flags &= ~1;
-    ((s32 (*)(void *))advance_animation_playback)(self);
+    ((TObjMotion *)self)->advance_animation();
     switch (self->phase) {
     case 0:
     default:
@@ -1267,7 +1266,7 @@ void update_appearance_jump__11TObjEneMojaFv(Moja_800AE7F4 *self) {
     s32 i;
     self->flags |= 0x06000000;
     self->collision->flags &= ~1;
-    ((s32 (*)(void *))advance_animation_playback)(self);
+    ((TObjMotion *)self)->advance_animation();
     switch (self->phase) {
     case 0:
     default:
@@ -1360,7 +1359,7 @@ void TObjEneMoja::update_idle_state() {
         break;
     }
     case 1:
-        ((s32 (*)())advance_animation_playback)();
+        advance_animation();
         ((void (*)(f32, void *, s32, f32, f32)) enemy_wander_home__9TObjEnemyFlfff)(self->info->f4, self, self->info->f8, lbl_805D9C4C, lbl_805D9C4C);
         break;
     }

@@ -1170,7 +1170,6 @@ void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
 void *create_particle_emitter(void *pos, s32 id);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-void advance_animation_playback(void *);
 extern const f32 TBoss2DeRolLe__data_805D827C;
 extern const f32 TBoss2DeRolLe__data_805D8288;
 extern const f32 TBoss2DeRolLe__data_805D8294;
@@ -1216,7 +1215,6 @@ void *__ct__13TUnk_80482C58FP7TObjectll(void *, void *, int, int);
 u8 *csnVector(void *, void *, int);
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-void advance_animation_playback(void *);
 void *__nw__7TObjectFUl(u32);
 s32 vec3_add_to(int, void *);
 void subtract_vector(void *, void *);
@@ -1245,7 +1243,6 @@ void update_pulsing_colors__13TBoss2DeRolLeFPv(u8 *arg0);
 f32 random_ratio__9TObjCharaFv(void *);
 s32 VecCopy__FP3VecPC3Vec(int, void *);
 void pick_random_target__13TBoss2DeRolLeFi(s32 arg0);
-void advance_animation_playback(void *);
 void set_move_direction__13TBoss2DeRolLeFPv(void *, s32);
 s32 get_random_scaled__9TObjEneDDFv(void *);
 f32 sin_table_lookup(s32);
@@ -1259,7 +1256,6 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2);
 void TBoss2DeRolLe__sub_800338BC(void);
 s32 init_head_params__13TBoss2DeRolLeFPv(void *);
 void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
-void advance_animation_playback(void *);
 extern const f32 TBoss2DeRolLe__data_805D82BC;
 extern const f32 TBoss2DeRolLe__data_805D832C;
 void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3);
@@ -1274,7 +1270,6 @@ s32 activate_camera_mode(int);
 void set_scripted_camera_pose(void *, void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-void advance_animation_playback(void *);
 int play_sound_effect(void*, int, int, int);
 void play_cue_stream_file(s32 name);
 f32 cos_table_lookup(s32);
@@ -1303,7 +1298,6 @@ s32 activate_camera_mode(int);
 void set_move_target_point__13TBoss2DeRolLeFPvi(u8 *arg0, s32 arg1);
 void get_node_world_pos__13TBoss2DeRolLeFPvPv(u8 *arg0, u8 *arg1);
 s32 vec3_add_to(int, void *);
-void advance_animation_playback(void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
@@ -1346,7 +1340,6 @@ s32 advance_scalar_motion_profile(void *);
 void set_move_params__13TBoss2DeRolLeFPvffff(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-void advance_animation_playback(void *);
 extern const f32 TBoss2DeRolLe__data_805D827C;
 extern const f32 TBoss2DeRolLe__data_805D8288;
 extern const f32 TBoss2DeRolLe__data_805D8294;
@@ -1559,7 +1552,6 @@ s32 vfunc_93__9TObjEneDDFv();
 s32 is_alive__8TObjBaseFv();
 u8 *get_enemy_entity(u16 arg0);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
-void advance_animation_playback(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 int play_sound_effect(void*, int, int, int);
 s32 vec3_add_to(int, void *);
@@ -1711,7 +1703,7 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->f6E0) {
         case 0:
             if (is_passing_frame__10TObjMotionFf(o, lbl_805D8290) != 0) {
@@ -1864,7 +1856,7 @@ void TBoss2DeRolLe__sub_8002FD9C(DeRolLe_8002FD9C *self, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        ((s32 (*)(void *))advance_animation_playback)(self);
+        ((TObjMotion *)self)->advance_animation();
         break;
     }
 }
@@ -1913,7 +1905,7 @@ void TBoss2DeRolLe__sub_8002FE60(void *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         self->f758 = 6;
         switch (self->phase) {
         case 0:
@@ -2132,7 +2124,7 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x6E0) = *(s32 *)((s8 *)arg0 + 0x6E0) + 1;
         frame = ((TBoss2DeRolLe *)arg0)->frame;
         if (frame >= TBoss2DeRolLe__data_805D82E4 && frame <= lbl_805D82EC && (f32)*(s32 *)((s8 *)arg0 + 0x6E0) >= TBoss2DeRolLe__data_805D82F0) {
@@ -2177,7 +2169,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        ((s32 (*)(void *))advance_animation_playback)(self);
+        ((TObjMotion *)self)->advance_animation();
         if (is_passing_frame__10TObjMotionFf(self, lbl_805D82F4) != 0) {
             pos = self->f4D0;
             if (arg2 == 0x18) {
@@ -2232,7 +2224,7 @@ void TBoss2DeRolLe__sub_80030898(u8 *arg0, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x6E4)) {
         case 0:
             if (!(*(s32 *)((s8 *)arg0 + 0xB0) & 4)) {
@@ -2302,7 +2294,7 @@ void TBoss2DeRolLe__sub_80030A38(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x6E0)) {
         case 0:
             *(f32 *)((s8 *)arg0 + 0x6FC) = *(f32 *)((s8 *)arg0 + 0x6FC) + TBoss2DeRolLe__data_805D8300;
@@ -2435,7 +2427,7 @@ void TBoss2DeRolLe__sub_80030DFC(void *arg0_, void *arg1_, int arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x6E0)) {
         case 0:
             F(f32, 0x704) += TBoss2DeRolLe__data_805D8300;
@@ -2532,7 +2524,7 @@ void TBoss2DeRolLe__sub_800310F8(void *arg0, void *arg1, int arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         switch (self->phase) {
         case 0:
             self->timer++;
@@ -2647,7 +2639,6 @@ s32 advance_scalar_motion_profile(void *);
 void update_angle__13TBoss2DeRolLeFPv(void *arg0);
 void set_move_params__13TBoss2DeRolLeFPvffff(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
 f32 fabs_float(f32);
-void advance_animation_playback(void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
 s32 is_passing_frame__10TObjMotionFf(void *, f32);
@@ -2729,7 +2720,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->f6E0) {
         case 0:
             o->f6E4++;
@@ -2927,7 +2918,7 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->f6E0) {
         case 0:
             o->f6E8++;
@@ -3107,13 +3098,13 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
     case 0:
         switch (self->phase) {
         case 0:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             if (!(self->fB0 & 4)) {
                 self->phase = 1;
             }
             break;
         case 1:
-            advance_animation_playback(self);
+            ((TObjMotion *)self)->advance_animation();
             switch (self->step) {
             case 0:
                 if (self->frame >= TBoss2DeRolLe__data_805D82E4) {
@@ -3350,7 +3341,7 @@ void TBoss2DeRolLe__sub_800327C8(void *arg0, void *arg1, int arg2, int arg3) {
         }
         break;
     case 0:
-        ((void (*)(void))advance_animation_playback)();
+        ((TObjMotion *)arg0)->advance_animation();
         ((void (*)(void *))TBoss2DeRolLe__sub_800338BC)(o);
         r = 0;
         switch (o->kind) {
@@ -3478,7 +3469,7 @@ void handle_debug_pad_input__13TBoss2DeRolLeFPvPv(void *arg0_, void *arg1_) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (!(((TBoss2DeRolLe *)arg0)->motion_flags & 4)) {
             ((TBoss2DeRolLe *)arg0)->play_speed -= 0.03f;
             if (((TBoss2DeRolLe *)arg0)->play_speed < 0.6f) {
@@ -3563,7 +3554,7 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
             set_move_target_point__13TBoss2DeRolLeFPvi((u8 *)o, 0);
             o->f6E0 = 3;
         }
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         switch (o->f6E0) {
         case 0:
             o->f6E8++;
@@ -3657,7 +3648,7 @@ void TBoss2DeRolLe__sub_800333F4(Obj_800333F4 *self, u32 arg1) {
     switch (arg1) {
     case 4: self->f_B8 = 1; return;
     case 2: set_state_and_send__13TBoss2DeRolLeFPvi((Obj_80034034 *)(self), 1); return;
-    case 0: ((s32 (*)(void *))advance_animation_playback)(self); return;
+    case 0: ((TObjMotion *)self)->advance_animation(); return;
     case 1: return;
     case 3: return;
     case 5: return;

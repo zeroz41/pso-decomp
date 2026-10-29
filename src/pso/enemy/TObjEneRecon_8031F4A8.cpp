@@ -4,7 +4,6 @@
 
 extern "C" {
 
-s32 advance_animation_playback();
 s32 get_flag_b4__9TObjEneDDFv();
 s32 is_out_of_range__12TObjEneReconFv();
 
@@ -24,7 +23,7 @@ void TObjEneRecon::handle_action_state(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         update_child_spawn();
         break;
     }
@@ -47,7 +46,7 @@ void TObjEneRecon::update_state(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         break;
     }
 }

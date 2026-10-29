@@ -111,7 +111,6 @@ void *spawn_particle_effect(void *pos, s32 id);
 void *find_entity_by_id(u16 id);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 advance_animation_playback(void *);
 s32 queue_photon_blast_hit(int, int, int, f32);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *__nw__7TObjectFUl(s32, f32);
@@ -250,7 +249,7 @@ void TPhotonMylla::run_task() {
     }
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_194 = (s16) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_B8;
     ((TUnk_804C3248 *)arg0)->update_state();
-    advance_animation_playback((void *) (arg0));
+    ((TObjMotion *)arg0)->advance_animation();
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C = (s16) (((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C + 0xF);
     ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C = (s16) (u8) ((RecoveredFields_801AD5D8_arg0 *)arg0)->field_14C;

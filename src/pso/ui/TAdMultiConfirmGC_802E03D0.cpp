@@ -69,7 +69,6 @@ extern u8 *TAdMultiPlyChrSelectGC__resource_bundle;
 typedef char RecoveredGlobal_802E0784_lbl_804E2F78_size[sizeof(RecoveredGlobal_802E0784_lbl_804E2F78) == 0x90 ? 1 : -1];
 
 s32 copy_player_visual_record(void *, void *);
-s32 advance_animation_playback(void *);
 u8 *get_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_table_entry__23TAdSinglePlyChrSelectGCFi(int);
 u8 *get_char_index__23TAdSinglePlyChrSelectGCFUi(int);
@@ -363,7 +362,7 @@ void TUnk_804E3008::run_task() {
                 TAdMultiConfirmGC::reset_cursor(arg0);
                 F(0x118, s32) = 0;
             }
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
         }
         break;
     }

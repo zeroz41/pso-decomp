@@ -49,7 +49,6 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
 
 extern "C" {
 void *__nw__7TObjectFUl(int);
-s32 advance_animation_playback(void *);
 s32 play_sound_effect(int, void *, int, int);
 s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
 u16 get_entity_id(void *);
@@ -105,7 +104,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
     }
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(((TObjEneMe1GiGueBarrier *)temp_r0)->update_and_get_pos()));
     this->rotation_y = ((TObjEneMe1GiGueBarrier *)(this->m_fc))->get_timer();
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     this->m_108 = (this->m_108 - 1);
     switch (this->m_104) {
     case 0:

@@ -66,7 +66,6 @@ void vec3_add_to(void *, void *);
 extern Packet_801ADD10 photon_pilla_laser_packet;
 extern void *photon_pilla_laser_offset_table[];
 
-s32 advance_animation_playback(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -171,7 +170,7 @@ void TPhotonPilla::run_task() {
     }
     this->m_198 = (s16) this->requested_action;
     update_state();
-    advance_animation_playback(this);
+    advance_animation();
     update_photon_blast_attachments();
     *(s16 *)((s8 *)this + 0x14C) = (s16) (*(s16 *)((s8 *)this + 0x14C) + 0xF);
     *(s16 *)((s8 *)this + 0x14C) = (s16) (u8) *(s16 *)((s8 *)this + 0x14C);

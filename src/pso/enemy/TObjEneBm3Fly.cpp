@@ -174,7 +174,6 @@ void restore_default_scene(void);
 void set_scene_override(u8 scene);
 void spawn_landing_dead_spot(s32 point, s32 delay);
 extern "C" {
-s32 advance_animation_playback();
 void *find_entity_by_id(u16 id);
 s32 play_sound_effect(s32, void *, s32, s32);
 #define clamp_flight_height__13TObjEneBm3FlyFv (*(s32 (*)(void *))&clamp_flight_height__13TObjEneBm3FlyFv)
@@ -301,7 +300,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         switch (this->m_3c0) {
         case 0:
         case 1:
@@ -940,7 +939,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         t = this->m_3c0;
         this->m_3c0 = t + 1;
         ((P_800B012C *)((u8 *)this))->v.x = *(f32 *)((s8 *)((u8 *)this) + 0x308);
@@ -988,7 +987,7 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        arg0->advance_animation();
         ((TObjEneDD *)arg0)->update_velocity();
         *(f32 *)((s8 *)arg0 + 0x42C) = approach_value__13TObjEneBm3FlyFff(arg0, (f32) (*(f32 *)((s8 *)arg0 + 0x42C)), arg0->m_398);
         arg0->update_state_flag();
@@ -1035,7 +1034,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         if (((TObjEneEpsilon *)arg0)->update_death_check() == 0 && V->m102((2e+02f)) == 0) {
             break;
         }
@@ -1124,7 +1123,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         if (((TObjEneEpsilon *)((u8 *)this))->update_death_check() == 0) {
             enemy_clear_target__12TObjEneDD_STFUs(((u8 *)this));
         }
@@ -1245,7 +1244,7 @@ void TObjEneBm3Fly__sub_800B0B20(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjEneEpsilon *)arg0)->update_death_check() == 0 && V->m102((2e+02f)) == 0) {
             break;
         }
@@ -1361,7 +1360,7 @@ void TObjEneBm3Fly__sub_800B0F70(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         I(0x3C4)++;
         if (I(0x3C4) > 300) {
             I(0x3C4) = 0;
@@ -1417,7 +1416,7 @@ void TObjEneBm3Fly__sub_800B1214(u8 *arg0, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F_800B(0x3C4, s32)) {
         case 0:
             F_800B(0x38, f32) += F_800B(0x40C, f32);
@@ -2107,7 +2106,6 @@ void TObjEneBm3Fly::clamp_flight_height() {
 #define set_field_378__9TObjEneDDFl (*(s32 (*)(void *, s32))&set_field_378__9TObjEneDDFl)
 #define transition_enemy_state__9TObjEneDDFl (*(s32 (*)(void *, s32))&transition_enemy_state__9TObjEneDDFl)
 #define toggle_particle_effect__10TObjPlayerFv (*(void (*)(void))&toggle_particle_effect__10TObjPlayerFv)
-#define advance_animation_playback (*(s32 (*)(void *))&advance_animation_playback)
 #define end_effect_render__13TParticleCtrlFv (*(void (*)(void))&end_effect_render__13TParticleCtrlFv)
 #define play_sound_effect (*(s32 (*)(void *, void *, int, int))&play_sound_effect)
 #define rotate_matrix_y (*(void (*)(s32, s32))&rotate_matrix_y)
@@ -2472,7 +2470,6 @@ void TObjEneBm3Fly::load_resources() {
 #undef set_field_378__9TObjEneDDFl
 #undef transition_enemy_state__9TObjEneDDFl
 #undef toggle_particle_effect__10TObjPlayerFv
-#undef advance_animation_playback
 #undef end_effect_render__13TParticleCtrlFv
 #undef play_sound_effect
 #undef rotate_matrix_y

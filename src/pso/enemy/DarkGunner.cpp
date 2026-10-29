@@ -115,7 +115,6 @@ struct P_800A2390 {
 
 extern "C" {
 s32 apply_actor_gravity(void *, s32, f32);
-s32 advance_animation_playback(void *);
 s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -758,7 +757,7 @@ void TObjPlayer::update_move_to_destination() {
         this->requested_action = 0;
         this->m_37c = 1;
     case 1: {
-        advance_animation_playback(o);
+        ((TObjMotion *)o)->advance_animation();
         if (!(this->actorFlags & 0x800000)) {
             ((s32 (*)(void *, int, f32))apply_actor_gravity)(o, 0, 0.0f);
         }
@@ -790,7 +789,7 @@ s32 TObjPlayer::update_hide_sequence() {
         this->m_39c = TObjPlayer__sub_800A3210(1, temp_r4, temp_r5);
         this->m_37c = 1;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (!(this->actorFlags & 0x800000)) {
             apply_actor_gravity(arg0, 0, 0.0f);
         }
@@ -885,7 +884,7 @@ void TObjPlayer__sub_800A16C4(u8 *player) {
         goto case1;
     case 1:
     case1:
-        advance_animation_playback(player);
+        ((TObjMotion *)player)->advance_animation();
         if (!(((TObjPlayer *)player)->actorFlags & 0x800000)) {
             apply_actor_gravity(player, 0, 0.0f);
         }
@@ -1142,7 +1141,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
         enemy->m_37c = 1;
         break;
     case 1:
-        advance_animation_playback(enemy);
+        enemy->advance_animation();
         apply_actor_gravity(enemy, 0, 0.0f);
         if (((VObj_14_800A1C84 *)((u8 *)enemy + 0x408))->m4() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)((u8 *)enemy + 0x38), 0);
@@ -1179,7 +1178,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
     case 1:
         *(f32 *)((s8 *)arg0 + 0x308) *= 0.95;
         ((TObjPlayer *)arg0)->m_310 *= 0.95;
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         {
         Vec_800A1D70 v = *(Vec_800A1D70 *)(arg0 + 0x2FC);
         v.x = v.x + *(f32 *)((s8 *)arg0 + 0x308);
@@ -1321,7 +1320,7 @@ s32 TObjPlayer__sub_800A1FEC(void *arg0) {
         break;
     }
     ((TObjBase *)self)->obj_clearFlags30(0x40000);
-    advance_animation_playback(self);
+    ((TObjMotion *)self)->advance_animation();
     apply_actor_gravity(self, 0, 0.0f);
     ((TObjPlayer *)self)->update_collisions();
     minimap_render_dot(&self->pos, -23988, 1, 0);
@@ -1385,7 +1384,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         enemy->f64 = 0;
         enemy->fA4->f18 &= ~4;
         enemy->fA4->f18 |= 2;
-        advance_animation_playback(enemy);
+        ((TObjMotion *)enemy)->advance_animation();
         if (enemy->f388 & 0x20000) {
             enemy->f388 &= ~0x20000;
             enemy->f388 |= 0x80000;
@@ -1419,7 +1418,7 @@ s32 TObjPlayer__sub_800A2390(void *arg0_) {
         enemy->fA4->f18 &= ~4;
         enemy->fA4->f18 |= 2;
     case 5:
-        advance_animation_playback(enemy);
+        ((TObjMotion *)enemy)->advance_animation();
         enemy_set_heading_velocity(enemy, enemy->f3A0, enemy->f3A8);
         ((TObjPlayer *)enemy)->step_along_ground();
         enemy->f3A4 += enemy->f3A0;
@@ -1469,7 +1468,7 @@ void TObjPlayer__sub_800A27CC(TObjPlayer *player) {
             player->m_37c = 2;
         }
         ((TObjEneDarkGunner *)player)->m_388 |= 0x400000;
-        advance_animation_playback(player);
+        player->advance_animation();
         break;
     case 1:
         break;

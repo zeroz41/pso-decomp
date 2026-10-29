@@ -415,7 +415,6 @@ s32 is_main_phase_15__9TObjEneDDFv();
 s32 update_player_state__9TObjEneDDFv(void *, int, int);
 
 void render__19TObjEneEpsilonGuardFv(u8 *);
-s32 advance_animation_playback(void *);
 void TObjEneEpsilonGuard__sub_8035E578(u8 *, s32);
 void play_sound_effect(int, void *, int, int);
 extern u8 epsilon_guard_breakup_params[];
@@ -744,7 +743,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         ((G_8035E430 *)this)->x434++;
         if (((G_8035E430 *)this)->x434 >= 0x14) {
             ((VO_8035E430 *)((G_8035E430 *)this))->m94();
@@ -780,7 +779,7 @@ void TObjEneEpsilonGuard__sub_8035E578(u8 *ene_dd, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_dd);
+        ((TObjMotion *)ene_dd)->advance_animation();
         ((TObjEneDD *)(ene_dd))->vfunc_89();
         break;
     }
@@ -808,7 +807,7 @@ void TObjEneEpsilonGuard::state_orbit(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         switch (*(s32 *)((s8 *)this + 0x430)) {
         case 0:
             if (*(s32 *)((s8 *)this + 0x46C) & 0x100) {
@@ -865,7 +864,7 @@ void TObjEneEpsilonGuard__sub_8035E8C0(void *ene_epsilon_guard, s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback(ene_epsilon_guard);
+        ((TObjMotion *)ene_epsilon_guard)->advance_animation();
         ((TObjEneDD_ST *)ene_epsilon_guard)->enemy_copy_target_destination();
         ((TObjEneDD *)ene_epsilon_guard)->update_velocity();
         if (!(*(s32 *)((s8 *)ene_epsilon_guard + 0x46C) & 0x200)) {

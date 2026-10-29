@@ -157,7 +157,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 check_path_obstructed(void *, Vec_8008F910 *);
 s32 fn_80090464(void *, int);
-s32 advance_animation_playback(void *);
 extern const f32 lbl_805D9620;
 extern const f32 lbl_805D966C;
 void TObjPlayer__sub_8008F910(u8 *arg0);
@@ -209,7 +208,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
         this->requested_action = (s16) ((((u32) this->m_388 >> 0x18U) & 1) ? 0 : 5);
         this->state = 1;
     case 1:
-        advance_animation_playback(this);
+        advance_animation();
         apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), (f32)lbl_805D9620);
         return;
     case -1:
@@ -230,7 +229,7 @@ void TObjPlayer__sub_8008EC3C(u8 *enemy) {
         TObjPlayer__sub_800A0554(enemy + 0x390);
         *(s32 *)((s8 *)enemy + 0x37C) = 1;
     case 1:
-        advance_animation_playback(enemy);
+        ((TObjMotion *)enemy)->advance_animation();
         apply_actor_gravity((TObjEnemy *)enemy, (s32 *)(0), lbl_805D9620);
         if (((En0VObj*)(enemy + 0x390))->m5() == 1) {
             temp_r5 = *(s32 *)((s8 *)enemy + 0x388);
@@ -339,7 +338,7 @@ void TObjPlayer__sub_8008EDE8(P_8008EDE8 *arg0) {
     case -1:
         break;
     }
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     apply_actor_gravity((TObjEnemy *)((u8 *)arg0), (s32 *)(0), lbl_805D9620);
     ((TObjPlayer *)arg0)->update_collisions();
 }
@@ -458,7 +457,7 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
         o->f388 |= 0x20000;
         break;
     }
-    advance_animation_playback(o);
+    ((TObjMotion *)o)->advance_animation();
     apply_actor_gravity((TObjEnemy *)((u8 *)o), (s32 *)(0), lbl_805D9620);
     ((TObjPlayer *)o)->check_object_collisions();
     check_enemy_body_collisions(o);
@@ -492,13 +491,13 @@ void TObjPlayer::run_death_sequence() {
         play_sound_effect(0x4003AD37, (u8 *)&this->position, 0, 0);
         break;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (this->frame >= lbl_805D9668) {
             this->m_37c = 3;
         }
         break;
     case 2:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (this->frame >= lbl_805D964C) {
             *(f32 *)((s8 *)arg0 + 0x3B4) -= *(f32 *)((s8 *)arg0 + 0x30C);
             if (*(f32 *)((s8 *)arg0 + 0x3B4) <= 0.0f) {
@@ -513,7 +512,7 @@ void TObjPlayer::run_death_sequence() {
         *(s32 *)((s8 *)arg0 + 0x388) |= 4;
         this->m_37c = 4;
     case 4:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((VObj_14_c1c33b *)(arg0 + 0x390))->m4() == 1) {
             TObjPlayer::apply_effect_variant_a((s32)(arg0 + 0x38), 0);
             ((TObjEnemy *)arg0)->send_entity_set_flags();
@@ -534,7 +533,7 @@ void TObjPlayer__sub_8008F910(u8 *arg0) {
         *(s16 *)((s8 *)arg0 + 0xB8) = ((TObjPlayer *)arg0)->get_flag_0x388_b24() != 0 ? 3 : 8;
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;
     case 1: {
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(f32 *)((s8 *)arg0 + 0x30C) = lbl_805D9620;
         Vec_8008F910 v = *(Vec_8008F910 *)((s8 *)arg0 + 0x2FC);
         v.x += *(f32 *)((s8 *)arg0 + 0x308);
@@ -600,7 +599,7 @@ void TObjPlayer__sub_8008FAD0(u8 *arg0) {
             update_enemy_wander_move(arg0, &pos, 1, *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4));
         }
         ((TObjEnemy *)arg0)->turn_toward_direction(*(s32 *)((u8 *)((TObjEnemy *)arg0)->movementParameters + 8), (Vec *)((u8 *)arg0 + 0x308));
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), lbl_805D9620);
         ((TObjPlayer *)arg0)->update_collisions();
         break;

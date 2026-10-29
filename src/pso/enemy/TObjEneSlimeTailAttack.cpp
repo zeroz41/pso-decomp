@@ -360,7 +360,6 @@ s32 water_bomb_hit_nearby(u8 *arg0);
 void update_effect_fade_lifetime(u8 *arg0);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-s32 advance_animation_playback(void *);
 void free_collision_body_parts(void *);
 s32 get_player_by_client_id(void *);
 void __dl__7TObjectFPv(void *);
@@ -1088,7 +1087,7 @@ s32 TObjPlayer__sub_800E85BC(TObjEneSlimeTailAttack *self) {
 void TObjEneSlimeTailAttack::run_task() {
     if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x378) != 0) {
         TObjPlayer__sub_800E85BC(this);
-        advance_animation_playback(this);
+        advance_animation();
         if (this->motion_flags & 0x10) {
             queue_destruction__7TObjectFv(this);
             return;

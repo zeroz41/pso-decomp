@@ -61,7 +61,6 @@ void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 extern u8 lbl_80451CD0[];
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern CreationTextureCacheEntry *char_select_current_entry;
-void advance_animation_playback(s32);
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
 void blend_creation_proportion_shapes(void *);
 s32 TLobby__sub_8001FE7C(void *, int);
@@ -1414,7 +1413,7 @@ void TCMCharacter::update_chara_preview() {
     }
     }
     blend_creation_proportion_shapes(&((CharacterAppearanceFields *)creation_player_character)->width);
-    advance_animation_playback((s32)this);
+    ((TObjMotion *)this)->advance_animation();
 }
 
 void request_creation_motion(s32 arg0) {

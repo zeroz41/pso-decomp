@@ -152,7 +152,6 @@ void *create_particle_emitter(void *pos, s32 id);
 s32 noop__9TObjEneDDFv(void *);
 s32 check_hit_flag__16TObjEneRe2FlowerFv(void *);
 s32 TObjPlayer__sub_800C4A5C(int, void *, void *, int);
-s32 advance_animation_playback(void *);
 s32 play_sound_effect(void *, void *, int, int);
 u32 __nw__7TObjectFUl(int);
 extern u8 *lbl_805D5170;
@@ -188,7 +187,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
       return;
     return;
     case 0:
-      advance_animation_playback((void *) arg0);
+      ((TObjMotion *)arg0)->advance_animation();
       enemy_validate_retained_target(arg0);
       switch (((RecoveredFields_800C3088_arg0 *) arg0)->field_414)
     {
@@ -256,7 +255,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     case 1:
         break;
     case 0:
-        advance_animation_playback(owner);
+        ((TObjMotion *)owner)->advance_animation();
         if ((u32) *(u32 *)((s8 *)owner + 0x428) == 0U) {
             *(u32 *)((s8 *)owner + 0x428) = (u32)create_particle_emitter((owner + 0x3E8), 0xD1);
             temp_r3 = *(u32 *)((s8 *)owner + 0x428);
@@ -469,7 +468,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)())advance_animation_playback)();
+        advance_animation();
         idx = 0xFFFF;
         if (tick_period_counter((s32)arg0, (s32 *)(arg0 + 0x3D0), 0x14) != 0) {
             if (*(f32 *)((s8 *)arg0 + 0x3AC) > lbl_805D9FEC) {
@@ -517,7 +516,7 @@ void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
     case 1:
         return;
     case 0:
-        ((s32 (*)())advance_animation_playback)();
+        ene_dd->advance_animation();
         ene_dd->vfunc_102();
         ene_dd->vfunc_88();
         break;

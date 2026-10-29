@@ -553,7 +553,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 void *spawn_particle_effect(void *pos, s32 id);
-s32 advance_animation_playback();
 extern const f32 lbl_805DA034;
 extern const f32 lbl_805DA038;
 extern const f32 lbl_805DA03C;
@@ -642,7 +641,7 @@ s32 TUnk_80493450::update_target_near_flag() {
 int TUnk_80493450::beast_retire_corpse() { return queue_destruction__7TObjectFv(this); }
 void TUnk_80493450::beast_update_dead() {
     u8 *arg0 = (u8 *)this;
-    advance_animation_playback();
+    advance_animation();
     if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DA034) != 0) {
         this->vfunc_98();
     }
@@ -668,7 +667,7 @@ void TUnk_80493450::beast_update_hurt() {
     Obj_800C5164 *o = (Obj_800C5164 *)arg0;
     Vec_800C5164 v;
 
-    advance_animation_playback();
+    advance_animation();
     VecCopy((Vec *)&v, (const Vec *)&o->f2FC);
     scratch_vec.x = scratch_vec.y = lbl_805DA034;
     scratch_vec.z = get_collision_body_radius(o, 0);
@@ -727,7 +726,7 @@ void TUnk_80493450::beast_update_attack() {
     } else {
         ((Self_800C53DC *)this)->target = NULL;
     }
-    ((s32 (*)(void *))advance_animation_playback)(((Self_800C53DC *)this));
+    ((TObjMotion *)((Self_800C53DC *)this))->advance_animation();
     switch (((Self_800C53DC *)this)->f328) {
     case 0:
         ((Self_800C53DC *)this)->f328 = 1;
@@ -847,7 +846,7 @@ void TUnk_80493450::beast_update_group_chase() {
     Self_800C57F0 *arg0 = (Self_800C57F0 *)this;
     f32 d;
     f32 r;
-    advance_animation_playback();
+    advance_animation();
     switch (arg0->f328) {
     case 0:
         arg0->f328 = 1;
@@ -878,7 +877,7 @@ void TUnk_80493450::beast_update_approach() {
     switch (this->phase) {
     case 0:
         apply_actor_gravity(arg0, 0, lbl_805DA034);
-        ((void (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA034) != 0) {
             this->vfunc_95();
         }
@@ -901,7 +900,7 @@ void TUnk_80493450::beast_update_approach() {
             }
             ((TUnk_80493450 *)arg0)->update_target_near_flag();
             ((TUnk_80493450 *)arg0)->sub_800C4E08();
-            ((void (*)(void *))advance_animation_playback)(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             {
                 Vec_800C5900 sp8 = sp14;
                 enemy_move_toward(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), &sp8, 0, *(f32 *)&this->unk_394);
@@ -924,7 +923,7 @@ void TUnk_80493450::beast_update_approach() {
 void TUnk_80493450::update_turn_toward_target() {
     Player_800C5B10 *arg0 = (Player_800C5B10 *)this;
     s32 ang;
-    advance_animation_playback();
+    advance_animation();
     switch (arg0->field_328) {
     case 0:
         if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA034) != 0) {
@@ -1019,7 +1018,7 @@ void TUnk_80493450::beast_idle_update() {
 
     ((TUnk_80493450 *)arg0)->update_target_near_flag();
     ((TUnk_80493450 *)arg0)->sub_800C4E08();
-    ((void (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     if (this->phase != 1) {
         this->phase = 1;
         ((TUnk_80493450 *)arg0)->link_into_group_chain();

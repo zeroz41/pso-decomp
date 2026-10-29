@@ -36,7 +36,6 @@ extern s32 TBoss7Crawfish__class_name;
 extern const f32 TBoss7Crawfish__data_805DF0D8;
 extern const f32 TBoss7Crawfish__data_805DF0DC;
 extern const f32 lbl_805DF100;
-s32 advance_animation_playback(void *);
 int TBoss7Crawfish__sub_80308BEC(void *p);
 void TLobby__sub_8001FE7C(void*, int);
 s32 submit_cursor_candidate(void *, int);
@@ -78,7 +77,7 @@ void TBoss7Crawfish::run_task() {
         submit_cursor_candidate(arg0, -1);
     }
     add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, lbl_805DF0FC);
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
 }
 
 void *__dt__14TBoss7CrawfishFv(void *arg0, s16 arg1) {

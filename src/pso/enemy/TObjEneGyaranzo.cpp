@@ -171,7 +171,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void calc_velocity_toward_destination(void *, Vec_800D1E4C, Vec_800D1E4C, f32);
 s32 update_if_active__15TObjEneMe1GiGueFl(void *, int);
-s32 advance_animation_playback(void *);
 extern const f32 lbl_805DA258;
 extern const f32 lbl_805DA25C;
 void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0);
@@ -187,7 +186,7 @@ void update_walk_to_target__10TObjPlayerFPv(Ene_800D1E4C *arg0) {
         VecCopy((Vec *)&arg0->v29C, (const Vec *)&arg0->target);
         arg0->state = 1;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity(arg0, 0, lbl_805DA258);
         VecCopy((Vec *)&arg0->v290, (const Vec *)&arg0->v2FC);
         calc_velocity_toward_destination(arg0, arg0->v290, arg0->v29C, arg0->param->speed);
@@ -342,7 +341,7 @@ void update__19TObjGyaranzoMissileFPv(u8 *arg0) {
         TObjEneMe3SinowZoa__sub_800D758C(arg0 + 0x3D0);
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (((V_Sub_800D1F84 *) (arg0 + 0x3D0))->m5() == 1) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
         }
@@ -1220,7 +1219,7 @@ void TObjPlayer::update_aim_and_fire() {
         *(s32 *)&this->unk_388 = (s32) (*(s32 *)&this->unk_388 & 0xFFFBFFFF);
         break;
     }
-    advance_animation_playback(this);
+    advance_animation();
     apply_actor_gravity(this, 0, lbl_805DA258);
     update_collisions__10TObjPlayerFv(this);
 }
@@ -1253,7 +1252,7 @@ void TObjPlayer::update_death_breakup() {
         create_dead_spot__10TObjPlayerFllf(arg0->v2FC, 0x5A, lbl_805DA27C);
         this->m_37c = 1;
     case 1:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         arg0->timer--;
         if (arg0->timer < 0) {
             TBoss3Volopt::create_breakup_mdl((s32)gyaranzo_breakup_model_obj, (s32)gyaranzo_death_breakup_params, (s32)this->texlist, (s32)arg0->v2FC, (s32)this->rotation_y);
@@ -1281,7 +1280,7 @@ void TObjPlayer__sub_800D30A8(Obj_800D30A8 *enemy) {
         enemy->fB8 = 3;
         enemy->state = 1;
     case 1: {
-        advance_animation_playback(enemy);
+        ((TObjMotion *)enemy)->advance_animation();
         Vec_800D30A8 v = enemy->pos;
         v.x += enemy->vel.x;
         v.z += enemy->vel.z;
@@ -1381,7 +1380,7 @@ void TObjPlayer__sub_800D3314(u8 *arg0) {
         enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 8));
         ((void (*)(void *, Vec_800D3314, f32, f32))move_along_ground_avoiding_walls__15TObjEnemyCustomF3Vecff)(arg0, *(Vec_800D3314 *)((s8 *)arg0 + 0x390), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4), *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC));
         *(f32 *)((s8 *)arg0 + 0x39C) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         apply_actor_gravity(arg0, 0, lbl_805DA258);
         if (*(s16 *)((s8 *)arg0 + 0x326) == 9) {
             *(f32 *)((s8 *)arg0 + 0x3A4) += *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x350)) + 4);

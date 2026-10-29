@@ -2026,7 +2026,6 @@ void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void 
 u32 TLockOnCursor__ct(u32, void *, s32);
 u16 get_id__11TMainCursorFv(void* p);
 s32 set_animation__10TObjMotionFs(s32, s32);
-s32 advance_animation_playback(void *);
 s32 TMainCursor__sub_80154098(int, int, int);
 s32 TMainCursor__sub_801540B8(int, int, int);
 u16 register_entity_by_id(void *obj);
@@ -7567,7 +7566,7 @@ void run_task__10TObjPlayerFv(TObjPlayer *player) {
     player->update_position_history();
     player->update_status_effects();
     ((s32 (*)(void *, s16, s32))run_action_state_phase__10TObjPlayerFisi)(player, player->mode, 1);
-    advance_animation_playback(player);
+    player->advance_animation();
     ((TObjChara *)player)->calc_attach_pos();
     ((TBoss3VoloptHiraisin *)player)->copy_position();
     ((TObjPlayer *)((u8 *)player + 0x84C))->copy_offset_position(player);

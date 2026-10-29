@@ -609,7 +609,6 @@ extern const f32 lbl_805DE718;
 f32 random_ratio__9TObjCharaFv(s32);
 s32 clear_attack_receipts__9TObjEneDDFv();
 s32 TBoss8Dragon__sub_800BB7D4(void *, int);
-s32 advance_animation_playback(void *);
 extern const f32 lbl_805DE71C;
 void TObjEneBm9Mericarol__sub_802CF368(u8 *arg0, s32 arg1);
 s32 is_alive__8TObjBaseFv(int);
@@ -731,7 +730,7 @@ void TObjEneBm9Mericarol__sub_802CEDA0(u8 *ene_dd_st, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(ene_dd_st);
+        ((TObjMotion *)ene_dd_st)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd_st + 0x490)) {
         case 0:
             (*(s32 *)((s8 *)ene_dd_st + 0x494))--;
@@ -796,7 +795,7 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         this->vfunc_88();
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         this->m_4ac = ((this->m_4ac) + 1);
         TObjEneBm9Mericarol__sub_802D073C(arg0);
         return;
@@ -849,7 +848,7 @@ void TObjEneBm9Mericarol::state_burrow(s32 arg1) {
       switch (*((s32 *) (((s8 *) arg0) + 0x490)))
     {
       case 0:
-        ((s32)advance_animation_playback((void *)((void *)((void *) arg0))));
+        (((TObjMotion *)arg0)->advance_animation());
         if (((TObjEneDD *)arg0)->get_flag_b4() != 0)
       {
         *((s32 *) (((s8 *) arg0) + 0x490)) = 1;
@@ -910,7 +909,7 @@ void TObjEneBm9Mericarol__sub_802CF368(u8 *actor, s32 arg1) {
       return;
     return;
     case 0:
-      advance_animation_playback(actor);
+      ((TObjMotion *)actor)->advance_animation();
       (((TObjEneDD *)(actor))->vfunc_102());
       (((TObjEneDD *)(actor))->vfunc_88());
       TObjEneBm9Mericarol__sub_802D073C((void *)((void *)((void *) actor)));
@@ -949,7 +948,7 @@ void TObjEneBm9Mericarol__sub_802CF4F8(u8 *ene_bm9_mericarol, s32 arg1) {
     }
       return;
     case 0:
-      ((s32)advance_animation_playback((void *) ene_bm9_mericarol));
+      (((TObjMotion *)ene_bm9_mericarol)->advance_animation());
       temp_r0 = ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_4ac;
       if (temp_r0 == 6)
     {
@@ -1047,7 +1046,7 @@ void TObjEneDD__sub_802CF7B4(u8 *ene_dd_st, s32 arg1) {
         }
         return;
     case 0:
-        ((s32 (*)())advance_animation_playback)();
+        ((TObjMotion *)ene_dd_st)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd_st + 0x490)) {
         case 0:
             ((TObjEneBm9Mericarol *)ene_dd_st)->sync_center_position();
@@ -1151,7 +1150,7 @@ void TObjPlayer__sub_802CFB64(u8 *player, s32 arg1) {
     case 1:
         break;
     case 0:
-        ((s32 (*)(void *, s32))advance_animation_playback)(player, arg1);
+        ((TObjMotion *)player)->advance_animation();
         enemy_validate_retained_target(player);
         switch (*(s32 *)((s8 *)player + 0x490)) {
         case 2:
@@ -1246,7 +1245,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     case 1:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (OBJINBAND(arg0, lbl_805DE710) != 0) {
             TObjPlayer__sub_802CE68C(arg0, arg0 + 0x460, 0x43);
             obj = __nw__7TObjectFUl(0x118);
@@ -1319,7 +1318,7 @@ void TObjEneBm9Mericarol__sub_802D01D8(u8 *actor, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(actor);
+        ((TObjMotion *)actor)->advance_animation();
         var_r30 = 0xFFFF;
         if (tick_period_counter((s32)actor, (s32 *)(actor + 0x450), 0x14) != 0) {
             if (*(f32 *)((s8 *)actor + 0x3AC) > lbl_805DE718) {

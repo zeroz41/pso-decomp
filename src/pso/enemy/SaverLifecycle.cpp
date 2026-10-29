@@ -136,7 +136,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 TObjPlayer__sub_800A04F0(void *);
 #define step_angle_clamped__10TObjPlayerFPvi ((s32 (*)(void*, int))(step_angle_clamped__10TObjPlayerFPvi))
-s32 advance_animation_playback();
 s32 play_sound_effect(s32, void *, s32, s32);
 struct VDisp_800a42c4_800A4288 { char pad[0x18]; virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(void *, void *); };
 
@@ -387,7 +386,7 @@ void TObjEneSaver::calc_move_state() {
 void TObjEneSaver::update_collapse_and_destroy() {
     s32 prev_r3;
     u8 *arg0 = (u8 *)this;
-    advance_animation_playback();
+    advance_animation();
     switch (((TObjEneSaver *)arg0)->phase) {
     case 0:
         ((TObjEneSaver *)arg0)->phase = 1;
@@ -436,7 +435,7 @@ void TObjEneSaver::vfunc_63() {
 void TObjEneSaver::update_entry_motion() {
     u8 *temp_r3;
 
-    advance_animation_playback();
+    advance_animation();
     step_angle_clamped__10TObjPlayerFPvi(this, 0);
     switch (this->phase) {
     case 0:
@@ -510,7 +509,7 @@ void update_knockback_state__12TObjEneSaverFv(u8 *arg0);
 
 void TObjEneSaver::update_knockback_state() {
 
-    advance_animation_playback();
+    advance_animation();
     step_angle_clamped__10TObjPlayerFPvi(this, 0);
     switch (this->phase) {
     case 0:
@@ -673,7 +672,6 @@ struct VObj_18_217cff : VBase_18_217cff {
 
 extern "C" {
 s32 TObjPlayer__sub_800A0554(void *);
-#define advance_animation_playback ((s32 (*)(void*, int))(advance_animation_playback))
 f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
 Obj_800A4C4C *get_player_data__10TObjPlayerFi(s32);
 #define atan2_float ((f32 (*)(f32, f32))(atan2_float))
@@ -715,7 +713,7 @@ s16 TObjPlayer__sub_800A776C(void *p);
 #pragma push
 #pragma fp_contract on
 void TObjPlayer__sub_800A49B4(TObjEneSaver *self) {
-    ((s32 (*)(void *))advance_animation_playback)(self);
+    self->advance_animation();
     TObjPlayer::step_angle_clamped(self, 0);
     if (!(self->actorFlags & 0x800000)) {
         apply_actor_gravity(self, (s32 *)0, 0.0f);
@@ -844,7 +842,7 @@ void TObjEneSaver::sub_800A4D9C() {
     {
         u32 *anim = F(u32 *, 0xA4);
         anim[6] &= ~1;
-        advance_animation_playback(arg0, (int)anim);
+        ((TObjMotion *)arg0)->advance_animation();
     }
     step_angle_clamped__10TObjPlayerFPvi(arg0, 0);
     switch (F(s16, 0x328)) {
@@ -998,7 +996,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
     }
     o->anim->flags |= 1;
     o->flags &= 0xF9FBFFFF;
-    ((s32 (*)(void *))advance_animation_playback)(o);
+    ((TObjMotion *)o)->advance_animation();
     step_angle_clamped__10TObjPlayerFPvi(o, 0);
     switch (o->phase) {
     case 0:
@@ -1170,7 +1168,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
         }
         break;
     }
-    ((s32 (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     step_angle_clamped__10TObjPlayerFPvi(arg0, 0);
     ((TObjPlayer *)arg0)->check_object_collisions();
     check_enemy_body_collisions(arg0);
@@ -1327,7 +1325,7 @@ void TObjEneSaver::update_move_toward_target() {
             this->phase = 0;
             break;
         }
-        ((s32 (*)(void *)) advance_animation_playback)(this);
+        advance_animation();
         turn_toward_target__12TObjEneSaverFv(this);
         ((TObjPlayer *)((u8 *)this))->check_object_collisions();
         check_enemy_body_collisions((this));
@@ -1343,7 +1341,7 @@ void TObjEneSaver::sub_800A5FA8() {
     ((TObjEneSaver *)arg0)->actorFlags = (s32) (((TObjEneSaver *)arg0)->actorFlags | 0x06040000);
     temp_r4 = (unsigned char *) (((TObjEneSaver *)arg0)->bodies);
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
-    advance_animation_playback((void *)arg0, (int)temp_r4);
+    ((TObjMotion *)arg0)->advance_animation();
     switch (((TObjEneSaver *)arg0)->phase) {
     case 0:
         ((TObjEneSaver *)arg0)->phase = 1;
@@ -1389,7 +1387,6 @@ void TObjEneSaver::advance_motion_state() {
 
 }
 
-#undef advance_animation_playback
 #undef atan2_float
 #undef turn_toward_target__12TObjEneSaverFv
 #undef step_angle_clamped__10TObjPlayerFPvi
@@ -1569,7 +1566,6 @@ void TObjEneSaver::vfunc_59() {
     }
 }
 
-#define advance_animation_playback ((s32 (*)(int))(advance_animation_playback))
 
 struct VBase62D4 { char pad[0x14]; };
 struct VObj62D4 : VBase62D4 {
@@ -1589,7 +1585,7 @@ void TObjEneSaver::sub_800A62D4() {
     *(s32 *)&this->actorFlags = (s32) (*(s32 *)&this->actorFlags | 0x06040000);
     *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFFFFF8);
     *(s32 *)((s8 *)this->bodies + 0x18) = (s32) (*(s32 *)((s8 *)this->bodies + 0x18) & 0xFFFFFFFE);
-    advance_animation_playback((int)this);
+    ((TObjMotion *)this)->advance_animation();
     switch (this->phase) {
     case 0:
     default:
@@ -2224,4 +2220,3 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 #undef get_entity_id
 #undef get_field_3e4__10TObjPlayerFv
 #undef get_player_by_client_id
-#undef advance_animation_playback

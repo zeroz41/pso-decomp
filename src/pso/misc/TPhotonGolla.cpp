@@ -117,7 +117,6 @@ extern u8 *photon_blast_shared_resource;
 extern u32 farlla_photon_blast_model_buffers;
 extern "C" {
 void *spawn_particle_effect(void *pos, s32 id);
-s32 advance_animation_playback(void *);
 void *find_entity_by_id(u16 id);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
@@ -361,7 +360,7 @@ void TPhotonGolla::run_task() {
     }
     this->m_1b8 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
-    advance_animation_playback(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (*(s16 *)((s8 *)arg0 + 0x14C) + 0xF);
     *(s16 *)((s8 *)arg0 + 0x14C) = (s16) (u8) *(s16 *)((s8 *)arg0 + 0x14C);

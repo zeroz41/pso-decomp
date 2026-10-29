@@ -63,7 +63,6 @@ extern u8 photon_blast_youlla_params[];
 extern s32 __vt__13TPhotonYoulla[];
 extern const char *lbl_805D3528;
 extern u8 *photon_blast_shared_resource;
-s32 advance_animation_playback(void *);
 void __dl__7TObjectFPv(void *);
 
 extern const f32 lbl_805DC264;
@@ -115,7 +114,7 @@ void TPhotonYoulla::run_task() {
         set_field_b8(0);
     }
     *(s16 *)&this->m_194 = (s16) this->requested_action;
-    advance_animation_playback(this);
+    advance_animation();
     update_photon_blast_attachments();
     *(s16 *)((s8 *)this + 0x14C) = (s16) (*(s16 *)((s8 *)this + 0x14C) + 0xF);
     *(s16 *)((s8 *)this + 0x14C) = (s16) (u8) *(s16 *)((s8 *)this + 0x14C);

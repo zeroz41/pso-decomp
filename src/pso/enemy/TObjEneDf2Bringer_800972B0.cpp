@@ -861,7 +861,6 @@ struct Stack_80097E9C {
 extern "C" {
 s32 queue_destruction__7TObjectFv(void *);
 s32 TObjPlayer__sub_800A04F0(void *);
-s32 advance_animation_playback(void *);
 s32 play_effect_if_v2__10TObjPlayerFl(int);
 s32 play_sound_effect(void *, void *, int, int);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
@@ -1067,7 +1066,7 @@ void TObjEneDf2Bringer__sub_80097620(u8 *arg0, s32 arg1) {
         play_effect_if_v2__10TObjPlayerFl(-0x200);
         return;
     case 0:
-        ((s32)advance_animation_playback(arg0));
+        (((TObjMotion *)arg0)->advance_animation());
         if (((VObj_14_c1c33b *)(arg0 + (964)))->m4() != 0) {
             TObjPlayer::apply_effect_variant_b((s32)(arg0 + 0x38), 0);
             queue_destruction__7TObjectFv(arg0);
@@ -1085,7 +1084,7 @@ void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode) {
     switch (mode) {
     case 4:
         self->fieldB8 = 6;
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         ((TObjEneDD_ST *)self)->set_active();
         break;
     case 3:
@@ -1095,7 +1094,7 @@ void TObjEneDf2Bringer__sub_80097714(Bringer_80097714 *obj, s32 mode) {
         }
         break;
     case 0:
-        ((s32)advance_animation_playback(self));
+        (((TObjMotion *)self)->advance_animation());
         self->timer--;
         VecCopy((Vec *)&v, (const Vec *)&self->vel);
         speed = normalize_vector_xz((Vec *)(&v));
@@ -1133,7 +1132,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F_8009(0x4AC, s32)) {
         case 0:
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -1271,7 +1270,7 @@ void action__17TObjEneDf2BringerFPvi(u8 *arg0, s32 arg1) {
         }
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         *(s32 *)((s8 *)arg0 + 0x484) = (s32) (*(s32 *)((s8 *)arg0 + 0x484) - 1);
         if ((u32) *(u32 *)((s8 *)arg0 + 0x4C4) == 0U) {
             *(u32 *)((s8 *)arg0 + 0x4C4) = create_particle_emitter(arg0 + 0x450, 0x100);
@@ -1327,7 +1326,7 @@ void TObjEneDf2Bringer__sub_80097E9C(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)())advance_animation_playback)();
+        ((TObjMotion *)arg0)->advance_animation();
         temp_r3 = *(s32 *)((s8 *)arg0 + 0x60);
         *(s32 *)((s8 *)arg0 + 0x480) = turn_toward_angle_limited__15TObjBoss2TunnelFlllll(temp_r3, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x480))), temp_r3, 0x200, 0x2000);
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
@@ -1402,7 +1401,7 @@ void TObjEneDf2Bringer__sub_8009813C(u8 *arg0, s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x4AC)) {
         case 0:
             if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneDf2Bringer__data_805D97F4) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D9810)) != 0) {
@@ -1513,7 +1512,7 @@ void TObjEneDf2Bringer__sub_8009859C(u8 *ene_df2_bringer, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_df2_bringer);
+        ((TObjMotion *)ene_df2_bringer)->advance_animation();
         if (update_flag_0x3C0__17TObjEneDf2BringerFPv(ene_df2_bringer) != 0) {
             ((TObjEneDD_ST *)ene_df2_bringer)->enemy_copy_target_destination();
             ((TObjEneDD *)ene_df2_bringer)->update_velocity();
@@ -1562,7 +1561,7 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *ene_dd_st, s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(ene_dd_st);
+        ((TObjMotion *)ene_dd_st)->advance_animation();
         switch (*(s32 *)((s8 *)ene_dd_st + 0x4AC)) {
         case 0:
             if (update_linked_position__12TObjEneDD_STFf(ene_dd_st, TObjEneDf2Bringer__data_805D9820) != 0) {
@@ -1617,7 +1616,6 @@ struct SubObj_80098970 : SubBase_80098970 {
     virtual s32 v5();
 };
 
-#define advance_animation_playback ((s32 (*)())advance_animation_playback)
 #define play_sound_effect ((s32 (*)(s32, void *, s32, s32))play_sound_effect)
 #define TObjEneDf2Bringer__sub_80098EB4 ((s32 (*)(void *))TObjEneDf2Bringer__sub_80098EB4)
 #define update_if_in_band__17TObjEneDf2BringerFi ((s32 (*)(void *))update_if_in_band__17TObjEneDf2BringerFi)
@@ -1653,7 +1651,7 @@ void TObjEneDf2Bringer::exec(s32 arg1) {
         }
         return;
     case 0:
-        advance_animation_playback();
+        advance_animation();
         update_linked_position__12TObjEneDD_STFf(arg0, TObjEneDf2Bringer__data_805D9820);
         *(s32 *)((s8 *)arg0 + 0x4AC) = (s32) (*(s32 *)((s8 *)arg0 + 0x4AC) + 1);
         switch (*(s32 *)((s8 *)arg0 + 0x4B0)) {
@@ -1766,7 +1764,6 @@ void TObjEneDf2Bringer__vt85(s32 ene_dd_st, u32 arg1, s32 mode) {
 #undef spawn_particle_if_in_band__17TObjEneDf2BringerFPv
 #undef update_if_in_band__17TObjEneDf2BringerFi
 #undef play_sound_effect
-#undef advance_animation_playback
 #undef TObjEneDf2Bringer__sub_8009859C
 #undef TObjEneDf2Bringer__sub_8009813C
 #undef TObjEneDf2Bringer__sub_80097820

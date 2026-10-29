@@ -299,7 +299,6 @@ void play_footsteps__14TObjEneBm5WolfFPv(u8 *arg0);
 f32 calc_circle_offset__14TObjEneBm5WolfFPvPvPv(Obj_800B79E0 *self, Vec_800B79E0 *target, Vec_800B79E0 *out);
 void set_state_by_timer__14TObjEneBm5WolfFi(s32 arg0);
 f32 rand_range__9TObjEneDDFff(void *actor, f32 low, f32 high);
-s32 advance_animation_playback(void *);
 extern const f32 TObjEneBm5Wolf__data_805D9D78;
 extern const f32 TObjEneBm5Wolf__data_805D9D80;
 extern const f32 TObjEneBm5Wolf__data_805D9DAC;
@@ -1377,7 +1376,7 @@ void TObjEneBm5Wolf::update_dying_state(s32 arg1) {
     case 0:
         switch (F(s32, 0x41C)) {
         case 0:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) {
                 F(s32, 0x41C) = 1;
                 pos.y = TObjEneBm5Wolf__data_805D9D78;
@@ -1457,7 +1456,7 @@ void TObjEneBm5Wolf::hurt_state(s32 arg1) {
         break;
     case 0: {
         Vec_800B50CC v;
-        advance_animation_playback((void *) arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         VecCopy((Vec *)&v, (const Vec *)(arg0 + 0x308));
         {
         f32 c = normalize_vector_xz__FP3Vec(&v);
@@ -1502,7 +1501,7 @@ void TObjEneBm5Wolf::action(s32 arg1) {
     case 5:
         return;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         advance_pose_turn__14TObjEneBm5WolfFPvi(arg0, this->rotation_y);
         if (is_passing_frame__10TObjMotionFf(arg0, TObjEneBm5Wolf__data_805D9DB4) != 0) {
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AA1A)), (u8 *)&this->position, 0, 0);
@@ -1542,7 +1541,7 @@ void TObjEneBm5Wolf::repositioning_state(s32 arg1) {
     case 5:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         switch (this->roamingSubstate) {
         case 0: {
             f32 dx;
@@ -1647,7 +1646,7 @@ void returning_state__14TObjEneBm5WolfFPvi(u8 *actor, s32 arg1) {
         break;
     case 0:
         (*(s32 *)((s8 *)actor + 0x41C))++;
-        advance_animation_playback((void *) actor);
+        ((TObjMotion *)actor)->advance_animation();
         if (((TObjEneEpsilon *)actor)->update_death_check() != 0) {
             play_footsteps__14TObjEneBm5WolfFPv(actor);
             *(s32 *)((s8 *)actor + 0x42C) = approach_angle_limited(*(s32 *)((s8 *)actor + 0x42C), *(s32 *)((s8 *)actor + 0x430), 0x100);
@@ -1729,7 +1728,7 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
     case 0:
         switch (this->roamingSubstate) {
         case 0:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) {
                 if ((s32) this->nearTarget != 0) {
                     this->roamingSubstate = 2;
@@ -1782,7 +1781,7 @@ void TObjEneBm5Wolf::update_lunge(s32 arg1) {
             }
             break;
         case 1:
-            advance_animation_playback(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             this->roamingTimer = (this->roamingTimer + 1);
             if ((s32) this->roamingTimer >= 0xA) {
                 this->roamingSubstate = 2;
@@ -1865,7 +1864,7 @@ void TObjEneBm5Wolf::circling_state(s32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback(self);
+        ((TObjMotion *)self)->advance_animation();
         if (((TObjEneEpsilon *)self)->update_death_check() != 0) {
             if (self->f424 == 0) {
                 Vec_800B5D4C fwd;
@@ -2004,7 +2003,7 @@ void TObjEneBm5Wolf::flanking_state(s32 arg1) {
     case 1:
         break;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         if (((TObjEneEpsilon *)((u8 *)this))->update_death_check() != 0) {
             if (is_passing_frame__10TObjMotionFf(((u8 *)this), TObjEneBm5Wolf__data_805D9DE0) != 0) {
                 spawn_particle_effect((s32)(((u8 *)this) + 0x38), 0xF3);
@@ -2072,7 +2071,7 @@ void TObjEneBm5Wolf::chasing_state(s32 arg1) {
     case 1:
         break;
     case 0:
-        advance_animation_playback(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (is_passing_frame__10TObjMotionFf(arg0, TObjEneBm5Wolf__data_805D9DE0) != 0) {
             spawn_particle_effect((s32)(arg0 + 0x38), 0xF3);
         }
@@ -2136,7 +2135,7 @@ void TObjEneBm5Wolf::roaming_state(int event) {
     case 5:
         return;
     case 0:
-        advance_animation_playback(this);
+        advance_animation();
         if (play_variant_sound__14TObjEneBm5WolfFPv(this) != 0) {
             temp_r3 = (u8 *)this->target;
             temp_f3 = *(f32 *)((s8 *)temp_r3 + 0x38) - this->position.x;
@@ -2228,7 +2227,7 @@ void TObjEneBm5Wolf::howling_state(s32 arg1) {
         break;
     case 0:
         (this->roamingSubstate)++;
-        advance_animation_playback((void *) ((u8 *)this));
+        advance_animation();
         if (this->requested_action == 0x10) {
             is_passing_frame__10TObjMotionFf(this, TObjEneBm5Wolf__data_805D9DEC);
         } else if (this->requested_action == 0xB && is_passing_frame__10TObjMotionFf(this, lbl_805D9E34) != 0) {
@@ -2277,7 +2276,7 @@ void TObjEneBm5Wolf::standing_state(s32 arg1) {
       return;
     case 0:
       this->roamingSubstate = (s32) ((this->roamingSubstate) + 1);
-      advance_animation_playback(arg0);
+      ((TObjMotion *)arg0)->advance_animation();
       is_passing_frame__10TObjMotionFf(arg0, TObjEneBm5Wolf__data_805D9DEC);
       if (enemy_validate_retained_target(arg0) != 0)
     {
@@ -2319,7 +2318,7 @@ void TObjEneBm5Wolf::alerted_state(s32 arg1) {
     case 0:
       this->roamingSubstate = (s32) ((this->roamingSubstate) - 1);
       play_variant_sound__14TObjEneBm5WolfFPv(arg0);
-      advance_animation_playback((void *) arg0);
+      ((TObjMotion *)arg0)->advance_animation();
       (this->vfunc_102());
       (this->vfunc_88());
       break;
@@ -2359,7 +2358,7 @@ void TObjEneBm5Wolf::sleeping_state(s32 arg1) {
       return;
     case 0:
       play_variant_sound__14TObjEneBm5WolfFPv(arg0);
-      advance_animation_playback(arg0);
+      ((TObjMotion *)arg0)->advance_animation();
       (this->vfunc_102());
       (this->vfunc_88());
       return;
@@ -2403,7 +2402,7 @@ void appearing_state__14TObjEneBm5WolfFPvi(Obj_800B7018 *o, s32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)())advance_animation_playback)();
+        ((TObjMotion *)o)->advance_animation();
         if (!(o->fB0 & 4)) {
             if (is_passing_frame__10TObjMotionFf(o, TObjEneBm5Wolf__data_805D9DE0) != 0 ||
                 is_passing_frame__10TObjMotionFf(o, TObjEneBm5Wolf__data_805D9DF0) != 0) {

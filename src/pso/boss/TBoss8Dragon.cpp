@@ -317,7 +317,6 @@ int TBoss8Dragon__sub_802FB984(void);
 void send_action_packet__12TBoss8DragonFPvi(u8 *arg0, s32 arg1);
 extern s32 lbl_805D69B4;
 s32 TBoss8Dragon__sub_802FBFA4(u8 *arg0);
-s32 advance_animation_playback();
 void play_cue_stream_file(s32 name);
 void TBoss8Dragon__sub_802FB09C(s32 arg0);
 s32 copy_pos_to_field688__12TBoss8DragonFPv(void* p);
@@ -2362,7 +2361,7 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0) {
     } else {
         *(f32 *)((s8 *)arg0 + 0xC8) = lbl_805DED84 * scale;
     }
-    ((s32 (*)(void *))advance_animation_playback)(arg0);
+    ((TObjMotion *)arg0)->advance_animation();
     ((TBoss8Dragon *)arg0)->play_sound_if_in_band();
     ((TObjEneDD *)arg0)->update_velocity();
     ((s32 (*)(void *))TBoss8Dragon__sub_802FC9D8)(arg0);
@@ -2467,7 +2466,7 @@ void update_wander_state__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
                 *(s16 *)((s8 *)arg0 + 0xB8) = 0;
             }
         }
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
     case 3:
     case 5:
     case 1:
@@ -2530,7 +2529,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
         void *p;
         o->fB8 = 0;
         ((TBoss8Dragon *)o)->reset_timer();
-        ((s32 (*)(void *))advance_animation_playback)(o);
+        ((TObjMotion *)o)->advance_animation();
         o->demo = 0;
         o->phase = 0;
         o->step = 0;
@@ -2556,7 +2555,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
         switch (o->phase) {
         case 0: {
             s32 step;
-            ((s32 (*)(void *))advance_animation_playback)(o);
+            ((TObjMotion *)o)->advance_animation();
             if (((TObjEneDD *)o)->get_flag_b4() != 0) {
                 o->phase = 1;
                 TWindowCtrl::init_all_slots2();
@@ -2618,7 +2617,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
             break;
         }
         case 1:
-            ((s32 (*)(void *))advance_animation_playback)(o);
+            ((TObjMotion *)o)->advance_animation();
             break;
         }
         break;
@@ -3079,7 +3078,7 @@ void TBoss8Dragon__sub_802F5CC8(u8 *arg0, u32 arg1) {
         ((TBoss8Dragon *)arg0)->set_speed(*p);
         return;
     case 0:
-        ((s32 (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         ((s32 (*)(void *))spawn_effect_if_in_band__12TBoss8DragonFi)(arg0);
         ((s32 (*)(void *))TBoss8Dragon__sub_802FB09C)(arg0);
         *(s32 *)((s8 *)arg0 + 0x60) = approach_angle_limited(*(s32 *)((s8 *)arg0 + 0x60), *p, 0x200);
@@ -3152,7 +3151,7 @@ void TBoss8Dragon__sub_802F5F64(u8 *boss8_dragon, u32 arg1) {
         ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)boss8_dragon)->advance_animation();
         ((s32 (*)(void *))spawn_effect_if_in_band__12TBoss8DragonFi)(boss8_dragon);
         ((s32 (*)(void *))TBoss8Dragon__sub_802FB09C)(boss8_dragon);
         break;
@@ -3239,7 +3238,7 @@ void TBoss8Dragon__sub_802F610C(u8 *arg0, u32 arg1) {
         ((TBoss8Dragon *)arg0)->set_speed(*(s32 *)((s8 *)arg0 + 0x60));
         return;
     case 0:
-        ((s32 (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         if (*(s16 *)((s8 *)arg0 + 0xB8) == 1) {
             ((TBoss8Dragon *)arg0)->play_sound_if_in_band();
         }
@@ -3329,7 +3328,7 @@ void TBoss8Dragon__sub_802F645C(u8 *boss8_dragon, u32 arg1) {
         ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)boss8_dragon)->advance_animation();
         break;
     }
 }
@@ -3448,7 +3447,7 @@ void TBoss8Dragon__sub_802F6618(TBoss8Dragon *dragon, u32 event) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)dragon)->advance_animation();
         for (i = 0; i < 4; i++) {
             if (((VObj_14_df5984 *)&dragon->renderFadeStates[i])->m4() != 0) {
                 queue_destruction__7TObjectFv(dragon);
@@ -3674,7 +3673,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
         TBoss8Dragon::update_all_parts();
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x84C)) {
         case 0:
             if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEDAC) != 0 || is_passing_frame__10TObjMotionFf(arg0, lbl_805DEDE8) != 0) {
@@ -3886,7 +3885,7 @@ void handle_leap_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 0x18;
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         VO->m94();
         ((TBoss8Dragon *)arg0)->set_action_state();
         ((TBoss8Dragon *)arg0)->reset_action();
@@ -3989,7 +3988,7 @@ void handle_leap_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
             F(f32, 0x3C) += F(f32, 0x868);
             break;
         case 3:
-            ((s32 (*)(void *))advance_animation_playback)(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             F(f32, 0x868) += lbl_805DEE1C;
             if (F(f32, 0xC0) >= lbl_805DEE0C) {
                 d[0] *= lbl_805DEE20;
@@ -4000,7 +3999,7 @@ void handle_leap_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
             F(s32, 0x5C) = approach_angle_limited(F(s32, 0x5C), 0, 0x80);
             break;
         case 4:
-            ((s32 (*)(void *))advance_animation_playback)(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             if (F(s16, 0xB8) == 0x10) {
                 spawn_effect_if_in_band__12TBoss8DragonFi((s32)arg0);
             }
@@ -4011,7 +4010,7 @@ void handle_leap_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
             vec3_add_to(arg0 + 0x38, d);
             break;
         case 5:
-            ((s32 (*)(void *))advance_animation_playback)(arg0);
+            ((TObjMotion *)arg0)->advance_animation();
             spawn_effect_if_in_band__12TBoss8DragonFi((s32)arg0);
             F(s32, 0x850)++;
             if (F(s32, 0x850) >= 50) {
@@ -4411,7 +4410,7 @@ void TBoss8Dragon__sub_802F7B70(Obj_802F7B70 *arg0, u32 arg1) {
         ((TBoss8Dragon *)arg0)->save_position();
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (arg0->state) {
         case 0:
             arg0->state = 1;
@@ -4520,7 +4519,7 @@ void state_roar__12TBoss8DragonFPvUi(TBoss8Dragon *arg0, u32 arg1) {
         copy_pos_to_field688__12TBoss8DragonFPv(arg0);
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         temp_r4 = arg0->m_84c;
         arg0->m_84c = (temp_r4 + 1);
         ((void (*)(void *, int))spawn_effect_if_in_band__12TBoss8DragonFi)(arg0, temp_r4);
@@ -4563,7 +4562,7 @@ void TBoss8Dragon__sub_802F8150(u8 *arg0, u32 arg1) {
         copy_pos_to_field688__12TBoss8DragonFPv(arg0);
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED58) != 0) {
             play_cue_stream_file((s32)lbl_80474B40);
         }
@@ -4646,7 +4645,7 @@ void TBoss8Dragon__sub_802F8270(u8 *arg0, u32 arg1) {
         copy_pos_to_field688__12TBoss8DragonFPv(arg0);
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x850)) {
         case 0:
             if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE40) != 0) {
@@ -4742,7 +4741,7 @@ void TBoss8Dragon__sub_802F8578(Dragon_802F8578 *arg0, u32 arg1) {
         copy_pos_to_field688__12TBoss8DragonFPv(arg0);
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (arg0->field_84C) {
         case 0:
             eval_bezier_curve__12TBoss8DragonFPviiPvf(boss8_dragon_bezier_points_3, 3, 0, &out,
@@ -4984,7 +4983,7 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         switch (F(s32, 0x84C)) {
         case 0:
             if (TBoss8Dragon__sub_802FC674((Obj_802FC674 *)(arg0), d) != 0) {
@@ -5161,7 +5160,7 @@ void state_turn_and_charge__12TBoss8DragonFPvUi(u8 *boss8_dragon, u32 arg1) {
         ((TBoss8Dragon *)d)->save_position();
         break;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)boss8_dragon)->advance_animation();
         spawn_effect_if_in_band__12TBoss8DragonFi((s32)d);
         TBoss8Dragon__sub_802FB09C((s32)d);
         switch (d->field_84C) {
@@ -5203,7 +5202,7 @@ void TBoss8Dragon__sub_802F9850(void *arg0p, u32 arg1) {
     switch (arg1) {
     case 4:
         *(s16 *)((s8 *)((u8 *)arg0p) + 0xB8) = 0xF;
-        ((s32 (*)(void *)) advance_animation_playback)((void *) (((u8 *)arg0p)));
+        ((TObjMotion *)arg0p)->advance_animation();
         ((VObj_18_444bc5 *)(((u8 *)arg0p)))->m94();
         ((TBoss8Dragon *)arg0p)->reset_timer();
         ((TBoss8Dragon *)arg0p)->set_active_flag();
@@ -5232,7 +5231,7 @@ void TBoss8Dragon__sub_802F9850(void *arg0p, u32 arg1) {
         ((s32 (*)(void))copy_pos_to_field688__12TBoss8DragonFPv)();
         return;
     case 0:
-        ((s32 (*)(void *)) advance_animation_playback)((void *) (((u8 *)arg0p)));
+        ((TObjMotion *)arg0p)->advance_animation();
         if (is_passing_frame__10TObjMotionFf((void *) (((u8 *)arg0p)), TBoss8Dragon__data_805DEE38) != 0) {
             ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)((void *) (((u8 *)arg0p)), 0x4003A804);
         }
@@ -5330,7 +5329,7 @@ void handle_tail_attack_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)(void *))advance_animation_playback)(arg0);
+        ((TObjMotion *)arg0)->advance_animation();
         (*(s32 *)((s8 *)arg0 + 0x84C))++;
         if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED50) != 0 || is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED64) != 0) {
             ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)(arg0, 0x4003AD09);
@@ -5393,7 +5392,7 @@ void state_breath_attack__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
         ((TBoss8Dragon *)arg0)->save_position();
         return;
     case 0:
-        advance_animation_playback();
+        ((TObjMotion *)arg0)->advance_animation();
         ((TBoss8Dragon *)arg0)->try_spawn_trap();
         switch (F(s32, 0x84C)) {
         case 0:
@@ -5591,7 +5590,8 @@ void TBoss8Dragon__sub_802FA374(u8 *boss8_dragon, u32 arg1) {
         }
         break;
     case 0:
-        ((s32 (*)(void *, s32))advance_animation_playback)(boss8_dragon, (((TBoss8Dragon *)boss8_dragon)->m_84c)++);
+        ((TBoss8Dragon *)boss8_dragon)->m_84c++;
+        ((TObjMotion *)boss8_dragon)->advance_animation();
         break;
     }
 }
