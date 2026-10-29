@@ -3,7 +3,7 @@
 #include "pso/enemy/TObjEneMe3Stelth_800F0AE4.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/TParticleCtrl.h"
@@ -73,7 +73,7 @@ void TObjEneMe3Stelth::play_hit_effect() {
     play_sound_effect(0x3A836, arg0 + 0x38, 0, 0);
 }
 void TObjEneMe3Stelth__sub_800F0C90(u8 *arg0) {
-    if ((objInBand((GameObj *)arg0, (f32)lbl_805DA814) != 0) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DA818)) != 0)) {
+    if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA814) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DA818)) != 0)) {
         ((TObjEneMe3Stelth *)arg0)->try_spawn_ground_effect((s32)(arg0 + 0x38));
     }
 }

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
@@ -567,7 +567,7 @@ void TObjNpcBase::update_wandering() {
         enemy_turn_toward_dest(arg0, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
         enemy_set_heading_velocity((TObjEnemy *)arg0, this->rotation_y, *(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4));
         move_with_wall_slide(arg0);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805DB1C8) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DB1D8)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DB1C8) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DB1D8)) != 0) {
             this->play_voice();
         }
         {

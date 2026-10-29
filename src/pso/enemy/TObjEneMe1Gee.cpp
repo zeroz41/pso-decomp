@@ -16,7 +16,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -2769,7 +2769,7 @@ void TObjEneMe1Gee__sub_800C9DF8(void *o_, s32 arg1) {
                         }
                     }
                 }
-            } else if (objInBand((GameObj *)o, (f32)lbl_805DA0B8) != 0) {
+            } else if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DA0B8) != 0) {
                 o->f408++;
                 if (TObjEneMe1Gee__sub_800CBA80((u8 *)o) != 0) {
                     if (o->f390->m18(o, TObjEneMe1Gee__data_805DA0EC) != 0) {

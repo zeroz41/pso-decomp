@@ -12,7 +12,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEneGibbles.h"
@@ -1154,7 +1154,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
             update_collide_flag__13TObjEneBm3FlyFv(this);
             break;
         case 2:
-            if (objInBand((GameObj *)(this), (f32) ((9.0f))) != 0) {
+            if (is_passing_frame((f32) ((9.0f))) != 0) {
                 *(s32 *)((s8 *)((u8 *)this) + 0x440) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x440) + 1);
                 temp_r3 = (unsigned char *) (this->m_390);
                 if ((temp_r3 != NULL) && (((VObjB0_800b07d0 *)temp_r3)->v18(this, (1.0f)) != 0)) {

@@ -28,7 +28,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjVoloptCage.h"
 #include "pso/object/TObjVoloptPillar.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/byteswap.h"
@@ -632,7 +632,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         }
         collect_targets_in_arc();
         rebuild_parts();
-        if (objInBand((GameObj *)this, 15.0f) != 0) {
+        if (is_passing_frame(15.0f) != 0) {
             play_sound_effect(0x4003A818, &position, 0, 0);
         }
         break;
@@ -929,7 +929,7 @@ void TBoss3VoloptP02::fn_80046260() {
         break;
     case 2:
         advance_animation_playback(this);
-        if (objInBand((GameObj *)this, 15.0f) != 0) {
+        if (is_passing_frame(15.0f) != 0) {
             play_sound_effect(0x4003A811, &position, 0, 0);
         }
         if (this->frame >= 22.0f) {
@@ -975,7 +975,7 @@ void TBoss3VoloptP02::fn_80046260() {
         break;
     case 6:
         advance_animation_playback(this);
-        if (objInBand((GameObj *)this, 35.0f) != 0) {
+        if (is_passing_frame(35.0f) != 0) {
             play_sound_effect(0x4003A312, &position, 0, 0);
         }
         if (this->action_flags != 4) {
@@ -1004,7 +1004,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
         f32 f;
         f32 t;
         advance_animation_playback(this);
-        if (objInBand((GameObj *)this, 20.0f) != 0) {
+        if (is_passing_frame(20.0f) != 0) {
             play_sound_effect(0x4003A80B, &position, 0, 0);
         }
         t = 0.083333336f * (this->frame - 18.0f);
@@ -1621,7 +1621,7 @@ void TBoss3VoloptP02::fn_80044680() {
             timer = 0x1E;
             state = 2;
         }
-        if (objInBand((GameObj *)this, 15.0f) != 0) {
+        if (is_passing_frame(15.0f) != 0) {
             play_sound_effect(0x4003A818, &position, 0, 0);
         }
         break;

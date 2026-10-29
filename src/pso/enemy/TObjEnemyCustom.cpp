@@ -6,7 +6,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TObjFish.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_80141D1C.h"
@@ -193,7 +193,7 @@ void TObjEnemyCustom::update() {
     case 1:
         enemy_turn_toward_dest(this, ((EnemyMoveParams *)movementParameters)->turn_speed);
         advance_animation_playback(this);
-        if (objInBand((GameObj *)this, 10.0f) != 0) {
+        if (is_passing_frame(10.0f) != 0) {
             if (((TObjEnemyCustomVictim *)target)->select_melee_contact_body(this, 1.0f) != 0) {
                 ((TObjEnemyCustomVictim *)target)->receive_physical_attack(this, 1.0f);
                 ((TObjEnemyCustomVictim *)target)->apply_knockback_from_attacker(this, 3.0f);

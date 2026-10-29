@@ -23,7 +23,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/boss/TObjBoss1Crater.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/TObject.h"
@@ -1382,22 +1382,22 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             switch (self->stage) {
             case 0:
-                if (objInBand((GameObj *)self, (f32)(2.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(2.0f)) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
                     self->stage++;
                 }
                 break;
             case 1:
-                if (objInBand((GameObj *)self, (f32)(32.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(32.0f)) != 0) {
                     play_sound_effect(0x4003AD0E, 0, 0, 0);
                 }
-                if (objInBand((GameObj *)self, (f32)(35.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(35.0f)) != 0) {
                     spawn_particle_effect_with_flags(&self->pos, self->tbl->e8, 0x40);
                     self->stage++;
                 }
                 break;
             case 2:
-                if (objInBand((GameObj *)self, (f32)(75.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(75.0f)) != 0) {
                     play_sound_effect(0x4003AD06, 0, 0, 0);
                     self->stage++;
                     self->ticks = 0;
@@ -1414,7 +1414,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 }
                 break;
             case 4:
-                if (objInBand((GameObj *)self, (f32)(105.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(105.0f)) != 0) {
                     ((s32 (*)(void *)) play_cue_stream_file)((void*)boss1_dragon_death_cue_filename);
                     self->stage++;
                     self->ticks = 0;
@@ -1449,21 +1449,21 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             switch (self->stage) {
             case 0:
-                if (objInBand((GameObj *)self, (f32)(9.0f)) != 0 ||
-                    objInBand((GameObj *)self, (f32)(40.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(9.0f)) != 0 ||
+                    ((TObjMotion *)self)->is_passing_frame((f32)(40.0f)) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
                 }
-                if (objInBand((GameObj *)self, (f32)(62.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(62.0f)) != 0) {
                     play_sound_effect(0x4003AD0E, 0, 0, 0);
                 }
-                if (objInBand((GameObj *)self, (f32)(64.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(64.0f)) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
                     spawn_particle_effect_with_flags(&self->pos, self->tbl->e8, 0x40);
                     self->stage++;
                 }
                 break;
             case 1:
-                if (objInBand((GameObj *)self, (f32)(92.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(92.0f)) != 0) {
                     play_sound_effect(0x4003AD06, 0, 0, 0);
                     self->stage++;
                     self->ticks = 0;
@@ -1480,7 +1480,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 }
                 break;
             case 3:
-                if (objInBand((GameObj *)self, (f32)(120.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(120.0f)) != 0) {
                     ((s32 (*)(void *)) play_cue_stream_file)((void*)boss1_dragon_death_cue_filename);
                     self->stage++;
                     self->ticks = 0;
@@ -1515,23 +1515,23 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
             }
             switch (self->stage) {
             case 0:
-                if (objInBand((GameObj *)self, (f32)(2.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(2.0f)) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
                     self->stage++;
                 }
                 break;
             case 1:
-                if (objInBand((GameObj *)self, (f32)(60.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(60.0f)) != 0) {
                     play_sound_effect(0x4003AD0E, 0, 0, 0);
                 }
-                if (objInBand((GameObj *)self, (f32)(63.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(63.0f)) != 0) {
                     spawn_particle_effect_with_flags(&self->pos, self->tbl->e8, 0x40);
                     spawn_particle_effect_with_flags(&self->pos, 0x203, 0x40);
                     self->stage++;
                 }
                 break;
             case 2:
-                if (objInBand((GameObj *)self, (f32)(75.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(75.0f)) != 0) {
                     play_sound_effect(0x4003AD06, 0, 0, 0);
                     self->stage++;
                     self->ticks = 0;
@@ -1543,7 +1543,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                 }
                 break;
             case 4:
-                if (objInBand((GameObj *)self, (f32)(105.0f)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)(105.0f)) != 0) {
                     ((s32 (*)(void *)) play_cue_stream_file)((void*)boss1_dragon_death_cue_filename);
                     self->stage++;
                     self->ticks = 0;
@@ -2114,9 +2114,9 @@ void TBoss1Dragon__sub_800228E8(TBoss1Dragon *arg0, u32 arg1) {
         if ((s16) arg0->requested_action == 1) {
             TBoss1Dragon__sub_80028BE0((u8 *)arg0);
         }
-        if (objInBand((GameObj *)(arg0), (3.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((3.0f)) != 0) {
             arg0->apply_foot_attack_pair_0();
-        } else if (objInBand((GameObj *)(arg0), (24.0f)) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((24.0f)) != 0) {
             arg0->apply_foot_attack_pair_1();
         }
         var_f29 = (0.8f);
@@ -2323,7 +2323,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
         advance_animation_playback();
         switch (F(s32, 0x864)) {
         case 0:
-            if (objInBand((GameObj *)arg0, (f32)(60.0f)) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)(98.0f))) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(60.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)(98.0f))) != 0) {
                 play_sound_effect(0x4003AD07, 0, 0, 0);
                 start_pad_rumble_all(0xA0, 0xF);
             }
@@ -2340,7 +2340,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
                 queue_destruction__7TObjectFv(F(void *, 0x8AC));
                 F(u32, 0x8AC) = 0;
             }
-            if (objInBand((GameObj *)arg0, (f32)(57.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(57.0f)) != 0) {
                 eff1 = *(Eff_80022EE0 *)TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff1.w[2] = (12.0f);
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, lbl_80434EC8);
@@ -2358,7 +2358,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
                 reset_hp__9TObjEneDDFv(arg0, 0, RES(0), 0);
                 spawn_particle_effect_with_flags(&v, *(s32 *)((s8 *)(F(u8 *, 0x778)) + 8), 0x40);
             }
-            if (objInBand((GameObj *)arg0, (f32)(88.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(88.0f)) != 0) {
                 eff2 = *(Eff_80022EE0 *)TBoss1Dragon__head_fall_effect_params;
                 *(f32 *)&eff2.w[2] = (25.0f);
                 ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&v, lbl_80434ED4);
@@ -2376,7 +2376,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
                 reset_hp__9TObjEneDDFv(arg0, 0, RES(0), 0);
                 spawn_particle_effect_with_flags(&v, *(s32 *)((s8 *)(F(u8 *, 0x778)) + 8), 0x40);
             }
-            if (objInBand((GameObj *)arg0, (f32)(97.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(97.0f)) != 0) {
                 ((TBoss1Dragon *)arg0)->sweep_death_body_attack();
             }
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -3116,7 +3116,7 @@ void TBoss1Dragon::update_stretch_state(u32 arg1) {
         return;
     case ENEMY_STATE_UPDATE:
         advance_animation_playback();
-        if (objInBand((GameObj *)(arg0), (20.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((20.0f)) != 0) {
             play_cue_stream_file(lbl_80435388);
             return;
         }
@@ -3187,11 +3187,11 @@ void TBoss1Dragon::update_head_down_attack_state(u32 arg1) {
         advance_animation_playback();
         switch (this->impactAge) {
         case 0:
-            if (objInBand((GameObj *)(arg0), lbl_805D8014) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805D8014) != 0) {
                 apply_head_fall_attack();
-            } else if (objInBand((GameObj *)(arg0), TBoss1Dragon__data_805D8018) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame(TBoss1Dragon__data_805D8018) != 0) {
                 ((void (*)(void *))update_from_data__12TBoss1DragonFv)(arg0);
-            } else if (objInBand((GameObj *)(arg0), TBoss1Dragon__data_805D8008) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame(TBoss1Dragon__data_805D8008) != 0) {
                 ((void (*)(void *))sweep_head_fall_spheres_late__12TBoss1DragonFv)(arg0);
             }
             if ((s16) this->requested_action != 8) {
@@ -3299,10 +3299,10 @@ void TBoss1Dragon::handleFallState(u32 reason) {
             if (this->frame >= lbl_805D8020) {
                 this->stateStep = 1;
             }
-            if (objInBand((GameObj *)(this), (2.0f)) != 0) {
+            if (is_passing_frame((2.0f)) != 0) {
                 play_se_at_pos__12TBoss1DragonFii((s32)this, 0x4003A804);
             }
-            if (objInBand((GameObj *)(this), lbl_805D8024) != 0) {
+            if (is_passing_frame(lbl_805D8024) != 0) {
                 update_switch_attack();
             }
             break;
@@ -3602,13 +3602,13 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
             }
             break;
         case 2:
-            if (objInBand((GameObj *)arg0, (f32)(2.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(2.0f)) != 0) {
                 play_se_at_pos__12TBoss1DragonFii((s32)arg0, 0x4003A804);
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805D8048) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8048) != 0) {
                 play_se_at_pos__12TBoss1DragonFii((s32)arg0, 0x4003AD0A);
             }
-            if (objInBand((GameObj *)arg0, (f32)TBoss1Dragon__data_805D8018) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805D804C)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TBoss1Dragon__data_805D8018) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D804C)) != 0) {
                 ((TBoss1Dragon *)arg0)->update_switch_attack();
             }
             if (*(void **)((s8 *)arg0 + 0x8AC) == NULL) {
@@ -3621,7 +3621,7 @@ void TBoss1Dragon::update_air_fire_state(u32 arg1) {
                 queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x8AC));
                 *(u32 *)((s8 *)arg0 + 0x8AC) = 0;
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805D8050) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D8050) != 0) {
                 VecCopy__FP3VecPC3Vec(&d, tgt);
                 subtract_vector(&d, (u8 *)&this->position);
                 dist = ((f32 (*)(void *))normalize_vector_xz__FP3Vec)(&d);
@@ -3834,13 +3834,13 @@ void TBoss1Dragon::update_lift_state(u32 arg1) {
             break;
         }
         ((s32 (*)(void *))advance_animation_playback)(self);
-        if (objInBand((GameObj *)self, (f32)TBoss1Dragon__data_805D8018) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)TBoss1Dragon__data_805D8018) != 0) {
             play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003A804);
         }
-        if (objInBand((GameObj *)self, (f32)lbl_805D8068) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8068) != 0) {
             play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003A803);
         }
-        if (objInBand((GameObj *)self, (f32)lbl_805D806C) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D806C) != 0) {
             spawn_particle_effect_with_flags(&self->position.x, self->effectResource->unknown00[1], 0x40);
         }
         switch (self->impactAge) {
@@ -3890,14 +3890,14 @@ void TBoss1Dragon::update_tail_attack_state(u32 arg1) {
     case 0:
         advance_animation_playback();
         self->stateStep++;
-        if (objInBand((GameObj *)self, (f32)(0.0f)) != 0 ||
-            objInBand((GameObj *)self, (f32)(12.0f)) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)(0.0f)) != 0 ||
+            ((TObjMotion *)self)->is_passing_frame((f32)(12.0f)) != 0) {
             play_se_at_pos__12TBoss1DragonFii((s32)self, 0x4003AD09);
         }
         if (self->stateStep > 1) {
-            if (objInBand((GameObj *)self, (f32)TBoss1Dragon__data_805D8010) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)TBoss1Dragon__data_805D8010) != 0) {
                 ((TBoss1DragonEffTail *)(self->tail))->disable();
-            } else if (objInBand((GameObj *)self, (f32)lbl_805D8070) != 0) {
+            } else if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D8070) != 0) {
                 ((TBoss1DragonEffTail *)(self->tail))->enable();
             }
             self->tail->run_task();
@@ -4168,9 +4168,9 @@ void TBoss1Dragon::update_walking_state(u32 arg1) {
         TBoss1Dragon__sub_80028BE0(arg0);
         update_velocity__9TObjEneDDFv(arg0);
         calc_target_vector__12TBoss1DragonFPv(arg0);
-        if (objInBand((GameObj *)arg0, (f32)(3.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(3.0f)) != 0) {
             ((TBoss1Dragon *)arg0)->apply_foot_attack_pair_0();
-        } else if (objInBand((GameObj *)arg0, (f32)(24.0f)) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((f32)(24.0f)) != 0) {
             ((TBoss1Dragon *)arg0)->apply_foot_attack_pair_1();
         }
         v = this->frame;
@@ -4577,7 +4577,7 @@ u16 TBoss1Dragon::find_player_on_floor(void *arg0) {
 #pragma pop
 
 void TBoss1Dragon__sub_800274A4(s32 arg0) {
-    if (objInBand((GameObj *)arg0, TBoss1Dragon__data_805D8018) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(TBoss1Dragon__data_805D8018) != 0) {
         ((TBoss1Dragon *)arg0)->update_switch_attack();
     }
 }
@@ -5257,13 +5257,13 @@ void TBoss1Dragon::clearState() {
 
 void TBoss1Dragon::play_nearby_se() {
     s32 arg0 = (s32)this;
-    if (objInBand((GameObj *)arg0, (5.0f)) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((5.0f)) != 0) {
         play_se_at_pos__12TBoss1DragonFii(arg0, 0x4003A804);
     }
 }
 
 void TBoss1Dragon__sub_80028BE0(u8 *arg0) {
-    if ((objInBand((GameObj *)arg0, (f32)(4.0f)) != 0) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805D80B0)) != 0)) {
+    if ((((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D80B0)) != 0)) {
         play_se_at_pos__12TBoss1DragonFii((s32) arg0, 0x4003A801);
     }
 }

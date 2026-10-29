@@ -13,7 +13,7 @@
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 
 #include "pso/enemy/TUnk_80494938.h"
@@ -780,7 +780,7 @@ void spawn_ground_effect__16TObjEneMerillLiaFPv(u8 *arg0) {
             }
             spawn_particle_effect((void *)(*(s32 *)((s8 *)temp_r3 + 4) + 0x38), 0xA4);
         }
-        if ((objInBand((GameObj *)arg0, (f32)lbl_805DA2F8) != 0) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DA2FC)) != 0)) {
+        if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA2F8) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DA2FC)) != 0)) {
             fn_800D88E4((arg0 + 0x38));
         }
     }
@@ -1112,7 +1112,7 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x0A000000);
         break;
     case 1:
-        if (objInBand((GameObj *)(arg0), (f32)lbl_805DA30C) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA30C) != 0) {
             advance_animation_playback(arg0);
             push_matrix_from(&identity_matrix);
             post_translate_matrix(arg0 + 0x38);
@@ -1184,7 +1184,7 @@ void TObjEneMerillLia__sub_800D59E4(u8 *arg0) {
     }
     ((TObjPlayer *)arg0)->update_collisions();
     ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    if (objInBand((GameObj *)arg0, TObjEneMerillLia__data_805DA300) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(TObjEneMerillLia__data_805DA300) != 0) {
         ((TObjEneMerillLia *)arg0)->vfunc_97();
     }
     if (*(u32 *)((s8 *)arg0 + 0xB4) != 8) {
@@ -1430,7 +1430,7 @@ void TObjEneMerillLia::vfunc_83() {
         break;
     case 1:
         spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805DA304) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA304) != 0) {
             TObjEneMerillLia__sub_800D501C((s32)arg0);
         }
         if (arg0->fB4 != 0x20) {

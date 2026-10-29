@@ -9,7 +9,7 @@
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 
 #include "pso/player/TUnk_80490470.h"
@@ -739,10 +739,10 @@ void TObjPlayer__sub_800A49B4(TObjEneSaver *self) {
         play_sound_effect(((TObjEnemy *)(self))->remap_sound_for_area((s32)(0x4003AD05)), &self->position, 0, 0);
         break;
     case 1:
-        if (objInBand((GameObj *)self, 5.0f) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(5.0f) != 0) {
             self->m_380 = 0x107;
         }
-        if (objInBand((GameObj *)self, 28.0f) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(28.0f) != 0) {
             self->actorFlags &= 0xFBFFFEFF;
             self->m_374 &= ~0x20;
             if (self->test_flag_256() != 0) {
@@ -852,7 +852,7 @@ void TObjEneSaver::sub_800A4D9C() {
         if (!(F(u32, 0x30) & 0x800000)) {
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), 0.0f);
         }
-        if (objInBand((GameObj *)arg0, (f32)11.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)11.0f) != 0) {
             u8 *t = F(u8 *, 0x2A8);
             if (t == NULL) {
                 goto fail;
@@ -898,7 +898,7 @@ void TObjEneSaver::sub_800A4D9C() {
                 }
             }
         }
-        if (objInBand((GameObj *)arg0, (f32)23.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)23.0f) != 0) {
             ((TObjPlayer *)arg0)->check_object_collisions();
             check_enemy_body_collisions(arg0);
             F(s16, 0x328) = 2;
@@ -1010,7 +1010,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
         if (!(o->flags & 0x800000)) {
             apply_actor_gravity((TObjEnemy *)((u8 *)o), (s32 *)(0), 0.0f);
         }
-        if (objInBand((GameObj *)o, (f32)7.0f) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)7.0f) != 0) {
             if (o->target != NULL && o->target->m18(o, 1.0f) != 0) {
                 f32 d = o->target->m20(o, 1.0f);
                 o->target->m23(o);
@@ -1104,54 +1104,54 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
         break;
     case 1:
         F(s16, 0xB8) = 2;
-        if (objInBand((GameObj *)arg0, (f32)12.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)12.0f) != 0) {
             F(s16, 0x328) = 2;
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A801)), arg0 + 0x38, 0, 0);
         }
         break;
     case 2:
         F(s16, 0xB8) = 2;
-        if (objInBand((GameObj *)arg0, (f32)16.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)16.0f) != 0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (15.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 20.0f) {
             apply_lookup_entry_effect__12TObjEneSaverFv(arg0);
         }
-        if (objInBand((GameObj *)arg0, (f32)21.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)21.0f) != 0) {
             F(s16, 0x328) = 3;
         }
         break;
     case 3:
         F(s16, 0xB8) = 2;
         move_with_wall_slide(arg0);
-        if (objInBand((GameObj *)arg0, (f32)32.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)32.0f) != 0) {
             F(s16, 0x328) = 4;
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A801)), arg0 + 0x38, 0, 0);
         }
         break;
     case 4:
         F(s16, 0xB8) = 2;
-        if (objInBand((GameObj *)arg0, (f32)37.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)37.0f) != 0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (32.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 40.0f) {
             apply_lookup_entry_effect__12TObjEneSaverFv(arg0);
         }
-        if (objInBand((GameObj *)arg0, (f32)42.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)42.0f) != 0) {
             F(s16, 0x328) = 5;
         }
         break;
     case 5:
         F(s16, 0xB8) = 2;
         move_with_wall_slide(arg0);
-        if (objInBand((GameObj *)arg0, (f32)52.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)52.0f) != 0) {
             F(s16, 0x328) = 6;
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A801)), arg0 + 0x38, 0, 0);
         }
         break;
     case 6:
         F(s16, 0xB8) = 2;
-        if (objInBand((GameObj *)arg0, (f32)54.0f) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)54.0f) != 0) {
             TObjPlayer__sub_800A5960(arg0);
         }
         if (52.0f <= F(f32, 0xC0) && F(f32, 0xC0) <= 60.0f) {

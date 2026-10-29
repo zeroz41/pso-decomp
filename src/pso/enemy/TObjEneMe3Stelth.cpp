@@ -20,7 +20,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/misc/TBreakUpMdl.h"
 #include "pso/TParticleCtrl.h"
@@ -112,7 +112,7 @@ void exec__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
         } else if (is_split_screen() != 0) {
             switch (*(s32 *)((s8 *)arg0 + 0x424)) {
             case 0:
-                if (objInBand((GameObj *)arg0, (f32)lbl_805DA828) != 0) {
+                if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA828) != 0) {
                     *(s32 *)((s8 *)arg0 + 0x3CC) = (s32) (*(s32 *)((s8 *)arg0 + 0x3CC) | 8);
                     ((VO414*)(arg0 + 0x404))->m3();
                     *(s32 *)((s8 *)arg0 + 0x424) = 1;
@@ -126,10 +126,10 @@ void exec__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
                 }
                 break;
             }
-        } else if (objInBand((GameObj *)arg0, (f32)(25.0f)) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((f32)(25.0f)) != 0) {
             *(s32 *)((s8 *)arg0 + 0x3CC) = (s32) (*(s32 *)((s8 *)arg0 + 0x3CC) | 8);
             *(s32 *)((s8 *)arg0 + 0x3C0) = 1;
-        } else if (objInBand((GameObj *)arg0, (f32)lbl_805DA838) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA838) != 0) {
             *(s32 *)((s8 *)arg0 + 0x3CC) = (s32) (*(s32 *)((s8 *)arg0 + 0x3CC) & 0xFFFFFFF7);
         }
         ((TObjEneDD *)arg0)->vfunc_102();
@@ -1013,7 +1013,7 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
         switch (F(s32, 0x424)) {
         case 0:
             advance_animation_playback(arg0, arg1);
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DA854) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DA818)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA854) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DA818)) != 0) {
                 play_sound_effect(0x3A836, (u8 *)&this->position, 0, 0);
             }
             if (get_flag_b4__9TObjEneDDFv(arg0) != 0) {
@@ -1024,9 +1024,9 @@ void TObjEneMe3Stelth::handle_breakup_state(s32 arg1) {
                 ofs.z = TObjEneMe3Stelth__data_805DA844;
                 ((TObjBoss2Tunnel *)(&ofs))->init_zako((u8 *)&this->position, F(s32, 0x60));
                 TObjPlayer::spawn_effect_f8((s32)&ofs, 0x14);
-            } else if (objInBand((GameObj *)arg0, (f32)TObjEneMe3Stelth__data_805DA850) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3Stelth__data_805DA850) != 0) {
                 F(s32, 0x3CC) |= 8;
-            } else if (objInBand((GameObj *)arg0, (f32)lbl_805DA82C) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA82C) != 0) {
                 F(s32, 0x3CC) &= ~8;
                 F(s32, 0x3C0) = 0;
             }
@@ -2178,7 +2178,7 @@ void TObjEneMe3Stelth__sub_800F348C(u8 *arg0, s32 arg1) {
                 ang = F(s32, 0x60);
             }
             F(s32, 0x60) = approach_angle_limited(F(s32, 0x60), ang, 0x1000);
-            if (objInBand((GameObj *)arg0, (f32)TObjEneMe3Stelth__data_805DA824) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3Stelth__data_805DA824) != 0) {
                 F(s32, 0x424) = 2;
             }
             VO->m100();
@@ -2228,7 +2228,7 @@ void TObjEneMe3Stelth__sub_800F348C(u8 *arg0, s32 arg1) {
             break;
         case 4:
             advance_animation_playback(arg0);
-            if (objInBand((GameObj *)arg0, (f32)(25.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(25.0f)) != 0) {
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
                     if (((VObj_18_6a7bb5 *)F(u8 *, 0x390))->m18(arg0, TObjEneMe3Stelth__data_805DA80C) != 0) {
                         ((VObj_18_6a7bb5 *)F(u8 *, 0x390))->m20(arg0, TObjEneMe3Stelth__data_805DA80C);
@@ -3504,8 +3504,8 @@ u8 TObjEneMe3Stelth::check_target_in_range() {
 void TObjEneMe3Stelth::vfunc_108() {  }
 
 void attack_and_unequip__16TObjEneMe3StelthFPv(Stelth_800F4A90 *self) {
-    s32 near = objInBand((GameObj *)self, (f32)lbl_805DA810);
-    if (objInBand((GameObj *)self, (f32)TObjEneMe3Stelth__data_805DA808) == 0 && near == 0) {
+    s32 near = ((TObjMotion *)self)->is_passing_frame((f32)lbl_805DA810);
+    if (((TObjMotion *)self)->is_passing_frame((f32)TObjEneMe3Stelth__data_805DA808) == 0 && near == 0) {
         return;
     }
     if (((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0 && self->target->m18(self, TObjEneMe3Stelth__data_805DA80C) != 0) {

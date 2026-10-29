@@ -1,7 +1,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/enemy/TObjEneEpsilon.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneGibbles.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -829,7 +829,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
             }
             break;
         case 1:
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DF3F8) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF3F8) != 0) {
                 play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A80A), arg0 + 0x38, 0, 0);
                 TObjEneRecon::create_bomb(arg0, arg0, arg0 + 0x40C);
             } else if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -911,13 +911,13 @@ void TObjEneRecon__sub_8031CF30(u8 *arg0, s32 arg1) {
             ((TObjEneRecon *)arg0)->update_flag_0x444();
             break;
         case 2:
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DF400) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DF404)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF400) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DF404)) != 0) {
                 spawn_particle_effect(arg0 + 0x2FC, 0x218);
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DF408) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF408) != 0) {
                 F(s32, 0x3C8) = 1;
                 play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A809), arg0 + 0x38, 0, 0);
-            } else if (objInBand((GameObj *)arg0, (f32)lbl_805DF40C) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF40C) != 0) {
                 F(s32, 0x3C8) = 0;
             }
             if (F(s32, 0x3C8) == 1) {

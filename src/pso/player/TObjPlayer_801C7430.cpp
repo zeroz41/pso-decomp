@@ -1219,7 +1219,7 @@ u8 TMainCursor__sub_8013E900(void *);
 s32 approach_angle_adaptive(s32, s32);
 s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
 s32 is_anim_finished__10TObjMotionFv(void *);
-s32 objInBand__FP7GameObjf(void *);
+s32 is_passing_frame__10TObjMotionFf(void *);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
 void init_6x43_attack_packet(u8 *arg0);
@@ -3369,7 +3369,7 @@ void TObjPlayer::update_fall_reaction() {
     f32 temp_f1;
     switch (this->phase) {
     case 0:
-        if (((s32 (*)(f32))objInBand__FP7GameObjf)(lbl_805DC370) != 0) {
+        if (((s32 (*)(f32))is_passing_frame__10TObjMotionFf)(lbl_805DC370) != 0) {
             if (classify_action_state__10TObjPlayerFv(this) == 2) {
                 this->play_sound_if_on_floor(0x40002320);
             } else {
@@ -4123,7 +4123,7 @@ void TObjPlayer::update_photon_blast_action() {
       break;
     case 0:
       ((TObjPlayer *)arg0)->get_photon_blast_hold_frame();
-      if (objInBand__FP7GameObjf((void *) arg0) != 0)
+      if (is_passing_frame__10TObjMotionFf((void *) arg0) != 0)
     {
       this->phase = 1;
       this->motion_flags = (s32) ((this->motion_flags) | 0x40);
@@ -4281,7 +4281,7 @@ void TObjPlayer::update_band_state() {
     u8 *arg0 = (u8 *)this;
     if ((s16) this->phase == 2) {
         ((TObjPlayer *)(arg0 + 0x4AC))->get_dist();
-        if (objInBand__FP7GameObjf((void *) (arg0)) != 0) {
+        if (is_passing_frame__10TObjMotionFf((void *) (arg0)) != 0) {
             this->phase = 3;
             set_action_flag_40();
         }
@@ -4296,7 +4296,7 @@ void TObjPlayer::update_target_approach() {
     }
     if ((s16) this->phase == 2) {
         ((TObjPlayer *)(arg0 + 0x4AC))->get_dist();
-        if (objInBand__FP7GameObjf((void *) (arg0)) != 0) {
+        if (is_passing_frame__10TObjMotionFf((void *) (arg0)) != 0) {
             this->phase = 3;
             set_action_flag_40();
             send_6x37_photon_blast();
@@ -4576,7 +4576,7 @@ void TObjPlayer::update_technique_cast() {
         }
         break;
     case 2:
-        if (((s32 (*)(void *, f32))objInBand__FP7GameObjf)((void *) (arg0), (f32) (*(f32 *)((s8 *)temp_r3 + 0xC))) != 0) {
+        if (((s32 (*)(void *, f32))is_passing_frame__10TObjMotionFf)((void *) (arg0), (f32) (*(f32 *)((s8 *)temp_r3 + 0xC))) != 0) {
             this->phase = 3;
             ((void (*)(void *, s32))sub_8011E204__10TObjPlayerFl)((void *) (arg0), 0x80);
             set_action_flag_40();
@@ -5297,7 +5297,7 @@ void TObjPlayer::update_anim_action() {
     ((s32 (*)(void))get_item_field_6__10TObjPlayerFPv)();
     if (((s16 (*)(void *))get_handle_value__10TObjPlayerFv)(arg0) != 8) {
         ((TObjPlayer *)arg0)->select_normal_attack_marker();
-        if (objInBand__FP7GameObjf(arg0) != 0) {
+        if (is_passing_frame__10TObjMotionFf(arg0) != 0) {
             send_attack_target_packet();
             ((TObjPlayer *)(arg0 + 0x7CC))->increment_strike_counter();
             ((s32 (*)(void *, void *))apply_anim_action__10TObjPlayerFPvi)(arg0 + 0x7CC, arg0);
@@ -5305,7 +5305,7 @@ void TObjPlayer::update_anim_action() {
     } else {
         if (((s32 (*)(s32, s32))test_flags_any)(((s32 (*)(void *))get_anim_field_c__10TObjPlayerFPv)(arg0 + 0x7CC), 8) == 0) {
             ((TObjPlayer *)arg0)->select_normal_attack_marker();
-            if (objInBand__FP7GameObjf(arg0) != 0) {
+            if (is_passing_frame__10TObjMotionFf(arg0) != 0) {
                 send_attack_target_packet();
                 increment_burst_counter((u8 *)&this->attack_state);
                 if (get_burst_counter((u8 *)&this->attack_state) >= 3) {

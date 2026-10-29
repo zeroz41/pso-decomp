@@ -6,7 +6,7 @@
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_802CE510.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -56,7 +56,7 @@ void fn_802CE510(int arg0) {
     {
       play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x3B211))), arg0, (arg0 + 0x38), 0, 0);
     }
-    if (((objInBand((GameObj *)arg0, (f32)((f32) lbl_805DE6EC)) != 0) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32) lbl_805DE6E8)) != 0)) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32) lbl_805DE6F0)) != 0))
+    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6E8)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
     {
       if (temp_r31 != 0)
       {

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/enemy/TObjEneMe3SinowZoa_80316A74.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -322,7 +322,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
                 arg0->timer = 0;
                 arg0->state = 3;
             }
-            if (objInBand((GameObj *)arg0, (f32)TObjEneMe3SinowZoa__data_805DF314) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3SinowZoa__data_805DF314) != 0) {
                 advance_animation_playback(arg0);
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(&arg0->pos);

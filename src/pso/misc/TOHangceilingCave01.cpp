@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TUnk_804B1B80.h"
 #include "pso/misc/TOHangceilingCave01KeyQuick.h"
@@ -716,7 +716,7 @@ void TUnk_804B2578::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         this->vfunc_80();
         ((TUnk_804B2578 *)arg0)->sub_80168398();
-        if ((((s32 (*)(void *))sub_801688C0__13TUnk_804B2578Fv)(arg0) != 0) && ((s16) this->mode != 3) && (objInBand((GameObj *)arg0, (f32)8.0f) != 0)) {
+        if ((((s32 (*)(void *))sub_801688C0__13TUnk_804B2578Fv)(arg0) != 0) && ((s16) this->mode != 3) && (((TObjMotion *)arg0)->is_passing_frame((f32)8.0f) != 0)) {
             spawn_particle_effect(&this->position, 0x64);
         }
     }

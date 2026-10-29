@@ -3,7 +3,7 @@
 #include "pso/enemy/TObjEneEpsilon_800B92AC.h"
 #include "pso/unk/text_800C3088.h"
 #include "pso/unk/text_800C3A60.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -193,7 +193,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
       switch (((RecoveredFields_800C3088_arg0 *) arg0)->field_414)
     {
       case 0:
-        if (objInBand((GameObj *)arg0, (f32) ((((RecoveredFields_800C3088_arg0 *) arg0)->field_C4 - lbl_805D9FC0) - ((RecoveredFields_800C3088_arg0 *) arg0)->field_C8)) != 0)
+        if (((TObjMotion *)arg0)->is_passing_frame((f32) ((((RecoveredFields_800C3088_arg0 *) arg0)->field_C4 - lbl_805D9FC0) - ((RecoveredFields_800C3088_arg0 *) arg0)->field_C8)) != 0)
       {
         ((RecoveredFields_800C3088_arg0 *) arg0)->field_418 = (int) (((RecoveredFields_800C3088_arg0 *) arg0)->field_418 + 1);
         if (((f32) ((RecoveredFields_800C3088_arg0 *) arg0)->field_418) >= lbl_805D9FD4)
@@ -203,7 +203,7 @@ void fn_800C3088(u8 *arg0, int arg1) {
         }
       }
       else
-        if (objInBand((GameObj *)arg0, (f32)((f32) lbl_805D9FC4)) != 0)
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805D9FC4)) != 0)
       {
         if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0)
         {
@@ -272,7 +272,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
                 ((TParticleCtrl *)temp_r3_2)->enable();
             }
         }
-        if (objInBand((GameObj *)(owner), lbl_805D9FDC) != 0) {
+        if (((TObjMotion *)owner)->is_passing_frame(lbl_805D9FDC) != 0) {
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(owner + 0x3DC));
             stack.spC = lbl_805D9FDC + *(f32 *)((s8 *)owner + 0x3C);
             if ((((TObjEneRe2Flower *)owner)->get_flag_11() != 0) || (TObjEneDD::check_v2_mode() != 0)) {

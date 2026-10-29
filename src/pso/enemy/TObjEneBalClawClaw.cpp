@@ -12,7 +12,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 
@@ -657,7 +657,7 @@ void TObjEneBalClawClaw__sub_80090ECC(Claw_80090ECC *self) {
         Vec_80090ECC v = ((Claw_80090ECC *)self->target)->pos;
         SEEK_80090ECC(self, &v, (0.7f));
         ((TObjEnemy *)self)->turn_toward_direction(self->info->f8, (Vec *)self->f308);
-        if (objInBand((GameObj *)self, (f32)(8.0f)) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)(8.0f)) != 0) {
             play_sound_effect(0x4003B032, self->f38, 0, 0);
             if (self->target->m18(self, (1.0f)) != 0) {
                 self->target->m23(self, (3.0f));

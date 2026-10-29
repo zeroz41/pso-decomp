@@ -4,7 +4,7 @@
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "types.h"
 
@@ -239,7 +239,7 @@ void TBoss7Crawfish::clear_object_state_exchange() {
 
 void TBoss7Crawfish::check_band_and_destroy() {
     s32 arg0 = (s32)this;
-    if (objInBand((GameObj *)arg0, (f32)lbl_805DF0EC) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF0EC) != 0) {
         spawn_ground_effects();
     }
     if (TBoss7Crawfish__data_805DF0D8 == ((TBoss7Crawfish *)arg0)->get_health()) {

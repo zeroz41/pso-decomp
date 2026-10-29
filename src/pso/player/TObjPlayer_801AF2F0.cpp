@@ -7,7 +7,7 @@
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/render/depth_buffer.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRecon.h"
@@ -4775,10 +4775,10 @@ int TObjPlayer::update_foot_stamp(int arg1) {
 }
 
 s32 test_ordered_anim_markers__10TObjPlayerFPvff(u8 *arg0, f32 farg0, f32 farg1) {
-    if (objInBand((GameObj *)arg0, (f32)farg0) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)farg0) != 0) {
         return 1;
     }
-    return (objInBand((GameObj *)arg0, (f32)farg1) != 0) ? 2 : 0;
+    return (((TObjMotion *)arg0)->is_passing_frame((f32)farg1) != 0) ? 2 : 0;
 }
 
 void TObjPlayer::emit_footstep_effect(f32 farg0, f32 farg1) {

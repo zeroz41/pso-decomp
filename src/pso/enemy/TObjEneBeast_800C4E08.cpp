@@ -1,7 +1,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/object/TObjMotion.h"
@@ -643,10 +643,10 @@ int TUnk_80493450::beast_retire_corpse() { return queue_destruction__7TObjectFv(
 void TUnk_80493450::beast_update_dead() {
     u8 *arg0 = (u8 *)this;
     advance_animation_playback();
-    if (objInBand((GameObj *)(arg0), lbl_805DA034) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DA034) != 0) {
         this->vfunc_98();
     }
-    if (objInBand((GameObj *)(arg0), lbl_805DA038) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DA038) != 0) {
         spawn_particle_effect(((u8 *)&this->position), 0xF3);
         this->vfunc_94();
     }
@@ -687,7 +687,7 @@ void TUnk_80493450::beast_update_hurt() {
         o->f308 = ((TObjPlayer *)o)->m_310 = lbl_805DA034;
     }
     ((TObjPlayer *)o)->update_collisions();
-    if (objInBand((GameObj *)o, (f32)lbl_805DA034) != 0) {
+    if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DA034) != 0) {
         this->vfunc_97();
     }
     if (((TObjPlayer *)o)->action_flags != 8) {
@@ -732,7 +732,7 @@ void TUnk_80493450::beast_update_attack() {
     case 0:
         ((Self_800C53DC *)this)->f328 = 1;
     case 1:
-        if (objInBand((GameObj *)((Self_800C53DC *)this), (f32)lbl_805DA04C) != 0) {
+        if (((TObjMotion *)((Self_800C53DC *)this))->is_passing_frame((f32)lbl_805DA04C) != 0) {
             if (((Self_800C53DC *)this)->target != NULL && ((Self_800C53DC *)this)->target->m18(((Self_800C53DC *)this), lbl_805DA048) != 0) {
                 ((Self_800C53DC *)this)->target->m20(((Self_800C53DC *)this), lbl_805DA048);
                 ((Self_800C53DC *)this)->target->m23(((Self_800C53DC *)this), lbl_805DA050);
@@ -879,7 +879,7 @@ void TUnk_80493450::beast_update_approach() {
     case 0:
         apply_actor_gravity(arg0, 0, lbl_805DA034);
         ((void (*)(void *))advance_animation_playback)(arg0);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805DA034) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA034) != 0) {
             this->vfunc_95();
         }
         if (this->action_flags != 0x20U) {
@@ -927,7 +927,7 @@ void TUnk_80493450::update_turn_toward_target() {
     advance_animation_playback();
     switch (arg0->field_328) {
     case 0:
-        if (objInBand((GameObj *)arg0, (f32)lbl_805DA034) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA034) != 0) {
             arg0->m93();
         }
         if (arg0->field_B4 != 0x20) {

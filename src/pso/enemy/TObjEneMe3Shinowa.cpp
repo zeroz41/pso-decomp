@@ -16,7 +16,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "pso/TParticleCtrl.h"
@@ -2065,7 +2065,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
         switch (*(s32 *)((s8 *)arg0 + 0x404)) {
         case 0:
             ((void (*)())advance_animation_playback)();
-            if ((objInBand((GameObj *)(arg0), (f32)lbl_805DA5E0) != 0) || (objInBand((GameObj *)(arg0), (f32)((f32)TObjEneMe3ShinowaMirage__data_805DA5E4)) != 0)) {
+            if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA5E0) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)TObjEneMe3ShinowaMirage__data_805DA5E4)) != 0)) {
                 play_sound_effect((void *) ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD12)), arg0 + 0x38, 0, 0);
             }
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -2641,7 +2641,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1) {
                 var_r4 = *(s32 *)((s8 *)arg0 + 0x60);
             }
             *(s32 *)((s8 *)arg0 + 0x60) = approach_angle_limited(*(s32 *)((s8 *)arg0 + 0x60), var_r4, 0x1000);
-            if (objInBand((GameObj *)arg0, (f32)TObjEneMe3ShinowaMirage__data_805DA5E8) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3ShinowaMirage__data_805DA5E8) != 0) {
                 *(s32 *)((s8 *)arg0 + 0x404) = 2;
             }
             ((TObjEneDD *)(arg0))->vfunc_102();
@@ -2688,7 +2688,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1) {
             break;
         case 4:
             advance_animation_playback(arg0, arg1);
-            if (objInBand((GameObj *)arg0, (f32)TObjEneMe3ShinowaMirage__data_805DA5E4) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3ShinowaMirage__data_805DA5E4) != 0) {
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
                     if (((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m18(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC) != 0) {
                         ((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m20(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC);
@@ -3187,8 +3187,8 @@ void TObjEneMe3Shinowa::update_player_state_default() {
 void TObjEneMe3Shinowa::vfunc_105() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
-    temp_r31 = objInBand((GameObj *)arg0, (f32)lbl_805DA640);
-    if ((objInBand((GameObj *)arg0, (f32)lbl_805DA644) != 0) || (temp_r31 != 0)) {
+    temp_r31 = ((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA640);
+    if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA644) != 0) || (temp_r31 != 0)) {
         if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
             if (((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m18(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC) != 0) {
                 ((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m20(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC);

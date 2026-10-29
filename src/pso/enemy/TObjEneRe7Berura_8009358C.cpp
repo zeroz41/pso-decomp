@@ -1,7 +1,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "types.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -474,10 +474,10 @@ void TObjEneRe7Berura__sub_80093888(u8 *actor, s32 arg1) {
             }
             break;
         case 1:
-            if (objInBand((GameObj *)actor, (f32)lbl_805D9744) != 0) {
+            if (((TObjMotion *)actor)->is_passing_frame((f32)lbl_805D9744) != 0) {
                 play_sound_effect(((TObjEnemy *)(actor))->remap_sound_for_area((s32)(0x4003AD22)), (u32) (actor + 0x38), 0, 0);
             }
-            if ((objInBand((GameObj *)actor, (f32)lbl_805D9748) != 0) && (((TObjEneDD_ST *)actor)->enemy_check_target_valid() != 0)) {
+            if ((((TObjMotion *)actor)->is_passing_frame((f32)lbl_805D9748) != 0) && (((TObjEneDD_ST *)actor)->enemy_check_target_valid() != 0)) {
                 if (((VObj_18_a5c788 *)((u8 *)(*(u8 **)((s8 *)actor + 0x390))))->m18(actor, lbl_805D974C) != 0) {
                     if (((VObj_18_a5c788 *)((u8 *)(*(u8 **)((s8 *)actor + 0x390))))->m20(actor, lbl_805D974C) > TObjEneRe7Berura__data_805D972C) {
                         if (TObjEneDD::check_v2_mode() != 0) {
@@ -591,7 +591,7 @@ void TObjEneRe7Berura__sub_80093C80(u8 *arg0, s32 arg1) {
                     }
                 }
             }
-            if (objInBand((GameObj *)arg0, (f32)(F(f32, 0x4D0))) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(F(f32, 0x4D0))) != 0) {
                 ARMF[F(s32, 0x3F4)] |= 3;
                 SUB->m3();
                 VecCopy((Vec *)&v, (const Vec *)&TObjEneRe7Berura__detached_part_states[F(s32, 0x3F4)].ofs);

@@ -1169,7 +1169,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 void TObjBoss2Tunnel__sub_8003C5F8(void);
 void TObjBoss2Tunnel__sub_8003C610(void);
 void *create_particle_emitter(void *pos, s32 id);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void advance_animation_playback(void *);
 extern const f32 TBoss2DeRolLe__data_805D827C;
 extern const f32 TBoss2DeRolLe__data_805D8288;
@@ -1273,7 +1273,7 @@ s32 restore_player_cameras();
 s32 activate_camera_mode(int);
 void set_scripted_camera_pose(void *, void *, void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void advance_animation_playback(void *);
 int play_sound_effect(void*, int, int, int);
 void play_cue_stream_file(s32 name);
@@ -1306,7 +1306,7 @@ s32 vec3_add_to(int, void *);
 void advance_animation_playback(void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 int play_sound_effect(void*, int, int, int);
 s32 get_flag_b4__9TObjEneDDFv(void *);
 Play_80032E38 *get_scripted_camera_playback(void);
@@ -1345,7 +1345,7 @@ void set_position_index__13TBoss2DeRolLeFPvi(void *, s32);
 s32 advance_scalar_motion_profile(void *);
 void set_move_params__13TBoss2DeRolLeFPvffff(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void advance_animation_playback(void *);
 extern const f32 TBoss2DeRolLe__data_805D827C;
 extern const f32 TBoss2DeRolLe__data_805D8288;
@@ -1558,7 +1558,7 @@ f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv();
 s32 is_alive__8TObjBaseFv();
 u8 *get_enemy_entity(u16 arg0);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void advance_animation_playback(void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 int play_sound_effect(void*, int, int, int);
@@ -1714,11 +1714,11 @@ void handle_death_state__13TBoss2DeRolLeFPvPv(void *arg0, void *arg1) {
         advance_animation_playback(o);
         switch (o->f6E0) {
         case 0:
-            if (objInBand__FP7GameObjf(o, lbl_805D8290) != 0) {
+            if (is_passing_frame__10TObjMotionFf(o, lbl_805D8290) != 0) {
                 play_cue_stream_file((s32)lbl_804359F8);
-            } else if (objInBand__FP7GameObjf(o, TBoss2DeRolLe__data_805D8294) != 0) {
+            } else if (is_passing_frame__10TObjMotionFf(o, TBoss2DeRolLe__data_805D8294) != 0) {
                 play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (objInBand__FP7GameObjf(o, lbl_805D8298) != 0) {
+            } else if (is_passing_frame__10TObjMotionFf(o, lbl_805D8298) != 0) {
                 play_sound_effect((void *)0x4003AD12, 0, 0, 0);
                 start_pad_rumble_all(0xC0, 0xF);
             }
@@ -2143,7 +2143,7 @@ void state_ceiling_attack__13TBoss2DeRolLeFPvUi(u8 *arg0, u32 arg1) {
             v.z = v.z + TBoss2DeRolLe__data_805D82AC;
             spawn_ceil_junk__13TBoss2DeRolLeFii((s32)arg0, (s32)&v);
         }
-        if (objInBand__FP7GameObjf(arg0, TBoss2DeRolLe__data_805D82E4) != 0) {
+        if (is_passing_frame__10TObjMotionFf(arg0, TBoss2DeRolLe__data_805D82E4) != 0) {
             ((int (*)(int, void *))play_sound)(0x4003AD12, arg0 + 0x518);
         }
         break;
@@ -2178,7 +2178,7 @@ void TBoss2DeRolLe__sub_80030720(Obj_80030720 *self, u32 arg1, s32 arg2) {
         break;
     case 0:
         ((s32 (*)(void *))advance_animation_playback)(self);
-        if (objInBand__FP7GameObjf(self, lbl_805D82F4) != 0) {
+        if (is_passing_frame__10TObjMotionFf(self, lbl_805D82F4) != 0) {
             pos = self->f4D0;
             if (arg2 == 0x18) {
                 for (i = 0; i < 5; i++) {
@@ -2650,7 +2650,7 @@ f32 fabs_float(f32);
 void advance_animation_playback(void *);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_ceil_junk__13TBoss2DeRolLeFii(s32 arg1, s32 arg2);
-s32 objInBand__FP7GameObjf(void *, f32);
+s32 is_passing_frame__10TObjMotionFf(void *, f32);
 int play_sound(void* p, int a1);
 extern const f32 TBoss2DeRolLe__data_805D827C;
 extern const f32 TBoss2DeRolLe__data_805D8288;
@@ -2813,7 +2813,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
                 v.z = v.z + TBoss2DeRolLe__data_805D82A4;
                 ((void (*)(void *, Vec_800313F8 *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v);
             }
-            if (objInBand__FP7GameObjf(o, lbl_805D835C) != 0) {
+            if (is_passing_frame__10TObjMotionFf(o, lbl_805D835C) != 0) {
                 ((int (*)(s32, void *))play_sound)(0x4003AD11, o->snd);
             }
             if (o->f73C == 0) {
@@ -2849,7 +2849,7 @@ void TBoss2DeRolLe__sub_800313F8(DR_800313F8 *o, u32 arg1, s32 arg2) {
             o->pos.x = o->f704 * t + o->f700;
             f32 h = TBoss2DeRolLe__data_805D8288 * o->f70C;
             o->pos.z = t * (h * t + lbl_805D836C) + o->f714;
-            if (objInBand__FP7GameObjf(o, lbl_805D8370) != 0) {
+            if (is_passing_frame__10TObjMotionFf(o, lbl_805D8370) != 0) {
                 ((int (*)(s32, void *))play_sound)(0x4003AD12, o->snd);
             }
             break;
@@ -2977,9 +2977,9 @@ void TBoss2DeRolLe__sub_80031AD4(void *arg0, void *arg1) {
                 break;
             }
             if (o->fB8 != 1) {
-                if (objInBand__FP7GameObjf(o, TBoss2DeRolLe__data_805D82FC) != 0 || objInBand__FP7GameObjf(o, lbl_805D838C) != 0) {
+                if (is_passing_frame__10TObjMotionFf(o, TBoss2DeRolLe__data_805D82FC) != 0 || is_passing_frame__10TObjMotionFf(o, lbl_805D838C) != 0) {
                     play_sound((void *)0x4003AD11, (int)o->f518);
-                } else if (objInBand__FP7GameObjf(o, lbl_805D82EC) != 0) {
+                } else if (is_passing_frame__10TObjMotionFf(o, lbl_805D82EC) != 0) {
                     play_sound((void *)0x4003AD12, (int)o->f518);
                 }
             }
@@ -3159,9 +3159,9 @@ void TBoss2DeRolLe__sub_800320B4(void *arg0, void *arg1, int arg2, int arg3) {
                 break;
             }
             if (self->fB8 != 1) {
-                if (objInBand__FP7GameObjf(self, TBoss2DeRolLe__data_805D82E4) != 0 || objInBand__FP7GameObjf(self, lbl_805D83E8) != 0) {
+                if (is_passing_frame__10TObjMotionFf(self, TBoss2DeRolLe__data_805D82E4) != 0 || is_passing_frame__10TObjMotionFf(self, lbl_805D83E8) != 0) {
                     ((int (*)(int, void *))play_sound)(0x4003AD11, self->snd);
-                } else if (objInBand__FP7GameObjf(self, TBoss2DeRolLe__data_805D8358) != 0) {
+                } else if (is_passing_frame__10TObjMotionFf(self, TBoss2DeRolLe__data_805D8358) != 0) {
                     ((int (*)(int, void *))play_sound)(0x4003AD12, self->snd);
                 }
             }
@@ -3610,9 +3610,9 @@ void TBoss2DeRolLe__sub_80032E38(void *arg0, void *arg1) {
                 v3.z += lbl_805D83F0;
                 ((void (*)(void *, void *))spawn_ceil_junk__13TBoss2DeRolLeFii)(o, &v3);
             }
-            if (objInBand__FP7GameObjf(o, lbl_805D8420) != 0 || objInBand__FP7GameObjf(o, lbl_805D8424) != 0) {
+            if (is_passing_frame__10TObjMotionFf(o, lbl_805D8420) != 0 || is_passing_frame__10TObjMotionFf(o, lbl_805D8424) != 0) {
                 play_sound_effect((void *)0x4003AD11, 0, 0, 0);
-            } else if (objInBand__FP7GameObjf(o, lbl_805D8428) != 0) {
+            } else if (is_passing_frame__10TObjMotionFf(o, lbl_805D8428) != 0) {
                 play_sound_effect((void *)0x4003AD12, 0, 0, 0);
             }
             if (o->fC0 >= lbl_805D8410) {
@@ -3854,7 +3854,7 @@ void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0) {
     *(f32 *)((s8 *)temp_r31 + 0) = (f32) (*(f32 *)((s8 *)temp_r31 + 0) * TBoss2DeRolLe__data_805D8288);
     *(f32 *)((s8 *)temp_r31 + 4) = (f32) (*(f32 *)((s8 *)temp_r31 + 4) * TBoss2DeRolLe__data_805D8288);
     *(f32 *)((s8 *)temp_r31 + 8) = (f32) (*(f32 *)((s8 *)temp_r31 + 8) * TBoss2DeRolLe__data_805D8288);
-    if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 0x100) && ((objInBand__FP7GameObjf(arg0, TBoss2DeRolLe__data_805D82F0) != 0) || (objInBand__FP7GameObjf(arg0, TBoss2DeRolLe__data_805D8294) != 0))) {
+    if ((*(s32 *)((s8 *)arg0 + 0x3C0) & 0x100) && ((is_passing_frame__10TObjMotionFf(arg0, TBoss2DeRolLe__data_805D82F0) != 0) || (is_passing_frame__10TObjMotionFf(arg0, TBoss2DeRolLe__data_805D8294) != 0))) {
         *(s32 *)((s8 *)arg0 + 0x53C) = 0;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x53C) <= 0x10) {

@@ -631,7 +631,7 @@ extern const f32 lbl_805DE728;
 void TObjEneDD__sub_802CF7B4(u8 *arg0, s32 arg1);
 s32 obj_is_hit_receivable();
 u8 *get_battle_param__10TObjPlayerFi(s32);
-s32 objInBand__FP7GameObjf(f32);
+s32 is_passing_frame__10TObjMotionFf(f32);
 s32 TObjEneBm9Mericarol__sub_802D0940(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 set_matrix_identity(int);
@@ -707,7 +707,7 @@ s32 TObjEneBm9Mericarol::get_clamped_level() {
     return v;
 }
 
-#define OBJINBAND(o, f) ((s32 (*)(void *, f32))objInBand__FP7GameObjf)((o), (f))
+#define OBJINBAND(o, f) ((s32 (*)(void *, f32))is_passing_frame__10TObjMotionFf)((o), (f))
 #define PHASE(o) ((TObjEneBm9Mericarol *)o)->get_phase()
 void TObjEneBm9Mericarol__sub_802CEDA0(u8 *ene_dd_st, s32 arg1) {
     Vec_802CEDA0 sp8;
@@ -789,7 +789,7 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0F)), (u8 *)&this->position, 0, 0);
         return;
     case 3:
-        if (objInBand__FP7GameObjf(*(f32 *)&this->frame_count - lbl_805DE6F4) != 0) {
+        if (is_passing_frame__10TObjMotionFf(*(f32 *)&this->frame_count - lbl_805DE6F4) != 0) {
             transition_enemy_state__9TObjEneDDFl(arg0, 3);
         }
         this->vfunc_102();
@@ -1122,7 +1122,7 @@ void TObjEneDD__sub_802CF7B4(u8 *ene_dd_st, s32 arg1) {
         break;
     }
 }
-#define OBJINBAND(o, f) ((s32 (*)(void *, f32))objInBand__FP7GameObjf)((o), (f))
+#define OBJINBAND(o, f) ((s32 (*)(void *, f32))is_passing_frame__10TObjMotionFf)((o), (f))
 void TObjPlayer__sub_802CFB64(u8 *player, s32 arg1) {
     Vec_802CFB64 sp2C;
     Vec_802CFB64 sp20;
@@ -1221,7 +1221,7 @@ void TObjPlayer__sub_802CFB64(u8 *player, s32 arg1) {
         break;
     }
 }
-#define OBJINBAND(o, f) ((s32 (*)(void *, f32))objInBand__FP7GameObjf)((o), (f))
+#define OBJINBAND(o, f) ((s32 (*)(void *, f32))is_passing_frame__10TObjMotionFf)((o), (f))
 #define PHASE(o) ((TObjEneBm9Mericarol *)o)->get_phase()
 void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     u32 obj;

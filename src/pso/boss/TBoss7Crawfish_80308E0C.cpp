@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss7Crawfish.h"
 
 struct Pair_80308F8C { void *a; s32 b; };
@@ -33,7 +33,7 @@ void TBoss7Crawfish::update_attack_state() {
     if (temp_r0 < 0) {
         change_state(1);
     }
-    if ((get_floor() == 2) && (objInBand((GameObj *)this, (f32)lbl_805DF0F8) != 0)) {
+    if ((get_floor() == 2) && (is_passing_frame((f32)lbl_805DF0F8) != 0)) {
         temp_r4 = this->bodies;
         if (*(s32 *)((s8 *)temp_r4 + 0x18) & 0x02000000) {
             *(s32 *)((s8 *)temp_r4 + 0x18) &= ~0x02000000;

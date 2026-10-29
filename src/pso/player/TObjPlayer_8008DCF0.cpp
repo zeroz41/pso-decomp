@@ -1,7 +1,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -320,7 +320,7 @@ void TObjPlayer__sub_8008EDE8(P_8008EDE8 *arg0) {
                     move_with_wall_slide((u8 *)arg0);
                 }
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805D964C) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D964C) != 0) {
                 if (arg0->target->m18(arg0, lbl_805D9650) != 0) {
                     if (random_ratio__9TObjCharaFv((s32)arg0) <= lbl_805D9654) {
                         Pair_8008EDE8 q = lbl_80439B54[0];
@@ -432,7 +432,7 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
             }
         }
         ((TObjEnemy *)o)->turn_toward_direction((s32)o->f350->f8, (Vec *)&o->vel);
-        if (objInBand((GameObj *)o, (f32)lbl_805D964C) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805D964C) != 0) {
             play_sound_effect(0x4003B034, (u8 *)o + 0x38, 0, 0);
             if (FLD(T_8008F1DC *, 0x2A8)->m18(o, lbl_805D9650) != 0) {
                 FLD(T_8008F1DC *, 0x2A8)->m20(o, lbl_805D9650);

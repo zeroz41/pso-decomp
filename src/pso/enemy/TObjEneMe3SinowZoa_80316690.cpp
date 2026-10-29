@@ -3,7 +3,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/enemy/TObjEneMe3SinowZoa_80316690.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/TParticleCtrl.h"
@@ -68,7 +68,7 @@ void TObjEneMe3SinowZoa::check_and_notify() {
     }
 }
 void TObjEneMe3SinowZoa__sub_80316840(u8 *arg0) {
-    if ((objInBand((GameObj *)arg0, (f32)TObjEneMe3SinowZoa__data_805DF2FC) != 0) || (objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DF300)) != 0)) {
+    if ((((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3SinowZoa__data_805DF2FC) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DF300)) != 0)) {
         ((TObjEneMe3SinowZoa *)arg0)->check_floor_contact(arg0 + 0x38);
     }
 }

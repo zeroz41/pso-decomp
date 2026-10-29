@@ -205,7 +205,7 @@ public:
     // The current action has reached its last frame (MOTION_MODE_ONCE).
     int is_motion_held();
     // True on the frame the motion passes `frame` (not while blending).
-    int is_passing_frame(f32 frame);
+    int is_passing_frame(f32 at_frame);
     f32 get_frame();
     // frame, or 0 while blending.
     f32 get_motion_frame();

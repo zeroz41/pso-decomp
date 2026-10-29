@@ -11,7 +11,7 @@
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/TObject.h"
@@ -1492,7 +1492,7 @@ s32 TObjEneDolmOlm__sub_8030177C(void *arg0_) {
                 }
             }
         }
-        if (objInBand((GameObj *)arg0, (f32)(arg0->fc4 - TObjEneDolmOlm__data_805DEF50 - arg0->fc8)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(arg0->fc4 - TObjEneDolmOlm__data_805DEF50 - arg0->fc8)) != 0) {
             arg0->fb8 = arg0->f328 = 2;
         }
         break;

@@ -5,7 +5,7 @@
 #include "pso/object/TObjIllGillKage.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -749,7 +749,7 @@ void TObjEneIllGill__sub_803660A4(void *arg0_) {
         }
         break;
     case 1:
-        if (objInBand((GameObj *)enemy, (f32)TObjEneIllGill__data_805E02D8) != 0) {
+        if (((TObjMotion *)enemy)->is_passing_frame((f32)TObjEneIllGill__data_805E02D8) != 0) {
             *(s16 *)((s8 *)enemy + 0x328) = 2;
             *(s16 *)((s8 *)enemy + 0xB8) = 4;
             *(s32 *)((s8 *)enemy + 0x39C) = 0;
@@ -859,7 +859,7 @@ void TObjEneIllGill::update_death_fall() {
       this->phase = 0;
     case 0:
       ((s32)apply_actor_gravity((void *) arg0, 0, (f32) TObjEneIllGill__data_805E02BC));
-      if (objInBand((GameObj *)arg0, (f32)((f32) TObjEneIllGill__data_805E02D8)) != 0)
+      if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) TObjEneIllGill__data_805E02D8)) != 0)
     {
       play_sound_effect(0x4003A351, (u8 *)&this->position, 0, 0);
       this->phase = 2;
@@ -871,7 +871,7 @@ void TObjEneIllGill::update_death_fall() {
       move_with_wall_slide(arg0);
       *((f32 *) (((s8 *) arg0) + 0x308)) = (f32) ((*((f32 *) (((s8 *) arg0) + 0x308))) * lbl_805E02E0);
       this->m_310 = (f32) ((this->m_310) * lbl_805E02E0);
-      if (objInBand((GameObj *)arg0, (f32)((f32) TObjEneIllGill__data_805E02C0)) != 0)
+      if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) TObjEneIllGill__data_805E02C0)) != 0)
     {
       this->phase = 3;
       spawn_particle_effect(((u8 *)&this->position), 0xF0);
@@ -879,7 +879,7 @@ void TObjEneIllGill::update_death_fall() {
     }
       break;
     case 3:
-      if (objInBand((GameObj *)arg0, (f32)((f32) lbl_805E02E4)) != 0)
+      if (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805E02E4)) != 0)
     {
       play_sound_effect(0x4003A358, (u8 *)&this->position, 0, 0);
       TObjPlayer::apply_effect_variant_b((s32)(arg0 + 0x38), 0xA);
@@ -923,7 +923,7 @@ void TObjEneIllGill__sub_803667B8(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x308) = TObjEneIllGill__data_805E02BC;
     apply_actor_gravity(arg0, 0, TObjEneIllGill__data_805E02BC);
     ((TObjPlayer *)arg0)->update_collisions();
-    if (objInBand((GameObj *)arg0, (f32)TObjEneIllGill__data_805E02C0) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneIllGill__data_805E02C0) != 0) {
         play_sound_effect(0x4003A350, arg0 + 0x38, 0, 0);
     }
     if (((TObjPlayer *)arg0)->action_flags != 8) {
@@ -1109,10 +1109,10 @@ void TObjEneIllGill__sub_80366AE4(u8 *actor) {
         break;
     case 2:
         apply_actor_gravity(actor, 0, TObjEneIllGill__data_805E02BC);
-        if (objInBand((GameObj *)(actor), TObjEneIllGill__data_805E02DC) != 0) {
+        if (((TObjMotion *)actor)->is_passing_frame(TObjEneIllGill__data_805E02DC) != 0) {
             play_sound_effect(0x4003A353, actor + 0x38, 0, 0);
         }
-        if (objInBand((GameObj *)(actor), (f32)((f32) *(s32 *)((s8 *)actor + 0x3A4))) != 0) {
+        if (((TObjMotion *)actor)->is_passing_frame((f32)((f32) *(s32 *)((s8 *)actor + 0x3A4))) != 0) {
             *(s32 *)((s8 *)actor + 0x3A4) = 0;
             temp_r3_3 = (u8 *)(*(u8 **)((s8 *)actor + 0x2A8));
             if ((temp_r3_3 != NULL) && (((VObj_18_f68442 *)(temp_r3_3))->m18(actor, TObjEneIllGill__data_805E02CC) != 0)) {
@@ -1325,10 +1325,10 @@ void TObjEneIllGill::update_chase_target(void *arg0_) {
         if (t * t < d) {
             ((TObjPlayer *)arg0)->target = NULL;
         }
-        if (objInBand((GameObj *)arg0, (f32)TObjEneIllGill__data_805E02BC) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneIllGill__data_805E02BC) != 0) {
             play_sound_effect(0x4003A34D, arg0 + 0x38, 0, 0);
         }
-        if (objInBand((GameObj *)arg0, (f32)lbl_805E02F8) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805E02F8) != 0) {
             play_sound_effect(0x4003A34D, arg0 + 0x38, 0, 0);
         }
     }

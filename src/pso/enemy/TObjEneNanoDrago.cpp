@@ -10,7 +10,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/misc/TCameraCtrl.h"
@@ -756,7 +756,7 @@ void TObjPlayer__sub_800DAB98(u8 *arg0) {
                 F(f32, 0x310) = 0.0f;
                 F(f32, 0x308) = 0.0f;
             }
-            if (objInBand((GameObj *)arg0, (f32)(10.0f)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)(10.0f)) != 0) {
                 spawn_particle_effect(arg0 + 0x38, 0xF0);
                 play_sound_effect(0x4003AD20, arg0 + 0x38, 0, 0);
             }
@@ -864,7 +864,7 @@ void TObjPlayer__sub_800DB0F8(Obj_800DB0F8 *o) {
         advance_animation_playback(o);
         apply_actor_gravity(o, 0, 0.0f);
         ((TObjPlayer *)o)->update_collisions();
-        if (objInBand((GameObj *)o, (f32)(4.0f)) != 0 || objInBand((GameObj *)((GameObj *)o), (f32)(20.0f)) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)o)->is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, o->pos, 0, 0);
         }
         if (((u16 (*)(void *, int, f32))find_nearest_visible_player)(o, 0, 50.0f) != 0xFFFF) {
@@ -978,7 +978,7 @@ void TObjEneNanoDrago::update_circling_state() {
     case 1:
         advance_animation_playback(arg0);
         apply_actor_gravity(arg0, 0, 0.0f);
-        if (objInBand((GameObj *)arg0, (f32)(4.0f)) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)(20.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, (NanoDragoVector *)&e->position, 0, 0);
         }
         if (e->target != NULL) {
@@ -1016,7 +1016,7 @@ void TObjEneNanoDrago::update_circling_state() {
         ((s32 (*)(void *, f32, f32, f32, int))enemy_wander_home__9TObjEnemyFlfff)(arg0, e->speed, 100.0f, 50.0f, (*(NanoDragoMovementParams * *)&e->movementParameters)->turn);
         advance_animation_playback(arg0);
         apply_actor_gravity(arg0, 0, 0.0f);
-        if (objInBand((GameObj *)arg0, (f32)(4.0f)) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)(20.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(4.0f)) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, (NanoDragoVector *)&e->position, 0, 0);
         }
         e->t += e->speed;
@@ -1068,7 +1068,7 @@ void TObjEneNanoDrago::sub_800DB970() {
     case 1:
         advance_animation_playback(this);
         ((s32 (*)(void *, void *, f32))update_circle_move__10TObjPlayerFPvPvf)(this, ((u8 *)this) + 0x50, this->parameters[1]);
-        if (objInBand((GameObj *)this, (f32)(4.0f)) != 0 || objInBand((GameObj *)this, (f32)(20.0f)) != 0) {
+        if (is_passing_frame((f32)(4.0f)) != 0 || is_passing_frame((f32)(20.0f)) != 0) {
             play_sound_effect(0x4003AD23, ((u8 *)this) + 0x38, 0, 0);
         }
         this->m_384 = this->m_384 - 1;

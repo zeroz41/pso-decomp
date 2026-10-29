@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -376,7 +376,7 @@ void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1) {
                 F(s32, 0x428) = 0;
                 F(s32, 0x424) = 2;
             }
-            if (objInBand((GameObj *)arg0, (f32)TObjEneMe3Stelth__data_805DA824) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3Stelth__data_805DA824) != 0) {
                 advance_animation_playback(arg0);
                 push_matrix_from(identity_matrix);
                 post_translate_matrix(arg0 + 0x38);
@@ -449,7 +449,7 @@ void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1) {
         } else if (is_split_screen() != 0) {
             switch (F(s32, 0x424)) {
             case 0:
-                if (objInBand((GameObj *)arg0, (f32)lbl_805DA828) != 0) {
+                if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA828) != 0) {
                     F(s32, 0x3CC) |= 8;
                     q.a = me3_stelth_offset_vec.a;
                     q.b = me3_stelth_offset_vec.b;
@@ -467,9 +467,9 @@ void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1) {
                 }
                 break;
             }
-        } else if (objInBand((GameObj *)arg0, (f32)lbl_805DA828) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA828) != 0) {
             F(s32, 0x3CC) |= 8;
-        } else if (objInBand((GameObj *)arg0, (f32)lbl_805DA82C) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA82C) != 0) {
             F(s32, 0x3CC) &= ~8;
             F(s32, 0x3C0) = 0;
         }

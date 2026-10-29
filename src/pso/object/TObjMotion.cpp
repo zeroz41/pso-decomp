@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResource.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/misc/TUnk_804A7478.h"
@@ -248,13 +248,12 @@ f32 TObjMotion::get_motion_frame() {
     return get_frame();
 }
 
-int objInBand(GameObj *obj, f32 v) {
-    TObjMotion *self = (TObjMotion *)obj;
-    u32 flags = self->motion_flags;
+int TObjMotion::is_passing_frame(f32 at_frame) {
+    u32 flags = motion_flags;
     if (!((flags & MOTION_BLENDING) && !(flags & MOTION_NO_BLEND)) &&
-        self->requested_action == self->current_action &&
-        v < self->frame &&
-        self->frame <= v + self->play_speed)
+        requested_action == current_action &&
+        at_frame < frame &&
+        frame <= at_frame + play_speed)
         return 1;
     return 0;
 }

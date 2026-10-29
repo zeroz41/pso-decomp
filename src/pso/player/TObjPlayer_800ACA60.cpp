@@ -1,7 +1,7 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneGibbles.h"
 #include "pso/misc/TTecZonde.h"
@@ -75,10 +75,10 @@ void TObjEneMoja::update_death_state() {
     Vec_800ACB58 v;
 
     advance_animation_playback(arg0);
-    if (objInBand((GameObj *)arg0, (f32)lbl_805D9BD8) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BD8) != 0) {
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A809)), (u8 *)&this->position, 0, 0);
     }
-    if (objInBand((GameObj *)arg0, (f32)lbl_805D9BE4) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BE4) != 0) {
         v.x = lbl_805D9BD8;
         v.y = lbl_805D9BE8;
         v.z = lbl_805D9BEC * *(f32 *)(this->m_2b0 + 0x10);
@@ -127,7 +127,7 @@ void TObjPlayer::update_ground_effect() {
     u8 *temp_r4;
 
     ((s32 (*)())advance_animation_playback)();
-    if (objInBand((GameObj *)(this), lbl_805D9BD8) != 0) {
+    if (is_passing_frame(lbl_805D9BD8) != 0) {
         ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(this))->remap_sound_for_area((s32)(0x3A807)), (void *) (((u8 *)this) + 0x38), 0, 0);
         TObjPlayer::play_effect_if_v2(-0x300);
     }
@@ -671,7 +671,7 @@ void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *arg0) {
     case 0:
     default:
         ((s32 (*)(void *, s32, f32))apply_actor_gravity)(arg0, 0, lbl_805D9BD8);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805D9C00) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C00) != 0) {
             if (arg0->f2A8 != NULL) {
                 Vec_800ACFE8 dest = *(Vec_800ACFE8 *)(arg0->f2A8 + 0x2FC);
                 if (select_enemy_destination(arg0, (Vec_800AE18C *)&dest, 1) != 0) {
@@ -695,7 +695,7 @@ void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *arg0) {
     case 1:
         calc_velocity_toward_destination(arg0, arg0->f290, arg0->f29C, arg0->f378);
         move_with_wall_slide((u8 *)arg0);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805D9C08) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C08) != 0) {
             arg0->f328 = 2;
             for (i = 0; i < lbl_805D5868; i++) {
                 p = get_player_data__10TObjPlayerFi(i);
@@ -794,7 +794,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
         }
         break;
     case 1:
-        if (objInBand((GameObj *)self, (f32)lbl_805D9C10) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D9C10) != 0) {
             pos.x = lbl_805D9BD8;
             pos.y = lbl_805D9C14;
             pos.z = lbl_805D9C18;
@@ -921,11 +921,11 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         *(s16 *)(arg0 + 0x328) = 1;
     case 1:
         ((s32 (*)(void *))advance_animation_playback)(arg0);
-        if (objInBand((GameObj *)arg0, (f32)lbl_805D9C28) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C28) != 0) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD04)), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x300);
         }
-        if (objInBand((GameObj *)arg0, (f32)lbl_805D9C04) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C04) != 0) {
             t = obj_testFlags30__14TObjCollidableFUl(arg0, 0x10);
             n = registered_player_count;
             if (t != 0) {
@@ -977,7 +977,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         break;
     case 2:
         ((s32 (*)(void *))advance_animation_playback)(arg0);
-        if ((objInBand((GameObj *)arg0, (f32)lbl_805D9BD8) != 0) && (*(s32 *)(arg0 + 0x388) == 1)) {
+        if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BD8) != 0) && (*(s32 *)(arg0 + 0x388) == 1)) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0A)), arg0 + 0x38, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
@@ -1106,7 +1106,7 @@ s32 TObjEneMoja::update_approach_state() {
     switch (this->phase) {
     case 0:
         ((s32 (*)(void *, s32, f32))apply_actor_gravity)((void *) arg0, 0, lbl_805D9BD8);
-        if (objInBand((GameObj *)(arg0), (f32)lbl_805D9BD8) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9BD8) != 0) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0A)), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
@@ -1139,7 +1139,7 @@ s32 TObjEneMoja::update_approach_state() {
                 this->attackSequence = 0;
             }
         }
-        if (objInBand((GameObj *)(arg0), (f32)lbl_805D9C34) != 0 || objInBand((GameObj *)(arg0), (f32)((f32)lbl_805D9C38)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D9C34) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805D9C38)) != 0) {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A801)), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
         }
@@ -1199,7 +1199,7 @@ void update_appearance_drop__11TObjEneMojaFv(Moja_800AE450 *self) {
             return;
         }
         self->fB8 = 5;
-        if (objInBand((GameObj *)self, (f32)lbl_805D9C00) == 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D9C00) == 0) {
             return;
         }
         VecCopy((Vec *)&self->dest, (const Vec *)&self->home);
@@ -1215,7 +1215,7 @@ void update_appearance_drop__11TObjEneMojaFv(Moja_800AE450 *self) {
         self->pos.x += self->vel.x;
         self->pos.y += self->vel.y;
         self->pos.z += self->vel.z;
-        if (objInBand((GameObj *)self, (f32)lbl_805D9C08) == 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D9C08) == 0) {
             return;
         }
         self->phase = 2;
@@ -1281,7 +1281,7 @@ void update_appearance_jump__11TObjEneMojaFv(Moja_800AE7F4 *self) {
         VecCopy((Vec *)&tmp, (const Vec *)&self->home);
         subtract_vector(&tmp, &off);
         VecCopy((Vec *)&self->pos, (const Vec *)&tmp);
-        if (objInBand((GameObj *)self, (f32)lbl_805D9C00) == 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D9C00) == 0) {
             return;
         }
         VecCopy((Vec *)&self->dest, (const Vec *)&self->home);
@@ -1300,7 +1300,7 @@ void update_appearance_jump__11TObjEneMojaFv(Moja_800AE7F4 *self) {
         self->pos.x += self->vel.x;
         self->pos.y += self->vel.y;
         self->pos.z += self->vel.z;
-        if (objInBand((GameObj *)self, (f32)lbl_805D9C08) == 0) {
+        if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805D9C08) == 0) {
             return;
         }
         self->phase = 2;

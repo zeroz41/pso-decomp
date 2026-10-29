@@ -14,7 +14,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 
 #include <stddef.h>
 #include "pso/TParticleCtrl.h"
@@ -1439,7 +1439,7 @@ void TObjEneMe3SinowZoa__sub_80317F90(u8 *arg0, s32 arg1) {
         switch (*(s32 *)((s8 *)arg0 + 0x434)) {
         case 0:
             advance_animation_playback(arg0);
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DF330) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DF300)) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF330) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DF300)) != 0) {
                 play_sound_effect(0x4003A82A, arg0 + 0x38, 0, 0);
             }
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -2365,7 +2365,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
                 target = self->f60;
             }
             self->f60 = approach_angle_limited(self->f60, target, 0x1000);
-            if (objInBand((GameObj *)self, (f32)TObjEneMe3SinowZoa__data_805DF314) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)TObjEneMe3SinowZoa__data_805DF314) != 0) {
                 self->f434 = 2;
             }
             self->m100();
@@ -2441,7 +2441,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
             }
         case 6:
             advance_animation_playback(self);
-            if (objInBand((GameObj *)self, (f32)lbl_805DF350) != 0 && ((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DF350) != 0 && ((TObjEneDD_ST *)self)->enemy_check_target_valid() != 0) {
                 if (self->f390->m18(self, TObjEneMe3SinowZoa__data_805DF2F4) != 0) {
                     self->f390->m20(self, TObjEneMe3SinowZoa__data_805DF2F4);
                     self->f390->m23(self, TObjEneMe3SinowZoa__data_805DF328);
@@ -3115,8 +3115,8 @@ void TObjEneMe3SinowZoa__sub_8031A6A0(u8 *arg0) {
     f32 d;
     s32 near;
     VObj_18_bd3b49 *pl;
-    near = objInBand((GameObj *)arg0, (f32)lbl_805DF2F8);
-    if (objInBand((GameObj *)arg0, (f32)TObjEneMe3SinowZoa__data_805DF2F0) != 0 || near != 0) {
+    near = ((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF2F8);
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3SinowZoa__data_805DF2F0) != 0 || near != 0) {
         if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
             if ((*(VObj_18_bd3b49 **)((s8 *)arg0 + 0x390))->m18(arg0, TObjEneMe3SinowZoa__data_805DF2F4) != 0) {
                 d = (*(VObj_18_bd3b49 **)((s8 *)arg0 + 0x390))->m20(arg0, TObjEneMe3SinowZoa__data_805DF2F4);

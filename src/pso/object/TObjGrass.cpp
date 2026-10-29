@@ -4,7 +4,7 @@
 #include "pso/object/TObjGrassWeb.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -522,7 +522,7 @@ void TObjGrass::update_dying(void *arg0_) {
         ((TObjEnePanarms *)arg0)->phase = 0;
     case 0:
         apply_actor_gravity(arg0, 0, (0.0f));
-        if (objInBand((GameObj *)arg0, (f32)(0.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(0.0f)) != 0) {
             play_sound_effect((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003A804)), arg0 + 0x38, 0, 0);
             ((TObjEnePanarms *)arg0)->phase = 1;
         }
@@ -531,13 +531,13 @@ void TObjGrass::update_dying(void *arg0_) {
         move_with_wall_slide(arg0);
         *(f32 *)((s8 *)arg0 + 0x308) *= (0.5f);
         ((TObjEnePanarms *)arg0)->m_310 *= (0.5f);
-        if (objInBand((GameObj *)arg0, (f32)(23.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(23.0f)) != 0) {
             ((TObjEnePanarms *)arg0)->phase = 2;
             spawn_particle_effect((arg0 + 0x38), 0xF0);
         }
         break;
     case 2:
-        if (objInBand((GameObj *)arg0, (f32)(32.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(32.0f)) != 0) {
             Vec_800BCA30 v;
             v.y = (0.0f);
             v.x = (0.0f);
@@ -653,7 +653,7 @@ s32 TObjGrass::sub_800BCE44() {
   *((f32 *) (((s8 *) arg0) + 0x308)) = (f32) (0.0f);
   apply_actor_gravity((void *)((void *) arg0), 0, (f32) (0.0f));
   ((TObjPlayer *)arg0)->update_collisions();
-  if (objInBand((GameObj *)arg0, (f32) (0.0f)) != 0)
+  if (((TObjMotion *)arg0)->is_passing_frame((f32) (0.0f)) != 0)
   {
     play_sound_effect((void *) ((s32)((TObjEnemy *)((void *)((void *) arg0)))->remap_sound_for_area((s32)(0x4003A603))), (u8 *)&this->position, 0, 0);
     TObjPlayer::play_effect_if_v2(-0x200);
@@ -1022,7 +1022,7 @@ void TObjGrass::sub_800BDD70() {
         break;
     case 1:
         apply_actor_gravity(arg0, 0, (0.0f));
-        if (objInBand((GameObj *)arg0, (f32)(14.0f)) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)(14.0f)) != 0) {
             if (*(VObj_800BDD70 * *)&this->target != NULL && (*(VObj_800BDD70 * *)&this->target)->m18(arg0, (1.0f)) != 0) {
                 (*(VObj_800BDD70 * *)&this->target)->m20(arg0, (1.0f));
                 (*(VObj_800BDD70 * *)&this->target)->m23(arg0);

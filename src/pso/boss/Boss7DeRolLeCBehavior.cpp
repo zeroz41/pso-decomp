@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/object/obj_band.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss7PhotonBullet.h"
 #include "pso/TBoss7Tentacle.h"
 #include "pso/TParticleCtrl.h"
@@ -1678,16 +1678,16 @@ void TObjFish::handle_death_state(u32 arg1) {
             TWindowCtrl::init_all_slots2();
             restore_player_cameras();
         }
-        if (objInBand((GameObj *)o, (f32)lbl_805DEA2C) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DEA2C) != 0) {
             Vec_802E8B50 v = lbl_80473F90[0];
             create_timed_particle_emitter_with_flags(&v, 0x20C, 0, 0xA0, 0x40);
             play_sound_effect((void *)0x39614, 0, 0, 0);
         }
-        if (objInBand((GameObj *)o, (f32)lbl_805DEA30) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DEA30) != 0) {
             ((TObjFish *)o)->destroy_child();
             o->f7B0 = (s32)spawn_continuous_particle_effect_with_flags(o->f7B4, 0x20F, 0x40);
         }
-        if (objInBand((GameObj *)o, (f32)lbl_805DEA34) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DEA34) != 0) {
             ((TObjFish *)o)->destroy_child();
         }
         ((TObjFish *)o)->update_attached_orientation();
@@ -1771,7 +1771,7 @@ void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32 _w2) {
         break;
     case 0:
         advance_animation_playback(arg0);
-        if (objInBand((GameObj *)(arg0), lbl_805DEA48) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEA48) != 0) {
             TObjFish::set_effect_target_position(arg0, (void*)(0x39906), arg0 + 0x50C);
         }
         break;
@@ -1984,7 +1984,7 @@ void TObjFish__sub_802E9458(u8 *arg0, u32 arg1) {
             v.z = v.z + lbl_805DEA64;
             spawn_particle_201__8TObjFishFii((s32)arg0, (s32)&v);
         }
-        if (objInBand((GameObj *)(arg0), (f32)lbl_805DEA50) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEA50) != 0) {
             TObjFish::set_effect_target_position(arg0, (void *) (0x39905), arg0 + 0x50C);
         }
         break;
@@ -2382,7 +2382,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
                 v.z = v.z + lbl_805DEABC;
                 ((void (*)(void *, void *)) spawn_particle_201__8TObjFishFii)(self, &v);
             }
-            if (objInBand((GameObj *)self, (f32)lbl_805DEAB0) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DEAB0) != 0) {
                 TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
             }
             p_ = self->ptcl;
@@ -2420,7 +2420,7 @@ void TObjFish__sub_802E9DBC(u8 *arg0, u32 arg1, s32 arg2) {
             f32 t = self->frame - lbl_805DEA90;
             self->x = self->f74C * t + self->f748;
             { f32 h_ = lbl_805DEA14 * self->f754; self->z = t * (h_ * t + lbl_805DEAC4) + self->f75C; }
-            if (objInBand((GameObj *)self, (f32)lbl_805DEAC8) != 0) {
+            if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DEAC8) != 0) {
                 TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);
             }
             break;
@@ -2546,9 +2546,9 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                 break;
             }
             if (*(s16 *)((s8 *)arg0 + 0xB8) != 1) {
-                if (objInBand((GameObj *)arg0, (f32)lbl_805DEA6C) != 0 || objInBand((GameObj *)((GameObj *)arg0), (f32)((f32)lbl_805DEAE8)) != 0) {
+                if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEA6C) != 0 || ((TObjMotion *)arg0)->is_passing_frame((f32)((f32)lbl_805DEAE8)) != 0) {
                     TObjFish::set_effect_target_position(arg0, (void *)0x39905, arg0 + 0x50C);
-                } else if (objInBand((GameObj *)arg0, (f32)lbl_805DEA54) != 0) {
+                } else if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEA54) != 0) {
                     TObjFish::set_effect_target_position(arg0, (void *)0x39906, arg0 + 0x50C);
                 }
             }
@@ -2742,9 +2742,9 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 break;
             }
             if (self->fB8 != 1) {
-                if (objInBand((GameObj *)self, (f32)lbl_805DEA50) != 0 || objInBand((GameObj *)((GameObj *)self), (f32)((f32)lbl_805DEB48)) != 0) {
+                if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DEA50) != 0 || ((TObjMotion *)self)->is_passing_frame((f32)((f32)lbl_805DEB48)) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39905, self->eff);
-                } else if (objInBand((GameObj *)self, (f32)lbl_805DEAAC) != 0) {
+                } else if (((TObjMotion *)self)->is_passing_frame((f32)lbl_805DEAAC) != 0) {
                     TObjFish::set_effect_target_position(self, (void *) 0x39906, self->eff);
                 }
             }
@@ -2982,21 +2982,21 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
             }
         } else {
             advance_animation_playback(arg0);
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DEB54) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB54) != 0) {
                 play_sound_effect((void *) 0x39E00, 0, 0, 0);
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DEB78) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB78) != 0) {
                 ((TObjFish *)arg0)->destroy_child();
                 *(s32 *)((s8 *)arg0 + 0x7B0) = (s32)spawn_continuous_particle_effect_with_flags(arg0 + 0x7B4, 0x20F, 0x40);
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DEB7C) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB7C) != 0) {
                 ((TObjFish *)arg0)->destroy_child();
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DEA2C) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEA2C) != 0) {
                 Vec_802EBBC8 v = lbl_80473F78;
                 spawn_particle_effect_with_flags(&v, 0x20F, 0x40);
             }
-            if (objInBand((GameObj *)arg0, (f32)lbl_805DEB80) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB80) != 0) {
                 Vec_802EBBC8 w = lbl_80473F84;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
                 play_sound_effect((void *) 0x39906, 0, 0, 0);
@@ -3243,7 +3243,7 @@ void TBoss7DeRolLeC::update_projectile_spawns() {
     *(f32 *)((s8 *)temp_r31 + 0) = (f32) (*(f32 *)((s8 *)temp_r31 + 0) * lbl_805DEA14);
     *(f32 *)((s8 *)temp_r31 + 4) = (f32) (*(f32 *)((s8 *)temp_r31 + 4) * lbl_805DEA14);
     *(f32 *)((s8 *)temp_r31 + 8) = (f32) (*(f32 *)((s8 *)temp_r31 + 8) * lbl_805DEA14);
-    if ((*(s32 *)((s8 *)arg0 + 0x628) & 0x100) && ((objInBand((GameObj *)(arg0), lbl_805DEA58) != 0) || (objInBand((GameObj *)(arg0), lbl_805DEA30) != 0))) {
+    if ((*(s32 *)((s8 *)arg0 + 0x628) & 0x100) && ((((TObjMotion *)arg0)->is_passing_frame(lbl_805DEA58) != 0) || (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEA30) != 0))) {
         *(s32 *)((s8 *)arg0 + 0x6BC) = 0;
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x6BC) <= 0x10) {

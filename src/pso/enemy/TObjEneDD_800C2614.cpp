@@ -23,7 +23,7 @@ extern Prm_800C2628 enemy_dd_attack_param_block;
 extern Prm_800C2628 lbl_8043BBA0;
 extern f32 *const lbl_805D5170;
 extern const f32 lbl_805D9FBC;
-s32 objInBand__FP7GameObjf(f32);
+s32 is_passing_frame__10TObjMotionFf(f32);
 
 void TObjEneRe2Flower::vfunc_105() {  }
 void TObjEneDD__sub_800C2618(void* p) { *(u32*)((char*)p + 0x3c4) |= 0x2; }
@@ -139,7 +139,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
         TObjPlayer::play_effect_if_v2(-0x200);
         return;
     case 3:
-        if (objInBand__FP7GameObjf(*(f32 *)((s8 *)arg0 + 0xC4) - lbl_805D9FC0) != 0) {
+        if (is_passing_frame__10TObjMotionFf(*(f32 *)((s8 *)arg0 + 0xC4) - lbl_805D9FC0) != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(3);
         }
         this->vfunc_102();
