@@ -2114,7 +2114,7 @@ pso/object/TObjLight_80235C44.cpp
 pso/object/TObjLight_80236D60.cpp
 pso/object/TObjLight_803DF220.cpp
 pso/object/TObjLiveMonitorSmall.cpp
-pso/object/TObjLobbyMain_803520D8.cpp
+pso/object/TObjLobbyMain.cpp
 pso/object/TObjLuker.cpp
 pso/object/TObjLuker_8001A438.cpp
 pso/object/TObjLuker_801329B0.cpp

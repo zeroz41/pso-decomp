@@ -1118,7 +1118,7 @@ force_active:
   - TObjLight__sub_80133980
   - TObjLiveCamera__ct
   - TObjLobbyMain__ct
-  - TObjLobbyMain__sub_803520D8
+  - demo_step__13TObjLobbyMainFv
   - TObjLuker__ct
   - TObjMapCsn__ct
   - TObjMapWarpAncient__ct
@@ -5591,7 +5591,7 @@ force_active:
   - lbl_80478134
   - lbl_80478140
   - lbl_8047817C
-  - lbl_80479078
+  - lobby_main_model_motions
   - lbl_8047B928
   - lbl_80480D20
   - lbl_80480D48
@@ -5916,7 +5916,7 @@ force_active:
   - lbl_805D3F08
   - lbl_805D3FB0
   - lbl_805D4220
-  - lbl_805D4370
+  - obj_lobby_main_class_name
   - obj_suisou_lobby_class_name
   - lbl_805D4630
   - lbl_805D4638
@@ -11752,7 +11752,7 @@ force_active:
   - reset_request__12TChCrLoadReqFv
   - reset_selection__21TWindowSubCustomEquipFv
   - reset_state
-  - reset_state__13TObjLobbyMainFPv
+  - check_event_theme__13TObjLobbyMainFv
   - reset_state__13TObjWarnChimeFv
   - reset_state__15TFontSmallLobbyFv
   - reset_state__16TKeyBoardControlFi

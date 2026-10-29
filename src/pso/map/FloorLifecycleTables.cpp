@@ -572,7 +572,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_14[6] = {
 
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_15[14] = {
     { TObjWarpLobby__sub_801A0B38, TObjWarpLobby::release_static },
-    { TObjLobbyMain::load_resources, TObjLobbyMain::release_static_instance },
+    { TObjLobbyMain::load_resources, TObjLobbyMain::free_resources },
     { TObjFish::load_area_resource, TObjFish::free_resource },
     { TObjPlayer::load_lobby_pigeon_resource, TObjPlayer::free_static_instance },
     { fn_803516F8, TObjButterflyLobby::destroy_instance },
