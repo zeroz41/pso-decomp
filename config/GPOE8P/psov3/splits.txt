@@ -5410,17 +5410,27 @@ pso/misc/TORockCave.cpp:
 	.sdata      start:0x805D30E0 end:0x805D30F8
 
 pso/misc/TOSensor.cpp:
-	.text       start:0x80175468 end:0x80175F88
-	.rodata     start:0x804429E0 end:0x80442A38
-	.data       start:0x804B4160 end:0x804B4200
+	.text       start:0x80175468 end:0x80175858
+	.rodata     start:0x80442970 end:0x80442979
+	.data       start:0x804B40F0 end:0x804B41E0
+	.sdata      start:0x805D3140 end:0x805D3144
+	.sdata2     start:0x805DB980 end:0x805DB984
+
+pso/misc/TOSensorAncient01.cpp:
+	.text       start:0x80175858 end:0x80175F88
+	.rodata     start:0x80442980 end:0x80442A38
+	.data       start:0x804B41E0 end:0x804B4270
+	.sdata      start:0x805D3148 end:0x805D314C
+	.sbss       start:0x805D5A88 end:0x805D5AA0
 	.sdata2     start:0x805DB988 end:0x805DB9B0
 
 pso/misc/TOSensorGeneral01.cpp:
 	.text       start:0x80175F88 end:0x801764DC
-	.rodata     start:0x80442A78 end:0x80442A80
-	.data       start:0x804B4270 end:0x804B4288
-	.sdata      start:0x805D3150 end:0x805D3154
-	.sdata2     start:0x805DB9C0 end:0x805DB9D0
+	.rodata     start:0x80442A38 end:0x80442A94
+	.data       start:0x804B4270 end:0x804B42F8
+	.sdata      start:0x805D3150 end:0x805D3158
+	.sbss       start:0x805D5AA0 end:0x805D5AA8
+	.sdata2     start:0x805DB9B0 end:0x805DB9CC
 
 pso/misc/TOSignCave01.cpp:
 	.text       start:0x801764DC end:0x80176890

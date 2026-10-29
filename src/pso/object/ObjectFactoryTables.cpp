@@ -149,7 +149,6 @@ void* TORockCaveS02__create(void* placement);
 void* TORockCaveL01__create(void* placement);
 void* TORockCaveM01__create(void* placement);
 void* TORockCaveS01__create(void* placement);
-void* create__17TOSensorGeneral01Fv(void* placement);
 void* create__16TOSparkMachine01Fv(void* placement);
 void* create__15TOTrapAncient01Fv(void* placement);
 void* create__11TOVS2Wall01Fv(void* placement);
@@ -330,7 +329,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
     { 0x000E, create__10TObjRoomIdFPv, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision__create, 250000.0f, 0 },
@@ -396,7 +395,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
     { 0x000E, create__10TObjRoomIdFPv, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision__create, 250000.0f, 0 },
@@ -538,7 +537,7 @@ ObjectFactoryEntry object_factories_floor_04[75] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x00C0, TOKeyCave01::create, 250000.0f, 0 },
     { 0x00C1, TODoorCave01::create, 250000.0f, 0 },
@@ -618,7 +617,7 @@ ObjectFactoryEntry object_factories_floor_05[69] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0081, TObjDoorKey__create, 250000.0f, 0 },
     { 0x00C0, TOKeyCave01::create, 250000.0f, 0 },
     { 0x00C1, TODoorCave01::create, 250000.0f, 0 },
@@ -680,7 +679,7 @@ ObjectFactoryEntry object_factories_floor_06[64] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
     { 0x0090, TOKeyGenericSw::create, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision__create, 250000.0f, 0 },
@@ -748,7 +747,7 @@ ObjectFactoryEntry object_factories_floor_07[66] = {
     { 0x000B, create__12TOMineIcon02Fv, 250000.0f, 0 },
     { 0x000C, TOMineIcon03::create, 250000.0f, 0 },
     { 0x000D, create__12TOMineIcon04Fv, 250000.0f, 0 },
-    { 0x000F, create__17TOSensorGeneral01Fv, 250000.0f, 0 },
+    { 0x000F, TOSensorGeneral01::create, 250000.0f, 0 },
     { 0x0007, TObjFogCollision__create, 250000.0f, 0 },
     { 0x0090, TOKeyGenericSw::create, 250000.0f, 0 },
     { 0x0008, TObjEvtCollision__create, 250000.0f, 0 },

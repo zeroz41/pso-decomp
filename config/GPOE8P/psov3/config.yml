@@ -662,12 +662,12 @@ force_active:
   - TORockJungleM01__ct
   - TORockJungleS01__ct
   - TORockJungleS01_resource_descriptor
-  - TOSensorAncient01__ct
+  - __ct__17TOSensorAncient01FP7TObjectPv
   - TOSensorAncient01__resource_descriptor
-  - TOSensorGeneral01__ct
+  - __ct__17TOSensorGeneral01FP7TObjectPv
   - TOSensorGeneral01__resource_descriptor
-  - TOSensor__sub_8017546C
-  - TOSensor__sub_80175514
+  - play_off_loop_sound__8TOSensorFv
+  - play_on_loop_sound__8TOSensorFv
   - TOSignCave01__ct
   - TOSignCave01__resource_descriptor
   - TOSignCave02__ct

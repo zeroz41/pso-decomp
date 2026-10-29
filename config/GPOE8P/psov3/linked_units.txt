@@ -1352,6 +1352,7 @@ pso/misc/TORockCaveSS02.cpp
 pso/misc/TORockCaveSimple.cpp
 pso/misc/TORockJungleL01.cpp
 pso/misc/TOSensor.cpp
+pso/misc/TOSensorAncient01.cpp
 pso/misc/TOSensorGeneral01.cpp
 pso/misc/TOSignCave01.cpp
 pso/misc/TOSignCave02.cpp
