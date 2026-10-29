@@ -2,6 +2,7 @@
 #include "pso/misc/TButterfly_8017F364.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TButterfly.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
@@ -41,6 +42,20 @@ void TButterfly::destroy_instance() {
         TLobby__sub_8001FE7C((void*)butterfly_bml_resource, 1);
         butterfly_bml_resource = 0U;
     }
+}
+
+extern BmlResourceDescriptor bm_o_abe_butterfly_resource_descriptor;
+u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
+
+void TButterfly::load_resources() {
+    void *resource;
+    u32 loaded;
+    resource = ::operator new(0x440);
+    loaded = (u32)resource;
+    if (loaded != 0) {
+        loaded = (u32)load_resource_from_descriptor(resource, 1, &bm_o_abe_butterfly_resource_descriptor, 0, 0, 0);
+    }
+    butterfly_bml_resource = loaded;
 }
 
 }

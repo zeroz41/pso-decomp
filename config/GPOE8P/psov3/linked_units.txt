@@ -2050,7 +2050,7 @@ pso/object/TObjCMMainMenu_8028D9A8.cpp
 pso/object/TObjCMMainMenu_8028EA88.cpp
 pso/object/TObjCMMainMenu_8029427C.cpp
 pso/object/TObjCMProportion_80298FAC.cpp
-pso/object/TObjCamera_8017F80C.cpp
+pso/object/TObjCamera.cpp
 pso/object/TObjChip.cpp
 pso/object/TObjCityMainWarpChallenge.cpp
 pso/object/TObjCityMainWarp_801867F4.cpp
@@ -3100,7 +3100,6 @@ pso/unk/text_8017DC5C.cpp
 pso/unk/text_8017DFB0.cpp
 pso/unk/text_8017E0D0.cpp
 pso/unk/text_8017E900.cpp
-pso/unk/text_8017F45C.cpp
 pso/unk/text_80180D18.cpp
 pso/unk/text_801811FC.cpp
 pso/unk/text_80181278.cpp

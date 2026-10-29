@@ -1,6 +1,5 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/TObject.h"
-#include "pso/object/TObjCamera_8017F80C.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/system/vector.h"
 class TObjChip : public TObject {
@@ -10,6 +9,12 @@ public:
 };
 
 #include "types.h"
+
+extern "C" {
+void draw_ginja_object(int);
+void set_color_blend_mode(int, int, int, int, s32, s32);
+}
+
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -228,6 +233,272 @@ void queue_destruction__7TObjectFv(void *arg0);
 #pragma readonly_strings on
 const char *obj_chip_class_name_ptr = "TObjChip";
 
+}
+
+extern "C" {
+
+typedef char RecoveredGlobal_80180AA4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180AA4___vt__8TObjChip) == 0x38 ? 1 : -1];
+
+typedef char RecoveredGlobal_80180BD4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180BD4___vt__8TObjChip) == 0x38 ? 1 : -1];
+}
+
+extern "C" {
+u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
+    *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
+    *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
+    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
+    VecCopy((Vec *)(arg0 + 0xC), (const Vec *)(arg1 + 0xC));
+    VecCopy((Vec *)(arg0 + 0x18), (const Vec *)(arg1 + 0x18));
+    copy_xyz(arg0 + 0x24, arg1 + 0x24);
+    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
+    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
+    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg1 + 0x3C);
+    *(s32 *)((s8 *)arg0 + 0x40) = (s32) *(s32 *)((s8 *)arg1 + 0x40);
+    *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
+    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
+    *(s32 *)((s8 *)arg0 + 0x54) = 0;
+    *(s32 *)((s8 *)arg0 + 0x50) = 0;
+    *(s32 *)((s8 *)arg0 + 0x4C) = 0;
+    return arg0;
+}
+}
+
+extern "C" {
+u8 *construct_debris__8TObjChipFPvPvPv(u8 *object, u8 *arg1, u8 *arg2) {
+    __ct__7TObjectFP7TObject(object, arg1);
+    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
+    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
+    copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
+    *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
+    *(f32 *)((s8 *)object + 0x20) = 40.0f;
+    *(s32 *)((s8 *)object + 0x230) = 1;
+    if (((VObj_18_2a3247 *)(object))->m4((2e+02f)) == 0) {
+        *(s32 *)((s8 *)object + 0x230) = 0;
+    }
+    return object;
+}
+}
+
+extern "C" {
+void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
+    *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
+    *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
+    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
+    *(ByteBlock_C *)((s32) arg0 + 0xC) = *(const ByteBlock_C *)((s32) arg1 + 0xC);
+    *(ByteBlock_C *)((s32) arg0 + 0x18) = *(const ByteBlock_C *)((s32) arg1 + 0x18);
+    *(ByteBlock_C *)((s32) arg0 + 0x24) = *(const ByteBlock_C *)((s32) arg1 + 0x24);
+    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
+    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
+    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
+    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg1 + 0x3C);
+    *(s32 *)((s8 *)arg0 + 0x40) = (s32) *(s32 *)((s8 *)arg1 + 0x40);
+    *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
+    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
+}
+}
+
+extern "C" {
+u8 *__ct__8TObjChipFv(u8 *object, u8 *arg1, u8 *arg2) {
+    __ct__7TObjectFP7TObject(object, arg1);
+    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
+    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
+    copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
+    *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
+    *(f32 *)((s8 *)object + 0x20) = 40.0f;
+    *(s32 *)((s8 *)object + 0x230) = 1;
+    if (((VObj_18_6eb662 *)(object))->m5(arg2 + 0x4C, (2e+02f)) == 0) {
+        *(s32 *)((s8 *)object + 0x230) = 0;
+    }
+    return object;
+}
+}
+
+TObjChip::~TObjChip() {}
+
+extern "C" {
+void update__8TObjChipFPv(void *object) {
+    struct VObj_801809F0_801809B4 *o = (struct VObj_801809F0_801809B4 *)object;
+    o->m7();
+    if (o->m6() == 1) {
+        queue_destruction__7TObjectFv(object);
+    }
+}
+}
+
+extern "C" {
+void dispatch_vt9__8TObjChipFPv(void *arg0) {
+    struct VObj_801809C4_801809B4 *o = (struct VObj_801809C4_801809B4 *)arg0;
+    o->m9();
+}
+}
+
+extern "C" {
+int TObjChip__vt6(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
+}
+
+extern "C" {
+#pragma push
+#pragma fp_contract on
+s32 TObjChip__vt8(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
+    Vec_8018085C v;
+    Out_8018085C o1;
+    Out_8018085C o2;
+    matrix_mult_vec(0, arg1, &v);
+    if (v.z > 0.0f) {
+        return 0;
+    }
+    if (v.z < -farg0) {
+        return 0;
+    }
+    if (v.x < 0.0f) {
+        v.x = arg1->x - camera_right.x * farg1;
+        v.y = arg1->y + camera_right.y * farg1;
+        v.z = arg1->z + camera_right.z * farg1;
+        project_world_to_screen(0, &v, &o1, &camera_right);
+        if (o1.x < 0.0f) {
+            return 0;
+        }
+    } else {
+        v.x = arg1->x + camera_right.x * farg1;
+        v.y = arg1->y - camera_right.y * farg1;
+        v.z = arg1->z - camera_right.z * farg1;
+        project_world_to_screen(0, &v, &o2, &camera_right);
+        if (o2.x > 640.0f) {
+            return 0;
+        }
+    }
+    return 1;
+}
+#pragma pop
+}
+
+extern "C" {
+#pragma push
+#pragma fp_contract on
+s32 init_chips__8TObjChipFPv(u8 *arg0) {
+    Task_80180614 *t = (Task_80180614 *)arg0;
+    Chip_80180614 *c;
+    s32 i;
+    f32 v;
+    if (t->count > 8) {
+        return 0;
+    }
+    c = t->chips;
+    for (i = 0; i < t->count; i++, c++) {
+        VecCopy((Vec *)&c->pos, (const Vec *)&t->origin);
+        v = t->vel.x;
+        c->vel.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
+        c->vel.y = t->vel.y * ((3.0517578e-05f) * (f32)rand());
+        v = t->vel.z;
+        c->vel.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
+        c->rot.z = c->rot.y = c->rot.x = 0;
+        c->angvel.x = (s32)((f32)t->angvel.x * ((3.0517578e-05f) * (f32)rand()));
+        c->angvel.y = (s32)((f32)t->angvel.y * ((3.0517578e-05f) * (f32)rand()));
+        c->angvel.z = (s32)((f32)t->angvel.z * ((3.0517578e-05f) * (f32)rand()));
+        c->alpha = (1.0f);
+        c->life = t->life;
+    }
+    return 1;
+}
+#pragma pop
+}
+
+extern "C" {
+#pragma push
+#pragma fp_contract on
+s32 spawn_chips__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
+    IVec_801803C0 *r = (IVec_801803C0 *)arg1;
+    Task_801803C0 *t = (Task_801803C0 *)arg0;
+    Chip_801803C0 *c;
+    s32 i;
+    f32 v;
+    if (t->count > 8) {
+        return 0;
+    }
+    c = t->chips;
+    for (i = 0; i < t->count; i++, c++) {
+        VecCopy((Vec *)&c->pos, (const Vec *)&t->origin);
+        v = t->vel.x;
+        c->vel.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
+        c->vel.y = t->vel.y * ((3.0517578e-05f) * (f32)rand());
+        v = t->vel.z;
+        c->vel.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
+        c->rot.x = r->x;
+        c->rot.y = r->y;
+        c->rot.z = r->z;
+        c->angvel.x = (s32)((f32)t->angvel.x * ((3.0517578e-05f) * (f32)rand()));
+        c->angvel.y = (s32)((f32)t->angvel.y * ((3.0517578e-05f) * (f32)rand()));
+        c->angvel.z = (s32)((f32)t->angvel.z * ((3.0517578e-05f) * (f32)rand()));
+        c->alpha = (1.0f);
+        c->life = t->life;
+    }
+    return 1;
+}
+#pragma pop
+}
+
+extern "C" {
+#pragma push
+#pragma fp_contract on
+void tick_chips__8TObjChipFPv(u8 *arg0) {
+    Task_8018019C *t = (Task_8018019C *)arg0;
+    s32 active;
+    Chip_8018019C *c;
+    s32 i;
+    c = t->chips;
+    active = 0;
+    for (i = 0; i < t->count; i++, c++) {
+        if (c->life == 0) {
+            if (!(t->flags & 4)) {
+                continue;
+            }
+            c->alpha -= (0.1f);
+            if (c->alpha > (0.0f)) {
+                active++;
+            }
+        } else {
+            c->life--;
+            active++;
+        }
+        c->vel.x = -c->vel.x * t->drag + c->vel.x;
+        c->vel.y = c->vel.y + ((0.1f) * -c->vel.y - t->gravity);
+        c->vel.z = -c->vel.z * t->drag + c->vel.z;
+        c->pos.x += c->vel.x;
+        c->pos.y += c->vel.y;
+        c->pos.z += c->vel.z;
+        c->rot.x += c->angvel.x;
+        c->rot.y += c->angvel.y;
+        c->rot.z += c->angvel.z;
+        if ((t->flags & 2) && c->pos.y < t->floor && c->vel.y < (0.0f)) {
+            c->pos.y = t->floor;
+            c->vel.x *= (0.9f);
+            c->vel.y *= -t->bounce;
+            c->vel.z *= (0.9f);
+            c->angvel.x = (s32)((0.5f) * (f32)c->angvel.x);
+            c->angvel.y = (s32)((0.5f) * (f32)c->angvel.y);
+            c->angvel.z = (s32)((0.5f) * (f32)c->angvel.z);
+        }
+    }
+    if (active == 0) {
+        t->active = 0;
+    }
+}
+#pragma pop
+}
+
+extern "C" {
+void render__8TObjChipFPv(u8 *arg0) {
+    TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x68)));
+    if (*(s32 *)((s8 *)arg0 + 0x6C) & 0x10) {
+        ((VObj_18 *)(arg0))->m10();
+        return;
+    }
+    ((VObj_18 *)(arg0))->m11();
+}
+}
+
+extern "C" {
 void draw_chips__8TObjChipFPv(Obj_8017FE58 *o) {
     Chip_8017FE58 *c = o->chips;
     if (o->flags & 8) {
@@ -294,246 +565,47 @@ void draw_chips__8TObjChipFPv(Obj_8017FE58 *o) {
         }
     }
 }
-
-extern const u32 chip_color_white_c[4] = { 0, 0x3F800000, 0x3F800000, 0x3F800000 };
-
-void render__8TObjChipFPv(u8 *arg0) {
-    TObjFish::set_global_param((int) (*(s32 *)((s8 *)arg0 + 0x68)));
-    if (*(s32 *)((s8 *)arg0 + 0x6C) & 0x10) {
-        ((VObj_18 *)(arg0))->m10();
-        return;
-    }
-    ((VObj_18 *)(arg0))->m11();
 }
-
-#pragma push
-#pragma fp_contract on
-void tick_chips__8TObjChipFPv(u8 *arg0) {
-    Task_8018019C *t = (Task_8018019C *)arg0;
-    s32 active;
-    Chip_8018019C *c;
-    s32 i;
-    c = t->chips;
-    active = 0;
-    for (i = 0; i < t->count; i++, c++) {
-        if (c->life == 0) {
-            if (!(t->flags & 4)) {
-                continue;
-            }
-            c->alpha -= (0.1f);
-            if (c->alpha > (0.0f)) {
-                active++;
-            }
-        } else {
-            c->life--;
-            active++;
-        }
-        c->vel.x = -c->vel.x * t->drag + c->vel.x;
-        c->vel.y = c->vel.y + ((0.1f) * -c->vel.y - t->gravity);
-        c->vel.z = -c->vel.z * t->drag + c->vel.z;
-        c->pos.x += c->vel.x;
-        c->pos.y += c->vel.y;
-        c->pos.z += c->vel.z;
-        c->rot.x += c->angvel.x;
-        c->rot.y += c->angvel.y;
-        c->rot.z += c->angvel.z;
-        if ((t->flags & 2) && c->pos.y < t->floor && c->vel.y < (0.0f)) {
-            c->pos.y = t->floor;
-            c->vel.x *= (0.9f);
-            c->vel.y *= -t->bounce;
-            c->vel.z *= (0.9f);
-            c->angvel.x = (s32)((0.5f) * (f32)c->angvel.x);
-            c->angvel.y = (s32)((0.5f) * (f32)c->angvel.y);
-            c->angvel.z = (s32)((0.5f) * (f32)c->angvel.z);
-        }
-    }
-    if (active == 0) {
-        t->active = 0;
-    }
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-s32 spawn_chips__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
-    IVec_801803C0 *r = (IVec_801803C0 *)arg1;
-    Task_801803C0 *t = (Task_801803C0 *)arg0;
-    Chip_801803C0 *c;
-    s32 i;
-    f32 v;
-    if (t->count > 8) {
-        return 0;
-    }
-    c = t->chips;
-    for (i = 0; i < t->count; i++, c++) {
-        VecCopy((Vec *)&c->pos, (const Vec *)&t->origin);
-        v = t->vel.x;
-        c->vel.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->vel.y = t->vel.y * ((3.0517578e-05f) * (f32)rand());
-        v = t->vel.z;
-        c->vel.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->rot.x = r->x;
-        c->rot.y = r->y;
-        c->rot.z = r->z;
-        c->angvel.x = (s32)((f32)t->angvel.x * ((3.0517578e-05f) * (f32)rand()));
-        c->angvel.y = (s32)((f32)t->angvel.y * ((3.0517578e-05f) * (f32)rand()));
-        c->angvel.z = (s32)((f32)t->angvel.z * ((3.0517578e-05f) * (f32)rand()));
-        c->alpha = (1.0f);
-        c->life = t->life;
-    }
-    return 1;
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-s32 init_chips__8TObjChipFPv(u8 *arg0) {
-    Task_80180614 *t = (Task_80180614 *)arg0;
-    Chip_80180614 *c;
-    s32 i;
-    f32 v;
-    if (t->count > 8) {
-        return 0;
-    }
-    c = t->chips;
-    for (i = 0; i < t->count; i++, c++) {
-        VecCopy((Vec *)&c->pos, (const Vec *)&t->origin);
-        v = t->vel.x;
-        c->vel.x = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->vel.y = t->vel.y * ((3.0517578e-05f) * (f32)rand());
-        v = t->vel.z;
-        c->vel.z = v * ((3.0517578e-05f) * (f32)rand()) - (0.5f) * v;
-        c->rot.z = c->rot.y = c->rot.x = 0;
-        c->angvel.x = (s32)((f32)t->angvel.x * ((3.0517578e-05f) * (f32)rand()));
-        c->angvel.y = (s32)((f32)t->angvel.y * ((3.0517578e-05f) * (f32)rand()));
-        c->angvel.z = (s32)((f32)t->angvel.z * ((3.0517578e-05f) * (f32)rand()));
-        c->alpha = (1.0f);
-        c->life = t->life;
-    }
-    return 1;
-}
-#pragma pop
-
-#pragma push
-#pragma fp_contract on
-s32 TObjChip__vt8(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1) {
-    Vec_8018085C v;
-    Out_8018085C o1;
-    Out_8018085C o2;
-    matrix_mult_vec(0, arg1, &v);
-    if (v.z > 0.0f) {
-        return 0;
-    }
-    if (v.z < -farg0) {
-        return 0;
-    }
-    if (v.x < 0.0f) {
-        v.x = arg1->x - camera_right.x * farg1;
-        v.y = arg1->y + camera_right.y * farg1;
-        v.z = arg1->z + camera_right.z * farg1;
-        project_world_to_screen(0, &v, &o1, &camera_right);
-        if (o1.x < 0.0f) {
-            return 0;
-        }
-    } else {
-        v.x = arg1->x + camera_right.x * farg1;
-        v.y = arg1->y - camera_right.y * farg1;
-        v.z = arg1->z - camera_right.z * farg1;
-        project_world_to_screen(0, &v, &o2, &camera_right);
-        if (o2.x > 640.0f) {
-            return 0;
-        }
-    }
-    return 1;
-}
-#pragma pop
-
-int TObjChip__vt6(void* p) { return *(u32*)((char*)p + 0x230) == 0; }
-
-void dispatch_vt9__8TObjChipFPv(void *arg0) {
-    struct VObj_801809C4_801809B4 *o = (struct VObj_801809C4_801809B4 *)arg0;
-    o->m9();
-}
-
-void update__8TObjChipFPv(void *object) {
-    struct VObj_801809F0_801809B4 *o = (struct VObj_801809F0_801809B4 *)object;
-    o->m7();
-    if (o->m6() == 1) {
-        queue_destruction__7TObjectFv(object);
-    }
-}
-}
-
-TObjChip::~TObjChip() {}
 
 extern "C" {
-
-typedef char RecoveredGlobal_80180AA4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180AA4___vt__8TObjChip) == 0x38 ? 1 : -1];
-u8 *__ct__8TObjChipFv(u8 *object, u8 *arg1, u8 *arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
-    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
-    copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
-    *(f32 *)((s8 *)object + 0x20) = 40.0f;
-    *(s32 *)((s8 *)object + 0x230) = 1;
-    if (((VObj_18_6eb662 *)(object))->m5(arg2 + 0x4C, (2e+02f)) == 0) {
-        *(s32 *)((s8 *)object + 0x230) = 0;
+void TObjChip__vt10(u8 *arg0) {
+    Chip_8017FE58 *p = (Chip_8017FE58 *)(arg0 + 0x70);
+    s32 i;
+    s32 j;
+    if (*(s32 *)(arg0 + 0x6C) & 4) {
+        saved_model_render_flags = model_render_flags;
+        saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
+        saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
+        model_render_flags |= 0x8011;
+        set_color_blend_mode(1, 4, 5, 0, chunk_polygon_flags_or_mask, chunk_polygon_flags_and_mask);
+        for (i = 0; i < *(s32 *)(arg0 + 0x54); i++, p++) {
+            NJS_ARGB color = { p->alpha, 1.0f, 1.0f, 1.0f };
+            set_constant_material(&color);
+            push_matrix();
+            post_translate_matrix(p);
+            rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
+            scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
+            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            pop_matrix();
+            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+        }
+        model_render_flags = saved_model_render_flags;
+        chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
+        chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
+    } else {
+        for (j = 0; j < *(s32 *)(arg0 + 0x54); j++, p++) {
+            push_matrix();
+            post_translate_matrix(p);
+            rotate_matrix_yxz(0, p->rx, p->ry, p->rz);
+            scale_matrix(0, *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60), *(f32 *)(arg0 + 0x60));
+            draw_ginja_object(*(s32 *)(arg0 + 0x64));
+            pop_matrix();
+        }
     }
-    return object;
+}
 }
 
-void copy_debris_params__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    *(ByteBlock_C *)((s32) arg0 + 0xC) = *(const ByteBlock_C *)((s32) arg1 + 0xC);
-    *(ByteBlock_C *)((s32) arg0 + 0x18) = *(const ByteBlock_C *)((s32) arg1 + 0x18);
-    *(ByteBlock_C *)((s32) arg0 + 0x24) = *(const ByteBlock_C *)((s32) arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg1 + 0x3C);
-    *(s32 *)((s8 *)arg0 + 0x40) = (s32) *(s32 *)((s8 *)arg1 + 0x40);
-    *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
-    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
-}
-
-typedef char RecoveredGlobal_80180BD4___vt__8TObjChip_size[sizeof(RecoveredGlobal_80180BD4___vt__8TObjChip) == 0x38 ? 1 : -1];
-u8 *construct_debris__8TObjChipFPvPvPv(u8 *object, u8 *arg1, u8 *arg2) {
-    __ct__7TObjectFP7TObject(object, arg1);
-    *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__8TObjChip;
-    *(s32 *)((s8 *)object + 0) = (s32) obj_chip_class_name_ptr;
-    copy_debris_params__8TObjChipFPvPv(object + 0x24, arg2);
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (2e+02f);
-    *(f32 *)((s8 *)object + 0x20) = 40.0f;
-    *(s32 *)((s8 *)object + 0x230) = 1;
-    if (((VObj_18_2a3247 *)(object))->m4((2e+02f)) == 0) {
-        *(s32 *)((s8 *)object + 0x230) = 0;
-    }
-    return object;
-}
-
-u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1) {
-    *(f32 *)((s8 *)arg0 + 0) = (f32) *(f32 *)((s8 *)arg1 + 0);
-    *(f32 *)((s8 *)arg0 + 4) = (f32) *(f32 *)((s8 *)arg1 + 4);
-    *(f32 *)((s8 *)arg0 + 8) = (f32) *(f32 *)((s8 *)arg1 + 8);
-    VecCopy((Vec *)(arg0 + 0xC), (const Vec *)(arg1 + 0xC));
-    VecCopy((Vec *)(arg0 + 0x18), (const Vec *)(arg1 + 0x18));
-    copy_xyz(arg0 + 0x24, arg1 + 0x24);
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) *(s32 *)((s8 *)arg1 + 0x30);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)arg1 + 0x34);
-    *(f32 *)((s8 *)arg0 + 0x38) = (f32) *(f32 *)((s8 *)arg1 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x3C) = (f32) *(f32 *)((s8 *)arg1 + 0x3C);
-    *(s32 *)((s8 *)arg0 + 0x40) = (s32) *(s32 *)((s8 *)arg1 + 0x40);
-    *(s32 *)((s8 *)arg0 + 0x44) = (s32) *(s32 *)((s8 *)arg1 + 0x44);
-    *(s32 *)((s8 *)arg0 + 0x48) = (s32) *(s32 *)((s8 *)arg1 + 0x48);
-    *(s32 *)((s8 *)arg0 + 0x54) = 0;
-    *(s32 *)((s8 *)arg0 + 0x50) = 0;
-    *(s32 *)((s8 *)arg0 + 0x4C) = 0;
-    return arg0;
-}
-
+extern "C" {
 void __dt__8TObjChipFv();
 void render_shadows__7TObjectFv();
 void *__vt__8TObjChip[] = {

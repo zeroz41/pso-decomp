@@ -5684,19 +5684,19 @@ pso/misc/TButterfly.cpp:
 	.sdata2     start:0x805DBAD8 end:0x805DBB54
 
 pso/misc/TButterfly_8017F364.cpp:
-	.text       start:0x8017F364 end:0x8017F45C
+	.text       start:0x8017F364 end:0x8017F4AC
 
-pso/unk/text_8017F45C.cpp:
-	.text       start:0x8017F45C end:0x8017F624
-
-pso/object/TObjCamera_8017F80C.cpp:
-	.text       start:0x8017F624 end:0x8017FE58
-	.rodata     start:0x80443AC8 end:0x80443AD0
-	.data       start:0x804B5898 end:0x804B58D0
+pso/object/TObjCamera.cpp:
+	.text       start:0x8017F4AC end:0x8017FCD0
+	.rodata     start:0x80443978 end:0x80443AD0
+	.data       start:0x804B5878 end:0x804B58D0
+	.bss        start:0x8050DB80 end:0x8050DBE0
+	.sdata      start:0x805D3238 end:0x805D3240
+	.sbss       start:0x805D5B18 end:0x805D5B20
 	.sdata2     start:0x805DBB58 end:0x805DBB74
 
 pso/object/TObjChip.cpp:
-	.text       start:0x8017FE58 end:0x80180D18
+	.text       start:0x8017FCD0 end:0x80180D18
 	.rodata     start:0x80443AD0 end:0x80443B18
 	.data       start:0x804B58D0 end:0x804B5908
 	.sdata      start:0x805D3240 end:0x805D3244

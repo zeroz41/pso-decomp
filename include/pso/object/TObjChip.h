@@ -17,6 +17,7 @@ struct TObjChipParams {
 };
 
 extern "C" {
+void TObjChip__vt10(u8 *arg0);
 int TObjChip__vt6(void *p);
 u8 *__ct__8TObjChipFv(u8 *arg0, u8 *arg1, u8 *arg2);
 u8 *construct_debris__8TObjChipFPvPvPv(u8 *arg0, u8 *arg1, u8 *arg2);

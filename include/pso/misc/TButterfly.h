@@ -20,6 +20,7 @@ struct TButterfly : public TObjBase {
     void init_motion();
     virtual void render();
     virtual void run_task();
+    static void load_resources();
     static void destroy_instance();
     void draw_model();
     u8 unk_BB[0x1];

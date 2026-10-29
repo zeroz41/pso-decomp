@@ -432,6 +432,9 @@ GAME_COMPILER = "GC/2.6"
 # entry is here because a function or data section matches only this way.
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TObjChip: render's colour template sits after draw_chips' in .rodata
+    # while render comes first in .text, so the source runs backwards.
+    "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
     "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
@@ -440,6 +443,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
     # GC/1.3.2: the container files 0x8018807C-0x8018D900, the CRC-32 pair
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
+    # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
+    "pso/object/TObjCamera.cpp": {"mw_version": "GC/1.3.2"},
     "pso/object/TObjComputer.cpp": {"mw_version": "GC/1.3.2"},
     "pso/item/TObjContainerJung.cpp": {"mw_version": "GC/1.3.2"},
     # The two below also schedule the by-value DirectAttackPayload read of

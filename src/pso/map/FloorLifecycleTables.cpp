@@ -129,7 +129,6 @@ void TOSwitchAttack__sub_80177C20();
 void TOSwitchAttack__sub_80177C24();
 void TOSwitchTimer__sub_80178584();
 void TOSwitchTimer__sub_80178588();
-void fn_8017F45C();
 void TContainerAncient01R__sub_8018AF74();
 void TObjDoorJung__sub_8018F4AC();
 void TLazerFenceSw__sub_80193C5C();
@@ -179,7 +178,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_01[30] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjDoor::load_resources, TObjDoor::free_resources },
     { TKomorebi::load_resources, TKomorebi::free_static },
-    { fn_8017F45C, TButterfly::destroy_instance },
+    { TButterfly::load_resources, TButterfly::destroy_instance },
     { TObjDoorKey::load_resources, TObjDoorKey::free_key },
     { TMotorcycle::load_resources, TMotorcycle::free_statics },
     { load_forest_box_resources, TLobby::free_char_select_resources },
@@ -212,7 +211,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_02[32] = {
     { load_area_dialogue_script, TQuestThread::destroy_quest_obj },
     { TObjDoor::load_resources, TObjDoor::free_resources },
     { TKomorebi::load_resources, TKomorebi::free_static },
-    { fn_8017F45C, TButterfly::destroy_instance },
+    { TButterfly::load_resources, TButterfly::destroy_instance },
     { TObjDoorKey::load_resources, TObjDoorKey::free_key },
     { TMotorcycle::load_resources, TMotorcycle::free_statics },
     { load_forest_box_resources, TLobby::free_char_select_resources },
@@ -589,7 +588,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_15[14] = {
 FloorLifecycleEntry floor_lifecycle_callbacks_floor_16[24] = {
     { TOMine::load_static_resource, TOMine::free_instance },
     { TOBoss4::load_static_resource, TOBoss4::free_instance },
-    { TObjCamera::load_shared_resource, TObjCamera::release_static_resource },
+    { TObjCamera::load_resources, TObjCamera::free_resources },
     { fn_8019B0D4, fn_8019B09C },
     { fn_8019AD50, TObjBigTuitate::free_instance },
     { TObjDoaEx01::load_resources, TObjDoaEx01::free_resource },
@@ -675,7 +674,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floors_21_22[29] = {
     { TObjDoaEx01::load_resources, TObjDoaEx01::free_resource },
     { TLanguage::load_container_fragment_textures, fn_8015C5F8 },
     { TOBoss4::load_static_resource, TOBoss4::free_instance },
-    { TObjCamera::load_shared_resource, TObjCamera::release_static_resource },
+    { TObjCamera::load_resources, TObjCamera::free_resources },
     { fn_8019B0D4, fn_8019B09C },
     { fn_8019AD50, TObjBigTuitate::free_instance },
     { TODragonflyCave01::load_resources, TODragonflyCave01::release_static_instance },
