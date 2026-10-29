@@ -2,11 +2,11 @@
 #define PSO_MISC_TOCAPSULEANCIENT01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804B27D8.h"
+#include "pso/misc/TOQuestTalkBase.h"
 #include "pso/system/BmlResource.h"
 
 // The Ruins' message capsule: its lid spins while it is active.
-struct TOCapsuleAncient01 : public TUnk_804B27D8 {
+struct TOCapsuleAncient01 : public TOQuestTalkBase {
     TOCapsuleAncient01(TObject *parent, void *set_data);
     virtual ~TOCapsuleAncient01();
     virtual void animate();

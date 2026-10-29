@@ -2,12 +2,12 @@
 #define PSO_MISC_TOMONUMENTANCIENT01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804B27D8.h"
+#include "pso/misc/TOQuestTalkBase.h"
 #include "pso/system/BmlResource.h"
 
 // The Ruins' stone tablet: the stone, then its crystal and its letters drawn
 // as effects.
-struct TOMonumentAncient01 : public TUnk_804B27D8 {
+struct TOMonumentAncient01 : public TOQuestTalkBase {
     TOMonumentAncient01(TObject *parent, void *set_data);
     virtual ~TOMonumentAncient01();
     virtual void update_demo();

@@ -5154,7 +5154,7 @@ pso/misc/TOHealGeneral.cpp:
 	.sbss       start:0x805D59F0 end:0x805D59F8
 	.sdata2     start:0x805DB6B8 end:0x805DB6D4
 
-pso/misc/TUnk_804B27D8.cpp:
+pso/misc/TOQuestTalkBase.cpp:
 	.text       start:0x801699F4 end:0x80169FBC
 	.data       start:0x804B27D8 end:0x804B2820
 	.sdata2     start:0x805DB6D8 end:0x805DB6E0

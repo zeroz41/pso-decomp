@@ -97,7 +97,7 @@ TOCapsuleLabo::~TOCapsuleLabo() {
 }
 
 // Episode II's online mode and split screen do without the capsule.
-TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TUnk_804B27D8(parent) {
+TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(model_resource, 0);

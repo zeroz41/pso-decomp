@@ -1,15 +1,16 @@
-#ifndef PSO_MISC_TUNK_804B27D8_H
-#define PSO_MISC_TUNK_804B27D8_H
+#ifndef PSO_MISC_TOQUESTTALKBASE_H
+#define PSO_MISC_TOQUESTTALKBASE_H
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
 
 // The base of the map objects a player talks to to run a quest label
 // (TOCapsuleAncient01, TOCapsuleLabo, TOComputerMachine01,
-// TOMonumentAncient01). No class name string survives for it.
-class TUnk_804B27D8 : public TObjMapObject {
+// TOMonumentAncient01). No class name string survives for it; it is named
+// for that role.
+class TOQuestTalkBase : public TObjMapObject {
 public:
-    TUnk_804B27D8(TObject *parent);
-    virtual ~TUnk_804B27D8();
+    TOQuestTalkBase(TObject *parent);
+    virtual ~TOQuestTalkBase();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_6(s16 *state, s32);

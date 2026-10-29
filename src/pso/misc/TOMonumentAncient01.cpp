@@ -65,7 +65,7 @@ TOMonumentAncient01::~TOMonumentAncient01() {
     free_collision_body_parts(this);
 }
 
-TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TUnk_804B27D8(parent) {
+TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQuestTalkBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(model_resource, 2);

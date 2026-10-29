@@ -107,7 +107,7 @@ TOComputerMachine01::~TOComputerMachine01() {
     unregister_object_by_id();
 }
 
-TOComputerMachine01::TOComputerMachine01(void *set_data) : TUnk_804B27D8(tl_05) {
+TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
@@ -121,6 +121,6 @@ TOComputerMachine01::TOComputerMachine01(void *set_data) : TUnk_804B27D8(tl_05) 
     read_set_params();
 }
 
-// The base's empty animation step (see TUnk_804B27D8.h): this TU is the
+// The base's empty animation step (see TOQuestTalkBase.h): this TU is the
 // first in link order whose vtable uses it.
-void TUnk_804B27D8::animate() {}
+void TOQuestTalkBase::animate() {}

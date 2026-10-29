@@ -2,13 +2,13 @@
 #define PSO_MISC_TOCAPSULELABO_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804B27D8.h"
+#include "pso/misc/TOQuestTalkBase.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 
 // The Lab's info capsule: its lid spins and its light node (node 3) shows
 // only while it is active.
-struct TOCapsuleLabo : public TUnk_804B27D8 {
+struct TOCapsuleLabo : public TOQuestTalkBase {
     TOCapsuleLabo(TObject *parent, void *set_data);
     virtual ~TOCapsuleLabo();
     virtual void animate();

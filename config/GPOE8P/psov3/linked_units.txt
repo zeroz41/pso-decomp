@@ -1584,7 +1584,7 @@ pso/misc/TTecZonde.cpp
 pso/misc/TTecZondeEff.cpp
 pso/misc/TUdpSocket.cpp
 pso/misc/TUnk_804B1B80.cpp
-pso/misc/TUnk_804B27D8.cpp
+pso/misc/TOQuestTalkBase.cpp
 pso/misc/TUserAns.cpp
 pso/misc/TUserAns_801E0198.cpp
 pso/misc/TWindow.cpp

@@ -2,12 +2,12 @@
 #define PSO_MISC_TOCOMPUTERMACHINE01_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804B27D8.h"
+#include "pso/misc/TOQuestTalkBase.h"
 #include "pso/system/BmlResource.h"
 
 // The Mines' research computer: four screens scroll their textures, and it
 // stays drawn while the camera is within its radius.
-struct TOComputerMachine01 : public TUnk_804B27D8 {
+struct TOComputerMachine01 : public TOQuestTalkBase {
     TOComputerMachine01(void *set_data);
     virtual ~TOComputerMachine01();
     virtual s32 update_object_view_visibility(f32 range, f32 radius);

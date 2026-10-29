@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804B27D8.h"
+#include "pso/misc/TOQuestTalkBase.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl_8006CC30.h"
@@ -23,13 +23,13 @@
 extern TUnk_804C8678 *quest_mission_manager;
 extern TUnk_804C8678 *quest_area_manager;
 
-void TUnk_804B27D8::update_demo() {}
+void TOQuestTalkBase::update_demo() {}
 
-void TUnk_804B27D8::vfunc_6(s16 *state, s32) {
+void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
     m_ac = *state;
 }
 
-void TUnk_804B27D8::interact(s32 client) {
+void TOQuestTalkBase::interact(s32 client) {
     TObjPlayer *player;
     if (quest_label > 0) {
         if ((u16)client == local_client_id) {
@@ -46,7 +46,7 @@ void TUnk_804B27D8::interact(s32 client) {
     }
 }
 
-s32 TUnk_804B27D8::update_active_state() {
+s32 TOQuestTalkBase::update_active_state() {
     switch (activation) {
     case 1:
         if (is_any_player_within_radius_xz(4900.0f) != 0) {
@@ -66,14 +66,14 @@ s32 TUnk_804B27D8::update_active_state() {
     return active;
 }
 
-void TUnk_804B27D8::set_quest_label(s32 label) {
+void TOQuestTalkBase::set_quest_label(s32 label) {
     if (label < 0) {
         label = 0;
     }
     quest_label = label;
 }
 
-void TUnk_804B27D8::set_script_id(s32 id) {
+void TOQuestTalkBase::set_script_id(s32 id) {
     if (id < 0) {
         id = 0;
     }
@@ -82,7 +82,7 @@ void TUnk_804B27D8::set_script_id(s32 id) {
 
 // Set entry params: 4 the switch (-1 a nearby player, above 0xFF never), 5 the
 // script id, 6 the quest label.
-s32 TUnk_804B27D8::read_set_params() {
+s32 TOQuestTalkBase::read_set_params() {
     switch_id = set_params[0];
     if (switch_id > 0xFF) {
         activation = 0;
@@ -96,7 +96,7 @@ s32 TUnk_804B27D8::read_set_params() {
     return switch_id;
 }
 
-void TUnk_804B27D8::run_task() {
+void TOQuestTalkBase::run_task() {
     TObjPlayer *player;
     f32 frame;
     f32 end;
@@ -160,7 +160,7 @@ void TUnk_804B27D8::run_task() {
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804B27D8::render() {
+void TOQuestTalkBase::render() {
     visible = update_object_view_visibility(m_c0, model_radius);
     if (visible == 1) {
         push_matrix();
@@ -181,9 +181,9 @@ void TUnk_804B27D8::render() {
 }
 #pragma pop
 
-TUnk_804B27D8::~TUnk_804B27D8() {}
+TOQuestTalkBase::~TOQuestTalkBase() {}
 
-TUnk_804B27D8::TUnk_804B27D8(TObject *parent) : TObjMapObject(parent) {
+TOQuestTalkBase::TOQuestTalkBase(TObject *parent) : TObjMapObject(parent) {
     switch_id = -1;
     activation = 0;
     m_ac = 0;
