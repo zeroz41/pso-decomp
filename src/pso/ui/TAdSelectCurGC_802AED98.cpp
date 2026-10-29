@@ -1,7 +1,6 @@
 #ifndef PSO_TADSELECTCURGC_H
 #define PSO_TADSELECTCURGC_H
 #include "pso/TObject.h"
-#include "pso/misc/TOCapsuleLabo.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/TAdSelectCurGC_802AED98.h"
 #include "pso/misc/TWindowChoiceSetting.h"
@@ -180,14 +179,5 @@ void TLobby::apply_menu_cursor_selection() {
 
 void TAdSelectCurGC__sub_802AF274(void* p, f32 v) { *(f32*)((char*)p + 0x704) = v; }
 
-extern void *tl_05;
-
-void *TOCapsuleLabo__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE8);
-    if (o != NULL) {
-        o = TOCapsuleLabo__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
-}
 
 }

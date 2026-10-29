@@ -4845,6 +4845,11 @@ pso/misc/TOCakeshopCave01.cpp:
 
 pso/misc/TOCapsuleAncient01.cpp:
 	.text       start:0x8015A2B8 end:0x8015A5E8
+	.rodata     start:0x804403F0 end:0x80440438
+	.data       start:0x804AFE70 end:0x804AFEF8
+	.sdata      start:0x805D2EC8 end:0x805D2ED0
+	.sbss       start:0x805D58B8 end:0x805D58BC
+	.sdata2     start:0x805DB378 end:0x805DB380
 
 pso/misc/TOCapsuleMachine01.cpp:
 	.text       start:0x8015A5E8 end:0x8015A8D8
@@ -4884,13 +4889,19 @@ pso/misc/TOChatSensor.cpp:
 	.data       start:0x804AFFA8 end:0x804AFFDC
 
 pso/misc/TOChatSensor_8015B214.cpp:
-	.text       start:0x8015B214 end:0x8015B350
+	.text       start:0x8015B214 end:0x8015B2C4
 
 pso/misc/TOComputerMachine01.cpp:
-	.text       start:0x8015B350 end:0x8015B710
+	.text       start:0x8015B2C4 end:0x8015B714
+	.rodata     start:0x804404C0 end:0x80440508
+	.data       start:0x804AFFE0 end:0x804B0068
+	.bss        start:0x8050DB50 end:0x8050DB60
+	.sdata      start:0x805D2EE8 end:0x805D2EF0
+	.sbss       start:0x805D58E0 end:0x805D58E8
+	.sdata2     start:0x805DB390 end:0x805DB398
 
 pso/misc/TOContainerAncientEnemyRare.cpp:
-	.text       start:0x8015B710 end:0x8015B84C
+	.text       start:0x8015B714 end:0x8015B84C
 
 pso/misc/TOContainerAncientEnemyCommon.cpp:
 	.text       start:0x8015B84C end:0x8015B8E8
@@ -5286,13 +5297,15 @@ pso/misc/TOMonitorMachine01.cpp:
 	.sdata2     start:0x805DB8F0 end:0x805DB914
 
 pso/misc/TOMonumentAncient01.cpp:
-	.text       start:0x8017262C end:0x801726D4
-
-pso/misc/TOMonumentAncient01_801726D4.cpp:
-	.text       start:0x801726D4 end:0x80172A34
+	.text       start:0x8017262C end:0x801728CC
+	.rodata     start:0x804422A8 end:0x80442330
+	.data       start:0x804B38D0 end:0x804B3960
+	.sdata      start:0x805D30B8 end:0x805D30C0
+	.sbss       start:0x805D5A60 end:0x805D5A64
+	.sdata2     start:0x805DB918 end:0x805DB920
 
 pso/misc/TOMonumentAncient02.cpp:
-	.text       start:0x80172A34 end:0x80173014
+	.text       start:0x801728CC end:0x80173014
 	.rodata     start:0x80442330 end:0x804423E8
 	.data       start:0x804B3960 end:0x804B3A0C
 	.sdata      start:0x805D30C0 end:0x805D30D0
@@ -9988,13 +10001,16 @@ pso/unk/text_802AEBA8.cpp:
 	.text       start:0x802AEBA8 end:0x802AED98
 
 pso/ui/TAdSelectCurGC_802AED98.cpp:
-	.text       start:0x802AED98 end:0x802AF2C8
+	.text       start:0x802AED98 end:0x802AF27C
 	.data       start:0x804DE420 end:0x804DE438
 
 pso/misc/TOCapsuleLabo.cpp:
-	.text       start:0x802AF2C8 end:0x802AF5FC
-	.data       start:0x804DE438 end:0x804DE450
-	.sdata      start:0x805D3E78 end:0x805D3E7C
+	.text       start:0x802AF27C end:0x802AF5FC
+	.rodata     start:0x80470790 end:0x804707D8
+	.data       start:0x804DE438 end:0x804DE4C0
+	.sdata      start:0x805D3E78 end:0x805D3E80
+	.sbss       start:0x805D6708 end:0x805D6710
+	.sdata2     start:0x805DE1E8 end:0x805DE1F0
 
 pso/misc/TLobby_802AF5FC.cpp:
 	.text       start:0x802AF5FC end:0x802AF64C

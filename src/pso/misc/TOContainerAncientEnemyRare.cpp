@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby_8030A6A8.h"
 #include "pso/misc/TOContainerAncientEnemyRare.h"
-#include "pso/misc/TUnk_804B27D8.h"
 
 struct RecoveredGlobal_8015B76C___vt__27TOContainerAncientEnemyRare {
     s32 value;
@@ -19,8 +18,6 @@ extern s32 lbl_805D2F10;
 extern s32 *ancient_container_fragment_texture_lists;
 void __dl__7TObjectFPv(void *);
 void *__dt__23TOContainerAncientEnemyFv(void *arg0, s16 arg1);
-
-void TUnk_804B27D8::vfunc_15() {  }
 
 void *__dt__27TOContainerAncientEnemyRareFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

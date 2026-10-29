@@ -1474,7 +1474,8 @@ struct TObjPlayer : public TObjChara {
     void equip_item_to_slot(void *item, s32 slot);
     s32 end_camera_pan();
     static void freeze_all_players();
-    s32 start_camera_pan(s16 arg1);
+    // The callers pass the angle to the object as well; this does not use it.
+    s32 start_camera_pan(s16 arg1, s32 angle);
     s32 init_photon_blast(s32 arg1);
     s32 start_freeze();
     s32 register_player_slot();

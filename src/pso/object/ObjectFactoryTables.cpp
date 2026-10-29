@@ -43,6 +43,7 @@
 #include "pso/misc/TOBoss4Bird.h"
 #include "pso/misc/TOBoss4Rock.h"
 #include "pso/misc/TOCapsuleAncient01.h"
+#include "pso/misc/TOCapsuleLabo.h"
 #include "pso/misc/TOCapsuleMachine01.h"
 #include "pso/misc/TOComputerMachine01.h"
 #include "pso/misc/TOContainerAncientItemNone.h"
@@ -248,7 +249,6 @@ void* TORockJungleL01__create(void* placement);
 void* TOGrassJungle__create(void* placement);
 void* TObjFish__create(void* placement);
 void* TBGLightningCtrl__create(void* placement);
-void* TOCapsuleLabo__create(void* placement);
 void* create_lobby_pigeon(void* placement);
 void* create__10TObjPlayerFPv(void* placement);
 void* TObjPlayer__sub_802C28B4(void* placement);
@@ -1274,7 +1274,7 @@ ObjectFactoryEntry object_factories_floors_21_22[60] = {
     { 0x0153, create__15TOTrapAncient01Fv, 250000.0f, 0 },
     { 0x01C0, TODoorFourLightSpace__create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x0160, create__22TObjFogCollisionPoisonFPv, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
@@ -1401,7 +1401,7 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x01AB, TODoorFourLightRuins__create, 250000.0f, 0 },
     { 0x0013, TOHealGeneral::create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -1456,7 +1456,7 @@ ObjectFactoryEntry object_factories_floor_23[65] = {
     { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1525,7 +1525,7 @@ ObjectFactoryEntry object_factories_floor_24[67] = {
     { 0x0220, TObjFish__create, 250000.0f, 0 },
     { 0x020C, TObjPlayer::create_path_obj, 250000.0f, 0 },
     { 0x020D, create__10TObjPlayerFPv, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1594,7 +1594,7 @@ ObjectFactoryEntry object_factories_floor_25[66] = {
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
     { 0x020C, TObjPlayer::create_path_obj, 250000.0f, 0 },
     { 0x020D, create__10TObjPlayerFPv, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1661,7 +1661,7 @@ ObjectFactoryEntry object_factories_floor_26[63] = {
     { 0x020A, TObjWarpJungMain__create, 250000.0f, 0 },
     { 0x0152, TContainerAncient01::create, 250000.0f, 0 },
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1730,7 +1730,7 @@ ObjectFactoryEntry object_factories_floor_27[66] = {
     { 0x0220, TObjFish__create, 250000.0f, 0 },
     { 0x020C, TObjPlayer::create_path_obj, 250000.0f, 0 },
     { 0x020D, create__10TObjPlayerFPv, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1794,7 +1794,7 @@ ObjectFactoryEntry object_factories_floor_34[61] = {
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
     { 0x0220, TObjFish__create, 250000.0f, 0 },
     { 0x020C, TObjPlayer::create_path_obj, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1854,7 +1854,7 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x02B0, TContainerAncient01R__create, 250000.0f, 0 },
     { 0x020C, TObjPlayer::create_path_obj, 250000.0f, 0 },
     { 0x020D, create__10TObjPlayerFPv, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
     { 0x020E, TObjContainerJungEnemy::create, 250000.0f, 0 },
     { 0x00DE, TODummyKeyCave01::create, 250000.0f, 0 },
@@ -1933,7 +1933,7 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0019, TObjWarpBossMulti__create, 250000.0f, 0 },
     { 0x02B9, TObjMapForceWarp__create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x020F, create__20TOTrapChainSawDamageFv, 250000.0f, 0 },
     { 0x0210, create__17TOTrapChainSawKeyFv, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
@@ -1998,7 +1998,7 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0019, TObjWarpBossMulti__create, 250000.0f, 0 },
     { 0x02B9, TObjMapForceWarp__create, 250000.0f, 0 },
     { 0x0228, TOTrapSeabed01::create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x020F, create__20TOTrapChainSawDamageFv, 250000.0f, 0 },
     { 0x0210, create__17TOTrapChainSawKeyFv, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
@@ -2027,7 +2027,7 @@ ObjectFactoryEntry object_factories_floor_30[22] = {
     { 0x0203, TObjContainerJungEx::create, 250000.0f, 0 },
     { 0x020B, TBGLightningCtrl__create, 100000000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
     { 0x0240, TObjParticle__create, 100000000.0f, 0 },
@@ -2053,7 +2053,7 @@ ObjectFactoryEntry object_factories_floor_31[25] = {
     { 0x0088, TObjContainerItem::create, 250000.0f, 0 },
     { 0x0092, TObjContainerBase__create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x0006, TObjEnvSound__create, 250000.0f, 0 },
     { 0x0028, TObjEnvSoundEx__create, 250000.0f, 0 },
@@ -2081,7 +2081,7 @@ ObjectFactoryEntry object_factories_floor_32[24] = {
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
     { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x001E, create_particle_obj_ac__13TParticleCtrlFl, 100000000.0f, 0 },
     { 0x01A8, create_particle_obj_90__13TParticleCtrlFl, 250000.0f, 0 },
@@ -2107,7 +2107,7 @@ ObjectFactoryEntry object_factories_floor_33[20] = {
     { 0x0162, TOContainerAncientItemRare__create, 250000.0f, 0 },
     { 0x02A0, TObjLiveCamera__create, 250000.0f, 0 },
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
-    { 0x0229, TOCapsuleLabo__create, 250000.0f, 0 },
+    { 0x0229, TOCapsuleLabo::create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

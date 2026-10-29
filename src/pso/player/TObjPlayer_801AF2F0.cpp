@@ -7171,7 +7171,7 @@ void TObjPlayer::freeze_all_players() {
     ((s32 (*)(s32 *))foreach_player__10TObjPlayerFv)(&start_freeze_self__10TObjPlayerFv.value);
 }
 
-s32 TObjPlayer::start_camera_pan(s16 arg1) {
+s32 TObjPlayer::start_camera_pan(s16 arg1, s32 angle) {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x320) & 0x1E000) {
         return 0;

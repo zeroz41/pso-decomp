@@ -23,7 +23,7 @@
 extern TUnk_804C8678 *quest_mission_manager;
 extern TUnk_804C8678 *quest_area_manager;
 
-void TUnk_804B27D8::vfunc_16() {}
+void TUnk_804B27D8::update_demo() {}
 
 void TUnk_804B27D8::vfunc_6(s16 *state, s32) {
     m_ac = *state;
@@ -101,7 +101,7 @@ void TUnk_804B27D8::run_task() {
     f32 frame;
     f32 end;
     if (TObjPlayer::check_demo_mode() == 1) {
-        vfunc_16();
+        update_demo();
         return;
     }
     switch (m_ac) {
@@ -155,7 +155,7 @@ void TUnk_804B27D8::run_task() {
     if (end < frame) {
         m_b0 = frame - end;
     }
-    vfunc_15();
+    animate();
 }
 
 #pragma push

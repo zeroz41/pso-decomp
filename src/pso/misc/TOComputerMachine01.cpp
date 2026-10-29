@@ -1,175 +1,126 @@
 #include "types.h"
-#include "pso/system/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TUnk_804B27D8.h"
 #include "pso/misc/TOComputerMachine01.h"
+#include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOKey.h"
+#include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoader.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/GinjaUvScroll.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/NinjaUtil.h"
+#include "pso/unk/text_803D8F74.h"
 
-struct VBase_18_26a62c { char pad[0x18]; };
+// TCameraCtrl.h does not declare the instance yet: 28 files that include it
+// still redeclare it with their own types.
+extern TCameraCtrl *camera_ctrl_instance;
 
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
+const char *bm_fs_obj_kenkyu_com_model_names[2] = { "fs_obj_kenkyu_com.gj", NULL };
+const char *bm_fs_obj_kenkyu_com_motion_names[1] = { NULL };
+BmlResourceDescriptor bm_fs_obj_kenkyu_com_resource_descriptor = {
+    "bm_fs_obj_kenkyu_com.bml", bm_fs_obj_kenkyu_com_model_names, bm_fs_obj_kenkyu_com_motion_names, 1, 0
 };
-
-struct RecoveredGlobal_8015B350_TOComputerMachine01__data_8050DB50 {
-    s32 value;
-    u8 remaining[0xC];
+CollisionBody computer_machine01_collision_body = {
+    { 0.0f, 15.0f, 0.0f }, 9.0f, 24.0f, 1, 0x30003, { 0.0f, 0.0f, 0.0f }, 0.0f
 };
+const char *TOComputerMachine01::class_name = "TOComputerMachine01";
+BmlResource *TOComputerMachine01::model_resource;
+s32 TOComputerMachine01::last_scroll_frame;
+void *TOComputerMachine01::screen_meshes[4];
 
-struct RecoveredGlobal_8015B644_lbl_804AFFF8 {
-    s32 value;
-    u8 remaining[0x28];
-};
+s32 TOComputerMachine01::update_object_view_visibility(f32 range, f32 radius) {
+    if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->m_178) < radius * radius) {
+        visibility = 1;
+        return visibility;
+    }
+    return TObjMapObject::update_object_view_visibility(range, radius);
+}
 
-struct RecoveredGlobal_8015B644___vt__19TOComputerMachine01 {
-    s32 value;
-    u8 remaining[0x40];
-};
-
-struct Node_8015B544 { u8 pad[4]; s32 val; u8 pad8[0x28]; Node_8015B544 *next; };
-
-struct Res_8015B544 { u8 pad[0x2C]; Node_8015B544 *head; };
-
-struct Mdl_8015B544 { u8 pad[8]; Res_8015B544 *res; };
-
-struct Obj_8015B544 { u8 pad[0x42C]; Mdl_8015B544 *model; };
-
-extern "C" {
-s32 scroll_ginja_mesh_uvs(int, int, int, int, int);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-extern RecoveredGlobal_8015B350_TOComputerMachine01__data_8050DB50 TOComputerMachine01__scroll_mesh_ptrs;
-extern s32 actor_frame_tick;
-extern s32 TOComputerMachine01__last_render_frame_tick;
-s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_8015B644_lbl_804AFFF8 computer_machine01_collision_body;
-extern s32 __vt__19TOComputerMachine01[];
-extern s32 lbl_805D2EEC;
-extern u8 *TOComputerMachine01__model_resource;
-extern s32 tl_05;
-extern const f32 lbl_805DB390;
-extern const f32 lbl_805DB394;
-void TLobby__sub_8001FE7C(void *, s32);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern s32 bm_fs_obj_kenkyu_com_resource_descriptor[];
-s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-
-typedef char RecoveredGlobal_8015B350_TOComputerMachine01__data_8050DB50_size[sizeof(RecoveredGlobal_8015B350_TOComputerMachine01__data_8050DB50) == 0x10 ? 1 : -1];
 void TOComputerMachine01::render() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r31;
-    u8 *temp_r31_2;
-    u8 *temp_r31_3;
-    u8 *temp_r31_4;
-    this->visible = ((VObj_18_26a62c *)(arg0))->m8(this->m_c0, *(f32 *)&this->m_c4);
-    if ((s32) this->visible == 1) {
-        if ((s32) TOComputerMachine01__last_render_frame_tick != (s32) actor_frame_tick) {
-            TOComputerMachine01__last_render_frame_tick = actor_frame_tick;
-            scroll_ginja_mesh_uvs((int) (*(s32 *)((s8 *)&TOComputerMachine01__scroll_mesh_ptrs.value + 0)), 0, 2, 7, 1);
-            scroll_ginja_mesh_uvs((int) (*(s32 *)((s8 *)&TOComputerMachine01__scroll_mesh_ptrs.value + 4)), 0, -2, 7, 1);
-            scroll_ginja_mesh_uvs((int) (*(s32 *)((s8 *)&TOComputerMachine01__scroll_mesh_ptrs.value + 8)), 0, 1, 7, 1);
-            scroll_ginja_mesh_uvs((int) (*(s32 *)((s8 *)&TOComputerMachine01__scroll_mesh_ptrs.value + 0xC)), 0, -1, 7, 1);
+    NJS_OBJECT *body;
+    NJS_OBJECT *screen;
+    visible = update_object_view_visibility(m_c0, model_radius);
+    if (visible == 1) {
+        if (last_scroll_frame != actor_frame_tick) {
+            last_scroll_frame = actor_frame_tick;
+            scroll_ginja_mesh_uvs(screen_meshes[0], 0, 2, 7, 1);
+            scroll_ginja_mesh_uvs(screen_meshes[1], 0, -2, 7, 1);
+            scroll_ginja_mesh_uvs(screen_meshes[2], 0, 1, 7, 1);
+            scroll_ginja_mesh_uvs(screen_meshes[3], 0, -1, 7, 1);
         }
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param(this->texlist);
-        temp_r31 = (u8 *)(*(u8 * *)&this->model);
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        TObjFish::set_global_param(texlist);
+        body = (NJS_OBJECT *)model;
+        draw_ginja_model((s32)body->model);
         TParticleCtrl::begin_effect_render();
-        temp_r31_2 = (u8 *)(*(u8 **)((s8 *)temp_r31 + 0x2C));
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
-        temp_r31_3 = (u8 *)(*(u8 **)((s8 *)temp_r31_2 + 0x30));
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
-        temp_r31_4 = (u8 *)(*(u8 **)((s8 *)temp_r31_3 + 0x30));
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31_4 + 4)));
-        draw_ginja_model((*(s32 *)((s8 *)(*(u8 **)((s8 *)temp_r31_4 + 0x30)) + 4)));
+        screen = body->child;
+        draw_ginja_model((s32)screen->model);
+        screen = screen->sibling;
+        draw_ginja_model((s32)screen->model);
+        screen = screen->sibling;
+        draw_ginja_model((s32)screen->model);
+        draw_ginja_model((s32)screen->sibling->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
 }
 
-void *TOComputerMachine01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE8);
-    if (o != NULL) {
-        o = TOComputerMachine01__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+void *TOComputerMachine01::create(void *set_data) {
+    return new TOComputerMachine01(set_data);
 }
 
-void TOComputerMachine01::reset_state() {
+void TOComputerMachine01::unload_resources() {
     s32 i;
-    TOComputerMachine01__last_render_frame_tick = 0;
-    for (i = 0; i < 0x4; i++) {
-        ((s32 *)&TOComputerMachine01__scroll_mesh_ptrs)[i] = 0;
+    last_scroll_frame = 0;
+    for (i = 0; i < 4; i++) {
+        screen_meshes[i] = NULL;
     }
-    if ((*(void * *)&TOComputerMachine01__model_resource) != 0) {
-        TLobby__sub_8001FE7C((*(void * *)&TOComputerMachine01__model_resource), 1);
-        (*(void * *)&TOComputerMachine01__model_resource) = 0;
+    if (model_resource != NULL) {
+        TLobby__sub_8001FE7C(model_resource, 1);
+        model_resource = NULL;
     }
 }
 
-void TOComputerMachine01::load_model_resource() {
-    u8 *o;
-    Node_8015B544 *n;
-    o = (u8 *)::operator new(0x440);
-    if (o != NULL) {
-        o = load_resource_from_descriptor(o, 1, bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, 0);
+void TOComputerMachine01::load_resources() {
+    NJS_OBJECT *screen;
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_kenkyu_com_resource_descriptor, 0, 0, 0);
     }
-    TOComputerMachine01__model_resource = o;
-    n = ((Obj_8015B544 *)o)->model->res->head;
-    ((s32 *)&TOComputerMachine01__scroll_mesh_ptrs)[3] = n->val;
-    ((s32 *)&TOComputerMachine01__scroll_mesh_ptrs)[2] = n->next->val;
-    ((s32 *)&TOComputerMachine01__scroll_mesh_ptrs)[1] = n->next->next->val;
-    ((s32 *)&TOComputerMachine01__scroll_mesh_ptrs)[0] = n->next->next->next->val;
-    TOComputerMachine01__last_render_frame_tick = 0;
+    model_resource = resource;
+    screen = ((NJS_OBJECT *)resource->models->model)->child;
+    screen_meshes[3] = screen->model;
+    screen_meshes[2] = screen->sibling->model;
+    screen_meshes[1] = screen->sibling->sibling->model;
+    screen_meshes[0] = screen->sibling->sibling->sibling->model;
+    last_scroll_frame = 0;
 }
 
-void *__dt__19TOComputerMachine01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TOComputerMachine01;
-        free_collision_body_parts(arg0);
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        __dt__13TUnk_804B27D8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-typedef char RecoveredGlobal_8015B644_lbl_804AFFF8_size[sizeof(RecoveredGlobal_8015B644_lbl_804AFFF8) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8015B644___vt__19TOComputerMachine01_size[sizeof(RecoveredGlobal_8015B644___vt__19TOComputerMachine01) == 0x44 ? 1 : -1];
-u8 *TOComputerMachine01__ct(u8 *arg0, s32 arg1) {
-    __ct__13TUnk_804B27D8FP7TObject(arg0, (TObject *)tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015B644___vt__19TOComputerMachine01 *)&__vt__19TOComputerMachine01).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EEC;
-    ((TOComputerMachine01 *)(arg0))->apply_object_set_data((void *)arg1);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOComputerMachine01__model_resource + 0x42C)) + 8);
-    ((TOComputerMachine01 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOComputerMachine01__model_resource + 0x42C)) + 0xC);
-    ((TOComputerMachine01 *)arg0)->m_c0 = (f32) lbl_805DB390;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB394;
-    ((TOComputerMachine01 *)arg0)->actorFlags = (s32) (((TOComputerMachine01 *)arg0)->actorFlags | 0x40000000);
-    init_collision_body_parts(arg0, &computer_machine01_collision_body.value, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_804B27D8 *)arg0)->read_set_params();
-    return arg0;
+TOComputerMachine01::~TOComputerMachine01() {
+    free_collision_body_parts(this);
+    unregister_object_by_id();
 }
 
+TOComputerMachine01::TOComputerMachine01(void *set_data) : TUnk_804B27D8(tl_05) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    model = (void *)model_resource->models->model;
+    texlist = model_resource->models->m_c;
+    m_c0 = 500.0f;
+    model_radius = 50.0f;
+    actorFlags |= 0x40000000;
+    init_collision_body_parts(this, &computer_machine01_collision_body, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    read_set_params();
 }
+
+// The base's empty animation step (see TUnk_804B27D8.h): this TU is the
+// first in link order whose vtable uses it.
+void TUnk_804B27D8::animate() {}

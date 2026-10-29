@@ -24,7 +24,6 @@
 
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
-s32 start_camera_pan__10TObjPlayerFs(TObjPlayer *player, s32 kind, s32 angle);
 }
 
 const char *TOKey__class_name = "TOKey";
@@ -380,7 +379,7 @@ void TOKey::interact(s32 client) {
     if (m != KEY_MODE_NONE && (m != KEY_MODE_ONCE || is_on != 1)) {
         player = get_player_by_client_id((u16)client);
         if (player != NULL) {
-            start_camera_pan__10TObjPlayerFs(player, 0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
+            player->start_camera_pan(0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
             press_timer = press_delay;
             press_pending = 1;
         }

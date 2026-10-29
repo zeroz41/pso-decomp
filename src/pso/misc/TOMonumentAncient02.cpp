@@ -21,6 +21,17 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/misc/MaterialColorFade.h"
+#include "pso/object/TObject_80019A50.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/object/TObjMotion.h"
+#include "pso/object/TObjMapObject.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/unk/text_801F43B4.h"
+#include "pso/boss/TBoss4Type2.h"
+#include "pso/misc/TOKey.h"
+#include "pso/misc/TOKeyAncient01.h"
+#include "pso/player/TObjPlayer.h"
 
 // One monument model per area: Cave 1 (default), Cave 2 and Mine 2.
 const char *bm_fs_obj_o_monument01_model_names[] = {"fs_obj_o_monument01.gj", NULL};
@@ -43,6 +54,50 @@ CollisionBody monument_ancient02_collision_parts[] = {
 };
 const char *TOMonumentAncient02__class_name = "TOMonumentAncient02";
 BmlResource *TOMonumentAncient02__bml_resource;
+// TBoss4DarkFalz.h declares this with a u16 flag, but this caller passes the
+// full word (no clrlwi); 35 callers share that declaration.
+extern "C" s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(u32 flag);
+
+// Restores the saved state: 2 (activated) replays its main-phase step. Once
+// all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
+void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
+    m_ac = *state;
+    switch (m_ac) {
+    case 2:
+        dispatch_by_main_phase__14TBoss4DarkFalzFUs(story_flag);
+        activated = 1;
+        break;
+    default:
+        if (get_story_flag(story_flag) != 0) {
+            m_ac = 2;
+            activated = 1;
+        }
+        break;
+    }
+    if (get_story_flag(0x2C) != 0 && get_story_flag(0x2D) != 0 && get_story_flag(0x2E) != 0) {
+        dispatch_by_main_phase__14TBoss4DarkFalzFUs(0x2F);
+    }
+    access_object_saved_state(state, 0);
+}
+
+void TOMonumentAncient02::interact(s32 client) {
+    s16 state;
+    TObjPlayer *player;
+    switch (m_ac) {
+    case 1:
+        player = get_player_by_client_id((u16)client);
+        if (player != NULL) {
+            m_ac = 2;
+            player->start_camera_pan(0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
+            if (access_object_saved_state(&state, 1) != 0) {
+                state = m_ac;
+                access_object_saved_state(&state, 0);
+                send_object_state_update(&state);
+            }
+        }
+        break;
+    }
+}
 
 void TOMonumentAncient02::run_task() {
 

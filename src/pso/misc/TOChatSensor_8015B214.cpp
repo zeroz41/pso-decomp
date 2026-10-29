@@ -9,8 +9,6 @@
 extern "C" {
 
 int load_encrypted_archive_data(void*);
-f32 xz_distance_squared(s32, s32);
-s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 }
 
     extern unsigned char lbl_804404B0[];
@@ -22,13 +20,3 @@ void TOChatSensor::send_state() { swap_state_endian(); send_subcommand((u8 *)thi
 void TOChatSensor::swap_state_endian() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x4)); bswap_16((u16 *)((char*)this + 0x6)); }
 
 void TOChatSensor::init_packet_type() { *(u8 *)&this->m_name = 147; *(u8*)((char*)this + 0x1) = 3; }
-
-extern s32 camera_ctrl_instance;
-
-s32 TOComputerMachine01__vt8(s32 arg0, f32 farg0, f32 farg1) {
-    if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
-        ((TObjBase *)arg0)->visibility = 1;
-        return ((TObjBase *)arg0)->visibility;
-    }
-    return update_object_view_visibility__8TObjBaseFff(arg0, farg0, farg1);
-}

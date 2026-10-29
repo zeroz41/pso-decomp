@@ -41,6 +41,8 @@ s32 get_type__10TObjPlayerFPv(void *p);
 u8 is_locally_controlled__10TObjPlayerFPv(u8 *arg0);
 BOOL is_split_screen(void);
 void main(void);
+// The frame counter main advances once a frame.
+extern s32 actor_frame_tick;
 f32 newton_sqrtf(f32 x);
 int obj_getPtr2B0_20(u8 *p);
 s16 obj_getS16_2BA(u8 *p);

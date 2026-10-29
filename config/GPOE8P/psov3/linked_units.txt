@@ -820,6 +820,7 @@ pso/menu/TChCrEffWall.cpp
 pso/menu/TChCrLoadGmNjReq.cpp
 pso/menu/TObjTagChallenge.cpp
 pso/menu/TQuestBgmCtrl.cpp
+pso/misc/CameraDistanceFade.cpp
 pso/misc/ChallengeMode.cpp
 pso/misc/CharacterAppearanceTables.cpp
 pso/misc/CreationMotion.cpp
@@ -1237,7 +1238,6 @@ pso/misc/TNpcPlayer_802C3CD0.cpp
 pso/misc/TNpcPlayer_8034DC20.cpp
 pso/misc/TNpcPlayer_8034DFBC.cpp
 pso/misc/TOAirconCave01.cpp
-pso/misc/CameraDistanceFade.cpp
 pso/misc/TOAirconCave02.cpp
 pso/misc/TOAttackableCol.cpp
 pso/misc/TOBarrierEnergy01.cpp
@@ -1325,7 +1325,6 @@ pso/misc/TOMineTrapDisp_8016EDC8.cpp
 pso/misc/TOMineTrap_8016ED9C.cpp
 pso/misc/TOMonitorMachine01.cpp
 pso/misc/TOMonumentAncient01.cpp
-pso/misc/TOMonumentAncient01_801726D4.cpp
 pso/misc/TOMonumentAncient02.cpp
 pso/misc/TORainbowCave01_80173014.cpp
 pso/misc/TORevlightCave01.cpp

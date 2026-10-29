@@ -16,9 +16,12 @@ public:
     virtual void interact(s32 client);
     // Sets active from the activation rule and returns it.
     virtual s32 update_active_state();
-    virtual void vfunc_15();
+    // The per-frame animation step run_task ends with (the capsules spin
+    // their lids). Empty here; defined at the end of TOComputerMachine01's
+    // TU, where the linker kept the copy of this (inline) body.
+    virtual void animate();
     // The step run_task takes in demo mode.
-    virtual void vfunc_16();
+    virtual void update_demo();
 
     void set_quest_label(s32 label);
     void set_script_id(s32 id);
@@ -35,12 +38,5 @@ public:
     TObject *quest_thread;
     s32 visible;  // update_object_view_visibility's last result
 };
-
-// The subclasses' constructors and destructors are still written out by hand
-// and reach the base through these.
-extern "C" {
-void *__ct__13TUnk_804B27D8FP7TObject(void *self, TObject *parent);
-void *__dt__13TUnk_804B27D8Fv(void *self, s16 del);
-}
 
 #endif
