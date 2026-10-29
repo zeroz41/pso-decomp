@@ -19,6 +19,7 @@
 #include "pso/render/model_render_state.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/ChunkMaterialColor.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/GinjaMaterial.h"
@@ -26,14 +27,6 @@
 #include "pso/system/ModelDrawContext.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/unk/text_803D8F74.h"
-
-// TLobby_8001EF5C's resource loader and release, declared there with
-// stand-in types (see the lane report): the 0x440-byte resource's constructor
-// and destructor.
-extern "C" {
-BmlResource *load_resource_from_descriptor(void *storage, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
-void TLobby__sub_8001FE7C(BmlResource *resource, s16 del);
-}
 
 const char *fs_obj_do_doa01_model_names[] = {"fs_obj_do_doa01.gj", NULL};
 const char *fs_obj_do_doa01_motion_names[] = {"fs_obj_do_doa01.njm", NULL};
