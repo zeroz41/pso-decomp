@@ -55,7 +55,7 @@ void TOVS2Wall01::spawn_debris(s32 arg1) {
     (*(s32 *)(copy_storage_8017BC10.bytes + 0x44)) = TObjFish__sub_8001EDB0((int)TOVS2Wall01__bml_resource, (void *)arg1);
     chip = (u8 *) __nw__7TObjectFUl(0x234);
     if (chip != NULL) {
-        construct_debris__8TObjChipFPvPvPv((u8 *)chip, (u8 *)tl_05, (u8 *)((copy_storage_8017BC10.bytes)));
+        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)chip, (u8 *)tl_05, (u8 *)((copy_storage_8017BC10.bytes)));
     }
 }
 

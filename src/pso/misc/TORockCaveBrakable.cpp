@@ -29,7 +29,7 @@ extern Init_80174CFC rock_cave_debris_init_params;
 extern u8 identity_matrix[];
 extern void *rock_cave_model_resource;
 extern s32 tl_05;
-void *TORockCaveBrakable__ct(void *arg0);
+void *__ct__18TORockCaveBrakableFv(void *arg0);
 void *__dt__18TORockCaveBrakableFv(void *arg0, s16 arg1);
 int play_sound_effect(void*, void*, void*, void*);
 u8 is_current_floor_switch_set(u16);
@@ -65,7 +65,7 @@ void TORockCaveBrakable::vfunc_16() {
         *(s32 *)((s8 *)&init + 0x44) = TObjFish__sub_8001EDB0(rock_cave_model_resource, i);
         p = __nw__7TObjectFUl(0x234);
         if (p != NULL) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)p, (u8 *)tl_05, (u8 *)&init);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)p, (u8 *)tl_05, (u8 *)&init);
         }
     }
 }
@@ -76,7 +76,7 @@ void TORockCaveBrakable::spawn_break_effect() {
     spawn_particle_effect(&this->position, 0x46);
 }
 
-void TORockCaveBrakable::update_break_state() {
+void TORockCaveBrakable::run_task() {
     s32 temp_r0_2;
 
     if (TObjPlayer::check_demo_mode() == 1) {
@@ -116,7 +116,7 @@ void *__dt__18TORockCaveBrakableFv(void *arg0, s16 arg1) {
 
 extern void *lbl_805D3100;
 
-void *TORockCaveBrakable__ct(void *rock_cave_brakable) {
+void *__ct__18TORockCaveBrakableFv(void *rock_cave_brakable) {
     __ct__10TORockCaveFv(rock_cave_brakable);
     *(s32 **)((s8 *)rock_cave_brakable + 0x18) = __vt__18TORockCaveBrakable;
     *(void * *)&((TORockCaveBrakable *)rock_cave_brakable)->m_name = lbl_805D3100;

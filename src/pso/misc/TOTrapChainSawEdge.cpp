@@ -1095,7 +1095,7 @@ u8 *TOTrapChainSawKey::get_model(s32 arg0) {
 extern "C" {
 void TLobby__sub_8001FE7C(void *, int);
 
-void fn_802C99D8(void) {
+void TOTrapChainSaw::unload_static_data() {
     s32 i;
     if (lbl_805D6808 != NULL) {
         TLobby__sub_8001FE7C(lbl_805D6808, 1);
@@ -1119,7 +1119,7 @@ void fn_802C99D8(void) {
 
 extern "C" {
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
-void TObjSeabedSuisoBrakable::load_shared_models() {
+void TOTrapChainSaw::load_shared_resource() {
     void *p;
     s32 i;
     s32 h;

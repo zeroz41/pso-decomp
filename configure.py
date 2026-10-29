@@ -514,6 +514,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The bridges' vtables come out in the reverse of their .text order:
     # deferred, written from the unit's last function back. -fp_contract on:
     # TObjHashiBase::update_object_view_visibility fuses its multiply-adds.
+    # The seabed tanks' vtables come out in .text order: deferred, written
+    # from the unit's last function back.
+    "pso/object/TObjSuisoChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/object/TObjHashi.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/item/TItemProUnit.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TOKey's vtable precedes its switch tables: deferred, and written from

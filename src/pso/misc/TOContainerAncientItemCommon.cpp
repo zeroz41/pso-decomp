@@ -167,13 +167,13 @@ void TUnk_804B08BC::vfunc_79() {
     {
         u8 *o = (u8 *)__nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            construct_debris__8TObjChipFPvPvPv(o, tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams(o, tl_05, (u8 *)&a);
         }
     }
     {
         u8 *o = (u8 *)__nw__7TObjectFUl(0x234);
         if (o != NULL) {
-            construct_debris__8TObjChipFPvPvPv(o, tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams(o, tl_05, (u8 *)&b);
         }
     }
     spawn_particle_effect(&self->x, 0x45);

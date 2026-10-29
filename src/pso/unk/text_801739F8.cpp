@@ -18,7 +18,7 @@ extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, s32, s32);
-void *TORockCaveBrakable__ct(void *arg0);
+void *__ct__18TORockCaveBrakableFv(void *arg0);
 extern RecoveredGlobal_801739F8_lbl_804B3BA8 cave_rock_collision_body_templates;
 extern RecoveredGlobal_801739F8___vt__14TORockCaveBL02 __vt__14TORockCaveBL02;
 extern s32 lbl_805D3138;
@@ -28,7 +28,7 @@ typedef char RecoveredGlobal_801739F8_lbl_804B3BA8_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_801739F8___vt__14TORockCaveBL02_size[sizeof(RecoveredGlobal_801739F8___vt__14TORockCaveBL02) == 0x50 ? 1 : -1];
 u8 *TORockCaveBL02__ct(TORockCaveBL02 *rock_cave_bl02, s32 arg1) {
     s32 temp_r0;
-    TORockCaveBrakable__ct(rock_cave_bl02);
+    __ct__18TORockCaveBrakableFv(rock_cave_bl02);
     *(s32 **)((s8 *)rock_cave_bl02 + 0x18) = &__vt__14TORockCaveBL02.value;
     *(s32 *)((s8 *)rock_cave_bl02 + 0) = (s32) lbl_805D3138;
     ((TORockCaveBL02 *)(rock_cave_bl02))->apply_object_set_data((void *)arg1);

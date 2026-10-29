@@ -164,11 +164,11 @@ void TObjContainerBase__vt77(const Obj_80188B3C *self) {
     spawn_particle_effect_with_flags((void *)&self->x, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
     o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
     play_container_break_sound((s32)self);
 }

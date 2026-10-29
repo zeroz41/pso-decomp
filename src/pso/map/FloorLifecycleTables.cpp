@@ -108,6 +108,7 @@
 #include "pso/object/TObjMapWarpAncient.h"
 #include "pso/object/TObjRainbowLobby.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
+#include "pso/misc/TOTrapChainSaw.h"
 #include "pso/object/TObjStendGlassLobby.h"
 #include "pso/object/TObjParticleLobby.h"
 #include "pso/object/TObjSuisouLobby.h"
@@ -140,7 +141,6 @@ void TObjWarpLobby__sub_801A0B38();
 void TLanguage__sub_8029FF0C();
 void TLanguage__sub_802A0204();
 void TObjPlayer__sub_802C2900();
-void fn_802C99D8();
 void fn_8030B7B4();
 void fn_8030B7B8();
 void fn_803516F8();
@@ -741,7 +741,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_23[29] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOBiwaMushi::load_resource_instance, TOBiwaMushi::free_shared_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
@@ -774,7 +774,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_24[31] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOBiwaMushi::load_resource_instance, TOBiwaMushi::free_shared_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
@@ -807,7 +807,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_25[30] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOBiwaMushi::load_resource_instance, TOBiwaMushi::free_shared_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
@@ -838,7 +838,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_26[27] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
@@ -871,7 +871,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_27[30] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
@@ -902,7 +902,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_34[27] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TAdMultiSaveGC::load_shared_resource, TAdMultiSaveGC::free_window },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { 0, 0 },
@@ -930,7 +930,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_35[33] = {
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { load_forest_warp_resources, TObjWarpBase::free_globals },
     { TObjFish::load_models, TObjFish__sub_8019F72C },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TObjPlayer::load_kamome_resources, TObjPlayer::destroy_instance },
     { TOTrapAncient02::load_resources, TOTrapAncient02::destroy_instance },
     { TOMonitorMachine01::load_resources, TOMonitorMachine01::reset_static_state },
@@ -968,7 +968,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_28[26] = {
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOKurage::load_static_resource, TOKurage::destroy_static_instance },
     { 0, 0 },
 };
@@ -997,7 +997,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_29[26] = {
     { TObjFish::load_models, TObjFish__sub_8019F72C },
     { TOTrapSeabed01::load_resources, TOTrapSeabed01::free_static_resources },
     { TOCapsuleLabo::load_resources, TOCapsuleLabo::unload_resources },
-    { TObjSeabedSuisoBrakable::load_shared_models, fn_802C99D8 },
+    { TOTrapChainSaw::load_shared_resource, TOTrapChainSaw::unload_static_data },
     { TOKurage::load_static_resource, TOKurage::destroy_static_instance },
     { 0, 0 },
 };

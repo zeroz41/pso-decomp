@@ -9884,7 +9884,9 @@ pso/misc/TLobby_802A6080.cpp:
 pso/object/TObjSuisoChip.cpp:
 	.text       start:0x802A6168 end:0x802A6F40
 	.rodata     start:0x80466CD0 end:0x80466CE0
-	.data       start:0x804DD6E8 end:0x804DD82C
+	.data       start:0x804DD278 end:0x804DD82C
+	.sbss       start:0x805D6670 end:0x805D6680
+	.sdata2     start:0x805DDFF8 end:0x805DE018
 
 pso/object/TObjSeabedSuisoBrakable.cpp:
 	.text       start:0x802A6F40 end:0x802A7290

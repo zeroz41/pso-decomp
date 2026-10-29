@@ -158,7 +158,7 @@ extern const f32 lbl_805DA268;
 extern const f32 lbl_805DA26C;
 extern const f32 lbl_805DA270;
 
-u8 *construct_debris__8TObjChipFPvPvPv(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 extern Params_800D2900 lbl_8043C35C;
 extern u8 *gyaranzo_resource_ptrs[];
 extern u32 gyaranzo_bml_resource;
@@ -1160,7 +1160,7 @@ void TObjEneGyaranzo::sub_800D2900() {
                 p.x44 = (*(Outer_800D2900 * *)&gyaranzo_bml_resource)->p42c->x3c;
                 obj = __nw__7TObjectFUl(0x234);
                 if (obj != NULL) {
-                    construct_debris__8TObjChipFPvPvPv((u8 *)obj, tl_05, (u8 *)&p);
+                    __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)obj, tl_05, (u8 *)&p);
                 }
             }
         }

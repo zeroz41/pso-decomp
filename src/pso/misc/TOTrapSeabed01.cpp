@@ -187,7 +187,7 @@ s32 get_bml_model(int, int);
 void *spawn_particle_effect(void *pos, s32 id);
 u8 *copy_transform__8TObjChipFPvPv(u8 *arg0, u8 *arg1);
 void *__nw__7TObjectFUl(int);
-s32 __ct__13TObjSuisoChipFv(void *, void *, void *);
+s32 __ct__13TObjSuisoChipFP8TObjBaseP19TObjChipSpawnParams(void *, void *, void *);
 s32 matrix_mult_vec(void *, void *, void *);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void set_matrix_identity(u8 *arg0);
@@ -229,7 +229,7 @@ void TOTrapSeabed01__vt83(Trap_802C9E3C *self) {
         p.arg = e->arg;
         o = __nw__7TObjectFUl(0x24C);
         if (o != NULL) {
-            __ct__13TObjSuisoChipFv(o, self, &p);
+            __ct__13TObjSuisoChipFP8TObjBaseP19TObjChipSpawnParams(o, self, &p);
         }
         Vec_802C9E3C v = p.pos;
         v.y = y;

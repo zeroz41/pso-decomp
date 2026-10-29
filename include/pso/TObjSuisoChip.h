@@ -3,17 +3,26 @@
 #include "pso/TObjChip.h"
 #include "types.h"
 
+class TObjBase;
+
+// A debris chip of the seabed tanks (TObjSeabedSuisoBrakable,
+// TOTrapSeabed01): drawn around its owner's position and turn.
 class TObjSuisoChip : public TObjChip {
 public:
+    TObjSuisoChip(TObjBase *owner, TObjChipSpawnParams *params);
+    TObjSuisoChip(TObjBase *owner, TObjChipParams *params);
     virtual ~TObjSuisoChip();
-    virtual s32 init_chips();
-    virtual s32 spawn_chips(u8 *);
-    virtual void vfunc_8();
-    virtual void tick_chips();
-    virtual void vfunc_10();
-    virtual void vfunc_11();
+    virtual s32 vfunc_8();
+    virtual s32 vfunc_10(Vec *center);
     virtual void vfunc_12();
-    virtual void draw_chips();
+
+    static const char *class_name;
+
+    Vec origin;      // the owner's position
+    s32 rotation_y;  // the owner's y turn
+    s32 pad_244;     // 1 hides the chips in vfunc_12
+    s32 pad_248;
 };
 
+typedef char TObjSuisoChip_size[sizeof(TObjSuisoChip) == 0x24C ? 1 : -1];
 #endif

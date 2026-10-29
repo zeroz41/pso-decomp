@@ -111,6 +111,7 @@
 #include "pso/object/TObjParticleLobby.h"
 #include "pso/object/TObjRainbowLobby.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
+#include "pso/object/TObjSeabedSuiso_CH.h"
 #include "pso/object/TObjStendGlassLobby.h"
 #include "pso/object/TObjTreeLobby.h"
 #include "pso/object/TObjWarpBoss03.h"
@@ -1874,7 +1875,7 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x00C3, TOHangceilingCave01__create, 250000.0f, 0 },
     { 0x0191, TObjTuitate__create, 250000.0f, 0 },
     { 0x0193, TObjBigTuitate__create, 250000.0f, 0 },
-    { 0x0223, TObjSeabedSuisoBrakable::create, 250000.0f, 0 },
+    { 0x0223, TObjSeabedSuiso_CH::create, 250000.0f, 0 },
     { 0x0104, TOComputerMachine01::create, 250000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };
@@ -1912,7 +1913,7 @@ ObjectFactoryEntry object_factories_floor_28[62] = {
     { 0x0221, TODoorFourLightSeabed__create, 250000.0f, 0 },
     { 0x0222, TODoorFourLightSeabedU__create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
-    { 0x0223, TObjSeabedSuisoBrakable::create, 250000.0f, 0 },
+    { 0x0223, TObjSeabedSuiso_CH::create, 250000.0f, 0 },
     { 0x0224, TObjSeabedSuisoBrakable::create_instance, 250000.0f, 0 },
     { 0x0225, TOMekaFish00::create, 250000.0f, 0 },
     { 0x0226, TOMekaFish01::create, 250000.0f, 0 },
@@ -1977,7 +1978,7 @@ ObjectFactoryEntry object_factories_floor_29[62] = {
     { 0x0221, TODoorFourLightSeabed__create, 250000.0f, 0 },
     { 0x0222, TODoorFourLightSeabedU__create, 250000.0f, 0 },
     { 0x0201, TObjWarpJung__create, 250000.0f, 0 },
-    { 0x0223, TObjSeabedSuisoBrakable::create, 250000.0f, 0 },
+    { 0x0223, TObjSeabedSuiso_CH::create, 250000.0f, 0 },
     { 0x0224, TObjSeabedSuisoBrakable::create_instance, 250000.0f, 0 },
     { 0x0225, TOMekaFish00::create, 250000.0f, 0 },
     { 0x0226, TOMekaFish01::create, 250000.0f, 0 },

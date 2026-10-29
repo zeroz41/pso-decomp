@@ -108,7 +108,7 @@ struct Obj_8018C9F0 {
 };
 
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-u8 *construct_debris__8TObjChipFPvPvPv(u8 *arg0, u8 *arg1, u8 *arg2);
+u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void play_container_break_sound(s32 arg0);
 extern Spawn_8018C9F0 lbl_80445398;
@@ -149,11 +149,11 @@ void TObjContainerJungEnemy__vt77(const Obj_8018C9F0 *self) {
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         void *o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }
@@ -406,11 +406,11 @@ void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self) {
     spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
     }
     o = __nw__7TObjectFUl(0x234);
     if (o != NULL) {
-        construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+        __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
     }
     play_container_break_sound((s32)self);
 }
@@ -630,11 +630,11 @@ void TObjContainerJung__vt77(const Obj_8018D4DC *self) {
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&a);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&a);
         }
         o = __nw__7TObjectFUl(0x234);
         if (o != 0) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)o, (u8 *)tl_05, (u8 *)&b);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)o, (u8 *)tl_05, (u8 *)&b);
         }
         play_container_break_sound((s32)self);
     }

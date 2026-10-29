@@ -62,7 +62,7 @@ void TOWreckAncientBrakable::spawn_debris() {
         p.f44 = TObjFish__sub_8001EDB0(wreck_ancient_brakable_bml_resource, i);
         obj = __nw__7TObjectFUl(0x234);
         if (obj != 0) {
-            construct_debris__8TObjChipFPvPvPv((u8 *)obj, (u8 *)tl_05, (u8 *)&p);
+            __ct__8TObjChipFP7TObjectP14TObjChipParams((u8 *)obj, (u8 *)tl_05, (u8 *)&p);
         }
     }
 }

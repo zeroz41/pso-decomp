@@ -1256,11 +1256,11 @@ force_active:
   - TObjResultWin_class_name
   - TObjResultWin_name
   - TObjRoomId__ct
-  - TObjSeabedSuisoBrakable__break_model_entries
-  - TObjSeabedSuisoBrakable__ct
-  - TObjSeabedSuisoBrakable__model12_render_nodes
-  - TObjSeabedSuisoBrakable__vt12
-  - TObjSeabedSuisoBrakable__vt14
+  - texture_entries__23TObjSeabedSuisoBrakable
+  - __ct__23TObjSeabedSuisoBrakableFPv
+  - model12_nodes__23TObjSeabedSuisoBrakable
+  - vfunc_14__23TObjSeabedSuisoBrakableFv
+  - vfunc_16__23TObjSeabedSuisoBrakableFv
   - TObjSeabedSuiso_CH__ct
   - TObjSinBoard__ct
   - TObjSinBoard__texture_name
@@ -4748,7 +4748,7 @@ force_active:
   - get_gstream_buffered_bytes__Fv
   - get_input_mode__11TWindowChatFv
   - get_input_mode__16TKeyBoardControlFv
-  - get_instance__23TObjSeabedSuisoBrakableFv
+  - get_texlist__23TObjSeabedSuisoBrakableFi
   - get_instance_count__14TBoss4DarkFalzFv
   - get_jungle_rock_texture_resource
   - get_labo_design_entry__Fi
@@ -5025,7 +5025,7 @@ force_active:
   - init__12TQuestListVMFv
   - init__13TObjEneMe1GeeFPvPvPvPv
   - init__13TObjEneRe4BitFPv
-  - init__13TObjSuisoChipFPvPv
+  - __ct__13TObjSuisoChipFP8TObjBaseP14TObjChipParams
   - init__13TUnk_804835D8Fv
   - init__13TUnk_804A7478Fv
   - init__13TUnk_804F28E0FlPv
@@ -6569,8 +6569,8 @@ force_active:
   - next_sequence_action__12TBoss1DragonFv
   - nights_npc_resource_descriptor
   - notify__10TTcpSocketFss
-  - notify_break__23TObjSeabedSuisoBrakableFPv
-  - notify_break__23TObjSeabedSuisoBrakableFUl
+  - scroll_kind2_uvs__18TObjSeabedSuiso_CHFv
+  - notify_break__23TObjSeabedSuisoBrakableFP10NJS_OBJECT
   - notify_close__22THunterGuildSeqOfflineFv
   - notify_player__17TObjWarpBossMultiFPvl
   - notify_quest_list_vm__18TCheckRoomSequenceFPv
@@ -13099,7 +13099,7 @@ force_active:
   - sub_8028B940__12TChCrLoadAfsFv
   - sub_8028B944__12TChCrLoadAfsFv
   - sub_802A2DF4__18TChCrTagOccupationFv
-  - sub_802A6438__23TObjSeabedSuisoBrakableFv
+  - init_model__23TObjSeabedSuisoBrakableFv
   - sub_802B245C__11TBoss6Type1Fv
   - sub_802B24B4__11TBoss6Type1Fv
   - sub_802B2724__11TBoss6Type1Fv
@@ -13173,7 +13173,7 @@ force_active:
   - submit_selected_item__22TChallenge4PItemSelectFv
   - subtract_network_queue_timeout__Fl
   - subtractive_rng_refill
-  - suiso_brakable_linked_switch_counts
+  - model13_nodes__23TObjSeabedSuisoBrakable
   - svm_callback_counts
   - svm_callback_message_buffer
   - svm_callback_single_table
@@ -13757,7 +13757,7 @@ force_active:
   - update_sweep__14TOTrapChainSawFv
   - update_sweep__18TOTrapChainSawEdgeFv
   - update_switch_attack__12TBoss1DragonFv
-  - update_switch_lock__23TObjSeabedSuisoBrakableFPv
+  - update_switch_lock__18TObjSeabedSuiso_CHFv
   - update_tail_attack_state__12TBoss1DragonFUl
   - update_target__16TObjEneBm5GibonUFPv
   - update_target_depth__15TObjEneDelDepthFv
