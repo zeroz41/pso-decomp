@@ -83,7 +83,7 @@ TOFenceAncient02::~TOFenceAncient02() {
     free_collision_body_parts(this);
 }
 
-TOFenceAncient02::TOFenceAncient02(TObject *parent, void *set_data) : TUnk_804B1B80(parent) {
+TOFenceAncient02::TOFenceAncient02(TObject *parent, void *set_data) : TOFenceBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;

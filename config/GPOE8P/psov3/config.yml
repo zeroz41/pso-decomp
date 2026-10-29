@@ -3510,7 +3510,7 @@ force_active:
   - check_target_collision__16TBoss3VoloptCoreFv
   - check_team_balance__6TLobbyFPvi
   - check_timeout__6TLobbyFPv
-  - check_trigger__13TUnk_804B1B80Fv
+  - check_trigger__11TOFenceBaseFv
   - check_trigger_flag__15TOTrapAncient01Fll
   - check_type_and_enabled__11TMainCursorFPvPv
   - check_valid_state__6TLobbyFi
@@ -13788,7 +13788,7 @@ force_active:
   - update_transition__11TItemMagSubFv
   - update_transition_anim__22TAdMultiPlyChrSelectGCFv
   - update_transition_state__21TAdMultiSelGameModeGCFv
-  - update_trigger__13TUnk_804B1B80Fv
+  - update_trigger__11TOFenceBaseFv
   - update_unlock_flags__16TObjCityMainWarpFv
   - update_velocity_and_snap__21TObjEneRe7BeruraPunchFv
   - update_visibility__21TWindowSubAreaMapDispFv

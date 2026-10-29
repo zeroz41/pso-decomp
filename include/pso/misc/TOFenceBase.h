@@ -1,14 +1,14 @@
-#ifndef PSO_PLAYER_TUNK_804B1B80_H
-#define PSO_PLAYER_TUNK_804B1B80_H
+#ifndef PSO_MISC_TOFENCEBASE_H
+#define PSO_MISC_TOFENCEBASE_H
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
 
 // The base of the fences (TOFenceAncient01-04): a map object that opens
 // when a player comes near or a floor switch is set (trigger_mode 1 or 2).
-class TUnk_804B1B80 : public TObjMapObject {
+class TOFenceBase : public TObjMapObject {
 public:
-    TUnk_804B1B80(TObject *parent);
-    virtual ~TUnk_804B1B80();
+    TOFenceBase(TObject *parent);
+    virtual ~TOFenceBase();
     virtual void run_task();
     virtual void render();
     // trigger_mode's condition met / lost: the fences drop or raise their
@@ -31,6 +31,6 @@ public:
     s32 texture_variant;
 };
 
-typedef char TUnk_804B1B80Size[sizeof(TUnk_804B1B80) == 0xD8 ? 1 : -1];
+typedef char TOFenceBaseSize[sizeof(TOFenceBase) == 0xD8 ? 1 : -1];
 
 #endif

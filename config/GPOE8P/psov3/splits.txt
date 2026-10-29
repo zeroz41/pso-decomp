@@ -5091,7 +5091,7 @@ pso/misc/TOExplosiveMachine.cpp:
 	.sbss       start:0x805D59A8 end:0x805D59AC
 	.sdata2     start:0x805DB5F0 end:0x805DB5FC
 
-pso/misc/TUnk_804B1B80.cpp:
+pso/misc/TOFenceBase.cpp:
 	.text       start:0x80166778 end:0x80166B00
 	.data       start:0x804B1B80 end:0x804B1BC4
 	.sdata2     start:0x805DB600 end:0x805DB60C

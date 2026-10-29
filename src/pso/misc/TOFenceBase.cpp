@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/player/TUnk_804B1B80.h"
+#include "pso/misc/TOFenceBase.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/misc/TSwitch.h"
 #include "pso/object/TObjFish.h"
@@ -16,7 +16,7 @@
 
 // Closed: opens once a player is within 70 (trigger 1) or the switch is set
 // (trigger 2).
-void TUnk_804B1B80::check_trigger() {
+void TOFenceBase::check_trigger() {
     switch (trigger_mode) {
     case 0:
         break;
@@ -34,7 +34,7 @@ void TUnk_804B1B80::check_trigger() {
 }
 
 // Open: closes once no player is within 100 or the switch is cleared.
-void TUnk_804B1B80::update_trigger() {
+void TOFenceBase::update_trigger() {
     switch (trigger_mode) {
     case 0:
         break;
@@ -52,7 +52,7 @@ void TUnk_804B1B80::update_trigger() {
     play_persistent_sound(0x4004C10F, (s32)this, (u32)&position, 0, 0);
 }
 
-void TUnk_804B1B80::run_task() {
+void TOFenceBase::run_task() {
     f32 frame;
     f32 end_frame;
 
@@ -78,7 +78,7 @@ void TUnk_804B1B80::run_task() {
 
 // Closed, the fence loops its motion; open, it draws its root model in the
 // root node's own pose.
-void TUnk_804B1B80::render() {
+void TOFenceBase::render() {
     NJS_OBJECT *node;
 
     if (update_object_view_visibility(view_range, model_radius) != 0) {
@@ -103,9 +103,9 @@ void TUnk_804B1B80::render() {
     }
 }
 
-TUnk_804B1B80::~TUnk_804B1B80() {}
+TOFenceBase::~TOFenceBase() {}
 
-TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TObjMapObject(parent) {
+TOFenceBase::TOFenceBase(TObject *parent) : TObjMapObject(parent) {
     object_state = 0;
     switch_id = -1;
     trigger_mode = 0;
@@ -113,6 +113,6 @@ TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TObjMapObject(parent) {
     texture_variant = 0;
 }
 
-void TUnk_804B1B80::open() {}
-void TUnk_804B1B80::close() {}
-void TUnk_804B1B80::update_demo() {}
+void TOFenceBase::open() {}
+void TOFenceBase::close() {}
+void TOFenceBase::update_demo() {}

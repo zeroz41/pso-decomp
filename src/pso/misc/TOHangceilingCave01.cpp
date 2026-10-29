@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804B1B80.h"
+#include "pso/misc/TOFenceBase.h"
 #include "pso/misc/TOHangceilingCave01KeyQuick.h"
 #include "pso/misc/TOHangceilingCave01Key.h"
 #include "pso/misc/TOHangceilingCave01Normal.h"

@@ -2,12 +2,12 @@
 #define PSO_MISC_TOFENCEANCIENT03_H
 
 #include "types.h"
-#include "pso/player/TUnk_804B1B80.h"
+#include "pso/misc/TOFenceBase.h"
 
 struct BmlResource;
 
 // The Ruins' 4x4 fence (fd_obj_n_saku_4x4).
-struct TOFenceAncient03 : public TUnk_804B1B80 {
+struct TOFenceAncient03 : public TOFenceBase {
     TOFenceAncient03(TObject *parent, void *set_data);
     virtual ~TOFenceAncient03();
     virtual void open();

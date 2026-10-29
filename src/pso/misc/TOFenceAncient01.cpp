@@ -83,7 +83,7 @@ TOFenceAncient01::~TOFenceAncient01() {
     free_collision_body_parts(this);
 }
 
-TOFenceAncient01::TOFenceAncient01(TObject *parent, void *set_data) : TUnk_804B1B80(parent) {
+TOFenceAncient01::TOFenceAncient01(TObject *parent, void *set_data) : TOFenceBase(parent) {
     m_name = class_name;
     apply_object_set_data(set_data);
     model = (void *)model_resource->models[0].model;
@@ -100,7 +100,7 @@ TOFenceAncient01::TOFenceAncient01(TObject *parent, void *set_data) : TUnk_804B1
 
 // The base's set-data readers are emitted here, after their first caller:
 // the linker keeps this TU's copies for all four fences.
-s32 TUnk_804B1B80::read_trigger_params() {
+s32 TOFenceBase::read_trigger_params() {
     switch_id = set_params[0];
     if (switch_id > 0x100) {
         trigger_mode = 0;
@@ -112,7 +112,7 @@ s32 TUnk_804B1B80::read_trigger_params() {
     return switch_id;
 }
 
-s32 TUnk_804B1B80::read_texture_variant() {
+s32 TOFenceBase::read_texture_variant() {
     texture_variant = set_params[1];
     if (texture_variant < 0) {
         texture_variant = 0;
