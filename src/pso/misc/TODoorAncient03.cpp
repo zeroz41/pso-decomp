@@ -52,7 +52,7 @@ TODoorAncient03::TODoorAncient03(TObject *parent, void *set_data) : TODoorBase(p
     texlist = door_ancient03_texlists[1];
     motion = door_ancient03_archive->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = animation_end_frame / 30.0f;
+    animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient03_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -95,12 +95,12 @@ void *TODoorAncient03::create(void *set_data) {
 }
 
 void TODoorAncient03::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(door_ancient03_texlists[door_flags & DOOR_FLAG_UNLOCKED]);
-        if (m_ac == DOOR_CLOSED) {
+        if (object_state == DOOR_CLOSED) {
             NJS_OBJECT *node = (NJS_OBJECT *)model;
             post_translate_matrix(node->pos);
             draw_ginja_model((s32)node->model);
@@ -122,7 +122,7 @@ void TODoorAncient03::render() {
             pop_matrix();
             TParticleCtrl::end_effect_render();
         } else {
-            draw_ginja_model_with_motion(model, motion, m_b0);
+            draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
     }
@@ -130,7 +130,7 @@ void TODoorAncient03::render() {
 
 void TODoorAncient03::update_closed() {
     if ((door_flags & DOOR_FLAG_UNLOCKED) && is_any_player_within_radius_xz(4900.0f) != 0) {
-        m_ac = DOOR_OPENING;
+        object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
     }
@@ -138,7 +138,7 @@ void TODoorAncient03::update_closed() {
 
 void TODoorAncient03::update_open() {
     if (!(door_flags & DOOR_FLAG_UNLOCKED) || is_any_player_within_radius_xz(10000.0f) == 0) {
-        m_ac = DOOR_CLOSING;
+        object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
     }

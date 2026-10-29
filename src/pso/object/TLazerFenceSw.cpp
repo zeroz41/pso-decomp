@@ -220,13 +220,13 @@ void TLazerFenceSw__vt24(Sw_80193978 *arg0) {
 
 void TLazerFenceSw__vt16(void *lazer_fence_sw) {
     ((TOKey *)lazer_fence_sw)->TOKey::trigger_activate_sound();
-    ((TLazerFenceSw *)lazer_fence_sw)->m_b0 = 0.0f;
+    ((TLazerFenceSw *)lazer_fence_sw)->animation_frame = 0.0f;
     *(f32 *)((s8 *)lazer_fence_sw + 0xEC) = 0.0f;
 }
 
 void TLazerFenceSw__vt17(void *arg0) {
     ((TOKey *)arg0)->TOKey::trigger_deactivate_sound();
-    ((TLazerFenceSw *)arg0)->m_b0 = 0.0f;
+    ((TLazerFenceSw *)arg0)->animation_frame = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
 }
 
@@ -234,12 +234,12 @@ typedef char RecoveredGlobal_80193A84_lbl_8050DCF0_size[sizeof(RecoveredGlobal_8
 void TLazerFenceSw::update_switch_on() {
     u32 temp_r4;
     u32 temp_r4_2;
-    this->m_b0 = (f32) (this->m_b0 + this->m_b8);
+    this->animation_frame = (f32) (this->animation_frame + this->animation_step);
     temp_r4 = *(s32 *)((s8 *)(*(u8 **)((s8 *)&lazer_fence_beam_motions.value + 0)) + 4) - 1;
-    if (this->m_b0 > (f32) temp_r4) {
-        this->m_b0 = (f32) temp_r4;
+    if (this->animation_frame > (f32) temp_r4) {
+        this->animation_frame = (f32) temp_r4;
     }
-    *(f32 *)((s8 *)((u8 *)this) + 0xEC) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0xEC) + this->m_b8);
+    *(f32 *)((s8 *)((u8 *)this) + 0xEC) = (f32) (*(f32 *)((s8 *)((u8 *)this) + 0xEC) + this->animation_step);
     temp_r4_2 = *(s32 *)((s8 *)(*(u8 **)((s8 *)&lazer_fence_beam_motions.value + 4)) + 4) - 1;
     if (*(f32 *)((s8 *)((u8 *)this) + 0xEC) > (f32) temp_r4_2) {
         *(f32 *)((s8 *)((u8 *)this) + 0xEC) = (f32) temp_r4_2;
@@ -248,9 +248,9 @@ void TLazerFenceSw::update_switch_on() {
 
 typedef char RecoveredGlobal_80193B4C_lbl_8050DCF0_size[sizeof(RecoveredGlobal_80193B4C_lbl_8050DCF0) == 0x18 ? 1 : -1];
 void TLazerFenceSw::update_switch_off() {
-    this->m_b0 = (f32) (this->m_b0 + this->m_b8);
-    if (this->m_b0 > (f32) (u32) (*(s32 *)((s8 *)((*(RecoveredGlobal_80193B4C_lbl_8050DCF0 *)&lazer_fence_beam_motions).value) + 4) - 1)) {
-        this->m_b0 = (f32) 0.0f;
+    this->animation_frame = (f32) (this->animation_frame + this->animation_step);
+    if (this->animation_frame > (f32) (u32) (*(s32 *)((s8 *)((*(RecoveredGlobal_80193B4C_lbl_8050DCF0 *)&lazer_fence_beam_motions).value) + 4) - 1)) {
+        this->animation_frame = (f32) 0.0f;
     }
     this->submit_cursor_target();
 }

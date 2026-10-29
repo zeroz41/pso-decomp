@@ -35,7 +35,7 @@ void TOKeyAncient02::vfunc_25() {}
 void TOKeyAncient02::render() {
     NJS_OBJECT *object;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -161,7 +161,7 @@ TOKeyAncient02::TOKeyAncient02(TObject *parent, void *set_data) : TOKey(parent) 
     init_collision_body_parts(this, key_ancient02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 50.0f + ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     pulse_flags = 0;
     lamp_angle = 0;

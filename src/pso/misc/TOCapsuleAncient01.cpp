@@ -30,7 +30,7 @@ BmlResource *TOCapsuleAncient01::model_resource;
 void TOCapsuleAncient01::render() {
     NJS_OBJECT *body;
     NJS_OBJECT *lid;
-    visible = update_object_view_visibility(m_c0, model_radius);
+    visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
@@ -88,7 +88,7 @@ TOCapsuleAncient01::TOCapsuleAncient01(TObject *parent, void *set_data) : TOQues
     refresh_collision_body_centers();
     register_object_by_id();
     read_set_params();
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 10.0f;
     spin_angle = 0;
     if (enable_v2_features == 1 && get_game_play_mode() == 1) {

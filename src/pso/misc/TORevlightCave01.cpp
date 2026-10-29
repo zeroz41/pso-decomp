@@ -31,7 +31,7 @@ void TORevlightCave01::run_task() {
 }
 
 void TORevlightCave01::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_z(NULL, rotation_z);
@@ -75,9 +75,9 @@ TORevlightCave01::TORevlightCave01(TObject *parent, void *set_data) : TObjMapObj
     model = (void *)TORevlightCave01__bml_resource->models[0].model;
     texlist = TORevlightCave01__bml_resource->models[0].m_c;
     motion = TORevlightCave01__bml_resource->motions[0].motion;
-    m_b8 = 0.8f;
+    animation_step = 0.8f;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = ((NJS_CNK_MODEL *)((NJS_OBJECT *)model)->model)->r;
     spin_angle = 0;
     spin_speed = (s32)(182.04445f * scale.x);

@@ -49,7 +49,7 @@ void TODoorCave03::update_closing() {
     f32 closed_y = home_position.y;
     if (y - closed_y <= 0.0f) {
         position.y = closed_y;
-        m_ac = DOOR_CLOSED;
+        object_state = DOOR_CLOSED;
     } else {
         position.y = y - 1.0f;
     }
@@ -59,11 +59,11 @@ void TODoorCave03::update_closing() {
 void TODoorCave03::update_open() {
     if (door_flags & 1) {
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
-            m_ac = DOOR_CLOSING;
+            object_state = DOOR_CLOSING;
             clear_player_status_flag(0, 8);
         }
     } else {
-        m_ac = DOOR_CLOSING;
+        object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
     }
 }
@@ -71,7 +71,7 @@ void TODoorCave03::update_open() {
 void TODoorCave03::update_opening() {
     if (60.0f <= position.y - home_position.y) {
         position.y = 60.0f + home_position.y;
-        m_ac = DOOR_OPEN;
+        object_state = DOOR_OPEN;
     } else {
         position.y += 1.0f;
     }
@@ -81,7 +81,7 @@ void TODoorCave03::update_opening() {
 void TODoorCave03::update_closed() {
     if (door_flags & 1) {
         if (is_any_player_within_radius_xz(4900.0f) == 1) {
-            m_ac = DOOR_OPENING;
+            object_state = DOOR_OPENING;
             set_indexed_flags(0, 8);
         }
     } else if (door_flags & PULSE_RISING) {
@@ -99,7 +99,7 @@ void TODoorCave03::update_closed() {
 
 void TODoorCave03::render() {
     NJS_OBJECT *node;
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position.x);

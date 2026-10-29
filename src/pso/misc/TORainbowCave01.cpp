@@ -43,7 +43,7 @@ void TORainbowCave01::init_light_params() {
 void TORainbowCave01::render() {
     NJS_ARGB color;
     u32 flags;
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && -1.0f < fade) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && -1.0f < fade) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(texlist);
         flags = model_render_flags;
@@ -113,7 +113,7 @@ TORainbowCave01::TORainbowCave01(TObject *parent, void *set_data) : TObjMapObjec
     apply_object_set_data(set_data);
     model = (void *)TORainbowCave01__bml_resource->models[0].model;
     texlist = TORainbowCave01__bml_resource->models[0].m_c;
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 40000.0f;
     fade = 0.0f;
     init_light_params();

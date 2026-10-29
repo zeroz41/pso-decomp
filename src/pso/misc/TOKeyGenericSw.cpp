@@ -48,7 +48,7 @@ s32 *TOKeyGenericSw__texture_lists;
 void TOKeyGenericSw::vfunc_25() {}
 
 void TOKeyGenericSw::render() {
-    if (update_object_view_visibility(m_c0, model_radius) == 0) {
+    if (update_object_view_visibility(view_range, model_radius) == 0) {
         return;
     }
     push_matrix();
@@ -73,7 +73,7 @@ void TOKeyGenericSw::render() {
     post_translate_matrix(&position.x);
     rotate_matrix_y(NULL, rotation_y);
     TObjFish::set_global_param(texlist);
-    draw_ginja_model_with_motion(model, motion, m_b0);
+    draw_ginja_model_with_motion(model, motion, animation_frame);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
@@ -167,12 +167,12 @@ TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) 
     model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
     motion = TOKeyGenericSw__shared_resource_ptrs[1]->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 2.0f;
+    animation_step = 2.0f;
     texlist = TOKeyGenericSw__texture_lists[1];
     init_collision_body_parts(this, key_generic_sw_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 40.0f;
     if (mode != KEY_MODE_NONE && scale.x < 0.0f) {
         mode = KEY_MODE_TOGGLE;

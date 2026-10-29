@@ -50,12 +50,12 @@ void TODoorCave02::update_open() {
     if (door_flags & 1) {
         texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
-            m_ac = 3;
+            object_state = 3;
             clear_player_status_flag(0, 8);
             play_sound_effect(0x42807, &position, 0, 0);
         }
     } else {
-        m_ac = 3;
+        object_state = 3;
         texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x42807, &position, 0, 0);
@@ -75,7 +75,7 @@ void TODoorCave02::update_closed() {
         }
     }
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
-        m_ac = 1;
+        object_state = 1;
         set_indexed_flags(0, 8);
         play_sound_effect(0x42807, &position, 0, 0);
     }
@@ -109,17 +109,17 @@ void TODoorCave02::draw_light(NJS_OBJECT *node) {
 }
 
 void TODoorCave02::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
-        if ((s32)m_ac == DOOR_CLOSED) {
+        if ((s32)object_state == DOOR_CLOSED) {
             TObjFish::set_global_param(texture_lists[door_flags & 1]);
             draw_light(((NJS_OBJECT *)model)->child);
             draw_light(((NJS_OBJECT *)model)->child->sibling);
         } else {
             TObjFish::set_global_param(texture_lists[1]);
-            draw_ginja_model_with_motion(model, motion, m_b0);
+            draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
     }
@@ -175,7 +175,7 @@ TODoorCave02::TODoorCave02(TObject *parent, void *set_data) : TODoorBase(parent)
     texlist = bml_resource->models[0].m_c;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 0.5f;
+    animation_step = 0.5f;
     init_collision_body_parts(this, door_cave02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

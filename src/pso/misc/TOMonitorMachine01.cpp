@@ -33,11 +33,11 @@ void TOMonitorMachine01::run_task() {
         scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[0], 1, 0, 1, 1);
         scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[1], 1, 0, 1, 1);
     }
-    switch (m_ac) {
+    switch (object_state) {
     default:
         hold_timer += 1.0f;
         if (60.0f <= hold_timer) {
-            m_ac = 1;
+            object_state = 1;
             hold_timer = 0.0f;
             set_params[0]++;
             if (set_params[0] >= 4) {
@@ -49,7 +49,7 @@ void TOMonitorMachine01::run_task() {
         slide += 0.6666667f;
         screen_scale += 0.06666667f;
         if (10.0f <= slide) {
-            m_ac = 2;
+            object_state = 2;
             slide = 10.0f;
             screen_scale = 1.0f;
         }
@@ -57,7 +57,7 @@ void TOMonitorMachine01::run_task() {
     case 2:
         hold_timer += 1.0f;
         if (300.0f <= hold_timer) {
-            m_ac = 3;
+            object_state = 3;
             hold_timer = 0.0f;
         }
         break;
@@ -65,7 +65,7 @@ void TOMonitorMachine01::run_task() {
         slide -= 0.6666667f;
         screen_scale -= 0.06666667f;
         if (slide <= 0.0f) {
-            m_ac = 0;
+            object_state = 0;
             screen_scale = 0.0f;
             slide = 0.0f;
         }
@@ -75,7 +75,7 @@ void TOMonitorMachine01::run_task() {
 
 void TOMonitorMachine01::render() {
     NJS_OBJECT *n;
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -162,10 +162,10 @@ TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOMonitorMachine01__bml_resource, 0);
     texlist = TObjFish__sub_8001EDB0(TOMonitorMachine01__bml_resource, 0);
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 15.0f;
     actorFlags |= 0x40000000;
-    m_ac = 0;
+    object_state = 0;
     slide = 0.0f;
     screen_scale = 0.0f;
     hold_timer = 0.0f;

@@ -66,7 +66,7 @@ void TOSensorAncient01::update_switch_on() {
 void TOSensorAncient01::render() {
     NJS_OBJECT *object;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -183,8 +183,8 @@ TOSensorAncient01::TOSensorAncient01(TObject *parent, void *set_data) : TOSensor
     model = (void *)sensor_ancient01_model_resource->models[0].model;
     motion = sensor_ancient01_model_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 1.0f;
-    m_c0 = 400.0f;
+    animation_step = 1.0f;
+    view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {

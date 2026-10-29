@@ -58,7 +58,7 @@ void TOSensorGeneral01::update_switch_on() {
 void TOSensorGeneral01::render() {
     NJS_OBJECT *object;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -128,7 +128,7 @@ TOSensorGeneral01::TOSensorGeneral01(TObject *parent, void *set_data) : TOSensor
     init_switch_id();
     texlist = TOSensorGeneral01__texture_lists[0];
     model = (void *)sensor_general_shared_bml_archive->models[0].model;
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
     activate_range = 50.0f + scale.x;
     if (activate_range < 0.0f) {

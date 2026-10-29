@@ -229,8 +229,8 @@ void TODoorFourLightSpace::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_802898E8 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
-        switch (*(s32 *)&this->m_ac) {
+    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+        switch (*(s32 *)&this->object_state) {
         case 1:
         case 3:
             push_matrix();
@@ -238,7 +238,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->m_bc, this->m_b0);
+            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -247,7 +247,7 @@ void TODoorFourLightSpace::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->m_bc, *(f32 *)&this->m_b4);
+            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, *(f32 *)&this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -294,7 +294,7 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
-    ((TODoorFourLightSpace *)arg0)->m_b8 = (f32) lbl_805DD8F8;
+    ((TODoorFourLightSpace *)arg0)->animation_step = (f32) lbl_805DD8F8;
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
@@ -461,8 +461,8 @@ void TODoorFourLightRuins::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_8028A030 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
-        switch (*(s32 *)&this->m_ac) {
+    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+        switch (*(s32 *)&this->object_state) {
         case 1:
         case 3:
             push_matrix();
@@ -470,7 +470,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->m_bc, this->m_b0);
+            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_frame);
             pop_matrix();
             return;
         case 2:
@@ -479,7 +479,7 @@ void TODoorFourLightRuins::render() {
             set_global_param__8TObjFishFl();
             post_translate_matrix((u8 *)&this->position);
             rotate_matrix_y(0, this->rotation_y);
-            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->m_bc, *(f32 *)&this->m_b4);
+            draw_ginja_model_with_motion(*(s32 *)&this->m_d4, *(s32 *)&this->motion, this->animation_end_frame);
             pop_matrix();
             return;
         case 0:
@@ -543,7 +543,7 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
-    ((TODoorFourLightRuins *)arg0)->m_b8 = (f32) lbl_805DD8F8;
+    ((TODoorFourLightRuins *)arg0)->animation_step = (f32) lbl_805DD8F8;
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {

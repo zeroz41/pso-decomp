@@ -56,7 +56,7 @@ void TOCapsuleLabo::render() {
     NJS_OBJECT *body;
     NJS_OBJECT *lid;
     NJS_OBJECT *light;
-    visible = update_object_view_visibility(m_c0, model_radius);
+    visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
         TObjFish::set_global_param(texlist);
         if (active == 1) {
@@ -107,7 +107,7 @@ TOCapsuleLabo::TOCapsuleLabo(TObject *parent, void *set_data) : TOQuestTalkBase(
     refresh_collision_body_centers();
     register_object_by_id();
     read_set_params();
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
     spin_angle = 0;
     if (enable_v2_features == 1 && get_game_play_mode() == 1) {

@@ -26,7 +26,7 @@ extern TUnk_804C8678 *quest_area_manager;
 void TOQuestTalkBase::update_demo() {}
 
 void TOQuestTalkBase::vfunc_6(s16 *state, s32) {
-    m_ac = *state;
+    object_state = *state;
 }
 
 void TOQuestTalkBase::interact(s32 client) {
@@ -34,10 +34,10 @@ void TOQuestTalkBase::interact(s32 client) {
     if (quest_label > 0) {
         if ((u16)client == local_client_id) {
             player = get_player_by_client_id((u16)client);
-            if (player == NULL || (s32)m_ac != 1) {
+            if (player == NULL || (s32)object_state != 1) {
                 return;
             }
-            m_ac = 2;
+            object_state = 2;
             interactor = client;
             TObjPlayer::play_effect_default((s32)player, -1);
         } else {
@@ -104,10 +104,10 @@ void TOQuestTalkBase::run_task() {
         update_demo();
         return;
     }
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         if (update_active_state() != 0 && is_any_player_within_radius_xz(4900.0f) != 0 && quest_label > 0) {
-            m_ac = 1;
+            object_state = 1;
         }
         break;
     case 1:
@@ -115,7 +115,7 @@ void TOQuestTalkBase::run_task() {
         break;
     case 2:
         if (interactor == local_client_id) {
-            m_ac = 3;
+            object_state = 3;
             begin_conversation_camera();
             if (script_id >= 100 && script_id < 1000 && quest_mission_manager != NULL &&
                 ((TObject *)quest_mission_manager)->all_parents_unqueued_for_destruction() != 0) {
@@ -131,13 +131,13 @@ void TOQuestTalkBase::run_task() {
                 }
             }
         } else {
-            m_ac = 1;
+            object_state = 1;
             interactor = 0xFFFF;
         }
         break;
     case 3:
         if ((quest_thread != NULL && quest_thread->all_parents_unqueued_for_destruction() == 0) || quest_thread == NULL) {
-            m_ac = 0;
+            object_state = 0;
             quest_thread = NULL;
             end_conversation_camera();
             if (interactor == local_client_id) {
@@ -149,11 +149,11 @@ void TOQuestTalkBase::run_task() {
         }
         break;
     }
-    m_b0 += 1.0f;
+    animation_frame += 1.0f;
     end = animation_end_frame;
-    frame = m_b0;
+    frame = animation_frame;
     if (end < frame) {
-        m_b0 = frame - end;
+        animation_frame = frame - end;
     }
     animate();
 }
@@ -161,7 +161,7 @@ void TOQuestTalkBase::run_task() {
 #pragma push
 #pragma fp_contract on
 void TOQuestTalkBase::render() {
-    visible = update_object_view_visibility(m_c0, model_radius);
+    visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
@@ -169,7 +169,7 @@ void TOQuestTalkBase::render() {
         TObjFish::set_global_param(texlist);
         if (active == 1) {
             if (motion != NULL) {
-                draw_model_motion(model, motion, m_b0);
+                draw_model_motion(model, motion, animation_frame);
             } else {
                 draw_chunk_object(model);
             }
@@ -186,7 +186,7 @@ TOQuestTalkBase::~TOQuestTalkBase() {}
 TOQuestTalkBase::TOQuestTalkBase(TObject *parent) : TObjMapObject(parent) {
     switch_id = -1;
     activation = 0;
-    m_ac = 0;
+    object_state = 0;
     active = 0;
     script_id = 0;
     quest_label = 0;

@@ -27,7 +27,7 @@ BmlResource *TOMonumentAncient01::model_resource;
 void TOMonumentAncient01::update_demo() {}
 
 void TOMonumentAncient01::render() {
-    if (update_object_view_visibility(m_c0, model_radius) == 1) {
+    if (update_object_view_visibility(view_range, model_radius) == 1) {
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -74,6 +74,6 @@ TOMonumentAncient01::TOMonumentAncient01(TObject *parent, void *set_data) : TOQu
     refresh_collision_body_centers();
     register_object_by_id();
     read_set_params();
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
 }

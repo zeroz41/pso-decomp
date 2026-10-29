@@ -53,8 +53,8 @@ s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
 void TOFenceAncient03::update_demo() {  }
-void TOFenceAncient03::close() { *(int *)&this->m_ac = 0; this->is_open = 0; { int i; for (i = 0; i < 4; i++) { this->clear_player_status_flag((s32)((void*)i), (u32)((void*)8)); } } }
-void TOFenceAncient03::open() { *(int *)&this->m_ac = 1; this->is_open = 1; { int i; for (i = 0; i < 4; i++) { set_indexed_flags(i, (s32)((void*)8)); } } }
+void TOFenceAncient03::close() { *(int *)&this->object_state = 0; this->is_open = 0; { int i; for (i = 0; i < 4; i++) { this->clear_player_status_flag((s32)((void*)i), (u32)((void*)8)); } } }
+void TOFenceAncient03::open() { *(int *)&this->object_state = 1; this->is_open = 1; { int i; for (i = 0; i < 4; i++) { set_indexed_flags(i, (s32)((void*)8)); } } }
 
 extern void *tl_05;
 
@@ -142,7 +142,7 @@ u8 *TOFenceAncient03__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B1B80 *)arg0)->sub_80166E64();
-    ((TOFenceAncient03 *)arg0)->m_c0 = (f32) lbl_805DB634;
+    ((TOFenceAncient03 *)arg0)->view_range = (f32) lbl_805DB634;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB638;
     return arg0;
 }

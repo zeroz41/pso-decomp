@@ -180,7 +180,7 @@ void TOKeyJungleMain::debug_draw_key_id() {
 }
 
 void render__15TOKeyJungleMainFv(TOKeyJungleMain *key_jungle_main) {
-    if (((VObj_8029CF68 *)key_jungle_main)->m8(key_jungle_main->m_c0, *(f32 *)((s8 *)key_jungle_main + 0xC4)) == 1) {
+    if (((VObj_8029CF68 *)key_jungle_main)->m8(key_jungle_main->view_range, *(f32 *)((s8 *)key_jungle_main + 0xC4)) == 1) {
         switch (key_jungle_main->is_on) {
         case 0:
             TObjFish__sub_8001EDB0((*(s32 *)&TOKeyJungleMain__static_model_resource), 1);

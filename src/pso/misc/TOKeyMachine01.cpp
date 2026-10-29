@@ -162,7 +162,7 @@ void TOKeyMachine01::render() {
     NJS_OBJECT *object;
     u32 flags;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         TObjFish::set_global_param(TOKeyMachine01__texture_lists[is_on]);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -235,7 +235,7 @@ TOKeyMachine01::TOKeyMachine01(TObject *parent, void *set_data) : TOKey(parent) 
     init_switch_id();
     texlist = TOKeyMachine01__texture_lists[0];
     model = (void *)TOKeyMachine01__resource_bundle->models[0].model;
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 10.0f;
     activate_range = 10.0f;
     if (get_main_phase() == 0xF || is_split_screen() == 1) {

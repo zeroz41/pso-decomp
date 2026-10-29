@@ -133,7 +133,7 @@ u8 *TOFenceAncient02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B1B80 *)arg0)->sub_80166E64();
-    ((TOFenceAncient02 *)arg0)->m_c0 = (f32) lbl_805DB624;
+    ((TOFenceAncient02 *)arg0)->view_range = (f32) lbl_805DB624;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB628;
     return arg0;
 }

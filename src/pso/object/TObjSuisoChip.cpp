@@ -327,7 +327,7 @@ void *TObjSeabedSuisoBrakable::create(void *arg0) {
     return new TObjSeabedSuiso_CH((TObject *)tl_05, arg0);
 }
 
-void TObjSeabedSuiso_CH::run_task() { if (this->m_bc != 0) { this->update_anim_phase(); } }
+void TObjSeabedSuiso_CH::run_task() { if (this->motion != 0) { this->update_anim_phase(); } }
 
 extern s32 suiso_brakable_last_frame_tick;
 
@@ -433,7 +433,7 @@ void TObjSeabedSuiso_CH::update_state() {
 }
 void TObjSeabedSuiso_CH::render() {
     void *p;
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
         update_state();
         ((s32 (*)(s32))get_instance__23TObjSeabedSuisoBrakableFv)(0);
@@ -443,7 +443,7 @@ void TObjSeabedSuiso_CH::render() {
         rotate_matrix_y(0, rotation_y);
         p = motion;
         if (p != NULL) {
-            draw_ginja_model_with_motion(kind_model, p, m_b0);
+            draw_ginja_model_with_motion(kind_model, p, animation_frame);
         } else {
             draw_ginja_box_tree((u8 *)kind_model);
         }

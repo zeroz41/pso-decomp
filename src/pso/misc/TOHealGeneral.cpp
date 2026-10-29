@@ -76,7 +76,7 @@ void TOHealGeneral::update_closing() {
     effect_pos[1].y = (22.3f + position.y) - ring_drop;
     if (ring_drop <= 0.0f) {
         ring_drop = 0.0f;
-        m_ac = 0;
+        object_state = 0;
         if (is_local_player(heal_target) != 0) {
             player = get_player_by_client_id(heal_target);
             if (player != NULL) {
@@ -97,7 +97,7 @@ void TOHealGeneral::update_opening() {
     effect_pos[1].y = (22.3f + position.y) - ring_drop;
     if (22.3f <= ring_drop) {
         ring_drop = 22.3f;
-        m_ac = 2;
+        object_state = 2;
     }
 }
 
@@ -142,7 +142,7 @@ void TOHealGeneral::find_heal_target() {
             (u32)player->get_recovery_need_flags() != 0 ||
             (player->is_alive_and_ready() != 0 && player->are_traps_full() == 0)) {
             TParticleCtrl *effect;
-            m_ac = 1;
+            object_state = 1;
             if (is_local_player(heal_target) != 0) {
                 send_6x2C_impose_hold(player, &position, 0x3C, 0, r);
                 player->clear_harmful_statuses();
@@ -170,7 +170,7 @@ void TOHealGeneral::run_task() {
         update_demo();
         return;
     }
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         find_heal_target();
         return;
@@ -190,7 +190,7 @@ void TOHealGeneral::render() {
     NJS_OBJECT *rotor;
     NJS_OBJECT *ring;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);

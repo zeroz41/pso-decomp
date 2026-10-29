@@ -26,7 +26,7 @@ BmlResource *TObjKabochaLobby::model_resource;
 u32 TObjKabochaLobby::lobby_texlist;
 
 void TObjKabochaLobby::render() {
-    if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (state != 0 && lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(texlist);
         push_matrix();

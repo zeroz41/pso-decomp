@@ -35,44 +35,44 @@ s32 *TODoorVS2Door01::texture_lists;
 void TODoorVS2Door01::update_demo() {}
 
 void TODoorVS2Door01::update_closing() {
-    slide_offset -= m_b8;
+    slide_offset -= animation_step;
     if (slide_offset <= 0.0f) {
         slide_offset = 0.0f;
-        m_ac = DOOR_CLOSED;
+        object_state = DOOR_CLOSED;
     }
 }
 
 void TODoorVS2Door01::update_open() {
     if (!(door_flags & 1) || is_any_player_within_radius_xz(10000.0f) == 0) {
-        m_ac = DOOR_CLOSING;
+        object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004AA0B, &position, 0, 0);
     }
 }
 
 void TODoorVS2Door01::update_opening() {
-    slide_offset += m_b8;
+    slide_offset += animation_step;
     if (SLIDE_DISTANCE <= slide_offset) {
         slide_offset = SLIDE_DISTANCE;
-        m_ac = DOOR_OPEN;
+        object_state = DOOR_OPEN;
     }
 }
 
 void TODoorVS2Door01::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) != 0) {
-        m_ac = DOOR_OPENING;
+        object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
         play_sound_effect(0x4004AA0B, &position, 0, 0);
     }
 }
 
 s32 TODoorVS2Door01::is_in_view_depth(f32 min_radius) {
-    return TObjMapObject::is_in_view_depth(min_radius) || m_ac != DOOR_CLOSED;
+    return TObjMapObject::is_in_view_depth(min_radius) || object_state != DOOR_CLOSED;
 }
 
 void TODoorVS2Door01::render() {
     NJS_OBJECT *node;
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -169,7 +169,7 @@ TODoorVS2Door01::TODoorVS2Door01(TObject *parent, void *set_data) : TODoorBase(p
     model = (void *)bml_resource->models[0].model;
     texlist = texture_lists[1];
     animation_end_frame = 30.0f;
-    m_b8 = SLIDE_DISTANCE / animation_end_frame;
+    animation_step = SLIDE_DISTANCE / animation_end_frame;
     slide_offset = 0.0f;
     init_collision_body_parts(this, door_vs2door01_collision_body, 1);
     refresh_collision_body_centers();

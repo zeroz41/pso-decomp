@@ -43,7 +43,7 @@ s32 TOComputerMachine01::update_object_view_visibility(f32 range, f32 radius) {
 void TOComputerMachine01::render() {
     NJS_OBJECT *body;
     NJS_OBJECT *screen;
-    visible = update_object_view_visibility(m_c0, model_radius);
+    visible = update_object_view_visibility(view_range, model_radius);
     if (visible == 1) {
         if (last_scroll_frame != actor_frame_tick) {
             last_scroll_frame = actor_frame_tick;
@@ -112,7 +112,7 @@ TOComputerMachine01::TOComputerMachine01(void *set_data) : TOQuestTalkBase(tl_05
     apply_object_set_data(set_data);
     model = (void *)model_resource->models->model;
     texlist = model_resource->models->m_c;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;
     init_collision_body_parts(this, &computer_machine01_collision_body, 1);

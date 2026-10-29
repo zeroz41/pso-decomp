@@ -61,15 +61,15 @@ extern "C" s32 dispatch_by_main_phase__14TBoss4DarkFalzFUs(u32 flag);
 // Restores the saved state: 2 (activated) replays its main-phase step. Once
 // all three tablets' flags (0x2C-0x2E) are set, phase 0x2F runs.
 void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
-    m_ac = *state;
-    switch (m_ac) {
+    object_state = *state;
+    switch (object_state) {
     case 2:
         dispatch_by_main_phase__14TBoss4DarkFalzFUs(story_flag);
         activated = 1;
         break;
     default:
         if (get_story_flag(story_flag) != 0) {
-            m_ac = 2;
+            object_state = 2;
             activated = 1;
         }
         break;
@@ -83,14 +83,14 @@ void TOMonumentAncient02::vfunc_6(s16 *state, s32) {
 void TOMonumentAncient02::interact(s32 client) {
     s16 state;
     TObjPlayer *player;
-    switch (m_ac) {
+    switch (object_state) {
     case 1:
         player = get_player_by_client_id((u16)client);
         if (player != NULL) {
-            m_ac = 2;
+            object_state = 2;
             player->start_camera_pan(0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
             if (access_object_saved_state(&state, 1) != 0) {
-                state = m_ac;
+                state = object_state;
                 access_object_saved_state(&state, 0);
                 send_object_state_update(&state);
             }
@@ -101,9 +101,9 @@ void TOMonumentAncient02::interact(s32 client) {
 
 void TOMonumentAncient02::run_task() {
 
-    switch (m_ac) {
+    switch (object_state) {
     default:
-        m_ac = 1;
+        object_state = 1;
         if (effect != NULL) {
             effect->enable();
         }
@@ -125,7 +125,7 @@ void TOMonumentAncient02::run_task() {
 
 void TOMonumentAncient02::render() {
     NJS_OBJECT *node;
-    in_view = update_object_view_visibility(m_c0, model_radius);
+    in_view = update_object_view_visibility(view_range, model_radius);
     if (in_view == 1) {
         push_matrix();
         if (activated == 1) {
@@ -238,11 +238,11 @@ TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TObj
         sound_id = 0x4004C10F;
         break;
     }
-    m_ac = 0;
+    object_state = 0;
     activated = 0;
     brightening = 0;
     cursor_action.set_use();
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
     light_color.a = (f32) 0.0f;
     light_color.r = (f32) 0.0f;

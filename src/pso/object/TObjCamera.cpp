@@ -61,7 +61,7 @@ s32 TObjCamera::camera_slot_scan_index;
 void TObjCamera::play_sound_events() {
     s32 i;
     for (i = 0; i < 8; i++) {
-        if (sound_events[i].played == 0 && m_b0 >= sound_events[i].frame) {
+        if (sound_events[i].played == 0 && animation_frame >= sound_events[i].frame) {
             play_sound_effect(sound_events[i].sound_id, &sound_events[i].position, 0, 0);
             sound_events[i].played = 1;
         }
@@ -140,7 +140,7 @@ void TObjCamera::render() {
         camera_slot_scan_index = 0;
         set_model_node_callback((s32)TObjCamera::update_camera_slots);
         draw_ginja_model_with_motion((void *)get_bml_model(model_resource, 0),
-                                     get_bml_motion(model_resource, 0), m_b0);
+                                     get_bml_motion(model_resource, 0), animation_frame);
         set_model_node_callback(0);
         pop_matrix();
         if (lights_visible != 0) {
@@ -158,9 +158,9 @@ void TObjCamera::run_task() {
     TObjPlayer *player;
     s32 i;
     s32 j;
-    m_b0 += m_b8;
-    if (m_b0 > animation_end_frame - 1.0f) {
-        m_b0 = 0.0f;
+    animation_frame += animation_step;
+    if (animation_frame > animation_end_frame - 1.0f) {
+        animation_frame = 0.0f;
         reset_sound_events();
     }
     if (lights_visible != 0) {
@@ -197,8 +197,8 @@ TObjCamera::TObjCamera(TObject *parent, void *set_data) : TObjMapObject(parent) 
     m_name = obj_camera_class_name;
     StarLightParameters params = camera_object_init_params;
     apply_object_set_data(set_data);
-    m_b0 = 0.0f;
-    m_b8 = 0.8f;
+    animation_frame = 0.0f;
+    animation_step = 0.8f;
     animation_end_frame = get_bml_motion(model_resource, 0)->frameCount;
     if (is_split_screen() != 0) {
         for (i = 0; i < 8; i++) {

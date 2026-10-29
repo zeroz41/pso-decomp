@@ -22,13 +22,13 @@ public:
     virtual void render();
     // run_task's demo-mode step, empty in this build.
     void sub_80158604();
-    s32 m_ac;  // the object's state (TODoorBase: DOOR_CLOSED..DOOR_CLOSING); compared signed
-    f32 m_b0;  // the motion frame update_anim_phase advances
-    union { u32 m_b4; f32 animation_end_frame; };
-    f32 m_b8;  // frames per update
-    union { u32 m_bc; AnimationMotion *motion; };
-    f32 m_c0;  // view range classify_actor_view_detail is asked with
-    union { u32 m_c4; f32 model_radius; };
+    s32 object_state;           // the object's state (TODoorBase: DOOR_CLOSED..DOOR_CLOSING); compared signed
+    f32 animation_frame;        // the motion frame update_anim_phase advances
+    f32 animation_end_frame;    // where animation_frame wraps
+    f32 animation_step;         // frames per update
+    AnimationMotion *motion;    // the looped motion, NULL for a static model
+    f32 view_range;             // range classify_actor_view_detail is asked with
+    f32 model_radius;
 };
 
 typedef char TObjMapObjectSize[sizeof(TObjMapObject) == 0xC8 ? 1 : -1];

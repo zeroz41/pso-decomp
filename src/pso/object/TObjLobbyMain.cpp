@@ -97,7 +97,7 @@ TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(pa
     fade_scale = 1.0f;
     fade_state = 2;
     model_radius = 120.0f;
-    m_b0 = 0.0f;
+    animation_frame = 0.0f;
     init_collision_body_parts(this, &lobby_main_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -176,7 +176,7 @@ void TObjLobbyMain::update_fade() {
         fade_scale = 0.0f;
         resolve_theme_index();
         update_emitter_positions();
-        m_b0 = 0.0f;
+        animation_frame = 0.0f;
     }
 }
 
@@ -193,9 +193,9 @@ void TObjLobbyMain::advance_motion_frame() {
     s32 motion = lobby_main_model_motions[model_index];
     if (motion != 5) {
         last = (f32)get_bml_motion(model_resource, motion)->frameCount - 1.0f;
-        m_b0 += 1.0f;
-        if (last < m_b0) {
-            m_b0 -= last;
+        animation_frame += 1.0f;
+        if (last < animation_frame) {
+            animation_frame -= last;
         }
     }
 }
@@ -212,7 +212,7 @@ void TObjLobbyMain::update_computer_machines() {
 void TObjLobbyMain::render() {
     s16 index;
     s32 motion;
-    if (lobby_texlist != 0 && update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (lobby_texlist != 0 && update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -223,7 +223,7 @@ void TObjLobbyMain::render() {
         index = model_index;
         motion = lobby_main_model_motions[index];
         if (motion != 5) {
-            draw_ginja_model_with_motion(get_bml_model(model_resource, model_index), get_bml_motion(model_resource, motion), m_b0);
+            draw_ginja_model_with_motion(get_bml_model(model_resource, model_index), get_bml_motion(model_resource, motion), animation_frame);
         } else {
             draw_ginja_object((void *)get_bml_model(model_resource, index));
         }

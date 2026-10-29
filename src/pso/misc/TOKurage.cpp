@@ -273,7 +273,7 @@ void TOKurage::run_task() {
 }
 
 void TOKurage::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
@@ -298,7 +298,7 @@ void TOKurage::render() {
             break;
         }
         set_constant_material(&color);
-        draw_chunk_model_with_shape_motion(model, motion, motion2, m_b0);
+        draw_chunk_model_with_shape_motion(model, motion, motion2, animation_frame);
         set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
@@ -334,9 +334,9 @@ TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
     texlist = TObjFish__sub_8001EDB0(TOKurage__bml_resource, 0);
     motion = get_bml_motion(TOKurage__bml_resource, 0);
     motion2 = get_bml_motion(TOKurage__bml_resource, 1);
-    m_b8 = 0.5f;
+    animation_step = 0.5f;
     animation_end_frame = (f32)*(u32 *)((s8 *)motion + 4) - 1.0f;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 100.0f;
     init();
 }

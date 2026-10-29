@@ -89,10 +89,10 @@ void TObjContainerJungEx::load_resource_instance() {
 #pragma opt_propagation off
 void TObjDoaEx01::update_closing() {
     u8 *arg0 = (u8 *)this;
-    this->m_b0 = (f32) (this->m_b0 - this->m_b8);
-    if (this->m_b0 < 0.0f) {
-        this->m_b0 = (f32) 0.0f;
-        this->m_ac = 0;
+    this->animation_frame = (f32) (this->animation_frame - this->animation_step);
+    if (this->animation_frame < 0.0f) {
+        this->animation_frame = (f32) 0.0f;
+        this->object_state = 0;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
 }
@@ -297,7 +297,7 @@ void TObjDoaEx01::draw_model() {
         push_matrix();
         post_translate_matrix((void *) (((u8 *)this) + 0x38));
         rotate_matrix_y(0, (this->rotation_y));
-        temp_f31 = this->m_b0;
+        temp_f31 = this->animation_frame;
         if (temp_f31 > 0.0f) {
             temp_r31 = get_bml_motion((TObjDoaEx01__resource_bundle), 0);
             draw_ginja_model_with_motion((s32)get_bml_model((void *)(TObjDoaEx01__resource_bundle), 0), temp_r31, temp_f31);
@@ -384,8 +384,8 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts.value, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TObjDoaEx01 *)arg0)->m_b0 = (f32) 0.0f;
-    ((TObjDoaEx01 *)arg0)->m_b8 = (f32) 0.5f;
+    ((TObjDoaEx01 *)arg0)->animation_frame = (f32) 0.0f;
+    ((TObjDoaEx01 *)arg0)->animation_step = (f32) 0.5f;
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) *(u32 *)((s8 *)(get_bml_motion((*(s32 *)&TObjDoaEx01__resource_bundle), 0)) + 4);
     ((TObjDoaEx01 *)arg0)->door_flags = 0x100001;
     *(f32 *)((s8 *)arg0 + 0xD4) = (f32) 1.0f;

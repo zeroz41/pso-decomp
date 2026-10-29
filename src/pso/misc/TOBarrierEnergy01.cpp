@@ -57,12 +57,12 @@ TOBarrierEnergy01::TOBarrierEnergy01(TObject *parent, void *set_data) : TODoorBa
     texlist = barrier_energy_texlists[0];
     motion = get_bml_motion(barrier_energy_shared_bml_archive, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 2.0f;
+    animation_step = 2.0f;
     init_collision_body_parts(this, barrier_energy01_collision_body_parts, 1);
     refresh_collision_body_centers();
     register_object_by_id();
     init_door_switch_binding();
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 40.0f;
 }
 
@@ -103,13 +103,13 @@ void *TOBarrierEnergy01::create(void *set_data) {
 }
 
 void TOBarrierEnergy01::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model_with_motion(model, motion, m_b0);
+        draw_ginja_model_with_motion(model, motion, animation_frame);
         TParticleCtrl::end_effect_render();
         TObjFish::set_global_param(barrier_energy_texlists[2]);
         draw_ginja_object(barrier_energy_model);
@@ -121,7 +121,7 @@ void TOBarrierEnergy01::update_closed() {
     update_anim_phase();
     play_ambient_loop_sound();
     if (door_flags & DOOR_FLAG_UNLOCKED) {
-        m_ac = DOOR_OPENING;
+        object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
         texlist = barrier_energy_texlists[1];
     }
@@ -130,14 +130,14 @@ void TOBarrierEnergy01::update_closed() {
 void TOBarrierEnergy01::update_opening() {
     update_anim_phase();
     play_ambient_loop_sound();
-    m_ac = DOOR_OPEN;
+    object_state = DOOR_OPEN;
 }
 
 void TOBarrierEnergy01::update_open() {
     update_anim_phase();
     play_ambient_loop_sound();
     if (!(door_flags & DOOR_FLAG_UNLOCKED)) {
-        m_ac = DOOR_CLOSING;
+        object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
         texlist = barrier_energy_texlists[0];
     }
@@ -145,7 +145,7 @@ void TOBarrierEnergy01::update_open() {
 
 void TOBarrierEnergy01::update_closing() {
     update_anim_phase();
-    m_ac = DOOR_CLOSED;
+    object_state = DOOR_CLOSED;
     play_ambient_loop_sound();
 }
 

@@ -60,7 +60,7 @@ void TUnk_804B1B80::run_task() {
         update_demo();
         return;
     }
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         check_trigger();
         break;
@@ -68,11 +68,11 @@ void TUnk_804B1B80::run_task() {
         update_trigger();
         break;
     }
-    m_b0 += 1.0f;
+    animation_frame += 1.0f;
     end_frame = animation_end_frame;
-    frame = m_b0;
+    frame = animation_frame;
     if (end_frame < frame) {
-        m_b0 = frame - end_frame;
+        animation_frame = frame - end_frame;
     }
 }
 
@@ -81,13 +81,13 @@ void TUnk_804B1B80::run_task() {
 void TUnk_804B1B80::render() {
     NJS_OBJECT *node;
 
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
         if (is_open == 0) {
-            draw_ginja_model_with_motion(model, motion, m_b0);
+            draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
             node = (NJS_OBJECT *)model;
             push_matrix();
@@ -106,7 +106,7 @@ void TUnk_804B1B80::render() {
 TUnk_804B1B80::~TUnk_804B1B80() {}
 
 TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TObjMapObject(parent) {
-    m_ac = 0;
+    object_state = 0;
     switch_id = -1;
     trigger_mode = 0;
     is_open = 0;

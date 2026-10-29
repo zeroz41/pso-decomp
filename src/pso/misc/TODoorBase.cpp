@@ -20,8 +20,8 @@ TODoorBase::TODoorBase(TObject *parent) : TObjMapObject(parent) {
     switch_id = -1;
     lock_mode = LOCK_LOCKED;
     door_flags = 0;
-    m_ac = DOOR_CLOSED;
-    m_b8 = 1.0f;
+    object_state = DOOR_CLOSED;
+    animation_step = 1.0f;
 }
 
 TODoorBase::~TODoorBase() {}
@@ -32,13 +32,13 @@ void TODoorBase::run_task() {
         return;
     }
     if (switch_doors_force_closed != 0) {
-        m_ac = DOOR_CLOSED;
+        object_state = DOOR_CLOSED;
         door_flags &= ~DOOR_FLAG_UNLOCKED;
         clear_player_status_flag(0, 8);
     } else {
         update_door_switch_state();
     }
-    switch (m_ac) {
+    switch (object_state) {
     case DOOR_CLOSED:
         update_closed();
         break;
@@ -87,7 +87,7 @@ void TODoorBase::update_door_switch_state() {
 
 void TODoorBase::update_closed() {
     if ((door_flags & DOOR_FLAG_UNLOCKED) && is_any_player_within_radius_xz(4900.0f) == 1) {
-        m_ac = DOOR_OPENING;
+        object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
         switch (get_current_floor_area()) {
         case AREA_CAVE1:
@@ -132,10 +132,10 @@ void TODoorBase::update_closed() {
 }
 
 void TODoorBase::update_opening() {
-    m_b0 += m_b8;
-    if (animation_end_frame < m_b0) {
-        m_b0 = animation_end_frame;
-        m_ac = DOOR_OPEN;
+    animation_frame += animation_step;
+    if (animation_end_frame < animation_frame) {
+        animation_frame = animation_end_frame;
+        object_state = DOOR_OPEN;
     }
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
@@ -155,7 +155,7 @@ void TODoorBase::update_open() {
     if ((door_flags & DOOR_FLAG_UNLOCKED) && is_any_player_within_radius_xz(10000.0f) != 0) {
         return;
     }
-    m_ac = DOOR_CLOSING;
+    object_state = DOOR_CLOSING;
     clear_player_status_flag(0, 8);
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
@@ -191,10 +191,10 @@ void TODoorBase::update_open() {
 }
 
 void TODoorBase::update_closing() {
-    m_b0 -= m_b8;
-    if (m_b0 < 0.0f) {
-        m_b0 = 0.0f;
-        m_ac = DOOR_CLOSED;
+    animation_frame -= animation_step;
+    if (animation_frame < 0.0f) {
+        animation_frame = 0.0f;
+        object_state = DOOR_CLOSED;
     }
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:

@@ -31,7 +31,7 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
     if ((arg1 != NULL) && ((s16) *arg1 == 1)) {
         this->door_flags = (s32) (this->door_flags | 1);
         if (arg2 == 0) {
-            *(f32 *)&this->m_b4 = (f32) (*(u32 *)((s8 *)(*(void * *)&this->m_bc) + 4) - 1);
+            *(f32 *)&this->animation_end_frame = (f32) (*(u32 *)((s8 *)(*(void * *)&this->motion) + 4) - 1);
             set_indexed_flags(0, 8);
             if ((u32) this->m_dc != 0U) {
                 queue_destruction__7TObjectFv(*(void * *)&this->m_dc);
@@ -326,10 +326,10 @@ void TODoorJungleMain::run_task() {
     this->update_door_switch_state();
     if (this->door_flags & 1) {
         flag = 0;
-        *(f32 *)&this->m_b4 += this->m_b8;
-        t = *(f32 *)&this->m_b4;
-        if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1) - lbl_805DDCD4 < t &&
-            t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1)) {
+        *(f32 *)&this->animation_end_frame += this->animation_step;
+        t = *(f32 *)&this->animation_end_frame;
+        if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - lbl_805DDCD4 < t &&
+            t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             if (*(void * *)&this->m_dc != NULL) {
                 queue_destruction__7TObjectFv(*(void * *)&this->m_dc);
@@ -338,9 +338,9 @@ void TODoorJungleMain::run_task() {
         } else {
             flag = 1;
         }
-        if (*(f32 *)&this->m_b4 > (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1)) {
+        if (*(f32 *)&this->animation_end_frame > (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             flag = 0;
-            *(f32 *)&this->m_b4 = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->m_bc) + 4) - 1);
+            *(f32 *)&this->animation_end_frame = (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1);
         } else {
             play_persistent_sound(0x43220, (s32)arg0, (u32)&this->position, 0, 0);
         }
@@ -386,13 +386,13 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8029B924___vt__16TODoorJungleMain *)&__vt__16TODoorJungleMain).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
-    arg0->m_bc = get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
-    arg0->m_b8 = (f32) lbl_805DDCD8;
+    arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
+    arg0->animation_step = (f32) lbl_805DDCD8;
     *(f32 *)((s8 *)arg0 + 0xB4) = (f32) lbl_805DDCDC;
     init_collision_body_parts(arg0, (s32) &TODoorJungleMain_collision_body_parts.value, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    arg0->m_c0 = (f32) lbl_805DDCE0;
+    arg0->view_range = (f32) lbl_805DDCE0;
     temp_r4 = arg2 - 4;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DDCE4;
     arg0->m_d4 = 0;

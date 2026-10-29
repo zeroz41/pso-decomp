@@ -31,7 +31,7 @@ void TOHangerMachine01::run_task() {
 // on) and the two fans spinning by fan_angle.
 void TOHangerMachine01::render() {
     NJS_OBJECT *node;
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -111,7 +111,7 @@ TOHangerMachine01::TOHangerMachine01(void *set_data) : TObjMapObject(tl_05) {
     apply_object_set_data(set_data);
     model = (void *)TOHangerMachine01__bml_resource->models[0].model;
     texlist = TOHangerMachine01__bml_resource->models[0].m_c;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;
     init_collision_body_parts(this, hanger_machine01_collision_body_parts, 1);

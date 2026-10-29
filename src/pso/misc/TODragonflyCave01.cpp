@@ -68,7 +68,7 @@ void TODragonfly::run_task() {
         return;
     }
     update_anim_phase();
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         update_idle();
         return;
@@ -85,13 +85,13 @@ void TODragonfly::run_task() {
 }
 
 void TODragonfly::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        draw_ginja_model_with_motion(model, motion, m_b0);
+        draw_ginja_model_with_motion(model, motion, animation_frame);
         pop_matrix();
     }
 }
@@ -100,14 +100,14 @@ void TODragonfly::update_idle() {
     s32 wait;
     if (is_any_player_within_radius_xz(900.0f) == 1) {
         if (pick_random_destination(30.0f + scale.y) == 1) {
-            m_ac = 3;
+            object_state = 3;
             wait_timer = 0;
         }
     } else {
         wait = wait_timer;
         wait_timer = wait + 1;
         if (30.0f < (f32)wait && pick_random_destination(scale.y * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f)) == 1) {
-            m_ac = 1;
+            object_state = 1;
             wait_timer = 0;
         }
     }
@@ -118,14 +118,14 @@ void TODragonfly::update_wander_flight() {
     f32 d;
     if (is_any_player_within_radius_xz(900.0f) == 1) {
         if (pick_random_destination(30.0f + scale.y) == 1) {
-            m_ac = 3;
+            object_state = 3;
             wait_timer = 0;
         }
     } else {
         d = horizontal_distance_squared(&destination, &position);
         reach = 1e-05f + scale.z;
         if (d < reach * reach) {
-            m_ac = 0;
+            object_state = 0;
             return;
         }
         vec3_add_to(&position, &step);
@@ -139,11 +139,11 @@ void TODragonfly::update_rest() {
     if (30.0f < (f32)wait) {
         if (is_any_player_within_radius_xz(1225.0f) == 1) {
             if (pick_random_destination(30.0f + scale.y) == 1) {
-                m_ac = 3;
+                object_state = 3;
                 wait_timer = 0;
             }
         } else if (pick_random_destination(scale.y * (2.0f * (3.0517578e-05f * (f32)rand()) - 1.0f)) == 1) {
-            m_ac = 1;
+            object_state = 1;
             wait_timer = 0;
         }
     }
@@ -152,7 +152,7 @@ void TODragonfly::update_rest() {
 void TODragonfly::update_flee_flight() {
     f32 d = horizontal_distance_squared(&destination, &position);
     if (d < (1e-05f + scale.z) * (1e-05f + scale.z)) {
-        m_ac = 2;
+        object_state = 2;
     } else {
         vec3_add_to(&position, &step);
     }
@@ -171,7 +171,7 @@ s32 TODragonfly::pick_random_destination(f32 height) {
     VecCopy(&destination, &scratch_vec);
     subtract_vector(&scratch_vec, &position);
     if (normalize_if_nonzero(&scratch_vec) == 1) {
-        m_ac = 1;
+        object_state = 1;
         wait_timer = 0;
         rotation_y = (32768.0 / 3.141592f) * atan2_float(scratch_vec.x, scratch_vec.z);
         step.x = scratch_vec.x * scale.z;
@@ -191,10 +191,10 @@ TODragonflyCave01::TODragonflyCave01(void *set_data) {
     texlist = model_resource->models->m_c;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 1.1f;
-    m_c0 = 500.0f;
+    animation_step = 1.1f;
+    view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
-    m_ac = 0;
+    object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
     bob_angle = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));

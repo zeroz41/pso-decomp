@@ -49,7 +49,7 @@ void TODoorMachine02::update_demo() {}
 
 void TODoorMachine02::update_open() {
     if (!(door_flags & 1) || is_any_player_within_radius_xz(10000.0f) != 1) {
-        m_ac = DOOR_CLOSING;
+        object_state = DOOR_CLOSING;
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004BC01, &position, 0, 0);
     }
@@ -57,7 +57,7 @@ void TODoorMachine02::update_open() {
 
 void TODoorMachine02::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
-        m_ac = DOOR_OPENING;
+        object_state = DOOR_OPENING;
         set_indexed_flags(0, 8);
         play_sound_effect(0x4004BC01, &position, 0, 0);
     }
@@ -77,13 +77,13 @@ void TODoorMachine02::update_closed() {
 void TODoorMachine02::render() {
     NJS_OBJECT *node;
     s32 unlocked;
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         unlocked = door_flags & 1;
         TObjFish::set_global_param(texture_lists[door_flags & 1]);
-        if (m_ac == DOOR_CLOSED) {
+        if (object_state == DOOR_CLOSED) {
             node = ((NJS_OBJECT *)model)->child;
             post_translate_matrix(node->pos);
             draw_ginja_model((s32)node->model);
@@ -111,7 +111,7 @@ void TODoorMachine02::render() {
             post_translate_matrix(node->pos);
             draw_ginja_model((s32)node->model);
         } else {
-            draw_ginja_model_with_motion(model, motion, m_b0);
+            draw_ginja_model_with_motion(model, motion, animation_frame);
         }
         pop_matrix();
     }
@@ -168,7 +168,7 @@ TODoorMachine02::TODoorMachine02(TObject *parent, void *set_data) : TODoorBase(p
     texlist = bml_resource->models[0].m_c;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 0.5f;
+    animation_step = 0.5f;
     init_collision_body_parts(this, door_machine02_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

@@ -105,7 +105,7 @@ void TODragonflyMachine01::rotate_animated_node() {
 }
 
 void TODragonflyMachine01::render() {
-    if (update_object_view_visibility(m_c0, model_radius)) {
+    if (update_object_view_visibility(view_range, model_radius)) {
         push_matrix();
         translate_matrix(0, 0.0f, bob_offset, 0.0f);
         post_translate_matrix(&position.x);
@@ -122,7 +122,7 @@ void TODragonflyMachine01::render() {
         node_index = 0;
         node_yaw = animation_yaw;
         TObjEneRe7Berura::set_global_state((s32)&rotate_animated_node);
-        draw_ginja_model_with_motion(model, motion, m_b0);
+        draw_ginja_model_with_motion(model, motion, animation_frame);
         TObjEneRe7Berura::set_global_state(0);
         pop_matrix();
     }
@@ -136,7 +136,7 @@ void TODragonflyMachine01::run_task() {
         return;
     }
     update_anim_phase();
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         update_yaw_animation();
         update_idle();
@@ -188,10 +188,10 @@ TODragonflyMachine01::TODragonflyMachine01(void *set_data) {
     texlist = model_resource->models->m_c;
     motion = model_resource->motions->motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 1.0f;
-    m_c0 = 500.0f;
+    animation_step = 1.0f;
+    view_range = 500.0f;
     model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
-    m_ac = 0;
+    object_state = 0;
     bob_rate = 0.1f * (f32)set_params[0] + 1.0f;
     bob_angle_step = 182.04445f * (360.0f / (30.0f / bob_rate));
     bob_angle = 182.04445f * (360.0f * (3.0517578e-05f * (f32)rand()));

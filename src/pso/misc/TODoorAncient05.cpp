@@ -36,8 +36,8 @@ void TODoorAncient05::render() {
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        if (motion != NULL && 0.0f != m_b0) {
-            draw_ginja_model_with_motion(model, motion, m_b0);
+        if (motion != NULL && 0.0f != animation_frame) {
+            draw_ginja_model_with_motion(model, motion, animation_frame);
         } else {
             draw_ginja_object(&model_nodes[0]);
             draw_ginja_object(&model_nodes[1]);
@@ -53,12 +53,12 @@ void TODoorAncient05::update_open() {
     if (door_flags & 1) {
         texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(10000.0f) != 1) {
-            m_ac = 3;
+            object_state = 3;
             clear_player_status_flag(0, 8);
             play_sound_effect(0x4004B708, &position, 0, 0);
         }
     } else {
-        m_ac = 3;
+        object_state = 3;
         texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, &position, 0, 0);
@@ -69,7 +69,7 @@ void TODoorAncient05::update_closed() {
     if (door_flags & 1) {
         texlist = texture_lists[1];
         if (is_any_player_within_radius_xz(4900.0f) == 1) {
-            m_ac = 1;
+            object_state = 1;
             set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, &position, 0, 0);
         }
@@ -132,7 +132,7 @@ TODoorAncient05::TODoorAncient05(TObject *parent, void *set_data) : TODoorBase(p
     texlist = texture_lists[0];
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = animation_end_frame / 30.0f;
+    animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient05_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();

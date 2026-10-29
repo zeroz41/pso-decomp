@@ -82,7 +82,7 @@ TOKeyCol::TOKeyCol(TObject *parent, void *set_data) : TOKey(parent) {
     m_name = TOKeyCol__name;
     apply_object_set_data(set_data);
     init_switch_id();
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 50.0f;
     activate_range = 10.0f + scale.x;
     if (mode != KEY_MODE_NONE && set_params[1] < 0) {

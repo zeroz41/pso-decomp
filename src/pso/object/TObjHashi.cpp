@@ -118,14 +118,14 @@ TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TObjMapObject(pa
     m_name = class_name;
     apply_object_set_data(set_data);
     switchId = set_params[0];
-    m_c0 = lbl_805DBE24;
+    view_range = lbl_805DBE24;
     model_radius = lbl_805DBE28;
     if (is_current_floor_switch_set((u16)switchId) == 1) {
-        m_ac = 2;
+        object_state = 2;
         raisedHeight = position.y;
         riseSpeed = lbl_805DBE34;
     } else {
-        m_ac = 0;
+        object_state = 0;
         raisedHeight = position.y;
         position.y = position.y - lbl_805DBE38;
         riseSpeed = lbl_805DBE34;
@@ -138,10 +138,10 @@ TObjHashiBase::~TObjHashiBase() {}
 void TObjHashiBase::run_task() {
     f32 height;
     s32 index;
-    switch (m_ac) {
+    switch (object_state) {
     case 0:
         if (is_current_floor_switch_set((u16)switchId) != 0) {
-            m_ac = 1;
+            object_state = 1;
             return;
         }
         break;
@@ -149,7 +149,7 @@ void TObjHashiBase::run_task() {
         position.y = position.y + riseSpeed;
         if (position.y > (height = raisedHeight)) {
             position.y = height;
-            m_ac = 2;
+            object_state = 2;
             return;
         }
         break;
@@ -159,7 +159,7 @@ void TObjHashiBase::run_task() {
             set_indexed_flags(index, 8);
             ++index;
         }
-        m_ac = 3;
+        object_state = 3;
         break;
     case 3:
         break;
@@ -167,13 +167,13 @@ void TObjHashiBase::run_task() {
 }
 
 void TObjHashiBase::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
         if (motion != NULL) {
-            draw_model_motion(model, motion, m_b0);
+            draw_model_motion(model, motion, animation_frame);
         } else {
             draw_ginja_object(model);
         }

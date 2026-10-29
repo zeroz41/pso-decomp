@@ -140,7 +140,7 @@ u8 *TOFenceAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TUnk_804B1B80 *)arg0)->sub_80166E64();
-    ((TOFenceAncient01 *)arg0)->m_c0 = (f32) lbl_805DB614;
+    ((TOFenceAncient01 *)arg0)->view_range = (f32) lbl_805DB614;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB618;
     return arg0;
 }
@@ -172,8 +172,8 @@ s32 TUnk_804B1B80::sub_80166EA8(int _w1) {
 }
 
 void TOFenceAncient02::update_demo() {  }
-void TOFenceAncient02::close() { *(int *)&this->m_ac = 0; this->is_open = 0; this->clear_player_status_flag((s32)((void*)0), (u32)((void*)8)); }
-void TOFenceAncient02::open() { *(int *)&this->m_ac = 1; this->is_open = 1; set_indexed_flags((s32)((void*)0), (s32)((void*)8)); }
+void TOFenceAncient02::close() { *(int *)&this->object_state = 0; this->is_open = 0; this->clear_player_status_flag((s32)((void*)0), (u32)((void*)8)); }
+void TOFenceAncient02::open() { *(int *)&this->object_state = 1; this->is_open = 1; set_indexed_flags((s32)((void*)0), (s32)((void*)8)); }
 
 __declspec(section ".data") const char *bm_fd_obj_n_saku_4x2_model_names[2] = { lbl_80441438, NULL };
 __declspec(section ".data") const char *bm_fd_obj_n_saku_4x2_motion_names[2] = { lbl_80441450, NULL };

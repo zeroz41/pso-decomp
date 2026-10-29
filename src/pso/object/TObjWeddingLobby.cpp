@@ -42,7 +42,7 @@ void TObjWeddingLobby::render() {
             scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
         draw_ginja_object((void *)get_bml_model(resource_bundle, 0));
-        draw_ginja_model_with_motion(get_bml_model(resource_bundle, 1), get_bml_motion(resource_bundle, 0), m_b0);
+        draw_ginja_model_with_motion(get_bml_model(resource_bundle, 1), get_bml_motion(resource_bundle, 0), animation_frame);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -81,9 +81,9 @@ void TObjWeddingLobby::run_task() {
         break;
     }
     last = (f32)get_bml_motion(resource_bundle, 0)->frameCount - 1.0f;
-    m_b0 += 2.0f;
-    if (last < m_b0) {
-        m_b0 -= last;
+    animation_frame += 2.0f;
+    if (last < animation_frame) {
+        animation_frame -= last;
     }
 }
 
@@ -118,5 +118,5 @@ TObjWeddingLobby::TObjWeddingLobby(TObject *parent, void *set_data) : TObjMapObj
         fade_state = 0;
     }
     fade_scale = 1.0f;
-    m_b0 = 0.0f;
+    animation_frame = 0.0f;
 }

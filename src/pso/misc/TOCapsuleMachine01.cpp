@@ -39,7 +39,7 @@ void TOCapsuleMachine01::run_task() {
 }
 
 void TOCapsuleMachine01::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -84,7 +84,7 @@ TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TObjMapObject(tl_05) {
     apply_object_set_data(set_data);
     model = (void *)TOCapsuleMachine01__model_resource->models[0].model;
     texlist = TOCapsuleMachine01__model_resource->models[0].m_c;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 50.0f;
     actorFlags |= 0x40000000;
     init_collision_body_parts(this, capsule_machine01_collision_body, 1);

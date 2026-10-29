@@ -67,12 +67,12 @@ void TODoorVoShip::run_task() {
 
 void TODoorVoShip::render() {
     NJS_OBJECT *node;
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && (light_flags & SEAL_LIGHTS)) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && (light_flags & SEAL_LIGHTS)) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        draw_chunk_model_with_shape_motion(model, motion, shape_motion, m_b0);
+        draw_chunk_model_with_shape_motion(model, motion, shape_motion, animation_frame);
         TObjFish::set_global_param(light_texlist);
         u32 flags = model_render_flags;
         saved_model_render_flags = flags;
@@ -142,14 +142,14 @@ TODoorVoShip::TODoorVoShip(TObject *parent, void *set_data) : TObjMapObject(pare
     texlist = TObjFish__sub_8001EDB0(bml_resource, 1);
     motion = get_bml_motion(bml_resource, 0);
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = 1.0f;
+    animation_step = 1.0f;
     shape_motion = get_bml_motion(bml_resource, 1);
     light_model = (NJS_OBJECT *)get_bml_model(bml_resource, 0);
     light_texlist = TObjFish__sub_8001EDB0(bml_resource, 0);
     init_collision_body_parts(this, door_vo_ship_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
-    m_c0 = 400.0f;
+    view_range = 400.0f;
     model_radius = 200.0f;
     light_flags = SEAL_LIGHTS;
     light_color.b = 0.0f;

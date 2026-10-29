@@ -18,7 +18,7 @@ BmlResource *TOAirconCave01__model_archive;
 
 void TOAirconCave01::render() {
     NJS_OBJECT *object = (NJS_OBJECT *)TOAirconCave01__model_archive->models[0].model;
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         rotation_x += 0x106;
         push_matrix();
         post_translate_matrix(&position.x);
@@ -56,6 +56,6 @@ TOAirconCave01::TOAirconCave01(TObject *parent, void *set_data) : TObjMapObject(
     apply_object_set_data(set_data);
     model = (void *)TOAirconCave01__model_archive->models[0].model;
     texlist = TOAirconCave01__model_archive->models[0].m_c;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 40.0f;
 }

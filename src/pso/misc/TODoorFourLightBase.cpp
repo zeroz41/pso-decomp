@@ -270,17 +270,17 @@ void TODoorFourLightBase::render_lights() {
 struct Door_802A0670;
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) {
     VObj_802A07E0 *self = (VObj_802A07E0 *)door_four_light_base;
-    if (self->m8(door_four_light_base->m_c0, *(f32 *)((s8 *)door_four_light_base + 0xC4)) != 1) {
+    if (self->m8(door_four_light_base->view_range, *(f32 *)((s8 *)door_four_light_base + 0xC4)) != 1) {
         return;
     }
-    switch (door_four_light_base->m_ac) {
+    switch (door_four_light_base->object_state) {
     case 1:
     case 3:
         push_matrix();
         TObjFish::set_global_param((s32)((void *)self->m20()));
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
-        draw_ginja_model_with_motion(door_four_light_base->m_d4, door_four_light_base->m_bc, door_four_light_base->m_b0);
+        draw_ginja_model_with_motion(door_four_light_base->m_d4, (s32)door_four_light_base->motion, door_four_light_base->animation_frame);
         pop_matrix();
         break;
     case 2:
@@ -288,7 +288,7 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
         TObjFish::set_global_param((s32)((void *)self->m20()));
         post_translate_matrix((u8 *)door_four_light_base + 0x38);
         rotate_matrix_y(0, door_four_light_base->rotation_y);
-        draw_ginja_model_with_motion(door_four_light_base->m_d4, door_four_light_base->m_bc, *(f32 *)((s8 *)door_four_light_base + 0xB4));
+        draw_ginja_model_with_motion(door_four_light_base->m_d4, (s32)door_four_light_base->motion, door_four_light_base->animation_end_frame);
         pop_matrix();
         break;
     case 0:

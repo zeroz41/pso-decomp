@@ -50,7 +50,7 @@ TODoorAncient09::TODoorAncient09(TObject *parent, void *set_data) : TODoorBase(p
     model = (void *)bml_resource->models[0].model;
     motion = bml_resource->motions[0].motion;
     animation_end_frame = (f32)motion->frameCount - 1.0f;
-    m_b8 = animation_end_frame / 30.0f;
+    animation_step = animation_end_frame / 30.0f;
     init_collision_body_parts(this, door_ancient09_collision_body, 1);
     refresh_collision_body_centers();
     register_object_by_id();
@@ -103,7 +103,7 @@ void *TODoorAncient09::create(void *set_data) {
 
 void TODoorAncient09::update_closed() {
     if ((door_flags & 1) && is_any_player_within_radius_xz(4900.0f) == 1) {
-        m_ac = 1;
+        object_state = 1;
         texlist = texture_lists[1];
         set_indexed_flags(0, 8);
         is_open = 1;
@@ -135,7 +135,7 @@ void TODoorAncient09::update_open() {
         if (is_any_player_within_radius_xz(10000.0f) == 1) {
             return;
         }
-        m_ac = 3;
+        object_state = 3;
         clear_player_status_flag(0, 8);
         is_open = 0;
         switch (get_current_floor_area()) {
@@ -158,7 +158,7 @@ void TODoorAncient09::update_open() {
             break;
         }
     } else {
-        m_ac = 3;
+        object_state = 3;
         texlist = texture_lists[0];
         clear_player_status_flag(0, 8);
         is_open = 0;
@@ -168,15 +168,15 @@ void TODoorAncient09::update_open() {
 void TODoorAncient09::update_demo() {}
 
 void TODoorAncient09::render() {
-    if (update_object_view_visibility(m_c0, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
-        switch (m_ac) {
+    if (update_object_view_visibility(view_range, model_radius) != 0 && is_in_view_depth(30.0f) != 0) {
+        switch (object_state) {
         case 1:
         case 3:
             push_matrix();
             post_translate_matrix(&position.x);
             rotate_matrix_y(NULL, rotation_y);
             TObjFish::set_global_param(texlist);
-            draw_ginja_model_with_motion(model, motion, m_b0);
+            draw_ginja_model_with_motion(model, motion, animation_frame);
             pop_matrix();
             return;
         case 2:

@@ -14,11 +14,11 @@
 void TObjMapObject::update_anim_phase() {
     f32 frame;
     f32 end;
-    m_b0 = m_b0 + m_b8;
+    animation_frame = animation_frame + animation_step;
     end = animation_end_frame;
-    frame = m_b0;
+    frame = animation_frame;
     if (end < frame) {
-        m_b0 = frame - end;
+        animation_frame = frame - end;
     }
 }
 
@@ -63,7 +63,7 @@ void TObjMapObject::run_task() {
 }
 
 void TObjMapObject::render() {
-    f32 range = m_c0;
+    f32 range = view_range;
     s32 detail = classify_actor_view_detail(0.5f * range, range, model_radius);
     if (detail != 0 && is_in_view_depth(30.0f) != 0) {
         push_matrix();
@@ -72,9 +72,9 @@ void TObjMapObject::render() {
         TObjFish::set_global_param(texlist);
         if (motion != NULL) {
             if (detail == 1) {
-                draw_model_motion(model, motion, m_b0);
+                draw_model_motion(model, motion, animation_frame);
             } else {
-                draw_model_motion(model, motion, m_b0);
+                draw_model_motion(model, motion, animation_frame);
             }
         } else if (detail == 1) {
             draw_chunk_object(model);
@@ -89,13 +89,13 @@ TObjMapObject::~TObjMapObject() {
 }
 
 TObjMapObject::TObjMapObject(TObject *parent) : TObjCollidable(parent) {
-    m_ac = 0;
-    m_b0 = 0.0f;
+    object_state = 0;
+    animation_frame = 0.0f;
     animation_end_frame = 0.0f;
-    m_b8 = 1.0f;
+    animation_step = 1.0f;
     motion = NULL;
     actorFlags |= 0x40000000;
-    m_c0 = 800.0f;
+    view_range = 800.0f;
     model_radius = 30.0f;
 }
 

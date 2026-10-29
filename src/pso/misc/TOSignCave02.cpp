@@ -21,7 +21,7 @@ BmlResource *TOSignCave02__bml_resource;
 
 void TOSignCave02::render() {
     NJS_OBJECT *node;
-    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+    if (update_object_view_visibility(view_range, model_radius) != 0) {
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position.x);
@@ -105,6 +105,6 @@ TOSignCave02::TOSignCave02(TObject *parent, void *set_data) : TObjMapObject(pare
     apply_object_set_data(set_data);
     model = (void *)TOSignCave02__bml_resource->models[0].model;
     texlist = TOSignCave02__bml_resource->models[0].m_c;
-    m_c0 = 500.0f;
+    view_range = 500.0f;
     model_radius = 300.0f;
 }
