@@ -501,6 +501,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TItemMag's vtable precedes its switch tables: deferred, and written from
     # its last function back.
     "pso/item/TItemMag.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # The bridges' vtables come out in the reverse of their .text order:
+    # deferred, written from the unit's last function back. -fp_contract on:
+    # TObjHashiBase::update_object_view_visibility fuses its multiply-adds.
+    "pso/object/TObjHashi.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-fp_contract on")},
     "pso/item/TItemProUnit.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TOKey's vtable precedes its switch tables: deferred, and written from
     # its last function back.

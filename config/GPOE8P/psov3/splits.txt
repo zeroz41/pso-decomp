@@ -5784,23 +5784,13 @@ pso/misc/TNpcPlayer_80190E64.cpp:
 pso/misc/TLobby_80191218.cpp:
 	.text       start:0x80191218 end:0x801912BC
 
-pso/object/TObjHashiVersus2.cpp:
-	.text       start:0x801912BC end:0x801914B8
-	.data       start:0x804B7C88 end:0x804B7CA0
-	.sdata      start:0x805D3370 end:0x805D3374
-
-pso/object/TObjHashiVersus1.cpp:
-	.text       start:0x801914B8 end:0x801916AC
-
 pso/object/TObjHashi.cpp:
-	.text       start:0x801916AC end:0x80191874
-
-pso/object/TObjHashiBase.cpp:
-	.text       start:0x80191874 end:0x80191D14
-
-pso/unk/text_80191D14.cpp:
-	.text       start:0x80191D14 end:0x80191D80
+	.text       start:0x801912BC end:0x80191D80
+	.rodata     start:0x80445928 end:0x804459E0
+	.data       start:0x804B7C58 end:0x804B7E60
 	.bss        start:0x8050DCB8 end:0x8050DCE8
+	.sdata      start:0x805D3368 end:0x805D3384
+	.sbss       start:0x805D5C10 end:0x805D5C1C
 
 pso/object/TObjInfoCol.cpp:
 	.text       start:0x80191D80 end:0x80191F80

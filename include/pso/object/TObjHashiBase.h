@@ -6,14 +6,17 @@
 // A bridge that rises into place once its floor switch is set.
 // m_ac is its phase: 0 waiting for the switch, 1 rising, 2 raised (its
 // collision bodies get enabled), 3 done.
-struct TObjHashiBase : public TObjMapObject {
+class TObjHashiBase : public TObjMapObject {
+public:
     TObjHashiBase(TObject *parent, void *set_data);
     virtual ~TObjHashiBase();
     virtual void run_task();
     virtual void render();
-    virtual s32 update_object_view_visibility(f32, f32);
+    virtual s32 update_object_view_visibility(f32 depth, f32 radius);
+    static const char *class_name;
     s32 switchId;      // floor switch that raises it (set param 4)
     f32 raisedHeight;  // the y it rises to
     f32 riseSpeed;     // y step per frame while rising
 };
+typedef char TObjHashiBase_size[sizeof(TObjHashiBase) == 0xD4 ? 1 : -1];
 #endif

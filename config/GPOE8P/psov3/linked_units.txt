@@ -2100,9 +2100,6 @@ pso/object/TObjGrassWeb.cpp
 pso/object/TObjGyaranzoMissile.cpp
 pso/object/TObjGyaranzoMissile_800D40D8.cpp
 pso/object/TObjHashi.cpp
-pso/object/TObjHashiBase.cpp
-pso/object/TObjHashiVersus1.cpp
-pso/object/TObjHashiVersus2.cpp
 pso/object/TObjIllGillKage.cpp
 pso/object/TObjInfoCol.cpp
 pso/object/TObjKabochaLobby.cpp
@@ -3121,7 +3118,6 @@ pso/unk/text_80181310.cpp
 pso/unk/text_801815A0.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_8018FA6C.cpp
-pso/unk/text_80191D14.cpp
 pso/unk/text_80192554.cpp
 pso/unk/text_80193018.cpp
 pso/unk/text_8019608C.cpp

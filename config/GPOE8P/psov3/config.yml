@@ -1093,10 +1093,10 @@ force_active:
   - TObjGrass__sub_800BCA2C
   - TObjGrass__sub_800BFB68
   - TObjHMS_EZRope_Player__ct
-  - TObjHashiVersus1__ct
-  - TObjHashiVersus2__ct
-  - TObjHashiVersus2__resource_descriptor
-  - TObjHashi__ct
+  - __ct__16TObjHashiVersus1FP7TObjectPv
+  - __ct__16TObjHashiVersus2FP7TObjectPv
+  - fe_obj321_hashi_resource_descriptor
+  - __ct__9TObjHashiFP7TObjectPv
   - TObjItemNameEntry__class_name
   - TObjItemNameSelect__class_name
   - TObjItemOKWindow__class_name

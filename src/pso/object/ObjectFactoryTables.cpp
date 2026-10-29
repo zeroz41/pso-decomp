@@ -17,6 +17,9 @@
 #include "pso/misc/TOTrapChainSawDamage.h"
 #include "pso/misc/TOTrapChainSawKey.h"
 #include "pso/misc/TOVS2Wall01.h"
+#include "pso/object/TObjHashi.h"
+#include "pso/object/TObjHashiVersus1.h"
+#include "pso/object/TObjHashiVersus2.h"
 #include "pso/object/TObjAreaWarpForest.h"
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/object/TObjComputer.h"
@@ -196,9 +199,6 @@ void* TObjEnvSoundGlobal__create(void* placement);
 void* TObjEnvSoundEx__create(void* placement);
 void* TObjEnvSound__create(void* placement);
 void* TObjEvtCollision__create(void* placement);
-void* TObjHashiVersus2__create(void* placement);
-void* TObjHashiVersus1__create(void* placement);
-void* TObjHashi__create(void* placement);
 void* TKomorebi__create(void* placement);
 void* TObjLazerFenceExtra__create(void* placement);
 void* TObjLazerFenceNorm__create(void* placement);
@@ -371,7 +371,7 @@ ObjectFactoryEntry object_factories_floor_01[63] = {
     { 0x0004, TObjLight__create, 84100.0f, 0 },
     { 0x008D, TOCapsuleAncient01::create, 250000.0f, 0 },
     { 0x008E, TOBarrierEnergy01::create, 250000.0f, 0 },
-    { 0x008F, TObjHashi__create, 250000.0f, 0 },
+    { 0x008F, TObjHashi::create, 250000.0f, 0 },
     { 0x0090, TOKeyGenericSw::create, 250000.0f, 0 },
     { 0x0013, create__13TOHealGeneralFv, 250000.0f, 0 },
     { 0x0095, TObjContainerNoItem::create, 250000.0f, 0 },
@@ -437,7 +437,7 @@ ObjectFactoryEntry object_factories_floor_02[64] = {
     { 0x0004, TObjLight__create, 84100.0f, 0 },
     { 0x008D, TOCapsuleAncient01::create, 250000.0f, 0 },
     { 0x008E, TOBarrierEnergy01::create, 250000.0f, 0 },
-    { 0x008F, TObjHashi__create, 250000.0f, 0 },
+    { 0x008F, TObjHashi::create, 250000.0f, 0 },
     { 0x0090, TOKeyGenericSw::create, 250000.0f, 0 },
     { 0x0013, create__13TOHealGeneralFv, 250000.0f, 0 },
     { 0x0156, TOMonumentAncient02::create, 250000.0f, 0 },
@@ -1204,8 +1204,8 @@ ObjectFactoryEntry object_factories_floor_17[50] = {
     { 0x0090, TOKeyGenericSw::create, 250000.0f, 0 },
     { 0x00C0, TOKeyCave01::create, 250000.0f, 0 },
     { 0x0101, TOKeyMachine01::create, 250000.0f, 0 },
-    { 0x01A9, TObjHashiVersus1__create, 250000.0f, 0 },
-    { 0x01AA, TObjHashiVersus2__create, 250000.0f, 0 },
+    { 0x01A9, TObjHashiVersus1::create, 250000.0f, 0 },
+    { 0x01AA, TObjHashiVersus2::create, 250000.0f, 0 },
     { 0x001F, TObjRaderHideCol__create, 250000.0f, 0 },
     { 0x0022, TOKeyCol::create, 250000.0f, 0 },
     { 0x0023, TOAttackableCol::create, 250000.0f, 0 },
@@ -1396,8 +1396,8 @@ ObjectFactoryEntry object_factories_floors_19_20[66] = {
     { 0x01A5, TOVS2Wreck05__create, 250000.0f, 0 },
     { 0x01A6, TOVS2Wreck06__create, 250000.0f, 0 },
     { 0x01A7, create__11TOVS2Wall01Fv, 250000.0f, 0 },
-    { 0x01A9, TObjHashiVersus1__create, 250000.0f, 0 },
-    { 0x01AA, TObjHashiVersus2__create, 250000.0f, 0 },
+    { 0x01A9, TObjHashiVersus1::create, 250000.0f, 0 },
+    { 0x01AA, TObjHashiVersus2::create, 250000.0f, 0 },
     { 0x00C3, TOHangceilingCave01__create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
     { 0x0153, create__15TOTrapAncient01Fv, 250000.0f, 0 },
