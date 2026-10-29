@@ -3,10 +3,10 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 
 #include "types.h"
@@ -44,7 +44,6 @@ struct RecoveredGlobal_800823E0_lbl_80438EC8 {
 };
 
 extern "C" {
-f32 approach_vector_fixed_distance(void *, void *, void *, f32);
 f32 vector_length(void *);
 extern RecoveredGlobal_800823E0_lbl_80438EB8 clitical_vec_a;
 extern RecoveredGlobal_800823E0_lbl_80438EC8 clitical_vec_b;
@@ -197,6 +196,6 @@ void approach_position_if_far(u8 *arg0, u8 *arg1, f32 farg0) {
     stack.sp10 = *(f32 *)((s8 *)arg0 + 8) - *(f32 *)((s8 *)arg1 + 8);
     temp_f1 = vector_length(&stack.sp8);
     if (temp_f1 > farg0) {
-        approach_vector_fixed_distance(arg0, arg1, arg0, temp_f1 * farg0);
+        approach_vector_fixed_distance((const Vec *)arg0, (const Vec *)arg1, (Vec *)arg0, temp_f1 * farg0);
     }
 }

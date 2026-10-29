@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/TObjEneSlimeOne_800EC394.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
@@ -132,12 +133,12 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
             model_render_flags &= ~0x400000;
             return;
         }
-        TObjFish::set_cull_back();
+        set_cull_back();
         set_chunk_render_flags(2);
         ((TObjMotion *)(*(void * *)&this->m_name))->draw();
-        TObjFish::set_cull_mode_front();
+        set_cull_front();
         ((TObjMotion *)(*(void * *)&this->m_name))->draw();
-        TObjFish::set_cull_none();
+        set_cull_none();
         clear_chunk_render_flags();
         return;
     }
@@ -152,11 +153,11 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
             return;
         }
         set_chunk_render_flags(2);
-        TObjFish::set_cull_back();
+        set_cull_back();
         draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
-        TObjFish::set_cull_mode_front();
+        set_cull_front();
         draw_chunk_model_with_shape_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), (void *)(*(s32 *)&this->m_down), *(f32 *)&this->actorFlags);
-        TObjFish::set_cull_none();
+        set_cull_none();
         clear_chunk_render_flags();
         return;
     }
@@ -172,16 +173,16 @@ void TObjEneSlimeOne::draw_part(s32 arg1) {
         model_render_flags &= ~0x400000;
     } else {
         set_chunk_render_flags(2);
-        TObjFish::set_cull_back();
+        set_cull_back();
         draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
-        TObjFish::set_cull_mode_front();
+        set_cull_front();
         draw_model_motion((void *)(*(s32 *)&this->m_prev), (void *)(*(s32 *)&this->m_up), *(f32 *)&this->actorFlags);
         TObjFish::set_global_param(*(s32 *)&this->entity_id);
-        TObjFish::set_cull_back();
+        set_cull_back();
         draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
-        TObjFish::set_cull_mode_front();
+        set_cull_front();
         draw_model_motion((void *)(*(s32 *)((s8 *)arg0 + 0x18)), (void *)(*(s32 *)&this->m_20), *(f32 *)&this->actorFlags);
-        TObjFish::set_cull_none();
+        set_cull_none();
         clear_chunk_render_flags();
     }
     TObjPlayer::clear_global_state();

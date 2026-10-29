@@ -46,9 +46,6 @@ struct TObjFish : public TObjBase {
     u32 update_anim_state();
     s32 is_all_parts_done();
     void update_wobble_angle();
-    static int set_cull_none();
-    static int set_cull_mode_front();
-    static int set_cull_back();
 };
 
 typedef char TObjFish_size[sizeof(TObjFish) == 0xA4 ? 1 : -1];

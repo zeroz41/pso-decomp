@@ -1,6 +1,6 @@
 #pragma push
 
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
@@ -32,7 +32,6 @@ struct Stack_8022BF8C_more_8022be64_1 {
 
 extern "C" {
 f32 vector_length(void *, f32);
-s32 approach_vector_fixed_distance(int, void *, int, f32);
 void queue_destruction__7TObjectFv(void *arg0);
 
 void TTecReverser::sub_8022BE64(u8 *arg1, s32 arg2) {
@@ -52,7 +51,7 @@ void TUnk_804CC148::render() {
         approach_vector_in_place(&scale, (const Vec *)&v, lbl_805DC7B0);
         break;
     }
-    TObjRoomId__sub_80141CF4((const Vec *)self->f20, (const NJS_ARGB *)self->f2c, self->f3c);
+    debug_draw_sphere((const Vec *)self->f20, (const NJS_ARGB *)self->f2c, self->f3c);
 }
 
 void TUnk_804CC148::tick_lifetime() {
@@ -81,7 +80,7 @@ void TUnk_804CC148::sub_8022C008() {
     s32 temp_r3;
 
     temp_r3 = (long) (arg0 + 0x20);
-    approach_vector_fixed_distance(temp_r3, (u8 *)&this->m_7c, temp_r3, (f32) (*(f32 *)((s8 *)arg0 + 0x64)));
+    approach_vector_fixed_distance((Vec *)temp_r3, (Vec *)&this->m_7c, (Vec *)temp_r3, (f32) (*(f32 *)((s8 *)arg0 + 0x64)));
 }
 
 #pragma pop

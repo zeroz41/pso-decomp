@@ -10,7 +10,7 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 {
     s32 value;

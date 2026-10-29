@@ -1,5 +1,5 @@
 #include "pso/TParticleCtrl.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_8048E778.h"
 #include "pso/misc/TUnk_8048E790.h"
@@ -311,7 +311,7 @@ void TUnk_8048E7A8::render() {
                 }
             }
             TObjFish::set_global_param(*(u32 *)&this->unk_B4);
-            set_depth_buffer_settings_id(3);
+            set_draw_list_mask(3);
             if (this->m_b8 != 0U) {
                 draw_ginja_model_with_motion(this->m_b0, this->m_b8, *(f32 *)&this->unk_BC);
             } else {

@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/ui/UISprite.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TWindowCtrlMain.h"
 #include "pso/TObjCMName.h"
 #include "pso/TObjCMHairMenu.h"

@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
@@ -151,7 +151,7 @@ void TOSymbolchatColli::render() {
         color.r = lbl_805DBA30;
         color.g = lbl_805DBA2C;
         color.b = lbl_805DBA2C;
-        TObjRoomId__sub_80141CF4(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x334)));
+        debug_draw_sphere(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x334)));
     }
 }
 

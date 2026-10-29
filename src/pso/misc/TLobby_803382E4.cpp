@@ -2,10 +2,10 @@
 #include "pso/boss/TObjBoss2Tunnel_803E2BAC.h"
 #include "pso/misc/TLobby_803382E4.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/misc/TLobby.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/TParticleCtrl.h"
@@ -15,7 +15,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct G_80338534 { u8 p0[0x2C]; u8 a[0x40]; u8 b[0x60]; u8 c[0x40]; };
 

@@ -6,10 +6,10 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/player/TObjPlayer_803DC834.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804ED598.h"
 #include "pso/TParticleCtrl.h"

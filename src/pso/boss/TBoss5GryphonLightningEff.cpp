@@ -4,8 +4,8 @@
 #include "pso/boss/TBoss5GryphonLightningEff.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/system/vector.h"
 #include "pso/TTecZondeEff.h"
 
@@ -14,7 +14,7 @@
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct Ent_80325248 { u8 b[0xC]; };
 
@@ -61,7 +61,6 @@ s32 project_lightning_points(void *, void *, void *, void *);
 
 void TBoss5GryphonLightningEff__sub_80325064(void* p) { *(u8*)((char*)p + 0x260) = 1; }
 
-extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 
@@ -117,7 +116,7 @@ void TBoss5GryphonLightningEff::render() {
     }
     set_default_alpha_blend();
     TParticleCtrl::end_effect_render();
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
     restore_saved_depth_alpha_state();
 }

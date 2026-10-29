@@ -1,4 +1,5 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/FlagWord.h"
@@ -1217,7 +1218,7 @@ s32 canSetMenuCursorAction(s32, void *, s32, u8);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 u8 TMainCursor__sub_8013E900(void *);
 s32 approach_angle_adaptive(s32, s32);
-s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
+s32 lerp_angle_half__Fll(s32, s32);
 s32 is_anim_finished__10TObjMotionFv(void *);
 void init_6x45_attack_packet(u8 *arg0);
 void init_6x44_attack_packet(u8 *arg0);
@@ -1695,7 +1696,7 @@ void handle_6xB0_turn_or_move_lobby_chair(void *arg0) {
         p = ((Player_801C7430 *)((s32 (*)(s32))get_player_by_client_id)((s32)(m.slot)));
         if ((p != NULL) && (((s32 (*)(void))is_in_tl03_state__10TObjPlayerFv)() != 0)) {
             ((TObjPlayer *)p)->update_lobby_chair(m.c);
-            TObjPlayer::calc_direction_vector(p->dir, p->vec, TObjPlayer__data_805DC360);
+            calc_direction_vector(p->dir, (Vec *)p->vec, TObjPlayer__data_805DC360);
         }
     }
 }
@@ -1731,7 +1732,7 @@ void TObjPlayer__sub_801C75A4(u8 *player) {
     if (temp_f1 < lbl_805DC364) {
         TObjPlayer__sub_8001053C((void *) (player));
     } else {
-        TObjPlayer::calc_direction_vector((int) (((TObjPlayer *)player)->rotation_y), (void *) (player + 0x308), (f32) (temp_f1));
+        calc_direction_vector((int) (((TObjPlayer *)player)->rotation_y), (Vec *)((void *) (player + 0x308)), (f32) (temp_f1));
     }
     if (resolve_move_collision__10TObjPlayerFv((void *) (player)) == 0U) {
         ((TObjPlayer *)player)->apply_velocity();
@@ -2438,7 +2439,7 @@ void TObjPlayer::update_warp_relocation() {
                 this->play_sound_if_on_floor(0x40003206);
             }
             if (is_locally_controlled__10TObjPlayerFPv(this) != 0) {
-                TObjPlayer::calc_circle_offset_pos(this->rotation_y + 0x8000, (void *)this->get_position_ptr(), &sp8, 10.0f);
+                calc_circle_offset_pos(this->rotation_y + 0x8000, (Vec *)this->get_position_ptr(), (Vec *)&sp8, 10.0f);
                 send_6x3e_to_all_players__10TNpcPlayerFPvs(&sp8, this->rotation_y);
                 reset_cameras_to_actor(this, 1);
             }
@@ -4114,7 +4115,7 @@ void TObjPlayer::exit_photon_blast_action() {
 
 void TObjPlayer::update_photon_blast_action() {
     u8 *arg0 = (u8 *)this;
-  this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__10TObjPlayerFUsUs)((int) (this->rotation_y), (int) (*((s32 *) (((s8 *) arg0) + 0x3F0))));
+  this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__Fll)((int) (this->rotation_y), (int) (*((s32 *) (((s8 *) arg0) + 0x3F0))));
   switch (this->phase)
   {
     case 2:
@@ -4194,7 +4195,7 @@ void TObjPlayer::enter_photon_blast_action() {
         *(s32 *)(arg0 + 0x3F0) = *(s32 *)(arg0 + 0x60);
     } else {
         slot = (Slot_801CC558 *)((TObjPlayer *)(arg0 + 0x744))->get_field4_ptr();
-        *(s32 *)(arg0 + 0x3F0) = ((TObjPlayer *)(((TObjPlayer *)arg0)->get_position_ptr()))->calc_angle_to(slot);
+        *(s32 *)(arg0 + 0x3F0) = calc_angle_to((Vec *)(((TObjPlayer *)arg0)->get_position_ptr()), (Vec *)slot);
     }
     ((s32 (*)(void *, s32))obj_setFlags30)(arg0, 0x400000);
     TObjPlayer__sub_8001053C(arg0);
@@ -4539,7 +4540,7 @@ void TObjPlayer::update_technique_cast() {
     s32 temp_r30;
     u8 temp_r31;
     u8 *temp_r3;
-    this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__10TObjPlayerFUsUs)((int) (this->rotation_y), (int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
+    this->rotation_y = ((s32 (*)(int, int))lerp_angle_half__Fll)((int) (this->rotation_y), (int) (*(s32 *)((s8 *)arg0 + 0x3F0)));
     temp_r3 = (u8 *)(TObjPlayer__sub_801D8DCC((TObjPlayer *)arg0));
     temp_r0 = this->phase;
     switch (temp_r0) {
@@ -4613,7 +4614,7 @@ void TObjPlayer::enter_technique_cast() {
             td->target = 0xFFFF;
         } else {
             ((void (*)(void *, void *))copy_position__10TObjPlayerFPv)(self->f744, o->nodes[td->node].pos);
-            self->f3f0 = ((TObjPlayer *)(((TObjPlayer *)self)->get_position_ptr()))->calc_angle_to(((TObjPlayer *)(self->f744))->get_field4_ptr());
+            self->f3f0 = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)((TObjPlayer *)(self->f744))->get_field4_ptr());
         }
     }
     obj_setFlags30(self, 0x400000);
@@ -4781,7 +4782,7 @@ void TObjPlayer::send_attack_stage3_request() {
         temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
         if (temp_r3 != NULL) {
             position = ((TObjPlayer *)arg0)->get_position_ptr();
-            var_r4 = ((TObjPlayer *)position)->calc_angle_to(&((Rec_801CDBA0 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
+            var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDBA0 *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
         } else {
             var_r4 = this->rotation_y;
         }
@@ -4904,7 +4905,7 @@ void TObjPlayer::send_attack_stage2_request() {
         temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)temp_r4 + 0x508), *(s16 *)((s8 *)temp_r4 + 0x50A)));
         if (temp_r3 != NULL) {
             position = ((TObjPlayer *)arg0)->get_position_ptr();
-            var_r4 = ((TObjPlayer *)position)->calc_angle_to(&((Rec_801CDF9C *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
+            var_r4 = calc_angle_to((Vec *)position, (Vec *)&((Rec_801CDF9C *)(*(u8 **)((s8 *)temp_r3 + 0xA4)))[*(s16 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x424)) + 0x50A)].pos);
         } else {
             var_r4 = this->rotation_y;
         }
@@ -5316,7 +5317,7 @@ void TObjPlayer::update_anim_action() {
 void update_action_state__10TObjPlayerFPv(u8 *player) {
     s32 temp_r31;
 
-    ((TObjPlayer *)player)->rotation_y = lerp_angle_half__10TObjPlayerFUsUs(((TObjPlayer *)player)->rotation_y, *(s32 *)((s8 *)player + 0x3F0));
+    ((TObjPlayer *)player)->rotation_y = lerp_angle_half__Fll(((TObjPlayer *)player)->rotation_y, *(s32 *)((s8 *)player + 0x3F0));
     switch (((TObjPlayer *)player)->phase) {
     case 0:
         ((TObjPlayer *)player)->start_attack_preparation();
@@ -5393,7 +5394,7 @@ void TObjPlayer::request_normal_attack_stage1() {
     s32 var_r4;
     if ((reset_volopt_state__10TObjPlayerFv(arg0) != 0) && (((u32 (*)(void *, void *))capture_lockon_targets)((void *) (arg0 + 0x7CC), (void *) (arg0)) != 0U)) {
         if (((s32 (*)(void *, void *))get_first_target_position__10TObjPlayerFPvPv)((void *) (arg0 + 0x7CC), (void *) (&sp10)) != 0) {
-            var_r4 = ((TObjPlayer *)(((TObjPlayer *)arg0)->get_position_ptr()))->calc_angle_to(sp10);
+            var_r4 = calc_angle_to((Vec *)(((TObjPlayer *)arg0)->get_position_ptr()), (Vec *)sp10);
         } else {
             var_r4 = ((TObjPlayer *)arg0)->rotation_y;
         }
@@ -5508,9 +5509,9 @@ void TObjPlayer::update_run_movement() {
     s32 ang;
     f32 dist;
     Plr_801CF56C *self = (Plr_801CF56C *)this;
-    self->target_rot = ((TObjPlayer *)(((TObjPlayer *)self)->get_position_ptr()))->calc_angle_to(&self->tx);
+    self->target_rot = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)&self->tx);
     self->rot = approach_angle_adaptive(self->rot, self->target_rot);
-    ang = lerp_angle_half__10TObjPlayerFUsUs(self->rot, self->target_rot);
+    ang = lerp_angle_half__Fll(self->rot, self->target_rot);
     self->vx = TObjPlayer__sub_801BF814(self->motion) * sin_table_lookup(ang);
     self->vy = TObjPlayer__data_805DC36C;
     self->vz = TObjPlayer__sub_801BF814(self->motion) * cos_table_lookup(ang);
@@ -5786,9 +5787,9 @@ void TObjPlayer::update_walk_movement() {
     s32 ang;
     f32 dist;
     Plr_801CFDF8 *self = (Plr_801CFDF8 *)this;
-    self->target_rot = ((TObjPlayer *)(((TObjPlayer *)self)->get_position_ptr()))->calc_angle_to(&self->tx);
+    self->target_rot = calc_angle_to((Vec *)(((TObjPlayer *)self)->get_position_ptr()), (Vec *)&self->tx);
     self->rot = approach_angle_adaptive(self->rot, self->target_rot);
-    ang = lerp_angle_half__10TObjPlayerFUsUs(self->rot, self->target_rot);
+    ang = lerp_angle_half__Fll(self->rot, self->target_rot);
     self->vx = TObjPlayer__sub_801BF814(self->motion) * sin_table_lookup(ang);
     self->vy = TObjPlayer__data_805DC36C;
     self->vz = TObjPlayer__sub_801BF814(self->motion) * cos_table_lookup(ang);

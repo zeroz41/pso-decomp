@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct Quad_80320EF0 {
     f32 x0, y0, x1, y1;

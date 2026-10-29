@@ -6,15 +6,15 @@
 #include "pso/math/MatrixVector.h"
 #include "pso/misc/TDeadSpot.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_801418C4.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
+
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804949D8.h"
 #include "pso/misc/TUnk_804949F4.h"
 #include "types.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 class TDeadSpot : public TObject {
 public:
     virtual ~TDeadSpot();
@@ -122,7 +122,6 @@ extern const f32 lbl_805DA3B0;
 extern const f32 lbl_805DA3B4;
 extern const f32 lbl_805DA3B8;
 Mark_800D8314 *__ct__9TDeadSpotFv(Mark_800D8314 *self, void *parent, Vec_800D8314 *point, void *texture, s32 selector, s32 delay, f32 maxScale);
-f32 horizontal_distance_squared(void *, s32);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __dt__9TDeadSpotFv(void *, int);
@@ -286,7 +285,7 @@ Obj_800D80E4 *init_corner_vertices__9TDeadSpotFPv(Obj_800D80E4 *arg0, void * par
 #pragma pop
 
 void render__9TDeadSpotFv(u8 *arg0) {
-    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > TDeadSpot__data_805DA38C) && (horizontal_distance_squared(arg0 + 0x7C, camera_ctrl_instance + 0x178) < lbl_805DA39C)) {
+    if ((TMainTask::get_render_pass() != 1) && (*(f32 *)((s8 *)arg0 + 0xC4) > TDeadSpot__data_805DA38C) && (horizontal_distance_squared((const Vec *)(arg0 + 0x7C), (const Vec *)(camera_ctrl_instance + 0x178)) < lbl_805DA39C)) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         setup_alpha_test_render_state(0x8F);

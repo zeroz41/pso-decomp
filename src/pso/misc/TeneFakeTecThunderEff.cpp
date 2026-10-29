@@ -9,7 +9,7 @@
 #include "pso/misc/TWindowDD.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_800A4204_lbl_80490A18 {
     s32 value;
@@ -71,7 +71,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__21TeneFakeTecThunderEff[];
 extern s32 lbl_805D29E0;
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
-extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 sin_table_lookup(s32);
@@ -352,7 +351,7 @@ void TeneFakeTecThunderEff::render() {
     p[1].color = color;
     set_additive_blend();
     ((TWindowDD *)verts)->draw_transformed_primitive((void*)(this->m_38 * 2), (void*)TObjPlayer__effect_count, (void*)1);
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     model_render_flags = saved_model_render_flags;
 }
 #pragma pop

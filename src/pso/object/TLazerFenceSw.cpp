@@ -3,10 +3,10 @@
 #include "pso/TMainTask.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MaterialAlphaCompare.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/object/TObjDoorJung.h"
 #include "pso/misc/CameraDistanceFade.h"
 #include "pso/object/TObjMotion.h"
@@ -188,7 +188,7 @@ void TLazerFenceSw::render() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_18_26a62c *)(arg0))->m8(4e+02f, 2e+01f) != 0) {
         if (TMainTask::get_render_pass() != 1) {
-            set_depth_buffer_settings_id(3);
+            set_draw_list_mask(3);
             set_material_alpha_compare_reference(0x80);
             if (((CameraDistanceFade *)(arg0 + 0xF0))->update_visibility(&this->position) != 0) {
                 if (((CameraDistanceFade *)(arg0 + 0xF0))->is_translucent() != 0) {

@@ -12,7 +12,7 @@
 #include "pso/TTecZondeEff.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 extern "C" {
 extern const char TObjEneMe1Canadin_EffLine__class_name[];
 extern const char TObjEneMe1Canadin_EffDischarge__class_name[];

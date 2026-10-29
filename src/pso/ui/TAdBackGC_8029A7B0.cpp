@@ -1,8 +1,8 @@
 #include "pso/TAdBackGC.h"
 #include "pso/system/ModelDrawContext.h"
 #include "pso/ui/TAdBackGC_8029A7B0.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 
 #include "types.h"
 #include "pso/TMainTask.h"

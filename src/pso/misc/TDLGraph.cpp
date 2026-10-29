@@ -4,7 +4,7 @@
 #include "pso/misc/TDLGraph.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_8007F77C___vt__8TDLGraph {
     s32 value;

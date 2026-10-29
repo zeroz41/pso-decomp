@@ -9,7 +9,7 @@
 #include "pso/misc/TShopEquipmentListWindow.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 

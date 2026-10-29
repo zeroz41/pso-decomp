@@ -24,7 +24,7 @@
 #include "pso/misc/TUnk_804EE470.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct Base_803357EC_8033573C { char pad[0x18]; };
 struct VObj_803357EC_8033573C : Base_803357EC_8033573C {

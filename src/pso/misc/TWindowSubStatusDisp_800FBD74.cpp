@@ -13,7 +13,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
     s32 value;

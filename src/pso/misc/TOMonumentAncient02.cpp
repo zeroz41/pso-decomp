@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
@@ -88,7 +89,7 @@ void TOMonumentAncient02::interact(s32 client) {
         player = get_player_by_client_id((u16)client);
         if (player != NULL) {
             object_state = 2;
-            player->start_camera_pan(0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
+            player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             if (access_object_saved_state(&state, 1) != 0) {
                 state = object_state;
                 access_object_saved_state(&state, 0);

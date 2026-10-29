@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/ModelDrawContext.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/ui/TUnk_804E0B28.h"
 
 #include "types.h"

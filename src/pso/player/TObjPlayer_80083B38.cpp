@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_80083CEC_lbl_8048E5D0 {
     s32 value;
@@ -66,7 +66,6 @@ void TObjPlayer__sub_80084780(void);
 void **release_texture_list();
 extern s32 lbl_8048E5C8[];
 void **TObjPlayer__sub_80083F04(void);
-f32 horizontal_distance_squared(void *, void *);
 extern RecoveredGlobal_80083CEC_lbl_8048E5D0 shadow_light_position;
 extern u32 camera_ctrl_instance;
 extern const f32 lbl_805D9434;
@@ -159,7 +158,7 @@ void end_shadow_map_pass() {
         pop_matrix();
         GXColor_80083B8C c = lbl_805E120C;
         Dolphin_GXSetCopyFilter((int) (0U), NULL, (int) (0U), NULL);
-        TObjFish::set_cull_none();
+        set_cull_none();
         GXSetCopyClear(c, 0xFFFFFF);
         GXSetTexCopySrc(0, 0, 0x100, 0x100);
         GXSetTexCopyDst(0x100, 0x100, 2, 0);
@@ -179,7 +178,7 @@ void end_shadow_map_pass() {
 }
 
 s32 is_in_shadow_range(u8 *arg0, f32 farg0) {
-    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared(arg0, &shadow_light_position.value)) <= lbl_805D9434)) {
+    if (((u32) camera_ctrl_instance != 0U) && (((farg0 * farg0) + horizontal_distance_squared((const Vec *)arg0, (const Vec *)&shadow_light_position.value)) <= lbl_805D9434)) {
         return 1;
     }
     return 0;

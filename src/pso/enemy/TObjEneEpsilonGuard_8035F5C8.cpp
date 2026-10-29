@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
 #include "pso/unk/TObjEneEpsilonBody.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct SubBase { char pad[0x14]; };
 
@@ -507,7 +507,6 @@ u32 csnVector(void *, void *, s32);
 s16 obj_getS16_118(u8 *p);
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
-f32 horizontal_distance_squared(void *, void *);
 s32 project_actor_to_ground(void *, void *, s32);
 void *get_player_by_client_id(s32 i);
 void *__nw__7TObjectFUl(u32);
@@ -1531,7 +1530,7 @@ void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
                 play_sound_effect(0x4003A348, arg0 + 0x38, 0, 0);
                 for (i = 0; i < 4; i++) {
                     p = (u8 *)get_player_by_client_id(i);
-                    if (p != 0 && horizontal_distance_squared(p + 0x38, d) <= lbl_805E0234) {
+                    if (p != 0 && horizontal_distance_squared((const Vec *)(p + 0x38), (const Vec *)d) <= lbl_805E0234) {
                         Dmg_803616E4 t;
                         t.a = 1;
                         t.b = *(f32 *)(GP + 8);

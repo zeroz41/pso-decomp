@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
@@ -90,7 +90,6 @@ extern "C" {
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80196D50___vt__16TObjQuestColBase __vt__16TObjQuestColBase;
 extern s32 TObjQuestColBase__instance_count;
-extern const NJS_ARGB lbl_804A7438;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
@@ -114,7 +113,7 @@ s32 TObjQuestColBase::is_within_range(f32 farg0) {
 void TObjQuestColBase::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
-        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, lbl_805DBF00 * *(f32 *)&this->unk_AC);
+        debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
     }
 }
 

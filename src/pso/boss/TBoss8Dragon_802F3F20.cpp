@@ -4,7 +4,7 @@
 #include "pso/boss/TBoss8Dragon_802F3F20.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/MaterialAlphaCompare.h"
-#include "pso/unk/text_801414B0.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
@@ -150,7 +150,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
         scale_current_matrix((void *) (((u8 *)this) + 0x68));
         TObjPlayer::toggle_particle_effect();
         if (this->m_3c0 & 0x80) {
-            fn_801414B0(3, 3, 3, 3);
+            set_tev_swap_channels(3, 3, 3, 3);
         }
         if (has_enough_enemies__12TBoss8DragonFv() != 0) {
             this->m_34 = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TBoss8Dragon__data_805D6988 + 0x42C)) + 0x18);
@@ -158,7 +158,7 @@ void TBoss8Dragon::draw_with_fade(s32 arg1, s32 arg2) {
             this->m_34 = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TBoss8Dragon__data_805D6988 + 0x42C)) + 8);
         }
         ((TObjMotion *)((u8 *)this))->draw();
-        TObjPlayer::setup_tev_swap();
+        init_tev_swap();
         TParticleCtrl::end_effect_render();
         TObjLight__sub_801337F8((void *)current_scene_light);
         pop_matrix();

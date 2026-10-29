@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
@@ -39,7 +39,7 @@ void TOSwitchTimer::render() {
         color.r = 0.6f;
         color.g = 0.3f;
         color.b = 0.0f;
-        TObjRoomId__sub_80141CF4(&position, &color, 10.0f);
+        debug_draw_sphere(&position, &color, 10.0f);
     }
 }
 

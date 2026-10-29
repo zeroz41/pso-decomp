@@ -7,7 +7,7 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_801FA964_lbl_804C8784 {
     s32 value;
@@ -362,7 +362,6 @@ void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void push_matrix(void);
 void draw_ginja_model(s32);
 void set_chunk_material_override_pair(s32, s32);
-extern u8 chunk_material_color_half_alpha_f32[];
 extern Color_801FAAEC radar_map_backdrop_color;
 extern u8 saved_model_draw_color[];
 extern u8 model_material_color[];
@@ -924,7 +923,7 @@ void TRaderMapCore::draw_enemy_gate_markers() {
         }
         pop_matrix();
     }
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
     copy_argb((NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8058D4C0 *)&model_material_color).value), (NJS_ARGB *)(&(*(RecoveredGlobal_801FA1E0_lbl_8050BEC0 *)&saved_model_draw_color).value));
@@ -953,7 +952,7 @@ void TRaderMapCore::draw_player_markers() {
             scale_matrix(0, *(f32 *)((s8 *)var_r31 + 0x10), *(f32 *)((s8 *)var_r31 + 0x10), *(f32 *)((s8 *)var_r31 + 0x10));
             draw_ginja_object(this->m_178);
             pop_matrix();
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
         }
         var_r30 += 1;
         var_r31 = (var_r31 + 0x28);
@@ -1177,7 +1176,7 @@ void TRaderMapCore::render_region_records(void * _w1) {
             rotate_matrix_zyx(0, r->rx, r->ry, r->rz);
             draw_ginja_model(r->model->obj);
             pop_matrix();
-            set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+            set_constant_material(&chunk_material_color_half_alpha_f32);
         }
     }
     }

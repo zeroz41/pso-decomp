@@ -574,11 +574,6 @@ struct TObjPlayer : public TObjChara {
     void *initialize_effect_object();
     void handle_container_state_3();
     void set_temp_flag10_and_update();
-    static void setup_tev_swap();
-    static void set_tev_swap_mode(u8 arg0);
-    s32 calc_angle_to(void *arg1);
-    static u16 lerp_angle_half(u16 arg0, u16 arg1);
-    static s32 is_in_range(f32 farg0);
     void draw_model();
     void draw_if_visible();
     static void apply_status_effect(s32 a);
@@ -1329,8 +1324,6 @@ struct TObjPlayer : public TObjChara {
     u16 get_uid();
     static u32 spawn_shot_effect(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
     void clear_rico_ring_flag();
-    static void calc_direction_vector(s32 arg0, void *arg1, f32 farg0);
-    static void calc_circle_offset_pos(s32 arg0, void *arg1, void *arg2, f32 farg0);
     static void start_photon_blast(s32 arg0, u16 arg1);
     s32 init_arrays();
     s32 get_card_window_field_244();
@@ -1605,8 +1598,6 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_effect_object(s32 arg0);
     static u8 *create_fields_state(s32 arg0);
     static u8 *create_state_35_alt(s32 arg0);
-    static void init_default_config();
-    void copy_config(void* q);
     static bool is_slot_within_limit(s32 arg0, s32 arg1, u8 arg2);
     s32 can_use_camera_field();
     void init_parts();

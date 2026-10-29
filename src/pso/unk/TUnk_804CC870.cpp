@@ -4,9 +4,9 @@
 #include "pso/map/FloorArea.h"
 #include "pso/effect/TEffect.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/unk/TUnk_804CC870.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
@@ -262,7 +262,7 @@ void TUnk_804CC870::render() {
     saved_model_render_flags = id;
     model_render_flags = id | 0x10;
     ((void (*)(void *, s32))set_constant_material)(arg0->f38, id);
-    set_depth_buffer_settings_id(3);
+    set_draw_list_mask(3);
     TParticleCtrl::begin_effect_render();
     push_matrix();
     post_translate_matrix(arg0->f20);

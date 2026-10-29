@@ -7,7 +7,7 @@
 #include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/object/TObjVoloptCage.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjChara.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"

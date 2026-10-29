@@ -6,7 +6,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct Ent_8024D520 { void *obj; u8 pad[0x18]; };
 

@@ -1,19 +1,10 @@
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
 #include "pso/THeap.h"
-#include "pso/misc/TPlyPhotonChair_80142524.h"
-#include "pso/system/THeap.h"
 #include <string.h>
 
 THeap *obj_heap;
 THeap *alt_heap;
-
-#include "types.h"
-struct V3_801412D0 { f32 x, y, z; };
-
-extern "C" {
-s32 calc_triangle_normal__10TObjPlayerFPvPv(V3_801412D0 *v, V3_801412D0 *out);
-}
 
 void xfree(void *ptr);
 
@@ -111,54 +102,10 @@ THeap::THeap(size_t size, int alignment) {
     }
 }
 
-#include "pso/player/TObjPlayer.h"
-
-extern "C" {
-
-s32 xfree__FPv();
-s32 xmalloc__FUl();
-
-void __dl__5THeapFPv(void) {
-    xfree__FPv();
+void THeap::operator delete(void *ptr) {
+    xfree(ptr);
 }
 
-void __nw__5THeapFUl(void) {
-    xmalloc__FUl();
-}
-
-#pragma push
-#pragma fp_contract on
-s32 calc_triangle_normal__10TObjPlayerFPvPv(V3_801412D0 *v, V3_801412D0 *out) {
-    V3_801412D0 a;
-    V3_801412D0 b;
-    V3_801412D0 n;
-    f32 sq;
-    f32 len;
-    a.x = v[1].x - v[0].x;
-    a.y = v[1].y - v[0].y;
-    a.z = v[1].z - v[0].z;
-    b.x = v[2].x - v[0].x;
-    b.y = v[2].y - v[0].y;
-    b.z = v[2].z - v[0].z;
-    n.x = a.y * b.z - a.z * b.y;
-    n.y = a.z * b.x - a.x * b.z;
-    n.z = a.x * b.y - a.y * b.x;
-    sq = n.x * n.x + n.y * n.y + n.z * n.z;
-    if (TObjPlayer::is_in_range(sq) != 0) {
-        return 0;
-    }
-    len = TPlyPhotonChair__sub_80142624(sq);
-    out->x = n.x / len;
-    out->y = n.y / len;
-    out->z = n.z / len;
-    return 1;
-}
-}
-#pragma pop
-
-u32 calc_gx_tile_index(u32 x, u32 y, s16 w) {
-    u32 r = ((x >> 2) << 4) + (x & 3);
-    r += ((y >> 2) * w) << 2;
-    r += (y & 3) << 2;
-    return r;
+void *THeap::operator new(size_t size) {
+    return xmalloc(size);
 }

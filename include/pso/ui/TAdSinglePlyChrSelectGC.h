@@ -31,7 +31,6 @@ struct TAdSinglePlyChrSelectGC : public TObject {
     s32 copy_default_and_get_state();
     static s32 send_atx_command(s32 arg0);
     static s32 send_modem_hangup(s32 arg0);
-    void get_current_date_stamp();
     static void free_singleton_805D65C0();
     static u8 check_slot_flags(s32 arg0, u32 arg1);
     void cleanup();

@@ -7,9 +7,9 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_8002C190.h"
 #include "pso/unk/text_8002E174.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/render/depth_buffer.h"
+
 
 #include "pso/misc/TLobby.h"
 #include "pso/TMainTask.h"
@@ -73,7 +73,7 @@ void render__14TObjBoss1FloorFv(void) {
         end_effect_render__13TParticleCtrlFv(temp_r3);
         push_matrix();
         model_render_flags = 1;
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         TObjPlayer::draw_if_all_ready();
         TObjFish::set_global_param(dragon_common_texture_list);
         temp_r31 = (unsigned char *) (*(void **)((s8 *)(*(void **)((s8 *)lbl_805D4B50 + 0x42C)) + 0x58));

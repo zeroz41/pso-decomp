@@ -2,8 +2,8 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/system/ModelDrawContext.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/enemy/TObjEneDD_ST.h"
 
 /* Ninja chunk strips, model and object used to override the material of the next drawn model. */

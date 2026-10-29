@@ -1511,7 +1511,7 @@ void TLobby__sub_8001FE7C(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 s32 *__dt__11TBoss4Type3FPvs(s32 *arg0, s16 arg1);
 void mem_free(void*);
-s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
+s32 lerp_angle_half__Fll(s32, s32);
 s32 obj_setFlags30(void *, int);
 
 void TObjEneSaver::vfunc_59() {
@@ -1853,7 +1853,7 @@ void step_angle_clamped__10TObjPlayerFPvi(void *arg0, s32 arg1) {
     } else if (target_rot > 0x238E) {
         target_rot = 0x238E;
     }
-    *(s32 *)((s8 *)arg0 + 0x39C) = lerp_angle_half__10TObjPlayerFUsUs(*(s32 *)((s8 *)arg0 + 0x39C), target_rot);
+    *(s32 *)((s8 *)arg0 + 0x39C) = lerp_angle_half__Fll(*(s32 *)((s8 *)arg0 + 0x39C), target_rot);
 }
 
 extern void *tl_04;

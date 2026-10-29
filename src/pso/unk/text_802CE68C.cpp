@@ -112,8 +112,8 @@ extern RecoveredGlobal_802CE68C_lbl_8058D490 identity_matrix;
 extern s32 anim_model_matrix_array;
 s32 update_player_state__9TObjEneDDFv(void *, Vec_802CE740 *, int);
 }
-void restore_default_scene(void);
-void set_scene_override(u8 scene);
+void restore_alpha_ref(void);
+void set_alpha_ref_override(u8 scene);
 extern "C" {
 s32 push_matrix();
 extern Vec_802CE740 lbl_8047249C;
@@ -187,9 +187,9 @@ void TObjEneBm9Mericarol::draw_color_variant() {
         rotate_matrix_y(0, this->rotation_y);
         TObjEneDD::clear_global_flag_400();
         TObjPlayer::toggle_particle_effect();
-        set_scene_override(0);
+        set_alpha_ref_override(0);
         draw_chunk_object((void *)(*(s32 *)&this->model));
-        restore_default_scene();
+        restore_alpha_ref();
         TParticleCtrl::end_effect_render();
         pop_matrix();
         if (*(s32 *)&this->variant == 1 || *(s32 *)&this->variant == 2) {
@@ -266,7 +266,7 @@ void TObjEneBm9Mericarol::render() {
     push_matrix();
     post_translate_matrix(self->pos);
     rotate_matrix_y(0, self->f60);
-    set_scene_override(0);
+    set_alpha_ref_override(0);
     TObjEneDD::clear_global_flag_400();
     translate_matrix(0, lbl_805DE70C, self->f43C, lbl_805DE70C);
     lbl_805D686C = 0;
@@ -308,7 +308,7 @@ void TObjEneBm9Mericarol::render() {
         self->f34->n2C->n30->n30->n4->n4->fA = saved;
     }
     TParticleCtrl::end_effect_render();
-    restore_default_scene();
+    restore_alpha_ref();
     pop_matrix();
     model_render_flags = saved_model_render_flags;
     ((TObjEneDD *)((u8 *)this))->update_primary_light();

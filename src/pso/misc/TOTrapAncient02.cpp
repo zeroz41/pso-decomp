@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TMainTask.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
@@ -16,7 +16,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 
 #include "pso/misc/TTecZonde.h"
@@ -97,7 +97,6 @@ u16 find_nearest_visible_player(void *, int, f32);
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
 void *spawn_particle_effect(void *pos, s32 id);
-f32 horizontal_distance_squared(void *, void *);
 f32 get_collision_body_radius(void *, s32);
 void submit_cursor_candidate(void *, s32);
 void *get_player_by_client_id(s32 i);
@@ -673,7 +672,7 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
             o->target = p;
             if (o->target != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
                 (o->target->f2E == o->f2E || o->target->f28 == o->f28 || o->target->f28 == o->f2E)) {
-                d = horizontal_distance_squared(&o->target->pos, &o->pos);
+                d = horizontal_distance_squared((const Vec *)&o->target->pos, (const Vec *)&o->pos);
                 o->f338 = o->range + get_collision_body_radius(o->target, 0);
                 if (d < o->f338 * o->f338) {
                     o->mode = 3;
@@ -770,7 +769,7 @@ void TOTrapAncient02R::find_target_player() {
         if (this->player != 0xFFFF) {
             this->target = (u8 *)get_player_by_client_id(this->player);
             if (this->target != NULL) {
-                if (horizontal_distance_squared(this->target + 0x38, self->pos) < this->range * this->range) {
+                if (horizontal_distance_squared((const Vec *)(this->target + 0x38), (const Vec *)self->pos) < this->range * this->range) {
                     this->mode = 2;
                 }
             } else {
@@ -1017,7 +1016,7 @@ void TOTrapAncient02::vfunc_81() {
             p = (void *)get_player_by_client_id((self->player));
             self->target = (u8 *)p;
             if (self->target != NULL) {
-                d = horizontal_distance_squared((u8 *)self->target + 0x38, &self->position);
+                d = horizontal_distance_squared((const Vec *)((u8 *)self->target + 0x38), (const Vec *)&self->position);
                 self->dist = self->range - TObjPlayer__sub_8017A1A4(p, 0);
                 if (d < self->dist * self->dist) {
                     if (self->player == local_client_id) {
@@ -1146,7 +1145,7 @@ void TOTrapAncient02::render() {
     if (TMainTask::get_render_pass() != 1) {
         this->m_340 = ((V_B_8017AC98 *) this)->m8(lbl_805DBAA4, lbl_805DBA94);
         if (((s32) this->m_340 == 1) && (((s32) this->m_358 == 0) || (is_split_screen() != 0) || (dispatch_input_to_instance__18TAdEnterPasswordGCFi(this) == 0))) {
-            set_depth_buffer_settings_id(3);
+            set_draw_list_mask(3);
             if ((s32) this->m_358 != 0) {
                 this->render_particle_chain();
             } else {

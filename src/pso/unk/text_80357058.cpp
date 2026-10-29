@@ -5,10 +5,10 @@
 #include "pso/object/TObjLight_803DF220.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_802E4A4C.h"
 #include "pso/unk/text_80357058.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/TParticleCtrl.h"
@@ -17,7 +17,7 @@
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/item/TItemAttackCol.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot { s32 value; u8 remaining[0x1C]; };
 typedef char RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot_size[sizeof(RecoveredGlobal_80357548___vt__20TItemEffOrgaFlowShot) == 0x20 ? 1 : -1];

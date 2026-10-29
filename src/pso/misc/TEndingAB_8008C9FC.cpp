@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/TEndingAB.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"

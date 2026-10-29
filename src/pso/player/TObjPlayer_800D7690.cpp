@@ -2,7 +2,7 @@
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 typedef struct Ent_800D76E8 {
     f32 ax, ay, az;

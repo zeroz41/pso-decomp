@@ -1,11 +1,11 @@
 #include "pso/item/TItemEffectWeapon.h"
 #include "pso/item/TItemEquipVariant_8012A82C.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 #pragma readonly_strings on
 const char *TItemEffectWeapon__class_name = "TItemEffectWeapon";

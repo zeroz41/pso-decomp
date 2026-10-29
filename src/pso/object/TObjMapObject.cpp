@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjFish.h"
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"
@@ -44,7 +44,7 @@ s32 TObjMapObject::is_any_player_within_radius_xz(f32 radius_sq) {
         player = TObjPlayer::get_player_data(slot);
         if (player != NULL && get_entity_id(player) < 0x1000) {
             if (player->get_field_3e4() == get_current_floor() &&
-                horizontal_distance_squared(&position, &player->position) < radius_sq) {
+                horizontal_distance_squared((const Vec *)&position, (const Vec *)&player->position) < radius_sq) {
                 return 1;
             }
         }

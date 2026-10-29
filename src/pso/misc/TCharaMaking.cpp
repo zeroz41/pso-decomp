@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjCMMainMenu_8028EA88.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/misc/CharacterAppearance.h"
 #include "pso/system/ChunkMaterialState.h"
@@ -312,9 +312,9 @@ s32 validate_player_visual_record(void *arg0) {
     return ok;
 }
 
-void TCharaMaking::clear_flag_bit0() { restore_default_scene(); model_render_flags = (model_render_flags & 0xfffffffe); }
+void TCharaMaking::clear_flag_bit0() { restore_alpha_ref(); model_render_flags = (model_render_flags & 0xfffffffe); }
 
-void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_scene_override((u8)((void*)31)); }
+void TCharaMaking::enable_making() { model_render_flags = (model_render_flags | 0x1); set_alpha_ref_override((u8)((void*)31)); }
 typedef struct Appearance Appearance;
 typedef struct ClassAppearance ClassAppearance;
 typedef struct TextureList TextureList;

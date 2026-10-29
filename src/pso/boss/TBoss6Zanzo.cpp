@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/system/memory.h"
 #include "pso/boss/TBoss6Zanzo.h"
 #include "pso/boss/TBoss6Type1.h"

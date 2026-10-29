@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TMainTask.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOTrap.h"
 #include "pso/player/TObjPlayer.h"
@@ -13,7 +13,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 
 #include "pso/object/TObjDoorJung.h"
@@ -177,7 +177,6 @@ extern "C" {
 s32 submit_cursor_candidate(void *, int);
 void vfunc_82__14TOTrapSeabed01Fv(u8 *arg0);
 u16 find_nearest_visible_player(void *, int, f32);
-f32 horizontal_distance_squared(void *, void *);
 f32 TObjPlayer__sub_8017A1A4(int, int);
 s32 send_6x2C_impose_hold(int, void *, int, int, f32);
 void *get_player_by_client_id(s32 i);
@@ -276,7 +275,7 @@ void check_hold_player__14TOTrapSeabed01FPv(u8 *trap_seabed01) {
     ((TOTrapSeabed01 *)trap_seabed01)->player = find_nearest_visible_player(trap_seabed01, 0, (f32) (((TOTrapSeabed01 *)trap_seabed01)->range));
     id = ((TOTrapSeabed01 *)trap_seabed01)->player;
     if ((id != 0xFFFF) && (temp_r3 = (u32)get_player_by_client_id(id), *(u32 *)((s8 *)trap_seabed01 + 0x2A8) = temp_r3, temp_r3_2 = *(u32 *)((s8 *)trap_seabed01 + 0x2A8), ((temp_r3_2 == 0U) == 0))) {
-        temp_f31 = horizontal_distance_squared((void *)(temp_r3_2 + 0x38), (void *)(trap_seabed01 + 0x38));
+        temp_f31 = horizontal_distance_squared((const Vec *)((void *)(temp_r3_2 + 0x38)), (const Vec *)((void *)(trap_seabed01 + 0x38)));
         ((TOTrapSeabed01 *)trap_seabed01)->dist = (f32) (((TOTrapSeabed01 *)trap_seabed01)->dist - TObjPlayer__sub_8017A1A4(temp_r3, 0));
         temp_f0 = ((TOTrapSeabed01 *)trap_seabed01)->dist;
         if (temp_f31 < (temp_f0 * temp_f0)) {
@@ -390,13 +389,13 @@ void TOTrapSeabed01::render_effect_layers() {
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
     set_depth_buffer_settings_3();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), (s32)this->current_motion, this->frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), (s32)this->current_motion, this->frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
@@ -447,7 +446,7 @@ void TOTrapSeabed01::draw_object_tree(u8 *arg1) {
 void TOTrapSeabed01::draw() {
     if ((TRaderMapCore::is_not_split_screen() != 1) || ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x34C) == 0)) {
         set_depth_buffer_settings_3();
-        set_depth_buffer_settings_id(1);
+        set_draw_list_mask(1);
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(TOTrapSeabed01__texture_file);
         push_matrix();

@@ -190,7 +190,7 @@ s32 update_player_state__9TObjEneDDFv(void *, s32, s32);
 s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32, s32);
 Ene_800D17E8 *find_enemy_by_id__16TObjEneBm5GibonUFi(s32 id);
-s32 TObjMapWarp__sub_80141CB0(void *, void *, u32, u32);
+s32 debug_draw_line(void *, void *, u32, u32);
 s32 debug_printf_at(s32, const char *, ...);
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_y(s32, s32);
@@ -1883,12 +1883,12 @@ void TObjEneBm5GibonU::render_debug() {
     }
     other = ((s32)find_enemy_by_id__16TObjEneBm5GibonUFi(self->f46C));
     if (other != 0) {
-        TObjMapWarp__sub_80141CB0(&self->center, (void *)(other + 0x2FC), 0xFFC0C0C0, 0xFF6060FF);
+        debug_draw_line(&self->center, (void *)(other + 0x2FC), 0xFFC0C0C0, 0xFF6060FF);
         return;
     }
     VecCopy((Vec *)&v, (const Vec *)&self->center);
     v.y += 50.0f;
-    TObjMapWarp__sub_80141CB0(&self->center, &v, 0xFFC0C0C0, 0xFF6060FF);
+    debug_draw_line(&self->center, &v, 0xFFC0C0C0, 0xFF6060FF);
 }
 
 s32 TObjEneBm5GibonU::vfunc_83() {

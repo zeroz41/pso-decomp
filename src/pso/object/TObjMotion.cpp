@@ -5,7 +5,7 @@
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/misc/TUnk_804A7478.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ModelDrawContext.h"
 #include "pso/unk/text_803E2D70.h"

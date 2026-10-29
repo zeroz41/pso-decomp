@@ -180,7 +180,7 @@ extern const f32 lbl_805DBA64;
 extern const f32 lbl_805DBA68;
 void render__15TOTrapAncient01Fv(Trap_80179B8C *self);
 void TLobby__sub_8001FE7C(void*, int);
-void TOTrapAncient02R__sub_80141CF0(void *, void *, void *);
+void fn_80141CF0(void *, void *, void *);
 void TOTrapAncient02R__sub_80154D78(void *);
 void *__nw__7TObjectFUl(int);
 s32 is_current_room(void *);
@@ -485,7 +485,7 @@ void TOTrapAncient02R::vfunc_86() {
     s32 x;
     x = is_current_room(this);
     if (x == 1) {
-        TOTrapAncient02R__sub_80141CF0((void *)((char *)this + 80), scratch_vec, trap_ancient_light_color);
+        fn_80141CF0((void *)((char *)this + 80), scratch_vec, trap_ancient_light_color);
         TOTrapAncient02R__sub_80154D78(this);
     }
 }

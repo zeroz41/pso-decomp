@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_8023601C.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
@@ -20,11 +21,11 @@ s32 push_matrix();
 
 void TMainCursor::update_chair() {
     struct VOff_8013B524_arg0_8013B524 *self = (struct VOff_8013B524_arg0_8013B524 *)this;
-    TPlyPhotonChair::update_parts2(self->f_4C);
-    ((TPlyPhotonChair *)(self->f_4C))->play_sound();
+    save_model_draw_state(self->f_4C);
+    begin_constant_color_draw_self((NJS_ARGB *)(self->f_4C));
     TMainCursor__sub_8013E2DC();
     draw_chunk_object();
-    TPlyPhotonChair::update_parts(self->f_4C);
+    restore_model_draw_state(self->f_4C);
 }
 
 extern u8 *camera_ctrl_instance;

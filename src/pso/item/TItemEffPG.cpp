@@ -12,7 +12,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804F0AF8.h"
 #include "pso/item/TUnk_804F0C08.h"
@@ -87,7 +87,7 @@ void TUnk_804F0BF0::render() {
     }
     {
         if (((void *) this->m_20 != NULL) && (get_render_pass__9TMainTaskFv() == 1)) {
-            set_depth_buffer_settings_id(3);
+            set_draw_list_mask(3);
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;

@@ -2,8 +2,8 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/ModelDrawContext.h"
 #include "pso/ui/TAdBackTxtGC.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/TObject.h"
 #include "pso/TAdBackTxtGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

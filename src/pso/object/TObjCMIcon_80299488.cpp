@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/ui/UISprite.h"
 #include "pso/object/TObjCMIcon_80299488.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/TObjCMIcon.h"
 #include "pso/object/TObjCMMainMenu.h"
 
@@ -109,7 +109,7 @@ void render__10TObjCMIconFv(s32 self) {
         keys[j] = k;
     }
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     x0 = cm_icon_screen_position[0] - TObjCMIcon__horizontal_scroll_offset;
     for (i = 0; i < 7; i++) {
         id = idx[i];

@@ -12,10 +12,10 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_801414B0.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct UV_8024503C { f32 u, v; };
 
@@ -482,7 +482,7 @@ void TWindowSubComCard__sub_802452DC(s32 texture) {
     }
     TLobby::reset_player_state();
     set_default_alpha_blend();
-    TObjPlayer::setup_tev_swap();
+    init_tev_swap();
 }
 
 }
@@ -565,7 +565,7 @@ void TWindowSubComCard__sub_802454E4(s32 texture) {
         return;
     }
     set_additive_blend();
-    fn_801414B0(3, 3, 3, 3);
+    set_tev_swap_channels(3, 3, 3, 3);
     TObjFish::set_global_param(lbl_805D63F0);
     set_texture_num(texture);
     TLobby__sub_803E2EE4(1);

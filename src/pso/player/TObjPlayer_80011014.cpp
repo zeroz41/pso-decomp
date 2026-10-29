@@ -903,7 +903,7 @@ s32 create_font_small_task_default_color(u32, s32, s32, s32, s32 *, s16);
 s32 create_damage_font__19TObjEneEpsilonGuardFllll(u32, s32, s32, s16);
 f32 horizontal_distance_squared(void *, void *);
 s32 angle_difference_abs(s32, s32);
-s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
+s32 lerp_angle_half__Fll(s32, s32);
 s32 approach_angle_limited(s32, s32, s32);
 void __dt__10TObjMotionFv(void *, int);
 void * find_entity_by_id(s32 id);
@@ -4273,7 +4273,7 @@ void enemy_turn_half_toward_dest(Obj_80018570 *self) {
     VecCopy__FP3VecPC3Vec((s32)&d, (s32)&self->dest);
     subtract_vector(&d, &self->pos);
     a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
-    self->angle = lerp_angle_half__10TObjPlayerFUsUs(self->angle, a);
+    self->angle = lerp_angle_half__Fll(self->angle, a);
     angle_difference_abs(self->angle, a);
 }
 

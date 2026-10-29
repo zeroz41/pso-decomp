@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TTecPlayerInfluence.h"
@@ -115,7 +115,7 @@ void TTecPlayerInfluence::render() {
     stack.spC = *(s32 *)((s8 *)&lbl_8044D8EC.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&lbl_8044D8EC.value + 8);
     approach_vector_in_place(&scale, (const Vec *)&stack.sp8, 2.7f);
-    TObjRoomId__sub_80141CF4((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
+    debug_draw_sphere((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
 }
 
 void TTecPlayerInfluence::tick_lifetime() {

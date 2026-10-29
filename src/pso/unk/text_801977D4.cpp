@@ -4,7 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/TObjRain.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 struct Vec_80197904 { f32 x, y, z; };
 
 struct Drop_80197904 {

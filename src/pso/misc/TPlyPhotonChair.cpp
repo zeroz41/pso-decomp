@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
@@ -177,21 +178,21 @@ void TPlyPhotonChair::render() {
         self->pos.z = out.z;
         copy_xyz(self->rot, (u8 *)pl + 0x5C);
         if (((TObjPlayer *)pl)->is_inactive() != 0) {
-            TPlyPhotonChair::update_parts2(self->parts);
+            save_model_draw_state(self->parts);
             TObjFish::set_global_param(self->x24);
             push_matrix();
             post_translate_matrix(&self->pos);
             rotate_matrix_y(0, self->x60);
             scale_current_matrix(self->x68);
             if (TMainTask::get_render_pass() != 0) {
-                TPlyPhotonChair::play_sound_with_arg(self->parts, &q);
+                begin_constant_color_draw(self->parts, (const NJS_ARGB *)&q);
                 self->a.s1();
             } else {
-                TPlyPhotonChair::play_sound_with_arg(self->parts, &q2);
+                begin_constant_color_draw(self->parts, (const NJS_ARGB *)&q2);
                 self->b.s1();
             }
             pop_matrix();
-            TPlyPhotonChair::update_parts(self->parts);
+            restore_model_draw_state(self->parts);
         }
     }
 }

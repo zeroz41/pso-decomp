@@ -347,7 +347,7 @@ s32 TObjEneMe3SinowZoa__sub_800D758C(void *);
 void TObjPlayer__sub_800D93C4(s32 point, s32 delay);
 void * __ct__11TObjControlFP7TObject(void *, void *);
 s32 angle_diff_s16(s32, s32);
-s32 lerp_angle_half__10TObjPlayerFUsUs(s32, s32);
+s32 lerp_angle_half__Fll(s32, s32);
 void mem_free(void*);
 s32 get_room__8TObjBaseFv(void *);
 void TObjEneGibbles__sub_802D7E3C(void);
@@ -2285,7 +2285,7 @@ void TObjEneGibbles::clamp_angle(s32 arg1) {
     } else if (target_rot > 0x238E) {
         target_rot = 0x238E;
     }
-    this->m_3bc = lerp_angle_half__10TObjPlayerFUsUs(this->m_3bc, target_rot);
+    this->m_3bc = lerp_angle_half__Fll(this->m_3bc, target_rot);
 }
 }
 

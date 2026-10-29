@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TOSwitchItem.h"
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/protocol/protocol_types.h"
@@ -111,7 +111,7 @@ void TOSwitchItem::render() {
         color.r = 0.3f;
         color.g = 0.3f;
         color.b = 0.0f;
-        TObjRoomId__sub_80141CF4(&position, &color, newton_sqrtf(range_sq));
+        debug_draw_sphere(&position, &color, newton_sqrtf(range_sq));
     }
 }
 

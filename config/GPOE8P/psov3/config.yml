@@ -1302,8 +1302,8 @@ force_active:
   - TPlyGuildCardTag__sub_8013ACA4
   - TPlyGuildCardTag__sub_801E0314
   - TPlyOnCreated__name
-  - TPlyPhotonChair__sub_8014270C
-  - TPlyPhotonChair__sub_80142720
+  - restore_chunk_polygon_masks__FPv
+  - save_chunk_polygon_masks__FPv
   - TPlyPhotonChair__sub_8035B56C
   - TQuestBgmCtrl__area_bgm_index
   - TQuestBgmCtrl__bgm_forced_flag
@@ -3795,8 +3795,8 @@ force_active:
   - copy_target_state__17TObjEneBm3FlyNestFPv
   - copy_udp_socket_event_record
   - copy_vec3__11TBoss6Type2Fii
-  - copy_vec4_forward__15TPlyPhotonChairFl
-  - copy_vec4_reverse__15TPlyPhotonChairFl
+  - restore_model_material_color__FPv
+  - save_model_material_color__FPv
   - copy_with_guild_card_tag__13TPlyRecvLoginFPl
   - countModelNodes__12TBoss1DragonFP15DragonModelNode
   - count_active_players__14TBoss4DarkFalzFv
@@ -11772,7 +11772,7 @@ force_active:
   - restorePosition__12TBoss1DragonFv
   - restoreTargetPosition__12TBoss1DragonFv
   - restore_actor_draw_lighting__FPCc
-  - restore_state__15TPlyPhotonChairFl
+  - restore_model_render_flags__FPv
   - resume_challenge_result_processing__FPv
   - retire_lobby_player__6TLobbyFii
   - retry_selection_value_table
@@ -12200,7 +12200,7 @@ force_active:
   - save_joint_matrix_callback__Fv
   - save_position__10TBoss2MineFv
   - save_position__10TObjPlayerFv
-  - save_state__15TPlyPhotonChairFl
+  - save_model_render_flags__FPv
   - saver_collision_body_part_table
   - scale_axis_value__16TKeyBoardControlFs
   - scale_by_const__10TBoss6TubeFf

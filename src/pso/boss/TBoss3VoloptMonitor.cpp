@@ -8,14 +8,14 @@
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/GinjaMaterialState.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_80141550.h"
+
 
 extern "C" {
 s32 play_sound_effect(s32 id, Vec *pos, s32 a2, s32 flags);
@@ -360,7 +360,7 @@ void TBoss3VoloptMonitor::render() {
         }
         volopt_monitor_screen.entries = &volopt_monitor_textures->entries[frame];
         TObjFish::set_global_param((s32)&volopt_monitor_screen);
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         push_matrix();
         model_render_flags &= ~0x400;
         rotate_matrix_y(NULL, rotation_y);

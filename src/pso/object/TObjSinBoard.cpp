@@ -36,7 +36,7 @@
 #include "pso/unk/TUnk_804B8E18.h"
 #include "pso/unk/TUnk_804B8E00.h"
 #include <stddef.h>
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_801982D4_lbl_804B8DAC { s32 value; u8 remaining[0x20]; };
 typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_801982D4_lbl_804B8DAC) == 0x24 ? 1 : -1];
@@ -704,7 +704,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-extern const f32 chunk_material_color_half_alpha_f32[];
 extern u32 blob_shadow_texture_list;
 void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *arg4, f32 farg0);
 
@@ -949,7 +948,7 @@ void TObjPlayer__sub_801994DC(s32 arg0, void *arg1, void *arg2, s32 arg3, void *
     fx.b = -5.0f;
     ((TObjPlayer *)(&fx))->draw_shadow_quad(0, 0x2E);
     TParticleCtrl::end_effect_render();
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     pop_matrix();
 }
 
@@ -1181,47 +1180,47 @@ void draw_model__8TObjFishFPv(u8 *arg0) {
         switch ((*(Glob_80199A44 *)&gogo_ball_configuration).kind) {
         case 0:
             TObjFish::set_global_param(lobby_gvm_texture_handles[0]);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 3));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 3));
-            TObjFish::set_cull_none();
+            set_cull_none();
             break;
         case 1:
             TObjFish::set_global_param(lobby_gvm_texture_handles[1]);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_none();
+            set_cull_none();
             break;
         case 2:
             TObjFish::set_global_param(lobby_gvm_texture_handles[2]);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_none();
+            set_cull_none();
             break;
         case 3:
             TObjFish::set_global_param(lobby_gvm_texture_handles[3]);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 0));
-            TObjFish::set_cull_none();
+            set_cull_none();
             break;
         case 6:
             TObjFish::set_global_param(lobby_gvm_texture_handles[6]);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 2));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((*(void**)&gogo_ball_bml_resource), 2));
-            TObjFish::set_cull_none();
+            set_cull_none();
             break;
         }
     }
-    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    set_constant_material(&chunk_material_color_half_alpha_f32);
     pop_matrices(1);
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
     chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;

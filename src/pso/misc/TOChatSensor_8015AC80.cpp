@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TOChatSensor.h"
@@ -134,7 +134,7 @@ void TOChatSensor::render() {
         color.a = lbl_805DB388;
         color.r = lbl_805DB388;
         color.b = color.g = lbl_805DB38C;
-        TObjRoomId__sub_80141CF4(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x9C)));
+        debug_draw_sphere(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x9C)));
     }
 }
 

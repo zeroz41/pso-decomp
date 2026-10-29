@@ -4,7 +4,7 @@
 #include "pso/TObjBoss8Piller.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
 u8 *get_enemy_entity(u16 arg0);

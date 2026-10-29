@@ -170,8 +170,8 @@ s32 refresh_and_send_entity_flags__9TObjEnemyFv(void *, s32);
 s32 TBoss8Dragon__sub_800BB7DC(void *);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 }
-void restore_default_scene(void);
-void set_scene_override(u8 scene);
+void restore_alpha_ref(void);
+void set_alpha_ref_override(u8 scene);
 void spawn_landing_dead_spot(s32 point, s32 delay);
 extern "C" {
 void *find_entity_by_id(u16 id);
@@ -236,13 +236,13 @@ void render__13TObjEneBm3FlyFv(VObj_800AFBF0 *o) {
         rotate_matrix_y(0, ((TObjEneBm3Fly *)o)->rotation_y);
         clear_global_flag_400__9TObjEneDDFv();
         toggle_particle_effect__10TObjPlayerFv();
-        set_scene_override(0x8F);
+        set_alpha_ref_override(0x8F);
         if (kind == 1) {
             ((TObjMotion *)o)->draw();
         } else {
             ((TObjEnemy *)o)->draw_motion_model();
         }
-        restore_default_scene();
+        restore_alpha_ref();
         end_effect_render__13TParticleCtrlFv();
         pop_matrix();
         ((TObjEneDD *)o)->update_primary_light();

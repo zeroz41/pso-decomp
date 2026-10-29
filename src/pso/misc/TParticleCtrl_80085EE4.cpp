@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
@@ -14,7 +14,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 
@@ -201,7 +201,7 @@ s32 post_translate_matrix(void *);
 s32 TParticleCtrl__sub_803E2A1C(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
-void fn_80141EB4(void);
+void set_inverse_alpha_blend(void);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 matrix_mult_vec(int, void *, void *);
@@ -213,7 +213,7 @@ void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-void setSpriteInverseColorBlend(void);
+void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
 extern "C" {
@@ -258,12 +258,12 @@ void TUnk_8048E778::draw_sprite_quad(s32 kind) {
     flags = lbl_804C5820[kind].flags;
     if (flags & 2) {
         if (flags & 4) {
-            fn_80141EB4();
+            set_inverse_alpha_blend();
         } else {
             set_default_alpha_blend();
         }
     } else if (flags & 4) {
-        setSpriteInverseColorBlend();
+        set_inverse_color_blend();
     } else {
         set_additive_blend();
     }

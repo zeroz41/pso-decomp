@@ -6,7 +6,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct QuadSpriteNode {
     QuadSpriteNode *next;
@@ -111,12 +111,12 @@ void TQuadSpriteSclColRot::render() {
     flags = ((QuadSpriteDesc *)m_28)->flags;
     if (flags & 2) {
         if (flags & 4) {
-            fn_80141EB4();
+            set_inverse_alpha_blend();
         } else {
             set_default_alpha_blend();
         }
     } else if (flags & 4) {
-        setSpriteInverseColorBlend();
+        set_inverse_color_blend();
     } else {
         set_additive_blend();
     }

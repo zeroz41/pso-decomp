@@ -346,8 +346,8 @@ s32 get_split_screen_view_index__11TCameraCtrlFUs(void *);
 u32 TLobby__sub_80070AD8(s32 arg0);
 s32 get_floor_destination_name();
 s32 get_localized_text_entry(s32, s32);
-s32 TObjMapWarp__sub_80141CB0(void *, void *, u32, u32);
-s32 TObjMapWarp__sub_80141CB4(void *, f32);
+s32 debug_draw_line(void *, void *, u32, u32);
+s32 fn_80141CB4(void *, f32);
 s32 test_player_body_overlap_at(void *, void *, Vec_8019D250 *);
 s32 TObjCityMainWarp__sub_80186AF4();
 void * TObjAreaWarpEndingJung__create(void *arg0);
@@ -879,8 +879,8 @@ void TObjMapWarp::draw_debug_destinations() {
         VecCopy((Vec *)&b, (const Vec *)end);
         b.y += 5.0f;
         a.y += 5.0f;
-        TObjMapWarp__sub_80141CB0(&b, &a, 0xFFFF0000, 0xFFFF0000);
-        TObjMapWarp__sub_80141CB4(end, 15.0f);
+        debug_draw_line(&b, &a, 0xFFFF0000, 0xFFFF0000);
+        fn_80141CB4(end, 15.0f);
     }
 }
 

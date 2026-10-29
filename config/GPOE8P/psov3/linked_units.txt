@@ -465,7 +465,6 @@ pso/enemy/TObjEneEpsilonGuard_8035DD68.cpp
 pso/enemy/TObjEneEpsilon_800B92AC.cpp
 pso/enemy/TObjEneHoldEffect.cpp
 pso/enemy/TObjEneHoldEffect_800FD814.cpp
-pso/enemy/TObjEneHoldEffect_80142478.cpp
 pso/enemy/TObjEneHoldEffect_8036CDFC.cpp
 pso/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/TObjEneIllGill.cpp
@@ -1931,7 +1930,6 @@ pso/misc/TWindow_80217288.cpp
 pso/misc/TeneFakeTecThunderEff.cpp
 pso/misc/item_param.cpp
 pso/misc/item_pmt.cpp
-pso/misc/obj_band.cpp
 pso/misc/pso_const_ids.cpp
 pso/misc/pso_const_ids3.cpp
 pso/misc/pso_const_ids4.cpp
@@ -2119,7 +2117,6 @@ pso/object/TObjMapCsn_8007A720.cpp
 pso/object/TObjMapObject.cpp
 pso/object/TObjMapWarpAncient.cpp
 pso/object/TObjMapWarpForest.cpp
-pso/object/TObjMapWarp_80141C68.cpp
 pso/object/TObjMesBase.cpp
 pso/object/TObjMistCtrl.cpp
 pso/object/TObjMotion.cpp
@@ -2408,8 +2405,6 @@ pso/player/TObjPlayer_801306B0.cpp
 pso/player/TObjPlayer_80130778.cpp
 pso/player/TObjPlayer_8013085C.cpp
 pso/player/TObjPlayer_80130BF0.cpp
-pso/player/TObjPlayer_80141404.cpp
-pso/player/TObjPlayer_80141D1C.cpp
 pso/player/TObjPlayer_80148DCC.cpp
 pso/player/TObjPlayer_8014C610.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
@@ -2558,6 +2553,9 @@ pso/quest/TQuestListVM_8007EAF8.cpp
 pso/quest/TQuestListVM_800F95F4.cpp
 pso/quest/TQuestListVM_801F4398.cpp
 pso/quest/TQuestThread.cpp
+pso/render/render_util.cpp
+pso/render/render_util_head.cpp
+pso/render/render_util_tail.cpp
 pso/slices/pso_carve_8020bf88.cpp
 pso/system/ChunkMaterialState.cpp
 pso/system/ChunkTextureStripCollector.cpp
@@ -3048,12 +3046,6 @@ pso/unk/text_8013ADD0.cpp
 pso/unk/text_8013ADE4.cpp
 pso/unk/text_8013F810.cpp
 pso/unk/text_80140D50.cpp
-pso/unk/text_801414B0.cpp
-pso/unk/text_80141550.cpp
-pso/unk/text_801418C4.cpp
-pso/unk/text_80141944.cpp
-pso/unk/text_80141A30.cpp
-pso/unk/text_801424DC.cpp
 pso/unk/text_80144AC8.cpp
 pso/unk/text_80145804.cpp
 pso/unk/text_80145A44.cpp

@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/vector.h"
@@ -60,7 +60,6 @@ u8 *TOContainerAncientEnemy__ct(u8 *arg0, s32 arg1);
 void submit_cursor_candidate(Obj_8015BCC0 *self, s32 x);
 void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80440830[];
-extern const NJS_ARGB lbl_804A7448;
 extern const f32 lbl_805DB3A0;
 s32 get_current_floor();
 void byteswap_and_send__6TLobbyFv(void *, int);
@@ -155,7 +154,7 @@ void TOContainerAncientEnemy::debug_print_item_box_info() {
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130020, lbl_80440830, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    TObjRoomId__sub_80141CF4((const Vec *)self->pos, &lbl_804A7448, lbl_805DB3A0);
+    debug_draw_sphere((const Vec *)self->pos, &debug_color_blue_alpha30, lbl_805DB3A0);
 }
 
 void TOContainerAncientEnemy::vfunc_81() {

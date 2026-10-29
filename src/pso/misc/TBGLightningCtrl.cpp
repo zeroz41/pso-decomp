@@ -3,7 +3,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TBGLightningCtrl.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 extern "C" void render__16TBGLightningCtrlFv();
 #include "pso/unk/text_803DA798.h"
 

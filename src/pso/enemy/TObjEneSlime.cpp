@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/TObjEneSlimeOne_800EC394.h"
 #include "pso/object/TObjFish.h"
@@ -167,11 +168,11 @@ void TObjEneSlime::render() {
             model_render_flags &= 0xFFBFFFFF;
         } else {
             set_chunk_render_flags(2);
-            TObjFish::set_cull_back();
+            set_cull_back();
             draw_chunk_object(get_bml_model((void *)slime_bml_resource, (int)temp_r30_2));
-            TObjFish::set_cull_mode_front();
+            set_cull_front();
             draw_chunk_object(get_bml_model((void *)slime_bml_resource, (int)temp_r30_2));
-            TObjFish::set_cull_none();
+            set_cull_none();
             clear_chunk_render_flags();
         }
         pop_matrix();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TORockJungleL01.h"
 #include "pso/boss/TBoss8Dragon.h"
@@ -54,12 +55,12 @@ void TORockJungleL01::vfunc_15() {
     if ((s32) this->m_d0 != 0) {
         ((VObj_8029c054_8029C030*)(arg0 + 0xB4))->m7();
     }
-    TObjFish::set_cull_none();
+    set_cull_none();
 }
 void TORockJungleL01::vfunc_14() {
     Rd_8029C094 *arg0 = (Rd_8029C094 *)this;
     Vec_8029C094 v;
-    TObjFish::set_cull_back();
+    set_cull_back();
     matrix_mult_vec(0, arg0->pos, &v);
     if (-v.z < 38.0f) {
         ((RenderFadeState *)(&arg0->fade))->fadeOut();
@@ -429,12 +430,12 @@ void TORockJungleM01::vfunc_15() {
     if ((s32) this->m_d8 != 0) {
         ((VObj_8029C320*)(arg0 + 0xBC))->m7();
     }
-    TObjFish::set_cull_none();
+    set_cull_none();
 }
 void TORockJungleM01::vfunc_14() {
     Rd_8029C6FC *arg0 = (Rd_8029C6FC *)this;
     Vec_8029C6FC v;
-    TObjFish::set_cull_back();
+    set_cull_back();
     matrix_mult_vec(0, arg0->pos, &v);
     if (-v.z < 38.0f) {
         ((RenderFadeState *)(&arg0->fade))->fadeOut();

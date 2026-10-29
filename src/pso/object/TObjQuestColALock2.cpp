@@ -46,9 +46,9 @@ extern s32 quest_mission_manager;
 extern s32 quest_area_manager;
 u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *arg0, s32 arg1, s32 _w2);
 s32 fn_80141CBC(void *, void *, int, f32);
-void TObjRoomId__sub_80141CF4(const Vec *pos, const NJS_ARGB *color, f32 radius);
-extern RecoveredGlobal_801959A0_lbl_804A7428 lbl_804A7428;
-extern const NJS_ARGB lbl_804A7438;
+void debug_draw_sphere(const Vec *pos, const NJS_ARGB *color, f32 radius);
+extern RecoveredGlobal_801959A0_lbl_804A7428 debug_color_purple_half_alpha;
+extern const NJS_ARGB debug_color_green_half_alpha;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
@@ -81,9 +81,9 @@ void TObjQuestColALock2::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
-        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, lbl_805DBF00 * *(f32 *)&this->unk_AC);
+        debug_draw_sphere(&position, &debug_color_green_half_alpha, lbl_805DBF00 * *(f32 *)&this->unk_AC);
         temp_r5 = (u8 *)this->bodies;
-        fn_80141CBC((u8 *)&this->position, &lbl_804A7428.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));
+        fn_80141CBC((u8 *)&this->position, &debug_color_purple_half_alpha.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));
     }
 }
 

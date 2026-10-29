@@ -7,7 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 typedef struct Vec_801E5598 { f32 x, y, z; } Vec_801E5598;
 
@@ -49,9 +49,9 @@ typedef struct Self_801E5598 {
 typedef struct Cam_801E5598 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E5598;
 
 extern "C" {
-void fn_80141EB4(void);
+void set_inverse_alpha_blend(void);
 }
-void setSpriteInverseColorBlend(void);
+void set_inverse_color_blend(void);
 extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 void begin_screen_draw(s32 arg0);
@@ -89,12 +89,12 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     flags = self->desc->flags;
     if (flags & 2) {
         if (flags & 4) {
-            fn_80141EB4();
+            set_inverse_alpha_blend();
         } else {
             set_default_alpha_blend();
         }
     } else if (flags & 4) {
-        setSpriteInverseColorBlend();
+        set_inverse_color_blend();
     } else {
         set_additive_blend();
     }

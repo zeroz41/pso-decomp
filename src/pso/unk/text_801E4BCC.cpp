@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/system/THeap.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 struct Wave_801E4BCC {
     s32 height;

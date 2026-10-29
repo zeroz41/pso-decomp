@@ -7,7 +7,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 typedef struct Vec_801E5C24 { f32 x, y, z; } Vec_801E5C24;
 
@@ -50,13 +50,13 @@ typedef struct Self_801E5C24 {
 typedef struct Cam_801E5C24 { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f32 aspect; } Cam_801E5C24;
 
 extern "C" {
-void fn_80141EB4(void);
+void set_inverse_alpha_blend(void);
 void transform_point_by_current_matrix(void *, void *);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 }
-void setSpriteInverseColorBlend(void);
+void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_801E5C24 lbl_8058D4F8;
 extern const f32 lbl_805DC480;
@@ -91,12 +91,12 @@ void render__17TQuadSpriteSclColFv(Self_801E5C24 *self) {
     flags = self->desc->flags;
     if (flags & 2) {
         if (flags & 4) {
-            fn_80141EB4();
+            set_inverse_alpha_blend();
         } else {
             set_default_alpha_blend();
         }
     } else if (flags & 4) {
-        setSpriteInverseColorBlend();
+        set_inverse_color_blend();
     } else {
         set_additive_blend();
     }

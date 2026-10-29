@@ -1,5 +1,5 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/effect/TEffStarLight2D_Base.h"
 #include "pso/effect/TEffStarLight2D.h"
@@ -31,7 +31,7 @@ void *TEffStarLight2D_Base::create(void *set_data) {
 
 void TEffStarLight2D_Base::render() {
     NJS_ARGB color = star_light_2d_base_color;
-    TObjRoomId__sub_80141CF4(&position, &color, lbl_805D9450);
+    debug_draw_sphere(&position, &color, lbl_805D9450);
 }
 
 void TEffStarLight2D_Base::run_task() {

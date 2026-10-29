@@ -2,7 +2,7 @@
 #include "pso/boss/TObjBoss2Tunnel_8007E418.h"
 #include "pso/misc/ParticleBallistic.h"
 #include "pso/misc/TParticleCtrl.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_8048E790.h"
 #include "pso/misc/TUnk_8048E7A8.h"
@@ -10,7 +10,7 @@
 #include "pso/misc/TUnk_8048E778.h"
 
 #include "types.h"
-#include "pso/unk/text_80141550.h"
+
 #include "pso/misc/TParticleCtrl_80327D30.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #pragma inline_depth(1)
@@ -409,7 +409,7 @@ void TUnk_8048E778::render() {
             }
         }
         TObjFish::set_global_param(p->texlist);
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         if (p->motion != 0) {
             draw_ginja_model_with_motion(p->model, p->motion, p->frame);
         } else {

@@ -1167,7 +1167,7 @@ struct Ent8_800B4824 { s32 f0; u8 *f4; };
 
 s32 update_player_state__9TObjEneDDFv(void *, int, int);
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
-s32 TObjMapWarp__sub_80141CB0(void *, void *, int, int);
+s32 debug_draw_line(void *, void *, int, int);
 s32 debug_printf_at(s32, const char *, ...);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern char lbl_8043B584[];
@@ -1223,14 +1223,14 @@ void render_debug__14TObjEneBm5WolfFPv(u8 *ene_bm5_wolf) {
     }
     temp_r3 = find_pack_leader__14TObjEneBm5WolfFi(*(s32 *)((s8 *)ene_bm5_wolf + 0x3DC));
     if (temp_r3 != 0) {
-        TObjMapWarp__sub_80141CB0((void *)(ene_bm5_wolf + 0x2FC), (void *)(temp_r3 + 0x2FC), 0xFFC0C0C0, 0xFF6060FF);
+        debug_draw_line((void *)(ene_bm5_wolf + 0x2FC), (void *)(temp_r3 + 0x2FC), 0xFFC0C0C0, 0xFF6060FF);
         return;
     }
     {
     Vec_800B4824 v;
     VecCopy((Vec *)&v, (const Vec *)(ene_bm5_wolf + 0x2FC));
     v.y += TObjEneBm5Wolf__data_805D9D80;
-    TObjMapWarp__sub_80141CB0(ene_bm5_wolf + 0x2FC, &v, 0xFFC0C0C0, 0xFF6060FF);
+    debug_draw_line(ene_bm5_wolf + 0x2FC, &v, 0xFFC0C0C0, 0xFF6060FF);
     }
 }
 #pragma pop

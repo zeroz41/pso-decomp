@@ -4357,44 +4357,23 @@ pso/misc/TLobby_80140FF4.cpp:
 	.text       start:0x80140FF4 end:0x8014106C
 
 pso/system/THeap.cpp:
-	.text       start:0x8014106C end:0x80141404
+	.text       start:0x8014106C end:0x801412D0
 	.sbss       start:0x805D5658 end:0x805D5660
 
-pso/player/TObjPlayer_80141404.cpp:
-	.text       start:0x80141404 end:0x801414B0
+pso/render/render_util_head.cpp:
+	.text       start:0x801412D0 end:0x80141550
+	.rodata     start:0x8043F278 end:0x8043F298
 
-pso/unk/text_801414B0.cpp:
-	.text       start:0x801414B0 end:0x80141550
-
-pso/unk/text_80141550.cpp:
-	.text       start:0x80141550 end:0x801418C4
+pso/render/render_util.cpp:
+	.text       start:0x80141550 end:0x80142624
+	.rodata     start:0x8043F2B0 end:0x8043F2C8
+	.data       start:0x804A7418 end:0x804A7478
 	.bss        start:0x8050BEC0 end:0x8050C040
+	.sbss       start:0x805D5660 end:0x805D5678
+	.sdata2     start:0x805DB150 end:0x805DB15C
 
-pso/unk/text_801418C4.cpp:
-	.text       start:0x801418C4 end:0x80141944
-
-pso/unk/text_80141944.cpp:
-	.text       start:0x80141944 end:0x80141A30
-
-pso/unk/text_80141A30.cpp:
-	.text       start:0x80141A30 end:0x80141C68
-	.rodata     start:0x8043F2B0 end:0x8043F2C0
-
-pso/object/TObjMapWarp_80141C68.cpp:
-	.text       start:0x80141C68 end:0x80141D1C
-
-pso/player/TObjPlayer_80141D1C.cpp:
-	.text       start:0x80141D1C end:0x80142478
-	.rodata     start:0x8043F2C0 end:0x8043F2C8
-
-pso/enemy/TObjEneHoldEffect_80142478.cpp:
-	.text       start:0x80142478 end:0x801424DC
-
-pso/unk/text_801424DC.cpp:
-	.text       start:0x801424DC end:0x80142524
-
-pso/misc/obj_band.cpp:
-	.text       start:0x80142524 end:0x80142770
+pso/render/render_util_tail.cpp:
+	.text       start:0x80142624 end:0x80142770
 
 pso/object/TObjMotion.cpp:
 	.text       start:0x80142770 end:0x80143988

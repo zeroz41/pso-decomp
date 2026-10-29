@@ -2,14 +2,14 @@
 #include "pso/object/TObjMistCtrl.h"
 #include "pso/unk/text_803E29B0.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803DA798.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/TPlayerFootStamp.h"
 #include "pso/object/TObjMistCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
     s32 value;
@@ -35,7 +35,6 @@ void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 fla
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjMistCtrl[];
 extern s32 lbl_805D3E80;
-f32 horizontal_distance_squared(void *, void *);
 void __dl__7TObjectFPv(void *);
 
 void TObjMistCtrl::run_task() { { (void)(sub_802AF64C()); return; } }
@@ -66,7 +65,7 @@ u8 *TObjMistCtrl__ct(u8 *mist_ctrl, s32 parent, u32 arg2) {
 
 void TPlayerFootStamp::render() {
     u8 *arg0 = (u8 *)this;
-    if (horizontal_distance_squared((void *)(arg0 + 0x7C), (void *)(camera_ctrl_instance + 0x178)) < lbl_805DE1F8) {
+    if (horizontal_distance_squared((const Vec *)((void *)(arg0 + 0x7C)), (const Vec *)((void *)(camera_ctrl_instance + 0x178))) < lbl_805DE1F8) {
         saved_model_render_flags = model_render_flags;
         set_default_alpha_blend();
         TObjFish::set_global_param(player_footstamp_texture_gvm_handle);

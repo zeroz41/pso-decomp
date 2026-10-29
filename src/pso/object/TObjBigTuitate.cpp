@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_800D7BFC.h"
 #include "pso/unk/text_803D96A8.h"
@@ -86,7 +87,7 @@ void TObjBigTuitate::render() {
     } else {
         ((RenderFadeState *)(arg0 + 0xAC))->restore();
     }
-    TObjFish::set_cull_back();
+    set_cull_back();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         fading = 0;
     } else {
@@ -106,7 +107,7 @@ void TObjBigTuitate::render() {
     if (fading != 0) {
         ((Fade_8019AA18 *)(arg0 + 0xAC))->end();
     }
-    TObjFish::set_cull_none();
+    set_cull_none();
 }
 
 void TObjBigTuitate::run_task() { { (void)(update__15RenderFadeStateFv((char*)this + 0xac)); return; } }
@@ -259,7 +260,7 @@ void TObjTuitate::render() {
     } else {
         ((RenderFadeState *)(arg0 + 0xAC))->restore();
     }
-    TObjFish::set_cull_back();
+    set_cull_back();
     if (TRaderMapCore::is_not_split_screen() == 1) {
         fading = 0;
     } else {
@@ -279,7 +280,7 @@ void TObjTuitate::render() {
     if (fading != 0) {
         ((Fade_8019ADA0 *)(arg0 + 0xAC))->end();
     }
-    TObjFish::set_cull_none();
+    set_cull_none();
 }
 
 void TObjTuitate::run_task() { { (void)(update__15RenderFadeStateFv((char*)this + 0xac)); return; } }

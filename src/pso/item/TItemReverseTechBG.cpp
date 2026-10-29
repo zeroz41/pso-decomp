@@ -10,7 +10,7 @@
 #include "pso/item/TItemReverseTechPart2.h"
 #include "pso/item/TItemReverseTech_8011A1E8.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct TItemReverseTechBG_80119658 {
     u8 pad0[0x1C];

@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/misc/TChCrTagInformation.h"
 #include "pso/TChCrCharSelect.h"
 #include "pso/TObjCMAssignMenu.h"

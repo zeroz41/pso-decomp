@@ -356,7 +356,7 @@ f64 atan2_float(f32, f32);
 s32 queue_destruction__7TObjectFv(void *);
 s32 spawn_particle_effect(void *, int);
 s32 angle_difference_abs(int, int);
-s32 lerp_angle_half__10TObjPlayerFUsUs(int, int);
+s32 lerp_angle_half__Fll(int, int);
 s32 play_persistent_sound(s32, void *, void *, int, int);
 extern const f64 lbl_8043BA18;
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);
@@ -810,7 +810,7 @@ void TObjEneLappy::update_moving() {
         case 2:
             break;
         case 3:
-            this->rotation_y = lerp_angle_half__10TObjPlayerFUsUs(this->rotation_y, this->m_390);
+            this->rotation_y = lerp_angle_half__Fll(this->rotation_y, this->m_390);
             if ((u32) this->action_flags == 1U) {
                 *(s32 *)&this->actorFlags = (*(s32 *)&this->actorFlags & 0xFBFFFFFF);
                 *(s16 *)&this->m_37a = 4;
@@ -1387,8 +1387,8 @@ extern "C" {
 s32 update_player_state__9TObjEneDDFv(void *, void *, int);
 s32 sub_800C3B8C__16TObjEneRe2FlowerFv(void *);
 }
-void restore_default_scene(void);
-void set_scene_override(u8 scene);
+void restore_alpha_ref(void);
+void set_alpha_ref_override(u8 scene);
 extern Vec_800C20D0 lbl_8043BBC0[];
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv(void);
@@ -2022,9 +2022,9 @@ void TObjEneRe2Flower::vfunc_106() {
     rotate_matrix_y(0, ((Obj_800C20D0 *)this)->f60);
     TObjEneDD::clear_global_flag_400();
     toggle_particle_effect__10TObjPlayerFv();
-    set_scene_override(0);
+    set_alpha_ref_override(0);
     draw_chunk_object(((Obj_800C20D0 *)this)->f34);
-    restore_default_scene();
+    restore_alpha_ref();
     end_effect_render__13TParticleCtrlFv();
     pop_matrix();
     if (((TObjEneRe2Flower *)((Obj_800C20D0 *)this))->get_flag_11() == 0 && sub_800C3B8C__16TObjEneRe2FlowerFv(((Obj_800C20D0 *)this)) != 0) {
@@ -2071,7 +2071,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
         post_translate_matrix(&o->pos);
         rotate_matrix_y(0, o->f3C0);
         saved_model_render_flags = model_render_flags;
-        set_scene_override(0);
+        set_alpha_ref_override(0);
         TObjEneDD::clear_global_flag_400();
         translate_matrix(0, lbl_805D9FAC, o->f3C8, lbl_805D9FAC);
         lbl_805D517C = o->f60 - o->f3C0;
@@ -2109,7 +2109,7 @@ void TObjPlayer__sub_800C220C(Obj_800C220C *o) {
             end_effect_render__13TParticleCtrlFv();
         }
         TObjEneRe7Berura::set_global_state(0);
-        restore_default_scene();
+        restore_alpha_ref();
         model_render_flags = saved_model_render_flags;
         pop_matrix();
         ((TObjEneDD *)o)->update_primary_light();

@@ -8,7 +8,7 @@
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -54,7 +54,7 @@
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/map/FloorArea.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 #include "pso/misc/TLobby_80207644.h"
 #include "pso/player/PhotonBlastGauge.h"
 
@@ -7486,7 +7486,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
                 }
                 save_render_material_state(arg0 + 0x608);
                 ((TObjPlayer *)arg0)->apply_material_color_override();
-                set_depth_buffer_settings_id(1);
+                set_draw_list_mask(1);
                 ((s32 (*)(void *))TObjPlayer__sub_801BAC48)(arg0);
                 ((TObjPlayer *)(arg0 + 0x608))->write_ids();
                 ((s32 (*)(void))restore_scene_lighting)();
@@ -7528,7 +7528,7 @@ void TObjPlayer::render_body_pass(f32 f) {
     }
     save_render_material_state((u8 *)&this->render_material_state);
     apply_material_color_override();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     ((void (*)(void *))TObjPlayer__sub_801BAC48)(self);
     ((TObjPlayer *)(self + 0x608))->write_ids();
     restore_scene_lighting();
@@ -7893,7 +7893,6 @@ void TObjPlayer::init_collision_body() {
 
 struct Cand_801BBE54 { s16 val; Obj_801BC068 *obj; };
 struct Cmd_801BBE54 { u16 hdr; u16 client; s32 area; u8 pos[12]; };
-f32 horizontal_distance_squared(void *, void *);
 extern const f32 lbl_805DC2D8;
 
 s32 TObjPlayer::send_respawn_position() {
@@ -7918,7 +7917,7 @@ s32 TObjPlayer::send_respawn_position() {
             for (i = 0; i < 12; i++) {
                 if (i != (u16)get_entity_id(this)) {
                     u8 *p = (u8 *)((u32 (*)(int))get_player_by_client_id)(i);
-                    if (p != NULL && horizontal_distance_squared(obj->pos, p + 0x38) < range) {
+                    if (p != NULL && horizontal_distance_squared((const Vec *)obj->pos, (const Vec *)(p + 0x38)) < range) {
                         ok = 0;
                         break;
                     }

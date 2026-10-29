@@ -2,7 +2,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -87,7 +87,6 @@ struct Obj_8031B808 {
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *, int);
 s16 get_entity_id(int);
-f32 horizontal_distance_squared(void *, void *);
 s32 fn_8031B618(Obj_8031B618 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 u32 csnVector(void *, void *, int);
@@ -127,7 +126,7 @@ s32 fn_8031B618(Obj_8031B618 *arg0) {
     if (id != 0xFFFF) {
         c = (Ctrl_8031B618 *)get_player_by_client_id(id);
         if (c != 0) {
-            if (!(horizontal_distance_squared(&arg0->pos2, &c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
+            if (!(horizontal_distance_squared((const Vec *)&arg0->pos2, (const Vec *)&c->pos) > ((1.0f) + c->sub->radius) * ((1.0f) + c->sub->radius))) {
                 var_r30 = 1;
             }
         }
@@ -232,7 +231,7 @@ void TObjEneReconBomb::run_task() {
         for (i = 0; i < lbl_805D5868; i++) {
             pl = (VObj_8031B808 *)get_player_data__10TObjPlayerFi(i);
             if (TObjPlayer::is_valid_and_active((u32)pl) != 0 && pl != 0 && (u16)get_entity_id((int)pl) < 0x1000 && pl->m31() == 0) {
-                if (horizontal_distance_squared((u8 *)pl + 0x2FC, &arg0->pos2) <= arg0->range * arg0->range) {
+                if (horizontal_distance_squared((const Vec *)((u8 *)pl + 0x2FC), (const Vec *)&arg0->pos2) <= arg0->range * arg0->range) {
                     P_8031B808 d;
                     d.a = 0;
                     d.b = arg0->f350;

@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
@@ -14,7 +14,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -199,7 +199,7 @@ s32 post_translate_matrix(void *);
 s32 TParticleCtrl__sub_803E2A1C(void *, int);
 extern Tex_80086248 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
-void fn_80141EB4(void);
+void set_inverse_alpha_blend(void);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 matrix_mult_vec(int, void *, void *);
@@ -211,7 +211,7 @@ void *init_particle_base(void *arg0, void *arg1, s32 arg2);
 void load_projected_texture_matrix(f32 farg0);
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 s32 set_texture_num(s32 i);
-void setSpriteInverseColorBlend(void);
+void set_inverse_color_blend(void);
 void set_constant_material_color(u32 x);
 extern Cam_80085EE4 lbl_8058D4F8;
 extern "C" {
@@ -236,7 +236,7 @@ void TUnk_8048E6A8::render() {
     Obj_80085798 *self = (Obj_80085798 *)this;
     if (TObjPlayer::check_demo_mode() != 0) {
         NJS_ARGB color = demo_mode_particle_color;
-        TObjRoomId__sub_80141CF4((const Vec *)self->target, &color, 40.0f);
+        debug_draw_sphere((const Vec *)self->target, &color, 40.0f);
     }
 }
 

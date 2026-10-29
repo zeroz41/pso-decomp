@@ -7,7 +7,7 @@
 #include "pso/item/EquippedItemDrawQueue.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 struct DrawPrefix { u8 prefix[0x18]; };
 

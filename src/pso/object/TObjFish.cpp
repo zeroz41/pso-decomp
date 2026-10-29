@@ -3,9 +3,9 @@
 #include "pso/TObject.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 #include "pso/TLevelSelect.h"
 #include "pso/TParticleCtrl.h"
@@ -458,7 +458,7 @@ void render__8TObjFishFv(u8 *arg0) {
             push_matrix();
             post_translate_matrix(f);
             rotate_matrix_y(0, f->rot + (s32)r);
-            set_depth_buffer_settings_id(3);
+            set_draw_list_mask(3);
             if (get_current_floor_area() == AREA_SEABED_UPPER) {
                 switch (f->kind) {
                 case 1:

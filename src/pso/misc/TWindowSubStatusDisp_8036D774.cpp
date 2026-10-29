@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/misc/TWindowSubStatusDisp_8036D774.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
+
 #include "pso/misc/TWindowCtrlMain.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 
 struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 

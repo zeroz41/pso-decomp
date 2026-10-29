@@ -4,7 +4,7 @@
 #include "pso/ui/TAdDrawLineCtrl.h"
 #include "pso/ui/TAdTitleGC.h"
 #include "pso/unk/text_802A0A30.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 
 #include "types.h"
 #include "pso/TMainTask.h"

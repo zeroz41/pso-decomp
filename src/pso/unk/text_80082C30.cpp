@@ -1,5 +1,6 @@
 #pragma readonly_strings on
 #include "pso/effect/TEffect.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 
 #include "types.h"
@@ -177,11 +178,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         b.x = lbl_805D93C8;
         b.y = lbl_805D93C0;
         if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
-            TObjPlayer::set_tev_swap_mode(0);
+            set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 1);
         if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
-            TObjPlayer::setup_tev_swap();
+            init_tev_swap();
         }
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
@@ -201,11 +202,11 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
         b.x = lbl_805D93C8;
         b.y = lbl_805D93C0;
         if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
-            TObjPlayer::set_tev_swap_mode(0);
+            set_tev_swap_mode(0);
         }
         TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 0);
         if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
-            TObjPlayer::setup_tev_swap();
+            init_tev_swap();
         }
         TObjPlayer__sub_80082C30();
         GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);

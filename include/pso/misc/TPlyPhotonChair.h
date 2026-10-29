@@ -29,14 +29,6 @@ struct TPlyPhotonChair : public TObjBase {
     void set_field_8(s32 v);
     void set_type(s32 v);
     static void free_instance();
-    static void play_sound_with_arg(void* p, void* a1);
-    void play_sound();
-    static void update_parts(void* p);
-    static void update_parts2(void* p);
-    static void restore_state(s32 _w0);
-    static void copy_vec4_forward(s32 _w0);
-    static void copy_vec4_reverse(s32 _w0);
-    static void save_state(s32 _w0);
     int is_mounted();
     u8 unk_D4[0x10];
 };

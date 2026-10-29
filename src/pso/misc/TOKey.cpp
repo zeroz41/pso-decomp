@@ -3,6 +3,7 @@
 // Deferred code generation (configure.py): the functions come out in reverse
 // order, so this file is written from its last function back.
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TOKey.h"
 #include "pso/map/FloorArea.h"
 #include "pso/misc/TLobby_801E43E4.h"
@@ -379,7 +380,7 @@ void TOKey::interact(s32 client) {
     if (m != KEY_MODE_NONE && (m != KEY_MODE_ONCE || is_on != 1)) {
         player = get_player_by_client_id((u16)client);
         if (player != NULL) {
-            player->start_camera_pan(0xC, ((TObjPlayer *)&player->position)->calc_angle_to(&position));
+            player->start_camera_pan(0xC, calc_angle_to(&player->position, &position));
             press_timer = press_delay;
             press_pending = 1;
         }

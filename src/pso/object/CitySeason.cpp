@@ -279,7 +279,7 @@ extern s32 camera_ctrl_instance;
 extern const f32 lbl_805DBC38[1];
 extern const f32 lbl_805DBC3C[1];
 extern const f32 lbl_805DBC40[1];
-void TObjMapWarp__sub_80141CB8(void *, void *, void *, void *);
+void fn_80141CB8(void *, void *, void *, void *);
 extern const u32 lbl_804441FC[5];
 #define lbl_804441FC ((const V4_8018355C *)lbl_804441FC)
 extern const f32 lbl_805DBC30[1];
@@ -307,7 +307,7 @@ void TObjCity_Season_FireWorkCtrl::sub_8018355C() {
         sp18.x = arg0->f68;
         sp18.y = lbl_805DBC38[0];
         sp18.z = arg0->f70;
-        TObjMapWarp__sub_80141CB8(arg0->pos, &arg0->f5C, &sp18, &sp8);
+        fn_80141CB8(arg0->pos, &arg0->f5C, &sp18, &sp8);
     }
 }
 

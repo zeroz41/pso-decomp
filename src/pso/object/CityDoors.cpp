@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
@@ -245,7 +246,6 @@ typedef struct {
 } Obj_80181BAC;
 
 f32 newton_sqrtf(f32);
-void calc_triangle_normal__10TObjPlayerFPvPv(Vec_80181BAC *, Vec_80181BAC *);
 void vec3_add_to(Vec_80181BAC *, Vec_80181BAC *);
 void mult_vec_array__10TObjPlayerFUll(s32, Vec_80181BAC *, Vec_80181BAC *, s32);
 void set_matrix_identity(u8 *arg0);
@@ -284,14 +284,14 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
         VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[0]]));
         VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[1]]));
         VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[0].idx[2]]));
-        calc_triangle_normal__10TObjPlayerFPvPv(v, &t1[0].normal);
+        calc_triangle_normal((const Vec *)v, (Vec *)&t1[0].normal);
         t1[1].idx[0] = j + city_door_lobby_quad_triangle_indices[3];
         t1[1].idx[1] = j + city_door_lobby_quad_triangle_indices[4];
         t1[1].idx[2] = j + city_door_lobby_quad_triangle_indices[5];
         VecCopy((Vec *)&v[0], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[0]]));
         VecCopy((Vec *)&v[1], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[1]]));
         VecCopy((Vec *)&v[2], (const Vec *)(&city_door_lobby_collision_vertices[t1[1].idx[2]]));
-        calc_triangle_normal__10TObjPlayerFPvPv(v, &t1[1].normal);
+        calc_triangle_normal((const Vec *)v, (Vec *)&t1[1].normal);
         t1 += 2;
         j += 2;
     }
@@ -1007,7 +1007,6 @@ void city_door_play_close_sound__13TUnk_804B5BA8Fv(s32 arg0);
 void begin_state_1__13TUnk_804B5BA8Fv(void *arg0);
 void check_ground_or_fall__13TUnk_804B5BA8Fv(void *arg0);
 void dispatch_state__13TUnk_804B5BA8Fv(void *arg0);
-f32 horizontal_distance_squared(s32, s32);
 void *get_player_by_client_id(s32 i);
 s32 get_field_3e0__12TBoss3VoloptFv();
 
@@ -1100,7 +1099,7 @@ s32 TObjPlayer::is_player_in_range(s32 arg0, s32 arg1, f32 farg0) {
     var_r30 = 0;
 loop_1:
     player = (s32)get_player_by_client_id(var_r30);
-    if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared(arg1, player + 0x38) < farg0)) {
+    if ((player != 0) && ((temp_r3_2 = get_field_3e0__12TBoss3VoloptFv(), ((temp_r3_2 == 0) != 0)) || (temp_r3_2 == 0x12)) && (horizontal_distance_squared((const Vec *)arg1, (const Vec *)(player + 0x38)) < farg0)) {
         return 1;
     }
     var_r30 += 1;

@@ -1,4 +1,4 @@
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjWarpBoss03.h"
@@ -19,12 +19,11 @@ struct VObj_18_26a62c : VBase_18_26a62c {
 };
 
 extern "C" {
-extern const NJS_ARGB lbl_804A7438;
 
 void TObjWarpBoss03::sub_8019F9E4() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_18_26a62c *)(arg0))->m8(4e+02f, 2e+01f) != 0) {
-        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, 2.0f * *(f32 *)(arg0 + 0xAC));
+        debug_draw_sphere(&position, &debug_color_green_half_alpha, 2.0f * *(f32 *)(arg0 + 0xAC));
     }
 }
 

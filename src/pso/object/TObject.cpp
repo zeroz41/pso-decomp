@@ -14,7 +14,7 @@
 #include "pso/misc/TLobby_803382E4.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/system/debug_print.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 
 extern u32 model_render_flags;
@@ -271,7 +271,7 @@ void TMainTask::render_shadows() {
     DISALLOW_OR_ALLOW_CHILD(render_shadow_flags, old_render_shadow_flags, rendering_shadows);
 
     set_depth_buffer_settings_3();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
 
     render_shadows_for_each_node();
@@ -297,7 +297,7 @@ void TMainTask::render_clipout_and_fade() {
     task_flags |= MAIN_TASK_RENDERING;
 
     set_depth_buffer_settings_2();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
     saved_render_flags = model_render_flags;
     set_model_render_flags(1);
@@ -332,13 +332,13 @@ void TMainTask::render_object_layers(int mode) {
     task_flags |= MAIN_TASK_OBJECT_LAYERS;
     render_pass = 0;
     set_depth_buffer_settings_3();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
     switch (mode) {
     case 0:
         tl_03->render_nodes();
         tl_04->render_nodes();
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         tl_item_equip->allow_rendering();
         tl_item_equip->render_nodes();
         tl_item_equip->disallow_rendering();
@@ -355,7 +355,7 @@ void TMainTask::render_object_layers(int mode) {
         tl_04->render_nodes();
         break;
     case 4:
-        set_depth_buffer_settings_id(1);
+        set_draw_list_mask(1);
         set_chunk_render_flags(1);
         tl_item_equip->allow_rendering();
         tl_item_equip->render_nodes();
@@ -364,7 +364,7 @@ void TMainTask::render_object_layers(int mode) {
         restore_draw_list_mask();
         break;
     case 5:
-        set_depth_buffer_settings_id(2);
+        set_draw_list_mask(2);
         set_chunk_render_flags(2);
         tl_item_equip->allow_rendering();
         tl_item_equip->render_nodes();
@@ -376,7 +376,7 @@ void TMainTask::render_object_layers(int mode) {
     restore_depth_buffer_settings();
     render_pass = 1;
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     save_depth_buffer_settings();
     restore_depth_buffer_settings();
     task_flags &= ~MAIN_TASK_OBJECT_LAYERS;
@@ -386,13 +386,13 @@ void TMainTask::render_task_layer_02() {
     task_flags |= MAIN_TASK_LAYER_02;
     render_pass = 0;
     set_depth_buffer_settings_3();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
     tl_02->render_nodes();
     restore_depth_buffer_settings();
     render_pass = 1;
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     save_depth_buffer_settings();
     tl_02->render_nodes();
     restore_depth_buffer_settings();
@@ -401,7 +401,7 @@ void TMainTask::render_task_layer_02() {
 
 void TMainTask::render_geometry() {
     set_depth_buffer_settings_3();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
 
     tl_03->allow_rendering();
@@ -421,7 +421,7 @@ void TMainTask::render_geometry() {
     render_nodes();
 
     restore_depth_buffer_settings();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     set_chunk_render_flags(1);
 
     tl_item_equip->allow_rendering();
@@ -434,7 +434,7 @@ void TMainTask::render_geometry() {
 
 void TMainTask::render_effects() {
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     save_depth_buffer_settings();
 
     tl_03->disallow_rendering();
@@ -451,7 +451,7 @@ void TMainTask::render_effects() {
 
 void TMainTask::render_particle_effects() {
     set_depth_buffer_settings_1();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
 
     tl_particle->render_nodes();
@@ -463,7 +463,7 @@ void TMainTask::render_particle_effects() {
 void TMainTask::render_ui() {
     u32 saved_render_flags;
     set_depth_buffer_settings_2();
-    set_depth_buffer_settings_id(1);
+    set_draw_list_mask(1);
     save_depth_buffer_settings();
     saved_render_flags = model_render_flags;
     set_model_render_flags(1);
@@ -483,7 +483,7 @@ void TMainTask::render_objects() {
     tl_03->render_deferred_nodes();
     tl_04->render_deferred_nodes();
 
-    set_depth_buffer_settings_id(0);
+    set_draw_list_mask(0);
     set_chunk_render_flags(4);
 
     tl_item_equip->allow_rendering();
@@ -494,7 +494,7 @@ void TMainTask::render_objects() {
 
     task_flags &= ~MAIN_TASK_DEFERRED_OBJECTS;
 
-    set_depth_buffer_settings_id(2);
+    set_draw_list_mask(2);
     set_chunk_render_flags(2);
 
     tl_item_equip->allow_rendering();

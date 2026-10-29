@@ -3,7 +3,7 @@
 #include "pso/TMainTask.h"
 #include "pso/misc/TLobby.h"
 #include "pso/system/GinjaTexture.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F9B84.h"
 
@@ -20,7 +20,7 @@ s32 particle_texture_id_table[54];
 
 void approach_vector_in_place(Vec *current, const Vec *target, f32 step) {
     Vec next;
-    approach_vector_fixed_distance(current, target, &next, step);
+    approach_vector_fixed_distance((const Vec *)current, (const Vec *)target, (Vec *)&next, step);
     current->x = next.x;
     current->y = next.y;
     current->z = next.z;

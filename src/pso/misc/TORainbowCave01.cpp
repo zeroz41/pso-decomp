@@ -5,7 +5,7 @@
 #include "pso/misc/TORainbowCave01.h"
 #include "pso/network/client_id.h"
 #include "pso/object/TObjFish.h"
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/render/model_render_state.h"

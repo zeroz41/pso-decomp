@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80083360.h"
 #include "pso/player/TObjPlayer_80083B38.h"
 #include "pso/player/TObjPlayer_800847A8.h"
@@ -57,11 +58,11 @@ void TUnk_8048E5F4::render() {
         }
         if (TObjPlayer::get_camera_flag() != 0) {
             TObjPlayer__sub_80084764();
-            TObjPlayer::setup_tev_swap();
+            init_tev_swap();
         }
     }
 }
-void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { TObjPlayer::set_tev_swap_mode((u8)((void*)0)); } }
+void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) { set_tev_swap_mode((u8)((void*)0)); } }
 void TUnk_8048E5F4::run_task() {  }
 void *__dt__13TUnk_8048E5F4Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

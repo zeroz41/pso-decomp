@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/render/render_util.h"
 #include "pso/system/FlagWord.h"
 #include "pso/TObject.h"
 #include "pso/misc/TLOC_ListClear.h"
@@ -400,7 +401,6 @@ s32 target_in_xz_cone(Vec_8013C0A0 *p, Vec_8013C0A0 *q, Vec_8013C0A0 *r, s32 yaw
 s32 get_entity_id(void *);
 s32 set_size__11TMainCursorFf(f32);
 s32 TMainCursor__sub_8013F168(void *);
-f32 horizontal_distance_squared(void *, void *);
 s32 set_flag_bit__11TMainCursorFlUs(void *, int, int);
 s32 is_technique_ready__8TTecCtrlFv();
 s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 *target, Best_8013C288 *best);
@@ -555,7 +555,7 @@ s32 try_add_target_candidate__11TMainCursorFPvPvPvPv(u8 *cursor, u8 *player, u8 
         if (c->flags & ((TMainCursor *)cursor)->get_body_exclude_mask()) {
             continue;
         }
-        dist = horizontal_distance_squared(cursor + 0x1C, c->pos);
+        dist = horizontal_distance_squared((const Vec *)(cursor + 0x1C), (const Vec *)c->pos);
         if (!(c->flags & 0x22000) && best->dist > dist) {
             best->dist = dist;
             best->id = get_entity_id(player);
@@ -1206,14 +1206,14 @@ void TLockOnCursor::renderSecondaryCursor(u8 *arg1, s32 arg2, s32 arg3) {
                 TParticleCtrl::begin_effect_render();
                 push_matrix();
                 translate_matrix(0, TMainCursor__data_805DB0C0, temp_f31, TMainCursor__data_805DB0C0);
-                TPlyPhotonChair::update_parts2((void *)(arg0 + 0x48));
-                TPlyPhotonChair::play_sound_with_arg((void *)(arg0 + 0x48), (void *)target_cursor_color_table[5]);
+                save_model_draw_state((void *)(arg0 + 0x48));
+                begin_constant_color_draw((void *)(arg0 + 0x48), (const NJS_ARGB *)((void *)target_cursor_color_table[5]));
                 TMainCursor::get_cursor_state();
                 draw_chunk_object();
-                TPlyPhotonChair::play_sound_with_arg((void *)(arg0 + 0x48), (void *)target_cursor_color_table[temp_r3_2]);
+                begin_constant_color_draw((void *)(arg0 + 0x48), (const NJS_ARGB *)((void *)target_cursor_color_table[temp_r3_2]));
                 TLockOnCursor__sub_8013EB34();
                 draw_chunk_object();
-                TPlyPhotonChair::update_parts((void *)(arg0 + 0x48));
+                restore_model_draw_state((void *)(arg0 + 0x48));
                 pop_matrix();
                 TParticleCtrl::end_effect_render();
                 pop_matrix();

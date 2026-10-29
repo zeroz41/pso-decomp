@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/enemy/TObjEneLappy_800F5DE0.h"
 #include "pso/system/ChunkMaterialState.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneLappy.h"

@@ -8,8 +8,8 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/text_80141A30.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
+
 
 struct TitlePulseQuad {
     f32 x0, y0, x1, y1;

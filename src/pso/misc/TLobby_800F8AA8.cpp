@@ -8,9 +8,9 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/misc/pso_date.h"
 #include "pso/system/ModelDrawContext.h"
-#include "pso/unk/text_80141A30.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_803DCDFC.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/main_loop.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLobby.h"

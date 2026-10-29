@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_802F19C0.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -27,7 +27,7 @@ void fn_802F19C0(void) {
 extern int boss7_common_texture_list;
 
 void draw_particle_effect(void* a0) {
-    set_depth_buffer_settings_id((u32)((void*)3));
+    set_draw_list_mask((u32)((void*)3));
 
     TParticleCtrl::begin_effect_render();
     TObjFish::set_global_param(boss7_common_texture_list);

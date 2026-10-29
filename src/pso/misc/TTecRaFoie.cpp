@@ -1,11 +1,11 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/effect/TEffect.h"
 #include "pso/effect/TEffClitical.h"
 #include "pso/unk/text_802A8210.h"
-#include "pso/render/depth_buffer.h"
+
 #include "pso/system/vector.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TTecRaBarta.h"
@@ -377,12 +377,12 @@ void TUnk_804CCB28::render() {
     scale_matrix(0, x, y, z);
     rotate_matrix_y(0, *(s32 *)(camera_ctrl_instance + 0x194));
     TObjFish::set_global_param((s32)lbl_805D63B0);
-    TObjFish::set_cull_back();
-    set_depth_buffer_settings_id(3);
+    set_cull_back();
+    set_draw_list_mask(3);
     get_bml_model(technique_effect_bml, 0xB);
     draw_ginja_object();
     restore_draw_list_mask();
-    TObjFish::set_cull_none();
+    set_cull_none();
     pop_matrix();
     model_render_flags = saved_model_render_flags;
     if (o->tev != 0) {

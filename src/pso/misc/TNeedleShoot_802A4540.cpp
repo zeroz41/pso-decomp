@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 #include "pso/misc/TNeedleShoot.h"
-#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 struct Stack_802A4544 {
     f32 sp8;
@@ -47,7 +47,7 @@ void TNeedleShoot::check_wall_hit() {
 
 void TNeedleShoot::render() {
     NJS_ARGB color = needle_shoot_color_white;
-    TObjRoomId__sub_80141CF4((const Vec *)((u8 *)this + 0x6C), &color, lbl_805DDF68);
+    debug_draw_sphere((const Vec *)((u8 *)this + 0x6C), &color, lbl_805DDF68);
 }
 
 }

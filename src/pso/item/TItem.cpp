@@ -41,7 +41,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/unk/text_80104F4C.h"
 #include "pso/unk/text_8011A780.h"
-#include "pso/unk/text_80141550.h"
+#include "pso/render/render_util.h"
 #include "pso/unk/text_801036CC.h"
 #include "pso/unk/text_801057A8.h"
 #include "pso/unk/text_801D98F8.h"
@@ -70,7 +70,7 @@
 #include <string.h>
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+
 #include "pso/player/TObjPlayer_80104860.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
 #include "pso/misc/TLobby_80207644.h"
@@ -434,7 +434,7 @@ void TItem::render_shadows() {
     if (all_parents_unqueued_for_destruction() != 0) {
         set_shadow_flag();
         if (get_mode() == ITEM_MODE_EQUIPPED && is_current_area_item_enabled() != 0) {
-            set_depth_buffer_settings_id(1);
+            set_draw_list_mask(1);
             saved_model_render_flags = model_render_flags;
             saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
             saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
@@ -1478,7 +1478,7 @@ void TItem::render_model() {
     s32 texture;
     TItemLoad::get_model_ids(drop_model, (s32 *)&model, &texture);
     if (model != NULL) {
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
         set_texlist(texture);
         push_matrix();
@@ -1504,7 +1504,7 @@ void TItem::render_present_box() {
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
         copy_argb(&saved_model_draw_color, &model_material_color);
         model_render_flags |= 0x10;
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         TParticleCtrl::begin_effect_render();
         set_texlist(texture);
         push_matrix();

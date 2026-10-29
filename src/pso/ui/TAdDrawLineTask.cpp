@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/TAdDrawLineTask.h"
 #include "pso/ui/TAdDrawLineCtrl.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
 void draw_projected_line_strip__10TObjPlayerFPvii(DrawLineVertex *, s32, s32);

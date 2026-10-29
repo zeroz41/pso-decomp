@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer_8033E910.h"
 #include "pso/ui/TAdMcCheckGC.h"
 #include "pso/misc/TUnk_804EFA88.h"
-#include "pso/render/depth_buffer.h"
+#include "pso/render/render_util.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
@@ -119,7 +119,7 @@ void TUnk_804EFA88::render() {
         request_indirect_effect(((O_8033EB4C *)this)->items[i].effect_kind);
         set_material_alpha_compare_reference(((O_8033EB4C *)this)->items[i].scene);
         set_depth_buffer_settings_1();
-        set_depth_buffer_settings_id(3);
+        set_draw_list_mask(3);
         push_matrix();
         post_translate_matrix(((O_8033EB4C *)this)->items[i].a);
         rotate_matrix_by_node_angles(((O_8033EB4C *)this)->items[i].b, 1);
