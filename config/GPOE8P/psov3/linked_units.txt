@@ -1237,7 +1237,7 @@ pso/misc/TNpcPlayer_802C3CD0.cpp
 pso/misc/TNpcPlayer_8034DC20.cpp
 pso/misc/TNpcPlayer_8034DFBC.cpp
 pso/misc/TOAirconCave01.cpp
-pso/misc/TOAirconCave01_80156D28.cpp
+pso/misc/CameraDistanceFade.cpp
 pso/misc/TOAirconCave02.cpp
 pso/misc/TOAttackableCol.cpp
 pso/misc/TOBarrierEnergy01.cpp
@@ -3076,7 +3076,6 @@ pso/unk/text_8014AAC4.cpp
 pso/unk/text_8014AB24.cpp
 pso/unk/text_8014B8A4.cpp
 pso/unk/text_8014B904.cpp
-pso/unk/text_80156BBC.cpp
 pso/unk/text_8015C048.cpp
 pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp

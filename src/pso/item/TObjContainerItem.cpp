@@ -11,10 +11,9 @@
 #include "pso/system/vector.h"
 #include "pso/item/TObjContainerBase.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/unk/text_80156BBC.h"
 #include "pso/misc/TLazerFenceSw.h"
 #include "pso/unk/text_8018A150.h"
-#include "pso/misc/TUnk_804AF8D8.h"
+#include "pso/misc/CameraDistanceFade.h"
 #include "pso/misc/TOAirconCave01.h"
 #include "pso/unk/text_8018A3E0.h"
 #include "pso/system/BmlResource.h"
@@ -603,8 +602,7 @@ struct Obj_80189F24 : VBase_80189F24 {
 };
 
 extern "C" {
-s32 step_laser_fence_fade(void *);
-s32 fn_80156BBC(void *, void *);
+void *__ct__18CameraDistanceFadeFv(void *self);
 extern const f32 lbl_805DBCF0;
 
 void TUnk_804B6C24::render() {
@@ -613,10 +611,10 @@ void TUnk_804B6C24::render() {
         return;
     }
     self->x364 = 1;
-    if (fn_80156BBC(&self->sub, self->pos) != 1) {
+    if (((CameraDistanceFade *)&self->sub)->update_visibility((Vec *)self->pos) != 1) {
         return;
     }
-    if (fn_80156C38((f32 *)&self->sub) == 1) {
+    if (((CameraDistanceFade *)&self->sub)->is_translucent() == 1) {
         self->sub.m6();
         self->m79();
         self->sub.m7();
@@ -627,7 +625,7 @@ void TUnk_804B6C24::render() {
 
 void TUnk_804B6C24::run_task() {
     u8 *arg0 = (u8 *)this;
-    step_laser_fence_fade(arg0 + 0x340);
+    ((CameraDistanceFade *)(arg0 + 0x340))->step_fade();
     this->vfunc_80();
     this->m_364 = 0;
 }
@@ -674,7 +672,7 @@ extern const f32 lbl_805DBD08;
 u8 *init_container_base(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__9TObjCharaFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804B6C24.value;
-    ((TUnk_804AF8D8 *)(arg0 + 0x340))->init_vtable_804AF8D8();
+    __ct__18CameraDistanceFadeFv(arg0 + 0x340);
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32E8;
     ((TUnk_804B6C24 *)(arg0))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DBD00;
@@ -685,7 +683,7 @@ u8 *init_container_base(u8 *arg0, s32 arg1, s32 arg2) {
     } else {
         ((TUnk_804B6C24 *)arg0)->m_360 = 0;
     }
-    ((TUnk_804AF8D8 *)(arg0 + 0x340))->sub_80156CEC();
+    ((CameraDistanceFade *)(arg0 + 0x340))->reset();
     TLazerFenceSw__sub_8018A554((arg0 + 0x340), lbl_805DBD08);
     ((TUnk_804B6C24 *)arg0)->m_364 = 0;
     return arg0;

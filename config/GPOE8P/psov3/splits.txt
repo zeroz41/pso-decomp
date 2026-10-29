@@ -4782,12 +4782,10 @@ pso/player/TObjPlayer_801542CC.cpp:
 pso/misc/TLobby_80156B18.cpp:
 	.text       start:0x80156B18 end:0x80156BBC
 
-pso/unk/text_80156BBC.cpp:
-	.text       start:0x80156BBC end:0x80156D28
+pso/misc/CameraDistanceFade.cpp:
+	.text       start:0x80156BBC end:0x80156E8C
+	.data       start:0x804AF8D8 end:0x804AF908
 	.sdata2     start:0x805DB2A8 end:0x805DB2B8
-
-pso/misc/TOAirconCave01_80156D28.cpp:
-	.text       start:0x80156D28 end:0x80156E8C
 
 pso/misc/TOAirconCave01.cpp:
 	.text       start:0x80156E8C end:0x801570D4

@@ -586,7 +586,7 @@ force_active:
   - TOAttackableCol__sub_80157C28
   - TOBind__ct
   - TOBiwaMushi__ct
-  - TOCakeshopCave01__ct
+  - __ct__16TOCakeshopCave01FPv
   - TOCapsuleAncient01__ct
   - TOCapsuleLabo__resource_descriptor
   - TOCapsuleMachine01__ct
@@ -4530,7 +4530,7 @@ force_active:
   - fn_8010EF14
   - fn_8010EFE8
   - fn_80119204
-  - fn_80156C88
+  - is_visible__18CameraDistanceFadeFv
   - fn_80157CA8
   - fn_8017F5F0
   - fn_801908F8
@@ -13369,7 +13369,7 @@ force_active:
   - update_battle_phase__19TPlayerBattleCtrl4PFv
   - update_battle_sync__6TLobbyFl
   - update_best_time__13TUnk_804B8E18Fv
-  - update_blink_state__16TOCakeshopCave01FPv
+  - update_blink_state__16TOCakeshopCave01Fl
   - update_block_jump_list__6TLobbyFv
   - update_bomb_drop__15TObjEneDelDepthFv
   - update_breakup__14TObjVoloptCageFv

@@ -4,12 +4,11 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MaterialAlphaCompare.h"
 #include "pso/unk/text_80141550.h"
-#include "pso/unk/text_80156BBC.h"
 #include "pso/unk/text_80193524.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/render/depth_buffer.h"
 #include "pso/object/TObjDoorJung.h"
-#include "pso/misc/TUnk_804AF8D8.h"
+#include "pso/misc/CameraDistanceFade.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TLazerFenceSw.h"
@@ -84,7 +83,6 @@ struct Node_80193CA4 {
 };
 
 extern "C" {
-s32 fn_80156BBC(void *, void *);
 
 void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
@@ -112,7 +110,7 @@ extern u8 lbl_80445D20[];
 s32 TLobby__sub_8001FE7C(void *, s32);
 void free_collision_body_parts(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
-s32 step_laser_fence_fade(void *);
+void *__ct__18CameraDistanceFadeFv(void *self);
 
 __declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") u32 lazer_fence_beam_motions[2];
@@ -192,8 +190,8 @@ void TLazerFenceSw::render() {
         if (TMainTask::get_render_pass() != 1) {
             set_depth_buffer_settings_id(3);
             set_material_alpha_compare_reference(0x80);
-            if (fn_80156BBC(arg0 + 0xF0, (u8 *)&this->position) != 0) {
-                if (fn_80156C38((f32 *)(arg0 + 0xF0)) != 0) {
+            if (((CameraDistanceFade *)(arg0 + 0xF0))->update_visibility(&this->position) != 0) {
+                if (((CameraDistanceFade *)(arg0 + 0xF0))->is_translucent() != 0) {
                     ((VObj_14_aa9368 *)(arg0 + (240)))->m6();
                     draw_laser_beam();
                     ((VObj_14_aa9368 *)(arg0 + (240)))->m7();
@@ -259,7 +257,7 @@ void TLazerFenceSw::update_switch_off() {
 
 void TLazerFenceSw::run_task() {
     u8 *arg0 = (u8 *)this;
-    step_laser_fence_fade(arg0 + 0xF0);
+    ((CameraDistanceFade *)(arg0 + 0xF0))->step_fade();
     ((TOKey *)arg0)->TOKey::run_task();
     *(f32 *)((s8 *)arg0 + 0x110) += 0.2f;
 }
@@ -338,7 +336,7 @@ void *__dt__13TLazerFenceSwFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TLazerFenceSw;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804AF8D8 *)((s8 *)arg0 + 0xF0))->destroy(-1);
+        ((CameraDistanceFade *)((s8 *)arg0 + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
         __dt__5TOKeyFv(arg0, 0);
         if (arg1 > 0) {
             TObject::operator delete(arg0);
@@ -351,7 +349,7 @@ void *__dt__13TLazerFenceSwFv(void *arg0, s16 arg1) {
 void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
     __ct__5TOKeyFP7TObject((TOKey *)arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = ((u8 *)&__vt__13TLazerFenceSw);
-    ((TUnk_804AF8D8 *)((u8 *)arg0 + 0xF0))->init_vtable_804AF8D8();
+    __ct__18CameraDistanceFadeFv((u8 *)arg0 + 0xF0);
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D33B0;
     init_key__5TOKeyFPv(arg0, arg2);
     if (*(s32 *)((s8 *)arg0 + 0x8C) < 0) {
@@ -363,7 +361,7 @@ void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
     init_collision_body_parts(arg0, lazer_fence_sw_collision_body_part, 1);
     *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_804AF8D8 *)((u8 *)arg0 + 0xF0))->sub_80156CEC();
+    ((CameraDistanceFade *)((u8 *)arg0 + 0xF0))->reset();
     TLazerFenceSw__sub_8018A554((u8 *)arg0 + 0xF0, 2.9e+02f);
     *(f32 *)((s8 *)arg0 + 0x110) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x114) = 0;
