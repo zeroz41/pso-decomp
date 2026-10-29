@@ -3,22 +3,25 @@
 
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
+#include "pso/system/NinjaTypes.h"
+
+class TParticleCtrl;
 
 struct TOMonumentAncient02 : public TObjMapObject {
     TOMonumentAncient02(TObject *parent, void *set_data);
     virtual ~TOMonumentAncient02();
     virtual void vfunc_6(s16 *, s32);
     virtual void interact(s32 client);
-    s32 m_c8;  // 1 once its story flag is set: it shakes and its light pulses
+    s32 activated;  // 1 once its story flag is set: it shakes and its light pulses
     s32 brightening;  // 1 while the light brightens
-    u32 m_d0;  // the story flag it waits for
+    u32 story_flag;  // the story flag it waits for
     u32 sound_id;  // the sound it loops once active
-    f32 light_color[4];  // the light's constant material colour (a, r, g, b)
-    u32 effect;  // its particle effect
+    NJS_ARGB light_color;  // the light's constant material colour
+    TParticleCtrl *effect;  // its particle effect
     s32 in_view;  // 1 while update_object_view_visibility sees it
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void free_shared_data();
     static void load_resources();
 };

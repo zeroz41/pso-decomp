@@ -3053,9 +3053,9 @@ force_active:
   - bm_fs_obj_lazerguard_motion_names
   - bm_fs_obj_o_monument01_motion_names
   - bm_fs_obj_o_monument02_motion_names
-  - bm_fs_obj_o_monument02_resource_bundle
+  - bm_fs_obj_o_monument02_resource_descriptor
   - bm_fs_obj_o_monument03_motion_names
-  - bm_fs_obj_o_monument03_resource_bundle
+  - bm_fs_obj_o_monument03_resource_descriptor
   - bm_fs_obj_o_sensor01_model_names
   - bm_fs_obj_o_sensor01_motion_names
   - bm_fs_obj_sensor_model_names
@@ -6489,7 +6489,7 @@ force_active:
   - modem_pulse_dial_command
   - modem_ring_response
   - modem_tone_dial_command
-  - monument_ancient02_resource_table
+  - bm_fs_obj_o_monument01_resource_descriptor
   - morfos_resource_descriptor
   - morning_glory_ct__FPvlPv
   - motorcycle_resource_descriptor

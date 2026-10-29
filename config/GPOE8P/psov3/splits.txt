@@ -5283,9 +5283,11 @@ pso/misc/TOMonumentAncient01_801726D4.cpp:
 
 pso/misc/TOMonumentAncient02.cpp:
 	.text       start:0x80172A34 end:0x80173014
-	.rodata     start:0x804423E0 end:0x804423E8
+	.rodata     start:0x80442330 end:0x804423E8
 	.data       start:0x804B3960 end:0x804B3A0C
-	.sdata      start:0x805D30C0 end:0x805D30CC
+	.sdata      start:0x805D30C0 end:0x805D30D0
+	.sbss       start:0x805D5A68 end:0x805D5A6C
+	.sdata2     start:0x805DB920 end:0x805DB93C
 
 pso/misc/TORainbowCave01_80173014.cpp:
 	.text       start:0x80173014 end:0x80173478

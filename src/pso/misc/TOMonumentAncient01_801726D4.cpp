@@ -105,13 +105,13 @@ void TOMonumentAncient02::vfunc_6(s16 *arg1, s32) {
     this->m_ac = (s32) *arg1;
     switch (this->m_ac) {
     case 2:
-        dispatch_by_main_phase__14TBoss4DarkFalzFUs(this->m_d0);
-        this->m_c8 = 1;
+        dispatch_by_main_phase__14TBoss4DarkFalzFUs(this->story_flag);
+        this->activated = 1;
         break;
     default:
-        if (get_story_flag(this->m_d0) != 0) {
+        if (get_story_flag(this->story_flag) != 0) {
             this->m_ac = 2;
-            this->m_c8 = 1;
+            this->activated = 1;
         }
         break;
     }
