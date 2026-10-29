@@ -47,6 +47,11 @@ void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
+void TOFenceAncient02::update_demo() {  }
+void TOFenceAncient02::close() { *(int *)&this->object_state = 0; this->is_open = 0; this->clear_player_status_flag((s32)((void*)0), (u32)((void*)8)); }
+void TOFenceAncient02::open() { *(int *)&this->object_state = 1; this->is_open = 1; set_indexed_flags((s32)((void*)0), (s32)((void*)8)); }
+
+
 void *TOFenceAncient02::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD8);
     if (o != NULL) {
@@ -55,7 +60,7 @@ void *TOFenceAncient02::create(void *arg0) {
     return o;
 }
 
-void TOFenceAncient02::free_resources() {
+void TOFenceAncient02::unload_resources() {
   s32 var_r31;
   s32 var_r30;
   int new_var;
@@ -84,7 +89,7 @@ void TOFenceAncient02::free_resources() {
   }
 }
 
-void TOFenceAncient02::load_assets() {
+void TOFenceAncient02::load_resources() {
     O_80167020 *o;
     Arr_80167020 *r;
     o = (O_80167020 *)::operator new(0x440);
@@ -124,7 +129,7 @@ u8 *TOFenceAncient02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TOFenceAncient02 *)(arg0))->apply_object_set_data((void *)arg2);
     temp_r4 = (u8 *)(*(u8 **)((s8 *)TOFenceAncient02__model_resource + 0x42C));
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)temp_r4 + 8);
-    ((TOFenceAncient02 *)arg0)->texlist = (s32) *(s32 *)((s8 *)((*(s32 *)&TOFenceAncient02__texture_variants) + (((TUnk_804B1B80 *)arg0)->sub_80166EA8((int)temp_r4) * 4)) + 0);
+    ((TOFenceAncient02 *)arg0)->texlist = (s32) *(s32 *)((s8 *)((*(s32 *)&TOFenceAncient02__texture_variants) + (((TUnk_804B1B80 *)arg0)->read_texture_variant() * 4)) + 0);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)TOFenceAncient02__model_resource + 0x430)) + 4));
     temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xBC));
     temp_f1 = (f32) *(u32 *)((s8 *)temp_r6 + 4);
@@ -132,7 +137,7 @@ u8 *TOFenceAncient02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts((void *)arg0, &fence_ancient02_collision_body_parts.value, 3, (int)temp_r6, (f32)temp_f1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_804B1B80 *)arg0)->sub_80166E64();
+    ((TUnk_804B1B80 *)arg0)->read_trigger_params();
     ((TOFenceAncient02 *)arg0)->view_range = (f32) lbl_805DB624;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB628;
     return arg0;

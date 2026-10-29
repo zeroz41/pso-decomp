@@ -92,7 +92,7 @@ void *TOFenceAncient04::create(void *arg0) {
     return o;
 }
 
-void TOFenceAncient04::destroy() {
+void TOFenceAncient04::unload_resources() {
     if ((void *) TOFenceAncient04__resource_bundle != NULL) {
         TObjPlayer::free_if_valid(*(s32 *)((s8 *)TOFenceAncient04__resource_bundle + 4));
         TObjPlayer::free_if_valid(*(s32 *)((s8 *)TOFenceAncient04__resource_bundle + 8));
@@ -148,7 +148,7 @@ u8 *TOFenceAncient04__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TOFenceAncient04 *)(arg0))->apply_object_set_data((void *)arg2);
     temp_r4 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOFenceAncient04__model_archive) + 0x42C));
     *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)temp_r4 + 8);
-    ((TOFenceAncient04 *)arg0)->texlist = (s32) *(s32 *)((s8 *)((*(s32 *)&TOFenceAncient04__resource_bundle) + (((TUnk_804B1B80 *)arg0)->sub_80166EA8((int)temp_r4) * 4)) + 0);
+    ((TOFenceAncient04 *)arg0)->texlist = (s32) *(s32 *)((s8 *)((*(s32 *)&TOFenceAncient04__resource_bundle) + (((TUnk_804B1B80 *)arg0)->read_texture_variant() * 4)) + 0);
     *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOFenceAncient04__model_archive) + 0x430)) + 4));
     temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xBC));
     temp_f1 = (f32) *(u32 *)((s8 *)temp_r6 + 4);
@@ -156,7 +156,7 @@ u8 *TOFenceAncient04__ct(u8 *arg0, s32 arg1, s32 arg2) {
     init_collision_body_parts((void *)arg0, &ofence_ancient04_collision_parts.value, 8, (int)temp_r6, (f32)temp_f1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_804B1B80 *)arg0)->sub_80166E64();
+    ((TUnk_804B1B80 *)arg0)->read_trigger_params();
     ((TOFenceAncient04 *)arg0)->view_range = (f32) lbl_805DB644;
     *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB648;
     return arg0;

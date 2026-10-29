@@ -10,8 +10,8 @@ struct TOFenceAncient02 : public TUnk_804B1B80 {
     virtual void close();
     virtual void update_demo();
     static void *create(void *arg0);
-    static void free_resources();
-    static void load_assets();
+    static void unload_resources();
+    static void load_resources();
 };
 
 typedef char TOFenceAncient02_size[sizeof(TOFenceAncient02) == 0xD8 ? 1 : -1];

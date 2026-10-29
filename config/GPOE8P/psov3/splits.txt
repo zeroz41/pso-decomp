@@ -5118,15 +5118,15 @@ pso/misc/TUnk_804B1B80.cpp:
 	.sdata2     start:0x805DB600 end:0x805DB60C
 
 pso/misc/TOFenceAncient01.cpp:
-	.text       start:0x80166B00 end:0x80166B6C
-
-pso/unk/text_80166B6C.cpp:
-	.text       start:0x80166B6C end:0x80166F4C
-	.rodata     start:0x804414E0 end:0x804414E8
-	.data       start:0x804B1BC8 end:0x804B1BE8
+	.text       start:0x80166B00 end:0x80166EE0
+	.rodata     start:0x80441438 end:0x804414E8
+	.data       start:0x804B1BC8 end:0x804B1CB0
+	.sdata      start:0x805D2FC8 end:0x805D2FCC
+	.sbss       start:0x805D59B0 end:0x805D59B8
+	.sdata2     start:0x805DB610 end:0x805DB61C
 
 pso/misc/TOFenceAncient02.cpp:
-	.text       start:0x80166F4C end:0x80167244
+	.text       start:0x80166EE0 end:0x80167244
 	.rodata     start:0x80441590 end:0x80441598
 
 pso/misc/TOFenceAncient03.cpp:

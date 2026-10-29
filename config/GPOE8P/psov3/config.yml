@@ -623,7 +623,7 @@ force_active:
   - TOExplosiveMachine02__class_name
   - TOExplosiveMachine03__class_name
   - TOExplosiveMachine__class_name
-  - TOFenceAncient01__ct
+  - __ct__16TOFenceAncient01FP7TObjectPv
   - TOFenceAncient02__ct
   - TOFenceAncient03__ct
   - TOFenceAncient03_resource_descriptor
@@ -6617,7 +6617,7 @@ force_active:
   - object_factories_floors_11_12
   - object_factories_floors_19_20
   - object_factories_floors_21_22
-  - ofence_ancient01_resource_descriptor
+  - bm_fd_obj_n_saku_4x2_resource_descriptor
   - off_rate__14PadRumbleLevelFv
   - offline_quest_catalog_ep1
   - ograss_jungle_resource_descriptor

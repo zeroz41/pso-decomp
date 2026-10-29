@@ -110,7 +110,7 @@ TUnk_804B1B80::TUnk_804B1B80(TObject *parent) : TObjMapObject(parent) {
     switch_id = -1;
     trigger_mode = 0;
     is_open = 0;
-    m_d4 = 0;
+    texture_variant = 0;
 }
 
 void TUnk_804B1B80::open() {}

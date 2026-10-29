@@ -19,12 +19,16 @@ public:
     virtual void update_demo();
     void check_trigger();
     void update_trigger();
-    s32 sub_80166EA8(int);
-    s32 sub_80166E64();
+    // set_params[1] clamped to 0-3: which of the fence's four texture lists
+    // (its model's own, o_fence_ancient_b/g/p.gvm) it draws with.
+    s32 read_texture_variant();
+    // set_params[0]: no switch (negative) is trigger 1, a switch id up to
+    // 0x100 is trigger 2, anything above never opens.
+    s32 read_trigger_params();
     s32 trigger_mode;  // 0 never, 1 a player within 70, 2 switch_id set
-    u32 switch_id;
+    s32 switch_id;
     s32 is_open;  // 1 draws the root model posed instead of the motion
-    u32 m_d4;
+    s32 texture_variant;
 };
 
 typedef char TUnk_804B1B80Size[sizeof(TUnk_804B1B80) == 0xD8 ? 1 : -1];
