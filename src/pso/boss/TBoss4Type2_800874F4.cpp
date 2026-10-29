@@ -57,7 +57,7 @@ void TBoss4Type2::set_param_ptr(s32 arg1) {
 }
 
 void TBoss4Type2::copy_vec3(void* q) { *(u32*)((char*)this + 0x6c) = *(u32*)((char*)q + 0x0); *(u32*)((char*)this + 0x70) = *(u32*)((char*)q + 0x4); *(u32*)((char*)this + 0x74) = *(u32*)((char*)q + 0x8); }
-void TBoss4Type2::set_flags(u32 v) { *(u16*)((char*)this + 0x2c) |= v; }
+void TBoss4Type2::set_flags(u16 v) { *(u16*)((char*)this + 0x2c) |= v; }
 
 void TParticleCtrl::set_owner_id(u16 id) {
     O_80087638 *self = (O_80087638 *)this;

@@ -108,6 +108,7 @@
 #include "pso/object/TObjRainbowLobby.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
 #include "pso/object/TObjStendGlassLobby.h"
+#include "pso/object/TObjParticleLobby.h"
 #include "pso/object/TObjSuisouLobby.h"
 #include "pso/object/TObjTank.h"
 #include "pso/object/TObjTreeLobby.h"
@@ -146,8 +147,6 @@ void fn_8030B7B4();
 void fn_8030B7B8();
 void fn_803516F8();
 void fn_803653A4();
-void TObjParticleLobby__sub_80369A60();
-void TObjParticleLobby__sub_80369A64();
 }
 void load_forest_box_resources();
 void load_chat_sensor();
@@ -584,7 +583,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_15[14] = {
     { TObjWeddingLobby::load_resources, TObjWeddingLobby::free_resources },
     { TObjTreeLobby::load_resources, TObjTreeLobby::free_resources },
     { TObjSuisouLobby::load_resources, TObjSuisouLobby::free_resources },
-    { TObjParticleLobby__sub_80369A64, TObjParticleLobby__sub_80369A60 },
+    { TObjParticleLobby::load_resources, TObjParticleLobby::free_resources },
     { 0, 0 },
 };
 

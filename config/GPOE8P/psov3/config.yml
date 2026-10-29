@@ -1137,8 +1137,8 @@ force_active:
   - TObjOnlineEndingHexMove__ct
   - TObjOnlineEndingHexMove__default_move_params
   - TObjOnlineEnding__ct
-  - TObjParticleLobby__ct
-  - TObjParticleLobby__sub_80369698
+  - __ct__17TObjParticleLobbyFP7TObjectPv
+  - demo_step__17TObjParticleLobbyFv
   - TObjParticle__ct
   - TObjPathObj__ct
   - TObjPlayerSet__ct

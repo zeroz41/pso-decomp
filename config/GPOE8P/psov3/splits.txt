@@ -12325,7 +12325,7 @@ pso/boss/TBoss6MagMine.cpp:
 pso/object/TObjParticleLobby.cpp:
 	.text       start:0x80369654 end:0x80369B5C
 	.rodata     start:0x8047A378 end:0x8047A390
-	.data       start:0x804F33B0 end:0x804F33D8
+	.data       start:0x804F3378 end:0x804F33D8
 	.sdata      start:0x805D44B8 end:0x805D44C0
 	.sdata2     start:0x805E0340 end:0x805E0350
 

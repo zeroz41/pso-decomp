@@ -498,6 +498,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TObjTreeLobby.cpp is written from its last function back: the
     # quest-damage task it also defines has its vtable after the tree's.
     "pso/object/TObjTreeLobby.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TObjParticleLobby.cpp too: its vtable precedes setup_emitter's jump table.
+    "pso/object/TObjParticleLobby.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TItemMag's vtable precedes its switch tables: deferred, and written from
     # its last function back.
     "pso/item/TItemMag.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
