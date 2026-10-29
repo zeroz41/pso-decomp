@@ -52,8 +52,8 @@ const char *TSwitch__name = "TSwitch";
 
 extern "C" {
 
-void is_current_floor_switch_set(s32 id) {
-    is_floor_switch_set((u32)id, (s16)((s16)((int) (get_current_floor()))));
+u8 is_current_floor_switch_set(s32 id) {
+    return is_floor_switch_set((u32)id, (s16)((s16)((int) (get_current_floor()))));
 }
 
 void clear_floor_switch_flag(u32 id, s16 floor) {

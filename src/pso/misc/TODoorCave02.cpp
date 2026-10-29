@@ -8,7 +8,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TODoorCave02_8016206C.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TODoorAncient01.h"
@@ -39,13 +39,13 @@ struct VObj_80161D38 : Base_80161D38 {
 s32 draw_ginja_model_with_motion(void *, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 
-void TODoorCave02::vfunc_20() {  }
+void TODoorCave02::update_demo() {  }
 
 extern u8 *cave_door02_resources;
 
-void TODoorCave02::vfunc_17() {
+void TODoorCave02::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_d0 & 1) {
+    if (this->door_flags & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)cave_door02_resources + 4);
         if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
             this->m_ac = 3;
@@ -60,20 +60,20 @@ void TODoorCave02::vfunc_17() {
     }
 }
 
-void TODoorCave02::play_proximity_sound() {
+void TODoorCave02::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_d0 & 0x100000) {
+    if (this->door_flags & 0x100000) {
         this->m_d8 += 0.1f;
         if (1.0f <= this->m_d8) {
-            this->m_d0 = (s32) (this->m_d0 & 0xFFEFFFFF);
+            this->door_flags = (s32) (this->door_flags & 0xFFEFFFFF);
         }
     } else {
         this->m_d8 = (f32) (this->m_d8 - 0.1f);
         if (this->m_d8 <= 0.0f) {
-            this->m_d0 = (s32) (this->m_d0 | 0x100000);
+            this->door_flags = (s32) (this->door_flags | 0x100000);
         }
     }
-    if ((this->m_d0 & 1) && (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1)) {
+    if ((this->door_flags & 1) && (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -117,7 +117,7 @@ void TODoorCave02::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         if ((s32) *(s32 *)&this->m_ac == 0) {
-            TObjFish::set_global_param(*(s32 *)(cave_door02_resources + ((this->m_d0 * 4) & 4)));
+            TObjFish::set_global_param(*(s32 *)(cave_door02_resources + ((this->door_flags * 4) & 4)));
             draw_parts((void *)(*(void **)((s8 *)(*(void * *)&this->model) + 0x2C)));
             draw_parts((void *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void * *)&this->model) + 0x2C)) + 0x30)));
         } else {
@@ -155,7 +155,7 @@ struct RecoveredGlobal_8016226C___vt__12TODoorCave02 {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8016226C_lbl_804B1488 TODoorCave02__collision_body_parts;
 extern s32 __vt__12TODoorCave02[];
 extern s32 lbl_805D2F68;
@@ -225,7 +225,7 @@ void *__dt__12TODoorCave02Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave02;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -235,7 +235,7 @@ void *__dt__12TODoorCave02Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8016226C_lbl_804B1488_size[sizeof(RecoveredGlobal_8016226C_lbl_804B1488) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8016226C___vt__12TODoorCave02_size[sizeof(RecoveredGlobal_8016226C___vt__12TODoorCave02) == 0x54 ? 1 : -1];
 u8 *TODoorCave02__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8016226C___vt__12TODoorCave02 *)&__vt__12TODoorCave02).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F68;
     ((TODoorCave02 *)(arg0))->apply_object_set_data((void *)arg2);

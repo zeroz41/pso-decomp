@@ -2,13 +2,13 @@
 #define PSO_MISC_TODOORCAVE02_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorCave02 : public TUnk_804B0BB8 {
+struct TODoorCave02 : public TODoorBase {
     virtual ~TODoorCave02();
-    virtual void vfunc_20();
-    virtual void vfunc_17();
-    virtual void play_proximity_sound();
+    virtual void update_demo();
+    virtual void update_open();
+    virtual void update_closed();
     s32 draw_parts(void *arg1_);
     virtual void render();
     static void *create(void *arg0);

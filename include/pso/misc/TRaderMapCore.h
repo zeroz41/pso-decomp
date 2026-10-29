@@ -108,4 +108,8 @@ typedef char RaderMapCoreViewportWidth[(offsetof(TRaderMapCore, m_160) == 0x160)
 typedef char RaderMapCoreTarget[(offsetof(TRaderMapCore, m_184) == 0x184) ? 1 : -1];
 typedef char RaderMapCoreTail[(offsetof(TRaderMapCore, m_1a0) == 0x1A0) ? 1 : -1];
 
+// Draws a door or gate marker on the radar: green when it is open to the
+// player, red when it is locked.
+extern "C" s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
+
 #endif

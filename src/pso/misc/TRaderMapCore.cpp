@@ -129,7 +129,7 @@ struct RecoveredGlobal_801F9B8C_TRaderMapCore__data_80512D08 {
     u8 remaining[0x9FC];
 };
 
-struct Vec_801F9B8C { f32 x, y, z; };
+typedef Vec Vec_801F9B8C;
 
 struct Dot_801F9B8C { f32 x, z, w; s16 c; s16 type; s32 color; };
 
@@ -341,7 +341,7 @@ f32 xz_distance_squared(void *, void *);
 extern Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
 extern const f32 lbl_805DC564;
 s32 minimap_render_dot(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3);
-s32 minimap_render_gate(Vec_801F9B8C *pos, u32 color, u16 rot, s16 kind, s32 flags);
+s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
 void update_radar_auto_discovery(s32 arg0, s32 arg1, void *arg2);
 void set_perspective_projection_from_fov(s32, f32, f32, f32);
@@ -680,7 +680,7 @@ s32 add_radar_scaled_marker(Vec_801F9B8C *pos, s32 arg1, s16 arg2, s32 arg3, f32
     return 1;
 }
 
-s32 minimap_render_gate(Vec_801F9B8C *pos, u32 color, u16 rot, s16 kind, s32 flags) {
+s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags) {
     Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
     Vec_801F9B8C v;
     u8 pad[0x10];

@@ -2,9 +2,9 @@
 #define PSO_MISC_TODOORFOURLIGHTBASE_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorFourLightBase : public TUnk_804B0BB8 {
+struct TODoorFourLightBase : public TODoorBase {
     virtual ~TODoorFourLightBase();
     virtual void vfunc_21() = 0;
     virtual void vfunc_22() = 0;

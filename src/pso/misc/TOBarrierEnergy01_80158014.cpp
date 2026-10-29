@@ -2,7 +2,7 @@
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/misc/TOBarrierEnergy01_80158014.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TODoorAncient01.h"
@@ -37,7 +37,7 @@ extern s32 *TOBarrierEnergy01__texture_lists;
 extern s32 barrier_energy_model;
 u8 *get_bml_motion(s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_80158188_lbl_804AFB34 barrier_energy01_collision_body_parts;
 extern s32 __vt__17TOBarrierEnergy01[];
 extern s32 lbl_805D2EA0;
@@ -85,7 +85,7 @@ void *__dt__17TOBarrierEnergy01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOBarrierEnergy01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -96,7 +96,7 @@ void *__dt__17TOBarrierEnergy01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80158188_lbl_804AFB34_size[sizeof(RecoveredGlobal_80158188_lbl_804AFB34) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80158188___vt__17TOBarrierEnergy01_size[sizeof(RecoveredGlobal_80158188___vt__17TOBarrierEnergy01) == 0x54 ? 1 : -1];
 u8 *TOBarrierEnergy01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80158188___vt__17TOBarrierEnergy01 *)&__vt__17TOBarrierEnergy01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EA0;
     ((TOBarrierEnergy01 *)(arg0))->apply_object_set_data((void *)arg2);

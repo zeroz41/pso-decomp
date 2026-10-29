@@ -2,12 +2,12 @@
 #define PSO_MISC_TODOORANCIENT06_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorAncient06 : public TUnk_804B0BB8 {
+struct TODoorAncient06 : public TODoorBase {
     virtual ~TODoorAncient06();
-    virtual void vfunc_17();
-    virtual void play_proximity_sound();
+    virtual void update_open();
+    virtual void update_closed();
     virtual void render();
     static void *create(void *arg0);
     static void destroy();

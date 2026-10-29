@@ -6,7 +6,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorAncient01.h"
 
 struct Base1 { char pad[0x18]; };
@@ -52,9 +52,9 @@ void TODoorAncient05::render() {
     }
 }
 
-void TODoorAncient05::vfunc_17() {
+void TODoorAncient05::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_d0 & 1) {
+    if (this->door_flags & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient05__switch_texture_lists + 4);
         if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
             this->m_ac = 3;
@@ -71,9 +71,9 @@ void TODoorAncient05::vfunc_17() {
 
 extern void *tl_05;
 
-void TODoorAncient05::play_proximity_sound() {
+void TODoorAncient05::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_d0 & 1) {
+    if (this->door_flags & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient05__switch_texture_lists + 4);
         if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
             this->m_ac = 1;
@@ -107,7 +107,7 @@ struct RecoveredGlobal_8015F048___vt__15TODoorAncient05 {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8015F048_lbl_804B0F28 TODoorAncient05__collision_body;
 extern s32 __vt__15TODoorAncient05[];
 extern s32 lbl_805D2F38;
@@ -175,7 +175,7 @@ void *__dt__15TODoorAncient05Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorAncient05;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -185,7 +185,7 @@ void *__dt__15TODoorAncient05Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8015F048_lbl_804B0F28_size[sizeof(RecoveredGlobal_8015F048_lbl_804B0F28) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8015F048___vt__15TODoorAncient05_size[sizeof(RecoveredGlobal_8015F048___vt__15TODoorAncient05) == 0x54 ? 1 : -1];
 u8 *TODoorAncient05__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015F048___vt__15TODoorAncient05 *)&__vt__15TODoorAncient05).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F38;
     ((TODoorAncient05 *)(arg0))->apply_object_set_data((void *)arg2);

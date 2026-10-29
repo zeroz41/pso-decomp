@@ -2,9 +2,9 @@
 #define PSO_OBJECT_TOBJDOORJUNG_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TObjDoorJung : public TUnk_804B0BB8 {
+struct TObjDoorJung : public TODoorBase {
     virtual ~TObjDoorJung();
     void clamp_state();
     virtual void update_door_switch_state();

@@ -2,13 +2,13 @@
 #define PSO_MISC_TODOORMACHINE01_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorMachine01 : public TUnk_804B0BB8 {
+struct TODoorMachine01 : public TODoorBase {
     virtual ~TODoorMachine01();
-    virtual void vfunc_20();
-    virtual void vfunc_17();
-    virtual void play_proximity_sound();
+    virtual void update_demo();
+    virtual void update_open();
+    virtual void update_closed();
     virtual void update_door_switch_state();
     u32 m_d4;
     u32 m_d8;

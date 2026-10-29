@@ -2,7 +2,7 @@
 #include "pso/misc/TODoorAncient01_8015DDE8.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
@@ -59,7 +59,7 @@ extern RecoveredGlobal_8016BC84_lbl_80441ACC lbl_804409EC;
 extern RecoveredGlobal_8016BC84_lbl_804B2B30 bm_fe_obj_o_door01l_resource_descriptor;
 extern u32 TODoorAncient01__shared_resource;
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8015E188_lbl_804B0D68 TODoorAncient01__collision_body;
 extern s32 __vt__15TODoorAncient01[];
 extern s32 lbl_805D2F20;
@@ -74,9 +74,9 @@ void mem_free(void *p);
 
 extern const f32 lbl_805DB3E0;
 
-void TODoorAncient01::vfunc_17() {
+void TODoorAncient01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3E0) == 0)) {
+    if (!(this->door_flags & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3E0) == 0)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -85,9 +85,9 @@ void TODoorAncient01::vfunc_17() {
 
 extern const f32 lbl_805DB3E4;
 
-void TODoorAncient01::play_proximity_sound() {
+void TODoorAncient01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3E4) != 0)) {
+    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3E4) != 0)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -106,7 +106,7 @@ void TODoorAncient01::render() {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        TObjFish::set_global_param((int) (*(s32 *)((s8 *)(*(s32 *)&TODoorAncient01__texture_lists) + ((this->m_d0 * 4) & 4))));
+        TObjFish::set_global_param((int) (*(s32 *)((s8 *)(*(s32 *)&TODoorAncient01__texture_lists) + ((this->door_flags * 4) & 4))));
         if ((s32) *(s32 *)&this->m_ac == 0) {
             temp_r31 = *(u8 * *)&this->model;
             post_translate_matrix(temp_r31 + 8);
@@ -182,7 +182,7 @@ void *__dt__15TODoorAncient01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorAncient01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -192,7 +192,7 @@ void *__dt__15TODoorAncient01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8015E188_lbl_804B0D68_size[sizeof(RecoveredGlobal_8015E188_lbl_804B0D68) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8015E188___vt__15TODoorAncient01_size[sizeof(RecoveredGlobal_8015E188___vt__15TODoorAncient01) == 0x54 ? 1 : -1];
 u8 *TODoorAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015E188___vt__15TODoorAncient01 *)&__vt__15TODoorAncient01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F20;
     ((TODoorAncient01 *)(arg0))->apply_object_set_data((void *)arg2);

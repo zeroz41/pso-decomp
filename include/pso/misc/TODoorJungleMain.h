@@ -2,9 +2,9 @@
 #define PSO_MISC_TODOORJUNGLEMAIN_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorJungleMain : public TUnk_804B0BB8 {
+struct TODoorJungleMain : public TODoorBase {
     virtual ~TODoorJungleMain();
     virtual void vfunc_6(s16 *, s32);
     virtual void update_door_switch_state();

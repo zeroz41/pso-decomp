@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorVS2Door01.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TODoorAncient01.h"
@@ -66,7 +66,7 @@ extern RecoveredGlobal_80176308_lbl_804B4278 fs_obj_o_vs2door01l_resource_descri
 extern u32 door_vs2_shared_bml_archive;
 extern s32 *TODoorVS2Door01__texture_lists;
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_80164340_lbl_804B17F0 todoor_vs2_door01_collision_parts;
 extern s32 __vt__15TODoorVS2Door01[];
 extern s32 TODoorVS2Door01__class_name;
@@ -88,11 +88,11 @@ void *__nw__7TObjectFUl(int);
 s32 is_in_view_depth__13TObjMapObjectFf();
 void mem_free(void *p);
 
-void TODoorVS2Door01::vfunc_20() {  }
+void TODoorVS2Door01::update_demo() {  }
 
 #pragma push
 #pragma opt_common_subs off
-void TODoorVS2Door01::vfunc_18() {
+void TODoorVS2Door01::update_closing() {
     *(f32 *)&this->unk_D4 = (f32) (*(f32 *)&this->unk_D4 - this->m_b8);
     if (*(f32 *)&this->unk_D4 <= (0.0f)) {
         *(f32 *)&this->unk_D4 = (f32) (0.0f);
@@ -101,16 +101,16 @@ void TODoorVS2Door01::vfunc_18() {
 }
 #pragma pop
 
-void TODoorVS2Door01::vfunc_17() {
+void TODoorVS2Door01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf((1e+04f)) == 0)) {
+    if (!(this->door_flags & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf((1e+04f)) == 0)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);
     }
 }
 
-void TODoorVS2Door01::vfunc_16() {
+void TODoorVS2Door01::update_opening() {
     f32 lim = 19.0f;
     *(f32 *)&this->unk_D4 = *(f32 *)&this->unk_D4 + this->m_b8;
     if (lim <= *(f32 *)&this->unk_D4) {
@@ -119,9 +119,9 @@ void TODoorVS2Door01::vfunc_16() {
     }
 }
 
-void TODoorVS2Door01::play_proximity_sound() {
+void TODoorVS2Door01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf((4.9e+03f)) != 0)) {
+    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf((4.9e+03f)) != 0)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);
@@ -252,7 +252,7 @@ void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorVS2Door01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -262,7 +262,7 @@ void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80164340_lbl_804B17F0_size[sizeof(RecoveredGlobal_80164340_lbl_804B17F0) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80164340___vt__15TODoorVS2Door01_size[sizeof(RecoveredGlobal_80164340___vt__15TODoorVS2Door01) == 0x54 ? 1 : -1];
 u8 *TODoorVS2Door01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80164340___vt__15TODoorVS2Door01 *)&__vt__15TODoorVS2Door01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorVS2Door01__class_name;
     ((TODoorVS2Door01 *)(arg0))->apply_object_set_data((void *)arg2);

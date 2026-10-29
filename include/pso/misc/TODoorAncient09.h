@@ -2,16 +2,16 @@
 #define PSO_MISC_TODOORANCIENT09_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorAncient09 : public TUnk_804B0BB8 {
+struct TODoorAncient09 : public TODoorBase {
     virtual ~TODoorAncient09();
     void sub_80160968();
     void door_ancient09_sync_state(void *);
-    virtual void vfunc_20();
+    virtual void update_demo();
     virtual s32 init_door_switch_binding();
-    virtual void vfunc_17();
-    virtual void play_proximity_sound();
+    virtual void update_open();
+    virtual void update_closed();
     virtual void update_door_switch_state();
     virtual void vfunc_6(s16 *, s32);
     u16 m_d4;

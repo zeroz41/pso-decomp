@@ -3,7 +3,7 @@
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TODoorCave03.h"
 #include "pso/TParticleCtrl.h"
@@ -77,7 +77,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern s32 enable_v2_features;
 extern u32 TODoorCave03__model_resource;
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_80162848_lbl_804B1548 lbl_804B1548;
 extern s32 __vt__12TODoorCave03[];
 extern s32 TODoorCave03__class_name;
@@ -98,11 +98,11 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void TODoorCave03::vfunc_20() {  }
+void TODoorCave03::update_demo() {  }
 
 extern void *tl_05;
 
-void TODoorCave03::vfunc_18() {
+void TODoorCave03::update_closing() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f2;
     f32 temp_f3;
@@ -117,9 +117,9 @@ void TODoorCave03::vfunc_18() {
     play_persistent_sound(0x42807, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
 }
 
-void TODoorCave03::vfunc_17() {
+void TODoorCave03::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (this->m_d0 & 1) {
+    if (this->door_flags & 1) {
         if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB4D8) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8U);
@@ -130,7 +130,7 @@ void TODoorCave03::vfunc_17() {
     }
 }
 
-void TODoorCave03::vfunc_16() {
+void TODoorCave03::update_opening() {
     u8 *arg0 = (u8 *)this;
   f32 temp_f1;
   f32 temp_f3;
@@ -148,10 +148,10 @@ void TODoorCave03::vfunc_16() {
   play_persistent_sound(0x42807, (s32)arg0, (u32)(arg0 + 0x38), 0, 0);
 }
 
-void TODoorCave03::play_proximity_sound() {
+void TODoorCave03::update_closed() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r4;
-    temp_r4 = this->m_d0;
+    temp_r4 = this->door_flags;
     if (temp_r4 & 1) {
         if (((TObjMapObject *)arg0)->is_any_player_within_radius_xz(lbl_805DB4E0) == 1) {
             this->m_ac = 1;
@@ -160,12 +160,12 @@ void TODoorCave03::play_proximity_sound() {
     } else if (temp_r4 & 0x10000) {
         *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (*(f32 *)((s8 *)arg0 + 0xD8) + lbl_805DB4E4);
         if (TODoorCave03__data_805DB4D4 <= *(f32 *)((s8 *)arg0 + 0xD8)) {
-            this->m_d0 = (s32) (this->m_d0 & 0xFFFEFFFF);
+            this->door_flags = (s32) (this->door_flags & 0xFFFEFFFF);
         }
     } else {
         *(f32 *)((s8 *)arg0 + 0xD8) = (f32) (*(f32 *)((s8 *)arg0 + 0xD8) - lbl_805DB4E4);
         if (*(f32 *)((s8 *)arg0 + 0xD8) <= lbl_805DB4D0) {
-            this->m_d0 = (s32) (this->m_d0 | 0x10000);
+            this->door_flags = (s32) (this->door_flags | 0x10000);
         }
     }
 }
@@ -244,7 +244,7 @@ void *__dt__12TODoorCave03Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave03;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -254,7 +254,7 @@ void *__dt__12TODoorCave03Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80162848_lbl_804B1548_size[sizeof(RecoveredGlobal_80162848_lbl_804B1548) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80162848___vt__12TODoorCave03_size[sizeof(RecoveredGlobal_80162848___vt__12TODoorCave03) == 0x54 ? 1 : -1];
 u8 *TODoorCave03__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80162848___vt__12TODoorCave03 *)&__vt__12TODoorCave03).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorCave03__class_name;
     ((TODoorCave03 *)(arg0))->apply_object_set_data((void *)arg2);

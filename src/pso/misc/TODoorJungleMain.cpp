@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorJungleMain.h"
 #include "pso/misc/TOKeyJungleMain.h"
 #include "pso/TLevelSelect.h"
@@ -29,7 +29,7 @@ s32 TODoorJungleMain__vt8(s32 arg0, f32 farg0, f32 farg1) {
 
 void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
     if ((arg1 != NULL) && ((s16) *arg1 == 1)) {
-        this->m_d0 = (s32) (this->m_d0 | 1);
+        this->door_flags = (s32) (this->door_flags | 1);
         if (arg2 == 0) {
             *(f32 *)&this->m_b4 = (f32) (*(u32 *)((s8 *)(*(void * *)&this->m_bc) + 4) - 1);
             set_indexed_flags(0, 8);
@@ -180,7 +180,7 @@ extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80465418;
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_o_jungle_doormain_resource_descriptor;
 s32 get_bml_motion(void *, s32);
 u32 init_collision_body_parts(void *, s32, s32);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8029B924_lbl_804DC014 TODoorJungleMain_collision_body_parts;
 extern s32 __vt__16TODoorJungleMain[];
 extern s32 TODoorJungleMain__name;
@@ -324,7 +324,7 @@ void TODoorJungleMain::run_task() {
     f32 t;
 
     this->update_door_switch_state();
-    if (this->m_d0 & 1) {
+    if (this->door_flags & 1) {
         flag = 0;
         *(f32 *)&this->m_b4 += this->m_b8;
         t = *(f32 *)&this->m_b4;
@@ -369,7 +369,7 @@ void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TODoorJungleMain *)arg0)->m_dc = 0; }
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -382,7 +382,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     s32 temp_r4;
-    __ct__13TUnk_804B0BB8FP7TObject(arg0);
+    __ct__10TODoorBaseFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8029B924___vt__16TODoorJungleMain *)&__vt__16TODoorJungleMain).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);

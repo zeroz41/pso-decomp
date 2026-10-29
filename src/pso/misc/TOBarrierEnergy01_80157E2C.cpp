@@ -9,10 +9,10 @@ s32 update_anim_phase__13TObjMapObjectFv();
 
 extern s32 *TOBarrierEnergy01__texture_lists;
 
-void TOBarrierEnergy01::vfunc_17() {
+void TOBarrierEnergy01::update_open() {
     update_anim_phase__13TObjMapObjectFv();
     this->play_ambient_loop_sound();
-    if (!(this->m_d0 & 1)) {
+    if (!(this->door_flags & 1)) {
         this->m_ac = 3;
         this->clear_player_status_flag(0, 8);
         this->texlist = (s32) *TOBarrierEnergy01__texture_lists;

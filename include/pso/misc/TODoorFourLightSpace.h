@@ -2,9 +2,9 @@
 #define PSO_MISC_TODOORFOURLIGHTSPACE_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TODoorFourLightSpace : public TUnk_804B0BB8 {
+struct TODoorFourLightSpace : public TODoorBase {
     virtual ~TODoorFourLightSpace();
     virtual s32 init_door_switch_binding();
     virtual void update_door_switch_state();

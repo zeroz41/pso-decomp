@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TODoorMachine01.h"
 #include "pso/TParticleCtrl.h"
@@ -88,7 +88,7 @@ extern const f32 lbl_805DB4F8;
 extern const f32 lbl_805DB4FC;
 extern const f32 lbl_805DB500;
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_80163158_lbl_804B1608 TODoorMachine01__collision_body_parts;
 extern s32 __vt__15TODoorMachine01[];
 extern s32 TODoorMachine01__class_name;
@@ -122,13 +122,13 @@ s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 void mem_free(void *p);
 
-void TODoorMachine01::vfunc_20() {  }
+void TODoorMachine01::update_demo() {  }
 
 extern const f32 lbl_805DB4F0;
 
-void TODoorMachine01::vfunc_17() {
+void TODoorMachine01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->m_d0 & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F0) != 1)) {
+    if (!(this->door_flags & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F0) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -137,22 +137,22 @@ void TODoorMachine01::vfunc_17() {
 
 extern void *tl_05;
 
-void TODoorMachine01::play_proximity_sound() {
+void TODoorMachine01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F4) == 1)) {
+    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F4) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
     }
-    if (this->m_d0 & 0x100000) {
+    if (this->door_flags & 0x100000) {
         this->m_e0 = (f32) (this->m_e0 + lbl_805DB4F8);
         if (lbl_805DB4FC <= this->m_e0) {
-            this->m_d0 = (s32) (this->m_d0 & 0xFFEFFFFF);
+            this->door_flags = (s32) (this->door_flags & 0xFFEFFFFF);
         }
     } else {
         this->m_e0 = (f32) (this->m_e0 - lbl_805DB4F8);
         if (this->m_e0 <= lbl_805DB500) {
-            this->m_d0 = (s32) (this->m_d0 | 0x100000);
+            this->door_flags = (s32) (this->door_flags | 0x100000);
         }
     }
 }
@@ -164,7 +164,7 @@ void TODoorMachine01::update_door_switch_state() {
     s32 k;
     switch (self->fCC) {
     case 1:
-        ((TUnk_804B0BB8 *)self)->play_door_sound();
+        ((TODoorBase *)self)->play_door_sound();
         self->fD0 |= 0xF0001;
         self->fD4 = 4;
         break;
@@ -189,7 +189,7 @@ void TODoorMachine01::update_door_switch_state() {
             }
         }
         if (self->fD4 == 4) {
-            ((TUnk_804B0BB8 *)self)->play_door_sound();
+            ((TODoorBase *)self)->play_door_sound();
             self->fD0 |= 1;
         } else {
             self->fD0 &= ~1;
@@ -213,7 +213,7 @@ void TODoorMachine01::update_door_switch_state() {
             }
         }
         if (self->fD4 == 4) {
-            ((TUnk_804B0BB8 *)self)->play_door_sound();
+            ((TODoorBase *)self)->play_door_sound();
             self->fD0 |= 1;
         }
         break;
@@ -346,7 +346,7 @@ void *__dt__15TODoorMachine01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorMachine01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -357,7 +357,7 @@ typedef char RecoveredGlobal_80163158_lbl_804B1608_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80163158___vt__15TODoorMachine01_size[sizeof(RecoveredGlobal_80163158___vt__15TODoorMachine01) == 0x54 ? 1 : -1];
 u8 *TODoorMachine01__ct(TODoorMachine01 *arg0, s32 arg1, s32 arg2) {
     s32 temp_r0;
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80163158___vt__15TODoorMachine01 *)&__vt__15TODoorMachine01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorMachine01__class_name;
     ((TODoorMachine01 *)(arg0))->apply_object_set_data((void *)arg2);

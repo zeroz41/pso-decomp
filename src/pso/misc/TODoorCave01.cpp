@@ -1,7 +1,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorAncient09.h"
 #include "pso/misc/TODoorCave01.h"
 #include "pso/misc/TLobby.h"
@@ -44,7 +44,7 @@ void update_and_send_60__6TLobbyFPv(void *);
 u8 is_current_floor_switch_set(u16);
 s32 get_main_phase();
 
-void TODoorCave01::vfunc_20() {  }
+void TODoorCave01::update_demo() {  }
 
 void TODoorCave01::send_state(void *src_arg) {
     Self_80161320 *self = (Self_80161320 *)this;
@@ -69,55 +69,55 @@ void TODoorCave01::send_state(void *src_arg) {
 
 void TODoorCave01::vfunc_6(s16 *arg1, s32) {
     if ((s16) *arg1 == 1) {
-        this->m_d0 = (s32) (this->m_d0 | 0xF0000 | 1);
+        this->door_flags = (s32) (this->door_flags | 0xF0000 | 1);
     }
 }
 
 s32 TODoorCave01::init_door_switch_binding() {
     s32 temp_r0;
 
-    this->m_c8 = (s32) this->set_params[0];
-    temp_r0 = this->m_c8;
+    this->switch_id = (s32) this->set_params[0];
+    temp_r0 = this->switch_id;
     if (temp_r0 > 0x100) {
-        this->m_cc = 0;
+        this->lock_mode = 0;
     } else if (temp_r0 < 0) {
-        this->m_cc = 1;
+        this->lock_mode = 1;
     } else if ((s32) this->set_params[2] < 0) {
         if ((get_main_phase() == 0xF) || (TRaderMapCore::is_not_split_screen() == 1)) {
-            this->m_cc = 3;
+            this->lock_mode = 3;
         } else {
-            this->m_cc = 2;
+            this->lock_mode = 2;
         }
     } else {
-        this->m_cc = 2;
+        this->lock_mode = 2;
     }
-    return this->m_c8;
+    return this->switch_id;
 }
 
-void TODoorCave01::vfunc_17() {
+void TODoorCave01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (((u8) ((u32) __cntlzw(this->m_d0 & 1) >> 5) == 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(1e+04f) != 1)) {
+    if (((u8) ((u32) __cntlzw(this->door_flags & 1) >> 5) == 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(1e+04f) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
     }
 }
-void TODoorCave01::play_proximity_sound() {
+void TODoorCave01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->m_d0 & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(4.9e+03f) == 1)) {
+    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(4.9e+03f) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
     }
-    if (this->m_d0 & 0x100000) {
+    if (this->door_flags & 0x100000) {
         this->m_e0 += 0.1f;
         if (1.0f <= this->m_e0) {
-            this->m_d0 = (s32) (this->m_d0 & 0xFFEFFFFF);
+            this->door_flags = (s32) (this->door_flags & 0xFFEFFFFF);
         }
     } else {
         this->m_e0 = (f32) (this->m_e0 - 0.1f);
         if (this->m_e0 <= 0.0f) {
-            this->m_d0 = (s32) (this->m_d0 | 0x100000);
+            this->door_flags = (s32) (this->door_flags | 0x100000);
         }
     }
 }
@@ -130,7 +130,7 @@ void TODoorCave01::update_door_switch_state() {
 
     switch (d->state) {
     case 1:
-        ((TUnk_804B0BB8 *)arg0)->play_door_sound();
+        ((TODoorBase *)arg0)->play_door_sound();
         d->flags |= 0xF0001;
         d->count = 4;
         break;
@@ -146,7 +146,7 @@ void TODoorCave01::update_door_switch_state() {
             d->flags |= 1 << (i + 0x10);
         }
         if (d->count == 4) {
-            ((TUnk_804B0BB8 *)arg0)->play_door_sound();
+            ((TODoorBase *)arg0)->play_door_sound();
             d->flags |= 1;
         } else {
             d->flags &= ~1;
@@ -168,7 +168,7 @@ void TODoorCave01::update_door_switch_state() {
             d->flags |= 1 << (i + 0x10);
         }
         if (d->count == 4) {
-            ((TUnk_804B0BB8 *)arg0)->play_door_sound();
+            ((TODoorBase *)arg0)->play_door_sound();
             d->flags |= 1;
             if (d->obj != NULL && ((TObjCollidable *)arg0)->access_object_saved_state(&st, (s16)1) != 0) {
                 st.a = 1;
@@ -254,7 +254,7 @@ void render__12TODoorCave01Fv(TODoorCave01 *arg0) {
             var_r29 = 0;
             var_r30 = (unsigned char *) (*(void **)((s8 *)arg0->model + 0x2C));
             do {
-                TODoorCave01::draw_door_model((void *)arg0, (int)var_r30, (int)(arg0->m_d0 & (1 << (var_r29 + 0x10)) ? 1 : 0));
+                TODoorCave01::draw_door_model((void *)arg0, (int)var_r30, (int)(arg0->door_flags & (1 << (var_r29 + 0x10)) ? 1 : 0));
                 var_r29 += 1;
                 var_r30 = (unsigned char *) (*(void **)((s8 *)var_r30 + 0x30));
             } while (var_r29 < 4);
@@ -303,7 +303,7 @@ struct RecoveredGlobal_80161BE4___vt__12TODoorCave01 {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_80161BE4_lbl_804B13C8 TODoorCave01__collision_body_template;
 extern s32 __vt__12TODoorCave01[];
 extern s32 lbl_805D2F60;
@@ -362,7 +362,7 @@ void *__dt__12TODoorCave01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_804B0BB8Fv(arg0, 0);
+        __dt__10TODoorBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -373,7 +373,7 @@ typedef char RecoveredGlobal_80161BE4_lbl_804B13C8_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80161BE4___vt__12TODoorCave01_size[sizeof(RecoveredGlobal_80161BE4___vt__12TODoorCave01) == 0x54 ? 1 : -1];
 u8 *TODoorCave01__ct(TODoorCave01 *arg0, s32 arg1, s32 arg2) {
     s32 temp_r0;
-    __ct__13TUnk_804B0BB8FP7TObject((arg0));
+    __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80161BE4___vt__12TODoorCave01 *)&__vt__12TODoorCave01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F60;
     ((TODoorCave01 *)(arg0))->apply_object_set_data((void *)arg2);

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -11,7 +11,7 @@ s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 enable_v2_features;
 extern const f32 lbl_805DB3D4;
 extern const f32 lbl_805DB3D8;
-void TUnk_804B0BB8::vfunc_17() {
+void TODoorBase::update_open() {
     u8 *arg0 = (u8 *)this;
     if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3D4) != 0) {
         return;
@@ -50,7 +50,7 @@ void TUnk_804B0BB8::vfunc_17() {
         break;
     }
 }
-void TUnk_804B0BB8::play_proximity_sound() {
+void TODoorBase::update_closed() {
     u8 *arg0 = (u8 *)this;
     if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB3D8) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;

@@ -2,14 +2,14 @@
 #define PSO_OBJECT_TOBJDOAEX01_H
 
 #include "types.h"
-#include "pso/unk/TUnk_804B0BB8.h"
+#include "pso/misc/TODoorBase.h"
 
-struct TObjDoaEx01 : public TUnk_804B0BB8 {
+struct TObjDoaEx01 : public TODoorBase {
     virtual ~TObjDoaEx01();
-    virtual void vfunc_18();
-    virtual void vfunc_17();
-    virtual void vfunc_16();
-    virtual void play_proximity_sound();
+    virtual void update_closing();
+    virtual void update_open();
+    virtual void update_opening();
+    virtual void update_closed();
     virtual void render();
     s32 draw_object_tree(s32 arg1);
     static void free_resource();
