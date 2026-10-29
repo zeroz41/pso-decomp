@@ -15,8 +15,8 @@ struct TObjRainbowLobby : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void free_static_data();
-    static void load_shared_resource();
+    static void free_resources();
+    static void load_resources();
     f32 scale;
 
     static BmlResource *shared_model_resource;

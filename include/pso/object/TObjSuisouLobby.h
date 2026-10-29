@@ -18,7 +18,7 @@ struct TObjSuisouLobby : public TObjMapObject {
     TParticleCtrl *emitter1;  // the bubbles behind it
     void update_particle();
     void *create();
-    static void destroy_instance();
+    static void free_resources();
     static void load_resources();
 };
 

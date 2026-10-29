@@ -71,7 +71,7 @@ void TObjTreeLobby::load_resources() {
     lobby_texlist = TLobby::get_lobby_texlist();
 }
 
-void TObjTreeLobby::destroy_static_instance() {
+void TObjTreeLobby::free_resources() {
     if (model_resource != NULL) {
         TLobby__sub_8001FE7C(model_resource, 1);
         model_resource = NULL;

@@ -126,7 +126,7 @@ void *TObjSuisouLobby::create() {
     return new TObjSuisouLobby((TObject *)tl_05, this);
 }
 
-void TObjSuisouLobby::destroy_instance() {
+void TObjSuisouLobby::free_resources() {
     if ((u32) TObjSuisouLobby__instance != 0U) {
         TLobby__sub_8001FE7C((void*)TObjSuisouLobby__instance, 1);
         TObjSuisouLobby__instance = 0U;

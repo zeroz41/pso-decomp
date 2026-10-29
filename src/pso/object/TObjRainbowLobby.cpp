@@ -77,14 +77,14 @@ void *TObjRainbowLobby::create(void *set_data) {
     return new TObjRainbowLobby(tl_05, set_data);
 }
 
-void TObjRainbowLobby::free_static_data() {
+void TObjRainbowLobby::free_resources() {
     if (shared_model_resource != NULL) {
         TLobby__sub_8001FE7C(shared_model_resource, 1);
         shared_model_resource = NULL;
     }
 }
 
-void TObjRainbowLobby::load_shared_resource() {
+void TObjRainbowLobby::load_resources() {
     void *resource = ::operator new(0x440);
     if (resource != NULL) {
         resource = load_resource_from_descriptor(resource, 1, &bm_obj_lobby_rainbow_resource_descriptor, 0, 0, 0);

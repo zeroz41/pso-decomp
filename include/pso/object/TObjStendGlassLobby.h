@@ -20,7 +20,7 @@ struct TObjStendGlassLobby : public TObjMapObject {
     virtual void run_task();
     void update_state();
     static void *create(void *set_data);
-    static void free_static_model();
+    static void free_resources();
     static void load_resources();
 
     static BmlResource *static_model_resource;

@@ -75,7 +75,7 @@ void *TObjKabochaLobby::create(void *set_data) {
     return new TObjKabochaLobby(tl_05, set_data);
 }
 
-void TObjKabochaLobby::unload_static_data() {
+void TObjKabochaLobby::free_resources() {
     if (model_resource != NULL) {
         TLobby__sub_8001FE7C(model_resource, 1);
         model_resource = NULL;

@@ -19,7 +19,7 @@ struct TObjCurtainLobby : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void close_dialog_window();
+    static void free_resources();
     static void load_resources();
     f32 scale;  // the scale it grows and shrinks by
 

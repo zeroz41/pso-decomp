@@ -92,7 +92,7 @@ void *TObjCurtainLobby::create(void *set_data) {
     return new TObjCurtainLobby(tl_05, set_data);
 }
 
-void TObjCurtainLobby::close_dialog_window() {
+void TObjCurtainLobby::free_resources() {
     if (model_resource != NULL) {
         TLobby__sub_8001FE7C(model_resource, 1);
         model_resource = NULL;

@@ -15,7 +15,7 @@ struct TObjTreeLobby : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void destroy_static_instance();
+    static void free_resources();
     static void load_resources();
     f32 fade_scale;  // 0..1, the xz scale it fades in and out with
 

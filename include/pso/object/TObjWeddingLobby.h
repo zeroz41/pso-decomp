@@ -17,7 +17,7 @@ struct TObjWeddingLobby : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void release();
+    static void free_resources();
     static void load_resources();
     f32 fade_scale;  // 0..1, the xz scale it fades in and out with
     u8 pad_d0[0x4];

@@ -15,7 +15,7 @@ struct TObjKabochaLobby : public TObjMapObject {
     virtual void render();
     virtual void run_task();
     static void *create(void *set_data);
-    static void unload_static_data();
+    static void free_resources();
     static void load_resources();
     f32 scale;  // the scale it grows and shrinks by
 
