@@ -31,7 +31,7 @@ struct TOKurage : public TObjMapObject {
     void init();
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void destroy_static_instance();
     static void load_static_resource();
 };
