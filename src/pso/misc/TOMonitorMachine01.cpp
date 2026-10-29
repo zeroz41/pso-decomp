@@ -138,8 +138,8 @@ void TOMonitorMachine01::render() {
     }
 }
 
-void *TOMonitorMachine01::create() {
-    return new TOMonitorMachine01(this);
+void *TOMonitorMachine01::create(void *set_data) {
+    return new TOMonitorMachine01(set_data);
 }
 
 void TOMonitorMachine01::reset_static_state() {

@@ -132,7 +132,6 @@ void* create__13TOHealGeneralFv(void* placement);
 void* create__12TOMineIcon01Fv(void* placement);
 void* create__12TOMineIcon02Fv(void* placement);
 void* create__12TOMineIcon04Fv(void* placement);
-void* create__18TOMonitorMachine01Fv(void* placement);
 void* TORockCaveBL03__create(void* placement);
 void* TORockCaveBL02__create(void* placement);
 void* TORockCaveBL01__create(void* placement);
@@ -712,7 +711,7 @@ ObjectFactoryEntry object_factories_floor_06[64] = {
     { 0x00CF, TOBind::create, 250000.0f, 0 },
     { 0x0103, TOCapsuleMachine01::create, 250000.0f, 0 },
     { 0x0104, TOComputerMachine01::create, 250000.0f, 0 },
-    { 0x0105, create__18TOMonitorMachine01Fv, 250000.0f, 0 },
+    { 0x0105, TOMonitorMachine01::create, 250000.0f, 0 },
     { 0x0106, TODragonflyMachine01::create, 250000.0f, 0 },
     { 0x0107, TOLightMachine01::create, 250000.0f, 0 },
     { 0x0108, TOExplosiveMachine01__create, 250000.0f, 0 },
@@ -780,7 +779,7 @@ ObjectFactoryEntry object_factories_floor_07[66] = {
     { 0x00CF, TOBind::create, 250000.0f, 0 },
     { 0x0103, TOCapsuleMachine01::create, 250000.0f, 0 },
     { 0x0104, TOComputerMachine01::create, 250000.0f, 0 },
-    { 0x0105, create__18TOMonitorMachine01Fv, 250000.0f, 0 },
+    { 0x0105, TOMonitorMachine01::create, 250000.0f, 0 },
     { 0x0106, TODragonflyMachine01::create, 250000.0f, 0 },
     { 0x0107, TOLightMachine01::create, 250000.0f, 0 },
     { 0x0108, TOExplosiveMachine01__create, 250000.0f, 0 },
@@ -1872,7 +1871,7 @@ ObjectFactoryEntry object_factories_floor_35[64] = {
     { 0x0027, TObjRaderIcon__create, 250000.0f, 0 },
     { 0x0024, TOSwitchAttack::create, 250000.0f, 0 },
     { 0x0167, TOTrapAncient02R::create, 250000.0f, 0 },
-    { 0x0105, create__18TOMonitorMachine01Fv, 250000.0f, 0 },
+    { 0x0105, TOMonitorMachine01::create, 250000.0f, 0 },
     { 0x0103, TOCapsuleMachine01::create, 250000.0f, 0 },
     { 0x00CF, TOBind::create, 250000.0f, 0 },
     { 0x00C3, TOHangceilingCave01__create, 250000.0f, 0 },

@@ -5,12 +5,11 @@
 #include "pso/object/TObjMapObject.h"
 
 struct TOMonitorMachine01 : public TObjMapObject {
-    // The object factories' create() passes its own r3, the set entry, on.
     TOMonitorMachine01(void *set_data);
     virtual ~TOMonitorMachine01();
     virtual void run_task();
     virtual void render();
-    void *create();
+    static void *create(void *set_data);
     static void reset_static_state();
     static void load_resources();
     u8 unk_C8[0x4];
