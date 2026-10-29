@@ -1,155 +1,156 @@
-#include "pso/system/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/misc/TOKeyAncient03.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/misc/TOKeyCave01.h"
+#include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOKey.h"
-#include "pso/misc/TOKeyMachine01.h"
+#include "pso/misc/TKeyBoardControl_8000F764.h"
+#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/misc/TOBoss4Rock.h"
+#include "pso/misc/TOKeyAncient03.h"
+#include "pso/network/client_id.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/protocol/protocol_types.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/ChunkMaterialState.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/GinjaModel.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_803D8F74.h"
 
-struct RecoveredGlobal_8016BD60___vt__14TOKeyAncient03 { s32 value; u8 remaining[0x6C]; };
-
-struct VBase_18_8016BABC { char pad[0x18]; };
-
-struct VObj_18_8016BABC : VBase_18_8016BABC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-extern "C" {
-s32 is_split_screen();
-
-s32 play_sound_effect(s32, s32, s32, s32);
-u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
-void *mem_alloc(u32 size);
-u8 *load_gvm_texture_file(s32 arg0);
-extern const char lbl_80441ACC[];
-extern BmlResourceDescriptor bm_fs_obj_o_doorpanel_resource_descriptor;
-extern u32 TOKeyAncient03__model_archive;
-extern void *TOKeyAncient03__texture_variants;
-s32 get_main_phase(void);
-u8 * __ct__5TOKeyFP7TObject(void *);
-extern s32 __vt__14TOKeyAncient03[];
-extern s32 TOKeyAncient03__class_name;
-
-u8 *TOKeyAncient03__ct(TOKeyAncient03 *arg0, s32 arg1, s32 arg2);
-
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
-s32 post_translate_matrix(void *);
-void draw_ginja_model(s32 model);
+// The default constant-material colour (owner unit not split yet; 27 files
+// declare it with their own types, see the lane report).
 extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-void TLobby__sub_8001FE7C(void*, int);
-void *__nw__7TObjectFUl(int);
-void mem_free(void *p);
+
+const char *bm_fs_obj_o_doorpanel_model_names[] = {"fs_obj_o_doorpanel.gj", NULL};
+const char *bm_fs_obj_o_doorpanel_motion_names[] = {NULL};
+BmlResourceDescriptor bm_fs_obj_o_doorpanel_resource_descriptor = {
+    "bm_fs_obj_o_doorpanel.bml", bm_fs_obj_o_doorpanel_model_names, bm_fs_obj_o_doorpanel_motion_names, 1, 0,
+};
+const char *TOKeyAncient03__class_name = "TOKeyAncient03";
+BmlResource *TOKeyAncient03__model_archive;
+// The panel's own texture list while up, fs_obj_o_doorpanelg.gvm while down.
+s32 *TOKeyAncient03__texture_variants;
+
+void TOKeyAncient03::vfunc_25() {}
+
+// Pressed while a player stands on it (in once mode, latched once on).
+s32 TOKeyAncient03::is_confirm_pressed() {
+    s32 pressed = 0;
+    s32 in_range;
+
+    switch (mode) {
+    case KEY_MODE_ONCE:
+        if (is_split_screen() == 1) {
+            in_range = is_any_player_in_range();
+        } else {
+            in_range = is_local_player_in_range();
+        }
+        if (is_on == 1 || in_range == 1) {
+            pressed = 1;
+        }
+        break;
+    case KEY_MODE_TOGGLE:
+        pressed = is_any_player_in_range();
+        break;
+    }
+    return pressed;
+}
+
+void TOKeyAncient03::send_switch_changed(s32 flags) {
+    G_SwitchStateChanged_6x05 cmd;
+    cmd.init();
+    cmd.header.client_id = entity_id;
+    cmd.unused1 = local_client_id;
+    cmd.switch_id = switch_id;
+    cmd.floor = get_current_floor();
+    cmd.flags = flags;
+    cmd.send();
+}
 
 void TOKeyAncient03::trigger_deactivate_sound() {
-    s32 arg0 = (s32)this;
-    play_sound_effect(0x4004B20D, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4004B20D, &position, 0, 0);
 }
 
 void TOKeyAncient03::trigger_activate_sound() {
-    s32 arg0 = (s32)this;
-    play_sound_effect(0x4004B20D, arg0 + 0x38, 0, 0);
+    play_sound_effect(0x4004B20D, &position, 0, 0);
 }
 
-extern void *tl_05;
-
 void TOKeyAncient03::update_switch_off() {
-    f32 temp_f1;
-    if ((s32) this->m_f8 == 1) {
-        this->m_ec += 0.1f;
-        if (1.0f <= this->m_ec) {
-            this->m_f8 = 0;
+    if (glow_rising == 1) {
+        glow_color.r += 0.1f;
+        if (1.0f <= glow_color.r) {
+            glow_rising = 0;
         }
     } else {
-        this->m_ec = (f32) (this->m_ec - 0.1f);
-        if (this->m_ec <= 0.0f) {
-            this->m_f8 = 1;
+        glow_color.r = glow_color.r - 0.1f;
+        if (glow_color.r <= 0.0f) {
+            glow_rising = 1;
         }
     }
-    temp_f1 = this->scale.y;
-    if (temp_f1 < 0.0f) {
-        this->scale.y = (f32) (temp_f1 - (-0.023333333f));
+    if (scale.y < 0.0f) {
+        scale.y = scale.y - -0.023333333f;
     }
 }
 
 void TOKeyAncient03::update_switch_on() {
-    TOKeyAncient03 *self = this;
-    if ((-0.7f) < self->scale.y) {
-        self->scale.y += (-0.023333333f);
+    if (-0.7f < scale.y) {
+        scale.y += -0.023333333f;
     }
 }
 
 void TOKeyAncient03::run_task() {
-    u8 *arg0 = (u8 *)this;
-    this->update_lock_state();
-    if ((s32) this->is_on != 1) {
-        this->update_switch_off();
-        if (this->is_confirm_pressed() == 1) {
-            ((TOKeyAncient03 *)arg0)->send_switch_changed(1);
-            this->trigger_activate_sound();
-            this->is_on = 1;
+    update_lock_state();
+    if (is_on != 1) {
+        update_switch_off();
+        if (is_confirm_pressed() == 1) {
+            send_switch_changed(1);
+            trigger_activate_sound();
+            is_on = 1;
         }
     } else {
-        this->update_switch_on();
-        if (this->is_confirm_pressed() != 1) {
-            ((TOKeyAncient03 *)arg0)->send_switch_changed(0);
-            this->trigger_deactivate_sound();
-            this->is_on = 0;
+        update_switch_on();
+        if (is_confirm_pressed() != 1) {
+            send_switch_changed(0);
+            trigger_deactivate_sound();
+            is_on = 0;
         }
     }
 }
 
 void TOKeyAncient03::render() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
-    u8 *temp_r31;
-    u8 *temp_r31_2;
-    u8 *temp_r31_3;
-    if (((VObj_18_8016BABC *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
-        TObjFish::set_global_param((int) (*(s32 *)((s8 *)TOKeyAncient03__texture_variants + (*(s32 *)&this->is_on * 4))));
+    NJS_OBJECT *object;
+    u32 flags;
+
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
+        TObjFish::set_global_param(TOKeyAncient03__texture_variants[is_on]);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
-        temp_r31 = *(u8 * *)&this->model;
-        post_translate_matrix(temp_r31 + 8);
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-        if ((s32) *(s32 *)&this->is_on != 1) {
-            temp_r4 = model_render_flags;
-            saved_model_render_flags = temp_r4;
-            model_render_flags = temp_r4 | 0x10;
-            set_constant_material((const NJS_ARGB *)((&this->m_e8)));
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        object = (NJS_OBJECT *)model;
+        post_translate_matrix(object->pos);
+        draw_ginja_model((s32)object->model);
+        if (is_on != 1) {
+            flags = model_render_flags;
+            saved_model_render_flags = flags;
+            model_render_flags = flags | 0x10;
+            set_constant_material(&glow_color);
         }
-        temp_r31_2 = *(u8 **)((s8 *)temp_r31 + 0x2C);
+        object = object->child;
         push_matrix();
-        post_translate_matrix((u8 *)&this->scale);
-        post_translate_matrix(temp_r31_2 + 8);
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
-        temp_r31_3 = *(u8 **)((s8 *)temp_r31_2 + 0x2C);
+        post_translate_matrix(&scale.x);
+        post_translate_matrix(object->pos);
+        draw_ginja_model((s32)object->model);
+        object = object->child;
         push_matrix();
-        post_translate_matrix(temp_r31_3 + 8);
+        post_translate_matrix(object->pos);
         TParticleCtrl::begin_effect_render();
-        draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
+        draw_ginja_model((s32)object->model);
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();
-        if ((s32) *(s32 *)&this->is_on != 1) {
+        if (is_on != 1) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
@@ -157,84 +158,61 @@ void TOKeyAncient03::render() {
     }
 }
 
-void *TOKeyAncient03::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
-    if (o != NULL) {
-        o = TOKeyAncient03__ct((TOKeyAncient03 *)((u8 *)o), (s32)tl_05, (s32)arg0);
-    }
-    return o;
+void *TOKeyAncient03::create(void *set_data) {
+    return new TOKeyAncient03(tl_05, set_data);
 }
 
 void TOKeyAncient03::cleanup_refs() {
-    if ((void *) TOKeyAncient03__texture_variants != NULL) {
-        TObjPlayer::free_if_valid(*(s32 *)((s8 *)TOKeyAncient03__texture_variants + 4));
-        if ((void *) TOKeyAncient03__texture_variants != NULL) {
+    if (TOKeyAncient03__texture_variants != NULL) {
+        TObjPlayer::free_if_valid(TOKeyAncient03__texture_variants[1]);
+        if (TOKeyAncient03__texture_variants != NULL) {
             mem_free(TOKeyAncient03__texture_variants);
             TOKeyAncient03__texture_variants = NULL;
         }
     }
-    if ((u32) TOKeyAncient03__model_archive != 0U) {
-        TLobby__sub_8001FE7C((void*)TOKeyAncient03__model_archive, 1);
-        TOKeyAncient03__model_archive = 0U;
+    if (TOKeyAncient03__model_archive != NULL) {
+        TLobby__sub_8001FE7C(TOKeyAncient03__model_archive, 1);
+        TOKeyAncient03__model_archive = NULL;
     }
 }
 
 void TOKeyAncient03::load_resources() {
-    s32 *temp_r3_2;
-    u8 *temp_r3;
-    u8 *var_r0;
-    temp_r3 = (u8 *)((int)::operator new(0x440));
-    var_r0 = temp_r3;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(load_resource_from_descriptor(temp_r3, 1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, 0));
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    s32 *textures;
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_o_doorpanel_resource_descriptor, 0, 0, 0);
     }
-    (*(u8 * *)&TOKeyAncient03__model_archive) = var_r0;
-    temp_r3_2 = (s32 *)(mem_alloc(8));
-    (*(s32 * *)&TOKeyAncient03__texture_variants) = temp_r3_2;
-    *temp_r3_2 = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOKeyAncient03__model_archive) + 0x42C)) + 0xC);
-    *(s32 *)((s8 *)(*(s32 * *)&TOKeyAncient03__texture_variants) + 4) = (s32)load_gvm_texture_file((s32)lbl_80441ACC);
+    TOKeyAncient03__model_archive = resource;
+    textures = (s32 *)mem_alloc(8);
+    TOKeyAncient03__texture_variants = textures;
+    textures[0] = TOKeyAncient03__model_archive->models[0].m_c;
+    TOKeyAncient03__texture_variants[1] = (s32)load_gvm_texture_file((s32) "fs_obj_o_doorpanelg.gvm");
 }
 
-}
-TOKeyAncient03::~TOKeyAncient03() {
+TOKeyAncient03::~TOKeyAncient03() {}
 
-}
-
-u8 *TOKeyAncient03__ct(TOKeyAncient03 *key_ancient03, s32 arg1, s32 arg2) {
-    __ct__5TOKeyFP7TObject(key_ancient03);
-    *(s32 **)((s8 *)key_ancient03 + 0x18) = &(*(RecoveredGlobal_8016BD60___vt__14TOKeyAncient03 *)&__vt__14TOKeyAncient03).value;
-    *(s32 *)((s8 *)key_ancient03 + 0) = (s32) TOKeyAncient03__class_name;
-    ((TOKeyAncient03 *)(key_ancient03))->apply_object_set_data((void *)arg2);
-    ((TOKey *)key_ancient03)->init_switch_id();
-    key_ancient03->texlist = (s32) *(*(s32 * *)&TOKeyAncient03__texture_variants);
-    key_ancient03->model = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOKeyAncient03__model_archive) + 0x42C)) + 8));
-    key_ancient03->m_c0 = (f32) 4e+02f;
-    *(f32 *)((s8 *)key_ancient03 + 0xC4) = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)key_ancient03->model + 4)) + 0x14);
-    *(f32 *)((s8 *)key_ancient03 + 0xCC) = (f32) 1e+01f;
-    if (get_main_phase() != 0xF) {
-        if (is_split_screen() == 1) {
-            goto block_2;
-        }
-    } else {
-block_2:
-        if ((s32) key_ancient03->mode != 2) {
-            if ((s32) *(s32 *)((s8 *)key_ancient03 + 0x88) < 0) {
-                key_ancient03->mode = 1;
-            } else {
-                goto block_5;
-            }
+TOKeyAncient03::TOKeyAncient03(TObject *parent, void *set_data) : TOKey(parent) {
+    m_name = TOKeyAncient03__class_name;
+    apply_object_set_data(set_data);
+    init_switch_id();
+    texlist = TOKeyAncient03__texture_variants[0];
+    model = (void *)TOKeyAncient03__model_archive->models[0].model;
+    m_c0 = 400.0f;
+    model_radius = ((GinjaModelBounds *)((NJS_OBJECT *)model)->model)->radius;
+    activate_range = 10.0f;
+    if (get_main_phase() == 0xF || is_split_screen() == 1) {
+        if (mode != KEY_MODE_NONE && set_params[1] < 0) {
+            mode = KEY_MODE_TOGGLE;
         } else {
-block_5:
-            key_ancient03->mode = 0;
+            mode = KEY_MODE_ONCE;
         }
     }
-    key_ancient03->m_e8 = (f32) 1.0f;
-    key_ancient03->m_ec = (f32) 1.0f;
-    *(f32 *)((s8 *)key_ancient03 + 0xF0) = (f32) 1.0f;
-    key_ancient03->m_f4 = (f32) 1.0f;
-    key_ancient03->m_f8 = 0;
-    *(f32 *)((s8 *)key_ancient03 + 0x70) = (f32) 0.0f;
-    key_ancient03->scale.y = (f32) 0.0f;
-    key_ancient03->scale.x = (f32) 0.0f;
-    return (u8 *)key_ancient03;
+    glow_color.a = 1.0f;
+    glow_color.r = 1.0f;
+    glow_color.g = 1.0f;
+    glow_color.b = 1.0f;
+    glow_rising = 0;
+    scale.z = 0.0f;
+    scale.y = 0.0f;
+    scale.x = 0.0f;
 }

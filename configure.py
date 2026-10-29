@@ -569,6 +569,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # The key subclasses address each of their texture names on its own
     # (no shared .rodata base): built -pool off.
     "pso/misc/TOKeyAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
+    "pso/misc/TOKeyAncient02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
+    "pso/misc/TOKeyAncient03.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-pool off")},
     # The character creation camera: deferred with nothing inlined, and its
     # multiply-adds contracted into fmadds.
     "pso/camera/CreationCamera.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-fp_contract on")},

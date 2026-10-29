@@ -635,8 +635,8 @@ force_active:
   - TOHangerMachine01__ct
   - TOHealGeneral__ct
   - __ct__14TOKeyAncient01FP7TObjectPv
-  - TOKeyAncient02__ct
-  - TOKeyAncient03__ct
+  - __ct__14TOKeyAncient02FP7TObjectPv
+  - __ct__14TOKeyAncient03FP7TObjectPv
   - TOKeyCave01__ct
   - TOKeyCol__ct
   - TOKeyGenericSw__ct
