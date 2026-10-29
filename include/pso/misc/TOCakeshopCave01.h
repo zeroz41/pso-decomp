@@ -7,15 +7,15 @@
 struct TOCakeshopCave01 : public TObjMapObject {
     TOCakeshopCave01(void *set_data);
     virtual ~TOCakeshopCave01();
-    void update_blink_state(void *arg1);
+    void update_blink_state(s32 index);
     virtual void run_task();
     virtual void render();
-    void *create();
-    static void close_dialog_window();
-    static void load_resource_instance();
+    static void *create(void *set_data);
+    static void release_static_resource();
+    static void load_shared_resource();
     u8 pad_c8[4];
-    f32 m_cc[8];
-    u8 m_ec[8];
+    f32 blink_fade[8];  // counts up while a light is lit, 0 to -1 while it is off
+    u8 blink_state[8];  // 0 lit, 1 fading out, 2 fading back in
 };
 
 typedef char TOCakeshopCave01_size[sizeof(TOCakeshopCave01) == 0xF4 ? 1 : -1];

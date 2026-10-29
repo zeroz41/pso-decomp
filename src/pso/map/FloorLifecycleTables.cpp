@@ -335,7 +335,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_05[36] = {
     { TOAirconCave01::load_shared_resource, TOAirconCave01::release_static_resource },
     { TOAirconCave02::load_shared_resource, TOAirconCave02::release_static_resource },
     { TORevlightCave01::load_shared_resource, TORevlightCave01::release_static_instance },
-    { TOCakeshopCave01::load_resource_instance, TOCakeshopCave01::close_dialog_window },
+    { TOCakeshopCave01::load_shared_resource, TOCakeshopCave01::release_static_resource },
     { TORockCave::load_resources, TORockCave::free_instances },
     { load_lazer_fence_norm_resources, TObjLazerFenceNorm::free_resources },
     { TLazerFenceSw::load_resources, TLazerFenceSw__sub_80193C5C },

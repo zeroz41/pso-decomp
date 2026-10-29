@@ -7,7 +7,8 @@
 // The model matrix stack the Ninja-style draw code works on (the
 // text_803D96A8 unit), and the screen projection it feeds.
 extern "C" {
-void push_matrix(void);
+// Both return TRUE (pop_matrix FALSE when the stack is already empty).
+s32 push_matrix(void);
 s32 pop_matrix(void);
 void post_translate_matrix(const f32 *v);
 void scale_current_matrix(const f32 *v);

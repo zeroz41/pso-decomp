@@ -4842,7 +4842,11 @@ pso/misc/TOBoss4.cpp:
 
 pso/misc/TOCakeshopCave01.cpp:
 	.text       start:0x80159E24 end:0x8015A2B8
-	.rodata     start:0x804403E8 end:0x804403F0
+	.rodata     start:0x804403A8 end:0x804403F0
+	.data       start:0x804AFDF0 end:0x804AFE6C
+	.sdata      start:0x805D2EC0 end:0x805D2EC8
+	.sbss       start:0x805D58B0 end:0x805D58B4
+	.sdata2     start:0x805DB358 end:0x805DB374
 
 pso/misc/TOCapsuleAncient01.cpp:
 	.text       start:0x8015A2B8 end:0x8015A5E8

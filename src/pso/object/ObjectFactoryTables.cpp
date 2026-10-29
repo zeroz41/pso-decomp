@@ -121,7 +121,6 @@ void* create__22TObjFogCollisionPoisonFPv(void* placement);
 void* TObjFogCollisionSwitch__create(void* placement);
 void* TObjFogCollision__create(void* placement);
 void* TOBoss4Tower__create(void* placement);
-void* create__16TOCakeshopCave01Fv(void* placement);
 void* TOChatSensor__create(void* placement);
 void* TOContainerAncientEnemyCommon__create(void* placement);
 void* create__28TOContainerAncientItemCommonFv(void* placement);
@@ -636,7 +635,7 @@ ObjectFactoryEntry object_factories_floor_05[69] = {
     { 0x00C7, TOAirconCave01::create, 250000.0f, 0 },
     { 0x00C8, TOAirconCave02::create, 250000.0f, 0 },
     { 0x00C9, TORevlightCave01::create, 250000.0f, 0 },
-    { 0x00D0, create__16TOCakeshopCave01Fv, 250000.0f, 0 },
+    { 0x00D0, TOCakeshopCave01::create, 250000.0f, 0 },
     { 0x00DA, TORockCaveS03__create, 250000.0f, 0 },
     { 0x00DB, TORockCaveM03__create, 250000.0f, 0 },
     { 0x00DC, TORockCaveL03__create, 250000.0f, 0 },
