@@ -484,7 +484,7 @@ void TObjEneShark::render() {
           }
           else
           {
-            ((TObjEnemy *)arg0)->render_world_model();
+            ((TObjEnemy *)arg0)->draw_motion_model();
           }
         }
       }
@@ -495,7 +495,7 @@ void TObjEneShark::render() {
       }
       else
       {
-        ((TObjEnemy *)arg0)->render_world_model();
+        ((TObjEnemy *)arg0)->draw_motion_model();
       }
       if (fade != 0)
       {

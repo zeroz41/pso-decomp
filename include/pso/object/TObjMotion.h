@@ -5,6 +5,8 @@
 #include "pso/system/FlagWord.h"
 #include <stddef.h>
 #include <dolphin/mtx/GeoTypes.h>
+#include "pso/system/NinjaTypes.h"
+struct BmlMotionEntry;
 class TObjBase : public TObject {
 public:
     TObjBase(TObject *parent);
@@ -128,58 +130,148 @@ struct ActorBodyHit {
     s32 body;  // index into target->bodies
 };
 
-// One entry of TObjMotion::action_table.
+// One entry of TObjMotion::action_table: what an action plays and how.
 struct TObjMotionAction {
-    s16 mode;
-    s16 next;
-    s32 motion;
+    s16 mode;    // the TObjMotion::play_mode it plays in
+    s16 next;    // the action MOTION_MODE_CHAIN goes on to
+    s32 motion;  // index into motion_list
     f32 speed;
-    u32 flags;
+    u32 flags;   // ACTION_*
 };
 
+// TObjMotion::motion_flags.
+enum {
+    MOTION_NO_BLEND = 0x1,       // switch actions without blending
+    MOTION_STARTED_BLEND = 0x2,  // a blend started this frame
+    MOTION_BLENDING = 0x4,       // blend.motion[0] into blend.motion[1]
+    MOTION_BLEND_DONE = 0x8,     // a blend finished this frame
+    MOTION_HELD = 0x10,          // MOTION_MODE_ONCE reached its last frame
+    MOTION_ENDED = 0x20,         // ... this frame
+    MOTION_PAUSED = 0x40,
+    MOTION_KEEP_FRAME = 0x80,    // the next action starts at blend.frame[0]
+    MOTION_OVERRIDE_SPEED = 0x100,        // once: play at override_speed
+    MOTION_OVERRIDE_BLEND_SPEED = 0x200,  // once: blend at override_blend_speed
+    MOTION_DRAW_UNBLENDED = 0x400,
+    MOTION_CHAINED = 0x800       // an action chained to its next this frame
+};
+
+// TObjMotionAction::flags.
+enum {
+    ACTION_INTERPOLATE = 0x20000000,  // sets the motion's interpolation bit
+    ACTION_NO_BLEND_OUT = 0x40000000,
+    ACTION_NO_BLEND_IN = 0x80000000
+};
+
+// TObjMotion::play_mode.
+enum {
+    MOTION_MODE_LOOP = 1,
+    MOTION_MODE_CHAIN = 2,  // at the end, go on to the action's next
+    MOTION_MODE_ONCE = 3,   // stop on the last frame
+    MOTION_MODE_BLEND = 4,
+    MOTION_MODE_STOPPED = 5
+};
+
+// An actor that plays motions on its model: actions from action_table pick
+// a motion from motion_list and a play mode, and changing action blends
+// from the old motion into the new one.
 class TObjMotion : public TObjCollidable {
 public:
     TObjMotion(TObject *parent);
     virtual ~TObjMotion();
     void draw();
     virtual void reset_motion_fields();
-    void set_animation(s16);
+    void set_animation(s16 action);
     void set_field_d8(s32);
     void set_field_dc(s32);
-    void*get_anim_entry(int);
-    u8 sub_80143960(s32);
-    s32 get_anim_entry_value(s16);
-    void update_animation_frame(s32);
-    s32 get_item_ptr(s32);
-    void sub_800E2DE4(s32);
-    void set_motion_interpolation_flag();
     void set_field_b8(s16);
-    u32 unknownAC;
-    u32 animationFlags;
-    u32 m_b4;
-    s16 m_b8;
-    short m_ba;
-    u32 m_bc;
-    f32 m_c0;
-    union {
-        u8 unk_C4[0x4];
-        f32 anim_end_frame;
-    };
-    f32 m_c8;
-    u8 unk_CC[0x4];
-    f32 m_d0;
-    u8 unk_D4[0x4];
-    void* action_table;
-    void* motion_list;
-    void* motion_buffer;
-    u8 unk_E4[0x3];
-    u8 m_e7;
-    u8 unk_E8[0x4];
-    s32 m_ec;
-    u8 unk_F0[0x4];
-    void * m_f4;
-    u32 unknownF8;
+    TObjMotionAction *get_anim_entry(int action);
+    int test_motion_flags(s32 flags);
+    void clear_motion_flags(s32 flags);
+    // The motion an action plays.
+    NJS_MOTION *get_action_motion(s16 action);
+    f32 get_action_frame_count(s16 action);
+    // Makes the action's motion current.
+    void set_action_motion(s32 action);
+    s32 get_item_ptr(s32);
+    void set_motion_interpolation_flag();
+    // Sets both tables and starts the action.
+    void init_motion(TObjMotionAction *actions, BmlMotionEntry *motions, s16 action);
+    // Switches to the action, blending from the current one unless either
+    // side or MOTION_NO_BLEND forbids it.
+    void change_action(s16 action);
+    // Steps the frame and the play mode; every actor calls it each update.
+    void update_motion();
+    s32 is_anim_finished();
+    // The current action has reached its last frame (MOTION_MODE_ONCE).
+    int is_motion_held();
+    // True on the frame the motion passes `frame` (not while blending).
+    int is_passing_frame(f32 frame);
+    f32 get_frame();
+    // frame, or 0 while blending.
+    f32 get_motion_frame();
+    // How far the root node moves forward between this frame and the next,
+    // split along the actor's facing into *dx and *dz.
+    f32 get_root_motion_step(f32 *dx, f32 *dz);
+    // Walk the model through a motion without drawing, storing every
+    // node's matrix (into anim_model_matrix_array for the current motion).
+    s32 calc_joint_matrices(f32 frame);
+    s32 calc_joint_matrices(NJS_MOTION *motion, f32 frame, s32 matrices);
+    // Draw the model in its current motion (blended if blending).
+    void draw_motion_model();
+    void draw_ginja_motion_model();
+    // ... storing every node's matrix into joint_matrices as it goes.
+    void draw_saving_joints();
+    void draw_saving_joints_checked();
+    u32 extra;  // left to the subclass (a bomb's thrower, ...)
+    u32 motion_flags;      // MOTION_*
+    u32 action_flags;      // the current action's TObjMotionAction::flags
+    s16 requested_action;  // update_motion changes to it when it differs
+    s16 current_action;
+    s16 previous_action;   // the action a blend comes from
+    u8 pad_BE[0x2];
+    f32 frame;
+    f32 frame_count;
+    f32 play_speed;         // frames per update
+    f32 blend_speed;        // blend weight per update
+    f32 override_speed;     // see MOTION_OVERRIDE_SPEED
+    f32 override_blend_speed;
+    TObjMotionAction *action_table;
+    BmlMotionEntry *motion_list;
+    void *joint_matrices;   // where draw_saving_joints stores node matrices
+    NJS_MOTION_LINK blend;  // motion[0] blends into motion[1]
+    s16 play_mode;          // MOTION_MODE_*
+    s16 next_play_mode;     // the play mode after a blend
+    NJS_MOTION *current_motion;
 };
+
+// Empty in the release build; TObjMotion::draw brackets its draw with them.
+void setup_actor_draw_lighting();
+void restore_actor_draw_lighting(const char *name);
+
+// The model node table make_node_flag_table writes: one entry per node in
+// tree order, a NULL object ending it.
+struct NodeFlagEntry {
+    NJS_OBJECT *object;
+    u32 flags;  // NODE_*
+};
+enum {
+    NODE_HAS_POS = 0x1,
+    NODE_HAS_ANG = 0x2,
+    NODE_HAS_SCL = 0x4,
+    NODE_HAS_MODEL = 0x8,
+    NODE_HAS_VERTICES = 0x10,
+    NODE_HAS_POLYGONS = 0x20,
+    NODE_HAS_CHILD = 0x40,
+    NODE_HAS_SIBLING = 0x80
+};
+void write_node_flags(NJS_OBJECT *object);
+void make_node_flag_table(NJS_OBJECT *object, NodeFlagEntry *table);
+// The model node callback that stores each node's matrix at
+// player_joint_matrix_write_ptr and steps it on.
+void save_joint_matrix_callback();
+
+extern NodeFlagEntry *node_flag_cursor;
+
 // The name every TObjMotion constructor gives the object.
 extern const char *TObjMotion__class_name;
 
@@ -190,5 +282,5 @@ typedef char TObjMotionSize[sizeof(TObjMotion)==0xFC?1:-1];
 typedef char WorldActorModelOffset[offsetof(TObjBase,model)==0x34?1:-1];
 typedef char MotionActionsOffset[offsetof(TObjMotion,action_table)==0xD8?1:-1];
 typedef char MotionListOffset[offsetof(TObjMotion,motion_list)==0xDC?1:-1];
-typedef char MotionBufferOffset[offsetof(TObjMotion,motion_buffer)==0xE0?1:-1];
+typedef char JointMatricesOffset[offsetof(TObjMotion,joint_matrices)==0xE0?1:-1];
 #endif

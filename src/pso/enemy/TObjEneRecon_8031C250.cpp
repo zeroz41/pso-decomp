@@ -406,7 +406,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((TObjEneRecon *)target)->m_b8 = 1;
+        ((TObjEneRecon *)target)->requested_action = 1;
         ((VObj_8031c7bc *) target)->m94();
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) & 0xFFFFFFFE);
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 2);
@@ -782,7 +782,7 @@ void TObjEneRecon__sub_8031C920(u8 *arg0, s32 arg1) {
 void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
-        ((TObjEneEpsilon *)arg0)->m_b8 = 1;
+        ((TObjEneEpsilon *)arg0)->requested_action = 1;
         ((TObjEneDD_ST *)arg0)->vfunc_96();
         *(u32 *)((s8 *)arg0 + 0x444) &= ~1;
         *(u32 *)((s8 *)arg0 + 0x444) |= 2;
@@ -824,7 +824,7 @@ void TObjEneRecon__sub_8031CCFC(u8 *arg0, s32 arg1) {
             (*(s32 *)((s8 *)arg0 + 0x3C4))++;
             if (*(s32 *)((s8 *)arg0 + 0x3C4) > 0xF) {
                 *(s32 *)((s8 *)arg0 + 0x3C0) = 1;
-                ((TObjEneEpsilon *)arg0)->m_b8 = 3;
+                ((TObjEneEpsilon *)arg0)->requested_action = 3;
                 play_sound_effect(TObjEneRecobox::remap_area_sound_id(0x4003A808), arg0 + 0x38, 0, 0);
             }
             break;

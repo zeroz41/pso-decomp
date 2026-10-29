@@ -2882,7 +2882,7 @@ void TObjEneMe1Canadin::render() {
                 if (var_r30 == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->render_world_model();
+                    ((TObjEnemy *)arg0)->draw_motion_model();
                 }
                 TObjEneRe7Berura::set_global_state(NULL);
             } else {

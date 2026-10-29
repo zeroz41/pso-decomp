@@ -7,7 +7,6 @@
 struct TObjEneMe3Stelth : public TObjEneDD_ST {
     virtual ~TObjEneMe3Stelth();
     void handle_direct_attack(void *, void *, int, void *);
-    void draw_model();
     virtual void vfunc_88();
     virtual void vfunc_95();
     virtual void vfunc_96();

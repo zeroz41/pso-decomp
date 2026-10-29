@@ -176,14 +176,14 @@ void TObjEneBeast::vfunc_93() {
     u32 entry;
     s32 idx;
     VObj_80091EA4 *eff;
-    if (this->m_c0 < 12.0f) {
-        switch (this->m_b8) {
+    if (this->frame < 12.0f) {
+        switch (this->requested_action) {
         case 3:
-            entry = TObjPlayer::lookup_entry_by_value(beast_claw_trail_instance, this->m_c0);
+            entry = TObjPlayer::lookup_entry_by_value(beast_claw_trail_instance, this->frame);
             idx = 0;
             break;
         case 4:
-            entry = TObjPlayer::lookup_entry_by_value(boss4_type3_instance, this->m_c0);
+            entry = TObjPlayer::lookup_entry_by_value(boss4_type3_instance, this->frame);
             idx = 1;
             break;
         default:
@@ -301,7 +301,7 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
             if (drawMode == 1) {
                 ((TObjMotion *)o)->draw();
             } else {
-                ((TObjEnemy *)o)->render_world_model();
+                ((TObjEnemy *)o)->draw_motion_model();
             }
         }
         TParticleCtrl::end_effect_render();

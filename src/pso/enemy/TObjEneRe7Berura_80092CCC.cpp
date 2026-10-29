@@ -379,7 +379,7 @@ void render__16TObjEneRe7BeruraFv(Berura_80092CCC *o) {
                 if (mode == 1) {
                     ((TObjMotion *)o)->draw();
                 } else {
-                    ((TObjEnemy *)o)->render_world_model();
+                    ((TObjEnemy *)o)->draw_motion_model();
                 }
                 TObjEneRe7Berura::set_global_state(0);
             }
@@ -409,7 +409,7 @@ void render__16TObjEneRe7BeruraFv(Berura_80092CCC *o) {
             } else if (mode == 1) {
                 ((TObjMotion *)o)->draw();
             } else {
-                ((TObjEnemy *)o)->render_world_model();
+                ((TObjEnemy *)o)->draw_motion_model();
             }
         }
         pop_matrix();

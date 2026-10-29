@@ -12,7 +12,7 @@ void TObjPlayer::create_foie_effect() {
 
     if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
         if (((TItemWeapon *)this)->get_joint_position(1, &sp8) != 0) {
-            owner = *(void * *)&this->unk_F0;
+            owner = *(void * *)&this->blend.frame[1];
             TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)5);
         }
     } else {

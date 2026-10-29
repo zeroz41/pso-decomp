@@ -378,21 +378,21 @@ void TUnk_804E3008::sub_802E0784() {
     this->set_field_d8((s32)&lbl_804E2F78.value);
     this->set_field_dc((int) (*(s32 *)((s8 *)TAdMultiPlyChrSelectGC__resource_bundle + 0x430)));
     set_cursor_index__13TUnk_804E3008Fl(this, 0);
-    set_animation((this->m_b8));
+    set_animation((this->requested_action));
 }
 
 void TUnk_804E3008::set_cursor_index(s32 arg1) {
     s16 temp_r4;
 
-    this->m_b8 = (s16) (arg1 * 3);
-    temp_r4 = this->m_b8;
+    this->requested_action = (s16) (arg1 * 3);
+    temp_r4 = this->requested_action;
     if ((temp_r4 < 0) || (temp_r4 > 8)) {
-        this->m_b8 = 0;
+        this->requested_action = 0;
     }
     if (this->m_154 & 2) {
-        this->m_b8 = (this->m_b8 + 1);
+        this->requested_action = (this->requested_action + 1);
         if ((s32) this->m_151 == 6) {
-            this->m_b8 = (this->m_b8 + 1);
+            this->requested_action = (this->requested_action + 1);
         }
     }
 }
@@ -438,7 +438,7 @@ void TObjPlayer::update_chara_making() {
     pop_matrix();
 }
 
-void TObjPlayer::draw_model_with_arg(void* a1) { this->model = a1; set_motion_interpolation_flag(); draw_model_with_callback(); }
+void TObjPlayer::draw_model_with_arg(void* a1) { this->model = a1; set_motion_interpolation_flag(); draw_saving_joints_checked(); }
 
 void TObjPlayer__sub_802E0580(void * _w0, int _w1, void * _w2) {
     ((s32 (*)(f32))TObjPlayer__sub_802E0468)(lbl_805DE8A8);

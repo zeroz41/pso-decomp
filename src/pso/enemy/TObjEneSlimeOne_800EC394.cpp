@@ -74,7 +74,7 @@ extern s32 slime_one_part_texture_index_table[];
 extern s32 model_render_flags;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 init__14TObjEnePanarmsFPv(void *, int);
+s32 init__14TObjEnePanarmsFs(void *, int);
 extern void *lbl_80496C68[10];
 extern void *lbl_80496C90[10];
 int get_validated_attack_stage(void*);
@@ -271,7 +271,7 @@ void TObjEneSlimeOne::set_motion_state(s32 arg1) {
   {
     if (flag != 0)
     {
-      ((void (*)(void *, s16)) init__14TObjEnePanarmsFPv)(arg0->obj, arg0->state);
+      ((void (*)(void *, s16)) init__14TObjEnePanarmsFs)(arg0->obj, arg0->state);
     }
     else
     {

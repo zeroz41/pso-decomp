@@ -890,21 +890,21 @@ void TObjEneMerillLia::vfunc_59() {
         this->phase = 0;
         if (this->children == NULL) {
             this->mode = 3;
-            this->m_b8 = 7;
+            this->requested_action = 7;
         } else {
             this->mode = 2;
-            this->m_b8 = 10;
+            this->requested_action = 10;
         }
         ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
         break;
     case 4:
-        this->m_b8 = 5;
+        this->requested_action = 5;
         break;
     default:
         this->mode = 3;
         this->phase = 1;
-        this->m_b8 = 2;
+        this->requested_action = 2;
         ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
         break;
@@ -926,10 +926,10 @@ void TObjEneMerillLia::vfunc_60() {
         this->phase = 0;
         if (this->children == NULL) {
             this->mode = 3;
-            this->m_b8 = 7;
+            this->requested_action = 7;
         } else {
             this->mode = 2;
-            this->m_b8 = 10;
+            this->requested_action = 10;
         }
         ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0xA000000);
@@ -938,9 +938,9 @@ void TObjEneMerillLia::vfunc_60() {
         this->mode = 5;
         this->phase = 1;
         if (TObjEneMerillLia__data_805DA308 < random_ratio__9TObjCharaFv(arg0)) {
-            this->m_b8 = 3;
+            this->requested_action = 3;
         } else {
-            this->m_b8 = 4;
+            this->requested_action = 4;
         }
         obj_setFlags30(arg0, 0x200000);
         ((TObjBase *)arg0)->obj_clearFlags30(0x4040000);
@@ -1018,7 +1018,7 @@ void TObjEneMerillLia::sub_800D5570() {
     case 0:
     default:
         this->phase = 1;
-        this->m_b8 = 1;
+        this->requested_action = 1;
         TObjEneMe3SinowZoa__sub_800D758C((u8 *)arg0 + 0x3A8);
         ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
         break;
@@ -1117,7 +1117,7 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
             push_matrix_from(&identity_matrix);
             post_translate_matrix(arg0 + 0x38);
             rotate_matrix_y(0, *(s32 *)((s8 *)arg0 + 0x60));
-            ((TObjEnemy *)arg0)->render_anim_model(lbl_805DA30C);
+            ((TObjEnemy *)arg0)->calc_joint_matrices(lbl_805DA30C);
             pop_matrix();
             push_matrix_from((void *)(anim_model_matrix_array + 0x450));
             {
@@ -1457,9 +1457,9 @@ void TObjEneMerillLia::beast_update_approach() {
     case 0:
         apply_actor_gravity(arg0, 0, TObjEneMerillLia__data_805DA300);
         advance_animation_playback(arg0);
-        if (this->m_b4 != 0x20U) {
+        if (this->action_flags != 0x20U) {
             this->phase = 1;
-            this->m_b8 = 2;
+            this->requested_action = 2;
         }
         break;
     default:
@@ -1547,7 +1547,7 @@ void TObjEneMerillLia::render() {
         else
         {
           TObjPlayer::set_global_flag();
-          this->render_world_model();
+          this->draw_motion_model();
           TObjPlayer::clear_global_state();
         }
       }

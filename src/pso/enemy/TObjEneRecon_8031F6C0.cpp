@@ -53,7 +53,7 @@ void TObjEneRecobox::sub_8031F6C0(s32 arg1) {
     case 4:
         temp_r4 = *(s32 *)((s8 *)this + 0x40C) | 1;
         *(s32 *)((s8 *)this + 0x40C) = temp_r4;
-        this->m_b8 = 0;
+        this->requested_action = 0;
         ((VObj_8031F6C0 *)this)->m93(temp_r4);
         set_field_378(0);
         return;

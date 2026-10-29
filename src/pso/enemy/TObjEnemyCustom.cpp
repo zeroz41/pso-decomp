@@ -141,7 +141,7 @@ void TObjEnemyCustom::vfunc_58() { ((TObjEneMe1GiGue *)this)->update_if_active(0
 void TObjEnemyCustom::update_state() {
     switch (state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         state = 1;
     case 1:
         advance_animation_playback(this);
@@ -162,7 +162,7 @@ void TObjEnemyCustom::update_wander_state() {
     case -1:
         break;
     case 0:
-        m_b8 = 1;
+        this->requested_action = 1;
         state = 1;
     case 1:
         advance_animation_playback(this);
@@ -187,7 +187,7 @@ void TObjEnemyCustom::vfunc_60() { ((TObjEneMe1GiGue *)this)->update_if_active(2
 void TObjEnemyCustom::update() {
     switch (state) {
     case 0:
-        m_b8 = 2;
+        this->requested_action = 2;
         actorFlags |= 0x200000;
         state = 1;
     case 1:
@@ -200,7 +200,7 @@ void TObjEnemyCustom::update() {
             }
         }
         ((TObjPlayer *)this)->update_collisions();
-        if (m_b4 != 4) {
+        if (this->action_flags != 4) {
             state = -1;
         }
         return;
@@ -218,7 +218,7 @@ void TObjEnemyCustom::update_state_machine() {
     s16 remaining;
     switch ((s32)state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         actorFlags &= ~0x600000;
         state = 1;
     case 1:
@@ -251,7 +251,7 @@ void TObjEnemyCustom::update_knockback_state() {
     switch (state) {
     case 0:
         actorFlags &= ~0x200000;
-        m_b8 = 3;
+        this->requested_action = 3;
         state = 1;
     case 1:
         advance_animation_playback(this);
@@ -260,7 +260,7 @@ void TObjEnemyCustom::update_knockback_state() {
         m_310 *= 0.5f;
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
-        if (m_b4 != 8) {
+        if (this->action_flags != 8) {
             state = -1;
         }
         break;
@@ -288,13 +288,13 @@ void TObjEnemyCustom::update_dying_state() {
     case -1:
         break;
     case 0:
-        m_b8 = 4;
+        this->requested_action = 4;
         state = 1;
     case 1:
         advance_animation_playback(this);
         apply_actor_gravity(this, NULL, 0.0f);
         ((TObjPlayer *)this)->update_collisions();
-        if (m_c0 < 0.5f * (30.0f * m_c8)) {
+        if (this->frame < 0.5f * (30.0f * this->play_speed)) {
             move_with_wall_slide((u8 *)this);
             velocity()->x *= 0.5f;
             m_310 *= 0.5f;
@@ -331,7 +331,7 @@ void TObjEnemyCustom::render_anim_model_at_pos() {
     push_matrix_from(identity_matrix);
     post_translate_matrix(&position.x);
     rotate_matrix_y(0, rotation_y);
-    render_anim_model(m_c0);
+    calc_joint_matrices(frame);
     pop_matrix();
 }
 

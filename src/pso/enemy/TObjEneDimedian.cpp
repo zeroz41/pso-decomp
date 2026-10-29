@@ -154,11 +154,11 @@ s16 TObjPlayer__sub_800A776C(void* p) { return *(s16*)((char*)p + 0x2ca); }
 int TObjPlayer__sub_800A7774(void* p) { return VecCopy__FP3VecPC3Vec((char*)p + 0x38); }
 
 void TObjEnemy::sub_800A7798(f32 farg0) {
-    this->m_d0 = farg0;
+    this->override_speed = farg0;
     this->set_flags_B0((u32)(0x100U));
 }
 
-void TObjEnemy::set_flags_B0(u32 v) { this->animationFlags |= v; }
+void TObjEnemy::set_flags_B0(u32 v) { this->motion_flags |= v; }
 void TObjEneDimedian::vfunc_101() {  }
 
 void TObjEneDimedian::vfunc_99() {
@@ -218,16 +218,16 @@ void TObjEneDimedian::vfunc_93() {
     u32 e;
     s32 idx;
     VObj_800A7A14 *eff;
-    if (!(this->m_c0 < 12.0f)) {
+    if (!(this->frame < 12.0f)) {
         return;
     }
-    switch (this->m_b8) {
+    switch (this->requested_action) {
     case 3:
-        e = TObjPlayer::lookup_entry_by_value((void *)dimedian_type3_object, this->m_c0);
+        e = TObjPlayer::lookup_entry_by_value((void *)dimedian_type3_object, this->frame);
         idx = 0;
         break;
     case 4:
-        e = TObjPlayer::lookup_entry_by_value((void *)lbl_805D5088, this->m_c0);
+        e = TObjPlayer::lookup_entry_by_value((void *)lbl_805D5088, this->frame);
         idx = 1;
         break;
     default:
@@ -379,7 +379,7 @@ void draw_actor_model__10TObjPlayerFPv(Player_800A7CA4 *self) {
                 if (vis == 1) {
                     ((TObjMotion *)self)->draw();
                 } else {
-                    ((TObjEnemy *)self)->render_world_model();
+                    ((TObjEnemy *)self)->draw_motion_model();
                 }
             }
             if (fading != 0) {

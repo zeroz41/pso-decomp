@@ -23,7 +23,7 @@ void TUnk_804A4138::update_attack() {
     f32 flo;
     f32 fhi;
     if (*(void **)((s8 *)self + 0xF0) != NULL) {
-        speed = ((TObjChara *)(*(void **)((s8 *)self + 0xF0)))->get_speed();
+        speed = ((TObjChara *)(*(void **)((s8 *)self + 0xF0)))->get_frame();
         flag = ((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->is_flag_b0_4();
         ok = 1;
         if (test_action_mask__10TObjPlayerFl(*(void **)((s8 *)self + 0xF0), 0x20) != 0) {

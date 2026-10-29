@@ -1254,7 +1254,7 @@ void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura) {
             if (var_r28 == 1) {
                 ((TObjMotion *)ene_re7_berura)->draw();
             } else {
-                ((TObjEnemy *)ene_re7_berura)->render_world_model();
+                ((TObjEnemy *)ene_re7_berura)->draw_motion_model();
             }
             model_render_flags &= 0xFEFFFFFF;
             TObjEneRe7Berura::set_global_state((s32)NULL);

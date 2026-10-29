@@ -2016,7 +2016,7 @@ void TObjEneMe3ShinowaMirage::draw_model() {
             if (var_r31 == 1) {
                 ((TObjMotion *)((u8 *)this))->draw();
             } else {
-                this->render_world_model();
+                this->draw_motion_model();
             }
             TObjEneRe7Berura::set_global_state(NULL);
             pop_matrix();
@@ -2106,7 +2106,7 @@ void TObjEneMe3ShinowaMirage__sub_800E4FE8(u8 *ene_dd_st, s32 arg1) {
     f32 c;
     switch (arg1) {
     case 4:
-        ((TObjEneDD_ST *)ene_dd_st)->m_b8 = 3;
+        ((TObjEneDD_ST *)ene_dd_st)->requested_action = 3;
         advance_animation_playback(ene_dd_st, arg1);
         ((TObjEneDD_ST *)ene_dd_st)->set_active();
         break;
@@ -2185,7 +2185,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5220(void *ene_dd, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((TObjEneDD *)ene_dd)->m_b8 = 8;
+        ((TObjEneDD *)ene_dd)->requested_action = 8;
         ((TObjEneDD *)ene_dd)->set_field_378(0xB);
         *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFFC);
         ((TObjEneDD *)ene_dd)->vfunc_95();
@@ -2483,7 +2483,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(u8 *ene_epsilon, s32 arg1) {
     Info_800E5CE4 *info;
     switch (arg1) {
     case 4:
-        ((TObjEneEpsilon *)ene_epsilon)->m_b8 = 6;
+        ((TObjEneEpsilon *)ene_epsilon)->requested_action = 6;
         ((TObjEneDD *)ene_epsilon)->set_field_378(6);
         ((TObjEneEpsilon *)(ene_epsilon))->vfunc_96();
         *(s32 *)((s8 *)ene_epsilon + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_epsilon + 0x3C4) & 0xFFFFFFFC);
@@ -2505,7 +2505,7 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(u8 *ene_epsilon, s32 arg1) {
         switch (*(s32 *)((s8 *)ene_epsilon + 0x404)) {
         case 0:
             ((VObj_18_4f5f2e *)(ene_epsilon))->m103();
-            if (((TObjEneEpsilon *)ene_epsilon)->m_c0 < TObjEneMe3ShinowaMirage__data_805DA5EC) {
+            if (((TObjEneEpsilon *)ene_epsilon)->frame < TObjEneMe3ShinowaMirage__data_805DA5EC) {
                 if (((TObjEneEpsilon *)ene_epsilon)->update_death_check() != 0) {
                     ((TObjEneDD_ST *)ene_epsilon)->enemy_copy_target_destination();
                     ((TObjEneDD *)ene_epsilon)->update_velocity();
@@ -2518,21 +2518,21 @@ void TObjEneMe3ShinowaMirage__sub_800E5CE4(u8 *ene_epsilon, s32 arg1) {
                 *(f32 *)((s8 *)ene_epsilon + 0x3A8) = cos_table_lookup(((TObjEneEpsilon *)ene_epsilon)->rotation_y);
             }
             ((VObj_18_4f5f2e *)(ene_epsilon))->m110();
-            if (((TObjEneEpsilon *)ene_epsilon)->m_c0 >= TObjEneMe3ShinowaMirage__data_805DA5B8 && ((TObjEneEpsilon *)ene_epsilon)->m_c0 <= lbl_805DA5D4) {
+            if (((TObjEneEpsilon *)ene_epsilon)->frame >= TObjEneMe3ShinowaMirage__data_805DA5B8 && ((TObjEneEpsilon *)ene_epsilon)->frame <= lbl_805DA5D4) {
                 info = ((Info_800E5CE4 * *)&TObjEneMe3ShinowaMirage__mirage_info_table)[*(s32 *)((s8 *)ene_epsilon + 0x3C0)];
                 move_to_shot_position__9TObjEneDDFfff(ene_epsilon, info, ((TObjEneEpsilon *)ene_epsilon)->m_3a0, *(f32 *)((s8 *)ene_epsilon + 0x3A8), info->f8);
             } else {
                 ((TObjEneEpsilon *)(ene_epsilon))->vfunc_102();
             }
-            if (((TObjEneEpsilon *)ene_epsilon)->m_c0 >= 25.0f) {
-                ((TObjEneEpsilon *)ene_epsilon)->m_c0 = 25.0f;
+            if (((TObjEneEpsilon *)ene_epsilon)->frame >= 25.0f) {
+                ((TObjEneEpsilon *)ene_epsilon)->frame = 25.0f;
                 *(s32 *)((s8 *)ene_epsilon + 0x404) = 1;
             }
             break;
         case 1:
             (*(s32 *)((s8 *)ene_epsilon + 0x408))++;
             if (*(s32 *)((s8 *)ene_epsilon + 0x408) <= ((Info_800E5CE4 * *)&TObjEneMe3ShinowaMirage__mirage_info_table)[*(s32 *)((s8 *)ene_epsilon + 0x3C0)]->f20) {
-                ((TObjEneEpsilon *)ene_epsilon)->m_c0 = TObjEneMe3ShinowaMirage__data_805DA5E4;
+                ((TObjEneEpsilon *)ene_epsilon)->frame = TObjEneMe3ShinowaMirage__data_805DA5E4;
             }
             ((TObjEneEpsilon *)(ene_epsilon))->vfunc_102();
             break;
@@ -2731,7 +2731,7 @@ void TObjEneMe3ShinowaMirage::state_chase_target(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     switch (arg1) {
     case 4:
-        this->m_b8 = 9;
+        this->requested_action = 9;
         ((TObjEneDD *)arg0)->set_field_378(4);
         this->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFFC);
@@ -3092,12 +3092,12 @@ void TObjEneMe3Shinowa::apply_effect_pair() {
     set_matrix_identity(0);
     post_translate_matrix((u8 *)&this->position);
     rotate_matrix_y(0, this->rotation_y);
-    entry = TObjPlayer::lookup_entry_by_value((void *)TObjEneMe3ShinowaMirage__data_805D52A4, this->m_c0);
+    entry = TObjPlayer::lookup_entry_by_value((void *)TObjEneMe3ShinowaMirage__data_805D52A4, this->frame);
     if (entry != 0U) {
         mult_vec_array__10TObjPlayerFUll(0, entry, &sp8, 2);
         ((VObj18b_800e70d4_800E47DC *) ((unsigned char *) (*(void **)((s8 *)arg0 + 0x3E0))))->m4(&sp8, &sp8[3]);
     }
-    temp_r3_3 = TObjPlayer::lookup_entry_by_value((void *)TObjEneMe3ShinowaMirage__data_805D52A8, this->m_c0);
+    temp_r3_3 = TObjPlayer::lookup_entry_by_value((void *)TObjEneMe3ShinowaMirage__data_805D52A8, this->frame);
     if (temp_r3_3 != 0U) {
         mult_vec_array__10TObjPlayerFUll(0, temp_r3_3, &sp8, 2);
         ((VObj18b_800e70d4_800E47DC *) ((unsigned char *) (*(void **)((s8 *)arg0 + 0x3E4))))->m4(&sp8, &sp8[3]);
@@ -3252,7 +3252,7 @@ f32 TObjEneMe3Shinowa::get_node_world_y() {
     v.y = TObjEneMe3ShinowaMirage__data_805DA5B8;
     v.z = TObjEneMe3ShinowaMirage__data_805DA5B8;
     push_matrix_from(identity_matrix);
-    bind_motion_context(self->unknownF8, self->m_c0);
+    bind_motion_context((s32)self->current_motion, self->frame);
     node = *(Node_800E75AC * *)&self->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);

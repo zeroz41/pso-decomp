@@ -126,7 +126,7 @@ void DelDepthMotion::set_motion(s32 arg1) {
     }
     if (id < 6) {
         if (flag != 0) {
-            ((TObjEnePanarms *)(actor))->init((void*)((s16)id));
+            ((TObjEnePanarms *)(actor))->init((s16)id);
         } else {
             actor->set_field_b8((s16)id);
         }

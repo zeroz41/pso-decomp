@@ -237,7 +237,7 @@ void TObjEneEpsilonGuard::sub_803626A8(s32 arg1, s32 arg2) {
     push_matrix_from((void *)&identity_matrix.value);
     post_translate_matrix((void *) (((u8 *)this) + 0x38));
     rotate_matrix_y(0, this->rotation_y);
-    this->render_anim_model(this->m_c0);
+    this->calc_joint_matrices(this->frame);
     pop_matrix();
     push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
     matrix_mult_vec(0, (void *)&stack.sp8, (void *)arg1);

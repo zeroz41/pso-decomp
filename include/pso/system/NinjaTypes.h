@@ -65,4 +65,22 @@ struct NJS_MOTION {
     u16 inp_fn;
 };
 
+// Two motions blended: motion[0] at frame[0] into motion[1] at frame[1].
+struct NJS_MOTION_LINK {
+    NJS_MOTION *motion[2];
+    f32 frame[2];
+};
+
+// NJS_MOTION::mdata for a motion with position and angle keys per node.
+struct NJS_MDATA2 {
+    void *p[2];  // position keys, angle keys
+    u32 nb[2];   // their counts
+};
+
+// A float key: three values at a frame.
+struct NJS_MKEY_F {
+    u32 keyframe;
+    f32 key[3];
+};
+
 #endif

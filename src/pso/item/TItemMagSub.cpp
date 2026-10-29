@@ -43,7 +43,7 @@ const char *TItemMagGrowEff_name = "TItemMagGrowEff";
 // is at.
 TItemMagSub *TItemMagSub::drawing;
 s32 TItemMagSub::drawn_node;
-// The owner's current motion (TObjMotion::unknownF8): the heading its root
+// The owner's current current_motion (TObjMotion::motion): the heading its root
 // node adds to the owner's.
 struct MagOwnerPoseNode {
     u8 pad_0[0x4];
@@ -245,7 +245,7 @@ s32 TItemMagSub::resolve_owner_heading() {
     MagOwnerPoseNode *node;
 
     player = owner;
-    pose = (MagOwnerPose **)player->unknownF8;
+    pose = (MagOwnerPose **)player->current_motion;
     heading = player->rotation_y;
     if (pose != NULL) {
         current = *pose;

@@ -129,7 +129,7 @@ void TObjEneRe2Flower::handle_event(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 6;
+        this->requested_action = 6;
         this->vfunc_96();
         ((TObjEneRe2Flower *)arg0)->clear_child_flags();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFF7);

@@ -137,7 +137,7 @@ void TObjCGrass::render() {
             push_matrix_from(0);
             translate_matrix_vec3((u8 *)(0), (u8 *)&arg0->recs[i]);
             rotate_matrix_y(0, arg0->recs[i].f18);
-            draw_model_motion((void *)arg0->f34, (void *)*(s32 *)&this->unknownF8, this->m_c0);
+            draw_model_motion((void *)arg0->f34, (void *)*(s32 *)&this->current_motion, this->frame);
             set_default_alpha_blend();
             pop_matrices(1);
         }

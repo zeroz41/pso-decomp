@@ -57,7 +57,7 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
         parameters[i] = lbl_805DA8E0;
     }
     actorFlags |= 0x20000000;
-    animationFlags |= 1;
+    this->motion_flags |= 1;
 }
 
 s32 TObjEnemy::apply_by_index(s16 arg0) {

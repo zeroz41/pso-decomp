@@ -42,7 +42,7 @@ s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 void TObjEneBm9Mericarol__sub_802D05BC(u8 *ene_dd_st, s32 arg1) {
     switch (arg1) {
     case 4:
-        ((TObjEneDD_ST *)ene_dd_st)->m_b8 = 2;
+        ((TObjEneDD_ST *)ene_dd_st)->requested_action = 2;
         ((TObjEneDD *)ene_dd_st)->vfunc_95();
         TObjEneBm9Mericarol__sub_802D093C(ene_dd_st);
         *(s32 *)((s8 *)ene_dd_st + 0x438) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x438) | 0x28);

@@ -206,7 +206,7 @@ void TObjEneBalClawBody::update_dragon_boss_state() {
     switch (this->state) {
     case 0:
         this->actorFlags = (s32) (this->actorFlags | 0x40000);
-        this->m_b8 = (s16) ((((u32) this->m_388 >> 0x18U) & 1) ? 0 : 5);
+        this->requested_action = (s16) ((((u32) this->m_388 >> 0x18U) & 1) ? 0 : 5);
         this->state = 1;
     case 1:
         advance_animation_playback(this);
@@ -403,7 +403,7 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
         push_matrix_from(identity_matrix);
         post_translate_matrix(&o->pos);
         rotate_matrix_y(0, FLD(s32, 0x60));
-        ((TObjEnemy *)o)->render_anim_model(FLD(f32, 0xC0));
+        ((TObjEnemy *)o)->calc_joint_matrices(FLD(f32, 0xC0));
         pop_matrix();
         o->m63(8, o->f3EC);
         o->f3F8 = 0;
@@ -475,7 +475,7 @@ void TObjPlayer::run_death_sequence() {
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         *(s32 *)((s8 *)arg0 + 0x388) &= ~0x20000;
         if (((TObjPlayer *)arg0)->get_flag_0x388_b24() != 0) {
-            this->m_b8 = 4;
+            this->requested_action = 4;
             this->m_37c = 1;
             for (i = 0; i < ((P_8008F730 *)arg0)->n; i++) {
                 p = (u8 *)find_entity_by_id(((P_8008F730 *)arg0)->ids[i]);
@@ -485,7 +485,7 @@ void TObjPlayer::run_death_sequence() {
                 }
             }
         } else {
-            this->m_b8 = 9;
+            this->requested_action = 9;
             *(f32 *)((s8 *)arg0 + 0x30C) = *(f32 *)((s8 *)arg0 + 0x3B4) / lbl_805D9664;
             this->m_37c = 2;
         }
@@ -493,13 +493,13 @@ void TObjPlayer::run_death_sequence() {
         break;
     case 1:
         advance_animation_playback(arg0);
-        if (this->m_c0 >= lbl_805D9668) {
+        if (this->frame >= lbl_805D9668) {
             this->m_37c = 3;
         }
         break;
     case 2:
         advance_animation_playback(arg0);
-        if (this->m_c0 >= lbl_805D964C) {
+        if (this->frame >= lbl_805D964C) {
             *(f32 *)((s8 *)arg0 + 0x3B4) -= *(f32 *)((s8 *)arg0 + 0x30C);
             if (*(f32 *)((s8 *)arg0 + 0x3B4) <= 0.0f) {
                 *(f32 *)((s8 *)arg0 + 0x3B4) = 0.0f;

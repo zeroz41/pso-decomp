@@ -40,7 +40,7 @@ void TObjPlayer::trigger_megid_special() {
         ((TObjPlayer *)tl_05)->create_item_eff_cane((TItem*)this, 2, 0x101);
         if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
             if (((TItemWeapon *)this)->get_joint_position(2, &sp8) != 0) {
-                tec_megid = *(void * *)&this->unk_F0;
+                tec_megid = *(void * *)&this->blend.frame[1];
                 create_ex__9TTecMegidFllll(tec_megid, &sp8, *(s32 *)((s8 *)tec_megid + 0x60), 0);
                 drain_owner_hp_fraction(lbl_805DAF18);
             }

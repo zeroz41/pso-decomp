@@ -478,12 +478,12 @@ void TUnk_804CC148::find_area_contact(s32 arg1) {
 }
 
 void TObjPlayer::collect_body_contacts_for_target(s32 player) {
-    collect_body_contacts((int)((int) (*(s32 *)&this->unk_E8)), (u8 *)&this->m_bc, (void *)player);
+    collect_body_contacts((int)((int) (*(s32 *)&this->blend.motion[1])), (u8 *)&this->previous_action, (void *)player);
 }
 
 void TObjPlayer::find_support_technique_contact_for_target(s32 arg1) {
     u8 *arg0 = (u8 *)this;
-    find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->animationFlags, (void *)arg1);
+    find_support_technique_contact((void *)arg0, (int)this->motion_list, (u8 *)&this->motion_flags, (void *)arg1);
 }
 
 void TObjPlayer::gather_contacts_for_self(s32 arg1) {

@@ -15,8 +15,8 @@ void TObjPlayer::handle_container_state_3() { if (get_player_list__10TObjPlayerF
 void TObjPlayer::set_temp_flag10_and_update() {
     s32 *temp_r31;
 
-    if ((u32) *(u32 *)&this->unk_F0 != 0U) {
-        temp_r31 = *(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)this->m_f4 + 0x2C)) + 0x30)) + 0x30);
+    if ((u32) *(u32 *)&this->blend.frame[1] != 0U) {
+        temp_r31 = *(s32 **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)*(void **)&this->play_mode + 0x2C)) + 0x30)) + 0x30);
         if ((s32) this->m_204 == 0) {
             *temp_r31 |= 0x10;
         }

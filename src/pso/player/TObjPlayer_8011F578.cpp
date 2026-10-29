@@ -57,7 +57,7 @@ void TObjPlayer::update_active_game_effect() {
 
     if (((TItemWeapon *)this)->is_active_in_game() != 0) {
         ((TItemWeapon *)this)->remap_extra_attack_type();
-        ((VObj_8011F5E0 *)(*(void * *)&this->unk_F0))->v67(lbl_805DAC9C);
+        ((VObj_8011F5E0 *)(*(void * *)&this->blend.frame[1]))->v67(lbl_805DAC9C);
         ((TItemWeapon *)this)->restore_action_type();
     }
 }

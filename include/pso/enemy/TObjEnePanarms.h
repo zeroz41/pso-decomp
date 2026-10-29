@@ -94,7 +94,7 @@ struct TObjEnePanarms : public TObjEnemy {
     static s32 create_bara(s32 arg0, s32 arg1);
     int find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0);
     static s32 create(s32 arg0);
-    void init(void* a1);
+    void init(s16 action);
     int get_state_flag();
     void attack_target_player(s32 arg1);
     void draw_with_fade();

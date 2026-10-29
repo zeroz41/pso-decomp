@@ -663,7 +663,7 @@ void TObjEneMe1GiGue__sub_802CB03C(u8 *enemy) {
     translate_matrix(0, (f32) (*(f32 *)((s8 *)enemy + 0x38)), (f32) (*(f32 *)((s8 *)enemy + 0x3EC) + (*(f32 *)((s8 *)enemy + 0x3C) + *(f32 *)((s8 *)enemy + 0x3E8))), (f32) (*(f32 *)((s8 *)enemy + 0x40)));
     rotate_matrix_y(0, (int) (((TObjEnemy *)enemy)->rotation_y));
     set_global_flag__10TObjPlayerFv();
-    ((TObjEnemy *)enemy)->render_anim_model(((TObjEnemy *)enemy)->m_c0);
+    ((TObjEnemy *)enemy)->calc_joint_matrices(((TObjEnemy *)enemy)->frame);
     clear_global_state__10TObjPlayerFv();
     pop_matrix();
     ((TObjEnemy *)(enemy))->get_anim_node_position(0, (Vec *)(enemy + 0x3B4));
@@ -991,7 +991,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         if (this->actorFlags & 0x01000000) {
             var_r3 = 5;
         }
-        this->m_b8 = var_r3;
+        this->requested_action = var_r3;
         spawn_particle_effect(((u8 *)this) + 0x2FC, 0xF2);
         this->state = 1;
     case 1:
@@ -1010,7 +1010,7 @@ void TObjEneMe1GiGue::update_hit_reaction() {
         }
         apply_actor_gravity(this, 0, 0.0f);
         ((TObjPlayer *)((u8 *)this))->update_collisions();
-        if ((u32) this->m_b4 != 8U) {
+        if ((u32) this->action_flags != 8U) {
             this->state = -1;
         }
         break;
@@ -1678,7 +1678,7 @@ void TObjEneMe1GiGue::sub_802CCF2C() {
     case -1:
         break;
     case 0:
-        this->m_b8 = 1;
+        this->requested_action = 1;
         this->state = 1;
         this->m_384 = 0x96;
         ((void (*)(u8 *)) sub_8004292C__15TObjEnemyCustomFv)(((u8 *)this));
@@ -1687,7 +1687,7 @@ void TObjEneMe1GiGue::sub_802CCF2C() {
         move_around_center__15TObjEneMe1GiGueFPvPvf((Obj_802CB8F0 *) this, (Vec_802CB8F0 *) (((u8 *)this) + 0x50), *(f32 *)((s8 *)((u8 *)this) + 0x358));
         this->m_384 -= 1;
         if (this->m_384 <= 0) {
-            this->m_b8 = 0;
+            this->requested_action = 0;
             this->state = 2;
             this->m_384 = 0x5A;
         }
@@ -1872,7 +1872,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
                 clear_global_state__10TObjPlayerFv();
             } else {
                 set_global_flag__10TObjPlayerFv();
-                ((TObjEnemy *)self)->render_world_model();
+                ((TObjEnemy *)self)->draw_motion_model();
                 clear_global_state__10TObjPlayerFv();
             }
             self->s3fc.m7();
@@ -1886,7 +1886,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
             clear_global_state__10TObjPlayerFv();
         } else {
             set_global_flag__10TObjPlayerFv();
-            ((TObjEnemy *)self)->render_world_model();
+            ((TObjEnemy *)self)->draw_motion_model();
             clear_global_state__10TObjPlayerFv();
         }
     }
@@ -2148,7 +2148,7 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjChara *)arg0)->add_flags_2e4(0x11);
     ((TObjEneMe1GiGue *)arg0)->state36C = *(s16 *)((s8 *)arg2 + 0x3E);
     ((TObjEneMe1GiGue *)arg0)->load_params_from_table(((TObjEneMe1GiGue *)arg0)->variant);
-    ((TObjEneMe1GiGue *)arg0)->action_table = gigue_enemy_param_table;
+    ((TObjEneMe1GiGue *)arg0)->action_table = (TObjMotionAction *)gigue_enemy_param_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneMe1GiGue *)arg0)->action_table));
     init_collision_body_parts(arg0, lbl_804E1304, 2);
     *(u32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->bodies) + 0x44) &= ~1;
@@ -2156,9 +2156,9 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)ene_me1_gigue_boss_id, (u8 *)lbl_805D682C, (u8 *)lbl_805D6830);
     ((TObjEneMe1GiGue *)arg0)->update_direction();
     ((void (*)(void *))load_params__15TObjEneMe1GiGueFv)(arg0);
-    ((TObjEneMe1GiGue *)arg0)->m_b8 = 0;
-    ((TObjMotion *)arg0)->set_animation(((TObjEneMe1GiGue *)arg0)->m_b8);
-    ((TObjMotion *)arg0)->set_field_b8(((TObjEneMe1GiGue *)arg0)->m_b8);
+    ((TObjEneMe1GiGue *)arg0)->requested_action = 0;
+    ((TObjMotion *)arg0)->set_animation(((TObjEneMe1GiGue *)arg0)->requested_action);
+    ((TObjMotion *)arg0)->set_field_b8(((TObjEneMe1GiGue *)arg0)->requested_action);
     ((TObjEneMe1GiGue *)arg0)->hp = ((TObjEneMe1GiGue *)arg0)->hpmax;
     ((TObjEneMe1GiGue *)arg0)->tp = ((TObjEneMe1GiGue *)arg0)->tpmax;
     ((TObjEneMe1GiGue *)arg0)->referenceHp = ((TObjEneMe1GiGue *)arg0)->hp;

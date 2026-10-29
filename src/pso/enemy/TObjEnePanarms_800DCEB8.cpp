@@ -240,11 +240,11 @@ void TObjEnePanarms::enter_down_state() {
 
 void TObjEnePanarms::update_state_effect() {
     f32 temp_f1;
-    temp_f1 = this->m_c0;
+    temp_f1 = this->frame;
     if ((temp_f1 >= TObjEnePanarms__data_805DA490) && (temp_f1 < lbl_805DA494)) {
         spawn_particle_effect((((u8 *)this) + 0x38), 0xF0);
     }
-    if (this->animationFlags & 0x10) {
+    if (this->motion_flags & 0x10) {
         set_state((s32)((void*)(3)));
     }
 }
@@ -258,7 +258,7 @@ void TObjEnePanarms__sub_800DCFE0(u8 *ene_panarms) {
     obj_setFlags30(ene_panarms, 0x04000000);
     play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(ene_panarms))->remap_sound_for_area((s32)(0x4003BC31))))), ene_panarms + 0x3AC, 0, 0);
     play_sound_effect((s32)((void *) (((s32)((TObjEnemy *)(ene_panarms))->remap_sound_for_area((s32)(0x4003BC30))))), ene_panarms + 0x3C4, 0, 0);
-    ((TObjEnePanarms *)ene_panarms)->init((void*)0xA);
+    ((TObjEnePanarms *)ene_panarms)->init(0xA);
 }
 
 void TObjEnePanarms::update_timed_action() {
@@ -358,11 +358,11 @@ void TObjEnePanarms__sub_800DD368(u8 *ene_panarms) {
 
 void TObjEnePanarms::update_hit_effect() {
     f32 temp_f1;
-    temp_f1 = this->m_c0;
+    temp_f1 = this->frame;
     if ((temp_f1 >= TObjEnePanarms__data_805DA490) && (temp_f1 < lbl_805DA494)) {
         spawn_particle_effect((((u8 *)this) + 0x38), 0xF0);
     }
-    if (this->animationFlags & 0x10) {
+    if (this->motion_flags & 0x10) {
         set_state((s32)((void*)(0xA)));
     }
 }
@@ -382,7 +382,7 @@ void TObjEnePanarms__sub_800DD488(u8 *ene_panarms) {
 void TObjEnePanarms::update_wait_then_set_state() {
     s32 temp_r0;
     u32 temp_r3;
-    if (this->m_c0 >= TObjEnePanarms__data_805DA49C) {
+    if (this->frame >= TObjEnePanarms__data_805DA49C) {
         temp_r3 = *(u32 *)&this->unk_394;
         if (temp_r3 != 0) {
             TParticleCtrl::release((void *)temp_r3);
@@ -448,7 +448,7 @@ void TObjEnePanarms::set_flags_and_field_b8() {
 void TObjEnePanarms::update_destroy_child() {
     s32 temp_r0;
     u32 temp_r3;
-    if (this->m_c0 >= TObjEnePanarms__data_805DA49C) {
+    if (this->frame >= TObjEnePanarms__data_805DA49C) {
         temp_r3 = *(u32 *)&this->unk_394;
         if (temp_r3 != 0) {
             TParticleCtrl::release((void *)temp_r3);

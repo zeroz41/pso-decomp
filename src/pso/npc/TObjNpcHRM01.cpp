@@ -74,10 +74,10 @@ u8 *TObjNpcHRM01__ct(u8 *player, s32 arg1, s32 arg2) {
 
 void TObjNpcLappy::vfunc_88() {
     if ((s16) this->mode != 2) {
-        this->m_b8 = 0;
+        this->requested_action = 0;
         return;
     }
-    this->m_b8 = 1;
+    this->requested_action = 1;
 }
 
 extern void *tl_04;

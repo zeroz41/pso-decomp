@@ -360,8 +360,8 @@ void TItemWeapon::set_weapon_category_flags() {
 }
 
 void TObjPlayer::drain_owner_hp_fraction(f32 farg0) {
-    if (*(u32 *)&this->unk_F0 != 0U) {
-        TObjectV8047c128_subtract_hp((u8 *)(*(u32 *)&this->unk_F0), (farg0 * (f32) ((TItemProShield *)(*(u32 *)&this->unk_F0))->get_field_2b8()));
+    if (*(u32 *)&this->blend.frame[1] != 0U) {
+        TObjectV8047c128_subtract_hp((u8 *)(*(u32 *)&this->blend.frame[1]), (farg0 * (f32) ((TItemProShield *)(*(u32 *)&this->blend.frame[1]))->get_field_2b8()));
     }
 }
 
@@ -609,12 +609,12 @@ void TItemWeapon::fire_shot_at_target(void *origin, void *model, s32 angle) {
 
 void TObjPlayer::fill_status_info(void *arg1) {
     ((TItemWeapon *)this)->remap_extra_attack_type();
-    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&this->unk_F0);
-    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&this->unk_F0))->get_room();
+    *(s16 *)((s8 *)arg1 + 0x14) = ((s16 (*)(s32))get_entity_id)(*(s32 *)&this->blend.frame[1]);
+    *(s16 *)((s8 *)arg1 + 0x16) = ((TObjBase *)(*(s32 *)&this->blend.frame[1]))->get_room();
     *(s32 *)((s8 *)arg1 + 0x18) = ((TItem *)this)->get_item_id();
-    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&this->unk_F0 + 0x7CC));
-    *(s32 *)((s8 *)arg1 + 0x24) = (s32) is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&this->unk_F0);
-    *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&this->unk_F0);
+    *(f32 *)((s8 *)arg1 + 0x1C) = get_attack_accuracy_scale((s16 *)(*(s32 *)&this->blend.frame[1] + 0x7CC));
+    *(s32 *)((s8 *)arg1 + 0x24) = (s32) is_status_subsystem_ready__10TObjPlayerFv(*(s32 *)&this->blend.frame[1]);
+    *(f32 *)((s8 *)arg1 + 0x20) = ((f32 (*)(s32))query_extended_state__10TObjPlayerFv)(*(s32 *)&this->blend.frame[1]);
     ((TItemWeapon *)this)->restore_action_type();
 }
 

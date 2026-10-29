@@ -47,7 +47,7 @@ void TObjEneRecon__sub_8031F600(void *ene_dd, s32 arg1) {
     case 4:
         temp_r4 = *(s32 *)((s8 *)ene_dd + 0x40C) & 0xFFFFFFFE;
         *(s32 *)((s8 *)ene_dd + 0x40C) = temp_r4;
-        ((TObjEneDD *)ene_dd)->m_b8 = 0;
+        ((TObjEneDD *)ene_dd)->requested_action = 0;
         ((VObj_8031F600 *)ene_dd)->m94(temp_r4);
         ((TObjEneDD *)ene_dd)->set_field_378(2);
         return;

@@ -299,7 +299,7 @@ block_23:
                 if (var_r28 == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->render_world_model();
+                    ((TObjEnemy *)arg0)->draw_motion_model();
                 }
                 TParticleCtrl::end_effect_render();
                 pop_matrix();

@@ -66,7 +66,7 @@ void TObjPlayer::init_action_provider() {
     this->m_314 = 0;
     *(s32 *)&this->inventory_objects = 0;
     this->m_424 = 0;
-    (*(s32 *)&this->motion_buffer) = 0;
+    (*(s32 *)&this->joint_matrices) = 0;
     this->m_db4 = 0;
     ((TObjPlayer *)arg0)->set_floor_index(0xF);
     ((TObjPlayer *)arg0)->set_floor(0xF);

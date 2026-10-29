@@ -70,7 +70,7 @@ void TObjEneMorfosArm::run_task() {
     }
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(TObjEneMorfosArm__sub_803326B4(temp_r3)));
     this->rotation_y = TObjEneMorfosArm__sub_803326BC(*(u8 * *)&this->m_fc);
-    if (this->animationFlags & 0x10) {
+    if (this->motion_flags & 0x10) {
         queue_destruction__7TObjectFv((arg0));
     }
 }
@@ -94,9 +94,9 @@ u8 *TObjEneMorfosArm__ct(TObjEneMorfosArm *ene_morfos_arm, s32 arg1, u8 *arg2) {
     ene_morfos_arm->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0xC);
     set_field_d8__10TObjMotionFl((void *)ene_morfos_arm, &morfos_arm_motion_params.value, (int)temp_r5);
     ((TObjMotion *)ene_morfos_arm)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x430)));
-    ene_morfos_arm->m_b8 = 0;
-    ((TObjMotion *)ene_morfos_arm)->set_animation((ene_morfos_arm->m_b8));
-    ((TObjMotion *)ene_morfos_arm)->set_field_b8(ene_morfos_arm->m_b8);
+    ene_morfos_arm->requested_action = 0;
+    ((TObjMotion *)ene_morfos_arm)->set_animation((ene_morfos_arm->requested_action));
+    ((TObjMotion *)ene_morfos_arm)->set_field_b8(ene_morfos_arm->requested_action);
     return (u8 *)ene_morfos_arm;
 }
 

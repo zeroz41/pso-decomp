@@ -17,10 +17,10 @@ void TObjPlayer::cast_shifta_deband() {
 
     if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
         if (get_tp() == 0) {
-            temp_r3 = *(s32 *)&this->unk_F0;
+            temp_r3 = *(s32 *)&this->blend.frame[1];
             TTecDeband::create(temp_r3, temp_r3 + 0x38, 2);
         } else {
-            temp_r3_2 = *(s32 *)&this->unk_F0;
+            temp_r3_2 = *(s32 *)&this->blend.frame[1];
             TTecSifta::create((void *)temp_r3_2, (void *)(temp_r3_2 + 0x38), (void *)2);
         }
         ((TItemWeapon *)this)->roll_technique();

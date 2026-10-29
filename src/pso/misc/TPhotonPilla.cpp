@@ -163,13 +163,13 @@ void TPhotonPilla::run_task() {
             TPhotonMagicSquare__ct((u8 *)entity, (s32)this, 3, (s32)&sp8, 0xD2, (f32)0.5f);
         }
     }
-    if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->m_b8 == 1) && ((s32) this->m_1a4 == 1)) {
+    if ((5e+01f == (f32) *(s32 *)((s8 *)this + 0x1A8)) && ((s16) this->requested_action == 1) && ((s32) this->m_1a4 == 1)) {
         begin_photon_summon_camera(4);
         *(s32 *)((s8 *)this + 0x1A8) = 0;
         this->set_field_b8(0);
         spawn_photon_blast_attachment_effects(this, 3);
     }
-    this->m_198 = (s16) this->m_b8;
+    this->m_198 = (s16) this->requested_action;
     update_state();
     advance_animation_playback(this);
     update_photon_blast_attachments();
@@ -285,9 +285,9 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     ((TPhotonPilla *)photon_rainbow)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x3C);
     ((TObjMotion *)photon_rainbow)->set_field_d8((s32)photon_pilla_action_table);
     ((TObjMotion *)photon_rainbow)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
-    ((TPhotonPilla *)photon_rainbow)->m_b8 = 1;
-    ((TObjMotion *)photon_rainbow)->set_animation(((TPhotonPilla *)photon_rainbow)->m_b8);
-    ((TObjMotion *)photon_rainbow)->set_field_b8(((TPhotonPilla *)photon_rainbow)->m_b8);
+    ((TPhotonPilla *)photon_rainbow)->requested_action = 1;
+    ((TObjMotion *)photon_rainbow)->set_animation(((TPhotonPilla *)photon_rainbow)->requested_action);
+    ((TObjMotion *)photon_rainbow)->set_field_b8(((TPhotonPilla *)photon_rainbow)->requested_action);
     ((TPhotonPilla *)photon_rainbow)->m_198 = 1;
     ((TPhotonPilla *)photon_rainbow)->m_19c = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)((s8 *)photon_rainbow + 0x1A0) = *(s32 *)((s8 *)arg1 + 0x14);

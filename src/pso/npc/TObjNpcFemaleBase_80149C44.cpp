@@ -4,10 +4,10 @@
 
 void TObjNpcFemaleBase::request_action(s32 arg1) {
     if (arg1 != 1) {
-        this->m_b8 = 0;
+        this->requested_action = 0;
         return;
     }
-    this->m_b8 = 1;
+    this->requested_action = 1;
 }
 
 extern u32 lbl_805D5758;

@@ -305,10 +305,10 @@ struct Elt80364258_80364258 { s32 f0; };
 void TObjPlayer::push_to_list(s32 arg1) {
     s32 temp_r0;
 
-    temp_r0 = this->animationFlags;
+    temp_r0 = this->motion_flags;
     if (temp_r0 < 0x20) {
         ((struct Elt80364258_80364258 *)(((u8 *)this) + 0x30))[temp_r0].f0 = arg1;
-        this->animationFlags = (this->animationFlags + 1);
+        this->motion_flags = (this->motion_flags + 1);
     }
 }
 

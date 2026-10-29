@@ -906,7 +906,7 @@ void TObjEneIllGill::vfunc_63() {
     if ((s16) this->mode != 8) {
         this->mode = 8;
         this->phase = 0;
-        this->m_b8 = 6;
+        this->requested_action = 6;
         temp_r5 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) & 0xFFFF7FFE);
         ((TObjEneIllGill *)arg0)->free_resources();
@@ -926,7 +926,7 @@ void TObjEneIllGill__sub_803667B8(u8 *arg0) {
     if (objInBand((GameObj *)arg0, (f32)TObjEneIllGill__data_805E02C0) != 0) {
         play_sound_effect(0x4003A350, arg0 + 0x38, 0, 0);
     }
-    if (((TObjPlayer *)arg0)->m_b4 != 8) {
+    if (((TObjPlayer *)arg0)->action_flags != 8) {
         ((TObjPlayer *)arg0)->actorFlags &= ~0x600;
         *(u32 *)((s8 *)(((TObjPlayer *)arg0)->bodies) + 0x18) &= ~0x04000000;
         if ((f32)((TObjPlayer *)arg0)->hp < lbl_805E02E8 * (f32)((TObjPlayer *)arg0)->hpmax) {
@@ -946,7 +946,7 @@ void TObjEneIllGill::vfunc_62() {
     s16 temp_r0;
     void *temp_r3;
 
-    temp_r0 = this->m_b8;
+    temp_r0 = this->requested_action;
     if ((temp_r0 == 2) || (temp_r0 == 3)) {
         this->referenceHp = (s16) this->hp;
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
@@ -957,7 +957,7 @@ void TObjEneIllGill::vfunc_62() {
     }
     if ((s16) this->mode != 7) {
         this->mode = 7;
-        this->m_b8 = 5;
+        this->requested_action = 5;
         this->free_resources();
     }
     this->actorFlags = (s32) (this->actorFlags & 0xFFFBFFFF);
@@ -1356,7 +1356,7 @@ void TObjEneIllGill__sub_80367860(u8 *player) {
     f32 a;
     f32 b;
     f32 *r;
-    ((TObjPlayer *)player)->m_b8 = 0;
+    ((TObjPlayer *)player)->requested_action = 0;
     advance_animation_playback(player);
     obj_setFlags30(player, 0x04040000);
     v.y = TObjEneIllGill__data_805E02BC;
@@ -1395,13 +1395,13 @@ void TObjEneIllGill::run_attack_phase() {
         obj_setFlags30(arg0, 0x04040000);
         if (((IllGillVObj_80367984_8036690C *) (arg0 + 0x374))->m5() == 1) {
             this->phase = 2;
-            this->m_b8 = 1;
+            this->requested_action = 1;
             this->m_390 = 0;
         }
         break;
     case 2:
         ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
-        this->m_b8 = 1;
+        this->requested_action = 1;
         if (horizontal_distance_squared((u8 *)&this->position, (u8 *)&this->home_position) > lbl_805E02C8) {
             move_toward_dest_with_detour();
         } else {
@@ -1412,7 +1412,7 @@ void TObjEneIllGill::run_attack_phase() {
         ((TObjCollidable *)arg0)->refresh_collision_body_centers();
         break;
     default:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         if (!(this->actorFlags & 0x800000)) {
             apply_actor_gravity(arg0, 0, TObjEneIllGill__data_805E02BC);
         }
@@ -1514,7 +1514,7 @@ void TObjEneIllGill::vfunc_58() {
         } else {
             phase = 2;
         }
-        m_b8 = 1;
+        this->requested_action = 1;
         free_resources();
         break;
     }
@@ -1690,7 +1690,7 @@ void TObjEneIllGill::render() {
         } else if (*(s32 *)&this->m_3a8 == 1) {
             ((TObjMotion *)arg0)->draw();
         } else {
-            ((TObjEnemy *)arg0)->render_world_model();
+            ((TObjEnemy *)arg0)->draw_motion_model();
         }
         TObjEneRe7Berura::set_global_state((s32)NULL);
         VecCopy((Vec *)(arg0 + 0x3B0), (const Vec *)&TObjEneIllGill__camera_vec_table);

@@ -391,13 +391,13 @@ void TOTrapSeabed01::render_effect_layers() {
     ((s32 (*)(int, int))rotate_matrix_y)(0, this->rotation_y);
     set_depth_buffer_settings_3();
     set_depth_buffer_settings_id(1);
-    draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), this->unknownF8, this->m_c0);
+    draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), (s32)this->current_motion, this->frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
     TParticleCtrl::begin_effect_render();
     set_depth_buffer_settings_1();
     set_depth_buffer_settings_id(2);
-    draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), this->unknownF8, this->m_c0);
+    draw_ginja_model_with_motion((int) (*(s32 *)((s8 *)((u8 *)this) + 0x34)), (s32)this->current_motion, this->frame);
     restore_draw_list_mask();
     restore_saved_depth_alpha_state();
     TParticleCtrl::end_effect_render();
@@ -600,7 +600,7 @@ void TOTrapSeabed01::clamp_params_and_init() {
     } else {
         *(s32 *)&this->m_34c = 0;
     }
-    this->m_c8 = this->scale.x;
+    this->play_speed = this->scale.x;
     if (this->scale.y < TOTrapSeabed01__data_805DE644[0]) {
         this->scale.y = TOTrapSeabed01__data_805DE644[0];
     }
@@ -682,9 +682,9 @@ u8 *TOTrapSeabed01__ct(TOTrapSeabed01 *trap_seabed01, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)trap_seabed01 + 0) = (s32) TOTrapSeabed01_class_name;
     ((TOTrapSeabed01 *)(trap_seabed01))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)trap_seabed01 + 0x34) = get_bml_model((int) ((*(s32 *)&(*(u32 *)&TOTrapSeabed01__bml_resource))), 0);
-    trap_seabed01->unknownF8 = get_bml_motion((int) ((*(s32 *)&(*(u32 *)&TOTrapSeabed01__bml_resource))), 0);
-    trap_seabed01->m_c8 = (f32) lbl_805DE640;
-    trap_seabed01->m_c0 = (f32) TOTrapSeabed01__data_805DE644[0];
+    trap_seabed01->current_motion = (NJS_MOTION *)get_bml_motion((int) ((*(s32 *)&(*(u32 *)&TOTrapSeabed01__bml_resource))), 0);
+    trap_seabed01->play_speed = (f32) lbl_805DE640;
+    trap_seabed01->frame = (f32) TOTrapSeabed01__data_805DE644[0];
     trap_seabed01->clamp_params_and_init();
     init_collision_body_parts(trap_seabed01, &seabed_trap_collision_body, 1);
     ((TObjCollidable *)trap_seabed01)->refresh_collision_body_centers();

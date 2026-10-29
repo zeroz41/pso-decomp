@@ -43,10 +43,10 @@ u8 *TObjNpcFemaleTall__ct(u8 *arg0, s32 arg1, s32 arg2) {
 
 void TObjNpcFemaleTall__sub_8014AA28(void *arg0, s32 arg1) {
     if (arg1 != 1) {
-        ((TUnk_804A92A8 *)arg0)->m_b8 = 0;
+        ((TUnk_804A92A8 *)arg0)->requested_action = 0;
         return;
     }
-    ((TUnk_804A92A8 *)arg0)->m_b8 = 1;
+    ((TUnk_804A92A8 *)arg0)->requested_action = 1;
 }
 
 }

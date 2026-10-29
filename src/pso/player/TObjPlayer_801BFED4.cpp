@@ -55,7 +55,7 @@ u8 *TObjPlayer::copy_hold_params(u8 *arg1) {
     return ((u8 *)this);
 }
 
-s16 TBoss7Crawfish::get_floor() { return this->m_b8; }
+s16 TBoss7Crawfish::get_floor() { return this->requested_action; }
 int TUnk_804DDD28::vfunc_77(s32) { return 0; }
 int TUnk_804DDD28::vfunc_10() { return 0; }
 int TUnk_804DDD28::vfunc_5(s32) { return 0; }

@@ -106,8 +106,8 @@ u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_804E7380);
     ((TObjMotion *)arg0)->set_field_dc((int) (*(s32 *)((s8 *)((u8 *)TBoss7Crawfish__shared_resource) + 0x430)));
     ((TBoss7Crawfish *)arg0)->set_anim_timer(2);
-    ((TObjMotion *)arg0)->set_animation((((TBoss7Crawfish *)arg0)->m_b8));
-    set_field_b8__10TObjMotionFs(arg0, (int) (((TBoss7Crawfish *)arg0)->m_b8));
+    ((TObjMotion *)arg0)->set_animation((((TBoss7Crawfish *)arg0)->requested_action));
+    set_field_b8__10TObjMotionFs(arg0, (int) (((TBoss7Crawfish *)arg0)->requested_action));
     ((TObjChara *)arg0)->add_flags_2e4(2);
     ((TBoss7Crawfish *)(arg0))->apply_set_data((void *)arg2);
     if (((TBoss7Crawfish *)arg0)->sub_80308AA8() != 0) {
@@ -167,7 +167,7 @@ void TBoss7Crawfish::apply_confusion_status() {  }
 void TBoss7Crawfish::apply_movement_ailment(s32) {  }
 void TBoss7Crawfish::apply_shock_status() {  }
 void TBoss7Crawfish::clear_harmful_statuses() {  }
-f32 TBoss7Crawfish::get_health() { return this->m_c8; }
-void TBoss7Crawfish::set_anim_timer(s16 v) { this->m_b8 = v; }
+f32 TBoss7Crawfish::get_health() { return this->play_speed; }
+void TBoss7Crawfish::set_anim_timer(s16 v) { this->requested_action = v; }
 
 }

@@ -150,7 +150,7 @@ void TObjEneBalClawClaw::update_chase_state() {
         break;
     case 0:
         this->actorFlags &= ~0x100;
-        this->m_b8 = 1;
+        this->requested_action = 1;
         this->state = 1;
         *(s16 *)((s8 *)((u8 *)this) + 0x3C8) = 0x78;
         break;
@@ -396,7 +396,7 @@ void TObjEneBalClawClaw::render() {
                             if (temp_r3 == 1) {
                                 ((TObjMotion *)arg0)->draw();
                             } else {
-                                ((TObjEnemy *)arg0)->render_world_model();
+                                ((TObjEnemy *)arg0)->draw_motion_model();
                             }
                         }
                         ((VB_80090950 *)(arg0 + 0x390))->m7();
@@ -406,7 +406,7 @@ void TObjEneBalClawClaw::render() {
                 } else if (temp_r3 == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->render_world_model();
+                    ((TObjEnemy *)arg0)->draw_motion_model();
                 }
             }
             pop_matrix();
@@ -430,7 +430,7 @@ void TObjEneBalClawClaw::sub_80090D3C() {
     switch (this->state) {
     case 0:
         this->actorFlags = (s32) (this->actorFlags | 0x40000);
-        this->m_b8 = 0;
+        this->requested_action = 0;
         this->state = 1;
     case 1:
         advance_animation_playback(this);
@@ -599,7 +599,7 @@ void action__18TObjEneBalClawClawFPv(u8 *ene_bal_claw_claw) {
         ((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_388 = (s32) (((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_388 | 4);
         temp_r4 = ((TObjEneBalClawClaw *)ene_bal_claw_claw)->actorFlags | 0x04000000;
         ((TObjEneBalClawClaw *)ene_bal_claw_claw)->actorFlags = temp_r4;
-        ((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_b8 = 0;
+        ((TObjEneBalClawClaw *)ene_bal_claw_claw)->requested_action = 0;
         play_area_se_with_particle__12TBoss3VoloptFv(ene_bal_claw_claw + 0x38, temp_r4);
         TObjPlayer__sub_800A0554(ene_bal_claw_claw + 0x390);
         ((TObjEneBalClawClaw *)ene_bal_claw_claw)->state = 1;

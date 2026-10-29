@@ -8,7 +8,6 @@ extern "C" {
 s32 TObjEnePanarms__sub_800DFB44(O_800DFB44 *self);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 s32 TObjEnePanarms__ct(s32, s32, s32);
-int apply_animation_transition(void*, void*);
 s32 __nw__7TObjectFUl(s32);
 int fn_800660B8(void*);
 
@@ -29,7 +28,7 @@ s32 TObjEnePanarms::create(s32 arg0) {
     return var_r31;
 }
 
-void TObjEnePanarms::init(void* a1) { fn_800660B8(this); apply_animation_transition(this, a1); sub_8002AE64(); }
+void TObjEnePanarms::init(s16 action) { fn_800660B8(this); change_action(action); sub_8002AE64(); }
 
 s32 TObjEnePanarms__sub_800DFB44(O_800DFB44 *self) {
     return self->state == 7 || self->state == 8;

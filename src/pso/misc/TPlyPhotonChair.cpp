@@ -211,13 +211,13 @@ void TPlyPhotonChair::run_task() {
     }
     switch ((s32) this->m_94) {
     case 0:
-        ((TUnk_804A7478 *)(arg0 + 0x98))->update_bob_motion();
-        ((TUnk_804A7478 *)(arg0 + 0xB4))->update_bob_motion();
+        ((TUnk_804A7478 *)(arg0 + 0x98))->play_forward();
+        ((TUnk_804A7478 *)(arg0 + 0xB4))->play_forward();
         return;
     case 1:
-        ((TUnk_804A7478 *)(arg0 + 0x98))->update_scale_state();
-        ((TUnk_804A7478 *)(arg0 + 0xB4))->update_scale_state();
-        if (((TUnk_804A7478 *)(arg0 + 0x98))->get_float_c() <= 0.0f) {
+        ((TUnk_804A7478 *)(arg0 + 0x98))->play_backward();
+        ((TUnk_804A7478 *)(arg0 + 0xB4))->play_backward();
+        if (((TUnk_804A7478 *)(arg0 + 0x98))->get_frame() <= 0.0f) {
             queue_destruction__7TObjectFv((arg0));
         }
         return;

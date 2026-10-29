@@ -335,7 +335,7 @@ s32 validate_6xAE_set_animation_state(LobbyAnimationState *arg0) {
     if (((is_action_id_none(arg0->animation_number) == 0) && (arg0->animation_number < 0)) || (arg0->animation_number >= TLobby::get_hold_effect_size_by_type())) {
         return 0;
     }
-    if ((arg0->animation_timer < 0.0f) || (arg0->animation_timer >= ((TObjPlayer *)player)->get_table_value_f32(arg0->animation_number))) {
+    if ((arg0->animation_timer < 0.0f) || (arg0->animation_timer >= ((TObjPlayer *)player)->get_action_frame_count(arg0->animation_number))) {
         return 0;
     }
     return 1;

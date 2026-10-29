@@ -402,7 +402,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     }
 }
 
-void TContainerAncient01R::reset_hp() { this->mode = 0; this->m_b8 = this->mode; this->m_2b4 = (-1.0f); }
+void TContainerAncient01R::reset_hp() { this->mode = 0; this->requested_action = this->mode; this->m_2b4 = (-1.0f); }
 
 s32 TContainerAncient01R::sub_8018A688() {
     Obj_8018A688 *self = (Obj_8018A688 *)this;
@@ -462,7 +462,7 @@ void TContainerAncient01R::update_spawning() {
   if (6e+01f <= (this->m_2b4))
   {
     this->mode = 2;
-    this->m_b8 = this->mode;
+    this->requested_action = this->mode;
     this->m_2b4 = (f32) (-1.0f);
   }
 }
@@ -489,7 +489,7 @@ void TContainerAncient01R::check_open_trigger() {
     }
     if (hit != 0) {
         this->mode = 1;
-        this->m_b8 = this->mode;
+        this->requested_action = this->mode;
         this->m_2b4 = (-1.0f);
     }
 }
@@ -589,7 +589,7 @@ void TContainerAncient01R::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->unknownF8, this->m_c0);
+            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
         }
         pop_matrix();
     }
@@ -612,7 +612,7 @@ void TContainerAncient01R::run_task() {
                 break;
             default:
                 this->mode = 0;
-                this->m_b8 = (s16) this->mode;
+                this->requested_action = (s16) this->mode;
                 this->m_2b4 = (f32) (-1.0f);
                 ((TContainerAncient01R *)arg0)->check_open_trigger();
                 break;
@@ -632,10 +632,10 @@ void TContainerAncient01R::run_task() {
             }
         }
     }
-    if ((u32) this->unknownF8 == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
+    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 0)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 0);
     }
-    if ((u32) this->unknownF8 == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
+    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01R__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01R__bml_resource, 1);
     }
     run_task__7TObjectFv(arg0);
@@ -723,7 +723,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     }
 }
 
-void TContainerAncient01::reset_state() { this->mode = 0; this->m_b8 = this->mode; this->m_2b4 = (-1.0f); }
+void TContainerAncient01::reset_state() { this->mode = 0; this->requested_action = this->mode; this->m_2b4 = (-1.0f); }
 
 void TContainerAncient01::sub_8018B284() {
     Obj_8018B284 *self = (Obj_8018B284 *)this;
@@ -781,7 +781,7 @@ void TContainerAncient01::sub_8018B48C() {
   if (6e+01f <= (this->m_2b4))
   {
     this->mode = 2;
-    this->m_b8 = this->mode;
+    this->requested_action = this->mode;
     this->m_2b4 = (f32) (-1.0f);
   }
 }
@@ -958,7 +958,7 @@ void TContainerAncient01::render() {
         if (TObjPlayer::check_demo_mode() == 1) {
             draw_ginja_object(this->model);
         } else {
-            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->unknownF8, this->m_c0);
+            draw_ginja_model_with_motion(*(s32 *)&this->model, *(s32 *)&this->current_motion, this->frame);
         }
         pop_matrix();
     }
@@ -981,7 +981,7 @@ void TContainerAncient01::run_task() {
                 break;
             default:
                 this->mode = 0;
-                this->m_b8 = (s16) this->mode;
+                this->requested_action = (s16) this->mode;
                 this->m_2b4 = (f32) (-1.0f);
                 ((TContainerAncient01 *)arg0)->update_wait_for_player();
                 break;
@@ -1001,10 +1001,10 @@ void TContainerAncient01::run_task() {
             }
         }
     }
-    if ((u32) this->unknownF8 == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
+    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 0)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 0);
     }
-    if ((u32) this->unknownF8 == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
+    if ((u32) this->current_motion == get_bml_motion(TContainerAncient01__bml_resource, 1)) {
         *(s32 *)&this->model = get_bml_model(TContainerAncient01__bml_resource, 1);
     }
     run_task__7TObjectFv(arg0);
@@ -1165,12 +1165,12 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
-    ((TContainerAncient01 *)arg0)->action_table = (s32 *)TContainerAncient01__anim_table;
+    ((TContainerAncient01 *)arg0)->action_table = (TObjMotionAction *)TContainerAncient01__anim_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)((void *) (((TContainerAncient01 *)arg0)->action_table)));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&TContainerAncient01__bml_resource) + 0x430);
-    ((TContainerAncient01 *)arg0)->m_b8 = 0;
-    ((TObjMotion *)arg0)->set_animation((((TContainerAncient01 *)arg0)->m_b8));
-    ((TObjMotion *)arg0)->set_field_b8((int) (((TContainerAncient01 *)arg0)->m_b8));
+    ((TContainerAncient01 *)arg0)->requested_action = 0;
+    ((TObjMotion *)arg0)->set_animation((((TContainerAncient01 *)arg0)->requested_action));
+    ((TObjMotion *)arg0)->set_field_b8((int) (((TContainerAncient01 *)arg0)->requested_action));
     ((TContainerAncient01 *)arg0)->actorFlags = (s32) (((TContainerAncient01 *)arg0)->actorFlags | 0x60000000);
     init_collision_body_parts(arg0, (void *)&TContainerAncient01__collision_body_parts.value, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();

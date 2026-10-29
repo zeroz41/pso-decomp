@@ -145,7 +145,7 @@ void TObjPlayer__sub_802CE68C(u8 *enemy, s32 arg1, s32 arg2) {
     post_translate_matrix(enemy + 0x38);
     rotate_matrix_y(0, (int) (((TObjEnemy *)enemy)->rotation_y));
     TObjPlayer::set_global_flag();
-    ((TObjEnemy *)enemy)->render_anim_model((f32) (((TObjEnemy *)enemy)->m_c0));
+    ((TObjEnemy *)enemy)->calc_joint_matrices((f32) (((TObjEnemy *)enemy)->frame));
     TObjPlayer::clear_global_state();
     pop_matrix();
     push_matrix_from((void *) (anim_model_matrix_array + (arg2 * 0x30)));
@@ -294,14 +294,14 @@ void TObjEneBm9Mericarol::render() {
             if (mode == 1) {
                 ((TObjMotion *)((u8 *)this))->draw();
             } else {
-                ((TObjEnemy *)((u8 *)this))->render_world_model();
+                ((TObjEnemy *)((u8 *)this))->draw_motion_model();
             }
         }
         fade->m7();
     } else if (mode == 1) {
         ((TObjMotion *)((u8 *)this))->draw();
     } else {
-        ((TObjEnemy *)((u8 *)this))->render_world_model();
+        ((TObjEnemy *)((u8 *)this))->draw_motion_model();
     }
     if (!(self->f438 & 0x10)) {
         ((void (*)(void *))set_global_state__16TObjEneRe7BeruraFl)(NULL);

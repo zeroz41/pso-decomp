@@ -755,7 +755,7 @@ void TObjPlayer::update_move_to_destination() {
     case 0:
         o->flags388 &= ~0x200000;
         o->flags388 |= 0x480000;
-        this->m_b8 = 0;
+        this->requested_action = 0;
         this->m_37c = 1;
     case 1: {
         advance_animation_playback(o);
@@ -786,7 +786,7 @@ s32 TObjPlayer::update_hide_sequence() {
         temp_r5 = *(s32 *)&this->unk_388;
         temp_r4 = temp_r5 & 0xFFB7FFFF;
         *(s32 *)&this->unk_388 = temp_r4;
-        this->m_b8 = 8;
+        this->requested_action = 8;
         this->m_39c = TObjPlayer__sub_800A3210(1, temp_r4, temp_r5);
         this->m_37c = 1;
     case 1:
@@ -879,7 +879,7 @@ void TObjPlayer__sub_800A16C4(u8 *player) {
         *(s32 *)((s8 *)player + 0x388) = (s32) (*(s32 *)((s8 *)player + 0x388) | 1);
         ((TObjBase *)player)->obj_clearFlags30(0x100);
         *(s16 *)((s8 *)player + 0x33C) = (s16) *(s16 *)((s8 *)player + 0x33A);
-        ((TObjPlayer *)player)->m_b8 = 0;
+        ((TObjPlayer *)player)->requested_action = 0;
         ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFF9FFFFF);
         ((TObjPlayer *)player)->m_37c = 1;
         goto case1;
@@ -1074,7 +1074,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
                         if (view == 1) {
                             ((TObjMotion *)self)->draw();
                         } else {
-                            ((TObjEnemy *)self)->render_world_model();
+                            ((TObjEnemy *)self)->draw_motion_model();
                         }
                     }
                     self->fade.clear_flag_and_notify();
@@ -1084,7 +1084,7 @@ void TObjPlayer__sub_800A1978(VObj_18_800A28A4 *self) {
             } else if (view == 1) {
                 ((TObjMotion *)self)->draw();
             } else {
-                ((TObjEnemy *)self)->render_world_model();
+                ((TObjEnemy *)self)->draw_motion_model();
             }
             if (self->flags & 0x400000) {
                 set_constant_material((const NJS_ARGB *)lbl_804907AC);
@@ -1132,7 +1132,7 @@ void TObjPlayer__sub_800A1C84(TObjPlayer *enemy) {
     *(s32 *)((s8 *)enemy + 0x388) &= 0xFF07FFFF;
     switch (enemy->m_37c) {
     case 0:
-        enemy->m_b8 = 7;
+        enemy->requested_action = 7;
         enemy->refresh_lobby_state();
         ((TObjEnemy *)enemy)->send_entity_set_flags();
         TObjPlayer__sub_800A04F0((u8 *)enemy + 0x408);
@@ -1161,9 +1161,9 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
     case 0:
         ((TObjPlayer *)arg0)->actorFlags = (s32) (((TObjPlayer *)arg0)->actorFlags & 0xFFDFFFFF);
         if (*(s32 *)((s8 *)arg0 + 0x388) & 0x800000) {
-            ((TObjPlayer *)arg0)->m_b8 = 9;
+            ((TObjPlayer *)arg0)->requested_action = 9;
         } else {
-            ((TObjPlayer *)arg0)->m_b8 = 5;
+            ((TObjPlayer *)arg0)->requested_action = 5;
         }
         temp_f31 = vector_length(arg0 + 0x308);
         temp_f1 = TObjPlayer__sub_800A3200(2);
@@ -1193,7 +1193,7 @@ void TObjPlayer__sub_800A1D70(u8 *arg0) {
         }
         apply_actor_gravity(arg0, 0, 0.0f);
         ((TObjPlayer *)arg0)->update_collisions();
-        if ((u32) ((TObjPlayer *)arg0)->m_b4 != 8U) {
+        if ((u32) ((TObjPlayer *)arg0)->action_flags != 8U) {
             ((TObjBase *)arg0)->obj_clearFlags30(0x40300);
             *(s32 *)((s8 *)arg0 + 0x388) = (s32) ((*(s32 *)((s8 *)arg0 + 0x388)) & 0xFF7FFFFE);
             ((TObjPlayer *)arg0)->m_33e = (s16) ((TObjPlayer *)arg0)->hp;
@@ -1465,7 +1465,7 @@ void TObjPlayer__sub_800A27CC(TObjPlayer *player) {
             player->rotation_z = 0x8000;
             player->m_37c = 1;
         } else {
-            player->m_b8 = 0;
+            player->requested_action = 0;
             player->m_37c = 2;
         }
         ((TObjEneDarkGunner *)player)->m_388 |= 0x400000;

@@ -177,7 +177,7 @@ u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
     ((TObjNpcLappy *)self)->apply_set_params(0, 1);
     *(s32 *)(self + 0x34) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 8);
     *(s32 *)(self + 0x24) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 0xC);
-    ((TObjPlayer *)self)->init_npc_animation((void*)npc_lappy_animation_table, (void*)(*(s32 *)(rappy_bml_resource + 0x430)), (void*)(*(s16 *)(self + 0xB8)));
+    ((TObjMotion *)self)->init_motion((TObjMotionAction *)npc_lappy_animation_table, (BmlMotionEntry *)*(s32 *)(rappy_bml_resource + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);
     init_collision_body_parts(self, lbl_804A9DA8, 1);
@@ -189,10 +189,10 @@ u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
 
 void TObjNpcMaleBase::request_action(s32 arg1) {
     if (arg1 != 1) {
-        this->m_b8 = 0;
+        this->requested_action = 0;
         return;
     }
-    this->m_b8 = 1;
+    this->requested_action = 1;
 }
 
 }

@@ -88,7 +88,7 @@ void exec__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((TObjEneDD *)arg0)->m_b8 = 0xC;
+        ((TObjEneDD *)arg0)->requested_action = 0xC;
         set_field_378__9TObjEneDDFl(arg0, 6);
         ((TObjEneDD *)arg0)->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x3CC) = (s32) (*(s32 *)((s8 *)arg0 + 0x3CC) & 0xFFFFFFF1);
@@ -452,7 +452,7 @@ void setup_particle_tev(s32 arg0);
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
 #define sub_800F47D4__16TObjEneMe3StelthFv ((s32 (*)(void *))sub_800F47D4__16TObjEneMe3StelthFv)
-s32 draw_model__16TObjEneMe3StelthFv(void *);
+s32 draw_ginja_motion_model__10TObjMotionFv(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 #define rotate_matrix_y ((s32 (*)(s32, s32))rotate_matrix_y)
@@ -551,7 +551,7 @@ void TObjEneMe3Stelth::render() {
                 if (mode == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->render_world_model();
+                    ((TObjEnemy *)arg0)->draw_motion_model();
                 }
                 pop_matrix();
             }
@@ -600,7 +600,7 @@ void TObjEneMe3Stelth::render() {
                 set_ginja_draw_list_mask(3);
             }
             if (mode == 1) {
-                draw_model__16TObjEneMe3StelthFv(arg0);
+                draw_ginja_motion_model__10TObjMotionFv(arg0);
             } else {
                 draw_model__16TObjEneMe3StelthFPv(arg0);
             }
@@ -1111,7 +1111,7 @@ void action__16TObjEneMe3StelthFPvi(u8 *ene_dd, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        ((TObjEneDD *)ene_dd)->m_b8 = 8;
+        ((TObjEneDD *)ene_dd)->requested_action = 8;
         set_field_378__9TObjEneDDFl(ene_dd, 6);
         ((TObjEneDD *)ene_dd)->vfunc_95();
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & 0xFFFFFFFC);
@@ -2075,7 +2075,7 @@ void TObjEneMe3Stelth__sub_800F3214(u8 *ene_epsilon, s32 arg1) {
     u8 *temp_r4;
     switch (arg1) {
     case 4:
-        ((TObjEneEpsilon *)ene_epsilon)->m_b8 = 7;
+        ((TObjEneEpsilon *)ene_epsilon)->requested_action = 7;
         set_field_378__9TObjEneDDFl(ene_epsilon, 0xC);
         ((TObjEneDD *)(ene_epsilon))->vfunc_96();
         *(s32 *)((s8 *)ene_epsilon + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_epsilon + 0x3CC) & 0xFFFFFFF8);
@@ -2094,7 +2094,7 @@ void TObjEneMe3Stelth__sub_800F3214(u8 *ene_epsilon, s32 arg1) {
         switch (*(s32 *)((s8 *)ene_epsilon + 0x424)) {
         case 0:
             ((VObj_18_4f5f2e *)(ene_epsilon))->m103();
-            if (((TObjEneEpsilon *)ene_epsilon)->m_c0 < TObjEneMe3Stelth__data_805DA844) {
+            if (((TObjEneEpsilon *)ene_epsilon)->frame < TObjEneMe3Stelth__data_805DA844) {
                 if (((TObjEneEpsilon *)ene_epsilon)->update_death_check() != 0) {
                     ((TObjEneDD_ST *)ene_epsilon)->enemy_copy_target_destination();
                     ((TObjEneDD *)ene_epsilon)->update_velocity();
@@ -2108,21 +2108,21 @@ void TObjEneMe3Stelth__sub_800F3214(u8 *ene_epsilon, s32 arg1) {
             }
             ((VObj_18_4f5f2e *)(ene_epsilon))->m110();
             TObjEneMe3Stelth__sub_800F0C90(ene_epsilon);
-            temp_f1 = ((TObjEneEpsilon *)ene_epsilon)->m_c0;
+            temp_f1 = ((TObjEneEpsilon *)ene_epsilon)->frame;
             if ((temp_f1 >= TObjEneMe3Stelth__data_805DA840) && (temp_f1 <= TObjEneMe3Stelth__data_805DA820)) {
                 move_to_shot_position__9TObjEneDDFfff(ene_epsilon, (int) TObjEneMe3Stelth__behavior_params_by_variant[*(s32 *)((s8 *)ene_epsilon + 0x3C8)], ((TObjEneEpsilon *)ene_epsilon)->m_3a0, *(f32 *)((s8 *)ene_epsilon + 0x3A8), TObjEneMe3Stelth__behavior_params_by_variant[*(s32 *)((s8 *)ene_epsilon + 0x3C8)][2]);
             } else {
                 ((TObjEneDD *)(ene_epsilon))->vfunc_102();
             }
-            if (((TObjEneEpsilon *)ene_epsilon)->m_c0 >= 25.0f) {
-                ((TObjEneEpsilon *)ene_epsilon)->m_c0 = 25.0f;
+            if (((TObjEneEpsilon *)ene_epsilon)->frame >= 25.0f) {
+                ((TObjEneEpsilon *)ene_epsilon)->frame = 25.0f;
                 *(s32 *)((s8 *)ene_epsilon + 0x424) = 1;
             }
             break;
         case 1:
             *(s32 *)((s8 *)ene_epsilon + 0x428) = (s32) (*(s32 *)((s8 *)ene_epsilon + 0x428) + 1);
             if ((s32) *(s32 *)((s8 *)ene_epsilon + 0x428) <= *(s32 *)&TObjEneMe3Stelth__behavior_params_by_variant[*(s32 *)((s8 *)ene_epsilon + 0x3C8)][8]) {
-                ((TObjEneEpsilon *)ene_epsilon)->m_c0 = 25.0f;
+                ((TObjEneEpsilon *)ene_epsilon)->frame = 25.0f;
             }
             ((TObjEneDD *)(ene_epsilon))->vfunc_102();
             break;
@@ -2449,7 +2449,7 @@ void TObjEneMe3Stelth__sub_800F3FE4(u8 *ene_dd, s32 arg1) {
     f32 temp_f1;
     switch (arg1) {
     case 4:
-        ((TObjEneDD *)ene_dd)->m_b8 = 0;
+        ((TObjEneDD *)ene_dd)->requested_action = 0;
         set_field_378__9TObjEneDDFl(ene_dd, 0);
         ((TObjEneDD *)(ene_dd))->vfunc_95();
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 7);
@@ -2478,7 +2478,7 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
     s32 temp_r0;
     switch (arg1) {
     case 4:
-        this->m_b8 = 9;
+        this->requested_action = 9;
         set_field_378__9TObjEneDDFl(this, 0xD);
         this->vfunc_96();
         *(s32 *)((s8 *)((u8 *)this) + 0x3CC) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3CC) & 0xFFFFFFF8);
@@ -2534,7 +2534,7 @@ void TObjEneMe3Stelth::sub_800F42B8(s32 arg1) {
     f32 t;
     switch (arg1) {
     case 4:
-        this->m_b8 = 2;
+        this->requested_action = 2;
         set_field_378__9TObjEneDDFl(arg0, 0);
         this->vfunc_95();
         *(s32 *)((s8 *)arg0 + 0x3CC) &= ~2;
@@ -3572,7 +3572,7 @@ f32 TObjEneMe3Stelth::get_node_world_y() {
     v.y = TObjEneMe3Stelth__data_805DA840;
     v.z = TObjEneMe3Stelth__data_805DA840;
     push_matrix_from(identity_matrix);
-    bind_motion_context(self->unknownF8, self->m_c0);
+    bind_motion_context((s32)self->current_motion, self->frame);
     node = *(Node_800F4D68 * *)&self->model;
     compose_motion_node_matrix(node);
     compose_motion_node_matrix(node->child);
@@ -3951,7 +3951,7 @@ void TObjEneMe3Stelth::load_shared_resources() {
     }
 }
 
-#define draw_model__16TObjEneMe3StelthFv ((int (*)(void*))draw_model__16TObjEneMe3StelthFv)
+#define draw_ginja_motion_model__10TObjMotionFv ((int (*)(void*))draw_ginja_motion_model__10TObjMotionFv)
 
 void TObjEneDD_ST::sub_800F5864(s32 arg1) {
     this->m_11c = (s16) (this->m_11c & ~arg1);
@@ -3961,7 +3961,7 @@ void TObjEneDD_ST::sub_800F5874(s32 arg1) {
     this->m_11c = (s16) (this->m_11c | arg1);
 }
 
-int draw_model__16TObjEneMe3StelthFPv(void* p) { return draw_model__16TObjEneMe3StelthFv(p); }
+int draw_model__16TObjEneMe3StelthFPv(void* p) { return draw_ginja_motion_model__10TObjMotionFv(p); }
 
 }
-#undef draw_model__16TObjEneMe3StelthFv
+#undef draw_ginja_motion_model__10TObjMotionFv

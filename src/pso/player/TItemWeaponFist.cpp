@@ -63,7 +63,7 @@ void TObjPlayer::apply_shield_scale_to_unit() {
         var_f31 = 1.2f;
         break;
     }
-    ((PlayerAttackState *)(*(s32 *)&this->unk_F0 + 0x7CC))->set_evp(var_f31);
+    ((PlayerAttackState *)(*(s32 *)&this->blend.frame[1] + 0x7CC))->set_evp(var_f31);
 }
 
 }

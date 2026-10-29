@@ -328,7 +328,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
                 post_translate_matrix(&arg0->pos);
                 rotate_matrix_y(0, arg0->rotY);
                 TObjPlayer::set_global_flag();
-                ((TObjEnemy *)arg0)->render_anim_model(TObjEneMe3SinowZoa__data_805DF314);
+                ((TObjEnemy *)arg0)->calc_joint_matrices(TObjEneMe3SinowZoa__data_805DF314);
                 TObjPlayer::clear_global_state();
                 pop_matrix();
                 push_matrix_from(anim_model_matrix_array + 0x90);

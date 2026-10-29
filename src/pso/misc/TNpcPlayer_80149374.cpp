@@ -31,10 +31,10 @@ void TNpcPlayer::bswap_6x3E() {
 void TNpcPlayer::init_6x3E_packet() { *(short *)&this->m_flags = 0; *(short *)&this->m_id = 0; *(short *)&this->m_prev = -1; *(short*)((char*)this + 0xa) = -1; *(float *)&this->m_down = lbl_805DB1C4; *(float *)&this->m_up = lbl_805DB1C4; *(float *)&this->m_next = lbl_805DB1C4; *(unsigned char *)&this->m_name = 62; *(unsigned char*)((char*)this + 0x1) = 6; }
 void TObjNpcBringer::vfunc_88() {
     if ((s16) this->mode != 2) {
-        this->m_b8 = 0;
+        this->requested_action = 0;
         return;
     }
-    this->m_b8 = 1;
+    this->requested_action = 1;
 }
 
 }

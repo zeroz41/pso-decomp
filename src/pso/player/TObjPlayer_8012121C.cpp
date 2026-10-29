@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer_8012121C.h"
 #include "pso/player/TObjPlayer.h"
 
-int TObjPlayer::is_flag_b0_4() { return this->animationFlags & 0x4; }
+int TObjPlayer::is_flag_b0_4() { return this->motion_flags & 0x4; }
 void TObjPlayer__sub_80121228(void* p, u32 v) { *(u32*)((char*)p + 0x28) |= v; }
 s16 get_captured_target_collider_index(void* p) { return *(s16*)((char*)p + 0x2); }
 u16 TObjPlayer::get_uid() { return *(u16*)((char*)this + 0x0); }

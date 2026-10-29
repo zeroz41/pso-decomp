@@ -116,15 +116,15 @@ void TUnk_8048FE08::sub_8009A11C() { *(s32*)((char*)this + 0xb0) = 0; }
 void TObjEneDf2Bringer::setup_dir_shot(const void *arg1, s32 arg2, f32 farg0) {
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)arg1);
     this->rotation_y = arg2;
-    *(f32 *)&this->m_b8 = sin_table_lookup(this->rotation_y);
-    *(f32 *)&this->m_bc = (f32) 0.0f;
-    this->m_c0 = cos_table_lookup(this->rotation_y);
-    *(s32 *)&this->animationFlags = 1;
-    fill_value_array((int) (*(s32 *)&this->unk_C4));
-    this->m_c8 = (f32) 0.0f;
-    *(f32 *)&this->unk_CC = (f32) 0.0f;
-    this->m_d0 = farg0;
-    *(s32 *)&this->m_b4 = 0x19;
+    *(f32 *)&this->requested_action = sin_table_lookup(this->rotation_y);
+    *(f32 *)&this->previous_action = (f32) 0.0f;
+    this->frame = cos_table_lookup(this->rotation_y);
+    *(s32 *)&this->motion_flags = 1;
+    fill_value_array((int) (*(s32 *)&this->frame_count));
+    this->play_speed = (f32) 0.0f;
+    *(f32 *)&this->blend_speed = (f32) 0.0f;
+    this->override_speed = farg0;
+    *(s32 *)&this->action_flags = 0x19;
 }
 
 void *__dt__13TUnk_8048FE08Fv(void *arg0, s16 arg1) {

@@ -11771,7 +11771,7 @@ force_active:
   - restart_primary_sequence__12TBoss1DragonFv
   - restorePosition__12TBoss1DragonFv
   - restoreTargetPosition__12TBoss1DragonFv
-  - restore_actor_draw_lighting
+  - restore_actor_draw_lighting__FPCc
   - restore_state__15TPlyPhotonChairFl
   - resume_challenge_result_processing__FPv
   - retire_lobby_player__6TLobbyFii
@@ -12304,7 +12304,7 @@ force_active:
   - seqFreeKeyOffNote
   - serial_entry_status_line_position
   - serial_unsigned_decimal_scan_format
-  - serialize_node_flags__10TObjPlayerFPv
+  - write_node_flags__FP10NJS_OBJECT
   - setActive__12TBoss1DragonFv
   - setDestinationX__12TBoss1DragonFi
   - setPhase2__12TBoss1DragonFv

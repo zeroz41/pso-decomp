@@ -15,7 +15,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss8Dragon.h"
 
 #include "pso/misc/TLobby.h"
@@ -233,7 +233,7 @@ BmlResourceDescriptor TObjEneRe2Flower__resource_descriptor = {
     lbl_8043BB64, bm_ene_re2_flower_model_names,
     bm_ene_re2_flower_motion_names, 1, 7
 };
-AnimationAction TObjEneRe2Flower__animation_descriptors[8] = {
+TObjMotionAction TObjEneRe2Flower__animation_descriptors[8] = {
     {3, 0, 0, 0.6f, 0}, {1, 0, 4, 0.3f, 0},
     {1, 0, 5, 0.5f, 0}, {2, 2, 6, 0.6f, 0},
     {3, 0, 1, 0.5f, 0}, {3, 0, 2, 0.5f, 0},

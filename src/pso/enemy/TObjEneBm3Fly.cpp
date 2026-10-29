@@ -241,7 +241,7 @@ void render__13TObjEneBm3FlyFv(VObj_800AFBF0 *o) {
         if (kind == 1) {
             ((TObjMotion *)o)->draw();
         } else {
-            ((TObjEnemy *)o)->render_world_model();
+            ((TObjEnemy *)o)->draw_motion_model();
         }
         restore_default_scene();
         end_effect_render__13TParticleCtrlFv();
@@ -276,7 +276,7 @@ void TObjEneBm3Fly::state_death_fall(s32 arg1) {
     s32 temp_copy;
     switch (arg1) {
     case 4:
-        this->m_b8 = 4;
+        this->requested_action = 4;
         ((TObjEneBm3Fly *)arg0)->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) & 0xFFFFFFFE);
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) | 2);
@@ -909,7 +909,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
     f32 v;
     switch (arg1) {
     case 4:
-        this->m_b8 = 3;
+        this->requested_action = 3;
         this->vfunc_96();
         *(u32 *)((s8 *)((u8 *)this) + 0x428) &= ~1;
         *(u32 *)((s8 *)((u8 *)this) + 0x428) |= 2;
@@ -919,7 +919,7 @@ void TObjEneBm3Fly::update_recoil_state(s32 arg1) {
         this->m_3c0 = 0;
         break;
     case 3:
-        if (this->animationFlags & 0x10) {
+        if (this->motion_flags & 0x10) {
             if (((Ene_800B012C *)((u8 *)this))->m97() != 0) {
                 ((Ene_800B012C *)((u8 *)this))->m102((2e+02f));
             }
@@ -965,7 +965,7 @@ void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1) {
     u8 *temp_r4;
     switch (arg1) {
     case 4:
-        arg0->m_b8 = 1;
+        arg0->requested_action = 1;
         ((TObjEneBm3Fly *)(arg0))->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) & 0xFFFFFFFE);
         *(s32 *)((s8 *)arg0 + 0x428) = (s32) (*(s32 *)((s8 *)arg0 + 0x428) | 2);
@@ -1011,7 +1011,7 @@ void TObjEneBm3Fly::state_circle_target(s32 arg1) {
     f32 vertical;
     switch (arg1) {
     case 4:
-        this->m_b8 = 1;
+        this->requested_action = 1;
         V->m94();
         I(0x428) &= ~1;
         I(0x428) |= 2;
@@ -1096,7 +1096,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 1;
+        this->requested_action = 1;
         this->vfunc_96();
         *(s32 *)((s8 *)((u8 *)this) + 0x428) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x428) & 0xFFFFFFFE);
         *(s32 *)((s8 *)((u8 *)this) + 0x428) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x428) | 2);
@@ -1140,7 +1140,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
             *(f32 *)((s8 *)((u8 *)this) + 0x42C) = approach_value__13TObjEneBm3FlyFff(this, (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x42C)), this->m_398);
             clamp_flight_height__13TObjEneBm3FlyFv(this);
             if (can_attack_target() != 0) {
-                this->m_b8 = 0;
+                this->requested_action = 0;
                 this->m_3c0 = 1;
             }
             break;
@@ -1149,7 +1149,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
             if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x3C4) >= (s32) *(s32 *)((s8 *)lbl_805D50EC + 0x1C)) {
                 *(s32 *)((s8 *)((u8 *)this) + 0x3C4) = 0;
                 this->m_3c0 = 2;
-                this->m_b8 = 2;
+                this->requested_action = 2;
             }
             update_collide_flag__13TObjEneBm3FlyFv(this);
             break;
@@ -1172,7 +1172,7 @@ void TObjEneBm3Fly::execute_action(s32 arg1) {
                     *(s32 *)((s8 *)((u8 *)this) + 0x440) = 0;
                     this->m_3c0 = 3;
                 } else {
-                    this->m_b8 = 1;
+                    this->requested_action = 1;
                     this->m_3c0 = 0;
                 }
             }
@@ -1337,7 +1337,7 @@ void TObjEneBm3Fly__sub_800B0F70(u8 *arg0, s32 arg1) {
     s32 a;
     switch (arg1) {
     case 4:
-        ((TObjEneBm3Fly *)arg0)->m_b8 = 1;
+        ((TObjEneBm3Fly *)arg0)->requested_action = 1;
         ((TObjEneBm3Fly *)(arg0))->vfunc_95();
         I(0x428) &= ~1;
         I(0x428) |= 2;
@@ -2347,9 +2347,9 @@ s32 TObjEneBm3Fly::init_child_params() {
     init_model__9TObjEneDDFv(this, &bm3_fly_collider_params, 1);
     set_field_d8((s32)bm3_fly_action_table);
     set_field_dc(*(s32 *)((s8 *)bm3_fly_nest_resources + 0x430));
-    this->m_b8 = 0;
-    set_animation(this->m_b8);
-    set_field_b8(this->m_b8);
+    this->requested_action = 0;
+    set_animation(this->requested_action);
+    set_field_b8(this->requested_action);
     reset_hp__9TObjEneDDFv(this, bm3_fly_boss_stat_handle, TObjEneBm3Fly__attack_params, lbl_805D50E8);
     check_state_flag_1();
     this->movementParameters = bm3_fly_decision_row;

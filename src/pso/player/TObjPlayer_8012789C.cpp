@@ -23,11 +23,11 @@ void TObjPlayer::cast_jellen_zalure() {
     }
     if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
         if (get_tp() == 0) {
-            owner = *(s32 *)&this->unk_F0;
+            owner = *(s32 *)&this->blend.frame[1];
             temp_r4 = owner + 0x38;
             TTecJelin::create(owner, temp_r4, temp_r4, 4);
         } else {
-            temp_r3_2 = *(s32 *)&this->unk_F0;
+            temp_r3_2 = *(s32 *)&this->blend.frame[1];
             temp_r4_2 = temp_r3_2 + 0x38;
             TTecZarua::create_instance(temp_r3_2, temp_r4_2, temp_r4_2, 4);
         }

@@ -1464,7 +1464,6 @@ s32 advance_item_id_counter(u16);
 f32 xz_distance_squared(Vec3_801E79BC *, Vec3_801E79BC *);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 get_class_type_name__6TLobbyFl(int);
-int TLobby__sub_80142944(void *);
 int TNpcPlayer__sub_8014DC30(void*);
 }
 void init_6x40_walk_packet(void *a0);
@@ -3715,7 +3714,7 @@ void qst_op_animation_check(s32 arg0, s32 arg1) {
     u8 *temp_r3;
     temp_r3 = (u8 *)(((s32)((u32 (*)(int, int))get_player_by_client_id)((int)((u32) (u16) qst_registers[(u8)arg0]), (int)(arg1))));
     if (temp_r3 != NULL) {
-        qst_registers[(u8)arg1] = TLobby__sub_80142944(temp_r3);
+        qst_registers[(u8)arg1] = ((TObjMotion *)temp_r3)->is_motion_held();
     }
 }
 

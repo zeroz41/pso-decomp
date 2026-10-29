@@ -245,8 +245,8 @@ void TBoss7DeRolLeC::run_task() {
         rotate_matrix_by_node_angles(((u8 *)this) + 0x5C, 1);
         scale_current_matrix(lbl_804E3BF0);
         this->sub_802E8234();
-        this->get_speed();
-        apply_with_callback__10TObjPlayerFlf((int) (*(u32 *)((s8 *)((u8 *)this) + 0x7AC)), this->unknownF8);
+        this->get_frame();
+        apply_with_callback__10TObjPlayerFlf((int) (*(u32 *)((s8 *)((u8 *)this) + 0x7AC)), (s32)this->current_motion);
         pop_matrix();
         TObjPlayer::clear_global_state();
         fn_802E79B0(this);

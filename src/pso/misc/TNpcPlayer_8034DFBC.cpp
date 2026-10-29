@@ -122,7 +122,7 @@ s32 notify_field1c__10TObjPlayerFl();
 void send_6x24_teleport_player(u16 slot, void *pos, s32 heading);
 void TNpcPlayer__sub_8034EDB8(void);
 s32 end_camera_pan__10TObjPlayerFv();
-s32 init_photon_blast__10TObjPlayerFl(u32, s16);
+s32 init_photon_blast__10TObjPlayerFs(u32, s16);
 void set_npc_control_flag__10TNpcPlayerFPvs(void* p, s16 v);
 void build_6x69_npc_control(void* p);
 extern E_8034E02C npc_partner_dialogue_state[];
@@ -605,7 +605,7 @@ void TNpcPlayer::end_camera_pan_for_client(u16 arg0) {
 void TNpcPlayer::apply_to_battle_player_slot(u16 arg0, s16 arg1) {
     u32 temp_r3;
     if ((arg1 < 0x10) && ((temp_r3 = ((u32)get_player_by_client_id(arg0))) != 0U)) {
-        init_photon_blast__10TObjPlayerFl(temp_r3, arg1);
+        init_photon_blast__10TObjPlayerFs(temp_r3, arg1);
     }
 }
 s32 TNpcPlayer::get_field_67c() { return *(s32*)((char*)this + 0x67c); }

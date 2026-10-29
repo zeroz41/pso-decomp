@@ -73,8 +73,8 @@ void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 s32 draw__10TObjMotionFv();
-s32 draw_model__16TObjEneMe3StelthFv();
-s32 init_npc_animation__10TObjPlayerFPvPvPv(void *, s32, s32, s16);
+s32 draw_ginja_motion_model__10TObjMotionFv();
+s32 init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(void *, s32, s32, s16);
 s32 set_global_flag__10TObjPlayerFv(void *);
 
 typedef char RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0_size[sizeof(RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0) == 0x240 ? 1 : -1];
@@ -137,10 +137,10 @@ void TObjNpcEnemy::vfunc_88() {
 
     temp_r4 = *(void * *)&this->m_3b8;
     if ((s16) this->mode != 2) {
-        this->m_b8 = (s16) *(s16 *)((s8 *)temp_r4 + 0x1C);
+        this->requested_action = (s16) *(s16 *)((s8 *)temp_r4 + 0x1C);
         return;
     }
-    this->m_b8 = (s16) *(s16 *)((s8 *)temp_r4 + 0x1E);
+    this->requested_action = (s16) *(s16 *)((s8 *)temp_r4 + 0x1E);
 }
 
 extern const f32 lbl_805DE7D8;
@@ -153,13 +153,13 @@ void TObjNpcEnemy::set_npc_data(void *arg1) {
     if (temp_r5 == NULL) {
         this->model = 0;
         this->texlist = 0;
-        this->m_b8 = 0;
+        this->requested_action = 0;
         *(f32 *)((s8 *)this->bodies + 0xC) = (f32) lbl_805DE7D8;
         return;
     }
     *(s32 *)&this->model = (s32) *(s32 *)((s8 *)temp_r5 + 8);
     this->texlist = (s32) *(s32 *)(this->m_3b8 + 0xC);
-    this->m_b8 = (s16) *(s16 *)((s8 *)temp_r5 + 0x1C);
+    this->requested_action = (s16) *(s16 *)((s8 *)temp_r5 + 0x1C);
     switch ((s32) (*(u16 *)(this->m_3b8 + 2))) {
     case 0:
     case 2:
@@ -167,7 +167,7 @@ void TObjNpcEnemy::set_npc_data(void *arg1) {
         break;
     case 1:
     case 3:
-        init_npc_animation__10TObjPlayerFPvPvPv(this, *(s32 *)((s8 *)temp_r5 + 0x18), *(s32 *)((s8 *)temp_r5 + 0x14), this->m_b8);
+        init_motion__10TObjMotionFP16TObjMotionActionP14BmlMotionEntrys(this, *(s32 *)((s8 *)temp_r5 + 0x18), *(s32 *)((s8 *)temp_r5 + 0x14), this->requested_action);
         break;
     }
     *(f32 *)((s8 *)this->bodies + 0xC) = (f32) *(f32 *)(this->m_3b8 + 0x10);
@@ -203,9 +203,9 @@ void TObjNpcEnemy::draw_debug_info() {
             TObjNpcEnemy::set_global_count(0xFF0000FF);
             debug_printf_at(0x24001A, lbl_80472620);
             TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-            this->m_b8 = 0;
+            this->requested_action = 0;
         } else {
-            this->m_b8 = this->rotation_z;
+            this->requested_action = this->rotation_z;
         }
         advance_animation_playback(arg0);
         break;
@@ -233,7 +233,7 @@ void TObjNpcEnemy::update_state() {
         TObjPlayer::clear_global_state();
         return;
     case 3:
-        draw_model__16TObjEneMe3StelthFv();
+        draw_ginja_motion_model__10TObjMotionFv();
     case 4:
         return;
     }

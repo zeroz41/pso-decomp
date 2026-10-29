@@ -109,9 +109,9 @@ void TObjEneMe1GiGueBarrier::run_task() {
     this->m_108 = (this->m_108 - 1);
     switch (this->m_104) {
     case 0:
-        if (this->animationFlags & 0x10) {
+        if (this->motion_flags & 0x10) {
             this->m_104 = 1;
-            this->m_b8 = 1;
+            this->requested_action = 1;
             if (get_current_floor_area() == AREA_TOWER) {
                 play_sound_effect(0x4003A316, (u8 *)&this->position, 0, 0);
             } else {
@@ -120,7 +120,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
         }
         break;
     case 2:
-        if (this->animationFlags & 0x10) {
+        if (this->motion_flags & 0x10) {
             queue_destruction__7TObjectFv((arg0));
         }
         break;
@@ -128,7 +128,7 @@ void TObjEneMe1GiGueBarrier::run_task() {
     case 1:
         if (((s32) this->m_108 <= 0) || (is_active_state__22TObjEneMe1GiGueBarrierFv(this->m_fc) != 0)) {
             this->m_104 = 2;
-            this->m_b8 = 2;
+            this->requested_action = 2;
         }
         break;
     }
@@ -157,9 +157,9 @@ u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *ene_me1_gi_gue_barrier, s
     ene_me1_gi_gue_barrier->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0x2C);
     set_field_d8__10TObjMotionFl((void *)ene_me1_gi_gue_barrier, &TObjEneMe1GiGueBarrier__animation_definitions.value, (int)temp_r5);
     ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x430)));
-    ene_me1_gi_gue_barrier->m_b8 = 0;
-    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_animation((ene_me1_gi_gue_barrier->m_b8));
-    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_b8(ene_me1_gi_gue_barrier->m_b8);
+    ene_me1_gi_gue_barrier->requested_action = 0;
+    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_animation((ene_me1_gi_gue_barrier->requested_action));
+    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_b8(ene_me1_gi_gue_barrier->requested_action);
     return (u8 *)ene_me1_gi_gue_barrier;
 }
 

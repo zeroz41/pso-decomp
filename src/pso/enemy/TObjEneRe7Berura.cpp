@@ -750,7 +750,7 @@ void TObjEneRe7Berura::state_attack(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         this->vfunc_95();
         temp_r5 = *(s32 *)((s8 *)arg0 + 0x3C0);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (temp_r5 & ~5);

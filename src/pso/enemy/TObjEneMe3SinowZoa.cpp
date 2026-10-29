@@ -1289,7 +1289,7 @@ void TObjEneMe3SinowZoa::render() {
             if (mode == 1) {
                 this->draw();
             } else {
-                this->render_world_model();
+                this->draw_motion_model();
             }
             pop_matrix();
         }

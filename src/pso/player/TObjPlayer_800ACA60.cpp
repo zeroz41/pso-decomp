@@ -93,7 +93,7 @@ void TObjEneMoja::update_death_state() {
         spawn_dead_spot_scale15(&v, 0x14);
         ((TObjPlayer *)(&v))->spawn_effect_at_ground(0x32);
     }
-    if (this->m_c0 < lbl_805D9BEC * (lbl_805D9BF0 * this->m_c8)) {
+    if (this->frame < lbl_805D9BEC * (lbl_805D9BF0 * this->play_speed)) {
         move_with_wall_slide(arg0);
         (*(f32 *)&this->unk_308) *= lbl_805D9BEC;
         this->m_310 *= lbl_805D9BEC;
@@ -111,7 +111,7 @@ void TObjEneMoja::vfunc_63() {
     u8 *temp_r6;
     if ((s16) this->mode != 9) {
         this->mode = 9;
-        this->m_b8 = 7;
+        this->requested_action = 7;
         temp_r6 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xFFFF7FFE);
         spawn_particle_effect((s32)(arg0 + 0x2FC), 0xF1);
@@ -135,7 +135,7 @@ void TObjPlayer::update_ground_effect() {
     *(f32 *)&this->unk_308 = (f32) lbl_805D9BD8;
     apply_actor_gravity(this, 0, lbl_805D9BD8);
     this->update_collisions();
-    if ((u32) this->m_b4 != 8U) {
+    if ((u32) this->action_flags != 8U) {
         this->actorFlags = (s32) (this->actorFlags & 0xFBFFF9FF);
         temp_r4 = (unsigned char *) (this->bodies);
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFBFFFFFF);
@@ -610,7 +610,7 @@ void TObjEneMoja::vfunc_62() {
     default:
         mode = 8;
     case 8:
-        m_b8 = 6;
+        this->requested_action = 6;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDBFFFF);
         break;
     }
@@ -651,7 +651,7 @@ void TObjEneMoja::vfunc_61() {
         mode = 7;
         (this->timer) = 0xF;
     case 7:
-        m_b8 = 0;
+        this->requested_action = 0;
         (this->actorFlags) = (s32) ((this->actorFlags) & 0xFF9BFFFF);
         break;
     }
@@ -1110,9 +1110,9 @@ s32 TObjEneMoja::update_approach_state() {
             ((s32 (*)(void *, void *, int, int))play_sound_effect)((void *)((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0A)), (u8 *)&this->position, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x200);
         }
-        if (this->m_b4 != 0x20U) {
+        if (this->action_flags != 0x20U) {
             ((TObjEnemy *)arg0)->sub_800A7798(*(f32 *)((s8 *)lbl_805D50D4[(*(s32 *)&this->variant)] + 0xC));
-            this->m_b8 = 2;
+            this->requested_action = 2;
             {
             Vec_800AE18C v = *(Vec_800AE18C *)(this->target + 0x2FC);
             if (select_enemy_destination(arg0, &v, 1) != 0) {
@@ -1157,11 +1157,11 @@ void TObjEneMoja::vfunc_59() {
         switch ((s32) roar) {
         case 1:
             phase = 0;
-            m_b8 = 1;
+            this->requested_action = 1;
             break;
         default:
             phase = 0;
-            m_b8 = 2;
+            this->requested_action = 2;
             break;
         }
         attackSequence = -1;
@@ -1380,15 +1380,15 @@ void TObjEneMoja::vfunc_58() {
     switch (appearance) {
     case 0:
         mode = 0;
-        m_b8 = 2;
+        this->requested_action = 2;
         return;
     case 1:
         mode = 1;
-        m_b8 = 5;
+        this->requested_action = 5;
         return;
     default:
         mode = 0;
-        m_b8 = 0;
+        this->requested_action = 0;
         return;
     }
 }
@@ -1405,7 +1405,7 @@ s32 TObjEneMoja::update_movement_status() {
             this->attackSequence = -1;
             (this->timer) = 0;
             this->appearance = 0;
-            this->m_b8 = 2;
+            this->requested_action = 2;
             obj_clearFlags30(0x06040000);
             temp_r3 = this->bodies;
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
@@ -1427,7 +1427,7 @@ s32 TObjEneMoja::update_action_hold_status() {
             this->attackSequence = -1;
             (this->timer) = 0;
             this->appearance = 0;
-            this->m_b8 = 2;
+            this->requested_action = 2;
             obj_clearFlags30(0x06040000);
             temp_r3 = this->bodies;
             *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) | 1);
@@ -1543,7 +1543,7 @@ void render__11TObjEneMojaFv(u8 *arg0) {
             if (vis == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {
-                ((TObjEnemy *)arg0)->render_world_model();
+                ((TObjEnemy *)arg0)->draw_motion_model();
             }
             TParticleCtrl::end_effect_render();
         }

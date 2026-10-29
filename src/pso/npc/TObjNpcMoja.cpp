@@ -293,7 +293,7 @@ void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
     ((VObj_8014C780 *)self)->m85(0, 1);
     *(s32 *)(self + 0x34) = get_bml_model(lbl_805D50D8, 0);
     *(s32 *)(self + 0x24) = TObjFish__sub_8001EDB0(lbl_805D50D8, 0);
-    ((TObjPlayer *)self)->init_npc_animation((void*)lbl_804AABB8, (void*)(*(s32 *)(lbl_805D50D8 + 0x430)), (void*)(*(s16 *)(self + 0xB8)));
+    ((TObjMotion *)self)->init_motion((TObjMotionAction *)lbl_804AABB8, (BmlMotionEntry *)*(s32 *)(lbl_805D50D8 + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);
     init_collision_body_parts(self, lbl_804AABD8, 1);

@@ -12,7 +12,7 @@ extern f32 lbl_805DAD3C;
 
 void TObjPlayer::launch_double_cannon_extra() {
     if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
-        if (((TObjPlayer *)(*(s32 *)&this->unk_F0 + 0x7CC))->get_stage_strike_count() == 0) {
+        if (((TObjPlayer *)(*(s32 *)&this->blend.frame[1] + 0x7CC))->get_stage_strike_count() == 0) {
             drain_owner_hp_fraction(lbl_805DAD3C);
             sub_80124C90__13TUnk_804A2260Fv((u8 *)this);
         }

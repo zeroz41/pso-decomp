@@ -51,7 +51,7 @@ s32 TObjPlayer::apply_area_attack_hits(u8 *arg1, s32 arg2, u32 object, f32 range
     s32 ok;
     hit = 0;
     mask = 0;
-    if (this->unknownAC == 0) {
+    if (this->extra == 0) {
         return 0;
     }
     TObjPlayer::init_all_slots();
@@ -69,7 +69,7 @@ s32 TObjPlayer::apply_area_attack_hits(u8 *arg1, s32 arg2, u32 object, f32 range
             if (obj == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->unknownAC &&
+            if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->extra &&
                 is_area_attack_target_eligible(this, *(u32 *)((s8 *)obj + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)((s8 *)((u8 *)this) + 0xB8) - *(f32 *)((s8 *)obj + 0x300)) > 3e+01f)) {
                 ok = 1;

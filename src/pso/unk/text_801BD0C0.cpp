@@ -136,7 +136,6 @@ u16 get_entity_id(void *);
 void select_class_action_provider__10TObjPlayerFv(void *, s32);
 extern s32 TObjPlayer__shared_model_buffer;
 s32 get_handle_value__10TObjPlayerFv(void *);
-s32 get_idle_animation__10TObjPlayerFv();
 Anim_801BD0C0 *get_anim_entry__10TObjMotionFi(void *, s32);
 extern const f32 TObjPlayer__data_805DC278;
 
@@ -144,24 +143,24 @@ void TObjPlayer::apply_motion_entry() {
     Player_801BD0C0 *self = (Player_801BD0C0 *)this;
     Anim_801BD0C0 *a;
     ((TObjMotion *)self)->set_field_d8(self->ctrl->m5(((TObjPlayer *)self)->has_valid_handle(), get_handle_value__10TObjPlayerFv(self)));
-    ((TObjMotion *)self)->update_animation_frame(this->m_b8);
-    a = get_anim_entry__10TObjMotionFi(self, this->m_b8);
-    this->m_c8 = a->speed;
+    ((TObjMotion *)self)->set_action_motion(this->requested_action);
+    a = get_anim_entry__10TObjMotionFi(self, this->requested_action);
+    this->play_speed = a->speed;
     self->fid = a->id;
     self->end = self->motion->frames;
-    this->animationFlags &= ~4;
-    this->m_b4 = a->flags;
-    if (this->m_b4 & 0x20000000) {
+    this->motion_flags &= ~4;
+    this->action_flags = a->flags;
+    if (this->action_flags & 0x20000000) {
         ((TObjMotion *)self)->set_motion_interpolation_flag();
     }
-    if (this->m_c0 >= self->end) {
-        this->m_c0 = TObjPlayer__data_805DC278;
+    if (this->frame >= self->end) {
+        this->frame = TObjPlayer__data_805DC278;
     }
 }
 
 void TObjPlayer::init_idle_animation() {
     Player_801BD1B4 *arg0 = (Player_801BD1B4 *)this;
-    ((TObjPlayer *)arg0)->init_npc_animation((void*)((void *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), get_handle_value__10TObjPlayerFv(arg0))), (void*)(arg0->anim->m74()), (void*)(get_idle_animation__10TObjPlayerFv()));
+    ((TObjPlayer *)arg0)->init_motion((TObjMotionAction *)arg0->anim->m5(((TObjPlayer *)arg0)->has_valid_handle(), get_handle_value__10TObjPlayerFv(arg0)), (BmlMotionEntry *)arg0->anim->m74(), get_idle_animation());
 }
 
 void TObjPlayer::sub_801BD240() {

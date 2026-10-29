@@ -134,13 +134,13 @@ void TPhotonLeilla::run_task() {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 4, (s32)&stack.sp8, 0x78);
         }
     }
-    if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->m_b8 == 1)) {
+    if ((5e+01f == (f32) *(s32 *)&this->m_1ac) && ((s16) this->requested_action == 1)) {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(2);
         *(s32 *)&this->m_1ac = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
         spawn_photon_blast_attachment_effects(arg0, 4);
     }
-    *(s16 *)&this->m_190 = (s16) this->m_b8;
+    *(s16 *)&this->m_190 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
     advance_animation_playback(arg0);
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();

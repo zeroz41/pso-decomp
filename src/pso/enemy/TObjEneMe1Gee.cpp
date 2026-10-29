@@ -343,7 +343,7 @@ void TUnk_8049387C::vfunc_111(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         ((TObjEneDD *)arg0)->set_field_378(5);
         this->vfunc_96();
         break;
@@ -2137,7 +2137,7 @@ void render__13TObjEneMe1GeeFv(u8 *ene_me1_gee) {
                     TObjPlayer::clear_global_state();
                 } else {
                     TObjPlayer::set_global_flag();
-                    ((TObjEnemy *)ene_me1_gee)->render_world_model();
+                    ((TObjEnemy *)ene_me1_gee)->draw_motion_model();
                     TObjPlayer::clear_global_state();
                 }
                 TObjEneRe7Berura::set_global_state((s32)NULL);
@@ -2208,7 +2208,7 @@ void TObjEneMe1Gee::state_orbit(s32 arg1) {
 void TObjEneMe1Gee::handle_event(s32 arg1) {
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         *(s32 *)((s8 *)this + 0x434) = 0;
         return;
     case 0:
@@ -2216,9 +2216,9 @@ void TObjEneMe1Gee::handle_event(s32 arg1) {
         *(s32 *)((s8 *)this + 0x434) = (s32) (*(s32 *)((s8 *)this + 0x434) + 1);
         if ((s32) *(s32 *)((s8 *)this + 0x434) > 0x5A) {
             *(s32 *)((s8 *)this + 0x434) = 0;
-            this->m_b8 = (this->m_b8 + 1);
-            if ((s16) this->m_b8 >= 4) {
-                this->m_b8 = 0;
+            this->requested_action = (this->requested_action + 1);
+            if ((s16) this->requested_action >= 4) {
+                this->requested_action = 0;
             }
         }
     case 3:
@@ -2406,7 +2406,7 @@ void TObjEneMe1Gee__sub_800C96B4(Gee_800C96B4 *o, s32 mode) {
 void run_task__13TObjEneMe1GeeFPvi(TObjEneMe1Gee *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
-        arg0->m_b8 = 0;
+        arg0->requested_action = 0;
         ((TObjEneDD *)arg0)->set_field_378(0xA);
         *(s32 *)((s8 *)arg0 + 0x3C8) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C8) & 0xFFBFFFFF);
         arg0->vfunc_95();
@@ -2896,7 +2896,7 @@ void TObjEneMe1Gee__sub_800CA454(void *arg0, s32 arg1) {
                 post_translate_matrix(&o->pos38);
                 rotate_matrix_y(0, o->angle);
                 TObjPlayer::set_global_flag();
-                ((TObjEnemy *)o)->render_anim_model(o->timer);
+                ((TObjEnemy *)o)->calc_joint_matrices(o->timer);
                 TObjPlayer::clear_global_state();
                 pop_matrix();
                 o->timer = 0;
@@ -2952,7 +2952,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         set_field_378(6);
         *(s32 *)((s8 *)this + 0x3C8) = (s32) (*(s32 *)((s8 *)this + 0x3C8) & 0xFFBFFFFF);
         this->vfunc_96();
@@ -3013,7 +3013,7 @@ void TObjEneMe1Gee::state_attack(s32 arg1) {
 void TObjEneMe1Gee::vfunc_111(s32 arg1) {
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         set_field_378(5);
         *(s32 *)((s8 *)this + 0x3C8) = (s32) (*(s32 *)((s8 *)this + 0x3C8) & 0xFFBFFFFF);
         this->vfunc_96();
@@ -3113,7 +3113,7 @@ void TObjEneMe1Gee::state_hover(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         set_field_378(3);
         *(s32 *)((s8 *)this + 0x3C8) = (s32) (*(s32 *)((s8 *)this + 0x3C8) & 0xFFBFFFFF);
         this->vfunc_96();
@@ -3205,7 +3205,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         set_field_378(3);
         *(s32 *)((s8 *)((u8 *)this) + 0x3C8) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3C8) & 0xFFBFFFFF);
         this->vfunc_95();
@@ -3236,7 +3236,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
 void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         set_field_378(3);
         this->vfunc_95();
         *(s32 *)((s8 *)this + 0x3C8) = (s32) (*(s32 *)((s8 *)this + 0x3C8) | 0x400000);

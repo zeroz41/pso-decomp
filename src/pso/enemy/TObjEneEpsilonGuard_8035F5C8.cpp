@@ -788,13 +788,13 @@ void TObjEneEpsilonBody::set_guard_state(s32 _w1) {
     if (this->m_438 & 2) {
         *(s16 *)((s8 *)arg0 + 0x43C) = 1;
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(lbl_805D6FA0, 0);
-        this->m_b8 = 0;
+        this->requested_action = 0;
         ((TObjCollidable *)arg0)->set_indexed_flags(1, 1);
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 1);
     } else {
         *(s16 *)((s8 *)arg0 + 0x43C) = 0;
         *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model(lbl_805D6FA0, 1);
-        this->m_b8 = 1;
+        this->requested_action = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 1);
         ((TObjCollidable *)arg0)->clear_player_status_flag(1, 1);
     }
@@ -906,7 +906,7 @@ void draw_with_fade__19TObjEneEpsilonGuardFPvi(u8 *arg0, s32 arg1) {
         if (arg1 == 1) {
             ((TObjMotion *)arg0)->draw();
         } else {
-            ((TObjEnemy *)arg0)->render_world_model();
+            ((TObjEnemy *)arg0)->draw_motion_model();
         }
     }
     TParticleCtrl::end_effect_render();
@@ -947,7 +947,7 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
     post_translate_matrix(&g6->pos);
     rotate_matrix_y(0, g6->x60);
     TObjPlayer::set_global_flag();
-    ((TObjEnemy *)g6)->render_anim_model(g6->xC0);
+    ((TObjEnemy *)g6)->calc_joint_matrices(g6->xC0);
     TObjPlayer::clear_global_state();
     pop_matrix();
     push_matrix_from(anim_model_matrix_array + t.v[i] * 0x30);

@@ -189,13 +189,13 @@ void TPhotonEstlla::run_task() {
             construct_photon_magic_square_normal((u8 *)photon_magic_square, (s32)arg0, 1, (s32)&stack.sp8, 0x78);
         }
     }
-    if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->m_b8 == 1)) {
+    if (((s32) *(s32 *)&this->m_1a0 == 0x64) && ((s16) this->requested_action == 1)) {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(0);
         *(s32 *)&this->m_1a0 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
         spawn_photon_blast_attachment_effects(arg0, 1);
     }
-    *(s16 *)&this->m_190 = (s16) this->m_b8;
+    *(s16 *)&this->m_190 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
     advance_animation_playback(arg0);
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
@@ -281,9 +281,9 @@ u8 *TPhotonEstlla__ct(u8 *photon_estlla, u8 *arg1) {
     ((TPhotonEstlla *)photon_estlla)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
     ((TObjMotion *)photon_estlla)->set_field_d8((s32) photon_estlla_param_table);
     ((TObjMotion *)photon_estlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
-    ((TPhotonEstlla *)photon_estlla)->m_b8 = 1;
-    ((TObjMotion *)photon_estlla)->set_animation(((TPhotonEstlla *)photon_estlla)->m_b8);
-    ((TObjMotion *)photon_estlla)->set_field_b8(((TPhotonEstlla *)photon_estlla)->m_b8);
+    ((TPhotonEstlla *)photon_estlla)->requested_action = 1;
+    ((TObjMotion *)photon_estlla)->set_animation(((TPhotonEstlla *)photon_estlla)->requested_action);
+    ((TObjMotion *)photon_estlla)->set_field_b8(((TPhotonEstlla *)photon_estlla)->requested_action);
     *(s16 *)&((TPhotonEstlla *)photon_estlla)->m_190 = 1;
     *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_194 = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_198 = *(s32 *)((s8 *)arg1 + 0x14);

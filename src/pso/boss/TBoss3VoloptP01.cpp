@@ -6,7 +6,7 @@
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/TTecZondeEff.h"
-#include "pso/animation/ActorAnimationState.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -71,7 +71,7 @@ static TBoss3VoloptBreakupPieces *TBoss3VoloptP01__breakup_model;
 static TBoss3VoloptChunkList *volopt_p01_chunk_list;
 static u8 *volopt_p01_breakup_color_ptr;
 
-static AnimationAction volopt_p01_action_table[6] = {
+static TObjMotionAction volopt_p01_action_table[6] = {
     { 1, 0, 0xF, 0.7f, 0x0 },
     { 1, 0, 0xF, 1.0f, 0x1 },
     { 2, 0, 0x0, 0.5f, 0x4 },
@@ -162,9 +162,9 @@ void TBoss3VoloptP01::init_params() {
     variant = 0;
     movementParameters = &volopt_p01_movement;
     recalc_combat_stats(volopt_p01_boss_stat_handle_a, volopt_p01_shared_handler_b, volopt_p01_object_handle, 1.0f, 1.0f);
-    m_b8 = 0;
-    set_animation(m_b8);
-    set_field_b8(m_b8);
+    this->requested_action = 0;
+    set_animation(this->requested_action);
+    set_field_b8(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -326,11 +326,11 @@ void TBoss3VoloptP01::update_state() {
                 state = 2;
             }
         } else {
-            m_b8 = 3;
+            this->requested_action = 3;
             state = 1;
         case 1:
             advance_animation_playback(this);
-            if (m_b4 != 8) {
+            if (this->action_flags != 8) {
                 flags = m_388;
                 if (flags & 0x10000) {
                     m_388 = flags & ~1;
@@ -366,7 +366,7 @@ void TBoss3VoloptP01::update_breakup() {
         actorFlags |= 0x44040000;
         actorFlags &= ~0x20000000;
         ((TBoss3VoloptP01Collision *)bodies)->flags |= 0x1000;
-        m_b8 = 4;
+        this->requested_action = 4;
         state = 1;
         *(s16 *)&timer = 0x5A;
         TObjPlayer::spawn_effect_f8((s32)&m_2fc, *(s16 *)&timer);
@@ -400,7 +400,7 @@ void TBoss3VoloptP01::sub_80043758() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
-        m_b8 = 0;
+        this->requested_action = 0;
         advance_animation_playback(this);
         y_offset = -40.0f;
         shutter->close();
@@ -422,7 +422,7 @@ void TBoss3VoloptP01::run_state_machine() {
     sub_8004292C();
     switch (state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         advance_animation_playback(this);
         glow_effect = NULL;
         if (!(m_388 & 0x20000)) {
@@ -494,25 +494,25 @@ void TBoss3VoloptP01::update_attack() {
             switch (state) {
             case 2:
             case 3:
-                m_b8 = 5;
+                this->requested_action = 5;
                 break;
             case 5: {
                 Vec v;
                 get_node_position(5, &v);
                 charge_effect = (TObject *)create_particle_emitter(&v, 0x11A);
-                m_b8 = 2;
+                this->requested_action = 2;
                 break;
             }
             case 6:
-                m_b8 = 2;
+                this->requested_action = 2;
                 advance_animation_playback(this);
-                m_c0 = 8.0f;
+                this->frame = 8.0f;
                 state = 7;
                 break;
             }
         } else {
             quarter_hp = hpmax / 4;
-            m_b8 = 5;
+            this->requested_action = 5;
             start_rise();
             m_388 |= 0x10000;
             shutter->open();
@@ -545,7 +545,7 @@ void TBoss3VoloptP01::update_attack() {
         break;
     case 3:
         advance_animation_playback(this);
-        if (m_b8 == 2) {
+        if (this->requested_action == 2) {
             if (is_primary != 0) {
                 resume_state = 4;
                 state = 4;
@@ -578,7 +578,7 @@ void TBoss3VoloptP01::update_attack() {
         break;
     case 6:
         advance_animation_playback(this);
-        if (m_c0 >= 8.0f) {
+        if (this->frame >= 8.0f) {
             state = 7;
         }
         break;
@@ -602,7 +602,7 @@ void TBoss3VoloptP01::update_attack() {
         break;
     case 9:
         advance_animation_playback(this);
-        if (m_b4 != 4) {
+        if (this->action_flags != 4) {
             if (cast_count >= 2) {
                 state = 0xA;
             } else {
@@ -695,7 +695,7 @@ void TBoss3VoloptP01::get_node_position(s32 node, Vec *out) {
     push_matrix_from(identity_matrix);
     translate_matrix(0, position.x, position.y + y_offset, position.z);
     rotate_matrix_y(0, rotation_y);
-    render_anim_model(m_c0);
+    calc_joint_matrices(frame);
     pop_matrix();
     Vec origin = volopt_p01_node_origin;
     push_matrix_from(anim_model_matrix_array[node]);

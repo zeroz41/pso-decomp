@@ -1977,13 +1977,13 @@ void TObjEneBm5GibonU::render() {
                     if (vis == 1) {
                         this->draw();
                     } else {
-                        this->render_world_model();
+                        this->draw_motion_model();
                     }
                 }
             } else if (vis == 1) {
                 this->draw();
             } else {
-                this->render_world_model();
+                this->draw_motion_model();
             }
             TObjEneRe7Berura::set_global_state((s32)NULL);
             if (this->mode == 1 || this->mode == 2) {
@@ -2418,7 +2418,7 @@ void action__16TObjEneBm5GibonUFPvi(TObjEneBm5GibonU *ene_bm5_gibon_u, s32 arg1)
     case 4:
         ene_bm5_gibon_u->vfunc_96();
         ((TObjEneDD *)ene_bm5_gibon_u)->set_field_378(8);
-        ene_bm5_gibon_u->m_b8 = 9;
+        ene_bm5_gibon_u->requested_action = 9;
         *(s32 *)((s8 *)ene_bm5_gibon_u + 0x518) = 0;
         find_enemy_by_id__16TObjEneBm5GibonUFi(*(s32 *)((s8 *)ene_bm5_gibon_u + 0x46C));
         return;
@@ -3394,7 +3394,7 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
 
     switch (arg1) {
     case 4:
-        self->m_b8 = 1;
+        self->requested_action = 1;
         self->set_field_378(8);
         self->vfunc_96();
         self->m_51c = 0;
@@ -3448,7 +3448,7 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
                 self->m_494 = self->rand_range(TObjEneBm5GibonU__data_805DA194, TObjEneBm5GibonU__data_805DA168);
                 self->m_530 = TObjEneBm5GibonU__data_805DA188 + TObjBoss2Tunnel::calc_scaled_value(0x200, self->m_494);
             }
-            self->m_c8 = TObjEneBm5GibonU__data_805DA1D0 * self->m_498;
+            self->play_speed = TObjEneBm5GibonU__data_805DA1D0 * self->m_498;
             enemy_turn_and_move_on_ground((u8 *)self, lbl_805DA220 * self->m_498, self->m_498);
             break;
         case 1:
@@ -3458,13 +3458,13 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
             if (self->m_498 <= TObjEneBm5GibonU__data_805DA1B0) {
                 self->m_518 = 2;
                 self->m_51c = self->rand_range(lbl_805DA228, lbl_805DA22C);
-                self->m_b8 = 0;
+                self->requested_action = 0;
             }
-            self->m_c8 = TObjEneBm5GibonU__data_805DA1D0 * self->m_498;
+            self->play_speed = TObjEneBm5GibonU__data_805DA1D0 * self->m_498;
             enemy_turn_and_move_on_ground((u8 *)self, lbl_805DA220 * self->m_498, self->m_498);
             break;
         case 2:
-            self->m_b8 = 0;
+            self->requested_action = 0;
             self->m_51c -= 1;
             if (self->m_51c <= 0) {
                 TObjEneBm5GibonU::pick_wander_destination(self);
@@ -3472,7 +3472,7 @@ void TObjEneBm5GibonU__sub_800CFA48(TObjEneBm5GibonU *self, s32 arg1) {
                 self->m_498 = 0.0f;
                 self->m_530 = TObjEneBm5GibonU__data_805DA188 + TObjBoss2Tunnel::calc_scaled_value(0x200, self->m_494);
                 self->m_518 = 0;
-                self->m_b8 = 1;
+                self->requested_action = 1;
             }
             self->vfunc_102();
             break;
@@ -3541,7 +3541,7 @@ void TObjEneBm5GibonU__sub_800CFFBC(u8 *ene_bm5_gibon_u, s32 arg1) {
   switch (arg1)
   {
     case 4:
-      ((TObjEneBm5GibonU *)ene_bm5_gibon_u)->m_b8 = 5;
+      ((TObjEneBm5GibonU *)ene_bm5_gibon_u)->requested_action = 5;
       ((TObjEneDD *)ene_bm5_gibon_u)->set_field_378(8);
       (((TObjEneBm5GibonU *)(ene_bm5_gibon_u))->vfunc_95());
       *((s32 *) (((s8 *) ene_bm5_gibon_u) + 0x518)) = 0;
@@ -3610,7 +3610,7 @@ void TObjEneBm5GibonU__sub_800D01DC(u8 *ene_bm5_gibon_u, s32 arg1) {
   switch (arg1)
   {
     case 4:
-      ((TObjEneBm5GibonU *)ene_bm5_gibon_u)->m_b8 = 4;
+      ((TObjEneBm5GibonU *)ene_bm5_gibon_u)->requested_action = 4;
       ((TObjEneDD *)ene_bm5_gibon_u)->set_field_378(3);
       (((TObjEneBm5GibonU *)(ene_bm5_gibon_u))->vfunc_96());
       enemy_clear_target__12TObjEneDD_STFUs(ene_bm5_gibon_u);

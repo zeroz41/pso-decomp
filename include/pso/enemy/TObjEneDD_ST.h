@@ -8,7 +8,6 @@ public:
     TObjEneDD_ST(TObject *parent);
     virtual ~TObjEneDD_ST();
     void draw_with_alt_model(s32);
-    f32 get_speed_or_default();
     void set_active();
     void init_float_params();
     void set_target_player(void *);

@@ -129,7 +129,7 @@ void TBoss3VoloptHiraisin::sub_80040FDC() {
         break;
     case 0:
         m_388 |= 1;
-        m_b8 = 0;
+        this->requested_action = 0;
         advance_animation_playback(this);
         position.y = 80.0f;
         actorFlags |= 0x40000;
@@ -169,7 +169,7 @@ void TBoss3VoloptHiraisin::start_attack() {
 void TBoss3VoloptHiraisin::sub_8004118C() {
     switch (state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         state = 1;
         break;
     case 1:
@@ -184,7 +184,7 @@ void TBoss3VoloptHiraisin::sub_8004118C() {
 void TBoss3VoloptHiraisin::update_drop() {
     switch (state) {
     case 0:
-        m_b8 = 4;
+        this->requested_action = 4;
         y_speed = -2.27f;
         state = 1;
         hover_angle = 0;
@@ -202,7 +202,7 @@ void TBoss3VoloptHiraisin::update_drop() {
         break;
     case 2:
         advance_animation_playback(this);
-        if (m_c0 >= anim_end_frame - 1.5f) {
+        if (this->frame >= this->frame_count - 1.5f) {
             state = 3;
         }
         break;
@@ -220,11 +220,11 @@ void TBoss3VoloptHiraisin::sub_80041314() {
         break;
     case 0:
         actorFlags &= ~0x200000;
-        m_b8 = 3;
+        this->requested_action = 3;
         state = 1;
     case 1:
         advance_animation_playback(this);
-        if (m_b4 != 8) {
+        if (this->action_flags != 8) {
             referenceHp = hp;
             actorFlags &= ~0x200;
             m_388 &= ~1;
@@ -248,7 +248,7 @@ void TBoss3VoloptHiraisin::render() {
         push_matrix();
         model_render_flags &= ~0x400;
         post_translate_matrix(&position.x);
-        if (m_b4 == 8) {
+        if (this->action_flags == 8) {
             translate_matrix(0, 0.0f, 20.0f, 0.0f);
         }
         translate_matrix(0, 0.0f, sin_table_lookup(hover_angle), 0.0f);
@@ -357,15 +357,15 @@ void TBoss3VoloptHiraisin::init_params() {
     m_300 -= 30.0f;
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
-    action_table = volopt_hiraisin_motions;
+    action_table = (TObjMotionAction *)volopt_hiraisin_motions;
     set_field_d8((s32)action_table);
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
     movementParameters = &volopt_hiraisin_movement;
     recalc_combat_stats(volopt_hiraisin_stats, volopt_hiraisin_stats_b, volopt_hiraisin_object_params, 1.0f, 1.0f);
-    m_b8 = 0;
-    set_animation(m_b8);
-    set_field_b8(m_b8);
+    this->requested_action = 0;
+    set_animation(this->requested_action);
+    set_field_b8(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;

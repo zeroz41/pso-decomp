@@ -779,7 +779,7 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 7;
+        this->requested_action = 7;
         this->vfunc_96();
         TObjEneBm9Mericarol__sub_802D093C(arg0);
         temp_r5 = this->m_454;
@@ -789,7 +789,7 @@ void TObjEneBm9Mericarol::handle_motion_event(s32 arg1) {
         play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3AD0F)), (u8 *)&this->position, 0, 0);
         return;
     case 3:
-        if (objInBand__FP7GameObjf(*(f32 *)&this->unk_C4 - lbl_805DE6F4) != 0) {
+        if (objInBand__FP7GameObjf(*(f32 *)&this->frame_count - lbl_805DE6F4) != 0) {
             transition_enemy_state__9TObjEneDDFl(arg0, 3);
         }
         this->vfunc_102();
@@ -883,7 +883,7 @@ void TObjEneBm9Mericarol__sub_802CF368(u8 *actor, s32 arg1) {
   switch (arg1)
   {
     case 4:
-      ((TObjEneDD *)actor)->m_b8 = 5;
+      ((TObjEneDD *)actor)->requested_action = 5;
       (((TObjEneDD *)(actor))->vfunc_96());
       TObjEneBm9Mericarol__sub_802D093C((void *) actor);
       *((s32 *) (((s8 *) actor) + 0x438)) = (s32) ((*((s32 *) (((s8 *) actor) + 0x438))) & (~0x28));
@@ -932,7 +932,7 @@ void TObjEneBm9Mericarol__sub_802CF4F8(u8 *ene_bm9_mericarol, s32 arg1) {
   switch (arg1)
   {
     case 4:
-      ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_b8 = 2;
+      ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->requested_action = 2;
       (((TObjEneBm9Mericarol *)(ene_bm9_mericarol))->vfunc_96());
       (((TObjEneBm9Mericarol *)(ene_bm9_mericarol))->vfunc_91());
       TObjEneBm9Mericarol__sub_802D093C((void *) ene_bm9_mericarol);
@@ -1230,7 +1230,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         ((TObjEneDD *)(arg0))->vfunc_96();
         TObjEneBm9Mericarol__sub_802D0940(arg0);
         this->m_454 &= ~8;

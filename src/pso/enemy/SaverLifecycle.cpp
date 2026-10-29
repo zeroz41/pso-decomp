@@ -322,7 +322,7 @@ void TObjEneSaver::apply_lookup_entry_effect() {
     s32 entry;
     u8 *temp_r3_2;
 
-    entry = TObjPlayer::lookup_entry_by_value((void *)lbl_805D5064, (f32)this->m_c0);
+    entry = TObjPlayer::lookup_entry_by_value((void *)lbl_805D5064, (f32)this->frame);
     if (entry != 0) {
         push_matrix();
         set_matrix_identity(0);
@@ -424,9 +424,9 @@ void TObjEneSaver::vfunc_63() {
         this->mode = temp_s16;
         this->phase = 0;
         if (random_ratio__9TObjCharaFv((s32)this) < 0.5f) {
-            this->m_b8 = 9;
+            this->requested_action = 9;
         } else {
-            this->m_b8 = 0xA;
+            this->requested_action = 0xA;
         }
         temp_r4 = this->bodies;
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFFE);
@@ -449,7 +449,7 @@ void TObjEneSaver::update_entry_motion() {
         this->m_310 = (f32) 0.0f;
         *(f32 *)((s8 *)((u8 *)this) + 0x308) = (f32) 0.0f;
         apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), 0.0f);
-        if ((u32) this->m_b4 != 8U) {
+        if ((u32) this->action_flags != 8U) {
             this->phase = 2;
         }
         break;
@@ -523,8 +523,8 @@ void TObjEneSaver::update_knockback_state() {
         move_with_wall_slide(((u8 *)this));
         *(f32 *)((s8 *)((u8 *)this) + 0x308) *= 0.5f;
         this->m_310 *= 0.5f;
-        if ((u32) this->m_b4 != 8U) {
-            this->m_b8 = 7;
+        if ((u32) this->action_flags != 8U) {
+            this->requested_action = 7;
             this->phase = 2;
         }
         break;
@@ -532,7 +532,7 @@ void TObjEneSaver::update_knockback_state() {
         if (!(this->actorFlags & 0x800000)) {
             apply_actor_gravity((TObjEnemy *)this, (s32 *)(0), 0.0f);
         }
-        if ((u32) this->m_b4 != 0x20U) {
+        if ((u32) this->action_flags != 0x20U) {
             if ((s32) *(s16 *)((s8 *)((u8 *)this) + 0x388) <= 0) {
                 *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 | 8);
             }
@@ -749,7 +749,7 @@ void TObjPlayer__sub_800A49B4(TObjEneSaver *self) {
             self->m_374 &= ~0x20;
             if (self->test_flag_256() != 0) {
                 self->phase = 0;
-                self->m_c0 = 0.0f;
+                self->frame = 0.0f;
             } else {
                 self->phase = 2;
             }
@@ -775,7 +775,7 @@ void TObjEneSaver::vfunc_61() {
     if ((s16) this->mode != 7) {
         this->mode = 7;
         this->phase = 0;
-        this->m_b8 = 5;
+        this->requested_action = 5;
     }
     temp_r5 = this->bodies;
     *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 1);
@@ -1530,7 +1530,7 @@ void TObjEneSaver::vfunc_59() {
         if (temp_r4 & 4) {
             this->mode = 3;
             this->phase = 0;
-            this->m_b8 = 1;
+            this->requested_action = 1;
             this->actorFlags = (s32) (this->actorFlags & 0xF9FBFFFF);
         } else if (temp_r4 & 1) {
             this->mode = 1;
@@ -1551,7 +1551,7 @@ void TObjEneSaver::vfunc_59() {
         if (*(s32 *)&this->m_374 & 4) {
             this->mode = 3;
             this->phase = 0;
-            this->m_b8 = 1;
+            this->requested_action = 1;
             this->actorFlags = (s32) (this->actorFlags & 0xF9FBFFFF);
             return;
         }
@@ -1654,7 +1654,7 @@ void TObjEneSaver::vfunc_58() {
         if (((VObj800A64E8_800a64e8_800A4288 *)(arg0 + 0x3A4))->m8() != 0) {
             this->mode = 0xB;
             this->phase = 0;
-            this->m_b8 = 0;
+            this->requested_action = 0;
             ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
             obj_setFlags30(arg0, 0x06040000);
             *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
@@ -1672,7 +1672,7 @@ void TObjEneSaver::vfunc_58() {
     default:
         this->mode = 0xB;
         this->phase = 0;
-        this->m_b8 = 0;
+        this->requested_action = 0;
         ((TObjBase *)arg0)->obj_clearFlags30(0x200000);
         obj_setFlags30(arg0, 0x06040000);
         *(s32 *)&this->m_374 = (s32) (*(s32 *)&this->m_374 & 0xFFFF0000);
@@ -1696,7 +1696,7 @@ s32 TObjEneSaver::update_movement_status() {
                 *(s32 *)&this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
-                this->m_b8 = 1;
+                this->requested_action = 1;
                 ((TObjBase *)arg0)->obj_clearFlags30(0x06240000);
             }
             break;
@@ -1719,7 +1719,7 @@ s32 TObjEneSaver::update_action_hold_status() {
                 *(s32 *)&this->m_374 |= 4;
                 this->mode = 3;
                 this->phase = 0;
-                this->m_b8 = 1;
+                this->requested_action = 1;
                 ((TObjBase *)arg0)->obj_clearFlags30(0x06240000);
             }
             break;
@@ -1926,7 +1926,7 @@ void TObjEneSaver::render() {
             if (v == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {
-                ((TObjEnemy *)arg0)->render_world_model();
+                ((TObjEnemy *)arg0)->draw_motion_model();
             }
             break;
         }
@@ -1943,7 +1943,7 @@ void TObjEneSaver::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, ((TObjEneSaver *)arg0)->rotation_y);
         TObjPlayer::set_global_flag();
-        ((TObjEnemy *)arg0)->render_anim_model(((TObjEneSaver *)arg0)->m_c0);
+        ((TObjEnemy *)arg0)->calc_joint_matrices(((TObjEneSaver *)arg0)->frame);
         TObjPlayer::clear_global_state();
         pop_matrix();
         push_matrix_from(anim_model_matrix_array + 0x4E0);
@@ -2172,12 +2172,12 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     ((TObjEnemy *)arg0)->set_param(0x1E);
     arg0->subtype = 0;
     arg0->sub_800A7734(arg0->variant);
-    arg0->action_table = (u8 *)TObjEneSaver__trail_record_table;
+    arg0->action_table = (TObjMotionAction *)TObjEneSaver__trail_record_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)arg0->action_table);
     *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)(*(u8 * *)&saver_bml_resource) + 0x430);
-    arg0->m_b8 = 0;
-    ((TObjMotion *)arg0)->set_animation(arg0->m_b8);
-    ((TObjMotion *)arg0)->set_field_b8(arg0->m_b8);
+    arg0->requested_action = 0;
+    ((TObjMotion *)arg0)->set_animation(arg0->requested_action);
+    ((TObjMotion *)arg0)->set_field_b8(arg0->requested_action);
     init_collision_body_parts(arg0, (u8 *)saver_collision_body_part_table, 1);
     *(s16 *)((s8 *)arg0 + 0x37C) = 0;
     *(s16 *)((s8 *)arg0 + 0x37E) = 0;

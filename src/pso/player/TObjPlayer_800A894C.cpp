@@ -455,7 +455,7 @@ void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue) {
     case 0:
         ((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388 = (s32) (((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_388 | 4);
         ((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags = (((TObjEneMe1GiGue *)ene_me1_gi_gue)->actorFlags | 0x04000000);
-        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->m_b8 = 5;
+        ((TObjEneMe1GiGue *)ene_me1_gi_gue)->requested_action = 5;
         advance_animation_playback(ene_me1_gi_gue);
         TBoss3Volopt__sub_800D8D88((s32)(ene_me1_gi_gue + 0x2FC));
         TObjEneMe3SinowZoa__sub_800D758C(ene_me1_gi_gue + 0x3B0);
@@ -476,7 +476,7 @@ void TObjPlayer::update_timed_state() {
     s16 temp_r4;
     switch (this->m_37c) {
     case 0:
-        *(s16 *)&this->m_b8 = (s16) ((*(u32 *)&this->unk_388 & 0x1000000) ? 0 : 5);
+        *(s16 *)&this->requested_action = (s16) ((*(u32 *)&this->unk_388 & 0x1000000) ? 0 : 5);
         *(u32 *)&this->unk_388 = (u32) (*(u32 *)&this->unk_388 | 0x800000);
         this->m_37c = 1;
     case 1:
@@ -1005,7 +1005,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
                         if (temp_r3 == 1) {
                             ((TObjMotion *)arg0)->draw();
                         } else {
-                            ((TObjEnemy *)arg0)->render_world_model();
+                            ((TObjEnemy *)arg0)->draw_motion_model();
                         }
                     }
                     ((Self_800AA334 *)arg0)->sub.m7();
@@ -1015,7 +1015,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
             } else if (temp_r3 == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {
-                ((TObjEnemy *)arg0)->render_world_model();
+                ((TObjEnemy *)arg0)->draw_motion_model();
             }
             model_render_flags = saved_model_render_flags;
             pop_matrix();

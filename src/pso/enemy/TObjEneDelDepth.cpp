@@ -968,7 +968,7 @@ void TObjEneDelDepth::update_bomb_drop() {
         push_matrix_from(identity_matrix);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        ((TObjEnemy *)arg0)->render_anim_model(lbl_805DF284);
+        ((TObjEnemy *)arg0)->calc_joint_matrices(lbl_805DF284);
         pop_matrix();
         push_matrix_from((void *)(anim_model_matrix_array + 0x450));
         {
@@ -1034,7 +1034,7 @@ void TObjEneDelDepth::init_state() {
 }
 
 void TObjEneDelDepth::update_state_flag() {
-    if (this->animationFlags & 0x10) {
+    if (this->motion_flags & 0x10) {
         if (get_flag_bit4() != 0) {
             set_action_state(7);
             return;
@@ -1064,7 +1064,7 @@ void TObjEneDelDepth::update_ai_state() {
     s32 temp_r0;
 
     if (this->motionController->get_type() < 6) {
-        if (this->animationFlags & 0x10) {
+        if (this->motion_flags & 0x10) {
             this->set_action_state(5);
         }
     } else {

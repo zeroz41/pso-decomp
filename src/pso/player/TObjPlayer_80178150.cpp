@@ -27,7 +27,7 @@ u8 TObjPlayer::is_state_ec1_ed3() {
     int var_r4;
 
     var_r4 = 0;
-    if (((u8) *(u8 *)&this->m_ec == 1) && ((u8) *(u8 *)((s8 *)this + 0xED) == 3)) {
+    if (((u8) *(u8 *)&this->blend.frame[0] == 1) && ((u8) *(u8 *)((s8 *)this + 0xED) == 3)) {
         var_r4 = 1;
     }
     return (u8)var_r4;

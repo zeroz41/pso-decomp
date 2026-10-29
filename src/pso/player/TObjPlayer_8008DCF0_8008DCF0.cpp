@@ -543,7 +543,7 @@ void TObjEneBalClawBody::render() {
                             if (temp_r3 == 1) {
                                 ((TObjMotion *)arg0)->draw();
                             } else {
-                                ((TObjEnemy *)arg0)->render_world_model();
+                                ((TObjEnemy *)arg0)->draw_motion_model();
                             }
                         }
                         ((VObj390V_8008e74c_8008DCF0*)(arg0 + 0x390))->m7();
@@ -553,7 +553,7 @@ void TObjEneBalClawBody::render() {
                 } else if (temp_r3 == 1) {
                     ((TObjMotion *)arg0)->draw();
                 } else {
-                    ((TObjEnemy *)arg0)->render_world_model();
+                    ((TObjEnemy *)arg0)->draw_motion_model();
                 }
             }
             pop_matrix();

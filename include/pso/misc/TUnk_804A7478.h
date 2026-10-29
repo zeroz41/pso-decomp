@@ -16,11 +16,11 @@ public:
     virtual void draw_model();
     // Steps the frame back (forward) by speed, looping, or stops at the
     // first (last) frame in state 2.
-    void update_scale_state();
-    void update_bob_motion();
-    f32 get_float_c();
-    NJS_MOTION *sub_80143930();
-    void activate();
+    void play_backward();
+    void play_forward();
+    f32 get_frame();
+    NJS_MOTION *get_motion();
+    void stop();
     void *init();
     void sub_8035B610();
 };

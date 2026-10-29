@@ -40,7 +40,7 @@ struct TObjPlayer : public TObjChara {
     u32 apply_wall_response();
     void set_action_provider_variant(s16);
     void update_position_from_target();
-    s32 get_idle_animation();
+    s16 get_idle_animation();
     void sub_801BB950();
     void handle_state2_transitions();
     void sub_8011E204(s32);
@@ -314,12 +314,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_item_pmt_record(int type, int id);
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
-    s32 is_anim_finished();
-    f32 get_table_value_f32(s16 arg1);
-    static void clear_next_entry(s32 arg0, u8 *arg1);
-    s32 draw_model_with_callback(s32 arg1, s32 arg2, f32 farg0);
-    void draw_model_with_callback();
-    void init_npc_animation(void* a1, void* a2, void* a3);
     void draw_ginja_model_tree(void *arg1);
     static bool is_hit_receivable_target(s32 arg0, u32 arg1);
     static s32 is_player_in_range(s32 arg0, s32 arg1, f32 farg0);
@@ -1476,7 +1470,7 @@ struct TObjPlayer : public TObjChara {
     static void freeze_all_players();
     // The callers pass the angle to the object as well; this does not use it.
     s32 start_camera_pan(s16 arg1, s32 angle);
-    s32 init_photon_blast(s32 arg1);
+    s32 init_photon_blast(s16 arg1);
     s32 start_freeze();
     s32 register_player_slot();
     void apply_state_transform();

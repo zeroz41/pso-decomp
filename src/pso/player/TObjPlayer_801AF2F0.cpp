@@ -2025,7 +2025,6 @@ void TObjPlayer__sub_8013A748(void *);
 void try_add_target_candidate__11TMainCursorFPvPvPvPv(void *c, void *self, void *owner, void *p);
 u32 TLockOnCursor__ct(u32, void *, s32);
 u16 get_id__11TMainCursorFv(void* p);
-s32 draw_model_with_callback__10TObjPlayerFllf(void *, s32, s32, f32);
 s32 set_animation__10TObjMotionFs(s32, s32);
 s32 advance_animation_playback(void *);
 s32 TMainCursor__sub_80154098(int, int, int);
@@ -2274,7 +2273,7 @@ void TObjPlayer__sub_801BF6C0(void *p, f32 v);
 void TObjPlayer__sub_801BF6C8(s32, f32, f32);
 void TObjPlayer__sub_801BF6D4(void *p, s16 v);
 void TObjPlayer__sub_801BF6DC(void *p, s16 v);
-s32 set_anim_state__10TObjPlayerFs(void *, s32);
+s32 set_anim_state__10TObjPlayerFs(void *, s16);
 s32 set_action_id__10TObjPlayerFs(void *, s32);
 int TObjPlayer__sub_801BF840(void *p);
 int TObjPlayer__sub_801BF8AC(void *p);
@@ -2455,7 +2454,6 @@ void obj_copyVec2_0(u8 *d, u8 *s);
 void reset_cameras_to_actor(void *actor, s32 arg1);
 void set_shadow_material_state(void);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
-void draw_motion_model_saving_joints(TObjPlayer *arg0);
 void mask_action_buttons(void *p, u32 v);
 void emit_sand_footstep_effect(s32 arg0);
 void emit_water_footstep_effect(s32 arg0);
@@ -3558,7 +3556,7 @@ void draw__10TObjPlayerFPvf(void *player, f32 farg0) {
     push_matrix();
     translate_matrix_vec3((u8 *)(0), (u8 *)(((s32 (*)(void *))get_position_ptr__10TObjPlayerFv)(player)));
     rotate_matrix_y(0, ((TObjPlayer *)player)->rotation_y);
-    draw_model_with_callback__10TObjPlayerFllf(player, ((TObjPlayer *)player)->unknownF8, *(s32 *)((s8 *)player + 0xE0), farg0);
+    ((TObjPlayer *)player)->calc_joint_matrices(((TObjPlayer *)player)->current_motion, farg0, *(s32 *)((s8 *)player + 0xE0));
     pop_matrix();
 }
 
@@ -3566,7 +3564,7 @@ void TObjPlayer::draw() {
     push_matrix();
     translate_matrix_vec3((u8 *)(0), (u8 *)(((s32 (*)(void *))get_position_ptr__10TObjPlayerFv)(this)));
     rotate_matrix_y(0, this->rotation_y);
-    ((s32 (*)(void *, s32, f32, s32))draw_model_with_callback__10TObjPlayerFllf)(this, this->unknownF8, (*(f32 *)&TObjPlayer__data_805DC278), *(s32 *)((s8 *)this + 0xE0));
+    calc_joint_matrices(this->current_motion, *(f32 *)&TObjPlayer__data_805DC278, *(s32 *)((s8 *)this + 0xE0));
     pop_matrix();
 }
 
@@ -7181,13 +7179,13 @@ s32 TObjPlayer::start_camera_pan(s16 arg1, s32 angle) {
     }
     this->actorFlags = (s32) (this->actorFlags | 0x10000);
     ((s32 (*)(void *))set_action_id__10TObjPlayerFs)(arg0 + 0x5F0);
-    ((s32 (*)(void *, s16))set_anim_state__10TObjPlayerFs)(arg0 + 0x5F0, this->m_b8);
+    ((s32 (*)(void *, s16))set_anim_state__10TObjPlayerFs)(arg0 + 0x5F0, this->requested_action);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_state(0);
     ((TObjPlayer *)(arg0 + 0x5F0))->set_anim_state(this->rotation_y);
     return 1;
 }
 
-s32 TObjPlayer::init_photon_blast(s32 arg1) {
+s32 TObjPlayer::init_photon_blast(s16 arg1) {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x320) & 0x1E000) {
         return 0;
@@ -7303,7 +7301,7 @@ void handle_6x1F_set_player_floor(void *arg0) {
                 m2.id = get_entity_id(pl);
                 m2.f8 = TObjPlayer__sub_801BEB0C(pl);
                 m2.floor = ((TBoss7Crawfish *)pl)->get_floor();
-                m2.speed = ((TObjChara *)pl)->get_speed();
+                m2.speed = ((TObjChara *)pl)->get_frame();
                 ((TObjPlayer *)(&m2))->send_player_floor_packet((void*)m.slot);
             }
         }
@@ -7442,11 +7440,11 @@ void draw_body__10TObjPlayerFPvi(u8 *player, s32 arg1) {
     TObjFish::set_global_param((s32)(player + 0xCF4));
     TObjPlayer::set_global_flag();
     if (arg1 == 2) {
-        ((TObjPlayer *)player)->animationFlags = (s32) (((TObjPlayer *)player)->animationFlags | 0x400);
-        draw_motion_model_saving_joints((TObjPlayer *)(player));
+        ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags | 0x400);
+        ((TObjPlayer *)player)->draw_saving_joints();
     } else {
-        ((TObjPlayer *)player)->animationFlags = (s32) (((TObjPlayer *)player)->animationFlags & 0xFFFFFBFF);
-        ((TObjPlayer *)player)->draw_model_with_callback();
+        ((TObjPlayer *)player)->motion_flags = (s32) (((TObjPlayer *)player)->motion_flags & 0xFFFFFBFF);
+        ((TObjPlayer *)player)->draw_saving_joints_checked();
     }
     TObjPlayer::clear_global_state();
     ((TObjPlayer *)player)->draw_head_attachments();
@@ -7481,7 +7479,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
                 TParticleCtrl::end_effect_render();
                 select_actor_lighting((s32)arg0);
                 if ((((s32 (*)(void *))check_flag_800000__10TObjPlayerFPv)(arg0) != 0) && (((s32 (*)(void *))obj_isState2_324__9TObjCharaFv)(arg0) != 0)) {
-                    ((TObjChara *)arg0)->get_speed();
+                    ((TObjChara *)arg0)->get_frame();
                     ((s32 (*)(void *))draw__10TObjPlayerFPvf)(arg0);
                 } else if (!(((TObjPlayer *)arg0)->m_flags & 0x400)) {
                     model_render_flags |= 1;
@@ -7498,7 +7496,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
         } else {
             obj_setFlags30(arg0, 0x08000000);
             TObjPlayer::set_global_flag();
-            ((TObjChara *)arg0)->get_speed();
+            ((TObjChara *)arg0)->get_frame();
             ((s32 (*)(void *))draw__10TObjPlayerFPvf)(arg0);
             TObjPlayer::clear_global_state();
             save_render_material_state(arg0 + 0x608);
@@ -7508,7 +7506,7 @@ void render__10TObjPlayerFv(u8 *arg0) {
         }
     } else {
         TObjPlayer::set_global_flag();
-        ((TObjChara *)arg0)->get_speed();
+        ((TObjChara *)arg0)->get_frame();
         ((s32 (*)(void *))draw__10TObjPlayerFPvf)(arg0);
         TObjPlayer::clear_global_state();
         save_render_material_state(arg0 + 0x608);
@@ -7524,7 +7522,7 @@ void TObjPlayer::render_body_pass(f32 f) {
     TParticleCtrl::end_effect_render();
     select_actor_lighting((s32)self);
     if (((s32 (*)(void *))check_flag_800000__10TObjPlayerFPv)(self) != 0 && ((s32 (*)(void *))obj_isState2_324__9TObjCharaFv)(self) != 0) {
-        draw__10TObjPlayerFPvf(self, ((TObjChara *)self)->get_speed());
+        draw__10TObjPlayerFPvf(self, ((TObjChara *)self)->get_frame());
     } else if (!(*(u16 *)(self + 4) & 0x400)) {
         model_render_flags |= 1;
         draw_body__10TObjPlayerFPvi(self, (s32)f);

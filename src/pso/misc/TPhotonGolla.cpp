@@ -353,13 +353,13 @@ void TPhotonGolla::run_task() {
             TPhotonMagicSquare__ct((u8 *)photon_magic_square, (s32)arg0, 3, (s32)&stack.sp8, 0xFA, (f32)0.5f);
         }
     }
-    if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->m_b8 == 1)) {
+    if ((5e+01f == (f32) *(s32 *)&this->unk_1C8) && ((s16) this->requested_action == 1)) {
         ((TUnk_804C3248 *)arg0)->begin_photon_summon_camera(5);
         *(s32 *)&this->unk_1C8 = 0;
         ((TObjMotion *)arg0)->set_field_b8(0);
         spawn_photon_blast_attachment_effects(arg0, 2);
     }
-    this->m_1b8 = (s16) this->m_b8;
+    this->m_1b8 = (s16) this->requested_action;
     ((TUnk_804C3248 *)arg0)->update_state();
     advance_animation_playback(arg0);
     ((TUnk_804C3248 *)arg0)->update_photon_blast_attachments();
@@ -492,9 +492,9 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     ((TPhotonGolla *)arg0)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x4C);
     ((TObjMotion *)arg0)->set_field_d8((s32) photon_blast_golla_params);
     ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
-    ((TPhotonGolla *)arg0)->m_b8 = 1;
-    ((TObjMotion *)arg0)->set_animation(((TPhotonGolla *)arg0)->m_b8);
-    ((TObjMotion *)arg0)->set_field_b8(((TPhotonGolla *)arg0)->m_b8);
+    ((TPhotonGolla *)arg0)->requested_action = 1;
+    ((TObjMotion *)arg0)->set_animation(((TPhotonGolla *)arg0)->requested_action);
+    ((TObjMotion *)arg0)->set_field_b8(((TPhotonGolla *)arg0)->requested_action);
     ((TPhotonGolla *)arg0)->m_1b8 = 1;
     ((TPhotonGolla *)arg0)->m_1bc = *(s32 *)((s8 *)arg1 + 0x10);
     *(s32 *)((s8 *)arg0 + 0x1C0) = *(s32 *)((s8 *)arg1 + 0x14);

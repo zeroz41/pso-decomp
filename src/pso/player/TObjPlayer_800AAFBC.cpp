@@ -362,8 +362,8 @@ TUnk_80491460::TUnk_80491460(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TObject
 
 void TObjPlayer::cancel_action() {
     if (get_action_priority() != 1) {
-        if ((u32) *(u32 *)&this->m_d0 != 0U) {
-            ((TObjPlayer *)(*(u32 *)&this->m_d0))->set_cancel_flag();
+        if ((u32) *(u32 *)&this->override_speed != 0U) {
+            ((TObjPlayer *)(*(u32 *)&this->override_speed))->set_cancel_flag();
         }
         *(s16 *)((s8 *)this + 0xAE) = 2;
     }
@@ -375,11 +375,11 @@ void TObjPlayer::draw_model_no_fog() {
     TObjFish::set_global_param(lbl_805D5094);
     TObjFish::set_global_param((*(s32 *)&this->action_table));
     push_matrix();
-    post_translate_matrix((u8 *)&this->unk_F0);
-    rotate_matrix_y(0, (*(s32 *)&this->m_c0));
+    post_translate_matrix((u8 *)&this->blend.frame[1]);
+    rotate_matrix_y(0, (*(s32 *)&this->frame));
     scale_matrix(0, 1.3f, 1.3f, 1.3f);
     model_render_flags &= 0xFFFFFBFF;
-    draw_chunk_object((void *)(*(s32 *)&this->m_c8));
+    draw_chunk_object((void *)(*(s32 *)&this->play_speed));
     pop_matrix();
 }
 

@@ -17,7 +17,7 @@ void TObjEneBm9Mericarol::handle_event(s32 arg1) {
 
     switch (arg1) {
     case 4:
-        this->m_b8 = 2;
+        this->requested_action = 2;
         this->vfunc_96();
         TObjEneBm9Mericarol__sub_802D093C(this);
         temp_r5 = this->m_454;

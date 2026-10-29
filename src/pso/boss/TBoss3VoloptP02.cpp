@@ -266,15 +266,15 @@ void TBoss3VoloptP02::init_params() {
     s32 i;
     m_name = TBoss3VoloptP02_name;
     motion_list = lbl_805D4CE4->motions;
-    action_table = action_entries;
+    action_table = (TObjMotionAction *)action_entries;
     set_field_d8((s32)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;
     movementParameters = &movement_params;
     recalc_combat_stats(boss_stat_handle, shared_handler_b, object_handle, 1.0f, 1.0f);
-    m_b8 = 0;
-    set_animation(m_b8);
-    set_field_b8(m_b8);
+    this->requested_action = 0;
+    set_animation(this->requested_action);
+    set_field_b8(this->requested_action);
     hp = hpmax;
     tp = tpmax;
     referenceHp = hp;
@@ -288,7 +288,7 @@ void TBoss3VoloptP02::init_params() {
     for (s32 j = 0; j < 4; j++) {
         ring_lines[j] = NULL;
     }
-    animationFlags &= ~1;
+    this->motion_flags &= ~1;
     reset_visual_state();
     volopt_p02_id = entity_id;
     heal_emitter = NULL;
@@ -571,7 +571,7 @@ void TBoss3VoloptP02::fn_800472D4() {
     switch (state) {
     case 0:
         actorFlags &= ~0x40000;
-        m_b8 = 0;
+        this->requested_action = 0;
         reset_visual_state();
         state = 1;
     case 1:
@@ -594,7 +594,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
     target = get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         cycle_count = 0;
     case 1:
         timer = 0x5A;
@@ -612,7 +612,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         render_anim_model_at_pos();
         get_anim_node_position(0x3C, &line_origin);
         if (--*(s16 *)&timer <= 0) {
-            m_b8 = 2;
+            this->requested_action = 2;
             play_sound_effect(0x4003A817, &position, 0, 0);
             state = 3;
         }
@@ -630,7 +630,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
         advance_animation_playback(this);
         render_anim_model_at_pos();
         get_anim_node_position(0x3C, &line_origin);
-        if (m_c0 >= 33.0f) {
+        if (this->frame >= 33.0f) {
             render_anim_model_at_pos();
             get_anim_node_position(0x39, &pos);
             emitter = (TObject *)create_particle_emitter(&pos, 0x1A0);
@@ -707,7 +707,7 @@ void TBoss3VoloptP02::fn_80046CB8() {
             } else {
                 timer = 5;
             }
-            m_b8 = 0;
+            this->requested_action = 0;
             state = 8;
             play_sound_effect(0x4003A817, &position, 0, 0);
         }
@@ -748,7 +748,7 @@ void TBoss3VoloptP02::fn_800465B0() {
     target = get_player_by_client_id(targetId);
     switch ((s32)state) {
     case 0:
-        m_b8 = 0;
+        this->requested_action = 0;
         m_388 &= ~0x300000;
         for (i = 0; i < 5; i++) {
             chain_nodes_a[i]->evalflags |= 8;
@@ -792,7 +792,7 @@ void TBoss3VoloptP02::fn_800465B0() {
             }
             new TUnk_80484A94(this, &v, targetId);
             m_388 |= 0x100000;
-            m_b8 = 6;
+            this->requested_action = 6;
             state = 3;
             play_sound_effect(0x4003A81C, &position, 0, 0);
         }
@@ -810,7 +810,7 @@ void TBoss3VoloptP02::fn_800465B0() {
         break;
     case 4:
         advance_animation_playback(this);
-        if (m_c0 >= 30.0f) {
+        if (this->frame >= 30.0f) {
             timer = duration;
             state = 5;
         }
@@ -885,7 +885,7 @@ void TBoss3VoloptP02::fn_800465B0() {
         break;
     case 8:
         advance_animation_playback(this);
-        if (m_b4 != 4) {
+        if (this->action_flags != 4) {
             vfunc_58();
         }
         break;
@@ -928,7 +928,7 @@ void TBoss3VoloptP02::fn_80046260() {
             rotation_y = approach_angle_limited(rotation_y, (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(v.x, v.z)) + 0x8000, 0x566);
         }
         if (--*(s16 *)&timer <= 0) {
-            m_b8 = 7;
+            this->requested_action = 7;
             advance_animation_playback(this);
             state = 2;
         }
@@ -939,7 +939,7 @@ void TBoss3VoloptP02::fn_80046260() {
         if (objInBand((GameObj *)this, 15.0f) != 0) {
             play_sound_effect(0x4003A811, &position, 0, 0);
         }
-        if (m_c0 >= 22.0f) {
+        if (this->frame >= 22.0f) {
             timer = 0xA;
             state = 3;
         }
@@ -985,7 +985,7 @@ void TBoss3VoloptP02::fn_80046260() {
         if (objInBand((GameObj *)this, 35.0f) != 0) {
             play_sound_effect(0x4003A312, &position, 0, 0);
         }
-        if (m_b4 != 4) {
+        if (this->action_flags != 4) {
             vfunc_58();
         }
         break;
@@ -1002,7 +1002,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     }
     switch ((s32)state) {
     case 0:
-        m_b8 = 5;
+        this->requested_action = 5;
         state = 1;
         push_players_out_of_radius();
         play_sound_effect(0x4003A817, &position, 0, 0);
@@ -1014,10 +1014,10 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
         if (objInBand((GameObj *)this, 20.0f) != 0) {
             play_sound_effect(0x4003A80B, &position, 0, 0);
         }
-        t = 0.083333336f * (m_c0 - 18.0f);
+        t = 0.083333336f * (this->frame - 18.0f);
         f = min_f32(max_f32(t, 0.0f), 1.0f);
         node_27_color[7] = (s8)(255.0f * f);
-        if (m_c0 >= 38.0f) {
+        if (this->frame >= 38.0f) {
             Vec out;
             push_matrix_from(identity_matrix);
             Vec v = {-38.0f, 31.0f, 0.0f};
@@ -1073,7 +1073,7 @@ void TBoss3VoloptP02::update_pillar_heal_state() {
     }
     case 4:
         advance_animation_playback(this);
-        if (m_b4 != 4U) {
+        if (this->action_flags != 4U) {
             vfunc_58();
         }
         break;
@@ -1094,11 +1094,11 @@ void TBoss3VoloptP02::update_fade_state() {
     switch (state) {
     case 0:
         actorFlags |= 0x40000;
-        m_b8 = 8;
+        this->requested_action = 8;
         state = 2;
     case 2:
         advance_animation_playback(this);
-        frame = m_c0;
+        frame = this->frame;
         alpha = 0;
         if (frame >= 20.0f) {
             alpha = (s8)(13.421053f * (frame - 20.0f));
@@ -1106,8 +1106,8 @@ void TBoss3VoloptP02::update_fade_state() {
         node_44_color[7] = alpha;
         node_3f_color[7] = alpha;
         pulse_angle = 0x4000;
-        position.y = 25.0f * -((0.025641026f * m_c0) - 1.0f);
-        if (m_c0 >= 38.0f) {
+        position.y = 25.0f * -((0.025641026f * this->frame) - 1.0f);
+        if (this->frame >= 38.0f) {
             position.y = 0.0f;
             m_388 &= ~1;
             vfunc_58();
@@ -1127,7 +1127,7 @@ void TBoss3VoloptP02::update_death_sequence() {
     switch ((s32)state) {
     case 0:
         destroy_children();
-        m_b8 = 0;
+        this->requested_action = 0;
         advance_animation_playback(this);
         timer = 0x3C;
         TCameraCtrl__sub_8006A044(0xB4, 0.04f);
@@ -1155,7 +1155,7 @@ void TBoss3VoloptP02::update_death_sequence() {
             TObjPlayer__sub_801BA42C();
             model_node_3f->evalflags |= 8;
             model_node_44->evalflags |= 8;
-            m_b8 = 4;
+            this->requested_action = 4;
             state = 3;
         }
         spawn_ambient_particles();
@@ -1163,8 +1163,8 @@ void TBoss3VoloptP02::update_death_sequence() {
     case 3:
         advance_animation_playback(this);
         spawn_ambient_particles();
-        position.y = 0.5319149f * m_c0;
-        if (m_c0 >= 47.0f) {
+        position.y = 0.5319149f * this->frame;
+        if (this->frame >= 47.0f) {
             TBoss3Volopt::create_breakup_mdl((s32)breakup_model, (s32)&death_breakup_params, texlist, (s32)&m_2fc, rotation_y);
             ((TObjPlayer *)&m_2fc)->trigger_dell_biter_events();
             ((TObjPlayer *)this)->refresh_lobby_state();
@@ -1610,7 +1610,7 @@ void TBoss3VoloptP02::fn_80044680() {
     switch ((s32)state) {
     case 0:
         advance_animation_playback(this);
-        m_b8 = 2;
+        this->requested_action = 2;
         cycle_count = 0;
         ring_angle = 0;
         VecCopy(&line_origin, &position);
@@ -1621,7 +1621,7 @@ void TBoss3VoloptP02::fn_80044680() {
     case 1:
         play_persistent_sound(0x4003C616, this, &position, 0, 0);
         advance_animation_playback(this);
-        if (m_c0 >= 33.0f) {
+        if (this->frame >= 33.0f) {
             render_anim_model_at_pos();
             get_anim_node_position(0x39, &pos);
             emitter = (TObject *)create_particle_emitter(&pos, 0x1A0);

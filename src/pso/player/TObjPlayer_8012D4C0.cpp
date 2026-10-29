@@ -12,9 +12,9 @@ s32 slow_curse_timer_ct(s32, u32, s32, s32, f32);
 s32 __nw__15TItemHeapObjectFUl(s32);
 
 void TObjPlayer::update_weapon_kill_count() {
-    if ((s16) *(s16 *)&this->unk_1F8 < ((TObjPlayer *)(*(s32 *)&this->unk_F0))->get_kill_count()) {
+    if ((s16) *(s16 *)&this->unk_1F8 < ((TObjPlayer *)(*(s32 *)&this->blend.frame[1]))->get_kill_count()) {
         set_kill_count__5TItemFUs(this, (u16) (get_kill_count__5TItemFv(this) + 1));
-        *(s16 *)&this->unk_1F8 = ((TObjPlayer *)(*(s32 *)&this->unk_F0))->get_kill_count();
+        *(s16 *)&this->unk_1F8 = ((TObjPlayer *)(*(s32 *)&this->blend.frame[1]))->get_kill_count();
     }
     if ((get_kill_count__5TItemFv(this) >= 0x59D8U) && (((TItem *)this)->test_item_flags(0x200) == 0U)) {
         ((TItem *)this)->add_item_flags(0x200);

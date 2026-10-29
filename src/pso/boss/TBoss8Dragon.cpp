@@ -2227,7 +2227,7 @@ void TBoss8Dragon::render_body_model() {
     rotate_matrix_x(0, ((Obj_802F44D8 *)this)->f5C);
     rotate_matrix_z(0, ((Obj_802F44D8 *)this)->f64);
     scale_current_matrix(((Obj_802F44D8 *)this)->v68);
-    ((TObjEneDD_ST *)this)->get_speed_or_default();
+    ((TObjEneDD_ST *)this)->get_motion_frame();
     ((TBoss8Dragon *)(((Obj_802F44D8 *)this)->f34))->render_model_tree((void*)(((Obj_802F44D8 *)this)->fF8));
     TObjPlayer::clear_global_state();
     pop_matrix();
@@ -2432,7 +2432,7 @@ void TBoss8Dragon__sub_802F4B90(u8 *boss8_dragon, u32 arg1) {
 void action__12TBoss8DragonFPvi(void *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
-        ((TObjEneDD *)arg0)->m_b8 = 0;
+        ((TObjEneDD *)arg0)->requested_action = 0;
         *(s32 *)((s8 *)arg0 + 0x84C) = 0;
         *(f32 *)((s8 *)arg0 + 0x3C) = (f32) TBoss8Dragon__data_805DED50;
         return;
@@ -4746,7 +4746,7 @@ void TBoss8Dragon__sub_802F8578(Dragon_802F8578 *arg0, u32 arg1) {
         switch (arg0->field_84C) {
         case 0:
             eval_bezier_curve__12TBoss8DragonFPviiPvf(boss8_dragon_bezier_points_3, 3, 0, &out,
-                ((TObjEneDD_ST *)arg0)->get_speed_or_default() / TBoss8Dragon__data_805DEE30);
+                ((TObjEneDD_ST *)arg0)->get_motion_frame() / TBoss8Dragon__data_805DEE30);
             arg0->pos.y = out.b;
             if (objInBand__FP7GameObjf(arg0, TBoss8Dragon__data_805DED60) != 0) {
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003A804);

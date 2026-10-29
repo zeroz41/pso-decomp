@@ -371,7 +371,7 @@ void TObjEneRe7Berura::run_flash_warning_state(s32 arg1) {
     s32 v;
     switch (arg1) {
     case 4:
-        this->m_b8 = 5;
+        this->requested_action = 5;
         this->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFFC);
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 4);
@@ -637,7 +637,7 @@ void TObjEneRe7Berura__sub_80093C80(u8 *arg0, s32 arg1) {
 void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
-        arg0->m_b8 = 1;
+        arg0->requested_action = 1;
         ((TObjEneDD *)(arg0))->vfunc_96();
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFF8);
         ((TObjEneDD *)arg0)->set_field_378(4);
@@ -730,7 +730,7 @@ void TObjEneRe7Berura::handle_state(s32 arg1) {
     s32 temp_r0;
     switch (arg1) {
     case 4:
-        this->m_b8 = 0;
+        this->requested_action = 0;
         this->vfunc_95();
         *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) & 0xFFFFFFF8);
         ((TObjEneDD *)arg0)->set_field_378(8);

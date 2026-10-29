@@ -1011,7 +1011,7 @@ void render__17TObjEneDf2BringerFv(u8 *arg0) {
             if (var_r31 == 1) {
                 ((TObjMotion *)arg0)->draw();
             } else {
-                ((TObjEnemy *)arg0)->render_world_model();
+                ((TObjEnemy *)arg0)->draw_motion_model();
             }
             TObjPlayer::clear_global_state();
             TObjEneRe7Berura::set_global_state(NULL);

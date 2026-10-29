@@ -16,7 +16,7 @@ void TObjPlayer::cast_foie() {
     ((TItemWeapon *)this)->get_joint_position(2, &sp8);
     spawn_particle_effect(&sp8, 0x1BF);
     if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
-        owner = *(void * *)&this->unk_F0;
+        owner = *(void * *)&this->blend.frame[1];
         TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)3);
         return;
     }

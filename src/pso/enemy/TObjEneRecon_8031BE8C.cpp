@@ -210,7 +210,7 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     if (var_r31 == 1) {
                         ((TObjMotion *)ene_recon)->draw();
                     } else {
-                        ((TObjEnemy *)ene_recon)->render_world_model();
+                        ((TObjEnemy *)ene_recon)->draw_motion_model();
                     }
                     model_render_flags &= 0xFEFFFFFF;
                     TParticleCtrl::end_effect_render();

@@ -258,7 +258,7 @@ void TOTrap::render() {
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object(this->model);
             } else {
-                draw_model_motion((void *)this->model, (void *)this->unknownF8, this->m_c0);
+                draw_model_motion((void *)this->model, (void *)this->current_motion, this->frame);
             }
             pop_matrix();
         }

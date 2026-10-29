@@ -241,7 +241,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
     u32 temp_r3_4;
     switch (arg1) {
     case 4:
-        ((TObjEneRe2Flower *)owner)->m_b8 = 0;
+        ((TObjEneRe2Flower *)owner)->requested_action = 0;
         ((TObjEneDD *)(owner))->vfunc_96();
         ((TObjEneRe2Flower *)owner)->set_child_flags();
         *(s32 *)((s8 *)owner + 0x3C4) = (s32) (*(s32 *)((s8 *)owner + 0x3C4) & 0xFFFFFFF7);
@@ -266,7 +266,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
         }
         temp_r3_2 = *(u32 *)((s8 *)owner + 0x428);
         if (temp_r3_2 != 0U) {
-            if (((TObjEneRe2Flower *)owner)->m_c0 < lbl_805D9FD8) {
+            if (((TObjEneRe2Flower *)owner)->frame < lbl_805D9FD8) {
                 ((TParticleCtrl *)temp_r3_2)->set_position(owner + 0x3E8);
             } else {
                 ((TParticleCtrl *)temp_r3_2)->enable();
@@ -439,9 +439,9 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         break;
     case 4:
         if (this->mode == 2) {
-            this->m_b8 = 3;
+            this->requested_action = 3;
         } else {
-            this->m_b8 = 2;
+            this->requested_action = 2;
         }
         this->vfunc_96();
         ((TObjEneRe2Flower *)arg0)->set_child_flags();
@@ -502,7 +502,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
 void handle_flower_state_change(TObjEneDD *ene_dd, s32 arg1) {
     switch (arg1) {
     case 4:
-        ene_dd->m_b8 = 1;
+        ene_dd->requested_action = 1;
         ene_dd->vfunc_96();
         ((TObjEneRe2Flower *)ene_dd)->clear_child_flags();
         *(s32 *)((s8 *)ene_dd + 0x3C4) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C4) & 0xFFFFFFF7);

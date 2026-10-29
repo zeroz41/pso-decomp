@@ -595,11 +595,11 @@ s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {
     if (obj_testFlags30__14TObjCollidableFUl(this, 0x100000) != 0) {
         *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x39C);
-        this->m_c8 = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x3A4);
+        this->play_speed = (f32) *(f32 *)((s8 *)((u8 *)this) + 0x3A4);
         return;
     }
     *(f32 *)((s8 *)((u8 *)this) + 0x394) = (f32) this->m_398;
-    this->m_c8 = (f32) this->m_3a0;
+    this->play_speed = (f32) this->m_3a0;
 }
 
 s32 TUnk_80493450::update_target_near_flag() {
@@ -650,7 +650,7 @@ void TUnk_80493450::beast_update_dead() {
         spawn_particle_effect(((u8 *)&this->position), 0xF3);
         this->vfunc_94();
     }
-    if (this->m_c0 < (lbl_805DA03C * (lbl_805DA040 * this->m_c8))) {
+    if (this->frame < (lbl_805DA03C * (lbl_805DA040 * this->play_speed))) {
         move_with_wall_slide((arg0));
         *(f32 *)((s8 *)arg0 + 0x308) = (f32) (*(f32 *)((s8 *)arg0 + 0x308) * lbl_805DA03C);
         this->m_310 = (f32) (this->m_310 * lbl_805DA03C);
@@ -662,7 +662,7 @@ void TUnk_80493450::beast_update_dead() {
         this->beast_retire_corpse();
     }
 }
-void TObjPlayer::enter_state_8() { if (this->mode != 8) { this->mode = 8; this->m_b8 = 8; unlink_enemy_group_relations__13TUnk_80493450Fv(this); clear_player_status_flag((s32)((void*)0), (u32)((void*)1)); refresh_lobby_state(); send_entity_set_flags__9TObjEnemyFv(this); } }
+void TObjPlayer::enter_state_8() { if (this->mode != 8) { this->mode = 8; this->requested_action = 8; unlink_enemy_group_relations__13TUnk_80493450Fv(this); clear_player_status_flag((s32)((void*)0), (u32)((void*)1)); refresh_lobby_state(); send_entity_set_flags__9TObjEnemyFv(this); } }
 void TUnk_80493450::beast_update_hurt() {
     u8 *arg0 = (u8 *)this;
     Obj_800C5164 *o = (Obj_800C5164 *)arg0;
@@ -690,7 +690,7 @@ void TUnk_80493450::beast_update_hurt() {
     if (objInBand((GameObj *)o, (f32)lbl_805DA034) != 0) {
         this->vfunc_97();
     }
-    if (((TObjPlayer *)o)->m_b4 != 8) {
+    if (((TObjPlayer *)o)->action_flags != 8) {
         ((TObjBase *)o)->obj_clearFlags30(0x600);
         ((TObjCollidable *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x04000000));
         if (*(s32 *)&((TObjPlayer *)o)->m_334 == 0) {
@@ -706,7 +706,7 @@ void TUnk_80493450::beast_update_hurt() {
 void TUnk_80493450::vfunc_62() {
     if ((s16) this->mode != 7) {
         this->mode = 7;
-        this->m_b8 = 6;
+        this->requested_action = 6;
     }
     obj_clearFlags30(0x240000);
 }
@@ -770,10 +770,10 @@ void TUnk_80493450::vfunc_60() {
         this->phase = 0;
         if (this->children == NULL) {
             this->mode = 3;
-            this->m_b8 = 7;
+            this->requested_action = 7;
         } else {
             this->mode = 2;
-            this->m_b8 = 10;
+            this->requested_action = 10;
         }
         ((TObjBase *)o)->obj_clearFlags30(0x04040000);
         ((TObjCollidable *)o)->clear_player_status_flag((s32)((void *)0), (u32)((void *)0x0A000000));
@@ -784,9 +784,9 @@ void TUnk_80493450::vfunc_60() {
         this->mode = 5;
         this->phase = 1;
         if (lbl_805DA03C < random_ratio__9TObjCharaFv((s32)o)) {
-            this->m_b8 = 3;
+            this->requested_action = 3;
         } else {
-            this->m_b8 = 4;
+            this->requested_action = 4;
         }
         obj_setFlags30(o, 0x200000);
         ((TObjBase *)o)->obj_clearFlags30(0x04040000);
@@ -810,7 +810,7 @@ s32 TUnk_80493450::update_movement_status() {
       this->m_390 = 0;
       this->mode = 1;
       this->phase = 0;
-      this->m_b8 = 0;
+      this->requested_action = 0;
       ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
       ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
     }
@@ -834,7 +834,7 @@ s32 TUnk_80493450::update_action_hold_status() {
       this->m_390 = 0;
       this->mode = 1;
       this->phase = 0;
-      this->m_b8 = 0;
+      this->requested_action = 0;
       ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
       ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000)));
     }
@@ -882,9 +882,9 @@ void TUnk_80493450::beast_update_approach() {
         if (objInBand((GameObj *)arg0, (f32)lbl_805DA034) != 0) {
             this->vfunc_95();
         }
-        if (this->m_b4 != 0x20U) {
+        if (this->action_flags != 0x20U) {
             this->phase = 1;
-            this->m_b8 = 2;
+            this->requested_action = 2;
         }
         break;
     default:
@@ -983,10 +983,10 @@ void TUnk_80493450::vfunc_59() {
         this->phase = 0;
         if ((u32) this->children == 0U) {
             this->mode = 3;
-            this->m_b8 = 7;
+            this->requested_action = 7;
         } else {
             this->mode = 2;
-            this->m_b8 = 0xA;
+            this->requested_action = 0xA;
         }
         ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
         ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
@@ -995,12 +995,12 @@ void TUnk_80493450::vfunc_59() {
     case 3:
         break;
     case 4:
-        this->m_b8 = 5;
+        this->requested_action = 5;
         break;
     default:
         this->mode = 3;
         this->phase = 1;
-        this->m_b8 = 2;
+        this->requested_action = 2;
         ((TObjBase *)arg0)->obj_clearFlags30(0x04040000);
         ((TObjCollidable *)arg0)->clear_player_status_flag((s32)((void*)(0)), (u32)((void*)(0x0A000000U)));
         break;
@@ -1056,7 +1056,7 @@ void TUnk_80493450::beast_idle_update() {
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
         if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
-            this->m_b8 = 2;
+            this->requested_action = 2;
             VecCopy((Vec *)&this->position, (const Vec *)&lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
             goto end;
@@ -1075,7 +1075,7 @@ void TUnk_80493450::beast_idle_update() {
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
         if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
-            this->m_b8 = 2;
+            this->requested_action = 2;
             VecCopy((Vec *)&this->position, (const Vec *)&lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
             goto end;
@@ -1094,14 +1094,14 @@ void TUnk_80493450::beast_idle_update() {
         pop_matrices(1);
         vec3_add_to(&lbl_8050BF00, (u8 *)&this->position);
         if (project_actor_to_ground(arg0, &lbl_8050BF00, 0) == 1) {
-            this->m_b8 = 2;
+            this->requested_action = 2;
             VecCopy((Vec *)&this->position, (const Vec *)&lbl_8050BF00);
             this->rotation_y = approach_angle_limited(this->rotation_y, angle2, *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8));
         } else {
-            this->m_b8 = 2;
+            this->requested_action = 2;
         }
     } else if (*(s32 *)&this->m_37c == 0 && lbl_805DA034 < *(f32 *)((s8 *)arg0 + 0x358)) {
-        this->m_b8 = 2;
+        this->requested_action = 2;
         ((s32 (*)(void *, f32, int, f32, f32))enemy_wander_home__9TObjEnemyFlfff)(arg0, *(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4), *(s32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 8), *(f32 *)((s8 *)arg0 + 0x358), *(f32 *)((s8 *)arg0 + 0x358));
     } else {
         this->request_stand_action();
