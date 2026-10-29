@@ -219,7 +219,6 @@ pso/boss/TBoss3VoloptMonitor.cpp
 pso/boss/TBoss3VoloptP01.cpp
 pso/boss/TBoss3VoloptP02.cpp
 pso/boss/TBoss3Volopt_800D8ACC.cpp
-pso/boss/TBoss3Volopt_8016A47C.cpp
 pso/boss/TBoss4CheckEmpty.cpp
 pso/boss/TBoss4CheckEmpty_8034A8B0.cpp
 pso/boss/TBoss4CheckEmpty_8034A8FC.cpp
@@ -1024,7 +1023,6 @@ pso/misc/TLobby_80156B18.cpp
 pso/misc/TLobby_8015ABD0.cpp
 pso/misc/TLobby_8015C944.cpp
 pso/misc/TLobby_80160804.cpp
-pso/misc/TLobby_8016ACC8.cpp
 pso/misc/TLobby_80191218.cpp
 pso/misc/TLobby_80191F80.cpp
 pso/misc/TLobby_801A2D90.cpp
@@ -1595,7 +1593,6 @@ pso/misc/TTecZarua.cpp
 pso/misc/TTecZonde.cpp
 pso/misc/TTecZondeEff.cpp
 pso/misc/TUdpSocket.cpp
-pso/object/TObjMapObject.cpp
 pso/misc/TUnk_804B1B80.cpp
 pso/misc/TUserAns.cpp
 pso/misc/TUserAns_801E0198.cpp
@@ -2135,6 +2132,7 @@ pso/object/TObjLuker_8001A438.cpp
 pso/object/TObjLuker_801329B0.cpp
 pso/object/TObjMapCsn.cpp
 pso/object/TObjMapCsn_8007A720.cpp
+pso/object/TObjMapObject.cpp
 pso/object/TObjMapWarpAncient.cpp
 pso/object/TObjMapWarpForest.cpp
 pso/object/TObjMapWarp_80141C68.cpp
@@ -3097,7 +3095,6 @@ pso/unk/text_80160838.cpp
 pso/unk/text_80165940.cpp
 pso/unk/text_80166B6C.cpp
 pso/unk/text_80169BD0.cpp
-pso/unk/text_8016A408.cpp
 pso/unk/text_8016D8F8.cpp
 pso/unk/text_8016F1C0.cpp
 pso/unk/text_80171A98.cpp

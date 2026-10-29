@@ -5134,23 +5134,17 @@ pso/unk/text_80169BD0.cpp:
 	.sdata2     start:0x805DB6D8 end:0x805DB6E0
 
 pso/misc/TOKey_80169EE4.cpp:
-	.text       start:0x80169EE4 end:0x8016A408
-
-pso/unk/text_8016A408.cpp:
-	.text       start:0x8016A408 end:0x8016A47C
-
-pso/boss/TBoss3Volopt_8016A47C.cpp:
-	.text       start:0x8016A47C end:0x8016A8D0
-	.data       start:0x804B2890 end:0x804B29B0
+	.text       start:0x80169EE4 end:0x80169FBC
 
 pso/misc/TOKey.cpp:
-	.text       start:0x8016A8D0 end:0x8016ACC8
-
-pso/misc/TLobby_8016ACC8.cpp:
-	.text       start:0x8016ACC8 end:0x8016AD58
+	.text       start:0x80169FBC end:0x8016AD64
+	.rodata     start:0x80441950 end:0x80441968
+	.data       start:0x804B2820 end:0x804B29B0
+	.sdata      start:0x805D3010 end:0x805D3014
+	.sdata2     start:0x805DB6E0 end:0x805DB6E4
 
 pso/misc/TOKeyAncient01.cpp:
-	.text       start:0x8016AD58 end:0x8016B204
+	.text       start:0x8016AD64 end:0x8016B204
 	.rodata     start:0x80441A00 end:0x80441A08
 
 pso/misc/TOKeyAncient02.cpp:

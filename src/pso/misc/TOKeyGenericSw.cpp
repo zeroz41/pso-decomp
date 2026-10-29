@@ -123,7 +123,7 @@ void TOKeyGenericSw::render() {
     TParticleCtrl::end_effect_render();
 }
 
-void TOKeyGenericSw::vfunc_17() {
+void TOKeyGenericSw::update_switch_off() {
     update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
     this->m_f4 = 1;
@@ -132,7 +132,7 @@ void TOKeyGenericSw::vfunc_17() {
     *(s32 *)&this->unk_F8 = (s32) this->m_f4;
 }
 
-void TOKeyGenericSw::vfunc_16() {
+void TOKeyGenericSw::update_switch_on() {
     update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
     this->m_ec = 1;
@@ -237,10 +237,10 @@ void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *sou
     ((TObjPlayer *)key_generic_sw)->register_object_by_id();
     key_generic_sw->m_c0 = 4e+02f;
     *(f32 *)((s8 *)key_generic_sw + 0xC4) = 4e+01f;
-    if ((*(s32 *)&key_generic_sw->m_d0 != 2) && (key_generic_sw->scale.x < 0.0f)) {
-        *(s32 *)&key_generic_sw->m_d0 = 1;
+    if ((*(s32 *)&key_generic_sw->mode != 2) && (key_generic_sw->scale.x < 0.0f)) {
+        *(s32 *)&key_generic_sw->mode = 1;
     } else {
-        *(s32 *)&key_generic_sw->m_d0 = 0;
+        *(s32 *)&key_generic_sw->mode = 0;
     }
     key_generic_sw->m_e8 = get_current_floor_area();
     key_generic_sw->m_ec = 0;

@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOTrapChainSawEdge.h"
@@ -454,13 +455,13 @@ void TOTrapChainSawKey::update_state() {
 
 void TOTrapChainSawKey::vfunc_18() {
     P_802C86D4 p;
-    ((TLobby *)(&p))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&p))->init();
     p.sC = 0;
     p.sA = 0xFFFF;
     p.s10 = ((S_802C86D4 *)this)->fE8;
     p.b12 = get_current_floor(0xFFFF);
     p.b13 = 1;
-    ((TLobby *)(&p))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&p))->send();
 }
 
 void TOTrapChainSawKey::vfunc_16() {

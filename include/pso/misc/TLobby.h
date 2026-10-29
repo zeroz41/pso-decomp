@@ -243,8 +243,7 @@ struct TLobby : public TObject {
     void update_and_send_60();
     void byteswap_and_send();
     void init_packet_67_04();
-    void finalize_and_send_60();
-    void*init_6x05_switch_changed();
+
     static void free_char_select_resources();
     static void *create_npc(void *arg0);
     static u8 is_idle();

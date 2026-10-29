@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TOKeyGenericSw.h"
 #include "pso/object/TObjMotion.h"
@@ -45,7 +46,7 @@ s32 TOKeyMachine01::is_confirm_pressed() {
     s32 var_r31;
     s32 var_r3;
     var_r31 = 0;
-    temp_r0 = this->m_d0;
+    temp_r0 = this->mode;
     switch (temp_r0) {
     case 0:
         if (is_split_screen() == 1) {
@@ -53,7 +54,7 @@ s32 TOKeyMachine01::is_confirm_pressed() {
         } else {
             var_r3 = this->is_local_player_in_range();
         }
-        if (((s32) this->m_d4 == 1) || (var_r3 == 1)) {
+        if (((s32) this->is_on == 1) || (var_r3 == 1)) {
             var_r31 = 1;
         }
         break;
@@ -69,16 +70,16 @@ typedef char RecoveredGlobal_8016D1A8_lbl_80441D84_size[sizeof(RecoveredGlobal_8
 void TOKeyMachine01::send_switch_changed(s32 flags) {
     TOKeyMachine01 *self = this;
     Pkt_8016D148 pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.object = self->entity_id;
     pkt.zero = local_client_id;
-    pkt.switchId = self->m_e4;
+    pkt.switchId = self->switch_id;
     pkt.area = get_current_floor();
     pkt.flags = flags;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
-void TOKeyMachine01::vfunc_19() {
+void TOKeyMachine01::trigger_deactivate_sound() {
     s32 arg0 = (s32)this;
     s32 temp_r3;
     s32 temp_r3_2;
@@ -125,7 +126,7 @@ void TOKeyMachine01::trigger_activate_sound() {
     }
 }
 
-void TOKeyMachine01::vfunc_17() {
+void TOKeyMachine01::update_switch_off() {
     f32 temp_f1;
     if ((s32) this->m_f8 == 1) {
         this->m_ec += 0.1f;
@@ -143,7 +144,7 @@ void TOKeyMachine01::vfunc_17() {
         this->scale.y = (f32) (temp_f1 - (-0.023333333f));
     }
 }
-void TOKeyMachine01::vfunc_16() {
+void TOKeyMachine01::update_switch_on() {
     TOKeyMachine01 *self = this;
     if ((-0.7f) < self->scale.y) {
         self->scale.y += (-0.023333333f);
@@ -192,19 +193,19 @@ extern void *tl_05;
 void TOKeyMachine01::run_task() {
     u8 *arg0 = (u8 *)this;
     this->update_lock_state();
-    if ((s32) this->m_d4 != 1) {
-        this->vfunc_17();
+    if ((s32) this->is_on != 1) {
+        this->update_switch_off();
         if (this->is_confirm_pressed() == 1) {
             ((TOKeyMachine01 *)arg0)->send_switch_changed(1);
             this->trigger_activate_sound();
-            this->m_d4 = 1;
+            this->is_on = 1;
         }
     } else {
-        this->vfunc_16();
+        this->update_switch_on();
         if (this->is_confirm_pressed() != 1) {
             ((TOKeyMachine01 *)arg0)->send_switch_changed(0);
-            this->vfunc_19();
-            this->m_d4 = 0;
+            this->trigger_deactivate_sound();
+            this->is_on = 0;
         }
     }
 }
@@ -216,14 +217,14 @@ void TOKeyMachine01::render() {
     u8 *temp_r31_2;
     u8 *temp_r31_3;
     if (((VObj_8016D540 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
-        TObjFish::set_global_param(TOKeyMachine01__texture_lists[*(s32 *)&this->m_d4]);
+        TObjFish::set_global_param(TOKeyMachine01__texture_lists[*(s32 *)&this->is_on]);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         temp_r31 = *(u8 * *)&this->model;
         post_translate_matrix(temp_r31 + 8);
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-        if ((s32) *(s32 *)&this->m_d4 != 1) {
+        if ((s32) *(s32 *)&this->is_on != 1) {
             temp_r4 = model_render_flags;
             saved_model_render_flags = temp_r4;
             model_render_flags = temp_r4 | 0x10;
@@ -242,7 +243,7 @@ void TOKeyMachine01::render() {
         pop_matrix();
         pop_matrix();
         TParticleCtrl::end_effect_render();
-        if ((s32) *(s32 *)&this->m_d4 != 1) {
+        if ((s32) *(s32 *)&this->is_on != 1) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
@@ -309,15 +310,15 @@ u8 *TOKeyMachine01__ct(TOKeyMachine01 *key_machine01, s32 arg1, s32 arg2) {
         }
     } else {
 block_2:
-        if ((s32) key_machine01->m_d0 != 2) {
+        if ((s32) key_machine01->mode != 2) {
             if ((s32) *(s32 *)((s8 *)key_machine01 + 0x88) < 0) {
-                key_machine01->m_d0 = 1;
+                key_machine01->mode = 1;
             } else {
                 goto block_5;
             }
         } else {
 block_5:
-            key_machine01->m_d0 = 0;
+            key_machine01->mode = 0;
         }
     }
     key_machine01->m_e8 = (f32) 1.0f;

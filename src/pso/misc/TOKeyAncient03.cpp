@@ -58,7 +58,7 @@ void TLobby__sub_8001FE7C(void*, int);
 void *__nw__7TObjectFUl(int);
 void mem_free(void *p);
 
-void TOKeyAncient03::vfunc_19() {
+void TOKeyAncient03::trigger_deactivate_sound() {
     s32 arg0 = (s32)this;
     play_sound_effect(0x4004B20D, arg0 + 0x38, 0, 0);
 }
@@ -70,7 +70,7 @@ void TOKeyAncient03::trigger_activate_sound() {
 
 extern void *tl_05;
 
-void TOKeyAncient03::vfunc_17() {
+void TOKeyAncient03::update_switch_off() {
     f32 temp_f1;
     if ((s32) this->m_f8 == 1) {
         this->m_ec += 0.1f;
@@ -89,7 +89,7 @@ void TOKeyAncient03::vfunc_17() {
     }
 }
 
-void TOKeyAncient03::vfunc_16() {
+void TOKeyAncient03::update_switch_on() {
     TOKeyAncient03 *self = this;
     if ((-0.7f) < self->scale.y) {
         self->scale.y += (-0.023333333f);
@@ -99,19 +99,19 @@ void TOKeyAncient03::vfunc_16() {
 void TOKeyAncient03::run_task() {
     u8 *arg0 = (u8 *)this;
     this->update_lock_state();
-    if ((s32) this->m_d4 != 1) {
-        this->vfunc_17();
+    if ((s32) this->is_on != 1) {
+        this->update_switch_off();
         if (this->is_confirm_pressed() == 1) {
             ((TOKeyAncient03 *)arg0)->send_switch_changed(1);
             this->trigger_activate_sound();
-            this->m_d4 = 1;
+            this->is_on = 1;
         }
     } else {
-        this->vfunc_16();
+        this->update_switch_on();
         if (this->is_confirm_pressed() != 1) {
             ((TOKeyAncient03 *)arg0)->send_switch_changed(0);
-            this->vfunc_19();
-            this->m_d4 = 0;
+            this->trigger_deactivate_sound();
+            this->is_on = 0;
         }
     }
 }
@@ -123,14 +123,14 @@ void TOKeyAncient03::render() {
     u8 *temp_r31_2;
     u8 *temp_r31_3;
     if (((VObj_18_8016BABC *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
-        TObjFish::set_global_param((int) (*(s32 *)((s8 *)TOKeyAncient03__texture_variants + (*(s32 *)&this->m_d4 * 4))));
+        TObjFish::set_global_param((int) (*(s32 *)((s8 *)TOKeyAncient03__texture_variants + (*(s32 *)&this->is_on * 4))));
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         temp_r31 = *(u8 * *)&this->model;
         post_translate_matrix(temp_r31 + 8);
         draw_ginja_model((*(s32 *)((s8 *)temp_r31 + 4)));
-        if ((s32) *(s32 *)&this->m_d4 != 1) {
+        if ((s32) *(s32 *)&this->is_on != 1) {
             temp_r4 = model_render_flags;
             saved_model_render_flags = temp_r4;
             model_render_flags = temp_r4 | 0x10;
@@ -149,7 +149,7 @@ void TOKeyAncient03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         pop_matrix();
-        if ((s32) *(s32 *)&this->m_d4 != 1) {
+        if ((s32) *(s32 *)&this->is_on != 1) {
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
         }
@@ -217,15 +217,15 @@ u8 *TOKeyAncient03__ct(TOKeyAncient03 *key_ancient03, s32 arg1, s32 arg2) {
         }
     } else {
 block_2:
-        if ((s32) key_ancient03->m_d0 != 2) {
+        if ((s32) key_ancient03->mode != 2) {
             if ((s32) *(s32 *)((s8 *)key_ancient03 + 0x88) < 0) {
-                key_ancient03->m_d0 = 1;
+                key_ancient03->mode = 1;
             } else {
                 goto block_5;
             }
         } else {
 block_5:
-            key_ancient03->m_d0 = 0;
+            key_ancient03->mode = 0;
         }
     }
     key_ancient03->m_e8 = (f32) 1.0f;

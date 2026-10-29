@@ -9,11 +9,9 @@ struct TOSwitchItem : public TOKey {
     virtual void send_switch_on();
     virtual void debug_draw_key_id();
     void run_task();
-    u32 m_d8;
     void update_anim();
     void render();
     static void *create(void *arg0);
-    u8 unk_DC[0xC];
     f32 m_e8;
     u8 unk_EC[0x4];
     s32 m_f0;

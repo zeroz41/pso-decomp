@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/misc/TOSwitchAttack.h"
 #include "pso/misc/TOSwitchItem.h"
@@ -211,13 +212,13 @@ u8 *TOSwitchAttack__ct(u8 *switch_attack, s32 arg1, s32 arg2) {
 }
 void TOSwitchItem::send_switch_on() {
     Pkt_80177CF4 pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.object = get_entity_id(this);
     pkt.zero = 0;
     pkt.switchId = ((Self_80177CF4 *)this)->switchId;
     pkt.area = get_current_floor();
     pkt.flags = ((Self_80177CF4 *)this)->on != 0;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 }

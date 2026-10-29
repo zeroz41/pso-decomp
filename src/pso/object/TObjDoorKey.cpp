@@ -98,7 +98,7 @@ extern s32 model_render_flags;
 void play_sound_effect(int, void *, int, int);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_key__5TOKeyFv(void *, void *);
+s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern u8 TObjDoorKey__collision_body_parts[];
 extern s32 __vt__11TObjDoorKey[];
@@ -136,7 +136,7 @@ void TObjDoorKey::render() {
         if ((u32) this->m_f8 != 0U) {
             ((TParticleCtrl *)(this->m_f8))->clear_active_flag();
         }
-        switch (this->m_d4) {
+        switch (this->is_on) {
         case 0:
             draw_inactive_badge();
             return;
@@ -210,7 +210,7 @@ void TObjDoorKey::debug_draw_key_id() {
     }
 }
 
-void TObjDoorKey::vfunc_19() {  }
+void TObjDoorKey::trigger_deactivate_sound() {  }
 
 void TObjDoorKey::trigger_activate_sound() {
     switch (get_current_floor_area()) {
@@ -234,13 +234,13 @@ void TObjDoorKey::trigger_activate_sound() {
     this->m_e8 = 1;
 }
 
-void TObjDoorKey::vfunc_16() {
+void TObjDoorKey::update_switch_on() {
     u8 *arg0 = (u8 *)this;
     *(s32 *)((s8 *)arg0 + 0xF4) = (s32) (*(s32 *)((s8 *)arg0 + 0xF4) + 0x14);
     this->m_f0 = (this->m_f0 + 0x200);
 }
 
-void TObjDoorKey::vfunc_17() { submit_cursor_candidate(this, -1); }
+void TObjDoorKey::update_switch_off() { submit_cursor_candidate(this, -1); }
 void TObjDoorKey::update_armed_switch() { update_armed_switch__5TOKeyFv(this); }
 
 void TObjDoorKey::run_task() {
@@ -271,7 +271,7 @@ void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
     __ct__5TOKeyFP7TObject(door_key);
     *(u8 **)((s8 *)door_key + 0x18) = ((u8 *)&__vt__11TObjDoorKey);
     *(s32 *)((s8 *)door_key + 0) = TObjDoorKey__class_name;
-    init_key__5TOKeyFv(door_key, arg2);
+    init_key__5TOKeyFPv(door_key, arg2);
     door_key->m_e8 = 0;
     door_key->m_f0 = 0;
     *(s32 *)((s8 *)door_key + 0xEC) = 0x14;

@@ -6,9 +6,8 @@
 
 struct TLazerFenceSw : public TOKey {
     virtual ~TLazerFenceSw();
-    virtual void vfunc_17();
-    virtual void vfunc_16();
-    u8 _padF4[0x10];
+    virtual void update_switch_off();
+    virtual void update_switch_on();
     u32 m_104;
     u8 _pad108[0xC];
     u32 m_f8;

@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TWindowCtrl.h"
@@ -151,13 +152,13 @@ void TOSensor::update_armed_switch() {
         if (self->m13() == 1) {
             Pkt_801755BC pkt;
             self->m16();
-            ((TLobby *)(&pkt))->init_6x05_switch_changed();
+            ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
             pkt.object = self->id;
             pkt.zero = local_client_id;
             pkt.switchId = self->switchId;
             pkt.area = get_current_floor();
             pkt.flags = 1;
-            ((TLobby *)(&pkt))->finalize_and_send_60();
+            ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
         }
     } else {
         self->m14();
@@ -171,26 +172,26 @@ void TOSensor::update_armed_switch() {
 s32 TOSensor::is_confirm_pressed() {
     Obj_801756C4 *self = (Obj_801756C4 *)this;
     Player_801756C4 *pl;
-    if (*(s32 *)&this->m_d4 != 1) {
+    if (*(s32 *)&this->is_on != 1) {
         pl = (Player_801756C4 *)get_player_by_client_id(local_client_id);
-        switch (*(s32 *)&this->m_d0) {
+        switch (*(s32 *)&this->mode) {
         case 1:
             if (pl != NULL && obj_testFlags30__14TObjCollidableFUl(pl, 0x400000) != 0) {
                 if (horizontal_distance_squared(pl->pos, self->pos) < self->range * self->range) {
-                    *(s32 *)&this->m_d4 = 1;
+                    *(s32 *)&this->is_on = 1;
                 }
             }
             break;
         case 2:
             if (local_client_id == TWindowCtrl::get_window_id() && pl != NULL) {
                 if (horizontal_distance_squared(pl->pos, self->pos) < self->range * self->range) {
-                    *(s32 *)&this->m_d4 = 1;
+                    *(s32 *)&this->is_on = 1;
                 }
             }
             break;
         }
     }
-    return *(s32 *)&this->m_d4;
+    return *(s32 *)&this->is_on;
 }
 
 void *__dt__8TOSensorFv(void *arg0, s16 arg1) {
@@ -214,8 +215,8 @@ void *TOSensor__ct(void *sensor) {
     return sensor;
 }
 
-void TOSensor::vfunc_16() {  }
-void TOSensor::vfunc_17() {  }
+void TOSensor::update_switch_on() {  }
+void TOSensor::update_switch_off() {  }
 void render__8TOSensorFv(void) {  }
 
 void TOSensorAncient01::vfunc_25() {  }
@@ -239,12 +240,12 @@ void TOSensorAncient01::update_pulse_value() {
 }
 #pragma pop
 
-void TOSensorAncient01::vfunc_17() {
+void TOSensorAncient01::update_switch_off() {
 
     *(s32 *)((s8 *)this + 0xEC) = ((*(s32 *)((s8 *)this + 0xEC)) + 0x28F);
     update_pulse_value();
 }
-void TOSensorAncient01::vfunc_16() {
+void TOSensorAncient01::update_switch_on() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
     *(s32 *)((s8 *)arg0 + 0xEC) += (1.31e+03f);
@@ -485,9 +486,9 @@ u8 *TOSensorAncient01__ct(TOSensorAncient01 *sensor_ancient01, s32 arg1, s32 arg
         *(f32 *)((s8 *)sensor_ancient01 + 0xCC) = (f32) (0.0f);
     }
     if ((s32) *(s32 *)((s8 *)sensor_ancient01 + 0x88) < 0) {
-        *(s32 *)&sensor_ancient01->m_d0 = 2;
+        *(s32 *)&sensor_ancient01->mode = 2;
     } else {
-        *(s32 *)&sensor_ancient01->m_d0 = 1;
+        *(s32 *)&sensor_ancient01->mode = 1;
     }
     sensor_ancient01->m_e8 = 0x78;
     *(s32 *)((s8 *)sensor_ancient01 + 0xEC) = 0;

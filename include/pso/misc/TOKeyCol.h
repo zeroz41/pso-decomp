@@ -8,15 +8,14 @@ struct TOKeyCol : public TOKey {
     virtual ~TOKeyCol();
     virtual void trigger_activate_sound();
     virtual s32 is_confirm_pressed();
-    virtual void vfunc_16();
-    virtual void vfunc_17();
-    virtual void vfunc_19();
+    virtual void update_switch_on();
+    virtual void update_switch_off();
+    virtual void trigger_deactivate_sound();
     virtual void vfunc_25();
     void send_switch_changed(s32 flags);
     void run_task();
     void render();
     static void *create(void *arg0);
-    u8 unk_D8[0x10];
 };
 
 typedef char TOKeyCol_size[sizeof(TOKeyCol) == 0xE8 ? 1 : -1];

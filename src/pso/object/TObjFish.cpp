@@ -167,21 +167,21 @@ void TOKeyJungleMain::load_static_resource() {
 }
 
 void TOKeyJungleMain::debug_draw_key_id() {
-    *(s32 *)&this->m_e4 = this->set_params[0];
-    if (*(s32 *)&this->m_e4 < 0) {
-        *(s32 *)&this->m_e4 = 0;
+    *(s32 *)&this->switch_id = this->set_params[0];
+    if (*(s32 *)&this->switch_id < 0) {
+        *(s32 *)&this->switch_id = 0;
     }
-    if (*(s32 *)&this->m_e4 > 2) {
-        *(s32 *)&this->m_e4 = 2;
+    if (*(s32 *)&this->switch_id > 2) {
+        *(s32 *)&this->switch_id = 2;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80465A2C, ((s32 *)&TOKeyJungleMain__data_804653C8)[*(s32 *)&this->m_e4]);
+    debug_printf_at(0x130020, lbl_80465A2C, ((s32 *)&TOKeyJungleMain__data_804653C8)[*(s32 *)&this->switch_id]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
 void render__15TOKeyJungleMainFv(TOKeyJungleMain *key_jungle_main) {
     if (((VObj_8029CF68 *)key_jungle_main)->m8(key_jungle_main->m_c0, *(f32 *)((s8 *)key_jungle_main + 0xC4)) == 1) {
-        switch (key_jungle_main->m_d4) {
+        switch (key_jungle_main->is_on) {
         case 0:
             TObjFish__sub_8001EDB0((*(s32 *)&TOKeyJungleMain__static_model_resource), 1);
             set_global_param__8TObjFishFl();
@@ -210,25 +210,25 @@ void render__15TOKeyJungleMainFv(TOKeyJungleMain *key_jungle_main) {
 
 typedef char RecoveredGlobal_8029D200_TOKeyJungleMain__data_804653C8_size[sizeof(RecoveredGlobal_8029D200_TOKeyJungleMain__data_804653C8) == 0xC ? 1 : -1];
 void TOKeyJungleMain::send_switch_on() {
-    dispatch_by_phase__15TOKeyJungleMainFlUs((void *)game_difficulty_selection, (int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_8029D200_TOKeyJungleMain__data_804653C8 *)&TOKeyJungleMain__data_804653C8).value) + (this->m_e4 * 4))));
+    dispatch_by_phase__15TOKeyJungleMainFlUs((void *)game_difficulty_selection, (int) (*(s32 *)((s8 *)(&(*(RecoveredGlobal_8029D200_TOKeyJungleMain__data_804653C8 *)&TOKeyJungleMain__data_804653C8).value) + (this->switch_id * 4))));
 }
 
 void TOKeyJungleMain::update_lock_state() {
     s32 temp_r31;
-    if ((s32) this->m_d0 != 2) {
-        temp_r31 = this->m_d4;
-        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, *(s32 *)((s8 *)&TOKeyJungleMain__data_804653C8.value + (this->m_e4 * 4))) != 0) {
-            this->m_d4 = 1;
+    if ((s32) this->mode != 2) {
+        temp_r31 = this->is_on;
+        if (TLevelSelect::get_difficulty_flag_bit(game_difficulty_selection, *(s32 *)((s8 *)&TOKeyJungleMain__data_804653C8.value + (this->switch_id * 4))) != 0) {
+            this->is_on = 1;
         } else {
-            this->m_d4 = 0;
+            this->is_on = 0;
         }
-        if (temp_r31 != (s32) this->m_d4) {
+        if (temp_r31 != (s32) this->is_on) {
             this->play_activate_sound();
         }
     }
 }
 
-void TOKeyJungleMain::vfunc_16() {
+void TOKeyJungleMain::update_switch_on() {
     u8 *arg0 = (u8 *)this;
   unsigned int new_var;
   s32 bml_motion;
@@ -251,7 +251,7 @@ void TOKeyJungleMain::vfunc_16() {
   }
 }
 
-void TOKeyJungleMain::vfunc_17() {
+void TOKeyJungleMain::update_switch_off() {
     struct VObj_8029D3A4_8029CF68 *o = (struct VObj_8029D3A4_8029CF68 *)this;
     o->m18();
 }
@@ -279,13 +279,13 @@ u8 *TOKeyJungleMain__ct(TOKeyJungleMain *key_jungle_main, s32 arg1, s32 arg2) {
     init_collision_body_parts(key_jungle_main, &TOKeyJungleMain_collision_body_parts.value, 1);
     ((TObjCollidable *)key_jungle_main)->refresh_collision_body_centers();
     ((TObjPlayer *)key_jungle_main)->register_object_by_id();
-    key_jungle_main->m_d0 = 0;
-    key_jungle_main->m_e4 = (s32) key_jungle_main->set_params[0];
-    if ((s32) key_jungle_main->m_e4 < 0) {
-        key_jungle_main->m_e4 = 0;
+    key_jungle_main->mode = 0;
+    key_jungle_main->switch_id = (s32) key_jungle_main->set_params[0];
+    if ((s32) key_jungle_main->switch_id < 0) {
+        key_jungle_main->switch_id = 0;
     }
-    if ((s32) key_jungle_main->m_e4 > 2) {
-        key_jungle_main->m_e4 = 2;
+    if ((s32) key_jungle_main->switch_id > 2) {
+        key_jungle_main->switch_id = 2;
     }
     key_jungle_main->m_e8 = (f32) lbl_805DDD3C;
     *(f32 *)((s8 *)key_jungle_main + 0xEC) = (f32) lbl_805DDD3C;

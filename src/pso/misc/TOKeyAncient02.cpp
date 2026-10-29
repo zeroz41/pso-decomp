@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOKeyAncient02.h"
@@ -103,7 +104,7 @@ void TOKeyAncient02::render() {
         draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
         pop_matrix();
         pop_matrix();
-        TObjFish::set_global_param((int) (*(s32 *)((s8 *)(*(s32 *)&TOKeyAncient02__texture_lists) + (*(s32 *)&this->m_d4 * 4))));
+        TObjFish::set_global_param((int) (*(s32 *)((s8 *)(*(s32 *)&TOKeyAncient02__texture_lists) + (*(s32 *)&this->is_on * 4))));
         TParticleCtrl::begin_effect_render();
         temp_r31_4 = (u8 *)((*(u8 * *)&TOKeyAncient02__model_root));
         push_matrix();
@@ -121,7 +122,7 @@ void TOKeyAncient02::render() {
     }
 }
 
-void TOKeyAncient02::vfunc_17() {
+void TOKeyAncient02::update_switch_off() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)(arg0 + 0xE8) & 1) {
         *(f32 *)(arg0 + 0x6C) += lbl_805DB700;
@@ -142,7 +143,7 @@ void TOKeyAncient02::vfunc_17() {
     this->submit_cursor_target();
 }
 
-void TOKeyAncient02::vfunc_16() {
+void TOKeyAncient02::update_switch_on() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)(arg0 + 0xE8) & 1) {
         *(f32 *)(arg0 + 0x6C) += lbl_805DB700;
@@ -231,10 +232,10 @@ u8 *TOKeyAncient02__ct(TOKeyAncient02 *key_ancient02, s32 arg1, s32 arg2) {
     *(f32 *)((s8 *)key_ancient02 + 0xC4) = (f32) (lbl_805DB714 + *(f32 *)((s8 *)(*(void **)((s8 *)key_ancient02->model + 4)) + 0x14));
     key_ancient02->m_e8 = 0;
     key_ancient02->m_ec = 0;
-    if (((s32) key_ancient02->m_d0 != 2) && ((s32) *(s32 *)((s8 *)key_ancient02 + 0x88) < 0)) {
-        key_ancient02->m_d0 = 1;
+    if (((s32) key_ancient02->mode != 2) && ((s32) *(s32 *)((s8 *)key_ancient02 + 0x88) < 0)) {
+        key_ancient02->mode = 1;
     } else {
-        key_ancient02->m_d0 = 0;
+        key_ancient02->mode = 0;
     }
     *(f32 *)((s8 *)key_ancient02 + 0x70) = (f32) TOKeyAncient02__data_805DB70C;
     key_ancient02->scale.y = (f32) TOKeyAncient02__data_805DB70C;
@@ -248,7 +249,7 @@ s32 TOKeyAncient03::is_confirm_pressed() {
     s32 var_r31;
     s32 var_r3;
     var_r31 = 0;
-    temp_r0 = this->m_d0;
+    temp_r0 = this->mode;
     switch (temp_r0) {
     case 0:
         if (is_split_screen() == 1) {
@@ -256,7 +257,7 @@ s32 TOKeyAncient03::is_confirm_pressed() {
         } else {
             var_r3 = this->is_local_player_in_range();
         }
-        if (((s32) this->m_d4 == 1) || (var_r3 == 1)) {
+        if (((s32) this->is_on == 1) || (var_r3 == 1)) {
             var_r31 = 1;
         }
         break;
@@ -269,13 +270,13 @@ s32 TOKeyAncient03::is_confirm_pressed() {
 void TOKeyAncient03::send_switch_changed(s32 flags) {
     TOKeyAncient03 *self = this;
     Pkt_8016B84C pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.object = self->entity_id;
     pkt.zero = local_client_id;
-    pkt.switchId = self->m_e4;
+    pkt.switchId = self->switch_id;
     pkt.area = get_current_floor();
     pkt.flags = flags;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 }

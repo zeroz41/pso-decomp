@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/map/FloorLifecycleTables.h"
 #include "pso/TAdStorySelectGC.h"
 #include "pso/THeap.h"
@@ -503,18 +504,18 @@ void send_6x67_wave_trigger_event(s32 arg0) {
 
 void send_6x05_wave_clear_switch(s32 arg0) {
     Pkt_8020851C pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.b = 0;
     pkt.a = 0xFFFF;
     pkt.c = arg0;
     pkt.d = ((s32 (*)(s32))get_current_floor)(0xFFFF);
     pkt.e = 0;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 void send_6x05_wave_set_switch(s16 arg0) {
     Pkt_8020857C pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.a = 0xFFFF;
     pkt.b = 0;
     pkt.c = arg0;
@@ -525,7 +526,7 @@ void send_6x05_wave_set_switch(s16 arg0) {
     } else {
         pkt.e = 1;
     }
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 extern "C" {
 

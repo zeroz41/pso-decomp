@@ -82,7 +82,6 @@ void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 
-void CursorAction::set_use() { kind = CURSOR_ACTION_USE; }
 
 void TOKeyAncient01::vfunc_25() {  }
 
@@ -93,7 +92,7 @@ void TOKeyAncient01::render() {
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, (void *)this->rotation_y);
         TObjFish::set_global_param(this->texlist);
-        if ((s32) *(s32 *)&this->m_d4 != 1) {
+        if ((s32) *(s32 *)&this->is_on != 1) {
             draw_ginja_model_with_motion((void *) (*(u8 * *)&this->model), (int) (*(s32 *)&this->m_bc), this->m_b0);
         } else {
             push_matrix();
@@ -108,12 +107,12 @@ void TOKeyAncient01::render() {
     }
 }
 
-void TOKeyAncient01::vfunc_17() {
+void TOKeyAncient01::update_switch_off() {
     update_anim_phase__13TObjMapObjectFv();
     this->submit_cursor_target();
 }
 
-void TOKeyAncient01::vfunc_16() {
+void TOKeyAncient01::update_switch_on() {
     struct VObj_8016AE84_8016AD58 *o = (struct VObj_8016AE84_8016AD58 *)this;
     o->m18();
 }
@@ -203,15 +202,15 @@ u8 *TOKeyAncient01__ct(TOKeyAncient01 *key_ancient01, s32 arg1, s32 arg2) {
     ((TObjPlayer *)key_ancient01)->register_object_by_id();
     key_ancient01->m_c0 = (f32) lbl_805DB6F0;
     *(f32 *)((s8 *)key_ancient01 + 0xC4) = (f32) lbl_805DB6F4;
-    if ((s32) key_ancient01->m_d0 != 2) {
+    if ((s32) key_ancient01->mode != 2) {
         if (key_ancient01->scale.x < lbl_805DB6F8) {
-            key_ancient01->m_d0 = 1;
+            key_ancient01->mode = 1;
         } else {
             goto block_7;
         }
     } else {
 block_7:
-        key_ancient01->m_d0 = 0;
+        key_ancient01->mode = 0;
     }
     return (u8 *)key_ancient01;
 }

@@ -7,15 +7,13 @@
 struct TOSensorAncient01 : public TOSensor {
     virtual ~TOSensorAncient01();
     void update_pulse_value();
-    virtual void vfunc_16();
-    virtual void vfunc_17();
+    virtual void update_switch_on();
+    virtual void update_switch_off();
     virtual void vfunc_25();
-    u32 m_d8;
     void render();
     static void *create(void *arg0);
     static void destroy();
     static void load_resources();
-    u8 unk_DC[0xC];
     s32 m_e8;
     u8 unk_EC[0x4];
     f32 m_f0;

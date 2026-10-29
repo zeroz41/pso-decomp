@@ -7,14 +7,13 @@
 struct TOKeyJungleMain : public TOKey {
     virtual ~TOKeyJungleMain();
     virtual void update_lock_state();
-    virtual void vfunc_16();
-    virtual void vfunc_17();
+    virtual void update_switch_on();
+    virtual void update_switch_off();
     virtual void send_switch_on();
     virtual void debug_draw_key_id();
     virtual void play_activate_sound();
     void render();
     static void init_key_slots(void* _w0);
-    u8 unk_D8[0x10];
     f32 m_e8;
     u8 unk_EC[0x4];
     static void dispatch_by_phase(s32 arg0, u16 arg1);

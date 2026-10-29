@@ -70,7 +70,7 @@ void *__dt__8TOSensorFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 void mem_free(void *p);
 
-void TOSensorGeneral01::vfunc_17() {
+void TOSensorGeneral01::update_switch_off() {
     this->rotation_y = (this->rotation_y + 0x147);
     this->m_e8 = (this->m_e8 + 0x28F);
 }
@@ -80,7 +80,7 @@ extern const f32 lbl_805DB9B4;
 extern const f32 lbl_805DB9B8;
 extern const f32 lbl_805DB9BC;
 
-void TOSensorGeneral01::vfunc_16() {
+void TOSensorGeneral01::update_switch_on() {
     s32 temp_r0;
 
     this->m_e8 = (this->m_e8 + 0x28F);
@@ -212,9 +212,9 @@ void *TOSensorGeneral01__ct(TOSensorGeneral01 *sensor_general01, void *sensor, v
         *(f32 *)((s8 *)sensor_general01 + 0xCC) = 0.0f;
     }
     if ((s32) *(s32 *)((s8 *)sensor_general01 + 0x88) < 0) {
-        sensor_general01->m_d0 = 2;
+        sensor_general01->mode = 2;
     } else {
-        sensor_general01->m_d0 = 1;
+        sensor_general01->mode = 1;
     }
     sensor_general01->m_e8 = 0;
     *(s32 *)((s8 *)sensor_general01 + 0xEC) = 3;

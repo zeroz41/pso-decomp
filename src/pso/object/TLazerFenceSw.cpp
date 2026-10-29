@@ -92,7 +92,7 @@ extern u16 lbl_80445CB8[];
 extern u8 lbl_80445CD8[];
 void TLazerFenceSw__vt24(Sw_80193978 *arg0);
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_key__5TOKeyFv(void *, void *);
+s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern u8 lazer_fence_sw_collision_body_part[];
 extern s32 __vt__13TLazerFenceSw[];
@@ -227,13 +227,13 @@ void TLazerFenceSw__vt16(void *lazer_fence_sw) {
 }
 
 void TLazerFenceSw__vt17(void *arg0) {
-    ((TOKey *)arg0)->TOKey::vfunc_19();
+    ((TOKey *)arg0)->TOKey::trigger_deactivate_sound();
     ((TLazerFenceSw *)arg0)->m_b0 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
 }
 
 typedef char RecoveredGlobal_80193A84_lbl_8050DCF0_size[sizeof(RecoveredGlobal_80193A84_lbl_8050DCF0) == 0x18 ? 1 : -1];
-void TLazerFenceSw::vfunc_16() {
+void TLazerFenceSw::update_switch_on() {
     u32 temp_r4;
     u32 temp_r4_2;
     this->m_b0 = (f32) (this->m_b0 + this->m_b8);
@@ -249,7 +249,7 @@ void TLazerFenceSw::vfunc_16() {
 }
 
 typedef char RecoveredGlobal_80193B4C_lbl_8050DCF0_size[sizeof(RecoveredGlobal_80193B4C_lbl_8050DCF0) == 0x18 ? 1 : -1];
-void TLazerFenceSw::vfunc_17() {
+void TLazerFenceSw::update_switch_off() {
     this->m_b0 = (f32) (this->m_b0 + this->m_b8);
     if (this->m_b0 > (f32) (u32) (*(s32 *)((s8 *)((*(RecoveredGlobal_80193B4C_lbl_8050DCF0 *)&lazer_fence_beam_motions).value) + 4) - 1)) {
         this->m_b0 = (f32) 0.0f;
@@ -353,7 +353,7 @@ void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
     *(u8 **)((s8 *)arg0 + 0x18) = ((u8 *)&__vt__13TLazerFenceSw);
     ((TUnk_804AF8D8 *)((u8 *)arg0 + 0xF0))->init_vtable_804AF8D8();
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D33B0;
-    init_key__5TOKeyFv(arg0, arg2);
+    init_key__5TOKeyFPv(arg0, arg2);
     if (*(s32 *)((s8 *)arg0 + 0x8C) < 0) {
         *(s32 *)((s8 *)arg0 + 0x8C) = 0;
     }

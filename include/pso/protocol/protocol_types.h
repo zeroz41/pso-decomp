@@ -54,6 +54,19 @@ struct G_ClientIDHeader {
  void bswap();
 };
 
+// 6x05: a floor switch was set or cleared (TOKey's TU sends and handles it).
+struct G_SwitchStateChanged_6x05 {
+ G_ClientIDHeader header;  // client_id: the object that changed it
+ u16 unused1;
+ u16 unused2;
+ u16 switch_id;
+ s8 floor;
+ u8 flags;  // 1: set, 2: play the switch sound on that floor
+ G_SwitchStateChanged_6x05 *init();
+ void send();
+ void bswap();
+};
+
 struct G_EntityIDHeader {
  u8 subcommand;
  u8 size;

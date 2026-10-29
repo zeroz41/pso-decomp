@@ -1,3 +1,4 @@
+#include "pso/protocol/protocol_types.h"
 #include "pso/item/TItemMag.h"
 #include "pso/TMainTask.h"
 #include "pso/quest/QuestVm.h"
@@ -4407,26 +4408,26 @@ void qst_op_clear_switch_flag_sync() {
     Pkt_801ED300 pkt;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.a = 0xFFFF;
     pkt.b = 0;
     pkt.c = y;
     pkt.d = x;
     pkt.e = 0;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 void qst_op_set_switch_flag_sync() {
     Pkt_801ED360 pkt;
     s32 x = qst_args[0];
     s32 y = qst_args[1];
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.a = 0xFFFF;
     pkt.b = 0;
     pkt.c = y;
     pkt.d = x;
     pkt.e = 1;
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 
 void qst_op_reset_kills(s32 arg0) {
@@ -4730,13 +4731,13 @@ void qst_op_create_bgmctrl() {
 
 void qst_op_update_switch_flag(s32 arg0) {
     Pkt_801EDF64 pkt;
-    ((TLobby *)(&pkt))->init_6x05_switch_changed();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->init();
     pkt.b = 0;
     pkt.a = 0xFFFF;
     pkt.c = qst_registers[(u8)arg0++];
     pkt.d = qst_registers[(u8)arg0++];
     pkt.e = qst_registers[(u8)arg0];
-    ((TLobby *)(&pkt))->finalize_and_send_60();
+    ((G_SwitchStateChanged_6x05 *)(&pkt))->send();
 }
 }
 

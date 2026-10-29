@@ -5020,7 +5020,7 @@ force_active:
   - ill_gill_combat_parameter_variants
   - increment_counter__23TAdSinglePlyChrSelectGCFv
   - increment_counters__23TAdSinglePlyChrSelectGCFv
-  - init_6x04_packet__FPUc
+  - init_6x04_packet__FP25G_SwitchStateChanged_6x05
   - init_6x72_resume_packet
   - init__12TQuestListVMFv
   - init__13TObjEneMe1GeeFPvPvPvPv
@@ -13853,21 +13853,21 @@ force_active:
   - vfunc_14__17TOTrapChainSawKeyFv
   - vfunc_14__20TOTrapChainSawDamageFv
   - vfunc_15__15TORockJungleL01Fv
-  - vfunc_16__11TOKeyCave01Fv
-  - vfunc_16__14TOKeyAncient03Fv
-  - vfunc_16__14TOKeyMachine01Fv
+  - update_switch_on__11TOKeyCave01Fv
+  - update_switch_on__14TOKeyAncient03Fv
+  - update_switch_on__14TOKeyMachine01Fv
   - vfunc_16__17TOTrapChainSawKeyFv
   - vfunc_16__18TOTrapChainSawEdgeFv
-  - vfunc_16__8TOKeyColFv
-  - vfunc_17__11TOKeyCave01Fv
-  - vfunc_17__14TOKeyAncient03Fv
-  - vfunc_17__14TOKeyMachine01Fv
-  - vfunc_17__8TOKeyColFv
+  - update_switch_on__8TOKeyColFv
+  - update_switch_off__11TOKeyCave01Fv
+  - update_switch_off__14TOKeyAncient03Fv
+  - update_switch_off__14TOKeyMachine01Fv
+  - update_switch_off__8TOKeyColFv
   - vfunc_18__17TOTrapChainSawKeyFv
-  - vfunc_19__11TOKeyCave01Fv
-  - vfunc_19__14TOKeyAncient03Fv
-  - vfunc_19__14TOKeyMachine01Fv
-  - vfunc_19__8TOKeyColFv
+  - trigger_deactivate_sound__11TOKeyCave01Fv
+  - trigger_deactivate_sound__14TOKeyAncient03Fv
+  - trigger_deactivate_sound__14TOKeyMachine01Fv
+  - trigger_deactivate_sound__8TOKeyColFv
   - vfunc_20__17TOBarrierEnergy01Fv
   - vfunc_22__13TUnk_804B5BA8Fv
   - vfunc_25__11TOKeyCave01Fv

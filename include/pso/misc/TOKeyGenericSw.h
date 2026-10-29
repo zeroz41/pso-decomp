@@ -6,16 +6,13 @@
 
 struct TOKeyGenericSw : public TOKey {
     virtual ~TOKeyGenericSw();
-    virtual void vfunc_16();
-    virtual void vfunc_17();
+    virtual void update_switch_on();
+    virtual void update_switch_off();
     virtual void vfunc_25();
-    u32 m_d8;
-    u32 m_dc;
     void render();
     static void *create(void *arg0);
     static void free_shared_resources();
     static void load_resources();
-    u8 unk_E0[0x8];
     u8 m_e8;
     u8 unk_E9[0x3];
     s32 m_ec;
