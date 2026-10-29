@@ -5164,13 +5164,19 @@ pso/misc/TOKeyAncient03.cpp:
 	.sdata2     start:0x805DB718 end:0x805DB734
 
 pso/misc/TOKeyCave01.cpp:
-	.text       start:0x8016BE74 end:0x8016C7FC
-	.data       start:0x804B2BE0 end:0x804B2C50
+	.text       start:0x8016BE74 end:0x8016C708
+	.rodata     start:0x80441AE8 end:0x80441C20
+	.data       start:0x804B2BB0 end:0x804B2C50
+	.sdata      start:0x805D3030 end:0x805D303C
+	.sbss       start:0x805D5A18 end:0x805D5A24
 	.sdata2     start:0x805DB738 end:0x805DB758
 
 pso/misc/TOKeyCol.cpp:
-	.text       start:0x8016C7FC end:0x8016CA60
+	.text       start:0x8016C708 end:0x8016CA60
+	.rodata     start:0x80441C20 end:0x80441C30
 	.data       start:0x804B2C50 end:0x804B2CC0
+	.sdata      start:0x805D3040 end:0x805D3044
+	.sdata2     start:0x805DB758 end:0x805DB764
 
 pso/misc/TOKeyGenericSw.cpp:
 	.text       start:0x8016CA60 end:0x8016D0B4
