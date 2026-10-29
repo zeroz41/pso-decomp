@@ -3686,7 +3686,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
                 }
                 if (*(void **)((s8 *)arg0 + 0x894) != 0) {
                     ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x894))->set_position(arg0 + 0x428);
-                    ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x894)))->copy_vec3(&r);
+                    ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x894)))->set_direction(&r);
                 }
             } else if (*(void **)((s8 *)arg0 + 0x894) != 0) {
                 queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x894));
@@ -5440,7 +5440,7 @@ void state_breath_attack__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
                     }
                 } else {
                     ((TParticleCtrl *)F(void *, 0x894))->set_position(arg0 + 0x428);
-                    ((TBoss4Type2 *)(F(void *, 0x894)))->copy_vec3(&rot);
+                    ((TParticleCtrl *)(F(void *, 0x894)))->set_direction(&rot);
                 }
                 if (F(void *, 0x898) == 0) {
                     if (*(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x18) != -1) {
@@ -5451,7 +5451,7 @@ void state_breath_attack__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
                     }
                 } else {
                     ((TParticleCtrl *)F(void *, 0x898))->set_position(arg0 + 0x428);
-                    ((TBoss4Type2 *)(F(void *, 0x898)))->copy_vec3(&rot);
+                    ((TParticleCtrl *)(F(void *, 0x898)))->set_direction(&rot);
                 }
                 if (F(void *, 0x89C) == 0) {
                     F(void *, 0x89C) = spawn_particle_effect_with_rotation(arg0 + 0x410, &rot, *(s32 *)((s8 *)(F(u8 *, 0x760)) + 0x1C), 0x40);
@@ -5460,7 +5460,7 @@ void state_breath_attack__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
                     }
                 } else {
                     ((TParticleCtrl *)F(void *, 0x89C))->set_position(arg0 + 0x428);
-                    ((TBoss4Type2 *)(F(void *, 0x89C)))->copy_vec3(&rot);
+                    ((TParticleCtrl *)(F(void *, 0x89C)))->set_direction(&rot);
                 }
             }
             break;

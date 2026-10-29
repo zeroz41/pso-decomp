@@ -366,7 +366,7 @@ void TObjEneRe7BeruraPunch::run_task() {
         if (*(void * *)&this->m_d0 == NULL) {
             *(void * *)&this->m_d0 = create_particle_emitter(&this->position, 0xDD);
             if (*(void * *)&this->m_d0 != NULL) {
-                ((TBoss4Type2 *)(*(void * *)&this->m_d0))->set_flags(2);
+                ((TParticleCtrl *)(*(void * *)&this->m_d0))->set_flags(2);
                 ((TParticleCtrl *)(*(void * *)&this->m_d0))->enable();
             }
         } else {
@@ -375,12 +375,12 @@ void TObjEneRe7BeruraPunch::run_task() {
             v.z = 4e+01f * c;
             vec3_add_to(&v, (u8 *)&this->m_dc);
             ((TParticleCtrl *)*(void * *)&this->m_d0)->set_position(&v);
-            ((TBoss4Type2 *)(*(void * *)&this->m_d0))->copy_vec3(&ang);
+            ((TParticleCtrl *)(*(void * *)&this->m_d0))->set_direction(&ang);
         }
         if (*(void * *)&this->m_d4 == NULL) {
             *(void * *)&this->m_d4 = create_particle_emitter(&this->position, 0x150);
             if (*(void * *)&this->m_d4 != NULL) {
-                ((TBoss4Type2 *)(*(void * *)&this->m_d4))->set_flags(2);
+                ((TParticleCtrl *)(*(void * *)&this->m_d4))->set_flags(2);
                 ((TParticleCtrl *)(*(void * *)&this->m_d4))->enable();
             }
         } else {
@@ -389,7 +389,7 @@ void TObjEneRe7BeruraPunch::run_task() {
             v.z = (-2e+01f) * c;
             vec3_add_to(&v, (u8 *)&this->m_dc);
             ((TParticleCtrl *)*(void * *)&this->m_d4)->set_position(&v);
-            ((TBoss4Type2 *)(*(void * *)&this->m_d4))->copy_vec3(&ang);
+            ((TParticleCtrl *)(*(void * *)&this->m_d4))->set_direction(&ang);
         }
     } else {
         if (*(void * *)&this->m_d0 != NULL) {

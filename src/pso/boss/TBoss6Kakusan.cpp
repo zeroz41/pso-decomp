@@ -242,7 +242,7 @@ void TBoss6Kakusan::run_task() {
         subtract_vector(&a, (u8 *)&this->m_48);
         direction_to_rotation_xz((u8 *)&a, (s32 *)&b.x, (s32 *)&b.z);
         *(s32 *)&b.y = 0;
-        ((TBoss4Type2 *)(*(void * *)&this->m_54))->copy_vec3(&b);
+        ((TParticleCtrl *)(*(void * *)&this->m_54))->set_direction(&b);
     }
     if (is_out_of_range() != 0 || ((int (*)(void *))TBoss6Kakusan__sub_8032263C)(arg0) != 0) {
         queue_destruction__7TObjectFv(arg0);
@@ -289,7 +289,7 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4,
     ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (u32)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
     temp_r3 = ((TBoss6Kakusan *)boss6_kakusan)->m_54;
     if (temp_r3 != 0U) {
-        ((TBoss4Type2 *)temp_r3)->set_flags(0x40);
+        ((TParticleCtrl *)temp_r3)->set_flags(0x40);
     }
     ((TBoss6Kakusan *)boss6_kakusan)->m_2c = 0;
     return boss6_kakusan;

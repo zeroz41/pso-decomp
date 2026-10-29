@@ -3893,7 +3893,7 @@ void update_particle_ctrls__13TBoss2DeRolLeFPv(Obj_80033AA4 *o) {
             p = create_particle_controller_with_angles(o->pos, &ang, 0x120, 1, 0x40);
             if (p != NULL) {
                 o->ctl[i] = p;
-                ((TBoss4Type2 *)(o->ctl[i]))->set_flags(2);
+                ((TParticleCtrl *)(o->ctl[i]))->set_flags(2);
                 ((TParticleCtrl *)(o->ctl[i]))->enable();
             } else {
                 for (j = 0; j < i; j++) {

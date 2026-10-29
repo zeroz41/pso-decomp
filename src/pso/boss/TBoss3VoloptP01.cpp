@@ -447,7 +447,7 @@ void TBoss3VoloptP01::run_state_machine() {
     case 2:
         if (glow_effect == NULL) {
             glow_effect = (TObject *)create_particle_emitter(&m_2fc, 0x21);
-            ((TBoss4Type2 *)glow_effect)->set_flags(0x40U);
+            ((TParticleCtrl *)glow_effect)->set_flags(0x40U);
         }
         state = 3;
     case 3:

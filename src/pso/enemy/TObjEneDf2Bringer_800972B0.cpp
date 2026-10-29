@@ -1225,8 +1225,8 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
                     ang[0] = 0;
                     ang[1] = F_8009(0x4B8, s32) - 0x4000;
                     ang[2] = -0x4000;
-                    ((TBoss4Type2 *)(F_8009(0x4C4, void *)))->set_flags(2);
-                    ((TBoss4Type2 *)(F_8009(0x4C4, void *)))->copy_vec3(ang);
+                    ((TParticleCtrl *)(F_8009(0x4C4, void *)))->set_flags(2);
+                    ((TParticleCtrl *)(F_8009(0x4C4, void *)))->set_direction(ang);
                     ((TParticleCtrl *)(F_8009(0x4C4, void *)))->enable();
                 }
             } else if (F_8009(0xC0, f32) < TObjEneDf2Bringer__data_805D9808 || F_8009(0xC0, f32) > lbl_805D97FC) {

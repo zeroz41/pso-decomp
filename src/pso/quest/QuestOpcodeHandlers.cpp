@@ -1,4 +1,5 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/item/TItemMag.h"
 #include "pso/TMainTask.h"
 #include "pso/quest/QuestVm.h"
@@ -5600,7 +5601,7 @@ void qst_op_player_effect_nc(u8 arg0) {
         v.y += dy;
         r = (u32)create_timed_particle_emitter(&v, kind, 0, extra);
         if (r != 0) {
-            ((TBoss4Type2 *)r)->set_flags(0x40);
+            ((TParticleCtrl *)r)->set_flags(0x40);
         }
     }
 }
@@ -5657,7 +5658,7 @@ void qst_op_particle_effect_nc(u8 arg0) {
     v.z = z;
     r = (u32)create_timed_particle_emitter(&v, kind, 0, extra);
     if (r != 0) {
-        ((TBoss4Type2 *)r)->set_flags(0x40);
+        ((TParticleCtrl *)r)->set_flags(0x40);
     }
 }
 
@@ -5690,7 +5691,7 @@ void qst_op_particle2() {
     v.z = p[2];
     u32 r = (u32)create_timed_particle_emitter(&v, qst_args[1], 0, (s32)*(f32 *)&qst_args[2]);
     if (r != 0) {
-        ((TBoss4Type2 *)r)->set_flags(0x40);
+        ((TParticleCtrl *)r)->set_flags(0x40);
     }
 }
 }

@@ -396,7 +396,7 @@ s32 TBoss4Zako__ct(s32 arg0, s32 parent, s32 arg2) {
     ((TObjEnemy *)THIS)->set_param(0);
     *(s32 *)((s8 *)THIS + 0x388) = 0;
     if ((*(u32 *)((s8 *)THIS + 0x3B4) = (u32)create_particle_emitter(THIS + 0x38, 0x103)) != 0) {
-        ((TBoss4Type2 *)(*(u32 *)((s8 *)THIS + 0x3B4)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(u32 *)((s8 *)THIS + 0x3B4)))->set_flags(0x40);
     }
     *(f32 *)((s8 *)THIS + 0x398) = lbl_805D8CBC;
     *(f32 *)((s8 *)THIS + 0x394) = lbl_805D8CBC;

@@ -31,7 +31,7 @@ void TAdLoadNetworkGC::run_task() {
     u32 i;
     for (i = 0; i < 5; i++) {
         ((TParticleCtrl *)o->obj[i])->set_position(&o->pos);
-        ((TBoss4Type2 *)(o->obj[i]))->copy_vec3(&TAdLoadNetworkGC__object_offset_table[i]);
+        ((TParticleCtrl *)(o->obj[i]))->set_direction(&TAdLoadNetworkGC__object_offset_table[i]);
     }
 }
 Net_80308518 *__dt__16TAdLoadNetworkGCFv(Net_80308518 *self, s16 flag) {

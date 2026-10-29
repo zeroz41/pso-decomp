@@ -463,7 +463,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
     ((TBoss3Volopt *)THIS)->m_380 = 0;
     *(u32 *)((s8 *)THIS + 0x3CC) = (u32)create_particle_emitter(THIS + 0x38, 0x146);
     if (*(u32 *)((s8 *)THIS + 0x3CC) != 0) {
-        ((TBoss4Type2 *)(*(u32 *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(u32 *)((s8 *)THIS + 0x3CC)))->set_flags(0x40);
     }
     return arg0;
 }

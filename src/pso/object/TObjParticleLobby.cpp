@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/object/TObjParticleLobby.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/misc/TLobby.h"
@@ -88,7 +88,7 @@ void TObjParticleLobby::setup_emitter() {
         kind = 0x23F;
     }
     if (emitter != NULL) {
-        ((TBoss4Type2 *)emitter)->set_param_ptr(kind);
+        emitter->set_param_ptr(kind);
     }
     dir = scale.z;
     if (dir < 0.0f) {
@@ -127,7 +127,7 @@ void TObjParticleLobby::setup_emitter() {
         }
     }
     if (emitter != NULL) {
-        ((TBoss4Type2 *)emitter)->set_flags(flags);
+        emitter->set_flags(flags);
     }
     if (emitter != NULL) {
         emitter->set_position(&position);

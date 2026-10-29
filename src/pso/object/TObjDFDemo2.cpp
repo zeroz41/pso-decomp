@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/TObject.h"
 #include "pso/object/TObjMotion.h"
@@ -141,7 +142,7 @@ void TObjDFDemo2::run_task() {
     if (arg0->ftimer == 0x90) {
         e = (void *)spawn_particle_effect(arg0->fac, 0xC3);
         if (e != NULL) {
-            ((TBoss4Type2 *)e)->set_flags(0x40);
+            ((TParticleCtrl *)e)->set_flags(0x40);
         }
         play_sound_effect(0x4003AD15, arg0->fac, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);
@@ -150,7 +151,7 @@ void TObjDFDemo2::run_task() {
         if (arg0->fa8 != 0 || arg0->ftimer <= 0xDC) {
             e = (void *)spawn_particle_effect(arg0->fac, 0x14E);
             if (e != NULL) {
-                ((TBoss4Type2 *)e)->set_flags(0x40);
+                ((TParticleCtrl *)e)->set_flags(0x40);
             }
         }
         break;

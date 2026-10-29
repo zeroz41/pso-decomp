@@ -299,7 +299,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
                 subtract_vector(&d, arg0 + 0x44);
                 direction_to_rotation_xz((u8 *)&d, &rot.x, &rot.z);
                 rot.y = 0;
-                ((TBoss4Type2 *)((void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358)))->copy_vec3(&rot);
+                ((TParticleCtrl *)((void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358)))->set_direction(&rot);
             }
             ((TParticleCtrl *)(void *)*(u32 *)((s8 *)(arg0 + i * 4) + 0x358))->set_position(arg0 + 0x2FC);
         }
@@ -365,7 +365,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
     *(f32 *)((s8 *)arg0 + 0x378) = lbl_805D8A88 * *(f32 *)((s8 *)arg0 + 0x364) + lbl_805D8A84;
     for (i = 0; i < 2; i++) {
         if ((((Obj_80050AF8 *)arg0)->objs[i] = (u32)create_particle_emitter(arg0 + 0x2FC, TObjDFJisin__particle_emitter_id_table[i])) != 0) {
-            ((TBoss4Type2 *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
+            ((TParticleCtrl *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
         }
     }
     *(s32 *)&((TObjDFHorming *)arg0)->m_368 = 0;
@@ -410,7 +410,7 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
     position.y += lbl_805D8A90;
     particle_effect = (u32)spawn_particle_effect((&position.x), 0xF3);
     if (particle_effect != 0U) {
-        ((TBoss4Type2 *)particle_effect)->set_flags(0x40);
+        ((TParticleCtrl *)particle_effect)->set_flags(0x40);
     }
 }
 }
@@ -560,7 +560,7 @@ u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
     particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0xAF));
     *(u8 **)((s8 *)object + 0x44) = particle_emitter;
     if (particle_emitter != NULL) {
-        ((TBoss4Type2 *)(*(u8 **)((s8 *)object + 0x44)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(u8 **)((s8 *)object + 0x44)))->set_flags(0x40);
     }
     return object;
 }
@@ -799,7 +799,7 @@ void TObjDFRecover::run_task() {
                 ((s32 (*)(void *))queue_destruction__7TObjectFv)(this);
                 return;
             }
-            ((TBoss4Type2 *)effect)->set_flags(0x40);
+            ((TParticleCtrl *)effect)->set_flags(0x40);
             countdown = 0xA;
             phase = 1;
         }
@@ -943,7 +943,7 @@ u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
     particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0x134));
     ((TObjDFTenchuFuru *)object)->m_2c = particle_emitter;
     if (particle_emitter != NULL) {
-        ((TBoss4Type2 *)(((TObjDFTenchuFuru *)object)->m_2c))->set_flags(0x40);
+        ((TParticleCtrl *)(((TObjDFTenchuFuru *)object)->m_2c))->set_flags(0x40);
     }
     return object;
 }

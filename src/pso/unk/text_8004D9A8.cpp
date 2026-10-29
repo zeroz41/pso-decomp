@@ -115,7 +115,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
             if (((Self_8004DA7C *)self)->p[i] == NULL) {
                 ((Self_8004DA7C *)self)->p[i] = create_particle_emitter(e->data, e->arg);
                 if (((Self_8004DA7C *)self)->p[i] != NULL) {
-                    ((TBoss4Type2 *)(((Self_8004DA7C *)self)->p[i]))->set_flags(0x40);
+                    ((TParticleCtrl *)(((Self_8004DA7C *)self)->p[i]))->set_flags(0x40);
                 }
             }
             switch (i) {
@@ -145,7 +145,7 @@ void TBoss3Volopt__sub_8004DA7C(u8 *self) {
             vec3_add_to(&c, &((Vec_8004DA7C *)lbl_80485514)[t - 0x8C]);
             p = spawn_particle_effect(&c, 0x14A);
             if (p != NULL) {
-                ((TBoss4Type2 *)p)->set_flags(0x40);
+                ((TParticleCtrl *)p)->set_flags(0x40);
             }
         }
     }

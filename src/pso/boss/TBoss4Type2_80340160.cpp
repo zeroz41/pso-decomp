@@ -65,7 +65,7 @@ struct WaitDemoPart {
 struct WaitDemoLayout {
     u8 pad0[0x1C];
     TObjFish *fish;
-    TBoss4Type2 *emitter;
+    TParticleCtrl *emitter;
     s32 m_24;
     WaitDemoPart parts[2];
     Vec position;
@@ -107,7 +107,7 @@ void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *wait, TObjFish *fish) {
     TObjFish__sub_8033FF64(wait);
     wait->sub_8033FE30();
     VecCopy(&self->prev_position, &self->position);
-    self->emitter = (TBoss4Type2 *)create_particle_emitter(&self->position, 0x225);
+    self->emitter = create_particle_emitter(&self->position, 0x225);
     if (self->emitter != NULL) {
         self->emitter->set_flags(0x40);
     }

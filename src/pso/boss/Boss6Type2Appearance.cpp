@@ -244,7 +244,7 @@ void run_task__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D6DC *self) {
             if (self->h[i] == NULL) {
                 self->h[i] = create_particle_emitter(p, e->id);
                 if (self->h[i] != NULL) {
-                    ((TBoss4Type2 *)(self->h[i]))->set_flags(0x40);
+                    ((TParticleCtrl *)(self->h[i]))->set_flags(0x40);
                 }
             } else {
                 ((TParticleCtrl *)self->h[i])->set_position(p);

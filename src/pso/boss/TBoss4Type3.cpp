@@ -1251,7 +1251,7 @@ void TBoss4Type3::create_particle_emitters() {
     for (i = 0; i < 8; i++) {
         self->f404[i] = (u32)create_particle_emitter(self->f38, boss4_type3_effect_ids[i]);
         if (self->f404[i] != 0) {
-            ((TBoss4Type2 *)(self->f404[i]))->set_flags(0x40);
+            ((TParticleCtrl *)(self->f404[i]))->set_flags(0x40);
         }
     }
     for (; i < 13; i++) {
@@ -1590,7 +1590,7 @@ void TBoss4Type3::handle_damage_taken() {
     for (i = 0; i < 8; i++) {
         e = (u32)spawn_particle_effect(&pos, 0x38);
         if (e != 0) {
-            ((TBoss4Type2 *)e)->set_flags(0x40);
+            ((TParticleCtrl *)e)->set_flags(0x40);
         }
         vec3_add_to(&pos, &dir);
         if (((f32 (*)(void *, void *))xyz_distance)(&pos, &tgt) <= 12.75f) {
@@ -1870,10 +1870,10 @@ void TBoss4Type3::update_homing() {
         ((TBoss4Type3 *)o)->turn_toward_player(id);
     } else if (o->f398 == 0x93) {
         if ((o->f424 = create_particle_emitter(a, 0xF7)) != 0) {
-            ((TBoss4Type2 *)(o->f424))->set_flags(0x40);
+            ((TParticleCtrl *)(o->f424))->set_flags(0x40);
         }
         if ((o->f428 = create_particle_emitter(b, 0xF7)) != 0) {
-            ((TBoss4Type2 *)(o->f428))->set_flags(0x40);
+            ((TParticleCtrl *)(o->f428))->set_flags(0x40);
         }
         ((TBoss4Type3 *)o)->set_anim_state(6);
     } else if (o->f398 == 0x75) {
@@ -1942,7 +1942,7 @@ void TBoss4Type3::update_light_magic() {
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x49) {
         p = spawn_particle_effect(sub, 0x133);
         if (p != 0) {
-            ((TBoss4Type2 *)p)->set_flags(0x40);
+            ((TParticleCtrl *)p)->set_flags(0x40);
         }
     }
     if ((s32) *(s32 *)((s8 *)arg0 + 0x398) == 0x45) {
@@ -2071,7 +2071,7 @@ void TBoss4Type3::update_capture() {
         h = (u32)create_particle_emitter(pos, 0x142);
         *(u32 *)((s8 *)arg0 + 0x42C) = h;
         if (h != 0) {
-            ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x42C)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x42C)))->set_flags(0x40);
         }
     }
     if (*(void **)((s8 *)arg0 + 0x42C) != NULL) {
@@ -2083,7 +2083,7 @@ void TBoss4Type3::update_capture() {
     if (this->m_398 == 0x1C) {
         h = (u32)spawn_particle_effect(&v, 0x38);
         if (h != 0) {
-            ((TBoss4Type2 *)h)->set_flags(0x40);
+            ((TParticleCtrl *)h)->set_flags(0x40);
         }
     }
     pos = &v;
@@ -2101,14 +2101,14 @@ void TBoss4Type3::update_capture() {
             h = (u32)create_particle_emitter(pos, 0xEA);
             *(u32 *)((s8 *)arg0 + 0x430) = h;
             if (h != 0) {
-                ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x430)))->set_flags(0x40);
+                ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x430)))->set_flags(0x40);
             }
         }
         if (*(u32 *)((s8 *)arg0 + 0x434) == 0) {
             h = (u32)create_particle_emitter(pos, 0x139);
             *(u32 *)((s8 *)arg0 + 0x434) = h;
             if (h != 0) {
-                ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x434)))->set_flags(0x40);
+                ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x434)))->set_flags(0x40);
             }
         }
     }

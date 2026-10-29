@@ -793,7 +793,7 @@ void TBoss6Type2::spawn_particle_slot(s32 arg1) {
         V3_802B9C00 v = ((T1_802B9C00 *)arg0)->pos;
         *(u32 *)(p + 0x77C) = (u32)create_particle_emitter(&v, TBoss6Type2__particle_attachment_table[arg1].a);
         if (*(u32 *)(p + 0x77C) != 0U) {
-            ((TBoss4Type2 *)(*(u32 *)(p + 0x77C)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(u32 *)(p + 0x77C)))->set_flags(0x40);
         }
     }
 }

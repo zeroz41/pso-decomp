@@ -61,7 +61,7 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
             lbl_805D6FF8 = lbl_805E0380;
         }
         if ((*(void **)((s8 *)self + 0x1C) = create_particle_emitter(p + 0x38, lbl_8047AC70[(s32)arg3])) != NULL) {
-            ((TBoss4Type2 *)(*(void **)((s8 *)self + 0x1C)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(void **)((s8 *)self + 0x1C)))->set_flags(0x40);
             ((TParticleCtrl *)(*(void **)((s8 *)self + 0x1C)))->set_scale(lbl_805D6FF8, lbl_805D6FF8);
         }
     }

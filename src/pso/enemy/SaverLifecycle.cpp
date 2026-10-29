@@ -128,7 +128,7 @@ extern "C" {
 void TObjPlayer__sub_800A4294(void);
 void calc_move_state__12TObjEneSaverFv(void *arg0);
 s32 TObjPlayer__sub_800A7774(void *, void *);
-s32 set_param__16TEneParticleCtrlFv(void *, s32);
+s32 set_param__16TEneParticleCtrlFl(void *, s32);
 void sub_800A435C__12TObjEneSaverFv(u8 *arg0);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 }
@@ -351,7 +351,7 @@ void TObjEneSaver::sub_800A435C() {
             }
         } else if ((s32) this->m_384 != (s32) this->m_380) {
             if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x3A0) != 0U) {
-                set_param__16TEneParticleCtrlFv(*(void **)((s8 *)((u8 *)this) + 0x3A0), this->m_380);
+                set_param__16TEneParticleCtrlFl(*(void **)((s8 *)((u8 *)this) + 0x3A0), this->m_380);
             }
             this->m_384 = (s32) this->m_380;
         }

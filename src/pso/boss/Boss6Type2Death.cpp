@@ -294,7 +294,7 @@ void run_task__23TBoss6Demo21_TYPE2_DEADFv(Fish_8033E0F0 *arg0) {
                 if (arg0->emit[i] == 0) {
                     arg0->emit[i] = create_particle_emitter(ptrs[i], boss6_type2_death_emitter_ranges[i].id);
                     if (arg0->emit[i] != 0) {
-                        ((TBoss4Type2 *)(arg0->emit[i]))->set_flags(0x40);
+                        ((TParticleCtrl *)(arg0->emit[i]))->set_flags(0x40);
                     }
                 } else {
                     ((TParticleCtrl *)arg0->emit[i])->set_position(ptrs[i]);

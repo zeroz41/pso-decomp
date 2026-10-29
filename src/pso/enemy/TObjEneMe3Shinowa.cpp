@@ -2358,20 +2358,20 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(void *arg0_, s32 arg1) {
                 F(void *, 0x424) = create_particle_emitter(arg0 + 0x38, 0x115);
                 if (F(void *, 0x424) != 0) {
                     ((TParticleCtrl *)(F(void *, 0x424)))->enable();
-                    ((TBoss4Type2 *)(F(void *, 0x424)))->set_flags(2);
+                    ((TParticleCtrl *)(F(void *, 0x424)))->set_flags(2);
                 }
             } else {
-                ((TBoss4Type2 *)(F(void *, 0x424)))->copy_vec3(rot);
+                ((TParticleCtrl *)(F(void *, 0x424)))->set_direction(rot);
                 ((TParticleCtrl *)F(void *, 0x424))->set_position(arg0 + 0x38);
             }
             if (F(void *, 0x428) == 0) {
                 F(void *, 0x428) = create_particle_emitter(arg0 + 0x38, 0x116);
                 if (F(void *, 0x428) != 0) {
                     ((TParticleCtrl *)(F(void *, 0x428)))->enable();
-                    ((TBoss4Type2 *)(F(void *, 0x428)))->set_flags(2);
+                    ((TParticleCtrl *)(F(void *, 0x428)))->set_flags(2);
                 }
             } else {
-                ((TBoss4Type2 *)(F(void *, 0x428)))->copy_vec3(rot);
+                ((TParticleCtrl *)(F(void *, 0x428)))->set_direction(rot);
                 ((TParticleCtrl *)F(void *, 0x428))->set_position(arg0 + 0x38);
             }
         }

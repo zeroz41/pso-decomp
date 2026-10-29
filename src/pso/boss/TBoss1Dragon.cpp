@@ -1426,7 +1426,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                         self->mouth = spawn_particle_effect_with_rotation(&self->fxpos, &rot, (void *) self->tbl->e14, 0x40);
                     } else {
                         ((TParticleCtrl *)(void *) self->mouth)->set_position(&self->fxpos);
-                        ((TBoss4Type2 *)((void *) self->mouth))->copy_vec3(&rot);
+                        ((TParticleCtrl *)((void *) self->mouth))->set_direction(&rot);
                     }
                 } else {
                     if (self->mouth != 0) {
@@ -1492,7 +1492,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                         self->mouth = spawn_particle_effect_with_rotation(&self->fxpos, &rot, (void *) self->tbl->e14, 0x40);
                     } else {
                         ((TParticleCtrl *)(void *) self->mouth)->set_position(&self->fxpos);
-                        ((TBoss4Type2 *)((void *) self->mouth))->copy_vec3(&rot);
+                        ((TParticleCtrl *)((void *) self->mouth))->set_direction(&rot);
                     }
                 } else {
                     if (self->mouth != 0) {
@@ -1555,7 +1555,7 @@ void TBoss1Dragon::update_appearance_state(u32 reason) {
                         self->mouth = spawn_particle_effect_with_rotation(&self->fxpos, &rot, (void *) self->tbl->e14, 0x40);
                     } else {
                         ((TParticleCtrl *)(void *) self->mouth)->set_position(&self->fxpos);
-                        ((TBoss4Type2 *)((void *) self->mouth))->copy_vec3(&rot);
+                        ((TParticleCtrl *)((void *) self->mouth))->set_direction(&rot);
                     }
                 } else {
                     if (self->mouth != 0) {
@@ -2332,7 +2332,7 @@ void update_death_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
                 }
                 if (F(u32, 0x8AC) != 0) {
                     ((TParticleCtrl *)F(void *, 0x8AC))->set_position(arg0 + 0x424);
-                    ((TBoss4Type2 *)(F(void *, 0x8AC)))->copy_vec3(&rot);
+                    ((TParticleCtrl *)(F(void *, 0x8AC)))->set_direction(&rot);
                 }
             } else if (F(u32, 0x8AC) != 0) {
                 queue_destruction__7TObjectFv(F(void *, 0x8AC));
@@ -4008,7 +4008,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
                     }
                 } else {
                     ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x8AC))->set_position(arg0 + 0x424);
-                    ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x8AC)))->copy_vec3(&sp8);
+                    ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x8AC)))->set_direction(&sp8);
                 }
                 if ((u32) *(u32 *)((s8 *)arg0 + 0x8B4) == 0U) {
                     *(u32 *)((s8 *)arg0 + 0x8B4) = spawn_particle_effect_with_rotation(arg0 + 0x40C, &sp8, (void *) (*(s32 *)((s8 *)this->effectResource + 0x14)), 0x40);
@@ -4018,7 +4018,7 @@ void TBoss1Dragon::update_breath_attack_state(u32 arg1) {
                     }
                 } else {
                     ((TParticleCtrl *)*(void **)((s8 *)arg0 + 0x8B4))->set_position(arg0 + 0x424);
-                    ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x8B4)))->copy_vec3(&sp8);
+                    ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x8B4)))->set_direction(&sp8);
                     return;
                 }
             }

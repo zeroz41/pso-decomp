@@ -83,12 +83,12 @@ TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TObjMapObject(pa
     apply_object_set_data(set_data);
     emitter0 = create_particle_emitter(&position, 0x222);
     if (emitter0 != NULL) {
-        ((TBoss4Type2 *)emitter0)->set_flags(0x40);
+        emitter0->set_flags(0x40);
         emitter0->enable();
     }
     emitter1 = create_particle_emitter(&position, 0x222);
     if (emitter1 != NULL) {
-        ((TBoss4Type2 *)emitter1)->set_flags(0x40);
+        emitter1->set_flags(0x40);
         emitter1->enable();
     }
     set_mode_index_from_state();
@@ -266,7 +266,7 @@ void TObjLobbyMain::update_emitter_positions() {
     case 3:
         if (emitter0 != NULL) {
             Vec pos = { 0.0f, 0.0f, 18.0f };
-            ((TBoss4Type2 *)emitter0)->set_param_ptr(0x222);
+            emitter0->set_param_ptr(0x222);
             push_matrix();
             set_matrix_identity(NULL);
             post_translate_matrix(&position.x);
@@ -277,7 +277,7 @@ void TObjLobbyMain::update_emitter_positions() {
         }
         if (emitter1 != NULL) {
             Vec pos = { 0.0f, 0.0f, -18.0f };
-            ((TBoss4Type2 *)emitter1)->set_param_ptr(0x222);
+            emitter1->set_param_ptr(0x222);
             push_matrix();
             set_matrix_identity(NULL);
             post_translate_matrix(&position.x);

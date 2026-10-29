@@ -99,7 +99,7 @@ void TBoss6Thanks::update_particle_emitters() {
             if (o->p[i] == NULL) {
                 o->p[i] = create_particle_emitter(TBoss6Thanks__data_80479BA8, e->id);
                 if (o->p[i] != NULL) {
-                    ((TBoss4Type2 *)(o->p[i]))->set_flags(0x40);
+                    ((TParticleCtrl *)(o->p[i]))->set_flags(0x40);
                 }
             }
         } else {

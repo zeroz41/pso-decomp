@@ -52,6 +52,12 @@ public:
     static s32 get_particle_by_index(s32 arg0);
 
     void set_scale(f32, f32);
+    // Restarts the emission with entry `index` of particleentry.dat
+    // (0x200 and up: the area's entry file).
+    void set_param_ptr(s32 index);
+    // Copies the emission direction; dir points at three words.
+    void set_direction(void *dir);
+    void set_flags(u16 flags);
     u8 pad_1c[0x24];
     f32 field_40;
     f32 field_44;

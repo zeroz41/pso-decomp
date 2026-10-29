@@ -1,4 +1,5 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/TParticleCtrl.h"
 #include <dolphin/mtx.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
@@ -1523,7 +1524,7 @@ void TObjEneMe1GiGue__sub_802CC900(u8 *arg0) {
                 TObjEneMe1GiGue__sub_802CB03C((u8 *)o);
                 if ((r = (u32)spawn_particle_effect(o->f39C, 0x203)) != 0) {
                     Vec_802CC900 v = lbl_80472274[0];
-                    ((TBoss4Type2 *)r)->copy_vec3(&v);
+                    ((TParticleCtrl *)r)->set_direction(&v);
                 }
                 TObjEneMe1GiGueMissile::create((s32)o, (s32)o->f39C, (s32)(o->f2A8 + 0x2FC), (f32)lbl_805D6840, (f32)lbl_805D6850);
                 play_sound_effect((void *)TObjEneMe1GiGue::remap_sound_id((o), 0x3A31E), &o->pos, 0, 0);
@@ -1752,7 +1753,6 @@ void TObjEneMe1GiGue__sub_802CD054(void) {  }
 #undef update_rush_attack__15TObjEneMe1GiGueFPv
 #undef TObjEneMe1GiGue__sub_802CCBAC
 #undef sub_802CCF2C__15TObjEneMe1GiGueFv
-#include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3VoloptMonitor.h"
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"

@@ -107,24 +107,24 @@ void TObjDFDemo4::run_task() {
   s32 i;
   if ((self->fF8 <= 0x3C) && ((r = (u32)spawn_particle_effect(&self->pos, 0x14E)) != 0))
   {
-    ((TBoss4Type2 *)r)->set_flags(0x40);
+    ((TParticleCtrl *)r)->set_flags(0x40);
   }
   if (self->fF8 == 0x44)
   {
     if ((r = (u32)spawn_particle_effect(&self->pos, 0x17B)) != 0)
     {
-      ((TBoss4Type2 *)r)->set_flags(0x40);
+      ((TParticleCtrl *)r)->set_flags(0x40);
     }
     if ((r = (u32)spawn_particle_effect(&self->pos, 0x17C)) != 0)
     {
-      ((TBoss4Type2 *)r)->set_flags(0x40);
+      ((TParticleCtrl *)r)->set_flags(0x40);
     }
   }
   if (self->fF8 == 0x48)
   {
     if ((r = (u32)spawn_particle_effect(&self->pos, 0x17A)) != 0)
     {
-      ((TBoss4Type2 *)r)->set_flags(0x40);
+      ((TParticleCtrl *)r)->set_flags(0x40);
     }
     play_sound_effect(0x40039E09, &self->pos, 0, 1);
     start_pad_rumble_all(0xC0, 0xF);
@@ -144,7 +144,7 @@ void TObjDFDemo4::run_task() {
         *p = (u32)create_particle_emitter(v, 0x147);
         if ((*p) != 0)
         {
-          ((TBoss4Type2 *)(*p))->set_flags(0x40);
+          ((TParticleCtrl *)(*p))->set_flags(0x40);
         }
       }
       else

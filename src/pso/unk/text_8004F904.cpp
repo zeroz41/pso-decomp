@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/object/TObjDFDemo5.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
 
 struct V_8004F904 { f32 x, y, z; };
 
@@ -35,14 +35,14 @@ void TObjDFDemo5::update_particle_emitters() {
         *(u32 *)((s8 *)arg0 + 0x90) = (u32)create_particle_emitter(((u8 *)&this->m_d4), 0x178);
         temp_r3_2 = *(u32 *)((s8 *)arg0 + 0x90);
         if (temp_r3_2 != 0) {
-            ((TBoss4Type2 *)temp_r3_2)->set_flags(0x40U);
+            ((TParticleCtrl *)temp_r3_2)->set_flags(0x40U);
         }
     }
     if (((s32) this->m_e4 >= 0x104) && ((u32) this->m_94 == 0)) {
         this->m_94 = (u32)create_particle_emitter(((u8 *)&this->m_d4), 0x179);
         temp_r3_3 = this->m_94;
         if (temp_r3_3 != 0) {
-            ((TBoss4Type2 *)temp_r3_3)->set_flags(0x40U);
+            ((TParticleCtrl *)temp_r3_3)->set_flags(0x40U);
         }
     }
     if ((s32) this->m_e4 >= 0xB4) {
@@ -51,7 +51,7 @@ void TObjDFDemo5::update_particle_emitters() {
             *(u32 *)((s8 *)arg0 + 0x98) = (u32)create_particle_emitter(((u8 *)&this->m_10c), 0x146);
             temp_r3_5 = *(u32 *)((s8 *)arg0 + 0x98);
             if (temp_r3_5 != 0) {
-                ((TBoss4Type2 *)temp_r3_5)->set_flags(0x40U);
+                ((TParticleCtrl *)temp_r3_5)->set_flags(0x40U);
             }
         } else {
             ((TParticleCtrl *)temp_r3_4)->set_position((u8 *)&this->m_10c);
@@ -72,7 +72,7 @@ void TObjDFDemo5::update_particle_emitters() {
                 *particle_emitter = (u32)create_particle_emitter((temp_r4), 0x147);
                 temp_r3_8 = *particle_emitter;
                 if (temp_r3_8 != 0) {
-                    ((TBoss4Type2 *)temp_r3_8)->set_flags(0x40U);
+                    ((TParticleCtrl *)temp_r3_8)->set_flags(0x40U);
                 }
             } else {
                 ((TParticleCtrl *)temp_r3_7)->set_position(temp_r4);

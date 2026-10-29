@@ -77,11 +77,11 @@ void TUnk_80484A94::run_task() {
     rotation_z -= 0x4000;
     if (trail != NULL) {
         ((TParticleCtrl *)trail)->set_position(&position);
-        ((TBoss4Type2 *)trail)->copy_vec3(&rotation_x);
+        ((TParticleCtrl *)trail)->set_direction(&rotation_x);
     }
     if (glow != NULL) {
         ((TParticleCtrl *)glow)->set_position(&position);
-        ((TBoss4Type2 *)glow)->copy_vec3(&rotation_x);
+        ((TParticleCtrl *)glow)->set_direction(&rotation_x);
     }
     if (csnVector(&prev_position, &position, -1) != 0) {
         queue_destruction();

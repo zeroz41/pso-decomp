@@ -122,7 +122,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
     case 0x1:
         *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TBoss4Type2 *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     case 0x1AC:
@@ -133,7 +133,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
         }
         *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x211);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TBoss4Type2 *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     case 0x11D:
@@ -143,7 +143,7 @@ void run_task__25TBoss6Demo10_TYPE1_APPEARFv(TBoss6Demo10_TYPE1_APPEAR *boss6_de
         }
         *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) = (u32)create_particle_emitter((temp_r30), 0x210);
         if ((u32) *(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64) != 0U) {
-            ((TBoss4Type2 *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(u32 *)((s8 *)boss6_demo10_type1_appear + 0x64)))->set_flags(0x40);
         }
         break;
     }

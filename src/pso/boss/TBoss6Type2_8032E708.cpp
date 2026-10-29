@@ -393,7 +393,7 @@ void TBoss6Type2::ensure_particle_emitter(s32 arg1) {
         V3_8032E7B4 v = arg0->pos;
         arg0->arr[arg1] = (u32)create_particle_emitter(&v, TBoss6Type2__effect_emitter_id_table[arg1].a);
         if (arg0->arr[arg1] != 0) {
-            ((TBoss4Type2 *)((void *)arg0->arr[arg1]))->set_flags(0x40);
+            ((TParticleCtrl *)((void *)arg0->arr[arg1]))->set_flags(0x40);
         }
     }
 }

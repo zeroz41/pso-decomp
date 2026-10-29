@@ -129,7 +129,7 @@ void TBoss6Demo11_TYPE1_DEAD::run_task() {
             if (F(void *, 0x8C) == NULL) {
                 F(void *, 0x8C) = create_particle_emitter(p, 0x21F);
                 if (F(void *, 0x8C) != NULL) {
-                    ((TBoss4Type2 *)(F(void *, 0x8C)))->set_flags(0x40);
+                    ((TParticleCtrl *)(F(void *, 0x8C)))->set_flags(0x40);
                 }
             } else {
                 ((TParticleCtrl *)F(void *, 0x8C))->set_position(p);

@@ -45,19 +45,23 @@ TParticleCtrl *create_particle_emitter(void *pos, s32 id) {
     return 0;
 }
 
-void TBoss4Type2::set_param_ptr(s32 arg1) {
+void TParticleCtrl::set_param_ptr(s32 index) {
     *(f32 *)((s8 *)this + 0x1C) = 0.0f;
     *(s32 *)((s8 *)this + 0x20) = 0;
     *(f32 *)((s8 *)this + 0x24) = 1.0f;
-    if (arg1 >= 0x200) {
-        *(s32 *)((s8 *)this + 0x28) = (s32) (particle_area_entry_table + ((arg1 - 0x200) * 0x98));
+    if (index >= 0x200) {
+        *(s32 *)((s8 *)this + 0x28) = (s32) (particle_area_entry_table + ((index - 0x200) * 0x98));
         return;
     }
-    *(s32 *)((s8 *)this + 0x28) = (s32) (particle_global_entry_table + (arg1 * 0x98));
+    *(s32 *)((s8 *)this + 0x28) = (s32) (particle_global_entry_table + (index * 0x98));
 }
 
-void TBoss4Type2::copy_vec3(void* q) { *(u32*)((char*)this + 0x6c) = *(u32*)((char*)q + 0x0); *(u32*)((char*)this + 0x70) = *(u32*)((char*)q + 0x4); *(u32*)((char*)this + 0x74) = *(u32*)((char*)q + 0x8); }
-void TBoss4Type2::set_flags(u16 v) { *(u16*)((char*)this + 0x2c) |= v; }
+void TParticleCtrl::set_direction(void *dir) {
+    *(u32 *)((char *)this + 0x6C) = *(u32 *)((char *)dir + 0x0);
+    *(u32 *)((char *)this + 0x70) = *(u32 *)((char *)dir + 0x4);
+    *(u32 *)((char *)this + 0x74) = *(u32 *)((char *)dir + 0x8);
+}
+void TParticleCtrl::set_flags(u16 flags) { *(u16 *)((char *)this + 0x2C) |= flags; }
 
 void TParticleCtrl::set_owner_id(u16 id) {
     O_80087638 *self = (O_80087638 *)this;

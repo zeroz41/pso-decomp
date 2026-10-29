@@ -59,7 +59,7 @@ void TObjFish::update_attached_orientation() {
         ang.y = (s32)(10430.38043493439 * atan2_float(d.x, d.z));
         ang.z = 0;
         ((TParticleCtrl *)o->f7B0)->set_position(&o->pos);
-        ((TBoss4Type2 *)(o->f7B0))->copy_vec3(&ang);
+        ((TParticleCtrl *)(o->f7B0))->set_direction(&ang);
     }
 }
 
@@ -3305,7 +3305,7 @@ void TParticleCtrl__sub_802EC550(PCtrl_802EC550 *o) {
             r = create_particle_controller_with_angles(o->pos, p, 0x200, 1, 0x40);
             if (r != 0) {
                 o->objs[i] = r;
-                ((TBoss4Type2 *)(o->objs[i]))->set_flags(2);
+                ((TParticleCtrl *)(o->objs[i]))->set_flags(2);
                 ((TParticleCtrl *)(o->objs[i]))->enable();
             } else {
                 for (ok = 0; ok < i; ok++) {

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/unk/text_8036A894.h"
 #include "pso/TBoss6EffFlowSoul.h"
@@ -27,7 +28,7 @@ u8 *TBoss6EffFlowSoul__ct(u8 *boss6_eff_flow_soul, u8 *arg1, u8 *arg2, s16 arg3,
     particle_emitter = (u8 *)(create_particle_emitter((boss6_eff_flow_soul + 0x28), 0x225));
     ((TBoss6EffFlowSoul *)boss6_eff_flow_soul)->m_20 = particle_emitter;
     if (particle_emitter != NULL) {
-        ((TBoss4Type2 *)(((TBoss6EffFlowSoul *)boss6_eff_flow_soul)->m_20))->set_flags(0x40);
+        ((TParticleCtrl *)(((TBoss6EffFlowSoul *)boss6_eff_flow_soul)->m_20))->set_flags(0x40);
     }
     *(s32 *)((s8 *)boss6_eff_flow_soul + 0x38) = 0;
     return boss6_eff_flow_soul;

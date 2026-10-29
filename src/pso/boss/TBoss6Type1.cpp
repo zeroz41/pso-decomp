@@ -583,7 +583,7 @@ void TBoss6Type1::spawn_effect_slot(s32 arg1) {
         V3_802B4BA8 v = ((T1_802B4BA8 *)arg0)->pos;
         *(u32 *)(p + 0x4F8) = (u32)create_particle_emitter(&v, TBoss6Type1__effect_slot_table[arg1].a);
         if (*(u32 *)(p + 0x4F8) != 0U) {
-            ((TBoss4Type2 *)(*(u32 *)(p + 0x4F8)))->set_flags(0x40);
+            ((TParticleCtrl *)(*(u32 *)(p + 0x4F8)))->set_flags(0x40);
         }
     }
 }
@@ -607,7 +607,7 @@ void TBoss6Type1::sub_802B4C28() {
             switch (i) {
             case 0:
             case 1:
-                ((TBoss4Type2 *)(o->parts[i]))->copy_vec3(lbl_80471014);
+                ((TParticleCtrl *)(o->parts[i]))->set_direction(lbl_80471014);
                 break;
             }
         }

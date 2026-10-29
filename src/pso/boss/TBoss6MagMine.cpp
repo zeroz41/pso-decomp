@@ -476,7 +476,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     *(f32 *)((s8 *)self + 0x380) *= 4.166667f;
     *(u32 *)((s8 *)self + 0x3B0) = (u32)create_particle_emitter(self + 0x38, 0x146);
     if (*(u32 *)((s8 *)self + 0x3B0) != 0U) {
-        ((TBoss4Type2 *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
+        ((TParticleCtrl *)(*(void **)((s8 *)self + 0x3B0)))->set_flags(0x40);
     }
     return arg0;
 }

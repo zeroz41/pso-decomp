@@ -1550,10 +1550,10 @@ void TBoss8Dragon__sub_8005E39C(Obj_8005E39C *self) {
     rot.x = 0x4000;
     if (self->eff[0] == NULL) {
         self->eff[0] = spawn_continuous_particle_effect_with_flags(&pos, self->res->f18, 0x2040);
-        ((TBoss4Type2 *)(self->eff[0]))->copy_vec3(&rot);
+        ((TParticleCtrl *)(self->eff[0]))->set_direction(&rot);
     } else {
         ((TParticleCtrl *)self->eff[0])->set_position(&pos);
-        ((TBoss4Type2 *)(self->eff[0]))->copy_vec3(&rot);
+        ((TParticleCtrl *)(self->eff[0]))->set_direction(&rot);
     }
     if (self->eff[1] == NULL) {
         self->eff[1] = spawn_continuous_particle_effect_with_flags(&pos, self->res->f1C, 0x40);
@@ -1562,10 +1562,10 @@ void TBoss8Dragon__sub_8005E39C(Obj_8005E39C *self) {
     }
     if (self->eff[2] == NULL) {
         self->eff[2] = spawn_continuous_particle_effect_with_flags(&pos, self->res->f20, 0x40);
-        ((TBoss4Type2 *)(self->eff[2]))->copy_vec3(&rot);
+        ((TParticleCtrl *)(self->eff[2]))->set_direction(&rot);
     } else {
         ((TParticleCtrl *)self->eff[2])->set_position(&pos);
-        ((TBoss4Type2 *)(self->eff[2]))->copy_vec3(&rot);
+        ((TParticleCtrl *)(self->eff[2]))->set_direction(&rot);
     }
 }
 #pragma pop

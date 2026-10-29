@@ -32,7 +32,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     Ply_80191F90 *p;
     if (arg0->f94 != 0) {
         ((TParticleCtrl *)arg0->f94)->set_position(arg0->pos);
-        ((TBoss4Type2 *)(arg0->f94))->copy_vec3(arg0->rot);
+        ((TParticleCtrl *)(arg0->f94))->set_direction(arg0->rot);
     }
     if (is_item_light_interaction_blocked() != 0) {
         return;

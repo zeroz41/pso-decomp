@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TEneParticleCtrl.h"
-#include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/player/TObjPlayer.h"
@@ -34,9 +34,8 @@ s32 TWindowSubStatusDisp__sub_80338740(void *, void *, void *, void *, void *, v
 void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, void *a7, void *a8);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
-int set_param_ptr__11TBoss4Type2Fl(void*);
 
-void TEneParticleCtrl::set_param() { void* m = *(void* *)&this->m_c0; if (m) set_param_ptr__11TBoss4Type2Fl(m); }
+void TEneParticleCtrl::set_param(s32 index) { void* m = *(void* *)&this->m_c0; if (m) ((TParticleCtrl *)m)->set_param_ptr(index); }
 void TEneParticleCtrl::free_particle_ctrl() { void* m = *(void* *)&this->m_c0; if (m) ((TParticleCtrl *)m)->enable(); }
 
 void *__dt__16TEneParticleCtrlFv(void *arg0, s16 arg1) {

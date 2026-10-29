@@ -52,7 +52,7 @@ u8 *TDPBShower__ct(u8 *dpb_shower, u8 *arg1, u8 *arg2) {
     particle_emitter = (u8 *)(create_particle_emitter((dpb_shower + 0x1C), 0x134));
     ((TDPBShower *)dpb_shower)->m_2c = particle_emitter;
     if (particle_emitter != NULL) {
-        ((TBoss4Type2 *)(((TDPBShower *)dpb_shower)->m_2c))->set_flags(0x40);
+        ((TParticleCtrl *)(((TDPBShower *)dpb_shower)->m_2c))->set_flags(0x40);
     }
     return dpb_shower;
 }

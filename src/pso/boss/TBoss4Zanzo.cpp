@@ -679,7 +679,7 @@ void TBoss4Type2::md_recover_update() {
     *new_var = particle_emitter;
     if (particle_emitter != 0)
     {
-      ((TBoss4Type2 *)(*new_var))->set_flags(0x40);
+      ((TParticleCtrl *)(*new_var))->set_flags(0x40);
     }
   }
   if ((*((int *) (((s8 *) boss4_type2) + 0x398))) == 0x46)
@@ -687,7 +687,7 @@ void TBoss4Type2::md_recover_update() {
     particle_effect = spawn_particle_effect(boss4_type2 + 0x468, 0x13E);
     if (particle_effect != 0)
     {
-      ((TBoss4Type2 *)particle_effect)->set_flags(0x40);
+      ((TParticleCtrl *)particle_effect)->set_flags(0x40);
     }
     temp_r3_4 = *((u16 *) (((s8 *) boss4_type2) + 0x3C4));
     if (temp_r3_4 != ((unsigned short) (-1)))
@@ -700,7 +700,7 @@ void TBoss4Type2::md_recover_update() {
         temp_r3_6 = spawn_particle_effect(&stack.sp8, 0x38);
         if (temp_r3_6 != 0)
         {
-          ((TBoss4Type2 *)temp_r3_6)->set_flags(0x40);
+          ((TParticleCtrl *)temp_r3_6)->set_flags(0x40);
         }
       }
     }
@@ -823,14 +823,14 @@ void TBoss4Type2::tenchu_update() {
                 temp_r3_3 = create_particle_emitter(&sp14, 0x142);
                 *(u32 *)((s8 *)arg0 + 0x438) = temp_r3_3;
                 if (temp_r3_3 != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)arg0 + 0x440) == 0) {
                 temp_r3_4 = create_particle_emitter(&sp8, 0x142);
                 *(u32 *)((s8 *)arg0 + 0x440) = temp_r3_4;
                 if (temp_r3_4 != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
                 }
             }
         }
@@ -871,7 +871,7 @@ void TBoss4Type2::tenchu_update() {
                 particle_emitter = create_particle_emitter(&sp14, 0x13A);
                 *(u32 *)((s8 *)arg0 + 0x438) = particle_emitter;
                 if (particle_emitter != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x438)))->set_flags(0x40U);
                 }
                 play_sound_effect(0x40039717, arg0 + 0x38, 0, 1);
             }
@@ -879,21 +879,21 @@ void TBoss4Type2::tenchu_update() {
                 temp_r3_12 = create_particle_emitter(&sp14, 0x13B);
                 *(u32 *)((s8 *)arg0 + 0x43C) = temp_r3_12;
                 if (temp_r3_12 != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x43C)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x43C)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)arg0 + 0x440) == 0) {
                 temp_r3_13 = create_particle_emitter(&sp8, 0x13A);
                 *(u32 *)((s8 *)arg0 + 0x440) = temp_r3_13;
                 if (temp_r3_13 != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x440)))->set_flags(0x40U);
                 }
             }
             if ((u32) *(u32 *)((s8 *)arg0 + 0x444) == 0) {
                 temp_r3_14 = create_particle_emitter(&sp8, 0x13B);
                 *(u32 *)((s8 *)arg0 + 0x444) = temp_r3_14;
                 if (temp_r3_14 != 0) {
-                    ((TBoss4Type2 *)((void *) *(u32 *)((s8 *)arg0 + 0x444)))->set_flags(0x40U);
+                    ((TParticleCtrl *)((void *) *(u32 *)((s8 *)arg0 + 0x444)))->set_flags(0x40U);
                 }
             }
         }
@@ -956,7 +956,7 @@ void TBoss4Type2::beam_update() {
             }
         } else if (t >= 8.0f && *(u32 *)((s8 *)arg0 + 0x434) == 0) {
             if ((*(u32 *)((s8 *)arg0 + 0x434) = create_particle_emitter(&v, 0xF7)) != 0) {
-                ((TBoss4Type2 *)(*(void **)((s8 *)arg0 + 0x434)))->set_flags(0x40);
+                ((TParticleCtrl *)(*(void **)((s8 *)arg0 + 0x434)))->set_flags(0x40);
             }
         }
         if (*(f32 *)((s8 *)arg0 + 0x3D0) >= 8.0f && *(f32 *)((s8 *)arg0 + 0x3D0) <= 17.0f) {
@@ -966,7 +966,7 @@ void TBoss4Type2::beam_update() {
     if (*(s32 *)((s8 *)arg0 + 0x398) == 0x26) {
         h = spawn_particle_effect(&v, 0xFD);
         if (h != 0) {
-            ((TBoss4Type2 *)h)->set_flags(0x40);
+            ((TParticleCtrl *)h)->set_flags(0x40);
         }
         play_sound_effect(0x4003A813, arg0 + 0x38, 0, 1);
         start_pad_rumble_all(0xC0, 0xF);

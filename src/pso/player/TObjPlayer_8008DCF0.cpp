@@ -1,9 +1,9 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/enemy/TObjEneBalClawBody.h"
@@ -410,13 +410,13 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
         o->f400 = -0x4000;
         if (FLD(f32, 0xC0) >= lbl_805D9638 && FLD(f32, 0xC0) < lbl_805D965C) {
             ((TParticleCtrl *)o->p3E4)->set_position(o->f3EC);
-            ((TBoss4Type2 *)(o->p3E4))->copy_vec3(&o->f3F8);
+            ((TParticleCtrl *)(o->p3E4))->set_direction(&o->f3F8);
         } else {
             ((TParticleCtrl *)(o->p3E4))->enable();
         }
         if (FLD(f32, 0xC0) >= lbl_805D9660 && FLD(f32, 0xC0) < lbl_805D965C) {
             ((TParticleCtrl *)o->p3E8)->set_position(o->f3EC);
-            ((TBoss4Type2 *)(o->p3E8))->copy_vec3(&o->f3F8);
+            ((TParticleCtrl *)(o->p3E8))->set_direction(&o->f3F8);
         } else {
             ((TParticleCtrl *)(o->p3E8))->enable();
         }

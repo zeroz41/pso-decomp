@@ -2,6 +2,7 @@
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/TParticleCtrl.h"
 #include "pso/object/TObjDFDemo1.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/PadRumble.h"
@@ -223,7 +224,6 @@ void TObjDFDemo1::render() { draw_fading_model(); sub_8004E068(); }
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/TParticleCtrl.h"
 
 struct DFDemo1Emitter {
     s32 effect;
@@ -234,7 +234,7 @@ struct DFDemo1Emitter {
 
 struct DFDemo1Fields {
     u8 pad0[0x90];
-    TBoss4Type2 *emitters[4];
+    TParticleCtrl *emitters[4];
     u8 padA0[0x100 - 0xA0];
     f32 pos[3];
     s32 m_10c;
@@ -274,7 +274,7 @@ void TObjDFDemo1::run_task() {
                 p[2] = -s * e->offset[0] + c * e->offset[2];
                 p[1] = e->offset[1];
                 vec3_add_to(p, self->pos);
-                self->emitters[i] = (TBoss4Type2 *)create_particle_emitter(p, lbl_80485590[i].effect);
+                self->emitters[i] = create_particle_emitter(p, lbl_80485590[i].effect);
                 if (self->emitters[i] != NULL) {
                     self->emitters[i]->set_flags(0x40);
                 }
@@ -282,7 +282,7 @@ void TObjDFDemo1::run_task() {
         }
     }
     if (self->timer >= 0x46 && self->timer <= 0x82) {
-        TBoss4Type2 *fx = (TBoss4Type2 *)spawn_particle_effect(self->pos, 0x14E);
+        TParticleCtrl *fx = (TParticleCtrl *)spawn_particle_effect(self->pos, 0x14E);
         if (fx != NULL) {
             fx->set_flags(0x40);
         }
