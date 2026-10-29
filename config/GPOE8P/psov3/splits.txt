@@ -5318,18 +5318,13 @@ pso/misc/TORainbowCave01.cpp:
 	.sbss       start:0x805D5A70 end:0x805D5A74
 	.sdata2     start:0x805DB940 end:0x805DB95C
 
-pso/misc/TORevlightCave01_80173478.cpp:
-	.text       start:0x80173478 end:0x80173590
-
 pso/misc/TORevlightCave01.cpp:
-	.text       start:0x80173590 end:0x80173664
-
-pso/misc/TORevlightCave01_80173664.cpp:
-	.text       start:0x80173664 end:0x801736BC
-
-pso/misc/TORevlightCave01_801736BC.cpp:
-	.text       start:0x801736BC end:0x801737C4
-	.rodata     start:0x80442498 end:0x804424A0
+	.text       start:0x80173478 end:0x801737C4
+	.rodata     start:0x80442438 end:0x804424A0
+	.data       start:0x804B3A60 end:0x804B3AB8
+	.sdata      start:0x805D30D8 end:0x805D30DC
+	.sbss       start:0x805D5A78 end:0x805D5A7C
+	.sdata2     start:0x805DB960 end:0x805DB970
 
 pso/misc/TORockCaveBL03.cpp:
 	.text       start:0x801737C4 end:0x80173874

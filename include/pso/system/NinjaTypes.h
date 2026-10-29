@@ -39,6 +39,8 @@ struct NJS_ARGB {
 struct NJS_CNK_MODEL {
     void *vertex_list;
     s16 *polygon_list;
+    f32 center[3];
+    f32 r;  // bounding radius around center
 };
 
 // Ninja model hierarchy node.

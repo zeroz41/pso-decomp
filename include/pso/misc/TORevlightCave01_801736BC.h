@@ -1,6 +1,0 @@
-#ifndef PSO_MISC_TOREVLIGHTCAVE01_801736BC_H
-#define PSO_MISC_TOREVLIGHTCAVE01_801736BC_H
-
-#include "pso/misc/TORevlightCave01.h"
-
-#endif

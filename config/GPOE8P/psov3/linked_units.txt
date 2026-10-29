@@ -1328,9 +1328,6 @@ pso/misc/TOMonumentAncient01.cpp
 pso/misc/TOMonumentAncient02.cpp
 pso/misc/TORainbowCave01.cpp
 pso/misc/TORevlightCave01.cpp
-pso/misc/TORevlightCave01_80173478.cpp
-pso/misc/TORevlightCave01_80173664.cpp
-pso/misc/TORevlightCave01_801736BC.cpp
 pso/misc/TORockCave.cpp
 pso/misc/TORockCaveBL01.cpp
 pso/misc/TORockCaveBL02.cpp
