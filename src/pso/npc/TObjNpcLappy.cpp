@@ -111,17 +111,17 @@ extern "C" void update_object_view_visibility__8TObjBaseFff();
 extern "C" void update_poison_status__9TObjCharaFv();
 extern "C" void update_standing__11TObjNpcBaseFv();
 extern "C" void update_wandering__11TObjNpcBaseFv();
-void *npc_lappy_animation_table[40] = {
-    (void *)0x10000, (void *)0x5, (void *)0x3f333333, (void *)0x0,
-    (void *)0x10001, (void *)0x9, (void *)0x3fe66666, (void *)0x1,
-    (void *)0x10002, (void *)0x6, (void *)0x3f666666, (void *)0x0,
-    (void *)0x20001, (void *)0x8, (void *)0x3f333333, (void *)0x0,
-    (void *)0x10004, (void *)0x3, (void *)0x3f99999a, (void *)0x1,
-    (void *)0x20000, (void *)0x0, (void *)0x3f800000, (void *)0x4,
-    (void *)0x20000, (void *)0x1, (void *)0x3f800000, (void *)0x8,
-    (void *)0x30006, (void *)0x2, (void *)0x3f19999a, (void *)0x10,
-    (void *)0x20004, (void *)0x4, (void *)0x3f666666, (void *)0x1,
-    (void *)0x20004, (void *)0x7, (void *)0x3f000000, (void *)0x0,
+TObjMotionAction npc_lappy_animation_table[10] = {
+    {1, 0, 5, 0.7f, 0},
+    {1, 1, 9, 1.8f, 1},
+    {1, 2, 6, 0.9f, 0},
+    {2, 1, 8, 0.7f, 0},
+    {1, 4, 3, 1.2f, 1},
+    {2, 0, 0, 1.0f, 4},
+    {2, 0, 1, 1.0f, 8},
+    {3, 6, 2, 0.6f, 0x10},
+    {2, 4, 4, 0.9f, 1},
+    {2, 4, 7, 0.5f, 0},
 };
 void *lbl_804A9DA8[11] = {
     (void *)0x0, (void *)0x40f00000, (void *)0x0, (void *)0x40e00000,
@@ -177,7 +177,7 @@ u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
     ((TObjNpcLappy *)self)->apply_set_params(0, 1);
     *(s32 *)(self + 0x34) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 8);
     *(s32 *)(self + 0x24) = *(s32 *)(*(u8 **)(rappy_bml_resource + 0x42C) + 0xC);
-    ((TObjMotion *)self)->init_motion((TObjMotionAction *)npc_lappy_animation_table, (BmlMotionEntry *)*(s32 *)(rappy_bml_resource + 0x430), *(s16 *)(self + 0xB8));
+    ((TObjMotion *)self)->init_motion(npc_lappy_animation_table, (BmlMotionEntry *)*(s32 *)(rappy_bml_resource + 0x430), *(s16 *)(self + 0xB8));
     *(u8 **)(self + 0x350) = npc_movement_parameters;
     ((TObjChara *)self)->set_motion_params(npc_default_battle_stats);
     init_collision_body_parts(self, lbl_804A9DA8, 1);

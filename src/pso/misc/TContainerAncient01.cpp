@@ -353,10 +353,10 @@ void *TContainerAncient01__collision_body_parts[11] = {
     (void *)0x41200000, (void *)0x0, (void *)0x38003, (void *)0x0,
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *TContainerAncient01__anim_table[12] = {
-    (void *)0x10000, (void *)0x0, (void *)0x3f800000, (void *)0x1,
-    (void *)0x10000, (void *)0x0, (void *)0x40c00000, (void *)0x1,
-    (void *)0x20000, (void *)0x1, (void *)0x3f800000, (void *)0x4,
+TObjMotionAction TContainerAncient01__anim_table[3] = {
+    {1, 0, 0, 1.0f, 1},
+    {1, 0, 0, 6.0f, 1},
+    {2, 0, 1, 1.0f, 4},
 };
 void *__vt__20TContainerAncient01R[79] = {
     (void *)0x0, (void *)0x0, (void *)&dt__20TContainerAncient01RFPvs, (void *)&run_task__20TContainerAncient01RFv,
@@ -1165,7 +1165,7 @@ u8 *TContainerAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TContainerAncient01 *)(arg0))->apply_object_set_data((void *)arg2);
     *(s32 *)((s8 *)arg0 + 0x34) = get_bml_model((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
     ((TContainerAncient01 *)arg0)->texlist = TObjFish__sub_8001EDB0((int) ((*(u8 * *)&TContainerAncient01__bml_resource)), 0);
-    ((TContainerAncient01 *)arg0)->action_table = (TObjMotionAction *)TContainerAncient01__anim_table;
+    ((TContainerAncient01 *)arg0)->action_table = TContainerAncient01__anim_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)((void *) (((TContainerAncient01 *)arg0)->action_table)));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&TContainerAncient01__bml_resource) + 0x430);
     ((TContainerAncient01 *)arg0)->requested_action = 0;

@@ -1047,15 +1047,15 @@ void *bm_ene_gyaranzo_motion_names[9] = {
 void *bm_ene_gyaranzo_resource_descriptor[4] = {
     (void *)&lbl_8043C238, (void *)&bm_ene_gyaranzo_model_names, (void *)&bm_ene_gyaranzo_motion_names, (void *)0x70008,
 };
-void *gyaranzo_action_table[32] = {
-    (void *)0x20000, (void *)0x4, (void *)0x3f333333, (void *)0x0,
-    (void *)0x20005, (void *)0x5, (void *)0x3f333333, (void *)0x1,
-    (void *)0x20000, (void *)0x0, (void *)0x3f800000, (void *)0x4,
-    (void *)0x20000, (void *)0x2, (void *)0x3f4ccccd, (void *)0x8,
-    (void *)0x30004, (void *)0x3, (void *)0x3f800000, (void *)0x10,
-    (void *)0x10005, (void *)0x6, (void *)0x3f333333, (void *)0x1,
-    (void *)0x20000, (void *)0x7, (void *)0x3f4ccccd, (void *)0x1,
-    (void *)0x20000, (void *)0x1, (void *)0x3f800000, (void *)0x8,
+TObjMotionAction gyaranzo_action_table[8] = {
+    {2, 0, 4, 0.7f, 0},
+    {2, 5, 5, 0.7f, 1},
+    {2, 0, 0, 1.0f, 4},
+    {2, 0, 2, 0.8f, 8},
+    {3, 4, 3, 1.0f, 0x10},
+    {1, 5, 6, 0.7f, 1},
+    {2, 0, 7, 0.8f, 1},
+    {2, 0, 1, 1.0f, 8},
 };
 void *lbl_804941DC[7] = {
     (void *)0x43160000, (void *)0x3f0e38e3, (void *)0x400, (void *)0x1e0000,
@@ -1694,7 +1694,7 @@ u8 *TObjEneGyaranzo__ct(TObjEneGyaranzo *arg0, s32 arg1, u8 *arg2) {
     ((TObjEneGyaranzo *)(arg0))->apply_set_data(arg2);
     VecCopy((Vec *)((u8 *)arg0 + 0x290), (const Vec *)(VecCopy((Vec *)((u8 *)arg0 + 0x29C), (const Vec *)((u8 *)arg0 + 0x38))));
     *(s32 *)((s8 *)arg0 + 0xDC) = (s32) *(s32 *)((s8 *)(*(u8 * *)&gyaranzo_bml_resource) + 0x430);
-    arg0->action_table = (TObjMotionAction *)gyaranzo_action_table;
+    arg0->action_table = gyaranzo_action_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)arg0->action_table);
     init_collision_body_parts(arg0, (void *) lbl_804941F8, 1);
     arg0->variant = 0;

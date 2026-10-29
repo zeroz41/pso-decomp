@@ -225,15 +225,6 @@ struct RecoveredGlobal_802D7ED4_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct RecoveredGlobal_802D7A2C_lbl_804E28B0
-{
-  s32 value;
-  u8 remaining[0x13C];
-};
-
-typedef struct RecoveredGlobal_802D7A2C_lbl_804E28B0 RecoveredGlobal_802D7A2C_lbl_804E28B0;
-
-typedef char RecoveredGlobal_802D7A2C_lbl_804E28B0_size[((sizeof(RecoveredGlobal_802D7A2C_lbl_804E28B0)) == 0x140) ? (1) : (-1)];
 
 typedef char RecoveredGlobal_802D7ED4_lbl_80472780_size[sizeof(RecoveredGlobal_802D7ED4_lbl_80472780) == 0x10 ? 1 : -1];
 
@@ -720,17 +711,17 @@ void *gibbles_motion_name_table[11] = {
 void *lbl_804E28A0[4] = {
     (void *)&lbl_80472730, (void *)&lbl_804E286C, (void *)&gibbles_motion_name_table, (void *)0x1000a,
 };
-void *lbl_804E28B0[40] = {
-    (void *)0x10000, (void *)0x8, (void *)0x3e99999a, (void *)0x1,
-    (void *)0x10000, (void *)0x9, (void *)0x3f000000, (void *)0x1,
-    (void *)0x20000, (void *)0x0, (void *)0x3f333333, (void *)0x4,
-    (void *)0x20000, (void *)0x7, (void *)0x3f19999a, (void *)0x4,
-    (void *)0x10000, (void *)0x5, (void *)0x3e99999a, (void *)0x4,
-    (void *)0x20006, (void *)0x4, (void *)0x3f333333, (void *)0x4,
-    (void *)0x10000, (void *)0x6, (void *)0x3f333333, (void *)0x4,
-    (void *)0x10000, (void *)0x3, (void *)0x3f4ccccd, (void *)0x20,
-    (void *)0x20000, (void *)0x1, (void *)0x3f4ccccd, (void *)0x8,
-    (void *)0x30000, (void *)0x2, (void *)0x3f333333, (void *)0x10,
+TObjMotionAction gibbles_action_table[10] = {
+    {1, 0, 8, 0.3f, 1},
+    {1, 0, 9, 0.5f, 1},
+    {2, 0, 0, 0.7f, 4},
+    {2, 0, 7, 0.6f, 4},
+    {1, 0, 5, 0.3f, 4},
+    {2, 6, 4, 0.7f, 4},
+    {1, 0, 6, 0.7f, 4},
+    {1, 0, 3, 0.8f, 0x20},
+    {2, 0, 1, 0.8f, 8},
+    {3, 0, 2, 0.7f, 0x10},
 };
 void *lbl_804E2950[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
@@ -770,19 +761,15 @@ void *lbl_804E29F0[83] = {
     (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
-#define lbl_804E28B0 (*(RecoveredGlobal_802D7A2C_lbl_804E28B0 *)lbl_804E28B0)
 
 void TObjEneGibbles::set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0) {
   f32 var_f1;
-  u8 *new_var;
   var_f1 = farg0;
   if (var_f1 < lbl_805DE7E0)
   {
     var_f1 = lbl_805DE7E0;
   }
-  new_var = (u8 *) (&lbl_804E28B0.value);
-  new_var = new_var + (arg1 * 0x10);
-  *((f32 *) (((s8 *) new_var) + 8)) = var_f1;
+  gibbles_action_table[arg1].speed = var_f1;
 }
 
 void TObjEneGibbles__sub_802D7A54(void *arg0) {
@@ -2608,7 +2595,7 @@ u8 *TObjEneGibbles__ct(u8 *arg0, void *parent, s32 arg2) {
     ((TObjEnemy *)arg0)->set_param(0x3D);
     ((TObjEneGibbles *)arg0)->subtype = 0;
     ((TObjEneGibbles *)arg0)->sub_802DBC94(((TObjEneGibbles *)arg0)->variant);
-    ((TObjEneGibbles *)arg0)->action_table = (TObjMotionAction *)&lbl_804E28B0;
+    ((TObjEneGibbles *)arg0)->action_table = gibbles_action_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneGibbles *)arg0)->action_table));
     *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)TObjEneGibbles__resource_bundle + 0x430);
     ((TObjEneGibbles *)arg0)->requested_action = 0;

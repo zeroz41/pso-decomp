@@ -95,13 +95,6 @@ struct NjObject {
     NjObject *sibling;
 };
 
-struct VoloptActionEntry {
-    u32 kind;
-    u32 motion;
-    f32 speed;
-    u32 flags;
-};
-
 struct VoloptMovementParams {
     f32 radius;
     f32 scale;
@@ -155,16 +148,16 @@ static s32 chain_node_ids_a[5] = {5, 8, 11, 14, 17};
 static s32 chain_node_ids_b[5] = {21, 24, 27, 30, 33};
 static s16 chain_node_ids[10] = {4, 7, 10, 13, 16, 20, 23, 26, 29, 32};
 static s16 volley_node_ids[4] = {0x2E, 0x2F, 0x30, 0x31};
-static VoloptActionEntry action_entries[9] = {
-    {0x10000, 0x10, 0.7f, 0},
-    {0x10000, 0x10, 0.7f, 1},
-    {0x20000, 0xA, 0.8f, 4},
-    {0x20000, 0x4, 0.6f, 8},
-    {0x30004, 0x5, 0.5f, 0x10},
-    {0x20000, 0xB, 0.7f, 4},
-    {0x20000, 0x9, 0.8f, 4},
-    {0x20000, 0x1, 0.7f, 4},
-    {0x20000, 0xD, 0.6f, 1},
+static TObjMotionAction action_entries[9] = {
+    {1, 0, 16, 0.7f, 0},
+    {1, 0, 16, 0.7f, 1},
+    {2, 0, 10, 0.8f, 4},
+    {2, 0, 4, 0.6f, 8},
+    {3, 4, 5, 0.5f, 0x10},
+    {2, 0, 11, 0.7f, 4},
+    {2, 0, 9, 0.8f, 4},
+    {2, 0, 1, 0.7f, 4},
+    {2, 0, 13, 0.6f, 1},
 };
 static VoloptMovementParams movement_params = {150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0};
 static VoloptCollisionBody collision_bodies[5] = {
@@ -266,7 +259,7 @@ void TBoss3VoloptP02::init_params() {
     s32 i;
     m_name = TBoss3VoloptP02_name;
     motion_list = lbl_805D4CE4->motions;
-    action_table = (TObjMotionAction *)action_entries;
+    action_table = action_entries;
     set_field_d8((s32)action_table);
     init_collision_body_parts(this, collision_bodies, 5);
     variant = 0;

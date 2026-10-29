@@ -1487,19 +1487,19 @@ void *bm_ene_nanodrago_motion_names[13] = {
 void *bm_ene_nanodrago_resource_descriptor[4] = {
     (void *)&lbl_8043C8A8, (void *)&bm_ene_nanodrago_model_names, (void *)&bm_ene_nanodrago_motion_names, (void *)0x1000c,
 };
-void *lbl_80494B5C[48] = {
-    (void *)0x20000, (void *)0xa, (void *)0x3f4ccccd, (void *)0x0,
-    (void *)0x10001, (void *)0xb, (void *)0x3f4ccccd, (void *)0x1,
-    (void *)0x20000, (void *)0x0, (void *)0x3f333333, (void *)0x4,
-    (void *)0x20000, (void *)0x2, (void *)0x3f4ccccd, (void *)0x8,
-    (void *)0x30004, (void *)0x3, (void *)0x3f000000, (void *)0x10,
-    (void *)0x20000, (void *)0x6, (void *)0x3f4ccccd, (void *)0x1,
-    (void *)0x20007, (void *)0x9, (void *)0x3f666666, (void *)0x1,
-    (void *)0x10007, (void *)0x5, (void *)0x3fb33333, (void *)0x1,
-    (void *)0x20000, (void *)0x7, (void *)0x3fb33333, (void *)0x1,
-    (void *)0x20007, (void *)0x8, (void *)0x3f333333, (void *)0x4,
-    (void *)0x20007, (void *)0x1, (void *)0x3f4ccccd, (void *)0x8,
-    (void *)0x3000b, (void *)0x4, (void *)0x3f000000, (void *)0x10,
+TObjMotionAction nanodrago_action_table[12] = {
+    {2, 0, 10, 0.8f, 0},
+    {1, 1, 11, 0.8f, 1},
+    {2, 0, 0, 0.7f, 4},
+    {2, 0, 2, 0.8f, 8},
+    {3, 4, 3, 0.5f, 0x10},
+    {2, 0, 6, 0.8f, 1},
+    {2, 7, 9, 0.9f, 1},
+    {1, 7, 5, 1.4f, 1},
+    {2, 0, 7, 1.4f, 1},
+    {2, 7, 8, 0.7f, 4},
+    {2, 7, 1, 0.8f, 8},
+    {3, 11, 4, 0.5f, 0x10},
 };
 void *lbl_80494C1C[7] = {
     (void *)0x43160000, (void *)0x3eed097b, (void *)0x300, (void *)0x1e0000,
@@ -1537,7 +1537,6 @@ void *lbl_80494C90[83] = {
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 #define bm_ene_nanodrago_resource_descriptor (*(RecoveredGlobal_800DC028_lbl_80494B4C *)bm_ene_nanodrago_resource_descriptor)
-#define lbl_80494B5C ((u8 *)lbl_80494B5C)
 #define lbl_80494C1C ((u8 *)lbl_80494C1C)
 #define lbl_80494C38 ((u8 *)lbl_80494C38)
 #define lbl_80494C90 ((u8 *)lbl_80494C90)
@@ -1790,7 +1789,7 @@ u8 *TObjEneNanoDrago__ct(u8 *arg0, s32 arg1, u8 *arg2) {
     ((TObjChara *)arg0)->add_flags_2e4(2);
     ((TObjEneNanoDrago *)arg0)->state36C = *(s16 *)((s8 *)arg2 + 0x3E);
     ((TObjEneNanoDrago *)arg0)->load_entry_params_nanodrago(((TObjEneNanoDrago *)arg0)->variant);
-    ((TObjEneNanoDrago *)arg0)->action_table = (TObjMotionAction *)lbl_80494B5C;
+    ((TObjEneNanoDrago *)arg0)->action_table = nanodrago_action_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneNanoDrago *)arg0)->action_table));
     init_collision_body_parts(arg0, lbl_80494C38, 2);
     *(u32 *)((s8 *)(((TObjEneNanoDrago *)arg0)->bodies) + 0x44) &= ~1;

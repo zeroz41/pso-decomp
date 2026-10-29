@@ -365,16 +365,16 @@ void *gi_gue_njm_name_table[10] = {
 void *lbl_804E1248[4] = {
     (void *)&lbl_8047223C, (void *)&lbl_804E1210, (void *)&gi_gue_njm_name_table, (void *)0x30009,
 };
-void *gigue_enemy_param_table[36] = {
-    (void *)0x20000, (void *)0x4, (void *)0x3f333333, (void *)0x0,
-    (void *)0x10001, (void *)0x3, (void *)0x3f333333, (void *)0x1,
-    (void *)0x20000, (void *)0x2, (void *)0x3f19999a, (void *)0x4,
-    (void *)0x20007, (void *)0x1, (void *)0x3f19999a, (void *)0x4,
-    (void *)0x20000, (void *)0x0, (void *)0x3f000000, (void *)0x8,
-    (void *)0x20007, (void *)0x0, (void *)0x3f000000, (void *)0x8,
-    (void *)0x20007, (void *)0x3, (void *)0x3f333333, (void *)0x1,
-    (void *)0x10007, (void *)0x3, (void *)0x3f333333, (void *)0x1,
-    (void *)0x20000, (void *)0x3, (void *)0x3f333333, (void *)0x1,
+TObjMotionAction gigue_enemy_param_table[9] = {
+    {2, 0, 4, 0.7f, 0},
+    {1, 1, 3, 0.7f, 1},
+    {2, 0, 2, 0.6f, 4},
+    {2, 7, 1, 0.6f, 4},
+    {2, 0, 0, 0.5f, 8},
+    {2, 7, 0, 0.5f, 8},
+    {2, 7, 3, 0.7f, 1},
+    {1, 7, 3, 0.7f, 1},
+    {2, 0, 3, 0.7f, 1},
 };
 void *lbl_804E12E8[7] = {
     (void *)0x43160000, (void *)0x3eed097b, (void *)0x300, (void *)0x1e0000,
@@ -2148,7 +2148,7 @@ u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     ((TObjChara *)arg0)->add_flags_2e4(0x11);
     ((TObjEneMe1GiGue *)arg0)->state36C = *(s16 *)((s8 *)arg2 + 0x3E);
     ((TObjEneMe1GiGue *)arg0)->load_params_from_table(((TObjEneMe1GiGue *)arg0)->variant);
-    ((TObjEneMe1GiGue *)arg0)->action_table = (TObjMotionAction *)gigue_enemy_param_table;
+    ((TObjEneMe1GiGue *)arg0)->action_table = gigue_enemy_param_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)(((TObjEneMe1GiGue *)arg0)->action_table));
     init_collision_body_parts(arg0, lbl_804E1304, 2);
     *(u32 *)((s8 *)(((TObjEneMe1GiGue *)arg0)->bodies) + 0x44) &= ~1;

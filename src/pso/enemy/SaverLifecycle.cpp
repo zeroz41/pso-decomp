@@ -34,8 +34,6 @@ struct Obj_800A6B14;
 
 typedef struct Init_800A715C { s32 w[4]; } Init_800A715C;
 
-typedef struct Rec_800A715C { s32 a; s32 idx; f32 f; s32 d; } Rec_800A715C;
-
 typedef struct Ent_800A715C { s32 a; void *b; } Ent_800A715C;
 
 typedef struct Sub_800A715C { u8 pad[8]; void *f8; void *fC; } Sub_800A715C;
@@ -260,18 +258,18 @@ void *bm_ene_df1_saver_motion_names[12] = {
 void *bm_ene_df1_saver_resource_descriptor[4] = {
     (void *)&lbl_8043A86C, (void *)&bm_ene_df1_saver_model_names, (void *)&bm_ene_df1_saver_motion_names, (void *)0x1000b,
 };
-void *TObjEneSaver__trail_record_table[44] = {
-    (void *)0x10000, (void *)0x9, (void *)0x3f800000, (void *)0x1,
-    (void *)0x10000, (void *)0xa, (void *)0x3f800000, (void *)0x1,
-    (void *)0x20000, (void *)0x1, (void *)0x3f800000, (void *)0x4,
-    (void *)0x20000, (void *)0x8, (void *)0x3f800000, (void *)0x4,
-    (void *)0x20000, (void *)0x7, (void *)0x3f333333, (void *)0x4,
-    (void *)0x10000, (void *)0x6, (void *)0x3f4ccccd, (void *)0x20,
-    (void *)0x20007, (void *)0x5, (void *)0x3f800000, (void *)0x8,
-    (void *)0x20000, (void *)0x0, (void *)0x3f4ccccd, (void *)0x20,
-    (void *)0x20000, (void *)0x2, (void *)0x3f800000, (void *)0x8,
-    (void *)0x30000, (void *)0x4, (void *)0x3f800000, (void *)0x10,
-    (void *)0x30000, (void *)0x3, (void *)0x3f800000, (void *)0x10,
+TObjMotionAction saver_action_table[11] = {
+    {1, 0, 9, 1.0f, 1},
+    {1, 0, 10, 1.0f, 1},
+    {2, 0, 1, 1.0f, 4},
+    {2, 0, 8, 1.0f, 4},
+    {2, 0, 7, 0.7f, 4},
+    {1, 0, 6, 0.8f, 0x20},
+    {2, 7, 5, 1.0f, 8},
+    {2, 0, 0, 0.8f, 0x20},
+    {2, 0, 2, 1.0f, 8},
+    {3, 0, 4, 1.0f, 0x10},
+    {3, 0, 3, 1.0f, 0x10},
 };
 void *lbl_80490B28[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
@@ -2071,7 +2069,6 @@ u8 lbl_8043A824[];
 u8 lbl_8043A83C[];
 u8 lbl_8043A854[];
 u8 lbl_8043A86C[];
-#define TObjEneSaver__trail_record_table ((Rec_800A715C *)TObjEneSaver__trail_record_table)
 #define saver_collision_body_part_table ((f32 *)saver_collision_body_part_table)
 #define RES ((Res_800A715C *)saver_bml_resource)
 void initialize_saver_resources(void) {
@@ -2105,12 +2102,12 @@ void initialize_saver_resources(void) {
         r = (void *)init_trail_buffer__11TBoss4Type3FPvifff(r, 2, 0.0f, 7.0f, 1.0f);
     }
     lbl_805D506C = (s32)r;
-    draw_trail_with_colors((u8 *)lbl_805D5064, (s32)RES->sub->f8, (s32)(RES->ents[TObjEneSaver__trail_record_table[2].idx].b), 0x20, 0x21);
-    draw_trail_with_colors((u8 *)lbl_805D5068, (s32)RES->sub->f8, (s32)(RES->ents[TObjEneSaver__trail_record_table[4].idx].b), 0x20, 0x21);
+    draw_trail_with_colors((u8 *)lbl_805D5064, (s32)RES->sub->f8, (s32)(RES->ents[saver_action_table[2].motion].b), 0x20, 0x21);
+    draw_trail_with_colors((u8 *)lbl_805D5068, (s32)RES->sub->f8, (s32)(RES->ents[saver_action_table[4].motion].b), 0x20, 0x21);
     pos.x = pos.y = pos.z = 0.0f;
     dir.x = (-10.0f);
     dir.y = dir.z = 0.0f;
-    TObjEneMe3ShinowaMirage__sub_800D98D8((u8 *)lbl_805D506C, (s32)RES->sub->f8, (s32)(RES->ents[TObjEneSaver__trail_record_table[3].idx].b), 0x19, (u8 *)&pos, (u8 *)&dir);
+    TObjEneMe3ShinowaMirage__sub_800D98D8((u8 *)lbl_805D506C, (s32)RES->sub->f8, (s32)(RES->ents[saver_action_table[3].motion].b), 0x19, (u8 *)&pos, (u8 *)&dir);
     player_object_ptr_array = (s32 *)mem_alloc(0xC);
     saver_boss_stat_handle = register_boss__6TLobbyFl(0x52);
     player_object_ptr_array[0] = dispatch_shared_handler_b__6TLobbyFl(0x57);
@@ -2172,7 +2169,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     ((TObjEnemy *)arg0)->set_param(0x1E);
     arg0->subtype = 0;
     arg0->sub_800A7734(arg0->variant);
-    arg0->action_table = (TObjMotionAction *)TObjEneSaver__trail_record_table;
+    arg0->action_table = saver_action_table;
     ((TObjMotion *)arg0)->set_field_d8((s32)arg0->action_table);
     *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)(*(u8 * *)&saver_bml_resource) + 0x430);
     arg0->requested_action = 0;

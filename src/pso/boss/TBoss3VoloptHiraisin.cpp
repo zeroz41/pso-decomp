@@ -48,13 +48,6 @@ struct BreakupParams {
     f32 pad_18;
 };
 
-struct MotionAction {
-    s32 pad_0;
-    s32 pad_4;
-    f32 pad_8;
-    s32 pad_c;
-};
-
 struct EnemyMovementParams {
     f32 pad_0;
     f32 pad_4;
@@ -90,12 +83,12 @@ struct ModelNode {
 static const char *TBoss3VoloptHiraisin_name = "TBoss3VoloptHiraisin";
 
 static BreakupParams volopt_hiraisin_breakup_params = { 0x14, 0.06f, 1.5f, 0.9f, 0.12f, 0.55f, 0.5f };
-static MotionAction volopt_hiraisin_motions[5] = {
-    { 0x10000, 6, 0.7f, 0 },
-    { 0x10000, 6, 0.7f, 1 },
-    { 0x20000, 6, 0.7f, 4 },
-    { 0x20000, 8, 0.7f, 8 },
-    { 0x30004, 7, 0.5f, 0x10 },
+static TObjMotionAction volopt_hiraisin_motions[5] = {
+    {1, 0, 6, 0.7f, 0},
+    {1, 0, 6, 0.7f, 1},
+    {2, 0, 6, 0.7f, 4},
+    {2, 0, 8, 0.7f, 8},
+    {3, 4, 7, 0.5f, 0x10},
 };
 static EnemyMovementParams volopt_hiraisin_movement = { 150.0f, 0.5555555f, 0x400, 0x1E0000, 0, 1, 0 };
 static CollisionBodyPart volopt_hiraisin_body_parts[1] = {
@@ -357,7 +350,7 @@ void TBoss3VoloptHiraisin::init_params() {
     m_300 -= 30.0f;
     copy_position();
     motion_list = volopt_hiraisin_resources->motions;
-    action_table = (TObjMotionAction *)volopt_hiraisin_motions;
+    action_table = volopt_hiraisin_motions;
     set_field_d8((s32)action_table);
     init_collision_body_parts(this, volopt_hiraisin_body_parts, 1);
     variant = 0;
