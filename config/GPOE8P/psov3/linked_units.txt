@@ -1128,7 +1128,7 @@ pso/misc/TLobby_8033A810.cpp
 pso/misc/TLobby_8033ECB0.cpp
 pso/misc/TLobby_8034C18C.cpp
 pso/misc/TLobby_8034C23C.cpp
-pso/misc/TLobby_80351E64.cpp
+pso/misc/TLobbyEventTheme.cpp
 pso/misc/TLobby_8035D540.cpp
 pso/misc/TLobby_8036A37C.cpp
 pso/misc/TLobby_8036B204.cpp

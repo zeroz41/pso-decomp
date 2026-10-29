@@ -7,7 +7,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/boss/TBoss5GryphonLightningWing.h"
+#include "pso/misc/TLobbyEventTheme.h"
 
 struct ButterflyLobbyBase_80350958 { char pad[0x18]; };
 struct ButterflyLobbyVObj_80350958 : ButterflyLobbyBase_80350958 {
@@ -94,7 +94,7 @@ void TObjButterflyLobby::update_fade() {
     Obj_80350AE4 *arg0 = (Obj_80350AE4 *)this;
     switch (arg0->state) {
     case 0:
-        if (TLobby::is_connected() != 0) {
+        if (TLobbyEventTheme::ended() != 0) {
             arg0->state = 2;
         }
         break;
@@ -114,7 +114,7 @@ void TObjButterflyLobby::update_fade() {
         break;
     case 3:
     default:
-        if (TLobby::is_lobby_obj_active() != 0) {
+        if (TLobbyEventTheme::started() != 0) {
             arg0->state = 1;
         }
         break;

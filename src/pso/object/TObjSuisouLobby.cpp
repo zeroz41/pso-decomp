@@ -3,7 +3,7 @@
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
-#include "pso/boss/TBoss5GryphonLightningWing.h"
+#include "pso/misc/TLobbyEventTheme.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
@@ -57,7 +57,7 @@ void TObjSuisouLobby::run_task() {
     }
     switch (fade_state) {
     case 0:
-        if (TLobby::is_connected() != 0) {
+        if (TLobbyEventTheme::ended() != 0) {
             fade_state = 2;
         }
         break;
@@ -77,7 +77,7 @@ void TObjSuisouLobby::run_task() {
         break;
     case 3:
     default:
-        if (TLobby::is_lobby_obj_active() != 0) {
+        if (TLobbyEventTheme::started() != 0) {
             fade_state = 1;
         }
         break;

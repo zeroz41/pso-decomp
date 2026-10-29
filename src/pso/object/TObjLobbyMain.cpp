@@ -7,7 +7,7 @@
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TLobby_80351E64.h"
+#include "pso/misc/TLobbyEventTheme.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"

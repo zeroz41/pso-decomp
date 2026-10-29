@@ -10,7 +10,7 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/boss/TBoss5GryphonLightningWing.h"
+#include "pso/misc/TLobbyEventTheme.h"
 
 #pragma readonly_strings on
 
@@ -46,7 +46,7 @@ void TObjRainbowLobby::render() {
 void TObjRainbowLobby::run_task() {
     switch (state) {
     case 0:
-        if (TLobby::is_connected() != 0) {
+        if (TLobbyEventTheme::ended() != 0) {
             state = 2;
         }
         break;
@@ -66,7 +66,7 @@ void TObjRainbowLobby::run_task() {
         break;
     case 3:
     default:
-        if (TLobby::is_lobby_obj_active() != 0) {
+        if (TLobbyEventTheme::started() != 0) {
             state = 1;
         }
         break;

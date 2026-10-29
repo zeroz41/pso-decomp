@@ -17,7 +17,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
-#include "pso/boss/TBoss5GryphonLightningWing.h"
+#include "pso/misc/TLobbyEventTheme.h"
 
 struct Base_8029D3A4_8029CF68;
 struct Base_8029CF68;

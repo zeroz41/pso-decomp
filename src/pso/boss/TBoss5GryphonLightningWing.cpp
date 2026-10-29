@@ -52,7 +52,6 @@ extern "C" {
 s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
 s32 play_sound_effect(int, void *, int, int);
-extern s32 TLobby__event_theme_id;
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
 extern const char *lbl_805D4368;
@@ -149,20 +148,6 @@ void fn_80351DA8(s32 arg0, u8 *pos, u8 *out, s32 arg3, s32 arg4) {
     stack.spC = *(f32 *)((s8 *)pos + 4);
     stack.sp10 = *(f32 *)((s8 *)out + 8);
     spawn_lightning_wing__12TBoss8DragonFiiiiii(arg0, (s32)((s32) pos), (s32)((s32) &stack.sp8), (s32)((s32) out), arg3, arg4);
-}
-
-void TLobby__sub_80351DF8(void) {  }
-
-s32 TLobby::get_filtered_event_theme() {
-    switch (TLobby__event_theme_id) {
-    case 1: case 3: case 4: case 5: case 7: case 8: case 9: case 10: case 11: case 12: case 13:
-        return TLobby__event_theme_id;
-    }
-    return 0;
-}
-
-s32 is_lobby_event_active(void) {
-    return TLobby::get_filtered_event_theme() != 0;
 }
 
 }

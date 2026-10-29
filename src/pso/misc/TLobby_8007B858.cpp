@@ -4,6 +4,7 @@
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/TSetManager.h"
 #include "pso/misc/TLobby.h"
+#include "pso/misc/TLobbyEventTheme.h"
 #include "pso/misc/TQuestColCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TScene.h"
@@ -38,14 +39,12 @@ struct RecoveredGlobal_8007BA20_lbl_8048D5A8 {
 extern "C" {
 void TLobby__sub_802A5154(void);
 }
-void load_obj_lobby_main(void);
 extern "C" {
 s32 run_load_callback_table(void *, int);
 extern RecoveredGlobal_8007BA98_lbl_8048D4C0 lbl_8048D4C0;
 extern RecoveredGlobal_8007BA98_lbl_8048D5A8 lbl_8048D5A8;
 void call_funcs_reverse__6TLobbyFPvUi(s32, u32);
 void fn_80198E84(void);
-void TLobby__sub_8035202C(void);
 s32 __ct__9TCineCtrlFv(u32, s32);
 s32 create_area_fog_ctrl();
 s32 THunterGuildSeqOnlineTask__ct(u32, s32);
@@ -60,7 +59,6 @@ s32 ct_register__6TLobbyFv(u32, s32);
 s32 TWindowTimer__sub_80198D98();
 s32 TLobby__sub_8032BDC4(u32, s32);
 s32 TLobby__sub_8033ED24(u32, s32);
-s32 TLobby__sub_80351F3C();
 s32 get_main_phase();
 s32 is_split_screen();
 
@@ -122,7 +120,7 @@ void TLobby::create_tasks() {
     new TSwitch((TObject *)tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {
-        TLobby__sub_80351F3C();
+        TLobbyEventTheme::create();
     }
     if ((get_current_floor_area() == AREA_LOBBY) && (TLobby::is_scene_ready() != 0)) {
         TWindowTimer__sub_80198D98();
@@ -147,7 +145,7 @@ void TLobby::clear_session_buffers() {
     if (get_current_floor_area() == AREA_LOBBY) {
         TLobby::free_dialing_gc();
         fn_80198E84();
-        TLobby__sub_8035202C();
+        free_obj_lobby_main();
     }
     if ((get_current_floor_area() != AREA_PIONEER2_EP1) && (get_current_floor_area() != AREA_LOBBY) && (get_current_floor_area() != AREA_PIONEER2_EP2)) {
         call_funcs_reverse__6TLobbyFPvUi((s32) &(*(RecoveredGlobal_8007BA20_lbl_8048D5A8 *)&lbl_8048D5A8).value, 0x20U);
