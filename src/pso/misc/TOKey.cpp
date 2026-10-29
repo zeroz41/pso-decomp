@@ -20,9 +20,9 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/TProtocol.h"
+#include "pso/unk/text_803D853C.h"
 
 extern "C" {
-void debug_printf_at(s32 pos, const char *format, ...);
 s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *context, s32 button);
 s32 start_camera_pan__10TObjPlayerFs(TObjPlayer *player, s32 kind, s32 angle);
 }
