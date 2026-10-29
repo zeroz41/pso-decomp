@@ -1241,7 +1241,6 @@ pso/misc/TNpcPlayer_8034DFBC.cpp
 pso/misc/TOAirconCave01.cpp
 pso/misc/TOAirconCave01_80156D28.cpp
 pso/misc/TOAirconCave02.cpp
-pso/misc/TOAirconCave02_801571A0.cpp
 pso/misc/TOAttackableCol.cpp
 pso/misc/TOBarrierEnergy01.cpp
 pso/misc/TOBarrierEnergy01_80157CF4.cpp

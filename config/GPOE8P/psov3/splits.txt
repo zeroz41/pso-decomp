@@ -4798,11 +4798,12 @@ pso/misc/TOAirconCave01.cpp:
 	.sdata2     start:0x805DB2B8 end:0x805DB2C0
 
 pso/misc/TOAirconCave02.cpp:
-	.text       start:0x801570D4 end:0x801571A0
-
-pso/misc/TOAirconCave02_801571A0.cpp:
-	.text       start:0x801571A0 end:0x80157310
-	.data       start:0x804AF970 end:0x804AF9A8
+	.text       start:0x801570D4 end:0x80157310
+	.rodata     start:0x80440138 end:0x80440178
+	.data       start:0x804AF958 end:0x804AF9A8
+	.sdata      start:0x805D2E90 end:0x805D2E98
+	.sbss       start:0x805D5888 end:0x805D588C
+	.sdata2     start:0x805DB2C0 end:0x805DB2C8
 
 pso/misc/TOAttackableCol.cpp:
 	.text       start:0x80157310 end:0x80157CF4
