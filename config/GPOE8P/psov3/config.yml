@@ -1271,8 +1271,8 @@ force_active:
   - TObjStendGlassLobby__resource_descriptor
   - TObjStendGlassLobby__sub_803596C0
   - TObjSuisouLobby__ct
-  - TObjSuisouLobby__sub_80369B5C
-  - TObjSuisouLobby__sub_80369D68
+  - demo_step__15TObjSuisouLobbyFv
+  - sub_80369D68__15TObjSuisouLobbyFv
   - TObjTagChallenge__ct
   - TObjTailsTailsMove__ct
   - TObjTank__ct
@@ -5917,7 +5917,7 @@ force_active:
   - lbl_805D3FB0
   - lbl_805D4220
   - lbl_805D4370
-  - lbl_805D44C4
+  - obj_suisou_lobby_class_name
   - lbl_805D4630
   - lbl_805D4638
   - lbl_805D4640
@@ -6399,7 +6399,7 @@ force_active:
   - lobby_pumpkin_resource_descriptor
   - lobby_selected_game_list_index
   - lobby_short_mail_entry_count
-  - lobby_suisou_resource_descriptor
+  - bm_obj_lobby_suisou_resource_descriptor
   - lobby_weapon_random_tables_ptr
   - log_printf_buffer
   - logo_load_callback_table

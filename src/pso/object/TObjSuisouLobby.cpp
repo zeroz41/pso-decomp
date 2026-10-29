@@ -1,67 +1,51 @@
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/object/TObject_80019A50.h"
-#include "pso/system/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjSuisouLobby.h"
+#include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/boss/TBoss4Type2_800874F4.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/boss/TBoss5GryphonLightningWing.h"
-
-struct RecoveredGlobal_80369DF0_lbl_804F33E0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80369DF0_lbl_804F33E0_size[sizeof(RecoveredGlobal_80369DF0_lbl_804F33E0) == 0x10 ? 1 : -1];
-
-
-struct Vec_80369ED4 { s32 x, y, z; };
-
-
-extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern u32 TObjSuisouLobby__instance;
-extern s32 TObjSuisouLobby__lobby_type;
-u32 create_particle_emitter(void *, int);
-s32 matrix_mult_vec(int, void *, void *);
-s32 set_matrix_identity(int);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-void TLobby__sub_8001FE7C(void*, int);
-s32 scale_matrix(int, f32, f32, f32);
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
 
 #pragma readonly_strings on
-__declspec(section ".data") void *bm_obj_lobby_suisou_model_names[2] = { (void *)"lobby_suisou_s_waku.gj", 0 };
-#pragma explicit_zero_data on
-void *bm_obj_lobby_suisou_motion_names = (void *)0;
-#pragma explicit_zero_data reset
-void *lobby_suisou_resource_descriptor[4] = { (void *)"bm_obj_lobby_suisou.bml", (void *)bm_obj_lobby_suisou_model_names, (void *)&bm_obj_lobby_suisou_motion_names, (void *)0x10000 };
-char *lbl_805D44C4 = "TObjSuisouLobby";
-const f32 lbl_8047A3D0[1][3] = { { 0.0f, 0.0f, 60.0f } };
-const f32 lbl_8047A3DC[1][3] = { { 0.0f, 0.0f, -60.0f } };
-#define lobby_suisou_resource_descriptor (*(RecoveredGlobal_80369DF0_lbl_804F33E0 *)lobby_suisou_resource_descriptor)
-#define lbl_8047A3D0 ((const Vec_80369ED4 *)lbl_8047A3D0)
-#define lbl_8047A3DC ((const Vec_80369ED4 *)lbl_8047A3DC)
-void TObjSuisouLobby__sub_80369B5C(void) {  }
+
+extern "C" {
+void TLobby__sub_8001FE7C(BmlResource *resource, s32 del);
+BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
+}
+
+__declspec(section ".data") const char *bm_obj_lobby_suisou_model_names[2] = { "lobby_suisou_s_waku.gj", NULL };
+__declspec(section ".sdata") const char *bm_obj_lobby_suisou_motion_names[1] = { NULL };
+BmlResourceDescriptor bm_obj_lobby_suisou_resource_descriptor = { "bm_obj_lobby_suisou.bml", bm_obj_lobby_suisou_model_names, bm_obj_lobby_suisou_motion_names, 1, 0 };
+const char *obj_suisou_lobby_class_name = "TObjSuisouLobby";
+// Where the two bubble emitters sit, in the tank's own space.
+const Vec obj_suisou_lobby_front_bubbles = { 0.0f, 0.0f, 60.0f };
+const Vec obj_suisou_lobby_back_bubbles = { 0.0f, 0.0f, -60.0f };
+BmlResource *TObjSuisouLobby::model_resource;
+u32 TObjSuisouLobby::lobby_texlist;
+
+void TObjSuisouLobby::demo_step() {}
 
 void TObjSuisouLobby::render() {
-    f32 temp_f1;
-
-    if (((s32) this->fade_state != 0) && ((u32) this->texlist != 0U)) {
+    if (fade_state != 0 && (u32)texlist != 0) {
         TParticleCtrl::begin_effect_render();
-        TObjFish::set_global_param(this->texlist);
+        TObjFish::set_global_param(texlist);
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->rotation_y);
-        if ((s32) this->fade_state != 3) {
-            temp_f1 = this->fade_scale;
-            scale_matrix(0, temp_f1, 1.0f, temp_f1);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        if (fade_state != 3) {
+            scale_matrix(NULL, fade_scale, 1.0f, fade_scale);
         }
-        draw_ginja_object(this->model);
+        draw_ginja_object(model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
@@ -69,119 +53,113 @@ void TObjSuisouLobby::render() {
 
 void TObjSuisouLobby::run_task() {
     if (TObjPlayer::check_demo_mode() == 1) {
-        ((void (*)(void *))TObjSuisouLobby__sub_80369B5C)(this);
+        demo_step();
     }
-    switch (this->fade_state) {
+    switch (fade_state) {
     case 0:
         if (TLobby::is_connected() != 0) {
-            this->fade_state = 2;
+            fade_state = 2;
         }
         break;
     case 2:
-        this->fade_scale += 0.1f;
-        if (this->fade_scale >= 1.0f) {
-            this->fade_scale = 1.0f;
-            this->fade_state = 3;
+        fade_scale += 0.1f;
+        if (fade_scale >= 1.0f) {
+            fade_scale = 1.0f;
+            fade_state = 3;
         }
         break;
     case 1:
-        this->fade_scale -= 0.1f;
-        if (this->fade_scale <= 0.0f) {
-            this->fade_scale = 0.0f;
-            this->fade_state = 0;
+        fade_scale -= 0.1f;
+        if (fade_scale <= 0.0f) {
+            fade_scale = 0.0f;
+            fade_state = 0;
         }
         break;
     case 3:
     default:
         if (TLobby::is_lobby_obj_active() != 0) {
-            this->fade_state = 1;
+            fade_state = 1;
         }
         break;
     }
-    this->update_particle();
+    update_particle();
 }
 
 void TObjSuisouLobby::update_particle() {
-    if ((s32) this->fade_state == 3) {
-        if (this->emitter0 != NULL) {
-            this->emitter0->clear_active_flag();
+    if (fade_state == 3) {
+        if (emitter0 != NULL) {
+            emitter0->clear_active_flag();
         }
-        if (this->emitter1 != NULL) {
-            this->emitter1->clear_active_flag();
+        if (emitter1 != NULL) {
+            emitter1->clear_active_flag();
         }
     } else {
-        if (this->emitter0 != NULL) {
-            this->emitter0->enable();
+        if (emitter0 != NULL) {
+            emitter0->enable();
         }
-        if (this->emitter1 != NULL) {
-            this->emitter1->enable();
+        if (emitter1 != NULL) {
+            emitter1->enable();
         }
     }
 }
-void TObjSuisouLobby__sub_80369D68(void) {  }
 
-extern void *tl_05;
+void TObjSuisouLobby::sub_80369D68() {}
 
-void *TObjSuisouLobby::create() {
-    return new TObjSuisouLobby((TObject *)tl_05, this);
+void *TObjSuisouLobby::create(void *set_data) {
+    return new TObjSuisouLobby(tl_05, set_data);
 }
 
 void TObjSuisouLobby::free_resources() {
-    if ((u32) TObjSuisouLobby__instance != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjSuisouLobby__instance, 1);
-        TObjSuisouLobby__instance = 0U;
+    if (model_resource != NULL) {
+        TLobby__sub_8001FE7C(model_resource, 1);
+        model_resource = NULL;
     }
 }
 
 void TObjSuisouLobby::load_resources() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &lobby_suisou_resource_descriptor.value, 0, 0, 0));
+    void *resource = ::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 5, &bm_obj_lobby_suisou_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TObjSuisouLobby__instance) = var_r0;
-    TObjSuisouLobby__lobby_type = TLobby::get_lobby_texlist();
+    model_resource = (BmlResource *)resource;
+    lobby_texlist = TLobby::get_lobby_texlist();
 }
 
 TObjSuisouLobby::~TObjSuisouLobby() {
     if (emitter0 != NULL) {
-        queue_destruction__7TObjectFv(emitter0);
-        emitter0 = 0;
+        emitter0->queue_destruction();
+        emitter0 = NULL;
     }
     if (emitter1 != NULL) {
-        queue_destruction__7TObjectFv(emitter1);
-        emitter1 = 0;
+        emitter1->queue_destruction();
+        emitter1 = NULL;
     }
 }
 
-#pragma push
-#pragma opt_common_subs off
 TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = lbl_805D44C4;
+    m_name = obj_suisou_lobby_class_name;
     apply_object_set_data(set_data);
     {
-        Vec_80369ED4 v = lbl_8047A3D0[0];
+        Vec pos = obj_suisou_lobby_front_bubbles;
         push_matrix();
-        set_matrix_identity(0);
-        post_translate_matrix(&position);
-        rotate_matrix_y(0, rotation_y);
-        matrix_mult_vec(0, &v, &v);
-        emitter0 = (TParticleCtrl *)create_particle_emitter(&v, 0x222);
+        set_matrix_identity(NULL);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        matrix_mult_vec(NULL, &pos, &pos);
+        emitter0 = create_particle_emitter(&pos, 0x222);
         pop_matrix();
         if (emitter0 != NULL) {
             emitter0->enable();
         }
     }
     {
-        Vec_80369ED4 v = lbl_8047A3DC[0];
+        Vec pos = obj_suisou_lobby_back_bubbles;
         push_matrix();
-        set_matrix_identity(0);
-        post_translate_matrix(&position);
-        rotate_matrix_y(0, rotation_y);
-        matrix_mult_vec(0, &v, &v);
-        emitter1 = (TParticleCtrl *)create_particle_emitter(&v, 0x222);
+        set_matrix_identity(NULL);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
+        matrix_mult_vec(NULL, &pos, &pos);
+        emitter1 = create_particle_emitter(&pos, 0x222);
         pop_matrix();
         if (emitter1 != NULL) {
             emitter1->enable();
@@ -192,11 +170,8 @@ TObjSuisouLobby::TObjSuisouLobby(TObject *parent, void *set_data) : TObjMapObjec
     } else {
         fade_state = 3;
     }
-    ((void (*)(void *))TObjSuisouLobby__sub_80369D68)(this);
+    sub_80369D68();
     fade_scale = 1.0f;
-    model = (void *)*(s32 *)(*(u8 **)((u8 *)TObjSuisouLobby__instance + 0x42C) + 8);
-    texlist = TObjSuisouLobby__lobby_type;
-}
-#pragma pop
-
+    model = (void *)model_resource->models->model;
+    texlist = lobby_texlist;
 }

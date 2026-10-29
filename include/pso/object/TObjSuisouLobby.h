@@ -6,6 +6,11 @@
 
 class TParticleCtrl;
 
+struct BmlResource;
+
+// The lobby fish tank: shown while a lobby event runs, it fades in when the
+// lobby connects and out when a lobby object takes over, with bubbles rising
+// in front of and behind it while it is not fully shown.
 struct TObjSuisouLobby : public TObjMapObject {
     TObjSuisouLobby(TObject *parent, void *set_data);
     virtual ~TObjSuisouLobby();
@@ -16,17 +21,17 @@ struct TObjSuisouLobby : public TObjMapObject {
     u8 pad_d0[0x4];
     TParticleCtrl *emitter0;  // the bubbles in front of it
     TParticleCtrl *emitter1;  // the bubbles behind it
+    void demo_step();
     void update_particle();
-    void *create();
+    void sub_80369D68();
+    static void *create(void *set_data);
     static void free_resources();
     static void load_resources();
+
+    static BmlResource *model_resource;
+    static u32 lobby_texlist;  // the lobby's shared texture list
 };
 
 typedef char TObjSuisouLobby_size[sizeof(TObjSuisouLobby) == 0xDC ? 1 : -1];
-
-extern "C" {
-void TObjSuisouLobby__sub_80369B5C(void);
-void TObjSuisouLobby__sub_80369D68(void);
-}
 
 #endif

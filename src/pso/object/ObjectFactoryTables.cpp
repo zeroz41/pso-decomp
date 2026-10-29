@@ -265,7 +265,6 @@ void* create_instance__18TObjLaboDesignBaseFPv(void* placement);
 void* TObjLaboDesignBase__sub_80364D38(void* placement);
 void* alloc_and_construct__18TObjLaboDesignBaseFPv(void* placement);
 void* TObjLaboDesignBase__create(void* placement);
-void* create__15TObjSuisouLobbyFv(void* placement);
 }
 void* create_obj_labo_design_base(void* placement);
 void* create_labo_design_base(void* placement);
@@ -1115,7 +1114,7 @@ ObjectFactoryEntry object_factories_floor_15[20] = {
     { 0x0188, TObjCurtainLobby::create, 250000.0f, 0 },
     { 0x0189, TObjWeddingLobby::create, 250000.0f, 0 },
     { 0x018A, TObjTreeLobby::create, 250000.0f, 0 },
-    { 0x018B, create__15TObjSuisouLobbyFv, 250000.0f, 0 },
+    { 0x018B, TObjSuisouLobby::create, 250000.0f, 0 },
     { 0x018C, TObjParticleLobby::create, 160000.0f, 0 },
     { -1, 0, 250000.0f, 0 },
 };

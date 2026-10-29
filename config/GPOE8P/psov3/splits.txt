@@ -12334,6 +12334,7 @@ pso/object/TObjSuisouLobby.cpp:
 	.rodata     start:0x8047A390 end:0x8047A3E8
 	.data       start:0x804F33D8 end:0x804F3428
 	.sdata      start:0x805D44C0 end:0x805D44C8
+	.sbss       start:0x805D6FF0 end:0x805D6FF8
 	.sdata2     start:0x805E0350 end:0x805E0360
 
 pso/ui/TAdDialingMessageWindow_8036A064.cpp:
