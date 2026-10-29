@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/object/TObjQuestColBase_80196BFC.h"
@@ -45,11 +47,6 @@ struct VObj_18_26a62c : VBase_18_26a62c {
     virtual s32 m8(f32, f32);
 };
 
-struct RecoveredGlobal_80196C60_lbl_804A7438 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 struct VBase_18_1a504b
 {
   char pad[0x18];
@@ -93,8 +90,7 @@ extern "C" {
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80196D50___vt__16TObjQuestColBase __vt__16TObjQuestColBase;
 extern s32 TObjQuestColBase__instance_count;
-s32 TObjRoomId__sub_80141CF4(void *, void *, f32);
-extern RecoveredGlobal_80196C60_lbl_804A7438 lbl_804A7438;
+extern const NJS_ARGB lbl_804A7438;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
@@ -115,11 +111,10 @@ s32 TObjQuestColBase::is_within_range(f32 farg0) {
     return 0;
 }
 
-typedef char RecoveredGlobal_80196C60_lbl_804A7438_size[sizeof(RecoveredGlobal_80196C60_lbl_804A7438) == 0x10 ? 1 : -1];
 void TObjQuestColBase::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
-        TObjRoomId__sub_80141CF4((u8 *)&this->position, &lbl_804A7438.value, (f32) (lbl_805DBF00 * *(f32 *)&this->unk_AC));
+        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, lbl_805DBF00 * *(f32 *)&this->unk_AC);
     }
 }
 

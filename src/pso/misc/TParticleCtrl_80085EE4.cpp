@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
@@ -47,7 +49,6 @@ struct RecoveredGlobal_80085E78_lbl_8048E6DC {
     u8 remaining[0x30];
 };
 
-struct Col_80085798 { u32 r; u32 g; u32 b; u32 a; };
 
 struct Obj_80085798 { u8 pad[0x38]; u8 target[0x10]; };
 
@@ -186,8 +187,7 @@ s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 lbl_8048E6A8[];
 extern s32 lbl_8048E6DC[];
 extern s32 lbl_805D2930;
-extern Col_80085798 demo_mode_particle_color;
-void TObjRoomId__sub_80141CF4(void *dst, Col_80085798 *src, f32 t);
+extern NJS_ARGB demo_mode_particle_color;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 GXSetNumTexGens(int);
@@ -229,7 +229,6 @@ extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
 void *TParticleCtrl__sub_80085878(void *arg0, s16 arg1);
 void *TParticleCtrl__sub_80085E20(void *arg0, s16 arg1);
-f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 

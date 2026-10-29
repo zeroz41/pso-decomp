@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/misc/TOSwitchTimer.h"
@@ -11,12 +13,6 @@ const char *lbl_805D3188 = "TOSwitchTimer";
 }
 
 
-struct Stack_801783BC {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-};
 
 struct RecoveredGlobal_8017858C___vt__13TOSwitchTimer { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_8017858C___vt__13TOSwitchTimer_size[sizeof(RecoveredGlobal_8017858C___vt__13TOSwitchTimer) == 0x38 ? 1 : -1];
@@ -26,9 +22,6 @@ struct RecoveredGlobal_80178604___vt__13TOSwitchTimer {
     u8 remaining[0x34];
 };
 
-extern "C" {
-s32 TObjRoomId__sub_80141CF4(s32, f32 *, f32, f32, f32);
-}
 void clear_floor_switch_flag(u32 id, s16 floor);
 extern "C" {
 void __dl__7TObjectFPv(s32);
@@ -40,14 +33,13 @@ u8 is_current_floor_switch_set(u16);
 void *__nw__7TObjectFUl(int);
 
 void TOSwitchTimer::render() {
-    s32 arg0 = (s32)this;
-    Stack_801783BC stack;
     if (TObjPlayer::check_demo_mode() == 1) {
-        stack.sp8 = 0.3f;
-        stack.spC = 0.6f;
-        stack.sp10 = 0.3f;
-        stack.sp14 = 0.0f;
-        TObjRoomId__sub_80141CF4(arg0 + 0x38, &stack.sp8, 10.0f, 0.6f, 0.3f);
+        NJS_ARGB color;
+        color.a = 0.3f;
+        color.r = 0.6f;
+        color.g = 0.3f;
+        color.b = 0.0f;
+        TObjRoomId__sub_80141CF4(&position, &color, 10.0f);
     }
 }
 

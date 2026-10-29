@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TOChatSensor.h"
 #include "pso/TObject.h"
@@ -5,13 +7,6 @@
 #include "pso/ui/Language.h"
 #include "pso/quest/TQuestThread.h"
 
-struct Stack_8015AF10
-{
-  f32 sp8;
-  f32 spC;
-  f32 sp10;
-  f32 sp14;
-};
 
 struct C_8015ACE4 { u8 pad0[0xA4]; s8 buf[0x20]; };
 
@@ -25,7 +20,6 @@ struct Packet_8015AD54 {
 extern "C" {
 u8 is_current_floor_switch_set(int);
 f32 newton_sqrtf(f32);
-s32 TObjRoomId__sub_80141CF4(void *, void *);
 extern const f32 lbl_805DB388;
 extern const f32 lbl_805DB38C;
 void *strncpy(void *, void *, s32);
@@ -34,7 +28,6 @@ s32 find_chat_keyword(void *, void *, s32);
 void *__nw__7TObjectFUl(u32);
 extern void *quest_mission_manager;
 extern void *tl_00;
-f32 horizontal_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;
@@ -45,7 +38,7 @@ void TOChatSensor::check_player_proximity() {
 
     player = (u32)get_player_by_client_id((local_client_id));
     if (player != 0U) {
-        if (horizontal_distance_squared((void *)(player + 0x38), (void *)(arg0 + 0x38)) < *(f32 *)&this->unk_9C) {
+        if (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < *(f32 *)&this->unk_9C) {
             this->m_a0 = 1;
             return;
         }
@@ -134,18 +127,15 @@ void TOChatSensor::init_params() {
     *(s32 *)&this->m_c8 = 0;
 }
 
-typedef struct Stack_8015AF10 Stack_8015AF10;
 void TOChatSensor::render() {
     u8 *arg0 = (u8 *)this;
-  Stack_8015AF10 stack;
-  if (TObjPlayer::check_demo_mode() == 1)
-  {
-    stack.sp8 = lbl_805DB388;
-    stack.spC = lbl_805DB388;
-    stack.sp14 = (stack.sp10 = lbl_805DB38C);
-    newton_sqrtf(*((f32 *) (((s8 *) arg0) + 0x9C)));
-    TObjRoomId__sub_80141CF4((u8 *)&this->position, &stack.sp8);
-  }
+    if (TObjPlayer::check_demo_mode() == 1) {
+        NJS_ARGB color;
+        color.a = lbl_805DB388;
+        color.r = lbl_805DB388;
+        color.b = color.g = lbl_805DB38C;
+        TObjRoomId__sub_80141CF4(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x9C)));
+    }
 }
 
 void TOChatSensor::run_task() {

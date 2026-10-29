@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TContainerAncient01.h"
@@ -42,7 +43,6 @@ struct TObjRoomId {
 
 struct Vec_801A18EC { f32 x, y, z; };
 
-struct Color_801A18EC { f32 r, g, b, a; };
 
 struct RoomId_801A18EC {
     u8 pad0[0x38];
@@ -66,7 +66,7 @@ s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range
 void draw_debug_line__10TObjRoomIdFUllll(void *, int, int, void *);
 void TObjMapWarp__sub_80141CB0(Vec_801A18EC *, Vec_801A18EC *, u32, u32);
 void fn_80141CBC(void *a, void *b, f32 s);
-void TObjRoomId__sub_80141CF4(Vec_801A18EC *, Color_801A18EC *, f32);
+void TObjRoomId__sub_80141CF4(const Vec_801A18EC *pos, const NJS_ARGB *color, f32 radius);
 extern u8 lbl_804468B8[];
 extern u8 lbl_804468C4[];
 extern u8 lbl_804468D0[];
@@ -97,8 +97,8 @@ s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range
 #pragma fp_contract on
 void render__10TObjRoomIdFv(RoomId_801A18EC *self) {
     if (TObjPlayer::check_demo_mode() != 0) {
-        Color_801A18EC c1 = { 0.5f, 1.0f, 1.0f, 0.0f };
-        Color_801A18EC c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
+        NJS_ARGB c1 = { 0.5f, 1.0f, 1.0f, 0.0f };
+        NJS_ARGB c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
         Vec_801A18EC end;
         TObjRoomId__sub_80141CF4(&self->pos, &c2, lbl_805DC088 * (lbl_805DC08C * self->radius));
         fn_80141CBC(&self->pos, &c1, lbl_805DC08C * self->radius);

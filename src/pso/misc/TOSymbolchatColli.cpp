@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
@@ -5,13 +7,6 @@
 #include "pso/misc/TWindowSubSymbolChat.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-
-struct Stack_80178830 {
-    f32 sp8;
-    f32 spC;
-    f32 sp10;
-    f32 sp14;
-};
 
 struct VBase_80178AD4 { u8 pad[0x18]; };
 
@@ -61,7 +56,6 @@ struct Ent_8017873C
 
 extern "C" {
 f32 newton_sqrtf(f32 x);
-s32 TObjRoomId__sub_80141CF4(void *, void *);
 extern const f32 lbl_805DBA2C;
 extern const f32 lbl_805DBA30;
 void __ct__9TObjCharaFP7TObject(void *);
@@ -71,7 +65,6 @@ extern s32 __vt__17TOSymbolchatColli[];
 extern s32 lbl_805D3194;
 Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
-f32 horizontal_distance_squared(void *, void *);
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
 void run_task__17TOSymbolchatColliFv(Obj_80178890 *self);
@@ -152,14 +145,13 @@ void TOSymbolchatColli::init_collision_params() {
 
 void TOSymbolchatColli::render() {
     u8 *arg0 = (u8 *)this;
-    Stack_80178830 stack;
     if (TObjPlayer::check_demo_mode() == 1) {
-        stack.sp8 = lbl_805DBA2C;
-        stack.spC = lbl_805DBA30;
-        stack.sp10 = lbl_805DBA2C;
-        stack.sp14 = lbl_805DBA2C;
-        newton_sqrtf((f32) (*(f32 *)((s8 *)arg0 + 0x334)));
-        TObjRoomId__sub_80141CF4((u8 *)&this->position, &stack.sp8);
+        NJS_ARGB color;
+        color.a = lbl_805DBA2C;
+        color.r = lbl_805DBA30;
+        color.g = lbl_805DBA2C;
+        color.b = lbl_805DBA2C;
+        TObjRoomId__sub_80141CF4(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x334)));
     }
 }
 
@@ -169,7 +161,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
     for (i = 0; i != 4; i++) {
         pl = (Player_80178890 *)find_entity_by_id(i);
         if (pl != NULL && is_locally_controlled__10TObjPlayerFPv() != 0) {
-            if (horizontal_distance_squared(pl->pos, self->pos) < self->radiusSq) {
+            if (horizontal_distance_squared((const Vec *)pl->pos, (const Vec *)self->pos) < self->radiusSq) {
                 if (self->inside[i] == 0) {
                     self->inside[i] = 1;
                     s32 st = ((TOSymbolchatColli *)self)->get_state();

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjQuestColALock.h"
 
@@ -20,26 +21,20 @@ struct RecoveredGlobal_80196574_lbl_804A7428 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_80196574_lbl_804A7438 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s32 fn_80141CBC(void *, void *, int, f32);
-s32 TObjRoomId__sub_80141CF4(void *, void *, f32);
+void TObjRoomId__sub_80141CF4(const Vec *pos, const NJS_ARGB *color, f32 radius);
 extern RecoveredGlobal_80196574_lbl_804A7428 lbl_804A7428;
-extern RecoveredGlobal_80196574_lbl_804A7438 lbl_804A7438;
+extern const NJS_ARGB lbl_804A7438;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
 typedef char RecoveredGlobal_80196574_lbl_804A7428_size[sizeof(RecoveredGlobal_80196574_lbl_804A7428) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_80196574_lbl_804A7438_size[sizeof(RecoveredGlobal_80196574_lbl_804A7438) == 0x10 ? 1 : -1];
 void TObjQuestColALock::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
-        TObjRoomId__sub_80141CF4((u8 *)&this->position, &lbl_804A7438.value, (f32) (lbl_805DBF00 * *(f32 *)&this->unk_AC));
+        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, lbl_805DBF00 * *(f32 *)&this->unk_AC);
         temp_r5 = (u8 *)this->bodies;
         fn_80141CBC((u8 *)&this->position, &lbl_804A7428.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));
     }

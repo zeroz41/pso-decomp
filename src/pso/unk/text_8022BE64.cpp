@@ -1,5 +1,7 @@
 #pragma push
 
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
 
@@ -11,7 +13,6 @@ struct V3_8022BEAC { s32 x; s32 y; s32 z; };
 struct T_8022BEAC { u8 pad[0x20]; u8 f20[0xC]; u8 f2c[0x10]; f32 f3c; u8 pad2[0x2c]; s32 state; };
 
 extern "C" {
-void TObjRoomId__sub_80141CF4(void *, void *, f32);
 extern V3_8022BEAC TTecLuker__render_scale_vec;
 extern const f32 lbl_805DC7B0;
 #pragma pop
@@ -51,7 +52,7 @@ void TUnk_804CC148::render() {
         approach_vector_in_place(&scale, (const Vec *)&v, lbl_805DC7B0);
         break;
     }
-    TObjRoomId__sub_80141CF4(self->f20, self->f2c, self->f3c);
+    TObjRoomId__sub_80141CF4((const Vec *)self->f20, (const NJS_ARGB *)self->f2c, self->f3c);
 }
 
 void TUnk_804CC148::tick_lifetime() {

@@ -1,3 +1,4 @@
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjQuestColALock2.h"
@@ -32,11 +33,6 @@ struct RecoveredGlobal_801959A0_lbl_804A7428 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_801959A0_lbl_804A7438 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 void *__nw__7TObjectFUl(int);
 extern s32 tl_00;
@@ -50,9 +46,9 @@ extern s32 quest_mission_manager;
 extern s32 quest_area_manager;
 u8 *TObjQuestColALock2__ct(TObjQuestColALock2 *arg0, s32 arg1, s32 _w2);
 s32 fn_80141CBC(void *, void *, int, f32);
-s32 TObjRoomId__sub_80141CF4(void *, void *, f32);
+void TObjRoomId__sub_80141CF4(const Vec *pos, const NJS_ARGB *color, f32 radius);
 extern RecoveredGlobal_801959A0_lbl_804A7428 lbl_804A7428;
-extern RecoveredGlobal_801959A0_lbl_804A7438 lbl_804A7438;
+extern const NJS_ARGB lbl_804A7438;
 extern const f32 lbl_805DBEF8;
 extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
@@ -81,12 +77,11 @@ extern s32 controller_input_state[];
 extern s32 local_client_id;
 
 typedef char RecoveredGlobal_801959A0_lbl_804A7428_size[sizeof(RecoveredGlobal_801959A0_lbl_804A7428) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_801959A0_lbl_804A7438_size[sizeof(RecoveredGlobal_801959A0_lbl_804A7438) == 0x10 ? 1 : -1];
 void TObjQuestColALock2::update_room_id_check() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r5;
     if (((VObj_18_26a62c *)(arg0))->m8(lbl_805DBEF8, lbl_805DBEFC) != 0) {
-        TObjRoomId__sub_80141CF4((u8 *)&this->position, &lbl_804A7438.value, (f32) (lbl_805DBF00 * *(f32 *)&this->unk_AC));
+        TObjRoomId__sub_80141CF4(&position, &lbl_804A7438, lbl_805DBF00 * *(f32 *)&this->unk_AC);
         temp_r5 = (u8 *)this->bodies;
         fn_80141CBC((u8 *)&this->position, &lbl_804A7428.value, (int)temp_r5, (f32) (lbl_805DBF00 * *(f32 *)((s8 *)temp_r5 + 0xC)));
     }

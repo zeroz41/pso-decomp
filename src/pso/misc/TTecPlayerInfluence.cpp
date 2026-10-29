@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/misc/TTecPlayerInfluence.h"
 #include "pso/object/TObject_80019A50.h"
@@ -91,7 +93,6 @@ typedef struct Rabarta_80237494
 } Rabarta_80237494;
 
 extern "C" {
-s32 TObjRoomId__sub_80141CF4(void *, void *, f32);
 extern RecoveredGlobal_80237194_lbl_8044D8EC lbl_8044D8EC;
 u16 get_entity_id(void *);
 void __ct__7TEffectFv(void *);
@@ -114,7 +115,7 @@ void TTecPlayerInfluence::render() {
     stack.spC = *(s32 *)((s8 *)&lbl_8044D8EC.value + 4);
     stack.sp10 = *(s32 *)((s8 *)&lbl_8044D8EC.value + 8);
     approach_vector_in_place(&scale, (const Vec *)&stack.sp8, 2.7f);
-    TObjRoomId__sub_80141CF4(arg0 + 0x20, (u8 *)&this->color, (f32) (*(f32 *)((s8 *)arg0 + 0x3C)));
+    TObjRoomId__sub_80141CF4((const Vec *)(arg0 + 0x20), (const NJS_ARGB *)&this->color, *(f32 *)(arg0 + 0x3C));
 }
 
 void TTecPlayerInfluence::tick_lifetime() {

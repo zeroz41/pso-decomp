@@ -1,3 +1,5 @@
+#include "pso/object/TObjMapWarp_80141C68.h"
+#include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjComputer.h"
 #include "pso/object/TObjMotion.h"
@@ -98,9 +100,8 @@ s32 pop_matrix();
 extern void *container_breakup_model_archive;
 extern s32 lbl_805D5B8C;
 void debug_printf_at(s32 id, const char *fmt, ...);
-void TObjRoomId__sub_80141CF4(void *dst, void *src, f32 t);
 extern char lbl_80444EF4[];
-extern u8 lbl_804A7448[];
+extern const NJS_ARGB lbl_804A7448;
 extern const f32 lbl_805DBCF8;
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
@@ -366,7 +367,7 @@ void TObjContainerAbeEnemy::debug_print_item_box_info() {
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130020, lbl_80444EF4, this->set_params[0]);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    TObjRoomId__sub_80141CF4(self->pos, lbl_804A7448, lbl_805DBCF8);
+    TObjRoomId__sub_80141CF4((const Vec *)self->pos, &lbl_804A7448, lbl_805DBCF8);
 }
 
 void TObjContainerAbeEnemy::vfunc_81() {
