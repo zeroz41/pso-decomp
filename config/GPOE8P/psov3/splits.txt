@@ -5127,17 +5127,27 @@ pso/misc/TOFenceAncient01.cpp:
 
 pso/misc/TOFenceAncient02.cpp:
 	.text       start:0x80166EE0 end:0x80167244
-	.rodata     start:0x80441590 end:0x80441598
+	.rodata     start:0x804414E8 end:0x80441598
+	.data       start:0x804B1CB0 end:0x804B1D98
+	.sdata      start:0x805D2FD0 end:0x805D2FD4
+	.sbss       start:0x805D59B8 end:0x805D59C0
+	.sdata2     start:0x805DB620 end:0x805DB62C
 
 pso/misc/TOFenceAncient03.cpp:
 	.text       start:0x80167244 end:0x801675E8
-	.rodata     start:0x80441640 end:0x80441648
-	.data       start:0x804B1D98 end:0x804B1DB8
+	.rodata     start:0x80441598 end:0x80441648
+	.data       start:0x804B1D98 end:0x804B1F5C
+	.sdata      start:0x805D2FD8 end:0x805D2FDC
+	.sbss       start:0x805D59C0 end:0x805D59C8
+	.sdata2     start:0x805DB630 end:0x805DB63C
 
 pso/misc/TOFenceAncient04.cpp:
 	.text       start:0x801675E8 end:0x80167980
 	.rodata     start:0x80441648 end:0x804416F8
-	.data       start:0x804B1F60 end:0x804B1F80
+	.data       start:0x804B1F60 end:0x804B2124
+	.sdata      start:0x805D2FE0 end:0x805D2FE4
+	.sbss       start:0x805D59C8 end:0x805D59D0
+	.sdata2     start:0x805DB640 end:0x805DB64C
 
 pso/misc/TOHangceilingCave01.cpp:
 	.text       start:0x80167980 end:0x80168D3C

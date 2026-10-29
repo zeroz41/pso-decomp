@@ -73,6 +73,7 @@ void TOFenceAncient01::load_resources() {
     texlists[3] = (s32)load_gvm_texture_file((s32)texture_file_p);
 }
 
+// Defined after load_resources, which addresses each by its own symbol.
 __declspec(section ".rodata") const char TOFenceAncient01::texture_file_b[] = "o_fence_ancient_b.gvm";
 __declspec(section ".rodata") const char TOFenceAncient01::texture_file_g[] = "o_fence_ancient_g.gvm";
 __declspec(section ".rodata") const char TOFenceAncient01::texture_file_p[] = "o_fence_ancient_p.gvm";

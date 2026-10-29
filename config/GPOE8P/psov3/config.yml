@@ -624,11 +624,11 @@ force_active:
   - TOExplosiveMachine03__class_name
   - TOExplosiveMachine__class_name
   - __ct__16TOFenceAncient01FP7TObjectPv
-  - TOFenceAncient02__ct
-  - TOFenceAncient03__ct
-  - TOFenceAncient03_resource_descriptor
-  - TOFenceAncient04__ct
-  - TOFenceAncient04_resource_descriptor
+  - __ct__16TOFenceAncient02FP7TObjectPv
+  - __ct__16TOFenceAncient03FP7TObjectPv
+  - bm_fd_obj_n_saku_4x4_resource_descriptor
+  - __ct__16TOFenceAncient04FP7TObjectPv
+  - bm_fd_obj_n_saku_6x4_resource_descriptor
   - TOHangceilingCave01KeyQuick__ct
   - TOHangceilingCave01Key__ct
   - TOHangceilingCave01Normal__ct
@@ -5437,9 +5437,9 @@ force_active:
   - lbl_80441648
   - lbl_80441660
   - lbl_80441678
-  - lbl_804416A8
-  - lbl_804416C0
-  - lbl_804416D8
+  - texture_file_b__16TOFenceAncient04
+  - texture_file_g__16TOFenceAncient04
+  - texture_file_p__16TOFenceAncient04
   - lbl_80441858
   - lbl_80441874
   - lbl_804429E8

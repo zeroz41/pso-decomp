@@ -1,153 +1,110 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/player/TUnk_804B1B80.h"
-#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TOFenceAncient03.h"
-#include "pso/misc/TOFenceAncient01.h"
+#include "pso/TMainTask.h"
+#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/misc/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/BmlResource.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
 
-extern char lbl_80441598[];
-extern char lbl_804415B0[];
-extern char lbl_804415C8[];
-extern const char *bm_fd_obj_n_saku_4x4_model_names[2];
-extern const char *bm_fd_obj_n_saku_4x4_motion_names[2];
-extern BmlResourceDescriptor TOFenceAncient03_resource_descriptor;
-
-struct RecoveredGlobal_801674E0_lbl_804B1DB8 {
-    s32 value;
-    u8 remaining[0x15C];
+const char *bm_fd_obj_n_saku_4x4_model_names[2] = { "fd_obj_n_saku_4x4.gj", NULL };
+const char *bm_fd_obj_n_saku_4x4_motion_names[2] = { "fd_obj_n_saku_4x4.njm", NULL };
+BmlResourceDescriptor bm_fd_obj_n_saku_4x4_resource_descriptor = {
+    "bm_fd_obj_n_saku_4x4.bml", bm_fd_obj_n_saku_4x4_model_names, bm_fd_obj_n_saku_4x4_motion_names, 1, 1
 };
-
-struct RecoveredGlobal_801674E0___vt__16TOFenceAncient03 {
-    s32 value;
-    u8 remaining[0x44];
+// The fence's four 40-long walls and the four corner posts.
+CollisionBody fence_ancient03_collision_bodies[8] = {
+    { { 0.0f, 0.0f, 20.0f }, 3.0f, 20.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 0.0f, 0.0f, -20.0f }, 3.0f, 20.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 20.0f, 0.0f, 0.0f }, 20.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { -20.0f, 0.0f, 0.0f }, 20.0f, 3.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { -20.0f, 0.0f, -20.0f }, 3.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 20.0f, 0.0f, -20.0f }, 3.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { -20.0f, 0.0f, 20.0f }, 3.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+    { { 20.0f, 0.0f, 20.0f }, 3.0f, 0.0f, 0, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
+const char *TOFenceAncient03::class_name = "TOFenceAncient03";
+BmlResource *TOFenceAncient03::model_resource;
+s32 *TOFenceAncient03::texlists;
 
-struct Sub_801673C4 { u8 pad[0xC]; void *c; };
+void TOFenceAncient03::update_demo() {}
 
-struct O_801673C4 { u8 pad[0x42C]; Sub_801673C4 *sub; };
-
-struct Arr_801673C4 { void *a; s32 b; s32 c; s32 d; };
-
-extern "C" {
-u8 *TLobby__sub_8001FE7C(void *, s16);
-void mem_free(void *p);
-extern u8 *TOFenceAncient03__shared_resource_object;
-extern u32 TOFenceAncient03__texture_lists;
-s32 init_collision_body_parts(void *, void *, int, int, f32);
-s32 __ct__13TUnk_804B1B80FP7TObject();
-extern RecoveredGlobal_801674E0_lbl_804B1DB8 TOFenceAncient03_collision_body_parts;
-extern s32 __vt__16TOFenceAncient03[];
-extern s32 TOFenceAncient03__class_name;
-extern const f32 lbl_805DB630;
-extern const f32 lbl_805DB634;
-extern const f32 lbl_805DB638;
-O_801673C4 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32 size);
-u8 *load_gvm_texture_file(s32 arg0);
-extern char lbl_804415F8[];
-extern char lbl_80441610[];
-extern char lbl_80441628[];
-s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-
-void TOFenceAncient03::update_demo() {  }
-void TOFenceAncient03::close() { *(int *)&this->object_state = 0; this->is_open = 0; { int i; for (i = 0; i < 4; i++) { this->clear_player_status_flag((s32)((void*)i), (u32)((void*)8)); } } }
-void TOFenceAncient03::open() { *(int *)&this->object_state = 1; this->is_open = 1; { int i; for (i = 0; i < 4; i++) { set_indexed_flags(i, (s32)((void*)8)); } } }
-
-extern void *tl_05;
-
-void *TOFenceAncient03::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD8);
-    if (o != NULL) {
-        o = TOFenceAncient03__ct((u8 *)o, (s32)tl_05, (s32)arg0);
+void TOFenceAncient03::close() {
+    s32 i;
+    object_state = 0;
+    is_open = 0;
+    for (i = 0; i < 4; i++) {
+        clear_player_status_flag(i, 8);
     }
-    return o;
+}
+
+void TOFenceAncient03::open() {
+    s32 i;
+    object_state = 1;
+    is_open = 1;
+    for (i = 0; i < 4; i++) {
+        set_indexed_flags(i, 8);
+    }
+}
+
+void *TOFenceAncient03::create(void *set_data) {
+    return new TOFenceAncient03(tl_05, set_data);
 }
 
 void TOFenceAncient03::unload_resources() {
-  s32 var_r31;
-  s32 var_r30;
-  if (((u32) TOFenceAncient03__texture_lists) != 0)
-  {
-    var_r30 = 1;
-    var_r31 = 4;
-    do
-    {
-      TObjPlayer::free_if_valid(*((s32 *) (((s8 *) TOFenceAncient03__texture_lists) + var_r31)));
-      var_r30 += 1;
-      var_r31 += 4;
+    s32 i;
+    if (texlists != NULL) {
+        for (i = 1; i < 4; i++) {
+            TObjPlayer::free_if_valid(texlists[i]);
+        }
+        if (texlists != NULL) {
+            mem_free(texlists);
+            texlists = NULL;
+        }
     }
-    while (var_r30 < 4);
-    if (((u32) TOFenceAncient03__texture_lists) != 0)
-    {
-      mem_free((void *)TOFenceAncient03__texture_lists);
-      TOFenceAncient03__texture_lists = 0;
+    if (model_resource != NULL) {
+        TLobby__sub_8001FE7C(model_resource, 1);
+        model_resource = NULL;
     }
-  }
-  if (((void *) TOFenceAncient03__shared_resource_object) != 0)
-  {
-    TLobby__sub_8001FE7C(TOFenceAncient03__shared_resource_object, 1);
-    TOFenceAncient03__shared_resource_object = 0;
-  }
 }
 
 void TOFenceAncient03::load_resources() {
-    O_801673C4 *o;
-    Arr_801673C4 *r;
-    o = (O_801673C4 *)::operator new(0x440);
-    if (o != NULL) {
-        o = load_resource_from_descriptor(o, 1, &TOFenceAncient03_resource_descriptor, 0, 0, 0);
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_fd_obj_n_saku_4x4_resource_descriptor, 0, 0, 0);
     }
-    (*(O_801673C4 * *)&TOFenceAncient03__shared_resource_object) = o;
-    r = (Arr_801673C4 *)mem_alloc(0x10);
-    (*(Arr_801673C4 * *)&TOFenceAncient03__texture_lists) = r;
-    r->a = (*(O_801673C4 * *)&TOFenceAncient03__shared_resource_object)->sub->c;
-    (*(Arr_801673C4 * *)&TOFenceAncient03__texture_lists)->b = (s32)load_gvm_texture_file((s32)lbl_804415F8);
-    (*(Arr_801673C4 * *)&TOFenceAncient03__texture_lists)->c = (s32)load_gvm_texture_file((s32)lbl_80441610);
-    (*(Arr_801673C4 * *)&TOFenceAncient03__texture_lists)->d = (s32)load_gvm_texture_file((s32)lbl_80441628);
+    model_resource = resource;
+    s32 *lists = (s32 *)mem_alloc(4 * sizeof(s32));
+    texlists = lists;
+    lists[0] = model_resource->models[0].m_c;
+    texlists[1] = (s32)load_gvm_texture_file((s32)texture_file_b);
+    texlists[2] = (s32)load_gvm_texture_file((s32)texture_file_g);
+    texlists[3] = (s32)load_gvm_texture_file((s32)texture_file_p);
 }
 
-void *__dt__16TOFenceAncient03Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOFenceAncient03;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804B1B80Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-typedef char RecoveredGlobal_801674E0_lbl_804B1DB8_size[sizeof(RecoveredGlobal_801674E0_lbl_804B1DB8) == 0x160 ? 1 : -1];
-typedef char RecoveredGlobal_801674E0___vt__16TOFenceAncient03_size[sizeof(RecoveredGlobal_801674E0___vt__16TOFenceAncient03) == 0x48 ? 1 : -1];
-u8 *TOFenceAncient03__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    f32 temp_f1;
-    u8 *temp_r4;
-    u8 *temp_r6;
-    __ct__13TUnk_804B1B80FP7TObject();
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801674E0___vt__16TOFenceAncient03 *)&__vt__16TOFenceAncient03).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TOFenceAncient03__class_name;
-    ((TOFenceAncient03 *)(arg0))->apply_object_set_data((void *)arg2);
-    temp_r4 = (u8 *)(*(u8 **)((s8 *)TOFenceAncient03__shared_resource_object + 0x42C));
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)temp_r4 + 8);
-    ((TOFenceAncient03 *)arg0)->texlist = (s32) *(s32 *)((s8 *)((*(s32 *)&TOFenceAncient03__texture_lists) + (((TUnk_804B1B80 *)arg0)->read_texture_variant() * 4)) + 0);
-    *(u8 **)((s8 *)arg0 + 0xBC) = (unsigned char *) ((void *) *(void **)((s8 *)(*(u8 **)((s8 *)TOFenceAncient03__shared_resource_object + 0x430)) + 4));
-    temp_r6 = (u8 *)(*(u8 **)((s8 *)arg0 + 0xBC));
-    temp_f1 = (f32) *(u32 *)((s8 *)temp_r6 + 4);
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) (temp_f1 - lbl_805DB630);
-    init_collision_body_parts((void *)arg0, &TOFenceAncient03_collision_body_parts.value, 8, (int)temp_r6, (f32)temp_f1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TUnk_804B1B80 *)arg0)->read_trigger_params();
-    ((TOFenceAncient03 *)arg0)->view_range = (f32) lbl_805DB634;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB638;
-    return arg0;
+// Defined after load_resources, which addresses each by its own symbol.
+__declspec(section ".rodata") const char TOFenceAncient03::texture_file_b[] = "o_fence_ancient_b.gvm";
+__declspec(section ".rodata") const char TOFenceAncient03::texture_file_g[] = "o_fence_ancient_g.gvm";
+__declspec(section ".rodata") const char TOFenceAncient03::texture_file_p[] = "o_fence_ancient_p.gvm";
+
+TOFenceAncient03::~TOFenceAncient03() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
-__declspec(section ".data") const char *bm_fd_obj_n_saku_4x4_model_names[2] = { lbl_80441598, NULL };
-__declspec(section ".data") const char *bm_fd_obj_n_saku_4x4_motion_names[2] = { lbl_804415B0, NULL };
-BmlResourceDescriptor TOFenceAncient03_resource_descriptor = { lbl_804415C8, bm_fd_obj_n_saku_4x4_model_names, bm_fd_obj_n_saku_4x4_motion_names, 1, 1 };
+TOFenceAncient03::TOFenceAncient03(TObject *parent, void *set_data) : TUnk_804B1B80(parent) {
+    m_name = class_name;
+    apply_object_set_data(set_data);
+    model = (void *)model_resource->models[0].model;
+    texlist = texlists[read_texture_variant()];
+    motion = model_resource->motions[0].motion;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    init_collision_body_parts(this, fence_ancient03_collision_bodies, 8);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    read_trigger_params();
+    view_range = 400.0f;
+    model_radius = 40.0f;
 }
