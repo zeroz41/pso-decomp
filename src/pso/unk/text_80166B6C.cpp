@@ -147,8 +147,8 @@ u8 *TOFenceAncient01__ct(u8 *arg0, s32 arg1, s32 arg2) {
 
 s32 TUnk_804B1B80::sub_80166E64() {
     s32 temp_r0;
-    this->m_cc = (s32) this->set_params[0];
-    temp_r0 = this->m_cc;
+    this->switch_id = (s32) this->set_params[0];
+    temp_r0 = this->switch_id;
     if (temp_r0 > 0x100) {
         this->trigger_mode = 0;
     } else if (temp_r0 < 0) {
@@ -156,7 +156,7 @@ s32 TUnk_804B1B80::sub_80166E64() {
     } else {
         this->trigger_mode = 2;
     }
-    return this->m_cc;
+    return this->switch_id;
 }
 
 s32 TUnk_804B1B80::sub_80166EA8(int _w1) {
@@ -171,9 +171,9 @@ s32 TUnk_804B1B80::sub_80166EA8(int _w1) {
     return this->m_d4;
 }
 
-void TOFenceAncient02::vfunc_16() {  }
-void TOFenceAncient02::vfunc_15() { *(int *)&this->m_ac = 0; this->m_d0 = 0; this->clear_player_status_flag((s32)((void*)0), (u32)((void*)8)); }
-void TOFenceAncient02::vfunc_14() { *(int *)&this->m_ac = 1; this->m_d0 = 1; set_indexed_flags((s32)((void*)0), (s32)((void*)8)); }
+void TOFenceAncient02::update_demo() {  }
+void TOFenceAncient02::close() { *(int *)&this->m_ac = 0; this->is_open = 0; this->clear_player_status_flag((s32)((void*)0), (u32)((void*)8)); }
+void TOFenceAncient02::open() { *(int *)&this->m_ac = 1; this->is_open = 1; set_indexed_flags((s32)((void*)0), (s32)((void*)8)); }
 
 __declspec(section ".data") const char *bm_fd_obj_n_saku_4x2_model_names[2] = { lbl_80441438, NULL };
 __declspec(section ".data") const char *bm_fd_obj_n_saku_4x2_motion_names[2] = { lbl_80441450, NULL };

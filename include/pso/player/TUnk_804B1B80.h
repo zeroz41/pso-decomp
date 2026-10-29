@@ -11,16 +11,19 @@ public:
     virtual ~TUnk_804B1B80();
     virtual void run_task();
     virtual void render();
-    virtual void vfunc_14();
-    virtual void vfunc_15();
-    virtual void vfunc_16();
+    // trigger_mode's condition met / lost: the fences drop or raise their
+    // collision and start or stop their motion.
+    virtual void open();
+    virtual void close();
+    // The step run_task takes in demo mode.
+    virtual void update_demo();
     void check_trigger();
     void update_trigger();
     s32 sub_80166EA8(int);
     s32 sub_80166E64();
-    s32 trigger_mode;
-    u32 m_cc;
-    s32 m_d0;
+    s32 trigger_mode;  // 0 never, 1 a player within 70, 2 switch_id set
+    u32 switch_id;
+    s32 is_open;  // 1 draws the root model posed instead of the motion
     u32 m_d4;
 };
 

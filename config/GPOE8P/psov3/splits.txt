@@ -5105,14 +5105,12 @@ pso/misc/TOExplosiveMachine.cpp:
 	.sdata2     start:0x805DB5F0 end:0x805DB5FC
 
 pso/misc/TUnk_804B1B80.cpp:
-	.text       start:0x80166778 end:0x80166970
-
-pso/player/TObjPlayer_80166970.cpp:
-	.text       start:0x80166970 end:0x80166AF4
+	.text       start:0x80166778 end:0x80166B00
 	.data       start:0x804B1B80 end:0x804B1BC4
+	.sdata2     start:0x805DB600 end:0x805DB60C
 
 pso/misc/TOFenceAncient01.cpp:
-	.text       start:0x80166AF4 end:0x80166B6C
+	.text       start:0x80166B00 end:0x80166B6C
 
 pso/unk/text_80166B6C.cpp:
 	.text       start:0x80166B6C end:0x80166F4C
