@@ -172,7 +172,7 @@ extern RecoveredGlobal_8016D714_lbl_804B2DD8 bm_fs_obj_ki_doa_panel_resource_des
 extern u32 key_machine_model_archive;
 extern s32 *TOKeyMachine01__texture_lists;
 s32 is_split_screen(void);
-u8 * TOKey__ct(void *);
+u8 * __ct__5TOKeyFP7TObject(void *);
 
 extern s32 __vt__14TOKeyMachine01[];
 extern s32 TOKeyMachine01__name;
@@ -293,7 +293,7 @@ TOKeyMachine01::~TOKeyMachine01() {
 }
 
 u8 *TOKeyMachine01__ct(TOKeyMachine01 *key_machine01, s32 arg1, s32 arg2) {
-    TOKey__ct(key_machine01);
+    __ct__5TOKeyFP7TObject(key_machine01);
     *(s32 **)((s8 *)key_machine01 + 0x18) = &(*(RecoveredGlobal_8016D7F0___vt__14TOKeyMachine01 *)&__vt__14TOKeyMachine01).value;
     *(s32 *)((s8 *)key_machine01 + 0) = (s32) TOKeyMachine01__name;
     ((TOKeyMachine01 *)(key_machine01))->apply_object_set_data((void *)arg2);

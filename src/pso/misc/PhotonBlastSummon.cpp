@@ -417,7 +417,7 @@ void TUnk_804C3248::update_state() {
 
 #pragma push
 s32 restore_player_cameras(void);
-void TObjMotion__ct(void *, void *);
+void __ct__10TObjMotionFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 
@@ -501,7 +501,7 @@ void *destroy_photon_motion_object(void *arg0, s16 arg1) {
 extern void *tl_06;
 
 void *photon_base_ct(void *arg0) {
-    TObjMotion__ct(arg0, tl_06);
+    __ct__10TObjMotionFP7TObject(arg0, tl_06);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C3248;
     ((TUnk_804C3248 *)arg0)->m_134 = 0;
     ((TUnk_804C3248 *)arg0)->m_100 = 0;

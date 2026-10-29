@@ -180,7 +180,7 @@ extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80465418;
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_o_jungle_doormain_resource_descriptor;
 s32 get_bml_motion(void *, s32);
 u32 init_collision_body_parts(void *, s32, s32);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_8029B924_lbl_804DC014 TODoorJungleMain_collision_body_parts;
 extern s32 __vt__16TODoorJungleMain[];
 extern s32 TODoorJungleMain__name;
@@ -369,7 +369,7 @@ void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TODoorJungleMain *)arg0)->m_dc = 0; }
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -382,7 +382,7 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     struct CopyStack_8029B924 { u8 bytes[0x3C]; };
     CopyStack_8029B924 copy_storage_8029B924;
     s32 temp_r4;
-    init_door_base(arg0);
+    __ct__13TUnk_804B0BB8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8029B924___vt__16TODoorJungleMain *)&__vt__16TODoorJungleMain).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);

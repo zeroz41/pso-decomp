@@ -30,22 +30,21 @@ void send_6x2F_change_player_hp(u16, u16, s16);
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TOHealGeneral::update_closing() {
-    u8 *arg0 = (u8 *)this;
     s16 temp_r3_2;
     u8 *player;
     apply_heal_to_target();
     this->m_cc = (this->m_cc + 0x147);
-    *(f32 *)&this->_padD0 = (f32) (*(f32 *)&this->_padD0 - 0.37166664f);
-    *(f32 *)((s8 *)arg0 + 0xE4) = (f32) ((22.3f + *(f32 *)((s8 *)arg0 + 0x3C)) - *(f32 *)&this->_padD0);
-    if (*(f32 *)&this->_padD0 <= 0.0f) {
-        *(f32 *)&this->_padD0 = (f32) 0.0f;
+    this->ring_drop = (f32) (this->ring_drop - 0.37166664f);
+    this->effect_pos[1].y = (f32) ((22.3f + this->position.y) - this->ring_drop);
+    if (this->ring_drop <= 0.0f) {
+        this->ring_drop = (f32) 0.0f;
         this->m_ac = 0;
-        if (TOHangerMachine01::is_valid_slot((s32) arg0, this->m_f4) != 0) {
-            player = (u8 *)(get_player_by_client_id((u32) this->m_f4));
+        if (TOHangerMachine01::is_valid_slot((s32) this, this->heal_target) != 0) {
+            player = (u8 *)(get_player_by_client_id((u32) this->heal_target));
             if (player != NULL) {
                 temp_r3_2 = get_actor_hp(player);
                 if (temp_r3_2 > 0) {
-                    send_6x2F_change_player_hp(0xFFFFU, this->m_f4, temp_r3_2);
+                    send_6x2F_change_player_hp(0xFFFFU, this->heal_target, temp_r3_2);
                 }
             }
         }
@@ -54,19 +53,18 @@ void TOHealGeneral::update_closing() {
 #pragma pop
 
 void TOHealGeneral::update_opening() {
-    u8 *arg0 = (u8 *)this;
     apply_heal_to_target();
     this->m_cc = (this->m_cc + 0x147);
-    *(f32 *)&this->_padD0 += 0.37166664f;
-    *(f32 *)((s8 *)arg0 + 0xE4) = (f32) ((22.3f + *(f32 *)((s8 *)arg0 + 0x3C)) - *(f32 *)&this->_padD0);
-    if (22.3f <= *(f32 *)&this->_padD0) {
-        *(f32 *)&this->_padD0 = (f32) 22.3f;
+    this->ring_drop += 0.37166664f;
+    this->effect_pos[1].y = (f32) ((22.3f + this->position.y) - this->ring_drop);
+    if (22.3f <= this->ring_drop) {
+        this->ring_drop = (f32) 22.3f;
         this->m_ac = 2;
     }
 }
 void TOHealGeneral::apply_heal_to_target() {
     s32 temp_r3_2;
-    u32 id = this->m_f4;
+    u32 id = this->heal_target;
     if ((id != 0xFFFF) && (id < 0x1000U)) {
         temp_r3_2 = get_player_by_client_id(id);
         if ((temp_r3_2 != 0) && (obj_testFlags30__14TObjCollidableFUl(temp_r3_2, 0x800) == 0) && (horizontal_distance_squared(temp_r3_2 + 0x38, (u8 *)&this->position) < 225.0f)) {
@@ -154,7 +152,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
     s32 id;
     f32 r;
     self->m_cc += 0x147;
-    self->m_f4 = 0xFFFF;
+    self->heal_target = 0xFFFF;
     for (i = 0; i < registered_player_count; i++) {
         actor = (Actor_80169334 *)get_player_data__10TObjPlayerFi(i);
         id = get_entity_id(actor);
@@ -168,14 +166,14 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
         if (!(horizontal_distance_squared((s32)((u8 *)actor + 0x38), &self->position) < r * r)) {
             continue;
         }
-        self->m_f4 = id;
+        self->heal_target = id;
         if (get_actor_hp((u8 *)actor) < ((TItemProShield *)actor)->get_field_2b8() ||
             get_actor_tp((u8 *)actor) < obj_getS16_2BA((u8 *)actor) ||
             get_recovery_need_flags__10TObjPlayerFv(actor) != 0 ||
             (((TObjPlayer *)actor)->is_alive_and_ready() != 0 && ((TObjPlayer *)actor)->are_traps_full() == 0)) {
             void *e;
             self->m_ac = 1;
-            if (TOHangerMachine01::is_valid_slot((int)self, self->m_f4) != 0) {
+            if (TOHangerMachine01::is_valid_slot((int)self, self->heal_target) != 0) {
                 send_6x2C_impose_hold(actor, &self->position, 0x3C, 0, r);
                 actor->m48();
             }
@@ -184,11 +182,11 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
             }
             e = spawn_particle_effect_with_flags((u8 *)actor + 0x2FC, 0x1F6, 0x10);
             if (e != 0) {
-                ((TParticleCtrl *)e)->set_owner_id(self->m_f4);
+                ((TParticleCtrl *)e)->set_owner_id(self->heal_target);
             }
             e = spawn_particle_effect_with_flags((u8 *)actor + 0x2FC, 0x1F7, 0x10);
             if (e != 0) {
-                ((TParticleCtrl *)e)->set_owner_id(self->m_f4);
+                ((TParticleCtrl *)e)->set_owner_id(self->heal_target);
             }
             play_sound_effect(0x4002AB0E, &self->position, 0, 0);
             break;
@@ -198,19 +196,6 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
 #pragma pop
 
 }
-
-struct Base_801695a8_80169520 { char pad[0x18]; };
-struct VObj_801695a8_80169520 : Base_801695a8_80169520 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 struct RecoveredGlobal_80169710_lbl_804B2748
 {
@@ -224,53 +209,19 @@ struct RecoveredGlobal_80169710_lbl_804B2760
   u8 remaining[0xC];
 };
 
-typedef struct TOHealGeneral_801697C0 {
-    u8 pad0[0x18];
-    void **vtable;
-    u8 pad1C[0xEC - 0x1C];
-    u32 handles[2];
-} TOHealGeneral_801697C0;
-
-struct Vec_80169858 { f32 x, y, z; };
-
-struct Heal_80169858 {
-    s32 f0;
-    u8 pad4[0x18 - 0x4];
-    void **vtable;
-    u16 f1c;
-    u8 pad1e[0x24 - 0x1E];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    s32 f34;
-    Vec_80169858 pos;
-    u8 pad44[0xC4 - 0x44];
-    f32 fC4;
-    u8 padC8[0xCC - 0xC8];
-    s32 fCC;
-    f32 fD0;
-    Vec_80169858 pts[2];
-    u32 handles[2];
-    u16 fF4;
-};
-
 extern "C" {
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80169710_lbl_804B2748 bm_fe_obj_kaifuku_moto_resource_descriptor;
 extern RecoveredGlobal_80169710_lbl_804B2760 fe_obj_kaifuku_moto_2_resource_descriptor;
 extern u32 TOHealGeneral__model_archive;
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-extern void *__vt__13TOHealGeneral[];
-TOHealGeneral_801697C0 *__dt__13TOHealGeneralFv(TOHealGeneral_801697C0 *self, s16 flag);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *create_particle_emitter(void *pos, s32 id);
 void init_collision_body_parts(void *, void *, s32, void *);
-void __ct__13TUnk_804AFBF8FP7TObject(void *, s32);
 extern u8 heal_general_collision_body_part[];
 extern s32 TOHealGeneral__class_name;
 extern s32 tl_05;
 
-void *TOHealGeneral__ct(void *arg0, void *arg1);
 void TLobby__sub_8001FE7C(void*, int);
 s32 post_translate_matrix(void *);
 void draw_ginja_model(s32 model);
@@ -278,7 +229,7 @@ s32 rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 pop_matrix();
-void *__nw__7TObjectFUl(int);
+}
 
 void TOHealGeneral::run_task() {
 
@@ -300,12 +251,11 @@ void TOHealGeneral::run_task() {
 }
 
 void TOHealGeneral::render() {
-    u8 *arg0 = (u8 *)this;
     u8 *temp_r31;
     u8 *temp_r31_2;
     u8 *temp_r31_3;
 
-    if (((VObj_801695a8_80169520 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
+    if (update_object_view_visibility(this->m_c0, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -316,13 +266,13 @@ void TOHealGeneral::render() {
         push_matrix();
         temp_r31_2 = (unsigned char *) (*(void **)((s8 *)temp_r31 + 0x2C));
         post_translate_matrix(temp_r31_2 + 8);
-        rotate_matrix_y(0, (int) (*(s32 *)&this->m_cc));
+        rotate_matrix_y(0, (int) (s32)this->m_cc);
         draw_ginja_model((*(s32 *)((s8 *)temp_r31_2 + 4)));
         pop_matrix();
         push_matrix();
         temp_r31_3 = (unsigned char *) (*(void **)((s8 *)temp_r31_2 + 0x30));
-        translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_3 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_3 + 0xC) - *(f32 *)&this->_padD0), (f32) (*(f32 *)((s8 *)temp_r31_3 + 0x10)));
-        rotate_matrix_y(0, (int) (-*(s32 *)&this->m_cc));
+        translate_matrix(0, (f32) (*(f32 *)((s8 *)temp_r31_3 + 8)), (f32) (*(f32 *)((s8 *)temp_r31_3 + 0xC) - this->ring_drop), (f32) (*(f32 *)((s8 *)temp_r31_3 + 0x10)));
+        rotate_matrix_y(0, (int) (-(s32)this->m_cc));
         draw_ginja_model((*(s32 *)((s8 *)temp_r31_3 + 4)));
         pop_matrix();
         pop_matrix();
@@ -330,11 +280,7 @@ void TOHealGeneral::render() {
 }
 
 void *TOHealGeneral::create() {
-    void *o = __nw__7TObjectFUl(0xF8);
-    if (o != NULL) {
-        o = TOHealGeneral__ct(o, this);
-    }
-    return o;
+    return new TOHealGeneral(this);
 }
 
 void TOHealGeneral::close_dialog_window() {
@@ -390,62 +336,64 @@ void TOHealGeneral::load_resources() {
   (*(s32 *)&TOHealGeneral__model_archive) = var_r0_2;
 }
 
-TOHealGeneral_801697C0 *__dt__13TOHealGeneralFv(TOHealGeneral_801697C0 *self, s16 flag) {
+// The destructor is still written out by hand: compiled, its vtable would
+// open the unit's .data, which the original fills first with the object's
+// resource and collision tables (not owned by this unit yet).
+extern "C" {
+extern void *__vt__13TOHealGeneral[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__13TOHealGeneralFv(void *self, s16 del) {
     s32 i;
     if (self != NULL) {
-        self->vtable = __vt__13TOHealGeneral;
+        *(void **)((u8 *)self + 0x18) = __vt__13TOHealGeneral;
         for (i = 0; i < 2; i++) {
-            if (self->handles[i] != 0) {
-                TParticleCtrl::release((void *)self->handles[i]);
+            if (((TOHealGeneral *)self)->effects[i] != 0) {
+                TParticleCtrl::release((void *)((TOHealGeneral *)self)->effects[i]);
             }
         }
-        ((TObjCollidable *)self)->unregister_object_by_id();
-        free_collision_body_parts(self);
+        ((TOHealGeneral *)self)->unregister_object_by_id();
+        free_collision_body_parts((TOHealGeneral *)self);
         __dt__13TUnk_804AFBF8Fv(self, 0);
-        if (flag > 0) {
+        if (del > 0) {
             __dl__7TObjectFPv(self);
         }
     }
     return self;
 }
+}
 
-void *TOHealGeneral__ct(void *arg0, void *arg1) {
-    Heal_80169858 *self = (Heal_80169858 *)arg0;
+TOHealGeneral::TOHealGeneral(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
     s32 i;
     u8 *model;
-    __ct__13TUnk_804AFBF8FP7TObject(self, tl_05);
-    self->vtable = __vt__13TOHealGeneral;
-    self->f0 = TOHealGeneral__class_name;
-    ((TOHealGeneral *)self)->apply_object_set_data(arg1);
-    self->f34 = *(s32 *)((s8 *)(*(u8 **)((s8 *)TOHealGeneral__model_archive + 0x42C)) + 8);
+    m_name = (const char *)TOHealGeneral__class_name;
+    apply_object_set_data(set_data);
+    this->model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)TOHealGeneral__model_archive + 0x42C)) + 8);
     model = *(u8 **)((s8 *)TOHealGeneral__model_archive + 0x42C);
-    self->f24 = *(s32 *)((s8 *)model + 0xC);
-    self->fC4 = 4e+01f;
-    init_collision_body_parts(self, heal_general_collision_body_part, 1, model);
-    ((TObjCollidable *)self)->refresh_collision_body_centers();
-    ((TObjPlayer *)self)->register_object_by_id();
-    ((TObjCollidable *)self)->clear_player_status_flag(0, 1);
-    self->fCC = 0;
-    self->fD0 = 0.0f;
+    texlist = *(s32 *)((s8 *)model + 0xC);
+    model_radius = 4e+01f;
+    init_collision_body_parts(this, heal_general_collision_body_part, 1, model);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    clear_player_status_flag(0, 1);
+    m_cc = 0;
+    ring_drop = 0.0f;
     for (i = 0; i < 2; i++) {
-        VecCopy((Vec *)&self->pts[i], (const Vec *)&self->pos);
+        VecCopy(&effect_pos[i], &position);
     }
-    self->pts[0].y += 26.100002f;
-    self->pts[1].y += 22.3f;
-    self->handles[0] = (u32)create_particle_emitter(&self->pts[0], 0x63);
-    if (self->handles[0] != 0 && ((TObject *)(self->handles[0]))->all_parents_unqueued_for_destruction() == 0) {
-        self->handles[0] = 0;
+    effect_pos[0].y += 26.100002f;
+    effect_pos[1].y += 22.3f;
+    effects[0] = (u32)create_particle_emitter(&effect_pos[0], 0x63);
+    if (effects[0] != 0 && ((TObject *)(effects[0]))->all_parents_unqueued_for_destruction() == 0) {
+        effects[0] = 0;
     }
-    self->handles[1] = (u32)spawn_continuous_particle_effect_with_flags(&self->pts[1], 0x63, 0x10);
-    if (self->handles[1] != 0 && ((TObject *)(self->handles[1]))->all_parents_unqueued_for_destruction() != 0) {
-        ((TParticleCtrl *)(self->handles[1]))->set_owner_id(self->f1c);
+    effects[1] = (u32)spawn_continuous_particle_effect_with_flags(&effect_pos[1], 0x63, 0x10);
+    if (effects[1] != 0 && ((TObject *)(effects[1]))->all_parents_unqueued_for_destruction() != 0) {
+        ((TParticleCtrl *)(effects[1]))->set_owner_id(entity_id);
     } else {
-        self->handles[1] = 0;
+        effects[1] = 0;
     }
-    self->fF4 = 0xFFFF;
-    return self;
+    heal_target = 0xFFFF;
 }
 
-void *TOHealGeneral::get_center() { return (char*)this + 0xe0; }
-
-}
+void *TOHealGeneral::get_center() { return &effect_pos[1]; }

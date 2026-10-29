@@ -10,27 +10,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct RecoveredGlobal_80176F50_lbl_804B43A0 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80176F50_lbl_804B43A0_size[sizeof(RecoveredGlobal_80176F50_lbl_804B43A0) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_80176FF8___vt__12TOSignCave03 {
-    s32 value;
-    u8 remaining[0x34];
-};
 
 extern "C" {
 s32 rotate_matrix_y(int, int);
@@ -39,14 +20,10 @@ f32 post_translate_matrix(void *);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80176F50_lbl_804B43A0 bm_fs_obj_dokanban03_resource_descriptor;
 extern u32 TOSignCave03__shared_resource;
-s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
-extern s32 __vt__12TOSignCave03[];
-extern s32 lbl_805D316C;
+extern const char *lbl_805D316C;
 extern const f32 lbl_805DB9E0;
 extern const f32 lbl_805DB9E4;
 void TLobby__sub_8001FE7C(void*, int);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern void *tl_05;
 
@@ -65,12 +42,12 @@ void TOSignCave03::render() {
     CaveSignModel *node7;
     CaveSignModel *node8;
     CaveSignModel *node9;
-    if (((VObj_18_26a62c *)(this))->m8(m_c0, (*(f32 *)&this->m_c4)) != 0) {
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
         TObjFish::set_global_param(texlist);
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, rotation_y);
-        node1 = (*(CaveSignModel * *)&this->model);
+        node1 = ((CaveSignModel *)model);
         translate_matrix(0, node1->x, node1->y, node1->z);
         draw_ginja_model(node1->model);
         push_matrix();
@@ -91,7 +68,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node5 = (*(CaveSignModel * *)&this->model)->child->sibling;
+        node5 = ((CaveSignModel *)model)->child->sibling;
         translate_matrix(0, node5->x, node5->y, node5->z);
         draw_ginja_model(node5->model);
         TParticleCtrl::begin_effect_render();
@@ -108,7 +85,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node8 = (*(CaveSignModel * *)&this->model)->child->sibling->sibling;
+        node8 = ((CaveSignModel *)model)->child->sibling->sibling;
         translate_matrix(0, node8->x, node8->y, node8->z);
         draw_ginja_model(node8->model);
         TParticleCtrl::begin_effect_render();
@@ -120,7 +97,7 @@ void TOSignCave03::render() {
         TParticleCtrl::end_effect_render();
         pop_matrix();
         push_matrix();
-        node10 = (*(CaveSignModel * *)&this->model)->child->sibling->sibling->sibling;
+        node10 = ((CaveSignModel *)model)->child->sibling->sibling->sibling;
         translate_matrix(0, node10->x, node10->y, node10->z);
         draw_ginja_model(node10->model);
         TParticleCtrl::begin_effect_render();
@@ -141,11 +118,7 @@ void TOSignCave03::render() {
 }
 
 void *TOSignCave03::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC8);
-    if (o != NULL) {
-        o = TOSignCave03__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TOSignCave03((TObject *)tl_05, arg0);
 }
 
 void TOSignCave03::close_dialog_window() {
@@ -166,25 +139,13 @@ void TOSignCave03::load_shared_resource() {
     (*(s32 *)&TOSignCave03__shared_resource) = var_r0;
 }
 
-void *__dt__12TOSignCave03Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOSignCave03;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-typedef char RecoveredGlobal_80176FF8___vt__12TOSignCave03_size[sizeof(RecoveredGlobal_80176FF8___vt__12TOSignCave03) == 0x38 ? 1 : -1];
-u8 *TOSignCave03__ct(u8 *sign_cave03, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject((void *)sign_cave03, (void *)arg1);
-    *(s32 **)((s8 *)sign_cave03 + 0x18) = &(*(RecoveredGlobal_80176FF8___vt__12TOSignCave03 *)&__vt__12TOSignCave03).value;
-    *(s32 *)((s8 *)sign_cave03 + 0) = (s32) lbl_805D316C;
-    ((TOSignCave03 *)(sign_cave03))->apply_object_set_data((void *)arg2);
-    *(s32 *)((s8 *)sign_cave03 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOSignCave03__shared_resource) + 0x42C)) + 8);
-    ((TOSignCave03 *)sign_cave03)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOSignCave03__shared_resource) + 0x42C)) + 0xC);
-    ((TOSignCave03 *)sign_cave03)->m_c0 = (f32) lbl_805DB9E0;
-    *(f32 *)((s8 *)sign_cave03 + 0xC4) = (f32) lbl_805DB9E4;
-    return sign_cave03;
+TOSignCave03::~TOSignCave03() {}
+
+TOSignCave03::TOSignCave03(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+    m_name = lbl_805D316C;
+    apply_object_set_data(set_data);
+    model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOSignCave03__shared_resource) + 0x42C)) + 8);
+    texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOSignCave03__shared_resource) + 0x42C)) + 0xC);
+    m_c0 = (f32) lbl_805DB9E0;
+    model_radius = (f32) lbl_805DB9E4;
 }

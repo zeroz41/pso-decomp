@@ -39,7 +39,7 @@ struct Door_8028A28C {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_door_base();
+s32 __ct__13TUnk_804B0BB8FP7TObject();
 extern Tbl_80289EE0 door_four_light_space_index_table;
 extern s32 TODoorFourLight__collision_body_params[];
 extern s32 __vt__20TODoorFourLightSpace[];
@@ -81,8 +81,8 @@ void fn_802898EC(void) {  }
 s32 TODoorFourLightSpace::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
-    temp_r0 = *(s32 *)&this->unk_C8;
+    this->m_c8 = (s32) this->set_params[0];
+    temp_r0 = this->m_c8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
@@ -96,7 +96,7 @@ s32 TODoorFourLightSpace::init_door_switch_binding() {
     } else {
         this->m_cc = 2;
     }
-    return *(s32 *)&this->unk_C8;
+    return this->m_c8;
 }
 void TODoorFourLightSpace::vfunc_6(s16 *arg1, s32) {
     if ((s16) *arg1 == 1) {
@@ -119,7 +119,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
     case 2:
         fail = 0;
         for (i = 0; i < *(s32 *)&this->set_params[1]; i++) {
-            if (is_current_floor_switch_set(*(s32 *)&this->unk_C8 + i) == 0) {
+            if (is_current_floor_switch_set(this->m_c8 + i) == 0) {
                 fail = 1;
             }
         }
@@ -136,7 +136,7 @@ void TODoorFourLightSpace::update_door_switch_state() {
             s32 j;
             bad = 0;
             for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
-                if (is_current_floor_switch_set(*(s32 *)&this->unk_C8 + j) == 0) {
+                if (is_current_floor_switch_set(this->m_c8 + j) == 0) {
                     bad = 1;
                 }
             }
@@ -173,7 +173,7 @@ s32 TODoorFourLightSpace::draw_lights() {
     if (!(this->m_d0 & 1)) {
         s32 j;
         for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
-            if (is_current_floor_switch_set(*(s32 *)&this->unk_C8 + j) == 1) {
+            if (is_current_floor_switch_set(this->m_c8 + j) == 1) {
                 flags[j] = 1;
             } else {
                 flags[j] = 0;
@@ -273,7 +273,7 @@ void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightSpace;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -282,7 +282,7 @@ void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1) {
 }
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
-    init_door_base();
+    __ct__13TUnk_804B0BB8FP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightSpace;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3B1C;
     ((TODoorFourLightSpace *)(arg0))->apply_object_set_data((void *)arg2);
@@ -322,8 +322,8 @@ void *__dt__20TODoorFourLightRuinsFv(void *arg0, s16 arg1);
 s32 TODoorFourLightRuins::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
-    temp_r0 = *(s32 *)&this->unk_C8;
+    this->m_c8 = (s32) this->set_params[0];
+    temp_r0 = this->m_c8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
@@ -337,7 +337,7 @@ s32 TODoorFourLightRuins::init_door_switch_binding() {
     } else {
         this->m_cc = 2;
     }
-    return *(s32 *)&this->unk_C8;
+    return this->m_c8;
 }
 
 void TODoorFourLightRuins::vfunc_6(s16 *arg1, s32) {
@@ -361,7 +361,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
     case 2:
         off = 0;
         for (i = 0; i < *(s32 *)&this->set_params[1]; i++) {
-            if (is_current_floor_switch_set(*(s32 *)&this->unk_C8 + i) == 0) {
+            if (is_current_floor_switch_set(this->m_c8 + i) == 0) {
                 off = 1;
             }
         }
@@ -378,7 +378,7 @@ void TODoorFourLightRuins::update_door_switch_state() {
         }
         off2 = 0;
         for (j = 0; j < *(s32 *)&this->set_params[1]; j++) {
-            if (is_current_floor_switch_set(*(s32 *)&this->unk_C8 + j) == 0) {
+            if (is_current_floor_switch_set(this->m_c8 + j) == 0) {
                 off2 = 1;
             }
         }
@@ -507,7 +507,7 @@ void *__dt__20TODoorFourLightRuinsFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightRuins;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -531,7 +531,7 @@ extern s32 lbl_805D3B18;
 u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
 
-    init_door_base();
+    __ct__13TUnk_804B0BB8FP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightRuins;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3B18;
     ((TODoorFourLightRuins *)(arg0))->apply_object_set_data((void *)arg2);

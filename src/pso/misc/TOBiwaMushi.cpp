@@ -113,7 +113,7 @@ struct Self_802AA3FC : Obj_802AA3FC {
 Anim_802AA3FC *get_bml_motion(u32, s32);
 s32 TObjFish__sub_8001EDB0(u32, s32);
 ModelRef_802AA3FC *get_bml_model(u32, s32);
-void TODragonfly__ct(void *, void *);
+void __ct__11TODragonflyFv(void *, void *);
 s32 rand();
 f32 sin_table_lookup(s32);
 extern s32 lbl_805D3E48;
@@ -129,7 +129,7 @@ extern const f32 lbl_805DE084;
 #pragma fp_contract on
 #define self ((Self_802AA3FC *)arg0)
 void *TOBiwaMushi__ct(void *arg0, void *dragonfly) {
-    TODragonfly__ct(self, dragonfly);
+    __ct__11TODragonflyFv(self, dragonfly);
     *(s32 **)((u8 *)self + 0x18) = __vt__11TOBiwaMushi;
     *(s32 *)self = lbl_805D3E48;
     self->m5(dragonfly);
@@ -243,7 +243,7 @@ extern s32 TOMekaFish01__name;
 #pragma fp_contract on
 #define self ((Self_802AA6EC *)arg0)
 void *TOMekaFish01__ct(void *arg0, void *dragonfly) {
-    TODragonfly__ct(self, dragonfly);
+    __ct__11TODragonflyFv(self, dragonfly);
     *(s32 **)((u8 *)self + 0x18) = __vt__12TOMekaFish01;
     *(s32 *)self = TOMekaFish01__name;
     self->m5(dragonfly);
@@ -289,7 +289,7 @@ extern u32 TOMekaFish00__model_resource;
 #define get_bml_motion ((s32 (*)(void *, s32))get_bml_motion)
 #define TObjFish__sub_8001EDB0 ((s32 (*)(void *, s32))TObjFish__sub_8001EDB0)
 #define get_bml_model ((s32 (*)(void *, s32))get_bml_model)
-#define TODragonfly__ct ((u8 * (*)(void *))TODragonfly__ct)
+#define __ct__11TODragonflyFv ((u8 * (*)(void *))__ct__11TODragonflyFv)
 s32 rand(void);
 extern s32 __vt__12TOMekaFish00[];
 extern s32 TOMekaFish00__name;
@@ -329,7 +329,7 @@ extern u32 TBoss6PlotFalz__instance;
 #pragma push
 #pragma fp_contract on
 u8 *TOMekaFish00__ct(TOMekaFish00 *meka_fish00, s32 arg1) {
-    TODragonfly__ct(meka_fish00);
+    __ct__11TODragonflyFv(meka_fish00);
     *(s32 **)((s8 *)meka_fish00 + 0x18) = &(*(RecoveredGlobal_802AA9DC___vt__12TOMekaFish00 *)&__vt__12TOMekaFish00).value;
     *(s32 *)((s8 *)meka_fish00 + 0) = (s32) TOMekaFish00__name;
     ((TOMekaFish00 *)(meka_fish00))->apply_object_set_data((void *)arg1);
@@ -361,7 +361,7 @@ s32 TBoss6PlotFalz::is_phase_reached() {
 #undef get_bml_motion
 #undef TObjFish__sub_8001EDB0
 #undef get_bml_model
-#undef TODragonfly__ct
+#undef __ct__11TODragonflyFv
 extern char lbl_8046FD7C[];
 extern char lbl_8046FD8C[];
 s32 TOMekaFish00__name = (s32)lbl_8046FD7C;

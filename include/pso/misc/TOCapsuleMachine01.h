@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TOCapsuleMachine01 : public TUnk_804AFBF8 {
+    TOCapsuleMachine01(void *set_data);
     virtual ~TOCapsuleMachine01();
     virtual void run_task();
     virtual void render();
@@ -14,10 +15,5 @@ struct TOCapsuleMachine01 : public TUnk_804AFBF8 {
 };
 
 typedef char TOCapsuleMachine01_size[sizeof(TOCapsuleMachine01) == 0xC8 ? 1 : -1];
-
-extern "C" {
-u8 *TOCapsuleMachine01__ct(u8 *arg0, s32 arg1);
-void *__dt__18TOCapsuleMachine01Fv(void *arg0, s16 arg1);
-}
 
 #endif

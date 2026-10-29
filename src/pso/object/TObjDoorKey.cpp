@@ -99,7 +99,7 @@ void play_sound_effect(int, void *, int, int);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
 s32 init_key__5TOKeyFv(void *, void *);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern u8 TObjDoorKey__collision_body_parts[];
 extern s32 __vt__11TObjDoorKey[];
 extern s32 TObjDoorKey__class_name;
@@ -268,7 +268,7 @@ void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1) {
 extern void *tl_05;
 
 void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
-    TOKey__ct(door_key);
+    __ct__5TOKeyFP7TObject(door_key);
     *(u8 **)((s8 *)door_key + 0x18) = ((u8 *)&__vt__11TObjDoorKey);
     *(s32 *)((s8 *)door_key + 0) = TObjDoorKey__class_name;
     init_key__5TOKeyFv(door_key, arg2);

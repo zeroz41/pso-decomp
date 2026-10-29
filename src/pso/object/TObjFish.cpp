@@ -132,7 +132,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8029CFEC_lbl_804DC590 bm_obj_jungle_mkey_resource_descriptor;
 s32 dispatch_by_phase__15TOKeyJungleMainFlUs(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern RecoveredGlobal_8029D438_lbl_804DC5A0 TOKeyJungleMain_collision_body_parts;
 extern s32 lbl_805D3D50;
 u8 *TOKeyJungleMain__ct(TOKeyJungleMain *arg0, s32 arg1, s32 arg2);
@@ -271,7 +271,7 @@ void *__dt__15TOKeyJungleMainFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8029D438_lbl_804DC5A0_size[sizeof(RecoveredGlobal_8029D438_lbl_804DC5A0) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8029D438___vt__15TOKeyJungleMain_size[sizeof(RecoveredGlobal_8029D438___vt__15TOKeyJungleMain) == 0x74 ? 1 : -1];
 u8 *TOKeyJungleMain__ct(TOKeyJungleMain *key_jungle_main, s32 arg1, s32 arg2) {
-    TOKey__ct((key_jungle_main));
+    __ct__5TOKeyFP7TObject((key_jungle_main));
     *(s32 **)((s8 *)key_jungle_main + 0x18) = &(*(RecoveredGlobal_8029D438___vt__15TOKeyJungleMain *)&__vt__15TOKeyJungleMain).value;
     *(s32 *)((s8 *)key_jungle_main + 0) = (s32) lbl_805D3D50;
     ((TOKeyJungleMain *)(key_jungle_main))->apply_object_set_data((void *)arg2);

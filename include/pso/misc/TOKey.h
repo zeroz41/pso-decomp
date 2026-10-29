@@ -5,7 +5,9 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TOKey : public TUnk_804AFBF8 {
+    TOKey(TObject *parent);
     virtual ~TOKey();
+    virtual void run_task();
     virtual void update_lock_state();
     virtual s32 is_confirm_pressed();
     virtual void vfunc_16();
@@ -23,7 +25,6 @@ struct TOKey : public TUnk_804AFBF8 {
     void interact(s32 client);
     s32 update_object_view_visibility(f32, f32);
     u32 m_e4;
-    void reset_and_notify();
     void init_switch_id();
     void init_key();
     void bswap_6x05_switch_flag();

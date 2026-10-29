@@ -59,7 +59,7 @@ void mem_free(void *p);
 extern u8 *TOKeyAncient01__shared_resource_object;
 extern u32 TOKeyAncient01__texture_lists;
 u32 init_collision_body_parts(void *, s32, s32);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern RecoveredGlobal_8016B0A0_lbl_804B29D0 key_ancient01_collision_body_part;
 extern s32 __vt__14TOKeyAncient01[];
 extern s32 TOKeyAncient01__class_name;
@@ -182,7 +182,7 @@ void *__dt__14TOKeyAncient01Fv(void *arg0, s16 arg1) {
 }
 u8 *TOKeyAncient01__ct(TOKeyAncient01 *key_ancient01, s32 arg1, s32 arg2) {
     s32 temp_r0;
-    TOKey__ct(key_ancient01);
+    __ct__5TOKeyFP7TObject(key_ancient01);
     *(s32 **)((s8 *)key_ancient01 + 0x18) = &(*(RecoveredGlobal_8016B0A0___vt__14TOKeyAncient01 *)&__vt__14TOKeyAncient01).value;
     *(s32 *)((s8 *)key_ancient01 + 0) = (s32) TOKeyAncient01__class_name;
     ((TOKeyAncient01 *)(key_ancient01))->apply_object_set_data((void *)arg2);

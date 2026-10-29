@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TOTrapChainSaw : public TUnk_804AFBF8 {
+    TOTrapChainSaw(TObject *parent, void *set_data);
     virtual ~TOTrapChainSaw();
     virtual void vfunc_14();
     virtual void decode_params();
@@ -22,7 +23,7 @@ struct TOTrapChainSaw : public TUnk_804AFBF8 {
     virtual void vfunc_27();
     virtual void vfunc_28();
     virtual void vfunc_29();
-    virtual f32 vfunc_30(f32);
+    virtual f32 scale_by_level(f32 farg0);
     virtual void render();
     virtual void run_task();
     u32 m_c8;
@@ -37,7 +38,6 @@ struct TOTrapChainSaw : public TUnk_804AFBF8 {
     u32 m_ec;
     u8 _padF0[0x4];
     u32 m_f4;
-    static f32 scale_by_level(f32 farg0);
     void update_demo();
 };
 

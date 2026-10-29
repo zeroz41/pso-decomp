@@ -4,14 +4,18 @@
 #include "types.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 
+class TParticleCtrl;
+
 struct TObjSuisouLobby : public TUnk_804AFBF8 {
+    TObjSuisouLobby(TObject *parent, void *set_data);
     virtual ~TObjSuisouLobby();
     virtual void render();
     virtual void run_task();
-    u32 m_c8;
-    u8 _padCC[0x8];
-    u32 m_d4;
-    u32 m_d8;
+    s32 fade_state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out
+    f32 fade_scale;  // 0..1, the xz scale it fades in and out with
+    u8 pad_d0[0x4];
+    TParticleCtrl *emitter0;  // the bubbles in front of it
+    TParticleCtrl *emitter1;  // the bubbles behind it
     void update_particle();
     void *create();
     static void destroy_instance();
@@ -21,11 +25,8 @@ struct TObjSuisouLobby : public TUnk_804AFBF8 {
 typedef char TObjSuisouLobby_size[sizeof(TObjSuisouLobby) == 0xDC ? 1 : -1];
 
 extern "C" {
-void *TObjSuisouLobby__ct(void *arg0, void *arg1, void *arg2);
 void TObjSuisouLobby__sub_80369B5C(void);
 void TObjSuisouLobby__sub_80369D68(void);
-void *__dt__15TObjSuisouLobbyFv(void *arg0, s16 arg1);
-void render__15TObjSuisouLobbyFv(TObjSuisouLobby *arg0);
 }
 
 #endif

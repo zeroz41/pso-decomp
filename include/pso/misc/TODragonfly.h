@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TODragonfly : public TUnk_804AFBF8 {
+    TODragonfly();
     virtual ~TODragonfly();
     virtual void vfunc_14();
     void sub_80164A90();
@@ -13,12 +14,9 @@ struct TODragonfly : public TUnk_804AFBF8 {
     virtual void run_task();
     u8 unk_C8[0x4];
     u32 m_cc;
-    u8 _padD0[0x4];
-    void* m_d4;
-    u8 unk_D8[0x8];
-    f32 m_e0;
-    u8 unk_E4[0x4];
-    f32 m_e8;
+    f32 wander_radius;  // how far from home pick_random_destination may aim
+    Vec destination;    // the point it is flying to
+    Vec step;           // per-frame move toward destination, scaled by scale.z
     f32 m_ec;
     union { u8 unk_F0[4]; f32 bob_offset; };
     f32 m_f4;

@@ -66,7 +66,7 @@ void *get_player_by_client_id(s32 i);
 void *TOSensor__ct(void *arg0);
 void *__dt__8TOSensorFv(void *arg0, s16 arg1);
 void render__8TOSensorFv(void);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 void __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 
@@ -207,7 +207,7 @@ void *__dt__8TOSensorFv(void *arg0, s16 arg1) {
 extern void *lbl_805D3140;
 
 void *TOSensor__ct(void *sensor) {
-    TOKey__ct((TOKey *)sensor);
+    __ct__5TOKeyFP7TObject((TOKey *)sensor);
     *(s32 **)((s8 *)sensor + 0x18) = __vt__8TOSensor;
     VecCopy((Vec *)((char *)sensor + 80), (const Vec *)((char *)sensor + 56));
     *(void * *)&((TOSensor *)sensor)->m_name = lbl_805D3140;

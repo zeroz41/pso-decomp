@@ -20,7 +20,7 @@ extern const char *fs_obj_ex_entombo_motion_names[2];
 extern BmlResourceDescriptor TODragonflyCave01__resource_descriptor;
 
 extern "C" {
-u8 *TODragonfly__ct(TODragonfly *arg0);
+u8 *__ct__11TODragonflyFv(TODragonfly *arg0);
 f32 sin_table_lookup(s32);
 s32 rand(void);
 extern s32 __vt__17TODragonflyCave01[];
@@ -119,8 +119,6 @@ struct RecoveredGlobal_80164764_lbl_8058D490 {
     u8 remaining[0x2C];
 };
 
-struct RecoveredGlobal_80164DEC___vt__11TODragonfly { s32 value; u8 remaining[0x38]; };
-
 struct Self_8016492C { u8 pad[0x38]; u8 pos[0x70 - 0x38]; f32 radius; u8 pad74[0xAC - 0x74]; s32 state; u8 padb0[0xD4 - 0xB0]; u8 target[0xE0 - 0xD4]; u8 vec[0xC]; };
 
 struct O_80164A90 { u8 pad[0x38]; u8 pos[0x34]; f32 f6c; f32 f70; u8 pad74[0xAC - 0x74]; s32 st; u8 padb0[0xCC - 0xB0]; s32 cc; u8 padd0[4]; u8 d4[0xC]; u8 e0[0xC]; };
@@ -141,25 +139,11 @@ extern RecoveredGlobal_80164764_lbl_8050BEE0 lbl_8050BEE0;
 extern RecoveredGlobal_80164764_lbl_8050BFA0 dragonfly_random_destination;
 extern RecoveredGlobal_80164764_lbl_8058D490 identity_matrix;
 extern const f32 lbl_805DB580;
-s32 __ct__13TUnk_804AFBF8FP7TObject(void *, int);
-extern s32 __vt__11TODragonfly[];
-extern s32 TODragonfly__class_name;
+extern const char *TODragonfly__class_name;
 extern s32 tl_05;
 extern const f32 lbl_805DB594;
 f32 horizontal_distance_squared(void *, void *);
 extern const f32 lbl_805DB584;
-struct Base_80164c34_80164760 { char pad[0x18]; };
-struct VObj_80164c34_80164760 : Base_80164c34_80164760 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
@@ -169,7 +153,7 @@ s32 push_matrix();
 #pragma push
 #pragma fp_contract on
 u8 *TODragonflyCave01__ct(TODragonflyCave01 *dragonfly_cave01, void *arg1) {
-    TODragonfly__ct(dragonfly_cave01);
+    __ct__11TODragonflyFv(dragonfly_cave01);
     *(s32 **)((s8 *)dragonfly_cave01 + 0x18) = __vt__17TODragonflyCave01;
     *(s32 *)((s8 *)dragonfly_cave01 + 0) = TODragonflyCave01__class_name;
     ((TODragonflyCave01 *)(dragonfly_cave01))->apply_object_set_data(arg1);
@@ -196,25 +180,24 @@ typedef char RecoveredGlobal_80164764_lbl_8050BEE0_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80164764_lbl_8050BFA0_size[sizeof(RecoveredGlobal_80164764_lbl_8050BFA0) == 0x40 ? 1 : -1];
 typedef char RecoveredGlobal_80164764_lbl_8058D490_size[sizeof(RecoveredGlobal_80164764_lbl_8058D490) == 0x30 ? 1 : -1];
 s32 TODragonfly::pick_random_destination(f32 farg0) {
-    u8 *arg0 = (u8 *)this;
     *(f32 *)((s8 *)&lbl_8050BEE0.value + 0) = (f32) lbl_805DB580;
     *(f32 *)((s8 *)&lbl_8050BEE0.value + 4) = farg0;
-    *(f32 *)((s8 *)&lbl_8050BEE0.value + 8) = (f32) (*(f32 *)&this->_padD0 * (lbl_805DB57C * (f32) rand()));
+    *(f32 *)((s8 *)&lbl_8050BEE0.value + 8) = (f32) (this->wander_radius * (lbl_805DB57C * (f32) rand()));
     *(s32 *)((s8 *)&dragonfly_random_destination.value + 4) = (s32) (lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32) rand())));
     push_matrix_from((void *)&identity_matrix.value);
     rotate_matrix_y(0, (s32)((int) (*(s32 *)((s8 *)&dragonfly_random_destination.value + 4))));
     rotate_vector_by_matrix(0, (void *)&lbl_8050BEE0.value, (void *)&lbl_8050BEE0.value);
     pop_matrix();
     vec3_add_to((void *)&lbl_8050BEE0.value, (u8 *)&this->home_position);
-    VecCopy((Vec *)(arg0 + 0xD4), (const Vec *)(&lbl_8050BEE0.value));
+    VecCopy(&this->destination, (const Vec *)(&lbl_8050BEE0.value));
     subtract_vector((void *)&lbl_8050BEE0.value, (u8 *)&this->position);
     if (((TObjPlayer *)(&lbl_8050BEE0.value))->check_camera_distance() == 1) {
         *(s32 *)&this->m_ac = 1;
         *(s32 *)&this->m_cc = 0;
         this->rotation_y = (s32) (lbl_804411B0 * atan2_float((f64) *(f32 *)((s8 *)&lbl_8050BEE0.value + 0), (f64) *(f32 *)((s8 *)&lbl_8050BEE0.value + 8)));
-        this->m_e0 = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 0) * this->scale.z);
-        *(f32 *)&this->unk_E4 = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 4) * this->scale.z);
-        this->m_e8 = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 8) * this->scale.z);
+        this->step.x = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 0) * this->scale.z);
+        this->step.y = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 4) * this->scale.z);
+        this->step.z = (f32) (*(f32 *)((s8 *)&lbl_8050BEE0.value + 8) * this->scale.z);
         return 1;
     }
     return 0;
@@ -293,10 +276,9 @@ void TODragonfly::update_idle() {
 #pragma pop
 
 void TODragonfly::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_80164c34_80164760 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
+    if (this->update_object_view_visibility(this->m_c0, this->model_radius) != 0) {
         push_matrix();
-        translate_matrix(0, lbl_805DB580, *(f32 *)((s8 *)arg0 + 0xF0), lbl_805DB580);
+        translate_matrix(0, lbl_805DB580, this->bob_offset, lbl_805DB580);
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
         TObjFish::set_global_param(this->texlist);
@@ -308,7 +290,7 @@ void TODragonfly::render() {
 void TODragonfly::run_task() {
 
     this->m_fc = (s32) (this->m_fc + this->m_f8);
-    *(f32 *)((s8 *)this + 0xF0) = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
+    this->bob_offset = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
     if (TObjPlayer::check_demo_mode() == 1) {
         this->vfunc_14();
         return;
@@ -330,34 +312,38 @@ void TODragonfly::run_task() {
     }
 }
 
-void *__dt__11TODragonflyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TODragonfly;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+// The destructor is still written out by hand: compiled, it would put the
+// vtable after TODragonflyCave01's, where the original has it before.
+extern "C" {
+extern void *__vt__11TODragonfly[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__11TODragonflyFv(void *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__11TODragonfly;
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
+}
 }
 #pragma push
 #pragma fp_contract on
-u8 *TODragonfly__ct(TODragonfly *dragonfly) {
-    __ct__13TUnk_804AFBF8FP7TObject(dragonfly, tl_05);
-    *(s32 **)((s8 *)dragonfly + 0x18) = &(*(RecoveredGlobal_80164DEC___vt__11TODragonfly *)&__vt__11TODragonfly).value;
-    *(s32 *)((s8 *)dragonfly + 0) = (s32) TODragonfly__class_name;
-    dragonfly->m_cc = 0;
-    *(f32 *)((s8 *)dragonfly + 0xD0) = (f32) (lbl_805DB594 + dragonfly->scale.x);
-    VecCopy((Vec *)((u8 *)dragonfly + 0xD4), (const Vec *)((u8 *)dragonfly + 0x38));
-    dragonfly->m_e8 = (f32) lbl_805DB580;
-    *(f32 *)((s8 *)dragonfly + 0xE4) = (f32) lbl_805DB580;
-    dragonfly->m_e0 = (f32) lbl_805DB580;
-    dragonfly->m_f4 = (f32) ((lbl_805DB56C * (f32) dragonfly->set_params[0]) + lbl_805DB560);
-    dragonfly->m_f8 = (s32) (lbl_805DB570 * (lbl_805DB574 / (lbl_805DB578 / dragonfly->m_f4)));
-    dragonfly->m_fc = (s32) (lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32) rand())));
-    dragonfly->m_ec = (f32) ((lbl_805DB56C * (f32) *(s32 *)((s8 *)dragonfly + 0x88)) + lbl_805DB560);
-    *(f32 *)((s8 *)dragonfly + 0xF0) = (f32) (dragonfly->m_ec * sin_table_lookup(dragonfly->m_fc));
-    return (u8 *)dragonfly;
+TODragonfly::TODragonfly() : TUnk_804AFBF8((TObject *)tl_05) {
+    this->m_name = TODragonfly__class_name;
+    this->m_cc = 0;
+    this->wander_radius = (f32) (lbl_805DB594 + this->scale.x);
+    VecCopy(&this->destination, &this->position);
+    this->step.z = (f32) lbl_805DB580;
+    this->step.y = (f32) lbl_805DB580;
+    this->step.x = (f32) lbl_805DB580;
+    this->m_f4 = (f32) ((lbl_805DB56C * (f32) this->set_params[0]) + lbl_805DB560);
+    this->m_f8 = (s32) (lbl_805DB570 * (lbl_805DB574 / (lbl_805DB578 / this->m_f4)));
+    this->m_fc = (s32) (lbl_805DB570 * (lbl_805DB574 * (lbl_805DB57C * (f32) rand())));
+    this->m_ec = (f32) ((lbl_805DB56C * (f32) this->set_params[1]) + lbl_805DB560);
+    this->bob_offset = (f32) (this->m_ec * sin_table_lookup(this->m_fc));
 }
 #pragma pop
 

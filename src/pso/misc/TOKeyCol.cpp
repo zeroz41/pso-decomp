@@ -6,7 +6,7 @@
 extern "C" {
 
 void *TOKeyCol__ct(TOKeyCol *arg0, s32 arg1, s32 arg2);
-s32 TOKey__ct();
+s32 __ct__5TOKeyFP7TObject();
 void *__nw__7TObjectFUl(int);
 
 void TOKeyCol::vfunc_19() {  }
@@ -60,7 +60,7 @@ extern const f32 lbl_805DB75C;
 extern const f32 lbl_805DB760;
 
 void *TOKeyCol__ct(TOKeyCol *key_col, s32 arg1, s32 arg2) {
-    TOKey__ct();
+    __ct__5TOKeyFP7TObject();
     *(s32 **)((s8 *)key_col + 0x18) = __vt__8TOKeyCol;
     *(s32 *)((s8 *)key_col + 0) = (s32) TOKeyCol__name;
     key_col->apply_object_set_data((void *)arg2);

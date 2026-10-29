@@ -26,7 +26,7 @@ extern u32 TObjHashiVersus2__resource_bundle;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, s32, s32);
-u8 * TObjHashiBase__ct(void *, s32);
+u8 * __ct__13TObjHashiBaseFP7TObjectPv(void *, s32);
 u8 is_current_floor_switch_set(int);
 extern RecoveredGlobal_801913F8_lbl_804B7D24 TObjHashiVersus2__collision_body_parts;
 extern s32 __vt__16TObjHashiVersus2[];
@@ -82,7 +82,7 @@ void *__dt__16TObjHashiVersus2Fv(void *arg0, s16 arg1) {
     return arg0;
 }
 u8 *TObjHashiVersus2__ct(u8 *player, s32 arg1, s32 _w2) {
-    TObjHashiBase__ct(player, arg1);
+    __ct__13TObjHashiBaseFP7TObjectPv(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_801913F8___vt__16TObjHashiVersus2 *)&__vt__16TObjHashiVersus2).value;
     *(s32 *)((s8 *)player + 0) = (s32) lbl_805D3380;
     if (is_current_floor_switch_set((int) ((u16) *(s32 *)((s8 *)player + 0xC8))) == 0) {

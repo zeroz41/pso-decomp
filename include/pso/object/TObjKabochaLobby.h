@@ -5,21 +5,18 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TObjKabochaLobby : public TUnk_804AFBF8 {
+    TObjKabochaLobby(TObject *parent, void *set_data);
     virtual ~TObjKabochaLobby();
-    u32 m_c8;
+    s32 state;  // 0 hidden, 2 growing, 3 shown, 1 shrinking
     virtual void render();
     virtual void run_task();
     static void *create(void *arg0);
     static void unload_static_data();
     static void load_resources();
-    u8 unk_CC[0x4];
+    f32 scale;  // the scale it grows and shrinks by
 };
 
 typedef char TObjKabochaLobby_size[sizeof(TObjKabochaLobby) == 0xD0 ? 1 : -1];
 
-extern "C" {
-void *TObjKabochaLobby__ct(TObjKabochaLobby *arg0, s32 arg1, s32 arg2);
-void *__dt__16TObjKabochaLobbyFv(void *arg0, s16 arg1);
-}
 
 #endif

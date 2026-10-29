@@ -3,7 +3,6 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
 #include "pso/misc/TPlyPhotonChair_80142524.h"
-#include "pso/misc/TPlyPhotonChair_80143888.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/misc/TUnk_804A7488.h"
@@ -37,7 +36,6 @@ extern s32 model_render_flags;
     extern int chunk_polygon_flags_or_mask;
     extern int chunk_polygon_flags_and_mask;
 extern "C" {
-s32 activate__15TPlyPhotonChairFv();
 
 int draw_chunk_object(void);
 extern RecoveredGlobal_801426DC_lbl_8050BFF0 photon_chair_color_vec4;

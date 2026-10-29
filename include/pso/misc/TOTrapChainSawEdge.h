@@ -23,7 +23,7 @@ void update_state__20TOTrapChainSawDamageFv(void *arg0);
 u8 *TOTrapChainSawEdge__ct(u8 *arg0);
 u8 *TOTrapChainSawKey__ct(u8 *arg0, void *_w1, void *_w2);
 void update_state__17TOTrapChainSawKeyFv(u8 *arg0);
-u8 *TOTrapChainSaw__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__14TOTrapChainSawFP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2);
 void TParticleCtrl__sub_802C8464(u32 arg0);
 void *__dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
 void *__dt__17TOTrapChainSawKeyFv(void *arg0, s16 arg1);

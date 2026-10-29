@@ -1045,7 +1045,7 @@ struct Sel_802902CC {
 };
 
 s32 load_resource_from_descriptor(s32, s32, s32, s32, s32, s32);
-s32 TObjMotion__ct(void *, void *);
+s32 __ct__10TObjMotionFP7TObject(void *, void *);
 void *mem_alloc(u32 size);
 }
 extern u32 creation_figure_object;
@@ -1128,7 +1128,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
     s32 res;
     CharacterAppearanceFields *cm;
 
-    TObjMotion__ct(motion, arg1);
+    __ct__10TObjMotionFP7TObject(motion, arg1);
     *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
     *(s32 *)((s8 *)motion + 0) = lbl_805D3BBC;
     lbl_805D49B4 = 1;

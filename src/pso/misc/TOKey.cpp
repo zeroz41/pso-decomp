@@ -9,64 +9,19 @@
 #include "pso/misc/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 
-extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
-
-struct Base_8016A8D0 { char pad[0x18]; };
-struct VObj_8016A8D0 : Base_8016A8D0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-};
-
-struct VBase_8016AA20 { char pad[0x18]; };
-
-struct VObj_8016AA20 : VBase_8016AA20 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20(); virtual void m21(); virtual void m22(); virtual void m23();
-    u8 pad1C[0x84 - 0x1C];
-    s32 f84;
-    u8 pad88[0xC8 - 0x88];
-    s32 fC8;
-    u8 padCC[4];
-    s32 fD0;
-};
-
 extern "C" {
 void debug_printf_at(s32, const char *, ...);
 extern char lbl_80441958[];
+// Slot 5 of the base table (apply_object_set_data) is called here without
+// an argument, so it still goes through a no-argument view of the table.
 struct Base0_8016ab58_8016A8D0 { char pad[0x18]; };
 struct VObj0_8016ab58_8016A8D0 : Base0_8016ab58_8016A8D0 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); };
 
-void *TOKey__ct(TOKey *arg0);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 u8 is_current_floor_switch_set(u16);
-void __dl__7TObjectFPv(void *);
+}
 
 void TOKey::trigger_activate_sound() {
-    struct VObj_8016A8D0 *o = (struct VObj_8016A8D0 *)this;
-    o->m20();
+    this->play_activate_sound();
 }
 
 void TOKey::update_lock_state() {
@@ -107,22 +62,21 @@ void TOKey::update_armed_switch() {
 }
 
 void TOKey::debug_draw_key_id() {
-    VObj_8016AA20 *arg0 = (VObj_8016AA20 *)this;
-    arg0->f84 = arg0->f84 % 256;
-    if (arg0->f84 < 0 || arg0->f84 > 0xFF) {
-        arg0->fC8 = -1;
-        arg0->fD0 = 2;
+    this->set_params[0] = this->set_params[0] % 256;
+    if (this->set_params[0] < 0 || this->set_params[0] > 0xFF) {
+        this->m_e4 = -1;
+        this->m_d0 = 2;
     } else {
-        arg0->fC8 = arg0->f84;
-        arg0->fD0 = 0;
+        this->m_e4 = this->set_params[0];
+        this->m_d0 = 0;
     }
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80441958, arg0->fC8);
+    debug_printf_at(0x130020, lbl_80441958, this->m_e4);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
-    arg0->m23();
+    this->vfunc_25();
 }
 
-void TOKey::reset_and_notify() {
+void TOKey::run_task() {
     u8 *arg0 = (u8 *)this;
     this->update_armed_switch();
     *(s32 *)((s8 *)arg0 + 0xE4) = 0;
@@ -149,36 +103,39 @@ void TOKey::init_key() {
     *(s32 *)((s8 *)arg0 + 0x20) = 2;
 }
 
-extern s32 __vt__5TOKey[];
+// The destructor is still written out by hand: TOKey's vtable comes ahead of
+// the switch tables of the unit before (one deferred-generation unit with
+// this one), which a compiled destructor here cannot give.
+extern "C" {
+extern void *__vt__5TOKey[];
+void __dl__7TObjectFPv(void *);
 
-void *__dt__5TOKeyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__5TOKey;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+void *__dt__5TOKeyFv(void *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__5TOKey;
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
+}
 }
 
 extern const f32 lbl_805DB6E0;
-extern void *TOKey__class_name;
+extern const char *TOKey__class_name;
 
-void *TOKey__ct(TOKey *arg0) {
-    __ct__13TUnk_804AFBF8FP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__5TOKey;
-    *(void * *)&arg0->m_name = TOKey__class_name;
-    arg0->m_e4 = -1;
-    *(f32 *)((s8 *)arg0 + 0xCC) = lbl_805DB6E0;
-    arg0->m_d0 = 2;
-    arg0->m_d4 = 0;
-    *(u32 *)((s8 *)arg0 + 0xE0) = 0;
-    *(u32 *)((s8 *)arg0 + 0xD8) = 28;
-    *(u32 *)((s8 *)arg0 + 0xDC) = 28;
-    ((TOKey *)arg0)->cursor_action.set_use();
-    *(u32 *)((s8 *)arg0 + 0xE4) = 0;
-    return arg0;
+TOKey::TOKey(TObject *parent) : TUnk_804AFBF8(parent) {
+    this->m_name = TOKey__class_name;
+    this->m_e4 = -1;
+    *(f32 *)((s8 *)this + 0xCC) = lbl_805DB6E0;
+    this->m_d0 = 2;
+    this->m_d4 = 0;
+    *(u32 *)((s8 *)this + 0xE0) = 0;
+    *(u32 *)((s8 *)this + 0xD8) = 28;
+    *(u32 *)((s8 *)this + 0xDC) = 28;
+    this->cursor_action.set_use();
+    *(u32 *)((s8 *)this + 0xE4) = 0;
 }
 
 void TOKey::vfunc_16() {  }
@@ -186,5 +143,3 @@ void TOKey::vfunc_17() {  }
 void TOKey::vfunc_25() {  }
 
 void TOKey::bswap_6x05_switch_flag() { ((G_ClientIDHeader *)this)->bswap(); bswap_16((u16 *)((char*)this + 0x8)); }
-
-}

@@ -48,7 +48,7 @@ extern RecoveredGlobal_8016B5A4_lbl_80441A74 lbl_80441A74;
 extern RecoveredGlobal_8016B5A4_lbl_804B2A7C bm_fs_obj_o_doorswitch01_resource_descriptor;
 extern u32 TOKeyAncient02__model_archive;
 s32 init_collision_body_parts(void *, void *, int);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern RecoveredGlobal_8016B6A4_lbl_804B2A8C key_ancient02_collision_body;
 extern s32 __vt__14TOKeyAncient02[];
 extern s32 TOKeyAncient02__class_name;
@@ -217,7 +217,7 @@ void *__dt__14TOKeyAncient02Fv(void *arg0, s16 arg1) {
 }
 
 u8 *TOKeyAncient02__ct(TOKeyAncient02 *key_ancient02, s32 arg1, s32 arg2) {
-    TOKey__ct((key_ancient02));
+    __ct__5TOKeyFP7TObject((key_ancient02));
     *(s32 **)((s8 *)key_ancient02 + 0x18) = &(*(RecoveredGlobal_8016B6A4___vt__14TOKeyAncient02 *)&__vt__14TOKeyAncient02).value;
     *(s32 *)((s8 *)key_ancient02 + 0) = (s32) TOKeyAncient02__class_name;
     ((TOKeyAncient02 *)(key_ancient02))->apply_object_set_data((void *)arg2);

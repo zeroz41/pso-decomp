@@ -14,11 +14,6 @@ struct RecoveredGlobal_8015A814_lbl_804AFF10 {
     u8 remaining[0x28];
 };
 
-struct RecoveredGlobal_8015A814___vt__18TOCapsuleMachine01 {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 struct RecoveredGlobal_8015A734_lbl_804AFF00
 {
   s32 value;
@@ -37,28 +32,14 @@ extern u8 *TOCapsuleMachine01__model_resource;
 extern s32 lbl_805D58C4;
 extern s32 TOCapsuleMachine01__last_update_frame_tick;
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AFBF8FP7TObject(void *, int);
 extern RecoveredGlobal_8015A814_lbl_804AFF10 capsule_machine01_collision_body;
-extern s32 __vt__18TOCapsuleMachine01[];
-extern s32 lbl_805D2ED4;
-extern s32 tl_05;
+extern const char *lbl_805D2ED4;
+extern void *tl_05;
 extern const f32 lbl_805DB380;
 extern const f32 lbl_805DB384;
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8015A734_lbl_804AFF00 bm_fs_obj_cap_moto_resource_descriptor;
 extern s32 capsule_machine_ginja_mesh_handle;
-struct Base_8015A5E8 { char pad[0x18]; };
-struct VObj_8015A5E8 : Base_8015A5E8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 s32 PPCSync();
 s32 scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
@@ -66,10 +47,9 @@ s32 post_translate_matrix(void *);
 s32 free_collision_body_parts(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 extern s32 actor_frame_tick;
+}
 
 void TOCapsuleMachine01::run_task() {
     if ((s32) TOCapsuleMachine01__last_update_frame_tick != (s32) actor_frame_tick) {
@@ -80,8 +60,7 @@ void TOCapsuleMachine01::run_task() {
 }
 
 void TOCapsuleMachine01::render() {
-    u8 *arg0 = (u8 *)this;
-    if (((VObj_8015A5E8 *)arg0)->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -92,11 +71,7 @@ void TOCapsuleMachine01::render() {
 }
 
 void *TOCapsuleMachine01::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xC8);
-    if (o != NULL) {
-        o = TOCapsuleMachine01__ct((u8 *)o, (s32)arg0);
-    }
-    return o;
+    return new TOCapsuleMachine01(arg0);
 }
 
 void TOCapsuleMachine01::reset_static_state() {
@@ -127,34 +102,38 @@ void TOCapsuleMachine01::alloc_and_load_resource() {
   TOCapsuleMachine01__last_update_frame_tick = 0;
 }
 
-void *__dt__18TOCapsuleMachine01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TOCapsuleMachine01;
-        free_collision_body_parts(arg0);
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+// The destructor is still written out by hand: compiled, its vtable would
+// open the unit's .data, which the original fills first with the object's
+// resource and collision tables (not owned by this unit yet).
+extern "C" {
+extern void *__vt__18TOCapsuleMachine01[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__18TOCapsuleMachine01Fv(void *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__18TOCapsuleMachine01;
+        free_collision_body_parts((TOCapsuleMachine01 *)self);
+        ((TOCapsuleMachine01 *)self)->unregister_object_by_id();
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
 }
-typedef char RecoveredGlobal_8015A814_lbl_804AFF10_size[sizeof(RecoveredGlobal_8015A814_lbl_804AFF10) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8015A814___vt__18TOCapsuleMachine01_size[sizeof(RecoveredGlobal_8015A814___vt__18TOCapsuleMachine01) == 0x3C ? 1 : -1];
-u8 *TOCapsuleMachine01__ct(u8 *arg0, s32 arg1) {
-    __ct__13TUnk_804AFBF8FP7TObject(arg0, tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015A814___vt__18TOCapsuleMachine01 *)&__vt__18TOCapsuleMachine01).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2ED4;
-    ((TOCapsuleMachine01 *)(arg0))->apply_object_set_data((void *)arg1);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCapsuleMachine01__model_resource + 0x42C)) + 8);
-    ((TOCapsuleMachine01 *)arg0)->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCapsuleMachine01__model_resource + 0x42C)) + 0xC);
-    ((TOCapsuleMachine01 *)arg0)->m_c0 = (f32) lbl_805DB380;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB384;
-    ((TOCapsuleMachine01 *)arg0)->actorFlags = (s32) (((TOCapsuleMachine01 *)arg0)->actorFlags | 0x40000000);
-    init_collision_body_parts(arg0, &capsule_machine01_collision_body.value, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
 }
 
+typedef char RecoveredGlobal_8015A814_lbl_804AFF10_size[sizeof(RecoveredGlobal_8015A814_lbl_804AFF10) == 0x2C ? 1 : -1];
+
+TOCapsuleMachine01::TOCapsuleMachine01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+    m_name = lbl_805D2ED4;
+    apply_object_set_data(set_data);
+    model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)TOCapsuleMachine01__model_resource + 0x42C)) + 8);
+    texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCapsuleMachine01__model_resource + 0x42C)) + 0xC);
+    m_c0 = lbl_805DB380;
+    model_radius = lbl_805DB384;
+    actorFlags |= 0x40000000;
+    init_collision_body_parts(this, &capsule_machine01_collision_body.value, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
 }

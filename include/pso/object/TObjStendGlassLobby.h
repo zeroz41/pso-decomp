@@ -5,10 +5,11 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TObjStendGlassLobby : public TUnk_804AFBF8 {
+    TObjStendGlassLobby(TObject *parent, void *set_data);
     virtual ~TObjStendGlassLobby();
-    u32 m_c8;
-    u8 _padCC[0x4];
-    u32 m_d0;
+    s32 fade_state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out
+    f32 fade_scale;  // 0..1, the xz scale it fades in and out with
+    s32 event_theme;  // the event theme it shows for
     virtual void render();
     virtual void run_task();
     void update_state();
@@ -20,9 +21,7 @@ struct TObjStendGlassLobby : public TUnk_804AFBF8 {
 typedef char TObjStendGlassLobby_size[sizeof(TObjStendGlassLobby) == 0xD4 ? 1 : -1];
 
 extern "C" {
-u8 *TObjStendGlassLobby__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TObjStendGlassLobby__sub_803596C0(void);
-void *__dt__19TObjStendGlassLobbyFv(void *arg0, s16 arg1);
 }
 
 #endif

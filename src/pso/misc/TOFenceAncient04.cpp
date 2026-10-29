@@ -55,7 +55,7 @@ void mem_free(void *p);
 void *mem_alloc(u32 size);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int, int, f32);
-s32 init_fields__13TUnk_804B1B80Fv();
+s32 __ct__13TUnk_804B1B80FP7TObject();
 u8 *load_gvm_texture_file(s32 arg0);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
@@ -80,9 +80,9 @@ __declspec(section ".rodata") extern const char lbl_804416D8[];
 
 void TOFenceAncient04::vfunc_16() {  }
 
-void TOFenceAncient04::vfunc_15() { *(int *)&this->m_ac = 0; *(int *)&this->unk_D0 = 0; { int i; for (i = 0; i < 4; i++) { this->clear_player_status_flag((s32)((void*)i), (u32)((void*)8)); } } }
+void TOFenceAncient04::vfunc_15() { *(int *)&this->m_ac = 0; this->m_d0 = 0; { int i; for (i = 0; i < 4; i++) { this->clear_player_status_flag((s32)((void*)i), (u32)((void*)8)); } } }
 
-void TOFenceAncient04::vfunc_14() { *(int *)&this->m_ac = 1; *(int *)&this->unk_D0 = 1; { int i; for (i = 0; i < 4; i++) { set_indexed_flags(i, (s32)((void*)8)); } } }
+void TOFenceAncient04::vfunc_14() { *(int *)&this->m_ac = 1; this->m_d0 = 1; { int i; for (i = 0; i < 4; i++) { set_indexed_flags(i, (s32)((void*)8)); } } }
 
 void *TOFenceAncient04::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0xD8);
@@ -130,7 +130,7 @@ void *__dt__16TOFenceAncient04Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOFenceAncient04;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B1B80 *)arg0)->destroy(0);
+        __dt__13TUnk_804B1B80Fv(arg0, 0);
         if (arg1 > 0) {
             ((s32 (*)(void *))__dl__7TObjectFPv)(arg0);
         }
@@ -142,7 +142,7 @@ u8 *TOFenceAncient04__ct(u8 *arg0, s32 arg1, s32 arg2) {
     f32 temp_f1;
     u8 *temp_r4;
     u8 *temp_r6;
-    init_fields__13TUnk_804B1B80Fv();
+    __ct__13TUnk_804B1B80FP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80167878___vt__16TOFenceAncient04 *)&__vt__16TOFenceAncient04).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOFenceAncient04__class_name;
     ((TOFenceAncient04 *)(arg0))->apply_object_set_data((void *)arg2);

@@ -3,31 +3,6 @@
 #include "pso/misc/TOKey.h"
 #include "pso/map/FloorArea.h"
 
-struct Base_8016A604 { char pad[0x18]; };
-struct VObj_8016A604 : Base_8016A604 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-};
 
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
@@ -91,9 +66,8 @@ void TOKey::vfunc_23() {
     }
 }
 
-void TBoss3Volopt::call_vt21() {
-    struct VObj_8016A604 *o = (struct VObj_8016A604 *)this;
-    o->m21();
+void TOKey::vfunc_19() {
+    vfunc_23();
 }
 void TOKey::play_activate_sound() {
     u32 area;

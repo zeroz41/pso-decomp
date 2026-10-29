@@ -87,7 +87,7 @@ void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 s32 update_anim_phase__13TUnk_804AFBF8Fv();
 s32 init_collision_body_parts(void *, void *, s32);
-void *TOKey__ct(void *, void *);
+void *__ct__5TOKeyFP7TObject(void *, void *);
 extern s32 key_generic_sw_collision_body[];
 extern s32 TOKeyGenericSw__name;
 
@@ -222,7 +222,7 @@ void *__dt__14TOKeyGenericSwFv(void *arg0, s16 arg1) {
 }
 
 void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *source) {
-    TOKey__ct(key_generic_sw, parent);
+    __ct__5TOKeyFP7TObject(key_generic_sw, parent);
     *(void **)((s8 *)key_generic_sw + 0x18) = __vt__14TOKeyGenericSw;
     *(s32 *)((s8 *)key_generic_sw + 0) = TOKeyGenericSw__name;
     key_generic_sw->apply_object_set_data(source);

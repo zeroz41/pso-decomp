@@ -13,32 +13,6 @@
 struct RecoveredGlobal_8015A108_lbl_804AFDF8 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8015A108_lbl_804AFDF8_size[sizeof(RecoveredGlobal_8015A108_lbl_804AFDF8) == 0x10 ? 1 : -1];
 
-struct TOCakeshopCave01_80159E24 {
-    u8 pad0[0xCC];
-    f32 val[8];
-    u8 state[8];
-};
-
-struct TOCakeshopCave01_8015A1C0 {
-    u8 pad0[0xCC];
-    f32 val[8];
-    u8 state[8];
-};
-
-struct VBase_18_26a62c { char pad[0x18]; };
-
-struct VObj_18_26a62c : VBase_18_26a62c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct Model_80159F78 {
     u8 pad0[4];
     s32 m4;
@@ -46,8 +20,6 @@ struct Model_80159F78 {
     Model_80159F78 *child;
     Model_80159F78 *next;
 };
-
-struct Obj_80159F78 { u8 pad0[0xCC]; f32 val[8]; };
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -59,11 +31,9 @@ extern const f32 lbl_805DB35C;
 extern const f32 TOCakeshopCave01__data_805DB360;
 extern const f32 lbl_805DB364;
 s32 init_collision_body_parts(void *, void *, int);
-s32 __ct__13TUnk_804AFBF8FP7TObject(void *, s32);
 extern s32 cakeshop_cave01_collision_body_part[];
-extern s32 __vt__16TOCakeshopCave01[];
-extern s32 lbl_805D2EC4;
-extern s32 tl_05;
+extern const char *lbl_805D2EC4;
+extern void *tl_05;
 extern const f32 lbl_805DB36C;
 extern const f32 lbl_805DB370;
 s32 scale_matrix(int, f32, f32, f32);
@@ -73,31 +43,29 @@ s32 post_translate_matrix(void *);
 extern const f32 lbl_805DB368;
 void TLobby__sub_8001FE7C(void*, int);
 s32 free_collision_body_parts(void *);
-s32 __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
+}
 
 void TOCakeshopCave01::update_blink_state(void *arg1) {
-    TOCakeshopCave01_80159E24 *o = (TOCakeshopCave01_80159E24 *)this;
     s32 i = (s32)arg1;
-    switch (o->state[i]) {
+    switch (m_ec[i]) {
     default:
-        o->val[i] += lbl_805DB358;
-        if (lbl_805DB35C * (f32)rand() < o->val[i]) {
-            o->state[i] = 1;
-            o->val[i] = TOCakeshopCave01__data_805DB360;
+        m_cc[i] += lbl_805DB358;
+        if (lbl_805DB35C * (f32)rand() < m_cc[i]) {
+            m_ec[i] = 1;
+            m_cc[i] = TOCakeshopCave01__data_805DB360;
         }
         break;
     case 1:
-        o->val[i] -= lbl_805DB358;
-        if (o->val[i] <= lbl_805DB364) {
-            o->state[i] = 2;
-            o->val[i] = lbl_805DB364;
+        m_cc[i] -= lbl_805DB358;
+        if (m_cc[i] <= lbl_805DB364) {
+            m_ec[i] = 2;
+            m_cc[i] = lbl_805DB364;
         }
         break;
     case 2:
-        o->val[i] += lbl_805DB358;
-        if (TOCakeshopCave01__data_805DB360 < o->val[i]) {
-            o->state[i] = 0;
+        m_cc[i] += lbl_805DB358;
+        if (TOCakeshopCave01__data_805DB360 < m_cc[i]) {
+            m_ec[i] = 0;
         }
         break;
     }
@@ -106,10 +74,9 @@ void TOCakeshopCave01::update_blink_state(void *arg1) {
 void TOCakeshopCave01::run_task() { { int i; for (i = 0; i < 8; i++) { update_blink_state((void *)((void*)i)); } } }
 
 void TOCakeshopCave01::render() {
-    u8 *arg0 = (u8 *)this;
     Model_80159F78 *m;
     s32 i;
-    if (((VObj_18_26a62c *)(arg0))->m8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -120,10 +87,10 @@ void TOCakeshopCave01::render() {
         m = m->child;
         TParticleCtrl::begin_effect_render();
         for (i = 0; i < 8; i++) {
-            if (((Obj_80159F78 *)arg0)->val[i] < TOCakeshopCave01__data_805DB360) {
+            if (m_cc[i] < TOCakeshopCave01__data_805DB360) {
                 push_matrix();
                 post_translate_matrix(m->m8);
-                scale_matrix(0, lbl_805DB368 - ((Obj_80159F78 *)arg0)->val[i], lbl_805DB368 - ((Obj_80159F78 *)arg0)->val[i], TOCakeshopCave01__data_805DB360);
+                scale_matrix(0, lbl_805DB368 - m_cc[i], lbl_805DB368 - m_cc[i], TOCakeshopCave01__data_805DB360);
                 draw_ginja_model(m->m4);
                 pop_matrix();
             }
@@ -135,11 +102,7 @@ void TOCakeshopCave01::render() {
 }
 
 void *TOCakeshopCave01::create() {
-    void *o = __nw__7TObjectFUl(0xF4);
-    if (o != NULL) {
-        o = TOCakeshopCave01__ct(o, this);
-    }
-    return o;
+    return new TOCakeshopCave01(this);
 }
 
 void TOCakeshopCave01::close_dialog_window() {
@@ -160,38 +123,41 @@ void TOCakeshopCave01::load_resource_instance() {
     (*(s32 *)&TOCakeshopCave01__model_resource) = var_r0;
 }
 
-void *__dt__16TOCakeshopCave01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOCakeshopCave01;
-        free_collision_body_parts(arg0);
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+// The destructor is still written out by hand: compiled, its vtable would
+// open the unit's .data, which the original fills first with the object's
+// resource and collision tables (not owned by this unit yet).
+extern "C" {
+extern void *__vt__16TOCakeshopCave01[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__16TOCakeshopCave01Fv(void *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__16TOCakeshopCave01;
+        free_collision_body_parts((TOCakeshopCave01 *)self);
+        ((TOCakeshopCave01 *)self)->unregister_object_by_id();
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
 }
-void *TOCakeshopCave01__ct(void *arg0_, void *arg1) {
-    u8 *arg0 = (u8 *)arg0_;
-    s32 i;
-    __ct__13TUnk_804AFBF8FP7TObject(arg0, tl_05);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOCakeshopCave01;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EC4;
-    ((TOCakeshopCave01 *)(arg0))->apply_object_set_data((void *)((s32)arg1));
-    *(s32 *)((s8 *)arg0 + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCakeshopCave01__model_resource + 0x42C)) + 8);
-    *(s32 *)((s8 *)arg0 + 0x24) = *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCakeshopCave01__model_resource + 0x42C)) + 0xC);
-    *(f32 *)((s8 *)arg0 + 0xC0) = lbl_805DB36C;
-    *(f32 *)((s8 *)arg0 + 0xC4) = lbl_805DB370;
-    *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
-    init_collision_body_parts(arg0, cakeshop_cave01_collision_body_part, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    for (i = 0; i < 8; i++) {
-        ((TOCakeshopCave01_8015A1C0 *)arg0)->val[i] = TOCakeshopCave01__data_805DB360;
-        ((TOCakeshopCave01_8015A1C0 *)arg0)->state[i] = 0;
-    }
-    return arg0;
 }
 
+TOCakeshopCave01::TOCakeshopCave01(void *set_data) : TUnk_804AFBF8((TObject *)tl_05) {
+    s32 i;
+    m_name = lbl_805D2EC4;
+    apply_object_set_data(set_data);
+    model = (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)TOCakeshopCave01__model_resource + 0x42C)) + 8);
+    texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)TOCakeshopCave01__model_resource + 0x42C)) + 0xC);
+    m_c0 = lbl_805DB36C;
+    model_radius = lbl_805DB370;
+    actorFlags |= 0x40000000;
+    init_collision_body_parts(this, cakeshop_cave01_collision_body_part, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    for (i = 0; i < 8; i++) {
+        m_cc[i] = TOCakeshopCave01__data_805DB360;
+        m_ec[i] = 0;
+    }
 }

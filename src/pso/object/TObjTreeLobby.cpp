@@ -52,11 +52,6 @@ struct P_80364B6C { s32 a; f32 b; };
 
 struct Obj_80364B6C { u8 pad0[0x1C]; f32 f1C; u16 h20; };
 
-struct Obj_803648B8 {
-    u8 pad0[0xC8];
-    s32 state;
-    f32 cc;
-};
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -67,27 +62,24 @@ s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-s32 __ct__13TUnk_804AFBF8FP7TObject();
 s32 is_lobby_event_active();
-extern s32 __vt__13TObjTreeLobby[];
-extern s32 TObjTreeLobby__class_name;
+extern const char *TObjTreeLobby__class_name;
 extern s32 lbl_804F2B60[];
 
 void TObjTreeLobby::render() {
     f32 temp_f1;
 
-    if ((s32) this->m_c8 != 0) {
+    if ((s32) this->fade_state != 0) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        if ((s32) this->m_c8 != 3) {
-            temp_f1 = *(f32 *)&this->unk_CC;
+        if ((s32) this->fade_state != 3) {
+            temp_f1 = this->fade_scale;
             scale_matrix(0, temp_f1, (f32) (1.0f), temp_f1);
         }
         draw_ginja_object(this->model);
@@ -99,42 +91,37 @@ void TObjTreeLobby::render() {
 extern void *tl_05;
 
 void TObjTreeLobby::run_task() {
-    Obj_803648B8 *self = (Obj_803648B8 *)this;
-    switch (self->state) {
+    switch (this->fade_state) {
     case 0:
         if (TLobby::is_connected() != 0) {
-            self->state = 2;
+            this->fade_state = 2;
         }
         break;
     case 2:
-        self->cc += 0.1f;
-        if (self->cc >= 1.0f) {
-            self->cc = 1.0f;
-            self->state = 3;
+        this->fade_scale += 0.1f;
+        if (this->fade_scale >= 1.0f) {
+            this->fade_scale = 1.0f;
+            this->fade_state = 3;
         }
         break;
     case 1:
-        self->cc -= 0.1f;
-        if (self->cc <= 0.0f) {
-            self->cc = 0.0f;
-            self->state = 0;
+        this->fade_scale -= 0.1f;
+        if (this->fade_scale <= 0.0f) {
+            this->fade_scale = 0.0f;
+            this->fade_state = 0;
         }
         break;
     case 3:
     default:
         if (TLobby::is_lobby_obj_active() != 0) {
-            self->state = 1;
+            this->fade_state = 1;
         }
         break;
     }
 }
 
 void *TObjTreeLobby::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *))TObjTreeLobby__ct)(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjTreeLobby((TObject *)tl_05, arg0);
 }
 
 void TObjTreeLobby::destroy_static_instance() {
@@ -155,30 +142,19 @@ void TObjTreeLobby::load_resources() {
     tree_lobby_type = TLobby::get_lobby_type();
 }
 
-void *__dt__13TObjTreeLobbyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjTreeLobby;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-void *TObjTreeLobby__ct(TObjTreeLobby *tree_lobby, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject();
-    *(s32 **)((s8 *)tree_lobby + 0x18) = __vt__13TObjTreeLobby;
-    *(s32 *)((s8 *)tree_lobby + 0) = (s32) TObjTreeLobby__class_name;
-    tree_lobby->apply_object_set_data((void *)arg2);
+TObjTreeLobby::~TObjTreeLobby() {}
+
+TObjTreeLobby::TObjTreeLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+    m_name = TObjTreeLobby__class_name;
+    apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {
-        tree_lobby->m_c8 = 0;
+        fade_state = 0;
     } else {
-        tree_lobby->m_c8 = 3;
+        fade_state = 3;
     }
-    *(f32 *)((s8 *)tree_lobby + 0xCC) = 1.0f;
-    *(s32 *)((s8 *)tree_lobby + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjTreeLobby__instance) + 0x42C)) + 8);
-    tree_lobby->texlist = (s32) tree_lobby_type;
-    return tree_lobby;
+    fade_scale = 1.0f;
+    model = (void *)*(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjTreeLobby__instance) + 0x42C)) + 8);
+    texlist = (s32) tree_lobby_type;
 }
 void TUnk_804F2B60::run_task() {
     Obj_80364B6C *arg0 = (Obj_80364B6C *)this;

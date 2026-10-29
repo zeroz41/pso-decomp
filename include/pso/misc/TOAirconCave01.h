@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TOAirconCave01 : public TUnk_804AFBF8 {
+    TOAirconCave01(TObject *parent, void *set_data);
     virtual ~TOAirconCave01();
     virtual void render();
     static void *create(void *arg0);

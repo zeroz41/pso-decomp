@@ -118,7 +118,6 @@ struct TBoss3Volopt : public TObjEnemyCustom {
     void play_area_variant_sound();
     void play_area_se_with_particle();
     void play_area_sound_effect();
-    void call_vt21();
     static s32 remap_area_sound_id(s32 arg0);
     void create_cage(u16 target_id);
 

@@ -20,7 +20,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 
-extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct BmlResourceBlock_804B3960 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3960_size[(sizeof(BmlResourceBlock_804B3960) == 0x18) ? 1 : -1];
@@ -44,61 +43,14 @@ extern const char *bm_fs_obj_o_monument01_motion_names[1];
 extern const char *bm_fs_obj_o_monument02_motion_names[1];
 extern const char *bm_fs_obj_o_monument03_motion_names[1];
 
-struct RecoveredGlobal_80172EA0_lbl_804B39A8 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02 {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 struct Node_80172AE0 { u8 pad0[4]; s32 f4; f32 x; f32 y; f32 z; u8 pad14[0x2C - 0x14]; Node_80172AE0 *child; };
 
 struct Model_80172AE0 { u8 pad0[4]; s32 f4; u8 mtx[0x2C - 8]; Node_80172AE0 *child; };
 
-struct VBase_80172AE0 { char pad[0x18]; };
-
-struct VObj_80172AE0 : VBase_80172AE0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
-struct Mon_80172AE0 : VObj_80172AE0 {
-    u8 pad1C[0x24 - 0x1C];
-    s32 f24;
-    u8 pad28[0x34 - 0x28];
-    Model_80172AE0 *model;
-    u8 pos38[0x60 - 0x38];
-    s32 f60;
-    u8 pad64[0x68 - 0x64];
-    f32 f68;
-    f32 f6C;
-    f32 f70;
-    u8 pad74[0xC0 - 0x74];
-    f32 fC0;
-    f32 fC4;
-    s32 fC8;
-    s32 fCC;
-    u8 padD0[0xD8 - 0xD0];
-    f32 fD8;
-    u8 padDC[0xEC - 0xDC];
-    s32 fEC;
-};
-
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
 u32 init_collision_body_parts(void *, s32, s32);
-extern RecoveredGlobal_80172EA0_lbl_804B39A8 monument_ancient02_collision_parts;
-extern s32 __vt__19TOMonumentAncient02[];
+extern CollisionBody monument_ancient02_collision_parts[1];
 extern s32 enable_v2_features;
 extern s32 TOMonumentAncient02__name;
 extern u32 TOMonumentAncient02__model_resource;
@@ -120,30 +72,28 @@ extern const f32 lbl_805DB930;
 void TLobby__sub_8001FE7C(void*, int);
 void free_collision_body_parts(void *);
 s32 submit_cursor_candidate(void *, s32);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
+}
 
 void TOMonumentAncient02::run_task() {
-    u8 *arg0 = (u8 *)this;
 
     switch (this->m_ac) {
     default:
         this->m_ac = 1;
-        if ((u32) this->m_e8 != 0U) {
-            ((TParticleCtrl *)(this->m_e8))->enable();
+        if ((u32) this->effect != 0U) {
+            ((TParticleCtrl *)(this->effect))->enable();
         }
         return;
     case 1:
-        if ((TRaderMapCore::is_not_split_screen() != 1) && ((s32) this->m_ec == 1)) {
-            submit_cursor_candidate(arg0, -1);
+        if ((TRaderMapCore::is_not_split_screen() != 1) && (this->in_view == 1)) {
+            submit_cursor_candidate(this, -1);
         }
-        if ((u32) this->m_e8 != 0U) {
-            ((TParticleCtrl *)(this->m_e8))->enable();
+        if ((u32) this->effect != 0U) {
+            ((TParticleCtrl *)(this->effect))->enable();
             return;
         }
         break;
     case 2:
-        play_persistent_sound(this->m_d4, (s32)arg0, (u32)&this->position, 0, 0);
+        play_persistent_sound(this->sound_id, (s32)this, (u32)&this->position, 0, 0);
         break;
     }
 }
@@ -154,35 +104,34 @@ extern void *tl_05;
 #pragma fp_contract on
 #pragma opt_common_subs off
 void TOMonumentAncient02::render() {
-    Mon_80172AE0 *self = (Mon_80172AE0 *)this;
     Model_80172AE0 *m;
     Node_80172AE0 *n;
-    self->fEC = self->m8(self->fC0, self->fC4);
-    if (self->fEC == 1) {
+    in_view = update_object_view_visibility(m_c0, model_radius);
+    if (in_view == 1) {
         push_matrix();
-        if (self->fC8 == 1) {
-            self->f68 = lbl_805DB920 * (lbl_805DB924 * (f32)rand()) - lbl_805DB928;
-            self->f70 = lbl_805DB920 * (lbl_805DB924 * (f32)rand()) - lbl_805DB928;
-            post_translate_matrix(&self->f68);
+        if (m_c8 == 1) {
+            scale.x = lbl_805DB920 * (lbl_805DB924 * (f32)rand()) - lbl_805DB928;
+            scale.z = lbl_805DB920 * (lbl_805DB924 * (f32)rand()) - lbl_805DB928;
+            post_translate_matrix(&scale);
         }
-        post_translate_matrix(self->pos38);
-        rotate_matrix_y(0, self->f60);
-        TObjFish::set_global_param(self->f24);
-        m = self->model;
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, rotation_y);
+        TObjFish::set_global_param(texlist);
+        m = (Model_80172AE0 *)model;
         post_translate_matrix(m->mtx);
         draw_ginja_model(m->f4);
-        if (self->fC8 == 1) {
-            if (self->fCC != 0) {
-                self->fD8 += lbl_805DB928;
-                if (lbl_805DB92C <= self->fD8) {
-                    self->fD8 = lbl_805DB92C;
-                    self->fCC = 0;
+        if (m_c8 == 1) {
+            if (brightening != 0) {
+                light_color[0] += lbl_805DB928;
+                if (lbl_805DB92C <= light_color[0]) {
+                    light_color[0] = lbl_805DB92C;
+                    brightening = 0;
                 }
             } else {
-                self->fD8 -= lbl_805DB928;
-                if (self->fD8 <= lbl_805DB930) {
-                    self->fD8 = lbl_805DB930;
-                    self->fCC = 1;
+                light_color[0] -= lbl_805DB928;
+                if (light_color[0] <= lbl_805DB930) {
+                    light_color[0] = lbl_805DB930;
+                    brightening = 1;
                 }
             }
             n = m->child;
@@ -191,7 +140,7 @@ void TOMonumentAncient02::render() {
             TParticleCtrl::begin_effect_render();
             saved_model_render_flags = model_render_flags;
             model_render_flags = model_render_flags | 0x20;
-            set_constant_material((const NJS_ARGB *)((&self->fD8)));
+            set_constant_material((const NJS_ARGB *)&light_color[0]);
             draw_ginja_model(n->f4);
             set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
             model_render_flags = saved_model_render_flags;
@@ -204,11 +153,7 @@ void TOMonumentAncient02::render() {
 #pragma pop
 
 void *TOMonumentAncient02::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xF0);
-    if (o != NULL) {
-        o = TOMonumentAncient02__ct((TOMonumentAncient02 *)((u8 *)o), (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TOMonumentAncient02((TObject *)tl_05, arg0);
 }
 
 void TOMonumentAncient02::free_shared_data() {
@@ -246,71 +191,61 @@ void TOMonumentAncient02::load_resources() {
     }
 }
 
-void *__dt__19TOMonumentAncient02Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TOMonumentAncient02;
-        TParticleCtrl::release(*(void **)((s8 *)arg0 + 0xE8));
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOMonumentAncient02::~TOMonumentAncient02() {
+    TParticleCtrl::release((void *)effect);
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
-typedef char RecoveredGlobal_80172EA0_lbl_804B39A8_size[sizeof(RecoveredGlobal_80172EA0_lbl_804B39A8) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02_size[sizeof(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02) == 0x3C ? 1 : -1];
-u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
+
+TOMonumentAncient02::TOMonumentAncient02(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
     s32 area;
-    __ct__13TUnk_804AFBF8FP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02 *)&__vt__19TOMonumentAncient02).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TOMonumentAncient02__name;
-    ((TOMonumentAncient02 *)(arg0))->apply_object_set_data((void *)arg2);
-    *(s32 *)((s8 *)arg0 + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 8);
-    arg0->texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 0xC);
-    init_collision_body_parts(arg0, (s32) &monument_ancient02_collision_parts.value, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
+    m_name = (const char *)TOMonumentAncient02__name;
+    apply_object_set_data(set_data);
+    model = (void *) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 8);
+    texlist = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TOMonumentAncient02__model_resource) + 0x42C)) + 0xC);
+    init_collision_body_parts(this, (s32) monument_ancient02_collision_parts, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
     area = get_current_floor_area();
     switch (area) {
     default:
-        arg0->m_d0 = 0x2C;
-        arg0->m_d4 = 0x4C119;
+        m_d0 = 0x2C;
+        sound_id = 0x4C119;
         break;
     case AREA_CAVE2:
-        arg0->m_d0 = 0x2D;
-        arg0->m_d4 = 0x44116;
+        m_d0 = 0x2D;
+        sound_id = 0x44116;
         break;
     case AREA_MINE2:
-        arg0->m_d0 = 0x2E;
-        arg0->m_d4 = 0x4004C10F;
+        m_d0 = 0x2E;
+        sound_id = 0x4004C10F;
         break;
     }
-    arg0->m_ac = 0;
-    arg0->m_c8 = 0;
-    arg0->m_cc = 0;
-    ((TOMonumentAncient02 *)arg0)->cursor_action.set_use();
-    arg0->m_c0 = (f32) lbl_805DB934;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DB938;
-    *(f32 *)((s8 *)arg0 + 0xD8) = (f32) lbl_805DB92C;
-    *(f32 *)((s8 *)arg0 + 0xDC) = (f32) lbl_805DB92C;
-    arg0->m_e0 = (f32) lbl_805DB92C;
-    *(f32 *)((s8 *)arg0 + 0xE4) = (f32) lbl_805DB92C;
-    arg0->m_e8 = (s32)create_particle_emitter(((u8 *)arg0 + 0x38), 0x7F);
-    arg0->m_ec = 1;
+    m_ac = 0;
+    m_c8 = 0;
+    brightening = 0;
+    cursor_action.set_use();
+    m_c0 = (f32) lbl_805DB934;
+    model_radius = (f32) lbl_805DB938;
+    light_color[0] = (f32) lbl_805DB92C;
+    light_color[1] = (f32) lbl_805DB92C;
+    light_color[2] = (f32) lbl_805DB92C;
+    light_color[3] = (f32) lbl_805DB92C;
+    effect = (s32)create_particle_emitter(&position, 0x7F);
+    in_view = 1;
     if ((s32) enable_v2_features == 1) {
         if (get_game_play_mode() == 1) {
-            queue_destruction__7TObjectFv((arg0));
+            queue_destruction__7TObjectFv(this);
         }
     }
-    return (u8 *)arg0;
 }
 
 __declspec(section ".data") BmlResourceBlock_804B3960 monument_ancient02_resource_table = { { lbl_80442330, NULL }, { lbl_80442348, monument_ancient02_resource_table.model_filenames, bm_fs_obj_o_monument01_motion_names, 1, 0 } };
 __declspec(section ".data") BmlResourceBlock_804B3978 bm_fs_obj_o_monument02_resource_bundle = { { lbl_80442364, NULL }, { lbl_8044237C, bm_fs_obj_o_monument02_resource_bundle.model_filenames, bm_fs_obj_o_monument02_motion_names, 1, 0 } };
 __declspec(section ".data") BmlResourceBlock_804B3990 bm_fs_obj_o_monument03_resource_bundle = { { lbl_80442398, NULL }, { lbl_804423B0, bm_fs_obj_o_monument03_resource_bundle.model_filenames, bm_fs_obj_o_monument03_motion_names, 1, 0 } };
+CollisionBody monument_ancient02_collision_parts[1] = {
+    { { 0.0f, 10.0f, 0.0f }, 20.0f, 0.0f, 0, 0x30003, { 0.0f, 0.0f, 0.0f }, 0.0f },
+};
 __declspec(section ".sdata") const char *bm_fs_obj_o_monument01_motion_names[1] = { NULL };
 __declspec(section ".sdata") const char *bm_fs_obj_o_monument02_motion_names[1] = { NULL };
 __declspec(section ".sdata") const char *bm_fs_obj_o_monument03_motion_names[1] = { NULL };
-}

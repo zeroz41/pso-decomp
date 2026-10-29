@@ -58,7 +58,7 @@ void translate_matrix(u32, f32, f32, f32);
 s32 post_translate_matrix(Vec *);
 s32 draw_ginja_model_with_motion(void *, AnimationMotion *, f32);
 s32 rotate_matrix_y(s32, s32);
-u8 *TODragonfly__ct(TODragonfly *);
+u8 *__ct__11TODragonflyFv(TODragonfly *);
 }
 
 void TODragonflyMachine01::update_yaw_animation() {
@@ -206,7 +206,7 @@ TODragonflyMachine01::~TODragonflyMachine01() {}
 #pragma push
 #pragma fp_contract on
 TODragonflyMachine01 *TODragonflyMachine01::initialize(void *set_data) {
-    TODragonfly__ct(this);
+    __ct__11TODragonflyFv(this);
     *(s32 **)((u8 *)this + 0x18) = __vt__20TODragonflyMachine01;
     m_name = TODragonflyMachine01__class_name;
     apply_object_set_data(set_data);

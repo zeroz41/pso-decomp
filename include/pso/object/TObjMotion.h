@@ -139,6 +139,7 @@ struct TObjMotionAction {
 
 class TObjMotion : public TObjCollidable {
 public:
+    TObjMotion(TObject *parent);
     virtual ~TObjMotion();
     void draw();
     virtual void reset_motion_fields();
@@ -179,6 +180,9 @@ public:
     void * m_f4;
     u32 unknownF8;
 };
+// The name every TObjMotion constructor gives the object.
+extern const char *TObjMotion__class_name;
+
 typedef char TObjBaseSize[sizeof(TObjBase)==0x90?1:-1];
 typedef char TObjCollidableSize[sizeof(TObjCollidable)==0xAC?1:-1];
 typedef char CollisionBodySize[sizeof(CollisionBody)==0x2C?1:-1];

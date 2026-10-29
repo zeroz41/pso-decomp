@@ -27,7 +27,6 @@ struct TOVS2Wall01 : public TObjChara {
     void byteswap_hit_packet();
     void update_and_send();
     void*init();
-    u8 *init_wreck_object(s32 arg1, s32 arg2);
     void save_and_send_state(u16 arg1);
 };
 

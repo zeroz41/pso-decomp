@@ -155,7 +155,7 @@ struct RecoveredGlobal_8016226C___vt__12TODoorCave02 {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_8016226C_lbl_804B1488 TODoorCave02__collision_body_parts;
 extern s32 __vt__12TODoorCave02[];
 extern s32 lbl_805D2F68;
@@ -225,7 +225,7 @@ void *__dt__12TODoorCave02Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave02;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -235,7 +235,7 @@ void *__dt__12TODoorCave02Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8016226C_lbl_804B1488_size[sizeof(RecoveredGlobal_8016226C_lbl_804B1488) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8016226C___vt__12TODoorCave02_size[sizeof(RecoveredGlobal_8016226C___vt__12TODoorCave02) == 0x54 ? 1 : -1];
 u8 *TODoorCave02__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    init_door_base((arg0));
+    __ct__13TUnk_804B0BB8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8016226C___vt__12TODoorCave02 *)&__vt__12TODoorCave02).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F68;
     ((TODoorCave02 *)(arg0))->apply_object_set_data((void *)arg2);

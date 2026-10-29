@@ -1,81 +1,82 @@
-#include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/boss/TBoss2DeRolLe.h"
-#include "pso/misc/TPlyPhotonChair_80142524.h"
-#include "pso/misc/TPlyPhotonChair_80143888.h"
-#include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/system/ChunkMaterialState.h"
-#include "pso/misc/TUnk_804A7488.h"
-#include "pso/misc/TPlyPhotonChair.h"
-#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/object/TObjMotion.h"
 #include "pso/misc/TUnk_804A7478.h"
+#include "pso/misc/TPlyPhotonChair_80142524.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
-#include "pso/unk/text_80143818.h"
 
-extern "C" {
-s32 activate__15TPlyPhotonChairFv();
-int draw_chunk_object(void);
-void restore_actor_draw_lighting(s32) {  }
-}
-void setup_actor_draw_lighting(void) {  }
+const char *TObjMotion__class_name = "TObjMotion";
 
-void TPlyPhotonChair::draw_model() {
-    draw_model_motion((void *)((s32)get_id()), (void *)(sub_80143930__13TUnk_804A7478Fv(this)), get_float_c());
+void restore_actor_draw_lighting(s32) {
 }
 
-void TPlyPhotonChair::update_scale_state() {
-    u8 *arg0 = (u8 *)this;
-    f32 var_f31;
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x18);
-    var_f31 = *(f32 *)&this->m_next - *(f32 *)&this->m_down;
-    switch (temp_r0) {
+void setup_actor_draw_lighting(void) {
+}
+
+void TUnk_804A7478::draw_model() {
+    draw_model_motion(get_id(), sub_80143930(), get_float_c());
+}
+
+void TUnk_804A7478::update_scale_state() {
+    f32 next;
+    s32 cur_state;
+    cur_state = state;
+    next = frame - speed;
+    switch (cur_state) {
     case 0:
-        if (var_f31 < 0.0f) {
-            var_f31 += *(f32 *)&this->m_up;
+        if (next < 0.0f) {
+            next += frame_count;
         }
-        *(f32 *)&this->m_next = var_f31;
+        frame = next;
         return;
     case 2:
-        if (var_f31 <= 0.0f) {
-            var_f31 = 0.0f;
-            activate__15TPlyPhotonChairFv();
+        if (next <= 0.0f) {
+            next = 0.0f;
+            activate();
         }
-        *(f32 *)&this->m_next = var_f31;
+        frame = next;
     case 1:
         return;
     }
 }
-void TPlyPhotonChair::update_bob_motion() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 var_f31;
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x18);
-    var_f31 = *(f32 *)&this->m_next + *(f32 *)&this->m_down;
-    switch (temp_r0) {
+
+void TUnk_804A7478::update_bob_motion() {
+    f32 count;
+    f32 last;
+    f32 next;
+    s32 cur_state;
+    cur_state = state;
+    next = frame + speed;
+    switch (cur_state) {
     case 0:
-        temp_f0 = *(f32 *)&this->m_up;
-        if (var_f31 >= temp_f0) {
-            var_f31 -= temp_f0;
+        count = frame_count;
+        if (next >= count) {
+            next -= count;
         }
-        *(f32 *)&this->m_next = var_f31;
+        frame = next;
         return;
     case 2:
-        temp_f0_2 = *(f32 *)&this->m_up - 1.0f;
-        if (var_f31 >= temp_f0_2) {
-            var_f31 = temp_f0_2;
-            activate__15TPlyPhotonChairFv();
+        last = frame_count - 1.0f;
+        if (next >= last) {
+            next = last;
+            activate();
         }
-        *(f32 *)&this->m_next = var_f31;
+        frame = next;
     case 1:
         return;
     }
 }
-void TUnk_804A7488::vfunc_3() { ((TPlyPhotonChair *)this)->get_id(); draw_chunk_object(); }
-int TLobby__sub_80142944(void* p) { return (*(u32*)((char*)p + 0xb0) >> 4) & 0x1; }
+
+void TUnk_804A7488::draw_model() {
+    draw_chunk_object(get_id());
+}
+
+int TLobby__sub_80142944(void *motion) {
+    return (((TObjMotion *)motion)->animationFlags >> 4) & 1;
+}
 
 #include "types.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
@@ -612,90 +613,71 @@ void advance_animation_playback(Anim_80143504 *a) {
     }
 }
 
-#include "types.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/player/TObjPlayer.h"
-
 void TObjMotion::reset_motion_fields() { *(int *)&this->animationFlags = 0; *(int *)&this->m_b4 = 0; this->m_ba = 0; *(short *)&this->m_b8 = 0; *(short *)&this->m_bc = 0; *(float *)&this->unk_C4 = 0.0f; *(float *)&this->m_c8 = 0.0f; *(float *)&this->m_c0 = 0.0f; *(float *)&this->unk_CC = 0.2f; *(float *)&this->m_d0 = 0.0f; *(float *)&this->unk_D4 = 0.0f; *(int*)((char*)this + 0xe4) = 0; *(int *)&this->unk_E8 = 0; *(float *)&this->m_ec = 0.0f; *(float *)&this->unk_F0 = 0.0f; *(short*)((char*)this + 0xf6) = 0; *(short *)&this->m_f4 = 0; }
 
-
-extern "C" {
-
-void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-
-extern s32 __vt__10TObjMotion[];
-
-}
 TObjMotion::~TObjMotion() {
-
-}
-extern "C" {
-
 }
 
+TObjMotion::TObjMotion(TObject *parent) : TObjCollidable(parent) {
+    m_name = TObjMotion__class_name;
+    reset_motion_fields();
+    action_table = NULL;
+    unknownF8 = 0;
+    motion_list = NULL;
+    motion_buffer = NULL;
+    unknownAC = 0;
+}
 
+// The two part destructors are still written out by hand: their vtables
+// come out ahead of TObjMotion's in the original, which the compiler only
+// gives these classes when their destructors are inline.
 extern "C" {
-s32 __ct__14TObjCollidableFP7TObject();
-extern s32 __vt__10TObjMotion[];
-extern s32 TObjMotion__class_name;
-u8 *TObjMotion__ct(u8 *motion) {
-    __ct__14TObjCollidableFP7TObject();
-    *(s32 **)((s8 *)motion + 0x18) = __vt__10TObjMotion;
-    *(s32 *)((s8 *)motion + 0) = (s32) TObjMotion__class_name;
-    ((TObjMotion *)(motion))->reset_motion_fields();
-    *(s32 *)((s8 *)motion + 0xD8) = 0;
-    ((TObjMotion *)motion)->unknownF8 = 0;
-    *(s32 *)((s8 *)motion + 0xDC) = 0;
-    *(s32 *)((s8 *)motion + 0xE0) = 0;
-    ((TObjMotion *)motion)->unknownAC = 0;
+void *__dt__13TUnk_804A7478Fv(TUnk_804A7478 *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 4) = __vt__13TUnk_804A7478;
+        __dt__13TUnk_804A7488Fv(self, 0);
+        if (del > 0) {
+            ::operator delete(self);
+        }
+    }
+    return self;
+}
+
+void *__dt__13TUnk_804A7488Fv(TUnk_804A7488 *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 4) = __vt__13TUnk_804A7488;
+        if (del > 0) {
+            ::operator delete(self);
+        }
+    }
+    return self;
+}
+}
+
+f32 TUnk_804A7478::get_float_c() {
+    return frame;
+}
+
+NJS_MOTION *TUnk_804A7478::sub_80143930() {
     return motion;
 }
 
+void *TUnk_804A7488::get_id() {
+    return model;
 }
 
-
-extern s32 lbl_804A7478[];
-
-void *TUnk_804A7478::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 * *)&(*(u16 *)((u8 *)this + 0x4)) = lbl_804A7478;
-        __dt__13TUnk_804A7488Fv(this, (s16)(0));
-        if (arg1 > 0) {
-            ::operator delete(this);
-        }
-    }
-    return this;
+void TUnk_804A7478::activate() {
+    state = 1;
 }
-
-extern s32 lbl_804A7488[];
-
-void *__dt__13TUnk_804A7488Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 4) = lbl_804A7488;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-f32 TPlyPhotonChair::get_float_c() { return *(f32 *)&this->m_next; }
-
-s32 TUnk_804A7478::sub_80143930() { return *(s32*)((char*)this + 0x8); }
-s32 TPlyPhotonChair::get_id() { return *(s32 *)&this->m_name; }
-void TPlyPhotonChair::activate() { *(s32*)((char*)this + 0x18) = 1; }
 
 void TObjMotion::set_motion_interpolation_flag() {
-    u8 *temp_r3;
-    temp_r3 = *(u8 * *)&this->unknownF8;
-    *(u16 *)((s8 *)temp_r3 + 0xA) = (u16) (*(u16 *)((s8 *)temp_r3 + 0xA) | 0x80);
+    ((NJS_MOTION *)unknownF8)->inp_fn |= 0x80;
 }
 
-u8 TObjMotion::sub_80143960(s32 arg1) {
-    return (u8) ((this->animationFlags & arg1) != 0);
+u8 TObjMotion::sub_80143960(s32 flags) {
+    return (animationFlags & flags) != 0;
 }
 
-
-void*TObjMotion::get_anim_entry(int a1) {  return (char*)(*(int *)&(this->action_table)) + a1 * 16; }
-
+void *TObjMotion::get_anim_entry(int index) {
+    return (TObjMotionAction *)action_table + index;
+}

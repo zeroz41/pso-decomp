@@ -17,7 +17,7 @@ void TUnk_804B0BB8::update_door_switch_state() {
         this->m_d0 = (s32) (this->m_d0 | 1);
         return;
     case 2:
-        if (is_current_floor_switch_set((int) ((u16) *(s32 *)&this->unk_C8)) == 1) {
+        if (is_current_floor_switch_set((int) ((u16) this->m_c8)) == 1) {
             ((TUnk_804B0BB8 *)arg0)->play_door_sound();
             this->m_d0 = (s32) (this->m_d0 | 1);
             return;
@@ -25,7 +25,7 @@ void TUnk_804B0BB8::update_door_switch_state() {
         this->m_d0 = (s32) (this->m_d0 & 0xFFFFFFFE);
         return;
     case 3:
-        if (is_current_floor_switch_set((int) ((u16) *(s32 *)&this->unk_C8)) == 1) {
+        if (is_current_floor_switch_set((int) ((u16) this->m_c8)) == 1) {
             ((TUnk_804B0BB8 *)arg0)->play_door_sound();
             this->m_d0 = (s32) (this->m_d0 | 1);
         }

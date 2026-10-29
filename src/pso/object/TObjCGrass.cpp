@@ -80,7 +80,7 @@ s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 extern const f32 lbl_805D9E60;
 extern const f32 TObjCGrass__data_805D9E64;
-s32 TObjMotion__ct(void *, s32);
+s32 __ct__10TObjMotionFP7TObject(void *, s32);
 void *mem_alloc(u32 size);
 s32 rand(void);
 s32 rotate_vector_by_matrix(int, void *, void *);
@@ -231,7 +231,7 @@ TObjCGrass::~TObjCGrass() {
 #pragma fp_contract on
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     u8 *hit;
-    TObjMotion__ct(self, tl_06);
+    __ct__10TObjMotionFP7TObject(self, tl_06);
     self->vt = __vt__10TObjCGrass;
     ((TObjPlayer *)(self->f10C))->register_object();
     self->f0 = lbl_805D2A28;

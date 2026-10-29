@@ -24,7 +24,6 @@ u32 TObjRainbowLobby__shared_model_resource;
 
 
 struct RecoveredGlobal_80350808_lbl_804F0DF0 { s32 value; u8 remaining[0xC]; };
-struct Obj_803506A4 { u8 pad[0xC8]; s32 state; f32 val; };
 
 extern "C" {
 
@@ -32,28 +31,24 @@ s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-void *__nw__7TObjectFUl(int);
 void TLobby__sub_8001FE7C(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern BmlResourceDescriptor bm_obj_lobby_rainbow_resource_descriptor;
 extern u32 TObjRainbowLobby__shared_model_resource;
-void __dl__7TObjectFPv(void *);
-s32 __ct__13TUnk_804AFBF8FP7TObject();
 s32 is_lobby_event_active();
-extern s32 __vt__16TObjRainbowLobby[];
 extern const char *lbl_805D435C;
 
 void TObjRainbowLobby::render() {
     f32 temp_f1;
 
-    if ((s32) this->m_c8 != 0) {
+    if (this->state != 0) {
         TParticleCtrl::begin_effect_render();
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
-        if ((s32) this->m_c8 != 3) {
-            temp_f1 = *(f32 *)&this->unk_CC;
+        if (this->state != 3) {
+            temp_f1 = this->scale;
             scale_matrix(0, temp_f1, (f32) (1.0f), temp_f1);
         }
         draw_ginja_object(this->model);
@@ -65,42 +60,37 @@ void TObjRainbowLobby::render() {
 extern void *tl_05;
 
 void TObjRainbowLobby::run_task() {
-    Obj_803506A4 *arg0 = (Obj_803506A4 *)this;
-    switch (arg0->state) {
+    switch (state) {
     case 0:
         if (TLobby::is_connected() != 0) {
-            arg0->state = 2;
+            state = 2;
         }
         break;
     case 2:
-        arg0->val += 0.1f;
-        if (arg0->val >= 1.0f) {
-            arg0->val = 1.0f;
-            arg0->state = 3;
+        scale += 0.1f;
+        if (scale >= 1.0f) {
+            scale = 1.0f;
+            state = 3;
         }
         break;
     case 1:
-        arg0->val -= 0.1f;
-        if (arg0->val <= 0.0f) {
-            arg0->val = 0.0f;
-            arg0->state = 0;
+        scale -= 0.1f;
+        if (scale <= 0.0f) {
+            scale = 0.0f;
+            state = 0;
         }
         break;
     case 3:
     default:
         if (TLobby::is_lobby_obj_active() != 0) {
-            arg0->state = 1;
+            state = 1;
         }
         break;
     }
 }
 
 void *TObjRainbowLobby::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xD0);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *))TObjRainbowLobby__ct)(o, tl_05, arg0);
-    }
-    return o;
+    return new TObjRainbowLobby((TObject *)tl_05, arg0);
 }
 
 void TObjRainbowLobby::free_static_data() {
@@ -119,30 +109,18 @@ void TObjRainbowLobby::load_shared_resource() {
     }
     (*(s32 *)&TObjRainbowLobby__shared_model_resource) = var_r0;
 }
-void *__dt__16TObjRainbowLobbyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjRainbowLobby;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-void *TObjRainbowLobby__ct(TObjRainbowLobby *rainbow_lobby, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject();
-    *(s32 **)((s8 *)rainbow_lobby + 0x18) = __vt__16TObjRainbowLobby;
-    *(s32 *)((s8 *)rainbow_lobby + 0) = (s32) ((s32)lbl_805D435C);
-    rainbow_lobby->apply_object_set_data((void *)arg2);
+TObjRainbowLobby::~TObjRainbowLobby() {}
+TObjRainbowLobby::TObjRainbowLobby(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+    m_name = lbl_805D435C;
+    apply_object_set_data(set_data);
     if (is_lobby_event_active() != 0) {
-        rainbow_lobby->m_c8 = 0;
+        state = 0;
     } else {
-        rainbow_lobby->m_c8 = 3;
+        state = 3;
     }
-    *(f32 *)((s8 *)rainbow_lobby + 0xCC) = 1.0f;
-    *(s32 *)((s8 *)rainbow_lobby + 0x34) = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjRainbowLobby__shared_model_resource) + 0x42C)) + 8);
-    rainbow_lobby->texlist = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjRainbowLobby__shared_model_resource) + 0x42C)) + 0xC);
-    return rainbow_lobby;
+    scale = 1.0f;
+    model = (void *) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjRainbowLobby__shared_model_resource) + 0x42C)) + 8);
+    texlist = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)((void *)TObjRainbowLobby__shared_model_resource) + 0x42C)) + 0xC);
 }
 
 }

@@ -4,7 +4,9 @@
 #include "types.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 
-struct TORevlightCave01 : public TUnk_804AFBF8 {
+class TORevlightCave01 : public TUnk_804AFBF8 {
+public:
+    TORevlightCave01(TObject *parent, void *set_data);
     virtual ~TORevlightCave01();
     u32 m_c8;
     u32 m_cc;

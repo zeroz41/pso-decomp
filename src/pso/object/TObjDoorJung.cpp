@@ -30,7 +30,7 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_8018F9CC_lbl_804B788C TObjDoorJung__collision_desc;
 extern s32 __vt__12TObjDoorJung[];
 extern s32 TObjDoorJung__class_name;
@@ -160,7 +160,7 @@ void TObjDoorJung::render() {
             PPCSync();
         }
         for (i = 0; i < *(s32 *)&this->unk_D4; i++) {
-            if (is_current_floor_switch_set((u16)(*(s32 *)&this->unk_C8 + i)) == 1) {
+            if (is_current_floor_switch_set((u16)(this->m_c8 + i)) == 1) {
                 if (lbl_805D5BE8 >= 0) {
                     free_children__12TObjDoorJungFPv(TObjDoorJung__child_table[i], lbl_805D5BE8);
                 }
@@ -224,7 +224,7 @@ void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -234,7 +234,7 @@ void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8018F9CC_lbl_804B788C_size[sizeof(RecoveredGlobal_8018F9CC_lbl_804B788C) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    init_door_base((arg0));
+    __ct__13TUnk_804B0BB8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung *)&__vt__12TObjDoorJung).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDoorJung__class_name;
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);

@@ -36,7 +36,7 @@ u8 *load_resource_from_descriptor(void *, s32, s32 *, s32, s32, s32);
 void *mem_alloc(u32 size);
 u8 *load_gvm_texture_file(s32 arg0);
 s32 get_main_phase(void);
-u8 * TOKey__ct(void *);
+u8 * __ct__5TOKeyFP7TObject(void *);
 
 s32 get_current_floor();
 extern s32 local_client_id;
@@ -357,7 +357,7 @@ TOKeyCave01::~TOKeyCave01() {
 }
 
 u8 *TOKeyCave01__ct(TOKeyCave01 *key_cave01, s32 arg1, s32 arg2) {
-    TOKey__ct(key_cave01);
+    __ct__5TOKeyFP7TObject(key_cave01);
     *(s32 **)((s8 *)key_cave01 + 0x18) = &(*(RecoveredGlobal_8016C5F8___vt__11TOKeyCave01 *)&__vt__11TOKeyCave01).value;
     *(s32 *)((s8 *)key_cave01 + 0) = (s32) TOKeyCave01__class_name;
     ((TOKeyCave01 *)(key_cave01))->apply_object_set_data((void *)arg2);

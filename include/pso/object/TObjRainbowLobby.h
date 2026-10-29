@@ -5,21 +5,18 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TObjRainbowLobby : public TUnk_804AFBF8 {
+    TObjRainbowLobby(TObject *parent, void *set_data);
     virtual ~TObjRainbowLobby();
-    u32 m_c8;
+    s32 state;  // 0 hidden, 2 fading in, 3 shown, 1 fading out
     virtual void render();
     virtual void run_task();
     static void *create(void *arg0);
     static void free_static_data();
     static void load_shared_resource();
-    u8 unk_CC[0x4];
+    f32 scale;
 };
 
 typedef char TObjRainbowLobby_size[sizeof(TObjRainbowLobby) == 0xD0 ? 1 : -1];
 
-extern "C" {
-void *TObjRainbowLobby__ct(TObjRainbowLobby *arg0, s32 arg1, s32 arg2);
-void *__dt__16TObjRainbowLobbyFv(void *arg0, s16 arg1);
-}
 
 #endif

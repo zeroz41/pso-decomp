@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TObjLobbyMain : public TUnk_804AFBF8 {
+    TObjLobbyMain(TObject *parent, void *set_data);
     virtual ~TObjLobbyMain();
     void update_fade();
     void update_fade_in();

@@ -359,7 +359,7 @@ f32 receive_weapon_special_attack__9TObjCharaFPvPv(Actor_80011824 *self, Actor_8
 void TObjPlayer__sub_8001951C(void* p);
 void subtractive_rng_seed(void *, u16);
 void __ct__14SubtractiveRngFv(void *);
-void TObjMotion__ct(void *, void *);
+void __ct__10TObjMotionFP7TObject(void *, void *);
 void __construct_array(void *, void *, void *, u32, u32);
 extern void *__vt__9TObjChara[];
 Obj_80019038 *__ct__9TObjCharaFP7TObject(Obj_80019038 *self, void *parent);
@@ -4513,7 +4513,7 @@ Obj_80019038 *__ct__9TObjCharaFP7TObject(Obj_80019038 *self, void *parent) {
     Layout_80019038 *l;
     s32 i;
     s32 j;
-    TObjMotion__ct(self, parent);
+    __ct__10TObjMotionFP7TObject(self, parent);
     *(s32 **)((s8 *)self + 0x18) = (s32 *)__vt__9TObjChara;
     ((TObjPlayer *)(p + 0x120))->register_object();
     __ct__14SubtractiveRngFv(p + 0x160);

@@ -170,7 +170,6 @@ void update_switch_lock__23TObjSeabedSuisoBrakableFPv(void *arg0);
 s32 scroll_ginja_mesh_uvs(s32, s32, s32, u16, s32);
 u8 is_current_floor_switch_set(u16);
 void free_collision_body_parts(void *);
-struct Obj_802A6DA8; Obj_802A6DA8 *TObjSeabedSuiso_CH__ct(Obj_802A6DA8 *, s32, s32);
 void *__dt__18TORockCaveBrakableFv(void *arg0, s16 arg1);
 s32 *get_table1_entry__23TObjSeabedSuisoBrakableFi(s32);
 
@@ -325,11 +324,7 @@ void TObjSeabedSuisoBrakable::notify_break(u32 arg0) {
 }
 
 void *TObjSeabedSuisoBrakable::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xDC);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *))TObjSeabedSuiso_CH__ct)(o, (void *)tl_05, arg0);
-    }
-    return o;
+    return new TObjSeabedSuiso_CH((TObject *)tl_05, arg0);
 }
 
 void TObjSeabedSuiso_CH::run_task() { if (this->m_bc != 0) { this->update_anim_phase(); } }
@@ -399,7 +394,7 @@ void notify_break__23TObjSeabedSuisoBrakableFPv(void *seabed_suiso_ch) {
     s32 break_data;
     void *temp_r31;
 
-    temp_r31 = find_object_node((NJS_OBJECT *)((TObjSeabedSuiso_CH *)seabed_suiso_ch)->m_d4, 4);
+    temp_r31 = find_object_node((NJS_OBJECT *)((TObjSeabedSuiso_CH *)seabed_suiso_ch)->kind_model, 4);
     if ((s32) suiso_brakable_last_frame_tick != (s32) actor_frame_tick) {
         if ((temp_r31 != NULL) && ((u32) *(u32 *)((s8 *)temp_r31 + 4) != 0U)) {
             break_data = TObjSeabedSuisoBrakable::get_break_data(0);
@@ -414,9 +409,6 @@ void notify_break__23TObjSeabedSuisoBrakableFPv(void *seabed_suiso_ch) {
 
 }
 
-struct Base18 { char pad[0x18]; };
-
-struct VObj : Base18 { virtual s32 m0(); virtual s32 m1(); virtual s32 m2(); virtual s32 m3(); virtual s32 m4(); virtual s32 m5(); virtual s32 m6(); virtual s32 m7(); virtual s32 m8(f32, f32); };
 
 extern "C" {
 void draw_ginja_box_tree(u8 *arg0);
@@ -426,11 +418,10 @@ s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 set_global_param__8TObjFishFl();
 s32 draw_ginja_model_with_motion(s32, void *, f32);
-void draw_model__23TObjSeabedSuisoBrakableFPv(u8 *arg0);
 
 void TObjSeabedSuiso_CH::update_state() {
 
-    switch (*(s32 *)((s8 *)this + 0xC8)) {
+    switch (this->kind) {
     case 2:
         ((s32 (*)(void))notify_break__23TObjSeabedSuisoBrakableFPv)();
         return;
@@ -440,21 +431,21 @@ void TObjSeabedSuiso_CH::update_state() {
         return;
     }
 }
-void draw_model__23TObjSeabedSuisoBrakableFPv(u8 *seabed_suiso_ch) {
+void TObjSeabedSuiso_CH::render() {
     void *p;
-    if (((VObj *)seabed_suiso_ch)->m8(((TObjSeabedSuiso_CH *)seabed_suiso_ch)->m_c0, *(f32 *)((s8 *)seabed_suiso_ch + 0xC4)) != 0) {
+    if (update_object_view_visibility(m_c0, model_radius) != 0) {
         TParticleCtrl::end_effect_render();
-        ((TObjSeabedSuiso_CH *)seabed_suiso_ch)->update_state();
+        update_state();
         ((s32 (*)(s32))get_instance__23TObjSeabedSuisoBrakableFv)(0);
         set_global_param__8TObjFishFl();
         push_matrix();
-        post_translate_matrix(seabed_suiso_ch + 0x38);
-        rotate_matrix_y(0, ((TObjSeabedSuiso_CH *)seabed_suiso_ch)->rotation_y);
-        p = *(void **)((s8 *)seabed_suiso_ch + 0xBC);
+        post_translate_matrix(&position);
+        rotate_matrix_y(0, rotation_y);
+        p = motion;
         if (p != NULL) {
-            draw_ginja_model_with_motion(((TObjSeabedSuiso_CH *)seabed_suiso_ch)->m_d4, p, ((TObjSeabedSuiso_CH *)seabed_suiso_ch)->m_b0);
+            draw_ginja_model_with_motion(kind_model, p, m_b0);
         } else {
-            draw_ginja_box_tree((u8 *)(((TObjSeabedSuiso_CH *)seabed_suiso_ch)->m_d4));
+            draw_ginja_box_tree((u8 *)kind_model);
         }
         pop_matrix();
         set_model_node_callback(0);
@@ -465,23 +456,15 @@ u8 * get_bml_motion(void *, int);
 extern u8 *TObjSeabedSuisoBrakable__resource_bundle;
 u8 * get_bml_model(void *, int);
 u8 *get_model__23TObjSeabedSuisoBrakableFi(s32 arg0);
-void *__dt__18TObjSeabedSuiso_CHFv(void *arg0, s16 arg1);
 void queue_destruction__7TObjectFv(void *);
 
-extern void *__vt__18TObjSeabedSuiso_CH[];
-
-void *__dt__18TObjSeabedSuiso_CHFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__18TObjSeabedSuiso_CH;
-        if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD8)); *(s32 *)((s8 *)arg0 + 0xD8) = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TObjSeabedSuiso_CH::~TObjSeabedSuiso_CH() {
+    if (emitter != NULL) {
+        queue_destruction__7TObjectFv(emitter);
+        emitter = 0;
     }
-    return arg0;
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
 }
@@ -517,26 +500,8 @@ struct Obj_802A6BD0 {
 
 struct Ent2C_802A6DA8 { u8 pad[0x2C]; };
 
-struct VBase_802A6DA8 { char pad[0x18]; };
-struct Obj_802A6DA8 : VBase_802A6DA8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5(s32);
-    u8 pad1c[0x38 - 0x1C];
-    u8 pos[0x84 - 0x38];
-    s32 f84;
-    u8 pad88[0xC8 - 0x88];
-    s32 kind;
-    u8 padcc[0xD8 - 0xCC];
-    s32 fd8;
-};
-
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
-void __ct__13TUnk_804AFBF8FP7TObject(void *, s32, s32);
 extern Ent18_802A6BD0 TObjSeabedSuiso__kind_param_table[];
 extern Ent2C_802A6DA8 seabed_suiso_chip_collision_bodies[];
 extern s32 TObjSeabedSuiso_CH__name;
@@ -578,24 +543,21 @@ void TObjSeabedSuiso_CH::init_kind_params() {
 
 #pragma push
 #pragma opt_propagation off
-Obj_802A6DA8 *TObjSeabedSuiso_CH__ct(Obj_802A6DA8 *self, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject(self, arg1, arg2);
-    *(s32 **)((u8 *)self + 0x18) = (s32 *)__vt__18TObjSeabedSuiso_CH;
-    *(s32 *)self = TObjSeabedSuiso_CH__name;
-    self->m5(arg2);
-    ((TObjSeabedSuiso_CH *)self)->init_kind_params();
-    self->kind = (s32)fabs_float((f32)self->f84);
-    if (self->kind > 3) {
-        self->kind = 3;
+TObjSeabedSuiso_CH::TObjSeabedSuiso_CH(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+    m_name = (const char *)TObjSeabedSuiso_CH__name;
+    apply_object_set_data(set_data);
+    init_kind_params();
+    kind = (s32)fabs_float((f32)set_params[0]);
+    if (kind > 3) {
+        kind = 3;
     }
-    init_collision_body_parts(self, (int)&seabed_suiso_chip_collision_bodies[self->kind], 1);
-    ((TObjPlayer *)self)->register_object_by_id();
-    if (TObjSeabedSuiso__kind_param_table[self->kind].id >= 0) {
-        self->fd8 = (s32)create_particle_emitter(self->pos, TObjSeabedSuiso__kind_param_table[self->kind].id);
+    init_collision_body_parts(this, (int)&seabed_suiso_chip_collision_bodies[kind], 1);
+    register_object_by_id();
+    if (TObjSeabedSuiso__kind_param_table[kind].id >= 0) {
+        emitter = (TParticleCtrl *)create_particle_emitter(&position, TObjSeabedSuiso__kind_param_table[kind].id);
     } else {
-        self->fd8 = 0;
+        emitter = 0;
     }
-    return self;
 }
 #pragma pop
 
@@ -644,8 +606,5 @@ void *__vt__13TObjSuisoChip[14] = {
 };
 void *__vt__23TObjSeabedSuisoBrakable[20] = {
     0, 0, (void *)__dt__23TObjSeabedSuisoBrakableFv, (void *)update_break_state__18TORockCaveBrakableFv, (void *)render__23TObjSeabedSuisoBrakableFv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv, (void *)reset_motion_fields__14TObjCollidableFv, (void *)get_center__8TObjBaseFv, (void *)update_object_view_visibility__8TObjBaseFff, (void *)classify_actor_view_detail__8TObjBaseFfff, (void *)get_name__8TObjBaseFv, (void *)interact__14TObjCollidableFl, (void *)TObjSeabedSuisoBrakable__vt12, (void *)vfunc_15__10TORockCaveFv, (void *)TObjSeabedSuisoBrakable__vt14, (void *)spawn_break_effect__23TObjSeabedSuisoBrakableFv, (void *)vfunc_18__18TORockCaveBrakableFv, (void *)vfunc_19__23TObjSeabedSuisoBrakableFv
-};
-void *__vt__18TObjSeabedSuiso_CH[14] = {
-    0, 0, (void *)__dt__18TObjSeabedSuiso_CHFv, (void *)run_task__18TObjSeabedSuiso_CHFv, (void *)draw_model__23TObjSeabedSuisoBrakableFPv, (void *)render_shadows__7TObjectFv, (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv, (void *)reset_motion_fields__14TObjCollidableFv, (void *)get_center__8TObjBaseFv, (void *)update_object_view_visibility__8TObjBaseFff, (void *)classify_actor_view_detail__8TObjBaseFfff, (void *)get_name__8TObjBaseFv, (void *)interact__14TObjCollidableFl
 };
 }

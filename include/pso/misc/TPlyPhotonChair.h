@@ -37,12 +37,6 @@ struct TPlyPhotonChair : public TObjBase {
     static void copy_vec4_forward(s32 _w0);
     static void copy_vec4_reverse(s32 _w0);
     static void save_state(s32 _w0);
-    void draw_model();
-    void update_scale_state();
-    void update_bob_motion();
-    f32 get_float_c();
-    s32 get_id();
-    void activate();
     int is_mounted();
     u8 unk_D4[0x10];
 };

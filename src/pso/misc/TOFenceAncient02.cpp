@@ -27,7 +27,7 @@ void mem_free(void *p);
 extern u8 *TOFenceAncient02__model_resource;
 extern u32 TOFenceAncient02__texture_variants;
 s32 init_collision_body_parts(void *, void *, int, int, f32);
-s32 init_fields__13TUnk_804B1B80Fv();
+s32 __ct__13TUnk_804B1B80FP7TObject();
 extern RecoveredGlobal_8016713C_lbl_804B1CD0 fence_ancient02_collision_body_parts;
 extern s32 __vt__16TOFenceAncient02[];
 extern s32 TOFenceAncient02__class_name;
@@ -105,7 +105,7 @@ void *__dt__16TOFenceAncient02Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOFenceAncient02;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B1B80 *)arg0)->destroy(0);
+        __dt__13TUnk_804B1B80Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -118,7 +118,7 @@ u8 *TOFenceAncient02__ct(u8 *arg0, s32 arg1, s32 arg2) {
     f32 temp_f1;
     u8 *temp_r4;
     u8 *temp_r6;
-    init_fields__13TUnk_804B1B80Fv();
+    __ct__13TUnk_804B1B80FP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8016713C___vt__16TOFenceAncient02 *)&__vt__16TOFenceAncient02).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOFenceAncient02__class_name;
     ((TOFenceAncient02 *)(arg0))->apply_object_set_data((void *)arg2);

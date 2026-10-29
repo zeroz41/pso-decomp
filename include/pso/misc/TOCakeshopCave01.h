@@ -5,6 +5,7 @@
 #include "pso/misc/TUnk_804AFBF8.h"
 
 struct TOCakeshopCave01 : public TUnk_804AFBF8 {
+    TOCakeshopCave01(void *set_data);
     virtual ~TOCakeshopCave01();
     void update_blink_state(void *arg1);
     virtual void run_task();
@@ -12,14 +13,11 @@ struct TOCakeshopCave01 : public TUnk_804AFBF8 {
     void *create();
     static void close_dialog_window();
     static void load_resource_instance();
-    u8 unk_C8[0x2C];
+    u8 pad_c8[4];
+    f32 m_cc[8];
+    u8 m_ec[8];
 };
 
 typedef char TOCakeshopCave01_size[sizeof(TOCakeshopCave01) == 0xF4 ? 1 : -1];
-
-extern "C" {
-void *TOCakeshopCave01__ct(void *arg0_, void *arg1);
-void *__dt__16TOCakeshopCave01Fv(void *arg0, s16 arg1);
-}
 
 #endif

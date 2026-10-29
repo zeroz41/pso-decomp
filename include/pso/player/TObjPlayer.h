@@ -597,7 +597,6 @@ struct TObjPlayer : public TObjChara {
     static s32 check_flags(s32 arg0, s32 arg1);
     void update_collisions();
     static void reset();
-    void on_zone_exit();
     u8 is_state_ec1_ed3();
     static void set_camera_mode(s32 arg0);
     void reset_fields();

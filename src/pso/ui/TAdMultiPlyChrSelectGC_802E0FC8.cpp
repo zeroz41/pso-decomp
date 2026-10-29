@@ -1,8 +1,10 @@
 #include "types.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC_802E0FC8.h"
-#include "pso/unk/text_80143818.h"
 #include "pso/ui/TUnk_804E3008.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
+
+// The hand-written constructors below call the base one by its symbol.
+extern "C" u8 *__ct__10TObjMotionFP7TObject(u8 *self);
 
 struct RecoveredGlobal_802E1024_lbl_804E2F68 {
     s32 value;
@@ -17,7 +19,7 @@ void TLobby__sub_8001FE7C(void*, int);
 extern s32 multi_chr_select_player_actor_ops[];
 
 void *TUnk_804E3008::init_player(void *arg1, void *arg2, void *arg3, void *arg4) {
-    TObjMotion__ct((u8 *)this);
+    __ct__10TObjMotionFP7TObject((u8 *)this);
     *(s32 **)((s8 *)this + 0x18) = multi_chr_select_player_actor_ops;
     *(void **)((s8 *)this + 0x10C) = arg4;
     this->m_108 = arg3;

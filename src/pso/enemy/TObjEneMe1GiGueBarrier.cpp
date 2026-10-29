@@ -2,7 +2,6 @@
 #include "pso/enemy/TObjEneMe1GiGueBarrier.h"
 #include "pso/misc/obj_band.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_80143818.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
@@ -15,6 +14,9 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+
+// The hand-written constructors below call the base one by its symbol.
+extern "C" u8 *__ct__10TObjMotionFP7TObject(u8 *self);
 
 #pragma readonly_strings on
 
@@ -140,7 +142,7 @@ TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
 
 u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *ene_me1_gi_gue_barrier, s32 arg1, u8 *arg2) {
     u8 *temp_r5;
-    TObjMotion__ct((u8 *)ene_me1_gi_gue_barrier);
+    __ct__10TObjMotionFP7TObject((u8 *)ene_me1_gi_gue_barrier);
     *(s32 **)((s8 *)ene_me1_gi_gue_barrier + 0x18) = &(*(RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier *)&__vt__22TObjEneMe1GiGueBarrier).value;
     *(s32 *)((s8 *)ene_me1_gi_gue_barrier + 0) = (s32) ((s32)lbl_805D4198);
     *(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC) = arg2;

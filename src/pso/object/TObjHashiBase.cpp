@@ -4,19 +4,6 @@
 #include "pso/object/TObjHashiBase.h"
 #include <stddef.h>
 
-struct Base_80191BEC_80191B94 { char pad[0x18]; };
-struct VObj_80191BEC_80191B94 : Base_80191BEC_80191B94 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(s32);
-};
-
-struct VBase { char pad[0x18]; };
-
-struct VDisp : VBase {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
 
 #include <stddef.h>
 #include "pso/TMainTask.h"
@@ -49,80 +36,74 @@ extern RecoveredGlobal_80191874_lbl_804FF610 camera_right;
 extern s32 camera_ctrl_instance;
 extern const f32 lbl_805DBE2C;
 extern const f32 lbl_805DBE30;
-void *TObjHashiBase__ct(TObjHashiBase *arg0, s32 arg1, s32 arg2);
-void *__dt__13TObjHashiBaseFv(void *arg0, s16 arg1);
 u8 is_current_floor_switch_set(u16, f32);
 void __dl__7TObjectFPv(void *);
 s32 bswap_6x78__11TObjInfoColFv();
-s32 __ct__13TUnk_804AFBF8FP7TObject();
 
-extern s32 __vt__13TObjHashiBase[];
 
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
 typedef char RecoveredGlobal_80191874_lbl_804FF610_size[sizeof(RecoveredGlobal_80191874_lbl_804FF610) == 0xC ? 1 : -1];
 s32 TObjHashiBase::update_object_view_visibility(f32 farg0, f32 farg1) {
-    u8 *arg0 = (u8 *)this;
     typedef char sp8_offset[(offsetof(Stack_80191874, sp8) == 0x0) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_80191874, sp10) == 0x8) ? 1 : -1];
     typedef char sp14_offset[(offsetof(Stack_80191874, sp14) == 0xC) ? 1 : -1];
     typedef char sp18_offset[(offsetof(Stack_80191874, sp18) == 0x10) ? 1 : -1];
     Stack_80191874 stack;
     if (TMainTask::get_render_pass() == 1) {
-        return this->m_1e;
+        return this->visibility;
     }
-    if (xz_distance_squared((void *)(camera_ctrl_instance + 0x178), (void *)(arg0 + 0x38)) < (farg1 * farg1)) {
-        this->m_1e = 1;
+    if (xz_distance_squared((void *)(camera_ctrl_instance + 0x178), (void *)&this->position) < (farg1 * farg1)) {
+        this->visibility = 1;
         return 1;
     }
     matrix_mult_vec(0, (u8 *)&this->position, (void *)&stack.sp10);
     if (stack.sp18 > lbl_805DBE2C) {
-        this->m_1e = 0;
+        this->visibility = 0;
         return 0;
     }
     if (stack.sp18 < -farg0) {
-        this->m_1e = 0;
+        this->visibility = 0;
         return 0;
     }
     if (stack.sp10 < lbl_805DBE2C) {
-        stack.sp10 = (*(f32 *)((s8 *)&camera_right.value + 0) * farg1) + *(f32 *)((s8 *)arg0 + 0x38);
-        stack.sp14 = (*(f32 *)((s8 *)&camera_right.value + 4) * farg1) + *(f32 *)((s8 *)arg0 + 0x3C);
-        stack.sp18 = (*(f32 *)((s8 *)&camera_right.value + 8) * farg1) + *(f32 *)((s8 *)arg0 + 0x40);
+        stack.sp10 = (*(f32 *)((s8 *)&camera_right.value + 0) * farg1) + this->position.x;
+        stack.sp14 = (*(f32 *)((s8 *)&camera_right.value + 4) * farg1) + this->position.y;
+        stack.sp18 = (*(f32 *)((s8 *)&camera_right.value + 8) * farg1) + this->position.z;
         project_world_to_screen(0, (void *)&stack.sp10, (void *)&stack.sp8);
         if (stack.sp8 < lbl_805DBE2C) {
-            this->m_1e = 0;
+            this->visibility = 0;
             return 0;
         }
         goto block_13;
     }
-    stack.sp10 = -((*(f32 *)((s8 *)&camera_right.value + 0) * farg1) - *(f32 *)((s8 *)arg0 + 0x38));
-    stack.sp14 = -((*(f32 *)((s8 *)&camera_right.value + 4) * farg1) - *(f32 *)((s8 *)arg0 + 0x3C));
-    stack.sp18 = -((*(f32 *)((s8 *)&camera_right.value + 8) * farg1) - *(f32 *)((s8 *)arg0 + 0x40));
+    stack.sp10 = -((*(f32 *)((s8 *)&camera_right.value + 0) * farg1) - this->position.x);
+    stack.sp14 = -((*(f32 *)((s8 *)&camera_right.value + 4) * farg1) - this->position.y);
+    stack.sp18 = -((*(f32 *)((s8 *)&camera_right.value + 8) * farg1) - this->position.z);
     project_world_to_screen(0, (void *)&stack.sp10, (void *)&stack.sp8);
     if (stack.sp8 > lbl_805DBE30) {
-        this->m_1e = 0;
+        this->visibility = 0;
         return 0;
     }
 block_13:
-    this->m_1e = 1;
+    this->visibility = 1;
     return 1;
 }
 #pragma pop
 
 void TObjHashiBase::render() {
-    u8 *arg0 = (u8 *)this;
     void *p;
-    if (((VDisp *)arg0)->m8(*(f32 *)((s8 *)arg0 + 0xC0), *(f32 *)((s8 *)arg0 + 0xC4)) != 0) {
+    if (this->update_object_view_visibility(this->m_c0, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_y(0, this->m_60);
-        TObjFish::set_global_param(this->m_24);
+        rotate_matrix_y(0, this->rotation_y);
+        TObjFish::set_global_param(this->texlist);
         p = this->motion;
         if (p != NULL) {
-            draw_model_motion((void *)this->m_34, p, *(f32 *)((s8 *)arg0 + 0xB0));
+            draw_model_motion(this->model, p, this->m_b0);
         } else {
-            draw_ginja_object((void *)this->m_34);
+            draw_ginja_object(this->model);
         }
         pop_matrix();
     }
@@ -132,74 +113,79 @@ extern "C" void set_indexed_flags__14TObjCollidableFll(void *arg0, s32 index, s3
 }
 void handle_6x78(void *arg0);
 typedef char BridgeSize[sizeof(TObjHashiBase)==0xD4?1:-1];
-typedef char BridgePhase[offsetof(TObjHashiBase,phase)==0xAC?1:-1];
 typedef char BridgeRaisedY[offsetof(TObjHashiBase,raisedHeight)==0xCC?1:-1];
 void TObjHashiBase::run_task() {
     f32 height;
     s32 index;
-    switch (phase) {
+    switch (m_ac) {
     case 0:
         if (((u8 (*)(u16))is_current_floor_switch_set)((u16)switchId) != 0) {
-            phase=1;
+            m_ac=1;
             return;
         }
         break;
     case 1:
-        position[1]=position[1]+riseSpeed;
-        if(position[1]>(height=raisedHeight)) {
-            position[1]=height;
-            phase=2;
+        position.y=position.y+riseSpeed;
+        if(position.y>(height=raisedHeight)) {
+            position.y=height;
+            m_ac=2;
             return;
         }
         break;
     case 2:
         index=0;
-        while(index<colliderCount) {
+        while(index<body_count) {
             set_indexed_flags__14TObjCollidableFll(this,index,8);
             ++index;
         }
-        phase=3;
+        m_ac=3;
         break;
     case 3:break;
     }
 }
 
-void *__dt__13TObjHashiBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        ((TObjHashiBase *)arg0)->m_18 = __vt__13TObjHashiBase;
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+// The destructor is still written out by hand: compiled, its vtable would
+// open the unit's .data, which the original fills first with the object's
+// resource and collision tables (not owned by this unit yet).
+extern "C" {
+extern void *__vt__13TObjHashiBase[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__13TObjHashiBaseFv(void *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__13TObjHashiBase;
+
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
+}
 }
 
-extern s32 lbl_805D3374;
+extern const char *lbl_805D3374;
 extern const f32 lbl_805DBE24;
 extern const f32 lbl_805DBE28;
 extern const f32 lbl_805DBE34;
 extern const f32 lbl_805DBE38;
 
-void *TObjHashiBase__ct(TObjHashiBase *hashi_base, s32 arg1, s32 arg2) {
-    __ct__13TUnk_804AFBF8FP7TObject();
-    hashi_base->m_18 = __vt__13TObjHashiBase;
-    *(s32 *)((s8 *)hashi_base + 0) = (s32) lbl_805D3374;
-    ((VObj_80191BEC_80191B94 *)hashi_base)->m5(arg2);
-    hashi_base->switchId = (s32) hashi_base->m_84;
-    *(f32 *)((s8 *)hashi_base + 0xC0) = (f32) lbl_805DBE24;
-    *(f32 *)((s8 *)hashi_base + 0xC4) = (f32) lbl_805DBE28;
-    if (is_current_floor_switch_set((u16) hashi_base->switchId, lbl_805DBE24) == 1) {
-        hashi_base->phase = 2;
-        *(f32 *)((s8 *)hashi_base + 0xCC) = (f32) *(f32 *)((s8 *)hashi_base + 0x3C);
-        *(f32 *)((s8 *)hashi_base + 0xD0) = (f32) lbl_805DBE34;
+TObjHashiBase::TObjHashiBase(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
+    this->m_name = lbl_805D3374;
+    this->apply_object_set_data(set_data);
+    this->switchId = this->set_params[0];
+    this->m_c0 = lbl_805DBE24;
+    this->model_radius = lbl_805DBE28;
+    if (is_current_floor_switch_set((u16) this->switchId, lbl_805DBE24) == 1) {
+        this->m_ac = 2;
+        this->raisedHeight = this->position.y;
+        this->riseSpeed = lbl_805DBE34;
     } else {
-        hashi_base->phase = 0;
-        *(f32 *)((s8 *)hashi_base + 0xCC) = (f32) *(f32 *)((s8 *)hashi_base + 0x3C);
-        *(f32 *)((s8 *)hashi_base + 0x3C) = (f32) (*(f32 *)((s8 *)hashi_base + 0x3C) - lbl_805DBE38);
-        *(f32 *)((s8 *)hashi_base + 0xD0) = (f32) lbl_805DBE34;
+        this->m_ac = 0;
+        this->raisedHeight = this->position.y;
+        this->position.y = this->position.y - lbl_805DBE38;
+        this->riseSpeed = lbl_805DBE34;
     }
-    return hashi_base;
 }
 
 void handle_6x78(void *arg0) {

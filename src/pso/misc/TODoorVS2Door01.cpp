@@ -66,7 +66,7 @@ extern RecoveredGlobal_80176308_lbl_804B4278 fs_obj_o_vs2door01l_resource_descri
 extern u32 door_vs2_shared_bml_archive;
 extern s32 *TODoorVS2Door01__texture_lists;
 s32 init_collision_body_parts(void *, void *, int);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_80164340_lbl_804B17F0 todoor_vs2_door01_collision_parts;
 extern s32 __vt__15TODoorVS2Door01[];
 extern s32 TODoorVS2Door01__class_name;
@@ -252,7 +252,7 @@ void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorVS2Door01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -262,7 +262,7 @@ void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_80164340_lbl_804B17F0_size[sizeof(RecoveredGlobal_80164340_lbl_804B17F0) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80164340___vt__15TODoorVS2Door01_size[sizeof(RecoveredGlobal_80164340___vt__15TODoorVS2Door01) == 0x54 ? 1 : -1];
 u8 *TODoorVS2Door01__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    init_door_base((arg0));
+    __ct__13TUnk_804B0BB8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80164340___vt__15TODoorVS2Door01 *)&__vt__15TODoorVS2Door01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorVS2Door01__class_name;
     ((TODoorVS2Door01 *)(arg0))->apply_object_set_data((void *)arg2);

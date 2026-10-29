@@ -66,7 +66,7 @@ u8 *load_gvm_texture_file(s32 arg0);
 extern RecoveredGlobal_8016BC84_lbl_80441ACC lbl_80440A64;
 extern u32 TODoorAncient03__bml_resource;
 s32 init_collision_body_parts(void *, void *, int);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_8015E634_lbl_804B0E08 door_ancient03_collision_parts;
 extern s32 __vt__15TODoorAncient03[];
 extern s32 lbl_805D2F28;
@@ -193,7 +193,7 @@ void *__dt__15TODoorAncient03Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TODoorAncient03;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -203,7 +203,7 @@ void *__dt__15TODoorAncient03Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8015E634_lbl_804B0E08_size[sizeof(RecoveredGlobal_8015E634_lbl_804B0E08) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8015E634___vt__15TODoorAncient03_size[sizeof(RecoveredGlobal_8015E634___vt__15TODoorAncient03) == 0x54 ? 1 : -1];
 u8 *TODoorAncient03__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    init_door_base((arg0));
+    __ct__13TUnk_804B0BB8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8015E634___vt__15TODoorAncient03 *)&__vt__15TODoorAncient03).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F28;
     ((TODoorAncient03 *)(arg0))->apply_object_set_data((void *)arg2);

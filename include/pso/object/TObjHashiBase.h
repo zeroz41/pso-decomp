@@ -1,31 +1,19 @@
 #ifndef PSO_OBJECT_TOBJHASHIBASE_H
 #define PSO_OBJECT_TOBJHASHIBASE_H
 #include "types.h"
-struct TObjHashiBase {
-    s32 update_object_view_visibility(f32, f32);
-    void run_task();
-    u8 unk_0[0x18];
-    s32 * m_18;
-    u8 unk_1C[0x2];
-    s16 m_1e;
-    u8 unk_20[0x4];
-    s32 m_24;
-    u8 unk_28[0xC];
-    s32 m_34;
-    f32 position[3];
-    u8 unk_44[0x1C];
-    s32 m_60;
-    u8 unk_64[0x20];
-    s32 m_84;
-    u8 unk_88[0x1C];
-    void* colliders;
-    s32 colliderCount;
-    s32 phase;
-    f32 frame,frameEnd,frameStep;
-    void* motion;
-    f32 farVisibility,nearVisibility;
-    s32 switchId;
-    f32 raisedHeight,riseSpeed;
-    void render();
+#include "pso/misc/TUnk_804AFBF8.h"
+
+// A bridge that rises into place once its floor switch is set.
+// m_ac is its phase: 0 waiting for the switch, 1 rising, 2 raised (its
+// collision bodies get enabled), 3 done.
+struct TObjHashiBase : public TUnk_804AFBF8 {
+    TObjHashiBase(TObject *parent, void *set_data);
+    virtual ~TObjHashiBase();
+    virtual void run_task();
+    virtual void render();
+    virtual s32 update_object_view_visibility(f32, f32);
+    s32 switchId;      // floor switch that raises it (set param 4)
+    f32 raisedHeight;  // the y it rises to
+    f32 riseSpeed;     // y step per frame while rising
 };
 #endif

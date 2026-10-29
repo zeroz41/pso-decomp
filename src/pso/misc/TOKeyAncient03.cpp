@@ -40,7 +40,7 @@ extern BmlResourceDescriptor bm_fs_obj_o_doorpanel_resource_descriptor;
 extern u32 TOKeyAncient03__model_archive;
 extern void *TOKeyAncient03__texture_variants;
 s32 get_main_phase(void);
-u8 * TOKey__ct(void *);
+u8 * __ct__5TOKeyFP7TObject(void *);
 extern s32 __vt__14TOKeyAncient03[];
 extern s32 TOKeyAncient03__class_name;
 
@@ -201,7 +201,7 @@ TOKeyAncient03::~TOKeyAncient03() {
 }
 
 u8 *TOKeyAncient03__ct(TOKeyAncient03 *key_ancient03, s32 arg1, s32 arg2) {
-    TOKey__ct(key_ancient03);
+    __ct__5TOKeyFP7TObject(key_ancient03);
     *(s32 **)((s8 *)key_ancient03 + 0x18) = &(*(RecoveredGlobal_8016BD60___vt__14TOKeyAncient03 *)&__vt__14TOKeyAncient03).value;
     *(s32 *)((s8 *)key_ancient03 + 0) = (s32) TOKeyAncient03__class_name;
     ((TOKeyAncient03 *)(key_ancient03))->apply_object_set_data((void *)arg2);

@@ -76,8 +76,8 @@ void TODoorCave01::vfunc_6(s16 *arg1, s32) {
 s32 TODoorCave01::init_door_switch_binding() {
     s32 temp_r0;
 
-    *(s32 *)&this->unk_C8 = (s32) this->set_params[0];
-    temp_r0 = *(s32 *)&this->unk_C8;
+    this->m_c8 = (s32) this->set_params[0];
+    temp_r0 = this->m_c8;
     if (temp_r0 > 0x100) {
         this->m_cc = 0;
     } else if (temp_r0 < 0) {
@@ -91,7 +91,7 @@ s32 TODoorCave01::init_door_switch_binding() {
     } else {
         this->m_cc = 2;
     }
-    return *(s32 *)&this->unk_C8;
+    return this->m_c8;
 }
 
 void TODoorCave01::vfunc_17() {
@@ -303,7 +303,7 @@ struct RecoveredGlobal_80161BE4___vt__12TODoorCave01 {
 
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-void *init_door_base(void *a0);
+void *__ct__13TUnk_804B0BB8FP7TObject(void *a0);
 extern RecoveredGlobal_80161BE4_lbl_804B13C8 TODoorCave01__collision_body_template;
 extern s32 __vt__12TODoorCave01[];
 extern s32 lbl_805D2F60;
@@ -362,7 +362,7 @@ void *__dt__12TODoorCave01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorCave01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804B0BB8 *)arg0)->destroy_ancient_door_base(0);
+        __dt__13TUnk_804B0BB8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -373,7 +373,7 @@ typedef char RecoveredGlobal_80161BE4_lbl_804B13C8_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80161BE4___vt__12TODoorCave01_size[sizeof(RecoveredGlobal_80161BE4___vt__12TODoorCave01) == 0x54 ? 1 : -1];
 u8 *TODoorCave01__ct(TODoorCave01 *arg0, s32 arg1, s32 arg2) {
     s32 temp_r0;
-    init_door_base((arg0));
+    __ct__13TUnk_804B0BB8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80161BE4___vt__12TODoorCave01 *)&__vt__12TODoorCave01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2F60;
     ((TODoorCave01 *)(arg0))->apply_object_set_data((void *)arg2);

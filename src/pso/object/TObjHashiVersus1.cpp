@@ -24,7 +24,7 @@ extern u32 TObjHashiVersus1__resource_bundle;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, s32, s32);
-u8 * TObjHashiBase__ct(void *, s32);
+u8 * __ct__13TObjHashiBaseFP7TObjectPv(void *, s32);
 u8 is_current_floor_switch_set(int);
 extern RecoveredGlobal_801915F4_lbl_804B7CCC versus_bridge_collision_bodies;
 extern s32 __vt__16TObjHashiVersus1[];
@@ -81,7 +81,7 @@ void *__dt__16TObjHashiVersus1Fv(void *arg0, s16 arg1) {
 typedef char RecoveredGlobal_801915F4_lbl_804B7CCC_size[sizeof(RecoveredGlobal_801915F4_lbl_804B7CCC) == 0x58 ? 1 : -1];
 typedef char RecoveredGlobal_801915F4___vt__16TObjHashiVersus1_size[sizeof(RecoveredGlobal_801915F4___vt__16TObjHashiVersus1) == 0x38 ? 1 : -1];
 u8 *TObjHashiVersus1__ct(u8 *player, s32 arg1, s32 _w2) {
-    TObjHashiBase__ct(player, arg1);
+    __ct__13TObjHashiBaseFP7TObjectPv(player, arg1);
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_801915F4___vt__16TObjHashiVersus1 *)&__vt__16TObjHashiVersus1).value;
     *(s32 *)((s8 *)player + 0) = (s32) lbl_805D337C;
     if (is_current_floor_switch_set((int) ((u16) *(s32 *)((s8 *)player + 0xC8))) == 0) {

@@ -16,7 +16,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 #pragma readonly_strings on
 
 struct Vec3_80352240 {
@@ -28,19 +27,6 @@ struct Vec3_80352240 {
 extern const s32 lbl_80479078[18] = {5, 5, 5, 5, 5, 5, 5, 0, 1, 2, 5, 5, 5, 5, 5, 3, 4, 4};
 const char *lbl_805D4370 = "TObjLobbyMain";
 
-struct Base_8035240C { u8 pad[0x18]; };
-
-struct Obj_8035240C : Base_8035240C {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    virtual void v6();
-    virtual void v7();
-    virtual s32 v8(f32, f32);
-};
 
 struct Obj_8035255C { u8 pad0[0xB0]; f32 f_b0; u8 padB4[0x1C]; s16 idx; };
 
@@ -208,10 +194,9 @@ extern s32 lobby_main_computer_ginja_model_b;
 extern s32 lobby_computer_last_frame_tick;
 
 void TObjLobbyMain::render() {
-    u8 *arg0 = (u8 *)this;
     s16 idx;
     s32 r;
-    if (lobby_main_lobby_type != NULL && ((Obj_8035240C *)arg0)->v8(this->m_c0, *(f32 *)&this->m_c4) != 0) {
+    if (lobby_main_lobby_type != NULL && this->update_object_view_visibility(this->m_c0, this->model_radius) != 0) {
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
         rotate_matrix_y(0, this->rotation_y);
@@ -302,10 +287,6 @@ struct RecoveredGlobal_80352940_lbl_804F0F34 {
     u8 remaining[0x28];
 };
 
-struct RecoveredGlobal_80352940___vt__13TObjLobbyMain {
-    s32 value;
-    u8 remaining[0x34];
-};
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -313,11 +294,8 @@ extern RecoveredGlobal_803527F0_lbl_804F0F24 bm_obj_lobby_main_resource_descript
 void *create_particle_emitter(void *pos, s32 id);
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_80352940_lbl_804F0F34 lobby_main_collision_body;
-extern s32 __vt__13TObjLobbyMain[];
 void TLobby__sub_8001FE7C(void*, int);
 void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
 
 void TObjLobbyMain::run_task() {
 
@@ -344,11 +322,7 @@ void TObjLobbyMain::run_task() {
 extern void *tl_05;
 
 void *TObjLobbyMain::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xE0);
-    if (o != NULL) {
-        o = TObjLobbyMain__ct((u8 *)o, (s32)tl_05, (s32)arg0);
-    }
-    return o;
+    return new TObjLobbyMain((TObject *)tl_05, arg0);
 }
 
 void TObjLobbyMain::release_static_instance() {
@@ -373,52 +347,55 @@ void TObjLobbyMain::load_resources() {
     lobby_computer_last_frame_tick = 0;
 }
 
-void *__dt__13TObjLobbyMainFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjLobbyMain;
-        if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD8)); ((TObjLobbyMain *)arg0)->m_d8 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TObjLobbyMain *)arg0)->m_dc = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_804AFBF8Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+// The destructor is still written out by hand: compiled, it would make this
+// unit emit the vtable after its switch tables, where the original has it
+// first.
+extern "C" {
+extern void *__vt__13TObjLobbyMain[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__13TObjLobbyMainFv(TObjLobbyMain *self, s16 del) {
+    if (self != NULL) {
+        *(void **)((u8 *)self + 0x18) = __vt__13TObjLobbyMain;
+        if ((void *)self->m_d8 != NULL) { queue_destruction__7TObjectFv((void *)self->m_d8); self->m_d8 = 0; }
+        if ((void *)self->m_dc != NULL) { queue_destruction__7TObjectFv((void *)self->m_dc); self->m_dc = 0; }
+        self->unregister_object_by_id();
+        free_collision_body_parts(self);
+        __dt__13TUnk_804AFBF8Fv(self, 0);
+        if (del > 0) {
+            __dl__7TObjectFPv(self);
         }
     }
-    return arg0;
+    return self;
 }
-typedef char RecoveredGlobal_80352940_lbl_804F0F34_size[sizeof(RecoveredGlobal_80352940_lbl_804F0F34) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_80352940___vt__13TObjLobbyMain_size[sizeof(RecoveredGlobal_80352940___vt__13TObjLobbyMain) == 0x38 ? 1 : -1];
-u8 *TObjLobbyMain__ct(u8 *arg0, s32 arg1, s32 arg2) {
+}
+TObjLobbyMain::TObjLobbyMain(TObject *parent, void *set_data) : TUnk_804AFBF8(parent) {
     u32 temp_r3;
     u32 temp_r3_2;
-    __ct__13TUnk_804AFBF8FP7TObject((arg0));
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80352940___vt__13TObjLobbyMain *)&__vt__13TObjLobbyMain).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D4370;
-    ((TObjLobbyMain *)(arg0))->apply_object_set_data((void *)arg2);
-    ((TObjLobbyMain *)arg0)->m_d8 = (u32)create_particle_emitter((arg0 + 0x38), 0x222);
-    temp_r3 = ((TObjLobbyMain *)arg0)->m_d8;
+    m_name = lbl_805D4370;
+    apply_object_set_data(set_data);
+    m_d8 = (u32)create_particle_emitter(&position, 0x222);
+    temp_r3 = m_d8;
     if (temp_r3 != 0U) {
         ((TBoss4Type2 *)temp_r3)->set_flags(0x40);
-        enable__13TParticleCtrlFv((int) (((TObjLobbyMain *)arg0)->m_d8));
+        enable__13TParticleCtrlFv((int) m_d8);
     }
-    ((TObjLobbyMain *)arg0)->m_dc = (u32)create_particle_emitter((arg0 + 0x38), 0x222);
-    temp_r3_2 = ((TObjLobbyMain *)arg0)->m_dc;
+    m_dc = (u32)create_particle_emitter(&position, 0x222);
+    temp_r3_2 = m_dc;
     if (temp_r3_2 != 0U) {
         ((TBoss4Type2 *)temp_r3_2)->set_flags(0x40);
-        enable__13TParticleCtrlFv((int) (((TObjLobbyMain *)arg0)->m_dc));
+        enable__13TParticleCtrlFv((int) m_dc);
     }
-    set_mode_index_from_state__13TObjLobbyMainFv(arg0);
-    resolve_theme_index__13TObjLobbyMainFv(arg0);
-    update_emitter_positions__13TObjLobbyMainFv(arg0);
-    ((TObjLobbyMain *)arg0)->m_d4 = (f32) (1.0f);
-    ((TObjLobbyMain *)arg0)->m_c8 = 2;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) (1.2e+02f);
-    ((TObjLobbyMain *)arg0)->m_b0 = (f32) (0.0f);
-    init_collision_body_parts(arg0, &lobby_main_collision_body.value, 1);
-    ((TObjCollidable *)arg0)->refresh_collision_body_centers();
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    return arg0;
+    set_mode_index_from_state();
+    resolve_theme_index();
+    update_emitter_positions();
+    m_d4 = (f32) (1.0f);
+    m_c8 = 2;
+    model_radius = (f32) (1.2e+02f);
+    m_b0 = (f32) (0.0f);
+    init_collision_body_parts(this, &lobby_main_collision_body.value, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
 }
 
 }

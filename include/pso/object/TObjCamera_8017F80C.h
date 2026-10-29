@@ -4,16 +4,12 @@
 #include "types.h"
 
 extern "C" {
-u8 *TObjCamera__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TObjChip__vt10(u8 *arg0);
-void *__dt__10TObjCameraFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjCamera_8017F80C.cpp ---
 extern "C" {
-u8 *TObjCamera__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TObjChip__vt10(u8 *arg0);
-void *__dt__10TObjCameraFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

@@ -93,7 +93,7 @@ extern u8 lbl_80445CD8[];
 void TLazerFenceSw__vt24(Sw_80193978 *arg0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 init_key__5TOKeyFv(void *, void *);
-void *TOKey__ct(TOKey *arg0);
+void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern u8 lazer_fence_sw_collision_body_part[];
 extern s32 __vt__13TLazerFenceSw[];
 extern s32 lbl_805D33B0;
@@ -227,7 +227,7 @@ void TLazerFenceSw__vt16(void *lazer_fence_sw) {
 }
 
 void TLazerFenceSw__vt17(void *arg0) {
-    ((TBoss3Volopt *)arg0)->call_vt21();
+    ((TOKey *)arg0)->TOKey::vfunc_19();
     ((TLazerFenceSw *)arg0)->m_b0 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
 }
@@ -260,7 +260,7 @@ void TLazerFenceSw::vfunc_17() {
 void TLazerFenceSw::run_task() {
     u8 *arg0 = (u8 *)this;
     step_laser_fence_fade(arg0 + 0xF0);
-    ((TOKey *)arg0)->reset_and_notify();
+    ((TOKey *)arg0)->TOKey::run_task();
     *(f32 *)((s8 *)arg0 + 0x110) += 0.2f;
 }
 
@@ -349,7 +349,7 @@ void *__dt__13TLazerFenceSwFv(void *arg0, s16 arg1) {
 #pragma push
 #pragma opt_common_subs off
 void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
-    TOKey__ct((TOKey *)arg0);
+    __ct__5TOKeyFP7TObject((TOKey *)arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = ((u8 *)&__vt__13TLazerFenceSw);
     ((TUnk_804AF8D8 *)((u8 *)arg0 + 0xF0))->init_vtable_804AF8D8();
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D33B0;
