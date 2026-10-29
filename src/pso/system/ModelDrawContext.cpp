@@ -80,12 +80,12 @@ void set_model_node_callback(s32 arg0) {
 }
 typedef char RecoveredGlobal_803DCBD8_lbl_8058D380_size[sizeof(RecoveredGlobal_803DCBD8_lbl_8058D380) == 0xF0 ? 1 : -1];
 
-void draw_ginja_model_with_motion(void *arg0, void *arg1, f32 frame) {
-    bind_motion_context(arg1, frame);
+void draw_ginja_model_with_motion(void *model, void *motion, f32 frame) {
+    bind_motion_context(motion, frame);
     model_draw_context->fn = draw_ginja_model_lists;
     prepare_ginja_model(model_draw_context);
     init_model_draw_queue((void *) draw_ginja_model_lists);
-    draw_ginja_motion_node_tree((u8 *)arg0);
+    draw_ginja_motion_node_tree((u8 *)model);
     flush_model_draw_queue();
     if (ginja_draw_end_callback != NULL) {
         ginja_draw_end_callback();

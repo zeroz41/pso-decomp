@@ -38,7 +38,6 @@ struct Door_801615C4 {
 };
 
 extern "C" {
-s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 void update_and_send_60__6TLobbyFPv(void *);
 u8 is_current_floor_switch_set(u16);
@@ -96,7 +95,7 @@ s32 TODoorCave01::init_door_switch_binding() {
 
 void TODoorCave01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (((u8) ((u32) __cntlzw(this->door_flags & 1) >> 5) == 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(1e+04f) != 1)) {
+    if (((u8) ((u32) __cntlzw(this->door_flags & 1) >> 5) == 1) || (this->is_any_player_within_radius_xz(1e+04f) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);
@@ -104,7 +103,7 @@ void TODoorCave01::update_open() {
 }
 void TODoorCave01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(4.9e+03f) == 1)) {
+    if ((this->door_flags & 1) && (this->is_any_player_within_radius_xz(4.9e+03f) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x42807, (u8 *)&this->position, 0, 0);

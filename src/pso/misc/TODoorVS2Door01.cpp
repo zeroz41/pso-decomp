@@ -81,7 +81,6 @@ void draw_ginja_model(s32 model);
 void *__dt__15TODoorVS2Door01Fv(void *arg0, s16 arg1);
 s32 play_sound_effect(s32, void *, s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
-s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -103,7 +102,7 @@ void TODoorVS2Door01::update_closing() {
 
 void TODoorVS2Door01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->door_flags & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf((1e+04f)) == 0)) {
+    if (!(this->door_flags & 1) || (this->is_any_player_within_radius_xz((1e+04f)) == 0)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);
@@ -121,7 +120,7 @@ void TODoorVS2Door01::update_opening() {
 
 void TODoorVS2Door01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf((4.9e+03f)) != 0)) {
+    if ((this->door_flags & 1) && (this->is_any_player_within_radius_xz((4.9e+03f)) != 0)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004AA0B, (u8 *)&this->position, 0, 0);

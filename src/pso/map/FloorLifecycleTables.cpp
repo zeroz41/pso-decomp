@@ -514,7 +514,7 @@ FloorLifecycleEntry floor_lifecycle_callbacks_floor_10[35] = {
     { TOKeyAncient01::load_resources, TOKeyAncient01::free_shared_resources },
     { TOKeyAncient03::load_resources, TOKeyAncient03::cleanup_refs },
     { TODoorAncient03::load_resources, TODoorAncient03::free_resources },
-    { TODoorAncient07::load_resources, TODoorAncient07::cleanup },
+    { TODoorAncient07::load_resources, TODoorAncient07::destroy },
     { TODoorAncient08::load_resources, TODoorAncient08::free_objects },
     { TODoorAncient09::load_resources, TODoorAncient09::free_rocks },
     { TOKeyAncient02::load_resources, TOKeyAncient02::free_static },

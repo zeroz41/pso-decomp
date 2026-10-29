@@ -81,7 +81,6 @@ struct Door_80162D7C : VObj_80162D7C {
 };
 
 extern "C" {
-s32 is_any_player_within_radius_xz__13TObjMapObjectFf(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern const f32 lbl_805DB4F4;
 extern const f32 lbl_805DB4F8;
@@ -128,7 +127,7 @@ extern const f32 lbl_805DB4F0;
 
 void TODoorMachine01::update_open() {
     u8 *arg0 = (u8 *)this;
-    if (!(this->door_flags & 1) || (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F0) != 1)) {
+    if (!(this->door_flags & 1) || (this->is_any_player_within_radius_xz(lbl_805DB4F0) != 1)) {
         this->m_ac = 3;
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);
@@ -139,7 +138,7 @@ extern void *tl_05;
 
 void TODoorMachine01::update_closed() {
     u8 *arg0 = (u8 *)this;
-    if ((this->door_flags & 1) && (is_any_player_within_radius_xz__13TObjMapObjectFf(lbl_805DB4F4) == 1)) {
+    if ((this->door_flags & 1) && (this->is_any_player_within_radius_xz(lbl_805DB4F4) == 1)) {
         this->m_ac = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         play_sound_effect(0x4004BC01, (u8 *)&this->position, 0, 0);

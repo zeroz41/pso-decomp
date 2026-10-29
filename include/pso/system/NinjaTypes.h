@@ -50,7 +50,10 @@ struct NJS_OBJECT {
     f32 scl[3];
     NJS_OBJECT *child;
     NJS_OBJECT *sibling;
+    u8 pad_34[0x4];
 };
+
+typedef char NJS_OBJECT_size[sizeof(NJS_OBJECT) == 0x38 ? 1 : -1];
 
 // Ninja motion: per-node key data played over nbFrame frames.
 struct NJS_MOTION {

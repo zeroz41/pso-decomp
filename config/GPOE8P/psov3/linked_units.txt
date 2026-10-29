@@ -3080,8 +3080,6 @@ pso/unk/text_80156BBC.cpp
 pso/unk/text_8015C048.cpp
 pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp
-pso/unk/text_8015FC40.cpp
-pso/unk/text_80160838.cpp
 pso/unk/text_80165940.cpp
 pso/unk/text_80166B6C.cpp
 pso/unk/text_80169BD0.cpp
