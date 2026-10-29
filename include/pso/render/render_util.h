@@ -83,7 +83,7 @@ s32 lerp_angle_half(s32 from, s32 to);
 void vsub(void *a, void *b, void *out);
 f32 vec_distance_squared(u8 *a, u8 *b);
 s32 is_near_zero(f32 value);
-u8 vec_has_nonfinite(Vec *v);
+s32 vec_has_nonfinite(Vec *v);
 
 // A constant-colour draw: save the model render state, draw with a fixed
 // material colour, restore it. `owner` is the caller's draw object; the

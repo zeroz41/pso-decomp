@@ -1,10 +1,10 @@
 #include "pso/protocol/subcommand_validation.h"
+#include "pso/render/render_util.h"
 #include "pso/protocol/subcommand_validation_actions.h"
 #include "pso/misc/TLobby.h"
 
 extern "C" {
 s32 is_action_id_none(s16);
-s32 vec_has_nonfinite__FP3Vec(s32);
 s32 fn_800FD7C0(void *);
 
 s32 validate_6xAB(G_ClientIDHeader *packet) {
@@ -35,17 +35,17 @@ s32 validate_6x56_set_player_position_and_angle(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return (u32) __cntlzw(vec_has_nonfinite__FP3Vec((s32)packet + 8)) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 8)) ? 0 : 1;
 }
 
 s32 validate_6x55_intra_map_warp(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    if (vec_has_nonfinite__FP3Vec((s32)packet + 8) != 0) {
+    if (vec_has_nonfinite((Vec *)((u8 *)packet + 8)) != 0) {
         return 0;
     }
-    return (u32) __cntlzw(vec_has_nonfinite__FP3Vec((s32)packet + 0x14)) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 0x14)) ? 0 : 1;
 }
 
 s32 validate_6x53(G_ClientIDHeader *packet) {

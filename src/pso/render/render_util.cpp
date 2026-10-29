@@ -441,11 +441,11 @@ s32 is_near_zero(f32 value) {
     return 0;
 }
 
-u8 vec_has_nonfinite(Vec *v) {
-    s32 result = 0;
+s32 vec_has_nonfinite(Vec *v) {
+    bool result = false;
     if (TCameraCtrl__sub_8006B370(v->x) != 0 || TCameraCtrl__sub_8006B370(v->y) != 0 ||
         TCameraCtrl__sub_8006B370(v->z) != 0) {
-        result = 1;
+        result = true;
     }
     return result;
 }

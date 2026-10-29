@@ -1,7 +1,7 @@
 #include "pso/protocol/subcommand_validation.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
-s32 vec_has_nonfinite__FP3Vec(s32);
 void *find_entity_by_id(u16 id);
 s32 is_local__16G_ClientIDHeaderFUs(void *, u16);
 }
@@ -27,7 +27,7 @@ s32 validate_6x20_set_position(G_ClientIDHeader *packet) {
     if ((temp_r0 < 0) || (temp_r0 > 0x12)) {
         return 0;
     }
-    return ((u32)__cntlzw(vec_has_nonfinite__FP3Vec((s32)((u8*)packet + 8)))) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 8)) ? 0 : 1;
 }
 
 s32 validate_6x1F_set_player_floor(G_ClientIDHeader *packet) {

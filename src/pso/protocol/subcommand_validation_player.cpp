@@ -1,11 +1,11 @@
 #include "pso/protocol/subcommand_validation.h"
+#include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/protocol/subcmd_6x.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-s32 vec_has_nonfinite__FP3Vec(s32);
 s32 is_camera_visible__17TObjEneHoldEffectFv(s32);
 
 u16 TObjRoomId__sub_801A1DB8(u16);
@@ -77,7 +77,7 @@ s32 validate_6x3F_set_position(G_ClientIDHeader *packet) {
     if ((s16) *(s16 *)((s8 *)((u8*)packet) + 8) > 0x12) {
         return 0;
     }
-    return (u32)__cntlzw(vec_has_nonfinite__FP3Vec((s32)((u8*)packet + 0xC))) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 0xC)) ? 0 : 1;
 }
 
 s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet) {
@@ -92,7 +92,7 @@ s32 validate_6x3E_stop_at_position(G_ClientIDHeader *packet) {
     if ((s16) *(s16 *)((s8 *)((u8*)packet) + 8) > 0x12) {
         return 0;
     }
-    return (u32)__cntlzw(vec_has_nonfinite__FP3Vec((s32)((u8*)packet + 0xC))) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 0xC)) ? 0 : 1;
 }
 
 s32 validate_6x88_restore_shrunken_player(G_ClientIDHeader *packet) {
@@ -249,7 +249,7 @@ s32 validate_6x2A_drop_item(G_ClientIDHeader *packet) {
     if ((temp_r3 < 0) || (temp_r3 > 0x12)) {
         return 0;
     }
-    return (u32)__cntlzw(vec_has_nonfinite__FP3Vec((s32)((u8*)packet + 0xC))) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 0xC)) ? 0 : 1;
 }
 
 s32 validate_6xAC(G_ClientIDHeader *packet) {
@@ -304,7 +304,7 @@ s32 validate_6x24_teleport_player(G_ClientIDHeader *packet) {
     if (validate_subcommand_client(packet) == 0) {
         return 0;
     }
-    return (u32)__cntlzw(vec_has_nonfinite__FP3Vec((s32)packet + 8)) >> 5;
+    return vec_has_nonfinite((Vec *)((u8 *)packet + 8)) ? 0 : 1;
 }
 
 s32 validate_6x23_set_player_visible(G_ClientIDHeader *packet) {
