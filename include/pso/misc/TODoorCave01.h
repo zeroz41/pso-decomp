@@ -3,33 +3,44 @@
 
 #include "types.h"
 #include "pso/misc/TODoorBase.h"
+#include "pso/system/NinjaTypes.h"
 
+struct BmlResource;
+
+// The cave door with four lights: set_params[1] of them are lit from the
+// start, the floor switches from switch_id on light the rest; it unlocks when
+// all four are lit. The unlit lights pulse red.
 struct TODoorCave01 : public TODoorBase {
+    // door_flags bits above DOOR_FLAG_UNLOCKED.
+    enum {
+        LIGHT_LIT_SHIFT = 16,      // bits 16-19: light i is lit
+        LIGHT_LIT_MASK = 0xF0000,
+        PULSE_RISING = 0x100000    // light_color.r is rising
+    };
+
+    TODoorCave01(TObject *parent, void *set_data);
     virtual ~TODoorCave01();
-    void send_state(void *);
     virtual void update_demo();
+    void send_state(void *);
+    virtual void vfunc_6(s16 *, s32);
     virtual s32 init_door_switch_binding();
     virtual void update_open();
     virtual void update_closed();
     virtual void update_door_switch_state();
-    virtual void vfunc_6(s16 *, s32);
+    void draw_switch_light(NJS_OBJECT *node, s32 lit);
     virtual void render();
-    u32 m_d4;
-    u32 m_d8;
-    static s32 draw_door_model(void *p0, int p1, int arg2);
-    static void *create(void *arg0);
-    static void free_resources();
+    static void *create(void *set_data);
+    static void destroy();
     static void load_resources();
-    u8 unk_DC[0x4];
-    f32 m_e0;
-    u8 unk_E4[0x4];
-    f32 m_e8;
+
+    s32 lit_count;     // lights lit
+    s32 switch_count;  // lights that wait for a switch: 4 - set_params[1]
+    NJS_ARGB light_color;  // the unlit lights' tint
+
+    static BmlResource *bml_resource;
+    static s32 *texture_lists;  // [0] the unlit (red) lights, [1] the bml's own
 };
 
 typedef char TODoorCave01_size[sizeof(TODoorCave01) == 0xEC ? 1 : -1];
-
-extern "C" {
-void render__12TODoorCave01Fv(TODoorCave01 *arg0);
-}
 
 #endif
