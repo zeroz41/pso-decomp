@@ -33,7 +33,4 @@ public:
 
 typedef char TUnk_804B1B80Size[sizeof(TUnk_804B1B80) == 0xD8 ? 1 : -1];
 
-// The derived destructors still written out by hand call this by its symbol.
-extern "C" void *__dt__13TUnk_804B1B80Fv(void *self, s16 del);
-
 #endif
