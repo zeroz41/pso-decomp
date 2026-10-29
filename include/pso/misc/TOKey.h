@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
+#include "pso/protocol/protocol_types.h"
 
 // What pressing a key does (TOKey::mode).
 enum {
@@ -38,7 +39,7 @@ public:
     virtual void vfunc_25();
     virtual void debug_draw_key_id();
     // The 6x05 switch command for this key arrived.
-    virtual void handle_switch_trigger(void *cmd);
+    virtual void handle_switch_trigger(G_SwitchStateChanged_6x05 *cmd);
     void init_switch_id();
     void init_key(void *set_entry);
     s32 is_any_player_in_range();

@@ -407,9 +407,7 @@ void handle_6x05_write_switch_flag(void *data) {
     clear_floor_switch_flag(cmd->switch_id, cmd->floor);
 }
 
-void TOKey::handle_switch_trigger(void *data) {
-    G_SwitchStateChanged_6x05 *cmd = (G_SwitchStateChanged_6x05 *)data;
-
+void TOKey::handle_switch_trigger(G_SwitchStateChanged_6x05 *cmd) {
     if ((cmd->flags & 2) && cmd->floor == get_current_floor()) {
         play_sound_effect(0x4005281F, NULL, 0, 0);
     }
