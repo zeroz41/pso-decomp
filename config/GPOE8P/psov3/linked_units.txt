@@ -1309,7 +1309,7 @@ pso/misc/TOKeyCave01.cpp
 pso/misc/TOKeyCol.cpp
 pso/misc/TOKeyGenericSw.cpp
 pso/misc/TOKeyJungleMain.cpp
-pso/misc/TOKeyMachine01_8016D448.cpp
+pso/misc/TOKeyMachine01.cpp
 pso/misc/TOKurage.cpp
 pso/misc/TOLightMachine01.cpp
 pso/misc/TOMine.cpp

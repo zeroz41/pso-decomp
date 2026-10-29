@@ -640,7 +640,7 @@ force_active:
   - __ct__11TOKeyCave01FP7TObjectPv
   - __ct__8TOKeyColFP7TObjectPv
   - __ct__14TOKeyGenericSwFP7TObjectPv
-  - TOKeyMachine01__ct
+  - __ct__14TOKeyMachine01FP7TObjectPv
   - TOKey__sub_80169FB0
   - TOKurage__ct
   - TOLightMachine01__ct

@@ -1,9 +1,11 @@
 #include "types.h"
 #include "pso/misc/TODummyKeyCave01.h"
+#include "pso/misc/TOKeyAncient03.h"
+#include "pso/misc/TOKeyCave01.h"
 #include "pso/misc/TOKeyMachine01.h"
+#include "pso/misc/TSwitch.h"
+#include "pso/system/BmlResource.h"
 #include "pso/map/FloorArea.h"
-typedef struct Pair_80165940 { u32 a; u32 b; } Pair_80165940;
-
 typedef struct Key_80165940 {
     u8 pad0[0x34];
     void *f34;
@@ -24,15 +26,6 @@ typedef struct Key_80165940 {
     s32 fD0;
 } Key_80165940;
 
-extern "C" {
-u8 is_current_floor_switch_set(u16);
-void *get_bml_model(void *, s32);
-extern void *TOKeyAncient03__model_archive;
-extern Pair_80165940 *TOKeyAncient03__texture_variants;
-extern void *TOKeyCave01__resource_bundle;
-extern Pair_80165940 *TOKeyCave01__texture_lists;
-extern void *key_machine_model_archive;
-extern Pair_80165940 *TOKeyMachine01__texture_lists;
 void TODummyKeyCave01::sub_80165940() {
     Key_80165940 *self = (Key_80165940 *)this;
     self->fD0 = 0;
@@ -57,24 +50,24 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_CAVE1:
     case AREA_CAVE2:
     case AREA_CAVE3:
-        self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
-        self->f90 = TOKeyCave01__texture_lists->a;
-        self->f94 = TOKeyCave01__texture_lists->b;
+        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f90 = TOKeyCave01__texture_lists[0];
+        self->f94 = TOKeyCave01__texture_lists[1];
         break;
     case AREA_FOREST1:
     case AREA_FOREST2:
     case AREA_MINE1:
     case AREA_MINE2:
-        self->f34 = get_bml_model(key_machine_model_archive, 0);
-        self->f90 = TOKeyMachine01__texture_lists->a;
-        self->f94 = TOKeyMachine01__texture_lists->b;
+        self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+        self->f90 = TOKeyMachine01__texture_lists[0];
+        self->f94 = TOKeyMachine01__texture_lists[1];
         break;
     case AREA_RUINS1:
     case AREA_RUINS2:
     case AREA_RUINS3:
-        self->f34 = get_bml_model(TOKeyAncient03__model_archive, 0);
-        self->f90 = TOKeyAncient03__texture_variants->a;
-        self->f94 = TOKeyAncient03__texture_variants->b;
+        self->f34 = (void *)get_bml_model(TOKeyAncient03__model_archive, 0);
+        self->f90 = TOKeyAncient03__texture_variants[0];
+        self->f94 = TOKeyAncient03__texture_variants[1];
         break;
     case AREA_BATTLE1:
     case AREA_BATTLE2:
@@ -83,13 +76,13 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_VR_SPACESHIP_ALPHA:
     case AREA_VR_SPACESHIP_BETA:
         if (self->fBC == 0) {
-            self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
-            self->f90 = TOKeyCave01__texture_lists->a;
-            self->f94 = TOKeyCave01__texture_lists->b;
+            self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+            self->f90 = TOKeyCave01__texture_lists[0];
+            self->f94 = TOKeyCave01__texture_lists[1];
         } else {
-            self->f34 = get_bml_model(key_machine_model_archive, 0);
-            self->f90 = TOKeyMachine01__texture_lists->a;
-            self->f94 = TOKeyMachine01__texture_lists->b;
+            self->f34 = (void *)get_bml_model(TOKeyMachine01__resource_bundle, 0);
+            self->f90 = TOKeyMachine01__texture_lists[0];
+            self->f94 = TOKeyMachine01__texture_lists[1];
         }
         break;
     case AREA_CENTRAL_CONTROL_AREA:
@@ -101,9 +94,9 @@ void TODummyKeyCave01::sub_80165940() {
     case AREA_SEABED_LOWER:
     case AREA_SEASIDE_NIGHT:
     case AREA_TOWER:
-        self->f34 = get_bml_model(TOKeyCave01__resource_bundle, 0);
-        self->f90 = TOKeyCave01__texture_lists->a;
-        self->f94 = TOKeyCave01__texture_lists->b;
+        self->f34 = (void *)get_bml_model(TOKeyCave01__resource_bundle, 0);
+        self->f90 = TOKeyCave01__texture_lists[0];
+        self->f94 = TOKeyCave01__texture_lists[1];
         self->fD0 = 1;
         break;
     default:
@@ -112,6 +105,4 @@ void TODummyKeyCave01::sub_80165940() {
         self->f94 = 0;
         break;
     }
-}
-
 }
