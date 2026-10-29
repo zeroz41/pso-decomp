@@ -1563,7 +1563,7 @@ struct TObjPlayer : public TObjChara {
     static void assign_lobby_slot_if_flagged(s32 arg0, void *arg1);
     static void free_shared_lobby_data();
     void*init_inventory();
-    void select_normal_attack_marker();
+    f32 select_normal_attack_marker();
     u8 get_castable_technique_level();
     static void update_all_units(s32 arg0, s32 arg1);
     static s32 check_technique_level(s32 arg0, s32 arg1, u8 arg2);

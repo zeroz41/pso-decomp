@@ -324,7 +324,6 @@ s32 restore_target_pos__12TBoss8DragonFPv(void* p);
 void spawn_effect_if_in_band__12TBoss8DragonFi(s32 arg0);
 extern s32 lbl_80474B40[];
 void state_roar__12TBoss8DragonFPvUi(TBoss8Dragon *arg0, u32 arg1);
-s32 is_passing_frame__10TObjMotionFf(void *, f32);
 s32 fn_802F2E7C(int, void *, int);
 s32 mask_flags__12TBoss8DragonFiii(s32 arg1, s32 arg2, s32 arg3);
 void TBoss8Dragon__sub_802FB484(void);
@@ -2365,9 +2364,9 @@ void update_movement__12TBoss8DragonFPv(u8 *arg0) {
     ((TBoss8Dragon *)arg0)->play_sound_if_in_band();
     ((TObjEneDD *)arg0)->update_velocity();
     ((s32 (*)(void *))TBoss8Dragon__sub_802FC9D8)(arg0);
-    if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DED88) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DED88) != 0) {
         TBoss8Dragon::check_condition_default(arg0);
-    } else if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED8C) != 0) {
+    } else if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED8C) != 0) {
         TBoss8Dragon::set_state_1(arg0);
     }
     ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&old, arg0 + 0x38);
@@ -2563,16 +2562,16 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
             }
             switch (step = o->step) {
             case 0:
-                if (is_passing_frame__10TObjMotionFf(o, TBoss8Dragon__data_805DED60) != 0) {
+                if (((TObjMotion *)o)->is_passing_frame(TBoss8Dragon__data_805DED60) != 0) {
                     play_sound_effect(0x4003A804, 0, 0, 0);
                     o->step++;
                 }
                 break;
             case 1:
-                if (is_passing_frame__10TObjMotionFf(o, TBoss8Dragon__data_805DEDAC) != 0) {
+                if (((TObjMotion *)o)->is_passing_frame(TBoss8Dragon__data_805DEDAC) != 0) {
                     play_sound_effect(0x4003AD0E, 0, 0, 0);
                 }
-                if (is_passing_frame__10TObjMotionFf(o, lbl_805DED68) != 0) {
+                if (((TObjMotion *)o)->is_passing_frame(lbl_805DED68) != 0) {
                     Vec_802F4DD4 v;
                     v.x = TBoss8Dragon__data_805DEDA8 * (o->f458 + o->f470);
                     v.y = TBoss8Dragon__data_805DED50;
@@ -2587,7 +2586,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
                 }
                 break;
             case 2:
-                if (is_passing_frame__10TObjMotionFf(o, lbl_805DEDB4) != 0) {
+                if (((TObjMotion *)o)->is_passing_frame(lbl_805DEDB4) != 0) {
                     play_sound_effect(0x4003AD06, 0, 0, 0);
                     o->step++;
                     o->f850 = 0;
@@ -2599,7 +2598,7 @@ void TBoss8Dragon__sub_802F4DD4(void *arg0, u32 arg1) {
                 }
                 break;
             case 4:
-                if (is_passing_frame__10TObjMotionFf(o, lbl_805DEDBC) != 0) {
+                if (((TObjMotion *)o)->is_passing_frame(lbl_805DEDBC) != 0) {
                     play_cue_stream_file((s32)lbl_80474B18);
                     o->step++;
                     o->f850 = 0;
@@ -3242,9 +3241,9 @@ void TBoss8Dragon__sub_802F610C(u8 *arg0, u32 arg1) {
         if (*(s16 *)((s8 *)arg0 + 0xB8) == 1) {
             ((TBoss8Dragon *)arg0)->play_sound_if_in_band();
         }
-        if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DED88) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DED88) != 0) {
             TBoss8Dragon::check_condition_default(arg0);
-        } else if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED8C) != 0) {
+        } else if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED8C) != 0) {
             TBoss8Dragon::set_state_1(arg0);
         }
         *(f32 *)((s8 *)arg0 + 0xC8) = lbl_805DEDDC;
@@ -3676,7 +3675,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
         ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x84C)) {
         case 0:
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEDAC) != 0 || is_passing_frame__10TObjMotionFf(arg0, lbl_805DEDE8) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEDAC) != 0 || ((TObjMotion *)arg0)->is_passing_frame(lbl_805DEDE8) != 0) {
                 play_sound_effect(0x4003AD07, 0, 0, 0);
                 start_pad_rumble_all(0xA0, 0xF);
             }
@@ -3693,7 +3692,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
                 queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x894));
                 *(void **)((s8 *)arg0 + 0x894) = 0;
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEDF4) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEDF4) != 0) {
                 Eff_802FB304 e = *(Eff_802FB304 *)TBoss8Dragon__body_effect_parameters;
                 e.f = TBoss8Dragon__data_805DED64;
                 VecCopy__FP3VecPC3Vec(&v, lbl_804744F0);
@@ -3707,7 +3706,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
                     spawn_particle_effect_with_flags(arg0 + 0x38, (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x760)) + 0xC), 0x40);
                 }
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEDF8) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEDF8) != 0) {
                 Eff_802FB304 e = *(Eff_802FB304 *)TBoss8Dragon__body_effect_parameters;
                 e.f = lbl_805DEDEC;
                 VecCopy__FP3VecPC3Vec(&v, lbl_804744FC);
@@ -3721,7 +3720,7 @@ void TBoss8Dragon__sub_802F6838(u8 *arg0, u32 arg1) {
                     spawn_particle_effect_with_flags(arg0 + 0x38, (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x760)) + 0xC), 0x40);
                 }
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEDFC) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEDFC) != 0) {
                 ((TBoss8Dragon *)arg0)->emit_body_effects();
             }
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -4425,7 +4424,7 @@ void TBoss8Dragon__sub_802F7B70(Obj_802F7B70 *arg0, u32 arg1) {
             }
             break;
         case 2:
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEE38) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEE38) != 0) {
                 arg0->f3c0 |= 0x30;
                 arg0->timer = 0;
                 arg0->state = 3;
@@ -4438,7 +4437,7 @@ void TBoss8Dragon__sub_802F7B70(Obj_802F7B70 *arg0, u32 arg1) {
             eval_bezier_curve__12TBoss8DragonFPviiPvf(TBoss8Dragon__dive_height_curve, 3, 0, &v, (f32)arg0->timer / TBoss8Dragon__data_805DEDAC);
             arg0->pos.y = v.y;
             arg0->timer++;
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE3C) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE3C) != 0) {
                 arg0->state = 4;
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003B210);
             }
@@ -4563,7 +4562,7 @@ void TBoss8Dragon__sub_802F8150(u8 *arg0, u32 arg1) {
         break;
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
-        if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED58) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED58) != 0) {
             play_cue_stream_file((s32)lbl_80474B40);
         }
         break;
@@ -4648,11 +4647,11 @@ void TBoss8Dragon__sub_802F8270(u8 *arg0, u32 arg1) {
         ((TObjMotion *)arg0)->advance_animation();
         switch (*(s32 *)((s8 *)arg0 + 0x850)) {
         case 0:
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE40) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE40) != 0) {
                 TBoss8Dragon__sub_802FB70C((s32)arg0);
-            } else if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEE38) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEE38) != 0) {
                 ((void (*)(void *))update_pos_from_data__12TBoss8DragonFv)(arg0);
-            } else if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE44) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE44) != 0) {
                 ((void (*)(void *))TBoss8Dragon__sub_802FB484)(arg0);
             }
             if ((s16) *(s16 *)((s8 *)arg0 + 0xB8) != 8) {
@@ -4747,13 +4746,13 @@ void TBoss8Dragon__sub_802F8578(Dragon_802F8578 *arg0, u32 arg1) {
             eval_bezier_curve__12TBoss8DragonFPviiPvf(boss8_dragon_bezier_points_3, 3, 0, &out,
                 ((TObjEneDD_ST *)arg0)->get_motion_frame() / TBoss8Dragon__data_805DEE30);
             arg0->pos.y = out.b;
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED60) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED60) != 0) {
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003A804);
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE50) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE50) != 0) {
                 ((TBoss8Dragon *)arg0)->spawn_ground_effect();
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEE30) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEE30) != 0) {
                 fill_value_array(arg0->field_680);
                 create_boss8_piller_ctrl((s32)&arg0->pos, (s32)(((s32 (*)(u8 *))get_entity_id)((u8 *)arg0)), (f32)TBoss8Dragon__data_805DEDB0);
                 spawn_particle_effect_with_flags(&arg0->pos, (void *)arg0->field_760->id8, 0x40);
@@ -5022,13 +5021,13 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
             }
             break;
         case 2:
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED60) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED60) != 0) {
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003A804);
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE78) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE78) != 0) {
                 spawn_effect__12TBoss8DragonFii((s32)arg0, 0x4003AD0A);
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEE38) != 0 || is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE7C) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEE38) != 0 || ((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE7C) != 0) {
                 ((TBoss8Dragon *)arg0)->spawn_ground_effect();
             }
             if (F(u32, 0x894) == 0) {
@@ -5041,7 +5040,7 @@ void TBoss8DragonEffBullet__sub_802F8F88(u8 *arg0, u32 arg1) {
                 queue_destruction__7TObjectFv(F(void *, 0x894));
                 F(u32, 0x894) = 0;
             }
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEE80) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEE80) != 0) {
                 Vec_802F8F88 v;
                 Vec_802F8F88 dir;
                 Vec_802F8F88 rot;
@@ -5232,18 +5231,18 @@ void TBoss8Dragon__sub_802F9850(void *arg0p, u32 arg1) {
         return;
     case 0:
         ((TObjMotion *)arg0p)->advance_animation();
-        if (is_passing_frame__10TObjMotionFf((void *) (((u8 *)arg0p)), TBoss8Dragon__data_805DEE38) != 0) {
+        if (((TObjMotion *)arg0p)->is_passing_frame(TBoss8Dragon__data_805DEE38) != 0) {
             ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)((void *) (((u8 *)arg0p)), 0x4003A804);
         }
-        if (is_passing_frame__10TObjMotionFf((void *) (((u8 *)arg0p)), lbl_805DEE94) != 0) {
+        if (((TObjMotion *)arg0p)->is_passing_frame(lbl_805DEE94) != 0) {
             ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)((void *) (((u8 *)arg0p)), 0x4003A803);
         }
-        if (is_passing_frame__10TObjMotionFf((void *) (((u8 *)arg0p)), lbl_805DEE98) != 0) {
+        if (((TObjMotion *)arg0p)->is_passing_frame(lbl_805DEE98) != 0) {
             ((TBoss8Dragon *)arg0p)->spawn_ground_effect();
         }
         switch (*(s32 *)((s8 *)((u8 *)arg0p) + 0x84C)) {
         case 0:
-            if (is_passing_frame__10TObjMotionFf((void *) (((u8 *)arg0p)), TBoss8Dragon__data_805DEE9C) != 0) {
+            if (((TObjMotion *)arg0p)->is_passing_frame(TBoss8Dragon__data_805DEE9C) != 0) {
                 *(s32 *)((s8 *)((u8 *)arg0p) + 0x3C0) = (s32) (*(s32 *)((s8 *)((u8 *)arg0p) + 0x3C0) | 0x30);
                 ((TBoss8Dragon *)arg0p)->set_state();
                 *(s32 *)((s8 *)((u8 *)arg0p) + 0x84C) = 1;
@@ -5331,13 +5330,13 @@ void handle_tail_attack_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1) {
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
         (*(s32 *)((s8 *)arg0 + 0x84C))++;
-        if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED50) != 0 || is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED64) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED50) != 0 || ((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED64) != 0) {
             ((s32 (*)(void *, s32))spawn_effect__12TBoss8DragonFii)(arg0, 0x4003AD09);
         }
         if (*(s32 *)((s8 *)arg0 + 0x84C) > 1) {
-            if (is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DEEA4) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEEA4) != 0) {
                 ((TBoss8DragonEffTail *)(*(u8 **)((s8 *)arg0 + 0x67C)))->disable();
-            } else if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEEA8) != 0) {
+            } else if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEEA8) != 0) {
                 ((TBoss8DragonEffTail *)(*(u8 **)((s8 *)arg0 + 0x67C)))->enable();
             }
             (*(VObj_802F9B8C **)((s8 *)arg0 + 0x67C))->m1();
@@ -5833,7 +5832,7 @@ u16 TBoss8Dragon::find_player_on_floor(void *arg0) {
 }
 
 void TBoss8Dragon__sub_802FB09C(s32 arg0) {
-    if (((s32 (*)(f32))is_passing_frame__10TObjMotionFf)(TBoss8Dragon__data_805DEE38) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEE38) != 0) {
         ((TBoss8Dragon *)arg0)->spawn_ground_effect();
     }
 }
@@ -6236,14 +6235,14 @@ void TBoss8Dragon::set_state() { this->m_3e4 = 1; }
 void TBoss8Dragon::reset_timer() { this->m_3e4 = 0; }
 
 void spawn_effect_if_in_band__12TBoss8DragonFi(s32 arg0) {
-    if (is_passing_frame__10TObjMotionFf((void *)arg0, TBoss8Dragon__data_805DEDC8) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DEDC8) != 0) {
         ((s32 (*)(void *, int))spawn_effect__12TBoss8DragonFii)((void *)arg0, 0x4003A804);
     }
 }
 
 void TBoss8Dragon::play_sound_if_in_band() {
     u8 *arg0 = (u8 *)this;
-    if ((is_passing_frame__10TObjMotionFf(arg0, TBoss8Dragon__data_805DED90) != 0) || (is_passing_frame__10TObjMotionFf(arg0, lbl_805DEED0) != 0)) {
+    if ((((TObjMotion *)arg0)->is_passing_frame(TBoss8Dragon__data_805DED90) != 0) || (((TObjMotion *)arg0)->is_passing_frame(lbl_805DEED0) != 0)) {
         ((s32 (*)(void *, int))spawn_effect__12TBoss8DragonFii)((void *)((s32) arg0), 0x4003A801);
     }
 }

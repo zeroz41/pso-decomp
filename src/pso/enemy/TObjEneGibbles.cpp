@@ -116,7 +116,6 @@ void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 s16 get_attack_params_atp_min(void *);
 s32 get_current_floor();
 s32 get_enemy_entity();
-s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 u32 get_player_by_client_id(void *);
@@ -832,7 +831,7 @@ s32 TObjEneGibbles__sub_802D7BE0(s32 arg0) {
 
 void TObjEneGibbles::play_distance_sound() {
     s32 arg0 = (s32)this;
-    if (is_passing_frame__10TObjMotionFf((void *)arg0, (f32)TObjEneGibbles__data_805DE7F8) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneGibbles__data_805DE7F8) != 0) {
         if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), TObjEneGibbles__data_805DE7F4)) != 0) {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
@@ -840,7 +839,7 @@ void TObjEneGibbles::play_distance_sound() {
         play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83D))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
         return;
     }
-    if (is_passing_frame__10TObjMotionFf((void *)arg0, (f32)lbl_805DE7FC) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DE7FC) != 0) {
         if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), TObjEneGibbles__data_805DE7F4)) != 0) {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
@@ -848,7 +847,7 @@ void TObjEneGibbles::play_distance_sound() {
         play_sound_effect((int)((void *) (((s32)((TObjEneGibbles*)((void *)(arg0)))->resolve_sound_id((u32)(0x3A83E))))), (void *)((void *) (arg0 + 0x38)), 0, 0);
         return;
     }
-    if (is_passing_frame__10TObjMotionFf((void *)arg0, (f32)lbl_805DE800) != 0) {
+    if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DE800) != 0) {
         if (((s32)spawn_ground_impact_effects((void *)((void *)(arg0 + 0x38)), TObjEneGibbles__data_805DE7F4)) != 0) {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
@@ -858,7 +857,7 @@ void TObjEneGibbles::play_distance_sound() {
 }
 
 void TObjEneGibbles__sub_802D7DAC(s32 arg0) {
-    if ((is_passing_frame__10TObjMotionFf((void *)arg0, (f32)lbl_805DE804) != 0) || (is_passing_frame__10TObjMotionFf((void *)arg0, (f32)lbl_805DE808) != 0)) {
+    if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DE804) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DE808) != 0)) {
         if (((s32)((TObjEneGibbles *)arg0)->spawn_ground_impact_effects((void *)((void *) (arg0 + 0x38)), TObjEneGibbles__data_805DE7F4)) != 0) {
             TObjEneGibbles__sub_800D8988((void *) (arg0 + 0x38));
             return;
@@ -1157,10 +1156,10 @@ void TObjEneGibbles__sub_802D8580(TObjEneGibbles *self) {
         play_sound_effect(self->resolve_sound_id(0x3A330), (u8 *)self + 0x38, 0, 0);
         break;
     case 1:
-        if (is_passing_frame__10TObjMotionFf(self, TObjEneGibbles__data_805DE81C) != 0) {
+        if (self->is_passing_frame(TObjEneGibbles__data_805DE81C) != 0) {
             self->m_380 = 0x107;
         }
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE820) != 0) {
+        if (self->is_passing_frame(lbl_805DE820) != 0) {
             self->actorFlags &= 0xFBFFFEFF;
             self->m_374 &= ~0x20;
             if (self->test_flag_256() != 0) {
@@ -1334,7 +1333,7 @@ void TObjEneGibbles::sub_802D8984() {
                 o->f390 -= lbl_805DE80C;
             }
         }
-        if (is_passing_frame__10TObjMotionFf(o, o->fC4 - TObjEneGibbles__data_805DE7EC - o->fC8) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame(o->fC4 - TObjEneGibbles__data_805DE7EC - o->fC8) != 0) {
             o->sub = 3;
             o->f38C = TObjEneGibbles__data_805DE7E4;
             switch (TObjEneGibbles__sub_802D9A04(o)) {
@@ -1357,7 +1356,7 @@ void TObjEneGibbles::sub_802D8984() {
         if (!(o->f30 & 0x800000)) {
             apply_actor_gravity((TObjEnemy *)((u8 *)o), (s32 *)(0), TObjEneGibbles__data_805DE7E4);
         }
-        if (is_passing_frame__10TObjMotionFf(o, o->fC4 - TObjEneGibbles__data_805DE7EC - o->fC8) != 0) {
+        if (((TObjMotion *)o)->is_passing_frame(o->fC4 - TObjEneGibbles__data_805DE7EC - o->fC8) != 0) {
             o->f30 &= ~0x200000;
             to_idle_802D8984(o);
         }
@@ -1402,10 +1401,10 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
         if (!(F_802D(0x30, s32) & 0x800000)) {
             apply_actor_gravity((TObjEnemy *)arg0, (s32 *)(0), TObjEneGibbles__data_805DE7E4);
         }
-        if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DE834) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DE834) != 0) {
             play_sound_effect(((TObjEneGibbles*)(arg0))->resolve_sound_id((u32)(0x3A82D)), arg0 + 0x2FC, 0, 0);
         }
-        if (is_passing_frame__10TObjMotionFf(arg0, lbl_805DE838) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DE838) != 0) {
             F_802D(0x328, s16) = 2;
         }
         if (F_802D(0x328, s16) == 1) {
@@ -1519,14 +1518,14 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
         break;
     case 1:
         self->motion = 2;
-        if (is_passing_frame__10TObjMotionFf(self, TObjEneGibbles__data_805DE81C) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(TObjEneGibbles__data_805DE81C) != 0) {
             self->state = 2;
             play_sound_effect(((TObjEneGibbles*)(self))->resolve_sound_id((u32)(0x3AD34)), self->snd, 0, 0);
         }
         break;
     case 2:
         self->motion = 2;
-        if (is_passing_frame__10TObjMotionFf(self, TObjEneGibbles__data_805DE7F8) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(TObjEneGibbles__data_805DE7F8) != 0) {
             ((TObjEneGibbles *)self)->slam_damage_players(0x1F);
         } else {
             TObjEneGibbles__sub_802D9644(self, 0, TObjEneGibbles__data_805DE7E4);
@@ -1534,21 +1533,21 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
         if (lbl_805DE83C <= self->frame && self->frame <= lbl_805DE840) {
             ((void (*)(void *))TObjEneGibbles__sub_802D8034)(self);
         }
-        if (is_passing_frame__10TObjMotionFf(self, TObjEneGibbles__data_805DE7E8) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(TObjEneGibbles__data_805DE7E8) != 0) {
             self->state = 3;
         }
         break;
     case 3:
         self->motion = 2;
         move_with_wall_slide((u8 *)self);
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE840) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(lbl_805DE840) != 0) {
             self->state = 4;
             play_sound_effect(((TObjEneGibbles*)(self))->resolve_sound_id((u32)(0x3AD34)), self->snd, 0, 0);
         }
         break;
     case 4:
         self->motion = 2;
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE7FC) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(lbl_805DE7FC) != 0) {
             ((TObjEneGibbles *)self)->slam_damage_players(0x35);
         } else {
             TObjEneGibbles__sub_802D9824(self, 0, TObjEneGibbles__data_805DE7E4);
@@ -1556,21 +1555,21 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
         if (lbl_805DE838 <= self->frame && self->frame <= lbl_805DE844) {
             ((void (*)(void *))TObjEneGibbles__sub_802D8034)(self);
         }
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE848) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(lbl_805DE848) != 0) {
             self->state = 5;
         }
         break;
     case 5:
         self->motion = 2;
         move_with_wall_slide((u8 *)self);
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE84C) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(lbl_805DE84C) != 0) {
             self->state = 6;
             play_sound_effect(((TObjEneGibbles*)(self))->resolve_sound_id((u32)(0x3AD34)), self->snd, 0, 0);
         }
         break;
     case 6:
         self->motion = 2;
-        if (is_passing_frame__10TObjMotionFf(self, lbl_805DE800) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame(lbl_805DE800) != 0) {
             ((TObjEneGibbles *)self)->slam_damage_players(0x1F);
         } else {
             TObjEneGibbles__sub_802D9644(self, 0, TObjEneGibbles__data_805DE7E4);
@@ -1578,7 +1577,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
         if (lbl_805DE850 <= self->frame && self->frame <= lbl_805DE854) {
             ((void (*)(void *))TObjEneGibbles__sub_802D8034)(self);
         }
-        if (((s32 (*)(void *, f32, f32))is_passing_frame__10TObjMotionFf)(self, (self->frameEnd - TObjEneGibbles__data_805DE7EC) - self->frameStep, self->frameEnd) != 0) {
+        if (((TObjMotion *)self)->is_passing_frame((self->frameEnd - TObjEneGibbles__data_805DE7EC) - self->frameStep) != 0) {
             self->motion = 0;
             self->state = 7;
             self->timer = (s16)*(f32 *)(TObjEneGibbles__ai_parameters + 4);
@@ -1821,8 +1820,6 @@ void TObjEneGibbles::sub_802DA0BC() {
 
 void TObjEneGibbles::update_death_sequence() {
     u8 *arg0 = (u8 *)this;
-    f32 temp_f2;
-    f32 temp_f2_2;
     u8 *temp_r4;
 
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
@@ -1848,8 +1845,7 @@ void TObjEneGibbles::update_death_sequence() {
         } else {
             this->frame = (f32) lbl_805DE86C;
         }
-        temp_f2 = *(f32 *)&this->frame_count;
-        if (((s32 (*)(void *, f32, f32))is_passing_frame__10TObjMotionFf)(arg0, (f32) ((temp_f2 - TObjEneGibbles__data_805DE7EC) - this->play_speed), temp_f2) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((this->frame_count - TObjEneGibbles__data_805DE7EC) - this->play_speed) != 0) {
             this->m_38c = (f32) TObjEneGibbles__data_805DE7E4;
             *(f32 *)&this->unk_390 = (f32) TObjEneGibbles__data_805DE7E4;
             switch (TObjEneGibbles__sub_802D9A04(arg0)) {
@@ -1866,8 +1862,7 @@ void TObjEneGibbles::update_death_sequence() {
         }
         break;
     case 3:
-        temp_f2_2 = *(f32 *)&this->frame_count;
-        if (((s32 (*)(void *, f32, f32))is_passing_frame__10TObjMotionFf)(arg0, (f32) ((temp_f2_2 - TObjEneGibbles__data_805DE7EC) - this->play_speed), temp_f2_2) != 0) {
+        if (((TObjMotion *)arg0)->is_passing_frame((this->frame_count - TObjEneGibbles__data_805DE7EC) - this->play_speed) != 0) {
             this->m_374 = (s32) (this->m_374 & 0xFFFF0000);
             this->m_374 = (s32) (this->m_374 | 4);
         }
@@ -1983,7 +1978,7 @@ void TObjEneGibbles::sub_802DA7A4() {
         apply_actor_gravity((TObjEnemy *)(this), (s32 *)(0), TObjEneGibbles__data_805DE7E4);
         break;
     case 1:
-        if (is_passing_frame__10TObjMotionFf((void *) (this), TObjEneGibbles__data_805DE7F8) != 0) {
+        if (is_passing_frame(TObjEneGibbles__data_805DE7F8) != 0) {
             this->phase = 2;
             TObjEneGibbles__sub_802D7BE0((s32) (this));
             play_sound_effect((int)(this->resolve_sound_id((u32)(0x3A82F))), (void *) (((u8 *)this) + 0x38), 0, 0);

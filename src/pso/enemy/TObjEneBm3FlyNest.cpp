@@ -790,7 +790,6 @@ s32 update__15RenderFadeStateFv(void *);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 s32 set_field_e4__10TObjPlayerFll(void *, int, f32);
 void spawn_dead_spot_scale15(s32 point, s32 delay);
-s32 is_passing_frame__10TObjMotionFf(void *, f32);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 s32 send_entity_set_flags__9TObjEnemyFv();
@@ -1376,7 +1375,7 @@ void state_spawn__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
     case 1:
         break;
     case 0:
-        if (((s32 (*)(f32))is_passing_frame__10TObjMotionFf)(lbl_805D9D30) != 0) {
+        if (((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->is_passing_frame(lbl_805D9D30) != 0) {
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->spawn_child();
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 = (s32) (((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 - 1);
         }
@@ -1439,12 +1438,12 @@ void TObjEneBm3FlyNest__sub_800B318C(u8 *ene_dd, s32 arg1) {
         break;
     case 0:
         (((TObjMotion *)ene_dd)->advance_animation());
-        if ((is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D10) != 0) || (is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D34) != 0)) {
+        if ((((TObjMotion *)ene_dd)->is_passing_frame(lbl_805D9D10) != 0) || (((TObjMotion *)ene_dd)->is_passing_frame(lbl_805D9D34) != 0)) {
             play_sound_effect((void *) (((TObjEnemy *)(ene_dd))->remap_sound_for_area((s32)(0x4003B72A))), ene_dd + 0x38, 0, 0);
         }
-        if (is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D38) != 0) {
+        if (((TObjMotion *)ene_dd)->is_passing_frame(lbl_805D9D38) != 0) {
             spawn_particle_effect((ene_dd + 0x38), 0xF0);
-        } else if (is_passing_frame__10TObjMotionFf(ene_dd, lbl_805D9D3C) != 0) {
+        } else if (((TObjMotion *)ene_dd)->is_passing_frame(lbl_805D9D3C) != 0) {
             temp_r31 = ((TObjEneDD *)ene_dd)->rotation_y - 0x4000;
             VecCopy((Vec *)(&stack.sp8), (const Vec *)(ene_dd + 0x38));
             stack.sp8 += lbl_805D9D40 * sin_table_lookup(temp_r31);
@@ -1481,7 +1480,7 @@ void handle_event__17TObjEneBm3FlyNestFPvi(void *ene_bm3_fly_nest, s32 arg1) {
         break;
     case 0:
         ((TObjMotion *)ene_bm3_fly_nest)->advance_animation();
-        if (is_passing_frame__10TObjMotionFf(ene_bm3_fly_nest, lbl_805D9D30) != 0) {
+        if (((TObjMotion *)ene_bm3_fly_nest)->is_passing_frame(lbl_805D9D30) != 0) {
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->spawn_child();
             ((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 = (s32) (((TObjEneBm3FlyNest *)ene_bm3_fly_nest)->m_4d4 - 1);
         }
@@ -1563,7 +1562,7 @@ void TObjEneBm3FlyNest::state_initial_emit(s32 arg1) {
             }
             break;
         case 1:
-            if (is_passing_frame__10TObjMotionFf(arg0, lbl_805D9D30) != 0) {
+            if (((TObjMotion *)arg0)->is_passing_frame(lbl_805D9D30) != 0) {
                 *(s32 *)((s8 *)arg0 + 0x4D0) = 2;
             }
             break;
