@@ -59,7 +59,7 @@ extern const f32 lbl_805DB35C;
 extern const f32 TOCakeshopCave01__data_805DB360;
 extern const f32 lbl_805DB364;
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_map_object_base(void *, s32);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, s32);
 extern s32 cakeshop_cave01_collision_body_part[];
 extern s32 __vt__16TOCakeshopCave01[];
 extern s32 lbl_805D2EC4;
@@ -165,7 +165,7 @@ void *__dt__16TOCakeshopCave01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOCakeshopCave01;
         free_collision_body_parts(arg0);
         ((TObjCollidable *)arg0)->unregister_object_by_id();
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -175,7 +175,7 @@ void *__dt__16TOCakeshopCave01Fv(void *arg0, s16 arg1) {
 void *TOCakeshopCave01__ct(void *arg0_, void *arg1) {
     u8 *arg0 = (u8 *)arg0_;
     s32 i;
-    init_map_object_base(arg0, tl_05);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOCakeshopCave01;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2EC4;
     ((TOCakeshopCave01 *)(arg0))->apply_object_set_data((void *)((s32)arg1));

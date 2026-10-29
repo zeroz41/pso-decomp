@@ -1149,7 +1149,7 @@ void TObjPlayer::tick_freeze_state() {
 
 u16 find_nearest_visible_player(void *, int, f32);
 u32 csnVector(void *, void *, s32);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const Vec lbl_8043BC68;
 }
@@ -1180,7 +1180,7 @@ void beast_select_target(TUnk_80493450 *self) {
             best = 0xFFFF;
             Vec d = lbl_8043BC68;
             best_dist = *(f32 *)self->movementParameters * *(f32 *)self->movementParameters;
-            for (; i < lbl_805D586C + lbl_805D5870; i++) {
+            for (; i < registered_player_count + lbl_805D5870; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player == NULL) {
                     break;

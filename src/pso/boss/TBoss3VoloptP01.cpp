@@ -51,7 +51,7 @@ f32 fabs_float(f32 x);
 void *__construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
 extern Mtx34 identity_matrix;
 extern Mtx34 *anim_model_matrix_array;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 // TBoss3Volopt.cpp defines these; its header does not declare them yet.
 }
@@ -713,7 +713,7 @@ void TBoss3VoloptP01::push_nearby_players() {
     TObjPlayer *player;
 
     radius_sq = 64.0f;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
@@ -755,7 +755,7 @@ s32 TBoss3VoloptP01::fire_zonde_at_players() {
 
     attack.power = sub_800443DC(0);
     n = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
@@ -816,7 +816,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
     case 0:
         fn_80044330(&targets);
         n = 0;
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             player = TObjPlayer::get_player_data(i);
             if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
                 targets.records[n].id = get_entity_id(player);
@@ -830,7 +830,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         }
         break;
     case 1:
-        for (j = 0; j < lbl_805D586C; j++) {
+        for (j = 0; j < registered_player_count; j++) {
             player = TObjPlayer::get_player_data(j);
             if (player != NULL && get_entity_id(player) < 0x1000 && !(player->actorFlags & 0x02000800)) {
                 TTecFoie::create_ex(this, &pos, &player->m_2fc, (void *)0x1D);
@@ -838,7 +838,7 @@ void TBoss3VoloptP01::cast_tech_on_players() {
         }
         break;
     case 2:
-        for (k = 0; k < lbl_805D586C; k++) {
+        for (k = 0; k < registered_player_count; k++) {
             target = TObjPlayer::get_player_data(k);
             if (target != NULL && get_entity_id(target) < 0x1000 && !(target->actorFlags & 0x02000800)) {
                 ((TTecGiBarta *)this)->create(&pos, &target->m_2fc, (void *)0x1D);

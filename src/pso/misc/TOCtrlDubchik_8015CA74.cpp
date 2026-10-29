@@ -137,7 +137,7 @@ int get_player_data__10TObjPlayerFi(int a0);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 lbl_805D29F8;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void TOCtrlDubchik__sub_8015C9D0(u8 *);
 void submit_cursor_candidate(void *, s32);
@@ -165,7 +165,7 @@ void TOCtrlDubchik::sub_8015CA74() {
     if (area >= 0x17 || area < 0x13) {
         play_sound_effect(0x4003AD16, (u8 *)&this->position, 0, 0);
     }
-    for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p != arg0 && check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D29F8) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(arg0 + 0x28) == *(s16 *)(p + 0x28)) {
@@ -267,7 +267,7 @@ void TOCtrlDubchik::sub_8015CE80() {
     *(s32 *)&this->m_380 = (f32)*(s32 *)&this->m_380 + TOCtrlDubchik__data_805DB3B4;
     this->m_37c = lbl_805DB3BC + sin_table_lookup(*(s32 *)&this->m_380);
     apply_actor_gravity((TObjEnemy *)this, (s32 *)(((u8 *)this) + 0x390), (f32)this->m_37c);
-    for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p != ((u8 *)this) && obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0 &&
             check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D29F8) != 0 &&

@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TUnk_804AFBF8.h"
@@ -11,6 +10,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 #pragma readonly_strings on
 
@@ -148,7 +149,7 @@ void TObjStendGlassLobby::load_resources() {
 void *__dt__19TObjStendGlassLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjStendGlassLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -157,7 +158,7 @@ void *__dt__19TObjStendGlassLobbyFv(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_803599F4___vt__19TObjStendGlassLobby_size[sizeof(RecoveredGlobal_803599F4___vt__19TObjStendGlassLobby) == 0x38 ? 1 : -1];
 u8 *TObjStendGlassLobby__ct(u8 *arg0, s32 arg1, s32 arg2) {
-    init_map_object_base((arg0));
+    __ct__13TUnk_804AFBF8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_803599F4___vt__19TObjStendGlassLobby *)&__vt__19TObjStendGlassLobby).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjStendGlassLobby__name;
     ((TObjStendGlassLobby *)(arg0))->apply_object_set_data((void *)arg2);

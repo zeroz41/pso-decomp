@@ -46,7 +46,7 @@ void TLobby__sub_8001FE7C(void*, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TObjKabochaLobby__model_resource;
 void __dl__7TObjectFPv(void *);
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 extern s32 __vt__16TObjKabochaLobby[];
 extern s32 lbl_805D4384;
 
@@ -137,7 +137,7 @@ void TObjKabochaLobby::load_resources() {
 void *__dt__16TObjKabochaLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjKabochaLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -145,7 +145,7 @@ void *__dt__16TObjKabochaLobbyFv(void *arg0, s16 arg1) {
     return arg0;
 }
 void *TObjKabochaLobby__ct(TObjKabochaLobby *kabocha_lobby, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     *(s32 **)((s8 *)kabocha_lobby + 0x18) = __vt__16TObjKabochaLobby;
     *(s32 *)((s8 *)kabocha_lobby + 0) = (s32) lbl_805D4384;
     kabocha_lobby->apply_object_set_data((void *)arg2);

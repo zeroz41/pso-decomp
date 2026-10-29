@@ -680,7 +680,7 @@ f32 calc_distance_to_client__10TObjPlayerFlUsUl(void *, u16, void *);
 Obj_800A4C4C *get_player_data__10TObjPlayerFi(s32);
 #define atan2_float ((f32 (*)(f32, f32))(atan2_float))
 s32 test_action_mask__10TObjPlayerFl(void *, int);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 f32 calc_xz_distance_sq(void *, void *, Vec_800A5BBC *);
 
@@ -792,7 +792,7 @@ int TObjEneSaver::test_flag_256() {
         return 1;
     }
     if ((self->f374 & 4) && self->f388 > 0) {
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL || (p->f30 & 0x800)) {
                 continue;
@@ -1191,9 +1191,9 @@ void TObjPlayer__sub_800A5960(void *arg0) {
     u32 self = (u32)arg0;
     if (obj_testFlags30__14TObjCollidableFUl((void *)self, 0x10) != 0) {
         limit = 0x4000;
-        n = lbl_805D586C + lbl_805D5870;
+        n = registered_player_count + lbl_805D5870;
     } else {
-        n = lbl_805D586C;
+        n = registered_player_count;
         limit = 0x1000;
     }
     for (i = 0; i < n; i++) {
@@ -1750,7 +1750,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         best_id = 0xFFFF;
         Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_8043A8B0;
         best = *self->range * *self->range;
-        for (; i < lbl_805D586C + lbl_805D5870; i++) {
+        for (; i < registered_player_count + lbl_805D5870; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p != NULL && p != (u8 *)self) {
                 id = get_entity_id(p);
@@ -1801,7 +1801,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         i = 0;
         best = *self->range * *self->range;
         best2 = best;
-        for (; i < lbl_805D586C; i++) {
+        for (; i < registered_player_count; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
             if ((u16)get_entity_id(p) >= 0x1000) continue;

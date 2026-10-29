@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/misc/TODoorAncient06_8015F3B8.h"
-#include "pso/unk/text_80158360.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/misc/TODoorAncient06.h"
@@ -57,7 +56,7 @@ void TODoorAncient06::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient06__texture_lists + 4);
-        if (is_any_player_within_radius_xz(arg0, 1e+04f) != 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(1e+04f) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);
@@ -76,7 +75,7 @@ void TODoorAncient06::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
         this->texlist = (s32) *(s32 *)((s8 *)TODoorAncient06__texture_lists + 4);
-        if (is_any_player_within_radius_xz((u8 *)((s32) arg0), 4.9e+03f) == 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
             this->m_ac = 1;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             play_sound_effect(0x4004B708, (u8 *)&this->position, 0, 0);

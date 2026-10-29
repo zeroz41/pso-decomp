@@ -504,7 +504,7 @@ u8 *get_enemy_entity(u16);
 void *get_player_by_client_id(s32 i);
 s32 subtract_vector(void *, void *);
 extern s32 lbl_8043B0B4[];
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void acquire_target__11TObjEneMojaFPv(u8 *arg0);
 s32 TObjPlayer__sub_800ACA0C(void *);
@@ -927,7 +927,7 @@ s32 TObjEneMoja::update_punch_attack(void *self_800ADAAC) {
         }
         if (objInBand((GameObj *)arg0, (f32)lbl_805D9C04) != 0) {
             t = obj_testFlags30__14TObjCollidableFUl(arg0, 0x10);
-            n = lbl_805D586C;
+            n = registered_player_count;
             if (t != 0) {
                 n += lbl_805D5870;
             }
@@ -1452,7 +1452,7 @@ void acquire_target__11TObjEneMojaFPv(u8 *arg0) {
             best_id = 0xFFFF;
             Vec_800AEE54 v = *(Vec_800AEE54 *)lbl_8043B0B4;
             best = *(f32 *)((s8 *)(((TObjEneMoja *)arg0)->movementParameters) + 0) * *(f32 *)((s8 *)(((TObjEneMoja *)arg0)->movementParameters) + 0);
-            for (; i < lbl_805D586C + lbl_805D5870; i++) {
+            for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = get_player_data__10TObjPlayerFi(i);
                 if (p == NULL) {
                     break;

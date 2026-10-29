@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/item/TObjContainerJungEx_8018D900.h"
-#include "pso/unk/text_80158360.h"
+#include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoaEx01.h"
 #include "pso/item/TObjContainerJungEx.h"
@@ -101,7 +101,7 @@ void TObjDoaEx01::vfunc_18() {
 void TObjDoaEx01::vfunc_17() {
     Obj_8018DA54 *self = (Obj_8018DA54 *)this;
     if (self->flags & 1) {
-        if (is_any_player_within_radius_xz((u8 *)self, (f32)1e+04f) == 0) {
+        if (((TUnk_804AFBF8 *)self)->is_any_player_within_radius_xz((f32)1e+04f) == 0) {
             self->state = 3;
             switch (get_current_floor_area()) {
             case AREA_VR_TEMPLE_ALPHA:
@@ -146,7 +146,7 @@ void TObjDoaEx01::vfunc_16() {
 void TObjDoaEx01::play_proximity_sound() {
     Obj_8018DBCC *self = (Obj_8018DBCC *)this;
     if (self->flags & 1) {
-        if (is_any_player_within_radius_xz((u8 *)self, (f32)4.9e+03f) == 1) {
+        if (((TUnk_804AFBF8 *)self)->is_any_player_within_radius_xz((f32)4.9e+03f) == 1) {
             self->state = 1;
             ((TObjCollidable *)self)->set_indexed_flags(0, 8);
             switch (get_current_floor_area()) {

@@ -10,6 +10,7 @@ struct TObjGoalWarpAncient;
 #include "pso/object/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/misc/TUnk_804AFBF8.h"
 
 struct RecoveredGlobal_8017C8EC_lbl_804B4ECC {
     s32 value;
@@ -32,7 +33,7 @@ int take_hit__11TOVS2Wall01FPvUi(void*);
 s32 TObjFish__sub_8001EDB0(int, void *);
 u8 *get_bml_model(s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_map_object_base(void *, int);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, int);
 extern RecoveredGlobal_8017C8EC_lbl_804B4ECC ovs2wall01_collision_parts;
 extern s32 lbl_804B528C[];
 extern s32 lbl_805D31C4;
@@ -49,7 +50,6 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 int bswap_header__6TLobbyFv(void*);
-void destroy_key_base__13TUnk_804AFBF8Fs(void *, int);
 int init__17TOBarrierEnergy01Fv(void*);
 
 void TOVS2Wall01::release_model() {
@@ -81,7 +81,7 @@ void *TOVS2Wall01::destroy(s16 arg1) {
         if (*(void * *)&this->m_c8 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->m_c8); *(s32 *)&this->m_c8 = 0; }
         unregister_object_by_id();
         free_collision_body_parts(this);
-        destroy_key_base__13TUnk_804AFBF8Fs(this, 0);
+        __dt__13TUnk_804AFBF8Fv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -92,7 +92,7 @@ void *TOVS2Wall01::destroy(s16 arg1) {
 typedef char RecoveredGlobal_8017C8EC_lbl_804B4ECC_size[sizeof(RecoveredGlobal_8017C8EC_lbl_804B4ECC) == 0x134 ? 1 : -1];
 typedef char RecoveredGlobal_8017C8EC_lbl_804B528C_size[sizeof(RecoveredGlobal_8017C8EC_lbl_804B528C) == 0x3C ? 1 : -1];
 u8 *TOVS2Wall01::init_wreck_object(s32 arg1, s32 arg2) {
-    init_map_object_base(this, (int) ((*(s32 *)&tl_05)));
+    __ct__13TUnk_804AFBF8FP7TObject(this, (int) ((*(s32 *)&tl_05)));
     *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_8017C8EC_lbl_804B528C *)&lbl_804B528C).value;
     *(s32 *)&this->m_name = (s32) lbl_805D31C4;
     this->apply_object_set_data((void *)arg1);

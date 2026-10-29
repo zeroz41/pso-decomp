@@ -114,16 +114,5 @@ u8 *TOBarrierEnergy01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     return arg0;
 }
 
-void TUnk_804AFBF8::update_anim_phase() {
-    f32 temp_f0;
-    f32 temp_f1;
-
-    this->m_b0 = (f32) (this->m_b0 + this->m_b8);
-    temp_f1 = *(f32 *)&this->m_b4;
-    temp_f0 = this->m_b0;
-    if (temp_f1 < temp_f0) {
-        this->m_b0 = (f32) (temp_f0 - temp_f1);
-    }
-}
 
 }

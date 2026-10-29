@@ -64,7 +64,7 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, f32, f32, f32);
 extern RecoveredGlobal_800D9E8C_lbl_8058D490 identity_matrix;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 int get_player_data__10TObjPlayerFi(int a0);
 s32 TObjPlayer__sub_800D9F4C(Obj_800D9F4C *self);
@@ -165,7 +165,7 @@ s32 TObjPlayer__sub_800D9F4C(Obj_800D9F4C *self) {
     s32 i;
     void *p;
     self->f3b4 = 0;
-    for (i = 0; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
         p = (void *)get_player_data__10TObjPlayerFi(i);
         if (TObjPlayer::is_valid_and_active((u32)p) != 0) {
             ((TObjPlayer *)self)->add_target_in_front_arc(p);

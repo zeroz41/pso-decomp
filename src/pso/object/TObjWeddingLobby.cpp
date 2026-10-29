@@ -48,7 +48,7 @@ s32 draw_ginja_model_with_motion(int, int, f32);
 extern u32 TObjWeddingLobby__resource_bundle;
 extern u32 wedding_lobby_type;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-s32 init_map_object_base(void *, void *);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
 extern s32 __vt__16TObjWeddingLobby[];
 extern s32 TObjWeddingLobby__class_name;
 void TLobby__sub_8001FE7C(void*, int);
@@ -154,7 +154,7 @@ void TObjWeddingLobby::load_resources() {
 void *__dt__16TObjWeddingLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjWeddingLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -163,7 +163,7 @@ void *__dt__16TObjWeddingLobbyFv(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_8035BF68___vt__16TObjWeddingLobby_size[sizeof(RecoveredGlobal_8035BF68___vt__16TObjWeddingLobby) == 0x3C ? 1 : -1];
 u8 *TObjWeddingLobby__ct(TObjWeddingLobby *wedding_lobby, s32 arg1, s32 arg2) {
-    init_map_object_base((void *)wedding_lobby, (void *)arg1);
+    __ct__13TUnk_804AFBF8FP7TObject((void *)wedding_lobby, (void *)arg1);
     *(s32 **)((s8 *)wedding_lobby + 0x18) = &(*(RecoveredGlobal_8035BF68___vt__16TObjWeddingLobby *)&__vt__16TObjWeddingLobby).value;
     *(s32 *)((s8 *)wedding_lobby + 0) = (s32) TObjWeddingLobby__class_name;
     ((TObjWeddingLobby *)(wedding_lobby))->apply_object_set_data((void *)arg2);

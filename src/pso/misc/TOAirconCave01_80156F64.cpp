@@ -17,7 +17,7 @@ extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80156F9C_lbl_804AF910 TOAirconCave01__shared_resource_desc;
 extern u32 TOAirconCave01__model_archive;
-s32 init_map_object_base(void *, void *);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
 extern s32 __vt__14TOAirconCave01[];
 extern s32 lbl_805D2E8C;
 extern const f32 lbl_805DB2B8;
@@ -46,7 +46,7 @@ void TOAirconCave01::load_shared_resource() {
 void *__dt__14TOAirconCave01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOAirconCave01;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -55,7 +55,7 @@ void *__dt__14TOAirconCave01Fv(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_80157044___vt__14TOAirconCave01_size[sizeof(RecoveredGlobal_80157044___vt__14TOAirconCave01) == 0x38 ? 1 : -1];
 u8 *TOAirconCave01__ct(u8 *aircon_cave01, s32 arg1, s32 arg2) {
-    init_map_object_base((void *)aircon_cave01, (void *)arg1);
+    __ct__13TUnk_804AFBF8FP7TObject((void *)aircon_cave01, (void *)arg1);
     *(s32 **)((s8 *)aircon_cave01 + 0x18) = &(*(RecoveredGlobal_80157044___vt__14TOAirconCave01 *)&__vt__14TOAirconCave01).value;
     *(s32 *)((s8 *)aircon_cave01 + 0) = (s32) lbl_805D2E8C;
     ((TOAirconCave01 *)(aircon_cave01))->apply_object_set_data((void *)arg2);

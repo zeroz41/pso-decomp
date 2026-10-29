@@ -61,7 +61,7 @@ f32 atan2_float(f32, f32);
 f32 fabs_float(f32);
 s32 angle_difference_abs(s32, s32);
 void subtract_vector(void *, void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 u16 TObjRoomId__sub_801A1DB8(void);
 void vec3_add_to(void *, void *);
 s32 restore_player_cameras(void);
@@ -1333,7 +1333,7 @@ s16 TBoss3VoloptP02::collect_targets_in_front() {
     s32 i;
     TObjPlayer *player;
     front_target_count = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
@@ -1365,7 +1365,7 @@ u16 TBoss3VoloptP02::find_facing_player() {
     s32 i;
     TObjPlayer *player;
     s32 d;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL || get_entity_id(player) >= 0x1000) {
             break;
@@ -1440,7 +1440,7 @@ void TBoss3VoloptP02::push_players_out_of_radius() {
     s32 i;
     TObjPlayer *player;
     s32 angle;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL) {
             continue;
@@ -1499,7 +1499,7 @@ void TBoss3VoloptP02::collect_targets_in_arc() {
         limit = 0x471C;
     }
     arc_target_count = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player == NULL) {
             continue;

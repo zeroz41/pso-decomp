@@ -44,7 +44,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80168F94_lbl_804B26C8 bm_fs_obj_hanger_moto_resource_descriptor;
 extern u32 TOHangerMachine01__bml_resource;
 s32 init_collision_body_parts(void *, void *, int);
-s32 init_map_object_base(void *, int);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, int);
 extern RecoveredGlobal_8016904C_lbl_804B26D8 hanger_machine01_collision_body_parts;
 extern s32 __vt__17TOHangerMachine01[];
 extern s32 TOHangerMachine01__class_name;
@@ -148,7 +148,7 @@ void *__dt__17TOHangerMachine01Fv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOHangerMachine01;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -161,7 +161,7 @@ extern s32 local_client_id;
 typedef char RecoveredGlobal_8016904C_lbl_804B26D8_size[sizeof(RecoveredGlobal_8016904C_lbl_804B26D8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8016904C___vt__17TOHangerMachine01_size[sizeof(RecoveredGlobal_8016904C___vt__17TOHangerMachine01) == 0x3C ? 1 : -1];
 u8 *TOHangerMachine01__ct(TOHangerMachine01 *hanger_machine01, s32 arg1) {
-    init_map_object_base(hanger_machine01, tl_05);
+    __ct__13TUnk_804AFBF8FP7TObject(hanger_machine01, tl_05);
     *(s32 **)((s8 *)hanger_machine01 + 0x18) = &(*(RecoveredGlobal_8016904C___vt__17TOHangerMachine01 *)&__vt__17TOHangerMachine01).value;
     *(s32 *)((s8 *)hanger_machine01 + 0) = (s32) TOHangerMachine01__class_name;
     ((TOHangerMachine01 *)(hanger_machine01))->apply_object_set_data((void *)arg1);

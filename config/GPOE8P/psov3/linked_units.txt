@@ -1321,7 +1321,6 @@ pso/misc/TOKeyCol.cpp
 pso/misc/TOKeyGenericSw.cpp
 pso/misc/TOKeyJungleMain.cpp
 pso/misc/TOKeyMachine01_8016D448.cpp
-pso/misc/TOKey_8015845C.cpp
 pso/misc/TOKey_80169EE4.cpp
 pso/misc/TOKurage.cpp
 pso/misc/TOLightMachine01.cpp
@@ -1340,7 +1339,6 @@ pso/misc/TOMonitorMachine01.cpp
 pso/misc/TOMonumentAncient01.cpp
 pso/misc/TOMonumentAncient01_801726D4.cpp
 pso/misc/TOMonumentAncient02.cpp
-pso/misc/TORainbowCave01.cpp
 pso/misc/TORainbowCave01_80173014.cpp
 pso/misc/TORevlightCave01.cpp
 pso/misc/TORevlightCave01_80173478.cpp
@@ -1471,7 +1469,6 @@ pso/misc/TPlyOnCountOver_801C5FF8.cpp
 pso/misc/TPlyOnCreated.cpp
 pso/misc/TPlyOnCreated_801C61D0.cpp
 pso/misc/TPlyPhotonChair.cpp
-pso/misc/TPlyPhotonChair_80143888.cpp
 pso/misc/TPlyPhotonChair_801BEC44.cpp
 pso/misc/TPlyPtclObjectLeftHand.cpp
 pso/misc/TPlyPtclObjectLeftHand_8030A4C8.cpp
@@ -1600,6 +1597,7 @@ pso/misc/TTecZarua.cpp
 pso/misc/TTecZonde.cpp
 pso/misc/TTecZondeEff.cpp
 pso/misc/TUdpSocket.cpp
+pso/misc/TUnk_804AFBF8.cpp
 pso/misc/TUnk_804B1B80.cpp
 pso/misc/TUserAns.cpp
 pso/misc/TUserAns_801E0198.cpp
@@ -2432,7 +2430,6 @@ pso/player/TObjPlayer_8013085C.cpp
 pso/player/TObjPlayer_80130BF0.cpp
 pso/player/TObjPlayer_80141404.cpp
 pso/player/TObjPlayer_80141D1C.cpp
-pso/player/TObjPlayer_80143978.cpp
 pso/player/TObjPlayer_80148DCC.cpp
 pso/player/TObjPlayer_8014C610.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
@@ -3078,7 +3075,6 @@ pso/unk/text_801418C4.cpp
 pso/unk/text_80141944.cpp
 pso/unk/text_80141A30.cpp
 pso/unk/text_801424DC.cpp
-pso/unk/text_80143818.cpp
 pso/unk/text_80144AC8.cpp
 pso/unk/text_80145804.cpp
 pso/unk/text_80145A44.cpp
@@ -3092,8 +3088,6 @@ pso/unk/text_8014AB24.cpp
 pso/unk/text_8014B8A4.cpp
 pso/unk/text_8014B904.cpp
 pso/unk/text_80156BBC.cpp
-pso/unk/text_801582C4.cpp
-pso/unk/text_80158360.cpp
 pso/unk/text_8015C048.cpp
 pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp

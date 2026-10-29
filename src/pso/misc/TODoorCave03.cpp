@@ -1,7 +1,6 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/unk/text_80158360.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
@@ -121,7 +120,7 @@ void TODoorCave03::vfunc_18() {
 void TODoorCave03::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (this->m_d0 & 1) {
-        if (is_any_player_within_radius_xz(arg0, lbl_805DB4D8) != 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB4D8) != 1) {
             this->m_ac = 3;
             ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8U);
         }
@@ -154,7 +153,7 @@ void TODoorCave03::play_proximity_sound() {
     s32 temp_r4;
     temp_r4 = this->m_d0;
     if (temp_r4 & 1) {
-        if (is_any_player_within_radius_xz(arg0, lbl_805DB4E0) == 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB4E0) == 1) {
             this->m_ac = 1;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         }

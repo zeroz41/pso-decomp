@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
@@ -12,6 +11,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct RecoveredGlobal_8016E800_lbl_804B2E6C { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8016E800_lbl_804B2E6C_size[sizeof(RecoveredGlobal_8016E800_lbl_804B2E6C) == 0x10 ? 1 : -1];
@@ -91,7 +92,7 @@ extern const char lbl_80441EA0[];
 extern const char lbl_80441EB0[];
 extern const char lbl_80441EBC[];
 void TLobby__sub_8001FE7C(void*, int);
-s32 is_any_player_within_radius_xz(f32);
+s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -105,7 +106,7 @@ void TOKurage::update_state() {
     f32 temp_f0;
 
     temp_f0 = this->scale.x;
-    if (is_any_player_within_radius_xz(temp_f0 * temp_f0) == 1) {
+    if (is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(temp_f0 * temp_f0) == 1) {
         this->m_100 = 4;
     }
 }
@@ -346,7 +347,7 @@ void TOKurage::render() {
             }
             break;
         default:
-            if (((s32 (*)(void *, f32))is_any_player_within_radius_xz)(arg0, *(f32 *)(arg0 + 0x70) * *(f32 *)(arg0 + 0x70)) == 0 &&
+            if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(*(f32 *)(arg0 + 0x70) * *(f32 *)(arg0 + 0x70)) == 0 &&
                 *(f32 *)(arg0 + 0x104) < (0.0f)) {
                 *(f32 *)(arg0 + 0x104) = (1.0f);
             }
@@ -393,7 +394,7 @@ void TOKurage::load_static_resource() {
 void *__dt__8TOKurageFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TOKurage;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -401,7 +402,7 @@ void *__dt__8TOKurageFv(void *arg0, s16 arg1) {
     return arg0;
 }
 u8 *TOKurage__ct(TOKurage *arg0, s32 arg1, s32 arg2) {
-    init_map_object_base((arg0));
+    __ct__13TUnk_804AFBF8FP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8016E8A8___vt__8TOKurage *)&__vt__8TOKurage).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOKurage__name;
     ((TOKurage *)(arg0))->apply_object_set_data((void *)arg2);

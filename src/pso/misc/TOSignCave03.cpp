@@ -39,7 +39,7 @@ f32 post_translate_matrix(void *);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_80176F50_lbl_804B43A0 bm_fs_obj_dokanban03_resource_descriptor;
 extern u32 TOSignCave03__shared_resource;
-s32 init_map_object_base(void *, void *);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
 extern s32 __vt__12TOSignCave03[];
 extern s32 lbl_805D316C;
 extern const f32 lbl_805DB9E0;
@@ -169,7 +169,7 @@ void TOSignCave03::load_shared_resource() {
 void *__dt__12TOSignCave03Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOSignCave03;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -178,7 +178,7 @@ void *__dt__12TOSignCave03Fv(void *arg0, s16 arg1) {
 }
 typedef char RecoveredGlobal_80176FF8___vt__12TOSignCave03_size[sizeof(RecoveredGlobal_80176FF8___vt__12TOSignCave03) == 0x38 ? 1 : -1];
 u8 *TOSignCave03__ct(u8 *sign_cave03, s32 arg1, s32 arg2) {
-    init_map_object_base((void *)sign_cave03, (void *)arg1);
+    __ct__13TUnk_804AFBF8FP7TObject((void *)sign_cave03, (void *)arg1);
     *(s32 **)((s8 *)sign_cave03 + 0x18) = &(*(RecoveredGlobal_80176FF8___vt__12TOSignCave03 *)&__vt__12TOSignCave03).value;
     *(s32 *)((s8 *)sign_cave03 + 0) = (s32) lbl_805D316C;
     ((TOSignCave03 *)(sign_cave03))->apply_object_set_data((void *)arg2);

@@ -81,7 +81,7 @@ extern s32 lbl_805D2ECC;
 extern s32 TODoorVoShip__class_name;
 extern s32 local_client_id;
 extern s32 lbl_805D5868;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 }
 void reset_status_effect_row(u8 *row);
@@ -565,7 +565,7 @@ void TBoss3Volopt::move_to_arena(s32 phase2) {
     }
     if (allowed != 0) {
         if (phase2 != 0) {
-            for (i = 0; i < lbl_805D586C; i++) {
+            for (i = 0; i < registered_player_count; i++) {
                 player = TObjPlayer::get_player_data(i);
                 if (player != NULL && TObjRoomId__sub_801A1DB8(get_entity_id(player)) == 0 &&
                     ((TBoss3Volopt *)player)->get_field_3e0() == 0xD) {
@@ -1330,7 +1330,7 @@ void TBoss3Volopt::push_actors_out(s32 phase2) {
     TObjPlayer *actor;
 
     center_z = (f32)((phase2 != 0) ? -5000 : 0);
-    for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         actor = TObjPlayer::get_player_data(i);
         if (actor == NULL) continue;
         if (actor->bodies == NULL) continue;
@@ -1510,7 +1510,7 @@ s32 TBoss3Volopt::collect_candidate_players() {
     TObjPlayer *player;
 
     volopt_candidate_count = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if ((player->actorFlags & 0x02000800) == 0) {
             s32 floor = get_current_floor();

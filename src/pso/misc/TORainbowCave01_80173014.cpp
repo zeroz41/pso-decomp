@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/misc/TORainbowCave01_80173014.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/GinjaMaterial.h"
@@ -13,6 +12,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct RecoveredGlobal_80173330_lbl_804B3A18 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80173330_lbl_804B3A18_size[sizeof(RecoveredGlobal_80173330_lbl_804B3A18) == 0x10 ? 1 : -1];
@@ -167,7 +168,7 @@ void TORainbowCave01::load_resource_instance() {
 void *__dt__15TORainbowCave01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TORainbowCave01;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -176,7 +177,7 @@ void *__dt__15TORainbowCave01Fv(void *arg0, s16 arg1) {
 }
 u8 *TORainbowCave01__ct(TORainbowCave01 *arg0, s32 arg1, s32 arg2) {
     u8 *temp_r4;
-    init_map_object_base(arg0);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801733D8___vt__15TORainbowCave01 *)&__vt__15TORainbowCave01).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TORainbowCave01__name;
     ((TORainbowCave01 *)(arg0))->apply_object_set_data((void *)arg2);

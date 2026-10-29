@@ -6,14 +6,14 @@
 #include "pso/map/FloorArea.h"
 
 extern "C" {
-s32 is_any_player_within_radius_xz(f32);
+s32 is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(f32);
 s32 play_sound_effect(s32, void *, s32, s32);
 extern s32 enable_v2_features;
 extern const f32 lbl_805DB3D4;
 extern const f32 lbl_805DB3D8;
 void TUnk_804B0BB8::vfunc_17() {
     u8 *arg0 = (u8 *)this;
-    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(lbl_805DB3D4) != 0) {
+    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB3D4) != 0) {
         return;
     }
     *(s32 *)(arg0 + 0xAC) = 3;
@@ -52,7 +52,7 @@ void TUnk_804B0BB8::vfunc_17() {
 }
 void TUnk_804B0BB8::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(lbl_805DB3D8) == 1) {
+    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz__13TUnk_804AFBF8Ff(lbl_805DB3D8) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
         switch ((u32)get_current_floor_area()) {

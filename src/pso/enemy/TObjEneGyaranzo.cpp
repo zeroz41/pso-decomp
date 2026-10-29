@@ -306,7 +306,7 @@ u8 *get_player_data__10TObjPlayerFi(s32);
 u16 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
 extern Entry_800D20BC TObjGyaranzoMissile_target_slots[];
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805DA260;
 void select_targets__15TObjEneGyaranzoFv(u8 *arg0);
@@ -372,7 +372,7 @@ void TObjEneGyaranzo::select_targets() {
     n = 0;
     best = 0;
     k = ((TObjCollidable *)arg0)->obj_testFlags30(0x10);
-    count = lbl_805D586C;
+    count = registered_player_count;
     if (k != 0) {
         count += lbl_805D5870;
     }

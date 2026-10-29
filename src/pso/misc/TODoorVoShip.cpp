@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/unk/text_803D96A8.h"
@@ -15,6 +14,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct RecoveredGlobal_80163B8C_lbl_804B1760 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80163B8C_lbl_804B1760_size[sizeof(RecoveredGlobal_80163B8C_lbl_804B1760) == 0x10 ? 1 : -1];
@@ -176,7 +177,7 @@ void *__dt__12TODoorVoShipFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TODoorVoShip;
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -184,7 +185,7 @@ void *__dt__12TODoorVoShipFv(void *arg0, s16 arg1) {
     return arg0;
 }
 u8 *TODoorVoShip__ct(TODoorVoShip *arg0, s32 arg1, s32 arg2) {
-    init_map_object_base(arg0);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80163C44___vt__12TODoorVoShip *)&__vt__12TODoorVoShip).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorVoShip__class_name;
     ((TODoorVoShip *)(arg0))->apply_object_set_data((void *)arg2);

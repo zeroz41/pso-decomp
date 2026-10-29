@@ -476,7 +476,7 @@ void *__dt__18TObjSeabedSuiso_CHFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD8)); *(s32 *)((s8 *)arg0 + 0xD8) = 0; }
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -536,7 +536,7 @@ struct Obj_802A6DA8 : VBase_802A6DA8 {
 
 extern "C" {
 void *create_particle_emitter(void *pos, s32 id);
-void init_map_object_base(void *, s32, s32);
+void __ct__13TUnk_804AFBF8FP7TObject(void *, s32, s32);
 extern Ent18_802A6BD0 TObjSeabedSuiso__kind_param_table[];
 extern Ent2C_802A6DA8 seabed_suiso_chip_collision_bodies[];
 extern s32 TObjSeabedSuiso_CH__name;
@@ -579,7 +579,7 @@ void TObjSeabedSuiso_CH::init_kind_params() {
 #pragma push
 #pragma opt_propagation off
 Obj_802A6DA8 *TObjSeabedSuiso_CH__ct(Obj_802A6DA8 *self, s32 arg1, s32 arg2) {
-    init_map_object_base(self, arg1, arg2);
+    __ct__13TUnk_804AFBF8FP7TObject(self, arg1, arg2);
     *(s32 **)((u8 *)self + 0x18) = (s32 *)__vt__18TObjSeabedSuiso_CH;
     *(s32 *)self = TObjSeabedSuiso_CH__name;
     self->m5(arg2);

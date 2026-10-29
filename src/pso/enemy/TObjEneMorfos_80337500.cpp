@@ -65,7 +65,7 @@ void queue_destruction__7TObjectFv(void *);
 u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16 id);
 void vec3_add_to(void *, void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern const f32 lbl_805DF98C;
 extern const f32 lbl_805DF990;
 void update_projectile__13TObjEneMorfosFPv(O_80337644 *arg0);
@@ -125,7 +125,7 @@ void update_projectile__13TObjEneMorfosFPv(O_80337644 *arg0) {
     }
     k = (s32)find_entity_by_id(arg0->fF8);
     if (k != 0) {
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             p = (u8 *)get_player_data__10TObjPlayerFi(i);
             if (TObjPlayer::is_valid_and_active((u32)p) != 0 && fabs_float(arg0->pos.y - *(f32 *)(p + 0x300)) < lbl_805DF990) {
                 hit_target_in_range__13TObjEneMorfosFPvPvPv((O_80337500 *)arg0, (V_80337500 *)p, (V_80337500 *)k);

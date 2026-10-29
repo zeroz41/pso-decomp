@@ -192,7 +192,7 @@ f32 fabs_float(f32);
 s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
-s32 init_map_object_base(void *, void *);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
 void *get_player_by_client_id(s32 i);
 void draw_ginja_model__10TObjPlayerFl(void *, void *, f32);
 s32 play_persistent_sound(void *, void *, void *, int, int);
@@ -933,7 +933,7 @@ void TOTrapChainSaw::decode_params() {
 void *__dt__14TOTrapChainSawFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOTrapChainSaw;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -942,7 +942,7 @@ void *__dt__14TOTrapChainSawFv(void *arg0, s16 arg1) {
 }
 
 u8 *TOTrapChainSaw__ct(u8 *trap_chain_saw, s32 arg1, s32 arg2) {
-    init_map_object_base((void *)trap_chain_saw, (void *)arg1);
+    __ct__13TUnk_804AFBF8FP7TObject((void *)trap_chain_saw, (void *)arg1);
     *(s32 **)((s8 *)trap_chain_saw + 0x18) = &(*(RecoveredGlobal_802C9890___vt__14TOTrapChainSaw *)&__vt__14TOTrapChainSaw).value;
     *(s32 *)((s8 *)trap_chain_saw + 0) = (s32) TOTrapChainSaw__name;
     ((TOTrapChainSaw *)(trap_chain_saw))->apply_object_set_data((void *)arg2);

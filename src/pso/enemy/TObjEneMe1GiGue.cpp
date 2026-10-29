@@ -540,7 +540,7 @@ s32 set_global_flag__10TObjPlayerFv();
 s32 clear_global_state__10TObjPlayerFv();
 extern RecoveredGlobal_802CB03C_lbl_8058D490 identity_matrix;
 int get_player_data__10TObjPlayerFi(int a0);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 f64 atan2_float(f32, f32);
 u8 *csnVector(void *, void *, s32);
 void vec3_add_to(void *, void *);
@@ -673,7 +673,7 @@ void TObjEneMe1GiGue__sub_802CB03C(u8 *enemy) {
 s32 TObjEneMe1GiGue__sub_802CB10C(S_802CB10C *arg0) {
     s32 i;
     arg0->f3C0 = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         s32 t = get_player_data__10TObjPlayerFi(i);
         add_target_in_cone__15TObjEneMe1GiGueFPvPv((Gi_802CB170 *)(arg0), (Tgt_802CB170 *)(t));
     }

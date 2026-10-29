@@ -223,7 +223,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(int, void *, int, int);
 
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 s32 TContainerAncient01__sub_8018BE90(void);
 
@@ -480,7 +480,7 @@ void TContainerAncient01R::check_open_trigger() {
         hit = 1;
     } else {
         range = 6.4e+03f;
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             pl = (Player_8018A914 *)get_player_by_client_id(i);
             if (pl != NULL && horizontal_distance_squared(self->pos, pl->pos) < range) {
                 hit = 1;

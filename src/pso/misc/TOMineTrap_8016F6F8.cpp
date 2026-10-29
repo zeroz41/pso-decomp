@@ -123,7 +123,7 @@ void queue_destruction__7TObjectFv(void *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 TOMineTrap__data_805D3080;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern s32 lbl_805D5868;
 extern s32 TOMineIcon01__name;
@@ -153,7 +153,7 @@ s32 TOMineTrap::find_target_in_range() {
         self->delay--;
         return 0;
     }
-    for (i = 0; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p == 0 || p == (u8 *)self || obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0) {
             continue;
@@ -203,7 +203,7 @@ void TOMineTrap::vfunc_86() {
 void TOMineTrap::destroy_matching_traps() {
     void *p;
     s32 i;
-    for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (void *)get_player_data__10TObjPlayerFi(i);
         if (p != 0 && check_value_equals__13TUnk_804B6C24Fl(p, TOMineTrap__data_805D3080) != 0) {
             queue_destruction__7TObjectFv(p);

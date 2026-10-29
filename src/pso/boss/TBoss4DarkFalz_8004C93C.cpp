@@ -515,7 +515,7 @@ extern "C" {
 u16 obj_getArrU16_FC(void *obj, s32 i);
 int get_player_data__10TObjPlayerFi(int a0);
 f32 horizontal_distance_squared(void *, void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern const f32 lbl_805D895C;
 extern const f32 lbl_805D8960;
 extern const f32 lbl_805D8964;
@@ -563,7 +563,7 @@ void TBoss4DarkFalz::check_players_near_center(void *self) {
     v.x = lbl_805D895C;
     v.z = lbl_805D8960;
     lim = lbl_805D8964;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (void *)get_player_data__10TObjPlayerFi(i);
         if (p != 0 && horizontal_distance_squared(&v, (u8 *)p + 0x2FC) <= lim) {
             ((TBoss4DarkFalz *)self)->send_action_packet(2);

@@ -3,6 +3,7 @@
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/misc/TUnk_804AFBF8.h"
 
 struct Base_8016A0E0_80169EE4 { char pad[0x18]; };
 struct VObj_8016A0E0_80169EE4 : Base_8016A0E0_80169EE4 {
@@ -27,7 +28,7 @@ void *get_player_by_client_id(s32 i);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 extern s32 local_client_id;
 int get_player_data__10TObjPlayerFi(int a0);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 void TOKey__sub_80169FB0(void* p);
 s32 play_sound_effect(s32, s32, s32, s32);
 void *find_entity_by_id(u16);
@@ -42,7 +43,7 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void __dl__7TObjectFPv(void *);
 s32 bswap_6x05_switch_flag__5TOKeyFv();
 s32 update_object_view_visibility__8TObjBaseFff();
-void *init_map_object_base(void *a0);
+void *__ct__13TUnk_804AFBF8FP7TObject(void *a0);
 s32 start_camera_pan__10TObjPlayerFs(s32, s32, s32);
 
 extern s32 lbl_804B27D8[];
@@ -50,7 +51,7 @@ extern s32 lbl_804B27D8[];
 void *TUnk_804B27D8::destroy_key_object(s16 arg1) {
     if (this != NULL) {
         *(s32 * *)((u8 *)this + 0x18) = lbl_804B27D8;
-        destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -59,7 +60,7 @@ void *TUnk_804B27D8::destroy_key_object(s16 arg1) {
 }
 
 void *TUnk_804B27D8::init() {
-    init_map_object_base(this);
+    __ct__13TUnk_804AFBF8FP7TObject(this);
     *(s32 * *)((u8 *)this + 0x18) = lbl_804B27D8;
     *(u32 *)&this->unk_D0 = -1;
     (*(u32 *)&this->unk_C8) = 0;
@@ -157,7 +158,7 @@ s32 TOKey::is_any_player_in_range() {
     Obj_8016A280 *arg0 = (Obj_8016A280 *)this;
     u8 *p;
     s32 i;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {

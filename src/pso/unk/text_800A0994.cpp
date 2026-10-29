@@ -34,7 +34,7 @@ s16 get_entity_id(void *);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 u8 *get_enemy_entity(u16 arg0);
 extern s32 dark_gunner_class_name_ptr;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void TObjEneDarkGunCenter::sub_800A0994() {
     Gunner_800A0994 *self = (Gunner_800A0994 *)this;
@@ -46,7 +46,7 @@ void TObjEneDarkGunCenter::sub_800A0994() {
     s32 i;
     s32 j;
     self->count = 0;
-    for (k = lbl_805D586C; k < lbl_805D586C + lbl_805D5870; k++) {
+    for (k = registered_player_count; k < registered_player_count + lbl_805D5870; k++) {
         p = (Player_800A0994 *)get_player_data__10TObjPlayerFi(k);
         if (p != NULL && check_value_equals__13TUnk_804B6C24Fl(p, dark_gunner_class_name_ptr) != 0 &&
             self->f354 == p->f354 && self->f28 == p->f28) {

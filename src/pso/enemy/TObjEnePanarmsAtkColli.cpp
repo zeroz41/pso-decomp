@@ -100,7 +100,7 @@ extern Pair_800E3374 lbl_8043CDF0[];
 void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
 int get_player_data__10TObjPlayerFi(int a0);
 f32 horizontal_distance_squared(void *, void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 void fn_800E35C8(Obj_800E35C8 *arg0);
 u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, s32, f32);
 u8 *get_enemy_entity(u16 arg0);
@@ -182,7 +182,7 @@ void fn_800E3428(Obj_800E3428 *self) {
     normalize_vector(&d);
     d.x *= self->f378;
     d.z *= self->f378;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (Player_800E35C8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && !(p->f30 & 0x02000A00)) {
             Vec_800E3428 v = self->pos;
@@ -213,7 +213,7 @@ void fn_800E35C8(Obj_800E35C8 *arg0) {
     s32 i;
     Player_800E35C8 *p;
     f32 lim = arg0->f378 * arg0->f378;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (Player_800E35C8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && !(p->f30 & 0x02000A00) && !(horizontal_distance_squared(&arg0->pos, (u8 *) p + 0x2FC) > lim)) {
             fn_800E3374((Obj_800E3374 *)(arg0), (V_800E3374 *)(p));

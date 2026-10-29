@@ -362,7 +362,7 @@ s32 check_path_obstructed(void *, void *);
 s32 obj_is_hit_receivable(void *);
 s32 get_enemy_entity(u16);
 extern Vec_80367FDC lbl_8047A328;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 f32 random_ratio__9TObjCharaFv(s32 arg0);
 extern const f32 lbl_805E02EC;
@@ -1589,7 +1589,7 @@ void TObjEneIllGill::vfunc_28() {
             best = 0xFFFF;
             Vec_80367FDC v = lbl_8047A328;
             bestDist = *((Gill_80367FDC *)this)->f350 * *((Gill_80367FDC *)this)->f350;
-            for (; i < lbl_805D586C + lbl_805D5870; i++) {
+            for (; i < registered_player_count + lbl_805D5870; i++) {
                 pl = get_player_data__10TObjPlayerFi(i);
                 if (pl == NULL) break;
                 if (obj_is_hit_receivable(pl) == 0) continue;

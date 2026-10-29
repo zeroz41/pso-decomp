@@ -360,7 +360,7 @@ extern Vec_800530C0 boss4_type2_effect_offset_vec_b;
 extern const f64 lbl_80437620[];
 extern const f64 lbl_80437630;
 extern RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern const f32 lbl_805D8AF8;
 extern const f32 lbl_805D8AFC;
 extern const f32 lbl_805D8B00;
@@ -1220,7 +1220,7 @@ void pick_target_position__13TRaderMapCoreFPvPv(O_80053914 *self, Vec_80053914 *
     Vec_80053914 res;
     best = lbl_805D8B20;
     found = NULL;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (O_80053914 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) {
             continue;
@@ -1369,7 +1369,7 @@ void TBoss4Type1::push_players_out_of_colliders() {
         pts[i].z = out.z;
     }
     pop_matrix();
-    for (p = 0; p < lbl_805D586C; p++) {
+    for (p = 0; p < registered_player_count; p++) {
         pl = (u8 *)get_player_data__10TObjPlayerFi(p);
         if (pl != NULL && ((TBoss3Volopt *)pl)->get_field_3e0() == 0xE) {
             Vec_80053E40 pos = *get_position_ptr__10TObjPlayerFv(pl);

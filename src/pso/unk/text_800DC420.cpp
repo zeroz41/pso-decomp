@@ -81,7 +81,7 @@ u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16);
 s32 is_valid_and_active__10TObjPlayerFUl();
 s32 vec3_add_to(void *, void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805DA478;
 f32 atan2_float(f32, f32);
@@ -195,7 +195,7 @@ void TUnk_80494E10::run_task() {
     }
     att = find_entity_by_id(arg0->owner);
     if (att != NULL) {
-        for (i = 0; i < lbl_805D586C + lbl_805D5870; i++) {
+        for (i = 0; i < registered_player_count + lbl_805D5870; i++) {
             pl = (void *)get_player_data__10TObjPlayerFi(i);
             if (pl != NULL && is_valid_and_active__10TObjPlayerFUl() != 0) {
                 hit_object_in_radius__10TObjPlayerFPvPvPv((Src_800DC4B4 *)arg0, (Obj_800DC4B4 *)pl, att);

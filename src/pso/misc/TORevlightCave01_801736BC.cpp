@@ -15,7 +15,7 @@ struct TORevlightCave01 : TORevlightCave01Base {
 
 extern "C" {
 
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 
 extern const s32 __vt__16TORevlightCave01[];
 extern s32 TORevlightCave01__name;
@@ -26,7 +26,7 @@ extern const f32 lbl_805DB968;
 extern const f32 lbl_805DB96C;
 
 void *TORevlightCave01__ct(void *revlight_cave01, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     *(s32 **)((s8 *)revlight_cave01 + 0x18) = (s32 *)__vt__16TORevlightCave01;
     *(s32 *)((s8 *)revlight_cave01 + 0) = (s32) TORevlightCave01__name;
     ((TORevlightCave01*)revlight_cave01)->m5(arg2);

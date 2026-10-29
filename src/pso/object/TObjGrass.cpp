@@ -312,7 +312,7 @@ u8 *get_enemy_entity(u16);
 u8 *get_player_by_client_id(u16);
 s32 subtract_vector(void *, void *);
 extern s32 lbl_8043B790[];
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
@@ -1482,7 +1482,7 @@ void TObjGrass::vfunc_28() {
             best_id = 0xFFFF;
             Vec_800BEF8C v = *(Vec_800BEF8C *)lbl_8043B790;
             best = *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0) * *(f32 *)((s8 *)(*(f32 * *)&this->movementParameters) + 0);
-            for (; i < lbl_805D586C + lbl_805D5870; i++) {
+            for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = get_player_data__10TObjPlayerFi(i);
                 if (p == NULL) {
                     break;

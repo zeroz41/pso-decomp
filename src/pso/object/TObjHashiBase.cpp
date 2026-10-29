@@ -54,7 +54,7 @@ void *__dt__13TObjHashiBaseFv(void *arg0, s16 arg1);
 u8 is_current_floor_switch_set(u16, f32);
 void __dl__7TObjectFPv(void *);
 s32 bswap_6x78__11TObjInfoColFv();
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 
 extern s32 __vt__13TObjHashiBase[];
 
@@ -167,7 +167,7 @@ void TObjHashiBase::run_task() {
 void *__dt__13TObjHashiBaseFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         ((TObjHashiBase *)arg0)->m_18 = __vt__13TObjHashiBase;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -182,7 +182,7 @@ extern const f32 lbl_805DBE34;
 extern const f32 lbl_805DBE38;
 
 void *TObjHashiBase__ct(TObjHashiBase *hashi_base, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     hashi_base->m_18 = __vt__13TObjHashiBase;
     *(s32 *)((s8 *)hashi_base + 0) = (s32) lbl_805D3374;
     ((VObj_80191BEC_80191B94 *)hashi_base)->m5(arg2);

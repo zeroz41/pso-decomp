@@ -143,7 +143,7 @@ u32 get_recovery_need_flags__10TObjPlayerFv(void *);
 void send_6x2C_impose_hold(void *, void *, s32, s32, f32);
 void *spawn_particle_effect_with_flags(void *, s32, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self);
 #pragma push
@@ -155,7 +155,7 @@ void find_heal_target__13TOHealGeneralFPv(TOHealGeneral *self) {
     f32 r;
     self->m_cc += 0x147;
     self->m_f4 = 0xFFFF;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         actor = (Actor_80169334 *)get_player_data__10TObjPlayerFi(i);
         id = get_entity_id(actor);
         if (actor == 0) {
@@ -265,7 +265,7 @@ TOHealGeneral_801697C0 *__dt__13TOHealGeneralFv(TOHealGeneral_801697C0 *self, s1
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void *create_particle_emitter(void *pos, s32 id);
 void init_collision_body_parts(void *, void *, s32, void *);
-void init_map_object_base(void *, s32);
+void __ct__13TUnk_804AFBF8FP7TObject(void *, s32);
 extern u8 heal_general_collision_body_part[];
 extern s32 TOHealGeneral__class_name;
 extern s32 tl_05;
@@ -401,7 +401,7 @@ TOHealGeneral_801697C0 *__dt__13TOHealGeneralFv(TOHealGeneral_801697C0 *self, s1
         }
         ((TObjCollidable *)self)->unregister_object_by_id();
         free_collision_body_parts(self);
-        ((TUnk_804AFBF8 *)self)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(self, 0);
         if (flag > 0) {
             __dl__7TObjectFPv(self);
         }
@@ -413,7 +413,7 @@ void *TOHealGeneral__ct(void *arg0, void *arg1) {
     Heal_80169858 *self = (Heal_80169858 *)arg0;
     s32 i;
     u8 *model;
-    init_map_object_base(self, tl_05);
+    __ct__13TUnk_804AFBF8FP7TObject(self, tl_05);
     self->vtable = __vt__13TOHealGeneral;
     self->f0 = TOHealGeneral__class_name;
     ((TOHealGeneral *)self)->apply_object_set_data(arg1);

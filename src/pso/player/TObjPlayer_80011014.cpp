@@ -339,7 +339,7 @@ void create_hit_effect__10TObjPlayerFPv(void *);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(Actor_8001311C *self, Actor_8001311C *att, Info_8001311C *arg, Coll_8001311C *coll, s32 tech, s32 arg5);
 u8 obj_is_hit_receivable(u8 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1, f32 farg0);
 s32 try_spend_actor_meseta(u8 *arg0, s32 arg1);
@@ -1718,7 +1718,7 @@ u16 find_nearest_hittable_enemy__10TObjPlayerFiPvf(s32 arg0, Vec_800114D8 *arg1,
     ObjFlags *p;
     best = farg0 * farg0;
     result = 0xFFFF;
-    for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = ((ObjFlags * (*)(s32))get_player_data__10TObjPlayerFi)(i);
         if (p == NULL) {
             break;
@@ -1747,7 +1747,7 @@ u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0) {
     f32 dist;
     Player_800115C4 *player;
     s32 i;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         player = ((Player_800115C4 * (*)(s32))get_player_data__10TObjPlayerFi)(i);
         if (player != NULL && player->id < 0x1000 && !(player->flags & 0x02000800)) {
             if (((TObjPlayer *)player)->get_field_3e4() == get_current_floor()) {

@@ -151,7 +151,7 @@ int get_player_data__10TObjPlayerFi(int a0);
 s16 TOMineTrap__sub_80171340(void *);
 u16 TOMineTrap__sub_80171358(void *);
 extern s32 lbl_805D5868;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void handle_6x80_trigger_trap(Pkt_8016F418 *arg0);
 
@@ -174,7 +174,7 @@ void handle_6x80_trigger_trap(Pkt_8016F418 *arg0) {
         return;
     }
     ((TOMineTrap *)arg0)->bswap_6x80_trigger_trap();
-    for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (VObj_8016F418 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) {
             continue;

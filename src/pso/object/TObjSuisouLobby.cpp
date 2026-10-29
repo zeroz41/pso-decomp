@@ -35,7 +35,7 @@ extern u32 TObjSuisouLobby__instance;
 extern s32 TObjSuisouLobby__lobby_type;
 void run_task__15TObjSuisouLobbyFv(Suisou_80369BF4 *self);
 u32 create_particle_emitter(void *, int);
-s32 init_map_object_base(void *, void *);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, void *);
 s32 is_lobby_event_active(void);
 s32 matrix_mult_vec(int, void *, void *);
 s32 set_matrix_identity(int);
@@ -176,7 +176,7 @@ void *__dt__15TObjSuisouLobbyFv(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)__vt__15TObjSuisouLobby;
         if (*(void **)((s8 *)arg0 + 0xD4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD4)); ((TObjSuisouLobby *)arg0)->m_d4 = 0; }
         if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD8)); ((TObjSuisouLobby *)arg0)->m_d8 = 0; }
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -187,7 +187,7 @@ void *__dt__15TObjSuisouLobbyFv(void *arg0, s16 arg1) {
 #pragma opt_common_subs off
 #define self ((Self_80369ED4 *)arg0)
 void *TObjSuisouLobby__ct(void *arg0, void *arg1, void *arg2) {
-    init_map_object_base(arg0, arg1);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0, arg1);
     *(void ***)((u8 *)arg0 + 0x18) = ((void * *)__vt__15TObjSuisouLobby);
     *(s32 *)arg0 = (s32)lbl_805D44C4;
     ((TObjSuisouLobby *)arg0)->apply_object_set_data(arg2);

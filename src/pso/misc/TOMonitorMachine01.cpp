@@ -97,7 +97,7 @@ u32 load_resource_from_descriptor(void *, int, void *, int, int, int);
 extern u8 monitor_machine01_resource_desc[];
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
-s32 init_map_object_base(void *, s32);
+s32 __ct__13TUnk_804AFBF8FP7TObject(void *, s32);
 extern s32 __vt__18TOMonitorMachine01[];
 extern s32 TOMonitorMachine01__name;
 extern s32 tl_05;
@@ -244,7 +244,7 @@ void TOMonitorMachine01::load_resources() {
 void *__dt__18TOMonitorMachine01Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TOMonitorMachine01;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -255,7 +255,7 @@ void *__dt__18TOMonitorMachine01Fv(void *arg0, s16 arg1) {
 #pragma opt_common_subs off
 void *TOMonitorMachine01__ct(void *arg0_, void *arg1) {
 #define self ((Obj_80172550 *)arg0_)
-    init_map_object_base(arg0_, tl_05);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0_, tl_05);
     self->vt = __vt__18TOMonitorMachine01;
     self->f0 = TOMonitorMachine01__name;
     ((TOMonitorMachine01 *)(arg0_))->apply_object_set_data((void *)((s32)arg1));

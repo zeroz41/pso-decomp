@@ -1,7 +1,6 @@
 #include "pso/protocol/protocol_types.h"
 #include "pso/object/TObjMotion.h"
 #include "types.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804AFBF8.h"
@@ -9,6 +8,8 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct Base_8016A8D0 { char pad[0x18]; };
 struct VObj_8016A8D0 : Base_8016A8D0 {
@@ -153,7 +154,7 @@ extern s32 __vt__5TOKey[];
 void *__dt__5TOKeyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__5TOKey;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -165,7 +166,7 @@ extern const f32 lbl_805DB6E0;
 extern void *TOKey__class_name;
 
 void *TOKey__ct(TOKey *arg0) {
-    init_map_object_base(arg0);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__5TOKey;
     *(void * *)&arg0->m_name = TOKey__class_name;
     arg0->m_e4 = -1;

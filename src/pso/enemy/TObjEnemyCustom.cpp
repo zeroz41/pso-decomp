@@ -39,7 +39,7 @@ extern Mtx34 identity_matrix;
 extern Mtx34 *anim_model_matrix_array;
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 }
 
@@ -500,7 +500,7 @@ u16 TObjEnemyCustom::find_nearest_enemy(Vec *out, f32 radius) {
     u16 id;
     best_distance = radius * radius;
     best = 0xFFFF;
-    for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         entity = (TObjChara *)TObjPlayer::get_player_data(i);
         if (entity == NULL) {
             break;
@@ -537,9 +537,9 @@ void TObjEnemyCustom::target_nearest_player(f32 radius) {
     best_distance = radius * radius;
     best = 0xFFFF;
     if (obj_testFlags30(0x10) != 0) {
-        count = lbl_805D586C + lbl_805D5870;
+        count = registered_player_count + lbl_805D5870;
     } else {
-        count = lbl_805D586C;
+        count = registered_player_count;
     }
     for (i = 0; i < count; i++) {
         entity = (TObjEnemyCustom *)TObjPlayer::get_player_data(i);
@@ -565,9 +565,9 @@ u16 TObjEnemyCustom::pick_random_nearby_player(f32 radius) {
     radius_sq = radius * radius;
     found = 0;
     if (obj_testFlags30(0x10) != 0) {
-        count = lbl_805D586C + lbl_805D5870;
+        count = registered_player_count + lbl_805D5870;
     } else {
-        count = lbl_805D586C;
+        count = registered_player_count;
     }
     for (i = 0; i < count; i++) {
         entity = (TObjEnemyCustom *)TObjPlayer::get_player_data(i);

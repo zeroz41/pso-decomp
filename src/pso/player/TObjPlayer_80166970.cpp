@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TUnk_804AFBF8.h"
@@ -7,6 +6,8 @@
 #include "pso/misc/TOFenceAncient01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjFish.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 extern "C" {
 
@@ -63,7 +64,7 @@ extern s32 lbl_804B1B80[];
 void *TUnk_804B1B80::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804B1B80;
-        destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
         }
@@ -72,7 +73,7 @@ void *TUnk_804B1B80::destroy(s16 arg1) {
 }
 
 void *TUnk_804B1B80::init_fields() {
-    init_map_object_base(this);
+    __ct__13TUnk_804AFBF8FP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804B1B80;
     this->m_ac = 0;
     this->m_cc = -1;

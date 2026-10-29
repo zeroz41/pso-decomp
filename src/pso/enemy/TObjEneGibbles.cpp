@@ -938,7 +938,7 @@ extern const f32 lbl_805DE880;
 extern const f32 lbl_805DE884;
 extern s32 lbl_80472768[];
 extern s32 lbl_80472774[];
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805DE824;
 void move_with_wall_slide(u8 *arg0);
@@ -1227,7 +1227,7 @@ int TObjEneGibbles::test_flag_256() {
         return 1;
     }
     if ((flags & 4) && this->mode != 6 && this->m_388 > 0) {
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             pl = get_player_data__10TObjPlayerFi(i);
             if (pl != NULL && !(((TObjPlayer *)pl)->actorFlags & 0x800)
                 && calc_distance_to_client__10TObjPlayerFlUsUl(arg0, i, &v) < lbl_805DE824
@@ -2196,7 +2196,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         best_id = 0xFFFF;
         Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_80472768;
         best = *self->range * *self->range;
-        for (; i < lbl_805D586C + lbl_805D5870; i++) {
+        for (; i < registered_player_count + lbl_805D5870; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (((s32 (*)(u8 *))is_valid_and_active__10TObjPlayerFUl)(p) != 0 && p != (u8 *)self) {
                 id = ((s32 (*)(void *))get_entity_id)(p);
@@ -2247,7 +2247,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         i = 0;
         best = *self->range * *self->range;
         best2 = best;
-        for (; i < lbl_805D586C; i++) {
+        for (; i < registered_player_count; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
             if ((u16)((s32 (*)(void *))get_entity_id)(p) >= 0x1000) continue;

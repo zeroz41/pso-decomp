@@ -35,7 +35,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern u32 TObjCurtainLobby__model_resource;
 extern s32 curtain_lobby_type;
 void __dl__7TObjectFPv(void *);
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 extern s32 __vt__16TObjCurtainLobby[];
 extern s32 TObjCurtainLobby__class_name;
 
@@ -137,7 +137,7 @@ void TObjCurtainLobby::load_resources() {
 void *__dt__16TObjCurtainLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjCurtainLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -145,7 +145,7 @@ void *__dt__16TObjCurtainLobbyFv(void *arg0, s16 arg1) {
     return arg0;
 }
 void *TObjCurtainLobby__ct(TObjCurtainLobby *curtain_lobby, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     *(s32 **)((s8 *)curtain_lobby + 0x18) = __vt__16TObjCurtainLobby;
     *(s32 *)((s8 *)curtain_lobby + 0) = (s32) TObjCurtainLobby__class_name;
     curtain_lobby->apply_object_set_data((void *)arg2);

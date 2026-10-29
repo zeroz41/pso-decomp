@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_80158360.h"
 #include "pso/misc/TUnk_804AFBF8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/unk/TUnk_804B0BB8.h"
@@ -301,7 +300,7 @@ void TODoorAncient08::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)(arg0 + 0xD0) & 1) {
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[0];
-        if (is_any_player_within_radius_xz(arg0, lbl_805DB478) == 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB478) == 1) {
             return;
         }
         *(s32 *)(arg0 + 0xAC) = 3;
@@ -336,7 +335,7 @@ void TODoorAncient08::vfunc_17() {
 
 void TODoorAncient08::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(arg0, lbl_805DB47C) == 1) {
+    if ((*(s32 *)(arg0 + 0xD0) & 1) && ((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(lbl_805DB47C) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient08__switch_texture_lists)[0];
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);

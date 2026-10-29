@@ -71,7 +71,7 @@ void *__nw__7TObjectFUl(int);
 void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 s32 is_lobby_event_active();
 extern s32 __vt__13TObjTreeLobby[];
 extern s32 TObjTreeLobby__class_name;
@@ -158,7 +158,7 @@ void TObjTreeLobby::load_resources() {
 void *__dt__13TObjTreeLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjTreeLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -166,7 +166,7 @@ void *__dt__13TObjTreeLobbyFv(void *arg0, s16 arg1) {
     return arg0;
 }
 void *TObjTreeLobby__ct(TObjTreeLobby *tree_lobby, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     *(s32 **)((s8 *)tree_lobby + 0x18) = __vt__13TObjTreeLobby;
     *(s32 *)((s8 *)tree_lobby + 0) = (s32) TObjTreeLobby__class_name;
     tree_lobby->apply_object_set_data((void *)arg2);

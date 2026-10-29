@@ -172,7 +172,7 @@ extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 s32 is_split_screen(void);
 void *__ct__15TEffStarLight2DFPvPvP7TObject(void *, void *, void *, void *);
-void init_map_object_base(void *);
+void __ct__13TUnk_804AFBF8FP7TObject(void *);
 void fn_8017F550(void *);
 void *__nw__7TObjectFUl(int);
 extern Copy_8017FA9C camera_object_init_params;
@@ -247,7 +247,7 @@ void run_task__10TObjCameraFv(Obj_8017F910 *self) {
 void *__dt__10TObjCameraFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TObjCamera;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -260,7 +260,7 @@ extern void *tl_05;
 u8 *TObjCamera__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     void *obj;
-    init_map_object_base(arg0);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TObjCamera;
     *(s32 *)((s8 *)arg0 + 0) = TObjCamera__name;
     Copy_8017FA9C c = camera_object_init_params;

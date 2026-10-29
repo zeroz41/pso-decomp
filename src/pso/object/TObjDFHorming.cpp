@@ -16,7 +16,7 @@ s32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 extern E_8004AB90 dark_falz_push_zone_table[];
 extern s32 lbl_805D5868;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 
 void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
@@ -35,7 +35,7 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
     r = dark_falz_push_zone_table[arg1].r;
     sc = dark_falz_push_zone_table[arg1].s;
     ev = &dark_falz_push_zone_table[arg1].v;
-    for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) continue;
         q = *(u8 * *)&((TObjCollidable *)p)->bodies;
@@ -83,7 +83,7 @@ extern "C" {
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 s32 rand(void);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 void play_sound_effect(s32, s32, s32, s32);
 s32 rand();
@@ -147,7 +147,7 @@ u16 TBoss4Type3::pick_random_target_player() {
     s32 i;
     u8 *p;
     n = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0) {
             buf[n++] = get_entity_id(p);
@@ -318,7 +318,7 @@ void TBoss4DarkFalz::sub_8004AFB8() { this->m_384 = 1; }
 s32 TBoss4DarkFalz::count_active_players() {
     s32 count = 0;
     s32 i;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         if (get_player_data__10TObjPlayerFi(i) != 0) {
             count++;
         }
@@ -541,7 +541,7 @@ void TBoss4DarkFalz__sub_8004B5A0(void) {
     if (TBoss4Thanks__sub_8035C96C() != 0) {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             p = (P_8004B5A0 *)get_player_data__10TObjPlayerFi(i);
             if (p != 0 && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
                 VecCopy((Vec *)&v, (const Vec *)&p->pos);
@@ -597,7 +597,7 @@ void TBoss4DarkFalz__sub_8004B730(u8 *arg0, s32 arg1, f32 farg0) {
 void TBoss4DarkFalz::refresh_player_equipment(void *self) {
     s32 i;
     void *p;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             if (((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
@@ -616,7 +616,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
     void *p;
     rate = boss4_dark_falz->calc_rate_from_field();
     ang = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
             Vec_8004B7DC v = base;
@@ -643,7 +643,7 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
     void *p;
     rate = boss4_dark_falz->calc_rate_from_field();
     ang = rate / 2;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
             Vec_8004B8F8 v = base;
@@ -665,7 +665,7 @@ void TBoss4DarkFalz::end_player_camera_pans(void *self) {
     s32 i;
     void *p;
     TWindowCtrl::init_all_slots2();
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             ((TObjPlayer *)p)->end_camera_pan();
@@ -677,7 +677,7 @@ void TBoss4DarkFalz::freeze_all_players(void *self) {
     s32 i;
     void *p;
     TWindowCtrl::init_all_slots();
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             ((TObjPlayer *)p)->start_freeze();

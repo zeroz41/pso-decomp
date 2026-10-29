@@ -3,7 +3,6 @@
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/misc/TLobby_8030A6A8.h"
-#include "pso/misc/TOKey_8015845C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/GinjaMaterial.h"
@@ -20,6 +19,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+
+extern "C" void *__ct__13TUnk_804AFBF8FP7TObject(void *self);
 
 struct BmlResourceBlock_804B3960 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
 typedef char BmlResourceBlock_804B3960_size[(sizeof(BmlResourceBlock_804B3960) == 0x18) ? 1 : -1];
@@ -251,7 +252,7 @@ void *__dt__19TOMonumentAncient02Fv(void *arg0, s16 arg1) {
         TParticleCtrl::release(*(void **)((s8 *)arg0 + 0xE8));
         ((TObjCollidable *)arg0)->unregister_object_by_id();
         free_collision_body_parts(arg0);
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -262,7 +263,7 @@ typedef char RecoveredGlobal_80172EA0_lbl_804B39A8_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02_size[sizeof(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02) == 0x3C ? 1 : -1];
 u8 *TOMonumentAncient02__ct(TOMonumentAncient02 *arg0, s32 arg1, s32 arg2) {
     s32 area;
-    init_map_object_base(arg0);
+    __ct__13TUnk_804AFBF8FP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80172EA0___vt__19TOMonumentAncient02 *)&__vt__19TOMonumentAncient02).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TOMonumentAncient02__name;
     ((TOMonumentAncient02 *)(arg0))->apply_object_set_data((void *)arg2);

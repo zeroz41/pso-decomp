@@ -6291,10 +6291,10 @@ void TBoss1Dragon::apply_shock_status() {  }
 
 void TBoss1Dragon::clear_harmful_statuses() {  }
 
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 
 s32 TLobby::get_game_mode() {
-    return lbl_805D586C;
+    return registered_player_count;
 }
 
 extern s16 TCameraCtrl__camera_mode;

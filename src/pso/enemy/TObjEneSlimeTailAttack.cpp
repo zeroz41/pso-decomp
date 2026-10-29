@@ -382,7 +382,7 @@ extern RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
 extern s32 TObjEneSlimeOne_class_name;
 extern s32 lbl_805D2AE0;
 extern int lbl_805D52B4;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern const f32 lbl_805DA670;
 extern const f32 lbl_805DA674;
 extern const f32 lbl_805DA678;
@@ -1989,7 +1989,7 @@ void TObjEneSlimeOne::vfunc_61() {
 void TObjEneSlimeOne::vfunc_62() {
     u8 *arg0 = (u8 *)this;
     if ((s32) this->m_384 != 0xC) {
-        if (((s32) this->m_2d4 < (s32) lbl_805D586C) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && ((u32) this->m_3f0 != 0U) && (((TObject *)((void *) this->m_3f0))->all_parents_unqueued_for_destruction() != 0)) {
+        if (((s32) this->m_2d4 < (s32) registered_player_count) && (((u32 (*)(void))get_player_by_client_id)() != 0U) && (check_player_field_7cc__15TObjEneSlimeOneFv() == 2) && ((u32) this->m_3f0 != 0U) && (((TObject *)((void *) this->m_3f0))->all_parents_unqueued_for_destruction() != 0)) {
             ((TObjEneSlimeOne *)(this->m_3f0))->try_spawn_child((u8 *)&this->position);
         }
         this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);

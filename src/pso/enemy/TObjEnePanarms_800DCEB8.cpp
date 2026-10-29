@@ -169,7 +169,7 @@ extern s32 lbl_8043CD0C[];
 extern s32 lbl_8043CCF4[];
 extern s32 lbl_8043CCFC[];
 s32 TObjEnePanarms__sub_800DE494(void *);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 int TObjEnePanarms__sub_800DFBC4(void *p);
 extern const f32 lbl_805DA4B8;
 extern const f32 lbl_805DA4C4;
@@ -798,7 +798,7 @@ void TObjEnePanarms__sub_800DE430(s32 arg0, s32 arg1, s32 arg2) {
 s32 TObjEnePanarms__sub_800DE494(void *self) {
     s32 i;
     f32 best = lbl_805DA4E4;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         TObjPlayer *player = TObjPlayer::get_player_data(i);
         if (player != NULL) {
             f32 d = horizontal_distance_squared((u8 *)self + 0x38, (u8 *)player + 0x2FC);

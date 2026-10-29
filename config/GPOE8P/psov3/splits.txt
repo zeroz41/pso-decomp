@@ -4397,22 +4397,13 @@ pso/unk/text_801424DC.cpp:
 	.text       start:0x801424DC end:0x80142524
 
 pso/misc/obj_band.cpp:
-	.text       start:0x80142524 end:0x801437C0
-	.rodata     start:0x8043F2D8 end:0x8043F2E0
-	.sdata2     start:0x805DB168 end:0x805DB174
+	.text       start:0x80142524 end:0x80142770
 
 pso/object/TObjMotion.cpp:
-	.text       start:0x801437C0 end:0x80143818
+	.text       start:0x80142770 end:0x80143988
+	.rodata     start:0x8043F2D8 end:0x8043F2E0
 	.data       start:0x804A7498 end:0x804A74D0
-
-pso/unk/text_80143818.cpp:
-	.text       start:0x80143818 end:0x80143888
-
-pso/misc/TPlyPhotonChair_80143888.cpp:
-	.text       start:0x80143888 end:0x80143978
-
-pso/player/TObjPlayer_80143978.cpp:
-	.text       start:0x80143978 end:0x80143988
+	.sdata2     start:0x805DB168 end:0x805DB174
 
 pso/misc/TMovie_80143988.cpp:
 	.text       start:0x80143988 end:0x80143BBC
@@ -4832,20 +4823,12 @@ pso/misc/TOBarrierEnergy01_80157F30.cpp:
 	.text       start:0x80157F30 end:0x80158014
 
 pso/misc/TOBarrierEnergy01_80158014.cpp:
-	.text       start:0x80158014 end:0x801582C4
+	.text       start:0x80158014 end:0x80158298
 	.rodata     start:0x80440218 end:0x80440220
 
-pso/unk/text_801582C4.cpp:
-	.text       start:0x801582C4 end:0x80158360
-
-pso/unk/text_80158360.cpp:
-	.text       start:0x80158360 end:0x80158408
-
-pso/misc/TORainbowCave01.cpp:
-	.text       start:0x80158408 end:0x8015845C
-
-pso/misc/TOKey_8015845C.cpp:
-	.text       start:0x8015845C end:0x80158608
+pso/misc/TUnk_804AFBF8.cpp:
+	.text       start:0x80158298 end:0x80158608
+	.data       start:0x804AFBF8 end:0x804AFC30
 	.sdata2     start:0x805DB2E8 end:0x805DB300
 
 pso/misc/TOBind_80158608.cpp:

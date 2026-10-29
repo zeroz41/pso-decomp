@@ -19,7 +19,6 @@ void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 void *get_player_by_client_id(s32);
 extern s32 local_client_id;
 u8 is_current_floor_switch_set(u16);
-s32 is_any_player_within_radius_xz(u8 *self, f32 radius);
 
 void TUnk_804B27D8::vfunc_16() {  }
 
@@ -48,7 +47,7 @@ s32 TOHealGeneral::update_active_state() {
 
     switch (*(s32 *)&this->unk_C8) {
     case 1:
-        if (is_any_player_within_radius_xz((u8 *)this, 4.9e+03f) != 0) {
+        if (((TUnk_804AFBF8 *)this)->is_any_player_within_radius_xz(4.9e+03f) != 0) {
             *(s32 *)&this->m_cc = 1;
         } else {
             *(s32 *)&this->m_cc = 0;
@@ -132,7 +131,6 @@ s32 submit_cursor_candidate(void *, int);
 s32 check_player_flag1__6TLobbyFv();
 void end_conversation_camera(void);
 void begin_conversation_camera(void);
-s32 is_any_player_within_radius_xz(u8 *self, f32 radius);
 void *get_player_by_client_id(s32 i);
 u32 __nw__7TObjectFUl(int);
 extern s32 local_client_id;
@@ -159,7 +157,7 @@ void TUnk_804B27D8::run_task() {
     }
     switch (*(s32 *)&this->m_ac) {
     case 0:
-        if ((this->update_active_state() != 0) && (is_any_player_within_radius_xz((arg0), 4.9e+03f) != 0) && ((s32) *(s32 *)&this->unk_D8 > 0)) {
+        if ((this->update_active_state() != 0) && (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) != 0) && ((s32) *(s32 *)&this->unk_D8 > 0)) {
             *(s32 *)&this->m_ac = 1;
         }
         break;

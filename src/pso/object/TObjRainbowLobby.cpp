@@ -38,7 +38,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern BmlResourceDescriptor bm_obj_lobby_rainbow_resource_descriptor;
 extern u32 TObjRainbowLobby__shared_model_resource;
 void __dl__7TObjectFPv(void *);
-s32 init_map_object_base();
+s32 __ct__13TUnk_804AFBF8FP7TObject();
 s32 is_lobby_event_active();
 extern s32 __vt__16TObjRainbowLobby[];
 extern const char *lbl_805D435C;
@@ -122,7 +122,7 @@ void TObjRainbowLobby::load_shared_resource() {
 void *__dt__16TObjRainbowLobbyFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjRainbowLobby;
-        ((TUnk_804AFBF8 *)arg0)->destroy_key_base(0);
+        __dt__13TUnk_804AFBF8Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
         }
@@ -130,7 +130,7 @@ void *__dt__16TObjRainbowLobbyFv(void *arg0, s16 arg1) {
     return arg0;
 }
 void *TObjRainbowLobby__ct(TObjRainbowLobby *rainbow_lobby, s32 arg1, s32 arg2) {
-    init_map_object_base();
+    __ct__13TUnk_804AFBF8FP7TObject();
     *(s32 **)((s8 *)rainbow_lobby + 0x18) = __vt__16TObjRainbowLobby;
     *(s32 *)((s8 *)rainbow_lobby + 0) = (s32) ((s32)lbl_805D435C);
     rainbow_lobby->apply_object_set_data((void *)arg2);

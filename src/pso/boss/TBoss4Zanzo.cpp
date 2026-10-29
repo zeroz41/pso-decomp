@@ -507,7 +507,7 @@ extern s32 TObjBs4CutAtk_name;
 extern s32 lbl_805D4D80;
 extern u8 lbl_805D4D84;
 extern s32 local_client_id;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 struct Def_804867C8 { s32 value; s32 remaining[39]; };
 
 f32 get_random_float__21TObjEneMe3ShinowaRealFv(f32);
@@ -1198,7 +1198,7 @@ void TBoss4Type2::spawn_bishi_around_players() {
     TBoss4DarkFalz__sub_8004B4F0(&b.id, TBoss4DarkFalz__data_804FF1E8);
     b.f0 = arg0->f38c;
     b.f0c = 1;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         pl = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (pl != 0 && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             for (j = 0; j < 3; j++) {
@@ -1318,7 +1318,7 @@ void find_target_pos__11TBoss4Type2FPvPv(O_80056C30 *self, Vec_80056C30 *out) {
     Vec_80056C30 res;
     best = 0.0f;
     found = NULL;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = (O_80056C30 *)get_player_data__10TObjPlayerFi(i);
         if (p == NULL) {
             continue;

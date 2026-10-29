@@ -51,7 +51,6 @@ extern BmlResourceDescriptor ancient_door09_resource_descriptor;
 extern u32 door_ancient09_bml_resource;
 extern void *TODoorAncient09__texture_lists;
 s32 play_sound_effect(s32, void *, s32, s32);
-s32 is_any_player_within_radius_xz(u8 *self, f32 radius);
 
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
@@ -261,7 +260,7 @@ void TODoorAncient09::vfunc_17() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)(arg0 + 0xD0) & 1) {
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient09__texture_lists)[1];
-        if (is_any_player_within_radius_xz(arg0, 1e+04f) == 1) {
+        if (((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(1e+04f) == 1) {
             return;
         }
         *(s32 *)(arg0 + 0xAC) = 3;
@@ -296,7 +295,7 @@ void TODoorAncient09::vfunc_17() {
 
 void TODoorAncient09::play_proximity_sound() {
     u8 *arg0 = (u8 *)this;
-    if ((*(s32 *)(arg0 + 0xD0) & 1) && is_any_player_within_radius_xz(arg0, 4.9e+03f) == 1) {
+    if ((*(s32 *)(arg0 + 0xD0) & 1) && ((TUnk_804AFBF8 *)arg0)->is_any_player_within_radius_xz(4.9e+03f) == 1) {
         *(s32 *)(arg0 + 0xAC) = 1;
         *(s32 *)(arg0 + 0x24) = ((s32 *)TODoorAncient09__texture_lists)[1];
         ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);

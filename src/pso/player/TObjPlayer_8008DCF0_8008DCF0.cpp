@@ -175,7 +175,7 @@ int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
 void enter_hit_state__18TObjEneBalClawClawFs(u32, u16);
 u32 find_entity_by_id(u16);
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_8008E098(Obj_8008E098 *self);
 void vec3_add_to(Vec_8008E18C *, Vec_8008E18C *);
@@ -326,7 +326,7 @@ s32 TObjPlayer__sub_8008E098(Obj_8008E098 *self) {
     Obj_8008E098 *p;
     s32 j;
     self->count = 0;
-    for (i = lbl_805D586C; i < lbl_805D586C + lbl_805D5870; i++) {
+    for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (Obj_8008E098 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TWindowLockOn *)p)->get_target_id() == 0x26 &&
             self->field28 == p->field28 && ((TObjEneBalClawClaw *)p)->check_active() != 0) {

@@ -13,7 +13,7 @@ extern "C" {
 f32 PSMTXMultVecArray(s32, s32);
 extern s32 current_matrix;
 s32 PSMTXInverse(int, int);
-s32 PSMTXMultVec(int);
+void PSMTXMultVec(const f32 (*m)[4], const Vec *src, Vec *dst);
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
@@ -34,15 +34,11 @@ void debug_printf_at(s32 arg0, const char *fmt, ...) {
 
 #pragma push
 #pragma scheduling off
-void matrix_mult_vec(u32 arg0) {
-    u32 var_r3;
-    u32 phi_r3;
-    var_r3 = arg0;
-    phi_r3 = var_r3;
-    if (var_r3 == 0U) {
-        phi_r3 = ((*(u32 *)&current_matrix));
+void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
+    if (m == NULL) {
+        m = (f32 (*)[4])current_matrix;
     }
-    PSMTXMultVec(phi_r3);
+    PSMTXMultVec(m, src, dst);
 }
 #pragma pop
 

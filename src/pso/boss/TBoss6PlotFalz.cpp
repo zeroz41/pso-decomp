@@ -124,7 +124,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 extern s32 plot_falz_phase;
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 void set_chunk_material_override_pair(int, int, s32, s32);
 s32 rand(void);
 }
@@ -279,7 +279,7 @@ s32 TBoss6PlotFalz::sort_active_players() {
         vals[i] = -1;
     }
     n = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0 && p->f32c != 0) {
             boss6_plot_falz_player_order_table[n] = get_entity_id(p);
@@ -310,7 +310,7 @@ u16 TBoss6PlotFalz::pick_random_active_player() {
     Player_802AAE78 *p;
 
     n = 0;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss6PlotFalz *)p)->is_active() != 0) {
             ids[n] = get_entity_id(p);
@@ -511,7 +511,7 @@ void TBoss6PlotFalz::spawn_player_hit_effects() {
     if (TBoss6Thanks__sub_8035D270() != 0) {
         play_sound_effect(0x40033231, 0, 0, 0);
         k = 12.5f;
-        for (i = 0; i < lbl_805D586C; i++) {
+        for (i = 0; i < registered_player_count; i++) {
             p = get_player_data__10TObjPlayerFi(i);
             if (is_state_1f__14TBoss6PlotFalzFUi(p) != 0) {
                 VecCopy((Vec *)(&v), (const Vec *)(&p->pos));
@@ -1168,7 +1168,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
     Vec_802AC3E8 v;
     s32 i;
     Obj_802AC3E8 *p;
-    for (i = lbl_805D586C + lbl_805D5870; i < lbl_805D5868; i++) {
+    for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (Obj_802AC3E8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p->sub != NULL && (p->sub->flags & 0x20000)
             && !(xyz_distance(lbl_804705B4, &p->pos) > 150.0f)
@@ -1186,7 +1186,7 @@ void TBoss6PlotFalz::warp_nearby_players() {
 void refresh_players_equipment__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
     void *p;
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             if (get_field_3e0__12TBoss3VoloptFv(p) == 0x1f) {
@@ -1211,12 +1211,12 @@ void place_players_in_warp_circle(void) {
     s32 step;
     s32 ang = 0;
     s32 i;
-    if (lbl_805D586C <= 2) {
+    if (registered_player_count <= 2) {
         step = 0x2000;
     } else {
-        step = 0x2000 / (lbl_805D586C - 1);
+        step = 0x2000 / (registered_player_count - 1);
     }
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         void *p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && get_field_3e0__12TBoss3VoloptFv(p) == 0x1F) {
             V_802AC538 pos = lbl_804705A8;
@@ -1247,7 +1247,7 @@ void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
     s32 i;
     void *p;
     TWindowCtrl::init_all_slots2();
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != 0) {
             ((TObjPlayer *)p)->end_camera_pan();
@@ -1259,7 +1259,7 @@ void end_cutscene_camera__14TBoss6PlotFalzFPv(void *self) {
 void TBoss6PlotFalz::freeze_all_players() {
     s32 i;
     TWindowCtrl::init_all_slots();
-    for (i = 0; i < lbl_805D586C; i++) {
+    for (i = 0; i < registered_player_count; i++) {
         if (get_player_data__10TObjPlayerFi(i) != 0) {
             start_freeze__10TObjPlayerFv();
         }

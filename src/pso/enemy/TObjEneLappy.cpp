@@ -335,7 +335,7 @@ int get_player_data__10TObjPlayerFi(int a0);
 s32 get_entity_id(void *);
 s32 subtract_vector(void *, void *);
 extern s32 lappy_target_zero_vec[];
-extern s32 lbl_805D586C;
+extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 void vfunc_28__12TObjEneLappyFv(u8 *arg0);
 u32 csnVector(void *, void *, s32);
@@ -1012,7 +1012,7 @@ void TObjEneLappy::vfunc_28() {
             best_id = 0xFFFF;
             Vec_800C1224 v = *(Vec_800C1224 *)lappy_target_zero_vec;
             best = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0) * *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x350)) + 0);
-            for (; i < lbl_805D586C + lbl_805D5870; i++) {
+            for (; i < registered_player_count + lbl_805D5870; i++) {
                 p = (u8 *)get_player_data__10TObjPlayerFi(i);
                 if (p == NULL) {
                     break;
@@ -1040,7 +1040,7 @@ void TObjEneLappy::vfunc_28() {
     if (*(s16 *)((s8 *)arg0 + 0x384) > 3 && *(s16 *)((s8 *)arg0 + 0x382) == *(u16 *)((s8 *)arg0 + 0x338)) {
         s32 j;
         u8 *q;
-        for (j = 0; j < lbl_805D586C; j++) {
+        for (j = 0; j < registered_player_count; j++) {
             q = (u8 *)get_player_data__10TObjPlayerFi(j);
             if (q != NULL && *(s16 *)((s8 *)arg0 + 0x382) != (u16) get_entity_id(q) && !(*(s32 *)((s8 *)q + 0x30) & 0x800)) {
                 if (xz_distance_squared((Vec *)(q + 0x2FC), (Vec *)(arg0 + 0x2FC)) < lbl_805D9F88) {
