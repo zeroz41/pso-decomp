@@ -595,10 +595,10 @@ force_active:
   - TOChatSensor__ct
   - TOComputerMachine01__ct
   - TOContainerAncientItemCommon__ct
-  - TODoorAncient01__ct
-  - TODoorAncient03__ct
-  - TODoorAncient04__ct
-  - TODoorAncient05__ct
+  - __ct__15TODoorAncient01FP7TObjectPv
+  - __ct__15TODoorAncient03FP7TObjectPv
+  - __ct__15TODoorAncient04FP7TObjectPv
+  - __ct__15TODoorAncient05FP7TObjectPv
   - TODoorAncient06__ct
   - TODoorAncient07__ct
   - TODoorAncient08__ct
@@ -4061,8 +4061,8 @@ force_active:
   - do_src2
   - do_voice_portamento
   - do_warp__16TObjCityAreaWarpFv
-  - door_ancient03_resource_descriptor
-  - door_ancient04_resource_descriptor
+  - bm_fe_obj_o_door03l_resource_descriptor
+  - bm_fe_obj_o_door04l_resource_descriptor
   - door_cave03_resource_descriptor
   - door_resource_descriptor
   - door_resource_handle

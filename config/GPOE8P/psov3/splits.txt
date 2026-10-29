@@ -4954,17 +4954,26 @@ pso/misc/TODoorAncient01.cpp:
 
 pso/misc/TODoorAncient03.cpp:
 	.text       start:0x8015E290 end:0x8015E73C
-	.rodata     start:0x80440A80 end:0x80440A88
-	.data       start:0x804B0DE8 end:0x804B0E08
+	.rodata     start:0x80440A10 end:0x80440A88
+	.data       start:0x804B0DE8 end:0x804B0E88
+	.sdata      start:0x805D2F28 end:0x805D2F2C
+	.sbss       start:0x805D5908 end:0x805D5910
+	.sdata2     start:0x805DB3F0 end:0x805DB400
 
 pso/misc/TODoorAncient04.cpp:
 	.text       start:0x8015E73C end:0x8015EBE8
-	.rodata     start:0x80440AF8 end:0x80440B00
-	.data       start:0x804B0E88 end:0x804B0EA8
+	.rodata     start:0x80440A88 end:0x80440B00
+	.data       start:0x804B0E88 end:0x804B0F28
+	.sdata      start:0x805D2F30 end:0x805D2F34
+	.sbss       start:0x805D5910 end:0x805D5918
+	.sdata2     start:0x805DB400 end:0x805DB410
 
 pso/misc/TODoorAncient05.cpp:
 	.text       start:0x8015EBE8 end:0x8015F150
-	.rodata     start:0x80440B30 end:0x80440B38
+	.rodata     start:0x80440B00 end:0x80440B38
+	.data       start:0x804B0F28 end:0x804B0FA8
+	.sdata      start:0x805D2F38 end:0x805D2F3C
+	.sbss       start:0x805D5918 end:0x805D5928
 	.sdata2     start:0x805DB410 end:0x805DB42C
 
 pso/misc/TODoorAncient06.cpp:

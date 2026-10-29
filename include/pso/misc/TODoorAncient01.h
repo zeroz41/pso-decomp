@@ -16,8 +16,8 @@ public:
     virtual void update_open();
     virtual void update_demo();
     static void *create(void *set_data);
-    static void free_statics();
-    static void load_assets();
+    static void free_resources();
+    static void load_resources();
 };
 
 typedef char TODoorAncient01_size[sizeof(TODoorAncient01) == 0xD4 ? 1 : -1];

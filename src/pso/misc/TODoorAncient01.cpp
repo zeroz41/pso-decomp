@@ -9,6 +9,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResourceLoad.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/system/ModelDrawContext.h"
@@ -41,13 +42,6 @@ CollisionBody door_ancient01_collision_body[1] = {
 
 const char *TODoorAncient01_name = "TODoorAncient01";
 
-// Defined in TLobby_8001EF5C.cpp, whose header cannot declare them yet (its
-// definitions take that file's private archive types).
-extern "C" {
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, const BmlResourceDescriptor *desc, s32, s32, s32);
-BmlResource *TLobby__sub_8001FE7C(BmlResource *resource, s16 del);
-}
-
 static BmlResource *door_ancient01_archive;
 static s32 *door_ancient01_texlists;
 
@@ -70,7 +64,7 @@ TODoorAncient01::~TODoorAncient01() {
     free_collision_body_parts(this);
 }
 
-void TODoorAncient01::load_assets() {
+void TODoorAncient01::load_resources() {
     BmlResource *archive = (BmlResource *)::operator new(0x440);
     if (archive != NULL) {
         archive = load_resource_from_descriptor(archive, 1, &bm_fe_obj_o_door01l_resource_descriptor, 0, 0, 0);
@@ -82,7 +76,7 @@ void TODoorAncient01::load_assets() {
     door_ancient01_texlists[1] = (s32)load_gvm_texture_file((s32)"fe_obj_o_door01g.gvm");
 }
 
-void TODoorAncient01::free_statics() {
+void TODoorAncient01::free_resources() {
     if (door_ancient01_texlists != NULL) {
         TObjPlayer::free_if_valid(door_ancient01_texlists[1]);
         if (door_ancient01_texlists != NULL) {
