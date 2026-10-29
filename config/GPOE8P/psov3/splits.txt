@@ -5220,13 +5220,13 @@ pso/misc/TOKeyMachine01.cpp:
 	.sbss       start:0x805D5A30 end:0x805D5A38
 	.sdata2     start:0x805DB780 end:0x805DB79C
 
-pso/unk/text_8016D8F8.cpp:
-	.text       start:0x8016D8F8 end:0x8016D99C
-
 pso/misc/TOKurage.cpp:
-	.text       start:0x8016D99C end:0x8016E998
-	.rodata     start:0x80441ED0 end:0x80441EE0
-	.sdata2     start:0x805DB7A8 end:0x805DB828
+	.text       start:0x8016D8F8 end:0x8016E998
+	.rodata     start:0x80441E40 end:0x80441EE0
+	.data       start:0x804B2E58 end:0x804B2EB4
+	.sdata      start:0x805D3060 end:0x805D3064
+	.sbss       start:0x805D5A38 end:0x805D5A3C
+	.sdata2     start:0x805DB7A0 end:0x805DB828
 
 pso/misc/TOLightMachine01.cpp:
 	.text       start:0x8016E998 end:0x8016ED9C

@@ -577,6 +577,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TOHangerMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOMonitorMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOMonumentAncient02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-fp_contract on")},
+    # Kurage addresses each debug label on its own (no shared .rodata base).
+    "pso/misc/TOKurage.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-fp_contract on", "-pool off")},
     "pso/misc/TOHealGeneral.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # The key subclasses address each of their texture names on its own
     # (no shared .rodata base): built -pool off.

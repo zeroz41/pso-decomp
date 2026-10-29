@@ -13,7 +13,6 @@ struct RecoveredGlobal_803E1D1C_lbl_804FC780 {
 };
 
 
-struct Vec_803E1A58 { f32 x, y, z; };
 
 
 struct Vec_803E1B1C { f32 x, y, z; };
@@ -55,7 +54,6 @@ extern RecoveredGlobal_803E1D1C_lbl_804FC780 gx_pos_mtx_index_table;
 extern s32 current_matrix;
 extern const f32 lbl_805E1038;
 extern const f32 lbl_805E103C;
-f32 xyz_distance(Vec_803E1A58 *a, Vec_803E1A58 *b);
 extern s32 tex_matrix_id_table[];
 void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
 void OSPanic(const char *, int, const char *, ...);
@@ -345,7 +343,7 @@ f32 project_point_onto_line(V_803E18C0 *p, Line_803E18C0 *l, V_803E18C0 *out) {
 
 #pragma push
 #pragma scheduling off
-f32 xyz_distance(Vec_803E1A58 *a, Vec_803E1A58 *b) {
+f32 xyz_distance(Vec *a, Vec *b) {
     f32 x = (a->z - b->z) * (a->z - b->z) + ((a->x - b->x) * (a->x - b->x) + (a->y - b->y) * (a->y - b->y));
     f32 r;
     if (x < lbl_805E1038) {

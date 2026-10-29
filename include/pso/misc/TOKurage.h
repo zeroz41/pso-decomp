@@ -3,12 +3,15 @@
 
 #include "types.h"
 #include "pso/object/TObjMapObject.h"
+#include "pso/system/NinjaTypes.h"
+
+struct AnimationMotion;
 
 struct TOKurage : public TObjMapObject {
     TOKurage(TObject *parent, void *set_data);
     virtual ~TOKurage();
-    void sub_8016D8F8();
-    u32 motion2;    // its second motion, drawn blended with motion
+    void update_tilt();
+    AnimationMotion *motion2;    // its second motion, drawn blended with motion
     Vec bob_base;    // the set position it bobs around (y is the bob's base)
     Vec velocity;    // velocity
     Vec home;    // home, check_player_distance measures from it
@@ -21,7 +24,7 @@ struct TOKurage : public TObjMapObject {
     u8 rising;    // rising
     u8 turn_dir;    // turn direction
     u8 _pad103[0x1];
-    f32 color[4];  // the constant material colour it draws with (a, r, g, b)
+    NJS_ARGB color;  // the constant material colour it draws with
     void check_player_distance();
     void update_state();
     void debug_print_ranges();

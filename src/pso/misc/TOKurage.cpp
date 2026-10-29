@@ -1,99 +1,91 @@
 #include "types.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/system/ChunkMaterialState.h"
-#include "pso/unk/text_803D853C.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/system/vector.h"
-#include "pso/object/TObjMapObject.h"
+#include <stdlib.h>
+#include "pso/TMainTask.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
 #include "pso/misc/TOKurage.h"
-#include "pso/misc/TOBarrierEnergy01.h"
-#include "pso/misc/TOKey.h"
 #include "pso/object/TObjFish.h"
+#include "pso/object/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80141D1C.h"
+#include "pso/player/TObjPlayer_803DF7A8.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/render/model_render_state.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/ChunkMaterialColor.h"
+#include "pso/system/ChunkMaterialState.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/vector.h"
+#include "pso/unk/text_800FD8A0.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
 
-struct RecoveredGlobal_8016E800_lbl_804B2E6C { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8016E800_lbl_804B2E6C_size[sizeof(RecoveredGlobal_8016E800_lbl_804B2E6C) == 0x10 ? 1 : -1];
+// normalize_vector (text_803D96A8, 133 callers) has no header yet: the files
+// that use it declare it with conflicting return types.
+extern "C" f32 normalize_vector(Vec *v);
 
-extern "C" {
-void push_matrix(void);
-void post_translate_matrix(void *);
-void TObjEneSlimeOne__sub_803E4B54(void *child, void *arg1, void *arg2, f32 farg0);
-extern u8 chunk_material_color_half_alpha_f32[];
-extern s32 saved_model_render_flags;
-extern s32 model_render_flags;
-s32 rand(void);
-f32 sin_table_lookup(s32);
-s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-s32 subtract_vector(void *, void *);
-s32 normalize_vector(void *);
-f32 xyz_distance(void *, void *);
-extern u8 identity_matrix[];
-}
+const char *bm_fs_obj_kurage_model_names[] = {"fs_obj_kurage.nj", NULL};
+const char *bm_fs_obj_kurage_motion_names[] = {"fs_obj_kurage.njm", "fs_obj_kurage.njs", NULL};
+BmlResourceDescriptor bm_fs_obj_kurage_resource_descriptor = {
+    "bm_fs_obj_kurage.bml", bm_fs_obj_kurage_model_names, bm_fs_obj_kurage_motion_names, 1, 2,
+};
+const char *TOKurage__class_name = "TOKurage";
+BmlResource *TOKurage__bml_resource;
 
-extern "C" {
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8016E800_lbl_804B2E6C bm_fs_obj_kurage_resource_descriptor;
-extern u32 TOKurage__static_model_resource;
-u8 *get_bml_motion(s32, s32);
-s32 TObjFish__sub_8001EDB0(int, int);
-s32 get_bml_model(int, int);
-extern s32 TOKurage__name;
-s32 is_current_room(void *);
-void debug_printf_at(s32 id, const char *fmt, ...);
-extern const char lbl_80441EA0[];
-extern const char lbl_80441EB0[];
-extern const char lbl_80441EBC[];
-void TLobby__sub_8001FE7C(void*, int);
+// Tilts the body toward this frame's movement (x by the z step, z by the
+// x step), at most 0x40 a frame.
+void TOKurage::update_tilt() {
+    s32 old_rotation[3];
+    copy_xyz(old_rotation, &rotation_x);
+    rotation_x = (s32)(6000.0f * (position.z - prev_position.z));
+    rotation_z = (s32)(-6000.0f * (position.x - prev_position.x));
+    rotation_x = approach_angle_limited(old_rotation[0], rotation_x, 0x40);
+    rotation_z = approach_angle_limited(old_rotation[2], rotation_z, 0x40);
 }
 
 void TOKurage::check_player_distance() {
-    if ((xyz_distance((u8 *)&this->home, (u8 *)&this->position) > this->scale.y) && ((u8) this->state != 4)) {
-        this->state = 3U;
+    if ((xyz_distance(&home, &position) > scale.y) && (state != 4)) {
+        state = 3;
     }
 }
 
 void TOKurage::update_state() {
-    f32 temp_f0;
-
-    temp_f0 = this->scale.x;
-    if (is_any_player_within_radius_xz(temp_f0 * temp_f0) == 1) {
-        this->state = 4;
+    if (is_any_player_within_radius_xz(scale.x * scale.x) == 1) {
+        state = 4;
     }
 }
 
 void TOKurage::debug_print_ranges() {
     if (is_current_room(this) == 1) {
-        debug_printf_at(0x13001C, lbl_80441EA0);
-        debug_printf_at(0x13001D, lbl_80441EB0);
-        debug_printf_at(0x13001E, lbl_80441EBC);
+        debug_printf_at(0x13001C, "VANISH_RENGE");
+        debug_printf_at(0x13001D, "MOVE_RENGE");
+        debug_printf_at(0x13001E, "REBIRTH_RENGE");
     }
 }
 
 void TOKurage::init() {
-    VecCopy(&this->bob_base, &this->position);
-    VecCopy(&this->home, &this->position);
-    this->velocity.x = (f32) (0.0f);
-    this->velocity.y = (f32) (0.0f);
-    this->velocity.z = (f32) (0.0f);
-    this->lift = (f32) (0.0f);
-    this->state = 0;
-    this->rising = 0;
-    this->timer = 0x1E;
-    this->bob_phase = 0;
-    this->color[0] = (f32) (1.0f);
-    this->color[1] = (f32) (1.0f);
-    this->color[2] = (f32) (1.0f);
-    this->color[3] = (f32) (1.0f);
+    VecCopy(&bob_base, &position);
+    VecCopy(&home, &position);
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+    lift = 0.0f;
+    state = 0;
+    rising = 0;
+    timer = 0x1E;
+    bob_phase = 0;
+    color.a = 1.0f;
+    color.r = 1.0f;
+    color.g = 1.0f;
+    color.b = 1.0f;
 }
 
-#pragma push
-#pragma fp_contract on
 void TOKurage::run_task() {
     f32 y;
-    VecCopy((Vec *)&prev_position, (const Vec *)&position);
+    VecCopy(&prev_position, &position);
     if (TObjPlayer::check_demo_mode() == 1) {
         debug_print_ranges();
         return;
@@ -140,9 +132,9 @@ void TOKurage::run_task() {
             dir.x = 2.0f * (0.0015f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.0015f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
-            push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_vector_by_matrix(0, &dir, &out);
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_y(NULL, rotation_y);
+            rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             velocity.x += out.x;
             velocity.z += out.z;
@@ -165,9 +157,9 @@ void TOKurage::run_task() {
             dir.x = 2.0f * (0.025f * (2.0f * (3.0517578125e-05f * (f32)rand()) - 1.0f));
             dir.y = 0.0f;
             dir.z = 2.0f * (0.025f * (3.0517578125e-05f * (f32)rand())) + 0.05f;
-            push_matrix_from(identity_matrix);
-            rotate_matrix_y(0, rotation_y);
-            rotate_vector_by_matrix(0, &dir, &out);
+            push_matrix_from(&identity_matrix);
+            rotate_matrix_y(NULL, rotation_y);
+            rotate_vector_by_matrix(NULL, &dir, &out);
             pop_matrices(1);
             velocity.x += out.x;
             velocity.z += out.z;
@@ -180,13 +172,13 @@ void TOKurage::run_task() {
         break;
     case 3: {
         Vec d;
-        VecCopy((Vec *)&d, (const Vec *)&home);
+        VecCopy(&d, &home);
         subtract_vector(&d, &position);
         normalize_vector(&d);
         d.x /= 5.0f;
         d.y /= 5.0f;
         d.z /= 5.0f;
-        VecCopy((Vec *)&velocity, (const Vec *)&d);
+        VecCopy(&velocity, &d);
         if (xyz_distance(&home, &position) < scale.y / 5.0f) {
             state = 1;
         }
@@ -194,13 +186,13 @@ void TOKurage::run_task() {
     }
     case 4: {
         Vec d;
-        VecCopy((Vec *)&d, (const Vec *)&position);
+        VecCopy(&d, &position);
         subtract_vector(&d, &home);
         normalize_vector(&d);
         d.x /= 5.0f;
         d.y /= 5.0f;
         d.z /= 5.0f;
-        VecCopy((Vec *)&velocity, (const Vec *)&d);
+        VecCopy(&velocity, &d);
         break;
     }
     }
@@ -253,8 +245,8 @@ void TOKurage::run_task() {
                 rotation_y = (f32)rotation_y - (200.0f * (3.0517578125e-05f * (f32)rand()) + 200.0f);
             }
             if (rising == 0) {
-                push_matrix_from(identity_matrix);
-                rotate_matrix_y(0, rotation_y);
+                push_matrix_from(&identity_matrix);
+                rotate_matrix_y(NULL, rotation_y);
                 pop_matrices(1);
             }
             if (xyz_distance(&home, &position) < scale.y / 5.0f) {
@@ -263,111 +255,88 @@ void TOKurage::run_task() {
             break;
         case 4: {
             Vec d;
-            VecCopy((Vec *)&d, (const Vec *)&position);
+            VecCopy(&d, &position);
             subtract_vector(&d, &home);
             normalize_vector(&d);
             d.x /= 5.0f;
             d.y /= 5.0f;
             d.z /= 5.0f;
-            VecCopy((Vec *)&velocity, (const Vec *)&d);
+            VecCopy(&velocity, &d);
             break;
         }
         }
     }
     check_player_distance();
     update_state();
-    sub_8016D8F8();
+    update_tilt();
     bob_phase += (s32)(40.0f * (3.0517578125e-05f * (f32)rand()) + 160.0f);
 }
-#pragma pop
 
 void TOKurage::render() {
     if (update_object_view_visibility(m_c0, model_radius) != 0) {
         push_matrix();
-        post_translate_matrix((u8 *)&this->position);
-        rotate_matrix_zyx(0, rotation_x, rotation_y, rotation_z);
+        post_translate_matrix(&position.x);
+        rotate_matrix_zyx(NULL, rotation_x, rotation_y, rotation_z);
         TObjFish::set_global_param(texlist);
         switch (state) {
         case 4:
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x10;
-            if (color[0] < (0.0f)) {
+            if (color.a < 0.0f) {
                 state = 3;
             } else {
-                color[0] -= (0.01f);
+                color.a -= 0.01f;
             }
             break;
         default:
             if (is_any_player_within_radius_xz(scale.z * scale.z) == 0 &&
-                color[0] < (0.0f)) {
-                color[0] = (1.0f);
+                color.a < 0.0f) {
+                color.a = 1.0f;
             }
             saved_model_render_flags = model_render_flags;
             model_render_flags |= 0x10;
             break;
         }
-        set_constant_material((const NJS_ARGB *)&this->color[0]);
-        TObjEneSlimeOne__sub_803E4B54(model, (void *)(m_bc), (void *)(motion2), m_b0);
-        set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+        set_constant_material(&color);
+        TObjEneSlimeOne__sub_803E4B54(model, motion, motion2, m_b0);
+        set_constant_material(&chunk_material_color_half_alpha_f32);
         model_render_flags = saved_model_render_flags;
         pop_matrix();
     }
 }
 
-extern void *tl_05;
 
-void *TOKurage::create(void *arg0) {
-    return new TOKurage((TObject *)tl_05, arg0);
+void *TOKurage::create(void *set_data) {
+    return new TOKurage(tl_05, set_data);
 }
 
 void TOKurage::destroy_static_instance() {
-    if ((u32) TOKurage__static_model_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TOKurage__static_model_resource, 1);
-        TOKurage__static_model_resource = 0U;
+    if (TOKurage__bml_resource != NULL) {
+        TLobby__sub_8001FE7C(TOKurage__bml_resource, 1);
+        TOKurage__bml_resource = NULL;
     }
 }
 
 void TOKurage::load_static_resource() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_fs_obj_kurage_resource_descriptor.value, 0, 0, 0));
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_kurage_resource_descriptor, 0, 0, 0);
     }
-    (*(s32 *)&TOKurage__static_model_resource) = var_r0;
+    TOKurage__bml_resource = resource;
 }
 
-// The destructor is still written out by hand: compiled, its vtable would
-// open the unit's .data, which the original fills first with the object's
-// resource and collision tables (not owned by this unit yet).
-extern "C" {
-extern void *__vt__8TOKurage[];
-void __dl__7TObjectFPv(void *);
-
-void *__dt__8TOKurageFv(void *self, s16 del) {
-    if (self != NULL) {
-        *(void **)((u8 *)self + 0x18) = __vt__8TOKurage;
-
-        __dt__13TObjMapObjectFv(self, 0);
-        if (del > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
-}
-}
+TOKurage::~TOKurage() {}
 
 TOKurage::TOKurage(TObject *parent, void *set_data) : TObjMapObject(parent) {
-    m_name = (const char *)TOKurage__name;
+    m_name = TOKurage__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model((int) ((*(s32 *)&TOKurage__static_model_resource)), 0);
-    texlist = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOKurage__static_model_resource)), 0);
-    motion = (AnimationMotion *)get_bml_motion((*(s32 *)&TOKurage__static_model_resource), 0);
-    motion2 = (u32)get_bml_motion((*(s32 *)&TOKurage__static_model_resource), 1);
-    m_b8 = (f32) (0.5f);
-    animation_end_frame = (f32) ((f32) *(u32 *)((s8 *)motion + 4) - (1.0f));
-    m_c0 = (f32) (5e+02f);
-    model_radius = (f32) (1e+02f);
+    model = (void *)get_bml_model(TOKurage__bml_resource, 0);
+    texlist = TObjFish__sub_8001EDB0(TOKurage__bml_resource, 0);
+    motion = get_bml_motion(TOKurage__bml_resource, 0);
+    motion2 = get_bml_motion(TOKurage__bml_resource, 1);
+    m_b8 = 0.5f;
+    animation_end_frame = (f32)*(u32 *)((s8 *)motion + 4) - 1.0f;
+    m_c0 = 500.0f;
+    model_radius = 100.0f;
     init();
 }
