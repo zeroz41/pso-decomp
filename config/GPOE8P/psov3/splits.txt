@@ -4983,8 +4983,11 @@ pso/misc/TODoorAncient07.cpp:
 
 pso/misc/TODoorAncient08.cpp:
 	.text       start:0x8015FC40 end:0x80160804
-	.rodata     start:0x80440C90 end:0x80440C98
-	.data       start:0x804B1168 end:0x804B1228
+	.rodata     start:0x80440C20 end:0x80440C98
+	.data       start:0x804B10C8 end:0x804B1228
+	.sdata      start:0x805D2F50 end:0x805D2F58
+	.sbss       start:0x805D5948 end:0x805D5950
+	.sdata2     start:0x805DB470 end:0x805DB480
 
 pso/misc/TLobby_80160804.cpp:
 	.text       start:0x80160804 end:0x80160838

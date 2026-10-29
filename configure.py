@@ -518,6 +518,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # (07's 8-byte model/motion name lists stay in .data: -sdata 4).
     "pso/misc/TODoorAncient06.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TODoorAncient07.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
+    # 08 and 09 are written from their last function back (each vtable
+    # precedes its switch tables: deferred code generation).
+    "pso/misc/TODoorAncient08.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly", "-sdata 4")},
     # TItemMagSub.cpp (with TItemMagGrowEff) keeps its strings in .rodata, and
     # is written from its last function back: deferred code generation puts
     # the TItemMagGrowEff vtable first.
