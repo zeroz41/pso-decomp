@@ -1,54 +1,42 @@
 #include "types.h"
-#include "pso/math/MatrixTransforms.h"
-#include "pso/system/GinjaMaterial.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjMapObject.h"
-#include "pso/misc/TOMonitorMachine01.h"
+#include <stdlib.h>
+#include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
-#include "pso/misc/TOKey.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/misc/TOMonitorMachine01.h"
 #include "pso/object/TObjFish.h"
+#include "pso/object/TObjFish_8001ED90.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/GinjaUvScroll.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_803D8F74.h"
 
-struct Node_80172220 { u8 pad0[4]; s32 f4; u8 pad8[0x30 - 8]; Node_80172220 *next; };
-
-struct NodeHead_80172220 { u8 pad[0x2C]; Node_80172220 *root; };
-
-extern "C" {
-void TLobby__sub_8001FE7C(void *, s32);
-extern s32 TOMonitorMachine01__scroll_mesh_ptrs[];
-extern s32 TOMonitorMachine01__last_update_tick;
-extern void *TOMonitorMachine01__shared_bml_archive;
-void scroll_ginja_mesh_uvs(s32, s32, s32, s32, s32);
 extern s32 actor_frame_tick;
-extern const f32 lbl_805DB8F0;
-extern const f32 lbl_805DB8F4;
-extern const f32 lbl_805DB8FC;
-extern const f32 lbl_805DB900;
-extern const f32 lbl_805DB904;
-extern const f32 lbl_805DB908;
-int rotate_matrix_y(int, int);
-int push_matrix();
-int post_translate_matrix(void *);
-void scale_matrix(s32, f32, f32, f32);
-u32 load_resource_from_descriptor(void *, int, void *, int, int, int);
-extern u8 monitor_machine01_resource_desc[];
-s32 TObjFish__sub_8001EDB0(void *, s32);
-s32 get_bml_model(void *, s32);
-extern s32 TOMonitorMachine01__name;
-extern s32 tl_05;
-extern const f32 lbl_805DB90C;
-extern const f32 lbl_805DB910;
-}
+
+const char *bm_fs_obj_monitor_model_names[] = {"fs_obj_monitor.gj", NULL};
+const char *bm_fs_obj_monitor_motion_names[] = {NULL};
+BmlResourceDescriptor bm_fs_obj_monitor_resource_descriptor = {
+    "bm_fs_obj_monitor.bml", bm_fs_obj_monitor_model_names, bm_fs_obj_monitor_motion_names, 1, 0,
+};
+const char *TOMonitorMachine01__class_name = "TOMonitorMachine01";
+BmlResource *TOMonitorMachine01__bml_resource;
+s32 TOMonitorMachine01__last_update_tick;
+// The two screen meshes whose UVs scroll once per frame.
+void *TOMonitorMachine01__scroll_meshes[2];
 
 void TOMonitorMachine01::run_task() {
     if (TOMonitorMachine01__last_update_tick != actor_frame_tick) {
         TOMonitorMachine01__last_update_tick = actor_frame_tick;
-        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_mesh_ptrs[0], 1, 0, 1, 1);
-        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_mesh_ptrs[1], 1, 0, 1, 1);
+        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[0], 1, 0, 1, 1);
+        scroll_ginja_mesh_uvs(TOMonitorMachine01__scroll_meshes[1], 1, 0, 1, 1);
     }
     switch (m_ac) {
     default:
-        hold_timer += lbl_805DB8F0;
-        if (lbl_805DB8F4 <= hold_timer) {
+        hold_timer += 1.0f;
+        if (60.0f <= hold_timer) {
             m_ac = 1;
             hold_timer = 0.0f;
             set_params[0]++;
@@ -58,24 +46,24 @@ void TOMonitorMachine01::run_task() {
         }
         break;
     case 1:
-        slide += lbl_805DB8FC;
-        screen_scale += lbl_805DB900;
-        if (lbl_805DB904 <= slide) {
+        slide += 0.6666667f;
+        screen_scale += 0.06666667f;
+        if (10.0f <= slide) {
             m_ac = 2;
-            slide = lbl_805DB904;
-            screen_scale = lbl_805DB8F0;
+            slide = 10.0f;
+            screen_scale = 1.0f;
         }
         break;
     case 2:
-        hold_timer += lbl_805DB8F0;
-        if (lbl_805DB908 <= hold_timer) {
+        hold_timer += 1.0f;
+        if (300.0f <= hold_timer) {
             m_ac = 3;
             hold_timer = 0.0f;
         }
         break;
     case 3:
-        slide -= lbl_805DB8FC;
-        screen_scale -= lbl_805DB900;
+        slide -= 0.6666667f;
+        screen_scale -= 0.06666667f;
         if (slide <= 0.0f) {
             m_ac = 0;
             screen_scale = 0.0f;
@@ -86,51 +74,51 @@ void TOMonitorMachine01::run_task() {
 }
 
 void TOMonitorMachine01::render() {
-    Node_80172220 *n;
+    NJS_OBJECT *n;
     if (update_object_view_visibility(m_c0, model_radius) != 0) {
         push_matrix();
-        post_translate_matrix(&position);
-        rotate_matrix_y(0, rotation_y);
+        post_translate_matrix(&position.x);
+        rotate_matrix_y(NULL, rotation_y);
         TObjFish::set_global_param(texlist);
-        n = ((NodeHead_80172220 *)model)->root;
+        n = ((NJS_OBJECT *)model)->child;
         push_matrix();
         translate_matrix(0, -slide, 0.0f, 0.0f);
-        draw_ginja_model(n->f4);
+        draw_ginja_model((s32)n->model);
         pop_matrix();
         TParticleCtrl::begin_effect_render();
-        n = n->next;
+        n = n->sibling;
         if (set_params[0] == 2) {
             push_matrix();
-            scale_matrix(0, screen_scale, screen_scale, lbl_805DB8F0);
-            draw_ginja_model(n->f4);
+            scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
+            draw_ginja_model((s32)n->model);
             pop_matrix();
         }
-        n = n->next;
+        n = n->sibling;
         if (set_params[0] == 1) {
             push_matrix();
-            scale_matrix(0, screen_scale, screen_scale, lbl_805DB8F0);
-            draw_ginja_model(n->f4);
+            scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
+            draw_ginja_model((s32)n->model);
             pop_matrix();
         }
         TParticleCtrl::end_effect_render();
-        n = n->next;
+        n = n->sibling;
         push_matrix();
         translate_matrix(0, slide, 0.0f, 0.0f);
-        draw_ginja_model(n->f4);
+        draw_ginja_model((s32)n->model);
         pop_matrix();
         TParticleCtrl::begin_effect_render();
-        n = n->next;
+        n = n->sibling;
         if (set_params[0] == 0) {
             push_matrix();
-            scale_matrix(0, screen_scale, screen_scale, lbl_805DB8F0);
-            draw_ginja_model(n->f4);
+            scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
+            draw_ginja_model((s32)n->model);
             pop_matrix();
         }
-        n = n->next;
+        n = n->sibling;
         if (set_params[0] == 3) {
             push_matrix();
-            scale_matrix(0, screen_scale, screen_scale, lbl_805DB8F0);
-            draw_ginja_model(n->f4);
+            scale_matrix(NULL, screen_scale, screen_scale, 1.0f);
+            draw_ginja_model((s32)n->model);
             pop_matrix();
         }
         TParticleCtrl::end_effect_render();
@@ -146,39 +134,36 @@ void TOMonitorMachine01::reset_static_state() {
     s32 i;
     TOMonitorMachine01__last_update_tick = 0;
     for (i = 0; i < 2; i++) {
-        TOMonitorMachine01__scroll_mesh_ptrs[i] = 0;
+        TOMonitorMachine01__scroll_meshes[i] = NULL;
     }
-    if (TOMonitorMachine01__shared_bml_archive != 0) {
-        TLobby__sub_8001FE7C(TOMonitorMachine01__shared_bml_archive, 1);
-        TOMonitorMachine01__shared_bml_archive = 0;
+    if (TOMonitorMachine01__bml_resource != NULL) {
+        TLobby__sub_8001FE7C(TOMonitorMachine01__bml_resource, 1);
+        TOMonitorMachine01__bml_resource = NULL;
     }
 }
 
 void TOMonitorMachine01::load_resources() {
-    void *temp_r5;
-    void *p;
-    p = ::operator new(0x440);
-    if (p != NULL) {
-        p = (void *)load_resource_from_descriptor(p, 1, monitor_machine01_resource_desc, 0, 0, 0);
+    NJS_OBJECT *screen;
+    BmlResource *resource = (BmlResource *)::operator new(0x440);
+    if (resource != NULL) {
+        resource = load_resource_from_descriptor(resource, 1, &bm_fs_obj_monitor_resource_descriptor, 0, 0, 0);
     }
-    TOMonitorMachine01__shared_bml_archive = p;
-    temp_r5 = *(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)p + 0x42C)) + 8)) + 0x2C)) + 0x30)) + 0x30);
-    TOMonitorMachine01__scroll_mesh_ptrs[1] = *(s32 *)((s8 *)temp_r5 + 4);
-    TOMonitorMachine01__scroll_mesh_ptrs[0] = *(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)temp_r5 + 0x30)) + 0x30)) + 4);
+    TOMonitorMachine01__bml_resource = resource;
+    screen = ((NJS_OBJECT *)resource->models[0].model)->child->sibling->sibling;
+    TOMonitorMachine01__scroll_meshes[1] = screen->model;
+    TOMonitorMachine01__scroll_meshes[0] = screen->sibling->sibling->model;
     TOMonitorMachine01__last_update_tick = 0;
 }
 
 TOMonitorMachine01::~TOMonitorMachine01() {}
 
-#pragma push
-#pragma opt_common_subs off
-TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject((TObject *)tl_05) {
-    m_name = (const char *)TOMonitorMachine01__name;
+TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject(tl_05) {
+    m_name = TOMonitorMachine01__class_name;
     apply_object_set_data(set_data);
-    model = (void *)get_bml_model(TOMonitorMachine01__shared_bml_archive, 0);
-    texlist = TObjFish__sub_8001EDB0(TOMonitorMachine01__shared_bml_archive, 0);
-    m_c0 = lbl_805DB90C;
-    model_radius = lbl_805DB910;
+    model = (void *)get_bml_model(TOMonitorMachine01__bml_resource, 0);
+    texlist = TObjFish__sub_8001EDB0(TOMonitorMachine01__bml_resource, 0);
+    m_c0 = 500.0f;
+    model_radius = 15.0f;
     actorFlags |= 0x40000000;
     m_ac = 0;
     slide = 0.0f;
@@ -186,8 +171,7 @@ TOMonitorMachine01::TOMonitorMachine01(void *set_data) : TObjMapObject((TObject 
     hold_timer = 0.0f;
     if (set_params[0] < 0) {
         set_params[0] = 0;
-    } else if (set_params[0] >= 4) {
+    } else if (4 <= set_params[0]) {
         set_params[0] = 3;
     }
 }
-#pragma pop

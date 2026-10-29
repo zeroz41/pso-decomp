@@ -5268,8 +5268,12 @@ pso/misc/TOMineIcon04.cpp:
 
 pso/misc/TOMonitorMachine01.cpp:
 	.text       start:0x8017205C end:0x8017262C
-	.data       start:0x804B3898 end:0x804B38D0
-	.sdata2     start:0x805DB8F8 end:0x805DB8FC
+	.rodata     start:0x80442268 end:0x804422A8
+	.data       start:0x804B3880 end:0x804B38D0
+	.bss        start:0x8050DB68 end:0x8050DB70
+	.sdata      start:0x805D30B0 end:0x805D30B8
+	.sbss       start:0x805D5A58 end:0x805D5A60
+	.sdata2     start:0x805DB8F0 end:0x805DB914
 
 pso/misc/TOMonumentAncient01.cpp:
 	.text       start:0x8017262C end:0x801726D4

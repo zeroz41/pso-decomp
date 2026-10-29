@@ -12,7 +12,7 @@ struct TOMonitorMachine01 : public TObjMapObject {
     static void *create(void *set_data);
     static void reset_static_state();
     static void load_resources();
-    u8 unk_C8[0x4];
+    u8 pad_C8[0x4];
     f32 slide;  // the screen halves' slide offset
     f32 screen_scale;  // the screen's scale
     f32 hold_timer;  // frames in the current hold phase
