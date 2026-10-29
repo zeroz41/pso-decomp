@@ -356,7 +356,6 @@ void render__12TObjEneBeastFPv(Obj_8009211C *o) {
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneBeast.h"
-#include "pso/misc/obj_band.h"
 #include "pso/object/TObject_80019A50.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();

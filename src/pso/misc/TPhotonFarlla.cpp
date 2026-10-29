@@ -25,7 +25,6 @@
 #include "pso/TObject.h"
 #include "pso/misc/TLobby_802268F4.h"
 #include "pso/misc/TPhotonRainbow_801AE640.h"
-#include "pso/misc/obj_band.h"
 #include "pso/unk/text_801AB370.h"
 #include "pso/map/FloorArea.h"
 

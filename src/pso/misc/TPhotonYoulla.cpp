@@ -3,7 +3,6 @@
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/boss/TBoss2DeRolLe.h"
 #include "pso/misc/PhotonBlastSummon.h"
-#include "pso/misc/obj_band.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/system/MaterialAlphaCompare.h"

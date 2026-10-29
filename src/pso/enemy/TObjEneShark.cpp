@@ -9,7 +9,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneShark.h"
-#include "pso/misc/obj_band.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();

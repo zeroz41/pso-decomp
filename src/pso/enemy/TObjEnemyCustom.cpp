@@ -2,7 +2,6 @@
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/obj_band.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/object/TObjFish.h"
@@ -21,7 +20,7 @@
 #include "pso/unk/text_803E2D70.h"
 
 // Matrix-stack, vector and animation helpers and unowned globals without a usable header:
-// text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/misc/obj_band.h includers declare these with
+// text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
 // conflicting private prototypes, the globals have no owning unit yet, and the
 // MSL headers are not on this unit's include path (rand).
 extern "C" {

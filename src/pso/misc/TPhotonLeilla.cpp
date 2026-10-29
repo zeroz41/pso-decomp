@@ -15,7 +15,6 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby_802268F4.h"
-#include "pso/misc/obj_band.h"
 #include "pso/map/FloorArea.h"
 
 extern "C" {

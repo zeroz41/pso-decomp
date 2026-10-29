@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/enemy/TObjEneMorfosArm.h"
 #include "pso/enemy/TObjEneMorfosArm_80335218.h"
-#include "pso/misc/obj_band.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"

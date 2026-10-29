@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjCGrass.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/misc/obj_band.h"
 #include "pso/system/vector.h"
 
 #include "pso/enemy/TObjEneDD.h"

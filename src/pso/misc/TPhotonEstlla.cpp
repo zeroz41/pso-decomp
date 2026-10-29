@@ -16,7 +16,6 @@
 #include "pso/misc/PhotonBlastSummon.h"
 #include "pso/misc/TLobby_802268F4.h"
 #include "pso/misc/TPhotonRainbow_801AE640.h"
-#include "pso/misc/obj_band.h"
 #include "pso/unk/text_801AAB74.h"
 #include "pso/system/vector.h"
 #include "pso/map/FloorArea.h"

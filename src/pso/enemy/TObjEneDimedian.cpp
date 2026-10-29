@@ -18,7 +18,6 @@
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/player/TObjChara.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
-#include "pso/misc/obj_band.h"
 #include "pso/player/TUnk_80490470.h"
 #include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEneBeast.h"

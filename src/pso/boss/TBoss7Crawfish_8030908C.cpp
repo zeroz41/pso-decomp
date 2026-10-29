@@ -3,7 +3,6 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TBoss1DragonColli.h"
 #include "pso/boss/TBoss7Crawfish_8030908C.h"
-#include "pso/misc/obj_band.h"
 #include "pso/misc/TUnk_804CE018.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
