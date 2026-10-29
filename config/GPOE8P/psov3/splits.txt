@@ -12015,7 +12015,10 @@ pso/unk/text_80353414.cpp:
 
 pso/object/TObjKabochaLobby.cpp:
 	.text       start:0x8035346C end:0x803537D4
+	.rodata     start:0x80479170 end:0x804791B8
 	.data       start:0x804F11E0 end:0x804F1230
+	.sdata      start:0x805D4380 end:0x805D4388
+	.sbss       start:0x805D6EE8 end:0x805D6EF0
 	.sdata2     start:0x805DFF38 end:0x805DFF48
 
 pso/boss/TBoss6Rock.cpp:
