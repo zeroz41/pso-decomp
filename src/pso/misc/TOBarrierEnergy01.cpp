@@ -47,7 +47,7 @@ const char *TOBarrierEnergy01_name = "TOBarrierEnergy01";
 // Defined in TLobby_8001EF5C.cpp, whose header cannot declare them yet (its
 // definitions take that file's private archive types).
 extern "C" {
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, const BmlResourceDescriptor *desc, s32 arg3, s32 arg4, s32 arg5);
+BmlResource *load_resource_from_descriptor(void *resource, s32 kind, const BmlResourceDescriptor *desc, s32, s32, s32);
 BmlResource *TLobby__sub_8001FE7C(BmlResource *resource, s16 del);
 }
 
