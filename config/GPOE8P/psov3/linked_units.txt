@@ -3508,7 +3508,6 @@ pso/unk/text_80362264.cpp
 pso/unk/text_803622B0.cpp
 pso/unk/text_80362638.cpp
 pso/unk/text_803626A8.cpp
-pso/unk/text_80364C40.cpp
 pso/unk/text_80365348.cpp
 pso/unk/text_8036A3CC.cpp
 pso/unk/text_8036A514.cpp

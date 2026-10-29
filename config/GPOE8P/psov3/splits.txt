@@ -12331,13 +12331,12 @@ pso/item/TItemProArmorParticle.cpp:
 	.sdata      start:0x805D4478 end:0x805D4480
 
 pso/object/TObjTreeLobby.cpp:
-	.text       start:0x80364830 end:0x80364C40
-	.data       start:0x804F2B10 end:0x804F2B60
-	.sdata      start:0x805D4480 end:0x805D4484
+	.text       start:0x80364830 end:0x80364C98
+	.rodata     start:0x8047A068 end:0x8047A0A8
+	.data       start:0x804F2B10 end:0x804F2B78
+	.sdata      start:0x805D4480 end:0x805D4488
+	.sbss       start:0x805D6FC0 end:0x805D6FC8
 	.sdata2     start:0x805E0290 end:0x805E02A0
-
-pso/unk/text_80364C40.cpp:
-	.text       start:0x80364C40 end:0x80364C98
 
 pso/object/TObjLaboDesignBase.cpp:
 	.text       start:0x80364C98 end:0x80365348

@@ -45,6 +45,7 @@ int qst_label_address(int label);
 #include "pso/ui/TChallenge4PResult.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/TObject.h"
+#include "pso/object/TUnk_804F2B60.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss1Dragon.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -1980,7 +1981,6 @@ void TObjPlayer__sub_80354D14(s32 arg0);
 void TObjPlayer__sub_80354DAC(s32 arg0);
 void TObjPlayer__sub_80354DF4(s32 arg0);
 void * open_message_scroll_window__6TLobbyFlll(Vec2_801E717C *, Vec2_801E717C *, void *);
-void fn_80364C40(void *, s32, s32, f32);
 s32 rand(void);
 s32 strncmp(void *, void *, int);
 s32 strcmp(void *, void *);
@@ -2466,12 +2466,9 @@ void qst_op_item_delete_noreturn() {
 }
 
 void qst_op_add_damage_to(void) {
-    u16 a = qst_args[0];
-    f32 b = (f32)qst_args[1];
-    void *p = __nw__7TObjectFUl(0x24);
-    if (p != 0) {
-        fn_80364C40(p, a, (*(s32 *)&tl_03), b);
-    }
+    u16 client_id = qst_args[0];
+    f32 damage = (f32)qst_args[1];
+    new TUnk_804F2B60(client_id, tl_03, damage);
 }
 
 int qst_op_gba_update_dl_graph(void* p) { return get_selected_slot__6TLobbyFv(p); }
