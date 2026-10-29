@@ -22,7 +22,7 @@ public:
     virtual void render();
     // run_task's demo-mode step, empty in this build.
     void sub_80158604();
-    u32 m_ac;
+    s32 m_ac;  // the object's state (TODoorBase: DOOR_CLOSED..DOOR_CLOSING); compared signed
     f32 m_b0;  // the motion frame update_anim_phase advances
     union { u32 m_b4; f32 animation_end_frame; };
     f32 m_b8;  // frames per update

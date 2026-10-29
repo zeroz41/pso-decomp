@@ -4943,11 +4943,12 @@ pso/misc/TODoorBase.cpp:
 	.sdata2     start:0x805DB3D0 end:0x805DB3E0
 
 pso/misc/TODoorAncient01.cpp:
-	.text       start:0x8015DDE4 end:0x8015DDE8
-
-pso/misc/TODoorAncient01_8015DDE8.cpp:
-	.text       start:0x8015DDE8 end:0x8015E290
-	.rodata     start:0x80440A08 end:0x80440A10
+	.text       start:0x8015DDE4 end:0x8015E290
+	.rodata     start:0x80440998 end:0x80440A10
+	.data       start:0x804B0D48 end:0x804B0DE8
+	.sdata      start:0x805D2F20 end:0x805D2F24
+	.sbss       start:0x805D5900 end:0x805D5908
+	.sdata2     start:0x805DB3E0 end:0x805DB3F0
 
 pso/misc/TODoorAncient03.cpp:
 	.text       start:0x8015E290 end:0x8015E73C
