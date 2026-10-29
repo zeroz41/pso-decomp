@@ -486,6 +486,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # from their last function back (deferred code generation, which also puts
     # each vtable before the switch tables).
     "pso/item/TItemProArmor.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    # TODoorBase's vtable precedes its switch tables: deferred, written from
+    # its last function back.
+    "pso/misc/TODoorBase.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # TItemProArmorParticle.cpp is written from its last function back too:
     # its data (class names, particle table) keeps source order.
     "pso/item/TItemProArmorParticle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

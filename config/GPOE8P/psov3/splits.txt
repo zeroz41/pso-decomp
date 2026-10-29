@@ -4951,28 +4951,14 @@ pso/misc/TOCtrlDubchik_8015CA74.cpp:
 	.rodata     start:0x80440990 end:0x80440998
 	.data       start:0x804B0B98 end:0x804B0BB4
 
-pso/unk/text_8015D5D4.cpp:
-	.text       start:0x8015D5D4 end:0x8015D6D0
-	.data       start:0x804B0BB8 end:0x804B0C58
-
-pso/unk/text_8015D6D0.cpp:
-	.text       start:0x8015D6D0 end:0x8015D714
-
-pso/unk/text_8015D714.cpp:
-	.text       start:0x8015D714 end:0x8015D7B0
-
-pso/boss/TBoss3Volopt_8015D7B0.cpp:
-	.text       start:0x8015D7B0 end:0x8015DAE4
-	.data       start:0x804B0C58 end:0x804B0D48
-
-pso/unk/text_8015DAE4.cpp:
-	.text       start:0x8015DAE4 end:0x8015DD2C
-
-pso/misc/TODoorAncient01_8015DD2C.cpp:
-	.text       start:0x8015DD2C end:0x8015DD84
+pso/misc/TODoorBase.cpp:
+	.text       start:0x8015D5D4 end:0x8015DDE4
+	.data       start:0x804B0BB8 end:0x804B0D48
+	.sbss       start:0x805D58F8 end:0x805D58FC
+	.sdata2     start:0x805DB3D0 end:0x805DB3E0
 
 pso/misc/TODoorAncient01.cpp:
-	.text       start:0x8015DD84 end:0x8015DDE8
+	.text       start:0x8015DDE4 end:0x8015DDE8
 
 pso/misc/TODoorAncient01_8015DDE8.cpp:
 	.text       start:0x8015DDE8 end:0x8015E290

@@ -1272,7 +1272,6 @@ pso/misc/TOContainerAncientItemNone.cpp
 pso/misc/TOContainerAncientItemNone_8015BF38.cpp
 pso/misc/TOContainerAncientItemRare.cpp
 pso/misc/TODoorAncient01.cpp
-pso/misc/TODoorAncient01_8015DD2C.cpp
 pso/misc/TODoorAncient01_8015DDE8.cpp
 pso/misc/TODoorAncient03.cpp
 pso/misc/TODoorAncient04.cpp
@@ -1281,6 +1280,7 @@ pso/misc/TODoorAncient06.cpp
 pso/misc/TODoorAncient07.cpp
 pso/misc/TODoorAncient08.cpp
 pso/misc/TODoorAncient09.cpp
+pso/misc/TODoorBase.cpp
 pso/misc/TODoorCave01.cpp
 pso/misc/TODoorCave02.cpp
 pso/misc/TODoorCave03.cpp
@@ -3087,9 +3087,6 @@ pso/unk/text_80156BBC.cpp
 pso/unk/text_8015C048.cpp
 pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp
-pso/unk/text_8015D5D4.cpp
-pso/unk/text_8015D6D0.cpp
-pso/unk/text_8015DAE4.cpp
 pso/unk/text_8015FC40.cpp
 pso/unk/text_80160838.cpp
 pso/unk/text_80165940.cpp
