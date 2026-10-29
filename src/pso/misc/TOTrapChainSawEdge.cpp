@@ -1,5 +1,6 @@
 #include "pso/protocol/protocol_types.h"
 #include "types.h"
+#include "pso/player/TObjPlayer_801E2D1C.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOTrapChainSawEdge.h"
 #include "pso/player/TObjPlayer.h"
@@ -189,7 +190,6 @@ s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
 void *get_player_by_client_id(s32 i);
-void draw_ginja_model__10TObjPlayerFl(void *, void *, f32);
 s32 play_persistent_sound(void *, void *, void *, int, int);
 u8 is_current_floor_switch_set(u16);
 void __dl__7TObjectFPv(void *);
@@ -421,7 +421,7 @@ void TOTrapChainSawKey::vfunc_25() {
     rotate_matrix_y(0, *(void **)((s8 *)this + 0x60));
     rotate_matrix_y(0, *(void **)((s8 *)this + 0xD4));
     set_model_node_callback((s32)((s32 *)TParticleCtrl__sub_802C8464));
-    draw_ginja_model__10TObjPlayerFl(*(void **)((s8 *)this + 0xC8), *(void **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
+    draw_ginja_motion(*(NJS_OBJECT **)((s8 *)this + 0xC8), *(NJS_MOTION **)((s8 *)this + 0xBC), *(f32 *)((s8 *)this + 0xB4));
     set_model_node_callback(0);
     if (*(s32 *)((s8 *)this + 0xF0) == 1) {
         TParticleCtrl::begin_effect_render();

@@ -19,6 +19,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/TObjFish.h"
+#include "pso/misc/TCameraCtrl_803D6538.h"
 
 extern "C" {
 
@@ -481,9 +482,11 @@ void TLobby__sub_801E3CF0(u32 *p) {
     *p = (v >> 24) | ((v >> 8) & 0xFF00) | ((v << 8) & 0xFF0000) | (v << 24);
 }
 
-int bind_motion_context(void*);
+}
 
-void TBoss8Dragon::render_model_tree(void* a1) { bind_motion_context(a1); TObjPlayer::render_tree(this); }
+void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
+    bind_motion_context((s32)motion, frame);
+    TObjPlayer::render_tree(model);
 }
 
 struct RecoveredGlobal_801E3E24_TKeyBoardControl__data_80506270 { s32 value; u8 remaining[0xAC]; };

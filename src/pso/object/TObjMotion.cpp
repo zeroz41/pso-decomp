@@ -14,17 +14,15 @@
 #include "pso/system/memory.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/misc/TLobby_801E2F94.h"
+#include "pso/misc/pso_date.h"
+#include "pso/player/TObjPlayer_801E2D1C.h"
 
 // Still unowned (this unit's .sbss and the model draw module's).
 extern s32 anim_model_matrix_array;
 extern s32 player_joint_matrix_write_ptr;
 extern s32 model_node_callback;
 extern s32 chunk_model_node_callback;
-extern "C" {
-s32 draw_ginja_model_tree__10TObjPlayerFPv(s32, void *, f32);
-s32 draw_ginja_model__10TObjPlayerFl(s32, s32, f32);
-s32 render_model_tree__12TBoss8DragonFPv(u32, s32, f32);
-}
 
 const char *TObjMotion__class_name = "TObjMotion";
 
@@ -222,7 +220,7 @@ s32 TObjMotion::calc_joint_matrices(NJS_MOTION *with, f32 at_frame, s32 matrices
     TObjPlayer::set_global_flag();
     player_joint_matrix_write_ptr = matrices;
     TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
-    render_model_tree__12TBoss8DragonFPv((u32)model, (s32)with, at_frame);
+    draw_motion((NJS_OBJECT *)model, with, at_frame);
     TObjEneRe7Berura::set_global_state(0);
     TObjPlayer::clear_global_state();
     return 1;
@@ -235,7 +233,7 @@ s32 TObjMotion::calc_joint_matrices(f32 at_frame) {
     TObjPlayer::set_global_flag();
     player_joint_matrix_write_ptr = anim_model_matrix_array;
     TObjEneRe7Berura::set_global_state((s32)save_joint_matrix_callback);
-    render_model_tree__12TBoss8DragonFPv((u32)model, (s32)current_motion, at_frame);
+    draw_motion((NJS_OBJECT *)model, current_motion, at_frame);
     TObjEneRe7Berura::set_global_state(0);
     TObjPlayer::clear_global_state();
     return 1;
@@ -328,10 +326,10 @@ void TObjMotion::draw_ginja_motion_model() {
     TObjPlayer::set_global_flag();
     setup_actor_draw_lighting();
     if (motion_flags & MOTION_BLENDING) {
-        draw_ginja_model_tree__10TObjPlayerFPv((s32)model, &blend, frame);
+        draw_ginja_motion_link((NJS_OBJECT *)model, &blend, frame);
     } else {
         set_model_node_callback(model_node_callback);
-        draw_ginja_model__10TObjPlayerFl((s32)model, (s32)current_motion, frame);
+        draw_ginja_motion((NJS_OBJECT *)model, current_motion, frame);
         set_model_node_callback(0);
     }
     set_default_alpha_blend();

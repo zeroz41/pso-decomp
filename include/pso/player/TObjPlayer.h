@@ -314,7 +314,6 @@ struct TObjPlayer : public TObjChara {
     static void*get_item_pmt_record(int type, int id);
     static void*get_pmt_record_by_type_id(int type, int id);
     static void*get_pmt_record_by_index(int i);
-    void draw_ginja_model_tree(void *arg1);
     static bool is_hit_receivable_target(s32 arg0, u32 arg1);
     static s32 is_player_in_range(s32 arg0, s32 arg1, f32 farg0);
     void refresh_lobby_state();
@@ -1047,7 +1046,6 @@ struct TObjPlayer : public TObjChara {
     void set_field_1c(f32 v);
     void set_field18(f32 v);
     static void render_model_tree(void *arg0);
-    void draw_ginja_model(s32 arg1);
     static void render_matrix_chain(void *arg0);
     static void free_if_valid(s32 arg0);
     static void play_effect_if_v2(s32 arg0);

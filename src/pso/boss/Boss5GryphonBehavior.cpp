@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/misc/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/EnemyStateEvent.h"
 #include "pso/misc/MaterialColorFade.h"
@@ -1467,8 +1468,7 @@ void TBoss5Gryphon::draw_body() {
     ((void (*)(int, int))rotate_matrix_x)(0, ((Obj_8005E0C0 *)this)->f5c);
     ((void (*)(int, int))rotate_matrix_z)(0, ((Obj_8005E0C0 *)this)->f64);
     ((void (*)(int, f32, f32, f32))scale_matrix)(0, lbl_805D8D58, lbl_805D8D58, lbl_805D8D58);
-    this->get_motion_frame();
-    ((TBoss8Dragon *)((void *)((Obj_8005E0C0 *)this)->f34))->render_model_tree((void *)((Obj_8005E0C0 *)this)->ff8);
+    draw_motion((NJS_OBJECT *)((Obj_8005E0C0 *)this)->f34, (NJS_MOTION *)((Obj_8005E0C0 *)this)->ff8, this->get_motion_frame());
     TObjPlayer::clear_global_state();
     ((void (*)(void))pop_matrix)();
     TObjEneRe7Berura::set_global_state(0);

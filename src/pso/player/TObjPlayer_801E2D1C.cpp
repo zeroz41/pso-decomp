@@ -1,10 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801E2D1C.h"
+#include "pso/misc/TCameraCtrl_803D6538.h"
 
 struct G_801E2DE4 { u8 pad[0xC]; void (*draw)(); };
 
 extern "C" {
-void bind_motion_context(s32);
 void prepare_ginja_model(G_801E2DE4 *);
 }
 void end_ginja_model_draw();
@@ -49,13 +50,13 @@ void TObjPlayer::render_model_tree(void *arg0) {
     } while (var_r31 != NULL);
 }
 
-void TObjPlayer::draw_ginja_model(s32 arg1) {
+void draw_ginja_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame) {
     G_801E2DE4 *g;
-    bind_motion_context(arg1);
+    bind_motion_context((s32)motion, frame);
     g = (G_801E2DE4 *)model_draw_context;
     g->draw = draw_ginja_model_lists;
     prepare_ginja_model(g);
-    TObjPlayer::render_matrix_chain(this);
+    TObjPlayer::render_matrix_chain(model);
     end_ginja_model_draw();
 }
 

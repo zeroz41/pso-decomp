@@ -2,6 +2,7 @@
 #define PSO_MISC_TLOBBY_801E2F94_H
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
 
 struct ColorLineVertex {
     f32 x, y;
@@ -25,5 +26,8 @@ void draw_color_lines(ColorLineList *lines, s32 n, s32 flags, f32 scale);
 void reset_line_width(void);
 void set_line_width(int a0);
 }
+
+// Draw a model posed by a motion at a frame.
+void draw_motion(NJS_OBJECT *model, NJS_MOTION *motion, f32 frame);
 
 #endif

@@ -1,4 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/misc/TLobby_801E2F94.h"
 #include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/system/PadRumble.h"
@@ -2225,8 +2226,7 @@ void TBoss8Dragon::render_body_model() {
     rotate_matrix_x(0, ((Obj_802F44D8 *)this)->f5C);
     rotate_matrix_z(0, ((Obj_802F44D8 *)this)->f64);
     scale_current_matrix(((Obj_802F44D8 *)this)->v68);
-    ((TObjEneDD_ST *)this)->get_motion_frame();
-    ((TBoss8Dragon *)(((Obj_802F44D8 *)this)->f34))->render_model_tree((void*)(((Obj_802F44D8 *)this)->fF8));
+    draw_motion((NJS_OBJECT *)((Obj_802F44D8 *)this)->f34, (NJS_MOTION *)((Obj_802F44D8 *)this)->fF8, ((TObjEneDD_ST *)this)->get_motion_frame());
     TObjPlayer::clear_global_state();
     pop_matrix();
     TObjEneRe7Berura::set_global_state((s32)NULL);

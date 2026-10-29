@@ -282,7 +282,6 @@ struct TBoss8Dragon
     void bswap_packet();
     void copy_position(s32 arg1);
     int queue_destruction();
-    void render_model_tree(void* a1);
     static void trigger_switches_in_range(void *arg0, void *arg1, void *arg2);
     void choose_next_camera_shot();
     void update_live_camera();
