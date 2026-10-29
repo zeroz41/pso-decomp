@@ -5180,9 +5180,11 @@ pso/misc/TOKeyCol.cpp:
 
 pso/misc/TOKeyGenericSw.cpp:
 	.text       start:0x8016CA60 end:0x8016D0B4
-	.rodata     start:0x80441D48 end:0x80441D50
-	.data       start:0x804B2CC0 end:0x804B2D30
-	.sdata      start:0x805D3048 end:0x805D3050
+	.rodata     start:0x80441C30 end:0x80441D50
+	.data       start:0x804B2CC0 end:0x804B2DCC
+	.bss        start:0x8050DB60 end:0x8050DB68
+	.sdata      start:0x805D3048 end:0x805D3054
+	.sbss       start:0x805D5A28 end:0x805D5A2C
 	.sdata2     start:0x805DB768 end:0x805DB77C
 
 pso/misc/TOKeyMachine01_8016D448.cpp:

@@ -639,7 +639,7 @@ force_active:
   - __ct__14TOKeyAncient03FP7TObjectPv
   - __ct__11TOKeyCave01FP7TObjectPv
   - __ct__8TOKeyColFP7TObjectPv
-  - TOKeyGenericSw__ct
+  - __ct__14TOKeyGenericSwFP7TObjectPv
   - TOKeyMachine01__ct
   - TOKey__sub_80169FB0
   - TOKurage__ct

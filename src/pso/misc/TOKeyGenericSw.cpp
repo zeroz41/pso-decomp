@@ -1,157 +1,104 @@
 #include "types.h"
-#include "pso/system/GinjaMaterial.h"
-#include "pso/unk/text_8016CF5C.h"
-#include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/system/BmlResourceDescriptor.h"
-#include "pso/misc/TOKeyGenericSw.h"
+#include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/map/FloorArea.h"
 #include "pso/misc/TContainerAncient01.h"
+#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/misc/TOBoss4Rock.h"
+#include "pso/misc/TOKeyGenericSw.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TOKey.h"
-#include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/ModelDrawContext.h"
+#include "pso/unk/text_803D8F74.h"
 
-struct BmlResourceBlock_804B2CC0 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B2CC0_size[(sizeof(BmlResourceBlock_804B2CC0) == 0x18) ? 1 : -1];
-typedef char BmlResourceBlock_804B2CC0_descriptor_offset[(offsetof(BmlResourceBlock_804B2CC0, descriptor) == 0x8) ? 1 : -1];
-struct BmlResourceBlock_804B2CE0 { const char *motion_filenames[2]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B2CE0_size[(sizeof(BmlResourceBlock_804B2CE0) == 0x18) ? 1 : -1];
-typedef char BmlResourceBlock_804B2CE0_descriptor_offset[(offsetof(BmlResourceBlock_804B2CE0, descriptor) == 0x8) ? 1 : -1];
-struct BmlResourceBlock_804B2CF8 { const char *model_filenames[2]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B2CF8_size[(sizeof(BmlResourceBlock_804B2CF8) == 0x18) ? 1 : -1];
-typedef char BmlResourceBlock_804B2CF8_descriptor_offset[(offsetof(BmlResourceBlock_804B2CF8, descriptor) == 0x8) ? 1 : -1];
-struct BmlResourceBlock_804B2D18 { const char *motion_filenames[2]; BmlResourceDescriptor descriptor; };
-typedef char BmlResourceBlock_804B2D18_size[(sizeof(BmlResourceBlock_804B2D18) == 0x18) ? 1 : -1];
-typedef char BmlResourceBlock_804B2D18_descriptor_offset[(offsetof(BmlResourceBlock_804B2D18, descriptor) == 0x8) ? 1 : -1];
-extern char lbl_80441C30[];
-extern char lbl_80441C4C[];
-extern char lbl_80441C68[];
-extern char lbl_80441C84[];
-extern char lbl_80441CA0[];
-extern char lbl_80441CBC[];
-extern char lbl_80441CD8[];
-extern BmlResourceBlock_804B2CC0 fs_obj_hanyousu_body1_resource_bundle;
-extern const char *fs_obj_hanyousu_light_model_names[2];
-extern BmlResourceBlock_804B2CE0 fs_obj_hanyousu_light_resource_bundle;
-extern BmlResourceBlock_804B2CF8 fs_obj_hanyousu_body1_j_resource_bundle;
-extern const char *fs_obj_hanyousu_light_j_model_names[2];
-extern BmlResourceBlock_804B2D18 fs_obj_hanyousu_light_j_resource_bundle;
-extern const char *fs_obj_hanyousu_body1_motion_names[1];
-extern const char *fs_obj_hanyousu_body1_j_motion_names[1];
-
-struct Base_8016CA64 { char pad[0x18]; };
-
-struct Obj_8016CA64 : Base_8016CA64 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-    u8 pad1c[0x8];
-    s32 x24;
-    u8 pad28[0xC];
-    s32 x34;
-    u8 x38[0x28];
-    s32 x60;
-    u8 pad64[0x4C];
-    f32 xb0;
-    u8 padb4[0x8];
-    s32 xbc;
-    f32 xc0;
-    f32 xc4;
-    u8 padc8[0xC];
-    s32 xd4;
+const char *fs_obj_hanyousu_body1_model_names[] = {"fs_obj_hanyousu_body1.gj", NULL};
+const char *fs_obj_hanyousu_body1_motion_names[] = {NULL};
+BmlResourceDescriptor fs_obj_hanyousu_body1_resource_descriptor = {
+    "fs_obj_hanyousu_body1.bml", fs_obj_hanyousu_body1_model_names, fs_obj_hanyousu_body1_motion_names, 1, 0,
 };
+const char *fs_obj_hanyousu_light_model_names[] = {"fs_obj_hanyousu_light.gj", NULL};
+const char *fs_obj_hanyousu_light_motion_names[] = {"fs_obj_hanyousu_light.njm", NULL};
+BmlResourceDescriptor fs_obj_hanyousu_light_resource_descriptor = {
+    "fs_obj_hanyousu_light.bml", fs_obj_hanyousu_light_model_names, fs_obj_hanyousu_light_motion_names, 1, 1,
+};
+const char *fs_obj_hanyousu_body1_j_model_names[] = {"fs_obj_hanyousu_body1.gj", NULL};
+const char *fs_obj_hanyousu_body1_j_motion_names[] = {NULL};
+BmlResourceDescriptor fs_obj_hanyousu_body1_j_resource_descriptor = {
+    "fs_obj_hanyousu_body1_j.bml", fs_obj_hanyousu_body1_j_model_names, fs_obj_hanyousu_body1_j_motion_names, 1, 0,
+};
+const char *fs_obj_hanyousu_light_j_model_names[] = {"fs_obj_hanyousu_light.gj", NULL};
+const char *fs_obj_hanyousu_light_j_motion_names[] = {"fs_obj_hanyousu_light.njm", NULL};
+BmlResourceDescriptor fs_obj_hanyousu_light_j_resource_descriptor = {
+    "fs_obj_hanyousu_light_j.bml", fs_obj_hanyousu_light_j_model_names, fs_obj_hanyousu_light_j_motion_names, 1, 1,
+};
+CollisionBody key_generic_sw_collision_body[] = {
+    {{0.0f, 10.0f, 0.0f}, 5.0f, 5.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f},
+};
+const char *TOKeyGenericSw__name = "TOKeyGenericSw";
+// The body and the light.
+BmlResource *TOKeyGenericSw__shared_resource_ptrs[2];
+// The body's texture list, the light's, then light_ao for the lit light.
+s32 *TOKeyGenericSw__texture_lists;
 
-struct Area_8016CA64 { u8 pad[8]; s32 x8; };
-
-struct Map_8016CA64 { u8 pad[0x42C]; Area_8016CA64 *area; };
-
-extern "C" {
-s32 push_matrix();
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
-s32 draw_ginja_model_with_motion(s32, s32, f32);
-extern s32 *TOKeyGenericSw__texture_lists;
-extern Map_8016CA64 *TOKeyGenericSw__shared_resource_ptrs[];
-void TLobby__sub_8001FE7C(void *, s32);
-void mem_free(void *);
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void *mem_alloc(u32);
-u8 *load_gvm_texture_file(s32 arg0);
-extern char lbl_80441D04[];
-extern char lbl_80441D24[];
-void *__dt__14TOKeyGenericSwFv(void *arg0, s16 arg1);
-void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
-void *__dt__5TOKeyFv(void *arg0, s16 arg1);
-void *__nw__7TObjectFUl(int);
-s32 update_anim_phase__13TObjMapObjectFv();
-s32 init_collision_body_parts(void *, void *, s32);
-void *__ct__5TOKeyFP7TObject(void *, void *);
-extern s32 key_generic_sw_collision_body[];
-extern s32 TOKeyGenericSw__name;
-
-void TOKeyGenericSw::vfunc_25() {  }
+void TOKeyGenericSw::vfunc_25() {}
 
 void TOKeyGenericSw::render() {
-    Obj_8016CA64 *self = (Obj_8016CA64 *)this;
-    if (self->m8(self->xc0, self->xc4) == 0) return;
+    if (update_object_view_visibility(m_c0, model_radius) == 0) {
+        return;
+    }
     push_matrix();
-    self->x24 = TOKeyGenericSw__texture_lists[0];
-    self->x34 = TOKeyGenericSw__shared_resource_ptrs[0]->area->x8;
-    post_translate_matrix(self->x38);
-    rotate_matrix_y(0, self->x60);
-    TObjFish::set_global_param(self->x24);
-    draw_ginja_object((void *)self->x34);
+    texlist = TOKeyGenericSw__texture_lists[0];
+    model = (void *)TOKeyGenericSw__shared_resource_ptrs[0]->models[0].model;
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    TObjFish::set_global_param(texlist);
+    draw_ginja_object(model);
     pop_matrix();
     TParticleCtrl::begin_effect_render();
     push_matrix();
-    switch (self->xd4) {
+    switch (is_on) {
     case 0:
-        self->x24 = TOKeyGenericSw__texture_lists[1];
+        texlist = TOKeyGenericSw__texture_lists[1];
         break;
     case 1:
-        self->x24 = TOKeyGenericSw__texture_lists[2];
+        texlist = TOKeyGenericSw__texture_lists[2];
         break;
     }
-    self->x34 = TOKeyGenericSw__shared_resource_ptrs[1]->area->x8;
-    post_translate_matrix(self->x38);
-    rotate_matrix_y(0, self->x60);
-    TObjFish::set_global_param(self->x24);
-    draw_ginja_model_with_motion(self->x34, self->xbc, self->xb0);
+    model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
+    post_translate_matrix(&position.x);
+    rotate_matrix_y(NULL, rotation_y);
+    TObjFish::set_global_param(texlist);
+    draw_ginja_model_with_motion(model, motion, m_b0);
     pop_matrix();
     TParticleCtrl::end_effect_render();
 }
 
 void TOKeyGenericSw::update_switch_off() {
-    update_anim_phase__13TObjMapObjectFv();
-    this->submit_cursor_target();
-    this->m_f4 = 1;
-    this->m_ec = 0;
-    *(s32 *)((s8 *)this + 0xF0) = 0;
-    *(s32 *)&this->unk_F8 = (s32) this->m_f4;
+    update_anim_phase();
+    submit_cursor_target();
+    off_state = 1;
+    on_state = 0;
+    on_state_copy = 0;
+    off_state_copy = off_state;
 }
 
 void TOKeyGenericSw::update_switch_on() {
-    update_anim_phase__13TObjMapObjectFv();
-    this->submit_cursor_target();
-    this->m_ec = 1;
-    this->m_f4 = 0;
-    *(s32 *)&this->unk_F8 = 0;
-    *(s32 *)((s8 *)this + 0xF0) = (s32) this->m_ec;
+    update_anim_phase();
+    submit_cursor_target();
+    on_state = 1;
+    off_state = 0;
+    off_state_copy = 0;
+    on_state_copy = on_state;
 }
 
-extern void *tl_05;
-
-void *TOKeyGenericSw::create(void *source) {
-    void *o = __nw__7TObjectFUl(0xFC);
-    if (o != NULL) {
-        o = TOKeyGenericSw__ct((TOKeyGenericSw *)o, tl_05, source);
-    }
-    return o;
+void *TOKeyGenericSw::create(void *set_data) {
+    return new TOKeyGenericSw(tl_05, set_data);
 }
-
-extern s32 __vt__14TOKeyGenericSw[];
 
 void TOKeyGenericSw::free_shared_resources() {
     if (TOKeyGenericSw__texture_lists != NULL) {
@@ -172,90 +119,69 @@ void TOKeyGenericSw::free_shared_resources() {
 }
 
 void TOKeyGenericSw::load_resources() {
-    u8 *base = (u8 *)&fs_obj_hanyousu_body1_resource_bundle;
-    s32 st = get_current_floor_area();
-    void *p;
-    if (TContainerAncient01::is_global_state_in_table() == 1 || st == AREA_SEABED_UPPER || st == AREA_SEABED_LOWER) {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x40, 0, 0, 0);
+    s32 area = get_current_floor_area();
+    BmlResource *resource;
+
+    if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_body1_j_resource_descriptor, 0, 0, 0);
         }
-        TOKeyGenericSw__shared_resource_ptrs[0] = (Map_8016CA64 *)p;
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x60, 0, 0, 0);
+        TOKeyGenericSw__shared_resource_ptrs[0] = resource;
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_j_resource_descriptor, 0, 0, 0);
         }
-        TOKeyGenericSw__shared_resource_ptrs[1] = (Map_8016CA64 *)p;
+        TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (s32 *)mem_alloc(0xC);
-        TOKeyGenericSw__texture_lists[0] = *(s32 *)((s8 *)TOKeyGenericSw__shared_resource_ptrs[0]->area + 0xC);
-        TOKeyGenericSw__texture_lists[1] = *(s32 *)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1]->area + 0xC);
-        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((s32)lbl_80441D04);
+        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((s32) "fs_obj_hanyousu_light_ao_j.GVM");
     } else {
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x8, 0, 0, 0);
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_body1_resource_descriptor, 0, 0, 0);
         }
-        TOKeyGenericSw__shared_resource_ptrs[0] = (Map_8016CA64 *)p;
-        p = ::operator new(0x440);
-        if (p != NULL) {
-            p = load_resource_from_descriptor(p, 1, base + 0x28, 0, 0, 0);
+        TOKeyGenericSw__shared_resource_ptrs[0] = resource;
+        resource = (BmlResource *)::operator new(0x440);
+        if (resource != NULL) {
+            resource = load_resource_from_descriptor(resource, 1, &fs_obj_hanyousu_light_resource_descriptor, 0, 0, 0);
         }
-        TOKeyGenericSw__shared_resource_ptrs[1] = (Map_8016CA64 *)p;
+        TOKeyGenericSw__shared_resource_ptrs[1] = resource;
         TOKeyGenericSw__texture_lists = (s32 *)mem_alloc(0xC);
-        TOKeyGenericSw__texture_lists[0] = *(s32 *)((s8 *)TOKeyGenericSw__shared_resource_ptrs[0]->area + 0xC);
-        TOKeyGenericSw__texture_lists[1] = *(s32 *)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1]->area + 0xC);
-        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((s32)lbl_80441D24);
+        TOKeyGenericSw__texture_lists[0] = TOKeyGenericSw__shared_resource_ptrs[0]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[1] = TOKeyGenericSw__shared_resource_ptrs[1]->models[0].m_c;
+        TOKeyGenericSw__texture_lists[2] = (s32)load_gvm_texture_file((s32) "fs_obj_hanyousu_light_ao.GVM");
     }
 }
 
-void *__dt__14TOKeyGenericSwFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TOKeyGenericSw;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__5TOKeyFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TOKeyGenericSw::~TOKeyGenericSw() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
 }
 
-void *TOKeyGenericSw__ct(TOKeyGenericSw *key_generic_sw, void *parent, void *source) {
-    __ct__5TOKeyFP7TObject(key_generic_sw, parent);
-    *(void **)((s8 *)key_generic_sw + 0x18) = __vt__14TOKeyGenericSw;
-    *(s32 *)((s8 *)key_generic_sw + 0) = TOKeyGenericSw__name;
-    key_generic_sw->apply_object_set_data(source);
-    ((TOKey *)key_generic_sw)->init_switch_id();
-    *(s32 *)((s8 *)key_generic_sw + 0x34) = *(s32 *)((s8 *)(*(void **)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1] + 0x42C)) + 8);
-    *(void **)((s8 *)key_generic_sw + 0xBC) = *(void **)((s8 *)(*(void **)((s8 *)TOKeyGenericSw__shared_resource_ptrs[1] + 0x430)) + 4);
-    *(f32 *)((s8 *)key_generic_sw + 0xB4) = (f32) *(u32 *)((s8 *)(*(void **)((s8 *)key_generic_sw + 0xBC)) + 4) - 1.0f;
-    key_generic_sw->m_b8 = 2.0f;
-    *(u32 *)&key_generic_sw->texlist = TOKeyGenericSw__texture_lists[1];
-    init_collision_body_parts(key_generic_sw, key_generic_sw_collision_body, 1);
-    ((TObjCollidable *)key_generic_sw)->refresh_collision_body_centers();
-    ((TObjPlayer *)key_generic_sw)->register_object_by_id();
-    key_generic_sw->m_c0 = 4e+02f;
-    *(f32 *)((s8 *)key_generic_sw + 0xC4) = 4e+01f;
-    if ((*(s32 *)&key_generic_sw->mode != 2) && (key_generic_sw->scale.x < 0.0f)) {
-        *(s32 *)&key_generic_sw->mode = 1;
+TOKeyGenericSw::TOKeyGenericSw(TObject *parent, void *set_data) : TOKey(parent) {
+    m_name = TOKeyGenericSw__name;
+    apply_object_set_data(set_data);
+    init_switch_id();
+    model = (void *)TOKeyGenericSw__shared_resource_ptrs[1]->models[0].model;
+    motion = TOKeyGenericSw__shared_resource_ptrs[1]->motions[0].motion;
+    animation_end_frame = (f32)motion->frameCount - 1.0f;
+    m_b8 = 2.0f;
+    texlist = TOKeyGenericSw__texture_lists[1];
+    init_collision_body_parts(this, key_generic_sw_collision_body, 1);
+    refresh_collision_body_centers();
+    register_object_by_id();
+    m_c0 = 400.0f;
+    model_radius = 40.0f;
+    if (mode != KEY_MODE_NONE && scale.x < 0.0f) {
+        mode = KEY_MODE_TOGGLE;
     } else {
-        *(s32 *)&key_generic_sw->mode = 0;
+        mode = KEY_MODE_ONCE;
     }
-    key_generic_sw->m_e8 = get_current_floor_area();
-    key_generic_sw->m_ec = 0;
-    *(s32 *)((s8 *)key_generic_sw + 0xF0) = 0;
-    key_generic_sw->m_f4 = 0;
-    *(s32 *)((s8 *)key_generic_sw + 0xF8) = 0;
-    return key_generic_sw;
-}
-
-__declspec(section ".data") BmlResourceBlock_804B2CC0 fs_obj_hanyousu_body1_resource_bundle = { { lbl_80441C30, NULL }, { lbl_80441C4C, fs_obj_hanyousu_body1_resource_bundle.model_filenames, fs_obj_hanyousu_body1_motion_names, 1, 0 } };
-__declspec(section ".data") const char *fs_obj_hanyousu_light_model_names[2] = { lbl_80441C68, NULL };
-__declspec(section ".data") BmlResourceBlock_804B2CE0 fs_obj_hanyousu_light_resource_bundle = { { lbl_80441C84, NULL }, { lbl_80441CA0, fs_obj_hanyousu_light_model_names, fs_obj_hanyousu_light_resource_bundle.motion_filenames, 1, 1 } };
-__declspec(section ".data") BmlResourceBlock_804B2CF8 fs_obj_hanyousu_body1_j_resource_bundle = { { lbl_80441C30, NULL }, { lbl_80441CBC, fs_obj_hanyousu_body1_j_resource_bundle.model_filenames, fs_obj_hanyousu_body1_j_motion_names, 1, 0 } };
-__declspec(section ".data") const char *fs_obj_hanyousu_light_j_model_names[2] = { lbl_80441C68, NULL };
-__declspec(section ".data") BmlResourceBlock_804B2D18 fs_obj_hanyousu_light_j_resource_bundle = { { lbl_80441C84, NULL }, { lbl_80441CD8, fs_obj_hanyousu_light_j_model_names, fs_obj_hanyousu_light_j_resource_bundle.motion_filenames, 1, 1 } };
-__declspec(section ".sdata") const char *fs_obj_hanyousu_body1_motion_names[1] = { NULL };
-__declspec(section ".sdata") const char *fs_obj_hanyousu_body1_j_motion_names[1] = { NULL };
+    floor_area = get_current_floor_area();
+    on_state = 0;
+    on_state_copy = 0;
+    off_state = 0;
+    off_state_copy = 0;
 }
