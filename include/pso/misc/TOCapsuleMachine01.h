@@ -9,7 +9,7 @@ struct TOCapsuleMachine01 : public TObjMapObject {
     virtual ~TOCapsuleMachine01();
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
     static void reset_static_state();
     static void alloc_and_load_resource();
 };

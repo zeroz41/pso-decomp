@@ -4864,6 +4864,11 @@ pso/misc/TOCapsuleAncient01.cpp:
 
 pso/misc/TOCapsuleMachine01.cpp:
 	.text       start:0x8015A5E8 end:0x8015A8D8
+	.rodata     start:0x80440438 end:0x80440478
+	.data       start:0x804AFEF8 end:0x804AFF74
+	.sdata      start:0x805D2ED0 end:0x805D2ED8
+	.sbss       start:0x805D58C0 end:0x805D58D0
+	.sdata2     start:0x805DB380 end:0x805DB388
 
 pso/system/TOChatSensorCapture.cpp:
 	.text       start:0x8015A8D8 end:0x8015ABD0
