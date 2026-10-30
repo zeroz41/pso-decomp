@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/player/TUnk_80491460.h"
@@ -16,7 +18,6 @@
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
@@ -123,18 +124,6 @@ struct VBase_14_800ABDD8
   char pad[0x14];
 };
 
-struct VObj_14_800ABDD8 : VBase_14_800ABDD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-};
-
 struct VBase_18_800ABDD8
 {
   char pad[0x18];
@@ -153,22 +142,10 @@ struct VObj_18_800ABDD8 : VBase_18_800ABDD8 {
     virtual s32 m9(f32, f32, f32);
 };
 
-struct Fade_800ABDD8 : VBase_14_800ABDD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    u32 x18;
-};
-
 struct Owner_800ABDD8
 {
   u8 pad[0x3CC];
-  Fade_800ABDD8 fades[4];
+  RenderFadeState fades[4];
 };
 
 struct Vec_800ABDD8
@@ -359,7 +336,6 @@ TUnk_80491460::TUnk_80491460(void *arg1, s32 arg2, s32 arg3, s32 arg4) : TObject
     ((Obj_800AB31C *)this)->f68 = arg4;
 }
 
-
 void TObjPlayer::cancel_action() {
     if (get_action_priority() != 1) {
         if ((u32) *(u32 *)&this->override_speed != 0U) {
@@ -499,11 +475,11 @@ u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4) {
     return arg0;
 }
 
-typedef struct Fade_800ABDD8 Fade_800ABDD8;
+typedef struct RenderFadeState RenderFadeState;
 typedef struct Owner_800ABDD8 Owner_800ABDD8;
 typedef struct VBase_14_800ABDD8 VBase_14_800ABDD8;
 typedef struct VBase_18_800ABDD8 VBase_18_800ABDD8;
-typedef struct VObj_14_800ABDD8 VObj_14_800ABDD8;
+typedef struct MaterialColorFade MaterialColorFade;
 typedef struct VObj_18_800ABDD8 VObj_18_800ABDD8;
 typedef struct Vec_800ABDD8 Vec_800ABDD8;
 #define PSO_VCALL_VObj_18_800ABDD8_m9(_self, _arg0, _arg1, _arg2) (((VObj_18_800ABDD8 *)(_self))->m9((_arg0), (_arg1), (_arg2)))

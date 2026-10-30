@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -13,10 +15,8 @@
 #include "pso/enemy/TObjEneBm9Mericarol.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
 struct Stack_802CE68C {
     s32 sp8;
     s32 spC;
@@ -44,16 +44,6 @@ struct VObj_802CE740 : VBase_802CE740 {
 };
 
 struct Node_802CE8CC;
-struct FadeBase_802CE8CC { char pad[0x14]; };
-
-struct Fade_802CE8CC : FadeBase_802CE8CC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-    u32 f18;
-};
 
 struct ObjBase_802CE8CC { char pad[0x18]; };
 
@@ -98,11 +88,11 @@ struct Self_802CE8CC {
     u8 cam[0x2A];
     s16 f326;
     u8 pad328[0xA0];
-    Fade_802CE8CC fades[4];
+    RenderFadeState fades[4];
     s32 f438;
     f32 f43C;
     u8 pad440[0x2C];
-    Fade_802CE8CC f46C;
+    MaterialOpacityFade f46C;
 };
 
 extern "C" {
@@ -202,7 +192,7 @@ void TObjEneBm9Mericarol::draw_color_variant() {
 void TObjEneBm9Mericarol::render() {
     Self_802CE8CC *self = (Self_802CE8CC *)this;
     s32 vis;
-    Fade_802CE8CC *fade;
+    RenderFadeState *fade;
     s16 saved;
     s32 mode;
     s32 cam;
@@ -278,15 +268,15 @@ void TObjEneBm9Mericarol::render() {
         set_chunk_model_node_callback((s32)TObjEneBm9Mericarol::update_particle_effect);
     }
     if (self->f438 & 8) {
-        if (self->f46C.m8() != 0) {
-            self->f46C.m6();
+        if (self->f46C.has_visible_opacity() != 0) {
+            self->f46C.set_flags_and_apply_damage_color();
             if (defer_render__7TObjectFv(((u8 *)this)) == 0) {
                 ((TObjMotion *)((u8 *)this))->draw();
             }
-            self->f46C.m7();
+            self->f46C.clear_flag_and_notify();
         }
     } else if (vis != 0) {
-        fade->m6();
+        fade->set_flags_and_apply_damage_color();
         if (defer_render__7TObjectFv(((u8 *)this)) == 0) {
             if (mode == 1) {
                 ((TObjMotion *)((u8 *)this))->draw();
@@ -294,7 +284,7 @@ void TObjEneBm9Mericarol::render() {
                 ((TObjEnemy *)((u8 *)this))->draw_motion_model();
             }
         }
-        fade->m7();
+        fade->clear_flag_and_notify();
     } else if (mode == 1) {
         ((TObjMotion *)((u8 *)this))->draw();
     } else {

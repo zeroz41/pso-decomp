@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_TOBJENEDUBCHIK_H
 #define PSO_ENEMY_TOBJENEDUBCHIK_H
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 
 class TObjEneDubchik : public TObjEnemyCustom {
@@ -19,10 +20,13 @@ public:
     s16 m_390;
     u8 unk_392[0x12];
     f32 m_3a4;
-    u8 unk_3A8[0x28];
+    u8 unk_3A8[8];
+    MaterialOpacityFade fade;
+    u8 unk_3CC[4];
     f32 m_3d0;
     u8 unk_3D4[0x48];
 };
 typedef char TObjEneDubchik_size[sizeof(TObjEneDubchik) == 0x41C ? 1 : -1];
 
+typedef char TObjEneDubchik_fade_offset[offsetof(TObjEneDubchik, fade) == 0x3B0 ? 1 : -1];
 #endif

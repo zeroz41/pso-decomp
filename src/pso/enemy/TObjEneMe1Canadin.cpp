@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/system/vector.h"
@@ -17,7 +19,6 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
-#include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 
 #include "pso/enemy/TObjEneMe1CanadinLeader.h"
@@ -158,19 +159,6 @@ struct Obj_8009AD18 {
     s32 count;
     void *members[8];
     s32 f4F4;
-};
-
-struct VBase_14_aa9368 { char pad[0x14]; };
-
-struct VObj_14_aa9368 : VBase_14_aa9368 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
 };
 
 struct VBase_18_8dc821 { char pad[0x18]; };
@@ -1196,16 +1184,6 @@ struct VObj_18_p4 : VBase_18 {
     virtual s32 m115(void *);
 };
 
-struct Base14_8009C178 { char pad[0x14]; };
-
-struct Sub_8009C178 : Base14_8009C178 {
-    virtual void s0();
-    virtual void s1(s32);
-    virtual void s2();
-    virtual void s3();
-    virtual s32 s4();
-};
-
 struct Copy5_8009C2EC { u32 w[5]; };
 
 struct Vec_8009C510 { f32 x, y, z; };
@@ -1355,13 +1333,6 @@ struct Canadin_8009E0AC : CanadinBase_8009E0AC {
     virtual void m108(s32);
     virtual void m109(s32);
     virtual void m110(s32);
-};
-
-struct Base_Sub_8009DE90 { char pad[0x14]; };
-
-struct V_Sub_8009DE90 : Base_Sub_8009DE90 {
-    virtual void p0(); virtual void p1(); virtual void p2(); virtual void p3(); virtual void p4();
-    virtual s32 m5();
 };
 
 struct ByteBlock_10 { u8 bytes[0x10]; };
@@ -1770,12 +1741,6 @@ struct VObj_8009F004 : VBase_8009F004 {
     virtual void m104();
 };
 
-struct VBase14_8009F004 { char pad[0x14]; };
-
-struct VSub_8009F004 : VBase14_8009F004 {
-    virtual void m0(); virtual void m1(); virtual void m2();
-};
-
 struct Vec_8009F004 { f32 x, y, z; };
 
 struct Obj_8009F004 { u8 pad[0x414]; Vec_8009F004 v[7]; };
@@ -1869,7 +1834,6 @@ u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void clear_attack_receipts__9TObjEneDDFv();
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 approach_angle_limited(s32, s32, s32);
@@ -2866,7 +2830,7 @@ void TObjEneMe1Canadin::render() {
         temp_r0 = *(s16 *)((s8 *)arg0 + 0x326);
         var_r29 = 1;
         if ((temp_r0 == 1) || (temp_r0 == 0xB)) {
-            ((VObj_14_aa9368 *)(arg0 + (972)))->m6();
+            ((TObjEneMe1Canadin *)arg0)->fade.set_flags_and_apply_damage_color();
             if (defer_render__7TObjectFv(arg0) != 0) {
                 var_r29 = 0;
             }
@@ -2897,7 +2861,7 @@ void TObjEneMe1Canadin::render() {
         }
         temp_r0_2 = *(s16 *)((s8 *)arg0 + 0x326);
         if ((temp_r0_2 == 1) || (temp_r0_2 == 0xB)) {
-            ((VObj_14_aa9368 *)(arg0 + (972)))->m7();
+            ((TObjEneMe1Canadin *)arg0)->fade.clear_flag_and_notify();
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -3062,6 +3026,8 @@ void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1) {
     }
 }
 
+#pragma push
+#pragma opt_common_subs off
 void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -3078,12 +3044,12 @@ void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1) {
         }
         create_timed_particle_emitter((arg0 + 0x2FC), 0x117, 0, 0x19);
         create_timed_particle_emitter((arg0 + 0x2FC), 0x118, 0x19, 0xF);
-        ((Sub_8009C178 *)(arg0 + 0x3CC))->s1(0x19);
-        ((Sub_8009C178 *)(arg0 + 0x3CC))->s2();
+        ((TObjEneMe1Canadin *)arg0)->fade.set_rate_from_divisor(0x19);
+        ((TObjEneMe1Canadin *)arg0)->fade.reset_color();
         ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003AD18, arg0 + 0x2FC, 0, 0);
         return;
     case 3:
-        if ((((Sub_8009C178 *)(arg0 + 0x3CC))->s4() != 0) && (((VObj_18_p4 *)(arg0))->m107() != 0)) {
+        if ((((TObjEneMe1Canadin *)arg0)->fade.decay_value_toward_floor() != 0) && (((VObj_18_p4 *)(arg0))->m107() != 0)) {
             queue_destruction__7TObjectFv(arg0);
         }
     case 5:
@@ -3091,6 +3057,7 @@ void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1) {
         return;
     }
 }
+#pragma pop
 
 void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1) {
     switch (arg1) {
@@ -3903,11 +3870,11 @@ void TObjEneMe1Canadin__sub_8009DE90(void *argv0, s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) | 0x01000000);
         *(s32 *)((s8 *)arg0 + 0x3FC) = 4;
         *(s32 *)((s8 *)arg0 + 0x4B8) = 1;
-        ((TUnk_80494938 *)(arg0 + 0x3CC))->start_fade_in();
+        ((TObjEneMe1Canadin *)arg0)->fade.start_fade_in();
         TBoss3Volopt__sub_800D8D88((s32)(arg0 + 0x38));
         return;
     case 3:
-        if (((V_Sub_8009DE90 *) (arg0 + 0x3CC))->m5() != 0) {
+        if (((TObjEneMe1Canadin *)arg0)->fade.advance_toward_max() != 0) {
             transition_enemy_state__9TObjEneDDFl(arg0, 2);
         }
     case 5:
@@ -4421,7 +4388,7 @@ void *__dt__17TObjEneMe1CanadinFv(void *arg0, s16 arg1) {
         ((void (*)(void *))queue_destruction__7TObjectFv)(*(void **)((s8 *)arg0 + 0x408));
         *(s32 *)((s8 *)arg0 + 0x408) = 0;
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3CC, -1);
+        ((TObjEneMe1Canadin *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -4455,7 +4422,7 @@ void TObjEneMe1Canadin::setup_enemy() {
     ((TObjEneDD_ST *)arg0)->set_active();
     *(s32 *)((s8 *)arg0 + 0x30) |= 0x01000000;
     *(s32 *)((s8 *)arg0 + 0x468) = lbl_80500954[*(s32 *)((s8 *)arg0 + 0x3C4)];
-    ((VSub_8009F004 *)(arg0 + 0x3CC))->m2();
+    ((TObjEneMe1Canadin *)arg0)->fade.reset_color();
     *(f32 *)((s8 *)arg0 + 0x3E8) = lbl_805D9928;
     *(f32 *)((s8 *)arg0 + 0x3EC) = lbl_805D98A4;
     *(f32 *)((s8 *)arg0 + 0x3F0) = TObjEneMe1Canadin__data_805D98AC * (lbl_805D992C * (f32)rand()) + lbl_805D98A4;
@@ -4511,7 +4478,7 @@ extern int fold_flush_2;
 u8 *TObjEneMe1Canadin__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s16 arg5) {
     __ct__12TObjEneDD_STFP7TObject(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8009F2E0___vt__17TObjEneMe1Canadin *)&__vt__17TObjEneMe1Canadin).value;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3CC));
+    __ct__19MaterialOpacityFadeFv((arg0 + 0x3CC));
     *(s32 *)((s8 *)arg0 + 0) = (s32) (*(s32 *)&TObjEneMe1Canadin__class_name);
     *(u8 **)((s8 *)arg0 + 0x3C0) = arg2;
     ((TObjEneDD *)arg0)->init_common_from((u8 *)(*(u8 **)((s8 *)arg0 + 0x3C0)));
@@ -4529,7 +4496,7 @@ u8 *TObjEneMe1Canadin__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s16 
 void *TObjEneMe1Canadin::init(void *arg1, void *arg2, void *arg3) {
     __ct__12TObjEneDD_STFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = __vt__17TObjEneMe1Canadin;
-    __ct__13TUnk_80494938Fv(((char *)this + 972));
+    __ct__19MaterialOpacityFadeFv(((char *)this + 972));
     *(void **)((s8 *)this + 0x0) = TObjEneMe1Canadin__class_name;
     invoke_initialization_hook__9TObjEneDDFPv(this, arg2);
     *(u32 *)((s8 *)this + 0x3C8) = 0;

@@ -13,7 +13,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/boss/TBoss8Dragon.h"
 
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
@@ -127,7 +127,6 @@ void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 void initialize_enemy_state__9TObjEneDDFl(void *, int);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int);
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __ct__15RenderFadeStateFv();
 void free_collision_body_parts(void *);
@@ -393,7 +392,7 @@ Obj_8031FE14 *fn_8031FE14(Obj_8031FE14 *arg0, s16 arg1) {
         arg0->vt = TObjEneRecobox__vtable;
         free_collision_body_parts(arg0);
         __destroy_arr((u8 *)arg0 + 0x460, ((u8 *)__dt__15RenderFadeStateFv), 0x1C, 4);
-        __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3C0, -1);
+        ((TObjEneRecobox *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -408,7 +407,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     s32 n;
     __ct__12TObjEneDD_STFP7TObject(ene_recobox, arg1, arg2);
     *(u8 **)((s8 *)ene_recobox + 0x18) = TObjEneRecobox__vtable;
-    __ct__13TUnk_80494938Fv((ene_recobox + 0x3C0));
+    __ct__19MaterialOpacityFadeFv((ene_recobox + 0x3C0));
     __construct_array(ene_recobox + 0x460, (void *)&__ct__15RenderFadeStateFv, (void *)&__dt__15RenderFadeStateFv, 0x1C, 4);
     *(s32 *)((s8 *)ene_recobox + 0) = TObjEneRecobox_name_ref;
     invoke_initialization_hook__9TObjEneDDFPv(ene_recobox, arg2);
@@ -443,7 +442,7 @@ u8 *TObjEneRecobox__ct(u8 *ene_recobox, s32 arg1, u8 *arg2) {
     }
     *(s32 *)((s8 *)ene_recobox + 0x40C) = 0;
     *(s32 *)((s8 *)ene_recobox + 0x40C) |= 1;
-    ((TUnk_80494938 *)(ene_recobox + 0x3C0))->start_fade_in();
+    ((TObjEneRecobox *)ene_recobox)->fade.start_fade_in();
     *(s32 *)((s8 *)ene_recobox + 0x410) = 0;
     *(s32 *)((s8 *)ene_recobox + 0x414) = 0;
     for (i = 0; i < 30; i++) {

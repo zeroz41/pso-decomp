@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEME1CANADIN_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneMe1Canadin : public TObjEneDD_ST {
@@ -32,8 +33,10 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     u32 m_3c4;
     u32 m_3c8;
     void* m_3cc;
-    u8 _pad3D0[0x30];
-    u32 m_400;
+
+    u8 _padBeforeFade[0x18];
+    MaterialOpacityFade fade;
+
     u32 m_404;
     u8 _pad408[0x4];
     u32 m_40c;
@@ -69,6 +72,8 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     static void *create(void *arg0);
     u8 unk_4AE[0x1E];
 };
+
+typedef char TObjEneMe1CanadinFadeOffset[offsetof(TObjEneMe1Canadin, fade) == 0x3CC ? 1 : -1];
 
 typedef char TObjEneMe1Canadin_size[sizeof(TObjEneMe1Canadin) == 0x4CC ? 1 : -1];
 

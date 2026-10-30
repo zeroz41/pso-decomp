@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEME3SINOWZOA_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
@@ -42,6 +43,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     u32 m_3e0;
     u8 unk_3E4[0x30];
     void* m_414;
+    u8 _padBeforeFade[0x18];
+    MaterialOpacityFade fade;
     void state_knockback(s32 arg1);
     void handle_state_substate(s32 arg1);
     void state_chase_target(s32 arg1);
@@ -55,10 +58,8 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     void check_and_notify();
     static void set_entry_value_clamped(s32 arg0, f32 farg0);
     static void free_resources();
-    s32 advance_timer(f32 farg0);
-    void copy_position_vector(void* q);
-    void set_field_10(f32 v);
-    void init_death_params();
 };
+
+typedef char TObjEneMe3SinowZoaFadeOffset[offsetof(TObjEneMe3SinowZoa, fade) == 0x414 ? 1 : -1];
 
 #endif

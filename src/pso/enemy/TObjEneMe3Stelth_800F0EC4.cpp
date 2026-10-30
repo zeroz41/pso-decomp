@@ -1,6 +1,8 @@
+#include "pso/enemy/TObjEneMe3Stelth.h"
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
@@ -118,18 +120,6 @@ struct VObj_18 : VBase_18 {
     virtual s32 m100();
 };
 
-struct VBase14_800F1440 { char pad[0x14]; };
-
-struct VSub_800F1440 : VBase14_800F1440 {
-    virtual void s0();
-    virtual void s1();
-    virtual void s2();
-    virtual void s3();
-    virtual s32 s4();
-};
-
-struct Quad_800F1440 { s32 a, b, c, d; };
-
 struct Vec_800F1098 { f32 x, y, z; };
 
 struct IVec_800F1098 { s32 a, b, c; };
@@ -242,7 +232,7 @@ struct Ent_800F0F84 { u8 pad0[0x18]; u32 f18; };
 extern "C" {
 s32 is_split_screen();
 s32 play_sound_effect(int, void *, int, int);
-extern const Quad_800F1440 me3_stelth_offset_vec;
+extern const NJS_ARGB stelth_fade_color;
 extern const f32 lbl_805DA828;
 extern const f32 lbl_805DA82C;
 void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1);
@@ -422,7 +412,6 @@ void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1) {
 }
 
 void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1) {
-    Quad_800F1440 q;
     switch (arg1) {
     case 4:
         F(s16, 0xB8) = 0xB;
@@ -450,16 +439,13 @@ void TObjEneMe3Stelth__sub_800F1440(u8 *arg0, s32 arg1) {
             case 0:
                 if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA828) != 0) {
                     F(s32, 0x3CC) |= 8;
-                    q.a = me3_stelth_offset_vec.a;
-                    q.b = me3_stelth_offset_vec.b;
-                    q.c = me3_stelth_offset_vec.c;
-                    q.d = me3_stelth_offset_vec.d;
-                    ((TObjEneMe3SinowZoa *)(arg0 + 0x404))->copy_position_vector(&q);
+                    NJS_ARGB q = stelth_fade_color;
+                    ((TObjEneMe3Stelth *)arg0)->fade.set_color(&q);
                     F(s32, 0x424) = 1;
                 }
                 break;
             case 1:
-                if (((VSub_800F1440 *)(arg0 + 0x404))->s4() != 0) {
+                if (((TObjEneMe3Stelth *)arg0)->fade.decay_value_toward_floor() != 0) {
                     F(s32, 0x3CC) &= ~8;
                     F(s32, 0x3C0) = 0;
                     F(s32, 0x424) = 2;

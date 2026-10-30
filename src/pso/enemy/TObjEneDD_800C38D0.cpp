@@ -1,4 +1,5 @@
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -8,12 +9,7 @@
 #define CAT(a, b) CAT2(a, b)
 #define PADV virtual void CAT(pv, __LINE__)();
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-struct Base_Sub_800c38d0 { char pad[0x14]; };
-struct V_Sub_800c38d0 : Base_Sub_800c38d0 {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
+
 extern "C" {
 
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
@@ -28,7 +24,7 @@ void TObjEneDD::handle_state(s32 arg1) {
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) | 8);
         ((TObjEneDD *)arg0)->set_field_378(2);
         enemy_clear_target__12TObjEneDD_STFUs(arg0);
-        ((TUnk_80494938 *)(arg0 + 0x3F4))->start_fade_in();
+        ((TObjEneRe2Flower *)arg0)->fade.start_fade_in();
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0) {
             ((TBoss3Volopt *)(arg0 + 0x38))->play_area_se_with_particle();
             return;
@@ -36,7 +32,7 @@ void TObjEneDD::handle_state(s32 arg1) {
         ((TBoss3Volopt *)(arg0 + 0x38))->play_area_sound_effect();
         return;
     case 3:
-        if (((V_Sub_800c38d0 *) (arg0 + 0x3F4))->m5() != 0) {
+        if (((TObjEneRe2Flower *)arg0)->fade.advance_toward_max() != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(2);
         }
     case 1:

@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
 #include "pso/enemy/TObjEneEpsilon.h"
@@ -386,12 +388,6 @@ struct VObj_8031c7bc : VBase_8031c7bc {
     VM(91)VM(92)VM(93)VM(94)
 #undef VM
 };
-struct WBase_8031c7bc { char pad[0x14]; };
-struct WObj_8031c7bc : WBase_8031c7bc {
-#define WM(i) virtual s32 w##i();
-    WM(0)WM(1)WM(2)WM(3)WM(4)
-#undef WM
-};
 
 extern "C" {
 
@@ -410,7 +406,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) & 0xFFFFFFFE);
         *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 2);
         ((TObjEneRecon *)target)->actorFlags = (s32) (((TObjEneRecon *)target)->actorFlags | 0x01000000);
-        ((WObj_8031c7bc *) (target + 0x480))->w2();
+        ((TObjEneRecon *)target)->fade.reset_color();
         create_timed_particle_emitter((target + 0x38), 0x79, 0, 0xF);
         return;
     case 3:
@@ -423,7 +419,7 @@ void run_task__12TObjEneReconFPvi(u8 *target, s32 arg1) {
             transition_enemy_state__9TObjEneDDFl(target, 7);
             return;
         }
-        if (((WObj_8031c7bc *) (target + 0x480))->w4() != 0) {
+        if (((TObjEneRecon *)target)->fade.decay_value_toward_floor() != 0) {
             *(s32 *)((s8 *)target + 0x444) = (s32) (*(s32 *)((s8 *)target + 0x444) | 1);
             remove_tracked_target__12TObjEneReconFPvPv(temp_r3, target);
             queue_destruction__7TObjectFv(target);

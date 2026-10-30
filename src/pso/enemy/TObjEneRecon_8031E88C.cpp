@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneDD_800BB804.h"
@@ -11,7 +13,6 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -27,15 +28,6 @@ struct VObj_18_26a62c : VBase_18_26a62c {
     virtual void m6();
     virtual void m7();
     virtual s32 m8(f32, f32);
-};
-
-struct FadeBase_8031EA70 { char pad[0x14]; };
-
-struct Fade_8031EA70 : FadeBase_8031EA70 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8();
-    u8 pad18[4];
 };
 
 struct ObjBase_8031EA70 { char pad[0x18]; };
@@ -142,7 +134,7 @@ struct Obj_8031EA70 : ObjBase_8031EA70 {
     virtual void m104();
 };
 
-struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
+struct Holder_8031EA70 { u8 pad[0x460]; RenderFadeState arr[4]; };
 
 extern "C" {
 s32 get_target_info__9TObjEneDDFv();
@@ -220,9 +212,11 @@ void TObjEneRecobox::draw_with_debug_info() {
     draw_chunk_object((void *)debug_chunk_object);
     pop_matrix();
 }
+#pragma push
+#pragma opt_common_subs off
 void TObjEneRecobox::render() {
     s32 temp_r30;
-    Fade_8031EA70 *temp_r29;
+    RenderFadeState *temp_r29;
     s32 var_r29;
     s32 var_r28;
     s32 var_r27;
@@ -250,7 +244,7 @@ void TObjEneRecobox::render() {
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
                 if ((s16) ((TObjEneRecobox *)arg0)->mode == 1) {
-                    if (((Fade_8031EA70 *)(arg0 + 0x3C0))->m8() != 0) {
+                    if (((TObjEneRecobox *)arg0)->fade.has_visible_opacity() != 0) {
                         if (defer_render__7TObjectFv(arg0) != 0) {
                             model_render_flags = saved_model_render_flags;
                             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -258,7 +252,7 @@ void TObjEneRecobox::render() {
                             return;
                         }
                         var_r27 = 1;
-                        ((Fade_8031EA70 *)(arg0 + 0x3C0))->m6();
+                        ((TObjEneRecobox *)arg0)->fade.set_flags_and_apply_damage_color();
                         goto block_18;
                     }
                     model_render_flags = saved_model_render_flags;
@@ -277,7 +271,7 @@ block_18:
                         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
                         return;
                     }
-                    temp_r29->m6();
+                    temp_r29->set_flags_and_apply_damage_color();
                     goto block_23;
                 }
 block_23:
@@ -305,9 +299,9 @@ block_23:
                 pop_matrix();
                 ((TObjEneDD *)arg0)->update_primary_light();
                 if (var_r27 != 0) {
-                    ((Fade_8031EA70 *)(arg0 + 0x3C0))->m7();
+                    ((TObjEneRecobox *)arg0)->fade.clear_flag_and_notify();
                 } else if (temp_r30 != 0) {
-                    temp_r29->m7();
+                    temp_r29->clear_flag_and_notify();
                 }
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -322,5 +316,6 @@ block_37:
         VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
     }
 }
+#pragma pop
 
 }

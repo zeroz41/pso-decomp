@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEGYARANZO_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "dolphin/mtx.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 
@@ -32,13 +33,16 @@ struct TObjEneGyaranzo : public TObjEnemyCustom {
     u8 unk_3C4[0x4];
     s32 m_3c8;
     u8 unk_3CC[0x4];
-    void* m_3d0;
-    u8 _pad3D4[0x18];
+
+    MaterialOpacityFade fade;
+
     void* m_3ec;
     u8 unk_3F0[0x6C];
     static void *create(void *arg0);
     static void free_static_instances();
 };
+
+typedef char TObjEneGyaranzoFadeOffset[offsetof(TObjEneGyaranzo, fade) == 0x3D0 ? 1 : -1];
 
 typedef char TObjEneGyaranzo_size[sizeof(TObjEneGyaranzo) == 0x45C ? 1 : -1];
 #endif

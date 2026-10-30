@@ -1,6 +1,7 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
-#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -16,7 +17,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TUnk_804928CC.h"
 
-#include "pso/enemy/TUnk_80494938.h"
 #include "pso/enemy/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/boss/TBoss8Dragon.h"
 
@@ -27,10 +27,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/TBoss4Type3_800D9960.h"
 #include "pso/unk/text_802D1C84.h"
 
-struct SubBase { char pad[0x14]; };
-
-struct VSub : SubBase { virtual void m0(); virtual void m1(); virtual void m2(); };
-
 struct VBase_802D0C14 { char pad[0x18]; };
 
 struct VObj_802D0C14 : VBase_802D0C14 {
@@ -39,14 +35,6 @@ struct VObj_802D0C14 : VBase_802D0C14 {
 
 struct S_802D0C14 { u8 pad[0x3C0]; void *arr[2]; };
 
-
-struct VBase14_802D0D3C { char pad[0x14]; };
-struct VObj14_802D0D3C : VBase14_802D0D3C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-};
 struct VBase18_802D0D3C { char pad[0x18]; };
 struct VObj18_802D0D3C : VBase18_802D0D3C {
     virtual void m0();
@@ -166,7 +154,6 @@ extern const f32 lbl_805DE74C;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 s32 __destroy_arr(void *, void *, u32, u32);
@@ -609,7 +596,7 @@ void TObjEneBm9Mericarol::run_task() {
     } else {
         temp_r3_2 = this->mode;
         if ((temp_r3_2 == 0) || (temp_r3_2 == 1)) {
-            ((VSub *)(((u8 *)this) + 0x46C))->m2();
+            ((TObjEneBm9Mericarol *)this)->fade.reset_color();
             transition_enemy_state(2);
         }
     }
@@ -645,7 +632,7 @@ u8 *__dt__19TObjEneBm9MericarolFPvs(u8 *arg0, s16 arg1) {
             *(void **)((s8 *)arg0 + 0x4AC) = NULL;
         }
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv(arg0 + 0x46C, -1);
+        ((TObjEneBm9Mericarol *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __destroy_arr(arg0 + 0x3C8, (void *) __dt__15RenderFadeStateFv, 0x1C, 4);
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
@@ -663,7 +650,7 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     __ct__12TObjEneDD_STFP7TObject(self, parent);
     self->vt18 = TObjEneBm9Mericarol__vtable;
     __construct_array(self->a3C8, (void *)__ct__15RenderFadeStateFv, (void *)__dt__15RenderFadeStateFv, 0x1C, 4);
-    __ct__13TUnk_80494938Fv((self->o46C));
+    __ct__19MaterialOpacityFadeFv((self->o46C));
     self->f0 = lbl_805D3F28;
     invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
     ((TObjEneBm9Mericarol *)self)->init_size_tier_and_offsets();
@@ -705,7 +692,7 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     self->f450 = 0;
     self->f454 = 0;
     self->f458 = 0;
-    ((VObj14_802D0D3C *)self->o46C)->m3();
+    ((TObjEneBm9Mericarol *)self)->fade.reset_obstruction_fade();
     p = __nw__7TObjectFUl(0xAC);
     if (p != NULL) {
         p = __ct__14TObjCollidableFP7TObject(p, 0);
@@ -828,6 +815,5 @@ void TBoss4Type3__sub_802D1130(void) {
             *(f32 *)&lbl_804E1564[3], lbl_805DE70C);
     }
 }
-
 
 }

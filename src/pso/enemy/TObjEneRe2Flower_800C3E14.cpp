@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/player/TObjEneRe2Flower_Bomb.h"
@@ -15,18 +17,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss8Dragon.h"
 
 #include "pso/misc/TLobby.h"
-
-struct VBase_14_2f517b { char pad[0x14]; };
-
-struct VObj_14_2f517b : VBase_14_2f517b {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-};
 
 struct Stack_800C44C4 {
     s32 sp8;
@@ -87,7 +80,6 @@ void free_collision_body_parts(void *);
 void *TObjEneRe2Flower__ct(void *, void *, void *);
 void TObjPlayer__sub_800C4D44(void);
 void __dl__7TObjectFPv(void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 s32 begin_state_242__16TObjEneRe2FlowerFv(void);
@@ -346,7 +338,7 @@ void TObjEneRe2Flower::run_task() {
     } else {
         temp_r3 = this->mode;
         if ((temp_r3 == 0) || (temp_r3 == 1)) {
-            ((VObj_14_2f517b *)(((u8 *)this) + (1012)))->m2();
+            ((TObjEneRe2Flower *)this)->fade.reset_color();
             transition_enemy_state(2);
         }
     }
@@ -360,7 +352,7 @@ void *destroy__16TObjEneRe2FlowerFPvs(void *arg0, s16 arg1) {
         *(void **)((s8 *)arg0 + 0x18) = __vt__16TObjEneRe2Flower;
         if (*(void **)((s8 *)arg0 + 0x428) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x428)); *(s32 *)((s8 *)arg0 + 0x428) = 0; }
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3F4, -1);
+        ((TObjEneRe2Flower *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

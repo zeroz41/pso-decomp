@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TUnk_80493450.h"
@@ -14,10 +16,8 @@
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 
-#include "pso/enemy/TUnk_80494938.h"
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 struct Obj_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; u8 pad44[0x2A8 - 0x44]; void *f2a8; u8 pad2ac[0x326 - 0x2AC]; s16 f326; s16 f328; u8 pad32a[0x338 - 0x32A]; u16 f338; u8 pad33a[0x350 - 0x33A]; f32 *f350; u8 pad354[0x3D0 - 0x354]; f32 f3d0; };
@@ -180,18 +180,6 @@ struct VBase_14_fddec9
   char pad[0x14];
 };
 
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
 struct RecoveredFields_800D6810_arg0
 {
   u8 unknown_0[0x24];
@@ -217,13 +205,6 @@ struct Sub_800D5100 { u8 pad[0x18]; s32 f18; };
 struct Obj_800D5100 { u8 pad[0x2b0]; Sub_800D5100 *f2b0; };
 
 struct Obj_800D5150 { u8 pad[0x334]; s32 f334; u8 pad2[0x368 - 0x338]; s32 f368; };
-
-struct VBase_14_800D5570 { char pad[0x14]; };
-
-struct VObj_14_800D5570 : VBase_14_800D5570 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual s32 m5();
-};
 
 struct Obj_800D5570 { u8 pad0[0x38]; u8 sub38[0xB8 - 0x38]; s16 fb8; u8 padba[0x326 - 0xBA]; s16 f326; s16 state; };
 
@@ -551,7 +532,6 @@ void free_collision_body_parts(void *);
 void *TObjEneMerillLia__ct(void *, void *, void *);
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
 s32 is_split_screen(void);
 u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
@@ -1006,7 +986,7 @@ typedef struct RecoveredFields_800D6810_arg0 RecoveredFields_800D6810_arg0;
 typedef struct Stack_800D6810 Stack_800D6810;
 typedef struct VBase_14_fddec9 VBase_14_fddec9;
 typedef struct VBase_18_ca64a0 VBase_18_ca64a0;
-typedef struct VObj_14_fddec9 VObj_14_fddec9;
+typedef struct MaterialColorFade MaterialColorFade;
 typedef struct VObj_18_ca64a0 VObj_18_ca64a0;
 
 void TObjEneMerillLia::sub_800D5570() {
@@ -1016,12 +996,12 @@ void TObjEneMerillLia::sub_800D5570() {
     default:
         this->phase = 1;
         this->requested_action = 1;
-        ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
+        ((TObjEneMerillLia *)arg0)->fade.start_fade_in();
         ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
         break;
     case 1:
         spawn_ground_effect__16TObjEneMerillLiaFPv((u8 *)arg0);
-        if (((VObj_14_800D5570 *)((u8 *)arg0 + 0x3A8))->m5() != 0) {
+        if (((TObjEneMerillLia *)arg0)->fade.advance_toward_max() != 0) {
             this->phase = 2;
         }
         break;
@@ -1523,11 +1503,11 @@ void TObjEneMerillLia::render() {
       if (((s16) ((RecoveredFields_800D6810_arg0 *) ((u8 *)this))->field_326) == 0xD)
       {
         var_r29 = 1;
-        var_r30 = (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m8());
+        var_r30 = (((TObjEneMerillLia *)this)->fade.has_visible_opacity());
       }
       if (var_r29 != 0)
       {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m6());
+        (((TObjEneMerillLia *)this)->fade.set_flags_and_apply_damage_color());
         if (defer_render__7TObjectFv((void *) ((u8 *)this)) != 0)
         {
           var_r30 = 0;
@@ -1551,7 +1531,7 @@ void TObjEneMerillLia::render() {
       TParticleCtrl::end_effect_render();
       if (var_r29 != 0)
       {
-        (((VObj_14_fddec9 *)(((u8 *) ((u8 *)this)) + 936))->m7());
+        (((TObjEneMerillLia *)this)->fade.clear_flag_and_notify());
       }
     }
     pop_matrix();
@@ -1755,7 +1735,7 @@ void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1) {
         *(s32 **)((s8 *)arg0 + 0x18) = lbl_80494728;
         ((TUnk_80493450 *)arg0)->unlink_enemy_group_relations();
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3A8, -1);
+        ((TObjEneMerillLia *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__13TUnk_80493450Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -1778,7 +1758,7 @@ void *TObjEneMerillLia__ct(void *arg0v, void *arg1, void *arg2) {
 
     init_enemy_base__13TUnk_80493450Fv(arg0, (s32)arg1);
     *(void **)((s8 *)arg0 + 0x18) = lbl_80494728;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3A8));
+    __ct__19MaterialOpacityFadeFv((arg0 + 0x3A8));
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D2A88;
     ((VObj_18_4c2345 *) arg0)->m79((s32)arg2);
     ((TObjEneMerillLia *)arg0)->init_params_from_position();

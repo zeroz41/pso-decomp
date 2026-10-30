@@ -1,4 +1,5 @@
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEneBm9Mericarol_802D05BC.h"
@@ -8,16 +9,6 @@
 
 extern "C" {
 
-struct SubBase_802d05bc { char pad[0x14]; };
-struct SubObj_802d05bc : SubBase_802d05bc {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual s32 v5();
-    virtual void v6();
-};
 struct Base_802D06E0_802D05BC { char pad[0x18]; };
 struct VObj_802D06E0_802D05BC : Base_802D06E0_802D05BC {
 #define VM(n) virtual void m##n();
@@ -48,11 +39,11 @@ void TObjEneBm9Mericarol__sub_802D05BC(u8 *ene_dd_st, s32 arg1) {
         *(s32 *)((s8 *)ene_dd_st + 0x438) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x438) & 0xFFFFFFEF);
         ((TObjEneDD *)ene_dd_st)->set_field_378(2);
         enemy_clear_target__12TObjEneDD_STFUs(ene_dd_st);
-        ((TUnk_80494938 *)(ene_dd_st + 0x46C))->start_fade_in();
+        ((TObjEneBm9Mericarol *)ene_dd_st)->fade.start_fade_in();
         ((TBoss3Volopt *)(ene_dd_st + 0x38))->play_area_sound_effect();
         return;
     case 3:
-        if (((SubObj_802d05bc *)(ene_dd_st + 0x46C))->v5() != 0) {
+        if (((TObjEneBm9Mericarol *)ene_dd_st)->fade.advance_toward_max() != 0) {
             ((TObjEneDD *)ene_dd_st)->transition_enemy_state(2);
         }
     case 1:

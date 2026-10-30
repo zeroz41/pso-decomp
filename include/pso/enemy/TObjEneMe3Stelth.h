@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEME3STELTH_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneMe3Stelth : public TObjEneDD_ST {
@@ -45,6 +46,8 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     u32 m_3d0;
     u8 unk_3D4[0x30];
     void* m_404;
+    u8 _padBeforeFade[0x18];
+    MaterialOpacityFade fade;
     static void destroy_resources();
     s32 try_spawn_ground_effect(s32 arg1);
     void play_hit_effect();
@@ -62,5 +65,7 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void update_state_fade_in(s32 arg1);
     void state_chase(s32 arg1);
 };
+
+typedef char TObjEneMe3StelthFadeOffset[offsetof(TObjEneMe3Stelth, fade) == 0x404 ? 1 : -1];
 
 #endif

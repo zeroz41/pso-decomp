@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -18,14 +20,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEnePanarms.h"
 
 extern "C" {
-
-struct VBase_14_2f517b { char pad[0x14]; };
-
-struct VObj_14_2f517b : VBase_14_2f517b {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-};
 
 struct VBase_18_be4a70 { char pad[0x18]; };
 
@@ -126,7 +120,6 @@ s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, void *, int, void *);
 s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
@@ -413,7 +406,7 @@ void *__dt__12TObjEneReconFv(void *arg0, s16 arg1) {
         ((TObjEnemy *)arg0)->send_entity_set_flags();
         free_collision_body_parts(arg0);
         if (*(void **)((s8 *)arg0 + 0x478) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x478)); ((TObjEneRecon *)arg0)->m_494 = 0; }
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x480, -1);
+        ((TObjEneRecon *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -462,7 +455,7 @@ void TObjEneRecon::init_state() {
     *(s32 *)((s8 *)arg0 + 0x47C) = 0;
     *(s32 *)((s8 *)arg0 + 0x418) = 0;
     VecCopy((Vec *)(arg0 + 0x41C), (const Vec *)(arg0 + 0x38));
-    ((VObj_14_2f517b *)(arg0 + (1152)))->m2();
+    ((TObjEneRecon *)arg0)->fade.reset_color();
     *(s32 *)((s8 *)arg0 + 0x46C) = 0;
     *(s32 *)((s8 *)arg0 + 0x470) = 0;
     VecCopy((Vec *)(arg0 + 0x40C), (const Vec *)(arg0 + 0x38));

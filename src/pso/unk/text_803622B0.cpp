@@ -1,5 +1,6 @@
+#include "pso/unk/TObjEneEpsilonBody.h"
 #include "types.h"
-#include "pso/enemy/TObjEneMe3SinowZoa_800D72A4.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/object/TObject_80019A50.h"
 struct Eps_803622B0 {
     u8 pad0[0x18];
@@ -40,7 +41,7 @@ Eps_803622B0 *__dt__18TObjEneEpsilonBodyFv(Eps_803622B0 *o, s16 arg1) {
                 }
             }
         }
-        __dt__13TUnk_80494938Fv(o->x4c0, -1);
+        ((TObjEneEpsilonBody *)o)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__14TObjEneEpsilonFv((u8 *)o, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(o);

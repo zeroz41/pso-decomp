@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEME1GIGUE_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 
 struct TObjEneMe1GiGue : public TObjEnemyCustom {
@@ -34,8 +35,9 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     u8 unk_3F0[0x4];
     u32 m_3f4;
     u32 m_3f8;
-    void* m_3fc;
-    u8 _pad400[0x18];
+
+    MaterialOpacityFade fade;
+
     void* m_418;
     u8 unk_41C[0x18];
     s32 m_434;
@@ -59,6 +61,8 @@ struct TObjEneMe1GiGue : public TObjEnemyCustom {
     void break_apart();
     void update_hit_reaction();
 };
+
+typedef char TObjEneMe1GiGueFadeOffset[offsetof(TObjEneMe1GiGue, fade) == 0x3FC ? 1 : -1];
 
 typedef char TObjEneMe1GiGue_size[sizeof(TObjEneMe1GiGue) == 0x458 ? 1 : -1];
 #endif

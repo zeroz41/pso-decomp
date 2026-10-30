@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -18,11 +20,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/TBoss3Volopt.h"
 
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 
-#include "pso/enemy/TUnk_80494938.h"
 #include "pso/TObject.h"
 
 struct EGPad_8035DD68 { char pad[0x18]; };
@@ -218,16 +218,6 @@ struct VObj_18_7f4864 : VBase_18_7f4864 {
     virtual s32 m94(s32);
 };
 
-struct VBase_14_87d649 { char pad[0x14]; };
-
-struct VObj_14_87d649 : VBase_14_87d649 {
-    virtual void m0();
-    virtual s32 m1(s32);
-    virtual s32 m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
 struct RecoveredFields_8035E578_arg0 {
     u8 unknown_0[0xB8];
     s16 field_B8;
@@ -272,15 +262,6 @@ struct G_8035E430 {
     u8 pad0[0x24]; s32 x24; u8 pad28[0x10]; u8 x38[0x28]; s32 x60; u8 pad64[0x54];
     s16 xB8; u8 padBA[0x2FC - 0xBA]; u8 x2FC[0x430 - 0x2FC]; s32 x430; s32 x434;
     u8 pad438[0x28]; u8 x460[0xC]; s32 flags;
-};
-
-struct VBase_8035E018 { char pad[0x14]; };
-
-struct VObj_8035E018 : VBase_8035E018 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5();
-    virtual void m6();
-    virtual void m7();
 };
 
 struct Rec_8035E018 { u8 b[0x1C]; };
@@ -603,7 +584,7 @@ void TObjEneEpsilonGuard::render_guard_effect() {
 
 void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     s32 i;
-    VObj_8035E018 *r;
+    MaterialColorFade *r;
     i = 0;
     if (is_split_screen() != 0) {
         i = get_camera_mode__11TCameraCtrlFv();
@@ -611,10 +592,10 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     saved_model_render_flags = model_render_flags;
     saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
     saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-    r = (VObj_8035E018 *)&((Self_8035E018 *)ene_re7_berura)->recs[i];
+    r = (MaterialColorFade *)&((Self_8035E018 *)ene_re7_berura)->recs[i];
     update__15RenderFadeStateFv(r);
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(ene_re7_berura + 0x2FC)) != 0) {
-        r->m6();
+        r->set_flags_and_apply_damage_color();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -622,7 +603,7 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
             return;
         }
     } else if (*(s16 *)((s8 *)ene_re7_berura + 0x326) == 3) {
-        ((VObj_8035E018 *)(ene_re7_berura + 0x4BC))->m6();
+        ((TObjEneEpsilonGuard *)ene_re7_berura)->fade.set_flags_and_apply_damage_color();
         if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
             model_render_flags = saved_model_render_flags;
             chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -659,9 +640,9 @@ void render_with_fade__19TObjEneEpsilonGuardFPvi(u8 *ene_re7_berura, s32 arg1) {
     pop_matrix();
     ((TObjEneDD *)ene_re7_berura)->update_primary_light();
     if (((RenderFadeState *)r)->updateFromCamera((const f32*)(ene_re7_berura + 0x2FC)) != 0) {
-        r->m7();
+        r->clear_flag_and_notify();
     } else if (*(s16 *)((s8 *)ene_re7_berura + 0x326) == 3) {
-        ((VObj_8035E018 *)(ene_re7_berura + 0x4BC))->m7();
+        ((TObjEneEpsilonGuard *)ene_re7_berura)->fade.clear_flag_and_notify();
     }
     model_render_flags = saved_model_render_flags;
     chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -765,14 +746,14 @@ void TObjEneEpsilonGuard__sub_8035E578(u8 *ene_dd, s32 arg1) {
     case 4:
         ((RecoveredFields_8035E578_arg0 *)ene_dd)->field_B8 = 0;
         ((TObjEneDD *)ene_dd)->set_field_378(3);
-        ((VObj_14_87d649 *)(ene_dd + (1212)))->m1(0x14);
-        ((VObj_14_87d649 *)(ene_dd + (1212)))->m2();
+        ((TObjEneEpsilonGuard *)ene_dd)->fade.set_rate_from_divisor(0x14);
+        ((TObjEneEpsilonGuard *)ene_dd)->fade.reset_color();
         temp_r4 = ((RecoveredFields_8035E578_arg0 *)ene_dd)->field_46C;
         ((RecoveredFields_8035E578_arg0 *)ene_dd)->field_46C = (s32) (temp_r4 & ~0x14);
         ((VObj_18_7f4864 *)(ene_dd))->m94(temp_r4);
         break;
     case 3:
-        if (((VObj_14_87d649 *)(ene_dd + (1212)))->m4() != 0) {
+        if (((TObjEneEpsilonGuard *)ene_dd)->fade.decay_value_toward_floor() != 0) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(0);
             ((RecoveredFields_8035E578_arg0 *)ene_dd)->field_46C = (s32) (((RecoveredFields_8035E578_arg0 *)ene_dd)->field_46C | 0x10);
             ((TObjEneDD *)(ene_dd))->vfunc_95();
@@ -1111,7 +1092,6 @@ extern u8 *lbl_805D6FA0;
 s32 TObjEneEpsilon__ct();
 extern s32 TObjEneEpsilonGuard__class_name;
 void *TObjEneEpsilonGuard__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5, void *arg6);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 u8 *__dt__14TObjEneEpsilonFv(u8 *arg0, s16 arg1);
@@ -1354,7 +1334,7 @@ u8 *__dt__19TObjEneEpsilonGuardFv(u8 *arg0, s16 arg1) {
             *(void **)((s8 *)arg0 + 0x45C) = NULL;
         }
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv(arg0 + 0x4BC, -1);
+        ((TObjEneEpsilonGuard *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__14TObjEneEpsilonFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -1411,7 +1391,7 @@ void *TObjEneEpsilonGuard__ct(void *ene_epsilon_guard, void *arg1, void *arg2, v
     s32 i;
     TObjEneEpsilon__ct();
     *(void ***)((s8 *)ene_epsilon_guard + 0x18) = __vt__19TObjEneEpsilonGuard;
-    __ct__13TUnk_80494938Fv(((u8 *)ene_epsilon_guard + 0x4BC));
+    __ct__19MaterialOpacityFadeFv(((u8 *)ene_epsilon_guard + 0x4BC));
     *(s32 *)((s8 *)ene_epsilon_guard + 0) = (s32) TObjEneEpsilonGuard__class_name;
     *(s16 *)((s8 *)ene_epsilon_guard + 0x470) = ((s16 (*)(void *))get_entity_id)(arg2);
     ((TObjEneDD *)ene_epsilon_guard)->init_common_from((u8 *)arg2);

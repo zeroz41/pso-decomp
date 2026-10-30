@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/unk/TUnk_80494968.h"
@@ -17,8 +19,6 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
-#include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
@@ -34,7 +34,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TTecResta.h"
 #include "pso/misc/TTecSifta.h"
 #include "pso/object/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -699,17 +698,6 @@ struct Stack_800E6BB8 {
     f32 spC;
 };
 
-struct VBase_14_948132 { char pad[0x14]; };
-
-struct VObj_14_948132 : VBase_14_948132 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5();
-};
-
 struct VBase_18_4a41ce
 {
   char pad[0x18];
@@ -822,14 +810,6 @@ struct VObj_18_4a41ce : VBase_18_4a41ce {
 struct VBase_14_763762
 {
   char pad[0x14];
-};
-
-struct VObj_14_763762 : VBase_14_763762 {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-    virtual void m3();
-    virtual s32 m4();
 };
 
 struct RecoveredFields_800E50D8_arg0
@@ -1334,38 +1314,13 @@ typedef struct VBase_14_763762 VBase_14_763762;
 
 typedef struct VBase_18_4a41ce VBase_18_4a41ce;
 
-typedef struct VObj_14_763762 VObj_14_763762;
+typedef struct MaterialColorFade MaterialColorFade;
 
 typedef struct VObj_18_4a41ce VObj_18_4a41ce;
 
 struct Info_800E6F0C;
 
 typedef char RecoveredGlobal_800F4758_lbl_8050110C_size[sizeof(RecoveredGlobal_800F4758_lbl_8050110C) == 0x14 ? 1 : -1];
-
-struct E71ACBase_800e71ac_800E71A8 { char pad[0x14]; };
-
-struct E71ACObj_800e71ac_800E71A8 : E71ACBase_800e71ac_800E71A8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-};
-
-struct E71FCBase_800e71fc_800E71A8 { char pad[0x14]; };
-
-struct E71FCObj_800e71fc_800E71A8 : E71FCBase_800e71fc_800E71A8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-};
 
 struct VBase_18_c44252 { char pad[0x18]; };
 
@@ -1421,13 +1376,6 @@ struct E_800E728C { u8 pad[0x60]; s32 f60; u8 pad64[0x390 - 0x64]; s32 f390; u8 
 
 typedef char RecoveredGlobal_800E7324_lbl_8043CF94_size[sizeof(RecoveredGlobal_800E7324_lbl_8043CF94) == 0xC ? 1 : -1];
 
-struct VBase_800E7884 { u8 pad[0x14]; };
-
-struct VObj_800E7884 : VBase_800E7884 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    u8 pad18[4];
-};
-
 struct Tbl_800E7884 { u8 pad[0xC]; s32 t[3][2]; };
 
 struct Mirage_800E7884 {
@@ -1456,7 +1404,7 @@ struct Mirage_800E7884 {
     s16 f3DC;
     void *f3E0;
     void *f3E4;
-    VObj_800E7884 sub;
+    MaterialOpacityFade sub;
     s32 f404;
     s32 f408;
     s32 f40C;
@@ -1489,7 +1437,6 @@ void get_camera_ctrl__9TObjEneDDFv(s32, s32);
 s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 void TObjEneDD__sub_800BA438(s32 arg0, u8 *arg1);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 void update_mirage__17TObjEneMe3ShinowaFv(void* p);
 void vfunc_116__17TObjEneMe3ShinowaFl(void);
@@ -2147,7 +2094,7 @@ void TObjEneMe3ShinowaMirage__sub_800E50D8(u8 *ene_dd, s32 arg1) {
       ((RecoveredFields_800E50D8_arg0 *) ene_dd)->field_404 = 2;
       return;
     }
-      (((VObj_14_763762 *)(((u8 *) ene_dd) + 1000))->m2());
+      (((TObjEneMe3Shinowa *)ene_dd)->fade.reset_color());
       ((RecoveredFields_800E50D8_arg0 *) ene_dd)->field_404 = 1;
       return;
     case 3:
@@ -2168,7 +2115,7 @@ void TObjEneMe3ShinowaMirage__sub_800E50D8(u8 *ene_dd, s32 arg1) {
       }
         break;
       case 1:
-        if ((((VObj_14_763762 *)(((u8 *) ene_dd) + 1000))->m4()) != 0)
+        if ((((TObjEneMe3Shinowa *)ene_dd)->fade.decay_value_toward_floor()) != 0)
       {
         ((RecoveredFields_800E50D8_arg0 *) ene_dd)->field_404 = 2;
       }
@@ -2922,14 +2869,14 @@ void TObjEneMe3Shinowa::sub_800E6BB8(s32 arg1) {
         ((TObjEneDD *)arg0)->set_field_378(0);
         this->vfunc_95();
         *(s32 *)((s8 *)arg0 + 0x3C4) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C4) & 0xFFFFFFFC);
-        ((TUnk_80494938 *)(arg0 + 0x3E8))->start_fade_in();
+        ((TObjEneMe3Shinowa *)arg0)->fade.start_fade_in();
         VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
         temp_f1 = *(f32 *)((s8 *)arg0 + 0x3C8);
         stack.spC = temp_f1 - TObjEneMe3ShinowaMirage__data_805DA5EC;
         TBoss3Volopt__sub_800D8D88(&stack.sp8, temp_f1);
         return;
     case 3:
-        if (((VObj_14_948132 *)(arg0 + (1000)))->m5() != 0) {
+        if (((TObjEneMe3Shinowa *)arg0)->fade.advance_toward_max() != 0) {
             transition_enemy_state__9TObjEneDDFl(arg0, 2);
         }
     case 5:
@@ -3115,7 +3062,7 @@ void TObjEneMe3Shinowa::dispatch_if_active() {
 
     temp_r0 = this->mode;
     if ((temp_r0 == 1) || (temp_r0 == 9) || (*(s32 *)((s8 *)arg0 + 0x3C4) & 0x80000)) {
-        ((E71ACObj_800e71ac_800E71A8*)(arg0 + 0x3E8))->m7();
+        ((TObjEneMe3Shinowa *)arg0)->fade.clear_flag_and_notify();
     }
 }
 
@@ -3125,7 +3072,7 @@ s32 TObjEneMe3Shinowa::update_effect() {
 
     temp_r0 = this->mode;
     if ((temp_r0 == 1) || (temp_r0 == 9) || (*(s32 *)((s8 *)arg0 + 0x3C4) & 0x80000)) {
-        ((E71FCObj_800e71fc_800E71A8*)(arg0 + 0x3E8))->m6();
+        ((TObjEneMe3Shinowa *)arg0)->fade.set_flags_and_apply_damage_color();
     }
     return 0;
 }
@@ -3314,7 +3261,7 @@ void *__dt__17TObjEneMe3ShinowaFv(void *arg0, s16 arg1) {
         if (*(void **)((s8 *)arg0 + 0x424) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x424)); *(s32 *)((s8 *)arg0 + 0x424) = 0; }
         if (*(void **)((s8 *)arg0 + 0x428) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x428)); *(s32 *)((s8 *)arg0 + 0x428) = 0; }
         free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3E8, -1);
+        ((TObjEneMe3Shinowa *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -3359,7 +3306,7 @@ void TObjEneMe3Shinowa::init_enemy() {
     self->f3DC = self->f2CC;
     self->f3E0 = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
     self->f3E4 = TUnk_80494968::create((u32)0xFF0000FF, (u32)0xA08000A0);
-    self->sub.m3();
+    self->sub.reset_obstruction_fade();
     self->f404 = 0;
     self->f408 = 0;
     self->f40C = 0;
@@ -3376,7 +3323,7 @@ void TObjEneMe3Shinowa::init_enemy() {
 void *TObjEneMe3Shinowa__ct(void *ene_me3_shinowa) {
     __ct__12TObjEneDD_STFP7TObject(ene_me3_shinowa);
     *(s32 **)((s8 *)ene_me3_shinowa + 0x18) = __vt__17TObjEneMe3Shinowa;
-    __ct__13TUnk_80494938Fv(((char *)ene_me3_shinowa + 1000));
+    __ct__19MaterialOpacityFadeFv(((char *)ene_me3_shinowa + 1000));
     *(void * *)&((TObjEneMe3Shinowa *)ene_me3_shinowa)->m_name = lbl_805D2AC8;
     return ene_me3_shinowa;
 }

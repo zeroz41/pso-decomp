@@ -1,6 +1,7 @@
 #ifndef PSO_ENEMY_TOBJENEGIBBLES_H
 #define PSO_ENEMY_TOBJENEGIBBLES_H
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include <stddef.h>
 #include "pso/enemy/TObjEnemy.h"
 
@@ -42,7 +43,9 @@ struct TObjEneGibbles : public TObjEnemy {
     u8 unk_3B4[0x4];
     void * m_3b8;
     s32 m_3bc;
-    u8 unk_3C0[0x8C];
+
+    MaterialOpacityFade fade;
+    u8 _padAfterFade[0x70];
     static void set_min_clamped_entry_value(s32 arg0, s32 arg1, f32 farg0);
     s32 spawn_ground_impact_effects(void *pos, f32 farg0);
     void play_distance_sound();
@@ -62,6 +65,8 @@ struct TObjEneGibbles : public TObjEnemy {
     void turn_toward_target();
     void slam_damage_players(s32 arg1);
 };
+
+typedef char TObjEneGibblesFadeOffset[offsetof(TObjEneGibbles, fade) == 0x3C0 ? 1 : -1];
 typedef char TObjEneGibbles_size[(sizeof(TObjEneGibbles) ==0x44C) ?1:-1];
 
 extern "C" {

@@ -1929,10 +1929,11 @@ pso/enemy/TObjEneMerillLia.cpp:
 	.data       start:0x804944D0 end:0x80494934
 	.sdata2     start:0x805DA2E8 end:0x805DA2EC
 
-pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp:
+pso/misc/MaterialOpacityFade.cpp:
 	.text       start:0x800D72A4 end:0x800D7690
 	.rodata     start:0x8043C6F8 end:0x8043C700
 	.data       start:0x80494938 end:0x80494964
+	.sdata2     start:0x805DA348 end:0x805DA364
 
 pso/player/TObjPlayer_800D7690.cpp:
 	.text       start:0x800D7690 end:0x800D7824

@@ -1,4 +1,5 @@
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRecobox.h"
@@ -35,15 +36,8 @@ struct VObj_8031F6C0 : Base_8031F6C0 {
 #define CAT(a, b) CAT2(a, b)
 #define PADV virtual void CAT(pv, __LINE__)();
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-struct Base_Sub_8031f748 { char pad[0x14]; };
-struct V_Sub_8031f748 : Base_Sub_8031f748 {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
 
 extern "C" {
-
 
 void TObjEneRecobox::sub_8031F6C0(s32 arg1) {
     s32 temp_r4;
@@ -73,10 +67,10 @@ void TObjEneRecon::handle_state(s32 arg1) {
         *(s16 *)((s8 *)arg0 + 0xB8) = 0;
         this->vfunc_95();
         ((TObjEneDD *)arg0)->set_field_378(0);
-        ((TUnk_80494938 *)(arg0 + 0x3C0))->start_fade_in();
+        ((TObjEneRecobox *)arg0)->fade.start_fade_in();
         return;
     case 3:
-        if (((V_Sub_8031f748 *) (arg0 + 0x3C0))->m5() != 0) {
+        if (((TObjEneRecobox *)arg0)->fade.advance_toward_max() != 0) {
             ((TObjEneDD *)arg0)->transition_enemy_state(2);
         }
     case 5:

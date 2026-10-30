@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEBM5GIBONU_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "dolphin/mtx.h"
 
@@ -34,8 +35,9 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     u8 _pad3C4[0x8];
     void* m_3cc;
     u8 _pad3D0[0x8];
-    void* m_3d8;
-    u8 _pad3DC[0x18];
+
+    MaterialOpacityFade fade;
+
     void* m_3f4;
     u8 _pad3F8[0x6C];
     u32 m_464;
@@ -102,6 +104,8 @@ struct TObjEneBm5GibonU : public TObjEneDD_ST {
     void forward_hit_to_enemy_list();
     void init_child_from_list();
 };
+
+typedef char TObjEneBm5GibonUFadeOffset[offsetof(TObjEneBm5GibonU, fade) == 0x3D8 ? 1 : -1];
 
 typedef char TObjEneBm5GibonU_size[sizeof(TObjEneBm5GibonU) == 0x568 ? 1 : -1];
 typedef char TObjEneBm5GibonU_m_3c0[offsetof(TObjEneBm5GibonU, m_3c0) == 0x3C0 ? 1 : -1];

@@ -1,3 +1,6 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
+#include "pso/player/TUnk_80490470.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
@@ -15,13 +18,11 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
 
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TUnk_80490470.h"
-#include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss8Dragon.h"
@@ -29,7 +30,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/TObjEneMorfosArm.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
@@ -507,49 +507,6 @@ struct V_A_803326C4 : Base_A_803326C4 {
     virtual void m100(s32);
 };
 
-struct VBase_14_80333E48 { char pad[0x14]; };
-
-struct VObj_14_80333E48 : VBase_14_80333E48 {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
-struct VBase_14_2f517b { char pad[0x14]; };
-
-struct VObj_14_2f517b : VBase_14_2f517b {
-    virtual void m0();
-    virtual void m1();
-    virtual s32 m2();
-};
-
-struct VBase_14_948132 { char pad[0x14]; };
-
-struct VObj_14_948132 : VBase_14_948132 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5();
-};
-
-struct VBase_14_fddec9 { char pad[0x14]; };
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
-
 struct RecoveredGlobal_803326CC_main_task {
     s32 value;
     u8 remaining[0x30];
@@ -584,8 +541,6 @@ struct V3_80334588 { f32 x, y, z; };
 
 struct O_80334588 { u8 pad[0x60]; s32 f60; u8 pad2[0x2FC - 0x64]; V3_80334588 pos; };
 
-struct Part_803329E4 : VObj_14_fddec9 { u8 pad18[4]; };
-
 struct Self_803329E4 {
     u8 pad0[0x24];
     s32 f24;
@@ -596,9 +551,9 @@ struct Self_803329E4 {
     u8 cam[0x3C0 - 0x2FC];
     s32 f3C0;
     u8 pad3C4[0x3EC - 0x3C4];
-    VObj_14_fddec9 body;
-    u8 pad404[0x424 - 0x404];
-    Part_803329E4 parts[4];
+    TUnk_80490470 body;
+    u8 pad408[0x424 - 0x408];
+    RenderFadeState parts[4];
     u8 pad494[0x498 - 0x494];
     u8 f498[4];
 };
@@ -634,16 +589,6 @@ struct Obj_80334A4C { u8 pad[0x60]; s32 f60; u8 pad1[0x2FC - 0x64]; Vec_80334A4C
 
 typedef char RecoveredGlobal_80334CC8___vt__13TObjEneMorfos_size[sizeof(RecoveredGlobal_80334CC8___vt__13TObjEneMorfos) == 0x1AC ? 1 : -1];
 
-struct VBase_14_c1c33b { char pad[0x14]; };
-
-struct VObj_14_c1c33b : VBase_14_c1c33b {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
 f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 u16 get_entity_id(void *);
 void TLobby__sub_8001FE7C(void*, int);
@@ -659,7 +604,6 @@ void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 clear_attack_receipts__9TObjEneDDFv();
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 update__15RenderFadeStateFv(void *);
 s32 angle_difference_abs(s32, s32);
 s32 angle_diff_s16(s32);
@@ -905,10 +849,10 @@ void TObjEneMorfos::draw_body() {
         post_translate_matrix(arg0 + 0x498);
         rotate_matrix_y(0, (int) (((RecoveredFields_803326CC_arg0 *)arg0)->field_60));
         if (((RecoveredFields_803326CC_arg0 *)arg0)->field_3C0 & 2) {
-            if (((VObj_14_fddec9 *)(arg0 + (1032)))->m8() != 0) {
-                ((VObj_14_fddec9 *)(arg0 + (1032)))->m6();
+            if (((TObjEneMorfos *)arg0)->fade.has_visible_opacity() != 0) {
+                ((TObjEneMorfos *)arg0)->fade.set_flags_and_apply_damage_color();
                 draw_chunk_model((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
-                ((VObj_14_fddec9 *)(arg0 + (1032)))->m7();
+                ((TObjEneMorfos *)arg0)->fade.clear_flag_and_notify();
             }
         } else {
             draw_chunk_model((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(((RecoveredFields_803326CC_TObjEneMorfos__data_805D6D14 *)(*(u8 * *)&TObjEneMorfos__instance))->field_42C) + 0x28)) + 4)));
@@ -978,7 +922,7 @@ void render__13TObjEneMorfosFv(u8 *ene_morfos) {
 
 void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     s32 vis;
-    Part_803329E4 *part;
+    RenderFadeState *part;
     Self_803329E4 *self = (Self_803329E4 *)this;
     part = &self->parts[idx];
     update__15RenderFadeStateFv(part);
@@ -992,19 +936,19 @@ void TObjEneMorfos::render_part(s32 idx, s32 mode) {
     TObjEneMorfos__camera_path_cursor = (s32)self->f498;
     set_chunk_model_node_callback((s32)((void *)TObjEneMorfos::record_camera_path_point));
     if (self->f3C0 & 2) {
-        if (self->body.m8() != 0) {
-            self->body.m6();
+        if (self->body.has_visible_opacity() != 0) {
+            self->body.set_flags_and_apply_damage_color();
             if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
                 ((TObjMotion *)self)->draw();
             }
-            self->body.m7();
+            self->body.clear_flag_and_notify();
         }
     } else if (vis != 0) {
-        part->m6();
+        part->set_flags_and_apply_damage_color();
         if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200) {
             ((TObjMotion *)self)->draw();
         }
-        part->m7();
+        part->clear_flag_and_notify();
     } else if (!(get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x200)) {
         if (mode == 1) {
             ((TObjMotion *)self)->draw();
@@ -1065,7 +1009,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         this->m_4c4 = (f32) *(s32 *)((s8 *)arg0 + 0x3D4);
         this->m_4b4 = 0;
         *(s32 *)((s8 *)arg0 + 0x4B0) = 0;
-        ((TObjEneMe3SinowZoa *)(arg0 + 0x408))->init_death_params();
+        ((TObjEneMorfos *)arg0)->fade.start_fade_out();
         play_sound_effect(0x4003A626, (u32)(arg0 + 0x38), 0, 0);
         return;
     case 3:
@@ -1079,7 +1023,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
         switch (temp_r0) {
         case 0:
             ((TObjMotion *)arg0)->advance_animation();
-            temp_r30 = ((VObj_14_c1c33b *)(arg0 + (1032)))->m4();
+            temp_r30 = ((TObjEneMorfos *)arg0)->fade.decay_value_toward_floor();
             if ((((s32 (*)(void *))get_flag_b4__9TObjEneDDFv)(arg0) != 0) && (temp_r30 != 0)) {
                 fn_800D911C((Vec *)(arg0 + 0x38));
                 play_sound_effect(0x4003A830, (u32)(arg0 + 0x38), 0, 0);
@@ -1090,7 +1034,7 @@ void TObjEneMorfos::state_death(s32 arg1) {
             }
             break;
         case 1:
-            if (((VObj_14_c1c33b *)(arg0 + (1004)))->m4() != 0) {
+            if (((MaterialColorFade *)(arg0 + (1004)))->decay_value_toward_floor() != 0) {
                 this->m_4b4 = 2;
                 *(s32 *)((s8 *)arg0 + 0x3C0) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C0) | 1);
                 TObjPlayer::apply_effect_variant_b((s32)(arg0 + 0x38), 0);
@@ -1607,15 +1551,15 @@ void TObjEneMorfos__sub_80333E48(u8 *ene_dd_st, s32 arg1) {
                 if ((s32) *(s32 *)((s8 *)ene_dd_st + 0x4B4) > 0x3C) {
                     *(s32 *)((s8 *)ene_dd_st + 0x4B4) = 0;
                     *(s32 *)((s8 *)ene_dd_st + 0x4B0) = 1;
-                    ((VObj_14_80333E48 *)(ene_dd_st + (1004)))->m2();
-                    ((VObj_14_80333E48 *)(ene_dd_st + (1032)))->m2();
+                    ((MaterialColorFade *)(ene_dd_st + (1004)))->reset_color();
+                    ((TObjEneMorfos *)ene_dd_st)->fade.reset_color();
                     *(s32 *)((s8 *)ene_dd_st + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd_st + 0x3C0) | 2);
                 }
             }
             break;
         case 1:
-            temp_r31 = ((VObj_14_80333E48 *)(ene_dd_st + (1032)))->m4();
-            if ((((VObj_14_80333E48 *)(ene_dd_st + (1004)))->m4() != 0) && (temp_r31 != 0)) {
+            temp_r31 = ((TObjEneMorfos *)ene_dd_st)->fade.decay_value_toward_floor();
+            if ((((MaterialColorFade *)(ene_dd_st + (1004)))->decay_value_toward_floor() != 0) && (temp_r31 != 0)) {
                 *(s32 *)((s8 *)ene_dd_st + 0x4B0) = 3;
             }
             break;
@@ -1637,8 +1581,8 @@ void TObjEneMorfos__sub_80334030(u8 *ene_dd, s32 arg1) {
         VecCopy((Vec *)(ene_dd + 0x38), (const Vec *)(ene_dd + 0x50));
         VecCopy((Vec *)(ene_dd + 0x44), (const Vec *)(ene_dd + 0x38));
         VecCopy((Vec *)(ene_dd + 0x2FC), (const Vec *)(ene_dd + 0x38));
-        ((VObj_14_2f517b *)(ene_dd + (1004)))->m2();
-        ((VObj_14_2f517b *)(ene_dd + (1032)))->m2();
+        ((MaterialColorFade *)(ene_dd + (1004)))->reset_color();
+        ((TObjEneMorfos *)ene_dd)->fade.reset_color();
         return;
     case 3:
         if (update_linked_position__12TObjEneDD_STFf(TObjEneMorfos__data_805DF86C) != 0) {
@@ -1706,12 +1650,12 @@ void TObjEneMorfos__sub_803342B8(u8 *ene_dd, s32 arg1) {
         *(s32 *)((s8 *)ene_dd + 0x3C0) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3C0) | 2);
         ((TObjEneDD *)ene_dd)->set_field_378(3);
         TObjPlayer__sub_800A0554(ene_dd + 0x3EC);
-        ((TUnk_80494938 *)(ene_dd + 0x408))->start_fade_in();
+        ((TObjEneMorfos *)ene_dd)->fade.start_fade_in();
         ((TBoss3Volopt *)(ene_dd + 0x38))->play_area_se_with_particle();
         return;
     case 3:
-        temp_r31 = ((VObj_14_948132 *)(ene_dd + (1032)))->m5();
-        if ((((VObj_14_948132 *)(ene_dd + (1004)))->m5() != 0) && (temp_r31 != 0)) {
+        temp_r31 = ((TObjEneMorfos *)ene_dd)->fade.advance_toward_max();
+        if ((((MaterialColorFade *)(ene_dd + (1004)))->advance_toward_max() != 0) && (temp_r31 != 0)) {
             transition_enemy_state__9TObjEneDDFl(ene_dd, 3);
         }
         return;
@@ -1971,7 +1915,7 @@ u8 *__dt__13TObjEneMorfosFv(u8 *arg0, s16 arg1) {
         }
         free_collision_body_parts(arg0);
         __destroy_arr(arg0 + 0x424, &__dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80494938Fv((arg0 + 0x408), -1);
+        ((TObjEneMorfos *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__13TUnk_80490470Fv((arg0 + 0x3EC), -1);
         __dt__12TObjEneDD_STFv((arg0), 0);
         if (arg1 > 0) {
@@ -1981,12 +1925,6 @@ u8 *__dt__13TObjEneMorfosFv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-struct VBase_14_80334D74 { char pad[0x14]; };
-struct VSub_80334D74 : VBase_14_80334D74 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-};
 struct VBase_18_80334D74 { char pad[0x18]; };
 struct VObj_80334D74 : VBase_18_80334D74 {
     virtual void m0();
@@ -2123,8 +2061,8 @@ void TObjEneMorfos::init_instance() {
     *(s32 *)((s8 *)this + 0x3C4) = 0;
     VecCopy((Vec *)((u8 *)this + 0x3C8), (const Vec *)((u8 *)this + 0x38));
     *(s32 *)((s8 *)this + 0x3D4) = 0;
-    ((VSub_80334D74 *)((u8 *)this + 0x3EC))->m2();
-    ((VSub_80334D74 *)((u8 *)this + 0x408))->m2();
+    ((MaterialColorFade *)((u8 *)this + 0x3EC))->reset_color();
+    ((TObjEneMorfos *)this)->fade.reset_color();
     for (i = 0; i < 4; i++) {
         ((RenderFadeState *)(&((Arr_80334D74 *)this)->e[i]))->activate_and_dispatch();
     }
@@ -2151,7 +2089,7 @@ void *TObjEneMorfos__ct(void *ene_morfos, void *arg1, void *arg2) {
     __ct__12TObjEneDD_STFP7TObject(ene_morfos);
     *(s32 **)((s8 *)ene_morfos + 0x18) = __vt__13TObjEneMorfos;
     __ct__13TUnk_80490470Fv(((char *)ene_morfos + 1004));
-    __ct__13TUnk_80494938Fv(((char *)ene_morfos + 1032));
+    __ct__19MaterialOpacityFadeFv(((char *)ene_morfos + 1032));
     __construct_array((void *)((char *)ene_morfos + 1060), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
     *(void * *)&((TObjEneMorfos *)ene_morfos)->m_name = morfos_class_name;
     invoke_initialization_hook__9TObjEneDDFPv(ene_morfos, arg2);

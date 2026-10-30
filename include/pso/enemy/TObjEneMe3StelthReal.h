@@ -12,7 +12,7 @@ struct TObjEneMe3StelthReal : public TObjEneMe3Stelth {
     void vfunc_63();
     void vfunc_62();
     static void *create(void *arg0);
-    u8 unk_3EC[0x60];
+    u8 unk_420[0x2C];
 };
 
 typedef char TObjEneMe3StelthReal_size[sizeof(TObjEneMe3StelthReal) == 0x44C ? 1 : -1];

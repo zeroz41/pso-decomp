@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/object/TObjMotion.h"
@@ -11,20 +13,6 @@
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-
-struct VBase_14_fddec9 { char pad[0x14]; };
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
 
 struct VBase_18_1fdb47 { char pad[0x18]; };
 
@@ -138,7 +126,6 @@ struct VObj_18_1fdb47 : VBase_18_1fdb47 {
 
 struct Vec_8031BE8C { f32 x, y, z; };
 
-struct Recon_8031BE8C { u8 pad[0x480]; VObj_14_fddec9 fade; };
 
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
@@ -183,8 +170,8 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                 saved_model_render_flags = model_render_flags;
                 saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
                 saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-                if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
-                    ((Recon_8031BE8C *)ene_recon)->fade.m6();
+                if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((TObjEneRecon *)ene_recon)->fade.has_visible_opacity() != 0)) {
+                    ((TObjEneRecon *)ene_recon)->fade.set_flags_and_apply_damage_color();
                     if (defer_render__7TObjectFv(ene_recon) != 0) {
                         var_r29 = 0;
                     }
@@ -219,8 +206,8 @@ void render__12TObjEneReconFv(u8 *ene_recon) {
                     pop_matrix();
                     ((TObjEneDD *)ene_recon)->update_primary_light();
                 }
-                if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((Recon_8031BE8C *)ene_recon)->fade.m8() != 0)) {
-                    ((Recon_8031BE8C *)ene_recon)->fade.m7();
+                if (((s16) *(s16 *)((s8 *)ene_recon + 0x326) == 5) && (((TObjEneRecon *)ene_recon)->fade.has_visible_opacity() != 0)) {
+                    ((TObjEneRecon *)ene_recon)->fade.clear_flag_and_notify();
                 }
                 model_render_flags = saved_model_render_flags;
                 chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;

@@ -1,8 +1,9 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/unk/text_800C2A88.h"
 #include "pso/unk/text_800C3A60.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
@@ -133,14 +134,6 @@ struct VBase_14_00f1d1
   char pad[0x14];
 };
 
-struct VObj_14_00f1d1 : VBase_14_00f1d1 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual int m4();
-};
-
 struct RecoveredFields_800C2AC4_arg0
 {
   u8 unknown_0[0x3C];
@@ -171,7 +164,7 @@ typedef struct RecoveredFields_800C2AC4_arg0 RecoveredFields_800C2AC4_arg0;
 typedef struct Stack_800C2AC4 Stack_800C2AC4;
 typedef struct VBase_14_00f1d1 VBase_14_00f1d1;
 typedef struct VBase_18_9c7b63 VBase_18_9c7b63;
-typedef struct VObj_14_00f1d1 VObj_14_00f1d1;
+typedef struct MaterialColorFade MaterialColorFade;
 typedef struct VObj_18_9c7b63 VObj_18_9c7b63;
 
 void fn_800C2A88(void *self, s32 msg) {
@@ -226,7 +219,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
         {
           TObjPlayer::apply_effect_variant_a((s32)&stack.sp8, 0x32);
           fn_800D911C((Vec *)(&stack.sp8));
-          ((TObjEneMe3SinowZoa *)(arg0 + 0x3F4))->init_death_params();
+          ((TObjEneRe2Flower *)arg0)->fade.start_fade_out();
         }
         else
         {
@@ -239,7 +232,7 @@ void fn_800C2AC4(u8 *arg0, int arg1) {
       case 1:
         if (((TObjEneRe2Flower *)arg0)->get_flag_11() != 0)
       {
-        if ((((VObj_14_00f1d1 *)(((u8 *) arg0) + 1012))->m4()) != 0)
+        if ((((TObjEneRe2Flower *)arg0)->fade.decay_value_toward_floor()) != 0)
         {
           ((RecoveredFields_800C2AC4_arg0 *) arg0)->field_410 = 2;
           return;

@@ -1,6 +1,7 @@
 #ifndef PSO_UNK_TOBJENEEPSILONBODY_H
 #define PSO_UNK_TOBJENEEPSILONBODY_H
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneEpsilon.h"
 
 class TObjEneEpsilonBody : public TObjEneEpsilon {
@@ -36,12 +37,17 @@ public:
     s32 m_450; // 0x450
     u8 unk_454[0x4];
     f32 m_458; // 0x458
-    u8 unk_45C[0x88];
+
+    u8 _padBeforeFade[0x64];
+    MaterialOpacityFade fade;
+    u8 _padAfterFade[0x8];
     s32 m_4e4; // 0x4E4
     u8 unk_4E8[0x10];
     f32 m_4f8; // 0x4F8
     u8 unk_4FC[0x18];
 };
+
+typedef char TObjEneEpsilonBodyFadeOffset[offsetof(TObjEneEpsilonBody, fade) == 0x4C0 ? 1 : -1];
 typedef char TObjEneEpsilonBody_size[sizeof(TObjEneEpsilonBody) == 0x514 ? 1 : -1];
 
 #endif

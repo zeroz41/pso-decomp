@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "types.h"
@@ -22,8 +24,6 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/object/TObjFish.h"
 
-#include "pso/enemy/TUnk_80494938.h"
-
 extern "C" void test_flag_256__13TUnk_80493450Fv();
 
 #include <stddef.h>
@@ -35,13 +35,6 @@ struct Stack_800ABA9C {
 
 struct RecoveredGlobal_800ABA9C_lbl_8058D490 { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_800ABA9C_lbl_8058D490_size[sizeof(RecoveredGlobal_800ABA9C_lbl_8058D490) == 0x30 ? 1 : -1];
-
-struct VBase_14_800ABCBC { char pad[0x14]; };
-
-struct VObj_14_800ABCBC : VBase_14_800ABCBC {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4();
-    virtual s32 m5();
-};
 
 struct Obj_800ABCBC { u8 pad0[0x38]; u8 sub38[0x326 - 0x38]; s16 f326; s16 state; u8 pad32a[0x390 - 0x32A]; s32 f390; };
 
@@ -111,18 +104,6 @@ struct VBase_14_800ABDD8
   char pad[0x14];
 };
 
-struct VObj_14_800ABDD8 : VBase_14_800ABDD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-};
-
 struct VBase_18_800ABDD8
 {
   char pad[0x18];
@@ -141,22 +122,10 @@ struct VObj_18_800ABDD8 : VBase_18_800ABDD8 {
     virtual s32 m9(f32, f32, f32);
 };
 
-struct Fade_800ABDD8 : VBase_14_800ABDD8 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    u32 x18;
-};
-
 struct Owner_800ABDD8
 {
   u8 pad[0x3CC];
-  Fade_800ABDD8 fades[4];
+  RenderFadeState fades[4];
 };
 
 struct Vec_800ABDD8
@@ -332,7 +301,7 @@ void TObjEneShark::vfunc_83() {
     case 0:
     default:
         if (*(s32 *)&this->m_390 != 0) {
-            ((TUnk_80494938 *)((u8 *)arg0 + 0x3A8))->start_fade_in();
+            ((TObjEneShark *)arg0)->fade.start_fade_in();
             ((TBoss3Volopt *)(arg0->sub38))->play_area_sound_effect();
             *(s16 *)&this->m_328 = 1;
         } else {
@@ -340,7 +309,7 @@ void TObjEneShark::vfunc_83() {
         }
         break;
     case 1:
-        if (((VObj_14_800ABCBC *)((u8 *)arg0 + 0x3A8))->m5() == 1) {
+        if (((TObjEneShark *)arg0)->fade.advance_toward_max() == 1) {
             *(s16 *)&this->m_328 = 2;
             *(s32 *)&this->m_390 = 0;
         }
@@ -365,11 +334,11 @@ void TObjPlayer::update_particle_by_phase() {
     }
     shark_render_node_index += 1;
 }
-typedef struct Fade_800ABDD8 Fade_800ABDD8;
+typedef struct RenderFadeState RenderFadeState;
 typedef struct Owner_800ABDD8 Owner_800ABDD8;
 typedef struct VBase_14_800ABDD8 VBase_14_800ABDD8;
 typedef struct VBase_18_800ABDD8 VBase_18_800ABDD8;
-typedef struct VObj_14_800ABDD8 VObj_14_800ABDD8;
+typedef struct MaterialColorFade MaterialColorFade;
 typedef struct VObj_18_800ABDD8 VObj_18_800ABDD8;
 typedef struct Vec_800ABDD8 Vec_800ABDD8;
 #define PSO_VCALL_VObj_18_800ABDD8_m9(_self, _arg0, _arg1, _arg2) (((VObj_18_800ABDD8 *)(_self))->m9((_arg0), (_arg1), (_arg2)))
@@ -448,19 +417,19 @@ void TObjEneShark::render() {
     set_chunk_model_node_callback((s32)((void *) TObjPlayer::update_particle_by_phase));
     if ((*(s32 *)&this->m_390) == 1)
     {
-      if (((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m8() != 0)
+      if (this->fade.has_visible_opacity() != 0)
       {
         saved_model_render_flags = model_render_flags;
         saved_chunk_polygon_flags_and_mask = chunk_polygon_flags_and_mask;
         saved_chunk_polygon_flags_or_mask = chunk_polygon_flags_or_mask;
-        ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m6();
+        this->fade.set_flags_and_apply_damage_color();
         if (defer_render__7TObjectFv(arg0) == 0)
         {
           model_render_flags |= 1;
           ((TObjMotion *)arg0)->draw();
           model_render_flags &= ~1;
         }
-        ((VObj_14_800ABDD8 *) (arg0 + 0x3A8))->m7();
+        this->fade.clear_flag_and_notify();
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
@@ -470,7 +439,7 @@ void TObjEneShark::render() {
     {
       if (fade != 0)
       {
-        ((Owner_800ABDD8 *) arg0)->fades[mode].m6();
+        ((Owner_800ABDD8 *) arg0)->fades[mode].set_flags_and_apply_damage_color();
       }
       if (fade != 0)
       {
@@ -497,7 +466,7 @@ void TObjEneShark::render() {
       }
       if (fade != 0)
       {
-        ((Owner_800ABDD8 *) arg0)->fades[mode].m7();
+        ((Owner_800ABDD8 *) arg0)->fades[mode].clear_flag_and_notify();
       }
     }
     set_chunk_model_node_callback(0);
@@ -542,7 +511,6 @@ void TObjEneShark::render() {
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/TObjEnePanarms.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TNowLoading.h"
 
 struct E_800AC9DC { u8 pad[8]; s32 x8; s32 xc; };
@@ -576,7 +544,6 @@ extern s32 game_difficulty_selection;
 void *__dt__13TUnk_80493450Fv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
 void __destroy_arr(void *, void *, int, int);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 extern u8 __dt__15RenderFadeStateFv[];
 O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
@@ -905,7 +872,7 @@ O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
         ((TUnk_80493450 *)arg0)->unlink_enemy_group_relations();
         free_collision_body_parts(arg0);
         __destroy_arr((u8 *)arg0 + 0x3CC, __dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3A8, -1);
+        ((TObjEneShark *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__13TUnk_80493450Fv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -916,13 +883,6 @@ O_800AC5EC *__dt__12TObjEneSharkFv(O_800AC5EC *arg0, s16 arg1) {
 
 }
 
-struct SubBase_800AC6B0 { u8 pad[0x14]; };
-struct Sub_800AC6B0 : SubBase_800AC6B0 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-};
 struct VBase_800AC6B0 { u8 pad[0x18]; };
 struct VObj_800AC6B0 : VBase_800AC6B0 {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -985,8 +945,7 @@ struct Shark_800AC6B0 : VObj_800AC6B0 {
     f32 f39C;
     f32 f3A0;
     f32 f3A4;
-    Sub_800AC6B0 f3A8;
-    u8 pad3c0[0x3c4 - 0x3c0];
+    MaterialOpacityFade f3A8;
     void *f3C4;
     void *f3C8;
     u8 f3CC[4][0x1C];
@@ -1014,7 +973,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
 
     ((void (*)(void *, void *))init_enemy_base__13TUnk_80493450Fv)(self, arg1);
     *(void **)((u8 *)self + 0x18) = lbl_8049168C;
-    __ct__13TUnk_80494938Fv(((u8 *)arg0 + 0x3A8));
+    __ct__19MaterialOpacityFadeFv(((u8 *)arg0 + 0x3A8));
     __construct_array(self->f3CC, (void *)__ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 0x1C, 4);
     *(s32 *)self = TObjEneShark_name_ref;
     self->m79(arg2);
@@ -1071,7 +1030,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
             break;
         }
     }
-    self->f3A8.m3();
+    ((TObjEneShark *)self)->fade.reset_obstruction_fade();
     self->f390 = 1;
     self->f3C4 = TUnk_80494968::create((u32)0xA0303030, (u32)color);
     self->f3C8 = TUnk_80494968::create((u32)0xA0303030, (u32)color);

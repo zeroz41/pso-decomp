@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENESHARK_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/misc/RenderFadeState.h"
 
 struct TObjEneShark {
@@ -62,15 +63,17 @@ struct TObjEneShark {
     u8 unknown384[0x0C];
     u32 m_390;
     u8 _pad394[0x14];
-    u8 special_render_state[0x14];
-    void* special_render_virtual_table;
-    u8 _pad3C0[0x4];
+
+    MaterialOpacityFade fade;
+
     void* m_3c4;
     void* m_3c8;
     RenderFadeState camera_fades[4];
     static void *create(void *arg0);
     static void free_resources();
 };
+
+typedef char TObjEneSharkFadeOffset[offsetof(TObjEneShark, fade) == 0x3A8 ? 1 : -1];
 
 #include <stddef.h>
 #define SHARK_OFFSET(member, offset) \
@@ -101,8 +104,7 @@ SHARK_OFFSET(m_378, 0x378);
 SHARK_OFFSET(m_37c, 0x37C);
 SHARK_OFFSET(render_y_offset, 0x380);
 SHARK_OFFSET(m_390, 0x390);
-SHARK_OFFSET(special_render_state, 0x3A8);
-SHARK_OFFSET(special_render_virtual_table, 0x3BC);
+SHARK_OFFSET(fade, 0x3A8);
 SHARK_OFFSET(m_3c4, 0x3C4);
 SHARK_OFFSET(m_3c8, 0x3C8);
 SHARK_OFFSET(camera_fades, 0x3CC);

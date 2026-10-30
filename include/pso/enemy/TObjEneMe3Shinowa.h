@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEME3SHINOWA_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneMe3Shinowa : public TObjEneDD_ST {
@@ -48,7 +49,15 @@ struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     void* m_3cc;
     u8 unk_3D0[0x18];
     void* m_3e8;
+    u8 _padBeforeFade[0x10];
+    u32 m_3fc;
+    u8 _padBeforeFadeTail[0x4];
+    MaterialOpacityFade fade;
     void copy_position_vector();
 };
+
+typedef char TObjEneMe3Shinowa_m_3fc_offset[offsetof(TObjEneMe3Shinowa, m_3fc) == 0x3E0 ? 1 : -1];
+
+typedef char TObjEneMe3ShinowaFadeOffset[offsetof(TObjEneMe3Shinowa, fade) == 0x3E8 ? 1 : -1];
 
 #endif

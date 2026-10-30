@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEDOLMOLM_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TUnk_80493450.h"
 
 struct TObjEneDolmOlm : public TUnk_80493450 {
@@ -24,10 +25,9 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     virtual void vfunc_95();
     virtual void vfunc_94();
     virtual void vfunc_93();
-    void* m_3a8;
-    u8 _pad3AC[0x10];
-    u32 m_3bc;
-    u8 _pad3C0[0x4];
+
+    MaterialOpacityFade fade;
+
     u32 m_3c4;
     u32 m_3c8;
     u8 unk_3CC[0x4];
@@ -44,6 +44,8 @@ struct TObjEneDolmOlm : public TUnk_80493450 {
     void init_body_sub();
     static void reset_count();
 };
+
+typedef char TObjEneDolmOlmFadeOffset[offsetof(TObjEneDolmOlm, fade) == 0x3A8 ? 1 : -1];
 
 typedef char TObjEneDolmOlm_size[sizeof(TObjEneDolmOlm) == 0x3E8 ? 1 : -1];
 

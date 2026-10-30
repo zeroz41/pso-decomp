@@ -1,11 +1,11 @@
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjMotion.h"
 #include "pso/misc/TBreakUpMdl.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneDubchik.h"
@@ -173,12 +173,7 @@ void TObjPlayer__sub_800AA82C(void);
 #define CAT(a, b) CAT2(a, b)
 #define PADV virtual void CAT(pv, __LINE__)();
 #define PADV4 virtual void CAT(pa, __LINE__)(); virtual void CAT(pb, __LINE__)(); virtual void CAT(pc, __LINE__)(); virtual void CAT(pd, __LINE__)();
-struct Base_Sub { char pad[0x14]; };
-struct V_Sub : Base_Sub {
-    PADV4
-    PADV
-    virtual s32 m5();
-};
+
 struct RecoveredGlobal_800A8B8C_lbl_804910F4
 {
   s32 value;
@@ -195,19 +190,6 @@ struct Obj_800A8A7C { u8 pad[0x388]; u32 flags; };
 struct Vec_800A8C4C { s32 x, y, z; };
 
 struct Obj_800A8A7C;
-struct VBase_14_fddec9 { char pad[0x14]; };
-
-struct VObj_14_fddec9 : VBase_14_fddec9 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual s32 m6();
-    virtual s32 m7();
-    virtual s32 m8();
-};
 
 struct VBase_18_ca64a0 { char pad[0x18]; };
 
@@ -223,8 +205,6 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
     virtual void m8();
     virtual s32 m9(f32, f32, f32);
 };
-
-struct Self_800AA334 { u8 pad[0x3B0]; VObj_14_fddec9 sub; };
 
 struct Vec_800AA334 { s32 x, y, z; };
 
@@ -457,10 +437,10 @@ void TObjPlayer__sub_800A8E04(u8 *ene_me1_gi_gue) {
         ((TObjEneMe1GiGue *)ene_me1_gi_gue)->requested_action = 5;
         ((TObjMotion *)ene_me1_gi_gue)->advance_animation();
         TBoss3Volopt__sub_800D8D88((s32)(ene_me1_gi_gue + 0x2FC));
-        ((TUnk_80494938 *)(ene_me1_gi_gue + 0x3B0))->start_fade_in();
+        ((TObjEneDubchik *)ene_me1_gi_gue)->fade.start_fade_in();
         ((TObjEneMe1GiGue *)ene_me1_gi_gue)->state = 1;
     case 1:
-        if (((V_Sub *) (ene_me1_gi_gue + 0x3B0))->m5() == 1) {
+        if (((TObjEneDubchik *)ene_me1_gi_gue)->fade.advance_toward_max() == 1) {
             ((TObjEneMe1GiGue *)ene_me1_gi_gue)->state = -1;
         }
         return;
@@ -994,8 +974,8 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
             if (TObjPlayer::check_demo_mode() == 1) {
                 draw_chunk_object((void *)(*(s32 *)((s8 *)arg0 + 0x34)));
             } else if (((TObjEneDubchik *)arg0)->m_388 & 4) {
-                if (((Self_800AA334 *)arg0)->sub.m8() != 0) {
-                    ((Self_800AA334 *)arg0)->sub.m6();
+                if (((TObjEneDubchik *)arg0)->fade.has_visible_opacity() != 0) {
+                    ((TObjEneDubchik *)arg0)->fade.set_flags_and_apply_damage_color();
                     var_r29 = 1;
                     if (defer_render__7TObjectFv(arg0) != 0) {
                         var_r29 = 0;
@@ -1007,7 +987,7 @@ void TObjPlayer__sub_800AA334(u8 *arg0) {
                             ((TObjEnemy *)arg0)->draw_motion_model();
                         }
                     }
-                    ((Self_800AA334 *)arg0)->sub.m7();
+                    ((TObjEneDubchik *)arg0)->fade.clear_flag_and_notify();
                 } else {
                     var_r30 = 0;
                 }

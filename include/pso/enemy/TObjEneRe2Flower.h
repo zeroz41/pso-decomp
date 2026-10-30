@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENERE2FLOWER_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneRe2Flower : public TObjEneDD_ST {
@@ -30,13 +31,9 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     u8 _pad3F8[0x10];
     u32 m_408;
     u8 _pad40C[0x4];
-    u32 m_410;
-    u32 m_414;
-    u32 m_418;
-    u32 m_41c;
-    u32 m_420;
-    u8 _pad424[0x4];
-    u32 m_428;
+
+    MaterialOpacityFade fade;
+
     void handle_event(s32 arg1);
     void begin_state_242();
     s32 check_hit_flag();
@@ -48,6 +45,8 @@ struct TObjEneRe2Flower : public TObjEneDD_ST {
     int get_flag_11();
     u8 unk_410[0x1C];
 };
+
+typedef char TObjEneRe2FlowerFadeOffset[offsetof(TObjEneRe2Flower, fade) == 0x3F4 ? 1 : -1];
 
 typedef char TObjEneRe2Flower_size[sizeof(TObjEneRe2Flower) == 0x42C ? 1 : -1];
 #endif

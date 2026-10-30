@@ -2,6 +2,7 @@
 #define PSO_OBJECT_TOBJGRASS_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjGrass : public TObjEnemy {
@@ -33,10 +34,9 @@ struct TObjGrass : public TObjEnemy {
     u8 _pad3A4[0x4];
     u32 m_3a8;
     u32 m_3ac;
-    void* m_3b0;
-    u8 _pad3B4[0x10];
-    u32 m_3c4;
-    u8 _pad3C8[0x4];
+
+    MaterialOpacityFade fade;
+
     u32 m_3cc;
     u32 m_3d0;
     static void update_dying(void *arg0_);
@@ -53,6 +53,8 @@ struct TObjGrass : public TObjEnemy {
     void init_from_table_entry(s32 i);
     u8 unk_3D4[0x30];
 };
+
+typedef char TObjGrassFadeOffset[offsetof(TObjGrass, fade) == 0x3B0 ? 1 : -1];
 
 typedef char TObjGrass_size[sizeof(TObjGrass) == 0x404 ? 1 : -1];
 #endif

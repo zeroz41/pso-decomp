@@ -1,5 +1,6 @@
+#include "pso/enemy/TObjEneDubchik.h"
 #include "types.h"
-#include "pso/enemy/TObjEneMe3SinowZoa_800D72A4.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/object/TObject_80019A50.h"
 struct VBase_800AAC5C { char pad[0x18]; };
 
@@ -39,7 +40,7 @@ O_800AAC5C *fn_800AAC5C(O_800AAC5C *arg0, s16 arg1) {
         if (arg0->f3AC != NULL) {
             arg0->f3AC->m0(1);
         }
-        __dt__13TUnk_80494938Fv((u8 *)arg0 + 0x3B0, -1);
+        ((TObjEneDubchik *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__15TObjEnemyCustomFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

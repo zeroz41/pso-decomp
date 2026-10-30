@@ -1,7 +1,8 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/enemy/TObjEneMe3SinowZoa_80316A74.h"
-#include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -14,27 +15,6 @@
 #include "pso/misc/TTecGiBarta.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-
-struct VBase_14_c5778e { char pad[0x14]; };
-
-struct VObj_14_c5778e : VBase_14_c5778e {
-    virtual void m0();
-    virtual s32 m1(s32);
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
-
-struct VBase_14_0b0741 { char pad[0x14]; };
-
-struct VObj_14_0b0741 : VBase_14_0b0741 {
-    virtual void m0();
-    virtual s32 m1(s32);
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual s32 m5();
-};
 
 struct VBase_18_803173D0 { char pad[0x18]; };
 
@@ -63,16 +43,6 @@ struct Obj_803173D0 : VObj_18_803173D0 {
 };
 
 struct Vec_80316C3C { f32 x, y, z; };
-
-struct VSub_80316C3C_B { u8 pad[0x14]; };
-
-struct VSub_80316C3C : VSub_80316C3C_B {
-    virtual void m0();
-    virtual void m1(s32);
-    virtual void m2();
-    virtual void m3();
-    virtual s32 m4();
-};
 
 struct VBase_80316C3C { u8 pad[0x18]; };
 
@@ -131,8 +101,8 @@ struct Obj_80316C3C : VObj_80316C3C {
     s32 kind;
     u32 flags;
     u8 pad3D0[0x414 - 0x3D0];
-    VSub_80316C3C sub;
-    u8 pad42C[0x434 - 0x42C];
+    MaterialOpacityFade sub;
+    u8 pad430[0x434 - 0x430];
     s32 state;
     s32 timer;
 };
@@ -263,6 +233,8 @@ u32 check_move_collision__18TObjEneMe3SinowZoaFPvPv(u8 *arg0, void *arg1) {
     return r;
 }
 
+#pragma push
+#pragma opt_common_subs off
 void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
     s32 angle;
     Vec_80316C3C diff;
@@ -295,8 +267,8 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
             angle = seek_80316C3C(arg0, &diff);
             if (angle < 0x100) {
                 if (arg0->f3c0 != 0) {
-                    ((TObjEneMe3SinowZoa *)(&arg0->sub))->set_field_10(TObjEneMe3SinowZoa__data_805DF30C);
-                    arg0->sub.m3();
+                    ((TObjEneMe3SinowZoa *)arg0)->fade.set_rate(TObjEneMe3SinowZoa__data_805DF30C);
+                    ((TObjEneMe3SinowZoa *)arg0)->fade.reset_obstruction_fade();
                     arg0->flags |= 0x100000;
                     arg0->flags |= 0x40000;
                     ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x08000000);
@@ -311,7 +283,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
             break;
         case 1:
             ((TObjMotion *)arg0)->advance_animation();
-            if (((TObjEneMe3SinowZoa *)(&arg0->sub))->advance_timer(TObjEneMe3SinowZoa__data_805DF310) != 0) {
+            if (((TObjEneMe3SinowZoa *)arg0)->fade.advance_to(TObjEneMe3SinowZoa__data_805DF310) != 0) {
                 arg0->state = 2;
             }
         case 2:
@@ -363,7 +335,7 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
             }
             break;
         case 4:
-            if (arg0->sub.m4() != 0) {
+            if (((TObjEneMe3SinowZoa *)arg0)->fade.decay_value_toward_floor() != 0) {
                 arg0->state = 5;
                 arg0->flags |= 0x40000;
                 ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x08000000);
@@ -376,6 +348,8 @@ void TObjEneMe3SinowZoa__sub_80316C3C(Obj_80316C3C *arg0, s32 arg1) {
 }
 #pragma pop
 
+#pragma pop
+
 void TObjEneMe3SinowZoa__sub_803170F0(u8 *ene_dd, s32 arg1) {
     switch (arg1) {
     case 4:
@@ -384,14 +358,14 @@ void TObjEneMe3SinowZoa__sub_803170F0(u8 *ene_dd, s32 arg1) {
         ((TObjEneDD *)(ene_dd))->vfunc_96();
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & 0xFFEFFFFD);
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 5);
-        ((VObj_14_0b0741 *)(ene_dd + (1044)))->m1(0x1E);
+        ((TObjEneMe3SinowZoa *)ene_dd)->fade.set_rate_from_divisor(0x1E);
         *(s32 *)((s8 *)ene_dd + 0x3C0) = 0;
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 0x40000);
         ((TObjCollidable *)ene_dd)->clear_player_status_flag(0, 0x08000000U);
         *(s32 *)((s8 *)ene_dd + 0x434) = 0;
         break;
     case 3:
-        if (((s32) *(s32 *)((s8 *)ene_dd + 0x434) == 1) && (((VObj_14_0b0741 *)(ene_dd + (1044)))->m5() != 0)) {
+        if (((s32) *(s32 *)((s8 *)ene_dd + 0x434) == 1) && (((TObjEneMe3SinowZoa *)ene_dd)->fade.advance_toward_max() != 0)) {
             ((TObjEneDD *)ene_dd)->transition_enemy_state(6);
             *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & ~5);
             break;
@@ -417,12 +391,12 @@ void TObjEneMe3SinowZoa__sub_80317254(u8 *ene_dd, s32 arg1) {
         ((TObjEneDD *)(ene_dd))->vfunc_96();
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & 0xFFEFFFFD);
         *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) | 5);
-        ((VObj_14_c5778e *)(ene_dd + (1044)))->m1(0x1E);
+        ((TObjEneMe3SinowZoa *)ene_dd)->fade.set_rate_from_divisor(0x1E);
         play_sound_effect(0x4003AD2F, (u32)(ene_dd + 0x38), 0, 0);
         *(s32 *)((s8 *)ene_dd + 0x434) = 0;
         break;
     case 3:
-        if (((s32) *(s32 *)((s8 *)ene_dd + 0x434) == 1) && (((VObj_14_c5778e *)(ene_dd + (1044)))->m4() != 0)) {
+        if (((s32) *(s32 *)((s8 *)ene_dd + 0x434) == 1) && (((TObjEneMe3SinowZoa *)ene_dd)->fade.decay_value_toward_floor() != 0)) {
             *(s32 *)((s8 *)ene_dd + 0x3C0) = 1;
             ((TObjEneDD *)ene_dd)->transition_enemy_state(6);
             *(s32 *)((s8 *)ene_dd + 0x3CC) = (s32) (*(s32 *)((s8 *)ene_dd + 0x3CC) & ~5);

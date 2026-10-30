@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
 
 class TParticleCtrl;
 
@@ -36,7 +36,7 @@ struct TObjEneIllGill : public TObjEnemy {
     virtual void vfunc_62();
     virtual void vfunc_63();
     virtual void vfunc_58();
-    TUnk_80494938 fade;
+    MaterialOpacityFade fade;
     s32 fadingIn;
     s32 attackType;
     s32 weaponSpecial;

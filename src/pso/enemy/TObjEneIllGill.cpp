@@ -16,7 +16,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneIllGill.h"
 extern "C" void render__15TObjIllGillKageFv();
-#include "pso/enemy/TUnk_80494938.h"
+#include "pso/misc/MaterialOpacityFade.h"
 
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -1081,7 +1081,7 @@ void TObjEneIllGill::update_idle() {
     switch (this->phase) {
     case 0:
         obj_setFlags30(arg0, 0x04040000);
-        ((TUnk_80494938 *)(&this->fade))->start_fade_in();
+        fade.start_fade_in();
         ((TBoss3Volopt *)(&position))->play_area_se_with_particle();
         this->phase = 1;
         break;

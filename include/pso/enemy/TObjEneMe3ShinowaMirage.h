@@ -15,9 +15,8 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     virtual void apply_effect_pair();
     void vfunc_63();
     void vfunc_62();
-    u8 _pad3EC[0x10];
-    u32 m_3fc;
-    u8 _pad400[0x2C];
+
+    u8 _padAfterBaseFade[0xC];
     u16 m_42c;
     u8 _pad42E[0x2];
     void* m_430;
@@ -41,6 +40,10 @@ struct TObjEneMe3ShinowaMirage : public TObjEneMe3Shinowa {
     f32 m_43c;
     void draw_model();
 };
+typedef char TObjEneMe3ShinowaMirage_m_42c_offset[offsetof(TObjEneMe3ShinowaMirage, m_42c) == 0x410 ? 1 : -1];
+typedef char TObjEneMe3ShinowaMirage_m_430_offset[offsetof(TObjEneMe3ShinowaMirage, m_430) == 0x414 ? 1 : -1];
+typedef char TObjEneMe3ShinowaMirage_m_434_offset[offsetof(TObjEneMe3ShinowaMirage, m_434) == 0x434 ? 1 : -1];
+typedef char TObjEneMe3ShinowaMirage_m_43c_offset[offsetof(TObjEneMe3ShinowaMirage, m_43c) == 0x43C ? 1 : -1];
 
 typedef char TObjEneMe3ShinowaMirage_size[sizeof(TObjEneMe3ShinowaMirage) == 0x440 ? 1 : -1];
 #endif

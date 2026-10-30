@@ -12,7 +12,7 @@ struct TObjEneMe3SinowZoaReal : public TObjEneMe3SinowZoa {
     void vfunc_63();
     void vfunc_62();
     static void *create_instance(void *arg0);
-    u8 unk_3FC[0x60];
+    u8 unk_430[0x2C];
 };
 
 typedef char TObjEneMe3SinowZoaReal_size[sizeof(TObjEneMe3SinowZoaReal) == 0x45C ? 1 : -1];

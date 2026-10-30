@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENEEPSILONGUARD_H
 
 #include "types.h"
+#include "pso/misc/MaterialOpacityFade.h"
 #include "pso/enemy/TObjEneEpsilon.h"
 
 struct TObjEneEpsilonGuard : public TObjEneEpsilon {
@@ -45,7 +46,9 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
     static void load_assets();
-    u8 unk_4A4[0x34];
+
+    u8 _padBeforeFade[0x18];
+    MaterialOpacityFade fade;
     s32 is_guard_active();
     s32 is_state_flag_set();
     s32 is_guard_ready();
@@ -64,6 +67,8 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void update_fade(s32 arg1);
     void handle_warp_state(s32 arg1);
 };
+
+typedef char TObjEneEpsilonGuardFadeOffset[offsetof(TObjEneEpsilonGuard, fade) == 0x4BC ? 1 : -1];
 
 typedef char TObjEneEpsilonGuard_size[sizeof(TObjEneEpsilonGuard) == 0x4D8 ? 1 : -1];
 #endif

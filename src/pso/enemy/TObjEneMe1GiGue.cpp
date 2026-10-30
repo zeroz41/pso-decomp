@@ -1,3 +1,5 @@
+#include "pso/misc/MaterialOpacityFade.h"
+#include "pso/misc/RenderFadeState.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -13,7 +15,6 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -21,7 +22,6 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEneMe1GiGueMissile.h"
 #include "pso/misc/TCameraCtrl.h"
 
-#include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
@@ -713,12 +713,6 @@ s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
 
 }
 
-struct Base410 { char pad[0x14]; };
-struct VObj410 : Base410 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual s32 m5(); virtual void m6();
-};
-
 void init__15TObjEneMe1GiGueFPv(u8 *arg0) {
     s32 temp_r4;
     s32 temp_r5;
@@ -730,11 +724,11 @@ void init__15TObjEneMe1GiGueFPv(u8 *arg0) {
         *(s32 *)((s8 *)arg0 + 0x30) = temp_r4;
         *(s16 *)((s8 *)arg0 + 0xB8) = 0;
         play_area_sound_effect__12TBoss3VoloptFv(arg0 + 0x2FC, temp_r4);
-        ((TUnk_80494938 *)(arg0 + 0x3FC))->start_fade_in();
+        ((TObjEneMe1GiGue *)arg0)->fade.start_fade_in();
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;
     case 1:
         ((TObjMotion *)arg0)->advance_animation();
-        if (((VObj410 *)(arg0 + 0x3FC))->m5() == 1) {
+        if (((TObjEneMe1GiGue *)arg0)->fade.advance_toward_max() == 1) {
             *(s32 *)((s8 *)arg0 + 0x37C) = -1;
             play_sound_effect((void *)TObjEneMe1GiGue::remap_sound_id((arg0), 0x3A345), arg0 + 0x38, 0, 0);
         }
@@ -798,10 +792,6 @@ void TObjEneMe1GiGue__sub_802CB378(u8 *arg0) {
 }
 
 #undef update_if_active__15TObjEneMe1GiGueFl
-
-#include <dolphin/mtx.h>
-
-#include <stddef.h>
 
 struct Vec_802CB8F0 { f32 x, y, z; };
 
@@ -1755,26 +1745,11 @@ void TObjEneMe1GiGue__sub_802CD054(void) {  }
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct Vec_802CD058 { f32 x, y, z; };
-
-struct SubBase_802CD058 { u8 pad[0x14]; };
-struct Sub_802CD058 : SubBase_802CD058 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual s32 m8();
-    u8 pad18[4];
-};
 
 struct ObjBase_802CD058 { u8 pad[0x18]; };
 struct Obj_802CD058 : ObjBase_802CD058 {
@@ -1805,8 +1780,8 @@ struct Obj_802CD058 : ObjBase_802CD058 {
     f32 f3e8;
     f32 f3ec;
     u8 pad3f0[0x3fc - 0x3f0];
-    Sub_802CD058 s3fc;
-    Sub_802CD058 s418;
+    MaterialOpacityFade s3fc;
+    RenderFadeState s418;
 };
 
 extern "C" {
@@ -1841,7 +1816,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
     }
     saved_model_render_flags = model_render_flags;
     if (((RenderFadeState *)(&self->s418))->updateFromCamera((const f32*)(self->f2fc)) != 0) {
-        self->s418.m6();
+        self->s418.set_flags_and_apply_damage_color();
         if (defer_render__7TObjectFv(self) != 0) {
             model_render_flags = saved_model_render_flags;
             return;
@@ -1858,8 +1833,8 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
     if (TObjPlayer::check_demo_mode() == 1) {
         draw_chunk_object((void *)self->f34);
     } else if (self->f388 & 4) {
-        if (self->s3fc.m8() != 0) {
-            self->s3fc.m6();
+        if (self->s3fc.has_visible_opacity() != 0) {
+            self->s3fc.set_flags_and_apply_damage_color();
             if (vis == 1) {
                 set_motion_packed_rotation();
                 ((TObjMotion *)self)->draw();
@@ -1869,7 +1844,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
                 ((TObjEnemy *)self)->draw_motion_model();
                 clear_motion_packed_rotation();
             }
-            self->s3fc.m7();
+            self->s3fc.clear_flag_and_notify();
         } else {
             ok = 0;
         }
@@ -1892,7 +1867,7 @@ void draw_model__15TObjEneMe1GiGueFPv(Obj_802CD058 *self) {
         v.x = v.y = v.z = (1.0f - 0.01f * self->f3ec) * (5.0f * self->f68);
         ((TObjEnemy *)self)->render_with_position_override((u8 *)&v, 0);
     }
-    self->s418.m7();
+    self->s418.clear_flag_and_notify();
     model_render_flags = saved_model_render_flags;
 }
 
@@ -2102,7 +2077,6 @@ void free_collision_body_parts(void *);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 obj_setFlags30(void *, int);
 s32 __ct__15TObjEnemyCustomFP7TObject(void *, s32);
 }
@@ -2118,7 +2092,7 @@ void *deleting_dtor__15TObjEneMe1GiGueFPvs(void *arg0, s16 arg1) {
         *(void **)((s8 *)arg0 + 0x18) = lbl_804E135C;
         free_collision_body_parts(arg0);
         __dt__15RenderFadeStateFv((s8 *)arg0 + 0x418, -1);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3FC, -1);
+        ((TObjEneMe1GiGue *)arg0)->fade.MaterialOpacityFade::~MaterialOpacityFade();
         __dt__15TObjEnemyCustomFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);
@@ -2130,7 +2104,7 @@ void *deleting_dtor__15TObjEneMe1GiGueFPvs(void *arg0, s16 arg1) {
 u8 *TObjEneMe1GiGue__ct(u8 *arg0, s32 enemy_custom, u8 *arg2) {
     __ct__15TObjEnemyCustomFP7TObject(arg0, enemy_custom);
     *(void **)((s8 *)arg0 + 0x18) = lbl_804E135C;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3FC));
+    __ct__19MaterialOpacityFadeFv((arg0 + 0x3FC));
     __ct__15RenderFadeStateFv(((void *)(arg0 + 0x418)));
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D3F18;
     ((TObjEneMe1GiGue *)arg0)->apply_set_data(arg2);
