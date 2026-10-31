@@ -692,7 +692,7 @@ void update_move_toward_target__12TObjEneSaverFv(u8 *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 calc_velocity_toward_destination(void *, Vec_800A5DC4, Vec_800A5DC4, f32);
 s32 get_current_floor();
-s32 get_field_3e4__10TObjPlayerFv(void *);
+s32 get_floor__10TObjPlayerFv(void *);
 f32 newton_sqrtf(f32);
 void *spawn_particle_effect(void *pos, s32 id);
 #define step_angle_clamped__10TObjPlayerFPvi ((s32 (*)(void*, int))(step_angle_clamped__10TObjPlayerFPvi))
@@ -829,7 +829,7 @@ void TObjEneSaver::sub_800A4D9C() {
     id = F(u16, 0x338);
     if (id < 0x1000) {
         p = get_player_by_client_id(id);
-        if (p != NULL && get_field_3e4__10TObjPlayerFv(p) == get_current_floor()) {
+        if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             F(u8 *, 0x2A8) = p;
         } else {
             F(u8 *, 0x2A8) = NULL;
@@ -985,7 +985,7 @@ void TObjPlayer__sub_800A5154(void *arg0) {
     id = o->target_id;
     if (id < 0x1000) {
         u8 *p = get_player_by_client_id(id);
-        if (p != NULL && get_field_3e4__10TObjPlayerFv(p) == get_current_floor()) {
+        if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             o->target = (VTgt_800A5154 *)p;
         } else {
             o->target = NULL;
@@ -1064,7 +1064,7 @@ void TObjPlayer__sub_800A54B4(u8 *arg0) {
     F(s32, 0x30) &= 0xF9FBFFFF;
     if (F(u16, 0x338) < 0x1000) {
         u8 *p = get_player_by_client_id(F(u16, 0x338));
-        if (p != NULL && get_field_3e4__10TObjPlayerFv(p) == get_current_floor()) {
+        if (p != NULL && get_floor__10TObjPlayerFv(p) == get_current_floor()) {
             F(u8 *, 0x2A8) = p;
         } else {
             F(u8 *, 0x2A8) = NULL;
@@ -1503,7 +1503,7 @@ extern s32 model_render_flags;
 #define get_player_data__10TObjPlayerFi ((u8* (*)(s32))(get_player_data__10TObjPlayerFi))
 #define obj_testFlags30__14TObjCollidableFUl ((s32 (*)(void*, int))(obj_testFlags30__14TObjCollidableFUl))
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
-#define get_field_3e4__10TObjPlayerFv ((s32 (*)(int))(get_field_3e4__10TObjPlayerFv))
+#define get_floor__10TObjPlayerFv ((s32 (*)(int))(get_floor__10TObjPlayerFv))
 #define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
 extern s32 lbl_8043A8B0[];
 extern s32 lbl_8043A8BC[];
@@ -1765,7 +1765,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         if (tid < 0x1000U) {
             u8 *q = get_player_by_client_id(tid);
             if (q != NULL) {
-                if (get_field_3e4__10TObjPlayerFv((int)q) == get_current_floor()) {
+                if (get_floor__10TObjPlayerFv((int)q) == get_current_floor()) {
                     self->target = q;
                     return;
                 }
@@ -1800,7 +1800,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
             if ((u16)get_entity_id(p) >= 0x1000) continue;
-            if (get_field_3e4__10TObjPlayerFv((int)p) != get_current_floor()) continue;
+            if (get_floor__10TObjPlayerFv((int)p) != get_current_floor()) continue;
             if (P_800A677C(p)->f30 & 0x02000800) continue;
             VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
             subtract_vector(&v, &self->pos);
@@ -2219,5 +2219,5 @@ void TObjEneSaver::sub_800A7734(s32 i) {
 #undef get_player_data__10TObjPlayerFi
 #undef obj_testFlags30__14TObjCollidableFUl
 #undef get_entity_id
-#undef get_field_3e4__10TObjPlayerFv
+#undef get_floor__10TObjPlayerFv
 #undef get_player_by_client_id

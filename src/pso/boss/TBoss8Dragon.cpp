@@ -5771,7 +5771,7 @@ void TBoss8Dragon::freeze_player_at_self() {
     u8 *player;
     player = ((u8 * (*)(s32))get_player_by_client_id)(this->m_750);
     if (player != NULL) {
-        if (((TObjPlayer *)player)->get_field_3e4() == get_current_floor()) {
+        if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
             start_freeze__10TObjPlayerFv((int)player);
             set_frames__15ProtectionTimerFl(player + 0x644, 0x14);
             ((TObjPlayer *)player)->actorFlags = (s32) (((TObjPlayer *)player)->actorFlags & 0xFFEFFFDF);
@@ -5817,7 +5817,7 @@ u16 TBoss8Dragon::find_player_on_floor(void *arg0) {
     u16 i;
     p = ((u8 * (*)(s32))get_player_by_client_id)(TLobby__designated_client_id);
     if (p != NULL) {
-        if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+        if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             return TLobby__designated_client_id;
         }
     }
@@ -5825,7 +5825,7 @@ u16 TBoss8Dragon::find_player_on_floor(void *arg0) {
         idx = (TLobby__designated_client_id + i + 1) % 4;
         p = ((u8 * (*)(s32))get_player_by_client_id)(idx);
         if (p != NULL) {
-            if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+            if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
                 break;
             }
         }

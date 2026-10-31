@@ -434,7 +434,7 @@ s32 TObjPlayer::collect_body_contacts(int target, void *_w2, void *player) {
             if (pd != 0 && get_entity_id(pd) != get_entity_id(player)) {
                 ok = 1;
                 if (get_entity_id(pd) < 4) {
-                    if (((TObjPlayer *)player)->get_field_3e4() == ((TObjPlayer *)pd)->get_field_3e4()) {
+                    if (((TObjPlayer *)player)->get_floor() == ((TObjPlayer *)pd)->get_floor()) {
                         ok = 1;
                     } else {
                         ok = 0;

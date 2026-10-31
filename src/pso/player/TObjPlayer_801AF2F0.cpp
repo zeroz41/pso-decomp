@@ -2983,12 +2983,12 @@ u8 is_on_current_floor__10TObjPlayerFi(s32 arg0) {
     s32 current_floor;
     s32 temp_r3;
     current_floor = get_current_floor();
-    temp_r3 = ((TObjPlayer *)arg0)->get_field_3e4();
+    temp_r3 = ((TObjPlayer *)arg0)->get_floor();
     return (u8) (temp_r3 == current_floor);
 }
 
 void TObjPlayer::sync_current_floor() {
-    this->m_3e4 = get_current_floor();
+    this->current_floor = get_current_floor();
 }
 
 void TObjPlayer::sync_current_area() {
@@ -5115,7 +5115,7 @@ void fill_player_record__10TObjPlayerFPvPv(Src_801B4CE4 *src, Dst_801B4CE4 *dst)
     TObjPlayer__sub_801BEEE0(dst->f94, src->f858);
     TObjPlayer__sub_801BEEAC(dst->f98, src->f730);
     dst->fAC = ((s32 (*)(void *))get_field_3e0__12TBoss3VoloptFv)(src);
-    dst->f488 = ((TObjPlayer *)src)->get_field_3e4();
+    dst->f488 = ((TObjPlayer *)src)->get_floor();
     dst->fB0 = src->f334;
     dst->f64 = ((s32 (*)(void *))TObjPlayer__sub_801AFD8C)(src);
     copy_player_visual_record(dst->fC8, src->f85C);
@@ -7291,7 +7291,7 @@ void handle_6x1F_set_player_floor(void *arg0) {
         if (pl != NULL && (pl == NULL || ((s32 (*)(void *))obj_isState2_324__9TObjCharaFv)(pl) == 0)) {
             ((TObjPlayer *)(&m3))->init_cmd_6x20();
             m3.id = get_entity_id(pl);
-            m3.f4 = ((TObjPlayer *)pl)->get_field_3e4();
+            m3.f4 = ((TObjPlayer *)pl)->get_floor();
             VecCopy((Vec *)m3.vec, (const Vec *)pl->pos);
             m3.ang = pl->ang;
             ((TObjPlayer *)(&m3))->send_player_floor_packet_u32x5();
@@ -7315,7 +7315,7 @@ void TObjPlayer::apply_state_transform() {
     if ((arg0 == 0U) || (((s32 (*)(u32))obj_isState2_324__9TObjCharaFv)(arg0) == 0)) {
         init_6x1F_floor_packet((u8 *)((s32 *)&sp8));
         sp8.fA = ((s16 (*)(u32))get_entity_id)(arg0);
-        sp8.fC = ((TObjPlayer *)arg0)->get_field_3e4();
+        sp8.fC = ((TObjPlayer *)arg0)->get_floor();
         ((TObjPlayer *)((s32 *)&sp8))->bswap_and_send_set_floor();
     }
 }
@@ -7330,7 +7330,7 @@ void handle_6x21_inter_level_warp(void *arg0) {
     if (validate_6x21_inter_level_warp((G_ClientIDHeader *)&m) != 0) {
         p = ((void * (*)(u16))get_player_by_client_id)(m.slot);
         if (p != NULL) {
-            if ((((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() != 0) && (m.floor != ((TObjPlayer *)p)->get_field_3e4())) {
+            if ((((s32 (*)(void))obj_isState2_324__9TObjCharaFv)() != 0) && (m.floor != ((TObjPlayer *)p)->get_floor())) {
                 set_state_flags__10TObjPlayerFUl(p, 0x40000);
             }
             ((TObjPlayer *)p)->set_floor_index(get_floor_area(m.floor));

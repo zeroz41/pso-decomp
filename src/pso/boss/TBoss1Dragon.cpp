@@ -4494,7 +4494,7 @@ void TBoss1Dragon::hold_captured_player() {
     temp_r3 = ((u8 *)get_player_by_client_id((s32)(*(u16 *)((s8 *)arg0 + 0x764))));
     if (temp_r3 != NULL) {
         temp_r31 = get_current_floor();
-        temp_r3b = ((TObjPlayer *)temp_r3)->get_field_3e4();
+        temp_r3b = ((TObjPlayer *)temp_r3)->get_floor();
         if (temp_r3b == temp_r31) {
             ((TObjPlayer *)temp_r3)->start_freeze();
             set_frames__15ProtectionTimerFl(temp_r3 + 0x644, 0x14);
@@ -4547,7 +4547,7 @@ u16 TBoss1Dragon::find_player_on_floor(void *arg0) {
     u16 i;
     p = ((u8 *)get_player_by_client_id(TLobby__designated_client_id));
     if (p != NULL) {
-        if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+        if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             return TLobby__designated_client_id;
         }
     }
@@ -4555,7 +4555,7 @@ u16 TBoss1Dragon::find_player_on_floor(void *arg0) {
         idx = (TLobby__designated_client_id + i + 1) % 4;
         p = ((u8 *)get_player_by_client_id(idx));
         if (p != NULL) {
-            if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+            if (((TObjPlayer *)p)->get_floor() == get_current_floor()) {
                 break;
             }
         }

@@ -565,7 +565,7 @@ void TUnk_804B2578::sub_80168488() {
     do {
         temp_r3 = (VO_80168488 *)get_player_by_client_id(var_r30);
         if ((temp_r3 != NULL) && (sub_80168244((u32)temp_r3) == 0)) {
-            if ((((TObjPlayer *)temp_r3)->get_field_3e4() == get_current_floor()) && (check_actor_body_contact(temp_r3, 1e+02f) != 0U)) {
+            if ((((TObjPlayer *)temp_r3)->get_floor() == get_current_floor()) && (check_actor_body_contact(temp_r3, 1e+02f) != 0U)) {
                 Pair_80168488 t;
                 t.a = 0;
                 t.b = ((VO_80168488 *)this)->m79(this->m_338);

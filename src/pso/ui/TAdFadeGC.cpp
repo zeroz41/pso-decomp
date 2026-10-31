@@ -168,7 +168,7 @@ bool TObjTradeCollision::is_player_outside_trade_radius(u32 arg1) {
     if (get_main_phase() != 0xF) {
         return 0;
     }
-    temp_r31 = ((TObjPlayer *)player)->get_field_3e4();
+    temp_r31 = ((TObjPlayer *)player)->get_floor();
     if (temp_r31 != get_current_floor()) {
         return 0;
     }

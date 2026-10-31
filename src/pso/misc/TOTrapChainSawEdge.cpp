@@ -784,7 +784,7 @@ int TOTrapChainSaw::check_player_contact() {
         for (i = 0; i < 4; i++) {
             p = (s32)get_player_by_client_id(i);
             if (p != 0 && this->consume_counter((void *)p) == 0) {
-                if (((TObjPlayer *)p)->get_field_3e4() == ((s32 (*)(void))get_current_floor)()) {
+                if (((TObjPlayer *)p)->get_floor() == ((s32 (*)(void))get_current_floor)()) {
                     t = *(s32 *)((s8 *)this + 0x60);
                     *(s32 *)((s8 *)this + 0x60) = t + *(s32 *)((s8 *)this + 0xD4);
                     if (check_actor_body_contact((void *)p, (f32)((1e+02f))) != 0) {
@@ -800,7 +800,7 @@ int TOTrapChainSaw::check_player_contact() {
         s32 t2;
         q = (s32)get_player_by_client_id(local_client_id);
         if (q != 0 && this->consume_counter((void *)q) == 0) {
-            if (((TObjPlayer *)q)->get_field_3e4() == ((s32 (*)(void))get_current_floor)()) {
+            if (((TObjPlayer *)q)->get_floor() == ((s32 (*)(void))get_current_floor)()) {
                 t2 = *(s32 *)((s8 *)this + 0x60);
                 *(s32 *)((s8 *)this + 0x60) = t2 + *(s32 *)((s8 *)this + 0xD4);
                 if (check_actor_body_contact((void *)q, (f32)((1e+02f))) != 0) {

@@ -25,7 +25,7 @@ void TUnk_804F1320::vfunc_17(s32 item) {
     s32 temp_r31;
 
     if (((u32) this->owner != 0U) && (is_current_area_item_enabled() != 0)) {
-        temp_r31 = ((TObjPlayer *)(this->owner))->get_field_3e4();
+        temp_r31 = ((TObjPlayer *)(this->owner))->get_floor();
         {
         s32 t = get_current_floor();
         if ((t == temp_r31) && (get_mode__5TItemFv((u8 *)this) == 2)) {

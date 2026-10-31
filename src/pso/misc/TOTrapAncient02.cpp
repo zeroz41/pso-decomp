@@ -670,7 +670,7 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
         if (o->idx != 0xFFFF) {
             Obj_8017A3C0 *p = (Obj_8017A3C0 *)get_player_by_client_id(o->idx);
             o->target = p;
-            if (o->target != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
+            if (o->target != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
                 (o->target->f2E == o->f2E || o->target->f28 == o->f28 || o->target->f28 == o->f2E)) {
                 d = horizontal_distance_squared((const Vec *)&o->target->pos, (const Vec *)&o->pos);
                 o->f338 = o->range + get_collision_body_radius(o->target, 0);

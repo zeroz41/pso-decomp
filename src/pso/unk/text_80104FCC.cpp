@@ -167,7 +167,7 @@ void send_6x60_standard_drop_item_request(Obj_80105538 *self) {
         if (p1 != 0 && p2 != 0) {
             get_current_floor();
             if (is_valid_drop_floor() != 0 &&
-                (((TObjPlayer *)p1)->get_field_3e4() != ((TObjPlayer *)p2)->get_field_3e4() ||
+                (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
                  TLobby__designated_client_id == local_client_id)) {
                 if (self->f2c != -1) {
                     Rec_80105538 e = TLobby__data_805D6144[self->f2c];
@@ -203,7 +203,7 @@ void TObjChara::request_box_item_drop(void *unused, s16 arg2) {
         p1 = get_player_by_client_id(TLobby__designated_client_id);
         p2 = get_player_by_client_id(local_client_id);
         if (p1 != 0 && p2 != 0 && TObjPlayer__sub_80104840(get_current_floor_area()) != AREA_PIONEER2_EP1 &&
-            (((TObjPlayer *)p1)->get_field_3e4() != ((TObjPlayer *)p2)->get_field_3e4() ||
+            (((TObjPlayer *)p1)->get_floor() != ((TObjPlayer *)p2)->get_floor() ||
              TLobby__designated_client_id == local_client_id)) {
             if (self->f2c != -1) {
                 Entry_8010567C e = quest_object_entries[self->f2c];

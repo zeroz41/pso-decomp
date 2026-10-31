@@ -173,7 +173,7 @@ void TUnk_8049F148::run_task() {
         temp_r3_2 = get_current_floor();
         if (temp_r3_2 != (s32) this->m_20) {
             this->m_20 = temp_r3_2;
-            if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == ((TObjPlayer *)player)->get_field_3e4())) {
+            if ((is_current_area_item_enabled() != 0) && (temp_r3_2 == ((TObjPlayer *)player)->get_floor())) {
                 *(u32 *)&this->unk_1C = (u32)create_particle_emitter(sp8, 0x101);
             } else {
                 *(u32 *)&this->unk_1C = 0U;

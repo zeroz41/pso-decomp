@@ -122,7 +122,7 @@ void handle_6x39_set_photon_blast_ready_flag(s32 arg0) {
     if (validate_6x39_set_photon_blast_ready_flag(&sp8) != 0) {
         player = (s32)get_player_by_client_id(sp8.b);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
-            temp_r31 = ((TObjPlayer *)player)->get_field_3e4();
+            temp_r31 = ((TObjPlayer *)player)->get_floor();
             v = get_current_floor();
             if (v == temp_r31) {
                 ((TFontSmallLobby *)(player + 0x4AC))->update_ready();
@@ -171,7 +171,7 @@ void handle_6x38_donate_to_photon_blast(s32 arg0) {
     if (validate_6x38_donate_to_photon_blast(&cmd) != 0) {
         player = (s32)get_player_by_client_id(cmd.client);
         if ((player != 0) && (is_current_area_item_enabled() != 0)) {
-            if (get_current_floor() == ((TObjPlayer *)player)->get_field_3e4()) {
+            if (get_current_floor() == ((TObjPlayer *)player)->get_floor()) {
                 TObjPlayer::create_photon_blast_party_effects(cmd.client);
             }
         }

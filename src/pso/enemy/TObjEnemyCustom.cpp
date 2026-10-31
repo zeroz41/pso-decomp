@@ -600,7 +600,7 @@ extern "C" u8 is_local_client_floor_leader(void) {
     if (get_main_phase() == 15) {
         player = get_player_by_client_id(TLobby__designated_client_id);
         if (player != NULL) {
-            if (player->get_field_3e4() == get_current_floor()) {
+            if (player->get_floor() == get_current_floor()) {
                 return local_client_id == TLobby__designated_client_id;
             }
         }
@@ -608,7 +608,7 @@ extern "C" u8 is_local_client_floor_leader(void) {
             id = (TLobby__designated_client_id + i + 1) % 4;
             player = get_player_by_client_id(id);
             if (player != NULL) {
-                if (player->get_field_3e4() == get_current_floor()) {
+                if (player->get_floor() == get_current_floor()) {
                     break;
                 }
             }

@@ -39,7 +39,7 @@ void run_task__13TObjItemLightFv(Light_80191F90 *arg0) {
     }
     for (i = 0; i < 4; i++) {
         p = get_player_by_client_id(i);
-        if (p != 0 && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor()
+        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()
             && is_locally_controlled__10TObjPlayerFPv(p) != 0
             && xz_distance_squared(p->pos, arg0->pos) < arg0->f90 * arg0->f90) {
             ((TObjBase *)arg0)->set_event_source_flag(8);

@@ -200,7 +200,7 @@ void TUnk_804A4B80::vfunc_17(s32 arg1) {
   {
     if (is_current_area_item_enabled() != 0)
     {
-      if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_field_3e4())
+      if (get_current_floor() == ((TObjPlayer *)((int) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0))->get_floor())
       {
         if (arg1 == 0)
         {

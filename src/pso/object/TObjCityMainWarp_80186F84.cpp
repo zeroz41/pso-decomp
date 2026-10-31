@@ -237,7 +237,7 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     for (i = 0; i < 4; i++) {
         pl = (Player_80187438 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            room = ((TObjPlayer *)pl)->get_field_3e4();
+            room = ((TObjPlayer *)pl)->get_floor();
             if (room == self->fbc) {
                 self->f15c = 1;
             }
@@ -261,7 +261,7 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
         self->window = 0;
     }
     pl2 = (Player_80187438 *)get_player_by_client_id(local_client_id);
-    if (pl2 != NULL && ((TObjPlayer *)pl2)->get_field_3e4() == get_current_floor()) {
+    if (pl2 != NULL && ((TObjPlayer *)pl2)->get_floor() == get_current_floor()) {
         if (xz_distance_squared(pl2->pos, self->pos) <= (lbl_805DBCA8 + self->radius) * (lbl_805DBCA8 + self->radius)) {
             if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
                 ((TObjPlayer *)pl2)->check_technique_flag();

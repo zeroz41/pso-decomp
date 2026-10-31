@@ -99,7 +99,7 @@ void TUnk_804A69DC::vfunc_17(s32) {
   if ((((u32) (*((u32 *) (((s8 *) arg0) + 0xF0)))) != 0U) && (is_current_area_item_enabled() != 0))
   {
     ;
-    if ((get_current_floor() == ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_field_3e4()) && (((TItem *)arg0)->get_mode() == 2))
+    if ((get_current_floor() == ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_floor()) && (((TItem *)arg0)->get_mode() == 2))
     {
       if (!arg0)
       {

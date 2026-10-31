@@ -337,7 +337,7 @@ s32 TOKey::is_confirm_pressed() {
 s32 TOKey::is_local_player_in_range() {
     TObjPlayer *player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
-        if (player->get_field_3e4() == get_current_floor()) {
+        if (player->get_floor() == get_current_floor()) {
             if (xyz_distance_squared(&player->position, &position) < activate_range * activate_range) {
                 return 1;
             }
@@ -352,7 +352,7 @@ s32 TOKey::is_any_player_in_range() {
     for (i = 0; i < registered_player_count; i++) {
         player = TObjPlayer::get_player_data(i);
         if (player != NULL) {
-            if (player->get_field_3e4() == get_current_floor()) {
+            if (player->get_floor() == get_current_floor()) {
                 if (xyz_distance_squared(&player->position, &position) < activate_range * activate_range) {
                     return 1;
                 }

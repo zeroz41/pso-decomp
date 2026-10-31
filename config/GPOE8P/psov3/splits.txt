@@ -1873,8 +1873,9 @@ pso/enemy/TObjEneRe2Flower_800C4B78.cpp:
 
 pso/enemy/TObjEneBeast_800C4E08.cpp:
 	.text       start:0x800C4E08 end:0x800C69E8
-	.rodata     start:0x8043BC78 end:0x8043BC88
-	.data       start:0x804935EC end:0x80493614
+	.rodata     start:0x8043BC78 end:0x8043BC90
+	.data       start:0x80493450 end:0x80493614
+	.sdata2     start:0x805DA028 end:0x805DA068
 
 pso/unk/text_800C69E8.cpp:
 	.text       start:0x800C69E8 end:0x800C6A18

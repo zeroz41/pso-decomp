@@ -24,7 +24,7 @@ s32 is_local_player_off_current_floor() {
     player = get_player_by_client_id(local_client_id);
     if (player != NULL) {
         floor = get_current_floor();
-        return floor - player->get_field_3e4() ? 1 : 0;
+        return floor - player->get_floor() ? 1 : 0;
     }
     return 0;
 }

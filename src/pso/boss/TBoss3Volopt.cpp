@@ -1514,7 +1514,7 @@ s32 TBoss3Volopt::collect_candidate_players() {
         player = TObjPlayer::get_player_data(i);
         if ((player->actorFlags & 0x02000800) == 0) {
             s32 floor = get_current_floor();
-            s32 room = player->get_field_3e4();
+            s32 room = player->get_floor();
             if (room == floor) {
                 candidate_players[volopt_candidate_count++] = player;
             }

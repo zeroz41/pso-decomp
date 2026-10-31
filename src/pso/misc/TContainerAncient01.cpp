@@ -388,7 +388,7 @@ void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018A584 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_field_3e4() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018A584 atk;
                 atk.type = 0xF;
@@ -709,7 +709,7 @@ void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range) {
     for (i = 0; i < 4; i++) {
         pl = (Player_8018B180 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            if (((TObjPlayer *)pl)->get_field_3e4() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor() && obj_testFlags30__14TObjCollidableFUl(pl, 1) == 0 &&
                 horizontal_distance_squared(self->pos, pl->pos) < range) {
                 Atk_8018B180 atk;
                 atk.type = 0xF;

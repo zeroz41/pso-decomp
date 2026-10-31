@@ -977,7 +977,7 @@ void TCameraCtrl::update_follow_camera() {
         u8 *p;
         p = (u8 *)get_player_by_client_id((u32)local_client_id);
         if (p != NULL) {
-            if (((TObjPlayer *)(*(u8 **)((s8 *)arg0 + 0x1C)))->get_field_3e4() != ((TObjPlayer *)p)->get_field_3e4()) {
+            if (((TObjPlayer *)(*(u8 **)((s8 *)arg0 + 0x1C)))->get_floor() != ((TObjPlayer *)p)->get_floor()) {
                 reset_cameras_to_actor((void *)get_player_by_client_id((u32)local_client_id), 0);
                 for (i = 0; i < 4; i++) {
                     p = (u8 *)get_player_by_client_id(i);
