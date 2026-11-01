@@ -3422,9 +3422,9 @@ void handle_6x4C_hit_by_enemy(void *arg0) {
     Msg_801CACD8 m;
     Player_801CACD8 *p;
 
-    ((TObjPlayer *)(&m))->bswap_head_pair();
-    ((void (*)(void *, void *))copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, arg0);
     ((TObjPlayer *)(&m))->init_6x4C_packet();
+    ((void (*)(void *, void *))copy_6x4c_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, arg0);
+    ((TObjPlayer *)(&m))->bswap_head_pair();
     if (validate_6x4C_hit_by_enemy(&m) != 0) {
         p = ((Player_801CACD8 * (*)(s32))get_player_by_client_id)(m.id);
         if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) == 0) {
@@ -3562,9 +3562,9 @@ void handle_6x4B_hit_by_enemy(void *arg0) {
     Msg_801CB1B0 m;
     Player_801CB1B0 *p;
 
-    ((TObjPlayer *)(&m))->read_swapped_fields();
-    ((void (*)(void *, void *))copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, arg0);
     ((TObjPlayer *)(&m))->reset_action_state();
+    ((void (*)(void *, void *))copy_6x4b_hit_by_enemy_packet__10TObjPlayerFPvPv)(&m, arg0);
+    ((TObjPlayer *)(&m))->read_swapped_fields();
     if (validate_6x4B_hit_by_enemy(&m) != 0) {
         p = ((Player_801CB1B0 * (*)(s32))get_player_by_client_id)(m.id);
         if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) == 0) {
