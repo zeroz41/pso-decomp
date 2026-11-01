@@ -333,6 +333,69 @@ s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(8)
+void TLobby__sub_803D0714(void *arg) {
+    GcciRequest *rr;
+    GcciRequest *r = (GcciRequest *)arg;
+    char *msg = lbl_8047DAB8;
+    u32 start;
+    s32 neg1;
+    u32 now;
+    u32 elapsed;
+    s32 result;
+
+    if (r == NULL) {
+        return;
+    }
+    rr = (GcciRequest *)arg;
+    if (rr == NULL) {
+        if (lbl_805D760C != NULL) {
+            lbl_805D760C(lbl_805D7608, (s32 *)(msg + 0x2C), 0);
+        }
+    } else {
+        if (*(s8 *)&rr->state == 1 || *(s8 *)&rr->state == 0) {
+            goto close_req;
+        }
+        DVDGetCommandBlockStatus(rr->block);
+        DVDGetDriveStatus();
+        dvd_active_request.unknown08 = 1;
+        result = DVDCancel(rr->block);
+        dvd_active_request.unknown08 = 0;
+        if (result < 0) {
+            if (lbl_805D760C != NULL) {
+                lbl_805D760C(lbl_805D7608, (s32 *)(msg + 0x90), (s32)rr);
+            }
+            goto close_req;
+        }
+        start = OSGetTick() / (*(u32 *)0x800000F8 / 4 / 1000);
+        neg1 = -1 - start;
+        if (rr->block && rr->block) { }
+        while (!dvd_request_idle(rr)) {
+            rr->status = DVDGetCommandBlockStatus(rr->block);
+            dvd_active_request.status = rr->status;
+            now = OSGetTick() / (*(u32 *)0x800000F8 / 4 / 1000);
+            if (now >= start) {
+                elapsed = now - start;
+            } else {
+                elapsed = neg1 + now;
+            }
+            if (elapsed > 2000) {
+                if (lbl_805D760C != NULL) {
+                    lbl_805D760C(lbl_805D7608, (s32 *)(msg + 0xAC), (s32)rr);
+                }
+                break;
+            }
+        }
+        rr->state = 0;
+        dvd_active_request.state = 0;
+        DVDGetCommandBlockStatus(rr->block);
+        DVDGetDriveStatus();
+    }
+close_req:
+    DVDClose((DVDFileInfo_803D0AE8 *)r->block);
+    r->active = 0;
+    memset(r, 0, sizeof(GcciRequest));
+}
+
 inline GcciRequest *dvd_find_free_request(void) {
     GcciRequest *found = NULL;
     s32 i;
