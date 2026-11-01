@@ -126,6 +126,97 @@ s32 export_inventory_entry__10TObjPlayerFiPv(s32 arg0, u8 *arg1) {
     return 0;
 }
 
+s32 is_item_valid__9TItemListFl(void *);
+u8 *__nw__FUl(u32);
+
+s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
+    u8 *obj;
+    s32 cnt_2;
+    u32 *rec;
+    s32 cnt;
+    void *down_4;
+    s32 owner;
+    u32 *rec_2;
+    u32 *rec_3;
+    void *down_3;
+    void *down_2;
+    void *down;
+    s32 cnt_3;
+
+    if (*(void **)((s8 *)arg0 + 0x1c4) == NULL) {
+        return 0;
+    }
+    if (is_item_valid__9TItemListFl(*(void **)((s8 *)arg0 + 0x1c4)) == 0) {
+        return 0;
+    }
+    if (*(s16 *)((s8 *)arg0 + 0x1c) > 0x1e || *(s16 *)((s8 *)arg0 + 0x1c) < 1) {
+        return 0;
+    }
+    obj = __nw__FUl(8);
+    if (obj != NULL) {
+        obj = TObjPlayer__sub_801D46D4(obj, *(s16 *)((s8 *)arg0 + 0x1c));
+    }
+    if (obj == NULL) {
+        return 0;
+    }
+    if (*(u32 *)(obj + 4) == 0) {
+        TObjPlayer__sub_801D4678(obj, 1);
+        return 0;
+    }
+    cnt = 0;
+    down = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    while (down != NULL) {
+        if (is_item_valid__9TItemListFl(down) != 0 && ((TObjPlayer *)down)->get_owner_if_alive() != 0U) {
+            cnt++;
+        }
+        down = *(void **)((s8 *)down + 0xC);
+    }
+    if (cnt != *(s16 *)((s8 *)arg0 + 0x1c)) {
+        TObjPlayer__sub_801D4678(obj, 1);
+        return 0;
+    }
+    cnt_2 = 0;
+    rec = (u32 *)*(s32 *)(obj + 4);
+    down_2 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    while (down_2 != NULL) {
+        if (is_item_valid__9TItemListFl(down_2) != 0 && (owner = ((TObjPlayer *)down_2)->get_owner_if_alive()) != 0U) {
+            rec[1] = owner;
+            TObjPlayer__sub_801D45B0((s32 *)rec, owner);
+            rec = (u32 *)((s8 *)rec + 8);
+            cnt_2++;
+        }
+        down_2 = *(void **)((s8 *)down_2 + 0xC);
+    }
+    ((TObjPlayer *)obj)->sort_by_key();
+    cnt_3 = 0;
+    down_3 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    rec_2 = (u32 *)*(s32 *)(obj + 4);
+    while (down_3 != NULL) {
+        if (is_item_valid__9TItemListFl(down_3) != 0 && ((TObjPlayer *)down_3)->get_owner_if_alive() != 0U && rec_2[1] != 0) {
+            rec_2 = (u32 *)((s8 *)rec_2 + 8);
+            cnt_3++;
+        }
+        down_3 = *(void **)((s8 *)down_3 + 0xC);
+    }
+    if (cnt_2 != cnt_3) {
+        TObjPlayer__sub_801D4678(obj, 1);
+        return 0;
+    }
+    rec_3 = (u32 *)*(s32 *)(obj + 4);
+    down_4 = *(void **)((s8 *)*(s32 *)((s8 *)arg0 + 0x1c4) + 0x14);
+    while (down_4 != NULL) {
+        if (is_item_valid__9TItemListFl(down_4) != 0 && ((TObjPlayer *)down_4)->get_owner_if_alive() != 0U) {
+            if (rec_3[1] != 0) {
+                ((TObjPlayer *)down_4)->set_field_1c((s32)rec_3[1]);
+                rec_3 = (u32 *)((s8 *)rec_3 + 8);
+            }
+        }
+        down_4 = *(void **)((s8 *)down_4 + 0xC);
+    }
+    TObjPlayer__sub_801D4678(obj, 1);
+    return 1;
+}
+
 void TObjPlayer__sub_801D45B0(s32 *arg0, s32 arg1) {
     s32 temp_r4;
     u8 player;
