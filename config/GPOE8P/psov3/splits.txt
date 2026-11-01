@@ -10193,6 +10193,7 @@ pso/menu/TAdPlyChrSelPlateGC.cpp:
 
 pso/ui/TAdMultiPlyChrSelectGC_802C50EC.cpp:
 	.text       start:0x802C50EC end:0x802C6D64
+	.rodata     start:0x80471A88 end:0x80471D08
 	.data       start:0x804E0A48 end:0x804E0A58
 
 pso/ui/TAdChrSelPlyPlateGC.cpp:

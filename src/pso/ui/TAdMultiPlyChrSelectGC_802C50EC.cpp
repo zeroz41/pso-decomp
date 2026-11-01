@@ -178,6 +178,14 @@ extern const f32 lbl_805DE568;
 extern const f32 lbl_805DE570;
 extern const f32 lbl_805DE574;
 extern const f32 lbl_805DE578;
+extern const f32 TAdMultiPlyChrSelectGC__data_805DE584;
+extern const f32 lbl_805DE588;
+extern const f32 lbl_805DE58C;
+extern const f32 lbl_805DE590;
+extern const f32 lbl_805DE594;
+extern const f32 lbl_805DE598;
+extern const f32 lbl_805DE59C;
+extern const f32 lbl_805DE5A0;
 
 void *TAdMultiPlyChrSelectGC__data_804E0A48[4] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
@@ -518,6 +526,55 @@ void TAdMultiPlyChrSelectGC::move_cursor(s32 x_, s32 y_, s32 dx, s32 dy, s32 dep
         }
         move_cursor(nx - 1, ny - 1, dx, dy, 4);
     }
+}
+
+s32 TAdMultiPlyChrSelectGC__sub_802C5F1C(void *arg0, int arg1) {
+    S_802C50EC *self = (S_802C50EC *)arg0;
+    u32 i;
+    u32 j;
+    s32 cnt;
+    s32 idx;
+    f32 uu;
+    f32 a;
+    f32 b;
+
+    /* Per-player 4x3 grid of selection quads: cell texture coords scale the shared
+       (u,v) page, with the active-slot column clamped to 3. */
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 3; j++) {
+            cnt = TAdMultiPlyChrSelectGC__data_805D67D8;
+            uu = TAdMultiPlyChrSelectGC__data_805DE56C;
+            idx = 3;
+            if (cnt < 4) {
+                idx = cnt;
+            }
+            /* All quad stores route through the re-cast arg0, and the identity
+               i++/i-- pair between the v0 and u1 stores is load-bearing: it
+               re-ties the allocator onto orig's row-pointer/clamp numbering. */
+            ((S_802C50EC *)arg0)->quad[i][j].u0 = uu;
+            a = lbl_805DE588 * (f32)idx;
+            b = lbl_805DE588 + a;
+            ((S_802C50EC *)arg0)->quad[i][j].v0 = a * TAdMultiPlyChrSelectGC__data_805DE584;
+            i++;
+            i--;
+            ((S_802C50EC *)arg0)->quad[i][j].u1 = lbl_805DE58C;
+            ((S_802C50EC *)arg0)->quad[i][j].v1 = b * TAdMultiPlyChrSelectGC__data_805DE584;
+        }
+    }
+
+    /* Fixed home slots for the trailing (unpaired) columns. */
+    self->cursor[0][4] = lbl_805DE590;
+    self->cursor[0][5] = lbl_805DE594;
+    ((S_802C50EC *)arg0)->cursor[0][6] = lbl_805DE598;
+    ((S_802C50EC *)arg0)->cursor[0][7] = lbl_805DE59C;
+    ((S_802C50EC *)arg0)->cursor[1][4] = TAdMultiPlyChrSelectGC__data_805DE56C;
+    ((S_802C50EC *)arg0)->cursor[1][5] = lbl_805DE594;
+    ((S_802C50EC *)arg0)->cursor[1][6] = lbl_805DE590;
+    ((S_802C50EC *)arg0)->cursor[1][7] = lbl_805DE59C;
+    ((S_802C50EC *)arg0)->cursor[2][4] = lbl_805DE598;
+    ((S_802C50EC *)arg0)->cursor[2][5] = lbl_805DE594;
+    ((S_802C50EC *)arg0)->cursor[2][6] = lbl_805DE5A0;
+    ((S_802C50EC *)arg0)->cursor[2][7] = lbl_805DE59C;
 }
 
 void TAdMultiPlyChrSelectGC::update_option_cursor() {
