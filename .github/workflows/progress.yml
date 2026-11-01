@@ -1,10 +1,19 @@
-# Publishes master's progress to GitHub Pages: the browsable progress page
+# Publishes master's progress to GitHub Pages: the progress page and treemap
 # (tools/progress_map.py) and the JSON the README's shields.io badges read. Nothing is
 # committed back to the repository, so the README never goes stale or needs updating.
 #
-# Builds on the same self-hosted runner as ci.yml (see there for the disc setup), but
-# only for pushes to master, so it never runs fork code. Publishing needs Settings →
-# Pages → Source set to "GitHub Actions".
+# It builds as little as it can, because the self-hosted runner is a contributor's machine:
+#   reuse  ci.yml already built the pull request's merge commit, which is master's tree
+#          whenever the PR merged with master unchanged, and kept that report as the
+#          `report-<tree>` artifact. tools/ci_report.py fetches it on a GitHub-hosted runner.
+#   wait   No report matches (master moved after CI ran, or a direct push): wait on a
+#          GitHub-hosted runner first, so a batch of merges cancels down to one build.
+#   build  Then build master once on the self-hosted runner from a clean checkout (never a
+#          build/ folder a pull request's code left behind), and keep its report as
+#          `report-<tree>` too, so the next PR's baseline (ci.yml) does not build it again.
+# A manual run skips straight to the build.
+#
+# Publishing needs Settings → Pages → Source set to "GitHub Actions".
 
 name: Progress
 
@@ -26,7 +35,57 @@ defaults:
     shell: bash
 
 jobs:
+  reuse:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read
+      contents: read
+      pull-requests: read
+    outputs:
+      found: ${{ steps.fetch.outcome == 'success' }}
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            tools/ci_report.py
+            tools/progress_map.py
+          sparse-checkout-cone-mode: false
+
+      - name: Fetch the pull request's report for this commit
+        id: fetch
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 tools/ci_report.py --sha "$GITHUB_SHA" --out report/GPOE8P/report.json
+
+      - name: Progress page and badges
+        if: steps.fetch.outcome == 'success'
+        run: |
+          python3 tools/progress_map.py report/GPOE8P/report.json -o site --badges site/badges
+          echo "$GITHUB_SHA" > site/commit.txt
+
+      - if: steps.fetch.outcome == 'success'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  wait:
+    needs: reuse
+    if: needs.reuse.outputs.found == 'false'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Let a batch of merges settle
+        run: sleep 600
+
   build:
+    needs: [reuse, wait]
+    if: >-
+      !cancelled() && github.ref == 'refs/heads/master' &&
+      (github.event_name == 'workflow_dispatch' || needs.wait.result == 'success')
     runs-on: [self-hosted, pso-lxc]
     timeout-minutes: 120
     env:
@@ -54,16 +113,28 @@ jobs:
           ninja
 
       - name: Progress page and badges
+        id: site
         run: |
           python3 tools/progress_map.py build/GPOE8P/report.json -o site --badges site/badges
           git rev-parse HEAD > site/commit.txt
+          mkdir -p progress-report
+          cp build/GPOE8P/report.json progress-report/
+          echo "tree=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_OUTPUT"
+
+      - name: Keep the report for the next pull request's baseline
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ steps.site.outputs.tree }}
+          path: progress-report/
+          retention-days: 90
 
       - uses: actions/upload-pages-artifact@v5
         with:
           path: site
 
   deploy:
-    needs: build
+    needs: [reuse, build]
+    if: ${{ !cancelled() && (needs.reuse.outputs.found == 'true' || needs.build.result == 'success') }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:

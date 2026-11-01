@@ -29,6 +29,8 @@ on:
 
 permissions:
   contents: read
+  actions: read         # tools/ci_report.py: the reports earlier runs kept
+  pull-requests: read   # tools/ci_report.py: which pull request a master commit merged
 
 concurrency:
   group: ci-${{ github.event.pull_request.number || github.ref }}
@@ -75,7 +77,13 @@ jobs:
         if: github.event_name == 'pull_request'
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
+          # master's report for the base commit is the baseline; CI or progress.yml kept it
+          # when that commit landed, so only build the base when it is missing.
+          if python3 tools/ci_report.py --sha "$BASE_SHA" --out build/GPOE8P/baseline.json; then
+            exit 0
+          fi
           git fetch --no-tags origin "$BASE_SHA"
           git checkout --detach "$BASE_SHA"
           python3 configure.py
@@ -114,6 +122,25 @@ jobs:
           else
             echo "::error::CI FAIL — see the job summary"
           fi
+
+      # This build is master's build too once the PR merges with master unchanged: keep
+      # its report under the merge's tree hash, so neither progress.yml nor the next PR's
+      # baseline rebuilds it (tools/ci_report.py).
+      - name: Keep the report for master
+        id: report
+        if: success() && github.event_name == 'pull_request'
+        run: |
+          mkdir -p progress-report
+          cp build/GPOE8P/report.json progress-report/
+          echo "tree=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the report for master
+        if: steps.report.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: report-${{ steps.report.outputs.tree }}
+          path: progress-report/
+          retention-days: 90
 
       - name: Upload results for the PR comment
         if: always() && github.event_name == 'pull_request'
