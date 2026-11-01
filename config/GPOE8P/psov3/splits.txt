@@ -2431,6 +2431,7 @@ pso/unk/text_80104F4C.cpp:
 
 pso/unk/text_80104FCC.cpp:
 	.text       start:0x80104FCC end:0x801057A8
+	.data       start:0x8049EEFC end:0x8049EF54
 
 pso/unk/text_801057A8.cpp:
 	.text       start:0x801057A8 end:0x80105874
@@ -10572,6 +10573,7 @@ pso/boss/TBoss7TentacleNeedle.cpp:
 	.text       start:0x802EF800 end:0x802F0E24
 	.rodata     start:0x804740C8 end:0x804740E0
 	.data       start:0x804E4848 end:0x804E4860
+	.bss        start:0x80541528 end:0x80541918
 	.sdata2     start:0x805DEC40 end:0x805DEC4C
 
 pso/unk/text_802F0E24.cpp:
