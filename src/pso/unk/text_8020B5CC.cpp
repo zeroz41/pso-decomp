@@ -3,6 +3,7 @@
 #include "pso/THeap.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
 struct Ent_8020BB18 { u8 pad0[2]; s16 a; u8 pad1[0x3C]; u32 f40; };
 
 struct Src_8020B970 { s16 f0; u8 pad2[6]; u16 f8; s16 fA; s16 fC; u8 padE[0x44 - 0xE]; };
@@ -25,7 +26,6 @@ extern s32 tl_06;
 extern s32 tl_07;
 void archive_pool_free(u32, void *);
 void *archive_pool_alloc(u32, u32);
-void *alloc__22TQuestVmDownLoadServerFv(u32);
 void *memcpy(void *, const void *, unsigned long);
 void *memset(void *, int, unsigned long);
 extern Slot_8020B970 TLobby__data_80513A40[];
@@ -72,7 +72,7 @@ s32 init_quest_floor_enemies(s32 idx, Src_8020B7C4 *src, u32 size) {
     }
     TLobby__data_80513A40[idx].entry2 = archive_pool_alloc(TLobby__data_805D6104, sz);
     if ((u32)src & 0x1F) {
-        buf = alloc__22TQuestVmDownLoadServerFv(sz);
+        buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (TLobby__data_80513A40[idx].entry2 != NULL) {
             TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].entry2, (void *)sz, (u32)0);
@@ -124,7 +124,7 @@ s32 load_floor_enemy_group_entries__6TLobbyFiPvUi(s32 idx, Src_8020B970 *src, u3
     }
     TLobby__data_80513A40[idx].entry = archive_pool_alloc(TLobby__data_805D6104, sz);
     if ((u32)src & 0x1F) {
-        buf = alloc__22TQuestVmDownLoadServerFv(sz);
+        buf = TQuestVmDownLoadServer::alloc(sz);
         memcpy(buf, src, sz);
         if (TLobby__data_80513A40[idx].entry != NULL) {
             TLobby::send_or_handle_packet((void *)TLobby__data_805D6104, (void *)buf, TLobby__data_80513A40[idx].entry, (void *)sz, (u32)0);

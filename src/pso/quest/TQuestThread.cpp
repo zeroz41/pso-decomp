@@ -778,7 +778,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, void *data, s32 size) : TObject(pa
         queue_destruction__7TObjectFv(this);
     } else {
         alloc_size = size + 0x400;
-        script = ((TQuestVmDownLoadServer *)alloc_size)->alloc();
+        script = (s32)TQuestVmDownLoadServer::alloc(alloc_size);
         memcpy((void *)script, data, alloc_size);
         quest_mission_manager = this;
         init_quest_script_context(script, &ctx);
@@ -798,7 +798,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction__7TObjectFv(this);
         } else {
-            script = ((TQuestVmDownLoadServer *)(size + 0x400))->alloc();
+            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((void *)filename, script);
             copy_name((s32)"..");
             quest_mission_manager = this;
@@ -812,7 +812,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename, s32 kind) : 
         if (size < 0) {
             queue_destruction__7TObjectFv(this);
         } else {
-            script = ((TQuestVmDownLoadServer *)(size + 0x400))->alloc();
+            script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
             read_disc_file((void *)filename, script);
             quest_area_manager = this;
             init_quest_script_context(script, &ctx);
@@ -831,7 +831,7 @@ TUnk_804C8678::TUnk_804C8678(TObject *parent, const char *filename) : TObject(pa
     if (size < 0) {
         queue_destruction__7TObjectFv(this);
     } else {
-        script = ((TQuestVmDownLoadServer *)(size + 0x400))->alloc();
+        script = (s32)TQuestVmDownLoadServer::alloc(size + 0x400);
         read_disc_file((void *)filename, script);
         copy_name((s32)"..");
         quest_mission_manager = this;

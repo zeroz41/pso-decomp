@@ -23,7 +23,7 @@ struct Ent_801E4874 {
 extern s32 TLanguage__read_cursor;
 extern "C" {
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
-u32 alloc__22TQuestVmDownLoadServerFv();
+u32 alloc__22TQuestVmDownLoadServerFUl();
 void debug_print__6TLobbyFle(void *, ...);
 void load_gvm_texture_archive(u32, u8 *);
 extern u8 texture_file_load_error_format[];
@@ -54,7 +54,7 @@ u8 *load_gvm_texture_file(s32 arg0) {
         return NULL;
     }
     if (((size + 0x7FF) / 2048) * 2048 > 0x40000) {
-        big = alloc__22TQuestVmDownLoadServerFv();
+        big = alloc__22TQuestVmDownLoadServerFUl();
         buf = big;
     } else {
         buf = TLobby::tmp_buf_use_req((const char *)lbl_8044983C);

@@ -8,7 +8,7 @@
 
 extern "C" {
 
-u32 alloc__22TQuestVmDownLoadServerFv();
+u32 alloc__22TQuestVmDownLoadServerFUl();
 
 extern u32 TLobby__map_set_file_buffer;
 extern s32 TLobby__map_set_file_buffer_size;
@@ -24,7 +24,7 @@ void TLobby::free_data_60F0() {
 s32 TLobby::init_handle(s32 arg0) {
     u32 temp_r3;
 
-    temp_r3 = alloc__22TQuestVmDownLoadServerFv();
+    temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
     TLobby__map_set_file_buffer = temp_r3;
     if (temp_r3 != 0U) {
         TLobby__map_set_file_buffer_size = arg0;

@@ -359,14 +359,14 @@ void TQuestListVM::load_downloaded_quest() {
     switch (TAdPlayerLoadGC__sub_801E1538(&dl, *(s32 *)(arg0 + 0x2388))) {
     case 0:
         seed_download_rng(poll_download__12TQuestListVMFv(arg0));
-        ((TQuestVmDownLoadServer *)(dl.data))->unshuffle_and_decrypt(dl.size);
-        if (TQuestVmDownLoadServer::verify_checksum((s32)dl.data, (s32)dl.size) == 0) {
+        TQuestVmDownLoadServer::unshuffle_and_decrypt(dl.data, dl.size);
+        if (TQuestVmDownLoadServer::verify_checksum(dl.data, dl.size) == 0) {
             *(s32 *)(arg0 + 0x2398) += 2;
             ((VObj_802186E4_80218570 *)arg0)->m7(0x1A, 1);
             ((TQuestListVM *)arg0)->set_selected_entry((void *)5);
             ((TQuestListVM *)arg0)->close_windows();
         } else {
-            r = ((TQuestListVM *)(dl.data + 8))->decrypt_quest_data(dl.size - 8, TQuestListVM__quest_data_output_cursor, TQuestListVM__quest_decrypt_result_size);
+            r = decrypt_quest_data(dl.data + 8, dl.size - 8, (void *)TQuestListVM__quest_data_output_cursor, TQuestListVM__quest_decrypt_result_size);
             if (r != 0) {
                 TQuestListVM__quest_decrypt_result_size = r;
                 ((TShopWindowBase *)arg0)->set_field_20((s32)((void *)0xD));
@@ -496,14 +496,14 @@ void TQuestListVM::poll_quest_download(void *p) {
     switch (TAdPlayerLoadGC__sub_801E1538(&dl, *(s32 *)(arg0 + 0x2388))) {
     case 0:
         seed_download_rng(poll_download__12TQuestListVMFv(arg0));
-        ((TQuestVmDownLoadServer *)(dl.data))->unshuffle_and_decrypt(dl.size);
-        if (TQuestVmDownLoadServer::verify_checksum((s32)dl.data, (s32)dl.size) == 0) {
+        TQuestVmDownLoadServer::unshuffle_and_decrypt(dl.data, dl.size);
+        if (TQuestVmDownLoadServer::verify_checksum(dl.data, dl.size) == 0) {
             *(s32 *)(arg0 + 0x2398) += 2;
             ((VObj_802186E4_80218570 *)arg0)->m7(0x1A, 1);
             ((TQuestListVM *)arg0)->set_selected_entry((void *)5);
             ((TQuestListVM *)arg0)->close_windows();
         } else {
-            r = ((TQuestListVM *)(dl.data + 8))->decrypt_quest_data(dl.size - 8, TQuestListVM__decrypted_quest_buffer, TQuestListVM__decompression_capacity);
+            r = decrypt_quest_data(dl.data + 8, dl.size - 8, (void *)TQuestListVM__decrypted_quest_buffer, TQuestListVM__decompression_capacity);
             if (r != 0) {
                 TQuestListVM__quest_data_output_cursor = TQuestListVM__decrypted_quest_buffer + r;
                 TQuestListVM__quest_decrypt_result_size = TQuestListVM__decompression_capacity - r;
@@ -662,12 +662,12 @@ void TQuestListVM::process_download_entry() {
         switch (TAdPlayerLoadGC__sub_801E1538((Dl_80218E94 *)&dl, *(s32 *)(arg0 + 0x2388))) {
         case 0:
             seed_download_rng(poll_download__12TQuestListVMFv(arg0));
-            ((TQuestVmDownLoadServer *)(dl.data))->unshuffle_and_decrypt(dl.size);
-            if (TQuestVmDownLoadServer::verify_checksum((s32)dl.data, (s32)dl.size) == 0) {
+            TQuestVmDownLoadServer::unshuffle_and_decrypt(dl.data, dl.size);
+            if (TQuestVmDownLoadServer::verify_checksum(dl.data, dl.size) == 0) {
                 *(s32 *)(arg0 + 0x23B0) = 1;
                 *(s32 *)(arg0 + 0x2398) += 2;
                 ((TShopWindowBase *)arg0)->set_field_20((s32)((void *)2));
-            } else if (((TQuestListVM *)(dl.data + 8))->decrypt_quest_data(dl.size - 8, TQuestListVM__decrypted_quest_buffer, TQuestListVM__decompression_capacity) != 0) {
+            } else if (decrypt_quest_data(dl.data + 8, dl.size - 8, (void *)TQuestListVM__decrypted_quest_buffer, TQuestListVM__decompression_capacity) != 0) {
                 e = (Ent_802194BC *)TQuestListVM__decrypted_quest_buffer;
                 if (is_downloadable_new_entry__12TQuestListVMFPvPv((QL_802193F0 *)arg0, (Ent_802193F0 *)e) != 0) {
                     memcpy(q->recs[count].name, e->name, 0x20);
@@ -936,7 +936,7 @@ u8 *TQuestListVM__ct(TQuestListVM *quest_list_vm, s32 arg1, s32 arg2, s32 arg3) 
     quest_list_vm->m_2380 = 0;
     quest_list_vm->m_2378 = 0;
     quest_list_vm->m_2384 = 0;
-    quest_list_vm->m_2388 = ((TQuestVmDownLoadServer *)((void *)0x20000))->alloc();
+    quest_list_vm->m_2388 = (u32)TQuestVmDownLoadServer::alloc(0x20000);
     quest_list_vm->m_2390 = 0;
     TQuestListVM__decrypted_quest_buffer = 0;
     TQuestListVM__decompression_capacity = 0;

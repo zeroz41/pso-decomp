@@ -145,7 +145,6 @@ struct Src_801F718C {
 
 struct QVm_801F7890;
 struct QVm_801F6D24;extern "C" {
-void *alloc__22TQuestVmDownLoadServerFv(s32);
 void *memset(void *, int, u32);
 int sprintf(char *, const char *, ...);
 void subtractive_rng_seed(SubtractiveRng *, u32);
@@ -360,7 +359,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
             strncpy(TQuestVmDownLoadServer__download_file_state.title, (char *)(arg0 + 4), 0x22);
             s = &TQuestVmDownLoadServer__download_file_state;
             s->f34 = *(s32 *)(arg0 + 0x38) + 8;
-            s->f38 = alloc__22TQuestVmDownLoadServerFv(s->f34);
+            s->f38 = TQuestVmDownLoadServer::alloc(s->f34);
             memset(s->f38, 0, s->f34);
             TQuestVmDownLoadServer__dat_download_complete = 0;
             TQuestVmDownLoadServer__total_download_bytes += *(s32 *)(arg0 + 0x38);
@@ -369,7 +368,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
             strncpy(quest_download_file_slot.title, (char *)(arg0 + 4), 0x22);
             s = &quest_download_file_slot;
             s->f34 = *(s32 *)(arg0 + 0x38) + 8;
-            s->f38 = alloc__22TQuestVmDownLoadServerFv(s->f34);
+            s->f38 = TQuestVmDownLoadServer::alloc(s->f34);
             memset(s->f38, 0, s->f34);
             TQuestVmDownLoadServer__bin_download_complete = 0;
             TQuestVmDownLoadServer__total_download_bytes += *(s32 *)(arg0 + 0x38);
@@ -380,7 +379,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
             strncpy((*(Src_801F8A40 *)&quest_download_file_info).name, (char *)(arg0 + 0x28), 0x10);
             strncpy((*(Src_801F8A40 *)&quest_download_file_info).title, (char *)(arg0 + 4), 0x22);
             (*(Src_801F8A40 *)&quest_download_file_info).f34 = *(s32 *)(arg0 + 0x38);
-            (*(Src_801F8A40 *)&quest_download_file_info).f38 = alloc__22TQuestVmDownLoadServerFv((*(Src_801F8A40 *)&quest_download_file_info).f34);
+            (*(Src_801F8A40 *)&quest_download_file_info).f38 = TQuestVmDownLoadServer::alloc((*(Src_801F8A40 *)&quest_download_file_info).f34);
             memset((*(Src_801F8A40 *)&quest_download_file_info).f38, 0, *(s32 *)(arg0 + 0x38));
             TQuestVmDownLoadServer__pvr_download_complete = 0;
             TQuestVmDownLoadServer__total_download_bytes += *(s32 *)(arg0 + 0x38);
@@ -391,7 +390,7 @@ void TQuestVmDownLoadServer::begin_file_download() {
             strncpy((*(Src_801F8A40 *)&quest_download_file_header).name, (char *)(arg0 + 0x28), 0x10);
             strncpy((*(Src_801F8A40 *)&quest_download_file_header).title, (char *)(arg0 + 4), 0x22);
             (*(Src_801F8A40 *)&quest_download_file_header).f34 = *(s32 *)(arg0 + 0x38);
-            (*(Src_801F8A40 *)&quest_download_file_header).f38 = alloc__22TQuestVmDownLoadServerFv((*(Src_801F8A40 *)&quest_download_file_header).f34);
+            (*(Src_801F8A40 *)&quest_download_file_header).f38 = TQuestVmDownLoadServer::alloc((*(Src_801F8A40 *)&quest_download_file_header).f34);
             TQuestVmDownLoadServer__gba_download_complete = 0;
             TQuestVmDownLoadServer__total_download_bytes += *(s32 *)(arg0 + 0x38);
             TDLGraph::update_graph(TQuestVmDownLoadServer__received_file_bytes, TQuestVmDownLoadServer__total_download_bytes);
@@ -486,8 +485,8 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     subtractive_rng_xor_buffer((s32 *)&TQuestVmDownLoadServer__rng_cipher_state, (u32 *)body, (s32)((size - 4) & ~3));
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
     ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
-    src = alloc__22TQuestVmDownLoadServerFv(size);
-    dst = alloc__22TQuestVmDownLoadServerFv(size);
+    src = TQuestVmDownLoadServer::alloc(size);
+    dst = TQuestVmDownLoadServer::alloc(size);
     ((TLobby *)src)->move_data((const void *)this, (u32)size);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
@@ -496,22 +495,22 @@ void TQuestVmDownLoadServer::encrypt_download_data(s32 size) {
     TAdSinglePlyChrSelectGC::safe_free((u32)dst);
     TAdSinglePlyChrSelectGC::safe_free((u32)src);
 }
-void TQuestVmDownLoadServer::unshuffle_and_decrypt(s32 size) {
+void TQuestVmDownLoadServer::unshuffle_and_decrypt(void *data, s32 size) {
     void *src;
     void *dst;
-    src = alloc__22TQuestVmDownLoadServerFv(size);
-    dst = alloc__22TQuestVmDownLoadServerFv(size);
-    ((TLobby *)src)->move_data((const void *)((u32 *)this), (u32)size);
+    src = TQuestVmDownLoadServer::alloc(size);
+    dst = TQuestVmDownLoadServer::alloc(size);
+    ((TLobby *)src)->move_data((const void *)((u32 *)data), (u32)size);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[1]);
     subtractive_rng_make_shuffle((s32 *)&TQuestVmDownLoadServer__rng_cipher_state);
     subtractive_rng_unshuffle((void *)&TQuestVmDownLoadServer__rng_cipher_state, (const u8 *)src, (u8 *)dst, (u32)size);
-    ((TLobby *)((u32 *)this))->move_data((const void *)dst, (u32)size);
+    ((TLobby *)((u32 *)data))->move_data((const void *)dst, (u32)size);
     TAdSinglePlyChrSelectGC::safe_free((u32)dst);
     TAdSinglePlyChrSelectGC::safe_free((u32)src);
     subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, download_rng_seed_pair[0]);
-    ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)this), size & ~3);
-    subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, ((u32 *)this)[0]);
-    subtractive_rng_xor_buffer((s32 *)&TQuestVmDownLoadServer__rng_cipher_state, (u32 *)(((u32 *)this) + 1), (s32)((size - 4) & ~3));
+    ((TAdSinglePlyChrSelectGC *)(&TQuestVmDownLoadServer__rng_cipher_state))->apply_rng_cipher(((u32 *)data), size & ~3);
+    subtractive_rng_seed(&TQuestVmDownLoadServer__rng_cipher_state, ((u32 *)data)[0]);
+    subtractive_rng_xor_buffer((s32 *)&TQuestVmDownLoadServer__rng_cipher_state, (u32 *)(((u32 *)data) + 1), (s32)((size - 4) & ~3));
 }
 s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size) {
     u32 crc = -1;
@@ -529,11 +528,11 @@ s32 TQuestVmDownLoadServer__sub_801F8538(void *data, s32 size) {
     }
     return crc ^ 0xFFFFFFFF;
 }
-s32 TQuestVmDownLoadServer::verify_checksum(s32 arg0, s32 arg1) {
+s32 TQuestVmDownLoadServer::verify_checksum(const void *arg0, s32 arg1) {
   s32 temp_r31;
   void *temp_r3;
   s32 temp_r29;
-  temp_r3 = alloc__22TQuestVmDownLoadServerFv(arg1);
+  temp_r3 = TQuestVmDownLoadServer::alloc(arg1);
   if (temp_r3 == 0)
   {
     return 0;
@@ -945,7 +944,7 @@ void TQuestVmDownLoadServer::sub_801F770C() {
                 TAdSinglePlyChrSelectGC::safe_free((u32)this->m_260);
                 this->m_260 = NULL;
             }
-            this->m_260 = alloc__22TQuestVmDownLoadServerFv(*(s32 *)&this->unk_264 << 13);
+            this->m_260 = TQuestVmDownLoadServer::alloc(*(s32 *)&this->unk_264 << 13);
             if (this->m_260 != NULL) {
                 memset(&req, 0, sizeof(req));
                 strncpy(req.name, TQuestVmDownLoadServer__data_804C8690, 0x12);
@@ -1014,7 +1013,7 @@ void TQuestVmDownLoadServer::write_memcard_file() {
                 TAdSinglePlyChrSelectGC::safe_free((u32)this->m_260);
                 this->m_260 = NULL;
             }
-            this->m_260 = alloc__22TQuestVmDownLoadServerFv(this->m_268 << 13);
+            this->m_260 = TQuestVmDownLoadServer::alloc(this->m_268 << 13);
             if (this->m_260 != NULL) {
                 memset(&req, 0, sizeof(req));
                 strncpy(req.name, TQuestVmDownLoadServer__data_804C8690, 0x12);
@@ -1091,7 +1090,7 @@ void TQuestVmDownLoadServer::sub_801F718C() {
                     TAdSinglePlyChrSelectGC::safe_free((u32)this->m_260);
                     this->m_260 = NULL;
                 }
-                this->m_260 = alloc__22TQuestVmDownLoadServerFv(*(s32 *)&this->unk_26C << 13);
+                this->m_260 = TQuestVmDownLoadServer::alloc(*(s32 *)&this->unk_26C << 13);
                 if (this->m_260 != NULL) {
                     memset(&req, 0, sizeof(req));
                     strncpy(req.name, TQuestVmDownLoadServer__data_804C8690, 0x12);

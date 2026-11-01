@@ -484,7 +484,7 @@ void load_light_entry_file(void) {
     TObjLight__light_entry_data = 0;
     light_entry_file_size = ((TScene *)lbl_8043ED80)->update_lobby_scene();
     if (light_entry_file_size > 0) {
-        TObjLight__light_entry_data = ((TQuestVmDownLoadServer *)light_entry_file_size)->alloc();
+        TObjLight__light_entry_data = (s32)TQuestVmDownLoadServer::alloc(light_entry_file_size);
         if (TObjLight__light_entry_data) {
             read_disc_file(lbl_8043ED80, TObjLight__light_entry_data);
         }

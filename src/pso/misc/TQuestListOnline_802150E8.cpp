@@ -276,8 +276,8 @@ void TQuestListOnline::release_resources() {
 }
 
 void TQuestListOnline::init_download_buffers() {
-    (*(s32 *)&TQuestListOnline__quest_list_buffer) = ((TQuestVmDownLoadServer *)((void *)0x11D4))->alloc();
-    TQuestListOnline__selected_quest_info = ((TQuestVmDownLoadServer *)((void *)0x124))->alloc();
+    (*(s32 *)&TQuestListOnline__quest_list_buffer) = (s32)TQuestVmDownLoadServer::alloc(0x11D4);
+    TQuestListOnline__selected_quest_info = (s32)TQuestVmDownLoadServer::alloc(0x124);
     (*(s32 *)&TQuestListOnline__download_window) = 0;
     (*(s32 *)&TQuestListOnline__quest_info_window) = 0;
     (*(s32 *)&TQuestListOnline__download_barrier_window) = 0;

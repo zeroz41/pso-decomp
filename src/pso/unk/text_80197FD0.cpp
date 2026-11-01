@@ -11,7 +11,7 @@ u8 TObjSinBoard__texture_name[0xC];
 __declspec(section ".data") void *signboard_texture_list[2];
 u8 TObjSinBoard__texture_surface[0x24];
 void fn_80197FD0(void *arg0, void *quest_vm_down_load_server) {
-    u32 t = ((TQuestVmDownLoadServer *)quest_vm_down_load_server)->alloc();
+    u32 t = (u32)TQuestVmDownLoadServer::alloc((u32)quest_vm_down_load_server);
     TObjSinBoard__texture_buffer = t;
     if (t != 0) {
         ((TLobby *)t)->move_data((const void *)arg0, (u32)quest_vm_down_load_server);

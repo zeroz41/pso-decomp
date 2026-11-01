@@ -137,7 +137,7 @@ void TUnk_804EF8C0::clear_buffer() { if (*(unsigned int*)((char*)this + 0x20) !=
 void TUnk_804EF8C0::alloc_download_buffer() {
     if ((u32) *(u32 *)((s8 *)this + 0x20) == 0U) {
         *(s32 *)((s8 *)this + 0x1C) = 0x16000;
-        *(u32 *)((s8 *)this + 0x20) = ((TQuestVmDownLoadServer *)(*(s32 *)((s8 *)this + 0x1C)))->alloc();
+        *(u32 *)((s8 *)this + 0x20) = (s32)TQuestVmDownLoadServer::alloc(*(s32 *)((s8 *)this + 0x1C));
     }
 }
 void TAdSinglePlyChrSelectGC__sub_8033A9F0(TAdSinglePlyChrSelectGC *ad_single_ply_chr_select_gc) {

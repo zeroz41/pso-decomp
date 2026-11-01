@@ -153,7 +153,7 @@ s32 TGStream::load_file(s32 arg0) {
         return 0;
     }
     temp_r31 = (temp_r3_2 + 0x7FF) / 2048;
-    temp_r3 = ((TQuestVmDownLoadServer *)(temp_r31 << 0xB))->alloc();
+    temp_r3 = (s32)TQuestVmDownLoadServer::alloc(temp_r31 << 0xB);
     if (temp_r3 == 0) {
         ((s32 (*)(s32 *, s32))destroy_gstream)(sp8, -1);
         return 0;
@@ -200,7 +200,7 @@ s32 TGStream::load_sct_file(s32 name, s32 dst) {
     }
     sectors = (size + 0x7FF) / 2048;
     if (st.info != NULL && st.info->size != 0) {
-        buf = ((TQuestVmDownLoadServer *)(((st.info->size + 0x7FF) / 2048) << 11))->alloc();
+        buf = (s32)TQuestVmDownLoadServer::alloc(((st.info->size + 0x7FF) / 2048) << 11);
         if (buf == 0) {
             debug_print__6TLobbyFle("TGStream::gsSctLoadFile Malloc Failed.");
         }

@@ -1139,8 +1139,8 @@ TItemDrop_80107900 *TItemDrop__ct(TItemDrop_80107900 *self, void *parent, s8 arg
         }
         self->list[i] = obj;
     }
-    TItemDrop__second_relocatable_load_buffer = ((TQuestVmDownLoadServer *)0xC00)->alloc();
-    TItemDrop__relocatable_load_buffer = ((TQuestVmDownLoadServer *)0xC00)->alloc();
+    TItemDrop__second_relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
+    TItemDrop__relocatable_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0xC00);
     self->unk1C = fn_8010F210(__vt__9TItemDrop);
     return self;
 }

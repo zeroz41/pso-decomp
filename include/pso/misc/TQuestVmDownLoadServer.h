@@ -42,7 +42,7 @@ public:
     static void free_buffers();
     void begin_file_download();
     void receive_file_chunk();
-    static s32 verify_checksum(s32 arg0, s32 arg1);
+    static s32 verify_checksum(const void *data, s32 size);
     void close_window();
     void update_mc_select();
     void open();
@@ -66,7 +66,7 @@ public:
     static s32 get_field230();
     static void clear_field2A0();
     static void split_time_hms(s32 arg0, s32 *arg1, s32 *arg2, s32 *arg3);
-    int alloc();
+    static void *alloc(u32 size);
     static void register_global_instance_dtor();
     void clear_flag4_bit4();
     static s32 is_ready();
@@ -138,7 +138,7 @@ public:
     static u32 aram_dma_read(void *h, void *dst, int size);
 public:
     void encrypt_download_data(s32 size);
-    void unshuffle_and_decrypt(s32 size);
+    static void unshuffle_and_decrypt(void *data, s32 size);
     s32 find_name_index();
 };
 typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) == 0x2A4 ? 1 : -1];

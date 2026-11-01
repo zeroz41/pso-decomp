@@ -16,7 +16,7 @@ s32 TProtocol__send_60(int, int, int);
 s32 dispatch_6x_subcommand(void *);
 extern u32 TLobby__protocol_instance;
 void *tmp_buf_use_req__6TLobbyFPCc(char *);
-void *alloc__22TQuestVmDownLoadServerFv(void);
+void *alloc__22TQuestVmDownLoadServerFUl(void);
 void debug_print__6TLobbyFle(const char *, ...);
 char *strncpy(char *, const char *, u32);
 s32 load_gvm_texture_archive(void *, s32);
@@ -150,7 +150,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     }
     allocated = 0;
     if (((size + 0x7FF) / 2048) * 2048 > 0x40000) {
-        buf = alloc__22TQuestVmDownLoadServerFv();
+        buf = alloc__22TQuestVmDownLoadServerFUl();
         if (buf == NULL) {
             return -1;
         }

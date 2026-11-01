@@ -1312,7 +1312,7 @@ void TAdSinglePlyChrSelectGC::reset_creation_parts() {
 }
 void load_creation_shape_rel(W_80290250 *arg0) {
     s32 rc;
-    arg0->bufp = ((TQuestVmDownLoadServer *)0x44000)->alloc();
+    arg0->bufp = (s32)TQuestVmDownLoadServer::alloc(0x44000);
     rc = TLobby::request_file_read((s32)(chara_select_creation_shape_rel_files[((TCharaMaking *)(*(void * *)&creation_player_character))->get_display_index()]), (s32)arg0->bufp, (s32 *)arg0->data, (void **)0);
     arg0->rc = rc;
     if (rc >= 0) {

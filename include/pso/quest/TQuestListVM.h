@@ -4,6 +4,18 @@
 #include "types.h"
 #include "pso/TShopWindowBase.h"
 
+// A downloaded quest file once its checksum word is stripped: the big-endian
+// decompressed size and cipher seed, then the encrypted PRS stream.
+struct QuestDownloadFile {
+    u32 decompressed_size;
+    u32 seed;
+    u8 data[1];
+};
+
+// Decrypts and decompresses a downloaded quest file into dst; returns the
+// decompressed size, or 0 when it does not fit in capacity.
+u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity);
+
 struct TQuestListVM : public TShopWindowBase {
     virtual ~TQuestListVM();
     s32 quest_vm_load();
@@ -71,7 +83,6 @@ struct TQuestListVM : public TShopWindowBase {
     static int get_instance();
     static int get_quest_size();
     static void reset();
-    u32 decrypt_quest_data(s32 arg1, s32 arg2, u32 arg3);
     static int get_data();
     void set_selected_entry(void* a1);
     static void poll_download();

@@ -39,7 +39,7 @@ s32 TLobby::alloc_download_quest(s32 arg1, s32 *arg2) {
     s32 v4 = *(s32 *)&this->m_flags;
     s32 ret;
 
-    ret = ((TQuestVmDownLoadServer *)v0)->alloc();
+    ret = (s32)TQuestVmDownLoadServer::alloc(v0);
     if (ret == 0) {
         return 0;
     }
@@ -82,12 +82,12 @@ s32 load_encrypted_text_archive(char *name, s32 *arg1) {
         TLobby::tmp_buf_release((const char *)lbl_80499A40);
     } else {
         open__8TGStreamFPvPvi((s32 *)&st, (s32)name, 1);
-        buf = (u8 *)((TQuestVmDownLoadServer *)0x800)->alloc();
+        buf = (u8 *)TQuestVmDownLoadServer::alloc(0x800);
         ((TGStream *)((s32 *)&st))->read_sectors_sync(1, (s32)buf);
         sp8 = *(s32 *)((s8 *)buf + 0);
         h = *(s32 *)((s8 *)buf + 4);
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
-        ret = ((TQuestVmDownLoadServer *)sp8)->alloc();
+        ret = (s32)TQuestVmDownLoadServer::alloc(sp8);
         buf = set_stream_and_load_file__6TLobbyFi((s32)name);
         __ct__14SubtractiveRngFv((s32 *)&sel);
         subtractive_rng_seed((s32 *)&sel, h);
