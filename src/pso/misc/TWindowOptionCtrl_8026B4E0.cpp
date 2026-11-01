@@ -11,14 +11,14 @@ s32 create__19TWindowMessageYesNoFPvPvPvPv(s32, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(int, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, void *, int, f32);
 extern const f32 lbl_805DD268;
-s32 set_window_mode_4__6TLobbyFPvll(void *, s32 *, s32);
+s32 create__14TWindowMessageFPvll(void *, s32 *, s32);
 s32 warn_if_empty__17TWindowOptionCtrlFPUc(void *);
 void *get_chr_select_base_plus_1154c__17TWindowOptionCtrlFv();
 extern s32 lbl_8044F4A4[];
 
 s32 TWindowOptionCtrl::create_serial_info_window(s32 arg1) {
     s32 w;
-    w = set_window_mode_4__6TLobbyFPvll(this, lbl_8044F4A4, 3);
+    w = create__14TWindowMessageFPvll(this, lbl_8044F4A4, 3);
     switch (arg1) {
     case 0:
         ((TWindowOptionCtrl *)w)->add_label_value_line((const char *)(get_localized_text_entry(0xF, 0x16)), (const char *)(warn_if_empty__17TWindowOptionCtrlFPUc(TAdEnterSerialAccessGC__sub_80321874())), (u32)0);

@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/misc/TWindowSubStatusDisp_80287570.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowMeseta.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
@@ -49,10 +49,10 @@ void TWindowMeseta::run_task() {
     temp_r3 = get_meseta_value__13TWindowMesetaFv();
     if (temp_r3 != (s32) this->m_68) {
         this->m_68 = temp_r3;
-        ((TWindowSubStatusDisp *)(((TUnk_804CE018 *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
+        ((TWindowSubStatusDisp *)(((TWindowBase *)arg0)->get_array_entry(1)))->set_animated_target(this->m_68, 9.0f);
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
 void *__dt__13TWindowMesetaFv(void *arg0, s16 arg1) {
@@ -74,12 +74,12 @@ void *TWindowMeseta__ct(void *arg0, s32 arg1, s32 arg2, s32 str) {
     self->name = ((s32)TWindowMeseta__class_name);
     self->x64 = arg2;
     self->meseta = ((s32 (*)(void *))get_meseta_value__13TWindowMesetaFv)(arg0);
-    a = (Sub_80269244 *)((TUnk_804CE018 *)arg0)->get_array_entry(0);
-    b = (Sub_80269244 *)((TUnk_804CE018 *)arg0)->get_array_entry(1);
+    a = (Sub_80269244 *)((TWindowBase *)arg0)->get_array_entry(0);
+    b = (Sub_80269244 *)((TWindowBase *)arg0)->get_array_entry(1);
     set_text_entry_string((u8 *)a, str, 0);
     ((TWindowSubStatusDisp *)b)->set_all_values(self->meseta);
     self->x38 = 10.0f + b->x8;
-    ((TUnk_804CE018 *)arg0)->save_position();
+    ((TWindowBase *)arg0)->save_position();
     self->x60 = TWindowSubStatusDisp__sub_802877A4(self->x48 - 16.0f);
     if (TCameraCtrl::get_camera_id() > 2) {
         self->x6c = 0.75f;

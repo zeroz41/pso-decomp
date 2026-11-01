@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWMENUMAINMENU_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowMenuMainMenu : public TUnk_804CE018 {
+struct TWindowMenuMainMenu : public TWindowBase {
     virtual ~TWindowMenuMainMenu();
     void handle_navigation_input();
     void handle_confirm();

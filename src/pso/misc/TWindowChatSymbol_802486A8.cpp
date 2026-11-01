@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMenu.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowChatSymbol_802486A8.h"
 #include "pso/misc/TWindowSubSymbolChat.h"
 #include "pso/misc/TUnk_804CE7D0.h"
@@ -20,8 +22,6 @@ s32 fn_8024491C(void *, void *);
 extern RecoveredGlobal_80248700_lbl_804CE7A0 window_chat_symbol_settings;
 extern s32 __vt__17TWindowChatSymbol[];
 extern s32 lbl_805D38A8;
-s32 get_selected_menu_value(s32);
-void TWindow__close(u8 *arg0);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
@@ -50,7 +50,7 @@ u8 *TWindowChatSymbol__ct(TWindowChatSymbol *window_chat_symbol, s32 arg1, s32 a
 
 void TUnk_804CE7D0::render() {  }
 void TUnk_804CE7D0::run_task() {
-    ((TWindowSubSymbolChat *)(this->m_20))->set_from_key(get_selected_menu_value(*(s32 *)&this->unk_1C));
+    ((TWindowSubSymbolChat *)(this->m_20))->set_from_key(((TWindowMenu *)(*(s32 *)&this->unk_1C))->get_selected_value());
 }
 
 extern s32 lbl_804CE7D0[];
@@ -58,8 +58,8 @@ extern s32 lbl_804CE7D0[];
 void *TWindowChatSymbol::destroy(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804CE7D0;
-        if (this->m_20 != NULL) { TWindow__close((u8 *)this->m_20); this->m_20 = 0; }
-        if (*(void * *)&this->unk_1C != NULL) { TWindow__close((u8 *)(*(void * *)&this->unk_1C)); *(s32 *)&this->unk_1C = 0; }
+        if (this->m_20 != NULL) { ((TWindowBase *)this->m_20)->close(); this->m_20 = 0; }
+        if (*(void * *)&this->unk_1C != NULL) { ((TWindowBase *)(*(void * *)&this->unk_1C))->close(); *(s32 *)&this->unk_1C = 0; }
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

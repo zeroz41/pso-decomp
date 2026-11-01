@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWSUBQUESTBOARDSELECT_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowSubQuestBoardSelect : public TUnk_804CE018 {
+struct TWindowSubQuestBoardSelect : public TWindowBase {
     virtual ~TWindowSubQuestBoardSelect();
     void update_slot_display_flags();
     int is_shortcut_active();

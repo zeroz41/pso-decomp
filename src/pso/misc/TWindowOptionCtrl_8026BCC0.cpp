@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMenuIconLine.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/boss/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLoadCtrl_80227390.h"
@@ -34,7 +36,6 @@ struct Opt_8026BCC0 {
 
 extern "C" {
 void *create_menu__17TWindowOptionCtrlFv(void *);
-s32 get_selected_menu_value(void *);
 void *create_select_menu_window__17TWindowOptionCtrlFv(void *);
 s32 update_selected_item__17TWindowOptionCtrlFv(void *);
 void *create_list_window__17TWindowOptionCtrlFv(void *);
@@ -59,7 +60,7 @@ void TWindowOptionCtrl::run_task() {
     case 0:
     case 1:
         if (self->f44 != NULL) {
-            TWindow__close((u8 *)self->f44);
+            ((TWindowBase *)self->f44)->close();
             self->f44 = NULL;
         }
         if (self->f40 != NULL) {
@@ -67,19 +68,19 @@ void TWindowOptionCtrl::run_task() {
             self->f40 = NULL;
         }
         if (self->f3C != NULL) {
-            TWindow__close((u8 *)self->f3C);
+            ((TWindowBase *)self->f3C)->close();
             self->f3C = NULL;
         }
         if (self->f38 != NULL) {
-            TWindow__close((u8 *)self->f38);
+            ((TWindowBase *)self->f38)->close();
             self->f38 = NULL;
         }
         if (self->f34 != NULL) {
-            TWindow__close((u8 *)self->f34);
+            ((TWindowBase *)self->f34)->close();
             self->f34 = NULL;
         }
         if (self->f2C != NULL) {
-            TWindow__close((u8 *)self->f2C);
+            ((TWindowBase *)self->f2C)->close();
             self->f2C = NULL;
         }
         if (self->f28 == NULL) {
@@ -89,10 +90,10 @@ void TWindowOptionCtrl::run_task() {
         ((TWindowSubComCard *)(self->f28))->clear_flag_and_release();
         self->state = 2;
     case 2:
-        if (((TWindowSubComCard *)(self->f28))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(self->f28))->is_cancelled() != 0) {
             self->state = 0x1B;
-        } else if (((TWindowMenu *)(self->f28))->is_visible() != 0) {
-            self->state = get_selected_menu_value(self->f28);
+        } else if (((TWindowMenu *)(self->f28))->is_decided() != 0) {
+            self->state = ((TWindowMenu *)self->f28)->get_selected_value();
         }
         break;
     case 3:
@@ -102,7 +103,7 @@ void TWindowOptionCtrl::run_task() {
         }
         self->state = 4;
     case 4:
-        if (((TLobby *)(self->f34))->get_flag_bit2() != 0) {
+        if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 1;
         }
         if (((TWindowOptionCtrl *)self)->handle_input(update_selected_item__17TWindowOptionCtrlFv(self->f34)) != 0) {
@@ -117,7 +118,7 @@ void TWindowOptionCtrl::run_task() {
         }
         self->state = 6;
     case 6:
-        if (((TWindowSubComCard *)(self->f2C))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(self->f2C))->is_cancelled() != 0) {
             if (self->f1D & 2) {
                 TWindowOptionCtrl__sub_802273B4(0x1E);
                 self->f1D &= ~2;
@@ -130,8 +131,8 @@ void TWindowOptionCtrl::run_task() {
                 break;
             }
         }
-        if (((TWindowMenu *)(self->f2C))->is_visible() != 0) {
-            ((TWindowOptionCtrl *)self)->apply_and_close(get_selected_menu_value(self->f2C));
+        if (((TWindowMenu *)(self->f2C))->is_decided() != 0) {
+            ((TWindowOptionCtrl *)self)->apply_and_close(((TWindowMenu *)self->f2C)->get_selected_value());
             ((TWindowSubComCard *)(self->f2C))->clear_flag_and_release();
         }
         break;
@@ -143,7 +144,7 @@ void TWindowOptionCtrl::run_task() {
         self->state = 8;
     case 8:
         self->f20 = update_selected_item__17TWindowOptionCtrlFv(self->f34);
-        if (((TLobby *)(self->f34))->get_flag_bit2() != 0) {
+        if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 1;
         }
         break;
@@ -217,11 +218,11 @@ void TWindowOptionCtrl::run_task() {
             self->f40 = NULL;
         }
         if (self->f34 != NULL) {
-            TWindow__close((u8 *)self->f34);
+            ((TWindowBase *)self->f34)->close();
             self->f34 = NULL;
         }
         if (self->f30 != NULL) {
-            TWindow__close((u8 *)self->f30);
+            ((TWindowBase *)self->f30)->close();
             self->f30 = NULL;
         }
         if (self->f2C == NULL) {
@@ -232,10 +233,10 @@ void TWindowOptionCtrl::run_task() {
         ((TWindowSubComCard *)(self->f2C))->clear_flag_and_release();
         self->state = 0x11;
     case 17:
-        if (((TWindowSubComCard *)(self->f2C))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(self->f2C))->is_cancelled() != 0) {
             self->state = 1;
-        } else if (((TWindowMenu *)(self->f2C))->is_visible() != 0) {
-            self->state = get_selected_menu_value(self->f2C);
+        } else if (((TWindowMenu *)(self->f2C))->is_decided() != 0) {
+            self->state = ((TWindowMenu *)self->f2C)->get_selected_value();
         }
         break;
     case 18:
@@ -246,7 +247,7 @@ void TWindowOptionCtrl::run_task() {
         self->state = 0x13;
     case 19:
         ((void (*)(void *, s32)) set_field_value__17TWindowOptionCtrlFls)(self, update_selected_item__17TWindowOptionCtrlFv(self->f34));
-        if (((TLobby *)(self->f34))->get_flag_bit2() != 0) {
+        if (((TWindowMenuIconLine *)(self->f34))->is_cancelled() != 0) {
             self->state = 0x10;
         }
         break;
@@ -255,16 +256,16 @@ void TWindowOptionCtrl::run_task() {
         self->state = 0x17;
         break;
     case 22:
-        if (((TWindowSubComCard *)(self->f30))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(self->f30))->is_cancelled() != 0) {
             self->state = 0x10;
         }
-        if (((TWindowMenu *)(self->f30))->is_visible() != 0) {
+        if (((TWindowMenu *)(self->f30))->is_decided() != 0) {
             self->state = 0x17;
         }
         break;
     case 23:
         if (self->f40 == NULL) {
-            switch (get_selected_menu_value(self->f2C)) {
+            switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
             case 0x14:
                 self->f40 = (void *)TWindowOptionCtrl::open_yes_no_window((s32)self, 0x22, 0xD0);
                 break;
@@ -280,7 +281,7 @@ void TWindowOptionCtrl::run_task() {
             self->state = 0x10;
         } else if (((TWindowMessageYesNo *)(self->f40))->is_child_visible() != 0) {
             if (((TWindowSubComCard *)(self->f40))->get_slot_or_neg1() == 0) {
-                if (get_selected_menu_value(self->f2C) == 0x14) {
+                if (((TWindowMenu *)self->f2C)->get_selected_value() == 0x14) {
                     self->f24 = 1;
                 } else {
                     self->f24 = 3;

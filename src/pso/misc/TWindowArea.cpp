@@ -12,11 +12,11 @@ u8 * __ct__11TWindowRoomFPc(void *, s32);
 extern s32 __vt__11TWindowArea[];
 extern s32 lbl_805D3880;
 extern const f32 lbl_805DCAC4;
-int update_window_entry_list__13TUnk_804CE018FPv(void*, void*);
+int update_window_entry_list__11TWindowBaseFPv(void*, void*);
 void __dl__7TObjectFPv(void *);
 int initialize_subwindow__9TWindowDDFv(void*);
 
-void TWindowArea::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list__13TUnk_804CE018FPv(this, (char*)this + 0x24); }
+void TWindowArea::run_task() { initialize_subwindow__9TWindowDDFv(this); update_window_entry_list__11TWindowBaseFPv(this, (char*)this + 0x24); }
 
 void *__dt__11TWindowAreaFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

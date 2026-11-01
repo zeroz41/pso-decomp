@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TObject.h"
 #include "pso/misc/TWindow.h"
 #include "pso/TShopWindowBase.h"
@@ -46,14 +47,13 @@ void * close_shop_subwindows__17TQuestListOfflineFs(void *arg0, s16 arg1);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 void __ct__15TShopWindowBaseFv(void *, s32);
 void __dl__7TObjectFPv(void *);
-void TWindow__close(u8 *arg0);
 
 extern s32 TQuestListOffline__class_name;
 
 extern "C" void vfunc_6__15TShopWindowBaseFv();
 extern "C" void vfunc_8__15TShopWindowBaseFv();
-extern "C" void vfunc_7__15TShopWindowBaseFv();
-extern "C" void vfunc_9__15TShopWindowBaseFv();
+extern "C" void display_message__15TShopWindowBaseFPCcl();
+extern "C" void display_guild_message__15TShopWindowBaseFll();
 extern "C" void vfunc_10__15TShopWindowBaseFv();
 extern "C" void run_task__15TShopWindowBaseFv();
 extern "C" u8 lbl_8044BDA0[];
@@ -152,8 +152,8 @@ void *lbl_804C9C10[35] = {
 };
 void *lbl_804C9C9C[12] = {
     (void *)0x0, (void *)0x0, (void *)&close_shop_subwindows__17TQuestListOfflineFs, (void *)&run_task__15TShopWindowBaseFv,
-    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFv, (void *)&vfunc_7__15TShopWindowBaseFv,
-    (void *)&vfunc_8__15TShopWindowBaseFv, (void *)&vfunc_9__15TShopWindowBaseFv, (void *)&vfunc_10__15TShopWindowBaseFv, (void *)&vfunc_11__17TQuestListOfflineFv,
+    (void *)&render__7TObjectFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__15TShopWindowBaseFv, (void *)&display_message__15TShopWindowBaseFPCcl,
+    (void *)&vfunc_8__15TShopWindowBaseFv, (void *)&display_guild_message__15TShopWindowBaseFll, (void *)&vfunc_10__15TShopWindowBaseFv, (void *)&vfunc_11__17TQuestListOfflineFv,
 };
 #define lbl_804C9C9C ((s32 *)lbl_804C9C9C)
 
@@ -195,10 +195,10 @@ void TQuestListOffline::vfunc_11() {
 void *TQuestListOffline::close_shop_subwindows(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = lbl_804C9C9C;
-        if (*(void **)((s8 *)this + 0x3C) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x3C))); *(s32 *)((s8 *)this + 0x3C) = 0; }
-        if (this->m_38 != NULL) { TWindow__close((u8 *)this->m_38); *(s32 *)((s8 *)this + 0x3C) = 0; }
-        if (this->m_40 != NULL) { TWindow__close((u8 *)this->m_40); this->m_40 = 0; }
-        if (*(void **)((s8 *)this + 0x44) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x44))); *(s32 *)((s8 *)this + 0x44) = 0; }
+        if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); *(s32 *)((s8 *)this + 0x3C) = 0; }
+        if (this->m_38 != NULL) { ((TWindowBase *)this->m_38)->close(); *(s32 *)((s8 *)this + 0x3C) = 0; }
+        if (this->m_40 != NULL) { ((TWindowBase *)this->m_40)->close(); this->m_40 = 0; }
+        if (*(void **)((s8 *)this + 0x44) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x44)))->close(); *(s32 *)((s8 *)this + 0x44) = 0; }
         __dt__15TShopWindowBaseFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

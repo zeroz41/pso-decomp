@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWMENU_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 
-struct TWindowMenu : public TUnk_804CDFE8 {
+struct TWindowMenu : public TWindowAddition {
     virtual ~TWindowMenu();
     s32 get_selected_entry();
     int sub_80266BB8();
@@ -17,7 +17,9 @@ struct TWindowMenu : public TUnk_804CDFE8 {
     void clamp_menu_choice_scroll();
     void update_target_y();
     void reset_selection();
-    int is_visible();
+    int is_decided();
+    int is_cancelled();
+    s32 get_selected_value();
     virtual void render();
     u8 _pad1C[0x4];
     s16 m_20;

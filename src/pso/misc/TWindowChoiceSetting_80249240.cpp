@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/misc/TWindowChoiceSetting_80249240.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/misc/TUnk_804CDFE8.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowAddition.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TUnk_804D0658.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/misc/TWindowDD.h"
@@ -31,7 +31,7 @@ extern s32 __vt__20TWindowChoiceSetting[];
 void render__20TWindowChoiceSettingFv(u8 *arg0) {
     s32 temp_r3;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     ((TUnk_804D0658 *)arg0)->draw_setting(temp_r3);
     if ((u32) ((TWindowChoiceSetting *)arg0)->m_78 != 0U) {
@@ -88,10 +88,10 @@ void TWindowChoiceSetting::run_task() {
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
     ((TWindowChoiceSetting *)arg0)->sub_80249078();
-    ((TUnk_804CDFE8 *)arg0)->step_window_tween();
+    ((TWindowAddition *)arg0)->step_window_tween();
     ((TUnk_804D0658 *)arg0)->update_scroll_offset();
     ((TUnk_804D0658 *)arg0)->clamp_scroll();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
 
 void *__dt__20TWindowChoiceSettingFv(void *arg0, s16 arg1) {

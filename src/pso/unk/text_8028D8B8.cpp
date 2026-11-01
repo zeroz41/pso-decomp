@@ -2,6 +2,7 @@
 #include "pso/menu/TChCrEffWall.h"
 #include "pso/misc/TChCrEffTag_8029ACA8.h"
 #include "pso/unk/text_8028D8B8.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
 
 struct RecoveredGlobal_8028D940_lbl_8051C070 {
     s32 value;
@@ -19,7 +20,6 @@ s32 create__14TChCrEffCtrlPlFv(s32);
 extern RecoveredGlobal_8028D940_lbl_8051C070 lbl_8051C070;
 extern s32 tl_03;
 void queue_destruction__7TObjectFv(void *arg0);
-void *alloc__22TQuestVmDownLoadServerFv(u32 size);
 }
 extern void *chr_select_load_buffer_base;
 typedef char RecoveredGlobal_8028D940_lbl_8051C070_size[sizeof(RecoveredGlobal_8028D940_lbl_8051C070) == 0xC ? 1 : -1];
@@ -28,7 +28,7 @@ typedef char RecoveredGlobal_8028D8F4_lbl_8051C070_size[sizeof(RecoveredGlobal_8
 
 void alloc_quest_download_buffer(void) {
     if (chr_select_load_buffer_base == 0) {
-        if ((chr_select_load_buffer_base = alloc__22TQuestVmDownLoadServerFv(0x28000)) == 0) return;
+        if ((chr_select_load_buffer_base = TQuestVmDownLoadServer::alloc(0x28000)) == 0) return;
     }
 }
 

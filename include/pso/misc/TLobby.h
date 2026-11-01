@@ -206,7 +206,6 @@ struct TLobby : public TObject {
     void bswap_fields();
     void bswap_header_3words();
     void bswap_6x6B();
-    int get_flag_bit2();
     u8 get_mode();
     static void init_serial_access();
     static void heap_alloc(void* a0);
@@ -392,12 +391,8 @@ struct TLobby : public TObject {
     static int get_global_63e0();
     static void load_player_data();
     static void send_card_window_state();
-    int send_and_handle(int a1, int a2);
-    static u8 *create_message_window(s32 arg0, s32 arg1, u32 arg2, s16 arg3);
-    static void set_window_mode_4(void *arg0, s32 arg1, s32 arg2);
     void update_window_mode_from_progress(void *arg1);
     void set_field_90(s32 v);
-    void add_list_entry(s32 arg1, s32 arg2, s32 arg3);
     static void send_packet(s32 arg0, s32 arg1);
     static void free_shared_objects();
     int start_load_default();
@@ -737,7 +732,6 @@ struct TLobby : public TObject {
     static s32 get_table_entry_by_index();
     static void open_challenge_window(s32 arg0, s32 arg1);
     void open_challenge_progress_window(void *arg1);
-    void set_field_1c(f32 farg0);
     static s32 get_flagged_table_entry(s32 arg0);
     static s32 get_flag_value_if_set();
     void add_status_disp_entry(s32 arg1, s32 arg2);
@@ -776,7 +770,9 @@ struct TLobby : public TObject {
     s32 validate_and_store_net_params();
     void init_net_config();
     void send_text_packet_D9(char *str);
-    s32 tmp_buf_release();
+    static void tmp_buf_release_if_owner(const char *name);
+    static s32 tmp_buf_release(const char *name);
+    static s32 tmp_buf_is_free();
     static s32 tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
     static u16 alloc_actor_ids(s32 arg);

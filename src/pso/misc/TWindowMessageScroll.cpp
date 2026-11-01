@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowMessageScroll.h"
 #include "pso/misc/TWindowMessageQuest.h"
 #include "pso/unk/text_8026B260.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowDD.h"
@@ -26,9 +26,9 @@ void TWindowMessageScroll::run_task() {
     this->m_6c = (f32) (temp_f1 + *(f32 *)((s8 *)arg0 + 0x94));
     retire_scrolled_lines__14TWindowMessageFv(temp_f1);
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((u8 *)&this->m_24);
-    if ((((TUnk_804CE018 *)arg0)->sub_80244994() != 0) && (*(f32 *)&this->unk_80 <= this->m_6c)) {
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    if ((((TWindowBase *)arg0)->sub_80244994() != 0) && (*(f32 *)&this->unk_80 <= this->m_6c)) {
         *this->m_98 = 1;
     }
 }

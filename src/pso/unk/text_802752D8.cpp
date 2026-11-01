@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSubComCardList.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowShortListCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);

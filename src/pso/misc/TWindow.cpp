@@ -1,12 +1,14 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopJudgmentItemWindow_8026DF00.h"
 #include "pso/quest/StoryQuestProgress.h"
 #include "pso/unk/text_801F3774.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/TWindowMenu.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TQuestListOffline.h"
 #include "pso/misc/TWindow.h"
 #include "pso/misc/TLobby.h"
@@ -113,32 +115,29 @@ extern "C" {
 u16 get_entity_id(void *);
 s32 get_quest_list_text(s32, s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
-void TWindow__close(u8 *arg0);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
-s32 select_cursor_entry__22TWindowSubShortCutListFv(s32);
-void *create_message_window__6TLobbyFllUls(void *, void *, s32, s32);
+s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
+void *create__14TWindowMessageFllUll(void *, void *, s32, s32);
 void *get_window_layout_position(s32);
-s32 calc_list_content_extent(void *);
-void *set_window_mode_4__6TLobbyFPvll(void *, void *, s32);
+void *create__14TWindowMessageFPvll(void *, void *, s32);
 extern Pos_80216F50 lbl_8044BE9C[];
 extern void *story_quest_list_resource;
-s32 get_selected_menu_value(u32);
 
 void TWindow::close_sub_windows() {
     if ((u32) *(u32 *)((s8 *)this + 0x38) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x38)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close();
         *(u32 *)((s8 *)this + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x44) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x44)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x44)))->close();
         *(u32 *)((s8 *)this + 0x44) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x40) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x40)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x40)))->close();
         *(u32 *)((s8 *)this + 0x40) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x3C) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x3C)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close();
         *(u32 *)((s8 *)this + 0x3C) = 0U;
     }
 }
@@ -157,10 +156,10 @@ void handle_confirm_dialog(TShopWindowBase *shop_window_base) {
 
     temp_r3 = *(VObj_80216BCC_80216B44 **)((s8 *)shop_window_base + 0x34);
     if (temp_r3->m8() != 0) {
-        if ((*(void **)((s8 *)shop_window_base + 0x38) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)shop_window_base + 0x38)))->is_visible() != 0)) {
-            selected_menu_value = get_selected_menu_value(*(u32 *)((s8 *)shop_window_base + 0x38));
+        if ((*(void **)((s8 *)shop_window_base + 0x38) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)shop_window_base + 0x38)))->is_decided() != 0)) {
+            selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)shop_window_base + 0x38)))->get_selected_value();
             if (selected_menu_value == 0) {
-                temp_r0 = select_cursor_entry__22TWindowSubShortCutListFv(*(s32 *)((s8 *)shop_window_base + 0x3C));
+                temp_r0 = get_cursor_value__19TWindowMenuIconLineFv(*(s32 *)((s8 *)shop_window_base + 0x3C));
                 prepare_offline_quest_filenames((const char *)((*(Entry_80216BCC_80216B44 **)((s8 *)shop_window_base + 0x54))[temp_r0].field18));
                 shop_window_base->set_field_20(3);
                 return;
@@ -177,7 +176,7 @@ void handle_confirm_dialog(TShopWindowBase *shop_window_base) {
             goto block_9;
         }
 block_9:
-        if ((*(void **)((s8 *)shop_window_base + 0x38) != NULL) && (((TWindowSubComCard *)(*(void **)((s8 *)shop_window_base + 0x38)))->get_status_flag() != 0)) {
+        if ((*(void **)((s8 *)shop_window_base + 0x38) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)shop_window_base + 0x38)))->is_cancelled() != 0)) {
             ((TWindow *)shop_window_base)->close_sub_windows();
             temp_r3_4 = *(VObj_80216BCC_80216B44 **)((s8 *)shop_window_base + 0x34);
             if (temp_r3_4 != NULL) {
@@ -197,23 +196,23 @@ void TQuestListOffline::update_list_navigation() {
         return;
     }
     if (((Win_80216CF8 *)this)->f3C != NULL && ((Win_80216CF8 *)this)->f40 != NULL) {
-        sel = select_cursor_entry__22TWindowSubShortCutListFv((s32)((Win_80216CF8 *)this)->f3C);
+        sel = ((TWindowMenuIconLine *)(((Win_80216CF8 *)this)->f3C))->get_cursor_value();
         if (sel != ((Win_80216CF8 *)this)->f50) {
             msg = get_quest_list_text(0xE, ((Win_80216CF8 *)this)->f54[sel].f8);
-            ((TLobby *)(((Win_80216CF8 *)this)->f40))->send_and_handle(msg, 0x80);
+            ((TWindowMessage *)(((Win_80216CF8 *)this)->f40))->append_line(msg, 0x80);
             ((Win_80216CF8 *)this)->f50 = sel;
             if (((Win_80216CF8 *)this)->f44 != NULL) {
-                TWindow__close((u8 *)(((Win_80216CF8 *)this)->f44));
+                ((TWindowBase *)(((Win_80216CF8 *)this)->f44))->close();
                 ((Win_80216CF8 *)this)->f44 = NULL;
             }
         }
     }
-    if (((Win_80216CF8 *)this)->f3C != NULL && ((TLobby *)(((Win_80216CF8 *)this)->f3C))->get_flag_bit2() != 0) {
+    if (((Win_80216CF8 *)this)->f3C != NULL && ((TWindowMenuIconLine *)(((Win_80216CF8 *)this)->f3C))->is_cancelled() != 0) {
         ((TShopWindowBase *)((Win_80216CF8 *)this))->set_field_20(5);
         return;
     }
-    if (((Win_80216CF8 *)this)->f3C != NULL && ((TUnk_804D0618 *)(((Win_80216CF8 *)this)->f3C))->get_status_flag() != 0) {
-        sel = select_cursor_entry__22TWindowSubShortCutListFv((s32)((Win_80216CF8 *)this)->f3C);
+    if (((Win_80216CF8 *)this)->f3C != NULL && ((TWindowMenuIconLine *)(((Win_80216CF8 *)this)->f3C))->is_decided() != 0) {
+        sel = ((TWindowMenuIconLine *)(((Win_80216CF8 *)this)->f3C))->get_cursor_value();
         if (((Win_80216CF8 *)this)->f54[sel].f14 & 1) {
             ((TShopWindowBase *)((Win_80216CF8 *)this))->set_field_20(4);
             return;
@@ -221,17 +220,17 @@ void TQuestListOffline::update_list_navigation() {
         if (((Win_80216CF8 *)this)->f44 == NULL) {
             pos.a = lbl_8044BEA4[0].a;
             pos.b = lbl_8044BEA4[0].b;
-            ((Win_80216CF8 *)this)->f44 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &pos, 1, get_entity_id(((Win_80216CF8 *)this)->f24));
+            ((Win_80216CF8 *)this)->f44 = create__14TWindowMessageFllUll(get_window_layout_position(0x2E), &pos, 1, get_entity_id(((Win_80216CF8 *)this)->f24));
             msg2 = get_quest_list_text(0xE, ((Win_80216CF8 *)this)->f54[sel].fC);
-            ((TLobby *)(((Win_80216CF8 *)this)->f44))->send_and_handle(msg2, 0x80);
-            ((TLobby *)(((Win_80216CF8 *)this)->f44))->set_field_1c(lbl_805DC694);
+            ((TWindowMessage *)(((Win_80216CF8 *)this)->f44))->append_line(msg2, 0x80);
+            ((TWindowBase *)(((Win_80216CF8 *)this)->f44))->set_depth(lbl_805DC694);
             if (TCameraCtrl::get_camera_id() >= 2) {
-                ((TUnk_804CDFE8 *)(((Win_80216CF8 *)this)->f44))->set_position_xy(lbl_805DC698, lbl_805DC698);
+                ((TWindowAddition *)(((Win_80216CF8 *)this)->f44))->set_position_xy(lbl_805DC698, lbl_805DC698);
             }
         }
         if (((Win_80216CF8 *)this)->f38 == NULL) {
             ((Win_80216CF8 *)this)->f38 = create_yes_no_window((s32)(get_window_layout_position(0x2B)), get_entity_id(((Win_80216CF8 *)this)->f24), 0, 0);
-            ((TUnk_804CDFE8 *)(((Win_80216CF8 *)this)->f38))->set_position_xy(get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)), get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)));
+            ((TWindowAddition *)(((Win_80216CF8 *)this)->f38))->set_position_xy(get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)), get_scale__15TShopWindowBaseFv(((Win_80216CF8 *)this)));
             if (((Win_80216CF8 *)this)->f34 != NULL) {
                 ((Win_80216CF8 *)this)->f34->m7(5, 1);
             }
@@ -259,9 +258,9 @@ void TQuestListOffline::init_quest_list_window() {
             i = 0;
             while (e->f4 != -1) {
                 if (e->f12 == -1) {
-                    ((TLobby *)(self->f3C))->add_list_entry(0x2C, get_quest_list_text(0xE, e->f4), i);
+                    ((TWindowMenuIconLine *)(self->f3C))->add_list_entry(0x2C, get_quest_list_text(0xE, e->f4), i);
                 } else if (get_story_flag(e->f10) != 0) {
-                    ((TLobby *)(self->f3C))->add_list_entry(0x16, get_quest_list_text(0xE, e->f4), i);
+                    ((TWindowMenuIconLine *)(self->f3C))->add_list_entry(0x16, get_quest_list_text(0xE, e->f4), i);
                 }
                 i++;
                 e++;
@@ -271,27 +270,27 @@ void TQuestListOffline::init_quest_list_window() {
             i2 = 0;
             while (e2->f4 != -1) {
                 if (e2->f12 == -1) {
-                    ((TLobby *)(self->f3C))->add_list_entry(0x2C, get_quest_list_text(0xE, e2->f4), i2);
+                    ((TWindowMenuIconLine *)(self->f3C))->add_list_entry(0x2C, get_quest_list_text(0xE, e2->f4), i2);
                 } else if (get_story_flag(e2->f10) != 0) {
                     if (get_story_flag(e2->f12) != 0) {
-                        ((TLobby *)(self->f3C))->add_list_entry(0x18, get_quest_list_text(0xE, e2->f4), i2);
+                        ((TWindowMenuIconLine *)(self->f3C))->add_list_entry(0x18, get_quest_list_text(0xE, e2->f4), i2);
                     } else {
-                        ((TLobby *)(self->f3C))->add_list_entry(0x17, get_quest_list_text(0xE, e2->f4), i2);
+                        ((TWindowMenuIconLine *)(self->f3C))->add_list_entry(0x17, get_quest_list_text(0xE, e2->f4), i2);
                     }
                 }
                 i2++;
                 e2++;
             }
         }
-        calc_list_content_extent(self->f3C);
+        ((TWindowMenuIconLine *)self->f3C)->calc_content_extent();
         if (self->f40 == NULL) {
             pos.a = lbl_8044BE9C[0].a;
             pos.b = lbl_8044BE9C[0].b;
-            self->f40 = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x2D), &pos, 1);
-            ((TLobby *)(self->f40))->send_and_handle(get_quest_list_text(0xE, self->f54->f8), 0x80);
+            self->f40 = create__14TWindowMessageFPvll(get_window_layout_position(0x2D), &pos, 1);
+            ((TWindowMessage *)(self->f40))->append_line(get_quest_list_text(0xE, self->f54->f8), 0x80);
             self->f50 = 0;
         } else {
-            ((TLobby *)(self->f40))->send_and_handle(get_quest_list_text(0xE, self->f54->f8), 0x80);
+            ((TWindowMessage *)(self->f40))->append_line(get_quest_list_text(0xE, self->f54->f8), 0x80);
             self->f50 = 0;
         }
     }

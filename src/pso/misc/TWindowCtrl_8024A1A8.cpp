@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/player/TObjChara.h"
 #include "pso/misc/TWindowFukidasi.h"
 
@@ -66,7 +67,6 @@ extern void *TWindowCtrl__active_window;
 void TLobby__sub_8024AAA0(s32 arg0, s32 arg1);
 u32 get_window__11TWindowCtrlFl(void);
 s32 update_field28__15TWindowCtrlMainFv(u32 a0 = 0, s32 a1 = 0);
-void TWindow__close(u8 *arg0);
 s32 TWindowCtrl__sub_8024B098(void *, void *);
 extern RecoveredGlobal_8024A228_lbl_804CEA88 window_ctrl_main_callback_desc;
 void TWindowCtrl__sub_8024A228(s32 arg0);
@@ -183,7 +183,7 @@ void TWindowCtrl::open_status_112() {
 
 void TWindowCtrl::close_active_window() {
     if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) != 0U)) {
-        TWindow__close((u8 *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x34)));
+        ((TWindowBase *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x34)))->close();
         *(u32 *)((s8 *)TWindowCtrl__active_window + 0x34) = 0U;
     }
 }
@@ -213,7 +213,7 @@ void TWindowCtrl::set_timer_window_time() {
 
 void TWindowCtrl::close_timer_window() {
     if (((void *) TWindowCtrl__active_window != NULL) && ((u32) *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) != 0U)) {
-        TWindow__close((u8 *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x30)));
+        ((TWindowBase *)(*(void **)((s8 *)TWindowCtrl__active_window + 0x30)))->close();
         *(u32 *)((s8 *)TWindowCtrl__active_window + 0x30) = 0U;
     }
 }
@@ -359,7 +359,7 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
             return 0;
         }
         if (self->slots[i] != 0) {
-            TWindow__close((u8 *)self->slots[i]);
+            ((TWindowBase *)(self->slots[i]))->close();
         }
         b = __nw__7TObjectFUl(0x98);
         if (b != 0) {

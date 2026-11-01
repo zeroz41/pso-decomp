@@ -1,4 +1,5 @@
 #include "pso/misc/TPlayerBattleCtrl4P.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TPlayerBattleCtrl4P_8031012C.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 
@@ -37,7 +38,7 @@ extern "C" {
 s64 OSGetTime(void);
 s32 is_battle_decided__19TPlayerBattleCtrl4PFv(void *);
 void *get_player_by_client_id(s32 i);
-s32 send_and_handle__6TLobbyFii(s32, void *, int);
+s32 append_line__14TWindowMessageFii(s32, void *, int);
 int sprintf(char *, const char *, ...);
 char *strncpy(char *, const char *, u32);
 extern Cnt_8031224C lbl_80475B68[];
@@ -126,7 +127,7 @@ void TPlayerBattleCtrl4P::start_battle() { start_duel(); set_score((s32)((void*)
 void TPlayerBattleCtrl4P::close_intro_and_start_battle() {
     void *temp_r3 = this->intro_window;
     if ((u32) temp_r3 != 0U) {
-        TWindow__close((u8 *)temp_r3);
+        ((TWindowBase *)temp_r3)->close();
         this->intro_window = 0U;
     }
     set_split_screen_battle_phase(2);
@@ -144,7 +145,7 @@ void TPlayerBattleCtrl4P::update_ready_wait() {
     ready_timer = (ready_timer - 1);
     if ((check_all_players_flag__19TPlayerBattleCtrl4PFv(this) != 0) || ((s32) ready_timer >= 0)) {
         if (this->intro_window != (void *) 0) {
-        TWindow__close((u8 *)this->intro_window);
+        ((TWindowBase *)this->intro_window)->close();
         this->intro_window = 0U;
         {
             void *temp = __nw__7TObjectFUl(0x28);
@@ -193,7 +194,7 @@ void TPlayerBattleCtrl4P::show_team_matchup() {
         }
     }
     sprintf(team_matchup_message_buffer, ((O_8031224C *)this)->strs->fmt, names[0], names[1], names[2], names[3]);
-    send_and_handle__6TLobbyFii(((O_8031224C *)this)->w0, team_matchup_message_buffer, 0x80);
+    append_line__14TWindowMessageFii(((O_8031224C *)this)->w0, team_matchup_message_buffer, 0x80);
     ((O_8031224C *)this)->timer = 0xF0;
     set_score((s32)((void *)4));
 }

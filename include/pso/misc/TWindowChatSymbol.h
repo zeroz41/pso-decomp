@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWCHATSYMBOL_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowChatSymbol : public TUnk_804CE018 {
+struct TWindowChatSymbol : public TWindowBase {
     virtual ~TWindowChatSymbol();
     virtual void render();
     u8 unk_1C[0x4];

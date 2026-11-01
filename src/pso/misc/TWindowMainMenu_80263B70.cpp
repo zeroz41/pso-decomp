@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/map/FloorArea.h"
 struct TWindowSubItem;
 struct TWindowSubMag;
@@ -127,7 +129,7 @@ s32 is_quest_active();
 s32 get_short_mail_ctrl__6TLobbyFv();
 s32 is_trade_range_bit_set(s32);
 extern s32 local_client_id;
-u32 create_message_window__6TLobbyFllUls(u32, s32 *, s32, s32);
+u32 create__14TWindowMessageFllUll(u32, s32 *, s32, s32);
 
 u32 get_window_layout_position(s32);
 s32 call_if_split_screen(u32, s32);
@@ -210,7 +212,7 @@ void TWindowMainMenu::sub_80263FE0() {
     toggle_help_window_on_button(*(s32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
 }
 
-void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { TWindow__close((u8 *)(*(void**)((char*)this + 0x24))); *(int*)((char*)this + 0x24) = 0; } }
+void TWindowMainMenu::close_child_window() { if (*(unsigned int*)((char*)this + 0x24) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x24)))->close(); *(int*)((char*)this + 0x24) = 0; } }
 
 extern s32 lbl_8044F2E0[];
 extern const f32 lbl_805DD13C;
@@ -220,11 +222,11 @@ void TWindowMainMenu::update_description_text(s32 arg1) {
         *(s32 *)((s8 *)this + 0x48) = arg1;
         if ((u32) *(u32 *)((s8 *)this + 0x24) == 0U) {
             u32 tmp = get_window_layout_position(0x1B);
-            *(u32 *)((s8 *)this + 0x24) = create_message_window__6TLobbyFllUls(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
-            ((TLobby *)(*(u32 *)((s8 *)this + 0x24)))->set_field_1c(lbl_805DD13C);
+            *(u32 *)((s8 *)this + 0x24) = create__14TWindowMessageFllUll(tmp, lbl_8044F2E0, 1, *(s32 *)((s8 *)this + 0x54));
+            ((TWindowBase *)(*(u32 *)((s8 *)this + 0x24)))->set_depth(lbl_805DD13C);
             call_if_split_screen(*(u32 *)((s8 *)this + 0x24), *(s32 *)((s8 *)this + 0x54));
         }
-        ((TLobby *)(*(u32 *)((s8 *)this + 0x24)))->send_and_handle(select_main_menu_item_10(arg1), 0x80);
+        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x24)))->append_line(select_main_menu_item_10(arg1), 0x80);
     }
 }
 

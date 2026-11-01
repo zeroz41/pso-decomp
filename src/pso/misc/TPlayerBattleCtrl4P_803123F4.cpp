@@ -1,4 +1,5 @@
 #include "pso/misc/TPlayerBattleCtrl4P.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TObject.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 
@@ -16,10 +17,10 @@ struct BattleIntroWindowSize { f32 x, y; };
 
 extern "C" {
 void *get_window_layout_position(s32);
-void *set_window_mode_4__6TLobbyFPvll(void *, void *, s32);
+void *create__14TWindowMessageFPvll(void *, void *, s32);
 extern const BattleIntroWindowSize lbl_80475B60;
 s32 lbl_805D6AB0;
-void send_and_handle__6TLobbyFii(void *, void *, int);
+void append_line__14TWindowMessageFii(void *, void *, int);
 void *destroy__19TPlayerBattleCtrl4PFs(void *arg0, s16 arg1);
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
@@ -57,7 +58,7 @@ void *lbl_804E7D4C[7] = {
 }
 void TPlayerBattleCtrl4P::show_intro_text() {
     if (this->intro_window != NULL) {
-        send_and_handle__6TLobbyFii(this->intro_window, (void *)((char *)((void *)this) + 56), 128);
+        append_line__14TWindowMessageFii(this->intro_window, (void *)((char *)((void *)this) + 56), 128);
     }
     this->frame_timer = 240;
     set_score(2);
@@ -66,7 +67,7 @@ void TPlayerBattleCtrl4P::show_intro_text() {
 void TPlayerBattleCtrl4P::open_intro_window() {
     if (((BattleIntroWindowState *)this)->intro_window == NULL) {
         BattleIntroWindowSize size = lbl_80475B60;
-        ((BattleIntroWindowState *)this)->intro_window = set_window_mode_4__6TLobbyFPvll(
+        ((BattleIntroWindowState *)this)->intro_window = create__14TWindowMessageFPvll(
             get_window_layout_position(0x52), &size, 1);
     }
     lbl_805D6AB0 = 0;
@@ -120,11 +121,11 @@ TPlayerBattleCtrl4P* TPlayerBattleCtrl4P::destroy(s16 should_free) {
     if (((void *)this) != NULL) {
         *(s32 **)((s8 *)((void *)this) + 0x18) = __vt__19TPlayerBattleCtrl4P;
         if ((u32) this->intro_window != 0U) {
-            TWindow__close((u8 *)this->intro_window);
+            ((TWindowBase *)this->intro_window)->close();
             this->intro_window = 0U;
         }
         if ((u32) this->menu_window != 0U) {
-            TWindow__close((u8 *)this->menu_window);
+            ((TWindowBase *)this->menu_window)->close();
             this->menu_window = 0U;
         }
         close_player_windows();

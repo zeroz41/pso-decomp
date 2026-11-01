@@ -1314,7 +1314,7 @@ force_active:
   - TQuestListChallenge__name
   - TQuestListChallenge__stage_table
   - TQuestListChallenge__vt9
-  - TQuestListVM__sub_8021884C
+  - idle__12TQuestListVMFv
   - TQuestThreadBoard__class_name
   - TQuestThread__class_name
   - TQuestThread__floor_handler_ids
@@ -1323,7 +1323,7 @@ force_active:
   - TQuestVmDownLoadServer__rng_cipher_state
   - TQuestVmDownLoadServer__sub_801F6B98
   - TQuestVmDownLoadServer__sub_801F8538
-  - TQuestVmDownLoadServer__sub_80219EC4
+  - disable_cancel__19TWindowMenuIconLineFv
   - TRKEXICallBack
   - TRKInterruptHandlerEnableInterrupts
   - TRKLoadContext
@@ -3250,7 +3250,7 @@ force_active:
   - build_dead_list_window__15TObjDeadListWinFv
   - build_default_save_file__23TAdSinglePlyChrSelectGCFv
   - build_door_collision_triangles__18TObjCityDoor_LobbyFv
-  - build_download_list__12TQuestListVMFPv
+  - build_download_list__12TQuestListVMFv
   - build_item_list__23TShopJudgmentItemWindowFPv
   - build_menu__19TWindowSubShortMailFv
   - build_mode_menu__21TAdMultiSelGameModeGCFl
@@ -3553,7 +3553,7 @@ force_active:
   - clamp_difficulty__6TLobbyFl
   - clamp_flight_height__13TObjEneBm3FlyFv
   - clamp_hp_value__10TObjPlayerFPs
-  - clamp_item_list_scroll__13TUnk_804D0618Fv
+  - clamp_item_list_scroll__19TWindowMenuIconLineFv
   - clamp_menu_choice_scroll__11TWindowMenuFv
   - clamp_min_player_distance__9TBoss4UroFPv
   - clamp_params_and_init__14TOTrapSeabed01Fv
@@ -4131,7 +4131,7 @@ force_active:
   - draw_line_strip__10TObjPlayerFPviif
   - draw_locked__8TObjDoorFPv
   - draw_menu_backdrop_gradients__Fl
-  - draw_message_frame_row__13TUnk_804CE018FPvPv
+  - draw_message_frame_row__11TWindowBaseFPvPv
   - draw_model_12__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_model_13__23TBoss6Demo21_TYPE2_DEADFv
   - draw_model__11TObjDoaEx01Fv
@@ -4192,7 +4192,7 @@ force_active:
   - draw_title_rings
   - draw_value__13TWindowMesetaFl
   - draw_window__17TWindowDuelResultFPv
-  - draw_window_frame_strips__13TUnk_804CE018FPvPv
+  - draw_window_frame_strips__11TWindowBaseFPvPv
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
   - drill_launcher_create_shot__Flllf
@@ -4876,7 +4876,7 @@ force_active:
   - handle_cancel__28TWindowSubSymbolChatPartsSetFv
   - handle_challenge_retry_confirm__18TObjChallengeRetryFv
   - handle_chat_input__11TWindowChatFv
-  - handle_click__12TQuestListVMFv
+  - wait_for_message__12TQuestListVMFv
   - handle_close__22THunterGuildSeqOfflineFPv
   - handle_close_flag__17TWindowSubComCardFv
   - handle_close_input__17TJudgmentSequenceFv
@@ -4940,7 +4940,7 @@ force_active:
   - handle_msg_type1_for_idle_slots__6TLobbyFv
   - handle_msg_type2__6TLobbyFl
   - handle_number_input__21TShopDeleteItemWindowFv
-  - handle_open__13TUnk_804D0618Fv
+  - handle_open__19TWindowMenuIconLineFv
   - handle_pad_transfer_done__16TKeyBoardControlFiUiPv
   - handle_page_input__24TWindowSubSymbolChatHelpFv
   - handle_page_input__26TWindowSubQuestBoardSelectFv
@@ -5273,7 +5273,7 @@ force_active:
   - is_dead__12TBoss3VoloptFv
   - is_destination_ahead__12TBoss1DragonFPv
   - is_done__16TObjItemOKWindowFv
-  - is_downloadable_new_entry__12TQuestListVMFPvPv
+  - is_downloadable_new_entry__12TQuestListVMFP14QuestBinHeader
   - is_duplicate_shop_armor
   - is_duplicate_shop_shield_or_unit
   - is_duplicate_shop_weapon
@@ -11177,7 +11177,7 @@ force_active:
   - poll_input__19TWindowKeyBoardHardFv
   - poll_key_state__16TKeyBoardControlFv
   - poll_load__12TChCrLoadAfsFv
-  - poll_quest_download__12TQuestListVMFPv
+  - poll_quest_download__12TQuestListVMFv
   - populate_quest_floor_sets__Fv
   - populate_sub_item_list
   - pose_player__15TEndingPicStageF17player_class_typeSc
@@ -12207,7 +12207,7 @@ force_active:
   - scale_by_const__10TBoss6TubeFf
   - scale_by_level__14TOTrapChainSawFf
   - scale_size__12TBoss8DragonFfff
-  - scan_memcard_quest_files__12TQuestListVMFPv
+  - scan_memcard_quest_files__12TQuestListVMFv
   - scene_file_buffer_size
   - scene_format_dispatch_tables
   - schedule_pack_reaction__14TObjEneBm5WolfFPvis
@@ -13074,7 +13074,7 @@ force_active:
   - sub_8020F1DC__18TCheckRoomSequenceFv
   - sub_802100F8__18TCheckRoomSequenceFv
   - sub_802100FC__18TCheckRoomSequenceFv
-  - sub_80219064__12TQuestListVMFv
+  - load_selected_bin__12TQuestListVMFv
   - sub_8022C008__13TUnk_804CC148Fv
   - sub_80237258__19TTecPlayerInfluenceFv
   - sub_80247080__11TWindowChatFv
@@ -13575,7 +13575,7 @@ force_active:
   - update_load_state__9TItemLoadFv
   - update_load_status__12TQuestListVMFv
   - update_lobby_pigeon_visibility__13TUnk_804E0898Fv
-  - update_lobby_selection__12TQuestListVMFPv
+  - update_lobby_selection__12TQuestListVMFv
   - update_locked_pulse__8TObjDoorFPv
   - update_lunge__14TObjEneBm5WolfFl
   - update_mag_help__13TWindowSubMagFv
@@ -13674,7 +13674,7 @@ force_active:
   - update_scale_pulse__15TObjEneDelDepthFv
   - update_scale_sound__11TBoss4Type3Fv
   - update_scroll_close__6TLobbyFv
-  - update_scroll_offset__13TUnk_804D0618Fv
+  - update_scroll_offset__19TWindowMenuIconLineFv
   - update_scroll_target_position__21TWindowSubComCardListFv
   - update_scroll_value__11TWindowMenuFv
   - update_segment_angles__11TBoss6Type2Fv

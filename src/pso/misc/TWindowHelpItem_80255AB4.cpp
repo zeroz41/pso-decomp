@@ -2,7 +2,7 @@
 #include "pso/unk/text_80263A20.h"
 #include "pso/misc/TWindowHelpItem_80255AB4.h"
 #include "pso/misc/TWindowSubComCardList_8026CB08.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -53,8 +53,8 @@ void TWindowHelpItem__sub_80255B20(u8 *arg0) {
     s32 temp_r3;
     u8 temp_r3_2;
 
-    temp_r3 = ((TUnk_804CE018 *)arg0)->setup_window_draw_context((s32)(arg0 + 0xA8));
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)(arg0 + 0xA8));
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     temp_r3_2 = ((TWindowHelpItem *)arg0)->m_60;
     if ((temp_r3_2 & 1) && (temp_r3_2 & 2)) {
@@ -67,7 +67,7 @@ void TWindowHelpItem::update_display() {
     if (!(this->m_2c & 2)) {
         this->m_5c = 0x01000000;
     }
-    if ((this->m_60 & 1) && (((TUnk_804CE018 *)arg0)->sub_80244994() != 0) && !(this->m_2c & 4)) {
+    if ((this->m_60 & 1) && (((TWindowBase *)arg0)->sub_80244994() != 0) && !(this->m_2c & 4)) {
         if (!(this->m_60 & 4)) {
             if (handle_list_page_flip_input(this->m_64) != 0) {
                 ((TWindowHelpItem *)arg0)->dispatch_item_help();
@@ -78,8 +78,8 @@ void TWindowHelpItem::update_display() {
         ((TWindowHelpItem *)arg0)->invoke_callback_pmf();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
     if (!(this->m_60 & 8)) {
         toggle_help_window_on_button((u32)arg0, this->m_20);
     }
@@ -105,7 +105,7 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     self->m_vtable18 = ((s32 *)&TWindowHelpItem__object_vtable);
     self->m_00 = window_help_item_class_name;
     ((TWindowSubSymbolChatPartsSet *)((u8 *)self + 0x30))->copy_vec2(pos);
-    ((TUnk_804CE018 *)self)->save_position();
+    ((TWindowBase *)self)->save_position();
     self->m_60 = 0;
     p = ::operator new(0xc);
     if (p != 0) {

@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/TObjEZRopeBase.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
 struct Vec_800FF8CC {
     f32 x, y, z;
 };
@@ -42,7 +43,6 @@ struct Obj_800FF788 {
 };
 
 extern "C" {
-Vec_800FF8CC *alloc__22TQuestVmDownLoadServerFv(s32);
 void vec3_add_to(Vec_800FF8CC *, Vec_800FF8CC *);
 void fn_800FF580(void *, void *, f32);
 f32 vector_length(void *);
@@ -109,7 +109,7 @@ void TObjEZRopeBase::sub_800FF8CC(void *src_arg, void *pos_arg, s32 arg) {
         total += s->count;
         ((Self_800FF8CC *)this)->num++;
     }
-    ((Self_800FF8CC *)this)->out = alloc__22TQuestVmDownLoadServerFv(total * 0xC);
+    ((Self_800FF8CC *)this)->out = (Vec_800FF8CC *)TQuestVmDownLoadServer::alloc(total * 0xC);
     s = ((Self_800FF8CC *)this)->src;
     p = ((Self_800FF8CC *)this)->pos;
     out = ((Self_800FF8CC *)this)->out;

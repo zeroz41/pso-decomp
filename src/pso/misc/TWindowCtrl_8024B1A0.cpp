@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowCtrl_8024B1A0.h"
 #include "pso/misc/TWindowFukidasi.h"
 #include "pso/misc/TWindowCtrl.h"
@@ -88,7 +89,6 @@ struct Ctrl_8024B440 { u8 pad[0x84]; void *win[4]; };
 
 extern "C" {
 s32 acquire_balloon_slot__11TWindowCtrlFPviiPv(s32, u16, s32, s32);
-void TWindow__close(u8 *arg0);
 
 void TWindowCtrl::close_windows_by_flags(u16 arg0) {
     u32 i;
@@ -97,7 +97,7 @@ void TWindowCtrl::close_windows_by_flags(u16 arg0) {
         for (i = 0; i < 4; i++) {
             w = ((Ctrl_8024B328 *)(*(u32 *)&TWindowCtrl__active_window))->win[i];
             if (w != NULL && ((TObject *)w)->all_parents_unqueued_for_destruction() != 0 && arg0 == ((TWindowCtrl *)w)->get_flags()) {
-                TWindow__close((u8 *)w);
+                ((TWindowBase *)w)->close();
             }
         }
     }

@@ -7,7 +7,7 @@
 #include "pso/misc/TWindowSubQuestBoardSelect.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8027D230_lbl_805129F8 {
@@ -72,7 +72,7 @@ void TWindowSubQuestBoardSelect::sub_8027D230() {
     u8 *temp_r31;
     u8 *temp_r3;
     temp_r31 = (u8 *)&quest_board_handlers.value + ((s8) this->m_61 * 0x24);
-    temp_r3 = (u8 *)(((TUnk_804CE018 *)arg0)->get_array_entry(1));
+    temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(1));
     set_text_entry_string((u8 *)temp_r3, (u32)temp_r31, 0);
     measure_message_text_width(temp_r3, 100000.0f);
     *(f32 *)((s8 *)temp_r3 + 8) = (f32) (385.0f - *(f32 *)((s8 *)temp_r3 + 0x10));
@@ -246,7 +246,7 @@ s32 TWindowSubQuestBoardSelect::handle_page_input() {
 void render__26TWindowSubQuestBoardSelectFv(u8 *arg0) {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubQuestBoardSelect *)arg0)->m_64), temp_r3);
     TWindowSubQuestBoardSelect__sub_8027D444((TWindowSubQuestBoardSelect *)arg0, (Ctx_8027D444 *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
@@ -271,8 +271,8 @@ void TWindowSubQuestBoardSelect::run_task() {
         *(s32 *)&this->m_5c = 0x186A0;
         ((TWindowSubStatusDisp *)(*(s32 *)&this->m_64))->update_subwindow();
     }
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((u8 *)&this->m_24);
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list((u8 *)&this->m_24);
 }
 
 void __dl__7TObjectFPv(void *);
@@ -314,7 +314,7 @@ u8 *TWindowSubQuestBoardSelect__ct(TWindowSubQuestBoardSelect *window_sub_quest_
     }
     *(s32 *)&window_sub_quest_board_select->m_64 = var_r30;
     *(s8 *)&window_sub_quest_board_select->m_60 = 0;
-    temp_r30 = ((TUnk_804CE018 *)window_sub_quest_board_select)->get_array_entry(0);
+    temp_r30 = ((TWindowBase *)window_sub_quest_board_select)->get_array_entry(0);
     set_text_entry_string((u8 *)temp_r30, (u32)(TQuestThread::get_quest_name()), 0);
     ((TWindowSubComCard *)temp_r30)->get_field_20();
     temp_f2 = (f32) calc_text_width();

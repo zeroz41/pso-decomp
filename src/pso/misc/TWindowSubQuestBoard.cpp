@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMenuIconLine.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubQuestBoard.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -41,7 +43,6 @@ void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__19TWindowSubQuestBoard[];
-s32 get_selected_menu_value(s32);
 s8 get_page_index__20TWindowSubQuestBoardFv(s32);
 s32 fn_8027D1E8(s32);
 extern Ent_8027CFC8 quest_board_handlers[];
@@ -55,29 +56,29 @@ void TUnk_804D1818::run_task() {
     case 0:
     case 1:
         if (this->m_2c != 0U) {
-            TWindow__close((u8 *)(*(void * *)&this->m_2c));
+            ((TWindowBase *)(*(void * *)&this->m_2c))->close();
             this->m_2c = 0U;
         }
         ((TWindowSubComCard *)(*(s32 *)&this->unk_28))->clear_flag_and_release();
         *(u8 *)((s8 *)this + 0x1C) = 2;
     case 2:
-        if (((TWindowSubComCard *)(*(s32 *)&this->unk_28))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(*(s32 *)&this->unk_28))->is_cancelled() != 0) {
             (*(VO_8027CCCC * *)&this->m_24)->m7();
             *(u8 *)((s8 *)this + 0x1C) = 5;
             break;
         }
-        if (((TWindowMenu *)(*(s32 *)&this->unk_28))->is_visible() != 0) {
+        if (((TWindowMenu *)(*(s32 *)&this->unk_28))->is_decided() != 0) {
             *(u8 *)((s8 *)this + 0x1C) = 3;
         }
         break;
     case 3:
-        t = get_selected_menu_value(*(s32 *)&this->unk_28);
+        t = ((TWindowMenu *)(*(s32 *)&this->unk_28))->get_selected_value();
         this->m_2c = sub_8027C884(t);
         *(u8 *)((s8 *)this + 0x1C) = 4;
     case 4:
         this->update_photon_selection();
         update_quest_board_card_flags();
-        if (((TLobby *)(this->m_2c))->get_flag_bit2() != 0) {
+        if (((TWindowMenuIconLine *)(this->m_2c))->is_cancelled() != 0) {
             *(u8 *)((s8 *)this + 0x1C) = 1;
         }
         break;
@@ -87,8 +88,8 @@ void TUnk_804D1818::run_task() {
 void *TUnk_804D1818::dt(s16 arg1) {
     if (this != NULL) {
         *(s32 **)((s8 *)this + 0x18) = __vt__19TWindowSubQuestBoard;
-        if (this->m_2c != NULL) { TWindow__close((u8 *)this->m_2c); this->m_2c = 0; }
-        if (*(void * *)&(this->unk_28) != NULL) { TWindow__close((u8 *)(*(void * *)&(this->unk_28))); *(s32 *)&(this->unk_28) = 0; }
+        if (this->m_2c != NULL) { ((TWindowBase *)this->m_2c)->close(); this->m_2c = 0; }
+        if (*(void * *)&(this->unk_28) != NULL) { ((TWindowBase *)(*(void * *)&(this->unk_28)))->close(); *(s32 *)&(this->unk_28) = 0; }
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);
@@ -165,5 +166,5 @@ void TWindowSubQuestBoard::run_task() {
 }
 TWindowSubQuestBoard::~TWindowSubQuestBoard() {
     TWindowCtrl__sub_8027D1F8();
-    if (*(void **)((s8 *)this + 0x28) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x28))); this->m_28 = 0; }
+    if (*(void **)((s8 *)this + 0x28) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x28)))->close(); this->m_28 = 0; }
 }

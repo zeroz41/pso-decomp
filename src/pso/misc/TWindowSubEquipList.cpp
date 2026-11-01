@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp_802671F0.h"
 #include "pso/unk/text_80268384.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowSubEquipList.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 
@@ -46,13 +46,13 @@ void TWindowSubEquipList::render() {
     draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(this, (void *) (((u8 *)this) + 0x24), temp_r3);
     draw_selected_list_entry(temp_r3);
-    if ((u32) this->m_80 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(this->m_80, temp_r3);
+    if ((u32) this->status_display != 0U) {
+        forward_render__20TWindowSubStatusDispFv(this->status_display, temp_r3);
     }
 }
 #pragma pop
 
-void TWindowSubEquipList::run_task() { { (void)(run_task__13TUnk_804D0618Fv((u8 *)this)); return; } }
+void TWindowSubEquipList::run_task() { { (void)(run_task__19TWindowMenuIconLineFv((u8 *)this)); return; } }
 
 void *__dt__19TWindowSubEquipListFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -68,7 +68,7 @@ u8 *TWindowSubEquipList__ct(u8 *arg0, s32 arg1, s16 arg2) {
     fn_802683F4((arg0), (arg1), 8, (arg2));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802793E4___vt__19TWindowSubEquipList *)&__vt__19TWindowSubEquipList).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) ((s32)TWindowSubEquipList__class_name);
-    ((TUnk_804D0618 *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x25)));
+    ((TWindowMenuIconLine *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x25)));
     return arg0;
 }
 

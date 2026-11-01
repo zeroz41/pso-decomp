@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/ui/TAdMultiSaveGC_802FF14C.h"
@@ -24,7 +26,6 @@ extern u8 TAdMultiSaveGC__data_80474D70[];
 extern u8 TAdMultiSaveGC__data_80474D78[];
 s32 verify_system_file__23TAdSinglePlyChrSelectGCFPv();
 void *__nw__7TObjectFUl(u32);
-s32 get_selected_menu_value(int);
 extern s32 tl_fade;
 int queue_destruction__7TObjectFv(void);
 
@@ -39,49 +40,49 @@ s32 TAdMultiSaveGC__sub_802FF170(void) {
 }
 s32 TAdMultiSaveGC__sub_802FF1F4(void) {
     s32 r = update_window_mode_from_progress__6TLobbyFPv(TAdMultiSaveGC__data_80474D70, TAdMultiSaveGC__data_80474D78);
-    ((TLobby *)r)->send_and_handle(get_localized_text_entry(0x20, 2), 1);
+    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x20, 2), 1);
     return r;
 }
 s32 TAdMultiSaveGC__sub_802FF254(void) {
     s32 r = update_window_mode_from_progress__6TLobbyFPv(TAdMultiSaveGC__data_80474D70, TAdMultiSaveGC__data_80474D78);
-    ((TLobby *)r)->send_and_handle(get_localized_text_entry(0x20, 3), 1);
+    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x20, 3), 1);
     return r;
 }
 s32 TAdMultiSaveGC__sub_802FF2B4(void) {
     s32 r = update_window_mode_from_progress__6TLobbyFPv(TAdMultiSaveGC__data_80474D70, TAdMultiSaveGC__data_80474D78);
-    ((TLobby *)r)->send_and_handle(get_localized_text_entry(0x20, 3), 1);
+    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x20, 3), 1);
     return r;
 }
 s32 TAdMultiSaveGC__sub_802FF314(void) {
     s32 r = update_window_mode_from_progress__6TLobbyFPv(TAdMultiSaveGC__data_80474D70, TAdMultiSaveGC__data_80474D78);
-    ((TLobby *)r)->send_and_handle(get_localized_text_entry(0x20, 0), 1);
+    ((TWindowMessage *)r)->append_line(get_localized_text_entry(0x20, 0), 1);
     return r;
 }
 void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
     s32 selected_menu_value;
     s32 var_r30;
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         ad_multi_save_gc->m_1c = 0U;
     }
     switch (ad_multi_save_gc->m_1c) {
     case 0:
         if ((u32) ad_multi_save_gc->m_24 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x24)));
+            ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x24)))->close();
             ad_multi_save_gc->m_24 = 0U;
         }
         if ((u32) ad_multi_save_gc->m_28 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x28)));
+            ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x28)))->close();
             ad_multi_save_gc->m_28 = 0U;
         }
         if ((u32) ad_multi_save_gc->m_2c != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x2C)));
+            ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x2C)))->close();
             ad_multi_save_gc->m_2c = 0U;
         }
         if ((u32) ad_multi_save_gc->m_30 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x30)));
+            ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x30)))->close();
             ad_multi_save_gc->m_30 = 0U;
         }
-        if (((TAdPlayerLoadGC *)0)->probe_card_slot() != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(0) != 0) {
             ad_multi_save_gc->m_1c = 1U;
             return;
         }
@@ -91,7 +92,7 @@ void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
         break;
     case 1:
         if ((u32) ad_multi_save_gc->m_20 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x20)));
+            ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x20)))->close();
             ad_multi_save_gc->m_20 = 0U;
         }
         if (TAdPlayerLoadGC::check_memcard_status(0) == 0) {
@@ -120,8 +121,8 @@ void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
         ad_multi_save_gc->m_1c = 3U;
         return;
     case 3:
-        if (((TWindowMenu *)(ad_multi_save_gc->m_30))->is_visible() != 0) {
-            selected_menu_value = get_selected_menu_value(ad_multi_save_gc->m_30);
+        if (((TWindowMenu *)(ad_multi_save_gc->m_30))->is_decided() != 0) {
+            selected_menu_value = ((TWindowMenu *)ad_multi_save_gc->m_30)->get_selected_value();
             switch (selected_menu_value) {
             case 1:
                 ad_multi_save_gc->m_1c = 8U;
@@ -150,7 +151,7 @@ void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
     case 7:
         if (TAdPlayerLoadGC::get_instance() == 0) {
             if ((u32) ad_multi_save_gc->m_28 != 0U) {
-                TWindow__close((u8 *)(*(void **)((s8 *)ad_multi_save_gc + 0x28)));
+                ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x28)))->close();
                 ad_multi_save_gc->m_28 = 0U;
             }
             ad_multi_save_gc->m_1c = 8U;

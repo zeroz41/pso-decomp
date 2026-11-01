@@ -131,7 +131,7 @@ void TChCrLoadAfs::start_download() {
             return;
         }
         count = TLobby__sub_803CC53C((u8 *)(*(u32 *)((s8 *)this + 0x1C)));
-        temp_r3_3 = ((TQuestVmDownLoadServer *)(count << 0xB))->alloc();
+        temp_r3_3 = (s32)TQuestVmDownLoadServer::alloc(count << 0xB);
         *(u32 *)((s8 *)this + 0x28) = temp_r3_3;
         if (temp_r3_3 == 0U) {
             *(s32 *)((s8 *)this + 0x2C) = 3;
@@ -310,7 +310,7 @@ void TChCrLoadAfsTextureReq::start_read(void *) {
         arg0->f20 = 0;
         arg0->f24 = 0;
         n = TLobby__sub_803CC53C((u8 *)arg0->f60);
-        buf = ((void *)((TQuestVmDownLoadServer *)(n << 11))->alloc());
+        buf = ((void *)TQuestVmDownLoadServer::alloc(n << 11));
         arg0->bufs[arg0->f5c] = buf;
         if (buf != NULL) {
             TLobby::read_checked_align((u32)arg0->f60, (s32)n, (u32)arg0->bufs[arg0->f5c]);

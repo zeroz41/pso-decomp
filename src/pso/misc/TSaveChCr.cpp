@@ -29,11 +29,11 @@ s32 poll_memcard_status__23TAdSinglePlyChrSelectGCFv();
 s32 TSaveChCr::poll_memcard_status() {
     s32 var_r31;
 
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         this->m_28 = 0;
         return 1;
     }
-    if (((TAdPlayerLoadGC *)0)->probe_and_check_card() == 0) {
+    if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         this->m_28 = 0;
         return 4;
     }
@@ -80,7 +80,7 @@ void TSaveChCr::open_message_window(u32 arg1) {
         *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(lbl_80477CAC, lbl_80477CB4);
         if ((u32) this->owned_window != 0U) {
             if (arg1 != 0U) {
-                ((TLobby *)(this->owned_window))->send_and_handle(arg1, 3);
+                ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);
             }
             ((TWindowMessage *)(this->owned_window))->complete_reveal();
         }

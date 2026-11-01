@@ -1,15 +1,17 @@
-#ifndef PSO_MISC_TUNK_804CE018_H
-#define PSO_MISC_TUNK_804CE018_H
+#ifndef PSO_MISC_TWINDOWBASE_H
+#define PSO_MISC_TWINDOWBASE_H
 #include "types.h"
 #include "pso/TObject.h"
 
-class TUnk_804CE018 : public TObject {
+class TWindowBase : public TObject {
 public:
-    virtual ~TUnk_804CE018();
+    virtual ~TWindowBase();
     void draw_window_frame(void *);
     void draw_window_frame_strips(void *, void *);
     void draw_message_frame_row(void *, void *);
     void resort_window_order();
+    void close();
+    void set_depth(f32 depth);
     void calc_inner_rect(u8 *);
     void sub_8026CC28();
     void update_window_entry_list(void *);

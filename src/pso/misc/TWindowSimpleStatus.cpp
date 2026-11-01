@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/misc/TWindowSubStatusDisp_8026F6DC.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSimpleStatus.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -37,8 +37,8 @@ void TWindowSimpleStatus::run_task() {
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 
@@ -50,7 +50,7 @@ u8 *__dt__19TWindowSimpleStatusFv(SS_802705D8 *arg0, s16 arg1) {
         arg0->vt = __vt__19TWindowSimpleStatus;
         for (i = 0; i < 4; i++) {
             if (arg0->w[i] != NULL) {
-                TWindow__close((u8 *)arg0->w[i]);
+                ((TWindowBase *)(arg0->w[i]))->close();
                 arg0->w[i] = NULL;
             }
         }

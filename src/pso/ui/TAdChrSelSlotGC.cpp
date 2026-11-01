@@ -1,4 +1,5 @@
 #include "pso/ui/TAdChrSelSlotGC.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/ModelDrawContext.h"
@@ -123,7 +124,6 @@ extern s32 lbl_805D67E8;
 extern const f32 lbl_805DE5B8, lbl_805DE5BC, lbl_805DE5C0;
 void TAdChrSelSlotGC__sub_802C7498(struct S802C7498_802C70AC *arg0, s32 arg1);
 void release_texture_list(void*);
-void TWindow__close(u8 *arg0);
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 void restore_saved_depth_alpha_state(void);
@@ -168,11 +168,11 @@ void *__dt__13TUnk_804E0B28Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804E0B28;
         if ((u32) *(u32 *)((s8 *)arg0 + 0x4C) != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x4C)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x4C)))->close();
             *(u32 *)((s8 *)arg0 + 0x4C) = 0U;
         }
         if ((u32) ((TUnk_804E0B28 *)arg0)->m_48 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x48)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x48)))->close();
             ((TUnk_804E0B28 *)arg0)->m_48 = 0U;
         }
         lbl_805D67E8 = 0;

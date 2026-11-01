@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowDD_803411E8.h"
 #include "pso/misc/TWindowSubStatusDisp_8025A9B4.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
@@ -31,7 +31,7 @@ void TWindowDD::update_position(s32 arg1) {
 #pragma fp_contract on
 void TWindowDD__sub_803412A0(u8 *arg0) {
     s32 temp_r3;
-    temp_r3 = ((TUnk_804CE018 *)arg0)->get_array_entry(0);
+    temp_r3 = ((TWindowBase *)arg0)->get_array_entry(0);
     if (temp_r3 != 0) {
         TWindowDD::refresh_status_display();
         *(f32 *)((s8 *)arg0 + 0x38) = (f32) ((lbl_805DFC98 * TWindowDD__data_805DFB58) + *(f32 *)((s8 *)temp_r3 + 0x10));
@@ -42,7 +42,7 @@ void TWindowDD__sub_803412A0(u8 *arg0) {
 void TWindowDD::set_first_entry_text(u32 str) {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    temp_r3 = (u8 *)(((TUnk_804CE018 *)arg0)->get_array_entry(0));
+    temp_r3 = (u8 *)(((TWindowBase *)arg0)->get_array_entry(0));
     if (temp_r3 != NULL) {
         set_text_entry_string(temp_r3, str, 0x80);
     }

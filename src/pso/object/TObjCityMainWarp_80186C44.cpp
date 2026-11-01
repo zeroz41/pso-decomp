@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/object/TObjCityMainWarpChallenge.h"
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/misc/TWindowCtrl.h"
@@ -24,7 +25,6 @@ extern "C" {
 u8 is_current_floor_switch_set(int);
 void *get_player_by_client_id(s32 i);
 void end_player_keyboard_hold(s32 arg0);
-void TWindow__close(u8 *arg0);
 void obj_clear_flag30_20000(void *arg0);
 void obj_set_flag_20000(void *arg0);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
@@ -38,11 +38,11 @@ void TObjCityMainWarpChallenge::close_windows() {
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if (this->m_b0 != 0U) {
-        TWindow__close((u8 *)this->m_b0);
+        ((TWindowBase *)this->m_b0)->close();
         (this->m_b0) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x164) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x164)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
         *(u32 *)((s8 *)this + 0x164) = 0U;
     }
     end_player_keyboard_hold(local_client_id);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TMainTask.h"
 #include "pso/ui/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/misc/TLobby_80132ED0.h"
@@ -36,7 +37,6 @@ struct RecoveredGlobal_802D4570_lbl_8050E208 {
 };
 
 extern "C" {
-void TWindow__close(void *);
 extern const f32 lbl_805DE780;
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
@@ -49,7 +49,6 @@ extern RecoveredGlobal_802D4730_lbl_8050E208 controller_input_state;
 extern RecoveredGlobal_802D4570_lbl_80472510 single_chr_select_item_rect_table;
 void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void TKeyBoardControl__sub_8000F9CC(s32 arg0);
-s32 get_selected_menu_value(int);
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80472538[];
 s32 queue_destruction__7TObjectFv(void *);
@@ -102,7 +101,7 @@ void TAdSinglePlyChrSelectGC::finish_character_selection_transition() {
     void *arg0 = this;
     s32 temp_r4;
     if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
-        TWindow__close(*(void **)((s8 *)arg0 + 0x38));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x44) != 0U) {
@@ -147,7 +146,7 @@ void TAdSinglePlyChrSelectGC::close_and_change_scene() {
     u8 *window_sub_com_card;
     temp_r3 = (u8 *)(*(u8 * *)&this->unk_38);
     if (temp_r3 != NULL) {
-        TWindow__close(temp_r3);
+        ((TWindowBase *)temp_r3)->close();
         *(u8 * *)&this->unk_38 = NULL;
     }
     window_sub_com_card = (u8 *)(*(u8 * *)&this->m_44);
@@ -277,8 +276,8 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
         *(s32 *)&this->m_20 = 0;
         return;
     }
-    if (((TWindowMenu *)(*(s32 *)&this->unk_38))->is_visible() != 0) {
-        this->m_5c = get_selected_menu_value((int) (*(s32 *)&this->unk_38));
+    if (((TWindowMenu *)(*(s32 *)&this->unk_38))->is_decided() != 0) {
+        this->m_5c = ((TWindowMenu *)(*(s32 *)&this->unk_38))->get_selected_value();
         switch (this->m_5c) {
         case 0:
             *(s32 *)&this->m_20 = 0xC;
@@ -298,7 +297,7 @@ void TAdSinglePlyChrSelectGC::handle_menu_selection() {
             *(s32 *)&this->m_20 = 0xA;
             return;
         }
-    } else if (((TWindowSubComCard *)(*(s32 *)&this->unk_38))->get_status_flag() != 0) {
+    } else if (((TWindowMenu *)(*(s32 *)&this->unk_38))->is_cancelled() != 0) {
         ((TAdMultiSelGameModeGC *)(*(s32 *)&this->m_2c))->set_selection_state(1);
         *(s32 *)&this->m_20 = 5;
     }
@@ -308,7 +307,7 @@ void TAdSinglePlyChrSelectGC::handle_slot_selection() {
     s32 var_r30;
     u32 var_r0;
     if (*(u32 *)&this->unk_38 != 0U) {
-        TWindow__close(*(void * *)&this->unk_38);
+        ((TWindowBase *)(*(void * *)&this->unk_38))->close();
         *(u32 *)&this->unk_38 = 0U;
     }
     if (*(u32 *)&this->m_44 != 0U) {
@@ -411,7 +410,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4664() {
     }
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x28)))->get_player_index() == 1) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x40));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
             *(u32 *)((s8 *)arg0 + 0x40) = 0U;
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
@@ -432,16 +431,16 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
     }
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x28)))->get_player_index() == 1) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x40));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
             *(u32 *)((s8 *)arg0 + 0x40) = 0U;
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if (find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)(&lbl_804C89BC.value)) == 0) {
+        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&lbl_804C89BC.value)) == 0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-                TWindow__close(*(void **)((s8 *)arg0 + 0x40));
+                ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
                 *(u32 *)((s8 *)arg0 + 0x40) = 0U;
             }
             load_player__23TAdSinglePlyChrSelectGCFv();
@@ -465,16 +464,16 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
     }
     if (((TAdMultiPlyChrSelectGC *)(*(s32 *)((s8 *)arg0 + 0x28)))->get_player_index() == 1) {
         if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x3C));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
             *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
         }
         *(s32 *)((s8 *)arg0 + 0x20) = 0;
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if ((u32)find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)&lbl_804C89BC.value) != 0xFFFFFF41U) {
+        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&lbl_804C89BC.value) != 0xFFFFFF41U) {
             if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
-                TWindow__close(*(void **)((s8 *)arg0 + 0x3C));
+                ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
             }
             *(s32 *)((s8 *)arg0 + 0x20) = 2;

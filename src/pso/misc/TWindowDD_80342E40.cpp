@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD_80342E40.h"
 #include "pso/misc/TWindowDD_80348D0C.h"
 #include "pso/misc/TWindowDD.h"
@@ -18,7 +19,6 @@ struct W_80342ED0 {
 };
 
 extern "C" {
-void TWindow__close(u8 *arg0);
 void TWindowDD__sub_80341AF8(u8 *arg0);
 s32 open_numeric_parameter_input__9TWindowDDFPviii(void *, int, void *, void *);
 s32 classify_id__9TWindowDDFs();
@@ -95,10 +95,10 @@ u8 update_numeric_parameter_input__9TWindowDDFPv(u8 *arg0) {
         if (((TShopEquipmentSellWindow *)(((TWindowDD *)arg0)->m_a0))->is_confirmed() != 0) {
             var_r31 = 2;
             ((TWindowDD *)(arg0 + 0xC4))->reset_index();
-            TWindow__close((u8 *)(((TWindowDD *)arg0)->m_a0));
+            ((TWindowBase *)(((TWindowDD *)arg0)->m_a0))->close();
         } else if (((TWindowInputNumber *)(((TWindowDD *)arg0)->m_a0))->is_confirmed() != 0) {
             var_r31 = 1;
-            TWindow__close((u8 *)(((TWindowDD *)arg0)->m_a0));
+            ((TWindowBase *)(((TWindowDD *)arg0)->m_a0))->close();
         }
     } else {
         var_r31 = 2;

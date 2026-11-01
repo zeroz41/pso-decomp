@@ -1,4 +1,5 @@
 #include "pso/ui/TWindowSubTradeMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/unk/text_802D298C.h"
 #include "pso/misc/TWindowCtrl_8024A054.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -13,8 +14,8 @@ s32 TWindowShortListCtrl__check_controller_button(void*,s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void*,s32);
 void play_sound_effect(s32,s32,s32,s32);
 u8* get_window_layout_position(s32);
-TWindowMessage* create_message_window__6TLobbyFllUls(void*,const f32*,s32,s32);
-int send_and_handle__6TLobbyFii(void*,const char*,s32);
+TWindowMessage* create__14TWindowMessageFllUll(void*,const f32*,s32,s32);
+int append_line__14TWindowMessageFii(void*,const char*,s32);
 extern TradeMessageInput controller_input_state[];
 __declspec(section ".rodata") extern const char trade_message_class_name[23] = "TWindowSubTradeMessage";
 __declspec(section ".rodata") extern const f32 trade_message_window_dimensions[2] = {282.0f,120.0f};
@@ -33,8 +34,8 @@ void TWindowSubTradeMessage::show_message(const char* text) {
 
 TWindowMessage* TWindowSubTradeMessage::create_message_window(const char* text) {
     TWindowMessage* window;
-    window=create_message_window__6TLobbyFllUls(get_window_layout_position(0x5B),trade_message_window_dimensions,1,playerIndex);
-    send_and_handle__6TLobbyFii(window,text,0x82);
+    window=create__14TWindowMessageFllUll(get_window_layout_position(0x5B),trade_message_window_dimensions,1,playerIndex);
+    append_line__14TWindowMessageFii(window,text,0x82);
     return window;
 }
 
@@ -61,7 +62,7 @@ void TWindowSubTradeMessage::run_task() {
 TWindowSubTradeMessage::~TWindowSubTradeMessage() {
     TLobby__sub_802D29B8((u32)this);
     if (messageWindow != 0) {
-        TWindow__close((u8 *)messageWindow);
+        ((TWindowBase *)messageWindow)->close();
         messageWindow=0;
     }
 }

@@ -58,7 +58,7 @@ void TLobby::free_single_player_chr_select() {
 
 void TLobby::alloc_download_server() {
     if (((u32) chr_select_load_buffer_base != 0U) && ((u32) chr_select_load_buffer == 0U)) {
-        chr_select_load_buffer = ((TQuestVmDownLoadServer *)0x50000)->alloc();
+        chr_select_load_buffer = (s32)TQuestVmDownLoadServer::alloc(0x50000);
         if ((u32) chr_select_load_buffer == 0U) {
             return;
         }

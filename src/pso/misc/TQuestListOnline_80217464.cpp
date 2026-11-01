@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TQuestListOnline_80217464.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObjFish_8001ED90.h"
@@ -11,7 +12,7 @@
 struct S217 { char pad[0x38]; void *f38; };
 
 extern "C" {
-s32 select_cursor_entry__22TWindowSubShortCutListFv(void *);
+s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 extern u32 TQuestListOnline__quest_list_buffer;
 extern void *TQuestListOnline__instance;
 extern s32 TQuestListOnline__decompression_cursor;
@@ -58,7 +59,7 @@ s32 TQuestListOnline::get_selected_entry() {
     if (p != NULL) {
         void *q = p->f38;
         if (q != NULL && TQuestListOnline__quest_list_buffer != 0U) {
-            u32 idx = select_cursor_entry__22TWindowSubShortCutListFv(q) * 0x98 + 0xC;
+            u32 idx = get_cursor_value__19TWindowMenuIconLineFv(q) * 0x98 + 0xC;
             return TQuestListOnline__quest_list_buffer + idx;
         }
     }
@@ -100,19 +101,19 @@ u8 TQuestListOnline::get_unlocked_tier() {
 }
 void TQuestListOnline::close_windows() {
     if ((u32) confirm_window != 0U) {
-        TWindow__close((u8 *)this->confirm_window);
+        ((TWindowBase *)this->confirm_window)->close();
         confirm_window = 0U;
     }
     if ((u32) info_window != 0U) {
-        TWindow__close((u8 *)this->info_window);
+        ((TWindowBase *)this->info_window)->close();
         info_window = 0U;
     }
     if ((u32) description_window != 0U) {
-        TWindow__close((u8 *)this->description_window);
+        ((TWindowBase *)this->description_window)->close();
         description_window = 0U;
     }
     if ((u32) list_window != 0U) {
-        TWindow__close((u8 *)this->list_window);
+        ((TWindowBase *)this->list_window)->close();
         list_window = 0U;
     }
 }
@@ -136,7 +137,7 @@ void TQuestListOnline::decompress_quest_buffer(s32 arg0) {
 
 s32 TQuestListOnline::init() {
     TQuestListOnline__decompression_cursor = 0;
-    if (TLobby__sub_8001EEF4() != 0) {
+    if (TLobby::tmp_buf_is_free() != 0) {
         TQuestListOnline__decompression_cursor = TLobby::tmp_buf_use_req((const char *)lbl_8044BEB0);
         return 1;
     }
@@ -172,7 +173,7 @@ void TQuestListOnline::invoke_callback_28_and_queue_destruction() {
 }
 
 void TQuestListOnline::ensure_online_quests_loaded() {
-    if (TLobby__sub_8001EEF4() == 0) {
-        TLobby__sub_8001EDF4((u8 *)&lbl_8044BEB0);
+    if (TLobby::tmp_buf_is_free() == 0) {
+        TLobby::tmp_buf_release_if_owner((const char *)&lbl_8044BEB0);
     }
 }

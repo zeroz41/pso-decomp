@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TUNK_804CE7E8_H
 #define PSO_MISC_TUNK_804CE7E8_H
 #include "types.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 
-class TUnk_804CE7E8 : public TUnk_804D0618 {
+class TUnk_804CE7E8 : public TWindowMenuIconLine {
 public:
     virtual ~TUnk_804CE7E8();
     void advance_all_entries(s32);

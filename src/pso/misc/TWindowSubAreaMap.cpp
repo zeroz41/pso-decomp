@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubAreaMap.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 
@@ -52,7 +53,7 @@ void TWindowSubAreaMap::run_task() {
 
 }
 TWindowSubAreaMap::~TWindowSubAreaMap() {
-    if (*(void **)((s8 *)this + 0x24) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x24))); this->m_24 = 0; }
+    if (*(void **)((s8 *)this + 0x24) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x24)))->close(); this->m_24 = 0; }
 }
 extern void *TWindowSubAreaMap__name;
 TWindowSubAreaMap::TWindowSubAreaMap(TObject *object, void *arg2) : TObject(object) {

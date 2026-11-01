@@ -554,7 +554,7 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
     if (*(s32 *)&this->m_94 < 1) {
         return 0;
     }
-    *(Ent_8029E170 * *)&this->m_a0 = (Ent_8029E170 *) ((TQuestVmDownLoadServer *)(*(s32 *)&this->m_94 * 0x44))->alloc();
+    *(Ent_8029E170 * *)&this->m_a0 = (Ent_8029E170 *) TQuestVmDownLoadServer::alloc(*(s32 *)&this->m_94 * 0x44);
     if (*(Ent_8029E170 * *)&this->m_a0 == NULL) {
         return 0;
     }

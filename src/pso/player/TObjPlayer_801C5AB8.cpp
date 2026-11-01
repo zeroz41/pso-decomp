@@ -2,7 +2,6 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemProShield.h"
-#include "pso/quest/TQuestListVM.h"
 
 extern "C" {
 
@@ -18,13 +17,13 @@ s32 TObjPlayer::decrement_clamp(s32 *arg0, s32 arg1) {
 #pragma fp_contract on
 extern const f32 lbl_805DC334;
 
-void TObjPlayer::copy_offset_position(void *quest_list_vm) {
+void TObjPlayer::copy_offset_position(void *chara) {
     f32 temp_f2;
 
-    temp_f2 = *(f32 *)((s8 *)(((TObjPlayer *)quest_list_vm)->get_stats()) + 0x10);
-    *(f32 *)((s8 *)this + 0) = (f32) ((TQuestListVM *)quest_list_vm)->m_38;
-    *(f32 *)((s8 *)this + 4) = (f32) ((lbl_805DC334 * temp_f2) + *(f32 *)((s8 *)quest_list_vm + 0x3C));
-    *(f32 *)((s8 *)this + 8) = (f32) ((TQuestListVM *)quest_list_vm)->m_40;
+    temp_f2 = *(f32 *)((s8 *)(((TObjPlayer *)chara)->get_stats()) + 0x10);
+    *(f32 *)((s8 *)this + 0) = (f32) ((TObjPlayer *)chara)->position.x;
+    *(f32 *)((s8 *)this + 4) = (f32) ((lbl_805DC334 * temp_f2) + ((TObjPlayer *)chara)->position.y);
+    *(f32 *)((s8 *)this + 8) = (f32) ((TObjPlayer *)chara)->position.z;
 }
 
 void TObjPlayer::calc_pos_delta(void *arg1, void *arg2) {

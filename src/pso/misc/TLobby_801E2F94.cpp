@@ -413,7 +413,7 @@ s32 *TLobby__sub_801E38A0(s32 arg0, s32 *arg1, s32 *arg2, s32 *buf, s32 *arg4) {
     default:
         goto bad;
     }
-    buf = (buf == 0) ? (s32 *)((TQuestVmDownLoadServer *)size)->alloc() : buf;
+    buf = (buf == 0) ? (s32 *)TQuestVmDownLoadServer::alloc(size) : buf;
     if (buf == 0) {
         return 0;
     }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowCtrlPlayer.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
@@ -41,10 +42,10 @@ void TWindowCtrlPlayer::run_task() { sub_8024E0F0(); run_all_updates__11TWindowC
 }
 TWindowCtrlPlayer::~TWindowCtrlPlayer() {
     if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C)); this->m_3c = 0; }
-    if (*(void **)((s8 *)this + 0x38) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x38))); this->m_38 = 0; }
-    if (*(void **)((s8 *)this + 0x34) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x34))); this->m_34 = 0; }
-    if (*(void **)((s8 *)this + 0x30) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x30))); this->m_30 = 0; }
-    if (*(void **)((s8 *)this + 0x2C) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)this + 0x2C))); this->m_2c = 0; }
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+    if (*(void **)((s8 *)this + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close(); this->m_30 = 0; }
+    if (*(void **)((s8 *)this + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x2C)))->close(); this->m_2c = 0; }
     if (*(void **)((s8 *)this + 0x28) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x28)); this->m_28 = 0; }
 }
 s32 create_message_information_window(s32 arg0, s32 arg1, s32 arg2);

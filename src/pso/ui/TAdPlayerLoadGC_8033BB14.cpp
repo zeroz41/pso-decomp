@@ -12,11 +12,11 @@ s32 fn_8033BAB4(void *);
 s32 TCheckMemoryCard::sub_8033BB14() {
     s32 var_r31;
 
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         *(s32 *)((s8 *)this + 0x2C) = 0;
         return 1;
     }
-    if (((TAdPlayerLoadGC *)0)->probe_and_check_card() == 0) {
+    if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         *(s32 *)((s8 *)this + 0x2C) = 0;
         return 4;
     }
@@ -39,7 +39,7 @@ s32 TCheckMemoryCard::sub_8033BB14() {
         if (TAdSinglePlyChrSelectGC__sub_8033BA84(0) == 0) {
             var_r31 |= 0x10;
         }
-    } else if (((TAdSinglePlyChrSelectGC *)0)->has_no_save_files() == 0) {
+    } else if (TAdSinglePlyChrSelectGC::has_no_save_files(0) == 0) {
         var_r31 |= 0x10;
     }
     return var_r31;

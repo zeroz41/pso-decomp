@@ -1,4 +1,5 @@
 #include "pso/TMainTask.h"
+#include "pso/misc/TWindowMessage.h"
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -614,7 +615,7 @@ void TLobby::run_lobby_frame() {
     TAdSinglePlyChrSelectGC::noop();
     TObjBoss2Tunnel__sub_8007D1D0();
     if (((s32) lbl_805D55C0 == 0) && (TAdPlayerLoadGC__sub_801E1B50((int) (get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) != -1)) {
-        if (((TAdPlayerLoadGC *)(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()))->probe_card_slot() != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
             TLobby__online_lobby_frame_counter = 0;
         } else {
             temp_r0 = TLobby__online_lobby_frame_counter + 1;
@@ -664,7 +665,7 @@ void TLobby::run_main_frame() {
     TObjBoss2Tunnel__sub_8007D1D0();
     TLobby__sub_8006EF90();
     if (((s32) lbl_805D55C0 == 0) && (TAdPlayerLoadGC__sub_801E1B50((int) (get_chr_select_state__23TAdSinglePlyChrSelectGCFv())) != -1)) {
-        if (((TAdPlayerLoadGC *)(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()))->probe_card_slot() != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0) {
             TLobby__online_lobby_frame_counter = 0;
         } else {
             temp_r0 = TLobby__online_lobby_frame_counter + 1;

@@ -32,14 +32,14 @@ void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size)
 extern s16 quest_floor_designations[];
 extern s32 TLobby__data_805D5EE0;
 s32 read_disc_file(s32, s32);
-s32 alloc__22TQuestVmDownLoadServerFv();
+s32 alloc__22TQuestVmDownLoadServerFUl();
 s32 update_lobby_scene__6TSceneFv();
 
 void refresh_quest_list__6TLobbyFi(s32 arg0) {
     s32 temp_r3;
 
     if (update_lobby_scene__6TSceneFv() >= 0) {
-        temp_r3 = alloc__22TQuestVmDownLoadServerFv();
+        temp_r3 = alloc__22TQuestVmDownLoadServerFUl();
         if (temp_r3 != 0) {
             read_disc_file(arg0, temp_r3);
             rebuild_all__6TLobbyFi(temp_r3);
@@ -337,7 +337,7 @@ void TLobby::setup_quest_list() {
         ((void (*)())update_and_reset__6TLobbyFi)();
         break;
     case 3:
-        TQuestListVM::get_data();
+        TQuestListVM::get_quest_dat();
         ((void (*)())update_and_reset__6TLobbyFi)();
         break;
     case 4:
@@ -374,7 +374,7 @@ void open_session__6TLobbyFi(s32 arg0) {
     s32 t;
 
     if (update_lobby_scene__6TSceneFv() >= 0) {
-        t = (TLobby__data_805D5EE0 = alloc__22TQuestVmDownLoadServerFv());
+        t = (TLobby__data_805D5EE0 = alloc__22TQuestVmDownLoadServerFUl());
         if (t != 0) {
             read_disc_file(arg0, t);
             populate_quest_floor_sets();

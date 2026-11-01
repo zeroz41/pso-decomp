@@ -1,4 +1,5 @@
 #include "pso/misc/TWindowDD.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD_80348304.h"
 #include "pso/misc/TWindowDD_8034AF68.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -106,26 +107,26 @@ void TWindowDD::close_all_windows() {
     W_80348520 *w = (W_80348520 *)this;
     s32 i;
     if (w->f84 != NULL) {
-        TWindow__close((u8 *)w->f84);
+        ((TWindowBase *)w->f84)->close();
         w->f84 = NULL;
     }
     if (w->f80 != NULL) {
-        TWindow__close((u8 *)w->f80);
+        ((TWindowBase *)w->f80)->close();
         w->f80 = NULL;
     }
     if (w->f7c != NULL) {
-        TWindow__close((u8 *)w->f7c);
+        ((TWindowBase *)w->f7c)->close();
         w->f7c = NULL;
     }
     for (i = 0; i < 6; i++) {
         if (w->a[i] != NULL) {
-            TWindow__close((u8 *)w->a[i]);
+            ((TWindowBase *)(w->a[i]))->close();
             w->a[i] = NULL;
         }
     }
     for (i = 7; i >= 0; i--) {
         if (w->b[i] != NULL) {
-            TWindow__close((u8 *)w->b[i]);
+            ((TWindowBase *)(w->b[i]))->close();
             w->b[i] = NULL;
         }
     }

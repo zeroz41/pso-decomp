@@ -20,7 +20,7 @@ void TLobby::init_download_state() {
     s32 var_r0;
 
     TLobby::init_download_buffers();
-    async_file_read_sector_buffer = ((TQuestVmDownLoadServer *)0x800)->alloc();
+    async_file_read_sector_buffer = (s32)TQuestVmDownLoadServer::alloc(0x800);
     lobby_stack_entry_list_tail = 0;
     async_file_read_current_request = 0;
     lobby_download_state_ptr = 0;

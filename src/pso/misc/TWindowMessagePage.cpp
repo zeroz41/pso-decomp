@@ -35,7 +35,7 @@ extern RecoveredGlobal_8026AF24_lbl_8050E208 controller_input_state;
 s32 get_shared_text_buffer();
 u32 copy_message_page_text__20TWindowSubStatusDispFv(u32);
 void render__14TWindowMessageFv(s32 arg0);
-s32 send_and_handle__6TLobbyFii(void *, s32, s32);
+s32 append_line__14TWindowMessageFii(void *, s32, s32);
 
 s32 TWindowMessagePage::is_ready() {
     if ((u32) this->m_94 != 0U) {
@@ -48,7 +48,7 @@ void TWindowMessagePage::update_message() {
     if ((u32) this->m_94 != 0U) {
         text_builder_reset();
         this->m_94 = copy_message_page_text__20TWindowSubStatusDispFv(this->m_94);
-        send_and_handle__6TLobbyFii(this, get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
+        append_line__14TWindowMessageFii(this, get_shared_text_buffer(), *(s32 *)((s8 *)this + 0x90));
     }
 }
 

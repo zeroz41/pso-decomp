@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubInformationBoard.h"
 #include "pso/misc/TLobby.h"
@@ -27,7 +28,7 @@ void TWindowSubInformationBoard::set_page(s32 arg1) {
         temp_r3 = get_info_board_ptr__6TLobbyFv();
         if (temp_r3 != 0) {
             this->m_24 = arg1;
-            ((TLobby *)(this->m_34))->send_and_handle(temp_r3 + (arg1 * 0xBC) + 0x14, 0x80);
+            ((TWindowMessage *)(this->m_34))->append_line(temp_r3 + (arg1 * 0xBC) + 0x14, 0x80);
         }
     }
 }
@@ -38,7 +39,7 @@ typedef char RecoveredGlobal_8034CC68_lbl_80478C3C_size[sizeof(RecoveredGlobal_8
 void TWindowSubInformationBoard::set_message_index(s32 arg1) {
     if ((s32) this->m_24 != arg1) {
         this->m_24 = arg1;
-        ((TLobby *)(this->m_34))->send_and_handle((s32)(TWindowSubStatusDisp::get_message_10((int) (*(s32 *)((s8 *)&lbl_80478C3C.value + (arg1 * 4))))), 0x80);
+        ((TWindowMessage *)(this->m_34))->append_line((s32)(TWindowSubStatusDisp::get_message_10((int) (*(s32 *)((s8 *)&lbl_80478C3C.value + (arg1 * 4))))), 0x80);
     }
 }
 
@@ -61,7 +62,7 @@ extern s32 lbl_80478C34[];
 void TWindowSubInformationBoard::show_card_a7() {
     s32 window_layout_position;
     window_layout_position = get_window_layout_position(0xA7);
-    TLobby::set_window_mode_4((void *)window_layout_position, (s32)lbl_80478C34, 1);
+    TWindowMessage::create((void *)window_layout_position, (s32)lbl_80478C34, 1);
     this->m_24 = -1;
 }
 

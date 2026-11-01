@@ -2,7 +2,7 @@
 #include "pso/unk/text_8027FCE4.h"
 #include "pso/unk/text_8027FD88.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/misc/TUnk_804D1AD0.h"
 
 struct RecoveredGlobal_8027FCE4_lbl_804D1AD0 {
@@ -33,7 +33,7 @@ u8 *construct_status_category_window(u8 *arg0, s32 arg1, s32 arg2) {
     }
     ((TUnk_804D1AD0 *)arg0)->m_28 = var_r0;
     if (TCameraCtrl::get_camera_id() > 2) {
-        ((TUnk_804CDFE8 *)(*(s32 *)((s8 *)arg0 + 0x24)))->set_position_xy(lbl_805DD6DC, lbl_805DD6DC);
+        ((TWindowAddition *)(*(s32 *)((s8 *)arg0 + 0x24)))->set_position_xy(lbl_805DD6DC, lbl_805DD6DC);
         fn_8027FD88((void *)(((TUnk_804D1AD0 *)arg0)->m_28), lbl_805DD6DC, lbl_805DD6DC);
     }
     return arg0;

@@ -1,8 +1,9 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopItemListWindow.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_8026934C.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/misc/TShopSequence.h"
 #include "pso/misc/TShopItemTecSequence.h"
 #include "pso/misc/TWindowMenu.h"
@@ -104,7 +105,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
-void TWindow__close(u8 *arg0);
 extern RecoveredGlobal_802203E4___vt__20TShopItemTecSequence __vt__20TShopItemTecSequence;
 extern RecoveredGlobal_802203E4_TShopItemTecSequence__data_80513EE0 TShopItemTecSequence__slot_table;
 extern s32 lbl_805D6250;
@@ -119,7 +119,6 @@ extern void *tl_05;
 s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
 f32 get_scale__15TShopWindowBaseFv(void *);
-s32 get_selected_menu_value(void *);
 int align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void* p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
@@ -207,28 +206,28 @@ void TShopItemTecSequence::update_buy_sell_choice() {
         ((TWindowSubComCard *)(((Seq_80220110 *)this)->win))->calc_window_size();
         align_menu_entry_positions(((Seq_80220110 *)this)->win);
         ((TCheckRoomSequence *)(((Seq_80220110 *)this)->win))->set_ready_flag();
-        ((TUnk_804CDFE8 *)(((Seq_80220110 *)this)->win))->set_position_xy(get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)), get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)));
+        ((TWindowAddition *)(((Seq_80220110 *)this)->win))->set_position_xy(get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)), get_scale__15TShopWindowBaseFv(((Seq_80220110 *)this)));
     }
-    if (((Seq_80220110 *)this)->win != NULL && ((TWindowMenu *)(((Seq_80220110 *)this)->win))->is_visible() != 0) {
-        r = get_selected_menu_value(((Seq_80220110 *)this)->win);
+    if (((Seq_80220110 *)this)->win != NULL && ((TWindowMenu *)(((Seq_80220110 *)this)->win))->is_decided() != 0) {
+        r = ((TWindowMenu *)(((Seq_80220110 *)this)->win))->get_selected_value();
         if (r == 0) {
             ((Seq_80220110 *)this)->m4(0xB, 1);
             ((TShopWindowBase *)((Seq_80220110 *)this))->set_field_20(3);
-            TWindow__close((u8 *)(((Seq_80220110 *)this)->win));
+            ((TWindowBase *)(((Seq_80220110 *)this)->win))->close();
             ((Seq_80220110 *)this)->win = NULL;
             return;
         }
         if (r == 1) {
             ((TShopWindowBase *)((Seq_80220110 *)this))->set_field_20(4);
-            TWindow__close((u8 *)(((Seq_80220110 *)this)->win));
+            ((TWindowBase *)(((Seq_80220110 *)this)->win))->close();
             ((Seq_80220110 *)this)->win = NULL;
             return;
         }
     }
-    if (((Seq_80220110 *)this)->win != NULL && ((TWindowSubComCard *)(((Seq_80220110 *)this)->win))->get_status_flag() != 0) {
+    if (((Seq_80220110 *)this)->win != NULL && ((TWindowMenu *)(((Seq_80220110 *)this)->win))->is_cancelled() != 0) {
         ((Seq_80220110 *)this)->m4(0x2C, 1);
         ((TShopWindowBase *)((Seq_80220110 *)this))->set_field_20(7);
-        TWindow__close((u8 *)(((Seq_80220110 *)this)->win));
+        ((TWindowBase *)(((Seq_80220110 *)this)->win))->close();
         ((Seq_80220110 *)this)->win = NULL;
     }
 }
@@ -284,12 +283,12 @@ u8 *__dt__20TShopItemTecSequenceFv(TShopItemTecSequence *arg0, s16 arg1) {
             arg0->m_34 = 0U;
         }
         if ((u32) arg0->m_2c != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x2C)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
             arg0->m_2c = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();
         if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x30)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
             *(u32 *)((s8 *)arg0 + 0x30) = 0U;
         }
         lbl_805D6250 = 0;

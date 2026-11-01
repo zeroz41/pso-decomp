@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TQuestListChallenge.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_8030A6A8.h"
@@ -81,7 +82,6 @@ struct Seq_802129FC : Base_802129FC {
 };
 
 extern "C" {
-s32 get_selected_menu_value(void *);
 extern RecoveredGlobal_802128B0_THunterGuildSeqOffline__data_80513DC8 THunterGuildSeqOffline__quest_result_callbacks;
 List_80212B88 *TQuestListOffline__ct(void *, s32, Seq_80212B88 *, s32);
 void *__nw__7TObjectFUl(u32);
@@ -125,10 +125,10 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
     u8 *temp_r3;
     temp_r3 = this->m_2c;
     if (temp_r3 != NULL) {
-        if (((TWindowMenu *)temp_r3)->is_visible() != 0) {
-            selected_menu_value = get_selected_menu_value(this->m_2c);
+        if (((TWindowMenu *)temp_r3)->is_decided() != 0) {
+            selected_menu_value = ((TWindowMenu *)this->m_2c)->get_selected_value();
             if (selected_menu_value == 0) {
-                TWindow__close(this->m_2c);
+                ((TWindowBase *)this->m_2c)->close();
                 this->m_2c = NULL;
                 ((VObj_18_97738d *)(arg0))->m7(9, 1);
                 *(s32 *)&this->unk_38 = 1;
@@ -139,7 +139,7 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
                 return;
             }
             if (selected_menu_value == 1) {
-                TWindow__close(this->m_2c);
+                ((TWindowBase *)this->m_2c)->close();
                 this->m_2c = NULL;
                 ((VObj_18_97738d *)(arg0))->m7(0xA, 1);
                 *(s32 *)&this->unk_38 = 0;
@@ -149,8 +149,8 @@ void THunterGuildSeqOffline::handle_cancel_choice() {
             goto block_8;
         }
 block_8:
-        if (((TWindowSubComCard *)(this->m_2c))->get_status_flag() != 0) {
-            TWindow__close(this->m_2c);
+        if (((TWindowMenu *)(this->m_2c))->is_cancelled() != 0) {
+            ((TWindowBase *)this->m_2c)->close();
             this->m_2c = NULL;
             ((VObj_18_97738d *)(arg0))->m7(0xA, 1);
             *(s32 *)&this->unk_38 = 0;

@@ -266,7 +266,7 @@ s32 TUnk_804C4498::step_placement_search() {
     Search_801D3C38 *s = (Search_801D3C38 *)this;
     Ground_801D3C38 *g;
     if (check_player_action_allowed() != 0 && s->online != 0 &&
-        ((TAdPlayerLoadGC *)(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()))->probe_card_slot() != 1) {
+        TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 1) {
         TLobby::disconnect_protocol();
         queue_destruction__7TObjectFv(s);
         return 2;

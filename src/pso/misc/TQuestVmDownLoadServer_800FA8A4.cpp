@@ -5,6 +5,7 @@
 
 #include "pso/misc/TFogCtrl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
+#include "pso/ui/TAdEnterSerialAccessGC.h"
 
 struct RecoveredGlobal_800FA95C_lbl_8049C700 {
     s32 value;
@@ -20,12 +21,11 @@ void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__12TFogCtrl_EOR[];
 extern s32 lbl_805D2B1C;
 s32 TFogCtrl__sub_800FAC84(void *p);
-int parse_serial_value__22TAdEnterSerialAccessGCFv(void*);
 void queue_destruction__7TObjectFv(void *arg0);
 int update_all__8TFogCtrlFv(void*);
 
-int TQuestVmDownLoadServer::get_serial_access() { return parse_serial_value__22TAdEnterSerialAccessGCFv(this); }
-int TQuestVmDownLoadServer::poll_serial_access() { return parse_serial_value__22TAdEnterSerialAccessGCFv(this); }
+s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
+s32 TQuestVmDownLoadServer::poll_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
 void TFogCtrl_EOR::run_task() { update_all__8TFogCtrlFv(this); }
 
 }

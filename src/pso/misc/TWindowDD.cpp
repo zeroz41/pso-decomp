@@ -34,7 +34,7 @@ extern const f32 lbl_805DFC2C;
 extern const f32 lbl_805DFC30;
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-int update_fade__13TUnk_804CE018Fv(void*);
+int update_fade__11TWindowBaseFv(void*);
 
 void TWindowDD::reset_entries(f32 v) {
     E_803403F8 *p = (E_803403F8 *)this;
@@ -113,7 +113,7 @@ s32 TWindowDD_check_input_mask(void *input_context, s32 arg1) {
 }
 extern "C" {
 
-void update_draw__9TWindowDDFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); update_fade__13TUnk_804CE018Fv(p); }
+void update_draw__9TWindowDDFPv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); update_fade__11TWindowBaseFv(p); }
 
 void TWindowDD::set_clamped_page(s32 arg1) {
     if (arg1 < 0) {
@@ -233,7 +233,7 @@ void TWindowDD::init_layout_constants() {
     TWindowDD__layout_constants[2] = lbl_805DFC2C;
 }
 
-void TWindowDD::init() { initialize_subwindow(); update_fade__13TUnk_804CE018Fv(this); }
+void TWindowDD::init() { initialize_subwindow(); update_fade__11TWindowBaseFv(this); }
 
 extern const f32 lbl_805DFC6C;
 

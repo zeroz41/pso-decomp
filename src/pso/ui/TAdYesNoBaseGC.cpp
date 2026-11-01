@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdYesNoBaseGC.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
@@ -23,7 +24,7 @@ struct VObj_18 : VBase_18 {
 struct T_8032C118 { s32 a; s32 b; };
 
 extern "C" {
-s32 send_and_handle__6TLobbyFii(int, void *, int);
+s32 append_line__14TWindowMessageFii(int, void *, int);
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 void align_menu_entry_positions(s32);
 void update_layout_height__21TWindowSubComCardListFf(f32);
@@ -44,7 +45,6 @@ struct VtObj8032C1C8_8032C188 : VtBase8032C1C8_8032C188 {
 
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-s32 get_selected_menu_value(u32);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
@@ -56,7 +56,7 @@ s32 TAdYesNoBaseGC::sub_8032C0B4() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r31;
     temp_r31 = update_window_mode_from_progress__6TLobbyFPv((u8 *)&this->unk_30, (u8 *)&this->unk_38);
-    send_and_handle__6TLobbyFii(temp_r31, (void *) (((VObj_18 *)(arg0))->m8()), 1);
+    append_line__14TWindowMessageFii(temp_r31, (void *) (((VObj_18 *)(arg0))->m8()), 1);
     return temp_r31;
 }
 
@@ -91,8 +91,8 @@ void TAdYesNoBaseGC::vfunc_11() {
         this->m_1c = 1;
         break;
     case 1:
-        if (((TWindowMenu *)(this->m_44))->is_visible() != 0) {
-            selected_menu_value = get_selected_menu_value(this->m_44);
+        if (((TWindowMenu *)(this->m_44))->is_decided() != 0) {
+            selected_menu_value = ((TWindowMenu *)this->m_44)->get_selected_value();
             switch (selected_menu_value) {
             case 0:
                 this->vfunc_8();
@@ -112,11 +112,11 @@ void TAdYesNoBaseGC::vfunc_11() {
         break;
     case 2:
         if ((u32) this->m_40 != 0U) {
-            TWindow__close((u8 *)this->m_40);
+            ((TWindowBase *)this->m_40)->close();
             this->m_40 = 0U;
         }
         if ((u32) this->m_44 != 0U) {
-            TWindow__close((u8 *)this->m_44);
+            ((TWindowBase *)this->m_44)->close();
             this->m_44 = 0U;
         }
         temp_r4 = this->m_28 + 1;

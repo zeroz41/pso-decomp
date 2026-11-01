@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp_802671F0.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TUnk_804D0948.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 
@@ -37,16 +37,16 @@ void TUnk_804D0948::render() {
     s32 n;
     void *p;
     temp_r3 = get_draw_context__11TWindowBaseFPv();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    if (!(this->m_70 & 0x80)) {
-        ((TUnk_804D0618 *)arg0)->draw_selected_list_entry(temp_r3);
+    if (!(this->state_flags & 0x80)) {
+        ((TWindowMenuIconLine *)arg0)->draw_selected_list_entry(temp_r3);
     }
     n = *(s32 *)&this->unk_88;
     if (n > 0) {
-        draw_item_list_capacity(arg0, temp_r3, this->m_72, n);
+        draw_item_list_capacity(arg0, temp_r3, this->entry_count, n);
     }
-    p = this->m_80;
+    p = this->status_display;
     if (p != NULL) {
         forward_render__20TWindowSubStatusDispFv(p, temp_r3);
     }
@@ -57,7 +57,7 @@ void TUnk_804D0948::render() {
 }
 #pragma pop
 
-void TUnk_804D0948::run_task() { run_task__13TUnk_804D0618Fv((u8 *)this); }
+void TUnk_804D0948::run_task() { run_task__19TWindowMenuIconLineFv((u8 *)this); }
 
 void *TWindowSubStatusDisp::deleting_dtor(s16 arg1) {
     if (this != NULL) {

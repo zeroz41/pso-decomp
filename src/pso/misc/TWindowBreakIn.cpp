@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowCtrlMain_8024674C.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowBreakIn.h"
 #include "pso/misc/TWindowDD.h"
 

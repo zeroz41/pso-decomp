@@ -1,4 +1,6 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
@@ -36,7 +38,6 @@ void TLobby__sub_80072880(u8 *arg0);
 void TLobby__sub_800728FC(u8 *arg0);
 void TLobby__sub_80072AB8(void *arg0);
 s32 TLobby__sub_8006FBE4();
-void TWindow__close(u8 *arg0);
 s32 TQuestVmDownLoadServer__sub_8006EF6C(s32);
 s32 get_window_layout_position(s32);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
@@ -55,11 +56,10 @@ void play_player_default_effect__6TLobbyFv(s32 _w0);
 s32 play_sound_effect(s32, s32, s32, s32);
 void play_cue_stream_file(s32 name);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-s32 get_selected_menu_value(u32);
 s32 challenge_retry_cmd_table[3] = { 1, 0, 0 };
 extern s8 controller_input_state[];
 s32 check_flag_100__10TObjPlayerFPv();
-u32 set_window_mode_4__6TLobbyFPvll(s32, void *, s32);
+u32 create__14TWindowMessageFPvll(s32, void *, s32);
 __declspec(section ".data") f32 challenge_retry_window_pos[2] = { 360.0f, 125.0f };
 
 const char *TObjChallengeRetry__class_name = "TObjChallengeRetry";
@@ -192,27 +192,27 @@ s32 TLobby::is_ready_to_draw() {
 }
 void TObjChallengeRetry::sub_80072B70() {
     if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x30) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)((u8 *)this) + 0x30)));
+        ((TWindowBase *)(*(void **)((s8 *)((u8 *)this) + 0x30)))->close();
         *(u32 *)((s8 *)((u8 *)this) + 0x30) = 0U;
     }
 }
 
 void TObjChallengeRetry::sub_80072BB0() {
     if (((Obj_80072BB0 *)this)->f30 != 0) {
-        TWindow__close((u8 *)((void *)((Obj_80072BB0 *)this)->f30));
+        ((TWindowBase *)((void *)((Obj_80072BB0 *)this)->f30))->close();
         ((Obj_80072BB0 *)this)->f30 = 0;
     }
-    ((Obj_80072BB0 *)this)->f30 = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x39), challenge_retry_window_pos, 1);
+    ((Obj_80072BB0 *)this)->f30 = create__14TWindowMessageFPvll(get_window_layout_position(0x39), challenge_retry_window_pos, 1);
     if (((Obj_80072BB0 *)this)->f30 != 0) {
-        ((TLobby *)(((Obj_80072BB0 *)this)->f30))->set_field_1c(70200.0f);
-        ((TLobby *)(((Obj_80072BB0 *)this)->f30))->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(0x5E), 1);
+        ((TWindowBase *)(((Obj_80072BB0 *)this)->f30))->set_depth(70200.0f);
+        ((TWindowMessage *)(((Obj_80072BB0 *)this)->f30))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x5E), 1);
     }
 }
 
-void TObjChallengeRetry::close_window_2c() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { TWindow__close((u8 *)(*(void**)((char*)this + 0x2c))); *(int*)((char*)this + 0x2c) = 0; } }
+void TObjChallengeRetry::close_window_2c() { if (*(unsigned int*)((char*)this + 0x2c) != 0) { ((TWindowBase *)(*(void**)((char*)this + 0x2c)))->close(); *(int*)((char*)this + 0x2c) = 0; } }
 void TObjChallengeRetry::open_loss_menu() {
     if ((u32) *(u32 *)((s8 *)this + 0x2C) != 0U) {
-        TWindow__close((u8 *)(*(u32 *)((s8 *)this + 0x2C)));
+        ((TWindowBase *)(*(u32 *)((s8 *)this + 0x2C)))->close();
         *(u32 *)((s8 *)this + 0x2C) = 0U;
     }
     *(u32 *)((s8 *)this + 0x2C) = check_room_seq_4__16TAdChrSelASlotGCFl(get_window_layout_position(0x3A), 3);
@@ -297,8 +297,8 @@ void TObjChallengeRetry::update_challenge_retry() {
         open_loss_menu();
     }
     var_r31 = 0;
-    if (((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->is_visible() != 0) {
-        selected_menu_value = get_selected_menu_value(*(u32 *)((s8 *)this + 0x2C));
+    if (((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->is_decided() != 0) {
+        selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)this + 0x2C)))->get_selected_value();
         if (selected_menu_value == 2) {
             var_r31 = 1;
             goto block_6;

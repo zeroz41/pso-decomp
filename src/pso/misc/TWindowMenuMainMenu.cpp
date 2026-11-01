@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowMenuMainMenu.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowMainMenu.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -42,7 +42,7 @@ void run_task__19TWindowMenuMainMenuFv(TWindowMenuMainMenu *window_menu_main_men
     window_menu_main_menu->handle_navigation_input();
     ((TWindowDD *)window_menu_main_menu)->initialize_subwindow();
     ((TWindowMainMenu *)window_menu_main_menu)->update_slide_position();
-    ((TUnk_804CE018 *)window_menu_main_menu)->update_fade();
+    ((TWindowBase *)window_menu_main_menu)->update_fade();
     temp_r3_2 = window_menu_main_menu->m_60;
     if (temp_r3_2 & 8) {
         window_menu_main_menu->m_60 = (u8) (temp_r3_2 & 0xFFFFFFF3);
@@ -80,7 +80,7 @@ u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1
         ((W_802AE864 *)window_menu_main_menu)->a[i] = 0;
     }
     ((TWindowMainMenu *)window_menu_main_menu)->update_scaled_position();
-    ((TUnk_804CE018 *)window_menu_main_menu)->save_position();
+    ((TWindowBase *)window_menu_main_menu)->save_position();
     return (u8 *)window_menu_main_menu;
 }
 

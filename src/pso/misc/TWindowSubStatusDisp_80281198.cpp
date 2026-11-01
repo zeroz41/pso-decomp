@@ -1,6 +1,6 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowDD.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 extern "C" {
 s8 get_type__20TWindowSubStatusDispFv(s32);
 extern "C" u8 lbl_805DD6E0[];
@@ -361,7 +361,7 @@ void TWindowSubStatusDisp::run_task() {
   }
   arg0->dispatch_page_update();
   ((TWindowDD *)arg0)->initialize_subwindow();
-  ((TUnk_804CE018 *)arg0)->update_window_entry_list((void *) (((u8 *) arg0) + 0x24));
+  ((TWindowBase *)arg0)->update_window_entry_list((void *) (((u8 *) arg0) + 0x24));
 }
 
 void *TWindowSubStatusDisp::dt(s16 arg1) {

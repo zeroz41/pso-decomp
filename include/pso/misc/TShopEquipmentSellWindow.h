@@ -7,7 +7,7 @@
 struct TShopEquipmentSellWindow : public TShopWindowBase {
     virtual ~TShopEquipmentSellWindow();
     virtual void vfunc_11();
-    virtual void vfunc_7();
+    virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;

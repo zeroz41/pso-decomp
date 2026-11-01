@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/camera/CameraViewParams.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 struct TCameraCtrl;
 
 #include "pso/misc/TWindowMainMenu.h"
@@ -44,7 +44,7 @@ int initialize_subwindow__9TWindowDDFv(void*);
 void render__15TWindowUserSortFv(s32 arg0) {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
 }
 

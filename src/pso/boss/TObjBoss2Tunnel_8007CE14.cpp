@@ -22,7 +22,7 @@ s32 TObjBoss2Tunnel::save_snapshot() {
         }
         save_screen_snapshot();
 loop_4:
-        if (((TAdPlayerLoadGC *)1)->probe_card_slot() == 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
             TObjBoss2Tunnel__snapshot_saved_flag = 0;
             return -5;
         }

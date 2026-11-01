@@ -65,12 +65,15 @@ bool TShopSequence::sub_802239EC() {
 }
 
 typedef char RecoveredGlobal_80223A48_lbl_8050E208_size[sizeof(RecoveredGlobal_80223A48_lbl_8050E208) == 0x1B0 ? 1 : -1];
-bool TShopWindowBase::sub_80223A48() {
+s32 TShopWindowBase::sub_80223A48() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)((u8 *)&(*(RecoveredGlobal_80223A48_lbl_8050E208 *)&controller_input_state).value + (((TRaderMapCore *)(*(s32 *)((s8 *)arg0 + 0x24)))->get_map_id() * 0x50)) + 0x28) & 4) {
         return 1;
     }
-    return test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80223A48_lbl_8050E208 *)&controller_input_state).value + 0x160), 4) != 0;
+    if (test_flag_4c__23TAdSinglePlyChrSelectGCFv((void *) ((u8 *)&(*(RecoveredGlobal_80223A48_lbl_8050E208 *)&controller_input_state).value + 0x160), 4) != 0) {
+        return 1;
+    }
+    return 0;
 }
 
 void TShopWindowBase::run_task() {

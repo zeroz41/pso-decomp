@@ -5,6 +5,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
 
 struct Stat_80197E64 { u8 pad0[4]; u16 blocks; u8 pad6[0xE]; };
 
@@ -12,7 +13,6 @@ struct Hdr_80197E64 { u8 pad0[0x58]; s32 f58; s32 f5C; u8 pad60[0xC]; };
 
 extern s32 TObjSinBoard__texture_buffer;
 extern "C" {
-void *alloc__22TQuestVmDownLoadServerFv(s32);
 s32 TAdPlayerLoadGC__sub_801E1538(Hdr_80197E64 *, void *);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32, s32, Stat_80197E64 *);
@@ -50,12 +50,12 @@ void load_memcard_file(void) {
     if (r != 0) {
         return;
     }
-    buf = alloc__22TQuestVmDownLoadServerFv(stat.blocks << 13);
+    buf = TQuestVmDownLoadServer::alloc(stat.blocks << 13);
     if (buf == 0) {
         return;
     }
     memset(buf, 0, stat.blocks << 13);
-    ((TAdSinglePlyChrSelectGC *)slot)->load_player_slot((int)memcard_file_099_name, (int)buf);
+    TAdSinglePlyChrSelectGC::load_player_slot(slot, (const char *)memcard_file_099_name, buf);
     while (TAdPlayerLoadGC__sub_801E1B50(slot) != 0) {
         TLobby::run_frame();
     }

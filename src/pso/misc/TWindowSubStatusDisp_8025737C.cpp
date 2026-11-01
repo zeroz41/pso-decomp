@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowSubStatusDisp_8025737C.h"
 #include "pso/system/memory.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/ui/TAdChrMoveEffectGC.h"
 #include "pso/misc/TWindowSubComCard.h"

@@ -6,27 +6,25 @@
 #include "pso/quest/TQuestListVM.h"
 
 extern "C" {
-
 s32 subtractive_rng_seed(s32 *, u32);
-
-u32 TQuestListVM::decrypt_quest_data(s32 arg1, s32 arg2, u32 arg3) {
-    u8 *arg0 = (u8 *)this;
-    s32 sp10[60];
-    u32 spC;
-    u32 sp8;
-
-    spC = *(u32 *)&this->m_name;
-    sp8 = *(u32 *)&this->m_flags;
-    bswap_32(&spC);
-    bswap_32(&sp8);
-    if (spC > arg3) {
-        return 0U;
-    }
-    __ct__14SubtractiveRngFv(&sp10[0]);
-    subtractive_rng_seed(&sp10[0], sp8);
-    ((TAdSinglePlyChrSelectGC *)(&sp10[0]))->crypt_data_be((u32 *)(arg0 + 8), (s32)(arg1 - 8));
-    prs_decompress_buffer((s32)&this->m_prev, arg2);
-    return spC;
 }
 
+u32 decrypt_quest_data(void *src, s32 size, void *dst, u32 capacity) {
+    QuestDownloadFile *file = (QuestDownloadFile *)src;
+    s32 rng[60];
+    u32 decompressed_size;
+    u32 seed;
+
+    decompressed_size = file->decompressed_size;
+    seed = file->seed;
+    bswap_32(&decompressed_size);
+    bswap_32(&seed);
+    if (decompressed_size > capacity) {
+        return 0U;
+    }
+    __ct__14SubtractiveRngFv(&rng[0]);
+    subtractive_rng_seed(&rng[0], seed);
+    ((TAdSinglePlyChrSelectGC *)(&rng[0]))->crypt_data_be((u32 *)file->data, (s32)(size - 8));
+    prs_decompress_buffer((s32)file->data, (s32)dst);
+    return decompressed_size;
 }

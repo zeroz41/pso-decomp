@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWKEYBOARDHARD_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowKeyBoardHard : public TUnk_804CE018 {
+struct TWindowKeyBoardHard : public TWindowBase {
     virtual ~TWindowKeyBoardHard();
     void draw_status_text(void *);
     void update_modifier_flags();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
 #include "pso/unk/text_8026B260.h"
 #include "pso/misc/TLobby_8026B06C.h"
 #include "pso/misc/TLobby.h"
@@ -16,7 +17,7 @@ int dispatch_message_window_text(void *w, int text, int flags) {
         return append_message_window_line(w, text, flags, 0xFF000000);
     case 1:
     case 2:
-        return ((TLobby *)w)->send_and_handle(text, flags);
+        return ((TWindowMessage *)w)->append_line(text, flags);
     default:
         return 0;
     }

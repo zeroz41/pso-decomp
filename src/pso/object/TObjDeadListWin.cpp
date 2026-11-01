@@ -1,4 +1,5 @@
 #include "pso/object/TObjDeadListWin.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TLobby.h"
@@ -10,8 +11,8 @@ s32 TWindowCtrlMain__sub_8024CE58();
 char* strncpy(char*, const char*, int);
 char* strcat(char*, const char*);
 void* get_window_layout_position(s32);
-void send_and_handle__6TLobbyFii(u32, void*, s32);
-u32 set_window_mode_4__6TLobbyFPvll(void*, void*, s32);
+void append_line__14TWindowMessageFii(u32, void*, s32);
+u32 create__14TWindowMessageFPvll(void*, void*, s32);
 extern s32 local_client_id;
 extern const char TObjDeadListWin_class_name[] = "TObjDeadListWin";
 const char* TObjDeadListWin_name = TObjDeadListWin_class_name;
@@ -23,7 +24,7 @@ extern const char dead_list_name_separator[] = "\n";
 void TObjDeadListWin::build_dead_list_window() {
     char text[0x44];
     s32 i;
-    m_window_handle = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x3C), dead_list_window_position, 1);
+    m_window_handle = create__14TWindowMessageFPvll(get_window_layout_position(0x3C), dead_list_window_position, 1);
     if (m_window_handle != 0U) {
         text[0] = 0;
         strcat(text, dead_list_text_prefix);
@@ -35,7 +36,7 @@ void TObjDeadListWin::build_dead_list_window() {
             }
             i += 1;
         } while (i < 4);
-        send_and_handle__6TLobbyFii(m_window_handle, text, 2);
+        append_line__14TWindowMessageFii(m_window_handle, text, 2);
     }
 }
 
@@ -52,7 +53,7 @@ void TObjDeadListWin::update_countdown() {
     m_countdown = temp_r0;
     if (temp_r0 < 0) {
         if (m_window_handle != 0U) {
-            TWindow__close((u8 *)m_window_handle);
+            ((TWindowBase *)m_window_handle)->close();
             m_window_handle = 0U;
         }
         queue_destruction__7TObjectFv(this);

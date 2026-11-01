@@ -135,12 +135,12 @@ void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3) 
         for (q = SELF->list2; q->type >= 0; q++, n2++) {
         }
     }
-    SELF->a = (D1_800FF070 *)((TQuestVmDownLoadServer *)((n1 + 1) * 0x18))->alloc();
-    SELF->b = (D2_800FF070 *)((TQuestVmDownLoadServer *)(n1 * 0x10))->alloc();
+    SELF->a = (D1_800FF070 *)TQuestVmDownLoadServer::alloc((n1 + 1) * 0x18);
+    SELF->b = (D2_800FF070 *)TQuestVmDownLoadServer::alloc(n1 * 0x10);
     if (n2 == 0) {
         SELF->c = NULL;
     } else {
-        SELF->c = (D2_800FF070 *)((TQuestVmDownLoadServer *)((n2 + 1) * 0x10))->alloc();
+        SELF->c = (D2_800FF070 *)TQuestVmDownLoadServer::alloc((n2 + 1) * 0x10);
     }
     {
         E1_800FF070 *p3;

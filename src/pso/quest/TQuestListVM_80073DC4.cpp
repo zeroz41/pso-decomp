@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/object/TObjResultWin.h"
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"
 #include "pso/TShopWindowBase.h"
@@ -19,7 +20,6 @@ s32 get_window_layout_position(s32);
 s32 sprintf(void *, const char *, ...);
 extern char lbl_80438660[];
 void queue_destruction__7TObjectFv(void *);
-void TWindow__close(void *);
 s32 TWindowCtrlMain__sub_8024CE58();
 void TShopWindowBase::set_field_20(s32 v) { *(s32 *)&(*(u32 *)((u8 *)this + 0x20)) = v; }
 
@@ -43,7 +43,7 @@ void TObjNewFloorWin::run_task() {
     case 1:
         if (--self->timer28 == 0x3C) {
             if (self->window != NULL) {
-                TWindow__close(self->window);
+                ((TWindowBase *)self->window)->close();
                 self->window = NULL;
             }
             self->state = 2;

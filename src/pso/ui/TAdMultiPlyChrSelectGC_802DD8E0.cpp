@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC_802DD8E0.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -32,7 +33,6 @@ struct RecoveredGlobal_802DDBA8_lbl_8050E3B8 {
 extern "C" {
 s32 queue_destruction__7TObjectFv(void *);
 s32 is_slot_active__23TAdSinglePlyChrSelectGCFUi();
-s32 TWindow__close(void *);
 s32 is_multiplayer_character_slot_selected(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C6558();
 s32 TAdMultiPlyChrSelectGC__sub_802C658C();
@@ -261,7 +261,7 @@ void TAdMultiPlyChrSelectGC::reset_to_select() {
         *(u32 *)&this->m_6c = 0U;
     }
     if ((u32) this->m_84 != 0U) {
-        TWindow__close(*(void * *)&this->m_84);
+        ((TWindowBase *)(*(void * *)&this->m_84))->close();
         this->m_84 = 0U;
     }
     if ((u32) *(u32 *)&this->unk_88 != 0U) {

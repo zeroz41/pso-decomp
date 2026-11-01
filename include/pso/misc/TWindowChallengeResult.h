@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWCHALLENGERESULT_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowChallengeResult : public TUnk_804CE018 {
+struct TWindowChallengeResult : public TWindowBase {
     virtual ~TWindowChallengeResult();
     virtual void render();
 

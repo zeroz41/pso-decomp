@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -397,7 +398,6 @@ void set_area__6TLobbyFl(void *, int, int);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
-void TWindow__close(void *);
 s32 align_menu_entry_positions(u32);
 u32 create_window_menu(s32, s32, s16);
 s32 get_window_layout_position(s32);
@@ -648,7 +648,7 @@ void TObjWarpBase::vfunc_14() {
 
     player = (u32) *(u32 *)((s8 *)this + 0xB0);
     if (player != 0U) {
-        TWindow__close((u8 *)player);
+        ((TWindowBase *)player)->close();
         *(u32 *)((s8 *)this + 0xB0) = 0U;
         player = (u32)get_player_by_client_id(*(u16 *)((s8 *)this + 0xB8));
         if (player != 0U) {
@@ -736,7 +736,7 @@ void TObjMapWarp::closePlayerWindow(u16 arg1) {
     temp_r31 = (u8 *)(arg0 + ((arg1 * 4) & 0x3FFFC));
     temp_r3 = *(u32 *)((s8 *)temp_r31 + 0xEC);
     if (temp_r3 != 0U) {
-        TWindow__close((u8 *)temp_r3);
+        ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)temp_r31 + 0xEC) = 0U;
         player = ((u32)get_player_by_client_id((u32)((void *) ((s32) arg1))));
         if (player != 0U) {
@@ -798,7 +798,7 @@ void TObjMapWarp::process_player_warps() {
         for (i = 0; i < 4; i++) {
             if (can_warp__11TObjMapWarpFlUs(this, i) == 0) {
                 if (d->win[i] != NULL) {
-                    TWindow__close(d->win[i]);
+                    ((TWindowBase *)(d->win[i]))->close();
                     d->win[i] = NULL;
                 }
             } else {
@@ -825,7 +825,7 @@ void TObjMapWarp::process_player_warps() {
     }
     if (((VObj_8019D250 *)this)->m14() == 0) {
         if (this->m_b0 != NULL) {
-            TWindow__close(this->m_b0);
+            ((TWindowBase *)this->m_b0)->close();
             this->m_b0 = NULL;
         }
     } else {
@@ -997,7 +997,7 @@ void TObjAreaWarp::handle_area_selection() {
     void *t;
     if (((VObj_8019CAB0 *)this)->m14() == 0) {
         if (d->fB0 != NULL) {
-            TWindow__close(d->fB0);
+            ((TWindowBase *)d->fB0)->close();
             d->fB0 = NULL;
         }
     } else {

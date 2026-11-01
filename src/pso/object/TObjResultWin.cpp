@@ -1,7 +1,8 @@
 #include "pso/object/TObjResultWin.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
@@ -18,11 +19,10 @@ int strncmp(const char*, const char*, unsigned long);
 char* strncat(char*, const char*, unsigned long);
 s32 queue_destruction__7TObjectFv(void*);
 s32 TWindowShortListCtrl__check_controller_button(void*, int);
-s32 TWindow__close(int);
 s32 TWindowCtrlMain__sub_8024CE58();
 s32 get_window_layout_position(s32);
-s32 send_and_handle__6TLobbyFii(u32, void*, s32);
-u32 set_window_mode_4__6TLobbyFPvll(s32, void*, s32);
+s32 append_line__14TWindowMessageFii(u32, void*, s32);
+u32 create__14TWindowMessageFPvll(s32, void*, s32);
 extern ControllerInputStateResultWin controller_input_state;
 extern s32 current_lobby_id;
 extern TObject* tl_07;
@@ -131,7 +131,7 @@ void TObjResultWin::run_task() {
         }
         if ((s32) m_close_requested != 0) {
             if ((s32) m_countdown == 0) {
-                TWindow__close(m_window);
+                ((TWindowBase *)m_window)->close();
                 queue_destruction__7TObjectFv(this);
             }
         } else if (TWindowShortListCtrl__check_controller_button((void *) ((u8 *)&controller_input_state.value + 0x20), 4) != 0) {
@@ -140,13 +140,13 @@ void TObjResultWin::run_task() {
     }
 }
 void TObjResultWin::create_window() {
-    m_window = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x41), challenge_result_window_extent, 1);
+    m_window = create__14TWindowMessageFPvll(get_window_layout_position(0x41), challenge_result_window_extent, 1);
     if ((u32) m_window != 0U) {
         if (TCameraCtrl::get_camera_id() == 4) {
-            ((TUnk_804CDFE8 *)m_window)->set_position_xy(challenge_result_split_screen_position, challenge_result_split_screen_position);
+            ((TWindowAddition *)m_window)->set_position_xy(challenge_result_split_screen_position, challenge_result_split_screen_position);
         }
-        send_and_handle__6TLobbyFii(m_window, m_text, 0);
-        ((TLobby *)m_window)->set_field_1c(challenge_result_window_depth);
+        append_line__14TWindowMessageFii(m_window, m_text, 0);
+        ((TWindowBase *)m_window)->set_depth(challenge_result_window_depth);
     }
 }
 TObjResultWin::~TObjResultWin() {}

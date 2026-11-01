@@ -464,7 +464,7 @@ void TLobby::load_item_data() {
 
     lbl_805D606C = 0;
     lbl_805D6070 = NULL;
-    temp_r3 = ((TQuestVmDownLoadServer *)0x24B8)->alloc();
+    temp_r3 = (s32)TQuestVmDownLoadServer::alloc(0x24B8);
     forest_rel_work_buffer = temp_r3;
     if (temp_r3 != 0U) {
         drop_item_mode = TLobby::get_drop_item_mode();

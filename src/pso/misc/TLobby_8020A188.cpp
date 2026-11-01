@@ -30,10 +30,10 @@ void init_buffers__6TLobbyFii(s32 id, s32 arg1) {
     temp_r3 = find_type5_header__6TLobbyFPvi(arg1, id);
     TLobby__item_data_table_buffer = temp_r3;
     if (((u32) lbl_805D60A8 != 0U) && ((u32) lbl_805D60AC != 0U) && (temp_r3 != 0U)) {
-        lbl_805D60B4 = ((TQuestVmDownLoadServer *)0x9000)->alloc();
-        lbl_805D60BC = ((TQuestVmDownLoadServer *)0x1400)->alloc();
+        lbl_805D60B4 = (s32)TQuestVmDownLoadServer::alloc(0x9000);
+        lbl_805D60BC = (s32)TQuestVmDownLoadServer::alloc(0x1400);
         lbl_805D60C0 = 0;
-        lbl_805D60C4 = ((TQuestVmDownLoadServer *)0x1000)->alloc();
+        lbl_805D60C4 = (s32)TQuestVmDownLoadServer::alloc(0x1000);
         lbl_805D60C8 = 0;
         TLobby__sub_80209D34(id);
         TAdSinglePlyChrSelectGC::safe_free(lbl_805D60C4);

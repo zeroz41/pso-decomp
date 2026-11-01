@@ -3,9 +3,9 @@
 
 #include "types.h"
 #include <stddef.h>
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowSubStatusDisp : public TUnk_804CE018 {
+struct TWindowSubStatusDisp : public TWindowBase {
     virtual ~TWindowSubStatusDisp();
     void calc_row_width();
     virtual void run_task();

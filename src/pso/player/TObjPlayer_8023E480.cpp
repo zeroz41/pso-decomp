@@ -58,7 +58,7 @@ s32 TLobby__sub_8023E4B4(s32 arg0, s32 arg1) {
         TAdSinglePlyChrSelectGC::safe_free(h);
         return 0;
     }
-    buf = ((TQuestVmDownLoadServer *)0x100000)->alloc();
+    buf = (s32)TQuestVmDownLoadServer::alloc(0x100000);
     prs_decompress_buffer(h, buf);
     load_gvm_texture_archive(buf, arg1);
     TAdSinglePlyChrSelectGC::safe_free(buf);

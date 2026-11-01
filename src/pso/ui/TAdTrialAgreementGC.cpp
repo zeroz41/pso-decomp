@@ -35,7 +35,7 @@ void TAdTrialAgreementGC::vfunc_7() { request_scene_change__21TAdMultiChgGameMod
 void TAdTrialAgreementGC::vfunc_6() { if (this->m_38 != 0) { ((TAdScrollWinGC *)(this->m_38))->close_window(); this->m_38 = 0; } }
 void TAdTrialAgreementGC::wait_for_load() {
 loop_1:
-    if ((((TAdPlayerLoadGC *)0)->probe_card_slot() != 0) && (TAdPlayerLoadGC__sub_801E1B50(0) != 0)) {
+    if ((TAdPlayerLoadGC::probe_card_slot(0) != 0) && (TAdPlayerLoadGC__sub_801E1B50(0) != 0)) {
         render_tick();
         goto loop_1;
     }

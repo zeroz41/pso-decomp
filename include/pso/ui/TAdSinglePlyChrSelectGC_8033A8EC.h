@@ -12,7 +12,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B5F0(void *arg0);
 void TAdSinglePlyChrSelectGC__sub_8033B9E0(void *p);
 void TAdSinglePlyChrSelectGC__sub_8033B9EC(void *p);
 u8 TAdSinglePlyChrSelectGC__sub_8033B9F8(u8 *arg0);
-bool TAdSinglePlyChrSelectGC__sub_8033BA84(void *self);
+bool TAdSinglePlyChrSelectGC__sub_8033BA84(s32 chan);
 void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0);
 }
 void init_single_player_char_select_scene(void);
