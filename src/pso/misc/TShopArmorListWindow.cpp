@@ -235,7 +235,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
-void TShopArmorListWindow::vfunc_7() {
+void TShopArmorListWindow::display_message(const char *text, s32 flags) {
     struct VObj_8021A394 *o = (struct VObj_8021A394 *)*(void **)((s8 *)this + 0x28);
     if (o != NULL) {
         o->m5();

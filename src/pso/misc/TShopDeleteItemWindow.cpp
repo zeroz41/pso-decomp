@@ -109,7 +109,7 @@ void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void init__9TItemDataFv(void *);
 
-void TShopDeleteItemWindow::vfunc_7() {
+void TShopDeleteItemWindow::display_message(const char *text, s32 flags) {
     struct VObj_80337910 *o = (struct VObj_80337910 *)*(void **)((s8 *)this + 0x64);
     if (o != NULL) {
         o->m5();

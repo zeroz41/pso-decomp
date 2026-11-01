@@ -119,7 +119,7 @@ extern f32 lbl_805DC710;
 void sort_bank_items(s32 slot);
 void __dl__7TObjectFPv(void *);
 
-void TShopKeepItemWindow::vfunc_7() {
+void TShopKeepItemWindow::display_message(const char *text, s32 flags) {
     struct VObj_80221844 *temp_r3;
 
     temp_r3 = (struct VObj_80221844 *)this->m_380;

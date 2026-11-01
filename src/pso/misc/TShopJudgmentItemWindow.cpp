@@ -201,7 +201,7 @@ void __dl__7TObjectFPv(void *);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 void queue_destruction__7TObjectFv(void *arg0);
 
-void TShopJudgmentItemWindow::vfunc_7() {
+void TShopJudgmentItemWindow::display_message(const char *text, s32 flags) {
     struct VObj_802205E4 *temp_r3;
 
     temp_r3 = (struct VObj_802205E4 *)this->m_164;

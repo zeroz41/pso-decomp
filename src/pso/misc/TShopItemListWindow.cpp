@@ -140,7 +140,7 @@ void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 
-void TShopItemListWindow::vfunc_7() {
+void TShopItemListWindow::display_message(const char *text, s32 flags) {
     struct VObj_8021F134 *temp_r3;
 
     temp_r3 = (struct VObj_8021F134 *)*(void **)((s8 *)this + 0x2C);

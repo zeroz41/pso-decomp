@@ -82,14 +82,14 @@ int TQuestListVM::vfunc_10() {
     return 1;
 }
 
-void TQuestListVM::vfunc_9() {
+void TQuestListVM::display_guild_message(s32 index, s32 flags) {
     struct VObj_802184C8_802183B4 *o = (struct VObj_802184C8_802183B4 *)this->m_23a0;
     if (o != NULL) {
         o->m7();
     }
 }
 
-void TQuestListVM::vfunc_7() {
+void TQuestListVM::display_message(const char *text, s32 flags) {
     struct VObj_80218500_802183B4 *o = (struct VObj_80218500_802183B4 *)this->m_23a0;
     if (o != NULL) {
         o->m5();

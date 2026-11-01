@@ -12,8 +12,8 @@ struct TQuestListVM : public TShopWindowBase {
     void load_selected_slot();
     virtual void vfunc_11();
     virtual int vfunc_10();
-    virtual void vfunc_9();
-    virtual void vfunc_7();
+    virtual void display_guild_message(s32 index, s32 flags);
+    virtual void display_message(const char *text, s32 flags);
     virtual void vfunc_6();
     u8 _pad1C[0x4];
     u32 m_20;

@@ -177,7 +177,7 @@ void *__dt__24TShopEquipmentSellWindowFv(TShopEquipmentSellWindow *arg0, s16 arg
 void __dl__7TObjectFPv(void *);
 void memset(void *, int, int);
 
-void TShopEquipmentSellWindow::vfunc_7() {
+void TShopEquipmentSellWindow::display_message(const char *text, s32 flags) {
     struct VObj_8021C870 *o = (struct VObj_8021C870 *)*(void **)((s8 *)this + 0x388);
     if (o != NULL) {
         o->m5();
