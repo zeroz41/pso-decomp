@@ -8,17 +8,22 @@ Nothing from the game is included here. You need your own copy of the game to bu
 
 ## Progress
 
-<!-- progress-table -->
-| | Matched | Linked |
-|:--|--:|--:|
-| Code | 94.19% | 73.26% |
-| Data | 72.39% | 52.21% |
-| Functions | 98.73% (27,221 of 27,572) | |
-| Units | | 69.51% (3,539 of 5,091) |
-<!-- /progress-table -->
+[![Code matched]][progress page] [![Data matched]][progress page] [![Functions matched]][progress page]<br>
+[![Code linked]][progress page] [![Data linked]][progress page] [![Units linked]][progress page]
 
-Measured on `PsoV3.dol`. A function is matched when it compiles to the original's exact bytes. Code, data and
-units are linked when the build takes them from compiled source instead of the original. Data includes `.bss`.
+[progress page]: https://zeroz41.github.io/pso-decomp/
+[treemap]: https://zeroz41.github.io/pso-decomp/treemap.html
+[Code matched]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Fcode.json
+[Data matched]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Fdata.json
+[Functions matched]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Ffunctions.json
+[Code linked]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Fcode-linked.json
+[Data linked]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Fdata-linked.json
+[Units linked]: https://img.shields.io/endpoint?url=https%3A%2F%2Fzeroz41.github.io%2Fpso-decomp%2Fbadges%2Funits-linked.json
+
+Measured on `PsoV3.dol` from the latest build of `master`. The [progress page] breaks it down by unit and
+function, and the [treemap] shows every function and data section as a tile sized by its bytes. A function is
+matched when it compiles to the original's exact bytes. Code, data and units are linked when the build takes them
+from compiled source instead of the original. Data includes `.bss`.
 
 ## Target
 
@@ -60,7 +65,8 @@ in assembly: `tools/orig_asm.py` rebuilds their bodies from your disc before any
 
       python tools/progress_map.py build/GPOE8P/report.json -o build/progress
 
-  Then open `build/progress/index.html` in a browser. Add `--readme README.md` to refresh the table above.
+  Then open `build/progress/index.html`, or `build/progress/treemap.html` for the treemap, in a browser. They
+  are the pages the [progress page] and [treemap] links show for `master`.
 
 ## Working on it
 
