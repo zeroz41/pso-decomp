@@ -90,7 +90,7 @@ extern const f32 lbl_805DC12C;
 TObjChara *find_entity_by_id(u16 identity);
 
 s32 get_current_floor();
-s32 get_field_3e4__10TObjPlayerFv(void *);
+s32 get_floor__10TObjPlayerFv(void *);
 s32 get_photon_blast_chain(void *, s32);
 void *get_player_by_client_id(u32);
 s32 is_split_screen();
@@ -167,7 +167,7 @@ s32 TObjPlayer::is_any_teammate_in_state() {
     current_floor = get_current_floor();
     var_r30 = 0;
 loop_1:
-    if ((((u32 (*)(s32))get_player_by_client_id)(var_r30) != 0U) && (current_floor == ((s32 (*)(void))get_field_3e4__10TObjPlayerFv)()) && (get_photon_blast_chain(&sp8, var_r30) == 2)) {
+    if ((((u32 (*)(s32))get_player_by_client_id)(var_r30) != 0U) && (current_floor == ((s32 (*)(void))get_floor__10TObjPlayerFv)()) && (get_photon_blast_chain(&sp8, var_r30) == 2)) {
         return 1;
     }
     var_r30 += 1;
@@ -194,7 +194,7 @@ s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records) {
     group = get_room__8TObjBaseFv(local);
     owner = get_player_by_client_id(owner_id);
     if (owner != NULL) {
-        if (get_field_3e4__10TObjPlayerFv(local) == get_field_3e4__10TObjPlayerFv(owner) && group == (s16) get_room__8TObjBaseFv(owner)) {
+        if (get_floor__10TObjPlayerFv(local) == get_floor__10TObjPlayerFv(owner) && group == (s16) get_room__8TObjBaseFv(owner)) {
             return 1;
         }
     }

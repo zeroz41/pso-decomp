@@ -2296,7 +2296,7 @@ void qst_op_get_player_room(void) {
     u8 *player = ((u8 * (*)(s32))get_player_by_client_id)(qst_args[0]);
     u8 i = qst_args[1];
     if (player != NULL) {
-        qst_registers[i++] = ((TObjPlayer *)player)->get_field_3e4();
+        qst_registers[i++] = ((TObjPlayer *)player)->get_floor();
         qst_registers[i] = ((TObjBase *)player)->get_room();
     } else {
         qst_registers[i++] = -1;
@@ -4000,11 +4000,11 @@ void qst_op_get_player_proximity(u8 arg0, u8 arg1) {
     qst_registers[arg1] = 0;
     self = (u8 *)((s32 (*)(int))get_player_by_client_id)(idx);
     if (self != NULL) {
-        field = ((TObjPlayer *)self)->get_field_3e4();
+        field = ((TObjPlayer *)self)->get_floor();
         for (i = 0; i < 12; i++) {
             if (i != idx) {
                 other = (u8 *)((s32 (*)(int))get_player_by_client_id)(i);
-                if (other != NULL && field == ((TObjPlayer *)other)->get_field_3e4() &&
+                if (other != NULL && field == ((TObjPlayer *)other)->get_floor() &&
                     xyz_distance_squared(self + 0x38, other + 0x38) < range * range) {
                     qst_registers[arg1]++;
                 }

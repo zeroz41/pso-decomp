@@ -503,7 +503,7 @@ void handle_6x68_set_telepipe_state(Pkt_802341B0 *pkt) {
     other = get_player_by_client_id(pkt->rec.owner);
     local = get_player_by_client_id(local_client_id);
     if (other != 0 && local != 0) {
-        if (((TObjPlayer *)other)->get_field_3e4() == ((TObjPlayer *)local)->get_field_3e4()) {
+        if (((TObjPlayer *)other)->get_floor() == ((TObjPlayer *)local)->get_floor()) {
             ((TTecLuker *)player)->create(player + 0x38, player + 0x38, 0);
         }
     }

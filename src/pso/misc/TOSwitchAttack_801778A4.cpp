@@ -117,7 +117,7 @@ void TOSwitchAttack::run_task() {
         for (i = 0; i != n; i++) {
             p = (VObj_801778A8 *)resolve_hittable_target(i, 0);
             if (p != NULL) {
-                if (((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
+                if (((TObjPlayer *)p)->get_floor() == get_current_floor() &&
                     horizontal_distance_squared((u8 *)p + 0x38, &o->pos) < o->f94) {
                     Atk_801778A8 b;
                     b.a = 0;

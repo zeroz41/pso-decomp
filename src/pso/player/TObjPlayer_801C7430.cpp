@@ -4220,7 +4220,7 @@ void handle_6x49_execute_photon_blast(void *arg0) {
     if (((TObjEneHoldEffect *)(&m))->validate_6x49_packet() != 0) {
         p = ((Player_801CC6B8 * (*)(s32))get_player_by_client_id)(m.id);
         if (p != NULL && test_action_mask__10TObjPlayerFl(p, 0x8000) == 0 && is_current_area_item_enabled() != 0) {
-            if (get_current_floor() == ((TObjPlayer *)p)->get_field_3e4()) {
+            if (get_current_floor() == ((TObjPlayer *)p)->get_floor()) {
                 s32 count;
                 u32 *dst;
                 u32 *src;
@@ -6065,7 +6065,7 @@ void send_idle_return_event__10TObjPlayerFPvPvs(void *player, void *arg1, s16 ar
         m.f2 = get_entity_id(player);
         m.f4 = t;
         m.f6 = arg2;
-        m.f8 = ((TObjPlayer *)player)->get_field_3e4();
+        m.f8 = ((TObjPlayer *)player)->get_floor();
         m.fa = ((TObjBase *)player)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg1);
         TObjPlayer__sub_801C18E0(&m);
@@ -6084,7 +6084,7 @@ void TObjPlayer::send_6x3E_stop_at_position() {
         m.f6 = this->rotation_y;
         ((TObjPlayer *)arg0)->sync_current_floor();
         ((TObjPlayer *)arg0)->sync_current_area();
-        m.f8 = ((TObjPlayer *)arg0)->get_field_3e4();
+        m.f8 = ((TObjPlayer *)arg0)->get_floor();
         m.fa = ((TObjBase *)arg0)->get_room();
         VecCopy__FP3VecPC3Vec(m.vec, arg0->vec);
         ((TNpcPlayer *)(&m))->send_6x3E();

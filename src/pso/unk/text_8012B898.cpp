@@ -57,7 +57,7 @@ void TUnk_804A4F60::vfunc_17(s32 arg1) {
   {
     if (is_current_area_item_enabled() != 0)
     {
-      temp_r31 = ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_field_3e4();
+      temp_r31 = ((TObjPlayer *)(*((u32 *) (((s8 *) arg0) + 0xF0))))->get_floor();
       new_var = get_current_floor();
       if (new_var == temp_r31)
       {

@@ -167,7 +167,7 @@ s32 TOMineTrap::find_target_in_range() {
             continue;
         }
         if (id < 0x1000) {
-            if (((TObjPlayer *)p)->get_field_3e4() != get_current_floor()) {
+            if (((TObjPlayer *)p)->get_floor() != get_current_floor()) {
                 continue;
             }
             if (horizontal_distance_squared(self->pos, p + 0x38) < self->range * self->range) {
@@ -216,7 +216,7 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     void *player;
     void *obj;
     if (enable_v2_features != 1 || arg0 == 0 || (id = get_entity_id((void *)arg0)) == 0xFFFF || id >= 0x1000 ||
-        (player = (void *)get_player_by_client_id(id)) == 0 || ((TObjPlayer *)player)->get_field_3e4() != get_current_floor() ||
+        (player = (void *)get_player_by_client_id(id)) == 0 || ((TObjPlayer *)player)->get_floor() != get_current_floor() ||
         arg1 < 0 || arg1 >= 4 || arg2 < 0 || arg2 > 0x14) {
         return 0;
     }

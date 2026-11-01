@@ -420,6 +420,7 @@ pso/enemy/TObjEneBalClawBody.cpp
 pso/enemy/TObjEneBalClawClaw.cpp
 pso/enemy/TObjEneBalClawClaw_8008DC18.cpp
 pso/enemy/TObjEneBeast.cpp
+pso/enemy/TObjEneBeast_800C4E08.cpp
 pso/enemy/TObjEneBm3Fly.cpp
 pso/enemy/TObjEneBm3FlyNest.cpp
 pso/enemy/TObjEneBm5GibonU.cpp

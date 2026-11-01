@@ -381,7 +381,7 @@ extern const f32 lbl_805DC580;
 extern const f32 lbl_805DC584;
 int get_entity_id(void*);
 s32 get_current_floor(void);
-s32 get_field_3e4__10TObjPlayerFv(void);
+s32 get_floor__10TObjPlayerFv(void);
 s32 TLobby__sub_801C19D0(void *);
 s32 should_show_map__13TRaderMapCoreFv(void);
 extern Vec4_801F9E9C radar_player_slot_color_table[];
@@ -844,7 +844,7 @@ void TRaderMapCore::gather_player_markers() {
         }
         if (SHOW(this) == 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_field_3e4__10TObjPlayerFv() &&
+            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);
                 e->y = lbl_805DC570;
@@ -856,7 +856,7 @@ void TRaderMapCore::gather_player_markers() {
             }
         } else if (team != 0) {
             p = (Player_801F9E9C *)get_player_by_client_id(i);
-            if (p != NULL && floor == get_field_3e4__10TObjPlayerFv() &&
+            if (p != NULL && floor == get_floor__10TObjPlayerFv() &&
                 team == TLobby__sub_801C19D0(p->sub828) &&
                 ((TObjPlayer *)p)->is_body_collision_inactive() == 0) {
                 VecCopy((Vec *)e, (const Vec *)p->pos);

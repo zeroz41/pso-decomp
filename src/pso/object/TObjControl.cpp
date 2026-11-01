@@ -816,7 +816,7 @@ void TObjEnemy::award_enemy_experience(s32 arg1) {
     Plr_800F6BF0 *p;
 
     if ((u16)arg1 >= 0x1000 || (p = get_player_by_client_id(arg1)) == NULL ||
-        ((s32 (*)(void *, int))obj_testFlags30__14TObjCollidableFUl)(p, 0x800) != 0 || ((TObjPlayer *)p)->get_field_3e4() != get_current_floor()) {
+        ((s32 (*)(void *, int))obj_testFlags30__14TObjCollidableFUl)(p, 0x800) != 0 || ((TObjPlayer *)p)->get_floor() != get_current_floor()) {
         return;
     }
     val = *(s32 *)(this->m_2b0 + 0x1C);

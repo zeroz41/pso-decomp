@@ -185,7 +185,7 @@ void handle_6x66_use_star_atomizer(u8 *arg0) {
         do {
             target = (TObjPlayer *)get_player_by_client_id(cmd->target_client_ids[i]);
             if (target != NULL && target->has_flag_0x800() == 0) {
-                if (user->get_field_3e4() == target->get_field_3e4()) {
+                if (user->get_floor() == target->get_floor()) {
                     target->set_hp_clamped(((TItemProShield *)target)->get_field_2b8());
                     if (is_current_area_item_enabled() != 0) {
                         if (i == 0) {

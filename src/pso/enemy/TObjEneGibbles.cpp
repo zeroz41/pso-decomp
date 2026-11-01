@@ -1252,7 +1252,7 @@ void TObjEneGibbles::sub_802D8984() {
     Gib_802D8984 *o = (Gib_802D8984 *)this;
     if (o->idx < 0x1000) {
         Gib_802D8984 *p = (Gib_802D8984 *)get_player_by_client_id((void *)o->idx);
-        if (p != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             o->target = p;
         } else {
             o->target = NULL;
@@ -1373,7 +1373,7 @@ void TObjEneGibbles__sub_802D8E8C(u8 *arg0) {
     id = F_802D(0x338, u16);
     if (id < 0x1000) {
         p = get_player_by_client_id((void *)id);
-        if (p != 0 && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             F_802D(0x2A8, u32) = p;
         } else {
             F_802D(0x2A8, u32) = 0;
@@ -1478,7 +1478,7 @@ void TObjEneGibbles__sub_802D9110(Gib_802D9110 *self) {
     u16 id = self->targetId;
     if (id < 0x1000) {
         u32 p = get_player_by_client_id((void *)id);
-        if (p != 0 && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor()) {
+        if (p != 0 && ((TObjPlayer *)p)->get_floor() == get_current_floor()) {
             self->target = (Gib_802D9110 *)p;
         } else {
             self->target = NULL;
@@ -2197,7 +2197,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
         if (tid < 0x1000U) {
             u8 *q = ((u8 *(*)(u16))get_player_by_client_id)(tid);
             if (q != NULL) {
-                if (((TObjPlayer *)q)->get_field_3e4() == get_current_floor()) {
+                if (((TObjPlayer *)q)->get_floor() == get_current_floor()) {
                     self->target = q;
                     return;
                 }
@@ -2232,7 +2232,7 @@ void update_target__14TObjEneGibblesFPv(Obj_802DAD50 *self) {
             p = get_player_data__10TObjPlayerFi(i);
             if (p == NULL) continue;
             if ((u16)((s32 (*)(void *))get_entity_id)(p) >= 0x1000) continue;
-            if (((TObjPlayer *)p)->get_field_3e4() != get_current_floor()) continue;
+            if (((TObjPlayer *)p)->get_floor() != get_current_floor()) continue;
             if (P_802DAD50(p)->f30 & 0x02000800) continue;
             VecCopy((Vec *)&v, (const Vec *)((Vec_800A6B14 *)(p + 0x2FC)));
             subtract_vector(&v, &self->pos);

@@ -104,7 +104,7 @@ void TCameraCtrl::cycle_spectate_target() {
         }
         q = get_player_by_client_id(slot);
         if (q != 0) {
-            if (((TObjPlayer *)q)->get_field_3e4() == ((TObjPlayer *)pl)->get_field_3e4() && obj_testFlags30__14TObjCollidableFUl(q, 0x02000000) == 0) {
+            if (((TObjPlayer *)q)->get_floor() == ((TObjPlayer *)pl)->get_floor() && obj_testFlags30__14TObjCollidableFUl(q, 0x02000000) == 0) {
                 TCameraCtrl__view_state.slot = slot;
                 reset_cameras_to_actor((void *)q, 0);
                 for (i = 0; i < 4; i++) {

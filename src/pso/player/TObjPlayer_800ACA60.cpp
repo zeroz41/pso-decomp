@@ -749,7 +749,7 @@ s32 TObjEneMoja::update_technique_state(void *self_800AD3D8) {
     id = self->target_id;
     if (id < 0x1000) {
         p = (u8 *)get_player_by_client_id(id);
-        if (p != NULL && ((TObjPlayer *)p)->get_field_3e4() == get_current_floor() &&
+        if (p != NULL && ((TObjPlayer *)p)->get_floor() == get_current_floor() &&
             ((TObjBase *)self)->get_room() == ((TObjBase *)p)->get_room()) {
             self->target = (Tgt_800AD3D8 *) p;
         } else {
@@ -1477,7 +1477,7 @@ void acquire_target__11TObjEneMojaFPv(u8 *arg0) {
         if (tid < 0x1000U) {
             q = (u8 *)get_player_by_client_id(tid);
             if (q != NULL) {
-                if (((TObjPlayer *)q)->get_field_3e4() == get_current_floor()) {
+                if (((TObjPlayer *)q)->get_floor() == get_current_floor()) {
                     ((TObjEneMoja *)arg0)->target = q;
                     return;
                 }
@@ -1585,7 +1585,7 @@ void TObjEneMoja::run_task() {
     if (temp_r3 < 0x1000U) {
         temp_r3_2 = (u8 *)(get_player_by_client_id(temp_r3));
         if (temp_r3_2 != NULL) {
-            if (((TObjPlayer *)temp_r3_2)->get_field_3e4() == get_current_floor()) {
+            if (((TObjPlayer *)temp_r3_2)->get_floor() == get_current_floor()) {
                 this->target = temp_r3_2;
                 goto done;
             }

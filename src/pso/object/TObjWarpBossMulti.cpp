@@ -552,7 +552,7 @@ void run_task__17TObjWarpBossMultiFv(Obj_8019DFE8 *self) {
     for (i = 0; i < 4; i++) {
         pl = player_slot_table[i];
         if (pl != 0U && is_locally_controlled__10TObjPlayerFPv(pl) != 0) {
-            if (((TObjPlayer *)pl)->get_field_3e4() == get_current_floor()) {
+            if (((TObjPlayer *)pl)->get_floor() == get_current_floor()) {
                 if (xz_distance_squared(pl + 0x38, self->f38) <= (r = lbl_805DC014 + self->fAC) * r) {
                     if (TObjWarpBossMulti::is_flag_clear((void*)pl) != 0) {
                         self->fC4[i] = 1;
@@ -697,7 +697,7 @@ s32 TObjWarpBoss::are_all_players_in_range() {
     for (i = 0; i < 4; i++) {
         Pl_8019E4E8 *p = (Pl_8019E4E8 *)get_player_by_client_id(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_field_3e4() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p->pos, arg0->pos) > arg0->fAC * arg0->fAC) {
+            if (((TObjPlayer *)p)->get_floor() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p->pos, arg0->pos) > arg0->fAC * arg0->fAC) {
                 ok = 0;
             }
         }
@@ -714,7 +714,7 @@ s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0) {
     player = (s32)get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
-        temp_r3b = ((TObjPlayer *)player)->get_field_3e4();
+        temp_r3b = ((TObjPlayer *)player)->get_floor();
         if ((temp_r3b == current_floor) && (((f32 (*)(s32, s32))xz_distance_squared)(arg0 + 0x38, player + 0x38) < (farg0 * farg0))) {
             return player;
         }
@@ -1027,7 +1027,7 @@ void TObjWarpBoss::update_warp_occupants() {
     for (i = 0; i < 4; i++) {
         pl = (Player_8019EE14 *)get_player_by_client_id(i);
         if (pl != NULL) {
-            room = ((TObjPlayer *)pl)->get_field_3e4();
+            room = ((TObjPlayer *)pl)->get_floor();
             if (room == self->fbc) {
                 self->f15c = 1;
             }
@@ -1051,7 +1051,7 @@ void TObjWarpBoss::update_warp_occupants() {
         self->window = 0;
     }
     pl2 = (Player_8019EE14 *)get_player_by_client_id(local_client_id);
-    if (pl2 != NULL && ((TObjPlayer *)pl2)->get_field_3e4() == get_current_floor()) {
+    if (pl2 != NULL && ((TObjPlayer *)pl2)->get_floor() == get_current_floor()) {
         if (((f32 (*)(void *, void *))xz_distance_squared)(pl2->pos, self->pos) <= (lbl_805DC014 + self->radius) * (lbl_805DC014 + self->radius)) {
             if (TObjWarpBossMulti::is_flag_clear((void*)pl2) != 0) {
                 self->warping = 1;

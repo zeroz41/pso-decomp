@@ -151,7 +151,7 @@ s32 TObjCityMainWarpChallenge::are_all_players_in_range() {
     for (i = 0; i < 4; i++) {
         p = (u8 *)get_player_by_client_id(i);
         if (p != 0) {
-            if (((TObjPlayer *)p)->get_field_3e4() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p + 0x38, arg0->pos) > arg0->range * arg0->range) {
+            if (((TObjPlayer *)p)->get_floor() != get_current_floor() || ((f32 (*)(void *, void *))xz_distance_squared)(p + 0x38, arg0->pos) > arg0->range * arg0->range) {
                 r = 0;
             }
         }
@@ -169,7 +169,7 @@ s32 TObjCityMainWarp::find_local_player_in_range(f32 farg0) {
     player = (s32)get_player_by_client_id(local_client_id);
     if (player != 0) {
         current_floor = get_current_floor();
-        temp_r3b = ((TObjPlayer *)player)->get_field_3e4();
+        temp_r3b = ((TObjPlayer *)player)->get_floor();
         if ((temp_r3b == current_floor) && (xz_distance_squared(arg0 + 0x38, player + 0x38) < (farg0 * farg0))) {
             return player;
         }

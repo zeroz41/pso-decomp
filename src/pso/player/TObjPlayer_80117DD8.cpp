@@ -20,11 +20,11 @@ s32 TObjPlayer::count_nearby_players_with_shield(u16 idx, u8 *item) {
     count = 0;
     me = (Pl_80117F14 *)get_player_by_client_id(idx);
     if (me != NULL && item != NULL) {
-        key = ((TObjPlayer *)me)->get_field_3e4();
+        key = ((TObjPlayer *)me)->get_floor();
         for (i = 0; i != 4; i++) {
             if (i != idx) {
                 other = (Pl_80117F14 *)get_player_by_client_id(i);
-                if (other != NULL && key == ((TObjPlayer *)other)->get_field_3e4() &&
+                if (other != NULL && key == ((TObjPlayer *)other)->get_floor() &&
                     horizontal_distance_squared(me->pos, other->pos) < lbl_8043E650[0] &&
                     (it = (void *)((TItemData *)other)->test_flag3()) != NULL &&
                     item[2] == ((TItem *)it)->get_item_index()) {

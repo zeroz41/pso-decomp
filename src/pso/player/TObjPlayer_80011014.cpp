@@ -1749,7 +1749,7 @@ u16 find_nearest_visible_player(u8 *arg0, Vec_800115C4 *arg1, f32 farg0) {
     for (i = 0; i < registered_player_count; i++) {
         player = ((Player_800115C4 * (*)(s32))get_player_data__10TObjPlayerFi)(i);
         if (player != NULL && player->id < 0x1000 && !(player->flags & 0x02000800)) {
-            if (((TObjPlayer *)player)->get_field_3e4() == get_current_floor()) {
+            if (((TObjPlayer *)player)->get_floor() == get_current_floor()) {
                 ((s32 (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&diff, &player->pos);
                 ((s32 (*)(void *, void *))subtract_vector)(&diff, arg0 + 0x2FC);
                 dist = (diff.x * diff.x) + (diff.z * diff.z);
@@ -4323,7 +4323,7 @@ f32 TObjPlayer::calc_distance_to_client(s32 arg0, u16 arg1, u32 arg2) {
     if ((temp_r3 != 0) && (!((((TObjPlayer *)temp_r3)->actorFlags) & 0x800)))
     {
       ;
-      if (((TObjPlayer *)temp_r3)->get_field_3e4() == get_current_floor())
+      if (((TObjPlayer *)temp_r3)->get_floor() == get_current_floor())
       {
         var_f31 = calc_xz_distance_sq(arg0, (u32)((u32) temp_r3), &stack.sp8);
         if (arg2 != 0U)
@@ -4874,7 +4874,7 @@ s32 get_current_floor(void) {
     return current_floor_index;
 }
 
-s32 TObjPlayer::get_field_3e4() { return this->m_3e4; }
+s32 TObjPlayer::get_floor() { return this->current_floor; }
 
 s32 TObjPlayer::get_player_count() {
     return lobby_player_count;
