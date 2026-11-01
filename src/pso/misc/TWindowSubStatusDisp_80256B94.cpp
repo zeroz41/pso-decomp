@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/memory.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TUnk_804CF930.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TTecRaFoie.h"

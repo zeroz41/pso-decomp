@@ -25,7 +25,7 @@ struct Mag_8025373C {
 
 extern "C" {
 void deserialize_mag__9TItemDataFPvPv(s32, Mag_8025373C *);
-Entry_8025373C *get_array_entry__13TUnk_804CE018Fi(void *, s32);
+Entry_8025373C *get_array_entry__11TWindowBaseFi(void *, s32);
 extern const f32 TWindowHelpItem__data_805DCDE4;
 s32 fn_8025373C(u8 *self) {
     Mag_8025373C mag;
@@ -36,35 +36,35 @@ s32 fn_8025373C(u8 *self) {
     s32 count;
     ((MagStats *)(&mag))->init();
     deserialize_mag__9TItemDataFPvPv(*(s32 *)(self + 0x68), &mag);
-    help = get_array_entry__13TUnk_804CE018Fi(self, 0);
-    panel = get_array_entry__13TUnk_804CE018Fi(self, 0xF);
+    help = get_array_entry__11TWindowBaseFi(self, 0);
+    panel = get_array_entry__11TWindowBaseFi(self, 0xF);
     count = TWindowHelpItem__sub_80255DDC(help);
-    num = get_array_entry__13TUnk_804CE018Fi(self, 4);
-    bar = get_array_entry__13TUnk_804CE018Fi(self, 5);
+    num = get_array_entry__11TWindowBaseFi(self, 4);
+    bar = get_array_entry__11TWindowBaseFi(self, 5);
     if (num->value < ((MagStats *)(&mag))->get_def_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         count++;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__13TUnk_804CE018Fi(self, 7);
-    bar = get_array_entry__13TUnk_804CE018Fi(self, 8);
+    num = get_array_entry__11TWindowBaseFi(self, 7);
+    bar = get_array_entry__11TWindowBaseFi(self, 8);
     if (num->value < ((MagStats *)(&mag))->get_pow_level()) {
         num->value++;
         count++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__13TUnk_804CE018Fi(self, 0xA);
-    bar = get_array_entry__13TUnk_804CE018Fi(self, 0xB);
+    num = get_array_entry__11TWindowBaseFi(self, 0xA);
+    bar = get_array_entry__11TWindowBaseFi(self, 0xB);
     if (num->value < ((MagStats *)(&mag))->get_dex_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;
         count++;
         ((VEntry_8025373C *)bar)->m3();
     }
-    num = get_array_entry__13TUnk_804CE018Fi(self, 0xD);
-    bar = get_array_entry__13TUnk_804CE018Fi(self, 0xE);
+    num = get_array_entry__11TWindowBaseFi(self, 0xD);
+    bar = get_array_entry__11TWindowBaseFi(self, 0xE);
     if (num->value < ((MagStats *)(&mag))->get_mind_level()) {
         num->value++;
         bar->timer = TWindowHelpItem__data_805DCDE4;

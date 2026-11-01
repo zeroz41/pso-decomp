@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowShortCut.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
@@ -32,7 +32,7 @@ int initialize_subwindow__9TWindowDDFv(void*);
 void render__15TWindowShortCutFv(u8 *arg0) {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
     forward_render__20TWindowSubStatusDispFv((int) (((TWindowShortCut *)arg0)->m_60), temp_r3);
 }
@@ -42,8 +42,8 @@ void TWindowShortCut::run_task() { ((TWindowSubStatusDisp *)(this->m_60))->updat
 void *__dt__15TWindowShortCutFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TWindowShortCut;
-        if (*(void **)((s8 *)arg0 + 0x68) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x68))); ((TWindowShortCut *)arg0)->m_68 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x64) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x64))); ((TWindowShortCut *)arg0)->m_64 = 0; }
+        if (*(void **)((s8 *)arg0 + 0x68) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x68)))->close(); ((TWindowShortCut *)arg0)->m_68 = 0; }
+        if (*(void **)((s8 *)arg0 + 0x64) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x64)))->close(); ((TWindowShortCut *)arg0)->m_64 = 0; }
         TWindowSubStatusDisp::destroy_status_display((s32)(*(void **)((s8 *)arg0 + 0x60)), (s16)1);
         ((TWindowDD *)arg0)->destroy_window_base(0);
         if (arg1 > 0) {

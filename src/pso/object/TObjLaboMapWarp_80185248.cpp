@@ -177,7 +177,6 @@ int vfunc_14__12TObjWarpBaseFv(void*);
 s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
-s32 get_selected_menu_value(void *);
 s32 align_menu_entry_positions(int);
 s32 create_window_menu(s32, s32, s32);
 s32 get_window_layout_position(s32);
@@ -603,10 +602,10 @@ s32 TObjCityMainWarp__vt15(u8 *arg0) {
     var_r31 = arg0;
     if (TLobby::get_instance() == 0) {
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-        if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_visible() != 0)) {
+        if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_decided() != 0)) {
             var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
             var_r4 = (s32 *)&city_warp_floor_destination_table.value;
-            var_r5 = (u8 *)(var_r31 + (get_selected_menu_value(var_r3) * 4));
+            var_r5 = (u8 *)(var_r31 + (((TWindowMenu *)var_r3)->get_selected_value() * 4));
             var_r3 = (u8 *)((void *)1U);
             var_r4 = (s32 *)&city_warp_floor_destination_table.value;
             *(s32 *)((s8 *)var_r31 + 0xBC) = (s32) *(s32 *)((s8 *)&city_warp_floor_destination_table.value + (*(s32 *)((s8 *)var_r5 + 0xC8) * 4));
@@ -616,10 +615,10 @@ s32 TObjCityMainWarp__vt15(u8 *arg0) {
         return 0;
     }
     var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
-    if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_visible() != 0)) {
+    if ((var_r3 != NULL) && (((TWindowMenu *)var_r3)->is_decided() != 0)) {
         var_r3 = (u8 *)(*(u8 **)((s8 *)var_r31 + 0xB0));
         var_r4 = (s32 *)&lbl_80444834.value;
-        var_r5 = (u8 *)(var_r31 + (get_selected_menu_value(var_r3) * 4));
+        var_r5 = (u8 *)(var_r31 + (((TWindowMenu *)var_r3)->get_selected_value() * 4));
         var_r3 = (u8 *)((void *)1U);
         var_r4 = (s32 *)&lbl_80444834.value;
         *(s32 *)((s8 *)var_r31 + 0xBC) = (s32) *(s32 *)((s8 *)&lbl_80444834.value + (*(s32 *)((s8 *)var_r5 + 0x10C) * 4));

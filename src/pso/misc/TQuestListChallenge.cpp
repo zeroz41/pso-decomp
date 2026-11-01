@@ -1,10 +1,12 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/TWindowMenu.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -108,10 +110,9 @@ extern "C" {
 s32 get_entity_id(s32);
 s32 get_quest_list_text(int, int, int);
 f32 get_scale__15TShopWindowBaseFv(void *);
-s32 TWindow__close(void *);
 void *create_yes_no_window(s32, u16, s32, s32);
-s32 select_cursor_entry__22TWindowSubShortCutListFv(s32);
-void *create_message_window__6TLobbyFllUls(s32, Pair_80288DA4 *, s32, u16);
+s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
+void *create__14TWindowMessageFllUls(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
 s32 lbl_805D64A8;
@@ -140,7 +141,6 @@ struct QLC_80288FDC {
 
 s32 get_guild_text(s32);
 extern "C" {
-void calc_list_content_extent(u32);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 void create_quest_list_window__19TQuestListChallengeFv(QLC_80288FDC *arg0);
 void * TObjNpcKenkyu__create(void *arg0);
@@ -155,7 +155,6 @@ void reset_globals__19TQuestListChallengeFv(void);
 s32 prepare_offline_quest_filenames(s32, s32);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 get_selected_menu_value(u32);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 void *__nw__7TObjectFUl(int);
@@ -182,7 +181,7 @@ s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {
         temp_r3 = *(u32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x38);
         if (temp_r3 != 0U) {
-            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (select_cursor_entry__22TWindowSubShortCutListFv(temp_r3) * 0x10)) + 0)), (int) ((*(u8 * *)&TQuestListChallenge__active_instance)));
+            return get_quest_list_text((int) (*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x50)), (int) (*(s32 *)((s8 *)(*(s32 *)((s8 *)(*(u8 * *)&TQuestListChallenge__active_instance) + 0x58) + (get_cursor_value__19TWindowMenuIconLineFv(temp_r3) * 0x10)) + 0)), (int) ((*(u8 * *)&TQuestListChallenge__active_instance)));
         }
     }
     return 0;
@@ -191,19 +190,19 @@ s32 get_selected_quest_text__19TQuestListChallengeFv(void) {
 
 void close_windows__19TQuestListChallengeFPv(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-        TWindow__close(*(void **)((s8 *)arg0 + 0x34));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x38) != 0U) {
-        TWindow__close(*(void **)((s8 *)arg0 + 0x38));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
         *(u32 *)((s8 *)arg0 + 0x38) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
-        TWindow__close(*(void **)((s8 *)arg0 + 0x3C));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
         *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
-        TWindow__close(*(void **)((s8 *)arg0 + 0x40));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
         *(u32 *)((s8 *)arg0 + 0x40) = 0U;
     }
 }
@@ -237,10 +236,10 @@ void handle_confirm_select__19TQuestListChallengeFv(void *quest_list_challenge) 
     VObj_80288C78_80288B5C *temp_r3_4;
 
     if ((*(VObj_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x30))->m8() != 0) {
-        if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->is_visible() == 1)) {
-            selected_menu_value = get_selected_menu_value(*(u32 *)((s8 *)quest_list_challenge + 0x34));
+        if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->is_decided() == 1)) {
+            selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)quest_list_challenge + 0x34)))->get_selected_value();
             if (selected_menu_value == 0) {
-                temp_r0 = select_cursor_entry__22TWindowSubShortCutListFv(*(s32 *)((s8 *)quest_list_challenge + 0x38));
+                temp_r0 = get_cursor_value__19TWindowMenuIconLineFv(*(s32 *)((s8 *)quest_list_challenge + 0x38));
                 identity = *(Entry_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x58);
                 prepare_offline_quest_filenames(identity[temp_r0].fieldC, (s32) identity);
                 ((TShopWindowBase *)quest_list_challenge)->set_field_20(3);
@@ -258,7 +257,7 @@ void handle_confirm_select__19TQuestListChallengeFv(void *quest_list_challenge) 
             goto block_9;
         }
 block_9:
-        if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowSubComCard *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->get_status_flag() == 1)) {
+        if ((*(void **)((s8 *)quest_list_challenge + 0x34) != NULL) && (((TWindowMenu *)(*(void **)((s8 *)quest_list_challenge + 0x34)))->is_cancelled() == 1)) {
             close_windows__19TQuestListChallengeFPv(quest_list_challenge);
             temp_r3_4 = *(VObj_80288C78_80288B5C **)((s8 *)quest_list_challenge + 0x30);
             if (temp_r3_4 != NULL) {
@@ -280,39 +279,39 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
         return;
     }
     if (self->f38 != NULL && self->f3C != NULL) {
-        sel = select_cursor_entry__22TWindowSubShortCutListFv((s32)self->f38);
+        sel = ((TWindowMenuIconLine *)self->f38)->get_cursor_value();
         if (sel != self->f4C) {
             text = SUB_80222C28(self->f50, self->entries[sel].f4);
-            ((TLobby *)(self->f3C))->send_and_handle(text, 0x80);
+            ((TWindowMessage *)(self->f3C))->append_line(text, 0x80);
             self->f4C = sel;
             if (self->f40 != NULL) {
-                TWindow__close(self->f40);
+                ((TWindowBase *)self->f40)->close();
                 self->f40 = NULL;
             }
         }
     }
-    if (self->f38 != NULL && ((TLobby *)(self->f38))->get_flag_bit2() == 1) {
+    if (self->f38 != NULL && ((TWindowMenuIconLine *)(self->f38))->is_cancelled() == 1) {
         ((TShopWindowBase *)self)->set_field_20(4);
         return;
     }
-    if (self->f38 != NULL && ((TUnk_804D0618 *)(self->f38))->get_status_flag() == 1) {
-    sel = select_cursor_entry__22TWindowSubShortCutListFv((s32)self->f38);
+    if (self->f38 != NULL && ((TWindowMenuIconLine *)(self->f38))->is_decided() == 1) {
+    sel = ((TWindowMenuIconLine *)self->f38)->get_cursor_value();
     if (self->f40 == NULL) {
         p.a = lbl_80450AB4[0].a;
         p.b = lbl_80450AB4[0].b;
         id = (u16)get_entity_id(self->f24);
-        self->f40 = create_message_window__6TLobbyFllUls(get_window_layout_position(0x2E), &p, 1, id);
+        self->f40 = create__14TWindowMessageFllUls(get_window_layout_position(0x2E), &p, 1, id);
         text2 = SUB_80222C28(self->f50, self->entries[sel].f8);
-        ((TLobby *)(self->f40))->send_and_handle(text2, 0x80);
-        ((TLobby *)(self->f40))->set_field_1c(37000.0f);
+        ((TWindowMessage *)(self->f40))->append_line(text2, 0x80);
+        ((TWindowBase *)(self->f40))->set_depth(37000.0f);
         if (TCameraCtrl::get_camera_id() >= 2) {
-            ((TUnk_804CDFE8 *)(self->f40))->set_position_xy(0.75f, 0.75f);
+            ((TWindowAddition *)(self->f40))->set_position_xy(0.75f, 0.75f);
         }
     }
     if (self->f34 == NULL) {
         id = (u16)get_entity_id(self->f24);
         self->f34 = create_yes_no_window(get_window_layout_position(0x2B), id, 0, 0);
-        ((TUnk_804CDFE8 *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
+        ((TWindowAddition *)(self->f34))->set_position_xy(get_scale__15TShopWindowBaseFv(self), get_scale__15TShopWindowBaseFv(self));
         if (self->obj != NULL) {
             self->obj->m7(5, 0x80);
         }
@@ -331,9 +330,9 @@ void create_quest_list_window__19TQuestListChallengeFv(QLC_80288FDC *arg0) {
         arg0->list = (u32)create_item_list_window(get_guild_text(0), 0x40, id);
         for (i = 0; i < arg0->count; i++) {
             e = ((s32 (*)(s32, s32))get_quest_list_text)(arg0->f50, arg0->entries[i].id);
-            ((TLobby *)(arg0->list))->add_list_entry(0x2C, e, i);
+            ((TWindowMenuIconLine *)(arg0->list))->add_list_entry(0x2C, e, i);
         }
-        calc_list_content_extent(arg0->list);
+        ((TWindowMenuIconLine *)arg0->list)->calc_content_extent();
         ((TShopWindowBase *)arg0)->set_field_20(1);
     }
 }

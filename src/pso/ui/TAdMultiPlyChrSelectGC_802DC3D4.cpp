@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC_802DC3D4.h"
@@ -98,7 +99,7 @@ void TAdMultiPlyChrSelectGC__sub_802DC5CC(void *arg0) {
 loop_9:
     if (swap_characters__23TAdSinglePlyChrSelectGCFii(var_r30, *(s32 *)((s8 *)arg0 + 0x38)) != 0) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x84) != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x84)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x84)))->close();
             *(u32 *)((s8 *)arg0 + 0x84) = 0U;
         }
         gs = TAdMultiPlyChrSelectGC::get_global_state();

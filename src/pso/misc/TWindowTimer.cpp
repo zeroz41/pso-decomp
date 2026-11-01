@@ -6,7 +6,7 @@
 #include "pso/misc/TWindowSubStatusDisp_8025A9B4.h"
 #include "pso/unk/text_80198A2C.h"
 #include "pso/unk/text_8026CB5C.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowTimer.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowHelpItem.h"
@@ -131,7 +131,7 @@ void run_task__12TWindowTimerFv(TWindowTimer *window_timer) {
   {
     window_timer->draw((s32)((int) TWindowTimer::get_timer_value(0)), (s32)((int) TWindowTimer::get_timer_value(1)));
   }
- do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TUnk_804CE018 *)window_timer)->update_window_entry_list((u8 *)window_timer + 0x24); } while (0);
+ do { ((TWindowDD *)window_timer)->initialize_subwindow(); window_timer->update_chat_parts(); window_timer->ease_window_timer_position(); ((TWindowBase *)window_timer)->update_window_entry_list((u8 *)window_timer + 0x24); } while (0);
 }
 
 void *__dt__12TWindowTimerFv(void *arg0, s16 arg1) {
@@ -152,7 +152,7 @@ u8 *TWindowTimer__ct(TWindowTimer *window_timer) {
     *(s32 *)((s8 *)window_timer + 0) = (s32) TWindowTimer__name;
     window_timer->m_60 = 0;
     window_timer->update_chat_parts();
-    ((TUnk_804CE018 *)window_timer)->save_position();
+    ((TWindowBase *)window_timer)->save_position();
     return (u8 *)window_timer;
 }
 

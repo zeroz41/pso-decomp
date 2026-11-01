@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include <string.h>
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
@@ -13,7 +15,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TUnk_804C8678.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowCtrl_8024B1A0.h"
@@ -54,13 +56,11 @@ s32 init_quest_script_context(s32, void *);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 has_player_active_menu__11TWindowCtrlFv(s32);
-void TWindow__close(void *);
 void *get_window_layout_position(s32);
 void *check_room_seq_4__16TAdChrSelASlotGCFl(void *, s32);
 void *update_window_mode_from_progress__6TLobbyFPv(void *, WindowPos *);
 s32 align_menu_entry_positions(u32);
-s32 get_selected_menu_value(void *);
-s32 select_cursor_entry__22TWindowSubShortCutListFv(void *);
+s32 get_cursor_value__19TWindowMenuIconLineFv(void *);
 void TWindowHelpItem__set_displayed_item_by_id(void *, s32);
 u32 TKeyBoardControl__ct(void *, void *, s32, s32, s32, s32);
 void TQuestThread__sub_801F5D88(void);
@@ -130,7 +130,7 @@ void *TObjItemOKWindow::create(void *parent) {
 s32 TObjItemOKWindow::get_result() {
     void *menu = m_60;
     if (menu != NULL) {
-        return get_selected_menu_value(menu);
+        return ((TWindowMenu *)menu)->get_selected_value();
     }
     return -1;
 }
@@ -138,15 +138,15 @@ s32 TObjItemOKWindow::get_result() {
 s32 TObjItemOKWindow::is_done() {
     void *menu = m_60;
     if (menu != NULL) {
-        return ((TWindowMenu *)menu)->is_visible();
+        return ((TWindowMenu *)menu)->is_decided();
     }
     return 0;
 }
 
 TObjItemOKWindow::~TObjItemOKWindow() {
-    if (m_64 != nullptr) { TWindow__close(m_64); m_64 = nullptr; }
-    if (m_5c != nullptr) { TWindow__close(m_5c); m_5c = nullptr; }
-    if (m_60 != nullptr) { TWindow__close(m_60); m_60 = nullptr; }
+    if (m_64 != nullptr) { ((TWindowBase *)m_64)->close(); m_64 = nullptr; }
+    if (m_5c != nullptr) { ((TWindowBase *)m_5c)->close(); m_5c = nullptr; }
+    if (m_60 != nullptr) { ((TWindowBase *)m_60)->close(); m_60 = nullptr; }
 }
 
 TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
@@ -177,7 +177,7 @@ TObjItemOKWindow::TObjItemOKWindow(TObject *parent) : TObject(parent) {
     pos.y = 80.0f;
     m_64 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
     if (m_64 != NULL) {
-        ((TLobby *)m_64)->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(0x48), 0x81);
+        ((TWindowMessage *)m_64)->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x48), 0x81);
     }
 }
 
@@ -201,16 +201,16 @@ void *TObjItemNameSelect::create(void *parent) {
 
 s32 TObjItemNameSelect::get_result() {
     if (m_1c != NULL) {
-        if (((TWindowMenu *)m_1c)->is_visible() != 0) {
-            return get_selected_menu_value(m_1c);
+        if (((TWindowMenu *)m_1c)->is_decided() != 0) {
+            return ((TWindowMenu *)m_1c)->get_selected_value();
         }
     }
     return -1;
 }
 
 TObjItemNameSelect::~TObjItemNameSelect() {
-    if (m_20 != nullptr) { TWindow__close(m_20); m_20 = nullptr; }
-    if (m_1c != nullptr) { TWindow__close(m_1c); m_1c = nullptr; }
+    if (m_20 != nullptr) { ((TWindowBase *)m_20)->close(); m_20 = nullptr; }
+    if (m_1c != nullptr) { ((TWindowBase *)m_1c)->close(); m_1c = nullptr; }
 }
 
 TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
@@ -225,12 +225,12 @@ TObjItemNameSelect::TObjItemNameSelect(TObject *parent) : TObject(parent) {
     }
     ((TWindowSubComCardList *)m_1c)->set_scroll_target(216.0f, 144.0f);
     TWindowSubComCard__sub_80265500((u8 *)m_1c);
-    ((TLobby *)m_1c)->set_field_1c(39000.0f);
+    ((TWindowBase *)m_1c)->set_depth(39000.0f);
     pos.x = 332.0f;
     pos.y = 80.0f;
     m_20 = update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x55), &pos);
     if (m_20 != NULL) {
-        ((TLobby *)m_20)->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(0x46), 0x81);
+        ((TWindowMessage *)m_20)->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x46), 0x81);
     }
 }
 
@@ -266,7 +266,7 @@ void *TObjItemNameEntry::create(void *parent) {
 }
 
 TObjItemNameEntry::~TObjItemNameEntry() {
-    if (m_20 != nullptr) { TWindow__close(m_20); m_20 = nullptr; }
+    if (m_20 != nullptr) { ((TWindowBase *)m_20)->close(); m_20 = nullptr; }
     if (m_1c != nullptr) { queue_destruction__7TObjectFv(m_1c); m_1c = nullptr; }
 }
 
@@ -346,9 +346,9 @@ void TQuestThreadBoard::run_task() {
     case QST_SUSPEND_6:
         break;
     case QST_WAIT_LIST:
-        if (((TWindowMenu *)ctx.list_window)->is_visible() != 0) {
-            ctx.registers[ctx.result_register] = get_selected_menu_value(ctx.list_window);
-            TWindow__close(ctx.list_window);
+        if (((TWindowMenu *)ctx.list_window)->is_decided() != 0) {
+            ctx.registers[ctx.result_register] = ((TWindowMenu *)ctx.list_window)->get_selected_value();
+            ((TWindowBase *)ctx.list_window)->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
             TLobby__sub_8024AC20(local_client_id);
@@ -358,11 +358,11 @@ void TQuestThreadBoard::run_task() {
         if (TWindowShortListCtrl__check_controller_button(controller_input_state + 0x20, 8) != 0 ||
             has_player_active_menu__11TWindowCtrlFv(local_client_id) == 0) {
             if (ctx.message_window != NULL) {
-                TWindow__close(ctx.message_window);
+                ((TWindowBase *)ctx.message_window)->close();
                 ctx.message_window = NULL;
             }
             if (ctx.list_window != NULL) {
-                TWindow__close(ctx.list_window);
+                ((TWindowBase *)ctx.list_window)->close();
                 ctx.list_window = NULL;
             }
             TWindowCtrl::clear_flag();
@@ -402,15 +402,15 @@ void TQuestThreadBoard::run_task() {
         }
         break;
     case QST_WAIT_ITEM_CHOICE: {
-        s32 item = select_cursor_entry__22TWindowSubShortCutListFv(ctx.pack_select_window);
+        s32 item = get_cursor_value__19TWindowMenuIconLineFv(ctx.pack_select_window);
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
             TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);
         }
-        if (((TUnk_804D0618 *)ctx.pack_select_window)->get_status_flag() != 0) {
-            TWindow__close(ctx.pack_select_window);
+        if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0) {
+            ((TWindowBase *)ctx.pack_select_window)->close();
             ctx.pack_select_window = NULL;
-            TWindow__close(ctx.pack_select_help_window);
+            ((TWindowBase *)ctx.pack_select_help_window)->close();
             ctx.pack_select_help_window = NULL;
             state = QST_RUNNING;
             TLobby__sub_8024AC20(local_client_id);
@@ -423,11 +423,11 @@ void TQuestThreadBoard::run_task() {
 
 TQuestThreadBoard::~TQuestThreadBoard() {
     if (ctx.message_window != nullptr) {
-        TWindow__close(ctx.message_window);
+        ((TWindowBase *)ctx.message_window)->close();
         ctx.message_window = nullptr;
     }
     if (ctx.list_window != nullptr) {
-        TWindow__close(ctx.list_window);
+        ((TWindowBase *)ctx.list_window)->close();
         ctx.list_window = nullptr;
     }
     TLobby::close_windows();
@@ -533,9 +533,9 @@ void TQuestThread::run_task() {
         }
         break;
     case QST_WAIT_LIST:
-        if (((TWindowMenu *)ctx.list_window)->is_visible() != 0) {
-            ctx.registers[ctx.result_register] = get_selected_menu_value(ctx.list_window);
-            TWindow__close(ctx.list_window);
+        if (((TWindowMenu *)ctx.list_window)->is_decided() != 0) {
+            ctx.registers[ctx.result_register] = ((TWindowMenu *)ctx.list_window)->get_selected_value();
+            ((TWindowBase *)ctx.list_window)->close();
             ctx.list_window = NULL;
             state = QST_RUNNING;
             TLobby__sub_8024AC20(local_client_id);
@@ -574,19 +574,19 @@ void TQuestThread::run_task() {
         }
         break;
     case QST_WAIT_ITEM_CHOICE: {
-        s32 item = select_cursor_entry__22TWindowSubShortCutListFv(ctx.pack_select_window);
+        s32 item = get_cursor_value__19TWindowMenuIconLineFv(ctx.pack_select_window);
         if (item != ctx.registers[ctx.result_register]) {
             ctx.registers[ctx.result_register] = item;
             TWindowHelpItem__set_displayed_item_by_id(ctx.pack_select_help_window, item);
         }
-        if (((TUnk_804D0618 *)ctx.pack_select_window)->get_status_flag() != 0 ||
-            ((TLobby *)ctx.pack_select_window)->get_flag_bit2() != 0) {
-            if (((TLobby *)ctx.pack_select_window)->get_flag_bit2() != 0) {
+        if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_decided() != 0 ||
+            ((TWindowMenuIconLine *)ctx.pack_select_window)->is_cancelled() != 0) {
+            if (((TWindowMenuIconLine *)ctx.pack_select_window)->is_cancelled() != 0) {
                 ctx.registers[ctx.result_register] = -1;
             }
-            TWindow__close(ctx.pack_select_window);
+            ((TWindowBase *)ctx.pack_select_window)->close();
             ctx.pack_select_window = NULL;
-            TWindow__close(ctx.pack_select_help_window);
+            ((TWindowBase *)ctx.pack_select_help_window)->close();
             ctx.pack_select_help_window = NULL;
             state = QST_RUNNING;
             TLobby__sub_8024AC20(local_client_id);

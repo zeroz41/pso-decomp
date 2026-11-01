@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TUNK_804D0948_H
 #define PSO_MISC_TUNK_804D0948_H
 #include "types.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 
-class TUnk_804D0948 : public TUnk_804D0618 {
+class TUnk_804D0948 : public TWindowMenuIconLine {
 public:
     virtual ~TUnk_804D0948();
     void sub_8026DE94();

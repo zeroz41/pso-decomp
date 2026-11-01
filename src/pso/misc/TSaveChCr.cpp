@@ -80,7 +80,7 @@ void TSaveChCr::open_message_window(u32 arg1) {
         *(u32 *)&this->owned_window = update_window_mode_from_progress__6TLobbyFPv(lbl_80477CAC, lbl_80477CB4);
         if ((u32) this->owned_window != 0U) {
             if (arg1 != 0U) {
-                ((TLobby *)(this->owned_window))->send_and_handle(arg1, 3);
+                ((TWindowMessage *)(this->owned_window))->append_line(arg1, 3);
             }
             ((TWindowMessage *)(this->owned_window))->complete_reveal();
         }

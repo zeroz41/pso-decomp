@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TMainTask.h"
 #include "pso/boss/TObjBoss2Tunnel_8007C5C0.h"
 #include "pso/boss/TObjBoss2Tunnel_8007CF0C.h"
@@ -127,10 +128,10 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         lbl_805D4EA4 = lbl_80438A80[0] - lbl_805D9218;
         lbl_805D4EA8 = 1;
     }
-    win = (VObj_8007C5C0 *)TLobby::create_message_window((s32)lbl_80438A78, (s32)lbl_80438A80, (u32)1, (s16)4);
+    win = (VObj_8007C5C0 *)TWindowMessage::create((s32)lbl_80438A78, (s32)lbl_80438A80, (u32)1, (s16)4);
     if (win != NULL) {
-        ((TLobby *)win)->send_and_handle(get_localized_text_entry(0x24, 0xB), 3);
-        ((TLobby *)win)->set_field_1c(lbl_805D921C);
+        ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xB), 3);
+        ((TWindowBase *)win)->set_depth(lbl_805D921C);
     }
     ((TWindowMessage *)win)->complete_reveal();
     graph = create__8TDLGraphFv();
@@ -203,21 +204,21 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
         lbl_805D4E9C = lbl_80438A70[0] - lbl_805D9218;
         boss2_tunnel_message_shown_flag = 1;
     }
-    win = (VObj_8007C8AC *)TLobby::create_message_window((s32)lbl_80438A68, (s32)lbl_80438A70, (u32)1, (s16)4);
+    win = (VObj_8007C8AC *)TWindowMessage::create((s32)lbl_80438A68, (s32)lbl_80438A70, (u32)1, (s16)4);
     if (win != NULL) {
         switch (arg0) {
         case -2:
         case -9:
-            ((TLobby *)win)->send_and_handle(get_localized_text_entry(0x24, 3), 3);
+            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 3), 3);
             break;
         case -4:
-            ((TLobby *)win)->send_and_handle(get_localized_text_entry(0x24, 0xD), 3);
+            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xD), 3);
             break;
         default:
-            ((TLobby *)win)->send_and_handle(get_localized_text_entry(0x24, 0xC), 3);
+            ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xC), 3);
             break;
         }
-        ((TLobby *)win)->set_field_1c(lbl_805D921C);
+        ((TWindowBase *)win)->set_depth(lbl_805D921C);
         ((TWindowMessage *)win)->complete_reveal();
     }
     if (get_main_phase() == 0xF) {

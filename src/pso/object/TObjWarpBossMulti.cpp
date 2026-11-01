@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/object/TObjWarpBase.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
@@ -221,7 +222,6 @@ s32 get_main_phase();
 s32 is_local_client_floor_leader();
 s32 TObjWarpBossMulti__sub_8019E570(s32 arg0, f32 farg0);
 void close_windows__12TObjWarpBossFv(void *arg0);
-s32 TWindow__close(void *);
 extern s32 boss_warp_confirmation_model;
 extern s32 warp_boss_motion;
 extern s32 __vt__12TObjWarpBoss[];
@@ -729,11 +729,11 @@ void TObjWarpBoss::close_windows() {
         *(u32 *)((s8 *)this + 0x168) = 0U;
     }
     if ((u32) this->m_b0 != 0U) {
-        TWindow__close(*(void **)((s8 *)this + 0xB0));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0xB0)))->close();
         this->m_b0 = 0U;
     }
     if ((u32) this->m_180 != 0U) {
-        TWindow__close(*(void **)((s8 *)this + 0x164));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x164)))->close();
         this->m_180 = 0U;
     }
     end_player_keyboard_hold(local_client_id);
@@ -826,7 +826,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
             }
         } else {
             if ((u32) *(u32 *)((s8 *)this + 0xB0) != 0U) {
-                TWindow__close(*(void **)((s8 *)this + 0xB0));
+                ((TWindowBase *)(*(void **)((s8 *)this + 0xB0)))->close();
                 *(u32 *)((s8 *)this + 0xB0) = 0U;
             }
             end_player_keyboard_hold(local_client_id);
@@ -839,7 +839,7 @@ void TObjWarpBoss::warp_boss_handle_window() {
         return;
     case -1:
         if ((u32) *(u32 *)((s8 *)this + 0xB0) != 0U) {
-            TWindow__close(*(void **)((s8 *)this + 0xB0));
+            ((TWindowBase *)(*(void **)((s8 *)this + 0xB0)))->close();
             *(u32 *)((s8 *)this + 0xB0) = 0U;
         }
         end_player_keyboard_hold(local_client_id);
@@ -953,11 +953,11 @@ void TObjWarpBoss::update_warp_confirmation() {
             break;
         }
         if (*(void **)((s8 *)arg0 + 0xB0) != NULL) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0xB0));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0xB0)))->close();
             *(void **)((s8 *)arg0 + 0xB0) = NULL;
         }
         if (*(void **)((s8 *)arg0 + 0x164) != NULL) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x164));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x164)))->close();
             *(void **)((s8 *)arg0 + 0x164) = NULL;
         }
         break;
@@ -1047,7 +1047,7 @@ void TObjWarpBoss::update_warp_occupants() {
         self->names[i][0] = 0;
     }
     if (old != self->count && self->window != 0) {
-        ((s32 (*)(u32))TWindow__close)(self->window);
+        ((TWindowBase *)self->window)->close();
         self->window = 0;
     }
     pl2 = (Player_8019EE14 *)get_player_by_client_id(local_client_id);

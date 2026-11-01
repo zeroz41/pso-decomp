@@ -1,4 +1,5 @@
 #include "pso/TAdTimeSetGC.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TObject.h"
 #include "pso/menu/T_ATS_DrawCalendar.h"
 #include "pso/menu/TAdTimeSetGC.h"
@@ -38,7 +39,7 @@ TAdTimeSetGC::~TAdTimeSetGC() {
         owned_object = NULL;
     }
     if (window != NULL) {
-        TWindow__close((u8 *)window);
+        ((TWindowBase *)window)->close();
         window = NULL;
     }
     if (queued_object != NULL) {

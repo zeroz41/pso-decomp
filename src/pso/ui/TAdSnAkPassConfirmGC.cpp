@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
@@ -60,8 +61,8 @@ void TAdSnAkPassConfirmGC::render() {
 }
 
 void TAdSnAkPassConfirmGC__vt8(void) { get_localized_text_entry((s32)((void*)39), (s32)((void*)0)); }
-void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { TWindow__close((u8 *)this->m_48); this->m_48 = 0; } }
-void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { TWindow__close((u8 *)this->m_48); this->m_48 = 0; } }
+void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
+void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 int TAdSnAkPassConfirmGC__vt5(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
 int TAdSnAkPassConfirmGC__vt4(void* p) { return set_state_0x1a__21TAdMultiChgGameModeGCFv(p); }
 

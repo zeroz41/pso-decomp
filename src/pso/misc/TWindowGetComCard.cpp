@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowGetComCard.h"
 #include "pso/misc/TWindowMessage.h"
 #include "pso/misc/TWindowMessagePage.h"
@@ -39,7 +40,7 @@ s32 text_builder_append();
 s32 __ct__7TObjectFP7TObject();
 void TObjPlayer__sub_8024ABDC(s32 arg0);
 void fn_8024AC64(s32 arg0);
-s32 set_window_mode_4__6TLobbyFPvll(void *, void *, int);
+s32 create__14TWindowMessageFPvll(void *, void *, int);
 extern s32 lbl_8044ED94[];
 extern s32 lbl_8044ED9C[];
 extern void *__vt__17TWindowGetComCard[];
@@ -53,7 +54,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 void play_sound_effect(s32, s32, s32, s32);
 s32 is_player_input_active(s32);
-s32 get_selected_menu_value(void *);
 u8 *init_shop_judgment_window(void *p);
 extern u8 TWindowGetComCard__window_rect[];
 extern Pad_80252CCC controller_input_state[];
@@ -63,7 +63,6 @@ int fn_80252CBC(void* p);
 void TLobby__sub_8024AC20(s32 arg0);
 s32 TWindowCtrl__sub_8024A314();
 void TWindowReturnCity__sub_8024ACA8(s32 arg0);
-void TWindow__close(u8 *arg0);
 s32 init_parts__10TObjPlayerFv();
 
 void TWindowFukidasi__sub_80252C38(void* p) { *(u8*)((char*)p + 0x71) |= 0x4; }
@@ -103,12 +102,12 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
         ((TWindowSubComCard *)(self->win))->clear_flag_and_release();
         self->state = 3;
     case 3:
-        if (((TWindowSubComCard *)(self->win))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(self->win))->is_cancelled() != 0) {
             TWindowGetComCard__sub_8007B54C();
             queue_destruction__7TObjectFv(self);
             self->state = 6;
-        } else if (((TWindowMenu *)(self->win))->is_visible() != 0) {
-            s32 r = get_selected_menu_value(self->win);
+        } else if (((TWindowMenu *)(self->win))->is_decided() != 0) {
+            s32 r = ((TWindowMenu *)self->win)->get_selected_value();
             if (r == 0) {
                 self->state = 4;
             }
@@ -147,11 +146,11 @@ void run_task__17TWindowGetComCardFv(GetCard_80252CCC *self) {
 void text_builder_reset(void);
 TWindowGetComCard::~TWindowGetComCard() {
     if ((u32) this->m_20 != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x20)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x20)))->close();
         this->m_20 = 0U;
     }
     if ((u32) this->m_1c != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x1C)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x1C)))->close();
         this->m_1c = 0U;
     }
     TWindowReturnCity__sub_8024ACA8(local_client_id);
@@ -167,7 +166,7 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)window_get_com_card + 0x18) = &(*(RecoveredGlobal_80252FCC___vt__17TWindowGetComCard *)&__vt__17TWindowGetComCard).value;
     *(s32 *)((s8 *)window_get_com_card + 0) = (s32) TWindowGetComCard__name;
-    window_get_com_card->m_1c = set_window_mode_4__6TLobbyFPvll(lbl_8044ED94, lbl_8044ED9C, 1);
+    window_get_com_card->m_1c = create__14TWindowMessageFPvll(lbl_8044ED94, lbl_8044ED9C, 1);
     window_get_com_card->m_20 = 0;
     if (init_com_card__17TWindowSubComCardFv() != 0) {
         temp_r31 = (s32)TWindowGetComCard__sub_8007B594();
@@ -176,10 +175,10 @@ u8 *TWindowGetComCard__ct(TWindowGetComCard *window_get_com_card) {
         text_builder_append();
         TWindowSubStatusDisp::get_message_10(0x36);
         text_builder_append();
-        ((TLobby *)(window_get_com_card->m_1c))->send_and_handle((int) (get_shared_text_buffer()), 2);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (get_shared_text_buffer()), 2);
         window_get_com_card->m_28 = 0;
     } else {
-        ((TLobby *)(window_get_com_card->m_1c))->send_and_handle((int) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
+        ((TWindowMessage *)(window_get_com_card->m_1c))->append_line((int) (TWindowSubStatusDisp::get_message_10(0x37)), 0);
         window_get_com_card->m_28 = 0x384;
     }
     if (get_player_by_client_id(local_client_id) != 0U) {

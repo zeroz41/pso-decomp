@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TWindowSubInformationBoard.h"
@@ -24,7 +25,6 @@ void mem_free(void *p);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, int, int, int);
-s32 get_selected_menu_value(int);
 s32 get_cursor_pos__20TWindowShortListCtrlFv(int);
 s32 set_info_board_text__6TLobbyFv();
 s32 set_message_index__26TWindowSubInformationBoardFl(void *, s16);
@@ -57,15 +57,15 @@ void TWindowSubInformationBoard::run_task() {
         this->m_1c = 2U;
     case 2:
         set_message_index__26TWindowSubInformationBoardFl((void *)arg0, (get_cursor_pos__20TWindowShortListCtrlFv((int)this->m_2c)));
-        if (((TWindowSubComCard *)(this->m_2c))->get_status_flag() != 0) {
+        if (((TWindowMenu *)(this->m_2c))->is_cancelled() != 0) {
             ((VObj_18_204a81 *)(this->m_28))->m7();
             this->m_1c = 0xCU;
-        } else if (((TWindowMenu *)(this->m_2c))->is_visible() != 0) {
+        } else if (((TWindowMenu *)(this->m_2c))->is_decided() != 0) {
             if ((u32) this->m_34 != 0U) {
-                TWindow__close((u8 *)this->m_34);
+                ((TWindowBase *)this->m_34)->close();
                 this->m_34 = 0U;
             }
-            this->m_1c = get_selected_menu_value((int)this->m_2c);
+            this->m_1c = ((TWindowMenu *)this->m_2c)->get_selected_value();
         }
         break;
     case 3:
@@ -94,22 +94,22 @@ void TWindowSubInformationBoard::run_task() {
         }
         this->m_1c = 7U;
     case 7:
-        ((TWindowSubInformationBoard *)arg0)->set_page((int) (get_selected_menu_value((int)this->m_30)));
-        if (((TWindowSubComCard *)(this->m_30))->get_status_flag() != 0) {
+        ((TWindowSubInformationBoard *)arg0)->set_page((int) (((TWindowMenu *)this->m_30)->get_selected_value()));
+        if (((TWindowMenu *)(this->m_30))->is_cancelled() != 0) {
             this->m_1c = 8U;
             break;
         }
         break;
     case 8:
         if ((u32) this->m_30 != 0U) {
-            TWindow__close((u8 *)this->m_30);
+            ((TWindowBase *)this->m_30)->close();
             this->m_30 = 0U;
         }
         this->m_1c = 5U;
         break;
     case 9:
         if ((u32) this->m_2c != 0U) {
-            TWindow__close((u8 *)this->m_2c);
+            ((TWindowBase *)this->m_2c)->close();
             this->m_2c = 0U;
         }
         if ((u32) this->m_3c == 0U) {
@@ -147,9 +147,9 @@ void *__dt__26TWindowSubInformationBoardFv(TWindowSubInformationBoard *arg0, s16
         *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TWindowSubInformationBoard;
         if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x3C)); arg0->m_3c = 0; }
         if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TWindowSubComCard *)(*(void **)((s8 *)arg0 + 0x38)))->close(); arg0->m_38 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x34))); arg0->m_34 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x30))); arg0->m_30 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x2C))); arg0->m_2c = 0; }
+        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
+        if (*(void **)((s8 *)arg0 + 0x30) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close(); arg0->m_30 = 0; }
+        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close(); arg0->m_2c = 0; }
         TWindowSubInformationBoard::clear_if_current((u32)((s8 *)arg0 + 0x40));
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {

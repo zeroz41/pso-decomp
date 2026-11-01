@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowSubAreaMapDisp.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowCtrl.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby_8001D6A0.h"
 #include "pso/misc/TWindowCtrl_80271DFC.h"
 #include "pso/misc/TWindowSubStatusDisp_80228CC0.h"
@@ -16,16 +16,16 @@
 
 extern "C" {
 
-s32 sub_80246948__13TUnk_804CE018Fv();
+s32 sub_80246948__11TWindowBaseFv();
 
 void TWindowSubAreaMapDisp::update_visibility() {
     if ((s32) this->m_6c != 0) {
-        if (sub_80246948__13TUnk_804CE018Fv() != 0) {
+        if (sub_80246948__11TWindowBaseFv() != 0) {
             this->m_6c = 0;
             TWindowCtrl::clear_active_flag();
             TRaderMapCore::clear();
         }
-    } else if (!(this->m_2c & 2) && (sub_80246948__13TUnk_804CE018Fv() == 0)) {
+    } else if (!(this->m_2c & 2) && (sub_80246948__11TWindowBaseFv() == 0)) {
         this->m_6c = 1;
         TRaderMapCore::open_free_map_view();
         TRaderMapCore::show_radar();

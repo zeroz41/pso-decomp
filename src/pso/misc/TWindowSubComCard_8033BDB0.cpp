@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_8033BDB0.h"
 #include "pso/misc/TWindowMessage.h"
 #include "pso/misc/TWindowSubComCardList.h"
@@ -31,20 +32,18 @@ struct O_8033C1CC { u8 pad[0x34]; void *p; u8 pad2[0x44 - 0x38]; s32 f44; };
 
 extern "C" {
 s32 sub_8033BB14__16TCheckMemoryCardFv(void *);
-void TWindow__close(u8 *arg0);
 extern RecoveredGlobal_8033C024_lbl_804EF940 lbl_804EF940;
 u32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 align_menu_entry_positions(u32);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32 *, s32);
-u32 create_message_window__6TLobbyFllUls(s32 *, s32 *, s32, s32);
+u32 create__14TWindowMessageFllUls(s32 *, s32 *, s32, s32);
 u32 update_window_mode_from_progress__6TLobbyFPv(s32 *, s32 *);
 extern s32 lbl_80477DB4[];
 extern s32 lbl_80477DBC[];
 extern s32 lbl_804EF8D8[];
 extern const f32 lbl_805D6D98;
-s32 get_selected_menu_value(void *);
 int update_card_display__17TWindowSubComCardFPvPvPvPv(void*, int, int, int, int);
 
 void TWindowSubComCard::create_message_and_menu(u32 arg1, s32 sel, u32 arg3, u32 arg4) {
@@ -53,7 +52,7 @@ void TWindowSubComCard::create_message_and_menu(u32 arg1, s32 sel, u32 arg3, u32
         return;
     }
     if (*(s32 *)((s8 *)this + 0x4C) != 0) {
-        *(u32 *)((s8 *)this + 0x30) = create_message_window__6TLobbyFllUls(lbl_80477DB4, lbl_80477DBC, 1, 4);
+        *(u32 *)((s8 *)this + 0x30) = create__14TWindowMessageFllUls(lbl_80477DB4, lbl_80477DBC, 1, 4);
     } else {
         *(u32 *)((s8 *)this + 0x30) = update_window_mode_from_progress__6TLobbyFPv(lbl_80477DB4, lbl_80477DBC);
     }
@@ -64,7 +63,7 @@ void TWindowSubComCard::create_message_and_menu(u32 arg1, s32 sel, u32 arg3, u32
         ((TWindowSubComCard *)(*(s32 *)((s8 *)this + 0x30)))->reparent_to_main_ctrl();
     }
     if (arg1 != 0U) {
-        ((TLobby *)(*(u32 *)((s8 *)this + 0x30)))->send_and_handle(arg1, 3);
+        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(arg1, 3);
     }
     ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->complete_reveal();
     if (sel == -1) {
@@ -116,14 +115,14 @@ void TWindowSubComCard::close_windows() {
                 ((VObj *)temp_r3)->m0(1);
             }
         } else {
-            TWindow__close(temp_r3);
+            ((TWindowBase *)temp_r3)->close();
         }
         *(u8 **)((s8 *)arg0 + 0x30) = NULL;
         *(s32 *)((s8 *)arg0 + 0x38) = 7;
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
     if (temp_r3_2 != NULL) {
-        TWindow__close(temp_r3_2);
+        ((TWindowBase *)temp_r3_2)->close();
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
         *(s32 *)((s8 *)arg0 + 0x38) = 7;
     }
@@ -184,10 +183,10 @@ void TWindowSubComCard__sub_8033C198(void) {  }
 int TWindowSubComCard__sub_8033C19C(void* p) { return update_card_display__17TWindowSubComCardFPvPvPvPv(p, 0, -1, -1, -1); }
 void TWindowSubComCard::handle_menu_selection() {
     O_8033C1CC *arg0 = (O_8033C1CC *)this;
-    if (arg0->p == 0 || ((TWindowMenu *)(arg0->p))->is_visible() == 0) {
+    if (arg0->p == 0 || ((TWindowMenu *)(arg0->p))->is_decided() == 0) {
         return;
     }
-    switch (get_selected_menu_value(arg0->p)) {
+    switch (((TWindowMenu *)arg0->p)->get_selected_value()) {
     case 0:
         arg0->f44 = 1;
         break;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdEnterPPPPassGC.h"
 #include "pso/unk/text_8014618C.h"
 #include "pso/TLevelSelect.h"
@@ -39,7 +40,6 @@ struct T_8033954C { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x40 - 0x1C]; s32 f4
 
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
-void TWindow__close(u8 *arg0);
 extern u8 *password_entry_keyboard_control;
 extern s32 password_entry_dispatch_state;
 extern const f32 lbl_805DF9E8;
@@ -83,12 +83,12 @@ void close_windows_and_advance__17TAdEnterPPPPassGCFPv(u8 *arg0) {
     u8 *temp_r3_2;
     temp_r3 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x30));
     if (temp_r3 != NULL) {
-        TWindow__close(temp_r3);
+        ((TWindowBase *)temp_r3)->close();
         *(u8 **)((s8 *)arg0 + 0x30) = NULL;
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)arg0 + 0x34));
     if (temp_r3_2 != NULL) {
-        TWindow__close(temp_r3_2);
+        ((TWindowBase *)temp_r3_2)->close();
         *(u8 **)((s8 *)arg0 + 0x34) = NULL;
     }
     if ((void *) password_entry_keyboard_control != NULL) {

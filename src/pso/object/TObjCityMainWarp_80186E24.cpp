@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObjCityMainWarp_80186E24.h"
 #include "pso/unk/text_8024ACEC.h"
@@ -41,7 +42,7 @@ void update_challenge_warp_window(void *arg0) {
             }
         } else {
             if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
-                TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0xB0)));
+                ((TWindowBase *)(*(void **)((s8 *)arg0 + 0xB0)))->close();
                 *(u32 *)((s8 *)arg0 + 0xB0) = 0U;
             }
             end_player_keyboard_hold(local_client_id);
@@ -54,7 +55,7 @@ void update_challenge_warp_window(void *arg0) {
         return;
     case -1:
         if ((u32) *(u32 *)((s8 *)arg0 + 0xB0) != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0xB0)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0xB0)))->close();
             *(u32 *)((s8 *)arg0 + 0xB0) = 0U;
         }
         end_player_keyboard_hold(local_client_id);

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowSubStatusDisp_802671F0.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TShopJudgmentItemWindow.h"
@@ -13,7 +14,6 @@ struct Ent_802787F0 { u32 id; s32 count; };
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-void calc_list_content_extent(void *);
 void build_usable_item_list(Wn_802788A8 *arg0);
 void fill_trade_item_list(Wn_802787F0 *arg0, Ent_802787F0 *arg1);
 
@@ -46,7 +46,7 @@ void fill_trade_item_list(Wn_802787F0 *arg0, Ent_802787F0 *arg1) {
         if (arg0->f72 <= 0) {
             ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
         }
-        calc_list_content_extent(arg0);
+        ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }
 }
 
@@ -68,7 +68,7 @@ void build_usable_item_list(Wn_802788A8 *arg0) {
         if (arg0->f72 <= 0) {
             ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
         }
-        calc_list_content_extent(arg0);
+        ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }
 }
 

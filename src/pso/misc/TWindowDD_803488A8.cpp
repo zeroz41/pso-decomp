@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowDD_803488A8.h"
 #include "pso/misc/TWindowDD_WS_String.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 
 struct Src_80348A9C { f32 x; f32 y; };
@@ -151,7 +151,7 @@ extern s32 twindowdd_entry_count;
 
 #pragma push
 #pragma fp_contract on
-void TUnk_804CE018::calc_inner_rect(u8 *arg1) {
+void TWindowBase::calc_inner_rect(u8 *arg1) {
     u8 *arg0 = (u8 *)this;
     f32 y0;
     f32 ky;

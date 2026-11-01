@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWSIMPLESTATUS_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowSimpleStatus : public TUnk_804CE018 {
+struct TWindowSimpleStatus : public TWindowBase {
     virtual ~TWindowSimpleStatus();
     void draw_background(u8 *);
     void apply_random_shake();

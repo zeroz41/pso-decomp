@@ -3552,7 +3552,7 @@ force_active:
   - clamp_difficulty__6TLobbyFl
   - clamp_flight_height__13TObjEneBm3FlyFv
   - clamp_hp_value__10TObjPlayerFPs
-  - clamp_item_list_scroll__13TUnk_804D0618Fv
+  - clamp_item_list_scroll__19TWindowMenuIconLineFv
   - clamp_menu_choice_scroll__11TWindowMenuFv
   - clamp_min_player_distance__9TBoss4UroFPv
   - clamp_params_and_init__14TOTrapSeabed01Fv
@@ -4130,7 +4130,7 @@ force_active:
   - draw_line_strip__10TObjPlayerFPviif
   - draw_locked__8TObjDoorFPv
   - draw_menu_backdrop_gradients__Fl
-  - draw_message_frame_row__13TUnk_804CE018FPvPv
+  - draw_message_frame_row__11TWindowBaseFPvPv
   - draw_model_12__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_model_13__23TBoss6Demo21_TYPE2_DEADFv
   - draw_model__11TObjDoaEx01Fv
@@ -4191,7 +4191,7 @@ force_active:
   - draw_title_rings
   - draw_value__13TWindowMesetaFl
   - draw_window__17TWindowDuelResultFPv
-  - draw_window_frame_strips__13TUnk_804CE018FPvPv
+  - draw_window_frame_strips__11TWindowBaseFPvPv
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
   - drill_launcher_create_shot__Flllf
@@ -4939,7 +4939,7 @@ force_active:
   - handle_msg_type1_for_idle_slots__6TLobbyFv
   - handle_msg_type2__6TLobbyFl
   - handle_number_input__21TShopDeleteItemWindowFv
-  - handle_open__13TUnk_804D0618Fv
+  - handle_open__19TWindowMenuIconLineFv
   - handle_pad_transfer_done__16TKeyBoardControlFiUiPv
   - handle_page_input__24TWindowSubSymbolChatHelpFv
   - handle_page_input__26TWindowSubQuestBoardSelectFv
@@ -13673,7 +13673,7 @@ force_active:
   - update_scale_pulse__15TObjEneDelDepthFv
   - update_scale_sound__11TBoss4Type3Fv
   - update_scroll_close__6TLobbyFv
-  - update_scroll_offset__13TUnk_804D0618Fv
+  - update_scroll_offset__19TWindowMenuIconLineFv
   - update_scroll_target_position__21TWindowSubComCardListFv
   - update_scroll_value__11TWindowMenuFv
   - update_segment_angles__11TBoss6Type2Fv

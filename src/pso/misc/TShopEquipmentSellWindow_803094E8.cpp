@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/misc/TWindowCost.h"
 #include "pso/boss/TBoss7Crawfish.h"

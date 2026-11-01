@@ -1,13 +1,13 @@
-#ifndef PSO_MISC_TUNK_804D0618_H
-#define PSO_MISC_TUNK_804D0618_H
+#ifndef PSO_MISC_TWINDOWMENUICONLINE_H
+#define PSO_MISC_TWINDOWMENUICONLINE_H
 #include "types.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 
 struct Scroll_8026D790;
 
-class TUnk_804D0618 : public TUnk_804CDFE8 {
+class TWindowMenuIconLine : public TWindowAddition {
 public:
-    virtual ~TUnk_804D0618();
+    virtual ~TWindowMenuIconLine();
     virtual void run_task();
     virtual void render();
     virtual void vfunc_6(u32, s32);
@@ -22,7 +22,13 @@ public:
     void handle_open();
     void set_flag4();
     int get_flag();
-    int get_status_flag();
+    int is_decided();
+    int is_cancelled();
+    void clear_decided();
+    void reset_list();
+    void add_list_entry(s32 arg1, s32 arg2, s32 arg3);
+    s32 get_cursor_value();
+    void calc_content_extent();
     u8 unk_1C[0x4];
     s16 m_20;
     u8 unk_22[0xA];
@@ -37,16 +43,16 @@ public:
     u32 m_64;
     u32 m_68;
     u8 unk_6C[0x4];
-    u16 m_70;
-    s16 m_72;
-    s16 unk_74;
-    s16 m_76;
+    u16 state_flags;
+    s16 entry_count;
+    s16 cursor;
+    s16 entry_capacity;
     s16 m_78;
     u8 unk_7A[0x2];
     s32 m_7c;
-    void * m_80;
+    void * status_display;
     Scroll_8026D790 *unk_84;
 };
-typedef char TUnk_804D0618_size[sizeof(TUnk_804D0618) == 0x88 ? 1 : -1];
+typedef char TWindowMenuIconLine_size[sizeof(TWindowMenuIconLine) == 0x88 ? 1 : -1];
 
 #endif

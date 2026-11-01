@@ -4,7 +4,7 @@
 #include "pso/unk/text_8026CB5C.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowComCard.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TUnk_804CE964.h"
@@ -172,11 +172,11 @@ s32 TWindowSubComCard::create_com_card_window(s32 arg0) {
 void render__14TWindowComCardFv(s32 arg0) {
     s32 temp_r3;
     temp_r3 = draw_default_entry__9TWindowDDFl();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)temp_r3);
 }
 
-void run_task__14TWindowComCardFv(void* p) { initialize_subwindow__9TWindowDDFv(p); ((TUnk_804CE018 *)p)->update_fade(); ((TUnk_804CE018 *)p)->update_window_entry_list((char*)p + 0x24); }
+void run_task__14TWindowComCardFv(void* p) { initialize_subwindow__9TWindowDDFv(p); ((TWindowBase *)p)->update_fade(); ((TWindowBase *)p)->update_window_entry_list((char*)p + 0x24); }
 
 void *__dt__14TWindowComCardFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -333,8 +333,8 @@ void TUnk_804CE964::run_task() {
     this->m_34 = (f32) (temp_f1 + this->m_68);
     this->m_44 = (f32) this->m_34;
     ((s32 (*)(void *, int, f32))initialize_subwindow__9TWindowDDFv)((void *)arg0, (int)temp_r4, (f32)temp_f1);
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
 
 void *TWindowComCard__sub_80249E80(void *arg0, s16 arg1) {
@@ -360,8 +360,8 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
     o->mode = mode;
     o->x = lbl_805DCBD0 * (f32)o->col + (o->parent->x + o->ofs.x);
     o->y = o->parent->y + o->ofs.y;
-    ((TUnk_804CE018 *)o)->save_position();
-    ((TWindowComCard *)((s32)((TUnk_804CE018 *)o)->get_array_entry(0)))->set_help_mode(mode);
+    ((TWindowBase *)o)->save_position();
+    ((TWindowComCard *)((s32)((TWindowBase *)o)->get_array_entry(0)))->set_help_mode(mode);
     return o;
 }
 #pragma pop

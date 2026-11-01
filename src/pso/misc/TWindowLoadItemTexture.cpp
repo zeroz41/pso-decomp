@@ -6,7 +6,7 @@
 #include "pso/misc/TWindowSubMag_802627D8.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 
 #pragma push
@@ -41,7 +41,7 @@ TWindowLoadItemTexture *fn_802628C0(void *layout, void *table, void *id) {
 
 extern "C" {
 
-void get_array_entry__13TUnk_804CE018Fi(void *, int);
+void get_array_entry__11TWindowBaseFi(void *, int);
 extern s32 lbl_804D0058[];
 extern s32 __vt__22TWindowLoadItemTexture[];
 extern s32 lbl_805D3940;
@@ -75,9 +75,9 @@ void render__22TWindowLoadItemTextureFv(TWindowLoadItemTexture *arg0) {
             arg0->m_60 = 1U;
         }
     }
-    temp_r31 = ((TUnk_804CE018 *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x64));
+    temp_r31 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x64));
     if (arg0->m_61 & 1) {
-        ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r31);
+        ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);
     }
     draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r31);
 }
@@ -115,8 +115,8 @@ void *TWindowLoadItemTexture__ct(TWindowLoadItemTexture *window_load_item_textur
     }
     window_load_item_texture->m_38 = *(f32 *)((s8 *)arg2 + 0);
     *(f32 *)((s8 *)window_load_item_texture + 0x3C) = *(f32 *)((s8 *)arg2 + 4);
-    ((TUnk_804CE018 *)window_load_item_texture)->save_position();
-    e = ((void *(*)(void *, int))get_array_entry__13TUnk_804CE018Fi)(window_load_item_texture, 0);
+    ((TWindowBase *)window_load_item_texture)->save_position();
+    e = ((void *(*)(void *, int))get_array_entry__11TWindowBaseFi)(window_load_item_texture, 0);
     *(f32 *)((s8 *)e + 0x10) = *(f32 *)((s8 *)arg2 + 0);
     *(f32 *)((s8 *)e + 0x14) = *(f32 *)((s8 *)arg2 + 4);
     window_load_item_texture->m_6c = (s32)TItemTexLoad::create((TObject*)tl_07);

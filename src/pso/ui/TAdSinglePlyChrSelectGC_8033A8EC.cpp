@@ -1,4 +1,6 @@
 #include "pso/TMainTask.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #pragma push
 
 #include "types.h"
@@ -60,13 +62,11 @@ u8 * create_check_memory_card__23TAdSinglePlyChrSelectGCFPvPvPv(void *, void *, 
 int request_queued_main_phase(void*);
 s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 extern void *character_select_scene_resource_callbacks[];
-s32 TWindow__close(void *);
 int check_room_seq_4__16TAdChrSelASlotGCFl(void*, void*);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void*, void*, void*, void*);
     extern unsigned char lbl_80477D58[];
     extern const float lbl_805DFA30;
 u32 __nw__7TObjectFUl(int);
-s32 get_selected_menu_value(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
@@ -150,8 +150,8 @@ int TAdSinglePlyChrSelectGC::queue_destruction(void *) { return queue_destructio
 
 void TAdSinglePlyChrSelectGC::sub_8033AA64() {
     O_8033AA64 *arg0 = (O_8033AA64 *)this;
-    if (((TWindowMenu *)(arg0->f3c))->is_visible() != 0) {
-        switch (get_selected_menu_value(arg0->f3c)) {
+    if (((TWindowMenu *)(arg0->f3c))->is_decided() != 0) {
+        switch (((TWindowMenu *)arg0->f3c)->get_selected_value()) {
         case 0:
             arg0->f2c = 0;
             ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
@@ -296,7 +296,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
         decrypt_char_data__23TAdSinglePlyChrSelectGCFPv(obj);
         if (init_and_register__23TAdSinglePlyChrSelectGCFi(obj) == 0) {
             lbl_805D6D90 &= ~1;
-            ((TLobby *)(*(s32 *)((s8 *)((u8 *)this) + 0x38)))->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(0x6D), 1);
+            ((TWindowMessage *)(*(s32 *)((s8 *)((u8 *)this) + 0x38)))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0x6D), 1);
             *(s32 *)((s8 *)((u8 *)this) + 0x2C) = 0xB;
             init_warp();
             if (obj != 0U) {
@@ -307,7 +307,7 @@ void TAdSinglePlyChrSelectGC::handle_load_result() {
             if (r != 7) {
                 *(s32 *)((s8 *)((u8 *)this) + 0x2C) = 0xC;
                 lbl_805D6D90 &= ~1;
-                ((TLobby *)(*(s32 *)((s8 *)((u8 *)this) + 0x38)))->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(0xA), 1);
+                ((TWindowMessage *)(*(s32 *)((s8 *)((u8 *)this) + 0x38)))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(0xA), 1);
                 if (r == 6) {
                     init_warp();
                 } else {
@@ -397,9 +397,9 @@ void TAdSinglePlyChrSelectGC::start_check_memory_card() {
     *(s32 *)((s8 *)((u8 *)this) + 0x2C) = 1;
 }
 void TAdSinglePlyChrSelectGC::set_char_slots(s32 arg1, s32 arg2) {
-    ((TLobby *)(*(s32 *)((s8 *)this + 0x38)))->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(arg1), 1);
+    ((TWindowMessage *)(*(s32 *)((s8 *)this + 0x38)))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(arg1), 1);
     if (arg2 != -1) {
-        ((TLobby *)(*(s32 *)((s8 *)this + 0x38)))->send_and_handle(TQuestVmDownLoadServer__sub_8006EF6C(arg2), 8);
+        ((TWindowMessage *)(*(s32 *)((s8 *)this + 0x38)))->append_line(TQuestVmDownLoadServer__sub_8006EF6C(arg2), 8);
     }
 }
 int TAdSinglePlyChrSelectGC__sub_8033B244(void* p) { return request_queued_main_phase(p); }
@@ -474,7 +474,7 @@ void close_window__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     void *object = *(void **)((s8 *)arg0 + 0x3C);
     if ((u32) object != 0U) {
         if (((TObject *)object)->all_parents_unqueued_for_destruction() != 0) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x3C));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
             *(u32 *)((s8 *)arg0 + 0x3C) = 0U;
         }
     }
@@ -531,7 +531,7 @@ void TAdSinglePlyChrSelectGC__sub_8033B5F0(void *arg0) {
     void *object = *(void **)((s8 *)arg0 + 0x38);
     if ((u32) object != 0U) {
         if (((TObject *)object)->all_parents_unqueued_for_destruction() != 0) {
-            TWindow__close(*(void **)((s8 *)arg0 + 0x38));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
             *(u32 *)((s8 *)arg0 + 0x38) = 0U;
         }
     }

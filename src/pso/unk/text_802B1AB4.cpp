@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
 class TChCrTagPlBack;
 #include "pso/misc/TWindowSubTrade.h"
 #include "pso/misc/TLobby.h"
@@ -49,7 +50,7 @@ s32 free_member__17TWindowSubComCardFv(int, int);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern const f32 lbl_805DE298;
-s32 create_message_window__6TLobbyFllUls(s32, void *, int, int);
+s32 create__14TWindowMessageFllUls(s32, void *, int, int);
 extern u8 lbl_80470AA8[];
 s32 TWindowSubTrade::open_trade_confirm_prompt(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -78,8 +79,8 @@ s32 TWindowSubTrade::open_player_message_window(s32 arg1, s32 arg2) {
         ((s32 (*)(s32))text_builder_append)(p->m10());
     }
     ((s32 (*)(s32))text_builder_append)(arg2);
-    r = create_message_window__6TLobbyFllUls(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
-    ((TLobby *)r)->send_and_handle(get_shared_text_buffer(), 0x82);
+    r = create__14TWindowMessageFllUls(get_window_layout_position(0x5B), lbl_80470AA8, 1, this->m_20);
+    ((TWindowMessage *)r)->append_line(get_shared_text_buffer(), 0x82);
     return r;
 }
 }

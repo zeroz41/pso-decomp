@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/misc/TWindowSubComCard.h"

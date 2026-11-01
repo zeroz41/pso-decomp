@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_8001A448.h"
@@ -23,7 +24,7 @@ extern s32 TAdMultiPlyChrSelectGC__data_805DE898;
 
 void TAdMultiPlyChrSelectGC::close_and_reset() {
     if ((u32) *(u32 *)&this->unk_80 != 0U) {
-        TWindow__close((u8 *)(*(void * *)&this->unk_80));
+        ((TWindowBase *)(*(void * *)&this->unk_80))->close();
         *(u32 *)&this->unk_80 = 0U;
     }
     if ((u32) this->m_94 != 0U) {

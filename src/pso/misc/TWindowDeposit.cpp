@@ -5,7 +5,7 @@
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowMainMenu.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDeposit.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
@@ -44,7 +44,7 @@ void TWindowDeposit::render_status(s32 arg1) {
 
 void render__14TWindowDepositFv(s32 arg0) {
     s32 ctx;
-    ctx = ((TUnk_804CE018 *)arg0)->setup_window_draw_context(arg0 + 0x64);
+    ctx = ((TWindowBase *)arg0)->setup_window_draw_context(arg0 + 0x64);
     ((TWindowDeposit *)arg0)->render_status(ctx);
     draw_visible_window_entries((void *)arg0, (void *)(arg0 + 0x24), (int)ctx);
 }
@@ -83,12 +83,12 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   sp8 = 0x43300000;
   temp_f31 = (f32) temp_r3_2;
   ((TWindowDeposit *)arg0)->m_60 = TWindowSubStatusDisp__sub_802877A4(lbl_805DCC60 + (lbl_805DCC64 + temp_f31));
-  temp_r30 = (u8 *) ((u8 *)((TUnk_804CE018 *)arg0)->get_array_entry(0));
-  temp_r31 = (u8 *) ((u8 *)((TUnk_804CE018 *)arg0)->get_array_entry(1));
+  temp_r30 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(0));
+  temp_r31 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(1));
   set_text_entry_string(temp_r30, str, 0);
   *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) (lbl_805DCC60 + (lbl_805DCC64 + (lbl_805DCC68 + temp_f31)));
   ((TWindowDeposit *)arg0)->m_38 = TWindowSubStatusDisp::get_base_y(((TWindowDeposit *)arg0)->m_60);
-  ((TUnk_804CE018 *)arg0)->save_position();
+  ((TWindowBase *)arg0)->save_position();
   if (TCameraCtrl::get_camera_id() > 2)
   {
     *((f32 *) (((s8 *) arg0) + 0x64)) = (f32) lbl_805DCC6C;

@@ -1,9 +1,10 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopEquipmentGearSequence_8021B438.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
 #include "pso/unk/text_8026934C.h"
 #include "pso/misc/TShopSequence.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/TShopWindowBase.h"
 #include "pso/misc/TShopEquipmentGearSequence.h"
 #include "pso/misc/TWindowMenu.h"
@@ -80,7 +81,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
-void TWindow__close(u8 *arg0);
 extern RecoveredGlobal_8021B7D0___vt__26TShopEquipmentGearSequence __vt__26TShopEquipmentGearSequence;
 extern RecoveredGlobal_8021B7D0_TShopEquipmentGearSequence__data_80513EB0 TShopEquipmentGearSequence__window_slot_table;
 extern s32 lbl_805D6220;
@@ -98,7 +98,6 @@ u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 get_entity_id(s32);
 s32 get_shop_text(s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
-s32 get_selected_menu_value(void *);
 s32 align_menu_entry_positions(void *);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
@@ -140,27 +139,27 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
         ((TWindowSubComCard *)(arg0->win))->calc_window_size();
         align_menu_entry_positions(arg0->win);
         ((TCheckRoomSequence *)(arg0->win))->set_ready_flag();
-        ((TUnk_804CDFE8 *)(arg0->win))->set_position_xy(get_scale__15TShopWindowBaseFv(arg0), get_scale__15TShopWindowBaseFv(arg0));
+        ((TWindowAddition *)(arg0->win))->set_position_xy(get_scale__15TShopWindowBaseFv(arg0), get_scale__15TShopWindowBaseFv(arg0));
     }
-    if (arg0->win != NULL && ((TWindowMenu *)(arg0->win))->is_visible() != 0) {
-        r = get_selected_menu_value(arg0->win);
+    if (arg0->win != NULL && ((TWindowMenu *)(arg0->win))->is_decided() != 0) {
+        r = ((TWindowMenu *)arg0->win)->get_selected_value();
         if (r == 0) {
             ((TShopWindowBase *)arg0)->set_field_20(3);
-            TWindow__close((u8 *)arg0->win);
+            ((TWindowBase *)arg0->win)->close();
             arg0->win = NULL;
             return;
         }
         if (r == 1) {
             ((TShopWindowBase *)arg0)->set_field_20(4);
-            TWindow__close((u8 *)arg0->win);
+            ((TWindowBase *)arg0->win)->close();
             arg0->win = NULL;
             return;
         }
     }
-    if (arg0->win != NULL && ((TWindowSubComCard *)(arg0->win))->get_status_flag() != 0) {
+    if (arg0->win != NULL && ((TWindowMenu *)(arg0->win))->is_cancelled() != 0) {
         ((VObj_8021B518 *) arg0)->m4(0x2C, 1);
         ((TShopWindowBase *)arg0)->set_field_20(6);
-        TWindow__close((u8 *)arg0->win);
+        ((TWindowBase *)arg0->win)->close();
         arg0->win = NULL;
     }
 }
@@ -216,11 +215,11 @@ u8 *__dt__26TShopEquipmentGearSequenceFv(TShopEquipmentGearSequence *arg0, s16 a
             *(u32 *)((s8 *)arg0 + 0x34) = 0U;
         }
         if ((u32) arg0->m_2c != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x2C)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x2C)))->close();
             arg0->m_2c = 0U;
         }
         if ((u32) arg0->m_30 != 0U) {
-            TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x30)));
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
             arg0->m_30 = 0U;
         }
         ((TShopSequence *)arg0)->close_message_window();

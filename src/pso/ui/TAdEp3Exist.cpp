@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/TMainTask.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdEp3Exist.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/ui/TAdAgreementBaseGC.h"
@@ -84,7 +84,6 @@ extern s32 lbl_805D4500;
 void *TAdEp3Exist__ct(Ep3_8036F354 *o);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
-void TWindow__close(u8 *arg0);
 int TAdEp3Exist__sub_8036F0AC(void* p);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -98,7 +97,7 @@ int request_transition__21TAdMultiChgGameModeGCFv(void*);
 
 void TAdEp3Exist::draw_message_window(s32 arg1) {
     s32 arg0 = (s32)this;
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *) (arg1));
+    ((TWindowBase *)arg0)->draw_window_frame((void *) (arg1));
     render_status_line__15TAdSubPlyItemGCFi((int) (get_localized_text_entry(0x2C, 0xA)), -1, (f32) (lbl_805E0440 - (f32) (calc_text_width((char *)(get_localized_text_entry(0x2C, 0xA))) >> 1U)), (f32) (lbl_805E0444), (f32) (lbl_805E0448));
 }
 
@@ -141,7 +140,7 @@ void TAdEp3Exist::run_task() {
         break;
     case 2:
         if (o->win != 0) {
-            TWindow__close((u8 *)o->win);
+            ((TWindowBase *)o->win)->close();
             o->win = 0;
         }
         close_window();

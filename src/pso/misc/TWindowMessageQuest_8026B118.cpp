@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowMessageQuest.h"
 #include "pso/misc/TLobby_8026B06C.h"
 #include "pso/misc/TWindowMessageQuest_8026B118.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
 struct RecoveredGlobal_8026B118_lbl_8044F464 {
     s32 value;

@@ -46,7 +46,7 @@ s32 TWindowMainMenu__sub_8024E3D4(void *);
 int spawn_action_palette_slot_light(void*);
 int open_submenu__15TWindowSubEquipFll(void*);
 int render_nodes__7TObjectFv(void);
-int send_and_handle__6TLobbyFii(void*);
+int append_line__14TWindowMessageFii(void*);
 int try_open_battle_menu__15TWindowMainMenuFs(void*);
 int update_com_card__9TWindowDDFv(void*);
 
@@ -192,7 +192,7 @@ bool TWindowCtrlMain__sub_8024D868(u8 *arg0) {
     return *(s16 *)((s8 *)arg0 + 0x20) <= 0;
 }
 
-void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) send_and_handle__6TLobbyFii(m); }
+void TWindowCtrlMain::update_child_2c() { void* m = *(void**)((char*)this + 0x2c); if (m) append_line__14TWindowMessageFii(m); }
 void TWindowCtrlMain::spawn_palette_slot_light() { void* m = *(void**)((char*)this + 0x34); if (m) spawn_action_palette_slot_light(m); }
 void TWindowCtrlMain::update_field28() { void* m = *(void**)((char*)this + 0x28); if (m) open_submenu__15TWindowSubEquipFll(m); }
 void TWindowCtrlMain::free_member() { void* m = *(void**)((char*)this + 0x28); if (m) try_open_battle_menu__15TWindowMainMenuFs(m); }

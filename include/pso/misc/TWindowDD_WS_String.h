@@ -1,9 +1,9 @@
 #ifndef PSO_MISC_TWINDOWDD_WS_STRING_H
 #define PSO_MISC_TWINDOWDD_WS_STRING_H
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-class TWindowDD_WS_String : public TUnk_804CE018 {
+class TWindowDD_WS_String : public TWindowBase {
 public:
     virtual ~TWindowDD_WS_String();
     virtual void render();

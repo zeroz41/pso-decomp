@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_8001A448.h"
@@ -74,7 +75,7 @@ void TAdVIConfigGC::open_player_names_window() {
     s32 i;
     u8 *p;
     if (((Cfg_80307D00 *)this)->win != 0) {
-        TWindow__close((u8 *)(((Cfg_80307D00 *)this)->win));
+        ((TWindowBase *)(((Cfg_80307D00 *)this)->win))->close();
         ((Cfg_80307D00 *)this)->win = 0;
     }
     ((Cfg_80307D00 *)this)->win = TAdVIConfigGC::draw_with_layer((s32)(get_window_layout_position(0x5A)), (s32)player_names_window_pos, (s32)local_client_id);
@@ -123,7 +124,7 @@ void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1) {
         if ((u32) *(u32 *)((s8 *)arg0 + 0x24) != 0U) {
             ((TQuestVmDownLoadServer *)(*(void **)((s8 *)arg0 + 0x24)))->clear_flag4_bit4();
             allow_rendering__7TObjectFv((TObject *)((void *)(*(u32 *)((s8 *)arg0 + 0x24))));
-            TWindow__close((u8 *)(*(u32 *)((s8 *)arg0 + 0x24)));
+            ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x24)))->close();
             *(u32 *)((s8 *)arg0 + 0x24) = 0U;
         }
         if (arg1 > 0) {

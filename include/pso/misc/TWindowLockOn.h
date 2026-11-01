@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWLOCKON_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowLockOn : public TUnk_804CE018 {
+struct TWindowLockOn : public TWindowBase {
     virtual ~TWindowLockOn();
     void request_close();
     virtual void render();

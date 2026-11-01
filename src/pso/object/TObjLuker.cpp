@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -89,7 +90,6 @@ s32 get_floor_destination_name(s32 f);
 void align_menu_entry_positions(void *w);
 void hide_part__9TObjLukerFPvUs(Obj_801A0C38 *self, u16 i);
 void __dl__7TObjectFPv(void *);
-void TWindow__close(u8 *arg0);
 extern u8 __vt__9TObjLuker[];
 Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1);
 void __ct__8TObjBaseFP7TObject(void *, void *);
@@ -484,7 +484,7 @@ Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1) {
         arg0->f18 = __vt__9TObjLuker;
         for (i = 0; i < 4; i++) {
             if (arg0->wins[i] != 0) {
-                TWindow__close((u8 *)arg0->wins[i]);
+                ((TWindowBase *)(arg0->wins[i]))->close();
                 arg0->wins[i] = 0;
             }
         }

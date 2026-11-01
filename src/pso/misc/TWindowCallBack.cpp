@@ -1,7 +1,7 @@
 #include "pso/protocol/protocol_types.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/boss/TBoss6GravBall.h"
 #include "pso/boss/TBoss6Type2.h"
 #include "pso/misc/TWindowDD.h"
@@ -56,7 +56,7 @@ void TWindowCallBack::render() {
     }
 }
 
-void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TUnk_804CE018 *)p)->update_fade(); }
+void run_task__15TWindowCallBackFv(void* p) { ((TWindowDD *)p)->initialize_subwindow(); ((TWindowBase *)p)->update_fade(); }
 
 void *__dt__15TWindowCallBackFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -75,7 +75,7 @@ u8 *TWindowCallBack__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802ACE84___vt__15TWindowCallBack *)&__vt__15TWindowCallBack).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3E58;
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x38))->copy_vec2(arg2);
-    ((TUnk_804CE018 *)arg0)->save_position();
+    ((TWindowBase *)arg0)->save_position();
     set_field_60__15TWindowCallBackFPvi(arg0, arg3);
     return arg0;
 }

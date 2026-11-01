@@ -1,4 +1,5 @@
 #include "pso/TMainTask.h"
+#include "pso/misc/TWindowMessage.h"
 #include "types.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

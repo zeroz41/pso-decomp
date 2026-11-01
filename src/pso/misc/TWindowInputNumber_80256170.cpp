@@ -4,7 +4,7 @@
 #include "pso/misc/TWindowSubStatusDisp_802598E4.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TWindowInputNumber.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -108,12 +108,12 @@ void TWindowInputNumber::align_digits() {
     pos = scale * (((InNum_802561E8 *)this)->x - 8.0f) + scale * (f32)(((InNum_802561E8 *)this)->ndigits * 12);
     pos -= 6.0f;
     for (; i < ((InNum_802561E8 *)this)->ndigits; i++) {
-        Digit_802561E8 *d = (Digit_802561E8 *)((TUnk_804CE018 *)this)->get_array_entry(i);
+        Digit_802561E8 *d = (Digit_802561E8 *)((TWindowBase *)this)->get_array_entry(i);
         d->x = scale * d->w + pos;
         pos -= step;
     }
     for (; i < 6; i++) {
-        Digit_802561E8 *d = (Digit_802561E8 *)((TUnk_804CE018 *)((InNum_802561E8 *)this))->get_array_entry(i);
+        Digit_802561E8 *d = (Digit_802561E8 *)((TWindowBase *)((InNum_802561E8 *)this))->get_array_entry(i);
         d->flags |= 2;
     }
 }
@@ -127,7 +127,7 @@ void TWindowInputNumber::refresh_digit_entries() {
   var_r29 = this->value;
   do
   {
-    temp_r3 = (u8 *) ((TUnk_804CE018 *)((u8 *)this))->get_array_entry(var_r30);
+    temp_r3 = (u8 *) ((TWindowBase *)((u8 *)this))->get_array_entry(var_r30);
     *((s32 *) (((s8 *) temp_r3) + 0x20)) = (s32) (var_r29 % 10);
     draw_right_aligned_number(temp_r3);
     var_r29 = var_r29 / 10;
@@ -210,10 +210,10 @@ void draw_arrows__18TWindowInputNumberFv(TWindowInputNumber *self, Ctx_802563A0 
 void render__18TWindowInputNumberFv(TWindowInputNumber *arg0) {
     s32 temp_r3;
 
-    temp_r3 = ((TUnk_804CE018 *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    temp_r3 = ((TWindowBase *)arg0)->setup_window_draw_context((s32)((u8 *)arg0 + 0x74));
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, (u8 *)arg0 + 0x24, temp_r3);
-    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)temp_r3, (Digit_802561E8 *)((TUnk_804CE018 *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
+    draw_arrows__18TWindowInputNumberFv(arg0, (Ctx_802563A0 *)temp_r3, (Digit_802561E8 *)((TWindowBase *)arg0)->get_array_entry(arg0->selectedDigit), arg0->is_confirmed());
     {
         void *temp_ptr = (void *) arg0->unknown70;
         if (temp_ptr != NULL) {
@@ -234,7 +234,7 @@ void TWindowInputNumber::run_task() {
     if (!(*(s32 *)((s8 *)arg0 + 0x2C) & 2)) {
         *(s32 *)((s8 *)arg0 + 0x5C) = 0x01000000;
     }
-    if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TUnk_804CE018 *)arg0)->sub_80244994() != 0)) {
+    if ((((TWindowInputNumber *)arg0)->is_confirmed() == 0) && !(*(u16 *)((s8 *)arg0 + 0x60) & 0x40) && (((TWindowBase *)arg0)->sub_80244994() != 0)) {
         if (*(u16 *)((s8 *)arg0 + 0x60) & 0x10) {
             input = (u8 *)controller_input_state + (temp_r30 * 0x50) + 0x20;
             if ((TWindowChoiceSetting::apply_choice((s32)input, 0x10, 6, 1) != 0) || (((TWindowInputNumber *)arg0)->is_locked(0x10) != 0)) {
@@ -277,8 +277,8 @@ void TWindowInputNumber::run_task() {
         ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();
     }
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list(arg0 + 0x24);
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list(arg0 + 0x24);
 }
 
 void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1) {

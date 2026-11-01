@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TQuestVmDownLoadServer_803E6970.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowKeyBoardBase.h"
 #include "pso/misc/TWindowDD.h"

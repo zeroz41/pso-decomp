@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCardList_8026CB08.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowSubShortCutList.h"
 #include "pso/misc/TWindowChat.h"
 #include "pso/misc/TWindowShortListCtrl.h"
@@ -26,14 +26,14 @@ s32 get_symbol_chat_data__20TWindowSubSymbolChatFv();
 s8 get_type__20TWindowSubStatusDispFv(s32);
 s32 clamp_selection_to_valid_entry__20TShopArmorListWindowFv(void *);
 s32 save_cursor_selection__20TShopArmorListWindowFv();
-s32 reset_list__20TShopArmorListWindowFv(void *);
+s32 reset_list__19TWindowMenuIconLineFv(void *);
 s32 update_state__9TWindowDDFv(s32 *, s32, u16);
 void *__dt__22TWindowSubShortCutListFv(void *arg0, s16 arg1);
 void render__22TWindowSubShortCutListFv(u8 *arg0);
 s32 handle_list_page_flip_input(s32);
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
-s32 run_task__13TUnk_804D0618Fv();
+s32 run_task__19TWindowMenuIconLineFv();
 s32 draw_list_page_indicator(s32, s32);
 void __dl__7TObjectFPv(void *);
 s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
@@ -44,7 +44,7 @@ void TWindowSubShortCutList::refresh_entries() {
     s32 var_r30;
     s32 var_r29;
     save_cursor_selection__20TShopArmorListWindowFv();
-    reset_list__20TShopArmorListWindowFv(this);
+    reset_list__19TWindowMenuIconLineFv(this);
     var_r29 = get_type__20TWindowSubStatusDispFv(this->m_88);
     var_r30 = 0;
     var_r29 *= 4;
@@ -90,9 +90,9 @@ void render__22TWindowSubShortCutListFv(u8 *arg0) {
     s32 temp_r3;
 
     temp_r3 = get_draw_context__11TWindowBaseFPv();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r3);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r3);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r3);
-    ((TUnk_804D0618 *)arg0)->draw_selected_list_entry(temp_r3);
+    ((TWindowMenuIconLine *)arg0)->draw_selected_list_entry(temp_r3);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x80) != 0U) {
         forward_render__20TWindowSubStatusDispFv(*(u32 *)((s8 *)arg0 + 0x80), temp_r3);
     }
@@ -102,8 +102,8 @@ void render__22TWindowSubShortCutListFv(u8 *arg0) {
 }
 
 void TWindowSubShortCutList::run_task() {
-    run_task__13TUnk_804D0618Fv();
-    if ((get_status_flag() == 0) && (handle_list_page_flip_input(this->m_88) != 0)) {
+    run_task__19TWindowMenuIconLineFv();
+    if ((is_decided() == 0) && (handle_list_page_flip_input(this->m_88) != 0)) {
         refresh_entries();
     }
 }
@@ -128,7 +128,7 @@ void *TWindowSubShortCutList__ct(void *window_sub_short_cut_list, void *arg1, vo
     ((Obj_8027E558 *)window_sub_short_cut_list)->f0 = TWindowSubShortCutList__class_name;
     row = (s32)arg2 / 4;
     col = (s32)arg2 % 4;
-    ((TUnk_804D0618 *)window_sub_short_cut_list)->ensure_status_display((s32)(TWindowSubStatusDisp::get_message_10(0x2D)));
+    ((TWindowMenuIconLine *)window_sub_short_cut_list)->ensure_status_display((s32)(TWindowSubStatusDisp::get_message_10(0x2D)));
     p = ::operator new(0xC);
     if (p != NULL) {
         p = init__21TWindowSubComCardListFiii(p, row, 5, local_client_id);

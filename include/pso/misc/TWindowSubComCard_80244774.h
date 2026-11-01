@@ -9,7 +9,6 @@ int TWindowSubComCard__sub_80244774(void);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *arg0);
 bool TWindowSubComCard__sub_80245558(s32 arg0, f32 *arg1, f32 *arg2);
 void TWindowSubTradeMain__sub_802448E4(void *arg0);
-void TWindow__close(u8 *arg0);
 }
 void draw_selection_bar(u8 *arg0, u8 *arg1, s32 arg2);
 void draw_window_scanlines(u8 *arg0, u8 *arg1);

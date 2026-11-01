@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowSubSymbolChatPartsSet_80247EFC.h"
 #include "pso/misc/TWindowSubSymbolChat_80076F88.h"
 #include "pso/misc/TWindowChatSymbol.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowHelpItem.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChat.h"
@@ -184,7 +184,7 @@ void setup_part_sprites__28TWindowSubSymbolChatPartsSetFPvPvPvUsiiii(Part_802480
 }
 
 void TWindowSubSymbolChatPartsSet__sub_802482B8(s32 arg0, s32 arg1) {
-    ((TUnk_804CE018 *)arg0)->get_array_entry(arg1 + 0x1);
+    ((TWindowBase *)arg0)->get_array_entry(arg1 + 0x1);
 }
 
 void TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
@@ -192,7 +192,7 @@ void TWindowSubSymbolChatPartsSet::get_parts_entry(s32 arg1) {
 }
 
 void get_parts_entry__28TWindowSubSymbolChatPartsSetFii(s32 arg0, s32 arg1) {
-    ((TUnk_804CE018 *)arg0)->get_array_entry(arg1 + 5);
+    ((TWindowBase *)arg0)->get_array_entry(arg1 + 5);
 }
 
 void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 cur) {
@@ -274,7 +274,7 @@ void render__17TWindowChatSymbolFv(u8 *window_chat_symbol) {
         *(f32 *)((s8 *)c_arg + 0x28) = (f32) ((f32) *(s32 *)&((TWindowChatSymbol *)window_chat_symbol)->m_5c / lbl_805DCB9C);
         *(f32 *)((s8 *)c_arg + 0x2C) = (f32) *(f32 *)((s8 *)c_arg + 0x28);
     }
-    ((TUnk_804CE018 *)window_chat_symbol)->draw_quest_message_frame(c_arg);
+    ((TWindowBase *)window_chat_symbol)->draw_quest_message_frame(c_arg);
     *(f32 *)((s8 *)c_arg + 0x10) = (f32) ((lbl_805DCB7C * (((TWindowChatSymbol *)window_chat_symbol)->m_48 - lbl_805DCB94)) + *(f32 *)((s8 *)c_arg + 0x10));
     temp_f2 = *(f32 *)((s8 *)window_chat_symbol + 0x4C);
     temp_f1 = temp_f2 - lbl_805DCB98;

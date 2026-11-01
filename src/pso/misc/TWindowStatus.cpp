@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSimpleStatus.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowStatus.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
@@ -14,7 +14,7 @@ struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 
-u8 *get_array_entry__13TUnk_804CE018Fi(void *, s32);
+u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
 s32 TWindowSubComCard__sub_802452DC(int);
 s32 TWindowSubComCard__sub_80245320(void *, void *);
@@ -66,10 +66,10 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
     get_width__19TWindowSimpleStatusFv();
     pl = get_player_by_client_id();
     if (pl != NULL) {
-        a = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 7);
-        b = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 9);
-        c = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 6);
-        d = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 8);
+        a = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 7);
+        b = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 9);
+        c = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 6);
+        d = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 8);
         *(s32 *)((s8 *)b + 0x20) = ((TItemProShield *)pl)->get_field_2b8();
         *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32C);
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_entry();
@@ -81,10 +81,10 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         draw_right_aligned_number(a);
         *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - lbl_805DD430;
         *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
-        a = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 0xB);
-        b = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 0xD);
-        c = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 0xA);
-        d = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 0xC);
+        a = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xB);
+        b = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xD);
+        c = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xA);
+        d = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xC);
         *(s32 *)((s8 *)b + 0x20) = obj_getS16_2BA(pl);
         *(s32 *)((s8 *)a + 0x20) = *(s16 *)((s8 *)pl + 0x32E);
         v = ((TWindowSubStatusDisp *)window_sub_status_disp)->update_hp_gauge();
@@ -97,7 +97,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - lbl_805DD430;
         *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
         ((TWindowSubStatusDisp *)window_sub_status_disp)->update_status_entry();
-        e = get_array_entry__13TUnk_804CE018Fi(window_sub_status_disp, 0xE);
+        e = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xE);
         set_status_entry_target(e, ((TObjPlayer *)pl)->get_photon_blast_charge());
     }
 }
@@ -108,7 +108,7 @@ void TWindowStatus::draw_background(u8 *arg1) {
     f32 s;
 
     {
-        u8 *e = get_array_entry__13TUnk_804CE018Fi(this, 0xE);
+        u8 *e = get_array_entry__11TWindowBaseFi(this, 0xE);
         draw_photon_blast_gauge_ring((s32)this, arg1, lbl_8044F650, *(s32 *)((s8 *)e + 0x20), lbl_805DD434);
     }
     begin_screen_draw(1);
@@ -151,7 +151,7 @@ void TWindowStatus::render() {
   s32 temp_r31;
   f32 new_var2;
   s32 ctx;
-  temp_r31 = (s32)get_array_entry__13TUnk_804CE018Fi(arg0, 0xE);
+  temp_r31 = (s32)get_array_entry__11TWindowBaseFi(arg0, 0xE);
   ((s32 (*)(void))draw_right_aligned_number)();
   new_var2 = (f32) lbl_805DD474;
   new_var = arg0;
@@ -169,8 +169,8 @@ void TWindowStatus::run_task() {
     update_status_help_item(arg0);
     ((TWindowSimpleStatus *)arg0)->update_status_icons((void *)(get_window_layout_position(0x1D)));
     ((TWindowDD *)arg0)->initialize_subwindow();
-    ((TUnk_804CE018 *)arg0)->update_fade();
-    ((TUnk_804CE018 *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
+    ((TWindowBase *)arg0)->update_fade();
+    ((TWindowBase *)arg0)->update_window_entry_list((void *)(arg0 + 0x24));
 }
 
 extern s32 __vt__13TWindowStatus[];

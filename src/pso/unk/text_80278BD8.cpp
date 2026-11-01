@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/unk/text_80278BD8.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TShopJudgmentItemWindow.h"
@@ -9,7 +10,6 @@ struct Wn_80278DA4 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };
 
 extern "C" {
 void *get_player_by_client_id(s32 i);
-void calc_list_content_extent(void *);
 void populate_judgment_item_list(Wn_80278DA4 *arg0);
 u8 get_item_type__5TItemFv();
 
@@ -32,7 +32,7 @@ void add_armor_equip_candidates(u8 *arg0, u16 kind, u16 sub) {
         if (*(s16 *)(arg0 + 0x72) <= 0) {
             ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
         }
-        calc_list_content_extent(arg0);
+        ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }
 }
 
@@ -54,7 +54,7 @@ void build_mag_item_candidates(void *arg0, u16 arg1) {
         if (*(s16 *)((s8 *)arg0 + 0x72) <= 0) {
             ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
         }
-        calc_list_content_extent(arg0);
+        ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }
 }
 
@@ -76,7 +76,7 @@ void populate_judgment_item_list(Wn_80278DA4 *arg0) {
         if (arg0->f72 <= 0) {
             ((TWindowSubStatusDisp *)arg0)->add_list_entry(-1);
         }
-        calc_list_content_extent(arg0);
+        ((TWindowMenuIconLine *)arg0)->calc_content_extent();
     }
 }
 

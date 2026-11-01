@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowCtrlMain.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 
@@ -41,7 +41,7 @@ V2_8026CBB8 *get_window_layout_position(s32 idx) {
     }
     return (V2_8026CBB8 *)((char *)window_layout_rect_table + idx * 8);
 }
-void TUnk_804CE018::sub_8026CC28() {
+void TWindowBase::sub_8026CC28() {
     Node_8026CC28 *n;
     f32 lim;
     f32 t;
@@ -58,7 +58,7 @@ void TUnk_804CE018::sub_8026CC28() {
     }
 }
 
-void TUnk_804CE018::resort_window_order() {
+void TWindowBase::resort_window_order() {
     Node_8026CCA4 *n;
     Grp_8026CCA4 *g;
     Node_8026CCA4 *last;
@@ -81,11 +81,11 @@ void TUnk_804CE018::resort_window_order() {
             g->head->prev = ((Node_8026CCA4 *)this)->prev;
         }
     }
-    scale = ((TUnk_804CE018 *)((Node_8026CCA4 *)this))->get_scale();
+    scale = ((TWindowBase *)((Node_8026CCA4 *)this))->get_scale();
     window_depth_order_cursor += lbl_805DD2C8;
     for (n = g->head; n != NULL; n = n->next) {
         last = n;
-        if (!(scale < ((TUnk_804CE018 *)n)->get_scale())) {
+        if (!(scale < ((TWindowBase *)n)->get_scale())) {
             break;
         }
         n->f54 += lbl_805DD2C8;

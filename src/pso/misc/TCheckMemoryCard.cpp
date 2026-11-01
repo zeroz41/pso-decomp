@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TCheckMemoryCard.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 
@@ -72,7 +73,7 @@ TCheckMemoryCard::~TCheckMemoryCard() {
         this->m_30 = NULL;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x34)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close();
         *(u32 *)((s8 *)this + 0x34) = 0U;
     }
 }

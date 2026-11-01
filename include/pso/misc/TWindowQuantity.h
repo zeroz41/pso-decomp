@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWQUANTITY_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowQuantity : public TUnk_804CE018 {
+struct TWindowQuantity : public TWindowBase {
     virtual ~TWindowQuantity();
     virtual void render();
     u8 _pad1C[0x8];

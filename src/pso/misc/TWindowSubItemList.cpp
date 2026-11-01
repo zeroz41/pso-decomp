@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp_802671F0.h"
 #include "pso/unk/text_80268384.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowSubItemList.h"
 #include "pso/misc/TWindowSubItem.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
@@ -47,13 +47,13 @@ void TWindowSubItemList::render() {
     u8 *arg0 = (u8 *)this;
     s32 window_key_board_soft;
     window_key_board_soft = get_draw_context__11TWindowBaseFPv();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)window_key_board_soft);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)window_key_board_soft);
     draw_visible_window_entries(arg0, arg0 + 0x24, window_key_board_soft);
-    ((TUnk_804D0618 *)arg0)->draw_selected_list_entry(window_key_board_soft);
+    ((TWindowMenuIconLine *)arg0)->draw_selected_list_entry(window_key_board_soft);
     ((TWindowSubItemList *)arg0)->sub_8027ACF8((u8 *)window_key_board_soft);
     draw_item_list_capacity(arg0, window_key_board_soft, this->m_8c, 0x1E);
-    if ((u32) *(u32 *)&this->m_80 != 0U) {
-        forward_render__20TWindowSubStatusDispFv(this->m_80, window_key_board_soft);
+    if ((u32) *(u32 *)&this->status_display != 0U) {
+        forward_render__20TWindowSubStatusDispFv(this->status_display, window_key_board_soft);
     }
     if ((u32) *(u32 *)&this->unk_84 != 0U) {
         draw_window_scrollbar(*(void * *)&this->unk_84, window_key_board_soft, (u8 *)&this->m_68);
@@ -61,7 +61,7 @@ void TWindowSubItemList::render() {
 }
 #pragma pop
 
-void TWindowSubItemList::run_task() { { (void)(run_task__13TUnk_804D0618Fv((u8 *)this)); return; } }
+void TWindowSubItemList::run_task() { { (void)(run_task__19TWindowMenuIconLineFv((u8 *)this)); return; } }
 
 void *__dt__18TWindowSubItemListFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
@@ -77,8 +77,8 @@ u8 *TWindowSubItemList__ct(u8 *arg0, s32 arg1, s16 arg2) {
     fn_802683F4((arg0), (arg1), 0x24, (arg2));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8027AEDC___vt__18TWindowSubItemList *)&__vt__18TWindowSubItemList).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) TWindowSubItemList__class_name;
-    ((TUnk_804D0618 *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
-    ((TUnk_804D0618 *)arg0)->create_menu_scroll_bar();
+    ((TWindowMenuIconLine *)arg0)->ensure_status_display((int) (TWindowSubStatusDisp::get_message_10(0x24)));
+    ((TWindowMenuIconLine *)arg0)->create_menu_scroll_bar();
     ((TWindowSubItem *)arg0)->reset_selected();
     ((TWindowSubItemList *)arg0)->m_8c = 0;
     return arg0;

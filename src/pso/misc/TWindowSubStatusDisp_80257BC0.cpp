@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowSubStatusDisp_80256B94.h"
 #include "pso/misc/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/system/memory.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TTecRaFoie.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -127,7 +127,7 @@ void draw_visible_window_entries(void *self, List_80257BC0 *list, void *ctx) {
     }
 }
 
-void TUnk_804CE018::update_window_entry_list(void *list_arg) {
+void TWindowBase::update_window_entry_list(void *list_arg) {
     List_80257C28 *list = (List_80257C28 *)list_arg;
     Ent_80257C28 **p;
     u32 n;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TMainTask.h"
 #include "pso/ui/TAdAgreementBaseGC.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -59,7 +60,7 @@ extern s32 lbl_805D41B8;
 Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1);
 void *get_localized_text_entry(int, u32);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
-void draw_window_frame__13TUnk_804CE018FPv();
+void draw_window_frame__11TWindowBaseFPv();
 extern const f32 lbl_805DF700;
 extern const f32 lbl_805DF704;
 extern const f32 lbl_805DF708;
@@ -75,7 +76,7 @@ void TAdAgreementBaseGC::check_main_task_state() {
 void TAdAgreementBaseGC::draw_agreement_text() {
     Pos_803296E8 pos[2];
     u32 i;
-    draw_window_frame__13TUnk_804CE018FPv();
+    draw_window_frame__11TWindowBaseFPv();
     for (i = 0; i < 2; i++) {
         pos[i].x = lbl_805DF700 - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
         pos[i].y = lbl_805DF708 * (f32) i + lbl_805DF704;
@@ -121,7 +122,7 @@ void TAdAgreementBaseGC::update_state() {
         break;
     case 2:
         if ((u32) this->m_2c != 0U) {
-            TWindow__close((u8 *)(*(void * *)&this->m_2c));
+            ((TWindowBase *)(*(void * *)&this->m_2c))->close();
             this->m_2c = 0U;
         }
         this->vfunc_6();

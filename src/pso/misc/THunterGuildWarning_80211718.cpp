@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/THunterGuildWarning.h"
 struct Obj_802119CC { u8 pad[0x24]; s32 a[4]; };
@@ -13,7 +14,7 @@ void THunterGuildWarning::close_windows() {
     s32 i = 0;
     do {
         if (self->w[i] != 0) {
-            TWindow__close((u8 *)self->w[i]);
+            ((TWindowBase *)(self->w[i]))->close();
             self->w[i] = 0;
         }
         i++;

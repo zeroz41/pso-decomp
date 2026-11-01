@@ -115,8 +115,8 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 apply_choice__20TWindowChoiceSettingFllll(void *, int, int, int);
 f32 TWindowSubComCard__sub_80244784(TWindowSubComCard *);
-s32 is_window_reveal_complete__13TUnk_804CE018Fv();
-s32 sub_80246948__13TUnk_804CE018Fv();
+s32 is_window_reveal_complete__11TWindowBaseFv();
+s32 sub_80246948__11TWindowBaseFv();
 s32 try_open__19TWindowKeyBoardSoftFii(s32 arg0, s32 arg1);
 Rect_802AE2B0 * open_singleton__19TWindowKeyBoardSoftFiiii(void *, void *, s32, f32, s32);
 s32 fn_8026CB68();
@@ -542,7 +542,7 @@ Rect_802AE2B0 *setup_content_frame__15TWindowMainMenuFPv(u8 *window_menu_main_me
 }
 
 void TWindowMainMenu::update_slide_position() {
-    if (sub_80246948__13TUnk_804CE018Fv() != 0) {
+    if (sub_80246948__11TWindowBaseFv() != 0) {
         set_target_y(lbl_805DE158);
         *(u32 *)((s8 *)this + 0x50) = (u32) (lbl_805DE1A8 - (f32) (*(s16 *)((s8 *)this + 0x22)));
         return;
@@ -596,7 +596,7 @@ void play_cursor_sound__15TWindowMainMenuFv(Menu_802AE4DC *m, int d) {
 
 void TWindowMenuMainMenu::handle_navigation_input() {
     u8 *window_choice_setting;
-    if ((is_window_reveal_complete__13TUnk_804CE018Fv() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->m_60 & 4)) {
+    if ((is_window_reveal_complete__11TWindowBaseFv() != 0) && (this->get_menu_flag() == 0) && (this->is_flag_set() == 0) && !(this->m_60 & 4)) {
         window_choice_setting = (u8 *)&controller_input_state.value + (is_player_input_active((*(s16 *)&this->m_20)) * 0x50) + 0x20;
         if ((apply_choice__20TWindowChoiceSettingFllll(window_choice_setting, 0x10, 6, 1) != 0) || (apply_choice__20TWindowChoiceSettingFllll((void *) ((u8 *)&controller_input_state.value + 0x160), 0x10, 6, 1) != 0)) {
             play_cursor_sound__15TWindowMainMenuFv((Menu_802AE4DC *)(this), -1);

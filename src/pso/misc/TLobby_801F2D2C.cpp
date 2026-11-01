@@ -1,4 +1,5 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/misc/TWindowBase.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/quest/QuestVm.h"
 #include "pso/system/FlagWord.h"
@@ -65,15 +66,15 @@ quest_suspend_reason QuestVmContext::dispatch() {
 
 void TLobby::close_windows() {
     if (qst_message_window != NULL) {
-        TWindow__close((u8 *)qst_message_window);
+        ((TWindowBase *)qst_message_window)->close();
         qst_message_window = NULL;
     }
     if (qst_message_window_qb != NULL) {
-        TWindow__close((u8 *)qst_message_window_qb);
+        ((TWindowBase *)qst_message_window_qb)->close();
         qst_message_window_qb = NULL;
     }
     if (qst_list_window != NULL) {
-        TWindow__close((u8 *)qst_list_window);
+        ((TWindowBase *)qst_list_window)->close();
         qst_list_window = NULL;
     }
     if (qst_item_name_entry != NULL) {

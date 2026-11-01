@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/unk/text_8026A93C.h"
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -35,7 +36,7 @@ extern const f32 lbl_805DF6B8;
 extern const f32 lbl_805DF6BC;
 extern const f32 lbl_805DF6C0;
 
-void TAdScrollWinGC::close_window() { if (this->m_40 != 0) { TWindow__close((u8 *)this->m_40); this->m_40 = 0; } }
+void TAdScrollWinGC::close_window() { if (this->m_40 != 0) { ((TWindowBase *)this->m_40)->close(); this->m_40 = 0; } }
 
 void TAdScrollWinGC::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -105,12 +106,12 @@ void *TAdScrollWinGC__ct(TAdScrollWinGC *ad_scroll_win_gc, void *arg1, s32 arg2,
     case 0:
     case 1:
         for (i = 0; i < 10; i++) {
-            ((TLobby *)(ad_scroll_win_gc->m_40))->send_and_handle(get_localized_text_entry(0x1A, base + i), 1);
+            ((TWindowMessage *)(ad_scroll_win_gc->m_40))->append_line(get_localized_text_entry(0x1A, base + i), 1);
         }
         break;
     case 2:
     case 3:
-        ((TLobby *)(ad_scroll_win_gc->m_40))->send_and_handle(arg3, 1);
+        ((TWindowMessage *)(ad_scroll_win_gc->m_40))->append_line(arg3, 1);
         break;
     }
     ((TWindowMessage *)(ad_scroll_win_gc->m_40))->complete_reveal();

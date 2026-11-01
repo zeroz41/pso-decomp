@@ -90,7 +90,6 @@ extern const f32 lbl_805DEF40;
 extern u8 controller_input_state[];
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
-s32 get_selected_menu_value(void *);
 
 void TAdMultiSelGameModeGC::render() {  }
 
@@ -155,22 +154,22 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
     Obj_8030095C *self = (Obj_8030095C *)this;
     switch (TAdSinglePlyChrSelectGC__sub_801334DC(self->f3C)) {
     case 0:
-        if (((TWindowSubComCard *)self->f2C)->get_status_flag() != 0) {
+        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_visible() != 0) {
-            game_difficulty_selection = get_selected_menu_value(self->f2C);
+        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
+            game_difficulty_selection = ((TWindowMenu *)self->f2C)->get_selected_value();
             ((TAdSelectTxtGC *)self->f30)->reset_slots(&lbl_80474E40[12], (void *)game_difficulty_selection);
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
         }
         break;
     case 1:
-        if (((TWindowSubComCard *)self->f2C)->get_status_flag() != 0) {
+        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_visible() != 0) {
-            switch (get_selected_menu_value(self->f2C)) {
+        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
+            switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
             case 0:
                 TAdMultiSelGameModeGC__data_805D69F0 = 0;
                 break;
@@ -196,11 +195,11 @@ void TAdMultiSelGameModeGC::sub_803003A4() {
         }
         break;
     case 2:
-        if (((TWindowSubComCard *)self->f2C)->get_status_flag() != 0) {
+        if (((TWindowMenu *)self->f2C)->is_cancelled() != 0) {
             ((TAdMultiSelGameModeGC *)self->f3C)->set_selection_state(1);
             self->f1C = 1;
-        } else if (((TWindowMenu *)self->f2C)->is_visible() != 0) {
-            switch (get_selected_menu_value(self->f2C)) {
+        } else if (((TWindowMenu *)self->f2C)->is_decided() != 0) {
+            switch (((TWindowMenu *)self->f2C)->get_selected_value()) {
             case 0:
                 lbl_805D69F4 = 0;
                 TAdStorySelectGC::set_state(0);

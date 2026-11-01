@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/ui/TUnk_804F3A20.h"
 #include "pso/ui/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/TAdMultiChgGameModeGC_8036DE10.h"
@@ -66,8 +68,6 @@ struct Self_8036E2AC {
 };
 
 extern "C" {
-void TWindow__close(u8 *arg0);
-s32 get_selected_menu_value(void *);
 void *__nw__7TObjectFUl(int);
 void *__ct__9TAdBackGCFv(void *, void *);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
@@ -139,8 +139,8 @@ void TAdMultiChgGameModeGC::update_confirm_selection() {
     if (handle_mode_selection() == 0) {
         temp_r3_2 = *(u32 *)((s8 *)this + 0x34);
         if (temp_r3_2 != 0U) {
-            if (((TWindowMenu *)temp_r3_2)->is_visible() != 0) {
-                selected_menu_value = get_selected_menu_value((void *)(*(u32 *)((s8 *)this + 0x34)));
+            if (((TWindowMenu *)temp_r3_2)->is_decided() != 0) {
+                selected_menu_value = ((TWindowMenu *)(*(u32 *)((s8 *)this + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
                     set_state(6);
@@ -162,17 +162,17 @@ void TAdMultiChgGameModeGC::update_confirm_selection() {
 
 void close_windows_and_cleanup(void *arg0) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x34) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x34)));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close();
         *(u32 *)((s8 *)arg0 + 0x34) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x30)));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
     }
     TAdMultiChgGameModeGC::setup_mode_menu(arg0, 0);
     TAdMultiChgGameModeGC__sub_8036E19C((u8 *)arg0, 4);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        ((TLobby *)(*(u32 *)((s8 *)arg0 + 0x30)))->send_and_handle(TAdMultiChgGameModeGC__sub_8036DE10((s32)arg0, 3, (s32)(*(s32 *)((s8 *)arg0 + 0x24))), 3);
+        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((s32)arg0, 3, (s32)(*(s32 *)((s8 *)arg0 + 0x24))), 3);
     }
 }
 
@@ -181,8 +181,8 @@ void TAdMultiChgGameModeGC::update_card_confirm_selection() {
 
     if (handle_mode_selection() == 0) {
         if (*(void **)((s8 *)this + 0x34) != 0) {
-            if (((TWindowMenu *)(*(void **)((s8 *)this + 0x34)))->is_visible() != 0) {
-                selected_menu_value = get_selected_menu_value((void *)(*(void **)((s8 *)this + 0x34)));
+            if (((TWindowMenu *)(*(void **)((s8 *)this + 0x34)))->is_decided() != 0) {
+                selected_menu_value = ((TWindowMenu *)(*(void **)((s8 *)this + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
                     close_window_30();
@@ -203,40 +203,40 @@ void TAdMultiChgGameModeGC::update_card_confirm_selection() {
 
 void TAdMultiChgGameModeGC::close_windows_and_reopen() {
     if ((u32) *(u32 *)((s8 *)this + 0x34) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x34)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close();
         *(u32 *)((s8 *)this + 0x34) = 0U;
     }
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)this + 0x30)));
+        ((TWindowBase *)(*(void **)((s8 *)this + 0x30)))->close();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
     TAdMultiChgGameModeGC::setup_mode_menu(this, 0);
     TAdMultiChgGameModeGC__sub_8036E19C((u8 *)this, 4);
     if ((u32) *(u32 *)((s8 *)this + 0x30) != 0U) {
-        ((TLobby *)(*(u32 *)((s8 *)this + 0x30)))->send_and_handle(TAdMultiChgGameModeGC__sub_8036DE10((s32)this, 1, (s32)(*(s32 *)((s8 *)this + 0x24))), 3);
+        ((TWindowMessage *)(*(u32 *)((s8 *)this + 0x30)))->append_line(TAdMultiChgGameModeGC__sub_8036DE10((s32)this, 1, (s32)(*(s32 *)((s8 *)this + 0x24))), 3);
     }
 }
 
 void TAdMultiChgGameModeGC__sub_8036E19C(u8 *arg0, s32 arg1) {
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        TWindow__close((u8 *)(*(void **)((s8 *)arg0 + 0x30)));
+        ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x30)))->close();
         *(u32 *)((s8 *)arg0 + 0x30) = 0U;
     }
     *(u32 *)((s8 *)arg0 + 0x30) = update_window_mode_from_progress__6TLobbyFPv(multi_chg_game_mode_window_extent, lbl_8047B8A0);
     if ((u32) *(u32 *)((s8 *)arg0 + 0x30) != 0U) {
-        ((TLobby *)(*(u32 *)((s8 *)arg0 + 0x30)))->send_and_handle((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((s32)arg0, (s32)arg1, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x24)))))), 3);
+        ((TWindowMessage *)(*(u32 *)((s8 *)arg0 + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((s32)arg0, (s32)arg1, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x24)))))), 3);
     }
 }
 
 void TAdMultiChgGameModeGC::close_window_30() {
     void *temp_r3 = *(void **)((s8 *)this + 0x30);
     if ((u32) temp_r3 != 0U) {
-        TWindow__close((u8 *)temp_r3);
+        ((TWindowBase *)temp_r3)->close();
         *(u32 *)((s8 *)this + 0x30) = 0U;
     }
     close_window__21TAdMultiChgGameModeGCFPv(this);
 }
-void close_window__21TAdMultiChgGameModeGCFPv(void* p) { if (*(unsigned int*)((char*)p + 0x34) != 0) { TWindow__close((u8 *)((void*)(*(void**)((char*)p + 0x34)))); *(int*)((char*)p + 0x34) = 0; } }
+void close_window__21TAdMultiChgGameModeGCFPv(void* p) { if (*(unsigned int*)((char*)p + 0x34) != 0) { ((TWindowBase *)((void*)(*(void**)((char*)p + 0x34))))->close(); *(int*)((char*)p + 0x34) = 0; } }
 
 #define self ((Self_8036E2AC *)arg0)
 s32 TAdMultiChgGameModeGC::setup_mode_menu(void *arg0, s32 arg1) {
@@ -271,8 +271,8 @@ void TAdMultiChgGameModeGC::handle_menu_input() {
     if (handle_mode_selection() == 0) {
         window_menu = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x34));
         if (window_menu != NULL) {
-            if (((int)((TWindowMenu *)window_menu)->is_visible()) != 0) {
-                selected_menu_value = get_selected_menu_value((void *) (*(u8 **)((s8 *)((u8 *)this) + 0x34)));
+            if (((int)((TWindowMenu *)window_menu)->is_decided()) != 0) {
+                selected_menu_value = ((TWindowMenu *)(*(u8 **)((s8 *)((u8 *)this) + 0x34)))->get_selected_value();
                 switch (selected_menu_value) {
                 case 0:
                     close_window_30();
@@ -314,13 +314,13 @@ void TAdMultiChgGameModeGC::create_back_objects() {
 }
 void TAdMultiChgGameModeGC__sub_8036E51C(u8 *ad_multi_chg_game_mode_gc) {
     if ((u32) *(u32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x34) != 0U) {
-        TWindow__close((u8 *)((void*)(*(void **)((s8 *)ad_multi_chg_game_mode_gc + 0x34))));
+        ((TWindowBase *)((void*)(*(void **)((s8 *)ad_multi_chg_game_mode_gc + 0x34))))->close();
         *(u32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x34) = 0U;
     }
     TAdMultiChgGameModeGC::setup_mode_menu(ad_multi_chg_game_mode_gc, 1);
     TAdMultiChgGameModeGC__sub_8036E19C(ad_multi_chg_game_mode_gc, 4);
     if ((u32) *(u32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x30) != 0U) {
-        ((TLobby *)(*(u32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x30)))->send_and_handle((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((s32)ad_multi_chg_game_mode_gc, 0, (s32)((s32)((int) (*(s32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x24))))))), 3);
+        ((TWindowMessage *)(*(u32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x30)))->append_line((s32)((int) (TAdMultiChgGameModeGC__sub_8036DE10((s32)ad_multi_chg_game_mode_gc, 0, (s32)((s32)((int) (*(s32 *)((s8 *)ad_multi_chg_game_mode_gc + 0x24))))))), 3);
     }
     ((TAdMultiChgGameModeGC *)ad_multi_chg_game_mode_gc)->create_back_objects();
 }

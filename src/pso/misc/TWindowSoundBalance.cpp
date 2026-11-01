@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSoundBalance.h"
 #include "pso/item/TItemMag.h"
 #include "pso/item/TItemProShield.h"
@@ -21,7 +21,7 @@ s32 TWindowShortListCtrl__check_controller_button(int, int);
 s32 play_sound_effect(s32, s32, s32, s32);
 SoundBalanceSettings *get_global_state__23TAdSinglePlyChrSelectGCFv();
 u32 calc_text_width();
-u8 *get_array_entry__13TUnk_804CE018Fi(void *, s32);
+u8 *get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_field_20__17TWindowSubComCardFv();
 s32 refresh_status_display__9TWindowDDFv(u8 *);
 extern s32 window_sound_balance_settings[];
@@ -183,11 +183,11 @@ u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1) {
     ((TWindowSoundBalance *)arg0)->selection = 0;
     ((TWindowSoundBalance *)arg0)->music_gain = 1;
     ((TWindowSoundBalance *)arg0)->sound_effect_gain = 1;
-    e = get_array_entry__13TUnk_804CE018Fi(arg0, 0);
+    e = get_array_entry__11TWindowBaseFi(arg0, 0);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = lbl_805DD414 - lbl_805DD418 * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
-    e = get_array_entry__13TUnk_804CE018Fi(arg0, 1);
+    e = get_array_entry__11TWindowBaseFi(arg0, 1);
     get_field_20__17TWindowSubComCardFv();
     *(f32 *)((s8 *)e + 8) = lbl_805DD414 - lbl_805DD418 * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);

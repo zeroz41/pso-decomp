@@ -14,7 +14,6 @@ extern "C" {
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 create_window_menu(s32, s32, s32);
-s32 get_selected_menu_value(s32);
 int queue_destruction__7TObjectFv(void*);
 int set_selected_index__21TWindowSubComCardListFs(void*);
 
@@ -25,21 +24,21 @@ s32 TWindowSubComCard::get_slot_or_neg1() {
     if ((u32) v == 0U) {
         return -1;
     }
-    return get_selected_menu_value(v);
+    return ((TWindowMenu *)v)->get_selected_value();
 }
 s32 TWindowSubComCard::get_card_data() {
     s32 v = this->m_2c;
     if ((u32) v == 0U) {
         return 0;
     }
-    return ((TWindowSubComCard *)v)->get_status_flag();
+    return ((TWindowMenu *)v)->is_cancelled();
 }
 
 s32 TWindowMessageYesNo::is_child_visible() {
     if ((u32) this->m_2c == 0U) {
         return 0;
     }
-    return ((TWindowMenu *)(this->m_2c))->is_visible();
+    return ((TWindowMenu *)(this->m_2c))->is_decided();
 }
 }
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);

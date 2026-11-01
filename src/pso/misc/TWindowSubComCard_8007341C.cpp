@@ -1,8 +1,9 @@
 #include "types.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubComCard_8007341C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TUnk_804CDFE8.h"
+#include "pso/misc/TWindowAddition.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -42,8 +43,8 @@ char *TQuestVmDownLoadServer__sub_8006EF6C(s32);
 s32 get_layout_id__20TWindowSubStatusDispFv(void *);
 s32 fn_80071A9C(void *, void *, void *);
 u8 *get_player_by_client_id(s32);
-void send_and_handle__6TLobbyFii(void *, char *, s32);
-void *set_window_mode_4__6TLobbyFPvll(void *, void *, s32);
+void append_line__14TWindowMessageFii(void *, char *, s32);
+void *create__14TWindowMessageFPvll(void *, void *, s32);
 void *get_window_layout_position(s32);
 int sprintf(char *, const char *, ...);
 char *strcat(char *, const char *);
@@ -66,9 +67,8 @@ extern char lbl_80438618[];
 extern s32 challenge_grade_letter_table[];
 extern char lbl_805D9128[2];
 extern char lbl_805D9130[2];
-void TWindow__close(void *);
 s32 TWindowCtrlMain__sub_8024CE58();
-int TWindowMenu::is_visible() { return (this->m_70 >> 1) & 0x1; }
+int TWindowMenu::is_decided() { return (this->m_70 >> 1) & 0x1; }
 typedef char RecoveredGlobal_800739BC_lbl_8048C9D8_size[sizeof(RecoveredGlobal_800739BC_lbl_8048C9D8) == 0x748 ? 1 : -1];
 
 #define CHAL ((Chal_80073738 *)&challenge_mode_state)
@@ -136,17 +136,17 @@ void TAdSinglePlyChrSelectGC::format_challenge_stage_times(s32 arg0, s32 arg1) {
 
 void TLobby::open_challenge_window(s32 arg0, s32 arg1) {
     void *win;
-    win = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
     (*(Chal_8007369C *)&challenge_mode_state).window = win;
     if (win == NULL) {
         return;
     }
-    ((TLobby *)win)->set_field_1c(lbl_805D9134);
+    ((TWindowBase *)win)->set_depth(lbl_805D9134);
     if (TCameraCtrl::get_camera_id() >= 2) {
-        ((TUnk_804CDFE8 *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(lbl_805D9138, lbl_805D9138);
+        ((TWindowAddition *)((*(Chal_8007369C *)&challenge_mode_state).window))->set_position_xy(lbl_805D9138, lbl_805D9138);
     }
     TAdSinglePlyChrSelectGC::format_challenge_stage_times(arg0, arg1);
-    send_and_handle__6TLobbyFii((*(Chal_8007369C *)&challenge_mode_state).window, challenge_progress_text_buffer, 0);
+    append_line__14TWindowMessageFii((*(Chal_8007369C *)&challenge_mode_state).window, challenge_progress_text_buffer, 0);
 }
 
 void TLobby::open_challenge_progress_window(void *arg1) {
@@ -155,14 +155,14 @@ void TLobby::open_challenge_progress_window(void *arg1) {
     Rec_80073738 *rec;
     s32 i;
     void *win;
-    win = set_window_mode_4__6TLobbyFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
+    win = create__14TWindowMessageFPvll(get_window_layout_position(0x3B), challenge_window_extent, 1);
     CHAL->window = win;
     if (win == NULL) {
         return;
     }
-    ((TLobby *)win)->set_field_1c(lbl_805D9134);
+    ((TWindowBase *)win)->set_depth(lbl_805D9134);
     if (TCameraCtrl::get_camera_id() >= 2) {
-        ((TUnk_804CDFE8 *)(CHAL->window))->set_position_xy(lbl_805D9138, lbl_805D9138);
+        ((TWindowAddition *)(CHAL->window))->set_position_xy(lbl_805D9138, lbl_805D9138);
     }
     sprintf(challenge_progress_text_buffer, lbl_80438628, TQuestVmDownLoadServer__sub_8006EF6C(0x4F));
     rec = CHAL->recs;
@@ -182,7 +182,7 @@ void TLobby::open_challenge_progress_window(void *arg1) {
             strcat(challenge_progress_text_buffer, lbl_805D912C);
         }
     }
-    send_and_handle__6TLobbyFii(CHAL->window, challenge_progress_text_buffer, 0);
+    append_line__14TWindowMessageFii(CHAL->window, challenge_progress_text_buffer, 0);
 }
 
 void TLobby__sub_800738F4(void *lobby, s32 arg1) {
@@ -192,7 +192,7 @@ void TLobby__sub_800738F4(void *lobby, s32 arg1) {
     }
     if ((*(Chal_800738F4 *)&challenge_mode_state).window != NULL) {
         if (arg1 == 0) {
-            TWindow__close((*(Chal_800738F4 *)&challenge_mode_state).window);
+            ((TWindowBase *)((*(Chal_800738F4 *)&challenge_mode_state).window))->close();
         } else {
             queue_destruction__7TObjectFv((*(Chal_800738F4 *)&challenge_mode_state).window);
         }

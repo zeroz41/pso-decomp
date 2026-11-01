@@ -2,7 +2,7 @@
 #include "pso/misc/TKeyBoardControl_8025CB70.h"
 #include "pso/misc/TWindowKeyBoardHard_802601D4.h"
 #include "pso/misc/TKeyBoardControl.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowKeyBoardHard.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/ui/Language.h"

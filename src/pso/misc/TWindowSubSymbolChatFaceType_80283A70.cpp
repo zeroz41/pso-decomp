@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowSubSymbolChat_80283954.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChatFaceType.h"
@@ -164,7 +164,7 @@ void TWindowSubSymbolChatFaceType__sub_80283F38(u8 *arg0, u8 *arg1) {
   u8 *temp_r3;
   Stack_80283F38 stack;
   new_var = fn_802839A4(arg0);
-  temp_r3 = (u8 *) ((TUnk_804CE018 *)arg0)->get_array_entry(new_var);
+  temp_r3 = (u8 *) ((TWindowBase *)arg0)->get_array_entry(new_var);
   stack.sp8 = (*((f32 *) (((s8 *) temp_r3) + 8))) - 3.0f;
   stack.spC = (*((f32 *) (((s8 *) temp_r3) + 0xC))) - 3.0f;
   TWindowSubSymbolChatFaceType__sub_80283C84((Ctx_80283C84 *)arg1, &stack.sp8, 66.0f, 0.3f);
@@ -182,7 +182,7 @@ void render__28TWindowSubSymbolChatFaceTypeFv(u8 *arg0) {
     s32 temp_r31;
     temp_r31 = draw_default_entry__9TWindowDDFl();
     ((TWindowSubSymbolChatFaceType *)arg0)->update_parts_entries();
-    ((TUnk_804CE018 *)arg0)->draw_window_frame((void *)temp_r31);
+    ((TWindowBase *)arg0)->draw_window_frame((void *)temp_r31);
     TWindowSubSymbolChatFaceType__sub_80283F38((u8 *)arg0, (u8 *)temp_r31);
     forward_render__20TWindowSubStatusDispFv((int) (((TWindowSubSymbolChatFaceType *)arg0)->m_68), temp_r31);
     draw_visible_window_entries(arg0, arg0 + 0x24, temp_r31);
@@ -207,7 +207,7 @@ void run_task__28TWindowSubSymbolChatFaceTypeFv(TWindowSubSymbolChatFaceType *wi
         ((TWindowSubStatusDisp *)(*(s32 *)&window_sub_symbol_chat_face_type->m_68))->update_subwindow();
     }
     ((TWindowDD *)window_sub_symbol_chat_face_type)->initialize_subwindow();
-    ((TUnk_804CE018 *)window_sub_symbol_chat_face_type)->update_window_entry_list((u8 *)window_sub_symbol_chat_face_type + 0x24);
+    ((TWindowBase *)window_sub_symbol_chat_face_type)->update_window_entry_list((u8 *)window_sub_symbol_chat_face_type + 0x24);
 }
 
 }

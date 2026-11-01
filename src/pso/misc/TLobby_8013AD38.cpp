@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby_8013AD38.h"
-#include "pso/misc/TUnk_804D0618.h"
+#include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TCheckRoomSequence.h"
 
@@ -20,8 +20,8 @@ extern RecoveredGlobal_8013ADB0_TAdEnterSerialAccessGC__data_804EC9B8 TAdEnterSe
 extern RecoveredGlobal_8013AD80_TAdEnterSerialAccessGC__data_804EC9C4 TAdEnterSerialAccessGC__access_key_input_buffer;
 int hex_to_decimal_string__22TAdEnterSerialAccessGCFi(void);
 
-int TUnk_804D0618::get_status_flag() { return (this->m_70 >> 1) & 0x1; }
-int TLobby::get_flag_bit2() { return (*(u16*)((char*)this + 0x70) >> 2) & 0x1; }
+int TWindowMenuIconLine::is_decided() { return (this->state_flags >> 1) & 0x1; }
+int TWindowMenuIconLine::is_cancelled() { return (this->state_flags >> 2) & 0x1; }
 int TLobby__sub_8013AD50(void* p) { return (*(u8*)((char*)p + 0x1d) >> 1) & 0x1; }
 s32 TLobby__sub_8013AD5C(void* p) { return *(s32*)((char*)p + 0x20); }
 u8 TLobby::get_mode() { return *(u8*)((char*)this + 0x1e); }

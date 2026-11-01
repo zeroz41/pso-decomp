@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowMessageLog.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 

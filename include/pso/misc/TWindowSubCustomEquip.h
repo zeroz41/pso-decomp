@@ -2,9 +2,9 @@
 #define PSO_MISC_TWINDOWSUBCUSTOMEQUIP_H
 
 #include "types.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 
-struct TWindowSubCustomEquip : public TUnk_804CE018 {
+struct TWindowSubCustomEquip : public TWindowBase {
     virtual ~TWindowSubCustomEquip();
     void handle_cursor_input();
     void update_palette_slot(s32, s32, s32);

@@ -6,7 +6,7 @@
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TUnk_804EF4E0.h"
 
 struct RecoveredGlobal_80338C88_lbl_804EF458 {
@@ -29,7 +29,7 @@ s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern RecoveredGlobal_80338C88_lbl_804EF458 lbl_804EF458;
 extern s32 __vt__16TEneParticleCtrl[];
 extern s32 TEneParticleCtrl__name;
-void *get_array_entry__13TUnk_804CE018Fi(void *, s16);
+void *get_array_entry__11TWindowBaseFi(void *, s16);
 s32 TWindowSubStatusDisp__sub_80338740(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, void *a7, void *a8);
 void free_collision_body_parts(void *);
@@ -79,7 +79,7 @@ u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2) {
 void*TEneParticleCtrl::get_field_38_ptr() { return (char*)this + 0x38; }
 void fn_80338D58(O_80338D58 *arg0, void *a1, void *a2, void *a3, void *a4, void *a5, void *a6, void *a7, void *a8) {
     if (arg0->idx < arg0->count) {
-        TWindowSubStatusDisp__sub_80338740(get_array_entry__13TUnk_804CE018Fi(arg0, arg0->idx), a1, a2, a3, a4, a5, a6, a7, a8);
+        TWindowSubStatusDisp__sub_80338740(get_array_entry__11TWindowBaseFi(arg0, arg0->idx), a1, a2, a3, a4, a5, a6, a7, a8);
         arg0->idx += 1;
     }
 }
@@ -96,13 +96,13 @@ void TUnk_804EF4E0::vfunc_6(u32 count, s32 id) {
 
     m_name = lbl_805D4260;
     m_20 = id;
-    m_72 = 0;
-    unk_74 = 0;
-    m_76 = count;
+    entry_count = 0;
+    cursor = 0;
+    entry_capacity = count;
     m_78 = 0;
     m_7c = 0;
-    m_70 = 0;
-    m_80 = 0;
+    state_flags = 0;
+    status_display = 0;
     unk_84 = 0;
     for (i = 0; i < (s32)count; i++) {
         entry = (TUnk_804EF4E0::Entry *)get_array_entry(i);

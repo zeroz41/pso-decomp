@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowCtrl_8026AD44.h"
 #include "pso/misc/TWindowMessageLog_8026AA38.h"
-#include "pso/misc/TUnk_804CE018.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowMessage.h"
 #include "pso/misc/TWindowMessageLog.h"
 

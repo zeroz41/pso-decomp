@@ -1,4 +1,6 @@
 #include "pso/protocol/protocol_types.h"
+#include "pso/misc/TWindowMessage.h"
+#include "pso/misc/TWindowBase.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/item/TItemMag.h"
 #include "pso/TMainTask.h"
@@ -1893,7 +1895,6 @@ void * __nw__7TObjectFUl(u32);
 }
 void create_quest_telepipe_for_client(u16 arg0);
 extern "C" {
-void TWindow__close(u8 *arg0);
 void request_active_window_close(void);
 s32 set_timer_window_time__11TWindowCtrlFv(int, void *);
 int close_timer_window__11TWindowCtrlFv(void*);
@@ -2057,7 +2058,7 @@ void qst_op_scroll_text() {
     void *win;
 
     if (qst_message_window != NULL) {
-        TWindow__close((u8 *)qst_message_window);
+        ((TWindowBase *)qst_message_window)->close();
     }
     pos.x = x;
     pos.y = y;
@@ -2150,7 +2151,7 @@ void qst_op_chat_box() {
     s32 arg = qst_args[5];
 
     if (qst_message_window != NULL) {
-        TWindow__close((u8 *)qst_message_window);
+        ((TWindowBase *)qst_message_window)->close();
     }
     pos.x = x;
     pos.y = y;
@@ -5983,7 +5984,7 @@ void qst_op_npc_crt(void) {
 
 void qst_op_winend(void) {
     if (qst_message_window != NULL) {
-        TWindow__close((u8 *)qst_message_window);
+        ((TWindowBase *)qst_message_window)->close();
         qst_message_window = NULL;
     }
     TWindowCtrl::clear_flag_bit2();
@@ -6035,7 +6036,7 @@ void qst_op_add_msg(void) {
         return;
     }
     if (qst_message_window_qb != 0) {
-        ((TLobby *)qst_message_window_qb)->send_and_handle(x, 3);
+        ((TWindowMessage *)qst_message_window_qb)->append_line(x, 3);
         qst_suspend_reason = QST_WAIT_MESSAGE_QB;
         return;
     }
@@ -6047,7 +6048,7 @@ extern "C" {
 
 void qst_op_close_msg_qb(void) {
     if (qst_message_window_qb != NULL) {
-        TWindow__close((u8 *)qst_message_window_qb);
+        ((TWindowBase *)qst_message_window_qb)->close();
         qst_message_window_qb = 0U;
     }
 }
@@ -6057,12 +6058,12 @@ void qst_op_disp_msg_qb(void) {
     s32 t = qst_args[0];
     Pair_801F1838 pr = lbl_80449A38[0];
     if (qst_message_window_qb != 0) {
-        TWindow__close((u8 *)qst_message_window_qb);
+        ((TWindowBase *)qst_message_window_qb)->close();
         qst_message_window_qb = 0;
     }
     qst_message_window_qb = (void *)update_window_mode_from_progress__6TLobbyFPv(get_window_layout_position(0x71), &pr);
-    ((TLobby *)qst_message_window_qb)->send_and_handle(t, 3);
-    ((TLobby *)qst_message_window_qb)->set_field_1c(lbl_805DC4D4);
+    ((TWindowMessage *)qst_message_window_qb)->append_line(t, 3);
+    ((TWindowBase *)qst_message_window_qb)->set_depth(lbl_805DC4D4);
     qst_suspend_reason = QST_WAIT_MESSAGE_QB;
 }
 
@@ -6071,7 +6072,7 @@ void qst_op_window_msg(void) {
     u32 temp_r3;
     text = qst_args[0];
     if (qst_message_window != NULL) {
-        TWindow__close((u8 *)qst_message_window);
+        ((TWindowBase *)qst_message_window)->close();
     }
     temp_r3 = create_quest_message_window();
     qst_message_window = (void *)temp_r3;
@@ -6117,7 +6118,7 @@ void qst_op_list(void) {
     ((TWindowSubComCard *)qst_list_window)->calc_window_size();
     align_menu_entry_positions((s32)qst_list_window);
     ((TCheckRoomSequence *)qst_list_window)->set_ready_flag();
-    ((TLobby *)qst_list_window)->set_field_1c(lbl_805DC4D8);
+    ((TWindowBase *)qst_list_window)->set_depth(lbl_805DC4D8);
     qst_registers[idx] = 0;
     qst_result_register = idx;
     qst_suspend_reason = QST_WAIT_LIST;
