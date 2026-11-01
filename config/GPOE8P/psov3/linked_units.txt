@@ -497,6 +497,7 @@ pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp
 pso/enemy/TObjEneMe3Stelth_800F0EC4.cpp
 pso/enemy/TObjEneMe3Stelth_802D70AC.cpp
 pso/enemy/TObjEneMe3Stelth_803DC82C.cpp
+pso/enemy/TObjEneMerillLia.cpp
 pso/enemy/TObjEneMoja.cpp
 pso/enemy/TObjEneMorfos.cpp
 pso/enemy/TObjEneMorfosArm.cpp
@@ -1669,6 +1670,7 @@ pso/misc/TWindowDD_80342E40.cpp
 pso/misc/TWindowDD_80346A84.cpp
 pso/misc/TWindowDD_80346F48.cpp
 pso/misc/TWindowDD_803471C0.cpp
+pso/misc/TWindowDD_8034725C.cpp
 pso/misc/TWindowDD_80347F34.cpp
 pso/misc/TWindowDD_80348100.cpp
 pso/misc/TWindowDD_80348304.cpp
@@ -2591,6 +2593,7 @@ pso/ui/TAdBackGC.cpp
 pso/ui/TAdBackGC_8029A7B0.cpp
 pso/ui/TAdBackTxtGC.cpp
 pso/ui/TAdChrMoveEffectGC.cpp
+pso/ui/TAdChrSelASlotGC.cpp
 pso/ui/TAdChrSelASlotGC_802A596C.cpp
 pso/ui/TAdChrSelBSlotGC.cpp
 pso/ui/TAdChrSelBSlotGC_8030E354.cpp
@@ -3496,6 +3499,7 @@ pso/unk/text_803CD840.cpp
 pso/unk/text_803CE1D8.cpp
 pso/unk/text_803CE1F4.cpp
 pso/unk/text_803CE240.cpp
+pso/unk/text_803CFEA0.cpp
 pso/unk/text_803D0C34.cpp
 pso/unk/text_803D2F1C.cpp
 pso/unk/text_803D31A4.cpp

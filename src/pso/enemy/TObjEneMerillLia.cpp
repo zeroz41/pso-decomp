@@ -1673,6 +1673,29 @@ extern u32 merill_lia_rock_buffer;
 extern u32 merill_lia_rock_aux_buffer;
 extern const f32 lbl_805DA33C;
 
+void TObjEneMerillLia::destroy_rocks() {
+    if ((u32) TObjEneMerillLia__rock_stats_table != 0U) {
+        mem_free((void*)TObjEneMerillLia__rock_stats_table);
+        TObjEneMerillLia__rock_stats_table = 0U;
+    }
+    if ((u32) merill_lia_rock_buffer != 0U) {
+        mem_free((void*)merill_lia_rock_buffer);
+        merill_lia_rock_buffer = 0U;
+    }
+    if ((u32) merill_lia_rock_aux_buffer != 0U) {
+        mem_free((void*)merill_lia_rock_aux_buffer);
+        merill_lia_rock_aux_buffer = 0U;
+    }
+    if ((u32) TObjEneMerillLia__rock_param_table != 0U) {
+        mem_free((void*)TObjEneMerillLia__rock_param_table);
+        TObjEneMerillLia__rock_param_table = 0U;
+    }
+    if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
+        TLobby__sub_8001FE7C((void*)TObjEneMerillLia__entry_params_resource, 1);
+        TObjEneMerillLia__entry_params_resource = 0U;
+    }
+}
+
 #pragma push
 #pragma opt_loop_invariants off
 void TObjEneMerillLia__sub_800D6D64(void) {
@@ -1719,29 +1742,6 @@ void TObjEneMerillLia__sub_800D6D64(void) {
     }
 }
 #pragma pop
-
-void TObjEneMerillLia::destroy_rocks() {
-    if ((u32) TObjEneMerillLia__rock_stats_table != 0U) {
-        mem_free((void*)TObjEneMerillLia__rock_stats_table);
-        TObjEneMerillLia__rock_stats_table = 0U;
-    }
-    if ((u32) merill_lia_rock_buffer != 0U) {
-        mem_free((void*)merill_lia_rock_buffer);
-        merill_lia_rock_buffer = 0U;
-    }
-    if ((u32) merill_lia_rock_aux_buffer != 0U) {
-        mem_free((void*)merill_lia_rock_aux_buffer);
-        merill_lia_rock_aux_buffer = 0U;
-    }
-    if ((u32) TObjEneMerillLia__rock_param_table != 0U) {
-        mem_free((void*)TObjEneMerillLia__rock_param_table);
-        TObjEneMerillLia__rock_param_table = 0U;
-    }
-    if ((u32) TObjEneMerillLia__entry_params_resource != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjEneMerillLia__entry_params_resource, 1);
-        TObjEneMerillLia__entry_params_resource = 0U;
-    }
-}
 
 void *__dt__16TObjEneMerillLiaFPvs(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
