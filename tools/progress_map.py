@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Browse standard objdiff reports offline, without inferring original source layout.
 
-Usage: python tools/progress_map.py build/<version>/report.json [...] -o build/progress [--readme README.md]
+Usage: python tools/progress_map.py build/<version>/report.json [...] -o build/progress [--badges DIR]
+
+Writes index.html (the table by unit and function) and treemap.html (one tile per
+function or data section, sized by bytes, grouped by the unit's current folder).
 
 The report's matched/complete counters remain authoritative. Complete means
 source selected by the build configuration; it does not prove a final hash.
@@ -18,8 +21,6 @@ COUNTERS = (
     "total_code", "matched_code", "complete_code", "total_data", "matched_data",
     "complete_data", "total_functions", "matched_functions", "total_units", "complete_units",
 )
-README_BEGIN = "<!-- progress-table -->"
-README_END = "<!-- /progress-table -->"
 CODE_SECTIONS = {".text", ".init", ".fini"}
 BSS_SECTIONS = {".bss", ".sbss", ".sbss2", ".common"}
 
@@ -127,7 +128,7 @@ PAGE = r'''<!doctype html>
 :root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#181b20;color:#eceff2;font:14px/1.5 system-ui,sans-serif}main{max-width:1440px;margin:auto;padding:24px}h1{font-size:24px;margin:0}p{margin:10px 0}.muted,small{color:#adb6c1}a{color:#9ec9f5}button,select,input{font:inherit;color:inherit;background:#242930;border:1px solid #454d58;border-radius:3px;padding:6px 9px}button{cursor:pointer}button:hover{background:#38414c}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #91c4fb;outline-offset:2px}.controls{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:18px 0}label{display:grid;gap:3px;color:#adb6c1;font-size:12px}#search{min-width:240px}#scope-note{border-left:3px solid #789abc;padding-left:10px}.numbers{display:flex;gap:28px;flex-wrap:wrap;margin:18px 0}.numbers strong{font-size:20px;margin-right:8px}#breadcrumbs{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#breadcrumbs button{padding:3px 8px}#detail{min-height:46px;overflow-wrap:anywhere;color:#adb6c1}.tablewrap{overflow:auto;border:1px solid #454d58}table{border-collapse:collapse;width:100%;font-size:13px;text-align:right}th,td{padding:8px 11px;border-bottom:1px solid #343b44;white-space:nowrap}th{background:#242930}th button{padding:0;background:none;border:0}th:first-child,td:first-child{text-align:left}td:first-child{max-width:580px;white-space:normal;overflow-wrap:anywhere}td button{color:#b8d8f9;padding:0;background:none;border:0;text-align:left}td small{display:block}.meter{display:block;height:4px;background:#414750;margin:4px 0}.meter span{display:block;height:100%;background:#468bd2}.linked span{background:#3b984c}tbody tr:hover{background:#252d37}#pager{display:flex;gap:12px;align-items:center;margin:15px 0}#warning{color:#eab968}details{margin-top:18px}footer{margin-top:20px;color:#adb6c1;font-size:12px}@media(max-width:700px){main{padding:12px}h1{font-size:21px}.numbers{gap:12px}.numbers strong{font-size:17px}#search{min-width:180px}}
 </style></head><body><main>
 <h1>PSO objdiff report</h1>
-<p class="muted">Episode I &amp; II Plus · USA v1.02</p>
+<p class="muted">Episode I &amp; II Plus · USA v1.02 · <a href="treemap.html">Treemap</a></p>
 <p id="scope-note"></p>
 <div class="controls">
 <label>Executable / module<select id="scope"></select></label>
@@ -197,6 +198,240 @@ const first=scopes.findIndex(s=>s.node.name.toLowerCase()==='psov3');if(scopes.l
 '''
 
 
+TREEMAP_WIDTH, TREEMAP_HEIGHT = 1600, 1000
+TREEMAP_HEADER = 15
+
+
+def treemap_area(unit_name):
+    """The folder a unit sits in, at most two levels below its module, read from its current path."""
+    parts = str(unit_name).replace("\\", "/").split("/")
+    folders = parts[1:-1][:2]
+    if folders:
+        return "/".join(folders)
+    return "unclaimed data" if parts[-1].startswith("auto_") else parts[0]
+
+
+def treemap_state(similarity, linked):
+    """0 linked, 1 matched, 2 near (>= 90%), 3 partial (>= 50%), 4 started, 5 not started."""
+    if similarity >= 100:
+        return 0 if linked else 1
+    return 2 if similarity >= 90 else 3 if similarity >= 50 else 4 if similarity > 0 else 5
+
+
+def naming_tier(name):
+    """0 named, 1 class-attributed placeholder (Class::sub_...), 2 placeholder (fn_, lbl_, @)."""
+    if name.startswith(("fn_", "lbl_", "@")):
+        return 2
+    return 1 if "__sub_" in name else 0
+
+
+def squarify(items, x, y, w, h):
+    """Lay items (dicts with "size", largest first) out in the rectangle; sets item["rect"]."""
+    total = sum(item["size"] for item in items)
+    if total <= 0 or w <= 0 or h <= 0:
+        for item in items:
+            item["rect"] = (x, y, 0, 0)
+        return
+    scale = w * h / total
+    rest = list(items)
+    while rest:
+        side = min(w, h)
+        row, row_area, worst = [], 0.0, math.inf
+        while rest:
+            area = rest[0]["size"] * scale
+            areas = [item["size"] * scale for item in row] + [area]
+            total_area = row_area + area
+            ratio = max(max(side * side * a / (total_area * total_area), total_area * total_area / (side * side * a))
+                        for a in areas)
+            if row and ratio > worst:
+                break
+            row.append(rest.pop(0))
+            row_area, worst = total_area, ratio
+        thickness = row_area / side
+        offset = 0.0
+        for item in row:
+            length = item["size"] * scale / thickness
+            item["rect"] = (x, y + offset, thickness, length) if w >= h else (x + offset, y, length, thickness)
+            offset += length
+        if w >= h:
+            x, w = x + thickness, w - thickness
+        else:
+            y, h = y + thickness, h - thickness
+
+
+def treemap_layout(units) -> Dict:
+    """Nest tiles in their unit and area.
+
+    Every tile is [x, y, w, h, state, tier, bytes, address, unit, name, linked, similarity].
+    """
+    areas = {}
+    for unit in units:
+        if unit["tiles"]:
+            area = areas.setdefault(treemap_area(unit["name"]), [])
+            area.append({**unit, "size": sum(t["size"] for t in unit["tiles"])})
+    groups = sorted(({"name": name, "units": members, "size": sum(u["size"] for u in members)}
+                     for name, members in areas.items()), key=lambda g: (-g["size"], g["name"]))
+    squarify(groups, 0, 0, TREEMAP_WIDTH, TREEMAP_HEIGHT)
+    names, unit_rects, tiles, area_rows = [], [], [], []
+    for group in groups:
+        x, y, w, h = group["rect"]
+        header = TREEMAP_HEADER if w > 60 and h > 3 * TREEMAP_HEADER else 0
+        group["units"].sort(key=lambda u: (-u["size"], u["name"]))
+        squarify(group["units"], x + 1, y + header, w - 2, h - header - 1)
+        counts = {"bytes": 0, "matched": 0, "linked": 0, "items": 0, "exact": 0, "placeholders": 0}
+        for unit in group["units"]:
+            unit_rects.append([round(v, 2) for v in unit["rect"]])
+            names.append(unit["name"].split("/", 1)[-1])
+            unit["tiles"].sort(key=lambda t: (-t["size"], t["address"]))
+            squarify(unit["tiles"], *unit["rect"])
+            for t in unit["tiles"]:
+                tiles.append([*(round(v, 2) for v in t["rect"]), t["state"], t["tier"], t["size"], t["address"],
+                              len(names) - 1, t["name"], int(t["linked"]), round(t["similarity"], 2)])
+                counts["bytes"] += t["size"]
+                counts["items"] += 1
+                counts["matched"] += t["size"] if t["state"] < 2 else 0
+                counts["linked"] += t["size"] if t["linked"] else 0
+                counts["exact"] += t["state"] < 2
+                counts["placeholders"] += t["tier"] == 2
+        area_rows.append([group["name"], *(round(v, 2) for v in group["rect"]), counts])
+    return {"areas": area_rows, "units": names, "unit_rects": unit_rects, "tiles": tiles}
+
+
+def treemap_data(report: Dict) -> Dict:
+    """Code (one tile per function) and data (one tile per data section) treemaps of a report."""
+    code, data = [], []
+    for unit in report.get("units", []):
+        metadata = unit.get("metadata") or {}
+        name, linked = str(unit.get("name", "?")), metadata.get("complete") is True
+        functions, sections = [], []
+        for function in unit.get("functions") or []:
+            function_metadata = function.get("metadata") or {}
+            functions.append({
+                "size": int(number(function.get("size"))),
+                "name": str(function_metadata.get("demangled_name") or function.get("name", "?")),
+                "address": int(number(function_metadata.get("virtual_address"))),
+                "similarity": number(function.get("fuzzy_match_percent")), "linked": linked,
+                "state": treemap_state(number(function.get("fuzzy_match_percent")), linked),
+                "tier": naming_tier(str(function.get("name", ""))),
+            })
+        for section in unit.get("sections") or []:
+            if section_kind(str(section.get("name"))) == "code":
+                continue
+            sections.append({
+                "size": int(number(section.get("size"))), "name": str(section.get("name", "?")),
+                "address": int(number((section.get("metadata") or {}).get("virtual_address"))),
+                "similarity": number(section.get("fuzzy_match_percent")), "linked": linked,
+                "state": treemap_state(number(section.get("fuzzy_match_percent")), linked), "tier": 0,
+            })
+        code.append({"name": name, "tiles": [f for f in functions if f["size"] > 0]})
+        data.append({"name": name, "tiles": [s for s in sections if s["size"] > 0]})
+    m = measures(report.get("measures") or {})
+    functions = [t for unit in code for t in unit["tiles"]]
+    layouts = {"code": treemap_layout(code), "data": treemap_layout(data)}
+    # The tiles must account for every counted byte; say so on the page if they ever do not.
+    sums = {
+        "total_code": "code", "matched_code": "code", "complete_code": "code",
+        "total_data": "data", "matched_data": "data", "complete_data": "data",
+    }
+    warnings = []
+    for key, mode in sums.items():
+        tiles = layouts[mode]["tiles"]
+        value = sum(t[6] for t in tiles if key.startswith("total") or
+                    (t[10] if key.startswith("complete") else t[4] < 2))
+        if value != m[key]:
+            warnings.append(f"{key}: report {m[key]:,}, tiles {value:,}")
+    if len(functions) != m["total_functions"] or sum(f["state"] < 2 for f in functions) != m["matched_functions"]:
+        warnings.append(f"functions: report {m['matched_functions']:,} of {m['total_functions']:,}, tiles "
+                        f"{sum(f['state'] < 2 for f in functions):,} of {len(functions):,}")
+    return {
+        "width": TREEMAP_WIDTH, "height": TREEMAP_HEIGHT, "measures": m, "layouts": layouts, "warnings": warnings,
+        "named": sum(f["tier"] == 0 for f in functions),
+    }
+
+
+TREEMAP_PAGE = r"""<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PSO progress treemap</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#181b20;color:#eceff2;font:14px/1.5 system-ui,sans-serif}main{max-width:1640px;margin:auto;padding:24px}h1{font-size:24px;margin:0}p{margin:10px 0}.muted{color:#adb6c1}a{color:#9ec9f5}select,input{font:inherit;color:inherit;background:#242930;border:1px solid #454d58;border-radius:3px;padding:6px 9px}input:focus-visible,select:focus-visible{outline:2px solid #91c4fb;outline-offset:2px}.bars{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px 28px;margin:18px 0}.bar div{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:#adb6c1;margin-bottom:3px}.bar b{color:#eceff2}.track{display:block;height:8px;background:#343b44;border-radius:4px;overflow:hidden}.track span{display:block;height:100%;border-radius:4px}.controls{display:flex;gap:12px;align-items:end;flex-wrap:wrap;margin:14px 0}label{display:grid;gap:3px;color:#adb6c1;font-size:12px}#search{min-width:260px}.legend{display:flex;gap:6px 16px;flex-wrap:wrap;font-size:12px;color:#adb6c1;margin:8px 0 12px}.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:5px;vertical-align:-1px}canvas{display:block;width:100%;height:auto;border:1px solid #454d58;background:#0f1114}#warning{color:#eab968}#tip{position:fixed;pointer-events:none;background:#242930;border:1px solid #454d58;border-radius:4px;padding:7px 9px;font-size:12px;max-width:440px;overflow-wrap:anywhere;display:none;z-index:2}#tip b{display:block;color:#eceff2}#tip span{display:block;color:#adb6c1;font-family:ui-monospace,monospace}@media(max-width:700px){main{padding:12px 16px}h1{font-size:21px}#search{min-width:0;width:100%}}
+</style></head><body><main>
+<h1>PSO progress treemap</h1>
+<p class="muted">Episode I &amp; II Plus · USA v1.02 · <a href="index.html">Table by unit and function</a></p>
+<div id="bars" class="bars"></div>
+<p id="warning"></p>
+<p class="muted" id="about"></p>
+<div class="controls">
+<label>Measure<select id="mode"><option value="code">Code</option><option value="data">Data</option></select></label>
+<label>Colour<select id="colour"><option value="state">Progress</option><option value="names">Progress and names</option></select></label>
+<label>Search<input id="search" type="search" placeholder="Function, section, unit or 0x800…"></label>
+<span id="found" class="muted"></span>
+</div>
+<div id="legend" class="legend"></div>
+<canvas id="canvas"></canvas>
+<div id="tip"></div>
+</main>
+<script type="application/json" id="data">__TREEMAP_DATA__</script>
+<script>
+'use strict';
+const D=JSON.parse(document.getElementById('data').textContent),M=D.measures,$=id=>document.getElementById(id);
+const fmt=n=>Number(n).toLocaleString('en-US'),pct=(n,d)=>d?(100*n/d).toFixed(2)+'%':'—';
+const STATES=[['#3b984c','Linked'],['#8bc34a','Matched, not linked'],['#d2a922','90% or more'],['#9a6f12','50% to 90%'],['#5c4310','Started'],['#2c3139','Not started']];
+const NAMED=[['#3b984c','Matched, named'],['#a3b52b','Matched, Class::sub_ name'],['#468bd2','Matched, placeholder name']];
+const canvas=$('canvas'),ctx=canvas.getContext('2d'),tip=$('tip');
+let mode=location.hash==='#data'?'data':'code',colour='state',hits=null,scale=1,L=D.layouts[mode];
+for(const[label,part,whole,count,c]of[['Code matched',M.matched_code,M.total_code,0,'#3b984c'],['Code linked',M.complete_code,M.total_code,0,'#2f7d3e'],
+  ['Functions matched',M.matched_functions,M.total_functions,1,'#3b984c'],['Data matched',M.matched_data,M.total_data,0,'#d2a922'],
+  ['Data linked',M.complete_data,M.total_data,0,'#9a7a1a'],['Units linked',M.complete_units,M.total_units,1,'#2f7d3e'],
+  ['Functions named',D.named,M.total_functions,1,'#468bd2']]){
+  const bar=document.createElement('div'),top=document.createElement('div'),name=document.createElement('span'),value=document.createElement('b'),track=document.createElement('span'),fill=document.createElement('span');
+  bar.className='bar';track.className='track';name.textContent=label+(count?' ('+fmt(part)+' of '+fmt(whole)+')':'');value.textContent=pct(part,whole);
+  fill.style.width=(whole?100*part/whole:0)+'%';fill.style.background=c;track.append(fill);top.append(name,value);bar.append(top,track);$('bars').append(bar);}
+$('warning').textContent=D.warnings.length?'The tiles do not add up to the report: '+D.warnings.join('; '):'';
+function palette(){return mode==='code'&&colour==='names'?[...NAMED,...STATES.slice(2)]:STATES;}
+function fill(t){if(t[4]<2&&mode==='code'&&colour==='names')return NAMED[t[5]][0];return STATES[t[4]][0];}
+function describe(t){return (t[4]<2?'matched':t[11].toFixed(2)+'% match')+(t[10]?', linked':', not linked');}
+function legend(){const l=$('legend');l.textContent='';for(const[c,n]of palette()){const s=document.createElement('span'),i=document.createElement('i');i.style.background=c;s.append(i,n);l.append(s);}
+  $('about').textContent=mode==='code'?'One tile per function, sized by its bytes, inside its current unit and that unit\'s folder.':'One tile per data section (.data, .rodata, .bss, …), sized by its bytes, inside its current unit and that unit\'s folder.';}
+function header(a){const c=a[5],kind=mode==='code'?' fns':' sections';
+  return a[0]+' — '+pct(c.matched,c.bytes)+' matched · '+pct(c.linked,c.bytes)+' linked · '+fmt(c.exact)+'/'+fmt(c.items)+kind+(mode==='code'&&c.placeholders?' · '+fmt(c.placeholders)+' unnamed':'');}
+function draw(){
+  const ratio=window.devicePixelRatio||1,width=canvas.clientWidth;scale=width/D.width;
+  canvas.width=Math.round(width*ratio);canvas.height=Math.round(D.height*scale*ratio);canvas.style.height=(D.height*scale)+'px';
+  ctx.setTransform(ratio*scale,0,0,ratio*scale,0,0);ctx.fillStyle='#0f1114';ctx.fillRect(0,0,D.width,D.height);
+  for(const t of L.tiles){ctx.globalAlpha=hits&&!hits.has(t)?0.12:1;ctx.fillStyle=fill(t);ctx.fillRect(t[0],t[1],t[2],t[3]);}
+  ctx.globalAlpha=1;ctx.strokeStyle='rgba(15,17,20,.6)';ctx.lineWidth=0.6/scale;
+  for(const r of L.unit_rects)if(r[2]*scale>4&&r[3]*scale>4)ctx.strokeRect(r[0],r[1],r[2],r[3]);
+  const text=Math.min(10.5,12*scale);ctx.strokeStyle='#0f1114';ctx.lineWidth=2/scale;ctx.font=(text/scale)+'px system-ui,sans-serif';ctx.textBaseline='top';
+  for(const a of L.areas){const[,x,y,w,h]=a;ctx.strokeRect(x,y,w,h);if(text>=7&&w*scale>60&&h>45){ctx.fillStyle='#0f1114';ctx.fillRect(x,y,w,15);ctx.fillStyle='#d5dae0';ctx.save();ctx.beginPath();ctx.rect(x,y,w,15);ctx.clip();ctx.fillText(header(a),x+3,y+2);ctx.restore();}}
+}
+function at(e){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)/scale,y=(e.clientY-r.top)/scale;
+  for(const t of L.tiles)if(x>=t[0]&&x<t[0]+t[2]&&y>=t[1]&&y<t[1]+t[3])return['tile',t];
+  for(const a of L.areas)if(x>=a[1]&&x<a[1]+a[3]&&y>=a[2]&&y<a[2]+a[4])return['area',a];return null;}
+canvas.addEventListener('mousemove',e=>{const hit=at(e);if(!hit){tip.style.display='none';return;}
+  tip.textContent='';const b=document.createElement('b'),a=document.createElement('span'),u=document.createElement('span');
+  if(hit[0]==='tile'){const t=hit[1];b.textContent=t[9];a.textContent='0x'+t[7].toString(16).toUpperCase().padStart(8,'0')+' · '+fmt(t[6])+' bytes · '+describe(t);u.textContent=L.units[t[8]];}
+  else{b.textContent=hit[1][0];a.textContent=header(hit[1]).slice(hit[1][0].length+3);}
+  tip.append(b,a,u);tip.style.display='block';const w=tip.offsetWidth,h=tip.offsetHeight;
+  tip.style.left=Math.max(8,Math.min(e.clientX+14,innerWidth-w-8))+'px';tip.style.top=(e.clientY+h+22>innerHeight?e.clientY-h-10:e.clientY+14)+'px';});
+canvas.addEventListener('mouseleave',()=>tip.style.display='none');
+function search(){const q=$('search').value.trim().toLowerCase();
+  if(!q){hits=null;$('found').textContent='';return;}const address=/^0x[0-9a-f]+$/.test(q)?parseInt(q,16):null;
+  hits=new Set(L.tiles.filter(t=>address!==null?address>=t[7]&&address<t[7]+t[6]:t[9].toLowerCase().includes(q)||L.units[t[8]].toLowerCase().includes(q)));
+  $('found').textContent=fmt(hits.size)+(mode==='code'?' functions':' sections');}
+function setMode(m){mode=m;L=D.layouts[mode];$('mode').value=mode;$('colour').disabled=mode!=='code';search();legend();draw();}
+$('mode').addEventListener('change',e=>{history.replaceState(null,'',e.target.value==='data'?'#data':location.pathname);setMode(e.target.value);});
+$('colour').addEventListener('change',e=>{colour=e.target.value;legend();draw();});
+$('search').addEventListener('input',()=>{search();draw();});
+addEventListener('resize',draw);setMode(mode);
+</script></body></html>
+"""
+
+
+def render_treemap(report: Dict) -> str:
+    data = json.dumps(treemap_data(report), ensure_ascii=True, separators=(",", ":")).replace("<", "\\u003c")
+    return TREEMAP_PAGE.replace("__TREEMAP_DATA__", data)
+
+
 def render_page(reports):
     # A script element is raw text even for application/json; escape '<' to keep
     # report symbol names from closing it. DOM rendering uses textContent.
@@ -227,40 +462,47 @@ def generate(report_paths, output, width=1280, height=720) -> Path:
         reports.append(normalized)
     index = output / "index.html"
     index.write_text(render_page(reports), encoding="utf-8")
+    first = json.loads(paths[0].read_text(encoding="utf-8"))
+    (output / "treemap.html").write_text(render_treemap(first), encoding="utf-8")
     return index
 
 
-def readme_table(report: Dict) -> str:
-    """The README's progress table, from a report's top-level counters."""
+def badge_color(percent):
+    for floor, color in ((100, "brightgreen"), (90, "green"), (75, "yellowgreen"), (50, "yellow"), (25, "orange")):
+        if percent >= floor:
+            return color
+    return "red"
+
+
+def badges(report: Dict) -> Dict[str, Dict]:
+    """shields.io endpoint badges for the README, from a report's top-level counters."""
     m = measures(report.get("measures", {}))
 
     def pct(part, whole):
-        return f"{100 * part / whole:.2f}%" if whole else "0.00%"
+        return 100 * part / whole if whole else 0.0
 
-    return "\n".join([
-        "| | Matched | Linked |",
-        "|:--|--:|--:|",
-        f"| Code | {pct(m['matched_code'], m['total_code'])} | {pct(m['complete_code'], m['total_code'])} |",
-        f"| Data | {pct(m['matched_data'], m['total_data'])} | {pct(m['complete_data'], m['total_data'])} |",
-        f"| Functions | {pct(m['matched_functions'], m['total_functions'])} "
-        f"({m['matched_functions']:,} of {m['total_functions']:,}) | |",
-        f"| Units | | {pct(m['complete_units'], m['total_units'])} "
-        f"({m['complete_units']:,} of {m['total_units']:,}) |",
-    ]) + "\n"
+    def badge(label, percent, count=None):
+        message = f"{percent:.2f}%"
+        if count:
+            message += f" ({count[0]:,} of {count[1]:,})"
+        return {"schemaVersion": 1, "label": label, "message": message, "color": badge_color(percent)}
+
+    return {
+        "code": badge("code matched", pct(m["matched_code"], m["total_code"])),
+        "code-linked": badge("code linked", pct(m["complete_code"], m["total_code"])),
+        "data": badge("data matched", pct(m["matched_data"], m["total_data"])),
+        "data-linked": badge("data linked", pct(m["complete_data"], m["total_data"])),
+        "functions": badge("functions matched", pct(m["matched_functions"], m["total_functions"]),
+                           (m["matched_functions"], m["total_functions"])),
+        "units-linked": badge("units linked", pct(m["complete_units"], m["total_units"]),
+                              (m["complete_units"], m["total_units"])),
+    }
 
 
-def update_readme(readme: Path, report_path: Path) -> bool:
-    """Rewrite the table between the README's progress markers; True if it changed."""
-    text = readme.read_text(encoding="utf-8")
-    if text.count(README_BEGIN) != 1 or text.count(README_END) != 1:
-        raise ValueError(f"{readme} needs one {README_BEGIN} ... {README_END} block")
-    head, rest = text.split(README_BEGIN)
-    _, tail = rest.split(README_END)
-    table = readme_table(json.loads(Path(report_path).read_text(encoding="utf-8")))
-    new = f"{head}{README_BEGIN}\n{table}{README_END}{tail}"
-    if new != text:
-        readme.write_text(new, encoding="utf-8")
-    return new != text
+def write_badges(directory: Path, report_path: Path) -> None:
+    directory.mkdir(parents=True, exist_ok=True)
+    for name, badge in badges(json.loads(Path(report_path).read_text(encoding="utf-8"))).items():
+        (directory / f"{name}.json").write_text(json.dumps(badge) + "\n", encoding="utf-8")
 
 
 def main() -> None:
@@ -269,14 +511,14 @@ def main() -> None:
     parser.add_argument("-o", "--output", type=Path, default=Path("build/progress"))
     parser.add_argument("--width", type=int, default=1280, help=argparse.SUPPRESS)
     parser.add_argument("--height", type=int, default=720, help=argparse.SUPPRESS)
-    parser.add_argument("--readme", type=Path, help="also update this README's progress table from the first report")
+    parser.add_argument("--badges", type=Path, help="also write the README's badge data from the first report here")
     args = parser.parse_args()
     try:
         index = generate(args.reports, args.output, args.width, args.height)
         print(f"wrote {index}")
-        if args.readme:
-            changed = update_readme(args.readme, args.reports[0])
-            print(f"{'updated' if changed else 'unchanged'}: progress table in {args.readme}")
+        if args.badges:
+            write_badges(args.badges, args.reports[0])
+            print(f"wrote badges to {args.badges}")
     except ValueError as error:
         parser.error(str(error))
 

@@ -1,0 +1,77 @@
+# Publishes master's progress to GitHub Pages: the browsable progress page
+# (tools/progress_map.py) and the JSON the README's shields.io badges read. Nothing is
+# committed back to the repository, so the README never goes stale or needs updating.
+#
+# Builds on the same self-hosted runner as ci.yml (see there for the disc setup), but
+# only for pushes to master, so it never runs fork code. Publishing needs Settings →
+# Pages → Source set to "GitHub Actions".
+
+name: Progress
+
+on:
+  push:
+    branches: [master]
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: progress
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: [self-hosted, pso-lxc]
+    timeout-minutes: 120
+    env:
+      DISC_SHA1: 0ff155311f4cc57951c03baeb1a8cc15de5fe1cd
+      ORIG: /opt/pso-ci/orig
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Disc image (verified, read-only, never uploaded)
+        run: |
+          mkdir -p orig/GPOE8P
+          ln -sfn "$ORIG/GPOE8P/game.iso" orig/GPOE8P/game.iso
+          ok=0
+          for i in 1 2 3; do
+            if test -f orig/GPOE8P/game.iso; then ok=1; break; fi
+            sleep 5
+          done
+          [ "$ok" = 1 ] || { echo "::error::original disc copy missing at $ORIG/GPOE8P/game.iso"; exit 1; }
+          echo "$DISC_SHA1  orig/GPOE8P/game.iso" | sha1sum -c -
+
+      - name: Build
+        run: |
+          python3 configure.py
+          ninja
+
+      - name: Progress page and badges
+        run: |
+          python3 tools/progress_map.py build/GPOE8P/report.json -o site --badges site/badges
+          git rev-parse HEAD > site/commit.txt
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
