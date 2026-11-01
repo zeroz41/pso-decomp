@@ -906,7 +906,7 @@ void TLobby::load_font_texture() {
         s32 r;
         prs_decompress_buffer((s32)lobby_font_texture_prs_data, (s32)file);
         r = load_gvm_texture_archive(file, lbl_8049C61C);
-        ((TLobby *)lbl_8043D9F4)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_8043D9F4);
         lobby_font_texture_loaded = 1;
         if (r == -1) {
             lobby_font_texture_loaded = 0;

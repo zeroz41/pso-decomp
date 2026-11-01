@@ -770,7 +770,9 @@ struct TLobby : public TObject {
     s32 validate_and_store_net_params();
     void init_net_config();
     void send_text_packet_D9(char *str);
-    s32 tmp_buf_release();
+    static void tmp_buf_release_if_owner(const char *name);
+    static s32 tmp_buf_release(const char *name);
+    static s32 tmp_buf_is_free();
     static s32 tmp_buf_use_req(const char *name);
     void handle_quest_download_chunk();
     static u16 alloc_actor_ids(s32 arg);

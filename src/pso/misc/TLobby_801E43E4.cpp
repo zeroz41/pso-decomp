@@ -163,7 +163,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     if (allocated != 0) {
         TAdSinglePlyChrSelectGC::safe_free((u32)buf);
     } else {
-        ((TLobby *)lbl_804497C4)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_804497C4);
     }
     if (ret < 0) {
         debug_print__6TLobbyFle(texture_pvm_load_error_format, name);

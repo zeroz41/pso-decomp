@@ -162,7 +162,6 @@ s32 TLobby__sub_8001EDD8(void *, s32);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
 extern s32 lbl_80434C70[];
 extern s32 lbl_80434C98[];
-void TLobby__sub_8001EDF4(u8 *arg0);
 s32 TLobby__sub_800F9FF4(s32);
 void mem_free(void *p);
 s32 release_texture_list(void *);
@@ -457,11 +456,11 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
     case 9:
         self->state = 0xA;
     case 10:
-        ((TLobby *)lbl_80434B44)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_80434B44);
         lbl_805D4AE0 = NULL;
         return 1;
     case 11:
-        ((TLobby *)lbl_80434B44)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_80434B44);
         lbl_805D4AE0 = NULL;
         return -1;
     }
@@ -490,7 +489,7 @@ void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1) {
     if (self->f434 <= self->f4 && self->f438 <= self->f8 && self->f43c <= self->fc) {
         ((TLobby *)self)->set_flag_and_notify();
         self->f418 = 0;
-        ((TLobby *)lbl_80434C38)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_80434C38);
     }
 }
 
@@ -655,7 +654,7 @@ Lobby_8001FE7C *TLobby__sub_8001FE7C(Lobby_8001FE7C *self, s16 del) {
                 for (i = 0; i < self->nHandles; i++) {
                     TLobby__sub_800F9FF4(self->handles[i]);
                 }
-                TLobby__sub_8001EDF4((u8 *)lbl_80434C38);
+                TLobby::tmp_buf_release_if_owner((const char *)lbl_80434C38);
             }
         }
         for (i = 0; i < self->nEnts16; i++) {

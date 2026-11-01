@@ -382,7 +382,7 @@ TGStreamPrefix *destroy_gstream(TGStreamPrefix *g_stream_prefix, s16 arg1) {
             ((TLobby *)(g_stream_prefix->adxf_handle))->close_adxf_handle();
         }
         if ((s32) g_stream_prefix->direct_read_mode == 0) {
-            ((TLobby *)TGStream__class_name_string)->tmp_buf_release();
+            TLobby::tmp_buf_release((const char *)TGStream__class_name_string);
         }
         if (arg1 > 0) {
             ::operator delete(g_stream_prefix);
@@ -416,7 +416,7 @@ TGStreamPrefix *open__8TGStreamFPvPvi(TGStreamPrefix *g_stream_prefix, void *fil
     }
     g_stream_prefix->direct_read_mode = arg2;
     if ((s32) g_stream_prefix->direct_read_mode == 0) {
-        while (TLobby__sub_8001EEF4() == 0) {
+        while (TLobby::tmp_buf_is_free() == 0) {
             TLobby::pump_frames();
         }
         gstream_tmp_buffer = TLobby::tmp_buf_use_req((const char *)TGStream__class_name_string);

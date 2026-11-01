@@ -271,8 +271,8 @@ void TQuestListVM::close_windows() {
 void TQuestListVM::set_enemy_mode_3() { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 3; TKeyBoardControl__sub_8000F950(); }
 
 void TQuestListVM::load_vm() {
-    if (TLobby__sub_8001EEF4() == 0) {
-        ((TLobby *)((s32) &TQuestListVM__data_8044BF20))->tmp_buf_release();
+    if (TLobby::tmp_buf_is_free() == 0) {
+        TLobby::tmp_buf_release((const char *)TQuestListVM__data_8044BF20);
     }
     (*(s32 *)&evt2_random_enemies_mode) = 0;
 }
@@ -302,8 +302,8 @@ s32 TQuestListVM::close_and_destroy() {
     if (temp_r12 != NULL) {
         temp_r12();
     }
-    if (TLobby__sub_8001EEF4() == 0) {
-        ((TLobby *)TQuestListVM__data_8044BF20)->tmp_buf_release();
+    if (TLobby::tmp_buf_is_free() == 0) {
+        TLobby::tmp_buf_release((const char *)TQuestListVM__data_8044BF20);
     }
     queue_destruction__7TObjectFv(this);
 }
@@ -315,8 +315,8 @@ s32 TQuestListVM::close() {
     if (temp_r12 != NULL) {
         temp_r12();
     }
-    if (TLobby__sub_8001EEF4() == 0) {
-        ((TLobby *)TQuestListVM__data_8044BF20)->tmp_buf_release();
+    if (TLobby::tmp_buf_is_free() == 0) {
+        TLobby::tmp_buf_release((const char *)TQuestListVM__data_8044BF20);
     }
     TQuestListVM::reset();
     queue_destruction__7TObjectFv(this);
@@ -549,7 +549,7 @@ void TQuestListVM::sub_80219064() {
 }
 
 s32 TQuestListVM::quest_vm_load() {
-    if (TLobby__sub_8001EEF4() != 0) {
+    if (TLobby::tmp_buf_is_free() != 0) {
         this->m_2384 = TLobby::tmp_buf_use_req((const char *)TQuestListVM__data_8044BF20);
         this->set_field_20(this->m_2370);
     }
@@ -809,7 +809,7 @@ void TQuestListVM::scan_memcard_quest_files(void *arg0) {
 
 s32 TQuestListVM::load_quest_vm() {
     u8 *arg0 = (u8 *)this;
-    if (TLobby__sub_8001EEF4() != 0) {
+    if (TLobby::tmp_buf_is_free() != 0) {
         this->m_2384 = TLobby::tmp_buf_use_req((const char *)((s32) &(*(RecoveredGlobal_80219A9C_TQuestListVM__data_8044BF20 *)&TQuestListVM__data_8044BF20).value));
         TQuestListVM__decrypted_quest_buffer = this->m_2384;
         TQuestListVM__decompression_capacity = 0x40000;
@@ -915,7 +915,7 @@ void *__dt__12TQuestListVMFv(TQuestListVM *arg0, s16 arg1) {
             arg0->m_2388 = 0U;
         }
         quest_list_vm_instance = 0;
-        TLobby__sub_8001EDF4((u8 *)TQuestListVM__data_8044BF20);
+        TLobby::tmp_buf_release_if_owner((const char *)TQuestListVM__data_8044BF20);
         __dt__15TShopWindowBaseFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

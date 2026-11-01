@@ -65,7 +65,7 @@ u8 *load_gvm_texture_file(s32 arg0) {
         if (big != 0) {
             TAdSinglePlyChrSelectGC::safe_free(big);
         } else {
-            ((TLobby *)lbl_8044983C)->tmp_buf_release();
+            TLobby::tmp_buf_release((const char *)lbl_8044983C);
         }
         return NULL;
     }
@@ -96,7 +96,7 @@ u8 *load_gvm_texture_file(s32 arg0) {
     if (big != 0) {
         TAdSinglePlyChrSelectGC::safe_free(big);
     } else {
-        ((TLobby *)lbl_8044983C)->tmp_buf_release();
+        TLobby::tmp_buf_release((const char *)lbl_8044983C);
     }
     return res;
 }

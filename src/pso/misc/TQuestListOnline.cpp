@@ -210,7 +210,7 @@ void TQuestListOnline::decompress_quest_list_buffers() {
 #pragma pop
 
 void TQuestListOnline::request_download_buffer() {
-    if (TLobby__sub_8001EEF4() != 0) {
+    if (TLobby::tmp_buf_is_free() != 0) {
         TQuestListOnline__decompression_cursor = TLobby::tmp_buf_use_req((const char *)lbl_8044BEB0);
         set_field_20__15TShopWindowBaseFl(this, 6);
     }

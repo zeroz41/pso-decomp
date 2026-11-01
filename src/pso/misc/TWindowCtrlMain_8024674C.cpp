@@ -53,7 +53,7 @@ void load_hud_palette_textures(void) {
     TLanguage::draw_string((void *)lbl_8044E720, (void *)sp8, 1);
     TLanguage::draw_string((void *)lbl_8044E734, (void *)sp8, 0x4A);
     TLanguage::draw_string((void *)lbl_8044E748, (void *)sp8, 0x43);
-    ((TLobby *)lbl_8044E658)->tmp_buf_release();
+    TLobby::tmp_buf_release((const char *)lbl_8044E658);
     TLobby__sub_8023E554((s32)lbl_8044E758, (s32)f256_hyouji_texlist);
     lbl_805D63F0 = (u32)f256_hyouji_texlist;
     TObjFish::set_global_param((s32)((void *)f256_hyouji_texlist));
