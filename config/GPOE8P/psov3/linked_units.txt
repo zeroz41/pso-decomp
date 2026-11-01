@@ -1706,6 +1706,7 @@ pso/misc/TWindowKeyBoardHard_801FBA48.cpp
 pso/misc/TWindowKeyBoardHard_8025EB68.cpp
 pso/misc/TWindowKeyBoardHard_802601D4.cpp
 pso/misc/TWindowKeyBoardHard_8026038C.cpp
+pso/misc/TWindowKeyBoardSoft.cpp
 pso/misc/TWindowKeyBoardSoft_80080798.cpp
 pso/misc/TWindowKeyBoardSoft_80228BEC.cpp
 pso/misc/TWindowKeyBoardSoft_8024E68C.cpp
@@ -1872,6 +1873,7 @@ pso/misc/TWindowSubStatusDisp_8024F688.cpp
 pso/misc/TWindowSubStatusDisp_8024FBA8.cpp
 pso/misc/TWindowSubStatusDisp_80255DF4.cpp
 pso/misc/TWindowSubStatusDisp_8025737C.cpp
+pso/misc/TWindowSubStatusDisp_80257784.cpp
 pso/misc/TWindowSubStatusDisp_80257BC0.cpp
 pso/misc/TWindowSubStatusDisp_802598E4.cpp
 pso/misc/TWindowSubStatusDisp_8025995C.cpp
@@ -1883,6 +1885,7 @@ pso/misc/TWindowSubStatusDisp_802671F0.cpp
 pso/misc/TWindowSubStatusDisp_80268488.cpp
 pso/misc/TWindowSubStatusDisp_80268738.cpp
 pso/misc/TWindowSubStatusDisp_8026CE3C.cpp
+pso/misc/TWindowSubStatusDisp_8026F6DC.cpp
 pso/misc/TWindowSubStatusDisp_80281198.cpp
 pso/misc/TWindowSubStatusDisp_80287570.cpp
 pso/misc/TWindowSubStatusDisp_80288030.cpp
