@@ -117,7 +117,7 @@ s32 get_quest_list_text(s32, s32);
 f32 get_scale__15TShopWindowBaseFv(void *);
 u8 *create_yes_no_window(s32 arg0, s32 arg1, u32 arg2, u32 arg3);
 s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
-void *create__14TWindowMessageFllUls(void *, void *, s32, s32);
+void *create__14TWindowMessageFllUll(void *, void *, s32, s32);
 void *get_window_layout_position(s32);
 void *create__14TWindowMessageFPvll(void *, void *, s32);
 extern Pos_80216F50 lbl_8044BE9C[];
@@ -220,7 +220,7 @@ void TQuestListOffline::update_list_navigation() {
         if (((Win_80216CF8 *)this)->f44 == NULL) {
             pos.a = lbl_8044BEA4[0].a;
             pos.b = lbl_8044BEA4[0].b;
-            ((Win_80216CF8 *)this)->f44 = create__14TWindowMessageFllUls(get_window_layout_position(0x2E), &pos, 1, get_entity_id(((Win_80216CF8 *)this)->f24));
+            ((Win_80216CF8 *)this)->f44 = create__14TWindowMessageFllUll(get_window_layout_position(0x2E), &pos, 1, get_entity_id(((Win_80216CF8 *)this)->f24));
             msg2 = get_quest_list_text(0xE, ((Win_80216CF8 *)this)->f54[sel].fC);
             ((TWindowMessage *)(((Win_80216CF8 *)this)->f44))->append_line(msg2, 0x80);
             ((TWindowBase *)(((Win_80216CF8 *)this)->f44))->set_depth(lbl_805DC694);

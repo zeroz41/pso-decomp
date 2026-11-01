@@ -337,7 +337,7 @@ void TLobby::setup_quest_list() {
         ((void (*)())update_and_reset__6TLobbyFi)();
         break;
     case 3:
-        TQuestListVM::get_data();
+        TQuestListVM::get_quest_dat();
         ((void (*)())update_and_reset__6TLobbyFi)();
         break;
     case 4:

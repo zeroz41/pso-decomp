@@ -80,7 +80,6 @@ extern s32 local_client_id;
 extern s32 game_difficulty_selection;
 extern s32 evt2_random_enemies_mode;
 extern u8 controller_input_state[];
-extern int TQuestListVM__decompression_capacity;
 extern int quest_bin_decompressed_size;
 extern int online_quest_bin_data;
 extern char offline_quest_filename_buffer_a[];
@@ -759,7 +758,7 @@ TUnk_804C8678 *TQuestThread::create_by_mode() {
     case 2:
         return new TUnk_804C8678(tl_su, (void *)TQuestListOnline::get_quest_data(), TQuestListOnline::get_quest_size());
     case 3: {
-        TUnk_804C8678 *root = new TUnk_804C8678(tl_su, (void *)TQuestListVM::get_instance(), TQuestListVM::get_quest_size());
+        TUnk_804C8678 *root = new TUnk_804C8678(tl_su, TQuestListVM::get_quest_bin(), TQuestListVM::get_quest_size());
         TQuestListVM::reset();
         return root;
     }
@@ -856,7 +855,7 @@ void free_menu_object(void *window) {
 
 void fn_801F6520(void *p) { *(u16 *)((u8 *)p + 0x60) &= 0xfffe; }
 
-int TQuestListVM::get_quest_size() { return TQuestListVM__decompression_capacity; }
+u32 TQuestListVM::get_quest_size() { return decompression_capacity; }
 
 int TQuestListOnline::get_quest_size() { return quest_bin_decompressed_size; }
 

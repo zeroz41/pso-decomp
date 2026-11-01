@@ -112,7 +112,7 @@ s32 get_quest_list_text(int, int, int);
 f32 get_scale__15TShopWindowBaseFv(void *);
 void *create_yes_no_window(s32, u16, s32, s32);
 s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
-void *create__14TWindowMessageFllUls(s32, Pair_80288DA4 *, s32, u16);
+void *create__14TWindowMessageFllUll(s32, Pair_80288DA4 *, s32, u16);
 s32 get_window_layout_position(s32);
 void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self);
 s32 lbl_805D64A8;
@@ -300,7 +300,7 @@ void update_selection__19TQuestListChallengeFv(QLC_80288DA4 *self) {
         p.a = lbl_80450AB4[0].a;
         p.b = lbl_80450AB4[0].b;
         id = (u16)get_entity_id(self->f24);
-        self->f40 = create__14TWindowMessageFllUls(get_window_layout_position(0x2E), &p, 1, id);
+        self->f40 = create__14TWindowMessageFllUll(get_window_layout_position(0x2E), &p, 1, id);
         text2 = SUB_80222C28(self->f50, self->entries[sel].f8);
         ((TWindowMessage *)(self->f40))->append_line(text2, 0x80);
         ((TWindowBase *)(self->f40))->set_depth(37000.0f);

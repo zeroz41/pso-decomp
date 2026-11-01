@@ -70,8 +70,8 @@ public:
     static void register_global_instance_dtor();
     void clear_flag4_bit4();
     static s32 is_ready();
-    int get_serial_access();
-    int poll_serial_access();
+    static s32 get_serial_access();
+    static s32 poll_serial_access();
     static void destroy_instance();
     static void reset_download();
     void init(void* a1, void* a2, void* a3, void* a4);
@@ -142,5 +142,11 @@ public:
     s32 find_name_index();
 };
 typedef char TQuestVmDownLoadServer_size_check[sizeof(TQuestVmDownLoadServer) == 0x2A4 ? 1 : -1];
+
+// The two seeds of the download cipher; a quest saved to a memory card is
+// encrypted with the console's serial number in both.
+extern __declspec(section ".data") u32 download_rng_seed_pair[2];
+
+void seed_download_rng(s32 seed);
 
 #endif

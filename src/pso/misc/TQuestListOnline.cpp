@@ -79,7 +79,7 @@ extern "C" {
 s32 get_entity_id(int);
 int set_field_20__15TShopWindowBaseFl(void*, int);
 s32 append_line__14TWindowMessageFii(int, void *, int);
-u32 create__14TWindowMessageFllUls(int, void *, int, int);
+u32 create__14TWindowMessageFllUll(int, void *, int, int);
 s32 get_window_layout_position(int);
 u32 create__14TWindowMessageFPvll(s32, void *, int);
 extern Stack_80217EC4 lbl_8044BED4[];
@@ -289,7 +289,7 @@ void TQuestListOnline::show_info_window() {
         stack.sp8 = *(s32 *)((s8 *)&lbl_8044BEDC.value + 0);
         stack.spC = *(s32 *)((s8 *)&lbl_8044BEDC.value + 4);
         temp_r31 = get_entity_id(window_owner);
-        info_window = create__14TWindowMessageFllUls((int) (get_window_layout_position(0x2E)), (void *)&stack.sp8, 1, (int) ((s32) temp_r31));
+        info_window = create__14TWindowMessageFllUll((int) (get_window_layout_position(0x2E)), (void *)&stack.sp8, 1, (int) ((s32) temp_r31));
         ((TWindowBase *)info_window)->set_depth(lbl_805DC6A4);
         if (TCameraCtrl::get_camera_id() >= 2) {
             ((TWindowAddition *)info_window)->set_position_xy(lbl_805DC6A8, lbl_805DC6A8);

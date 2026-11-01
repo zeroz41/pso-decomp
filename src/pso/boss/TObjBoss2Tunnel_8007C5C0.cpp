@@ -128,7 +128,7 @@ s32 TObjBoss2Tunnel::run_confirm_message_loop() {
         lbl_805D4EA4 = lbl_80438A80[0] - lbl_805D9218;
         lbl_805D4EA8 = 1;
     }
-    win = (VObj_8007C5C0 *)TWindowMessage::create((s32)lbl_80438A78, (s32)lbl_80438A80, (u32)1, (s16)4);
+    win = (VObj_8007C5C0 *)TWindowMessage::create((s32)lbl_80438A78, (s32)lbl_80438A80, (u32)1, 4);
     if (win != NULL) {
         ((TWindowMessage *)win)->append_line(get_localized_text_entry(0x24, 0xB), 3);
         ((TWindowBase *)win)->set_depth(lbl_805D921C);
@@ -204,7 +204,7 @@ void TObjBoss2Tunnel::show_message_and_wait(s32 arg0) {
         lbl_805D4E9C = lbl_80438A70[0] - lbl_805D9218;
         boss2_tunnel_message_shown_flag = 1;
     }
-    win = (VObj_8007C8AC *)TWindowMessage::create((s32)lbl_80438A68, (s32)lbl_80438A70, (u32)1, (s16)4);
+    win = (VObj_8007C8AC *)TWindowMessage::create((s32)lbl_80438A68, (s32)lbl_80438A70, (u32)1, 4);
     if (win != NULL) {
         switch (arg0) {
         case -2:

@@ -18,8 +18,8 @@ struct TWindowMessage : public TWindowAddition {
     void advance_reveal_cursor();
     void scroll_up_line(u8 *);
     int append_line(int text, int mode);
-    static u8 *create(s32 arg0, s32 arg1, u32 arg2, s16 arg3);
-    static void create(void *arg0, s32 arg1, s32 arg2);
+    static u8 *create(s32 arg0, s32 arg1, u32 arg2, s32 arg3);
+    static u8 *create(void *arg0, s32 arg1, s32 arg2);
     u8 unk_1C[0x4];
     s16 m_20;
     u8 unk_22[0x2];
