@@ -79,6 +79,14 @@ struct KbSoft_8025D8C8 {
     s32 count;
 };
 
+struct KbSoft_8025DBDC {
+    u8 pad0[0x84];
+    u16 *buf;
+    s32 count;
+    u8 pad8c[0xb4 - 0x8c];
+    u32 mode;
+};
+
 struct Stack_8025E6DC {
     f32 sp8;
     f32 spC;
@@ -114,7 +122,11 @@ s32 TWindowKeyBoardSoft__sub_8025D378(void *, void *);
 s32 TWindowKeyBoardSoft__sub_8025D544(void *, s32 *, s8 *);
 void TWindowKeyBoardSoft__sub_8025D7FC(KbSoft_8025D7FC *self);
 void TWindowKeyBoardSoft__sub_8025D8C8(KbSoft_8025D8C8 *self);
-s32 TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
+void TWindowKeyBoardSoft__sub_8025DBDC(void *, s32);
+s32 dispatch_request_0f__19TWindowKeyBoardSoftFll(void *, void *);
+s32 dispatch_request_0x10__19TWindowKeyBoardSoftFll(void *, void *);
+s32 is_alpha_char__20TWindowSubStatusDispFUs(u16);
+void delete_chars__19TWindowKeyBoardSoftFll(void *, s32, s32);
 void fn_8025DE10(void *, void *);
 void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32);
 void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *, TWindowKeyBoardSoft *, f32 *, u16 *, u32, s32);
@@ -654,6 +666,57 @@ void TWindowKeyBoardSoft::convert_input_text() {
     if (TWindowKeyBoardSoft__sub_8025D544(this, (s32 *)sp8, sp108) != 0) {
         write_name_and_text((char *)((s32 *)sp8), (char *)(sp108));
         *(u16 *)((s8 *)this + 0x60) = (u16) (*(u16 *)((s8 *)this + 0x60) | 4);
+    }
+}
+
+void TWindowKeyBoardSoft__sub_8025DBDC(void *arg0, s32 arg1) {
+    KbSoft_8025DBDC *self = (KbSoft_8025DBDC *)arg0;
+    u16 *p;
+    s32 lim; u32 n; s32 j; s32 rb; s32 ret; s8 c; s8 *q;
+    u32 cnt;
+    s8 out[5]; s8 scratch[8];
+    cnt = self->count;
+    if (cnt == 0) return;
+    p = self->buf + cnt - 1;
+    lim = cnt;
+    n = 0;
+    if ((s32)cnt > 4) lim = 4;
+    while (is_alpha_char__20TWindowSubStatusDispFUs(*p) != 0) { lim--; p--; n++; if (lim <= 0) break; }
+    p++; j = 0;
+    while (j < n) { out[j] = (u8)*p; j++; p++; }
+    out[j] = 0;
+    q = out;
+    for (;;) {
+        rb = n * 2;
+        if (n == 0) break;
+        if (arg1 == 0 && n == 1) { c = *q; if (c == 'n' || c == 'N') return; }
+        if (self->mode & 8) { ret = dispatch_request_0f__19TWindowKeyBoardSoftFll(q, scratch); } else { ret = dispatch_request_0x10__19TWindowKeyBoardSoftFll(q, scratch); }
+        if (ret != 0 && n > 1 && q[0] == q[1]) {
+            if (self->mode & 8) {
+                *(u16 *)((s8*)self->buf + self->count * 2 - rb) = 0x8362;
+            } else {
+                *(u16 *)((s8*)self->buf + self->count * 2 - rb) = 0x82C1;
+            }
+        }
+        q++; n--; rb -= 2;
+        if (ret != 0) continue;
+        s32 bytes = 0;
+        s8 *w = scratch;
+        u16 *dst = (u16 *)((char *)self->buf + self->count * 2 - ((n + 1) * 2));
+        u16 v;
+        while (*w != 0) {
+            v = *w++;
+            bytes++;
+            v <<= 8;
+            v |= *w & 0xFF;
+            w++;
+            *dst = v;
+            dst++;
+        }
+        s32 m = (n + 1) - bytes;
+        delete_chars__19TWindowKeyBoardSoftFll((s8 *)self + 0x84, self->count - m, m);
+        self->count = self->count - m;
+        break;
     }
 }
 
