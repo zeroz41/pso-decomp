@@ -70,8 +70,8 @@ u32 __nw__7TObjectFUl(int);
 
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(int, void *, int);
 s32 query_memcard_capacity__15TAdPlayerLoadGCFl(int, int);
-extern u8 lbl_804C89BC[];
-extern u8 lbl_804C88C0[];
+extern char lbl_804C89BC[];
+extern char lbl_804C88C0[];
 s32 TAdPlayerLoadGC__sub_801E1944(s32, void *, u32, s32);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 
@@ -173,7 +173,7 @@ void TAdSinglePlyChrSelectGC::sub_8033AA64() {
 void TAdSinglePlyChrSelectGC::handle_player_load() {
     O_8033AB04 *arg0 = (O_8033AB04 *)this;
     u32 p;
-    if (((TAdPlayerLoadGC *)(arg0->f24))->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(arg0->f24) == 0) {
         arg0->f2C = 0;
         ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
         return;
@@ -238,7 +238,7 @@ void TAdSinglePlyChrSelectGC::check_memcard_space() {
 
 void TAdSinglePlyChrSelectGC::sub_8033ACF4() {
     O_8033ACF4 *arg0 = (O_8033ACF4 *)this;
-    if (((TAdPlayerLoadGC *)(arg0->f24))->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(arg0->f24) == 0) {
         arg0->f2C = 0;
         ((s32 (*)(void *))TAdSinglePlyChrSelectGC__sub_8033B5F0)(arg0);
         return;
@@ -514,7 +514,6 @@ void __dt__7TObjectFv(void *, int);
 void free_buffer__13TUnk_804EF8C0Fv(void *);
 extern void* lbl_804EF8C0[];
 extern RecoveredGlobal_8033B9C4_lbl_80513910 chr_select_serial_seeds;
-s32 find_card_file__15TAdPlayerLoadGCFiPv(void *, void *);
 extern char pso_system_card_filename[];
 
 extern "C" void TWindowCtrlMain__sub_8024D838();
@@ -616,15 +615,15 @@ u8 TAdSinglePlyChrSelectGC__sub_8033B9F8(u8 *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x3C) == 1);
 }
 
-s32 TAdSinglePlyChrSelectGC::has_no_save_files() {
-    if (find_card_file__15TAdPlayerLoadGCFiPv(this, ((u8 *)&pso_system_card_filename)) != 0 || find_card_file__15TAdPlayerLoadGCFiPv(this, lbl_804C88C0) != 0 || find_card_file__15TAdPlayerLoadGCFiPv(this, lbl_804C89BC) != 0) {
+s32 TAdSinglePlyChrSelectGC::has_no_save_files(s32 chan) {
+    if (TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename) != 0 || TAdPlayerLoadGC::find_card_file(chan, lbl_804C88C0) != 0 || TAdPlayerLoadGC::find_card_file(chan, lbl_804C89BC) != 0) {
         return 0;
     }
     return 1;
 }
 
-bool TAdSinglePlyChrSelectGC__sub_8033BA84(void *self) {
-    return !find_card_file__15TAdPlayerLoadGCFiPv(self, pso_system_card_filename);
+bool TAdSinglePlyChrSelectGC__sub_8033BA84(s32 chan) {
+    return !TAdPlayerLoadGC::find_card_file(chan, pso_system_card_filename);
 }
 
 #pragma pop

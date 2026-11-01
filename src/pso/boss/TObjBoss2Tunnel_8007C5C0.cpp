@@ -301,7 +301,7 @@ s32 save_screen_snapshot(void) {
     if (memcard_check_snapshot(1, 0) == 0) {
         return 0;
     }
-    if (((TAdSinglePlyChrSelectGC *)1)->load_player_slot((int)TObjBoss2Tunnel__data_80438A08, (int)TObjBoss2Tunnel__snapshot_buffer) != 0) {
+    if (TAdSinglePlyChrSelectGC::load_player_slot(1, (const char *)TObjBoss2Tunnel__data_80438A08, (void *)TObjBoss2Tunnel__snapshot_buffer) != 0) {
         return 0;
     }
     TObjBoss2Tunnel__snapshot_state = 2;

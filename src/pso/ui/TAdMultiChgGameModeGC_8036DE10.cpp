@@ -427,19 +427,19 @@ void TAdMultiChgGameModeGC::set_state(s32 arg1) {
 }
 
 s32 check_system_file_status__23TAdSinglePlyChrSelectGCFv(void) {
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         return 1;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) != 0) {
         return 2;
     }
-    if (((TAdPlayerLoadGC *)0)->probe_and_check_card() == 0) {
+    if (TAdPlayerLoadGC::probe_and_check_card(0) == 0) {
         return 4;
     }
     if (TAdPlayerLoadGC::check_memcard_status(0) != 0) {
         return 4;
     }
-    if ((find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)&lbl_804C88C0.value) != 0) || (find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)((const char *)&lbl_804C89BC.value)) != 0) || (find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
+    if ((TAdPlayerLoadGC::find_card_file(0, (const char *)&lbl_804C88C0.value) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&lbl_804C89BC.value)) != 0) || (TAdPlayerLoadGC::find_card_file(0, (const char *)((const char *)&pso_system_card_filename.value)) != 0)) {
         return 8;
     }
     return 0;

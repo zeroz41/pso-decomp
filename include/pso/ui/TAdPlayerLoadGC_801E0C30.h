@@ -9,7 +9,6 @@ void TAdPlayerLoadGC__sub_801E14E4(void);
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
 int TAdPlayerLoadGC__sub_801E1510(void);
 s32 TAdPlayerLoadGC__sub_801E1518(void *arg0, s32 arg1, u32 arg2);
-s32 find_card_file__15TAdPlayerLoadGCFiPv(s32 chan, const char *name);
 }
 
 #endif

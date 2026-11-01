@@ -236,7 +236,7 @@ s32 TQuestListVM::update_load_status() {
     var_r30 = 0;
     this->m_23a4 = 0;
     do {
-        if (((TAdPlayerLoadGC *)var_r30)->probe_card_slot() != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(var_r30) != 0) {
             this->m_23a4 = (s32) (this->m_23a4 | (1 << var_r30));
         }
         var_r30 += 1;
@@ -401,7 +401,7 @@ void TQuestListVM::load_selected_slot() {
         i = get_cursor_value__19TWindowMenuIconLineFv(this->m_2374);
         if (TAdPlayerLoadGC__sub_801E1B50(q->recs[i].slot) == 0) {
             sprintf(buf, lbl_8044BF50, lbl_8044BEE8, q->recs[i].num + 1);
-            if (((TAdSinglePlyChrSelectGC *)(q->recs[i].slot))->load_player_slot((int)buf, this->m_2388) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player_slot(q->recs[i].slot, buf, (void *)this->m_2388) == 0) {
                 this->set_field_20((s32)((void *)0xc));
                 return;
             }
@@ -537,7 +537,7 @@ void TQuestListVM::sub_80219064() {
     if (this->m_2374 != 0 && this->m_2388 != 0) {
         i = get_cursor_value__19TWindowMenuIconLineFv(this->m_2374);
         if (TAdPlayerLoadGC__sub_801E1B50(q->ents[i].id) == 0) {
-            if (((TAdSinglePlyChrSelectGC *)(q->ents[i].id))->load_player_slot((int)q->ents[i].data, this->m_2388) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player_slot(q->ents[i].id, q->ents[i].data, (void *)this->m_2388) == 0) {
                 this->set_field_20((s32)((void *)9));
                 return;
             }
@@ -706,7 +706,7 @@ void TQuestListVM::load_selected_player_slot() {
     Obj_8021969C *arg0 = (Obj_8021969C *)this;
     if (this->m_2388 != 0) {
         if (TAdPlayerLoadGC__sub_801E1B50(arg0->recs[this->m_2368].slot) == 0) {
-            if (((TAdSinglePlyChrSelectGC *)(arg0->recs[this->m_2368].slot))->load_player_slot((int)((char *)&arg0->recs[this->m_2368]), this->m_2388) == 0) {
+            if (TAdSinglePlyChrSelectGC::load_player_slot(arg0->recs[this->m_2368].slot, (char *)&arg0->recs[this->m_2368], (void *)this->m_2388) == 0) {
                 ((TShopWindowBase *)arg0)->set_field_20((s32)((void*)((void *)4)));
                 return;
             }
@@ -724,7 +724,7 @@ void TQuestListVM::scan_memcard_quest_files(void *arg0) {
     while (q->cur < 0x5F) {
         memset(buf, (void *)0, (void *)0xD);
         sprintf(buf, lbl_8044BF50, lbl_8044BEE8, q->cur + 1);
-        switch (find_card_file__15TAdPlayerLoadGCFiPv(q->slot, buf)) {
+        switch (TAdPlayerLoadGC::find_card_file(q->slot, buf)) {
         case 0:
             ok = 1;
             break;
@@ -742,7 +742,7 @@ void TQuestListVM::scan_memcard_quest_files(void *arg0) {
         }
         memset(buf, (void *)0, (void *)0xD);
         sprintf(buf, lbl_8044BF50, lbl_8044BEE8, q->cur);
-        switch (find_card_file__15TAdPlayerLoadGCFiPv(q->slot, buf)) {
+        switch (TAdPlayerLoadGC::find_card_file(q->slot, buf)) {
         case 0:
             if (ok == 0) {
                 q->flagA = 1;

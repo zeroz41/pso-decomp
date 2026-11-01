@@ -61,7 +61,7 @@ s32 TAdMultiSaveGC__sub_802FF314(void) {
 void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
     s32 selected_menu_value;
     s32 var_r30;
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         ad_multi_save_gc->m_1c = 0U;
     }
     switch (ad_multi_save_gc->m_1c) {
@@ -82,7 +82,7 @@ void run_task__14TAdMultiSaveGCFv(TAdMultiSaveGC *ad_multi_save_gc) {
             ((TWindowBase *)(*(void **)((s8 *)ad_multi_save_gc + 0x30)))->close();
             ad_multi_save_gc->m_30 = 0U;
         }
-        if (((TAdPlayerLoadGC *)0)->probe_card_slot() != 0) {
+        if (TAdPlayerLoadGC::probe_card_slot(0) != 0) {
             ad_multi_save_gc->m_1c = 1U;
             return;
         }

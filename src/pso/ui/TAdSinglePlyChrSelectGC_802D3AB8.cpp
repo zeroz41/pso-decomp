@@ -438,7 +438,7 @@ void TAdSinglePlyChrSelectGC::sub_802D4730() {
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if (find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)(&lbl_804C89BC.value)) == 0) {
+        if (TAdPlayerLoadGC::find_card_file(0, (const char *)(&lbl_804C89BC.value)) == 0) {
             if ((u32) *(u32 *)((s8 *)arg0 + 0x40) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
                 *(u32 *)((s8 *)arg0 + 0x40) = 0U;
@@ -471,7 +471,7 @@ void TAdSinglePlyChrSelectGC::sub_802D486C() {
         return;
     }
     if (TAdPlayerLoadGC__sub_801E1B50(0) == 0) {
-        if ((u32)find_card_file__15TAdPlayerLoadGCFiPv(0, (const char *)&lbl_804C89BC.value) != 0xFFFFFF41U) {
+        if ((u32)TAdPlayerLoadGC::find_card_file(0, (const char *)&lbl_804C89BC.value) != 0xFFFFFF41U) {
             if (*(u32 *)((s8 *)arg0 + 0x3C) != 0U) {
                 ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
                 *(u32 *)((s8 *)arg0 + 0x3C) = 0U;

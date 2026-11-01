@@ -55,7 +55,7 @@ void load_memcard_file(void) {
         return;
     }
     memset(buf, 0, stat.blocks << 13);
-    ((TAdSinglePlyChrSelectGC *)slot)->load_player_slot((int)memcard_file_099_name, (int)buf);
+    TAdSinglePlyChrSelectGC::load_player_slot(slot, (const char *)memcard_file_099_name, buf);
     while (TAdPlayerLoadGC__sub_801E1B50(slot) != 0) {
         TLobby::run_frame();
     }

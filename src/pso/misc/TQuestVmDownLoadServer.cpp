@@ -148,7 +148,6 @@ struct QVm_801F6D24;extern "C" {
 void *alloc__22TQuestVmDownLoadServerFv(s32);
 void *memset(void *, int, u32);
 int sprintf(char *, const char *, ...);
-s32 find_card_file__15TAdPlayerLoadGCFiPv(s32 chan, const char *name);
 void subtractive_rng_seed(SubtractiveRng *, u32);
 void TAdPlayerLoadGC__sub_801E14E4(void *);
 void TAdPlayerLoadGC__sub_801E14E8(u8 *arg0, s32 arg1);
@@ -831,7 +830,7 @@ void TQuestVmDownLoadServer::check_memcard_slot() {
         s32 t = TAdMcSelectGC::get_selected_slot_index();
         slot = t;
     }
-    if (((TAdPlayerLoadGC *)slot)->probe_card_slot() != 0 && ((TAdPlayerLoadGC *)slot)->probe_and_check_card() != 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(slot) != 0 && TAdPlayerLoadGC::probe_and_check_card(slot) != 0) {
         cap = query_memcard_capacity__15TAdPlayerLoadGCFl(slot, 0);
         switch (cap) {
         case -0xFD:
@@ -924,9 +923,9 @@ void TQuestVmDownLoadServer::find_free_file_names() {
     for (i = lbl_805DC6B0; i < lbl_805DC6B4; i += 2) {
         memset(buf, 0, 0xD);
         sprintf(buf, lbl_8044A68C, lbl_8044BEE8, i);
-        if (find_card_file__15TAdPlayerLoadGCFiPv(self->f25C, buf) == 0xFFFFFF05) {
+        if (TAdPlayerLoadGC::find_card_file(self->f25C, buf) == 0xFFFFFF05) {
             sprintf(buf, lbl_8044A68C, lbl_8044BEE8, i + 1);
-            if (find_card_file__15TAdPlayerLoadGCFiPv(self->f25C, buf) == 0xFFFFFF05) {
+            if (TAdPlayerLoadGC::find_card_file(self->f25C, buf) == 0xFFFFFF05) {
                 sprintf(self->name0, lbl_8044A68C, lbl_8044BEE8, i);
                 sprintf(self->name1, lbl_8044A68C, lbl_8044BEE8, i + 1);
                 self->f2A0 = 8;
@@ -1200,7 +1199,7 @@ void TQuestVmDownLoadServer::check_client_connections() {
             var_r30 = 0;
             this->m_234 = 0;
             do {
-                if (((TAdPlayerLoadGC *)var_r30)->probe_card_slot() != 0) {
+                if (TAdPlayerLoadGC::probe_card_slot(var_r30) != 0) {
                     this->m_234 = (s32) (this->m_234 | (1 << var_r30));
                 }
                 var_r30 += 1;

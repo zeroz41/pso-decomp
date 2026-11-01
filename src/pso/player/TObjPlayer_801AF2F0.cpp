@@ -6513,7 +6513,7 @@ void TObjPlayer::request_item_drop(s32 arg1, s32 arg2) {
     s32 id;
     if (check_player_action_allowed() != 0 &&
         (TAdPlayerLoadGC__sub_801E1B50(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 0 ||
-         ((TAdPlayerLoadGC *)(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()))->probe_card_slot() != 1)) {
+         TAdPlayerLoadGC::probe_card_slot(get_chr_select_state__23TAdSinglePlyChrSelectGCFv()) != 1)) {
         ((void (*)(s32, s32, s32, s32))play_sound_effect)(0x53F06, 0, 0, 0);
         return;
     }

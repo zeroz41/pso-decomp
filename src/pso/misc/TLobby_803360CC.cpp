@@ -161,7 +161,7 @@ typedef char RecoveredGlobal_80336340_TKeyBoardControl__data_80506270_size[sizeo
 void TUnk_804EEF64::run_task() {
     s32 i;
     TAdMultiChgGameModeGC::set_default_camera();
-    if (((TAdPlayerLoadGC *)0)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) == 0) {
         for (i = 0; i != 3; i++) {
             if (((Obj_80336340 *)this)->objs[i] != NULL) {
                 queue_destruction__7TObjectFv(((Obj_80336340 *)this)->objs[i]);

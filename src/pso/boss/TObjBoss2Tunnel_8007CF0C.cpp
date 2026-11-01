@@ -78,13 +78,13 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
     if (TAdPlayerLoadGC::get_instance() != 0) {
         return 0;
     }
-    if (((TAdPlayerLoadGC *)1)->probe_card_slot() == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(1) == 0) {
         if (arg1 != NULL) {
             *arg1 = -4;
         }
         return 0;
     }
-    if (((TAdPlayerLoadGC *)1)->probe_and_check_card() == 0) {
+    if (TAdPlayerLoadGC::probe_and_check_card(1) == 0) {
         if (arg1 != NULL) {
             if ((u32)(TAdPlayerLoadGC::get_load_result((void *)1) + 0x10000) == 0xff83U) {
                 if (arg1 != NULL) {
@@ -112,7 +112,7 @@ s32 memcard_check_snapshot(s32 arg0, s32 *arg1) {
         }
         return 0;
     }
-    temp_r3 = find_card_file__15TAdPlayerLoadGCFiPv(1, (const char *)TObjBoss2Tunnel__data_80438A08);
+    temp_r3 = TAdPlayerLoadGC::find_card_file(1, (const char *)TObjBoss2Tunnel__data_80438A08);
     if (temp_r3 == 0) {
         if (arg1 != NULL) {
             *arg1 = 1;
