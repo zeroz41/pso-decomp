@@ -1,7 +1,7 @@
 #include "types.h"
 
-// Download-server work buffers. The code that uses them (TQuestVmDownLoadServer_803E5668/_803E6970) addresses each
-// symbol directly, never relative to its own .bss, so they are defined in a TU of their own.
+// Download-server work buffers. Defining them in either file that uses them (TQuestVmDownLoadServer_803E5668 or
+// _803E6970) changes codegen of an exact function there, so they belong to a TU whose code does not touch them.
 s32 quest_vm_download_server_file_info[0x11];
 u8 quest_download_slot_table[0x2C78];
 u8 quest_name_index_table[0x1000];
