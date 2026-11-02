@@ -10215,7 +10215,7 @@ pso/player/TObjPlayer_802A8368.cpp:
 pso/effect/TEffIndirectCtrl_802A88AC.cpp:
 	.text       start:0x802A88AC end:0x802A9284
 	.rodata     start:0x8046FC48 end:0x8046FC58
-	.sdata2     start:0x805DE02C end:0x805DE030
+	.sdata2     start:0x805DE028 end:0x805DE030
 
 pso/effect/TEffIndirectCtrl_802A9284.cpp:
 	.text       start:0x802A9284 end:0x802A942C

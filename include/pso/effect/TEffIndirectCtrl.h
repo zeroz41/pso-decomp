@@ -26,6 +26,8 @@ struct TEffIndirectCtrl : public TObject {
     void copy_and_flush_texture(s32 arg1);
     static void free_all();
     void update_scroll_mode();
+    void update_eff_indirect();
+    void eff_indirect_update_and_flush();
     u8 unk_48[0x4];
     f32 m_4c;
     u8 unk_50[0x4];

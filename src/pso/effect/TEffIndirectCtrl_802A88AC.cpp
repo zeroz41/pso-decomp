@@ -61,6 +61,31 @@ s32 DCFlushRange(s32, s32);
 void release_texture_list(void *);
 s32 memcpy(s32, s32, s32);
 
+s32 rand();
+extern s32 actor_frame_tick;
+
+void TEffIndirectCtrl::run_task() {
+    if (TObjPlayer::check_demo_mode() != 0 || m_46 == 0) {
+        m_3c += (s8)((u8 *)m_20)[4];
+        m_40 += (s8)((u8 *)m_20)[5];
+        *(f32 *)unk_48 = (s8)((u8 *)m_20)[1];
+        m_4c = (s8)((u8 *)m_20)[2];
+        void (TEffIndirectCtrl::*modes[3])() = {
+            &TEffIndirectCtrl::update_scroll_mode,
+            &TEffIndirectCtrl::eff_indirect_update_and_flush,
+            &TEffIndirectCtrl::update_eff_indirect,
+        };
+        if ((actor_frame_tick & 0x1F) == 0) {
+            *(f32 *)unk_50 = (s8)((u8 *)m_20)[3] * (3.0517578e-05f * rand());
+        }
+        if (((u8 *)m_20)[0] < 3) {
+            (this->*modes[((u8 *)m_20)[0]])();
+        }
+        m_24 = ((u8 *)m_20)[7];
+        sub_802A955C();
+    }
+}
+
 void TEffIndirectCtrl::render() {  }
 
 void TEffIndirectCtrl::copy_and_flush_texture(s32 arg1) {
