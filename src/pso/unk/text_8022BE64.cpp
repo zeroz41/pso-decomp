@@ -14,7 +14,6 @@ struct T_8022BEAC { u8 pad[0x20]; u8 f20[0xC]; u8 f2c[0x10]; f32 f3c; u8 pad2[0x
 
 extern "C" {
 extern V3_8022BEAC TTecLuker__render_scale_vec;
-extern const f32 lbl_805DC7B0;
 #pragma pop
 
 #pragma push
@@ -48,7 +47,7 @@ void TUnk_804CC148::render() {
     case 0:
         break;
     case 1:
-        approach_vector_in_place(&scale, (const Vec *)&v, lbl_805DC7B0);
+        approach_vector_in_place(&scale, (const Vec *)&v, 2.75f);
         break;
     }
     debug_draw_sphere((const Vec *)self->f20, (const NJS_ARGB *)self->f2c, self->f3c);
@@ -122,12 +121,6 @@ void *__ct__7TEffectFv(void *);
 s32 init_collision_body_parts(u32, void *, s32);
 u32 __ct__14TObjCollidableFP7TObject(u32, void *);
 u32 __nw__7TObjectFUl(s32);
-extern const f32 lbl_805DC7B4;
-extern const f32 lbl_805DC7B8;
-extern const f32 lbl_805DC7BC;
-extern const f32 lbl_805DC7C0;
-extern const f32 lbl_805DC7C4;
-extern const f32 lbl_805DC7C8;
 u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 
 }
@@ -135,13 +128,13 @@ TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
     u32 var_r0;
     this->m_b4 = 0xFFFF;
     VecCopy((Vec *)(((u8 *)this) + 0x20), (const Vec *)arg2);
-    this->m_7c = lbl_805DC7B4;
-    *(f32 *)((s8 *)this + 0x80) = lbl_805DC7B4;
-    this->m_84 = lbl_805DC7B4;
+    this->m_7c = 0.0f;
+    *(f32 *)((s8 *)this + 0x80) = 0.0f;
+    this->m_84 = 0.0f;
     this->m_b8 = 0;
-    *(f32 *)((s8 *)this + 0x3C) = lbl_805DC7B8;
-    *(f32 *)((s8 *)this + 0x40) = lbl_805DC7B8;
-    *(f32 *)((s8 *)this + 0x44) = lbl_805DC7B8;
+    *(f32 *)((s8 *)this + 0x3C) = 1.0f;
+    *(f32 *)((s8 *)this + 0x40) = 1.0f;
+    *(f32 *)((s8 *)this + 0x44) = 1.0f;
     this->m_74 = 0;
     this->source = arg1;
     if (arg4 < 0) {
@@ -152,17 +145,17 @@ TUnk_804CC148::TUnk_804CC148(s32 arg1, s32 arg2, s32 arg4) : TEffect() {
         this->m_78 = arg4;
     }
     *(s16 *)((s8 *)this + 0x7A) = TObjPlayer::get_level_tier(this->m_78);
-    *(f32 *)((s8 *)this + 0x2C) = lbl_805DC7BC;
-    *(f32 *)((s8 *)this + 0x30) = lbl_805DC7B8;
-    *(f32 *)((s8 *)this + 0x34) = lbl_805DC7B8;
-    *(f32 *)((s8 *)this + 0x38) = lbl_805DC7B8;
-    *(f32 *)((s8 *)this + 0x64) = lbl_805DC7C0;
-    *(f32 *)((s8 *)this + 0x70) = lbl_805DC7C4;
-    *(f32 *)((s8 *)this + 0xBC) = lbl_805DC7B4;
-    this->m_c0 = lbl_805DC7B4;
-    *(f32 *)((s8 *)this + 0xC4) = lbl_805DC7B4;
-    this->m_c8 = lbl_805DC7C8;
-    *(f32 *)((s8 *)this + 0xCC) = lbl_805DC7B8;
+    *(f32 *)((s8 *)this + 0x2C) = 0.2f;
+    *(f32 *)((s8 *)this + 0x30) = 1.0f;
+    *(f32 *)((s8 *)this + 0x34) = 1.0f;
+    *(f32 *)((s8 *)this + 0x38) = 1.0f;
+    *(f32 *)((s8 *)this + 0x64) = 3.0f;
+    *(f32 *)((s8 *)this + 0x70) = 150.0f;
+    *(f32 *)((s8 *)this + 0xBC) = 0.0f;
+    this->m_c0 = 0.0f;
+    *(f32 *)((s8 *)this + 0xC4) = 0.0f;
+    this->m_c8 = 10.0f;
+    *(f32 *)((s8 *)this + 0xCC) = 1.0f;
     this->m_d0 = 0;
     if (get_entity_id(this->source) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(this->source + 0x828)) != 0) {
@@ -190,9 +183,9 @@ u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 ar
     ((TUnk_804CC148 *)arg0)->m_b4 = 0xFFFF;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)arg2);
     VecCopy((Vec *)(arg0 + 0x7C), (const Vec *)arg3);
-    *(f32 *)((s8 *)arg0 + 0x3C) = lbl_805DC7B8;
-    *(f32 *)((s8 *)arg0 + 0x40) = lbl_805DC7B8;
-    *(f32 *)((s8 *)arg0 + 0x44) = lbl_805DC7B8;
+    *(f32 *)((s8 *)arg0 + 0x3C) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0x40) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0x44) = 1.0f;
     ((TUnk_804CC148 *)arg0)->m_74 = 0;
     ((TUnk_804CC148 *)arg0)->m_b8 = 0;
     ((TUnk_804CC148 *)arg0)->source = arg1;
@@ -204,17 +197,17 @@ u8 *construct_area_technique_base(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 ar
         ((TUnk_804CC148 *)arg0)->m_78 = arg4;
     }
     *(s16 *)((s8 *)arg0 + 0x7A) = TObjPlayer::get_level_tier(((TUnk_804CC148 *)arg0)->m_78);
-    *(f32 *)((s8 *)arg0 + 0x2C) = lbl_805DC7BC;
-    *(f32 *)((s8 *)arg0 + 0x30) = lbl_805DC7B8;
-    *(f32 *)((s8 *)arg0 + 0x34) = lbl_805DC7B8;
-    *(f32 *)((s8 *)arg0 + 0x38) = lbl_805DC7B8;
-    *(f32 *)((s8 *)arg0 + 0x64) = lbl_805DC7C0;
-    *(f32 *)((s8 *)arg0 + 0x70) = lbl_805DC7C4;
-    *(f32 *)((s8 *)arg0 + 0xBC) = lbl_805DC7B4;
-    ((TUnk_804CC148 *)arg0)->m_c0 = lbl_805DC7B4;
-    *(f32 *)((s8 *)arg0 + 0xC4) = lbl_805DC7B4;
-    ((TUnk_804CC148 *)arg0)->m_c8 = lbl_805DC7C8;
-    *(f32 *)((s8 *)arg0 + 0xCC) = lbl_805DC7B8;
+    *(f32 *)((s8 *)arg0 + 0x2C) = 0.2f;
+    *(f32 *)((s8 *)arg0 + 0x30) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0x34) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0x38) = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0x64) = 3.0f;
+    *(f32 *)((s8 *)arg0 + 0x70) = 150.0f;
+    *(f32 *)((s8 *)arg0 + 0xBC) = 0.0f;
+    ((TUnk_804CC148 *)arg0)->m_c0 = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0xC4) = 0.0f;
+    ((TUnk_804CC148 *)arg0)->m_c8 = 10.0f;
+    *(f32 *)((s8 *)arg0 + 0xCC) = 1.0f;
     ((TUnk_804CC148 *)arg0)->m_d0 = 0;
     if (get_entity_id(((TUnk_804CC148 *)arg0)->source) < 4U) {
         if (get_type__10TObjPlayerFPv((void *)(((TUnk_804CC148 *)arg0)->source + 0x828)) != 0) {

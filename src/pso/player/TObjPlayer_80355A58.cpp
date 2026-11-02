@@ -14,8 +14,6 @@ struct RecoveredGlobal_80355BA0_lbl_804F1320 {
 extern "C" {
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 lbl_804F1320[];
-extern const f32 lbl_805DFFC0;
-extern const f32 lbl_805DFFC4;
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
 void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
@@ -65,10 +63,10 @@ u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&lbl_804F1320).value;
     ((TItemWeapon *)player)->set_weapon_flags(0x22);
     if (((TItem *)player)->get_item_group() == 0x3D) {
-        *(f32 *)((s8 *)player + 0x1F8) = (f32) lbl_805DFFC0;
+        *(f32 *)((s8 *)player + 0x1F8) = 70.0f;
         ((TItemWeapon *)player)->set_weapon_flags(0x100000);
     } else {
-        *(f32 *)((s8 *)player + 0x1F8) = (f32) lbl_805DFFC4;
+        *(f32 *)((s8 *)player + 0x1F8) = 100.0f;
     }
     return (u8 *)player;
 }

@@ -72,7 +72,6 @@ s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);
 s32 __nw__7TObjectFUl(int);
 s32 create_shoot_model__10TObjPlayerFiiif(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 void TObjPlayer__sub_801307D0(void *arg0);
-extern const f32 lbl_805DB000;
 typedef struct VBase_18_382324 VBase_18_382324;
 typedef struct VObj_18_382324 VObj_18_382324;
 #define PSO_VCALL_VObj_18_382324_m49(_self, _arg0, _arg1, _arg2, _arg3) (((VObj_18_382324 *)(_self))->m49((_arg0), (_arg1), (_arg2), (_arg3)))
@@ -119,7 +118,7 @@ void TUnk_804A69DC::emit_marker_effects() {
             this->m_204 = 0;
             return;
         }
-        ((TUnk_804A69DC *)arg0)->for_each_target_in_range(lbl_805DB000);
+        ((TUnk_804A69DC *)arg0)->for_each_target_in_range(324.0f);
         return;
     }
     ((TObjPlayer *)arg0)->update_active_game_effect();

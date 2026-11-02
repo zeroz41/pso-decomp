@@ -78,15 +78,6 @@ extern V3_80336520 lbl_80477818;
 extern u8 lbl_80477824[];
 extern s32 tl_clipout;
 extern s32 tl_fade;
-extern const f32 lbl_805DF8E8;
-extern const f32 lbl_805DF8EC;
-extern const f32 lbl_805DF8F0;
-extern const f32 lbl_805DF8F4;
-extern const f32 lbl_805DF8F8;
-extern const f32 lbl_805DF8FC;
-extern const f32 lbl_805DF900;
-extern const f32 lbl_805DF904;
-extern const f32 lbl_805DF908;
 
 void TWindowOptionCtrl__sub_802273B4(s32 arg0);
 extern RecoveredGlobal_80336340_TKeyBoardControl__data_80506270 TKeyBoardControl__global_key_state;
@@ -244,15 +235,15 @@ u8 *TUnk_804EEF64::construct_title_scene() {
     TAdMultiChgGameModeGC::apply_bgm_col_ctrl((s32)lbl_80477824);
     {
         Cam_80336520 cam;
-        cam.f8 = lbl_805DF8E8;
-        cam.fC = lbl_805DF8EC;
-        cam.f28 = lbl_805DF8F0;
-        cam.f2C = lbl_805DF8F4;
-        cam.f34 = cam.f30 = lbl_805DF8F8;
-        cam.f38 = lbl_805DF8FC;
-        cam.f3C = lbl_805DF900;
-        cam.f40 = lbl_805DF904;
-        cam.f44 = lbl_805DF908;
+        cam.f8 = 320.0f;
+        cam.fC = 200.0f;
+        cam.f28 = 640.0f;
+        cam.f2C = 480.0f;
+        cam.f34 = cam.f30 = 0.0f;
+        cam.f38 = 20.0f;
+        cam.f3C = 15.0f;
+        cam.f40 = 1.0f;
+        cam.f44 = 0.85f;
         ((CameraViewParams *)&cam)->begin_override();
     }
     {

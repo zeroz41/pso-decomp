@@ -75,7 +75,6 @@ void update_render_state__10TObjPlayerFv(s32 *, s32 *);
 }
 void find_motion_key_interval(void *, s32, s32 count, f32 t, void *, void *, void *);
 extern u32 *lbl_805D7778;
-extern const f32 lbl_805E10B8;
 
 #pragma push
 #pragma scheduling off
@@ -204,13 +203,13 @@ void TObjPlayer__sub_803E500C(void *motA, s32 keyA, void *motB, s32 keyB, f32 t,
     s32 i;
     if (motA != 0) {
         find_motion_key_interval(motA, 8, keyA, t, &ka0, &ka1, &fa);
-        wa = lbl_805E10B8 - fa;
+        wa = 1.0f - fa;
         a0 = ka0->data;
         b0 = ka1->data;
     }
     if (motB != 0) {
         find_motion_key_interval(motB, 8, keyB, t, &kb0, &kb1, &fb);
-        wb = lbl_805E10B8 - fb;
+        wb = 1.0f - fb;
         a1 = kb0->data;
         b1 = kb1->data;
     }

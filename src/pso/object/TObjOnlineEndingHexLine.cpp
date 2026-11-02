@@ -39,7 +39,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 void TObjOnlineEndingHexLine__sub_802E55A4(void *arg0, void *arg1);
 extern void *__vt__23TObjOnlineEndingHexLine[];
 extern s32 lbl_805D3FA4;
-extern const f32 lbl_805DE968;
 Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Pos_802E57E0 *arg2);
 V4_802E62A4 lbl_804E3A98[1] = {
     { 0x3E800000, 0x3F800000, 0x00000000, 0x41200000 },
@@ -69,19 +68,6 @@ void *__vt__23TObjOnlineEndingHexLine[6] = {
 };
 
 extern Param_802E5CB0 online_ending_hex_line_state;
-extern const f32 lbl_805DE958;
-extern const f32 lbl_805DE95C;
-extern const f32 lbl_805DE960;
-extern const f32 lbl_805DE964;
-extern const f32 lbl_805DE96C;
-extern const f32 lbl_805DE970;
-extern const f32 lbl_805DE974;
-extern const f32 lbl_805DE978;
-extern const f32 lbl_805DE97C;
-extern const f32 lbl_805DE980;
-extern const f32 lbl_805DE984;
-extern const f32 lbl_805DE988;
-extern const f32 lbl_805DE98C;
 extern V2_802E5B0C lbl_80472C00[];
 extern u8 controller_input_state[];
 extern s32 local_client_id;
@@ -125,7 +111,7 @@ void TObjOnlineEndingHexLine::step_line() {
 
     dx = h->pts[1].x - h->pts[0].x;
     dy = h->pts[1].y - h->pts[0].y;
-    h->f9C = lbl_805DE958;
+    h->f9C = 0.0f;
     for (i = 31; i >= 1; i--) {
         TObjOnlineEndingHexLine__sub_802E55A4(&h->pts[i], &h->pts[i - 1]);
     }
@@ -162,7 +148,7 @@ void TObjOnlineEndingHexLine::step_line() {
         }
         break;
     case 0:
-        sel = (s32)(lbl_805DE95C * (lbl_805DE960 * (f32)rand()));
+        sel = (s32)(2.99f * (3.0517578e-05f * (f32)rand()));
         for (i = 0; i < 3; i++) {
             if (bad[sel] == 0 && same[sel] == 0) {
                 break;
@@ -221,13 +207,13 @@ void render__23TObjOnlineEndingHexLineFv(u8 *arg0) {
     d.cols = cols;
     d.z = 0;
     d.n = n;
-    draw_color_lines(&d, n, 0x15, lbl_805DE964);
+    draw_color_lines(&d, n, 0x15, -117.0f);
 }
 #pragma pop
 
 void run_task__23TObjOnlineEndingHexLineFv(TObjOnlineEndingHexLine *online_ending_hex_line) {
     *(f32 *)((s8 *)online_ending_hex_line + 0x9C) = (f32) (*(f32 *)((s8 *)online_ending_hex_line + 0x9C) + TObjOnlineEndingHexLine__hex_line_params.a);
-    if (*(f32 *)((s8 *)online_ending_hex_line + 0x9C) >= lbl_805DE968) {
+    if (*(f32 *)((s8 *)online_ending_hex_line + 0x9C) >= 1.0f) {
         online_ending_hex_line->step_line();
     }
 }
@@ -270,7 +256,7 @@ Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Po
     for (i = 0; i < 32; i++) {
         TObjOnlineEndingHexLine__sub_802E55A4(&arg0->lines[i], &pos);
     }
-    arg0->f9C = lbl_805DE968;
+    arg0->f9C = 1.0f;
     return arg0;
 }
 
@@ -298,31 +284,31 @@ void handle_6x92(u8 *arg0) {
     if (get_player_by_client_id(idx) != 0U) {
         switch (idx) {
         case 0:
-            if (v < lbl_805DE96C || v > lbl_805DE970) {
+            if (v < 0.033333335f || v > 0.5f) {
                 return;
             }
             online_ending_hex_line_param.a = v;
-            online_ending_hex_line_state.a = lbl_805DE96C * (v - BASE_802E5930.a);
+            online_ending_hex_line_state.a = 0.033333335f * (v - BASE_802E5930.a);
             break;
         case 1:
-            if (v < lbl_805DE968 || v > lbl_805DE974) {
+            if (v < 1.0f || v > 2.0f) {
                 return;
             }
             d = v - BASE_802E5930.b;
             online_ending_hex_line_param.b = v;
-            online_ending_hex_line_state.b = lbl_805DE96C * d;
+            online_ending_hex_line_state.b = 0.033333335f * d;
             break;
         case 2:
             online_ending_hex_line_param.c = (s32) v;
-            online_ending_hex_line_state.c = (s32) (lbl_805DE96C * (f32) angle_diff_s16(BASE_802E5930.c, online_ending_hex_line_param.c));
+            online_ending_hex_line_state.c = (s32) (0.033333335f * (f32) angle_diff_s16(BASE_802E5930.c, online_ending_hex_line_param.c));
             break;
         case 3:
-            if (v < lbl_805DE978 || v > lbl_805DE97C) {
+            if (v < 3.0f || v > 32.0f) {
                 return;
             }
             d = v - BASE_802E5930.d;
             online_ending_hex_line_param.d = v;
-            online_ending_hex_line_state.d = lbl_805DE96C * d;
+            online_ending_hex_line_state.d = 0.033333335f * d;
             break;
         }
     }
@@ -341,7 +327,7 @@ s32 calc_rotated_hex_point__23TObjOnlineEndingHexLineFPvPv(V2_802E55B8 *arg0, P2
     s32 ang;
 
     if (*(s16 *)((s8 *)arg1 + 2) & 1) {
-        p.x = lbl_805DE980 * (lbl_805DE970 + (f32) *(s16 *)((s8 *)arg1 + 0));
+        p.x = 30.0f * (0.5f + (f32) *(s16 *)((s8 *)arg1 + 0));
     } else {
         p.x = (f32) (*(s16 *)((s8 *)arg1 + 0) * 0x1E);
     }
@@ -373,29 +359,29 @@ void update_line_params__23TObjOnlineEndingHexLineFv(void) {
     f32 t;
     s32 n;
 
-    if (lbl_805DE958 != online_ending_hex_line_state.a) {
+    if (0.0f != online_ending_hex_line_state.a) {
         d = online_ending_hex_line_param.a - CUR_802E5CB0.a;
-        if (d * online_ending_hex_line_state.a < lbl_805DE958) {
-            online_ending_hex_line_state.a = lbl_805DE958;
+        if (d * online_ending_hex_line_state.a < 0.0f) {
+            online_ending_hex_line_state.a = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.a);
             if (fabs_float(d) < t) {
                 CUR_802E5CB0.a = online_ending_hex_line_param.a;
-                online_ending_hex_line_state.a = lbl_805DE958;
+                online_ending_hex_line_state.a = 0.0f;
             } else {
                 CUR_802E5CB0.a = CUR_802E5CB0.a + online_ending_hex_line_state.a;
             }
         }
     }
-    if (lbl_805DE958 != online_ending_hex_line_state.b) {
+    if (0.0f != online_ending_hex_line_state.b) {
         d = online_ending_hex_line_param.b - CUR_802E5CB0.b;
-        if (d * online_ending_hex_line_state.b < lbl_805DE958) {
-            online_ending_hex_line_state.b = lbl_805DE958;
+        if (d * online_ending_hex_line_state.b < 0.0f) {
+            online_ending_hex_line_state.b = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.b);
             if (fabs_float(d) < t) {
                 CUR_802E5CB0.b = online_ending_hex_line_param.b;
-                online_ending_hex_line_state.b = lbl_805DE958;
+                online_ending_hex_line_state.b = 0.0f;
             } else {
                 CUR_802E5CB0.b = CUR_802E5CB0.b + online_ending_hex_line_state.b;
             }
@@ -410,15 +396,15 @@ void update_line_params__23TObjOnlineEndingHexLineFv(void) {
             CUR_802E5CB0.c = CUR_802E5CB0.c + online_ending_hex_line_state.c;
         }
     }
-    if (lbl_805DE958 != online_ending_hex_line_state.d) {
+    if (0.0f != online_ending_hex_line_state.d) {
         d = online_ending_hex_line_param.d - CUR_802E5CB0.d;
-        if (d * online_ending_hex_line_state.d < lbl_805DE958) {
-            online_ending_hex_line_state.d = lbl_805DE958;
+        if (d * online_ending_hex_line_state.d < 0.0f) {
+            online_ending_hex_line_state.d = 0.0f;
         } else {
             t = fabs_float(online_ending_hex_line_state.d);
             if (fabs_float(d) < t) {
                 CUR_802E5CB0.d = online_ending_hex_line_param.d;
-                online_ending_hex_line_state.d = lbl_805DE958;
+                online_ending_hex_line_state.d = 0.0f;
             } else {
                 CUR_802E5CB0.d = CUR_802E5CB0.d + online_ending_hex_line_state.d;
             }
@@ -452,22 +438,22 @@ void TObjOnlineEndingHexMove::run_task() {
             case 3:
                 switch (pkt.idx) {
                 case 0:
-                    step = lbl_805DE984;
-                    max = lbl_805DE970;
+                    step = 0.093333334f;
+                    max = 0.5f;
                     v = TObjOnlineEndingHexLine__hex_line_params.a;
-                    min = lbl_805DE96C;
+                    min = 0.033333335f;
                     break;
                 case 1:
-                    step = lbl_805DE988;
-                    max = lbl_805DE974;
+                    step = 0.2f;
+                    max = 2.0f;
                     v = TObjOnlineEndingHexLine__hex_line_params.b;
-                    min = lbl_805DE968;
+                    min = 1.0f;
                     break;
                 case 3:
-                    step = lbl_805DE98C;
-                    max = lbl_805DE97C;
+                    step = 5.8f;
+                    max = 32.0f;
                     v = TObjOnlineEndingHexLine__hex_line_params.d;
-                    min = lbl_805DE978;
+                    min = 3.0f;
                     break;
                 }
                 if (is_on_current_screen__11TCameraCtrlFv(pad, 0x10000) != 0) {

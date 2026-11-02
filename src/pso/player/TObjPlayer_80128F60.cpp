@@ -11,7 +11,6 @@ extern s32 lbl_804A403C[];
 extern s32 notify_hit_target__10TObjPlayerFUlUlUlUl[];
 extern s32 TObjPlayer__sub_80128A74[];
 extern s32 spawn_shot_effect__10TObjPlayerFlllf[];
-extern const f32 lbl_805DADF8;
 struct VOff_80128F60_arg0_80128f60 { char pad_0[0x1FC]; char f_1FC[1]; };
 
 void *TUnk_804A403C::init_event_callbacks() {
@@ -24,7 +23,7 @@ void *TUnk_804A403C::init_event_callbacks() {
     (*(s32 * *)((u8 *)this + 0x1EC)) = notify_hit_target__10TObjPlayerFUlUlUlUl;
     (*(s32 * *)((u8 *)this + 0x1F4)) = TObjPlayer__sub_80128A74;
     *(s32 **)((s8 *)this + 0x1F0) = spawn_shot_effect__10TObjPlayerFlllf;
-    *(f32 *)&(*(float *)((u8 *)this + 0x1E4)) = lbl_805DADF8;
+    *(f32 *)&(*(float *)((u8 *)this + 0x1E4)) = 10.0f;
     ((FlagWord *)(self->f_1FC))->reset();
     return this;
 }

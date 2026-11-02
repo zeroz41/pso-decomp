@@ -16,13 +16,12 @@ void call_if_split_screen(u32 object) {
 }
 void TWindowSubEquip__sub_80263AF4(void) {  }
 
-    extern const float lbl_805DD138;
 
 f32 TWindowSubEquip__sub_80263AF8(u8 *arg0, u32 arg1) {
     return *(f32 *)((s8 *)arg0 + 0x58) - (f32) arg1;
 }
 
-void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = lbl_805DD138; }
+void TWindowMainMenu::set_scale_f() { *(float*)((char*)this + 0x58) = 50300.0f; }
 
 void TWindowSubEquip::open_submenu(s32 arg0, s32 arg1) {
     destroy_submenu__15TWindowMainMenuFv();

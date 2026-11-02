@@ -48,7 +48,6 @@ void subtract_vector(void *, void *);
 extern P_80337500 lbl_80477B70[];
 extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
-extern const f32 lbl_805DF988;
 void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *arg1, V_80337500 *arg2);
 s16 get_entity_id(void *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
@@ -57,7 +56,6 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern s32 lbl_804EF130[];
 extern s32 tl_06;
-extern const f32 lbl_805DF994;
 O_80337824 *TObjEneMorfos__sub_80337824(O_80337824 *arg0, Vec_80337824 *arg1, s32 arg2, void *arg3);
 int get_player_data__10TObjPlayerFi(int a0);
 f32 fabs_float(f32);
@@ -66,8 +64,6 @@ u32 csnVector(void *, void *, int);
 void *find_entity_by_id(u16 id);
 void vec3_add_to(void *, void *);
 extern s32 registered_player_count;
-extern const f32 lbl_805DF98C;
-extern const f32 lbl_805DF990;
 void update_projectile__13TObjEneMorfosFPv(O_80337644 *arg0);
 void *__dt__13TUnk_804EF130Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
@@ -76,7 +72,7 @@ void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *a
     Vec_80337500 v = arg0->pos;
     subtract_vector(&v, arg0->b8);
     if (arg1 != 0 && arg1 != arg2 && !(*(s32 *)((u8 *)arg1 + 0x30) & 0x04000A00)) {
-        if (!(xz_distance_squared(&v, (u8 *)arg1 + 0x2FC) > (lbl_805DF988 * morfos_projectile_speed) * (lbl_805DF988 * morfos_projectile_speed))) {
+        if (!(xz_distance_squared(&v, (u8 *)arg1 + 0x2FC) > (1.5f * morfos_projectile_speed) * (1.5f * morfos_projectile_speed))) {
             P_80337500 tmp = lbl_80477B70[0];
             tmp.f = morfos_param_table_speed_copy;
             P_80337500 p = tmp;
@@ -115,7 +111,7 @@ void update_projectile__13TObjEneMorfosFPv(O_80337644 *arg0) {
             TObjEneMorfos::snap_to_ground((s32)arg0, (s32)&arg0->pos2);
         }
     }
-    if (arg0->fDC >= lbl_805DF98C) {
+    if (arg0->fDC >= 500.0f) {
         queue_destruction__7TObjectFv(arg0);
         return;
     }
@@ -127,7 +123,7 @@ void update_projectile__13TObjEneMorfosFPv(O_80337644 *arg0) {
     if (k != 0) {
         for (i = 0; i < registered_player_count; i++) {
             p = (u8 *)get_player_data__10TObjPlayerFi(i);
-            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && fabs_float(arg0->pos.y - *(f32 *)(p + 0x300)) < lbl_805DF990) {
+            if (TObjPlayer::is_valid_and_active((u32)p) != 0 && fabs_float(arg0->pos.y - *(f32 *)(p + 0x300)) < 20.0f) {
                 hit_target_in_range__13TObjEneMorfosFPvPvPv((O_80337500 *)arg0, (V_80337500 *)p, (V_80337500 *)k);
             }
         }
@@ -150,13 +146,13 @@ O_80337824 *TObjEneMorfos__sub_80337824(O_80337824 *arg0, Vec_80337824 *arg1, s3
     __ct__14TObjCollidableFP7TObject(arg0, tl_06);
     arg0->vt = ((u8 *)&lbl_804EF130);
     VecCopy((Vec *)(&arg0->pos), (const Vec *)(arg1));
-    arg0->fDC = lbl_805DF994;
+    arg0->fDC = 0.0f;
     arg0->fF8 = get_entity_id(arg3);
     a.x = 0;
     a.y = arg2 - 0x4000;
     a.z = 0x4000;
     arg0->vel.x = morfos_projectile_speed * sin_table_lookup(arg2);
-    arg0->vel.y = lbl_805DF994;
+    arg0->vel.y = 0.0f;
     arg0->vel.z = morfos_projectile_speed * cos_table_lookup(arg2);
     arg0->fE0 = (s32)spawn_particle_effect_with_rotation(arg1, &a, 0x213, 2);
     VecCopy((Vec *)(&arg0->pos2), (const Vec *)(&arg0->pos));

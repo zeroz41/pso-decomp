@@ -64,7 +64,6 @@ void run_task__14TAdSelectCurGCFv(TAdSelectCurGC_802AED98 *o);
 void __ct__7TObjectFP7TObject(void *);
 extern void *__vt__14TAdSelectCurGC[];
 extern s32 lbl_805D3E70;
-extern const f32 lbl_805DE1E0;
 TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, void *unused, void *a, void *b);
 void release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
@@ -154,7 +153,7 @@ TAdSelectCurGC_802AF0E0 *__ct__14TAdSelectCurGCFv(TAdSelectCurGC_802AF0E0 *o, vo
     o->fB8 = 0;
     o->fB4 = 0;
     o->f700 = 0;
-    TAdSelectCurGC__sub_802AF274(o, lbl_805DE1E0);
+    TAdSelectCurGC__sub_802AF274(o, 0.5555556f);
     for (i = 0; i < 16; i++) {
         o->tbl[i] = 0;
     }

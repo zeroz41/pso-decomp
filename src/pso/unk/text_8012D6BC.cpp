@@ -44,9 +44,6 @@ s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }
 void enlarge_flight_cutter_slicer(void *arg0);
-extern const f32 lbl_805DAF28;
-extern const f32 lbl_805DAF2C;
-extern const f32 lbl_805DAF30;
 typedef char RecoveredGlobal_8012D6BC_lbl_804A05A8_size[sizeof(RecoveredGlobal_8012D6BC_lbl_804A05A8) == 0x20 ? 1 : -1];
 
 u8 *slow_curse_timer_ct(u8 *arg0, s16 arg1, s32 arg2, f32 farg0) {
@@ -67,10 +64,10 @@ void TUnk_804A5A28::emit_marker_effects() {
     tec.f10 = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)((Self_8012D708 *)this)->owner + 0x7CC));
     tec.f12 = get_validated_attack_stage((u8 *)((Self_8012D708 *)this)->owner + 0x7CC);
     tec.f14 = query_extended_state__10TObjPlayerFv(((Self_8012D708 *)this)->owner);
-    tec.f18 = lbl_805DAF28;
-    tec.f1C = lbl_805DAF2C;
-    tec.f20 = lbl_805DAF28;
-    tec.f24 = lbl_805DAF30;
+    tec.f18 = 1.0f;
+    tec.f1C = 0.0f;
+    tec.f20 = 1.0f;
+    tec.f24 = 0.7f;
     tec.f28 = ((Self_8012D708 *)this)->owner->f60;
     get_joint_position(3, &tec.pos);
     get_joint_position(2, &tec.dir);

@@ -9,7 +9,6 @@ extern "C" {
 u8 * construct_twin_chakram(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-extern const f32 lbl_805DAD08;
 u8 *TObjPlayer::create_twin_chakram(u8 *arg0) {
     u8 *temp_r3;
     u8 *var_r0;
@@ -26,7 +25,7 @@ u8 *TObjPlayer::create_twin_chakram(u8 *arg0) {
 void TObjPlayer::spawn_particle_at_icon() {
     Vec_8012327C v;
     ((TItemWeapon *)this)->get_joint_position(2, &v);
-    v.y -= lbl_805DAD08;
+    v.y -= 15.0f;
     spawn_particle_effect(&v, 0x1d2);
 }
 

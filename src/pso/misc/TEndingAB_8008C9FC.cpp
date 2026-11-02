@@ -10,7 +10,6 @@
 extern "C" {
 void restore_saved_depth_alpha_state(void);
 extern s32 TEndingAB__fade_sequence_state;
-extern const f32 lbl_805D9580;
 extern s32 game_difficulty_selection;
 extern s32 ending_ab_wall_texture_list;
 void TEndingAB::advance_fade_sequence() {
@@ -88,8 +87,8 @@ void TEndingAB::draw_overlay() {
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(0, -1);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x2C), lbl_805D9580);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x4C), lbl_805D9580);
+        draw_textured_quad_at_depth((f32 *)(arg0 + 0x2C), 0.9f);
+        draw_textured_quad_at_depth((f32 *)(arg0 + 0x4C), 0.9f);
         TWindowSubStatusDisp::get_player();
         restore_saved_depth_alpha_state();
         break;
@@ -101,8 +100,8 @@ void TEndingAB::draw_overlay() {
         set_depth_buffer_settings_2();
         begin_screen_draw(1);
         set_draw_texture_and_color(1, -1);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x6C), lbl_805D9580);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x8C), lbl_805D9580);
+        draw_textured_quad_at_depth((f32 *)(arg0 + 0x6C), 0.9f);
+        draw_textured_quad_at_depth((f32 *)(arg0 + 0x8C), 0.9f);
         TWindowSubStatusDisp::get_player();
         restore_saved_depth_alpha_state();
         break;

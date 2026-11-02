@@ -27,14 +27,11 @@ struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {
 };
 
 extern "C" {
-extern const f32 lbl_805DFE08;
-extern const f32 lbl_805DFE0C;
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void *create_particle_emitter(void *pos, s32 id);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804F0BF0[];
-extern const f32 lbl_805DFE10;
 s32 get_render_pass__9TMainTaskFv();
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 rotate_matrix_y(int, int);
@@ -140,11 +137,11 @@ void TUnk_804F0BF0::run_task() {
         *(f32 *)((s8 *)arg0 + 0x48) = temp_f0;
     } else {
         temp_f1_3 = *(f32 *)((s8 *)arg0 + 0x28);
-        if (temp_f1_3 <= lbl_805DFE08) {
+        if (temp_f1_3 <= -1.0f) {
             queue_destruction__7TObjectFv(arg0);
             disallow_rendering__7TObjectFv((TObject *)arg0);
         } else {
-            *(f32 *)((s8 *)arg0 + 0x28) = (f32) (temp_f1_3 - lbl_805DFE0C);
+            *(f32 *)((s8 *)arg0 + 0x28) = (f32) (temp_f1_3 - 0.06666667f);
         }
     }
     play_persistent_sound(0x4001A343, (s32)arg0, (u32)(arg0 + 0x5C), 0, 0);
@@ -173,10 +170,10 @@ u8 *TItemEffPG__visual_ct(u8 *arg0, u8 *arg1, u8 *arg2) {
     ((TUnk_804F0BF0 *)arg0)->m_48 = temp_f1;
     *(s32 *)((s8 *)arg0 + 0x3C) = 0;
     ((TUnk_804F0BF0 *)arg0)->m_40 = 0;
-    ((TUnk_804F0BF0 *)arg0)->m_28 = (f32) lbl_805DFE10;
-    *(f32 *)((s8 *)arg0 + 0x2C) = (f32) lbl_805DFE10;
-    ((TUnk_804F0BF0 *)arg0)->m_30 = (f32) lbl_805DFE10;
-    *(f32 *)((s8 *)arg0 + 0x34) = (f32) lbl_805DFE10;
+    ((TUnk_804F0BF0 *)arg0)->m_28 = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x2C) = 0.0f;
+    ((TUnk_804F0BF0 *)arg0)->m_30 = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x34) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x38) = (s32)create_particle_emitter((arg0 + 0x5C), 0x83);
     ((TUnk_804F0BF0 *)arg0)->m_58 = 0;
     return arg0;

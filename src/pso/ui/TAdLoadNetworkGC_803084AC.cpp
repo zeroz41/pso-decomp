@@ -24,7 +24,6 @@ void *__ct__7TObjectFP7TObject(void *, void *);
 extern const s32 load_network_object_id_table[];
 extern Ray_803085A0 lbl_804FF5E8;
 extern s32 TAdLoadNetworkGC__class_name;
-extern const f32 lbl_805DF0C0;
 Net_803084AC *TAdLoadNetworkGC__ct(Net_803084AC *self, void *parent, V_803084AC *pos);
 void TAdLoadNetworkGC::run_task() {
     Net_803084AC *o = (Net_803084AC *)this;
@@ -58,9 +57,9 @@ Net_803084AC *TAdLoadNetworkGC__ct(Net_803084AC *self, void *parent, V_803084AC 
     *(void **)((u8 *)self + 0x18) = __vt__16TAdLoadNetworkGC;
     *(s32 *)self = TAdLoadNetworkGC__class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)pos);
-    self->pos.x = lbl_805DF0C0 * lbl_804FF5E8.b.x + lbl_804FF5E8.a.x;
-    self->pos.y = lbl_805DF0C0 * lbl_804FF5E8.b.y + lbl_804FF5E8.a.y;
-    self->pos.z = lbl_805DF0C0 * lbl_804FF5E8.b.z + lbl_804FF5E8.a.z;
+    self->pos.x = 100.0f * lbl_804FF5E8.b.x + lbl_804FF5E8.a.x;
+    self->pos.y = 100.0f * lbl_804FF5E8.b.y + lbl_804FF5E8.a.y;
+    self->pos.z = 100.0f * lbl_804FF5E8.b.z + lbl_804FF5E8.a.z;
     for (i = 0; i < 5; i++) {
         self->obj[i] = 0;
         self->obj[i] = fn_80086FE0(&self->pos, &TAdLoadNetworkGC__object_offset_table[i], load_network_object_id_table[i], 1);

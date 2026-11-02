@@ -44,7 +44,6 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
 s32 get_current_floor(void);
 void *get_player_by_client_id(s32 i);
 }
-extern const f32 lbl_805DDCD0;
 s32 is_any_player_near(s32 arg0);
 s32 is_any_player_near(s32 arg0) {
   f32 temp_f31;
@@ -52,7 +51,7 @@ s32 is_any_player_near(s32 arg0) {
   s32 var_r29;
   s32 new_var;
   u8 *player;
-  temp_f31 = lbl_805DDCD0;
+  temp_f31 = 2500.0f;
   var_r29 = 0;
   loop_1:
   player = (u8 *) get_player_by_client_id(var_r29);
@@ -184,13 +183,6 @@ void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8029B924_lbl_804DC014 TODoorJungleMain_collision_body_parts;
 extern s32 __vt__16TODoorJungleMain[];
 extern s32 TODoorJungleMain__name;
-extern const f32 lbl_805DDCD8;
-extern const f32 lbl_805DDCDC;
-extern const f32 lbl_805DDCE0;
-extern const f32 lbl_805DDCE4;
-extern const f32 lbl_805DDCE8;
-extern const f32 lbl_805DDCEC;
-extern const f32 lbl_805DDCF0;
 void *get_bml_model(u32, int);
 s32 rotate_matrix_y(int, int);
 int push_matrix(void *);
@@ -227,7 +219,6 @@ void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 void set_matrix_identity(u8 *arg0);
 extern Vec_8029B640 lbl_804653E8;
 extern Vec_8029B640 lbl_804653F4;
-extern const f32 lbl_805DDCD4;
 
 #pragma pop
 
@@ -328,7 +319,7 @@ void TODoorJungleMain::run_task() {
         flag = 0;
         *(f32 *)&this->animation_end_frame += this->animation_step;
         t = *(f32 *)&this->animation_end_frame;
-        if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - lbl_805DDCD4 < t &&
+        if ((f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1) - 70.0f < t &&
             t < (f32)(u32)(*(s32 *)((s8 *)(*(u8 * *)&this->motion) + 4) - 1)) {
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 8);
             if (*(void * *)&this->m_dc != NULL) {
@@ -387,20 +378,20 @@ u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorJungleMain__name;
     ((TODoorJungleMain *)(arg0))->apply_object_set_data((void *)arg2);
     arg0->motion = (AnimationMotion *)get_bml_motion((*(u8 * *)&TODoorJungleMain__bml_resource), 0);
-    arg0->animation_step = (f32) lbl_805DDCD8;
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) lbl_805DDCDC;
+    arg0->animation_step = 1.0f;
+    *(f32 *)((s8 *)arg0 + 0xB4) = 0.0f;
     init_collision_body_parts(arg0, (s32) &TODoorJungleMain_collision_body_parts.value, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
-    arg0->view_range = (f32) lbl_805DDCE0;
+    arg0->view_range = 800.0f;
     temp_r4 = arg2 - 4;
-    *(f32 *)((s8 *)arg0 + 0xC4) = (f32) lbl_805DDCE4;
+    *(f32 *)((s8 *)arg0 + 0xC4) = 120.0f;
     arg0->m_d4 = 0;
     arg0->m_d8 = 0;
     *(ByteBlock_3C *)(copy_storage_8029B924.bytes) = *(const ByteBlock_3C *)(temp_r4 + 4);
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x24)) = lbl_805DDCE8;
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = lbl_805DDCEC;
-    (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = lbl_805DDCF0;
+    (*(f32 *)(copy_storage_8029B924.bytes + 0x24)) = 160.0f;
+    (*(f32 *)(copy_storage_8029B924.bytes + 0x28)) = 100.0f;
+    (*(f32 *)(copy_storage_8029B924.bytes + 0x2C)) = 40.0f;
     (*(s32 *)(copy_storage_8029B924.bytes + 0x30)) = 2;
     arg0->m_dc = TObjMapCsn::create((s32)copy_storage_8029B924.bytes);
     return (u8 *)arg0;

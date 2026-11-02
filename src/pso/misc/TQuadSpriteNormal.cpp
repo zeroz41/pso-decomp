@@ -58,9 +58,6 @@ void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Cam_801E5598 lbl_8058D4F8;
-extern const f32 lbl_805DC460;
-extern const f32 lbl_805DC464;
-extern const f32 lbl_805DC468;
 void render__17TQuadSpriteNormalFv(Self_801E5598 *self);
 void *TQuadSpriteNormal__ct(void *arg0);
 void quad_sprite_base_ct(void *);
@@ -101,12 +98,12 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
     sw = lbl_8058D4F8.sw;
     cx = lbl_8058D4F8.cx;
     cy = lbl_8058D4F8.cy;
-    sh = sw * (lbl_805DC460 / (lbl_805DC460 * lbl_8058D4F8.aspect));
+    sh = sw * (480.0f / (480.0f * lbl_8058D4F8.aspect));
     TParticleCtrl::begin_effect_render();
     begin_screen_draw(1);
     TObjFish::set_global_param((s32)((void *)self->desc->param4));
     set_draw_texture_and_color(self->desc->param8, self->desc->param1C);
-    one = lbl_805DC464;
+    one = -1.0f;
     for (i = 0, ci = 0, li = 0; i < self->desc->count; i++, ci += 0x10, li += 0x2C) {
         Col_801E5598 *c = (Col_801E5598 *)((u8 *)self->desc->cols + ci);
         n = *(Node_801E5598 **)((u8 *)self->lists + li);
@@ -127,7 +124,7 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
             }
             if (out.z <= one || (s32)n->type == 1) {
                 if ((s32)n->type != 1) {
-                    d = lbl_805DC468 / -out.z;
+                    d = 1.0f / -out.z;
                     sx = sh * d;
                     sy = sw * d;
                     x = out.x * sx + cx;
@@ -135,7 +132,7 @@ void render__17TQuadSpriteNormalFv(Self_801E5598 *self) {
                     w = sx;
                     h = sy;
                 } else {
-                    h = w = lbl_805DC468;
+                    h = w = 1.0f;
                     d = out.z;
                     x = out.x;
                     y = out.y;

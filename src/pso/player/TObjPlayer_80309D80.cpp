@@ -58,9 +58,7 @@ void emit_player_sprite_particle(s32 arg0, s32 arg1, s32 arg2);
 void emit_sand_step_particles(s32 arg0, s32 arg1);
 void emit_water_step_particles(s32 arg0, s32 arg1);
 void emit_idle_water_splash(s32 arg0, s32 arg1);
-extern f32 lbl_805DF134;
 s32 emit_player_model_particle(s32 owner, s32 position, s32 entry, s32 model);
-extern const f32 lbl_805DF130;
 extern "C" {
 Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o);
 struct VOff_80309DD0_arg0_80309dd0_80309D80 { char pad_0[0x4]; char f_4[1]; };
@@ -108,9 +106,9 @@ Fol_80309E9C *TObjPlayer__sub_80309E9C(Fol_80309E9C *o) {
     o->a = 0xFFFF;
     for (i = 0; i < 3; i++) {
         p = &o->v[i];
-        p->z = lbl_805DF130;
-        p->y = lbl_805DF130;
-        p->x = lbl_805DF130;
+        p->z = 0.0f;
+        p->y = 0.0f;
+        p->x = 0.0f;
     }
     return o;
 }
@@ -174,7 +172,7 @@ s32 emit_player_model_particle(s32 owner, s32 position, s32 entry, s32 model) {
   s32 emitter = emit_player_particle((void*)owner, (void*)position, (void*)entry);
   if (emitter)
   {
-    attach_particle_model((u8 *)emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, lbl_805DF134);
+    attach_particle_model((u8 *)emitter, TParticleCtrl::get_particle_model(model), TParticleCtrl::get_instance(), 0, 1, 1.0f);
   }
   return emitter;
 }

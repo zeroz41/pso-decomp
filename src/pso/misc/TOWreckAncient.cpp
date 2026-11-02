@@ -51,8 +51,6 @@ s32 get_bml_model(void *, void *);
 extern s32 __vt__14TOWreckAncient[];
 extern s32 TOWreckAncient__name;
 extern s32 tl_05;
-extern const f32 lbl_805DBAD0;
-extern const f32 lbl_805DBAD4;
 u8 *TOWreckAncient__ct(u8 *arg0, s32 arg1);
 void *__dt__14TOWreckAncientFv(void *arg0, s16 arg1);
 void TLobby__sub_8001FE7C(void*, int);
@@ -124,8 +122,8 @@ u8 *TOWreckAncient__ct(u8 *wreck_ancient, s32 arg1) {
     *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient__name;
     *(s32 *)((s8 *)wreck_ancient + 0x34) = get_bml_model((void *) ((*(s32 *)&wreck_ancient_bml_resource)), (void *)arg1);
     ((TOWreckAncient *)wreck_ancient)->texlist = TObjFish__sub_8001EDB0((void *) ((*(s32 *)&wreck_ancient_bml_resource)), (void *)arg1);
-    *(f32 *)((s8 *)wreck_ancient + 0xAC) = (f32) lbl_805DBAD0;
-    ((TOWreckAncient *)wreck_ancient)->m_b0 = (f32) lbl_805DBAD4;
+    *(f32 *)((s8 *)wreck_ancient + 0xAC) = 400.0f;
+    ((TOWreckAncient *)wreck_ancient)->m_b0 = 40.0f;
     return wreck_ancient;
 }
 

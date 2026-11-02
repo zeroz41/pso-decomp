@@ -21,7 +21,6 @@ extern void *__vt__15TWindowHelpItem[];
 extern s32 TWindowHelpItem__object_vtable[];
 extern u32 window_help_item_class_name;
 extern TWindowHelpItem::CallbackWords __ptmf_null;
-extern const f32 lbl_805DCE10;
 void *init__21TWindowSubComCardListFiii(void *p, s32 a, s32 b, s32 c);
 void call_if_split_screen(void *self, s32 idx);
 
@@ -119,8 +118,8 @@ TWindowHelpItem::TWindowHelpItem(void *pos, u16 idx) {
     self->m_a0 = -1;
     self->m_a4 = -1;
     self->m_callback = __ptmf_null;
-    self->m_a8 = lbl_805DCE10;
-    self->m_ac = lbl_805DCE10;
+    self->m_a8 = 1.0f;
+    self->m_ac = 1.0f;
     ((TWindowHelpItem *)self)->dispatch_item_help();
     call_if_split_screen(self, self->m_20);
 }

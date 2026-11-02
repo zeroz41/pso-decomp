@@ -77,9 +77,6 @@ extern s32 __vt__16TODoorLaboNormal[];
 extern s32 __vt__10TODoorLabo[];
 extern s32 door_labo_normal_class_name;
 extern s32 odoor_labo_class_name;
-extern const f32 lbl_805DDDB8;
-extern const f32 lbl_805DDDBC;
-extern const f32 lbl_805DDDC0;
 Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
@@ -131,8 +128,8 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self) {
     ((TObjPlayer *)self)->register_object_by_id();
     ((TODoorLaboNormal *)self)->init_field_d4();
     self->fBC = get_bml_motion((s32)TODoorLabo__model_archive, 0);
-    self->fB4 = (f32)self->fBC->f4 - lbl_805DDDB8;
-    self->fB8 = lbl_805DDDBC;
+    self->fB4 = (f32)self->fBC->f4 - 1.0f;
+    self->fB8 = 0.5f;
     {
         Tbl_8029F7E0 t = lbl_80466014;
         for (i = 0; i < 8; i++) {
@@ -142,7 +139,7 @@ Self_8029F7E0 *TODoorLaboNormal__ct(Self_8029F7E0 *self) {
         }
     }
     self->fF8 = 1;
-    self->fC4 = lbl_805DDDC0;
+    self->fC4 = 50.0f;
     return self;
 }
 
@@ -223,8 +220,8 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TODoorLabo *)arg0)->init_model_by_type();
     arg0->fBC = (u8 *)get_bml_motion(TODoorLabo__bml_resource, 0);
-    arg0->fB4 = (f32)*(u32 *)((s8 *)arg0->fBC + 4) - lbl_805DDDB8;
-    arg0->fB8 = lbl_805DDDBC;
+    arg0->fB4 = (f32)*(u32 *)((s8 *)arg0->fBC + 4) - 1.0f;
+    arg0->fB8 = 0.5f;
     tbl = door_labo_link_table;
     for (i = 0; i < 8; i++) {
         if (tbl.v[i] != -1) {
@@ -232,7 +229,7 @@ Door_8029FAE4 *TODoorLabo__ct(Door_8029FAE4 *arg0) {
         }
     }
     arg0->fF8 = 1;
-    arg0->fC4 = lbl_805DDDC0;
+    arg0->fC4 = 50.0f;
     return arg0;
 }
 
@@ -328,8 +325,8 @@ u8 *TODoorFourLightSeabedU__ct(u8 *arg0) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model((s32)seabed_four_light_door_bml_resource, 0);
     self->infoBC = (Info_8029FD70 *)get_bml_motion((s32)seabed_four_light_door_bml_resource, 0);
-    self->fB4 = (f32)self->infoBC->v4 - lbl_805DDDB8;
-    self->fB8 = lbl_805DDDBC;
+    self->fB4 = (f32)self->infoBC->v4 - 1.0f;
+    self->fB8 = 0.5f;
     {
         Tbl_8029FD70 tbl = door_four_light_seabed_u_table;
         for (i = 0; i < 8; i++) {
@@ -452,8 +449,8 @@ u8 *TODoorFourLightSeabed__ct(u8 *arg0) {
     ((TObjPlayer *)arg0)->register_object_by_id();
     self->fD4 = get_bml_model(door_labo_bml_resource, 0);
     self->infoBC = (Info_802A0068 *)get_bml_motion(door_labo_bml_resource, 0);
-    self->fB4 = (f32)self->infoBC->v4 - lbl_805DDDB8;
-    self->fB8 = lbl_805DDDBC;
+    self->fB4 = (f32)self->infoBC->v4 - 1.0f;
+    self->fB8 = 0.5f;
     {
         Tbl_802A0068 tbl = door_four_light_seabed_index_table;
         for (i = 0; i < 8; i++) {

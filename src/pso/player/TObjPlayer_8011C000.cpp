@@ -92,7 +92,6 @@ s32 play_sound_effect(s32, void *, s32, s32);
 void play_weapon_owner_sounds(Ctx_8011C7C8 *c);
 void play_weapon_hit_sound(Ctx_8011C7C8 *c);
 u16 get_entity_id(void *);
-extern const f32 lbl_805DAC74;
 extern s32 weapon_special_roll_channel_table[];
 Rule_8011C0B8 *find_item_combination_recipe(u8 *id, void *item);
 void play_shield_sound_cue(Obj_8011C59C *arg0);
@@ -108,7 +107,6 @@ s32 is_unsealable_item(u8 *id);
 s32 get_item_stat_boost_record(s32 arg0, s32 arg1, s32 arg2);
 extern "C" {
 s32 rand();
-extern const f32 lbl_805DAC70;
 typedef struct Thing__8011c1e8_8011C000 { u8 a; u8 b; } Thing;
 
 s32 TObjPlayer::get_item_pmt_entry(u8 arg0) {
@@ -205,7 +203,7 @@ f32 TObjPlayer::get_drop_random_float(u32 arg0) {
     if (item_mgr != NULL) {
         return ((f32 (*)(u8 *, u32))roll_table_ratio__9TItemDropFPvUi)((u8 *)item_mgr, arg0);
     }
-    return lbl_805DAC70 * (f32) rand();
+    return 3.0517578e-05f * (f32) rand();
 }
 
 void roll_item_channel_below(u32 count, s32 arg1) {
@@ -465,7 +463,7 @@ f32 get_item_price_coefficient(u8 arg0, u8 arg1) {
     case 2:
         return (*(Pmt_8011CA10 * *)&item_pmt_tbl)->t24[3];
     }
-    return lbl_805DAC74;
+    return 0.0f;
 }
 
 u8 get_weapon_class_motion_type(u8 arg0) {

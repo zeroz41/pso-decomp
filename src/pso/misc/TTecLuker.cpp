@@ -185,7 +185,6 @@ void TTecLuker__updateRecoveryTechniqueCharge(TechniqueChargeEmitter* state);
 extern u8 TTecLuker__visit_counts[4];
 void reset_telepipe_visit_counts(void);
 void TTecLuker__sub_80234F08(void);
-extern const f32 lbl_805DC85C;
 void reset_telepipe_record(O_802340A0 *o);
 void TTecLuker__sub_80234F48(void);
 s32 TObjPlayer__sub_801BFFA0(void *p);
@@ -198,7 +197,6 @@ s16 get_field_2__9TTecLukerFPv(void* p);
 s32 get_current_floor(void);
 void restore_floor_telepipes(void);
 f32 vector_length(void *);
-extern const f32 lbl_805DC860;
 s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec_8023402C *p, u16 unused);
 void *__nw__7TObjectFUl(int);
 s32 get_entity_id(void *);
@@ -222,7 +220,6 @@ extern Vec_80234D50 lbl_8044D72C;
 extern void* __vt__9TTecLuker[];
 extern u8 identity_matrix[];
 extern s32 lbl_805D37E4;
-extern const f32 lbl_805DC878;
 void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 s32 mark_area_change_pending();
 s32 obj_isState3_324__9TObjCharaFv(void *);
@@ -234,8 +231,6 @@ s32 set_area__6TLobbyFl(s32 *, s32, s32);
 void run_task__9TTecLukerFv(u8 *arg0);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 camera_ctrl_instance;
-extern const f32 lbl_805DC864;
-extern const f32 lbl_805DC868;
 Hit_8023453C *csnVecterUnder(void *, s32);
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 }
@@ -246,14 +241,10 @@ void start_placement_search(s32 arg0, s32 arg1, s32 arg2);
 s32 are_players_gathered_near(void *arg0, s32 *arg1, f32 range);
 void offset_point_toward_camera(u8 *arg0, u8 *arg1, f32 farg0);
 extern s32 lbl_80515BA0[];
-extern const f32 lbl_805DC858;
 u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1);
 extern s32 telepipe_visual_template_table[][3];
 extern s32 telepipe_owner_tint_table[];
 extern s32 tl_particlemodel;
-extern const f32 lbl_805DC86C;
-extern const f32 lbl_805DC870;
-extern const f32 lbl_805DC874;
 extern "C" {
 void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res);
 void *__dt__13TUnk_804CC9D4Fv(void *arg0, s16 arg1);
@@ -302,7 +293,7 @@ void TTecLuker::update_player_target() {
             submit_cursor_candidate(arg0, -1);
             return;
         }
-        if (are_players_gathered_near(arg0 + 0x38, 0, lbl_805DC858) != 0) {
+        if (are_players_gathered_near(arg0 + 0x38, 0, 10.0f) != 0) {
             submit_cursor_candidate(arg0, -1);
         }
     } else {
@@ -425,9 +416,9 @@ s32 telepipe_record_differs(Rec_8023402C *r, s16 floor, Vec_8023402C *p, u16 unu
     Vec_8023402C d;
     if (r->floor == floor) {
         d.x = r->pos.x - p->x;
-        d.y = lbl_805DC85C;
+        d.y = 0.0f;
         d.z = r->pos.z - p->z;
-        if (vector_length(&d) < lbl_805DC860) {
+        if (vector_length(&d) < 0.2f) {
             return 0;
         }
     }
@@ -438,9 +429,9 @@ void reset_telepipe_record(O_802340A0 *o) {
     o->h0 = 0xffff;
     o->w4 = 0;
     o->h2 = 0;
-    o->f8 = lbl_805DC85C;
-    o->fc = lbl_805DC85C;
-    o->f10 = lbl_805DC85C;
+    o->f8 = 0.0f;
+    o->fc = 0.0f;
+    o->f10 = 0.0f;
     o->w14 = 0;
 }
 
@@ -519,7 +510,7 @@ void TUnk_804CCA0C::run_task() {
   s32 i;
   s32 st;
   u32 pl;
-  best = lbl_805DC864;
+  best = 10000.0f;
   j = get_current_floor_area();
   st = j;
   if ((st == 0) || (st == 0x12))
@@ -540,7 +531,7 @@ void TUnk_804CCA0C::run_task() {
         }
       }
     }
-    if (best >= lbl_805DC868)
+    if (best >= 102400.0f)
     {
       for (i = 0; i < 3; i++)
       {
@@ -568,7 +559,7 @@ void TUnk_804CCA0C::run_task() {
     }
     return;
   }
-  if (horizontal_distance_squared(&self->pos, (void *)(camera_ctrl_instance + 0x178)) >= lbl_805DC868)
+  if (horizontal_distance_squared(&self->pos, (void *)(camera_ctrl_instance + 0x178)) >= 102400.0f)
   {
     for (i = 0; i < 3; i++)
     {
@@ -657,7 +648,7 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
     {
       case 2:
         VecCopy((Vec *)&v, (const Vec *)(&((Fx_8023453C *) self)->pos2));
-        v.y += lbl_805DC86C;
+        v.y += 1.8f;
         ((Fx_8023453C *) self)->kids[i] = spawn_continuous_particle_effect_with_flags(&v, row[i], 0x40);
         if ((((Fx_8023453C *) self)->kids[i] != 0) && (id != 3))
       {
@@ -674,13 +665,13 @@ void *create_telepipe_visual(void *self, Vec_802347B4 *pos, u32 id, s32 res) {
     }
   }
   VecCopy((Vec *)&v2, (const Vec *)(&((Fx_8023453C *) self)->pos));
-  v2.y += lbl_805DC870;
+  v2.y += 15.0f;
   if (is_split_screen() == 0)
   {
     p = __nw__7TObjectFUl(0x44);
     if (p != 0)
     {
-      p = create_telepipe_marker((u8 *)p, (s32)&v2, (s8)(0x1F), (s8)(4), (s32)tl_particlemodel, 0, 0, (f32)lbl_805DC874, (f32)lbl_805DC874);
+      p = create_telepipe_marker((u8 *)p, (s32)&v2, (s8)(0x1F), (s8)(4), (s32)tl_particlemodel, 0, 0, 1.9f, 1.9f);
     }
     ((Fx_8023453C *) self)->f28 = p;
   }
@@ -697,7 +688,7 @@ void TTecLuker::vfunc_6(void *o_arg) {
     VObj_802346F8 *o = (VObj_802346F8 *)o_arg;
     P_802346F8 d;
     d.t = 0xE;
-    d.v = lbl_805DC858;
+    d.v = 10.0f;
     o->m21(self->source, d, 0, -1, -1);
 }
 
@@ -794,8 +785,8 @@ void run_task__9TTecLukerFv(u8 *arg0) {
             queue_destruction__7TObjectFv(arg0);
             return;
         }
-        if ((get_player_by_client_id(((TTecLuker *)arg0)->m_f6) != 0) && (get_pipe_interaction_latch(*(void **)((s8 *)arg0 + 0xF0)) != 0) && (are_players_gathered_near(arg0 + 0xFC, 0, lbl_805DC858) != 0)) {
-            offset_point_toward_camera(arg0 + 0xFC, (u8 *)((s32 *) &sp8), (f32)lbl_805DC858);
+        if ((get_player_by_client_id(((TTecLuker *)arg0)->m_f6) != 0) && (get_pipe_interaction_latch(*(void **)((s8 *)arg0 + 0xF0)) != 0) && (are_players_gathered_near(arg0 + 0xFC, 0, 10.0f) != 0)) {
+            offset_point_toward_camera(arg0 + 0xFC, (u8 *)((s32 *) &sp8), 10.0f);
             spawn_particle_effect((float *) &sp8, 0xB3);
             player = (u8 *)get_player_by_client_id(((TTecLuker *)arg0)->m_f6);
             if (player != NULL) {
@@ -945,7 +936,7 @@ void *TTecLuker__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) 
                 pop_matrices(1);
                 o = L->owner;
                 v.x += o->pos.x;
-                v.y += lbl_805DC878 + o->pos.y;
+                v.y += 20.0f + o->pos.y;
                 v.z += o->pos.z;
                 start_placement_search((s32)L->fx, (s32)&v, (s32)o);
             }

@@ -36,7 +36,6 @@ void *__dt__18TObjBoss7TunnelColFv(void *arg0, s16 arg1) {
 
 extern s32 TObjBoss7TunnelCol__col_desc[];
 extern void *lbl_805D3FF0;
-extern const f32 lbl_805DECA0;
 extern const f32 lbl_805DEC9C;
 
 void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
@@ -45,7 +44,7 @@ void *TObjBoss7TunnelCol__ct(void *arg0, TObject *parent) {
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjBoss7TunnelCol;
     *(void * *)&((TObjBoss7TunnelCol *)arg0)->m_name = lbl_805D3FF0;
     copy_collision_body((CollisionBody *)self->f_AC, (const CollisionBody *)TObjBoss7TunnelCol__col_desc);
-    *(f32 *)((s8 *)arg0 + 0x38) = lbl_805DECA0;
+    *(f32 *)((s8 *)arg0 + 0x38) = 85.0f;
     *(f32 *)((s8 *)arg0 + 0x3C) = lbl_805DEC9C;
     *(f32 *)((s8 *)arg0 + 0x40) = lbl_805DEC9C;
     ((TObjCollidable *)arg0)->set_collision_body(self->f_AC);
@@ -60,7 +59,6 @@ void TUnk_804E4B24::update_collision() {
     rotate_matrix_yxz((s32)self->f_48, (s32)(*(void * *)&(*(void * *)((u8 *)this + 0x28))), (s32)this->m_2c, (s32)(*(void * *)&(this->unk_30)));
 }
 
-extern f32 lbl_805DECA4;
 extern f32 lbl_805DECA8;
 
 s32 TObjBoss7TunnelCol::is_in_camera_range() {
@@ -68,7 +66,7 @@ s32 TObjBoss7TunnelCol::is_in_camera_range() {
 
     if (get_mode__11TCameraCtrlFPv(((s32 *)&main_task)) & 0x20) {
         temp_f1 = *(f32 *)&this->texlist;
-        if ((temp_f1 < lbl_805DECA4) && (lbl_805DECA8 < temp_f1)) {
+        if ((temp_f1 < -300.0f) && (lbl_805DECA8 < temp_f1)) {
             return 0;
         }
     }

@@ -334,7 +334,6 @@ void close_windows__16TAdChrSelBSlotGCFPv(void *ad_chr_sel_b_slot_gc) {
 }
 
 extern s32 lbl_80475910[];
-extern const f32 lbl_805DF220;
 
 void reset_windows__16TAdChrSelBSlotGCFPv(void *ad_mc_select_gc) {
     ((TAdChrSelSlotGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_28))->reset_all_slots();
@@ -393,8 +392,8 @@ void reset_windows__16TAdChrSelBSlotGCFPv(void *ad_mc_select_gc) {
     ((TAdPlyChrSelPlateGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_2c))->reset_selection_slots();
     TAdSubPlyItemGC__sub_802D6D88(((TAdMcSelectGC *)ad_mc_select_gc)->m_30);
     ((TAdMcSelectGC *)(((TAdMcSelectGC *)ad_mc_select_gc)->m_28))->init_slot(1, lbl_80475910);
-    *(u32 *)((s8 *)ad_mc_select_gc + 0x38) = create_draw_line_ctrl__13TAdMcSelectGCFiif(ad_mc_select_gc, 0xE, lbl_805DF220);
-    *(u32 *)((s8 *)ad_mc_select_gc + 0x3C) = create_draw_line_ctrl__13TAdMcSelectGCFiif(ad_mc_select_gc, 0x15, lbl_805DF220);
+    *(u32 *)((s8 *)ad_mc_select_gc + 0x38) = create_draw_line_ctrl__13TAdMcSelectGCFiif(ad_mc_select_gc, 0xE, 0.0f);
+    *(u32 *)((s8 *)ad_mc_select_gc + 0x3C) = create_draw_line_ctrl__13TAdMcSelectGCFiif(ad_mc_select_gc, 0x15, 0.0f);
     ((TAdMcSelectGC *)ad_mc_select_gc)->m_24 = -1;
     ((TAdMcSelectGC *)ad_mc_select_gc)->m_1c = 1;
 }

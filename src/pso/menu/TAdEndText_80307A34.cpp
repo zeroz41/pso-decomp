@@ -27,8 +27,6 @@ s32 init_ending_movie();
 void process_async_file_reads(void);
 void set_screen_size(f32 farg0, f32 farg1);
 extern int ending_sequence_active;
-extern const f32 lbl_805DF0B0;
-extern const f32 lbl_805DF0B4;
 extern "C" {
 int TLobby__sub_800FC3CC(void);
 
@@ -64,7 +62,7 @@ void TKeyBoardControl::run_main_frame() {
 }
 void start_ending_sequence(void) {
     (*(s32 *)&ending_sequence_active) = 1;
-    set_screen_size(lbl_805DF0B0, lbl_805DF0B4);
+    set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     TKeyBoardControl__sub_8000F91C(2);

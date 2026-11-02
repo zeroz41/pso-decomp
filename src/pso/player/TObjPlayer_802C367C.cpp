@@ -29,7 +29,6 @@ s8 *get_action_data__10TObjPlayerFv(void *);
 void apply_class_level_growth(void *, s32, Stats_802C38B4 *);
 s32 get_current_state_field__10TObjPlayerFScl(void *, s32);
 void *get_class_base_stats(void *);
-extern const f32 lbl_805DE530;
 void init_character_stats_for_level(void *cls, Char_802C38B4 *c, s32 level);
 int TObjPlayer__sub_802C456C(void*, void*, void*);
 }
@@ -93,7 +92,7 @@ void init_character_stats_for_level(void *cls, Char_802C38B4 *c, s32 level) {
     c->stats.ata = st.ata;
     c->stats.lck = st.lck;
     c->f35A = 0x28;
-    c->f360 = lbl_805DE530;
+    c->f360 = 10.0f;
     c->level = level;
     c->exp = get_current_state_field__10TObjPlayerFScl(cls, level);
     c->meseta = 300;

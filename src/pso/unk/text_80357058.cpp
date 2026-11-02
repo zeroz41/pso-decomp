@@ -53,20 +53,12 @@ f32 cos_table_lookup(s32);
 f32 normalize_vector(void *);
 extern s32 __vt__20TItemEffOrgaFlowShot[];
 extern s32 TItemEffOrgaFlowShot__name;
-extern const f32 lbl_805E0038;
-extern const f32 lbl_805E003C;
-extern const f32 lbl_805E0040;
-extern const f32 lbl_805E0044;
-extern const f32 lbl_805E0028;
-extern const f32 lbl_805E002C;
 s32 is_local_client_floor_leader();
 void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
 extern int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
 s32 has_game_join_id__13TUnk_804E355CFv();
-extern const f32 lbl_805E0030;
-extern const f32 lbl_805E0034;
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 }
@@ -192,9 +184,9 @@ void TItemEffOrgaFlowShot::update_segments() {
 void TItemEffOrgaFlowShot::update_position_from_velocity() {
     u8 *arg0 = (u8 *)this;
     f32 temp_f2;
-    temp_f2 = lbl_805E0028 * *(f32 *)&this->m_190;
+    temp_f2 = 0.5f * *(f32 *)&this->m_190;
     this->m_40 = temp_f2;
-    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (lbl_805E002C + *(f32 *)&this->m_194);
+    *(f32 *)((s8 *)arg0 + 0x44) = (f32) (4.0f + *(f32 *)&this->m_194);
     this->m_24 = (f32) ((this->m_17c * temp_f2) + this->m_114);
     *(f32 *)&this->m_28 = (f32) *(f32 *)&this->unk_118;
     *(f32 *)&this->unk_2C = (f32) ((this->m_184 * temp_f2) + this->m_11c);
@@ -225,9 +217,9 @@ void run_task__20TItemEffOrgaFlowShotFv(u8 *item_eff_orga_flow_shot) {
         queue_destruction__7TObjectFv((item_eff_orga_flow_shot));
         disallow_rendering__7TObjectFv((TObject *)(item_eff_orga_flow_shot));
     }
-    TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x190), (f32)lbl_805E0030, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C))));
+    TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x190), 50.0f, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C))));
     if (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x190) == *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C)) {
-        TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x194), (f32)lbl_805E0034, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198))));
+        TItemEffOrgaFlowShot::approach_value((f32 *)(item_eff_orga_flow_shot + 0x194), 0.6f, (f32)((f32) (*(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198))));
     }
     for (i = 0; i != 10; i++) {
         TObjBoss2Tunnel::decrement_packed_timer((u32 *)(&((O_8035740C *)item_eff_orga_flow_shot)->v[i].w), 2);
@@ -260,20 +252,20 @@ u8 *TItemEffOrgaFlowShot__ct(TItemEffOrgaFlowShot *item_eff_orga_flow_shot, s32 
     *(s32 *)((s8 *)item_eff_orga_flow_shot + 0) = (s32) TItemEffOrgaFlowShot__name;
     *(s32 *)((s8 *)item_eff_orga_flow_shot + 0xC0) = 0;
     item_eff_orga_flow_shot->m_48 = 1;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x44) = (f32) lbl_805E0038;
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x44) = 10.0f;
     *(s32 *)((s8 *)item_eff_orga_flow_shot + 0x30) = (s32) *(s32 *)((s8 *)arg2 + 0x28);
     item_eff_orga_flow_shot->m_188 = (s32) *(s32 *)((s8 *)arg2 + 0x28);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x190) = (f32) lbl_805E003C;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C) = (f32) lbl_805E0040;
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x194) = (f32) lbl_805E003C;
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x190) = 0.0f;
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x18C) = 200.0f;
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x194) = 0.0f;
     item_eff_orga_flow_shot->m_19c = 0x14;
     item_eff_orga_flow_shot->m_17c = sin_table_lookup(item_eff_orga_flow_shot->m_188);
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x180) = (f32) lbl_805E003C;
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x180) = 0.0f;
     item_eff_orga_flow_shot->m_184 = cos_table_lookup(item_eff_orga_flow_shot->m_188);
     *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x164) = (f32) (*(f32 *)((s8 *)arg2 + 0x2C) - *(f32 *)((s8 *)arg2 + 0x38));
     *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x168) = (f32) (*(f32 *)((s8 *)arg2 + 0x30) - *(f32 *)((s8 *)arg2 + 0x3C));
     item_eff_orga_flow_shot->m_16c = (f32) (*(f32 *)((s8 *)arg2 + 0x34) - *(f32 *)((s8 *)arg2 + 0x40));
-    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198) = (f32) (lbl_805E0044 * normalize_vector((u8 *)item_eff_orga_flow_shot + 0x164));
+    *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x198) = (f32) (3.0f * normalize_vector((u8 *)item_eff_orga_flow_shot + 0x164));
     *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x170) = (f32) (*(f32 *)((s8 *)arg2 + 0x5C) - *(f32 *)((s8 *)arg2 + 0x50));
     *(f32 *)((s8 *)item_eff_orga_flow_shot + 0x174) = (f32) (*(f32 *)((s8 *)arg2 + 0x60) - *(f32 *)((s8 *)arg2 + 0x54));
     item_eff_orga_flow_shot->m_178 = (f32) (*(f32 *)((s8 *)arg2 + 0x64) - *(f32 *)((s8 *)arg2 + 0x58));

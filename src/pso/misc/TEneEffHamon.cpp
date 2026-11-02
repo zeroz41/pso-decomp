@@ -41,13 +41,9 @@ typedef struct Cam_800A3D1C { u8 pad0[8]; f32 cx; f32 cy; u8 pad10[8]; f32 sw; f
 
 extern "C" {
 s32 queue_destruction__7TObjectFv();
-extern const f32 lbl_805D99E0;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_800A38A4___vt__12TEneEffHamon __vt__12TEneEffHamon;
 extern s32 TEneEffHamon__name;
-extern const f32 lbl_805D99E4;
-extern const f32 lbl_805D99E8;
-extern const f32 lbl_805D99EC;
 extern s32 tl_06;
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix();
@@ -102,7 +98,7 @@ void run_task__12TEneEffHamonFv(u8 *arg0) {
     }
     *(f32 *)((s8 *)arg0 + 0x34) = (f32) (*(f32 *)((s8 *)arg0 + 0x34) + *(f32 *)((s8 *)arg0 + 0x44));
     *(f32 *)((s8 *)arg0 + 0x50) = (f32) (*(f32 *)((s8 *)arg0 + 0x50) + *(f32 *)((s8 *)arg0 + 0x48));
-    if (*(f32 *)((s8 *)arg0 + 0x50) <= lbl_805D99E0) {
+    if (*(f32 *)((s8 *)arg0 + 0x50) <= 0.0f) {
         queue_destruction__7TObjectFv();
     }
 }
@@ -124,18 +120,18 @@ u8 *__ct__12TEneEffHamonFv(u8 *object, s32 arg1, s32 arg2, s32 arg3, f32 farg0) 
     *(s32 *)((s8 *)object + 0x30) = 0;
     *(s32 *)((s8 *)object + 0x2C) = 0;
     *(s32 *)((s8 *)object + 0x28) = 0;
-    *(f32 *)((s8 *)object + 0x34) = (f32) lbl_805D99E4;
+    *(f32 *)((s8 *)object + 0x34) = 1.0f;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)(arg1));
     *(f32 *)((s8 *)object + 0x40) = farg0;
-    *(f32 *)((s8 *)object + 0x50) = (f32) lbl_805D99E8;
-    *(f32 *)((s8 *)object + 0x54) = (f32) lbl_805D99E4;
-    *(f32 *)((s8 *)object + 0x58) = (f32) lbl_805D99E4;
-    *(f32 *)((s8 *)object + 0x5C) = (f32) lbl_805D99E4;
+    *(f32 *)((s8 *)object + 0x50) = 0.9f;
+    *(f32 *)((s8 *)object + 0x54) = 1.0f;
+    *(f32 *)((s8 *)object + 0x58) = 1.0f;
+    *(f32 *)((s8 *)object + 0x5C) = 1.0f;
     *(s32 *)((s8 *)object + 0x4C) = arg3;
     if (arg2 <= 0) {
         arg2 = 1;
     }
-    *(f32 *)((s8 *)object + 0x44) = (f32) (lbl_805D99E4 / (f32) arg2);
-    *(f32 *)((s8 *)object + 0x48) = (f32) (lbl_805D99EC / (f32) arg2);
+    *(f32 *)((s8 *)object + 0x44) = (f32) (1.0f / (f32) arg2);
+    *(f32 *)((s8 *)object + 0x48) = (f32) (-0.9f / (f32) arg2);
     return object;
 }

@@ -74,30 +74,17 @@ typedef struct { P3_80307034 v[11]; } Pos_80307034;
 
 typedef struct { u32 c[12]; } Col_80307034;
 
-extern const f32 lbl_805DF04C;
-extern const f32 lbl_805DF050;
-extern const f32 lbl_805DF054;
-extern const f32 lbl_805DF058;
-extern const f32 lbl_805DF05C;
-extern const f32 lbl_805DF060;
-extern const f32 lbl_805DF064;
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, void *, int, int);
 extern Ports_80306DF4 multi_ok_player_port_index_table;
 extern Pad_80306DF4 controller_physical_port_bank[];
 extern s32 multi_confirm_texture_list;
-extern const f32 lbl_805DF040;
-extern const f32 lbl_805DF044;
-extern const f32 lbl_805DF048;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__12TAdMultiOkGC[];
 extern Pos_80307034 ad_multi_ok_layout_table;
 extern Col_80307034 multi_ok_button_colors;
 extern const char *lbl_805D4080;
-extern const f32 lbl_805DF068;
-extern const f32 lbl_805DF06C;
-extern const f32 lbl_805DF070;
 Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg);
 }
 int multi_confirm_cancel_requested(void* p) { return *(u32*)((char*)p + 0x980) & 0x1; }
@@ -122,11 +109,11 @@ void TAdMultiOkGC::draw_entry(int arg1) {
         begin_screen_draw(1);
         TObjFish::set_global_param(multi_confirm_texture_list);
         e += arg1;
-        base = lbl_805DF040 * (f32)arg1;
+        base = 0.0050000004f * (f32)arg1;
         for (i = 0; i < 5; i++) {
             set_draw_texture_and_color(0, e->vals[i]);
             if (e->t - (i - 1) >= 0) {
-                f32 t = lbl_805DF048 * (f32)i + lbl_805DF044;
+                f32 t = 0.001f * (f32)i + 0.01f;
                 draw_textured_quad_at_depth((f32 *)&e->q[i], t + base);
             }
         }
@@ -162,20 +149,20 @@ void TAdMultiOkGC::update_entry_animation(int arg1) {
                 if (d > 10) {
                     e->flags |= 4;
                 } else if (d >= 0) {
-                    f = lbl_805DF04C - lbl_805DF050 * (f32)d;
-                    e->q[i].a = lbl_805DF054 * f + e->x;
-                    e->q[i].b = lbl_805DF058 * f + e->y;
-                    e->q[i].c = lbl_805DF05C * f + e->x;
-                    e->q[i].d = lbl_805DF060 * f + e->y;
+                    f = 3.0f - 0.2f * (f32)d;
+                    e->q[i].a = -32.0f * f + e->x;
+                    e->q[i].b = -16.0f * f + e->y;
+                    e->q[i].c = 32.0f * f + e->x;
+                    e->q[i].d = 16.0f * f + e->y;
                 }
             } else if (d > 5) {
                 e->flags &= ~2;
             } else if (d >= 0) {
-                f = lbl_805DF064 - lbl_805DF050 * (f32)d;
-                e->q[i].a = lbl_805DF054 * f + e->x;
-                e->q[i].b = lbl_805DF058 * f + e->y;
-                e->q[i].c = lbl_805DF05C * f + e->x;
-                e->q[i].d = lbl_805DF060 * f + e->y;
+                f = 1.0f - 0.2f * (f32)d;
+                e->q[i].a = -32.0f * f + e->x;
+                e->q[i].b = -16.0f * f + e->y;
+                e->q[i].c = 32.0f * f + e->x;
+                e->q[i].d = 16.0f * f + e->y;
             }
         }
     }
@@ -254,22 +241,22 @@ Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_8030703
         u32 a = ((cols.c[self->idx[i]] >> 24) / 5) << 24;
         self->items[i].f0 = 0;
         self->items[i].f4 = -1;
-        self->items[i].x = lbl_805DF05C + x;
-        self->items[i].y = lbl_805DF060 + y;
+        self->items[i].x = 32.0f + x;
+        self->items[i].y = 16.0f + y;
         f32 x2;
         f32 y2;
-        y2 = lbl_805DF05C + y;
-        x2 = lbl_805DF068 + x;
+        y2 = 32.0f + y;
+        x2 = 64.0f + x;
         for (k = 0; k < 5; k++) {
             self->items[i].col[k] = a | (cols.c[self->idx[i]] & 0xFFFFFF);
             self->items[i].q[k].x = x;
             self->items[i].q[k].y = y;
             self->items[i].q[k].x2 = x2;
             self->items[i].q[k].y2 = y2;
-            self->items[i].q[k].u0 = lbl_805DF06C;
-            self->items[i].q[k].v0 = lbl_805DF06C;
-            self->items[i].q[k].u1 = lbl_805DF064;
-            self->items[i].q[k].v1 = lbl_805DF070;
+            self->items[i].q[k].u0 = 0.0f;
+            self->items[i].q[k].v0 = 0.0f;
+            self->items[i].q[k].u1 = 1.0f;
+            self->items[i].q[k].v1 = 0.5f;
         }
     }
     return self;

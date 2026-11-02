@@ -7,7 +7,6 @@
 extern "C" {
 extern s32 __vt__9TObjEnemy[];
 extern void* TObjEnemy_class_name;
-extern const f32 lbl_805DA8E0;
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 int unregister_object_by_id__14TObjCollidableFv(void*);
 s32 __dl__7TObjectFPv(void *);
@@ -54,7 +53,7 @@ TObjEnemy::TObjEnemy(TObject *parent) : TObjChara(parent) {
     timer = 0;
     referenceHp = hp;
     for (int i = 0; i < 5; ++i) {
-        parameters[i] = lbl_805DA8E0;
+        parameters[i] = 0.0f;
     }
     actorFlags |= 0x20000000;
     this->motion_flags |= 1;

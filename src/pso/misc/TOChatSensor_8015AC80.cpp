@@ -20,8 +20,6 @@ struct Packet_8015AD54 {
 extern "C" {
 u8 is_current_floor_switch_set(int);
 f32 newton_sqrtf(f32);
-extern const f32 lbl_805DB388;
-extern const f32 lbl_805DB38C;
 void *strncpy(void *, void *, s32);
 s32 get_current_floor(void);
 s32 find_chat_keyword(void *, void *, s32);
@@ -131,9 +129,9 @@ void TOChatSensor::render() {
     u8 *arg0 = (u8 *)this;
     if (TObjPlayer::check_demo_mode() == 1) {
         NJS_ARGB color;
-        color.a = lbl_805DB388;
-        color.r = lbl_805DB388;
-        color.b = color.g = lbl_805DB38C;
+        color.a = 0.3f;
+        color.r = 0.3f;
+        color.b = color.g = 0.8f;
         debug_draw_sphere(&position, &color, newton_sqrtf(*(f32 *)(arg0 + 0x9C)));
     }
 }

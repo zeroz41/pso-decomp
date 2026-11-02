@@ -109,7 +109,6 @@ void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, u16 e);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, u16);
 s32 mem_alloc(s32);
 extern s32 lbl_805D63B0;
-extern const f32 lbl_805DC7F8;
 void *spawn_particle_effect(void *pos, s32 id);
 void *TTecFoie__ct(void *, void *, void *, void *, void *);
 void *construct_aimed__8TTecFoieFlPUcPUcs(void *, void *, void *, void *, void *);
@@ -160,7 +159,7 @@ void TTecFoie::create_particle_emitters() {
     {
       if ((*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].flags & 0x20)
       {
-        attach_particle_model((int) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, lbl_805DC7F8);
+        attach_particle_model((int) self->emitters[i], TParticleCtrl::get_particle_model(0), lbl_805D63B0, 0, 1, 1.0f);
       }
       ((TParticleCtrl *)(self->emitters[i]))->set_scale((*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].scale, (*((Binding_8022FC94 **) (&TTecFoie__emitter_profile_table[self->band])))[i].scale);
     }

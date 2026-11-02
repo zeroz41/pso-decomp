@@ -49,14 +49,10 @@ s32 spawn_continuous_particle_with_direction(void *, void *, s32);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjParticle[];
 extern s32 obj_particle_class_name;
-extern const f32 lbl_805DBEEC;
 Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 arg1, Src_80195400 *arg2);
 void __dl__7TObjectFPv(void *);
 
 extern s32 camera_ctrl_instance;
-extern const f32 lbl_805DBEE0;
-extern const f32 lbl_805DBEE4;
-extern const f32 lbl_805DBEE8;
 
 void TObjParticle::render() {
     P_8019527C *arg0 = (P_8019527C *)this;
@@ -72,12 +68,12 @@ void TObjParticle::run_task() {
     f32 var_f31;
 
     if (((get_current_floor_area() == AREA_DARK_FALZ) || ((s32) this->set_params[0] == 1)) && ((s32) this->set_params[2] != 1)) {
-        var_f31 = lbl_805DBEE0;
+        var_f31 = 2250000.0f;
     } else {
-        var_f31 = lbl_805DBEE4;
+        var_f31 = 160000.0f;
     }
     if (((s32) this->set_params[2] == 1) && ((s32) this->set_params[0] == 1)) {
-        var_f31 = lbl_805DBEE8;
+        var_f31 = 100000000.0f;
     }
     if (xyz_distance_squared((Vec *)&this->position, (Vec *)(camera_ctrl_instance + 0x178)) > var_f31) {
         queue_destruction__7TObjectFv(arg0);
@@ -118,7 +114,7 @@ Part_80195400 *TObjParticle__ct(Part_80195400 *arg0, s32 parent, Src_80195400 *a
     if (entry < 0) {
         entry = 0;
     }
-    if (arg0->params[2] < lbl_805DBEEC) {
+    if (arg0->params[2] < 0.0f) {
         base = 2;
         if (arg0->ints[0] == 1) {
             base = 0x42;

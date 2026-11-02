@@ -109,7 +109,6 @@ u8 get_item_group__5TItemFv();
 s32 TObjBase::get_texlist() { return texlist; }
 NJS_OBJECT *TItem::get_item_model() { return item_model; }
 
-extern const f32 lbl_805DAB58;
 
 struct TItemData8_8010a060 { s8 a; s8 b; u8 c; s8 pad[21]; };
 
@@ -121,7 +120,7 @@ void TUnk_8049F130::run_task() {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    if (lbl_805DAB58 == (f32) *(s32 *)&this->unk_1C) {
+    if (120.0f == (f32) *(s32 *)&this->unk_1C) {
         init__9TItemDataFv(&sp8.a);
         sp8.a = 1;
         sp8.b = 2;

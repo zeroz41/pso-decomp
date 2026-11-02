@@ -21,9 +21,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 rand(void);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 extern s32 TObjBoss8Piller__class_name;
-extern const f32 lbl_805DF158;
-extern const f32 lbl_805DF15C;
-extern const f32 lbl_805DF160;
 void TLobby__sub_8001FE7C(void*, int);
 
 typedef char RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller_size[sizeof(RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller) == 0x18 ? 1 : -1];
@@ -32,10 +29,10 @@ u8 *__ct__15TObjBoss8PillerFv(u8 *object, u8 *arg1, u8 *arg2, s16 arg3) {
     *(s32 **)((s8 *)object + 0x18) = &__vt__15TObjBoss8Piller.value;
     *(s32 *)((s8 *)object + 0) = (s32) TObjBoss8Piller__class_name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805DF158;
-    *(f32 *)((s8 *)object + 0x28) = (f32) lbl_805DF158;
+    *(f32 *)((s8 *)object + 0x20) = 0.0f;
+    *(f32 *)((s8 *)object + 0x28) = 0.0f;
     *(s16 *)((s8 *)object + 0x30) = arg3;
-    *(f32 *)((s8 *)object + 0x28) = (f32) (lbl_805DF15C * (lbl_805DF160 * (f32) rand()));
+    *(f32 *)((s8 *)object + 0x28) = (f32) (3.0f * (3.0517578e-05f * (f32) rand()));
     *(s32 *)((s8 *)object + 0x2C) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjBoss8Piller__shared_resource) + 0x430)) + 4);
     return object;
 }

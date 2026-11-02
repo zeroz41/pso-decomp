@@ -278,7 +278,6 @@ s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 create_particle_emitter(s32, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-extern const f32 lbl_805DA5C8;
 extern const f32 TObjEneMe3ShinowaReal__data_805DA5CC;
 extern const f32 lbl_805DA5D0;
 f32 random_ratio__9TObjCharaFv(void *);
@@ -500,7 +499,7 @@ void TObjEneMe3ShinowaReal::vfunc_116(s32 arg1) {
                     *(s32 *)((s8 *)((u8 *)this) + 0x404) = 2;
                 }
             }
-            if (this->frame >= lbl_805DA5C8) {
+            if (this->frame >= 12.0f) {
                 if ((void *) *(u8 **)((s8 *)((u8 *)this) + 0x424) == NULL) {
                     *(u8 **)((s8 *)((u8 *)this) + 0x424) = (unsigned char *) (create_particle_emitter((s32) ((u8 *)this + 0x38), 0x114));
                     particle_ctrl = (u8 *)(*(u8 **)((s8 *)((u8 *)this) + 0x424));
@@ -591,7 +590,7 @@ void TObjEneMe3ShinowaReal::vfunc_114(s32 arg1) {
         break;
     case 0:
         advance_animation();
-        if (R(0xC0) >= lbl_805DA5C8) {
+        if (R(0xC0) >= 12.0f) {
             if (P(0x424) == NULL) {
                 P(0x424) = (u8 *)create_particle_emitter((s32)(((u8 *)this) + 0x38), 0x114);
                 if (P(0x424) != NULL) {

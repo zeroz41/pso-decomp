@@ -35,10 +35,6 @@ extern RecoveredGlobal_80158890_lbl_804AFC54 bind_collision_body_parts;
 extern s32 __vt__6TOBind[];
 extern s32 lbl_805D2EA8;
 extern s32 tl_05;
-extern const f32 lbl_805DB300;
-extern const f32 lbl_805DB304;
-extern const f32 lbl_805DB308;
-extern const f32 lbl_805DB30C;
 struct BindBase_801586B8 { char pad[0x18]; };
 struct BindObj_801586B8 : BindBase_801586B8 {
     virtual void m0();
@@ -130,9 +126,9 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     bind->m_c8 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
-    *(f32 *)((s8 *)bind + 0xB8) = (f32) lbl_805DB300;
-    bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - lbl_805DB304);
-    *(f32 *)((s8 *)bind + 0xC0) = (f32) lbl_805DB304;
+    *(f32 *)((s8 *)bind + 0xB8) = 0.0f;
+    bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - 1.0f);
+    *(f32 *)((s8 *)bind + 0xC0) = 1.0f;
     init_collision_body_parts(bind, &bind_collision_body_parts.value, 2);
     ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
@@ -141,8 +137,8 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     if ((s32) bind->m_b4 < 0) {
         bind->m_b4 = 0;
     }
-    *(f32 *)((s8 *)bind + 0xD0) = (f32) lbl_805DB308;
-    bind->m_d4 = (f32) lbl_805DB30C;
+    *(f32 *)((s8 *)bind + 0xD0) = 400.0f;
+    bind->m_d4 = 40.0f;
     return (u8 *)bind;
 }
 

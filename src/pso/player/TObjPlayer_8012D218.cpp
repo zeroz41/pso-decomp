@@ -30,7 +30,6 @@ void TObjPlayer::create_shield() {
 }
 
 extern s32 tl_05;
-extern f32 lbl_805DAF18;
 
 void TObjPlayer::trigger_megid_special() {
     s32 sp8;
@@ -42,7 +41,7 @@ void TObjPlayer::trigger_megid_special() {
             if (((TItemWeapon *)this)->get_joint_position(2, &sp8) != 0) {
                 tec_megid = *(void * *)&this->blend.frame[1];
                 create_ex__9TTecMegidFllll(tec_megid, &sp8, *(s32 *)((s8 *)tec_megid + 0x60), 0);
-                drain_owner_hp_fraction(lbl_805DAF18);
+                drain_owner_hp_fraction(0.07f);
             }
         } else {
             update_active_game_effect();

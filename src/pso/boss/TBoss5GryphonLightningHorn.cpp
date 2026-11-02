@@ -35,12 +35,10 @@ extern s32 lbl_805D41A0;
 extern const f32 lbl_805DF630;
 extern const f32 lbl_805DF634;
 extern const f32 lbl_805DF644;
-extern const f32 lbl_805DF650;
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
-extern const f32 lbl_805DF654;
 void init_slicer_launch_state(void *arg0);
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
@@ -60,10 +58,10 @@ u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3)
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TBoss5GryphonLightningHorn;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D41A0;
     *(s32 *)((s8 *)arg0 + 0xA4) = arg3;
-    temp_f1 = lbl_805DF650 * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)));
+    temp_f1 = 5.0f * sin_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)));
     *(f32 *)((s8 *)arg0 + 0x98) = temp_f1;
     *(f32 *)((s8 *)arg0 + 0x9C) = (f32) lbl_805DF630;
-    *(f32 *)((s8 *)arg0 + 0xA0) = (f32) (lbl_805DF650 * cos_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)), temp_f1, lbl_805DF650));
+    *(f32 *)((s8 *)arg0 + 0xA0) = (f32) (5.0f * cos_table_lookup((int) (*(s32 *)((s8 *)arg0 + 0xA4)), temp_f1, 5.0f));
     *(f32 *)((s8 *)arg0 + 0x8C) = (f32) lbl_805DF634;
     *(s32 *)((s8 *)arg0 + 0x90) = 4;
     return arg0;
@@ -86,7 +84,7 @@ s32 TBoss8Dragon::spawn_ground_lightning(s32 arg0, s32 arg1, s32 arg2) {
             position.y = ground_height;
         }
     }
-    position.y += lbl_805DF654;
+    position.y += 12.0f;
     allocation = __nw__7TObjectFUl(0xA8);
     effect = allocation;
     if (effect != 0) {

@@ -190,7 +190,6 @@ u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern u8 lbl_8044C1C0[];
 extern u8 lbl_8044C1CC[];
 extern s32 local_client_id;
-extern const f32 lbl_805DC708;
 void *TShopJudgmentItemWindow__ct(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -498,7 +497,7 @@ void TShopJudgmentItemWindow::create_result_windows() {
             }
             this->m_15c = var_r29;
             if (((u32) this->m_15c != 0U) && (TLobby::is_camera_ctrl_active() > 2)) {
-                ((TLobby *)(this->m_15c))->set_position(lbl_805DC708, lbl_805DC708);
+                ((TLobby *)(this->m_15c))->set_position(0.75f, 0.75f);
             }
             ((TWindowHelpItem *)(this->m_15c))->set_displayed_item_colored((u32)(arg0 + 0x28));
         }

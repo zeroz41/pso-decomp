@@ -17,8 +17,6 @@ s32 spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, int, void *, f32, f32
 extern s32 chao_npc_spawn_descriptor[];
 extern s32 bm_ene_npc_chao_resource_descriptor[];
 extern u8 *chao_npc_instance_handle;
-extern const f32 lbl_805E0138;
-extern const f32 lbl_805E013C;
 void load_and_spawn_chao_npc(void) {
     typedef char sp8_offset[(offsetof(Stack_8035B6B0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_8035B6B0, spC) == 0x4) ? 1 : -1];
@@ -38,5 +36,5 @@ void load_and_spawn_chao_npc(void) {
     stack.sp14 = *(s32 *)((s8 *)chao_npc_spawn_descriptor + 0xC);
     stack.sp8 = *(s32 *)((s8 *)var_r9 + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)var_r9 + 0x42C));
-    spawn_npc_enemy__6TLobbyFslllff(0xB, (int) (*(s32 *)((s8 *)temp_r5 + 8)), (int) (*(s32 *)((s8 *)temp_r5 + 0xC)), &stack.sp8, (int) (*(s32 *)((s8 *)chao_npc_spawn_descriptor + 0)), chao_npc_spawn_descriptor, lbl_805E0138, lbl_805E013C);
+    spawn_npc_enemy__6TLobbyFslllff(0xB, (int) (*(s32 *)((s8 *)temp_r5 + 8)), (int) (*(s32 *)((s8 *)temp_r5 + 0xC)), &stack.sp8, (int) (*(s32 *)((s8 *)chao_npc_spawn_descriptor + 0)), chao_npc_spawn_descriptor, 5.0f, 0.0f);
 }

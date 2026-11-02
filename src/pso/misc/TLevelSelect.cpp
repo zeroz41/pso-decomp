@@ -55,7 +55,6 @@ extern Poss_8013319C level_select_position_table;
 extern u8 __vt__12TLevelSelect[];
 extern s32 level_select_class_name;
 extern void *tl_01;
-extern const f32 lbl_805DB080;
 Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self);
 void TLevelSelect::render() {  }
 int count_unlocked_difficulties__12TLevelSelectFv(void) {
@@ -178,7 +177,7 @@ Self_8013319C *__ct__12TLevelSelectFv(Self_8013319C *self) {
             }
         }
     }
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 2, (f32)lbl_805DB080);
+    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 2, 0.0f);
     return self;
 }
 

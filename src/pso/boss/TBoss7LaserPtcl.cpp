@@ -53,7 +53,6 @@ void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 fla
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 f32 atan2_float(f32 y, f32 x);
 
-extern const f64 lbl_804796D8;
 
 void TBoss7LaserPtcl::init_laser() {
     u8 *arg0 = (u8 *)this;
@@ -61,7 +60,7 @@ void TBoss7LaserPtcl::init_laser() {
     subtract_vector(arg0 + 0x2C, arg0 + 0x20);
     normalize_vector_xz((Vec *)(arg0 + 0x2C));
     *(f32 *)((s8 *)arg0 + 0x30) = (f32) 0.0f;
-    this->m_54 = (s32) (lbl_804796D8 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
+    this->m_54 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x2C)), (f32) (*(f32 *)((s8 *)arg0 + 0x34))));
     spawn_particle_effect_with_flags((arg0 + 0x20), 0x20A, 0x40);
     *(s32 *)((s8 *)arg0 + 0x44) = (s32)spawn_continuous_particle_effect_with_flags((arg0 + 0x20), 0x177, 0x40);
     this->state = 1;
@@ -177,7 +176,7 @@ void TBoss7LaserPtcl::run_task() {
         v.x *= 8.0f;
         v.y *= 8.0f;
         v.z *= 8.0f;
-        a.y = (s32)(lbl_804796D8 * atan2_float(v.x, v.z));
+        a.y = (s32)(10430.38043493439 * atan2_float(v.x, v.z));
         direction_to_rotation_xz((u8 *)&v, (s32 *)((s32 *)&a.x), (s32 *)((s32 *)&a.z));
         for (n = (s32)o->travel_distance / 8; n != 0; n--) {
             create_oneshot_particle_emitter(&w, &a, 0x206, 0x40);

@@ -35,31 +35,23 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern s32 __vt__19TAdMcSelectCursorGC[];
 extern s32 lbl_805D41D0;
-extern const f32 lbl_805DF740;
-extern const f32 lbl_805DF744;
 Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-extern const f32 lbl_805DF72C;
-extern const f32 lbl_805DF730;
-extern const f32 lbl_805DF734;
-extern const f32 lbl_805DF738;
-extern const f32 lbl_805DF73C;
 s32 __dl__7TObjectFPv(void *);
 s32 __dt__7TObjectFv(void *, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
 extern s32 TAdMcSelectCursorGC__texture_entry;
-extern const f32 lbl_805DF728;
 
 void TAdMcSelectCursorGC::render_cursor() {
     u8 *arg0 = (u8 *)this;
     begin_screen_draw(1);
     TObjFish::set_global_param(TAdMcSelectCursorGC__texture_entry);
     set_draw_texture_and_color(0, ((this->m_128 << 0x18) | 0xFF0000 | 0xFFFF));
-    draw_textured_quad_at_depth((f32 *)(arg0 + 0x28), lbl_805DF728);
+    draw_textured_quad_at_depth((f32 *)(arg0 + 0x28), 0.9f);
     TWindowSubStatusDisp::get_player();
 }
 
@@ -123,10 +115,10 @@ void TAdMcSelectCursorGC::run_task() {
         self->f128 = self->f128 > 0xFF ? 0xFF : self->f128;
     }
     for (i = 0; i < 8; i++) {
-        self->rects[i].x0 = lbl_805DF730 * self->f20 + lbl_805DF72C;
-        self->rects[i].y0 = lbl_805DF734;
-        self->rects[i].x1 = lbl_805DF738 + self->rects[i].x0;
-        self->rects[i].y1 = lbl_805DF73C;
+        self->rects[i].x0 = 286.0f * self->f20 + 51.0f;
+        self->rects[i].y0 = 116.0f;
+        self->rects[i].x1 = 256.0f + self->rects[i].x0;
+        self->rects[i].y1 = 372.0f;
     }
     if (self->f20 != self->f24) {
         play_sound_effect(0x54100, 0, 0, 0);
@@ -162,10 +154,10 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0) {
     arg0->f20 = 0;
     arg0->f24 = arg0->f20;
     for (i = 0; i < 8; i++) {
-        arg0->ents[i].a = lbl_805DF740;
-        arg0->ents[i].b = lbl_805DF740;
-        arg0->ents[i].c = lbl_805DF744;
-        arg0->ents[i].d = lbl_805DF744;
+        arg0->ents[i].a = 0.0f;
+        arg0->ents[i].b = 0.0f;
+        arg0->ents[i].c = 1.0f;
+        arg0->ents[i].d = 1.0f;
     }
     return arg0;
 }

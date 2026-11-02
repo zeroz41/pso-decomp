@@ -48,7 +48,6 @@ s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, int, int, int);
 extern s32 __vt__17TWindowReturnCity[];
 extern s32 TWindowReturnCity__class_name;
-extern const f32 lbl_805DD2E8;
 u8 *TWindowReturnCity__ct(TWindowReturnCity *arg0, s32 arg1, s32 arg2);
 void queue_destruction__7TObjectFv(void *arg0);
 u32 __nw__7TObjectFUl(s32);
@@ -151,7 +150,7 @@ u8 *TWindowReturnCity__ct(TWindowReturnCity *window_return_city, s32 arg1, s32 a
   {
   }
   temp_r31 = get_window_layout_position(0x23);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (int) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, (f32) lbl_805DD2E8);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_return_city->m_1c, (int) TWindowSubStatusDisp::get_message_10(0x43), (int) temp_r31, 206.0f);
   free_member__17TWindowSubComCardFv(window_return_city->m_1c, 1);
   fn_8024AC64((window_return_city->m_24));
   TWindowCtrl::set_close_flag();

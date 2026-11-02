@@ -13,7 +13,6 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void create_lavis_shot(void);
 extern void *lbl_804A3070[];
-extern const f32 lbl_805DADB8;
 
 u8 *TUnk_804A3070::construct_agito(s32 a, void *b) {
     Self_8012712C *self = (Self_8012712C *)this;
@@ -23,7 +22,7 @@ u8 *TUnk_804A3070::construct_agito(s32 a, void *b) {
     if (((TItem *)self)->get_item_index() == 0) {
         ((TItemWeapon *)self)->set_weapon_flags(0x20);
         self->f1f0 = (void *)create_lavis_shot;
-        self->f1e4 = lbl_805DADB8;
+        self->f1e4 = 10.0f;
     }
     return (u8 *)self;
 }

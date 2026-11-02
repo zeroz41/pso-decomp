@@ -75,9 +75,6 @@ void *create_particle_emitter(void *pos, s32 id);
 extern s32 lbl_8048E1A4[];
 extern s32 tl_05;
 extern const f32 lbl_805D9378;
-extern const f32 lbl_805D9398;
-extern const f32 lbl_805D939C;
-extern const f32 lbl_805D93A0;
 void TLobby__sub_8001FE7C(void*, int);
 void __dl__7TObjectFPv(void *);
 
@@ -143,18 +140,18 @@ u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
         VecCopy((Vec *)(((u8 *)this) + 0x35C), (const Vec *)(arg1 + 0x38));
         if (arg2 != NULL) {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg2 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D9398 * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
+            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * ((RecoveredFields_8008213C_arg2 *)arg2)->field_C);
         } else if ((void *) ((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 != NULL) {
             ((TObjCollidable *)arg1)->refresh_collision_body_centers();
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4 + 0x1C));
-            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D9398 * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4) + 0xC));
+            ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.15f * *(f32 *)((s8 *)(((RecoveredFields_8008213C_arg1 *)arg1)->field_A4) + 0xC));
         } else {
             VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(arg1 + 0x2FC));
             temp_r3 = ((TObjChara *)arg1)->get_stats();
             if (temp_r3 != NULL) {
-                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (lbl_805D939C * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
+                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) (0.075f * ((RecoveredFields_8008213C_temp_r3 *)temp_r3)->field_10);
             } else {
-                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = (f32) lbl_805D93A0;
+                ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_338 = 1.5f;
             }
         }
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_60 = (s32) ((RecoveredFields_8008213C_arg1 *)arg1)->field_60;

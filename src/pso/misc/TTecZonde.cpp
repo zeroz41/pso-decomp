@@ -162,15 +162,6 @@ s32 rand();
 f32 vector_length(void *);
 void normalize_vector(void *);
 extern u8 *tl_07;
-extern const f32 lbl_805DC968;
-extern const f32 lbl_805DC96C;
-extern const f32 lbl_805DC970;
-extern const f32 lbl_805DC974;
-extern const f32 lbl_805DC978;
-extern const f32 lbl_805DC97C;
-extern const f32 lbl_805DC980;
-extern const f32 lbl_805DC984;
-extern const f32 lbl_805DC988;
 
 void TTecZonde::run_task() {
     Zonde_8023C79C *self = (Zonde_8023C79C *)this;
@@ -198,38 +189,38 @@ void TTecZonde::run_task() {
     if (TTecLuker::is_parents_unqueued((u32)t) != 0) {
         for (i = 0; i < 14; i++) {
             s = &segs[i];
-            s->a[1] = lbl_805DC968 + t->y;
+            s->a[1] = 100.0f + t->y;
             if (self->level == 5 && i == 0) {
-                s->a[1] = lbl_805DC96C + t->y;
+                s->a[1] = 500.0f + t->y;
             }
-            s->a[0] = lbl_805DC970 * ((f32)i * (lbl_805DC974 * (f32)rand())) + t->x;
-            s->a[2] = lbl_805DC970 * ((f32)i * (lbl_805DC974 * (f32)rand())) + t->z;
+            s->a[0] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->x;
+            s->a[2] = 13.0f * ((f32)i * (3.0517578e-05f * (f32)rand())) + t->z;
             s->b[0] = t->x - s->a[0];
             s->b[1] = t->y - s->a[1];
             pb = s->b;
             s->b[2] = t->z - s->a[2];
             s->len = vector_length(pb);
-            if (lbl_805DC978 != s->len) {
+            if (0.0f != s->len) {
                 normalize_vector(pb);
             }
         }
-        scale = lbl_805DC97C;
+        scale = 0.5f;
         switch (self->level) {
         case 0:
             o = __nw__7TObjectFUl(0x260);
             if (o != NULL) {
-                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, lbl_805DC97C);
+                ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, 0.5f);
             }
             break;
         case 1:
-            scale *= lbl_805DC980;
+            scale *= 1.2f;
             o = __nw__7TObjectFUl(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
             }
             break;
         case 2:
-            scale *= lbl_805DC984;
+            scale *= 1.4f;
             o = __nw__7TObjectFUl(0x260);
             if (o != NULL) {
                 ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[0].a, (u8 *)segs[0].b, 0x14000000, 0x14, segs[0].len, scale);
@@ -239,12 +230,12 @@ void TTecZonde::run_task() {
             for (j = 0; j < 3; j++) {
                 o = __nw__7TObjectFUl(0x260);
                 if (o != NULL) {
-                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, lbl_805DC97C);
+                    ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[j].a, (u8 *)segs[j].b, 0x14000000, 0x14, segs[j].len, 0.5f);
                 }
             }
             break;
         case 4:
-            scale *= lbl_805DC984;
+            scale *= 1.4f;
             for (k = 0; k < 3; k++) {
                 o = __nw__7TObjectFUl(0x260);
                 if (o != NULL) {
@@ -257,12 +248,12 @@ void TTecZonde::run_task() {
                 if (l == 0) {
                     o = __nw__7TObjectFUl(0x260);
                     if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, lbl_805DC988);
+                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 5.0f);
                     }
                 } else {
                     o = __nw__7TObjectFUl(0x260);
                     if (o != NULL) {
-                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, lbl_805DC97C);
+                        ((TTecZonde *)o)->construct_bolt_effect(tl_07, (u8 *)segs[l].a, (u8 *)segs[l].b, 0x14000000, 0x14, segs[l].len, 0.5f);
                     }
                 }
             }

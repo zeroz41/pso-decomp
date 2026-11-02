@@ -46,7 +46,6 @@ void run_task__12TAdBackTxtGCFv(void *arg0) {
 }
 
 extern void *__vt__12TAdBackTxtGC[];
-extern const f32 lbl_805DDD08;
 extern const char *TAdBackTxtGC__name;
 
 }
@@ -60,7 +59,7 @@ void *__ct__12TAdBackTxtGCFv(void *ad_back_txt_gc) {
     *(void ***)((s8 *)ad_back_txt_gc + 0x18) = __vt__12TAdBackTxtGC;
     ((TAdBackTxtGC *)ad_back_txt_gc)->m_name = TAdBackTxtGC__name;
     *(u32 *)((s8 *)ad_back_txt_gc + 0x1C) = -1;
-    *(f32 *)((s8 *)ad_back_txt_gc + 0x20) = lbl_805DDD08;
+    *(f32 *)((s8 *)ad_back_txt_gc + 0x20) = 0.0025641026f;
     *(u32 *)((s8 *)ad_back_txt_gc + 0x24) = 1;
     return ad_back_txt_gc;
 }

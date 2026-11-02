@@ -78,14 +78,6 @@ struct VObj_18_b27ba1 : VBase_18_b27ba1 {
 
 extern "C" {
 
-extern const f32 lbl_805DC110;
-extern const f32 lbl_805DC114;
-extern const f32 lbl_805DC118;
-extern const f32 lbl_805DC11C;
-extern const f32 lbl_805DC120;
-extern const f32 lbl_805DC124;
-extern const f32 lbl_805DC128;
-extern const f32 lbl_805DC12C;
 
 TObjChara *find_entity_by_id(u16 identity);
 
@@ -126,25 +118,25 @@ f32 TObjPlayer::calc_photon_blast_power(s32 arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
     f32 var_f30;
     void *mag;
-    var_f30 = lbl_805DC110;
+    var_f30 = 0.0f;
     if (*(u8 **)(arg0 + 0x38) != NULL) {
         mag = (void *)((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->activate_d04_slot();
         if (mag != 0) {
             switch (arg1) {
             case 0:
-                var_f30 = farg0 + ((lbl_805DC114 * (f32)((TItemMag *)mag)->get_iq()) + lbl_805DC118 * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                var_f30 = farg0 + ((2.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.025f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
                 break;
             case 1:
-                var_f30 = farg0 + ((lbl_805DC11C * (f32)((TItemMag *)mag)->get_iq()) + lbl_805DC120 * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_hp() * ((TItemMag *)mag)->get_synchro()));
+                var_f30 = farg0 + ((15.0f * (f32)((TItemMag *)mag)->get_iq()) + 0.15f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_hp() * ((TItemMag *)mag)->get_synchro()));
                 break;
             case 2:
-                var_f30 = farg0 + ((lbl_805DC124 * (f32)((TItemMag *)mag)->get_iq()) + lbl_805DC128 * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
+                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TItemMag *)mag)->get_synchro() * (((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_field_2c8() + ((TObjChara *)(*(u8 **)(arg0 + 0x38)))->get_actor_attack_params_atp_min())));
                 break;
             case 3:
-                var_f30 = farg0 + ((lbl_805DC124 * (f32)((TItemMag *)mag)->get_iq()) + lbl_805DC128 * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_ata() * ((TItemMag *)mag)->get_synchro()));
+                var_f30 = farg0 + ((7.5f * (f32)((TItemMag *)mag)->get_iq()) + 0.075f * (f32)(((TObjPlayer *)(*(u8 **)(arg0 + 0x38)))->get_ata() * ((TItemMag *)mag)->get_synchro()));
                 break;
             case 4:
-                var_f30 = (lbl_805DC12C * (f32)((TItemMag *)mag)->get_iq()) + farg0;
+                var_f30 = (0.5f * (f32)((TItemMag *)mag)->get_iq()) + farg0;
                 break;
             case 5:
                 var_f30 = 0.1f * (f32)((TItemMag *)mag)->get_iq();

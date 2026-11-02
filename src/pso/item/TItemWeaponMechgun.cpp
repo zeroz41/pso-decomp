@@ -60,8 +60,6 @@ struct WeaponDispatch : WeaponDispatchPrefix {
 };
 
 extern "C" {
-extern const f32 lbl_805DADD0;
-extern const f32 lbl_805DADD4;
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void spawn_weapon_impact_effect();
@@ -82,9 +80,9 @@ void TUnk_804A3260::update_weapon() {
     s32 temp_r4;
     if ((s32) this->m_218 != -1) {
         temp_r4 = *(s32 *)&this->unk_21C;
-        if (lbl_805DADD0 < (f32) temp_r4) {
-            *(s32 *)&this->unk_21C = (s32) ((f32) temp_r4 - lbl_805DADD4);
-            if ((f32) *(s32 *)&this->unk_21C < lbl_805DADD0) {
+        if (0.0f < (f32) temp_r4) {
+            *(s32 *)&this->unk_21C = (s32) ((f32) temp_r4 - 0.4f);
+            if ((f32) *(s32 *)&this->unk_21C < 0.0f) {
                 *(s32 *)&this->unk_21C = 0;
             }
         }

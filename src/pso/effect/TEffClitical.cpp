@@ -48,8 +48,6 @@ f32 vector_length(void *);
 extern RecoveredGlobal_800823E0_lbl_80438EB8 clitical_vec_a;
 extern RecoveredGlobal_800823E0_lbl_80438EC8 clitical_vec_b;
 extern const f32 TEffClitical__alpha_approach_step;
-extern const f32 lbl_805D93A8;
-extern const f32 lbl_805D93AC;
 s32 begin_effect_render__13TParticleCtrlFv(int);
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_y(int, int);
@@ -64,7 +62,6 @@ void *__ct__12TEffCliticalFPv(void *arg0, void *arg1);
 void *__nw__7TObjectFUl(int);
 
 extern void *TEffClitical__class_name;
-extern const f32 lbl_805D93B0;
 
 #pragma push
 #pragma opt_common_subs off
@@ -133,7 +130,7 @@ void TEffClitical::run_task() {
                 break;
             case 2:
                 stack.sp8 = *(f32 *)((s8 *)arg0 + 0x20);
-                stack.spC = *(f32 *)((s8 *)arg0 + 0x24) - lbl_805D93A8;
+                stack.spC = *(f32 *)((s8 *)arg0 + 0x24) - 20.0f;
                 stack.sp10 = *(f32 *)((s8 *)arg0 + 0x28);
                 spawn_particle_effect((&stack.sp8), 0xC);
                 break;
@@ -150,7 +147,7 @@ void TEffClitical::run_task() {
         queue_destruction__7TObjectFv((arg0));
         return;
     }
-    approach_vector_in_place(&scale, (const Vec *)&stack.sp14, lbl_805D93AC);
+    approach_vector_in_place(&scale, (const Vec *)&stack.sp14, 0.2f);
     *(s32 *)((s8 *)arg0 + 0x70) = (s32) (*(s32 *)((s8 *)arg0 + 0x70) + 1);
     if ((s32) *(s32 *)((s8 *)arg0 + 0x70) >= 7) {
         *(s32 *)((s8 *)arg0 + 0x70) = 0;
@@ -164,13 +161,13 @@ TEffClitical::TEffClitical(void *arg1) : TEffect() {
     *(void * *)&this->m_name = TEffClitical__class_name;
     VecCopy((Vec *)((char *)this + 32), (const Vec *)arg1);
     *(u32 *)((s8 *)this + 0x70) = 0;
-    *(f32 *)((s8 *)this + 0x2C) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x30) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x34) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x38) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x3C) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x40) = lbl_805D93B0;
-    *(f32 *)((s8 *)this + 0x44) = lbl_805D93B0;
+    *(f32 *)((s8 *)this + 0x2C) = 1.0f;
+    *(f32 *)((s8 *)this + 0x30) = 1.0f;
+    *(f32 *)((s8 *)this + 0x34) = 1.0f;
+    *(f32 *)((s8 *)this + 0x38) = 1.0f;
+    *(f32 *)((s8 *)this + 0x3C) = 1.0f;
+    *(f32 *)((s8 *)this + 0x40) = 1.0f;
+    *(f32 *)((s8 *)this + 0x44) = 1.0f;
     *(u32 *)((s8 *)this + 0x74) = 0;
 }
 

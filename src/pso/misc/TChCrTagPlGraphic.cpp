@@ -22,11 +22,6 @@ extern const TChCrTagPlGraphic__data_804664A4 TChCrTagPlGraphic__data_804664A4;
 extern RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic __vt__17TChCrTagPlGraphic;
 extern s32 ch_cr_tag_pl_graphic_class_name;
 extern const f32 lbl_805DDF18;
-extern const f32 lbl_805DDF2C;
-extern const f32 lbl_805DDF30;
-extern const f32 lbl_805DDF20;
-extern const f32 lbl_805DDF24;
-extern const f32 lbl_805DDF28;
 u8 *__ct__17TChCrTagPlGraphicFv(u8 *arg0, s32 arg1, s32 _w2);
 s32 TChCrTagPlGraphic__vt4(u8 *arg0);
 void render__17TChCrTagPlGraphicFv(void* p);
@@ -60,17 +55,17 @@ void TChCrTagPlGraphic__sub_802A3230(u8 *tag) {
     *(f32 *)(tag + 0x3C) = *(f32 *)(tag + 0x24) * *(f32 *)(tag + 0x30);
     switch (TChCrCharSelect::get_selected_index()) {
     case 0:
-        *(f32 *)(tag + 0x40) += lbl_805DDF20 * (e->v[1] - *(f32 *)(tag + 0x40));
-        *(f32 *)(tag + 0x44) += lbl_805DDF20 * (e->v[0] - *(f32 *)(tag + 0x44));
-        *(f32 *)(tag + 0x48) += lbl_805DDF20 * (e->v[2] - *(f32 *)(tag + 0x48));
-        *(f32 *)(tag + 0x4C) += lbl_805DDF20 * (e->v[3] - *(f32 *)(tag + 0x4C));
+        *(f32 *)(tag + 0x40) += 0.25f * (e->v[1] - *(f32 *)(tag + 0x40));
+        *(f32 *)(tag + 0x44) += 0.25f * (e->v[0] - *(f32 *)(tag + 0x44));
+        *(f32 *)(tag + 0x48) += 0.25f * (e->v[2] - *(f32 *)(tag + 0x48));
+        *(f32 *)(tag + 0x4C) += 0.25f * (e->v[3] - *(f32 *)(tag + 0x4C));
         break;
     default:
         if (((VTag_802A3230 *)tag)->m4() != 0) {
-            *(f32 *)(tag + 0x40) += lbl_805DDF20 * (lbl_805DDF24 - *(f32 *)(tag + 0x40));
-            *(f32 *)(tag + 0x44) += lbl_805DDF20 * (lbl_805DDF28 - *(f32 *)(tag + 0x44));
-            *(f32 *)(tag + 0x48) += lbl_805DDF20 * (e->v[4] - *(f32 *)(tag + 0x48));
-            *(f32 *)(tag + 0x4C) += lbl_805DDF20 * (e->v[5] - *(f32 *)(tag + 0x4C));
+            *(f32 *)(tag + 0x40) += 0.25f * (-2.75f - *(f32 *)(tag + 0x40));
+            *(f32 *)(tag + 0x44) += 0.25f * (1.0f - *(f32 *)(tag + 0x44));
+            *(f32 *)(tag + 0x48) += 0.25f * (e->v[4] - *(f32 *)(tag + 0x48));
+            *(f32 *)(tag + 0x4C) += 0.25f * (e->v[5] - *(f32 *)(tag + 0x4C));
         }
         break;
     }
@@ -105,10 +100,10 @@ u8 *__ct__17TChCrTagPlGraphicFv(u8 *ch_cr_tag, s32 arg1, s32 _w2) {
     __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, arg1);
     *(s32 **)((s8 *)ch_cr_tag + 0x18) = &__vt__17TChCrTagPlGraphic.value;
     *(s32 *)((s8 *)ch_cr_tag + 0) = (s32) ch_cr_tag_pl_graphic_class_name;
-    *(f32 *)((s8 *)ch_cr_tag + 0x28) = (f32) lbl_805DDF2C;
-    *(f32 *)((s8 *)ch_cr_tag + 0x2C) = (f32) lbl_805DDF30;
-    *(f32 *)((s8 *)ch_cr_tag + 0x34) = (f32) lbl_805DDF2C;
-    *(f32 *)((s8 *)ch_cr_tag + 0x38) = (f32) lbl_805DDF30;
+    *(f32 *)((s8 *)ch_cr_tag + 0x28) = 0.13333334f;
+    *(f32 *)((s8 *)ch_cr_tag + 0x2C) = -0.06666667f;
+    *(f32 *)((s8 *)ch_cr_tag + 0x34) = 0.13333334f;
+    *(f32 *)((s8 *)ch_cr_tag + 0x38) = -0.06666667f;
     *(f32 *)((s8 *)ch_cr_tag + 0x3C) = (f32) lbl_805DDF18;
     temp_r5 = (u8 *)&TChCrTagPlGraphic__data_804664A4.value + (*(s32 *)((s8 *)ch_cr_tag + 0x20) * 0x18);
     *(f32 *)((s8 *)ch_cr_tag + 0x40) = (f32) *(f32 *)((s8 *)temp_r5 + 4);

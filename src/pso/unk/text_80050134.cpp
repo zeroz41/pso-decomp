@@ -44,7 +44,6 @@ void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
 void play_sound_effect(s32, void *, s32, s32);
 extern s32 TObjDFDemoF__name;
-extern const f32 lbl_805D8A28;
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();
 void get_center__8TObjBaseFv();
@@ -108,7 +107,7 @@ Obj_80050194 *TObjDFDemoF__ct(Obj_80050194 *arg0, void *parent) {
     }
   }
 
-  new_var->fb8 = lbl_805D8A28;
+  new_var->fb8 = -1.0f;
   activate_camera_mode(5);
   set_scripted_camera_pose(lbl_80485840, lbl_80485840, lbl_8048584C);
   ((TCameraCtrl *)lbl_80485858)->cache_target_and_forward(0x392D);

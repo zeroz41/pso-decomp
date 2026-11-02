@@ -37,8 +37,6 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 extern u32 tank_bml_resource;
 extern u32 TObjTank__texture_list;
-extern const f32 lbl_805DBFA0;
-extern const f32 lbl_805DBFA4;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80446184;
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 fs_obj_tank_resource_descriptor;
@@ -67,7 +65,7 @@ struct VObj : Base {
 void TObjTank::render() {
     u8 *arg0 = (u8 *)this;
     void *p;
-    if ((((VObj *)arg0)->m8(lbl_805DBFA0, lbl_805DBFA4) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
+    if ((((VObj *)arg0)->m8(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
         TObjFish::set_global_param((u32)p);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

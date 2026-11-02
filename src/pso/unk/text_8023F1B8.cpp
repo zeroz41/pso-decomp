@@ -50,8 +50,6 @@ extern Vec_8023F22C lbl_8044DCE8;
 extern Vec_8023F22C lbl_8044DCF4;
 extern u8 default_scene_light_config[];
 extern Vec_8023F22C TObjLight__scene_light_state;
-extern const f32 lbl_805DC9B8;
-extern const f32 lbl_805DC9BC;
 typedef char RecoveredGlobal_8023F1B8_lbl_804CCDA8_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCDA8) == 0xB8 ? 1 : -1];
 typedef char RecoveredGlobal_8023F1B8_lbl_804CCE60_size[sizeof(RecoveredGlobal_8023F1B8_lbl_804CCE60) == 0x38 ? 1 : -1];
 typedef char RecoveredGlobal_8023F1B8_main_task_size[sizeof(RecoveredGlobal_8023F1B8_main_task) == 0x34 ? 1 : -1];
@@ -74,7 +72,7 @@ void init_game_mode_select_scene(void) {
     s32 i;
     f32 c;
     void *p;
-    set_screen_size(lbl_805DC9B8, lbl_805DC9B8);
+    set_screen_size(1.0f, 1.0f);
     set_copy_clear_color_argb(0, 0, 0);
     for (i = 0; i < 0x80; i++) {
     }
@@ -99,7 +97,7 @@ void init_game_mode_select_scene(void) {
     TLobby::clear_callback_and_reset_keyboard();
     TParticleCtrl::init_heap((void *)0x100000);
     init_menu_scene_lights(default_scene_light_config, 4);
-    TObjLight__scene_light_state.y = lbl_805DC9BC * sin_table_lookup(0x1555);
+    TObjLight__scene_light_state.y = -1.0f * sin_table_lookup(0x1555);
     c = cos_table_lookup(0x1555);
     TObjLight__scene_light_state.x = c * sin_table_lookup(0x9000);
     TObjLight__scene_light_state.z = c * cos_table_lookup(0x9000);

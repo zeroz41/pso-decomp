@@ -61,7 +61,6 @@ void *spawn_particle_effect(void *pos, s32 id);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
-extern const f32 lbl_805DB2C8;
 s32 __ct__9TObjCharaFP7TObject(void *, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -69,8 +68,6 @@ extern RecoveredGlobal_80157AD8_lbl_804AF9A8 TOAttackableCol__collision_parts;
 extern s32 __vt__15TOAttackableCol[];
 extern s32 lbl_805D2E98;
 extern s32 tl_05;
-extern const f32 lbl_805DB2CC;
-extern const f32 lbl_805DB2D0;
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1);
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
@@ -113,7 +110,7 @@ void TOAttackableCol::init_params() {
     if ((temp_r0_2 < 0) || (temp_r0_2 >= 0x100)) {
         this->m_34c = -1;
     }
-    if (this->scale.y < lbl_805DB2C8) {
+    if (this->scale.y < 0.0f) {
         set_indexed_flags(0, 0x08000000);
     } else {
         clear_player_status_flag__14TObjCollidableFlUl(this, 0, 0x08000000);
@@ -244,7 +241,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
     temp_r0 = this->m_34c;
     if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set((int) ((u16) temp_r0)) == 0))
     {
-      return lbl_805DB2C8;
+      return 0.0f;
     }
     this->m_33c = (s32) ((this->m_33c) - 1);
     if (((s32)this->m_33c) <= 0)
@@ -282,7 +279,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   block_26:
   spawn_particle_effect(((u8 *)&this->position), 0x1D0);
   spawn_particle_effect(((u8 *)&this->position), 1);
-  return lbl_805DB2C8;
+  return 0.0f;
 }
 
 void TOAttackableCol::release() { set_flag8(); queue_destruction__7TObjectFv(this); }
@@ -352,8 +349,8 @@ u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOAttackableCol *)arg0)->mode = 0;
-    *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DB2CC;
-    ((TOAttackableCol *)arg0)->m_338 = (f32) lbl_805DB2D0;
+    *(f32 *)((s8 *)arg0 + 0x334) = 500.0f;
+    ((TOAttackableCol *)arg0)->m_338 = 50.0f;
     ((TOAttackableCol *)arg0)->init_params();
     return arg0;
 }

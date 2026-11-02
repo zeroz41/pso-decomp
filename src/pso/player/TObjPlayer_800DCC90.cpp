@@ -161,9 +161,6 @@ extern s32 lbl_80494E48[];
 extern u8 identity_matrix[];
 extern f32 lbl_805D5264;
 extern void *tl_04;
-extern const f32 lbl_805DA480;
-extern const f32 lbl_805DA484;
-extern const f32 lbl_805DA488;
 Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec_800DCD04 *pos, s16 id, s32 *rot, s32 arg4, s16 arg5);
 void __dl__7TObjectFPv(void *);
 
@@ -185,7 +182,7 @@ Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec_800DCD04 *pos, s1
     self->id = id;
     self->f102 = arg5;
     self->pos = pos;
-    self->fe8 = lbl_805DA480;
+    self->fe8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec_800DCD04 v = lbl_8043C920;
@@ -203,8 +200,8 @@ Obj_800DCD04 *TObjPlayer__sub_800DCD04(Obj_800DCD04 *self, Vec_800DCD04 *pos, s1
         self->ff8 = (s32)spawn_particle_effect_with_rotation(pos, ang, 0xf4, 2);
     }
     self->ff4 = lbl_805D5264;
-    if (xz_distance_squared((Vec *)pp, (Vec *)pos) < lbl_805DA484) {
-        self->ff4 *= lbl_805DA488;
+    if (xz_distance_squared((Vec *)pp, (Vec *)pos) < 22500.0f) {
+        self->ff4 *= 2.0f;
     }
     self->ffc = 0;
     return self;

@@ -34,14 +34,6 @@ f32 sin_table_lookup(s32);
 extern s32 __vt__16TOLightMachine01[];
 extern s32 TOLightMachine01__name;
 extern s32 tl_05;
-extern const f32 lbl_805DB82C;
-extern const f32 lbl_805DB830;
-extern const f32 lbl_805DB834;
-extern const f32 lbl_805DB838;
-extern const f32 lbl_805DB83C;
-extern const f32 lbl_805DB840;
-extern const f32 lbl_805DB844;
-extern const f32 lbl_805DB848;
 void TLobby__sub_8001FE7C(void*, int);
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
@@ -55,7 +47,6 @@ void TOLightMachine01::run_task() {
     this->m_ac = (s32) (this->m_ac + this->set_params[2]);
 }
 
-extern const f32 lbl_805DB828;
 
 void TOLightMachine01::render() {
     u8 *arg0 = (u8 *)this;
@@ -66,7 +57,7 @@ void TOLightMachine01::render() {
         TObjFish::set_global_param(this->texlist);
         draw_ginja_model(*(s32 *)((s8 *)this->model + 4));
         push_matrix();
-        translate_matrix(0, lbl_805DB828, this->m_9c, lbl_805DB828);
+        translate_matrix(0, 0.0f, this->m_9c, 0.0f);
         rotate_matrix_y(0, this->m_ac);
         draw_ginja_model(*(s32 *)((s8 *)(*(void **)((s8 *)this->model + 0x2C)) + 4));
         TParticleCtrl::begin_effect_render();
@@ -125,13 +116,13 @@ u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {
     ((TOLightMachine01 *)(light_machine01))->apply_object_set_data((void *)arg1);
     light_machine01->model = ((u8 *)get_bml_model((void *)((*(s32 *)&TOLightMachine01__shared_bml_archive)), 1));
     light_machine01->texlist = TObjFish__sub_8001EDB0((void *)((int) ((*(s32 *)&TOLightMachine01__shared_bml_archive))), 1);
-    *(f32 *)((s8 *)light_machine01 + 0x90) = (f32) lbl_805DB82C;
+    *(f32 *)((s8 *)light_machine01 + 0x90) = 500.0f;
     light_machine01->m_94 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)light_machine01->model + 4)) + 0x14);
     light_machine01->actorFlags = (s32) (light_machine01->actorFlags | 0x40000000);
-    *(f32 *)((s8 *)light_machine01 + 0xA0) = (f32) ((lbl_805DB834 * (f32) light_machine01->set_params[0]) + lbl_805DB830);
-    light_machine01->m_a4 = (s32) (lbl_805DB838 * (lbl_805DB83C / (lbl_805DB840 / *(f32 *)((s8 *)light_machine01 + 0xA0))));
-    light_machine01->m_a8 = (s32) (lbl_805DB838 * (lbl_805DB83C * (lbl_805DB844 * (f32) rand())));
-    *(f32 *)((s8 *)light_machine01 + 0x98) = (f32) ((lbl_805DB834 * (f32) *(s32 *)((s8 *)light_machine01 + 0x88)) + lbl_805DB848);
+    *(f32 *)((s8 *)light_machine01 + 0xA0) = (f32) ((0.1f * (f32) light_machine01->set_params[0]) + 1.0f);
+    light_machine01->m_a4 = (s32) (182.04445f * (360.0f / (30.0f / *(f32 *)((s8 *)light_machine01 + 0xA0))));
+    light_machine01->m_a8 = (s32) (182.04445f * (360.0f * (3.0517578e-05f * (f32) rand())));
+    *(f32 *)((s8 *)light_machine01 + 0x98) = (f32) ((0.1f * (f32) *(s32 *)((s8 *)light_machine01 + 0x88)) + 0.5f);
     light_machine01->m_9c = (f32) (*(f32 *)((s8 *)light_machine01 + 0x98) * sin_table_lookup(light_machine01->m_a8));
     light_machine01->m_ac = 0;
     return (u8 *)light_machine01;

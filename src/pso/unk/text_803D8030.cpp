@@ -11,7 +11,6 @@ extern E_803D8030 *debug_text_record_cursor;
 extern E_803D8030 *debug_text_pool_cursor;
 extern s32 debug_text_global_count;
 extern f32 debug_text_scale;
-extern const f32 lbl_805E0EA0;
 void fn_803D8030(E_803D8030 *p, s32 n, s32 x);
 #pragma push
 #pragma scheduling off
@@ -23,7 +22,7 @@ void fn_803D8030(E_803D8030 *p, s32 n, s32 x) {
     debug_text_record_cursor = p;
     debug_text_pool_cursor = p + n;
     debug_text_global_count = -1;
-    debug_text_scale = lbl_805E0EA0;
+    debug_text_scale = 16.0f;
 }
 #pragma pop
 

@@ -9,8 +9,6 @@
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
-extern const f32 lbl_805DEBA8;
-extern const f32 lbl_805DEBAC;
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
@@ -68,10 +66,10 @@ void TBoss7Joint::vfunc_88() {
     u8 *temp_r4_4;
     u8 *temp_r4_5;
     temp_f2 = *(f32 *)((s8 *)arg0 + 0x3C);
-    if (temp_f2 < (lbl_805DE9F0 - lbl_805DEBA8)) {
+    if (temp_f2 < (lbl_805DE9F0 - 50.0f)) {
         temp_r4 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) & 0xFFFFFFF8);
-    } else if (temp_f2 >= lbl_805DEBAC) {
+    } else if (temp_f2 >= 30.0f) {
         temp_r4_2 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r4_2 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4_2 + 0x18) | 5);
         temp_r4_3 = (u8 *)this->bodies;

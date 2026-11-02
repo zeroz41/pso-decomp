@@ -56,12 +56,10 @@ extern RecoveredGlobal_802FE378_lbl_80474B74 lbl_80474B74;
 extern RecoveredGlobal_802FE378_lbl_80474B80 lbl_80474B80;
 extern s32 __vt__21TBoss8DragonEffBullet[];
 extern s32 TBoss8DragonEffBullet__name;
-extern const f32 lbl_805DEF04;
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *get_enemy_entity(u16 arg0);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
-extern const f32 lbl_805DEF00;
 
 void TBoss8DragonEffBullet::render() {  }
 
@@ -78,7 +76,7 @@ void TBoss8DragonEffBullet::run_task() {
     u8 *temp_r3_4;
     switch (arg0->field_38) {
     case 0:
-        var_f2 = lbl_805DEF00;
+        var_f2 = 25.0f;
         arg0->field_3C += var_f2;
         temp_f0 = arg0->field_3C;
         temp_f1 = arg0->field_40;
@@ -156,7 +154,7 @@ u8 *TBoss8DragonEffBullet__ct(u8 *boss8_dragon_eff_bullet, s32 arg1, s32 arg2, s
     VecCopy((Vec *)(boss8_dragon_eff_bullet + 0x28), (const Vec *)(arg3));
     subtract_vector(boss8_dragon_eff_bullet + 0x28, boss8_dragon_eff_bullet + 0x1C);
     ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_40 = ((TObjBoss2Tunnel *)(boss8_dragon_eff_bullet + 0x28))->update_scale();
-    *(f32 *)((s8 *)boss8_dragon_eff_bullet + 0x3C) = (f32) lbl_805DEF04;
+    *(f32 *)((s8 *)boss8_dragon_eff_bullet + 0x3C) = 0.0f;
     ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_34 = 0;
     ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_38 = 0;
     ((TBoss8DragonEffBullet *)boss8_dragon_eff_bullet)->m_44 = arg4;

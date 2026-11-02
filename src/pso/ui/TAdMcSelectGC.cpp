@@ -31,9 +31,6 @@ extern u8 lbl_804770F8[];
 extern u8 lbl_80477100[];
 extern s32 __vt__13TAdMcSelectGC[];
 extern s32 lbl_805D41C8;
-extern const f32 lbl_805DF718;
-extern const f32 lbl_805DF71C;
-extern const f32 lbl_805DF720;
 Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent);
 int TAdMcSelectGC__sub_8032A140();
 int TAdMcSelectGC__sub_8032A15C();
@@ -108,17 +105,17 @@ Self_80329EC8 *TAdMcSelectGC__ct(Self_80329EC8 *self, void *parent) {
     if (txt != NULL) {
         txt = __ct__12TAdBackTxtGCFv(txt, self);
     }
-    ((TAdMcSelectGC *)back)->set_float_1c(lbl_805DF718);
+    ((TAdMcSelectGC *)back)->set_float_1c(-160.0f);
     ((TAdMcSelectGC *)back)->set_field_20(0);
-    ((TAdMcSelectGC *)txt)->set_field20(lbl_805DF71C);
+    ((TAdMcSelectGC *)txt)->set_field20(0.006666667f);
     ((TAdMcSelectGC *)txt)->set_field_24(0);
     p = __nw__7TObjectFUl(0x138);
     if (p != NULL) {
         p = __ct__10TAdTitleGCFP7TObjectl(p, self, 0xD);
     }
     ((TAdMcSelectGC *)p)->set_field_134(0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x16, lbl_805DF720), 0);
-    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x17, lbl_805DF720), 0);
+    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x16, 0.0f), 0);
+    TAdMcSelectGC__sub_8032A180(create_draw_line_ctrl__13TAdMcSelectGCFiif(self, 0x17, 0.0f), 0);
     p = __nw__7TObjectFUl(0x128);
     if (p != NULL) {
         p = __ct__15TAdChrSelSlotGCFP7TObject(p, self);

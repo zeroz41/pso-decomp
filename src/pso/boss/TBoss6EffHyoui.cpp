@@ -15,7 +15,6 @@ extern s32 __vt__14TBoss6EffHyoui[];
 extern s32 lbl_805D44D8;
 extern f32 lbl_805D6FF8;
 extern s8 lbl_805D6FFC;
-extern const f32 lbl_805E0380;
 }
 
 #include "pso/boss/TBoss4Type2.h"
@@ -58,7 +57,7 @@ void *TBoss6EffHyoui__ct(void *object, void *arg1, void *arg2, void *arg3, void 
     if (p != NULL && is_active__14TBoss6PlotFalzFv() != 0) {
         if (lbl_805D6FFC == 0) {
             lbl_805D6FFC = 1;
-            lbl_805D6FF8 = lbl_805E0380;
+            lbl_805D6FF8 = 0.2f;
         }
         if ((*(void **)((s8 *)self + 0x1C) = create_particle_emitter(p + 0x38, lbl_8047AC70[(s32)arg3])) != NULL) {
             ((TParticleCtrl *)(*(void **)((s8 *)self + 0x1C)))->set_flags(0x40);

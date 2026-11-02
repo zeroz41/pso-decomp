@@ -163,7 +163,6 @@ u32 set_mode_and_refresh_object__10TObjPlayerFPvi(void *, void *);
 void *get_owner_if_alive__10TObjPlayerFv(u32);
 void *create_cost_window(u16);
 void get_item_count__24TShopEquipmentSellWindowFv(void *, s32);
-extern const f32 lbl_805DC6D8;
 f32 get_scale__15TShopWindowBaseFv(void *);
 int sub_802239EC__13TShopSequenceFv(void *);
 int sub_80223A48__15TShopWindowBaseFv(void *);
@@ -306,7 +305,7 @@ void TShopEquipmentSellWindow::handle_selection() {
                 }
                 w->qty_win = n;
                 if (w->qty_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)(w->qty_win))->set_position(lbl_805DC6D8, lbl_805DC6D8);
+                    ((TCheckRoomSequence *)(w->qty_win))->set_position(0.75f, 0.75f);
                 }
                 ((TShopWindowBase *)w)->set_field_20(3);
                 return;
@@ -380,7 +379,7 @@ void TShopEquipmentSellWindow::build_sell_list() {
         }
         self->help_win = p;
         if (self->help_win != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(self->help_win))->set_position(lbl_805DC6D8, lbl_805DC6D8);
+            ((TLobby *)(self->help_win))->set_position(0.75f, 0.75f);
         }
         TWindowHelpItem__set_displayed_item_by_id(self->help_win, self->entries[0].item.id);
     } else if (self->list_win != NULL) {

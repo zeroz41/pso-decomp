@@ -69,7 +69,6 @@ u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(void *pos, s32 id);
 void queue_photon_blast_hit(s32, s32, s32, f32);
 void vec3_add_to(Vec_801ACD14 *, Vec_801ACD14 *);
-extern const f32 lbl_805DC1D8;
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
 void *__dt__11TPhotonLineFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
@@ -84,8 +83,8 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     s32 j;
     vec3_add_to(&v, &self->vel);
     VecCopy((Vec *)&self->f2FC, (const Vec *)&self->pos);
-    self->f2FC.y += lbl_805DC1D8;
-    v.y += lbl_805DC1D8;
+    self->f2FC.y += 60.0f;
+    v.y += 60.0f;
     if (check_path_obstructed(self, &v) == 1) {
         queue_destruction__7TObjectFv(self);
         return;

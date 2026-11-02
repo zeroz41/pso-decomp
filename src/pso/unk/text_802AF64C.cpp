@@ -19,7 +19,6 @@ s32 normalize_vector(void *);
 extern Vec_802AF64C lbl_804707E8;
 extern u8 identity_matrix[];
 extern Cam_802AF64C *camera_ctrl_instance;
-extern const f32 lbl_805DE1F0;
 void TObjMistCtrl::sub_802AF64C() {
     Obj_802AF64C *arg0 = (Obj_802AF64C *)this;
     Vec_802AF64C v = lbl_804707E8;
@@ -28,9 +27,9 @@ void TObjMistCtrl::sub_802AF64C() {
     rotate_vector_by_matrix(0, &v, &v);
     pop_matrix();
     normalize_vector(&v);
-    v.x *= lbl_805DE1F0;
-    v.y *= lbl_805DE1F0;
-    v.z *= lbl_805DE1F0;
+    v.x *= 60.0f;
+    v.y *= 60.0f;
+    v.z *= 60.0f;
     vec3_add_to(&v, &camera_ctrl_instance->v178);
     VecCopy((Vec *)&arg0->pos, (const Vec *)&v);
     if (arg0->x90 != NULL) {

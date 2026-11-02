@@ -42,12 +42,10 @@ void free_collision_body_parts(void *);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
-extern const f32 lbl_805DEF20;
-extern const f32 lbl_805DEF24;
 
 void TOJungleDesign::render() {
     u8 *arg0 = (u8 *)this;
-    if (((JDVObj_802feeb4 *)arg0)->m8(lbl_805DEF20, lbl_805DEF24) == 1) {
+    if (((JDVObj_802feeb4 *)arg0)->m8(400.0f, 40.0f) == 1) {
         TObjFish::set_global_param(this->texlist);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

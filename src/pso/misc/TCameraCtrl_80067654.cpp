@@ -22,10 +22,6 @@ extern "C" {
 void *__nw__7TObjectFUl(int);
 f32 vector_length(void *, int, f32, f32);
 s32 normalize_vector(void *);
-extern const f32 lbl_805D8F28;
-extern const f32 lbl_805D8F2C;
-extern const f32 lbl_805D8F30;
-extern const f32 lbl_805D8F34;
 u8 * __ct__13TUnk_80488A28Fv(void *);
 void *get_player_by_client_id(s32 i);
 extern s32 lbl_804887C8[];
@@ -55,7 +51,7 @@ void TUnk_804887C8::run_task() {
     f32 temp_f2;
     u8 *temp_r3;
     u8 *temp_r4;
-    this->m_58 = (f32) lbl_805D8F28;
+    this->m_58 = 1.0f;
     if ((void *) *(u8 **)((s8 *)arg0 + 0x1C) != NULL) {
         temp_r3 = (u8 *)TBoss3Volopt::get_camera_focus();
         if (temp_r3 != NULL) {
@@ -64,13 +60,13 @@ void TUnk_804887C8::run_task() {
             stack.sp8 = *(f32 *)((s8 *)temp_r4 + 0x38) - *(f32 *)((s8 *)temp_r3 + 0);
             temp_f2 = *(f32 *)((s8 *)temp_r4 + 0x40);
             temp_f1 = temp_f2 - *(f32 *)((s8 *)temp_r3 + 8);
-            stack.spC = lbl_805D8F2C;
+            stack.spC = 0.0f;
             stack.sp10 = temp_f1;
-            if (lbl_805D8F2C != vector_length(&stack.sp8, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
+            if (0.0f != vector_length(&stack.sp8, (int)temp_r4, (f32)temp_f1, (f32)temp_f2)) {
                 normalize_vector(&stack.sp8);
-                this->position.x = (f32) ((lbl_805D8F30 * stack.sp8) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
-                this->position.y = (f32) (lbl_805D8F34 + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x3C));
-                this->position.z = (f32) ((lbl_805D8F30 * stack.sp10) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
+                this->position.x = (f32) ((30.0f * stack.sp8) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x38));
+                this->position.y = (f32) (10.0f + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x3C));
+                this->position.z = (f32) ((30.0f * stack.sp10) + *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x1C)) + 0x40));
             }
         }
     }

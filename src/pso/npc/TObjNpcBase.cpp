@@ -39,7 +39,6 @@ extern s32 __vt__11TObjNpcBase[];
 extern s32 TObjNpcBase__name;
 extern const f32 lbl_805DB1B8;
 extern const f32 lbl_805DB1BC;
-extern const f32 lbl_805DB1E0;
 void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -92,7 +91,7 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
     self->f3A8 = self->f364;
     self->f3AC = self->f360;
     self->f398 = lbl_805DB1BC;
-    self->f39C = lbl_805DB1E0;
+    self->f39C = 20.0f;
     TObjNpcBase__sub_80149368(self->sub98);
     self->f3B0 = 0;
     self->f3B4 = 0;

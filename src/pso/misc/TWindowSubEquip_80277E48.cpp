@@ -36,7 +36,6 @@ s32 fn_80255A38(s32);
 s32 TWindowSubEquip__sub_80263AF4(void *, s32);
 s32 get_cursor_value__19TWindowMenuIconLineFv(u32);
 extern u8 controller_input_state[];
-extern const f32 lbl_805DD5F0;
 void *__nw__7TObjectFUl(u32);
 s32 __ct__15TWindowHelpItemFPvUs(void *, void *, s32);
 s32 create_equip_list_window(void *, void *, s32);
@@ -100,7 +99,7 @@ void TWindowSubEquip::run_task() {
         this->m_24 = -1;
         ((TWindowSubEquip *)(this->m_34))->update_window();
         ((TWindowMenuIconLine *)(this->m_34))->clear_decided();
-        ((TWindowSubMag *)(this->m_34))->start_scroll(lbl_805DD5F0);
+        ((TWindowSubMag *)(this->m_34))->start_scroll(188.0f);
         this->m_1c = 2U;
     case 2:
         update();

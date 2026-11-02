@@ -26,14 +26,12 @@ void TObjPlayer::cast_tech_gibarta() {
 }
 void TObjPlayer::notify_container_if_mode1() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
 
-extern f32 lbl_805DACF0;
-extern f32 lbl_805DACF4;
 
 void TUnk_804A1098::update_idle() {
     if ((s32) this->m_1fc == 3) {
         this->m_1fc = 1;
     }
-    if (((s32) this->m_1fc == 0) && ((lbl_805DACF0 * (f32) rand()) < lbl_805DACF4)) {
+    if (((s32) this->m_1fc == 0) && ((3.0517578e-05f * (f32) rand()) < 0.1f)) {
         this->m_1fc = 2;
     }
 }

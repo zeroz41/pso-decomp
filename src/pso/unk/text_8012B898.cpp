@@ -32,8 +32,6 @@ s16 get_captured_target_collider_index(void *p);
 s32 get_captured_target_entry(s32, s32);
 s32 get_captured_target_count(s32 *arg0);
 s32 rand(void);
-extern const f32 lbl_805DAEC0;
-extern const f32 lbl_805DAEC4;
 
 u8 *TObjPlayer::create_vtable_clear_field1f8(u8 *arg0) {
     u8 *temp_r3;
@@ -92,7 +90,7 @@ void TUnk_804A4F60::psycho_wand_roll_extra() {
     }
     ((Self_8012B9B4 *)this)->f264 = ((Self_8012B9B4 *)this)->owner->f60;
     VecCopy((Vec *)(((Self_8012B9B4 *)this)->f268), (const Vec *)(((Self_8012B9B4 *)this)->owner->pos));
-    send_activate_effect__5TItemFl(this, lbl_805DAEC0 * (lbl_805DAEC4 * (f32)rand()));
+    send_activate_effect__5TItemFl(this, 3.0f * (3.0517578e-05f * (f32)rand()));
 }
 
 }

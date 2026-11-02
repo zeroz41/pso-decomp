@@ -104,7 +104,6 @@ struct P_800BC250 : VB_800BC250 {
 };
 
 extern "C" {
-extern const f32 lbl_805D9EB4;
 void subtract_vector(Vec_800BBFD0 *a, Vec_800BBFD0 *b);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 obj_is_hit_receivable();
@@ -135,10 +134,9 @@ struct VObj_800bbe90 : Base_800bbe90 {
     virtual void m20(s32, f32);
 };
 
-extern const f32 lbl_805D9EB0;
 
 void TUnk_804928CC::apply_hit_if_active(void *arg1, f32 *arg2) {
-    ((VObj_800bbe90*)arg1)->m20(this->m_ac, lbl_805D9EB0);
+    ((VObj_800bbe90*)arg1)->m20(this->m_ac, 1.0f);
     if (obj_isState2_324__9TObjCharaFv(arg1) == 0) {
         this->area_attack_apply_recoil(arg1, *arg2);
     }
@@ -227,7 +225,7 @@ s32 TUnk_804928CC::area_attack_deliver_physical(void *arg1, void *object, f32 ra
 #pragma fp_contract on
 void TUnk_804928CC::call_vt16_with_default(void *, void *) {
     u8 *arg0 = (u8 *)this;
-    ((VObj *)arg0)->m16(lbl_805D9EB4);
+    ((VObj *)arg0)->m16(100.0f);
 }
 #pragma pop
 
@@ -276,7 +274,7 @@ s32 TUnk_804928CC::area_attack_deliver_direct(void *recoil, s32 arg2, void *obje
 
 void TUnk_804928CC::call_vt13_with_default(void*, void*, s32) {
     u8 *arg0 = (u8 *)this;
-    ((VObj *)arg0)->m13(lbl_805D9EB4);
+    ((VObj *)arg0)->m13(100.0f);
 }
 
 }

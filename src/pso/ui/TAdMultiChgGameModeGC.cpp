@@ -62,7 +62,6 @@ extern Cur_802FFE58 lbl_80474E1C[];
 extern Pos_802FFE58 multi_chg_game_mode_position_table;
 extern void *__vt__21TAdMultiChgGameModeGC[];
 extern s32 TAdMultiChgGameModeGC__name;
-extern const f32 lbl_805DEF38;
 Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self);
 s32 is_multiplayer_character_slot_selected(u32);
 s32 TAdMultiPlyChrSelectGC__sub_802C658C(u32);
@@ -185,7 +184,7 @@ Obj_802FFE58 *__ct__21TAdMultiChgGameModeGCFv(Obj_802FFE58 *self) {
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }
     self->f28 = p;
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0xF, (f32)lbl_805DEF38);
+    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0xF, 0.0f);
     return self;
 }
 

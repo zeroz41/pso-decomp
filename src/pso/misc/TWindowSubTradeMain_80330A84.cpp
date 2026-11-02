@@ -59,7 +59,6 @@ struct Self_80331178 { u8 pad[0x28]; s32 f28; s32 f2c; };
 extern "C" {
 u8 * create__19TWindowMessageYesNoFPvPvPvPv(void *, void *, void *, void *);
 s32 get_window_layout_position(s32);
-extern f32 TWindowSubTradeMain__data_805DF858;
 s32 TWindowSubTradeMain__sub_802448E4(void *, void *);
 void TWindowSubTradeMain__sub_803323A8(void *);
 void TWindowSubTradeMain__sub_803323B8(void *);
@@ -268,7 +267,7 @@ s32 TWindowSubTradeMain::create_input_number(s32 maximum) {
         storage = __ct__18TWindowInputNumberFPvllls(storage, get_window_layout_position(0x5D), 1, maximum, 1, (s16) this->m_28);
     }
     ((TWindowInputNumber *)storage)->create(get_message_10__20TWindowSubStatusDispFl(0x28));
-    ((TWindowInputNumber *)storage)->set_value(TWindowSubTradeMain__data_805DF858);
+    ((TWindowInputNumber *)storage)->set_value(282.0f);
     return storage;
 }
 
@@ -322,7 +321,7 @@ s32 TWindowSubTradeMain::create_trade_window() {
 u8 *TWindowSubTradeMain::open_confirm_prompt() {
     u8 *w;
     w = create__19TWindowMessageYesNoFPvPvPvPv(this, *(void **)(((u8 *)this) + 0x28), NULL, NULL);
-    open_yes_no_prompt((TChCrTagPlBack *)w, (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0xE4)), (s32)(get_window_layout_position(0x5F)), (f32)TWindowSubTradeMain__data_805DF858);
+    open_yes_no_prompt((TChCrTagPlBack *)w, (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0xE4)), (s32)(get_window_layout_position(0x5F)), 282.0f);
     free_member__17TWindowSubComCardFv(w, 1);
     return w;
 }
@@ -330,7 +329,7 @@ u8 *TWindowSubTradeMain::open_confirm_prompt() {
 u8 *open_option_dialog__19TWindowSubTradeMainFPvi(u8 *window_message_yes_no, s32 arg1) {
     u8 *temp_r31;
     temp_r31 = (u8 *)(create__19TWindowMessageYesNoFPvPvPvPv(window_message_yes_no, *(u8 **)((s8 *)window_message_yes_no + 0x28), NULL, NULL));
-    initialize_option_dialog(temp_r31, arg1, get_window_layout_position(0x5F), TWindowSubTradeMain__data_805DF858);
+    initialize_option_dialog(temp_r31, arg1, get_window_layout_position(0x5F), 282.0f);
     return temp_r31;
 }
 
@@ -426,7 +425,7 @@ typedef struct RecoveredFields_80331434_arg0 RecoveredFields_80331434_arg0;
 s32 TWindowSubTradeMain::open_confirm_yes_no() {
     u8 *arg0 = (u8 *)this;
     s32 w = ((s32 (*)(void *, s32, s32, s32))create__19TWindowMessageYesNoFPvPvPvPv)(arg0, this->m_28, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)w), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0xE6)), (s32)(((s32 (*)(int))get_window_layout_position)(0x5F)), (f32)TWindowSubTradeMain__data_805DF858);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)w), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0xE6)), (s32)(((s32 (*)(int))get_window_layout_position)(0x5F)), 282.0f);
     ((s32 (*)(s32, int))free_member__17TWindowSubComCardFv)(w, 1);
     return w;
 }
@@ -439,7 +438,7 @@ s32 TWindowSubTradeMain::create_trade_menu() {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) get_message_10__20TWindowSubStatusDispFl(0xE3)), 6, 0x16);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((int) get_message_10__20TWindowSubStatusDispFl(0xDE), 6, 0x1A, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((int) get_message_10__20TWindowSubStatusDispFl(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
-  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height((f32) TWindowSubTradeMain__data_805DF858);
+  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(282.0f);
   align_menu_entry_positions((int) titled_window_menu);
   return titled_window_menu;
 }
@@ -455,7 +454,7 @@ s32 TWindowSubTradeMain::build_trade_menu() {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)titled_window_menu, (int)((int) get_message_10__20TWindowSubStatusDispFl(0xDC)), 6, 0x11);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((int) get_message_10__20TWindowSubStatusDispFl(0xDD), 6, 0x14, (int) 0xFFEE946E);
   ((TWindowSubTradeMain *)titled_window_menu)->add_text_entry((int) get_message_10__20TWindowSubStatusDispFl(0xDF), 6, 0x17, (int) 0xFFEE6ED8);
-  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height((f32) TWindowSubTradeMain__data_805DF858);
+  ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(282.0f);
   align_menu_entry_positions((int) titled_window_menu);
   return titled_window_menu;
 }

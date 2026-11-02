@@ -624,7 +624,6 @@ s32 enemy_validate_retained_target(void *);
 s32 set_field_378__9TObjEneDDFl(void *, s32, s32);
 s32 approach_angle_limited(int, int, void *);
 s32 fn_802CE510(void *);
-extern const f64 lbl_804724B8;
 extern const f32 lbl_805DE720;
 extern const f32 lbl_805DE724;
 extern const f32 lbl_805DE728;
@@ -1068,7 +1067,7 @@ void TObjEneDD__sub_802CF7B4(u8 *ene_dd_st, s32 arg1) {
                 ((TObjEneDD_ST *)ene_dd_st)->enemy_copy_target_destination();
                 ((TObjEneDD *)ene_dd_st)->update_velocity();
             }
-            *(s32 *)((s8 *)ene_dd_st + 0x4A0) = (s32) (lbl_804724B8 * atan2_float((f32) (*(f32 *)((s8 *)ene_dd_st + 0x3A0)), (f32) (*(f32 *)((s8 *)ene_dd_st + 0x3A8))));
+            *(s32 *)((s8 *)ene_dd_st + 0x4A0) = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)ene_dd_st + 0x3A0)), (f32) (*(f32 *)((s8 *)ene_dd_st + 0x3A8))));
             *(s32 *)((s8 *)ene_dd_st + 0x60) = approach_angle_limited((int) (*(s32 *)((s8 *)ene_dd_st + 0x60)), (int) (*(s32 *)((s8 *)ene_dd_st + 0x4A0)), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)ene_dd_st + 0x350)) + 8)));
             ((TObjEneDD *)(ene_dd_st))->vfunc_89();
             return;
@@ -1206,7 +1205,7 @@ void TObjPlayer__sub_802CFB64(u8 *player, s32 arg1) {
         }
         ((TObjEneDD_ST *)player)->enemy_copy_target_destination();
         ((TObjEneDD *)player)->update_velocity();
-        *(s32 *)((s8 *)player + 0x4A0) = (s32)(lbl_804724B8 * atan2_float(*(f32 *)((s8 *)player + 0x3A0), *(f32 *)((s8 *)player + 0x3A8)));
+        *(s32 *)((s8 *)player + 0x4A0) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)player + 0x3A0), *(f32 *)((s8 *)player + 0x3A8)));
         *(s32 *)((s8 *)player + 0x60) = approach_angle_limited(*(s32 *)((s8 *)player + 0x60), *(s32 *)((s8 *)player + 0x4A0), (void *)*(s32 *)((s8 *)(*(u8 **)((s8 *)player + 0x350)) + 8));
         *(s32 *)((s8 *)player + 0x60) = (s16)*(s32 *)((s8 *)player + 0x60);
         ((TObjEneDD *)(player))->vfunc_102();
@@ -1255,7 +1254,7 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
         }
         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         ((TObjEneDD *)arg0)->update_velocity();
-        *(s32 *)((s8 *)arg0 + 0x4A0) = (s32)(lbl_804724B8 * atan2_float(this->m_3a0, *(f32 *)((s8 *)arg0 + 0x3A8)));
+        *(s32 *)((s8 *)arg0 + 0x4A0) = (s32)(10430.38043493439 * atan2_float(this->m_3a0, *(f32 *)((s8 *)arg0 + 0x3A8)));
         this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x4A0), (void *)*(s32 *)((s8 *)(this->movementParameters) + 8));
         this->rotation_y = (s16)this->rotation_y;
         ((TObjEneDD *)(arg0))->vfunc_102();
@@ -1335,7 +1334,7 @@ void TObjEneBm9Mericarol__sub_802D01D8(u8 *actor, s32 arg1) {
         ((TObjEneDD_ST *)actor)->enemy_copy_target_destination();
         ((TObjEneDD *)actor)->update_velocity();
         (*(s32 *)((s8 *)actor + 0x494))++;
-        *(s32 *)((s8 *)actor + 0x4A0) = (s32) (lbl_804724B8 * atan2_float(*(f32 *)((s8 *)actor + 0x3A0), *(f32 *)((s8 *)actor + 0x3A8)));
+        *(s32 *)((s8 *)actor + 0x4A0) = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)actor + 0x3A0), *(f32 *)((s8 *)actor + 0x3A8)));
         *(s32 *)((s8 *)actor + 0x60) = approach_angle_limited(*(s32 *)((s8 *)actor + 0x60), *(s32 *)((s8 *)actor + 0x4A0), (void *) (*(s32 *)((s8 *)(*(u8 **)((s8 *)actor + 0x350)) + 8)));
         *(s32 *)((s8 *)actor + 0x60) = (s32) (s16) *(s32 *)((s8 *)actor + 0x60);
         ((TObjEneDD *)(actor))->vfunc_102();

@@ -225,7 +225,6 @@ struct RecoveredGlobal_803640F8_lbl_8058D4C0 {
 struct Rec_80364028 { f32 a; s32 b; s32 c; s32 d; };
 
 extern Rec_80364028 lbl_80479FF8;
-extern const f32 lbl_805E0288;
 void TObjPlayer::spawn_cleanup_helper(void *arg0) {
     void *o;
     o = __nw__7TObjectFUl(0x1C);
@@ -235,7 +234,7 @@ void TObjPlayer::spawn_cleanup_helper(void *arg0) {
 }
 
 void TObjPlayer::warn_if_gauge_low() {
-    if (*(f32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0x2C) < lbl_805E0288) {
+    if (*(f32 *)((s8 *)(*(void **)&lbl_805D6FB8) + 0x2C) < 1.0f) {
         set_chunk_blend(0x2500);
         TObjPlayer::copy_gauge_warn_vec();
     }
@@ -243,12 +242,12 @@ void TObjPlayer::warn_if_gauge_low() {
 typedef char RecoveredGlobal_803640C8_lbl_8058D4C0_size[sizeof(RecoveredGlobal_803640C8_lbl_8058D4C0) == 0x10 ? 1 : -1];
 
 void TObjPlayer::set_model_fade_alpha(f32 farg0) {
-    if (farg0 < lbl_805E0288) {
+    if (farg0 < 1.0f) {
         model_render_flags |= 0x24;
         set_chunk_material_override_pair(-1, 0x800);
         set_chunk_blend(0x2500);
         Rec_80364028 r = lbl_80479FF8;
-        r.a = farg0 - lbl_805E0288;
+        r.a = farg0 - 1.0f;
         ((TObjPlayer *)((s32 *)&r))->push_model_fade_color();
     }
     *(f32 *)((u8 *)(*(void **)&lbl_805D6FB8) + 0x2C) = farg0;

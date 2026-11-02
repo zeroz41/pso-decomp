@@ -211,7 +211,6 @@ extern void *__vt__11TObjDFJisin[];
 extern void *__vt__13TObjDFHorming[];
 extern void *__vt__13TObjDFRecBall[];
 extern void *__vt__16TObjDFBeamCursor[];
-extern const f64 lbl_804374F0;
 extern s32 TObjDFJisin__particle_emitter_id_table[];
 extern s32 TObjDFRecBall__name;
 extern void *TObjDFBeamCursor__name;
@@ -352,7 +351,7 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
     if (p != NULL) {
         ang = 0;
     } else {
-        ang += (s32)(lbl_804374F0 * atan2_float(*(f32 *)((s8 *)p + 0x38) - lbl_805D8A74, *(f32 *)((s8 *)p + 0x40)));
+        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - lbl_805D8A74, *(f32 *)((s8 *)p + 0x40)));
     }
     *(f32 *)((s8 *)arg0 + 0x348) = lbl_805D8A78 * sin_table_lookup(ang) / scale;
     ((TObjDFHorming *)arg0)->m_350 = lbl_805D8A78 * cos_table_lookup(ang) / scale;

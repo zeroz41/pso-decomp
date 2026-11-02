@@ -33,7 +33,6 @@ int VecCopy__FP3VecPC3Vec(void *, void *);
 void *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 extern s32 __vt__22TBoss5GryphonLightning[];
 extern s32 lbl_805D4180;
-extern const f32 lbl_805DF5E0;
 
 Self_80324F4C *TBoss5GryphonLightning__ct(Self_80324F4C *self, void *parent,
                                           Vec_80324F4C *pos, f32 p_scale) {
@@ -52,10 +51,10 @@ Self_80324F4C *TBoss5GryphonLightning__ct(Self_80324F4C *self, void *parent,
     self->eff44 = spawn_continuous_particle_effect_with_flags(&self->v2c, 0x216, 0x40);
     for (i = 0; i < 4; i++) {
         VecCopy__FP3VecPC3Vec((void *)&self->segs[i].v, (void *)&self->v20);
-        self->segs[i].f = lbl_805DF5E0;
+        self->segs[i].f = 0.0f;
     }
-    self->f88 = lbl_805DF5E0;
-    self->f8c = lbl_805DF5E0;
+    self->f88 = 0.0f;
+    self->f8c = 0.0f;
     self->n90 = 1;
     return self;
 }

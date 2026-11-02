@@ -39,12 +39,10 @@ void __dl__7TObjectFPv(void *);
 
 extern s32 TOGrassJungle__bml_resource;
 extern s32 TOGrassJungle__grass_gvm_texture;
-extern const f32 lbl_805DDD30;
-extern const f32 lbl_805DDD34;
 
 void TOGrassJungle::render() {
     u8 *arg0 = (u8 *)this;
-    if (((VObj_8029CD90 *)arg0)->m8(lbl_805DDD30, lbl_805DDD34) == 1) {
+    if (((VObj_8029CD90 *)arg0)->m8(400.0f, 20.0f) == 1) {
         TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);

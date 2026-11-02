@@ -271,14 +271,13 @@ void TWindowComCard::set_selected_index(s32 arg1) {
 
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1);
 
-extern const f32 lbl_805DCBD0;
 
 #pragma push
 #pragma fp_contract on
 void TWindowComCard__sub_80249D7C(u8 *arg0, s32 arg1) {
     if ((s32) *(s32 *)((s8 *)arg0 + 0x6C) != arg1) {
         *(s32 *)((s8 *)arg0 + 0x6C) = arg1;
-        *(f32 *)((s8 *)arg0 + 0x30) = (f32) ((lbl_805DCBD0 * (f32) *(s32 *)((s8 *)arg0 + 0x6C)) + (*(f32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x60)) + 0x40) + *(f32 *)((s8 *)arg0 + 0x64)));
+        *(f32 *)((s8 *)arg0 + 0x30) = (f32) ((16.0f * (f32) *(s32 *)((s8 *)arg0 + 0x6C)) + (*(f32 *)((s8 *)(*(void **)((s8 *)arg0 + 0x60)) + 0x40) + *(f32 *)((s8 *)arg0 + 0x64)));
         *(s32 *)((s8 *)arg0 + 0x50) = 0xF;
     }
 }
@@ -358,7 +357,7 @@ Win_80249ED8 *TWindowComCard__sub_80249ED8(Win_80249ED8 *o, Parent_80249ED8 *par
     o->ofs.y = ofs->y;
     o->col = col;
     o->mode = mode;
-    o->x = lbl_805DCBD0 * (f32)o->col + (o->parent->x + o->ofs.x);
+    o->x = 16.0f * (f32)o->col + (o->parent->x + o->ofs.x);
     o->y = o->parent->y + o->ofs.y;
     ((TWindowBase *)o)->save_position();
     ((TWindowComCard *)((s32)((TWindowBase *)o)->get_array_entry(0)))->set_help_mode(mode);

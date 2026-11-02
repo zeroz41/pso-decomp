@@ -115,7 +115,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 s32 get_cursor_value__19TWindowMenuIconLineFv(s32);
 void TWindowHelpItem__set_displayed_item_by_id(u32, s32);
 u32 create_item_list_window(s32, s32, u16);
-extern f32 lbl_805DC710;
 void sort_bank_items(s32 slot);
 void __dl__7TObjectFPv(void *);
 
@@ -280,7 +279,7 @@ s32 TShopKeepItemWindow::rebuild_item_list() {
     if (self->f390 == 0U) {
         self->f390 = (u32)new TWindowHelpItem((void *)get_window_layout_position(0x27), get_entity_id((s32)self->f24));
         if (self->f390 != 0U && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(self->f390))->set_position(lbl_805DC710, lbl_805DC710);
+            ((TLobby *)(self->f390))->set_position(0.75f, 0.75f);
         }
         TWindowHelpItem__set_displayed_item_by_id(self->f390, ((TItem *)(self->ents[cur].f0))->get_item_id());
         self->f37C = cur;

@@ -40,8 +40,6 @@ extern s32 city_traffic_car_chunk_index_table[];
 extern s32 air_car_buffer_pair_table[];
 extern void **city_air_car_model_handle;
 extern void **city_common_texture_list;
-extern const f32 lbl_805DBBA0;
-extern const f32 lbl_805DBBA4;
 }
 struct Vec_80180E70 { f32 x, y, z; };
 
@@ -81,12 +79,6 @@ s32 update_technique_slot__10TTecRaFoieFl(s32, int, int);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern u32 city_air_car_model_resource;
-extern const f32 lbl_805DBBA8;
-extern const f32 lbl_805DBBAC;
-extern const f32 lbl_805DBBB0;
-extern const f32 lbl_805DBBB4;
-extern const f32 lbl_805DBBB8;
-extern const f32 lbl_805DBBBC;
 f64 atan2_float(f32, f32);
 s32 angle_diff_s16(s32, s32);
 s32 vec3_add_to(void *, void *);
@@ -96,7 +88,7 @@ extern const f32 lbl_805DBBC4;
 void render__18TObjCityAirCar_CarFPv(TObjCityAirCar_Car *city_air_car_car) {
     s32 temp_r31;
     u8 *temp_r3;
-    if (((VObj_18_26a62c *)(city_air_car_car))->m8(lbl_805DBBA0, lbl_805DBBA4) != 0) {
+    if (((VObj_18_26a62c *)(city_air_car_car))->m8(800.0f, 50.0f) != 0) {
         TParticleCtrl::end_effect_render();
         push_matrix();
         post_translate_matrix((void *) ((u8 *)city_air_car_car + 0x38));
@@ -138,8 +130,8 @@ void TObjCityAirCar_Car::run_task() {
     if (((TObjCityAirCar_Car *)this)->update_path_motion() == 0) {
         queue_destruction__7TObjectFv(this);
     }
-    if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= lbl_805DBBA8 && ((Car_80180E70 *)this)->frame <= lbl_805DBBAC) ||
-        (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= lbl_805DBBB0 && ((Car_80180E70 *)this)->frame <= lbl_805DBBB4)) {
+    if ((((Car_80180E70 *)this)->path == 1 && ((Car_80180E70 *)this)->frame >= 15.5f && ((Car_80180E70 *)this)->frame <= 35.5f) ||
+        (((Car_80180E70 *)this)->path == 2 && ((Car_80180E70 *)this)->frame >= 15.0f && ((Car_80180E70 *)this)->frame <= 35.0f)) {
         if (((Car_80180E70 *)this)->model == 4) {
             play_persistent_sound(0x4004CB02, (s32)((Car_80180E70 *)this), (u32)&((Car_80180E70 *)this)->pos, 0, 0);
         } else if (((Car_80180E70 *)this)->model == 0) {
@@ -162,9 +154,9 @@ void TObjCityAirCar_Car::run_task() {
         }
         if (((Car_80180E70 *)this)->light != 0) {
             if (((Car_80180E70 *)this)->model == 0) {
-                scale = lbl_805DBBB8;
+                scale = 20.0f;
             } else {
-                scale = lbl_805DBBBC;
+                scale = 10.0f;
             }
             VecCopy((Vec *)&v, (const Vec *)&((Car_80180E70 *)this)->pos);
             v.x -= scale * sin_table_lookup(((Car_80180E70 *)this)->yaw);

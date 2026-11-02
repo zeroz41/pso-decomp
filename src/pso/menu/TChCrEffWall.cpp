@@ -18,8 +18,6 @@ void TCameraCtrl__sub_80068EF0(void);
 void draw_default_sprite__12TChCrEffWallFv(s32, Ent_8029ACF8 *, f32);
 extern Ent_8029ACF8 creation_effwall_sprite_position_table[6];
 extern Ent_8029ACF8 creation_effwall_sprite_size_table[2];
-extern const f32 lbl_805DDCB0;
-extern const f32 lbl_805DDCB4;
 extern void *TChCrEffWall__name;
 
 void *chcr_eff_wall_gradient_table[4] = {
@@ -41,20 +39,20 @@ void TChCrEffWall::render() {
     s32 i;
     set_depth_buffer_settings_1();
     for (i = 0; i < 6; i++) {
-        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_position_table[i], lbl_805DDCB0);
+        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_position_table[i], -9935.0f);
     }
     for (i = 0; i < 2; i++) {
-        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_size_table[i], lbl_805DDCB0);
+        draw_default_sprite__12TChCrEffWallFv(i + 10, &creation_effwall_sprite_size_table[i], -9935.0f);
     }
     TCameraCtrl::restore_full_screen_view();
     args.b = chcr_eff_wall_gradient_table;
     args.c = 0;
     args.d = 4;
     args.a = lbl_804DBF68;
-    ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, lbl_805DDCB4);
+    ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, -9934.0f);
     args.b = lbl_804DBFA8;
     args.a = lbl_804DBF88;
-    ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, lbl_805DDCB4);
+    ((TWindowCtrlMain *)(&args))->draw_strip_swap_color(4, 6, -9934.0f);
     TCameraCtrl__sub_80068EF0();
     restore_saved_depth_alpha_state();
 }

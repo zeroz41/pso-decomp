@@ -45,11 +45,8 @@ extern const f32 lbl_805D9424;
 f64 get_end_text_value__10TObjPlayerFv(f32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-extern const f64 lbl_80439360;
 extern u8 *camera_ctrl_instance;
 extern const f32 lbl_805D940C;
-extern const f32 lbl_805D9428;
-extern const f32 lbl_805D942C;
 void TScene::apply_single_screen_state() {
     if ((is_split_screen() == 0) && (TObjPlayer::check_all_players_ready() != 0)) {
         model_render_flags &= 0xFFF7FFFF;
@@ -93,13 +90,13 @@ f32 calc_camera_fov_degrees(void) {
     f32 temp_f31;
     f32 var_f1;
     s32 temp_r31;
-    var_f1 = lbl_805D9428;
+    var_f1 = 11832.0f;
     if ((void *) camera_ctrl_instance != NULL) {
         temp_f2 = (f32) (*(s32 *)((s8 *)camera_ctrl_instance + 0x19C));
-        temp_f2 *= lbl_805D942C;
+        temp_f2 *= 0.85f;
         temp_r31 = (s32) (temp_f2 * lbl_805D93DC);
         temp_f31 = cos_table_lookup(temp_r31);
-        var_f1 = (f32) ((s32) (lbl_80439360 * get_end_text_value__10TObjPlayerFv((f32) ((sin_table_lookup(temp_r31) / temp_f31) / lbl_805D940C))) * 2);
+        var_f1 = (f32) ((s32) (10430.38043493439 * get_end_text_value__10TObjPlayerFv((f32) ((sin_table_lookup(temp_r31) / temp_f31) / lbl_805D940C))) * 2);
     }
     return var_f1;
 }

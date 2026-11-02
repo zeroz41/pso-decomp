@@ -179,16 +179,12 @@ void vfunc_95__12TObjEneSharkFv(s32 arg0);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
-extern const f32 lbl_805D9BA0;
-extern const f32 lbl_805D9BA4;
-extern const f32 lbl_805D9BA8;
 void vfunc_94__12TObjEneSharkFv(u8 *arg0);
 void vfunc_83__12TObjEneSharkFv(Obj_800ABCBC *arg0);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
-extern const f32 lbl_805D9BAC;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
 void *__nw__7TObjectFUl(int);
 s32 is_split_screen();
@@ -203,12 +199,6 @@ extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
-extern const f32 lbl_805D9BB0;
-extern const f32 lbl_805D9BB4;
-extern const f32 lbl_805D9BB8;
-extern const f32 lbl_805D9BBC;
-extern const f32 lbl_805D9BC0;
-extern const f32 lbl_805D9BC4;
 
 #pragma push
 #pragma fp_contract on
@@ -245,9 +235,9 @@ void TObjEneShark::vfunc_94() {
     typedef char spC_offset[(offsetof(Stack_800ABA9C, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_800ABA9C, sp10) == 0x8) ? 1 : -1];
     Stack_800ABA9C stack;
-    stack.sp8 = lbl_805D9BA0;
-    stack.spC = lbl_805D9BA4;
-    stack.sp10 = lbl_805D9BA8 * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
+    stack.sp8 = 0.0f;
+    stack.spC = 10.0f;
+    stack.sp10 = 0.5f * *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x2B0)) + 0x10);
     push_matrix_from(&identity_matrix.value);
     rotate_matrix_y(0, this->rotation_y);
     rotate_vector_by_matrix(0, &stack.sp8, &stack.sp8);
@@ -264,7 +254,7 @@ void TObjEneShark::vfunc_93() {
     u32 e;
     s32 idx;
     VObj_800ABB38 *eff;
-    if (!(this->m_c0 < lbl_805D9BAC)) {
+    if (!(this->m_c0 < 12.0f)) {
         return;
     }
     switch (this->m_b8) {
@@ -386,7 +376,7 @@ void TObjEneShark::render() {
   {
     mode = get_camera_mode__11TCameraCtrlFv();
   }
-  res = PSO_VCALL_VObj_18_800ABDD8_m9(arg0, lbl_805D9BB0, lbl_805D9BB4, lbl_805D9BB8);
+  res = PSO_VCALL_VObj_18_800ABDD8_m9(arg0, 200.0f, 400.0f, 30.0f);
   if (res == 0)
   {
     return;
@@ -402,7 +392,7 @@ void TObjEneShark::render() {
   model_render_flags |= 1;
   TObjFish::set_global_param(*((s32 *) (((s8 *) arg0) + 0x24)));
   push_matrix();
-  translate_matrix(0, lbl_805D9BA0, this->render_y_offset, lbl_805D9BA0);
+  translate_matrix(0, 0.0f, this->render_y_offset, 0.0f);
   post_translate_matrix((u8 *)&this->position);
   rotate_matrix_y(0, this->rotation_y);
   if (TObjPlayer::check_demo_mode() == 1)
@@ -524,9 +514,9 @@ void TObjEneShark::render() {
     default:
     {
       Vec v;
-      v.x = lbl_805D9BBC;
-      v.y = lbl_805D9BC0;
-      v.z = lbl_805D9BC4;
+      v.x = 1.5f;
+      v.y = 1.0f;
+      v.z = 2.0f;
       ((TObjEnemy *)arg0)->draw_ground_shadow(&v, 0);
     }
   }
@@ -586,8 +576,6 @@ extern u32 TObjEneShark__resource_node;
 extern u32 TObjEneShark__resource_buf;
 extern u32 shark_resource_data;
 extern u32 shark_resource_buffer;
-extern const f32 lbl_805D9BC8;
-extern const f32 lbl_805D9BCC;
 void vfunc_99__13TUnk_80493450Fv(void);
 void TLobby__sub_8001FE7C(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -842,9 +830,9 @@ void TLobby::load_shark_resources() {
         }
         G_B8 = (u8 *)p;
     }
-    p = new SampledMotionPoints(2, lbl_805D9BC8, lbl_805D9BAC, lbl_805D9BC0);
+    p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     G_BC = p;
-    p = new SampledMotionPoints(2, lbl_805D9BC8, lbl_805D9BAC, lbl_805D9BC0);
+    p = new SampledMotionPoints(2, 7.0f, 12.0f, 1.0f);
     G_C0 = p;
     ((SampledMotionPoints *)G_BC)->sample_two_nodes((NJS_OBJECT *)RES->bodies->model, (NJS_MOTION *)RES->motions[TObjEneShark__action_table[3].idx].b, 5, 8);
     ((SampledMotionPoints *)G_C0)->sample_two_nodes((NJS_OBJECT *)RES->bodies->model, (NJS_MOTION *)RES->motions[TObjEneShark__action_table[4].idx].b, 0xA, 0xD);
@@ -870,7 +858,7 @@ void TLobby::load_shark_resources() {
         Anim_800AC318 anim = { (s32)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
             spawn_npc_enemy__6TLobbyFslllff(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
-                lbl_805D9BCC, lbl_805D9BA0);
+                7.5f, 0.0f);
         }
     }
 }
@@ -988,8 +976,6 @@ void init_collision_body_parts(void *, void *, s32);
 void *__construct_array(void *, void *, void *, s32, s32);
 void __ct__15RenderFadeStateFv(void *);
 extern s32 TObjEneShark_name_ref;
-extern const f32 lbl_805D9BD0;
-extern const f32 lbl_805D9BD4;
 #define lbl_804915B4 ((u8 *)lbl_804915B4)
 #define lbl_80491608 ((u8 *)lbl_80491608)
 void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
@@ -1020,7 +1006,7 @@ void *TObjEneShark__ct(void *arg0, void *arg1, void *arg2) {
     ((TObjEnemy *)self)->update_prev_position();
     ((TBoss3VoloptHiraisin *)self)->copy_position();
     initialize_enemy_photon_effect(self);
-    self->f2AC = (s32)(lbl_805D9BD0 * (lbl_805D9BD4 * random_ratio__9TObjCharaFv((s32)self)));
+    self->f2AC = (s32)(182.04445f * (360.0f * random_ratio__9TObjCharaFv((s32)self)));
     self->f33A = 0xF;
     self->f33C = self->f33A;
     self->f328 = 0;

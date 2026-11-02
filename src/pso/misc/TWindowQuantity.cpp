@@ -28,11 +28,6 @@ s32 get_window_layout_position(s32);
 extern u8 quantity_window_layout[];
 extern s32 __vt__15TWindowQuantity[];
 extern s32 lbl_805D39B0;
-extern const f32 lbl_805DD2D0;
-extern const f32 lbl_805DD2D4;
-extern const f32 lbl_805DD2D8;
-extern const f32 lbl_805DD2DC;
-extern const f32 lbl_805DD2E0;
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
@@ -73,19 +68,19 @@ void *TWindowQuantity__ct(void *arg0, void *arg1) {
     self->f0 = lbl_805D39B0;
     id = TQuestVmDownLoadServer__sub_8006EF6C(1);
     n = (f32)calc_text_width();
-    self->f60 = TWindowSubStatusDisp__sub_802877A4(lbl_805DD2D0 + (lbl_805DD2D4 + n));
+    self->f60 = TWindowSubStatusDisp__sub_802877A4(24.0f + (12.0f + n));
     e0 = get_array_entry__11TWindowBaseFi(arg0, 0);
     e1 = get_array_entry__11TWindowBaseFi(arg0, 1);
     set_text_entry_string(e0, id, 0);
-    *(f32 *)(e1 + 8) = lbl_805DD2D0 + (lbl_805DD2D4 + (lbl_805DD2D8 + n));
+    *(f32 *)(e1 + 8) = 24.0f + (12.0f + (8.0f + n));
     self->f38 = TWindowSubStatusDisp::get_base_y(self->f60);
     ((TWindowBase *)arg0)->save_position();
     if (TCameraCtrl::get_camera_id() > 2) {
-        self->f64 = lbl_805DD2DC;
-        self->f68 = lbl_805DD2DC;
+        self->f64 = 0.75f;
+        self->f68 = 0.75f;
     } else {
-        self->f64 = lbl_805DD2E0;
-        self->f68 = lbl_805DD2E0;
+        self->f64 = 1.0f;
+        self->f68 = 1.0f;
     }
     return arg0;
 #undef self

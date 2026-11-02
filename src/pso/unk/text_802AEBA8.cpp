@@ -20,8 +20,6 @@ typedef struct {
     Quad_802AEBE4 q2[16];
 } Obj_802AEBE4;
 
-extern const f32 lbl_805DE1D8;
-extern const f32 lbl_805DE1DC;
 
 void TAdEnterSerialAccessGC::reset_input_state() {
     Obj_802AEBA8 *self = (Obj_802AEBA8 *)this;
@@ -38,17 +36,17 @@ void TLevelSelect::add_item_rect(void *src) {
     Obj_802AEBE4 *self = (Obj_802AEBE4 *)this;
     if (self->count < 16) {
         ((TWindowSubSymbolChatPartsSet *)(&self->pts[self->count]))->copy_vec2(src);
-        self->q0[self->count].x = lbl_805DE1D8 + self->pts[self->count].x;
+        self->q0[self->count].x = 16.0f + self->pts[self->count].x;
         self->q0[self->count].y = self->pts[self->count].y;
-        self->q0[self->count].x2 = self->q0[self->count].x + (self->w - lbl_805DE1DC);
+        self->q0[self->count].x2 = self->q0[self->count].x + (self->w - 32.0f);
         self->q0[self->count].y2 = self->q0[self->count].y + self->h;
         self->q1[self->count].x = self->pts[self->count].x;
         self->q1[self->count].y = self->pts[self->count].y;
-        self->q1[self->count].x2 = lbl_805DE1D8 + self->q1[self->count].x;
+        self->q1[self->count].x2 = 16.0f + self->q1[self->count].x;
         self->q1[self->count].y2 = self->q1[self->count].y + self->h;
-        self->q2[self->count].x = self->pts[self->count].x + (self->w - lbl_805DE1D8);
+        self->q2[self->count].x = self->pts[self->count].x + (self->w - 16.0f);
         self->q2[self->count].y = self->pts[self->count].y;
-        self->q2[self->count].x2 = lbl_805DE1D8 + self->q2[self->count].x;
+        self->q2[self->count].x2 = 16.0f + self->q2[self->count].x;
         self->q2[self->count].y2 = self->q2[self->count].y + self->h;
         self->count++;
     }

@@ -29,11 +29,6 @@ s32 get_window_layout_position(int);
 extern RecoveredGlobal_8024E548_lbl_804CEB70 window_deposit_layout;
 extern s32 __vt__14TWindowDeposit[];
 extern s32 TWindowDeposit__name;
-extern const f32 lbl_805DCC60;
-extern const f32 lbl_805DCC64;
-extern const f32 lbl_805DCC68;
-extern const f32 lbl_805DCC6C;
-extern const f32 lbl_805DCC70;
 s32 draw_window_tab(s32, s32, s32, f32);
 void __dl__7TObjectFPv(void *);
 int initialize_subwindow__9TWindowDDFv(void*);
@@ -82,22 +77,22 @@ u8 *TWindowDeposit__ct(u8 *arg0, s32 arg1) {
   spC = temp_r3_2;
   sp8 = 0x43300000;
   temp_f31 = (f32) temp_r3_2;
-  ((TWindowDeposit *)arg0)->m_60 = TWindowSubStatusDisp__sub_802877A4(lbl_805DCC60 + (lbl_805DCC64 + temp_f31));
+  ((TWindowDeposit *)arg0)->m_60 = TWindowSubStatusDisp__sub_802877A4(96.0f + (12.0f + temp_f31));
   temp_r30 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(0));
   temp_r31 = (u8 *) ((u8 *)((TWindowBase *)arg0)->get_array_entry(1));
   set_text_entry_string(temp_r30, str, 0);
-  *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) (lbl_805DCC60 + (lbl_805DCC64 + (lbl_805DCC68 + temp_f31)));
+  *((f32 *) (((s8 *) temp_r31) + 8)) = (f32) (96.0f + (12.0f + (8.0f + temp_f31)));
   ((TWindowDeposit *)arg0)->m_38 = TWindowSubStatusDisp::get_base_y(((TWindowDeposit *)arg0)->m_60);
   ((TWindowBase *)arg0)->save_position();
   if (TCameraCtrl::get_camera_id() > 2)
   {
-    *((f32 *) (((s8 *) arg0) + 0x64)) = (f32) lbl_805DCC6C;
-    *((f32 *) (((s8 *) arg0) + 0x68)) = (f32) lbl_805DCC6C;
+    *((f32 *) (((s8 *) arg0) + 0x64)) = 0.75f;
+    *((f32 *) (((s8 *) arg0) + 0x68)) = 0.75f;
   }
   else
   {
-    *((f32 *) (((s8 *) arg0) + 0x64)) = (f32) lbl_805DCC70;
-    *((f32 *) (((s8 *) arg0) + 0x68)) = (f32) lbl_805DCC70;
+    *((f32 *) (((s8 *) arg0) + 0x64)) = 1.0f;
+    *((f32 *) (((s8 *) arg0) + 0x68)) = 1.0f;
   }
   return arg0;
 }

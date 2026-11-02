@@ -177,11 +177,6 @@ void* get_labo_design_entry(int a0);
 int get_labo_design_object(int a0);
 extern s32 __vt__18TObjLaboDesignBase[];
 extern s32 TObjLaboDesignBase_class_name;
-extern const f32 lbl_805E02A0;
-extern const f32 lbl_805E02A4;
-extern const f32 lbl_805E02A8;
-extern const f32 lbl_805E02AC;
-extern const f32 lbl_805E02B0;
 void *create_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0);
 void *create_obj_labo_design_base(void *arg0) {
@@ -330,16 +325,16 @@ u8 *TObjLaboDesignBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
     *(s32 *)((s8 *)player + 0xAC) = ((s32)get_labo_design_object((int) (*(s32 *)((s8 *)player + 0xB0))));
     init_collision_body_parts(player, (int) (((s32)get_labo_design_entry((int) (*(s32 *)((s8 *)player + 0xB0))))), 1);
     ((TObjPlayer *)player)->register_object_by_id();
-    *(f32 *)((s8 *)player + 0xB4) = (f32) lbl_805E02A0;
-    *(f32 *)((s8 *)player + 0xB8) = (f32) lbl_805E02A4;
+    *(f32 *)((s8 *)player + 0xB4) = 400.0f;
+    *(f32 *)((s8 *)player + 0xB8) = 50.0f;
     *(s32 *)((s8 *)player + 0xBC) = 0;
     temp_r0 = *(s32 *)((s8 *)player + 0xB0);
     if ((temp_r0 == 3) || (temp_r0 == 4)) {
         *(ByteBlock_3C *)(copy_storage_80365210.bytes) = *(const ByteBlock_3C *)((arg2 - 4) + 4);
-        (*(f32 *)(copy_storage_80365210.bytes + 0x24)) = lbl_805E02A8;
-        (*(f32 *)(copy_storage_80365210.bytes + 0x28)) = lbl_805E02AC;
-        (*(f32 *)(copy_storage_80365210.bytes + 0x2C)) = lbl_805E02B0;
-        *(s32 *)((s8 *)player + 0xBC) = create__10TObjMapCsnFl((void *) ((copy_storage_80365210.bytes)), lbl_805E02AC, lbl_805E02A8);
+        (*(f32 *)(copy_storage_80365210.bytes + 0x24)) = 40.0f;
+        (*(f32 *)(copy_storage_80365210.bytes + 0x28)) = 20.0f;
+        (*(f32 *)(copy_storage_80365210.bytes + 0x2C)) = 10.0f;
+        *(s32 *)((s8 *)player + 0xBC) = create__10TObjMapCsnFl((void *) ((copy_storage_80365210.bytes)), 20.0f, 40.0f);
     }
     return player;
 }

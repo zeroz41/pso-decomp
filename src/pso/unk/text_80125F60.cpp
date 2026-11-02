@@ -21,7 +21,6 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern RecoveredGlobal_80125FD8_lbl_804A2868 lbl_804A2868;
-extern const f32 lbl_805DAD68;
 void TObjPlayer__sub_80125FB8(Obj_80125FB8 *self, Out_80125FB8 *o);
 u8 *TObjPlayer::create_obj_80125F60(u8 *arg0) {
     u8 *temp_r3;
@@ -49,7 +48,7 @@ u8 *TObjPlayer__sub_80125FD8(u8 *arg0, u8 *arg1, s32 _w2) {
     __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A2868.value;
     ((TItemWeapon *)arg0)->set_weapon_flags(0x8000);
-    *(f32 *)((s8 *)arg0 + 0x1E4) = (f32) lbl_805DAD68;
+    *(f32 *)((s8 *)arg0 + 0x1E4) = 5.0f;
     if (((TItem *)arg0)->get_item_index() == 1) {
         *(s32 *)((s8 *)arg0 + 0x1F8) = 0xA;
     } else {

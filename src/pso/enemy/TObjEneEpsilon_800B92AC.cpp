@@ -77,10 +77,9 @@ void TObjEneEpsilon::fire_attack_c(s32 arg1, s32 arg2, f32 farg0) {
     calc_shot_position__13TBoss5GryphonFPUcfff(this, arg1, sin_table_lookup(this->rotation_y), cos_table_lookup(this->rotation_y), temp_f30);
 }
 
-extern const f64 lbl_8043B698;
 
 void TObjEneDD::turn_toward_target_direction(s32 arg1) {
-    this->rotation_y = (s32) approach_angle_limited(this->rotation_y, (s32) (lbl_8043B698 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), arg1);
+    this->rotation_y = (s32) approach_angle_limited(this->rotation_y, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), *(f32 *)((s8 *)this + 0x3A8))), arg1);
 }
 
 s32 TObjEneEpsilon::update_death_check() {

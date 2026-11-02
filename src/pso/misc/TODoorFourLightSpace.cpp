@@ -44,8 +44,6 @@ extern Tbl_80289EE0 door_four_light_space_index_table;
 extern s32 TODoorFourLight__collision_body_params[];
 extern s32 __vt__20TODoorFourLightSpace[];
 extern s32 lbl_805D3B1C;
-extern const f32 lbl_805DD8F4;
-extern const f32 lbl_805DD8F8;
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
@@ -104,7 +102,6 @@ void TODoorFourLightSpace::vfunc_6(s16 *arg1, s32) {
     }
 }
 
-extern const f32 lbl_805DD8F0;
 
 void TODoorFourLightSpace::update_door_switch_state() {
     u8 *arg0 = (u8 *)this;
@@ -229,7 +226,7 @@ void TODoorFourLightSpace::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+    if ((((VObj_802898E8 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
         switch (*(s32 *)&this->object_state) {
         case 1:
         case 3:
@@ -293,8 +290,8 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightSpace *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightSpace *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
-    ((TODoorFourLightSpace *)arg0)->animation_step = (f32) lbl_805DD8F8;
+    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
+    ((TODoorFourLightSpace *)arg0)->animation_step = 0.5f;
     {
         Tbl_80289EE0 t = door_four_light_space_index_table;
         for (i = 0; i < 8; i++) {
@@ -461,7 +458,7 @@ void TODoorFourLightRuins::render() {
     u8 *arg0 = (u8 *)this;
     s32 cc;
 
-    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(lbl_805DD8F0) == 1)) {
+    if ((((VObj_8028A030 *)arg0)->m8(this->view_range, *(f32 *)&this->model_radius) == 1) && (((TObjMapObject *)arg0)->is_in_view_depth(30.0f) == 1)) {
         switch (*(s32 *)&this->object_state) {
         case 1:
         case 3:
@@ -542,8 +539,8 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TODoorFourLightRuins *)arg0)->m_d4 = (s32)fn_8028A78C(0);
     ((TODoorFourLightRuins *)arg0)->texlist = (s32)fn_8028A750(0);
     *(u8 **)((s8 *)arg0 + 0xBC) = fn_8028A714(0);
-    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - lbl_805DD8F4);
-    ((TODoorFourLightRuins *)arg0)->animation_step = (f32) lbl_805DD8F8;
+    *(f32 *)((s8 *)arg0 + 0xB4) = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xBC)) + 4) - 1.0f);
+    ((TODoorFourLightRuins *)arg0)->animation_step = 0.5f;
     {
         Tbl_8028A5C4 t = door_four_light_ruins_index_table;
         for (i = 0; i < 8; i++) {

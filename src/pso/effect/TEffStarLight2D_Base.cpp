@@ -10,7 +10,6 @@
 
 extern "C" {
 extern TObject *tl_particle;
-extern const f32 lbl_805D9450;
 extern const f32 lbl_805D9454;
 extern const f32 lbl_805D9458;
 extern const f32 lbl_805D945C;
@@ -31,7 +30,7 @@ void *TEffStarLight2D_Base::create(void *set_data) {
 
 void TEffStarLight2D_Base::render() {
     NJS_ARGB color = star_light_2d_base_color;
-    debug_draw_sphere(&position, &color, lbl_805D9450);
+    debug_draw_sphere(&position, &color, 2.0f);
 }
 
 void TEffStarLight2D_Base::run_task() {

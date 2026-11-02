@@ -10,7 +10,6 @@ extern "C" {
 u16 *TWindowSubSymbolChatPartsSet__sub_802482B8(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFl(void *, s32);
 u16 *get_parts_entry__28TWindowSubSymbolChatPartsSetFii(void *, s32);
-extern const f32 lbl_805DD810;
 s32 TWindowSubSymbolChat__sub_800771C4(int, int);
 s32 get_data_ptr__20TWindowSubSymbolChatFv();
 
@@ -37,7 +36,7 @@ s32 TWindowSubSymbolChat::select_symbol_chat_record(s8 *arg1, s32 *arg2) {
     temp_r3_2 = TWindowSubSymbolChat::calc_remaining_slots();
     temp_r0 = *(s16 *)((s8 *)((u8 *)this) + 0x6E);
     if (temp_r3_2 > temp_r0) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x94) = (f32) lbl_805DD810;
+        *(f32 *)((s8 *)((u8 *)this) + 0x94) = 2.0f;
         temp_r29 = (u8 *)&temp_r28->recs[temp_r0];
         *(s32 *)((s8 *)((u8 *)this) + 0x74) = (s32) *(s16 *)((s8 *)((u8 *)this) + 0x6E);
         *(s32 *)((s8 *)((u8 *)this) + 0x78) = ((TWindowSubSymbolChat *)instance)->find_free_entry(0);
@@ -98,7 +97,7 @@ void TWindowSubSymbolChat::init_symbol_layout(s32 *arg1) {
   u16 *temp_r3;
   s32 instance;
   *((s32 **) (((s8 *) ((u8 *)this)) + 0x84)) = arg1;
-  *((f32 *) (((s8 *) ((u8 *)this)) + 0x94)) = (f32) lbl_805DD810;
+  *((f32 *) (((s8 *) ((u8 *)this)) + 0x94)) = 2.0f;
   if (((s32) (*arg1)) == 1)
   {
     *((s16 *) (((s8 *) ((u8 *)this)) + 0x6A)) = 0x14;

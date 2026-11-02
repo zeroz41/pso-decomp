@@ -44,9 +44,6 @@ extern Vec_80144778 lbl_8043F2F4;
 extern Vec_80144778 lbl_8043F300;
 extern s32 video_initial_draw_framebuffer;
 extern s32 video_initial_display_framebuffer;
-extern const f32 lbl_805DB180;
-extern const f32 lbl_805DB184;
-extern const f32 lbl_805DB188;
 void run_task__6TMovieFv(TMovie *arg0);
 
 void run_task__6TMovieFv(TMovie *movie) {
@@ -82,7 +79,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             Vec_80144778 eye = lbl_8043F2E8;
             Vec_80144778 at = lbl_8043F2F4;
             Vec_80144778 up = lbl_8043F300;
-            set_perspective_projection_from_fov(0x4B, lbl_805DB180, lbl_805DB184, lbl_805DB188);
+            set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
             ((TMovie *)(movie->m_20))->update_stop();
             if (txt != NULL) {

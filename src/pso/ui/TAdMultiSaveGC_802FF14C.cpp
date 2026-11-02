@@ -20,7 +20,6 @@ s32 TQuestVmDownLoadServer__sub_8006EF6C(s32 arg0);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, int);
 extern s32 lbl_80474D90[];
-extern const f32 lbl_805DEF28;
 s32 update_window_mode_from_progress__6TLobbyFPv(void *, void *);
 extern u8 TAdMultiSaveGC__data_80474D70[];
 extern u8 TAdMultiSaveGC__data_80474D78[];
@@ -35,7 +34,7 @@ s32 TAdMultiSaveGC__sub_802FF170(void) {
     temp_r31 = check_room_seq_4__16TAdChrSelASlotGCFl(lbl_80474D90, 2);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TQuestVmDownLoadServer__sub_8006EF6C(0xD)), 6, 0);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(TQuestVmDownLoadServer__sub_8006EF6C(0xE)), 6, 1);
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(lbl_805DEF28);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(289.0f);
     return temp_r31;
 }
 s32 TAdMultiSaveGC__sub_802FF1F4(void) {

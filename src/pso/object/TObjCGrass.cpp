@@ -77,8 +77,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 u8 *csnVectorUnder(void *, void *, int);
 s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
-extern const f32 lbl_805D9E60;
-extern const f32 TObjCGrass__data_805D9E64;
 s32 __ct__10TObjMotionFP7TObject(void *, s32);
 void *mem_alloc(u32 size);
 s32 rand(void);
@@ -89,10 +87,6 @@ extern u8 identity_matrix[];
 extern s32 lbl_805D2A28;
 extern u32 TObjCGrass_bml_resource;
 extern s32 tl_06;
-extern const f32 lbl_805D9E6C;
-extern const f32 lbl_805D9E70;
-extern const f32 lbl_805D9E74;
-extern const f32 lbl_805D9E78;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void TLobby__sub_8001FE7C(void*, int);
 void mem_free(void *);
@@ -123,7 +117,6 @@ struct RecoveredGlobal_800B8DC4_lbl_80492500 {
 };
 typedef char RecoveredGlobal_800B8DC4_lbl_80492500_size[sizeof(RecoveredGlobal_800B8DC4_lbl_80492500) == 0x10 ? 1 : -1];
 extern RecoveredGlobal_800B8DC4_lbl_80492500 bm_ene_cgrass_resource_descriptor;
-extern const f32 lbl_805D9E68;
 
 void* fn_800B8B00(void* p) { return (char*)p + 0x3e8; }
 
@@ -163,12 +156,12 @@ void TObjCGrass::run_task() {
             hit = (Hit_800B8BB4 *)csnVectorUnder(&a, self->f10C, 1);
             if (hit != NULL) {
                 VecCopy((Vec *)&a, (const Vec *)hit->pos);
-                b.y += lbl_805D9E60;
+                b.y += -0.10888889f;
                 self->f44.y += b.y;
                 if (a.y < self->f44.y) {
                     a.y = self->f44.y;
                 } else {
-                    b.y = TObjCGrass__data_805D9E64;
+                    b.y = 0.0f;
                 }
                 VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&a);
                 VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
@@ -176,9 +169,9 @@ void TObjCGrass::run_task() {
                 self->recs[i].flags |= 1;
             }
         } else if (self->f3C <= a.y) {
-            b.y = TObjCGrass__data_805D9E64;
+            b.y = 0.0f;
         } else {
-            b.y += lbl_805D9E60;
+            b.y += -0.10888889f;
         }
         VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&a);
         VecCopy((Vec *)&self->recs[i].v2, (const Vec *)&b);
@@ -218,7 +211,7 @@ void TObjCGrass::load_resources() {
     stack.sp14 = *(s32 *)((s8 *)&cgrass_anim_binding.value + 0xC);
     stack.sp8 = *(s32 *)((s8 *)TObjCGrass_bml_resource + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)TObjCGrass_bml_resource + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x36), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), (s32)((void *)&stack.sp8), (f32)lbl_805D9E68, (f32)TObjCGrass__data_805D9E64);
+    TLobby::spawn_npc_enemy((s16)(0x36), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), (s32)((void *)&stack.sp8), 2.0f, 0.0f);
 }
 
 }
@@ -246,7 +239,7 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
     self->fD8 = cgrass_action_desc;
     ((TObjMotion *)self)->set_field_d8((s32)self->fD8);
     ((TObjMotion *)self)->set_animation(0);
-    self->f100 = self->fC4 - lbl_805D9E6C;
+    self->f100 = self->fC4 - 1.0f;
     self->count = arg2;
     if (arg2 != 0) {
         self->recs = (Rec_800B8EFC *)mem_alloc(self->count << 5);
@@ -259,10 +252,10 @@ u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3) {
         s32 a;
         Vec_800B8EFC v;
         VecCopy((Vec *)&self->recs[i].pos, (const Vec *)&self->f38);
-        v.x = TObjCGrass__data_805D9E64;
-        v.y = lbl_805D9E70 * (f32)rand();
-        v.z = lbl_805D9E70 * (f32)rand() + lbl_805D9E6C;
-        a = (s32)(lbl_805D9E74 * (lbl_805D9E78 * (lbl_805D9E70 * (f32)rand())));
+        v.x = 0.0f;
+        v.y = 3.0517578e-05f * (f32)rand();
+        v.z = 3.0517578e-05f * (f32)rand() + 1.0f;
+        a = (s32)(182.04445f * (360.0f * (3.0517578e-05f * (f32)rand())));
         self->recs[i].f18 = a;
         push_matrix_from(identity_matrix);
         rotate_matrix_y(0, a);

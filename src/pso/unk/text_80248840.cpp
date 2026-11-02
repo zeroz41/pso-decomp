@@ -17,8 +17,6 @@ extern s32 lbl_8044EAC0[];
 extern s32 lbl_8044EAC8[];
 extern s32 lbl_8044EAD0[];
 extern s32 lbl_804CE7D0[];
-extern const f32 lbl_805DCBA0;
-extern const f32 lbl_805DCBA4;
 u8 *construct_symbol_chat_selection(u8 *arg0) {
     s32 i;
     u8 *temp_r30;
@@ -40,7 +38,7 @@ u8 *construct_symbol_chat_selection(u8 *arg0) {
         i += 1;
     } while (i < 0xC);
     ((TWindowSubComCardList *)(*(u8 **)((s8 *)arg0 + 0x1C)))->set_flag70_bit10();
-    ((TWindowSubComCardList *)(*(u8 **)((s8 *)arg0 + 0x1C)))->set_scroll_target(lbl_805DCBA0, lbl_805DCBA4);
+    ((TWindowSubComCardList *)(*(u8 **)((s8 *)arg0 + 0x1C)))->set_scroll_target(220.0f, 120.0f);
     align_menu_entry_positions((void *) (*(u8 **)((s8 *)arg0 + 0x1C)));
     window_chat_symbol = (u8 *)(__nw__7TObjectFUl(0x68));
     var_r0 = window_chat_symbol;

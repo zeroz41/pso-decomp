@@ -2123,9 +2123,6 @@ extern s8 lbl_805D5FB4;
 extern f32 lbl_805D5FB8;
 extern s8 lbl_805D5FBC;
 extern void *tl_01;
-extern const f32 lbl_805DC5C0;
-extern const f32 lbl_805DC5C4;
-extern const f32 lbl_805DC5C8;
 s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_selected_char__23TAdSinglePlyChrSelectGCFv(void);
 s32 load_selected_character__23TAdSinglePlyChrSelectGCFv(void);
@@ -2241,12 +2238,12 @@ s32 save_character_to_card__23TAdSinglePlyChrSelectGCFv(void) {
     }
     if (lbl_805D5FB4 == 0) {
         lbl_805D5FB4 = 1;
-        lbl_804C8A44[0].x = lbl_805DC5C0 + lbl_8044A7D0[0].x;
-        lbl_804C8A44[0].y = lbl_805DC5C4 + (lbl_8044A7D0[0].y + lbl_8044A7D8[0].y);
+        lbl_804C8A44[0].x = 20.0f + lbl_8044A7D0[0].x;
+        lbl_804C8A44[0].y = 10.0f + (lbl_8044A7D0[0].y + lbl_8044A7D8[0].y);
     }
     if (lbl_805D5FBC == 0) {
         lbl_805D5FBC = 1;
-        lbl_805D5FB8 = lbl_8044A7D8[0].x - lbl_805DC5C8;
+        lbl_805D5FB8 = lbl_8044A7D8[0].x - 40.0f;
     }
     if (TAdSinglePlyChrSelectGC::load_save_from_card() == 0) {
         w = create__14TWindowMessageFllUll(lbl_8044A7D0, lbl_8044A7D8, 1, 4);

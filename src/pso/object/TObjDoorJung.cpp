@@ -65,8 +65,6 @@ extern s32 lbl_805D5BE4;
 extern s32 lbl_805D5BE8;
 extern s32 lbl_805D5BEC;
 extern s32 lbl_805D5BF0;
-extern const f32 lbl_805DBDF8;
-extern const f32 lbl_805DBDFC;
 
 void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);
 s32 TLobby__sub_8001FE7C(void *, s16);
@@ -144,7 +142,7 @@ void TObjDoorJung::render() {
     s32 i;
     s32 j;
 
-    if (((VObj_8018F644 *)arg0)->m8(lbl_805DBDF8, lbl_805DBDFC) != 0) {
+    if (((VObj_8018F644 *)arg0)->m8(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (lbl_805D5BF0 >= 0) {
                 free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BF0);

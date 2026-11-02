@@ -227,7 +227,6 @@ void *__ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 u8 *create_item_list_window(s32 arg0, s32 arg1, s32 arg2);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);
-extern const f32 lbl_805DC6C0;
 void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
@@ -524,7 +523,7 @@ void TShopArmorListWindow::refresh_item_list(void *p) {
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(W->help))->set_position(lbl_805DC6C0, lbl_805DC6C0);
+            ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
         ((TWindowHelpItem *)((int)W->help))->set_displayed_item_colored((u32)W->recs);
     }

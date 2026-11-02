@@ -66,9 +66,6 @@ extern u8 identity_matrix[];
 extern s32 tl_04;
 extern f32 lbl_805D6844;
 extern f32 lbl_805D6848;
-extern const f32 lbl_805DE6C0;
-extern const f32 lbl_805DE6C4;
-extern const f32 lbl_805DE6C8;
 u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6);
 void queue_destruction__7TObjectFv(void *);
 u32 csnVector(void *, void *, s32);
@@ -190,7 +187,7 @@ u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB
     *(s16 *)((s8 *)arg0 + 0x10A) = arg6;
     *(s32 *)((s8 *)arg0 + 0x104) = arg5;
     ((TUnk_804E14E8 *)arg0)->m_f0 = arg1;
-    ((TUnk_804E14E8 *)arg0)->m_e8 = lbl_805DE6C0;
+    ((TUnk_804E14E8 *)arg0)->m_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec_802CDEB4 v = lbl_804722A8;
@@ -211,8 +208,8 @@ u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB
     *(s32 *)((s8 *)arg0 + 0xFC) = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x202, 2);
     }
     *(f32 *)((s8 *)arg0 + 0xF4) = lbl_805D6848;
-    if (xz_distance_squared((Vec *)pos, (Vec *)arg1) < lbl_805DE6C4) {
-        *(f32 *)((s8 *)arg0 + 0xF4) *= lbl_805DE6C8;
+    if (xz_distance_squared((Vec *)pos, (Vec *)arg1) < 22500.0f) {
+        *(f32 *)((s8 *)arg0 + 0xF4) *= 2.0f;
     }
     ((TUnk_804E14E8 *)arg0)->m_100 = 0;
     return arg0;

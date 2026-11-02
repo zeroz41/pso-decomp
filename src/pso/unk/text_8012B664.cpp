@@ -5,12 +5,6 @@
 
 extern "C" {
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
-extern const f32 lbl_805DAEA8;
-extern const f32 lbl_805DAEAC;
-extern const f32 lbl_805DAEB0;
-extern const f32 lbl_805DAEB4;
-extern const f32 lbl_805DAEB8;
-extern const f32 lbl_805DAEBC;
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4E68::update_attack() {
@@ -26,19 +20,19 @@ void TUnk_804A4E68::update_attack() {
         flag = ((TObjPlayer *)(this->owner))->is_flag_b0_4();
         ok = 1;
         if (test_action_mask__10TObjPlayerFl(this->owner, 0x20) != 0) {
-            flo = lbl_805DAEA8;
+            flo = 15.6f;
             lo = 0;
-            fhi = lbl_805DAEAC;
+            fhi = 20.4f;
             hi = 0x4000;
         } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x40) != 0) {
-            flo = lbl_805DAEB0;
+            flo = 12.0f;
             lo = 0x4000;
-            fhi = lbl_805DAEB4;
+            fhi = 24.0f;
             hi = -0x4000;
         } else if (test_action_mask__10TObjPlayerFl(this->owner, 0x80) != 0) {
-            flo = lbl_805DAEB8;
+            flo = 14.4f;
             lo = -0x4000;
-            fhi = lbl_805DAEBC;
+            fhi = 20.0f;
             hi = 0x2000;
         } else {
             ok = 0;

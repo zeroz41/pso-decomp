@@ -13,7 +13,6 @@ struct Vtx_803E2BCC {
 
 extern "C" {
 s32 GXBegin(int, int, u16);
-extern const f32 lbl_805E1080;
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n);
 
 void TObjBoss2Tunnel::reset_player_state() {
@@ -34,7 +33,7 @@ void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_803E2BCC *p, s32 n) {
     s32 i;
     f32 one;
     GXBegin(0x98, 4, n);
-    one = lbl_805E1080;
+    one = -1.0f;
     for (i = 0; i != n; i++) {
         f32 x;
         f32 y;

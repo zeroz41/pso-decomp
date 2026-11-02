@@ -374,8 +374,6 @@ s32 mix_seed__6TLobbyFUs(u16 arg0) {
 }
 
 s32 rand();
-extern const f32 lbl_805D9100;
-extern const f32 lbl_805D9104;
 
 u16 TLobby__sub_8006FAE4(void) {
     f32 temp_f31;
@@ -386,7 +384,7 @@ u16 TLobby__sub_8006FAE4(void) {
 
     var_r29 = 0;
 loop_1:
-    var_r30 = (u16) (s32) (lbl_805D9100 * (lbl_805D9104 * (f32) rand()));
+    var_r30 = (u16) (s32) (65535.0f * (3.0517578e-05f * (f32) rand()));
     temp_r3 = TLobby::count_set_bits(var_r30);
     if ((temp_r3 < 4) || (temp_r3 > 0xC)) {
         var_r29 += 1;

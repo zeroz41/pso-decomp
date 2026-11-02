@@ -77,7 +77,6 @@ u8 * initialize_effect_object__10TObjPlayerFv(void *, s32, s32);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void launch_rare_weapon_special__10TObjPlayerFPvlf(void *, void *, s32, f32);
-extern const f32 lbl_805DAFC8;
 
 u8 *TObjPlayer::create_effect_object(s32 arg0) {
     u8 *temp_r3;
@@ -103,8 +102,8 @@ void TUnk_804A66D8::emit_marker_effects() {
         }
         ((Self_8012FB08 *)this)->f1F0 = (void *)create_shoot_model_rot_z;
         ((Self_8012FB08 *)this)->f1EC = (void *)spawn_weapon_impact_effect;
-        launch_rare_weapon_special__10TObjPlayerFPvlf(((Self_8012FB08 *)this), ((Self_8012FB08 *)this)->f1F8, 1, lbl_805DAFC8);
-        launch_rare_weapon_special__10TObjPlayerFPvlf(((Self_8012FB08 *)this), ((Self_8012FB08 *)this)->f204, 0, lbl_805DAFC8);
+        launch_rare_weapon_special__10TObjPlayerFPvlf(((Self_8012FB08 *)this), ((Self_8012FB08 *)this)->f1F8, 1, 3.0f);
+        launch_rare_weapon_special__10TObjPlayerFPvlf(((Self_8012FB08 *)this), ((Self_8012FB08 *)this)->f204, 0, 3.0f);
     } else {
         ((Self_8012FB08 *)this)->f1F0 = (void *)create_gun_shot;
         ((Self_8012FB08 *)this)->f1EC = (void *)spawn_weapon_impact_effect;

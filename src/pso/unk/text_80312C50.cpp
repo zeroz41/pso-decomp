@@ -22,7 +22,6 @@ void set_field_0__10TObjPlayerFs(void* p, int v);
 void TObjPlayer__sub_80313250(void *arg0, s32 arg1);
 void TObjPlayer__sub_80313010(void *o, s32 id);
 s32 get_section_id__10TObjPlayerFv(void *);
-extern const f32 lbl_805DF248;
 int TObjPlayer__sub_803131AC(void* a0 = 0);
 }
 void release_photon_blast_requests(void *registry);
@@ -72,7 +71,7 @@ void TObjPlayer::create_party_effects(s32 id) {
         if (ent != NULL && (u16)id != (u16)sec && ((TObjPlayer *)((u8 *)ent + 0x4AC))->query_field40() != 0) {
             TWindowCtrl::create_party_effect((void*)id, (void*)sec);
             TObjPlayer__sub_80313010(e, id);
-            ent->m75(lbl_805DF248);
+            ent->m75(10.0f);
         }
     }
 }
