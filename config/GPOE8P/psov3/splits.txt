@@ -10805,6 +10805,7 @@ pso/enemy/TObjEneDellBiter.cpp:
 	.text       start:0x803032EC end:0x80306994
 	.rodata     start:0x80475330 end:0x80475338
 	.data       start:0x804E6B70 end:0x804E6FA8
+	.bss        start:0x80541E48 end:0x80541E54
 	.sdata2     start:0x805DEFC0 end:0x805DEFC8
 
 pso/item/TUnk_804E6FA8.cpp:
@@ -10977,10 +10978,12 @@ pso/unk/text_8030C340.cpp:
 pso/ui/TAdChrSelASlotGC.cpp:
 	.text       start:0x8030C39C end:0x8030E354
 	.data       start:0x804E7838 end:0x804E7A48
+	.bss        start:0x80542D60 end:0x80542E74
 	.sbss       start:0x805D6A98 end:0x805D6AA0
 
 pso/ui/TAdChrSelBSlotGC_8030E354.cpp:
 	.text       start:0x8030E354 end:0x8030ED88
+	.bss        start:0x80542E78 end:0x80542E8C
 
 pso/ui/TAdChrSelBSlotGC_8030ED88.cpp:
 	.text       start:0x8030ED88 end:0x8030FD54

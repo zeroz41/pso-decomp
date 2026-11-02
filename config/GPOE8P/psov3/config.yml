@@ -3902,6 +3902,7 @@ force_active:
   - change_floor_reload_area__Fv
   - change_motion__9TBoss6MagFl
   - char_select_date_stamp
+  - char_select_format_message_buffer
   - char_to_letter_index__9TItemDataFPvSc
   - chara_making_load_buffer
   - character_select_scene_resource_callbacks
@@ -3987,6 +3988,8 @@ force_active:
   - choose_next_action__13TBoss5GryphonFPvPv
   - choose_next_camera_shot__12TBoss8DragonFv
   - choose_roaming_destination__14TObjEneBm5WolfFv
+  - chr_select_a_slot_entry
+  - chr_select_b_slot_entry
   - chr_select_buffer_ptr_table
   - circle_arena__13TBoss5GryphonFl
   - circle_destination__13TObjEneBm3FlyFl
@@ -4456,6 +4459,7 @@ force_active:
   - deliver_chain_hits__11TTecGiZondeFv
   - deliver_delayed_weapon_hit
   - deliver_target_hit__10TTecSlicerFv
+  - dellbiter_demo_camera_vec
   - demo_frame_callback__16TObjEneRe7BeruraFv
   - demo_step__13TObjLobbyMainFv
   - demo_step__15TObjSuisouLobbyFv

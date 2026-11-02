@@ -336,3 +336,5 @@ void TAdChrSelBSlotGC::check_cancel_and_close() {
 }
 
 }
+
+G_8030E3BC chr_select_b_slot_entry;

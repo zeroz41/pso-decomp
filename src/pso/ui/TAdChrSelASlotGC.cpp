@@ -973,3 +973,6 @@ u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdChrSelASlotGC::get_slot_index() { return this->state_frames; }
+
+char char_select_format_message_buffer[0x100];
+G_8030C45C chr_select_a_slot_entry;
