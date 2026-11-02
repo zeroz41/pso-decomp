@@ -77,7 +77,7 @@ u8 *TObjNpcMaleTall__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-void TObjNpcMoja::vfunc_88() {
+void TObjNpcMoja::request_action(s32) {
     if ((s16) this->mode != 2) {
         this->requested_action = 0;
         return;

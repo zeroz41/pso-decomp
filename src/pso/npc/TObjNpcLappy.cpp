@@ -30,7 +30,7 @@ extern "C" void is_target_in_attack_range__11TObjNpcBaseFv();
 extern "C" void vfunc_92__11TObjNpcBaseFv();
 extern "C" void vfunc_91__11TObjNpcBaseFv();
 extern "C" void debug_draw_talk__11TObjNpcBaseFv();
-extern "C" void vfunc_88__12TObjNpcLappyFv();
+extern "C" void request_action__12TObjNpcLappyFl();
 extern "C" void vfunc_29__9TObjCharaFv();
 extern "C" void recalc_stats__9TObjCharaFv();
 extern "C" void consume_timer_field__9TObjCharaFl();
@@ -71,7 +71,7 @@ extern "C" void clear_all_status_effects__9TObjCharaFv();
 extern "C" void clear_harmful_statuses__9TObjCharaFv();
 extern "C" void cure_paralysis__9TObjCharaFv();
 extern "C" void cure_poison_ailment__9TObjCharaFv();
-extern "C" void draw_model__10TObjPlayerFv();
+extern "C" void render__11TObjNpcBaseFv();
 extern "C" void enemy_spawn_jellen_effect__9TObjCharaFv();
 extern "C" void enemy_spawn_zalure_effect__9TObjCharaFv();
 extern "C" void vfunc_78__9TObjCharaFl();
@@ -83,7 +83,7 @@ extern "C" void get_center__9TObjCharaFv();
 extern "C" void get_actor_level_index__9TObjCharaFv();
 extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__9TObjCharaFl();
-extern "C" void handle_message_event__17TObjNpcFemaleBaseFUs();
+extern "C" void interact__11TObjNpcBaseFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void play_voice__11TObjNpcBaseFv();
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
@@ -130,9 +130,9 @@ void *lbl_804A9DA8[11] = {
 };
 void *__vt__12TObjNpcLappy[95] = {
     (void *)0x0, (void *)0x0, (void *)&dt__12TObjNpcLappyFPvs, (void *)&run_task__11TObjNpcBaseFv,
-    (void *)&draw_model__10TObjPlayerFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__11TObjNpcBaseFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&handle_message_event__17TObjNpcFemaleBaseFUs, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
+    (void *)&get_name__9TObjEnemyFv, (void *)&interact__11TObjNpcBaseFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
@@ -151,7 +151,7 @@ void *__vt__12TObjNpcLappy[95] = {
     (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__11TObjNpcBaseFv,
     (void *)&update_standing__11TObjNpcBaseFv, (void *)&update_wandering__11TObjNpcBaseFv, (void *)&update_conversation__11TObjNpcBaseFv, (void *)&apply_set_params__11TObjNpcBaseFll,
-    (void *)&vfunc_88__12TObjNpcLappyFv, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
+    (void *)&request_action__12TObjNpcLappyFl, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
     (void *)&vfunc_92__11TObjNpcBaseFv, (void *)&draw_debug_info__11TObjNpcBaseFv, (void *)0x0,
 };
 extern s32 TObjNpcLappy__name;
@@ -187,8 +187,8 @@ u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2) {
     return self;
 }
 
-void TObjNpcMaleBase::request_action(s32 arg1) {
-    if (arg1 != 1) {
+void TUnk_804A9F50::request_action(s32 action) {
+    if (action != 1) {
         this->requested_action = 0;
         return;
     }

@@ -29,7 +29,7 @@ void TNpcPlayer::bswap_6x3E() {
     bswap_32((u32 *)(arg0 + 0x14));
 }
 void TNpcPlayer::init_6x3E_packet() { *(short *)&this->m_flags = 0; *(short *)&this->m_id = 0; *(short *)&this->m_prev = -1; *(short*)((char*)this + 0xa) = -1; *(float *)&this->m_down = lbl_805DB1C4; *(float *)&this->m_up = lbl_805DB1C4; *(float *)&this->m_next = lbl_805DB1C4; *(unsigned char *)&this->m_name = 62; *(unsigned char*)((char*)this + 0x1) = 6; }
-void TObjNpcBringer::vfunc_88() {
+void TObjNpcBringer::request_action(s32) {
     if ((s16) this->mode != 2) {
         this->requested_action = 0;
         return;

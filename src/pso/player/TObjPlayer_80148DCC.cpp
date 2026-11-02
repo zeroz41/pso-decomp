@@ -10,13 +10,6 @@
 #include "pso/object/TObjFish.h"
 #include "pso/quest/TQuestThread.h"
 
-struct Base1_80148e54 { char pad[0x18]; };
-struct VObj1_80148e54 : Base1_80148e54 {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual s32 m8(f32, f32);
-};
-
 struct VBase_18_3eea3b
 {
   char pad[0x18];
@@ -145,27 +138,25 @@ void TObjNpcBase::vfunc_28() {
 
 extern s32 model_render_flags;
 
-void TObjPlayer::draw_model() {
-    u8 *arg0 = (u8 *)this;
-    VObj1_80148e54 *self = (VObj1_80148e54 *)arg0;
-    if ((self->m8(*(f32 *)&this->unk_398, *(f32 *)((s8 *)arg0 + 0x39C)) != 0) && ((s32) *(s32 *)&this->unk_390 == 1)) {
-        select_actor_lighting((s32)arg0);
+void TObjNpcBase::render() {
+    if ((this->update_object_view_visibility(this->m_398, this->m_39c) != 0) && ((s32) this->m_390 == 1)) {
+        select_actor_lighting((s32) this);
         model_render_flags |= 1;
         TObjFish::set_global_param(this->texlist);
         push_matrix_from(0);
-        translate_matrix_vec3((u8 *)(0), (u8 *)&this->position);
+        translate_matrix_vec3(0, (u8 *) &this->position);
         rotate_matrix_y(0, this->rotation_y);
         set_motion_packed_rotation();
         if ((s32) this->m_394 != 0) {
             draw_chunk_object(this->model);
         } else {
-            ((TObjMotion *)arg0)->draw();
+            this->draw();
         }
         clear_motion_packed_rotation();
         pop_matrix();
-        model_render_flags &= 0xFFFFFFFE;
+        model_render_flags &= ~1;
         restore_scene_lighting();
-        ((TObjEnemy *)arg0)->draw_ground_shadow(0, 0);
+        this->draw_ground_shadow(0, 0);
     }
 }
 typedef struct VBase_18_3eea3b VBase_18_3eea3b;

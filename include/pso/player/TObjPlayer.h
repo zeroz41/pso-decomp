@@ -541,7 +541,6 @@ struct TObjPlayer : public TObjChara {
     void *init_variant_a();
     void *init_from_item(void *arg1, void *arg2);
     void *initialize_effect_object();
-    void draw_model();
     void draw_if_visible();
     static void apply_status_effect(s32 a);
     // Enters (target, body) in the hit pair table unless it is already there.

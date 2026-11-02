@@ -127,7 +127,7 @@ s32 TObjNpcEnemy::sub_802D7444() {
     return (**(s16 * *)&this->m_3b8 != 0x3F) ? 1 : 0;
 }
 
-void TObjNpcEnemy::vfunc_88() {
+void TObjNpcEnemy::request_action(s32) {
     void *temp_r4;
 
     temp_r4 = *(void * *)&this->m_3b8;
@@ -240,7 +240,7 @@ void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
 
-    if (((void *) *(void * *)&this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(*(f32 *)&this->unk_398, this->m_39c) != 0) && ((s32) *(s32 *)&this->m_390 == 1)) {
+    if (((void *) *(void * *)&this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(this->m_398, this->m_39c) != 0) && ((s32) *(s32 *)&this->m_390 == 1)) {
         select_actor_lighting((s32)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;

@@ -72,7 +72,7 @@ u8 *TObjNpcHRM01__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-void TObjNpcLappy::vfunc_88() {
+void TObjNpcLappy::request_action(s32) {
     if ((s16) this->mode != 2) {
         this->requested_action = 0;
         return;

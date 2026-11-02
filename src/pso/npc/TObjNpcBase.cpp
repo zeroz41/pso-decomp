@@ -99,7 +99,7 @@ void *TObjNpcBase__ct(void *arg0, void *arg1, void *arg2) {
 }
 #undef self
 
-void TObjNpcBase::vfunc_88() {  }
+void TObjNpcBase::request_action(s32) {  }
 void TObjNpcBase::play_voice() {
     s32 arg0 = (s32)this;
     play_sound_effect(0x40003804, arg0 + 0x38, 0, 0);

@@ -9,6 +9,7 @@
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/quest/TQuestThread.h"
 
 struct VBase18_801482f8 { char pad[0x18]; };
@@ -326,7 +327,6 @@ extern "C" {
 s32 end_conversation_camera(void);
 s32 begin_conversation_camera(void);
 s32 angle_difference_abs(s32, s32);
-u32 get_player_by_client_id();
 void *__nw__7TObjectFUl(u32);
 s32 subtract_vector(void *, void *);
 extern const f64 lbl_8043F550[];
@@ -338,24 +338,23 @@ extern const f32 lbl_805DB1BC;
 s32 has_interactor__14TObjCollidableFv();
 s32 debug_printf_at(s32, const char *, ...);
 extern char lbl_8043F544[];
-void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 
-void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
-    u32 temp_r3;
+void TObjNpcBase::interact(s32 client) {
+    TObjPlayer *player;
 
     if ((s32) this->m_3a8 > 0) {
-        if ((s32) arg1 == (s32) local_client_id) {
-            temp_r3 = get_player_by_client_id();
-            if ((temp_r3 != 0U) && ((s16) this->mode != 3)) {
+        if ((u16) client == local_client_id) {
+            player = get_player_by_client_id((u16) client);
+            if ((player != NULL) && ((s16) this->mode != 3)) {
                 this->mode = 3;
                 this->phase = 0;
-                this->interactor = arg1;
-                this->targetId = arg1;
-                *(u32 *)&this->target = temp_r3;
-                if ((s32) this->targetId == (s32) local_client_id) {
-                    play_effect_default__10TObjPlayerFii(temp_r3, -1);
+                this->interactor = client;
+                this->targetId = client;
+                this->target = (u8 *) player;
+                if ((s32) this->targetId == local_client_id) {
+                    TObjPlayer::play_effect_default((int) player, -1);
                 }
-                ((VObj18_801482f8 *) this)->vf160(1);
+                this->request_action(1);
                 this->m_2ac = 0;
             }
         } else {
@@ -368,7 +367,7 @@ void TObjNpcFemaleBase::handle_message_event(u16 arg1) {
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 void TObjNpcBase::debug_draw_talk() {
-    if ((has_interactor__14TObjCollidableFv() != 0) && (((u32 (*)(u16))get_player_by_client_id)(this->interactor) != 0)) {
+    if ((has_interactor__14TObjCollidableFv() != 0) && (get_player_by_client_id(this->interactor) != NULL)) {
         debug_printf_at(0x1A0020, lbl_8043F544);
     }
 }
@@ -398,10 +397,10 @@ void TObjNpcBase::apply_set_params(s32 arg1, s32 arg2) {
     ((TObjNpcBase *)arg0)->sub_80149358((s32) *(f32 *)((s8 *)arg0 + 0x360));
     this->m_384 = (s32) this->rotation_y;
     if ((s32) this->m_3ac > 0) {
-        *(f32 *)&this->unk_398 = (f32) lbl_805DB1BC;
+        this->m_398 = lbl_805DB1BC;
         return;
     }
-    *(f32 *)&this->unk_398 = (f32) 250.0f;
+    this->m_398 = 250.0f;
 }
 
 void TObjNpcBase::update_conversation() {
@@ -514,7 +513,7 @@ void TObjNpcBase::update_conversation() {
                 break;
             }
             if (F(void *, 0x2A8) != 0 && local_client_id == get_entity_id(F(void *, 0x2A8))) {
-                p = ((u32 (*)(s32))get_player_by_client_id)(local_client_id);
+                p = (u32) get_player_by_client_id(local_client_id);
                 if (p != 0 && ((TLobby *)p)->check_player_flag1() != 0) {
                     TObjPlayer::send_code_45_1((s32)((void *)p));
                 }
@@ -556,7 +555,7 @@ void TObjNpcBase::update_wandering() {
             select_enemy_destination(arg0, &d, 0);
             *(f32 *)((s8 *)arg0 + 0x308) = this->m_310 = lbl_805DB1C4;
             this->phase = 1;
-            ((VObj18_801489B8 *) arg0)->vf160(1);
+            this->request_action(1);
         }
         break;
     }
@@ -574,7 +573,7 @@ void TObjNpcBase::update_wandering() {
             r = *(f32 *)((s8 *)(*(u8 * *)&this->movementParameters) + 4) + *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 0xC);
             if (dist < r * r || (*(u32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) & 0x380000)) {
                 this->phase = 3;
-                ((VObj18_801489B8 *) arg0)->vf160(0);
+                this->request_action(0);
             }
         }
         break;
@@ -598,10 +597,10 @@ void TObjNpcBase::update_standing() {
     case 0:
         if (this->rotation_y != this->m_384) {
             this->phase = 2;
-            ((VObj18_801482f8 *) arg0)->vf160(1);
+            this->request_action(1);
         } else {
             this->phase = 1;
-            ((VObj18_801482f8 *) arg0)->vf160(0);
+            this->request_action(0);
         }
         break;
     case 1:
@@ -611,7 +610,7 @@ void TObjNpcBase::update_standing() {
             this->rotation_y = approach_angle_limited(this->rotation_y, this->m_384, *(s32 *)((s8 *)this->movementParameters + 8));
         } else {
             this->phase = 1;
-            ((VObj18_801482f8 *) arg0)->vf160(0);
+            this->request_action(0);
         }
         break;
     }
@@ -624,12 +623,12 @@ void TObjNpcBase::vfunc_59() {
         if ((s32) this->variant != 1) {
             this->mode = 1;
             this->phase = 0;
-            ((VObj18_801482f8 *) this)->vf160(0);
+            this->request_action(0);
             return;
         }
         this->mode = 2;
         this->phase = 0;
-        ((VObj18_801482f8 *) this)->vf160(0);
+        this->request_action(0);
     }
 }
 
@@ -640,6 +639,6 @@ void TObjNpcBase::vfunc_58() {
     if (mode != 0) {
         mode = 0;
         phase = 0;
-        ((VObj18_801482f8 *)this)->vf160(0);
+        this->request_action(0);
     }
 }
