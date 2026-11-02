@@ -225,13 +225,13 @@ s32 TLobby__sub_803C85AC(u8 *arg0, s32 *arg1);
 void TLobby__sub_803C6138(S_803C6138 *arg0);
 s32 ARStartDMA(u8 *arg0, s32 arg1, s16 *arg2, u8 *arg3, s8 *arg4, s8 *arg5, u8 *arg6, s32 *arg7, s32 *arg8, s32 *arg9);
 s32 adx_get_data_start_offset(u16 *arg0, s32 arg1, s32 *arg2);
-s32 TLobby__sub_803CEA14(void);
-u32 TLobby__sub_803CF2F4(const char *, int, int);
+s32 cvFsGetFileSize(void);
+u32 cvFsOpen(const char *, int, int);
 extern char lbl_8047C634[];
 extern s32 adx_stream_request_count_ex;
 extern s32 lbl_805D7550;
 AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg);
-s32 TLobby__sub_803CE568(void);
+s32 cvFsGetFileSizeEx(void);
 extern s32 adx_stream_fname_slot_count;
 extern s32 adx_stream_request_base_index;
 AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg);
@@ -1027,8 +1027,8 @@ AdxStreamFile *TLobby__sub_803C8BAC(const char *name, s32 arg) {
     s32 size;
     u32 h;
     AdxStreamFile *p;
-    size = TLobby__sub_803CEA14();
-    h = TLobby__sub_803CF2F4(name, 0, 0);
+    size = cvFsGetFileSize();
+    h = cvFsOpen(name, 0, 0);
     if (h == 0) {
         TLobby::report_adx_error((const char *)lbl_8047C634, (s32)name);
         return NULL;
@@ -1072,11 +1072,11 @@ AdxStreamFile *TLobby__sub_803C8CDC(const char *name, s32 mode, s32 arg) {
     u32 h;
     AdxStreamFile *p;
     if (mode == 0) {
-        size = TLobby__sub_803CEA14();
+        size = cvFsGetFileSize();
     } else {
-        size = TLobby__sub_803CE568();
+        size = cvFsGetFileSizeEx();
     }
-    h = TLobby__sub_803CF2F4((const char *)(name), mode, 0);
+    h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
         TLobby::report_adx_error((const char *)lbl_8047C634, (s32)name);
         return NULL;
@@ -1118,7 +1118,7 @@ inline AdxStreamFile *alloc_803C8E28(s32 arg, u32 h, s32 f10, s32 size) {
 AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
     u32 h;
     AdxStreamFile *p;
-    h = TLobby__sub_803CF2F4((const char *)(name), mode, 0);
+    h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
         TLobby::report_adx_error((const char *)lbl_8047C600, (s32)name);
         return NULL;
@@ -1160,7 +1160,7 @@ inline AdxStreamFile *alloc_803C8F5C(s32 arg, u32 h, s32 f10, s32 size) {
 AdxStreamFile *adxstm_open_fname_range__6TLobbyFPviiii(const char *name, s32 mode, s32 off, s32 nsect, s32 arg) {
     u32 h;
     AdxStreamFile *p;
-    h = TLobby__sub_803CF2F4((const char *)(name), mode, 0);
+    h = cvFsOpen((const char *)(name), mode, 0);
     if (h == 0) {
         TLobby::report_adx_error((const char *)lbl_8047C660, (s32)name);
         return NULL;
