@@ -467,10 +467,10 @@ struct TLobby : public TObject {
     static void*get_record(int a0);
     void queue_destruction_and_cleanup();
     void set_flag_and_clear_download();
-    static void open_keyboard();
-    static void request_change_game_mode();
-    static void enter_game_mode_change();
-    static void enter_chg_game_mode();
+    void open_keyboard();
+    void request_change_game_mode();
+    void enter_game_mode_change();
+    void enter_chg_game_mode();
     static void destroy_global_object();
     static void set_global_flags(s32 arg0);
     static void handle_flag2_request();
