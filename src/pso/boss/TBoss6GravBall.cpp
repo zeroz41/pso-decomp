@@ -5,7 +5,6 @@
 #include "pso/object/TObjMotion.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
-#include "pso/boss/TBoss6GravBall.h"
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/misc/TLobby.h"
 
@@ -375,18 +374,10 @@ void run_task__14TBoss6GravBallFv(TBoss6GravBall_80323BBC *arg0) {
     arg0->counter++;
 }
 
-void *__dt__14TBoss6GravBallFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss6GravBall;
-        init_parts__14TBoss6GravBallFv(arg0);
-        clear_player_grav_flags__14TBoss6GravBallFv(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TBoss6GravBall::~TBoss6GravBall() {
+    init_parts__14TBoss6GravBallFv(this);
+    clear_player_grav_flags__14TBoss6GravBallFv(this);
 }
 TBoss6GravBall::TBoss6GravBall(s32 arg1, void *arg2) : TObjCollidable((TObject *)arg1) {
     s32 i;

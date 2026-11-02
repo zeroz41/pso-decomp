@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/misc/TUnk_8048E1A4.h"
 #include "pso/misc/TLobby_80082048.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
-#include "pso/misc/TUnk_8048E1A4.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 extern char lbl_80438E60[];
@@ -72,7 +72,7 @@ s32 __ct__9TObjCharaFP7TObject(void *, void *);
 s16 get_entity_id(void *);
 s32 get_bml_model(void *, int);
 void *create_particle_emitter(void *pos, s32 id);
-extern s32 lbl_8048E1A4[];
+extern s32 __vt__13TUnk_8048E1A4[];
 extern s32 tl_05;
 extern const f32 lbl_805D9378;
 void TLobby__sub_8001FE7C(void*, int);
@@ -96,17 +96,11 @@ void TLobby::load_freeze_ice_resource() {
     (*(s32 *)&freeze_shell_bml_resource) = var_r0;
 }
 
-void *__dt__13TUnk_8048E1A4Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E1A4;
-        if (((TUnk_8048E1A4 *)arg0)->m_350 != NULL) { TParticleCtrl::release(((TUnk_8048E1A4 *)arg0)->m_350); }
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_8048E1A4::~TUnk_8048E1A4() {
+    if (this->m_350 != NULL) { TParticleCtrl::release(this->m_350); }
+}
+extern "C" {
 
 #pragma push
 #pragma fp_contract on
@@ -133,7 +127,7 @@ typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields
 u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
     u8 *temp_r3;
     __ct__9TObjCharaFP7TObject(this, (void *)tl_05);
-    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_18 = lbl_8048E1A4;
+    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_18 = __vt__13TUnk_8048E1A4;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model((void *) ((*(s32 *)&freeze_shell_bml_resource)), 1);
     if (arg1 != NULL) {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(arg1);

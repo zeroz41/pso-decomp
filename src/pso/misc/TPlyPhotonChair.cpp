@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/misc/TPlyPhotonChair.h"
 #include "pso/render/render_util.h"
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -9,7 +10,6 @@
 #include "pso/misc/TUnk_804A7488.h"
 #include "pso/misc/TUnk_804A7478.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/misc/TPlyPhotonChair.h"
 #include "pso/TMainTask.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/object/TObjFish.h"
@@ -247,19 +247,13 @@ s32 TPlyPhotonChair::load_resources() {
     return 1;
 }
 
-void *__dt__15TPlyPhotonChairFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TPlyPhotonChair;
-        ((TMainCursor *)((s8 *)arg0 + 0xD0))->destroy(-1);
-        ((TUnk_804A7478 *)((s8 *)arg0 + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
-        ((TUnk_804A7478 *)((s8 *)arg0 + 0x98))->TUnk_804A7478::~TUnk_804A7478();
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TPlyPhotonChair::~TPlyPhotonChair() {
+    ((TMainCursor *)((s8 *)this + 0xD0))->destroy(-1);
+    ((TUnk_804A7478 *)((s8 *)this + 0xB4))->TUnk_804A7478::~TUnk_804A7478();
+    ((TUnk_804A7478 *)((s8 *)this + 0x98))->TUnk_804A7478::~TUnk_804A7478();
+}
+extern "C" {
 
 u8 *TPlyPhotonChair__ct(u8 *ply_photon_chair, s32 arg1, s32 parent) {
     u32 player;

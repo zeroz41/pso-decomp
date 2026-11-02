@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/boss/TUnk_80481B34.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
@@ -21,12 +22,10 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/boss/TUnk_80481B34.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
 #include "pso/boss/TObjBoss1Crater.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/TObject.h"
@@ -969,7 +968,7 @@ extern const f32 lbl_805D80A0;
 extern s32 enable_v2_features;
 extern s32 lbl_805D4B34;
 extern u16 TBoss1Dragon__data_805D4B3C;
-extern s32 lbl_80481B34[];
+extern s32 __vt__13TUnk_80481B34[];
 
 bool TBoss1Dragon::isV2Mode() {
     return TObjEneDD::check_v2_mode() != 0;
@@ -6188,20 +6187,13 @@ void TBoss1Dragon__sub_8002AB6C(u8 *arg0) {
     }
 }
 
-void *TUnk_80481B34::dt(s16 arg1) {
-    if (this != NULL) {
-        (*(s32 * *)((u8 *)this + 0x18)) = lbl_80481B34;
-        __dt__13TUnk_804928CCFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TUnk_80481B34::~TUnk_80481B34() {
+
 }
 
 void *TUnk_80481B34::init_base() {
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_80481B34;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_80481B34;
     return this;
 }
 

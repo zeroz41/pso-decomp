@@ -1,8 +1,8 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
+#include "pso/boss/TBoss6Mine.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/boss/TBoss6Mine.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -390,19 +390,13 @@ void TBoss6Mine::run_task() {
     }
 }
 
-void *__dt__10TBoss6MineFPvs(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__10TBoss6Mine;
-        if (*(void **)((s8 *)arg0 + 0x3CC) != NULL) { TParticleCtrl::release(*(void **)((s8 *)arg0 + 0x3CC)); ((TBoss6Mine *)arg0)->emitter = 0; }
-        free_collision_body_parts(arg0);
-        if (*(void **)((s8 *)arg0 + 0x378) != NULL) { TBoss6Type1__sub_802B5DD4(*(void **)((s8 *)arg0 + 0x378)); }
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TBoss6Mine::~TBoss6Mine() {
+    if (*(void **)((s8 *)this + 0x3CC) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3CC)); this->emitter = 0; }
+    free_collision_body_parts(this);
+    if (*(void **)((s8 *)this + 0x378) != NULL) { TBoss6Type1__sub_802B5DD4(*(void **)((s8 *)this + 0x378)); }
+}
+extern "C" {
 
 extern s32 tl_04;
 

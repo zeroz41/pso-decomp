@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/enemy/TObjEneBalClaw.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/misc/TOComputerMachine01_8023DD0C.h"
 #include "pso/player/TObjPlayer_800A0408.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TUnk_80490470.h"
-#include "pso/enemy/TObjEneBalClaw.h"
 #include "pso/enemy/TObjEneBalClawClaw.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/player/TObjPlayer.h"
@@ -229,17 +229,11 @@ void TObjEneBalClaw__sub_8008D924(void) {
     }
 }
 
-void *__dt__14TObjEneBalClawFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjEneBalClaw;
-        __dt__13TUnk_80490470Fv((s8 *)arg0 + 0x390, -1);
-        __dt__15TObjEnemyCustomFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjEneBalClaw::~TObjEneBalClaw() {
+    __dt__13TUnk_80490470Fv((s8 *)this + 0x390, -1);
+}
+extern "C" {
 
 u8 *TObjEneBalClaw__ct(TObjEneBalClaw *ene_bal_claw) {
     __ct__15TObjEnemyCustomFP7TObject((u8 *)ene_bal_claw);

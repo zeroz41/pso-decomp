@@ -1,9 +1,9 @@
 #include "pso/misc/TLobby_801E43E4.h"
+#include "pso/misc/TOAttackableCol.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
-#include "pso/misc/TOAttackableCol.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/player/TObjPlayer.h"
@@ -322,18 +322,12 @@ void *TOAttackableCol::create(void *arg0) {
     return o;
 }
 
-void *__dt__15TOAttackableColFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TOAttackableCol;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if ((s16) arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TOAttackableCol::~TOAttackableCol() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {

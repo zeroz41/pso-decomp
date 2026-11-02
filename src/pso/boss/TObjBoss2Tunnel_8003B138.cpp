@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/TMainTask.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/TObject.h"
 #include "pso/misc/TFogCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/boss/TUnk_804835D8.h"
 #include "pso/player/TObjPlayer_8002E784.h"
 
@@ -800,17 +800,11 @@ void *__dt__13TUnk_804835D8Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
-void *__dt__15TObjBoss2TunnelFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TObjBoss2Tunnel;
-        TObjBoss2Tunnel::dt((s32)((s8 *)arg0 + 0x68), (s16)(-1));
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjBoss2Tunnel::~TObjBoss2Tunnel() {
+    TObjBoss2Tunnel::dt((s32)((s8 *)this + 0x68), (s16)(-1));
+}
+extern "C" {
 
 void *TObjBoss2Tunnel__ct(void *object, void *arg1) {
     Tunnel_8003C45C *self = (Tunnel_8003C45C *)object;

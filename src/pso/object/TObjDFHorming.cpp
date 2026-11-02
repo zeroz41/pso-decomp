@@ -1,9 +1,9 @@
 #pragma readonly_strings on
 #include "types.h"
+#include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/boss/TBoss4DarkFalz.h"
 
 struct Vec_8004AB90 { f32 x, y, z; };
 
@@ -208,12 +208,9 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
 
 }
 
-#include "types.h"
-#include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss4Type3.h"
 #include "pso/object/TObjDFHorming.h"
-#include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/enemy/TObjEnemy.h"
 
 extern "C" {
@@ -849,14 +846,8 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #pragma dont_inline on
 #pragma auto_inline off
 #pragma fp_contract off
-#include "types.h"
-#include "pso/system/vector.h"
-#include "pso/enemy/TObjEnemy.h"
-#include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss4Uro.h"
-#include "pso/misc/TLobby.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 
@@ -926,48 +917,42 @@ void TBoss4DarkFalz::run_task() {
 
 void TBoss4DarkFalz::vfunc_63() {  }
 
-u8 *__dt__14TBoss4DarkFalzFv(u8 *arg0, s16 arg1) {
+}
+TBoss4DarkFalz::~TBoss4DarkFalz() {
     s32 temp_r0;
     u8 *object;
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss4DarkFalz;
-        switch (*(s32 *)((s8 *)arg0 + 0x37C)) {
-        case 10:
-        case 14:
-        case 15:
-            ((TObjEnemy *)arg0)->send_entity_set_flags();
-            break;
-        }
-        TBoss4DarkFalz::end_player_camera_pans(arg0);
-        restore_player_cameras();
-        if (is_ending_or_split_screen__14TBoss4DarkFalzFv() == 0) {
-            TLobby::stop_audio_streams();
-        }
-        object = (u8 *)(*(u8 **)((s8 *)arg0 + 0x398));
-        if (object != NULL) {
-            queue_destruction__7TObjectFv(object);
-            *(u8 **)((s8 *)arg0 + 0x398) = NULL;
-        }
-        if ((void *) TBoss4DarkFalz__type1_instance != NULL) {
-            queue_destruction__7TObjectFv(TBoss4DarkFalz__type1_instance);
-            TBoss4DarkFalz__type1_instance = NULL;
-        }
-        if ((void *) TBoss4DarkFalz__type2_instance != NULL) {
-            queue_destruction__7TObjectFv(TBoss4DarkFalz__type2_instance);
-            TBoss4DarkFalz__type2_instance = NULL;
-        }
-        if ((void *) TBoss4DarkFalz__type3_instance != NULL) {
-            queue_destruction__7TObjectFv(TBoss4DarkFalz__type3_instance);
-            TBoss4DarkFalz__type3_instance = NULL;
-        }
-        dark_falz_controller_instance = 0;
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
+    switch (*(s32 *)((s8 *)this + 0x37C)) {
+    case 10:
+    case 14:
+    case 15:
+        ((TObjEnemy *)this)->send_entity_set_flags();
+        break;
     }
-    return arg0;
+    TBoss4DarkFalz::end_player_camera_pans(((u8 *)this));
+    restore_player_cameras();
+    if (is_ending_or_split_screen__14TBoss4DarkFalzFv() == 0) {
+        TLobby::stop_audio_streams();
+    }
+    object = (u8 *)(*(u8 **)((s8 *)this + 0x398));
+    if (object != NULL) {
+        queue_destruction__7TObjectFv(object);
+        *(u8 **)((s8 *)this + 0x398) = NULL;
+    }
+    if ((void *) TBoss4DarkFalz__type1_instance != NULL) {
+        queue_destruction__7TObjectFv(TBoss4DarkFalz__type1_instance);
+        TBoss4DarkFalz__type1_instance = NULL;
+    }
+    if ((void *) TBoss4DarkFalz__type2_instance != NULL) {
+        queue_destruction__7TObjectFv(TBoss4DarkFalz__type2_instance);
+        TBoss4DarkFalz__type2_instance = NULL;
+    }
+    if ((void *) TBoss4DarkFalz__type3_instance != NULL) {
+        queue_destruction__7TObjectFv(TBoss4DarkFalz__type3_instance);
+        TBoss4DarkFalz__type3_instance = NULL;
+    }
+    dark_falz_controller_instance = 0;
 }
+extern "C" {
 
 s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2) {
     u8 *boss4_dark_falz = (u8 *)a0;
