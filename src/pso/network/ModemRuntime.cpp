@@ -3,6 +3,8 @@
 #include "pso/network/NetworkMessageTransport.h"
 
 #include "types.h"
+#include "dolphin/exi.h"
+#include "dolphin/os.h"
 #include "dolphin/os/OSReset.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/TLobby.h"
@@ -117,9 +119,7 @@ extern "C" {
 extern u8 lbl_805CF240[0xA0];
 extern u8 TLobby__pppoe_message_queue[0xA0];
 extern u8 lbl_805CF380[0x48];
-s32 OSWakeupThread(void *);
-extern s32 lbl_805D7CA0;
-s32 EXILock(s32, u32, u32);
+extern OSThreadQueue lbl_805D7CA0;
 void TAdSinglePlyChrSelectGC__sub_8042DE20(void);
 static RecoveredGlobal_8042E768_lbl_805D1D20 modem_connection_info;
 static ModemResponseState modem_command_response_state;
@@ -128,7 +128,6 @@ void *memcpy(void *, const void *, unsigned long);
 void *memmove(void *, const void *, unsigned long);
 int sscanf(const char *, const char *, ...);
 extern s32 lbl_805D7C98;
-s32 EXIUnlock(s32);
 void TAdSinglePlyChrSelectGC__sub_8042D6A4(char *str);
 extern s32 lbl_805D4918;
 extern u8 lbl_805CF380[];
@@ -157,13 +156,6 @@ extern char lbl_805D4980[5];
 extern Names_8042E7B8 lbl_80480234;
 extern char lbl_805D4988[4];
 void *memset(void *, int, unsigned long);
-s32 OSDisableInterrupts(void);
-s32 OSRestoreInterrupts(s32);
-s32 OSSleepThread(void *);
-s32 EXISelect(s32, u32, s32);
-s32 EXIImm(s32, void *, s32, u32, u32);
-s32 EXISync(s32);
-s32 EXIDeselect(s32);
 struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; };
 extern ModemRegs_805D7C90 lbl_805D7C90;
 static ModemExiState modem_exi_state;
@@ -308,7 +300,7 @@ void TAdSinglePlyChrSelectGC__sub_8042D604(void) {
     lbl_805D7C98 = 1;
     e = OSDisableInterrupts();
     for (;;) {
-        if (EXILock(0, 2, (u32)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
+        if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC::wake_load_thread) == 1) {
             OSRestoreInterrupts(e);
             break;
         }
@@ -340,7 +332,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8042DD70(s32 arg0, s32 arg1, s32 arg2) {
 #pragma pop
 
 void TAdSinglePlyChrSelectGC__sub_8042DDE4(int _w0, int _w1) {
-    if (EXILock(0, 2U, (u32) TAdSinglePlyChrSelectGC__sub_8042DDE4) != 0) {
+    if (EXILock(0, 2, (EXICallback)TAdSinglePlyChrSelectGC__sub_8042DDE4) != 0) {
         TAdSinglePlyChrSelectGC__sub_8042DE20();
     }
 }
@@ -414,7 +406,7 @@ s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
 s32 TAdSinglePlyChrSelectGC::send_modem_hangup(s32 arg0) {
     if ((arg0 == 0) && ((s32) lbl_805D7C98 == 3)) {
         lbl_805D7C98 = 1;
-        if (EXILock(0, 2U, 0U) == 0) {
+        if (EXILock(0, 2, NULL) == 0) {
             return 1;
         }
         TAdSinglePlyChrSelectGC__sub_8042D6A4((char *)&lbl_805D4918);

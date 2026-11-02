@@ -561,7 +561,7 @@ void TLobby__sub_804073B8(void);
 s32 TLobby__sub_80407C60(s16, s32);
 s32 TLobby__sub_80407D98(s16, s32);
 s32 TLobby__sub_8040799C(s16, void *, void *);
-s16 TLobby__sub_80407F20(s16, s16, s16, s16, s16, s32, s8, s32);
+s16 TLobby__sub_80407F20(s16, s16, s16, s16, s16, s32, s16, s32);
 s32 TLobby__sub_8040878C(void);
 void TLobby__sub_803F8A9C(void *);
 extern s16 lobby_handler_table_desc;
@@ -1473,7 +1473,7 @@ s32 TLobby::forward_net_op(s16 arg0, u8 *arg1, u8 *arg2) {
     return TLobby__sub_8040799C(arg0, arg1, arg2);
 }
 
-s16 TLobby::forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7) {
+s16 TLobby::forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7) {
     return TLobby__sub_80407F20(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7);
 }
 
@@ -1481,7 +1481,7 @@ struct Node_80407C60 { Node_80407C60 *next; s16 used; u8 addr[4]; };
 struct Peer_8040799C;
 struct Conn_8040799C { Peer_8040799C *a; s16 f4; s16 f6; s16 f8; u8 padA[2]; u8 *fC; };
 struct Peer_8040799C { s16 st; s16 f2; u8 pad4; u8 f5; u8 pad6[2]; Conn_8040799C *conn; u8 addr[6]; u8 name[6]; };
-struct Ent_8040799C { s16 f0; s16 f2; s16 f4; s16 f6; u8 pad8[6]; u8 fE; u8 fF; u8 pad10[2]; u8 a12[6]; u8 a18[4]; Node_80407C60 *head; };
+struct Ent_8040799C { s16 f0; s16 f2; s16 f4; s16 f6; s16 f8; s16 fA; s16 fC; u8 fE; u8 fF; s16 f10; u8 a12[6]; u8 a18[4]; Node_80407C60 *head; };
 struct Tbl_8040799C { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; s16 hA; s16 hC; u8 padE[2]; Peer_8040799C *list; Ent_8040799C *ents; Node_80407C60 *nodes; Conn_8040799C *bufs; u8 *pool; };
 struct Out_8040799C { Conn_8040799C *a; void *b; void *c; void *d; void *e; };
 void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt);
@@ -1753,6 +1753,53 @@ s32 TLobby__sub_80407D98(s16 idx, s32 addr) {
         p->next = node;
     }
     return 0;
+}
+
+s16 TLobby__sub_8040A044(s16 i, s32 type, s16 len, u8 *addr);
+inline Ent_8040799C *find_free_entry(Ent_8040799C *e, s16 n) {
+    s16 i;
+    for (i = 0; i < n; i++, e++) {
+        if (e->f0 == 0) {
+            return e;
+        }
+    }
+    return NULL;
+}
+
+s16 TLobby__sub_80407F20(s16 iface, s16 a1, s16 a2, s16 a3, s16 len12, s32 src12, s16 len18, s32 src18) {
+    Ent_8040799C *ents;
+    Ent_8040799C *e;
+    s16 h;
+    s16 idx;
+
+    if (iface < 0) {
+        return -1;
+    }
+    h = TLobby__sub_8040A044(iface, 0x806, len18, (u8 *)src18);
+    if (h < 0) {
+        return h;
+    }
+    ents = TBL->ents;
+    e = find_free_entry(ents, TBL->h2);
+    if (e == NULL) {
+        TLobby::call_entry_callback(iface, h);
+        return -0x10D;
+    }
+    e->f0 = 1;
+    idx = e - ents;
+    e->f2 = iface;
+    e->f4 = a1;
+    e->f6 = h;
+    e->f8 = idx;
+    e->fA = a2;
+    e->fC = a3;
+    e->fE = len12;
+    e->fF = len18;
+    e->f10 = 0;
+    NetMemcpy(e->a12, (void *)src12, len12);
+    NetMemcpy(e->a18, (void *)src18, len18);
+    e->head = NULL;
+    return idx;
 }
 
 void TLobby__sub_80408060(Peer_8040799C *peer, NetPacket *pkt) {
@@ -3130,7 +3177,7 @@ typedef struct Mgr_8040A3C0 {
 void TLobby__sub_803F86BC(void *);
 s32 TLobby__sub_80421844(s32 arg0);
 
-typedef struct Ent_80409FC4 { s16 st; s16 pad2; s32 (*f4)(s32); s32 (*f8)(s32); s32 (*fC)(s32); s32 (*f10)(s32); u8 pad14[0x30-0x14]; } Ent_80409FC4;
+typedef struct Ent_80409FC4 { s16 st; s16 pad2; s32 (*f4)(s32); s32 (*f8)(s32); s32 (*fC)(s16); s32 (*f10)(s32); u8 pad14[0x30-0x14]; } Ent_80409FC4;
 typedef struct Tbl_80409FC4 { s16 count; Ent_80409FC4 *list; } Tbl_80409FC4;
 typedef struct Ent_8040A630 { s16 f0; u8 pad[0x3A]; } Ent_8040A630;
 typedef struct G_8040A630 { u8 pad[0x40]; s16 n; u8 pad2[2]; Ent_8040A630 *p; } G_8040A630;
@@ -3155,7 +3202,7 @@ s32 TLobby::invoke_socket_callback(s16 i, s32 arg) {
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby::call_entry_callback(s16 i, s32 arg) {
+s32 TLobby::call_entry_callback(s16 i, s16 arg) {
     Ent_80409FC4 *e;
     if (i < 0 || i > (*(Tbl_80409FC4 *)&lobby_handler_table_desc).count) {
         return -0x10F;
@@ -3175,16 +3222,16 @@ typedef struct Ent_8040A044 {
     s16 st;
     s16 f2;
     s32 (*f4)(s16, u8 *);
-    s32 (*f8)(s16, s32, s32, u8 *);
+    s16 (*f8)(s16, s32, s16, u8 *);
     u8 padC[0x30 - 0xC];
 } Ent_8040A044;
 typedef struct Tbl_8040A044 { s16 count; Ent_8040A044 *list; } Tbl_8040A044;
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby__sub_8040A044(s16 i, s32 type, s32 len, u8 *addr) {
+s16 TLobby__sub_8040A044(s16 i, s32 type, s16 len, u8 *addr) {
     Ent_8040A044 *e;
-    s32 (*fn)(s16, s32, s32, u8 *);
+    s16 (*fn)(s16, s32, s16, u8 *);
     if (i < 0 || i > (*(Tbl_8040A044 *)&lobby_handler_table_desc).count) {
         return -0x10F;
     }
