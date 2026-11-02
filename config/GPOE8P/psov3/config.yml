@@ -635,6 +635,7 @@ force_active:
   - TOAirconCave02__bml_resource
   - TOAirconCave02__shared_resource_desc
   - TOAirconCave02_class_name
+  - TOAttackableCol__collision_parts
   - TOAttackableCol__ct
   - TOAttackableCol__sub_80157310
   - TOAttackableCol__sub_80157C20
@@ -660,9 +661,15 @@ force_active:
   - TOExplosiveMachine02__class_name
   - TOExplosiveMachine03__class_name
   - TOExplosiveMachine__class_name
+  - TOHangceilingCave01KeyQuick__class_name
+  - TOHangceilingCave01KeyQuick__class_name_string
   - TOHangceilingCave01KeyQuick__ct
+  - TOHangceilingCave01Key__class_name
   - TOHangceilingCave01Key__ct
+  - TOHangceilingCave01Normal__class_name
   - TOHangceilingCave01Normal__ct
+  - TOHangceilingCave01__model_archive
+  - TOHangceilingCave01__model_root
   - TOHangerMachine01__bml_resource
   - TOHangerMachine01__class_name
   - TOKeyAncient01__class_name
@@ -762,6 +769,7 @@ force_active:
   - TObjBoss7DustCtrl__rotation_pairs
   - TObjBoss7DustCtrl__transformed_vertices
   - TObjBoss7DustCtrl__vertical_phase_angles
+  - TObjBoss8PillerCtrl__class_name
   - TObjBoss8PillerCtrl__sub_8035C034
   - TObjBs4CutAtk_name
   - TObjBs4CutAtk_type_name
@@ -1216,11 +1224,15 @@ force_active:
   - TObjNpcCloakroomBase__ct
   - TObjNpcCloakroomBase__name
   - TObjNpcCloakroomBase__static_instance
+  - TObjNpcEnemy__collision_body_parts
   - TObjNpcEnemy__ct
   - TObjNpcEnemy__entry_table
+  - TObjNpcEnemy_class_name
   - TObjNpcExpertBase__name
   - TObjNpcExpertBase__shared_resource
   - TObjNpcFemaleBase__ct
+  - TObjNpcGovernorBase__name
+  - TObjNpcGovernorBase__shared_resource
   - TObjNpcHFW01__name
   - TObjNpcHHM00__body_texture_gvm_handle
   - TObjNpcHHM00__model_object
@@ -1245,6 +1257,8 @@ force_active:
   - TObjNpcMaleBase__shared_bml_archive
   - TObjNpcMaleChild__name
   - TObjNpcMaleChild__shared_model_resource
+  - TObjNpcMaleDwarf__name
+  - TObjNpcMaleDwarf__shared_model_resource
   - TObjNpcMaleMacho__name
   - TObjNpcMaleMacho__static_model_resource
   - TObjNpcMaleOld__name
@@ -3573,6 +3587,9 @@ force_active:
   - bm_n_ecm_i_body_model_names
   - bm_n_ecm_i_body_motion_names
   - bm_n_ecm_i_body_resource_descriptor
+  - bm_n_efsm_i_body_3_model_names
+  - bm_n_efsm_i_body_3_motion_names
+  - bm_n_efsm_i_body_3_resource_descriptor
   - bm_n_emm_i_body_model_names
   - bm_n_emm_i_body_motion_names
   - bm_n_emm_i_body_resource_descriptor
@@ -3594,6 +3611,9 @@ force_active:
   - bm_n_nurse_i_body_model_names
   - bm_n_nurse_i_body_motion_names
   - bm_n_nurse_i_body_resource_descriptor
+  - bm_n_soutoku_i_body_model_names
+  - bm_n_soutoku_i_body_motion_names
+  - bm_n_soutoku_i_body_resource_descriptor
   - bm_n_trunk_i_body_model_names
   - bm_n_trunk_i_body_motion_names
   - bm_n_trunk_i_body_resource_descriptor
@@ -3675,6 +3695,8 @@ force_active:
   - bm_obj_meka_fish_1_model_names
   - bm_obj_meka_fish_1_motion_names
   - bm_obj_meka_fish_1_resource_descriptor
+  - bm_obj_ruins_turiten_model_names
+  - bm_obj_ruins_turiten_motion_names
   - bm_obj_seabed_con_motion_names
   - bm_obj_seabed_con_rare_motion_names
   - bm_obj_seabed_suiso_2_model_names
@@ -5140,6 +5162,9 @@ force_active:
   - fe_obj_o_vs2container_resource_bundle
   - fe_obj_switch_laz_model_names
   - fe_obj_switch_laz_motion_names
+  - fe_obj_turiten_moto_model_names
+  - fe_obj_turiten_moto_motion_names
+  - fe_obj_turiten_moto_resource_descriptor
   - feed__8TItemMagFP9TItemData
   - fence_ancient01_collision_bodies
   - fence_ancient02_collision_bodies
@@ -5842,6 +5867,7 @@ force_active:
   - handle_withdraw_list_input__18TShopGetItemWindowFv
   - hang_ceiling_cave_scale_params
   - hanger_machine01_collision_body_parts
+  - hanging_ceiling_motion_index
   - has_armor_with_unit_slot__FP14TWindowSubItemi
   - has_at_most_one_player__15TObjSoloPlayWinFv
   - has_inactive_card__17TWindowSubComCardFPvi
@@ -6293,6 +6319,7 @@ force_active:
   - lappy_boss_stats_ptrs_b
   - lappy_object_handles
   - lappy_variant_speed_ptr_table
+  - laser_fence4_collision_body_sets
   - laser_fence_switch_resource_descriptor
   - last_scroll_frame__19TOComputerMachine01
   - last_uv_scroll_tick__18TObjSeabedSuiso_CH
@@ -6301,6 +6328,7 @@ force_active:
   - layout_entries__11TWindowMenuFv
   - layout_entry_group__21TWindowSubCustomEquipFPv
   - layout_selection_parts__21TWindowSubCustomEquipFPv
+  - lazer_fence4_class_name
   - lazer_fence_beam_motions
   - lazer_fence_beam_node_table
   - lazer_fence_norm_episode1_resource_descriptor
@@ -6382,6 +6410,17 @@ force_active:
   - lbl_8043F06C
   - lbl_8043F078
   - lbl_8043F084
+  - lbl_804416F8
+  - lbl_80441710
+  - lbl_80441730
+  - lbl_80441748
+  - lbl_80441760
+  - lbl_80441780
+  - lbl_80441798
+  - lbl_804417B4
+  - lbl_804417D0
+  - lbl_804417FC
+  - lbl_80441818
   - lbl_80441858
   - lbl_80441874
   - lbl_80443BA8
@@ -6705,6 +6744,7 @@ force_active:
   - lbl_804A044C
   - lbl_804A0458
   - lbl_804A0468
+  - lbl_804B2174
   - lbl_804B8A10
   - lbl_804B8D80
   - lbl_804B8D94
@@ -6721,7 +6761,6 @@ force_active:
   - lbl_804C8934
   - lbl_804C8A44
   - lbl_804C9C9C
-  - lbl_804CB838
   - lbl_804CE2B8
   - lbl_804CE820
   - lbl_804CE918
@@ -6920,6 +6959,7 @@ force_active:
   - lbl_805D2990
   - lbl_805D2A50
   - lbl_805D2A58
+  - lbl_805D2E98
   - lbl_805D3174
   - lbl_805D3188
   - lbl_805D32E8
@@ -6970,6 +7010,7 @@ force_active:
   - lbl_805D5158
   - lbl_805D515C
   - lbl_805D58C4
+  - lbl_805D59D8
   - lbl_805D5A90
   - lbl_805D5A94
   - lbl_805D5A98
@@ -14702,6 +14743,9 @@ force_active:
   - try_start_action__19TContainerAncient01Fll
   - try_start_action__20TContainerAncient01RFll
   - try_trigger_action__17TObjEneMe1CanadinFv
+  - turiten_singo_key_model_index
+  - turiten_singo_resource_descriptor
+  - turiten_singo_texture_lists
   - turn_pose_to_target__14TObjEneBm5WolfFv
   - turn_to_target__18TObjEneRe4SorcererFv
   - turn_toward_angle__16TObjEneBm5GibonUFPvi

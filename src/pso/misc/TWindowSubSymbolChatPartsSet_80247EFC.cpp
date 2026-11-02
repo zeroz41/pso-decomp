@@ -59,12 +59,26 @@ void apply_part_to_window__28TWindowSubSymbolChatPartsSetFPvPvi(Obj_80248088 *ar
 extern const f32 lbl_805DCB7C;
 struct Ctl_80248324 { u8 pad[4]; s32 *tbl; };
 
-struct RecoveredGlobal_80248494_lbl_804CE2E8 {
-    s32 value;
-    u8 remaining[0x4B4];
+// Layout record type 6 of init_window_layout_entries (0x30 bytes), read by
+// TWindowSubStatusDisp::init_part_scaled: u and v are texel coordinates (divided by 256).
+struct SpritePartLayoutRecord {
+    s32 type;
+    f32 pos[2];
+    f32 size[2];
+    f32 u;
+    f32 v;
+    f32 pad_1C;
+    s32 pad_20;
+    s32 *pad_24;
+    s32 pad_28;
+    s32 pad_2C;
 };
 
-typedef char RecoveredGlobal_80248494_lbl_804CE2E8_size[sizeof(RecoveredGlobal_80248494_lbl_804CE2E8) == 0x4B8 ? 1 : -1];
+struct SymbolChatSpriteLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord recs[25];
+};
 
 void allow_rendering__7TObjectFv(TObject *arg0);
 void disallow_rendering__7TObjectFv(TObject *arg0);
@@ -73,7 +87,38 @@ void fn_80248324(Ctl_80248324 *c, s32 arg1, s32 arg2);
 s32 draw_visible_window_entries(void *, void *, void *, f32, f32, f32);
 s32 init_window_layout_entries(void *, void *, void *);
 
-extern RecoveredGlobal_80248494_lbl_804CE2E8 symbol_chat_layout_sprite_records;
+extern s32 lbl_805D63F0;
+
+SymbolChatSpriteLayout symbol_chat_layout_sprite_records = {
+    25, 1,
+    {
+        {6, {34.0f, 5.0f}, {60.0f, 60.0f}, 0.0f, 128.0f, 0.2f, -1, &lbl_805D63F0, 10, 4},
+        {6, {-5.0f, 0.0f}, {50.0f, 40.0f}, 178.0f, 168.0f, 0.23f, -1, &lbl_805D63F0, 10, 20},
+        {6, {91.0f, 0.0f}, {50.0f, 40.0f}, 128.0f, 168.0f, 0.23f, -1, &lbl_805D63F0, 10, 20},
+        {6, {-5.0f, 38.0f}, {50.0f, 40.0f}, 178.0f, 128.0f, 0.23f, -1, &lbl_805D63F0, 10, 20},
+        {6, {91.0f, 38.0f}, {50.0f, 40.0f}, 128.0f, 128.0f, 0.23f, -1, &lbl_805D63F0, 10, 20},
+        {6, {0.0f, 0.0f}, {32.0f, 32.0f}, 0.0f, 96.0f, 0.25f, -1, &lbl_805D63F0, 7, 4},
+        {6, {96.0f, 0.0f}, {32.0f, 32.0f}, 0.0f, 96.0f, 0.25f, -1, &lbl_805D63F0, 7, 4},
+        {6, {0.0f, 38.0f}, {32.0f, 32.0f}, 0.0f, 96.0f, 0.25f, -1, &lbl_805D63F0, 7, 4},
+        {6, {96.0f, 38.0f}, {32.0f, 32.0f}, 0.0f, 96.0f, 0.25f, -1, &lbl_805D63F0, 7, 4},
+        {6, {0.0f, 0.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.3f, -1, &lbl_805D63F0, 10, 20},
+        {6, {96.0f, 0.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.3f, -1, &lbl_805D63F0, 10, 20},
+        {6, {0.0f, 38.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.3f, -1, &lbl_805D63F0, 10, 20},
+        {6, {96.0f, 38.0f}, {32.0f, 32.0f}, 128.0f, 208.0f, 0.3f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.35f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.4f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.45f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.5f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.55f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.6f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.65f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.7f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.75f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.8f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.85f, -1, &lbl_805D63F0, 10, 20},
+        {6, {64.0f, 35.0f}, {16.0f, 16.0f}, 0.0f, 0.0f, 0.9f, -1, &lbl_805D63F0, 10, 20},
+    },
+};
 
 #pragma push
 #pragma readonly_strings on
@@ -283,7 +328,7 @@ void set_symbol_chat_parts__20TWindowSubSymbolChatFiPv(s32 arg0, void *arg1) {
 
 void TWindowSubSymbolChat::init_layout_entries(s32 player) {
     s32 arg0 = (s32)this;
-    init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records.value, (void *)player);
+    init_window_layout_entries((void *)arg0, &symbol_chat_layout_sprite_records, (void *)player);
 }
 
 void TWindowSubSymbolChatPartsSet::update_visibility() {

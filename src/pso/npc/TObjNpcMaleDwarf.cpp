@@ -8,8 +8,18 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_8014BD54_lbl_804AA3F0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8014BD54_lbl_804AA3F0_size[sizeof(RecoveredGlobal_8014BD54_lbl_804AA3F0) == 0x10 ? 1 : -1];
+#include "pso/system/BmlResourceDescriptor.h"
+
+#pragma readonly_strings on
+
+__declspec(section ".data") const char *bm_n_efsm_i_body_3_model_names[2] = {"n_efsm_i_body_3.nj", NULL};
+const char *bm_n_efsm_i_body_3_motion_names[] = {NULL};
+BmlResourceDescriptor bm_n_efsm_i_body_3_resource_descriptor = {
+    "bm_n_efsm_i_body_3.bml", bm_n_efsm_i_body_3_model_names, bm_n_efsm_i_body_3_motion_names, 1, 0,
+};
+const char *TObjNpcMaleDwarf__name = "TObjNpcMaleDwarf";
+u32 TObjNpcMaleDwarf__shared_model_resource;
+
 
 struct RecoveredGlobal_8014BF2C_lbl_804AA580 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8014BF2C_lbl_804AA580_size[sizeof(RecoveredGlobal_8014BF2C_lbl_804AA580) == 0x10 ? 1 : -1];
@@ -21,12 +31,9 @@ struct RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8014BD54_lbl_804AA3F0 bm_n_efsm_i_body_3_resource_descriptor;
-extern u32 TObjNpcMaleDwarf__shared_model_resource;
 extern RecoveredGlobal_8014BF2C_lbl_804AA580 bm_n_efm_i_body_resource_descriptor;
 extern u32 TObjNpcMaleFat__static_model_resource;
 extern s32 __vt__16TObjNpcMaleDwarf[];
-extern s32 TObjNpcMaleDwarf__name;
 void TLobby__sub_8001FE7C(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
@@ -45,7 +52,7 @@ void TObjNpcMaleDwarf::load_shared_resource() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_efsm_i_body_3_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_efsm_i_body_3_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjNpcMaleDwarf__shared_model_resource) = var_r0;
 }
@@ -67,7 +74,7 @@ typedef char RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf_size[sizeof(Recov
 u8 *TObjNpcMaleDwarf__ct(u8 *player, s32 arg1, s32 arg2) {
     construct_male_npc_base((player));
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014BDFC___vt__16TObjNpcMaleDwarf *)&__vt__16TObjNpcMaleDwarf).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcMaleDwarf__name;
+    ((TObject *)player)->m_name = TObjNpcMaleDwarf__name;
     ((TObjNpcMaleDwarf *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcMaleDwarf__shared_model_resource) + 0x42C)) + 8);

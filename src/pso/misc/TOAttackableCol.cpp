@@ -10,12 +10,13 @@
 #include "pso/misc/TLobby.h"
 #include "pso/quest/TQuestThread.h"
 
+#pragma readonly_strings on
+
+CollisionBody TOAttackableCol__collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *lbl_805D2E98 = "TOAttackableCol";
+
 void set_floor_switch_flag(u32 id, s16 floor);
 
-struct RecoveredGlobal_80157AD8_lbl_804AF9A8 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct RecoveredGlobal_80157AD8___vt__15TOAttackableCol {
     s32 value;
@@ -64,9 +65,7 @@ extern s32 tl_00;
 s32 __ct__9TObjCharaFP7TObject(void *, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_80157AD8_lbl_804AF9A8 TOAttackableCol__collision_parts;
 extern s32 __vt__15TOAttackableCol[];
-extern s32 lbl_805D2E98;
 extern s32 tl_05;
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1);
 s32 get_current_floor(void);
@@ -135,7 +134,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (check_value_equals__13TUnk_804B6C24Fl(col, lbl_805D2E98) != 0) {
+                if (check_value_equals__13TUnk_804B6C24Fl(col, (s32)lbl_805D2E98) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:
@@ -336,16 +335,15 @@ void *__dt__15TOAttackableColFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-typedef char RecoveredGlobal_80157AD8_lbl_804AF9A8_size[sizeof(RecoveredGlobal_80157AD8_lbl_804AF9A8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
     __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80157AD8___vt__15TOAttackableCol *)&__vt__15TOAttackableCol).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2E98;
+    ((TObject *)arg0)->m_name = lbl_805D2E98;
     ((TOAttackableCol *)(arg0))->apply_object_set_data((void *)arg1);
     ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
-    init_collision_body_parts(arg0, &TOAttackableCol__collision_parts.value, 1);
+    init_collision_body_parts(arg0, &TOAttackableCol__collision_parts, 1);
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOAttackableCol *)arg0)->mode = 0;

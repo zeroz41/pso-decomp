@@ -4703,6 +4703,10 @@ pso/unk/text_8014AB24.cpp:
 
 pso/npc/TObjNpcGovernorBase.cpp:
 	.text       start:0x8014AB8C end:0x8014ADF4
+	.rodata     start:0x8043F9E8 end:0x8043FA28
+	.data       start:0x804A9420 end:0x804A9438
+	.sdata      start:0x805D2DA8 end:0x805D2DB0
+	.sbss       start:0x805D57A0 end:0x805D57A8
 
 pso/npc/TObjNpcHFW00.cpp:
 	.text       start:0x8014ADF4 end:0x8014AFC8
@@ -4762,6 +4766,10 @@ pso/npc/TObjNpcMaleChild.cpp:
 
 pso/npc/TObjNpcMaleDwarf.cpp:
 	.text       start:0x8014BD1C end:0x8014BF7C
+	.rodata     start:0x8043FBE0 end:0x8043FC20
+	.data       start:0x804AA3E8 end:0x804AA400
+	.sdata      start:0x805D2DF0 end:0x805D2DF8
+	.sbss       start:0x805D57E8 end:0x805D57F0
 
 pso/npc/TObjNpcMaleFat.cpp:
 	.text       start:0x8014BF7C end:0x8014C0CC
@@ -4910,6 +4918,9 @@ pso/misc/TOAirconCave02.cpp:
 
 pso/misc/TOAttackableCol.cpp:
 	.text       start:0x80157310 end:0x80157CF4
+	.rodata     start:0x80440178 end:0x80440188
+	.data       start:0x804AF9A8 end:0x804AF9D4
+	.sdata      start:0x805D2E98 end:0x805D2EA0
 	.sdata2     start:0x805DB2C8 end:0x805DB2D4
 
 pso/misc/TOBarrierEnergy01.cpp:
@@ -5263,6 +5274,9 @@ pso/misc/TOFenceAncient04.cpp:
 pso/misc/TOHangceilingCave01.cpp:
 	.text       start:0x80167980 end:0x80168D3C
 	.rodata     start:0x804416F8 end:0x80441890
+	.data       start:0x804B2128 end:0x804B21A0
+	.sdata      start:0x805D2FE8 end:0x805D2FF4
+	.sbss       start:0x805D59D0 end:0x805D59E8
 	.sdata2     start:0x805DB650 end:0x805DB6A4
 
 pso/misc/TOHangerMachine01.cpp:
@@ -6034,7 +6048,9 @@ pso/unk/text_80193018.cpp:
 
 pso/object/TObjLazerFence4.cpp:
 	.text       start:0x801930E8 end:0x801936E0
-	.rodata     start:0x80445BF8 end:0x80445C00
+	.rodata     start:0x80445BE0 end:0x80445C00
+	.data       start:0x804B8128 end:0x804B82E0
+	.sdata      start:0x805D33A8 end:0x805D33B0
 	.sdata2     start:0x805DBE68 end:0x805DBE78
 
 pso/object/TLazerFenceSw.cpp:
@@ -8451,6 +8467,7 @@ pso/misc/TWindowChat.cpp:
 pso/misc/TWindowSubSymbolChatPartsSet_80247EFC.cpp:
 	.text       start:0x80247EFC end:0x80248668
 	.rodata     start:0x8044E7D8 end:0x8044EAC0
+	.data       start:0x804CE2E8 end:0x804CE7A0
 	.sdata      start:0x805D38A8 end:0x805D38B0
 
 pso/misc/TWindowChatSymbol.cpp:
@@ -10099,6 +10116,11 @@ pso/npc/TObjNpcHosa.cpp:
 
 pso/npc/TObjNpcKenkyuW.cpp:
 	.text       start:0x802A3BF8 end:0x802A4540
+	.rodata     start:0x80466628 end:0x80466664
+	.data       start:0x804DCE40 end:0x804DCE58
+	.bss        start:0x80540A38 end:0x80540AC0
+	.sdata      start:0x805D3DD0 end:0x805D3DD8
+	.sbss       start:0x805D6658 end:0x805D6660
 	.sdata2     start:0x805DDF60 end:0x805DDF68
 
 pso/misc/TNeedleShoot_802A4540.cpp:
@@ -10685,7 +10707,10 @@ pso/enemy/TObjEneSlime_802D7260.cpp:
 
 pso/npc/TObjNpcEnemy.cpp:
 	.text       start:0x802D72E4 end:0x802D79EC
+	.rodata     start:0x804725F0 end:0x80472600
+	.data       start:0x804E2680 end:0x804E26AC
 	.bss        start:0x80540FF0 end:0x80541230
+	.sdata      start:0x805D3F58 end:0x805D3F60
 
 pso/misc/TLobby_802D79EC.cpp:
 	.text       start:0x802D79EC end:0x802D7A2C
@@ -12658,8 +12683,9 @@ pso/unk/text_8035BFF8.cpp:
 
 pso/boss/TObjBoss8PillerCtrl.cpp:
 	.text       start:0x8035C034 end:0x8035C2B4
-	.rodata     start:0x80479B28 end:0x80479B30
+	.rodata     start:0x804799C8 end:0x80479B30
 	.data       start:0x804F1E58 end:0x804F1E98
+	.sdata      start:0x805D4430 end:0x805D4438
 
 pso/boss/TBoss4Thanks.cpp:
 	.text       start:0x8035C2B4 end:0x8035C8F0

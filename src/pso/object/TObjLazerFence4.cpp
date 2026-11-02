@@ -21,6 +21,30 @@
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 
+#pragma readonly_strings on
+
+const u16 lbl_80445BE0[] = {0, 1, 2, 3};
+
+CollisionBody laser_fence4_collision_body_sets[2][5] = {
+    {
+        {{0.0f, 0.0f, 0.0f}, 24.0f, 24.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{20.0f, 0.0f, 20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{20.0f, 0.0f, -20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{-20.0f, 0.0f, 20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{-20.0f, 0.0f, -20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    },
+    {
+        {{0.0f, 0.0f, 0.0f}, 33.0f, 33.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{30.0f, 0.0f, 30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{30.0f, 0.0f, -30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{-30.0f, 0.0f, 30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{-30.0f, 0.0f, -30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    },
+};
+
+const char *lazer_fence4_class_name = "TObjLazerFence4";
+
+
 struct LazerFence4Base_801930E8 { char pad[0x18]; };
 struct LazerFence4VObj_801930E8 : LazerFence4Base_801930E8 {
     virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
@@ -198,7 +222,7 @@ struct V_801935D8 : Base_801935D8 {
 };
 
 struct Fence_801935D8 {
-    s32 id;
+    const char *id;
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1C[0x30 - 0x1C];
@@ -222,10 +246,7 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 
 void __ct__14TObjCollidableFP7TObject(void *);
-extern u16 lbl_80445BE0[];
-extern u8 laser_fence4_collision_body_sets[];
 extern s32 __vt__15TObjLazerFence4[];
-extern s32 lazer_fence4_class_name;
 
 void free_collision_body_parts(void *);
 
@@ -269,7 +290,7 @@ void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {
     }
     self->fB8 = lbl_80445BE0[i];
     ((TObjLazerFence4 *)self)->init_models();
-    init_collision_body_parts(self, laser_fence4_collision_body_sets + (self->f8C % 2) * 0xDC, 5);
+    init_collision_body_parts(self, laser_fence4_collision_body_sets[self->f8C % 2], 5);
     self->flags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjCollidable *)self)->refresh_collision_body_centers();
