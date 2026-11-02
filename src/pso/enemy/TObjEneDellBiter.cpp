@@ -118,7 +118,6 @@ extern u32 TObjEneDellBiter__shared_model_resource;
 extern s32 TObjEneDellBiter__demo_script_step;
 extern s32 TObjEneDellBiter__demo_rotate_x_angle;
 extern s32 TObjEneDellBiter__demo_script_cursor;
-extern const f32 TObjEneDellBiter__data_805DEFB8;
 extern const f32 TObjEneDellBiter__data_805DEFE0;
 extern const f32 TObjEneDellBiter__data_805DEFE4;
 void free_collision_body_parts(void *);
@@ -144,7 +143,6 @@ extern s32 TObjEneDellBiter__last_uv_scroll_tick;
 extern const f32 lbl_805DEFAC;
 extern const f32 lbl_805DEFB0;
 extern const f32 lbl_805DEFB4;
-extern const f32 lbl_805DEFBC;
 extern const f32 lbl_805DEFC8;
 extern const f32 lbl_805DEFDC;
 extern const f32 lbl_805DEFEC;
@@ -1572,7 +1570,7 @@ void TObjEneDellBiter::render() {
         } else {
             vis = classify_actor_view_detail(lbl_805D9E88, lbl_805D9E84, 15.0f);
         }
-    } else if (update_object_view_visibility(lbl_805DEFBC, 15.0f) != 0) {
+    } else if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         vis = 1;
     } else {
         vis = 0;
@@ -1612,7 +1610,7 @@ void TObjEneDellBiter::render() {
             push_matrix();
             post_translate_matrix(&position);
             rotate_matrix_y(0, rotation_y);
-            scale_matrix(0, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8);
+            scale_matrix(0, 0.6f, 0.6f, 0.6f);
             set_chunk_model_node_callback((s32)((void *)TObjEneDellBiter::step_demo_script));
             if (vis == 1) {
                 this->draw();
@@ -1652,7 +1650,7 @@ void TObjEneDellBiter::vfunc_106() {
             debug_printf_at(pack_debug_text_position(0, 9), lbl_80475318);
         }
     }
-    if (update_object_view_visibility(lbl_805DEFBC, 15.0f) != 0) {
+    if (update_object_view_visibility(400.0f, 15.0f) != 0) {
         Vec v = lbl_804752A0[0];
         TObjEneDD::draw_ground_shadow(&v, 0);
         TObjPlayer::toggle_particle_effect();
@@ -1660,7 +1658,7 @@ void TObjEneDellBiter::vfunc_106() {
         push_matrix();
         post_translate_matrix(&position);
         rotate_matrix_y(0, (int) (rotation_y));
-        scale_matrix(0, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8);
+        scale_matrix(0, 0.6f, 0.6f, 0.6f);
         set_motion_packed_rotation();
         draw_chunk_object((void *)(model));
         clear_motion_packed_rotation();
@@ -1676,7 +1674,7 @@ s32 TObjEneDellBiter::render_model_if_visible() {
             push_matrix();
             post_translate_matrix(&position);
             rotate_matrix_y(0, rotation_y);
-            scale_matrix(0, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8, TObjEneDellBiter__data_805DEFB8);
+            scale_matrix(0, 0.6f, 0.6f, 0.6f);
             this->draw();
             pop_matrix();
             restore_render_scissor(1);

@@ -29,8 +29,6 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Vec2_80275DE8 custom_equip_cursor_frame_uv_table[];
 extern s32 lbl_805D63F0;
-extern const f32 lbl_805DD550;
-extern const f32 lbl_805DD554;
 extern const f32 lbl_805DD560;
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 *arg1, s32 arg2, f32 farg0);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
@@ -53,7 +51,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 
         return;
     }
     t = &custom_equip_cursor_frame_uv_table[arg2 & 0xF];
-    scale = lbl_805DD550 / (lbl_805DD554 * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
+    scale = (-1.0f) / (0.299f * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);

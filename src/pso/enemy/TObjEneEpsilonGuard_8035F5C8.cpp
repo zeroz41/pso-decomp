@@ -590,6 +590,19 @@ f32 TObjEneEpsilonBody::receive_physical_attack(void *arg1_arg, f32 farg0) {
     return lbl_805E0208;
 }
 
+f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayload payload, void *source, s32 arg3, s32 arg4) {
+    s32 flags = m_438;
+    if (!(flags & 2) && !(flags & 0x40)) {
+        if (payload.kind != get_table_value_by_index()) {
+            return TObjChara::receive_direct_attack(attacker, payload, source, arg3, arg4);
+        }
+    } else if (payload.kind == 0x14) {
+        return TObjChara::receive_direct_attack(attacker, payload, source, arg3, arg4);
+    }
+    try_apply_damage((u32)&m_2fc, 0);
+    return lbl_805E0208;
+}
+
 typedef char RecoveredGlobal_8035F8F0_lbl_80479E6C_size[sizeof(RecoveredGlobal_8035F8F0_lbl_80479E6C) == 0x10 ? 1 : -1];
 
 void TObjEneEpsilonGuard__sub_8035F844(W_8035F844 *arg0, s32 arg1) {

@@ -59,7 +59,6 @@ extern "C" {
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 spawn_photon_blast_attachment_effects(void *, int);
 u8 *__nw__7TObjectFUl(s32, f32);
-extern const f64 lbl_80446DE8;
 
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
@@ -154,7 +153,7 @@ void TPhotonLeilla::run_task() {
     if ((f32) *(s32 *)&this->m_1ac > 109.0f) {
         temp_f1_2 = *(f32 *)&this->m_180;
         if (temp_f1_2 > (-1.0f)) {
-            *(f32 *)&this->m_180 = (f32) ((f64) temp_f1_2 - lbl_80446DE8);
+            *(f32 *)&this->m_180 = (f32) ((f64) temp_f1_2 - 0.15);
         }
     }
     if ((s32) *(s32 *)&this->m_19c != 0) {

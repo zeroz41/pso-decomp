@@ -335,7 +335,6 @@ extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern const f32 lbl_805DB1B8;
 extern const f32 lbl_805DB1BC;
-extern const f32 lbl_805DB1C0;
 s32 has_interactor__14TObjCollidableFv();
 s32 debug_printf_at(s32, const char *, ...);
 extern char lbl_8043F544[];
@@ -402,7 +401,7 @@ void TObjNpcBase::apply_set_params(s32 arg1, s32 arg2) {
         *(f32 *)&this->unk_398 = (f32) lbl_805DB1BC;
         return;
     }
-    *(f32 *)&this->unk_398 = (f32) lbl_805DB1C0;
+    *(f32 *)&this->unk_398 = (f32) 250.0f;
 }
 
 void TObjNpcBase::update_conversation() {

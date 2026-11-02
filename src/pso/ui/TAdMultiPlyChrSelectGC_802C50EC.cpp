@@ -172,9 +172,6 @@ extern void *TAdMultiPlyChrSelectGC__data_804E0A48[4];
 void TAdMultiPlyChrSelectGC__sub_802C50EC(s32);
 void TAdMultiPlyChrSelectGC__sub_802C522C(s32);
 extern s32 lbl_805D67D0;
-extern const f32 lbl_805DE560;
-extern const f32 lbl_805DE564;
-extern const f32 lbl_805DE568;
 extern const f32 lbl_805DE570;
 extern const f32 lbl_805DE574;
 extern const f32 lbl_805DE578;
@@ -222,13 +219,13 @@ void TAdMultiPlyChrSelectGC__sub_802C50EC(s32 arg0) {
         if (TAdMultiPlyChrSelectGC__data_804E0AE0[i] == 1) {
             begin_screen_draw(1);
             TObjFish::set_global_param(lbl_805D67D0);
-            set_draw_texture_and_color(0, ((s32)(lbl_805DE564 * TAdMultiPlyChrSelectGC__data_804E0AF0[i] + lbl_805DE560) << 24) | 0xFFFFFF);
+            set_draw_texture_and_color(0, ((s32)(255.0f * TAdMultiPlyChrSelectGC__data_804E0AF0[i] + 0.5f) << 24) | 0xFFFFFF);
             q.u0 = self->quad[i + 4][0].u0;
             q.u1 = self->quad[i + 4][0].u1;
             q.v0 = self->quad[i + 4][0].v0;
             q.v1 = self->quad[i + 4][0].v1;
-            q.x = lbl_805DE568 + self->quad[i + 4][0].x;
-            q.z = lbl_805DE568 + self->quad[i + 4][0].z;
+            q.x = (-206.0f) + self->quad[i + 4][0].x;
+            q.z = (-206.0f) + self->quad[i + 4][0].z;
             q.y = self->quad[i + 4][0].y;
             q.w = self->quad[i + 4][0].w;
             if (q.x > TAdMultiPlyChrSelectGC__data_805DE56C) {
@@ -246,7 +243,7 @@ void TAdMultiPlyChrSelectGC__sub_802C522C(s32 arg0) {
     u32 i;
     for (i = 0; i < 4; i++) {
         if (TAdMultiPlyChrSelectGC__data_804E0AE0[i] == 1) {
-            s32 alpha = (s32)(lbl_805DE564 * TAdMultiPlyChrSelectGC__data_804E0AF0[i] + lbl_805DE560);
+            s32 alpha = (s32)(255.0f * TAdMultiPlyChrSelectGC__data_804E0AF0[i] + 0.5f);
             begin_screen_draw(1);
             TObjFish::set_global_param(lbl_805D67D0);
             set_draw_texture_and_color(0, (alpha << 24) | 0xFFFFFF);

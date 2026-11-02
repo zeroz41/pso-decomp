@@ -193,14 +193,13 @@ void TObjEneDD::emit_effect_at_position(void* a1) { TObjEneDD::emit_enemy_effect
 void TObjEneDD::emit_effect(void* p, int a1, int a2) { TObjEneDD::emit_enemy_effect((s32)p, (s32)a1, (u8 *)a2, 0); }
 
 extern u8 *obj_ene_dd_instance;
-extern const f32 lbl_805D9EA0;
 
 void TObjEneDD::emit_enemy_effect(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     ((TUnk_804928CC *)obj_ene_dd_instance)->sub_800BC3E8((u8 *)arg0);
     get_position__12TBoss1DragonFv(obj_ene_dd_instance, arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
     *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
-    if (*(f32 *)((s8 *)arg2 + 8) > lbl_805D9EA0) {
+    if (*(f32 *)((s8 *)arg2 + 8) > 100.0f) {
         ((EneDDObj2_800BA138*)obj_ene_dd_instance)->m16(arg2 + 0xC, (void*)arg3);
         return;
     }
@@ -216,7 +215,7 @@ void TObjEneDD::setup_instance(s32 arg0, s32 arg1, u8 *arg2, s32 arg3) {
     get_position__12TBoss1DragonFv(obj_ene_dd_instance, arg1);
     *(f32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0xC) = (f32) *(f32 *)((s8 *)arg2 + 8);
     *(s32 *)((s8 *)(*(void **)((s8 *)obj_ene_dd_instance + 0xA4)) + 0x18) = 0x9D03;
-    if (*(f32 *)((s8 *)arg2 + 8) > lbl_805D9EA0) {
+    if (*(f32 *)((s8 *)arg2 + 8) > 100.0f) {
         ((EneDDObj_800BA138*)obj_ene_dd_instance)->m13(arg2 + 0xC, (void*)arg2, (void*)arg3);
         return;
     }
