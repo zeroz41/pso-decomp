@@ -387,6 +387,7 @@ force_active:
   - TBoss8Dragon__sub_80064AB0
   - TBoss8Dragon__sub_80064DB8
   - TBoss8Dragon__sub_80064E3C
+  - TBoss8Dragon__sub_800BB650
   - TBoss8Dragon__sub_802F3C94
   - TBoss8Dragon__sub_802F3F20
   - TBoss8Dragon__sub_802FDF10
@@ -3390,6 +3391,7 @@ force_active:
   - __vt__9TKomorebi
   - __vt__9TMainTask
   - __vt__9TObjChara
+  - __vt__9TObjEneDD
   - __vt__9TObjEnemy
   - __vt__9TObjHashi
   - __vt__9TObjLight
@@ -4399,6 +4401,7 @@ force_active:
   - calc_time_from_hms__6TLobbyFv
   - calc_trap_count__16TOTrapAncient02RFv
   - calc_tube_progress__10TBoss6TubeFl
+  - calc_wall_slide_destination__FPvPvfff
   - calc_xz_direction_to__16TObjEneBm5GibonUFPvPvPv
   - call_9A24_plus_1__11TBoss6Type2FPl
   - call_null__12TBoss8DragonFv
@@ -6778,6 +6781,7 @@ force_active:
   - is_target_in_attack_range__16TBoss3VoloptCoreFv
   - is_target_in_front_range__9TBoss6MagFv
   - is_target_in_range__11TObjInfoColFf
+  - is_target_unobstructed__9TObjEneDDFl
   - is_valid_player_index__6TLobbyFi
   - is_valid_state__6TLobbyFPvi
   - is_value_out_of_range__6TLobbyFl

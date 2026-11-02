@@ -315,7 +315,6 @@ pso/boss/TBoss8Dragon_8005D700.cpp
 pso/boss/TBoss8Dragon_8005D708.cpp
 pso/boss/TBoss8Dragon_8005D860.cpp
 pso/boss/TBoss8Dragon_80067034.cpp
-pso/boss/TBoss8Dragon_800BB650.cpp
 pso/boss/TBoss8Dragon_800BC53C.cpp
 pso/boss/TBoss8Dragon_8028A8F8.cpp
 pso/boss/TBoss8Dragon_802F3348.cpp
@@ -432,21 +431,6 @@ pso/enemy/TObjEneBm9Mericarol_802D05BC.cpp
 pso/enemy/TObjEneBm9Mericarol_Bomb.cpp
 pso/enemy/TObjEneBm9Mericarol_EffCurse3.cpp
 pso/enemy/TObjEneDD.cpp
-pso/enemy/TObjEneDD_800B99B4.cpp
-pso/enemy/TObjEneDD_800B99D8.cpp
-pso/enemy/TObjEneDD_800B9A34.cpp
-pso/enemy/TObjEneDD_800B9AF8.cpp
-pso/enemy/TObjEneDD_800B9B84.cpp
-pso/enemy/TObjEneDD_800B9D20.cpp
-pso/enemy/TObjEneDD_800B9F64.cpp
-pso/enemy/TObjEneDD_800B9F98.cpp
-pso/enemy/TObjEneDD_800BA138.cpp
-pso/enemy/TObjEneDD_800BA754.cpp
-pso/enemy/TObjEneDD_800BA934.cpp
-pso/enemy/TObjEneDD_800BABA4.cpp
-pso/enemy/TObjEneDD_800BB158.cpp
-pso/enemy/TObjEneDD_800BB364.cpp
-pso/enemy/TObjEneDD_800BB804.cpp
 pso/enemy/TObjEneDD_800C2614.cpp
 pso/enemy/TObjEneDD_800C38D0.cpp
 pso/enemy/TObjEneDarkGunCenter.cpp
@@ -463,7 +447,6 @@ pso/enemy/TObjEneDolmOlm.cpp
 pso/enemy/TObjEneDubchik.cpp
 pso/enemy/TObjEneEpsilon.cpp
 pso/enemy/TObjEneEpsilonGuard_8035DD68.cpp
-pso/enemy/TObjEneEpsilon_800B92AC.cpp
 pso/enemy/TObjEneHoldEffect.cpp
 pso/enemy/TObjEneHoldEffect_800FD814.cpp
 pso/enemy/TObjEneHoldEffect_8036CDFC.cpp
@@ -2772,8 +2755,6 @@ pso/unk/text_800A884C.cpp
 pso/unk/text_800A887C.cpp
 pso/unk/text_800AAC5C.cpp
 pso/unk/text_800AAF78.cpp
-pso/unk/text_800B9194.cpp
-pso/unk/text_800B9254.cpp
 pso/unk/text_800BC4C8.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp

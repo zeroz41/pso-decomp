@@ -1792,68 +1792,11 @@ pso/object/TObjCGrass.cpp:
 	.sbss       start:0x805D5130 end:0x805D5134
 	.sdata2     start:0x805D9E60 end:0x805D9E7C
 
-pso/unk/text_800B9194.cpp:
-	.text       start:0x800B9194 end:0x800B9254
-
-pso/unk/text_800B9254.cpp:
-	.text       start:0x800B9254 end:0x800B92AC
-
-pso/enemy/TObjEneEpsilon_800B92AC.cpp:
-	.text       start:0x800B92AC end:0x800B99B4
-	.rodata     start:0x8043B698 end:0x8043B6A0
-
-pso/enemy/TObjEneDD_800B99B4.cpp:
-	.text       start:0x800B99B4 end:0x800B99D8
-
-pso/enemy/TObjEneDD_800B99D8.cpp:
-	.text       start:0x800B99D8 end:0x800B9A34
-
-pso/enemy/TObjEneDD_800B9A34.cpp:
-	.text       start:0x800B9A34 end:0x800B9AF8
-	.data       start:0x80492558 end:0x804926FC
-
-pso/enemy/TObjEneDD_800B9AF8.cpp:
-	.text       start:0x800B9AF8 end:0x800B9B84
-
-pso/enemy/TObjEneDD_800B9B84.cpp:
-	.text       start:0x800B9B84 end:0x800B9D20
-
-pso/enemy/TObjEneDD_800B9D20.cpp:
-	.text       start:0x800B9D20 end:0x800B9F64
-
-pso/enemy/TObjEneDD_800B9F64.cpp:
-	.text       start:0x800B9F64 end:0x800B9F98
-
-pso/enemy/TObjEneDD_800B9F98.cpp:
-	.text       start:0x800B9F98 end:0x800B9FE8
-
 pso/enemy/TObjEneDD.cpp:
-	.text       start:0x800B9FE8 end:0x800BA138
-
-pso/enemy/TObjEneDD_800BA138.cpp:
-	.text       start:0x800BA138 end:0x800BA754
+	.text       start:0x800B9194 end:0x800BBE90
+	.rodata     start:0x8043B698 end:0x8043B6A0
+	.data       start:0x80492558 end:0x804928A0
 	.sdata2     start:0x805D9EA0 end:0x805D9EA4
-
-pso/enemy/TObjEneDD_800BA754.cpp:
-	.text       start:0x800BA754 end:0x800BA934
-
-pso/enemy/TObjEneDD_800BA934.cpp:
-	.text       start:0x800BA934 end:0x800BABA4
-
-pso/enemy/TObjEneDD_800BABA4.cpp:
-	.text       start:0x800BABA4 end:0x800BB158
-
-pso/enemy/TObjEneDD_800BB158.cpp:
-	.text       start:0x800BB158 end:0x800BB364
-
-pso/enemy/TObjEneDD_800BB364.cpp:
-	.text       start:0x800BB364 end:0x800BB650
-
-pso/boss/TBoss8Dragon_800BB650.cpp:
-	.text       start:0x800BB650 end:0x800BB804
-
-pso/enemy/TObjEneDD_800BB804.cpp:
-	.text       start:0x800BB804 end:0x800BBE90
 
 pso/player/TObjPlayer_800BBE90.cpp:
 	.text       start:0x800BBE90 end:0x800BC3C4
