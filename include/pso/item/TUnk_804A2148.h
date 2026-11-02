@@ -7,7 +7,6 @@ class TUnk_804A2148 : public TItemShootModel {
 public:
     virtual ~TUnk_804A2148();
     virtual void hook();
-    void *dt_item_shoot_model(s16);
     virtual void render();
 };
 typedef char TUnk_804A2148_size[sizeof(TUnk_804A2148) == 0x6C ? 1 : -1];

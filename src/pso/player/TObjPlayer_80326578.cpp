@@ -49,11 +49,11 @@ s32 __nw__15TItemHeapObjectFUl(s32);
 s32 get_owner_client__5TItemFv(void *);
 s16 get_actor_tp(u8 *p);
 
-extern s32 lbl_804ECDC0[];
+extern s32 __vt__13TUnk_804ECDC0[];
 
 void *TUnk_804ECDC0::set_vtable_mode2_alt(s32 _w1, void *_w2) {
     __ct__11TItemWeaponFP7TObjectPUc((void *)this, (void *)_w1);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804ECDC0;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804ECDC0;
     set_weapon_flags(2);
     return this;
 }

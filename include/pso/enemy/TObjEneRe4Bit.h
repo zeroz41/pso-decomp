@@ -7,8 +7,9 @@
 struct TObjEneRe4Bit : public TObjEneDD_ST {
     virtual ~TObjEneRe4Bit();
     virtual void vfunc_88();
-    virtual s32 vfunc_83();
+    virtual void vfunc_105();
     virtual void vfunc_106();
+    virtual void dispatch_action(u32 state, s32 reason);
     void sub_800ED408();
     void call_vt_90_91();
     void clear_state_flags_when_done();
@@ -64,7 +65,6 @@ void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *arg0, s32 arg1);
 void TObjEneRe4Bit__sub_800ECED0(TObjEneRe4Bit *arg0, s32 arg1);
 void TObjEneRe4Bit__sub_800EDAB0(void);
 void TObjEneRe4Bit__sub_800EDAB4(void);
-void TObjEneRe4Bit__vt85(s32 arg0, u32 arg1, s32 msg);
 void TObjEneRe4Sorcerer__sub_800ED47C(void *p);
 int TObjEneRe4Sorcerer__sub_800ED498(u8 *arg0);
 void *__dt__13TObjEneRe4BitFv(void *arg0, s16 arg1);

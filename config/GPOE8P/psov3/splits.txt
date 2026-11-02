@@ -352,7 +352,7 @@ pso/boss/TObjBoss2Tunnel_8003B138.cpp:
 	.text       start:0x8003B138 end:0x8003C804
 	.ctors      start:0x80433F30 end:0x80433F34
 	.rodata     start:0x80435EC8 end:0x80435ED0
-	.data       start:0x804833B8 end:0x804835D8
+	.data       start:0x804833B8 end:0x804835F0
 	.sdata2     start:0x805D85E0 end:0x805D8658
 
 pso/boss/TBoss3Volopt.cpp:
@@ -3352,16 +3352,20 @@ pso/unk/text_80124068.cpp:
 	.text       start:0x80124068 end:0x801240C0
 
 pso/item/SpecialProjectileWeapons.cpp:
-	.text       start:0x801240C0 end:0x80124C90
+	.text       start:0x801240C0 end:0x80124760
 	.rodata     start:0x8043E940 end:0x8043E954
-	.data       start:0x804A2018 end:0x804A2260
+	.data       start:0x804A2018 end:0x804A2148
+
+original_padding_8043E954:
+	.rodata     start:0x8043E954 end:0x8043E958 align:4
+
+pso/item/SpecialProjectileWeapons_80124760.cpp:
+	.text       start:0x80124760 end:0x80124C90
+	.data       start:0x804A2148 end:0x804A2260
 	.sdata2     start:0x805DAD28 end:0x805DAD34
 
 original_padding_805DAD34:
 	.sdata2     start:0x805DAD34 end:0x805DAD38 align:4
-
-original_padding_8043E954:
-	.rodata     start:0x8043E954 end:0x8043E958 align:4
 
 pso/unk/text_80124C90.cpp:
 	.text       start:0x80124C90 end:0x80124FBC
@@ -11356,7 +11360,7 @@ pso/unk/text_80325F7C.cpp:
 
 pso/boss/TBoss5GryphonLightningHorn.cpp:
 	.text       start:0x8032627C end:0x80326578
-	.data       start:0x804ECDA8 end:0x804ECDC0
+	.data       start:0x804ECDA8 end:0x804ECEB8
 	.sdata2     start:0x805DF650 end:0x805DF658
 
 pso/player/TObjPlayer_80326578.cpp:
