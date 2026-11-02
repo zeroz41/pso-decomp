@@ -14,15 +14,15 @@ void TObjNpcLappy__sub_8014B840(void) { npc_lappy_cached_object = lbl_805D5D78; 
 
 extern s32 lbl_804A9F50[];
 
-void *TUnk_804A9F50::destroy_npc_lappy_base(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804A9F50;
-        __dt__11TObjNpcBaseFv(this, 0);
+void *__dt__13TUnk_804A9F50Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A9F50;
+        __dt__11TObjNpcBaseFv(arg0, 0);
         if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
+            __dl__7TObjectFPv(arg0);
         }
     }
-    return this;
+    return arg0;
 }
 
 }
