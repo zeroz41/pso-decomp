@@ -14075,8 +14075,12 @@ pso/unk/text_803D619C.cpp:
 	.sdata2     start:0x805E0DD0 end:0x805E0DE0
 
 pso/unk/text_803D6438.cpp:
-	.text       start:0x803D6438 end:0x803D64F8
-	.sdata2     start:0x805E0DE0 end:0x805E0DEC
+	.text       start:0x803D6438 end:0x803D647C
+	.sdata2     start:0x805E0DE0 end:0x805E0DE4
+
+pso/unk/text_803D647C.cpp:
+	.text       start:0x803D647C end:0x803D64F8
+	.sdata2     start:0x805E0DE8 end:0x805E0DEC
 
 pso/unk/text_803D64F8.cpp:
 	.text       start:0x803D64F8 end:0x803D6538
