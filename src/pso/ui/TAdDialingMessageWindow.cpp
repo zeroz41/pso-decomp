@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #include "types.h"
 #include "pso/ui/TAdDialingMessageWindow.h"
 
@@ -12,9 +13,11 @@ struct Base_8036A248_8036A174 { char pad[0x18]; };
 struct VObj_8036A248_8036A174 : Base_8036A248_8036A174 { virtual void m0(int); };
 
 extern "C" {
-s32 TAdDialingGC__sub_80328B24(s32 *, s32 *);
-extern s32 lbl_8047A400[];
-extern s32 lbl_8047A408[];
+const char *TAdDialingMessageWindow__name = "TAdDialingMessageWindow";
+
+void TAdDialingGC__sub_80328B24(const f32 *, const f32 *);
+const f32 lbl_8047A400[2] = {0.0f, 28.0f};
+const f32 lbl_8047A408[2] = {640.0f, 84.0f};
 extern const f32 lbl_805E0364;
 extern const f32 lbl_805E0368;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -50,12 +53,11 @@ TAdDialingMessageWindow::~TAdDialingMessageWindow() {
     }
 }
 extern void *tl_fadeafter;
-extern void *lbl_805D44C8;
 extern void *tl_camera;
 TAdDialingMessageWindow::TAdDialingMessageWindow(void *arg1, void *arg2) : TObject((TObject *)tl_fadeafter) {
     void *o;
     void *o2;
-    *(void * *)&this->m_name = lbl_805D44C8;
+    *(const char **)&this->m_name = TAdDialingMessageWindow__name;
     this->m_1c = 0;
     *(void **)((s8 *)this + 0x20) = arg1;
     o = __nw__7TObjectFUl(0x24);

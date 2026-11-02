@@ -134,6 +134,7 @@ force_active:
   - TAdChrSelBSlotGC__sub_8030F3A0
   - TAdChrSelSlotGC__sub_802C754C
   - TAdDialingGC__sub_803284F8
+  - TAdDialingMessageWindow__name
   - TAdEnterPasswordGC__sub_8032BC94
   - TAdEnterSerialAccessGC__sub_8032190C
   - TAdEnterSerialAccessGC__sub_8032195C
@@ -6443,6 +6444,7 @@ force_active:
   - lbl_804C46B0
   - lbl_804C4794
   - lbl_804C4878
+  - lbl_804C6900
   - lbl_804C8934
   - lbl_804C8A44
   - lbl_804C9C9C
@@ -7547,6 +7549,7 @@ force_active:
   - parse_r_index
   - parse_tag_command__24TMessageWindowControllerFv
   - particle_regular_bml_descriptor
+  - particle_sprite_atlas_uv_rects
   - particle_texture_id_table
   - perform_action__14TItemProShieldFv
   - photon_blast_farlla_params

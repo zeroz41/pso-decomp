@@ -3385,6 +3385,7 @@ pso/player/TObjPlayer_801266D8.cpp:
 
 pso/player/TItemWeaponFist.cpp:
 	.text       start:0x80126740 end:0x80126990
+	.data       start:0x804A2B50 end:0x804A2B98
 	.sdata2     start:0x805DAD80 end:0x805DAD98
 
 pso/player/TObjPlayer_80126990.cpp:
@@ -7111,6 +7112,7 @@ pso/misc/TQuadSpriteCol.cpp:
 
 pso/misc/TParticleCtrl_801E5330.cpp:
 	.text       start:0x801E5330 end:0x801E5598
+	.data       start:0x804C5820 end:0x804C6910
 	.bss        start:0x80511F70 end:0x80512220
 
 pso/misc/TQuadSpriteNormal.cpp:
@@ -12473,7 +12475,9 @@ pso/ui/TAdDialingMessageWindow_8036A064.cpp:
 
 pso/ui/TAdDialingMessageWindow.cpp:
 	.text       start:0x8036A174 end:0x8036A37C
+	.rodata     start:0x8047A3E8 end:0x8047A410
 	.data       start:0x804F3440 end:0x804F3458
+	.sdata      start:0x805D44C8 end:0x805D44D0
 
 pso/misc/TLobby_8036A37C.cpp:
 	.text       start:0x8036A37C end:0x8036A3CC
@@ -12495,8 +12499,9 @@ pso/unk/text_8036A620.cpp:
 
 pso/boss/TBoss6EffFlowSoul.cpp:
 	.text       start:0x8036A6B0 end:0x8036A894
-	.rodata     start:0x8047AC58 end:0x8047AC60
+	.rodata     start:0x8047AC40 end:0x8047AC60
 	.data       start:0x804F35E0 end:0x804F35F8
+	.sdata      start:0x805D44D0 end:0x805D44D8
 
 pso/unk/text_8036A894.cpp:
 	.text       start:0x8036A894 end:0x8036A92C

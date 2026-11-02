@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #include "pso/TBoss6EffFlowSoul.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -10,6 +11,8 @@
 #include "pso/TParticleCtrl.h"
 
 extern "C" {
+
+const char *TBoss6EffFlowSoul__name = "TBoss6EffFlowSoul";
 
 struct Vec_8036A6B0 { f32 x, y, z; };
 
