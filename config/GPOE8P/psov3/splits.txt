@@ -6292,6 +6292,7 @@ pso/player/TObjPlayer_801A7080.cpp:
 
 pso/misc/PhotonBlastSummon.cpp:
 	.text       start:0x801A70C8 end:0x801A7E40
+	.data       start:0x804C2438 end:0x804C3248
 	.sdata2     start:0x805DC0D0 end:0x805DC0F8
 
 pso/misc/TScene_801A7E40.cpp:
