@@ -2617,6 +2617,7 @@ pso/ui/TAdGameStartLineGC.cpp
 pso/ui/TAdGameStartShadowGC.cpp
 pso/ui/TAdGameStartShineGC.cpp
 pso/ui/TAdGuideButtonGC.cpp
+pso/ui/TAdLdQuestPrtGC.cpp
 pso/ui/TAdLicAgreementGC.cpp
 pso/ui/TAdLoadNetworkGC.cpp
 pso/ui/TAdLoadNetworkGC_803084AC.cpp

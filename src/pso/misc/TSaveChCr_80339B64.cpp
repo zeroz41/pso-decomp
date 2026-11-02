@@ -18,9 +18,9 @@ s32 poll_memcard_status__9TSaveChCrFv();
 s32 save_character__9TSaveChCrFv(void *);
 
 void TSaveChCr::destroy_if_keyboard_idle() { if (this->timer == 0) { queue_destruction__7TObjectFv(this); request_queued_main_phase(); } }
-int TSaveChCr__sub_80339B94(void* p) { return close_window__9TSaveChCrFv(p); }
+void TSaveChCr::sub_80339B94() { close_window(); }
 void TSaveChCr::save_if_dirty() { if (TSaveChCr__sub_80339F30(this) != 0) { set_state((s32)((void*)4)); } }
-int TSaveChCr::close_and_advance_to_3() { return close_and_advance__9TSaveChCrFPv(this, 3); }
+void TSaveChCr::close_and_advance_to_3() { close_and_advance__9TSaveChCrFPv(this, 3); }
 void TSaveChCr::update_save_status() {
     s32 var_r3;
 
@@ -44,9 +44,9 @@ void TSaveChCr::update_save_status() {
         TKeyBoardControl__sub_8000F9CC(9);
     }
 }
-int TSaveChCr::close_and_advance_step2() { return close_and_advance__9TSaveChCrFPv(this, 2); }
-void TSaveChCr__sub_80339CE4(void) {  }
-int TSaveChCr::save_1() { return close_and_advance__9TSaveChCrFPv(this, 1); }
+void TSaveChCr::close_and_advance_step2() { close_and_advance__9TSaveChCrFPv(this, 2); }
+void TSaveChCr::sub_80339CE4() {}
+void TSaveChCr::save_1() { close_and_advance__9TSaveChCrFPv(this, 1); }
 void TSaveChCr::update_save_state() {
     s32 temp_r4;
 
@@ -67,10 +67,10 @@ void TSaveChCr::update_save_state() {
         }
     }
 }
-void fn_80339D78(u8 *save_ch_cr) {
-    ((s32)close_window__9TSaveChCrFv(save_ch_cr));
-    if (((TSaveChCr *)save_ch_cr)->card_status & 1) {
-        ((s32)close_and_advance__9TSaveChCrFPv(save_ch_cr, 0));
+void TSaveChCr::fn_80339D78() {
+    close_window();
+    if (card_status & 1) {
+        close_and_advance__9TSaveChCrFPv(this, 0);
     }
 }
 s32 TAdSinglePlyChrSelectGC__sub_80339DBC(void) {

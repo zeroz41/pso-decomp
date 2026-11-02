@@ -11607,7 +11607,11 @@ pso/boss/TBoss6Kakusan.cpp:
 
 pso/ui/TAdLdQuestPrtGC.cpp:
 	.text       start:0x80322B50 end:0x80323134
+	.rodata     start:0x80476610 end:0x80476648
 	.data       start:0x804ECA28 end:0x804ECA40
+	.sdata      start:0x805D4168 end:0x805D416C
+	.sbss       start:0x805D6C38 end:0x805D6C3D
+	.sdata2     start:0x805DF540 end:0x805DF550
 
 pso/boss/TBoss6GravBall_80323134.cpp:
 	.text       start:0x80323134 end:0x80323348

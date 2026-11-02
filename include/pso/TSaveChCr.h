@@ -25,11 +25,14 @@ public:
     void open_message_window(u32 arg1);
     void destroy_if_keyboard_idle();
     void save_if_dirty();
-    int close_and_advance_to_3();
+    void close_and_advance_to_3();
     void update_save_status();
-    int close_and_advance_step2();
-    int save_1();
+    void close_and_advance_step2();
+    void save_1();
     void update_save_state();
+    void fn_80339D78();
+    void sub_80339CE4();
+    void sub_80339B94();
     void close_window();
     void create_backgrounds();
     void save_character();

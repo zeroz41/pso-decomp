@@ -5,7 +5,10 @@
 
 struct ControllerInputContext {
     u32 buttons;
-    u8 unknown_04[0x14];
+    u8 unknown_04[0x10];
+    // Analog stick, signed (inferred: scaled into a turn rate by TAdLdQuestPrtGC).
+    s16 stick_x;
+    s16 stick_y;
     /* PADStatus-style sticks (field names from the pad copy loop at 0x801A5F1C) */
     s16 cstick_x;
     s16 cstick_y;

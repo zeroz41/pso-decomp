@@ -151,6 +151,7 @@ force_active:
   - TAdEp3Exist__sub_8036F5A4
   - TAdFadeGC__name
   - TAdGuideTxtGC__class_name
+  - TAdLdQuestPrtGC__class_name
   - TAdLoadNetworkGC__object_offset_table
   - TAdMcSelectCursorGC__ct
   - TAdMcSelectCursorGC__texture_entry
@@ -2242,6 +2243,7 @@ force_active:
   - __dt__15TAdChrSelSlotGCFv
   - __dt__15TAdDrawLineCtrlFv
   - __dt__15TAdDrawLineTaskFv
+  - __dt__15TAdLdQuestPrtGCFv
   - __dt__15TAdMcSelectMcGCFv
   - __dt__15TAdPlayerLoadGCFv
   - __dt__15TAdPlyPltAnimGCFv
@@ -2876,6 +2878,7 @@ force_active:
   - __vt__15TAdChrSelSlotGC
   - __vt__15TAdDrawLineCtrl
   - __vt__15TAdDrawLineTask
+  - __vt__15TAdLdQuestPrtGC
   - __vt__15TAdMcSelectMcGC
   - __vt__15TAdPlayerLoadGC
   - __vt__15TAdPlyPltAnimGC
@@ -5813,6 +5816,7 @@ force_active:
   - generate_shop_weapon_stock__Fl
   - generate_tool_drop__9TItemDropFiiPv
   - get__12CursorActionFv
+  - get_abs__15TAdLdQuestPrtGCFi
   - get_action_cursor_priority__11TMainCursorFPvll
   - get_action_motion__10TObjMotionFs
   - get_actor_attack_params__FP9TObjChara
@@ -13116,6 +13120,7 @@ force_active:
   - render__15TAdChrSelSlotGCFv
   - render__15TAdDrawLineCtrlFv
   - render__15TAdDrawLineTaskFv
+  - render__15TAdLdQuestPrtGCFv
   - render__15TAdPlayerLoadGCFv
   - render__15TAdPlyPltAnimGCFv
   - render__15TAdRicoRingCtrlFv
@@ -13757,6 +13762,7 @@ force_active:
   - run_task__15TAdChrSelSlotGCFv
   - run_task__15TAdDrawLineCtrlFv
   - run_task__15TAdDrawLineTaskFv
+  - run_task__15TAdLdQuestPrtGCFv
   - run_task__15TAdPlayerLoadGCFv
   - run_task__15TAdPlyPltAnimGCFv
   - run_task__15TAdRicoRingCtrlFv
