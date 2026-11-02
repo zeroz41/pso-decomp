@@ -6423,7 +6423,7 @@ pso/misc/TPhotonConcentrate.cpp:
 
 pso/player/PhotonBlastResults.cpp:
 	.text       start:0x801A826C end:0x801A9BAC
-	.rodata     start:0x80446CC8 end:0x80446CD0
+	.rodata     start:0x80446CC8 end:0x80446CD8
 	.bss        start:0x8050E880 end:0x8050E920
 	.sdata2     start:0x805DC110 end:0x805DC138
 
