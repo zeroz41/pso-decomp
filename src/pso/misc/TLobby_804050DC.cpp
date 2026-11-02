@@ -6597,7 +6597,8 @@ struct Ipv6Iface {
     s16 f18;
     s16 f1A;
     s16 scope;
-    u8 pad1E[0xE];
+    u8 pad1E[0xA];
+    s32 f28;
     Ipv6AddrNode *nodes;
 };
 struct Ipv6AddressState {
@@ -6653,6 +6654,70 @@ s32 TLobby__sub_80411F1C(u8 *out, u8 *dst, s16 idx) {
     NetMemcpy(out, sel, 16);
     return 0;
 }
+
+struct Ipv6IfaceAddrRecord {
+    s32 kind;
+    u8 addr[16];
+    s16 f14;
+    s16 f16;
+    s32 f18;
+};
+
+#pragma push
+#pragma opt_common_subs on
+s32 TLobby__sub_80412058(s16 idx, NetBufferRef *out, s16 len, s32 arg3) {
+    s16 TLobby__sub_80409EB0(s16 arg0, s32 arg1);
+    Ipv6AddressState *g = (Ipv6AddressState *)&ipv6_address_routing_state;
+    s16 n;
+    s32 count;
+    Ipv6IfaceAddrRecord rec;
+    Ipv6Iface *ifc;
+    NetBufferRef ref;
+    Ipv6AddrNode *node;
+
+    if (idx < 0 || idx >= g->count) {
+        return -0x10A;
+    }
+    ifc = g->ifaces;
+    ifc += idx;
+    if (ifc->state != 1) {
+        return -2;
+    }
+    if (len < sizeof(rec)) {
+        return -2;
+    }
+    rec.kind = 6;
+    NetMemcpy(rec.addr, ifc->addr, sizeof(rec.addr));
+    rec.f14 = ifc->f14;
+    rec.f16 = ifc->f1A;
+    rec.f18 = ifc->f28;
+    ((TLobby *)&ref)->set_value_and_enable((s32)&rec);
+    TLobby__sub_80406FD8(out, &ref, sizeof(rec));
+    TLobby__sub_80406EB8(out, sizeof(rec));
+    node = ifc->nodes;
+    count = 1;
+    n = 0;
+    len -= sizeof(rec);
+    while (len >= sizeof(rec) && node != NULL && n < g->max_nodes) {
+        rec.kind = 6;
+        NetMemcpy(rec.addr, node->addr, sizeof(rec.addr));
+        rec.f14 = node->f12;
+        rec.f16 = node->f18;
+        rec.f18 = 0;
+        ((TLobby *)&ref)->set_value_and_enable((s32)&rec);
+        TLobby__sub_80406FD8(out, &ref, sizeof(rec));
+        TLobby__sub_80406EB8(out, sizeof(rec));
+        node = node->next;
+        count++;
+        n++;
+        len -= sizeof(rec);
+    }
+    if (TLobby__sub_80409EB0(idx, ifc->f2) <= 6) {
+        TLobby__sub_80409E18(idx, ifc->f2, arg3);
+    }
+    return count;
+}
+#pragma pop
 
 struct Ent_80412210 {
     s16 f0;
@@ -8811,9 +8876,49 @@ s32 NetIPv6ParseRedirectOptions(u8 *arg0, s32 n, u8 *arg2, s32 arg3, s16 *arg4, 
     return 0;
 }
 
+struct Msg_80416994 { u8 pad0[4]; u8 flags; u8 pad5[3]; u8 name[0x10]; };
+s16 NetIPv6FindTargetLinkLayerAddressOption(u8 *o, s32 len, u8 **out, s16 *outlen);
+s16 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *msg, u8 *name, s16 len, s32 arg3, s32 arg4, s16 id);
+
+s16 NetIPv6HandleNeighborAdvertisement(NetPacket *pkt, u8 *src, u8 *dst, s16 iface) {
+    s16 NetIPv6IsMulticast(u8 *addr);
+    NetBufferRef ref;
+    Msg_80416994 msg;
+    u8 *lladdr;
+    s16 lladdr_len;
+    NetPacketFragment *frag;
+    u32 len;
+    s16 r;
+
+    frag = &pkt->fragments[1];
+    lladdr = NULL;
+    lladdr_len = 0;
+    len = frag->length;
+    if (len < sizeof(Msg_80416994)) {
+        return -1;
+    }
+    ((TLobby *)&ref)->set_value_and_enable((s32)&msg);
+    TLobby__sub_80406FD8(&ref, &frag->buffer, sizeof(Msg_80416994));
+    if (NetIPv6IsMulticast(msg.name) != 0) {
+        return -1;
+    }
+    len -= sizeof(Msg_80416994);
+    if (len >= 8) {
+        TLobby__sub_80406EB8(&frag->buffer, sizeof(Msg_80416994));
+        r = NetIPv6FindTargetLinkLayerAddressOption((u8 *)frag, len, &lladdr, &lladdr_len);
+        if (r < 0) {
+            return r;
+        }
+    }
+    if (NetIPv6IsMulticast(dst) != 0 && ((msg.flags & 0x40) || lladdr_len == 0)) {
+        return -1;
+    }
+    return NetIPv6ApplyNeighborAdvertisement(&msg, lladdr, lladdr_len, (s32)src, (s32)dst, iface);
+}
+
 u8 *TLobby__sub_80406F0C(void *);
 
-s32 NetIPv6FindTargetLinkLayerAddressOption(u8 *o, s32 len, u8 **out, s16 *outlen) {
+s16 NetIPv6FindTargetLinkLayerAddressOption(u8 *o, s32 len, u8 **out, s16 *outlen) {
     u8 *p;
     s16 sz;
 
@@ -8866,7 +8971,6 @@ struct Glob_80416994 {
     s16 delay2;
     s16 delay1;
 };
-struct Msg_80416994 { u8 pad0[4]; u8 flags; u8 pad5[3]; u8 name[0x10]; };
 struct Item_80416994 { s16 port; u8 pad2[2]; u8 val[8]; };
 struct Pkt_80416994 { u8 pad0[4]; s32 n; s32 port; Item_80416994 items[1]; };
 struct Arg_80416994 { u8 *p; s32 v; };
@@ -8909,10 +9013,9 @@ inline Peer_80416994 *ScanPeers_80416994(Glob_80416994 *g, void *name) {
     return hit;
 }
 
-s32 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *msg, u8 *name, s16 len, s32 arg3, s32 arg4, s32 id) {
-    s32 TLobby__sub_80410BA8(void *, void *, s32, void *);
-    s16 TLobby__sub_80413C0C(void *, s32);
-    s16 TLobby__sub_80413AA0(void *, s32);
+s16 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *msg, u8 *name, s16 len, s32 arg3, s32 arg4, s16 id) {
+    s16 TLobby__sub_80410BA8(void *, void *, s16, void *);
+    s32 TLobby__sub_80411604(s16, int, void *);
     Arg_80416994 a;
     Arg_80416994 b;
     Glob_80416994 *g = (Glob_80416994 *)&ipv6_neighbor_discovery_state;
@@ -8966,7 +9069,7 @@ s32 NetIPv6ApplyNeighborAdvertisement(Msg_80416994 *msg, u8 *name, s16 len, s32 
             e->flags = msg->flags;
             if (e->sub != 0) {
                 Pkt_80416994 *pkt = (Pkt_80416994 *)TLobby::alloc_free_entry();
-                s32 ret;
+                s16 ret;
                 if (pkt == 0) {
                     ret = -0x10E;
                 } else {
@@ -9969,6 +10072,39 @@ struct N_80419258 { u8 pad0[4]; s16 f4; u8 pad6[2]; O_80406B6C o; u16 f10; u16 f
 struct Addr_80419258 { s32 family; u8 data[0x10]; };
 struct E_80419258 { u8 pad0[4]; s16 f4; u8 pad6[2]; Addr_80419258 addr; u32 port; u16 f20; u8 f22; u8 f23; s16 f24; u8 pad26[2]; E_80419258 *next; N_80419258 *list; N_80419258 *f30; };
 struct G_80419258 { s16 count; s16 sub; u8 pad4[4]; E_80419258 *ents; u8 padC[4]; E_80419258 *head; E_80419258 *tail; };
+NetPacket *TLobby__sub_80418D7C(E_80419258 *e, s32 data, u16 len, u16 off, u16 hdrlen, u8 more, s16 iface);
+E_80419258 *TLobby__sub_8041955C(u8 *addr, s32 port, u8 ttl);
+s32 TLobby__sub_80419470(u8 *addr, u32 id);
+
+NetPacket *TLobby__sub_80418C40(s32 data, u16 len, u16 hdrlen, u8 ttl, u32 id, u8 *addr, u16 off, u8 more, s16 iface) {
+    NetPacket *pkt;
+    G_80419258 *g = (G_80419258 *)&packet_fragment_pool_state;
+    s16 n;
+    NetPacket *found;
+    E_80419258 *e;
+
+    for (e = g->head, n = 0; e != NULL && n < g->count; e = e->next, n++) {
+        if (((TLobby *)&e->addr)->compare_sockaddr(addr) == 0 && e->port == id) {
+            found = TLobby__sub_80418D7C(e, data, len, off, hdrlen, more, iface);
+            if (found == NULL) {
+                return NULL;
+            }
+            TLobby__sub_80419470(addr, id);
+            return found;
+        }
+    }
+    e = TLobby__sub_8041955C(addr, id, ttl);
+    if (e == NULL) {
+        return NULL;
+    }
+    pkt = TLobby__sub_80418D7C(e, data, len, off, hdrlen, more, iface);
+    if (pkt == NULL) {
+        return NULL;
+    }
+    TLobby__sub_80419470(addr, id);
+    return pkt;
+}
+
 s16 TLobby__sub_80419374(E_80419258 *e);
 
 void TLobby::update_timeout_entries() {
