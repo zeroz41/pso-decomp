@@ -1942,6 +1942,7 @@ pso/misc/pso_date.cpp
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/network/NetworkMessageTransport.cpp
+pso/network/NetworkPacketRuntime.cpp
 pso/network/NetworkTransport.cpp
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp

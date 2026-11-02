@@ -583,6 +583,8 @@ force_active:
   - TLobby__sub_803DDD2C
   - TLobby__sub_803DDD40
   - TLobby__sub_803DDD78
+  - TLobby__sub_80424DCC
+  - TLobby__sub_804251C0
   - TLobby__sub_80425D88
   - TLobby__sub_80426110
   - TLobby__sub_80426190
@@ -7605,7 +7607,9 @@ force_active:
   - network_info_trailer_buffer
   - network_info_unparsed_config_length
   - network_info_unparsed_config_lines
+  - network_packet_buffer_descriptors
   - network_packet_buffer_storage
+  - network_packet_buffers
   - next__15PSOV3EncryptionFv
   - next_sequence_action__12TBoss1DragonFv
   - nights_npc_resource_descriptor

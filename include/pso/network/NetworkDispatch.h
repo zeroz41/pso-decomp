@@ -6,6 +6,10 @@
 
 typedef void (*NetTimerCallback)(void);
 
+extern "C" {
+s32 NetRegisterTimer(s32 period, s16 locked, NetTimerCallback fn);
+}
+
 struct NetProtocolHandlerEntry {
     s16 used;
     u16 type;

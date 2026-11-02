@@ -2,6 +2,7 @@
 #include "pso/network/NetworkPacketPool.h"
 #include <stddef.h>
 #include "pso/network/NetworkTransport.h"
+#include "pso/network/NetworkDispatch.h"
 
 #include "types.h"
 #include "pso/misc/TLobby.h"
@@ -136,7 +137,7 @@ s16 TLobby__sub_80422F70(s16 iface, void *buf, s32 len, void *out);
 s16 TLobby__sub_8042315C(s16 iface, void *req);
 s16 TLobby__sub_80423064(s16 iface, s32 mode);
 extern s16 lbl_805D7B08;
-extern u8 TLobby__sub_80423298[];
+void TLobby__sub_80423298(void);
 extern s32 lbl_805D7B14;
 extern s16 lbl_805D7B18;
 void TLobby__sub_80424CA8(void);
@@ -150,8 +151,12 @@ extern s32 lbl_805D7B0C;
 extern s32 lbl_805D7B10;
 extern u8 lbl_805D7B1C[6];
 extern u32 lbl_805D7B28;
-extern u8 lbl_805D7B4C[4];
-extern u8 lbl_805D7B50[4];
+extern u32 lbl_805D7B4C;
+extern u32 lbl_805D7B50;
+extern u8 dhcp_hostname[0x2C];
+extern u32 lbl_805D7B5C;
+extern u32 lbl_805D7B60;
+extern u32 lbl_805D7B70;
 s16 TLobby__sub_803F96AC(u32*);
 struct DhcpOption_804FD948 {
     s16 id;
@@ -308,13 +313,13 @@ s32 dhcp_handle_reply__6TLobbyFsPv(s16 arg0, Arg_804249F0 *arg1) {
     if (pk->f0 != 2 || pk->f1 != 1 || pk->f2 != 6) {
         return 0;
     }
-    if (NetMemcmp(pk->f4, lbl_805D7B50, 4) != 0) {
+    if (NetMemcmp(pk->f4, &lbl_805D7B50, 4) != 0) {
         return 0;
     }
     if (NetMemcmp(pk->f1C, lbl_805D7B1C, 6) != 0) {
         return 0;
     }
-    if (NetMemcmp(q, lbl_805D7B4C, 4) != 0) {
+    if (NetMemcmp(q, &lbl_805D7B4C, 4) != 0) {
         return 0;
     }
     if (lbl_805D7B0C != 2) {
@@ -357,7 +362,7 @@ s32 dhcp_handle_reply__6TLobbyFsPv(s16 arg0, Arg_804249F0 *arg1) {
 #pragma pop
 
 void TLobby__sub_80424CA8(void) {
-    NetUnregisterTimer(TLobby__sub_80423298);
+    NetUnregisterTimer((void *)TLobby__sub_80423298);
     if (lbl_805D7B18 != -1) {
         TLobby__sub_80421B3C(lbl_805D7B18);
         lbl_805D7B18 = -1;
@@ -417,6 +422,68 @@ s32 TLobby__sub_80424DCC(s16, s32 a1, s32 a2, void *, void *a4, void *a5, void *
     lbl_805D7B74 = a7;
     *(volatile s32 *)&lbl_805D4820 = 1;
     *(volatile s32 *)&lbl_805D7B0C = 0;
+    return 0;
+}
+
+// Inferred name: clears the DHCP client state (lease timers, option table, hostname) and records the interface.
+static inline void dhcp_reset_state(s16 iface) {
+    u32 i;
+
+    lbl_805D4820 = 0;
+    lbl_805D7B0C = 0;
+    lbl_805D7B10 = 0;
+    lbl_805D7B14 = TLobby__sub_804250A8(0);
+    lbl_805D7B18 = -1;
+    for (i = 0; i < 12; i++) {
+        lbl_804FD948[i].present = 0;
+        NetMemset(lbl_804FD948[i].data, 0, lbl_804FD948[i].size);
+    }
+    lbl_805D7B40 = 0;
+    lbl_805D7B44 = 0;
+    lbl_805D7B48 = 0;
+    lbl_805D7B4C = 0x63825363;
+    lbl_805D7B50 = 0;
+    lbl_805D7B54 = 0;
+    lbl_805D7B58 = 0;
+    NetMemset(dhcp_hostname, 0, 0x20);
+    lbl_805D7B5C = 0;
+    lbl_805D7B60 = 0;
+    lbl_805D7B64 = 0;
+    lbl_805D7B68 = 0;
+    lbl_805D7B6C = 0;
+    lbl_805D7B70 = 0;
+    lbl_805D7B74 = 0;
+    lbl_805D7B78 = 0;
+    lbl_805D7B7C = 0;
+    lbl_805D7BA0 = 0;
+    lbl_805D7B08 = iface;
+}
+
+// Inferred name: brings the interface up (mode-4 request, then reads its 0x1C-byte info and 6-byte hardware address into lbl_805D7B1C).
+static inline s32 dhcp_open_interface(s16 iface) {
+    s32 addr[7];
+    addr[0] = 4;
+    addr[1] = 0;
+    addr[2] = 0;
+    addr[3] = 0;
+    if (TLobby__sub_8042315C(iface, addr) < 0) {
+        return -1;
+    }
+    if (TLobby__sub_80422F70(iface, addr, 0x1C, lbl_805D7B1C) < 0) {
+        TLobby__sub_80423064(iface, 4);
+        return -1;
+    }
+    TLobby__sub_80423064(iface, 4);
+    return 0;
+}
+
+s32 TLobby__sub_80424E44(s16 iface) {
+    dhcp_reset_state(iface);
+    if (dhcp_open_interface(lbl_805D7B08) != 0) {
+        lbl_805D7BA0 = 3;
+        return -1;
+    }
+    NetRegisterTimer(50, 0, TLobby__sub_80423298);
     return 0;
 }
 
