@@ -343,6 +343,7 @@ extern const f32 lbl_805DC564;
 s32 minimap_render_dot(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3);
 s32 minimap_render_gate(Vec *pos, u32 color, u16 rot, s16 kind, s32 flags);
 s32 add_radar_scaled_marker(Vec_801F9B8C *arg0, s32 arg1, s16 arg2, s32 arg3, f32 scale);
+s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale);
 void update_radar_auto_discovery(s32 arg0, s32 arg1, void *arg2);
 void set_perspective_projection_from_fov(s32, f32, f32, f32);
 void rotate_vector_by_matrix(void *, Vec3_801F9314 *, Vec3_801F9314 *);
@@ -651,6 +652,29 @@ void TRaderMapCore::pan_horizontal(f32 farg0) {
             break;
         }
     }
+}
+
+s32 add_radar_scaled_gate(Vec_801F9B8C *pos, s32 color, u16 rot, s16 kind, s32 flags, f32 scale) {
+    Vec_801F9B8C *cam = (Vec_801F9B8C *)&TRaderMapCore__map_view_state;
+    Vec_801F9B8C v;
+    if (TRaderMapCore__data_805D5F30 > 0x7F) {
+        return 0;
+    }
+    if (!(flags & 1)) {
+        v.x = cam->x;
+        v.z = cam->z;
+        if (xz_distance_squared(pos, &v) > lbl_805DC564) {
+            return 0;
+        }
+    }
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].x = pos->x;
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].z = pos->z;
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].scale = scale;
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].color = color;
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].kind = kind;
+    TRaderMapCore__marker_buffer[TRaderMapCore__data_805D5F30].rot = rot;
+    TRaderMapCore__data_805D5F30++;
+    return 1;
 }
 
 s32 add_radar_scaled_marker(Vec_801F9B8C *pos, s32 arg1, s16 arg2, s32 arg3, f32 scale) {
