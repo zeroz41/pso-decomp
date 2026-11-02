@@ -10,6 +10,11 @@
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowDD.h"
 
+#pragma push
+#pragma readonly_strings on
+const char *lbl_805D3898 = "TWindowChallengeResult";
+#pragma pop
+
 extern "C" {
 
 struct Entry_80246DCC {
@@ -34,8 +39,7 @@ Entry_80246DCC *get_array_entry__11TWindowBaseFi(void *, s32);
 void refresh_status_display__9TWindowDDFv(Entry_80246DCC *);
 void draw_right_aligned_number(void);
 s32 get_window_layout_position(s32);
-extern char lbl_8044E7BC[];
-extern s32 lbl_805D3898;
+extern const char lbl_8044E7BC[];
 extern const f32 lbl_805DCB60;
 extern char lbl_805DCB64[2];
 extern const f32 lbl_805DCB68;
@@ -43,9 +47,6 @@ extern const f32 lbl_805DCB6C;
 
 void __dl__7TObjectFPv(void *);
 
-extern "C" u8 lbl_8044E790[];
-extern "C" u8 lbl_8044E7A0[];
-extern "C" u8 lbl_8044E7B0[];
 extern "C" void render_shadows__7TObjectFv();
 extern void *challenge_result_window_layout[44];
 void *challenge_result_window_layout[44] = {
@@ -65,9 +66,12 @@ void *lbl_804CE298[5] = {
     (void *)0x43e90000, (void *)0x42b00000, (void *)0x4743b400, (void *)&challenge_result_window_layout,
     (void *)0x23,
 };
-void *lbl_804CE2AC[3] = {
-    (void *)&lbl_8044E790, (void *)&lbl_8044E7A0, (void *)&lbl_8044E7B0,
+#pragma push
+#pragma readonly_strings on
+const char *lbl_804CE2AC[3] = {
+    "Team Name : ", "Clear Time : ", "Death : ",
 };
+#pragma pop
 void *lbl_804CE2B8[6] = {
     (void *)0x0, (void *)0x0, (void *)&dt__22TWindowChallengeResultFPvs, (void *)&init_subwindow__22TWindowChallengeResultFPv,
     (void *)&render__22TWindowChallengeResultFv, (void *)&render_shadows__7TObjectFv,
@@ -94,7 +98,7 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
 
     ((TWindowDD *)self)->construct_base((u8 *)lbl_804CE298, (s16)4, (u8 *)(get_window_layout_position(0x3F)));
     self->vt = lbl_804CE2B8;
-    self->f0 = lbl_805D3898;
+    self->f0 = (s32)lbl_805D3898;
     for (i = 0; i < 3; i++) {
         e = get_array_entry__11TWindowBaseFi(self, i * 2);
         set_text_entry_string((u8 *)e, (u32)lbl_804CE2AC[i], 0);
@@ -133,3 +137,6 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
 }
 
 }
+
+// The capped clear time, defined after its use so the constructor addresses it on its own.
+__declspec(section ".rodata") const char lbl_8044E7BC[] = "99:59:59";

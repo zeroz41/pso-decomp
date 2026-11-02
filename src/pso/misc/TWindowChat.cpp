@@ -22,6 +22,11 @@ struct Win_802473C8 { u8 pad0[0x1E]; u16 flags; };
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubShortCut.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+
+#pragma push
+#pragma readonly_strings on
+const char *window_chat_type_name_pointer = "TWindowChat";
+#pragma pop
 struct RecoveredFields_8024792C_arg0 {
     u8 unknown_0[0x1C];
     u8 field_1C;
@@ -78,7 +83,6 @@ s32 TWindowDD__ct(int, void *, void *);
 void *__dt__11TWindowChatFv(void *, s16);
 void *__dt__11TWindowChatFv(void *arg0, s16 arg1);
 u8 *TWindowKeyBoardBase__ct(u8 *arg0);
-extern void *window_chat_type_name_pointer;
 void TWindowChat__sub_80247D2C(void* p);
 s32 TWindowChat__sub_80247D50(u8 *arg0);
 int TWindowChat__sub_80247DAC(void* p);
@@ -481,7 +485,7 @@ TWindowChat::~TWindowChat() {
 TWindowChat::TWindowChat(TObject *object, void *arg2) : TObject(object) {
     void *o;
     void *o2;
-    *(void * *)&this->m_name = window_chat_type_name_pointer;
+    m_name = window_chat_type_name_pointer;
     this->inputMode = 0;
     this->flags = 2;
     o = ((void *)__nw__7TObjectFUl(0xB8));

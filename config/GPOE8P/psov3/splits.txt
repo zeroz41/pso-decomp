@@ -108,8 +108,9 @@ pso/player/TObjPlayer_8001BF10.cpp:
 
 pso/ui/TAdSEGAlogo_8001BF4C.cpp:
 	.text       start:0x8001BF4C end:0x8001C060
-	.rodata     start:0x80434998 end:0x804349A0
-	.data       start:0x80480B98 end:0x80480BB0
+	.rodata     start:0x80434848 end:0x804349A0
+	.data       start:0x80480A70 end:0x80480BB0
+	.sdata      start:0x805D2620 end:0x805D2628
 
 pso/ui/TAdSEGAlogo.cpp:
 	.text       start:0x8001C060 end:0x8001C134
@@ -8243,9 +8244,12 @@ pso/misc/TWindowDD_8024662C.cpp:
 
 pso/misc/TWindowCtrlMain_8024674C.cpp:
 	.text       start:0x8024674C end:0x80246B80
+	.rodata     start:0x8044E688 end:0x8044E768
 
 pso/misc/TWindowBreakIn.cpp:
 	.text       start:0x80246B80 end:0x80246CB8
+	.rodata     start:0x8044E768 end:0x8044E778
+	.sdata      start:0x805D3890 end:0x805D3898
 
 pso/misc/TWindowSubShortMail_80246CB8.cpp:
 	.text       start:0x80246CB8 end:0x80246CE8
@@ -8255,7 +8259,9 @@ pso/unk/text_80246CE8.cpp:
 
 pso/misc/TWindowChallengeResult.cpp:
 	.text       start:0x80246D3C end:0x80246F8C
+	.rodata     start:0x8044E778 end:0x8044E7C8
 	.data       start:0x804CE1E8 end:0x804CE2D0
+	.sdata      start:0x805D3898 end:0x805D38A0
 
 pso/misc/TWindowDD_80246F8C.cpp:
 	.text       start:0x80246F8C end:0x80246FB0
@@ -8265,11 +8271,14 @@ pso/misc/TWindowSubShortCut_80246FB0.cpp:
 
 pso/misc/TWindowChat.cpp:
 	.text       start:0x8024701C end:0x80247EFC
+	.rodata     start:0x8044E7C8 end:0x8044E7D8
 	.data       start:0x804CE2D0 end:0x804CE2E8
+	.sdata      start:0x805D38A0 end:0x805D38A8
 
 pso/misc/TWindowSubSymbolChatPartsSet_80247EFC.cpp:
 	.text       start:0x80247EFC end:0x80248668
-	.rodata     start:0x8044EAB8 end:0x8044EAC0
+	.rodata     start:0x8044E7D8 end:0x8044EAC0
+	.sdata      start:0x805D38A8 end:0x805D38B0
 
 pso/misc/TWindowChatSymbol.cpp:
 	.text       start:0x80248668 end:0x802486A8

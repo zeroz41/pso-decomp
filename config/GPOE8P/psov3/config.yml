@@ -1557,6 +1557,7 @@ force_active:
   - TWindowSubStatusDisp__sub_8036D994
   - TWindowSubStatusDisp__window_layout
   - TWindowSubSymbolChatFaceType__sub_80283F38
+  - TWindowSubSymbolChatPartsSet__part_uv_table
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
   - TWindowSubSymbolChat__sub_8028379C
@@ -5730,6 +5731,7 @@ force_active:
   - hook__15TItemEffBringerFv
   - hospital_position_table_by_episode
   - howling_state__14TObjEneBm5WolfFl
+  - hud_palette_texture_filename
   - hurt_state__14TObjEneBm5WolfFl
   - hwSetITDMode
   - hwSetTimeOffset
@@ -6277,6 +6279,17 @@ force_active:
   - lbl_8044DB08
   - lbl_8044DB14
   - lbl_8044DB2C
+  - lbl_8044E688
+  - lbl_8044E6B0
+  - lbl_8044E6C4
+  - lbl_8044E6D8
+  - lbl_8044E6F0
+  - lbl_8044E708
+  - lbl_8044E720
+  - lbl_8044E734
+  - lbl_8044E748
+  - lbl_8044E758
+  - lbl_8044E7BC
   - lbl_8044FCF0
   - lbl_804507A8
   - lbl_804507BC
@@ -6362,6 +6375,7 @@ force_active:
   - lbl_80478140
   - lbl_8047817C
   - lbl_8047B928
+  - lbl_80480A70
   - lbl_80480D20
   - lbl_80480D48
   - lbl_80480DD8
@@ -6730,6 +6744,8 @@ force_active:
   - lbl_805D3810
   - lbl_805D3820
   - lbl_805D3830
+  - lbl_805D3890
+  - lbl_805D3898
   - lbl_805D38B0
   - lbl_805D3988
   - lbl_805D3990
@@ -14268,6 +14284,10 @@ force_active:
   - sweep_body_attack_spheres__12TBoss1DragonFv
   - sweep_death_body_attack__12TBoss1DragonFv
   - sweep_head_fall_spheres_late__12TBoss1DragonFv
+  - symbol_chat_face_uv_table
+  - symbol_chat_part_size_table
+  - symbol_chat_part_uv_table
+  - symbol_chat_parts_color_table
   - sync_field10_from_child__15TPlyPhotonChairFv
   - sync_hp__9TBoss6MagFv
   - sync_hp_apply_damage__9TBoss6MagFv
@@ -15380,6 +15400,7 @@ force_active:
   - warp_boss_handle_window__12TObjWarpBossFv
   - warp_nearby_players__14TBoss6PlotFalzFv
   - warp_player__12TObjWarpBossFl
+  - window_chat_type_name_pointer
   - window_duel_result_class_name
   - window_label_value_part_vtable
   - window_sub_game_end_active_flag
