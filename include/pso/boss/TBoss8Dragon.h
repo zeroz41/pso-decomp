@@ -244,6 +244,7 @@ struct TBoss8Dragon
     void check_death();
     void select_next_action();
     static void free_static();
+    static void *clone_node_tree(void *src, void *dst, int state);
     static void *create(void *arg0);
     void update_colli_parts();
     int test_card_flag_2();
