@@ -33,8 +33,8 @@ struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8029CD0C_lbl_8046598C lbl_8046598C;
-extern BmlResource *TOGrassJungle__bml_resource;
-extern u32 TOGrassJungle__grass_gvm_texture;
+BmlResource *TOGrassJungle__bml_resource;
+u32 TOGrassJungle__grass_gvm_texture;
 void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
 void *__nw__7TObjectFUl(int);

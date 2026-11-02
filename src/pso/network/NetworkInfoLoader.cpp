@@ -78,8 +78,8 @@ extern s32 __OSCurrHeap;
 extern u8 TAdPlayerLoadGC__network_info_payload_buffer[];
 extern u8 network_info_trailer_buffer[];
 extern u8 network_info_trailer_backup[];
-extern Save_803F3F64 *TAdPlayerLoadGC__network_config_buffer;
-extern s32 network_config_mode;
+Save_803F3F64 *TAdPlayerLoadGC__network_config_buffer;
+s32 network_config_mode;
 
 #pragma scheduling off
 #pragma peephole off
@@ -413,7 +413,7 @@ s32 get_or_set_network_config_mode(s32 arg0) {
     return network_config_mode;
 }
 
-extern s32 TAdPlayerLoadGC__player_load_value;
+s32 TAdPlayerLoadGC__player_load_value;
 
 s32 get_network_config_backup_mode(void) { return get_or_set_network_config_backup_mode(2); }
 

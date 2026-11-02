@@ -581,7 +581,7 @@ void fn_8009BD00(void);
 extern s32 lbl_8043A268[];
 extern s32 lbl_8043A274[];
 extern u32 lbl_805D4FD4;
-extern s32 TObjEneMe1Canadin__render_point_cursor;
+s32 TObjEneMe1Canadin__render_point_cursor;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9898;

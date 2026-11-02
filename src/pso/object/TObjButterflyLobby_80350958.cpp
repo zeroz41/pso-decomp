@@ -67,7 +67,7 @@ s32 draw_ginja_model_with_motion(int, void *, f32);
 s32 get_bml_motion(void *, int);
 s32 push_matrix();
 
-extern s32 lobby_butterfly_bml_resource;
+s32 lobby_butterfly_bml_resource;
 
 void render__18TObjButterflyLobbyFPv(TObjButterflyLobby *butterfly_lobby) {
     f32 temp_f1;

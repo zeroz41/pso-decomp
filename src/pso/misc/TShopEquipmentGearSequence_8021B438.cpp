@@ -81,7 +81,7 @@ s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8021B7D0___vt__26TShopEquipmentGearSequence __vt__26TShopEquipmentGearSequence;
 extern RecoveredGlobal_8021B7D0_TShopEquipmentGearSequence__data_80513EB0 TShopEquipmentGearSequence__window_slot_table;
-extern s32 lbl_805D6220;
+s32 lbl_805D6220;
 u8 *TShopSequence__ct(u8 *arg0);
 extern s32 TShopEquipmentGearSequence__class_name;
 extern s32 lbl_805D6218;

@@ -25,7 +25,7 @@ struct Obj_8036B1AC {
 extern "C" {
 extern s32 lbl_804F3610[];
 extern s32 lbl_805D63F0;
-extern s32 lbl_805D7000;
+s32 lbl_805D7000;
 void TLobby__sub_8036B1AC(Obj_8036B1AC *arg0);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);

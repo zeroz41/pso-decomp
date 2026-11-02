@@ -231,7 +231,7 @@ s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern const f32 online_ending_scene_scale;
 extern f32 online_ending_quad_y_offset;
-extern f32 online_ending_scene_z_offset;
+f32 online_ending_scene_z_offset;
 extern s8 online_ending_scene_translation_initialized;
 extern s8 online_ending_quad_vertices_initialized;
 s32 restore_player_cameras();

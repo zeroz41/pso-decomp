@@ -32,14 +32,14 @@ extern "C" {
 s32 set_stream_state__6TLobbyFi(void *, int);
 s32 load_gvm_texture_archive(int, void *);
 extern s32 lbl_80477BC4[];
-extern s32 lobby_request_flags;
+s32 lobby_request_flags;
 void TCameraCtrl__sub_80068EF0(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(void *, s32);
 void draw_projected_textured_strip(void *, s32);
 extern s32 lbl_805D63F0;
-extern int info_icon_texture;
+int info_icon_texture;
 f32 cos_table_lookup(s32);
-extern s32 lobby_pulse_color_phase;
+s32 lobby_pulse_color_phase;
 extern const f32 lbl_805DF9A0;
 extern const f32 lbl_805DF9A4;
 extern const f32 lbl_805DF9A8;

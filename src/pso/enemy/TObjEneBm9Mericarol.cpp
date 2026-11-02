@@ -534,7 +534,7 @@ void TObjEneBm9Mericarol::vfunc_28() {  }
 
 extern u32 TBoss4Type3_shared_instance;
 extern u32 lbl_805D6864;
-extern u32 lbl_805D6868;
+u32 lbl_805D6868;
 
 void dispatch_state_handler__19TObjEneBm9MericarolFiUii(s32 actor, u32 arg1, s32 msg) {
     switch (arg1) {

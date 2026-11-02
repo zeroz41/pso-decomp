@@ -91,7 +91,7 @@ extern const char lbl_8044C898[];
 extern const char lbl_8044C8B4[];
 extern u32 lbl_804CB838[6];
 extern void *lbl_80514C60[];
-extern void *lbl_805D62D8;
+void *lbl_805D62D8;
 extern s32 lbl_805D62F8;
 extern s32 lbl_805D62FC;
 }
@@ -108,7 +108,7 @@ extern s32 music_fade_slot_index;
 extern f32 music_fade_step;
 extern s32 lbl_805D6330;
 void update_music_fade(void);
-extern u32 lbl_805D62DC;
+u32 lbl_805D62DC;
 extern u32 lbl_805D62EC;
 void stop_cue_stream(void);
 

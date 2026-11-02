@@ -194,8 +194,8 @@ void set_matrix_identity(u8 *arg0);
 s32 rotate_matrix_y(void *, int);
 extern u8 TOTrapSeabed01__transform_params[];
 extern SeabedTrapFragmentSpawn seabed_trap_fragment_spawns[];
-extern s32 TOTrapSeabed01__bml_resource;
-extern s32 TOTrapSeabed01__texture_file;
+s32 TOTrapSeabed01__bml_resource;
+s32 TOTrapSeabed01__texture_file;
 void TOTrapSeabed01__vt83(Trap_802C9E3C *self);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 s32 is_valid_and_active__10TObjPlayerFUl();
@@ -210,7 +210,7 @@ void TOTrapSeabed01__vt20(s32 arg0, s32 arg1, f32 farg0) {
     receive_physical_attack__6TOTrapFPvf(arg0, arg1, farg0);
 }
 
-extern u32 TOTrapSeabed01__ginja_model;
+u32 TOTrapSeabed01__ginja_model;
 
 void TOTrapSeabed01__vt83(Trap_802C9E3C *self) {
     Mtx_802C9E3C m;
@@ -372,8 +372,8 @@ void restore_saved_depth_alpha_state(void);
 void set_model_node_callback(s32 arg0);
 
 extern s32 actor_frame_tick;
-extern s32 lbl_805D681C;
-extern s32 seabed01_ginja_mesh_index;
+s32 lbl_805D681C;
+s32 seabed01_ginja_mesh_index;
 
 void TOTrapSeabed01::render_effect_layers() {
     TObjFish::set_global_param(TOTrapSeabed01__texture_file);

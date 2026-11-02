@@ -1331,7 +1331,7 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
 void TItemEffOrgaFlowShot__sub_80357210(void);
 void TLobby__sub_8036DDE8(void);
-extern int obj_fish_count;
+int obj_fish_count;
 s32 restore_player_cameras();
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 void play_area_music(char *name);

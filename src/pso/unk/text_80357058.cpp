@@ -56,7 +56,7 @@ extern s32 TItemEffOrgaFlowShot__name;
 s32 is_local_client_floor_leader();
 void grid_to_world_pos__11TBoss6Type2FccPv(u8, u8, Vec_803570E4 *);
 void clear_rock_state__10TBoss6RockFl(s32 i, s32 a, s32 b);
-extern int olga_flow_subordinate_actions_enabled;
+int olga_flow_subordinate_actions_enabled;
 void handle_6xAD_olga_flow_subordinate_boss_actions(Pkt_803570E4 *pkt);
 s32 has_game_join_id__13TUnk_804E355CFv();
 void __dl__7TObjectFPv(void *);

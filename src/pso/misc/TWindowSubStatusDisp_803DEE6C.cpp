@@ -12,7 +12,7 @@ union Pipe_803DEECC { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 #define FIFO_803DF00C (*(volatile Pipe_803DF00C *)0xCC008000)
 union Pipe_803DF00C { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
-extern s32 constant_material_color;
+s32 constant_material_color;
 extern "C" {
 void GXBegin(u32, u32, u16);
 s64 OSGetTime(void);

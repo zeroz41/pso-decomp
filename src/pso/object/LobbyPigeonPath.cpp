@@ -538,14 +538,14 @@ extern s32 jungle_seagull_vtable[];
 extern s32 lbl_804E0910[];
 extern s32 lbl_804E094C[];
 extern s32 seabed_dolphin_vtable[];
-extern u32 seabed_dolphin_bml_archive;
-extern s32 seabed_dolphin_texture_handle;
-extern u32 jungle_ebi_model_resource;
-extern u32 jungle_ebi_texture_gvm_handle;
-extern u32 jungle_bird_bml_resource;
-extern u32 lobby_pigeon_texture_gvm;
-extern u32 lobby_kamome_model_resource;
-extern u32 lobby_kamome_texture_gvm_handle;
+u32 seabed_dolphin_bml_archive;
+s32 seabed_dolphin_texture_handle;
+u32 jungle_ebi_model_resource;
+u32 jungle_ebi_texture_gvm_handle;
+u32 jungle_bird_bml_resource;
+u32 lobby_pigeon_texture_gvm;
+u32 lobby_kamome_model_resource;
+u32 lobby_kamome_texture_gvm_handle;
 
 #pragma push
 #pragma fp_contract on

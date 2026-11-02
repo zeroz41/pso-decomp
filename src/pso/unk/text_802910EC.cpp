@@ -15,8 +15,8 @@
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 release_texture_list(void *);
-extern u32 cmicon_instance;
-extern s32 creation_sprite_table_index;
+u32 cmicon_instance;
+s32 creation_sprite_table_index;
 s32 create__10TObjCMIconFPv(int);
 extern f32 ui_sprite_scale;
 extern s32 tl_06;

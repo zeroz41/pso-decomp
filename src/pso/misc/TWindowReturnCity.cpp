@@ -58,7 +58,7 @@ void TWindowReturnCity__sub_8026D4C0(void);
 }
 extern RecoveredGlobal_8026D18C_lbl_80515BA0 lbl_80515BA0;
 extern s32 lbl_805D55C0;
-extern int TWindowReturnCity__client_scan_index;
+int TWindowReturnCity__client_scan_index;
 void return_to_city_after_defeat(void);
 typedef char RecoveredGlobal_8026D18C_lbl_80515BA0_size[sizeof(RecoveredGlobal_8026D18C_lbl_80515BA0) == 0x28 ? 1 : -1];
 void return_to_city_after_defeat(void) {

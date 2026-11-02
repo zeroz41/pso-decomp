@@ -45,7 +45,7 @@ extern const f32 lbl_805D85BC;
 extern const f32 lbl_805D85C0;
 extern const f32 lbl_805D85C4;
 extern const f32 lbl_805D85C8;
-extern s32 TObjBoss2DustCtrl_dust_counter;
+s32 TObjBoss2DustCtrl_dust_counter;
 
 void __ct__7TObjectFP7TObject(void *);
 void* __nw__7TObjectFUl(s32);

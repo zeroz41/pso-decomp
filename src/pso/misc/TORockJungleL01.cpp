@@ -512,13 +512,13 @@ struct Rock_8029C7DC {
 
 extern "C" {
 u8 * get_bml_model(void *, int);
-extern u32 TORockJungleS01__bml_resource;
+u32 TORockJungleS01__bml_resource;
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__18TORockCaveBrakableFv(void *arg0);
 extern s32 __vt__15TORockJungleS01[];
 extern s32 TORockJungleS01__name;
 
-extern u32 TORockJungleS01__texture_resource;
+u32 TORockJungleS01__texture_resource;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_804658EC[];

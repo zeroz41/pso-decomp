@@ -67,7 +67,7 @@ extern u8 lbl_80591AC4[];
 extern u8 lbl_80596258[];
 extern s32 lbl_805D7820;
 extern u8 *lbl_805D7824;
-extern s32 lbl_805D7828;
+s32 lbl_805D7828;
 extern s32 lbl_805D7830;
 extern s32 lbl_805D7838;
 extern s32 lbl_805D783C;

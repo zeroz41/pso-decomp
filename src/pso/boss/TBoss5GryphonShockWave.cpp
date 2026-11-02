@@ -12,7 +12,7 @@
 extern "C" {
 s32 TBoss8Dragon__sub_8005D700(void *self);
 extern u8 lbl_80437F40[];
-extern void *gryphon_shockwave_particle_ids_ptr;
+void *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);

@@ -2,7 +2,7 @@
 #include "pso/unk/text_803D619C.h"
 #include "pso/boss/TBoss8Dragon.h"
 
-extern f32 lbl_805D76A8;
+f32 lbl_805D76A8;
 
 #pragma push
 #pragma optimize_for_size off

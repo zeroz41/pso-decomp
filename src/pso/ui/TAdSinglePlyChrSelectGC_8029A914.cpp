@@ -6,7 +6,7 @@
 extern "C" {
     extern unsigned char lbl_80465284[];
     extern unsigned char chr_select_ad_pic_2_texture_descriptor[];
-extern u32 chr_select_ad_pic_texture;
+u32 chr_select_ad_pic_texture;
 void release_texture_list(void*);
 
 void TAdSinglePlyChrSelectGC::free_global() {

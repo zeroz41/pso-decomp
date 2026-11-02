@@ -601,10 +601,10 @@ void *TObjEneBeast::create(void *arg0) {
     return o2;
 }
 
-extern u32 ene_beast_boss_id_buffer;
-extern u32 TObjEneBeast__boss4_rock_handler_ids;
-extern u32 boss4_rock_pool;
-extern u32 boss4_rock_shared_handler_ids;
+u32 ene_beast_boss_id_buffer;
+u32 TObjEneBeast__boss4_rock_handler_ids;
+u32 boss4_rock_pool;
+u32 boss4_rock_shared_handler_ids;
 extern u32 ene_beast_bml_resource;
 
 void free_boss4_rock_pool(void) {

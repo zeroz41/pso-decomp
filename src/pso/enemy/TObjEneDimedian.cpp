@@ -698,10 +698,10 @@ void *TObjEneDimedian::create(void *arg2_) {
     return o2;
 }
 
-extern u32 dimedian_boss_object_buf;
-extern u32 lbl_805D5074;
-extern u32 TObjEneDimedian__boss_objects;
-extern u32 dimedian_buffer_ptr;
+u32 dimedian_boss_object_buf;
+u32 lbl_805D5074;
+u32 TObjEneDimedian__boss_objects;
+u32 dimedian_buffer_ptr;
 extern u32 dimedian_resource_ptr;
 
 void TObjEneDimedian::free_boss_objects() {

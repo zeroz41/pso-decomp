@@ -12,7 +12,7 @@ extern "C" {
 void Dolphin_GXSetFog(s32, f32, f32, f32, f32, Col_803E2010);
 }
 
-extern s32 scene_fog_type;
+s32 scene_fog_type;
 
 void set_scene_fog_type(s32 arg0) {
     scene_fog_type = arg0;

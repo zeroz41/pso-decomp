@@ -173,8 +173,8 @@ struct Ids_8029B428 {
 };
 
 extern "C" {
-extern u32 TODoorJungleMain__bml_resource;
-extern u32 door_jungle_main_gvm_texture;
+u32 TODoorJungleMain__bml_resource;
+u32 door_jungle_main_gvm_texture;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80465418;

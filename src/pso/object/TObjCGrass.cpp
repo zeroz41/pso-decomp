@@ -85,7 +85,7 @@ extern s32 cgrass_action_desc[];
 extern s32 __vt__10TObjCGrass[];
 extern u8 identity_matrix[];
 extern s32 lbl_805D2A28;
-extern u32 TObjCGrass_bml_resource;
+u32 TObjCGrass_bml_resource;
 extern s32 tl_06;
 u8 *TObjCGrass__ct(Grass_800B8EFC *self, u8 *arg1, s32 arg2, s32 arg3);
 void TLobby__sub_8001FE7C(void*, int);

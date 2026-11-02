@@ -218,10 +218,10 @@ struct T_80255440 {
 extern "C" {
 s32 is_wrapped__9TItemDataFPv(void *);
 s8 get_type__20TWindowSubStatusDispFv(s32);
-extern s8 lbl_805D6448;
-extern s8 lbl_805D6449;
-extern s8 lbl_805D644A;
-extern s8 lbl_805D644B;
+s8 lbl_805D6448;
+s8 lbl_805D6449;
+s8 lbl_805D644A;
+s8 lbl_805D644B;
 
 s32 get_array_entry__11TWindowBaseFi(void *, s32);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);

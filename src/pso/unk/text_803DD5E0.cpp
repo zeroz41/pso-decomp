@@ -51,7 +51,7 @@ struct Tex_803DD784 { u8 pad[0x20]; void *buf; };
 
 struct Slot_803DD784 { s32 f0; s32 f4; s32 f8; Tex_803DD784 *tex; s32 f10; s32 f14; };
 
-extern s32 lbl_805D77A0;
+s32 lbl_805D77A0;
 extern "C" {
 void TLobby__sub_803DDD78(S_803DDD78 *d, S_803DDD78 *s);
 void copy_4word_struct__6TLobbyFPvPv(S_803DDD94 *d, S_803DDD94 *s);
@@ -120,7 +120,7 @@ void TObjPlayer__sub_803DD6DC(struct Obj_803DD6DC *arg0, s32 arg1) {
     lbl_804FC688[idx](arg0, arg1);
 }
 
-extern s32 lbl_805D77A4;
+s32 lbl_805D77A4;
 
 #pragma push
 #pragma optimize_for_size off

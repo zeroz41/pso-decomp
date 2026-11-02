@@ -68,7 +68,7 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
     pop_matrix();
 }
 
-extern s32 lbl_805D6958;
+s32 lbl_805D6958;
 void TObjBoss7DustCtrl__sub_802F125C(void) {
     s32 temp_r0;
 

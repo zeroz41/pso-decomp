@@ -49,7 +49,7 @@ struct A_800842A4 { u8 pad[0x8]; B_800842A4 *b; };
 
 struct G_800842A4 { A_800842A4 *a; u8 pad[0x1c]; };
 
-extern int lbl_805D4EE0;
+int lbl_805D4EE0;
 extern "C" {
 void TObjPlayer__sub_80083FB0(void);
 int TObjPlayer__sub_80083F9C(void);

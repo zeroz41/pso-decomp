@@ -51,7 +51,7 @@ s32 __dt__7TObjectFv(void *, s32);
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
-extern s32 TAdMcSelectCursorGC__texture_entry;
+s32 TAdMcSelectCursorGC__texture_entry;
 
 void TAdMcSelectCursorGC::render_cursor() {
     u8 *arg0 = (u8 *)this;

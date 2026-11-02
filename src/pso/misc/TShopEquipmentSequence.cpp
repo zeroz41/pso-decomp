@@ -105,9 +105,9 @@ extern RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence __vt__22TShopEqui
 extern RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 TShopEquipmentSequence__slot_active_flags;
 u8 *TShopSequence__ct(u8 *arg0);
 extern s32 TShopEquipmentSequence__class_name;
-extern u8 *lbl_805D6228;
-extern s32 lbl_805D622C;
-extern s32 lbl_805D6230;
+u8 *lbl_805D6228;
+s32 lbl_805D622C;
+s32 lbl_805D6230;
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);

@@ -351,7 +351,7 @@ struct VObj_80213E64_80213E38 : Base_80213E64_80213E38 {
     extern int evt2_random_enemies_mode;
 void set_random_enemies_mode(void) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
 
-extern struct VObj_80213E64_80213E38 *offline_quest_list_vm;
+struct VObj_80213E64_80213E38 *offline_quest_list_vm;
 extern "C" {
 
 void THunterGuildSeqOffline__sub_80213E64(void) {

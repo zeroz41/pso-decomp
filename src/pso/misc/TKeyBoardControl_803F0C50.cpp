@@ -123,7 +123,7 @@ RecoveredGlobal_803F1548_lbl_805A2720 keyboard_pad_state_table;
 extern "C" {
 s32 SIDisablePolling(u32);
 extern s32 TKeyBoardControl__polling_channel_mask;
-extern s32 TKeyBoardControl__polling_disabled;
+s32 TKeyBoardControl__polling_disabled;
 s32 OSDisableInterrupts(void);
 void OSRestoreInterrupts(s32);
 void Dolphin_SIGetTypeAsync(s32, void *);

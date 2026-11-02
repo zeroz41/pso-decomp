@@ -23,7 +23,7 @@ extern "C" {
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 extern s32 __vt__9TCineCtrl[];
-extern void * TCineCtrl__instance;
+void * TCineCtrl__instance;
 extern const f32 lbl_805D91E0;
 extern const f32 lbl_805D91E4;
 extern const f32 lbl_805D91E8;

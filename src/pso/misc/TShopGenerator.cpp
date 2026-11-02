@@ -44,7 +44,7 @@ struct Ent_8021DDB8 {
 
 extern "C" {
 s32 TShopGenerator__sub_80222DAC(s32);
-extern RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 TShopGenerator__slot_active_table;
+RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 TShopGenerator__slot_active_table;
 u8 is_slot_active__14TShopGeneratorFi(s32 arg0);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 f32 vec3_dot(void *, void *);

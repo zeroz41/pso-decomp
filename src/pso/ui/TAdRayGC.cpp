@@ -18,7 +18,7 @@ void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 s32 set_draw_texture_and_color(void *, void *);
 extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
-extern u32 TAdRayGC__ray_texture_list;
+u32 TAdRayGC__ray_texture_list;
 void __ct__7TObjectFP7TObject(void *);
 s32 queue_destruction__7TObjectFv();
 

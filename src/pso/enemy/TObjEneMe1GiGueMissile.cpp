@@ -25,7 +25,7 @@ s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern int TObjEneMe1GiGue_barrier_count;
+int TObjEneMe1GiGue_barrier_count;
 u16 get_entity_id(void *);
 s32 play_sound_effect(s32, u32, s16, s32);
 u8 * TNeedleShoot__ct(void *, s32, void *, void *);

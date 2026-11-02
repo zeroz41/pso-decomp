@@ -457,7 +457,7 @@ s32 TLobby__sub_8040FDA0(u32, s16);
 extern RecoveredGlobal_8041123C_lbl_805C1BB8 ipv6_address_routing_state;
 void NetMemset(void * _w0, int _w1, int _w2);
 void TLobby__sub_803F8930(u8 *arg0);
-extern s32 lbl_805D7A58;
+s32 lbl_805D7A58;
 s32 TLobby__sub_803FE6CC(void *, int, int, void *);
 s16 TLobby__sub_8040FCEC(u32);
 void TLobby__sub_803F892C(void *);

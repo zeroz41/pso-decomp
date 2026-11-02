@@ -16,8 +16,8 @@ extern "C" {
 f32 fabs_float(f32);
 s32 rand(void);
 void TBoss6Tube__sub_802B129C(u8 *arg0);
-extern s32 TBoss6Tube__previous_scroll_phase;
-extern f32 TBoss6Tube__scroll_delta;
+s32 TBoss6Tube__previous_scroll_phase;
+f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);

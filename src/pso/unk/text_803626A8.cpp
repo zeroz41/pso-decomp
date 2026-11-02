@@ -198,7 +198,7 @@ Node_803627DC *get_bml_model(void *, int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 s32 TObjPlayer__sub_800F0928(void *);
 extern Quad_803627DC lbl_80479FAC;
-extern f32 lbl_80543A18[3];
+f32 lbl_80543A18[3];
 extern s32 epsilon_guard_part_color_table[9];
 extern s32 epsilon_guard_boss_stat_handle;
 extern s32 epsilon_guard_shared_handler_b;

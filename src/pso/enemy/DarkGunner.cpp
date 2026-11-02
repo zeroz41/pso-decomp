@@ -282,9 +282,9 @@ int initialize_enemy_photon_effect(void *p);
 extern "C" {
 extern Atk_800A2F94 dark_gunner_attack_binding_desc;
 extern s32 dark_gunner_class_name_ptr;
-extern s32 lbl_805D4FF8[1];
-extern s32 lbl_805D4FFC[1];
-extern s32 lbl_805D5000[1];
+s32 lbl_805D4FF8[1];
+s32 lbl_805D4FFC[1];
+s32 lbl_805D5000[1];
 
 extern "C" {
 void get_anim_node_position__15TObjEnemyCustomFlP3Vec();
@@ -621,7 +621,7 @@ void *__vt__17TObjEneDarkGunner[83] = {
 
 extern u8 identity_matrix[];
 extern s32 TObjEneDarkGunCenter__name;
-extern s32 lbl_805D5004;
+s32 lbl_805D5004;
 extern f32 player_scale_factor;
 extern u32 player_effect_bml_resource;
 extern u32 TObjPlayer__effect_resource;
