@@ -1820,6 +1820,8 @@ force_active:
   - __ct__11TBoss4ZanzoFv
   - __ct__11TMessageBoxFRC11TMessageBox
   - __ct__11TOBiwaMushiFPv
+  - __ct__11TOBoss4BirdFPv
+  - __ct__11TOBoss4RockFPv
   - __ct__11TOKeyCave01FP7TObjectPv
   - __ct__11TObjDFDemo1FP7TObjectPC3Vecl
   - __ct__11TObjDFDemo5FP7TObjectPC3Vecl
@@ -1835,6 +1837,7 @@ force_active:
   - __ct__12TEffCliticalFPv
   - __ct__12TItemProUnitFP7TObjectPUc
   - __ct__12TItemTexLoadFP7TObject
+  - __ct__12TOBoss4TowerFPv
   - __ct__12TODoorCave01FP7TObjectPv
   - __ct__12TODoorCave02FP7TObjectPv
   - __ct__12TODoorCave03FP7TObjectPv
@@ -2039,6 +2042,7 @@ force_active:
   - __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll
   - __ct__31G_DropStackedItem_PC_V3_BB_6x5DFv
   - __ct__5TOVS2FPvl
+  - __ct__7TOBoss4Fv
   - __ct__8TFogCtrlFP7TObjectl
   - __ct__8TItemMagFP7TObjectPUc
   - __ct__8TOKeyColFP7TObjectPv
@@ -2082,6 +2086,8 @@ force_active:
   - __dt__11TMapCsnCtrlFv
   - __dt__11TNowLoadingFv
   - __dt__11TOBiwaMushiFv
+  - __dt__11TOBoss4BirdFv
+  - __dt__11TOBoss4RockFv
   - __dt__11TOKeyCave01Fv
   - __dt__11TOVS2Wall01Fv
   - __dt__11TObjControlFv
@@ -2122,6 +2128,7 @@ force_active:
   - __dt__12TItemTexLoadFv
   - __dt__12TLevelSelectFv
   - __dt__12TMemberCheckFv
+  - __dt__12TOBoss4TowerFv
   - __dt__12TOChatSensorFv
   - __dt__12TODoorCave01Fv
   - __dt__12TODoorCave02Fv
@@ -2770,6 +2777,7 @@ force_active:
   - __dt__6TSceneFv
   - __dt__7TEffHitFv
   - __dt__7TEndingFv
+  - __dt__7TOBoss4Fv
   - __dt__7TSocketFv
   - __dt__7TSwitchFv
   - __dt__8TAdRayGCFv
@@ -2860,6 +2868,8 @@ force_active:
   - __vt__11TMapCsnCtrl
   - __vt__11TNowLoading
   - __vt__11TOBiwaMushi
+  - __vt__11TOBoss4Bird
+  - __vt__11TOBoss4Rock
   - __vt__11TODragonfly
   - __vt__11TOFenceBase
   - __vt__11TOKeyCave01
@@ -2904,6 +2914,7 @@ force_active:
   - __vt__12TLevelSelect
   - __vt__12TMemberCheck
   - __vt__12TNeedleShoot
+  - __vt__12TOBoss4Tower
   - __vt__12TOChatSensor
   - __vt__12TODoorCave01
   - __vt__12TODoorCave02
@@ -4245,6 +4256,9 @@ force_active:
   - bm_o_bind_model_names
   - bm_o_bind_motion_names
   - bm_o_bind_resource_descriptor
+  - bm_o_boss4_model_names
+  - bm_o_boss4_motion_names
+  - bm_o_boss4_resource_descriptor
   - bm_o_container_ancient_motion_names
   - bm_o_container_ancient_resource_bundle
   - bm_o_explosive_machine_model_names
@@ -4868,7 +4882,10 @@ force_active:
   - clamp_state__12TObjDoorJungFv
   - clamp_to_ground__14TBoss6GravBallFv
   - class_name__11TOBiwaMushi
+  - class_name__11TOBoss4Bird
+  - class_name__11TOBoss4Rock
   - class_name__11TODragonfly
+  - class_name__12TOBoss4Tower
   - class_name__12TOMekaFish00
   - class_name__12TOMekaFish01
   - class_name__13TOCapsuleLabo
@@ -4887,6 +4904,7 @@ force_active:
   - class_name__19TOMonumentAncient01
   - class_name__20TODragonflyMachine01
   - class_name__23TObjSeabedSuisoBrakable
+  - class_name__7TOBoss4
   - class_name__9TObjHashi
   - class_starting_inventory_table
   - class_technique_boost_table
@@ -13599,6 +13617,8 @@ force_active:
   - render__11TItemMagSubFv
   - render__11TLoadingCurFv
   - render__11TNowLoadingFv
+  - render__11TOBoss4BirdFv
+  - render__11TOBoss4RockFv
   - render__11TOKeyCave01Fv
   - render__11TOVS2Wall01Fv
   - render__11TObjDFDemo1Fv
@@ -13622,6 +13642,7 @@ force_active:
   - render__12TEffCliticalFv
   - render__12TEneEffHamonFv
   - render__12TLevelSelectFv
+  - render__12TOBoss4TowerFv
   - render__12TODoorCave01Fv
   - render__12TODoorCave02Fv
   - render__12TODoorCave03Fv
@@ -14214,6 +14235,8 @@ force_active:
   - run_task__11TItemMagSubFv
   - run_task__11TLoadingCurFv
   - run_task__11TNowLoadingFv
+  - run_task__11TOBoss4BirdFv
+  - run_task__11TOBoss4RockFv
   - run_task__11TOKeyCave01Fv
   - run_task__11TOVS2Wall01Fv
   - run_task__11TObjControlFv

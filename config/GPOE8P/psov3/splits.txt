@@ -4728,14 +4728,13 @@ pso/misc/TOBind_801586B8.cpp:
 	.data       start:0x804AFC30 end:0x804AFCE4
 	.sdata2     start:0x805DB300 end:0x805DB310
 
-pso/misc/TOBoss4Rock_801589E8.cpp:
-	.text       start:0x801589E8 end:0x80159CEC
-	.rodata     start:0x80440390 end:0x804403A8
-	.sdata2     start:0x805DB310 end:0x805DB354
-
 pso/misc/TOBoss4.cpp:
-	.text       start:0x80159CEC end:0x80159E24
-	.data       start:0x804AFDB8 end:0x804AFDEC
+	.text       start:0x801589E8 end:0x80159E24
+	.rodata     start:0x80440288 end:0x804403A8
+	.data       start:0x804AFCE8 end:0x804AFDEC
+	.sdata      start:0x805D2EB0 end:0x805D2EC0
+	.sbss       start:0x805D58A8 end:0x805D58AC
+	.sdata2     start:0x805DB310 end:0x805DB354
 
 pso/misc/TOCakeshopCave01.cpp:
 	.text       start:0x80159E24 end:0x8015A2B8

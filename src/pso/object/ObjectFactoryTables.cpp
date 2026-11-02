@@ -42,6 +42,7 @@
 #include "pso/misc/TOBind.h"
 #include "pso/misc/TOBoss4Bird.h"
 #include "pso/misc/TOBoss4Rock.h"
+#include "pso/misc/TOBoss4Tower.h"
 #include "pso/misc/TOCapsuleAncient01.h"
 #include "pso/misc/TOCapsuleLabo.h"
 #include "pso/misc/TOCapsuleMachine01.h"
@@ -125,7 +126,6 @@ void* create_particle_obj_ac__13TParticleCtrlFl(void* placement);
 void* create__22TObjFogCollisionPoisonFPv(void* placement);
 void* TObjFogCollisionSwitch__create(void* placement);
 void* TObjFogCollision__create(void* placement);
-void* TOBoss4Tower__create(void* placement);
 void* TOChatSensor__create(void* placement);
 void* TOContainerAncientEnemyCommon__create(void* placement);
 void* create__28TOContainerAncientItemCommonFv(void* placement);
@@ -1089,7 +1089,7 @@ ObjectFactoryEntry object_factories_floor_14[22] = {
     { 0x0018, TObjFogCollisionSwitch__create, 250000.0f, 0 },
     { 0x0092, TObjContainerBase__create, 250000.0f, 0 },
     { 0x0170, TOBoss4Bird::create, 250000.0f, 0 },
-    { 0x0171, TOBoss4Tower__create, 250000.0f, 0 },
+    { 0x0171, TOBoss4Tower::create, 250000.0f, 0 },
     { 0x0172, TOBoss4Rock::create, 2250000.0f, 0 },
     { 0x0011, TEF_LensFlare__create, 100000000.0f, 0 },
     { -1, 0, 250000.0f, 0 },

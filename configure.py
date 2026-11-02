@@ -661,6 +661,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TOCapsuleLabo.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOComputerMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOMonumentAncient01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
+    "pso/misc/TOBoss4.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on", "-str reuse,readonly", "-sdata 4", "-inline deferred")},
     "pso/misc/TOCakeshopCave01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOHangerMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     "pso/misc/TOMonitorMachine01.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},

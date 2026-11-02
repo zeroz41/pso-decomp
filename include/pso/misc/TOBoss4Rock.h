@@ -4,19 +4,29 @@
 #include "types.h"
 #include "pso/misc/TOBoss4.h"
 
+struct TOBoss4RockAngles {
+    s32 x;
+    s32 y;
+    s32 z;
+};
+
+// A column of rocks that rise from the floor and respawn once they pass the
+// top of the arena.
 struct TOBoss4Rock : public TOBoss4 {
+    TOBoss4Rock(void *set_data);
     virtual ~TOBoss4Rock();
-    u8 unk_98[0x4];
-    u32 m_9c;
-    u32 m_a0;
-    u32 m_a4;
-    u32 m_a8;
-    u32 m_ac;
-    u32 m_b0;
-    u32 m_b4;
     virtual void run_task();
     virtual void render();
-    static void *create(void *arg0);
+    static void *create(void *set_data);
+    static const char *class_name;
+    f32 spread;  // horizontal range the rocks respawn in
+    s32 count;   // 1-8, from set param 4
+    s32 *models;
+    s32 *texlists;
+    Vec *positions;
+    f32 *speeds;
+    TOBoss4RockAngles *rotations;
+    TOBoss4RockAngles *rotation_speeds;
 };
 
 extern "C" {
