@@ -1,13 +1,44 @@
 #include "types.h"
-#include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_804A68C8.h"
+#include "pso/player/TObjPlayer_8012FFE4.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_80130040.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_80130178.h"
 #include "pso/unk/text_801301D0.h"
+
+extern "C" {
+
+u8 get_item_index__5TItemFv();
+s32 scale_matrix(s32, f32, f32, f32);
+
+void TUnk_804A68C8::vfunc_60() {
+    f32 temp_f1;
+
+    if (get_item_index__5TItemFv() == 5) {
+        switch (TObjPlayer::get_player_list()) {
+        case 1:
+            temp_f1 = *(f32 *)((s8 *)this + 0x1F8);
+            scale_matrix(0, temp_f1, temp_f1, temp_f1);
+            break;
+        }
+    }
+}
+
+}
+
+void TUnk_804A68C8::update_idle() {
+    if ((s32) this->m_1fc == 1) {
+        this->m_1fc = 0;
+    }
+    if (((TItem *)((u8 *)this))->get_item_index() == 5) {
+        TItemEffOrgaFlowShot::approach_value((f32 *)(((u8 *)this) + 0x1F8), -0.2f, 0.6f);
+    }
+}
 
 extern "C" {
 u8 *__nw__5TItemFUl(s32);

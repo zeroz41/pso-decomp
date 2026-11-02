@@ -13,6 +13,8 @@
 #include "pso/player/TUnk_804A5D28.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/item/TItemEquipVariant_8012E7D8.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
@@ -178,8 +180,52 @@ int __ct__11TItemWeaponFP7TObjectPUc(void);
 
     extern unsigned char spawn_flame_wall_impact[];
     extern unsigned char create_shoot_model_with_particles[];
-    extern unsigned char lbl_804A5D28[];
+    extern s32 lbl_804A5D28[];
     
 void*TUnk_804A5D28::setup_flame_effect() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A5D28; *(float*)((char*)this + 0x1f8) = 0.0f; *(int *)&(*(s32 * *)((u8 *)this + 0x1EC)) = (int)spawn_flame_wall_impact; *(int *)&(this->m_1fc) = 0; *(int *)&(*(s32 * *)((u8 *)this + 0x1F4)) = (int)play_target_impact_effect; *(int*)((char*)this + 0x1f0) = (int)create_shoot_model_with_particles; (*(float *)((u8 *)this + 0x1E4)) = 15.0f; return this; }
 
 }
+
+extern "C" {
+u8 * setup_flame_effect__13TUnk_804A5D28Fv(void *, s32, void *);
+u8 *__nw__5TItemFUl(s32);
+extern s32 tl_05;
+u8 *TObjPlayer::create_inferno_bazooka(u8 *arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != NULL) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(setup_flame_effect__13TUnk_804A5D28Fv(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
+}
+
+}
+
+extern "C" {
+
+
+
+}
+TUnk_804A5D10::~TUnk_804A5D10() {
+
+}
+void expire_weapon_casing(void* p) { queue_destruction__7TObjectFv(p); }
+
+
+void *__dt__13TUnk_804A5D28Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A5D28;
+        __dt__11TItemWeaponFv(arg0, 0);
+        if (arg1 > 0) {
+            TItem::operator delete(arg0);
+        }
+    }
+    return arg0;
+}
+
+void TUnk_804A5D28::emit_marker_effects() { this->m_1fc = 1; }

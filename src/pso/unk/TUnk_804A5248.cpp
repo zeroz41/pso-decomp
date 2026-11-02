@@ -1,8 +1,14 @@
-// ---- pso/player/TObjPlayer_8012C180
 #include "types.h"
 #include "pso/unk/TUnk_804A5248.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
+#include "pso/unk/text_80120D50.h"
+#include "pso/unk/text_8012C268.h"
+#include "pso/items/TItemWeaponRifle.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/item/TItemEquipVariant_8012C32C.h"
+#include "pso/item/TItem.h"
+
 
 extern "C" {
 
@@ -38,12 +44,6 @@ void TUnk_804A5248::update_attack() {
 
 }
 
-// ---- pso/unk/text_8012C268
-#include "types.h"
-#include "pso/unk/text_80120D50.h"
-#include "pso/unk/text_8012C268.h"
-#include "pso/items/TItemWeaponRifle.h"
-#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 void spawn_weapon_impact_effect();
@@ -78,4 +78,16 @@ u8 *create_rifle_weapon(u8 *arg0) {
         return var_r0;
     }
     return NULL;
+}
+
+
+void *__dt__13TUnk_804A5248Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(u32 **)((s8 *)arg0 + 0x18) = lbl_804A5248;
+        __dt__11TItemWeaponFv(arg0, 0);
+        if (arg1 > 0) {
+            TItem::operator delete(arg0);
+        }
+    }
+    return arg0;
 }

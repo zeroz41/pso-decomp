@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/item/TItemProArmor.h"
+#include "pso/player/TObjPlayer_8012FD50.h"
 #include "pso/item/TUnk_804A67D0.h"
 #include "pso/unk/text_8012FDEC.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
@@ -6,6 +8,28 @@
 #include "pso/item/TItemEquipVariant_8012FEE8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+
+extern "C" {
+
+int scale_current_matrix(void*);
+s32 get_owner_client__5TItemFv(void *);
+int get_player_list__10TObjPlayerFv(void*);
+s32 __nw__15TItemHeapObjectFUl(s32);
+s32 construct_timer_event__13TUnk_804A0628Fv(s32, u32, s32, s32);
+}
+
+void madam_umbrella_scale_canopy(void* p) { if (get_player_list__10TObjPlayerFv(p) == 2) { scale_current_matrix((char*)p + 0x1f8); } }
+
+void madam_umbrella_start_regen(void *item_pro_armor) {
+    s32 temp_r3;
+
+    if ((u32) ((TItemProArmor *)item_pro_armor)->effect_objects != 0U) {
+        temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
+        if (temp_r3 != 0) {
+            construct_timer_event__13TUnk_804A0628Fv(temp_r3, (u32)((TItemProArmor *)item_pro_armor)->effect_objects, get_owner_client__5TItemFv(item_pro_armor), 0x5A);
+        }
+    }
+}
 
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
@@ -56,5 +80,25 @@ extern "C" {
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 
 void*TUnk_804A67D0::init_fields() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A67D0; *(float *)&this->unk_200 = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+
+}
+
+extern "C" {
+u8 * init_fields__13TUnk_804A67D0Fv(void *, s32, s32);
+u8 *__nw__5TItemFUl(s32);
+extern s32 tl_05;
+u8 *TObjPlayer::create_fields_state(s32 arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != 0) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(init_fields__13TUnk_804A67D0Fv(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
+}
 
 }
