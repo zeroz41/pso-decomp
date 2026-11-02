@@ -3538,6 +3538,7 @@ pso/unk/text_803E4D8C.cpp
 pso/unk/text_803F1804.cpp
 pso/unk/text_803F4D10.cpp
 pso/unk/text_803F4D84.cpp
+pso/unk/text_8042EAD4.cpp
 pso/unk/text_8042EE4C.cpp
 si/SIBios.c
 si/SISamplingRate.c
