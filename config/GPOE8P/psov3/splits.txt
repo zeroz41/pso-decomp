@@ -213,7 +213,7 @@ pso/boss/TBoss1DragonEffBullet.cpp:
 pso/boss/TBoss1DragonEffTail.cpp:
 	.text       start:0x8002BD34 end:0x8002C140
 	.rodata     start:0x80435440 end:0x80435460
-	.data       start:0x80481C58 end:0x80481F44
+	.data       start:0x80481C58 end:0x80481FA0
 	.sdata      start:0x805D2678 end:0x805D2680
 	.sdata2     start:0x805D8148 end:0x805D815C
 

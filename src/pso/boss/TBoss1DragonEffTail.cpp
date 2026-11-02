@@ -9,6 +9,8 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/enemy/AttackTargetHistory.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -70,7 +72,6 @@ extern s32 __vt__19TBoss1DragonEffTail[];
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-s32 vec3_add_to(s32, s32, s32);
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
 s32 rotate_matrix_y(int, int);
@@ -108,11 +109,11 @@ void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     if (*(s32 *)&((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_bc == 1) {
         *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC0) = 5.0f * cos_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
         *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC4) = 0.0f;
-        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c8 = 5.0f * -sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
+        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c0.z = 5.0f * -sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
     } else {
         *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC0) = 5.0f * -cos_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
         *(f32 *)((s8 *)boss1_dragon_eff_tail + 0xC4) = 0.0f;
-        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c8 = 5.0f * sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
+        ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c0.z = 5.0f * sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
     }
     {
         Pair_8002BD38 sp8 = { 3.0f, 1 };
@@ -122,8 +123,10 @@ void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
     ((TBoss1Dragon *)(*(void **)((s8 *)boss1_dragon_eff_tail + 0xB0)))->reload_difficulty_stats();
 }
 
-void TBoss1DragonEffTail__vt18(s32 arg0, s32 arg1) {
-    vec3_add_to(arg1 + 0x308, arg0 + 0xC0, arg0);
+// Pushes the hit object along this tail's sweep vector (+0x308 of the target, the field the base
+// TUnk_804928CC::area_attack_apply_recoil also moves).
+void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
+    vec3_add_to((Vec *)((u8 *)target + 0x308), &m_c0);
 }
 
 void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
@@ -135,19 +138,11 @@ void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
 
 void TBoss1DragonEffTail::enable() { this->m_bc = 1; is_visible(); }
 void TBoss1DragonEffTail::disable() { this->m_bc = 0; is_visible(); }
-int TBoss1DragonEffTail::is_visible() { return fill_value_array(*(void* *)&this->m_b8); }
+int TBoss1DragonEffTail::is_visible() { return fill_value_array(attack_history); }
 
-void *__dt__19TBoss1DragonEffTailFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TBoss1DragonEffTail;
-        __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)arg0 + 0xB8)), 1);
-        ((TBoss1DragonEffTail *)arg0)->m_b8 = 0;
-        __dt__13TUnk_804928CCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TBoss1DragonEffTail::~TBoss1DragonEffTail() {
+    delete attack_history;
+    attack_history = NULL;
 }
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2) {
     void *data;
