@@ -6,7 +6,7 @@
 
 struct TNpcPlayer : public TObject {
     virtual ~TNpcPlayer();
-    s32 deliver_partner_action();
+    void deliver_partner_action();
     virtual void run_task();
     virtual void render();
     void partner_request_physical_attack();
