@@ -2687,6 +2687,7 @@ pso/ui/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/TAdPlayerLoadGC.cpp
 pso/ui/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/TAdPlayerLoadGC_800F9EF8.cpp
+pso/ui/TAdPlayerLoadGC_801E0C30.cpp
 pso/ui/TAdPlayerLoadGC_8033BB14.cpp
 pso/ui/TAdPlayerLoadGC_803F3CF4.cpp
 pso/ui/TAdPlyPltAnimCtrlGC.cpp
