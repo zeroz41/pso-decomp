@@ -435,6 +435,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneDD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/misc/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TLoadCtrl_80227390.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8034AD38.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_80066F10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNgcBase_80358AE8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

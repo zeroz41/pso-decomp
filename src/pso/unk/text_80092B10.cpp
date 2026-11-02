@@ -50,7 +50,6 @@ s32 rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
-extern Vec re7_berura_init_vec;
 extern const f32 TObjEneRe7Berura__data_805D9724;
 extern const f32 lbl_805D9728;
 extern const f32 TObjEneRe7Berura__data_805D972C;
@@ -64,7 +63,7 @@ void TObjEneRe7Berura::vfunc_105() {
     ((TObjEneDD *)self)->get_target_info();
     if (self->v.m8(TObjEneRe7Berura__data_805D9724, lbl_805D9728) != 0) {
         if (self->f326 != 0xB) {
-            Vec v = re7_berura_init_vec;
+            Vec v = { 2.0f, 1.0f, 2.0f };
             ((TObjEneDD *)(self))->draw_ground_shadow(&v, 0);
         }
         TObjPlayer::toggle_particle_effect();

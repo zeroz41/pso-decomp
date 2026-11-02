@@ -1575,7 +1575,7 @@ pso/unk/text_80092AE0.cpp:
 
 pso/unk/text_80092B10.cpp:
 	.text       start:0x80092B10 end:0x80092CCC
-	.rodata     start:0x80439EE0 end:0x80439EE8
+	.rodata     start:0x80439ED0 end:0x80439EE8
 
 pso/enemy/TObjEneRe7Berura_80092CCC.cpp:
 	.text       start:0x80092CCC end:0x8009358C
@@ -7663,8 +7663,8 @@ pso/misc/TLobby_802268F4.cpp:
 
 pso/misc/TLoadCtrl_80227390.cpp:
 	.text       start:0x80227390 end:0x80227A2C
-	.rodata     start:0x8044C890 end:0x8044C898
-	.data       start:0x804CB838 end:0x804CB850
+	.rodata     start:0x8044C890 end:0x8044C8D0
+	.data       start:0x804CB838 end:0x804CB85C
 	.sbss       start:0x805D62D8 end:0x805D62E0
 
 pso/misc/TLobby_80227A2C.cpp:
@@ -10084,7 +10084,7 @@ pso/boss/TBoss6Type1.cpp:
 
 pso/boss/TBoss6Type2.cpp:
 	.text       start:0x802B97E0 end:0x802BE588
-	.rodata     start:0x804713B8 end:0x804713D0
+	.rodata     start:0x80471350 end:0x804713D0
 	.data       start:0x804DFC28 end:0x804DFC4C
 	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
