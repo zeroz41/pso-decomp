@@ -1268,6 +1268,7 @@ pso/misc/TDLGraph_8007F85C.cpp:
 
 pso/unk/text_8007F8D0.cpp:
 	.text       start:0x8007F8D0 end:0x8007FA24
+	.rodata     start:0x80438B40 end:0x80438D30
 
 pso/unk/text_8007FA24.cpp:
 	.text       start:0x8007FA24 end:0x8007FA94
@@ -4776,6 +4777,7 @@ pso/npc/TObjNpcLappy_8014B840.cpp:
 
 pso/unk/text_8014B8A4.cpp:
 	.text       start:0x8014B8A4 end:0x8014B904
+	.rodata     start:0x8043FB50 end:0x8043FB70
 
 pso/unk/text_8014B904.cpp:
 	.text       start:0x8014B904 end:0x8014B96C
@@ -10665,6 +10667,7 @@ pso/player/TObjPlayer_802D5B78.cpp:
 
 pso/player/TObjPlayer_802D5C0C.cpp:
 	.text       start:0x802D5C0C end:0x802D5F44
+	.rodata     start:0x80472590 end:0x8047259C
 	.sdata2     start:0x805DE7A0 end:0x805DE7A4
 
 pso/unk/text_802D5F44.cpp:

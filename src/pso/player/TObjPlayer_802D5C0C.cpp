@@ -146,17 +146,6 @@ struct VObj_18_f1aa6a : VBase_18_f1aa6a {
     virtual s32 m63(s32, s32 *);
 };
 
-struct Stack_80362FB4 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 void fire_spread_shot__10TObjPlayerFPv(u8 *arg0);
@@ -165,7 +154,6 @@ s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
-extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80472590;
 void TObjPlayer__sub_802D5DE0(u8 *arg0);
 void create_cane_effect_from_state__10TObjPlayerFPv(void *arg0);
 void* init_state_445__10TObjPlayerFPv(void* a0);
@@ -219,17 +207,12 @@ void fire_spread_shot__10TObjPlayerFPv(u8 *arg0) {
     ((VObj_18 *)(arg0))->m60(&sp8);
 }
 
-typedef char RecoveredGlobal_80362FB4_lbl_80479FC8_size[sizeof(RecoveredGlobal_80362FB4_lbl_80479FC8) == 0x10 ? 1 : -1];
+const NJS_POINT3 lbl_80472590 = { 0.0f, 0.0f, 0.5f };
+
 void TObjPlayer__sub_802D5DE0(u8 *item_weapon) {
-    typedef char sp8_offset[(offsetof(Stack_80362FB4, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80362FB4, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80362FB4, sp10) == 0x8) ? 1 : -1];
-    Stack_80362FB4 stack;
     if (TObjPlayer::get_player_list() == 0) {
-        stack.sp8 = *(s32 *)((s8 *)&lbl_80472590.value + 0);
-        stack.spC = *(s32 *)((s8 *)&lbl_80472590.value + 4);
-        stack.sp10 = *(s32 *)((s8 *)&lbl_80472590.value + 8);
-        post_translate_matrix((void *)&stack.sp8);
+        NJS_POINT3 offset = lbl_80472590;
+        post_translate_matrix(&offset);
         rotate_matrix_x(0, 0x18E3);
         if (*(s32 *)((s8 *)item_weapon + 0x1f8) & 1) {
             push_matrix();
