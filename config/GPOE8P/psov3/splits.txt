@@ -2085,7 +2085,7 @@ pso/enemy/TObjEneSlimeTailAttack.cpp:
 	.rodata     start:0x8043D288 end:0x8043D298
 	.data       start:0x804962F8 end:0x80496868
 	.bss        start:0x80501010 end:0x80501050
-	.sdata2     start:0x805DA678 end:0x805DA738
+	.sdata2     start:0x805DA668 end:0x805DA760
 
 pso/unk/text_800EB778.cpp:
 	.text       start:0x800EB778 end:0x800EB910
@@ -10185,17 +10185,11 @@ pso/boss/TBoss6Type1.cpp:
 	.data       start:0x804DF8B8 end:0x804DF950
 	.sdata2     start:0x805DE2D0 end:0x805DE3C4
 
-pso/boss/TBoss6Type2_802B97E0.cpp:
-	.text       start:0x802B97E0 end:0x802B9858
-
-pso/boss/TBoss6Type2_802B9858.cpp:
-	.text       start:0x802B9858 end:0x802B98FC
-
 pso/boss/TBoss6Type2.cpp:
-	.text       start:0x802B98FC end:0x802BE588
+	.text       start:0x802B97E0 end:0x802BE588
 	.rodata     start:0x804713B8 end:0x804713D0
 	.data       start:0x804DFC28 end:0x804DFC4C
-	.sdata2     start:0x805DE414 end:0x805DE4B4
+	.sdata2     start:0x805DE3F0 end:0x805DE4D8
 
 pso/boss/TBoss6Type2_802BE588.cpp:
 	.text       start:0x802BE588 end:0x802BF558

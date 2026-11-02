@@ -282,8 +282,7 @@ pso/boss/TBoss6Tube_802B16BC.cpp
 pso/boss/TBoss6Type1_802B20C0.cpp
 pso/boss/TBoss6Type1_80320AE0.cpp
 pso/boss/TBoss6Type1_80323DCC.cpp
-pso/boss/TBoss6Type2_802B97E0.cpp
-pso/boss/TBoss6Type2_802B9858.cpp
+pso/boss/TBoss6Type2.cpp
 pso/boss/TBoss6Type2_802BE588.cpp
 pso/boss/TBoss6Type2_802BF558.cpp
 pso/boss/TBoss6Type2_8032E708.cpp
