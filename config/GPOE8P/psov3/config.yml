@@ -244,6 +244,7 @@ force_active:
   - TBoss4Bishi__ct
   - TBoss4Bishi_spawn_offsets
   - TBoss4DarkFalz__ct
+  - TBoss4DarkFalz__name
   - TBoss4DarkFalz__sub_8004B5A0
   - TBoss4DarkFalz__sub_801D94C0
   - TBoss4Thanks__sub_8035C480
@@ -4429,6 +4430,12 @@ force_active:
   - damage_players_in_radius__FPUc
   - damage_players_in_range__15TBoss6RockChaseFv
   - damage_players_near_point
+  - dark_falz_player_ring_center
+  - dark_falz_push_zone_table
+  - dark_falz_zako_ring_origin_vec
+  - darkfalz_dat_model_names
+  - darkfalz_dat_motion_names
+  - darkfalz_dat_resource_descriptor
   - date_month_start_days
   - dead_enter__11TBoss4Type2Fv
   - dead_idle__11TBoss4Type2Fv
@@ -6082,6 +6089,7 @@ force_active:
   - lazer_fence_norm_episode1_resource_descriptor
   - lazer_fence_norm_episode2_resource_descriptor
   - lazer_fence_sw_ginja_model_table
+  - lbl_804371BC
   - lbl_80437384
   - lbl_804373A4
   - lbl_80438528

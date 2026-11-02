@@ -1,11 +1,150 @@
+#pragma readonly_strings on
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 
 struct Vec_8004AB90 { f32 x, y, z; };
 
 struct E_8004AB90 { Vec_8004AB90 pos; f32 r; Vec_8004AB90 v; f32 s; };
+
+const char *darkfalz_dat_model_names[] = {
+    "df_event_tower.nj",
+    "df_rikomiraju_body.nj",
+    "df1_anzen.nj",
+    "df1_s_body.nj",
+    "df1_s_da_heada.nj",
+    "df1_s_db_heada.nj",
+    "df1_s_dc_heada.nj",
+    "df1_s_dodai.nj",
+    "df1_s_simobe.nj",
+    "df1_s_waist.nj",
+    "df2_s_body.nj",
+    "df2_s_dodai1.nj",
+    "df3_s_body.nj",
+    "df3_s_wing.nj",
+    "df3_sl_body.nj",
+    "df3_sl_wing.nj",
+    "fd_obj813_face.nj",
+    "fd_obj813_flower01.nj",
+    "rico_ring3_rico_ring.nj",
+    NULL,
+};
+
+const char *darkfalz_dat_motion_names[] = {
+    "beaml_df1_s_body.njm",
+    "beaml_df1_s_root.njm",
+    "beaml_df2_s_body.njm",
+    "beaml_df2_s_dodai1.njm",
+    "beamr_df1_s_body.njm",
+    "beamr_df1_s_root.njm",
+    "beamr_df2_s_body.njm",
+    "beamr_df2_s_dodai1.njm",
+    "damage_df1_s_body.njm",
+    "damage_df1_s_da_heada.njm",
+    "damage_df1_s_dodai.njm",
+    "damage_df1_s_root.njm",
+    "damage_df2_s_body.njm",
+    "damage_df2_s_dodai1.njm",
+    "damage_df3_s_body.njm",
+    "damage_df3_s_wing.njm",
+    "damage_df3_s1_wing.njm",
+    "dead_df2_s_body.njm",
+    "dead_df2_s_dodai1.njm",
+    "dead_df3_s_body.njm",
+    "dead1_df1_s_body.njm",
+    "dead1_df1_s_da_heada.njm",
+    "dead1_df1_s_root.njm",
+    "df_rikomiraju_body.njm",
+    "df1op_df1_s_body.njm",
+    "df1op_df1_s_da_heada.njm",
+    "df2op_df1_s_body.njm",
+    "df2op_df1_s_da_heada.njm",
+    "df2op_df2_s_body.njm",
+    "df2op_df2_s_dodai1.njm",
+    "df3_op_df2_s_body.njm",
+    "df3_op_df2_s_dodai1.njm",
+    "df3_op_df3_s_body.njm",
+    "df3_op_df3_s_wing.njm",
+    "df3_op_df3_s1_wing.njm",
+    "df3dead_df_rikomiraju_body.njm",
+    "df3dead_df3_s_body.njm",
+    "dwntec_df3_s_body.njm",
+    "fd_obj813_face.njm",
+    "fd_obj813_flower01.njm",
+    "haki_df1_s_da_heada.njm",
+    "haki_df1_s_root.njm",
+    "hakiin_df1_s_da_heada.njm",
+    "hakiin_df1_s_root.njm",
+    "hakiout_df1_s_da_heada.njm",
+    "hakiout_df1_s_root.njm",
+    "hoe_df1_s_body.njm",
+    "hoe_df1_s_da_heada.njm",
+    "hoe_df2_s_body.njm",
+    "hoe_df2_s_dodai1.njm",
+    "jisin_df2_s_body.njm",
+    "jisin_df2_s_dodai1.njm",
+    "jyousyou_df3_s_body.njm",
+    "jyousyou_df3_s_wing.njm",
+    "jyousyou_df3_s1_wing.njm",
+    "kakou_df3_s_body.njm",
+    "kakou_df3_s_wing.njm",
+    "kakou_df3_s1_wing.njm",
+    "laser_df3_s_body.njm",
+    "laser_df3_s_wing.njm",
+    "laser_df3_s1_wing.njm",
+    "lhassya_df1_s_body.njm",
+    "lhassya_df2_s_body.njm",
+    "lhassya_df2_s_dodai1.njm",
+    "lkiri_df3_s_body.njm",
+    "lkiri_df3_s_wing.njm",
+    "lkiri_df3_s1_wing.njm",
+    "ltame_df1_s_body.njm",
+    "ltame_df2_s_body.njm",
+    "rico_ring3_rico_ring.njm",
+    "ricoult1_df_rikomiraju_body.njm",
+    "ricoult2_df_rikomiraju_body.njm",
+    "rkiri_df3_s_body.njm",
+    "rkiri_df3_s_wing.njm",
+    "rkiri_df3_s1_wing.njm",
+    "uptec_df3_s_body.njm",
+    "wait_df1_s_body.njm",
+    "wait_df1_s_da_heada.njm",
+    "wait_df1_s_dodai.njm",
+    "wait_df1_s_root.njm",
+    "wait_df1_s_waist.njm",
+    "wait_df2_s_body.njm",
+    "wait_df2_s_dodai1.njm",
+    "wait_df3_s_body.njm",
+    "wait_df3_s_wing.njm",
+    "wait_df3_s1_wing.njm",
+    "wing_df2_s_body.njm",
+    "wing_df2_s_dodai1.njm",
+    "wing_wing_root.njm",
+    "yubi_df3_s_body.njm",
+    NULL,
+};
+
+BmlResourceDescriptor darkfalz_dat_resource_descriptor = {
+    "darkfalz_dat.bml", darkfalz_dat_model_names, darkfalz_dat_motion_names, 19, 90,
+};
+
+const char *TBoss4DarkFalz__name = "TBoss4DarkFalz";
+
+// Read-only start positions (.rodata) of sub_8004B8F8 and sub_8004B7DC. Declared const, the visible
+// definition lets CodeWarrior hoist the copy above the stmw in both users, so they are placed explicitly.
+__declspec(section ".rodata") Vec lbl_804371BC = { 0.0f, 10.0f, 0.0f };
+__declspec(section ".rodata") Vec dark_falz_player_ring_center = { 10000.0f, 10.0f, 0.0f };
+
+Vec dark_falz_zako_ring_origin_vec = { 0.0f, -13.0f, 0.0f };
+
+E_8004AB90 dark_falz_push_zone_table[3] = {
+    { { -10000.0f, 0.0f, 0.0f }, 750.0f, { -10000.0f, 0.0f, 200.0f }, 50.0f },
+    { { 0.0f, 0.0f, 0.0f }, 750.0f, { 0.0f, 0.0f, 0.0f }, 50.0f },
+    { { 10000.0f, 0.0f, 0.0f }, 750.0f, { 10000.0f, 0.0f, 0.0f }, 200.0f },
+};
+
 
 extern "C" {
 u8 *get_player_data__10TObjPlayerFi(s32);
@@ -14,7 +153,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);
-extern E_8004AB90 dark_falz_push_zone_table[];
 extern s32 lbl_805D5868;
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
@@ -216,18 +354,10 @@ typedef struct Params_8004B3BC {
     u8 pad20[0x48 - 0x20];
 } Params_8004B3BC;
 
-typedef struct Vec_8004B7DC {
-    f32 x, y, z;
-} Vec_8004B7DC;
-
 typedef struct Hit_8004B7DC {
     s32 f0;
     s32 f4;
 } Hit_8004B7DC;
-
-typedef struct Vec_8004B8F8 {
-    f32 x, y, z;
-} Vec_8004B8F8;
 
 typedef struct Hit_8004B8F8 {
     s32 f0;
@@ -280,7 +410,6 @@ void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void create__10TBoss4ZakoFl(void *);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-extern u8 dark_falz_zako_ring_origin_vec[];
 extern Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
 extern s32 game_difficulty_selection;
 
@@ -288,11 +417,9 @@ s32 is_locally_controlled__10TObjPlayerFPv(void *);
 Hit_8004B7DC *get_hit_data__14TBoss4DarkFalzFv(void *);
 }
 void reset_cameras_to_actor(void *, s32);
-extern Vec_8004B7DC dark_falz_player_ring_center;
 
 extern "C" {
 void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *arg0);
-extern Vec_8004B8F8 lbl_804371BC;
 void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);
 int TBoss4DarkFalz__sub_8004B07C(void);
 s32 is_local_client_floor_leader();
@@ -474,7 +601,7 @@ void TBoss4DarkFalz::spawn_zako_rings() {
             if (TBoss4DarkFalz__sub_8004AF5C(((u8 *)this), p.a, &p.b) == 0) {
                 return;
             }
-            VecCopy((Vec *)&p.pos, (const Vec *)dark_falz_zako_ring_origin_vec);
+            VecCopy((Vec *)&p.pos, &dark_falz_zako_ring_origin_vec);
             p.pos.x += r * sin_table_lookup(ang);
             p.pos.z += r * cos_table_lookup(ang);
             create__10TBoss4ZakoFl(&p);
@@ -609,7 +736,7 @@ void TBoss4DarkFalz::refresh_player_equipment(void *self) {
 
 #pragma fp_contract on
 void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
-    Vec_8004B7DC base = dark_falz_player_ring_center;
+    Vec base = dark_falz_player_ring_center;
     s32 rate;
     s32 ang;
     s32 i;
@@ -619,7 +746,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
     for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
-            Vec_8004B7DC v = base;
+            Vec v = base;
             v.x += 2.5e+02f * sin_table_lookup(ang);
             v.z += 2.5e+02f * cos_table_lookup(ang);
             ((TObjBase *)p)->set_position_from(&v);
@@ -636,7 +763,7 @@ void TBoss4DarkFalz__sub_8004B7DC(TBoss4DarkFalz *boss4_dark_falz) {
 
 #pragma fp_contract on
 void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
-    Vec_8004B8F8 base = lbl_804371BC;
+    Vec base = lbl_804371BC;
     s32 rate;
     s32 ang;
     s32 i;
@@ -646,10 +773,10 @@ void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *boss4_dark_falz) {
     for (i = 0; i < registered_player_count; i++) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && ((TBoss3Volopt *)p)->get_field_3e0() == 0xE) {
-            Vec_8004B8F8 v = base;
+            Vec v = base;
             v.x += 12.5f * sin_table_lookup(ang);
             v.z += 12.5f * cos_table_lookup(ang);
-            ((TObjBase *)p)->set_position_from((Vec_8004B7DC *)(&v));
+            ((TObjBase *)p)->set_position_from(&v);
             ((TBoss4DarkFalz *)p)->save_position();
             ((Hit_8004B8F8 *)get_hit_data__14TBoss4DarkFalzFv(p))->f4 = 0x8000;
             ((TObjPlayer *)p)->refresh_equipment_slot();
@@ -732,8 +859,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_8004C0D4_lbl_80484D74 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8004C0D4_lbl_80484D74_size[sizeof(RecoveredGlobal_8004C0D4_lbl_80484D74) == 0x10 ? 1 : -1];
 
 typedef struct Msg_8004BFA4 {
     u8 code;
@@ -748,7 +873,6 @@ extern "C" {
 s32 query_teammate_state__9TObjEneDDFv();
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void fn_802E52AC(void);
-extern RecoveredGlobal_8004C0D4_lbl_80484D74 darkfalz_dat_resource_descriptor;
 extern int darkfalz_dat_resource;
 void TBoss4Type2__sub_80056EA8(void *, s32);
 void TBoss4Type3__sub_80059DCC(void *, s32);
@@ -771,7 +895,6 @@ void *fn_8030A83C(void *arg0);
 }
 void init_music_sequencer(s32 program);
 s32 create_boss4_fade();
-extern s32 TBoss4DarkFalz__name;
 extern s32 dark_falz_form_index;
 extern s32 lbl_805D4D6C;
 extern s32 lbl_805D4D70;
@@ -959,7 +1082,7 @@ void TBoss4DarkFalz::load_resources() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &darkfalz_dat_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &darkfalz_dat_resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&darkfalz_dat_resource) = (unsigned char *) ((void *) var_r0);
     if ((u32) var_r0 != 0U) {
@@ -983,3 +1106,4 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
     return var_r31;
 }
 }
+

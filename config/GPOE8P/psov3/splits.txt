@@ -461,7 +461,9 @@ pso/unk/text_8004AA04.cpp:
 
 pso/object/TObjDFHorming.cpp:
 	.text       start:0x8004AB90 end:0x8004C19C
-	.rodata     start:0x804371D8 end:0x804371E0
+	.rodata     start:0x804367C8 end:0x804371E0
+	.data       start:0x80484BB8 end:0x80484DF0
+	.sdata      start:0x805D2770 end:0x805D2774
 	.sdata2     start:0x805D8908 end:0x805D8938
 
 pso/boss/TBoss4Uro.cpp:
