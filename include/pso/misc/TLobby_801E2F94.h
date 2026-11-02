@@ -18,7 +18,7 @@ struct ColorLineList {
 extern "C" {
 void TCameraCtrl__sub_801E32D8(f32 farg0, f32 farg1);
 s32 TKeyBoardControl__sub_801E3E24(s32 id, s32 name, s32 arg2);
-s32 *TLobby__sub_801E38A0(s32 arg0, s32 *arg1, s32 *arg2, s32 *buf, s32 *arg4);
+s32 *TLobby__sub_801E38A0(s32 file, s32 *offset, s32 *type, s32 *dst, s32 *size_out);
 void TLobby__sub_801E3CF0(u32 *p);
 s32 TLobby__sub_801E3E9C(s32 id, s32 name, s32 arg2);
 void camera_renderer_setup_nop(void);

@@ -598,6 +598,7 @@ force_active:
   - TLobby__sub_801C38E8
   - TLobby__sub_801C3AF4
   - TLobby__sub_801C417C
+  - TLobby__sub_801E3CF0
   - TLobby__sub_801E6BB8
   - TLobby__sub_801E6C2C
   - TLobby__sub_801E6C40
@@ -13850,6 +13851,7 @@ force_active:
   - render_status__18TAdMultiPlayerNoGCFv
   - render_summary_row__15TWindowHelpItemFv
   - render_text_entry
+  - render_tree__10TObjPlayerFPv
   - render_ui__9TMainTaskFv
   - render_with_fade__13TBoss5GryphonFl
   - render_with_fade__19TObjEneEpsilonGuardFPvi

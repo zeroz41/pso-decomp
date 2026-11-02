@@ -1029,6 +1029,7 @@ pso/misc/TLobby_801D6DC4.cpp
 pso/misc/TLobby_801D726C.cpp
 pso/misc/TLobby_801DA7DC.cpp
 pso/misc/TLobby_801DEFC4.cpp
+pso/misc/TLobby_801E2F94.cpp
 pso/misc/TLobby_801E43E4.cpp
 pso/misc/TLobby_801F2D2C.cpp
 pso/misc/TLobby_801F3A24.cpp
