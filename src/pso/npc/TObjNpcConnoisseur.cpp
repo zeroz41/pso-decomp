@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -43,16 +43,9 @@ void TObjNpcConnoisseur::load_section_motion() {
     TObjNpcConnoisseur__instance = (u32)o;
 }
 
-void *__dt__18TObjNpcConnoisseurFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjNpcConnoisseur;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcConnoisseur::~TObjNpcConnoisseur() {}
+extern "C" {
 
 extern void *tl_04;
 

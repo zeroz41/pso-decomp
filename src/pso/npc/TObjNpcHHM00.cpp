@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/npc/TObjNpcHHM00.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcHRM00.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcHHM00.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -48,16 +48,9 @@ void TObjNpcHHM00::load_resources() {
     TObjNpcHHM00__body_texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_a00_w_body.gvm");
 }
 
-void *__dt__12TObjNpcHHM00Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcHHM00;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcHHM00::~TObjNpcHHM00() {}
+extern "C" {
 
 extern void *tl_04;
 

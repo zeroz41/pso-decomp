@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/npc/TObjNpcSecretaryBase.h"
 #include "pso/npc/TObjNpcSoldierBase.h"
 #include "pso/npc/TUnk_804A8640.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/npc/TObjNpcSecretaryBase.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -50,16 +50,9 @@ void TObjNpcSecretaryBase::load_static_data() {
     (*(s32 *)&TObjNpcSecretaryBase__static_model_resource) = var_r0;
 }
 
-void *__dt__20TObjNpcSecretaryBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TObjNpcSecretaryBase;
-        ((TUnk_804A8640 *)arg0)->destroy_npc_female_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcSecretaryBase::~TObjNpcSecretaryBase() {}
+extern "C" {
 
 extern void *tl_04;
 

@@ -1,9 +1,9 @@
 #include "types.h"
+#include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -60,16 +60,9 @@ void TObjNpcGovernorBase::load_shared_resource() {
     (*(s32 *)&TObjNpcGovernorBase__shared_resource) = var_r0;
 }
 
-void *__dt__19TObjNpcGovernorBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjNpcGovernorBase;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
+extern "C" {
 
 extern void *tl_04;
 

@@ -2025,6 +2025,7 @@ force_active:
   - __dt__11TObjDFJisinFv
   - __dt__11TObjDFYutaiFv
   - __dt__11TObjInfoColFv
+  - __dt__11TObjNpcHosaFv
   - __dt__11TObjTuitateFv
   - __dt__11TPhotonLineFv
   - __dt__11TPlayerSoulFv
@@ -2079,6 +2080,20 @@ force_active:
   - __dt__12TObjEneSlimeFv
   - __dt__12TObjEnvSoundFv
   - __dt__12TObjMistCtrlFv
+  - __dt__12TObjNpcAHM01Fv
+  - __dt__12TObjNpcARM00Fv
+  - __dt__12TObjNpcARW00Fv
+  - __dt__12TObjNpcEnemyFv
+  - __dt__12TObjNpcHHM00Fv
+  - __dt__12TObjNpcHRM00Fv
+  - __dt__12TObjNpcHRM01Fv
+  - __dt__12TObjNpcHosa2Fv
+  - __dt__12TObjNpcNFM00Fv
+  - __dt__12TObjNpcNFM01Fv
+  - __dt__12TObjNpcNFW00Fv
+  - __dt__12TObjNpcNFW01Fv
+  - __dt__12TObjNpcNHW00Fv
+  - __dt__12TObjNpcNHW01Fv
   - __dt__12TObjParticleFv
   - __dt__12TObjQuestColFv
   - __dt__12TObjRaderColFv
@@ -2130,6 +2145,7 @@ force_active:
   - __dt__13TObjHashiBaseFv
   - __dt__13TObjItemLightFv
   - __dt__13TObjLobbyMainFv
+  - __dt__13TObjNpcKenkyuFv
   - __dt__13TObjPlayerSetFv
   - __dt__13TObjQuestColAFv
   - __dt__13TObjRaderIconFv
@@ -2273,6 +2289,10 @@ force_active:
   - __dt__14TObjEneBm5WolfFv
   - __dt__14TObjEneIllGillFv
   - __dt__14TObjEnvSoundExFv
+  - __dt__14TObjNpcKenkyu2Fv
+  - __dt__14TObjNpcMaleFatFv
+  - __dt__14TObjNpcMaleOldFv
+  - __dt__14TObjNpcNgcBaseFv
   - __dt__14TObjVoloptCageFv
   - __dt__14TObjWarpStringFv
   - __dt__14TPhotonRainbowFv
@@ -2329,6 +2349,8 @@ force_active:
   - __dt__15TObjDeadListWinFv
   - __dt__15TObjEneDelDepthFv
   - __dt__15TObjNewFloorWinFv
+  - __dt__15TObjNpcMaleBaseFv
+  - __dt__15TObjNpcMaleTallFv
   - __dt__15TObjQuestColApcFv
   - __dt__15TObjSoloPlayWinFv
   - __dt__15TObjSuisouLobbyFv
@@ -2384,6 +2406,13 @@ force_active:
   - __dt__16TObjHashiVersus2Fv
   - __dt__16TObjItemOKWindowFv
   - __dt__16TObjKabochaLobbyFv
+  - __dt__16TObjNpcFemaleFatFv
+  - __dt__16TObjNpcFemaleOldFv
+  - __dt__16TObjNpcMaleChildFv
+  - __dt__16TObjNpcMaleDwarfFv
+  - __dt__16TObjNpcMaleMachoFv
+  - __dt__16TObjNpcNurseBaseFv
+  - __dt__16TObjNpcSoutokufuFv
   - __dt__16TObjRaderHideColFv
   - __dt__16TObjRainbowLobbyFv
   - __dt__16TObjTagChallengeFv
@@ -2424,6 +2453,9 @@ force_active:
   - __dt__17TObjEneDf2BringerFv
   - __dt__17TObjEneHoldEffectFv
   - __dt__17TObjItemNameEntryFv
+  - __dt__17TObjNpcExpertBaseFv
+  - __dt__17TObjNpcFemaleBaseFv
+  - __dt__17TObjNpcFemaleTallFv
   - __dt__17TObjParticleLobbyFv
   - __dt__17TObjQuestColApcINFv
   - __dt__17TObjVoloptShutterFv
@@ -2469,6 +2501,11 @@ force_active:
   - __dt__18TObjEneRe4SorcererFv
   - __dt__18TObjEnvSoundGlobalFv
   - __dt__18TObjItemNameSelectFv
+  - __dt__18TObjNpcConnoisseurFv
+  - __dt__18TObjNpcFemaleChildFv
+  - __dt__18TObjNpcFemaleDwarfFv
+  - __dt__18TObjNpcFemaleMachoFv
+  - __dt__18TObjNpcSoldierBaseFv
   - __dt__18TObjQuestColApcINWFv
   - __dt__18TObjSeabedSuiso_CHFv
   - __dt__18TObjTailsTailsMoveFv
@@ -2503,6 +2540,8 @@ force_active:
   - __dt__19TObjEneDelDepthBombFv
   - __dt__19TObjEneEpsilonGuardFv
   - __dt__19TObjGyaranzoMissileFv
+  - __dt__19TObjNpcGovernorBaseFv
+  - __dt__19TObjNpcSoldierMachoFv
   - __dt__19TObjStendGlassLobbyFv
   - __dt__19TQuestListChallengeFv
   - __dt__19TWindowMessageYesNoFv
@@ -2526,6 +2565,8 @@ force_active:
   - __dt__20TObjEneDarkGunCenterFv
   - __dt__20TObjEneMe1Gee_NEEDLEFv
   - __dt__20TObjLiveMonitorSmallFv
+  - __dt__20TObjNpcCloakroomBaseFv
+  - __dt__20TObjNpcSecretaryBaseFv
   - __dt__20TPlayerLevelFeedbackFv
   - __dt__20TPlayerParticleOwnerFv
   - __dt__20TPlayerReadyCallbackFv
@@ -2692,6 +2733,7 @@ force_active:
   - __vt__11TObjDFYutai
   - __vt__11TObjInfoCol
   - __vt__11TObjMesBase
+  - __vt__11TObjNpcHosa
   - __vt__11TObjNpcMoja
   - __vt__11TObjTuitate
   - __vt__11TPhotonLine
@@ -2744,7 +2786,21 @@ force_active:
   - __vt__12TObjEneSlime
   - __vt__12TObjEnvSound
   - __vt__12TObjMistCtrl
+  - __vt__12TObjNpcAHM01
+  - __vt__12TObjNpcARM00
+  - __vt__12TObjNpcARW00
+  - __vt__12TObjNpcEnemy
+  - __vt__12TObjNpcHHM00
+  - __vt__12TObjNpcHRM00
+  - __vt__12TObjNpcHRM01
+  - __vt__12TObjNpcHosa2
   - __vt__12TObjNpcLappy
+  - __vt__12TObjNpcNFM00
+  - __vt__12TObjNpcNFM01
+  - __vt__12TObjNpcNFW00
+  - __vt__12TObjNpcNFW01
+  - __vt__12TObjNpcNHW00
+  - __vt__12TObjNpcNHW01
   - __vt__12TObjParticle
   - __vt__12TObjRaderCol
   - __vt__12TObjRainCtrl
@@ -2797,6 +2853,7 @@ force_active:
   - __vt__13TObjItemLight
   - __vt__13TObjLobbyMain
   - __vt__13TObjMapObject
+  - __vt__13TObjNpcKenkyu
   - __vt__13TObjPlayerSet
   - __vt__13TObjRaderIcon
   - __vt__13TObjResultWin
@@ -2846,6 +2903,7 @@ force_active:
   - __vt__13TUnk_8049FED0
   - __vt__13TUnk_8049FF88
   - __vt__13TUnk_804A2018
+  - __vt__13TUnk_804A8640
   - __vt__13TUnk_804AF7B0
   - __vt__13TUnk_804B7C04
   - __vt__13TUnk_804B7C1C
@@ -2930,6 +2988,9 @@ force_active:
   - __vt__14TObjEneBalClaw
   - __vt__14TObjEneIllGill
   - __vt__14TObjEnvSoundEx
+  - __vt__14TObjNpcKenkyu2
+  - __vt__14TObjNpcMaleFat
+  - __vt__14TObjNpcMaleOld
   - __vt__14TObjVoloptCage
   - __vt__14TObjWarpString
   - __vt__14TQuadSpriteCol
@@ -2989,6 +3050,8 @@ force_active:
   - __vt__15TObjEnemyCustom
   - __vt__15TObjLiveMonitor
   - __vt__15TObjNewFloorWin
+  - __vt__15TObjNpcMaleBase
+  - __vt__15TObjNpcMaleTall
   - __vt__15TObjSoloPlayWin
   - __vt__15TObjSuisouLobby
   - __vt__15TPlyPhotonChair
@@ -3039,6 +3102,13 @@ force_active:
   - __vt__16TObjHashiVersus2
   - __vt__16TObjItemOKWindow
   - __vt__16TObjKabochaLobby
+  - __vt__16TObjNpcFemaleFat
+  - __vt__16TObjNpcFemaleOld
+  - __vt__16TObjNpcMaleChild
+  - __vt__16TObjNpcMaleDwarf
+  - __vt__16TObjNpcMaleMacho
+  - __vt__16TObjNpcNurseBase
+  - __vt__16TObjNpcSoutokufu
   - __vt__16TObjOnlineEnding
   - __vt__16TObjRaderHideCol
   - __vt__16TObjRainbowLobby
@@ -3081,6 +3151,9 @@ force_active:
   - __vt__17TObjEneDarkGunner
   - __vt__17TObjEneDf2Bringer
   - __vt__17TObjItemNameEntry
+  - __vt__17TObjNpcExpertBase
+  - __vt__17TObjNpcFemaleBase
+  - __vt__17TObjNpcFemaleTall
   - __vt__17TObjParticleLobby
   - __vt__17TObjVoloptShutter
   - __vt__17TObjWarpBossMulti
@@ -3130,6 +3203,11 @@ force_active:
   - __vt__18TObjEneRe4Sorcerer
   - __vt__18TObjEnvSoundGlobal
   - __vt__18TObjItemNameSelect
+  - __vt__18TObjNpcConnoisseur
+  - __vt__18TObjNpcFemaleChild
+  - __vt__18TObjNpcFemaleDwarf
+  - __vt__18TObjNpcFemaleMacho
+  - __vt__18TObjNpcSoldierBase
   - __vt__18TObjSeabedSuiso_CH
   - __vt__18TObjTailsTailsMove
   - __vt__18TObjTradeCollision
@@ -3158,6 +3236,8 @@ force_active:
   - __vt__19TObjEneDelDepthBomb
   - __vt__19TObjEneEpsilonGuard
   - __vt__19TObjGyaranzoMissile
+  - __vt__19TObjNpcGovernorBase
+  - __vt__19TObjNpcSoldierMacho
   - __vt__19TObjStendGlassLobby
   - __vt__19TPlayerBattleCtrl4P
   - __vt__19TQuestListChallenge
@@ -3182,6 +3262,8 @@ force_active:
   - __vt__20TObjBoss5PillarSmoke
   - __vt__20TObjChallenge4PRetry
   - __vt__20TObjLiveMonitorSmall
+  - __vt__20TObjNpcCloakroomBase
+  - __vt__20TObjNpcSecretaryBase
   - __vt__20TPlayerLevelFeedback
   - __vt__20TPlayerParticleOwner
   - __vt__20TQuadSpriteSclColRot
@@ -5208,6 +5290,7 @@ force_active:
   - draw_current_pic__10TEndingPicFv
   - draw_cursor__19TWindowSubMagPhotonFi
   - draw_cursor__22TWindowSubCustomSelectFPUc
+  - draw_debug_info__12TObjNpcEnemyFv
   - draw_dialing_status__12TAdDialingGCFv
   - draw_effect_chain__15TOTrapAncient02Fv
   - draw_entry__12TAdMultiOkGCFi
@@ -8433,6 +8516,10 @@ force_active:
   - play_sound_in_band__13TObjEneMorfosFv
   - play_sound_variant__16TObjEneBm5GibonUFv
   - play_variant_sound__14TObjEneBm5WolfFPv
+  - play_voice__12TObjNpcAHM01Fv
+  - play_voice__12TObjNpcARM00Fv
+  - play_voice__12TObjNpcARW00Fv
+  - play_voice__20TObjNpcCloakroomBaseFv
   - play_walk_sound__12TObjEneLappyFv
   - player_action_motion_buffer
   - player_anim_table_pointers
@@ -12970,6 +13057,7 @@ force_active:
   - receive_direct_attack__15TOAttackableColFPv19DirectAttackPayloadPvll
   - receive_direct_attack__19TContainerAncient01FPv19DirectAttackPayloadPvll
   - receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll
+  - receive_direct_attack__20TObjNpcCloakroomBaseFPv19DirectAttackPayloadPvll
   - receive_physical_attack__11TOVS2Wall01FPvf
   - receive_physical_attack__15TBoss3VoloptP02FPvf
   - receive_physical_attack__15TOAttackableColFPvf
@@ -13139,6 +13227,7 @@ force_active:
   - render__12TObjEneSaverFv
   - render__12TObjEneSharkFv
   - render__12TObjEnvSoundFv
+  - render__12TObjNpcEnemyFv
   - render__12TObjParticleFv
   - render__12TObjRaderColFv
   - render__12TPhotonGollaFv
@@ -13519,6 +13608,7 @@ force_active:
   - replace_gvm_texture_directory
   - replace_owned_string__20TWindowSubStatusDispFPviiii
   - repositioning_state__14TObjEneBm5WolfFl
+  - request_action__12TObjNpcEnemyFl
   - request_action__8TItemMagFl
   - request_aram_load_state__16TAdWarningBaseGCFPv
   - request_close__22THunterGuildSeqOfflineFv

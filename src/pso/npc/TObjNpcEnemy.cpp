@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/math/MatrixVector.h"
@@ -8,7 +9,6 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
@@ -261,16 +261,9 @@ void TObjNpcEnemy::render() {
     }
 }
 
-void *__dt__12TObjNpcEnemyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcEnemy;
-        __dt__11TObjNpcBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcEnemy::~TObjNpcEnemy() {}
+extern "C" {
 
 extern void *tl_04;
 

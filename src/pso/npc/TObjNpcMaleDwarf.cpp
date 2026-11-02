@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/npc/TObjNpcMaleDwarf.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcMaleDwarf.h"
 #include "pso/npc/TObjNpcMaleFat.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -57,16 +57,9 @@ void TObjNpcMaleDwarf::load_shared_resource() {
     (*(s32 *)&TObjNpcMaleDwarf__shared_model_resource) = var_r0;
 }
 
-void *__dt__16TObjNpcMaleDwarfFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjNpcMaleDwarf;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcMaleDwarf::~TObjNpcMaleDwarf() {}
+extern "C" {
 
 extern void *tl_04;
 

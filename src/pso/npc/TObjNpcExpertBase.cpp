@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,16 +52,9 @@ void TObjNpcExpertBase::load_shared_resource() {
     (*(s32 *)&TObjNpcExpertBase__shared_resource) = var_r0;
 }
 
-void *__dt__17TObjNpcExpertBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjNpcExpertBase;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcExpertBase::~TObjNpcExpertBase() {}
+extern "C" {
 typedef char RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase_size[sizeof(RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, s32 arg2) {
     construct_male_npc_base((player));

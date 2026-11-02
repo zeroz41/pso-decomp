@@ -1,9 +1,9 @@
 #include "types.h"
+#include "pso/npc/TObjNpcKenkyu2.h"
 #include "pso/npc/TObjNpcHosa2.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/npc/TObjNpcKenkyu2.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -53,16 +53,9 @@ void TObjNpcKenkyu2::load_shared_resource() {
     (*(s32 *)&TObjNpcKenkyu2__shared_model_resource) = var_r0;
 }
 
-void *__dt__14TObjNpcKenkyu2Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjNpcKenkyu2;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcKenkyu2::~TObjNpcKenkyu2() {}
+extern "C" {
 
 extern void *tl_04;
 
