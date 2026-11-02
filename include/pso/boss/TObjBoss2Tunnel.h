@@ -88,10 +88,6 @@ struct TObjBoss2Tunnel : public TObject {
     static void clear_flags_0x3000();
     static s32 is_phase_active(s32 _w0);
     static s32 check_both(s32 arg0);
-    void init_effect();
-    void update_dust_spawn();
-    void update_spawn_timer(s32 arg1, s32 arg2, s32 arg3);
-    void advance_effect_timer();
     static void enable_and_trigger();
     static void reset_player_state();
     static void create_particle_effect(s32 arg0, s32 arg1, f32 farg0);
