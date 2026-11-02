@@ -22,8 +22,8 @@ void DCStoreRange(void*, u32);
 void ICInvalidateRange(void*, u32);
 int OSResetSystem(int, int, int);
 
-asm void fn_8042E8C4(register void* arg) {
-#include "orig_asm/pso/unk/text_8042E8C4/fn_8042E8C4.inc"
+asm void LaunchDol(register void* dol) {
+#include "orig_asm/pso/unk/text_8042E8C4/LaunchDol.inc"
 }
 
 }

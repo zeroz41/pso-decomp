@@ -10,7 +10,7 @@ typedef struct Ctx_8042ED98 {
 
 extern "C" {
 char *strcpy(char *, const char *);
-void fn_8042E8C4(Ctx_8042EBA4 *);
+void LaunchDol(Ctx_8042EBA4 *);
 extern char lbl_80480404[];
 extern Ctx_8042EBA4 *lbl_805D7CB0;
 char *strncpy(char *, const char *, unsigned long);
@@ -55,7 +55,7 @@ void fn_8042EBA4(s32 arg0, s32 arg1) {
     lbl_805D7CB0->f100 = arg1;
     lbl_805D7CB0->f104 = arg0;
     lbl_805D7CB0->f108 = 0x8000;
-    fn_8042E8C4(lbl_805D7CB0);
+    LaunchDol(lbl_805D7CB0);
 }
 #pragma pop
 
