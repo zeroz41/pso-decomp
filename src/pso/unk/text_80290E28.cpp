@@ -6,6 +6,7 @@
 #include "pso/boss/TBoss2DeRolLe.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_80290E28.h"
+#include "pso/unk/text_80290D1C.h"
 
 #include <stddef.h>
 #include "pso/misc/TLobby.h"
@@ -24,7 +25,6 @@ struct Stack_80290F10 { Quad_80290F10 q; u8 *table; };
 extern "C" {
 s32 draw_ui_sprite_scaled(f32, f32, void *, void *, void *);
 void TCharaMaking__resolve_creation_sprite_table(u8 * *table, s32 *id);
-extern s32 creation_sprite_table[];
 extern s32 saved_model_draw_color[];
 extern s32 model_material_color[];
 extern const f32 ui_sprite_scale;
@@ -55,7 +55,7 @@ void draw_ui_sprite_tinted(s32 arg0, f32 *arg1, f32 *arg2, f32 *arg3, f32 farg0)
         st.q.y = ui_sprite_scale * arg1[1];
         st.q.w = arg2[0];
         st.q.h = ui_sprite_scale * arg2[1];
-        st.q.tbl = creation_sprite_table;
+        st.q.tbl = &creation_sprite_table;
         TCharaMaking__resolve_creation_sprite_table(&st.table, &arg0);
         copy_argb((NJS_ARGB *)saved_model_draw_color, (NJS_ARGB *)model_material_color);
         set_constant_material((const NJS_ARGB *)arg3);

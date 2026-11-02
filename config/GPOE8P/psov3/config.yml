@@ -4437,6 +4437,7 @@ force_active:
   - create_window__19TWindowSubShortMailFv
   - create_zanzo__11TBoss4Type2FPvPv
   - creation_icon_states
+  - creation_ruler_line_colors
   - creation_ruler_line_vertices
   - creation_stick_dead_zone
   - creation_stick_range
@@ -6483,6 +6484,11 @@ force_active:
   - lbl_804CF9F8
   - lbl_804CFA10
   - lbl_804CFA28
+  - lbl_804D9670
+  - lbl_804DA19C
+  - lbl_804DA570
+  - lbl_804DA94C
+  - lbl_804DA98C
   - lbl_804DC098
   - lbl_804DC0F8
   - lbl_804DC2D8
