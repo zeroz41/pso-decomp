@@ -10101,29 +10101,14 @@ pso/misc/TWindowSnapShot_802A7D68.cpp:
 pso/misc/TWindowSnapShot.cpp:
 	.text       start:0x802A7DDC end:0x802A8140
 
-pso/misc/TScene_802A8140.cpp:
-	.text       start:0x802A8140 end:0x802A8210
-
-pso/unk/text_802A8210.cpp:
-	.text       start:0x802A8210 end:0x802A8368
-
-pso/player/TObjPlayer_802A8368.cpp:
-	.text       start:0x802A8368 end:0x802A88AC
-	.sbss       start:0x805D66B0 end:0x805D66D0
-
-pso/effect/TEffIndirectCtrl_802A88AC.cpp:
-	.text       start:0x802A88AC end:0x802A9284
-	.rodata     start:0x8046FC48 end:0x8046FC58
-	.sdata2     start:0x805DE028 end:0x805DE030
-
-pso/effect/TEffIndirectCtrl_802A9284.cpp:
-	.text       start:0x802A9284 end:0x802A942C
-
 pso/effect/TEffIndirectCtrl.cpp:
-	.text       start:0x802A942C end:0x802A9568
-
-pso/unk/text_802A9568.cpp:
-	.text       start:0x802A9568 end:0x802A9588
+	.text       start:0x802A8140 end:0x802A9588
+	.rodata     start:0x8046FBB8 end:0x8046FC58
+	.data       start:0x804DDEE0 end:0x804DDF34
+	.bss        start:0x80540AF0 end:0x80540B28
+	.sdata      start:0x805D3E20 end:0x805D3E2C
+	.sbss       start:0x805D66A8 end:0x805D66D0
+	.sdata2     start:0x805DE020 end:0x805DE030
 
 pso/unk/text_802A9588.cpp:
 	.text       start:0x802A9588 end:0x802A9688

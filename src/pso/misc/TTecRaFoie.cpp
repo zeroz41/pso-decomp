@@ -7,6 +7,7 @@
 #include "pso/effect/TEffect.h"
 #include "pso/effect/TEffClitical.h"
 #include "pso/unk/text_802A8210.h"
+#include "pso/effect/TEffIndirectCtrl.h"
 
 #include "pso/system/vector.h"
 #include "pso/object/TObjFish.h"
@@ -565,8 +566,6 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     typedef char sp8_offset[(offsetof(Stack_802384E0, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_802384E0, spC) == 0x4) ? 1 : -1];
     Stack_802384E0 stack;
-    s32 object;
-    s32 var_r0;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
     ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
@@ -587,12 +586,7 @@ u8 *create_rafoie_explosion(u8 *arg0, s32 *arg1, s16 arg2, s16 arg3, s32 arg4, f
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
-    object = ((s32)__nw__7TObjectFUl(0x20));
-    var_r0 = object;
-    if (var_r0 != 0) {
-        var_r0 = (s32)fn_802A8210((u8 *)object, 0x11, (arg0));
-    }
-    ((TUnk_804CCB28 *)arg0)->m_24 = var_r0;
+    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
@@ -601,8 +595,6 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     typedef char sp8_offset[(offsetof(Stack_802385EC, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_802385EC, spC) == 0x4) ? 1 : -1];
     Stack_802385EC stack;
-    s32 object;
-    s32 var_r0;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg3);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804CCB28.value;
     ((TUnk_804CCB28 *)arg0)->m_20 = arg2;
@@ -623,12 +615,7 @@ u8 *create_fire_explosion_effect(u8 *arg0, s32 *arg1, s16 arg2, s32 arg3, f32 fa
     stack.spC += (5.0f);
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(&stack.sp8));
     spawn_rafoie_explosion_bursts__13TUnk_804CCB28Fv(arg0);
-    object = ((s32)__nw__7TObjectFUl(0x20));
-    var_r0 = object;
-    if (var_r0 != 0) {
-        var_r0 = (s32)fn_802A8210((u8 *)object, 0x11, (arg0));
-    }
-    ((TUnk_804CCB28 *)arg0)->m_24 = var_r0;
+    ((TUnk_804CCB28 *)arg0)->m_24 = (s32)new TUnk_804DDF04(0x11, (TObject *)arg0);
     ((TUnk_804CCB28 *)arg0)->m_40 = (f32) (1.9f);
     return arg0;
 }
