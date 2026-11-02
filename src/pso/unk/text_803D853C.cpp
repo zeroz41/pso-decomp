@@ -17,6 +17,109 @@
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
+#include <stdio.h>
+#include "pso/unk/text_803D8030.h"
+#include "pso/npc/TObjNpcEnemy_803D8090.h"
+#include "pso/npc/TObjNpcEnemy.h"
+
+extern "C" {
+char *debug_text_pool_cursor;
+DebugTextRecord *debug_text_record_cursor;
+s32 lbl_805D76C8;
+s32 lbl_805D76CC; // record capacity (inferred)
+char *lbl_805D76D0; // pool base (inferred)
+DebugTextRecord *lbl_805D76D4; // record base (inferred)
+f32 debug_text_scale;
+s32 debug_text_global_count;
+
+#pragma push
+#pragma scheduling off
+void fn_803D8030(DebugTextRecord *p, s32 n, s32 x) {
+    lbl_805D76D4 = p;
+    lbl_805D76D0 = (char *)(p + n);
+    lbl_805D76CC = n;
+    lbl_805D76C8 = x;
+    debug_text_record_cursor = p;
+    debug_text_pool_cursor = (char *)(p + n);
+    debug_text_global_count = -1;
+    debug_text_scale = 16.0f;
+}
+#pragma pop
+
+void fn_803D8064(u16 arg0) {
+    debug_text_scale = (f32)arg0;
+}
+}
+
+void TObjNpcEnemy::set_global_count(s32 arg0) {
+    debug_text_global_count = arg0;
+}
+
+void TObjEneMe1Gee::queue_debug_text(s32 arg0, char *arg1) {
+    s16 len;
+    s16 x;
+    f32 scale;
+    DebugTextRecord *r;
+    strlen(arg1);
+    x = (s16) ((s16) (arg0 >> 16) * (scale = debug_text_scale));
+    len = strlen(arg1);
+    r = debug_text_record_cursor++;
+    r->x = x;
+    r->y = (s16) ((s16) (arg0 & 0xFFFF) * scale);
+    r->size = debug_text_scale;
+    r->color = debug_text_global_count;
+    r->text = debug_text_pool_cursor;
+    strncpy(debug_text_pool_cursor, arg1, len);
+    debug_text_pool_cursor[len] = 0;
+    debug_text_pool_cursor += len + 1;
+}
+
+void print_float_padded(s32 arg0, s32 prec, f32 val) {
+    char buf[24];
+    s16 y;
+    f32 scale;
+    DebugTextRecord *r;
+    char *p;
+    s32 n;
+    s32 i;
+    s32 pad;
+    s32 total;
+    s32 j;
+
+    y = (s16) ((s16) (arg0 & 0xFFFF) * (scale = debug_text_scale));
+    r = debug_text_record_cursor++;
+    r->x = (s16) ((s16) (arg0 >> 16) * scale);
+    r->y = y;
+    r->size = debug_text_scale;
+    r->color = debug_text_global_count;
+    r->text = debug_text_pool_cursor;
+    p = debug_text_pool_cursor;
+    if (val < 0.0f) {
+        *p++ = '-';
+        val *= -1.0f;
+    }
+    sprintf(buf, "%0.*f", 5, val);
+    n = strlen(buf);
+    for (i = 0; i < n; i++) {
+        if (buf[i] == '.') {
+            break;
+        }
+    }
+    pad = prec - i;
+    total = n + pad;
+    for (j = total; j >= pad; j--) {
+        buf[j] = buf[n--];
+    }
+    for (j = 0; j < pad; j++) {
+        buf[j] = '0';
+    }
+    for (j = 0; j < total; j++) {
+        *p++ = buf[j];
+    }
+    debug_text_pool_cursor[total] = 0;
+    debug_text_pool_cursor += total + 1;
+}
+
 extern "C" {
 f32 PSMTXMultVecArray(s32, s32);
 extern s32 current_matrix;
@@ -25,7 +128,6 @@ void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
 int vsprintf(char *s, const char *fmt, va_list ap);
-void debug_printf_at(s32 arg0, const char *fmt, ...);
 
 void debug_printf_at(s32 arg0, const char *fmt, ...) {
     va_list ap;
@@ -34,21 +136,6 @@ void debug_printf_at(s32 arg0, const char *fmt, ...) {
     vsprintf(buf, fmt, ap);
     TObjEneMe1Gee::queue_debug_text(arg0, buf);
 }
-
-
-// One queued debug_printf_at line (written by the queue at 0x803D8098).
-struct DebugTextRecord {
-    s16 x;
-    s16 y;
-    u16 size;
-    s16 pad_6;
-    u32 color;
-    char *text;
-};
-extern DebugTextRecord *lbl_805D76D4;
-extern char *lbl_805D76D0;
-extern DebugTextRecord *debug_text_record_cursor;
-extern char *debug_text_pool_cursor;
 
 #pragma push
 #pragma use_lmw_stmw off

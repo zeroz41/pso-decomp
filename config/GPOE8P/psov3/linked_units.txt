@@ -1927,7 +1927,6 @@ pso/npc/TObjNpcCloakroomBase.cpp
 pso/npc/TObjNpcConnoisseur.cpp
 pso/npc/TObjNpcEnemy.cpp
 pso/npc/TObjNpcEnemy_802D7070.cpp
-pso/npc/TObjNpcEnemy_803D8090.cpp
 pso/npc/TObjNpcExpertBase.cpp
 pso/npc/TObjNpcFemaleBase.cpp
 pso/npc/TObjNpcFemaleBase_80149C44.cpp
@@ -3327,7 +3326,7 @@ pso/unk/text_803D619C.cpp
 pso/unk/text_803D6438.cpp
 pso/unk/text_803D647C.cpp
 pso/unk/text_803D64F8.cpp
-pso/unk/text_803D8030.cpp
+pso/unk/text_803D853C.cpp
 pso/unk/text_803D8DE0.cpp
 pso/unk/text_803D8F74.cpp
 pso/unk/text_803D9650.cpp

@@ -3,6 +3,22 @@
 
 #include "types.h"
 
+// One queued debug text line: screen position, glyph size, vertex colour and the text, which lives in the pool
+// that follows the records (render_debug_text draws them).
+struct DebugTextRecord {
+    s16 x;
+    s16 y;
+    u16 size;
+    s16 pad_6;
+    u32 color;
+    char *text;
+};
+
+extern "C" {
+// Sets up the debug text buffer: n records at p, the text pool after them; 16-pixel glyphs, white text.
+void fn_803D8030(DebugTextRecord *p, s32 n, s32 x);
+}
+
 void get_current_matrix(void *m);
 extern "C" {
 // dst = m * src; m is the current matrix when NULL.

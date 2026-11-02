@@ -5317,10 +5317,16 @@ force_active:
   - dead_update__11TBoss4Type2Fv
   - deallocate_from_fixed_pools
   - debug_draw_key_id__12TOSwitchItemFv
+  - debug_font_texture_i4
+  - debug_font_texture_object
   - debug_print_area_num__17TObjWarpBossMultiFv
   - debug_print_item_box_info__21TObjContainerAbeEnemyFv
   - debug_print_ranges__8TOKurageFv
   - debug_render_overlay__9TMainTaskFv
+  - debug_text_global_count
+  - debug_text_pool_cursor
+  - debug_text_record_cursor
+  - debug_text_scale
   - decay_glow_and_calc_hp_ratio__9TBoss6MagFv
   - decay_value_toward_floor__13TUnk_80490470Fv
   - decay_value_toward_floor__13TUnk_80494938Fv
@@ -8039,6 +8045,10 @@ force_active:
   - lbl_805D75F0
   - lbl_805D7610
   - lbl_805D76A8
+  - lbl_805D76C8
+  - lbl_805D76CC
+  - lbl_805D76D0
+  - lbl_805D76D4
   - lbl_805D77A0
   - lbl_805D77A4
   - lbl_805D7818
