@@ -2117,6 +2117,7 @@ force_active:
   - __dt__13TUnk_8048DF58Fv
   - __dt__13TUnk_8048E6A8Fv
   - __dt__13TUnk_8048E6DCFv
+  - __dt__13TUnk_804909C4Fv
   - __dt__13TUnk_8049387CFv
   - __dt__13TUnk_80494968Fv
   - __dt__13TUnk_80494E10Fv
@@ -2746,6 +2747,7 @@ force_active:
   - __vt__13TUnk_8048E6A8
   - __vt__13TUnk_8048E6DC
   - __vt__13TUnk_80490470
+  - __vt__13TUnk_804909C4
   - __vt__13TUnk_80493450
   - __vt__13TUnk_80494938
   - __vt__13TUnk_80494E10
@@ -6870,6 +6872,7 @@ force_active:
   - lbl_8048D108
   - lbl_804907AC
   - lbl_804907BC
+  - lbl_80490998
   - lbl_8049168C
   - lbl_80491EE4
   - lbl_804922F8
@@ -13615,6 +13618,7 @@ force_active:
   - run_task__13TUnk_80488DA0Fv
   - run_task__13TUnk_8048E6A8Fv
   - run_task__13TUnk_8048E6DCFv
+  - run_task__13TUnk_804909C4Fv
   - run_task__13TUnk_80494E10Fv
   - run_task__13TUnk_8049CA54Fv
   - run_task__13TUnk_8049EFB8Fv
@@ -14845,6 +14849,7 @@ force_active:
   - sub_8009A640__13TUnk_8048FE7CFv
   - sub_800A1520__17TObjEneDarkGunnerFv
   - sub_800A159C__17TObjEneDarkGunnerFv
+  - sub_800A3290__13TUnk_804909C4Fl
   - sub_800A435C__12TObjEneSaverFv
   - sub_800A4D9C__12TObjEneSaverFv
   - sub_800A5FA8__12TObjEneSaverFv

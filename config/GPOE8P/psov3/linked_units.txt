@@ -572,6 +572,7 @@ pso/enemy/TObjEneSlime_802D7260.cpp
 pso/enemy/TObjEnemy.cpp
 pso/enemy/TObjEnemyCustom.cpp
 pso/enemy/TObjEnemy_8020C3E0.cpp
+pso/enemy/TUnk_804909C4.cpp
 pso/item/ChallengeForceLoadouts.cpp
 pso/item/ChallengeHunterLoadouts.cpp
 pso/item/ChallengeRangerLoadouts.cpp

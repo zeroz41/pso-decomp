@@ -83,7 +83,9 @@ u8 *csnVector(void *, Vec_800A34E8 *, s32);
 extern void *tl_04;
 extern f32 player_scale_factor;
 extern s32 __vt__13TUnk_804909C4[];
-extern s32 lbl_80490998[];
+CollisionBody lbl_80490998[] = {
+    {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f}
+};
 void *__dt__13TUnk_804909C4Fv(void *arg0, s16 arg1);
 
 s32 TUnk_804909C4::sub_800A3290(s32 id) {
