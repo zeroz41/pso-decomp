@@ -1408,9 +1408,6 @@ pso/misc/TPlyOnCreated.cpp
 pso/misc/TPlyOnCreated_801C61D0.cpp
 pso/misc/TPlyPhotonChair.cpp
 pso/misc/TPlyPhotonChair_801BEC44.cpp
-pso/misc/TPlyPtclObjectLeftHand.cpp
-pso/misc/TPlyPtclObjectLeftHand_8030A4C8.cpp
-pso/misc/TPlyPtclObjectRightHand.cpp
 pso/misc/TPlyRecvLogin.cpp
 pso/misc/TPlySmth.cpp
 pso/misc/TPlyStartGame.cpp
@@ -2404,7 +2401,6 @@ pso/player/TObjPlayer_802E6CA8.cpp
 pso/player/TObjPlayer_802ED928.cpp
 pso/player/TObjPlayer_80307618.cpp
 pso/player/TObjPlayer_803083B0.cpp
-pso/player/TObjPlayer_80309D80.cpp
 pso/player/TObjPlayer_803130BC.cpp
 pso/player/TObjPlayer_80326578.cpp
 pso/player/TObjPlayer_8032E4C8.cpp

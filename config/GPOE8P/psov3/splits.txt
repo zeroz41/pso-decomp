@@ -10799,21 +10799,12 @@ pso/misc/TChCrTagInformationStr.cpp:
 	.text       start:0x803098F4 end:0x80309D80
 	.data       start:0x804E7560 end:0x804E7578
 
-pso/player/TObjPlayer_80309D80.cpp:
-	.text       start:0x80309D80 end:0x8030A364
-	.sdata2     start:0x805DF130 end:0x805DF138
-
-pso/misc/TPlyPtclObjectRightHand.cpp:
-	.text       start:0x8030A364 end:0x8030A400
-
-pso/misc/TPlyPtclObjectLeftHand.cpp:
-	.text       start:0x8030A400 end:0x8030A4C8
-
-pso/misc/TPlyPtclObjectLeftHand_8030A4C8.cpp:
-	.text       start:0x8030A4C8 end:0x8030A650
-
 pso/misc/TPlyFollowParticleCtrl.cpp:
-	.text       start:0x8030A650 end:0x8030A6A8
+	.text       start:0x80309D80 end:0x8030A6A8
+	.rodata     start:0x80475600 end:0x80475648
+	.data       start:0x804E7578 end:0x804E764C
+	.sdata      start:0x805D40C0 end:0x805D40D0
+	.sdata2     start:0x805DF130 end:0x805DF138
 
 pso/misc/TLobby_8030A6A8.cpp:
 	.text       start:0x8030A6A8 end:0x8030A808

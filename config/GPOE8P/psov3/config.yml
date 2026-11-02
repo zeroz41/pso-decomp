@@ -1515,11 +1515,15 @@ force_active:
   - TPlayerBattleCtrl__ct
   - TPlyCharData__global_character_data
   - TPlyCharData__global_destructor_registration
+  - TPlyFollowParticleCtrl__class_name
+  - TPlyFollowParticleCtrl__sub_8030A694
   - TPlyGuildCardTag__sub_8013ACA4
   - TPlyGuildCardTag__sub_801E0314
   - TPlyOnCreated__name
   - TPlyPhotonChair__shared_model_resource
   - TPlyPhotonChair__sub_8035B56C
+  - TPlyPtclObjectLeftHand__class_name
+  - TPlyPtclObjectRightHand__class_name
   - TQuestBgmCtrl__area_bgm_index
   - TQuestBgmCtrl__bgm_forced_flag
   - TQuestBgmCtrl__class_name
@@ -1980,9 +1984,12 @@ force_active:
   - __ct__20TPlayerParticleOwnerFP7TObject
   - __ct__21TItemEffArmorParticleFP7TObjectlUsl
   - __ct__22TChallenge4PItemSelectFP7TObjectP18TChallenge4PResult
+  - __ct__22TPlyFollowParticleCtrlFP8TObjBase
+  - __ct__22TPlyPtclObjectLeftHandFP8TObjBase
   - __ct__22TQuestVmDownLoadServerFP7TObject
   - __ct__23TObjOnlineEndingHexLineFv
   - __ct__23TObjSeabedSuisoBrakableFPv
+  - __ct__23TPlyPtclObjectRightHandFP8TObjBase
   - __ct__24G_ActivateMagEffect_6x61Fv
   - __ct__24G_PickUpItemRequest_6x5AFv
   - __ct__24TObjCity_Season_FireWorkFP7TObjectPvf
@@ -2623,6 +2630,9 @@ force_active:
   - __dt__22TObjEnePanarmsAtkColliFv
   - __dt__22TObjFogCollisionPoisonFv
   - __dt__22TObjFogCollisionSwitchFv
+  - __dt__22TPlyFollowParticleCtrlFis
+  - __dt__22TPlyFollowParticleCtrlFv
+  - __dt__22TPlyPtclObjectLeftHandFv
   - __dt__22TQuestVmDownLoadServerFv
   - __dt__22TWindowSubTradeMessageFv
   - __dt__23TAdDialingMessageWindowFv
@@ -2632,6 +2642,7 @@ force_active:
   - __dt__23TObjOnlineEndingHexLineFv
   - __dt__23TObjOnlineEndingHexMoveFv
   - __dt__23TObjSeabedSuisoBrakableFv
+  - __dt__23TPlyPtclObjectRightHandFv
   - __dt__24TObjCity_Season_FireWorkFv
   - __dt__24TObjWaitEntryHairMoveSimFv
   - __dt__24TWindowMessageInfomationFv
@@ -3326,6 +3337,8 @@ force_active:
   - __vt__22TObjEnePanarmsAtkColli
   - __vt__22TObjFogCollisionPoison
   - __vt__22TObjFogCollisionSwitch
+  - __vt__22TPlyFollowParticleCtrl
+  - __vt__22TPlyPtclObjectLeftHand
   - __vt__22TQuestVmDownLoadServer
   - __vt__22TWindowSubTradeMessage
   - __vt__23TAdDialingMessageWindow
@@ -3335,6 +3348,7 @@ force_active:
   - __vt__23TObjOnlineEndingHexLine
   - __vt__23TObjOnlineEndingHexMove
   - __vt__23TObjSeabedSuisoBrakable
+  - __vt__23TPlyPtclObjectRightHand
   - __vt__24TMessageWindowController
   - __vt__24TObjCity_Season_FireWork
   - __vt__24TObjWaitEntryHairMoveSim
@@ -6053,6 +6067,9 @@ force_active:
   - get_center__12TObjEneSaverFv
   - get_center__13TOHealGeneralFv
   - get_center__13TUnk_8049F038Fv
+  - get_center__22TPlyFollowParticleCtrlFv
+  - get_center__22TPlyPtclObjectLeftHandFv
+  - get_center__23TPlyPtclObjectRightHandFv
   - get_character_creation_selected_entry_id__Fv
   - get_charge__16PhotonBlastGaugeFv
   - get_clamped_level__16TObjEneBm5GibonUFv
@@ -6107,6 +6124,7 @@ force_active:
   - get_labo_design_object__Fi
   - get_level_bracket__6TLobbyFl
   - get_level_tier__6TLobbyFl
+  - get_lifetime__22TPlyFollowParticleCtrlFv
   - get_list_item8__24TShopEquipmentListWindowFv
   - get_lobby_theme_clamped__16TObjCurtainLobbyFv
   - get_mag_state__13TWindowSubMagFv
@@ -7359,6 +7377,7 @@ force_active:
   - lbl_804E6C80
   - lbl_804E6C88
   - lbl_804E6CB4
+  - lbl_804E7578
   - lbl_804E7750
   - lbl_804E7A48
   - lbl_804E80C0
@@ -14268,6 +14287,7 @@ force_active:
   - run_task__22TObjEnePanarmsAtkColliFv
   - run_task__22TObjFogCollisionPoisonFv
   - run_task__22TObjFogCollisionSwitchFv
+  - run_task__22TPlyFollowParticleCtrlFv
   - run_task__22TQuestVmDownLoadServerFv
   - run_task__22TWindowSubTradeMessageFv
   - run_task__23TAdSinglePlyChrSelectGCFv
@@ -14687,6 +14707,7 @@ force_active:
   - set_timer_value__12TWindowTimerFii
   - set_triggers__8TItemMagFPCUcPCUc
   - set_type__15TPlyPhotonChairFl
+  - set_type__22TPlyFollowParticleCtrlFUs
   - set_type_dragon__10TObjPlayerFv
   - set_value__6TLobbyFl
   - set_visible_flag__14TBoss6PlotFalzFv
