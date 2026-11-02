@@ -1070,6 +1070,7 @@ force_active:
   - TObjEneEpsilonGuard__vt85
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table
+  - TObjEneLappy__class_name
   - TObjEneLappy__ct
   - TObjEneLappy__model_filename_table
   - TObjEneLappy__resource_list
@@ -13121,6 +13122,7 @@ force_active:
   - random_in_range__12TBoss8DragonFff
   - random_in_table_range__12TBoss8DragonFiii
   - rappy_variant_na_name
+  - rappy_variant_speed_table
   - re4_bit_init_params
   - re4_bit_model_node_desc
   - re4_sorcerer_collision_body_part_table

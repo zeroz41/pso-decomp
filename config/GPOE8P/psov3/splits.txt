@@ -1831,9 +1831,10 @@ pso/object/TObjGrass.cpp:
 
 pso/enemy/TObjEneLappy.cpp:
 	.text       start:0x800BFBBC end:0x800C25A0
-	.rodata     start:0x8043BA20 end:0x8043BA28
+	.rodata     start:0x8043B7D8 end:0x8043BA28
 	.data       start:0x80492BD8 end:0x80493078
 	.bss        start:0x80500BE0 end:0x80500C00
+	.sdata      start:0x805D2A40 end:0x805D2A44
 	.sdata2     start:0x805D9F20 end:0x805D9FAC
 
 pso/player/TObjPlayer_800C25A0.cpp:
