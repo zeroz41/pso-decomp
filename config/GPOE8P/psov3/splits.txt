@@ -171,7 +171,7 @@ pso/player/TObjPlayer_80020898.cpp:
 pso/boss/TBoss1Dragon.cpp:
 	.text       start:0x800208B4 end:0x8002B108
 	.ctors      start:0x80433F24 end:0x80433F28
-	.rodata     start:0x80435360 end:0x80435388
+	.rodata     start:0x80434E80 end:0x80435388
 	.data       start:0x80480CE0 end:0x80481B34
 	.bss        start:0x804FE168 end:0x804FE1E8
 	.sbss       start:0x805D4AF0 end:0x805D4B44
@@ -10557,7 +10557,7 @@ pso/ui/TAdGameStartGC.cpp:
 pso/player/TObjPlayer_802E6CA8.cpp:
 	.text       start:0x802E6CA8 end:0x802E7888
 	.ctors      start:0x80433FD8 end:0x80433FDC
-	.rodata     start:0x80472C68 end:0x80472C80
+	.rodata     start:0x80472C68 end:0x80472CB0
 	.data       start:0x804E3BD8 end:0x804E3BF0
 	.sbss       start:0x805D6910 end:0x805D6918
 
@@ -12579,6 +12579,7 @@ pso/misc/TWindowSubStatusDisp_8036D774.cpp:
 
 pso/misc/TLobby_8036DBC4.cpp:
 	.text       start:0x8036DBC4 end:0x8036DC80
+	.rodata     start:0x8047AD08 end:0x8047AD30
 
 pso/boss/TBoss6Type2_8036DC80.cpp:
 	.text       start:0x8036DC80 end:0x8036DE10

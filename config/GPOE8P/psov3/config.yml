@@ -202,6 +202,7 @@ force_active:
   - TBoss1DragonColli_C__ct
   - TBoss1DragonColli_sphere_chain_desc
   - TBoss1Dragon__ct
+  - TBoss1Dragon__data_80434E80
   - TBoss1Dragon__data_80480CE0
   - TBoss1Dragon__data_804FE17C
   - TBoss1Dragon__data_805D4B00
@@ -216,7 +217,9 @@ force_active:
   - TBoss1Dragon__data_805D4B2C
   - TBoss1Dragon__data_805D4B38
   - TBoss1Dragon__data_805D4B3C
+  - TBoss1Dragon__foot_step_attack_params
   - TBoss1Dragon__gravity_accel
+  - TBoss1Dragon__head_fall_effect_params
   - TBoss1Dragon__part_hp_stats
   - TBoss1Dragon__sub_80022158
   - TBoss1Dragon__sub_800224A4
@@ -3579,13 +3582,18 @@ force_active:
   - boss1_dragon_action_sequence_table
   - boss1_dragon_action_sequence_table_b
   - boss1_dragon_attack_param_ids
+  - boss1_dragon_attack_sphere_params
   - boss1_dragon_attack_stat_indices
   - boss1_dragon_base_stat_indices
   - boss1_dragon_bml_descriptor
+  - boss1_dragon_capture_node_table
   - boss1_dragon_collision_body_parts
   - boss1_dragon_death_cue_filename
   - boss1_dragon_gravity
+  - boss1_dragon_ground_impact_params
   - boss1_dragon_init_params
+  - boss1_dragon_normal_action_table
+  - boss1_dragon_normal_particle_table
   - boss1_dragon_resistance_param_ids
   - boss1_dragon_resistance_stat_indices
   - boss1_dragon_sequence_remap_table
@@ -4631,7 +4639,11 @@ force_active:
   - door_vo_ship_resource_descriptor
   - door_vs2door01_class_name
   - door_vs2door01_resource_descriptor
+  - dragon_boss1_render_color
+  - dragon_breath_attack_params
   - dragon_capture_node_points__Fv
+  - dragon_fireball_attack_params
+  - dragon_fireball_impact_damage_params
   - dragonfly_machine_motion_actions
   - draw__10TBoss6MineFv
   - draw__11TBoss4Type3Fv
@@ -6103,6 +6115,8 @@ force_active:
   - lazer_fence_norm_episode1_resource_descriptor
   - lazer_fence_norm_episode2_resource_descriptor
   - lazer_fence_sw_ginja_model_table
+  - lbl_80434EC8
+  - lbl_80434ED4
   - lbl_804371BC
   - lbl_80437384
   - lbl_804373A4
@@ -6254,6 +6268,9 @@ force_active:
   - lbl_80472C38
   - lbl_80472C48
   - lbl_80472C68
+  - lbl_80472C80
+  - lbl_80472C90
+  - lbl_80472C9C
   - lbl_80474F08
   - lbl_80474F1C
   - lbl_80474F34
