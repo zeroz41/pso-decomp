@@ -6781,6 +6781,7 @@ pso/player/PlayerClassStats.cpp:
 pso/player/TObjPlayer_801D84CC.cpp:
 	.text       start:0x801D859C end:0x801D94C8
 	.rodata     start:0x804492E0 end:0x804492E8
+	.data       start:0x804C46B0 end:0x804C49F0
 
 pso/unk/text_801D94C8.cpp:
 	.text       start:0x801D94C8 end:0x801D9514

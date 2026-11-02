@@ -4043,6 +4043,7 @@ force_active:
   - class_name__19TOMonumentAncient01
   - class_name__20TODragonflyMachine01
   - class_name__9TObjHashi
+  - class_starting_inventory_table
   - classify_level_bracket_narrow__6TLobbyFl
   - classify_level_bracket_wide__6TLobbyFl
   - classify_tool_shop_level_bracket__Fl
@@ -5480,6 +5481,7 @@ force_active:
   - guide_button_atlas_origins
   - guide_button_texture_handle
   - guide_button_type_name
+  - guild_return_position_table_by_episode
   - gx_blend_mode_table
   - gx_default_light_obj
   - gx_tlut_region_table
@@ -5646,6 +5648,7 @@ force_active:
   - hook__13TItemEffLavisFv
   - hook__13TUnk_804A2148Fv
   - hook__15TItemEffBringerFv
+  - hospital_position_table_by_episode
   - howling_state__14TObjEneBm5WolfFl
   - hurt_state__14TObjEneBm5WolfFl
   - hwSetITDMode
@@ -6416,6 +6419,9 @@ force_active:
   - lbl_804C3564
   - lbl_804C35F4
   - lbl_804C3ACC
+  - lbl_804C46B0
+  - lbl_804C4794
+  - lbl_804C4878
   - lbl_804C8934
   - lbl_804C8A44
   - lbl_804C9C9C
@@ -7519,6 +7525,7 @@ force_active:
   - perform_action__14TItemProShieldFv
   - photon_blast_farlla_params
   - photon_blast_golla_params
+  - photon_blast_motion_timing_tables
   - photon_blast_resource_descriptor
   - photon_chair_resource_descriptor
   - photon_pilla_action_table
@@ -7555,6 +7562,7 @@ force_active:
   - play_variant_sound__14TObjEneBm5WolfFPv
   - play_walk_sound__12TObjEneLappyFv
   - player_action_motion_buffer
+  - player_anim_table_pointers
   - player_asset_PLATEX_AFS
   - player_asset_PLBTEX_AFS
   - player_asset_PLCTEX_AFS
@@ -11582,6 +11590,8 @@ force_active:
   - player_asset_pxtZc_01j_t_core
   - player_asset_pxtZc_01z_t_core
   - player_auxiliary_surface_flag_table
+  - player_cast_motion_record_table
+  - player_clamped_index_table_pointers
   - player_class_base_stats_00
   - player_class_base_stats_01
   - player_class_base_stats_02
@@ -11594,6 +11604,7 @@ force_active:
   - player_class_base_stats_09
   - player_class_base_stats_10
   - player_class_base_stats_11
+  - player_footstep_floor_table
   - player_joined_message
   - player_joint_matrix_write_ptr
   - player_light_index
