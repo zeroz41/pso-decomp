@@ -1886,6 +1886,7 @@ force_active:
   - __ct__13TUnk_8049FED0FP7TObjectPUc
   - __ct__13TUnk_8049FF88FP7TObjectPUc
   - __ct__13TUnk_804A2018FP7TObjectll
+  - __ct__13TUnk_804A6DC0FP7TObjectPUc
   - __ct__13TUnk_804C8678FP7TObjectPCc
   - __ct__13TUnk_804C8678FP7TObjectPCcl
   - __ct__13TUnk_804C8678FP7TObjectPvl
@@ -2173,6 +2174,7 @@ force_active:
   - __dt__13TAdGuideTxtGCFv
   - __dt__13TAdMcSelectGCFv
   - __dt__13TAdTitleTexGCFv
+  - __dt__13TAdVIConfigGCFv
   - __dt__13TBoss5GryphonFv
   - __dt__13TBoss6KakusanFv
   - __dt__13TGameProtocolFv
@@ -2330,6 +2332,7 @@ force_active:
   - __dt__13TUnk_804A66D8Fv
   - __dt__13TUnk_804A68C8Fv
   - __dt__13TUnk_804A69C0Fv
+  - __dt__13TUnk_804A6DC0Fv
   - __dt__13TUnk_804AF7B0Fv
   - __dt__13TUnk_804B7C04Fv
   - __dt__13TUnk_804B7C1CFv
@@ -2490,6 +2493,7 @@ force_active:
   - __dt__16TAdChrSelBSlotGCFv
   - __dt__16TAdGuideButtonGCFv
   - __dt__16TAdLoadNetworkGCFv
+  - __dt__16TAdPsoPassSaveGCFv
   - __dt__16TAdStorySelectGCFv
   - __dt__16TBGLightningCtrlFv
   - __dt__16TBoss1DragonDemoFv
@@ -2680,6 +2684,7 @@ force_active:
   - __dt__20TAdChrSelMovePlateGCFv
   - __dt__20TAdGameStartShadowGCFv
   - __dt__20TAdLoadQuestPrtTxtGCFv
+  - __dt__20TAdSnAkPassConfirmGCFv
   - __dt__20TBoss3VoloptHiraisinFv
   - __dt__20TBoss5GryphonTornadoFv
   - __dt__20TEffStarLight2D_BaseFv
@@ -2950,6 +2955,7 @@ force_active:
   - __vt__13TAdGuideTxtGC
   - __vt__13TAdMcSelectGC
   - __vt__13TAdTitleTexGC
+  - __vt__13TAdVIConfigGC
   - __vt__13TBoss5Gryphon
   - __vt__13TBoss6Kakusan
   - __vt__13TBoss6MagMine
@@ -3071,6 +3077,7 @@ force_active:
   - __vt__13TUnk_804A65E0
   - __vt__13TUnk_804A66D8
   - __vt__13TUnk_804A68C8
+  - __vt__13TUnk_804A6DC0
   - __vt__13TUnk_804A8640
   - __vt__13TUnk_804AF7B0
   - __vt__13TUnk_804B7C04
@@ -3230,7 +3237,9 @@ force_active:
   - __vt__16TAdChrSelASlotGC
   - __vt__16TAdGuideButtonGC
   - __vt__16TAdLoadNetworkGC
+  - __vt__16TAdPsoPassSaveGC
   - __vt__16TAdStorySelectGC
+  - __vt__16TAdWarningBaseGC
   - __vt__16TBGLightningCtrl
   - __vt__16TBoss1DragonDemo
   - __vt__16TBoss2LaserLight
@@ -3419,6 +3428,7 @@ force_active:
   - __vt__20TAdChrSelMovePlateGC
   - __vt__20TAdGameStartShadowGC
   - __vt__20TAdLoadQuestPrtTxtGC
+  - __vt__20TAdSnAkPassConfirmGC
   - __vt__20TBoss3VoloptHiraisin
   - __vt__20TBoss5GryphonTornado
   - __vt__20TContainerAncient01R
@@ -5676,6 +5686,7 @@ force_active:
   - emit_marker_effects__13TUnk_804A64E8Fv
   - emit_marker_effects__13TUnk_804A65E0Fv
   - emit_marker_effects__13TUnk_804A66D8Fv
+  - emit_marker_effects__13TUnk_804A6DC0Fv
   - emit_marker_effects__13TUnk_804ECDC0Fv
   - emit_marker_effects__13TUnk_804F1320Fv
   - emit_part_attack_effect__13TBoss5GryphonFPvi
@@ -13607,6 +13618,7 @@ force_active:
   - render__12TTecZondeEffFv
   - render__13TAdMcSelectGCFv
   - render__13TAdTitleTexGCFv
+  - render__13TAdVIConfigGCFv
   - render__13TBoss6KakusanFv
   - render__13TItemEffArmorFv
   - render__13TLockOnCursorFv
@@ -13729,6 +13741,7 @@ force_active:
   - render__15TWindowCtrlMainFv
   - render__16TAdChrSelASlotGCFv
   - render__16TAdGuideButtonGCFv
+  - render__16TAdPsoPassSaveGCFv
   - render__16TAdStorySelectGCFv
   - render__16TBGLightningCtrlFv
   - render__16TBoss1DragonDemoFv
@@ -13853,6 +13866,7 @@ force_active:
   - render__19TWindowSubTechniqueFv
   - render__20TAdChrSelMovePlateGCFv
   - render__20TAdGameStartShadowGCFv
+  - render__20TAdSnAkPassConfirmGCFv
   - render__20TBoss3VoloptHiraisinFv
   - render__20TBoss5GryphonTornadoFv
   - render__20TContainerAncient01RFv
@@ -14222,6 +14236,7 @@ force_active:
   - run_task__13TAdGuideTxtGCFv
   - run_task__13TAdMcSelectGCFv
   - run_task__13TAdTitleTexGCFv
+  - run_task__13TAdVIConfigGCFv
   - run_task__13TBoss5GryphonFv
   - run_task__13TBoss6KakusanFv
   - run_task__13TGameProtocolFv
@@ -14390,6 +14405,7 @@ force_active:
   - run_task__16TAdChrSelASlotGCFv
   - run_task__16TAdGuideButtonGCFv
   - run_task__16TAdLoadNetworkGCFv
+  - run_task__16TAdPsoPassSaveGCFv
   - run_task__16TAdStorySelectGCFv
   - run_task__16TBGLightningCtrlFv
   - run_task__16TBoss1DragonDemoFv
@@ -14533,6 +14549,7 @@ force_active:
   - run_task__20TAdChrSelMovePlateGCFv
   - run_task__20TAdGameStartShadowGCFv
   - run_task__20TAdLoadQuestPrtTxtGCFv
+  - run_task__20TAdSnAkPassConfirmGCFv
   - run_task__20TBoss3VoloptHiraisinFv
   - run_task__20TBoss5GryphonTornadoFv
   - run_task__20TContainerAncient01RFv
@@ -16613,6 +16630,7 @@ force_active:
   - update_weapon__13TUnk_804A5550Fv
   - update_weapon__13TUnk_804A6108Fv
   - update_weapon__13TUnk_804A62F8Fv
+  - update_weapon__13TUnk_804A6DC0Fv
   - update_weapon_attack__14TObjEneIllGillFv
   - update_web_attack__9TObjGrassFv
   - update_when_camera_active__13TObjWarnChimeFv
@@ -16658,6 +16676,9 @@ force_active:
   - vfunc_108__13TUnk_8049387CFv
   - vfunc_109__13TUnk_8049387CFv
   - vfunc_10__12TQuestListVMFv
+  - vfunc_10__13TAdVIConfigGCFv
+  - vfunc_10__16TAdPsoPassSaveGCFv
+  - vfunc_10__20TAdSnAkPassConfirmGCFv
   - vfunc_110__13TUnk_8049387CFl
   - vfunc_111__13TUnk_8049387CFl
   - vfunc_112__13TUnk_8049387CFl
@@ -16765,6 +16786,7 @@ force_active:
   - vfunc_60__13TUnk_804A62F8Fv
   - vfunc_60__13TUnk_804A64E8Fv
   - vfunc_60__13TUnk_804A68C8Fv
+  - vfunc_60__13TUnk_804A6DC0Fv
   - vfunc_60__14TObjEneDolmOlmFv
   - vfunc_60__14TObjEneIllGillFv
   - vfunc_60__15TObjEneMe1GiGueFv
@@ -16849,11 +16871,13 @@ force_active:
   - vfunc_6__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
   - vfunc_6__12TQuestListVMFv
+  - vfunc_6__13TAdVIConfigGCFv
   - vfunc_6__13TUnk_80488D70Fv
   - vfunc_6__14TOTrapSeabed01FPsl
   - vfunc_6__15TOAttackableColFPsl
   - vfunc_6__15TODoorAncient08FPsl
   - vfunc_6__15TODoorAncient09FPsl
+  - vfunc_6__16TAdPsoPassSaveGCFv
   - vfunc_6__16TODoorJungleMainFPsl
   - vfunc_6__17TAdExNetConfirmGCFv
   - vfunc_6__17TAdLicAgreementGCFv
@@ -16862,6 +16886,7 @@ force_active:
   - vfunc_6__18TAdTrialModemChkGCFv
   - vfunc_6__19TContainerAncient01FPsl
   - vfunc_6__19TOMonumentAncient02FPsl
+  - vfunc_6__20TAdSnAkPassConfirmGCFv
   - vfunc_6__20TContainerAncient01RFPsl
   - vfunc_6__20TODoorFourLightRuinsFPsl
   - vfunc_6__20TODoorFourLightSpaceFPsl
@@ -16872,11 +16897,14 @@ force_active:
   - vfunc_6__9TTecZaruaFPv
   - vfunc_79__15TBoss3VoloptP02FPl
   - vfunc_7__10TTecDebandFPv
+  - vfunc_7__13TAdVIConfigGCFv
+  - vfunc_7__16TAdPsoPassSaveGCFv
   - vfunc_7__17TAdExNetConfirmGCFv
   - vfunc_7__17TAdLicAgreementGCFv
   - vfunc_7__18TAdAgreementBaseGCFv
   - vfunc_7__18TAdTrialModemChkGCFv
   - vfunc_7__19TTecPlayerInfluenceFPv
+  - vfunc_7__20TAdSnAkPassConfirmGCFv
   - vfunc_7__8TTecAntiFPv
   - vfunc_7__9TTecRestaFPv
   - vfunc_7__9TTecSiftaFPv
@@ -16918,6 +16946,7 @@ force_active:
   - vfunc_8__17TAdLicAgreementGCFv
   - vfunc_8__17TWindowMainMenu4PFv
   - vfunc_8__18TAdAgreementBaseGCFv
+  - vfunc_8__20TAdSnAkPassConfirmGCFv
   - vfunc_93__12TObjEneBeastFv
   - vfunc_93__12TObjEneSharkFv
   - vfunc_93__14TObjEneDolmOlmFv
@@ -16955,6 +16984,7 @@ force_active:
   - vfunc_9__12TNeedleShootFPv
   - vfunc_9__17TAdLicAgreementGCFv
   - vfunc_9__17TWindowMainMenu4PFv
+  - vfunc_9__20TAdSnAkPassConfirmGCFv
   - vfunc_9__20TObjEneMe1Gee_NEEDLEFPv
   - vfunc_9__22TObjEneMe1GiGueMissileFPv
   - voiceRemovePriority
@@ -17007,7 +17037,6 @@ force_active:
   - write_ring_buffer__6TLobbyFPUcl
   - write_telepipe_record__FPUcUssPUcl
   - yasminkov_2000h_ct__FPvll
-  - yasminkov_7000v_ct__FPvlPv
   - yasminkov_9000m_eject_casing__13TUnk_804A6AD8Fll
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data

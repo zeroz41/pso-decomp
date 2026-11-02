@@ -8,33 +8,6 @@
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/ui/TAdYesNoBaseGC.h"
 
-struct Base_8032BE50_8032BE48 { char pad[0x18]; };
-struct VObj_8032BE50_8032BE48 : Base_8032BE50_8032BE48 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-};
-struct Base_8032BF64_8032BE48 { char pad[0x18]; };
-struct VObj_8032BF64_8032BE48 : Base_8032BF64_8032BE48 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-};
 
 struct Obj_8032C004 { s32 f0; u8 pad[0x14]; void *vt; u8 pad2[0x48 - 0x1C]; s32 f48; };
 
@@ -56,31 +29,24 @@ int set_state_0x1a__21TAdMultiChgGameModeGCFv(void*);
 s32 TAdSnAkPassConfirmGC::get_confirm_state() { return this->m_1c; }
 
 void TAdSnAkPassConfirmGC::render() {
-    struct VObj_8032BE50_8032BE48 *o = (struct VObj_8032BE50_8032BE48 *)this;
-    o->m10();
+    vfunc_12();
 }
 
-void TAdSnAkPassConfirmGC__vt8(void) { get_localized_text_entry((s32)((void*)39), (s32)((void*)0)); }
+void TAdSnAkPassConfirmGC::vfunc_10() { get_localized_text_entry((s32)((void*)39), (s32)((void*)0)); }
 void TAdSnAkPassConfirmGC::vfunc_9() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
 void TAdSnAkPassConfirmGC::vfunc_8() { if (this->m_48 != 0) { ((TWindowBase *)this->m_48)->close(); this->m_48 = 0; } }
-int TAdSnAkPassConfirmGC__vt5(void* p) { return request_transition__21TAdMultiChgGameModeGCFv(p); }
-int TAdSnAkPassConfirmGC__vt4(void* p) { return set_state_0x1a__21TAdMultiChgGameModeGCFv(p); }
+void TAdSnAkPassConfirmGC::vfunc_7() { request_transition__21TAdMultiChgGameModeGCFv(this); }
+void TAdSnAkPassConfirmGC::vfunc_6() { set_state_0x1a__21TAdMultiChgGameModeGCFv(this); }
 
 void TAdSnAkPassConfirmGC::run_task() {
-    struct VObj_8032BF64_8032BE48 *o = (struct VObj_8032BF64_8032BE48 *)this;
-    o->m9();
+    vfunc_11();
 }
 
-void *__dt__20TAdSnAkPassConfirmGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TAdSnAkPassConfirmGC;
-        if (*(void **)((s8 *)arg0 + 0x48) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x48)); ((TAdSnAkPassConfirmGC *)arg0)->m_48 = 0; }
-        __dt__14TAdYesNoBaseGCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TAdSnAkPassConfirmGC::~TAdSnAkPassConfirmGC() {
+    if (m_48 != 0) {
+        ((TObject *)m_48)->queue_destruction();
+        m_48 = 0;
     }
-    return arg0;
 }
 
 Obj_8032C004 *TAdSnAkPassConfirmGC__ct(Obj_8032C004 *parent) {

@@ -91,16 +91,11 @@ void TAdWarningBaseGC::vfunc_8() {
     }
 }
 
-void *__dt__16TAdWarningBaseGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TAdWarningBaseGC;
-        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x2C)); ((TAdWarningBaseGC *)arg0)->m_2c = 0; }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TAdWarningBaseGC::~TAdWarningBaseGC() {
+    if (m_2c != 0) {
+        ((TObject *)m_2c)->queue_destruction();
+        m_2c = 0;
     }
-    return arg0;
 }
 
 extern void *lbl_805D4208;

@@ -6,8 +6,8 @@
 
 struct TAdWarningBaseGC : public TObject {
     virtual ~TAdWarningBaseGC();
-    virtual int vfunc_6();
-    virtual void vfunc_7();
+    virtual int vfunc_6() = 0;
+    virtual void vfunc_7() = 0;
     virtual void vfunc_8();
     virtual void vfunc_9();
     s32 sub_8032D214();
@@ -25,7 +25,6 @@ typedef char TAdWarningBaseGC_size[sizeof(TAdWarningBaseGC) == 0x30 ? 1 : -1];
 
 extern "C" {
 void *TAdWarningBaseGC__ct(TAdWarningBaseGC *arg0);
-void *__dt__16TAdWarningBaseGCFv(void *arg0, s16 arg1);
 void clear_aram_request_busy(void);
 }
 

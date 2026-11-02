@@ -4011,6 +4011,7 @@ pso/unk/TUnk_804A6CC8.cpp:
 
 pso/object/TUnk_804A6DC0.cpp:
 	.text       start:0x801311D8 end:0x80131488
+	.data       start:0x804A6DC0 end:0x804A6EB8
 	.sdata2     start:0x805DB050 end:0x805DB064
 
 pso/system/NinjaUtil.cpp:
@@ -10853,6 +10854,7 @@ pso/unk/text_80307BE8.cpp:
 
 pso/ui/TAdVIConfigGC.cpp:
 	.text       start:0x80307D00 end:0x8030818C
+	.data       start:0x804E71C0 end:0x804E71F8
 
 pso/misc/TLogo_8030818C.cpp:
 	.text       start:0x8030818C end:0x80308200
@@ -11504,6 +11506,7 @@ pso/misc/TLobby_8032BD20.cpp:
 
 pso/ui/TAdSnAkPassConfirmGC.cpp:
 	.text       start:0x8032BE48 end:0x8032C0B4
+	.data       start:0x804EDAD8 end:0x804EDB10
 
 pso/ui/TAdYesNoBaseGC.cpp:
 	.text       start:0x8032C0B4 end:0x8032C504
@@ -11537,6 +11540,7 @@ pso/ui/TAdWarningBaseGC_8032D1A4.cpp:
 pso/ui/TAdWarningBaseGC.cpp:
 	.text       start:0x8032D1E4 end:0x8032D514
 	.rodata     start:0x80477348 end:0x80477350
+	.data       start:0x804EDBE8 end:0x804EDC10
 	.sdata2     start:0x805DF7B0 end:0x805DF7B4
 
 pso/ui/TAdGuideButtonGC.cpp:
@@ -11959,6 +11963,7 @@ pso/unk/text_8034A090.cpp:
 
 pso/ui/TAdPsoPassSaveGC.cpp:
 	.text       start:0x8034A63C end:0x8034A7CC
+	.data       start:0x804EFFA8 end:0x804EFFE0
 
 pso/boss/TBoss4CheckEmpty.cpp:
 	.text       start:0x8034A7CC end:0x8034A8B0

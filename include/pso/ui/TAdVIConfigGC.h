@@ -19,6 +19,9 @@ struct TAdVIConfigGC : public TAdYesNoBaseGC {
     void open_player_names_window();
     s32 get_field_14();
     void update_visibility();
+    virtual void vfunc_6();
+    virtual void vfunc_7();
+    virtual void vfunc_10();
 };
 
 typedef char TAdVIConfigGC_size[sizeof(TAdVIConfigGC) == 0x4C ? 1 : -1];
