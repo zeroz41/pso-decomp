@@ -3416,6 +3416,7 @@ pso/unk/text_80320358.cpp
 pso/unk/text_80320B38.cpp
 pso/unk/text_80320DE8.cpp
 pso/unk/text_80324E10.cpp
+pso/unk/text_80324F4C.cpp
 pso/unk/text_80325660.cpp
 pso/unk/text_80325F7C.cpp
 pso/unk/text_80327338.cpp
