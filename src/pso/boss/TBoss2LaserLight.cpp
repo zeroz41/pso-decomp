@@ -4,6 +4,7 @@
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/object/TObjLight.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/vector.h"
 
 struct V3_80037264 { f32 x, y, z; };
 
@@ -152,4 +153,15 @@ TUnk_80482C58::TUnk_80482C58(TObject *parent, s32 arg2, s32 arg3) : TObject(pare
 
 TUnk_80482C58::~TUnk_80482C58() {
     if (this->m_11c != NULL) { queue_destruction__7TObjectFv(this->m_11c); *(s32 *)((s8 *)this + 0x11C) = 0; }
+}
+
+/* Pushes into the TUnk_80482C58 trail ring (the 20 records the ctor above clears); its 5.0f opens this
+   file's .sdata2 pool, so it is this translation unit's first function. */
+extern "C" void push_trail_position__13TBoss2DeRolLeFPvPv(S_80037264 *self, V3_80037264 *src) {
+    VecCopy((Vec *)&self->recs[self->a10c], (const Vec *)src);
+    self->recs[self->a10c].y += 5.0f;
+    self->a10c++;
+    if (self->a10c >= 20) {
+        self->a10c = 0;
+    }
 }

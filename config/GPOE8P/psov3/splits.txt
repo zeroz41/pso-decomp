@@ -273,13 +273,13 @@ pso/player/TObjPlayer_80036824.cpp:
 	.text       start:0x80036824 end:0x8003688C
 
 pso/boss/TBoss2Joint.cpp:
-	.text       start:0x8003688C end:0x800371F0
+	.text       start:0x8003688C end:0x80037178
 	.data       start:0x80482A50 end:0x80482AB0
 
 pso/boss/TBoss2LaserLight.cpp:
-	.text       start:0x800371F0 end:0x800375C0
+	.text       start:0x80037178 end:0x800375C0
 	.data       start:0x80482C58 end:0x80482C88
-	.sdata2     start:0x805D849C end:0x805D84B8
+	.sdata2     start:0x805D8498 end:0x805D84B8
 
 pso/boss/TBoss2Mine_800375C0.cpp:
 	.text       start:0x800375C0 end:0x80038D0C
@@ -301,7 +301,7 @@ pso/boss/TBoss2Tentacle.cpp:
 	.rodata     start:0x80435BA8 end:0x80435BC0
 	.data       start:0x804832B0 end:0x804832C8
 	.bss        start:0x804FE5D8 end:0x804FE9C8
-	.sdata2     start:0x805D853C end:0x805D8548
+	.sdata2     start:0x805D8528 end:0x805D8564
 
 pso/boss/TObjBoss2CeilJunk.cpp:
 	.text       start:0x8003A1B4 end:0x8003A81C
@@ -9906,7 +9906,7 @@ pso/misc/TWindowSubSymbolChat_802ACF5C.cpp:
 pso/misc/TWindowEffectLight.cpp:
 	.text       start:0x802ACF9C end:0x802AD538
 	.rodata     start:0x80470620 end:0x80470628
-	.data       start:0x804DE3A8 end:0x804DE3C4
+	.data       start:0x804DE390 end:0x804DE3C4
 
 pso/misc/TWindowMainMenu_802AD538.cpp:
 	.text       start:0x802AD538 end:0x802AE730

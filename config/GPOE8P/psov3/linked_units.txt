@@ -208,9 +208,11 @@ pso/boss/TBoss1Dragon_8002B108.cpp
 pso/boss/TBoss1Dragon_800BC3C4.cpp
 pso/boss/TBoss2Fin.cpp
 pso/boss/TBoss2Joint.cpp
+pso/boss/TBoss2LaserLight.cpp
 pso/boss/TBoss2Mine.cpp
 pso/boss/TBoss2Mine_800375C0.cpp
 pso/boss/TBoss2PhotonBullet_80038DCC.cpp
+pso/boss/TBoss2Tentacle.cpp
 pso/boss/TBoss3Volopt.cpp
 pso/boss/TBoss3VoloptCore.cpp
 pso/boss/TBoss3VoloptCtrl.cpp
@@ -1649,6 +1651,7 @@ pso/misc/TWindowDD_8034AF68.cpp
 pso/misc/TWindowDeposit.cpp
 pso/misc/TWindowDuelResult.cpp
 pso/misc/TWindowDuelResult_801C2528.cpp
+pso/misc/TWindowEffectLight.cpp
 pso/misc/TWindowEffectParty.cpp
 pso/misc/TWindowEffectParty_8024F690.cpp
 pso/misc/TWindowFukidasi_80252AE4.cpp
