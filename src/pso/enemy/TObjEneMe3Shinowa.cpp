@@ -8,6 +8,14 @@
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/animation/ActorAnimationState.h"
+#include "pso/system/BmlResource.h"
+#include "pso/player/TObjPlayer_803E4954.h"
+#include "pso/enemy/TObjEneDD_800BB804.h"
+#include "pso/npc/TObjNpcEnemy_803D8090.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
@@ -1400,7 +1408,6 @@ struct VObj_18_c44252 : VBase_18_c44252 {
 
 
 
-struct Vec_800E75AC { f32 x; f32 y; f32 z; };
 
 struct Node_800E75AC { u8 pad[0x2c]; void *child; };
 
@@ -1513,7 +1520,6 @@ s32 defer_render__7TObjectFv(void *);
 void __dl__7TObjectFPv(void *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void compose_motion_node_matrix(void *arg0);
-s32 matrix_mult_vec(int, void *, void *);
 s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix_from(void *);
 
@@ -1529,7 +1535,6 @@ extern Vec lbl_8043CF94;
 extern RecoveredGlobal_800F4758_lbl_8050110C lbl_80500FEC;
 extern RecoveredGlobal_800E4D7C_lbl_80500FF4 lbl_80500FF4;
 extern s32 *lbl_80501000[];
-extern u8 identity_matrix[];
 extern void *lbl_805D2AC8;
 extern s32 TObjEneMe3ShinowaMirage__render_node_index;
 extern s32 saved_model_render_flags;
@@ -1611,7 +1616,7 @@ extern "C" {
 void vfunc_83__12TObjEneDD_STFv();
 }
 extern "C" {
-void TObjEneMe3ShinowaMirage__sub_800E47DC();
+void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self);
 }
 extern "C" {
 void vfunc_105__23TObjEneMe3ShinowaMirageFv();
@@ -1958,6 +1963,90 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
     (void *)&vfunc_116__17TObjEneMe3ShinowaFl, (void *)&update_mirage__17TObjEneMe3ShinowaFv, (void *)&TObjEneMe3ShinowaMirage__sub_800E47DC,
 };
 #define shinowa_mirage_model_init_data ((u8 *)shinowa_mirage_model_init_data)
+
+#pragma push
+#pragma readonly_strings on
+#pragma pool_data off
+// Debug viewer: the mirage and gold-texture switches, then the model posed in
+// action parameters[2] at frame parameters[3] (unposed when mode is not 0).
+void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self) {
+    s32 gold;
+    NJS_TEXNAME *textures;
+    u32 saved_texaddr[3];
+    s32 i;
+    if (self->get_target_info() != 0) {
+        if (self->sub_800E701C() != 0) {
+            debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:ENABLE");
+        } else {
+            debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:DISABLE");
+        }
+        if (self->sub_800E6FE0() != 0) {
+            debug_printf_at(pack_debug_text_position(0, 1), "TEX:GOLD");
+        } else {
+            debug_printf_at(pack_debug_text_position(0, 1), "TEX:NORMAL");
+        }
+    }
+    gold = self->sub_800E6FE0();
+    if (self->update_object_view_visibility(lbl_805DA5D8, TObjEneMe3ShinowaReal__data_805DA5CC) != 0) {
+        TObjFish::set_global_param(self->texlist);
+        TObjPlayer::toggle_particle_effect();
+        if (gold != 0) {
+            textures = ((NJS_TEXLIST *)self->texlist)->textures;
+            for (i = 0; i < 3; i++) {
+                saved_texaddr[i] = textures[i + 3].texaddr;
+            }
+            for (i = 0; i < 3; i++) {
+                textures[i + 3].texaddr = textures[i].texaddr;
+            }
+        }
+        push_matrix();
+        post_translate_matrix(&self->position);
+        rotate_matrix_y(0, self->rotation_y);
+        scale_matrix(0, TObjEneMe3ShinowaMirage__data_805DA5DC, TObjEneMe3ShinowaMirage__data_805DA5DC,
+                     TObjEneMe3ShinowaMirage__data_805DA5DC);
+        for (i = 0; i < 3; i++) {
+            if (lbl_80501000[i] != NULL) {
+                *lbl_80501000[i] = 0xB000FFB0;
+            }
+        }
+        if (self->mode == 0) {
+            s32 action = (s32)self->parameters[2];
+            AnimationMotion *motion;
+            f32 at_frame;
+            if (action < 0) {
+                action = 0;
+            } else if (action >= 11) {
+                action = 10;
+            }
+            motion = self->motion_list[self->action_table[action].motion].motion;
+            at_frame = self->parameters[3];
+            if (at_frame < TObjEneMe3ShinowaMirage__data_805DA5B8) {
+                at_frame = TObjEneMe3ShinowaMirage__data_805DA5B8;
+            } else if (at_frame > (f32)(motion->frameCount - 1)) {
+                at_frame = (f32)(motion->frameCount - 1);
+            }
+            set_motion_packed_rotation();
+            draw_model_motion(self->model, motion, at_frame);
+            clear_motion_packed_rotation();
+            self->current_motion = (NJS_MOTION *)motion;
+            self->frame = at_frame;
+            print_float_padded(pack_debug_text_position(0, 4), 5, self->get_node_world_y());
+        } else {
+            model_render_flags &= ~0x400;
+            draw_chunk_object(self->model);
+        }
+        pop_matrix();
+        if (gold != 0) {
+            textures = ((NJS_TEXLIST *)self->texlist)->textures;
+            for (i = 0; i < 3; i++) {
+                textures[i + 3].texaddr = saved_texaddr[i];
+            }
+        }
+        TParticleCtrl::end_effect_render();
+    }
+}
+
+#pragma pop
 
 void TObjEneMe3Shinowa::update_mirage() { if (get_target_info() != 0) { ((int (*)(void*))fn_800E762C)(this); sub_800E6F64(); } }
 
@@ -3229,7 +3318,7 @@ u8 TObjEneMe3Shinowa::check_body_collision_at(s32 arg1, f32 farg0) {
 #pragma fp_contract on
 f32 TObjEneMe3Shinowa::get_node_world_y() {
     TObjEneMe3Shinowa *self = this;
-    Vec_800E75AC v;
+    Vec v;
     Node_800E75AC *node;
     v.x = TObjEneMe3ShinowaMirage__data_805DA5B8;
     v.y = TObjEneMe3ShinowaMirage__data_805DA5B8;
