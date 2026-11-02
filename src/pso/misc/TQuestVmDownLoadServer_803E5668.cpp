@@ -10,7 +10,7 @@ struct RecoveredGlobal_803E5EFC_lbl_8058DD88 {
 };
 
 extern "C" {
-RecoveredGlobal_803E5EFC_lbl_8058DD88 lbl_8058DD88;
+extern RecoveredGlobal_803E5EFC_lbl_8058DD88 lbl_8058DD88;
 }
 
 
@@ -571,4 +571,12 @@ s32 TQuestVmDownLoadServer::convert_jis_to_sjis_string() {
     return 0;
 }
 
+}
+
+extern "C" {
+u8 lbl_8058DC48[80];
+u8 lbl_8058DC98[80];
+u8 lbl_8058DCE8[80];
+u8 lbl_8058DD38[80];
+RecoveredGlobal_803E5EFC_lbl_8058DD88 lbl_8058DD88;
 }

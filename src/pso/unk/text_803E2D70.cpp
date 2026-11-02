@@ -879,3 +879,7 @@ void set_chunk_render_flags(u32 flags) {
 void clear_chunk_render_flags() {
     chunk_render_flags = 0;
 }
+
+extern "C" {
+u8 chunk_object_current_matrix[0x30];
+}

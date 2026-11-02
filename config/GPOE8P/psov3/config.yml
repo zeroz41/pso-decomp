@@ -4225,6 +4225,7 @@ force_active:
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - construct_with_vtable__13TUnk_8049F40CFPvii
   - consume_counter__14TOTrapChainSawFPv
+  - context_texture_obj
   - controller_default_pad_state
   - controller_device_id_table
   - conversation_camera_obstructed__FP16FollowControllerl
@@ -6562,6 +6563,7 @@ force_active:
   - lbl_8054AB48
   - lbl_8057FFD0
   - lbl_80581330
+  - lbl_8058DC00
   - lbl_8058DD88
   - lbl_805A9008
   - lbl_805A9A90

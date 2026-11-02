@@ -13813,6 +13813,7 @@ pso/object/TObjLight_803DF220.cpp:
 
 pso/player/TObjPlayer_803DF7A8.cpp:
 	.text       start:0x803DF7A8 end:0x803E1FC8
+	.bss        start:0x8058DB90 end:0x8058DBB0
 
 pso/unk/text_803E1FC8.cpp:
 	.text       start:0x803E1FC8 end:0x803E2008
@@ -13829,6 +13830,7 @@ pso/unk/text_803E20B0.cpp:
 
 pso/player/TObjPlayer_803E21B8.cpp:
 	.text       start:0x803E21B8 end:0x803E29B0
+	.bss        start:0x8058DBB0 end:0x8058DBD0
 
 pso/unk/text_803E29B0.cpp:
 	.text       start:0x803E29B0 end:0x803E29FC
@@ -13844,6 +13846,7 @@ pso/misc/TLobby_803E2D50.cpp:
 
 pso/unk/text_803E2D70.cpp:
 	.text       start:0x803E2D70 end:0x803E4954
+	.bss        start:0x8058DBD0 end:0x8058DC00
 	.sdata2     start:0x805E109C end:0x805E10B0
 
 pso/player/TObjPlayer_803E4954.cpp:
@@ -13858,13 +13861,14 @@ pso/unk/text_803E4CE8.cpp:
 pso/unk/text_803E4D8C.cpp:
 	.text       start:0x803E4D8C end:0x803E5470
 	.data       start:0x804FC828 end:0x804FC854
+	.bss        start:0x8058DC00 end:0x8058DC48
 
 pso/player/TObjPlayer_803E5470.cpp:
 	.text       start:0x803E5470 end:0x803E5668
 
 pso/misc/TQuestVmDownLoadServer_803E5668.cpp:
 	.text       start:0x803E5668 end:0x803E6610
-	.bss        start:0x8058DD88 end:0x8058DE08
+	.bss        start:0x8058DC48 end:0x8058DE08
 	.sdata2     start:0x805E10C0 end:0x805E10C8
 
 pso/misc/QuestDownloadBuffers.cpp:
