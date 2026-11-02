@@ -31,12 +31,8 @@ extern P_803D33E4 lbl_805D766C;
 extern s32 lbl_805D765C;
 char *strncpy(char *, const char *, unsigned long);
 void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2);
-extern char lbl_8047DF3C[];
 int vsprintf(char *s, const char *fmt, va_list ap);
 void TLobby__sub_803D38B4(const char *fmt, ...);
-extern char svm_invalid_callback_server_id_error[];
-extern char lbl_8047DF14[];
-extern char lbl_8047DF5C[];
 typedef char RecoveredGlobal_803D31A4_lbl_8058B6B8_size[sizeof(RecoveredGlobal_803D31A4_lbl_8058B6B8) == 0x1C ? 1 : -1];
 typedef char RecoveredGlobal_803D31A4_lbl_8058B6D4_size[sizeof(RecoveredGlobal_803D31A4_lbl_8058B6D4) == 0x1C ? 1 : -1];
 u32 worker_callback_slots[8];
@@ -132,13 +128,13 @@ void TLobby__sub_803D34B0(s32 arg0, void (*arg1)(s32), s32 arg2) {
 void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, s32 fn, s32 arg) {
     Cb_803D3678 *c;
     if (arg1 < 0 || arg1 >= 4) {
-        strncpy((char *)svm_callback_message_buffer, svm_invalid_callback_server_id_error, 0xFF);
+        strncpy((char *)svm_callback_message_buffer, "1071201:SVM_SetCbSvrId:illegal id", 0xFF);
         if (CB765C.fn != 0) {
             CB765C.fn(CB765C.arg, svm_callback_message_buffer);
         }
     }
     if (arg0 < 0 || arg1 >= 7) {
-        strncpy((char *)svm_callback_message_buffer, lbl_8047DF14, 0xFF);
+        strncpy((char *)svm_callback_message_buffer, "1071202:SVM_SetCbSvrId:illegal svtype", 0xFF);
         if (CB765C.fn != 0) {
             CB765C.fn(CB765C.arg, svm_callback_message_buffer);
         }
@@ -156,7 +152,7 @@ void TLobby::SVM_SetCbSvrId(s32 arg0, s32 arg1, s32 fn, s32 arg) {
 
 void TLobby::SVM_DelCbSvr(s32 arg0, s32 arg1) {
     if (arg1 < 0 || arg1 >= 4) {
-        strncpy((char *)svm_callback_message_buffer, lbl_8047DF3C, 0xFF);
+        strncpy((char *)svm_callback_message_buffer, "1051002:SVM_DelCbSvr:illegal id", 0xFF);
         if (CB765C.fn != 0) {
             CB765C.fn(CB765C.arg, svm_callback_message_buffer);
         }
@@ -187,7 +183,7 @@ s32 TLobby::svm_set_cb_svr(s32 arg0, s32 fn, s32 arg) {
         }
     }
     if (i == 4) {
-        strncpy((char *)svm_callback_message_buffer, lbl_8047DF5C, 0xFF);
+        strncpy((char *)svm_callback_message_buffer, "1051001:SVM_SetCbSvr:too many server function", 0xFF);
         if (CB765C.fn != 0) {
             CB765C.fn(CB765C.arg, svm_callback_message_buffer);
         }

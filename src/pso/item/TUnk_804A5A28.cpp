@@ -119,12 +119,11 @@ s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
 }
 
-extern const f32 lbl_805DAF34;
 
 void enlarge_flight_cutter_slicer(void *arg0) {
     if (arg0 != NULL) {
-        *(f32 *)((s8 *)arg0 + 0x68) = (f32) lbl_805DAF34;
-        *(f32 *)((s8 *)arg0 + 0x6C) = (f32) lbl_805DAF34;
-        *(f32 *)((s8 *)arg0 + 0x70) = (f32) lbl_805DAF34;
+        *(f32 *)((s8 *)arg0 + 0x68) = 1.6f;
+        *(f32 *)((s8 *)arg0 + 0x6C) = 1.6f;
+        *(f32 *)((s8 *)arg0 + 0x70) = 1.6f;
     }
 }

@@ -29,31 +29,24 @@ struct TObjGoalWarpAncient;
 #include "pso/object/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 
-extern char lbl_80442F40[];
-extern char lbl_80442F58[];
-extern char lbl_80442F70[];
-extern char lbl_80442F88[];
-extern char lbl_80442FA0[];
-extern char lbl_80442FB8[];
-extern char lbl_80442FD0[];
-extern char lbl_80442FE4[];
-extern char lbl_80442FF8[];
-extern char lbl_8044300C[];
-extern char lbl_80443020[];
-extern char lbl_80443034[];
-extern char lbl_80443048[];
-extern char lbl_8044305C[];
-extern char lbl_80443070[];
-extern char lbl_80443084[];
-extern char lbl_80443098[];
-extern const char *bm_o_vs2_motion_names[1];
+const char *bm_o_vs2_motion_names[1] = { NULL };
 
 const char *bm_o_vs2_model_names[17] = {
-    lbl_80442F40, lbl_80442F58, lbl_80442F70, lbl_80442F88, lbl_80442FA0, lbl_80442FB8,
-    lbl_80442FD0, lbl_80442FE4, lbl_80442FF8, lbl_8044300C, lbl_80443020, lbl_80443034,
-    lbl_80443048, lbl_8044305C, lbl_80443070, lbl_80443084, NULL
+    "fe_obj_o_vs2gareki01.gj", "fe_obj_o_vs2gareki02.gj", "fe_obj_o_vs2gareki03.gj", "fe_obj_o_vs2gareki04.gj", "fe_obj_o_vs2gareki05.gj", "fe_obj_o_vs2gareki06.gj",
+    "kakusi_hahen27.gj", "kakusi_hahen01.gj", "kakusi_hahen02.gj", "kakusi_hahen03.gj", "kakusi_hahen04.gj", "kakusi_hahen05.gj",
+    "kakusi_hahen06.gj", "kakusi_hahen07.gj", "kakusi_hahen08.gj", "kakusi_hahen09.gj", NULL
 };
-BmlResourceDescriptor bm_o_vs2_resource_descriptor = { lbl_80443098, bm_o_vs2_model_names, bm_o_vs2_motion_names, 16, 0 };
+BmlResourceDescriptor bm_o_vs2_resource_descriptor = { "bm_o_vs2.bml", bm_o_vs2_model_names, bm_o_vs2_motion_names, 16, 0 };
+
+const char *TOVS2__class_name = "TOVS2";
+const char *TOVS2Wreck01__class_name = "TOVS2Wreck01";
+const char *TOVS2Wreck02__class_name = "TOVS2Wreck02";
+const char *TOVS2Wreck03__class_name = "TOVS2Wreck03";
+const char *TOVS2Wreck04__class_name = "TOVS2Wreck04";
+const char *TOVS2Wreck05__class_name = "TOVS2Wreck05";
+const char *TOVS2Wreck06__class_name = "TOVS2Wreck06";
+const char *TOVS2Wall01__class_name = "TOVS2Wall01";
+
 // One body per wreck model (TOVS2::TOVS2 takes entry `index`), the last one the wall's.
 CollisionBody ovs2wall01_collision_parts[7] = {
     {{0.0f, 0.0f, 0.0f}, 20.0f, 30.0f, 0, 0x20010003, {0.0f, 0.0f, 0.0f}, 0.0f},
@@ -108,7 +101,6 @@ void __ct__9TObjCharaFP7TObject(void *, void *);
 void obj_setFlags30(void *, s32);
 void activate_and_dispatch__15RenderFadeStateFv(void *, s32, f32);
 extern s32 __vt__11TOVS2Wall01[];
-extern s32 TOVS2Wall01__class_name;
 extern BmlResource *TOVS2Wall01__bml_resource;
 extern void *tl_05;
 extern const f32 lbl_805DBAAC;
@@ -122,27 +114,22 @@ void queue_destruction__7TObjectFv(void *arg0);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck06[];
-extern void *TOVS2Wreck06__class_name;
 // ---- TOVS2Wreck05
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck05[];
-extern void *lbl_805D31D8;
 // ---- TOVS2Wreck04
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck04[];
-extern void *lbl_805D31D4;
 // ---- TOVS2Wreck03
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck03[];
-extern void *lbl_805D31D0;
 // ---- TOVS2Wreck02
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck02[];
-extern void *lbl_805D31CC;
 // ---- TOVS2Wreck01
 struct Base_8017C640 { char pad[0x18]; };
 struct VObj_8017C640 : Base_8017C640 {
@@ -159,11 +146,9 @@ struct VObj_8017C640 : Base_8017C640 {
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__12TOVS2Wreck01[];
-extern void *lbl_805D31C8;
 // ---- TOVS2Wall01_8017C7A4
 // TOVS2Wall01::take_hit(attacker), defined in TOVS2Wall01_8017BCC8.cpp under this symbol.
 f32 take_hit__11TOVS2Wall01FPvUi(TOVS2Wall01 *self, void *attacker);
-extern const char *lbl_805D31C4;
 extern void *tl_05;
 extern const f32 lbl_805DBAB0;
 s32 load_resource_from_descriptor(int, int, void *, int, int, int);
@@ -202,7 +187,7 @@ s32 TOVS2Wall01::select_melee_contact_body(void *, f32) { return 1; }
 s32 TOVS2Wall01::roll_physical_accuracy(void *, s32, f32) { return 1; }
 s32 TOVS2Wall01::try_start_action(s32, s32) { return 1; }
 TOVS2::TOVS2(void *set_data, s32 index) : TObjMapObject((TObject *)tl_05) {
-    m_name = lbl_805D31C4;
+    m_name = TOVS2__class_name;
     apply_object_set_data(set_data);
     model = (void *)get_bml_model(TOVS2Wall01__bml_resource, index);
     model_radius = lbl_805DBAB0 + *(f32 *)((s8 *)(*(void **)((s8 *)model + 4)) + 0x14);
@@ -256,7 +241,7 @@ void TOVS2::render() {
 void *TOVS2Wreck01__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck01;
-    *(void * *)&((TOVS2Wreck01 *)arg0)->m_name = lbl_805D31C8;
+    ((TOVS2Wreck01 *)arg0)->m_name = TOVS2Wreck01__class_name;
     return arg0;
 }
 }
@@ -274,7 +259,7 @@ void *TOVS2Wreck01__create(void *arg0) {
 void *TOVS2Wreck02__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 1);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck02;
-    *(void * *)&((TOVS2Wreck02 *)arg0)->m_name = lbl_805D31CC;
+    ((TOVS2Wreck02 *)arg0)->m_name = TOVS2Wreck02__class_name;
     return arg0;
 }
 }
@@ -292,7 +277,7 @@ void *TOVS2Wreck02__create(void *arg0) {
 void *TOVS2Wreck03__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck03;
-    *(void * *)&((TOVS2Wreck03 *)arg0)->m_name = lbl_805D31D0;
+    ((TOVS2Wreck03 *)arg0)->m_name = TOVS2Wreck03__class_name;
     return arg0;
 }
 }
@@ -310,7 +295,7 @@ void *TOVS2Wreck03__create(void *arg0) {
 void *TOVS2Wreck04__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 3);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck04;
-    *(void * *)&((TOVS2Wreck04 *)arg0)->m_name = lbl_805D31D4;
+    ((TOVS2Wreck04 *)arg0)->m_name = TOVS2Wreck04__class_name;
     return arg0;
 }
 }
@@ -328,7 +313,7 @@ void *TOVS2Wreck04__create(void *arg0) {
 void *TOVS2Wreck05__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 4);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck05;
-    *(void * *)&((TOVS2Wreck05 *)arg0)->m_name = lbl_805D31D8;
+    ((TOVS2Wreck05 *)arg0)->m_name = TOVS2Wreck05__class_name;
     return arg0;
 }
 }
@@ -346,7 +331,7 @@ void *TOVS2Wreck05__create(void *arg0) {
 void *TOVS2Wreck06__ct(void *arg0, void *arg1) {
     __ct__5TOVS2FPvl(arg0, arg1, 5);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TOVS2Wreck06;
-    *(void * *)&((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
+    ((TOVS2Wreck06 *)arg0)->m_name = TOVS2Wreck06__class_name;
     return arg0;
 }
 }
@@ -368,7 +353,7 @@ void *TOVS2Wall01__ct(TOVS2Wall01 *arg0, void *arg1) {
     __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TOVS2Wall01;
     __ct__15RenderFadeStateFv(((void *)((u8 *)arg0 + 0x340)));
-    *(s32 *)((s8 *)arg0 + 0) = TOVS2Wall01__class_name;
+    arg0->m_name = TOVS2Wall01__class_name;
     arg0->apply_object_set_data(arg1);
     ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);

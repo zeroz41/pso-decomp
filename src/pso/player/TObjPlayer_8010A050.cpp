@@ -89,8 +89,8 @@ struct VObj_8010A26C : Base_8010A26C {
 };
 
 int get_item_system_generation(void);
-extern const s32 lbl_8043E280[];
-extern const s32 lbl_8043E2A0[];
+const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
+const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
 s32 get_field_3e0__12TBoss3VoloptFv();
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);

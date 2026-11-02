@@ -150,7 +150,6 @@ void show_partner_chatter_for_key(s16 key);
 extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
-extern const char lbl_805DFDF0[4];
 void set_partner_common_remark(s32 kind, const char *text);
 extern const f64 lbl_80478CB0[];
 void quest_player_look_at_partner(u16 src);
@@ -161,7 +160,7 @@ void set_partner_common_remark(s32 kind, const char *text) {
     char buf[0x40];
 
     if (kind < 25 && strlen(text) < 53) {
-        sprintf(buf, lbl_805DFDF0, text);
+        sprintf(buf, "%s", text);
         strcpy((char *)&npc_partner_dialogue_state[kind], buf);
     }
 }

@@ -141,6 +141,7 @@ force_active:
   - TAdEnterPasswordGC__sub_8032BC94
   - TAdEnterSerialAccessGC__input_state
   - TAdEnterSerialAccessGC__keyboard_control
+  - TAdEnterSerialAccessGC__name
   - TAdEnterSerialAccessGC__sub_8032190C
   - TAdEnterSerialAccessGC__sub_8032195C
   - TAdEnterSerialAccessGC__sub_80321B28
@@ -809,12 +810,19 @@ force_active:
   - TOTrapSeabed01__vt20
   - TOTrapSeabed01__vt83
   - TOVS2Wall01__ct
+  - TOVS2Wreck01__class_name
   - TOVS2Wreck01__ct
+  - TOVS2Wreck02__class_name
   - TOVS2Wreck02__ct
+  - TOVS2Wreck03__class_name
   - TOVS2Wreck03__ct
+  - TOVS2Wreck04__class_name
   - TOVS2Wreck04__ct
+  - TOVS2Wreck05__class_name
   - TOVS2Wreck05__ct
+  - TOVS2Wreck06__class_name
   - TOVS2Wreck06__ct
+  - TOVS2__class_name
   - TOWreckAncientBrakable__name
   - TOWreckAncientBrakable__sub_8017D444
   - TOWreckAncient__resource_descriptor
@@ -4226,7 +4234,11 @@ force_active:
   - bm_o_rock_cave03_motion_names
   - bm_o_rock_jungle_model_names
   - bm_o_vs2_model_names
+  - bm_o_vs2_motion_names
   - bm_o_vs2_resource_descriptor
+  - bm_obj_boss2_common_model_names
+  - bm_obj_boss2_common_motion_names
+  - bm_obj_boss2_common_resource_descriptor
   - bm_obj_boss7_common_model_names
   - bm_obj_boss7_common_motion_names
   - bm_obj_boss8_piller_model_names
@@ -4399,6 +4411,7 @@ force_active:
   - boss6_type2_death_emitter_ranges
   - boss6_type2_initial_state
   - boss6_type2_motion_table
+  - boss6_type2_player_snapshot_table
   - boss6_type2_zero_vec3_block
   - boss7_common_resource_descriptor
   - boss7_dermt_slot_table
@@ -7551,6 +7564,7 @@ force_active:
   - lbl_804C9268
   - lbl_804C9C9C
   - lbl_804CB838
+  - lbl_804CDC88
   - lbl_804CE2B8
   - lbl_804CE820
   - lbl_804CE918
@@ -8306,6 +8320,7 @@ force_active:
   - level_to_reward__6TLobbyFl
   - light_machine01_resource_desc
   - light_node__13TOCapsuleLabo
+  - light_slot_mask_table
   - load_all_floor_event_sets__6TLobbyFv
   - load_and_verify_data
   - load_battle_params__11TBoss6Type2Fv
@@ -8390,6 +8405,7 @@ force_active:
   - lobby_texlist__16TObjKabochaLobby
   - lobby_texlist__16TObjWeddingLobby
   - lobby_texlist__19TObjStendGlassLobby
+  - lobby_udp_test_game_entries
   - lobby_weapon_random_tables_ptr
   - log_printf_buffer
   - logo_load_callback_table

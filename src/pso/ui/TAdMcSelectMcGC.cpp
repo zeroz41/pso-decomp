@@ -24,22 +24,17 @@ extern "C" {
 u32 get_mc_count__13TAdMcSelectGCFv(void);
 void *get_cursor_type__19TAdMcSelectCursorGCFi(s32);
 s32 TAdMcSelectMcGC__sub_8032AAC4(void);
-extern const f32 lbl_805DF74C;
-extern const f32 lbl_805DF750;
-extern const f32 lbl_805DF754;
-extern const f32 lbl_805DF758;
 void restore_saved_depth_alpha_state(void);
 s32 defer_render__7TObjectFv();
 
 extern s32 TAdMcSelectMcGC__texture_list_ptr;
-extern const f32 lbl_805DF748;
 
 void TAdMcSelectMcGC::draw_status_window() {
     u8 *arg0 = (u8 *)this;
     begin_screen_draw(1);
     TObjFish::set_global_param(TAdMcSelectMcGC__texture_list_ptr);
     set_draw_texture_and_color(0, ((*(s32 *)((s8 *)arg0 + 0x120) << 0x18) | 0xFF0000 | 0xFFFF));
-    draw_textured_quad_at_depth((f32 *)(arg0 + 0x20), lbl_805DF748);
+    draw_textured_quad_at_depth((f32 *)(arg0 + 0x20), 0.8f);
     TWindowSubStatusDisp::get_player();
 }
 
@@ -69,10 +64,10 @@ void TAdMcSelectMcGC::run_task() {
     s32 i;
     void *cursor;
     for (i = 0; i < 8; i++) {
-        o->rects[i].x = lbl_805DF750 * (f32)o->f12C + lbl_805DF74C;
-        o->rects[i].y = lbl_805DF754;
-        o->rects[i].x2 = lbl_805DF758 + o->rects[i].x;
-        o->rects[i].y2 = lbl_805DF758 + o->rects[i].y;
+        o->rects[i].x = 286.0f * (f32)o->f12C + 51.0f;
+        o->rects[i].y = 116.0f;
+        o->rects[i].x2 = 256.0f + o->rects[i].x;
+        o->rects[i].y2 = 256.0f + o->rects[i].y;
     }
     if (get_mc_count__13TAdMcSelectGCFv() != 0 && o->f12C == TAdMcSelectMcGC__sub_8032AAC4()) {
         o->f120 >>= 1;

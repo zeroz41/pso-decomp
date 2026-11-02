@@ -32,7 +32,6 @@ void text_builder_append(const char *);
 }
 void text_builder_reset(void);
 extern const char lbl_804421F0[];
-extern const char lbl_805DB860[4];
 extern "C" {
 u32 TOMineTrapDisp__ct(u32, s32, u16, s32);
 u32 __nw__7TObjectFUl(s32);
@@ -91,7 +90,7 @@ s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
             name = p->m10();
             if (name != NULL) {
                 text_builder_reset();
-                text_builder_append(lbl_805DB860);
+                text_builder_append("\x09""C4");
                 text_builder_append(name);
                 text_builder_append(lbl_804421F0);
                 TWindowCtrl::init_all((void*)(get_shared_text_buffer()), (void*)0x200);

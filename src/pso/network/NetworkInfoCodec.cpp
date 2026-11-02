@@ -5,7 +5,6 @@ int strncmp(const char *, const char *, unsigned long);
 char *strncpy(char *, const char *, unsigned long);
 int atoi(const char *);
 }
-extern char network_info_file_header[19];
 s32 parse_netinfo(char *, u32, NetworkInfoConfig *);
 extern char network_info_unparsed_config_lines[0x400];
 extern char network_info_config_key_iver[5];
@@ -73,7 +72,7 @@ s32 parse_netinfo(char *buf, u32 len, NetworkInfoConfig *arg2) {
     u32 start;
     start = 0;
     network_info_unparsed_config_length = 0;
-    if (strncmp(buf, network_info_file_header, strlen(network_info_file_header)) != 0) {
+    if (strncmp(buf, "GAMECUBE_NETINFO\x0D\x0A", strlen("GAMECUBE_NETINFO\x0D\x0A")) != 0) {
         return -1;
     }
     for (i = 4; i < len; i++) {

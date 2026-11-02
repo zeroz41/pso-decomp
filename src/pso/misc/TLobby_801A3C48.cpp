@@ -138,7 +138,10 @@ void bswap_32__FPUl(void *);
 s32 handle_game_join__6TLobbyFPv(void *);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-extern Pair_801A3CFC lobby_udp_test_game_entries[];
+Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+    {0x9D6D3202, 0},
+    {0x9D6D3201, 0},
+};
 extern s32 TLobby__designated_client_id;
 extern s32 game_protocol_instance;
 s32 __dt__7TObjectFv(void *, s32);
