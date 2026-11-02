@@ -400,6 +400,7 @@ force_active:
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - TCameraCtrl__sub_8006E804
+  - TCameraCtrl__sub_803D65F8
   - TChCrEffCtrlPl__name
   - TChCrEffTagStr__name
   - TChCrEffTag__name
@@ -1485,6 +1486,9 @@ force_active:
   - TObjPlayer__sub_80354EEC
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
+  - TObjPlayer__sub_803D6C1C
+  - TObjPlayer__sub_803D7FD0
+  - TObjPlayer__sub_803D7FD8
   - TObjPlayer__sub_803D9C60
   - TObjPlayer__sub_803DA808
   - TObjPlayer__sub_803DA84C
@@ -3516,6 +3520,7 @@ force_active:
   - advance_motion_entry__13TBoss5GryphonFv
   - advance_motion_frame__13TObjLobbyMainFv
   - advance_motion_position__14TBoss2TentacleFv
+  - advance_motion_row__Fv
   - advance_motion_state__12TObjEneSaverFv
   - advance_motion_timer__13TBoss5GryphonFv
   - advance_past_disabled_menu_rows__11TWindowMenuFv
@@ -3873,10 +3878,12 @@ force_active:
   - big_tuitate_collision_body
   - bind_collision_body_parts
   - bind_controller_devices
+  - bind_motion_channel_samplers__Fif
   - bind_network_info_cipher_pool__FPUll
   - biri_ball_model_names
   - biri_ball_motion_names
   - bishi_spawn_offset_table
+  - blend_motion_poses__FPvPvPvPvPv
   - blocking_vsync__6TLobbyFPv
   - bm3_fly_collider_params
   - bm3_fly_decision_row
@@ -4483,6 +4490,7 @@ force_active:
   - call_9A24_plus_1__11TBoss6Type2FPl
   - call_null__12TBoss8DragonFv
   - call_state_action__14TBoss6PlotFalzFv
+  - camera_motion_context_table
   - camera_slot_positions
   - camera_slot_scan_index__10TObjCamera
   - can_action__15TBoss3VoloptP02Fv
@@ -5762,6 +5770,7 @@ force_active:
   - find_index_in_table__11TBoss6Type2FUl
   - find_indirect_effect_ctrl
   - find_material_entry_by_id__6TSceneFPvUs
+  - find_motion_key_partition_u16__FPUcUlUlUl
   - find_nearest_enemy__15TObjEnemyCustomFP3Vecf
   - find_nearest_target__10TObjPlayerFPv
   - find_open_direction__15TObjEneMe1GiGueFPvPv
@@ -6765,6 +6774,7 @@ force_active:
   - interact_player_neg1__11TOVS2Wall01Fv
   - interp_position_between_nodes__11TBoss4Type3Fv
   - interpolate_along_curve__18TObjTailsTailsMoveFPf
+  - interpolate_motion_quaternion_keys__FUlUllf
   - invoke_callback_16C_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_170_and_destroy__23TShopJudgmentItemWindowFv
   - invoke_callback_174_and_destroy__23TShopJudgmentItemWindowFv
@@ -14768,6 +14778,7 @@ force_active:
   - set_model__11TItemMagSubFPvUlPv
   - set_model__19TBoss3VoloptMonitorFl
   - set_motion_by_state__18TObjEneRe4SorcererFPv
+  - set_motion_row_stride__Fl
   - set_move_speed_x__13TObjEneMe1GeeFv
   - set_movie_finished_flag
   - set_multi_chg_game_mode_0x14__18TAdEnterPasswordGCFPv
@@ -15728,6 +15739,7 @@ force_active:
   - transfer_to_town__9TObjLukerFv
   - transform_vertex_list__18TObjTailsTailsMoveFv
   - translate_key_char__16TKeyBoardControlFPvUcPUs
+  - translate_view_negated__11TCameraCtrlFfff
   - trap_ancient02_collision_body
   - trap_ancient02_ruins_pillar_resources
   - trap_ancient02_seabed_pillar_resources

@@ -13644,9 +13644,26 @@ pso/unk/text_803D64F8.cpp:
 	.sdata2     start:0x805E0DF0 end:0x805E0DFC
 
 pso/misc/TCameraCtrl_803D6538.cpp:
-	.text       start:0x803D6538 end:0x803D8030
-	.bss        start:0x8058CA60 end:0x8058CB48
-	.sdata2     start:0x805E0E40 end:0x805E0EA0
+	.text       start:0x803D6538 end:0x803D66DC
+	.sdata2     start:0x805E0E00 end:0x805E0E0C
+
+pso/misc/TCameraCtrl_803D66DC.cpp:
+	.text       start:0x803D66DC end:0x803D676C
+	.sdata2     start:0x805E0E10 end:0x805E0E14
+
+pso/misc/TCameraCtrl_803D676C.cpp:
+	.text       start:0x803D676C end:0x803D6960
+	.bss        start:0x8058CA60 end:0x8058CAB8
+	.sdata2     start:0x805E0E40 end:0x805E0E50
+
+pso/misc/TCameraCtrl_803D6960.cpp:
+	.text       start:0x803D6960 end:0x803D749C
+	.sdata2     start:0x805E0E50 end:0x805E0E88
+
+pso/misc/TCameraCtrl_803D749C.cpp:
+	.text       start:0x803D749C end:0x803D8030
+	.bss        start:0x8058CAB8 end:0x8058CB48
+	.sdata2     start:0x805E0E88 end:0x805E0EA0
 
 pso/unk/text_803D8030.cpp:
 	.text       start:0x803D8030 end:0x803D8090

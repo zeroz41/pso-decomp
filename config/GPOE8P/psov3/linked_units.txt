@@ -840,6 +840,11 @@ pso/misc/TCameraCtrl_8013F25C.cpp
 pso/misc/TCameraCtrl_801A2FE0.cpp
 pso/misc/TCameraCtrl_801A3C24.cpp
 pso/misc/TCameraCtrl_801A6E60.cpp
+pso/misc/TCameraCtrl_803D6538.cpp
+pso/misc/TCameraCtrl_803D66DC.cpp
+pso/misc/TCameraCtrl_803D676C.cpp
+pso/misc/TCameraCtrl_803D6960.cpp
+pso/misc/TCameraCtrl_803D749C.cpp
 pso/misc/TChCrCharSelect_802937D4.cpp
 pso/misc/TChCrCharSelect_802937E8.cpp
 pso/misc/TChCrCharSelect_80293860.cpp
