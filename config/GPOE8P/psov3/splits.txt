@@ -4726,6 +4726,7 @@ pso/npc/TObjNpcFemaleTall_8014AA60.cpp:
 
 pso/unk/text_8014AAC4.cpp:
 	.text       start:0x8014AAC4 end:0x8014AB24
+	.rodata     start:0x8043F9C8 end:0x8043F9E8
 
 pso/unk/text_8014AB24.cpp:
 	.text       start:0x8014AB24 end:0x8014AB8C
@@ -12557,7 +12558,7 @@ pso/unk/text_80357058.cpp:
 
 pso/player/TObjPlayer_80357734.cpp:
 	.text       start:0x80357734 end:0x80358AE8
-	.rodata     start:0x804793F0 end:0x804793F8
+	.rodata     start:0x804793D8 end:0x804793F8
 	.data       start:0x804F15A0 end:0x804F15C4
 	.sdata2     start:0x805E0048 end:0x805E0094
 

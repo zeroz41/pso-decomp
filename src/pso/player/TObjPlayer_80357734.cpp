@@ -96,16 +96,6 @@ typedef char RecoveredGlobal_803589F8_lbl_804F15C8_size[sizeof(RecoveredGlobal_8
 #include "pso/item/TItem.h"
 #include "pso/map/FloorArea.h"
 #include "pso/TParticleCtrl.h"
-struct Stack_80358048 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct RecoveredGlobal_80358048_lbl_804793E4 {
-    s32 value;
-    u8 remaining[0x8];
-};
 
 struct RecoveredGlobal_80358048_lbl_804F166C {
     s32 value;
@@ -136,7 +126,11 @@ struct VObj_8035862C : Base_8035862C {
 
 struct Vec_8035862C { f32 x, y, z; };
 
-struct Trip_8035862C { s32 a, b, c; };
+struct InwardOrbitDir { s32 x, y, z; };
+
+static const Vec_8035862C lbl_804793D8 = {0.0f, -1.0f, 0.0f};
+static const InwardOrbitDir lbl_804793E4 = {0, 0, 0x4000};
+
 
 struct Vec_80357B2C { f32 x, y, z; };
 
@@ -351,10 +345,8 @@ u8 *TObjPlayer::create_state_34_alt() {
     return NULL;
 }
 }
-extern RecoveredGlobal_80358048_lbl_804793E4 lbl_804793E4;
 extern s32 inward_orbit_effect_vtable[];
 u8 *create_inward_orbit_effect(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3);
-extern Trip_8035862C lbl_804793D8;
 extern s32 tl_07;
 void weapon_special_lightning_bolt_effect(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 extern s32 tl_particle;
@@ -501,13 +493,8 @@ void *TUnk_804F166C::dt_with_child_queue(s16 arg1) {
 
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_80358048_lbl_804793E4_size[sizeof(RecoveredGlobal_80358048_lbl_804793E4) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_80358048_lbl_804F166C_size[sizeof(RecoveredGlobal_80358048_lbl_804F166C) == 0x1C ? 1 : -1];
 u8 *create_inward_orbit_effect(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
-    typedef char sp8_offset[(offsetof(Stack_80358048, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_80358048, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_80358048, sp10) == 0x8) ? 1 : -1];
-    Stack_80358048 stack;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80358048_lbl_804F166C *)&inward_orbit_effect_vtable).value;
     VecCopy((Vec *)(arg0 + 0x28), (const Vec *)(arg2));
@@ -518,10 +505,8 @@ u8 *create_inward_orbit_effect(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3) {
     *(s32 *)((s8 *)arg0 + 0x44) = (arg3 - 0x4000);
     ((TUnk_804F166C *)arg0)->m_48 = 0xA;
     ((TUnk_804F166C *)arg0)->update_inward_orbit_point();
-    stack.sp8 = *(s32 *)((s8 *)&lbl_804793E4.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_804793E4.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_804793E4.value + 8);
-    *(s32 *)((s8 *)arg0 + 0x4C) = (s32)spawn_continuous_particle_with_direction((arg0 + 0x34), (&stack.sp8), 0xA);
+    InwardOrbitDir dir = lbl_804793E4;
+    *(s32 *)((s8 *)arg0 + 0x4C) = (s32)spawn_continuous_particle_with_direction((arg0 + 0x34), &dir, 0xA);
     return arg0;
 }
 #pragma pop
@@ -710,7 +695,7 @@ void weapon_special_lightning_bolt_effect(void *arg0, s32 arg1, s32 arg2, s32 ar
         VecCopy((Vec *)&v, (const Vec *)arg2);
         v.y += 100.0f;
         {
-            Trip_8035862C t = lbl_804793D8;
+            Vec_8035862C t = lbl_804793D8;
             obj = __nw__7TObjectFUl(0x260);
             if (obj != 0U) {
                 ((TTecZonde *)obj)->construct_bolt_effect((u8 *)tl_07, (u8 *)&v, (u8 *)&t, 0x14000000, 0x14, 100.0f, 1.8f);

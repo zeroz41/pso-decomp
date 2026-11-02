@@ -15142,6 +15142,7 @@ force_active:
   - toggle_effect_render__14TObjEneDolmOlmFv
   - toggle_selected_part__28TWindowSubSymbolChatPartsSetFv
   - tombstone_resource_descriptor
+  - town_npc_animation_init_data
   - town_player_motion_clip_index_tables
   - trace_from_owner__11TItemWeaponFPUc
   - trade_message_class_name
