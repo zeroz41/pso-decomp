@@ -2410,6 +2410,7 @@ pso/player/TObjPlayer_8013085C.cpp
 pso/player/TObjPlayer_80130BF0.cpp
 pso/player/TObjPlayer_80148DCC.cpp
 pso/player/TObjPlayer_8014C610.cpp
+pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
 pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80178150.cpp

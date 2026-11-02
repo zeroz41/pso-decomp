@@ -4783,7 +4783,7 @@ pso/player/TObjPlayer_801542CC.cpp:
 	.text       start:0x801542CC end:0x80156B18
 	.data       start:0x804AF8A0 end:0x804AF8D8
 	.bss        start:0x8050D460 end:0x8050DB50
-	.sdata2     start:0x805DB270 end:0x805DB27C
+	.sdata2     start:0x805DB270 end:0x805DB2A4
 
 pso/misc/TLobby_80156B18.cpp:
 	.text       start:0x80156B18 end:0x80156BBC
