@@ -49,7 +49,7 @@ struct RecoveredGlobal_80198228___vt__12TObjSinBoard {
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct Pos_8019806C { u32 w[12]; };
+struct Pos_8019806C { f32 w[12]; };
 
 struct Uv_8019806C { u32 w[4]; };
 
@@ -68,13 +68,20 @@ extern s32 lobby_gvm_texture_handles[];
 extern s32 gogo_ball_bml_resource;
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjSinBoard[];
-extern s32 TObjSinBoard__class_name;
 s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_x(int, int);
-extern Pos_8019806C TObjSinBoard__quad_position_table;
-extern Uv_8019806C sin_board_uv_table;
 extern u8 signboard_texture_list[];
 extern u32 TObjSinBoard__texture_buffer;
+}
+
+const char *TObjSinBoard__class_name = "TObjSinBoard";
+const Pos_8019806C TObjSinBoard__quad_position_table = {
+    -10.0f, -10.0f, 0.0f, 10.0f, -10.0f, 0.0f, 10.0f, 10.0f, 0.0f, -10.0f, 10.0f, 0.0f,
+};
+const Uv_8019806C sin_board_uv_table = {0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF};
+const char *memcard_file_099_name = "PSO______099";
+
+extern "C" {
 struct Vec_80198E84;
 extern Vec_80198E84 gogo_ball_sync_state[];
 s32 play_sound_effect(int, void *, int, int);
@@ -434,7 +441,84 @@ extern "C" {
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_particle_effect(void *pos, s32 id);
 s32 play_sound_effect(int, void *, int, int);
-extern Vec_80198A2C boss3_volopt_init_vec;
+void *lbl_804B8A10[210] = {
+    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
+    (void *)0x40200000, (void *)0x8d480ff, (void *)0x0, (void *)0x41a00000,
+    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
+    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
+    (void *)0x0, (void *)0x41f00000, (void *)0x60000, (void *)0x41000000,
+    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
+    (void *)0x40600000, (void *)0x40200000, (void *)0x8d48000, (void *)0xff0000,
+    (void *)0x41200000, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
+    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x20000,
+    (void *)0x41000000, (void *)0x40400000, (void *)0xbdcccccd, (void *)0x3f000000,
+    (void *)0x0, (void *)0x40133333, (void *)0x40133333, (void *)0x8d480ff,
+    (void *)0x0, (void *)0x41200000, (void *)0x0, (void *)0x0,
+    (void *)0x0, (void *)0xc3770000, (void *)0x0, (void *)0x0,
+    (void *)0x43770000, (void *)0x0, (void *)0x0, (void *)0x41f00000,
+    (void *)0x30000, (void *)0x40400000, (void *)0x40600000, (void *)0xbf000000,
+    (void *)0x3f600000, (void *)0x0, (void *)0x40600000, (void *)0x40200000,
+    (void *)0x8d48000, (void *)0xff0000, (void *)0x41200000, (void *)0x0,
+    (void *)0x0, (void *)0x0, (void *)0xc3770000, (void *)0x0,
+    (void *)0x0, (void *)0x43770000, (void *)0x0, (void *)0x0,
+    (void *)0x41f00000, (void *)0x10000, (void *)0x41000000, (void *)0x40400000,
+    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
+    (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000, (void *)0x41200000,
+    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
+    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
+    (void *)0x0, (void *)0x41f00000, (void *)0x60000, (void *)0x41000000,
+    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
+    (void *)0x40600000, (void *)0x40200000, (void *)0x8d48000, (void *)0xff0000,
+    (void *)0x41c80000, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
+    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x0,
+    (void *)0x41000000, (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000,
+    (void *)0x0, (void *)0x40600000, (void *)0x40200000, (void *)0x8d480ff,
+    (void *)0xff000000, (void *)0x41200000, (void *)0x0, (void *)0x0,
+    (void *)0x0, (void *)0xc3770000, (void *)0x0, (void *)0x0,
+    (void *)0x43770000, (void *)0x0, (void *)0x0, (void *)0x41f00000,
+    (void *)0x10000, (void *)0x41000000, (void *)0x40400000, (void *)0xbdcccccd,
+    (void *)0x3f000000, (void *)0x0, (void *)0x40133333, (void *)0x40133333,
+    (void *)0x8d480ff, (void *)0x0, (void *)0x41200000, (void *)0x0,
+    (void *)0x0, (void *)0x0, (void *)0xc3770000, (void *)0x0,
+    (void *)0x0, (void *)0x43770000, (void *)0x0, (void *)0x0,
+    (void *)0x41f00000, (void *)0x30000, (void *)0x40400000, (void *)0x40600000,
+    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
+    (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000, (void *)0x41200000,
+    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
+    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
+    (void *)0x0, (void *)0x41f00000, (void *)0x20000, (void *)0x41000000,
+    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
+    (void *)0x40600000, (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000,
+    (void *)0x41200000, (void *)0x0, (void *)0x0, (void *)0x0,
+    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
+    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x0,
+    (void *)0x41000000, (void *)0x40400000,
+};
+const char *biri_ball_motion_names[2] = {NULL, NULL};
+void *biri_ball_model_names[6] = {
+    (void *)"biri_ball.nj", (void *)"fd_obj804_gorl03_dai.gj", (void *)"robby_cat.nj", (void *)"robby_chu.nj",
+    (void *)"rokeorange_churoke.nj", (void *)0x0,
+};
+void *language_lobby_texture_descriptor[4] = {
+    (void *)"biri_ball.bml", (void *)&biri_ball_model_names, (void *)&biri_ball_motion_names, (void *)0x50000,
+};
+void *lbl_804B8D80[5] = {
+    (void *)0x50005, (void *)0x0, (void *)0x0, (void *)0xff00ff,
+    (void *)0x0,
+};
+void *lbl_804B8D94[3] = {
+    (void *)0x43fa0000, (void *)0x41a00000, (void *)0x0,
+};
+void *lbl_804B8DA0[3] = {
+    (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
+};
+struct Color_80199A44 { f32 a, r, g, b; };
+const Color_80199A44 fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
+// spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).
+struct Rot_80198A2C { s32 x, y, z; };
+const Rot_80198A2C boss3_volopt_init_vec = {0, 0, 0x8000};
 #pragma push
 #pragma fp_contract on
 void TUnk_804B8DE8::run_task() {
@@ -466,7 +550,7 @@ void TUnk_804B8DE8::run_task() {
     }
     if (state != 0) {
         if (self->effect == NULL) {
-            Vec_80198A2C init = boss3_volopt_init_vec;
+            Rot_80198A2C init = boss3_volopt_init_vec;
             if (gogo_ball_configuration.mode != 6) {
                 self->effect = spawn_particle_effect_with_rotation(&self->pos, &init, 0xC0, 2);
             }
@@ -720,85 +804,6 @@ u8 *TWindowTimer__sub_801988E8(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, u8 *arg4)
 u8 *TWindowTimer__sub_8019A574(u8 *arg0);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 
-extern "C" u8 lbl_80445FF0[];
-extern "C" u8 lbl_80446000[];
-extern "C" u8 lbl_80446018[];
-extern "C" u8 lbl_80446028[];
-extern "C" u8 lbl_80446038[];
-extern "C" u8 lbl_80446050[];
-extern "C" u8 biri_ball_motion_names[];
-void *lbl_804B8A10[210] = {
-    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
-    (void *)0x40200000, (void *)0x8d480ff, (void *)0x0, (void *)0x41a00000,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
-    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
-    (void *)0x0, (void *)0x41f00000, (void *)0x60000, (void *)0x41000000,
-    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
-    (void *)0x40600000, (void *)0x40200000, (void *)0x8d48000, (void *)0xff0000,
-    (void *)0x41200000, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
-    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x20000,
-    (void *)0x41000000, (void *)0x40400000, (void *)0xbdcccccd, (void *)0x3f000000,
-    (void *)0x0, (void *)0x40133333, (void *)0x40133333, (void *)0x8d480ff,
-    (void *)0x0, (void *)0x41200000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc3770000, (void *)0x0, (void *)0x0,
-    (void *)0x43770000, (void *)0x0, (void *)0x0, (void *)0x41f00000,
-    (void *)0x30000, (void *)0x40400000, (void *)0x40600000, (void *)0xbf000000,
-    (void *)0x3f600000, (void *)0x0, (void *)0x40600000, (void *)0x40200000,
-    (void *)0x8d48000, (void *)0xff0000, (void *)0x41200000, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0xc3770000, (void *)0x0,
-    (void *)0x0, (void *)0x43770000, (void *)0x0, (void *)0x0,
-    (void *)0x41f00000, (void *)0x10000, (void *)0x41000000, (void *)0x40400000,
-    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
-    (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000, (void *)0x41200000,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
-    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
-    (void *)0x0, (void *)0x41f00000, (void *)0x60000, (void *)0x41000000,
-    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
-    (void *)0x40600000, (void *)0x40200000, (void *)0x8d48000, (void *)0xff0000,
-    (void *)0x41c80000, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
-    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x0,
-    (void *)0x41000000, (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000,
-    (void *)0x0, (void *)0x40600000, (void *)0x40200000, (void *)0x8d480ff,
-    (void *)0xff000000, (void *)0x41200000, (void *)0x0, (void *)0x0,
-    (void *)0x0, (void *)0xc3770000, (void *)0x0, (void *)0x0,
-    (void *)0x43770000, (void *)0x0, (void *)0x0, (void *)0x41f00000,
-    (void *)0x10000, (void *)0x41000000, (void *)0x40400000, (void *)0xbdcccccd,
-    (void *)0x3f000000, (void *)0x0, (void *)0x40133333, (void *)0x40133333,
-    (void *)0x8d480ff, (void *)0x0, (void *)0x41200000, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0xc3770000, (void *)0x0,
-    (void *)0x0, (void *)0x43770000, (void *)0x0, (void *)0x0,
-    (void *)0x41f00000, (void *)0x30000, (void *)0x40400000, (void *)0x40600000,
-    (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
-    (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000, (void *)0x41200000,
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0xc3770000,
-    (void *)0x0, (void *)0x0, (void *)0x43770000, (void *)0x0,
-    (void *)0x0, (void *)0x41f00000, (void *)0x20000, (void *)0x41000000,
-    (void *)0x40400000, (void *)0xbf000000, (void *)0x3f600000, (void *)0x0,
-    (void *)0x40600000, (void *)0x40200000, (void *)0x8d480ff, (void *)0xff000000,
-    (void *)0x41200000, (void *)0x0, (void *)0x0, (void *)0x0,
-    (void *)0xc3770000, (void *)0x0, (void *)0x0, (void *)0x43770000,
-    (void *)0x0, (void *)0x0, (void *)0x41f00000, (void *)0x0,
-    (void *)0x41000000, (void *)0x40400000,
-};
-void *biri_ball_model_names[6] = {
-    (void *)&lbl_80445FF0, (void *)&lbl_80446000, (void *)&lbl_80446018, (void *)&lbl_80446028,
-    (void *)&lbl_80446038, (void *)0x0,
-};
-void *language_lobby_texture_descriptor[4] = {
-    (void *)&lbl_80446050, (void *)&biri_ball_model_names, (void *)&biri_ball_motion_names, (void *)0x50000,
-};
-void *lbl_804B8D80[5] = {
-    (void *)0x50005, (void *)0x0, (void *)0x0, (void *)0xff00ff,
-    (void *)0x0,
-};
-void *lbl_804B8D94[3] = {
-    (void *)0x43fa0000, (void *)0x41a00000, (void *)0x0,
-};
-void *lbl_804B8DA0[3] = {
-    (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
-};
 
 struct E54_801990B4 { u8 b[0x54]; };
 
@@ -1101,7 +1106,6 @@ s32 TUnk_804B8E18::reflect_velocity_off_collision(void *p, void *v) {
 #define normalize_vector ((s32 (*)(void*))normalize_vector)
 #define draw_shadow_on_ground ((s32 (*)(void*))draw_shadow_on_ground)
 struct Vec_80199A44 { f32 x, y, z; };
-struct Color_80199A44 { f32 a, r, g, b; };
 struct Glob_80199A44 { u8 pad[0x1C]; f32 scale; u8 pad20[0x28]; u16 kind; };
 
 s32 get_bml_model(void *, s32);
@@ -1116,7 +1120,6 @@ f32 vec_squared_length(void *);
 s32 push_matrix_from(void *);
 void set_chunk_material_override_pair(s32, s32);
 s32 draw_chunk_object(s32);
-extern Color_80199A44 fish_draw_color[];
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

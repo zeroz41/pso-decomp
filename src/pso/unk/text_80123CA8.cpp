@@ -3,14 +3,16 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_804A1E28.h"
 
+// Eight x/y/z scales, indexed by the cane's node step (+0x1F8).
 struct RecoveredGlobal_80123CA8_lbl_8043E878 {
-    s32 value;
-    u8 remaining[0x5C];
+    Vec value;
+    Vec remaining[7];
 };
 
+// Eight x/y/z scales, indexed by the cane's node step (+0x1F8).
 struct RecoveredGlobal_80123CA8_lbl_8043E8D8 {
-    s32 value;
-    u8 remaining[0x5C];
+    Vec value;
+    Vec remaining[7];
 };
 
 extern "C" {
@@ -18,8 +20,30 @@ s32 add_actor_tp(u8 *arg0, s32 arg1);
 s16 get_actor_tp(u8 *p);
 s32 scale_current_matrix(void *, int);
 }
-extern RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878;
-extern RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8;
+const RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878 = {
+    {1.0f, 1.0f, 1.0f},
+    {
+        {150000.5f, 150000.5f, 5000.5f},
+        {300000.0f, 300000.0f, 10000.0f},
+        {100000.0f, 100000.0f, 10000.0f},
+        {100000.0f, 100000.0f, 24062.5f},
+        {100000.0f, 100000.0f, 55000.004f},
+        {100000.0f, 100000.0f, 85937.5f},
+        {100000.0f, 100000.0f, 100000.0f},
+    },
+};
+const RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8 = {
+    {1.0f, 1.0f, 1.0f},
+    {
+        {150000.5f, 150000.5f, 5000.5f},
+        {300000.0f, 300000.0f, 10000.0f},
+        {100000.0f, 100000.0f, 10000.0f},
+        {100000.0f, 100000.0f, 24062.5f},
+        {100000.0f, 100000.0f, 55000.004f},
+        {100000.0f, 100000.0f, 85937.5f},
+        {100000.0f, 100000.0f, 100000.0f},
+    },
+};
 void sorcerers_cane_node_callback(u8 *arg0);
 
 typedef char RecoveredGlobal_80123CA8_lbl_8043E878_size[sizeof(RecoveredGlobal_80123CA8_lbl_8043E878) == 0x60 ? 1 : -1];

@@ -1907,7 +1907,6 @@ s32 approach_angle_limited(int, int, int);
 #define play_sound_effect ((s32 (*)(int, void *, int, int))play_sound_effect)
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 set_matrix_identity(int);
-extern const f64 TObjEneMe3Stelth__data_8043D758;
 extern s32 TObjEneMe3Stelth__trail_buffer;
 extern const f32 lbl_805DA810;
 extern const f32 lbl_805DA86C;
@@ -1994,7 +1993,7 @@ void run_walk_state__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
         if (((VObj_18_347dfc *)(arg0))->m102(TObjEneMe3Stelth__data_805DA848) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             ((TObjEneDD *)arg0)->update_velocity();
-            *(s32 *)((s8 *)arg0 + 0x42C) = (s32) (TObjEneMe3Stelth__data_8043D758 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
+            *(s32 *)((s8 *)arg0 + 0x42C) = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
             if (test_body_collision__16TObjEneMe3StelthFlf(arg0, (int) (*(s32 *)((s8 *)arg0 + 0x42C) + 0x8000), lbl_805DA85C) == 0) {
                 *(f32 *)((s8 *)arg0 + 0x3A0) = (f32) (*(f32 *)((s8 *)arg0 + 0x3A0) * lbl_805DA860);
                 *(f32 *)((s8 *)arg0 + 0x3A8) = (f32) (*(f32 *)((s8 *)arg0 + 0x3A8) * lbl_805DA860);
@@ -2095,7 +2094,7 @@ void TObjEneMe3Stelth__sub_800F3214(u8 *ene_epsilon, s32 arg1) {
                 if (((TObjEneEpsilon *)ene_epsilon)->update_death_check() != 0) {
                     ((TObjEneDD_ST *)ene_epsilon)->enemy_copy_target_destination();
                     ((TObjEneDD *)ene_epsilon)->update_velocity();
-                    var_r4 = (s32) (TObjEneMe3Stelth__data_8043D758 * atan2_float((f32) (((TObjEneEpsilon *)ene_epsilon)->m_3a0), (f32) (*(f32 *)((s8 *)ene_epsilon + 0x3A8))));
+                    var_r4 = (s32) (10430.38043493439 * atan2_float((f32) (((TObjEneEpsilon *)ene_epsilon)->m_3a0), (f32) (*(f32 *)((s8 *)ene_epsilon + 0x3A8))));
                 } else {
                     var_r4 = ((TObjEneEpsilon *)ene_epsilon)->rotation_y;
                 }
@@ -2170,7 +2169,7 @@ void TObjEneMe3Stelth__sub_800F348C(u8 *arg0, s32 arg1) {
             if (((TObjEneEpsilon *)arg0)->update_death_check() != 0) {
                 ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
                 ((TObjEneDD *)arg0)->update_velocity();
-                ang = (s32)(TObjEneMe3Stelth__data_8043D758 * atan2_float(F(f32, 0x3A0), F(f32, 0x3A8)));
+                ang = (s32)(10430.38043493439 * atan2_float(F(f32, 0x3A0), F(f32, 0x3A8)));
             } else {
                 ang = F(s32, 0x60);
             }

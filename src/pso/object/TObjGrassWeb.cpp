@@ -19,7 +19,7 @@ s16 get_entity_id(u32);
 int queue_destruction__7TObjectFv(void*);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 __vt__12TObjGrassWeb[];
-extern s32 lbl_805D2A3C;
+extern const char *TObjGrassWeb__class_name;
 u8 *TObjGrassWeb__ct(u8 *arg0, s32 arg1, u32 arg2);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern s32 enable_v2_features;
@@ -100,7 +100,7 @@ u8 *TObjGrassWeb__ct(u8 *grass_web, s32 arg1, u32 arg2) {
     __ct__8TObjBaseFP7TObject();
     *(s32 **)((s8 *)grass_web + 0x18) = __vt__12TObjGrassWeb;
     if (arg2 != 0U) {
-        *(s32 *)((s8 *)grass_web + 0) = (s32) lbl_805D2A3C;
+        *(s32 *)((s8 *)grass_web + 0) = (s32) TObjGrassWeb__class_name;
         VecCopy((Vec *)(grass_web + 0x38), (const Vec *)(arg2 + 0x38));
         ((TObjGrassWeb *)grass_web)->m_90 = 0;
         ((TObjGrassWeb *)grass_web)->m_a4 = get_entity_id(arg2);

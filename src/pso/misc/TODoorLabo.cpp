@@ -27,6 +27,10 @@ __declspec(section ".data") const char *bm_obj_labodoor_nrm_motion_names[2] = { 
 BmlResourceDescriptor labo_door_resource_descriptor_2 = { lbl_80465F30, bm_obj_labodoor_nrm_model_names, bm_obj_labodoor_nrm_motion_names, 1, 1 };
 }
 
+CollisionBody labo_door_collision_body_parts[] = {
+    {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+};
+
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
@@ -72,7 +76,6 @@ void init_collision_body_parts(void *, void *, s32);
 void TODoorFourLightBase__ct(void *);
 extern Tbl_8029F7E0 lbl_80466014;
 extern Tbl_8029FAE4 door_labo_link_table;
-extern u8 labo_door_collision_body_parts[];
 extern s32 __vt__16TODoorLaboNormal[];
 extern s32 __vt__10TODoorLabo[];
 extern s32 door_labo_normal_class_name;

@@ -107,7 +107,7 @@ struct TTecGiBarta_80230C58 {
 
 struct Vec_802304A0 { f32 x, y, z; };
 struct Row_802304A0 { u32 entry; u32 flags; f32 scale; };
-struct Band_802304A0 { Row_802304A0 *rows; u32 count; };
+struct Band_802304A0 { const Row_802304A0 *rows; u32 count; };
 struct Angles_802304A0 { s32 a[3]; };
 struct Shot_802304A0 {
     u8 pad0[0x20];
@@ -135,7 +135,6 @@ void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 void *mem_alloc(u32 size);
 void matrix_mult_vec(s32, void *, void *);
 void rotate_matrix_y(s32, s32);
-extern Vec_802304A0 lbl_8044D288;
 extern u8 identity_matrix[];
 extern void *technique_effect_bml;
 extern void *lbl_805D63B0;
@@ -150,7 +149,6 @@ void __dl__7TObjectFPv(void *);
 extern void *__vt__11TTecGiBarta[];
 TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 deleting);
 void __ct__13TUnk_804CCC68FlPUcPUcl();
-extern s32 tec_gibarta_class_name_ptr;
 TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, void * _w2, void * _w3, void * _w4);
 void construct_facing_technique__10TObjPlayerFPviPvii();
 s32 play_sound_effect(s32, s32, s32, s32);
@@ -200,8 +198,44 @@ void TTecGiBarta::update_technique_by_phase() {
 }
 struct Raw_802304A0 { u8 b[12]; };
 
+const Row_802304A0 lbl_8044D180[3] = {
+    {0x180, 0x4, 0.0f},
+    {0x181, 0x42, 1.0f},
+    {0x182, 0x20022, 0.0f},
+};
+const Row_802304A0 lbl_8044D1A4[3] = {
+    {0x180, 0x4, 0.0f},
+    {0x181, 0x42, 1.2f},
+    {0x183, 0x20062, 1.4f},
+};
+const Row_802304A0 lbl_8044D1C8[3] = {
+    {0x180, 0x4, 0.0f},
+    {0x181, 0x42, 1.4f},
+    {0x184, 0x20062, 1.4f},
+};
+const Row_802304A0 lbl_8044D1EC[3] = {
+    {0x180, 0x4, 0.0f},
+    {0x181, 0x42, 1.6f},
+    {0x185, 0x30062, 1.6f},
+};
+const Row_802304A0 lbl_8044D210[3] = {
+    {0x180, 0x4, 0.0f},
+    {0x181, 0x42, 1.8f},
+    {0x186, 0x30062, 1.8f},
+};
+const Row_802304A0 lbl_8044D234[2] = {
+    {0x181, 0x42, 2.2f},
+    {0x18E, 0x30062, 2.2f},
+};
+const Band_802304A0 TTecGiBarta__emitter_profile_table[6] = {
+    {lbl_8044D180, 3}, {lbl_8044D1A4, 3}, {lbl_8044D1C8, 3},
+    {lbl_8044D1EC, 3}, {lbl_8044D210, 3}, {lbl_8044D234, 2},
+};
+const char *TTecGiBarta__class_name = "TTecGiBarta";
+const Vec_802304A0 lbl_8044D288 = {0.0f, 0.0f, 3.0f};
+
+
 void TTecGiBarta::create_particles() {
-    extern Band_802304A0 TTecGiBarta__emitter_profile_table[];
     Shot_802304A0 *shot = (Shot_802304A0 *)this;
     Angles_802304A0 angles;
     Vec_802304A0 pos;
@@ -341,7 +375,6 @@ void TTecGiBarta::create_ex(void *arg1, void *arg2, void *arg3) {
 }
 
 TTecGiBarta_80230B48 *__dt__11TTecGiBartaFv(TTecGiBarta_80230B48 *self, s16 deleting) {
-    extern TTecGiBartaData_80230B48 TTecGiBarta__emitter_profile_table[];
     if (self) {
         self->vtable = __vt__11TTecGiBarta;
         for (u32 i = 0; i < TTecGiBarta__emitter_profile_table[self->band].count; ++i) {
@@ -371,7 +404,7 @@ TTecGiBarta_80230C58 *TTecGiBarta__ct(TTecGiBarta_80230C58 *self, void * _w1, vo
     s32 i;
     __ct__13TUnk_804CCC68FlPUcPUcl();
     self->vtable = __vt__11TTecGiBarta;
-    self->f0 = tec_gibarta_class_name_ptr;
+    self->f0 = (s32)TTecGiBarta__class_name;
     ((TTecGiBarta *)self)->calc_params();
     self->f12c = 12.0f;
     for (i = 0; i < 32; i++) {
@@ -391,7 +424,7 @@ u8 *TTecGiBarta::construct_facing(void * _w1, void * _w2, void * _w3, void * _w4
     s32 i;
     construct_facing_technique__10TObjPlayerFPviPvii();
     (*(void * *)((u8 *)this + 0x18)) = __vt__11TTecGiBarta;
-    *(s32 *)&this->m_name = tec_gibarta_class_name_ptr;
+    *(s32 *)&this->m_name = (s32)TTecGiBarta__class_name;
     calc_params();
     for (i = 0; i < 0x20; i++) {
         ((Obj_80230CFC *)arg0)->ids[i] = 0xFFFF;

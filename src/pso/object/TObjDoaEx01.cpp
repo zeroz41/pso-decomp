@@ -336,8 +336,7 @@ struct RecoveredGlobal_8018E1E0_lbl_804B7588 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8018E1E0_lbl_804B7588_size[sizeof(RecoveredGlobal_8018E1E0_lbl_804B7588) == 0x10 ? 1 : -1];
 
 struct RecoveredGlobal_8018E064_lbl_804B7598 {
-    s32 value;
-    u8 remaining[0x28];
+    CollisionBody value;
 };
 
 struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
@@ -348,8 +347,8 @@ struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern RecoveredGlobal_8018E064_lbl_804B7598 TObjDoaEx01__collision_body_parts;
+void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__11TObjDoaEx01[];
 extern s32 TObjDoaEx01__name;
 
@@ -428,3 +427,7 @@ __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { lbl_8
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { lbl_80445464, NULL };
 BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { lbl_80445478, fs_obj_ex_doa01_model_names, fs_obj_ex_doa01_motion_names, 1, 1 };
 }
+
+RecoveredGlobal_8018E064_lbl_804B7598 TObjDoaEx01__collision_body_parts = {
+    {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+};

@@ -1583,7 +1583,7 @@ pso/enemy/TObjEneRe7Berura.cpp:
 pso/enemy/TObjEneRe7BeruraPunch.cpp:
 	.text       start:0x80095E18 end:0x800967C0
 	.rodata     start:0x80439F10 end:0x80439F28
-	.data       start:0x8048F988 end:0x8048F9E4
+	.data       start:0x8048F930 end:0x8048F9E4
 	.sdata      start:0x805D2990 end:0x805D2998
 	.sdata2     start:0x805D9790 end:0x805D97C8
 
@@ -1826,9 +1826,10 @@ pso/object/TObjGrassWeb.cpp:
 
 pso/object/TObjGrass.cpp:
 	.text       start:0x800BCA2C end:0x800BFBBC
-	.rodata     start:0x8043B7B0 end:0x8043B7D8
+	.rodata     start:0x8043B6A0 end:0x8043B7D8
 	.data       start:0x80492928 end:0x80492A88
 	.bss        start:0x80500BB8 end:0x80500BE0
+	.sdata      start:0x805D2A38 end:0x805D2A40
 	.sbss       start:0x805D5140 end:0x805D5160
 	.sdata2     start:0x805D9EB8 end:0x805D9F20
 
@@ -1921,7 +1922,7 @@ pso/enemy/TObjEneMe1Gee.cpp:
 	.rodata     start:0x8043BE90 end:0x8043BE98
 	.data       start:0x80493780 end:0x80493AC8
 	.bss        start:0x80500E38 end:0x80500E78
-	.sdata2     start:0x805DA0D8 end:0x805DA0E8
+	.sdata2     start:0x805DA0D8 end:0x805DA154
 
 pso/enemy/TObjEneBm5GibonU.cpp:
 	.text       start:0x800CCB24 end:0x800D1E4C
@@ -2152,7 +2153,7 @@ pso/enemy/TObjEneMe3Stelth_800F0EC4.cpp:
 
 pso/enemy/TObjEneMe3Stelth.cpp:
 	.text       start:0x800F169C end:0x800F58A4
-	.rodata     start:0x8043D750 end:0x8043D758
+	.rodata     start:0x8043D750 end:0x8043D760
 	.data       start:0x804976C8 end:0x80497A8C
 	.bss        start:0x805010E0 end:0x80501130
 	.sbss       start:0x805D5300 end:0x805D5318
@@ -3293,7 +3294,7 @@ pso/item/TUnk_804A1D30.cpp:
 
 pso/unk/text_80123CA8.cpp:
 	.text       start:0x80123CA8 end:0x80123E2C
-	.rodata     start:0x8043E938 end:0x8043E940
+	.rodata     start:0x8043E878 end:0x8043E940
 	.sdata2     start:0x805DAD20 end:0x805DAD24
 
 pso/item/TItemEquipVariant_80123E6C.cpp:
@@ -5507,7 +5508,7 @@ pso/item/TObjContainerJung.cpp:
 pso/object/TObjDoaEx01.cpp:
 	.text       start:0x8018D900 end:0x8018E258
 	.rodata     start:0x80445498 end:0x804454A0
-	.data       start:0x804B7578 end:0x804B7598
+	.data       start:0x804B7578 end:0x804B75C4
 	.sdata2     start:0x805DBDA0 end:0x805DBDC0
 
 pso/unk/text_8018E258.cpp:
@@ -5761,8 +5762,9 @@ pso/unk/text_80197FD0.cpp:
 
 pso/object/TObjSinBoard.cpp:
 	.text       start:0x8019806C end:0x8019A790
-	.rodata     start:0x80446080 end:0x80446088
+	.rodata     start:0x80445F90 end:0x80446088
 	.data       start:0x804B8A10 end:0x804B8DAC
+	.sdata      start:0x805D3430 end:0x805D3440
 	.sdata2     start:0x805DBF40 end:0x805DBF9C
 
 pso/object/TObjTank.cpp:
@@ -7687,7 +7689,8 @@ pso/misc/TTecFoie_802301EC.cpp:
 
 pso/misc/TTecGiBarta.cpp:
 	.text       start:0x80230378 end:0x80230D9C
-	.rodata     start:0x8044D298 end:0x8044D2A0
+	.rodata     start:0x8044D180 end:0x8044D2A0
+	.sdata      start:0x805D37B8 end:0x805D37BC
 	.sdata2     start:0x805DC800 end:0x805DC810
 
 pso/misc/TTecGiFoie.cpp:
@@ -9030,7 +9033,8 @@ pso/unk/text_802841FC.cpp:
 
 pso/misc/TWindowSubSymbolChatHelp.cpp:
 	.text       start:0x8028429C end:0x80284C04
-	.rodata     start:0x8044FBE0 end:0x8044FBE8
+	.rodata     start:0x8044FB58 end:0x8044FBE8
+	.sdata      start:0x805D3AB8 end:0x805D3ABC
 	.sdata2     start:0x805DD788 end:0x805DD7C4
 
 pso/misc/TWindowSubSymbolChatParts.cpp:
@@ -9124,8 +9128,9 @@ pso/boss/TObjBoss5FloorStone_802898AC.cpp:
 
 pso/misc/TODoorFourLightSpace.cpp:
 	.text       start:0x802898E8 end:0x8028A714
-	.rodata     start:0x80450C48 end:0x80450C50
-	.data       start:0x804D3500 end:0x804D35D4
+	.rodata     start:0x80450B50 end:0x80450C50
+	.data       start:0x804D34C0 end:0x804D35D4
+	.sdata      start:0x805D3B18 end:0x805D3B20
 	.sdata2     start:0x805DD8F0 end:0x805DD8FC
 
 pso/unk/text_8028A714.cpp:
@@ -9569,7 +9574,7 @@ pso/player/TObjPlayer_8029F694.cpp:
 pso/misc/TODoorLabo.cpp:
 	.text       start:0x8029F730 end:0x802A018C
 	.rodata     start:0x80466038 end:0x80466040
-	.data       start:0x804DC820 end:0x804DC864
+	.data       start:0x804DC820 end:0x804DC890
 	.sdata2     start:0x805DDDB8 end:0x805DDDC4
 
 pso/misc/TLobby_802A018C.cpp:

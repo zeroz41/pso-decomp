@@ -246,9 +246,10 @@ struct Stack_80096300
   f32 spC;
 };
 
+// The punch's two collision spheres (radius 3), handed to the TUnk_804928CC ctor as an array of 2.
 struct RecoveredGlobal_80096750_lbl_8048F930 {
-    s32 value;
-    u8 remaining[0x54];
+    CollisionBody value;
+    CollisionBody remaining;
 };
 
 struct RecoveredGlobal_80096750___vt__21TObjEneRe7BeruraPunch {
@@ -264,7 +265,10 @@ extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
 
 u16 get_entity_id(void *);
-extern RecoveredGlobal_80096750_lbl_8048F930 TObjEneRe7BeruraPunch__collision_body_templates;
+RecoveredGlobal_80096750_lbl_8048F930 TObjEneRe7BeruraPunch__collision_body_templates = {
+    {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 0.0f, 0.0f}, 3.0f, 0.0f, 0, 0x9D03, {0.0f, 0.0f, 0.0f}, 0.0f},
+};
 extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern const char *lbl_805D2990;
 u8 *TObjEneRe7BeruraPunch__ct(u8 *arg0, s32 arg1, s32 arg2);

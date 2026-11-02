@@ -698,6 +698,8 @@ force_active:
   - TODoorAncient03_name
   - TODoorAncient04_name
   - TODoorAncient05_name
+  - TODoorFourLightRuins__class_name
+  - TODoorFourLightSpace__class_name
   - TODoorFourLight__collision_body_params
   - TODoorJungleMain__bml_resource
   - TODoorJungleMain__ct
@@ -923,6 +925,7 @@ force_active:
   - TObjDFUsoTower__ct
   - TObjDeadListWin_class_name
   - TObjDeadListWin_name
+  - TObjDoaEx01__collision_body_parts
   - TObjDoaEx01__ct
   - TObjDoaEx01__resource_descriptor
   - TObjDoorKey__collision_body_parts
@@ -1226,6 +1229,7 @@ force_active:
   - TObjEneRe4Sorcerer__sub_800EF95C
   - TObjEneRe4Sorcerer__sub_800EFE30
   - TObjEneRe4Sorcerer__vt85
+  - TObjEneRe7BeruraPunch__collision_body_templates
   - TObjEneRe7BeruraPunch__data_805D97A0
   - TObjEneRe7Berura__ct
   - TObjEneRe7Berura__data_805007D4
@@ -1260,7 +1264,9 @@ force_active:
   - TObjFogCollision__sub_80153F70
   - TObjGrassWeb__sub_800BC798
   - TObjGrass__bml_resource
+  - TObjGrass__class_name
   - TObjGrass__ct
+  - TObjGrass__grass_type_param_table
   - TObjGrass__render_node_index
   - TObjGrass__resource_bundle
   - TObjGrass__sub_800BCA2C
@@ -1495,6 +1501,7 @@ force_active:
   - TObjResultWin_class_name
   - TObjResultWin_name
   - TObjRoomId__ct
+  - TObjSinBoard__class_name
   - TObjSinBoard__ct
   - TObjSinBoard__texture_name
   - TObjSinBoard__texture_surface
@@ -1606,6 +1613,7 @@ force_active:
   - TTecBarta__ct
   - TTecDeband__ct
   - TTecDeband__sub_8022F948
+  - TTecGiBarta__class_name
   - TTecGiBarta__ct
   - TTecGiZonde__ct
   - TTecGrants__ct
@@ -1731,6 +1739,7 @@ force_active:
   - TWindowSubStatusDisp__sub_8036D994
   - TWindowSubStatusDisp__window_layout
   - TWindowSubSymbolChatFaceType__sub_80283F38
+  - TWindowSubSymbolChatHelp__name
   - TWindowSubSymbolChatPartsSet__part_uv_table
   - TWindowSubSymbolChat__sub_80281840
   - TWindowSubSymbolChat__sub_8028233C
@@ -3865,6 +3874,7 @@ force_active:
   - bind_controller_devices
   - bind_network_info_cipher_pool__FPUll
   - biri_ball_model_names
+  - biri_ball_motion_names
   - bishi_spawn_offset_table
   - blocking_vsync__6TLobbyFPv
   - bm3_fly_collider_params
@@ -4144,6 +4154,10 @@ force_active:
   - bm_obj_city_common_resource_descriptor
   - bm_obj_door_labo_model_names
   - bm_obj_door_labo_motion_names
+  - bm_obj_door_ruins_model_names
+  - bm_obj_door_ruins_motion_names
+  - bm_obj_door_space_model_names
+  - bm_obj_door_space_motion_names
   - bm_obj_geenest_model_names
   - bm_obj_geenest_motion_names
   - bm_obj_jungle_biwamushi_model_names
@@ -6925,6 +6939,7 @@ force_active:
   - komorebi_class_name
   - komorebi_last_uv_update_frame
   - labo_design_entry_table
+  - labo_door_collision_body_parts
   - labo_door_resource_descriptor
   - labo_door_resource_descriptor_2
   - language_lobby_texture_descriptor

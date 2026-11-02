@@ -14,10 +14,18 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjSeabedSuisoBrakable.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
+
+__declspec(section ".data") const char *bm_obj_door_ruins_model_names[2] = {"obj_o_vs2door02l.gj", NULL};
+__declspec(section ".data") const char *bm_obj_door_ruins_motion_names[2] = {"obj_o_vs2door02l.njm", NULL};
+BmlResourceDescriptor bm_obj_door_ruins_resource_descriptor = {"bm_obj_door_ruins.bml", bm_obj_door_ruins_model_names, bm_obj_door_ruins_motion_names, 1, 1};
+__declspec(section ".data") const char *bm_obj_door_space_model_names[2] = {"fs_obj_ex_doa02.gj", NULL};
+__declspec(section ".data") const char *bm_obj_door_space_motion_names[2] = {"fs_obj_ex_doa02.njm", NULL};
+BmlResourceDescriptor bm_obj_door_space_resource_descriptor = {"bm_obj_door_space.bml", bm_obj_door_space_model_names, bm_obj_door_space_motion_names, 1, 1};
 
 CollisionBody TODoorFourLight__collision_body_params = {{0.0f, 20.0f, 0.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
@@ -45,9 +53,7 @@ struct Door_8028A28C {
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__10TODoorBaseFP7TObject();
-extern Tbl_80289EE0 door_four_light_space_index_table;
 extern s32 __vt__20TODoorFourLightSpace[];
-extern s32 lbl_805D3B1C;
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
@@ -107,10 +113,13 @@ extern s32 __vt__20TODoorFourLightRuins[];
 
 struct Tbl_8028A5C4 { s32 v[8]; };
 struct Door_8028A5C4 { u8 pad[0xD8]; s32 sw[8]; };
+
+const char *TODoorFourLightRuins__class_name = "TODoorFourLightRuins";
+const Tbl_8028A5C4 door_four_light_ruins_index_table = {3, 4, 6, 8, 2, 5, 7, 9};
+const char *TODoorFourLightSpace__class_name = "TODoorFourLightSpace";
+const Tbl_80289EE0 door_four_light_space_index_table = {4, 6, 8, 10, 5, 7, 9, 11};
 extern "C" {
 
-extern Tbl_8028A5C4 door_four_light_ruins_index_table;
-extern s32 lbl_805D3B18;
 
 }
 
@@ -126,7 +135,7 @@ u8 *TODoorFourLightRuins__ct(u8 *arg0, s32 arg1, s32 arg2) {
 
     __ct__10TODoorBaseFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightRuins;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3B18;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorFourLightRuins__class_name;
     ((TODoorFourLightRuins *)(arg0))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightRuins *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, &TODoorFourLight__collision_body_params, 1);
@@ -340,7 +349,7 @@ u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;
     __ct__10TODoorBaseFP7TObject();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TODoorFourLightSpace;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3B1C;
+    *(s32 *)((s8 *)arg0 + 0) = (s32) TODoorFourLightSpace__class_name;
     ((TODoorFourLightSpace *)(arg0))->apply_object_set_data((void *)arg2);
     ((TODoorFourLightSpace *)(arg0))->init_door_switch_binding();
     init_collision_body_parts(arg0, &TODoorFourLight__collision_body_params, 1);
