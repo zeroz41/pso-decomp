@@ -6,6 +6,7 @@
 
 struct TObjEneMerillLia : public TUnk_80493450 {
     virtual ~TObjEneMerillLia();
+    virtual void beast_update_hurt();
     virtual void run_task();
     virtual void render();
     virtual void beast_update_approach();

@@ -6,6 +6,7 @@
 class TUnk_804A65E0 : public TItemWeapon {
 public:
     virtual ~TUnk_804A65E0();
+    virtual void vfunc_57();
     virtual void emit_marker_effects();
     u8 unk_1F8[0xC];
     s32 m_204;

@@ -12,7 +12,8 @@ void srank_marker_noop(void) {  }
 
 extern s32 tl_05;
 
-void TObjPlayer::spawn_cane_effects_if_ready(s32 arg0) {
+void TUnk_804A3B20::vfunc_62() {
+    s32 arg0 = (s32)this;
     if (((TItemWeapon *)arg0)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effects((TItem*)arg0, 1, 2);
     }

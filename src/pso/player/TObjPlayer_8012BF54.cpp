@@ -12,7 +12,7 @@ void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*
 
 void TUnk_804A5150::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), (s32)((void*)1820), (s32)((void*)0)); TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1fc), (s32)((void*)1820), (s32)((void*)0)); }
 
-void TObjPlayer::apply_conveyor_move() {
+void TUnk_804A5150::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

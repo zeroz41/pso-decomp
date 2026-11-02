@@ -21,7 +21,7 @@ void TObjPlayer::launch_double_cannon_extra() {
     }
 }
 
-void TObjPlayer::play_side_step_particle() {
+void TUnk_804A2260::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

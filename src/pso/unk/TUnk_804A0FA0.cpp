@@ -15,7 +15,7 @@ u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void scale_matrix(s32, f32, f32, f32);
 
-void apply_blade_dance_model_scale(Self_801223E0 *self);
+void vfunc_60__13TUnk_804A0FA0Fv(Self_801223E0 *self);
 }
 u8 *create_guld_milla(s32 arg0) {
     u8 *temp_r3;
@@ -31,13 +31,13 @@ u8 *create_guld_milla(s32 arg0) {
     return NULL;
 }
 
-void apply_blade_dance_model_scale(Self_801223E0 *self) {
-    if (((TItem *)self)->get_item_index() == 5) {
+void TUnk_804A0FA0::vfunc_60() {
+    if (((TItem *)((Self_801223E0 *)this))->get_item_index() == 5) {
         s32 n = TObjPlayer::get_player_list();
         switch (n) {
         case 3:
         case 4:
-            scale_matrix(0, 1.0f, self->f1f8, self->f1f8);
+            scale_matrix(0, 1.0f, ((Self_801223E0 *)this)->f1f8, ((Self_801223E0 *)this)->f1f8);
             break;
         }
     }

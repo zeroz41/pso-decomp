@@ -11,7 +11,7 @@ s32 scale_matrix(s32, f32, f32, f32);
 
 
 
-void TObjPlayer::check_shield_combo() {
+void TUnk_804A5248::vfunc_60() {
     if ((get_item_index__5TItemFv() == 5) && (TObjPlayer::get_player_list() == 3)) {
         scale_matrix(0, 1.0f, *(f32 *)((s8 *)this + 0x1F8), 1.0f);
     }

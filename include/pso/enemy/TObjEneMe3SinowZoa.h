@@ -6,6 +6,7 @@
 
 struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual ~TObjEneMe3SinowZoa();
+    virtual s32 vfunc_104(f32);
     void sub_8031AC74();
     void sub_80319E74(s32);
     virtual void run_task();

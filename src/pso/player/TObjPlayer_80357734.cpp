@@ -225,7 +225,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
 s32 rotate_matrix_z(int, int);
-void TObjPlayer__sub_80357954(u8 *arg0);
+void vfunc_60__13TUnk_804F14A8Fv(u8 *arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 u32 __nw__7TObjectFUl(s32);
 u32 create_fire_explosion_effect(u32, s32, s32, s32, f32);
@@ -290,7 +290,7 @@ void TUnk_804F14A8::emit_marker_effects() {
     ((VObj_18 *)(arg0))->m49((s32 *)&sp8, 4, -0x2000, 1);
 }
 
-void TObjPlayer__sub_80357954(u8 *arg0) {
+void TUnk_804F14A8::vfunc_60() {
     u32 player_list;
     player_list = TObjPlayer::get_player_list();
     switch (player_list) {
@@ -300,10 +300,10 @@ void TObjPlayer__sub_80357954(u8 *arg0) {
         TItem::begin_effect_render();
         return;
     case 1:
-        rotate_matrix_z(0, (int) (*(s32 *)((s8 *)arg0 + 0x1F8)));
+        rotate_matrix_z(0, (int) (*(s32 *)((s8 *)((u8 *)this) + 0x1F8)));
         return;
     case 7:
-        rotate_matrix_z(0, (int) (-*(s32 *)((s8 *)arg0 + 0x1F8)));
+        rotate_matrix_z(0, (int) (-*(s32 *)((s8 *)((u8 *)this) + 0x1F8)));
     default:
         return;
     }

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A68C8.h"
 #include "pso/player/TObjPlayer_8012FFE4.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -7,7 +8,7 @@ extern "C" {
 u8 get_item_index__5TItemFv();
 s32 scale_matrix(s32, f32, f32, f32);
 
-void TObjPlayer::update_shield_effect() {
+void TUnk_804A68C8::vfunc_60() {
     f32 temp_f1;
 
     if (get_item_index__5TItemFv() == 5) {

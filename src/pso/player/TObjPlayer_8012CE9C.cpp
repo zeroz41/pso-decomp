@@ -11,7 +11,7 @@ int get_player_list__10TObjPlayerFv(void*);
 
 void TUnk_804A5740::update_idle() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), 1820, 10922); }
 void TUnk_804A5740::update_attack() { TObjPlayer::add_angle_clamped((s32 *)((char*)this + 0x1f8), -1820, 0); }
-void TObjPlayer::release_container_if_positive() { if (get_player_list__10TObjPlayerFv(this) > 0) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
+void TUnk_804A5740::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) > 0) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
 
 extern s32 lbl_804A5740[];
 

@@ -599,7 +599,7 @@ void action__18TObjEneMe3SinowZoaFPvi(u8 *arg0, s32 arg1);
 void dispatch_state__18TObjEneMe3SinowZoaFPvUii(u8 *arg0, u32 arg1, s32 arg2);
 void cast_technique__18TObjEneMe3SinowZoaFPv(u8 *arg0);
 u8 sub_8031A454__18TObjEneMe3SinowZoaFv(u8 *arg0);
-int select_and_apply_target__18TObjEneMe3SinowZoaFPv(void* p);
+int vfunc_104__18TObjEneMe3SinowZoaFf(void* p);
 u8 is_outside_visible_range__18TObjEneMe3SinowZoaFv(T_8031A494 *self);
 s32 sub_8031A4D0__18TObjEneMe3SinowZoaFv(u8 *arg0);
 void vfunc_89__18TObjEneMe3SinowZoaFv(void *arg0);
@@ -1056,7 +1056,7 @@ void *__vt__22TObjEneMe3SinowZoaReal[116] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__18TObjEneMe3SinowZoaFv,
     (void *)&vfunc_96__18TObjEneMe3SinowZoaFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&select_and_apply_target__18TObjEneMe3SinowZoaFPv, (void *)&TObjEneMe3SinowZoa__sub_8031A6A0, (void *)&is_target_in_range__18TObjEneMe3SinowZoaFv, (void *)&vfunc_107__22TObjEneMe3SinowZoaRealFv,
+    (void *)&vfunc_104__18TObjEneMe3SinowZoaFf, (void *)&TObjEneMe3SinowZoa__sub_8031A6A0, (void *)&is_target_in_range__18TObjEneMe3SinowZoaFv, (void *)&vfunc_107__22TObjEneMe3SinowZoaRealFv,
     (void *)&vfunc_108__18TObjEneMe3SinowZoaFv, (void *)&try_run_effect_m6__18TObjEneMe3SinowZoaFv, (void *)&try_run_effect_m7__18TObjEneMe3SinowZoaFv, (void *)&vfunc_111__22TObjEneMe3SinowZoaRealFv,
     (void *)&vfunc_112__18TObjEneMe3SinowZoaFv, (void *)&action__18TObjEneMe3SinowZoaFPvi, (void *)&action__18TObjEneMe3SinowZoaFl, (void *)&vfunc_115__18TObjEneMe3SinowZoaFv,
 };
@@ -3036,7 +3036,7 @@ u8 TObjEneMe3SinowZoa::sub_8031A454() {
     return (u8) (*(s32 *)((s8 *)((u8 *)this) + 0x400) >= 1);
 }
 
-int select_and_apply_target__18TObjEneMe3SinowZoaFPv(void* p) { return select_and_apply_target__12TObjEneDD_STFf(p); }
+s32 TObjEneMe3SinowZoa::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
 
 u8 TObjEneMe3SinowZoa::is_outside_visible_range() {
     T_8031A494 *self = (T_8031A494 *)this;

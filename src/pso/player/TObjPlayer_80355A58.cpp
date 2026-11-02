@@ -19,7 +19,7 @@ void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
 s8 get_mode__5TItemFv(u8 *arg0);
 
-void TUnk_804F1320::vfunc_17(s32 item) {
+void TUnk_804F1320::activate_effect(s32 item) {
     s32 temp_r31;
 
     if (((u32) this->owner != 0U) && (is_current_area_item_enabled() != 0)) {

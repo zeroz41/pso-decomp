@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A2678.h"
 #include "pso/TObject.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
@@ -113,8 +114,8 @@ void TObjPlayer::cast_gifoie() {
         update_active_game_effect();
     }
 }
-void TObjPlayer__sub_80125C70(void* p) { *(s32*)((char*)p + 0x1f8) = -1; }
-void TObjPlayer::create_pro_armor() {
+void TUnk_804A2678::vfunc_58() { *(s32*)((char*)this + 0x1f8) = -1; }
+void TUnk_804A2678::vfunc_57() {
     s32 temp_r3;
     *(s32 *)&this->unk_1F8 = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804A5838.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -10,7 +11,7 @@ s32 __nw__15TItemHeapObjectFUl(s32);
 s32 create_ex__9TTecMegidFllll(void *, s32 *, s32, s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
 
-void TObjPlayer::create_shield() {
+void TUnk_804A5838::vfunc_57() {
     s32 temp_r3;
     s32 temp_r3_2;
 

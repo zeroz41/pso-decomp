@@ -47,7 +47,7 @@ u8 *TObjPlayer::create_vtable_clear_field1f8(u8 *arg0) {
     return NULL;
 }
 
-void TUnk_804A4F60::vfunc_17(s32 arg1) {
+void TUnk_804A4F60::activate_effect(s32 arg1) {
     u8 *arg0 = (u8 *)this;
   s32 new_var;
   s32 temp_r31;

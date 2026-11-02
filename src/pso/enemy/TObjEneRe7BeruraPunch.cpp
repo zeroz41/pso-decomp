@@ -29,14 +29,14 @@ u16 get_entity_id(void *);
 
 int TObjEneRe7BeruraPunch::is_patrol_active() { return (*(u32 *)&this->m_b0 >> 2) & 0x1; }
 
-void TObjEneRe7BeruraPunch__vt20(TObjEneRe7BeruraPunch *ene_re7_berura_punch, s32 target) {
+void TObjEneRe7BeruraPunch::apply_hit_if_active(void *target, f32 *) {
     s32 entity;
 
     apply_hit_if_active__13TUnk_804928CCFPvPf();
     if (TObjEneDD::check_v2_mode() != 0) {
         get_entity_id((void *)target);
         if (is_player_entity_id() != 0) {
-            entity = (s32)find_entity_by_id(ene_re7_berura_punch->m_b0);
+            entity = (s32)find_entity_by_id(this->m_b0);
             if ((entity != 0) && (random_ratio__9TObjCharaFv() < 0.1f)) {
                 TObjEneDD__sub_800BA438(entity, (u8 *)target);
             }

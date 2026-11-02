@@ -179,7 +179,7 @@ extern "C" void vfunc_100__9TObjEneDDFv();
 extern "C" void vfunc_101__9TObjEneDDFPUc();
 extern "C" void vfunc_102__9TObjEneDDFv();
 extern "C" void vfunc_83__12TObjEneDD_STFv();
-extern "C" void TObjEneRecon__vt102(void *arg0, f32 farg0);
+extern "C" void vfunc_104__12TObjEneReconFf(void *arg0, f32 farg0);
 extern "C" void vfunc_83__12TObjEneReconFv();
 extern "C" void vfunc_106__12TObjEneReconFv();
 extern "C" void vfunc_28__12TObjEneReconFv();
@@ -301,7 +301,7 @@ void *__vt__12TObjEneRecon[107] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
     (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&TObjEneRecon__vt102, (void *)&vfunc_83__12TObjEneReconFv, (void *)&vfunc_106__12TObjEneReconFv,
+    (void *)&vfunc_104__12TObjEneReconFf, (void *)&vfunc_83__12TObjEneReconFv, (void *)&vfunc_106__12TObjEneReconFv,
 };
 #define __vt__12TObjEneRecon ((s32 *)__vt__12TObjEneRecon)
 

@@ -43,7 +43,7 @@ struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 extern "C" {
 extern s32 lbl_804CF918[];
 void sub_80256BDC__13TUnk_804CF930Fs(u8 *arg0, s16 arg1);
-void calc_bar_width__20TWindowSubStatusDispFPv(struct Bar_80256C00 *bar);
+void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 f32 fabs_float(f32);
 extern const f32 lbl_805DCE58;
 extern const f32 lbl_805DCECC;
@@ -75,16 +75,16 @@ void TUnk_804CF930::sub_80256BDC(s16 arg1) {
 
 void TWindowSubStatusDisp__sub_80256BF8(void) {  }
 void TWindowSubStatusDisp__sub_80256BFC(void) {  }
-void calc_bar_width__20TWindowSubStatusDispFPv(struct Bar_80256C00 *bar) {
+void TUnk_804CF930::calc_bar_width() {
     f32 target;
-    f32 max = bar->max;
+    f32 max = ((struct Bar_80256C00 *)this)->max;
     f32 v;
-    if (max <= 0.0f || (target = bar->target) <= 0.0f) {
+    if (max <= 0.0f || (target = ((struct Bar_80256C00 *)this)->target) <= 0.0f) {
         v = 0.0f;
     } else {
-        v = (target * bar->scale) / max;
+        v = (target * ((struct Bar_80256C00 *)this)->scale) / max;
     }
-    bar->width = v;
+    ((struct Bar_80256C00 *)this)->width = v;
 }
 
 void TWindowSubStatusDisp__sub_80256C40(Gauge_80256E0C *self, TWindowKeyBoardSoft *ctx, Pos_80256E0C *pos, f32 depth) {
@@ -234,7 +234,7 @@ typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 #define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
 #define sub_80256BDC__13TUnk_804CF930Fs ((int (*)(void*, int))sub_80256BDC__13TUnk_804CF930Fs)
-#define calc_bar_width__20TWindowSubStatusDispFPv ((s32 (*)())calc_bar_width__20TWindowSubStatusDispFPv)
+#define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
 #define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
 
 #define lbl_804CF930 (*(unsigned char (*)[1])&lbl_804CF930)
@@ -247,6 +247,6 @@ void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC__13TUnk_804CF930Fs
 #undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
 #undef destroy__13TUnk_804CF930Fs
 #undef sub_80256BDC__13TUnk_804CF930Fs
-#undef calc_bar_width__20TWindowSubStatusDispFPv
+#undef calc_bar_width__13TUnk_804CF930Fv
 #undef step_gauge_bar_width
 #undef lbl_804CF930

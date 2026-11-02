@@ -31,7 +31,7 @@ extern u8 forward_item_effect_callback__10TObjPlayerFll[];
 
 void TAdPlayerLoadGC__sub_802D6390(A_802D6390 *arg0, B_802D6390 *arg1);
 
-void TAdPlayerLoadGC::play_load_sound() {
+void TUnk_804E24F0::vfunc_60() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, *(f32 *)((s8 *)this + 0x1F8), 0.0f);
     }

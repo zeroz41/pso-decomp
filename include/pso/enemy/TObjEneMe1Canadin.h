@@ -6,6 +6,7 @@
 
 struct TObjEneMe1Canadin : public TObjEneDD_ST {
     virtual ~TObjEneMe1Canadin();
+    virtual s32 vfunc_104(f32);
     virtual void vfunc_88();
     virtual u8 *vfunc_101(u8 *);
     virtual void vfunc_89();
@@ -109,7 +110,7 @@ s32 fn_8009E300(u8 *arg0);
 void fn_8009E378(void *arg0);
 void noop__17TObjEneMe1CanadinFv(void);
 void run_task__23TObjEneMe1CanadinLeaderFv(u8 *pv);
-int select_and_apply_target__17TObjEneMe1CanadinFPv(void *p);
+int vfunc_104__17TObjEneMe1CanadinFf(void *p);
 }
 
 #endif

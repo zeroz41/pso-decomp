@@ -151,7 +151,7 @@ void TUnk_804F0810::emit_marker_effects() {
     spawn_particle_effect(sp8, 0x1D0);
 }
 
-void TObjPlayer::rotate_by_player_list() {
+void TUnk_804F0810::vfunc_60() {
     switch (TObjPlayer::get_player_list()) {
     case 1:
         ((s32)rotate_matrix_z(0, (s32)(((P_8034F020 *)this)->f1F8)));
@@ -310,7 +310,7 @@ void init_fire_explosion_config__10TObjPlayerFPvPv(void *a, O_8034F590 *o) {
     o->flags |= 0x80;
 }
 
-void TObjPlayer::pose_gi_gue_bazooka_nodes() {
+void TUnk_804F0A00::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();
@@ -371,7 +371,7 @@ u8 *TObjPlayer::create_gi_gue_bazooka(s32 arg0) {
     return NULL;
 }
 
-void TObjPlayer::dispatch_by_state() {
+void TUnk_804F0AF8::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

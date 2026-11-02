@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/unk/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -21,7 +22,7 @@ void enlarge_flight_cutter_slicer(void *arg0) {
     }
 }
 
-void TObjPlayer::setup_item_render() {
+void TUnk_804A5B20::vfunc_60() {
     s32 player_list;
 
     switch ((s32) get_item_index__5TItemFv()) {

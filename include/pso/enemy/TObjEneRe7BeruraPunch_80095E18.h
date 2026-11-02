@@ -5,7 +5,7 @@
 
 struct TObjEneRe7BeruraPunch;
 extern "C" {
-void TObjEneRe7BeruraPunch__vt20(TObjEneRe7BeruraPunch *arg0, s32 target);
+void apply_hit_if_active__21TObjEneRe7BeruraPunchFPvPf(TObjEneRe7BeruraPunch *arg0, s32 target);
 }
 
 #endif

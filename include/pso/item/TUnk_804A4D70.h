@@ -6,6 +6,7 @@
 class TUnk_804A4D70 : public TItemWeapon {
 public:
     virtual ~TUnk_804A4D70();
+    virtual void vfunc_60();
     virtual void update_idle();
     virtual void update_weapon();
     virtual void update_attack();

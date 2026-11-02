@@ -78,7 +78,7 @@ void TUnk_804A4D70::emit_marker_effects() {
 
 extern "C" {
 
-void TObjPlayer::update_area_effect_objects() {
+void TUnk_804A4D70::vfunc_60() {
     s32 player_list;
 
     switch ((s32) ((TItem *)this)->get_item_index()) {

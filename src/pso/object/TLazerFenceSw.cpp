@@ -88,7 +88,7 @@ void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
 extern u16 lbl_80445CB8[];
 extern u8 lbl_80445CD8[];
-void TLazerFenceSw__vt24(Sw_80193978 *arg0);
+void debug_draw_key_id__13TLazerFenceSwFv(Sw_80193978 *arg0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
@@ -207,27 +207,27 @@ void TLazerFenceSw::render() {
 #pragma pop
 
 __declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
-void TLazerFenceSw__vt24(Sw_80193978 *arg0) {
+void TLazerFenceSw::debug_draw_key_id() {
     debug_draw_key_id__5TOKeyFv();
-    if (arg0->f8C < 0) {
-        arg0->f8C = 0;
+    if (((Sw_80193978 *)this)->f8C < 0) {
+        ((Sw_80193978 *)this)->f8C = 0;
     }
-    arg0->fE8 = lbl_80445CB8[arg0->f8C % 4];
+    ((Sw_80193978 *)this)->fE8 = lbl_80445CB8[((Sw_80193978 *)this)->f8C % 4];
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130022, lbl_80445CD8);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TLazerFenceSw__vt16(void *lazer_fence_sw) {
-    ((TOKey *)lazer_fence_sw)->TOKey::trigger_activate_sound();
-    ((TLazerFenceSw *)lazer_fence_sw)->animation_frame = 0.0f;
-    *(f32 *)((s8 *)lazer_fence_sw + 0xEC) = 0.0f;
+void TLazerFenceSw::trigger_activate_sound() {
+    ((TOKey *)this)->TOKey::trigger_activate_sound();
+    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
-void TLazerFenceSw__vt17(void *arg0) {
-    ((TOKey *)arg0)->TOKey::trigger_deactivate_sound();
-    ((TLazerFenceSw *)arg0)->animation_frame = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
+void TLazerFenceSw::trigger_deactivate_sound() {
+    ((TOKey *)this)->TOKey::trigger_deactivate_sound();
+    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
 typedef char RecoveredGlobal_80193A84_lbl_8050DCF0_size[sizeof(RecoveredGlobal_80193A84_lbl_8050DCF0) == 0x18 ? 1 : -1];

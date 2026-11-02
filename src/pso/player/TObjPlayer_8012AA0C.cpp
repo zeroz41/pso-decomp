@@ -19,7 +19,7 @@ void TUnk_804A4A88::emit_marker_effects() {
     ((TObjPlayer *)arg0)->update_active_game_effect();
 }
 
-void TObjPlayer::update_photon_chair_sit() {
+void TUnk_804A4A88::vfunc_60() {
     if (TObjPlayer::get_player_list() == 2) {
         rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
         advance_angle_wrap((s32 *)&this->unk_1F8, 0x1999);

@@ -43,7 +43,7 @@ extern "C" {
 s32 create_breakup_mdl__12TBoss3VoloptFlllll(s32, s32, s32, void *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
 int TObjEneMe1Gee__sub_800CB628(void* p);
-int TObjEneMe1Gee__vt102(void* p);
+int vfunc_104__13TObjEneMe1GeeFf(void* p);
 int vfunc_89__13TObjEneMe1GeeFv(void* p);
 s32 vfunc_116__13TUnk_8049387CFv(Obj_800C86E0 *arg0);
 s32 vfunc_108__13TUnk_8049387CFv(Obj_800C88D4 *self);
@@ -274,7 +274,7 @@ void *me1_gee_dispatch_table[118] = {
     (void *)vfunc_92__9TObjEneDDFv, (void *)vfunc_93__9TObjEneDDFv, (void *)vfunc_94__9TObjEneDDFv, (void *)vfunc_95__9TObjEneDDFv,
     (void *)vfunc_96__9TObjEneDDFv, (void *)vfunc_97__9TObjEneDDFv, (void *)vfunc_98__9TObjEneDDFv, (void *)vfunc_99__9TObjEneDDFv,
     (void *)vfunc_100__9TObjEneDDFv, (void *)vfunc_101__13TObjEneMe1GeeFPUc, (void *)vfunc_102__9TObjEneDDFv, (void *)vfunc_103__9TObjEneDDFPUc,
-    (void *)TObjEneMe1Gee__vt102, (void *)vfunc_105__13TUnk_8049387CFv, (void *)vfunc_106__13TUnk_8049387CFv, (void *)vfunc_107__13TUnk_8049387CFv,
+    (void *)vfunc_104__13TObjEneMe1GeeFf, (void *)vfunc_105__13TUnk_8049387CFv, (void *)vfunc_106__13TUnk_8049387CFv, (void *)vfunc_107__13TUnk_8049387CFv,
     (void *)vfunc_108__13TUnk_8049387CFv, (void *)vfunc_109__13TUnk_8049387CFv, (void *)vfunc_110__13TUnk_8049387CFl, (void *)vfunc_111__13TUnk_8049387CFl,
     (void *)vfunc_112__13TUnk_8049387CFl, (void *)vfunc_113__13TUnk_8049387CFv, (void *)vfunc_114__13TObjEneMe1GeeFv, (void *)vfunc_115__13TObjEneMe1GeeFv,
     (void *)vfunc_116__13TUnk_8049387CFv, (void *)vfunc_117__13TUnk_8049387CFUl,
@@ -3469,7 +3469,7 @@ void TObjEneMe1Gee::update_fade_sequence() {
     }
 }
 
-int TObjEneMe1Gee__vt102(void* p) { return select_and_apply_target__12TObjEneDD_STFf(p); }
+s32 TObjEneMe1Gee::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
 
 void TObjEneMe1Gee__sub_800CB968(s32 arg0) {
     play_persistent_sound(TObjEneMe1Gee::handle_message(arg0, 0x3BC16), arg0, arg0 + 0x2FC, 0, 0);

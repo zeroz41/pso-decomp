@@ -39,12 +39,12 @@ extern "C" {
 
 s32 select_nearest_target__12TObjEneDD_STFf(void *, f32);
 
-void TObjEneRecon__vt102(void *ene_epsilon, f32 farg0) {
-    if (((VObj_8031D780 *)ene_epsilon)->m97() != 0) {
-        ((TObjEneDD_ST *)ene_epsilon)->select_and_apply_target(farg0);
+s32 TObjEneRecon::vfunc_104(f32 farg0) {
+    if (((VObj_8031D780 *)this)->m97() != 0) {
+        ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
-    select_nearest_target__12TObjEneDD_STFf(ene_epsilon, farg0);
+    select_nearest_target__12TObjEneDD_STFf(this, farg0);
 }
 
 void TObjEneRecon::spawn_trap_a() {

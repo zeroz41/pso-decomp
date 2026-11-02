@@ -552,7 +552,7 @@ u8 *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32
 void TObjEneMerillLia__sub_800D6D64(void);
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void TObjEneMerillLia__sub_800D59E4(u8 *arg0);
+extern "C" void beast_update_hurt__16TObjEneMerillLiaFv(u8 *arg0);
 extern "C" void vfunc_29__9TObjCharaFv();
 extern "C" void recalc_stats__9TObjCharaFv();
 extern "C" void consume_timer_field__9TObjCharaFl();
@@ -735,7 +735,7 @@ void *lbl_80494728[103] = {
     (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__16TObjEneMerillLiaFv,
     (void *)&TObjEneMerillLia__sub_800D5BCC, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__16TObjEneMerillLiaFv, (void *)&beast_update_group_chase__16TObjEneMerillLiaFv,
-    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&TObjEneMerillLia__sub_800D59E4, (void *)&beast_update_dead__13TUnk_80493450Fv,
+    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__16TObjEneMerillLiaFv, (void *)&beast_update_dead__13TUnk_80493450Fv,
     (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__16TObjEneMerillLiaFv, (void *)&vfunc_94__16TObjEneMerillLiaFv, (void *)&vfunc_95__13TUnk_80493450Fv,
     (void *)&vfunc_96__16TObjEneMerillLiaFv, (void *)&vfunc_97__16TObjEneMerillLiaFv, (void *)&vfunc_98__16TObjEneMerillLiaFv, (void *)&vfunc_99__16TObjEneMerillLiaFv,
     (void *)&vfunc_100__13TUnk_80493450Fv, (void *)&vfunc_101__16TObjEneMerillLiaFv, (void *)&request_stand_action__13TUnk_80493450Fv,
@@ -1149,43 +1149,43 @@ s32 TObjEneMerillLia::update_kafun_attack(void *p) {
 f32 get_collision_body_radius(void *, s32);
 s32 check_path_obstructed(void *, void *);
 
-void TObjEneMerillLia__sub_800D59E4(u8 *arg0) {
+void TObjEneMerillLia::beast_update_hurt() {
     Vec_800D5BCC pos;
 
-    ((TObjMotion *)arg0)->advance_animation();
-    VecCopy((Vec *)&pos, (const Vec *)(arg0 + 0x2FC));
+    ((TObjMotion *)((u8 *)this))->advance_animation();
+    VecCopy((Vec *)&pos, (const Vec *)(((u8 *)this) + 0x2FC));
     scratch_vec.y = TObjEneMerillLia__data_805DA300;
     scratch_vec.x = TObjEneMerillLia__data_805DA300;
-    scratch_vec.z = get_collision_body_radius(arg0, 0);
+    scratch_vec.z = get_collision_body_radius(((u8 *)this), 0);
     push_matrix_from(&identity_matrix);
-    rotate_matrix_y(0, -*(s32 *)((s8 *)arg0 + 0x60));
+    rotate_matrix_y(0, -*(s32 *)((s8 *)((u8 *)this) + 0x60));
     rotate_vector_by_matrix(0, &scratch_vec, &scratch_vec);
     pop_matrix();
     vec3_add_to(&pos, &scratch_vec);
-    pos.x = pos.x + *(f32 *)((s8 *)arg0 + 0x308);
-    pos.z = pos.z + *(f32 *)((s8 *)arg0 + 0x310);
-    if (check_path_obstructed(arg0, &pos) == 0) {
-        move_with_wall_slide(arg0);
-        *(f32 *)((s8 *)arg0 + 0x308) = *(f32 *)((s8 *)arg0 + 0x308) * TObjEneMerillLia__data_805DA308;
-        *(f32 *)((s8 *)arg0 + 0x310) = *(f32 *)((s8 *)arg0 + 0x310) * TObjEneMerillLia__data_805DA308;
+    pos.x = pos.x + *(f32 *)((s8 *)((u8 *)this) + 0x308);
+    pos.z = pos.z + *(f32 *)((s8 *)((u8 *)this) + 0x310);
+    if (check_path_obstructed(((u8 *)this), &pos) == 0) {
+        move_with_wall_slide(((u8 *)this));
+        *(f32 *)((s8 *)((u8 *)this) + 0x308) = *(f32 *)((s8 *)((u8 *)this) + 0x308) * TObjEneMerillLia__data_805DA308;
+        *(f32 *)((s8 *)((u8 *)this) + 0x310) = *(f32 *)((s8 *)((u8 *)this) + 0x310) * TObjEneMerillLia__data_805DA308;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x310) = TObjEneMerillLia__data_805DA300;
-        *(f32 *)((s8 *)arg0 + 0x308) = TObjEneMerillLia__data_805DA300;
+        *(f32 *)((s8 *)((u8 *)this) + 0x310) = TObjEneMerillLia__data_805DA300;
+        *(f32 *)((s8 *)((u8 *)this) + 0x308) = TObjEneMerillLia__data_805DA300;
     }
-    ((TObjPlayer *)arg0)->update_collisions();
-    ((TObjPlayer *)arg0)->update_enemy_collision_flags();
-    if (((TObjMotion *)arg0)->is_passing_frame(TObjEneMerillLia__data_805DA300) != 0) {
-        ((TObjEneMerillLia *)arg0)->vfunc_97();
+    ((TObjPlayer *)((u8 *)this))->update_collisions();
+    ((TObjPlayer *)((u8 *)this))->update_enemy_collision_flags();
+    if (((TObjMotion *)((u8 *)this))->is_passing_frame(TObjEneMerillLia__data_805DA300) != 0) {
+        ((TObjEneMerillLia *)((u8 *)this))->vfunc_97();
     }
-    if (*(u32 *)((s8 *)arg0 + 0xB4) != 8) {
-        ((TObjBase *)arg0)->obj_clearFlags30(0x600);
-        ((TObjCollidable *)arg0)->clear_player_status_flag(0, 0x04000000);
-        if ((f32)*(s16 *)((s8 *)arg0 + 0x32C) <= (f32)*(s16 *)((s8 *)arg0 + 0x2B8) * *(f32 *)((s8 *)arg0 + 0x3CC)) {
-            ((TObjEneMerillLia *)arg0)->select_action_by_distance();
+    if (*(u32 *)((s8 *)((u8 *)this) + 0xB4) != 8) {
+        ((TObjBase *)((u8 *)this))->obj_clearFlags30(0x600);
+        ((TObjCollidable *)((u8 *)this))->clear_player_status_flag(0, 0x04000000);
+        if ((f32)*(s16 *)((s8 *)((u8 *)this) + 0x32C) <= (f32)*(s16 *)((s8 *)((u8 *)this) + 0x2B8) * *(f32 *)((s8 *)((u8 *)this) + 0x3CC)) {
+            ((TObjEneMerillLia *)((u8 *)this))->select_action_by_distance();
         }
-        *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
+        *(s16 *)((s8 *)((u8 *)this) + 0x33E) = *(s16 *)((s8 *)((u8 *)this) + 0x32C);
     }
-    minimap_render_dot(arg0 + 0x38, -0x5DB4, 1, 0);
+    minimap_render_dot(((u8 *)this) + 0x38, -0x5DB4, 1, 0);
 }
 
 #pragma push

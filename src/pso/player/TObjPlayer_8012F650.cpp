@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A64E8.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
@@ -6,7 +7,7 @@ extern "C" {
 s32 scale_current_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
 
-void TObjPlayer::handle_move_input() {
+void TUnk_804A64E8::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

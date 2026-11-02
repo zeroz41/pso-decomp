@@ -23,6 +23,6 @@ void TUnk_804A2358::emit_marker_effects() {
     }
 }
 void TUnk_804A2358::reserved_53() { draw_weapon_at_joint((s32)this, (s8)((void*)49)); update_trail_slot(0); update_trail_slot(1); update_trail_slot(2); }
-void TObjPlayer::apply_11e618_twice() { ((TItemWeapon *)this)->roll_technique(); ((TItemWeapon *)this)->roll_technique(); }
+void TUnk_804A2358::vfunc_57() { ((TItemWeapon *)this)->roll_technique(); ((TItemWeapon *)this)->roll_technique(); }
 
 }

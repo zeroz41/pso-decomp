@@ -6,6 +6,7 @@
 
 struct TObjEneRe7BeruraPunch : public TUnk_804928CC {
     virtual ~TObjEneRe7BeruraPunch();
+    virtual void apply_hit_if_active(void *, f32 *);
     s32 sub_80096150();
     void update_flight();
     u16 m_b0;

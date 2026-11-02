@@ -6,6 +6,7 @@
 
 struct TODoorJungleMain : public TODoorBase {
     virtual ~TODoorJungleMain();
+    virtual s32 update_object_view_visibility(f32, f32);
     virtual void vfunc_6(s16 *, s32);
     virtual void update_door_switch_state();
     u32 m_d4;

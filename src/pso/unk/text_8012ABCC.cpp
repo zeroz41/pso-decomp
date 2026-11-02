@@ -195,7 +195,7 @@ typedef struct RecoveredFields_8012ABCC_arg0 RecoveredFields_8012ABCC_arg0;
 typedef struct VBase_18_382324 VBase_18_382324;
 typedef struct VObj_18_382324 VObj_18_382324;
 #define PSO_VCALL_VObj_18_382324_m49(_self, _arg0, _arg1, _arg2, _arg3) (((VObj_18_382324 *)(_self))->m49((_arg0), (_arg1), (_arg2), (_arg3)))
-void TUnk_804A4B80::vfunc_17(s32 arg1) {
+void TUnk_804A4B80::activate_effect(s32 arg1) {
   if (((u32) ((RecoveredFields_8012ABCC_arg0 *) ((u8 *)this))->field_F0) != 0U)
   {
     if (is_current_area_item_enabled() != 0)

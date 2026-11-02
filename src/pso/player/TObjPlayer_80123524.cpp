@@ -20,7 +20,7 @@ s32 push_matrix();
 
 extern s32 model_render_flags;
 
-void TObjPlayer::draw_mag() {
+void TUnk_804A1A48::reserved_53() {
     Sp8Type_80123524 sp8;
     s32 temp_r3;
     s32 temp_r6;
@@ -29,8 +29,8 @@ void TObjPlayer::draw_mag() {
     void *temp_r30;
     void *temp_r29;
 
-    if ((*(void **)&this->play_mode != NULL) && (is_hidden__5TItemFv() == 0)) {
-        temp_r5 = *(void **)&this->play_mode;
+    if ((*(void **)&(*(s16 *)((u8 *)this + 0xF4)) != NULL) && (is_hidden__5TItemFv() == 0)) {
+        temp_r5 = *(void **)&(*(s16 *)((u8 *)this + 0xF4));
         temp_r31 = *(void **)((s8 *)temp_r5 + 0x2C);
         *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 8);
         temp_r30 = *(void **)((s8 *)temp_r31 + 0x2C);
@@ -54,7 +54,7 @@ void TObjPlayer::draw_mag() {
         if (((TItemWeapon *)this)->get_joint_position(1, &sp8) != 0) {
             push_matrix();
             post_translate_matrix(&sp8);
-            rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&this->blend.frame[1]) + 0x60));
+            rotate_matrix_y(0, *(s32 *)((s8 *)(*(void * *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1]) + 0x60));
             draw_ginja_object(temp_r31);
             pop_matrix();
         }

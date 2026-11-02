@@ -12,7 +12,7 @@ extern "C" {
 int scale_current_matrix(void*);
 int get_player_list__10TObjPlayerFv(void*);
 
-void TObjPlayer::handle_tentacle_state_2() { if (get_player_list__10TObjPlayerFv(this) == 2) { scale_current_matrix((char*)this + 0x1f8); } }
+void TUnk_804A2F78::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 2) { scale_current_matrix((char*)this + 0x1f8); } }
 
 void TUnk_804A2F78::update_idle() {
     s32 arg0 = (s32)this;
@@ -24,7 +24,7 @@ void TUnk_804A2F78::update_attack() {
     TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x200), (f32)0.6f, (f32)4.0f);
 }
 
-void TObjPlayer__sub_80126F3C(void) {  }
+void TUnk_804A2F78::vfunc_57() {  }
 
 }
 

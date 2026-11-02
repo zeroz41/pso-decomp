@@ -119,7 +119,7 @@ u8 *TObjPlayer::construct_weapon_casing(u8 *arg1, u8 *arg2, u8 *arg3, u8 *arg4, 
 
 }
 
-void TObjPlayer::apply_scale_effect() {
+void TUnk_804A5D28::vfunc_60() {
     if (TObjPlayer::get_player_list() == 1) {
         translate_matrix(0, 0.0f, (-1.0f) * *(f32 *)((s8 *)this + 0x1F8), 0.0f);
     }

@@ -55,7 +55,7 @@ void TUnk_804A3928::update_attack() {
     }
 }
 
-void TObjPlayer__sub_80128188(void* p) { if (get_player_list__10TObjPlayerFv(p) == 0) { scale_current_matrix((char*)p + 0x1f8); } }
+void TUnk_804A3928::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 0) { scale_current_matrix((char*)this + 0x1f8); } }
 
 }
 

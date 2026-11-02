@@ -18,7 +18,7 @@ void belra_cannon_return_timer(void *arg0) {
     }
 }
 
-void TObjPlayer::notify_tentacle_if_mode1() { if (get_player_list__10TObjPlayerFv(this) == 1) { scale_current_matrix((char*)this + 0x1f8); } }
+void TUnk_804A0DB0::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { scale_current_matrix((char*)this + 0x1f8); } }
 
 void TUnk_804A0DB0::emit_marker_effects() { this->m_1fc = 0.1f; }
 

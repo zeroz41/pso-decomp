@@ -13,14 +13,15 @@ extern "C" u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2);
 
 extern "C" {
 
-s32 TODoorJungleMain__vt8(s32 arg0, f32 farg0, f32 farg1);
+s32 update_object_view_visibility__16TODoorJungleMainFff(s32 arg0, f32 farg0, f32 farg1);
 f32 xz_distance_squared(s32, s32);
 s32 update_object_view_visibility__8TObjBaseFff(s32, f32, f32);
 void queue_destruction__7TObjectFv(void *arg0);
 
 extern s32 camera_ctrl_instance;
 
-s32 TODoorJungleMain__vt8(s32 arg0, f32 farg0, f32 farg1) {
+s32 TODoorJungleMain::update_object_view_visibility(f32 farg0, f32 farg1) {
+    s32 arg0 = (s32)this;
     if (xz_distance_squared(arg0 + 0x38, camera_ctrl_instance + 0x178) < (farg1 * farg1)) {
         return 1;
     }

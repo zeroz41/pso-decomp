@@ -24,7 +24,7 @@ void TObjPlayer::cast_tech_gibarta() {
         update_active_game_effect();
     }
 }
-void TObjPlayer::notify_container_if_mode1() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
+void TUnk_804A1098::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
 
 
 void TUnk_804A1098::update_idle() {

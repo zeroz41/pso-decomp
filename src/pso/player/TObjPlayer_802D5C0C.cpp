@@ -160,7 +160,7 @@ struct RecoveredGlobal_80362FB4_lbl_80479FC8 {
 extern "C" {
 s16 get_validated_attack_stage(u8 *arg0);
 void fire_spread_shot__10TObjPlayerFPv(u8 *arg0);
-void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *arg0);
+void reserved_53__13TUnk_804E23F0Fv(u8 *arg0);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 pop_matrix();
@@ -170,7 +170,7 @@ void TObjPlayer__sub_802D5DE0(u8 *arg0);
 void create_cane_effect_from_state__10TObjPlayerFPv(void *arg0);
 void* init_state_445__10TObjPlayerFPv(void* a0);
 void set_radar_marker_params__10TObjPlayerFPvPv(u8 *arg0, u8 *arg1);
-void update_swim_flag__10TObjPlayerFPv(void *arg0);
+void update_weapon__13TUnk_804E23F0Fv(void *arg0);
 s32 get_weapon_color__11TItemWeaponFPv(s32 *, void *);
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 
@@ -186,12 +186,12 @@ void set_radar_marker_params__10TObjPlayerFPvPv(u8 *weapon, u8 *arg1) {
     *(s32 *)((s8 *)arg1 + 0x70) = (s32) *(s32 *)((s8 *)weapon + 0x204);
 }
 
-void update_swim_flag__10TObjPlayerFPv(void *arg0) {
-    if (((TItemWeapon *)arg0)->get_attack_stage() == 2) {
-        *(s32 *)((s8 *)arg0 + 0x1F8) = (s32) (*(s32 *)((s8 *)arg0 + 0x1F8) | 1);
+void TUnk_804E23F0::update_weapon() {
+    if (((TItemWeapon *)this)->get_attack_stage() == 2) {
+        *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) | 1);
         return;
     }
-    *(s32 *)((s8 *)arg0 + 0x1F8) = (s32) (*(s32 *)((s8 *)arg0 + 0x1F8) & 0xFFFFFFFE);
+    *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) & 0xFFFFFFFE);
 }
 
 extern s32 tl_05;
@@ -244,9 +244,9 @@ void TObjPlayer__sub_802D5DE0(u8 *item_weapon) {
     }
 }
 
-void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *item_weapon) {
-    if (((TItemWeapon *)item_weapon)->test_weapon_flags(0x01000000U) == 0U) {
-        ((TItemWeapon *)item_weapon)->draw_weapon_model();
+void TUnk_804E23F0::reserved_53() {
+    if (((TItemWeapon *)((u8 *)this))->test_weapon_flags(0x01000000U) == 0U) {
+        ((TItemWeapon *)((u8 *)this))->draw_weapon_model();
     }
 }
 

@@ -9,7 +9,7 @@ extern "C" {
 s32 rotate_matrix_z(s32, s32);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-void TObjPlayer::update_boss2tunnel_move() {
+void TUnk_804A6108::vfunc_60() {
     s32 player_list;
 
     player_list = TObjPlayer::get_player_list();

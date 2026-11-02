@@ -1,4 +1,5 @@
 #include "pso/misc/SampledMotionPoints.h"
+#include "pso/enemy/TObjEneDf2Bringer.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
@@ -59,7 +60,7 @@ void TObjEneDf2Bringer__sub_800987E8(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__sub_80098BAC(u8 *arg0, s32 arg1);
 void TObjEneDf2Bringer__vt85(s32 arg0, u32 arg1, s32 arg2);
 void sub_80098DEC__17TObjEneDf2BringerFv(u8 *arg0);
-void TObjEneDf2Bringer__vt102(void *arg0, f32 farg0);
+void vfunc_104__17TObjEneDf2BringerFf(void *arg0, f32 farg0);
 void TObjEneDf2Bringer__sub_80098EB4(s32 arg0);
 s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self);
 s32 TObjEneDf2Bringer__sub_80098FF4(Obj_80098FF4 *self);
@@ -258,7 +259,7 @@ void *__vt__17TObjEneDf2Bringer[107] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
     (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&TObjEneDf2Bringer__vt102, (void *)&vfunc_83__17TObjEneDf2BringerFv, (void *)&vfunc_105__17TObjEneDf2BringerFv,
+    (void *)&vfunc_104__17TObjEneDf2BringerFf, (void *)&vfunc_83__17TObjEneDf2BringerFv, (void *)&vfunc_105__17TObjEneDf2BringerFv,
 };
 #define __vt__17TObjEneDf2Bringer ((s32 *)__vt__17TObjEneDf2Bringer)
 
@@ -2098,12 +2099,12 @@ void TObjEneDf2Bringer::sub_80098DEC() {
     *(s32 *)((s8 *)arg0 + 0x494) = (s32) (*(s32 *)((s8 *)arg0 + 0x494) + 1);
 }
 
-void TObjEneDf2Bringer__vt102(void *ene_epsilon, f32 farg0) {
-    if (((VObj_80098E4C_80098DB0 *)ene_epsilon)->m97() != 0) {
-        ((TObjEneDD_ST *)ene_epsilon)->select_and_apply_target(farg0);
+s32 TObjEneDf2Bringer::vfunc_104(f32 farg0) {
+    if (((VObj_80098E4C_80098DB0 *)this)->m97() != 0) {
+        ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
-    select_nearest_target__12TObjEneDD_STFf(ene_epsilon, farg0);
+    select_nearest_target__12TObjEneDD_STFf(this, farg0);
 }
 
 void TObjEneDf2Bringer__sub_80098EB4(s32 arg0) {

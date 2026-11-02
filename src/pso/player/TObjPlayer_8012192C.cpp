@@ -34,7 +34,7 @@ void TObjPlayer::cast_foie_effect() {
     }
 }
 
-void TObjPlayer::release_container_if_active() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
+void TUnk_804A0BC0::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
 
 extern f32 lbl_805DACC8;
 extern f32 lbl_805DACCC;

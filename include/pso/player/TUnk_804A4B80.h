@@ -6,8 +6,8 @@
 class TUnk_804A4B80 : public TItemWeapon {
 public:
     virtual ~TUnk_804A4B80();
+    virtual void activate_effect(s32);
     void heaven_punisher_strike_locks();
-    virtual void vfunc_17(s32);
     virtual void emit_marker_effects();
 };
 
