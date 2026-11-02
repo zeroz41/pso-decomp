@@ -497,18 +497,16 @@ pso/boss/TBoss4DarkFalz_8004C93C.cpp:
 	.sdata2     start:0x805D8938 end:0x805D8940
 
 pso/unk/text_8004D9A8.cpp:
-	.text       start:0x8004D9A8 end:0x8004E020
+	.text       start:0x8004D9A8 end:0x8004E068
 	.data       start:0x80485460 end:0x80485590
 	.sdata2     start:0x805D8968 end:0x805D8988
 
-pso/object/TObjDFDemo0.cpp:
-	.text       start:0x8004E020 end:0x8004E6D0
-	.rodata     start:0x80437370 end:0x80437378
-	.data       start:0x80485640 end:0x80485674
-	.sdata2     start:0x805D8988 end:0x805D89B0
-
-pso/unk/text_8004E6D0.cpp:
-	.text       start:0x8004E6D0 end:0x8004E918
+pso/object/TObjDFDemo1.cpp:
+	.text       start:0x8004E068 end:0x8004E918
+	.rodata     start:0x80437310 end:0x80437378
+	.data       start:0x80485590 end:0x80485674
+	.sdata      start:0x805D2780 end:0x805D2784
+	.sdata2     start:0x805D8988 end:0x805D89B4
 
 pso/object/TObjDFDemo2.cpp:
 	.text       start:0x8004E918 end:0x8004ED28

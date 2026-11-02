@@ -17,6 +17,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
+#include "pso/object/TObjDFDemo0.h"
 
 extern "C" {
 
@@ -330,4 +331,12 @@ Obj_8004DEE0 *TObjDFDemo0__ct(void *arg0, void *parent) {
 }
 #pragma pop
 
+}
+
+void *TObjDFDemo0::create(void *parent) {
+    void *o = TObject::operator new(sizeof(TObjDFDemo0));
+    if (o != NULL) {
+        o = TObjDFDemo0__ct(o, parent);
+    }
+    return o;
 }

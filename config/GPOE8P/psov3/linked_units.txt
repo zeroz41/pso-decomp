@@ -2023,6 +2023,7 @@ pso/object/TObjCollision.cpp
 pso/object/TObjComputer.cpp
 pso/object/TObjControl.cpp
 pso/object/TObjCurtainLobby.cpp
+pso/object/TObjDFDemo1.cpp
 pso/object/TObjDFDemo2.cpp
 pso/object/TObjDFDemo3.cpp
 pso/object/TObjDFDemo4.cpp

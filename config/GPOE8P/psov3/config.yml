@@ -883,6 +883,7 @@ force_active:
   - TObjContainerNoItem__name
   - TObjDFBeamCursor__ct
   - TObjDFBeamCursor__name
+  - TObjDFDemo0__ct
   - TObjDFDemo0__entry_table
   - TObjDFDemo2__ct
   - TObjDFDemo2__motion_index_table
@@ -1763,6 +1764,7 @@ force_active:
   - __ct__11TMessageBoxFRC11TMessageBox
   - __ct__11TOBiwaMushiFPv
   - __ct__11TOKeyCave01FP7TObjectPv
+  - __ct__11TObjDFDemo1FP7TObjectPC3Vecl
   - __ct__11TObjDFDemo5FP7TObjectPC3Vecl
   - __ct__11TPlayerSoulFP7TObjectUs
   - __ct__12CursorActionFv
@@ -2022,6 +2024,7 @@ force_active:
   - __dt__11TOVS2Wall01Fv
   - __dt__11TObjControlFv
   - __dt__11TObjDFDemo0Fv
+  - __dt__11TObjDFDemo1Fv
   - __dt__11TObjDFDemo2Fv
   - __dt__11TObjDFDemo3Fv
   - __dt__11TObjDFDemo5Fv
@@ -2729,6 +2732,7 @@ force_active:
   - __vt__11TOVS2Wall01
   - __vt__11TObjControl
   - __vt__11TObjDFDemo0
+  - __vt__11TObjDFDemo1
   - __vt__11TObjDFDemo2
   - __vt__11TObjDFDemo3
   - __vt__11TObjDFDemo5
@@ -5310,6 +5314,7 @@ force_active:
   - draw_fading_model_4__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_model_5__23TBoss6Demo21_TYPE2_DEADFPv
   - draw_fading_model_8__23TBoss6Demo21_TYPE2_DEADFPv
+  - draw_fading_model__11TObjDFDemo1Fv
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_fading_motion__11TObjDFDemo5Fv
   - draw_filled_rects_2d__FPvPvi
@@ -6834,6 +6839,7 @@ force_active:
   - lbl_80434EC8
   - lbl_80434ED4
   - lbl_804371BC
+  - lbl_80437328
   - lbl_80437384
   - lbl_804373A4
   - lbl_80438528
@@ -7103,6 +7109,11 @@ force_active:
   - lbl_80481280
   - lbl_80483480
   - lbl_80485550
+  - lbl_80485590
+  - lbl_804855F0
+  - lbl_80485608
+  - lbl_80485610
+  - lbl_8048561C
   - lbl_804856C0
   - lbl_80485798
   - lbl_80486868
@@ -7456,6 +7467,7 @@ force_active:
   - lbl_805BA5C0
   - lbl_805CF240
   - lbl_805CF380
+  - lbl_805D2780
   - lbl_805D27A0
   - lbl_805D27E8
   - lbl_805D27EC
@@ -13223,6 +13235,7 @@ force_active:
   - render__11TNowLoadingFv
   - render__11TOKeyCave01Fv
   - render__11TOVS2Wall01Fv
+  - render__11TObjDFDemo1Fv
   - render__11TObjDFDemo2Fv
   - render__11TObjDFDemo3Fv
   - render__11TObjDFDemo5Fv
@@ -13822,6 +13835,7 @@ force_active:
   - run_task__11TOKeyCave01Fv
   - run_task__11TOVS2Wall01Fv
   - run_task__11TObjControlFv
+  - run_task__11TObjDFDemo1Fv
   - run_task__11TObjDFDemo2Fv
   - run_task__11TObjDFDemo3Fv
   - run_task__11TObjDFDemo5Fv
@@ -15149,6 +15163,7 @@ force_active:
   - sub_8004AFB8__14TBoss4DarkFalzFv
   - sub_8004B084__14TBoss4DarkFalzFv
   - sub_8004B0F8__14TBoss4DarkFalzFv
+  - sub_8004E068__11TObjDFDemo1Fv
   - sub_8004F2A8__11TObjDFDemo4Fv
   - sub_80056998__11TBoss4Type2Fv
   - sub_80056F90__11TBoss4Type2Fll
