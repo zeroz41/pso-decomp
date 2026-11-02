@@ -646,7 +646,8 @@ struct TLobby : public TObject {
     static s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
     static s32 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
-    static s32 invoke_socket_callback(s16 i, s32 arg);
+    static s16 invoke_socket_callback(s16 i, s32 arg);
+    static s16 is_socket_flag_set(s16 i);
     static s32 call_entry_callback(s16 i, s16 arg);
     static s16 is_slot_flag_0x40_set(s16 i);
     static s32 is_slot_flag_0x20_set(s16 i);

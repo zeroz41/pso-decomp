@@ -461,7 +461,7 @@ struct Ent_8040A19C { s16 f0; s16 f2; u8 pad[0x2C]; };
 
 struct G_8040A19C { s16 n; Ent_8040A19C *p; };
 
-struct Ent_80409F44 { s16 st; s16 pad2; s32 (*f4)(s32); s32 (*f8)(s32); s32 (*fC)(s32); s32 (*f10)(s32); u8 pad14[0x30-0x14]; };
+struct Ent_80409F44 { s16 st; s16 pad2; s32 (*f4)(s32); s32 (*f8)(s32); s32 (*fC)(s32); s16 (*f10)(s32); u8 pad14[0x30-0x14]; };
 
 struct Tbl_80409F44 { s16 count; Ent_80409F44 *list; };
 
@@ -579,7 +579,6 @@ extern RecoveredGlobal_8041123C_lbl_805C1BB8 ipv6_address_routing_state;
 u8 * TLobby__sub_80413264(void *, s32);
 s32 TLobby__sub_80413230(u8 *arg0, s32 arg1);
 void TLobby__sub_804136AC(s16 arg0);
-s32 is_socket_flag_set__6TLobbyFs(s16);
 void TLobby__sub_804136CC(s16 arg0);
 s16 NetIPv6IsLoopback(u8 *arg0);
 s32 NetIPv6IsUnspecified(u8 *arg0);
@@ -3184,7 +3183,7 @@ typedef struct G_8040A630 { u8 pad[0x40]; s16 n; u8 pad2[2]; Ent_8040A630 *p; } 
 
 #pragma push
 #pragma opt_propagation off
-s32 TLobby::invoke_socket_callback(s16 i, s32 arg) {
+s16 TLobby::invoke_socket_callback(s16 i, s32 arg) {
     Ent_80409F44 *e;
     if (i < 0 || i > (*(Tbl_80409F44 *)&lobby_handler_table_desc).count) {
         return -0x10F;
@@ -3307,7 +3306,7 @@ struct G_8040A25C { s16 n; Ent_8040A25C *p; };
 #pragma push
 #pragma optimization_level 2
 #pragma dont_inline on
-s32 is_socket_flag_set__6TLobbyFs(s16 i) {
+s16 TLobby::is_socket_flag_set(s16 i) {
     if (i < 0 || i > (*(G_8040A25C *)&lobby_handler_table_desc).n) { return 0; }
     Ent_8040A25C *e = (*(G_8040A25C *)&lobby_handler_table_desc).p;
     if (e[i].f0 == 0) { return 0; }
@@ -5431,7 +5430,6 @@ inline void remove_host_route_8040F1A0(Ipv4RoutingState *g, u32 dst, u32 gateway
 }
 
 s16 TLobby__sub_8040F1A0(s16 idx) {
-    s16 is_socket_flag_set__6TLobbyFs(s16);
     Ipv4RoutingState *g = (Ipv4RoutingState *)&ipv4_address_routing_state;
     s16 *pn;
     Ipv4Iface **pifs;
@@ -5452,7 +5450,7 @@ s16 TLobby__sub_8040F1A0(s16 idx) {
     count = 0;
     while (alias != NULL && count < g->max_aliases) {
         Ipv4Alias *next;
-        if (is_socket_flag_set__6TLobbyFs(idx) == 0 && get_iface_addr_8040F1A0(pn, pifs, &gateway)) {
+        if (TLobby::is_socket_flag_set(idx) == 0 && get_iface_addr_8040F1A0(pn, pifs, &gateway)) {
             remove_host_route_8040F1A0(g, alias->addr, gateway);
         }
         TLobby__sub_80409D7C(idx, ifc->handle, 2, (s32)&alias->addr);
@@ -5466,7 +5464,7 @@ s16 TLobby__sub_8040F1A0(s16 idx) {
         alias->next = NULL;
         alias = next;
     }
-    if (is_socket_flag_set__6TLobbyFs(idx) == 0 && get_iface_addr_8040F1A0(pn, pifs, &gateway)) {
+    if (TLobby::is_socket_flag_set(idx) == 0 && get_iface_addr_8040F1A0(pn, pifs, &gateway)) {
         remove_host_route_8040F1A0(g, ifc->addr, gateway);
     }
     {
@@ -5489,6 +5487,89 @@ s16 TLobby__sub_8040F1A0(s16 idx) {
     ifc->broadcast = 0;
     ifc->mask = 0;
     ifc->aliases = NULL;
+    return 0;
+}
+
+#pragma opt_common_subs on
+s16 TLobby__sub_8040F454(u32 addr, u32 mask, u32 broadcast, s16 idx) {
+    Ipv4RoutingState *g = (Ipv4RoutingState *)&ipv4_address_routing_state;
+    s16 *pn;
+    Ipv4Iface **pifs;
+    s16 unspecified;
+    Ipv4Iface *ifc;
+    s16 r;
+    s16 err;
+    s16 found;
+    u32 gateway;
+
+    if (idx < 0 || idx >= *(pn = &g->nifaces)) {
+        return -0x109;
+    }
+    ifc = *(pifs = &g->ifaces);
+    ifc += idx;
+    if (ifc->state == 1) {
+        return -2;
+    }
+    ifc->state = 1;
+    ifc->handle = TLobby__sub_8040A044(idx, 0x800, 4, (u8 *)&addr);
+    if (ifc->handle < 0) {
+        ifc->state = 0;
+        return ifc->handle;
+    }
+    if (addr == 0 && mask == 0xFFFFFFFF) {
+        unspecified = 1;
+    } else {
+        unspecified = 0;
+    }
+    ifc->addr = addr;
+    ifc->network = addr & mask;
+    if (broadcast != 0) {
+        ifc->broadcast = broadcast;
+    } else {
+        ifc->broadcast = ifc->network | ~mask;
+    }
+    ifc->mask = mask;
+    r = TLobby::invoke_socket_callback(idx, ifc->handle);
+    if (r < g->f6) {
+        ifc->state = 0;
+        return -6;
+    }
+    ifc->f4 = r;
+    found = 0;
+    ifc->aliases = NULL;
+    gateway = 0xFFFFFFFF;
+    if (TLobby::is_socket_flag_set(idx) == 0 && !unspecified) {
+        found = get_iface_addr_8040F1A0(pn, pifs, &gateway);
+        if (found) {
+            r = TRKValidMemory32(addr, 0xFFFFFFFF, gateway, 0, 1, 0);
+            if (r < 0) {
+                TLobby::call_entry_callback(idx, ifc->handle);
+                ifc->state = 0;
+                ifc->handle = 0;
+                ifc->f4 = 0;
+                ifc->addr = 0;
+                ifc->network = 0;
+                ifc->broadcast = 0;
+                ifc->mask = 0;
+                return r;
+            }
+        }
+    }
+    err = TRKValidMemory32(addr & mask, mask, addr, 0, 1, 0);
+    if (err < 0) {
+        if (TLobby::is_socket_flag_set(idx) == 0 && gateway != 0xFFFFFFFF && !unspecified) {
+            remove_host_route_8040F1A0(g, addr, gateway);
+        }
+        TLobby::call_entry_callback(idx, ifc->handle);
+        ifc->state = 0;
+        ifc->handle = 0;
+        ifc->f4 = 0;
+        ifc->addr = 0;
+        ifc->network = 0;
+        ifc->broadcast = 0;
+        ifc->mask = 0;
+        return err;
+    }
     return 0;
 }
 #pragma pop
@@ -6795,7 +6876,6 @@ inline void remove_80412210(G_80412210 *g, void *grp, void *src) {
 }
 
 s16 TLobby__sub_80412210(s16 idx) {
-    s16 is_socket_flag_set__6TLobbyFs(s16);
     G_80412210 *g = G;
     u8 d[16];
     u8 c[16];
@@ -6819,7 +6899,7 @@ s16 TLobby__sub_80412210(s16 idx) {
     count = 0;
     while (grp != NULL && count < g->f4) {
         Grp_80412210 *next;
-        if (is_socket_flag_set__6TLobbyFs(idx) == 0 && getaddr_80412210(pn, pifs, d)) {
+        if (TLobby::is_socket_flag_set(idx) == 0 && getaddr_80412210(pn, pifs, d)) {
             TLobby__sub_80414B98(b, 0x80, grp->f2);
             remove_80412210(g, b, d);
         }
@@ -6834,7 +6914,7 @@ s16 TLobby__sub_80412210(s16 idx) {
         grp->f28 = NULL;
         grp = next;
     }
-    if (is_socket_flag_set__6TLobbyFs(idx) == 0 && getaddr_80412210(pn, pifs, d)) {
+    if (TLobby::is_socket_flag_set(idx) == 0 && getaddr_80412210(pn, pifs, d)) {
         TLobby__sub_80414B98(a, 0x80, ifc->f4);
         remove_80412210(g, a, d);
     }
@@ -7038,7 +7118,7 @@ void TLobby__sub_804136AC(s16 i) {
 }
 
 void TLobby__sub_804136CC(s16 i) {
-    is_socket_flag_set__6TLobbyFs(i);
+    TLobby::is_socket_flag_set(i);
 }
 
 #pragma push
