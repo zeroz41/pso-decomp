@@ -15,6 +15,7 @@
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/render_util.h"
 
 struct W_80290250 { u8 pad[0xfc]; s32 bufp; s32 rc; u8 data[4]; };
 
@@ -29,10 +30,13 @@ extern const f32 lbl_805DD954;
 s32 find_shape_triangle_region(u8 *arg0);
 TChCrLoadAfsTextureReq *create_ch_cr_load_afs_texture_req(void *figure, void *list, void *slot, void *index);
 extern "C" {
-void calc_shape_region_coefficients(void *point);
-void blend_shape_chunk_vertices(void);
+void calc_shape_region_coefficients(f32 *point);
+s32 blend_shape_chunk_vertices(void);
+f32 vector_length(f32 *v);
+s32 normalize_vector(f32 *v);
 }
-struct CreationShapeModel { u8 pad[8]; f32 center[3]; };
+// Ninja chunk model (NJS_CNK_MODEL): vertex chunk list, polygon chunk list, bounds.
+struct CreationShapeModel { s32 *vertex_list; s16 *polygon_list; f32 center[3]; };
 struct CreationShapeNode { u32 eval_flags; CreationShapeModel *model; f32 pos[3]; s32 ang[3]; f32 scl[3]; };
 extern "C" {
 void TAdSinglePlyChrSelectGC__sub_802905A4(void* p, void* q);
@@ -62,7 +66,7 @@ void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern CreationTextureCacheEntry *char_select_current_entry;
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
-void blend_creation_proportion_shapes(void *);
+void blend_creation_proportion_shapes(f32 *);
 s32 TLobby__sub_8001FE7C(void *, int);
 void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 void mem_free(void *p);
@@ -311,8 +315,7 @@ extern "C" {
 void TCharaMaking__bind_head_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 void TCharaMaking__bind_body_shape_nodes(CharacterAppearanceFields *appearance, void *model);
 void *TCMCharacter__ct(void *arg0, void *arg1);
-extern void* creation_region_sample_index_table[24]; extern void* lbl_804D400C[18]; extern void* lbl_804D4054[21];
-#define creation_region_sample_index_table ((s32 *)creation_region_sample_index_table)
+extern s32 creation_region_sample_index_table[24]; extern CreationShapePoint lbl_804D400C[9]; extern void* lbl_804D4054[21];
 #define lbl_804D4054 ((s32 *)lbl_804D4054)
 #pragma defer_codegen on
 }
@@ -578,23 +581,23 @@ void TCMCharacter::run_task() {
     (this->*modes[char_select_active_flag])();
 }
 
-#undef creation_region_sample_index_table
 #undef lbl_804D4054
 
-void *creation_region_sample_index_table[24] = {
-    (void *)0x1, (void *)0x3, (void *)0x0, (void *)0x0,
-    (void *)0x4, (void *)0x3, (void *)0x3, (void *)0x5,
-    (void *)0x4, (void *)0x1, (void *)0x3, (void *)0x2,
-    (void *)0x2, (void *)0x6, (void *)0x3, (void *)0x3,
-    (void *)0x5, (void *)0x6, (void *)0x2, (void *)0x6,
-    (void *)0x7, (void *)0x8, (void *)0x7, (void *)0x2,
+// The three shape samples (corners in lbl_804D400C) of each proportion region.
+s32 creation_region_sample_index_table[24] = {
+    1, 3, 0,
+    0, 4, 3,
+    3, 5, 4,
+    1, 3, 2,
+    2, 6, 3,
+    3, 5, 6,
+    2, 6, 7,
+    8, 7, 2,
 };
-void *lbl_804D400C[18] = {
-    (void *)0x0, (void *)0x0, (void *)0x3eaaaaab, (void *)0x0,
-    (void *)0x3f2aaaab, (void *)0x0, (void *)0x3eaaaaab, (void *)0x3f000000,
-    (void *)0x0, (void *)0x3f800000, (void *)0x3eaaaaab, (void *)0x3f800000,
-    (void *)0x3f2aaaab, (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f800000,
-    (void *)0x3f800000, (void *)0x0,
+// The (width, height) corner of each shape sample in the proportion plane.
+CreationShapePoint lbl_804D400C[9] = {
+    {0.0f, 0.0f}, {1.0f / 3.0f, 0.0f}, {2.0f / 3.0f, 0.0f}, {1.0f / 3.0f, 0.5f}, {0.0f, 1.0f},
+    {1.0f / 3.0f, 1.0f}, {2.0f / 3.0f, 1.0f}, {1.0f, 1.0f}, {1.0f, 0.0f},
 };
 void *lbl_804D4054[21] = {
     (void *)0x0, (void *)0x0, (void *)&TAdSinglePlyChrSelectGC__sub_802908CC, (void *)&run_task__12TCMCharacterFv,
@@ -605,7 +608,6 @@ void *lbl_804D4054[21] = {
     (void *)0x0,
 };
 
-#define creation_region_sample_index_table ((s32 *)creation_region_sample_index_table)
 #define lbl_804D4054 ((s32 *)lbl_804D4054)
 
 void TCMCharacter::apply_character_appearance() {
@@ -821,7 +823,85 @@ s32 clear_creation_shape_eval_masks(f32 *dst, const f32 *a, const f32 *b, const 
     return 1;
 }
 
-void blend_creation_proportion_shapes(void *point) {
+// Blends the vertex chunks of the three source models into the destination
+// model's chunk list with the region weights: positions, normals (renormalised)
+// and the upper half of the Ninja flags word.
+s32 blend_shape_chunk_vertices(void) {
+    s32 *a;
+    s32 *b;
+    s32 *c;
+    s32 *d;
+    s32 n;
+    s32 extra;
+    s32 count;
+    s32 k;
+    s32 rest;
+    f32 v[3];
+    f32 fa;
+    f32 fb;
+    f32 fc;
+    CreationModelNodeState *dst = creation_shape_blend.destination;
+    for (k = 0; k < 3; k++) {
+    }
+    d = ((CreationShapeNode *)dst->node)->model->vertex_list;
+    a = ((CreationShapeNode *)creation_shape_blend.sources[0]->node)->model->vertex_list;
+    b = ((CreationShapeNode *)creation_shape_blend.sources[1]->node)->model->vertex_list;
+    c = ((CreationShapeNode *)creation_shape_blend.sources[2]->node)->model->vertex_list;
+    for (n = 1000; n > 0; n--) {
+        extra = TAdSinglePlyChrSelectGC::map_button_code(*d & 0xFF);
+        if (extra < 0) {
+            break;
+        }
+        count = (u32)d[1] >> 16;
+        d += 2;
+        a += 2;
+        b += 2;
+        c += 2;
+        for (; count > 0; count--) {
+            for (k = 3; k > 0; k--) {
+                *d++ = f32_bits(creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                                (creation_shape_blend.weights[0] * bits_to_f32(*a++) +
+                                 creation_shape_blend.weights[1] * bits_to_f32(*b++)));
+            }
+            rest = extra;
+            if (rest >= 3) {
+                v[0] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                       (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
+                v[1] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                       (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
+                v[2] = creation_shape_blend.weights[2] * bits_to_f32(*c++) +
+                       (creation_shape_blend.weights[0] * bits_to_f32(*a++) + creation_shape_blend.weights[1] * bits_to_f32(*b++));
+                if (vector_length(v) != lbl_805DD940) {
+                    normalize_vector(v);
+                }
+                d[0] = f32_bits(v[0]);
+                d[1] = f32_bits(v[1]);
+                d[2] = f32_bits(v[2]);
+                d += 3;
+                rest -= 3;
+            }
+            if (rest >= 1) {
+                fa = (s32)((u32)*a++ >> 16);
+                fb = (s32)((u32)*b++ >> 16);
+                fc = (s32)((u32)*c++ >> 16);
+                *d = ((s32)(creation_shape_blend.weights[2] * fc +
+                            (creation_shape_blend.weights[0] * fa + creation_shape_blend.weights[1] * fb)) << 16) |
+                     (*d & 0xFFFF);
+                d++;
+                rest--;
+            }
+            if (rest > 0) {
+                d += rest;
+                a += rest;
+                b += rest;
+                c += rest;
+            }
+        }
+    }
+    return 1;
+}
+
+void blend_creation_proportion_shapes(f32 *point) {
     s32 samples[3];
     u32 flags;
     s32 n;
