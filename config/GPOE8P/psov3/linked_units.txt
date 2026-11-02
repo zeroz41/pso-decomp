@@ -471,6 +471,7 @@ pso/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/TObjEneIllGill.cpp
 pso/enemy/TObjEneLappy.cpp
 pso/enemy/TObjEneLappy_800F5DE0.cpp
+pso/enemy/TObjEneMe1Canadin.cpp
 pso/enemy/TObjEneMe1CanadinLeader.cpp
 pso/enemy/TObjEneMe1CanadinLeader_8009F4A0.cpp
 pso/enemy/TObjEneMe1Canadin_8009F504.cpp
