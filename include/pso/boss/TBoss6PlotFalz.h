@@ -93,4 +93,9 @@ extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 a, f32 b);
 }
 
+extern "C" {
+// TRUE when the sphere (pos, r) is out of the arena (inferred from TBoss6Rock).
+s32 TBoss6PlotFalz__sub_802AB6CC(void *pos, f32 r);
+}
+
 #endif

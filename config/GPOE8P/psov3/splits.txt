@@ -12161,21 +12161,13 @@ pso/object/TObjKabochaLobby.cpp:
 	.sdata2     start:0x805DFF38 end:0x805DFF48
 
 pso/boss/TBoss6Rock.cpp:
-	.text       start:0x803537D4 end:0x8035477C
-	.rodata     start:0x80479290 end:0x80479298
-	.sdata2     start:0x805DFF54 end:0x805DFF60
-
-pso/boss/TBoss6Rock_8035477C.cpp:
-	.text       start:0x8035477C end:0x80354A30
+	.text       start:0x803537D4 end:0x80354BE4
+	.rodata     start:0x804791B8 end:0x804792AC
+	.data       start:0x804F1230 end:0x804F12D0
 	.bss        start:0x80543778 end:0x80543978
-
-pso/boss/TBoss6Rock_80354A30.cpp:
-	.text       start:0x80354A30 end:0x80354A44
-
-pso/boss/TBoss6Rock_80354A44.cpp:
-	.text       start:0x80354A44 end:0x80354BE4
-	.data       start:0x804F1230 end:0x804F1260
-	.sdata      start:0x805D4388 end:0x805D438C
+	.sdata      start:0x805D4388 end:0x805D4390
+	.sbss       start:0x805D6EF0 end:0x805D6F08
+	.sdata2     start:0x805DFF48 end:0x805DFFA8
 
 pso/unk/text_80354BE4.cpp:
 	.text       start:0x80354BE4 end:0x80354EC8

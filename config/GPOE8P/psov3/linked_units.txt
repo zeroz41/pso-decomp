@@ -270,10 +270,8 @@ pso/boss/TBoss6Mag.cpp
 pso/boss/TBoss6MagMine.cpp
 pso/boss/TBoss6Mine.cpp
 pso/boss/TBoss6PlotFalz.cpp
+pso/boss/TBoss6Rock.cpp
 pso/boss/TBoss6RockChase.cpp
-pso/boss/TBoss6Rock_8035477C.cpp
-pso/boss/TBoss6Rock_80354A30.cpp
-pso/boss/TBoss6Rock_80354A44.cpp
 pso/boss/TBoss6SwordShot.cpp
 pso/boss/TBoss6Thanks.cpp
 pso/boss/TBoss6Thanks_8035D1F4.cpp

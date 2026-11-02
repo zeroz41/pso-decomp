@@ -621,7 +621,6 @@ void TBoss6Type2__vt47(void);
 void TBoss6Type2__vt48(void);
 void TBoss6Type2__sub_8032E708(void *p, s32 v);
 s32 set_action_field_0x408__11TBoss6Type2Fs(s32, u16);
-s32 TBoss6Rock__sub_80353A14(int, Vec_802B9A68 *, f32 *);
 s32 is_rock_state_2__10TBoss6RockFi(s32);
 s32 TBoss6Type2__sub_80356E50(s32 *, s32, s32);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
@@ -743,7 +742,7 @@ s32 TBoss6Type2::is_player_in_rock_area(s32 id) {
     i = 0;
     k = 0.0f;
     do {
-        if (TBoss6Rock__sub_80353A14(i, &a, &r) != 0) {
+        if (TBoss6Rock__sub_80353A14(i, (Vec *)&a, &r) != 0) {
             VecCopy((Vec *)&b, (const Vec *)&p->pos);
             subtract_vector(&b, &a);
             b.y = k;
