@@ -5,11 +5,6 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 
-struct RecoveredGlobal_8034A5D0_lbl_804EFF80 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Vec3_8034A090 {
     f32 x;
     f32 y;
@@ -35,12 +30,24 @@ struct T_8034A198 {
 };
 
 extern "C" {
-s32 __nw__7TObjectFUl(int);
-s32 TAdLoadQuestPrtTxtGC__ct(int, void *, void *);
-extern RecoveredGlobal_8034A5D0_lbl_804EFF80 quest_load_prt_txt_by_slot;
+TAdLoadQuestPrtTxtGC *quest_load_prt_txt_by_slot[3] = {NULL, NULL, NULL};
 extern const f32 lbl_805DFD20;
 extern const f32 lbl_805DFD24;
-typedef char RecoveredGlobal_8034A5D0_lbl_804EFF80_size[sizeof(RecoveredGlobal_8034A5D0_lbl_804EFF80) == 0xC ? 1 : -1];
+extern const f32 lbl_805DFD28;
+extern const f32 lbl_805DFD2C;
+extern const f32 lbl_805DFD30;
+extern const f32 lbl_805DFD34;
+extern const f32 lbl_805DFD38;
+extern const f32 lbl_805DFD3C;
+extern const f32 lbl_805DFD40;
+extern const f32 lbl_805DFD44;
+extern const f32 lbl_805DFD48;
+extern const f32 lbl_805DFD4C;
+extern const f32 lbl_805DFD50;
+extern const f32 lbl_805DFD54;
+extern const f32 lbl_805DFD58;
+// Points at the "TAdLoadQuestPrtTxtGC" class-name string.
+extern const char *lbl_805D4308;
 
 void TAdLoadQuestPrtTxtGC::run_task() {
     TAdLoadQuestPrtTxtGC_8034A090 *self = (TAdLoadQuestPrtTxtGC_8034A090 *)this;
@@ -88,18 +95,72 @@ TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
     }
 }
 
-s32 get_or_create_prt_txt__14TAdLoadQuestGCFii(s32 arg0, s32 arg1) {
-    s32 temp_r30;
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r30 = arg1 * 4;
-    if ((u32) *(s32 *)((s8 *)&quest_load_prt_txt_by_slot.value + temp_r30) == 0U) {
-        temp_r3 = __nw__7TObjectFUl(0x228);
-        var_r0 = temp_r3;
-        if (var_r0 != 0) {
-            var_r0 = TAdLoadQuestPrtTxtGC__ct((int)temp_r3, (void *)arg0, (void *)arg1);
-        }
-        *(s32 *)((s8 *)&quest_load_prt_txt_by_slot.value + temp_r30) = var_r0;
+#pragma push
+#pragma fp_contract on
+// Lays the loading-text particles out for this slot: a column (0), two rows (1) or a 4x8 grid (2).
+TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(parent) {
+    s32 i;
+    s32 j;
+    m_name = lbl_805D4308;
+    this->slot = slot;
+    m_224 = 0;
+    for (i = 0; i < 32; i++) {
+        particles[i] = NULL;
     }
-    return *(s32 *)((s8 *)&quest_load_prt_txt_by_slot.value + temp_r30);
+    switch (this->slot) {
+    case 0:
+        particle_count = 22;
+        for (i = 0; i < particle_count; i++) {
+            particle_pos[i].x = lbl_805DFD28;
+            particle_pos[i].y = lbl_805DFD30 * i + lbl_805DFD2C;
+            particle_pos[i].z = lbl_805DFD34;
+            particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 15, 1);
+            if (particles[i] != NULL) {
+                particles[i]->set_flags(0xC0);
+                particles[i]->enable();
+            }
+        }
+        break;
+    case 1:
+        particle_count = 19;
+        for (i = 0; i < particle_count; i++) {
+            f32 x = i > 9 ? lbl_805DFD38 : lbl_805DFD3C;
+            f32 y = i > 9 ? lbl_805DFD40 : lbl_805DFD44;
+            s32 column = i > 9 ? i - 9 : i;
+            particle_pos[i].x = lbl_805DFD30 * column + x;
+            particle_pos[i].y = y;
+            particle_pos[i].z = lbl_805DFD48;
+            particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 8, 1);
+            if (particles[i] != NULL) {
+                particles[i]->set_flags(0xC0);
+            }
+        }
+        break;
+    case 2:
+        particle_count = 32;
+        for (i = 0; i < 8; i++) {
+            f32 y = lbl_805DFD50 * i + lbl_805DFD4C;
+            for (j = 0; j < 4; j++) {
+                s32 n = i * 4 + j;
+                particle_pos[n].x = lbl_805DFD30 * j + lbl_805DFD54;
+                particle_pos[n].y = y;
+                particle_pos[n].z = lbl_805DFD58;
+                particles[n] = (TParticleCtrl *)create_particle(&particle_pos[n], 8, 1);
+                // The original tests particles[i] here, not the particle just created.
+                if (particles[i] != NULL) {
+                    particles[i]->set_flags(0xC0);
+                }
+            }
+        }
+        break;
+    }
+}
+
+#pragma pop
+
+s32 get_or_create_prt_txt__14TAdLoadQuestGCFii(s32 parent, s32 slot) {
+    if (quest_load_prt_txt_by_slot[slot] == NULL) {
+        quest_load_prt_txt_by_slot[slot] = new TAdLoadQuestPrtTxtGC((TObject *)parent, slot);
+    }
+    return (s32)quest_load_prt_txt_by_slot[slot];
 }

@@ -12291,6 +12291,8 @@ pso/ui/TAdLoadQuestPrtTxtGC.cpp:
 
 pso/unk/text_8034A090.cpp:
 	.text       start:0x8034A090 end:0x8034A63C
+	.rodata     start:0x804789A8 end:0x804789B0
+	.data       start:0x804EFF80 end:0x804EFFA4
 
 pso/ui/TAdPsoPassSaveGC.cpp:
 	.text       start:0x8034A63C end:0x8034A7CC

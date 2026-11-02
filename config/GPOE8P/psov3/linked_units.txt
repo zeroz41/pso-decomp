@@ -3410,6 +3410,7 @@ pso/unk/text_8033FE30.cpp
 pso/unk/text_8033FF78.cpp
 pso/unk/text_8034960C.cpp
 pso/unk/text_80349B8C.cpp
+pso/unk/text_8034A090.cpp
 pso/unk/text_8034AD38.cpp
 pso/unk/text_8034CEDC.cpp
 pso/unk/text_8034D3D0.cpp
