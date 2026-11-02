@@ -20,7 +20,6 @@ struct TextureOutput {int loaded; u8 names[8][32]; struct OutputSlot slots[8]; s
 
 extern "C" {
 s32 TLobby__sub_801E3E9C(s32, const void *, void *, s32);
-extern s32 lbl_8045122C[];
 extern void *player_class_texture_buffer_table[];
 extern Ent_8028E6B4 player_class_texture_archive_table[];
 u8 lbl_80518880[0x228];

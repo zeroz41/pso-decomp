@@ -9420,7 +9420,9 @@ pso/ui/TAdSinglePlyChrSelectGC_8028C650.cpp:
 
 pso/menu/TChCrLoadGmNjReq.cpp:
 	.text       start:0x8028C6EC end:0x8028C8A8
+	.rodata     start:0x80450D48 end:0x80450D60
 	.data       start:0x804D3728 end:0x804D3740
+	.sdata      start:0x805D3B58 end:0x805D3B60
 
 pso/unk/text_8028C8A8.cpp:
 	.text       start:0x8028C8A8 end:0x8028C8E0
@@ -9430,7 +9432,9 @@ pso/ui/TAdSinglePlyChrSelectGC_8028C8E0.cpp:
 
 pso/misc/TChCrLoadReq.cpp:
 	.text       start:0x8028D088 end:0x8028D490
+	.rodata     start:0x80450D60 end:0x80450D70
 	.data       start:0x804D3740 end:0x804D3788
+	.sdata      start:0x805D3B60 end:0x805D3B68
 	.sbss       start:0x805D6510 end:0x805D6518
 
 pso/unk/text_8028D490.cpp:
@@ -9450,7 +9454,9 @@ pso/object/TObjCMMainMenu_8028D9A8.cpp:
 
 pso/misc/TCharaMaking.cpp:
 	.text       start:0x8028DC40 end:0x8028E3F4
-	.rodata     start:0x80451278 end:0x80451280
+	.rodata     start:0x80450D70 end:0x80451280
+	.data       start:0x804D3838 end:0x804D3910
+	.sdata      start:0x805D3B68 end:0x805D3B70
 	.sdata2     start:0x805DD928 end:0x805DD930
 
 pso/misc/TCharaMaking_8028E3F4.cpp:

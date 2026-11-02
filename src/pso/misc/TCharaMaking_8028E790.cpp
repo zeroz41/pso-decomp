@@ -26,7 +26,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 void *TCMCharacter__ct(void *arg0, void *arg1);
 s32 create__14TObjCMMainMenuFv(void *);
 extern RecoveredGlobal_8028E9A4___vt__12TCharaMaking __vt__12TCharaMaking;
-extern s32 lbl_805D3B6C;
 extern s32 creation_main_menu_obj;
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
@@ -109,7 +108,7 @@ u8 *TCharaMaking__ct(u8 *arg0, s32 arg1) {
     u32 motion;
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &__vt__12TCharaMaking.value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3B6C;
+    ((TCharaMaking *)arg0)->m_name = lbl_805D3B6C;
     motion = ((u32)__nw__7TObjectFUl(0x10C));
     if (motion != 0U) {
         TCMCharacter__ct((void *)motion, (arg0));

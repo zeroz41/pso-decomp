@@ -3938,6 +3938,8 @@ force_active:
   - char_to_letter_index__9TItemDataFPvSc
   - chara_making_load_buffer
   - character_select_scene_resource_callbacks
+  - charamakingmot_model_names
+  - charamakingmot_motion_names
   - chasing_state__14TObjEneBm5WolfFl
   - chat_dispatch_accepted_result__FPl
   - chat_log_remove_line__Fl
@@ -6685,6 +6687,8 @@ force_active:
   - lbl_805D3998
   - lbl_805D3B30
   - lbl_805D3B38
+  - lbl_805D3B58
+  - lbl_805D3B60
   - lbl_805D3CC8
   - lbl_805D3E50
   - lbl_805D3F08
