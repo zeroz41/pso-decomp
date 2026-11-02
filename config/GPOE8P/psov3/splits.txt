@@ -10027,6 +10027,7 @@ pso/misc/TPlayerFootStamp_802B0808.cpp:
 pso/unk/text_802B0A44.cpp:
 	.text       start:0x802B0A44 end:0x802B0E2C
 	.ctors      start:0x80433FC4 end:0x80433FC8
+	.data       start:0x804DE540 end:0x804DE840
 	.sdata2     start:0x805DE228 end:0x805DE22C
 
 pso/boss/TBoss6EmptyWarp_802B0E2C.cpp:
