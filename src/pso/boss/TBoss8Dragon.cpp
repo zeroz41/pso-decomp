@@ -37,6 +37,8 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/vector.h"
+#include "pso/enemy/TObjEneDD_800BB804.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
 
 struct VBase_18 { char pad[0x18]; };
 
@@ -503,13 +505,38 @@ struct RecoveredGlobal_802F45A0_lbl_80474580 { s32 value; u8 remaining[0x88]; };
 
 typedef char RecoveredGlobal_802F45A0_lbl_80474580_size[sizeof(RecoveredGlobal_802F45A0_lbl_80474580) == 0x8C ? 1 : -1];
 
-struct RecoveredGlobal_802F45A0_lbl_80541DE8 { s32 value; u8 remaining[0x8]; };
+struct RecoveredGlobal_802F45A0_lbl_80541DE8 { Vec value; };
 
 typedef char RecoveredGlobal_802F45A0_lbl_80541DE8_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DE8) == 0xC ? 1 : -1];
 
-struct RecoveredGlobal_802F45A0_lbl_80541DF4 { s32 value; u8 remaining[0x38]; };
+// Third argument of TBoss8Dragon::clone_node_tree, stored in every cloned node.
+struct Boss8DragonNodeState {
+    s32 unk0;
+    s32 unk4;
+    f32 unk8;
+    f32 unkC;
+    f32 unk10;
+    f32 unk14;
+};
 
-typedef char RecoveredGlobal_802F45A0_lbl_80541DF4_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DF4) == 0x3C ? 1 : -1];
+struct RecoveredGlobal_802F45A0_lbl_80541DF4 {
+    Vec value;
+    Vec unkC;
+    Vec unk18;
+};
+
+// Dragon BML resource loaded by TBoss8Dragon__sub_802FDA78; only its model set is read here.
+struct Boss8DragonModelSet {
+    u8 pad_0[0x8];
+    void *node_tree;
+};
+
+struct Boss8DragonBmlRes {
+    u8 pad_0[0x42C];
+    Boss8DragonModelSet *models;
+};
+
+typedef char RecoveredGlobal_802F45A0_lbl_80541DF4_size[sizeof(RecoveredGlobal_802F45A0_lbl_80541DF4) == 0x24 ? 1 : -1];
 
 struct Stack_802F4760 {
     s32 sp8;
@@ -550,6 +577,14 @@ struct Vec_802F4990 { f32 x, y, z; };
 typedef char RecoveredGlobal_802F4760_lbl_80541E30_size[sizeof(RecoveredGlobal_802F4760_lbl_80541E30) == 0xC ? 1 : -1];
 
 typedef char RecoveredGlobal_802F4760_lbl_80541E3C_size[sizeof(RecoveredGlobal_802F4760_lbl_80541E3C) == 0xC ? 1 : -1];
+
+s32 TBoss8Dragon__data_80541DC8[5];
+u8 *TBoss8Dragon__data_80541DDC[3];
+RecoveredGlobal_802F45A0_lbl_80541DE8 lbl_80541DE8;
+RecoveredGlobal_802F45A0_lbl_80541DF4 lbl_80541DF4;
+Boss8DragonNodeState lbl_80541E18;
+RecoveredGlobal_802F4760_lbl_80541E30 boss8_dragon_reference_pos_vec;
+RecoveredGlobal_802F4760_lbl_80541E3C dragon_forward_reference_vec;
 
 struct VBase_14_f8ef8c { char pad[0x14]; };
 
@@ -1500,7 +1535,9 @@ void draw_chunk_object(void *child);
 
 extern u8 TBoss8Dragon__body_effect_parameters[];
 extern s32 TBoss8Dragon__data_80541DC8[];
-extern u32 TBoss8Dragon__data_805D6988;
+extern Boss8DragonBmlRes *TBoss8Dragon__data_805D6988;
+extern s32 lbl_805D69A4;
+extern const f32 lbl_805DEEE8;
 extern s32 TBoss8Dragon__data_805D698C;
 extern s32 TBoss8Dragon__data_805D6994;
 extern s32 TBoss8Dragon__data_805D6998;
@@ -1970,12 +2007,11 @@ extern void *lbl_804E4D9C[27];
 void TBoss8Dragon__sub_802F4B90(u8 *arg0, u32 arg1);
 void update_colliders__12TBoss8DragonFPv(TBoss8Dragon *arg0);
 u8 *__dt__12TBoss8DragonFv(u8 *arg0, s16 arg1);
-void *TBoss8Dragon__camera_offset_index_table[5] = {
-    (void *)0x12, (void *)0x14, (void *)0x15, (void *)0x16,
-    (void *)0x17,
+s32 TBoss8Dragon__camera_offset_index_table[5] = {
+    0x12, 0x14, 0x15, 0x16, 0x17,
 };
-void *lbl_804E4C1C[3] = {
-    (void *)0x11, (void *)0x12, (void *)0x13,
+s32 lbl_804E4C1C[3] = {
+    0x11, 0x12, 0x13,
 };
 void *TBoss8Dragon__data_804E4C28[5] = {
     (void *)0x0, (void *)0x1, (void *)0x2, (void *)0x3,
@@ -7067,6 +7103,54 @@ void TBoss8Dragon::free_static() {
     }
 }
 
+void TBoss8Dragon__sub_802FDA78(void) {
+    s32 i;
+    s32 j;
+
+    TBoss8Dragon__data_805D6988 = (Boss8DragonBmlRes *)load_enemy_bml_resource((u8 *)lbl_804E4E08);
+    lbl_805D69A4 = ((TObjBoss2Tunnel *)TBoss8Dragon__data_805D6988->models->node_tree)->count_tree_nodes();
+    TBoss8Dragon__data_805D69A8 = (s32)TQuestVmDownLoadServer::alloc(lbl_805D69A4 * 0x50);
+    lbl_80541E18.unk0 = 0;
+    lbl_80541E18.unk4 = 0;
+    lbl_80541E18.unk8 = TBoss8Dragon__data_805DED50;
+    lbl_80541E18.unkC = TBoss8Dragon__data_805DED50;
+    lbl_80541E18.unk10 = TBoss8Dragon__data_805DED50;
+    lbl_80541E18.unk14 = TBoss8Dragon__data_805DED50;
+    TBoss8Dragon::clone_node_tree(TBoss8Dragon__data_805D6988->models->node_tree, (void *)TBoss8Dragon__data_805D69A8,
+                                  (int)&lbl_80541E18);
+    TBoss8Dragon__data_805D698C = 0;
+    lbl_805D6990 = 60;
+    lbl_80541DE8.value.x = TBoss8Dragon__data_805DED50;
+    lbl_80541DE8.value.y = TBoss8Dragon__data_805DED50;
+    lbl_80541DE8.value.z = TBoss8Dragon__data_805DED50;
+    lbl_80541DF4.value.x = TBoss8Dragon__data_805DED50;
+    lbl_80541DF4.value.y = TBoss8Dragon__data_805DED50;
+    lbl_80541DF4.value.z = TBoss8Dragon__data_805DEDC8;
+    lbl_80541DF4.unkC.x = TBoss8Dragon__data_805DED50;
+    lbl_80541DF4.unkC.y = sin_table_lookup(-0x1555);
+    lbl_80541DF4.unkC.z = cos_table_lookup(-0x1555);
+    vec3_add_to(&lbl_80541DF4.unkC, &lbl_80541DF4.value);
+    lbl_80541DF4.unk18.x = TBoss8Dragon__data_805DED50;
+    lbl_80541DF4.unk18.y = lbl_805DEEE8;
+    lbl_80541DF4.unk18.z = TBoss8Dragon__data_805DED74;
+    TBoss8Dragon__data_805D6994 = 0;
+    TBoss8Dragon__data_805D6998 = 0;
+    TBoss8Dragon__data_805D699C = 0;
+    TBoss8Dragon__data_805D69A0 = 0;
+    TBoss8Dragon__data_805D69AC = 0;
+    for (i = 0; i < 5; i++) {
+        TBoss8Dragon__data_80541DC8[i] = (s32)TLobby::dispatch_shared_handler_b(TBoss8Dragon__camera_offset_index_table[i]);
+    }
+    for (j = 0; j < 3; j++) {
+        TBoss8Dragon__data_80541DDC[j] = (u8 *)TLobby::dispatch_shared_handler_a(lbl_804E4C1C[j]);
+    }
+    lbl_805D69B4 = 0;
+    TBoss8Dragon__data_805D69B8 = 0;
+    TBoss8Dragon__data_805D69BC = 0xFFFF;
+    TWindowCtrl::init_all_slots();
+    fn_802FE48C();
+}
+
 void *TBoss8Dragon::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x8A4);
     if (o != NULL) {
@@ -7132,9 +7216,3 @@ void get_camera_offsets__12TBoss8DragonFPvPv(Vec_802FDC1C *arg0, Vec_802FDC1C *a
 
 }
 
-s32 TBoss8Dragon__data_80541DC8[5];
-u8 *TBoss8Dragon__data_80541DDC[3];
-RecoveredGlobal_802F45A0_lbl_80541DE8 lbl_80541DE8;
-RecoveredGlobal_802F45A0_lbl_80541DF4 lbl_80541DF4;
-RecoveredGlobal_802F4760_lbl_80541E30 boss8_dragon_reference_pos_vec;
-RecoveredGlobal_802F4760_lbl_80541E3C dragon_forward_reference_vec;

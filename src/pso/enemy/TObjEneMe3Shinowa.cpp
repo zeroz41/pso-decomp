@@ -1,4 +1,5 @@
 #include "pso/animation/MotionContext.h"
+#include "pso/enemy/TObjEneMe3Shinowa.h"
 #include "pso/misc/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
@@ -535,7 +536,6 @@ s32 post_translate_matrix(void *);
 extern const f64 TObjEneMe3ShinowaMirage__data_8043CFE0;
 extern s32 TObjEneMe3ShinowaMirage__data_805D52AC;
 extern const f32 TObjEneMe3ShinowaMirage__data_805DA5B8;
-extern const f32 TObjEneMe3ShinowaMirage__data_805DA5DC;
 extern const f32 TObjEneMe3ShinowaMirage__data_805DA5E4;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1);
 struct Tgt_800E54E8 { u16 id; u8 pad[6]; };
@@ -1501,7 +1501,7 @@ void TObjEneMe3ShinowaMirage__sub_800E69F0(u8 *arg0, s32 arg1);
 void action__17TObjEneMe3ShinowaFl(u8 *arg0, s32 arg1);
 void dispatch_action__23TObjEneMe3ShinowaMirageFPvUii(Obj_800E6DD8 *arg0, u32 arg1, s32 arg2);
 void TObjEneMe3ShinowaMirage__sub_800E6F0C(Obj_800E6F0C *self);
-int select_and_apply_target__23TObjEneMe3ShinowaMirageFPv(void* p);
+int vfunc_104__17TObjEneMe3ShinowaFf(void* p);
 void vfunc_89__17TObjEneMe3ShinowaFv(void *arg0);
 void vfunc_111__17TObjEneMe3ShinowaFv(void);
 void TObjEneMe3Shinowa__sub_800E7268(u8 *arg0);
@@ -1540,8 +1540,6 @@ extern s32 TObjEneMe3ShinowaMirage__render_node_index;
 extern s32 saved_model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-extern const f32 lbl_805DA5D8;
-extern const f32 lbl_805DA5E0;
 extern s32 lbl_805DA634;
 extern const f32 lbl_805DA638;
 extern const f32 lbl_805DA63C;
@@ -1616,7 +1614,7 @@ extern "C" {
 void vfunc_83__12TObjEneDD_STFv();
 }
 extern "C" {
-void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self);
+void vfunc_118__17TObjEneMe3ShinowaFv(TObjEneMe3Shinowa *self);
 }
 extern "C" {
 void vfunc_105__23TObjEneMe3ShinowaMirageFv();
@@ -1957,10 +1955,10 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
     (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&select_and_apply_target__23TObjEneMe3ShinowaMirageFPv, (void *)&vfunc_105__23TObjEneMe3ShinowaMirageFv, (void *)&can_hit_same_target__23TObjEneMe3ShinowaMirageFv, (void *)&vfunc_107__23TObjEneMe3ShinowaMirageFv,
+    (void *)&vfunc_104__17TObjEneMe3ShinowaFf, (void *)&vfunc_105__23TObjEneMe3ShinowaMirageFv, (void *)&can_hit_same_target__23TObjEneMe3ShinowaMirageFv, (void *)&vfunc_107__23TObjEneMe3ShinowaMirageFv,
     (void *)&update_player_state_default__23TObjEneMe3ShinowaMirageFv, (void *)&update_effect__23TObjEneMe3ShinowaMirageFv, (void *)&dispatch_if_active__23TObjEneMe3ShinowaMirageFv, (void *)&vfunc_111__17TObjEneMe3ShinowaFv,
     (void *)&apply_effect_pair__23TObjEneMe3ShinowaMirageFv, (void *)&action__17TObjEneMe3ShinowaFl, (void *)&vfunc_114__17TObjEneMe3ShinowaFl, (void *)&TObjEneMe3ShinowaMirage__vt113,
-    (void *)&vfunc_116__17TObjEneMe3ShinowaFl, (void *)&update_mirage__17TObjEneMe3ShinowaFv, (void *)&TObjEneMe3ShinowaMirage__sub_800E47DC,
+    (void *)&vfunc_116__17TObjEneMe3ShinowaFl, (void *)&update_mirage__17TObjEneMe3ShinowaFv, (void *)&vfunc_118__17TObjEneMe3ShinowaFv,
 };
 #define shinowa_mirage_model_init_data ((u8 *)shinowa_mirage_model_init_data)
 
@@ -1969,29 +1967,29 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
 #pragma pool_data off
 // Debug viewer: the mirage and gold-texture switches, then the model posed in
 // action parameters[2] at frame parameters[3] (unposed when mode is not 0).
-void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self) {
+void TObjEneMe3Shinowa::vfunc_118() {
     s32 gold;
     NJS_TEXNAME *textures;
     u32 saved_texaddr[3];
     s32 i;
-    if (self->get_target_info() != 0) {
-        if (self->sub_800E701C() != 0) {
+    if (this->get_target_info() != 0) {
+        if (this->sub_800E701C() != 0) {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:ENABLE");
         } else {
             debug_printf_at(pack_debug_text_position(0, 0), "MIRAGE:DISABLE");
         }
-        if (self->sub_800E6FE0() != 0) {
+        if (this->sub_800E6FE0() != 0) {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:GOLD");
         } else {
             debug_printf_at(pack_debug_text_position(0, 1), "TEX:NORMAL");
         }
     }
-    gold = self->sub_800E6FE0();
-    if (self->update_object_view_visibility(lbl_805DA5D8, TObjEneMe3ShinowaReal__data_805DA5CC) != 0) {
-        TObjFish::set_global_param(self->texlist);
+    gold = this->sub_800E6FE0();
+    if (this->update_object_view_visibility(400.0f, TObjEneMe3ShinowaReal__data_805DA5CC) != 0) {
+        TObjFish::set_global_param(this->texlist);
         TObjPlayer::toggle_particle_effect();
         if (gold != 0) {
-            textures = ((NJS_TEXLIST *)self->texlist)->textures;
+            textures = ((NJS_TEXLIST *)this->texlist)->textures;
             for (i = 0; i < 3; i++) {
                 saved_texaddr[i] = textures[i + 3].texaddr;
             }
@@ -2000,17 +1998,17 @@ void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self) {
             }
         }
         push_matrix();
-        post_translate_matrix(&self->position);
-        rotate_matrix_y(0, self->rotation_y);
-        scale_matrix(0, TObjEneMe3ShinowaMirage__data_805DA5DC, TObjEneMe3ShinowaMirage__data_805DA5DC,
-                     TObjEneMe3ShinowaMirage__data_805DA5DC);
+        post_translate_matrix(&this->position);
+        rotate_matrix_y(0, this->rotation_y);
+        scale_matrix(0, 1.0f, 1.0f,
+                     1.0f);
         for (i = 0; i < 3; i++) {
             if (lbl_80501000[i] != NULL) {
                 *lbl_80501000[i] = 0xB000FFB0;
             }
         }
-        if (self->mode == 0) {
-            s32 action = (s32)self->parameters[2];
+        if (this->mode == 0) {
+            s32 action = (s32)this->parameters[2];
             AnimationMotion *motion;
             f32 at_frame;
             if (action < 0) {
@@ -2018,26 +2016,26 @@ void TObjEneMe3ShinowaMirage__sub_800E47DC(TObjEneMe3Shinowa *self) {
             } else if (action >= 11) {
                 action = 10;
             }
-            motion = self->motion_list[self->action_table[action].motion].motion;
-            at_frame = self->parameters[3];
+            motion = this->motion_list[this->action_table[action].motion].motion;
+            at_frame = this->parameters[3];
             if (at_frame < TObjEneMe3ShinowaMirage__data_805DA5B8) {
                 at_frame = TObjEneMe3ShinowaMirage__data_805DA5B8;
             } else if (at_frame > (f32)(motion->frameCount - 1)) {
                 at_frame = (f32)(motion->frameCount - 1);
             }
             set_motion_packed_rotation();
-            draw_model_motion(self->model, motion, at_frame);
+            draw_model_motion(this->model, motion, at_frame);
             clear_motion_packed_rotation();
-            self->current_motion = (NJS_MOTION *)motion;
-            self->frame = at_frame;
-            print_float_padded(pack_debug_text_position(0, 4), 5, self->get_node_world_y());
+            this->current_motion = (NJS_MOTION *)motion;
+            this->frame = at_frame;
+            print_float_padded(pack_debug_text_position(0, 4), 5, this->get_node_world_y());
         } else {
             model_render_flags &= ~0x400;
-            draw_chunk_object(self->model);
+            draw_chunk_object(this->model);
         }
         pop_matrix();
         if (gold != 0) {
-            textures = ((NJS_TEXLIST *)self->texlist)->textures;
+            textures = ((NJS_TEXLIST *)this->texlist)->textures;
             for (i = 0; i < 3; i++) {
                 textures[i + 3].texaddr = saved_texaddr[i];
             }
@@ -2063,7 +2061,7 @@ void TObjEneMe3ShinowaMirage::draw_model() {
         var_r31 = 0;
     } else if (is_main_phase_15__9TObjEneDDFv() != 0) {
         var_r31 = ((VObj_18_82072c *)(this))->m9(lbl_805D9E88, lbl_805D9E84, TObjEneMe3ShinowaReal__data_805DA5CC);
-    } else if (((VObj_18_82072c *)(this))->m8(lbl_805DA5D8, TObjEneMe3ShinowaReal__data_805DA5CC) != 0) {
+    } else if (((VObj_18_82072c *)(this))->m8(400.0f, TObjEneMe3ShinowaReal__data_805DA5CC) != 0) {
         var_r31 = 1;
     } else {
         var_r31 = 0;
@@ -2143,7 +2141,7 @@ void TObjEneMe3ShinowaMirage::state_break_apart(s32 arg1) {
         switch (*(s32 *)((s8 *)arg0 + 0x404)) {
         case 0:
             advance_animation();
-            if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA5E0) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)TObjEneMe3ShinowaMirage__data_805DA5E4)) != 0)) {
+            if ((((TObjMotion *)arg0)->is_passing_frame((f32)13.0f) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32)TObjEneMe3ShinowaMirage__data_805DA5E4)) != 0)) {
                 play_sound_effect((void *) ((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x4003AD12)), arg0 + 0x38, 0, 0);
             }
             if (((TObjEneDD *)arg0)->get_flag_b4() != 0) {
@@ -2361,7 +2359,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(void *arg0_, s32 arg1) {
         VO->m92();
         F(s32, 0x404) = 0;
         F(s32, 0x408) = 0;
-        F(f32, 0x410) = TObjEneMe3ShinowaMirage__data_805DA5DC;
+        F(f32, 0x410) = 1.0f;
         F(f32, 0x37C) = lbl_805DA5F8;
         F(s32, 0x40C) = ((F(s32, 0x3D4) - (s32)floor_to_float(lbl_805DA5FC)) * 0x3333) / 40;
         VecCopy((Vec *)home, (const Vec *)(arg0 + 0x38));
@@ -2417,7 +2415,7 @@ void TObjEneMe3ShinowaMirage__sub_800E54E8(void *arg0_, s32 arg1) {
             VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&savePos);
             VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)&save2FC);
         } else {
-            F(f32, 0x410) = TObjEneMe3ShinowaMirage__data_805DA5DC;
+            F(f32, 0x410) = 1.0f;
             VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&savePos);
             VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)&save2FC);
             subtract_vector(&dest, arg0 + 0x38);
@@ -2768,8 +2766,8 @@ void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1) {
             ((TObjMotion *)arg0)->advance_animation();
             if (((TObjMotion *)arg0)->is_passing_frame((f32)TObjEneMe3ShinowaMirage__data_805DA5E4) != 0) {
                 if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
-                    if (((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m18(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC) != 0) {
-                        ((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m20(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC);
+                    if (((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m18(arg0, 1.0f) != 0) {
+                        ((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m20(arg0, 1.0f);
                         ((VObj_18_2add4a *)*(u8 **)((s8 *)arg0 + 0x390))->m23(arg0, TObjEneMe3ShinowaMirage__data_805DA608);
                     }
                 }
@@ -3133,14 +3131,14 @@ void TObjEneMe3Shinowa::sub_800E6F64() {
 
 s32 TObjEneMe3Shinowa::sub_800E6FE0() {
     u8 *arg0 = (u8 *)this;
-    return *(f32 *)((s8 *)arg0 + 0x358) >= TObjEneMe3ShinowaMirage__data_805DA5DC;
+    return *(f32 *)((s8 *)arg0 + 0x358) >= 1.0f;
 }
 
-int select_and_apply_target__23TObjEneMe3ShinowaMirageFPv(void* p) { return select_and_apply_target__12TObjEneDD_STFf(p); }
+s32 TObjEneMe3Shinowa::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
 
 s32 TObjEneMe3Shinowa::sub_800E701C() {
     u8 *arg0 = (u8 *)this;
-    return *(f32 *)((s8 *)arg0 + 0x354) < TObjEneMe3ShinowaMirage__data_805DA5DC;
+    return *(f32 *)((s8 *)arg0 + 0x354) < 1.0f;
 }
 
 void TObjEneMe3Shinowa::vfunc_89() {
@@ -3262,8 +3260,8 @@ void TObjEneMe3Shinowa::vfunc_105() {
     temp_r31 = ((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA640);
     if ((((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DA644) != 0) || (temp_r31 != 0)) {
         if (((TObjEneDD_ST *)arg0)->enemy_check_target_valid() != 0) {
-            if (((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m18(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC) != 0) {
-                ((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m20(arg0, TObjEneMe3ShinowaMirage__data_805DA5DC);
+            if (((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m18(arg0, 1.0f) != 0) {
+                ((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m20(arg0, 1.0f);
                 ((VObj_18_c44252 *)((u8 *)(*(u8 **)((s8 *)arg0 + 0x390))))->m23(arg0, TObjEneMe3ShinowaMirage__data_805DA608);
                 if ((temp_r31 != 0) && (random_ratio__9TObjCharaFv((s32) arg0) <= lbl_805DA648)) {
                     TObjEneDD__sub_800BA438((s32)arg0, (*(u8 **)((s8 *)arg0 + 0x390)));

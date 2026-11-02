@@ -149,7 +149,6 @@ struct Pl_801261BC : PlB_801261BC {
 
 extern "C" {
 s32 obj_is_hit_receivable(void *);
-extern const f32 lbl_805DAD70;
 void frozen_shooter_collider_block(Obj_80126180 *self, Out_80126180 *o);
 }
 #pragma push
@@ -170,7 +169,7 @@ void frozen_shooter_collider_block(Obj_80126180 *self, Out_80126180 *o) {
     }
     o->f10 = self->a;
     o->f50 = 0x4000;
-    o->f4c = lbl_805DAD70;
+    o->f4c = 2.0f;
     o->f78 = self->c;
 }
 void TUnk_804A2960::emit_marker_effects() {

@@ -538,14 +538,14 @@ extern s32 jungle_seagull_vtable[];
 extern s32 lbl_804E0910[];
 extern s32 lbl_804E094C[];
 extern s32 seabed_dolphin_vtable[];
-extern u32 seabed_dolphin_bml_archive;
-extern s32 seabed_dolphin_texture_handle;
-extern u32 jungle_ebi_model_resource;
-extern u32 jungle_ebi_texture_gvm_handle;
-extern u32 jungle_bird_bml_resource;
-extern u32 lobby_pigeon_texture_gvm;
-extern u32 lobby_kamome_model_resource;
-extern u32 lobby_kamome_texture_gvm_handle;
+u32 seabed_dolphin_bml_archive;
+s32 seabed_dolphin_texture_handle;
+u32 jungle_ebi_model_resource;
+u32 jungle_ebi_texture_gvm_handle;
+u32 jungle_bird_bml_resource;
+u32 lobby_pigeon_texture_gvm;
+u32 lobby_kamome_model_resource;
+u32 lobby_kamome_texture_gvm_handle;
 
 #pragma push
 #pragma fp_contract on
@@ -1296,7 +1296,7 @@ void TObjPlayer::load_seabed_dolphin() {
     seabed_dolphin_texture_handle = ((s32 (*)(void *))load_gvm_texture_file)(lbl_804719B8);
     Q_802C2958 q = *(Q_802C2958 *)seabed_dolphin_anim_binding;
     q.a = (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430;
-    TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (s32)seabed_dolphin_texture_handle, (s32)(&q), (f32)((16.0f)), (f32)((1e+01f)));
+    TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (s32)seabed_dolphin_texture_handle, &q, (f32)((16.0f)), (f32)((1e+01f)));
 }
 
 s32 TUnk_804E0988::sub_802C2A10() {

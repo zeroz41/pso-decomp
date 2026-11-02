@@ -39,7 +39,6 @@ extern Vec_801A4D30 lbl_80446940;
 extern Vec_801A4D30 lbl_8044694C;
 extern Pair_801A4D30 lbl_80446958[];
 extern Pair_801A4D30 lbl_80446960[];
-extern const f32 lbl_805DC0A8;
 void TUnk_804C2298::run_task() {
     Obj_801A4D30 *self = (Obj_801A4D30 *)this;
     Vec_801A4D30 pos = lbl_80446940;
@@ -108,7 +107,7 @@ void TUnk_804C2298::run_task() {
         break;
     case 8:
         self->timer++;
-        if ((f32)self->timer > lbl_805DC0A8) {
+        if ((f32)self->timer > 7.5f) {
             ((TUnk_804C2298 *)self)->sub_801A4CA4();
             self->state = 9;
             TAdMultiChgGameModeGC::request_scene_change();

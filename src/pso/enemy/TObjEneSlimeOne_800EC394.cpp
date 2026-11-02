@@ -322,6 +322,6 @@ void fn_800ECA28(void *arg0, s32 arg1) {
 }
 
 void TObjEneRe4Bit::vfunc_106() {  }
-s32 TObjEneRe4Bit::vfunc_83() {  }
+void TObjEneRe4Bit::vfunc_105() {  }
 
 }

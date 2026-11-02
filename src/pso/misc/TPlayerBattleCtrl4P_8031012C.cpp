@@ -145,8 +145,6 @@ extern char lbl_80475BAC[];
 extern char lbl_80475BB8[];
 extern s32 TLobby__battle_ctrl_default_value;
 s32 rand();
-extern const f32 lbl_805DF240;
-extern const f32 lbl_805DF244;
 
 s32 fn_801C19D8(void *, int);
 s32 fn_801D6D8C(void *, u8, int);
@@ -786,8 +784,8 @@ void TPlayerBattleCtrl4P::shuffle_order() {
         order[i] = i;
     }
     for (i = 0; i < 30; i++) {
-        a = (s32)(lbl_805DF240 * (lbl_805DF244 * (f32)rand()));
-        b = (s32)(lbl_805DF240 * (lbl_805DF244 * (f32)rand()));
+        a = (s32)(4.0f * (3.0517578e-05f * (f32)rand()));
+        b = (s32)(4.0f * (3.0517578e-05f * (f32)rand()));
         if (a != b) {
             t = order[a];
             order[a] = order[b];

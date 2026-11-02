@@ -248,7 +248,7 @@ __declspec(section ".rodata") extern const char lbl_80472C48[] = "TAdGameStartSu
 void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, int, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
-extern s32 game_start_player_instance;
+s32 game_start_player_instance;
 
 void draw_background__17TAdGameStartSubGCFPv(u8 *arg0) {
     s32 temp_r4;

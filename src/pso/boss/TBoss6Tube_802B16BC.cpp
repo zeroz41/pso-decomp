@@ -6,7 +6,6 @@
 extern "C" {
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-extern u8 lbl_80470A68[];
 extern u8 boss06_tube_dat_resource_descriptor[];
 extern u32 boss6_tube_bml_resource;
 extern u32 boss6_tube_texture_list;
@@ -42,7 +41,7 @@ void TBoss6Tube::load_resources() {
         r = load_resource_from_descriptor(r, 5, boss06_tube_dat_resource_descriptor, 0, 0, 0);
     }
     boss6_tube_bml_resource = r;
-    boss6_tube_texture_list = (u32)load_gvm_texture_file((s32)lbl_80470A68);
+    boss6_tube_texture_list = (u32)load_gvm_texture_file((s32)"boss06_tube_dat.gvm");
     if (boss6_tube_bml_resource != 0 && boss6_tube_texture_list != 0) {
         return;
     }

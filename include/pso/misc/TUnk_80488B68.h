@@ -7,6 +7,7 @@ class TUnk_80488B68 : public TUnk_80488A28 {
 public:
     TUnk_80488B68();
     virtual ~TUnk_80488B68();
+    virtual void post_update_view();
     virtual void run_task();
     u8 unk_6C[0x4];
     float m_70;

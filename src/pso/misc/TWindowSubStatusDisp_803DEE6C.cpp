@@ -12,10 +12,9 @@ union Pipe_803DEECC { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 #define FIFO_803DF00C (*(volatile Pipe_803DF00C *)0xCC008000)
 union Pipe_803DF00C { u8 u8v; u16 u16v; u32 u32v; s32 s32v; f32 f32v; };
 
-extern s32 constant_material_color;
+s32 constant_material_color;
 extern "C" {
 void GXBegin(u32, u32, u16);
-extern const f32 lbl_805E0FC8;
 s64 OSGetTime(void);
 
 void begin_screen_draw(s32 arg0) {
@@ -42,7 +41,7 @@ void TWindowSubStatusDisp::get_player() {
 #pragma optimize_for_size off
 void draw_textured_quad_at_depth(f32 *q, f32 depth) {
     u32 color = (*(u32 *)&constant_material_color);
-    f32 z = lbl_805E0FC8 / depth;
+    f32 z = -1.0f / depth;
     f32 x0 = q[0] * z;
     f32 x1 = q[2] * z;
     f32 y0 = q[1] * z;
@@ -66,7 +65,7 @@ void draw_textured_quad_at_depth(f32 *q, f32 depth) {
 #pragma push
 #pragma scheduling off
 void DVDConvertEntrynumToPath(f32 *q) {
-    f32 z = lbl_805E0FC8 / q[2];
+    f32 z = -1.0f / q[2];
     u32 color = (*(u32 *)&constant_material_color);
     f32 y0, x0, u0, v0;
     f32 x1, y1, u1, v1;

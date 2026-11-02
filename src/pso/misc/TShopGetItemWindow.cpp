@@ -103,7 +103,6 @@ s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
 void *__nw__7TObjectFUl(u32);
 u32 __ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
-extern const f32 lbl_805DC6F0;
 s32 get_room_table_entry__18TCheckRoomSequenceFi(void);
 u32 __ct__15TWindowHelpItemFPvUs(void *, s32, u16);
 void add_item_info_entry__20TWindowSubStatusDispFlll(u32, void *, s32, s32);
@@ -242,7 +241,7 @@ s32 TShopGetItemWindow::handle_withdraw_list_input() {
                 }
                 arg0->f30 = (u32)obj;
                 if (arg0->f30 != 0U && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)(arg0->f30))->set_position(lbl_805DC6F0, lbl_805DC6F0);
+                    ((TCheckRoomSequence *)(arg0->f30))->set_position(0.75f, 0.75f);
                 }
                 ((TShopWindowBase *)arg0)->set_field_20(2);
                 return;
@@ -319,7 +318,7 @@ void TShopGetItemWindow::rebuild_item_list() {
             }
             arg0->f34 = (u32)obj;
             if (arg0->f34 != 0U && TLobby::is_camera_ctrl_active() > 2) {
-                ((TLobby *)(arg0->f34))->set_position(lbl_805DC6F0, lbl_805DC6F0);
+                ((TLobby *)(arg0->f34))->set_position(0.75f, 0.75f);
             }
             ((TWindowHelpItem *)(arg0->f34))->set_displayed_item_colored((u32)&arg0->item);
             arg0->f58 = sel;

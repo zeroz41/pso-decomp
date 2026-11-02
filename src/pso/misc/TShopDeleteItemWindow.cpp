@@ -97,7 +97,6 @@ s32 sub_80223A48__15TShopWindowBaseFv(void *);
 s16 get_child_field1c__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 void *__ct__18TWindowInputNumberFPvllls(void *, void *, int, s32, int, int);
-extern const f32 lbl_805DF998;
 struct Base_80337980_80337910 { char pad[0x18]; };
 struct VObj_80337980_80337910 : Base_80337980_80337910 {
     virtual void m0();virtual void m1();virtual void m2();virtual void m3();
@@ -228,7 +227,7 @@ s32 TShopDeleteItemWindow::update_item_select(void *arg0) {
                 }
                 self->f38 = p;
                 if (self->f38 != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                    ((TCheckRoomSequence *)(self->f38))->set_position(lbl_805DF998, lbl_805DF998);
+                    ((TCheckRoomSequence *)(self->f38))->set_position(0.75f, 0.75f);
                 }
                 ((TShopWindowBase *)self)->set_field_20(2);
             } else {
@@ -304,7 +303,7 @@ void TShopDeleteItemWindow__sub_80337E2C(Win_80337C2C *win) {
         if (copy_item_record__18TCheckRoomSequenceFiPvi(cursor, win->f40, base) != 0) {
             win->f3c = new TWindowHelpItem(get_window_layout_position(0x27), (u32)get_entity_id(win->item));
             if (win->f3c != NULL && TLobby::is_camera_ctrl_active() > 2) {
-                ((TLobby *)win->f3c)->set_position(lbl_805DF998, lbl_805DF998);
+                ((TLobby *)win->f3c)->set_position(0.75f, 0.75f);
             }
             ((TWindowHelpItem *)win->f3c)->set_displayed_item_colored((u32)win->f40);
             win->f60 = cursor;

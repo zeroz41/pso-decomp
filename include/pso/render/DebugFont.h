@@ -8,6 +8,6 @@ struct _GXTexObj;
 extern "C" {
 extern u8 debug_font_texture_i4[DEBUG_FONT_TEXTURE_BYTES];
 extern struct _GXTexObj debug_font_texture_object;
-void render_debug_text(s32 enabled);
+void render_debug_text(u32 enabled);
 }
 #endif

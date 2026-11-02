@@ -3,12 +3,18 @@
 
 #include "types.h"
 #include "pso/animation/MotionContext.h"
+struct NJS_ARGB;
+struct _GXColor;
 
 extern "C" {
 void TCameraCtrl__sub_803D65F8(u8 *_w0);
 s32 TObjPlayer__sub_803D6C1C(s32 arg0);
 s32 TObjPlayer__sub_803D7FD0(void);
 s32 TObjPlayer__sub_803D7FD8(void);
+// Float colour (alpha first, 0..255 scale) to a GX byte colour and back,
+// through the paired-single quantizers (hand-written assembly).
+void convert_color_f32_to_u8(const NJS_ARGB *src, struct _GXColor *dst);
+void convert_color_u8_to_f32(const struct _GXColor *src, NJS_ARGB *dst);
 }
 void advance_motion_row(void);
 void bind_motion_channel_samplers(int arg0, f32 farg0);

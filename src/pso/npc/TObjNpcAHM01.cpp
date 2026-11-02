@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/npc/TObjNpcAHM01.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcARM00.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcAHM01.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -49,16 +49,9 @@ void TObjNpcAHM01::load_resources() {
     TObjNpcAHM01__texture_handle = (u32)load_gvm_texture_file((s32)"n_c01_e_body.gvm");
 }
 
-void *__dt__12TObjNpcAHM01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcAHM01;
-        ((TUnk_804A9F50 *)arg0)->destroy_npc_lappy_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcAHM01::~TObjNpcAHM01() {}
+extern "C" {
 
 typedef char RecoveredGlobal_80147C18___vt__12TObjNpcAHM01_size[sizeof(RecoveredGlobal_80147C18___vt__12TObjNpcAHM01) == 0x178 ? 1 : -1];
 u8 *TObjNpcAHM01__ct(u8 *player, s32 arg1, s32 arg2) {

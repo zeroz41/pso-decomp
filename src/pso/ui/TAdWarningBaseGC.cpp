@@ -26,7 +26,6 @@ s32 TWindowShortListCtrl__check_controller_button(void *, int);
 void play_sound_effect(int, int, int, int);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
-extern const f32 lbl_805DF7B0;
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
@@ -79,7 +78,7 @@ void TAdWarningBaseGC::vfunc_8() {
             ((TWindowBase *)(*(void * *)&this->m_2c))->close();
             *(void * *)&this->m_2c = NULL;
         }
-        if ((f32)++*(s32 *)&this->m_28 > lbl_805DF7B0) {
+        if ((f32)++*(s32 *)&this->m_28 > 4.5f) {
             *(s32 *)&this->m_1c = *(s32 *)&this->m_24;
         }
         break;
@@ -92,16 +91,11 @@ void TAdWarningBaseGC::vfunc_8() {
     }
 }
 
-void *__dt__16TAdWarningBaseGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TAdWarningBaseGC;
-        if (*(void **)((s8 *)arg0 + 0x2C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x2C)); ((TAdWarningBaseGC *)arg0)->m_2c = 0; }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TAdWarningBaseGC::~TAdWarningBaseGC() {
+    if (m_2c != 0) {
+        ((TObject *)m_2c)->queue_destruction();
+        m_2c = 0;
     }
-    return arg0;
 }
 
 extern void *lbl_805D4208;

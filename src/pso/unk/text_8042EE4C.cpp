@@ -4,7 +4,7 @@
 extern "C" {
 u32 exi_read_status_byte__6TLobbyFv();
 s32 EXIGetType(int, int, void *);
-extern u32 lbl_805D7CC8;
+u32 lbl_805D7CC8;
 
 extern s32 lbl_805D7CA8;
 extern s8 *lbl_805D7CB8;

@@ -34,10 +34,6 @@ s32 pop_matrix(void);
 extern const f64 lbl_8043E188[];
 extern void *__vt__15TItemEffBringer[];
 extern s32 TItemEffBringer__class_name;
-extern f32 lbl_805DAB10;
-extern const f32 lbl_805DAB14;
-extern const f32 lbl_805DAB18;
-extern const f32 lbl_805DAB1C;
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *src, s32 arg3, f32 farg0);
 void *spawn_particle_effect(void *pos, s32 id);
 }
@@ -74,17 +70,17 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *
     self->vt = __vt__15TItemEffBringer;
     self->f0 = TItemEffBringer__class_name;
     push_matrix();
-    z.x = z.y = z.z = lbl_805DAB10;
+    z.x = z.y = z.z = 0.0f;
     TObjPlayer::invert_matrix_in_place(0);
     transform_point_by_current_matrix(&z, &out);
     VecCopy((Vec *)&w, (const Vec *)src);
     subtract_vector((Vec*)((Vec *)&w), (Vec*)((Vec *)&out));
     pop_matrix();
     r = sin_table_lookup(self->f2C - (s32)(lbl_8043E188[0] * atan2_float(w.x, w.z)));
-    if (r < lbl_805DAB10) {
-        r *= lbl_805DAB14;
+    if (r < 0.0f) {
+        r *= -1.0f;
     }
-    n = lbl_805DAB1C * r + lbl_805DAB18;
+    n = 4.0f * r + 1.0f;
     VecCopy((Vec *)&self->m_84, (const Vec *)&self->f38);
     self->m_84.x /= n;
     self->m_84.y /= n;
@@ -99,7 +95,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *
 #pragma pop
 
 void *TItemEffBringer::create(u32 arg0, s32 src, s32 arg2, f32 farg0) {
-    if ((lbl_805DAB10 != farg0) && (arg0 != 0U)) {
+    if ((0.0f != farg0) && (arg0 != 0U)) {
         void *obj = __nw__7TObjectFUl(0x90);
         if (obj != NULL) {
             obj = __ct__15TItemEffBringerFv((Bringer_8010834C *)(obj), arg0, (Vec_8010834C *)(src), arg2, farg0);

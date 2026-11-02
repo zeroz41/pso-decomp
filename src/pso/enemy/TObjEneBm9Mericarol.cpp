@@ -147,9 +147,6 @@ f32 random_ratio__9TObjCharaFv(s32);
 extern const f32 lbl_805DE6F4;
 extern const f32 lbl_805DE714;
 extern const f32 lbl_805DE728;
-extern const f32 lbl_805DE740;
-extern const f32 lbl_805DE744;
-extern const f32 lbl_805DE748;
 void TObjEneBm9Mericarol__sub_802CEDA0(u8 *arg0, s32 arg1);
 void TObjEneBm9Mericarol__sub_802CF368(u8 *actor, s32 arg1);
 void TObjEneBm9Mericarol__sub_802CF4F8(u8 *arg0, s32 arg1);
@@ -162,7 +159,6 @@ s32 obj_isState2_324__9TObjCharaFv(s32);
 int get_player_data__10TObjPlayerFi(int a0);
 s32 is_valid_target__9TObjEneDDFv(s32);
 f32 horizontal_distance_squared(void *, void *);
-extern const f32 lbl_805DE74C;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
@@ -362,7 +358,6 @@ extern const s32 lbl_80472318[];
 extern s32 lbl_805D3F28;
 extern const f32 lbl_805DE6EC;
 extern const f32 lbl_805DE70C;
-extern const f32 lbl_805DE750;
 
 void *lbl_804E1548[7] = {
     (void *)0x43610000, (void *)0x0, (void *)0x200, (void *)0x0,
@@ -463,14 +458,14 @@ void TObjEneBm9Mericarol::init_size_tier_and_offsets() {
         temp_f1 = random_ratio__9TObjCharaFv((s32) arg0);
         if (temp_f1 > lbl_805DE728) {
             *(s32 *)((s8 *)arg0 + 0x45C) = 2;
-        } else if (temp_f1 > lbl_805DE740) {
+        } else if (temp_f1 > 0.8f) {
             *(s32 *)((s8 *)arg0 + 0x45C) = 1;
         } else {
             *(s32 *)((s8 *)arg0 + 0x45C) = 0;
         }
     }
-    *(f32 *)((s8 *)arg0 + 0x440) = (f32) (lbl_805DE744 + *(f32 *)((s8 *)arg0 + 0x354));
-    *(f32 *)((s8 *)arg0 + 0x444) = (f32) (lbl_805DE748 + *(f32 *)((s8 *)arg0 + 0x358));
+    *(f32 *)((s8 *)arg0 + 0x440) = (f32) (0.5f + *(f32 *)((s8 *)arg0 + 0x354));
+    *(f32 *)((s8 *)arg0 + 0x444) = (f32) (3.0f + *(f32 *)((s8 *)arg0 + 0x358));
     if (*(f32 *)((s8 *)arg0 + 0x444) < lbl_805DE6F4) {
         *(f32 *)((s8 *)arg0 + 0x444) = (f32) lbl_805DE6F4;
     }
@@ -491,7 +486,7 @@ s32 TObjEneBm9Mericarol::find_nearby_target() {
             break;
         }
     }
-    if (is_valid_target__9TObjEneDDFv(best) != 0 && horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(best + 0x38)) < lbl_805DE74C) {
+    if (is_valid_target__9TObjEneDDFv(best) != 0 && horizontal_distance_squared((void *)(arg0 + 0x38), (void *)(best + 0x38)) < 10000.0f) {
         return best;
     }
     return 0;
@@ -539,7 +534,7 @@ void TObjEneBm9Mericarol::vfunc_28() {  }
 
 extern u32 TBoss4Type3_shared_instance;
 extern u32 lbl_805D6864;
-extern u32 lbl_805D6868;
+u32 lbl_805D6868;
 
 void dispatch_state_handler__19TObjEneBm9MericarolFiUii(s32 actor, u32 arg1, s32 msg) {
     switch (arg1) {
@@ -667,7 +662,7 @@ Obj_802D0D3C *TObjEneBm9Mericarol__ct(Obj_802D0D3C *self, void *parent, s32 arg2
     invoke_initialization_hook__9TObjEneDDFPv(self, arg2);
     ((TObjEneBm9Mericarol *)self)->init_size_tier_and_offsets();
     self->f438 = 0;
-    if (random_ratio__9TObjCharaFv((s32)self) <= lbl_805DE750) {
+    if (random_ratio__9TObjCharaFv((s32)self) <= 0.002f) {
         self->f438 |= 0x400;
     }
     ((TObjEneDD *)self)->init_position_vectors();
@@ -771,7 +766,6 @@ extern const s32 lbl_804722F4[];
 extern const s32 lbl_80472300[];
 extern const s32 lbl_8047230C[];
 extern const SpawnPos_802D1130 lbl_80472480;
-extern const f32 lbl_805DE754;
 extern u32 lbl_805D686C;
 extern u32 lbl_805D6870;
 extern u32 lbl_805D6874;
@@ -802,9 +796,9 @@ void TBoss4Type3__sub_802D1130(void) {
         lbl_80540B70[i] = (u32)TLobby::register_object(lbl_80472300[i]);
         mericarol_phase_param_table[i] = (u32)TLobby::dispatch_shared_handler_a(lbl_8047230C[i]);
     }
-    p = new SampledMotionPoints(2, lbl_805DE70C, lbl_805DE704, lbl_805DE754);
+    p = new SampledMotionPoints(2, lbl_805DE70C, lbl_805DE704, 0.7f);
     TBoss4Type3_shared_instance = (u32)p;
-    p = new SampledMotionPoints(2, lbl_805DE70C, lbl_805DE704, lbl_805DE754);
+    p = new SampledMotionPoints(2, lbl_805DE70C, lbl_805DE704, 0.7f);
     lbl_805D6864 = (u32)p;
     set_motion_packed_rotation();
     pair = (MotionPair_802D1130 *)((Res_802D0D3C *)lbl_805D6868)->f430 + ((MotionEntry_802D1130 *)lbl_804E1634)[8].index;
@@ -816,7 +810,7 @@ void TBoss4Type3__sub_802D1130(void) {
         SpawnPos_802D1130 pos = lbl_80472480;
         pair = (MotionPair_802D1130 *)((Res_802D0D3C *)lbl_805D6868)->f430;
         pos.motions = pair;
-        TLobby::spawn_npc_enemy(0x42, ((Res_802D0D3C *)lbl_805D6868)->f42C[2], ((Res_802D0D3C *)lbl_805D6868)->f42C[3], (s32)&pos,
+        TLobby::spawn_npc_enemy(0x42, ((Res_802D0D3C *)lbl_805D6868)->f42C[2], ((Res_802D0D3C *)lbl_805D6868)->f42C[3], &pos,
             *(f32 *)&lbl_804E1564[3], lbl_805DE70C);
     }
 }

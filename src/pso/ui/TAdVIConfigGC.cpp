@@ -12,34 +12,6 @@
 #include "pso/misc/TWindowSubTradeMain.h"
 #include "pso/ui/TAdVIConfigGC.h"
 
-struct Base_80307F6C_80307DEC { char pad[0x18]; };
-struct VObj_80307F6C_80307DEC : Base_80307F6C_80307DEC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-};
-struct Base_803080B0_80307DEC { char pad[0x18]; };
-struct VObj_803080B0_80307DEC : Base_803080B0_80307DEC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-};
-
 struct Name_80307D00 { char s[0x18]; };
 
 struct Cfg_80307D00 {
@@ -49,17 +21,13 @@ struct Cfg_80307D00 {
 };
 
 extern "C" {
-void TAdVIConfigGC__vt5(void* p);
 void *VIGetDTVStatus(void *);
-void TAdVIConfigGC__vt4(void *arg0);
 void *get_player_by_client_id(s32 i);
 s32 get_window_layout_position(s32);
 char *strncpy(char *, const char *, u32);
 extern u8 player_names_window_pos[];
 extern s32 local_client_id;
 void *TAdVIConfigGC__ct(TAdVIConfigGC *arg0);
-void TAdVIConfigGC__vt8(void);
-void *__dt__13TAdVIConfigGCFv(void *arg0, s16 arg1);
 void *destroy__13TAdVIConfigGCFPvs(void *arg0, s16 arg1);
 int OSSetProgressiveMode(void*);
 void *TAdYesNoBaseGC__ct(TAdYesNoBaseGC *arg0);
@@ -153,8 +121,7 @@ u8 *TAdVIConfigGC::init(f32 farg0) {
 }
 
 void TAdVIConfigGC::render() {
-    struct VObj_80307F6C_80307DEC *o = (struct VObj_80307F6C_80307DEC *)this;
-    o->m10();
+    vfunc_12();
 }
 
 extern s32 logo_clear_flag;
@@ -169,35 +136,27 @@ void TAdVIConfigGC::set_field48_clear_global() {
 void TAdVIConfigGC::enable_progressive_mode(void * _w0) { OSSetProgressiveMode((void*)1); active_gx_render_mode = (int)GXNtsc480Prog; VIConfigure(GXNtsc480Prog); VIFlush(); VIWaitForRetrace(); VIWaitForRetrace(); }
 
 int TAdVIConfigGC::disable_progressive_mode(void* _w0) { return OSSetProgressiveMode((void*)(0)); }
-void TAdVIConfigGC__vt8(void) { get_localized_text_entry((s32)((void*)29), (s32)((void*)0)); }
+void TAdVIConfigGC::vfunc_10() { get_localized_text_entry((s32)((void*)29), (s32)((void*)0)); }
 
-void TAdVIConfigGC__vt5(void* p) { TAdVIConfigGC::disable_progressive_mode(p); ((TAdVIConfigGC *)p)->set_field48_clear_global(); }
+void TAdVIConfigGC::vfunc_7() { disable_progressive_mode(this); set_field48_clear_global(); }
 
-void TAdVIConfigGC__vt4(void *ad_vi_config_gc) {
+void TAdVIConfigGC::vfunc_6() {
     void *x;
-    x = VIGetDTVStatus(ad_vi_config_gc);
+    x = VIGetDTVStatus(this);
     if (x != NULL) {
-        TAdVIConfigGC::enable_progressive_mode(ad_vi_config_gc);
+        enable_progressive_mode(this);
     }
-    ((TAdVIConfigGC *)ad_vi_config_gc)->set_field48_clear_global();
+    set_field48_clear_global();
 }
 
 void TAdVIConfigGC::run_task() {
-    struct VObj_803080B0_80307DEC *o = (struct VObj_803080B0_80307DEC *)this;
-    o->m9();
+    vfunc_11();
 }
 
 extern s32 __vt__13TAdVIConfigGC[];
 
-void *__dt__13TAdVIConfigGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TAdVIConfigGC;
-        __dt__14TAdYesNoBaseGCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TAdVIConfigGC::~TAdVIConfigGC() {
+
 }
 
 extern void *TAdVIConfigGC__class_name;

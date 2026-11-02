@@ -160,33 +160,6 @@ struct Owner_80150E44 { u8 pad[0x94]; Obj_80150E44 *obj; };
 
 struct Npc_80150E44 { u8 pad[0x78]; Owner_80150E44 *owner; u8 pad7c[0xAC - 0x7C]; f32 x; f32 y; f32 z; };
 
-struct Obj_80150EC4 {
-    u8 pad[0x30];
-    u32 flags;
-    u8 pad34[4];
-    Vec_8014E3B0 pos;
-};
-
-struct Owner_80150EC4 { u8 pad[0x94]; Obj_80150EC4 *obj; };
-
-struct Npc_80150EC4 {
-    u8 pad0[0x24];
-    u32 f24;
-    u8 pad28[0x40 - 0x28];
-    f32 f40;
-    u8 pad44[0x78 - 0x44];
-    Owner_80150EC4 *f78;
-    u32 f7c;
-    u32 f80;
-    u8 pad84[0x92 - 0x84];
-    s16 f92;
-    u8 pad94[0xAC - 0x94];
-    Vec_8014E3B0 pos;
-    u8 padB8[0xD0 - 0xB8];
-    Vec_8014E3B0 fD0;
-    Vec_8014E3B0 fDC;
-};
-
 struct V3_80150050 { f32 x, y, z; };
 
 struct Tgt_80150050 { u8 pad[0x38]; V3_80150050 pos; };
@@ -529,7 +502,6 @@ extern const f32 TNpcPlayer__data_805DB20C;
 extern f32 TNpcPlayer__data_805DB218;
 extern const f32 TNpcPlayer__data_805DB22C;
 extern const f32 TNpcPlayer__data_805DB23C;
-extern u32 lbl_805D6EA0;
 extern int registered_entity_count;
 extern V3_80150050 lbl_8043FFAC;
 extern const f64 lbl_8043FFD8;
@@ -2987,80 +2959,102 @@ void TNpcPlayer::send_walk_request() {
     }
 }
 
+
+
+struct Obj_80150EC4 { u8 pad0[0x30]; u32 flags30; u8 pad34[0x38 - 0x34]; Vec_8014E3B0 pos; };
+
+struct Owner_80150EC4 { u8 pad[0x94]; Obj_80150EC4 *obj; };
+
+struct Npc_80150EC4 {
+    u8 pad0[0x24];
+    s32 f24;
+    u8 pad28[0x40 - 0x28];
+    f32 run_distance;
+    u8 pad44[0x5C - 0x44];
+    u8 counters[0x78 - 0x5C];
+    Owner_80150EC4 *owner;
+    u32 state;
+    u32 flags;
+    u8 pad84[0x92 - 0x84];
+    s16 action;
+    u8 pad94[0xAC - 0x94];
+    Vec_8014E3B0 pos;
+    u8 padB8[0xD0 - 0xB8];
+    Vec_8014E3B0 home;
+    Vec_8014E3B0 goal;
+};
+
+extern s32 lbl_805D6EA0;
+
+#pragma push
+#pragma opt_common_subs off
 void TNpcPlayer::deliver_partner_action() {
     Npc_80150EC4 *self = (Npc_80150EC4 *)this;
-    s32 arg0 = (s32)this;
-    Vec_8014E3B0 dir;
+    Vec_8014E3B0 d;
     f32 len;
 
-    if (self->f80 & 4) {
-        if ((lbl_805D6EA0 & 2) == 0) {
-            deliver_partner_chatter((Npc_8014E250 *)this);
-        }
+    if ((self->flags & 4) && !(lbl_805D6EA0 & 2)) {
+        deliver_partner_chatter((Npc_8014E250 *)this);
     }
-    if (((TObjPlayer *)(*(s32 *)((s8 *)(*(void **)((s8 *)this + 0x78)) + 0x94)))->test_action_mask(2) == 0) {
+    if (((TObjPlayer *)self->owner->obj)->test_action_mask(2) == 0) {
         return;
     }
-    switch (self->f7c) {
+    switch (self->state) {
     case 0:
-        VecCopy__FP3VecPC3Vec((void *)((u8 *)(arg0) + 0xAC), (int)VecCopy__FP3VecPC3Vec((void *)((u8 *)(arg0) + 0xD0), (int)((void *)((u8 *)(arg0) + 0xDC))));
-        ((void (*)(void *, int))increment_partner_counter)((void *) (arg0 + 0x5C), 4);
-        if (((s16 (*)(void *, int))get_partner_counter)((void *) (arg0 + 0x5C), 4) == 0x1519) {
-            self->f80 &= ~4u;
-            self->f24 = 0x19;
-            ((void (*)(void *, int, int))set_partner_counter)((void *) (arg0 + 0x5C), 4, 0);
+        VecCopy__FP3VecPC3Vec(&self->pos, VecCopy__FP3VecPC3Vec(&self->home, (int)&self->goal));
+        increment_partner_counter((s32)&self->counters, 4);
+        if ((s16)get_partner_counter((s32)&self->counters, 4) == 5401) {
+            self->flags &= ~4;
+            self->f24 = 25;
+            set_partner_counter((s32)&self->counters, 4, 0);
         }
-        if (((s32 (*)(void *, int, int))clamp_partner_counter)((void *) (arg0 + 0x5C), 4, 0x1518) != 0) {
-            ((TNpcPlayer *)arg0)->request_chatter(0xb);
+        if (clamp_partner_counter((s32)&self->counters, 4, 5400) != 0) {
+            request_chatter(11);
         }
         break;
     case 1:
-        dir.x = self->pos.x - self->f78->obj->pos.x;
-        dir.y = TNpcPlayer__data_805DB1F0;
-        dir.z = self->pos.z - self->f78->obj->pos.z;
-        len = ((f32 (*)(void *))vector_length)(&dir);
+        d.x = self->pos.x - self->owner->obj->pos.x;
+        d.y = TNpcPlayer__data_805DB1F0;
+        d.z = self->pos.z - self->owner->obj->pos.z;
+        len = vector_length(&d);
         if (len <= TNpcPlayer__data_805DB23C) {
             return;
         }
-        if (self->f78->obj->flags & 0x100000) {
-            ((TNpcPlayer *)arg0)->send_walk_request();
-        } else if (len <= self->f40) {
-            if (!(self->f80 & 8)) {
-                ((TNpcPlayer *)arg0)->send_walk_request();
+        if (self->owner->obj->flags30 & 0x100000) {
+            send_walk_request();
+        } else if (len <= self->run_distance) {
+            if (!(self->flags & 8)) {
+                send_walk_request();
             } else {
-                ((TNpcPlayer *)arg0)->send_run_request();
+                send_run_request();
             }
         } else {
-            self->f80 |= 8u;
-            ((TNpcPlayer *)arg0)->send_run_request();
+            self->flags |= 8;
+            send_run_request();
         }
         break;
     case 2:
-        ((TNpcPlayer *)arg0)->update_combat_action();
+        update_combat_action();
         break;
-    case 3:
-        break;
-    case 5:
+    case 4:
         break;
     case 8:
-        ((TNpcPlayer *)arg0)->dispatch_action(self->f92);
-        break;
-    default:
+        dispatch_action(self->action);
         break;
     }
-    if (self->f7c != 2) {
-        ((void (*)(void *, int))reset_partner_counter)((void *) (arg0 + 0x5C), 1);
-        ((void (*)(void *, int))reset_partner_counter)((void *) (arg0 + 0x5C), 5);
-        self->f80 &= ~0x8000u;
+    if (self->state != 2) {
+        reset_partner_counter((s32)&self->counters, 1);
+        reset_partner_counter((s32)&self->counters, 5);
+        self->flags &= ~0x8000;
     }
-    if (self->f7c != 1) {
-        self->f80 &= ~8u;
+    if (self->state != 1) {
+        self->flags &= ~8;
     }
-    if (self->f7c != 0) {
-        ((void (*)(void *, int))reset_partner_counter)((void *) (arg0 + 0x5C), 4);
+    if (self->state != 0) {
+        reset_partner_counter((s32)&self->counters, 4);
     }
 }
-
+#pragma pop
 
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1) {
     u8 flags = 0;

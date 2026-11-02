@@ -57,7 +57,6 @@ extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__10TObjRoomId[];
 extern s32 lbl_805D34B0;
-extern const f32 lbl_805DC094;
 u8 *TObjRoomId__ct(u8 *arg0, s32 arg1, s32 arg2);
 u16 TObjRoomId__sub_801A1DB8(u16 x);
 void *get_player_by_client_id(s32 i);
@@ -71,8 +70,6 @@ extern u8 lbl_804468B8[];
 extern u8 lbl_804468C4[];
 extern u8 lbl_804468D0[];
 extern u8 lbl_804468DC[];
-extern const f32 lbl_805DC088;
-extern const f32 lbl_805DC08C;
 void render__10TObjRoomIdFv(RoomId_801A18EC *self);
 s32 push_matrix_from(void *);
 void rotate_matrix_y(int, s32);
@@ -100,13 +97,13 @@ void render__10TObjRoomIdFv(RoomId_801A18EC *self) {
         NJS_ARGB c1 = { 0.5f, 1.0f, 1.0f, 0.0f };
         NJS_ARGB c2 = { 0.5f, 0.0f, 1.0f, 1.0f };
         Vec_801A18EC end;
-        debug_draw_sphere(&self->pos, &c2, lbl_805DC088 * (lbl_805DC08C * self->radius));
-        fn_80141CBC(&self->pos, &c1, lbl_805DC08C * self->radius);
-        end.x = lbl_805DC08C * self->dir.x + self->pos.x;
-        end.y = lbl_805DC08C * self->dir.y + self->pos.y;
-        end.z = lbl_805DC08C * self->dir.z + self->pos.z;
+        debug_draw_sphere(&self->pos, &c2, 2.0f * (10.0f * self->radius));
+        fn_80141CBC(&self->pos, &c1, 10.0f * self->radius);
+        end.x = 10.0f * self->dir.x + self->pos.x;
+        end.y = 10.0f * self->dir.y + self->pos.y;
+        end.z = 10.0f * self->dir.z + self->pos.z;
         debug_draw_line(&self->pos, &end, 0xFFFF0000, 0xFFFF0000);
-        debug_draw_sphere(&end, &c2, lbl_805DC088);
+        debug_draw_sphere(&end, &c2, 2.0f);
         draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1C, lbl_804468B8);
         draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1D, lbl_804468C4);
         draw_debug_line__10TObjRoomIdFUllll(self, 0x13, 0x1E, lbl_804468D0);
@@ -116,7 +113,6 @@ void render__10TObjRoomIdFv(RoomId_801A18EC *self) {
 }
 extern Vec_801A1A60 lbl_8044688C[];
 extern u8 identity_matrix[];
-extern const f32 lbl_805DC090;
 void set_player_room_control_flag(TObjPlayer *arg0);
 #pragma pop
 
@@ -136,7 +132,7 @@ void TObjRoomId::run_task() {
     if (TObjPlayer::check_demo_mode() == 0) {
         for (s32 i = 0; i < 4; i++) {
             if (get_player_by_client_id(i) != NULL) {
-                r = lbl_805DC08C * o->radius + lbl_805DC090;
+                r = 10.0f * o->radius + 30.0f;
                 if (is_player_in_range__10TObjRoomIdFPvUsf((Obj_801A1888 *)o, i, r * r) != 0) {
                     absent = 0;
                 }
@@ -155,14 +151,14 @@ void TObjRoomId::run_task() {
         if (p == NULL) {
             continue;
         }
-        r = lbl_805DC08C * o->radius;
+        r = 10.0f * o->radius;
         if (is_player_in_range__10TObjRoomIdFPvUsf((Obj_801A1888 *)o, i, r * r) == 0) {
             continue;
         }
         d.x = p->pos[0] - o->pos.x;
-        d.y = lbl_805DC094;
+        d.y = 0.0f;
         d.z = p->pos[2] - o->pos.z;
-        if (vec3_dot(&d, &o->normal) > lbl_805DC094) {
+        if (vec3_dot(&d, &o->normal) > 0.0f) {
             if (o->mode == 0x10000) {
                 *(s16 *)((s8 *)p + 0x28) = (s16)o->room_pos;
                 set_player_room_control_flag((TObjPlayer *)p);
@@ -200,9 +196,9 @@ u8 *TObjRoomId__ct(u8 *arg0, s32 parent, s32 arg2) {
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_801A1CD8___vt__10TObjRoomId *)&__vt__10TObjRoomId).value;
     *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D34B0;
     ((VObj_18_1a504b *)(arg0))->m5(arg2);
-    *(f32 *)((s8 *)arg0 + 0x90) = (f32) lbl_805DC094;
-    *(f32 *)((s8 *)arg0 + 0x94) = (f32) lbl_805DC094;
-    *(f32 *)((s8 *)arg0 + 0x98) = (f32) lbl_805DC094;
+    *(f32 *)((s8 *)arg0 + 0x90) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x94) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0x98) = 0.0f;
     return arg0;
 }
 

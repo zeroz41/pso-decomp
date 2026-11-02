@@ -23,7 +23,6 @@ s32 TShopJudgmentItemWindow__sub_80267F9C(void *, int);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 extern RecoveredGlobal_80248CF4_lbl_8050E208 controller_input_state;
-extern const f32 lbl_805DCBA8;
 s32 get_draw_context__11TWindowBaseFPv();
 s32 draw_visible_window_entries(void *, void *, s32);
 s32 draw_window_scrollbar(s32, s32, void *);
@@ -102,7 +101,7 @@ void TWindowSubStatusDisp::handle_input() {
         }
     }
     ((TWindowMenuIconLine *)arg0)->center_list_selection();
-    if ((f32) *(s32 *)&this->m_5c >= lbl_805DCBA8) {
+    if ((f32) *(s32 *)&this->m_5c >= 7.5f) {
         temp_r3 = *(u32 *)((s8 *)arg0 + 0x80);
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();

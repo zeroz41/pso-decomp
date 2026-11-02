@@ -41,9 +41,7 @@ struct Obj_8002CA38 { u8 pad[0x28]; u32 slot[4]; };
 
 extern "C" {
 extern s32 TObjBoss1Floor__name;
-extern const f32 lbl_805D8174;
 void *get_player_by_client_id(s32 i);
-extern const f32 lbl_805D8170;
 void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 int TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);
@@ -94,7 +92,7 @@ void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self) {
             pl = (Player_8002C968 *)get_player_by_client_id(i);
             if (pl != NULL) {
                 Vec_8002C968 pos = pl->pos;
-                pos.y -= lbl_805D8170;
+                pos.y -= 4.0f;
                 if (self->objs[i] == NULL) {
                     self->objs[i] = create_particle_emitter(&pos, 0x144);
                 } else {
@@ -121,9 +119,9 @@ TObjBoss1Floor::~TObjBoss1Floor() {
 TObjBoss1Floor::TObjBoss1Floor(TObject *parent) : TObject(parent) {
     s32 i;
     ((Obj_8002CACC *)this)->f0 = TObjBoss1Floor__name;
-    ((Obj_8002CACC *)this)->f1c = lbl_805D8174;
-    ((Obj_8002CACC *)this)->f20 = lbl_805D8174;
-    ((Obj_8002CACC *)this)->f24 = lbl_805D8174;
+    ((Obj_8002CACC *)this)->f1c = 0.0f;
+    ((Obj_8002CACC *)this)->f20 = 0.0f;
+    ((Obj_8002CACC *)this)->f24 = 0.0f;
     for (i = 0; i < 4; i++) {
         ((Obj_8002CACC *)this)->f28[i] = 0;
     }

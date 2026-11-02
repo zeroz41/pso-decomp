@@ -87,17 +87,15 @@ void TLobby__sub_80227A90(void);
 void TLobby__sub_8022780C(void);
 void debug_print__6TLobbyFle(const char *fmt, ...);
 extern const SndHooks lbl_8044C858;
-extern const char lbl_8044C898[];
-extern const char lbl_8044C8B4[];
 extern u32 lbl_804CB838[6];
 extern void *lbl_80514C60[];
-extern void *lbl_805D62D8;
+void *lbl_805D62D8;
 extern s32 lbl_805D62F8;
 extern s32 lbl_805D62FC;
 }
 extern RecoveredGlobal_8000F7FC_lbl_80515F48 TLobby__sub_80227A6C;
 void stop_audio_stream(u8 *arg0);
-extern s32 lbl_804CB850[];
+s32 lbl_804CB850[3] = { 0, 0, 0 };
 extern f32 music_fade_volumes[];
 extern s32 lbl_805D62E0;
 extern s32 lbl_805D62E4;
@@ -108,7 +106,7 @@ extern s32 music_fade_slot_index;
 extern f32 music_fade_step;
 extern s32 lbl_805D6330;
 void update_music_fade(void);
-extern u32 lbl_805D62DC;
+u32 lbl_805D62DC;
 extern u32 lbl_805D62EC;
 void stop_cue_stream(void);
 
@@ -244,7 +242,7 @@ void TLobby__sub_8022780C(void) {
     for (i = 0; i < 2; i++) {
         lbl_804CB850[i] = adx_create_stream_player(2, lbl_80514C60[i], 0x2D1E4);
         if ((u32)lbl_804CB850[i] == 0U) {
-            debug_print__6TLobbyFle(lbl_8044C898, i);
+            debug_print__6TLobbyFle("can't create ADXT-BGM #%d", i);
         } else {
             ((TLobby *)lbl_804CB850[i])->set_field_6d(2);
         }
@@ -252,7 +250,7 @@ void TLobby__sub_8022780C(void) {
     for (i = 0; i < 1; i++) {
         lbl_804CB850[2 + i] = adx_create_stream_player(1, (&lbl_805D62D8)[i], 0xA924);
         if ((u32)lbl_804CB850[2 + i] == 0U) {
-            debug_print__6TLobbyFle(lbl_8044C8B4, i);
+            debug_print__6TLobbyFle("can't create ADXT-SE #%d", i);
         }
     }
     lbl_805D62F8 = 0x5A3C8;

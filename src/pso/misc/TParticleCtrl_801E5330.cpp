@@ -32,8 +32,6 @@ extern void *tl_particle;
 extern f32 particle_sprite_atlas_uv_rects[0x10][4];
 extern GinjaTextureList *lbl_805D35A0[2];
 extern f32 lbl_804C6900[1][4];
-extern const f32 lbl_805DC458;
-extern const f32 lbl_805DC45C;
 
 void TParticleCtrl::reset_emitter_table() {
     s32 i;
@@ -111,14 +109,14 @@ void init_particle_sprite_atlas(void) {
     f32 v;
 
     p = particle_sprite_atlas_uv_rects;
-    v = lbl_805DC458;
+    v = 0.0f;
     for (y = 0; y < 4; y++) {
         top = v;
-        u = lbl_805DC458;
-        v += lbl_805DC45C;
+        u = 0.0f;
+        v += 0.25f;
         for (x = 0; x < 4; x++) {
             left = u;
-            u += lbl_805DC45C;
+            u += 0.25f;
             (*p)[0] = left;
             (*p)[1] = top;
             (*p)[2] = u;

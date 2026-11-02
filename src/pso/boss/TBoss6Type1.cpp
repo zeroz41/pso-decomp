@@ -17,6 +17,8 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_802AA8FC.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/misc/TCameraCtrl.h"
+#include "pso/unk/text_803E2D70.h"
 
 extern const Vec boss6_map_csn_offset;
 extern const Vec boss6_map_csn_scale;
@@ -436,7 +438,7 @@ void clamp_to_arena_radius__11TBoss6Type1FPvPvf(Boss_802B54F0 *o, Vec_802B54F0 *
 extern const f32 lbl_805DE320;
 extern const f32 lbl_805DE324;
 void calc_grid_cell_position__11TBoss6Type1FPvPv(Boss_802B5648 *o, Vec_802B5648 *out);
-void *get_player_by_client_id(s32 i);
+TObjPlayer *get_player_by_client_id(u16 client);
 extern const f32 TBoss6Type1__data_805DE32C;
 extern const f32 TBoss6Type1__data_805DE360;
 s32 matrix_mult_vec(int, void *, void *);
@@ -445,6 +447,8 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 void post_translate_matrix(Vec *pos);
 void rotate_matrix_x(int matrix, int angle);
+void rotate_matrix_z(int matrix, int angle);
+void scale_matrix(int matrix, f32 x, f32 y, f32 z);
 void rotate_vector_by_matrix(int matrix, const Vec *in, Vec *out);
 extern Tbl_802B79DC TBoss6Type1__part_position_sources[];
 extern Entry_802B865C boss6_type1_action_table[];
@@ -925,7 +929,7 @@ extern const Vec_802B57D4 lbl_80470FD8;
 void TBoss6Type1__sub_802B59CC(TBoss6Type1 *self) {
     Vec_802B57D4 eye = TBoss6Type1__data_80470FB4;
     Vec_802B57D4 target = lbl_80470FC0;
-    f32 t = *(f32 *)&self->unk_4DC;
+    f32 t = self->m_4dc;
     if (t > TBoss6Type1__data_805DE2D0) {
         eye.x += t * lbl_80470FCC.x;
         eye.y += t * lbl_80470FCC.y;
@@ -1209,17 +1213,67 @@ s32 TBoss6Type1__ct(s32, s32, s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 s32 __nw__7TObjectFUl(s32);
 
+#pragma push
+#pragma fp_contract on
+// Draws bml model 0 at sound_pos, turned to face the viewing player and scaled by m_4dc.
+void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
+    if (boss->m_4dc != 0.0f) {
+        s32 fish = TObjFish__sub_8001EDB0(boss->m_3fc, 0);
+        s32 model = get_bml_model(boss->m_3fc, 0);
+        s32 pitch = 0;
+        Vec pos = boss->sound_pos;
+        s32 yaw = boss->rotation_y + 0x8000;
+        static f32 s_min_width = 0.15f;
+        static f32 s_max_width = 0.625f;
+        static f32 s_grow_end = 0.1f;
+        f32 width = s_min_width;
+        f32 height;
+        if (boss->m_4dc < s_grow_end) {
+            height = boss->m_4dc / s_grow_end;
+        } else {
+            width = (boss->m_4dc - s_grow_end) / (1.0f - s_grow_end) * (s_max_width - s_min_width) + s_min_width;
+            height = 1.0f;
+        }
+        TObjPlayer *player = get_player_by_client_id(
+            TCameraCtrl::get_split_screen_view_index(TCameraCtrl::get_camera_mode()));
+        if (player != NULL) {
+            Vec from;
+            Vec to;
+            VecCopy(&from, &boss->sound_pos);
+            VecCopy(&to, &player->position);
+            to.y += 14.0f;
+            subtract_vector(&to, &from);
+            Vec flat = to;
+            flat.y = 0.0f;
+            pitch = (s32)(TBoss6Type1__data_80471038 * atan2_float(-to.y, ((f32 (*)(void *))vector_length)(&flat)));
+            if (pitch > 0x1000) {
+                pitch = 0x1000;
+            }
+        }
+        push_matrix();
+        post_translate_matrix(&pos);
+        rotate_matrix_y(0, yaw);
+        rotate_matrix_x(0, pitch);
+        rotate_matrix_z(0, 0);
+        scale_matrix(0, width, 1.0f, height);
+        TObjFish::set_global_param(fish);
+        draw_chunk_object((void *)model);
+        pop_matrix();
+    }
+}
+#pragma pop
+
 void TBoss6Type1::reset_param() {
-    *(f32 *)&this->unk_4DC = (f32) TBoss6Type1__data_805DE2D0;
+    this->m_4dc = TBoss6Type1__data_805DE2D0;
 }
 
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off
 void TBoss6Type1::decrease_field_clamped_min() {
-    *(f32 *)&this->unk_4DC = (f32) (*(f32 *)&this->unk_4DC + lbl_805DE370);
-    if (*(f32 *)&this->unk_4DC < TBoss6Type1__data_805DE2D0) {
-        *(f32 *)&this->unk_4DC = (f32) TBoss6Type1__data_805DE2D0;
+    this->m_4dc = this->m_4dc + lbl_805DE370;
+    if (this->m_4dc < TBoss6Type1__data_805DE2D0) {
+        this->m_4dc = TBoss6Type1__data_805DE2D0;
     }
 }
 #pragma pop
@@ -1227,9 +1281,9 @@ void TBoss6Type1::decrease_field_clamped_min() {
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type1::increase_field_clamped_max() {
-    *(f32 *)&this->unk_4DC = (f32) (*(f32 *)&this->unk_4DC + lbl_805DE374);
-    if (*(f32 *)&this->unk_4DC > TBoss6Type1__data_805DE2E4) {
-        *(f32 *)&this->unk_4DC = (f32) TBoss6Type1__data_805DE2E4;
+    this->m_4dc = this->m_4dc + lbl_805DE374;
+    if (this->m_4dc > TBoss6Type1__data_805DE2E4) {
+        this->m_4dc = TBoss6Type1__data_805DE2E4;
     }
 }
 #pragma pop
@@ -1758,7 +1812,7 @@ void TBoss6Type1::update_sway() {
 #pragma pop
 
 void TBoss6Type1__sub_802B7D50(u8 *arg0) {
-    *(f32 *)((s8 *)arg0 + 0x4E8) = (f32) TBoss6Type1__data_805DE2D0;
+    *(f32 *)((s8 *)arg0 + 0x4E8) = TBoss6Type1__data_805DE2D0;
     *(s32 *)((s8 *)arg0 + 0x4EC) = 0;
     *(s32 *)((s8 *)arg0 + 0x4F0) = (s32) lbl_805DE3A8;
     *(s32 *)((s8 *)arg0 + 0x4F4) = (s32) lbl_805DE3B0;
@@ -2085,7 +2139,7 @@ void TBoss6Type1::vfunc_63() { if (*(int *)&this->m_374 != 40) { set_action_stat
 
 void TBoss6Type1::vfunc_62() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
-    this->m_4d4 = (f32) TBoss6Type1__data_805DE2E4;
+    this->m_4d4 = TBoss6Type1__data_805DE2E4;
     play_sound_effect(0x39E01, ((u8 *)this) + 0x584, 0, 1, this);
 }
 

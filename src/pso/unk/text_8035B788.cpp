@@ -22,8 +22,6 @@ u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern Rec_8035B788 lbl_804798CC;
 extern Rec_8035B788 lbl_804798DC;
 extern Obj_8035B788 *lbl_805D6F50;
-extern const f32 lbl_805E0140;
-extern const f32 lbl_805E0144;
 void fn_8035B788(void) {
     Obj_8035B788 *o = (Obj_8035B788 *)::operator new(0x440);
     if (o != NULL) {
@@ -33,12 +31,12 @@ void fn_8035B788(void) {
     {
         Rec_8035B788 r = lbl_804798CC;
         r.a = o->x430;
-        TLobby::spawn_npc_enemy((s16)0x11, o->x42c->x8, o->x42c->xc, (s32)&r, (f32)lbl_805E0140, (f32)lbl_805E0144);
+        TLobby::spawn_npc_enemy((s16)0x11, o->x42c->x8, o->x42c->xc, &r, 10.0f, 0.0f);
     }
     {
         Rec_8035B788 r = lbl_804798DC;
         r.a = lbl_805D6F50->x430;
-        TLobby::spawn_npc_enemy((s16)0x12, lbl_805D6F50->x42c->x8, lbl_805D6F50->x42c->xc, (s32)&r, (f32)lbl_805E0140, (f32)lbl_805E0144);
+        TLobby::spawn_npc_enemy((s16)0x12, lbl_805D6F50->x42c->x8, lbl_805D6F50->x42c->xc, &r, 10.0f, 0.0f);
     }
 }
 

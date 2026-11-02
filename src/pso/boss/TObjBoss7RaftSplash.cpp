@@ -20,8 +20,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 rand(void);
 extern RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash __vt__19TObjBoss7RaftSplash;
 extern s32 lbl_805D3FE8;
-extern const f32 lbl_805DEC88;
-extern const f32 lbl_805DEC8C;
 s32 spawn_particle__8TObjFishFllf(f32);
 
 extern const f32 lbl_805DEC90;
@@ -49,8 +47,8 @@ u8 *TObjBoss7RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) 
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = &__vt__19TObjBoss7RaftSplash.value;
     *(s32 *)((s8 *)object + 0) = (s32) lbl_805D3FE8;
-    *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805DEC68 * (lbl_805DEC88 + rand_signed_unit()));
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (lbl_805DEC8C * (f32) rand()));
+    *(f32 *)((s8 *)object + 0x20) = (f32) (lbl_805DEC68 * (3.0f + rand_signed_unit()));
+    *(f32 *)((s8 *)object + 0x1C) = (f32) (*(f32 *)((s8 *)object + 0x20) * (3.0517578e-05f * (f32) rand()));
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg2);
     VecCopy((Vec *)(object + 0x34), (const Vec *)arg3);
     *(s32 *)((s8 *)object + 0x24) = arg4;

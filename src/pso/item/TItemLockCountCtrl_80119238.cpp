@@ -12,7 +12,7 @@ struct VObj_801193D8 : Base_801193D8 {
 };
 
 // The lock-counted item effects (TItemLockCountCtrl objects), one per effect.
-extern VObj_801193D8 *item_effect_object_table[7];
+VObj_801193D8 *item_effect_object_table[7];
 extern "C" {
 void *TItemLockCountCtrl__ct(void *, s32, s32, void (*)(int), void (*)(int));
 void *__nw__7TObjectFUl(u32);

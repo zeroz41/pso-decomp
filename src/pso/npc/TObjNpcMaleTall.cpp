@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/npc/TObjNpcMaleTall.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TObjNpcMoja.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcMaleTall.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -53,16 +53,9 @@ void TObjNpcMaleTall::load_resource_instance() {
     (*(s32 *)&TObjNpcMaleTall__shared_model_resource) = var_r0;
 }
 
-void *__dt__15TObjNpcMaleTallFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TObjNpcMaleTall;
-        ((TUnk_804A9F50 *)arg0)->destroy_npc_lappy_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcMaleTall::~TObjNpcMaleTall() {}
+extern "C" {
 
 typedef char RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall_size[sizeof(RecoveredGlobal_8014C55C___vt__15TObjNpcMaleTall) == 0x178 ? 1 : -1];
 u8 *TObjNpcMaleTall__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -77,7 +70,7 @@ u8 *TObjNpcMaleTall__ct(u8 *player, s32 arg1, s32 arg2) {
     return player;
 }
 
-void TObjNpcMoja::vfunc_88() {
+void TObjNpcMoja::request_action(s32) {
     if ((s16) this->mode != 2) {
         this->requested_action = 0;
         return;

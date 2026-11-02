@@ -7,12 +7,14 @@
 struct TObjNpcBase : public TObjEnemy {
     virtual ~TObjNpcBase();
     virtual void run_task();
+    virtual void render();
+    virtual void interact(s32 client);
     virtual void vfunc_83();
     virtual void update_standing();
     virtual void update_wandering();
     virtual void update_conversation();
     virtual void apply_set_params(s32, s32);
-    virtual void vfunc_88();
+    virtual void request_action(s32 action);
     virtual void debug_draw_talk();
     virtual void play_voice();
     virtual void vfunc_91();
@@ -30,7 +32,7 @@ struct TObjNpcBase : public TObjEnemy {
     u32 m_38c;
     u32 m_390;
     u32 m_394;
-    u8 unk_398[0x4];
+    f32 m_398;
     f32 m_39c;
     u32 m_3a0;
     u32 m_3a4;

@@ -90,7 +90,7 @@ extern const f32 lbl_805DFBC0;
 extern const f32 lbl_805DFC24;
 extern f32 lbl_805D6DC0;
 extern f32 lbl_805D6DC4;
-extern f32 lbl_805D6DC8;
+f32 lbl_805D6DC8;
 extern f32 lbl_805D6DCC;
 extern f32 lbl_805D6DD0;
 extern f32 lbl_805D6DD4;

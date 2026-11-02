@@ -142,9 +142,9 @@ void __construct_array(void *, void *, void *, int, int);
 
 extern u8 *TObjEneRecobox__static_instance;
 extern s32 TObjEneRecobox_name_ref;
-extern s32 recobox_boss_register_id;
-extern s32 lbl_805D6B14;
-extern s32 TObjEneRecobox__shared_object_handle;
+s32 recobox_boss_register_id;
+s32 lbl_805D6B14;
+s32 TObjEneRecobox__shared_object_handle;
 extern const f32 lbl_805DF464;
 extern const f32 lbl_805DF468;
 extern const f32 lbl_805DF46C;
@@ -552,7 +552,7 @@ extern "C" u8 lbl_804762AC[];
 #undef lbl_804EC684
 #define lbl_804EC684 (*(Sub_80320260 *)lbl_804EC684)
 V3_80320260 lbl_80543000;
-extern s32 lbl_805D6B1C;
+s32 lbl_805D6B1C;
 
 #pragma dont_inline off
 #pragma inline_depth(4)
@@ -582,7 +582,7 @@ void TObjEneRecobox::load_resources() {
         Spawn_80320260 s = recobox_resource_binding_desc;
         box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
         s.a = box->f430;
-        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->f1C, (s32)&s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
+        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->f1C, &s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
     }
 }
 

@@ -23,9 +23,6 @@ extern s32 keyboard_hard_status_text_a[];
 extern s32 keyboard_hard_status_text_b[];
 extern s32 lbl_8044F0FC[];
 extern s32 lbl_8044F104[];
-extern const f32 lbl_805DD068;
-extern const f32 lbl_805DD06C;
-extern const f32 lbl_805DD070;
 s32 is_key_active__19TWindowKeyBoardHardFv();
 
 void TWindowKeyBoardHard::release_keyboard() { void* m = *(void* *)&this->m_70; if (m) TWindowKeyBoardHard__sub_8025CC48(m); }
@@ -33,26 +30,26 @@ void TWindowKeyBoardHard::release_keyboard() { void* m = *(void* *)&this->m_70; 
 void TWindowKeyBoardHard::draw_status_text(void *ctx) {
     s32 flags;
     if (((Win_80260020 *)this)->state != NULL && current_language == LANGUAGE_JAPANESE) {
-        f32 inv = lbl_805DD068 / ((Ctx_80260020 *)ctx)->scale;
+        f32 inv = -1.0f / ((Ctx_80260020 *)ctx)->scale;
         Pt_80260020 pt;
         pt.x = ((Ctx_80260020 *)ctx)->pos.x;
         pt.y = ((Ctx_80260020 *)ctx)->pos.y;
-        set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, (f32)lbl_805DD06C);
+        set_text_draw_params((s32)((Ctx_80260020 *)ctx), 0, 0, (f32)inv, 100000.0f);
         flags = ((Win_80260020 *)this)->state->flags;
         if (!(flags & 1)) {
-            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0CC, -1, 0, (f32)lbl_805DD070);
+            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0CC, -1, 0, 1000000.0f);
         } else if (flags & 2) {
-            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0D4, -1, 0, (f32)lbl_805DD070);
+            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0D4, -1, 0, 1000000.0f);
         } else if (flags & 4) {
             if (flags & 8) {
-                draw_window_text((f32 *)&pt, (const char *)keyboard_hard_status_text_a, -1, 0, (f32)lbl_805DD070);
+                draw_window_text((f32 *)&pt, (const char *)keyboard_hard_status_text_a, -1, 0, 1000000.0f);
             } else {
-                draw_window_text((f32 *)&pt, (const char *)keyboard_hard_status_text_b, -1, 0, (f32)lbl_805DD070);
+                draw_window_text((f32 *)&pt, (const char *)keyboard_hard_status_text_b, -1, 0, 1000000.0f);
             }
         } else if (flags & 8) {
-            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0FC, -1, 0, (f32)lbl_805DD070);
+            draw_window_text((f32 *)&pt, (const char *)lbl_8044F0FC, -1, 0, 1000000.0f);
         } else {
-            draw_window_text((f32 *)&pt, (const char *)lbl_8044F104, -1, 0, (f32)lbl_805DD070);
+            draw_window_text((f32 *)&pt, (const char *)lbl_8044F104, -1, 0, 1000000.0f);
         }
     }
 }

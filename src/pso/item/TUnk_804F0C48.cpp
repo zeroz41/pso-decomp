@@ -14,15 +14,13 @@ struct ItemChoiceList { s32 count; ItemChoice *choices; };
 extern "C" {
 ItemChoiceList *get_item_pmt_entry__10TObjPlayerFUc(u8);
 s32 rand(void);
-extern const f32 lbl_805DFE28;
-extern const f32 lbl_805DFE2C;
 }
 
 void TUnk_804F0C48::apply_use_effect() {
     ItemChoiceList *list;
     list = get_item_pmt_entry__10TObjPlayerFUc(this->get_item_index());
     if (list != NULL) {
-        s32 r = (s32)(lbl_805DFE28 * (lbl_805DFE2C * (f32)rand()));
+        s32 r = (s32)(100.0f * (3.0517578e-05f * (f32)rand()));
         ItemChoice *choice = list->choices;
         s32 i;
         for (i = list->count; i != 0; i++) {

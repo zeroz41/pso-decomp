@@ -84,8 +84,6 @@ extern const f32 lbl_805D8254;
 extern const f32 lbl_805D8264;
 extern const f32 lbl_805D8268;
 extern const f32 lbl_805D826C;
-extern const f32 lbl_805D8270;
-extern const f32 lbl_805D8274;
 void scale_matrix(int, f32, f32, f32);
 void post_translate_matrix(void *pos);
 void rotate_matrix_by_node_angles(void *angles, s32 mode);
@@ -330,7 +328,7 @@ s32 TObjPlayer__sub_8002EDCC(u8 *arg0) {
             if (temp_f2 < lbl_805D8264) {
                 temp_f3 = *(f32 *)((s8 *)arg0 + 0);
                 temp_f4 = *(f32 *)((s8 *)arg0 + 8);
-                if ((temp_f3 <= lbl_805D8268) && (temp_f3 >= lbl_805D826C) && (temp_f4 <= lbl_805D8270) && (temp_f4 >= lbl_805D8274)) {
+                if ((temp_f3 <= lbl_805D8268) && (temp_f3 >= lbl_805D826C) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
                     *(f32 *)((s8 *)arg0 + 0x10) = (f32) (temp_f1 * lbl_805D8230);
                     *(s32 *)((s8 *)arg0 + 0x28) = 2;
                 } else if (temp_f2 < lbl_805D8258) {

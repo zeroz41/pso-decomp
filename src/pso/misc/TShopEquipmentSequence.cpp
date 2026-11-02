@@ -98,8 +98,6 @@ s32 set_field_20__15TShopWindowBaseFl(void *, s32);
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-extern const f32 lbl_805DC6E0;
-extern const f32 lbl_805DC6E4;
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
@@ -107,9 +105,9 @@ extern RecoveredGlobal_8021DA90___vt__22TShopEquipmentSequence __vt__22TShopEqui
 extern RecoveredGlobal_8021DA90_TShopEquipmentSequence__data_80513EC0 TShopEquipmentSequence__slot_active_flags;
 u8 *TShopSequence__ct(u8 *arg0);
 extern s32 TShopEquipmentSequence__class_name;
-extern u8 *lbl_805D6228;
-extern s32 lbl_805D622C;
-extern s32 lbl_805D6230;
+u8 *lbl_805D6228;
+s32 lbl_805D622C;
+s32 lbl_805D6230;
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
 void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
@@ -228,9 +226,9 @@ void TShopEquipmentSequence::update_buy_sell_choice() {
 s32 TShopEquipmentSequence::open_greeting() {
     u8 *arg0 = (u8 *)this;
   Stack_8021D948 stack;
-  stack.sp8 = lbl_805DC6E0;
-  stack.spC = lbl_805DC6E4;
-  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, (f32) lbl_805DC6E0), (s32)&stack.sp8);
+  stack.sp8 = 332.0f;
+  stack.spC = 80.0f;
+  ((TShopSequence *)arg0)->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
   (((VObj_18_a93f07 *)(arg0))->m4(0x27, 1));
   this->m_30 = create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(arg0));
   set_field_20__15TShopWindowBaseFl(arg0, 2);

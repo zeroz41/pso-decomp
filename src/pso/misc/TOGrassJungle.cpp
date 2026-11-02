@@ -2,9 +2,15 @@
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/misc/TOGrassJungle_8029CD90.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/BmlResource.h"
 #include "pso/misc/TOGrassJungle.h"
 #include "pso/misc/TMotorcycle.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/misc/TOKeyJungleMain.h"
+#include "pso/object/TObjFish.h"
+#include "pso/object/TObjMotion.h"
+#include "pso/map/FloorArea.h"
 
 extern char lbl_80465938[];
 extern char lbl_80465950[];
@@ -19,14 +25,16 @@ typedef char RecoveredGlobal_8029CD0C_lbl_8046598C_size[sizeof(RecoveredGlobal_8
 struct RecoveredGlobal_8029CD0C_lbl_804DC534 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8029CD0C_lbl_804DC534_size[sizeof(RecoveredGlobal_8029CD0C_lbl_804DC534) == 0x10 ? 1 : -1];
 
+struct RecoveredGlobal_8029CE64___vt__13TOGrassJungle {
+    s32 value;
+    u8 remaining[0x30];
+};
+
 extern "C" {
-s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8029CD0C_lbl_8046598C lbl_8046598C;
-extern u32 TOGrassJungle__bml_resource;
-extern u32 TOGrassJungle__grass_gvm_texture;
-extern const f32 lbl_805DDD28;
-extern const f32 lbl_805DDD2C;
+BmlResource *TOGrassJungle__bml_resource;
+u32 TOGrassJungle__grass_gvm_texture;
 void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
 void *__nw__7TObjectFUl(int);
@@ -62,10 +70,87 @@ void TOGrassJungle::load_resources() {
     }
     (*(u8 * *)&TOGrassJungle__bml_resource) = (unsigned char *) ((void *) var_r0);
     (*(u8 * *)&TOGrassJungle__grass_gvm_texture) = load_gvm_texture_file((s32) &lbl_8046598C.value);
-    TMotorcycle::add_entry(0x3F, (int) (get_bml_model((*(u8 * *)&TOGrassJungle__bml_resource), 0)), (int) ((*(u8 * *)&TOGrassJungle__grass_gvm_texture)), lbl_805DDD28, lbl_805DDD2C);
+    TMotorcycle::add_entry(0x3F, (int) (get_bml_model(TOGrassJungle__bml_resource, 0)), (int) ((*(u8 * *)&TOGrassJungle__grass_gvm_texture)), 12.0f, -10.0f);
 }
 
 __declspec(section ".data") const char *bm_o_grass_jungle_model_names[3] = { lbl_80465938, lbl_80465950, NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { lbl_80465964, bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
 __declspec(section ".sdata") const char *bm_o_grass_jungle_motion_names[1] = { NULL };
+
+s32 __ct__8TObjBaseFP7TObject(void *, void *);
+extern s32 __vt__13TOGrassJungle[];
+extern s32 grass_jungle_class_name;
+struct Base_8029CD90 { char pad[0x18]; };
+struct VObj_8029CD90 : Base_8029CD90 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual s32 m8(f32, f32);
+};
+
+s32 play_sound_effect(s32, s32, s32, s32);
+s32 post_translate_matrix(void *);
+s32 draw_ginja_object();
+s32 rotate_matrix_y(s32, s32);
+s32 push_matrix();
+void __dl__7TObjectFPv(void *);
+
+void TOGrassJungle::render() {
+    u8 *arg0 = (u8 *)this;
+    if (((VObj_8029CD90 *)arg0)->m8(400.0f, 20.0f) == 1) {
+        TObjFish::set_global_param(TOGrassJungle__grass_gvm_texture);
+        push_matrix();
+        post_translate_matrix((u8 *)&this->position);
+        rotate_matrix_y(0, this->rotation_y);
+        get_bml_model(TOGrassJungle__bml_resource, this->m_90);
+        draw_ginja_object();
+        pop_matrix();
+    }
+}
+
+}
+TOGrassJungle::~TOGrassJungle() {
+
+}
+extern "C" {
+
+typedef char RecoveredGlobal_8029CE64___vt__13TOGrassJungle_size[sizeof(RecoveredGlobal_8029CE64___vt__13TOGrassJungle) == 0x34 ? 1 : -1];
+u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
+    __ct__8TObjBaseFP7TObject((void *)grass_jungle, (void *)parent);
+    *(s32 **)((s8 *)grass_jungle + 0x18) = &(*(RecoveredGlobal_8029CE64___vt__13TOGrassJungle *)&__vt__13TOGrassJungle).value;
+    *(s32 *)((s8 *)grass_jungle + 0) = (s32) grass_jungle_class_name;
+    ((TOGrassJungle *)(grass_jungle))->apply_object_set_data((void *)arg2);
+    grass_jungle->m_90 = (s32) grass_jungle->set_params[0];
+    if ((s32) grass_jungle->m_90 < 0) {
+        grass_jungle->m_90 = 0;
+    }
+    if ((s32) grass_jungle->m_90 > 1) {
+        grass_jungle->m_90 = 1;
+    }
+    return (u8 *)grass_jungle;
+}
+
+void TOKeyJungleMain::play_activate_sound() {
+    s32 arg0 = (s32)this;
+    s32 var_r31;
+    s32 area;
+
+    var_r31 = 0x4AD12;
+    area = get_current_floor_area();
+    switch (area) {
+    case AREA_SEASIDE_NIGHT:
+        var_r31 = 0x4004AD12;
+        break;
+    case AREA_TOWER:
+        var_r31 = 0x4004AD12;
+        break;
+    }
+    play_sound_effect(var_r31, arg0 + 0x38, 0, 0);
+}
+
 }

@@ -158,7 +158,14 @@ struct RecoveredGlobal_801AD330___vt__18TPhotonMagicSquare { s32 value; u8 remai
 
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *);
-extern RecoveredGlobal_801AD0F0_TPhotonMagicSquare__data_804C3940 TPhotonMagicSquare__color_palette;
+NJS_ARGB TPhotonMagicSquare__color_palette[6] = {
+    { 0.0f, 1.0f, 0.15f, 0.5f },
+    { 0.0f, 0.0f, 0.65f, 1.0f },
+    { 0.0f, 0.85f, 0.4f, 1.0f },
+    { 0.0f, 0.85f, 0.4f, 1.0f },
+    { 0.0f, 0.0f, 1.0f, 0.4f },
+    { 0.0f, 0.0f, 1.0f, 0.75f },
+};
 extern RecoveredGlobal_801AD0F0___vt__18TPhotonMagicSquare __vt__18TPhotonMagicSquare;
 extern const char *TPhotonMagicSquare__data_805D3508;
 extern u8 *photon_blast_shared_resource;
@@ -185,7 +192,7 @@ u8 *TPhotonMagicSquare__ct(u8 *photon_magic_square, s32 arg1, s32 arg2, s32 arg3
     ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
-    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)&TPhotonMagicSquare__color_palette.value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_b4 = 0;
@@ -208,7 +215,7 @@ u8 *construct_photon_magic_square_normal(u8 *photon_magic_square, s32 arg1, s32 
     ((TPhotonMagicSquare *)photon_magic_square)->scale.x = (f32) (0.0f);
     ((TPhotonMagicSquare *)photon_magic_square)->scale.y = (f32) (0.0f);
     *(f32 *)((s8 *)photon_magic_square + 0x70) = (f32) (0.0f);
-    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)&(*(RecoveredGlobal_801AD218_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(photon_magic_square + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
     VecCopy((Vec *)(photon_magic_square + 0xB8), (const Vec *)(arg3));
     ((TPhotonMagicSquare *)photon_magic_square)->m_b0 = 0;
     ((TPhotonMagicSquare *)photon_magic_square)->m_b4 = 0;
@@ -232,7 +239,7 @@ u8 *TPhotonMagicSquare::construct_at_owner(s32 arg1, s32 arg2, s32 arg3) {
     this->scale.x = (f32) (0.0f);
     this->scale.y = (f32) (0.0f);
     this->scale.z = (f32) (0.0f);
-    copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)&(*(RecoveredGlobal_801AD330_TPhotonMagicSquare__data_804C3940 *)&TPhotonMagicSquare__color_palette).value + (arg2 * 0x10)));
+    copy_argb((NJS_ARGB *)(((u8 *)this) + 0xA0), (NJS_ARGB *)((u8 *)TPhotonMagicSquare__color_palette + (arg2 * 0x10)));
     entity = find_entity_by_id((void *)arg3);
     if (entity != 0) {
         VecCopy((Vec *)(((u8 *)this) + 0xB8), (const Vec *)(entity + 0x38));

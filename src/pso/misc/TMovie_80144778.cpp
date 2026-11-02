@@ -27,7 +27,6 @@ struct Vec_80144778 { s32 x, y, z; };
 extern "C" {
 u8 *load_rel_module(u8 *arg0, s32 arg1);
 char *strncpy(char *, const char *, u32);
-extern u8 lbl_8043F380[];
 extern s32 TMovie__name;
 void queue_destruction__7TObjectFv(void *arg0);
 u8 *__ct__10TAdEndTextFv(void *, void *);
@@ -44,9 +43,6 @@ extern Vec_80144778 lbl_8043F2F4;
 extern Vec_80144778 lbl_8043F300;
 extern s32 video_initial_draw_framebuffer;
 extern s32 video_initial_display_framebuffer;
-extern const f32 lbl_805DB180;
-extern const f32 lbl_805DB184;
-extern const f32 lbl_805DB188;
 void run_task__6TMovieFv(TMovie *arg0);
 
 void run_task__6TMovieFv(TMovie *movie) {
@@ -82,7 +78,7 @@ void run_task__6TMovieFv(TMovie *movie) {
             Vec_80144778 eye = lbl_8043F2E8;
             Vec_80144778 at = lbl_8043F2F4;
             Vec_80144778 up = lbl_8043F300;
-            set_perspective_projection_from_fov(0x4B, lbl_805DB180, lbl_805DB184, lbl_805DB188);
+            set_perspective_projection_from_fov(0x4B, 1.1333334f, 1.0f, 21000.0f);
             set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)&up);
             ((TMovie *)(movie->m_20))->update_stop();
             if (txt != NULL) {
@@ -105,7 +101,7 @@ TMovie::TMovie(TObject *parent, s8 *name, s32 a3, s32 a4, s32 a5) : TObject(pare
     strncpy(((TMovie_80144910 *)this)->path, (const char *)name, 0x20);
     p = (u8 *)::operator new(8);
     if (p != 0) {
-        p = load_rel_module(p, (s32)lbl_8043F380);
+        p = load_rel_module(p, (s32)"movie.rel");
     }
     ((TMovie_80144910 *)this)->obj1C = p;
     p = (u8 *)::operator new(0xD0);

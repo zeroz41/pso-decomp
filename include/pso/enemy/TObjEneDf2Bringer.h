@@ -6,10 +6,11 @@
 
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual ~TObjEneDf2Bringer();
+    virtual s32 vfunc_104(f32);
     virtual void vfunc_88();
     virtual void vfunc_83();
     virtual void vfunc_105();
-    virtual void vfunc_106();
+    virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
     void sub_80098DEC();
     void vfunc_63();

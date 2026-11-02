@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjTank.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -19,10 +20,7 @@ struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
     u8 remaining[0xC];
 };
 
-struct RecoveredGlobal_8019A880_lbl_804B8F70 {
-    s32 value;
-    u8 remaining[0x28];
-};
+CollisionBody tobjtank_collision_body_parts = {{0.0f, 0.0f, 0.0f}, 20.0f, 10.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 struct RecoveredGlobal_8019A880___vt__8TObjTank {
     s32 value;
@@ -37,13 +35,10 @@ s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 extern u32 tank_bml_resource;
 extern u32 TObjTank__texture_list;
-extern const f32 lbl_805DBFA0;
-extern const f32 lbl_805DBFA4;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80446184;
 extern RecoveredGlobal_8019A9B8_lbl_804B8F60 fs_obj_tank_resource_descriptor;
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_8019A880_lbl_804B8F70 tobjtank_collision_body_parts;
 extern s32 __vt__8TObjTank[];
 extern s32 TObjTank__class_name;
 void TLobby__sub_8001FE7C(void*, int);
@@ -67,7 +62,7 @@ struct VObj : Base {
 void TObjTank::render() {
     u8 *arg0 = (u8 *)this;
     void *p;
-    if ((((VObj *)arg0)->m8(lbl_805DBFA0, lbl_805DBFA4) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
+    if ((((VObj *)arg0)->m8(400.0f, 20.0f) != 0) && (p = (*(void * *)&TObjTank__texture_list))) {
         TObjFish::set_global_param((u32)p);
         push_matrix();
         post_translate_matrix((u8 *)&this->position);
@@ -80,22 +75,15 @@ void TObjTank::render() {
 
 void TObjTank::run_task() {  }
 
-void *__dt__8TObjTankFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjTank;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjTank::~TObjTank() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
 u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
@@ -104,7 +92,7 @@ u8 *TObjTank__ct(u8 *arg0, s32 arg1, s32 arg2) {
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg2 + 0xC));
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
-    init_collision_body_parts(arg0, &tobjtank_collision_body_parts.value, 1);
+    init_collision_body_parts(arg0, &tobjtank_collision_body_parts, 1);
     ((TObjTank *)arg0)->actorFlags = (s32) (((TObjTank *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
     return arg0;

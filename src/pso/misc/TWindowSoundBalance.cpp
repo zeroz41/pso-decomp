@@ -27,8 +27,6 @@ s32 refresh_status_display__9TWindowDDFv(u8 *);
 extern s32 window_sound_balance_settings[];
 extern s32 __vt__19TWindowSoundBalance[];
 extern s32 TWindowSoundBalance__name;
-extern const f32 lbl_805DD414;
-extern const f32 lbl_805DD418;
 s32 draw_visible_window_entries(s32, s32, void *);
 void __dl__7TObjectFPv(void *);
 
@@ -72,7 +70,6 @@ void TWindowSoundBalance::play_open_sound() {
     this->m_60 = (u8) (this->m_60 | 1);
 }
 
-extern const f32 lbl_805DD408;
 
 void TWindowSoundBalance::sub_8027095C() {
     ControllerInputContext *input = &controller_input_state.controllers[0];
@@ -88,7 +85,7 @@ void TWindowSoundBalance::sub_8027095C() {
             gain = music_gain;
             range = 250;
         }
-        step = lbl_805DD408 * range;
+        step = 0.025f * range;
         if (is_flag_set__11TLoadingCurFv(input, 0x80) != 0 ||
             is_flag_set__11TLoadingCurFv(&controller_input_state.keyboard, 0x80) != 0) {
             gain += step;
@@ -107,8 +104,6 @@ void TWindowSoundBalance::sub_8027095C() {
     }
 }
 
-extern const f32 lbl_805DD40C;
-extern const f32 lbl_805DD410;
 
 void TWindowSoundBalance::handle_lr_input() {
     u8 *input;
@@ -137,8 +132,8 @@ void TWindowSoundBalance::render() {
     TWindowKeyBoardSoft *entry = (TWindowKeyBoardSoft *)TWindowDD::draw_default_entry((s32)self);
     self->draw_window_frame(entry);
     draw_visible_window_entries((s32)self, (s32)&self->m_24, entry);
-    entry->inner_x += lbl_805DD40C;
-    entry->inner_w -= lbl_805DD410;
+    entry->inner_x += 174.0f;
+    entry->inner_w -= 348.0f;
     self->apply_balance(entry);
 }
 #pragma pop
@@ -185,11 +180,11 @@ u8 *TWindowSoundBalance__ct(u8 *arg0, s32 arg1) {
     ((TWindowSoundBalance *)arg0)->sound_effect_gain = 1;
     e = get_array_entry__11TWindowBaseFi(arg0, 0);
     get_field_20__17TWindowSubComCardFv();
-    *(f32 *)((s8 *)e + 8) = lbl_805DD414 - lbl_805DD418 * calc_text_width();
+    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
     e = get_array_entry__11TWindowBaseFi(arg0, 1);
     get_field_20__17TWindowSubComCardFv();
-    *(f32 *)((s8 *)e + 8) = lbl_805DD414 - lbl_805DD418 * calc_text_width();
+    *(f32 *)((s8 *)e + 8) = 231.0f - 0.5f * calc_text_width();
     refresh_status_display__9TWindowDDFv(e);
     st = get_global_state__23TAdSinglePlyChrSelectGCFv();
     if (st == 0) {

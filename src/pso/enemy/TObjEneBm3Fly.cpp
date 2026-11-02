@@ -1,4 +1,5 @@
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/enemy/TObjEneBm3Fly.h"
 #include "pso/enemy/TObjEnemy.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
@@ -891,7 +892,7 @@ struct VObj_800B150C_800B07D0 : Base_800B150C_800B07D0 {
     virtual void m96(); virtual int m97();
 };
 
-void TObjEneBm3Fly__vt102(void *arg0, f32 farg0);
+void vfunc_104__13TObjEneBm3FlyFf(void *arg0, f32 farg0);
 s32 select_nearest_target__12TObjEneDD_STFf(void *, f32);
 
 extern u8 *lbl_805D50EC;
@@ -1460,12 +1461,12 @@ void TObjEneBm3Fly__sub_800B1214(u8 *arg0, s32 arg1) {
 }
 #pragma pop
 
-void TObjEneBm3Fly__vt102(void *arg0, f32 farg0) {
-    if (((VObj_800B150C_800B07D0 *)arg0)->m97() != 0) {
-        ((TObjEneDD_ST *)arg0)->select_and_apply_target(farg0);
+s32 TObjEneBm3Fly::vfunc_104(f32 farg0) {
+    if (((VObj_800B150C_800B07D0 *)this)->m97() != 0) {
+        ((TObjEneDD_ST *)this)->select_and_apply_target(farg0);
         return;
     }
-    select_nearest_target__12TObjEneDD_STFf(arg0, farg0);
+    select_nearest_target__12TObjEneDD_STFf(this, farg0);
 }
 void TObjEneBm3Fly__play_orbit_flight_sound(s32 arg0) {
     play_persistent_sound((((s32)((TObjEnemy *)((void *)arg0))->remap_sound_for_area((s32)(0x4003AB23)))), (arg0), (arg0 + 0x38), 0, 0);
@@ -2083,7 +2084,7 @@ void *__vt__13TObjEneBm3Fly[107] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
     (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__9TObjEneDDFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&TObjEneBm3Fly__vt102, (void *)&TObjEneBm3Fly__vt103, (void *)&TObjEneBm3Fly__vt104,
+    (void *)&vfunc_104__13TObjEneBm3FlyFf, (void *)&TObjEneBm3Fly__vt103, (void *)&TObjEneBm3Fly__vt104,
 };
 #define bm3_fly_collider_params (*(RecoveredGlobal_800B22C8_lbl_80491B4C *)bm3_fly_collider_params)
 #define __vt__13TObjEneBm3Fly ((s32 *)__vt__13TObjEneBm3Fly)
@@ -2453,7 +2454,7 @@ void TObjEneBm3Fly::load_resources() {
     stack.sp14 = *(s32 *)((s8 *)&bm3_fly_resource_binding_desc.value + 0xC);
     stack.sp8 = *(s32 *)((s8 *)bm3_fly_nest_resources + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)bm3_fly_nest_resources + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(7), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), (s32)((void *)&stack.sp8), (f32)((f32) (*(f32 *)((s8 *)&bm3_fly_collider_params.value + 0xC))), (f32)((f32) ((15.0f))));
+    TLobby::spawn_npc_enemy((s16)(7), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 8))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0xC))), &stack.sp8, (f32)((f32) (*(f32 *)((s8 *)&bm3_fly_collider_params.value + 0xC))), (f32)((f32) ((15.0f))));
 }
 
 }

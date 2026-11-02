@@ -43,7 +43,6 @@ typedef struct S_802C4E38 {
 } S_802C4E38;
 
 extern "C" {
-extern const f32 lbl_805DE548;
 extern const f32 lbl_805DE54C;
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *, void *);
 extern const f32 lbl_805DE550;
@@ -51,7 +50,7 @@ extern const f32 lbl_805DE554;
 extern const f32 lbl_805DE558;
 bool TAdPlyChrSelPlateGC::is_slot_value_ready(s32 i) {
     O_802C4D5C *self = (O_802C4D5C *)this;
-    return (self->v[i] >= lbl_805DE548) ? true : false;
+    return (self->v[i] >= 127.5f) ? true : false;
 }
 void TAdPlyChrSelPlateGC::reset_selection_slots() {
     S_802C4D88 *arg0 = (S_802C4D88 *)this;
@@ -98,7 +97,7 @@ void TAdPlyChrSelPlateGC::run_task() {
                 self->a[i] = 1;
             } else {
                 self->fl[i] += lbl_805DE550;
-                self->fl[i] = (self->fl[i] > lbl_805DE548) ? lbl_805DE548 : self->fl[i];
+                self->fl[i] = (self->fl[i] > 127.5f) ? 127.5f : self->fl[i];
                 self->c[i].b[2] = self->col[2];
                 self->c[i].b[1] = self->col[1];
                 self->c[i].b[0] = self->col[0];

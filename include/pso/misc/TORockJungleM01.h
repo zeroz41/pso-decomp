@@ -24,7 +24,6 @@ typedef char TORockJungleM01_size[sizeof(TORockJungleM01) == 0xE0 ? 1 : -1];
 
 extern "C" {
 u8 *TORockJungleM01__ct(u8 *arg0, s32 arg1);
-void *__dt__15TORockJungleM01Fv(void *arg0, s16 arg1);
 }
 
 #endif

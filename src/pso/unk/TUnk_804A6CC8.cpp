@@ -5,7 +5,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/unk/text_801310A8.h"
-#include "pso/object/TObjGyaranzoMissile_80131100.h"
 #include "pso/object/TUnk_804A6DC0.h"
 #include "pso/item/TItem.h"
 

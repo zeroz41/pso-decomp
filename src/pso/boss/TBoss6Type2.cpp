@@ -634,9 +634,6 @@ extern RecoveredGlobal_802BD938_TBoss6Type2__data_8047105C TBoss6Type2__data_804
 extern const RecoveredGlobal_802BC754_lbl_80471080 TBoss6Type2__default_battle_parameters;
 extern Tbl_802B9C00 TBoss6Type2__particle_attachment_table[];
 extern RecoveredGlobal_802BC4CC_lbl_804712FC TBoss6Type2__no_target_sound_ids;
-extern s32 boss6_type2_hit_check_value_table[];
-extern Ent_802BA7BC boss6_type2_motion_param_table[];
-extern s32 boss6_type2_hit_effect_node_table[];
 extern RecoveredGlobal_802BB180_lbl_804DFAC4 lbl_804DFAC4;
 extern RecoveredGlobal_802BB180_lbl_804DFAD0 lbl_804DFAD0;
 extern Tb_802BD014 lbl_804E00DC[];
@@ -660,6 +657,12 @@ extern const f32 lbl_805DE3FC = 0.42f;
 extern const f32 lbl_805DE400 = 0.5f;
 extern const f32 lbl_805DE404 = 0.6f;
 extern const f32 lbl_805DE408 = 0.6f;
+
+extern const s32 boss6_type2_hit_check_value_table[] = { 1, 13, 24, 26 };
+extern const Ent_802BA7BC boss6_type2_motion_param_table[] = {
+    { 3, 3, 11.0f }, { 4, 4, 9.0f }, { 5, 5, 5.0f }, { 8, 0, 11.0f }, { 9, 1, 9.0f }, { 10, 2, 5.0f },
+};
+extern const s32 boss6_type2_hit_effect_node_table[] = { 4, 9, 11, 0 };
 
 void TBoss6Type2::draw() {
     if (*(u16 *)((s8 *)this + 0x55C) != 65535) {
@@ -1207,7 +1210,7 @@ void TBoss6Type2__sub_802BA7BC(u8 *o) {
     f32 k = 20.0f;
     s32 i = 0;
     do {
-        Ent_802BA7BC *e = &boss6_type2_motion_param_table[i];
+        const Ent_802BA7BC *e = &boss6_type2_motion_param_table[i];
         f32 lo = e->lo;
         f32 v = *(f32 *)(o + e->idx * 0xC + 0x5A0);
         if (v < lo || v > k + lo) {

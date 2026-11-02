@@ -11,6 +11,7 @@ public:
     virtual ~TObjCMMainMenu();
     void update_menu_reveal();
     void sub_80297B18();
+    void sub_802979BC();
     virtual void run_task();
     virtual void render();
     void handle_creation_input();
@@ -45,6 +46,12 @@ public:
     static void *create_fade(void *arg0, void *arg1);
     static void *create_fade_effect(void *arg0, void *arg1);
     static s32 try_pay_fee();
+    void confirm_selection(void *);
+    void open_name_menu(void *);
+    void open_proportion_menu(void *);
+    void open_auto_mk_menu(void *);
+    void open_hair_menu(void *);
+    void open_assign_menu(void *);
     void draw_root_menu();
     void draw_footer_divider();
     void update_submenu_fade();

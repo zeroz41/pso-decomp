@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A2678.h"
 #include "pso/TObject.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/item/TItemEquipBase.h"
@@ -102,19 +103,19 @@ void spawn_item_follow_effect(s32 arg0, u32 arg1, s32 arg2, s32 arg3) {
     }
 }
 
-void TObjPlayer::cast_gifoie() {
+void TUnk_804A2678::emit_marker_effects() {
     s32 sp8;
-    if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
-        if ((((TObjPlayer *)(*(s32 *)&this->blend.frame[1] + 0x7CC))->get_stage_strike_count() == 0) && (((TItemWeapon *)this)->get_joint_position(0, &sp8) != 0)) {
-            TTecGiFoie::create((void *)(*(s32 *)&this->blend.frame[1]), &sp8, (void *)(get_tp()));
-            ((TItemWeapon *)this)->roll_technique();
+    if (is_mode_two_and_ready() != 0) {
+        if ((((TObjPlayer *)((u8 *)this->owner + 0x7CC))->get_stage_strike_count() == 0) && (get_joint_position(0, &sp8) != 0)) {
+            TTecGiFoie::create(this->owner, &sp8, (void *)(((TObjPlayer *)this)->get_tp()));
+            roll_technique();
         }
     } else {
-        update_active_game_effect();
+        ((TObjPlayer *)this)->update_active_game_effect();
     }
 }
-void TObjPlayer__sub_80125C70(void* p) { *(s32*)((char*)p + 0x1f8) = -1; }
-void TObjPlayer::create_pro_armor() {
+void TUnk_804A2678::vfunc_58() { *(s32*)((char*)this + 0x1f8) = -1; }
+void TUnk_804A2678::vfunc_57() {
     s32 temp_r3;
     *(s32 *)&this->unk_1F8 = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {

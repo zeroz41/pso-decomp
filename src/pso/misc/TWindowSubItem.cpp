@@ -372,7 +372,6 @@ void TWindowSubItem::add_meseta_purpose_actions(s32 arg0, s32 arg1) {
     forward_trade_action_default__16TObjCityMainWarpFPviii(arg1, (s32)(get_message_10__20TWindowSubStatusDispFl(0x5F)), 6, 6);
 }
 
-extern const f32 lbl_805DD630;
 
 s32 TWindowSubItem::create_count_input(s32 maximum) {
     s32 storage;
@@ -384,7 +383,7 @@ s32 TWindowSubItem::create_count_input(s32 maximum) {
     ((TWindowInputNumber *)storage)->create(get_message_10__20TWindowSubStatusDispFl(0x28));
     TWindowSubEquip__sub_80263AF8(this->m_2c, 3);
     set_depth__11TWindowBaseFf(storage);
-    ((TWindowInputNumber *)storage)->set_value(lbl_805DD630);
+    ((TWindowInputNumber *)storage)->set_value(224.0f);
     ((TWindowSubItem *)storage)->set_flag60_bit10();
     return storage;
 }
@@ -397,7 +396,7 @@ s32 TWindowSubItem::create_menu_window() {
     TWindowSubEquip__sub_80263AF8(this->m_2c, 2);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(lbl_805DD630);
+    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
     return titled_window_menu;
 }
@@ -415,7 +414,7 @@ s32 TWindowSubItem::open_purpose_window(s32 arg1) {
     TWindowSubEquip__sub_80263AF8(this->m_2c, 1);
     set_depth__11TWindowBaseFf(titled_window_menu);
     ((TWindowSubComCardList *)titled_window_menu)->set_flag70_bit10();
-    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(lbl_805DD630);
+    ((TWindowSubComCardList *)titled_window_menu)->update_layout_height(224.0f);
     align_menu_entry_positions(titled_window_menu);
     return titled_window_menu;
 }

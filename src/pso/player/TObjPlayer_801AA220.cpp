@@ -72,7 +72,35 @@ void TObjPlayer::start_photon_blast(s32 arg0, u16 arg1) {
     }
 }
 
-    extern unsigned char photon_blast_entry_table[];
-void*TObjPlayer::get_photon_blast_entry(int a0) {  return (char*)photon_blast_entry_table + a0 * 44; }
+// One entry per photon blast; +0x00 is the hit power (queue_photon_blast_hit), +0x12 is read by
+// TObjPlayer_801C7430, +0x20 is the effect id start_photon_blast plays.
+struct PhotonBlastEntry {
+    f32 power;
+    f32 pad_04;
+    f32 pad_08;
+    f32 pad_0c;
+    s16 pad_10;
+    s16 pad_12;
+    s16 pad_14;
+    s16 pad_16;
+    s32 pad_18;
+    s32 pad_1c;
+    s16 effect_id;
+    s8 pad_22;
+    u8 pad_23;
+    s32 pad_24;
+    s32 pad_28;
+};
+
+PhotonBlastEntry photon_blast_entry_table[6] = {
+    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 350.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 1200.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 500.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x2AAA, 0x1555, 10, 10, 0, 0, 0 },
+    { 150.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
+    { 0.0f, 15.0f, 150.0f, 10.0f, 0, 10, 20, 4, 0x1555, 0x1555, 10, 10, 0, 0, 0 },
+};
+
+void*TObjPlayer::get_photon_blast_entry(int a0) {  return &photon_blast_entry_table[a0]; }
 
 }

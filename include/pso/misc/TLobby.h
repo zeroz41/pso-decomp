@@ -450,7 +450,7 @@ struct TLobby : public TObject {
     static void clear_stale_entries(u8 *arg0);
     void*get_trade_obj_ptr();
     void prepare_trade_packet();
-    static void spawn_npc_enemy(s16 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0, f32 farg1);
+    static void spawn_npc_enemy(s16 arg0, s32 arg1, s32 arg2, void *arg3, f32 farg0, f32 farg1);
     int forward_npc_enemy();
     static unsigned char get_trade_mode();
     void set_ad_field(s32 v);
@@ -467,10 +467,10 @@ struct TLobby : public TObject {
     static void*get_record(int a0);
     void queue_destruction_and_cleanup();
     void set_flag_and_clear_download();
-    static void open_keyboard();
-    static void request_change_game_mode();
-    static void enter_game_mode_change();
-    static void enter_chg_game_mode();
+    void open_keyboard();
+    void request_change_game_mode();
+    void enter_game_mode_change();
+    void enter_chg_game_mode();
     static void destroy_global_object();
     static void set_global_flags(s32 arg0);
     static void handle_flag2_request();
@@ -636,7 +636,7 @@ struct TLobby : public TObject {
     static s32 dispatch_slot_a(s16 arg0, s32 arg1);
     static s32 dispatch_slot_b(s16 arg0, s32 arg1);
     static s32 forward_net_op(s16 arg0, u8 *arg1, u8 *arg2);
-    static s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s8 arg6, s32 arg7);
+    static s16 forward_net_op_5args(s16 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s32 arg5, s16 arg6, s32 arg7);
     static void flush_flags_step();
     static void run_connect_step();
     static s16 init_net_sockets();
@@ -646,8 +646,9 @@ struct TLobby : public TObject {
     static s32 call_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
     static s32 dispatch_handler_by_index(s16 arg0, s32 arg1, s32 arg2, s32 arg3);
     static s32 dispatch_handler_by_id(s16 arg0, s32 arg1, s32 arg2);
-    static s32 invoke_socket_callback(s16 i, s32 arg);
-    static s32 call_entry_callback(s16 i, s32 arg);
+    static s16 invoke_socket_callback(s16 i, s32 arg);
+    static s16 is_socket_flag_set(s16 i);
+    static s32 call_entry_callback(s16 i, s16 arg);
     static s16 is_slot_flag_0x40_set(s16 i);
     static s32 is_slot_flag_0x20_set(s16 i);
     static s16 is_entry_flag10_set(s16 i);
@@ -763,9 +764,10 @@ struct TLobby : public TObject {
     static void stop_network_thread();
     static void queue_thread_main();
     static s32 write_ring_buffer(u8 *src, s32 len);
-    static s32 map_state_to_mode_id();
+    static s16 map_state_to_mode_id();
     static s32 map_state_to_code(s32 arg0, s16 arg1);
     static s32 send_atx_command_mode(s32 arg0);
+    static s16 wait_for_connection(void *conn);
     u32 compute_range_end(s32 arg1, u32 arg2);
     s32 validate_and_store_net_params();
     void init_net_config();

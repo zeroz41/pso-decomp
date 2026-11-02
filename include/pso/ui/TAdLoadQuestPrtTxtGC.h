@@ -3,14 +3,19 @@
 
 #include "types.h"
 #include "pso/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
+
+class TParticleCtrl;
 
 struct TAdLoadQuestPrtTxtGC : public TObject {
+    TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot);
     virtual ~TAdLoadQuestPrtTxtGC();
-    u32 m_1c;
-    void* m_20;
-    u8 _pad24[0x1FC];
-    u32 m_220;
-    u32 m_224;
+    s32 particle_count;
+    TParticleCtrl *particles[32];
+    Vec particle_pos[32];
+    // Index into quest_load_prt_txt_by_slot; also selects the particle layout.
+    s32 slot;
+    s32 m_224;
     virtual void render();
     static void *create_particle(void *arg0, s32 arg1, s32 arg2);
     virtual void run_task();

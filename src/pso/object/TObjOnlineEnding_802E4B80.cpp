@@ -231,15 +231,9 @@ s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern const f32 online_ending_scene_scale;
 extern f32 online_ending_quad_y_offset;
-extern f32 online_ending_scene_z_offset;
+f32 online_ending_scene_z_offset;
 extern s8 online_ending_scene_translation_initialized;
 extern s8 online_ending_quad_vertices_initialized;
-extern const f32 lbl_805DE930;
-extern const f32 lbl_805DE934;
-extern const f32 lbl_805DE938;
-extern const f32 lbl_805DE93C;
-extern const f32 lbl_805DE940;
-extern const f32 lbl_805DE944;
 s32 restore_player_cameras();
 s32 TLobby__sub_80070ACC();
 s32 TWindowChallengeResult__ct(s32, s32, s32, s32);
@@ -278,13 +272,13 @@ void TObjOnlineEnding::render() {
     s32 i;
     Ent_802E4C70 *e;
     if (online_ending_scene_translation_initialized == 0) {
-        lbl_804E3A38[2] = lbl_805DE930 + online_ending_scene_z_offset;
+        lbl_804E3A38[2] = (-100.0f) + online_ending_scene_z_offset;
         online_ending_scene_translation_initialized = 1;
     }
     TParticleCtrl::begin_effect_render();
     push_matrix();
     post_translate_matrix(lbl_804E3A38);
-    scale_matrix(0, online_ending_scene_scale, lbl_805DE934, lbl_805DE934);
+    scale_matrix(0, online_ending_scene_scale, 1.0f, 1.0f);
     TObjFish::set_global_param(*(s32 *)&this->m_94);
     draw_model_motion((void *)*(s32 *)&this->m_90, (void *)*(s32 *)&this->m_98, arg0->f150);
     pop_matrix();
@@ -292,10 +286,10 @@ void TObjOnlineEnding::render() {
         e = &arg0->ent[i];
         if (e->active != 0) {
             if (online_ending_quad_vertices_initialized == 0) {
-                online_ending_quad_vertices[0].y = lbl_805DE938 + online_ending_quad_y_offset;
-                online_ending_quad_vertices[1].y = lbl_805DE93C + online_ending_quad_y_offset;
-                online_ending_quad_vertices[2].y = lbl_805DE93C + online_ending_quad_y_offset;
-                online_ending_quad_vertices[3].y = lbl_805DE938 + online_ending_quad_y_offset;
+                online_ending_quad_vertices[0].y = 63.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[1].y = 343.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[2].y = 343.0f + online_ending_quad_y_offset;
+                online_ending_quad_vertices[3].y = 63.0f + online_ending_quad_y_offset;
                 online_ending_quad_vertices_initialized = 1;
             }
             {
@@ -303,14 +297,14 @@ void TObjOnlineEnding::render() {
                 u32 w = calc_text_width((char *)name);
                 V2_802E4C70 v = online_ending_quad_vertices[i];
                 v.x -= (f32)(w >> 1);
-                render_status_line__15TAdSubPlyItemGCFi(name, -1, v.x, v.y, lbl_805DE940);
+                render_status_line__15TAdSubPlyItemGCFi(name, -1, v.x, v.y, 0.1f);
             }
             push_matrix();
             post_translate_matrix(lbl_804E3A38);
             post_translate_matrix(e->f18);
             rotate_matrix_y(0, e->f1C);
             scale_matrix(0, e->f20, e->f20, e->f20);
-            TObjPlayer::draw_player_model_by_client(e->id, e->f24, lbl_805DE944, lbl_805DE934);
+            TObjPlayer::draw_player_model_by_client(e->id, e->f24, 0.0f, 1.0f);
             pop_matrix();
         }
     }

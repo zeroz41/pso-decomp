@@ -144,7 +144,7 @@ void *__ct__10TORockCaveFv(void *arg0);
 extern "C" void vfunc_15__15TORockJungleL01Fv();
 extern "C" void vfunc_14__15TORockJungleL01Fv();
 extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void draw_model__10TORockCaveFv();
+extern "C" void render__10TORockCaveFv();
 extern "C" void run_task__15TORockJungleL01Fv();
 extern "C" void interact__14TObjCollidableFl();
 extern "C" void get_name__8TObjBaseFv();
@@ -190,7 +190,7 @@ void *rock_jungle_vec3_table[9] = {
 };
 void *lbl_804DC448[16] = {
     (void *)0x0, (void *)0x0, (void *)&destroy__15TORockJungleL01Fs, (void *)&run_task__15TORockJungleL01Fv,
-    (void *)&draw_model__10TORockCaveFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
+    (void *)&render__10TORockCaveFv, (void *)&render_shadows__7TObjectFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__14TObjCollidableFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv, (void *)&interact__14TObjCollidableFl, (void *)&vfunc_14__15TORockJungleL01Fv, (void *)&vfunc_15__15TORockJungleL01Fv,
 };
@@ -380,19 +380,11 @@ void *TORockJungleM01::create(void *arg0) {
     return o;
 }
 
-void *__dt__15TORockJungleM01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TORockJungleM01;
-        if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TORockJungleM01 *)arg0)->m_dc = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__15RenderFadeStateFv((s8 *)arg0 + 0xBC, -1);
-        __dt__18TORockCaveBrakableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TORockJungleM01::~TORockJungleM01() {
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xDC)); this->m_dc = 0; }
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+    __dt__15RenderFadeStateFv((s8 *)this + 0xBC, -1);
 }
 
 typedef char RecoveredGlobal_8029C588_lbl_804DC3A0_size[sizeof(RecoveredGlobal_8029C588_lbl_804DC3A0) == 0x84 ? 1 : -1];
@@ -512,13 +504,13 @@ struct Rock_8029C7DC {
 
 extern "C" {
 u8 * get_bml_model(void *, int);
-extern u32 TORockJungleS01__bml_resource;
+u32 TORockJungleS01__bml_resource;
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__18TORockCaveBrakableFv(void *arg0);
 extern s32 __vt__15TORockJungleS01[];
 extern s32 TORockJungleS01__name;
 
-extern u32 TORockJungleS01__texture_resource;
+u32 TORockJungleS01__texture_resource;
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
 extern u8 lbl_804658EC[];

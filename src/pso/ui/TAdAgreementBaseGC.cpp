@@ -45,7 +45,6 @@ s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 extern RecoveredGlobal_80329830_lbl_8050E208 controller_input_state;
 extern RecoveredGlobal_80329830_lbl_8050E3B8 controller_physical_port_bank;
-extern const f32 lbl_805DF710;
 extern char lbl_804770BC[];
 extern char lbl_804770C4[];
 void *__nw__7TObjectFUl(u32);
@@ -61,10 +60,6 @@ Obj_80329AA8 *TAdAgreementBaseGC__ct(Obj_80329AA8 *arg0, void *arg1);
 void *get_localized_text_entry(int, u32);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
 void draw_window_frame__11TWindowBaseFPv();
-extern const f32 lbl_805DF700;
-extern const f32 lbl_805DF704;
-extern const f32 lbl_805DF708;
-extern const f32 lbl_805DF70C;
 
 void TAdAgreementBaseGC::check_main_task_state() {
     if (TMainTask::get_render_pass() == 1) { return;
@@ -78,9 +73,9 @@ void TAdAgreementBaseGC::draw_agreement_text() {
     u32 i;
     draw_window_frame__11TWindowBaseFPv();
     for (i = 0; i < 2; i++) {
-        pos[i].x = lbl_805DF700 - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
-        pos[i].y = lbl_805DF708 * (f32) i + lbl_805DF704;
-        render_status_line__15TAdSubPlyItemGCFi(get_localized_text_entry(0x1B, i), -1, pos[i].x, pos[i].y, lbl_805DF70C);
+        pos[i].x = 320.0f - (f32) (calc_text_width((char *)(get_localized_text_entry(0x1B, i))) >> 1);
+        pos[i].y = 20.0f * (f32) i + 394.0f;
+        render_status_line__15TAdSubPlyItemGCFi(get_localized_text_entry(0x1B, i), -1, pos[i].x, pos[i].y, 0.8f);
     }
 }
 #pragma pop
@@ -128,7 +123,7 @@ void TAdAgreementBaseGC::update_state() {
         this->vfunc_6();
         temp_r4 = *(s32 *)&this->m_28 + 1;
         *(s32 *)&this->m_28 = temp_r4;
-        if ((f32) temp_r4 > lbl_805DF710) {
+        if ((f32) temp_r4 > 4.5f) {
             *(s32 *)&this->m_1c = (s32) *(s32 *)&this->m_24;
         }
         break;

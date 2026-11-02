@@ -6,7 +6,7 @@
 
 struct TObjNpcLappy : public TObjNpcBase {
     virtual ~TObjNpcLappy();
-    virtual void vfunc_88();
+    virtual void request_action(s32);
 };
 
 typedef char TObjNpcLappy_size[sizeof(TObjNpcLappy) == 0x3B8 ? 1 : -1];

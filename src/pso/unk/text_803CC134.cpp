@@ -4,7 +4,7 @@
 extern "C" {
 
 s32 memset(void *, int, int);
-extern s32 lbl_805D75D0;
+s32 lbl_805D75D0;
 extern s32 lobby_adxf_current_file_id;
 extern s32 lobby_adxf_open_file_handle;
 extern s32 lobby_afs_toc_entry_index;

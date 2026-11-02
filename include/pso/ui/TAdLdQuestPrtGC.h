@@ -3,41 +3,44 @@
 
 #include "types.h"
 #include "pso/TObject.h"
+#include <dolphin/mtx/GeoTypes.h>
 
+class TParticleCtrl;
+
+// Four particles placed in front of the camera on the quest-load screen; the
+// first controller's stick turns them and a button cycles their tint.
 struct TAdLdQuestPrtGC : public TObject {
+    // Angles in 0x10000-per-turn units.
+    struct Angles {
+        s32 x;
+        s32 y;
+        s32 z;
+    };
+    // Tint unpacked from the colour table, one channel per float.
+    struct Tint {
+        f32 a;
+        f32 r;
+        f32 g;
+        f32 b;
+        u8 pad_10[0x14];
+    };
+
+    TAdLdQuestPrtGC(TObject *parent);
     virtual ~TAdLdQuestPrtGC();
     virtual void run_task();
-    u8 _pad1C[0x40];
-    u32 m_5c;
-    u8 _pad60[0x4];
-    u32 m_64;
-    u32 m_68;
-    u8 _pad6C[0x4];
-    u32 m_70;
-    u32 m_74;
-    u8 _pad78[0x4];
-    u32 m_7c;
-    u32 m_80;
-    u8 _pad84[0x4];
-    u32 m_88;
-    u32 m_8c;
-    u8 _pad90[0x4];
-    u32 m_94;
-    u32 m_98;
-    u8 _pad9C[0x4];
-    u32 m_a0;
-    u32 m_a4;
-    u8 _padA8[0x4];
-    u32 m_ac;
-    u32 m_b0;
-    u8 _padB4[0x4];
-    u32 m_b8;
-    u32 m_bc;
-    u32 m_c0;
-    u32 m_c4;
     virtual void render();
-    int get_abs();
-    u8 unk_C8[0x90];
+    static int get_abs(int value);
+
+    TParticleCtrl *particles[4];
+    Vec particle_pos[4];
+    Angles particle_angles[4];
+    Angles angle_speed[4];
+    // Index into the six-entry tint table; advanced by the button.
+    u32 tint_index;
+    // Frames since the tint changed, held at 12.
+    u32 tint_timer;
+    u32 frame_count;
+    Tint tints[4];
 };
 
 typedef char TAdLdQuestPrtGC_size[sizeof(TAdLdQuestPrtGC) == 0x158 ? 1 : -1];

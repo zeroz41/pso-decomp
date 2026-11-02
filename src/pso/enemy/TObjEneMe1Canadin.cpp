@@ -1,4 +1,5 @@
 #include "pso/math/FloatRounding.h"
+#include "pso/enemy/TObjEneMe1Canadin.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/system/vector.h"
@@ -580,7 +581,7 @@ void fn_8009BD00(void);
 extern s32 lbl_8043A268[];
 extern s32 lbl_8043A274[];
 extern u32 lbl_805D4FD4;
-extern s32 TObjEneMe1Canadin__render_point_cursor;
+s32 TObjEneMe1Canadin__render_point_cursor;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9898;
@@ -1834,7 +1835,7 @@ struct Canadin_8009E504 {
     s32 timer;
     s32 pos;
 };
-int select_and_apply_target__17TObjEneMe1CanadinFPv(void* p);
+int vfunc_104__17TObjEneMe1CanadinFf(void* p);
 s32 TObjEneMe1Canadin__sub_8009E76C(u8 *arg0);
 s32 TObjEneMe1Canadin__sub_8009E860(Canadin_8009E860 *self, f32 *out, f32 _w2);
 int vfunc_89__17TObjEneMe1CanadinFv(void* p);
@@ -2299,7 +2300,7 @@ void *__vt__23TObjEneMe1CanadinLeader[118] = {
     (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
     (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
     (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__17TObjEneMe1CanadinFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&select_and_apply_target__17TObjEneMe1CanadinFPv, (void *)&TObjEneMe1CanadinLeader__vt103, (void *)&TObjEneMe1CanadinLeader__vt104, (void *)&TObjEneMe1CanadinLeader__vt105,
+    (void *)&vfunc_104__17TObjEneMe1CanadinFf, (void *)&TObjEneMe1CanadinLeader__vt103, (void *)&TObjEneMe1CanadinLeader__vt104, (void *)&TObjEneMe1CanadinLeader__vt105,
     (void *)&TObjEneMe1CanadinLeader__vt106, (void *)&TObjEneMe1CanadinLeader__vt107, (void *)&TObjEneMe1CanadinLeader__vt108, (void *)&TObjEneMe1CanadinLeader__vt109,
     (void *)&TObjEneMe1CanadinLeader__vt110, (void *)&TObjEneMe1CanadinLeader__vt111, (void *)&update_if_ready__17TObjEneMe1CanadinFv, (void *)&render_canadin_model_with_debug_type__17TObjEneMe1CanadinFv,
     (void *)&TObjEneMe1CanadinLeader__vt114, (void *)&TObjEneMe1CanadinLeader__vt115,
@@ -4152,7 +4153,7 @@ void TObjEneMe1CanadinLeader::update_fade_sequence(void *pv) {
 }
 #undef p
 
-int select_and_apply_target__17TObjEneMe1CanadinFPv(void* p) { return select_and_apply_target__12TObjEneDD_STFf(p); }
+s32 TObjEneMe1Canadin::vfunc_104(f32) { return select_and_apply_target__12TObjEneDD_STFf(this); }
 
 void noop__17TObjEneMe1CanadinFv(void) {  }
 

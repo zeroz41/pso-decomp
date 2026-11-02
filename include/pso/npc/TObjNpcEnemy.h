@@ -7,7 +7,7 @@
 struct TObjNpcEnemy : public TObjNpcBase {
     virtual ~TObjNpcEnemy();
     virtual void draw_debug_info();
-    virtual void vfunc_88();
+    virtual void request_action(s32);
     s32 sub_802D7444();
     u32 m_3b8;
     static s16 *get_entry_by_index(s16 arg0);

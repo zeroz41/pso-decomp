@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TUnk_80488DA0.h"
 #include "pso/misc/TCameraCtrl_80067FC0.h"
 #include "pso/misc/TCameraCtrl_8006C8E4.h"
 #include "pso/system/vector.h"
@@ -41,18 +42,18 @@ extern Ctl_8006C964 controller_input_state;
 int __ct__13TUnk_80488A28Fv(void);
 void __dl__7TObjectFPv(void *);
 
-extern s32 lbl_80488D70[];
+extern s32 __vt__13TUnk_80488D70[];
 
 void *TUnk_80488D70::init_subobject() {
     ((void (*)(void *))__ct__13TUnk_80488A28Fv)(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_80488D70;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_80488D70;
     this->m_38 = 4;
     return this;
 }
 
 void TUnk_80488D70::run_task() {  }
 
-extern unsigned char lbl_80488DA0[];
+extern unsigned char __vt__13TUnk_80488DA0[];
 
 void * TCameraCtrl__vt6(void) {
     void *o;
@@ -119,18 +120,13 @@ void TUnk_80488DA0::run_task() {
 }
 #pragma pop
 
-void *__dt__13TUnk_80488DA0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_80488DA0;
-        __dt__13TUnk_80488A28Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_80488DA0::~TUnk_80488DA0() {
 
-void* TCameraCtrl__sub_8006CC30(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)lbl_80488DA0; *(float*)((char*)a0 + 0x6c) = (2e+01f); ((TUnk_80488DA0 *)a0)->m_38 = 0; return a0; }
+}
+extern "C" {
+
+void* TCameraCtrl__sub_8006CC30(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_80488DA0; *(float*)((char*)a0 + 0x6c) = (2e+01f); ((TUnk_80488DA0 *)a0)->m_38 = 0; return a0; }
 
 struct O_8006CC7C { u8 pad[0x1c]; V_8006CC7C pos; };
 extern O_8006CC7C *demo_camera_controller_table[];

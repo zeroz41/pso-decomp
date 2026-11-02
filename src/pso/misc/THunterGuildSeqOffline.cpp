@@ -145,8 +145,6 @@ struct V_A_80213474 : Base_A_80213474 {
 extern "C" {
 s32 get_window_layout_position(s32);
 s32 set_service_counter_camera(void *, int);
-extern const f32 lbl_805DC650;
-extern const f32 lbl_805DC654;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
@@ -242,8 +240,8 @@ void THunterGuildSeqOffline::open_greeting() {
     typedef char sp8_offset[(offsetof(Stack_802130AC, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_802130AC, spC) == 0x4) ? 1 : -1];
     Stack_802130AC stack;
-    stack.sp8 = lbl_805DC650;
-    stack.spC = lbl_805DC654;
+    stack.sp8 = 332.0f;
+    stack.spC = 80.0f;
     ((TShopSequence *)arg0)->create_message_window((s32)((int) (((u8 *)get_window_layout_position(0x2C)))), (s32)&stack.sp8);
     ((VObj_18_97738d *)(arg0))->m7(1, 1);
     *(s32 *)((s8 *)arg0 + 0x30) = set_service_counter_camera(arg0, 1);

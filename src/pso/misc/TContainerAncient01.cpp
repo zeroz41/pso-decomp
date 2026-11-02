@@ -205,7 +205,7 @@ s32 run_task__7TObjectFv(void *);
 extern s32 TContainerAncient01R__bml_resource;
 
 void run_task__20TContainerAncient01RFv(u8 *arg0);
-f32 xyz_distance_squared(void *, void *, void *);
+f32 xyz_distance_squared(void *, void *);
 
 s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1);
 unsigned int __cvt_fp2unsigned(f32);
@@ -572,7 +572,7 @@ f32 TContainerAncient01R::receive_direct_attack(void *arg1, DirectAttackPayload 
 int TContainerAncient01R::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
 s32 is_within_range__19TContainerAncient01Fii(s32 arg0, s32 arg1) {
-    return xyz_distance_squared((void *)(arg1 + 0x38), (void *)(arg0 + 0x38), (void *)arg0) < 4e+02f;
+    return xyz_distance_squared((void *)(arg1 + 0x38), (void *)(arg0 + 0x38)) < 4e+02f;
 }
 
 void TContainerAncient01R::render() {
@@ -857,7 +857,6 @@ void TContainerAncient01::sub_8018B700() {
 
 }
 #include "types.h"
-#include "pso/misc/TContainerAncient01_8018B79C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -904,7 +903,6 @@ s32 submit_cursor_candidate(void *, int, f32);
 s32 run_task__7TObjectFv(void *);
 extern s32 TContainerAncient01__bml_resource;
 
-f32 xyz_distance_squared(void *, void *, void *);
 
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
@@ -940,8 +938,8 @@ f32 TContainerAncient01::receive_direct_attack(void *arg1, DirectAttackPayload p
 
 int TContainerAncient01::calc_distance_accuracy_penalty(void *, void *, void *, float) { return 1; }
 
-s32 TContainerAncient01__vt18(s32 arg0, s32 arg1) {
-    return xyz_distance_squared((void *)(arg1 + 0x38), (void *)(arg0 + 0x38), (void *)arg0) < 4e+02f;
+s32 TContainerAncient01::select_melee_contact_body(void *target, f32) {
+    return xyz_distance_squared((u8 *)target + 0x38, &this->position) < 4e+02f;
 }
 
 void TContainerAncient01::render() {
@@ -1139,18 +1137,14 @@ void *__dt__19TContainerAncient01Fv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 
-void *__dt__19TContainerAncient01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TContainerAncient01;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+
+TContainerAncient01::~TContainerAncient01() {
+    unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+
+extern "C" {
 
 #pragma push
 #pragma fp_contract on

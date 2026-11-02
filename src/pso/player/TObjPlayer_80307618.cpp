@@ -51,12 +51,12 @@ void TUnk_804E70A8::update_weapon() {
     }
 }
 
-void TObjPlayer__sub_803076F8(u8 *arg0) {
+void TUnk_804E70A8::vfunc_60() {
     s32 player_list;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x1F8) == 0) {
+    if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x1F8) == 0) {
         player_list = TObjPlayer::get_player_list();
-        ((TItem *)arg0)->begin_particle_tev();
-        ((TItem *)arg0)->load_projection_tex((s32)((int) ((s32) (182.04445f * (f32) (((TUnk_804E70A8 *)arg0)->m_1fc + (player_list * 3))))));
+        ((TItem *)((u8 *)this))->begin_particle_tev();
+        ((TItem *)((u8 *)this))->load_projection_tex((s32)((int) ((s32) (182.04445f * (f32) (((TUnk_804E70A8 *)((u8 *)this))->m_1fc + (player_list * 3))))));
     }
 }
 

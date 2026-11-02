@@ -11,7 +11,6 @@ struct RecoveredGlobal_801C241C_lbl_804C3E60 {
 };
 
 extern "C" {
-extern const f32 lbl_805DC2E0;
 u8 *__nw__7TObjectFUl(s32);
 extern u8 *duel_result_window;
 extern s32 tl_00;
@@ -66,7 +65,7 @@ void TUnk_804C3E60::run_task() {
   new_var = 0x20;
   if (temp_r0_2 <= 0xF)
   {
-    TLobby::set_and_notify((s32) ((lbl_805DC2E0 * ((f32) temp_r0_2)) * ((f32) (*((s32 *) (((s8 *) arg0) + new_var))))));
+    TLobby::set_and_notify((s32) ((0.06666667f * ((f32) temp_r0_2)) * ((f32) (*((s32 *) (((s8 *) arg0) + new_var))))));
   }
 }
 

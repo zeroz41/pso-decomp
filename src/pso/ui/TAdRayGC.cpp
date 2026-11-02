@@ -18,8 +18,7 @@ void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 s32 set_draw_texture_and_color(void *, void *);
 extern T_8029BCB4 TAdRayGC_ray_quad_table[4];
-extern u32 TAdRayGC__ray_texture_list;
-extern const f32 lbl_805DDD10;
+u32 TAdRayGC__ray_texture_list;
 void __ct__7TObjectFP7TObject(void *);
 s32 queue_destruction__7TObjectFv();
 
@@ -33,7 +32,7 @@ void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
             begin_screen_draw(1);
             TObjFish::set_global_param((s32)((void *) TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(p, arg2);
-            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], lbl_805DDD10);
+            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;
@@ -43,7 +42,7 @@ void TAdRayGC::draw_ray_quads(s32 arg0, u8 *arg1, void *arg2, s32 arg3) {
             begin_screen_draw(1);
             TObjFish::set_global_param((s32)((void *) TAdRayGC__ray_texture_list));
             set_draw_texture_and_color(p, arg2);
-            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], lbl_805DDD10);
+            draw_textured_quad_at_depth(&TAdRayGC_ray_quad_table[i], 0.007142857f);
             TWindowSubStatusDisp::get_player();
         }
         break;

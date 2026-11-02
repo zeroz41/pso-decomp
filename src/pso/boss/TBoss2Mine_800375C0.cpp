@@ -31,6 +31,10 @@ extern s32 lbl_80482D04[];
 
 struct Vec_800375C0 { f32 x, y, z; };
 struct Mine_800377E8 { u8 pad[0x404]; Vec_800375C0 vel; };
+struct Col_80038200 { s32 a; f32 r, g, b; };
+
+const Vec lbl_80435AD0 = { 2.0f, 1.0f, 2.0f };
+const Col_80038200 boss2_mine_render_color = { 0, 0.0f, 0.0f, 0.0f };
 
 extern "C" {
 f32 sin_table_lookup(s32);
@@ -550,7 +554,6 @@ struct RecoveredGlobal_800384C8_lbl_80435AB0
 };
 
 
-struct Col_80038200 { s32 a; f32 r, g, b; };
 
 struct Base_80038200 { char pad[0x18]; };
 
@@ -606,8 +609,6 @@ void push_matrix(void);
 s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void draw_chunk_object(void *);
-extern Vec lbl_80435AD0;
-extern Col_80038200 boss2_mine_render_color;
 extern void *lbl_805D28BC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

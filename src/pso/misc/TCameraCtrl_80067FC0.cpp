@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TUnk_80488A28.h"
 #include "pso/misc/TCameraCtrl_80067FC0.h"
 #include "pso/misc/TLobby_801E2F94.h"
 #include "pso/system/vector.h"
@@ -280,15 +281,8 @@ void apply_camera_controller_pose(Cam_80068530 *arg0) {
     }
 }
 
-void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80488A28;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TUnk_80488A28::~TUnk_80488A28() {
+
 }
 TUnk_80488A28::TUnk_80488A28() : TObject(0) {
     this->position.x = (f32) TCameraCtrl__data_805D8F84;

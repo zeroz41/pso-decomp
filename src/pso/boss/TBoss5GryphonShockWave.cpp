@@ -12,7 +12,7 @@
 extern "C" {
 s32 TBoss8Dragon__sub_8005D700(void *self);
 extern u8 lbl_80437F40[];
-extern void *gryphon_shockwave_particle_ids_ptr;
+void *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
@@ -23,7 +23,6 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
 s32 spawn_gryphon_tornado(s32, s32, void *, u16);
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
-extern const f32 lbl_805D8EE8;
 s32 vec3_add_to(void *, s32);
 s32 subtract_vector(void *, void *);
 
@@ -60,7 +59,7 @@ void TBoss5GryphonShockWave::run_task() {
     case 2:
         particle_effect_with_flags = spawn_particle_effect_with_flags((u8 *)&this->m_2c, *(s32 *)((s8 *)(*(u8 * *)&gryphon_shockwave_particle_ids_ptr) + 4), 0x40);
         if (particle_effect_with_flags != 0) {
-            attach_particle_model(particle_effect_with_flags, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, lbl_805D8EE8);
+            attach_particle_model(particle_effect_with_flags, get_bml_model(boss5_gryphon_bml_resource, 0), boss5_gryphon_texture_list, get_bml_motion(boss5_gryphon_bml_resource, 0), 0, 1.0f);
         }
         spawn_particle_effect_with_flags((u8 *)&this->m_2c, *(s32 *)((s8 *)(*(u8 * *)&gryphon_shockwave_particle_ids_ptr) + 8), 0x40);
         play_sound_effect(0x40033C13, (u8 *)&this->m_2c, 0, 0);
@@ -79,8 +78,6 @@ TBoss5GryphonShockWave::~TBoss5GryphonShockWave() {
     if (*(void **)((s8 *)this + 0x3C) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x3C)); this->m_3c = 0; }
 }
 extern s32 lbl_805D2818;
-extern const f32 lbl_805D8EEC;
-extern const f32 lbl_805D8EF0;
 TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6) : TObject(arg1_parent) {
     s32 sp8[4];
     *(s32 *)((s8 *)this + 0) = (s32) lbl_805D2818;
@@ -88,14 +85,14 @@ TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u
     VecCopy((Vec *)(((u8 *)this) + 0x50), (const Vec *)arg3);
     vec3_add_to(((u8 *)this) + 0x50, arg5);
     VecCopy((Vec *)(((u8 *)this) + 0x60), (const Vec *)arg4);
-    *(f32 *)((s8 *)this + 0x64) = (f32) lbl_805D8EEC;
+    *(f32 *)((s8 *)this + 0x64) = 5.0f;
     VecCopy((Vec *)(((u8 *)this) + 0x2C), (const Vec *)(((u8 *)this) + 0x40));
     this->m_28 = arg6;
     this->m_38 = arg2;
     this->m_3c = 0;
     VecCopy((Vec *)sp8, (const Vec *)(((u8 *)this) + 0x2C));
     subtract_vector(sp8, arg4);
-    this->m_24 = (s32) (lbl_805D8EF0 * ((TObjBoss2Tunnel *)sp8)->update_scale());
+    this->m_24 = (s32) (0.07f * ((TObjBoss2Tunnel *)sp8)->update_scale());
     if ((s32) this->m_24 < 0x1E) {
         this->m_24 = 0x1E;
     }

@@ -39,7 +39,6 @@ s32 get_message_10__20TWindowSubStatusDispFl(s32);
 s32 get_window_layout_position(s32 a0);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
-extern const f32 lbl_805DD6C0;
 void queue_destruction__7TObjectFv(void *);
 s32 clear_chat_shortcut();
 }
@@ -63,7 +62,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
     s32 temp_r29;
 
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3e)), (s32)(get_window_layout_position(0x76)), (f32)lbl_805DD6C0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3e)), (s32)(get_window_layout_position(0x76)), 205.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 1);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
@@ -72,7 +71,7 @@ s32 TWindowSubShortCut::open_confirm_message() {
 s32 TWindowSubShortCut::open_confirm_prompt() {
     Win_8027DBB8 *arg0 = (Win_8027DBB8 *)this;
     s32 r = create__19TWindowMessageYesNoFPvPvPvPv(arg0, arg0->f20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3D)), (s32)(get_window_layout_position(0x75)), (f32)lbl_805DD6C0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)r), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3D)), (s32)(get_window_layout_position(0x75)), 205.0f);
     ((TWindowSubShortMail *)r)->notify_warp_flag70();
     return r;
 }
@@ -91,7 +90,7 @@ s32 TWindowSubShortCut::open_menu() {
         TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x5A), 6, 9);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(lbl_805DD6C0);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(205.0f);
     align_menu_entry_positions(temp_r31);
     return temp_r31;
 }

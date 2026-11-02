@@ -93,7 +93,7 @@ void TCameraCtrl::update_single_screen() {
 void TUnk_8048E5DC::render() {  }
 void TUnk_8048E5DC::run_task() {  }
 
-extern s32 lbl_8048E5DC[];
+extern s32 __vt__13TUnk_8048E5DC[];
 
 #pragma push
 #pragma opt_common_subs off
@@ -150,7 +150,7 @@ void TUnk_8048E5DC::render_shadows() {
 
 void *TUnk_8048E5DC::dt(s16 arg1) {
     if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_8048E5DC;
+        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5DC;
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

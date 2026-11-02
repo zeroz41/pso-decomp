@@ -140,9 +140,6 @@ struct RecoveredGlobal_80036A90_lbl_80435A68 {
     u8 remaining[0x1C];
 };
 
-struct V3_80037178 { f32 x, y, z; };
-
-struct Obj_80037178 { u8 pad[0x1c]; V3_80037178 ring[20]; s32 idx; };
 
 typedef struct Vec_80037074 {
     f32 x, y, z;
@@ -237,8 +234,6 @@ extern s32 __vt__11TBoss2Joint[];
 extern s32 TBoss2Joint__name;
 extern RecoveredGlobal_80036A90_lbl_80435A68 TBoss2Joint__joint_offset_vec4_table;
 extern const f32 TBoss2Joint__data_805D8474;
-extern const f32 lbl_805D8498;
-void push_trail_position__13TBoss2DeRolLeFPvPv(Obj_80037178 *self, V3_80037178 *src);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -536,15 +531,6 @@ void TUnk_80482C58::run_task() {
             ((TParticleCtrl *)(self->ptcl))->enable();
             break;
         }
-    }
-}
-
-void push_trail_position__13TBoss2DeRolLeFPvPv(Obj_80037178 *self, V3_80037178 *src) {
-    VecCopy((Vec *)&self->ring[self->idx], (const Vec *)src);
-    self->ring[self->idx].y += lbl_805D8498;
-    self->idx++;
-    if (self->idx >= 20) {
-        self->idx = 0;
     }
 }
 

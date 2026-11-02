@@ -37,7 +37,7 @@ void init_event_shuffle_table(EventShuffleTable *table, s32 count);
 
 s32 next_event_shuffle_entry(EventShuffleTable *s);
 extern s32 lbl_805D60A4;
-extern Ent_802098AC *lbl_805D60B8;
+Ent_802098AC *lbl_805D60B8;
 extern "C" {
 s16 clamp_min_drop__6TLobbyFUl(s32, s32);
 extern u8 *TLobby__item_data_table_buffer;

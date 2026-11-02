@@ -33,7 +33,6 @@ void *get_player_by_client_id(int);
 void subtract_vector(Vec_8036CF30 *, void *);
 void normalize_vector(Vec_8036CF30 *);
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805E03B0;
 s32 is_split_screen(void);
 void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
 
@@ -61,9 +60,9 @@ void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
             VecCopy((Vec *)&d, (const Vec *)&o->pos);
             subtract_vector(&d, camera_ctrl_instance + 0x178);
             normalize_vector(&d);
-            out.x = o->pos.x - lbl_805E03B0 * d.x;
+            out.x = o->pos.x - 5.0f * d.x;
             out.y = o->pos.y;
-            out.z = o->pos.z - lbl_805E03B0 * d.z;
+            out.z = o->pos.z - 5.0f * d.z;
             ((TParticleCtrl *)o->x90)->set_position(&out);
         } else {
             ((TParticleCtrl *)o->x90)->set_position(&o->pos);
@@ -88,9 +87,9 @@ void TObjEneHoldEffect::render() {
         VecCopy((Vec *)&d, (const Vec *)&o->pos);
         subtract_vector(&d, camera_ctrl_instance + 0x178);
         normalize_vector(&d);
-        out.x = o->pos.x - lbl_805E03B0 * d.x;
+        out.x = o->pos.x - 5.0f * d.x;
         out.y = o->pos.y;
-        out.z = o->pos.z - lbl_805E03B0 * d.z;
+        out.z = o->pos.z - 5.0f * d.z;
         ((TParticleCtrl *)o->x90)->set_position(&out);
     }
 }

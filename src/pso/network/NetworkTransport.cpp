@@ -511,7 +511,7 @@ void subtract_network_queue_timeout(s32 arg0) {
     TLobby__queue_timeout_remaining -= arg0;
 }
 
-s32 TLobby::map_state_to_mode_id() {
+s16 TLobby::map_state_to_mode_id() {
     switch ((*(u32 *)&lobby_map_state_code)) {
     case 3:
         return 0;

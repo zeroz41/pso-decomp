@@ -14,6 +14,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct RecoveredGlobal_80167878_lbl_804B1F80 {
     s32 value;
@@ -205,13 +206,13 @@ void * __nw__7TObjectFUl(int);
 extern s32 __vt__22TOHangceilingCave01Key[];
 extern s32 __vt__25TOHangceilingCave01Normal[];
 extern s32 __vt__27TOHangceilingCave01KeyQuick[];
-extern void *TOHangceilingCave01Normal__class_name;
-extern void *TOHangceilingCave01Key__class_name;
-extern s32 TOHangceilingCave01KeyQuick__class_name;
 extern s32 game_difficulty_selection;
-extern s32 TOHangceilingCave01__model_archive;
-extern s32 *turiten_singo_texture_lists;
-extern s32 hanging_ceiling_motion_index;
+s32 TOHangceilingCave01__model_archive;
+s32 *turiten_singo_texture_lists;
+s32 lbl_805D59D8;
+u8 *TOHangceilingCave01__model_root;
+s32 turiten_singo_key_model_index;
+s32 hanging_ceiling_motion_index;
 
 extern void *tl_05;
 
@@ -228,6 +229,20 @@ __declspec(section ".rodata") extern Q_801681D0 hang_ceiling_cave_scale_params =
 extern const char lbl_804417FC[] = "TOHangceilingCave01Normal";
 extern const char lbl_80441818[] = "TOHangceilingCave01Key";
 extern const char TOHangceilingCave01KeyQuick__class_name_string[] = "TOHangceilingCave01KeyQuick";
+
+const char *fe_obj_turiten_moto_model_names[] = {lbl_804416F8, lbl_80441710, lbl_80441730, NULL};
+const char *fe_obj_turiten_moto_motion_names[] = {lbl_80441748, lbl_80441760, NULL};
+BmlResourceDescriptor fe_obj_turiten_moto_resource_descriptor = {
+    lbl_80441780, fe_obj_turiten_moto_model_names, fe_obj_turiten_moto_motion_names, 3, 2};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_model_names[] = {lbl_80441798, NULL};
+__declspec(section ".data") const char *bm_obj_ruins_turiten_motion_names[] = {lbl_804417B4, NULL};
+BmlResourceDescriptor turiten_singo_resource_descriptor = {
+    lbl_804417D0, bm_obj_ruins_turiten_model_names, bm_obj_ruins_turiten_motion_names, 1, 1};
+CollisionBody lbl_804B2174 = {{0.0f, 80.0f, 0.0f}, 17.0f, 17.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+
+const char *TOHangceilingCave01Normal__class_name = lbl_804417FC;
+const char *TOHangceilingCave01Key__class_name = lbl_80441818;
+const char *TOHangceilingCave01KeyQuick__class_name = TOHangceilingCave01KeyQuick__class_name_string;
 
 void TOHangceilingCave01KeyQuick::vfunc_79() {
     u8 *p;
@@ -313,7 +328,7 @@ void *__dt__27TOHangceilingCave01KeyQuickFv(void *arg0, s16 arg1) {
 u8 *TOHangceilingCave01KeyQuick__ct(u8 *arg0, s32 arg1) {
     ((u8 * (*)(void *, s32))init_base__27TOHangceilingCave01KeyQuickFll)(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80167C78___vt__27TOHangceilingCave01KeyQuick *)&__vt__27TOHangceilingCave01KeyQuick).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TOHangceilingCave01KeyQuick__class_name;
+    ((TOHangceilingCave01KeyQuick *)arg0)->m_name = TOHangceilingCave01KeyQuick__class_name;
     ((TUnk_804B2578 *)arg0)->init_geometry();
     set_scale__13TUnk_804B2578Ff(arg0, 1e+02f + *(f32 *)((s8 *)arg0 + 0x70));
     return arg0;
@@ -378,7 +393,7 @@ void *__dt__22TOHangceilingCave01KeyFv(void *arg0, s16 arg1) {
 void *TOHangceilingCave01Key__ct(void *arg0) {
     init_base__27TOHangceilingCave01KeyQuickFll(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TOHangceilingCave01Key;
-    *(void * *)&((TOHangceilingCave01Key *)arg0)->m_name = TOHangceilingCave01Key__class_name;
+    ((TOHangceilingCave01Key *)arg0)->m_name = TOHangceilingCave01Key__class_name;
     ((TUnk_804B2578 *)arg0)->init_geometry();
     return arg0;
 }
@@ -449,7 +464,7 @@ void *__dt__25TOHangceilingCave01NormalFv(void *arg0, s16 arg1) {
 void *TOHangceilingCave01Normal__ct(void *arg0) {
     init_base__27TOHangceilingCave01KeyQuickFll(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__25TOHangceilingCave01Normal;
-    *(void * *)&((TOHangceilingCave01Normal *)arg0)->m_name = TOHangceilingCave01Normal__class_name;
+    ((TOHangceilingCave01Normal *)arg0)->m_name = TOHangceilingCave01Normal__class_name;
     ((TUnk_804B2578 *)arg0)->init_geometry();
     return arg0;
 }
@@ -588,7 +603,6 @@ s32 rotate_matrix_y(int, int);
 void draw_ginja_object(void *child);
 void draw_ginja_model(s32 model);
 s32 draw_ginja_model_with_motion(void *, void *, f32);
-extern u8 *TOHangceilingCave01__model_root;
 struct VBase_80168588 { char pad[0x18]; };
 struct VObj_80168588 : VBase_80168588 {
     virtual void v0(); virtual void v1(); virtual void v2(); virtual void v3();
@@ -799,10 +813,6 @@ struct Buf_80168AA8 { s32 a; s32 b; s32 c; };
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 }
-extern u8 fe_obj_turiten_moto_resource_descriptor[];
-extern u8 turiten_singo_resource_descriptor[];
-extern s32 lbl_805D59D8;
-extern s32 turiten_singo_key_model_index;
 
 extern const char lbl_80441858[] = "fs_obj_turiten_singo.gvm";
 extern const char lbl_80441874[] = "fs_obj_turiten_singo_r.gvm";
@@ -817,7 +827,7 @@ void load_turiten_singo_resources(void) {
     case AREA_VR_TEMPLE_BETA:
         p = ::operator new(0x440);
         if (p != 0) {
-            p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, turiten_singo_resource_descriptor, 0, 0, 0);
+            p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, &turiten_singo_resource_descriptor, 0, 0, 0);
         }
         (*(void **)&TOHangceilingCave01__model_archive) = p;
         (*(Buf_80168AA8 **)&turiten_singo_texture_lists) = (Buf_80168AA8 *)mem_alloc(0xC);
@@ -832,7 +842,7 @@ void load_turiten_singo_resources(void) {
     default:
         p = ::operator new(0x440);
         if (p != 0) {
-            p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, fe_obj_turiten_moto_resource_descriptor, 0, 0, 0);
+            p = ((void *(*)(void *, int, void *, int, int, int))load_resource_from_descriptor)(p, 5, &fe_obj_turiten_moto_resource_descriptor, 0, 0, 0);
         }
         (*(void **)&TOHangceilingCave01__model_archive) = p;
         (*(Buf_80168AA8 **)&turiten_singo_texture_lists) = (Buf_80168AA8 *)mem_alloc(0xC);
@@ -846,10 +856,6 @@ void load_turiten_singo_resources(void) {
     }
 }
 
-struct RecoveredGlobal_80168C6C_lbl_804B2174 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct RecoveredGlobal_80168C6C_lbl_804B2578 {
     s32 value;
@@ -859,11 +865,7 @@ struct RecoveredGlobal_80168C6C_lbl_804B2578 {
 extern "C" {
 s32 __ct__9TObjCharaFP7TObject(void *);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_80168C6C_lbl_804B2174 lbl_804B2174;
 extern s32 lbl_804B2578[];
-extern s32 TOHangceilingCave01__model_archive;
-extern s32 turiten_singo_key_model_index;
-extern s32 hanging_ceiling_motion_index;
 s32 free_collision_body_parts(void *);
 
 void *TOHangceilingCave01KeyQuick::destroy_hanging_object(s16 arg1) {
@@ -879,7 +881,6 @@ void *TOHangceilingCave01KeyQuick::destroy_hanging_object(s16 arg1) {
     return this;
 }
 
-typedef char RecoveredGlobal_80168C6C_lbl_804B2174_size[sizeof(RecoveredGlobal_80168C6C_lbl_804B2174) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80168C6C_lbl_804B2578_size[sizeof(RecoveredGlobal_80168C6C_lbl_804B2578) == 0x148 ? 1 : -1];
 u8 *TOHangceilingCave01KeyQuick::init_base(s32 arg1, s32 arg2) {
     u8 *temp_r4;
@@ -888,7 +889,7 @@ u8 *TOHangceilingCave01KeyQuick::init_base(s32 arg1, s32 arg2) {
     this->apply_object_set_data((void *)arg2);
     *(s32 *)&this->model = get_bml_model((void *)TOHangceilingCave01__model_archive, turiten_singo_key_model_index);
     this->current_motion = (NJS_MOTION *)get_bml_motion(TOHangceilingCave01__model_archive, hanging_ceiling_motion_index);
-    init_collision_body_parts(this, &lbl_804B2174.value, 1);
+    init_collision_body_parts(this, &lbl_804B2174, 1);
     this->refresh_collision_body_centers();
     ((TObjPlayer *)((u8 *)this))->register_object_by_id();
     reset_state((((u8 *)this)));

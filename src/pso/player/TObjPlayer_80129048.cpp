@@ -45,5 +45,5 @@ void TItemShootModel::sub_80129118(s32 arg1, s32 arg2) {
 }
 
 void TUnk_804A4138::update_idle() { *(s32*)((char*)this + 0x1fc) = 0; }
-void TObjPlayer::handle_tunnel_state_0() { if (get_player_list__10TObjPlayerFv(this) == 0) { rotate_matrix_z((void*)0, *(void* *)&this->m_1fc); } }
+void TUnk_804A4138::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 0) { rotate_matrix_z((void*)0, *(void* *)&(*(s32 *)((u8 *)this + 0x1FC))); } }
 

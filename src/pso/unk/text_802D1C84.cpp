@@ -113,7 +113,7 @@ struct VObj_18_477421 : VBase_18_477421 {
 
 extern "C" {
 extern u32 lbl_80540BC8[];
-extern void *lbl_805D6880;
+void *lbl_805D6880;
 void release_texture_list(void *);
 void mem_free(void *);
 void fn_802D1C84(void) {

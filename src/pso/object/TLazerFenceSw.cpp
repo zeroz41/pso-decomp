@@ -26,12 +26,6 @@
 extern "C" { void rotate_matrix_y(int, void *); s32 pop_matrix(void); void draw_ginja_object(void *); s32 get_bml_motion(s32, s32); s32 get_bml_model(s32, s32); }
 extern s32 model_render_flags;
 
-extern char lbl_80445C00[];
-extern char lbl_80445C18[];
-extern char lbl_80445C34[];
-extern char lbl_80445C54[];
-extern char lbl_80445C6C[];
-extern char lbl_80445C88[];
 extern const char *fe_obj_switch_laz_model_names[4];
 extern const char *fe_obj_switch_laz_motion_names[3];
 extern BmlResourceDescriptor laser_fence_switch_resource_descriptor;
@@ -86,15 +80,12 @@ extern "C" {
 
 void debug_draw_key_id__5TOKeyFv();
 void debug_printf_at(int, void *, ...);
-extern u16 lbl_80445CB8[];
 extern u8 lbl_80445CD8[];
-void TLazerFenceSw__vt24(Sw_80193978 *arg0);
+void debug_draw_key_id__13TLazerFenceSwFv(Sw_80193978 *arg0);
 s32 init_collision_body_parts(void *, void *, int);
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern u8 lazer_fence_sw_collision_body_part[];
 extern s32 __vt__13TLazerFenceSw[];
-extern s32 lbl_805D33B0;
 
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
@@ -103,7 +94,6 @@ extern void *lazer_fence_switch_bml_resource;
 extern s32 TLazerFenceSw__texture_list;
 extern u8 *lazer_fence_switch_scroll_node;
 extern s32 game_difficulty_selection;
-extern u8 fe_obj_switch_laz_j_resource_descriptor[];
 extern u8 lbl_80445CF0[];
 extern u8 lbl_80445D08[];
 extern u8 lbl_80445D20[];
@@ -116,6 +106,18 @@ __declspec(section ".data") u32 lazer_fence_sw_ginja_model_table[2];
 __declspec(section ".data") u32 lazer_fence_beam_motions[2];
 __declspec(section ".data") u32 lazer_fence_beam_node_table[3];
 #define lazer_fence_beam_motions (*(RecoveredGlobal_80193A84_lbl_8050DCF0 *)lazer_fence_beam_motions)
+
+__declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
+__declspec(section ".data") const char *fe_obj_switch_laz_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
+BmlResourceDescriptor laser_fence_switch_resource_descriptor = { "fe_obj_switch_laz.bml", fe_obj_switch_laz_model_names, fe_obj_switch_laz_motion_names, 3, 2 };
+__declspec(section ".data") const char *fe_obj_switch_laz_j_model_names[4] = { "fe_obj_switch_laz.gj", "fs_obj_switch_laz_moto.gj", "fs_obj_switch_laz_moto_taiki.gj", NULL };
+__declspec(section ".data") const char *fe_obj_switch_laz_j_motion_names[3] = { "fe_obj_switch_laz.njm", "fs_obj_switch_laz_moto.njm", NULL };
+BmlResourceDescriptor fe_obj_switch_laz_j_resource_descriptor = { "fe_obj_switch_laz_j.bml", fe_obj_switch_laz_j_model_names, fe_obj_switch_laz_j_motion_names, 3, 2 };
+CollisionBody lazer_fence_sw_collision_body_part[] = {
+    {{0.0f, 10.0f, 0.0f}, 7.0f, 12.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
+};
+const u16 lbl_80445CB8[4] = { 0, 1, 2, 3 };
+const char *TLazerFenceSw__class_name = "TLazerFenceSw";
 
 #pragma push
 #pragma opt_common_subs off
@@ -207,27 +209,27 @@ void TLazerFenceSw::render() {
 #pragma pop
 
 __declspec(section ".rodata") u8 lbl_80445CD8[16] = "<- SELECT COLOR";
-void TLazerFenceSw__vt24(Sw_80193978 *arg0) {
+void TLazerFenceSw::debug_draw_key_id() {
     debug_draw_key_id__5TOKeyFv();
-    if (arg0->f8C < 0) {
-        arg0->f8C = 0;
+    if (((Sw_80193978 *)this)->f8C < 0) {
+        ((Sw_80193978 *)this)->f8C = 0;
     }
-    arg0->fE8 = lbl_80445CB8[arg0->f8C % 4];
+    ((Sw_80193978 *)this)->fE8 = lbl_80445CB8[((Sw_80193978 *)this)->f8C % 4];
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130022, lbl_80445CD8);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
-void TLazerFenceSw__vt16(void *lazer_fence_sw) {
-    ((TOKey *)lazer_fence_sw)->TOKey::trigger_activate_sound();
-    ((TLazerFenceSw *)lazer_fence_sw)->animation_frame = 0.0f;
-    *(f32 *)((s8 *)lazer_fence_sw + 0xEC) = 0.0f;
+void TLazerFenceSw::trigger_activate_sound() {
+    ((TOKey *)this)->TOKey::trigger_activate_sound();
+    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
-void TLazerFenceSw__vt17(void *arg0) {
-    ((TOKey *)arg0)->TOKey::trigger_deactivate_sound();
-    ((TLazerFenceSw *)arg0)->animation_frame = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
+void TLazerFenceSw::trigger_deactivate_sound() {
+    ((TOKey *)this)->TOKey::trigger_deactivate_sound();
+    ((TLazerFenceSw *)this)->animation_frame = 0.0f;
+    *(f32 *)((s8 *)this + 0xEC) = 0.0f;
 }
 
 typedef char RecoveredGlobal_80193A84_lbl_8050DCF0_size[sizeof(RecoveredGlobal_80193A84_lbl_8050DCF0) == 0x18 ? 1 : -1];
@@ -292,7 +294,7 @@ void TLazerFenceSw::load_resources() {
     if (TContainerAncient01::is_global_state_in_table() == 1 || area == AREA_SEABED_UPPER || area == AREA_SEABED_LOWER) {
         obj = ::operator new(0x440);
         if (obj != NULL) {
-            obj = load_resource_from_descriptor(obj, 5, fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
+            obj = load_resource_from_descriptor(obj, 5, &fe_obj_switch_laz_j_resource_descriptor, 0, 0, 0);
         }
         lazer_fence_switch_bml_resource = obj;
         TLazerFenceSw__texture_list = (s32)load_gvm_texture_file((s32)lbl_80445CF0);
@@ -350,7 +352,7 @@ void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
     __ct__5TOKeyFP7TObject((TOKey *)arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = ((u8 *)&__vt__13TLazerFenceSw);
     __ct__18CameraDistanceFadeFv((u8 *)arg0 + 0xF0);
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D33B0;
+    *(s32 *)((s8 *)arg0 + 0) = (s32)TLazerFenceSw__class_name;
     init_key__5TOKeyFPv(arg0, arg2);
     if (*(s32 *)((s8 *)arg0 + 0x8C) < 0) {
         *(s32 *)((s8 *)arg0 + 0x8C) = 0;
@@ -369,7 +371,4 @@ void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
 }
 #pragma pop
 
-__declspec(section ".data") const char *fe_obj_switch_laz_model_names[4] = { lbl_80445C00, lbl_80445C18, lbl_80445C34, NULL };
-__declspec(section ".data") const char *fe_obj_switch_laz_motion_names[3] = { lbl_80445C54, lbl_80445C6C, NULL };
-BmlResourceDescriptor laser_fence_switch_resource_descriptor = { lbl_80445C88, fe_obj_switch_laz_model_names, fe_obj_switch_laz_motion_names, 3, 2 };
 }

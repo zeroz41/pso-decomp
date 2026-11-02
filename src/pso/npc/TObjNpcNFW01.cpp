@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/npc/TObjNpcNHW00.h"
 #include "pso/npc/TObjNpcNFW01.h"
+#include "pso/npc/TObjNpcNHW00.h"
 #include "pso/npc/TUnk_804A8640.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
@@ -25,16 +25,9 @@ void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void *__dt__12TObjNpcNFW01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcNFW01;
-        ((TUnk_804A8640 *)arg0)->destroy_npc_female_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcNFW01::~TObjNpcNFW01() {}
+extern "C" {
 
 extern void *tl_04;
 

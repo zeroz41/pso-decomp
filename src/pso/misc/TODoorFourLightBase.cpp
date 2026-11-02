@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TODoorFourLightBase.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -306,16 +307,11 @@ void render__19TODoorFourLightBaseFv(TODoorFourLightBase *door_four_light_base) 
     }
 }
 
-void *__dt__19TODoorFourLightBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TODoorFourLightBase;
-        __dt__10TODoorBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TODoorFourLightBase::~TODoorFourLightBase() {
+
+}
+extern "C" {
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2) {
     s32 i;
     __ct__10TODoorBaseFP7TObject(arg0, arg1);

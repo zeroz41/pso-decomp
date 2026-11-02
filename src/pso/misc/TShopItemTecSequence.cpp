@@ -99,8 +99,6 @@ struct Seq_80220110 : VBase_18_80220110 {
 extern "C" {
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-extern const f32 lbl_805DC700;
-extern const f32 lbl_805DC704;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
@@ -234,9 +232,9 @@ void TShopItemTecSequence::update_buy_sell_choice() {
 
 s32 TShopItemTecSequence::open_greeting() {
   Stack_802202BC stack;
-  stack.sp8 = lbl_805DC700;
-  stack.spC = lbl_805DC704;
-  this->create_message_window(get_window_layout_position(0x2C, (f32) lbl_805DC700), (s32)&stack.sp8);
+  stack.sp8 = 332.0f;
+  stack.spC = 80.0f;
+  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
   (((VObj_18_a93f07 *)(this))->m4(0x2E, 1));
   this->m_2c = create_meseta_window((s32) ((((this->get_child_field1c() & 0xFFFF) & 0xFFFF) & 0xFFFF) & 0xFFFF));
   this->set_field_20(2);

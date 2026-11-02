@@ -20,7 +20,7 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_803074FC___vt__18TAdGameStartBackGC __vt__18TAdGameStartBackGC;
 extern s32 TAdGameStartBackGC__class_name;
-extern s32 game_start_background_texture_list;
+s32 game_start_background_texture_list;
 extern const f32 lbl_805DF07C;
 extern const f32 lbl_805DF084;
 extern const f32 lbl_805DF088;

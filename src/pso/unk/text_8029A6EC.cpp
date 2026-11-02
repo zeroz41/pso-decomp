@@ -5,10 +5,6 @@
 struct Fan_8029A6EC { f32 *pos; u32 *col; s32 first; s32 count; };
 
 
-extern const f32 lbl_805DDC58;
-extern const f32 lbl_805DDC5C;
-extern const f32 lbl_805DDC60;
-extern const f32 lbl_805DDC64;
 void TAdBackGC::sub_8029A6EC() {
     f32 pos[8];
     Fan_8029A6EC fan;
@@ -18,17 +14,17 @@ void TAdBackGC::sub_8029A6EC() {
     fan.col = col;
     fan.first = 0;
     fan.count = 4;
-    fan.pos[0] = lbl_805DDC58;
-    fan.pos[1] = lbl_805DDC58;
+    fan.pos[0] = 0.0f;
+    fan.pos[1] = 0.0f;
     fan.col[0] = 0xFF;
-    fan.pos[2] = lbl_805DDC58;
-    fan.pos[3] = lbl_805DDC5C;
+    fan.pos[2] = 0.0f;
+    fan.pos[3] = 479.0f;
     fan.col[1] = 0xFF;
-    fan.pos[4] = lbl_805DDC60;
-    fan.pos[5] = lbl_805DDC5C;
+    fan.pos[4] = 639.0f;
+    fan.pos[5] = 479.0f;
     fan.col[2] = 0xFF;
-    fan.pos[6] = lbl_805DDC60;
-    fan.pos[7] = lbl_805DDC58;
+    fan.pos[6] = 639.0f;
+    fan.pos[7] = 0.0f;
     fan.col[3] = 0xFF;
-    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 3, *(f32 *)((u8 *)this + 0x1C) - lbl_805DDC64);
+    ((TObjCMHairMenu *)&fan)->draw_tri_fan_2d(4, 3, *(f32 *)((u8 *)this + 0x1C) - 0.01f);
 }

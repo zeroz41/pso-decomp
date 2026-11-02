@@ -16,7 +16,6 @@ struct Stack_802A4544 {
 
 extern "C" {
 extern NJS_ARGB needle_shoot_color_white;
-extern const f32 lbl_805DDF68;
 u8 *csnVector(f32 *, f32 *, s32);
 void TNeedleShoot::vfunc_8() {  }
 
@@ -47,7 +46,7 @@ void TNeedleShoot::check_wall_hit() {
 
 void TNeedleShoot::render() {
     NJS_ARGB color = needle_shoot_color_white;
-    debug_draw_sphere((const Vec *)((u8 *)this + 0x6C), &color, lbl_805DDF68);
+    debug_draw_sphere((const Vec *)((u8 *)this + 0x6C), &color, 10.0f);
 }
 
 }

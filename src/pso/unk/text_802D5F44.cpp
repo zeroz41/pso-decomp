@@ -60,7 +60,7 @@ extern "C" void use__5TItemFv();
 extern "C" void render__5TItemFv();
 extern "C" void render_equipped_shadow__11TItemWeaponFv();
 extern "C" void reserved_53__13TUnk_804E1BB0Fv(s32 arg0);
-extern "C" void draw_weapon_if_not_hidden__10TObjPlayerFPv(u8 *arg0);
+extern "C" void reserved_53__13TUnk_804E23F0Fv(u8 *arg0);
 extern "C" void render_equipped__11TItemWeaponFv();
 extern "C" void equip__14TItemEquipBaseFv();
 extern "C" void fire_spread_shot__10TObjPlayerFPv(u8 *arg0);
@@ -91,7 +91,7 @@ extern "C" void update_equipped__11TItemWeaponFv();
 extern "C" void destroy__14TItemEquipBaseFv();
 extern "C" void refresh_special__11TItemWeaponFv();
 extern "C" void is_identified__11TItemWeaponFv();
-extern "C" void update_swim_flag__10TObjPlayerFPv(void *arg0);
+extern "C" void update_weapon__13TUnk_804E23F0Fv(void *arg0);
 extern "C" void render_equipped_deferred__11TItemWeaponFv();
 extern "C" void emit_marker_effects__11TItemWeaponFv();
 void *lbl_804E1BB0[62] = {
@@ -126,8 +126,8 @@ void *lbl_804E1CA8[63] = {
     (void *)&add_slot__5TItemFv, (void *)&feed__5TItemFP9TItemData, (void *)&snap_to_owner__5TItemFv, (void *)&get_motion_type__11TItemWeaponFv,
     (void *)&on_equip__11TItemWeaponFv, (void *)&on_unequip__11TItemWeaponFv, (void *)&request_equipped_model__11TItemWeaponFv, (void *)&release_model__11TItemWeaponFv,
     (void *)&apply_owner_bonuses__11TItemWeaponFv, (void *)&remove_owner_bonuses__11TItemWeaponFv, (void *)&on_model_loaded__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
-    (void *)&fire_spread_shot__10TObjPlayerFPv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&draw_weapon_if_not_hidden__10TObjPlayerFPv,
-    (void *)&update_swim_flag__10TObjPlayerFPv, (void *)&vfunc_57__11TItemWeaponFv, (void *)&vfunc_58__11TItemWeaponFv, (void *)&setup_radar_marker__10TObjPlayerFPvPv,
+    (void *)&fire_spread_shot__10TObjPlayerFPv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&reserved_53__13TUnk_804E23F0Fv,
+    (void *)&update_weapon__13TUnk_804E23F0Fv, (void *)&vfunc_57__11TItemWeaponFv, (void *)&vfunc_58__11TItemWeaponFv, (void *)&setup_radar_marker__10TObjPlayerFPvPv,
     (void *)&TObjPlayer__sub_802D5DE0, (void *)&deliver_hit__11TItemWeaponFlPUcllf, (void *)&create_cane_effect_from_state__10TObjPlayerFPv,
 };
 

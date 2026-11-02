@@ -479,11 +479,10 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+u8 *load_enemy_bml_resource_named(void *, const void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 *mem_alloc(s32);
-void spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
-extern u8 lbl_8043AAA4[];
+extern const u8 lbl_8043AAA4[26];
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 
@@ -698,10 +697,10 @@ void *TObjEneDimedian::create(void *arg2_) {
     return o2;
 }
 
-extern u32 dimedian_boss_object_buf;
-extern u32 lbl_805D5074;
-extern u32 TObjEneDimedian__boss_objects;
-extern u32 dimedian_buffer_ptr;
+u32 dimedian_boss_object_buf;
+u32 lbl_805D5074;
+u32 TObjEneDimedian__boss_objects;
+u32 dimedian_buffer_ptr;
 extern u32 dimedian_resource_ptr;
 
 void TObjEneDimedian::free_boss_objects() {
@@ -788,11 +787,12 @@ void TLobby::load_dimedian_resources() {
         Anim_800A8118 anim = { (s32)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
             u8 *b = *(u8 **)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x42C) + i * 0x10;
-            spawn_npc_enemy__6TLobbyFslllff(ids[i], *(s32 *)((s8 *)b + 8), *(s32 *)((s8 *)b + 0xC), &anim,
+            TLobby::spawn_npc_enemy(ids[i], *(s32 *)((s8 *)b + 8), *(s32 *)((s8 *)b + 0xC), &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }
 }
+extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3_dimedian_a.bml";
 #undef CHAIN_800A8118
 #undef RES_800A8118
 #undef dimedian_resource_descriptor

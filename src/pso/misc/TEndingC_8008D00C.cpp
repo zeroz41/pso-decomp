@@ -276,7 +276,7 @@ u8 *__ct__8TEndingCFv(u8 *object, u8 *arg1) {
 void release_lobby__8TEndingCFv(void);
 void release_texture_list(void*);
 
-extern u32 TEndingC__wall_texture_list;
+u32 TEndingC__wall_texture_list;
 
 void release_lobby__8TEndingCFv(void) {
     if ((u32) TEndingC__wall_texture_list != 0U) {

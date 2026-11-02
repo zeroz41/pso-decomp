@@ -34,8 +34,6 @@ s32 map_char_to_font_code(u16);
 u8 get_font_char_advance(s32);
 void apply_context_transform_to_rect(void *, void *);
 extern u32 lbl_804CFA84[];
-extern const f32 lbl_805DD048;
-extern const f32 lbl_805DD058;
 s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 struct KbSoft_8025CFA8 {
     u8 pad0[0xA8];
@@ -139,30 +137,21 @@ s32 dispatch_request_0x25__19TWindowKeyBoardSoftFll(void *, s32 *);
 s32 dispatch_request_0x23__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x24__19TWindowKeyBoardSoftFll(void *, void *);
 extern s32 actor_frame_tick;
-extern const f32 lbl_805DD04C;
-extern const f32 lbl_805DD050;
-extern const f32 lbl_805DD054;
 s32 dispatch_request_0x22__19TWindowKeyBoardSoftFll(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E67D4(void *, void *);
 s32 TWindowKeyBoardSoft__sub_803E6868(void *, void *);
 s32 dispatch_request_0x14__19TWindowKeyBoardSoftFll(void *, void *);
 s32 dispatch_request_0x13__19TWindowKeyBoardSoftFlll(u8 *, s32 *, s8 *);
 
-extern const f32 lbl_805DD038;
-extern const f32 lbl_805DD03C;
-extern const f32 lbl_805DD040;
-extern const f32 lbl_805DD044;
-extern const f32 lbl_805DD05C;
-extern const f32 lbl_805DD060;
 
 void TWindowKeyBoardBase::init_keyboard_text_field(u32 arg1, u32 arg2) {
     u8 *arg0 = (u8 *)this;
     if (arg2 == 0) {
-        this->m_38 = (f32) lbl_805DD038;
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) lbl_805DD03C;
+        this->m_38 = 100000.0f;
+        *(f32 *)((s8 *)arg0 + 0x3C) = 38.0f;
     } else {
-        this->m_38 = (f32) (lbl_805DD040 + (lbl_805DD044 + (f32) arg1));
-        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (lbl_805DD048 + (f32) (arg2 * 0x14));
+        this->m_38 = (f32) (0.1f + (8.0f + (f32) arg1));
+        *(f32 *)((s8 *)arg0 + 0x3C) = (f32) (20.0f + (f32) (arg2 * 0x14));
     }
     this->m_48 = (f32) this->m_38;
     *(f32 *)((s8 *)arg0 + 0x4C) = (f32) *(f32 *)((s8 *)arg0 + 0x3C);
@@ -730,7 +719,7 @@ void fn_8025DE10(void *arg0, void *arg1) {
     if (actor_frame_tick & 0x10) {
         return;
     }
-    depth = lbl_805DD04C + ((Box_8025E350 *)arg0)->z;
+    depth = 0.1794f + ((Box_8025E350 *)arg0)->z;
     d.pos = pos;
     d.col = col;
     d.a = 0;
@@ -741,10 +730,10 @@ void fn_8025DE10(void *arg0, void *arg1) {
     d.col[3] = 0xFF0080;
     pos[0] = ((f32 *)arg1)[0];
     pos[1] = ((f32 *)arg1)[1];
-    pos[2] = lbl_805DD050 + pos[0];
+    pos[2] = 5.0f + pos[0];
     pos[3] = pos[1];
-    pos[4] = lbl_805DD050 + pos[0];
-    bottom = lbl_805DD054 + pos[1];
+    pos[4] = 5.0f + pos[0];
+    bottom = 18.0f + pos[1];
     pos[5] = bottom;
     pos[6] = pos[0];
     pos[7] = bottom;
@@ -766,7 +755,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
     if (p == NULL) {
         return;
     }
-    depth = lbl_805DD058 + ((Box_8025E350 *)arg1)->z;
+    depth = 0.0598f + ((Box_8025E350 *)arg1)->z;
     d.pos = pos;
     d.col = col;
     d.a = 0;
@@ -785,7 +774,7 @@ void TWindowKeyBoardBase::draw_text_glyphs(void *arg1, void *arg2) {
             adv = get_font_char_advance(map_char_to_font_code(ch));
             if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
                 ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
-                ((f32 *)arg2)[1] += lbl_805DD048;
+                ((f32 *)arg2)[1] += 20.0f;
             }
             if ((s32)ch == 0x20) {
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
@@ -822,7 +811,7 @@ void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *self, TWindowKeyBoa
     u16 ch;
     u8 adv;
 
-    depth = lbl_805DD058 + box->depth;
+    depth = 0.0598f + box->depth;
     d.pos = pos;
     d.col = col;
     d.a = 0;
@@ -836,7 +825,7 @@ void TWindowSubStatusDisp__sub_8025E148(TWindowKeyBoardBase *self, TWindowKeyBoa
         adv = get_font_char_advance(map_char_to_font_code(ch));
         if (cursor[0] + (f32)adv > box->inner_x + box->inner_w) {
             cursor[0] = box->inner_x;
-            cursor[1] += lbl_805DD048;
+            cursor[1] += 20.0f;
         }
         if ((s32)ch == 0x20) {
             cursor[0] += (f32)(s32)adv;
@@ -871,7 +860,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
     if (p == NULL) {
         return;
     }
-    scale = lbl_805DD05C / (lbl_805DD060 + ((Box_8025E350 *)arg1)->z);
+    scale = -1.0f / (0.0897f + ((Box_8025E350 *)arg1)->z);
     while (*p != 0) {
         n = p[1];
         p += 3;
@@ -885,7 +874,7 @@ void TWindowKeyBoardBase::draw_wrapped_text(void *arg1, void *arg2) {
             adv = calc_gauge_scale__20TWindowSubStatusDispFPvPvi(map_char_to_font_code(ch), &q, -1);
             if (((f32 *)arg2)[0] + (f32)adv > ((Box_8025E350 *)arg1)->x + ((Box_8025E350 *)arg1)->w) {
                 ((f32 *)arg2)[0] = ((Box_8025E350 *)arg1)->x;
-                ((f32 *)arg2)[1] += lbl_805DD048;
+                ((f32 *)arg2)[1] += 20.0f;
             }
             if ((s32)ch == 0x20) {
                 ((f32 *)arg2)[0] += (f32)(s32)adv;
@@ -908,7 +897,7 @@ void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoa
     u16 ch;
     u8 adv;
 
-    depth = lbl_805DD05C / (lbl_805DD060 + box->depth);
+    depth = -1.0f / (0.0897f + box->depth);
     while ((s32)*text != 0 && count-- != 0) {
         ch = *text++;
         code = map_char_to_font_code(ch);
@@ -919,7 +908,7 @@ void TWindowSubStatusDisp__sub_8025E530(TWindowKeyBoardBase *self, TWindowKeyBoa
         }
         if (cursor[0] + (f32)adv > box->inner_x + box->inner_w) {
             cursor[0] = box->inner_x;
-            cursor[1] += lbl_805DD048;
+            cursor[1] += 20.0f;
         }
         if ((s32)ch == 0x20) {
             cursor[0] += (f32)(s32)adv;

@@ -395,8 +395,8 @@ void TBoss4Type3__sub_80059F64(Obj_80059F64 *self, s32 arg1);
 void TBoss4Type3__sub_8005A150(TBoss4Type3 *self);
 void TBoss4Type3__sub_80059DCC(TBoss4Type3 *self, u32 packed);
 void TBoss4Type3__sub_8005A86C(void* p);
-void reset_action_to_3__11TBoss4Type3FPv(Obj_8005ACBC *self);
-void init_effect__11TBoss4Type3FPv(u8 *arg0);
+void vfunc_63__11TBoss4Type3Fv(Obj_8005ACBC *self);
+void vfunc_62__11TBoss4Type3Fv(u8 *arg0);
 S_8005AD50 * __dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag);
 void * __ct__13TObjBs4CutAtkFv(void *arg0, s32 arg1, s32 arg2, s32 arg3);
 void * create__13TObjBs4CutAtkFPvPvPv(void *arg0, void *arg1, void *arg2);
@@ -749,7 +749,7 @@ void *__vt__11TBoss4Type3[83] = {
     (void *)&apply_movement_ailment__11TBoss4Type3Fl, (void *)&apply_shock_status__11TBoss4Type3Fv, (void *)&clear_harmful_statuses__11TBoss4Type3Fv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
     (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__9TObjCharaFv, (void *)&init_effect__11TBoss4Type3FPv, (void *)&reset_action_to_3__11TBoss4Type3FPv,
+    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__9TObjCharaFv, (void *)&vfunc_62__11TBoss4Type3Fv, (void *)&vfunc_63__11TBoss4Type3Fv,
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
@@ -979,17 +979,17 @@ S_8005AD50 *__dt__11TBoss4Type3Fv(S_8005AD50 *o, s16 flag) {
     return o;
 }
 
-void init_effect__11TBoss4Type3FPv(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x30) = (s32) (*(s32 *)((s8 *)arg0 + 0x30) & 0xFFFFFDFF);
-    *(f32 *)((s8 *)arg0 + 0x3E8) = (f32) 1.0f;
-    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, arg0 + 0x38, 0, 1, arg0);
+void TBoss4Type3::vfunc_62() {
+    *(s32 *)((s8 *)((u8 *)this) + 0x30) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x30) & 0xFFFFFDFF);
+    *(f32 *)((s8 *)((u8 *)this) + 0x3E8) = (f32) 1.0f;
+    ((s32 (*)(int, void *, int, int, void *))play_sound_effect)(0x4003B734, ((u8 *)this) + 0x38, 0, 1, ((u8 *)this));
 }
 
-void reset_action_to_3__11TBoss4Type3FPv(Obj_8005ACBC *self) {
-    if (self->f374 != 3 && self->f374 != 2) {
-        self->f3b8 = 0xFFFF;
-        self->f3ba = 0xFFFF;
-        ((TBoss4Type3 *)self)->set_action_from_table(3);
+void TBoss4Type3::vfunc_63() {
+    if (((Obj_8005ACBC *)this)->f374 != 3 && ((Obj_8005ACBC *)this)->f374 != 2) {
+        ((Obj_8005ACBC *)this)->f3b8 = 0xFFFF;
+        ((Obj_8005ACBC *)this)->f3ba = 0xFFFF;
+        ((TBoss4Type3 *)((Obj_8005ACBC *)this))->set_action_from_table(3);
     }
 }
 

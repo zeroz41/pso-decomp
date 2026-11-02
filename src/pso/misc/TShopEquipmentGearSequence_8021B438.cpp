@@ -75,15 +75,13 @@ extern "C" {
 unsigned short get_child_field1c__13TShopSequenceFv(void *);
 s32 set_service_counter_camera(void *, int);
 s32 get_window_layout_position(int, f32);
-extern const f32 lbl_805DC6C8;
-extern const f32 lbl_805DC6CC;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_8021B7D0___vt__26TShopEquipmentGearSequence __vt__26TShopEquipmentGearSequence;
 extern RecoveredGlobal_8021B7D0_TShopEquipmentGearSequence__data_80513EB0 TShopEquipmentGearSequence__window_slot_table;
-extern s32 lbl_805D6220;
+s32 lbl_805D6220;
 u8 *TShopSequence__ct(u8 *arg0);
 extern s32 TShopEquipmentGearSequence__class_name;
 extern s32 lbl_805D6218;
@@ -167,9 +165,9 @@ void TShopEquipmentGearSequence::update_buy_sell_choice(void *self) {
 
 s32 TShopEquipmentGearSequence::open_greeting() {
   Stack_8021D948 stack;
-  stack.sp8 = lbl_805DC6C8;
-  stack.spC = lbl_805DC6CC;
-  this->create_message_window(get_window_layout_position(0x2C, (f32) lbl_805DC6C8), (s32)&stack.sp8);
+  stack.sp8 = 332.0f;
+  stack.spC = 80.0f;
+  this->create_message_window(get_window_layout_position(0x2C, 332.0f), (s32)&stack.sp8);
   PSO_VCALL_VObj_18_a93f07_m4(this, 0x2b, 1);
   this->m_30 = create_meseta_window((s32) get_child_field1c__13TShopSequenceFv(this));
   this->set_field_20(2);

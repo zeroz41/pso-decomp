@@ -168,7 +168,6 @@ s32 is_over_limit__16TObjEneRe7BeruraFv(void *);
 s32 TObjEneRe7Berura__sub_8009518C(void *);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-extern const f64 lbl_80439EF0;
 extern const f32 TObjEneRe7Berura__data_805D9724;
 extern const f32 TObjEneRe7Berura__data_805D972C;
 extern const f32 TObjEneRe7Berura__data_805D9740;
@@ -462,7 +461,7 @@ void TObjEneRe7Berura__sub_80093888(u8 *actor, s32 arg1) {
             if (enemy_validate_retained_target(actor) != 0) {
                 ((TObjEneDD_ST *)actor)->enemy_copy_target_destination();
                 ((TObjEneDD *)actor)->update_velocity();
-                if (((TObjEneRe7Berura *)actor)->step_toward_target((s32) (lbl_80439EF0 * atan2_float(*(f32 *)((s8 *)actor + 0x3A0), *(f32 *)((s8 *)actor + 0x3A8))), 0x100) != 0) {
+                if (((TObjEneRe7Berura *)actor)->step_toward_target((s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)actor + 0x3A0), *(f32 *)((s8 *)actor + 0x3A8))), 0x100) != 0) {
                     *(s32 *)((s8 *)actor + 0x4C0) = 1;
                     *(s16 *)((s8 *)actor + 0xB8) = 2;
                     ((TObjEneRe7Berura *)actor)->init_fields4B8();
@@ -674,7 +673,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *arg0, s32 arg1) {
         switch (arg0->m_4c4) {
         case 0:
             if (((TObjEneDD_ST *)arg0)->enemy_has_live_target() != 0) {
-                *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) (u16) (s32) (lbl_80439EF0 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
+                *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
             } else {
                 *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) arg0->rotation_y;
             }
@@ -696,7 +695,7 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *arg0, s32 arg1) {
                     arg0->m_4c4 = 3;
                 } else {
                     if (((TObjEneDD_ST *)arg0)->enemy_has_live_target() != 0) {
-                        *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) (u16) (s32) (lbl_80439EF0 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
+                        *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) (u16) (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
                     } else {
                         *(s32 *)((s8 *)arg0 + 0x4C8) = (s32) arg0->rotation_y;
                     }

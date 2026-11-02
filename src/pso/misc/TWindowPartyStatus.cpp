@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowPartyStatus.h"
 #include "pso/misc/TWindowSimpleStatus.h"
 #include "pso/misc/TWindowBase.h"
 
@@ -8,6 +9,8 @@
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
+#include "pso/misc/WindowLayoutRecord.h"
+#include "pso/unk/text_8030C340.h"
 
 #pragma readonly_strings on
 
@@ -44,19 +47,12 @@ void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern s32 lbl_805D63F0;
-extern const f32 lbl_805DF1EC;
-extern const f32 lbl_805DF1F0;
-extern const f32 lbl_805DF1F4;
-extern const f32 lbl_805DF1F8;
-extern const f32 lbl_805DF1FC;
-extern const f32 lbl_805DF200;
-extern const f32 lbl_805DF204;
 s32 get_window_layout_position(int);
 s32 TWindowSimpleStatus__ct(void *, int, void *, void *);
 extern s32 __vt__18TWindowPartyStatus[];
 extern const char *TWindowPartyStatus__name;
 extern s32 local_client_id;
-u8 *TWindowPartyStatus__ct(u8 *arg0, s16 arg1, s32 arg2);
+u8 *TWindowPartyStatus__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *__dt__18TWindowPartyStatusFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void __dt__19TWindowSimpleStatusFv(void *, int);
@@ -64,6 +60,29 @@ int update_hp_entry__20TWindowSubStatusDispFv(void*);
 s32 update_lockon_window();
 int update_status_entry__20TWindowSubStatusDispFv(void*);
 void update_status_help_item(s32 arg0);
+
+struct PartyStatusWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    LayoutEntryCopyRecord rec_3;
+    TextLayoutRecord rec_4;
+};
+
+PartyStatusWindowLayout lbl_804E7750 = {
+    5, 1,
+    {6, {7.0f, 7.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {3, {45.0f, 40.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
+    {4, {100.0f, 19.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
+    {2, {44.0f, 7.0f}, 0.5f, 0xFF00FF15, 0x20, 57.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
+    {3, {48.0f, 19.0f}, 0.5f, 0xFFFFFFFF, 4, "Lv"},
+};
+
+WindowDescriptor party_status_window_params = {
+    {114.0f, 46.0f}, 70100.0f, &lbl_804E7750, 0xB28,
+};
 
 void TWindowPartyStatus::draw() { update_hp_entry__20TWindowSubStatusDispFv(this); update_status_entry__20TWindowSubStatusDispFv(this); }
 
@@ -80,7 +99,7 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     f32 temp_f2;
     f32 temp_f31;
     f32 temp_f6;
-    temp_f31 = lbl_805DF1EC / this->m_54;
+    temp_f31 = -1.0f / this->m_54;
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, (*(s32 *)((s8 *)arg1 + 0x34)));
@@ -88,12 +107,12 @@ void TWindowPartyStatus::draw_background(u8 *arg1) {
     stack.sp8 = temp_f2;
     temp_f6 = *(f32 *)((s8 *)arg1 + 0x14);
     stack.spC = temp_f6;
-    stack.sp10 = lbl_805DF1F0 + temp_f2;
-    stack.sp14 = lbl_805DF1F4 + temp_f6;
-    stack.sp18 = lbl_805DF1F8;
-    stack.sp1C = lbl_805DF1FC;
-    stack.sp20 = lbl_805DF200;
-    stack.sp24 = lbl_805DF204;
+    stack.sp10 = 114.0f + temp_f2;
+    stack.sp14 = 46.0f + temp_f6;
+    stack.sp18 = 0.0f;
+    stack.sp1C = 0.703125f;
+    stack.sp20 = 0.4453125f;
+    stack.sp24 = 0.8828125f;
     apply_context_transform_to_rect(arg1, &stack.sp8);
     draw_textured_quad_at_depth((&stack.sp8), temp_f31);
     TWindowSubStatusDisp::get_player();
@@ -123,18 +142,13 @@ void TWindowPartyStatus::run_task() {
     ((TWindowSimpleStatus *)arg0)->apply_random_shake();
 }
 
-void *__dt__18TWindowPartyStatusFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TWindowPartyStatus;
-        __dt__19TWindowSimpleStatusFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TWindowPartyStatus::~TWindowPartyStatus() {
+
+}
+extern "C" {
 typedef char RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus_size[sizeof(RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus) == 0x1C ? 1 : -1];
-u8 *TWindowPartyStatus__ct(u8 *window_party_status, s16 arg1, s32 arg2) {
+u8 *TWindowPartyStatus__ct(u8 *window_party_status, s32 arg1, s32 arg2) {
     TWindowSimpleStatus__ct((void *)window_party_status, (int) (get_window_layout_position(0xAB)), (void *)local_client_id, (void *)arg2);
     *(s32 **)((s8 *)window_party_status + 0x18) = &(*(RecoveredGlobal_8030C2D8___vt__18TWindowPartyStatus *)&__vt__18TWindowPartyStatus).value;
     *(s32 *)((s8 *)window_party_status + 0) = (s32) ((s32)TWindowPartyStatus__name);
@@ -143,3 +157,18 @@ u8 *TWindowPartyStatus__ct(u8 *window_party_status, s16 arg1, s32 arg2) {
 }
 
 }
+
+#pragma push
+#pragma opt_propagation off
+void *create_party_status_window(s32 arg0) {
+    void *o;
+    s32 n = arg0 + 1;
+    s32 g = local_client_id;
+    u32 slot = (u32)(g + n) & 3;
+    o = TObject::operator new(0x78);
+    if (o != NULL) {
+        o = TWindowPartyStatus__ct((u8 *)o, slot, (s32)&party_status_window_params);
+    }
+    return o;
+}
+#pragma pop

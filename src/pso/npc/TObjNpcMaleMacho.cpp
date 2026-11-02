@@ -1,8 +1,8 @@
 #include "types.h"
+#include "pso/npc/TObjNpcMaleMacho.h"
 #include "pso/npc/TObjNpcMaleOld.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcMaleMacho.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -55,16 +55,9 @@ void TObjNpcMaleMacho::load_static_resource() {
     (*(s32 *)&TObjNpcMaleMacho__static_model_resource) = var_r0;
 }
 
-void *__dt__16TObjNpcMaleMachoFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjNpcMaleMacho;
-        ((TUnk_804A9F50 *)arg0)->destroy_npc_lappy_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcMaleMacho::~TObjNpcMaleMacho() {}
+extern "C" {
 
 extern void *tl_04;
 

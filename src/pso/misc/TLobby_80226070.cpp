@@ -10,7 +10,6 @@ extern int lbl_805D6280;
 extern int lbl_805D6284;
 extern s32 music_stream_base_gain;
 extern s32 music_stream_gain;
-extern const f32 lbl_805DC744;
 extern "C" {
 void update_music_stream_gain(s32 user);
 void TLobby__sub_8022614C(s32 arg0);
@@ -53,7 +52,6 @@ extern s32 lbl_805D629C;
 extern s32 lbl_805D62A0;
 extern s32 lbl_805D62A8;
 extern s32 lbl_805D62AC;
-extern const f32 lbl_805DC740;
 int TLobby__sub_80226308(void* p);
 void TTecRaFoie__sub_80226254(void);
 s32 set_sound_slot_pitch();
@@ -65,7 +63,7 @@ void TLobby__sub_8022614C(s32 arg0) {
     lbl_805D6294 = arg0;
     lbl_805D629C = lbl_805D6290 + lbl_805D6294 + lobby_layout_offset_c;
     lbl_805D62A0 = lbl_805D6290 + lobby_layout_offset_c;
-    lbl_805D62A8 = (s32)(lbl_805DC740 * (f32)arg0);
+    lbl_805D62A8 = (s32)(2.3622048f * (f32)arg0);
     lbl_805D62AC = lobby_layout_start_position + lbl_805D62A8;
     set_cue_stream_gain(lbl_805D62AC, lbl_805D62A8);
 }
@@ -81,7 +79,7 @@ void update_music_stream_gain(s32 user) {
   total = new_var + total;
   lbl_805D6280 = user;
   music_stream_base_gain = total;
-  music_stream_gain = (s32) (lbl_805DC744 * ((f32) total));
+  music_stream_gain = (s32) (0.42333332f * ((f32) total));
   set_music_streams_volume(total);
 }
 

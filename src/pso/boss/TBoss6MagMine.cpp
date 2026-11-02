@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/boss/TUnk_804F322C.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss6Type1.h"
 #include "pso/misc/TLobby.h"
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/boss/TUnk_804F322C.h"
 
 struct Vec_80368C14 { f32 x, y, z; };
 
@@ -117,7 +117,7 @@ u8 *dispatch_shared_handler_a__6TLobbyFl(int);
 void *create_particle_emitter(void *pos, s32 id);
 s32 init_collision_body_parts(void *, void *, int);
 s32 normalize_vector(void *);
-extern s32 lbl_804F322C[];
+extern s32 __vt__13TUnk_804F322C[];
 extern s32 lbl_805D44B0;
 s32 TBoss6MagMine__ct(s32 arg0, s32 arg1, s32 arg2);
 s32 is_player_in_range__13TBoss6MagMineFPv(void *arg0_);
@@ -407,18 +407,12 @@ void TUnk_804F322C::run_task() {
     }
 }
 
-void *__dt__13TUnk_804F322CFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F322C;
-        if (*(void **)((s8 *)arg0 + 0x3B0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)arg0 + 0x3B0)); *(s32 *)((s8 *)arg0 + 0x3B0) = 0; }
-        free_collision_body_parts(arg0);
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_804F322C::~TUnk_804F322C() {
+    if (*(void **)((s8 *)this + 0x3B0) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3B0)); *(s32 *)((s8 *)this + 0x3B0) = 0; }
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 extern s32 tl_04;
 
@@ -429,7 +423,7 @@ s32 TBoss6MagMine__ct(s32 arg0, s32 parent, s32 arg2) {
     Key_80369228 key;
     u8 *d;
     __ct__9TObjEnemyFP7TObject(self, (void*)parent);
-    *(s32 **)((s8 *)self + 0x18) = lbl_804F322C;
+    *(s32 **)((s8 *)self + 0x18) = __vt__13TUnk_804F322C;
     *(s32 *)((s8 *)self + 0) = lbl_805D44B0;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, arg2 + 0x40);
     VecCopy__FP3VecPC3Vec(arg0 + 0x384, arg2 + 0x4C);

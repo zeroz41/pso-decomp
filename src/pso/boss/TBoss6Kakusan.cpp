@@ -71,13 +71,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
 extern s32 TBoss6Kakusan__name;
-extern const f32 TBoss6Kakusan__data_805DF518;
-extern const f32 TBoss6Kakusan__data_805DF51C;
-extern const f32 lbl_805DF53C;
 u8 *TBoss6Kakusan__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4, f32 farg0);
-extern const f32 lbl_805DF52C;
-extern const f32 lbl_805DF530;
-extern const f32 lbl_805DF534;
 void queue_destruction__7TObjectFv(void *);
 s32 query_teammate_state__9TObjEneDDFv();
 }
@@ -93,11 +87,7 @@ extern s32 TBoss6Kakusan__homing_start_frame;
 extern u8 boss6_kakusan_homing_start_initialized;
 extern s32 boss6_kakusan_homing_end_frame;
 extern u8 TBoss6Kakusan__homing_end_frame_initialized;
-extern const f32 lbl_805DF538;
 int get_player_data__10TObjPlayerFi(int a0);
-extern const f32 lbl_805DF520;
-extern const f32 lbl_805DF524;
-extern const f32 lbl_805DF528;
 
 #pragma push
 #pragma opt_propagation off
@@ -133,8 +123,8 @@ void TBoss6Kakusan::check_beam_player_hits() {
     VecCopy((Vec *)&dir, (const Vec *)&this->m_48);
     subtract_vector(&dir, &p);
     len = vector_length(&dir);
-    t = TBoss6Kakusan__data_805DF518;
-    if (len > TBoss6Kakusan__data_805DF51C)
+    t = 0.0f;
+    if (len > 1e-05f)
     {
       f32 s = step / len;
       dir.x *= s;
@@ -146,14 +136,14 @@ void TBoss6Kakusan::check_beam_player_hits() {
       f32 y = *((f32 *) (((s8 *) pl) + 0x3C));
       f32 ar = this->m_24;
       f32 py = p.y;
-      f32 hi = ar + (lbl_805DF520 + y);
+      f32 hi = ar + (15.0f + y);
       f32 lo = y - ar;
       if ((!(py < (y - ar))) && (!(py > hi)))
       {
         VecCopy((Vec *)&q, (const Vec *)&p);
         subtract_vector(&q, pl + 0x38);
-        q.y = TBoss6Kakusan__data_805DF518;
-        if (vector_length(&q) <= lbl_805DF524)
+        q.y = 0.0f;
+        if (vector_length(&q) <= 5.0f)
         {
           found = 1;
           break;
@@ -164,7 +154,7 @@ void TBoss6Kakusan::check_beam_player_hits() {
     }
     if (found != 0)
     {
-      h.f = (f32) TBoss6PlotFalz::rand_vary_count(this->m_1c, lbl_805DF528);
+      h.f = (f32) TBoss6PlotFalz::rand_vary_count(this->m_1c, 0.1f);
       s32 z = 0;
       h.a = z;
       h.c = z;
@@ -179,12 +169,12 @@ int TBoss6Kakusan__sub_8032263C(void) { return 0; }
 
 s32 TBoss6Kakusan::is_out_of_range() {
     Obj_80322644 *arg0 = (Obj_80322644 *)this;
-    if (arg0->pos.y < lbl_805DF52C || arg0->pos.y > lbl_805DF530) {
+    if (arg0->pos.y < -200.0f || arg0->pos.y > 200.0f) {
         return 1;
     }
     V3_80322644 v = arg0->pos;
-    v.y = TBoss6Kakusan__data_805DF518;
-    return vector_length(&v) > lbl_805DF534;
+    v.y = 0.0f;
+    return vector_length(&v) > 400.0f;
 }
 
 void TBoss6Kakusan::render() {  }
@@ -210,13 +200,13 @@ void TBoss6Kakusan::run_task() {
     }
     if (*(s32 *)&this->m_2c >= TBoss6Kakusan__homing_start_frame && *(s32 *)&this->m_2c <= boss6_kakusan_homing_end_frame) {
         speed = vector_length((u8 *)&this->m_3c);
-        if (!(speed <= TBoss6Kakusan__data_805DF51C)) {
+        if (!(speed <= 1e-05f)) {
             pl = (u8 *)get_player_by_client_id(this->m_20);
             if (is_active__14TBoss6PlotFalzFv() != 0) {
                 VecCopy((Vec *)&v, (const Vec *)(pl + 0x38));
-                v.y += lbl_805DF538;
+                v.y += 10.0f;
                 subtract_vector(&v, (u8 *)&this->m_30);
-                if (!(vector_length(&v) <= TBoss6Kakusan__data_805DF51C)) {
+                if (!(vector_length(&v) <= 1e-05f)) {
                     normalize_vector(&v);
                     v.x *= this->m_28;
                     v.y *= this->m_28;
@@ -224,7 +214,7 @@ void TBoss6Kakusan::run_task() {
                     VecCopy((Vec *)&w, (const Vec *)&this->m_3c);
                     normalize_vector(&w);
                     vec3_add_to(&v, &w);
-                    if (!(vector_length(&v) <= TBoss6Kakusan__data_805DF51C)) {
+                    if (!(vector_length(&v) <= 1e-05f)) {
                         normalize_vector(&v);
                         v.x *= speed;
                         v.y *= speed;
@@ -268,23 +258,23 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4,
     *(s32 *)((s8 *)boss6_kakusan + 0) = (s32) TBoss6Kakusan__name;
     ((TBoss6Kakusan *)boss6_kakusan)->m_20 = arg4;
     ((TBoss6Kakusan *)boss6_kakusan)->m_24 = farg0;
-    if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= TBoss6Kakusan__data_805DF518) {
-        ((TBoss6Kakusan *)boss6_kakusan)->m_24 = (f32) lbl_805DF53C;
+    if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {
+        ((TBoss6Kakusan *)boss6_kakusan)->m_24 = 1.0f;
     }
     VecCopy((Vec *)(boss6_kakusan + 0x3C), (const Vec *)(arg3));
-    if (vector_length(boss6_kakusan + 0x3C) <= TBoss6Kakusan__data_805DF51C) {
-        *(f32 *)((s8 *)boss6_kakusan + 0x40) = (f32) lbl_805DF53C;
+    if (vector_length(boss6_kakusan + 0x3C) <= 1e-05f) {
+        *(f32 *)((s8 *)boss6_kakusan + 0x40) = 1.0f;
     }
     VecCopy((Vec *)(boss6_kakusan + 0x30), (const Vec *)(arg2));
     VecCopy((Vec *)(boss6_kakusan + 0x48), (const Vec *)(boss6_kakusan + 0x30));
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2B)) + 4);
     ((TBoss6Kakusan *)boss6_kakusan)->m_1c = (s32) temp_f2;
-    if (TBoss6Kakusan__data_805DF518 == temp_f2) {
+    if (0.0f == temp_f2) {
         ((TBoss6Kakusan *)boss6_kakusan)->m_1c = 0x14;
     }
     ((TBoss6Kakusan *)boss6_kakusan)->m_28 = (f32) *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2F)) + 0x10);
-    if (((TBoss6Kakusan *)boss6_kakusan)->m_28 < TBoss6Kakusan__data_805DF518) {
-        ((TBoss6Kakusan *)boss6_kakusan)->m_28 = (f32) TBoss6Kakusan__data_805DF518;
+    if (((TBoss6Kakusan *)boss6_kakusan)->m_28 < 0.0f) {
+        ((TBoss6Kakusan *)boss6_kakusan)->m_28 = 0.0f;
     }
     ((TBoss6Kakusan *)boss6_kakusan)->m_54 = (u32)create_particle_emitter((boss6_kakusan + 0x30), 0x214);
     temp_r3 = ((TBoss6Kakusan *)boss6_kakusan)->m_54;

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEnePanarms.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/TObject.h"
 #include "pso/system/vector.h"
@@ -141,7 +142,7 @@ extern const f32 lbl_805DA4B4;
 extern const f32 lbl_805DA4F4;
 extern Ent_800DED30 lbl_8049515C[];
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
-s32 spawn_npc_enemy__6TLobbyFslllff(s32, s32, s32, void *, s32, void *, f32, f32);
+s32 spawn_npc_enemy__6TLobbyFsllPvff(s32, s32, s32, void *, s32, void *, f32, f32);
 extern S_800DF634 panarms_npc_spawn_descriptor[];
 extern u8 lbl_80494F10[];
 extern u32 TObjEnePanarms__entry_params_resource;
@@ -1170,23 +1171,17 @@ void TObjEnePanarms::destroy_handles() {
     }
 }
 
-u8 *__dt__14TObjEnePanarmsFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjEnePanarms;
-        TObjFish::init_state_1(*(u8 **)((s8 *)arg0 + 0x39C));
-        queue_destruction__7TObjectFv(*(u8 **)((s8 *)arg0 + 0x3E4));
-        queue_destruction__7TObjectFv(*(u8 **)((s8 *)arg0 + 0x3E8));
-        free_collision_body_parts(arg0);
-        ((TObjEnePanarms *)arg0)->m_390 = 0;
-        ((TObjEnePanarms *)arg0)->destroy_handles();
-        __destroy_arr(arg0 + 0x400, __dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
-    }
-    return arg0;
 }
+TObjEnePanarms::~TObjEnePanarms() {
+    TObjFish::init_state_1(*(u8 **)((s8 *)this + 0x39C));
+    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E4));
+    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E8));
+    free_collision_body_parts(((u8 *)this));
+    this->m_390 = 0;
+    this->destroy_handles();
+    __destroy_arr(((u8 *)this) + 0x400, __dt__15RenderFadeStateFv, 0x1C, 4);
+}
+extern "C" {
 
 void TObjEnePanarms::free_data() {
     if ((u32) TObjEnePanarms__entry_params_resource != 0U) {
@@ -1203,7 +1198,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
     if (o != NULL) {
         S_800DF634 sp = panarms_npc_spawn_descriptor[0];
         sp.a = o->f430;
-        spawn_npc_enemy__6TLobbyFslllff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, lbl_805DA51C, TObjEnePanarms__data_805DA4A0);
+        spawn_npc_enemy__6TLobbyFsllPvff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, lbl_805DA51C, TObjEnePanarms__data_805DA4A0);
         TObjEnePanarms::spawn_npc_pair();
     }
 }

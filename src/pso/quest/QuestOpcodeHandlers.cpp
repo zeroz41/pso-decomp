@@ -2013,7 +2013,6 @@ extern RecoveredGlobal_801EC90C_lbl_80449AFC lbl_80449B08;
 extern s32 lbl_80449B10[];
 extern Tbl_801E9AF8 lobby_index_identity_table_a[];
 extern s32 lbl_80449B2C[];
-extern const f64 lbl_80449CC0;
 extern RecoveredGlobal_801ECF84_lbl_8050D3E0 lbl_8050D3E0;
 extern s32 symbolchat_colli_param_table[];
 extern E_801E93B4 controller_input_state[];
@@ -2560,7 +2559,7 @@ void qst_op_get_total_deaths() {
 void qst_op_atan2_int(void) {
     u8 temp_r31;
     temp_r31 = (u8) qst_args[0];
-    qst_registers[(u8)temp_r31] = (s32) (lbl_80449CC0 * atan2_float((void *) qst_args, (f32) (*(f32 *)&qst_args[1]), (f32) (*(f32 *)&qst_args[2])));
+    qst_registers[(u8)temp_r31] = (s32) (10430.38043493439 * atan2_float((void *) qst_args, (f32) (*(f32 *)&qst_args[1]), (f32) (*(f32 *)&qst_args[2])));
 }
 
 void qst_op_tan() {
@@ -5607,14 +5606,13 @@ void qst_op_player_effect_nc(u8 arg0) {
     }
 }
 
-extern const char lbl_80449CC8[];
 void qst_op_has_ep3_save_file() {
     u8 reg = qst_args[0];
     s32 ok = 0;
-    if (TAdPlayerLoadGC::probe_card_slot(0) != 0 && TAdPlayerLoadGC::find_card_file(0, lbl_80449CC8) == 0 && TAdPlayerLoadGC::get_load_result((void *)0) == 0) {
+    if (TAdPlayerLoadGC::probe_card_slot(0) != 0 && TAdPlayerLoadGC::find_card_file(0, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result((void *)0) == 0) {
         ok = 1;
     }
-    if (ok == 0 && TAdPlayerLoadGC::probe_card_slot(1) != 0 && TAdPlayerLoadGC::find_card_file(1, lbl_80449CC8) == 0 && TAdPlayerLoadGC::get_load_result((void *)1) == 0) {
+    if (ok == 0 && TAdPlayerLoadGC::probe_card_slot(1) != 0 && TAdPlayerLoadGC::find_card_file(1, "PSO3_CHARACTER") == 0 && TAdPlayerLoadGC::get_load_result((void *)1) == 0) {
         ok = 1;
     }
     qst_registers[reg] = ok;

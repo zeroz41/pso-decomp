@@ -86,8 +86,6 @@ void *acquire_balloon_slot__11TWindowCtrlFPviiPv(Ctrl_8024A928 *self, s32 player
 s32 is_locally_controlled__10TObjPlayerFPv(u8 *);
 s32 obj_isState2_324__9TObjCharaFv(u8 *);
 s32 obj_is_hit_receivable();
-extern const f32 lbl_805DCBD8;
-extern const f32 lbl_805DCBDC;
 void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 arg1, f32 *arg2, s32 *arg3);
 s32 TWindowCtrl__sub_8024C5C4(u32);
 u32 create_area_window();
@@ -251,15 +249,15 @@ void get_speaker_balloon_anchor__11TWindowCtrlFPviPvPv(Ctrl_8024A928 *arg0, s32 
     void *q;
     obj = get_obj_8024A5AC(id);
     if (obj == NULL) {
-        *arg2 = lbl_805DCBD8;
+        *arg2 = 0.0f;
         *arg3 = 0;
         return;
     }
     q = ((TObjChara *)obj)->get_stats();
     if (q == NULL) {
-        *arg2 = lbl_805DCBD8;
+        *arg2 = 0.0f;
     } else {
-        *arg2 = lbl_805DCBDC * *(f32 *)((u8 *)q + 0x10);
+        *arg2 = 0.92f * *(f32 *)((u8 *)q + 0x10);
     }
     if (obj_isState2_324__9TObjCharaFv(obj) != 0 || is_locally_controlled__10TObjPlayerFPv(obj) != 0) {
         u8 *p = obj + 0x85C;

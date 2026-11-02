@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TUnk_804ED598.h"
+#include "pso/misc/TUnk_804ED5B0.h"
 #include "pso/misc/TUnk_804ED5B0.h"
 #include "pso/unk/text_802A8210.h"
 #include "pso/unk/text_803281B8.h"
@@ -15,6 +17,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#pragma defer_codegen on
 
 struct RecoveredGlobal_80327F88_lbl_804ED598 {
     s32 value;
@@ -28,10 +31,10 @@ struct Obj_80327D30 { u8 pad0[0x1C]; f32 w; f32 h; u8 pos[0xC]; u8 pad30; u8 f31
 extern "C" {
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-extern s32 lbl_804ED598[];
+extern s32 __vt__13TUnk_804ED598[];
 int GXSetNumIndStages(int);
 int GXSetTevDirect(int);
-extern s32 lbl_804ED5B0[];
+extern s32 __vt__13TUnk_804ED5B0[];
 s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 tl_05;
@@ -44,6 +47,93 @@ s32 post_translate_matrix(void *);
 s32 TParticleCtrl__sub_803E2A1C(void *, int);
 extern u8 lbl_804C5820[];
 extern u8 *camera_ctrl_instance;
+}
+
+typedef char RecoveredGlobal_80327F88_lbl_804ED598_size[sizeof(RecoveredGlobal_80327F88_lbl_804ED598) == 0x18 ? 1 : -1];
+
+u8 *construct_indirect_effect_task(u8 *arg0, s32 kind, s32 arg2, u8 *arg3) {
+    __ct__7TObjectFP7TObject(arg0, arg3);
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804ED5B0;
+    *(s8 *)&((TUnk_804ED5B0 *)arg0)->unk_1C = kind;
+    ((TUnk_804ED5B0 *)arg0)->m_1d = arg2;
+    register_indirect_effect_ctrl((s32) kind);
+    return arg0;
+}
+
+TUnk_804ED5B0::~TUnk_804ED5B0() {
+
+}
+
+void TParticleCtrl::play_particle(s32 arg1, s16 arg2) {
+    if (arg2 < 0) {
+        arg2 = (s16) *(u8 *)((s8 *)this + 0x1C);
+    }
+    TObjPlayer::play_particle_at_active_slot((u8)((u8) arg2), (u8)(*(u8 *)((s8 *)this + 0x1D)), 0, 0, 0, 1);
+}
+
+void TParticleCtrl::reset_ind_tev_stages(void * _w0) { GXSetTevDirect(1); GXSetNumIndStages(0); set_ginja_post_texgen_count(0); }
+
+void request_indirect_effect(s32 kind) { register_indirect_effect_ctrl(kind); }
+
+void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second) {
+    TObjPlayer::play_particle_at_active_slot((s32) arg0, (s32) sampler, 0, 0, 0, second);
+}
+
+void reset_indirect_tev(s32 second_stage) {
+    if (second_stage != 0) {
+        GXSetTevDirect(1);
+    } else {
+        GXSetTevDirect(0);
+    }
+    GXSetNumIndStages(0);
+    set_ginja_post_texgen_count(0);
+}
+
+u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
+    s32 temp_r3;
+    s32 var_r0;
+    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
+    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80327F88_lbl_804ED598 *)&__vt__13TUnk_804ED598).value;
+    *(f32 *)((s8 *)arg0 + 0x1C) = farg0;
+    ((TUnk_804ED598 *)arg0)->m_20 = farg1;
+    VecCopy((Vec *)(arg0 + 0x24), (const Vec *)(arg1));
+    ((TUnk_804ED598 *)arg0)->m_30 = arg2;
+    *(s8 *)((s8 *)arg0 + 0x31) = arg3;
+    ((TUnk_804ED598 *)arg0)->m_34 = arg5;
+    temp_r3 = __nw__7TObjectFUl(0x20);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (s32)construct_indirect_effect_task((u8 *)temp_r3, 0x1F, 0, (u8 *)tl_05);
+    }
+    *(s32 *)((s8 *)arg0 + 0x40) = var_r0;
+    *(s32 *)((s8 *)arg0 + 0x38) = 1;
+    ((TUnk_804ED598 *)arg0)->m_3c = arg6;
+    return arg0;
+}
+
+TUnk_804ED598::~TUnk_804ED598() {
+    if (*(void **)((s8 *)this + 0x40) != NULL) { queue_destruction__7TObjectFv((*(void **)((s8 *)this + 0x40))); *(s32 *)((s8 *)this + 0x40) = 0; }
+    *(s32 *)((s8 *)this + 0x40) = 0;
+}
+
+void TUnk_804ED598::run_task() {
+    s32 temp_r0;
+    s32 temp_r4;
+
+    if ((u32) *(u32 *)&this->unk_40 == 0U) {
+        queue_destruction__7TObjectFv((this));
+        return;
+    }
+    temp_r4 = this->m_3c;
+    if (temp_r4 != 0) {
+        temp_r0 = temp_r4 - 1;
+        this->m_3c = temp_r0;
+        if (temp_r0 == 0) {
+            queue_destruction__7TObjectFv((this));
+        }
+    }
+}
+
 void TUnk_804ED598::render() {
     Obj_80327D30 *o = (Obj_80327D30 *)this;
     Vtx_80327D30 v[4];
@@ -98,91 +188,4 @@ void TUnk_804ED598::render() {
         pop_matrix();
         TParticleCtrl::end_effect_render();
     }
-}
-
-void TUnk_804ED598::run_task() {
-    s32 temp_r0;
-    s32 temp_r4;
-
-    if ((u32) *(u32 *)&this->unk_40 == 0U) {
-        queue_destruction__7TObjectFv((this));
-        return;
-    }
-    temp_r4 = this->m_3c;
-    if (temp_r4 != 0) {
-        temp_r0 = temp_r4 - 1;
-        this->m_3c = temp_r0;
-        if (temp_r0 == 0) {
-            queue_destruction__7TObjectFv((this));
-        }
-    }
-}
-void *__dt__13TUnk_804ED598Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED598;
-        if (*(void **)((s8 *)arg0 + 0x40) != NULL) { queue_destruction__7TObjectFv((*(void **)((s8 *)arg0 + 0x40))); *(s32 *)((s8 *)arg0 + 0x40) = 0; }
-        *(s32 *)((s8 *)arg0 + 0x40) = 0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-}
-
-typedef char RecoveredGlobal_80327F88_lbl_804ED598_size[sizeof(RecoveredGlobal_80327F88_lbl_804ED598) == 0x18 ? 1 : -1];
-u8 *create_telepipe_marker(u8 *arg0, s32 arg1, s8 arg2, s8 arg3, s32 arg4, s32 arg5, s32 arg6, f32 farg0, f32 farg1) {
-    s32 temp_r3;
-    s32 var_r0;
-    __ct__7TObjectFP7TObject((void *)arg0, (void *)arg4);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80327F88_lbl_804ED598 *)&lbl_804ED598).value;
-    *(f32 *)((s8 *)arg0 + 0x1C) = farg0;
-    ((TUnk_804ED598 *)arg0)->m_20 = farg1;
-    VecCopy((Vec *)(arg0 + 0x24), (const Vec *)(arg1));
-    ((TUnk_804ED598 *)arg0)->m_30 = arg2;
-    *(s8 *)((s8 *)arg0 + 0x31) = arg3;
-    ((TUnk_804ED598 *)arg0)->m_34 = arg5;
-    temp_r3 = __nw__7TObjectFUl(0x20);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (s32)construct_indirect_effect_task((u8 *)temp_r3, 0x1F, 0, (u8 *)tl_05);
-    }
-    *(s32 *)((s8 *)arg0 + 0x40) = var_r0;
-    *(s32 *)((s8 *)arg0 + 0x38) = 1;
-    ((TUnk_804ED598 *)arg0)->m_3c = arg6;
-    return arg0;
-}
-
-void reset_indirect_tev(s32 second_stage) {
-    if (second_stage != 0) {
-        GXSetTevDirect(1);
-    } else {
-        GXSetTevDirect(0);
-    }
-    GXSetNumIndStages(0);
-    set_ginja_post_texgen_count(0);
-}
-
-void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second) {
-    TObjPlayer::play_particle_at_active_slot((s32) arg0, (s32) sampler, 0, 0, 0, second);
-}
-
-void request_indirect_effect(s32 kind) { register_indirect_effect_ctrl(kind); }
-void TParticleCtrl::reset_ind_tev_stages(void * _w0) { GXSetTevDirect(1); GXSetNumIndStages(0); set_ginja_post_texgen_count(0); }
-void TParticleCtrl::play_particle(s32 arg1, s16 arg2) {
-    if (arg2 < 0) {
-        arg2 = (s16) *(u8 *)((s8 *)this + 0x1C);
-    }
-    TObjPlayer::play_particle_at_active_slot((u8)((u8) arg2), (u8)(*(u8 *)((s8 *)this + 0x1D)), 0, 0, 0, 1);
-}
-void *__dt__13TUnk_804ED5B0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804ED5B0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }

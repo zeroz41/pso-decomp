@@ -1,9 +1,9 @@
 #include "types.h"
+#include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -11,8 +11,18 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_8014ABC4_lbl_804A9428 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8014ABC4_lbl_804A9428_size[sizeof(RecoveredGlobal_8014ABC4_lbl_804A9428) == 0x10 ? 1 : -1];
+#include "pso/system/BmlResourceDescriptor.h"
+
+#pragma readonly_strings on
+
+__declspec(section ".data") const char *bm_n_soutoku_i_body_model_names[2] = {"n_soutoku_i_body.nj", NULL};
+const char *bm_n_soutoku_i_body_motion_names[] = {NULL};
+BmlResourceDescriptor bm_n_soutoku_i_body_resource_descriptor = {
+    "bm_n_soutoku_i_body.bml", bm_n_soutoku_i_body_model_names, bm_n_soutoku_i_body_motion_names, 1, 0,
+};
+const char *TObjNpcGovernorBase__name = "TObjNpcGovernorBase";
+u32 TObjNpcGovernorBase__shared_resource;
+
 
 struct RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase {
     s32 value;
@@ -21,10 +31,7 @@ struct RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8014ABC4_lbl_804A9428 bm_n_soutoku_i_body_resource_descriptor;
-extern u32 TObjNpcGovernorBase__shared_resource;
 extern s32 __vt__19TObjNpcGovernorBase[];
-extern s32 TObjNpcGovernorBase__name;
 extern u32 TObjNpcHFW00__shared_resource_obj;
 extern u32 TObjNpcHFW00__texture_handle;
 extern char lbl_8043FA38[];
@@ -48,21 +55,14 @@ void TObjNpcGovernorBase::load_shared_resource() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_soutoku_i_body_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_n_soutoku_i_body_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjNpcGovernorBase__shared_resource) = var_r0;
 }
 
-void *__dt__19TObjNpcGovernorBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjNpcGovernorBase;
-        ((TUnk_804A9F50 *)arg0)->destroy_npc_lappy_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcGovernorBase::~TObjNpcGovernorBase() {}
+extern "C" {
 
 extern void *tl_04;
 
@@ -70,7 +70,7 @@ typedef char RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase_size[sizeof(Re
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
     construct_male_npc_base((player));
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase *)&__vt__19TObjNpcGovernorBase).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcGovernorBase__name;
+    ((TObject *)player)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)(player))->apply_set_data((void *)arg2);
     ((TObjPlayer *)player)->init_position_vectors();
     *(s32 *)((s8 *)player + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjNpcGovernorBase__shared_resource) + 0x42C)) + 8);

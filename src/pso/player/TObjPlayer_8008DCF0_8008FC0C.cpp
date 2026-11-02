@@ -43,10 +43,6 @@ s32 TObjPlayer__sub_8008F910();
 s32 TObjPlayer__sub_8008FAD0();
 f32 xz_distance_squared(void *, void *);
 extern const f32 lbl_805D9644;
-extern const f32 lbl_805D9670;
-extern const f32 lbl_805D9674;
-extern const f32 lbl_805D9678;
-extern const f32 lbl_805D967C;
 
 void TObjEneMe1GiGue__sub_8008FC0C(void) {  }
 
@@ -87,19 +83,19 @@ void TObjEneBalClawBody::sub_8008FC10() {
                 old = F(s32, 0x38C);
                 switch (old) {
                 case 0:
-                    if (d > lbl_805D9670) {
+                    if (d > 3600.0f) {
                         F(s32, 0x38C) = 1;
                     }
                     break;
                 case 1:
-                    if (d < lbl_805D9674) {
+                    if (d < 1600.0f) {
                         F(s32, 0x38C) = 0;
-                    } else if (d > lbl_805D9678) {
+                    } else if (d > 14400.0f) {
                         F(s32, 0x38C) = 2;
                     }
                     break;
                 case 2:
-                    if (d < lbl_805D967C) {
+                    if (d < 10000.0f) {
                         F(s32, 0x38C) = 1;
                     }
                     break;

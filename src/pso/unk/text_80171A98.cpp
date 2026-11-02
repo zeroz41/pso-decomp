@@ -53,11 +53,6 @@ extern s32 __vt__12TOMineIcon03[];
 extern s32 TOMineIcon03__name;
 extern s32 game_difficulty_selection;
 extern void *lbl_805D5A50;
-extern const f32 lbl_805DB8C0;
-extern const f32 lbl_805DB8C4;
-extern const f32 lbl_805DB8C8;
-extern const f32 lbl_805DB8CC;
-extern const f32 lbl_805DB8D0;
 #pragma push
 #pragma fp_contract on
 void *TOMineIcon03__ct(void *arg0, void *arg1, void *arg2) {
@@ -84,13 +79,13 @@ void *TOMineIcon03__ct(void *arg0, void *arg1, void *arg2) {
     if (self->f8C < 0) {
         self->f8C = 0;
     }
-    self->f358 = (f32)self->f84 * (lbl_805DB8C4 * (f32)game_difficulty_selection + lbl_805DB8C0);
+    self->f358 = (f32)self->f84 * (2.0f * (f32)game_difficulty_selection + 1.0f);
     if (game_difficulty_selection == 3) {
-        self->f358 *= lbl_805DB8C4;
+        self->f358 *= 2.0f;
     }
     self->f354 = self->f88;
-    self->f34C = lbl_805DB8CC * self->f68 + lbl_805DB8C8;
-    self->f350 = lbl_805DB8CC * self->f6C + lbl_805DB8D0;
+    self->f34C = 0.5f * self->f68 + 30.0f;
+    self->f350 = 0.5f * self->f6C + 60.0f;
     ((TOMine *)self)->update_state();
     self->f35C = 0xFFFF;
     self->f30 |= 0x60000000;

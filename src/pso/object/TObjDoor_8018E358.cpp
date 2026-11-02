@@ -1,10 +1,10 @@
 #include "pso/system/ChunkMaterialState.h"
+#include "pso/object/TObjDoor.h"
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/object/TObjDoor.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -523,18 +523,12 @@ void run_task__8TObjDoorFv(VObj_8018EF70 *self) {
         ((TObjDoor *)self)->state = saved;
     }
 }
-void *__dt__8TObjDoorFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__8TObjDoor;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjDoor::~TObjDoor() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 #define d ((Door_8018F15C *)arg0)
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {

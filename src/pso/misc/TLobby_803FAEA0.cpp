@@ -499,19 +499,56 @@ s32 TLobby__sub_803FAEA0(s32 cmd, s32 arg) {
     return -1;
 }
 
+/* Connection request at lbl_805BFF68, filled by NetApplyConnectionConfig. */
 struct LoginCfg_803FAEDC {
-    u8 pad[0x14];
+    u16 flags;
+    s16 h2;
+    s16 h4;
+    u8 pad_6[2];
+    s32 start_time;
+    u8 *wC;
+    u8 *w10;
     char *user;
-    u8 pad18[0x70];
+    void (*callback)(s16, s32);
+    s16 h1C;
+    s16 h1E;
+    s16 h20;
+    u8 pad_22[0x42];
+    char *w64;
+    s32 w68;
+    s32 w6C;
+    s32 w70;
+    s32 w74;
+    s32 w78;
+    s16 h7C;
+    s16 h7E;
+    s16 h80;
+    u8 pad_82[6];
     s16 state;
     s16 mode;
-    u8 pad8C[8];
+    s16 h8C;
+    u8 pad_8E[6];
     char *prefix;
+    s16 h98;
+    u16 h9A;
+    u32 w9C;
+    u16 hA0;
+    u16 hA2;
+    s16 hA4;
+    u8 pad_A6[2];
+    s32 wA8;
+    s32 wAC;
+    s32 wB0;
+    s32 wB4;
+    s32 wB8;
+    s32 wBC;
+    u8 C0[8];
+    u8 C8[8];
 };
 struct H_803FB120 { u8 pad[0x28]; u8 *name; u8 pad2C[0x20]; void *v4C; };
 extern H_803FB120 lobby_net_session_state;
 
-s32 TLobby__sub_803FAEDC(LoginCfg_803FAEDC *cfg) {
+s16 TLobby__sub_803FAEDC(LoginCfg_803FAEDC *cfg) {
     u32 plen;
     u8 *p;
     u8 **pname = &lobby_net_session_state.name;
@@ -794,6 +831,328 @@ s32 TLobby__sub_803FB6A0(void) {
     lbl_805D7A88 = 0;
     lbl_805D7A86 = 0;
     lbl_805D7A8A = 0;
+    return 0;
+}
+
+s16 TLobby__sub_80403D28(s32 arg0, s16 arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, char *arg6, s16 arg7);
+s32 TLobby__sub_803F7E50(s32 arg0, s32 arg1, s32 arg2, s32 n, s32 p);
+u16 TLobby__sub_803F8090(void);
+s16 TLobby__sub_80403C60(u8 *arg0);
+s32 TLobby__sub_804038F4(s32 arg0, s32 arg1, s32 arg2);
+s32 TLobby__sub_804039C8(s16 arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 arg5, s32 arg6);
+s16 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2);
+s16 TLobby__sub_80403B04(u8 *arg0, u8 *arg1, s32 arg2);
+s16 TLobby__sub_80403864(void);
+extern s32 lbl_805D7A94;
+extern s16 lbl_805D7A80;
+extern s32 lbl_805D7AA0;
+extern s32 lbl_805D7BD8;
+
+/* Link parameters handed to TLobby__sub_80403C60 (built on the stack). */
+struct LinkParams_803FB7A4 {
+    s32 w0;
+    u16 h4;
+    u16 h6;
+    u32 w8;
+    u16 hC;
+    u16 hE;
+    u8 *w10;
+    u8 *w14;
+};
+
+s32 TLobby__sub_803FB7A4(void) {
+    LoginCfg_803FAEDC *cfg = (LoginCfg_803FAEDC *)&lbl_805BFF68;
+    LinkParams_803FB7A4 params;
+    s32 now;
+    s32 start;
+    u8 *conn;
+    s16 i;
+    s16 ok;
+    u32 timeout;
+    s16 ret;
+    s16 auth;
+    u16 proto;
+
+    lbl_805D7A88 = 0;
+    lbl_805D7A8A = 2;
+    TLobby::get_time_ms(&lbl_805D7A94);
+    lbl_805D7A84 = 1;
+    ret = TLobby__sub_80403D28(0, 0, cfg->h80, cfg->h7E, cfg->h7C, 1, cfg->w64, cfg->flags & 4);
+    if (ret != 0 || lbl_805D7A86 != 0) {
+        if (lbl_805D7A86 != 0) {
+            lbl_805D7A82 = 13;
+        } else {
+            lbl_805D7A82 = 1;
+        }
+        lbl_805D7A8A = 8;
+        if (cfg->callback != NULL) {
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            cfg->callback(lbl_805D7A82, 0);
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+        return 0;
+    }
+    if (!(cfg->flags & 4)) {
+        if (cfg->mode == 1) {
+            ret = TLobby::send_atx_command_mode(0);
+            if (ret != 0) {
+                lbl_805D7A82 = 1;
+                lbl_805D7A8A = 8;
+                if (cfg->callback != NULL) {
+                    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                    cfg->callback(lbl_805D7A82, 0);
+                    TLobby::lock_mutex(lbl_805C18A0.value);
+                }
+                return 0;
+            }
+        }
+        if (cfg->h1C != 0) {
+            ret = TLobby__sub_803F7E50(cfg->w68, cfg->w6C, cfg->w70, cfg->w74, cfg->w78);
+        } else {
+            ret = TLobby__sub_803F7E50(0, 0, 0, 0, 0);
+        }
+        if (ret != 0) {
+            lbl_805D7A82 = 1;
+            lbl_805D7A8A = 8;
+            if (cfg->callback != NULL) {
+                TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                cfg->callback(lbl_805D7A82, 0);
+                TLobby::lock_mutex(lbl_805C18A0.value);
+            }
+            return 0;
+        }
+        if (cfg->flags & 2) {
+            lbl_805D7A8A = 10;
+            goto wait_answer;
+        }
+        if (cfg->h1E != 0) {
+            ret = TLobby__sub_803FAEDC(cfg);
+            if (ret != 0) {
+                lbl_805D7A82 = ret;
+                lbl_805D7A8A = 8;
+                if (cfg->callback != NULL) {
+                    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                    cfg->callback(lbl_805D7A82, 0);
+                    TLobby::lock_mutex(lbl_805C18A0.value);
+                }
+                return 0;
+            }
+        }
+    }
+    if (cfg->h20 != 0) {
+        timeout = cfg->h8C * 1000;
+        TLobby::get_time_ms(&start);
+        for (;;) {
+            if (TLobby__sub_803F8090() != 0) {
+                break;
+            }
+            if (!(cfg->flags & 4)) {
+                ret = TLobby::map_state_to_mode_id();
+                if (ret >= 0) {
+                    if (ret != 0) {
+                        lbl_805D7A82 = ret;
+                        lbl_805D7A8A = 8;
+                        if (cfg->callback != NULL) {
+                            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                            cfg->callback(lbl_805D7A82, 0);
+                            TLobby::lock_mutex(lbl_805C18A0.value);
+                        }
+                        return 0;
+                    }
+                    break;
+                }
+            }
+            TLobby::get_time_ms(&now);
+            if ((ret = lbl_805D7A86) != 0 || (u32)(now - start) > timeout) {
+                if (ret != 0) {
+                    lbl_805D7A82 = 13;
+                } else {
+                    lbl_805D7A82 = 12;
+                }
+                lbl_805D7A8A = 8;
+                if (cfg->callback != NULL) {
+                    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                    cfg->callback(lbl_805D7A82, 0);
+                    TLobby::lock_mutex(lbl_805C18A0.value);
+                }
+                return 0;
+            }
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            TLobby__sub_803F97E8(100);
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+    }
+wait_answer:
+    if (cfg->flags & 2) {
+        lbl_805D7A8A = 10;
+        while (lbl_805D7A8A == 10) {
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            TLobby__sub_803F97E8(100);
+            TLobby::process_expired_timers();
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+        if (lbl_805D7A8A != 1) {
+            if (cfg->callback != NULL) {
+                TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                lbl_805D7A82 = 1;
+                cfg->callback(lbl_805D7A82, 0);
+                TLobby::lock_mutex(lbl_805C18A0.value);
+            }
+            return 0;
+        }
+    }
+    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+    TLobby__sub_803F97E8(500);
+    TLobby::lock_mutex(lbl_805C18A0.value);
+    lbl_805D7A8A = 3;
+    lbl_805D7A80 = 0;
+    TLobby::get_time_ms(&cfg->start_time);
+    lbl_805D7A78 = 0;
+    if (cfg->flags & 4) {
+        params.w0 = -1;
+        params.h4 = 1;
+        auth = 1;
+        params.hC = 1454;
+        params.hE = 1;
+    } else {
+        params.w0 = 0xA0000;
+        params.h4 = cfg->hA0;
+        params.hC = cfg->h9A;
+        params.hE = cfg->hA2;
+        auth = cfg->hA4;
+    }
+    params.h6 = cfg->h98;
+    params.w8 = cfg->w9C;
+    params.w10 = cfg->wC;
+    params.w14 = cfg->w10;
+    if (TLobby__sub_80403C60((u8 *)&params) != 0) {
+        lbl_805D7A82 = 5;
+        lbl_805D7A8A = 8;
+        if (cfg->callback != NULL) {
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            cfg->callback(lbl_805D7A82, 0);
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+        return 0;
+    }
+    ret = cfg->h2;
+    if (ret == 6 || ret == 0) {
+        TLobby__sub_804038F4(0, (s32)cfg->C0, (s32)cfg->C8);
+    }
+    TLobby__sub_804039C8(auth, cfg->wA8, cfg->wAC, cfg->wB0, cfg->wB4, cfg->wB8, cfg->wBC);
+    lbl_805D7AA0 = 0;
+    ok = 0;
+    switch (cfg->h98 & 0x7F) {
+    default:
+        ok = 1;
+        break;
+    case 0:
+        if (TLobby__sub_80403BA8(cfg->wC, cfg->w10, 0x80) != 0) {
+            if (cfg->callback != NULL) {
+                TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                cfg->callback(lbl_805D7A82, 0);
+                TLobby::lock_mutex(lbl_805C18A0.value);
+            }
+            return 0;
+        }
+        ok = 1;
+        break;
+    case 2:
+        if (TLobby__sub_80403B04(cfg->wC, cfg->w10, 0x82) != 0) {
+            if (cfg->callback != NULL) {
+                TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                cfg->callback(lbl_805D7A82, 0);
+                TLobby::lock_mutex(lbl_805C18A0.value);
+            }
+            return 0;
+        }
+        ok = 1;
+        break;
+    case 4:
+        if (lbl_805D7A78 == 0) {
+            ok = 1;
+            break;
+        }
+        conn = lbl_805C0038 + 4;
+        for (i = 0; i < 2; i++) {
+            proto = lbl_805D7A78;
+            if (proto == 0x80) {
+                ret = TLobby__sub_80403BA8(cfg->wC, cfg->w10, proto);
+                if (ret == 0) {
+                    ok = 1;
+                    break;
+                }
+                if (ret != -18) {
+                    if (cfg->callback != NULL) {
+                        TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                        cfg->callback(lbl_805D7A82, 0);
+                        TLobby::lock_mutex(lbl_805C18A0.value);
+                    }
+                    return 0;
+                }
+            } else if (proto == 0x82) {
+                ret = TLobby__sub_80403B04(cfg->wC, cfg->w10, proto);
+                if (ret == 0) {
+                    ok = 1;
+                    break;
+                }
+                if (ret != -18) {
+                    if (cfg->callback != NULL) {
+                        TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                        cfg->callback(lbl_805D7A82, 0);
+                        TLobby::lock_mutex(lbl_805C18A0.value);
+                    }
+                    return 0;
+                }
+            } else {
+                lbl_805D7A82 = 6;
+                lbl_805D7A8A = 8;
+                if (cfg->callback != NULL) {
+                    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                    cfg->callback(lbl_805D7A82, 0);
+                    TLobby::lock_mutex(lbl_805C18A0.value);
+                }
+                return 0;
+            }
+            if (TLobby::wait_for_connection(conn) != 0) {
+                lbl_805D7A82 = 12;
+                lbl_805D7A8A = 8;
+                if (cfg->callback != NULL) {
+                    TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+                    cfg->callback(lbl_805D7A82, 0);
+                    TLobby::lock_mutex(lbl_805C18A0.value);
+                }
+                return 0;
+            }
+        }
+        break;
+    }
+    if (ok == 0) {
+        lbl_805D7A82 = 6;
+        lbl_805D7A8A = 8;
+        if (cfg->callback != NULL) {
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            cfg->callback(lbl_805D7A82, 0);
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+        return 0;
+    }
+    if (TLobby__sub_80403864() != 0) {
+        lbl_805D7A82 = 7;
+        lbl_805D7A8A = 8;
+        if (cfg->callback != NULL) {
+            TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+            cfg->callback(lbl_805D7A82, 0);
+            TLobby::lock_mutex(lbl_805C18A0.value);
+        }
+        return 0;
+    }
+    lbl_805D7A8A = 4;
+    if (cfg->callback != NULL) {
+        TUdpSocket::unlock_mutex(lbl_805C18A0.value);
+        cfg->callback(0, lbl_805D7BD8);
+        TLobby::lock_mutex(lbl_805C18A0.value);
+    }
     return 0;
 }
 

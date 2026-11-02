@@ -52,16 +52,16 @@ void __ct__11TItemWeaponFP7TObjectPUc(void *);
 s16 get_validated_attack_stage(u8 *arg0);
 void __dl__7TObjectFPv(void *);
 
-void TObjPlayer::launch_guardianna_colliders() {
+void TUnk_804EDC28::emit_marker_effects() {
     s32 sp8;
 
     ((TItemWeapon *)this)->get_joint_position(4, &sp8);
-    if (get_validated_attack_stage((u8 *)(*(s32 *)&this->blend.frame[1] + 0x7CC)) == 2) {
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->play_mode, 0);
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->play_mode, 0x1555);
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->play_mode, -0x1555);
+    if (get_validated_attack_stage((u8 *)(*(s32 *)&(*(NJS_MOTION_LINK *)((u8 *)this + 0xE4)).frame[1] + 0x7CC)) == 2) {
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0x1555);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), -0x1555);
     } else {
-        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&this->play_mode, 0);
+        ((TItemWeapon *)this)->fire_shot_at_target(&sp8, (void *)*(s32 *)&(*(s16 *)((u8 *)this + 0xF4)), 0);
     }
     if (((TItemWeapon *)this)->get_attack_stage() == 0) {
         ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)this, 4);

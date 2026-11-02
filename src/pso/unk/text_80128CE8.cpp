@@ -67,7 +67,7 @@ struct VObj_18 : VBase_18 {
 
 extern "C" {
 s32 test_flags_any(void *p, s32 n);
-void srank_punch_node_callback(Obj_80128E08 *self);
+void vfunc_60__13TUnk_804A403CFv(Obj_80128E08 *self);
 void clear_rico_ring_flag__10TObjPlayerFv(u32);
 
 void TUnk_804A403C::emit_marker_effects() {
@@ -98,8 +98,9 @@ void TUnk_804A403C::emit_marker_effects() {
     }
 }
 
-void srank_punch_node_callback(Obj_80128E08 *self) {
+void TUnk_804A403C::vfunc_60() {
     void *p;
+    Obj_80128E08 *self = (Obj_80128E08 *)this;
     switch (TObjPlayer::get_player_list()) {
     case 1:
         if (test_flags_any(self->f1fc, 2) == 0) {

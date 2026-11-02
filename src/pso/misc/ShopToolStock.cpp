@@ -53,7 +53,6 @@ typedef struct Hdr_8022525C
 extern "C" {
 s32 is_split_screen(void);
 s32 mem_alloc(s32);
-extern u8 lbl_8044C478[];
 extern s32 shop_tool_stock_buffers[];
 extern u32 lobby_tool_random_rel;
 extern int shop_tool_stock_level;
@@ -105,7 +104,7 @@ void TLobby::free_all_rocks() {
 s32 create_named_object(s32 arg0);
 void load_tool_random_rel(void) {
     s32 i;
-    (*(s32 *)&lobby_tool_random_rel) = create_named_object((s32)lbl_8044C478);
+    (*(s32 *)&lobby_tool_random_rel) = create_named_object((s32)"ToolRandom.rel");
     for (i = 0; i < 4; i++) {
         ((s32 *)&shop_tool_stock_buffers)[i] = 0;
     }

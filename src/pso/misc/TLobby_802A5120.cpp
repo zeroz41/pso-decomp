@@ -24,13 +24,6 @@ extern const V2_802A5208 lbl_80466740[];
 extern const V2_802A5208 lbl_80466748[];
 extern const V2_802A5208 lbl_80466750[];
 extern const V2_802A5208 lbl_80466758[];
-extern const f32 lbl_805DDFC8;
-extern const f32 lbl_805DDFCC;
-extern const f32 lbl_805DDFD0;
-extern const f32 lbl_805DDFD4;
-extern const f32 lbl_805DDFD8;
-extern const f32 lbl_805DDFDC;
-extern const f32 lbl_805DDFE0;
 void release_texture_list(void*);
 
 extern u32 lbl_805D6668;
@@ -62,32 +55,32 @@ void TLobby__sub_802A5154(void) {
 void TChCrTagPlBack::draw_frame() {
     Tag_802A5208 *self = (Tag_802A5208 *)this;
     f32 a;
-    a = lbl_805DDFC8;
-    if (self->t < lbl_805DDFCC) {
-        a = self->t / lbl_805DDFCC;
+    a = 1.0f;
+    if (self->t < 0.5f) {
+        a = self->t / 0.5f;
     }
     V2_802A5208 p1 = lbl_80466720[0];
-    draw_ui_sprite(0x7E, &p1, lbl_805DDFD0, a);
+    draw_ui_sprite(0x7E, &p1, -3.375f, a);
     V2_802A5208 p2 = lbl_80466728[0];
-    draw_ui_sprite(0x80, &p2, lbl_805DDFD0, a);
+    draw_ui_sprite(0x80, &p2, -3.375f, a);
     V2_802A5208 p3 = lbl_80466730[0];
-    draw_ui_sprite(0x84, &p3, lbl_805DDFD0, a);
+    draw_ui_sprite(0x84, &p3, -3.375f, a);
     V2_802A5208 p4 = lbl_80466738[0];
-    draw_ui_sprite(0x86, &p4, lbl_805DDFD0, a);
+    draw_ui_sprite(0x86, &p4, -3.375f, a);
     V2_802A5208 scale = lbl_80466740[0];
     V2_802A5208 p5 = lbl_80466748[0];
-    draw_ui_sprite_scaled(0x7F, &p5, &scale, lbl_805DDFD0, a);
+    draw_ui_sprite_scaled(0x7F, &p5, &scale, -3.375f, a);
     V2_802A5208 p6 = lbl_80466750[0];
-    draw_ui_sprite_scaled(0x85, &p6, &scale, lbl_805DDFD0, a);
+    draw_ui_sprite_scaled(0x85, &p6, &scale, -3.375f, a);
     V2_802A5208 base = lbl_80466758[0];
     V2_802A5208 cur;
-    for (; base.y <= lbl_805DDFE0; base.y += lbl_805DDFDC) {
+    for (; base.y <= 396.0f; base.y += 8.0f) {
         ((TWindowSubSymbolChatPartsSet *)(&cur))->copy_vec2(&base);
-        draw_ui_sprite(0x81, &cur, lbl_805DDFD0, a);
-        cur.x += lbl_805DDFD4;
-        draw_ui_sprite_scaled(0x82, &cur, &scale, lbl_805DDFD0, a);
-        cur.x = lbl_805DDFD8;
-        draw_ui_sprite(0x83, &cur, lbl_805DDFD0, a);
+        draw_ui_sprite(0x81, &cur, -3.375f, a);
+        cur.x += 32.0f;
+        draw_ui_sprite_scaled(0x82, &cur, &scale, -3.375f, a);
+        cur.x = 575.0f;
+        draw_ui_sprite(0x83, &cur, -3.375f, a);
     }
 }
 

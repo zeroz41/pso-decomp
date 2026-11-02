@@ -28,7 +28,6 @@ void TChCrEffFade::render() {
     TCameraCtrl__sub_80068EF0();
 }
 
-extern const f32 lbl_805DD9F8;
 
 void TChCrEffFade::update_fade() {
     u8 *arg0 = (u8 *)this;
@@ -36,10 +35,10 @@ void TChCrEffFade::update_fade() {
 
     temp_r6 = *(s32 *)((s8 *)arg0 + 0x24);
     if (temp_r6 <= 3) {
-        *(f32 *)((s8 *)arg0 + 0x28) = (f32) lbl_805DD9F8;
+        *(f32 *)((s8 *)arg0 + 0x28) = 1.0f;
         return;
     }
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (lbl_805DD9F8 - ((temp_r6 - 3) / (f32) (*(s32 *)((s8 *)arg0 + 0x20) - 3)));
+    *(f32 *)((s8 *)arg0 + 0x28) = (f32) (1.0f - ((temp_r6 - 3) / (f32) (*(s32 *)((s8 *)arg0 + 0x20) - 3)));
 }
 
 void TChCrEffFade::run_task() {

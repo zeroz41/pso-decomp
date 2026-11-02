@@ -11,15 +11,13 @@ s32 rand();
 extern s32 item_drop_rng;
 extern s32 lbl_805D60A4;
 extern s32 item_drop_server_seed;
-extern const f32 lbl_805DC618;
-extern const f32 lbl_805DC61C;
 void TLobby__sub_8020A2AC(void) {
     s32 temp_r3;
     s32 temp_r3_2;
     s32 var_r0;
     s32 var_r0_2;
     if (TRaderMapCore::is_not_split_screen() == 1) {
-        item_drop_server_seed = __cvt_fp2unsigned((f32) (lbl_805DC618 * (lbl_805DC61C * (f32) rand())));
+        item_drop_server_seed = __cvt_fp2unsigned((f32) (4294967300.0f * (3.0517578e-05f * (f32) rand())));
     }
     temp_r3 = (int)::operator new(0xE8);
     var_r0 = temp_r3;

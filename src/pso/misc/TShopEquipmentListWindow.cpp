@@ -214,7 +214,6 @@ s32 get_window_layout_position(s32);
 void *create_item_list_window(s32, s32, u16);
 s32 get_item_count__24TShopEquipmentSellWindowFv(void *a, s32 b);
 void *create_cost_window(u16);
-extern const f32 lbl_805DC6D0;
 s32 advance_item_id_counter(u16);
 void try_buy_item(void *, void *);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
@@ -524,7 +523,7 @@ void TShopEquipmentListWindow::create_buy_list_windows(void *p) {
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(W->help))->set_position(lbl_805DC6D0, lbl_805DC6D0);
+            ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
         ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((u32)W->recs);
     }

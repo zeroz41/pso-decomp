@@ -13,6 +13,9 @@
 
 struct O_8030B370 { u8 pad[0x24]; u32 a; s32 t; };
 
+/* TObjLiveCameraCtrl: model ids passed to fn_800832EC, indexed by its f4c */
+const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
+
 extern "C" {
 
 s32 is_split_screen();
@@ -373,7 +376,6 @@ s32 __ct__14SubtractiveRngFv(void *);
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 is_room_enemy_set_cleared(s32 floor, s16 room);
 
-extern s32 lbl_804757E0[];
 extern s32 __vt__18TObjLiveCameraCtrl[];
 extern s32 TObjLiveCameraCtrl__class_name;
 extern s32 tl_particlemodel;

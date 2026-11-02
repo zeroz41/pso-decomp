@@ -51,7 +51,7 @@ struct Tex_803DD784 { u8 pad[0x20]; void *buf; };
 
 struct Slot_803DD784 { s32 f0; s32 f4; s32 f8; Tex_803DD784 *tex; s32 f10; s32 f14; };
 
-extern s32 lbl_805D77A0;
+s32 lbl_805D77A0;
 extern "C" {
 void TLobby__sub_803DDD78(S_803DDD78 *d, S_803DDD78 *s);
 void copy_4word_struct__6TLobbyFPvPv(S_803DDD94 *d, S_803DDD94 *s);
@@ -76,7 +76,6 @@ s32 DVDOpen(const char *, FileInfo_803DD784 *);
 s32 DVDClose(FileInfo_803DD784 *);
 s32 Dolphin_DVDReadPrio(FileInfo_803DD784 *, void *, s32, s32, s32);
 extern u8 gvrt_header_read_buffer[];
-extern char lbl_805D46D8[4];
 extern Slot_803DD784 *record_array_ptr;
 s32 TObjPlayer__sub_803DD784(Obj_803DDA68 *obj, s32 idx);
 void TObjPlayer__sub_803DD5E8(GvmTextureList_803DDDC8 *list, GvmTextureEntry_803DDDC8 *entries, u32 names, s32 count);
@@ -120,7 +119,7 @@ void TObjPlayer__sub_803DD6DC(struct Obj_803DD6DC *arg0, s32 arg1) {
     lbl_804FC688[idx](arg0, arg1);
 }
 
-extern s32 lbl_805D77A4;
+s32 lbl_805D77A4;
 
 #pragma push
 #pragma optimize_for_size off
@@ -143,7 +142,7 @@ s32 TObjPlayer__sub_803DD784(Obj_803DDA68 *obj, s32 idx) {
     if (r != 0) {
         return r;
     }
-    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing((char *)(obj->ents[idx].info), (char *)lbl_805D46D8);
+    ((TAdSinglePlyChrSelectGC *)name)->append_extension_if_missing((char *)(obj->ents[idx].info), ".GVR");
     pfi = &fi;
     if (DVDOpen(name, pfi) == 0) {
         lbl_8058D470.c = 2;

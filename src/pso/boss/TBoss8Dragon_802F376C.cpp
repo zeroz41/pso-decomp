@@ -28,8 +28,6 @@ extern s32 tl_04;
 u16 get_entity_id(void *);
 u8 *get_enemy_entity(u16 arg0);
 extern u32 boss8_dragon_leader_part;
-extern const f32 lbl_805DED48;
-extern const f32 lbl_805DED4C;
 
 s32 TBoss8Dragon::is_closest_part() {
     Vec_802F376C v;
@@ -39,7 +37,7 @@ s32 TBoss8Dragon::is_closest_part() {
         return 1;
     }
     v.x = ((Ent_802F376C *)this)->x - ((Ent_802F376C *)this)->x;
-    v.y = lbl_805DED48;
+    v.y = 0.0f;
     v.z = ((Ent_802F376C *)this)->z - ((Ent_802F376C *)this)->z;
     len = normalize_vector_xz((Vec *)(&v));
     for (i = 1; i < 6; i++) {
@@ -48,7 +46,7 @@ s32 TBoss8Dragon::is_closest_part() {
             Ent_802F376C *e = (Ent_802F376C *)get_enemy_entity(id);
             if (e != NULL) {
                 v.x = e->x - ((Ent_802F376C *)this)->x;
-                v.y = lbl_805DED48;
+                v.y = 0.0f;
                 v.z = e->z - ((Ent_802F376C *)this)->z;
                 if (!(normalize_vector_xz((Vec *)(&v)) >= len)) {
                     return 0;
@@ -74,10 +72,10 @@ s32 TBoss8Dragon::push_apart_from_parts() {
             Ent_802F3878 *e = ((Ent_802F3878 *)get_enemy_entity(id));
             if (e != NULL) {
                 v.x = e->x - ((Ent_802F3878 *)this)->x;
-                v.y = lbl_805DED48;
+                v.y = 0.0f;
                 v.z = e->z - ((Ent_802F3878 *)this)->z;
-                d = normalize_vector_xz((Vec *)(&v)) - lbl_805DED4C;
-                if (!(d >= lbl_805DED48)) {
+                d = normalize_vector_xz((Vec *)(&v)) - 120.0f;
+                if (!(d >= 0.0f)) {
                     ((Ent_802F3878 *)this)->x = v.x * d + ((Ent_802F3878 *)this)->x;
                     ((Ent_802F3878 *)this)->z = v.z * d + ((Ent_802F3878 *)this)->z;
                     return 1;
@@ -101,9 +99,9 @@ s32 TBoss8Dragon::is_near_other_part() {
             Ent_802F3974 *e = ((Ent_802F3974 *)get_enemy_entity(id));
             if (e != NULL) {
                 v.x = e->x - ((Ent_802F3974 *)this)->x;
-                v.y = lbl_805DED48;
+                v.y = 0.0f;
                 v.z = e->z - ((Ent_802F3974 *)this)->z;
-                if (!(normalize_vector_xz((Vec *)(&v)) >= lbl_805DED4C)) {
+                if (!(normalize_vector_xz((Vec *)(&v)) >= 120.0f)) {
                     return 1;
                 }
             }

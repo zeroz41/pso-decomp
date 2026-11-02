@@ -68,7 +68,6 @@ extern void *__vt__21TAdMultiSelGameModeGC[];
 extern s32 TAdMultiSelGameModeGC__name;
 extern s32 game_difficulty_selection;
 extern s32 lbl_805D69F4;
-extern const f32 lbl_805DEF44;
 Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s32 mode);
 s32 set_default_camera__21TAdMultiChgGameModeGCFv(void *);
 }
@@ -86,7 +85,6 @@ s32 check_room_seq_4__16TAdChrSelASlotGCFl(void *, u32);
 extern Pos3_803001B4 multi_sel_game_mode_position;
 extern Arr3_803001B4 lbl_80474EEC;
 extern Arr3_803001B4 multi_sel_game_mode_arr3;
-extern const f32 lbl_805DEF40;
 extern u8 controller_input_state[];
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, s32);
@@ -129,7 +127,7 @@ s32 TAdMultiSelGameModeGC::build_mode_menu(s32 arg1) {
         } else {
             TWindowSubComCard::draw_text_gray(r, get_localized_text_entry(0x18, i + b.v[arg1]), 6, i + a.v[arg1]);
         }
-        ((TWindowSubComCardList *)r)->update_layout_height(lbl_805DEF40);
+        ((TWindowSubComCardList *)r)->update_layout_height(206.0f);
         ((TWindowSubComCardList *)r)->set_selected_index(a.v[arg1]);
         align_menu_entry_positions(r);
     }
@@ -381,6 +379,6 @@ Obj_8030095C *__ct__21TAdMultiSelGameModeGCFv(Obj_8030095C *self, s32 parent, s3
         p = __ct__13TAdGuideTxtGCFv(p, self);
     }
     self->f40 = p;
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0x10, (f32)lbl_805DEF44);
+    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0x10, 0.0f);
     return self;
 }

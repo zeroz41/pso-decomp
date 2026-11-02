@@ -28,16 +28,11 @@ extern s32 lbl_805D6758;
 extern u8 lbl_805D675C;
 extern const f32 lbl_805DE3F8;
 extern f32 lbl_805DE4DC;
-extern const f32 lbl_805DE4F0;
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-extern const f32 lbl_805DE4E0;
-extern const f32 lbl_805DE4E4;
 void *get_player_by_client_id(s32 i);
 s32 play_sound_effect(int, void *, int, int);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
 extern const f32 lbl_805DE404;
-extern const f32 lbl_805DE4E8;
-extern const f32 lbl_805DE4EC;
 extern s32 lbl_805D6780;
 extern u8 lbl_805D6784;
 extern const f32 lbl_805DE400;
@@ -175,17 +170,17 @@ void TBoss6Type2::update_charge_timer() {
     s32 temp_r0;
     *(f32 *)((s8 *)((u8 *)this) + 0x41C) = (f32) ((f32) *(s32 *)((s8 *)((u8 *)this) + 0x460) / (f32) *(s32 *)((s8 *)((u8 *)this) + 0x45C));
     temp_f1 = *(f32 *)((s8 *)((u8 *)this) + 0x41C);
-    if (temp_f1 < lbl_805DE4E0) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = (f32) lbl_805DE4E0;
-    } else if (temp_f1 > lbl_805DE4E4) {
-        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = (f32) lbl_805DE4E4;
+    if (temp_f1 < 0.0f) {
+        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = 0.0f;
+    } else if (temp_f1 > 1.0f) {
+        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = 1.0f;
     }
     play_persistent_sound(0x4006A30B, ((s32) this), (0U), 0, 0);
     temp_r0 = *(s32 *)((s8 *)((u8 *)this) + 0x460) - 1;
     *(s32 *)((s8 *)((u8 *)this) + 0x460) = temp_r0;
     if (temp_r0 < 0) {
         *(s32 *)((s8 *)((u8 *)this) + 0x418) = 0;
-        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = (f32) lbl_805DE4E0;
+        *(f32 *)((s8 *)((u8 *)this) + 0x41C) = 0.0f;
         this->copy_anim_state();
         this->destroy_part(7);
         this->set_action_state((void *)0);
@@ -195,7 +190,7 @@ void TBoss6Type2::update_charge_timer() {
 
 void TBoss6Type2::start_flow_soul_effect() {
     Obj_802BE9AC *arg0 = (Obj_802BE9AC *)this;
-    static s32 dur = (s32)(lbl_805DE4E8 / lbl_805DE404);
+    static s32 dur = (s32)(60.0f / lbl_805DE404);
     Vec_802BE9AC v;
     u32 pl;
     s32 d = dur;
@@ -208,7 +203,7 @@ void TBoss6Type2::start_flow_soul_effect() {
         pl = (u32)get_player_by_client_id(arg0->client);
         if (pl != 0) {
             VecCopy__FP3VecPC3Vec(&v, (void *)(pl + 0x38));
-            v.y += lbl_805DE4EC;
+            v.y += 10.0f;
             spawn_flow_soul__11TBoss6Type2Fiii((s32)arg0, (s32)&v, (s32)arg0->t45C);
             spawn_particle_effect((void *)(pl + 0x38), 0x36);
         }
@@ -244,7 +239,7 @@ void TBoss6Type2__sub_802BEB78(u8 *arg0) {
     s32 temp_r0;
     if ((s8) lbl_805D6784 == 0) {
         lbl_805D6784 = 1;
-        lbl_805D6780 = (s32) (lbl_805DE4E8 / lbl_805DE400);
+        lbl_805D6780 = (s32) (60.0f / lbl_805DE400);
     }
     temp_r0 = lbl_805D6780;
     *(s32 *)((s8 *)arg0 + 0x45C) = temp_r0;
@@ -264,19 +259,19 @@ void TBoss6Type2__sub_802BEC28(TBoss6Type2 *arg0) {
     f32 temp_f1;
     s32 temp_r0;
     u32 player;
-    *(f32 *)((s8 *)arg0 + 0x41C) = (f32) (lbl_805DE4E4 - ((f32) *(s32 *)((s8 *)arg0 + 0x460) / (f32) *(s32 *)((s8 *)arg0 + 0x45C)));
+    *(f32 *)((s8 *)arg0 + 0x41C) = (f32) (1.0f - ((f32) *(s32 *)((s8 *)arg0 + 0x460) / (f32) *(s32 *)((s8 *)arg0 + 0x45C)));
     temp_f1 = *(f32 *)((s8 *)arg0 + 0x41C);
-    if (temp_f1 < lbl_805DE4E0) {
-        *(f32 *)((s8 *)arg0 + 0x41C) = (f32) lbl_805DE4E0;
-    } else if (temp_f1 > lbl_805DE4E4) {
-        *(f32 *)((s8 *)arg0 + 0x41C) = (f32) lbl_805DE4E4;
+    if (temp_f1 < 0.0f) {
+        *(f32 *)((s8 *)arg0 + 0x41C) = 0.0f;
+    } else if (temp_f1 > 1.0f) {
+        *(f32 *)((s8 *)arg0 + 0x41C) = 1.0f;
     }
     play_persistent_sound(0x4006A30B, (s32)arg0, (u32)((u8 *)arg0 + 0x38), 0, 1);
     temp_r0 = *(s32 *)((s8 *)arg0 + 0x460) - 1;
     *(s32 *)((s8 *)arg0 + 0x460) = temp_r0;
     if (temp_r0 < 0) {
         *(s32 *)((s8 *)arg0 + 0x418) = 1;
-        *(f32 *)((s8 *)arg0 + 0x41C) = (f32) lbl_805DE4E4;
+        *(f32 *)((s8 *)arg0 + 0x41C) = 1.0f;
         if (arg0->check_target() != 0) {
             if (arg0->is_target_valid() == 0) {
                 play_sound_effect(0x40069E13, (u8 *)arg0 + 0x38, 0, 1);
@@ -298,7 +293,7 @@ void TBoss6Type2::spawn_death_soul() {
     s32 temp_r0;
     if ((s8) lbl_805D677C == 0) {
         lbl_805D677C = 1;
-        lbl_805D6778 = (s32) (lbl_805DE4E8 / lbl_805DE400);
+        lbl_805D6778 = (s32) (60.0f / lbl_805DE400);
     }
     temp_r0 = lbl_805D6778;
     *(s32 *)((s8 *)arg0 + 0x45C) = temp_r0;
@@ -327,7 +322,7 @@ void TBoss6Type2__sub_802BEE38(TBoss6Type2 *boss) {
     s32 grp;
     if ((s8) lbl_805D676C == 0) {
         lbl_805D676C = 1;
-        lbl_805D6768 = (s32) (lbl_805DE4EC / lbl_805DE3FC - lbl_805DE4EC);
+        lbl_805D6768 = (s32) (10.0f / lbl_805DE3FC - 10.0f);
     }
     if (boss->m_460 == *(s32 *)((u8 *)boss + 0x45C) - lbl_805D6768) {
         sound = 0x40069C05;
@@ -342,7 +337,7 @@ void TBoss6Type2__sub_802BEE38(TBoss6Type2 *boss) {
     }
     if ((s8) lbl_805D6774 == 0) {
         lbl_805D6774 = 1;
-        lbl_805D6770 = (s32) (lbl_805DE4EC / lbl_805DE3FC);
+        lbl_805D6770 = (s32) (10.0f / lbl_805DE3FC);
     }
     if (boss->m_460 == *(s32 *)((u8 *)boss + 0x45C) - lbl_805D6770) {
         switch ((s32) boss->m_374) {
@@ -500,7 +495,7 @@ void TBoss6Type2::init_timers_and_copy_pos() {
   if (((s8) lbl_805D675C) == 0)
   {
     lbl_805D675C = 1;
-    lbl_805D6758 = (s32) (lbl_805DE4F0 + ((*(const f32 *)&lbl_805DE4DC) / lbl_805DE3F8));
+    lbl_805D6758 = (s32) (15.0f + ((*(const f32 *)&lbl_805DE4DC) / lbl_805DE3F8));
   }
   *((s32 *) (((s8 *) arg0) + 0x460)) = (*((s32 *) (((s8 *) arg0) + 0x45C)) = (s32) lbl_805D6758);
   VecCopy__FP3VecPC3Vec(arg0 + 0x50C, arg0 + 0x38);

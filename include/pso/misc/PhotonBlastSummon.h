@@ -3,8 +3,20 @@
 
 #include "types.h"
 
+// One target of a photon blast: queue_photon_blast_hit fills it, the
+// deliver_photon_blast_results_* functions apply it.
+struct PhotonBlastHit {
+    u32 identity;  // entity id of the target
+    f32 value;     // the blast entry's base value
+    s32 kind;      // photon blast kind
+};
+
 extern "C" {
 void apply_all_default__8TFogCtrlFv(void);
+extern PhotonBlastHit photon_blast_hit_queue[32];
+extern s32 photon_blast_hit_count;
+extern PhotonBlastHit deferred_photon_blast_hit_queue[32];
+extern s32 deferred_photon_blast_hit_count;
 }
 void clear_deferred_photon_blast_hits(void);
 void clear_photon_blast_hits(void);

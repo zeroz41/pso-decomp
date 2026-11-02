@@ -9,12 +9,11 @@ extern "C" {
 
 s32 TObjPlayer__sub_801C19C8(f32);
 
-extern const f32 lbl_805DC300;
 
 void TLobby::update_child_player() {
     s32 arg0 = (s32)this;
-    TObjPlayer__sub_801C19C8(lbl_805DC300);
-    set_float_4(lbl_805DC300);
+    TObjPlayer__sub_801C19C8(0.0f);
+    set_float_4(0.0f);
 }
 
 void TLobby::set_float_4(f32 v) { *(f32 *)&this->m_flags = v; }

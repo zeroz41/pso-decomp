@@ -421,7 +421,6 @@ s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
 extern "C" {
 s32 angle_difference_abs(int, int);
 s32 approach_angle_limited(int, int, void *);
-extern const f64 lbl_8043BBD8;
 extern const f32 lbl_805D9FE0;
 extern const f32 lbl_805D9FE4;
 extern const f32 lbl_805D9FE8;
@@ -488,7 +487,7 @@ void TObjEneDD::state_chase_target(s32 arg1) {
         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
         ((TObjEneDD *)arg0)->update_velocity();
         (*(s32 *)((s8 *)arg0 + 0x414))++;
-        *(s32 *)((s8 *)arg0 + 0x420) = (s32)(lbl_8043BBD8 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
+        *(s32 *)((s8 *)arg0 + 0x420) = (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg0 + 0x3A0), *(f32 *)((s8 *)arg0 + 0x3A8)));
         this->rotation_y = approach_angle_limited(this->rotation_y, *(s32 *)((s8 *)arg0 + 0x420), *(void **)((s8 *)this->movementParameters + 8));
         this->rotation_y = (s16)this->rotation_y;
         this->vfunc_102();

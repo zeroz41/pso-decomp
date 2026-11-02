@@ -22,7 +22,6 @@ s32 forward_render__20TWindowSubStatusDispFv(s32, s32);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 s32 TWindowShortListCtrl__check_controller_button(int, int);
 extern RecoveredGlobal_802492C8_lbl_8050E208 controller_input_state;
-extern const f32 lbl_805DCBC0;
 void __dl__7TObjectFPv(void *);
 void fn_80269004(void *);
 
@@ -76,7 +75,7 @@ void TWindowChoiceSetting::run_task() {
             ((TUnk_804D0658 *)arg0)->request_close();
         }
     }
-    if ((f32) this->m_5c >= lbl_805DCBC0) {
+    if ((f32) this->m_5c >= 7.5f) {
         temp_r3 = this->m_78;
         if (temp_r3 != 0U) {
             ((TWindowSubStatusDisp *)temp_r3)->update_subwindow();

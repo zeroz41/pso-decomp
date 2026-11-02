@@ -1,9 +1,9 @@
 #include "types.h"
+#include "pso/npc/TObjNpcNHW00.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcNHW01.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A8640.h"
-#include "pso/npc/TObjNpcNHW00.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
@@ -47,16 +47,9 @@ void TObjNpcNHW00::load_resources() {
     TObjNpcNHW00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_b00_body.gvm");
 }
 
-void *__dt__12TObjNpcNHW00Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcNHW00;
-        ((TUnk_804A8640 *)arg0)->destroy_npc_female_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcNHW00::~TObjNpcNHW00() {}
+extern "C" {
 
 extern void *tl_04;
 

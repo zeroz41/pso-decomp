@@ -26,14 +26,15 @@ struct Stack_8034B158 {
     u8 trailing_storage[0x11];
 };
 
-struct RecoveredGlobal_8034B158_lbl_804F00C8 {
-    s32 value;
-    u8 remaining[0x5C];
+// One selectable item: the first three item-code bytes, stored as words.
+struct Challenge4PItemCode {
+    s32 type;
+    s32 group;
+    s32 subtype;
 };
 
 extern "C" {
 void init__9TItemDataFv(void *);
-extern RecoveredGlobal_8034B158_lbl_804F00C8 TChallenge4PItemSelect__item_table;
 }
 
 extern "C" {
@@ -45,8 +46,11 @@ s32 fn_8034BE30(TChallenge4PResult *);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
 
 }
-extern s32 challenge4p_item_select_text_ids[];
-typedef char RecoveredGlobal_8034B158_lbl_804F00C8_size[sizeof(RecoveredGlobal_8034B158_lbl_804F00C8) == 0x60 ? 1 : -1];
+s32 challenge4p_item_select_text_ids[8] = { 0x120, 0x13D, 0x159, 0x11D, 0x12A, 0x147, 0x11F, 0x14E };
+Challenge4PItemCode TChallenge4PItemSelect__item_table[8] = {
+    { 0, 0x2B, 0 }, { 0, 0x48, 0 }, { 0, 0x64, 0 }, { 0, 0x28, 0 },
+    { 0, 0x35, 0 }, { 0, 0x52, 0 }, { 0, 0x2A, 0 }, { 0, 0x59, 0 },
+};
 extern void *lbl_805D433C;
 
 extern "C" { s32 TChallenge4PResult__slot_entries[4]; }
@@ -471,7 +475,7 @@ void TChallenge4PItemSelect::submit_selected_item() {
     u8 *window_menu;
     window_menu = (u8 *)((u8 *)menu_window);
     if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
-        temp_r31 = (u8 *)&TChallenge4PItemSelect__item_table.value + (((TWindowMenu *)menu_window)->get_selected_value() * 0xC);
+        temp_r31 = (u8 *)&TChallenge4PItemSelect__item_table[((TWindowMenu *)menu_window)->get_selected_value()];
         init__9TItemDataFv(&stack.sp8);
         stack.sp8 = (s8) *(s32 *)((s8 *)temp_r31 + 0);
         stack.sp9 = (s8) *(s32 *)((s8 *)temp_r31 + 4);

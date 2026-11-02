@@ -6,6 +6,7 @@
 
 struct TObjEneMe3Shinowa : public TObjEneDD_ST {
     virtual ~TObjEneMe3Shinowa();
+    virtual s32 vfunc_104(f32);
     virtual void run_task();
     virtual void vfunc_88();
     virtual void vfunc_89();

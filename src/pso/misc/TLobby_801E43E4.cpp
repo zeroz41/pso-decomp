@@ -23,7 +23,6 @@ s32 load_gvm_texture_archive(void *, s32);
 extern char texture_pvm_not_found_format[];
 extern char lbl_804497C4[];
 extern char texture_pvm_load_error_format[];
-extern char lbl_805DC448[4];
 s32 load_texture_list(s32 **);
 extern char pso_texture_load_error_format[];
 s32 append_command_to_batch_buffer(void *, s32);
@@ -140,8 +139,8 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     s32 ret;
     TLobby::pump_frames();
     strncpy(path, name, 0x40);
-    if (((TLobby *)path)->compare_file_extension(lbl_805DC448) != 0) {
-        change_file_extension__6TLobbyFPvPvPv(0, path, lbl_805DC448);
+    if (((TLobby *)path)->compare_file_extension("gvm") != 0) {
+        change_file_extension__6TLobbyFPvPvPv(0, path, "gvm");
     }
     size = ((TLobby *)path)->get_resource_file_size();
     if (size <= 0) {

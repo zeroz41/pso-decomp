@@ -135,7 +135,6 @@ s32 get_window_layout_position(int);
 void *create_window_quantity(u16);
 void *create_item_list_window(s32, s32, u16);
 void *create_cost_window(u16);
-extern const f32 lbl_805DC6F8;
 void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TShopWindowBaseFv(void *self, s16 m);
@@ -286,7 +285,7 @@ void TShopItemListWindow::build_item_list(void *p) {
         }
         W->help = o;
         if (W->help != NULL && TLobby::is_camera_ctrl_active() > 2) {
-            ((TLobby *)(W->help))->set_position(lbl_805DC6F8, lbl_805DC6F8);
+            ((TLobby *)(W->help))->set_position(0.75f, 0.75f);
         }
         ((TWindowHelpItem *)(W->help))->set_displayed_item_colored((u32)W->recs);
     }

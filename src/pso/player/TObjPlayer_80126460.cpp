@@ -2,6 +2,7 @@
 #include "pso/player/TObjPlayer_80126460.h"
 #include "pso/item/TItemShootParticle.h"
 #include "pso/TObject.h"
+#include "pso/item/TUnk_804A2A58.h"
 
 extern "C" {
 
@@ -30,4 +31,5 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
 }
 }
 
-void baranz_launcher_node_callback(void* p) { if (get_player_list__10TObjPlayerFv(p) == 1) { rotate_matrix_y((void*)0, *(void**)((char*)p + 0x1f8)); } }
+// Baranz Launcher (inferred)
+void TUnk_804A2A58::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_y((void*)0, *(void* *)&this->unk_1F8); } }

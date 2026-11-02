@@ -83,7 +83,6 @@ s32 is_valid_and_active__10TObjPlayerFUl();
 s32 vec3_add_to(void *, void *);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
-extern const f32 lbl_805DA478;
 f32 atan2_float(f32, f32);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
@@ -92,7 +91,6 @@ f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 extern s32 __vt__13TUnk_80494E10[];
 extern s32 tl_06;
-extern const f32 lbl_805DA47C;
 u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, Vec_800DC83C *arg2, s32 arg3, void *arg4);
 void TObjPlayer__sub_800DC444(void);
 void *__dt__13TUnk_80494E10Fv(void *arg0, s16 arg1);
@@ -185,7 +183,7 @@ void TUnk_80494E10::run_task() {
             ((TParticleCtrl *)arg0->link1)->set_position(&arg0->prev);
         }
     }
-    if (arg0->timer >= lbl_805DA478) {
+    if (arg0->timer >= 500.0f) {
         queue_destruction__7TObjectFv(arg0);
         return;
     }
@@ -217,7 +215,7 @@ u8 *construct_beam_effect__10TObjPlayerFPvPvPviPv(u8 *arg0, Vec_800DC83C *arg1, 
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80494E10;
     ((TUnk_80494E10 *)arg0)->m_f4 = arg3;
     VecCopy((Vec *)(arg0 + 0xAC), (const Vec *)arg1);
-    ((TUnk_80494E10 *)arg0)->m_dc = lbl_805DA47C;
+    ((TUnk_80494E10 *)arg0)->m_dc = 0.0f;
     VecCopy((Vec *)(arg0 + 0xB8), (const Vec *)arg2);
     subtract_vector(arg0 + 0xB8, arg1);
     s = lbl_805D525C / vector_length(arg0 + 0xB8);

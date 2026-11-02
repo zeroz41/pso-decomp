@@ -126,7 +126,6 @@ s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 s32 noop__9TObjEneDDFv(void *, s32);
 s32 fn_800C3A60(void *, s32);
 s32 play_sound_effect(s32, void *, s32, s32);
-extern const f32 lbl_805D9FD0;
 #define F(T, o) (*(T *)((s8 *)(arg0) + (o)))
 void TObjEneDD::state_damaged(s32 arg1) {
     u8 *arg0 = (u8 *)this;
@@ -146,7 +145,7 @@ void TObjEneDD::state_damaged(s32 arg1) {
                 transition_enemy_state__9TObjEneDDFl(arg0, F(s32, 0x378));
             } else if (F(s16, 0x32C) < F(s16, 0x2B8) / 4) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 8);
-            } else if (random_ratio__9TObjCharaFv((s32)arg0) < lbl_805D9FD0) {
+            } else if (random_ratio__9TObjCharaFv((s32)arg0) < 0.3f) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 6);
             } else {
                 transition_enemy_state__9TObjEneDDFl(arg0, F(s32, 0x378));

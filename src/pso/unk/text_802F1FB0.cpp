@@ -19,7 +19,7 @@ s32 VecCopy__FP3VecPC3Vec(void *, void *, int, int);
 s32 __ct__7TObjectFP7TObject();
 s32 copy_position__16TBoss8DragonDemoFv(int, void *);
 extern RecoveredGlobal_802F1FB0_lbl_804E4978 boss2_tunnel_effect_name_table;
-extern RecoveredGlobal_802F1FB0_lbl_804E4B24 lbl_804E4B24;
+extern RecoveredGlobal_802F1FB0_lbl_804E4B24 __vt__13TUnk_804E4B24;
 typedef char RecoveredGlobal_802F1FB0_lbl_804E4978_size[sizeof(RecoveredGlobal_802F1FB0_lbl_804E4978) == 0x28 ? 1 : -1];
 typedef char RecoveredGlobal_802F1FB0_lbl_804E4B24_size[sizeof(RecoveredGlobal_802F1FB0_lbl_804E4B24) == 0x18 ? 1 : -1];
 u8 *fn_802F1FB0(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
@@ -28,7 +28,7 @@ u8 *fn_802F1FB0(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, f32 farg0) {
     u8 *temp_r31;
     __ct__7TObjectFP7TObject();
     temp_r5 = arg2 * 8;
-    *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804E4B24.value;
+    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804E4B24.value;
     temp_r6 = *(s32 *)((s8 *)arg1 + 0x10);
     temp_r31 = (u8 *)&boss2_tunnel_effect_name_table.value + temp_r5;
     ((TUnk_804E4B24 *)arg0)->m_34 = temp_r6;

@@ -19,22 +19,22 @@ TUnk_804A0AA8::~TUnk_804A0AA8() {
 }
 
 
-void TObjPlayer::cast_foie_effect() {
+void TUnk_804A0BC0::emit_marker_effects() {
     s32 sp8;
     void *owner;
 
-    if (((TItemWeapon *)this)->is_mode_two_and_ready() != 0) {
-        if (((TItemWeapon *)this)->get_joint_position(0, &sp8) != 0) {
-            owner = *(void * *)&this->blend.frame[1];
-            TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)(get_tp()));
-            ((TItemWeapon *)this)->roll_technique();
+    if (is_mode_two_and_ready() != 0) {
+        if (get_joint_position(0, &sp8) != 0) {
+            owner = this->owner;
+            TTecFoie::create((void *)owner, &sp8, (void *)(*(s32 *)((s8 *)owner + 0x60)), (void *)(((TObjPlayer *)this)->get_tp()));
+            roll_technique();
         }
     } else {
-        update_active_game_effect();
+        ((TObjPlayer *)this)->update_active_game_effect();
     }
 }
 
-void TObjPlayer::release_container_if_active() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
+void TUnk_804A0BC0::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_x((void*)0, *(void* *)&this->unk_1F8); } }
 
 extern f32 lbl_805DACC8;
 extern f32 lbl_805DACCC;

@@ -5,21 +5,13 @@
 #include "pso/misc/TORockCaveSimple.h"
 
 struct TORockCaveSM02 : public TORockCaveSimple {
+    TORockCaveSM02(void *set_data);
     virtual ~TORockCaveSM02();
 };
 
 typedef char TORockCaveSM02_size[sizeof(TORockCaveSM02) == 0xB4 ? 1 : -1];
 
-extern "C" {
-void *TORockCaveSM02__create(void *arg0);
-void *__dt__14TORockCaveSM02Fv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TORockCaveSM02.cpp ---
-extern "C" {
-void *TORockCaveSM02__create(void *arg0);
-void *__dt__14TORockCaveSM02Fv(void *arg0, s16 arg1);
-}
-// --- end of C functions
+// The object factory entry (ObjectFactoryTables.cpp).
+extern "C" void *TORockCaveSM02__create(void *set_data);
 
 #endif

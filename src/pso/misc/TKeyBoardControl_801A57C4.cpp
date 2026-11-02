@@ -93,7 +93,6 @@ void update_state_from_input__16TKeyBoardControlFPv(void *arg0) {
 }
 
 extern s32 actor_frame_tick;
-extern const f32 lbl_805DC0B0;
 
 s32 TKeyBoardControl::check_input_angle() {
     s32 temp_r4_2;
@@ -105,7 +104,7 @@ s32 TKeyBoardControl::check_input_angle() {
     if (temp_r4 == NULL) {
         return 0;
     }
-    if (*(f32 *)((s8 *)temp_r4 + 0x24) < lbl_805DC0B0) {
+    if (*(f32 *)((s8 *)temp_r4 + 0x24) < 0.5f) {
         return 0;
     }
     temp_r5 = *(s32 *)&this->m_name;

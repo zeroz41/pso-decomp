@@ -131,7 +131,6 @@ s32 call_funcs_reverse__6TLobbyFPvUi(void *, int);
 s32 cleanup__6TLobbyFv();
 void run_area_scene_cleanup(u8 *arg0);
 s32 PPCSync();
-extern const char lbl_80446930[];
 extern s32 lbl_805D5718;
 void __construct_array(void *, void *, int, int, int);
 s32 TLobby__sub_8013A23C(s32 arg0);
@@ -139,9 +138,10 @@ void bswap_32__FPUl(void *);
 s32 handle_game_join__6TLobbyFPv(void *);
 char *strcpy(char *, const char *);
 void *memset(void *, int, u32);
-extern char lbl_80446918[];
-extern char lbl_80446924[];
-extern Pair_801A3CFC lobby_udp_test_game_entries[];
+Pair_801A3CFC lobby_udp_test_game_entries[2] = {
+    {0x9D6D3202, 0},
+    {0x9D6D3201, 0},
+};
 extern s32 TLobby__designated_client_id;
 extern s32 game_protocol_instance;
 s32 __dt__7TObjectFv(void *, s32);
@@ -243,12 +243,12 @@ void TLobby::start_udp_test_game() {
     msg.entries[0].f4 = 0x013158B7;
     msg.entries[0].f8 = lobby_udp_test_game_entries[0].f4;
     msg.entries[0].fC = 0;
-    strcpy(msg.entries[0].name, lbl_80446918);
+    strcpy(msg.entries[0].name, "UDPTEST-1");
     msg.entries[1].f2 = 1;
     msg.entries[1].f4 = 0x013158B8;
     msg.entries[1].f8 = lobby_udp_test_game_entries[1].f4;
     msg.entries[1].fC = 1;
-    strcpy(msg.entries[1].name, lbl_80446924);
+    strcpy(msg.entries[1].name, "UDPTEST-2");
     handle_game_join__6TLobbyFPv(&msg);
     ((TObject *)game_protocol_instance)->delete_children();
     ((TLobby *)(1 - local_client_id))->open_udp_socket_for_player();
@@ -327,7 +327,7 @@ void TLobby::blocking_vsync(void* _w0) {
         main_task.run_tl_camera_tasks();
         main_task.render();
         main_task.render_screen_overlay();
-        ::debug_print(lbl_80446930);
+        ::debug_print("BlockingVsync");
         render_tick__Fv();
     } else {
         controller_stuff__Fv();

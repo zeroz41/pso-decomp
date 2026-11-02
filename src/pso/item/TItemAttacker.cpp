@@ -111,7 +111,6 @@ u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4)
 f32 horizontal_distance_squared(void *, void *);
 void *resolve_hittable_target(u16 actorId, s16 collider);
 void *get_player_by_client_id(s32 i);
-extern const f32 lbl_805DAAA8;
 void deliver_delayed_weapon_hit(u8 *arg0) {
     u8 *temp_r3;
     u8 *temp_r30;
@@ -120,7 +119,7 @@ void deliver_delayed_weapon_hit(u8 *arg0) {
     temp_r3 = (u8 *)(resolve_hittable_target(*(u16 *)((s8 *)arg0 + 0x2A), *(s16 *)((s8 *)arg0 + 0x2C)));
     if (temp_r3 != NULL) {
         temp_r30 = (u8 *)&((Tbl_801031CC *)(((TObjPlayer *)temp_r3)->bodies))->r[*(s16 *)((s8 *)arg0 + 0x2C)];
-        if (horizontal_distance_squared(arg0 + 0x38, temp_r30) < lbl_805DAAA8) {
+        if (horizontal_distance_squared(arg0 + 0x38, temp_r30) < 64.0f) {
             player = (u32)get_player_by_client_id((*(u16 *)((s8 *)arg0 + 0x28)));
             item = (u8 *)(find_item_by_id(*(s32 *)((s8 *)arg0 + 0x24)));
             if ((player != 0U) && (item != NULL)) {

@@ -273,7 +273,11 @@ void transform_chunk_object_tree(void *arg0, void (*cb)(void *)) {
 #undef node
 
 extern "C" {
-asm void transform_chunk_vertices_pos_normal(register Hdr_803E34B0 *job, register s32 matrix) {
+asm void GXSetVtxAttrFmtv(Hdr_803E34B0 *job, s32 matrix, u32 format) {
+#include "orig_asm/pso/unk/text_803E2D70/GXSetVtxAttrFmtv.inc"
+}
+
+asm void transform_chunk_vertices_pos_normal(Hdr_803E34B0 *job, s32 matrix) {
 #include "orig_asm/pso/unk/text_803E2D70/transform_chunk_vertices_pos_normal.inc"
 }
 }

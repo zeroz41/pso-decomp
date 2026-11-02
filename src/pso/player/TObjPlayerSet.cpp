@@ -18,7 +18,6 @@ u8 *TObjQuestCol2__vt14(TObjQuestCol2 *arg0);
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__13TObjPlayerSet[];
 extern s32 TObjPlayer__player_set_class_name;
-extern const f32 lbl_805DBEF0;
 u8 *TObjPlayerSet__ct(TObjPlayerSet *arg0, s32 arg1, s32 arg2);
 void *TObjQuestCol2__create(void *arg0);
 void *__dt__13TObjPlayerSetFv(void *arg0, s16 arg1);
@@ -54,8 +53,8 @@ u8 *TObjPlayerSet__ct(TObjPlayerSet *player_set, s32 arg1, s32 arg2) {
     *(s32 **)((s8 *)player_set + 0x18) = &(*(RecoveredGlobal_80195720___vt__13TObjPlayerSet *)&__vt__13TObjPlayerSet).value;
     *(s32 *)((s8 *)player_set + 0) = (s32) TObjPlayer__player_set_class_name;
     ((TObjPlayerSet *)(player_set))->apply_object_set_data((void *)arg2);
-    if (player_set->scale.x < lbl_805DBEF0) {
-        player_set->scale.x = (f32) lbl_805DBEF0;
+    if (player_set->scale.x < 0.0f) {
+        player_set->scale.x = 0.0f;
     }
     if ((s32) player_set->set_params[0] < 0) {
         player_set->set_params[0] = 0;

@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/ui/TAdWarningBaseGC_8032CE1C.h"
 #include "pso/ui/TUnk_804EDBD0.h"
+#include "pso/ui/TAdWarningBaseGC_8032CE1C.h"
 #include "pso/misc/TLobby.h"
 
 extern "C" {
@@ -95,7 +95,7 @@ int get_alloc_size__16TAdWarningBaseGCFv(void) {  return TAdWarningBaseGC__aram_
 
 int TAdWarningBaseGC__sub_8032D020(void) {  return ((TAdWarningBaseGC__aram_alloc_size + 0x1f) & 0xffffffe0); }
 
-extern s32 lbl_804EDBD0[];
+extern s32 __vt__13TUnk_804EDBD0[];
 
 s32 post_aram_request__16TAdWarningBaseGCFii(s32 buf, s32 arg1) {
     u32 size;
@@ -110,20 +110,15 @@ s32 post_aram_request__16TAdWarningBaseGCFii(s32 buf, s32 arg1) {
     return 1;
 }
 
-void *__dt__13TUnk_804EDBD0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804EDBD0;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_804EDBD0::~TUnk_804EDBD0() {
+
+}
+extern "C" {
 
 void *TUnk_804EDBD0::init_vtable() {
     __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804EDBD0;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804EDBD0;
     *(u32 *)&this->unk_1C = 0;
     return this;
 }

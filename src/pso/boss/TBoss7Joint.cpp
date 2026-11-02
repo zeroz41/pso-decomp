@@ -20,7 +20,6 @@ struct J_802EEB88 { u8 pad[0x38C]; u8 sub; };
 
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-extern const f32 lbl_805DEBB8;
 void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 extern s32 __vt__11TBoss7Joint[];
 extern s32 lbl_805D3FC0;
@@ -30,7 +29,6 @@ s32 register_boss__6TLobbyFl(int);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
 extern s32 lbl_80473FB8[];
 extern s32 boss7_joint_params[];
-extern const f32 lbl_805DEBBC;
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
 s32 apply_damage_and_set_effect__8TObjFishFl(int, int, int);
@@ -43,8 +41,6 @@ void TBoss7Joint::store_position() {
     VecCopy((Vec *)((char *)this + 116), (const Vec *)self->f_2FC);
 }
 
-extern const f32 lbl_805DEBB0;
-extern const f32 lbl_805DEBB4;
 
 void TBoss7Joint::vfunc_62() {
     s16 temp_r4;
@@ -53,7 +49,7 @@ void TBoss7Joint::vfunc_62() {
     temp_r4 = this->hp;
     temp_r31 = this->hpmax - temp_r4;
     if (is_part_active__11TBoss7JointFv(this, temp_r4) != 0U) {
-        TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), lbl_805DEBB0, lbl_805DEBB4);
+        TObjFish__sub_802EC468((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_damage_and_set_effect__8TObjFishFl((int) (*(s32 *)((s8 *)((u8 *)this) + 0x10)), temp_r31, this->m_2d4);
     } else {
         *(s32 *)((s8 *)((u8 *)this) + 0x3C4) = (s32) (*(s32 *)((s8 *)((u8 *)this) + 0x3C4) - temp_r31);
@@ -76,7 +72,7 @@ void TBoss7Joint::run_task() {
         this->vfunc_88();
         if (*(s32 *)((s8 *)this->bodies + 0x18) & 1) {
             ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-            add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, lbl_805DEBB8);
+            add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, 1.2f);
         }
     }
 }
@@ -107,7 +103,7 @@ s32 TBoss7Joint::init_params() {
     check_state_flag_2();
     *(s32 **)((s8 *)this + 0x350) = boss7_joint_params;
     *(s16 *)((s8 *)this + 0x33E) = *(s16 *)((s8 *)this + 0x2B8);
-    *(f32 *)((s8 *)this + 0x37C) = lbl_805DEBBC;
+    *(f32 *)((s8 *)this + 0x37C) = 3.0f;
     this->vfunc_96();
     *(s32 *)((s8 *)this + 0x3BC) = 0;
     return *(s32 *)((s8 *)this + 0x3C4) = TBoss7Joint_get_shell_max_hp();

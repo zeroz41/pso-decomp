@@ -63,7 +63,6 @@ void TObjPlayer__sub_8024ABDC(s32 arg0);
 void fn_8024AC64(s32 arg0);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(int, int, int, f32);
 extern s32 lbl_805D3F70;
-extern const f32 lbl_805DE8A0;
 u8 *TWindowTradeRequest__ct(TWindowTradeRequest *arg0);
 void TWindowTradeRequest::render() {  }
 
@@ -149,7 +148,7 @@ u8 *TWindowTradeRequest__ct(TWindowTradeRequest *window_trade_request) {
   text_builder_append();
   window_trade_request->m_20 = create__19TWindowMessageYesNoFPvPvPvPv((s32) window_trade_request, local_client_id, 0, 0);
   window_layout_position = (u8 *) get_window_layout_position(0xB2);
-  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (int) get_shared_text_buffer(), (int) window_layout_position, (f32) lbl_805DE8A0);
+  forward_slot_selection__16TAdChrSelASlotGCFPvPv(window_trade_request->m_20, (int) get_shared_text_buffer(), (int) window_layout_position, 260.0f);
   new_var2 = ((s8 *) window_trade_request) + 0x1C;
   ((TWindowSubShortMail *)(window_trade_request->m_20))->notify_warp_flag70();
   if (((s32)get_player_by_client_id(((u32) local_client_id))) != 0U)

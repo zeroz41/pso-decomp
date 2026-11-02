@@ -137,7 +137,6 @@ extern s32 enable_v2_features;
 f32 get_collision_body_radius(Obj_801547E0 *self, s32 i);
 extern Vec_80155294 scratch_vec;
 f64 atan2_float(f32, f32);
-extern const f64 lbl_804400F0;
 s32 angle_difference_abs(s32, s32);
 void *find_entity_by_id(u16 id);
 extern s32 quest_object_entries;
@@ -680,7 +679,7 @@ s32 resolve_actor_sphere_contact(u8 *arg0, s32 arg1, s32 arg2) {
     }
     VecCopy__FP3VecPC3Vec((void *)&displacement, (void *)(arg2 + 0x1C));
     subtract_vector(&displacement, arg0 + 0x44);
-    temp_r3 = angle_diff_s16((lbl_804400F0 * atan2_float(displacement.x, displacement.z)), (*(s32 *)((s8 *)arg0 + 0x60)));
+    temp_r3 = angle_diff_s16((10430.38043493439 * atan2_float(displacement.x, displacement.z)), (*(s32 *)((s8 *)arg0 + 0x60)));
     if ((s32) temp_r3 < 0x4000) {
         tangentScale = 0.25f;
         var_r31 = 0x4000;
@@ -801,7 +800,7 @@ s32 resolve_player_box_contact(u8 *arg0, u8 *arg1, u8 *arg2) {
             return moved;
         }
     }
-    if (angle_difference_abs((s32)(lbl_804400F0 * atan2_float(radial.x, radial.z)), *(s32 *)(arg0 + 0x60)) < 0x3000) {
+    if (angle_difference_abs((s32)(10430.38043493439 * atan2_float(radial.x, radial.z)), *(s32 *)(arg0 + 0x60)) < 0x3000) {
         return 0;
     }
     if (PATG_80155294(arg0, arg0 + 0x44, 0) != 0) {

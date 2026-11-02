@@ -25,8 +25,6 @@ extern s32 local_client_id;
 extern Vec_8029EC3C sora_reflection_ray_direction;
 extern const f32 lbl_805DDD88;
 extern const f32 lbl_805DDD8C;
-extern const f32 lbl_805DDD98;
-extern const f32 lbl_805DDD9C;
 s32 fn_8029EC3C(Vec_8029EC3C *pos, s32 arg1);
 #pragma push
 #pragma fp_contract on
@@ -41,12 +39,12 @@ s32 fn_8029EC3C(Vec_8029EC3C *pos, s32 arg1) {
     f32 scale;
     p = get_player_by_client_id(local_client_id);
     if (p == 0) return 0;
-    scale = lbl_805DDD98;
+    scale = 80.0f;
     if (get_current_floor_area() == AREA_SEABED_UPPER) {
         if ((s16)((TObjBase *)p)->get_room() == 0x5A) {
-            scale = lbl_805DDD9C;
+            scale = 300.0f;
         } else {
-            scale = lbl_805DDD98;
+            scale = 80.0f;
         }
     }
     VecCopy((Vec *)&a, (const Vec *)pos);

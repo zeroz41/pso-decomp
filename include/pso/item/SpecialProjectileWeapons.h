@@ -18,12 +18,10 @@ void *ct_shoot_model__10TObjPlayerFPv(void *arg0);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 void *drill_launcher_ct(void *a0, s32 _w1, void *_w2);
-void drill_launcher_node_callback(void *arg0);
 void drill_launcher_return_timer(void *arg0);
 extern "C" {
 s32 get_burst_counter(void *p);
 void increment_burst_counter(u8 *arg0);
-void init_armor__10TObjPlayerFPv(void *arg0);
 }
 
 #endif

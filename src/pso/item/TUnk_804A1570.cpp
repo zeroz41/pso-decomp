@@ -50,24 +50,15 @@ void TUnk_804A1570::reserved_53() {
 }
 }
 
-extern s32 lbl_804A1570[];
+extern s32 __vt__13TUnk_804A1570[];
 
-void *__dt__13TUnk_804A1570Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A1570;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A1570::~TUnk_804A1570() {}
 
 extern "C" {
 
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 
-void*TUnk_804A1570::enter_state_513() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A1570; set_weapon_flags(513); *(float *)&this->unk_200 = 0.0f; *(float *)&(this->m_1fc) = 0.0f; *(float*)((char*)this + 0x1f8) = 0.0f; return this; }
+void*TUnk_804A1570::enter_state_513() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A1570; set_weapon_flags(513); *(float *)&this->unk_200 = 0.0f; *(float *)&(this->m_1fc) = 0.0f; *(float*)((char*)this + 0x1f8) = 0.0f; return this; }
 
 }
 

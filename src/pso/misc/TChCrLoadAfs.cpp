@@ -112,7 +112,6 @@ extern "C" {
 extern Te_8028BFA4 player_class_texture_archive_table[];
 f32 TLobby__sub_8028C50C(f32);
 s32 strcmp(const char *, const char *);
-extern const f32 lbl_805DD920;
 void set_texture_name(void *, void *, s32, s32);
 s32 load_texture_list(void *);
 void *__ct__12TChCrLoadAfsFP7TObjectPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -222,7 +221,7 @@ s32 find_player_texture_name_ordinal(u8 *object) {
     s32 r;
     name = *(char **)(**(u8 ***)((s8 *)object + 0x30) + *(s32 *)((s8 *)object + 0x5C) * 0xC);
     count = (&player_class_texture_archive_table[*(s32 *)((s8 *)object + 0x70)].id)[1];
-    l2 = TLobby__sub_8028C50C(lbl_805DD920);
+    l2 = TLobby__sub_8028C50C(2.0f);
     steps = (s32)ceil_to_float(TLobby__sub_8028C50C(count) / l2) + 1;
     mid = (count + 1) >> 1;
     step = (mid + 1) >> 1;

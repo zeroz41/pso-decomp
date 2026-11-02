@@ -43,7 +43,6 @@ extern "C" {
 void subtract_vector(Vec_8007598C *, Vec_8007598C *);
 f32 vector_length(Vec_8007598C *);
 extern s32 local_client_id;
-extern const f32 lbl_805D91A8;
 extern const f32 TObjTombstone__data_805D9174;
 int sprintf(char *, const char *, ...);
 const char *TQuestVmDownLoadServer__sub_8006EF6C(s32);
@@ -73,7 +72,7 @@ f32 TObjTombstone::get_distance_to_local_player_xz(void * _w1) {
     Obj_8007598C *self = (Obj_8007598C *)this;
     Ply_8007598C *p = get_player_by_client_id(local_client_id, _w1);
     if (p == 0) {
-        return lbl_805D91A8;
+        return 65536.0f;
     }
     Vec_8007598C v = self->pos;
     subtract_vector(&v, &p->pos);

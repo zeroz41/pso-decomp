@@ -5,10 +5,12 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 struct TTecRaFoie : public TUnk_804CC148 {
-    virtual ~TTecRaFoie();
-    virtual void vfunc_6(void *);
-    virtual void vfunc_8(void *);
+    // Declared in definition order: the first (key) virtual must be defined before
+    // TUnk_804CCB28's so that its vtable follows TUnk_804CCB28's in .data (0x804CCB40).
     virtual void vfunc_9();
+    virtual void vfunc_8(void *);
+    virtual void vfunc_6(void *);
+    virtual ~TTecRaFoie();
     virtual void run_task();
     u32 m_ec;
     u16 m_f0;

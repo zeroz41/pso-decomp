@@ -79,8 +79,6 @@ char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
 void *memset(void *, int, u32);
 extern char lbl_804496B8[];
-extern char lbl_805DC410[4];
-extern char lbl_805DC414[4];
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
 int strncmp(const char *, const char *, u32);
@@ -493,9 +491,9 @@ s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1) 
     getDateStamp((DateStamp *)&ds);
     memset(buf, 0, 0x80);
     if (arg1->flag != 0) {
-        sprintf(buf, lbl_805DC410, arg1->name);
+        sprintf(buf, "%s", arg1->name);
     } else {
-        sprintf(buf, lbl_805DC414, arg1->name);
+        sprintf(buf, "%s ", arg1->name);
     }
     strncpy(h->sub, buf, 0x20);
     memcpy(h->a, arg1->a, 0x1800);

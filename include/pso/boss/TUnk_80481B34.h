@@ -9,7 +9,6 @@ public:
     virtual void apply_hit_if_active(void *, f32 *);
     virtual void area_attack_receive_direct(void *, f32 *, void *);
     void *init_base();
-    void *dt(s16);
 };
 typedef char TUnk_80481B34_size[sizeof(TUnk_80481B34) == 0xB0 ? 1 : -1];
 

@@ -7,6 +7,18 @@
 #include "pso/ui/TUnk_804E0B28.h"
 
 #include "types.h"
+#include "pso/system/NinjaTypes.h"
+
+extern "C" {
+NJS_TEXNAME lbl_804E0B40[1] = { { (void *)"f256_slot_eng", 0, 0 } };
+__declspec(section ".data") NJS_TEXLIST lbl_804E0B4C = { lbl_804E0B40, 1 };
+NJS_TEXNAME lbl_804E0B54[1] = { { (void *)"f256_slot", 0, 0 } };
+__declspec(section ".data") NJS_TEXLIST lbl_804E0B60 = { lbl_804E0B54, 1 };
+const char *TAdChrSelSlotGC__name = "TAdChrSelSlotGC";
+/* per current_language: texture archive and texture list */
+const char *const chr_sel_slot_resource_name_table[5] = { "f256_slot", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng", "f256_slot_eng" };
+NJS_TEXLIST *const lbl_80471D50[6] = { &lbl_804E0B60, &lbl_804E0B4C, &lbl_804E0B4C, &lbl_804E0B4C, &lbl_804E0B4C, NULL };
+}
 
 struct S802C7498_802C70AC { u8 pad[0x118]; s32 arr[1]; };
 
@@ -106,14 +118,9 @@ struct CharacterSelectTransitionState {
 
 extern "C" {
 void TAdChrSelSlotGC__sub_802C754C(O_802C754C *self, s32 i);
-extern const f32 lbl_805DE5CC;
 extern f32 char_select_slot_quad_width, char_select_slot_quad_height;
-extern const s32 chr_sel_slot_resource_name_table[];
-extern const s32 lbl_80471D50[];
 extern const s32 current_language;
 extern u32 lbl_805D67F0;
-extern s32 TAdChrSelSlotGC__name;
-extern const f32 lbl_805DE5C8;
 s32 get_main_phase();
 extern const f32 lbl_805DE5B4, lbl_805DE5B8, lbl_805DE5BC, lbl_805DE5C0;
 void* __nw__7TObjectFUl(u32 size);
@@ -214,7 +221,7 @@ void TAdChrSelSlotGC::draw_slot_icons() {
             begin_screen_draw(1);
             TObjFish::set_global_param((s32)((void *)lbl_805D67F0));
             set_draw_texture_and_color(0, self->tex[i]);
-            draw_textured_quad_at_depth((f32 *)&self->quad[i], lbl_805DE5C8);
+            draw_textured_quad_at_depth((f32 *)&self->quad[i], 0.1f);
             TWindowSubStatusDisp::get_player();
         }
     }
@@ -253,7 +260,7 @@ void TAdChrSelSlotGC::init_slot_entry(s32 arg1, void *arg2) {
     ((TWindowSubSymbolChatPartsSet *)(&arg0->v[arg1 + 2]))->copy_vec2(arg2);
     arg0->e[arg1].x = arg0->v[arg1 + 2].x;
     arg0->e[arg1].y = arg0->v[arg1 + 2].y;
-    arg0->e[arg1].x2 = lbl_805DE5CC + arg0->v[arg1 + 2].x;
+    arg0->e[arg1].x2 = 174.0f + arg0->v[arg1 + 2].x;
     arg0->e[arg1].y2 = 24.0f + arg0->v[arg1 + 2].y;
     arg0->b[arg1] = 0;
 }
@@ -268,7 +275,7 @@ void TAdMcSelectGC::init_slot(s32 arg1, void *arg2) {
     ((TWindowSubSymbolChatPartsSet *)(&arg0->v[arg1]))->copy_vec2(arg2);
     arg0->e[arg1].x = arg0->v[arg1].x;
     arg0->e[arg1].y = arg0->v[arg1].y;
-    arg0->e[arg1].x2 = lbl_805DE5CC + arg0->v[arg1].x;
+    arg0->e[arg1].x2 = 174.0f + arg0->v[arg1].x;
     arg0->e[arg1].y2 = 32.0f + arg0->v[arg1].y;
     arg0->b[arg1] = 0;
 }
@@ -277,10 +284,10 @@ void TAdChrSelSlotGC::run_task() {
     ++frame;
     for (u32 i = 0; i < 5; ++i) {
         if (i < 2) {
-            char_select_slot_quad_width = lbl_805DE5CC;
+            char_select_slot_quad_width = 174.0f;
             char_select_slot_quad_height = 32.0f;
         } else {
-            char_select_slot_quad_width = lbl_805DE5CC;
+            char_select_slot_quad_width = 174.0f;
             char_select_slot_quad_height = 24.0f;
         }
         quads[i].left = positions[i].x;
@@ -307,7 +314,7 @@ TAdChrSelSlotGC::TAdChrSelSlotGC(TObject*object) : TObject((TObject*)(object)) {
     u32 j;
     u32 k;
     f32 t;
-    ((S_802C7758 *)this)->f0 = TAdChrSelSlotGC__name;
+    ((S_802C7758 *)this)->f0 = (s32)TAdChrSelSlotGC__name;
     ((S_802C7758 *)this)->f1C = -1;
     ((S_802C7758 *)this)->f124 = 1;
     for (i = 0; i < 5; i++) {

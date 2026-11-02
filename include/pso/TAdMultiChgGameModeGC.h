@@ -55,9 +55,20 @@ public:
     s32 handle_mode_selection();
     void update_mode_selection_and_save();
     void check_player_load_result();
-    int request_scene_change_vt();
+    void request_scene_change_vt();
     void set_state(s32 arg1);
     void confirm_mode_selection();
+    void sub_8036DEDC();
+    void close_windows_and_cleanup();
+    void sub_8036E51C();
+    void sub_8036E6A0();
+    void sub_8036E6EC();
+    void sub_8036E750();
+    void sub_8036E7DC();
+    void sub_8036E830();
+    void sub_8036E834();
+    void sub_8036E854();
+    void sub_8036E9EC();
 };
 
 #endif

@@ -66,7 +66,6 @@ void *resolve_hittable_target(u16 actorId, s16 collider);
 void *find_entity_by_id(u16 id);
 void play_sound_effect(s32, void *, s32, s32);
 u8 is_current_floor_switch_set(u16);
-extern const f32 lbl_805DBA08;
 void TOSwitchAttack__sub_80177C20(void);
 void TOSwitchAttack__sub_80177C24(void);
 void *__dt__14TOSwitchAttackFv(void *arg0, s16 arg1);
@@ -158,7 +157,7 @@ void TOSwitchAttack::run_task() {
         case 2:
             if (o->fA8 == 0) {
                 Vec_801778A8 v = o->pos;
-                v.y += lbl_805DBA08;
+                v.y += 10.0f;
                 spawn_particle_effect_with_flags(&v, 0x1A6, 0x40);
                 spawn_particle_effect_with_flags(&v, 0x1A7, 0x40);
                 o->fA8 = 0x3C;

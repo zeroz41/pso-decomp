@@ -631,14 +631,12 @@ void send_command__10TNpcPlayerFlScllPSc(u8, s32, s32, s32, void *);
 #define is_challenge_mode_active ((s32 (*)())is_challenge_mode_active)
 
 #define lbl_804DB1F0 (*(s32 (*)[1])&lbl_804DB1F0)
-extern f32 lbl_805DD9D0;
-extern f32 lbl_805DD9D4;
 
 s32 TLobby::set_camera_height_if_valid(f32 farg0) {
     if (is_challenge_mode_active() == 0) {
         return 0;
     }
-    if ((farg0 < lbl_805DD9D0) || (farg0 > lbl_805DD9D4)) {
+    if ((farg0 < 0.01f) || (farg0 > 10000.0f)) {
         return 0;
     }
     *(f32 *)((s8 *)&lbl_804DB1F0 + 4) = farg0;

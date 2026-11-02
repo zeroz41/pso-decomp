@@ -5,7 +5,6 @@
 
 extern "C" {
 s32 TObjPlayer__sub_80309E4C(s32 arg0, s16 arg1);
-s32 TPlyPtclObjectRightHand__vt7(s32 arg0);
 s32 create_attached_oneshot_emitter(unsigned long long arg1, s32 arg2);
 }
 void emit_idle_water_splash(s32 owner, s32 position);

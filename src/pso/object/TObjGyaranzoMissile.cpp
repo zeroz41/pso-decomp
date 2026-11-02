@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
@@ -7,10 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 
 
-struct RecoveredGlobal_800D4BD0_lbl_80494468 {
-    s32 value;
-    u8 remaining[0x28];
-};
+CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 struct RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile {
     s32 value;
@@ -51,7 +49,6 @@ extern s32 tl_04;
 s32 rand();
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
-extern RecoveredGlobal_800D4BD0_lbl_80494468 gyaranzo_missile_collision_body_b;
 extern s32 __vt__19TObjGyaranzoMissile[];
 extern s32 lbl_805D2A80;
 extern f32 TObjGyaranzoMissile__speed_scale;
@@ -180,27 +177,20 @@ void TObjGyaranzoMissile::run_task() {
     }
 }
 
-void *__dt__19TObjGyaranzoMissileFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjGyaranzoMissile;
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjGyaranzoMissile::~TObjGyaranzoMissile() {
+    free_collision_body_parts(this);
+}
+extern "C" {
 #pragma push
 #pragma fp_contract on
-typedef char RecoveredGlobal_800D4BD0_lbl_80494468_size[sizeof(RecoveredGlobal_800D4BD0_lbl_80494468) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile_size[sizeof(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile) == 0x3C ? 1 : -1];
 u8 *TObjGyaranzoMissile__ct(u8 *gyaranzo_missile, u8 *arg1, u8 *arg2, s16 arg3) {
     u8 *temp_r4;
     __ct__14TObjCollidableFP7TObject(gyaranzo_missile, tl_04);
     *(s32 **)((s8 *)gyaranzo_missile + 0x18) = &(*(RecoveredGlobal_800D4BD0___vt__19TObjGyaranzoMissile *)&__vt__19TObjGyaranzoMissile).value;
     *(s32 *)((s8 *)gyaranzo_missile + 0) = (s32) lbl_805D2A80;
-    init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b.value, 1);
+    init_collision_body_parts(gyaranzo_missile, &gyaranzo_missile_collision_body_b, 1);
     ((Col_800D4990 *)((TObjGyaranzoMissile *)gyaranzo_missile)->bodies)->radius = (f32) 4.0f;
     VecCopy(&((TObjGyaranzoMissile *)gyaranzo_missile)->position, (const Vec *)((int) (*(s32 *)((s8 *)arg2 + 0))));
     ((TObjGyaranzoMissile *)gyaranzo_missile)->target_id = arg3;

@@ -6,6 +6,7 @@
 class TUnk_804A5D28 : public TItemWeapon {
 public:
     virtual ~TUnk_804A5D28();
+    virtual void vfunc_60();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     void*setup_flame_effect();

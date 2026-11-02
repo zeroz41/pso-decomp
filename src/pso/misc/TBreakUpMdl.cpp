@@ -120,9 +120,7 @@ s32 post_translate_matrix(void *);
 extern s32 TBreakUpMdl__vtable[];
 extern RecoveredGlobal_80096F54_lbl_8058D490 identity_matrix;
 u8 *init__11TBreakUpMdlFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
-extern const f32 lbl_805D97C8;
 void *mem_alloc(u32 size);
-extern const f32 lbl_805D97CC;
 void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *arg1);
 extern Color_8009680C breakup_default_color;
 extern u32 saved_model_render_flags;
@@ -134,8 +132,6 @@ void rotate_matrix_y(s32, s32);
 extern u8 breakup_default_param_row[];
 extern s32 __vt__11TBreakUpMdl[];
 extern s32 TBreakUpMdl__class_name;
-extern const f32 lbl_805D97D0;
-extern const f32 lbl_805D97D4;
 u8 *TBreakUpMdl__ct(u8 *arg0, void *arg1, Model_80096AD8 *arg2, void *arg3, s32 arg4, void *arg5, s32 arg6);
 void *__dt_deleting__11TBreakUpMdlFPvs(void *arg0, s16 arg1);
 void mem_free(void *);
@@ -148,7 +144,7 @@ void TBreakUpMdl::render() {
         TObjFish::set_global_param((s32)self->texlist);
     }
     saved_model_render_flags = model_render_flags;
-    if (self->alpha < lbl_805D97C8) {
+    if (self->alpha < 1.0f) {
         Color_8009680C color = breakup_default_color;
         model_render_flags |= 0x810;
         set_chunk_material_override_pair(0xFF00, 0x800);
@@ -179,7 +175,7 @@ void TBreakUpMdl::run_task() {
     s32 i;
     f32 gravity;
     self->alpha -= self->fade;
-    if (self->alpha <= lbl_805D97CC) {
+    if (self->alpha <= 0.0f) {
         queue_destruction__7TObjectFv(self);
     }
     gravity = self->gravity;
@@ -200,7 +196,7 @@ void TBreakUpMdl::run_task() {
 #pragma fp_contract on
 void TBreakUpMdl::init_alpha(s32 arg1, f32 farg0) {
     u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + lbl_805D97C8);
+    *(f32 *)((s8 *)arg0 + 0x28) = (f32) ((farg0 * (f32) arg1) + 1.0f);
 }
 #pragma pop
 
@@ -241,11 +237,11 @@ u8 *TBreakUpMdl__ct(u8 *break_up_mdl, void *arg1, Model_80096AD8 *arg2, void *ar
         matrix_mult_vec(0, (int)self->model->segs[i].a, (int)part);
         rotate_vector_by_matrix(0, self->model->segs[i].b, part->vel);
         normalize_vector_xz((Vec *)(part->vel));
-        part->vel[1] = scale * (lbl_805D97D0 * (f32)rand()) + base;
+        part->vel[1] = scale * (3.0517578e-05f * (f32)rand()) + base;
         part->f18 = 0;
         part->f1c = arg6;
         part->f20 = 0;
-        part->f24 = (s32)(lbl_805D97D4 * rand_signed_unit());
+        part->f24 = (s32)(5000.0f * rand_signed_unit());
     }
     pop_matrix();
     ((TBreakUpMdl *)break_up_mdl)->init_alpha(self->f38, self->f3C);
@@ -340,9 +336,9 @@ void alloc_breakup_piece_records(Brk_80096EBC *arg0, void *boss2_tunnel) {
     arg0->segs = (Seg_80096EBC *)mem_alloc(arg0->count * 0x1C);
     for (i = 0; i < arg0->count; i++) {
         arg0->segs[i].a = 0;
-        arg0->segs[i].x = lbl_805D97CC;
-        arg0->segs[i].y = lbl_805D97CC;
-        arg0->segs[i].z = lbl_805D97CC;
+        arg0->segs[i].x = 0.0f;
+        arg0->segs[i].y = 0.0f;
+        arg0->segs[i].z = 0.0f;
     }
 }
 

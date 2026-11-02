@@ -5,11 +5,11 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A2770[];
+extern s32 __vt__13TUnk_804A2770[];
 
 void *TObjPlayer__sub_80125F24(void *arg0) {
     __ct__11TItemWeaponFP7TObjectPUc(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A2770;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804A2770;
     return arg0;
 }
 

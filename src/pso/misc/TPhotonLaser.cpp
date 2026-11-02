@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TPhotonLaser.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
@@ -120,22 +121,16 @@ void run_task__12TPhotonLaserFv(Laser_801AC17C *o) {
     }
 }
 
-void *__dt__12TPhotonLaserFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TPhotonLaser;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        if ((u32) ((TPhotonLaser *)arg0)->m_364 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x364));
-            ((TPhotonLaser *)arg0)->m_364 = 0U;
-        }
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TPhotonLaser::~TPhotonLaser() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+    if ((u32) this->m_364 != 0U) {
+        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x364));
+        this->m_364 = 0U;
+    }
+}
+extern "C" {
 
 Laser_801AC36C *TPhotonLaser__ct(Laser_801AC36C *self, Params_801AC36C *p, void *parent, s16 arg3) {
     __ct__9TObjCharaFP7TObject(self, parent);

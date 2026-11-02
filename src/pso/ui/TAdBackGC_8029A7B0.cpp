@@ -36,7 +36,6 @@ block_4:
 
 void TAdBackGC::run_task() {  }
 
-extern const f32 lbl_805DDC68;
 extern s32 __vt__9TAdBackGC[];
 extern void *TAdBackGC__class_name;
 
@@ -45,7 +44,7 @@ void *__ct__9TAdBackGCFv(void *ad_back_gc) {
     __ct__7TObjectFP7TObject(ad_back_gc);
     *(s32 **)((s8 *)ad_back_gc + 0x18) = __vt__9TAdBackGC;
     *(void * *)&((TAdBackGC *)ad_back_gc)->m_name = TAdBackGC__class_name;
-    *(f32 *)((s8 *)ad_back_gc + 0x1C) = lbl_805DDC68;
+    *(f32 *)((s8 *)ad_back_gc + 0x1C) = -400.0f;
     *(u32 *)((s8 *)ad_back_gc + 0x20) = 1;
     return ad_back_gc;
 }

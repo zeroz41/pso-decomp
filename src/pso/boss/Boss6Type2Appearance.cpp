@@ -44,11 +44,7 @@ const u8 lbl_80478064[12] = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0
 const u8 boss6_type2_appear_camera_script[12] = {0x01, 0x03, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x3F, 0x33, 0x33, 0x33};
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern const f32 lbl_805DFA70;
-extern const f32 lbl_805DFA74;
-extern const f32 lbl_805DFA78;
 
-extern const f32 lbl_805DFA7C;
 s32 clear_render_callback__8TObjFishFv(s32);
 
 void TBoss6Demo20_TYPE2_APPEAR::draw_model_12() {
@@ -67,14 +63,14 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
     s32 temp_r3;
     temp_r3 = *(s32 *)((s8 *)this + 0xE8);
     if (temp_r3 < 0x181) {
-        var_f31 = lbl_805DFA70;
+        var_f31 = 0.0f;
     } else if (temp_r3 >= 0x190) {
-        var_f31 = lbl_805DFA74;
+        var_f31 = 1.0f;
     } else {
-        var_f31 = (temp_r3 - 0x181) / lbl_805DFA78;
+        var_f31 = (temp_r3 - 0x181) / (-15.0f);
     }
-    if (lbl_805DFA70 != var_f31) {
-        if (var_f31 < lbl_805DFA74) {
+    if (0.0f != var_f31) {
+        if (var_f31 < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         TObjFish::set_global_param(this->m_cc);
@@ -88,7 +84,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_1_pair() {
         draw_model_motion((void *)(*(s32 *)((s8 *)this + 0xC8)), (void *)(*(s32 *)((s8 *)this + 0xD0)), this->m_e4);
         pop_matrix();
         clear_motion_packed_rotation();
-        if (var_f31 < lbl_805DFA74) {
+        if (var_f31 < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }
@@ -101,14 +97,14 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
 
     temp_r3 = *(s32 *)((s8 *)this + 0xE8);
     if (temp_r3 < 0x72) {
-        var_f31 = lbl_805DFA70;
+        var_f31 = 0.0f;
     } else if (temp_r3 >= 0x8E) {
-        var_f31 = lbl_805DFA74;
+        var_f31 = 1.0f;
     } else {
-        var_f31 = (temp_r3 - 0x72) / lbl_805DFA7C;
+        var_f31 = (temp_r3 - 0x72) / 28.0f;
     }
-    if ((lbl_805DFA70 != var_f31) && ((u32) this->m_7c != 0U)) {
-        if (var_f31 < lbl_805DFA74) {
+    if ((0.0f != var_f31) && ((u32) this->m_7c != 0U)) {
+        if (var_f31 < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         push_matrix();
@@ -120,7 +116,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_4() {
         clear_render_callback__8TObjFishFv(this->m_7c);
         clear_motion_packed_rotation();
         pop_matrix();
-        if (var_f31 < lbl_805DFA74) {
+        if (var_f31 < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }
@@ -134,14 +130,14 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
     s32 var_r29;
     temp_r0 = *(s32 *)((s8 *)this + 0xE8);
     if (temp_r0 < 0x72) {
-        var_f31 = lbl_805DFA74;
+        var_f31 = 1.0f;
     } else if (temp_r0 >= 0x8E) {
-        var_f31 = lbl_805DFA70;
+        var_f31 = 0.0f;
     } else {
-        var_f31 = (f32) (0x8E - temp_r0) / lbl_805DFA7C;
+        var_f31 = (f32) (0x8E - temp_r0) / 28.0f;
     }
-    if (lbl_805DFA70 != var_f31) {
-        if (var_f31 < lbl_805DFA74) {
+    if (0.0f != var_f31) {
+        if (var_f31 < 1.0f) {
             TBoss6PlotFalz::set_fade_material_color(var_f31);
         }
         push_matrix();
@@ -158,7 +154,7 @@ void TBoss6Demo20_TYPE2_APPEAR::draw_fading_model_pair() {
         } while (var_r29 < 2);
         clear_motion_packed_rotation();
         pop_matrix();
-        if (var_f31 < lbl_805DFA74) {
+        if (var_f31 < 1.0f) {
             TObjFish::reset_fish_globals();
         }
     }
@@ -363,8 +359,8 @@ u8 *TBoss6Demo20_TYPE2_APPEAR__ct(TBoss6Demo20_TYPE2_APPEAR *boss6_demo20_type2_
     activate_camera_mode(5);
     set_scripted_camera_pose((void *)lbl_80478058, (void *)lbl_80478058, (void *)lbl_80478064);
     ((TCameraCtrl *)boss6_type2_appear_camera_script)->cache_target_and_forward(0x416C);
-    *(f32 *)((s8 *)boss6_demo20_type2_appear + 0xE0) = lbl_805DFA70;
-    boss6_demo20_type2_appear->m_e4 = lbl_805DFA70;
+    *(f32 *)((s8 *)boss6_demo20_type2_appear + 0xE0) = 0.0f;
+    boss6_demo20_type2_appear->m_e4 = 0.0f;
     *(s32 *)((s8 *)boss6_demo20_type2_appear + 0xE8) = 0;
     return (u8 *)boss6_demo20_type2_appear;
 }

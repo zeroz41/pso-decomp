@@ -8,6 +8,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TBreakUpMdl.h"
+#include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"
@@ -147,7 +148,6 @@ void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void TObjPlayer__sub_800A4294(void);
 Res_800AA82C *load_enemy_bml_resource_named(void *, void *);
 u8 *load_gvm_texture_file(s32 arg0);
-void spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
 extern u8 lbl_8043ACA4[];
 extern u8 lbl_8043ACBC[];
 extern u8 lbl_8043ACD0[];
@@ -1183,7 +1183,7 @@ void TObjPlayer__sub_800AA82C(void) {
         d.a = lbl_805D5090->f430;
         for (j = 0; j < 2; j++) {
             Mdl_800AA82C *e = &lbl_805D5090->mdl[j];
-            spawn_npc_enemy__6TLobbyFslllff(ids.v[j], e->f8, e->fC, &d, lbl_805D9B4C, lbl_805D9AE0);
+            TLobby::spawn_npc_enemy(ids.v[j], e->f8, e->fC, &d, lbl_805D9B4C, lbl_805D9AE0);
         }
     }
 }

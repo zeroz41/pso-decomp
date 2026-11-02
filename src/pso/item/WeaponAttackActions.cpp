@@ -93,7 +93,6 @@ void construct_actor_light_task(u32, void *, void *, s32, s32, s32, f32);
 extern A12_8011E3E8 lbl_8043E838[];
 extern A16_8011E3E8 lbl_8043E844[];
 extern s32 tl_07;
-extern const f32 lbl_805DAC88;
 s32 is_locally_controlled__10TObjPlayerFPv(s32);
 void create__10TItemEffPGFPvPvPv(void *arg0, void *parent, void *item);
 void create__10TItemEffPGFPvPv(s32, Params_8011EAB8 *);
@@ -346,8 +345,6 @@ s32 vec3_add_to(void *, void *);
 f32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);
 
-extern const f32 lbl_805DAC8C;
-extern const f32 lbl_805DAC90;
 extern const f32 lbl_805DAC98;
 
 void TItemWeapon::set_weapon_category_flags() {
@@ -379,7 +376,7 @@ void TItemWeapon::spawn_light_task() {
     A16_8011E3E8 b = lbl_8043E844[0];
     u32 p = __nw__7TObjectFUl(0x64);
     if (p != 0) {
-        ((void (*)(f32, u32, void *, void *, s32, s32, s32))construct_actor_light_task)(lbl_805DAC88, p, &b, &a, 1, arg0->f0, tl_07);
+        ((void (*)(f32, u32, void *, void *, s32, s32, s32))construct_actor_light_task)(0.2f, p, &b, &a, 1, arg0->f0, tl_07);
     }
 }
 
@@ -439,7 +436,7 @@ void TItemWeapon::activate_effect(s32 effect) {
 
 void TItemWeapon::roll_technique() {
     previous_technique_roll = technique_roll;
-    send_activate_effect__5TItemFl(this, (s32) ((f32) technique_roll_range * (lbl_805DAC8C * (f32) rand())));
+    send_activate_effect__5TItemFl(this, (s32) ((f32) technique_roll_range * (3.0517578e-05f * (f32) rand())));
 }
 
 void TObjPlayer::set_flag_8_if_check_passes() {
@@ -535,7 +532,7 @@ void TItemWeapon::create_weapon_trail_effects() {
 
 u32 pack_weapon_trail_color(void *weapon) {
     V4_8011EA10 w = get_weapon_color__11TItemWeaponFPv(weapon);
-    return (__cvt_fp2unsigned(lbl_805DAC90 * w.a) << 24 | __cvt_fp2unsigned(lbl_805DAC90 * w.b) << 16 | __cvt_fp2unsigned(lbl_805DAC90 * w.c) << 8) | __cvt_fp2unsigned(lbl_805DAC90 * w.d);
+    return (__cvt_fp2unsigned(255.0f * w.a) << 24 | __cvt_fp2unsigned(255.0f * w.b) << 16 | __cvt_fp2unsigned(255.0f * w.c) << 8) | __cvt_fp2unsigned(255.0f * w.d);
 }
 
 void TUnk_804F1320::spawn_pg_effect(void *arg1, s32 item, f32 farg0) {

@@ -95,7 +95,6 @@ s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 s32 get_mode__11TCameraCtrlFPv(void *);
 f32 horizontal_distance_squared(void *, void *);
 extern RecoveredGlobal_80308840_lbl_8047559C lbl_8047559C;
-extern const f32 lbl_805DF0CC;
 extern const f32 lbl_805DF0D0;
 extern const f32 lbl_805DF0D4;
 s32 obj_is_hit_receivable(u32);
@@ -111,10 +110,9 @@ int post_translate_matrix(void*);
 int push_matrix(void);
 s32 pop_matrix(void);
 
-extern f32 lbl_805DF0C8;
 
 s32 TBoss7Crawfish::sub_80308688() {
-    return (u32) __cntlzw((u32) (lbl_805DF0C8 < *(f32 *)((s8 *)this + 0x38))) >> 5;
+    return (u32) __cntlzw((u32) (75.0f < *(f32 *)((s8 *)this + 0x38))) >> 5;
 }
 
 void TBoss7Crawfish::register_attack_hits() {
@@ -160,7 +158,7 @@ typedef char RecoveredGlobal_80308840_lbl_8047559C_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_80308840_main_task_size[sizeof(RecoveredGlobal_80308840_main_task) == 0x34 ? 1 : -1];
 s32 TBoss7Crawfish::is_visible() {
     if (get_mode__11TCameraCtrlFPv(&(*(RecoveredGlobal_80308840_main_task *)&main_task).value) & 0x20) {
-        if (lbl_805DF0CC < horizontal_distance_squared(&lbl_8047559C.value, ((u8 *)this) + 0x38)) {
+        if (3600.0f < horizontal_distance_squared(&lbl_8047559C.value, ((u8 *)this) + 0x38)) {
             return 0;
         }
         goto block_5;

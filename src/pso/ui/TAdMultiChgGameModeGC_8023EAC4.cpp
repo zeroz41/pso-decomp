@@ -28,7 +28,6 @@ void *__ct__16TAdStorySelectGCFv(void *, s32);
 void *__ct__21TAdMultiChgGameModeGCFv(void *, s32);
 void *__ct__21TAdMultiSelGameModeGCFv(void *, s32, s32);
 void *__ct__5TLogoFv(void *, s32);
-extern u8 lbl_8044DD18[];
 extern s32 multi_chg_game_mode_state;
 extern s32 tl_01;
 extern s32 tl_02;
@@ -126,7 +125,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
     case 27:
         break;
     default:
-        TAdMultiChgGameModeGC::apply_bgm_col_ctrl((s32)lbl_8044DD18);
+        TAdMultiChgGameModeGC::apply_bgm_col_ctrl((s32)"advr.adx");
         break;
     }
     switch (multi_chg_game_mode_state) {

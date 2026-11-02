@@ -14,8 +14,6 @@ f32 fabs_float(f32);
 u32 init_collision_body_parts(void *, s32, s32);
 extern s32 __vt__13TObjCollision[];
 extern s32 lbl_805D2830;
-extern const f32 lbl_805D8F20;
-extern const f32 lbl_805D8F24;
 u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *__dt__13TObjCollisionFv(void *arg0, s16 arg1);
 void free_collision_body_parts(void *);
@@ -50,19 +48,19 @@ u8 *TObjCollision__ct(u8 *arg0, s32 arg1, s32 arg2) {
     copy_xyz(arg0 + 0x5C, (void *)(arg2 + 0x18));
     VecCopy((Vec *)(arg0 + 0x68), (const Vec *)(arg2 + 0x24));
     ((TObjCollision *)arg0)->actorFlags = (s32) (((TObjCollision *)arg0)->actorFlags | 0x02000000);
-    *(f32 *)((s8 *)arg0 + 0xAC) = (f32) lbl_805D8F20;
-    *(f32 *)((s8 *)arg0 + 0xB0) = (f32) lbl_805D8F20;
-    ((TObjCollision *)arg0)->m_b4 = (f32) lbl_805D8F20;
+    *(f32 *)((s8 *)arg0 + 0xAC) = 0.0f;
+    *(f32 *)((s8 *)arg0 + 0xB0) = 0.0f;
+    ((TObjCollision *)arg0)->m_b4 = 0.0f;
     *(f32 *)((s8 *)arg0 + 0xB8) = (f32) ((TObjCollision *)arg0)->scale.x;
     ((TObjCollision *)arg0)->m_bc = (f32) ((TObjCollision *)arg0)->scale.y;
-    if (*(f32 *)((s8 *)arg0 + 0x70) < lbl_805D8F20) {
+    if (*(f32 *)((s8 *)arg0 + 0x70) < 0.0f) {
         var_r0 = 1;
     } else {
         var_r0 = 0;
     }
     ((TObjCollision *)arg0)->m_c0 = var_r0;
     ((TObjCollision *)arg0)->m_c4 = 0x10001;
-    if (fabs_float(*(f32 *)((s8 *)arg0 + 0x70)) < lbl_805D8F24) {
+    if (fabs_float(*(f32 *)((s8 *)arg0 + 0x70)) < 1000.0f) {
         ((TObjCollision *)arg0)->m_c4 = (s32) (((TObjCollision *)arg0)->m_c4 & 0xFFFFFEFF);
     } else {
         ((TObjCollision *)arg0)->m_c4 = (s32) (((TObjCollision *)arg0)->m_c4 | 0x100);

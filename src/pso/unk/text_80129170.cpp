@@ -5,12 +5,6 @@
 
 extern "C" {
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
-extern const f32 lbl_805DAE00;
-extern const f32 lbl_805DAE04;
-extern const f32 lbl_805DAE08;
-extern const f32 lbl_805DAE0C;
-extern const f32 lbl_805DAE10;
-extern const f32 lbl_805DAE14;
 #pragma push
 #pragma fp_contract on
 void TUnk_804A4138::update_attack() {
@@ -27,19 +21,19 @@ void TUnk_804A4138::update_attack() {
         flag = ((TObjPlayer *)(*(void **)((s8 *)self + 0xF0)))->is_flag_b0_4();
         ok = 1;
         if (test_action_mask__10TObjPlayerFl(*(void **)((s8 *)self + 0xF0), 0x20) != 0) {
-            flo = lbl_805DAE00;
+            flo = 15.6f;
             lo = 0;
-            fhi = lbl_805DAE04;
+            fhi = 20.4f;
             hi = 0x4000;
         } else if (test_action_mask__10TObjPlayerFl(*(void **)((s8 *)self + 0xF0), 0x40) != 0) {
-            flo = lbl_805DAE08;
+            flo = 12.0f;
             lo = 0x4000;
-            fhi = lbl_805DAE0C;
+            fhi = 24.0f;
             hi = -0x4000;
         } else if (test_action_mask__10TObjPlayerFl(*(void **)((s8 *)self + 0xF0), 0x80) != 0) {
-            flo = lbl_805DAE10;
+            flo = 14.4f;
             lo = -0x4000;
-            fhi = lbl_805DAE14;
+            fhi = 20.0f;
             hi = 0x2000;
         } else {
             ok = 0;

@@ -1,4 +1,6 @@
 #include "pso/render/render_util.h"
+#include "pso/misc/TUnk_8048E6A8.h"
+#include "pso/misc/TUnk_8048E6DC.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/effect/TEffect.h"
@@ -15,6 +17,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/render/render_util.h"
+#pragma defer_codegen on
 
 struct RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70 {
     s32 value;
@@ -182,8 +185,8 @@ u8 * __dt__7TObjectFv(void *, s16);
 extern RecoveredGlobal_8008655C_lbl_8048E728 lbl_8048E728;
 u8 *__dt__13TUnk_8048E728Fv(u8 *arg0, s16 arg1);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
-extern s32 lbl_8048E6A8[];
-extern s32 lbl_8048E6DC[];
+extern s32 __vt__13TUnk_8048E6A8[];
+extern s32 __vt__13TUnk_8048E6DC[];
 extern s32 lbl_805D2930;
 extern NJS_ARGB demo_mode_particle_color;
 void set_color_blend_mode(s32 a, s32 b, s32 c, s32 d);
@@ -225,82 +228,72 @@ s32 push_matrix_from(void *);
 extern Vec_80085CB0 lbl_804393D0;
 extern s32 identity_matrix[];
 void project_world_to_screen(s32, void *, void *);
-void *TParticleCtrl__sub_80085878(void *arg0, s16 arg1);
-void *TParticleCtrl__sub_80085E20(void *arg0, s16 arg1);
+void *__dt__13TUnk_8048E6A8Fv(void *arg0, s16 arg1);
+void *__dt__13TUnk_8048E6DCFv(void *arg0, s16 arg1);
 void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 
 extern s32 local_client_id;
 
-void TUnk_8048E6A8::render() {
-    Obj_80085798 *self = (Obj_80085798 *)this;
-    if (TObjPlayer::check_demo_mode() != 0) {
-        NJS_ARGB color = demo_mode_particle_color;
-        debug_draw_sphere((const Vec *)self->target, &color, 40.0f);
-    }
-}
-
-void TUnk_8048E6A8::run_task() {
-    u8 *arg0 = (u8 *)this;
-    u32 player;
-
-    player = (u32)get_player_by_client_id((local_client_id));
-    if ((player != 0U) && (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < 400.0f)) {
-        if (this->scale.x > 0.0f) {
-            lbl_805D2930 = 1;
-            return;
-        }
-        lbl_805D2930 = 0;
-    }
-}
-
-void *TParticleCtrl__sub_80085878(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E6A8;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
 
 typedef char RecoveredGlobal_800858D0_lbl_8048E6A8_size[sizeof(RecoveredGlobal_800858D0_lbl_8048E6A8) == 0x34 ? 1 : -1];
-u8 *TParticleCtrl::construct_particle_obj(s32 arg1, s32 arg2) {
+typedef char RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
+typedef char RecoveredGlobal_80085E78_lbl_8048E6DC_size[sizeof(RecoveredGlobal_80085E78_lbl_8048E6DC) == 0x34 ? 1 : -1];
+
+u8 *TParticleCtrl::init_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_800858D0_lbl_8048E6A8 *)&lbl_8048E6A8).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80085E78_lbl_8048E6DC *)&__vt__13TUnk_8048E6DC).value;
     ((VObj_18_1a504b *)(this))->m5(arg1);
+    *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
+    lbl_805D2930 = 1;
     return ((u8 *)this);
 }
 
-u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
-    u8 *particle_ctrl;
-    u8 *var_r0;
-    if (is_split_screen() != 0) {
-        return NULL;
-    }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0x90));
-    var_r0 = particle_ctrl;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->construct_particle_obj(arg0, tl_particle));
-    }
-    return var_r0;
+TUnk_8048E6DC::~TUnk_8048E6DC() {
+
 }
 
-u8 *TParticleCtrl::create_particle_obj_ac(s32 arg0) {
-    u8 *particle_ctrl;
-    u8 *var_r0;
-    if (is_split_screen() != 0) {
-        return NULL;
+#pragma fp_contract on
+void TUnk_8048E6DC::run_task() {
+    Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
+    Vec_80085CB0 out;
+    Vec_80085CB0 d;
+    f32 v;
+    f32 r;
+    if ((*(Player_80085CB0 * *)&camera_ctrl_instance) != NULL) {
+        d.x = self->pos.x - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.x;
+        d.y = 0.0f;
+        d.z = self->pos.z - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.z;
+        if (0.0f != vec_squared_length((u8 *)&d)) {
+            normalize_vector(&d);
+        }
+        push_matrix_from(identity_matrix);
+        Vec_80085CB0 t = lbl_804393D0;
+        rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
+        rotate_vector_by_matrix(0, &t, &out);
+        pop_matrix();
+        self->f94 = vec3_dot(&out, &d);
+        r = fabs_float(self->f94);
+        if (self->f94 >= 0.0f) {
+            v = fabs_float(1.0f - r);
+            if (v > 0.6f) {
+                v = 0.6f;
+            }
+        } else {
+            v = 0.0f;
+        }
+        self->f90 = 50.0f * v + 25.0f;
+        Vec_80085CB0 p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
+        if (csnVector(&p, &self->pos, 0x100) != 0) {
+            self->f98 = 1;
+        } else {
+            self->f98 = 0;
+        }
     }
-    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0xAC));
-    var_r0 = particle_ctrl;
-    if (var_r0 != NULL) {
-        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->init_particle_obj(arg0, tl_particle));
-    }
-    return var_r0;
 }
 
+#pragma fp_contract reset
 void TUnk_8048E6DC::render() {
     Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
     Color_800859EC color;
@@ -385,65 +378,63 @@ void TUnk_8048E6DC::render() {
     TParticleCtrl::end_effect_render();
 }
 
-#pragma fp_contract on
-void TUnk_8048E6DC::run_task() {
-    Ctrl_80085CB0 *self = (Ctrl_80085CB0 *)this;
-    Vec_80085CB0 out;
-    Vec_80085CB0 d;
-    f32 v;
-    f32 r;
-    if ((*(Player_80085CB0 * *)&camera_ctrl_instance) != NULL) {
-        d.x = self->pos.x - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.x;
-        d.y = 0.0f;
-        d.z = self->pos.z - (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos.z;
-        if (0.0f != vec_squared_length((u8 *)&d)) {
-            normalize_vector(&d);
-        }
-        push_matrix_from(identity_matrix);
-        Vec_80085CB0 t = lbl_804393D0;
-        rotate_matrix_y(0, (s32)((*(Player_80085CB0 * *)&camera_ctrl_instance)->f194));
-        rotate_vector_by_matrix(0, &t, &out);
-        pop_matrix();
-        self->f94 = vec3_dot(&out, &d);
-        r = fabs_float(self->f94);
-        if (self->f94 >= 0.0f) {
-            v = fabs_float(1.0f - r);
-            if (v > 0.6f) {
-                v = 0.6f;
-            }
-        } else {
-            v = 0.0f;
-        }
-        self->f90 = 50.0f * v + 25.0f;
-        Vec_80085CB0 p = (*(Player_80085CB0 * *)&camera_ctrl_instance)->pos;
-        if (csnVector(&p, &self->pos, 0x100) != 0) {
-            self->f98 = 1;
-        } else {
-            self->f98 = 0;
-        }
+u8 *TParticleCtrl::create_particle_obj_ac(s32 arg0) {
+    u8 *particle_ctrl;
+    u8 *var_r0;
+    if (is_split_screen() != 0) {
+        return NULL;
     }
+    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0xAC));
+    var_r0 = particle_ctrl;
+    if (var_r0 != NULL) {
+        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->init_particle_obj(arg0, tl_particle));
+    }
+    return var_r0;
 }
 
-void *TParticleCtrl__sub_80085E20(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E6DC;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+u8 *TParticleCtrl::create_particle_obj_90(s32 arg0) {
+    u8 *particle_ctrl;
+    u8 *var_r0;
+    if (is_split_screen() != 0) {
+        return NULL;
     }
-    return arg0;
+    particle_ctrl = (u8 *)(__nw__7TObjectFUl(0x90));
+    var_r0 = particle_ctrl;
+    if (var_r0 != NULL) {
+        var_r0 = (u8 *)(((TParticleCtrl *)particle_ctrl)->construct_particle_obj(arg0, tl_particle));
+    }
+    return var_r0;
 }
 
-typedef char RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70_size[sizeof(RecoveredGlobal_800861F4_TParticleCtrl__data_80511F70) == 0x1B0 ? 1 : -1];
-
-typedef char RecoveredGlobal_80085E78_lbl_8048E6DC_size[sizeof(RecoveredGlobal_80085E78_lbl_8048E6DC) == 0x34 ? 1 : -1];
-u8 *TParticleCtrl::init_particle_obj(s32 arg1, s32 arg2) {
+u8 *TParticleCtrl::construct_particle_obj(s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject(this, (void *)arg2);
-    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_80085E78_lbl_8048E6DC *)&lbl_8048E6DC).value;
+    *(s32 **)((s8 *)((u8 *)this) + 0x18) = &(*(RecoveredGlobal_800858D0_lbl_8048E6A8 *)&__vt__13TUnk_8048E6A8).value;
     ((VObj_18_1a504b *)(this))->m5(arg1);
-    *(f32 *)((s8 *)((u8 *)this) + 0xA4) = 225.0f;
-    lbl_805D2930 = 1;
     return ((u8 *)this);
 }
+
+TUnk_8048E6A8::~TUnk_8048E6A8() {
+
+}
+
+void TUnk_8048E6A8::run_task() {
+    u8 *arg0 = (u8 *)this;
+    u32 player;
+
+    player = (u32)get_player_by_client_id((local_client_id));
+    if ((player != 0U) && (horizontal_distance_squared((const Vec *)(player + 0x38), (const Vec *)(arg0 + 0x38)) < 400.0f)) {
+        if (this->scale.x > 0.0f) {
+            lbl_805D2930 = 1;
+            return;
+        }
+        lbl_805D2930 = 0;
+    }
+}
+
+void TUnk_8048E6A8::render() {
+    Obj_80085798 *self = (Obj_80085798 *)this;
+    if (TObjPlayer::check_demo_mode() != 0) {
+        NJS_ARGB color = demo_mode_particle_color;
+        debug_draw_sphere((const Vec *)self->target, &color, 40.0f);
+    }
 }

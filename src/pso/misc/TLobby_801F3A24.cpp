@@ -30,7 +30,7 @@ struct Ent_801F3A80 {
 extern "C" {
 void convert_quest_object_rows(struct QuestObjRow_801F3AD8 *rows, u32 byte_size);
 extern s16 quest_floor_designations[];
-extern s32 TLobby__data_805D5EE0;
+s32 TLobby__data_805D5EE0;
 s32 read_disc_file(s32, s32);
 s32 alloc__22TQuestVmDownLoadServerFUl();
 s32 update_lobby_scene__6TSceneFv();

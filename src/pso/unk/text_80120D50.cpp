@@ -16,7 +16,6 @@ s32 memcpy(void *, void *, int);
 s32 memset(void *, int, int);
 extern const f32 lbl_805DAC98;
 extern u8 lbl_805DACA4;
-extern const f32 lbl_805DACB0;
 }
 
 TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, item) {
@@ -48,7 +47,7 @@ TItemWeapon::TItemWeapon(TObject *parent, u8 *item) : TItemEquipBase(parent, ite
     set_weapon_trail_joints(this, 3, -1, -1);
     memset(trails, 0, 0x10);
     weapon_flags = 0;
-    shot_speed = lbl_805DACB0;
+    shot_speed = 19.0f;
     technique_roll = 0;
     previous_technique_roll = 0;
     technique_roll_range = 0;

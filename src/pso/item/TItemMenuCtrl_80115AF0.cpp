@@ -16,7 +16,6 @@ int set__8FlagWordFUl(void*);
 int TItemMenuCtrl::set_menu_flags() { return set__8FlagWordFUl((char*)this + 0x1c); }
 }
 
-extern const f32 lbl_805DABE8;
 
 #pragma push
 #pragma scheduling off
@@ -37,7 +36,7 @@ u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2) {
 
 void TItemEffOrgaFlowShot::approach_value(f32 *arg0, f32 farg0, f32 farg1) {
     *arg0 += farg0;
-    if (farg0 > lbl_805DABE8) {
+    if (farg0 > 0.0f) {
         if (*arg0 > farg1) {
             *arg0 = farg1;
         }

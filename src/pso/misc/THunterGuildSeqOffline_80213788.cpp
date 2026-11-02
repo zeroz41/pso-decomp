@@ -130,8 +130,6 @@ struct Obj_80213980 : V_80213980 { char pad1c[0x14]; s32 state; s32 f34; s32 thr
 
 extern "C" {
 s32 get_window_layout_position(int, f32);
-extern const f32 lbl_805DC658;
-extern const f32 lbl_805DC65C;
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TShopSequenceFv(void *arg0, s16 arg1);
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
@@ -239,9 +237,9 @@ void THunterGuildSeqOffline__sub_80213980(Obj_80213980 *self) {
 
 void THunterGuildSeqOffline__sub_80213B18(u8 *shop_sequence) {
     Stack_80213B18 stack;
-    stack.sp8 = lbl_805DC658;
-    stack.spC = lbl_805DC65C;
-    ((TShopSequence *)shop_sequence)->create_message_window((s32)(get_window_layout_position(0x2C, lbl_805DC658)), (s32)((s32) &stack.sp8));
+    stack.sp8 = 332.0f;
+    stack.spC = 80.0f;
+    ((TShopSequence *)shop_sequence)->create_message_window((s32)(get_window_layout_position(0x2C, 332.0f)), (s32)((s32) &stack.sp8));
     ((VObj_18_97738d *)(shop_sequence))->m7(1, 1);
     *(s32 *)((s8 *)shop_sequence + 0x30) = 0;
     ((TShopWindowBase *)shop_sequence)->set_field_20(2);
@@ -353,7 +351,7 @@ struct VObj_80213E64_80213E38 : Base_80213E64_80213E38 {
     extern int evt2_random_enemies_mode;
 void set_random_enemies_mode(void) { TLobby::set_enemy_mode_flag(); evt2_random_enemies_mode = 2; TKeyBoardControl__sub_8000F950(); }
 
-extern struct VObj_80213E64_80213E38 *offline_quest_list_vm;
+struct VObj_80213E64_80213E38 *offline_quest_list_vm;
 extern "C" {
 
 void THunterGuildSeqOffline__sub_80213E64(void) {
@@ -710,8 +708,6 @@ int is_quest_active(void);
 s32 __ct__12TMemberCheckFP7TObject(int, void *);
 u32 __nw__7TObjectFUl(int);
 s32 get_window_layout_position(s32);
-extern const f32 lbl_805DC658;
-extern const f32 lbl_805DC65C;
 int is_quest_active(void);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
@@ -846,8 +842,8 @@ void init_window__22THunterGuildSeqOfflineFPv(u8 *shop_sequence) {
     typedef char spC_offset[(offsetof(Stack_8021488C, spC) == 0x4) ? 1 : -1];
     Stack_8021488C stack;
     u32 temp_r3;
-    stack.sp8 = lbl_805DC658;
-    stack.spC = lbl_805DC65C;
+    stack.sp8 = 332.0f;
+    stack.spC = 80.0f;
     ((TShopSequence *)shop_sequence)->create_message_window((s32)((int) (get_window_layout_position(0x2C))), (s32)&stack.sp8);
     if (is_quest_active() == 0) {
         temp_r3 = __nw__7TObjectFUl(0x80);

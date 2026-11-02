@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/misc/TODoorBase.h"
@@ -65,8 +66,6 @@ extern s32 lbl_805D5BE4;
 extern s32 lbl_805D5BE8;
 extern s32 lbl_805D5BEC;
 extern s32 lbl_805D5BF0;
-extern const f32 lbl_805DBDF8;
-extern const f32 lbl_805DBDFC;
 
 void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);
 s32 TLobby__sub_8001FE7C(void *, s16);
@@ -144,7 +143,7 @@ void TObjDoorJung::render() {
     s32 i;
     s32 j;
 
-    if (((VObj_8018F644 *)arg0)->m8(lbl_805DBDF8, lbl_805DBDFC) != 0) {
+    if (((VObj_8018F644 *)arg0)->m8(650.0f, 30.0f) != 0) {
         if (this->door_flags & 1) {
             if (lbl_805D5BF0 >= 0) {
                 free_children__12TObjDoorJungFPv(door_jung_child_list, lbl_805D5BF0);
@@ -219,18 +218,12 @@ void TObjDoorJung::run_task() {
     minimap_render_gate((u8 *)&this->position, 0xFFFF0000, (u16) this->rotation_y, 0, 0);
 }
 
-void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjDoorJung;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__10TODoorBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjDoorJung::~TObjDoorJung() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 typedef char RecoveredGlobal_8018F9CC_lbl_804B788C_size[sizeof(RecoveredGlobal_8018F9CC_lbl_804B788C) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {

@@ -1,11 +1,11 @@
 #include "types.h"
+#include "pso/misc/TKomorebi.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjLazerFenceExtra.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/misc/TKomorebi.h"
 #include "pso/object/TObjFish.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
@@ -87,16 +87,11 @@ void TKomorebi::render() {
 
 void TKomorebi::run_task() {  }
 
-void *__dt__9TKomorebiFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TKomorebi;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TKomorebi::~TKomorebi() {
+
+}
+extern "C" {
 
 extern void *tl_05;
 

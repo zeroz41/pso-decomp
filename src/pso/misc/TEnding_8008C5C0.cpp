@@ -26,8 +26,6 @@ extern u8 lbl_80439588[];
 extern u8 ending_scene_callbacks[];
 extern u8 default_scene_light_config[];
 extern void *tl_camera;
-extern const f32 lbl_805D9570;
-extern const f32 lbl_805D9574;
 extern s32 ending_scene_active;
 
 void TEnding::set_flag_and_advance() {
@@ -37,7 +35,7 @@ void TEnding::set_flag_and_advance() {
 
 int TEnding::start_ending_scene() {
     void *p;
-    set_screen_size(lbl_805D9570, lbl_805D9574);
+    set_screen_size(1.0f, 0.85f);
     set_copy_clear_color_argb(0, 0, 0);
     reset_controller_input_state();
     init_map_lights(default_scene_light_config);

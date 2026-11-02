@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/npc/TObjNpcSoldierMacho.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/npc/TObjNpcSoldierMacho.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
@@ -52,16 +52,9 @@ void TObjNpcSoldierMacho::load_shared_resource() {
     (*(s32 *)&TObjNpcSoldierMacho__shared_model_resource) = var_r0;
 }
 
-void *__dt__19TObjNpcSoldierMachoFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TObjNpcSoldierMacho;
-        ((TUnk_804A9F50 *)arg0)->destroy_npc_lappy_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcSoldierMacho::~TObjNpcSoldierMacho() {}
+extern "C" {
 typedef char RecoveredGlobal_8014DA4C___vt__19TObjNpcSoldierMacho_size[sizeof(RecoveredGlobal_8014DA4C___vt__19TObjNpcSoldierMacho) == 0x178 ? 1 : -1];
 u8 *TObjNpcSoldierMacho__ct(u8 *player, s32 arg1, s32 arg2) {
     construct_male_npc_base((player));

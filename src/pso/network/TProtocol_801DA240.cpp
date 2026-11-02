@@ -100,9 +100,7 @@ struct Pkt_801DA734 {
 
 extern "C" {
 int sprintf(char *, const char *, ...);
-extern char TProtocol__recv_trade_list_log_format[];
 void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src);
-extern char TProtocol__send_trade_list_log_format[];
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src);
 typedef void (*Fn_801DA240)(char *);
 typedef void (*Fn_801DA5E4)(void *);
@@ -139,7 +137,7 @@ void handle_cmd_D3__9TProtocolFR6packet(u8 *arg0, Pkt_801DA35C *src) {
     void (*cb)(void *);
     pkt = *src;
     bswap_cmd_D3_item_bank(&pkt);
-    sprintf(buf, TProtocol__recv_trade_list_log_format, ((PktHdr_801DA35C *)&pkt)->b, ((PktHdr_801DA35C *)&pkt)->a);
+    sprintf(buf, "RcvTradeList %d %d", ((PktHdr_801DA35C *)&pkt)->b, ((PktHdr_801DA35C *)&pkt)->a);
     cb = *(void (**)(void *))(arg0 + 0xBC98);
     if (cb != NULL) {
         cb(&pkt);
@@ -167,7 +165,7 @@ extern "C" {
 void send_trade_list__6TLobbyFPvPv(VObj_18_801DA4A0 *obj, Pkt_801DA4A0 *src) {
     char buf[0x80];
     Pkt_801DA4A0 pkt;
-    sprintf(buf, TProtocol__send_trade_list_log_format, ((PktHdr_801DA4A0 *)src)->b, ((PktHdr_801DA4A0 *)src)->a);
+    sprintf(buf, "SndTradeList %d %d", ((PktHdr_801DA4A0 *)src)->b, ((PktHdr_801DA4A0 *)src)->a);
     pkt = *src;
     ((PktHdr_801DA4A0 *)&pkt)->cmd = 0xD0;
     ((PktHdr_801DA4A0 *)&pkt)->flag = 0;

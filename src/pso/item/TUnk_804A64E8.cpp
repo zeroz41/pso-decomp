@@ -1,7 +1,35 @@
-// ---- pso/unk/text_8012F704
 #include "types.h"
-#include "pso/item/TItem.h"
 #include "pso/item/TUnk_804A64E8.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/item/TItem.h"
+#include "pso/misc/TTecSlicer.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/item/TItemEquipVariant_8012F7D8.h"
+
+extern "C" {
+
+s32 scale_current_matrix(void *);
+s32 rotate_matrix_x(s32, s32);
+
+void TUnk_804A64E8::vfunc_60() {
+    s32 player_list;
+
+    player_list = TObjPlayer::get_player_list();
+    switch (player_list) {
+    case 1:
+        rotate_matrix_x(0, this->m_204);
+        return;
+    case 2:
+        scale_current_matrix((u8 *)&this->unk_1F8);
+        return;
+    case 3:
+        rotate_matrix_x(0, -this->m_204);
+        return;
+    }
+}
+
+}
+
 
     
 void TUnk_804A64E8::update_idle() { this->m_204 = 0; *(float*)((char*)this + 0x200) = 1.0f; *(float*)((char*)this + 0x1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; }
@@ -9,8 +37,6 @@ void TUnk_804A64E8::update_idle() { this->m_204 = 0; *(float*)((char*)this + 0x2
     
 void TUnk_804A64E8::update_attack() { *(int *)&this->m_204 = 10922; *(float*)((char*)this + 0x200) = 1e+01f; *(float *)&this->m_1fc = 1e+01f; *(float*)((char*)this + 0x1f8) = 1e+01f; }
 
-#include "pso/misc/TTecSlicer.h"
-#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
@@ -69,29 +95,11 @@ void TUnk_804A64E8::emit_marker_effects() {
 
 }
 
-// ---- pso/item/TItemEquipVariant_8012F7D8
-#include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012F7D8.h"
-#include "pso/player/TObjPlayer.h"
 
-extern s32 lbl_804A64E8[];
+extern s32 __vt__13TUnk_804A64E8[];
 
-void *__dt__13TUnk_804A64E8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A64E8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A64E8::~TUnk_804A64E8() {}
 
-// ---- pso/player/TObjPlayer_8012F830
-#include "types.h"
-#include "pso/item/TUnk_804A64E8.h"
-#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
@@ -99,6 +107,26 @@ int __ct__11TItemWeaponFP7TObjectPUc(void);
 
 
     
-void*TUnk_804A64E8::init_position_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A64E8; set_weapon_flags(2); *(int *)&(this->m_204) = 0; *(float*)((char*)this + 0x200) = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+void*TUnk_804A64E8::init_position_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A64E8; set_weapon_flags(2); *(int *)&(this->m_204) = 0; *(float*)((char*)this + 0x200) = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+
+}
+
+extern "C" {
+u8 * init_position_state__13TUnk_804A64E8Fv(void *, s32, void *);
+u8 *__nw__5TItemFUl(s32);
+extern s32 tl_05;
+u8 *TObjPlayer::create_position_state(u8 *arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != NULL) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(init_position_state__13TUnk_804A64E8Fv(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
+}
 
 }

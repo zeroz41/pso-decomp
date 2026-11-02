@@ -6,6 +6,7 @@
 class TUnk_804A403C : public TUnk_804A4948 {
 public:
     virtual ~TUnk_804A403C();
+    virtual void vfunc_60();
     virtual void reserved_53();
     virtual void emit_marker_effects();
     void *init_event_callbacks();

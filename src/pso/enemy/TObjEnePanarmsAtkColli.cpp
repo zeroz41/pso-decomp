@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEnePanarmsAtkColli.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3ShinowaMirage.h"
@@ -10,6 +11,9 @@ extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
 struct Vec_800E31C4 { f32 x; f32 y; f32 z; };
+
+__declspec(section ".data") s32 TObjEnePanarmsAtkColli__type_index_table[2] = {1, 2};
+Vec panarms_atk_zero_vec = {0.0f, 0.0f, 0.0f};
 
 struct Obj_800E31C4 { Entry_800E31C4 *list; Vec_800E31C4 *vecs; };
 
@@ -93,7 +97,6 @@ struct Vec_800E322C { f32 x, y, z; };
 struct Obj_800E322C { u8 pad0[0x10]; u32 f10; u8 pad1[0x38 - 0x14]; Vec_800E322C pos; u8 pad2[0x378 - 0x44]; f32 f378; };
 
 extern "C" {
-extern Vec_800E31C4 panarms_atk_zero_vec;
 Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4 *vecs);
 extern Pair_800E32C0 lbl_8043CDF8[];
 extern Pair_800E3374 lbl_8043CDF0[];
@@ -117,7 +120,7 @@ Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4
     p = self->list;
     q = self->vecs;
     while (p->id != -1) {
-        VecCopy((Vec *)q, (const Vec *)&panarms_atk_zero_vec);
+        VecCopy((Vec *)q, &panarms_atk_zero_vec);
         p++;
         q++;
     }
@@ -479,7 +482,6 @@ extern const f32 lbl_805DA5C0;
 extern f32 TObjEneMe3ShinowaMirage__data_805DA5C4;
 void TObjEneMe3ShinowaMirage__vt113(u8 *arg0, s32 arg1);
 int play_sound_effect(void *, void *, void *, void *);
-extern s32 TObjEnePanarmsAtkColli__type_index_table[];
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
 extern s32 lbl_805D2AC0;
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
@@ -517,16 +519,11 @@ void *TObjEnePanarmsAtkColli::create(void *arg1, void *arg2, void *arg3) {
     return o;
 }
 
-void *__dt__22TObjEnePanarmsAtkColliFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__22TObjEnePanarmsAtkColli;
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjEnePanarmsAtkColli::~TObjEnePanarmsAtkColli() {
+
+}
+extern "C" {
 typedef struct RecoveredFields_800E3970_arg0 RecoveredFields_800E3970_arg0;
 typedef struct VBase_18_beae68 VBase_18_beae68;
 typedef struct VBase_18_f56c51 VBase_18_f56c51;

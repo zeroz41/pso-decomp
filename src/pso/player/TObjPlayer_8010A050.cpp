@@ -89,8 +89,8 @@ struct VObj_8010A26C : Base_8010A26C {
 };
 
 int get_item_system_generation(void);
-extern const s32 lbl_8043E280[];
-extern const s32 lbl_8043E2A0[];
+const s32 lbl_8043E280[8] = { 1, 1, 1, 0, 1, 0, 0, 0 };
+const s32 lbl_8043E2A0[8] = { -1, 446, 447, 145, 32, 416, 417, 177 };
 extern "C" {
 s32 get_field_3e0__12TBoss3VoloptFv();
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
@@ -109,7 +109,6 @@ u8 get_item_group__5TItemFv();
 s32 TObjBase::get_texlist() { return texlist; }
 NJS_OBJECT *TItem::get_item_model() { return item_model; }
 
-extern const f32 lbl_805DAB58;
 
 struct TItemData8_8010a060 { s8 a; s8 b; u8 c; s8 pad[21]; };
 
@@ -121,7 +120,7 @@ void TUnk_8049F130::run_task() {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    if (lbl_805DAB58 == (f32) *(s32 *)&this->unk_1C) {
+    if (120.0f == (f32) *(s32 *)&this->unk_1C) {
         init__9TItemDataFv(&sp8.a);
         sp8.a = 1;
         sp8.b = 2;

@@ -8,7 +8,6 @@ struct Deck_8020EF40 {
 
 extern "C" {
 s32 rand();
-extern const f32 lbl_805DC628;
 void shuffle_shop_pool_n_times(void *arg0_, s32 arg1) {
     while (arg1-- > 0) {
         shuffle_shop_pool(arg0_);
@@ -21,7 +20,7 @@ void shuffle_shop_pool(void *arg0_) {
     s32 k;
     u8 t;
     for (i = 0; i < arg0->n; i++) {
-        k = (s32)((f32)arg0->n * (lbl_805DC628 * (f32)rand()));
+        k = (s32)((f32)arg0->n * (3.0517578e-05f * (f32)rand()));
         t = arg0->buf[i];
         arg0->buf[i] = arg0->buf[k];
         arg0->buf[k] = t;

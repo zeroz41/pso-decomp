@@ -31,8 +31,6 @@ typedef struct Quad_803594EC
 } Quad_803594EC;
 
 extern u8 TBoss4Fade__fullscreen_vertices[];
-extern const f32 lbl_805E0098;
-extern const f32 lbl_805E009C;
 
 typedef struct Ent_803594EC Ent_803594EC;
 typedef struct Fade_803594EC Fade_803594EC;
@@ -45,7 +43,7 @@ void TBoss4Fade::render() {
   s32 i = self->cur ^ 1;
   if (self->ent[i].active != 0)
   {
-    c = (self->ent[i].color & (~0xFF000000)) | (((u32) (lbl_805E0098 * self->ent[i].alpha)) << 24);
+    c = (self->ent[i].color & (~0xFF000000)) | (((u32) (255.0f * self->ent[i].alpha)) << 24);
     q.colors = q.col;
     q.col[3] = c;
     q.col[2] = c;
@@ -56,7 +54,7 @@ void TBoss4Fade::render() {
     q.b = 4;
     q.tex = TBoss4Fade__fullscreen_vertices;
     set_depth_buffer_settings_1();
-    ((TWindowCtrlMain *)(&q))->draw_strip_swap_color(4, 6, lbl_805E009C);
+    ((TWindowCtrlMain *)(&q))->draw_strip_swap_color(4, 6, -1.0f);
     restore_saved_depth_alpha_state();
   }
 }

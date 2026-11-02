@@ -95,7 +95,7 @@ s32 push_matrix();
 s32 pop_matrix();
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_80362FB4_lbl_80479FC8 lbl_80479FC8;
-void TObjPlayer__sub_80362FB4(u8 *arg0);
+void vfunc_60__13TUnk_804F27E0Fv(u8 *arg0);
 void *__dt__13TUnk_804F27E0Fv(void *arg0, s16 arg1);
 void construct_srank_weapon(void *);
 void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
@@ -131,7 +131,7 @@ void TUnk_804F27E0::emit_marker_effects() {
 }
 
 typedef char RecoveredGlobal_80362FB4_lbl_80479FC8_size[sizeof(RecoveredGlobal_80362FB4_lbl_80479FC8) == 0x10 ? 1 : -1];
-void TObjPlayer__sub_80362FB4(u8 *item_weapon) {
+void TUnk_804F27E0::vfunc_60() {
     typedef char sp8_offset[(offsetof(Stack_80362FB4, sp8) == 0x0) ? 1 : -1];
     typedef char spC_offset[(offsetof(Stack_80362FB4, spC) == 0x4) ? 1 : -1];
     typedef char sp10_offset[(offsetof(Stack_80362FB4, sp10) == 0x8) ? 1 : -1];
@@ -142,14 +142,14 @@ void TObjPlayer__sub_80362FB4(u8 *item_weapon) {
         stack.sp10 = *(s32 *)((s8 *)&lbl_80479FC8.value + 8);
         post_translate_matrix((void *)&stack.sp8);
         rotate_matrix_x(0, 0x18E3);
-        if (*(s32 *)((s8 *)item_weapon + 0x1FC) & 1) {
+        if (*(s32 *)((s8 *)((u8 *)this) + 0x1FC) & 1) {
             push_matrix();
             rotate_matrix_x(0, 0x2AAA);
-            ((TItem *)item_weapon)->draw_model();
+            ((TItem *)((u8 *)this))->draw_model();
             pop_matrix();
             push_matrix();
             rotate_matrix_x(0, -0x2AAA);
-            ((TItem *)item_weapon)->draw_model();
+            ((TItem *)((u8 *)this))->draw_model();
             pop_matrix();
         }
     }

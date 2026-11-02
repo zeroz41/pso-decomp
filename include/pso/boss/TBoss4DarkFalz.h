@@ -61,7 +61,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     static void init_uro_link();
     static void *create_demo2(void *arg0, void *arg1, void *arg2, void *arg3);
     static s32 count_active_players();
-    static u8 is_ending_or_split_screen();
+    static int is_ending_or_split_screen();
     void send_code_25_4(s32 arg);
     void send_action_packet(s32 arg);
     void change_state(s32 arg1);

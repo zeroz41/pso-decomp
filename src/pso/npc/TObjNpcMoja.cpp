@@ -112,8 +112,6 @@ extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
 extern u32 TObjNpcNFM00__shared_named_model_object;
 extern u32 TObjNpcNFM00__texture_gvm_handle;
-extern char lbl_8043FD20[];
-extern char lbl_8043FD34[];
 void * TObjNpcNFM00__create(void *arg0);
 void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1);
 void release_texture_list(void*);
@@ -154,7 +152,7 @@ extern "C" void vfunc_74__9TObjEnemyFl();
 extern "C" void apply_hit_message_flags__9TObjEnemyFPv();
 extern "C" void vfunc_83__11TObjNpcBaseFv();
 extern "C" void vfunc_58__11TObjNpcBaseFv();
-extern "C" void vfunc_88__11TObjNpcMojaFv();
+extern "C" void request_action__11TObjNpcMojaFl();
 extern "C" void vfunc_59__11TObjNpcBaseFv();
 extern "C" void add_actor_exp__9TObjCharaFl();
 extern "C" void apply_action_hold_status__9TObjCharaFf();
@@ -189,7 +187,7 @@ extern "C" void get_center__9TObjCharaFv();
 extern "C" void get_actor_level_index__9TObjCharaFv();
 extern "C" void get_name__9TObjEnemyFv();
 extern "C" void get_pos__9TObjCharaFl();
-extern "C" void handle_message_event__17TObjNpcFemaleBaseFUs();
+extern "C" void interact__11TObjNpcBaseFl();
 extern "C" void is_actor_cadence_frame__9TObjCharaFl();
 extern "C" void play_voice__11TObjNpcBaseFv();
 extern "C" void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
@@ -230,7 +228,7 @@ void *__vt__11TObjNpcMoja[95] = {
     (void *)0x0, (void *)0x0, (void *)&dt__11TObjNpcMojaFPvs, (void *)&run_task__11TObjNpcBaseFv,
     (void *)&draw_if_visible__10TObjPlayerFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
     (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&handle_message_event__17TObjNpcFemaleBaseFUs, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
+    (void *)&get_name__9TObjEnemyFv, (void *)&interact__11TObjNpcBaseFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
     (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
     (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
     (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
@@ -249,7 +247,7 @@ void *__vt__11TObjNpcMoja[95] = {
     (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__11TObjNpcBaseFv,
     (void *)&update_standing__11TObjNpcBaseFv, (void *)&update_wandering__11TObjNpcBaseFv, (void *)&update_conversation__11TObjNpcBaseFv, (void *)&apply_set_params__11TObjNpcBaseFll,
-    (void *)&vfunc_88__11TObjNpcMojaFv, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
+    (void *)&request_action__11TObjNpcMojaFl, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
     (void *)&vfunc_92__11TObjNpcBaseFv, (void *)&draw_debug_info__11TObjNpcBaseFv, (void *)0x0,
 };
 extern s32 TObjNpcMoja__name;
@@ -332,7 +330,7 @@ void TObjNpcNFM00::free_resources() {
     }
 }
 void TObjNpcNFM00::load_assets() {
-    TObjNpcNFM00__shared_named_model_object = (u32)create_named_object((s32)lbl_8043FD20);
-    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)lbl_8043FD34);
+    TObjNpcNFM00__shared_named_model_object = (u32)create_named_object((s32)"npc_h00_data.rel");
+    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_h00_body.gvm");
 }
 }

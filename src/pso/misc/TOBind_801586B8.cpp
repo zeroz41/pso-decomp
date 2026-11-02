@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TOBind.h"
 #include "pso/misc/TOBind_801586B8.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -9,12 +10,18 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_801587D8_lbl_804AFC44 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_801587D8_lbl_804AFC44_size[sizeof(RecoveredGlobal_801587D8_lbl_804AFC44) == 0x10 ? 1 : -1];
+#include "pso/system/BmlResourceDescriptor.h"
 
-struct RecoveredGlobal_80158890_lbl_804AFC54 {
-    s32 value;
-    u8 remaining[0x54];
+extern char lbl_80440220[];
+extern char lbl_80440234[];
+extern char lbl_8044024C[];
+extern char lbl_80440268[];
+__declspec(section ".data") const char *bm_o_bind_model_names[3] = { lbl_80440220, lbl_80440234, NULL };
+__declspec(section ".data") const char *bm_o_bind_motion_names[2] = { lbl_8044024C, NULL };
+BmlResourceDescriptor bm_o_bind_resource_descriptor = { lbl_80440268, bm_o_bind_model_names, bm_o_bind_motion_names, 2, 1 };
+CollisionBody bind_collision_body_parts[2] = {
+    {{0.0f, 20.0f, 0.0f}, 10.0f, 0.0f, 0, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    {{0.0f, 20.0f, -10.0f}, 5.0f, 10.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
 };
 
 struct RecoveredGlobal_80158890___vt__6TOBind {
@@ -24,21 +31,15 @@ struct RecoveredGlobal_80158890___vt__6TOBind {
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_801587D8_lbl_804AFC44 bm_o_bind_resource_descriptor;
 extern u32 TOBind__static_model_resource;
 u8 *get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
-extern RecoveredGlobal_80158890_lbl_804AFC54 bind_collision_body_parts;
 extern s32 __vt__6TOBind[];
 extern s32 lbl_805D2EA8;
 extern s32 tl_05;
-extern const f32 lbl_805DB300;
-extern const f32 lbl_805DB304;
-extern const f32 lbl_805DB308;
-extern const f32 lbl_805DB30C;
 struct BindBase_801586B8 { char pad[0x18]; };
 struct BindObj_801586B8 : BindBase_801586B8 {
     virtual void m0();
@@ -100,24 +101,17 @@ void TOBind::load_static_resource() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_o_bind_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TOBind__static_model_resource) = var_r0;
 }
 
-void *__dt__6TOBindFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__6TOBind;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
-typedef char RecoveredGlobal_80158890_lbl_804AFC54_size[sizeof(RecoveredGlobal_80158890_lbl_804AFC54) == 0x58 ? 1 : -1];
+TOBind::~TOBind() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 typedef char RecoveredGlobal_80158890___vt__6TOBind_size[sizeof(RecoveredGlobal_80158890___vt__6TOBind) == 0x3C ? 1 : -1];
 u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     __ct__14TObjCollidableFP7TObject(bind, tl_05);
@@ -130,10 +124,10 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     bind->m_c4 = get_bml_model((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     bind->m_c8 = TObjFish__sub_8001EDB0((int) ((*(s32 *)&TOBind__static_model_resource)), 1);
     *(u8 **)((s8 *)bind + 0xCC) = get_bml_motion((*(s32 *)&TOBind__static_model_resource), 0);
-    *(f32 *)((s8 *)bind + 0xB8) = (f32) lbl_805DB300;
-    bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - lbl_805DB304);
-    *(f32 *)((s8 *)bind + 0xC0) = (f32) lbl_805DB304;
-    init_collision_body_parts(bind, &bind_collision_body_parts.value, 2);
+    *(f32 *)((s8 *)bind + 0xB8) = 0.0f;
+    bind->m_bc = (f32) ((f32) *(u32 *)((s8 *)(*(u8 **)((s8 *)bind + 0xCC)) + 4) - 1.0f);
+    *(f32 *)((s8 *)bind + 0xC0) = 1.0f;
+    init_collision_body_parts(bind, bind_collision_body_parts, 2);
     ((TObjCollidable *)bind)->refresh_collision_body_centers();
     ((TObjPlayer *)bind)->register_object_by_id();
     bind->actorFlags = (s32) (bind->actorFlags | 0x40000000);
@@ -141,8 +135,8 @@ u8 *TOBind__ct(TOBind *bind, s32 arg1) {
     if ((s32) bind->m_b4 < 0) {
         bind->m_b4 = 0;
     }
-    *(f32 *)((s8 *)bind + 0xD0) = (f32) lbl_805DB308;
-    bind->m_d4 = (f32) lbl_805DB30C;
+    *(f32 *)((s8 *)bind + 0xD0) = 400.0f;
+    bind->m_d4 = 40.0f;
     return (u8 *)bind;
 }
 

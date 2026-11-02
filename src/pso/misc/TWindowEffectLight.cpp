@@ -3,8 +3,6 @@
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/render/render_util.h"
 
-TWindowEffectLight::~TWindowEffectLight() {}
-
 #include "types.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
@@ -51,6 +49,99 @@ extern const f32 lbl_805DE11C;
 extern const f32 lbl_805DE120;
 extern const f32 lbl_805DE124;
 
+
+}
+extern "C" {
+
+void *__nw__7TObjectFUl(int);
+s32 queue_destruction__7TObjectFv();
+
+}
+
+#pragma fp_contract on
+/* Built with deferred code generation: functions are emitted in reverse source order, and the vtable precedes render's switch table in .data. */
+#pragma defer_codegen on
+
+extern "C" {
+
+void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
+    void *o;
+    o = __nw__7TObjectFUl(0x2C);
+    if (o != NULL) {
+        o = ((void *(*)(void *, void *, void *, void *))__ct__18TWindowEffectLightFPvsUl)(o, arg0, arg1, arg2);
+    }
+    return o;
+}
+
+}
+
+TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
+    *(s32 *)((s8 *)this + 0) = lbl_805D3E60;
+    ((TWindowSubSymbolChatPartsSet *)(((u8 *)this) + 0x1C))->copy_vec2(arg1);
+    ((TWindowKeyBoardSoft *)(((u8 *)this) + 0x1C))->adjust_pos_for_split_screen(TCameraCtrl::get_split_screen_view_index(id));
+    *(s16 *)((s8 *)this + 0x24) = arg2;
+    *(s16 *)((s8 *)this + 0x26) = -1;
+    *(u32 *)((s8 *)this + 0x28) = id;
+}
+
+TWindowEffectLight::~TWindowEffectLight() {}
+
+extern "C" {
+
+void run_task__18TWindowEffectLightFv(void *arg0) {
+    s32 temp_r4;
+
+    temp_r4 = *(s16 *)((s8 *)arg0 + 0x26) + 1;
+    *(s16 *)((s8 *)arg0 + 0x26) = temp_r4;
+    if ((s16)temp_r4 >= 8) {
+        queue_destruction__7TObjectFv();
+    }
+}
+
+void render__18TWindowEffectLightFv(u8 *window_effect_light) {
+  s16 temp_r0;
+  temp_r0 = 0x28;
+  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || (((s32) (*((s32 *) (((s8 *) window_effect_light) + temp_r0)))) == ((s32) TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no())))))
+  {
+    TParticleCtrl::begin_effect_render();
+    TCameraCtrl::restore_full_screen_view();
+    set_additive_blend();
+    begin_screen_draw(1);
+    TObjFish::set_global_param(lbl_805D63F0);
+    temp_r0 = *((s16 *) (((s8 *) window_effect_light) + 0x24));
+    {
+      switch (temp_r0)
+      {
+        case 0:
+          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xAA0E);
+          break;
+        case 1:
+          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFF2417);
+          break;
+        case 2:
+          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
+          break;
+        case 3:
+          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE0F4);
+          break;
+        case 4:
+          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE128);
+          break;
+        case 5:
+          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE12C);
+          break;
+        case 6:
+          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE130);
+          break;
+      }
+    }
+    TWindowSubStatusDisp::get_player();
+    set_default_alpha_blend();
+    TCameraCtrl__sub_80068EF0();
+    TParticleCtrl::end_effect_render();
+  }
+}
+
 void TWindowEffectLight::draw_outline_quad(s32 color) {
     Quad_802AD1CC q;
     f32 s;
@@ -71,38 +162,6 @@ void TWindowEffectLight::draw_outline_quad(s32 color) {
     q.u1 = lbl_805DE120;
     q.v1 = lbl_805DE124;
     draw_textured_quad_at_depth((f32 *)&q, TWindowEffectLight__data_805DE0E4);
-}
-
-}
-TWindowEffectLight::TWindowEffectLight(void *arg1, s16 arg2, u32 id) : TObject((TObject *)tl_window) {
-    *(s32 *)((s8 *)this + 0) = lbl_805D3E60;
-    ((TWindowSubSymbolChatPartsSet *)(((u8 *)this) + 0x1C))->copy_vec2(arg1);
-    ((TWindowKeyBoardSoft *)(((u8 *)this) + 0x1C))->adjust_pos_for_split_screen(TCameraCtrl::get_split_screen_view_index(id));
-    *(s16 *)((s8 *)this + 0x24) = arg2;
-    *(s16 *)((s8 *)this + 0x26) = -1;
-    *(u32 *)((s8 *)this + 0x28) = id;
-}
-extern "C" {
-
-void *__nw__7TObjectFUl(int);
-s32 queue_destruction__7TObjectFv();
-
-#pragma fp_contract on
-
-#pragma fp_contract on
-f32 TWindowEffectLight::calc_scale() {
-    u8 *arg0 = (u8 *)this;
-  float new_var2;
-  s16 *new_var;
-  new_var2 = TWindowEffectLight__data_805DE0E4 * ((f32) (*(new_var = (s16 *) (((s8 *) arg0) + 0x26))));
-  return (new_var2 * lbl_805DE0E8) + lbl_805DE0E0;
-}
-
-u32 TWindowEffectLight::calc_alpha() {
-    u8 *arg0 = (u8 *)this;
-  float new_var;
-  new_var = lbl_805DE0F0 * ((f32) (*((s16 *) (((s8 *) arg0) + 0x26))));
-  return (u32)__cvt_fp2unsigned(lbl_805DE0EC * ((new_var * lbl_805DE0E8) + lbl_805DE0E0));
 }
 
 void TWindowEffectLight__sub_802AD040(void *window, f32 f) {
@@ -167,67 +226,19 @@ void TWindowEffectLight__sub_802AD040(void *window, f32 f) {
     }
 }
 
-void render__18TWindowEffectLightFv(u8 *window_effect_light) {
-  s16 temp_r0;
-  temp_r0 = 0x28;
-  if ((is_window_display_enabled() != 0) && ((is_split_screen() == 0) || (((s32) (*((s32 *) (((s8 *) window_effect_light) + temp_r0)))) == ((s32) TCameraCtrl::get_nth_view_player_id(TCameraCtrl::get_camera_no())))))
-  {
-    TParticleCtrl::begin_effect_render();
-    TCameraCtrl::restore_full_screen_view();
-    set_additive_blend();
-    begin_screen_draw(1);
-    TObjFish::set_global_param(lbl_805D63F0);
-    temp_r0 = *((s16 *) (((s8 *) window_effect_light) + 0x24));
-    {
-      switch (temp_r0)
-      {
-        case 0:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xAA0E);
-          break;
-        case 1:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFF2417);
-          break;
-        case 2:
-          ((TWindowEffectLight *)window_effect_light)->draw_outline_quad(0xFFFFFF);
-          break;
-        case 3:
-          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE0F4);
-          break;
-        case 4:
-          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE128);
-          break;
-        case 5:
-          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE12C);
-          break;
-        case 6:
-          TWindowEffectLight__sub_802AD040(window_effect_light, lbl_805DE130);
-          break;
-      }
-    }
-    TWindowSubStatusDisp::get_player();
-    set_default_alpha_blend();
-    TCameraCtrl__sub_80068EF0();
-    TParticleCtrl::end_effect_render();
-  }
+u32 TWindowEffectLight::calc_alpha() {
+    u8 *arg0 = (u8 *)this;
+  float new_var;
+  new_var = lbl_805DE0F0 * ((f32) (*((s16 *) (((s8 *) arg0) + 0x26))));
+  return (u32)__cvt_fp2unsigned(lbl_805DE0EC * ((new_var * lbl_805DE0E8) + lbl_805DE0E0));
 }
 
-void run_task__18TWindowEffectLightFv(void *arg0) {
-    s32 temp_r4;
-
-    temp_r4 = *(s16 *)((s8 *)arg0 + 0x26) + 1;
-    *(s16 *)((s8 *)arg0 + 0x26) = temp_r4;
-    if ((s16)temp_r4 >= 8) {
-        queue_destruction__7TObjectFv();
-    }
-}
-
-void *TWindowEffectLight::create(void *arg0, void *arg1, void *arg2) {
-    void *o;
-    o = __nw__7TObjectFUl(0x2C);
-    if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *, void *))__ct__18TWindowEffectLightFPvsUl)(o, arg0, arg1, arg2);
-    }
-    return o;
+f32 TWindowEffectLight::calc_scale() {
+    u8 *arg0 = (u8 *)this;
+  float new_var2;
+  s16 *new_var;
+  new_var2 = TWindowEffectLight__data_805DE0E4 * ((f32) (*(new_var = (s16 *) (((s8 *) arg0) + 0x26))));
+  return (new_var2 * lbl_805DE0E8) + lbl_805DE0E0;
 }
 
 }

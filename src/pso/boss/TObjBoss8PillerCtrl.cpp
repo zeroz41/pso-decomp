@@ -4,11 +4,6 @@
 #include "pso/system/vector.h"
 #include "pso/boss/TObjBoss8PillerCtrl.h"
 
-struct RecoveredGlobal_8035C22C_lbl_804799DC {
-    s32 value;
-    u8 remaining[0x148];
-};
-
 struct RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl {
     s32 value;
     u8 remaining[0x14];
@@ -24,14 +19,24 @@ struct Self_8035C03C {
     s32 f28;
     u16 f2C;
     u8 pad2e[0x34 - 0x2e];
-    Ent_8035C03C *list;
+    const Ent_8035C03C *list;
+};
+
+#pragma readonly_strings on
+
+const char *TObjBoss8PillerCtrl__class_name = "TObjBoss8PillerCtrl";
+
+// grid steps around the centre, ring by ring; {0xFFFF, 0xFFFF} closes a ring
+const Ent_8035C03C boss8_piller_ctrl_params[41] = {
+    {0, 0}, {0xFFFF, 0xFFFF},
+    {1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {1, -1}, {0xFFFF, 0xFFFF},
+    {2, 0}, {-2, 0}, {-1, 1}, {-1, -1}, {2, 1}, {2, -1}, {-1, 2}, {-1, -2}, {0, 2}, {0, -2}, {1, 2}, {1, -2}, {0xFFFF, 0xFFFF},
+    {3, 0}, {-3, 0}, {-2, 1}, {-2, -1}, {3, 1}, {3, -1}, {2, 2}, {2, -2}, {-2, 2}, {-2, -2}, {-1, 3}, {-1, -3}, {0, 3}, {0, -3}, {1, 3}, {1, -3}, {2, 3}, {2, -3}, {0xFFFF, 0xFFFF},
 };
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject();
-extern RecoveredGlobal_8035C22C_lbl_804799DC boss8_piller_ctrl_params;
 extern s32 __vt__19TObjBoss8PillerCtrl[];
-extern s32 TObjBoss8PillerCtrl__class_name;
 extern const f32 lbl_805E017C;
 void *__nw__7TObjectFUl(u32);
 void __ct__15TObjBoss8PillerFv(void *, s32, Vec_8035C03C *, f32, u16);
@@ -91,19 +96,18 @@ void *__dt__19TObjBoss8PillerCtrlFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8035C22C_lbl_804799DC_size[sizeof(RecoveredGlobal_8035C22C_lbl_804799DC) == 0x14C ? 1 : -1];
 typedef char RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl_size[sizeof(RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl) == 0x18 ? 1 : -1];
 u8 *TObjBoss8PillerCtrl__ct(u8 *boss8_piller_ctrl, s32 arg1, s32 arg2, s16 arg3) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)boss8_piller_ctrl + 0x18) = &(*(RecoveredGlobal_8035C22C___vt__19TObjBoss8PillerCtrl *)&__vt__19TObjBoss8PillerCtrl).value;
-    *(s32 *)((s8 *)boss8_piller_ctrl + 0) = (s32) TObjBoss8PillerCtrl__class_name;
+    ((TObject *)boss8_piller_ctrl)->m_name = TObjBoss8PillerCtrl__class_name;
     VecCopy((Vec *)(boss8_piller_ctrl + 0x1C), (const Vec *)(arg2));
     TObjBoss8PillerCtrl__sub_8035C034(boss8_piller_ctrl, boss8_piller_ctrl + 0x1C);
     *(f32 *)((s8 *)boss8_piller_ctrl + 0x20) = (f32) lbl_805E017C;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_28 = 0;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_2c = arg3;
     ((TObjBoss8PillerCtrl *)boss8_piller_ctrl)->m_30 = 0;
-    *(s32 **)((s8 *)boss8_piller_ctrl + 0x34) = &boss8_piller_ctrl_params.value;
+    ((Self_8035C03C *)boss8_piller_ctrl)->list = boss8_piller_ctrl_params;
     return boss8_piller_ctrl;
 }
 

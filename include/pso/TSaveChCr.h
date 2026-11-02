@@ -6,11 +6,13 @@
 
 class TSaveChCr : public TObject {
 public:
+    TSaveChCr(TObject *parent, s32 mode);
     virtual ~TSaveChCr();
     s32 poll_memcard_status();
     virtual void run_task();
     s32 state_index;
-    u8 unk_20[0x4];
+    // 0 saves the character; otherwise it is loaded back from the card.
+    s32 mode;
     s32 m_24;
     s32 m_28;
     s32 card_status;
@@ -25,14 +27,20 @@ public:
     void open_message_window(u32 arg1);
     void destroy_if_keyboard_idle();
     void save_if_dirty();
-    int close_and_advance_to_3();
+    void close_and_advance_to_3();
     void update_save_status();
-    int close_and_advance_step2();
-    int save_1();
+    void close_and_advance_step2();
+    void save_1();
     void update_save_state();
+    void fn_80339D78();
+    void sub_80339CE4();
+    void sub_80339B94();
+    s32 sub_80339DBC();
+    s32 sub_80339F30();
+    s32 sub_8033A138();
     void close_window();
     void create_backgrounds();
-    void save_character();
+    s32 save_character();
     void set_state(s32 arg1);
     static void *create(void *arg0);
 };

@@ -56,8 +56,6 @@ TObjItemLight::~TObjItemLight() {
 extern "C" {
 
 extern s32 TObjItemLight__class_name;
-extern const f32 lbl_805DBE40;
-extern const f32 lbl_805DBE44;
 
 u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     __ct__8TObjBaseFP7TObject();
@@ -66,8 +64,8 @@ u8 *TObjItemLight__ct(TObjItemLight *item_light, s32 arg1, s32 arg2) {
     item_light->apply_object_set_data((void *)arg2);
     item_light->m_94 = 0;
     *(f32 *)((s8 *)item_light + 0x90) = (f32) item_light->scale.x;
-    if (*(f32 *)((s8 *)item_light + 0x90) < lbl_805DBE40) {
-        *(f32 *)((s8 *)item_light + 0x90) = (f32) lbl_805DBE44;
+    if (*(f32 *)((s8 *)item_light + 0x90) < 0.0f) {
+        *(f32 *)((s8 *)item_light + 0x90) = 30.0f;
     }
     item_light->m_94 = (s32)spawn_particle_effect_with_rotation((u8 *)item_light + 0x38, (u8 *)item_light + 0x5C, 0x1CA, 0x40);
     return (u8 *)item_light;

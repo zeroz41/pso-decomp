@@ -16,11 +16,11 @@ void TUnk_804A1478::emit_marker_effects() {
     }
 }
 
-extern s32 lbl_804A1478[];
+extern s32 __vt__13TUnk_804A1478[];
 
 void *TUnk_804A1478::set_vtable_804A1478() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A1478;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A1478;
     return this;
 }
 

@@ -5,12 +5,12 @@
 
 class TObjCityAirCar_Car;
 extern "C" {
-u8 *construct_city_air_car(TObjCityAirCar_Car *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
+u8 *construct_city_air_car(TObjCityAirCar_Car *arg0, void *parent, s32 arg2, s32 arg3, f32 farg0);
 }
 
 // --- C functions defined in text_80181278.cpp ---
 extern "C" {
-u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
+u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s32 arg2, s32 arg3, f32 farg0);
 }
 // --- end of C functions
 

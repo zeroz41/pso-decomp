@@ -48,7 +48,6 @@ extern A_802C3400 lbl_804719FC[];
 extern B_802C3400 story_select_rect_table;
 extern void *__vt__16TAdStorySelectGC[];
 extern s32 lbl_805D3EC8;
-extern const f32 lbl_805DE528;
 Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent);
 void TAdStorySelectGC::render() {  }
 void TAdStorySelectGC::run_task() {
@@ -156,7 +155,7 @@ Self_802C3400 *__ct__16TAdStorySelectGCFv(Self_802C3400 *self, void *parent) {
     self->f20 = p;
     ((TAdMultiPlyChrSelectGC *)((s32)self->f20))->set_entry_value(0, get_localized_text_entry(0x14, 0));
     ((TAdMultiPlyChrSelectGC *)((s32)self->f20))->set_entry_value(1, get_localized_text_entry(0x14, 1));
-    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0xA, (f32)lbl_805DE528);
+    create_draw_line_ctrl__13TAdMcSelectGCFiif((s32)self, 0xA, 0.0f);
     return self;
 }
 

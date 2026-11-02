@@ -35,7 +35,11 @@ struct RecoveredGlobal_800A6BE0_lbl_80500978 {
 
 struct Obj_800A6B14;
 
-typedef struct Init_800A715C { s32 w[4]; } Init_800A715C;
+typedef struct Init_800A715C {
+    s32 motions;
+    void *actions; // inferred: points at saver_action_table
+    s32 w[2];
+} Init_800A715C;
 
 typedef struct Ent_800A715C { s32 a; void *b; } Ent_800A715C;
 
@@ -63,22 +67,21 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 void *mem_alloc(u32 size);
-extern const Init_800A715C saver_init_binding_desc;
 extern void *bm_ene_df1_saver_model_names[2];
 extern void *bm_ene_df1_saver_motion_names[12];
-extern RecoveredGlobal_800A6BE0_lbl_80500978 lbl_80500978;
-extern s32 saver_boss_stat_handle;
-extern s32 *player_object_ptr_array;
-extern s32 saver_object_stat_handle;
-extern f32 *lbl_805D504C;
-extern u32 saver_bml_resource;
-extern s32 lbl_805D5054;
-extern s32 lbl_805D5058;
-extern s32 lbl_805D505C;
-extern s32 lbl_805D5060;
-extern s32 lbl_805D5064;
-extern void *lbl_805D5068;
-extern s32 lbl_805D506C;
+RecoveredGlobal_800A6BE0_lbl_80500978 lbl_80500978;
+s32 saver_boss_stat_handle;
+s32 *player_object_ptr_array;
+s32 saver_object_stat_handle;
+f32 *lbl_805D504C;
+u32 saver_bml_resource;
+s32 lbl_805D5054;
+s32 lbl_805D5058;
+s32 lbl_805D505C;
+s32 lbl_805D5060;
+s32 lbl_805D5064;
+void *lbl_805D5068;
+s32 lbl_805D506C;
 void initialize_saver_resources(void);
 void queue_destruction__7TObjectFv(void *arg0);
 void *__dt__13TUnk_80490470Fv(void *, s16);
@@ -94,7 +97,6 @@ void __ct__9TObjEnemyFP7TObject(void *, void *, void *);
 void init_collision_body_parts(void *, void *, s32);
 void *__nw__7TObjectFUl(int);
 u8 *TEneParticleCtrl__ct(u8 *arg0, s32 arg1, s32 arg2);
-extern s32 TObjEneSaver__class_name;
 u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2);
 void step_angle_clamped__10TObjPlayerFPvi(void*, s32);
 void turn_toward_target__12TObjEneSaverFv(Obj_800A6B14*);
@@ -214,19 +216,6 @@ void get_name__9TObjEnemyFv();
 void get_pos__9TObjCharaFl();
 void is_actor_cadence_frame__9TObjCharaFl();
 s32 is_target_in_attack_range__12TObjEneSaverFv(u8 *arg0);
-extern u8 lbl_8043A738[];
-extern u8 lbl_8043A74C[];
-extern u8 lbl_8043A768[];
-extern u8 lbl_8043A784[];
-extern u8 lbl_8043A7A0[];
-extern u8 lbl_8043A7BC[];
-extern u8 lbl_8043A7D4[];
-extern u8 lbl_8043A7F0[];
-extern u8 lbl_8043A80C[];
-extern u8 lbl_8043A824[];
-extern u8 lbl_8043A83C[];
-extern u8 lbl_8043A854[];
-extern u8 lbl_8043A86C[];
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
 void receive_physical_attack__9TObjCharaFPvf();
 void receive_weapon_special_attack__9TObjCharaFPvPv();
@@ -247,15 +236,15 @@ void update_object_view_visibility__8TObjBaseFff();
 void update_poison_status__9TObjCharaFv();
 void update_shock_clock__9TObjCharaFv();
 __declspec(section ".data") void *bm_ene_df1_saver_model_names[2] = {
-    (void *)&lbl_8043A738, (void *)0x0,
+    (void *)"df1_s_kil_body.nj", (void *)0x0,
 };
 void *bm_ene_df1_saver_motion_names[12] = {
-    (void *)&lbl_8043A74C, (void *)&lbl_8043A768, (void *)&lbl_8043A784, (void *)&lbl_8043A7A0,
-    (void *)&lbl_8043A7BC, (void *)&lbl_8043A7D4, (void *)&lbl_8043A7F0, (void *)&lbl_8043A80C,
-    (void *)&lbl_8043A824, (void *)&lbl_8043A83C, (void *)&lbl_8043A854, (void *)0x0,
+    (void *)"aseri_df1_s_kil_body.njm", (void *)"atack_df1_s_kil_body.njm", (void *)"damage_df1_s_kil_body.njm", (void *)"deadb_df1_s_kil_body.njm",
+    (void *)"dead_df1_s_kil_body.njm", (void *)"defdam_df1_s_kil_body.njm", (void *)"defence_df1_s_kil_body.njm", (void *)"jump_df1_s_kil_body.njm",
+    (void *)"nail_df1_s_kil_body.njm", (void *)"wait_df1_s_kil_body.njm", (void *)"walk_df1_s_kil_body.njm", (void *)0x0,
 };
 void *bm_ene_df1_saver_resource_descriptor[4] = {
-    (void *)&lbl_8043A86C, (void *)&bm_ene_df1_saver_model_names, (void *)&bm_ene_df1_saver_motion_names, (void *)0x1000b,
+    (void *)"bm_ene_df1_saver.bml", (void *)&bm_ene_df1_saver_model_names, (void *)&bm_ene_df1_saver_motion_names, (void *)0x1000b,
 };
 TObjMotionAction saver_action_table[11] = {
     {1, 0, 9, 1.0f, 1},
@@ -270,6 +259,14 @@ TObjMotionAction saver_action_table[11] = {
     {3, 0, 4, 1.0f, 0x10},
     {3, 0, 3, 1.0f, 0x10},
 };
+struct Vec_800A6B14 { f32 x, y, z; };
+struct Vec_800A6C54 { f32 x, y, z; };
+
+const char *TObjEneSaver__class_name = "TObjEneSaver";
+const Init_800A715C saver_init_binding_desc = {0, saver_action_table, {1, 0xB0000}};
+const Vec_800A6C54 lbl_8043A8A4 = {0.0f, 0.0f, 0.0f};
+const Vec_800A6B14 lbl_8043A8B0 = {0.0f, 0.0f, 0.0f};
+const Vec_800A6B14 lbl_8043A8BC = {0.0f, 0.0f, 0.0f};
 void *lbl_80490B28[7] = {
     (void *)0x437a0000, (void *)0x3fa00000, (void *)0x400, (void *)0x0,
     (void *)0x64, (void *)0x0, (void *)0x0,
@@ -1408,7 +1405,6 @@ struct RecoveredGlobal_800A6BE0_lbl_804FF5E8 {
     u8 remaining[0x24];
 };
 
-struct Vec_800A6B14 { f32 x, y, z; };
 
 struct Tgt_800A6B14 { u8 pad[0x2fc]; Vec_800A6B14 pos; };
 
@@ -1435,7 +1431,6 @@ struct VObj_800A6C54_b : VBase_800A6C54_b {
     virtual s32 m9(f32, f32, f32);
 };
 
-struct Vec_800A6C54 { f32 x, y, z; };
 
 struct VBase_800A677C { char pad[0x18]; };
 
@@ -1489,7 +1484,6 @@ s32 matrix_mult_vec(int, Vec_800A6C54 *, void *);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
 s32 push_matrix_from(void *);
-extern Vec_800A6C54 lbl_8043A8A4;
 extern u8 identity_matrix[];
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -1503,8 +1497,6 @@ extern s32 model_render_flags;
 #define get_entity_id ((s32 (*)(void*))(get_entity_id))
 #define get_floor__10TObjPlayerFv ((s32 (*)(int))(get_floor__10TObjPlayerFv))
 #define get_player_by_client_id ((u8* (*)(u16))(get_player_by_client_id))
-extern s32 lbl_8043A8B0[];
-extern s32 lbl_8043A8BC[];
 void * create_ene_saver(void *arg0);
 void TLobby__sub_8001FE7C(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
@@ -1740,7 +1732,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         u16 tid;
         i = 0;
         best_id = 0xFFFF;
-        Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_8043A8B0;
+        Vec_800A6B14 v = lbl_8043A8B0;
         best = *self->range * *self->range;
         for (; i < registered_player_count + lbl_805D5870; i++) {
             p = get_player_data__10TObjPlayerFi(i);
@@ -1785,7 +1777,7 @@ void find_nearest_target__10TObjPlayerFPv(Obj_800A677C *self) {
         f32 best2;
         f32 best;
         f32 d;
-        Vec_800A6B14 v = *(Vec_800A6B14 *)lbl_8043A8BC;
+        Vec_800A6B14 v = lbl_8043A8BC;
         best_id = 0xFFFF;
         best_p2 = NULL;
         best_id2 = best_id;
@@ -2050,19 +2042,6 @@ void TObjPlayer::free_resources() {
     }
 }
 
-u8 lbl_8043A738[];
-u8 lbl_8043A74C[];
-u8 lbl_8043A768[];
-u8 lbl_8043A784[];
-u8 lbl_8043A7A0[];
-u8 lbl_8043A7BC[];
-u8 lbl_8043A7D4[];
-u8 lbl_8043A7F0[];
-u8 lbl_8043A80C[];
-u8 lbl_8043A824[];
-u8 lbl_8043A83C[];
-u8 lbl_8043A854[];
-u8 lbl_8043A86C[];
 #define saver_collision_body_part_table ((f32 *)saver_collision_body_part_table)
 #define RES ((Res_800A715C *)saver_bml_resource)
 void initialize_saver_resources(void) {
@@ -2101,8 +2080,8 @@ void initialize_saver_resources(void) {
     saver_object_stat_handle = register_object__6TLobbyFl(0x51);
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     Init_800A715C init = saver_init_binding_desc;
-    init.w[0] = (s32)RES->ents;
-    TLobby::spawn_npc_enemy((s16)0x1A, (s32)RES->sub->f8, (s32)RES->sub->fC, (s32)&init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
+    init.motions = (s32)RES->ents;
+    TLobby::spawn_npc_enemy((s16)0x1A, (s32)RES->sub->f8, (s32)RES->sub->fC, &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
 }
 Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1) {
     s32 i;
@@ -2132,7 +2111,7 @@ u8 *TObjEneSaver__ct(TObjEneSaver *arg0, void *arg1, void *arg2) {
     __ct__9TObjEnemyFP7TObject(arg0, arg1, arg2);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)TObjEneSaver__vtable;
     __ct__13TUnk_80490470Fv(((u8 *)arg0 + 0x3A4));
-    *(s32 *)((s8 *)arg0 + 0) = TObjEneSaver__class_name;
+    *(const char **)((s8 *)arg0 + 0) = TObjEneSaver__class_name;
     arg0->apply_set_data(arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     *(f32 *)((s8 *)arg0 + 0x70) = 1.0f;

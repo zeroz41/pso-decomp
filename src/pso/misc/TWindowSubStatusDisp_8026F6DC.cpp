@@ -144,10 +144,6 @@ extern const f32 lbl_805DD3E0;
 extern const f32 lbl_805DD3E4;
 extern const f32 lbl_805DD3E8;
 extern const f32 lbl_805DD3EC;
-extern const f32 lbl_805DD3F0;
-extern const f32 lbl_805DD3F4;
-extern const f32 lbl_805DD3F8;
-extern const f32 lbl_805DD3FC;
 
 void TWindowSubStatusDisp::start_hp_text_color_transition() {
     u8 *arg0 = (u8 *)this;
@@ -522,10 +518,10 @@ void TWindowSimpleStatus::draw_background(u8 *arg1) {
     r.y0 = pos.y;
     r.x1 = r.x0 + size.x;
     r.y1 = r.y0 + size.y;
-    r.u0 = lbl_805DD3F0;
-    r.v0 = lbl_805DD3F4;
-    r.u1 = lbl_805DD3F8;
-    r.v1 = lbl_805DD3FC;
+    r.u0 = 0.7421875f;
+    r.v0 = 0.3125f;
+    r.u1 = 0.8828125f;
+    r.v1 = 0.44921875f;
     apply_context_transform_to_rect(arg1, &r);
     draw_textured_quad_at_depth(&r, scale);
     TWindowSubStatusDisp::get_player();

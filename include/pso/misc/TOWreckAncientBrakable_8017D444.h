@@ -3,13 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-void TOWreckAncientBrakable__sub_8017D444(void);
-}
-
 // --- C functions defined in TOWreckAncientBrakable_8017D444.cpp ---
 extern "C" {
-void TOWreckAncientBrakable__sub_8017D444(void);
+// Called with the object (r3) by TOWreckAncientBrakable::run_task in demo mode; empty body.
+void TOWreckAncientBrakable__sub_8017D444(void *);
 }
 // --- end of C functions
 

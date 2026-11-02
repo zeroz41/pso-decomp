@@ -40,10 +40,6 @@ void refresh_status_display__9TWindowDDFv(Entry_80246DCC *);
 void draw_right_aligned_number(void);
 s32 get_window_layout_position(s32);
 extern const char lbl_8044E7BC[];
-extern const f32 lbl_805DCB60;
-extern char lbl_805DCB64[2];
-extern const f32 lbl_805DCB68;
-extern const f32 lbl_805DCB6C;
 
 void __dl__7TObjectFPv(void *);
 
@@ -103,7 +99,7 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
         e = get_array_entry__11TWindowBaseFi(self, i * 2);
         set_text_entry_string((u8 *)e, (u32)lbl_804CE2AC[i], 0);
         refresh_status_display__9TWindowDDFv(e);
-        e->f8 = lbl_805DCB60 - e->f10;
+        e->f8 = 233.0f - e->f10;
     }
     set_text_entry_string((u8 *)(get_array_entry__11TWindowBaseFi(self, 1)), str, 0x20);
     e = get_array_entry__11TWindowBaseFi(self, 3);
@@ -114,24 +110,24 @@ Win_80246DCC *TWindowChallengeResult__ct(Win_80246DCC *self, s32 str, s32 arg2, 
         text_builder_append((u8 *)lbl_8044E7BC);
     } else {
         append_padded_number(m, 2);
-        text_builder_append((u8 *)lbl_805DCB64);
+        text_builder_append((u8 *)":");
         m = arg2 / 60;
         arg2 = arg2 % 60;
         append_padded_number(m, 2);
-        text_builder_append((u8 *)lbl_805DCB64);
+        text_builder_append((u8 *)":");
         append_padded_number(arg2, 2);
     }
     set_text_entry_string((u8 *)e, (u32)(get_shared_text_buffer()), 0x20);
     e = get_array_entry__11TWindowBaseFi(self, 5);
     e->f20 = arg3;
     draw_right_aligned_number();
-    e->f8 = lbl_805DCB60 + e->f10;
+    e->f8 = 233.0f + e->f10;
     if (TCameraCtrl::get_camera_id() == 4) {
-        self->f60 = lbl_805DCB68;
-        self->f64 = lbl_805DCB68;
+        self->f60 = 0.68f;
+        self->f64 = 0.68f;
     } else {
-        self->f60 = lbl_805DCB6C;
-        self->f64 = lbl_805DCB6C;
+        self->f60 = 1.0f;
+        self->f64 = 1.0f;
     }
     return self;
 }

@@ -4,15 +4,18 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
+struct BmlResource;
+
+// The cave rocks (TORockCaveS01 .. TORockCaveBL03, one TU).
 struct TORockCave : public TObjCollidable {
     TORockCave();
     virtual ~TORockCave();
+    virtual void render();
     virtual void vfunc_14();
     virtual void vfunc_15();
-    void draw_model();
     static void free_instances();
     static void load_resources();
-    u8 unk_AC[0x4];
+    f32 unk_AC;  // with m_b0, what update_object_view_visibility culls by
     f32 m_b0;
 };
 

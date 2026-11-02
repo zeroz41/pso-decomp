@@ -59,8 +59,6 @@ void TObjEneDarkGunCenter__sub_800A0B18(void);
 u8 *get_enemy_entity(u16);
 void *get_player_by_client_id(s32 i);
 extern const f64 lbl_8043A488[];
-extern const f32 lbl_805D9970;
-extern const f32 lbl_805D9974;
 void run_task__20TObjEneDarkGunCenterFv(Gun_800A0B20 *self);
 void TObjEneDarkGunCenter__sub_800A0E7C(void);
 void TObjEneDarkGunCenter__sub_800A0E80(void);
@@ -253,7 +251,7 @@ void TObjEneDarkGunCenter::run_task() {
     switch (self->state) {
     case 0:
         if (self->m17(0x1e) != 0) {
-            id = find_nearest_visible_player(self, 0, lbl_805D9970);
+            id = find_nearest_visible_player(self, 0, 1000.0f);
             if (id != 0xFFFF) {
                 self->target = (u8 *)get_player_by_client_id(id);
                 ang = (s32)(lbl_8043A488[0] * atan2_float(*(f32 *)(self->target + 0x40) - self->f40, *(f32 *)(self->target + 0x38) - self->f38)) + 0x4000;
@@ -286,7 +284,7 @@ void TObjEneDarkGunCenter::run_task() {
         }
         break;
     case 3:
-        if (find_nearest_visible_player(self, 0, lbl_805D9970) != 0xFFFF) {
+        if (find_nearest_visible_player(self, 0, 1000.0f) != 0xFFFF) {
             ((TObjEneDarkGunCenter *)self)->hide_linked_enemies();
             fn_800A0884(self);
         } else {
@@ -318,7 +316,7 @@ void TObjEneDarkGunCenter::run_task() {
             self->f3a4 = 0x5a;
         } else {
             self->f3a4 = t - 1;
-            if ((f32)(t - 1) <= lbl_805D9974) {
+            if ((f32)(t - 1) <= -30.0f) {
                 self->f3a4 = 0x5a;
             }
         }

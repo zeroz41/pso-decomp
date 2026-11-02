@@ -21,7 +21,7 @@ s32 DVDGetCommandBlockStatus(void *);
 extern GcciStatus dvd_active_request;
 extern GcciRequest dvd_request_table[40];
 extern char dvd_default_path_buffer[0x100];
-extern volatile s32 lbl_805D7610;
+volatile s32 lbl_805D7610;
 extern s32 lbl_805D760C;
 extern s32 lbl_805D7608;
 extern void *dvd_file_driver_interface[];

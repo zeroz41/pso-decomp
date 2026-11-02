@@ -22,16 +22,12 @@ void update_palette_item_count_label(u8 *, u8 *, s32, s32, s32);
 void draw_action_palette_icon(u8 *, s32, s32);
 extern u8 lbl_8044F738[];
 extern u8 lbl_8044F740[];
-extern const f32 lbl_805DD564;
 s32 try_open__19TWindowKeyBoardSoftFii(s32 arg0, s32 arg1);
 void begin_screen_draw(s32 arg0);
 void draw_textured_quad_at_depth(f32 *q, f32 depth);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern Vec2_80275DE8 custom_equip_cursor_frame_uv_table[];
 extern s32 lbl_805D63F0;
-extern const f32 lbl_805DD550;
-extern const f32 lbl_805DD554;
-extern const f32 lbl_805DD560;
 void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 *arg1, s32 arg2, f32 farg0);
 int TWindowSubCustomEquip__sub_80275DA8(void* p);
 
@@ -53,7 +49,7 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 
         return;
     }
     t = &custom_equip_cursor_frame_uv_table[arg2 & 0xF];
-    scale = lbl_805DD550 / (lbl_805DD554 * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
+    scale = (-1.0f) / (0.299f * farg0 + *(f32 *)((s8 *)arg0 + 0x38));
     set_additive_blend();
     begin_screen_draw(1);
     TObjFish::set_global_param(lbl_805D63F0);
@@ -64,8 +60,8 @@ void draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif(u8 *arg0, Vec2_80275DE8 
     r.y1 = 72.32f + r.y0;
     r.u0 = t->x / 256.0f;
     r.v0 = t->y / 256.0f;
-    r.u1 = (lbl_805DD560 + t->x) / 256.0f;
-    r.v1 = (lbl_805DD560 + t->y) / 256.0f;
+    r.u1 = (64.0f + t->x) / 256.0f;
+    r.v1 = (64.0f + t->y) / 256.0f;
     if (try_open__19TWindowKeyBoardSoftFii((s32)arg0, (s32)&r) != 0) {
         draw_textured_quad_at_depth((f32 *)&r, scale);
     }
@@ -89,7 +85,7 @@ void TWindowSubCustomEquip::draw_cursor(u8 *arg1) {
     Win_80275F90 *arg0 = (Win_80275F90 *)this;
     Vec2_80275DE8 pos;
     ((TWindowSubCustomEquip *)arg0)->sub_80275F08(&pos);
-    ((void (*)(f32, u8 *, Vec2_80275DE8 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(lbl_805DD564, arg1, &pos, arg0->f66);
+    ((void (*)(f32, u8 *, Vec2_80275DE8 *, s32))draw_cursor_sprite__21TWindowSubCustomEquipFPvPvif)(0.8f, arg1, &pos, arg0->f66);
 }
 
 void TWindowSubCustomEquip::update_palette_slot(s32 arg1, s32 kind, s32 arg3) {

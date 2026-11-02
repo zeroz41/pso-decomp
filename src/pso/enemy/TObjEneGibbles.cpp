@@ -450,7 +450,7 @@ void vfunc_6__8TObjBaseFPsl();
 }
 struct GibblesBody { u8 pad[0x18]; u32 flags; u8 pad1C[0x10]; };
 extern "C" {
-void TObjEneGibbles__sub_802D8464(TObjEneGibbles *self);
+void vfunc_62__14TObjEneGibblesFv(TObjEneGibbles *self);
 }
 extern "C" {
 struct Gib_802DB920;
@@ -752,7 +752,7 @@ void *lbl_804E29F0[83] = {
     (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
     (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
     (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__14TObjEneGibblesFv, (void *)&vfunc_59__14TObjEneGibblesFv,
-    (void *)&vfunc_60__14TObjEneGibblesFv, (void *)&vfunc_61__14TObjEneGibblesFv, (void *)&TObjEneGibbles__sub_802D8464, (void *)&vfunc_63__14TObjEneGibblesFv,
+    (void *)&vfunc_60__14TObjEneGibblesFv, (void *)&vfunc_61__14TObjEneGibblesFv, (void *)&vfunc_62__14TObjEneGibblesFv, (void *)&vfunc_63__14TObjEneGibblesFv,
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
@@ -1102,31 +1102,31 @@ void TObjEneGibbles::update_action_state() {
     (this->actorFlags) = (s32) ((this->actorFlags) & 0xFFDFFFFF);
 }
 
-void TObjEneGibbles__sub_802D8464(TObjEneGibbles *self) {
-    if (self->mode != 8) {
-        if (self->m_374 & 0x100) {
+void TObjEneGibbles::vfunc_62() {
+    if (this->mode != 8) {
+        if (this->m_374 & 0x100) {
             s32 i;
-            self->referenceHp = self->hp;
-            self->actorFlags &= ~0x200;
-            self->m_2dc = 0;
-            for (i = 0; i < self->body_count; i++) {
-                ((GibblesBody *)self->bodies)[i].flags &= ~0x04000000;
+            this->referenceHp = this->hp;
+            this->actorFlags &= ~0x200;
+            this->m_2dc = 0;
+            for (i = 0; i < this->body_count; i++) {
+                ((GibblesBody *)this->bodies)[i].flags &= ~0x04000000;
             }
         } else {
             Vec v;
-            u32 pl = get_player_by_client_id((void *)self->m_2d4);
+            u32 pl = get_player_by_client_id((void *)this->m_2d4);
             if (pl != 0) {
                 VecCopy(&v, (const Vec *)(pl + 0x2FC));
-                subtract_vector(&v, (u8 *)self + 0x2FC);
-                angle_difference_abs(self->rotation_y, (s32) (TObjEneGibbles__data_80472798 * atan2_float(v.x, v.z)));
+                subtract_vector(&v, (u8 *)this + 0x2FC);
+                angle_difference_abs(this->rotation_y, (s32) (TObjEneGibbles__data_80472798 * atan2_float(v.x, v.z)));
             }
-            self->mode = 8;
-            self->requested_action = 8;
-            self->phase = 0;
-            self->actorFlags &= 0xF9DBFFFF;
+            this->mode = 8;
+            this->requested_action = 8;
+            this->phase = 0;
+            this->actorFlags &= 0xF9DBFFFF;
         }
     }
-    ((GibblesBody *)self->bodies)->flags |= 1;
+    ((GibblesBody *)this->bodies)->flags |= 1;
 }
 
 extern const f32 lbl_805DE818;
@@ -2522,7 +2522,7 @@ void TObjEneGibbles::load_resources() {
     (*(s32 *)&TObjEneGibbles__ai_parameters) = dispatch_shared_handler_a__6TLobbyFl(0x3D);
     Spawn_802DB7C0 s = gibbles_resource_binding_desc;
     s.a = *(s32 *)((s8 *)TObjEneGibbles__resource_bundle + 0x430);
-    TLobby::spawn_npc_enemy((s16)0x44, (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8)), (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC)), (s32)(&s), (f32)(((f32 *)lbl_804E296C)[3]), (f32)TObjEneGibbles__data_805DE7E4);
+    TLobby::spawn_npc_enemy((s16)0x44, (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8)), (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC)), &s, (f32)(((f32 *)lbl_804E296C)[3]), (f32)TObjEneGibbles__data_805DE7E4);
 }
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);

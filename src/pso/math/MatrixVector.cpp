@@ -4,18 +4,20 @@
 struct Vec_803D8D1C { f32 x, y, z; };
 
 extern "C" {
-f32 matrix_identity(void *);
 extern u8 *current_matrix;
 void GXGetProjectionv(f32 *p);
 void GXGetViewportv(f32 *vp);
 void GXProject(f32 x, f32 y, f32 z, u8 *mtx, f32 *pm, f32 *vp, f32 *sx, f32 *sy, f32 *sz);
 void project_world_to_screen(u8 *mtx, Vec_803D8D1C *pos, f32 *out);
-extern f64 lbl_805E0ED8;
 s32 scale_matrix(f32, f32, f32);
 s32 translate_matrix(f32, f32, f32);
 
 void scale_matrix_vec3(u8 *arg0, u8 *arg1) {
     scale_matrix((f32) (*(f32 *)((s8 *)arg1 + 0)), (f32) (*(f32 *)((s8 *)arg1 + 4)), (f32) (*(f32 *)((s8 *)arg1 + 8)));
+}
+
+asm f32 vector_length(const Vec *v) {
+#include "orig_asm/pso/math/MatrixVector/vector_length.inc"
 }
 
 #pragma push
@@ -29,7 +31,7 @@ void rotate_matrix_about_axis(u8 *arg0, s32 arg1, s32 arg2) {
         m = arg0;
     }
     if (arg2 != 0) {
-        PSMTXRotAxisRad((MtxP)sp8, (Vec *)arg1, lbl_805E0ED8 * arg2);
+        PSMTXRotAxisRad((MtxP)sp8, (Vec *)arg1, 9.587378008291125e-05 * arg2);
         PSMTXConcat((MtxP)m, (MtxP)sp8, (MtxP)m);
     }
 }
@@ -37,6 +39,13 @@ void rotate_matrix_about_axis(u8 *arg0, s32 arg1, s32 arg2) {
 
 void translate_matrix_vec3(u8 *arg0, u8 *arg1) {
     translate_matrix((f32) (*(f32 *)((s8 *)arg1 + 0)), (f32) (*(f32 *)((s8 *)arg1 + 4)), (f32) (*(f32 *)((s8 *)arg1 + 8)));
+}
+
+// 1.0f in .sdata, read by the assembly below (not yet split into this unit).
+extern f32 lbl_805D46AC;
+
+asm void matrix_identity(MtxP m) {
+#include "orig_asm/pso/math/MatrixVector/matrix_identity.inc"
 }
 
 #pragma push
@@ -47,7 +56,7 @@ void set_matrix_identity(u8 *arg0) {
     if (var_r3 == NULL) {
         var_r3 = current_matrix;
     }
-    matrix_identity(var_r3);
+    matrix_identity((MtxP)var_r3);
 }
 #pragma pop
 

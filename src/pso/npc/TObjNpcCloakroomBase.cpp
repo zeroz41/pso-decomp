@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/npc/TObjNpcConnoisseur.h"
 #include "pso/npc/TUnk_804A8640.h"
-#include "pso/npc/TObjNpcCloakroomBase.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
@@ -82,16 +82,9 @@ void TObjNpcCloakroomBase::load_shared_resource() {
     (*(s32 *)&TObjNpcCloakroomBase__static_instance) = var_r0;
 }
 
-void *__dt__20TObjNpcCloakroomBaseFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__20TObjNpcCloakroomBase;
-        ((TUnk_804A8640 *)arg0)->destroy_npc_female_base(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcCloakroomBase::~TObjNpcCloakroomBase() {}
+extern "C" {
 
 
 typedef char RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase_size[sizeof(RecoveredGlobal_801497E0___vt__20TObjNpcCloakroomBase) == 0x178 ? 1 : -1];

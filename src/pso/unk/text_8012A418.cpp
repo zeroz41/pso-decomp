@@ -115,8 +115,6 @@ extern "C" {
 u8 * TObjPlayer__sub_8012A3B4(void *, s32, s32);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
-extern const f32 lbl_805DAE60;
-extern const f32 lbl_805DAE64;
 s32 get_extended_state__10TObjPlayerFv(void *);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(s32, s32);
@@ -171,14 +169,14 @@ s32 TUnk_804A4948::send_srank_stat_extra(u32 arg1, s32 arg2) {
         switch (self->mode) {
         case 1: {
             t1.kind = 0xB;
-            t1.val = lbl_805DAE60;
+            t1.val = 16.0f;
             Param_8012A508 p = t1;
             obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
             break;
         }
         case 2: {
             t2.kind = 0xC;
-            t2.val = lbl_805DAE64;
+            t2.val = 32.0f;
             Param_8012A508 p = t2;
             obj->m21(f, &p, obj->recs + arg2 * 0x2C, -1, -1);
             break;

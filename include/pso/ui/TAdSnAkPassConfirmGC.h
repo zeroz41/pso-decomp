@@ -12,23 +12,18 @@ struct TAdSnAkPassConfirmGC : public TAdYesNoBaseGC {
     s32 get_confirm_state();
     virtual void render();
     virtual void run_task();
+    virtual void vfunc_6();
+    virtual void vfunc_7();
+    virtual void vfunc_10();
 };
 
 typedef char TAdSnAkPassConfirmGC_size[sizeof(TAdSnAkPassConfirmGC) == 0x4C ? 1 : -1];
 
 extern "C" {
-int TAdSnAkPassConfirmGC__vt4(void *p);
-int TAdSnAkPassConfirmGC__vt5(void *p);
-void TAdSnAkPassConfirmGC__vt8(void);
-void *__dt__20TAdSnAkPassConfirmGCFv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TAdSnAkPassConfirmGC.cpp ---
 extern "C" {
-int TAdSnAkPassConfirmGC__vt4(void *p);
-int TAdSnAkPassConfirmGC__vt5(void *p);
-void TAdSnAkPassConfirmGC__vt8(void);
-void *__dt__20TAdSnAkPassConfirmGCFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 

@@ -30,17 +30,9 @@ struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     u8 remaining[0x8];
 };
 
-struct Ent_801A70C8 { s32 a; f32 b; s32 c; };
-
-struct Ent_801A710C { u32 a; f32 b; s32 c; };
-
 extern "C" {
 s32 set_scripted_camera_pose(int, int, void *);
 extern RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 TCameraCtrl__view_state;
-extern struct Ent_801A70C8 deferred_photon_blast_hit_queue[32];
-extern s32 deferred_photon_blast_hit_count;
-extern struct Ent_801A710C photon_blast_hit_queue[32];
-extern s32 photon_blast_hit_count;
 extern u32 lbl_805D5D20;
 const f32 *get_photon_blast_entry__10TObjPlayerFi(s32);
 }
@@ -50,9 +42,9 @@ void clear_deferred_photon_blast_hits(void) {
     s32 i;
     deferred_photon_blast_hit_count = 0;
     for (i = 0; i < 32; i++) {
-        deferred_photon_blast_hit_queue[i].a = 0xFFFF;
-        deferred_photon_blast_hit_queue[i].b = 0.0f;
-        deferred_photon_blast_hit_queue[i].c = -1;
+        deferred_photon_blast_hit_queue[i].identity = 0xFFFF;
+        deferred_photon_blast_hit_queue[i].value = 0.0f;
+        deferred_photon_blast_hit_queue[i].kind = -1;
     }
 }
 
@@ -60,9 +52,9 @@ void clear_photon_blast_hits(void) {
     s32 i;
     photon_blast_hit_count = 0;
     for (i = 0; i < 32; i++) {
-        photon_blast_hit_queue[i].a = 0xFFFF;
-        photon_blast_hit_queue[i].b = 0.0f;
-        photon_blast_hit_queue[i].c = -1;
+        photon_blast_hit_queue[i].identity = 0xFFFF;
+        photon_blast_hit_queue[i].value = 0.0f;
+        photon_blast_hit_queue[i].kind = -1;
     }
 }
 
@@ -73,15 +65,15 @@ void queue_deferred_photon_blast_hit(u32 arg0, s32 arg1, s32 arg2) {
         if (arg2 == 0) {
             s32 i;
             for (i = 0; i < deferred_photon_blast_hit_count; i++) {
-                if (arg0 == (u32)deferred_photon_blast_hit_queue[i].a) {
+                if (arg0 == deferred_photon_blast_hit_queue[i].identity) {
                     found = 1;
                 }
             }
         }
         if (found == 0) {
-            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].c = arg1;
-            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].b = e[0];
-            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].a = arg0;
+            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].kind = arg1;
+            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].value = e[0];
+            deferred_photon_blast_hit_queue[deferred_photon_blast_hit_count].identity = arg0;
             lbl_805D5D20 = arg0;
             deferred_photon_blast_hit_count++;
         }
@@ -98,15 +90,15 @@ void queue_photon_blast_hit(u32 identity, s32 kind, s32 allow_duplicate, f32 sca
     entry = get_photon_blast_entry__10TObjPlayerFi(kind);
     if (allow_duplicate == 0) {
         for (i = 0; i < photon_blast_hit_count; i++) {
-            if (photon_blast_hit_queue[i].a == identity) {
+            if (photon_blast_hit_queue[i].identity == identity) {
                 duplicate = 1;
             }
         }
     }
     if (duplicate == 0) {
-        photon_blast_hit_queue[photon_blast_hit_count].c = kind;
-        photon_blast_hit_queue[photon_blast_hit_count].b = *entry;
-        photon_blast_hit_queue[photon_blast_hit_count].a = identity;
+        photon_blast_hit_queue[photon_blast_hit_count].kind = kind;
+        photon_blast_hit_queue[photon_blast_hit_count].value = *entry;
+        photon_blast_hit_queue[photon_blast_hit_count].identity = identity;
         lbl_805D5D18 = identity;
         photon_blast_hit_count = photon_blast_hit_count + 1;
     }
@@ -698,5 +690,5 @@ Group_801A7428 photon_blast_attachment_table[7] = {
 }
 
 Reg_801A7578 photon_blast_joint_origins[1];
-Ent_801A710C photon_blast_hit_queue[32];
-Ent_801A70C8 deferred_photon_blast_hit_queue[32];
+PhotonBlastHit photon_blast_hit_queue[32];
+PhotonBlastHit deferred_photon_blast_hit_queue[32];

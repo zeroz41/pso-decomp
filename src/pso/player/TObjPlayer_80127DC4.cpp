@@ -10,7 +10,6 @@ s32 __nw__15TItemHeapObjectFUl(s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
 }
 
-extern f32 lbl_805DADD8;
 
 void yamigarasu_start_timers(void *item_pro_armor) {
     s32 temp_r3;
@@ -19,7 +18,7 @@ void yamigarasu_start_timers(void *item_pro_armor) {
     if ((u32) ((TItemProArmor *)item_pro_armor)->effect_objects != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x30);
         if (temp_r3 != 0) {
-            confusion_curse_timer_ct(temp_r3, (u32)((TItemProArmor *)item_pro_armor)->effect_objects, get_owner_client__5TItemFv(item_pro_armor), 0xE10, lbl_805DADD8);
+            confusion_curse_timer_ct(temp_r3, (u32)((TItemProArmor *)item_pro_armor)->effect_objects, get_owner_client__5TItemFv(item_pro_armor), 0xE10, 0.25f);
         }
         temp_r3_2 = __nw__15TItemHeapObjectFUl(0x2C);
         if (temp_r3_2 != 0) {

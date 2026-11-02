@@ -1,21 +1,22 @@
 #include "pso/misc/TLobby_801E43E4.h"
+#include "pso/misc/TOAttackableCol.h"
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
-#include "pso/misc/TOAttackableCol.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TLobby.h"
 #include "pso/quest/TQuestThread.h"
 
+#pragma readonly_strings on
+
+CollisionBody TOAttackableCol__collision_parts = {{0.0f, 0.0f, 0.0f}, 5.0f, 0.0f, 0, 0x38003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *lbl_805D2E98 = "TOAttackableCol";
+
 void set_floor_switch_flag(u32 id, s16 floor);
 
-struct RecoveredGlobal_80157AD8_lbl_804AF9A8 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct RecoveredGlobal_80157AD8___vt__15TOAttackableCol {
     s32 value;
@@ -61,16 +62,11 @@ void *spawn_particle_effect(void *pos, s32 id);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
-extern const f32 lbl_805DB2C8;
 s32 __ct__9TObjCharaFP7TObject(void *, int);
 s32 obj_setFlags30(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_80157AD8_lbl_804AF9A8 TOAttackableCol__collision_parts;
 extern s32 __vt__15TOAttackableCol[];
-extern s32 lbl_805D2E98;
 extern s32 tl_05;
-extern const f32 lbl_805DB2CC;
-extern const f32 lbl_805DB2D0;
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1);
 s32 get_current_floor(void);
 void TOAttackableCol__sub_80157C20(void* p, s32 v);
@@ -113,7 +109,7 @@ void TOAttackableCol::init_params() {
     if ((temp_r0_2 < 0) || (temp_r0_2 >= 0x100)) {
         this->m_34c = -1;
     }
-    if (this->scale.y < lbl_805DB2C8) {
+    if (this->scale.y < 0.0f) {
         set_indexed_flags(0, 0x08000000);
     } else {
         clear_player_status_flag__14TObjCollidableFlUl(this, 0, 0x08000000);
@@ -138,7 +134,7 @@ void handle_6x91_update_attackable_col_state(Msg_801575AC *msg) {
         if (msg->room != 0xFFFF && msg->room >= 0x4000) {
             col = (TOAttackableCol *)find_entity_by_id(msg->room);
             if (col != NULL) {
-                if (check_value_equals__13TUnk_804B6C24Fl(col, lbl_805D2E98) != 0) {
+                if (check_value_equals__13TUnk_804B6C24Fl(col, (s32)lbl_805D2E98) != 0) {
                     SetEntry_80157454 saved;
                     switch (msg->state) {
                     case 0:
@@ -244,7 +240,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
     temp_r0 = this->m_34c;
     if (((temp_r0 >= 0) && (temp_r0 < 0x100)) && (is_current_floor_switch_set((int) ((u16) temp_r0)) == 0))
     {
-      return lbl_805DB2C8;
+      return 0.0f;
     }
     this->m_33c = (s32) ((this->m_33c) - 1);
     if (((s32)this->m_33c) <= 0)
@@ -282,7 +278,7 @@ f32 TOAttackableCol::apply_hit(s32 arg1) {
   block_26:
   spawn_particle_effect(((u8 *)&this->position), 0x1D0);
   spawn_particle_effect(((u8 *)&this->position), 1);
-  return lbl_805DB2C8;
+  return 0.0f;
 }
 
 void TOAttackableCol::release() { set_flag8(); queue_destruction__7TObjectFv(this); }
@@ -326,34 +322,27 @@ void *TOAttackableCol::create(void *arg0) {
     return o;
 }
 
-void *__dt__15TOAttackableColFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TOAttackableCol;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if ((s16) arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TOAttackableCol::~TOAttackableCol() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
-typedef char RecoveredGlobal_80157AD8_lbl_804AF9A8_size[sizeof(RecoveredGlobal_80157AD8_lbl_804AF9A8) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_80157AD8___vt__15TOAttackableCol_size[sizeof(RecoveredGlobal_80157AD8___vt__15TOAttackableCol) == 0x13C ? 1 : -1];
 u8 *TOAttackableCol__ct(u8 *arg0, s32 arg1) {
     __ct__9TObjCharaFP7TObject(arg0, tl_05);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_80157AD8___vt__15TOAttackableCol *)&__vt__15TOAttackableCol).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D2E98;
+    ((TObject *)arg0)->m_name = lbl_805D2E98;
     ((TOAttackableCol *)(arg0))->apply_object_set_data((void *)arg1);
     ((TObjChara *)arg0)->calc_attach_pos();
     obj_setFlags30(arg0, 0x60000000);
-    init_collision_body_parts(arg0, &TOAttackableCol__collision_parts.value, 1);
+    init_collision_body_parts(arg0, &TOAttackableCol__collision_parts, 1);
     ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x718);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TOAttackableCol *)arg0)->mode = 0;
-    *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DB2CC;
-    ((TOAttackableCol *)arg0)->m_338 = (f32) lbl_805DB2D0;
+    *(f32 *)((s8 *)arg0 + 0x334) = 500.0f;
+    ((TOAttackableCol *)arg0)->m_338 = 50.0f;
     ((TOAttackableCol *)arg0)->init_params();
     return arg0;
 }

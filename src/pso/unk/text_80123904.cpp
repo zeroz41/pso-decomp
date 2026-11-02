@@ -12,12 +12,12 @@ extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
-extern RecoveredGlobal_80123904_lbl_804A1B40 lbl_804A1B40;
+extern RecoveredGlobal_80123904_lbl_804A1B40 __vt__13TUnk_804A1B40;
 
 typedef char RecoveredGlobal_80123904_lbl_804A1B40_size[sizeof(RecoveredGlobal_80123904_lbl_804A1B40) == 0xF8 ? 1 : -1];
 u8 *TObjPlayer__sub_80123904(u8 *player, u8 *arg1, s32 _w2) {
     __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
-    *(s32 **)((s8 *)player + 0x18) = &lbl_804A1B40.value;
+    *(s32 **)((s8 *)player + 0x18) = &__vt__13TUnk_804A1B40.value;
     ((TItemWeapon *)player)->set_weapon_flags(0x800201);
     return player;
 }

@@ -1,4 +1,5 @@
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/TItemEffEquip.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/TItemEffEquip.h"
 #include "pso/item/TUnk_8049F038.h"
@@ -18,33 +19,15 @@ extern "C" {
 extern void *__vt__13TItemEffEquip[];
 void __dt__7TObjectFv(void *, s16);
 s32 __dl__7TObjectFPv(void *);
-void run_task__13TItemEffEquipFv(Equip_Self *self) {
-    if (((TObject *)((TObject*)self->m_1c))->all_parents_unqueued_for_destruction() == 0) {
-        self->m_1c = NULL;
-        queue_destruction__7TObjectFv((TObject*)self);
-    }
-}
 
-void *__dt__13TItemEffEquipFv(Equip_Self *self, s16 arg1) {
-    if (self != NULL) {
-        self->vt = __vt__13TItemEffEquip;
-        TParticleCtrl::release(self->m_20);
-        __dt__7TObjectFv(self, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
 }
+extern "C" {
 }
 #include "types.h"
 #include "pso/unk/text_801036CC.h"
 
 extern "C" {
 
-void *destroy__13TUnk_8049F038Fs(void *arg0, s16 arg1);
-void run_task__13TUnk_8049F038Fv(u8 *arg0);
-u8 *get_center__13TUnk_8049F038Fv(u8 *arg0);
 s32 set_entity_id__8TObjBaseFUs(void *, s32);
 void *get_player_by_client_id(s32 i);
 struct Obj_80108C90 {
@@ -60,6 +43,7 @@ void __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 lbl_8043E1A0[];
 
 #include "pso/TItemAttacker.h"
+#pragma defer_codegen on
 
 extern "C" {
 
@@ -73,38 +57,8 @@ extern s32 TItemEffEquip__class_name;
 Obj_80108C90 *__ct__13TUnk_8049F038FP7TObjectsl(Obj_80108C90 *self, void *parent, s16 a, s32 b);
 
 #define self ((Equip_80108A20 *)arg0)
-void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5) {
-    void *mem;
-
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    self->vt = __vt__13TItemEffEquip;
-    self->x0 = TItemEffEquip__class_name;
-    disallow_rendering__7TObjectFv((TObject *)arg0);
-    mem = __nw__7TObjectFUl(0xE0);
-    if (mem != NULL) {
-        mem = ((void *(*)(void *, void *, void *, void *))__ct__13TUnk_8049F038FP7TObjectsl)(mem, arg0, arg2, arg3);
-    }
-    self->src = mem;
-    self->x20 = 0;
-    self->x24 = arg5;
-    if (self->src != NULL) {
-        ((TItemEffEquip *)arg0)->spawn_equip_particle_effect((s32)arg4);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)TItemEffEquip__sub_801088F8, 0xA);
-        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)retire_equipment_effect, 0x14);
-    } else {
-        queue_destruction__7TObjectFv((TObject *)arg0);
-    }
-    return arg0;
-}
 #undef self
 
-void TItemEffEquip::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
-    void *o;
-    o = __nw__7TObjectFUl(0x28);
-    if (o != NULL) {
-        TItemEffEquip__ct(o, arg0, arg1, arg2, arg3, arg4);
-    }
-}
 struct VBase0x18_80108b5c { char pad[0x18]; };
 struct VObj80108B5C_80108b5c : VBase0x18_80108b5c {
     virtual void m0();
@@ -173,16 +127,6 @@ struct VObj80108B5C_80108b5c : VBase0x18_80108b5c {
     virtual void m63(s32, void *);
 };
 
-void *TUnk_8049F038::get_center() {
-    u8 *arg0 = (u8 *)this;
-    u8 *player;
-
-    player = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0xAC));
-    if (player != NULL) {
-        ((VObj80108B5C_80108b5c *)player)->m63(this->m_b0, (u8 *)&this->position);
-    }
-    return &this->position;
-}
 
 struct VBase0x18_2_80108bb0 { char pad[0x18]; };
 struct VObj80108BB0_80108bb0 : VBase0x18_2_80108bb0 {
@@ -252,36 +196,16 @@ struct VObj80108BB0_80108bb0 : VBase0x18_2_80108bb0 {
     virtual void m63(s32, void *);
 };
 
-void TUnk_8049F038::run_task() {
-    u8 *arg0 = (u8 *)this;
-    u8 *player;
 
-    player = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0xAC));
-    if (player != NULL) {
-        ((VObj80108BB0_80108bb0 *)player)->m63(this->m_b0, (u8 *)&this->position);
-    }
-}
-
-extern void *__vt__13TUnk_8049F038[];
-
-void *TUnk_8049F038::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = (s32 *)__vt__13TUnk_8049F038;
-        if ((u32) this->bodies != 0U) {
-            unregister_object_by_id();
-            clear_collision_bodies();
-            push_free_entity_id(get_entity_id(this));
-            set_entity_id__8TObjBaseFUs(this, 0xFFFF);
-        }
-        __dt__14TObjCollidableFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
-}
 
 }
+}
+
+
+extern "C" void run_task__13TItemEffEquipFv(Equip_Self *self);
+extern "C" void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
+
+extern "C" {
 TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
@@ -293,30 +217,82 @@ TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(par
     ((TObjPlayer *)this)->register_object_by_id();
     disallow_rendering__7TObjectFv((TObject *)this);
 }
-extern "C" {
 
+TUnk_8049F038::~TUnk_8049F038() {
+    if ((u32) this->bodies != 0U) {
+        unregister_object_by_id();
+        clear_collision_bodies();
+        push_free_entity_id(get_entity_id(this));
+        set_entity_id__8TObjBaseFUs(this, 0xFFFF);
+    }
 }
 
-void render__7TObjectFv(void);
-void render_shadows__7TObjectFv(void);
-void vfunc_6__8TObjBaseFPsl(void);
-void apply_object_set_data__8TObjBaseFPv(void);
-void reset_motion_fields__14TObjCollidableFv(void *);
-void update_object_view_visibility__8TObjBaseFff(void);
-void classify_actor_view_detail__8TObjBaseFfff(void);
-void get_name__8TObjBaseFv(void);
-void interact__14TObjCollidableFl(void);
+void TUnk_8049F038::run_task() {
+    u8 *arg0 = (u8 *)this;
+    u8 *player;
 
-void *__vt__13TItemEffEquip[6] = {
-    0, 0, (void *)__dt__13TItemEffEquipFv, (void *)run_task__13TItemEffEquipFv,
-    (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
-};
-void *__vt__13TUnk_8049F038[14] = {
-    0, 0, (void *)destroy__13TUnk_8049F038Fs, (void *)run_task__13TUnk_8049F038Fv,
-    (void *)render__7TObjectFv, (void *)render_shadows__7TObjectFv,
-    (void *)vfunc_6__8TObjBaseFPsl, (void *)apply_object_set_data__8TObjBaseFPv,
-    (void *)reset_motion_fields__14TObjCollidableFv, (void *)get_center__13TUnk_8049F038Fv,
-    (void *)update_object_view_visibility__8TObjBaseFff, (void *)classify_actor_view_detail__8TObjBaseFfff,
-    (void *)get_name__8TObjBaseFv, (void *)interact__14TObjCollidableFl,
-};
+    player = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0xAC));
+    if (player != NULL) {
+        ((VObj80108BB0_80108bb0 *)player)->m63(this->m_b0, (u8 *)&this->position);
+    }
+}
+
+void *TUnk_8049F038::get_center() {
+    u8 *arg0 = (u8 *)this;
+    u8 *player;
+
+    player = (u8 *)get_player_by_client_id(*(u16 *)((s8 *)arg0 + 0xAC));
+    if (player != NULL) {
+        ((VObj80108B5C_80108b5c *)player)->m63(this->m_b0, (u8 *)&this->position);
+    }
+    return &this->position;
+}
+
+void TItemEffEquip::create(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4) {
+    void *o;
+    o = __nw__7TObjectFUl(0x28);
+    if (o != NULL) {
+        TItemEffEquip__ct(o, arg0, arg1, arg2, arg3, arg4);
+    }
+}
+
+#define self ((Equip_80108A20 *)arg0)
+void *TItemEffEquip__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5) {
+    void *mem;
+
+    __ct__7TObjectFP7TObject(arg0, arg1);
+    self->vt = __vt__13TItemEffEquip;
+    self->x0 = TItemEffEquip__class_name;
+    disallow_rendering__7TObjectFv((TObject *)arg0);
+    mem = __nw__7TObjectFUl(0xE0);
+    if (mem != NULL) {
+        mem = ((void *(*)(void *, void *, void *, void *))__ct__13TUnk_8049F038FP7TObjectsl)(mem, arg0, arg2, arg3);
+    }
+    self->src = mem;
+    self->x20 = 0;
+    self->x24 = arg5;
+    if (self->src != NULL) {
+        ((TItemEffEquip *)arg0)->spawn_equip_particle_effect((s32)arg4);
+        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)TItemEffEquip__sub_801088F8, 0xA);
+        TItemAttacker::spawn_item_timer((TObject *)arg0, (ItemTimerCallback)retire_equipment_effect, 0x14);
+    } else {
+        queue_destruction__7TObjectFv((TObject *)arg0);
+    }
+    return arg0;
+}
+
+}
+#undef self
+TItemEffEquip::~TItemEffEquip() {
+    TParticleCtrl::release(((Equip_Self *)this)->m_20);
+}
+
+extern "C" {
+void run_task__13TItemEffEquipFv(Equip_Self *self) {
+    if (((TObject *)((TObject*)self->m_1c))->all_parents_unqueued_for_destruction() == 0) {
+        self->m_1c = NULL;
+        queue_destruction__7TObjectFv((TObject*)self);
+    }
+}
+
 }

@@ -13,6 +13,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
+#include "pso/system/ControllerInputState.h"
 
 struct Vec2_8007DD28 { f32 x; f32 y; f32 z; };
 
@@ -249,6 +250,34 @@ void draw_snapshot_capture_overlay(void) {
     draw_textured_quad_at_depth((f32 *)&q, 0.5f);
     TWindowSubStatusDisp::get_player();
     restore_saved_depth_alpha_state();
+}
+
+/* Moves the capture frame with the C stick and keeps it on screen. */
+void TObjBoss2Tunnel__sub_8007DB80(void) {
+    s16 stick_x = controller_physical_port_bank.controllers[3].cstick_x;
+    s16 stick_y = controller_physical_port_bank.controllers[3].cstick_y;
+    f32 magnitude = controller_physical_port_bank.controllers[3].cstick_magnitude;
+    if (magnitude > 0.2f) {
+        f32 speed = 0.3f * magnitude;
+        s16 dx = stick_x * speed;
+        s16 dy = stick_y * speed;
+        dx = dx + dx % 4;
+        dy = dy + dy % 4;
+        TObjBoss2Tunnel__data_8048DF2C.x += dx;
+        TObjBoss2Tunnel__data_8048DF2C.y += dy;
+    }
+    if (TObjBoss2Tunnel__data_8048DF2C.x - 128.0f <= 0.0f) {
+        TObjBoss2Tunnel__data_8048DF2C.x = 128.0f;
+    }
+    if (128.0f + TObjBoss2Tunnel__data_8048DF2C.x >= 640.0f) {
+        TObjBoss2Tunnel__data_8048DF2C.x = 512.0f;
+    }
+    if (TObjBoss2Tunnel__data_8048DF2C.y - 96.0f <= 0.0f) {
+        TObjBoss2Tunnel__data_8048DF2C.y = 96.0f;
+    }
+    if (96.0f + TObjBoss2Tunnel__data_8048DF2C.y >= 480.0f) {
+        TObjBoss2Tunnel__data_8048DF2C.y = 384.0f;
+    }
 }
 
 void TObjBoss2Tunnel__sub_8007DD24(void) {  }

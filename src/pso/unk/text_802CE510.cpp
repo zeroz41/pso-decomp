@@ -25,7 +25,6 @@ struct RecoveredFields_802CE510_temp_r3
 
 extern "C" {
 void *spawn_particle_effect(void *pos, s32 id);
-extern const f32 lbl_805DE6E8;
 extern const f32 lbl_805DE6EC;
 extern const f32 lbl_805DE6F0;
 extern const f32 lbl_805DE6F4;
@@ -43,7 +42,7 @@ void fn_802CE510(int arg0) {
   unsigned int temp_r3_4;
   u8 *temp_r3;
   VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0 + 0x38));
-  stack.spC += lbl_805DE6E8;
+  stack.spC += 15.0f;
   temp_r3 = (u8 *) csnVectorUnder((Vec *)&stack.sp8, (u32 *)(arg0 + 0x120), 0x15);
   if (temp_r3 != 0)
   {
@@ -56,7 +55,7 @@ void fn_802CE510(int arg0) {
     {
       play_persistent_sound((s32)((void *) ((TObjEnemy *)((void *) arg0))->remap_sound_for_area((s32)(0x3B211))), arg0, (arg0 + 0x38), 0, 0);
     }
-    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6E8)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
+    if (((((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6EC)) != 0) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) 15.0f)) != 0)) || (((TObjMotion *)arg0)->is_passing_frame((f32)((f32) lbl_805DE6F0)) != 0))
     {
       if (temp_r31 != 0)
       {

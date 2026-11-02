@@ -62,7 +62,6 @@ void text_builder_reset();
 extern u8 help_item_tech_disk_window_layout_table[];
 extern V3_802532E8 item_help_tech_disk_stats_callback;
 extern const f32 TWindowHelpItem__data_805DCDE4;
-extern const f32 lbl_805DCDE8;
 extern const f32 lbl_805DCDEC;
 
 void TWindowHelpItem__sub_802531A0(void) {  }
@@ -133,7 +132,7 @@ void TWindowHelpItem::update_tech_disk_details() {
         e6 = get_array_entry__11TWindowBaseFi(this, 6);
         check_equip_requirements(player, *(void **)(((u8 *)this) + 0x68), &sp8);
         if (sp8 & 1) {
-            set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, lbl_805DCDE8);
+            set_sprite_uv_from_pixels(e1, TWindowHelpItem__data_805DCDE4, 152.0f);
             ((TWindowHelpItem *)e2)->set_flag0_bit2();
             ((TWindowHelpItem *)e3)->set_flag0_bit2();
             ((TWindowHelpItem *)e4)->set_flag0_bit2();

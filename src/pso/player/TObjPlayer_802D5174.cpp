@@ -341,7 +341,7 @@ void TUnk_804E21F8::reserved_53() {
     }
 }
 
-void TUnk_804E21F8::vfunc_17(s32 x) {
+void TUnk_804E21F8::activate_effect(s32 x) {
     O_802D576C *self = (O_802D576C *)this;
     if (x < 5) self->v = x;
 }

@@ -24,7 +24,6 @@ extern TObject *tl_fade;
 extern TObject *tl_window;
 extern TObject *tl_01;
 extern const char *TEnding__class_name;
-extern const f32 lbl_805D9578;
 }
 
 void TEnding::run_task() {
@@ -39,7 +38,7 @@ void TEnding::run_task() {
             phase = 1;
             return;
         }
-        f32 duration = lbl_805D9578 * (f32)rate;
+        f32 duration = 2.0f * (f32)rate;
         if (ending_frame_counter > (u32)((rate * 139) - __cvt_fp2unsigned(duration)))
             TAdRicoRingCtrl__sub_8001B4A0(ring_controller, duration);
         return;
@@ -88,7 +87,7 @@ TEnding::TEnding() : TObject(tl_window) {
     if (ring != NULL) ring = (TAdRicoRingCtrl *)TAdRicoRingCtrl__ct((TAdRicoRingCtrl *)((u8 *)ring), (s32)this);
     ring_controller = ring;
     if (ring_controller != NULL)
-        ((TAdRicoRingCtrl *)ring_controller)->start_fade_all(lbl_805D9578 * (f32)timing_rate);
+        ((TAdRicoRingCtrl *)ring_controller)->start_fade_all(2.0f * (f32)timing_rate);
     void *text = TObject::operator new(0x197C);
     if (text != NULL) __ct__10TAdEndTextFv(text, this);
 }

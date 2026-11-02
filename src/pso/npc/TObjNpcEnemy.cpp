@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/math/MatrixVector.h"
@@ -8,10 +9,14 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+
+#pragma readonly_strings on
+
+CollisionBody TObjNpcEnemy__collision_body_parts = {{0.0f, 7.5f, 0.0f}, 7.0f, 0.0f, 0, 0x30203, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *TObjNpcEnemy_class_name = "TObjNpcEnemy";
 
 struct RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 {
     s32 value;
@@ -28,11 +33,6 @@ struct RecoveredGlobal_802D78A0_lbl_804A7CDC {
     u8 remaining[0x44];
 };
 
-struct RecoveredGlobal_802D78A0_lbl_804E2680 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
 struct RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy {
     s32 value;
     u8 remaining[0x178];
@@ -46,9 +46,7 @@ s32 TObjNpcBase__ct(void *);
 s32 init_collision_body_parts(void *, void *, int);
 extern RecoveredGlobal_802D78A0_lbl_804A7CB8 npc_default_battle_stats;
 extern RecoveredGlobal_802D78A0_lbl_804A7CDC npc_movement_parameters;
-extern RecoveredGlobal_802D78A0_lbl_804E2680 TObjNpcEnemy__collision_body_parts;
 extern s32 __vt__12TObjNpcEnemy[];
-extern s32 TObjNpcEnemy_class_name;
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 draw_debug_info__11TObjNpcBaseFv();
 void debug_printf_at(s32, const char *, ...);
@@ -129,7 +127,7 @@ s32 TObjNpcEnemy::sub_802D7444() {
     return (**(s16 * *)&this->m_3b8 != 0x3F) ? 1 : 0;
 }
 
-void TObjNpcEnemy::vfunc_88() {
+void TObjNpcEnemy::request_action(s32) {
     void *temp_r4;
 
     temp_r4 = *(void * *)&this->m_3b8;
@@ -242,7 +240,7 @@ void TObjNpcEnemy::render() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r4;
 
-    if (((void *) *(void * *)&this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(*(f32 *)&this->unk_398, this->m_39c) != 0) && ((s32) *(s32 *)&this->m_390 == 1)) {
+    if (((void *) *(void * *)&this->m_3b8 != NULL) && (((NpcV_802d7748_802D745C *)arg0)->m8(this->m_398, this->m_39c) != 0) && ((s32) *(s32 *)&this->m_390 == 1)) {
         select_actor_lighting((s32)arg0);
         if (((TObjNpcEnemy *)arg0)->sub_802D7444() != 0) {
             model_render_flags |= 1;
@@ -263,33 +261,25 @@ void TObjNpcEnemy::render() {
     }
 }
 
-void *__dt__12TObjNpcEnemyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TObjNpcEnemy;
-        __dt__11TObjNpcBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcEnemy::~TObjNpcEnemy() {}
+extern "C" {
 
 extern void *tl_04;
 
 typedef char RecoveredGlobal_802D78A0_lbl_804A7CB8_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CB8) == 0x24 ? 1 : -1];
 typedef char RecoveredGlobal_802D78A0_lbl_804A7CDC_size[sizeof(RecoveredGlobal_802D78A0_lbl_804A7CDC) == 0x48 ? 1 : -1];
-typedef char RecoveredGlobal_802D78A0_lbl_804E2680_size[sizeof(RecoveredGlobal_802D78A0_lbl_804E2680) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy_size[sizeof(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy) == 0x17C ? 1 : -1];
 u8 *TObjNpcEnemy__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TObjNpcBase__ct(arg0);
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802D78A0___vt__12TObjNpcEnemy *)&__vt__12TObjNpcEnemy).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjNpcEnemy_class_name;
+    ((TObject *)arg0)->m_name = TObjNpcEnemy_class_name;
     ((TObjNpcEnemy *)(arg0))->apply_set_data((void *)arg2);
     ((TObjPlayer *)arg0)->init_position_vectors();
     ((TObjNpcEnemy *)(arg0))->apply_set_params(0, 1);
     ((TObjNpcEnemy *)arg0)->movementParameters = &npc_movement_parameters.value;
     ((TObjChara *)arg0)->set_motion_params(&npc_default_battle_stats.value);
-    init_collision_body_parts(arg0, &TObjNpcEnemy__collision_body_parts.value, 1);
+    init_collision_body_parts(arg0, &TObjNpcEnemy__collision_body_parts, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjEnemy *)arg0)->update_prev_position();
     ((TBoss3VoloptHiraisin *)arg0)->copy_position();

@@ -18,7 +18,7 @@ struct TechniqueHitRecipient {
 };
 struct TechniqueParticleEmitter;
 struct TechniqueEmitterSourceRow { u32 entry; u32 flags; f32 scale; };
-struct TechniqueEmitterSourceTable { TechniqueEmitterSourceRow* rows; u32 count; };
+struct TechniqueEmitterSourceTable { const TechniqueEmitterSourceRow *rows; u32 count; };
 
 struct TTecBarta : public TUnk_804CCC68 {
     virtual ~TTecBarta();

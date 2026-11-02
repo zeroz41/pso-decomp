@@ -450,8 +450,6 @@ extern u8 lbl_80515BA0[];
 extern s32 game_difficulty_selection;
 extern Mgr_801361E8 *game_protocol_instance;
 extern s32 quest_download_active;
-extern const f32 lbl_805DB0A8;
-extern const f32 lbl_805DB0AC;
 struct VBase_18_9029aa { char pad[0x18]; };
 struct VObj_18_9029aa : VBase_18_9029aa {
     virtual void m0();
@@ -573,7 +571,7 @@ void update_idle_timeout__6TLobbyFPv(u8 *object) {
                 sprintf(lobby_idle_timeout_text_buffer, get_seq_phase__6TLobbyFPv(0x1F), t->limit - elapsed);
                 (*(Obj_80134F9C * *)&TLobby__idle_timeout_object) = (Obj_80134F9C *)create__14TWindowMessageFPvll(get_window_layout_position(0xCA), &tmp, 1);
                 append_line__14TWindowMessageFii((void *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object), lobby_idle_timeout_text_buffer, 0x80);
-                ((TWindowBase *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->set_depth(lbl_805DB0A8);
+                ((TWindowBase *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->set_depth(30000.0f);
                 ((TWindowMessage *)(*(Obj_80134F9C * *)&TLobby__idle_timeout_object))->complete_reveal();
             }
         }
@@ -989,7 +987,7 @@ void TLobby__sub_80135DE4(void *msg) {
         Pair_80135E7C p = lbl_8043EE20[0];
         TLobby__card_list_window = create__14TWindowMessageFPvll(get_window_layout_position(0xC9), &p, 1);
         append_line__14TWindowMessageFii(TLobby__card_list_window, (char *)msg + 4, 3);
-        ((TWindowBase *)TLobby__card_list_window)->set_depth(lbl_805DB0AC);
+        ((TWindowBase *)TLobby__card_list_window)->set_depth(37000.0f);
     }
 }
 }

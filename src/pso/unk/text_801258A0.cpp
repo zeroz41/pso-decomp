@@ -18,7 +18,6 @@ u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern RecoveredGlobal_801258A0_lbl_804A2564 lbl_804A2564;
 extern const f32 lbl_805DAD50;
 extern const f32 lbl_805DAD58;
-extern const f32 lbl_805DAD60;
 
 typedef char RecoveredGlobal_801258A0_lbl_804A2564_size[sizeof(RecoveredGlobal_801258A0_lbl_804A2564) == 0xFC ? 1 : -1];
 u8 *construct_panzer_faust(u8 *arg0, u8 *arg1, s32 _w2) {
@@ -34,7 +33,7 @@ u8 *construct_panzer_faust(u8 *arg0, u8 *arg1, s32 _w2) {
         *(f32 *)((s8 *)arg0 + 0x238) = (f32) lbl_805DAD50;
         ((TUnk_804A2564 *)arg0)->m_23c = 0x80;
     } else {
-        *(f32 *)((s8 *)arg0 + 0x238) = (f32) lbl_805DAD60;
+        *(f32 *)((s8 *)arg0 + 0x238) = 2.5f;
         ((TUnk_804A2564 *)arg0)->m_23c = 0;
     }
     return arg0;

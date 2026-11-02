@@ -18,15 +18,12 @@ u32 create__19TObjBoss5PillarCtrlFv(void *);
 s32 is_split_screen();
 extern void *__vt__13TObjBoss5Ctrl[];
 extern s32 lbl_805D2828;
-extern const f32 lbl_805D8F10;
-extern const f32 lbl_805D8F14;
-extern const f32 lbl_805D8F18;
 }
 
 void TObjBoss5Ctrl::run_task() {
     if ((*(s16 *)((s8 *)this + 0x2C))-- <= 0) {
         play_sound_effect(0x40033215, 0, 0, 0);
-        *(s16 *)((s8 *)this + 0x2C) = (s16) (lbl_805D8F14 * (lbl_805D8F18 * (f32) rand()) + lbl_805D8F10);
+        *(s16 *)((s8 *)this + 0x2C) = (s16) (60.0f * (3.0517578e-05f * (f32) rand()) + 90.0f);
     }
 }
 
@@ -50,9 +47,9 @@ void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl) {
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x24) = 0U;
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x28) = 0U;
     temp_f3 = (f32) rand();
-    temp_f2 = lbl_805D8F18 * temp_f3;
-    *(s16 *)((s8 *)boss5_pillar_ctrl + 0x2C) = (s16) (lbl_805D8F14 * temp_f2 + lbl_805D8F10);
-    if (is_room_enemy_set_cleared(get_current_floor(lbl_805D8F14, temp_f2, temp_f3), 1) == 0) {
+    temp_f2 = 3.0517578e-05f * temp_f3;
+    *(s16 *)((s8 *)boss5_pillar_ctrl + 0x2C) = (s16) (60.0f * temp_f2 + 90.0f);
+    if (is_room_enemy_set_cleared(get_current_floor(60.0f, temp_f2, temp_f3), 1) == 0) {
         if (is_split_screen() == 0) {
             if ((u32) *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) == 0U) {
                 *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = create__19TObjBoss5FloorGrassFv();

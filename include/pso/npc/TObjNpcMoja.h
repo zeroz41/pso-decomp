@@ -6,7 +6,7 @@
 
 struct TObjNpcMoja : public TObjNpcBase {
     virtual ~TObjNpcMoja();
-    virtual void vfunc_88();
+    virtual void request_action(s32);
     static void *create(void *arg0);
 };
 

@@ -26,7 +26,6 @@ s32 isV2Mode__12TBoss1DragonFv();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8002B744___vt__16TBoss1DragonDemo __vt__16TBoss1DragonDemo;
 extern s32 TBoss1DragonDemo__name;
-extern const f32 lbl_805D8128;
 
 void TBoss1DragonDemo__sub_8002B68C(void) {  }
 void TBoss1DragonDemo__sub_8002B690(void) {  }
@@ -53,7 +52,7 @@ u8 *__ct__16TBoss1DragonDemoFv(u8 *object, s32 arg1, s32 arg2, f32 farg0) {
     *(s32 **)((s8 *)object + 0x18) = &__vt__16TBoss1DragonDemo.value;
     *(s32 *)((s8 *)object + 0) = TBoss1DragonDemo__name;
     *(f32 *)((s8 *)object + 0x1C) = farg0;
-    *(f32 *)((s8 *)object + 0x20) = lbl_805D8128;
+    *(f32 *)((s8 *)object + 0x20) = 0.0f;
     *(s32 *)((s8 *)object + 0x24) = arg2;
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:

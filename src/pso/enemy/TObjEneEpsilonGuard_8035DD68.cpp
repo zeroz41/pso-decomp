@@ -1122,7 +1122,6 @@ void vfunc_63__19TObjEneEpsilonGuardFv(void);
 void *__nw__7TObjectFUl(int);
 f64 atan2_float(f32, f32, f32);
 
-extern const f64 lbl_80479C88;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void vfunc_103__9TObjEneDDFPUc();
@@ -1262,7 +1261,7 @@ s32 TObjEneEpsilonGuard::calc_angle_to_target() {
 
     this->enemy_copy_target_destination();
     temp_f3 = *(f32 *)((s8 *)((u8 *)this) + 0x38);
-    return (s32) (lbl_80479C88 * atan2_float((f32) (temp_f3 - *(f32 *)((s8 *)((u8 *)this) + 0x394)), (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x40) - *(f32 *)((s8 *)((u8 *)this) + 0x39C)), temp_f3));
+    return (s32) (10430.38043493439 * atan2_float((f32) (temp_f3 - *(f32 *)((s8 *)((u8 *)this) + 0x394)), (f32) (*(f32 *)((s8 *)((u8 *)this) + 0x40) - *(f32 *)((s8 *)((u8 *)this) + 0x39C)), temp_f3));
 }
 
 #pragma push

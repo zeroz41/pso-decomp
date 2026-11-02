@@ -49,7 +49,6 @@ s32 realloc_buffer__17TWindowSubComCardFv(s32);
 s32 check_room_seq_4__16TAdChrSelASlotGCFl(s32, s32);
 s32 get_main_phase();
 s32 draw_card_icon__17TWindowSubComCardFll(s32, s32, s32);
-extern const f32 TWindowSubShortMail__data_805DD6C8;
 s32 fn_8007B83C(s32);
 void *TLobby__sub_8022598C(int a0);
 u32 get_lobby_id__6TLobbyFPv();
@@ -61,7 +60,6 @@ extern s32 lbl_8044FACC[];
 s32 create__19TWindowMessageYesNoFPvPvPvPv(void *, s32, s32, s32);
 s32 free_member__17TWindowSubComCardFv(s32, s32);
 void open_yes_no_prompt(TChCrTagPlBack *arg0, u32 arg1, s32 arg2, s32 arg3, f32 farg0);
-extern const f32 lbl_805DD6D0;
 void TWindowSubShortMail__sub_8027E620(void* p);
 s32 TKeyBoardControl__ct(s32, s32, s32, s32, s32, s32);
 s32 get_shared_text_buffer();
@@ -113,7 +111,7 @@ s32 TWindowSubShortMail::open_delete_confirm_dialog() {
     s32 temp_r29;
 
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x104)), (s32)(get_window_layout_position(0xa3)), (f32)TWindowSubShortMail__data_805DD6C8);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x104)), (s32)(get_window_layout_position(0xa3)), 206.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 0);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
@@ -123,7 +121,7 @@ s32 TWindowSubShortMail::open_confirm_dialog() {
     s32 temp_r29;
 
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(this, this->m_20, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3e)), (s32)(get_window_layout_position(0x9f)), (f32)TWindowSubShortMail__data_805DD6C8);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3e)), (s32)(get_window_layout_position(0x9f)), 206.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 0);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
@@ -141,11 +139,10 @@ s32 open_menu__19TWindowSubShortMailFv(void) {
         ((TWindowSubComCardList *)temp_r31)->set_selected_index(1);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(TWindowSubShortMail__data_805DD6C8);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(206.0f);
     return temp_r31;
 }
 
-extern const f32 lbl_805DD6CC;
 
 s32 create_window__19TWindowSubShortMailFv(void) {
     s32 window_layout_position;
@@ -162,7 +159,7 @@ s32 create_window__19TWindowSubShortMailFv(void) {
     }
     ((TAdChrSelASlotGC *)temp_r31)->set_flag_40();
     TQuestThread::set_status_flag_80((void *)temp_r31);
-    ((TWindowSubComCardList *)temp_r31)->set_scroll_target(TWindowSubShortMail__data_805DD6C8, lbl_805DD6CC);
+    ((TWindowSubComCardList *)temp_r31)->set_scroll_target(206.0f, 140.0f);
     return temp_r31;
 }
 
@@ -175,14 +172,14 @@ s32 create_confirm_menu_window__19TWindowSubShortMailFv(void) {
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) (get_message_10__20TWindowSubStatusDispFl(0x107))), 6, 0x16);
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)((int) (get_message_10__20TWindowSubStatusDispFl(0x108))), 6, 0x18);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(TWindowSubShortMail__data_805DD6C8);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(206.0f);
     return temp_r31;
 }
 
 s32 open_confirm_prompt__19TWindowSubShortMailFPvi(void *window_message_yes_no, s32 arg1) {
     s32 temp_r29;
     temp_r29 = create__19TWindowMessageYesNoFPvPvPvPv(window_message_yes_no, arg1, 0, 0);
-    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3f)), (s32)(get_window_layout_position(0x9e)), (f32)lbl_805DD6D0);
+    open_yes_no_prompt((TChCrTagPlBack *)((u8 *)temp_r29), (u32)(get_message_10__20TWindowSubStatusDispFl(0x20)), (s32)(get_message_10__20TWindowSubStatusDispFl(0x3f)), (s32)(get_window_layout_position(0x9e)), 205.0f);
     free_member__17TWindowSubComCardFv(temp_r29, 0);
     ((TWindowSubShortMail *)temp_r29)->notify_warp_flag70();
     return temp_r29;
@@ -202,7 +199,6 @@ s32 create_keyboard__19TWindowSubShortMailFv(void) {
     return var_r31;
 }
 
-extern const f32 lbl_805DD6D4;
 
 #pragma push
 #pragma fp_contract on
@@ -219,7 +215,7 @@ s32 build_menu__19TWindowSubShortMailFv(void) {
     }
     forward_trade_action_default__16TObjCityMainWarpFPviii((void *)temp_r31, (int)(get_message_10__20TWindowSubStatusDispFl(0x5A)), 6, 0x11);
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(TWindowSubShortMail__data_805DD6C8);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(206.0f);
     align_menu_entry_positions(temp_r31);
     return temp_r31;
 }
@@ -245,7 +241,7 @@ s32 create_menu__19TWindowSubShortMailFv(void) {
         TWindowSubComCard::draw_text_gray(temp_r31, get_message_10__20TWindowSubStatusDispFl(0x103), 6, 0x13);
     }
     ((TWindowSubComCardList *)temp_r31)->set_flag70_bit10();
-    ((TWindowSubComCardList *)temp_r31)->update_layout_height(lbl_805DD6D4);
+    ((TWindowSubComCardList *)temp_r31)->update_layout_height(179.0f);
     align_menu_entry_positions(temp_r31);
     return temp_r31;
 }
@@ -343,7 +339,6 @@ void TWindowSubShortMail__sub_80131998(void *);
 void TWindowSubShortMail__sub_8027E620(void *p);
 }
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
-extern const f32 lbl_805DD6D8;
 void remove_short_mail_by_id(u32 id);
 extern "C" {
 void get_keyboard_field_6c__15TWindowMakeTeamFv(void *, void *);
@@ -722,7 +717,7 @@ s32 TUnk_804D1AD0::create_status_category_menu() {
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int) ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x10B), 0x36, 1);
   forward_trade_action_default__16TObjCityMainWarpFPviii((void *)var_r31, (int) ((s32 (*)(int)) get_message_10__20TWindowSubStatusDispFl)(0x10C), 0x36, 2);
   ((TWindowSubComCardList *)var_r31)->set_flag70_bit10();
-  ((TWindowSubComCardList *)var_r31)->update_layout_height((f32) lbl_805DD6D8);
+  ((TWindowSubComCardList *)var_r31)->update_layout_height(202.0f);
   ((s32 (*)(int)) align_menu_entry_positions)((int) var_r31);
   return var_r31;
 }

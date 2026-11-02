@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TUnk_8049CA54.h"
 #include "pso/misc/TWindowCtrlMain_800FC91C.h"
 #include "pso/ui/TFontSmallTask.h"
 #include "pso/unk/text_800FCC78.h"
@@ -42,7 +43,12 @@ void text_builder_append(void *);
 void append_text_space(void);
 void append_padded_number(s32 v, u8 n);
 void text_builder_reset(void);
-extern char *status_text_label_table[];
+extern char lbl_805DA9E0[];
+extern char lbl_805DA9E4[];
+extern char lbl_805DA9E8[];
+extern char lbl_805DA9EC[];
+extern char lbl_805DA9F0[];
+char *status_text_label_table[5] = { lbl_805DA9E0, lbl_805DA9E4, lbl_805DA9E8, lbl_805DA9EC, lbl_805DA9F0 };
 extern Ent_800FC968 lobby_player_status_records[];
 extern char lbl_805DA9F4[4];
 extern char lbl_805DA9F8[4];
@@ -154,16 +160,11 @@ void TUnk_8049CA54::run_task() {
     run_task__14TFontSmallHelpFv(this);
 }
 
-extern s32 lbl_8049CA54[];
+extern s32 __vt__13TUnk_8049CA54[];
 
-void *__dt__13TUnk_8049CA54Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_8049CA54;
-        __dt__14TFontSmallHelpFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_8049CA54::~TUnk_8049CA54() {
+
+}
+extern "C" {
 }

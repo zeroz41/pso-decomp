@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowSubTechnique.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowSubTechnique_80286BD4.h"
 #include "pso/misc/TWindowSubComCardList.h"
@@ -25,7 +26,12 @@ s32 set_depth__11TWindowBaseFf(int);
 s32 create_titled_window_menu(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 get_window_layout_position(int);
-extern s16 *technique_menu_category_lists[];
+extern s16 lbl_8044FC5C[];
+extern s16 lbl_8044FC64[];
+extern s16 lbl_8044FC6C[];
+extern s16 lbl_8044FC78[];
+extern s16 lbl_8044FC80[];
+s16 *technique_menu_category_lists[5] = { lbl_8044FC5C, lbl_8044FC64, lbl_8044FC6C, lbl_8044FC78, lbl_8044FC80 };
 
 s32 get_cursor_pos__20TWindowShortListCtrlFv(s32);
 void align_menu_entry_positions(s32);
@@ -303,19 +309,13 @@ void TWindowSubTechnique::run_task() {
     }
 }
 
-void *__dt__19TWindowSubTechniqueFv(TWindowSubTechnique *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TWindowSubTechnique;
-        if (*(void **)((s8 *)arg0 + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close(); arg0->m_3c = 0; }
-        if (*(void **)((s8 *)arg0 + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close(); arg0->m_38 = 0; }
-        if (*(void **)((s8 *)arg0 + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x34)))->close(); arg0->m_34 = 0; }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TWindowSubTechnique::~TWindowSubTechnique() {
+    if (*(void **)((s8 *)this + 0x3C) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x3C)))->close(); this->m_3c = 0; }
+    if (*(void **)((s8 *)this + 0x38) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x38)))->close(); this->m_38 = 0; }
+    if (*(void **)((s8 *)this + 0x34) != NULL) { ((TWindowBase *)(*(void **)((s8 *)this + 0x34)))->close(); this->m_34 = 0; }
+}
+extern "C" {
 
 extern s32 TWindowSubTechnique__name;
 

@@ -18,8 +18,8 @@ extern "C" {
 
 void copy_model_node(u8 *, u8 *);
 Node_802FDDD4 *clone_node_tree__12TBoss8DragonFPvPvi(Node_802FDDD4 *src, Node_802FDDD4 *dst, s32 v);
-extern f32 lbl_805D6980;
-extern f32 lbl_805D6984;
+f32 lbl_805D6980;
+f32 lbl_805D6984;
 extern f32 lbl_805D69C0;
 extern f32 lbl_805D9E80;
 extern f32 TBoss8Dragon__data_805DEDC8;

@@ -51,12 +51,8 @@ void set_ginja_post_texgen_count(s32 x);
 void set_ginja_post_tev_stage_count(s32 x);
 void load_current_pos_matrix(s32 arg0);
 void load_current_tex_matrix(s32 i);
-extern const f64 lbl_804783B0;
 extern u32 camera_ctrl_instance;
 extern s32 current_matrix;
-extern const f32 lbl_805DFAC8;
-extern const f32 lbl_805DFACC;
-extern const f32 lbl_805DFAD0;
 void play_indirect_effect_recipe(u8 arg0, u16 sampler, s32 second);
 char *get_shared_capture_texture_list(void);
 void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
@@ -74,11 +70,11 @@ void setup_projection_tex_matrix__10TObjPlayerFv(void) {
     if ((u32) camera_ctrl_instance != 0U) {
         push_matrix();
         calc_projection_screen_offset(&spC, &sp8);
-        temp_f31 = (f32) (lbl_804783B0 * calc_camera_fov_degrees());
+        temp_f31 = (f32) (0.0054931640625 * calc_camera_fov_degrees());
         if (TCameraCtrl__sub_800689F4() != 0) {
-            C_MTXLightPerspective(&sp10, temp_f31, lbl_805DFAC8, lbl_805DFACC, lbl_805DFAD0, (f32) (lbl_805DFACC - spC), (f32) (lbl_805DFACC - sp8));
+            C_MTXLightPerspective(&sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, (f32) (0.5f - spC), (f32) (0.5f - sp8));
         } else {
-            C_MTXLightPerspective(&sp10, temp_f31, lbl_805DFAC8, lbl_805DFACC, lbl_805DFAD0, lbl_805DFACC, lbl_805DFACC);
+            C_MTXLightPerspective(&sp10, temp_f31, 1.1333334f, 0.5f, -0.5f, 0.5f, 0.5f);
         }
         PSMTXConcat(&sp10, (void *)current_matrix, (void *)current_matrix);
         load_current_tex_matrix(2);

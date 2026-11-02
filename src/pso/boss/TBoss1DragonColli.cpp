@@ -50,12 +50,6 @@ s32 __nw__7TObjectFUl(int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__17TBoss1DragonColli[];
 extern s32 TBoss1DragonColli__name;
-extern const f32 lbl_805D8108;
-extern const f32 lbl_805D810C;
-extern const f32 lbl_805D8110;
-extern const f32 lbl_805D8114;
-extern const f32 lbl_805D8118;
-extern const f32 lbl_805D811C;
 u8 *TBoss1DragonColli__ct(u8 *arg0, s32 arg1);
 void set_elem_flags__17TBoss1DragonColliFPv(O_8002B42C *self);
 void *mem_alloc(u32 size);
@@ -64,7 +58,6 @@ s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 extern CollisionBody TBoss1DragonColli_sphere_chain_desc;
 extern s32 __vt__19TBoss1DragonColli_C[];
 extern s32 TBoss1DragonColli_C__name;
-extern const f32 lbl_805D8120;
 s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scale);
 void queue_destruction__7TObjectFv(void*);
 }
@@ -113,31 +106,31 @@ u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {
     __ct__7TObjectFP7TObject((void *)object, (void *)arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__17TBoss1DragonColli;
     *(s32 *)((s8 *)object + 0) = (s32) TBoss1DragonColli__name;
-    stack.sp8 = lbl_805D8108;
-    stack.spC = lbl_805D8108;
-    stack.sp10 = lbl_805D8108;
+    stack.sp8 = 0.0f;
+    stack.spC = 0.0f;
+    stack.sp10 = 0.0f;
     temp_r3 = __nw__7TObjectFUl(0xB8);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.sp8, lbl_805D810C);
+        var_r0 = TBoss1DragonColli_C__ct(temp_r3, object, 1, &stack.sp8, 25.0f);
     }
     *(s32 *)((s8 *)object + 0x1C) = var_r0;
-    stack.sp8 = lbl_805D8110;
-    stack.spC = lbl_805D8108;
-    stack.sp10 = lbl_805D8114;
+    stack.sp8 = -4.0f;
+    stack.spC = 0.0f;
+    stack.sp10 = 40.0f;
     temp_r3_2 = __nw__7TObjectFUl(0xB8);
     var_r0_2 = temp_r3_2;
     if (var_r0_2 != 0) {
-        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.sp8, lbl_805D8118);
+        var_r0_2 = TBoss1DragonColli_C__ct(temp_r3_2, object, 3, &stack.sp8, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x20) = var_r0_2;
-    stack.sp8 = lbl_805D8110;
-    stack.spC = lbl_805D8108;
-    stack.sp10 = lbl_805D811C;
+    stack.sp8 = -4.0f;
+    stack.spC = 0.0f;
+    stack.sp10 = -100.0f;
     temp_r3_3 = __nw__7TObjectFUl(0xB8);
     var_r0_3 = temp_r3_3;
     if (var_r0_3 != 0) {
-        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.sp8, lbl_805D8118);
+        var_r0_3 = TBoss1DragonColli_C__ct(temp_r3_3, object, 5, &stack.sp8, 10.0f);
     }
     *(s32 *)((s8 *)object + 0x24) = var_r0_3;
     return object;
@@ -191,9 +184,9 @@ s32 TBoss1DragonColli_C__ct(int arg0, void *arg1, int arg2, void *arg3, f32 scal
     self->f1c = TLobby::alloc_actor_ids(0);
     self->count = arg2;
     self->elems = (E_8002B4CC *)mem_alloc(self->count * 0x2C);
-    step = lbl_805D8120 * scale;
+    step = 2.0f * scale;
     e = self->elems;
-    zero = lbl_805D8108;
+    zero = 0.0f;
     z = scale * (self->count - 1);
     for (i = 0; i < self->count; i++) {
         copy_collision_body((CollisionBody *)e, &TBoss1DragonColli_sphere_chain_desc);

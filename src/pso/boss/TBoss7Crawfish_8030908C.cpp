@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/boss/TBoss7Crawfish.h"
 #include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TBoss1DragonColli.h"
@@ -21,7 +22,7 @@ struct Vec_8030920C { f32 x, y, z; };
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8030946C_lbl_804E7370 bm_boss7_crawfish_resource_descriptor;
-extern u32 TBoss7Crawfish__shared_resource;
+u32 TBoss7Crawfish__shared_resource;
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
@@ -79,19 +80,13 @@ void TBoss7Crawfish::run_task() {
     ((TObjMotion *)arg0)->advance_animation();
 }
 
-void *__dt__14TBoss7CrawfishFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TBoss7Crawfish;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        ((TObjCollidable *)arg0)->clear_collision_bodies();
-        ((TBoss7Crawfish *)arg0)->free_child();
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TBoss7Crawfish::~TBoss7Crawfish() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    ((TObjCollidable *)this)->clear_collision_bodies();
+    this->free_child();
+}
+extern "C" {
 
 u8 *TBoss7Crawfish__ct(u8 *arg0, s32 arg1, s32 arg2) {
     Vec_8030920C v;

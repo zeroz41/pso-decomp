@@ -17,8 +17,6 @@ s32 draw_text_gray__17TWindowSubComCardFllll(void *, void *, int, int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 void *draw_card_icon__17TWindowSubComCardFll(s32, int, void *);
 s32 get_window_layout_position(s32);
-extern const f32 lbl_805DFDD8;
-extern const f32 lbl_805DFDDC;
 extern s32 lbl_80478C2C[];
 
 void TWindowSubInformationBoard::open_card_info_window() {
@@ -50,7 +48,7 @@ void *TWindowSubComCard__sub_8034CDE0(void) {
         draw_text_gray__17TWindowSubComCardFllll(w, TWindowSubStatusDisp::get_message_10(0xD2), 6, -1);
     }
     ((TWindowSubComCardList *)w)->set_flag70_bit10();
-    ((TWindowSubComCardList *)w)->set_scroll_target(lbl_805DFDD8, lbl_805DFDDC);
+    ((TWindowSubComCardList *)w)->set_scroll_target(223.0f, 184.0f);
     return w;
 }
 

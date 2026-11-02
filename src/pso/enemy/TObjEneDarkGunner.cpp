@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/enemy/TObjEneMe1Canadin_EffLineFade.h"
 #include "pso/enemy/TObjEneDarkGunner.h"
@@ -21,17 +22,12 @@ void TObjEneMe1Canadin_EffLineFade::run_task() {
     this->m_3b = (s8) var_r31;
 }
 
-extern s32 lbl_80490458[];
+extern s32 __vt__29TObjEneMe1Canadin_EffLineFade[];
 
-void *TObjEneDarkGunner::deleting_dtor(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_80490458;
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
 }
+TObjEneMe1Canadin_EffLineFade::~TObjEneMe1Canadin_EffLineFade() {
+
+}
+extern "C" {
 
 }

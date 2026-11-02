@@ -13,7 +13,7 @@ struct RecoveredGlobal_8033ED24_lbl_804EFA88
 };
 
 extern "C" {
-extern s32 lbl_805D6DA0;
+s32 lbl_805D6DA0;
 void *mem_alloc(u32 size);
 s32 __ct__7TObjectFP7TObject();
 extern s32 __vt__13TUnk_804EFA88[];

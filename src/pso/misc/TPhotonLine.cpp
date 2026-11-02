@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TPhotonLine.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
@@ -58,7 +59,9 @@ extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *);
 void *find_entity_by_id(u16);
 void init_collision_body_parts(void *, void *, s32);
-extern u8 photon_line_collision_body_part[];
+CollisionBody photon_line_collision_body_part[1] = {
+    { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
+};
 extern s32 __vt__11TPhotonLine[];
 extern s32 lbl_805D3500;
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
@@ -69,7 +72,6 @@ u8 *get_battle_param__10TObjPlayerFi(s32);
 void *spawn_particle_effect(void *pos, s32 id);
 void queue_photon_blast_hit(s32, s32, s32, f32);
 void vec3_add_to(Vec_801ACD14 *, Vec_801ACD14 *);
-extern const f32 lbl_805DC1D8;
 void run_task__11TPhotonLineFv(Line_801ACB14 *self);
 void *__dt__11TPhotonLineFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
@@ -84,8 +86,8 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     s32 j;
     vec3_add_to(&v, &self->vel);
     VecCopy((Vec *)&self->f2FC, (const Vec *)&self->pos);
-    self->f2FC.y += lbl_805DC1D8;
-    v.y += lbl_805DC1D8;
+    self->f2FC.y += 60.0f;
+    v.y += 60.0f;
     if (check_path_obstructed(self, &v) == 1) {
         queue_destruction__7TObjectFv(self);
         return;
@@ -118,18 +120,12 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     self->pos.z += self->vel.z;
 }
 
-void *__dt__11TPhotonLineFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TPhotonLine;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TPhotonLine::~TPhotonLine() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3) {
     s32 i;
     __ct__9TObjCharaFP7TObject(self, parent);
