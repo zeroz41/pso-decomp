@@ -47,6 +47,7 @@ int qst_label_address(int label);
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TChallenge4PResult.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/object/TObjTombstone.h"
 #include "pso/TObject.h"
 #include "pso/object/TQuestDamageTask.h"
 #include "pso/player/TObjPlayer.h"
@@ -1596,7 +1597,6 @@ void qst_op_set_enemy_resist_data(s32 arg0);
 void qst_op_set_enemy_attack_data(s32 arg0);
 void qst_op_set_enemy_physical_data(int _w0);
 void qst_op_set_cmode_grave_rates(s32 reg);
-void TObjTombstone__sub_80074E74(f32 *w);
 void qst_op_chl_get_timerecord(s32 arg0);
 void qst_op_chl_set_timerecord(s32 arg0);
 void qst_op_get_game_version(s32 arg0);
