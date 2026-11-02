@@ -45,7 +45,6 @@ f32 xz_distance_squared(void *, void *);
 void *get_player_by_client_id(s32 i);
 char *strcpy(char *, const char *);
 extern s32 local_client_id;
-extern const f32 lbl_805DBCA8;
 s32 is_local_client_floor_leader(s32);
 s32 find_local_player_in_range__16TObjCityMainWarpFf(void *, f32);
 s32 close_windows__25TObjCityMainWarpChallengeFv();
@@ -56,9 +55,6 @@ void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-extern const f32 lbl_805DBCAC;
-extern const f32 lbl_805DBCB0;
-extern const f32 lbl_805DBCB4;
 s32 play_sound_effect(s32, void *, s32, s32);
 extern void *city_common_model_archive;
 s32 get_main_phase();
@@ -262,7 +258,7 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     }
     pl2 = (Player_80187438 *)get_player_by_client_id(local_client_id);
     if (pl2 != NULL && ((TObjPlayer *)pl2)->get_floor() == get_current_floor()) {
-        if (xz_distance_squared(pl2->pos, self->pos) <= (lbl_805DBCA8 + self->radius) * (lbl_805DBCA8 + self->radius)) {
+        if (xz_distance_squared(pl2->pos, self->pos) <= (25.0f + self->radius) * (25.0f + self->radius)) {
             if (TObjWarpBossMulti::is_flag_clear(pl2) != 0) {
                 ((TObjPlayer *)pl2)->check_technique_flag();
             }
@@ -285,7 +281,7 @@ void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
         if (self->m_168 == 0) {
             self->m_168 = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
             if (self->m_168 != 0) {
-                forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), lbl_805DBCAC);
+                forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
                 free_member__17TWindowSubComCardFv(self->m_168, 1);
                 ((TWindowSubShortMail *)self->m_168)->notify_warp_flag70();
                 begin_player_keyboard_hold(local_client_id);
@@ -298,14 +294,14 @@ void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
         if (self->m_168 == 0) {
             self->m_168 = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
             if (self->m_168 != 0) {
-                initialize_option_dialog(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), lbl_805DBCAC);
+                initialize_option_dialog(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;
     }
     if (self->m_164 == 0) {
-        pos[0] = lbl_805DBCB0;
-        pos[1] = lbl_805DBCB4;
+        pos[0] = 229.0f;
+        pos[1] = 104.0f;
         self->m_164 = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
         if (self->m_164 != 0) {
             ((TWindowSubTradeMain *)self->m_164)->set_visible();
