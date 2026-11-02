@@ -507,7 +507,7 @@ void TObjSeabedSuisoBrakable::init_model() {
 
 void TObjSeabedSuisoBrakable::render() {
     vfunc_14();
-    draw_model();
+    TORockCave::render();
 }
 
 void TObjSeabedSuisoBrakable::vfunc_14() {

@@ -5492,107 +5492,13 @@ pso/misc/TORevlightCave01.cpp:
 	.sbss       start:0x805D5A78 end:0x805D5A7C
 	.sdata2     start:0x805DB960 end:0x805DB970
 
-pso/misc/TORockCaveBL03.cpp:
-	.text       start:0x801737C4 end:0x80173874
-
-pso/unk/text_80173874.cpp:
-	.text       start:0x80173874 end:0x80173948
-
-pso/misc/TORockCaveBL02.cpp:
-	.text       start:0x80173948 end:0x801739F8
-
-pso/unk/text_801739F8.cpp:
-	.text       start:0x801739F8 end:0x80173ACC
-
-pso/misc/TORockCaveBL01.cpp:
-	.text       start:0x80173ACC end:0x80173B7C
-
-pso/unk/text_80173B7C.cpp:
-	.text       start:0x80173B7C end:0x80173C50
-
-pso/misc/TORockCaveL03.cpp:
-	.text       start:0x80173C50 end:0x80173D00
-
-pso/unk/text_80173D00.cpp:
-	.text       start:0x80173D00 end:0x80173DB0
-
-pso/misc/TORockCaveM03.cpp:
-	.text       start:0x80173DB0 end:0x80173E60
-
-pso/unk/text_80173E60.cpp:
-	.text       start:0x80173E60 end:0x80173F10
-
-pso/misc/TORockCaveS03.cpp:
-	.text       start:0x80173F10 end:0x80173FC0
-
-pso/unk/text_80173FC0.cpp:
-	.text       start:0x80173FC0 end:0x8017406C
-
-pso/misc/TORockCaveSL02.cpp:
-	.text       start:0x8017406C end:0x8017411C
-
-pso/unk/text_8017411C.cpp:
-	.text       start:0x8017411C end:0x801741CC
-
-pso/misc/TORockCaveSM02.cpp:
-	.text       start:0x801741CC end:0x8017427C
-
-pso/unk/text_8017427C.cpp:
-	.text       start:0x8017427C end:0x8017432C
-
-pso/misc/TORockCaveSS02.cpp:
-	.text       start:0x8017432C end:0x801743DC
-
-pso/unk/text_801743DC.cpp:
-	.text       start:0x801743DC end:0x80174488
-
-pso/misc/TORockCaveL02.cpp:
-	.text       start:0x80174488 end:0x80174538
-
-pso/unk/text_80174538.cpp:
-	.text       start:0x80174538 end:0x801745E8
-
-pso/misc/TORockCaveM02.cpp:
-	.text       start:0x801745E8 end:0x80174698
-
-pso/unk/text_80174698.cpp:
-	.text       start:0x80174698 end:0x80174748
-
-pso/misc/TORockCaveS02.cpp:
-	.text       start:0x80174748 end:0x801747F8
-
-pso/unk/text_801747F8.cpp:
-	.text       start:0x801747F8 end:0x801748A4
-
-pso/misc/TORockCaveL01.cpp:
-	.text       start:0x801748A4 end:0x80174954
-
-pso/unk/text_80174954.cpp:
-	.text       start:0x80174954 end:0x80174A04
-
-pso/misc/TORockCaveM01.cpp:
-	.text       start:0x80174A04 end:0x80174AB4
-
-pso/unk/text_80174AB4.cpp:
-	.text       start:0x80174AB4 end:0x80174B64
-
-pso/misc/TORockCaveS01.cpp:
-	.text       start:0x80174B64 end:0x80174C14
-
-pso/unk/text_80174C14.cpp:
-	.text       start:0x80174C14 end:0x80174CC0
-
-pso/misc/TORockCaveBrakable.cpp:
-	.text       start:0x80174CC0 end:0x80175024
-
-pso/misc/TORockCaveSimple.cpp:
-	.text       start:0x80175024 end:0x80175134
-
 pso/misc/TORockCave.cpp:
-	.text       start:0x80175134 end:0x80175468
+	.text       start:0x801737C4 end:0x80175468
 	.rodata     start:0x804424A0 end:0x80442970
-	.data       start:0x804B3AB8 end:0x804B3BA8
+	.data       start:0x804B3AB8 end:0x804B40EC
 	.sdata      start:0x805D30E0 end:0x805D3140
+	.sbss       start:0x805D5A80 end:0x805D5A88
+	.sdata2     start:0x805DB970 end:0x805DB97C
 
 pso/misc/TOSensor.cpp:
 	.text       start:0x80175468 end:0x80175858
@@ -9938,7 +9844,7 @@ pso/ui/TAdRayGC.cpp:
 
 pso/misc/TORockJungleL01.cpp:
 	.text       start:0x8029C030 end:0x8029CC68
-	.data       start:0x804DC378 end:0x804DC488
+	.data       start:0x804DC378 end:0x804DC4D8
 	.sbss       start:0x805D65D0 end:0x805D65D8
 	.sdata2     start:0x805DDD18 end:0x805DDD28
 

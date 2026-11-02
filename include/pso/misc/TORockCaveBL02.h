@@ -5,21 +5,13 @@
 #include "pso/misc/TORockCaveBrakable.h"
 
 struct TORockCaveBL02 : public TORockCaveBrakable {
+    TORockCaveBL02(void *set_data);
     virtual ~TORockCaveBL02();
 };
 
 typedef char TORockCaveBL02_size[sizeof(TORockCaveBL02) == 0xBC ? 1 : -1];
 
-extern "C" {
-void *TORockCaveBL02__create(void *arg0);
-void *__dt__14TORockCaveBL02Fv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TORockCaveBL02.cpp ---
-extern "C" {
-void *TORockCaveBL02__create(void *arg0);
-void *__dt__14TORockCaveBL02Fv(void *arg0, s16 arg1);
-}
-// --- end of C functions
+// The object factory entry (ObjectFactoryTables.cpp).
+extern "C" void *TORockCaveBL02__create(void *set_data);
 
 #endif
