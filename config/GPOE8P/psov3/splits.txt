@@ -9889,6 +9889,8 @@ pso/ui/TAdTitleTexGC.cpp:
 
 pso/misc/TLobby_802A5120.cpp:
 	.text       start:0x802A5120 end:0x802A5450
+	.rodata     start:0x80466710 end:0x80466760
+	.sdata      start:0x805D3DF0 end:0x805D3DF8
 
 pso/misc/TChCrTagPlBack.cpp:
 	.text       start:0x802A5450 end:0x802A55E0
@@ -9908,7 +9910,9 @@ pso/ui/TAdChrSelASlotGC_802A596C.cpp:
 
 pso/misc/TWindowMessageYesNo.cpp:
 	.text       start:0x802A5998 end:0x802A5B2C
+	.rodata     start:0x80466760 end:0x80466778
 	.data       start:0x804DD080 end:0x804DD098
+	.sdata      start:0x805D3DF8 end:0x805D3E00
 
 pso/misc/TWindowSnapShot_802A5B2C.cpp:
 	.text       start:0x802A5B2C end:0x802A6080
@@ -9918,8 +9922,9 @@ pso/misc/TLobby_802A6080.cpp:
 
 pso/object/TObjSuisoChip.cpp:
 	.text       start:0x802A6168 end:0x802A6F40
-	.rodata     start:0x80466CD0 end:0x80466CE0
-	.data       start:0x804DD278 end:0x804DD82C
+	.rodata     start:0x80466778 end:0x80466CE0
+	.data       start:0x804DD0A8 end:0x804DD82C
+	.sdata      start:0x805D3E00 end:0x805D3E10
 	.sbss       start:0x805D6670 end:0x805D6680
 	.sdata2     start:0x805DDFF8 end:0x805DE018
 

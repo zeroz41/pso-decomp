@@ -1513,6 +1513,7 @@ force_active:
   - TWindowLockOn__update_for_other_player
   - TWindowMeseta__class_name
   - TWindowMessagePage__ct
+  - TWindowMessageYesNo__name
   - TWindowPartyStatus__name
   - TWindowQuantity__ct
   - TWindowSubComCardList__class_name
@@ -3570,6 +3571,10 @@ force_active:
   - bm_obj_meka_fish_1_resource_descriptor
   - bm_obj_seabed_con_motion_names
   - bm_obj_seabed_con_rare_motion_names
+  - bm_obj_seabed_suiso_2_model_names
+  - bm_obj_seabed_suiso_2_motion_names
+  - bm_obj_seabed_suiso_model_names
+  - bm_obj_seabed_suiso_motion_names
   - bm_obj_warp_jung_model_names
   - bm_obj_warp_jung_motion_names
   - bm_ply_lock_on_cursor_model_names
@@ -4075,6 +4080,7 @@ force_active:
   - class_name__13TOCapsuleLabo
   - class_name__13TOHealGeneral
   - class_name__13TObjHashiBase
+  - class_name__13TObjSuisoChip
   - class_name__16TOFenceAncient01
   - class_name__16TOFenceAncient02
   - class_name__16TOFenceAncient03
@@ -4082,9 +4088,11 @@ force_active:
   - class_name__16TObjHashiVersus1
   - class_name__16TObjHashiVersus2
   - class_name__17TODragonflyCave01
+  - class_name__18TObjSeabedSuiso_CH
   - class_name__19TOComputerMachine01
   - class_name__19TOMonumentAncient01
   - class_name__20TODragonflyMachine01
+  - class_name__23TObjSeabedSuisoBrakable
   - class_name__9TObjHashi
   - class_starting_inventory_table
   - classify_level_bracket_narrow__6TLobbyFl
@@ -6297,6 +6305,14 @@ force_active:
   - lbl_80466420
   - lbl_80466428
   - lbl_80466430
+  - lbl_80466720
+  - lbl_80466728
+  - lbl_80466730
+  - lbl_80466738
+  - lbl_80466740
+  - lbl_80466748
+  - lbl_80466750
+  - lbl_80466758
   - lbl_8046FC68
   - lbl_8046FC78
   - lbl_8046FC8C

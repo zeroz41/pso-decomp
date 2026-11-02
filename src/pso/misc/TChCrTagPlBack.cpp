@@ -36,12 +36,11 @@ void __ct__8TChCrTagFP7TObjectPv(void *);
 
 extern const f32 lbl_805DDFE4;
 extern const f32 lbl_805DDFE8;
-extern void *TChCrTagPlBack__name;
 
 void *__ct__14TChCrTagPlBackFv(void *ch_cr_tag_pl_back) {
     __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_pl_back);
     *(void ***)((s8 *)ch_cr_tag_pl_back + 0x18) = __vt__14TChCrTagPlBack;
-    *(void * *)&((TChCrTagPlBack *)ch_cr_tag_pl_back)->m_name = TChCrTagPlBack__name;
+    ((TChCrTagPlBack *)ch_cr_tag_pl_back)->m_name = TChCrTagPlBack__name;
     *(f32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = lbl_805DDFE4;
     *(f32 *)((s8 *)ch_cr_tag_pl_back + 0x2C) = lbl_805DDFE8;
     *(f32 *)((s8 *)ch_cr_tag_pl_back + 0x34) = lbl_805DDFE4;

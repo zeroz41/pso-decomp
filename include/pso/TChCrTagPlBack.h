@@ -14,4 +14,6 @@ public:
     void get_position_offset(void *arg1);
 };
 
+extern const char *TChCrTagPlBack__name;
+
 #endif
