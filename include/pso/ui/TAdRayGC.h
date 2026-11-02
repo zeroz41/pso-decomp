@@ -7,4 +7,6 @@ extern "C" {
 void *__ct__8TAdRayGCFv(void *arg0);
 }
 
+void register_texture_f128_ray(void);
+
 #endif

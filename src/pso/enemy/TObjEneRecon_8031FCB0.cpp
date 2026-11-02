@@ -551,7 +551,7 @@ extern "C" u8 lbl_80476298[];
 extern "C" u8 lbl_804762AC[];
 #undef lbl_804EC684
 #define lbl_804EC684 (*(Sub_80320260 *)lbl_804EC684)
-extern V3_80320260 lbl_80543000;
+V3_80320260 lbl_80543000;
 extern s32 lbl_805D6B1C;
 
 #pragma dont_inline off

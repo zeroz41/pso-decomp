@@ -14,7 +14,7 @@ struct VB_802E74E4 { u8 pad[0xC]; };
 
 struct VObj_802E74E4 : VB_802E74E4 { virtual void m0(int); };
 
-struct Col_802E6CB0 { f32 a; s32 b; s32 c; s32 d; };
+struct Col_802E6CB0 { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E6CB0 { u8 pad0[0x18]; s32 f18; u8 pad1c[4]; s32 f20; f32 f24; s32 type; };
 
@@ -38,7 +38,7 @@ struct Part_802E6F10 {
 
 struct Vec_802E708C { f32 x, y, z; };
 
-struct Col_802E708C { f32 a; s32 b; s32 c; s32 d; };
+struct Col_802E708C { f32 a; f32 b; f32 c; f32 d; };
 
 struct Part_802E708C { u8 pad0[0x18]; u8 rot[0xC]; f32 f24; s32 type; };
 
@@ -461,5 +461,8 @@ f32 lbl_805D6910 = lbl_805DE9F0;
 
 extern "C" {
 __declspec(section ".rodata") s32 lbl_80472C68[6] = { 1, 6, 12, 18, 24, 29 };
+__declspec(section ".rodata") Col_802E708C lbl_80472C80 = { 1.0f, 1.0f, 1.0f, 1.0f };
+__declspec(section ".rodata") Vec_802E708C lbl_80472C90 = { 0.0f, 0.0f, 0.0f };
+__declspec(section ".rodata") Col_802E6CB0 lbl_80472C9C = { 1.0f, 1.0f, 1.0f, 1.0f };
 }
 

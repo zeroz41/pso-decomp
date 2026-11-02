@@ -18,7 +18,7 @@ s32 measure_string_len__20TWindowSubStatusDispFv(void *);
 s32 strncpy(int, void *, int);
 extern s32 TAdScrollWinGC__chat_log_heap;
 extern u8 *chat_last_line_buffer;
-extern RecoveredGlobal_8026A6DC_lbl_805187D8 chat_log_lines;
+RecoveredGlobal_8026A6DC_lbl_805187D8 chat_log_lines;
 s32 strlen();
 
     extern const float lbl_805DD240;

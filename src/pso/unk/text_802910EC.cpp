@@ -1,15 +1,11 @@
 #include "pso/ui/UISpriteConstants.h"
 #include "types.h"
 #include "pso/unk/text_802910EC.h"
+#include "pso/unk/text_80290D1C.h"
 #include "pso/misc/TLobby.h"
 #include "pso/TObjCMIcon.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/ui/Language.h"
-
-struct RecoveredGlobal_80291138_lbl_804D9668 {
-    s32 value;
-    u8 remaining[0x12D8];
-};
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -19,19 +15,15 @@ struct RecoveredGlobal_80291138_lbl_804D9668 {
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 release_texture_list(void *);
-extern RecoveredGlobal_80291138_lbl_804D9668 creation_sprite_table;
 extern u32 cmicon_instance;
-extern u8 creation_chara_sprite_entries[];
 extern s32 creation_sprite_table_index;
 s32 create__10TObjCMIconFPv(int);
-extern s32 ccconsole_pvm_file_name_table[];
 extern f32 ui_sprite_scale;
 extern s32 tl_06;
-typedef char RecoveredGlobal_80291138_lbl_804D9668_size[sizeof(RecoveredGlobal_80291138_lbl_804D9668) == 0x12DC ? 1 : -1];
 
 void TCharaMaking__resolve_creation_sprite_table(u8 **table, s32 *id) {
   s32 index = *id;
-  u8 *base = creation_chara_sprite_entries;
+  u8 *base = (u8 *)creation_chara_sprite_entries;
   if ((*id) < 143)
   {
     *table = base + 0xf8;
@@ -51,7 +43,7 @@ void fn_80291138(void) {
         queue_destruction__7TObjectFv((void *)cmicon_instance);
     }
     cmicon_instance = 0U;
-    release_texture_list(&creation_sprite_table.value);
+    release_texture_list(&creation_sprite_table);
 }
 #pragma push
 #pragma fp_contract on
@@ -64,7 +56,7 @@ void fn_80291178(void) {
     }
     TObjCMIcon::init_icon_table();
     (*(s32 *)&cmicon_instance) = create__10TObjCMIconFPv(tl_06);
-    TLobby::load_texture_pvm_file((const char *)(ccconsole_pvm_file_name_table[creation_sprite_table_index]), (s32)(((s32 *)&creation_sprite_table)));
+    TLobby::load_texture_pvm_file(ccconsole_pvm_file_name_table[creation_sprite_table_index], (s32)&creation_sprite_table);
 }
 }
 

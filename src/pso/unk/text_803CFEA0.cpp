@@ -171,16 +171,6 @@ void TLobby__sub_803D006C(void *arg) {
 
 #pragma pop
 
-s32 TLobby::get_handle_field_1c() {
-    u8 *arg0 = (u8 *)this;
-    if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) lbl_805D760C) != NULL) {
-            lbl_805D760C(lbl_805D7608, &lbl_8047DAE4.value, 0);
-        }
-        return 0;
-    }
-    return *(s32 *)((s8 *)arg0 + 0x1c);
-}
 extern s32 dvd_synchronous_read_enabled;
 void DCInvalidateRange(void *, u32);
 s32 DVDGetTransferredSize(void *);
@@ -311,6 +301,17 @@ s32 TLobby__sub_803D0214(void *arg, s32 count, void *buf) {
     return r->count;
 }
 #pragma pop
+
+s32 TLobby::get_handle_field_1c() {
+    u8 *arg0 = (u8 *)this;
+    if (arg0 == NULL) {
+        if (((s32 (*)(s32, s32 *, s32)) lbl_805D760C) != NULL) {
+            lbl_805D760C(lbl_805D7608, &lbl_8047DAE4.value, 0);
+        }
+        return 0;
+    }
+    return *(s32 *)((s8 *)arg0 + 0x1c);
+}
 
 s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
     if (arg0 == NULL) {

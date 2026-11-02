@@ -10,6 +10,7 @@ void fn_801D34E0(void) {
     __register_global_object(TObjMapWarp__sub_80141CA4(lbl_805D5DD8), (void *)TObjMapWarp__sub_80141C68, lbl_80511DD8);
 }
 
+u8 lbl_80511DD8[0xC];
 }
 
 __declspec(section ".ctors") static void *const __sinit_text_801D34E0_cpp_ref = (void *)fn_801D34E0;

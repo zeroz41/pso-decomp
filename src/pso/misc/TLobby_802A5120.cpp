@@ -6,19 +6,24 @@
 
 struct V2_802A5208 { f32 x; f32 y; };
 
+#pragma push
+#pragma readonly_strings on
+const char *TChCrTagPlBack__name = "TChCrTagPlBack";
+#pragma pop
+
 struct Tag_802A5208 { u8 pad0[0x24]; f32 t; };
 
 extern "C" {
 void draw_ui_sprite(s32, void *, f32, f32);
 void draw_ui_sprite_scaled(s32, void *, void *, f32, f32);
-extern V2_802A5208 lbl_80466720[];
-extern V2_802A5208 lbl_80466728[];
-extern V2_802A5208 lbl_80466730[];
-extern V2_802A5208 lbl_80466738[];
-extern V2_802A5208 lbl_80466740[];
-extern V2_802A5208 lbl_80466748[];
-extern V2_802A5208 lbl_80466750[];
-extern V2_802A5208 lbl_80466758[];
+extern const V2_802A5208 lbl_80466720[];
+extern const V2_802A5208 lbl_80466728[];
+extern const V2_802A5208 lbl_80466730[];
+extern const V2_802A5208 lbl_80466738[];
+extern const V2_802A5208 lbl_80466740[];
+extern const V2_802A5208 lbl_80466748[];
+extern const V2_802A5208 lbl_80466750[];
+extern const V2_802A5208 lbl_80466758[];
 extern const f32 lbl_805DDFC8;
 extern const f32 lbl_805DDFCC;
 extern const f32 lbl_805DDFD0;
@@ -87,3 +92,14 @@ void TChCrTagPlBack::draw_frame() {
 }
 
 }
+
+// The frame sprites' positions (and the edge scale), defined after their use so
+// draw_frame addresses each one on its own.
+__declspec(section ".rodata") const V2_802A5208 lbl_80466720[1] = { { 307.0f, 100.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466728[1] = { { 575.0f, 100.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466730[1] = { { 307.0f, 396.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466738[1] = { { 575.0f, 396.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466740[1] = { { 7.375f, 1.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466748[1] = { { 339.0f, 100.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466750[1] = { { 339.0f, 396.0f } };
+__declspec(section ".rodata") const V2_802A5208 lbl_80466758[1] = { { 307.0f, 132.0f } };

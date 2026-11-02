@@ -360,7 +360,7 @@ extern Vec_800530C0 lbl_80437604;
 extern Vec_800530C0 boss4_type2_effect_offset_vec_b;
 extern const f64 lbl_80437620[];
 extern const f64 lbl_80437630;
-extern RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
+RecoveredGlobal_80054F6C_lbl_804FF2A0 TBoss4Type2__tenchu_furu_array;
 extern s32 registered_player_count;
 extern const f32 lbl_805D8AF8;
 extern const f32 lbl_805D8AFC;

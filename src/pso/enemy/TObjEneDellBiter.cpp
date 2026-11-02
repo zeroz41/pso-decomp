@@ -1685,3 +1685,5 @@ s32 TObjEneDellBiter::render_model_if_visible() {
     }
     return 0;
 }
+
+Vec dellbiter_demo_camera_vec;

@@ -60,6 +60,137 @@ struct SeabedSuisoBreakSet {
     SeabedSuisoPiece whole;
     SeabedSuisoPiece chips[17];
 };
+#pragma push
+#pragma readonly_strings on
+// The tank archives of the lower (bm_obj_seabed_suiso) and the upper
+// (bm_obj_seabed_suiso_2) seabed: the same 50 models and 2 motions.
+const char *bm_obj_seabed_suiso_model_names[51] = {
+    "contena01_obj2.gj",
+    "kowaremoni_1.gj",
+    "kowaremoni_10.gj",
+    "kowaremoni_2.gj",
+    "kowaremoni_3.gj",
+    "kowaremoni_4.gj",
+    "kowaremoni_5.gj",
+    "kowaremoni_6.gj",
+    "kowaremoni_7.gj",
+    "kowaremoni_8.gj",
+    "kowaremoni_9.gj",
+    "kowaremoni_obj.gj",
+    "moni02.gj",
+    "obj_o_orga.gj",
+    "suisou_c2koware_1.gj",
+    "suisou_c2koware_10.gj",
+    "suisou_c2koware_11.gj",
+    "suisou_c2koware_12.gj",
+    "suisou_c2koware_13.gj",
+    "suisou_c2koware_14.gj",
+    "suisou_c2koware_15.gj",
+    "suisou_c2koware_16.gj",
+    "suisou_c2koware_17.gj",
+    "suisou_c2koware_2.gj",
+    "suisou_c2koware_3.gj",
+    "suisou_c2koware_4.gj",
+    "suisou_c2koware_5.gj",
+    "suisou_c2koware_6.gj",
+    "suisou_c2koware_7.gj",
+    "suisou_c2koware_8.gj",
+    "suisou_c2koware_9.gj",
+    "suisou_c2koware_obj1.gj",
+    "suisou_h_obj1.gj",
+    "suisou_l2_obj1.gj",
+    "suisou_l2koware_1.gj",
+    "suisou_l2koware_10.gj",
+    "suisou_l2koware_11.gj",
+    "suisou_l2koware_12.gj",
+    "suisou_l2koware_13.gj",
+    "suisou_l2koware_14.gj",
+    "suisou_l2koware_15.gj",
+    "suisou_l2koware_16.gj",
+    "suisou_l2koware_2.gj",
+    "suisou_l2koware_3.gj",
+    "suisou_l2koware_4.gj",
+    "suisou_l2koware_5.gj",
+    "suisou_l2koware_6.gj",
+    "suisou_l2koware_7.gj",
+    "suisou_l2koware_8.gj",
+    "suisou_l2koware_9.gj",
+    NULL,
+};
+const char *bm_obj_seabed_suiso_motion_names[3] = { "moni02.njm", "suisou_h_obj1.njm", NULL };
+BmlResourceDescriptor bm_obj_seabed_suiso_resource_descriptor = {
+    "bm_obj_seabed_suiso.bml", bm_obj_seabed_suiso_model_names, bm_obj_seabed_suiso_motion_names, 50, 2,
+};
+const char *bm_obj_seabed_suiso_2_model_names[51] = {
+    "contena01_obj2.gj",
+    "kowaremoni_1.gj",
+    "kowaremoni_10.gj",
+    "kowaremoni_2.gj",
+    "kowaremoni_3.gj",
+    "kowaremoni_4.gj",
+    "kowaremoni_5.gj",
+    "kowaremoni_6.gj",
+    "kowaremoni_7.gj",
+    "kowaremoni_8.gj",
+    "kowaremoni_9.gj",
+    "kowaremoni_obj.gj",
+    "moni02.gj",
+    "obj_o_orga.gj",
+    "suisou_c2koware_1.gj",
+    "suisou_c2koware_10.gj",
+    "suisou_c2koware_11.gj",
+    "suisou_c2koware_12.gj",
+    "suisou_c2koware_13.gj",
+    "suisou_c2koware_14.gj",
+    "suisou_c2koware_15.gj",
+    "suisou_c2koware_16.gj",
+    "suisou_c2koware_17.gj",
+    "suisou_c2koware_2.gj",
+    "suisou_c2koware_3.gj",
+    "suisou_c2koware_4.gj",
+    "suisou_c2koware_5.gj",
+    "suisou_c2koware_6.gj",
+    "suisou_c2koware_7.gj",
+    "suisou_c2koware_8.gj",
+    "suisou_c2koware_9.gj",
+    "suisou_c2koware_obj1.gj",
+    "suisou_h_obj1.gj",
+    "suisou_l2_obj1.gj",
+    "suisou_l2koware_1.gj",
+    "suisou_l2koware_10.gj",
+    "suisou_l2koware_11.gj",
+    "suisou_l2koware_12.gj",
+    "suisou_l2koware_13.gj",
+    "suisou_l2koware_14.gj",
+    "suisou_l2koware_15.gj",
+    "suisou_l2koware_16.gj",
+    "suisou_l2koware_2.gj",
+    "suisou_l2koware_3.gj",
+    "suisou_l2koware_4.gj",
+    "suisou_l2koware_5.gj",
+    "suisou_l2koware_6.gj",
+    "suisou_l2koware_7.gj",
+    "suisou_l2koware_8.gj",
+    "suisou_l2koware_9.gj",
+    NULL,
+};
+const char *bm_obj_seabed_suiso_2_motion_names[3] = { "moni02.njm", "suisou_h_obj1.njm", NULL };
+BmlResourceDescriptor bm_obj_seabed_suiso_2_resource_descriptor = {
+    "bm_obj_seabed_suiso_2.bml", bm_obj_seabed_suiso_2_model_names, bm_obj_seabed_suiso_2_motion_names, 50, 2,
+};
+
+const SeabedSuisoTextureNames seabed_suiso_2_texture_names = {
+    { "nk_h128_gazo0", "nk_h128_gazo02", "nk_h032_kasan05", "nk_o032_orga01", "nk_h064_gragh04" },
+};
+const SeabedSuisoTextureNames seabed_suiso_texture_names = {
+    { "nk_h128_gazo0", "nk_h128_gazo02", "nk_h008_kasan03", "nk_o032_orga01", "nk_h064_gragh04" },
+};
+
+const char *TObjSeabedSuiso_CH::class_name = "TObjSeabedSuiso_CH";
+const char *TObjSeabedSuisoBrakable::class_name = "TObjSeabedSuisoBrakable";
+const char *TObjSuisoChip::class_name = "TObjSuisoChip";
+#pragma pop
+
 SeabedSuisoKind seabed_suiso_kind_params[4] = {
     { 32, 1, 0.1f, 514, 300.0f, 60.0f },
     { 0, -1, 0.0f, -1, 300.0f, 60.0f },

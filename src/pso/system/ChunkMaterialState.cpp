@@ -263,3 +263,8 @@ void set_constant_material(const NJS_ARGB *color) {
     model_material_color.blue = clampMaterialChannel(color->b, (-1.0f), 1.0f);
 }
 #pragma pop
+
+s32 keyboard_pad_status_buffer[12];
+Pad_803DEA18 TKeyBoardControl_prev_pad_state[4];
+RecoveredGlobal_803DEB74_lbl_8058D8E0 keyboard_control_pad_slots;
+s32 TKeyBoardControl__pad_status_buffer[0x78];

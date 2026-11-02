@@ -939,4 +939,9 @@ s32 TAdPlayerLoadGC__sub_801E263C(s32 unused, s32 chan, u8 *workArea) {
     return 0;
 }
 
+RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;
+CARDFileInfo_801E15A4 TAdPlayerLoadGC__data_80511EE8;
+CARDStat_801E2048 lbl_80511EFC;
+u8 *lbl_80511F68[2];
+
 }

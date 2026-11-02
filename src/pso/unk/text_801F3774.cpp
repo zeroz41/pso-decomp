@@ -95,3 +95,8 @@ void TLobby::byteswap_6x75_packet() {
 }
 
 void build_6x75_update_quest_flag_dc(void* p) { *(u8*)((char*)p + 0x0) = 117; *(u8*)((char*)p + 0x1) = 3; }
+
+extern "C" {
+char offline_quest_filename_buffer_a[0x20];
+char offline_quest_filename_buffer_b[0x20];
+}

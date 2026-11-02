@@ -16,7 +16,7 @@ void *TWindowSubComCard__sub_8027523C(void *p);
 s32 strcmp(void *, int);
 extern u8 lbl_805DD898;
 u8 *init_heading_entry__20TWindowSubStatusDispFPvPvici(u8 *arg0, u8 *arg1, s32 arg2, s8 arg3, s32 arg4);
-extern u8 lbl_8044FCF0[];
+extern const f32 lbl_8044FCF0[2] = { 0.0f, -13.0f };
 int update__20TWindowSubStatusDispFPv(void*);
 int TWindowSubStatusDisp__sub_802879B0(void*);
 
@@ -33,7 +33,7 @@ s32 TWindowSubStatusDisp::destroy_status_display(s32 arg0, s16 arg1) {
 }
 
 u8 *TWindowSubStatusDisp::construct_type1_heading(s32 arg1, s32 arg2) {
-    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), lbl_8044FCF0, arg1, 1, arg2);
+    init_heading_entry__20TWindowSubStatusDispFPvPvici(((u8 *)this), (u8 *)lbl_8044FCF0, arg1, 1, arg2);
     return ((u8 *)this);
 }
 

@@ -452,3 +452,5 @@ void TObjPlayer::set_effect_active() {
 void TObjPlayer::reset_particle_counter() {
     scene_fog_enable_flag = 0;
 }
+
+TexObj_803E1D90 list_texture_tex_obj;

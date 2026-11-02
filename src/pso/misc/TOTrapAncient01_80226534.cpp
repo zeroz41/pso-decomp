@@ -19,7 +19,9 @@ struct SndEnt_8022675C {
 
 extern "C" {
 s32 fn_802264B8(int, int);
-extern SndEnt_8022675C lbl_805145F0[40];
+SndEnt_8022675C lbl_805145F0[40];
+u8 lbl_80514C30[0x20];
+f32 lbl_80514C50[4];
 extern s32 last_sound_effect_slot;
 extern s32 lbl_805D62B0;
 extern s32 lbl_805DC748;

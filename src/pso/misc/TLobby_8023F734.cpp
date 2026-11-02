@@ -1670,3 +1670,9 @@ int get_com_card_data__6TLobbyFv(void) {  return com_card_entry_count; }
 }
 #undef lbl_80517F9C
 #undef selected_guild_card_record
+
+char lbl_805162E0[0xC];
+RecoveredGlobal_8023F880_lbl_805162EC lbl_805162EC;
+u8 lbl_80517E44[0x9C];
+u8 selected_guild_card_record[0xBC];
+unsigned char lbl_80517F9C[0x5E4];

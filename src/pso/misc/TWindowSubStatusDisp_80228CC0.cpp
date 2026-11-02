@@ -4,7 +4,7 @@
 #include "pso/misc/TWindowSubStatusDisp.h"
 
 extern char *text_builder_write_cursor;
-extern char text_builder_buffer[];
+char text_builder_buffer[0x100];
 extern s32 lbl_8044CB60[];
 extern s32 lbl_805DC790;
 extern s32 lbl_805DC794;

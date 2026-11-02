@@ -24,7 +24,7 @@ struct Arg_800E3074 { Entry_800E3074 *list; Param_800E3074 *params; };
 
 extern "C" {
 u8 * fn_800E31C4(void *, void *, s32);
-extern State_800E2FFC TObjFish_draw_callback_state;
+State_800E2FFC TObjFish_draw_callback_state;
 void transform_to_view__11TCameraCtrlFii(s32 arg0, s32 arg1);
 
 void TObjFish::draw_callback_transform_to_view() {

@@ -283,3 +283,5 @@ void draw_textured_vertices__10TObjPlayerFPvii(Vtx_803E2810 *v, s32 n, s32 mode)
 #pragma pop
 
 #pragma pop
+
+TexObj_803E224C context_texture_obj;

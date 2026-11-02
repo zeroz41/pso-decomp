@@ -5,11 +5,6 @@
 #include "pso/system/AdxStreamRuntime.h"
 #include "pso/misc/TLobby.h"
 
-struct RecoveredGlobal_803C0B08_lbl_80570AC0 {
-    s32 value;
-    u8 remaining[0x9BC];
-};
-
 struct RecoveredGlobal_803C0AD8_lbl_80570AC0 {
     s32 value;
     u8 remaining[0x9BC];
@@ -110,7 +105,6 @@ struct Obj_803C2174 {
     s16 fa8; s16 faa;
 };
 
-#define TBL_803C3E88 ((Rec_803C3E88 *)&adx_channel_record_pool)
 struct Rec_803C3E88 {
     s16 used; u8 pad_2[6]; u32 f8; u8 pad_c[0x38 - 0xC];
     s32 f38; s32 f3c; s32 f40; s32 f44; u8 pad_48[0x88 - 0x48];
@@ -146,7 +140,7 @@ struct Snd_803C1DC4
 
 extern "C" {
 s32 memset(void *, int, int);
-extern RecoveredGlobal_803C0B08_lbl_80570AC0 adx_channel_record_pool;
+Rec_803C3E88 adx_channel_record_pool[16];
 int memcmp(const void *a, const void *b, unsigned long n);
 extern const char lbl_805E0CE0[4];
 extern s32 lbl_805E0CC0;
@@ -799,14 +793,14 @@ Rec_803C3E88 *alloc_record__6TLobbyFiiii(s32 arg0, s32 arg1, s32 arg2, s32 arg3)
     s32 i;
     Rec_803C3E88 *r;
     for (i = 0; i < 16; i++) {
-        if (TBL_803C3E88[i].used == 0) {
+        if (adx_channel_record_pool[i].used == 0) {
             break;
         }
     }
     if (i == 16) {
         return NULL;
     }
-    r = &TBL_803C3E88[i];
+    r = &adx_channel_record_pool[i];
     memset(r, 0, 0xB8);
     r->used = 1;
     r->f8 = adx_allocate_decoder_channel();
@@ -837,11 +831,10 @@ s32 get_progress_info__6TLobbyFPvPvPvPv(u8 *arg0, s32 *arg1, s32 *arg2, s32 *arg
     *arg3 = *(s32 *)((s8 *)arg0 + 0x18) - *(s32 *)((s8 *)arg0 + 0x98);
     return *(s32 *)((s8 *)arg0 + 0x3C);
 }
-typedef char RecoveredGlobal_803C0B08_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0B08_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 typedef char RecoveredGlobal_803C0AD8_lbl_80570AC0_size[sizeof(RecoveredGlobal_803C0AD8_lbl_80570AC0) == 0x9C0 ? 1 : -1];
 void TLobby__sub_803C406C(void) {
     TLobby::clear_buffer_340();
-    memset(&adx_channel_record_pool.value, 0, 0xb80);
+    memset(adx_channel_record_pool, 0, sizeof(adx_channel_record_pool));
 }
 s32 TLobby::is_spsd_header() {
     if (memcmp(this, lbl_805E0CE0, 4) == 0) {

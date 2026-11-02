@@ -15,6 +15,30 @@ struct NJS_TEXLIST {
     u32 nbTexture;
 };
 
+// One sprite cell of a texture: size, centre, uv rectangle and texture index.
+struct NJS_TEXANIM {
+    s16 sx, sy;
+    s16 cx, cy;
+    s16 u1, v1, u2, v2;
+    s16 texid, attr;
+};
+
+struct NJS_POINT3 {
+    f32 x, y, z;
+};
+
+struct NJS_POINT2 {
+    f32 x, y;
+};
+
+// `num` points with one colour each and optional texture coordinates.
+struct NJS_POINT3COL {
+    NJS_POINT3 *p;
+    u32 *col;
+    NJS_POINT2 *tex;
+    u32 num;
+};
+
 // A Ninja colour with float channels, alpha first.
 struct NJS_ARGB;
 // Copies the four channels of `src` into `dst`.

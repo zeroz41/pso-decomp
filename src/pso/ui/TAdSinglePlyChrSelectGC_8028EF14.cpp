@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/misc/CharacterAppearanceTables.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/BmlResource.h"
 #include "pso/TObject.h"
 #include "pso/misc/TLobby.h"
@@ -58,7 +59,6 @@ s32 creation_motion_group(CharacterAppearanceFields *);
 void load_creation_shape_rel(W_80290250 *arg0);
 void TCharaMaking__sub_8028E3A0();
 void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q);
-extern u8 lbl_80451CD0[];
 s32 count_char_diffs__23TAdSinglePlyChrSelectGCFPvPv(void *, void *);
 extern CreationTextureCacheEntry *char_select_current_entry;
 void TAdSinglePlyChrSelectGC__sub_8028ED54(void);
@@ -109,711 +109,6 @@ extern "C" {
 void classify_actor_view_detail__8TObjBaseFfff();
 }
 extern "C" {
-extern u8 lbl_804512A0[];
-}
-extern "C" {
-extern u8 lbl_804512AC[];
-}
-extern "C" {
-extern u8 lbl_804512B8[];
-}
-extern "C" {
-extern u8 lbl_804512C4[];
-}
-extern "C" {
-extern u8 lbl_804512D0[];
-}
-extern "C" {
-extern u8 lbl_804512DC[];
-}
-extern "C" {
-extern u8 lbl_804512E8[];
-}
-extern "C" {
-extern u8 lbl_804512F4[];
-}
-extern "C" {
-extern u8 lbl_80451300[];
-}
-extern "C" {
-extern u8 lbl_8045130C[];
-}
-extern "C" {
-extern u8 lbl_80451318[];
-}
-extern "C" {
-extern u8 lbl_80451324[];
-}
-extern "C" {
-extern u8 lbl_80451330[];
-}
-extern "C" {
-extern u8 lbl_8045133C[];
-}
-extern "C" {
-extern u8 lbl_80451348[];
-}
-extern "C" {
-extern u8 lbl_80451354[];
-}
-extern "C" {
-extern u8 lbl_80451360[];
-}
-extern "C" {
-extern u8 lbl_8045136C[];
-}
-extern "C" {
-extern u8 lbl_80451378[];
-}
-extern "C" {
-extern u8 lbl_80451384[];
-}
-extern "C" {
-extern u8 lbl_80451390[];
-}
-extern "C" {
-extern u8 lbl_8045139C[];
-}
-extern "C" {
-extern u8 lbl_804513A8[];
-}
-extern "C" {
-extern u8 lbl_804513B4[];
-}
-extern "C" {
-extern u8 lbl_804513C0[];
-}
-extern "C" {
-extern u8 lbl_804513CC[];
-}
-extern "C" {
-extern u8 lbl_804513D8[];
-}
-extern "C" {
-extern u8 lbl_804513E4[];
-}
-extern "C" {
-extern u8 lbl_804513F0[];
-}
-extern "C" {
-extern u8 lbl_804513FC[];
-}
-extern "C" {
-extern u8 lbl_80451408[];
-}
-extern "C" {
-extern u8 lbl_80451414[];
-}
-extern "C" {
-extern u8 lbl_80451420[];
-}
-extern "C" {
-extern u8 lbl_8045142C[];
-}
-extern "C" {
-extern u8 lbl_80451438[];
-}
-extern "C" {
-extern u8 lbl_80451444[];
-}
-extern "C" {
-extern u8 lbl_80451450[];
-}
-extern "C" {
-extern u8 lbl_8045145C[];
-}
-extern "C" {
-extern u8 lbl_80451468[];
-}
-extern "C" {
-extern u8 lbl_80451474[];
-}
-extern "C" {
-extern u8 lbl_80451480[];
-}
-extern "C" {
-extern u8 lbl_8045148C[];
-}
-extern "C" {
-extern u8 lbl_80451498[];
-}
-extern "C" {
-extern u8 lbl_804514A4[];
-}
-extern "C" {
-extern u8 lbl_804514B0[];
-}
-extern "C" {
-extern u8 lbl_804514BC[];
-}
-extern "C" {
-extern u8 lbl_804514C8[];
-}
-extern "C" {
-extern u8 lbl_804514D4[];
-}
-extern "C" {
-extern u8 lbl_804514E0[];
-}
-extern "C" {
-extern u8 lbl_804514EC[];
-}
-extern "C" {
-extern u8 lbl_804514F8[];
-}
-extern "C" {
-extern u8 lbl_80451504[];
-}
-extern "C" {
-extern u8 lbl_80451510[];
-}
-extern "C" {
-extern u8 lbl_8045151C[];
-}
-extern "C" {
-extern u8 lbl_80451528[];
-}
-extern "C" {
-extern u8 lbl_80451534[];
-}
-extern "C" {
-extern u8 lbl_80451540[];
-}
-extern "C" {
-extern u8 lbl_8045154C[];
-}
-extern "C" {
-extern u8 lbl_80451558[];
-}
-extern "C" {
-extern u8 lbl_80451564[];
-}
-extern "C" {
-extern u8 lbl_80451570[];
-}
-extern "C" {
-extern u8 lbl_8045157C[];
-}
-extern "C" {
-extern u8 lbl_80451588[];
-}
-extern "C" {
-extern u8 lbl_80451594[];
-}
-extern "C" {
-extern u8 lbl_804515A0[];
-}
-extern "C" {
-extern u8 lbl_804515AC[];
-}
-extern "C" {
-extern u8 lbl_804515B8[];
-}
-extern "C" {
-extern u8 lbl_804515C4[];
-}
-extern "C" {
-extern u8 lbl_804515D0[];
-}
-extern "C" {
-extern u8 lbl_804515DC[];
-}
-extern "C" {
-extern u8 lbl_804515E8[];
-}
-extern "C" {
-extern u8 lbl_804515F4[];
-}
-extern "C" {
-extern u8 lbl_80451600[];
-}
-extern "C" {
-extern u8 lbl_8045160C[];
-}
-extern "C" {
-extern u8 lbl_80451618[];
-}
-extern "C" {
-extern u8 lbl_80451624[];
-}
-extern "C" {
-extern u8 lbl_80451630[];
-}
-extern "C" {
-extern u8 lbl_8045163C[];
-}
-extern "C" {
-extern u8 lbl_80451648[];
-}
-extern "C" {
-extern u8 lbl_80451654[];
-}
-extern "C" {
-extern u8 lbl_80451660[];
-}
-extern "C" {
-extern u8 lbl_8045166C[];
-}
-extern "C" {
-extern u8 lbl_80451678[];
-}
-extern "C" {
-extern u8 lbl_80451684[];
-}
-extern "C" {
-extern u8 lbl_80451690[];
-}
-extern "C" {
-extern u8 lbl_8045169C[];
-}
-extern "C" {
-extern u8 lbl_804516A8[];
-}
-extern "C" {
-extern u8 lbl_804516B4[];
-}
-extern "C" {
-extern u8 lbl_804516C0[];
-}
-extern "C" {
-extern u8 lbl_804516CC[];
-}
-extern "C" {
-extern u8 lbl_804516D8[];
-}
-extern "C" {
-extern u8 lbl_804516E4[];
-}
-extern "C" {
-extern u8 lbl_804516F0[];
-}
-extern "C" {
-extern u8 lbl_804516FC[];
-}
-extern "C" {
-extern u8 lbl_80451708[];
-}
-extern "C" {
-extern u8 lbl_80451714[];
-}
-extern "C" {
-extern u8 lbl_80451720[];
-}
-extern "C" {
-extern u8 lbl_8045172C[];
-}
-extern "C" {
-extern u8 lbl_80451738[];
-}
-extern "C" {
-extern u8 lbl_80451744[];
-}
-extern "C" {
-extern u8 lbl_80451750[];
-}
-extern "C" {
-extern u8 lbl_8045175C[];
-}
-extern "C" {
-extern u8 lbl_80451768[];
-}
-extern "C" {
-extern u8 lbl_80451774[];
-}
-extern "C" {
-extern u8 lbl_80451780[];
-}
-extern "C" {
-extern u8 lbl_8045178C[];
-}
-extern "C" {
-extern u8 lbl_80451798[];
-}
-extern "C" {
-extern u8 lbl_804517A4[];
-}
-extern "C" {
-extern u8 lbl_804517B0[];
-}
-extern "C" {
-extern u8 lbl_804517BC[];
-}
-extern "C" {
-extern u8 lbl_804517C8[];
-}
-extern "C" {
-extern u8 lbl_804517D4[];
-}
-extern "C" {
-extern u8 lbl_804517E0[];
-}
-extern "C" {
-extern u8 lbl_804517EC[];
-}
-extern "C" {
-extern u8 lbl_804517F8[];
-}
-extern "C" {
-extern u8 lbl_80451804[];
-}
-extern "C" {
-extern u8 lbl_80451810[];
-}
-extern "C" {
-extern u8 lbl_8045181C[];
-}
-extern "C" {
-extern u8 lbl_80451828[];
-}
-extern "C" {
-extern u8 lbl_80451834[];
-}
-extern "C" {
-extern u8 lbl_80451840[];
-}
-extern "C" {
-extern u8 lbl_8045184C[];
-}
-extern "C" {
-extern u8 lbl_80451858[];
-}
-extern "C" {
-extern u8 lbl_80451864[];
-}
-extern "C" {
-extern u8 lbl_80451870[];
-}
-extern "C" {
-extern u8 lbl_8045187C[];
-}
-extern "C" {
-extern u8 lbl_80451888[];
-}
-extern "C" {
-extern u8 lbl_80451894[];
-}
-extern "C" {
-extern u8 lbl_804518A0[];
-}
-extern "C" {
-extern u8 lbl_804518AC[];
-}
-extern "C" {
-extern u8 lbl_804518B8[];
-}
-extern "C" {
-extern u8 lbl_804518C4[];
-}
-extern "C" {
-extern u8 lbl_804518D0[];
-}
-extern "C" {
-extern u8 lbl_804518DC[];
-}
-extern "C" {
-extern u8 lbl_804518E8[];
-}
-extern "C" {
-extern u8 lbl_804518F4[];
-}
-extern "C" {
-extern u8 lbl_80451900[];
-}
-extern "C" {
-extern u8 lbl_8045190C[];
-}
-extern "C" {
-extern u8 lbl_80451918[];
-}
-extern "C" {
-extern u8 lbl_80451924[];
-}
-extern "C" {
-extern u8 lbl_80451930[];
-}
-extern "C" {
-extern u8 lbl_8045193C[];
-}
-extern "C" {
-extern u8 lbl_80451948[];
-}
-extern "C" {
-extern u8 lbl_80451954[];
-}
-extern "C" {
-extern u8 lbl_80451960[];
-}
-extern "C" {
-extern u8 lbl_8045196C[];
-}
-extern "C" {
-extern u8 lbl_80451978[];
-}
-extern "C" {
-extern u8 lbl_80451984[];
-}
-extern "C" {
-extern u8 lbl_80451990[];
-}
-extern "C" {
-extern u8 lbl_8045199C[];
-}
-extern "C" {
-extern u8 lbl_804519A8[];
-}
-extern "C" {
-extern u8 lbl_804519B4[];
-}
-extern "C" {
-extern u8 lbl_804519C0[];
-}
-extern "C" {
-extern u8 lbl_804519CC[];
-}
-extern "C" {
-extern u8 lbl_804519D8[];
-}
-extern "C" {
-extern u8 lbl_804519E4[];
-}
-extern "C" {
-extern u8 lbl_804519F0[];
-}
-extern "C" {
-extern u8 lbl_804519FC[];
-}
-extern "C" {
-extern u8 lbl_80451A08[];
-}
-extern "C" {
-extern u8 lbl_80451A14[];
-}
-extern "C" {
-extern u8 lbl_80451A20[];
-}
-extern "C" {
-extern u8 lbl_80451A2C[];
-}
-extern "C" {
-extern u8 lbl_80451A38[];
-}
-extern "C" {
-extern u8 lbl_80451A44[];
-}
-extern "C" {
-extern u8 lbl_80451A50[];
-}
-extern "C" {
-extern u8 lbl_80451A5C[];
-}
-extern "C" {
-extern u8 lbl_80451A68[];
-}
-extern "C" {
-extern u8 lbl_80451A74[];
-}
-extern "C" {
-extern u8 lbl_80451A80[];
-}
-extern "C" {
-extern u8 lbl_80451A8C[];
-}
-extern "C" {
-extern u8 lbl_80451A98[];
-}
-extern "C" {
-extern u8 lbl_80451AA4[];
-}
-extern "C" {
-extern u8 lbl_80451AB0[];
-}
-extern "C" {
-extern u8 lbl_80451ABC[];
-}
-extern "C" {
-extern u8 lbl_80451AC8[];
-}
-extern "C" {
-extern u8 lbl_80451AD4[];
-}
-extern "C" {
-extern u8 lbl_80451AE0[];
-}
-extern "C" {
-extern u8 lbl_80451AEC[];
-}
-extern "C" {
-extern u8 lbl_80451AF8[];
-}
-extern "C" {
-extern u8 lbl_80451B04[];
-}
-extern "C" {
-extern u8 lbl_80451B10[];
-}
-extern "C" {
-extern u8 lbl_80451B1C[];
-}
-extern "C" {
-extern u8 lbl_80451B28[];
-}
-extern "C" {
-extern u8 lbl_80451B34[];
-}
-extern "C" {
-extern u8 lbl_80451B40[];
-}
-extern "C" {
-extern u8 lbl_80451B4C[];
-}
-extern "C" {
-extern u8 lbl_80451B58[];
-}
-extern "C" {
-extern u8 lbl_80451B64[];
-}
-extern "C" {
-extern u8 lbl_80451B70[];
-}
-extern "C" {
-extern u8 lbl_80451B7C[];
-}
-extern "C" {
-extern u8 lbl_80451B88[];
-}
-extern "C" {
-extern u8 lbl_80451B94[];
-}
-extern "C" {
-extern u8 lbl_80451BA0[];
-}
-extern "C" {
-extern u8 lbl_80451BAC[];
-}
-extern "C" {
-extern u8 lbl_80451BB8[];
-}
-extern "C" {
-extern u8 lbl_80451BC4[];
-}
-extern "C" {
-extern u8 lbl_80451BD0[];
-}
-extern "C" {
-extern u8 lbl_80451BDC[];
-}
-extern "C" {
-extern u8 lbl_80451BE8[];
-}
-extern "C" {
-extern u8 lbl_80451BF4[];
-}
-extern "C" {
-extern u8 lbl_80451C00[];
-}
-extern "C" {
-extern u8 lbl_80451C0C[];
-}
-extern "C" {
-extern u8 lbl_80451C18[];
-}
-extern "C" {
-extern u8 lbl_80451C24[];
-}
-extern "C" {
-extern u8 lbl_80451C30[];
-}
-extern "C" {
-extern u8 lbl_80451C3C[];
-}
-extern "C" {
-extern u8 lbl_80451C48[];
-}
-extern "C" {
-extern u8 lbl_80451C54[];
-}
-extern "C" {
-extern u8 lbl_80451C60[];
-}
-extern "C" {
-extern u8 lbl_80451C6C[];
-}
-extern "C" {
-extern u8 lbl_80451C78[];
-}
-extern "C" {
-extern u8 lbl_80451C84[];
-}
-extern "C" {
-extern u8 lbl_80451C90[];
-}
-extern "C" {
-extern u8 lbl_80451C9C[];
-}
-extern "C" {
-extern u8 lbl_80451CA8[];
-}
-extern "C" {
-extern u8 lbl_80451CB4[];
-}
-extern "C" {
-extern u8 lbl_805D3B70[];
-}
-extern "C" {
-extern u8 lbl_805D3B74[];
-}
-extern "C" {
-extern u8 lbl_805D3B78[];
-}
-extern "C" {
-extern u8 lbl_805D3B7C[];
-}
-extern "C" {
-extern u8 lbl_805D3B80[];
-}
-extern "C" {
-extern u8 lbl_805D3B84[];
-}
-extern "C" {
-extern u8 lbl_805D3B88[];
-}
-extern "C" {
-extern u8 lbl_805D3B8C[];
-}
-extern "C" {
-extern u8 lbl_805D3B90[];
-}
-extern "C" {
-extern u8 lbl_805D3B94[];
-}
-extern "C" {
-extern u8 lbl_805D3B98[];
-}
-extern "C" {
-extern u8 lbl_805D3B9C[];
-}
-extern "C" {
-extern u8 lbl_805D3BA0[];
-}
-extern "C" {
-extern u8 lbl_805D3BA4[];
-}
-extern "C" {
-extern u8 lbl_805D3BA8[];
-}
-extern "C" {
-extern u8 lbl_805D3BAC[];
-}
-extern "C" {
-extern u8 lbl_805D3BB0[];
-}
-extern "C" {
-extern u8 lbl_805D3BB4[];
-}
-extern "C" {
-extern u8 lbl_805D3BB8[];
-}
-extern "C" {
 void render_shadows__7TObjectFv();
 }
 extern "C" {
@@ -822,204 +117,150 @@ void reset_motion_fields__10TObjMotionFv();
 extern "C" {
 void update_object_view_visibility__8TObjBaseFff();
 }
-extern void *lbl_804D3A08[14];
-extern void *lbl_804D3A40[4];
-extern void *lbl_804D3A50[13];
-extern void *lbl_804D3A84[4];
-extern void *lbl_804D3A94[7];
-extern void *lbl_804D3AB0[4];
-extern void *lbl_804D3AC0[23];
-extern void *lbl_804D3B1C[4];
-extern void *lbl_804D3B2C[7];
-extern void *lbl_804D3B48[4];
-extern void *lbl_804D3B58[7];
-extern void *lbl_804D3B74[4];
-extern void *lbl_804D3B84[23];
-extern void *lbl_804D3BE0[4];
-extern void *lbl_804D3BF0[23];
-extern void *lbl_804D3C4C[4];
-extern void *lbl_804D3C5C[23];
-extern void *lbl_804D3CB8[4];
-extern void *lbl_804D3CC8[7];
-extern void *lbl_804D3CE4[4];
-extern void *lbl_804D3CF4[23];
-extern void *lbl_804D3D50[4];
-extern void *lbl_804D3D60[23];
-extern void *lbl_804D3DBC[4];
-extern void *lbl_804D3DCC[4];
-extern void *lbl_804D3DDC[4];
-extern void *lbl_804D3DEC[4];
-extern void *lbl_804D3DFC[4];
-extern void *lbl_804D3E0C[3];
-extern void *lbl_804D3E18[4];
-extern void *lbl_804D3E28[3];
-extern void *lbl_804D3E34[4];
-extern void *lbl_804D3E44[3];
-extern void *lbl_804D3E50[4];
-extern void *lbl_804D3E60[3];
-extern void *lbl_804D3E6C[4];
-extern void *lbl_804D3E7C[3];
-extern void *lbl_804D3E88[4];
-void *lbl_804D3A08[14] = {
-    (void *)&lbl_804512A0, (void *)&lbl_804512AC, (void *)&lbl_804512B8, (void *)&lbl_804512C4,
-    (void *)&lbl_804512D0, (void *)&lbl_804512DC, (void *)&lbl_804512E8, (void *)&lbl_804512F4,
-    (void *)&lbl_80451300, (void *)&lbl_8045130C, (void *)&lbl_80451318, (void *)&lbl_80451324,
-    (void *)&lbl_80451330, (void *)0x0,
+#pragma push
+#pragma readonly_strings on
+// empty motion name lists of the character-making BmlResourceDescriptors (inferred)
+const char *lbl_805D3B70[1] = {NULL};
+const char *lbl_805D3B74[1] = {NULL};
+const char *lbl_805D3B78[1] = {NULL};
+const char *lbl_805D3B7C[1] = {NULL};
+const char *lbl_805D3B80[1] = {NULL};
+const char *lbl_805D3B84[1] = {NULL};
+const char *lbl_805D3B88[1] = {NULL};
+const char *lbl_805D3B8C[1] = {NULL};
+const char *lbl_805D3B90[1] = {NULL};
+const char *lbl_805D3B94[1] = {NULL};
+const char *lbl_805D3B98[1] = {NULL};
+const char *lbl_805D3B9C[1] = {NULL};
+const char *lbl_805D3BA0[1] = {NULL};
+const char *lbl_805D3BA4[1] = {NULL};
+const char *lbl_805D3BA8[1] = {NULL};
+const char *lbl_805D3BAC[1] = {NULL};
+const char *lbl_805D3BB0[1] = {NULL};
+const char *lbl_805D3BB4[1] = {NULL};
+const char *lbl_805D3BB8[1] = {NULL};
+const char *lbl_804D3A08[14] = {
+    "plAbdy00.nj", "plAcap06.nj", "plAhai00.nj", "plAhai01.nj",
+    "plAhai02.nj", "plAhai03.nj", "plAhai04.nj", "plAhai05.nj",
+    "plAhai06.nj", "plAhai07.nj", "plAhai08.nj", "plAhai09.nj",
+    "plAhed00.nj", NULL,
 };
-void *lbl_804D3A40[4] = {
-    (void *)&lbl_8045133C, (void *)&lbl_804D3A08, (void *)&lbl_805D3B70, (void *)0xd0000,
+BmlResourceDescriptor lbl_804D3A40 = {"planj.bml", lbl_804D3A08, lbl_805D3B70, 13, 0};
+const char *lbl_804D3A50[13] = {
+    "plBbdy00.nj", "plBhai00.nj", "plBhai01.nj", "plBhai02.nj",
+    "plBhai03.nj", "plBhai04.nj", "plBhai05.nj", "plBhai06.nj",
+    "plBhai07.nj", "plBhai08.nj", "plBhai09.nj", "plBhed00.nj",
+    NULL,
 };
-void *lbl_804D3A50[13] = {
-    (void *)&lbl_80451348, (void *)&lbl_80451354, (void *)&lbl_80451360, (void *)&lbl_8045136C,
-    (void *)&lbl_80451378, (void *)&lbl_80451384, (void *)&lbl_80451390, (void *)&lbl_8045139C,
-    (void *)&lbl_804513A8, (void *)&lbl_804513B4, (void *)&lbl_804513C0, (void *)&lbl_804513CC,
-    (void *)0x0,
+BmlResourceDescriptor lbl_804D3A84 = {"plbnj.bml", lbl_804D3A50, lbl_805D3B74, 12, 0};
+const char *lbl_804D3A94[7] = {
+    "plCbdy00.nj", "plChed00.nj", "plChed01.nj", "plChed02.nj",
+    "plChed03.nj", "plChed04.nj", NULL,
 };
-void *lbl_804D3A84[4] = {
-    (void *)&lbl_804513D8, (void *)&lbl_804D3A50, (void *)&lbl_805D3B74, (void *)0xc0000,
+BmlResourceDescriptor lbl_804D3AB0 = {"plcnj.bml", lbl_804D3A94, lbl_805D3B78, 6, 0};
+const char *lbl_804D3AC0[23] = {
+    "plDbdy00.nj", "plDcap00.nj", "plDcap01.nj", "plDcap02.nj",
+    "plDcap03.nj", "plDcap04.nj", "plDcap05.nj", "plDcap06.nj",
+    "plDcap07.nj", "plDcap08.nj", "plDcap09.nj", "plDhai00.nj",
+    "plDhai01.nj", "plDhai02.nj", "plDhai03.nj", "plDhai04.nj",
+    "plDhai05.nj", "plDhai06.nj", "plDhai07.nj", "plDhai08.nj",
+    "plDhai09.nj", "plDhed00.nj", NULL,
 };
-void *lbl_804D3A94[7] = {
-    (void *)&lbl_804513E4, (void *)&lbl_804513F0, (void *)&lbl_804513FC, (void *)&lbl_80451408,
-    (void *)&lbl_80451414, (void *)&lbl_80451420, (void *)0x0,
+BmlResourceDescriptor lbl_804D3B1C = {"pldnj.bml", lbl_804D3AC0, lbl_805D3B7C, 22, 0};
+const char *lbl_804D3B2C[7] = {
+    "plEbdy00.nj", "plEhed00.nj", "plEhed01.nj", "plEhed02.nj",
+    "plEhed03.nj", "plEhed04.nj", NULL,
 };
-void *lbl_804D3AB0[4] = {
-    (void *)&lbl_8045142C, (void *)&lbl_804D3A94, (void *)&lbl_805D3B78, (void *)0x60000,
+BmlResourceDescriptor lbl_804D3B48 = {"plenj.bml", lbl_804D3B2C, lbl_805D3B80, 6, 0};
+const char *lbl_804D3B58[7] = {
+    "plFbdy00.nj", "plFhed00.nj", "plFhed01.nj", "plFhed02.nj",
+    "plFhed03.nj", "plFhed04.nj", NULL,
 };
-void *lbl_804D3AC0[23] = {
-    (void *)&lbl_80451438, (void *)&lbl_80451444, (void *)&lbl_80451450, (void *)&lbl_8045145C,
-    (void *)&lbl_80451468, (void *)&lbl_80451474, (void *)&lbl_80451480, (void *)&lbl_8045148C,
-    (void *)&lbl_80451498, (void *)&lbl_804514A4, (void *)&lbl_804514B0, (void *)&lbl_804514BC,
-    (void *)&lbl_804514C8, (void *)&lbl_804514D4, (void *)&lbl_804514E0, (void *)&lbl_804514EC,
-    (void *)&lbl_804514F8, (void *)&lbl_80451504, (void *)&lbl_80451510, (void *)&lbl_8045151C,
-    (void *)&lbl_80451528, (void *)&lbl_80451534, (void *)0x0,
+BmlResourceDescriptor lbl_804D3B74 = {"plfnj.bml", lbl_804D3B58, lbl_805D3B84, 6, 0};
+const char *lbl_804D3B84[23] = {
+    "plGbdy00.nj", "plGcap00.nj", "plGcap01.nj", "plGcap02.nj",
+    "plGcap03.nj", "plGcap04.nj", "plGcap05.nj", "plGcap06.nj",
+    "plGcap07.nj", "plGcap08.nj", "plGcap09.nj", "plGhai00.nj",
+    "plGhai01.nj", "plGhai02.nj", "plGhai03.nj", "plGhai04.nj",
+    "plGhai05.nj", "plGhai06.nj", "plGhai07.nj", "plGhai08.nj",
+    "plGhai09.nj", "plGhed00.nj", NULL,
 };
-void *lbl_804D3B1C[4] = {
-    (void *)&lbl_80451540, (void *)&lbl_804D3AC0, (void *)&lbl_805D3B7C, (void *)0x160000,
+BmlResourceDescriptor lbl_804D3BE0 = {"plgnj.bml", lbl_804D3B84, lbl_805D3B88, 22, 0};
+const char *lbl_804D3BF0[23] = {
+    "plHbdy00.nj", "plHcap00.nj", "plHcap01.nj", "plHcap02.nj",
+    "plHcap03.nj", "plHcap04.nj", "plHcap05.nj", "plHcap06.nj",
+    "plHcap07.nj", "plHcap08.nj", "plHcap09.nj", "plHhai00.nj",
+    "plHhai01.nj", "plHhai02.nj", "plHhai03.nj", "plHhai04.nj",
+    "plHhai05.nj", "plHhai06.nj", "plHhai07.nj", "plHhai08.nj",
+    "plHhai09.nj", "plHhed00.nj", NULL,
 };
-void *lbl_804D3B2C[7] = {
-    (void *)&lbl_8045154C, (void *)&lbl_80451558, (void *)&lbl_80451564, (void *)&lbl_80451570,
-    (void *)&lbl_8045157C, (void *)&lbl_80451588, (void *)0x0,
+BmlResourceDescriptor lbl_804D3C4C = {"plhnj.bml", lbl_804D3BF0, lbl_805D3B8C, 22, 0};
+const char *lbl_804D3C5C[23] = {
+    "plIbdy00.nj", "plIcap00.nj", "plIcap01.nj", "plIcap02.nj",
+    "plIcap03.nj", "plIcap04.nj", "plIcap05.nj", "plIcap06.nj",
+    "plIcap07.nj", "plIcap08.nj", "plIcap09.nj", "plIhai00.nj",
+    "plIhai01.nj", "plIhai02.nj", "plIhai03.nj", "plIhai04.nj",
+    "plIhai05.nj", "plIhai06.nj", "plIhai07.nj", "plIhai08.nj",
+    "plIhai09.nj", "plIhed00.nj", NULL,
 };
-void *lbl_804D3B48[4] = {
-    (void *)&lbl_80451594, (void *)&lbl_804D3B2C, (void *)&lbl_805D3B80, (void *)0x60000,
+BmlResourceDescriptor lbl_804D3CB8 = {"plinj.bml", lbl_804D3C5C, lbl_805D3B90, 22, 0};
+const char *lbl_804D3CC8[7] = {
+    "plJbdy00.nj", "plJhed00.nj", "plJhed01.nj", "plJhed02.nj",
+    "plJhed03.nj", "plJhed04.nj", NULL,
 };
-void *lbl_804D3B58[7] = {
-    (void *)&lbl_804515A0, (void *)&lbl_804515AC, (void *)&lbl_804515B8, (void *)&lbl_804515C4,
-    (void *)&lbl_804515D0, (void *)&lbl_804515DC, (void *)0x0,
+BmlResourceDescriptor lbl_804D3CE4 = {"pljnj.bml", lbl_804D3CC8, lbl_805D3B94, 6, 0};
+const char *lbl_804D3CF4[23] = {
+    "plKbdy00.nj", "plKcap00.nj", "plKcap01.nj", "plKcap02.nj",
+    "plKcap03.nj", "plKcap04.nj", "plKcap05.nj", "plKcap06.nj",
+    "plKcap07.nj", "plKcap08.nj", "plKcap09.nj", "plKhai00.nj",
+    "plKhai01.nj", "plKhai02.nj", "plKhai03.nj", "plKhai04.nj",
+    "plKhai05.nj", "plKhai06.nj", "plKhai07.nj", "plKhai08.nj",
+    "plKhai09.nj", "plKhed00.nj", NULL,
 };
-void *lbl_804D3B74[4] = {
-    (void *)&lbl_804515E8, (void *)&lbl_804D3B58, (void *)&lbl_805D3B84, (void *)0x60000,
+BmlResourceDescriptor lbl_804D3D50 = {"plknj.bml", lbl_804D3CF4, lbl_805D3B98, 22, 0};
+const char *lbl_804D3D60[23] = {
+    "plLbdy00.nj", "plLcap00.nj", "plLcap01.nj", "plLcap02.nj",
+    "plLcap03.nj", "plLcap04.nj", "plLcap05.nj", "plLcap06.nj",
+    "plLcap07.nj", "plLcap08.nj", "plLcap09.nj", "plLhai00.nj",
+    "plLhai01.nj", "plLhai02.nj", "plLhai03.nj", "plLhai04.nj",
+    "plLhai05.nj", "plLhai06.nj", "plLhai07.nj", "plLhai08.nj",
+    "plLhai09.nj", "plLhed00.nj", NULL,
 };
-void *lbl_804D3B84[23] = {
-    (void *)&lbl_804515F4, (void *)&lbl_80451600, (void *)&lbl_8045160C, (void *)&lbl_80451618,
-    (void *)&lbl_80451624, (void *)&lbl_80451630, (void *)&lbl_8045163C, (void *)&lbl_80451648,
-    (void *)&lbl_80451654, (void *)&lbl_80451660, (void *)&lbl_8045166C, (void *)&lbl_80451678,
-    (void *)&lbl_80451684, (void *)&lbl_80451690, (void *)&lbl_8045169C, (void *)&lbl_804516A8,
-    (void *)&lbl_804516B4, (void *)&lbl_804516C0, (void *)&lbl_804516CC, (void *)&lbl_804516D8,
-    (void *)&lbl_804516E4, (void *)&lbl_804516F0, (void *)0x0,
+BmlResourceDescriptor lbl_804D3DBC = {"pllnj.bml", lbl_804D3D60, lbl_805D3B9C, 22, 0};
+const char *lbl_804D3DCC[4] = {
+    "plSbdy00.nj", "plShai00.nj", "plShed00.nj", NULL,
 };
-void *lbl_804D3BE0[4] = {
-    (void *)&lbl_804516FC, (void *)&lbl_804D3B84, (void *)&lbl_805D3B88, (void *)0x160000,
+BmlResourceDescriptor lbl_804D3DDC = {"plsnj.bml", lbl_804D3DCC, lbl_805D3BA0, 3, 0};
+const char *lbl_804D3DEC[4] = {
+    "plTbdy00.nj", "plThai00.nj", "plThed00.nj", NULL,
 };
-void *lbl_804D3BF0[23] = {
-    (void *)&lbl_80451708, (void *)&lbl_80451714, (void *)&lbl_80451720, (void *)&lbl_8045172C,
-    (void *)&lbl_80451738, (void *)&lbl_80451744, (void *)&lbl_80451750, (void *)&lbl_8045175C,
-    (void *)&lbl_80451768, (void *)&lbl_80451774, (void *)&lbl_80451780, (void *)&lbl_8045178C,
-    (void *)&lbl_80451798, (void *)&lbl_804517A4, (void *)&lbl_804517B0, (void *)&lbl_804517BC,
-    (void *)&lbl_804517C8, (void *)&lbl_804517D4, (void *)&lbl_804517E0, (void *)&lbl_804517EC,
-    (void *)&lbl_804517F8, (void *)&lbl_80451804, (void *)0x0,
+BmlResourceDescriptor lbl_804D3DFC = {"pltnj.bml", lbl_804D3DEC, lbl_805D3BA4, 3, 0};
+const char *lbl_804D3E0C[3] = {
+    "plUbdy00.nj", "plUhed00.nj", NULL,
 };
-void *lbl_804D3C4C[4] = {
-    (void *)&lbl_80451810, (void *)&lbl_804D3BF0, (void *)&lbl_805D3B8C, (void *)0x160000,
+BmlResourceDescriptor lbl_804D3E18 = {"plunj.bml", lbl_804D3E0C, lbl_805D3BA8, 2, 0};
+const char *lbl_804D3E28[3] = {
+    "plVbdy00.nj", "plVhed00.nj", NULL,
 };
-void *lbl_804D3C5C[23] = {
-    (void *)&lbl_8045181C, (void *)&lbl_80451828, (void *)&lbl_80451834, (void *)&lbl_80451840,
-    (void *)&lbl_8045184C, (void *)&lbl_80451858, (void *)&lbl_80451864, (void *)&lbl_80451870,
-    (void *)&lbl_8045187C, (void *)&lbl_80451888, (void *)&lbl_80451894, (void *)&lbl_804518A0,
-    (void *)&lbl_804518AC, (void *)&lbl_804518B8, (void *)&lbl_804518C4, (void *)&lbl_804518D0,
-    (void *)&lbl_804518DC, (void *)&lbl_804518E8, (void *)&lbl_804518F4, (void *)&lbl_80451900,
-    (void *)&lbl_8045190C, (void *)&lbl_80451918, (void *)0x0,
+BmlResourceDescriptor lbl_804D3E34 = {"plvnj.bml", lbl_804D3E28, lbl_805D3BAC, 2, 0};
+const char *lbl_804D3E44[3] = {
+    "plWbdy00.nj", "plWhed00.nj", NULL,
 };
-void *lbl_804D3CB8[4] = {
-    (void *)&lbl_80451924, (void *)&lbl_804D3C5C, (void *)&lbl_805D3B90, (void *)0x160000,
+BmlResourceDescriptor lbl_804D3E50 = {"plwnj.bml", lbl_804D3E44, lbl_805D3BB0, 2, 0};
+const char *lbl_804D3E60[3] = {
+    "plXbdy00.nj", "plXhed00.nj", NULL,
 };
-void *lbl_804D3CC8[7] = {
-    (void *)&lbl_80451930, (void *)&lbl_8045193C, (void *)&lbl_80451948, (void *)&lbl_80451954,
-    (void *)&lbl_80451960, (void *)&lbl_8045196C, (void *)0x0,
+BmlResourceDescriptor lbl_804D3E6C = {"plxnj.bml", lbl_804D3E60, lbl_805D3BB4, 2, 0};
+const char *lbl_804D3E7C[3] = {
+    "plYbdy00.nj", "plYhed00.nj", NULL,
 };
-void *lbl_804D3CE4[4] = {
-    (void *)&lbl_80451978, (void *)&lbl_804D3CC8, (void *)&lbl_805D3B94, (void *)0x60000,
-};
-void *lbl_804D3CF4[23] = {
-    (void *)&lbl_80451984, (void *)&lbl_80451990, (void *)&lbl_8045199C, (void *)&lbl_804519A8,
-    (void *)&lbl_804519B4, (void *)&lbl_804519C0, (void *)&lbl_804519CC, (void *)&lbl_804519D8,
-    (void *)&lbl_804519E4, (void *)&lbl_804519F0, (void *)&lbl_804519FC, (void *)&lbl_80451A08,
-    (void *)&lbl_80451A14, (void *)&lbl_80451A20, (void *)&lbl_80451A2C, (void *)&lbl_80451A38,
-    (void *)&lbl_80451A44, (void *)&lbl_80451A50, (void *)&lbl_80451A5C, (void *)&lbl_80451A68,
-    (void *)&lbl_80451A74, (void *)&lbl_80451A80, (void *)0x0,
-};
-void *lbl_804D3D50[4] = {
-    (void *)&lbl_80451A8C, (void *)&lbl_804D3CF4, (void *)&lbl_805D3B98, (void *)0x160000,
-};
-void *lbl_804D3D60[23] = {
-    (void *)&lbl_80451A98, (void *)&lbl_80451AA4, (void *)&lbl_80451AB0, (void *)&lbl_80451ABC,
-    (void *)&lbl_80451AC8, (void *)&lbl_80451AD4, (void *)&lbl_80451AE0, (void *)&lbl_80451AEC,
-    (void *)&lbl_80451AF8, (void *)&lbl_80451B04, (void *)&lbl_80451B10, (void *)&lbl_80451B1C,
-    (void *)&lbl_80451B28, (void *)&lbl_80451B34, (void *)&lbl_80451B40, (void *)&lbl_80451B4C,
-    (void *)&lbl_80451B58, (void *)&lbl_80451B64, (void *)&lbl_80451B70, (void *)&lbl_80451B7C,
-    (void *)&lbl_80451B88, (void *)&lbl_80451B94, (void *)0x0,
-};
-void *lbl_804D3DBC[4] = {
-    (void *)&lbl_80451BA0, (void *)&lbl_804D3D60, (void *)&lbl_805D3B9C, (void *)0x160000,
-};
-void *lbl_804D3DCC[4] = {
-    (void *)&lbl_80451BAC, (void *)&lbl_80451BB8, (void *)&lbl_80451BC4, (void *)0x0,
-};
-void *lbl_804D3DDC[4] = {
-    (void *)&lbl_80451BD0, (void *)&lbl_804D3DCC, (void *)&lbl_805D3BA0, (void *)0x30000,
-};
-void *lbl_804D3DEC[4] = {
-    (void *)&lbl_80451BDC, (void *)&lbl_80451BE8, (void *)&lbl_80451BF4, (void *)0x0,
-};
-void *lbl_804D3DFC[4] = {
-    (void *)&lbl_80451C00, (void *)&lbl_804D3DEC, (void *)&lbl_805D3BA4, (void *)0x30000,
-};
-void *lbl_804D3E0C[3] = {
-    (void *)&lbl_80451C0C, (void *)&lbl_80451C18, (void *)0x0,
-};
-void *lbl_804D3E18[4] = {
-    (void *)&lbl_80451C24, (void *)&lbl_804D3E0C, (void *)&lbl_805D3BA8, (void *)0x20000,
-};
-void *lbl_804D3E28[3] = {
-    (void *)&lbl_80451C30, (void *)&lbl_80451C3C, (void *)0x0,
-};
-void *lbl_804D3E34[4] = {
-    (void *)&lbl_80451C48, (void *)&lbl_804D3E28, (void *)&lbl_805D3BAC, (void *)0x20000,
-};
-void *lbl_804D3E44[3] = {
-    (void *)&lbl_80451C54, (void *)&lbl_80451C60, (void *)0x0,
-};
-void *lbl_804D3E50[4] = {
-    (void *)&lbl_80451C6C, (void *)&lbl_804D3E44, (void *)&lbl_805D3BB0, (void *)0x20000,
-};
-void *lbl_804D3E60[3] = {
-    (void *)&lbl_80451C78, (void *)&lbl_80451C84, (void *)0x0,
-};
-void *lbl_804D3E6C[4] = {
-    (void *)&lbl_80451C90, (void *)&lbl_804D3E60, (void *)&lbl_805D3BB4, (void *)0x20000,
-};
-void *lbl_804D3E7C[3] = {
-    (void *)&lbl_80451C9C, (void *)&lbl_80451CA8, (void *)0x0,
-};
-void *lbl_804D3E88[4] = {
-    (void *)&lbl_80451CB4, (void *)&lbl_804D3E7C, (void *)&lbl_805D3BB8, (void *)0x20000,
-};
-void *character_making_resource_descriptor_table[19] = {
-    (void *)&lbl_804D3A40, (void *)&lbl_804D3A84, (void *)&lbl_804D3AB0, (void *)&lbl_804D3B1C,
-    (void *)&lbl_804D3B48, (void *)&lbl_804D3B74, (void *)&lbl_804D3BE0, (void *)&lbl_804D3C4C,
-    (void *)&lbl_804D3CB8, (void *)&lbl_804D3CE4, (void *)&lbl_804D3D50, (void *)&lbl_804D3DBC,
-    (void *)&lbl_804D3DDC, (void *)&lbl_804D3DFC, (void *)&lbl_804D3E18, (void *)&lbl_804D3E34,
-    (void *)&lbl_804D3E50, (void *)&lbl_804D3E6C, (void *)&lbl_804D3E88,
+BmlResourceDescriptor lbl_804D3E88 = {"plynj.bml", lbl_804D3E7C, lbl_805D3BB8, 2, 0};
+BmlResourceDescriptor *character_making_resource_descriptor_table[19] = {
+    &lbl_804D3A40, &lbl_804D3A84, &lbl_804D3AB0, &lbl_804D3B1C,
+    &lbl_804D3B48, &lbl_804D3B74, &lbl_804D3BE0, &lbl_804D3C4C,
+    &lbl_804D3CB8, &lbl_804D3CE4, &lbl_804D3D50, &lbl_804D3DBC,
+    &lbl_804D3DDC, &lbl_804D3DFC, &lbl_804D3E18, &lbl_804D3E34,
+    &lbl_804D3E50, &lbl_804D3E6C, &lbl_804D3E88,
 };
 void *character_making_action_table[36] = {
     (void *)0x10000, (void *)0x21, (void *)0x3f800000, (void *)0x0,
@@ -1032,6 +273,11 @@ void *character_making_action_table[36] = {
     (void *)0x10000, (void *)0x30, (void *)0x3f800000, (void *)0x0,
     (void *)0x10000, (void *)0x2e, (void *)0x3f800000, (void *)0x0,
 };
+// TCMCharacter class-name pointer, stored as the object name by TCMCharacter__ct (inferred)
+const char *lbl_805D3BBC = "TCMCharacter";
+// empty model part copied into every slot by init_entry_tables (inferred)
+__declspec(section ".rodata") CreationModelPart lbl_80451CD0 = {0, 0};
+#pragma pop
 __declspec(section ".data") CreationModelNodeState creation_empty_model_node = {0,0};
 
 struct Sel_802902CC {
@@ -1058,7 +304,6 @@ s32 scan_creation_resources(void *arg0);
 u32 relocate_data_block_pointers(u32 arg0, u32 arg1);
 extern s32 char_select_active_flag;
 void reset_character_creation_figure_rotation(void);
-extern s32 lbl_805D3BBC;
 extern void *creation_menu_main_obj;
 extern const f32 lbl_805DD940;
 extern "C" {
@@ -1129,7 +374,7 @@ void *TCMCharacter__ct(void *motion, void *arg1) {
 
     __ct__10TObjMotionFP7TObject(motion, arg1);
     *(void **)((s8 *)motion + 0x18) = (void *)lbl_804D4054;
-    *(s32 *)((s8 *)motion + 0) = lbl_805D3BBC;
+    *(const char **)((s8 *)motion + 0) = lbl_805D3BBC;
     lbl_805D49B4 = 1;
     cm = creation_player_character;
     char_select_active_flag = 0;
@@ -1202,11 +447,11 @@ void update_pair__23TAdSinglePlyChrSelectGCFPv(void* p) { TAdSinglePlyChrSelectG
 void TAdSinglePlyChrSelectGC__sub_80290884(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 void TAdSinglePlyChrSelectGC::init_entry_tables(void* _w0) {
     for (s32 i = 0; i < 10; i++) {
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_hair_model_parts[i], lbl_80451CD0);
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_cap_model_parts[i], lbl_80451CD0);
+        TAdSinglePlyChrSelectGC__sub_80290884(&creation_hair_model_parts[i], &lbl_80451CD0);
+        TAdSinglePlyChrSelectGC__sub_80290884(&creation_cap_model_parts[i], &lbl_80451CD0);
     }
     for (s32 i = 0; i < 5; i++) {
-        TAdSinglePlyChrSelectGC__sub_80290884(&creation_head_model_parts[i], lbl_80451CD0);
+        TAdSinglePlyChrSelectGC__sub_80290884(&creation_head_model_parts[i], &lbl_80451CD0);
     }
 }
 u8 TAdSinglePlyChrSelectGC::is_active() {

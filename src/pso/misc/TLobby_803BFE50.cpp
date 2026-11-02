@@ -130,7 +130,7 @@ void TLobby__sub_803C39CC(u8 *arg0);
 void TLobby__sub_803C0758(u8 *arg0);
 s32 TLobby__sub_803C1A00(int);
 s32 memset(void *, int, int);
-extern RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
+RecoveredGlobal_803C0B08_lbl_80570AC0 lbl_80570AC0;
 void TLobby__sub_803C406C(void);
 void TLobby__sub_803C133C(Snd_803C0BE8 *arg0);
 void TLobby__sub_803C0B3C(u8 *arg0);

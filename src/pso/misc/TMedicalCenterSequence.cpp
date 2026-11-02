@@ -34,7 +34,12 @@ TMedicalCenterMesInput controller_input_state[];
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
 
+struct RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 {
+    s32 value;
+    u8 remaining[0xC];
+};
 extern "C" {
+RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 TMedicalCenterSequence__data_80513E90;
 s32 TMedicalCenterMes__slot_flags[4];
 }
 
@@ -93,10 +98,6 @@ struct RecoveredGlobal_802169A8___vt__22TMedicalCenterSequence {
     u8 remaining[0x34];
 };
 
-struct RecoveredGlobal_802169A8_TMedicalCenterSequence__data_80513E90 {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 struct RecoveredGlobal_80216A70___vt__22TMedicalCenterSequence {
     s32 value;

@@ -213,11 +213,6 @@ struct RecoveredGlobal_801D8E60_lbl_804C4980 {
     u8 remaining[0x8];
 };
 
-struct RecoveredGlobal_801D9328_lbl_80447430 {
-    s32 value;
-    u8 remaining[0x17C];
-};
-
 struct RecoveredGlobal_801A51C0_lbl_80446980 {
     s32 value;
     u8 remaining[0x14];
@@ -251,8 +246,6 @@ struct RecoveredGlobal_801D8FB4_lbl_804C495C
   u8 remaining[0x14];
 };
 
-struct Vec_801D8CCC { f32 x, y, z; };
-
 typedef struct Src_801D88C8 {
     u8 pad0[0x50];
     u8 slot0[0x1C];
@@ -284,46 +277,23 @@ extern "C" {
 s8 TObjPlayer__sub_801AFDBC(s8);
 s32 get_main_phase();
 s32 obj_isState3_324__9TObjCharaFv(int);
-extern RecoveredGlobal_801D8ADC_lbl_8044929C getup_protection_ticks_table_a;
-extern RecoveredGlobal_801D8ADC_lbl_804492AC getup_protection_ticks_table_b;
-extern RecoveredGlobal_801D8ADC_lbl_804492BC player_getup_protection_ticks_table;
-extern RecoveredGlobal_801D8ADC_lbl_804492CC player_getup_protection_ticks_table_flagged;
 extern s32 game_difficulty_selection;
-extern RecoveredGlobal_801D8B8C_lbl_8044925C player_hurt_protection_ticks_table;
-extern RecoveredGlobal_801D8B8C_lbl_8044926C player_hurt_protection_ticks_table_flagged;
-extern RecoveredGlobal_801D8B8C_lbl_8044927C player_hurt_protection_ticks_table_phase15;
-extern RecoveredGlobal_801D8B8C_lbl_8044928C hurt_protection_ticks_table;
-extern RecoveredGlobal_801D8C6C_lbl_8044923C lobby_entry_table;
-extern RecoveredGlobal_801D8D8C_lbl_804C49B0 class_starting_inventory_table;
 s32 get_class_starting_inventory(s8 arg0);
-extern RecoveredGlobal_801D8E60_lbl_804C4980 player_clamped_index_table_pointers;
-extern RecoveredGlobal_801D9328_lbl_80447430 class_defense_template_table;
 u8 *get_class_defense_template(TObjPlayer *arg0);
-extern RecoveredGlobal_801A51C0_lbl_80446980 lbl_80449254;
 s32 TObjPlayer__sub_801D8C3C(void);
-extern RecoveredGlobal_801A51C0_lbl_80446980 lbl_80449234;
-extern RecoveredGlobal_801A51C0_lbl_80446980 lbl_804491CC;
 player_stats *get_class_stat_caps(s8 arg0);
-extern RecoveredGlobal_801D92F4_lbl_804475B0 class_attack_template_table;
 u8 *get_class_attack_template(TObjPlayer *arg0);
 stats *get_class_base_stats(s8 arg0);
 extern const f32 lbl_805DC400;
-extern RecoveredGlobal_801D9004_lbl_80447970 attack_recovery_count_table;
-extern RecoveredGlobal_801D8DCC_lbl_804C4998 player_cast_motion_record_table;
 s32 TObjPlayer__sub_801D8DCC(TObjPlayer *arg0);
-extern RecoveredGlobal_801D8E1C_lbl_804C498C player_anim_table_pointers;
-extern RecoveredGlobal_801D8FB4_lbl_804C495C photon_blast_motion_timing_tables;
-extern u8 *hospital_position_table_by_episode[];
 s32 get_max_level__10TObjPlayerFv(s32);
 s32 TObjPlayer__sub_801D91B8(s32 arg0);
-extern Vec_801D8CCC *guild_return_position_table_by_episode[];
-Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player);
+const Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player);
 void TObjPlayer__ct(void *, void *);
 extern s32 ending_sequence_player_vtable[];
 extern u8 *TObjPlayer__shared_model_buffer;
 extern const float lbl_805DC3F8;
 s32 classify_action_state__10TObjPlayerFv(void *);
-extern s32 (*player_footstep_floor_table[])[5];
 s32 TBoss4DarkFalz__sub_801D94C0(void* p);
 void *__dt__13TUnk_804C4540Fv(void *arg0, s16 arg1);
 void TObjPlayer__sub_801D8A38(void* a0);
@@ -338,11 +308,16 @@ void init__17TPlyInventoryItemFv(u8 *arg0);
 extern int ply_level_table;
 s32 get_ply_level_table_row(s8 arg0, s32 arg1);
 f32 lookup_attack_marker(s32, s16, s16, s32);
-extern s32 attack_marker_table[];
-extern s32 attack_marker_table_dagger[];
-extern s32 attack_marker_table_double_saber[];
-extern s32 twin_sword_male_marker_table[];
-extern s32 twin_sword_female_marker_table[];
+extern Rec_801D8F0C *photon_blast_motion_timing_tables[6];
+extern const s32 (*player_footstep_floor_table[3])[5];
+extern const Rec_8044821C *player_clamped_index_table_pointers[3];
+extern const Rec_8044845C *player_anim_table_pointers[3];
+extern const Rec_804484EC *player_cast_motion_record_table[6];
+extern const TPlyInventoryItem *class_starting_inventory_table[12];
+// Defined after their users, which keeps these 8-byte tables out of .sdata.
+extern const Vec_801D8CCC *hospital_position_table_by_episode[];
+extern const Vec_801D8CCC *guild_return_position_table_by_episode[];
+
 void create_player_ending_motion(void);
 void load_ply_level_tbl(void);
 s32 create_named_object(s32 arg0);
@@ -412,26 +387,26 @@ s32 *TObjPlayer::get_getup_protection_ticks() {
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
         if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
-            var_r3 = (s32 *)&player_getup_protection_ticks_table_flagged.value;
-            var_r3 = (s32 *)&player_getup_protection_ticks_table_flagged.value;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)&player_getup_protection_ticks_table_flagged.value + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
+            var_r3 = (s32 *)player_getup_protection_ticks_table_flagged;
+            var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
             return var_r3;
         }
-        var_r3 = (s32 *)&player_getup_protection_ticks_table.value;
-        var_r3 = (s32 *)&player_getup_protection_ticks_table.value;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)&player_getup_protection_ticks_table.value + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)player_getup_protection_ticks_table;
+        var_r3 = (s32 *)player_getup_protection_ticks_table;
+        var_r3 = (s32 *)(*(s32 *)((s8 *)player_getup_protection_ticks_table + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
-        var_r3 = (s32 *)&getup_protection_ticks_table_b.value;
-        var_r3 = (s32 *)&getup_protection_ticks_table_b.value;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)&getup_protection_ticks_table_b.value + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)getup_protection_ticks_table_b;
+        var_r3 = (s32 *)getup_protection_ticks_table_b;
+        var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_b + (game_difficulty_selection * 4)));
         return var_r3;
     }
-    var_r3 = (s32 *)&getup_protection_ticks_table_a.value;
-    var_r3 = (s32 *)&getup_protection_ticks_table_a.value;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)&getup_protection_ticks_table_a.value + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)getup_protection_ticks_table_a;
+    var_r3 = (s32 *)getup_protection_ticks_table_a;
+    var_r3 = (s32 *)(*(s32 *)((s8 *)getup_protection_ticks_table_a + (game_difficulty_selection * 4)));
     return var_r3;
 }
 
@@ -447,26 +422,26 @@ s32 *TObjPlayer::get_hurt_protection_ticks() {
     if (get_main_phase() == 0xF) {
         var_r3 = var_r31;
         if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
-            var_r3 = (s32 *)&hurt_protection_ticks_table.value;
-            var_r3 = (s32 *)&hurt_protection_ticks_table.value;
-            var_r3 = (s32 *)(*(s32 *)((s8 *)&hurt_protection_ticks_table.value + (game_difficulty_selection * 4)));
+            var_r3 = (s32 *)hurt_protection_ticks_table;
+            var_r3 = (s32 *)hurt_protection_ticks_table;
+            var_r3 = (s32 *)(*(s32 *)((s8 *)hurt_protection_ticks_table + (game_difficulty_selection * 4)));
             return var_r3;
         }
-        var_r3 = (s32 *)&player_hurt_protection_ticks_table_phase15.value;
-        var_r3 = (s32 *)&player_hurt_protection_ticks_table_phase15.value;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)&player_hurt_protection_ticks_table_phase15.value + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
+        var_r3 = (s32 *)player_hurt_protection_ticks_table_phase15;
+        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_phase15 + (game_difficulty_selection * 4)));
         return var_r3;
     }
     var_r3 = var_r31;
     if (obj_isState3_324__9TObjCharaFv((int)var_r3) != 0) {
-        var_r3 = (s32 *)&player_hurt_protection_ticks_table_flagged.value;
-        var_r3 = (s32 *)&player_hurt_protection_ticks_table_flagged.value;
-        var_r3 = (s32 *)(*(s32 *)((s8 *)&player_hurt_protection_ticks_table_flagged.value + (game_difficulty_selection * 4)));
+        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
+        var_r3 = (s32 *)player_hurt_protection_ticks_table_flagged;
+        var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table_flagged + (game_difficulty_selection * 4)));
         return var_r3;
     }
-    var_r3 = (s32 *)&player_hurt_protection_ticks_table.value;
-    var_r3 = (s32 *)&player_hurt_protection_ticks_table.value;
-    var_r3 = (s32 *)(*(s32 *)((s8 *)&player_hurt_protection_ticks_table.value + (game_difficulty_selection * 4)));
+    var_r3 = (s32 *)player_hurt_protection_ticks_table;
+    var_r3 = (s32 *)player_hurt_protection_ticks_table;
+    var_r3 = (s32 *)(*(s32 *)((s8 *)player_hurt_protection_ticks_table + (game_difficulty_selection * 4)));
     return var_r3;
 }
 
@@ -474,34 +449,34 @@ typedef char RecoveredGlobal_801D8C6C_lbl_8044923C_size[sizeof(RecoveredGlobal_8
 
 typedef char RecoveredGlobal_801A51C0_lbl_80446980_size[sizeof(RecoveredGlobal_801A51C0_lbl_80446980) == 0x18 ? 1 : -1];
 s32 TObjPlayer__sub_801D8C3C(void) {
-    return *(s32 *)((s8 *)&lbl_80449254.value + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)lbl_80449254 + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_lobby_entry_ptr() {
-    return (u8 *)&lobby_entry_table.value + (TLobby::get_instance() * 0xC);
+    return (u8 *)lobby_entry_table + (TLobby::get_instance() * 0xC);
 }
 
 typedef char RecoveredGlobal_801D8D8C_lbl_804C49B0_size[sizeof(RecoveredGlobal_801D8D8C_lbl_804C49B0) == 0x30 ? 1 : -1];
 
 s32 TObjPlayer::get_guild_return_yaw() {
-    return *(s32 *)((s8 *)&lbl_80449234.value + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)lbl_80449234 + (TLobby::get_instance() * 4));
 }
 
-Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player) {
+const Vec_801D8CCC *get_guild_return_position__10TObjPlayerFPv(void *player) {
     return guild_return_position_table_by_episode[TLobby::get_instance()] + get_entity_id(player);
 }
 
 s32 TObjPlayer::get_hospital_yaw() {
-    return *(s32 *)((s8 *)&lbl_804491CC.value + (TLobby::get_instance() * 4));
+    return *(s32 *)((s8 *)lbl_804491CC + (TLobby::get_instance() * 4));
 }
 
 u8 *TObjPlayer::get_hospital_position() {
-    return hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
+    return (u8 *)hospital_position_table_by_episode[TLobby::get_instance()] + (get_entity_id(this) * 0xC);
 }
 
 s32 get_class_starting_inventory(s8 arg0) {
     TObjPlayer__sub_801AFDBC(arg0);
-    return *(s32 *)((s8 *)&class_starting_inventory_table.value + (arg0 * 4));
+    return *(s32 *)((s8 *)class_starting_inventory_table + (arg0 * 4));
 }
 
 typedef char RecoveredGlobal_801D8E60_lbl_804C4980_size[sizeof(RecoveredGlobal_801D8E60_lbl_804C4980) == 0xC ? 1 : -1];
@@ -512,7 +487,7 @@ s32 TObjPlayer__sub_801D8DCC(TObjPlayer *player) {
   s32 temp_r31;
   s8 *new_var;
   temp_r31 = player->get_handle_value() * 0x14;
-  new_var = ((s8 *)&player_cast_motion_record_table.value) + (player->has_valid_handle() * 4);
+  new_var = ((s8 *)player_cast_motion_record_table) + (player->has_valid_handle() * 4);
   return (*((s32 *) new_var)) + temp_r31;
 }
 
@@ -522,12 +497,12 @@ long TObjPlayer::get_anim_table_entry(s32 arg1) {
     u8 *arg0 = (u8 *)this;
   int new_var;
   new_var = ((TObjPlayer *)arg0)->get_clamped_index() * 4;
-  return (*((s32 *) (((s8 *)&player_anim_table_pointers.value) + new_var))) + (arg1 * 4);
+  return (*((s32 *) (((s8 *)player_anim_table_pointers) + new_var))) + (arg1 * 4);
 }
 
 s32 TObjPlayer::get_table_entry_by_clamped_index() {
     u8 *arg0 = (u8 *)this;
-    return *(s32 *)((s8 *)&player_clamped_index_table_pointers.value + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
+    return *(s32 *)((s8 *)player_clamped_index_table_pointers + (((TObjPlayer *)arg0)->get_clamped_index() * 4));
 }
 
 typedef char RecoveredGlobal_801D9004_lbl_80447970_size[sizeof(RecoveredGlobal_801D9004_lbl_80447970) == 0x3C ? 1 : -1];
@@ -537,7 +512,7 @@ typedef char RecoveredGlobal_801D8FB4_lbl_804C495C_size[((sizeof(RecoveredGlobal
 
 s32 TObjPlayer::get_footstep_floor_index() {
     s32 floor;
-    s32 (*table)[5];
+    const s32 (*table)[5];
     floor = get_current_floor_area();
     table = player_footstep_floor_table[classify_action_state__10TObjPlayerFv(this)];
     if (floor == 0xE && TBoss4DarkFalz::get_instance_count() == 0) {
@@ -562,7 +537,7 @@ f32 TObjPlayer::get_photon_blast_hold_frame() {
   s32 temp_r31;
   s32 *new_var;
   temp_r31 = ((TObjPlayer *)arg0)->get_handle_value() * 0xC;
-  new_var = (s32 *) (((s8 *) (((u8 *)&photon_blast_motion_timing_tables.value) + (((s32)((TObjPlayer *)arg0)->has_valid_handle()) * 4))) + 0);
+  new_var = (s32 *) (((s8 *) (((u8 *)photon_blast_motion_timing_tables) + (((s32)((TObjPlayer *)arg0)->has_valid_handle()) * 4))) + 0);
   return *((f32 *) (((s8 *) ((*new_var) + temp_r31)) + 0));
 }
 
@@ -570,7 +545,7 @@ f32 TObjPlayer::get_attack_recovery_count() {
     s32 arg0 = (s32)this;
     s32 falz_phase;
     falz_phase = get_falz_phase();
-    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)&attack_recovery_count_table.value + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
+    return (f32) (s8) *(u8 *)((s8 *)((u8 *)(((u8 *)attack_recovery_count_table + (((TObjPlayer *)arg0)->get_handle_value() * 3))) + falz_phase) + 0);
 }
 
 #pragma push
@@ -605,6 +580,93 @@ f32 lookup_attack_marker(s32 arg0, s16 arg1, s16 arg2, s32 arg3) {
     }
 }
 
+// .data
+Rec_801D8F0C lbl_804C46B0[19] = {
+    { 20.0f, 22.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 30.0f, 32.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 16.0f, 18.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 31.0f, 33.0f, 46.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 30.0f, 32.0f, 46.0f },
+};
+Rec_801D8F0C lbl_804C4794[19] = {
+    { 24.0f, 26.0f, 40.0f },
+    { 24.0f, 26.0f, 46.0f },
+    { 16.0f, 18.0f, 44.0f },
+    { 28.0f, 30.0f, 45.0f },
+    { 30.0f, 32.0f, 44.0f },
+    { 24.0f, 26.0f, 46.0f },
+    { 30.0f, 32.0f, 43.0f },
+    { 28.0f, 30.0f, 46.0f },
+    { 28.0f, 30.0f, 44.0f },
+    { 20.0f, 22.0f, 44.0f },
+    { 24.0f, 26.0f, 45.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 22.0f, 24.0f, 44.0f },
+    { 24.0f, 26.0f, 40.0f },
+    { 22.0f, 24.0f, 44.0f },
+    { 28.0f, 30.0f, 45.0f },
+    { 24.0f, 26.0f, 46.0f },
+    { 26.0f, 28.0f, 44.0f },
+    { 28.0f, 30.0f, 42.0f },
+};
+Rec_801D8F0C lbl_804C4878[19] = {
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 22.0f, 24.0f, 39.0f },
+    { 28.0f, 30.0f, 42.0f },
+    { 22.0f, 24.0f, 39.0f },
+    { 24.0f, 26.0f, 42.0f },
+    { 26.0f, 28.0f, 42.0f },
+    { 26.0f, 28.0f, 42.0f },
+    { 28.0f, 30.0f, 42.0f },
+};
+Rec_801D8F0C *photon_blast_motion_timing_tables[6] = {
+    lbl_804C46B0, lbl_804C4794, lbl_804C4878,
+    lbl_804C46B0, lbl_804C4794, lbl_804C4794,
+};
+const s32 (*player_footstep_floor_table[3])[5] = {
+    lbl_804479AC, lbl_80447C7C, lbl_80447F4C,
+};
+const Rec_8044821C *player_clamped_index_table_pointers[3] = {
+    lbl_8044821C, lbl_804482DC, lbl_8044839C,
+};
+const Rec_8044845C *player_anim_table_pointers[3] = {
+    lbl_8044845C, lbl_8044848C, lbl_804484BC,
+};
+const Rec_804484EC *player_cast_motion_record_table[6] = {
+    lbl_804484EC, lbl_80448668, lbl_804487E4,
+    lbl_80448960, lbl_80448668, lbl_80448668,
+};
+const TPlyInventoryItem *class_starting_inventory_table[12] = {
+    lbl_80448ADC, lbl_80448B68, lbl_80448BF4, lbl_80448C80,
+    lbl_80448D0C, lbl_80448D98, lbl_80448E24, lbl_80448EB0,
+    lbl_80448F3C, lbl_80448FC8, lbl_80449054, lbl_804490E0,
+};
+
 s32 TObjPlayer__sub_801D91B8(s32 arg0) {
     return TObjPlayer::get_current_state_field(((TObjPlayer *)arg0)->get_class_index(), get_max_level__10TObjPlayerFv(arg0));
 }
@@ -629,16 +691,15 @@ void TObjPlayer__sub_801D92A4(void) { TLobby::free_nodes_with_id(ply_level_table
     extern unsigned char lbl_804492E8[];
 void load_ply_level_tbl(void) { ply_level_table = load_encrypted_archive_data(lbl_804492E8); }
 
-typedef char RecoveredGlobal_801D9328_lbl_80447430_size[sizeof(RecoveredGlobal_801D9328_lbl_80447430) == 0x180 ? 1 : -1];
 
 typedef char RecoveredGlobal_801D92F4_lbl_804475B0_size[sizeof(RecoveredGlobal_801D92F4_lbl_804475B0) == 0x240 ? 1 : -1];
 
 u8 *get_class_attack_template(TObjPlayer *player) {
-    return (u8 *)&class_attack_template_table.value + (player->get_class_index() * 0x30);
+    return (u8 *)class_attack_template_table + (player->get_class_index() * 0x30);
 }
 
 u8 *get_class_defense_template(TObjPlayer *player) {
-    return (u8 *)&class_defense_template_table.value + (player->get_class_index() << 5);
+    return (u8 *)class_defense_template_table + (player->get_class_index() << 5);
 }
 
 stats *get_class_base_stats(s8 arg0) {
@@ -672,3 +733,10 @@ s32 TObjPlayer::get_falz_phase() { return TBoss4DarkFalz__sub_801D94C0((void*)((
 int TBoss4DarkFalz::get_instance_count() {  return dark_falz_form_index; }
 
 s32 TBoss4DarkFalz__sub_801D94C0(void* p) { return *(s32*)((char*)p + 0x14); }
+
+const Vec_801D8CCC *hospital_position_table_by_episode[2] = {
+    lbl_8044916C, lbl_8044919C,
+};
+const Vec_801D8CCC *guild_return_position_table_by_episode[2] = {
+    lbl_804491D4, lbl_80449204,
+};

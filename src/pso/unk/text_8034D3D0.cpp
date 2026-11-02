@@ -111,7 +111,7 @@ struct PartnerText_8034DA38
   s32 kind[6];
 };
 
-extern struct PartnerText_8034D9E0 partner_dialogue_table[];
+struct PartnerText_8034D9E0 partner_dialogue_table[4];
 struct V3_8034D790 { f32 x, y, z; };
 struct Ent_8034D790 { V3_8034D790 p; f32 weight; };
 extern "C" {

@@ -338,3 +338,5 @@ typedef char RecoveredGlobal_803E5458_lbl_8058DC00_size[sizeof(RecoveredGlobal_8
 void TObjPlayer__sub_803E5458(s32 arg0) {
     lbl_805D7818 = (u8 *)&lbl_8058DC00.value + (arg0 * 0x24);
 }
+
+RecoveredGlobal_803E5458_lbl_8058DC00 lbl_8058DC00;

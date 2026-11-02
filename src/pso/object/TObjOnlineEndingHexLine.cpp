@@ -530,3 +530,5 @@ void fn_802E6260(void) {
     copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&TObjOnlineEndingHexLine__hex_line_params,
         ((void *(*)(void *, void *))copy_move_params__23TObjOnlineEndingHexMoveFPvPv)(&online_ending_hex_line_param, lbl_804E3A98));
 }
+
+Param_802E5CB0 online_ending_hex_line_state;

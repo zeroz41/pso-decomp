@@ -282,8 +282,7 @@ pso/boss/TBoss6Tube_802B16BC.cpp
 pso/boss/TBoss6Type1_802B20C0.cpp
 pso/boss/TBoss6Type1_80320AE0.cpp
 pso/boss/TBoss6Type1_80323DCC.cpp
-pso/boss/TBoss6Type2_802B97E0.cpp
-pso/boss/TBoss6Type2_802B9858.cpp
+pso/boss/TBoss6Type2.cpp
 pso/boss/TBoss6Type2_802BE588.cpp
 pso/boss/TBoss6Type2_802BF558.cpp
 pso/boss/TBoss6Type2_8032E708.cpp
@@ -471,6 +470,7 @@ pso/enemy/TObjEneHoldEffect_8036D070.cpp
 pso/enemy/TObjEneIllGill.cpp
 pso/enemy/TObjEneLappy.cpp
 pso/enemy/TObjEneLappy_800F5DE0.cpp
+pso/enemy/TObjEneMe1Canadin.cpp
 pso/enemy/TObjEneMe1CanadinLeader.cpp
 pso/enemy/TObjEneMe1CanadinLeader_8009F4A0.cpp
 pso/enemy/TObjEneMe1Canadin_8009F504.cpp
@@ -497,6 +497,7 @@ pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp
 pso/enemy/TObjEneMe3Stelth_800F0EC4.cpp
 pso/enemy/TObjEneMe3Stelth_802D70AC.cpp
 pso/enemy/TObjEneMe3Stelth_803DC82C.cpp
+pso/enemy/TObjEneMerillLia.cpp
 pso/enemy/TObjEneMoja.cpp
 pso/enemy/TObjEneMorfos.cpp
 pso/enemy/TObjEneMorfosArm.cpp
@@ -761,15 +762,11 @@ pso/item/TItemTimerEvent.cpp
 pso/item/TItemWeaponMechgun.cpp
 pso/item/TItemWpnCardEffect.cpp
 pso/item/TItem_80363AF4.cpp
-pso/item/TObjContainerAbeEnemy.cpp
-pso/item/TObjContainerBase.cpp
-pso/item/TObjContainerEnemy.cpp
 pso/item/TObjContainerIdo.cpp
 pso/item/TObjContainerIdo_8018BEE4.cpp
 pso/item/TObjContainerIdo_801A0B94.cpp
 pso/item/TObjContainerItem.cpp
 pso/item/TObjContainerJung.cpp
-pso/item/TObjContainerNoItem.cpp
 pso/item/TObjItemLight.cpp
 pso/item/TUnk_8049F770.cpp
 pso/item/TUnk_8049F828.cpp
@@ -827,6 +824,7 @@ pso/misc/CreationMotion.cpp
 pso/misc/EndingSceneTables.cpp
 pso/misc/GbaDownloadRuntime.cpp
 pso/misc/KeyboardCharacterMaps.cpp
+pso/misc/QuestDownloadBuffers.cpp
 pso/misc/RenderFadeState.cpp
 pso/misc/ShopToolStock.cpp
 pso/misc/ShopWeaponStock.cpp
@@ -1669,6 +1667,7 @@ pso/misc/TWindowDD_80342E40.cpp
 pso/misc/TWindowDD_80346A84.cpp
 pso/misc/TWindowDD_80346F48.cpp
 pso/misc/TWindowDD_803471C0.cpp
+pso/misc/TWindowDD_8034725C.cpp
 pso/misc/TWindowDD_80347F34.cpp
 pso/misc/TWindowDD_80348100.cpp
 pso/misc/TWindowDD_80348304.cpp
@@ -1706,6 +1705,7 @@ pso/misc/TWindowKeyBoardHard_801FBA48.cpp
 pso/misc/TWindowKeyBoardHard_8025EB68.cpp
 pso/misc/TWindowKeyBoardHard_802601D4.cpp
 pso/misc/TWindowKeyBoardHard_8026038C.cpp
+pso/misc/TWindowKeyBoardSoft.cpp
 pso/misc/TWindowKeyBoardSoft_80080798.cpp
 pso/misc/TWindowKeyBoardSoft_80228BEC.cpp
 pso/misc/TWindowKeyBoardSoft_8024E68C.cpp
@@ -1872,6 +1872,7 @@ pso/misc/TWindowSubStatusDisp_8024F688.cpp
 pso/misc/TWindowSubStatusDisp_8024FBA8.cpp
 pso/misc/TWindowSubStatusDisp_80255DF4.cpp
 pso/misc/TWindowSubStatusDisp_8025737C.cpp
+pso/misc/TWindowSubStatusDisp_80257784.cpp
 pso/misc/TWindowSubStatusDisp_80257BC0.cpp
 pso/misc/TWindowSubStatusDisp_802598E4.cpp
 pso/misc/TWindowSubStatusDisp_8025995C.cpp
@@ -1883,6 +1884,7 @@ pso/misc/TWindowSubStatusDisp_802671F0.cpp
 pso/misc/TWindowSubStatusDisp_80268488.cpp
 pso/misc/TWindowSubStatusDisp_80268738.cpp
 pso/misc/TWindowSubStatusDisp_8026CE3C.cpp
+pso/misc/TWindowSubStatusDisp_8026F6DC.cpp
 pso/misc/TWindowSubStatusDisp_80281198.cpp
 pso/misc/TWindowSubStatusDisp_80287570.cpp
 pso/misc/TWindowSubStatusDisp_80288030.cpp
@@ -2033,7 +2035,6 @@ pso/object/TObjBgmColCtrl.cpp
 pso/object/TObjBgmColCtrl_8017E2EC.cpp
 pso/object/TObjBgmColCtrl_8017E498.cpp
 pso/object/TObjBgmColCtrl_8017E8E4.cpp
-pso/object/TObjBgmColCtrl_8036A4AC.cpp
 pso/object/TObjBgmCol_8017E664.cpp
 pso/object/TObjBgmCol_8017E7F0.cpp
 pso/object/TObjBigTuitate.cpp
@@ -2588,6 +2589,7 @@ pso/ui/TAdBackGC.cpp
 pso/ui/TAdBackGC_8029A7B0.cpp
 pso/ui/TAdBackTxtGC.cpp
 pso/ui/TAdChrMoveEffectGC.cpp
+pso/ui/TAdChrSelASlotGC.cpp
 pso/ui/TAdChrSelASlotGC_802A596C.cpp
 pso/ui/TAdChrSelBSlotGC.cpp
 pso/ui/TAdChrSelBSlotGC_8030E354.cpp
@@ -2693,8 +2695,6 @@ pso/ui/TAdPlyStatusGC_802E1128.cpp
 pso/ui/TAdPlyStatusGC_8033FD48.cpp
 pso/ui/TAdPsoPassSaveGC.cpp
 pso/ui/TAdRayGC.cpp
-pso/ui/TAdRayGC_8029BFC8.cpp
-pso/ui/TAdRayGC_8029BFFC.cpp
 pso/ui/TAdRicoRingCtrl.cpp
 pso/ui/TAdRicoRingCtrl_8001B4A0.cpp
 pso/ui/TAdSEGAlogo.cpp
@@ -3471,9 +3471,6 @@ pso/unk/text_80362638.cpp
 pso/unk/text_803626A8.cpp
 pso/unk/text_80365348.cpp
 pso/unk/text_8036A3CC.cpp
-pso/unk/text_8036A514.cpp
-pso/unk/text_8036A5B4.cpp
-pso/unk/text_8036A620.cpp
 pso/unk/text_8036A894.cpp
 pso/unk/text_8036AE2C.cpp
 pso/unk/text_8036B748.cpp
@@ -3493,6 +3490,7 @@ pso/unk/text_803CD840.cpp
 pso/unk/text_803CE1D8.cpp
 pso/unk/text_803CE1F4.cpp
 pso/unk/text_803CE240.cpp
+pso/unk/text_803CFEA0.cpp
 pso/unk/text_803D0C34.cpp
 pso/unk/text_803D2F1C.cpp
 pso/unk/text_803D31A4.cpp

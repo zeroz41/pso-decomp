@@ -7,6 +7,52 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/misc/TCharaMaking.h"
 #include "pso/misc/TChCrLoadReq.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include <stddef.h>
+
+#pragma push
+#pragma readonly_strings on
+// The character-creation motion archive: no models, 49 body motions.
+const char *charamakingmot_model_names[1] = {NULL};
+const char *charamakingmot_motion_names[50] = {
+    "pxuS01_B02_F_body.njm", "pxuS01_B02_W_body.njm",
+    "pxuS01_C01_F_body.njm", "pxuS01_C02_F_body.njm",
+    "pxuS01_C03_F_body.njm", "pxuS01_C04_F_body.njm",
+    "pxuS01_C07_W_body.njm", "pxuS03_C01_W_body.njm",
+    "pxuS03_C02_W_body.njm", "pxuZ00_A01_F_body.njm",
+    "pxuZ00_A01_M_body.njm", "pxuZ00_A01_W_body.njm",
+    "pxuZ00_A03_F_body.njm", "pxuZ00_A03_M_body.njm",
+    "pxuZ00_A03_W_body.njm", "pxuZ00_A04_F_body.njm",
+    "pxuZ00_A04_M_body.njm", "pxuZ00_A04_W_body.njm",
+    "pxuZ00_A05_F_body.njm", "pxuZ00_A05_M_body.njm",
+    "pxuZ00_A05_W_body.njm", "pxuZ00_A06_F_body.njm",
+    "pxuZ00_A06_M_body.njm", "pxuZ00_A06_W_body.njm",
+    "pxuZ00_A07_F_body.njm", "pxuZ00_A07_M_body.njm",
+    "pxuZ00_A07_W_body.njm", "pxuZ00_A08_F_body.njm",
+    "pxuZ00_A08_M_body.njm", "pxuZ00_A08_W_body.njm",
+    "pxuZ00_B01_F_body.njm", "pxuZ00_B01_M_body.njm",
+    "pxuZ00_B01_W_body.njm", "pxuZ00_B02_M_body.njm",
+    "pxuZ00_C01_M_body.njm", "pxuZ00_C02_M_body.njm",
+    "pxuZ00_C03_M_body.njm", "pxuZ00_C03_W_body.njm",
+    "pxuZ00_C04_M_body.njm", "pxuZ00_C04_W_body.njm",
+    "pxuZ00_C08_F_body.njm", "pxuZ00_C08_M_body.njm",
+    "pxuZ00_C08_W_body.njm", "pxuZ00_C09_F_body.njm",
+    "pxuZ00_C09_M_body.njm", "pxuZ00_C09_W_body.njm",
+    "pxuZ00_C10_F_body.njm", "pxuZ00_C10_M_body.njm",
+    "pxuZ00_C10_W_body.njm",
+    NULL,
+};
+BmlResourceDescriptor creation_menu_resource_descriptor = {
+    "charamakingmot.bml", charamakingmot_model_names, charamakingmot_motion_names, 0, 49,
+};
+const char *lbl_805D3B6C = "TCharaMaking";
+// Per-class value passed with each player_class_texture_archive_table entry
+// (19 entries, like the class tables).
+const s32 lbl_8045122C[19] = {
+    137, 310, 286, 208, 311, 386, 337, 355, 516, 386, 321, 333,
+    16, 17, 14, 14, 14, 14, 14,
+};
+#pragma pop
 
 struct TextureList
 {

@@ -60,7 +60,7 @@ extern const f32 lbl_805DF20C;
 s32 TAdChrSelASlotGC__sub_8030C978(void *arg0, s32 arg1, s32 arg2);
 void *__ct__16TAdChrSelASlotGCFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 u8 *__nw__7TObjectFUl(s32);
-extern u32 TAdChrSel__global_slot_data;
+u32 TAdChrSel__global_slot_data;
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 s32 __ct__19TAdPlyChrSelPlateGCFv(int, void *, void *);
 s32 __ct__15TAdChrSelSlotGCFP7TObject(int, void *);
@@ -973,3 +973,6 @@ u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
 }
 
 s32 TAdChrSelASlotGC::get_slot_index() { return this->state_frames; }
+
+char char_select_format_message_buffer[0x100];
+G_8030C45C chr_select_a_slot_entry;

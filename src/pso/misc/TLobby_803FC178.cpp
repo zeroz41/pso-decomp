@@ -4212,3 +4212,11 @@ typedef char RecoveredGlobal_8041E178_lbl_805C1D48_size[sizeof(RecoveredGlobal_8
 #pragma push
 #pragma opt_propagation off
 #pragma pop
+
+RecoveredGlobal_803FD520_lbl_805C0310 lobby_net_buffer_desc_b;
+u32 lbl_805C0328[0xD8 / 4];
+u32 lbl_805C0400[0xA8 / 4];
+RecoveredGlobal_80401A68_lbl_805C04A8 lbl_805C04A8;
+Names_80403168 lbl_805C04D8;
+RecoveredGlobal_80402B60_lbl_805C0620 lbl_805C0620;
+RecoveredGlobal_80403D28_lbl_805C0638 lbl_805C0638;

@@ -312,3 +312,5 @@ void * TObjNpcEnemy__create(void *arg0) {
 }
 
 }
+
+RecoveredGlobal_802D72E4_TObjNpcEnemy__data_80540FF0 TObjNpcEnemy__entry_table;

@@ -111,6 +111,8 @@ s32 controller_device_id_table[4] = { 0, 6, 12, 18 };
 
 extern "C" {
 s32 lbl_805D34C8 = 1;
+RecoveredGlobal_801A5EC4_lbl_8050E208 controller_input_state;
+u8 controller_physical_port_bank[0x1B0];
 u32 pad_recalibration_counters[4];
 }
 

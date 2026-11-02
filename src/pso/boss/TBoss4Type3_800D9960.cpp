@@ -11,7 +11,9 @@
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
-extern s32 lbl_80500FA4[3];
+Vec lbl_80500F80;
+Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];
+s32 lbl_80500FA4[3];
 void *mem_alloc(u32 size);
 extern const f32 lbl_805DA3EC;
 extern const f32 lbl_805DA3F0;

@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_8023F160.h"
-#include "pso/unk/text_8036A620.h"
+#include "pso/unk/text_8036A3CC.h"
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"

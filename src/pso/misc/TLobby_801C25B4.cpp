@@ -1891,3 +1891,10 @@ void *TPlayerBattleCtrl__ct(void *player_battle_ctrl, s32 _w1) {
     *(s32 *)((s8 *)player_battle_ctrl + 0x64) = 0;
     return player_battle_ctrl;
 }
+
+Ent_801C26A8 TLobby__duel_result_table[4];
+s32 TLobby__battle_team_table[4];
+s16 battle_event_second_table[8];
+u16 battle_mode_data_table[4];
+s32 battle_intro_value_table[4];
+char battle_intro_message_buffer[0x100];

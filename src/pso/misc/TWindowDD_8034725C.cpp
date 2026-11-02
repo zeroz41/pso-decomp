@@ -323,19 +323,19 @@ void TWindowDD__sub_80347758(M_80347758 *src, M_80347758 *dst) {
     dst->f14 = src->f14;
 }
 
-s32 TWindowDD::is_state_zero_unless_0x2C8(s32 arg0) {
-    if ((s16)arg0 == 0x2C8) {
-        return 0;
-    }
-    return (u32) __cntlzw((u32) ((s32 (*)(void))TWindowDD__sub_80347858)()) >> 5;
-}
-
 u8 TWindowDD__sub_80347858(s16 arg0) {
     s32 r = 0;
     if (arg0 >= 0x37 && arg0 <= 0x45) {
         r = 1;
     }
     return (u8)r;
+}
+
+s32 TWindowDD::is_state_zero_unless_0x2C8(s32 arg0) {
+    if ((s16)arg0 == 0x2C8) {
+        return 0;
+    }
+    return (u32) __cntlzw((u32) ((s32 (*)(void))TWindowDD__sub_80347858)()) >> 5;
 }
 
 s32 TWindowDD_is_id_in_range_5AC_5F9(s16 arg0) {
