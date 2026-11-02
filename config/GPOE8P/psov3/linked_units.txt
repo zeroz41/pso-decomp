@@ -762,15 +762,11 @@ pso/item/TItemTimerEvent.cpp
 pso/item/TItemWeaponMechgun.cpp
 pso/item/TItemWpnCardEffect.cpp
 pso/item/TItem_80363AF4.cpp
-pso/item/TObjContainerAbeEnemy.cpp
-pso/item/TObjContainerBase.cpp
-pso/item/TObjContainerEnemy.cpp
 pso/item/TObjContainerIdo.cpp
 pso/item/TObjContainerIdo_8018BEE4.cpp
 pso/item/TObjContainerIdo_801A0B94.cpp
 pso/item/TObjContainerItem.cpp
 pso/item/TObjContainerJung.cpp
-pso/item/TObjContainerNoItem.cpp
 pso/item/TObjItemLight.cpp
 pso/item/TUnk_8049F770.cpp
 pso/item/TUnk_8049F828.cpp

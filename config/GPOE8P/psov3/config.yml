@@ -791,15 +791,20 @@ force_active:
   - TObjCity_Season_XmasWreath__name
   - TObjCollision__ct
   - TObjComputer__ct
+  - TObjContainerAbeEnemy__name
+  - TObjContainerAbeEnemy__vt77
+  - TObjContainerBase__ct
   - TObjContainerEnemy__ct
   - TObjContainerEnemy__name
   - TObjContainerIdo__ct
   - TObjContainerItem__ct
+  - TObjContainerItem__name
   - TObjContainerJungEnemy__ct
   - TObjContainerJungEx__ct
   - TObjContainerJung__ct
   - TObjContainerJung__sub_8018D3B8
   - TObjContainerNoItem__ct
+  - TObjContainerNoItem__name
   - TObjDFBeamCursor__ct
   - TObjDFBeamCursor__name
   - TObjDFDemo0__entry_table
@@ -2273,6 +2278,7 @@ force_active:
   - __dt__21TItemReverseTechPart1Fv
   - __dt__21TItemReverseTechPart2Fv
   - __dt__21TODummyKeyCave01SoundFv
+  - __dt__21TObjContainerAbeEnemyFv
   - __dt__21TeneFakeTecThunderEffFv
   - __dt__22TAdEnterSerialAccessGCFv
   - __dt__22TBoss5GryphonShockWaveFv
@@ -2808,6 +2814,7 @@ force_active:
   - __vt__21TItemReverseTechPart1
   - __vt__21TItemReverseTechPart2
   - __vt__21TODummyKeyCave01Sound
+  - __vt__21TObjContainerAbeEnemy
   - __vt__21TeneFakeTecThunderEff
   - __vt__22TAdEnterSerialAccessGC
   - __vt__22TBoss5GryphonShockWave
@@ -3561,6 +3568,8 @@ force_active:
   - bm_obj_meka_fish_1_model_names
   - bm_obj_meka_fish_1_motion_names
   - bm_obj_meka_fish_1_resource_descriptor
+  - bm_obj_seabed_con_motion_names
+  - bm_obj_seabed_con_rare_motion_names
   - bm_obj_warp_jung_model_names
   - bm_obj_warp_jung_motion_names
   - bm_ply_lock_on_cursor_model_names
@@ -4259,6 +4268,8 @@ force_active:
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - construct_with_vtable__13TUnk_8049F40CFPvii
   - consume_counter__14TOTrapChainSawFPv
+  - container_break_particle_parameters
+  - container_break_small_debris_parameters
   - context_texture_obj
   - controller_default_pad_state
   - controller_device_id_table
@@ -4480,6 +4491,7 @@ force_active:
   - deallocate_from_fixed_pools
   - debug_draw_key_id__12TOSwitchItemFv
   - debug_print_area_num__17TObjWarpBossMultiFv
+  - debug_print_item_box_info__21TObjContainerAbeEnemyFv
   - debug_print_ranges__8TOKurageFv
   - debug_render_overlay__9TMainTaskFv
   - decay_glow_and_calc_hp_ratio__9TBoss6MagFv
@@ -4590,6 +4602,7 @@ force_active:
   - dispatch_action_state__16TObjEneNanoDragoFv
   - dispatch_by_index__19TWindowKeyBoardSoftFv
   - dispatch_callback__Fv
+  - dispatch_fish_event__6TLobbyFPv
   - dispatch_lobby_action__18TObjCityDoor_LobbyFv
   - dispatch_lobby_callback__Fv
   - dispatch_main_phase_153__12TBoss4ThanksFv
@@ -4965,6 +4978,7 @@ force_active:
   - fe_obj_cam_model_names
   - fe_obj_cam_motion_names
   - fe_obj_cam_resource_descriptor
+  - fe_obj_con_hahen1_motion_names
   - fe_obj_doa_kanban_model_names
   - fe_obj_doa_kanban_motion_names
   - fe_obj_ex_box1_motion_names
@@ -4973,6 +4987,7 @@ force_active:
   - fe_obj_fuuin_motion_names
   - fe_obj_h_s_konte_model_names
   - fe_obj_h_s_konte_motion_names
+  - fe_obj_hako01_hahen02_motion_names
   - fe_obj_hashi_model_names
   - fe_obj_hashi_motion_names
   - fe_obj_hashi_resource_descriptor
@@ -5241,6 +5256,7 @@ force_active:
   - fn_803F1804
   - fn_803F4D10
   - fn_spawn_particle_f3_with_flags
+  - forest_box_collision_body_parts
   - format_challenge_stage_times__23TAdSinglePlyChrSelectGCFll
   - format_dashed_serial__22TAdEnterSerialAccessGCFPUcUlPUl
   - format_drop_table_filename
@@ -5384,6 +5400,7 @@ force_active:
   - get_clamped_time_limit__6TLobbyFv
   - get_class_type__10TObjPlayerFv
   - get_color__8MagStatsFv
+  - get_container_param
   - get_destroy_event_obj__6TLobbyFv
   - get_dominant_stats__8TItemMagFv
   - get_download_seed__12TQuestListVMFv
@@ -6211,6 +6228,8 @@ force_active:
   - lbl_80444238
   - lbl_80444248
   - lbl_80444250
+  - lbl_80444E5C
+  - lbl_80444EA8
   - lbl_80445588
   - lbl_80445CD8
   - lbl_80446F94
@@ -6672,6 +6691,7 @@ force_active:
   - lbl_805D2A58
   - lbl_805D3174
   - lbl_805D3188
+  - lbl_805D32E8
   - lbl_805D34A8
   - lbl_805D34C8
   - lbl_805D34F0
@@ -12173,6 +12193,7 @@ force_active:
   - receive_physical_attack__16TOTrapAncient02RFPvf
   - receive_physical_attack__19TObjEneEpsilonGuardFPvf
   - receive_physical_attack__20TContainerAncient01RFPvf
+  - receive_physical_attack__21TObjContainerAbeEnemyFPvf
   - receive_physical_attack__9TBoss6MagFPvf
   - receive_state_request__12TBoss1DragonFPUc
   - receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv
@@ -15216,6 +15237,7 @@ force_active:
   - vfunc_6__19TOMonumentAncient02FPsl
   - vfunc_6__20TContainerAncient01RFPsl
   - vfunc_6__20TObjEneMe1Gee_NEEDLEFv
+  - vfunc_6__21TObjContainerAbeEnemyFPsl
   - vfunc_6__22TObjEneMe1GiGueMissileFv
   - vfunc_6__9TTecJelinFPv
   - vfunc_6__9TTecZaruaFPv
@@ -15228,7 +15250,9 @@ force_active:
   - vfunc_7__19TTecPlayerInfluenceFPv
   - vfunc_7__9TTecSiftaFPv
   - vfunc_80__12TOMineIcon04Fv
+  - vfunc_80__21TObjContainerAbeEnemyFv
   - vfunc_81__14TOTrapSeabed01Fv
+  - vfunc_81__21TObjContainerAbeEnemyFv
   - vfunc_82__12TOMineIcon04Fv
   - vfunc_82__14TOTrapSeabed01Fv
   - vfunc_82__16TOTrapAncient02RFv

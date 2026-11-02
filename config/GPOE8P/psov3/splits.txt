@@ -5795,29 +5795,18 @@ pso/object/TObjGbAdvance.cpp:
 	.text       start:0x80187ECC end:0x8018807C
 
 pso/object/TObjComputer.cpp:
-	.text       start:0x8018807C end:0x80188904
+	.text       start:0x8018807C end:0x80188584
 	.rodata     start:0x80444B58 end:0x80444B60
 	.data       start:0x804B62F0 end:0x804B6334
 
-pso/item/TObjContainerAbeEnemy.cpp:
-	.text       start:0x80188904 end:0x80188D0C
-
-pso/item/TObjContainerBase.cpp:
-	.text       start:0x80188D0C end:0x8018915C
-
-pso/item/TObjContainerNoItem.cpp:
-	.text       start:0x8018915C end:0x801896A4
-
-pso/item/TObjContainerEnemy.cpp:
-	.text       start:0x801896A4 end:0x80189AE0
-	.sdata      start:0x805D32F0 end:0x805D32F4
-
 pso/item/TObjContainerItem.cpp:
-	.text       start:0x80189AE0 end:0x8018A548
+	.text       start:0x80188584 end:0x8018A55C
+	.rodata     start:0x80444B90 end:0x80444EF4
 	.data       start:0x804B6338 end:0x804B66F4
+	.sdata      start:0x805D32D8 end:0x805D3300
 
 pso/misc/TLazerFenceSw.cpp:
-	.text       start:0x8018A548 end:0x8018A584
+	.text       start:0x8018A55C end:0x8018A584
 
 pso/misc/TContainerAncient01.cpp:
 	.text       start:0x8018A584 end:0x8018BEE4
