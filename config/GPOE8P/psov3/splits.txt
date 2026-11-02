@@ -11650,6 +11650,7 @@ pso/misc/TLobby_803360CC.cpp:
 pso/unk/text_803367F4.cpp:
 	.text       start:0x803367F4 end:0x80336874
 	.ctors      start:0x80433FEC end:0x80433FF0
+	.data       start:0x804EE488 end:0x804EE60C
 
 pso/unk/text_803369C8.cpp:
 	.text       start:0x80336874 end:0x80336E00
