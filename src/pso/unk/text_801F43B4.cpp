@@ -10,7 +10,7 @@ extern "C" {
 
 int is_quest_active(void);
 s32 memcpy(s32, s32 *, s32);
-extern u8 quest_story_flags_by_difficulty[4][128];
+u8 quest_story_flags_by_difficulty[4][128];
 extern s32 game_difficulty_selection;
 
 void copy_card_window_data(void) {

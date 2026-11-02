@@ -378,7 +378,7 @@ extern s32 __vt__21TObjEneSlimeWaterBomb[];
 extern const RecoveredGlobal_800EA678_lbl_8043D230 lbl_8043D230;
 extern const RecoveredGlobal_800EA678_lbl_8043D23C lbl_8043D23C;
 extern Hit_800E8AD0 lbl_8043D260[];
-extern RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
+RecoveredGlobal_800E8128_lbl_80501010 lbl_80501010;
 extern s32 TObjEneSlimeOne_class_name;
 extern s32 lbl_805D2AE0;
 extern int lbl_805D52B4;

@@ -161,7 +161,9 @@ extern const f32 lbl_805DA270;
 
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 extern Params_800D2900 lbl_8043C35C;
-extern u8 *gyaranzo_resource_ptrs[];
+u32 *gyaranzo_model_resources[0x16];
+u8 *gyaranzo_resource_ptrs[13];
+EnemyTargetCandidate TObjGyaranzoMissile_target_slots[4];
 extern u32 gyaranzo_bml_resource;
 extern u8 *tl_05;
 void update_collisions__10TObjPlayerFv(void *);

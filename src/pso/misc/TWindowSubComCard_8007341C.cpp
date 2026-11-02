@@ -52,7 +52,7 @@ extern char lbl_80438628[];
 extern char lbl_80438630[];
 extern char lbl_80438638[];
 extern u8 challenge_window_extent[];
-extern char challenge_progress_text_buffer[];
+char challenge_progress_text_buffer[0x100];
 extern char lbl_805D912C[2];
 extern const f32 lbl_805D9134;
 extern const f32 lbl_805D9138;

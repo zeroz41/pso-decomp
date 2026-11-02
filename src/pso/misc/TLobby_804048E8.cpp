@@ -287,7 +287,7 @@ struct Outer_80401CAC { Inner_80401CAC *p; };
 
 struct Ent_80408718 { s16 f0; u8 pad[0x16]; };
 
-struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; };
+struct Tbl_80408718 { s16 count; s16 h2; s16 h4; s16 h6; s16 h8; u8 pad[4]; Ent_80408718 *list; u8 pad14[0x10]; u8 *f24; };
 
 typedef struct Conn_804004DC {
     u8 state;
@@ -1387,4 +1387,10 @@ typedef char RecoveredGlobal_8041E178_lbl_805C1D48_size[sizeof(RecoveredGlobal_8
 #pragma opt_propagation off
 #pragma pop
 
+}
+
+extern "C" {
+u8 lbl_805C18A0[0x10];
+u8 lbl_805C18B0[0x200];
+Tbl_80408718 lbl_805C1AB0;
 }

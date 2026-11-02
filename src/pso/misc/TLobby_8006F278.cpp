@@ -83,7 +83,7 @@ s32 mix_seed_checked__6TLobbyFi(s32);
 u32 get_character_save_record(int);
 s32 TLobby__sub_8006F5B0(s32 arg0);
 s32 strncpy(void *, void *, int);
-extern RecoveredGlobal_8006F848_lbl_804FF800 lobby_name_string_buffer;
+RecoveredGlobal_8006F848_lbl_804FF800 lobby_name_string_buffer;
 s32 decode_slot__6TLobbyFUi(u32 id);
 u32 TLobby__sub_80071640(u32 c);
 s32 strncmp(void *, void *, int);

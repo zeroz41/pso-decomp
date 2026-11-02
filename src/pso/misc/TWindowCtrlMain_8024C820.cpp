@@ -187,7 +187,7 @@ extern "C" {
 s32 is_split_screen(void);
 extern s32 TWindowCtrlMain__display_flags;
 extern s32 TWindowCtrlMain__window_task_root;
-extern WindowControlState TWindowCtrlMain__viewport_states[6];
+WindowControlState TWindowCtrlMain__viewport_states[6];
 struct Vec2_8024CE68 { f32 x, y; };
 struct Poly_8024CE68 {
     Vec2_8024CE68 *verts;

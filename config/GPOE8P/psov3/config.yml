@@ -142,6 +142,7 @@ force_active:
   - TAdEnterSerialAccessGC__sub_80321B28
   - TAdEnterSerialAccessGC__sub_80321F18
   - TAdEnterSerialAccessGC__sub_80321F3C
+  - TAdEnterSerialAccessGC_serial_buffer
   - TAdEp3Exist__name
   - TAdEp3Exist__sub_8036F0AC
   - TAdEp3Exist__sub_8036F590
@@ -1110,6 +1111,7 @@ force_active:
   - TObjEvtCollision__ct
   - TObjFish__sub_800E3188
   - TObjFish__sub_8034029C
+  - TObjFish_draw_callback_state
   - TObjFogCollisionPoison__ct
   - TObjFogCollisionPoison__instances
   - TObjFogCollisionSwitch__ct
@@ -3906,6 +3908,7 @@ force_active:
   - challenge_hunter_items_stage_13
   - challenge_hunter_items_stage_14
   - challenge_hunter_items_stage_15
+  - challenge_progress_text_buffer
   - challenge_ranger_items_stage_00
   - challenge_ranger_items_stage_01
   - challenge_ranger_items_stage_02
@@ -4922,6 +4925,7 @@ force_active:
   - enter_offscreen_mode__13TBoss5GryphonFv
   - enter_release_state__11TBoss6Type1Fv
   - enter_request_state__16TAdWarningBaseGCFv
+  - enter_serial_formatted_buffer
   - enter_state8__15TObjEneDelDepthFv
   - enter_state_3__11TBoss4BishiFPv
   - enter_state_513__13TUnk_804A1570Fv
@@ -6625,6 +6629,7 @@ force_active:
   - lbl_804FE1B8
   - lbl_804FE1D0
   - lbl_804FE1DC
+  - lbl_804FF82C
   - lbl_805007C8
   - lbl_80500B24
   - lbl_80500B2C
@@ -6651,14 +6656,22 @@ force_active:
   - lbl_805137C8
   - lbl_80513918
   - lbl_80513F70
+  - lbl_8051607C
   - lbl_80540B64
   - lbl_80540B70
   - lbl_80540B88
   - lbl_80540B98
   - lbl_80540BBC
   - lbl_80540BC8
+  - lbl_80543000
+  - lbl_80543010
+  - lbl_80543050
+  - lbl_805430A4
+  - lbl_805430BC
   - lbl_805430E8
   - lbl_805432A8
+  - lbl_805434D0
+  - lbl_805434DC
   - lbl_80543978
   - lbl_805439E0
   - lbl_80543A90
@@ -14273,6 +14286,7 @@ force_active:
   - tec_deband_class_name_ptr
   - tec_jelin_class_name_ptr
   - tec_kafun_class_name_ptr
+  - technique_contact_query_results
   - telepipe_record_differs
   - tenchu_enter__11TBoss4Type2Fv
   - tenchu_idle__11TBoss4Type2Fv

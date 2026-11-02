@@ -23,7 +23,7 @@ struct RecoveredGlobal_8007B60C_TWindowGetComCard__data_80500158
 };
 
 extern "C" {
-extern RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158 TWindowGetComCard__received_guild_card_tags;
+RecoveredGlobal_8007B54C_TWindowGetComCard__data_80500158 TWindowGetComCard__received_guild_card_tags;
 s32 TWindowSubComCard__sub_8007B26C(s32);
 void __construct_array(void *ptr, void *ctor, void *dtor, u32 size, u32 n);
 

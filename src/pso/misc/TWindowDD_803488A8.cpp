@@ -18,7 +18,7 @@ extern const f32 TWindowDD__data_805DFCD8;
 extern f32 lbl_805DFCDC;
 extern const f32 lbl_805DFCE0;
 extern const f32 lbl_805DFCE4;
-extern Src_80348A9C TWindowDD__data_805434E8[][8];
+Src_80348A9C TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
 extern s16 *lbl_805D6E34;

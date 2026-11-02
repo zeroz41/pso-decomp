@@ -10,8 +10,8 @@ u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
 
 extern "C" {
 s32 TLobby__sub_8028D7D0();
-extern u32 lbl_80518850[4];
-extern u32 chr_select_load_buffer_table[4];
+u32 lbl_80518850[4];
+u32 chr_select_load_buffer_table[8];
 extern u32 chr_select_load_buffer_base;
 extern u32 chr_select_load_buffer;
 s32 TAdSinglePlyChrSelectGC::get_result() {

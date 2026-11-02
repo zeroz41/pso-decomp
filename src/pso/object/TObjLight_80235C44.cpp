@@ -308,7 +308,7 @@ s32 TObjPlayer::is_valid_and_active(u32 arg0) {
     return 0;
 }
 }
-extern RecoveredGlobal_80236290_lbl_80516150 technique_contact_query_results;
+RecoveredGlobal_80236290_lbl_80516150 technique_contact_query_results;
 
 void resetTechniqueContactQuery();
 
