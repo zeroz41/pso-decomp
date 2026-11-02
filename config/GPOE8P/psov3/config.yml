@@ -142,6 +142,7 @@ force_active:
   - TAdEnterSerialAccessGC__sub_80321B28
   - TAdEnterSerialAccessGC__sub_80321F18
   - TAdEnterSerialAccessGC__sub_80321F3C
+  - TAdEp3Exist__name
   - TAdEp3Exist__sub_8036F0AC
   - TAdEp3Exist__sub_8036F590
   - TAdEp3Exist__sub_8036F5A4
@@ -4602,6 +4603,7 @@ force_active:
   - dispatch_state__19TBoss3VoloptMonitorFv
   - dispatch_state__20TBoss3VoloptHiraisinFv
   - dispatch_state_handler__19TObjEneBm9MericarolFiUii
+  - display_copy_filter_enabled
   - display_exp_gain__FlUlll
   - display_guild_message__12TQuestListVMFll
   - display_message__12TQuestListVMFPCcl
@@ -4712,6 +4714,7 @@ force_active:
   - draw_locked__8TObjDoorFPv
   - draw_menu_backdrop_gradients__Fl
   - draw_message_frame_row__11TWindowBaseFPvPv
+  - draw_message_window__11TAdEp3ExistFl
   - draw_model_12__25TBoss6Demo20_TYPE2_APPEARFv
   - draw_model_13__23TBoss6Demo21_TYPE2_DEADFv
   - draw_model__11TObjDoaEx01Fv
@@ -15177,6 +15180,7 @@ force_active:
   - vfunc_63__9TBoss6MagFv
   - vfunc_67__14TOTrapSeabed01Ff
   - vfunc_6__10TTecGrantsFPv
+  - vfunc_6__11TAdEp3ExistFv
   - vfunc_6__11TTecRaZondeFPv
   - vfunc_6__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
