@@ -20,11 +20,11 @@ void TUnk_804A2B98::reserved_53() {
     }
 }
 
-extern s32 lbl_804A2B98[];
+extern s32 __vt__13TUnk_804A2B98[];
 
 void *TUnk_804A2B98::init_vtable_and_flags() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A2B98;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A2B98;
     set_weapon_flags(577);
     return this;
 }

@@ -12,12 +12,12 @@ extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void create_lavis_shot(void);
-extern void *lbl_804A3070[];
+extern void *__vt__13TUnk_804A3070[];
 
 u8 *TUnk_804A3070::construct_agito(s32 a, void *b) {
     Self_8012712C *self = (Self_8012712C *)this;
     __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)a, (u8 *)b);
-    self->vt = lbl_804A3070;
+    self->vt = __vt__13TUnk_804A3070;
     ((TItemWeapon *)self)->set_weapon_flags(2);
     if (((TItem *)self)->get_item_index() == 0) {
         ((TItemWeapon *)self)->set_weapon_flags(0x20);

@@ -2270,10 +2270,12 @@ force_active:
   - __dt__13TUnk_804A07C0Fv
   - __dt__13TUnk_804A09B0Fv
   - __dt__13TUnk_804A0AA8Fv
+  - __dt__13TUnk_804A0BC0Fv
   - __dt__13TUnk_804A0CB8Fv
   - __dt__13TUnk_804A0DB0Fv
   - __dt__13TUnk_804A0EA8Fv
   - __dt__13TUnk_804A0FA0Fv
+  - __dt__13TUnk_804A1098Fv
   - __dt__13TUnk_804A1190Fv
   - __dt__13TUnk_804A1288Fv
   - __dt__13TUnk_804A1478Fv
@@ -2285,14 +2287,21 @@ force_active:
   - __dt__13TUnk_804A1B40Fv
   - __dt__13TUnk_804A1C38Fv
   - __dt__13TUnk_804A1D30Fv
+  - __dt__13TUnk_804A1E28Fv
   - __dt__13TUnk_804A1F20Fv
   - __dt__13TUnk_804A204CFv
   - __dt__13TUnk_804A2164Fv
+  - __dt__13TUnk_804A2260Fv
   - __dt__13TUnk_804A2358Fv
   - __dt__13TUnk_804A2450Fv
+  - __dt__13TUnk_804A2678Fv
   - __dt__13TUnk_804A2770Fv
+  - __dt__13TUnk_804A2A58Fv
+  - __dt__13TUnk_804A2B98Fv
   - __dt__13TUnk_804A2F78Fv
+  - __dt__13TUnk_804A3070Fv
   - __dt__13TUnk_804A3168Fv
+  - __dt__13TUnk_804A3260Fv
   - __dt__13TUnk_804A3358Fv
   - __dt__13TUnk_804A3640Fv
   - __dt__13TUnk_804A3830Fv
@@ -15962,6 +15971,7 @@ force_active:
   - update_attachment__18TItemEffNeedleBaseFv
   - update_attack__13TUnk_804A1570Fv
   - update_attack__13TUnk_804A1D30Fv
+  - update_attack__13TUnk_804A1E28Fv
   - update_attack__13TUnk_804A2F78Fv
   - update_attack__13TUnk_804A3928Fv
   - update_attack__13TUnk_804A4E68Fv
@@ -16220,6 +16230,7 @@ force_active:
   - update_hurt__12TObjEneLappyFv
   - update_idle__13TUnk_804A1570Fv
   - update_idle__13TUnk_804A1D30Fv
+  - update_idle__13TUnk_804A1E28Fv
   - update_idle__13TUnk_804A2F78Fv
   - update_idle__13TUnk_804A3928Fv
   - update_idle__13TUnk_804A4E68Fv

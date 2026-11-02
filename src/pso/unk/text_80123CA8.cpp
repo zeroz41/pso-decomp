@@ -44,11 +44,10 @@ const RecoveredGlobal_80123CA8_lbl_8043E8D8 lbl_8043E8D8 = {
         {100000.0f, 100000.0f, 100000.0f},
     },
 };
-void sorcerers_cane_node_callback(u8 *arg0);
 
 typedef char RecoveredGlobal_80123CA8_lbl_8043E878_size[sizeof(RecoveredGlobal_80123CA8_lbl_8043E878) == 0x60 ? 1 : -1];
 typedef char RecoveredGlobal_80123CA8_lbl_8043E8D8_size[sizeof(RecoveredGlobal_80123CA8_lbl_8043E8D8) == 0x60 ? 1 : -1];
-void sorcerers_cane_node_callback(u8 *arg0) {
+void TUnk_804A1E28::vfunc_60() {
     s32 player_list;
     s32 temp_r4;
     s32 temp_r4_2;
@@ -56,12 +55,12 @@ void sorcerers_cane_node_callback(u8 *arg0) {
     switch (player_list) {
     case 1:
         TItem::begin_effect_render();
-        temp_r4 = *(s32 *)((s8 *)arg0 + 0x1F8);
+        temp_r4 = *(s32 *)&this->unk_1F8;
         scale_current_matrix((void *) ((u8 *)&lbl_8043E878.value + (temp_r4 * 0xC)), temp_r4);
         return;
     case 4:
         TItem::begin_effect_render();
-        temp_r4_2 = *(s32 *)((s8 *)arg0 + 0x1F8);
+        temp_r4_2 = *(s32 *)&this->unk_1F8;
         scale_current_matrix((void *) ((u8 *)&lbl_8043E8D8.value + (temp_r4_2 * 0xC)), temp_r4_2);
         return;
     case 7:

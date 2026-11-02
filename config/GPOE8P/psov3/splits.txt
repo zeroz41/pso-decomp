@@ -3118,6 +3118,7 @@ pso/player/TObjPlayer_80121B64.cpp:
 
 pso/item/TItemEquipVariant_80121B98.cpp:
 	.text       start:0x80121B98 end:0x80121BF0
+	.data       start:0x804A0BC0 end:0x804A0CB8
 
 pso/player/TObjPlayer_80121BF0.cpp:
 	.text       start:0x80121BF0 end:0x80121C50
@@ -3186,6 +3187,7 @@ pso/player/TObjPlayer_801227E0.cpp:
 
 pso/item/TItemEquipVariant_80122814.cpp:
 	.text       start:0x80122814 end:0x8012286C
+	.data       start:0x804A1098 end:0x804A1190
 
 pso/player/TObjPlayer_8012286C.cpp:
 	.text       start:0x8012286C end:0x801228CC
@@ -3331,6 +3333,7 @@ pso/unk/text_80123CA8.cpp:
 
 pso/item/TItemEquipVariant_80123E6C.cpp:
 	.text       start:0x80123E2C end:0x80123EC4
+	.data       start:0x804A1E28 end:0x804A1F20
 
 pso/unk/text_80123EC4.cpp:
 	.text       start:0x80123EC4 end:0x80123F70
@@ -3369,6 +3372,7 @@ pso/player/TObjPlayer_80124FBC.cpp:
 
 pso/item/TItemEquipVariant_801250A0.cpp:
 	.text       start:0x801250A0 end:0x801250F8
+	.data       start:0x804A2260 end:0x804A2358
 
 pso/unk/text_801250F8.cpp:
 	.text       start:0x801250F8 end:0x801251AC
@@ -3422,6 +3426,7 @@ pso/system/ItemEffects.cpp:
 
 pso/item/TItemEquipVariant_80125D7C.cpp:
 	.text       start:0x80125D7C end:0x80125DD4
+	.data       start:0x804A2678 end:0x804A2770
 
 pso/player/TObjPlayer_80125DD4.cpp:
 	.text       start:0x80125DD4 end:0x80125E30
@@ -3470,6 +3475,7 @@ pso/player/TObjPlayer_8012665C.cpp:
 
 pso/item/TItemEquipVariant_80126680.cpp:
 	.text       start:0x80126680 end:0x801266D8
+	.data       start:0x804A2A58 end:0x804A2B50
 
 pso/player/TObjPlayer_801266D8.cpp:
 	.text       start:0x801266D8 end:0x80126740
@@ -3487,6 +3493,7 @@ pso/unk/text_80126A34.cpp:
 
 pso/item/TItemEquipVariant_80126A8C.cpp:
 	.text       start:0x80126A8C end:0x80126AE4
+	.data       start:0x804A2B98 end:0x804A2C90
 
 pso/player/TObjPlayer_80126AE4.cpp:
 	.text       start:0x80126AE4 end:0x80126B6C
@@ -3518,6 +3525,7 @@ pso/player/TObjPlayer_8012703C.cpp:
 
 pso/item/TItemEquipVariant_801270D4.cpp:
 	.text       start:0x801270D4 end:0x8012712C
+	.data       start:0x804A3070 end:0x804A3168
 
 pso/unk/text_8012712C.cpp:
 	.text       start:0x8012712C end:0x801271FC
@@ -3545,6 +3553,7 @@ pso/item/TItemWeaponMechgun.cpp:
 
 pso/item/TItemEquipVariant_8012763C.cpp:
 	.text       start:0x8012763C end:0x80127694
+	.data       start:0x804A3260 end:0x804A3358
 
 pso/unk/text_80127694.cpp:
 	.text       start:0x80127694 end:0x801277A4

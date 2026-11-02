@@ -11,6 +11,7 @@ public:
     virtual void update_idle();
     virtual void update_weapon();
     virtual void update_attack();
+    virtual void emit_marker_effects();
     u8 unk_1F8[0x4];
     s32 m_1fc;
 };

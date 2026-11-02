@@ -1,18 +1,6 @@
 #include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012763C.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/item/TItem.h"
+#include "pso/item/TUnk_804A3260.h"
 
-extern s32 lbl_804A3260[];
+TUnk_804A3260::~TUnk_804A3260() {
 
-void *__dt__13TUnk_804A3260Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A3260;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
 }

@@ -9,6 +9,9 @@ public:
     virtual void update_idle();
     virtual void update_attack();
     virtual void update_weapon();
+    virtual void vfunc_57();
+    virtual void vfunc_58();
+    virtual void vfunc_60();
     u8 unk_1F8[0x4];
     s16 m_1fc;
     u8 unk_1FE[0x2];
