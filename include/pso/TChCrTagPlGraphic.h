@@ -8,6 +8,7 @@ public:
     virtual ~TChCrTagPlGraphic();
     virtual void render();
     virtual void run_task();
+    virtual s32 vt4();
 public:
     static void *create(void *arg0);
     static void create_matching_tags();

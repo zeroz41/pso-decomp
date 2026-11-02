@@ -395,6 +395,7 @@ force_active:
   - TChCrTagName__vt4
   - TChCrTagOccHeader__vt4
   - TChCrTagOccupation__vt4
+  - TChCrTagPlGraphic__sub_802A3230
   - TChCrTag__vt4
   - TChallenge4PResult__slot_entries
   - TChallenge4P__ct
@@ -1878,6 +1879,7 @@ force_active:
   - __ct__16TObjWeddingLobbyFP7TObjectPv
   - __ct__17TAdGameStartSubGCFv
   - __ct__17TChCrTagOccHeaderFv
+  - __ct__17TChCrTagPlGraphicFv
   - __ct__17TItemEffNeedlePosFP7TObjectP5TItemPC3VecP3Vec
   - __ct__17TMCFormatSequenceFP7TObjectPv
   - __ct__17TOBarrierEnergy01FP7TObjectPv
@@ -2338,6 +2340,7 @@ force_active:
   - __dt__17TBoss6EffFlowSoulFv
   - __dt__17TBoss8DragonColliFv
   - __dt__17TChCrTagOccHeaderFv
+  - __dt__17TChCrTagPlGraphicFv
   - __dt__17TDuelEffectNumberFv
   - __dt__17TDuelEffectStringFv
   - __dt__17TItemEffNeedlePosFv
@@ -2954,6 +2957,7 @@ force_active:
   - __vt__17TBoss5GryphonDemo
   - __vt__17TBoss8DragonColli
   - __vt__17TChCrTagOccHeader
+  - __vt__17TChCrTagPlGraphic
   - __vt__17TDuelEffectString
   - __vt__17TItemEffNeedlePos
   - __vt__17TItemEffectWeapon
@@ -4203,6 +4207,7 @@ force_active:
   - cast_tech_on_players__15TBoss3VoloptP01Fv
   - cast_technique__18TObjEneMe3SinowZoaFPv
   - cast_technique__18TObjEneRe4SorcererFv
+  - ch_cr_tag_pl_graphic_class_name
   - chain_saw_collision_body_part_table
   - chain_saw_damage_collision_body_parts
   - chainsaw_ginja_model_filenames
@@ -4742,6 +4747,7 @@ force_active:
   - create__13TWindowSubMagFv
   - create__14TChCrTagPlBackFPv
   - create__16TItemReverseTechFv
+  - create__17TChCrTagPlGraphicFPv
   - create__17TObjWarpBossMultiFv
   - create__17TWindowSubComCardFv
   - create__18TChCrTagOccupationFPv
@@ -5070,6 +5076,7 @@ force_active:
   - draw_body_models__11TBoss6Type2Fv
   - draw_bottom_bar__20TWindowSubStatusDispFv
   - draw_callback_transform_to_view__8TObjFishFv
+  - draw_class_illustration__17TChCrTagPlGraphicFv
   - draw_closed__8TObjDoorFPv
   - draw_closed_glow__8TObjDoorFPv
   - draw_closing__8TObjDoorFPv
@@ -13127,6 +13134,7 @@ force_active:
   - render__17TAdSelectTxtSubGCFv
   - render__17TBoss5GryphonDemoFv
   - render__17TChCrTagOccHeaderFv
+  - render__17TChCrTagPlGraphicFv
   - render__17TDuelEffectNumberFv
   - render__17TDuelEffectStringFv
   - render__17TOBarrierEnergy01Fv
@@ -13760,6 +13768,7 @@ force_active:
   - run_task__17TBoss5GryphonDemoFv
   - run_task__17TBoss6EffFlowSoulFv
   - run_task__17TChCrTagOccHeaderFv
+  - run_task__17TChCrTagPlGraphicFv
   - run_task__17TDuelEffectNumberFv
   - run_task__17TDuelEffectStringFv
   - run_task__17TItemEffectWeaponFv
@@ -16186,6 +16195,7 @@ force_active:
   - vt2__13TBoss6MagMineFv
   - vt3__13TBoss6MagMineFv
   - vt4__13TBoss6MagMineFv
+  - vt4__17TChCrTagPlGraphicFv
   - vt4__9TBoss4UroFv
   - vt5__9TBoss4UroFv
   - vt6__9TBoss4UroFv

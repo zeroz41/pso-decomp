@@ -885,6 +885,7 @@ pso/misc/TChCrTagInformation_802A200C.cpp
 pso/misc/TChCrTagName.cpp
 pso/misc/TChCrTagOccupation.cpp
 pso/misc/TChCrTagPlBack.cpp
+pso/misc/TChCrTagPlGraphic.cpp
 pso/misc/TChallenge.cpp
 pso/misc/TCharaMaking.cpp
 pso/misc/TCharaMaking_8028E3F4.cpp
@@ -3331,7 +3332,6 @@ pso/unk/text_8029EC3C.cpp
 pso/unk/text_8029EE2C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
-pso/unk/text_802A3138.cpp
 pso/unk/text_802A4D74.cpp
 pso/unk/text_802A8210.cpp
 pso/unk/text_802A9568.cpp
