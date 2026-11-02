@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TUnk_804A62F8.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -28,28 +28,19 @@ void TUnk_804A62F8::update_weapon() {
 
 }
 
-extern s32 lbl_804A62F8[];
+extern s32 __vt__13TUnk_804A62F8[];
 
-void *__dt__13TUnk_804A62F8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A62F8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A62F8::~TUnk_804A62F8() {}
 
 extern "C" {
 
 s32 __ct__11TItemWeaponFP7TObjectPUc();
 
-extern s32 lbl_804A62F8[];
+extern s32 __vt__13TUnk_804A62F8[];
 
 void *TObjPlayer::init_from_item(void *arg1, void *arg2) {
     __ct__11TItemWeaponFP7TObjectPUc();
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A62F8;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A62F8;
     if (((u8) *(u8 *)((s8 *)arg2 + 2) == 5) || ((u8) *(u8 *)((s8 *)arg2 + 1) == 0x8F)) {
         *(s32 *)&this->unk_1F8 = 1;
     } else {

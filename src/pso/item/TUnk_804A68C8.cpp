@@ -46,7 +46,7 @@ extern s32 tl_05;
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 }
 
-extern s32 lbl_804A68C8[];
+extern s32 __vt__13TUnk_804A68C8[];
 
 void TUnk_804A68C8::update_attack() {
     u8 *arg0 = (u8 *)this;
@@ -72,20 +72,11 @@ void TUnk_804A68C8::update_attack() {
     }
 }
 
-void *__dt__13TUnk_804A68C8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A68C8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A68C8::~TUnk_804A68C8() {}
 
 u8 *construct_cane_weapon(u8 *arg0, u8 *arg1, u8 *arg2) {
     __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A68C8[0];
+    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_804A68C8[0];
     *(f32 *)((s8 *)arg0 + 0x1F8) = (f32) 1.0f;
     ((TUnk_804A68C8 *)arg0)->m_1fc = 0;
     if ((u8) *(u8 *)((s8 *)arg2 + 2) >= 4U) {

@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TUnk_804A4A88.h"
+#include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_8012AB1C.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -31,8 +31,8 @@ void TUnk_804A4A88::vfunc_60() {
 }
 
     extern unsigned char create_lavis_shot[];
-    extern s32 lavis_cannon_weapon_vtable[];
-void*TUnk_804A4A88::init_state_object() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lavis_cannon_weapon_vtable; set_weapon_flags(34); *(int*)((char*)this + 0x1f0) = (int)create_lavis_shot; (*(float *)((u8 *)this + 0x1E4)) = 10.0f; *(int *)&this->unk_1F8 = 0; return this; }
+    extern s32 __vt__13TUnk_804A4A88[];
+void*TUnk_804A4A88::init_state_object() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A4A88; set_weapon_flags(34); *(int*)((char*)this + 0x1f0) = (int)create_lavis_shot; (*(float *)((u8 *)this + 0x1E4)) = 10.0f; *(int *)&this->unk_1F8 = 0; return this; }
 
 }
 
@@ -57,13 +57,4 @@ u8 *TObjPlayer__sub_8012AB1C(u8 *arg0) {
 }
 
 
-void *__dt__13TUnk_804A4A88Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lavis_cannon_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A4A88::~TUnk_804A4A88() {}

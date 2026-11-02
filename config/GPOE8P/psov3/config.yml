@@ -2257,14 +2257,60 @@ force_active:
   - __dt__13TUnk_8049FEB8Fv
   - __dt__13TUnk_8049FED0Fv
   - __dt__13TUnk_8049FF88Fv
+  - __dt__13TUnk_804A07C0Fv
+  - __dt__13TUnk_804A09B0Fv
   - __dt__13TUnk_804A0AA8Fv
+  - __dt__13TUnk_804A0CB8Fv
+  - __dt__13TUnk_804A0DB0Fv
+  - __dt__13TUnk_804A0EA8Fv
+  - __dt__13TUnk_804A0FA0Fv
+  - __dt__13TUnk_804A1190Fv
+  - __dt__13TUnk_804A1288Fv
+  - __dt__13TUnk_804A1478Fv
+  - __dt__13TUnk_804A1570Fv
+  - __dt__13TUnk_804A1668Fv
+  - __dt__13TUnk_804A1858Fv
+  - __dt__13TUnk_804A1950Fv
+  - __dt__13TUnk_804A1A48Fv
+  - __dt__13TUnk_804A1B40Fv
+  - __dt__13TUnk_804A1C38Fv
+  - __dt__13TUnk_804A1D30Fv
+  - __dt__13TUnk_804A1F20Fv
   - __dt__13TUnk_804A204CFv
   - __dt__13TUnk_804A2164Fv
+  - __dt__13TUnk_804A2358Fv
+  - __dt__13TUnk_804A2450Fv
+  - __dt__13TUnk_804A2770Fv
+  - __dt__13TUnk_804A2F78Fv
+  - __dt__13TUnk_804A3168Fv
+  - __dt__13TUnk_804A3358Fv
+  - __dt__13TUnk_804A3640Fv
+  - __dt__13TUnk_804A3830Fv
+  - __dt__13TUnk_804A3928Fv
   - __dt__13TUnk_804A4020Fv
   - __dt__13TUnk_804A4238Fv
   - __dt__13TUnk_804A4338Fv
+  - __dt__13TUnk_804A4A88Fv
+  - __dt__13TUnk_804A4B80Fv
+  - __dt__13TUnk_804A4C78Fv
+  - __dt__13TUnk_804A4E68Fv
+  - __dt__13TUnk_804A5058Fv
+  - __dt__13TUnk_804A5150Fv
+  - __dt__13TUnk_804A5248Fv
   - __dt__13TUnk_804A5340Fv
+  - __dt__13TUnk_804A5550Fv
+  - __dt__13TUnk_804A5648Fv
+  - __dt__13TUnk_804A5740Fv
+  - __dt__13TUnk_804A5A28Fv
   - __dt__13TUnk_804A5D10Fv
+  - __dt__13TUnk_804A5E20Fv
+  - __dt__13TUnk_804A6108Fv
+  - __dt__13TUnk_804A62F8Fv
+  - __dt__13TUnk_804A63F0Fv
+  - __dt__13TUnk_804A64E8Fv
+  - __dt__13TUnk_804A65E0Fv
+  - __dt__13TUnk_804A66D8Fv
+  - __dt__13TUnk_804A68C8Fv
   - __dt__13TUnk_804A69C0Fv
   - __dt__13TUnk_804AF7B0Fv
   - __dt__13TUnk_804B7C04Fv
@@ -2296,6 +2342,7 @@ force_active:
   - __dt__13TUnk_804F0D1CFv
   - __dt__13TUnk_804F0D34Fv
   - __dt__13TUnk_804F0FF0Fv
+  - __dt__13TUnk_804F1320Fv
   - __dt__13TUnk_804F1C88Fv
   - __dt__13TUnk_804F29F8Fv
   - __dt__13TUnk_804F2A10Fv
@@ -2974,9 +3021,33 @@ force_active:
   - __vt__13TUnk_8049FEB8
   - __vt__13TUnk_8049FED0
   - __vt__13TUnk_8049FF88
+  - __vt__13TUnk_804A0DB0
+  - __vt__13TUnk_804A1570
+  - __vt__13TUnk_804A1D30
   - __vt__13TUnk_804A2018
+  - __vt__13TUnk_804A2F78
+  - __vt__13TUnk_804A3928
+  - __vt__13TUnk_804A4A88
+  - __vt__13TUnk_804A4B80
+  - __vt__13TUnk_804A4C78
+  - __vt__13TUnk_804A4E68
+  - __vt__13TUnk_804A5058
+  - __vt__13TUnk_804A5150
+  - __vt__13TUnk_804A5248
   - __vt__13TUnk_804A5340
+  - __vt__13TUnk_804A5550
+  - __vt__13TUnk_804A5648
+  - __vt__13TUnk_804A5740
+  - __vt__13TUnk_804A5A28
   - __vt__13TUnk_804A5D10
+  - __vt__13TUnk_804A5E20
+  - __vt__13TUnk_804A6108
+  - __vt__13TUnk_804A62F8
+  - __vt__13TUnk_804A63F0
+  - __vt__13TUnk_804A64E8
+  - __vt__13TUnk_804A65E0
+  - __vt__13TUnk_804A66D8
+  - __vt__13TUnk_804A68C8
   - __vt__13TUnk_804A8640
   - __vt__13TUnk_804AF7B0
   - __vt__13TUnk_804B7C04
@@ -3007,6 +3078,7 @@ force_active:
   - __vt__13TUnk_804F0D1C
   - __vt__13TUnk_804F0D34
   - __vt__13TUnk_804F0FF0
+  - __vt__13TUnk_804F1320
   - __vt__13TUnk_804F29F8
   - __vt__13TUnk_804F2A10
   - __vt__13TUnk_804F322C
@@ -3467,6 +3539,8 @@ force_active:
   - action__17TObjEneDf2BringerFPvi
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
+  - activate_effect__13TUnk_804A4B80Fl
+  - activate_effect__13TUnk_804F1320Fl
   - activate_effect__8TItemMagFl
   - activate_switch_attacks__10TObjPlayerFii
   - ad_game_start_name_ptr
@@ -5553,10 +5627,21 @@ force_active:
   - emit_deband_support_effect__FPvi
   - emit_grass_footstep_particle__10TObjPlayerFi
   - emit_jellen_support_effect__FPUc
+  - emit_marker_effects__13TUnk_804A0DB0Fv
   - emit_marker_effects__13TUnk_804A204CFv
   - emit_marker_effects__13TUnk_804A2164Fv
   - emit_marker_effects__13TUnk_804A4238Fv
   - emit_marker_effects__13TUnk_804A4338Fv
+  - emit_marker_effects__13TUnk_804A4A88Fv
+  - emit_marker_effects__13TUnk_804A4B80Fv
+  - emit_marker_effects__13TUnk_804A5648Fv
+  - emit_marker_effects__13TUnk_804A5A28Fv
+  - emit_marker_effects__13TUnk_804A5E20Fv
+  - emit_marker_effects__13TUnk_804A63F0Fv
+  - emit_marker_effects__13TUnk_804A64E8Fv
+  - emit_marker_effects__13TUnk_804A65E0Fv
+  - emit_marker_effects__13TUnk_804A66D8Fv
+  - emit_marker_effects__13TUnk_804F1320Fv
   - emit_part_attack_effect__13TBoss5GryphonFPvi
   - emit_photon_blast_feedback_effects__Fll
   - emit_player_model_particle__Fllll
@@ -13880,7 +13965,11 @@ force_active:
   - request_transition__17TAdEnterPPPPassGCFPv
   - request_transition__18TAdEnterPasswordGCFPv
   - request_transition__8TFogCtrlFll
+  - reserved_53__13TUnk_804A1570Fv
   - reserved_53__13TUnk_804A204CFv
+  - reserved_53__13TUnk_804A4C78Fv
+  - reserved_53__13TUnk_804A5648Fv
+  - reserved_53__13TUnk_804A66D8Fv
   - resetTechniqueContactQuery__Fv
   - reset__11TItemMagSubFv
   - reset__14TBoss2TentacleFv
@@ -15844,6 +15933,16 @@ force_active:
   - update_approach_state__11TObjEneMojaFv
   - update_attachment__14TItemEffNeedleFv
   - update_attachment__18TItemEffNeedleBaseFv
+  - update_attack__13TUnk_804A1570Fv
+  - update_attack__13TUnk_804A1D30Fv
+  - update_attack__13TUnk_804A2F78Fv
+  - update_attack__13TUnk_804A3928Fv
+  - update_attack__13TUnk_804A4E68Fv
+  - update_attack__13TUnk_804A5150Fv
+  - update_attack__13TUnk_804A5248Fv
+  - update_attack__13TUnk_804A5740Fv
+  - update_attack__13TUnk_804A64E8Fv
+  - update_attack__13TUnk_804A68C8Fv
   - update_attack__15TBoss3VoloptP01Fv
   - update_attack_cast__15TObjEneDelDepthFv
   - update_attack_child__17TObjEneDf2BringerFPv
@@ -16092,6 +16191,16 @@ force_active:
   - update_hover_height__17TObjEneMe1CanadinFv
   - update_hp_tp_values__20TWindowSubStatusDispFPv
   - update_hurt__12TObjEneLappyFv
+  - update_idle__13TUnk_804A1570Fv
+  - update_idle__13TUnk_804A1D30Fv
+  - update_idle__13TUnk_804A2F78Fv
+  - update_idle__13TUnk_804A3928Fv
+  - update_idle__13TUnk_804A4E68Fv
+  - update_idle__13TUnk_804A5150Fv
+  - update_idle__13TUnk_804A5248Fv
+  - update_idle__13TUnk_804A5740Fv
+  - update_idle__13TUnk_804A64E8Fv
+  - update_idle__13TUnk_804A68C8Fv
   - update_idle__14CreationCameraFv
   - update_idle__14TObjEneIllGillFv
   - update_idle_action__8TItemMagFv
@@ -16455,8 +16564,12 @@ force_active:
   - update_warp_dialogs__12TObjWarpBossFv
   - update_warp_occupants__12TObjWarpBossFv
   - update_warp_state__12TObjWarpBossFv
+  - update_weapon__13TUnk_804A0DB0Fv
   - update_weapon__13TUnk_804A204CFv
   - update_weapon__13TUnk_804A2164Fv
+  - update_weapon__13TUnk_804A5550Fv
+  - update_weapon__13TUnk_804A6108Fv
+  - update_weapon__13TUnk_804A62F8Fv
   - update_weapon_attack__14TObjEneIllGillFv
   - update_web_attack__9TObjGrassFv
   - update_when_camera_active__13TObjWarnChimeFv
@@ -16571,6 +16684,8 @@ force_active:
   - vfunc_28__19TObjEneEpsilonGuardFv
   - vfunc_28__20TOTrapChainSawDamageFv
   - vfunc_29__14TOTrapChainSawFv
+  - vfunc_57__13TUnk_804A2F78Fv
+  - vfunc_57__13TUnk_804A65E0Fv
   - vfunc_58__12TObjEneLappyFv
   - vfunc_58__12TObjEneSaverFv
   - vfunc_58__14TObjEneDolmOlmFv
@@ -16590,6 +16705,20 @@ force_active:
   - vfunc_59__17TObjEneDarkGunnerFv
   - vfunc_60__12TObjEneLappyFv
   - vfunc_60__12TObjEneSaverFv
+  - vfunc_60__13TUnk_804A0DB0Fv
+  - vfunc_60__13TUnk_804A1D30Fv
+  - vfunc_60__13TUnk_804A2F78Fv
+  - vfunc_60__13TUnk_804A3928Fv
+  - vfunc_60__13TUnk_804A4A88Fv
+  - vfunc_60__13TUnk_804A4E68Fv
+  - vfunc_60__13TUnk_804A5058Fv
+  - vfunc_60__13TUnk_804A5150Fv
+  - vfunc_60__13TUnk_804A5248Fv
+  - vfunc_60__13TUnk_804A5740Fv
+  - vfunc_60__13TUnk_804A6108Fv
+  - vfunc_60__13TUnk_804A62F8Fv
+  - vfunc_60__13TUnk_804A64E8Fv
+  - vfunc_60__13TUnk_804A68C8Fv
   - vfunc_60__14TObjEneDolmOlmFv
   - vfunc_60__14TObjEneIllGillFv
   - vfunc_60__15TObjEneMe1GiGueFv

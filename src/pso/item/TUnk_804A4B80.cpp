@@ -279,11 +279,11 @@ extern "C" {
 void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, s32);
 Obj_8012AF00 *TObjPlayer__sub_8012AF00(Obj_8012AF00 *self);
 
-extern s32 heaven_punisher_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4B80[];
 
 void *heaven_punisher_ct(void *player, s32 parent, s32 item) {
     __ct__11TItemWeaponFP7TObjectPUc(player, parent, item);
-    *(s32 **)((s8 *)player + 0x18) = heaven_punisher_weapon_vtable;
+    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804A4B80;
     TObjPlayer__sub_8012AF00((Obj_8012AF00 *)((char *)player + 504));
     ((TItemWeapon *)player)->set_weapon_flags(34);
     return player;
@@ -309,18 +309,9 @@ u8 *create_heaven_punisher(s32 arg0) {
     return NULL;
 }
 
-extern s32 heaven_punisher_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4B80[];
 
-void *__dt__13TUnk_804A4B80Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = heaven_punisher_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A4B80::~TUnk_804A4B80() {}
 
 struct Elem_8012AF00 { u8 b[4]; };
 

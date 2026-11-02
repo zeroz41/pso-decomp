@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/item/TUnk_804A5A28.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TTecSlicer.h"
-#include "pso/item/TUnk_804A5A28.h"
 #include "pso/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -71,28 +71,19 @@ void TUnk_804A5A28::emit_marker_effects() {
     TItemAttacker::spawn_item_timer((TObject *)TTecSlicer::create((u16*)&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);
 }
 
-extern s32 lbl_804A5A28[];
+extern s32 __vt__13TUnk_804A5A28[];
 
-void *__dt__13TUnk_804A5A28Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A5A28;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5A28::~TUnk_804A5A28() {}
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A5A28[];
+extern s32 __vt__13TUnk_804A5A28[];
 
 void *TUnk_804A5A28::init_variant_2_5a28() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A5A28;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5A28;
     set_weapon_flags(2);
     return this;
 }

@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 
-extern s32 lbl_804A1D30[];
+extern s32 __vt__13TUnk_804A1D30[];
 
 void TUnk_804A1D30::update_idle() {
     TUnk_804A1D30 *self = this;
@@ -38,23 +38,14 @@ void TUnk_804A1D30::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 0)
 
 }
 
-void *__dt__13TUnk_804A1D30Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A1D30;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A1D30::~TUnk_804A1D30() {}
 
 extern "C" {
 
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 int set_weapon_trail_joints(void*, void*, void*, void*);
 
-void*TObjPlayer::init_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A1D30; set_weapon_trail_joints(this, (void*)0, (void*)3, (void*)2); set_weapon_trail_joints(this, (void*)1, (void*)4, (void*)5); *(float *)&this->unk_200 = 1.0f; *(float *)&this->m_1fc = 1.0f; *(float *)&this->unk_1F8 = 1.0f; return this; }
+void*TObjPlayer::init_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A1D30; set_weapon_trail_joints(this, (void*)0, (void*)3, (void*)2); set_weapon_trail_joints(this, (void*)1, (void*)4, (void*)5); *(float *)&this->unk_200 = 1.0f; *(float *)&this->m_1fc = 1.0f; *(float *)&this->unk_1F8 = 1.0f; return this; }
 
 }
 

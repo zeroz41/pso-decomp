@@ -6,11 +6,11 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A1F20[];
+extern s32 __vt__13TUnk_804A1F20[];
 
 void *TUnk_804A1F20::init_vtable_804A1F20() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A1F20;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A1F20;
     return this;
 }
 

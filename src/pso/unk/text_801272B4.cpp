@@ -9,12 +9,12 @@ extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void create_lavis_shot(void);
-extern void *lbl_804A3168[];
+extern void *__vt__13TUnk_804A3168[];
 
 u8 *TObjPlayer__sub_801272B4(void *self_, s32 a, void *b) {
     Self_801272B4 *self = (Self_801272B4 *)self_;
     __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)a, (u8 *)b);
-    self->vt = lbl_804A3168;
+    self->vt = __vt__13TUnk_804A3168;
     ((TItemWeapon *)self)->set_weapon_flags(0x100622);
     self->f1f0 = (void *)create_lavis_shot;
     ((TObjPlayer *)self)->m_1e4 = 10.0f;

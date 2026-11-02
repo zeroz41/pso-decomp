@@ -96,18 +96,9 @@ void TUnk_804A64E8::emit_marker_effects() {
 }
 
 
-extern s32 lbl_804A64E8[];
+extern s32 __vt__13TUnk_804A64E8[];
 
-void *__dt__13TUnk_804A64E8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A64E8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A64E8::~TUnk_804A64E8() {}
 
 
 extern "C" {
@@ -116,7 +107,7 @@ int __ct__11TItemWeaponFP7TObjectPUc(void);
 
 
     
-void*TUnk_804A64E8::init_position_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A64E8; set_weapon_flags(2); *(int *)&(this->m_204) = 0; *(float*)((char*)this + 0x200) = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+void*TUnk_804A64E8::init_position_state() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A64E8; set_weapon_flags(2); *(int *)&(this->m_204) = 0; *(float*)((char*)this + 0x200) = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
 
 }
 

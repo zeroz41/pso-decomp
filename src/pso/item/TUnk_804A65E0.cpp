@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_8012F8E8.h"
 #include "pso/item/TUnk_804A65E0.h"
+#include "pso/player/TObjPlayer_8012F8E8.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/misc/TTecGiZonde.h"
 #include "pso/player/TObjPlayer.h"
@@ -58,28 +58,19 @@ void TUnk_804A65E0::emit_marker_effects() {
 
 void TUnk_804A65E0::vfunc_57() { ((TItemWeapon *)this)->roll_technique(); ((TItemWeapon *)this)->roll_technique(); }
 
-extern s32 lbl_804A65E0[];
+extern s32 __vt__13TUnk_804A65E0[];
 
-void *__dt__13TUnk_804A65E0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A65E0;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A65E0::~TUnk_804A65E0() {}
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A65E0[];
+extern s32 __vt__13TUnk_804A65E0[];
 
 void *TObjPlayer::initialize_effect_object() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A65E0;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A65E0;
     ((TObjPlayer *)((char *)this + 516))->construct_target_cursor_records();
     ((FlagWord *)((char *)this + 376))->set(32);
     ((TItemWeapon *)this)->set_weapon_flags(34);

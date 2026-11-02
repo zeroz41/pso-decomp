@@ -75,28 +75,19 @@ void TUnk_804A4E68::update_attack() {
 
 }
 
-extern s32 imperial_pick_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4E68[];
 
-void *__dt__13TUnk_804A4E68Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = imperial_pick_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A4E68::~TUnk_804A4E68() {}
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 imperial_pick_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4E68[];
 
 void *TUnk_804A4E68::init_vtable_and_clear_field1f8() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = imperial_pick_weapon_vtable;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A4E68;
     *(u32 *)&this->unk_1F8 = 0;
     return this;
 }

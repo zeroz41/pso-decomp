@@ -16,12 +16,12 @@ void TUnk_804A1668::update_weapon() {
     }
 }
 
-extern s32 lbl_804A1668[];
+extern s32 __vt__13TUnk_804A1668[];
 extern s32 create__15TItemEffBringerFUlllf[];
 
 void *TUnk_804A1668::init_bringer_effect() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A1668;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A1668;
     *(u16 *)((s8 *)this + 0x1F8) = 2;
     *(s32 **)((s8 *)this + 0x1F0) = create__15TItemEffBringerFUlllf;
     return this;

@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TUnk_804A5550.h"
+#include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -21,28 +21,19 @@ void TUnk_804A5550::update_weapon() {
 
 }
 
-extern s32 lbl_804A5550[];
+extern s32 __vt__13TUnk_804A5550[];
 
-void *__dt__13TUnk_804A5550Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A5550;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5550::~TUnk_804A5550() {}
 
 extern "C" {
 
 s32 __ct__11TItemWeaponFP7TObjectPUc();
 
-extern s32 lbl_804A5550[];
+extern s32 __vt__13TUnk_804A5550[];
 
 void *TObjPlayer::init_state(s32 arg1, void *arg2) {
     __ct__11TItemWeaponFP7TObjectPUc();
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A5550;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5550;
     if ((u8) *(u8 *)((s8 *)arg2 + 2) >= 5U) {
         set_atp(-1);
     }

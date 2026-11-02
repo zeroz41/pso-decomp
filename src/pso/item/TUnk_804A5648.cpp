@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/unk/text_8012CC74.h"
 #include "pso/item/TUnk_804A5648.h"
+#include "pso/unk/text_8012CC74.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012CD90.h"
@@ -81,25 +81,16 @@ void TUnk_804A5648::reserved_53() {
     ((TObjPlayer *)arg0)->draw_status_icons(arg0 + 0x1F8, arg0 + 0x204);
 }
 
-extern s32 lbl_804A5648[];
+extern s32 __vt__13TUnk_804A5648[];
 
-void *__dt__13TUnk_804A5648Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A5648;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5648::~TUnk_804A5648() {}
 
 extern "C" {
 
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 
     extern unsigned char spawn_shoot_particle_9f[];
-void*TUnk_804A5648::enter_state_515() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)lbl_804A5648; set_weapon_flags(515); *(int*)((char*)this + 0x1f0) = (int)spawn_shoot_particle_9f; (*(float *)((u8 *)this + 0x1E4)) = 11.0f; return this; }
+void*TUnk_804A5648::enter_state_515() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A5648; set_weapon_flags(515); *(int*)((char*)this + 0x1f0) = (int)spawn_shoot_particle_9f; (*(float *)((u8 *)this + 0x1E4)) = 11.0f; return this; }
 
 }
 

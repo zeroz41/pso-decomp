@@ -47,14 +47,14 @@ void TUnk_804A5248::update_attack() {
 
 extern "C" {
 void spawn_weapon_impact_effect();
-extern u32 lbl_804A5248[];
+extern u32 __vt__13TUnk_804A5248[];
 
 }
 
 TItemWeaponRifle* TItemWeaponRifle::initialize(s32 parent,u8* item) {
     TItemWeaponRifle* self=this;
     __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)self), (void *)parent, item);
-    self->dispatch=lbl_804A5248;
+    self->dispatch=__vt__13TUnk_804A5248;
     self->impactFactory=spawn_weapon_impact_effect;
     self->phase=1.0f;
     if(item[2]>=5U)((TObjPlayer *)self)->set_atp(-1);
@@ -81,13 +81,4 @@ u8 *create_rifle_weapon(u8 *arg0) {
 }
 
 
-void *__dt__13TUnk_804A5248Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(u32 **)((s8 *)arg0 + 0x18) = lbl_804A5248;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5248::~TUnk_804A5248() {}

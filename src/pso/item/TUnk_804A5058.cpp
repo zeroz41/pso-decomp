@@ -16,28 +16,19 @@ void TUnk_804A5058::vfunc_60() {
     }
 }
 
-extern s32 rabbit_wand_weapon_vtable[];
+extern s32 __vt__13TUnk_804A5058[];
 
-void *__dt__13TUnk_804A5058Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = rabbit_wand_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5058::~TUnk_804A5058() {}
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 rabbit_wand_weapon_vtable[];
+extern s32 __vt__13TUnk_804A5058[];
 
 void *TUnk_804A5058::ct_variant() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = rabbit_wand_weapon_vtable;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5058;
     return this;
 }
 

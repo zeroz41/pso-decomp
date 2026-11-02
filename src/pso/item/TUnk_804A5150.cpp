@@ -32,14 +32,14 @@ void TUnk_804A5150::vfunc_60() {
     }
 }
 
-extern s32 holy_ray_weapon_vtable[];
+extern s32 __vt__13TUnk_804A5150[];
 extern s32 spawn_shoot_particle_attached__10TItemShootFlllf[];
 extern s32 spawn_target_needle[];
 extern s32 spawn_needle_wall_impact[];
 
 void *TUnk_804A5150::init_vtable_and_handlers() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = holy_ray_weapon_vtable;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5150;
     *(s32 **)((s8 *)this + 0x1F0) = spawn_shoot_particle_attached__10TItemShootFlllf;
     (*(s32 * *)((u8 *)this + 0x1F4)) = spawn_target_needle;
     (*(s32 * *)((u8 *)this + 0x1EC)) = spawn_needle_wall_impact;
@@ -70,15 +70,6 @@ u8 *TObjPlayer::create_handlers_state(u8 *arg0) {
 
 }
 
-extern s32 holy_ray_weapon_vtable[];
+extern s32 __vt__13TUnk_804A5150[];
 
-void *__dt__13TUnk_804A5150Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = holy_ray_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5150::~TUnk_804A5150() {}

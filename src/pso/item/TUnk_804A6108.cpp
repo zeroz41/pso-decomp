@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/player/TUnk_804A6108.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
-#include "pso/player/TUnk_804A6108.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_8012EFAC.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
@@ -32,11 +32,11 @@ void TUnk_804A6108::vfunc_60() {
 }
 void TUnk_804A6108::update_weapon() { advance_angle_wrap((s32 *)((char*)this + 0x1f8), 3276); }
 
-extern s32 lbl_804A6108[];
+extern s32 __vt__13TUnk_804A6108[];
 
 void *TUnk_804A6108::init_effect_state() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A6108;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A6108;
     *(u32 *)&this->unk_1F8 = 0;
     return this;
 }
@@ -63,15 +63,6 @@ u8 *TObjPlayer__sub_8012EFAC(u8 *arg0) {
 
 }
 
-extern s32 lbl_804A6108[];
+extern s32 __vt__13TUnk_804A6108[];
 
-void *__dt__13TUnk_804A6108Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A6108;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A6108::~TUnk_804A6108() {}

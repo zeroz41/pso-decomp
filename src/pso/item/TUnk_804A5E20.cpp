@@ -89,14 +89,14 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A5E20[];
+extern s32 __vt__13TUnk_804A5E20[];
 extern s32 spawn_target_needle[];
 extern s32 spawn_needle_wall_impact[];
 extern s32 create_shoot_model__10TObjPlayerFUiiif[];
 
 void *TUnk_804A5E20::init_state_2() {
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A5E20;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5E20;
     set_weapon_flags(2);
     (*(s32 * *)((u8 *)this + 0x1F4)) = spawn_target_needle;
     (*(s32 * *)((u8 *)this + 0x1EC)) = spawn_needle_wall_impact;
@@ -126,15 +126,6 @@ u8 *TObjPlayer::create_init_state_2(u8 *arg0) {
 
 }
 
-extern s32 lbl_804A5E20[];
+extern s32 __vt__13TUnk_804A5E20[];
 
-void *__dt__13TUnk_804A5E20Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A5E20;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5E20::~TUnk_804A5E20() {}

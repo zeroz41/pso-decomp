@@ -1,10 +1,10 @@
 #include "types.h"
+#include "pso/player/TUnk_804A4C78.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 #include "pso/system/FlagWord.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/player/TUnk_804A4C78.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012B198.h"
 
@@ -62,11 +62,11 @@ extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, u8 *);
 
-extern s32 p_arms_blade_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4C78[];
 
 void *TObjPlayer__sub_8012B0F8(void *player, s32 parent, u8 *item) {
     __ct__11TItemWeaponFP7TObjectPUc(player, parent, item);
-    *(s32 **)((s8 *)player + 0x18) = p_arms_blade_weapon_vtable;
+    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804A4C78;
     ((TItemWeapon *)player)->set_weapon_flags(513);
     return player;
 }
@@ -92,18 +92,9 @@ u8 *TObjPlayer::create_obj_8012B140(u8 *arg0) {
 
 }
 
-extern s32 p_arms_blade_weapon_vtable[];
+extern s32 __vt__13TUnk_804A4C78[];
 
-void *__dt__13TUnk_804A4C78Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = p_arms_blade_weapon_vtable;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A4C78::~TUnk_804A4C78() {}
 
 void TUnk_804A4C78::sub_8012B1F0(s16 v) { *(s16*)((char*)this + 0x1e8) = v; }
 s16 TUnk_804A4C78::sub_8012B1F8() { return *(s16*)((char*)this + 0x1e8); }

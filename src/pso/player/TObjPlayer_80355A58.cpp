@@ -1,7 +1,7 @@
 #include "types.h"
+#include "pso/player/TUnk_804F1320.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/player/TUnk_804F1320.h"
 #include "pso/item/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
@@ -13,9 +13,8 @@ struct RecoveredGlobal_80355BA0_lbl_804F1320 {
 
 extern "C" {
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
-extern s32 lbl_804F1320[];
+extern s32 __vt__13TUnk_804F1320[];
 u8 *photon_field_weapon_ct(TObjPlayer *arg0, u8 *arg1);
-void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1);
 s32 get_current_floor();
 s8 get_mode__5TItemFv(u8 *arg0);
 
@@ -48,19 +47,12 @@ void TUnk_804F1320::emit_marker_effects() {
 }
 typedef char RecoveredGlobal_80355BA0_lbl_804F1320_size[sizeof(RecoveredGlobal_80355BA0_lbl_804F1320) == 0xF8 ? 1 : -1];
 
-void *__dt__13TUnk_804F1320Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F1320;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
+TUnk_804F1320::~TUnk_804F1320() {}
+extern "C" {
 u8 *photon_field_weapon_ct(TObjPlayer *player, u8 *arg1) {
     __ct__11TItemWeaponFP7TObjectPUc(player, arg1);
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&lbl_804F1320).value;
+    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80355BA0_lbl_804F1320 *)&__vt__13TUnk_804F1320).value;
     ((TItemWeapon *)player)->set_weapon_flags(0x22);
     if (((TItem *)player)->get_item_group() == 0x3D) {
         *(f32 *)((s8 *)player + 0x1F8) = 70.0f;
