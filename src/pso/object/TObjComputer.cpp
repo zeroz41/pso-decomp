@@ -126,8 +126,6 @@ extern const f32 lbl_805DBCF4;
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
-extern char lbl_80444B60[];
-extern char lbl_80444B78[];
 extern s32 fe_obj_tanmatu02_resource_descriptor[];
 extern s32 fs_obj_tanmatu02_resource_descriptor[];
 extern u32 TObjComputer__texture_gvm_handle;
@@ -236,7 +234,7 @@ void load_computer_resources(void) {
             p = load_resource_from_descriptor(p, 5, fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
-        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)lbl_80444B60);
+        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fs_obj_tanmatu02.gvm");
         computer_uv_scroll_phase = 0;
         break;
     default:
@@ -245,7 +243,7 @@ void load_computer_resources(void) {
             p = load_resource_from_descriptor(p, 5, fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
-        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)lbl_80444B78);
+        TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fe_obj_computer.gvm");
         computer_uv_scroll_phase = 1;
         break;
     }

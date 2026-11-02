@@ -1898,7 +1898,6 @@ struct VObj_18_347dfc : VBase_18_347dfc {
 };
 f64 atan2_float(f32, f32);
 s32 approach_angle_limited(int, int, int);
-extern const f64 TObjEneMe3SinowZoa__data_804760A0;
 #define arg0 ((u8 *)arg0_)
 void TObjEneMe3SinowZoa__sub_8031884C(void *arg0_, s32 arg1) {
     s32 temp_r5;
@@ -1916,7 +1915,7 @@ void TObjEneMe3SinowZoa__sub_8031884C(void *arg0_, s32 arg1) {
         if (((VObj_18_347dfc *)(arg0))->m102(200.0f) != 0) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             ((TObjEneDD *)arg0)->update_velocity();
-            *(s32 *)((s8 *)arg0 + 0x43C) = (s32) (TObjEneMe3SinowZoa__data_804760A0 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
+            *(s32 *)((s8 *)arg0 + 0x43C) = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)arg0 + 0x3A0)), (f32) (*(f32 *)((s8 *)arg0 + 0x3A8))));
             if (((s32 (*)(void *, s32, f32))check_body_collision_at__18TObjEneMe3SinowZoaFlf)(arg0, (int) (*(s32 *)((s8 *)arg0 + 0x43C) + 0x8000), 80.0f) == 0) {
                 *(f32 *)((s8 *)arg0 + 0x3A0) *= -1.0f;
                 *(f32 *)((s8 *)arg0 + 0x3A8) *= -1.0f;
@@ -2156,7 +2155,7 @@ void TObjEneMe3SinowZoa__sub_80318C0C(void *arg0_, s32 arg1) {
                 if (((TObjEneEpsilon *)ene_epsilon)->update_death_check() != 0) {
                     ((TObjEneDD_ST *)ene_epsilon)->enemy_copy_target_destination();
                     ((TObjEneDD *)ene_epsilon)->update_velocity();
-                    var_r4 = (s32) (TObjEneMe3SinowZoa__data_804760A0 * atan2_float(*(f32 *)((s8 *)ene_epsilon + 0x3A0), *(f32 *)((s8 *)ene_epsilon + 0x3A8)));
+                    var_r4 = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)ene_epsilon + 0x3A0), *(f32 *)((s8 *)ene_epsilon + 0x3A8)));
                 } else {
                     var_r4 = *(s32 *)((s8 *)ene_epsilon + 0x60);
                 }
@@ -2345,7 +2344,7 @@ void TObjEneMe3SinowZoa__sub_80318F7C(Ene_80318F7C *self, s32 arg1) {
             if (((TObjEneEpsilon *)self)->update_death_check() != 0) {
                 ((TObjEneDD_ST *)self)->enemy_copy_target_destination();
                 ((TObjEneDD *)self)->update_velocity();
-                target = (s32)(TObjEneMe3SinowZoa__data_804760A0 * atan2_float(self->f3A0, self->f3A8));
+                target = (s32)(10430.38043493439 * atan2_float(self->f3A0, self->f3A8));
             } else {
                 target = self->f60;
             }

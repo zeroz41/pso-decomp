@@ -5364,7 +5364,7 @@ pso/misc/TOTrapAncient02R.cpp:
 
 pso/misc/TOTrapAncient02.cpp:
 	.text       start:0x8017A210 end:0x8017B878
-	.rodata     start:0x80442F30 end:0x80442F38
+	.rodata     start:0x80442F30 end:0x80442F40
 	.data       start:0x804B4AD8 end:0x804B4D10
 
 pso/misc/pso_const_ids7.cpp:
@@ -5560,7 +5560,7 @@ pso/object/TObjGbAdvance.cpp:
 
 pso/object/TObjComputer.cpp:
 	.text       start:0x8018807C end:0x80188584
-	.rodata     start:0x80444B58 end:0x80444B60
+	.rodata     start:0x80444B58 end:0x80444B90
 	.data       start:0x804B62F0 end:0x804B6334
 
 pso/item/TObjContainerItem.cpp:
@@ -5674,6 +5674,7 @@ pso/object/TObjLazerFenceNorm.cpp:
 
 pso/unk/text_80193018.cpp:
 	.text       start:0x80193018 end:0x801930E8
+	.rodata     start:0x80445BB8 end:0x80445BE0
 	.data       start:0x804B7F20 end:0x804B7FB0
 
 pso/object/TObjLazerFence4.cpp:
@@ -6124,7 +6125,7 @@ pso/misc/TPhotonFarlla.cpp:
 
 pso/misc/TPhotonGolla.cpp:
 	.text       start:0x801AB608 end:0x801AC0D8
-	.rodata     start:0x80446DA0 end:0x80446DA8
+	.rodata     start:0x80446DA0 end:0x80446DC0
 	.data       start:0x804C35A8 end:0x804C3638
 	.sdata2     start:0x805DC188 end:0x805DC1AC
 
@@ -6167,7 +6168,7 @@ pso/misc/TPhotonMylla.cpp:
 
 pso/misc/TPhotonPilla.cpp:
 	.text       start:0x801ADC6C end:0x801AE48C
-	.rodata     start:0x80446ED8 end:0x80446EE0
+	.rodata     start:0x80446ED8 end:0x80446EF8
 	.data       start:0x804C3A38 end:0x804C3B10
 	.sdata2     start:0x805DC228 end:0x805DC25C
 
@@ -10048,6 +10049,7 @@ pso/boss/TBoss6Tube_802B15F4.cpp:
 
 pso/boss/TBoss6Tube_802B16BC.cpp:
 	.text       start:0x802B16BC end:0x802B17D4
+	.rodata     start:0x80470A68 end:0x80470A80
 
 pso/menu/TAdGuideTxtGC_802B17D4.cpp:
 	.text       start:0x802B17D4 end:0x802B1850
@@ -11081,6 +11083,7 @@ pso/enemy/TObjEneMe3SinowZoa_80317828.cpp:
 
 pso/enemy/TObjEneMe3SinowZoa.cpp:
 	.text       start:0x8031786C end:0x8031B124
+	.rodata     start:0x804760A0 end:0x804760A8
 	.data       start:0x804E87A8 end:0x804E8B88
 	.sdata2     start:0x805DF320 end:0x805DF368
 
@@ -11486,6 +11489,7 @@ pso/unk/text_8032AC9C.cpp:
 
 pso/ui/TAdEnterSerialAccessGC_8032AD30.cpp:
 	.text       start:0x8032AD30 end:0x8032B318
+	.rodata     start:0x80477260 end:0x80477270
 
 pso/unk/text_8032B318.cpp:
 	.text       start:0x8032B318 end:0x8032B38C

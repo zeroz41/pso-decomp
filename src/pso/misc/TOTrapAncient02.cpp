@@ -107,7 +107,6 @@ s32 rotate_matrix_y(int, int);
 void subtract_vector(void *, void *);
 s32 push_matrix_from(void *src);
 s32 pop_matrix();
-extern const f64 lbl_80442F38;
 extern Vec_8017A3C0 scratch_vec[];
 extern Vec_8017A3C0 lbl_8050BF00[];
 extern u8 identity_matrix[];
@@ -689,7 +688,7 @@ void TOTrapAncient02R__vt79(Obj_8017A3C0 *o) {
                         rotate_vector_by_matrix(0, lbl_8050BF00, lbl_8050BF00);
                         pop_matrix();
                     }
-                    ang = lbl_80442F38 * atan2_float(lbl_8050BF00->x, lbl_8050BF00->z);
+                    ang = 10430.38043493439 * atan2_float(lbl_8050BF00->x, lbl_8050BF00->z);
                     switch (o->kind) {
                     case 1: {
                         Dmg_8017A3C0 dmg;

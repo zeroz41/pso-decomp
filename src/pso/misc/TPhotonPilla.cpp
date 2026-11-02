@@ -221,8 +221,6 @@ s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
-extern u8 lbl_80446EE0[];
-extern u8 lbl_80446EEC[];
 extern s32 lbl_805D3518;
 extern u8 *photon_blast_shared_resource;
 
@@ -333,10 +331,10 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
         }
         }
         spawn_photon_blast_attachment_effects(photon_rainbow, 3);
-        play_cue_stream_file((s32)lbl_80446EE0);
+        play_cue_stream_file((s32)"paila2.adx");
     } else {
         spawn_photon_blast_opening_effects(3, ((TPhotonPilla *)photon_rainbow)->m_17c);
-        play_cue_stream_file((s32)lbl_80446EEC);
+        play_cue_stream_file((s32)"paila.adx");
     }
     return photon_rainbow;
 }
