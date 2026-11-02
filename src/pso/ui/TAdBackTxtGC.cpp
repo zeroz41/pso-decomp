@@ -1,3 +1,4 @@
+#pragma readonly_strings on
 #include "types.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/ModelDrawContext.h"
@@ -46,7 +47,7 @@ void run_task__12TAdBackTxtGCFv(void *arg0) {
 
 extern void *__vt__12TAdBackTxtGC[];
 extern const f32 lbl_805DDD08;
-extern void *TAdBackTxtGC__name;
+extern const char *TAdBackTxtGC__name;
 
 }
 TAdBackTxtGC::~TAdBackTxtGC() {
@@ -57,22 +58,21 @@ extern "C" {
 void *__ct__12TAdBackTxtGCFv(void *ad_back_txt_gc) {
     __ct__7TObjectFP7TObject(ad_back_txt_gc);
     *(void ***)((s8 *)ad_back_txt_gc + 0x18) = __vt__12TAdBackTxtGC;
-    *(void * *)&((TAdBackTxtGC *)ad_back_txt_gc)->m_name = TAdBackTxtGC__name;
+    ((TAdBackTxtGC *)ad_back_txt_gc)->m_name = TAdBackTxtGC__name;
     *(u32 *)((s8 *)ad_back_txt_gc + 0x1C) = -1;
     *(f32 *)((s8 *)ad_back_txt_gc + 0x20) = lbl_805DDD08;
     *(u32 *)((s8 *)ad_back_txt_gc + 0x24) = 1;
     return ad_back_txt_gc;
 }
 
-    extern unsigned char lbl_80465490[];
-    extern unsigned char lbl_80465430[], lbl_80465440[], lbl_80465450[], lbl_80465460[], lbl_80465470[];
-    struct TexName_804DC098 { void *name; s32 a; s32 b; };
+    struct TexName_804DC098 { const char *name; s32 a; s32 b; };
     struct TexList_804DC0D4 { TexName_804DC098 *list; s32 n; };
     TexName_804DC098 lbl_804DC098[5] = {
-        { lbl_80465430, 0, 0 }, { lbl_80465440, 0, 0 }, { lbl_80465450, 0, 0 },
-        { lbl_80465460, 0, 0 }, { lbl_80465470, 0, 0 },
+        { "f256_backtext01", 0, 0 }, { "f256_backtext02", 0, 0 }, { "f256_backtext03", 0, 0 },
+        { "f256_backtext04", 0, 0 }, { "f256_backtext05", 0, 0 },
     };
     __declspec(section ".data") TexList_804DC0D4 TAdBackTxtGC_backtext_tex_list = { lbl_804DC098, 5 };
+const char *TAdBackTxtGC__name = "TAdBackTxtGC";
 extern u32 TAdBackTxtGC__backtext_texture_list;
 void release_texture_list(void*);
 
@@ -82,6 +82,6 @@ void TAdSinglePlyChrSelectGC::free_singleton_805D65C0() {
         TAdBackTxtGC__backtext_texture_list = 0U;
     }
 }
-void register_texture_f256_backtext(void) { (*(int *)&TAdBackTxtGC__backtext_texture_list) = (int)&TAdBackTxtGC_backtext_tex_list; TLobby__sub_8023E4B4((s32)lbl_80465490, (s32)&TAdBackTxtGC_backtext_tex_list); }
+void register_texture_f256_backtext(void) { (*(int *)&TAdBackTxtGC__backtext_texture_list) = (int)&TAdBackTxtGC_backtext_tex_list; TLobby__sub_8023E4B4((s32)"f256_backtext", (s32)&TAdBackTxtGC_backtext_tex_list); }
 
 }

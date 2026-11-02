@@ -2699,8 +2699,6 @@ pso/ui/TAdPlyStatusGC_802E1128.cpp
 pso/ui/TAdPlyStatusGC_8033FD48.cpp
 pso/ui/TAdPsoPassSaveGC.cpp
 pso/ui/TAdRayGC.cpp
-pso/ui/TAdRayGC_8029BFC8.cpp
-pso/ui/TAdRayGC_8029BFFC.cpp
 pso/ui/TAdRicoRingCtrl.cpp
 pso/ui/TAdRicoRingCtrl_8001B4A0.cpp
 pso/ui/TAdSEGAlogo.cpp

@@ -9681,17 +9681,15 @@ pso/unk/text_8029BA3C.cpp:
 
 pso/ui/TAdBackTxtGC.cpp:
 	.text       start:0x8029BAC8 end:0x8029BCB4
+	.rodata     start:0x80465430 end:0x804654A0
 	.data       start:0x804DC098 end:0x804DC0F4
+	.sdata      start:0x805D3D28 end:0x805D3D30
 
 pso/ui/TAdRayGC.cpp:
-	.text       start:0x8029BCB4 end:0x8029BFC8
-	.data       start:0x804DC360 end:0x804DC378
-
-pso/ui/TAdRayGC_8029BFC8.cpp:
-	.text       start:0x8029BFC8 end:0x8029BFFC
-
-pso/ui/TAdRayGC_8029BFFC.cpp:
-	.text       start:0x8029BFFC end:0x8029C030
+	.text       start:0x8029BCB4 end:0x8029C030
+	.rodata     start:0x804654A0 end:0x80465788
+	.data       start:0x804DC0F8 end:0x804DC378
+	.sdata      start:0x805D3D30 end:0x805D3D38
 
 pso/misc/TORockJungleL01.cpp:
 	.text       start:0x8029C030 end:0x8029CC68

@@ -123,6 +123,7 @@ force_active:
   - TAdADXlogo__state
   - TAdADXlogo__texture
   - TAdADXlogo_name
+  - TAdBackTxtGC__name
   - TAdBackTxtGC_backtext_tex_list
   - TAdChrMoveEffectGC__sub_80349194
   - TAdChrSelASlotGC__sub_8030C45C
@@ -162,6 +163,8 @@ force_active:
   - TAdPlyStatusGC__is_shown
   - TAdPlyStatusGC__status_window_box
   - TAdPlyStatusGC__sub_8033F8B0
+  - TAdRayGC__name
+  - TAdRayGC_ray_quad_table
   - TAdSelectCurGC__sub_802AF274
   - TAdSinglePlyChrSelectGC__sub_80076DF4
   - TAdSinglePlyChrSelectGC__sub_80133530
@@ -6477,6 +6480,8 @@ force_active:
   - lbl_804CFA10
   - lbl_804CFA28
   - lbl_804DC098
+  - lbl_804DC0F8
+  - lbl_804DC2D8
   - lbl_804DC448
   - lbl_804DD830
   - lbl_804DD87C
