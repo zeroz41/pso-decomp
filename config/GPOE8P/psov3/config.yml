@@ -1922,6 +1922,7 @@ force_active:
   - __dt__11TObjInfoColFv
   - __dt__11TPlayerSoulFv
   - __dt__11TSetManagerFv
+  - __dt__11TTecRaBartaFv
   - __dt__11TTecRaZondeFv
   - __dt__11TWindowChatFv
   - __dt__11TWindowCostFv
@@ -1957,6 +1958,7 @@ force_active:
   - __dt__12TOSignCave03Fv
   - __dt__12TOSwitchItemFv
   - __dt__12TObjComputerFv
+  - __dt__12TObjDoorJungFv
   - __dt__12TObjEneLappyFv
   - __dt__12TObjEneReconFv
   - __dt__12TObjEneSaverFv
@@ -1965,6 +1967,7 @@ force_active:
   - __dt__12TObjParticleFv
   - __dt__12TObjRaderColFv
   - __dt__12TObjRainCtrlFv
+  - __dt__12TPhotonLaserFv
   - __dt__12TQuestListVMFv
   - __dt__12TQuestThreadFv
   - __dt__13PointerBufferFv
@@ -2018,7 +2021,10 @@ force_active:
   - __dt__13TUnk_804848B8Fv
   - __dt__13TUnk_80484A94Fv
   - __dt__13TUnk_80484AFCFv
+  - __dt__13TUnk_804887C8Fv
   - __dt__13TUnk_80488AD8Fv
+  - __dt__13TUnk_80488D70Fv
+  - __dt__13TUnk_80488DA0Fv
   - __dt__13TUnk_8048DF58Fv
   - __dt__13TUnk_8049387CFv
   - __dt__13TUnk_80494968Fv
@@ -2149,6 +2155,7 @@ force_active:
   - __dt__15TODoorMachine02Fv
   - __dt__15TODoorVS2Door01Fv
   - __dt__15TORainbowCave01Fv
+  - __dt__15TObjBoss1CraterFv
   - __dt__15TObjBoss8PillerFv
   - __dt__15TObjDeadListWinFv
   - __dt__15TObjEneDelDepthFv
@@ -2186,6 +2193,7 @@ force_active:
   - __dt__16TOWreckAncient02Fv
   - __dt__16TOWreckAncient03Fv
   - __dt__16TObjBagWarnWin4PFv
+  - __dt__16TObjContainerIdoFv
   - __dt__16TObjCurtainLobbyFv
   - __dt__16TObjDFBeamCursorFv
   - __dt__16TObjDFTenchuFuruFv
@@ -2195,6 +2203,7 @@ force_active:
   - __dt__16TObjEneMorfosArmFv
   - __dt__16TObjEneNanoDragoFv
   - __dt__16TObjEneRe7BeruraFv
+  - __dt__16TObjEneReconBombFv
   - __dt__16TObjEvtCollisionFv
   - __dt__16TObjHashiVersus1Fv
   - __dt__16TObjHashiVersus2Fv
@@ -2401,9 +2410,11 @@ force_active:
   - __dt__9TMainTaskFv
   - __dt__9TObjHashiFv
   - __dt__9TObjLightFv
+  - __dt__9TObjLukerFv
   - __dt__9TProtocolFv
   - __dt__9TSaveChCrFv
   - __dt__9TTecJelinFv
+  - __dt__9TTecKafunFv
   - __dt__9TTecSiftaFv
   - __dt__9TTecZaruaFv
   - __dt_deleting__11TBoss4BishiFPvs
@@ -2473,6 +2484,7 @@ force_active:
   - __vt__11TObjMesBase
   - __vt__11TObjNpcMoja
   - __vt__11TPlayerSoul
+  - __vt__11TTecRaBarta
   - __vt__11TTecRaZonde
   - __vt__11TWindowChat
   - __vt__11TWindowCost
@@ -2508,6 +2520,7 @@ force_active:
   - __vt__12TOSignCave03
   - __vt__12TOSwitchItem
   - __vt__12TObjComputer
+  - __vt__12TObjDoorJung
   - __vt__12TObjEneBeast
   - __vt__12TObjEneDD_ST
   - __vt__12TObjMistCtrl
@@ -2515,6 +2528,7 @@ force_active:
   - __vt__12TObjParticle
   - __vt__12TObjRaderCol
   - __vt__12TObjRainCtrl
+  - __vt__12TPhotonLaser
   - __vt__12TQuestListVM
   - __vt__12TQuestThread
   - __vt__12TTecZondeEff
@@ -2568,7 +2582,9 @@ force_active:
   - __vt__13TUnk_804848B8
   - __vt__13TUnk_80484A94
   - __vt__13TUnk_80484AFC
+  - __vt__13TUnk_804887C8
   - __vt__13TUnk_80488AD8
+  - __vt__13TUnk_80488DA0
   - __vt__13TUnk_8048DF58
   - __vt__13TUnk_80490470
   - __vt__13TUnk_80493450
@@ -2593,6 +2609,7 @@ force_active:
   - __vt__13TUnk_8049FF88
   - __vt__13TUnk_804A2018
   - __vt__13TUnk_804AF7B0
+  - __vt__13TUnk_804B97C0
   - __vt__13TUnk_804C4498
   - __vt__13TUnk_804C57F0
   - __vt__13TUnk_804C8678
@@ -2689,6 +2706,7 @@ force_active:
   - __vt__15TODoorVS2Door01
   - __vt__15TOQuestTalkBase
   - __vt__15TORainbowCave01
+  - __vt__15TObjBoss1Crater
   - __vt__15TObjBoss5Pillar
   - __vt__15TObjBoss8Piller
   - __vt__15TObjDeadListWin
@@ -2726,6 +2744,7 @@ force_active:
   - __vt__16TOTrapAncient02R
   - __vt__16TObjBagWarnWin4P
   - __vt__16TObjCityDoor_Med
+  - __vt__16TObjContainerIdo
   - __vt__16TObjCurtainLobby
   - __vt__16TObjDFBeamCursor
   - __vt__16TObjDFTenchuFuru
@@ -2733,6 +2752,7 @@ force_active:
   - __vt__16TObjEneMorfosArm
   - __vt__16TObjEneNanoDrago
   - __vt__16TObjEneRe7Berura
+  - __vt__16TObjEneReconBomb
   - __vt__16TObjEvtCollision
   - __vt__16TObjFogCollision
   - __vt__16TObjHashiVersus1
@@ -2946,11 +2966,14 @@ force_active:
   - __vt__9TEndingAB
   - __vt__9TMainTask
   - __vt__9TObjChara
+  - __vt__9TObjEnemy
   - __vt__9TObjHashi
   - __vt__9TObjLight
+  - __vt__9TObjLuker
   - __vt__9TProtocol
   - __vt__9TSaveChCr
   - __vt__9TTecJelin
+  - __vt__9TTecKafun
   - __vt__9TTecSifta
   - __vt__9TTecZarua
   - _fseek
@@ -3209,6 +3232,7 @@ force_active:
   - are_p01s_broken__12TBoss3VoloptFv
   - are_p01s_idle__12TBoss3VoloptFv
   - area_allows_win_timer__15TObjSoloPlayWinFv
+  - area_attack_receive_direct__15TObjBoss1CraterFPvPfPv
   - area_dialogue_file_ancient_e
   - area_dialogue_file_ancient_e_u
   - area_dialogue_file_ancient_f
@@ -12525,6 +12549,7 @@ force_active:
   - render__11TOKeyCave01Fv
   - render__11TObjDFDemo2Fv
   - render__11TObjDFDemo3Fv
+  - render__11TTecRaBartaFv
   - render__11TTecRaZondeFv
   - render__11TWindowChatFv
   - render__12TAdBackTxtGCFv
@@ -12548,6 +12573,7 @@ force_active:
   - render__12TOSignCave03Fv
   - render__12TOSwitchItemFv
   - render__12TObjComputerFv
+  - render__12TObjDoorJungFv
   - render__12TObjEneBeastFPv
   - render__12TObjEneLappyFv
   - render__12TObjEneSaverFv
@@ -12555,6 +12581,7 @@ force_active:
   - render__12TObjParticleFv
   - render__12TObjRaderColFv
   - render__12TPhotonGollaFv
+  - render__12TPhotonLaserFv
   - render__12TPhotonPillaFv
   - render__12TTecZondeEffFv
   - render__13TAdMcSelectGCFv
@@ -12648,6 +12675,7 @@ force_active:
   - render__15TODoorVS2Door01Fv
   - render__15TOQuestTalkBaseFv
   - render__15TORainbowCave01Fv
+  - render__15TObjBoss1CraterFv
   - render__15TObjEneDelDepthFv
   - render__15TObjLiveMonitorFv
   - render__15TObjSuisouLobbyFv
@@ -12669,12 +12697,14 @@ force_active:
   - render__16TORevlightCave01Fv
   - render__16TOSparkMachine01Fv
   - render__16TObjCityDoor_MedFv
+  - render__16TObjContainerIdoFv
   - render__16TObjCurtainLobbyFv
   - render__16TObjEneBm5GibonUFv
   - render__16TObjEneDellBiterFv
   - render__16TObjEneMerillLiaFv
   - render__16TObjEneMorfosArmFv
   - render__16TObjEneNanoDragoFv
+  - render__16TObjEneReconBombFv
   - render__16TObjEvtCollisionFv
   - render__16TObjKabochaLobbyFv
   - render__16TObjOnlineEndingFv
@@ -12814,7 +12844,9 @@ force_active:
   - render__9TBoss6DPBFv
   - render__9TBoss6MagFv
   - render__9TObjLightFv
+  - render__9TObjLukerFv
   - render__9TTecJelinFv
+  - render__9TTecKafunFv
   - render__9TTecSiftaFv
   - render__9TTecZaruaFv
   - render_after_scene__9TMainTaskFv
@@ -13048,6 +13080,7 @@ force_active:
   - run_task__11TObjInfoColFv
   - run_task__11TPlayerSoulFv
   - run_task__11TSetManagerFv
+  - run_task__11TTecRaBartaFv
   - run_task__11TTecRaZondeFv
   - run_task__11TWindowChatFv
   - run_task__12TAdBackTxtGCFv
@@ -13069,6 +13102,7 @@ force_active:
   - run_task__12TMemberCheckFv
   - run_task__12TODoorVoShipFv
   - run_task__12TOSwitchItemFv
+  - run_task__12TObjDoorJungFv
   - run_task__12TObjEneLappyFv
   - run_task__12TObjEneReconFv
   - run_task__12TObjEneSaverFv
@@ -13077,6 +13111,7 @@ force_active:
   - run_task__12TObjRaderColFv
   - run_task__12TObjRainCtrlFv
   - run_task__12TPhotonGollaFv
+  - run_task__12TPhotonLaserFv
   - run_task__12TPhotonPillaFv
   - run_task__12TQuestThreadFv
   - run_task__12T_OWEHMS_ExpFv
@@ -13126,7 +13161,9 @@ force_active:
   - run_task__13TUnk_804848B8Fv
   - run_task__13TUnk_80484A94Fv
   - run_task__13TUnk_80484AFCFv
+  - run_task__13TUnk_804887C8Fv
   - run_task__13TUnk_80488AD8Fv
+  - run_task__13TUnk_80488DA0Fv
   - run_task__13TUnk_80494E10Fv
   - run_task__13TUnk_8049EFB8Fv
   - run_task__13TUnk_8049F038Fv
@@ -13204,6 +13241,7 @@ force_active:
   - run_task__15TItemMagGrowEffFv
   - run_task__15TORainbowCave01Fv
   - run_task__15TORockJungleL01Fv
+  - run_task__15TObjBoss1CraterFv
   - run_task__15TObjDeadListWinFv
   - run_task__15TObjEneDelDepthFv
   - run_task__15TObjEneMe1GiGueFv
@@ -13232,6 +13270,7 @@ force_active:
   - run_task__16TOSparkMachine01Fv
   - run_task__16TObjBagWarnWin4PFv
   - run_task__16TObjCityDoor_MedFv
+  - run_task__16TObjContainerIdoFv
   - run_task__16TObjCurtainLobbyFv
   - run_task__16TObjDFBeamCursorFv
   - run_task__16TObjDFTenchuFuruFv
@@ -13241,6 +13280,7 @@ force_active:
   - run_task__16TObjEneMorfosArmFv
   - run_task__16TObjEneNanoDragoFv
   - run_task__16TObjEneRe7BeruraFv
+  - run_task__16TObjEneReconBombFv
   - run_task__16TObjEvtCollisionFv
   - run_task__16TObjKabochaLobbyFv
   - run_task__16TObjOnlineEndingFv
@@ -13407,9 +13447,11 @@ force_active:
   - run_task__9TEffGuardFv
   - run_task__9TEndingABFv
   - run_task__9TObjLightFv
+  - run_task__9TObjLukerFv
   - run_task__9TProtocolFv
   - run_task__9TSaveChCrFv
   - run_task__9TTecJelinFv
+  - run_task__9TTecKafunFv
   - run_task__9TTecSiftaFv
   - run_task__9TTecZaruaFv
   - run_walk_state__16TObjEneMe3StelthFPvi
@@ -14854,6 +14896,7 @@ force_active:
   - update_dive_motion__13TBoss5GryphonFl
   - update_dive_state__12TBoss1DragonFv
   - update_door_switch_state__12TODoorCave01Fv
+  - update_door_switch_state__12TObjDoorJungFv
   - update_door_switch_state__15TODoorAncient08Fv
   - update_door_switch_state__15TODoorAncient09Fv
   - update_door_switch_state__15TODoorMachine01Fv
@@ -15032,6 +15075,7 @@ force_active:
   - update_node_oscillation__11TItemMagSubFPv
   - update_object_view_visibility__10TObjCameraFff
   - update_object_view_visibility__13TObjHashiBaseFff
+  - update_object_view_visibility__16TObjContainerIdoFff
   - update_object_view_visibility__19TOComputerMachine01Fff
   - update_open__12TODoorCave01Fv
   - update_open__12TODoorCave02Fv
@@ -15500,10 +15544,12 @@ force_active:
   - vfunc_67__14TOTrapSeabed01Ff
   - vfunc_6__10TTecGrantsFPv
   - vfunc_6__11TAdEp3ExistFv
+  - vfunc_6__11TTecRaBartaFPv
   - vfunc_6__11TTecRaZondeFPv
   - vfunc_6__12TNeedleShootFv
   - vfunc_6__12TODoorCave01FPsl
   - vfunc_6__12TQuestListVMFv
+  - vfunc_6__13TUnk_80488D70Fv
   - vfunc_6__14TOTrapSeabed01FPsl
   - vfunc_6__15TODoorAncient08FPsl
   - vfunc_6__15TODoorAncient09FPsl
@@ -15559,6 +15605,7 @@ force_active:
   - vfunc_88__19TObjEneEpsilonGuardFv
   - vfunc_89__13TObjEneBm3FlyFv
   - vfunc_89__19TObjEneEpsilonGuardFv
+  - vfunc_8__11TTecRaBartaFPv
   - vfunc_8__11TTecRaZondeFPv
   - vfunc_8__17TAdLicAgreementGCFv
   - vfunc_8__17TWindowMainMenu4PFv
@@ -15595,6 +15642,7 @@ force_active:
   - vfunc_99__12TObjEneBeastFv
   - vfunc_99__15TObjEneDimedianFv
   - vfunc_99__16TObjEneMerillLiaFv
+  - vfunc_9__11TTecRaBartaFv
   - vfunc_9__12TNeedleShootFPv
   - vfunc_9__17TAdLicAgreementGCFv
   - vfunc_9__17TWindowMainMenu4PFv

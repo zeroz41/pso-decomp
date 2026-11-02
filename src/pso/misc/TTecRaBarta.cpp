@@ -1,4 +1,5 @@
 #include "pso/TParticleCtrl.h"
+#include "pso/misc/TTecRaBarta.h"
 #include "types.h"
 #include "pso/misc/TTecRaBarta.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
@@ -418,27 +419,20 @@ void TTecRaBarta::create(void *arg1, void *arg2) {
     }
 }
 
-struct Self_80237A94 *__dt__11TTecRaBartaFv(struct Self_80237A94 *self, s16 arg1) {
+}
+TTecRaBarta::~TTecRaBarta() {
     u32 i;
     void *obj;
-
-    if (self != NULL) {
-        self->vtable = __vt__11TTecRaBarta;
-        for (i = 0; i < rabarta_band_emitter_table[self->band].count; i++) {
-            obj = self->objs[i];
-            if (obj != NULL) {
-                queue_destruction__7TObjectFv(obj);
-            }
-        }
-        stop_sound_request((s32)self->emitters);
-        mem_free(self->objs);
-        __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)self), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(self);
+    for (i = 0; i < rabarta_band_emitter_table[((struct Self_80237A94 *)this)->band].count; i++) {
+        obj = ((struct Self_80237A94 *)this)->objs[i];
+        if (obj != NULL) {
+            queue_destruction__7TObjectFv(obj);
         }
     }
-    return self;
+    stop_sound_request((s32)((struct Self_80237A94 *)this)->emitters);
+    mem_free(((struct Self_80237A94 *)this)->objs);
 }
+extern "C" {
 
 void TTecRaBarta::render() {  }
 

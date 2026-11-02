@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjLuker.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -478,22 +479,14 @@ void TObjLuker::run_task() {
     }
 }
 
-Luker_801A16D8 *__dt__9TObjLukerFv(Luker_801A16D8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        s32 i;
-        arg0->f18 = __vt__9TObjLuker;
-        for (i = 0; i < 4; i++) {
-            if (arg0->wins[i] != 0) {
-                ((TWindowBase *)(arg0->wins[i]))->close();
-                arg0->wins[i] = 0;
-            }
-        }
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
+TObjLuker::~TObjLuker() {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        if (((Luker_801A16D8 *)this)->wins[i] != 0) {
+            ((TWindowBase *)(((Luker_801A16D8 *)this)->wins[i]))->close();
+            ((Luker_801A16D8 *)this)->wins[i] = 0;
         }
     }
-    return arg0;
 }
 
 #define self ((Luker_801A1768 *)arg0)

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TTecKafun.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
@@ -30,16 +31,11 @@ u8 *TTecKafun__ct(TTecKafun *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s32 a
 void *__dt__9TTecKafunFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
-void *__dt__9TTecKafunFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__9TTecKafun;
-        __dt__13TUnk_804CC148Fv((void *)((TUnk_804CC148 *)arg0), 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TTecKafun::~TTecKafun() {
+
+}
+extern "C" {
 
 void TTecKafun::render() {  }
 void TTecKafun::run_task() {

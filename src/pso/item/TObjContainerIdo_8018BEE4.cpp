@@ -1,4 +1,5 @@
 #include "pso/misc/RenderFadeState.h"
+#include "pso/item/TObjContainerIdo.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
@@ -345,19 +346,13 @@ void TObjContainerIdo::load_resources() {
     (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((s32) &lbl_80445130.value);
 }
 
-void *__dt__16TObjContainerIdoFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__15RenderFadeStateFv((s8 *)arg0 + 0xF0, -1);
-        ((TUnk_804B97C0 *)arg0)->dt(0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjContainerIdo::~TObjContainerIdo() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+    __dt__15RenderFadeStateFv((s8 *)this + 0xF0, -1);
+}
+extern "C" {
 
 u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     s32 i;

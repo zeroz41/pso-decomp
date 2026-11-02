@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneReconBomb.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_800F0810.h"
@@ -245,16 +246,11 @@ void TObjEneReconBomb::run_task() {
     }
 }
 
-void *__dt__16TObjEneReconBombFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjEneReconBomb;
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjEneReconBomb::~TObjEneReconBomb() {
+
+}
+extern "C" {
 
 extern const char *TObjEneReconBomb__name;
 

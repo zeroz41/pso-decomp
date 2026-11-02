@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEnePanarms.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/TObject.h"
 #include "pso/system/vector.h"
@@ -1170,23 +1171,17 @@ void TObjEnePanarms::destroy_handles() {
     }
 }
 
-u8 *__dt__14TObjEnePanarmsFv(u8 *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjEnePanarms;
-        TObjFish::init_state_1(*(u8 **)((s8 *)arg0 + 0x39C));
-        queue_destruction__7TObjectFv(*(u8 **)((s8 *)arg0 + 0x3E4));
-        queue_destruction__7TObjectFv(*(u8 **)((s8 *)arg0 + 0x3E8));
-        free_collision_body_parts(arg0);
-        ((TObjEnePanarms *)arg0)->m_390 = 0;
-        ((TObjEnePanarms *)arg0)->destroy_handles();
-        __destroy_arr(arg0 + 0x400, __dt__15RenderFadeStateFv, 0x1C, 4);
-        __dt__9TObjEnemyFv((TObjEnemy *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv((s32) arg0);
-        }
-    }
-    return arg0;
 }
+TObjEnePanarms::~TObjEnePanarms() {
+    TObjFish::init_state_1(*(u8 **)((s8 *)this + 0x39C));
+    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E4));
+    queue_destruction__7TObjectFv(*(u8 **)((s8 *)this + 0x3E8));
+    free_collision_body_parts(((u8 *)this));
+    this->m_390 = 0;
+    this->destroy_handles();
+    __destroy_arr(((u8 *)this) + 0x400, __dt__15RenderFadeStateFv, 0x1C, 4);
+}
+extern "C" {
 
 void TObjEnePanarms::free_data() {
     if ((u32) TObjEnePanarms__entry_params_resource != 0U) {

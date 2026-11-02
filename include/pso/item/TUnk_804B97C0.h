@@ -9,7 +9,6 @@ public:
     virtual void vfunc_14();
     virtual void vfunc_15();
     void*init_positions();
-    void *dt(s16);
     virtual void render();
     virtual void run_task();
     u8 unk_AC[0x4];
