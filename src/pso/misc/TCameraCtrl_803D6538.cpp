@@ -945,3 +945,11 @@ s32 TObjPlayer__sub_803D7FD0(void) {
 s32 TObjPlayer__sub_803D7FD8(void) {
     return 0;
 }
+
+asm void convert_color_f32_to_u8(const NJS_ARGB *src, struct _GXColor *dst) {
+#include "orig_asm/pso/misc/TCameraCtrl_803D6538/convert_color_f32_to_u8.inc"
+}
+
+asm void convert_color_u8_to_f32(const struct _GXColor *src, NJS_ARGB *dst) {
+#include "orig_asm/pso/misc/TCameraCtrl_803D6538/convert_color_u8_to_f32.inc"
+}

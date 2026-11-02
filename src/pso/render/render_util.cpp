@@ -22,7 +22,6 @@
 
 extern "C" {
 void normalize_vector(Vec *v);
-f32 vector_length(Vec *v);
 s32 TCameraCtrl__sub_8006B370(f32 value);
 }
 

@@ -5,6 +5,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/player/TObjPlayer_803DF7A8.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/AngleLookup.h"
 
 
 struct RecoveredGlobal_803E1D1C_lbl_804FC780 {
@@ -395,6 +396,22 @@ void TObjPlayer::calc_bounds(u8 *arg1, u8 *arg2) {
 }
 
 
+// 1.0f constants in .sdata, read by the assembly below (not yet split into this unit).
+extern "C" f32 lbl_805D46EC;
+extern "C" f32 lbl_805D46FC;
+
+asm void translate_current_matrix_ps(f32 x, f32 y, f32 z) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/translate_current_matrix_ps.inc"
+}
+
+asm f32 TObjPlayer__sub_803E1CA4(s32 angle) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/TObjPlayer__sub_803E1CA4.inc"
+}
+
+asm void rotate_current_matrix_x_ps(s32 angle) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/rotate_current_matrix_x_ps.inc"
+}
+
 extern s8 scene_fog_enable_flag;
 
 
@@ -434,6 +451,14 @@ void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map) {
 }
 
 
+asm void reorder_current_matrix_ps(void) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/reorder_current_matrix_ps.inc"
+}
+
+asm void push_reordered_matrix_ps(void) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/push_reordered_matrix_ps.inc"
+}
+
 void TObjPlayer::reload_texture(s32 arg1, u32 arg2, void *arg3) {
     s32 size;
     if ((arg2 & 0x40000000) != 0) {
@@ -442,6 +467,14 @@ void TObjPlayer::reload_texture(s32 arg1, u32 arg2, void *arg3) {
         OSPanic(lbl_804FC7F8, 0x30, lbl_805D46F0);
     }
     TObjPlayer__sub_803DAE1C((s32)this, size, (u32)arg3);
+}
+
+asm void TObjPlayer__sub_803E1F60(void) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/TObjPlayer__sub_803E1F60.inc"
+}
+
+asm void push_identity_matrix_ps(void) {
+#include "orig_asm/pso/player/TObjPlayer_803DF7A8/push_identity_matrix_ps.inc"
 }
 
 void TObjPlayer::set_effect_active() {

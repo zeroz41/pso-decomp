@@ -1376,6 +1376,7 @@ force_active:
   - TObjPlayer__sub_80354EEC
   - TObjPlayer__sub_80355098
   - TObjPlayer__sub_80363C5C
+  - TObjPlayer__sub_803D9C60
   - TObjPlayer__sub_803DA808
   - TObjPlayer__sub_803DA84C
   - TObjPlayer__sub_803DA8B4
@@ -7466,6 +7467,7 @@ force_active:
   - map_pad_buttons__16TKeyBoardControlFUs
   - mark_done__12TBoss4ThanksFv
   - mark_done__12TBoss6ThanksFv
+  - matrix_identity
   - maybe_handle_destruction__6TLobbyFv
   - mc_select_memorycard_texture_list
   - mcmdLoop

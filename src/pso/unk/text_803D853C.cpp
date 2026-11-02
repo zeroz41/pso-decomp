@@ -32,6 +32,10 @@ void debug_printf_at(s32 arg0, const char *fmt, ...) {
     TObjEneMe1Gee::queue_debug_text(arg0, buf);
 }
 
+asm void vec3_add_to(Vec *dst, const Vec *src) {
+#include "orig_asm/pso/unk/text_803D853C/vec3_add_to.inc"
+}
+
 #pragma push
 #pragma scheduling off
 void matrix_mult_vec(f32 (*m)[4], const Vec *src, Vec *dst) {
@@ -67,6 +71,10 @@ void get_current_matrix(void *m) {
 }
 #pragma pop
 
+asm f32 vec3_dot(const Vec *a, const Vec *b) {
+#include "orig_asm/pso/unk/text_803D853C/vec3_dot.inc"
+}
+
 #pragma push
 #pragma scheduling off
 
@@ -79,6 +87,10 @@ void TObjPlayer::invert_matrix_in_place(u32 arg0) {
     PSMTXInverse(var_r3, var_r3);
 }
 #pragma pop
+
+asm f32 vec3_cross(const Vec *a, const Vec *b, Vec *out) {
+#include "orig_asm/pso/unk/text_803D853C/vec3_cross.inc"
+}
 
 #pragma push
 #pragma scheduling off
