@@ -4224,8 +4224,10 @@ pso/misc/TLobby_80134DA0.cpp:
 pso/misc/TPlyJoinLobbyEntry.cpp:
 	.text       start:0x80134E30 end:0x8013A83C
 	.ctors      start:0x80433F80 end:0x80433F84
+	.rodata     start:0x8043ED98 end:0x8043F090
 	.data       start:0x804A6FD8 end:0x804A7130
 	.bss        start:0x80506A60 end:0x8050BEB8
+	.sdata      start:0x805D2CA8 end:0x805D2CB0
 	.sbss       start:0x805D5580 end:0x805D5640
 
 pso/misc/TPlyInventoryItem.cpp:
@@ -5449,8 +5451,9 @@ pso/misc/TORockCaveSimple.cpp:
 
 pso/misc/TORockCave.cpp:
 	.text       start:0x80175134 end:0x80175468
+	.rodata     start:0x804424A0 end:0x80442970
 	.data       start:0x804B3AB8 end:0x804B3BA8
-	.sdata      start:0x805D30E0 end:0x805D30F8
+	.sdata      start:0x805D30E0 end:0x805D3140
 
 pso/misc/TOSensor.cpp:
 	.text       start:0x80175468 end:0x80175858

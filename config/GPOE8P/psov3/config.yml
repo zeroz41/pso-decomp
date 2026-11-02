@@ -469,6 +469,7 @@ force_active:
   - TLobby__card_list_selected_index
   - TLobby__card_list_window
   - TLobby__current_dialog_window
+  - TLobby__data_8043EF38
   - TLobby__data_80506A6C
   - TLobby__data_80513D10
   - TLobby__data_805D5588
@@ -674,6 +675,7 @@ force_active:
   - TORainbowCave01__class_name
   - TORevlightCave01__bml_resource
   - TORevlightCave01__class_name
+  - TORockCave__class_name
   - TORockJungleL01__ct
   - TORockJungleM01__ct
   - TORockJungleS01__ct
@@ -6200,6 +6202,47 @@ force_active:
   - lbl_8043BC48
   - lbl_8043C920
   - lbl_8043ED80
+  - lbl_8043EDE8
+  - lbl_8043EDF0
+  - lbl_8043EDF8
+  - lbl_8043EE00
+  - lbl_8043EE08
+  - lbl_8043EE10
+  - lbl_8043EE18
+  - lbl_8043EE20
+  - lbl_8043EE28
+  - lbl_8043EE30
+  - lbl_8043EE48
+  - lbl_8043EE58
+  - lbl_8043EE68
+  - lbl_8043EE7C
+  - lbl_8043EE90
+  - lbl_8043EEA4
+  - lbl_8043EEC0
+  - lbl_8043EEDC
+  - lbl_8043EEF8
+  - lbl_8043EF04
+  - lbl_8043EF14
+  - lbl_8043EF4C
+  - lbl_8043EF64
+  - lbl_8043EF80
+  - lbl_8043EF90
+  - lbl_8043EF9C
+  - lbl_8043EFB4
+  - lbl_8043EFC4
+  - lbl_8043EFD4
+  - lbl_8043EFE4
+  - lbl_8043EFF8
+  - lbl_8043F004
+  - lbl_8043F010
+  - lbl_8043F020
+  - lbl_8043F028
+  - lbl_8043F038
+  - lbl_8043F044
+  - lbl_8043F05C
+  - lbl_8043F06C
+  - lbl_8043F078
+  - lbl_8043F084
   - lbl_80441858
   - lbl_80441874
   - lbl_80443BA8
@@ -7250,6 +7293,7 @@ force_active:
   - load_texture_sequence_frame
   - lobby_buffer_refcount
   - lobby_checked_read_ptr_table
+  - lobby_class_name
   - lobby_com_card_window
   - lobby_debug_printf_stub
   - lobby_font_texture_prs_data
