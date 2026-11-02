@@ -12667,12 +12667,11 @@ pso/boss/TBoss6Type2_8036DC80.cpp:
 	.data       start:0x804F36F8 end:0x804F37A8
 
 pso/ui/TAdMultiChgGameModeGC_8036DE10.cpp:
-	.text       start:0x8036DE10 end:0x8036EBEC
-	.data       start:0x804F3A20 end:0x804F3A38
-
-pso/unk/text_8036EBEC.cpp:
-	.text       start:0x8036EBEC end:0x8036EF0C
+	.text       start:0x8036DE10 end:0x8036EF0C
 	.ctors      start:0x80434014 end:0x80434018
+	.data       start:0x804F37A8 end:0x804F3A38
+	.sbss       start:0x805D7020 end:0x805D7024
+	.sdata2     start:0x805E0428 end:0x805E043C
 
 pso/boss/TObjBoss2Tunnel_8036EF0C.cpp:
 	.text       start:0x8036EF0C end:0x8036EF84
