@@ -49,7 +49,11 @@ struct VObj_18_800A2F94 : VBase_18_800A2F94 {
     virtual void m79(void *);
 };
 
-struct Atk_800A2F94 { s32 w[4]; };
+struct Atk_800A2F94 {
+    s32 motions;
+    void *actions; // inferred: points at the motion action table lbl_80490668
+    s32 w[2];
+};
 struct Obj_800A2F94 { u8 pad[0x3F0]; s32 f3F0[4]; };
 
 struct V_800A1FEC { f32 x, y, z; };
@@ -271,8 +275,6 @@ s32 post_translate_matrix(s32);
 void draw_chunk_object(void *child);
 
 extern s32 __vt__20TObjEneDarkGunCenter[];
-extern Ofs_800A1814 hamon_effect_offset_table;
-extern Vec lbl_8043A6A4;
 
 void obj_setFlags30(void *, u32);
 void __ct__15TObjEnemyCustomFP7TObject(void *, s32, void *);
@@ -280,8 +282,6 @@ void __ct__15TObjEnemyCustomFP7TObject(void *, s32, void *);
 void move_with_wall_slide(u8 *arg0);
 int initialize_enemy_photon_effect(void *p);
 extern "C" {
-extern Atk_800A2F94 dark_gunner_attack_binding_desc;
-extern s32 dark_gunner_class_name_ptr;
 s32 lbl_805D4FF8[1];
 s32 lbl_805D4FFC[1];
 s32 lbl_805D5000[1];
@@ -438,61 +438,42 @@ extern "C" {
 void is_target_in_attack_range__9TObjCharaFv();
 }
 extern "C" {
-extern u8 lbl_8043A498[];
 }
 extern "C" {
-extern u8 lbl_8043A4B0[];
 }
 extern "C" {
-extern u8 lbl_8043A4C8[];
 }
 extern "C" {
-extern u8 lbl_8043A4E0[];
 }
 extern "C" {
-extern u8 lbl_8043A4F0[];
 }
 extern "C" {
-extern u8 lbl_8043A508[];
 }
 extern "C" {
-extern u8 lbl_8043A520[];
 }
 extern "C" {
-extern u8 lbl_8043A538[];
 }
 extern "C" {
-extern u8 lbl_8043A550[];
 }
 extern "C" {
-extern u8 lbl_8043A564[];
 }
 extern "C" {
-extern u8 lbl_8043A578[];
 }
 extern "C" {
-extern u8 lbl_8043A590[];
 }
 extern "C" {
-extern u8 lbl_8043A5A8[];
 }
 extern "C" {
-extern u8 lbl_8043A5C0[];
 }
 extern "C" {
-extern u8 lbl_8043A5D8[];
 }
 extern "C" {
-extern u8 lbl_8043A5EC[];
 }
 extern "C" {
-extern u8 lbl_8043A600[];
 }
 extern "C" {
-extern u8 lbl_8043A618[];
 }
 extern "C" {
-extern u8 lbl_8043A62C[];
 }
 extern "C" {
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
@@ -550,17 +531,17 @@ extern "C" {
 void update_poison_status__9TObjCharaFv();
 }
 void *bm_ene_darkgunner_model_names[5] = {
-    (void *)&lbl_8043A498, (void *)&lbl_8043A4B0, (void *)&lbl_8043A4C8, (void *)&lbl_8043A4E0,
+    (void *)"re5_b_cly_cy_line.nj", (void *)"re5_b_gunner_body.nj", (void *)"re5_b_rcly_cy_line.nj", (void *)"shockwave.nj",
     (void *)0x0,
 };
 void *bm_ene_darkgunner_motion_names[15] = {
-    (void *)&lbl_8043A4F0, (void *)&lbl_8043A508, (void *)&lbl_8043A520, (void *)&lbl_8043A538,
-    (void *)&lbl_8043A550, (void *)&lbl_8043A564, (void *)&lbl_8043A578, (void *)&lbl_8043A590,
-    (void *)&lbl_8043A5A8, (void *)&lbl_8043A5C0, (void *)&lbl_8043A5D8, (void *)&lbl_8043A5EC,
-    (void *)&lbl_8043A600, (void *)&lbl_8043A618, (void *)0x0,
+    (void *)"attack_re5_b_body.njm", (void *)"await_re5_b_body.njm", (void *)"damage2_re5_b_body.njm", (void *)"damage_re5_b_body.njm",
+    (void *)"die_re5_b_body.njm", (void *)"drop_re5_b_body.njm", (void *)"duckdame_re5_b_body.njm", (void *)"duckdie_re5_b_body.njm",
+    (void *)"duckroop_re5_b_body.njm", (void *)"duckwake_re5_b_body.njm", (void *)"duck_re5_b_body.njm", (void *)"move_re5_b_body.njm",
+    (void *)"pullback_re5_b_body.njm", (void *)"wait_re5_b_body.njm", (void *)0x0,
 };
 void *bm_ene_darkgunner_resource_descriptor[4] = {
-    (void *)&lbl_8043A62C, (void *)&bm_ene_darkgunner_model_names, (void *)&bm_ene_darkgunner_motion_names, (void *)0x4000e,
+    (void *)"bm_ene_darkgunner.bml", (void *)&bm_ene_darkgunner_model_names, (void *)&bm_ene_darkgunner_motion_names, (void *)0x4000e,
 };
 void *lbl_80490668[56] = {
     (void *)0x10000, (void *)0xd, (void *)0x3f800000, (void *)0x0,
@@ -578,6 +559,19 @@ void *lbl_80490668[56] = {
     (void *)0x20000, (void *)0x9, (void *)0x3f19999a, (void *)0x0,
     (void *)0x20000, (void *)0xc, (void *)0x3f333333, (void *)0x4,
 };
+const char *TObjEneDarkGunner__class_name = "TObjEneDarkGunner";
+
+struct MaterialColor {
+    u32 argb;
+    f32 r;
+    f32 g;
+    f32 b;
+};
+const Atk_800A2F94 dark_gunner_attack_binding_desc = {0, lbl_80490668, {1, 0xE0000}};
+const MaterialColor lbl_8043A668 = {0, 0.0f, 0.0f, 0.0f};
+const Vec lbl_8043A678 = {1.5f, 1.5f, 1.5f};
+const Ofs_800A1814 hamon_effect_offset_table = {{{-7.0f, -7.0f}, {-7.0f, 7.0f}, {7.0f, -7.0f}, {7.0f, 7.0f}}};
+const Vec lbl_8043A6A4 = {0.0f, 0.0f, 0.0f};
 void *lbl_80490748[14] = {
     (void *)0x42a00000, (void *)0x3e8e38e3, (void *)0x400, (void *)0x1e0000,
     (void *)0x0, (void *)0x1, (void *)0x0, (void *)0x42a00000,
@@ -1000,18 +994,10 @@ struct VObj_18_800A28A4 : VBase_18_800A2F94 {
     s32 material_phase;
 };
 
-struct MaterialColor {
-    u32 argb;
-    f32 r;
-    f32 g;
-    f32 b;
-};
 
 extern "C" {
 extern s32 saved_model_render_flags;
 extern u32 model_render_flags;
-extern const MaterialColor lbl_8043A668;
-extern const Vec lbl_8043A678;
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 first, s32 second);
 void restore_scene_lighting(void);
@@ -1671,7 +1657,7 @@ u8 *TObjPlayer__sub_800A2F94(u8 *self, s32 arg1, u8 *arg2) {
     __ct__15TObjEnemyCustomFP7TObject(self, arg1, arg2);
     F(void *, 0x18) = __vt__17TObjEneDarkGunner;
     __ct__13TUnk_80490470Fv((self + 0x408));
-    F(s32, 0) = dark_gunner_class_name_ptr;
+    F(const char *, 0) = TObjEneDarkGunner__class_name;
     ((VObj_18_800A2F94 *)self)->m79(arg2);
     initialize_enemy_photon_effect(self);
     F(s32, 0x368) = 0;
@@ -1715,7 +1701,7 @@ u8 *TObjPlayer__sub_800A2F94(u8 *self, s32 arg1, u8 *arg2) {
     }
     {
         Atk_800A2F94 atk = dark_gunner_attack_binding_desc;
-        atk.w[0] = *(s32 *)(G500C + 0x430);
+        atk.motions = *(s32 *)(G500C + 0x430);
         TLobby::spawn_npc_enemy(0x19, *(s32 *)(*(u8 **)(G500C + 0x42C) + 0x18), *(s32 *)(*(u8 **)(G500C + 0x42C) + 0x1C), (s32)&atk, 10.0f, 0.0f);
     }
     return self;

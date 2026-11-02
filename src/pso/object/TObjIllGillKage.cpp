@@ -14,7 +14,7 @@ u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__15TObjIllGillKage[];
-extern s32 lbl_805D44AC;
+extern const char *TObjIllGillKage__class_name;
 u8 *TObjIllGillKage__ct(u8 *arg0, s32 arg1, u32 arg2);
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
@@ -73,7 +73,7 @@ void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1) {
 u8 *TObjIllGillKage__ct(u8 *ill_gill_kage, s32 arg1, u32 arg2) {
     __ct__8TObjBaseFP7TObject(ill_gill_kage);
     *(s32 **)((s8 *)ill_gill_kage + 0x18) = &(*(RecoveredGlobal_803655F8___vt__15TObjIllGillKage *)&__vt__15TObjIllGillKage).value;
-    *(s32 *)((s8 *)ill_gill_kage + 0) = (s32) lbl_805D44AC;
+    *(s32 *)((s8 *)ill_gill_kage + 0) = (s32) TObjIllGillKage__class_name;
     if (arg2 != 0U) {
         VecCopy((Vec *)(ill_gill_kage + 0x38), (const Vec *)(arg2 + 0x38));
         ((TObjIllGillKage *)ill_gill_kage)->m_98 = get_entity_id((void *)arg2);

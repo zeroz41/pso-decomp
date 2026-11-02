@@ -14,22 +14,15 @@
 #include "pso/object/TObjBgmCol_8017E7F0.h"
 #include "pso/object/TObjMotion.h"
 
-extern char lbl_80443648[];
-extern char lbl_80443654[];
-extern char lbl_80443660[];
-extern char lbl_8044366C[];
-extern char lbl_80443678[];
-extern char lbl_80443684[];
 
 #pragma defer_codegen on
 
 const char *area_music_filename_table[6] = {
-    lbl_80443648, lbl_80443654, lbl_80443660, lbl_8044366C, lbl_80443678, lbl_80443684,
+    "SHOP.adx", "GUILD.adx", "MEDICAL.adx", "soutoku.adx", "city.adx", "labo.adx",
 };
 
 struct Names_8017E1E4 { const char *name[2]; };
 
-extern Names_8017E1E4 lbl_80443898[];
 extern char lbl_804438A0[];
 extern char lbl_804438B0[];
 extern char lbl_804438C0[];
@@ -38,6 +31,7 @@ extern char lbl_804438DC[];
 extern char lbl_804438EC[];
 extern char lbl_804438F8[];
 extern char lbl_80443904[];
+
 extern u32 TLobby__event_theme_id;
 extern u32 TObjBgmColCtrl__current_theme_id;
 
@@ -57,7 +51,6 @@ extern s32 lbl_805D5B04;
 
 extern "C" {
 extern s32 __vt__14TObjBgmColCtrl[];
-extern void *TObjBgmColCtrl__name;
 }
 
 struct Vec_8017E550 { f32 x, y, z; };
@@ -117,8 +110,8 @@ void __dl__7TObjectFPv(void *);
 
 extern s32 __vt__10TObjBgmCol[];
 
-extern char lbl_80443870[];
-s32 TObjBgmCol__name = (s32)lbl_80443870;
+const char *TObjBgmCol__name = "TObjBgmCol";
+const char *TObjBgmColCtrl__name = "TObjBgmColCtrl";
 }
 
 extern s32 lbl_805D62E4;
@@ -243,7 +236,7 @@ void TObjPlayer::set_camera_mode(s32 arg0) {
 void *TObjBgmColCtrl__ct(void *bgm_col_ctrl, s32 parent) {
     __ct__7TObjectFP7TObject((int)bgm_col_ctrl, parent);
     *(s32 **)((s8 *)bgm_col_ctrl + 0x18) = __vt__14TObjBgmColCtrl;
-    *(void * *)&((TObjBgmColCtrl *)bgm_col_ctrl)->m_name = TObjBgmColCtrl__name;
+    ((TObjBgmColCtrl *)bgm_col_ctrl)->m_name = TObjBgmColCtrl__name;
     ((TObjBgmColCtrl *)bgm_col_ctrl)->m_1c = 3;
     TObjBgmColCtrl__current_theme_id = 0;
     return bgm_col_ctrl;
@@ -303,8 +296,9 @@ void TObjBgmColCtrl::run_task() {
 
 void TObjBgmColCtrl::render() {  }
 
+
 void TObjBgmColCtrl::play_lobby_theme_music() {
-    Names_8017E1E4 names = lbl_80443898[0];
+    Names_8017E1E4 names = {{"city.adx", "LOBBY.ADX"}};
     const char *name;
     if (get_current_floor_area() == AREA_LOBBY) {
         name = names.name[1];

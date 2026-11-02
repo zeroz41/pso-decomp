@@ -56,7 +56,7 @@ f32 fabs_float(f32);
 s32 init_collision_body_parts(void *, void *, int);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80445DF4[];
-extern s32 TMotorcycle__collision_parts[];
+extern CollisionBody TMotorcycle__collision_parts[1];
 extern s32 __vt__11TMotorcycle[];
 extern s32 motorcycle_class_name;
 void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2);
@@ -150,5 +150,8 @@ void *TMotorcycle__ct(void *arg0, void *arg1, void *arg2) {
 
 __declspec(section ".data") const char *fe_obj_baiku_model_names[3] = { lbl_80445DB8, lbl_80445DC8, NULL };
 BmlResourceDescriptor motorcycle_resource_descriptor = { lbl_80445DE0, fe_obj_baiku_model_names, fe_obj_baiku_motion_names, 2, 0 };
+CollisionBody TMotorcycle__collision_parts[1] = {
+    {{0.0f, 5.0f, 0.0f}, 24.0f, 7.0f, 1, 0x30003},
+};
 __declspec(section ".sdata") const char *fe_obj_baiku_motion_names[1] = { NULL };
 }

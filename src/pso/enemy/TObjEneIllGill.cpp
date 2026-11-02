@@ -38,7 +38,6 @@ struct IllGillEffectRotation { s32 x, y, z; };
 
 extern "C" {
 f32 calc_xz_distance_sq(void *, void *, Vec *);
-extern const f64 lbl_8047A358[];
 extern int enable_v2_features;
 s32 apply_actor_gravity(void *, int, f32);
 s32 get_current_floor(void);
@@ -84,7 +83,6 @@ extern const f32 lbl_805E02D0;
 extern const f32 lbl_805E02D4;
 s32 init_collision_body_parts(void *, void *, int);
 
-extern s32 TObjEneIllGill_class_name;
 extern BmlResource *illGillResource;
 extern s32 TObjEneIllGill__boss_registration_id;
 extern s32 lbl_805D6FD8;
@@ -108,7 +106,6 @@ u16 find_nearest_visible_player(void *, int, f32 *, f32);
 s32 check_path_obstructed(void *, void *);
 s32 obj_is_hit_receivable(void *);
 s32 get_enemy_entity(u16);
-extern Vec lbl_8047A328;
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805E02EC;
@@ -132,18 +129,6 @@ void get_center__8TObjBaseFv();
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 void apply_object_set_data__8TObjBaseFPv();
 void classify_actor_view_detail__8TObjBaseFfff();
-extern u8 lbl_8047A1E8[];
-extern u8 lbl_8047A1F8[];
-extern u8 lbl_8047A210[];
-extern u8 lbl_8047A228[];
-extern u8 lbl_8047A240[];
-extern u8 lbl_8047A258[];
-extern u8 lbl_8047A274[];
-extern u8 lbl_8047A290[];
-extern u8 lbl_8047A2A8[];
-extern u8 lbl_8047A2C4[];
-extern u8 lbl_8047A2DC[];
-extern u8 lbl_8047A2F4[];
 void render_shadows__7TObjectFv();
 void reset_motion_fields__8TObjBaseFv();
 void run_task__15TObjIllGillKageFv();
@@ -156,15 +141,15 @@ Vec illGillChargeEffectPosition1;
 Vec illGillChargeEffectPosition2;
 u32 lbl_80543A90[4];
 __declspec(section ".data") const char *TObjEneIllGill_model_file_list[2] = {
-    (const char *)&lbl_8047A1E8, NULL,
+    "darkand_body.nj", NULL,
 };
 const char *TObjEneIllGill_motion_name_table[11] = {
-    (const char *)&lbl_8047A1F8, (const char *)&lbl_8047A210, (const char *)&lbl_8047A228, (const char *)&lbl_8047A240,
-    (const char *)&lbl_8047A258, (const char *)&lbl_8047A274, (const char *)&lbl_8047A290, (const char *)&lbl_8047A2A8,
-    (const char *)&lbl_8047A2C4, (const char *)&lbl_8047A2DC, NULL,
+    "wait_darkand_body.njm", "walk_darkand_body.njm", "kamae_darkand_body.njm", "tackle_darkand_body.njm",
+    "lattack_darkand_body.njm", "rattack_darkand_body.njm", "damage_darkand_body.njm", "prekamae_darkand_body.njm",
+    "kage_darkand_body.njm", "dead_darkand_body.njm", NULL,
 };
 BmlResourceDescriptor illGillResourceDescriptor = {
-    (const char *)lbl_8047A2F4, TObjEneIllGill_model_file_list,
+    "bm_ene_ill_gill.bml", TObjEneIllGill_model_file_list,
     TObjEneIllGill_motion_name_table, 1, 10
 };
 TObjMotionAction illGillActions[10] = {
@@ -193,6 +178,16 @@ void *__vt__15TObjIllGillKage[13] = {
     (void *)&reset_motion_fields__8TObjBaseFv, (void *)&get_center__8TObjBaseFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
     (void *)&get_name__8TObjBaseFv,
 };
+const char *TObjEneIllGill_class_name = "TObjEneIllGill";
+
+struct IllGillSharedMotionSetup {
+    BmlMotionEntry *motions;
+    TObjMotionAction *actions; // inferred: points at illGillActions
+    s32 unknown[2];
+};
+const IllGillSharedMotionSetup lbl_8047A318 = {NULL, illGillActions, {1, 0xA0000}};
+const Vec lbl_8047A328 = {0.0f, 0.0f, 0.0f};
+const char *TObjIllGillKage__class_name = "TObjIllGillKage";
 
 void TObjEneIllGill::update_charge_attack() {
     TObjEneIllGill *o = this;
@@ -919,7 +914,7 @@ s32 TObjEneIllGill::is_target_in_attack_range() {
         ang = angle_difference_abs(this->rotation_y, (s32)(10430.38043493439 * atan2_float(v.x, v.z)));
         pl = this->target;
         if (((TObjChara *)pl)->bodies != NULL) {
-            rad = ((TObjChara *)pl)->bodies->radius - lbl_8047A358[0];
+            rad = ((TObjChara *)pl)->bodies->radius - 1.0;
         } else {
             rad = TObjEneIllGill__data_805E02D8;
         }
@@ -1413,7 +1408,7 @@ TObjEneIllGill::~TObjEneIllGill() {
 
 TObjEneIllGill::TObjEneIllGill(TObject *parent, void *setData) : TObjEnemy(parent) {
     u8 *self = (u8 *)this;
-    m_name = (const char *)TObjEneIllGill_class_name;
+    m_name = TObjEneIllGill_class_name;
     this->set_param(0x52);
     this->apply_set_data(setData);
     this->clear_lobby_object_state();
@@ -1480,15 +1475,10 @@ void TObjEneIllGill::free_effect() {
     illGillResource = NULL;
 }
 
-struct IllGillSharedMotionSetup {
-    BmlMotionEntry *motions;
-    s32 unknown[3];
-};
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern IllGillSharedMotionSetup lbl_8047A318;
 void TObjEneIllGill::load_shared_resources() {
     void *p;
     BmlResource *resource;

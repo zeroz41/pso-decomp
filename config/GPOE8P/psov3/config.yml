@@ -669,6 +669,7 @@ force_active:
   - TMainTask_name
   - TMedicalCenterMes__slot_flags
   - TMemberCheck__previous_member_count
+  - TMotorcycle__collision_parts
   - TMotorcycle__ct
   - TNpcPlayer__sub_80190F3C
   - TOAirconCave01__model_archive
@@ -700,6 +701,7 @@ force_active:
   - TODoorFourLight__collision_body_params
   - TODoorJungleMain__bml_resource
   - TODoorJungleMain__ct
+  - TODoorJungleMain_collision_body_parts
   - TODummyKeyCave01__ct
   - TOExplosiveMachine01__class_name
   - TOExplosiveMachine02__class_name
@@ -813,6 +815,7 @@ force_active:
   - TOWreckAncient__resource_descriptor
   - TObjAreaWarpEndingJung__ct
   - TObjBgmColCtrl__ct
+  - TObjBgmColCtrl__name
   - TObjBgmCol__name
   - TObjBigTuitate__ct
   - TObjBoss2CeilJunk__name
@@ -1073,6 +1076,7 @@ force_active:
   - TObjEneEpsilonGuard__sub_8035E8C0
   - TObjEneEpsilonGuard__vt21
   - TObjEneEpsilonGuard__vt85
+  - TObjEneIllGill_class_name
   - TObjEneIllGill_model_file_list
   - TObjEneIllGill_motion_name_table
   - TObjEneLappy__class_name
@@ -1235,6 +1239,7 @@ force_active:
   - TObjEneRecon__ai_parameters
   - TObjEneRecon__sub_8029EA4C
   - TObjEneRecon__vt85
+  - TObjEneSaver__class_name
   - TObjEneSaver__ct
   - TObjEneSaver__vtable
   - TObjEneShark__action_table
@@ -1296,6 +1301,7 @@ force_active:
   - TObjNpcCloakroomBase__ct
   - TObjNpcCloakroomBase__name
   - TObjNpcCloakroomBase__static_instance
+  - TObjNpcConnoisseur__name
   - TObjNpcEnemy__collision_body_parts
   - TObjNpcEnemy__ct
   - TObjNpcEnemy__entry_table
@@ -1596,6 +1602,7 @@ force_active:
   - TTecAnti__sub_8022AD74
   - TTecAnti__sub_8022AD94
   - TTecAnti_name_ref
+  - TTecBarta__class_name
   - TTecBarta__ct
   - TTecDeband__ct
   - TTecDeband__sub_8022F948
@@ -1626,6 +1633,7 @@ force_active:
   - TWindowActionPalette__sub_801C1C20
   - TWindowChat__sub_80247D50
   - TWindowChat__sub_80247DAC
+  - TWindowComCard__class_name
   - TWindowComCard__ct
   - TWindowComCard__sub_80249E80
   - TWindowComCard__window_desc
@@ -4056,6 +4064,36 @@ force_active:
   - bm_n_hakase_i_body_resource_descriptor
   - bm_n_hisyo_i_body_model_names
   - bm_n_hisyo_i_body_motion_names
+  - bm_n_kanteib2_i_body_model_names
+  - bm_n_kanteib2_i_body_motion_names
+  - bm_n_kanteib2_i_body_resource_descriptor
+  - bm_n_kanteib_i_body_model_names
+  - bm_n_kanteib_i_body_motion_names
+  - bm_n_kanteib_i_body_resource_descriptor
+  - bm_n_kanteif2_i_body_model_names
+  - bm_n_kanteif2_i_body_motion_names
+  - bm_n_kanteif2_i_body_resource_descriptor
+  - bm_n_kanteif_i_body_model_names
+  - bm_n_kanteif_i_body_motion_names
+  - bm_n_kanteif_i_body_resource_descriptor
+  - bm_n_kanteifs2_i_body_model_names
+  - bm_n_kanteifs2_i_body_motion_names
+  - bm_n_kanteifs2_i_body_resource_descriptor
+  - bm_n_kanteifs_i_body_model_names
+  - bm_n_kanteifs_i_body_motion_names
+  - bm_n_kanteifs_i_body_resource_descriptor
+  - bm_n_kanteio2_i_body_model_names
+  - bm_n_kanteio2_i_body_motion_names
+  - bm_n_kanteio2_i_body_resource_descriptor
+  - bm_n_kanteio_i_body_model_names
+  - bm_n_kanteio_i_body_motion_names
+  - bm_n_kanteio_i_body_resource_descriptor
+  - bm_n_kanteit2_i_body_model_names
+  - bm_n_kanteit2_i_body_motion_names
+  - bm_n_kanteit2_i_body_resource_descriptor
+  - bm_n_kanteit_i_body_model_names
+  - bm_n_kanteit_i_body_motion_names
+  - bm_n_kanteit_i_body_resource_descriptor
   - bm_n_nurse_i_body_model_names
   - bm_n_nurse_i_body_motion_names
   - bm_n_nurse_i_body_resource_descriptor
@@ -4086,6 +4124,9 @@ force_active:
   - bm_o_explosive_machine_motion_names
   - bm_o_grass_jungle_model_names
   - bm_o_grass_jungle_motion_names
+  - bm_o_jungle_doormain_model_names
+  - bm_o_jungle_doormain_motion_names
+  - bm_o_jungle_doormain_resource_descriptor
   - bm_o_light_machine01_model_names
   - bm_o_rock_cave01_motion_names
   - bm_o_rock_cave02_motion_names
@@ -6434,6 +6475,7 @@ force_active:
   - hwSetTimeOffset
   - idle__12TQuestListVMFv
   - ignore_trade_proposal_event__Fv
+  - illGillActions
   - illGillChargeEffectPosition1
   - illGillChargeEffectPosition2
   - illGillCollisionBody
@@ -7199,6 +7241,7 @@ force_active:
   - lbl_804880B8
   - lbl_8048D0B0
   - lbl_8048D108
+  - lbl_80490668
   - lbl_804907AC
   - lbl_804907BC
   - lbl_80490998
@@ -14443,6 +14486,7 @@ force_active:
   - save_position__10TBoss2MineFv
   - save_position__10TObjPlayerFv
   - saved_depth_alpha_scene_state
+  - saver_action_table
   - saver_bml_resource
   - saver_boss_stat_handle
   - saver_collision_body_part_table
@@ -15564,6 +15608,7 @@ force_active:
   - tec_kafun_class_name_ptr
   - technique_contact_query_results
   - technique_menu_category_lists
+  - tekker_descriptor_selector_table
   - telepipe_record_differs
   - tenchu_enter__11TBoss4Type2Fv
   - tenchu_idle__11TBoss4Type2Fv
