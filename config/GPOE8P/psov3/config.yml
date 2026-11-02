@@ -2958,6 +2958,7 @@ force_active:
   - advance_toward_max__13TUnk_80494938Fv
   - advance_wait_next__11TBoss4Type3Fv
   - advance_wrap_offset__13TUnk_804B2578Fv
+  - adx_error_message_buffer
   - adxf_open_file_buffer
   - alerted_state__14TObjEneBm5WolfFl
   - alloc_boss4rock_buffer__6TLobbyFv
@@ -6046,6 +6047,7 @@ force_active:
   - key_generic_sw_collision_body
   - keyboard_accent_composed_chars
   - keyboard_layout_mode_table
+  - keyboard_pad_state_table
   - keyboard_poll_key_codes
   - keyboard_repeat_key_codes
   - keyboard_task_object_dtor_chain
@@ -7336,6 +7338,7 @@ force_active:
   - npc_hosa2_resource_descriptor
   - npc_hosa_resource_descriptor
   - npc_lappy_animation_table
+  - number_format_digit_buffer
   - obj_camera_class_name
   - obj_chip_class_name_ptr
   - obj_clearArrS16_FC__FP8ObjArrFCi

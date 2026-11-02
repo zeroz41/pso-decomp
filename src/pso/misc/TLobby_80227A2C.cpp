@@ -842,3 +842,7 @@ void TLobby::trim_whitespace() {
 }
 
 }
+
+char lbl_80514F58[0xC];
+unsigned char sound_control_state[0xC3C];
+RecoveredGlobal_802287F0_lbl_80515BA0 lbl_80515BA0;

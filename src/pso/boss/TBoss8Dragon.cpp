@@ -7131,3 +7131,10 @@ void get_camera_offsets__12TBoss8DragonFPvPv(Vec_802FDC1C *arg0, Vec_802FDC1C *a
 }
 
 }
+
+s32 TBoss8Dragon__data_80541DC8[5];
+u8 *TBoss8Dragon__data_80541DDC[3];
+RecoveredGlobal_802F45A0_lbl_80541DE8 lbl_80541DE8;
+RecoveredGlobal_802F45A0_lbl_80541DF4 lbl_80541DF4;
+RecoveredGlobal_802F4760_lbl_80541E30 boss8_dragon_reference_pos_vec;
+RecoveredGlobal_802F4760_lbl_80541E3C dragon_forward_reference_vec;

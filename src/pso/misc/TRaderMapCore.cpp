@@ -1345,3 +1345,7 @@ void TRaderMapCore::update_target() {
         this->m_168 = (s32) (this->m_168 & 0xFFFFFFFE);
     }
 }
+
+Gate_801FA1E0 TRaderMapCore__marker_buffer[128];
+RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 TRaderMapCore__map_view_state;
+s16 *TRaderMapCore__floor_discovery_table[18];

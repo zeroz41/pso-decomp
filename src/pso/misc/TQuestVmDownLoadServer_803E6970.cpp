@@ -4919,3 +4919,11 @@ void TQuestVmDownLoadServer__sub_803F0C04(u32 aram_addr, s32 size, u32 owner, u3
 }
 
 }
+
+u16 lbl_805A02A8[0x4C];
+u16 lbl_805A0340[0x98];
+RecoveredGlobal_803E6ACC_lbl_805A0470 lbl_805A0470;
+RecoveredGlobal_803E6ACC_lbl_805A0498 quest_download_entry_table;
+RecoveredGlobal_803E6ACC_lbl_805A05D0 lbl_805A05D0;
+u8 lbl_805A0698[0x28];
+u8 quest_download_aram_dma_buffer[0x2060];

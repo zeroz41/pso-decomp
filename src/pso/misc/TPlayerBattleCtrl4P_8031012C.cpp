@@ -898,3 +898,5 @@ void TPlayerBattleCtrl4P::init_battle() {
 }
 
 #undef get_player_by_client_id
+
+RecoveredGlobal_80310300_TPlayerBattleCtrl4P__data_80542E90 split_screen_battle_rankings;
