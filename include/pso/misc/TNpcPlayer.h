@@ -118,7 +118,6 @@ struct TNpcPlayer : public TObject {
     void send_state_60();
     u8 unk_E0[0x8];
     void update_combat_action();
-    u8 *destroy_and_materialize_player(s16 arg1);
     u8 *construct_party_area(void *parent);
 };
 

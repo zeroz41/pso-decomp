@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/enemy/TObjEneRe7BeruraPunch.h"
 #include "pso/enemy/TObjEneDD_800BA138.h"
 #include "pso/enemy/TObjEneRe7BeruraPunch_80095E18.h"
 #include "pso/enemy/TObjEneRe7BeruraPunch.h"
@@ -401,20 +402,14 @@ void TObjEneRe7BeruraPunch::run_task() {
     }
 }
 
-void *__dt__21TObjEneRe7BeruraPunchFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__21TObjEneRe7BeruraPunch;
-        if (*(void **)((s8 *)arg0 + 0xD0) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD0)); ((TObjEneRe7BeruraPunch *)arg0)->m_d0 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xD4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xD4)); ((TObjEneRe7BeruraPunch *)arg0)->m_d4 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xD8) != NULL) { __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)arg0 + 0xD8)), 1); *(s32 *)((s8 *)arg0 + 0xD8) = 0; }
-        __dt__13TUnk_80490470Fv((s8 *)arg0 + 0xF8, -1);
-        __dt__13TUnk_804928CCFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjEneRe7BeruraPunch::~TObjEneRe7BeruraPunch() {
+    if (*(void **)((s8 *)this + 0xD0) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xD0)); this->m_d0 = 0; }
+    if (*(void **)((s8 *)this + 0xD4) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xD4)); this->m_d4 = 0; }
+    if (*(void **)((s8 *)this + 0xD8) != NULL) { __dt__17AreaAttackHistoryFv((s32)(*(void **)((s8 *)this + 0xD8)), 1); *(s32 *)((s8 *)this + 0xD8) = 0; }
+    __dt__13TUnk_80490470Fv((s8 *)this + 0xF8, -1);
+}
+extern "C" {
 
 void TObjEneRe7BeruraPunch::init() {
     u8 *arg0 = (u8 *)this;

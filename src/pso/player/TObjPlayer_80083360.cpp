@@ -19,7 +19,7 @@ extern u8 camera_capture_overlay_alpha;
 extern f32 lbl_805D93D0;
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
-extern s32 lbl_8048E5F4[];
+extern s32 __vt__13TUnk_8048E5F4[];
 
 void TObjPlayer::free_singleton() {
     if ((u32) camera_render_target_singleton != 0U) {
@@ -66,7 +66,7 @@ void TUnk_8048E5F4::render_shadows() { if (TObjPlayer::get_camera_flag() != 0) {
 void TUnk_8048E5F4::run_task() {  }
 void *__dt__13TUnk_8048E5F4Fv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_8048E5F4;
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5F4;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

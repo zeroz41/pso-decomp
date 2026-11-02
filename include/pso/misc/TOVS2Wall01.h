@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/player/TObjChara.h"
+#include "pso/misc/RenderFadeState.h"
 
 struct TOVS2Wall01 : public TObjChara {
     virtual ~TOVS2Wall01();
@@ -10,16 +11,21 @@ struct TOVS2Wall01 : public TObjChara {
     u8 unk_334[0x4];
     f32 m_338;
     u32 m_33c;
-    void* m_340;
-    u8 _pad344[0x10];
-    u32 m_354;
-    u8 _pad358[0x4];
+    RenderFadeState m_340;
     u32 m_35c;
     void spawn_debris(s32 arg1);
     void release();
     int interact_player_neg1();
     virtual void run_task();
     virtual void render();
+    virtual s32 select_melee_contact_body(void *, f32);
+    virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
+    virtual f32 receive_physical_attack(void *, f32);
+    virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    virtual f32 receive_weapon_special_attack(void *, void *);
+    virtual void apply_knockback_from_attacker(u8 *, f32);
+    virtual s32 try_start_action(s32, s32);
+    virtual s32 roll_physical_accuracy(void *, s32, f32);
     void *create();
     static void release_model();
     static void load_resources();

@@ -65,7 +65,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
 
 void TItemAttackCol::copy_pos(void* q) { *(u32 *)&this->m_name = *(u32*)((char*)q + 0x0); *(u32 *)&this->m_flags = *(u32*)((char*)q + 0x4); }
 
-extern s32 lbl_804E355C[];
+extern s32 __vt__13TUnk_804E355C[];
 
 void TUnk_804E355C::check_hits() {
     s32 i;
@@ -96,7 +96,7 @@ void TUnk_804E355C::check_hits() {
 
 void *TUnk_804E355C::destroy_attack_collision(s16 arg1) {
     if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804E355C;
+        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804E355C;
         __dt__7TObjectFv(this, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(this);

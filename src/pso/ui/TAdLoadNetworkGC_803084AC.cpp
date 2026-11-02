@@ -1,6 +1,8 @@
 #include "types.h"
+#include "pso/ui/TAdLoadNetworkGC.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80086FE0.h"
+#include "pso/unk/text_80086B64.h"
 #include "pso/system/vector.h"
 #include "pso/ui/TAdLoadNetworkGC.h"
 #include "pso/boss/TBoss4Type2.h"
@@ -14,8 +16,11 @@ struct Net_80308518 { u8 pad0[0x18]; void *vt; u8 pad1[4]; void *obj[5]; };
 
 struct Ray_803085A0 { V_803084AC a; V_803084AC b; };
 
+ParticleAngles TAdLoadNetworkGC__object_offset_table[5] = {
+    {0x4000, 0, 0}, {0x4000, 0, 0}, {0, 0, 0}, {0x4000, 0, 0}, {0x4000, 0, 0},
+};
+
 extern "C" {
-extern V_803084AC TAdLoadNetworkGC__object_offset_table[];
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
 extern u8 __vt__16TAdLoadNetworkGC[];
@@ -33,21 +38,15 @@ void TAdLoadNetworkGC::run_task() {
         ((TParticleCtrl *)(o->obj[i]))->set_direction(&TAdLoadNetworkGC__object_offset_table[i]);
     }
 }
-Net_80308518 *__dt__16TAdLoadNetworkGCFv(Net_80308518 *self, s16 flag) {
-    u32 i;
-    if (self != NULL) {
-        self->vt = __vt__16TAdLoadNetworkGC;
-        for (i = 0; i < 5; i++) {
-            queue_destruction__7TObjectFv(self->obj[i]);
-            self->obj[i] = 0;
-        }
-        __dt__7TObjectFv(self, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(self);
-        }
-    }
-    return self;
 }
+TAdLoadNetworkGC::~TAdLoadNetworkGC() {
+    u32 i;
+    for (i = 0; i < 5; i++) {
+        queue_destruction__7TObjectFv(((Net_80308518 *)this)->obj[i]);
+        ((Net_80308518 *)this)->obj[i] = 0;
+    }
+}
+extern "C" {
 #pragma push
 #pragma fp_contract on
 #pragma opt_common_subs off

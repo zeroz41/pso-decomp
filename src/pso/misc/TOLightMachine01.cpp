@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TOLightMachine01.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
@@ -7,6 +8,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 struct Base_8016E9F4_8016E998 { char pad[0x18]; };
 struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
@@ -15,8 +17,12 @@ struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
     virtual s32 m8(f32, f32);
 };
 
-struct RecoveredGlobal_8016EB3C_lbl_804B2EC4 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8016EB3C_lbl_804B2EC4_size[sizeof(RecoveredGlobal_8016EB3C_lbl_804B2EC4) == 0x10 ? 1 : -1];
+extern char lbl_80441EE0[];
+extern char lbl_80441EF0[];
+extern char lbl_80441F04[];
+extern const char *bm_o_light_machine01_motion_names[1];
+const char *bm_o_light_machine01_model_names[3] = { lbl_80441EE0, lbl_80441EF0, NULL };
+BmlResourceDescriptor light_machine01_resource_desc = { lbl_80441F04, bm_o_light_machine01_model_names, bm_o_light_machine01_motion_names, 2, 0 };
 
 struct RecoveredGlobal_8016EC04___vt__16TOLightMachine01 { s32 value; u8 remaining[0x30]; };
 
@@ -24,7 +30,6 @@ extern "C" {
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8016EB3C_lbl_804B2EC4 light_machine01_resource_desc;
 extern u32 TOLightMachine01__shared_bml_archive;
 extern s32 light_machine_ginja_model_handle;
 extern s32 light_machine_ginja_param;
@@ -90,23 +95,18 @@ void TOLightMachine01::load_assets() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &light_machine01_resource_desc.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &light_machine01_resource_desc, 0, 0, 0));
     }
     (*(u8 * *)&TOLightMachine01__shared_bml_archive) = (unsigned char *) ((void *) var_r0);
     light_machine_ginja_model_handle = get_bml_model((void *) var_r0, 0);
     light_machine_ginja_param = TObjFish__sub_8001EDB0((*(u8 * *)&TOLightMachine01__shared_bml_archive), 0);
 }
 
-void *__dt__16TOLightMachine01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TOLightMachine01;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TOLightMachine01::~TOLightMachine01() {
+
+}
+extern "C" {
 #pragma push
 #pragma fp_contract on
 u8 *TOLightMachine01__ct(TOLightMachine01 *light_machine01, s32 arg1) {

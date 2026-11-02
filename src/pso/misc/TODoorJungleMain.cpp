@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TODoorJungleMain.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorJungleMain.h"
@@ -355,19 +356,13 @@ void TODoorJungleMain::run_task() {
         ((TObjCollidable *)arg0)->clear_player_status_flag(0, 8);
     }
 }
-void *__dt__16TODoorJungleMainFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TODoorJungleMain;
-        if (*(void **)((s8 *)arg0 + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xDC)); ((TODoorJungleMain *)arg0)->m_dc = 0; }
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__10TODoorBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TODoorJungleMain::~TODoorJungleMain() {
+    if (*(void **)((s8 *)this + 0xDC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xDC)); this->m_dc = 0; }
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 typedef char RecoveredGlobal_8029B924_lbl_804DC014_size[sizeof(RecoveredGlobal_8029B924_lbl_804DC014) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8029B924___vt__16TODoorJungleMain_size[sizeof(RecoveredGlobal_8029B924___vt__16TODoorJungleMain) == 0x58 ? 1 : -1];
 u8 *TODoorJungleMain__ct(TODoorJungleMain *arg0, s32 arg1, s32 arg2) {

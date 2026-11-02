@@ -1,15 +1,22 @@
 #include "types.h"
+#include "pso/ui/TAdMcSelectCursorGC.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/TAdMcSelectCursorGC_8032A610.h"
 #include "pso/render/render_util.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/ui/TAdMcSelectCursorGC.h"
+#include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/system/GinjaMaterialState.h"
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
+extern "C" {
+extern char lbl_80477118[];
+GinjaTextureEntry lbl_804ED990 = { lbl_80477118, 0, NULL };
+__declspec(section ".data") GinjaTextureList mc_select_cursor_texture_list = { &lbl_804ED990, 1 };
+}
 
 struct Ent_8032A574 { f32 a, b, c, d; u8 pad[0x10]; };
 
@@ -32,10 +39,10 @@ struct Self_8032A2A4 {
 };
 
 extern "C" {
-void __ct__7TObjectFP7TObject(void *);
+void __ct__7TObjectFP7TObject(void *, s32);
 extern s32 __vt__19TAdMcSelectCursorGC[];
 extern s32 lbl_805D41D0;
-Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0);
+Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent);
 void play_sound_effect(s32, s32, s32, s32);
 extern u8 controller_input_state[];
 extern u8 controller_physical_port_bank[];
@@ -127,22 +134,16 @@ void TAdMcSelectCursorGC::run_task() {
     self->f24 = self->f20;
 }
 
-void *__dt__19TAdMcSelectCursorGCFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__19TAdMcSelectCursorGC;
-        if ((u32) TAdMcSelectCursorGC__instance != 0U) {
-            TAdMcSelectCursorGC__instance = 0U;
-        }
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
-Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0) {
+TAdMcSelectCursorGC::~TAdMcSelectCursorGC() {
+    if ((u32) TAdMcSelectCursorGC__instance != 0U) {
+        TAdMcSelectCursorGC__instance = 0U;
+    }
+}
+extern "C" {
+Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0, s32 parent) {
     s32 i;
-    __ct__7TObjectFP7TObject(arg0);
+    __ct__7TObjectFP7TObject(arg0, parent);
     arg0->vt = ((u8 *)&__vt__19TAdMcSelectCursorGC);
     arg0->f0 = lbl_805D41D0;
     ((Alt_8032A574 *)arg0)->f138 = 0;
@@ -161,5 +162,43 @@ Obj_8032A574 *TAdMcSelectCursorGC__ct(Obj_8032A574 *arg0) {
     }
     return arg0;
 }
+
+}
+
+extern "C" {
+s32 release_texture_list(void *, s32);
+u32 __nw__7TObjectFUl(s32);
+
+
+u32 TAdMcSelectCursorGC::get_instance(s32 arg0) {
+    u32 var_r0;
+
+    if ((u32) TAdMcSelectCursorGC__instance == 0U) {
+        var_r0 = __nw__7TObjectFUl(0x140);
+        if (var_r0 != 0U) {
+            var_r0 = (u32)TAdMcSelectCursorGC__ct((Obj_8032A574 *)var_r0, arg0);
+        }
+        TAdMcSelectCursorGC__instance = var_r0;
+    }
+    return TAdMcSelectCursorGC__instance;
+}
+
+
+void TAdMcSelectCursorGC::release_cursor_entry() {
+    u8 *temp_r4;
+    if ((void **) (*(void ** *)&TAdMcSelectCursorGC__texture_entry) != NULL) {
+        temp_r4 = (u8 *)(*(*(void ** *)&TAdMcSelectCursorGC__texture_entry));
+        if ((u32) *(u32 *)((s8 *)temp_r4 + 8) != 0U) {
+            release_texture_list((*(void ** *)&TAdMcSelectCursorGC__texture_entry), (s32) temp_r4);
+        }
+    }
+}
+
+void TAdMcSelectCursorGC::init_resource() { TAdMcSelectCursorGC__texture_entry = (s32)&mc_select_cursor_texture_list; TLobby__sub_8023E4B4((s32)lbl_80477118, (s32)&mc_select_cursor_texture_list); }
+
+s32 TAdMcSelectCursorGC__sub_8032A6D8(void* p) { return *(s32*)((char*)p + 0x1c); }
+
+    extern int memcard_cursor_instance_table[];
+int TAdMcSelectCursorGC::get_cursor_type(int a0) {  return memcard_cursor_instance_table[a0]; }
 
 }

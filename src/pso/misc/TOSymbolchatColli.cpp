@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "pso/misc/TOSymbolchatColli.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
@@ -58,7 +59,9 @@ extern "C" {
 f32 newton_sqrtf(f32 x);
 void __ct__9TObjCharaFP7TObject(void *);
 void init_collision_body_parts(void *, void *, int);
-extern u8 lbl_804B4550[];
+CollisionBody lbl_804B4550[1] = {
+    { { 0.0f, 80.0f, 0.0f }, 1.0f, 1.0f, 0, 0x10002, { 0.0f, 0.0f, 0.0f }, 0.0f },
+};
 extern s32 __vt__17TOSymbolchatColli[];
 extern s32 lbl_805D3194;
 Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
@@ -200,18 +203,12 @@ void TOSymbolchatColli::load_symbol_chat_data() {
     }
 }
 
-void *__dt__17TOSymbolchatColliFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TOSymbolchatColli;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TOSymbolchatColli::~TOSymbolchatColli() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2) {
     s32 i;
     __ct__9TObjCharaFP7TObject(arg0);

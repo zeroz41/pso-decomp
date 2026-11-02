@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TPhotonLine.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
@@ -58,7 +59,9 @@ extern "C" {
 void __ct__9TObjCharaFP7TObject(void *, void *);
 void *find_entity_by_id(u16);
 void init_collision_body_parts(void *, void *, s32);
-extern u8 photon_line_collision_body_part[];
+CollisionBody photon_line_collision_body_part[1] = {
+    { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
+};
 extern s32 __vt__11TPhotonLine[];
 extern s32 lbl_805D3500;
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
@@ -117,18 +120,12 @@ void run_task__11TPhotonLineFv(Line_801ACB14 *self) {
     self->pos.z += self->vel.z;
 }
 
-void *__dt__11TPhotonLineFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TPhotonLine;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__9TObjCharaFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TPhotonLine::~TPhotonLine() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3) {
     s32 i;
     __ct__9TObjCharaFP7TObject(self, parent);

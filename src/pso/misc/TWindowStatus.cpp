@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TWindowStatus.h"
 #include "pso/misc/TWindowSimpleStatus.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TWindowStatus.h"
@@ -9,6 +10,8 @@
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
+#include "pso/misc/WindowLayoutRecord.h"
+#include "pso/unk/text_80271400.h"
 
 struct Quad_802710C4 { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
@@ -26,8 +29,7 @@ void begin_screen_draw(s32 arg0);
 s32 draw_textured_quad_at_depth(void *, f32);
 void set_draw_texture_and_color(s32 idx, s32 arg1);
 extern const f32 lbl_8044F650[];
-extern const f32 lbl_805DD434;
-extern void *lbl_805D63F0;
+extern s32 lbl_805D63F0;
 
 s16 obj_getS16_2BA(u8 *p);
 u8 *get_player_by_client_id();
@@ -35,25 +37,75 @@ s32 get_width__19TWindowSimpleStatusFv();
 s32 draw_right_aligned_number(void *);
 }
 void set_status_entry_target(void *arg0, s32 arg1);
-extern const f32 lbl_805DD430;
 extern "C" {
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *arg0);
 
 s32 draw_default_entry__9TWindowDDFl(void *, f32, f32);
 s32 draw_visible_window_entries(void *, void *, int);
 
-extern const f32 lbl_805DD470;
-extern const f32 lbl_805DD474;
 
-void *TWindowStatus__ct(void *arg0);
+void *TWindowStatus__ct(void *arg0, s32 layout_pos, void *arg2, const WindowDescriptor *desc);
 void *__dt__13TWindowStatusFv(void *arg0, s16 arg1);
-void TWindowSimpleStatus__ct(void *);
+void TWindowSimpleStatus__ct(void *, s32, void *, const WindowDescriptor *);
 s32 get_window_layout_position(s32);
 
 void __dl__7TObjectFPv(void *);
 void __dt__19TWindowSimpleStatusFv(void *, int);
 void update_lockon_window(u8 *arg0);
 void update_status_help_item(s32 arg0);
+extern const f32 lbl_805DD470;
+extern const f32 lbl_805DD474;
+
+s32 is_split_screen();
+s32 create__19TWindowSimpleStatusFPv(int, void *);
+}
+
+#pragma readonly_strings on
+
+struct StatusWindowLayout {
+    u32 cols;
+    u32 rows;
+    SpritePartLayoutRecord rec_0;
+    TextLayoutRecord rec_1;
+    ValueLayoutRecord rec_2;
+    LayoutEntryCopyRecord rec_3;
+    LayoutEntryCopyRecord rec_4;
+    TextLayoutRecord rec_5;
+    TextLayoutRecord rec_6;
+    ValueLayoutRecord rec_7;
+    TextLayoutRecord rec_8;
+    ValueLayoutRecord rec_9;
+    TextLayoutRecord rec_10;
+    ValueLayoutRecord rec_11;
+    TextLayoutRecord rec_12;
+    ValueLayoutRecord rec_13;
+    ValueLayoutRecord rec_14;
+};
+
+StatusWindowLayout lbl_804D0D98 = {
+    15, 1,
+    {6, {27.0f, 16.0f}, {34.0f, 29.0f}, 112.0f, 84.0f, 0.5f, -1, &lbl_805D63F0, 0, 4},
+    {3, {124.0f, 67.0f}, 0.5f, 0xFFFFFFFF, 4, NULL},
+    {4, {82.0f, 59.0f}, 0.5f, 0xFFFFFFFF, 4, 1},
+    {2, {90.0f, 24.0f}, 0.5f, 0xFF00FF15, 0x20, 120.0f, 0, 0, 0xFF00CA9E, 0xFFFF2924},
+    {2, {90.0f, 48.0f}, 0.5f, 0xFF008CFC, 0x20, 120.0f, 0, 0, 0xFF008DEE, 0xFFFF2924},
+    {3, {30.0f, 59.0f}, 0.5f, 0xFFFFFFFF, 4, "Lv"},
+    {3, {90.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, "HP"},
+    {4, {210.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+    {3, {210.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, "/"},
+    {4, {210.0f, 9.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+    {3, {90.0f, 33.0f}, 0.5f, 0xFFFFFFFF, 4, "TP"},
+    {4, {210.0f, 33.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+    {3, {210.0f, 33.0f}, 0.5f, 0xFFFFFFFF, 4, "/"},
+    {4, {210.0f, 33.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+    {5, {68.0f, 13.0f}, 0.5f, 0xFFFFFFFF, 4, 0},
+};
+
+WindowDescriptor status_window_settings = {
+    {228.0f, 76.0f}, 70050.0f, &lbl_804D0D98, 0xB28,
+};
+
+extern "C" {
 
 void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) {
     u8 *pl;
@@ -79,7 +131,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         *(s32 *)((s8 *)d + 0x24) = v;
         draw_right_aligned_number(b);
         draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - lbl_805DD430;
+        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
         *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
         a = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xB);
         b = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xD);
@@ -94,7 +146,7 @@ void update_hp_tp_values__20TWindowSubStatusDispFPv(u8 *window_sub_status_disp) 
         *(s32 *)((s8 *)d + 0x24) = v;
         draw_right_aligned_number(b);
         draw_right_aligned_number(a);
-        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - lbl_805DD430;
+        *(f32 *)((s8 *)a + 8) = *(f32 *)((s8 *)b + 8) - *(f32 *)((s8 *)b + 0x10) - 12.0f;
         *(f32 *)((s8 *)d + 8) = *(f32 *)((s8 *)a + 8);
         ((TWindowSubStatusDisp *)window_sub_status_disp)->update_status_entry();
         e = get_array_entry__11TWindowBaseFi(window_sub_status_disp, 0xE);
@@ -109,10 +161,10 @@ void TWindowStatus::draw_background(u8 *arg1) {
 
     {
         u8 *e = get_array_entry__11TWindowBaseFi(this, 0xE);
-        draw_photon_blast_gauge_ring((s32)this, arg1, lbl_8044F650, *(s32 *)((s8 *)e + 0x20), lbl_805DD434);
+        draw_photon_blast_gauge_ring((s32)this, arg1, lbl_8044F650, *(s32 *)((s8 *)e + 0x20), 26.0f);
     }
     begin_screen_draw(1);
-    TObjFish::set_global_param((s32)lbl_805D63F0);
+    TObjFish::set_global_param(lbl_805D63F0);
     set_draw_texture_and_color(0xB, *(s32 *)((s8 *)arg1 + 0x34));
     { f32 r = TWindowSubComCard__sub_80244784((TWindowSubComCard *)this);
     s = -1.0f / (0.0598f + this->m_54);
@@ -175,23 +227,34 @@ void TWindowStatus::run_task() {
 
 extern s32 __vt__13TWindowStatus[];
 
-void *__dt__13TWindowStatusFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TWindowStatus;
-        __dt__19TWindowSimpleStatusFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TWindowStatus::~TWindowStatus() {
+
+}
+extern "C" {
 
 extern void *TWindowStatus__name;
 
-void *TWindowStatus__ct(void *window_status) {
-    TWindowSimpleStatus__ct(window_status);
+void *TWindowStatus__ct(void *window_status, s32 layout_pos, void *arg2, const WindowDescriptor *desc) {
+    TWindowSimpleStatus__ct(window_status, layout_pos, arg2, desc);
     *(s32 **)((s8 *)window_status + 0x18) = __vt__13TWindowStatus;
     *(void * *)&((TWindowStatus *)window_status)->m_name = TWindowStatus__name;
     return window_status;
 }
+}
+
+s32 create_status_window(s32 arg0) {
+    s32 window_layout_position;
+    s32 temp_r3;
+    s32 var_r0;
+    window_layout_position = get_window_layout_position(0x1C);
+    if (is_split_screen() != 0) {
+        return create__19TWindowSimpleStatusFPv((int)window_layout_position, (void *)arg0);
+    }
+    temp_r3 = (s32)TObject::operator new(0x78);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (s32)TWindowStatus__ct((void *)temp_r3, window_layout_position, (void *)arg0, &status_window_settings);
+    }
+    return var_r0;
 }

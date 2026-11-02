@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjButterflyLobby.h"
 #include "pso/object/TObjButterflyLobby_80350958.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -8,6 +9,19 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TLobbyEventTheme.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/unk/text_803516F8.h"
+
+extern char lbl_80478D80[];
+extern char lbl_80478D98[];
+extern char lbl_80478DAC[];
+extern char lbl_80478DC4[];
+
+const char *bm_butterfly_lobby_model_names[3] = {lbl_80478D80, lbl_80478D98, NULL};
+__declspec(section ".data") const char *bm_butterfly_lobby_motion_names[2] = {lbl_80478DAC, NULL};
+BmlResourceDescriptor bm_butterfly_lobby_resource_descriptor = {
+    lbl_80478DC4, bm_butterfly_lobby_model_names, bm_butterfly_lobby_motion_names, 2, 1,
+};
 
 struct ButterflyLobbyBase_80350958 { char pad[0x18]; };
 struct ButterflyLobbyVObj_80350958 : ButterflyLobbyBase_80350958 {
@@ -289,16 +303,11 @@ void TLobby__sub_8001FE7C(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void *__dt__18TObjButterflyLobbyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__18TObjButterflyLobby;
-        __dt__8TObjBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjButterflyLobby::~TObjButterflyLobby() {
+
+}
+extern "C" {
 
 extern void *tl_05;
 
@@ -339,6 +348,21 @@ void TObjButterflyLobby::destroy_instance() {
         TLobby__sub_8001FE7C((void*)lobby_butterfly_bml_resource, 1);
         lobby_butterfly_bml_resource = 0U;
     }
+}
+
+}
+
+extern "C" {
+u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
+void fn_803516F8(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x440);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 1, &bm_butterfly_lobby_resource_descriptor, 0, 0, 0));
+    }
+    lobby_butterfly_bml_resource = var_r0;
 }
 
 }
