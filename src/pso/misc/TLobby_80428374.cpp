@@ -279,6 +279,44 @@ s32 TLobby__sub_80428BB0(ModemRequest *req) {
     return TLobby__sub_804290D4(req->timeout);
 }
 
+// Per message type: how many fields it has, then each field's kind
+// (0 a string, 1 a decimal number).
+struct ModemFieldLayout {
+    s32 count;
+    s32 kind[4];
+};
+
+extern const ModemFieldLayout lbl_80480138[];
+
+void TLobby__sub_80428DC8(s16 type, s16 index, char *src, s16 *nstr, s16 *nint) {
+    s32 n;
+    char *dst;
+    s16 i;
+    s16 value;
+    u8 c;
+
+    if (lbl_80480138[type].kind[index] == 0) {
+        n = *nstr;
+        dst = lobby_net_session_state.strbuf + n * lobby_net_session_state.strstride;
+        NetCopyString(dst, src);
+        lobby_net_session_state.fields[index] = (u8 *)dst;
+        *nstr = n + 1;
+    }
+    if (lbl_80480138[type].kind[index] == 1) {
+        n = *nint;
+        i = 0;
+        value = 0;
+        while ((c = src[i]) != 0) {
+            value *= 10;
+            value += c - '0';
+            i++;
+        }
+        lobby_net_session_state.ints[n] = value;
+        lobby_net_session_state.fields[index] = (u8 *)&lobby_net_session_state.ints[n];
+        *nint = n + 1;
+    }
+}
+
 s32 TLobby__sub_80428EC0(u8 *src, u8 *dst, u8 **next) {
     s16 n;
     u8 *p;
