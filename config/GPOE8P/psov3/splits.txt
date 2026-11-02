@@ -12020,19 +12020,10 @@ pso/ui/TWindowSubTradeMessage.cpp:
 	.data       start:0x804EF5C8 end:0x804EF5E0
 	.sdata      start:0x805D4278 end:0x805D4280
 
-pso/misc/TSaveChCr_80339B64.cpp:
-	.text       start:0x80339B64 end:0x80339E2C
-
 pso/misc/TSaveChCr.cpp:
-	.text       start:0x80339E2C end:0x8033A088
-
-pso/misc/TSaveChCr_8033A088.cpp:
-	.text       start:0x8033A088 end:0x8033A41C
-	.data       start:0x804EF6D0 end:0x804EF6E8
-
-pso/unk/text_8033A41C.cpp:
-	.text       start:0x8033A41C end:0x8033A54C
+	.text       start:0x80339B64 end:0x8033A54C
 	.ctors      start:0x80433FF4 end:0x80433FF8
+	.data       start:0x804EF5E0 end:0x804EF6E8
 
 pso/ui/TAdMultiPlayerNoGC.cpp:
 	.text       start:0x8033A54C end:0x8033A810

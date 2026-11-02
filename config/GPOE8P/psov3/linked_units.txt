@@ -1492,8 +1492,6 @@ pso/misc/TRecvPsoDataLong.cpp
 pso/misc/TRecvPsoRegistConnect.cpp
 pso/misc/TRegister.cpp
 pso/misc/TSaveChCr.cpp
-pso/misc/TSaveChCr_80339B64.cpp
-pso/misc/TSaveChCr_8033A088.cpp
 pso/misc/TScene.cpp
 pso/misc/TSceneSora.cpp
 pso/misc/TSceneSora_8029F428.cpp
