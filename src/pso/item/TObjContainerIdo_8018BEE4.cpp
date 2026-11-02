@@ -16,6 +16,15 @@
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/BmlResourceDescriptor.h"
+
+extern "C" {
+__declspec(section ".data") const char *fe_obj_hako_i_rail_model_names[3] = { "fe_obj_hako_i_rail.gj", "fe_obj_hako_ido.gj", NULL };
+const char *fe_obj_hako_i_rail_motion_names[1] = { NULL };
+BmlResourceDescriptor container_ido_resource_descriptor = { "fe_obj_hako_i_rail.bml", fe_obj_hako_i_rail_model_names, fe_obj_hako_i_rail_motion_names, 2, 0 };
+CollisionBody container_ido_collision_parts[] = { { { 0.0f, 0.0f, 0.0f }, 20.0f, 20.0f, 1, 0x10003, { 0.0f, 0.0f, 0.0f }, 0.0f } };
+const char *obj_container_ido_class_name = "TObjContainerIdo";
+}
 
 struct Vec_8018BEE4 { f32 x, y, z; };
 
@@ -174,8 +183,6 @@ void play_sound_effect(s32, void *, s32, s32);
 s32 rand();
 void *spawn_particle_effect(void *pos, s32 id);
 int update__15RenderFadeStateFv(void*);
-extern const Vec3_8018C18C lbl_80445110;
-extern const Vec3_8018C18C lbl_8044511C;
 extern u8 identity_matrix[];
 
 #pragma push
@@ -208,7 +215,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
     self->e0 &= ~0x04000000;
     if (self->e0 & 0x02000000) {
         if (xyz_distance(&self->c0, &self->pos) > self->e4) {
-            Vec3_8018C18C v = lbl_80445110;
+            Vec3_8018C18C v = { 0.0f, 0.0f, 0.0f };
             v.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -226,7 +233,7 @@ void run_task__16TObjContainerIdoFv(Ido_8018C18C *self) {
         }
     } else {
         if (xyz_distance(&self->c0, &self->pos) < self->e4) {
-            Vec3_8018C18C w = lbl_8044511C;
+            Vec3_8018C18C w = { 0.0f, 0.0f, 0.0f };
             w.z = -self->ec;
             push_matrix_from(identity_matrix);
             rotate_matrix_y(0, self->f60);
@@ -307,12 +314,7 @@ extern "C" {
 extern u32 container_ido_texture_gvm_handle;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
-extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80445130;
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 container_ido_resource_descriptor;
-
-extern u8 container_ido_collision_parts[];
 extern s32 __vt__16TObjContainerIdo[];
-extern s32 obj_container_ido_class_name;
 void *__dt__16TObjContainerIdoFv(void *arg0, s16 arg1);
 void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
@@ -340,10 +342,10 @@ void TObjContainerIdo::load_resources() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &container_ido_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &container_ido_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjContainerIdo__model_resource) = var_r0;
-    (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((s32) &lbl_80445130.value);
+    (*(u8 * *)&container_ido_texture_gvm_handle) = load_gvm_texture_file((s32) "obj_containerido.GVM");
 }
 
 }
@@ -359,7 +361,7 @@ u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2) {
     ((TUnk_804B97C0 *)arg0)->init_positions();
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TObjContainerIdo;
     __ct__15RenderFadeStateFv(((void *)(arg0 + 0xF0)));
-    *(s32 *)((s8 *)arg0 + 0) = obj_container_ido_class_name;
+    *(const char **)((s8 *)arg0 + 0) = obj_container_ido_class_name;
     ((TObjContainerIdo *)(arg0))->apply_object_set_data((void *)arg2);
     VecCopy((Vec *)(arg0 + 0xC0), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0xB4), (const Vec *)(arg0 + 0x38));

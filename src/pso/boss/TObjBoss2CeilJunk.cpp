@@ -56,6 +56,14 @@ struct Color_8003A1B4
   s32 d;
 };
 
+extern "C" {
+const s32 boss2_ceil_junk_model_index_table[6] = { 0, 1, 2, 4, 3, 5 };
+const f32 TObjBoss2CeilJunk__height_offset_table[6] = { 10.0f, 10.0f, 7.0f, 3.0f, 10.0f, 6.0f };
+const f32 TObjBoss2CeilJunk__radius_table[6] = { 15.0f, 15.0f, 10.5f, 15.0f, 0.45000002f, 1.2f };
+const char *TObjBoss2CeilJunk__name = "TObjBoss2CeilJunk";
+const Color_8003A1B4 boss2_ceil_junk_render_color = { 0.0f, 0, 0, 0 };
+}
+
 struct Vec_8003A1B4
 {
   f32 x;
@@ -114,17 +122,12 @@ extern "C" {
 s32 spawn_effect__15TObjBoss2TunnelFlPvPv(void *, void *, void *, f32, f32);
 s32 __ct__8TObjBaseFP7TObject();
 s32 rand();
-extern RecoveredGlobal_8003A6F4_lbl_80435BD8 TObjBoss2CeilJunk__height_offset_table;
 extern s32 __vt__17TObjBoss2CeilJunk[];
-extern s32 TObjBoss2CeilJunk__name;
 u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, s32 arg2);
 s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-extern s32 boss2_ceil_junk_model_index_table[];
-extern f32 TObjBoss2CeilJunk__radius_table[];
-extern Color_8003A1B4 boss2_ceil_junk_render_color;
 extern Holder_8003A1B4 *boss2_tunnel_instance;
 extern s32 lbl_805D4BEC;
 extern s32 saved_model_render_flags;
@@ -301,7 +304,7 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
     f32 temp_f2;
     __ct__8TObjBaseFP7TObject();
     arg0->unk18 = &(*(RecoveredGlobal_8003A6F4___vt__17TObjBoss2CeilJunk *)&__vt__17TObjBoss2CeilJunk).value;
-    arg0->field_0 = TObjBoss2CeilJunk__name;
+    arg0->field_0 = (s32)TObjBoss2CeilJunk__name;
     VecCopy((Vec *)&arg0->unknown_1C[0x1C], (const Vec *)arg2);
     temp_f2 = (f32) rand();
     temp_f1 = (3.0517578e-05f) * temp_f2;
@@ -310,7 +313,7 @@ u8 *TObjBoss2CeilJunk__ct(struct RecoveredFields_8003A6F4_arg0 *arg0, s32 arg1, 
         arg0->field_A8 = 0;
     } else {
         arg0->field_A8 = 2;
-        arg0->field_54 = arg0->field_48 + *(f32 *)((s8 *)((u8 *)&TObjBoss2CeilJunk__height_offset_table.value + (arg0->field_AC * 4)) + 0);
+        arg0->field_54 = arg0->field_48 + *(f32 *)((s8 *)((u8 *)TObjBoss2CeilJunk__height_offset_table + (arg0->field_AC * 4)) + 0);
     }
     arg0->field_60 = TObjPlayer::calc_random_scaled();
     arg0->field_5C = (s32) ((4096.0f) * rand_signed_unit());

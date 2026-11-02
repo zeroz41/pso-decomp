@@ -109,7 +109,7 @@ extern s32 photon_blast_donation_flags[];
 void clear_photon_blast_donations(void);
 extern s32 local_client_id;
 s32 is_photon_blast_presentation_admitted(u32 owner_id, void *records);
-extern Counts_801A8868 photon_blast_result_counts_init;
+const Counts_801A8868 photon_blast_result_counts_init = { 0, 0, 0, 0 };
 extern Rec_801A8868 photon_blast_sequence_table[];
 void admit_photon_blast_sequence(u8 *players, void *self);
 void apply_photon_blast_action_hold(s32 arg0, s32 arg1, s32 arg2);

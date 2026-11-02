@@ -7,6 +7,16 @@
 #include "pso/TObjCMHairMenu.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 
+extern "C" {
+const f32 chr_move_effect_pos_table[7][2] = {
+    { 28.0f, 182.0f }, { 28.0f, 225.0f }, { 28.0f, 268.0f },
+    { 434.0f, 182.0f }, { 434.0f, 225.0f }, { 434.0f, 268.0f }, { 434.0f, 311.0f },
+};
+const u8 lbl_804786E8[2][4] = { { 0x25, 0x76, 0x68, 0xFF }, { 0x25, 0x76, 0x30, 0xFF } };
+const f32 lbl_804786F0[2] = { 180.0f, 38.0f };
+const char *TAdChrMoveEffectGC__class_name = "TAdChrMoveEffectGC";
+}
+
 
 struct S_803491F8 { u32 w[8]; };
 
@@ -100,9 +110,6 @@ struct P_803490D8 { V2_803490D8 a; V2_803490D8 b; C4_803490D8 c; C4_803490D8 d; 
 
 extern "C" {
 void TAdChrMoveEffectGC__sub_80349194(W_80349194 *arg0, void *arg1);
-extern V2_803490D8 chr_move_effect_pos_table[];
-extern C4_803490D8 lbl_804786E8[];
-extern u8 lbl_804786F0[];
 void __ct__7TObjectFP7TObject(void *);
 
 
@@ -137,11 +144,11 @@ void TAdChrMoveEffectGC::clear_entries() {
 struct W_80349194;
 void TAdChrMoveEffectGC::setup_move_effect_params(s32 arg1, s32 arg2) {
     P_803490D8 p;
-    ((TWindowSubSymbolChatPartsSet *)(&p.a))->copy_vec2(&chr_move_effect_pos_table[arg1]);
-    ((TWindowSubSymbolChatPartsSet *)(&p.b))->copy_vec2(&chr_move_effect_pos_table[arg2]);
-    ((TAdChrMoveEffectGC *)(&p.c))->copy4(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]);
-    ((TAdChrMoveEffectGC *)(&p.d))->copy4(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]);
-    ((TWindowSubSymbolChatPartsSet *)(&p.e))->copy_vec2(lbl_804786F0);
+    ((TWindowSubSymbolChatPartsSet *)(&p.a))->copy_vec2((void *)&chr_move_effect_pos_table[arg1]);
+    ((TWindowSubSymbolChatPartsSet *)(&p.b))->copy_vec2((void *)&chr_move_effect_pos_table[arg2]);
+    ((TAdChrMoveEffectGC *)(&p.c))->copy4((void *)(arg1 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    ((TAdChrMoveEffectGC *)(&p.d))->copy4((void *)(arg2 < 3 ? &lbl_804786E8[0] : &lbl_804786E8[1]));
+    ((TWindowSubSymbolChatPartsSet *)(&p.e))->copy_vec2((void *)lbl_804786F0);
     TAdChrMoveEffectGC__sub_80349194((W_80349194 *)this, &p);
 }
 
@@ -231,12 +238,11 @@ TAdChrMoveEffectGC::~TAdChrMoveEffectGC() {
 }
 
 
-extern void *lbl_805D42F0;
 
 void *TAdChrMoveEffectGC__ct(void *ad_chr_move_effect_gc) {
     __ct__7TObjectFP7TObject(ad_chr_move_effect_gc);
     *(s32 **)((s8 *)ad_chr_move_effect_gc + 0x18) = __vt__18TAdChrMoveEffectGC;
-    *(void * *)&((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_name = lbl_805D42F0;
+    *(void * *)&((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_name = (void *)TAdChrMoveEffectGC__class_name;
     ((TAdChrMoveEffectGC *)ad_chr_move_effect_gc)->m_20 = 0;
     return ad_chr_move_effect_gc;
 }

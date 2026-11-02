@@ -10,7 +10,6 @@ struct PhotonChairSeat {
 };
 
 extern "C" {
-extern s32 lbl_805D4418;
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 int TPlyPhotonChair__sub_8035B520(void *p);
 u8 *TPlyPhotonChair__ct(u8 *arg0, s32 arg1, s32 parent);
@@ -21,7 +20,7 @@ int fn_8035AF18(PhotonChairSeat *seat) {
     u8 *chair;
 
     FOREACH_NODE(TObject, tl_05->m_down, node) {
-        if (check_value_equals__13TUnk_804B6C24Fl(node, lbl_805D4418) != 0
+        if (check_value_equals__13TUnk_804B6C24Fl(node, (s32)TPlyPhotonChair__class_name) != 0
             && seat->owner_id == ((TPlyPhotonChair *)node)->sub_8035B530()
             && TPlyPhotonChair__sub_8035B520(node) != 0) {
             return 0;

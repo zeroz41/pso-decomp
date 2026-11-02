@@ -125,6 +125,7 @@ force_active:
   - TAdADXlogo_name
   - TAdBackTxtGC__name
   - TAdBackTxtGC_backtext_tex_list
+  - TAdChrMoveEffectGC__class_name
   - TAdChrMoveEffectGC__sub_80349194
   - TAdChrSelASlotGC__sub_8030C45C
   - TAdChrSelBSlotGC__sub_8030E3BC
@@ -133,6 +134,7 @@ force_active:
   - TAdChrSelBSlotGC__sub_8030F228
   - TAdChrSelBSlotGC__sub_8030F2E4
   - TAdChrSelBSlotGC__sub_8030F3A0
+  - TAdChrSelSlotGC__name
   - TAdChrSelSlotGC__sub_802C754C
   - TAdDialingGC__sub_803284F8
   - TAdDialingMessageWindow__name
@@ -521,6 +523,7 @@ force_active:
   - TKomorebi__resource_descriptor
   - TLanguage__class_name
   - TLanguage__read_cursor
+  - TLazerFenceSw__class_name
   - TLazerFenceSw__ct
   - TLoadCtrl__ct
   - TLobby__battle_team_table
@@ -812,6 +815,7 @@ force_active:
   - TObjBgmColCtrl__ct
   - TObjBgmCol__name
   - TObjBigTuitate__ct
+  - TObjBoss2CeilJunk__name
   - TObjBoss2CeilJunk__sub_8003A868
   - TObjBoss2DustCtrl__ct
   - TObjBoss2DustCtrl_dust_counter
@@ -918,6 +922,7 @@ force_active:
   - TObjDeadListWin_name
   - TObjDoaEx01__ct
   - TObjDoaEx01__resource_descriptor
+  - TObjDoorKey__collision_body_parts
   - TObjDoorKey__ct
   - TObjDoorKey__resource_descriptor
   - TObjDoor__collision_desc
@@ -1511,6 +1516,7 @@ force_active:
   - TParticleCtrl__particle_entry_path
   - TParticleCtrl__sub_800884F0
   - TParticleCtrl__sub_802C8464
+  - TPhotonMagicSquare__color_palette
   - TPhotonMagicSquare__data_805D3508
   - TPlayerBattleCtrl4P__message_table_language0
   - TPlayerBattleCtrl__ct
@@ -4892,6 +4898,8 @@ force_active:
   - consume_counter__14TOTrapChainSawFPv
   - container_break_particle_parameters
   - container_break_small_debris_parameters
+  - container_ido_collision_parts
+  - container_ido_resource_descriptor
   - context_texture_obj
   - controller_default_pad_state
   - controller_device_id_table
@@ -5297,6 +5305,7 @@ force_active:
   - door_cave03_class_name
   - door_cave03_resource_descriptor
   - door_jungle_main_gvm_texture
+  - door_key_beam_color_table
   - door_machine01_a_resource_descriptor
   - door_machine01_class_name
   - door_machine01_resource_descriptor
@@ -5645,6 +5654,8 @@ force_active:
   - fe_obj_h_s_konte_model_names
   - fe_obj_h_s_konte_motion_names
   - fe_obj_hako01_hahen02_motion_names
+  - fe_obj_hako_i_rail_model_names
+  - fe_obj_hako_i_rail_motion_names
   - fe_obj_hashi_model_names
   - fe_obj_hashi_motion_names
   - fe_obj_hashi_resource_descriptor
@@ -5657,6 +5668,9 @@ force_active:
   - fe_obj_lazer2_4m_motion_names
   - fe_obj_o_vs2container_motion_names
   - fe_obj_o_vs2container_resource_bundle
+  - fe_obj_switch_laz_j_model_names
+  - fe_obj_switch_laz_j_motion_names
+  - fe_obj_switch_laz_j_resource_descriptor
   - fe_obj_switch_laz_model_names
   - fe_obj_switch_laz_motion_names
   - fe_obj_turiten_moto_model_names
@@ -5786,6 +5800,7 @@ force_active:
   - floor_resource_callbacks_selectors_19_20
   - floor_resource_callbacks_selectors_23_24_25_26_27
   - floor_resource_callbacks_selectors_28_29
+  - floor_scene_table
   - flush_pending__6TLobbyFv
   - flush_pending_effect__12TBoss8DragonFv
   - fly_nest_vertex_table
@@ -5928,6 +5943,7 @@ force_active:
   - fn_803F4D10
   - fn_spawn_particle_f3_with_flags
   - forest_box_collision_body_parts
+  - forest_rel_filename_table
   - format_challenge_stage_times__23TAdSinglePlyChrSelectGCFll
   - format_dashed_serial__22TAdEnterSerialAccessGCFPUcUlPUl
   - format_drop_table_filename
@@ -6888,6 +6904,7 @@ force_active:
   - lazer_fence_beam_node_table
   - lazer_fence_norm_episode1_resource_descriptor
   - lazer_fence_norm_episode2_resource_descriptor
+  - lazer_fence_sw_collision_body_part
   - lazer_fence_sw_ginja_model_table
   - lbl_80434EC8
   - lbl_80434ED4
@@ -6901,6 +6918,7 @@ force_active:
   - lbl_804394A4
   - lbl_804394BC
   - lbl_804394D4
+  - lbl_8043AAA4
   - lbl_8043AD10
   - lbl_8043AD24
   - lbl_8043AD3C
@@ -7324,6 +7342,57 @@ force_active:
   - lbl_804C6900
   - lbl_804C8934
   - lbl_804C8A44
+  - lbl_804C8C60
+  - lbl_804C8C68
+  - lbl_804C8C70
+  - lbl_804C8C78
+  - lbl_804C8CA8
+  - lbl_804C8CD0
+  - lbl_804C8D00
+  - lbl_804C8D30
+  - lbl_804C8D60
+  - lbl_804C8D88
+  - lbl_804C8DB0
+  - lbl_804C8DD8
+  - lbl_804C8DE0
+  - lbl_804C8DE8
+  - lbl_804C8DF0
+  - lbl_804C8DF8
+  - lbl_804C8E70
+  - lbl_804C8E88
+  - lbl_804C8EA0
+  - lbl_804C8EA8
+  - lbl_804C8EC0
+  - lbl_804C8ED8
+  - lbl_804C8EF0
+  - lbl_804C8F08
+  - lbl_804C8F10
+  - lbl_804C8F18
+  - lbl_804C8F20
+  - lbl_804C8F38
+  - lbl_804C8F40
+  - lbl_804C8F48
+  - lbl_804C8F70
+  - lbl_804C8F88
+  - lbl_804C8FA0
+  - lbl_804C8FA8
+  - lbl_804C8FB0
+  - lbl_804C8FB8
+  - lbl_804C8FC0
+  - lbl_804C90E0
+  - lbl_804C90E8
+  - lbl_804C90F0
+  - lbl_804C90F8
+  - lbl_804C9128
+  - lbl_804C9150
+  - lbl_804C9180
+  - lbl_804C91B0
+  - lbl_804C91E0
+  - lbl_804C9208
+  - lbl_804C9230
+  - lbl_804C9258
+  - lbl_804C9260
+  - lbl_804C9268
   - lbl_804C9C9C
   - lbl_804CB838
   - lbl_804CE2B8
@@ -7356,6 +7425,10 @@ force_active:
   - lbl_804DDAF4
   - lbl_804DDB40
   - lbl_804DDB8C
+  - lbl_804E0B40
+  - lbl_804E0B4C
+  - lbl_804E0B54
+  - lbl_804E0B60
   - lbl_804E1210
   - lbl_804E135C
   - lbl_804E1548
@@ -8385,6 +8458,7 @@ force_active:
   - obj_camera_class_name
   - obj_chip_class_name_ptr
   - obj_clearArrS16_FC__FP8ObjArrFCi
+  - obj_container_ido_class_name
   - obj_curtain_lobby_class_name
   - obj_fish_count
   - obj_kabocha_lobby_class_name

@@ -479,11 +479,11 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-u8 *load_enemy_bml_resource_named(void *, void *);
+u8 *load_enemy_bml_resource_named(void *, const void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 *mem_alloc(s32);
 void spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
-extern u8 lbl_8043AAA4[];
+extern const u8 lbl_8043AAA4[26];
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 
@@ -793,6 +793,7 @@ void TLobby::load_dimedian_resources() {
         }
     }
 }
+extern "C" __declspec(section ".rodata") const u8 lbl_8043AAA4[26] = "bm_ene_df3_dimedian_a.bml";
 #undef CHAIN_800A8118
 #undef RES_800A8118
 #undef dimedian_resource_descriptor

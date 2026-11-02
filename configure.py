@@ -435,6 +435,12 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneDD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/misc/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/TAdChrMoveEffectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/boss/TObjBoss2CeilJunk.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/TAdChrSelSlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/item/TObjContainerIdo_8018BEE4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TPlyPhotonChair.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TLazerFenceSw.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TObjChip: render's colour template sits after draw_chips' in .rodata
     # while render comes first in .text, so the source runs backwards.
     "pso/object/TObjChip.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

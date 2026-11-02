@@ -12,6 +12,70 @@
 #include "pso/map/FloorArea.h"
 
 extern "C" {
+extern char lbl_8044B258[];
+extern char lbl_8044B264[];
+extern char lbl_8044B274[];
+extern char lbl_8044B284[];
+extern char lbl_8044B294[];
+extern char lbl_8044B2A0[];
+extern char lbl_8044B2B0[];
+extern char lbl_8044B2C0[];
+extern char lbl_8044B2D0[];
+extern char lbl_8044B2E0[];
+extern char lbl_8044B2F0[];
+extern char lbl_8044B300[];
+extern char lbl_8044B30C[];
+extern char lbl_8044B31C[];
+extern char lbl_8044B32C[];
+extern char lbl_8044B33C[];
+extern char lbl_8044B34C[];
+extern char lbl_8044B35C[];
+extern char lbl_8044B368[];
+extern char lbl_8044B378[];
+extern char lbl_8044B388[];
+extern char lbl_8044B398[];
+extern char lbl_8044B3A8[];
+extern char lbl_8044B3B8[];
+extern char lbl_8044B3C8[];
+extern char lbl_8044B3D8[];
+extern char lbl_8044B3EC[];
+extern char lbl_8044B400[];
+extern char lbl_8044B414[];
+extern char lbl_8044B428[];
+extern char lbl_8044B43C[];
+extern char lbl_8044B450[];
+extern char lbl_8044B460[];
+extern char lbl_8044B474[];
+extern char lbl_8044B488[];
+extern char lbl_8044B49C[];
+extern char lbl_8044B4B0[];
+extern char lbl_8044B4C4[];
+extern char lbl_8044B4D8[];
+extern char lbl_8044B4E8[];
+extern char lbl_8044B4FC[];
+extern char lbl_8044B510[];
+extern char lbl_8044B524[];
+extern char lbl_8044B538[];
+extern char lbl_8044B54C[];
+extern char lbl_8044B55C[];
+extern char lbl_8044B570[];
+extern char lbl_8044B584[];
+extern char lbl_8044B598[];
+extern char lbl_8044B5AC[];
+extern char lbl_8044B5C0[];
+extern char lbl_8044B5D0[];
+extern char lbl_8044B5E4[];
+extern char lbl_8044B5F8[];
+extern char lbl_8044B60C[];
+extern char lbl_8044B620[];
+extern char lbl_8044B634[];
+extern char lbl_8044B640[];
+extern char lbl_8044B64C[];
+extern char lbl_8044BA50[];
+extern char lbl_8044BA64[];
+extern char lbl_8044BA7C[];
+extern char lbl_8044BA90[];
+extern char lbl_8044BAA8[];
 extern char lbl_8044B24C[];
 extern char lbl_8044B240[];
 extern char lbl_8044B234[];
@@ -181,22 +245,33 @@ __declspec(section ".data") const char *lbl_804C8FA0[2] = { lbl_8044B228, lbl_80
 __declspec(section ".data") const char *lbl_804C8FA8[2] = { lbl_8044B234, lbl_8044B234 };
 __declspec(section ".data") const char *lbl_804C8FB0[2] = { lbl_8044B240, lbl_8044B240 };
 __declspec(section ".data") const char *lbl_804C8FB8[2] = { lbl_8044B24C, lbl_8044B24C };
+/* {name list, entry count} per floor (inferred) */
+struct FloorSceneEntry {
+    const char **names;
+    s32 count;
+};
+FloorSceneEntry lbl_804C8FC0[36] = { { lbl_804C8C60, 1 }, { lbl_804C8C68, 1 }, { lbl_804C8C70, 1 }, { lbl_804C8C78, 6 }, { lbl_804C8CA8, 5 }, { lbl_804C8CD0, 6 }, { lbl_804C8D00, 6 }, { lbl_804C8D30, 6 }, { lbl_804C8D60, 5 }, { lbl_804C8D88, 5 }, { lbl_804C8DB0, 5 }, { lbl_804C8DD8, 1 }, { lbl_804C8DE0, 1 }, { lbl_804C8DE8, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
+__declspec(section ".data") const char *lbl_804C90E0[2] = { lbl_8044B258, lbl_8044B264 };
+__declspec(section ".data") const char *lbl_804C90E8[2] = { lbl_8044B274, lbl_8044B274 };
+__declspec(section ".data") const char *lbl_804C90F0[2] = { lbl_8044B284, lbl_8044B284 };
+const char *lbl_804C90F8[12] = { lbl_8044B294, lbl_8044B2A0, lbl_8044B294, lbl_8044B2B0, lbl_8044B294, lbl_8044B2C0, lbl_8044B294, lbl_8044B2D0, lbl_8044B294, lbl_8044B2E0, lbl_8044B294, lbl_8044B2F0 };
+const char *lbl_804C9128[10] = { lbl_8044B300, lbl_8044B30C, lbl_8044B300, lbl_8044B31C, lbl_8044B300, lbl_8044B32C, lbl_8044B300, lbl_8044B33C, lbl_8044B300, lbl_8044B34C };
+const char *lbl_804C9150[12] = { lbl_8044B35C, lbl_8044B368, lbl_8044B35C, lbl_8044B378, lbl_8044B35C, lbl_8044B388, lbl_8044B35C, lbl_8044B398, lbl_8044B35C, lbl_8044B3A8, lbl_8044B35C, lbl_8044B3B8 };
+const char *lbl_804C9180[12] = { lbl_8044B3C8, lbl_8044B3D8, lbl_8044B3C8, lbl_8044B3EC, lbl_8044B3C8, lbl_8044B400, lbl_8044B3C8, lbl_8044B414, lbl_8044B3C8, lbl_8044B428, lbl_8044B3C8, lbl_8044B43C };
+const char *lbl_804C91B0[12] = { lbl_8044B450, lbl_8044B460, lbl_8044B450, lbl_8044B474, lbl_8044B450, lbl_8044B488, lbl_8044B450, lbl_8044B49C, lbl_8044B450, lbl_8044B4B0, lbl_8044B450, lbl_8044B4C4 };
+const char *lbl_804C91E0[10] = { lbl_8044B4D8, lbl_8044B4E8, lbl_8044B4D8, lbl_8044B4FC, lbl_8044B4D8, lbl_8044B510, lbl_8044B4D8, lbl_8044B524, lbl_8044B4D8, lbl_8044B538 };
+const char *lbl_804C9208[10] = { lbl_8044B54C, lbl_8044B55C, lbl_8044B54C, lbl_8044B570, lbl_8044B54C, lbl_8044B584, lbl_8044B54C, lbl_8044B598, lbl_8044B54C, lbl_8044B5AC };
+const char *lbl_804C9230[10] = { lbl_8044B5C0, lbl_8044B5D0, lbl_8044B5C0, lbl_8044B5E4, lbl_8044B5C0, lbl_8044B5F8, lbl_8044B5C0, lbl_8044B60C, lbl_8044B5C0, lbl_8044B620 };
+__declspec(section ".data") const char *lbl_804C9258[2] = { lbl_8044B634, lbl_8044B634 };
+__declspec(section ".data") const char *lbl_804C9260[2] = { lbl_8044B640, lbl_8044B640 };
+__declspec(section ".data") const char *lbl_804C9268[2] = { lbl_8044B64C, lbl_8044B64C };
+FloorSceneEntry floor_scene_table[36] = { { lbl_804C90E0, 1 }, { lbl_804C90E8, 1 }, { lbl_804C90F0, 1 }, { lbl_804C90F8, 6 }, { lbl_804C9128, 5 }, { lbl_804C9150, 6 }, { lbl_804C9180, 6 }, { lbl_804C91B0, 6 }, { lbl_804C91E0, 5 }, { lbl_804C9208, 5 }, { lbl_804C9230, 5 }, { lbl_804C9258, 1 }, { lbl_804C9260, 1 }, { lbl_804C9268, 1 }, { lbl_804C8DF0, 1 }, { lbl_804C8DF8, 15 }, { lbl_804C8E70, 3 }, { lbl_804C8E88, 3 }, { lbl_804C8EA0, 1 }, { lbl_804C8ED8, 3 }, { lbl_804C8EF0, 3 }, { lbl_804C8EA8, 3 }, { lbl_804C8EC0, 3 }, { lbl_804C8F08, 1 }, { lbl_804C8F10, 1 }, { lbl_804C8F18, 1 }, { lbl_804C8F20, 3 }, { lbl_804C8F38, 1 }, { lbl_804C8F70, 3 }, { lbl_804C8F88, 3 }, { lbl_804C8FA0, 1 }, { lbl_804C8FA8, 1 }, { lbl_804C8FB0, 1 }, { lbl_804C8FB8, 1 }, { lbl_804C8F40, 1 }, { lbl_804C8F48, 5 } };
+s32 forest_rel_filename_table[6] = { (s32)lbl_8044BA50, (s32)lbl_8044BA64, (s32)lbl_8044BA7C, (s32)lbl_8044BA90, (s32)lbl_8044BAA8, 0 };
 }
 
 
-struct RecoveredGlobal_80207E88_lbl_804C8FC0 {
-    s32 value;
-    u8 remaining[0x11C];
-};
-
-struct RecoveredGlobal_80207E88_lbl_804C9270 {
-    s32 value;
-    u8 remaining[0x11C];
-};
 
 extern "C" {
-extern RecoveredGlobal_80207E88_lbl_804C8FC0 lbl_804C8FC0;
-extern RecoveredGlobal_80207E88_lbl_804C9270 floor_scene_table;
 s32 get_floor_scene_table(s32 arg0);
 void reset_story_select__6TLobbyFv(void);
 int TLobby__sub_80207E24(void* p);
@@ -225,16 +300,14 @@ int TLobby__sub_80207E24(void* p) { return copy_table_entries__6TLobbyFUl(p); }
 void TLobby__sub_80207E44(void) {  }
 int TLobby__sub_80207E48(void* p) { return randomize_adventure_maps(p); }
 int TLobby::lookup_scene_object(void* p) { return ((int (*)(void*))get_floor_map_selection)(p); }
-typedef char RecoveredGlobal_80207E88_lbl_804C8FC0_size[sizeof(RecoveredGlobal_80207E88_lbl_804C8FC0) == 0x120 ? 1 : -1];
-typedef char RecoveredGlobal_80207E88_lbl_804C9270_size[sizeof(RecoveredGlobal_80207E88_lbl_804C9270) == 0x120 ? 1 : -1];
 s32 get_floor_scene_table(s32 arg0) {
     if (arg0 > 0x23) {
         return 0;
     }
     if (TLobby::is_online_ready() != 0) {
-        return *(s32 *)((s8 *)((u8 *)&floor_scene_table.value + (arg0 * 8)) + 0);
+        return (s32)floor_scene_table[arg0].names;
     }
-    return *(s32 *)((s8 *)((u8 *)&lbl_804C8FC0.value + (arg0 * 8)) + 0);
+    return (s32)lbl_804C8FC0[arg0].names;
 }
 
 int TLobby__sub_80207F10(void* p);
@@ -393,7 +466,6 @@ s32 TLobby::get_drop_item_mode() {
 
 s32 load_relocatable_file(s32 arg0, s32 arg1);
 
-extern s32 forest_rel_filename_table[];
 extern s32 TLobby__data_805D6068;
 extern s32 lbl_805D606C;
 extern s32 *lbl_805D6070;

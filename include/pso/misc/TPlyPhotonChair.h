@@ -33,5 +33,7 @@ struct TPlyPhotonChair : public TObjBase {
     u8 unk_D4[0x10];
 };
 
+extern const char *TPlyPhotonChair__class_name;
+
 typedef char TPlyPhotonChair_size[sizeof(TPlyPhotonChair) == 0xE4 ? 1 : -1];
 #endif

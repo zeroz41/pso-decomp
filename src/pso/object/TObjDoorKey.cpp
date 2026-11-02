@@ -91,16 +91,16 @@ void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern u8 door_key_beam_color_table[][0x10];
+extern NJS_ARGB door_key_beam_color_table[10];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void play_sound_effect(int, void *, int, int);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
+extern CollisionBody TObjDoorKey__collision_body_parts[];
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
-extern u8 TObjDoorKey__collision_body_parts[];
 extern s32 __vt__11TObjDoorKey[];
 extern s32 TObjDoorKey__class_name;
 extern const f32 lbl_805DBE0C;
@@ -162,7 +162,7 @@ s32 TObjDoorKey::draw_active_beam() {
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    set_constant_material((const NJS_ARGB *)(((f32 *)door_key_beam_color_table[arg0->f8C])));
+    set_constant_material(&door_key_beam_color_table[arg0->f8C]);
     draw_ginja_object((void *)TObjDoorKey__ginja_model_table[1]);
     rotate_matrix_y(0, arg0->fF0);
     s32 *g = TObjDoorKey__ginja_model_table;
@@ -184,7 +184,7 @@ s32 TObjDoorKey::draw_inactive_badge() {
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    set_constant_material((const NJS_ARGB *)(((f32 *)door_key_beam_color_table[arg0->f8C])));
+    set_constant_material(&door_key_beam_color_table[arg0->f8C]);
     s32 *g = TObjDoorKey__ginja_model_table;
     ((TObjDoorJung *)(((Node_8018FCD8 *)g[2])->f4))->free_children((void *)((u16)arg0->f8C));
     draw_ginja_object((void *)g[2]);
@@ -342,4 +342,20 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
 __declspec(section ".data") const char *abeno_fs_obj001_fosuno_model_names[4] = { lbl_80445650, lbl_8044566C, lbl_80445684, NULL };
 BmlResourceDescriptor TObjDoorKey__resource_descriptor = { lbl_804456A0, abeno_fs_obj001_fosuno_model_names, abeno_fs_obj001_fosuno_motion_names, 3, 0 };
 __declspec(section ".sdata") const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
+CollisionBody TObjDoorKey__collision_body_parts[] = {
+    {{0.0f, 10.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
+};
+/* beam colour (a, r, g, b) per key id */
+NJS_ARGB door_key_beam_color_table[10] = {
+    { 1.0f, 0.8235294f, 0.09803922f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.8235294f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.8235294f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.5019608f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.5019608f, 0.8235294f },
+    { 1.0f, 0.7058824f, 0.9019608f, 0.09803922f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
+    { 1.0f, 1.0f, 1.0f, 1.0f },
+};
 }
