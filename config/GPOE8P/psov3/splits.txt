@@ -4895,7 +4895,7 @@ pso/misc/TNpcPlayer.cpp:
 	.text       start:0x8014DF78 end:0x8015302C
 	.ctors      start:0x80433F84 end:0x80433F88
 	.rodata     start:0x8043FF68 end:0x8043FFE8
-	.data       start:0x804ABC90 end:0x804AF78C
+	.data       start:0x804ABC90 end:0x804AF7B0
 	.bss        start:0x8050CF68 end:0x8050D430
 	.sdata2     start:0x805DB1F0 end:0x805DB208
 

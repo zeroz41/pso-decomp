@@ -2959,6 +2959,103 @@ void TNpcPlayer::send_walk_request() {
     }
 }
 
+
+
+struct Obj_80150EC4 { u8 pad0[0x30]; u32 flags30; u8 pad34[0x38 - 0x34]; Vec_8014E3B0 pos; };
+
+struct Owner_80150EC4 { u8 pad[0x94]; Obj_80150EC4 *obj; };
+
+struct Npc_80150EC4 {
+    u8 pad0[0x24];
+    s32 f24;
+    u8 pad28[0x40 - 0x28];
+    f32 run_distance;
+    u8 pad44[0x5C - 0x44];
+    u8 counters[0x78 - 0x5C];
+    Owner_80150EC4 *owner;
+    u32 state;
+    u32 flags;
+    u8 pad84[0x92 - 0x84];
+    s16 action;
+    u8 pad94[0xAC - 0x94];
+    Vec_8014E3B0 pos;
+    u8 padB8[0xD0 - 0xB8];
+    Vec_8014E3B0 home;
+    Vec_8014E3B0 goal;
+};
+
+extern s32 lbl_805D6EA0;
+
+#pragma push
+#pragma opt_common_subs off
+void TNpcPlayer::deliver_partner_action() {
+    Npc_80150EC4 *self = (Npc_80150EC4 *)this;
+    Vec_8014E3B0 d;
+    f32 len;
+
+    if ((self->flags & 4) && !(lbl_805D6EA0 & 2)) {
+        deliver_partner_chatter((Npc_8014E250 *)this);
+    }
+    if (((TObjPlayer *)self->owner->obj)->test_action_mask(2) == 0) {
+        return;
+    }
+    switch (self->state) {
+    case 0:
+        VecCopy__FP3VecPC3Vec(&self->pos, VecCopy__FP3VecPC3Vec(&self->home, (int)&self->goal));
+        increment_partner_counter((s32)&self->counters, 4);
+        if ((s16)get_partner_counter((s32)&self->counters, 4) == 5401) {
+            self->flags &= ~4;
+            self->f24 = 25;
+            set_partner_counter((s32)&self->counters, 4, 0);
+        }
+        if (clamp_partner_counter((s32)&self->counters, 4, 5400) != 0) {
+            request_chatter(11);
+        }
+        break;
+    case 1:
+        d.x = self->pos.x - self->owner->obj->pos.x;
+        d.y = TNpcPlayer__data_805DB1F0;
+        d.z = self->pos.z - self->owner->obj->pos.z;
+        len = vector_length(&d);
+        if (len <= TNpcPlayer__data_805DB23C) {
+            return;
+        }
+        if (self->owner->obj->flags30 & 0x100000) {
+            send_walk_request();
+        } else if (len <= self->run_distance) {
+            if (!(self->flags & 8)) {
+                send_walk_request();
+            } else {
+                send_run_request();
+            }
+        } else {
+            self->flags |= 8;
+            send_run_request();
+        }
+        break;
+    case 2:
+        update_combat_action();
+        break;
+    case 4:
+        break;
+    case 8:
+        dispatch_action(self->action);
+        break;
+    }
+    if (self->state != 2) {
+        reset_partner_counter((s32)&self->counters, 1);
+        reset_partner_counter((s32)&self->counters, 5);
+        self->flags &= ~0x8000;
+    }
+    if (self->state != 1) {
+        self->flags &= ~8;
+    }
+    if (self->state != 0) {
+        reset_partner_counter((s32)&self->counters, 4);
+    }
+}
+#pragma pop
+
 s32 select_recovery_action__10TNpcPlayerFv(Npc_801510F8 *self, s32 arg1) {
     u8 flags = 0;
     Tgt_801510F8 *tgt;
