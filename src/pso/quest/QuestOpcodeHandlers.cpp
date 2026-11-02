@@ -6725,3 +6725,10 @@ u16 read_be_u16(void) {
 }
 
 #undef memcpy
+
+s32 qst_args[8];
+s32 qst_call_stack[64];
+RecoveredGlobal_801EB73C_lbl_80512340 quest_player_name_buffer;
+RecoveredGlobal_801EB6B8_lbl_80512350 quest_player_class_name_buffer;
+BattleRules battle_rules;
+char qst_cstring_buffer[0x404];

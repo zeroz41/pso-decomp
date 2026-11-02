@@ -219,3 +219,5 @@ void TAdMultiPlyChrSelectGC__sub_802DC310(void *arg0) {
 }
 
 }
+
+u8 player_number_text_buffer[0x80];

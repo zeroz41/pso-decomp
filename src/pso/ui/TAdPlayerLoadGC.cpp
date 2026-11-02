@@ -394,3 +394,5 @@ void *__vt__15TAdSubPlyItemGC[6] = {
 };
 
 }
+
+u8 level_text_buffer[0x40];

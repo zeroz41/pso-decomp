@@ -399,3 +399,5 @@ void TLobby::init_id_tables() {
         TLobby__data_805D6144[i].b = v;
     }
 }
+
+s16 quest_floor_designations[0x14];

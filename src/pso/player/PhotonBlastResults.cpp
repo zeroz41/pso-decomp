@@ -453,3 +453,6 @@ void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq) {
         break;
     }
 }
+
+s32 photon_blast_donation_flags[4];
+Rec_801A8868 photon_blast_sequence_table[4];

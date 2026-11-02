@@ -1195,3 +1195,7 @@ s32 TObjCollidable::access_object_saved_state(void *lobby, s16 arg2) {
     return 1;
 }
 }
+
+s32 TObjPlayer__data_8050D460[0x18C];
+int player_battle_param_table[0x10];
+unsigned char lbl_8050DAD0[0x80];

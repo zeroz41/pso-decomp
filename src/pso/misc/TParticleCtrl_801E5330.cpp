@@ -119,3 +119,6 @@ void init_particle_sprite_atlas(void) {
         TParticleCtrl__data_80511F70[i] = 0;
     }
 }
+
+void *TParticleCtrl__data_80511F70[0x6C];
+f32 particle_sprite_atlas_uv_rects[0x10][4];

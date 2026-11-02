@@ -114,3 +114,5 @@ void TObjPlayer__sub_802EE574(void) {
 }
 
 }
+
+Light_802EE574 boss7_derolle_light_pool[11];

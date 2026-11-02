@@ -453,6 +453,7 @@ force_active:
   - TLanguage__class_name
   - TLazerFenceSw__ct
   - TLoadCtrl__ct
+  - TLobby__battle_team_table
   - TLobby__card_list_selected_index
   - TLobby__card_list_window
   - TLobby__current_dialog_window
@@ -1141,6 +1142,7 @@ force_active:
   - TObjNpcCloakroomBase__name
   - TObjNpcCloakroomBase__static_instance
   - TObjNpcEnemy__ct
+  - TObjNpcEnemy__entry_table
   - TObjNpcExpertBase__name
   - TObjNpcExpertBase__shared_resource
   - TObjNpcFemaleBase__ct
@@ -3243,6 +3245,10 @@ force_active:
   - bank_debit_meseta__Fll
   - bank_item_records_by_slot
   - barrier_energy01_collision_body_parts
+  - battle_intro_message_buffer
+  - battle_intro_value_table
+  - battle_mode_data_table
+  - battle_rules
   - beam_enter__11TBoss4Type2Fv
   - beam_idle__11TBoss4Type2Fv
   - beam_update__11TBoss4Type2Fv
@@ -6559,6 +6565,7 @@ force_active:
   - lbl_8050AAD4
   - lbl_8050BED0
   - lbl_8050EA64
+  - lbl_80511DD8
   - lbl_805137C8
   - lbl_80513918
   - lbl_80513F70
@@ -7076,6 +7083,7 @@ force_active:
   - lbl_805E03E0
   - lbl_805E03E4
   - lerp_follow_anchor__FP3VecP3VecPf
+  - level_text_buffer
   - level_to_reward__6TLobbyFl
   - light_node__13TOCapsuleLabo
   - load_all_floor_event_sets__6TLobbyFv
@@ -7433,6 +7441,7 @@ force_active:
   - on_unequip__8TItemMagFv
   - on_update_equipped__14TItemProShieldFv
   - online_ending_hex_line_param
+  - online_ending_hex_line_state
   - online_ending_quad_vertices
   - online_floor_map_variation_dimension_table
   - onlineending_dat_model_names
@@ -11627,6 +11636,7 @@ force_active:
   - player_light_index
   - player_motion_category_table
   - player_motion_clip_roots_b
+  - player_number_text_buffer
   - player_pla_archive_texture_names
   - player_pla_body_textures
   - player_pla_body_textures_names
@@ -12025,6 +12035,7 @@ force_active:
   - push_trail_entry__17TItemEffectWeaponFPCfPCf
   - qst_call_stack_pop
   - qst_call_stack_push
+  - qst_cstring_buffer
   - qst_label_address
   - query_battle_state__17TWindowReturnCityFv
   - query_default__12TBoss8DragonFv
@@ -12051,9 +12062,12 @@ force_active:
   - quest_download_file_header
   - quest_download_file_info
   - quest_download_file_slot
+  - quest_floor_designations
   - quest_list_battle_stage_table
   - quest_list_challenge_stage_table
   - quest_list_vm_instance
+  - quest_player_class_name_buffer
+  - quest_player_name_buffer
   - quest_vm_load__12TQuestListVMFv
   - queue_destruction__12TObjGrassWebFv
   - queue_destruction__12TQuestThreadFPv

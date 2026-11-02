@@ -696,3 +696,7 @@ Group_801A7428 photon_blast_attachment_table[7] = {
     {lbl_804C2B58, 6, lbl_804C3088, 4},
 };
 }
+
+Reg_801A7578 photon_blast_joint_origins[1];
+Ent_801A710C photon_blast_hit_queue[32];
+Ent_801A70C8 deferred_photon_blast_hit_queue[32];
