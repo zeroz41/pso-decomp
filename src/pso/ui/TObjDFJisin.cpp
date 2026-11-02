@@ -94,7 +94,6 @@ s32 minimap_render_dot(void *, int, int, int);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
 void normalize_vector(void *);
-extern const f32 lbl_805D8A60;
 void run_task__13TObjDFHormingFv(u8 *arg0);
 struct S_80050A68 {
     u8 pad0[0x18];
@@ -220,28 +219,6 @@ extern s32 game_difficulty_selection;
 extern const f32 lbl_805D8A30;
 extern const f32 lbl_805D8A34;
 extern const f32 lbl_805D8A48;
-extern const f32 lbl_805D8A64;
-extern const f32 lbl_805D8A68;
-extern const f32 lbl_805D8A6C;
-extern const f32 lbl_805D8A70;
-extern const f32 lbl_805D8A74;
-extern const f32 lbl_805D8A78;
-extern const f32 lbl_805D8A7C;
-extern const f32 lbl_805D8A80;
-extern const f32 lbl_805D8A84;
-extern const f32 lbl_805D8A88;
-extern const f32 lbl_805D8A8C;
-extern const f32 lbl_805D8A90;
-extern const f32 lbl_805D8A94;
-extern const f32 lbl_805D8A98;
-extern const f32 lbl_805D8A9C;
-extern const f32 lbl_805D8AA0;
-extern const f32 lbl_805D8AA4;
-extern const f32 lbl_805D8AA8;
-extern const f32 lbl_805D8AAC;
-extern const f32 lbl_805D8AB4;
-extern const f32 lbl_805D8AB8;
-extern const f32 lbl_805D8ABC;
 
 int queue_destruction__13TObjDFHormingFPv(void* p) { return ((int (*)(void*))queue_destruction__7TObjectFv)(p); }
 
@@ -278,7 +255,7 @@ void run_task__13TObjDFHormingFv(u8 *arg0) {
     ((TObjDFHorming *)arg0)->m_350 *= *(f32 *)((s8 *)arg0 + 0x354);
     vec3_add_to(arg0 + 0x2FC, arg0 + 0x348);
     {
-        s32 id = find_nearest_visible_player(arg0, 0, lbl_805D8A60);
+        s32 id = find_nearest_visible_player(arg0, 0, 7.5f);
         if (id != 0xFFFF && (p = (u8 *)get_player_by_client_id(id)) != NULL) {
             if (is_boss_active__13TObjDFHormingFv() != 0) {
                 s.a = 0;
@@ -345,24 +322,24 @@ u8 *TObjDFHorming__ct(u8 *arg0, s32 parent, s32 arg2, u16 arg3) {
         *(s32 *)&((TObjDFHorming *)arg0)->m_338 = 0x12C;
     }
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(VecCopy((Vec *)(arg0 + 0x33C), (const Vec *)((const Vec *)arg2))))));
-    scale = newton_sqrtf(lbl_805D8A64);
-    ang = (s32)(lbl_805D8A68 * (lbl_805D8A6C * (f32)rand() - lbl_805D8A70));
+    scale = newton_sqrtf(1.08f);
+    ang = (s32)(16384.0f * (0.000030517578f * (f32)rand() - 0.5f));
     p = (u8 *)get_player_by_client_id(((TObjDFHorming *)arg0)->m_334);
     if (p != NULL) {
         ang = 0;
     } else {
-        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - lbl_805D8A74, *(f32 *)((s8 *)p + 0x40)));
+        ang += (s32)(10430.38043493439 * atan2_float(*(f32 *)((s8 *)p + 0x38) - 10000.0f, *(f32 *)((s8 *)p + 0x40)));
     }
-    *(f32 *)((s8 *)arg0 + 0x348) = lbl_805D8A78 * sin_table_lookup(ang) / scale;
-    ((TObjDFHorming *)arg0)->m_350 = lbl_805D8A78 * cos_table_lookup(ang) / scale;
-    *(f32 *)((s8 *)arg0 + 0x34C) = lbl_805D8A7C / scale;
-    *(f32 *)((s8 *)arg0 + 0x354) = lbl_805D8A80;
+    *(f32 *)((s8 *)arg0 + 0x348) = 1.2f * sin_table_lookup(ang) / scale;
+    ((TObjDFHorming *)arg0)->m_350 = 1.2f * cos_table_lookup(ang) / scale;
+    *(f32 *)((s8 *)arg0 + 0x34C) = -6.0f / scale;
+    *(f32 *)((s8 *)arg0 + 0x354) = 6.0f;
     *(s32 *)&((TObjDFHorming *)arg0)->m_360 = *(s32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0x28);
     *(f32 *)((s8 *)arg0 + 0x364) = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x38)) + 0);
     if (*(f32 *)((s8 *)arg0 + 0x364) < lbl_805D8A30 || *(f32 *)((s8 *)arg0 + 0x364) > lbl_805D8A34) {
-        *(f32 *)((s8 *)arg0 + 0x364) = lbl_805D8A70;
+        *(f32 *)((s8 *)arg0 + 0x364) = 0.5f;
     }
-    *(f32 *)((s8 *)arg0 + 0x378) = lbl_805D8A88 * *(f32 *)((s8 *)arg0 + 0x364) + lbl_805D8A84;
+    *(f32 *)((s8 *)arg0 + 0x378) = -50.0f * *(f32 *)((s8 *)arg0 + 0x364) + 60.0f;
     for (i = 0; i < 2; i++) {
         if ((((Obj_80050AF8 *)arg0)->objs[i] = (u32)create_particle_emitter(arg0 + 0x2FC, TObjDFJisin__particle_emitter_id_table[i])) != 0) {
             ((TParticleCtrl *)(((Obj_80050AF8 *)arg0)->objs[i]))->set_flags(0x40);
@@ -396,7 +373,7 @@ void damage_players_near_point(s32 arg0, Vec_80050D74 *arg1) {
         p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
             !(p->class_flags & CLASS_FLAG_ANDROID) &&
-            !(xyz_distance(&pos, &p->pos) > lbl_805D8A8C)) {
+            !(xyz_distance(&pos, &p->pos) > 20.0f)) {
             Hit_80050D74 h = hit;
             p->m21(TBoss4DarkFalz__sub_8004C1B4(), &h, 0, -1, -1);
         }
@@ -407,7 +384,7 @@ void fn_spawn_particle_f3_with_flags(s32 arg0, s32 arg1) {
     Vec position;
     u32 particle_effect;
     VecCopy((Vec *)(&position.x), (const Vec *)(arg1));
-    position.y += lbl_805D8A90;
+    position.y += 2.0f;
     particle_effect = (u32)spawn_particle_effect((&position.x), 0xF3);
     if (particle_effect != 0U) {
         ((TParticleCtrl *)particle_effect)->set_flags(0x40);
@@ -423,10 +400,10 @@ void TObjDFJisin::run_task() {
     s32 count;
     f32 max;
 
-    step = (s32)(lbl_805D8A94 / (lbl_805D8A98 * ((Obj_80050EB4 *)this)->radius));
+    step = (s32)(1638400.0f / (6.28f * ((Obj_80050EB4 *)this)->radius));
     count = 0;
     v.y = lbl_805D8A30;
-    max = lbl_805D8A9C;
+    max = 255.0f;
     for (ang = 0; ang < 0x10000; ang += step) {
         v.x = ((Obj_80050EB4 *)this)->radius * sin_table_lookup(ang) + ((Obj_80050EB4 *)this)->cx;
         v.z = ((Obj_80050EB4 *)this)->radius * cos_table_lookup(ang) + ((Obj_80050EB4 *)this)->cz;
@@ -436,11 +413,11 @@ void TObjDFJisin::run_task() {
             count++;
         }
     }
-    if (((Obj_80050EB4 *)this)->radius > lbl_805D8AA0 && count == 0) {
+    if (((Obj_80050EB4 *)this)->radius > 300.0f && count == 0) {
         queue_destruction__7TObjectFv(this);
         return;
     }
-    ((Obj_80050EB4 *)this)->radius += lbl_805D8AA4;
+    ((Obj_80050EB4 *)this)->radius += 25.0f;
 }
 #pragma pop
 
@@ -451,10 +428,10 @@ u8 *TObjDFJisin__ct(u8 *object, u8 *arg1, s32 arg2) {
     __ct__7TObjectFP7TObject(object, arg1);
     *(s32 **)((s8 *)object + 0x18) = (s32 *)__vt__11TObjDFJisin;
     *(s32 *)((s8 *)object + 0) = (s32) TObjDFJisin__name;
-    *(f32 *)((s8 *)object + 0x1C) = (f32) (lbl_805D8AA0 * sin_table_lookup(arg2));
+    *(f32 *)((s8 *)object + 0x1C) = (f32) (300.0f * sin_table_lookup(arg2));
     *(f32 *)((s8 *)object + 0x20) = (f32) lbl_805D8A30;
-    *(f32 *)((s8 *)object + 0x24) = (f32) (lbl_805D8AA8 * cos_table_lookup(arg2));
-    *(f32 *)((s8 *)object + 0x28) = (f32) lbl_805D8AA4;
+    *(f32 *)((s8 *)object + 0x24) = (f32) (-300.0f * cos_table_lookup(arg2));
+    *(f32 *)((s8 *)object + 0x28) = (f32) 25.0f;
     return object;
 }
 
@@ -506,9 +483,7 @@ void TObjDFRecBall::run_task() {
         queue_destruction__7TObjectFv(o);
         return;
     }
-    f32 sp = o->speed + lbl_805D8AAC;
-    o->speed = sp;
-    if (sp > 9.0f) {
+    if ((o->speed += 0.26666668f) > 9.0f) {
         o->speed = 9.0f;
     }
     VecCopy((Vec *)&d, (const Vec *)&o->target);
@@ -526,9 +501,9 @@ void TObjDFRecBall::run_task() {
         o->vel.y = lbl_805D8A30;
         o->vel.z = lbl_805D8A30;
     }
-    o->vel.x = o->speed * (lbl_805D8AB4 * o->vel.x + lbl_805D8AB8 * d.x);
-    o->vel.y = o->speed * (lbl_805D8AB4 * o->vel.y + lbl_805D8AB8 * d.y);
-    o->vel.z = o->speed * (lbl_805D8AB4 * o->vel.z + lbl_805D8AB8 * d.z);
+    o->vel.x = o->speed * (0.9f * o->vel.x + 0.100000024f * d.x);
+    o->vel.y = o->speed * (0.9f * o->vel.y + 0.100000024f * d.y);
+    o->vel.z = o->speed * (0.9f * o->vel.z + 0.100000024f * d.z);
     vec3_add_to(&o->pos, &o->vel);
     ((TParticleCtrl *)o->model)->set_position(&o->pos);
     if (((f32 (*)(void *, void *))xyz_distance)(&o->pos, &o->target) <= o->speed) {
@@ -551,7 +526,7 @@ u8 *TObjDFRecBall__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3) {
     *(s32 *)((s8 *)object + 0) = (s32) TObjDFRecBall__name;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
     VecCopy((Vec *)(object + 0x28), (const Vec *)arg3);
-    temp_r31 = (s32) (lbl_805D8ABC * (lbl_805D8A6C * (f32) rand()));
+    temp_r31 = (s32) (65536.0f * (0.000030517578f * (f32) rand()));
     *(f32 *)((s8 *)object + 0x34) = sin_table_lookup(temp_r31);
     *(f32 *)((s8 *)object + 0x38) = (f32) lbl_805D8A30;
     *(f32 *)((s8 *)object + 0x3C) = cos_table_lookup(temp_r31);
@@ -907,7 +882,6 @@ RecoveredGlobal_80051AD0_lbl_804FF228 lbl_804FF228;
 RecoveredGlobal_80051AD0_lbl_804FF234 lbl_804FF234;
 RecoveredGlobal_80051A18_lbl_804FF240 df_captured_matrix_pair;
 s32 is_active__14TBoss4DarkFalzFv();
-extern const f32 lbl_805D8AC0;
 void TObjDFTenchuFuru__sub_80051A7C(void);
 void *__nw__7TObjectFUl(int);
 
@@ -916,7 +890,7 @@ void *__nw__7TObjectFUl(int);
 void TObjDFTenchuFuru::run_task() {
     u8 *arg0 = (u8 *)this;
     s32 temp_r0;
-    this->m_20 = (f32) (this->m_20 + lbl_805D8AC0);
+    this->m_20 += -60.0f;
     if ((u32) this->m_2c != 0U) {
         ((TParticleCtrl *)this->m_2c)->set_position((u8 *)&this->unk_1C);
     }
@@ -939,7 +913,7 @@ u8 *TObjDFTenchuFuru__ct(u8 *object, u8 *arg1, u8 *arg2) {
     *(s32 *)((s8 *)object + 0) = (s32) TObjDFTenchuFuru__name;
     ((TObjDFTenchuFuru *)object)->m_28 = 5;
     VecCopy((Vec *)(object + 0x1C), (const Vec *)arg2);
-    ((TObjDFTenchuFuru *)object)->m_20 = (f32) (((TObjDFTenchuFuru *)object)->m_20 + lbl_805D8AA0);
+    ((TObjDFTenchuFuru *)object)->m_20 += 300.0f;
     particle_emitter = (u8 *)(create_particle_emitter((object + 0x1C), 0x134));
     ((TObjDFTenchuFuru *)object)->m_2c = particle_emitter;
     if (particle_emitter != NULL) {

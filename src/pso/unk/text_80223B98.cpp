@@ -49,11 +49,18 @@ struct Tbl_80224190 { Ent_80224190 *base; u8 count; };
 struct Ctr_80224190 { u8 buf[0x74]; };
 
 extern RecoveredGlobal_80224404_lbl_80513F20 shop_tool_stock_buffers;
+const Pair_802242F8 shop_tool_group_subtype_table[16] = {
+    { 0, 0 }, { 0, 1 }, { 0, 2 }, { 1, 0 }, { 1, 1 }, { 1, 2 }, { 6, 0 }, { 6, 1 },
+    { 3, 0 }, { 4, 0 }, { 5, 0 }, { 7, 0 }, { 8, 0 }, { 9, 0 }, { 10, 0 }, { -1, -1 },
+};
+const s32 shop_technique_pool_table[19] = {
+    0, 3, 6, 15, 16, 13, 10, 11, 12, 1, 4, 7, 14, 17, 2, 5, 8, 9, 18,
+};
+
 extern "C" {
 s32 memset(void *, int, int);
 extern RecoveredGlobal_802243D4_lbl_80513F10 shop_tool_flags;
 void init__9TItemDataFv(void *);
-extern Pair_802242F8 shop_tool_group_subtype_table[];
 extern s32 shop_tool_stock_counts[];
 extern Tbl_802242F8 **lobby_tool_random_rel;
 extern s32 shop_tool_stock_level;
@@ -61,7 +68,6 @@ s32 rand();
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);
-extern s32 shop_technique_pool_table[];
 s32 TLobby__sub_80223E64(Item_802242F8 *, s32);
 s32 fn_80223B98(s32 arg0) {
     if ((arg0 >= 1) && (arg0 <= 0xA)) {

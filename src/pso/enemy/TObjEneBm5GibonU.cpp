@@ -220,7 +220,6 @@ void turn_toward_angle__16TObjEneBm5GibonUFPvi(Ene_800D0FDC *arg0, s32 arg1);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_sound_effect(void *, void *, s32, s32);
 void TObjEneBm5GibonU__sub_800CEBD8(u8 *arg0, s32 arg1);
-extern const f64 TObjEneBm5GibonU__data_8043C0F8;
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -2140,9 +2139,9 @@ void TObjEneBm5GibonU::state_cast_technique(s32 arg1) {
                     rotate_vector_by_matrix(0, &v, &v);
                     pop_matrices(1);
                     if (F(s32, 0x468) != 1) {
-                        ang[0] = (s32)(TObjEneBm5GibonU__data_8043C0F8 * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
+                        ang[0] = (s32)(10430.38043493439 * atan2_float(v.z, newton_sqrtf(v.x * v.x + v.y * v.y)));
                         ang[1] = 0;
-                        ang[2] = -(s32)(TObjEneBm5GibonU__data_8043C0F8 * atan2_float(v.x, v.y));
+                        ang[2] = -(s32)(10430.38043493439 * atan2_float(v.x, v.y));
                         spawn_directional_particle(&p, ang, 0xCC);
                     }
                 }
@@ -2181,7 +2180,7 @@ void TObjEneBm5GibonU__sub_800CDB98(Obj_800CDB98 *actor, s32 arg1) {
             s32 i;
             ((TObjEneDD_ST *)actor)->enemy_copy_target_destination();
             ((TObjEneDD *)actor)->update_velocity();
-            actor->f528 = (s32)(TObjEneBm5GibonU__data_8043C0F8 * atan2_float(actor->f3a0, actor->f3a8));
+            actor->f528 = (s32)(10430.38043493439 * atan2_float(actor->f3a0, actor->f3a8));
             for (i = 0; i < 3; i++) {
                 d = offs[i] * 0x1FFF;
                 ang = actor->f528 + 0x10000 + d - 0x8000;
@@ -3210,7 +3209,7 @@ void TObjEneBm5GibonU::run_idle_state(s32 arg1) {
 
       }
 
-      ((Ene_800CEEE8 *) ((u8 *)this))->f60 = approach_angle_limited(((Ene_800CEEE8 *) ((u8 *)this))->f60, (s32) (TObjEneBm5GibonU__data_8043C0F8 * atan2_float(((Ene_800CEEE8 *) ((u8 *)this))->pos.x - ((Ene_800CEEE8 *) ((u8 *)this))->f44, ((Ene_800CEEE8 *) ((u8 *)this))->pos.z - ((Ene_800CEEE8 *) ((u8 *)this))->f4C)), 0x200);
+      ((Ene_800CEEE8 *) ((u8 *)this))->f60 = approach_angle_limited(((Ene_800CEEE8 *) ((u8 *)this))->f60, (s32) (10430.38043493439 * atan2_float(((Ene_800CEEE8 *) ((u8 *)this))->pos.x - ((Ene_800CEEE8 *) ((u8 *)this))->f44, ((Ene_800CEEE8 *) ((u8 *)this))->pos.z - ((Ene_800CEEE8 *) ((u8 *)this))->f4C)), 0x200);
       ((Ene_800CEEE8 *) ((u8 *)this))->f60 = (s16) ((Ene_800CEEE8 *) ((u8 *)this))->f60;
       ((Ene_800CEEE8 *) ((u8 *)this))->fC8 = TObjEneBm5GibonU__data_805DA1D0 * ((Ene_800CEEE8 *) ((u8 *)this))->f498;
       face_target();
@@ -3889,7 +3888,7 @@ s32 TObjEneBm5GibonU__sub_800D0968(u8 *arg0, int _w1) {
         *(f32 *)((s8 *)arg0 + 0x394) = (f32) (*(f32 *)((s8 *)arg0 + 0x394) + ((TObjEneBm5GibonU__data_805DA188 * temp_f4) + (temp_f5 * var_f0)));
         ((TObjEneBm5GibonU *)arg0)->m_39c = (f32) (((TObjEneBm5GibonU *)arg0)->m_39c + ((TObjEneBm5GibonU__data_805DA188 * temp_f5) - (temp_f4 * var_f0)));
         ((TObjEneDD *)arg0)->update_velocity();
-        return (s32) (TObjEneBm5GibonU__data_8043C0F8 * atan2_float((f64) *(f32 *)((s8 *)arg0 + 0x3A0), (f64) *(f32 *)((s8 *)arg0 + 0x3A8)));
+        return (s32) (10430.38043493439 * atan2_float((f64) *(f32 *)((s8 *)arg0 + 0x3A0), (f64) *(f32 *)((s8 *)arg0 + 0x3A8)));
     }
     *(f32 *)((s8 *)arg0 + 0x3A0) = sin_table_lookup((int) (((TObjEneBm5GibonU *)arg0)->rotation_y));
     *(f32 *)((s8 *)arg0 + 0x3A4) = (f32) 0.0f;
@@ -4027,7 +4026,7 @@ void calc_rotated_vector__16TObjEneBm5GibonUFPviPvPv(void *arg0, s32 arg1, void 
     temp_f1 = cos_table_lookup(arg1);
     *(f32 *)((s8 *)arg2 + 8) = (f32) ((temp_f1 * *(f32 *)((s8 *)arg0 + 0x3A8)) - (temp_f31 * *(f32 *)((s8 *)arg0 + 0x3A0)));
     *(f32 *)((s8 *)arg2 + 0) = (f32) ((temp_f31 * *(f32 *)((s8 *)arg0 + 0x3A8)) + (temp_f1 * *(f32 *)((s8 *)arg0 + 0x3A0)));
-    *arg3 = (s32) (TObjEneBm5GibonU__data_8043C0F8 * atan2_float(*(f32 *)((s8 *)arg2 + 0), *(f32 *)((s8 *)arg2 + 8)));
+    *arg3 = (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)arg2 + 0), *(f32 *)((s8 *)arg2 + 8)));
 }
 
 }
@@ -4129,7 +4128,7 @@ s32 TObjEneBm5GibonU::face_target() {
     q.z = arg0->pos.z + off.z;
     q.x = arg0->target->pos.x - q.x;
     q.z = arg0->target->pos.z - q.z;
-    turn_toward_angle__16TObjEneBm5GibonUFPvi((Ene_800D0FDC *)((Ene_800D0FDC *)arg0), (s32)((s32)(((const f64 *)&TObjEneBm5GibonU__data_8043C0F8)[0] * atan2_float(q.x, q.z))));
+    turn_toward_angle__16TObjEneBm5GibonUFPvi((Ene_800D0FDC *)((Ene_800D0FDC *)arg0), (s32)((s32)(10430.38043493439 * atan2_float(q.x, q.z))));
 }
 
 void turn_toward_angle__16TObjEneBm5GibonUFPvi(Ene_800D0FDC *arg0, s32 arg1) {

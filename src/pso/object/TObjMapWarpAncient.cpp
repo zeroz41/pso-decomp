@@ -59,11 +59,9 @@ extern s32 TObjGoalWarpAncient__class_name;
 
 s32 debug_print_area_num__12TObjAreaWarpFv();
 void debug_printf_at(s32 id, const char *fmt, ...);
-extern char lbl_80443288[];
-extern char lbl_804432A4[];
+const char lbl_80443288[] = "<- GOAL (POSITIVE: START)";
+const char lbl_804432A4[] = "<- START (NEGATIVE: GOAL)";
 s32 draw_debug_destinations__11TObjMapWarpFv();
-extern char lbl_804432C8[];
-extern char lbl_804432E8[];
 s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
@@ -221,6 +219,9 @@ void TObjMapWarpAncient::render() {
         pop_matrix();
     }
 }
+
+const char lbl_804432C8[] = "<- ONE WAY (POSITIVE: NORMAL)";
+const char lbl_804432E8[] = "<- NORMAL (NEGATIVE: ONE WAY)";
 
 void TObjMapWarpAncient::slot4C() {
     if ((s32) *(s32 *)((s8 *)this + 0x88) < 0) {

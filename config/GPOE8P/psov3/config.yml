@@ -414,6 +414,7 @@ force_active:
   - TChCrTagOccupation__vt4
   - TChCrTagPlGraphic__sub_802A3230
   - TChCrTag__vt4
+  - TChallenge4PItemSelect__item_table
   - TChallenge4PResult__slot_entries
   - TChallenge4P__ct
   - TCharaMaking__ct
@@ -4523,6 +4524,7 @@ force_active:
   - chain_saw_collision_body_part_table
   - chain_saw_damage_collision_body_parts
   - chainsaw_ginja_model_filenames
+  - challenge4p_item_select_text_ids
   - challenge_default_settings
   - challenge_force_items_stage_00
   - challenge_force_items_stage_01
@@ -8679,6 +8681,7 @@ force_active:
   - pack_status_flags__20TWindowSubStatusDispFUl
   - pack_three_colors__9TItemDataFPUc
   - pack_weapon_trail_color__FPv
+  - pad_button_map_table
   - pad_recalibration_counters
   - panarms_atk_zero_vec
   - paralysis_curse_timer_ct__FPUcUlllf

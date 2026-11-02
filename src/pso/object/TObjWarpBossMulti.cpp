@@ -10,6 +10,8 @@
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjWarpBoss.h"
 #include "pso/object/TObjWarpBossMulti.h"
+#include "pso/unk/text_803D853C.h"
+
 #include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TContainerAncient01.h"
@@ -25,6 +27,9 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
 #include "pso/map/FloorArea.h"
+
+const char *TObjWarpBoss__name = "TObjWarpBoss";
+const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
 
 struct VWarp_8019DD34 { char pad[0x18]; };
 struct TObjWarpBossMulti_8019DD34 : VWarp_8019DD34 {
@@ -231,7 +236,6 @@ void queue_destruction__7TObjectFv(void *);
 u16 register_entity_by_id(void *ov);
 void *TObjAreaWarp__ct(void *arg0);
 s32 get_boss_warp_destination(void);
-extern s32 TObjWarpBoss__name;
 extern const f32 lbl_805DC000;
 extern const f32 lbl_805DC018;
 extern "C" {
@@ -351,11 +355,10 @@ void *__dt__12TObjWarpBossFv(void *arg0, s16 arg1);
 struct Base2_8019f358_8019F22C { char pad[0x18]; };
 struct VObj2_8019f358_8019F22C : Base2_8019f358_8019F22C { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
 
-extern u8 lbl_8044663C[];
-extern u8 lbl_80446650[];
+const char lbl_8044663C[] = "<- NEXT STAGE No.";
+const char lbl_80446650[] = "<- KEY ID : %d";
 extern RecoveredGlobal_8019E418_lbl_8050E208 controller_input_state;
 extern u32 player_slot_table[];
-extern s32 TObjWarpBossMulti__name;
 extern s32 camera_ctrl_instance;
 extern s32 lbl_805D55C0;
 extern s32 __vt__17TObjWarpBossMulti[];
@@ -367,7 +370,7 @@ extern const f32 lbl_805DC014;
 extern const f32 lbl_805DC01C;
 extern const f32 lbl_805DC02C;
 
-void debug_printf_at(int, void *, ...);
+
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
@@ -607,7 +610,7 @@ Obj_8019E238 *TObjWarpBossMulti__ct(Obj_8019E238 *self, void * _w1, void * _w2) 
     int i;
     TObjAreaWarp__ct(self);
     self->vt18 = ((s32 *)&__vt__17TObjWarpBossMulti);
-    self->f0 = TObjWarpBossMulti__name;
+    self->f0 = (s32)TObjWarpBossMulti__name;
     self->fBC = get_boss_warp_destination();
     self->fA4 = 0;
     register_entity_by_id(self);
@@ -1232,7 +1235,7 @@ Obj_8019F578 *TObjWarpBoss__ct(Obj_8019F578 *self, int _w1, void * _w2) {
     int i;
     TObjAreaWarp__ct(self);
     self->vt18 = ((s32 *)&__vt__12TObjWarpBoss);
-    self->f0 = TObjWarpBoss__name;
+    self->f0 = (s32)TObjWarpBoss__name;
     self->fC4 = lbl_805DC000;
     self->fAC = lbl_805DC018;
     self->fBC = get_boss_warp_destination();
@@ -1346,7 +1349,3 @@ int get_boss_warp_confirmation_model(void) {  return (*(int *)&boss_warp_confirm
 int get_boss_warp_base_model(void) {  return (*(int *)&boss_warp_base_model); }
 }
 
-extern char lbl_80446618[];
-extern char lbl_80446628[];
-s32 TObjWarpBoss__name = (s32)lbl_80446618;
-s32 TObjWarpBossMulti__name = (s32)lbl_80446628;

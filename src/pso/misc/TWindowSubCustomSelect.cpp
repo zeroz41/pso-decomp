@@ -53,8 +53,6 @@ void *get_player_by_client_id(s32 i);
 s32 construct_with_parent__15TWindowAdditionFPv(void *, void *, s16, s32);
 s32 get_window_layout_position(int);
 void *reset_selection__20TWindowSubStatusDispFv(void *, Pos_80277AEC *);
-extern u8 custom_select_organic_action_table[];
-extern u8 custom_select_android_action_table[];
 extern u8 TWindowSubCustomSelect__window_settings[];
 extern s32 __vt__22TWindowSubCustomSelect[];
 extern s32 TWindowSubCustomSelect__class_name;
@@ -252,6 +250,19 @@ void *__dt__22TWindowSubCustomSelectFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
+const u32 custom_select_organic_action_table[40] = {
+    0x20000, 0x20001, 0x20002, 0x30000, 0x30006, 0x30003, 0x30001, 0x30007,
+    0x30004, 0x30002, 0x30008, 0x30005, 0x30009, 0x30012, 0, 0x3000F,
+    0x30010, 0x30011, 0x3000D, 0x3000A, 0x3000B, 0x3000C, 0x3000E, 0,
+    0x40000, 0x40001, 0x40002, 0x40003, 0x40004, 0x40005, 0x40006, 0x40007,
+    0x40008, 0x40009, 0x4000A, 0, 0x4000B, 0x4000C, 0, 0x80000,
+};
+const u32 custom_select_android_action_table[20] = {
+    0x20000, 0x20001, 0x20002, 0x40000, 0x40001, 0x40002, 0x40009, 0x4000A,
+    0, 0x4000B, 0x40008, 0, 0x4000D, 0x4000E, 0, 0x4000F,
+    0x40010, 0, 0x80000, 0,
+};
+
 #pragma push
 #pragma fp_contract on
 #pragma fp_contract on
@@ -274,9 +285,9 @@ u8 *TWindowSubCustomSelect__ct(TWindowSubCustomSelect *window_sub_custom_select,
         return (u8 *)window_sub_custom_select;
     }
     if (q->flags & 0x10) {
-        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = custom_select_android_action_table;
+        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = (u8 *)custom_select_android_action_table;
     } else {
-        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = custom_select_organic_action_table;
+        *(u8 **)((s8 *)window_sub_custom_select + 0x78) = (u8 *)custom_select_organic_action_table;
     }
     window_sub_custom_select->m_73 = 0;
     window_sub_custom_select->m_70 = 0;
