@@ -541,19 +541,12 @@ pso/unk/text_8004F6AC.cpp:
 pso/object/TObjDFDemo4.cpp:
 	.text       start:0x8004F8AC end:0x8004F904
 
-pso/unk/text_8004F904.cpp:
-	.text       start:0x8004F904 end:0x8004FA98
-
-pso/player/TObjPlayer_8004FA98.cpp:
-	.text       start:0x8004FA98 end:0x8004FE20
-	.rodata     start:0x80437440 end:0x80437458
-	.sdata2     start:0x805D8A08 end:0x805D8A20
-
-pso/unk/text_8004FE20.cpp:
-	.text       start:0x8004FE20 end:0x8004FFF8
-
 pso/object/TObjDFDemo5.cpp:
-	.text       start:0x8004FFF8 end:0x80050050
+	.text       start:0x8004F904 end:0x80050050
+	.rodata     start:0x80437418 end:0x80437458
+	.data       start:0x80485798 end:0x80485828
+	.sdata      start:0x805D27A0 end:0x805D27A4
+	.sdata2     start:0x805D8A08 end:0x805D8A20
 
 pso/unk/text_80050050.cpp:
 	.text       start:0x80050050 end:0x80050134

@@ -453,14 +453,14 @@ s32 TBoss4DarkFalz::count_active_players() {
     return count;
 }
 
-u8 TBoss4DarkFalz::is_ending_or_split_screen() {
-    int var_r31;
+int TBoss4DarkFalz::is_ending_or_split_screen() {
+    u8 result;
 
-    var_r31 = 0;
+    result = 0;
     if ((get_main_phase() == 0xF) || (is_split_screen() != 0)) {
-        var_r31 = 1;
+        result = 1;
     }
-    return (u8)var_r31;
+    return result;
 }
 int TBoss4DarkFalz__sub_8004B07C(void) { return 0; }
 

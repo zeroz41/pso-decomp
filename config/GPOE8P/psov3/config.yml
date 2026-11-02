@@ -1749,6 +1749,7 @@ force_active:
   - __ct__11TMessageBoxFRC11TMessageBox
   - __ct__11TOBiwaMushiFPv
   - __ct__11TOKeyCave01FP7TObjectPv
+  - __ct__11TObjDFDemo5FP7TObjectPC3Vecl
   - __ct__11TPlayerSoulFP7TObjectUs
   - __ct__12CursorActionFv
   - __ct__12TBGLightningFv
@@ -1992,6 +1993,7 @@ force_active:
   - __dt__11TObjDFDemo0Fv
   - __dt__11TObjDFDemo2Fv
   - __dt__11TObjDFDemo3Fv
+  - __dt__11TObjDFDemo5Fv
   - __dt__11TObjDFDemoFFPvs
   - __dt__11TObjDFJisinFv
   - __dt__11TObjDFYutaiFv
@@ -2635,6 +2637,7 @@ force_active:
   - __vt__11TObjDFDemo0
   - __vt__11TObjDFDemo2
   - __vt__11TObjDFDemo3
+  - __vt__11TObjDFDemo5
   - __vt__11TObjDFDemoF
   - __vt__11TObjDFJisin
   - __vt__11TObjDFYutai
@@ -5138,7 +5141,7 @@ force_active:
   - draw_fading_model_5__23TBoss6Demo21_TYPE2_DEADFPv
   - draw_fading_model_8__23TBoss6Demo21_TYPE2_DEADFPv
   - draw_fading_model_pair__25TBoss6Demo20_TYPE2_APPEARFv
-  - draw_fading_motion__10TObjPlayerFv
+  - draw_fading_motion__11TObjDFDemo5Fv
   - draw_filled_rects_2d__FPvPvi
   - draw_frame__20TWindowActionPaletteFi
   - draw_fullscreen_texture_quad__6TLobbyFv
@@ -6894,6 +6897,7 @@ force_active:
   - lbl_80483480
   - lbl_80485550
   - lbl_804856C0
+  - lbl_80485798
   - lbl_80486868
   - lbl_80487090
   - lbl_80487100
@@ -7244,6 +7248,7 @@ force_active:
   - lbl_805BA5C0
   - lbl_805CF240
   - lbl_805CF380
+  - lbl_805D27A0
   - lbl_805D27E8
   - lbl_805D27EC
   - lbl_805D27F0
@@ -12948,7 +12953,7 @@ force_active:
   - release_load_slot__12TChCrLoadAfsFv
   - release_model__8TItemMagFv
   - release_network_info_cipher_key__FPUl
-  - release_subobjects__10TObjPlayerFv
+  - release_subobjects__11TObjDFDemo5Fv
   - release_trail_buffer__17TItemEffectWeaponFPv
   - reload_floor_scene__6TLobbyFv
   - reload_impact_stats__12TBoss1DragonFv
@@ -12990,6 +12995,7 @@ force_active:
   - render__11TOVS2Wall01Fv
   - render__11TObjDFDemo2Fv
   - render__11TObjDFDemo3Fv
+  - render__11TObjDFDemo5Fv
   - render__11TObjTuitateFv
   - render__11TPhotonLineFv
   - render__11TTecRaBartaFv
@@ -13576,6 +13582,7 @@ force_active:
   - run_task__11TObjControlFv
   - run_task__11TObjDFDemo2Fv
   - run_task__11TObjDFDemo3Fv
+  - run_task__11TObjDFDemo5Fv
   - run_task__11TObjDFJisinFv
   - run_task__11TObjInfoColFv
   - run_task__11TObjTuitateFv
@@ -15704,6 +15711,7 @@ force_active:
   - update_part_positions__11TBoss6Type2Fv
   - update_particle__15TObjSuisouLobbyFv
   - update_particle_by_phase__10TObjPlayerFv
+  - update_particle_emitters__11TObjDFDemo5Fv
   - update_particle_emitters__12TBoss4ThanksFv
   - update_particle_emitters__12TBoss6ThanksFv
   - update_particle_emitters__16TObjEneDellBiterFv
