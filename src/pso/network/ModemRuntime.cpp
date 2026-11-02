@@ -174,19 +174,17 @@ extern char lbl_805D4988[4];
 void *memset(void *, int, unsigned long);
 struct ModemRegs_805D7C90 { u16 f0; u16 f2; u8 f4; u8 f5; u8 f6; u8 f7; };
 extern ModemRegs_805D7C90 lbl_805D7C90;
-// Transfer state for both directions (one 0x70 object).
-struct ModemExiState {
-    ModemSendState send;
-    ModemRecvState recv;
-    u8 pad_6C[4];
-};
-
-static ModemExiState modem_exi_state;
+static ModemSendState modem_send_state;
+static ModemRecvState modem_recv_state;
 extern s32 lbl_805D7C9C;
 s32 TAdSinglePlyChrSelectGC__sub_8042E184(void);
 unsigned long strlen(const char *);
 int memcmp(const void *, const void *, unsigned long);
 extern char lbl_805D4914[4];
+extern char lbl_805D4920[5];
+extern char lbl_805D4928[7];
+extern char lbl_805D4930[5];
+extern char lbl_805D4938[7];
 extern char *modem_exi_ptr_table[22];
 s32 TAdSinglePlyChrSelectGC__sub_8042CD64(void);
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
@@ -279,38 +277,87 @@ static inline void ModemLockExi(void) {
     }
 }
 
+void TAdSinglePlyChrSelectGC__sub_8042BF6C(s32 length) {
+    BOOL selected;
+    u32 cmd;
+    u8 *body;
+    u8 *tail;
+    s32 offset;
+    s32 count;
+
+    modem_recv_state.length = length;
+    modem_recv_state.tail = NULL;
+    modem_recv_state.body = NULL;
+    modem_recv_state.head = NULL;
+    modem_recv_state.tail_length = 0;
+    modem_recv_state.body_length = 0;
+    modem_recv_state.head_length = 0;
+    body = (u8 *)OSRoundUp32B(modem_recv_state.buffer);
+    tail = (u8 *)OSRoundDown32B(modem_recv_state.buffer + modem_recv_state.length);
+    if (body >= tail) {
+        modem_recv_state.head = modem_recv_state.buffer;
+        modem_recv_state.head_length = modem_recv_state.length;
+    } else {
+        if (modem_recv_state.buffer != body) {
+            modem_recv_state.head = modem_recv_state.buffer;
+            modem_recv_state.head_length = body - modem_recv_state.buffer;
+        }
+        modem_recv_state.body = body;
+        modem_recv_state.body_length = tail - body;
+        if (tail < modem_recv_state.buffer + modem_recv_state.length) {
+            modem_recv_state.tail = tail;
+            modem_recv_state.tail_length = modem_recv_state.buffer + modem_recv_state.length - tail;
+        }
+    }
+    cmd = 0x28000000 | ((u16)modem_recv_state.length << 8);
+    selected = EXISelect(0, 2, 4);
+    EXIImm(0, &cmd, 4, EXI_WRITE, NULL);
+    EXISync(0);
+    for (offset = 0; modem_recv_state.head_length > 0; modem_recv_state.head_length -= 4) {
+        count = ModemMin(modem_recv_state.head_length, 4);
+        EXIImm(0, modem_recv_state.head + offset, count, EXI_READ, NULL);
+        EXISync(0);
+        offset += 4;
+    }
+    if (modem_recv_state.body_length > 0) {
+        EXIDma(0, modem_recv_state.body, modem_recv_state.body_length, EXI_READ,
+               TAdSinglePlyChrSelectGC__sub_8042C124);
+    } else {
+        TAdSinglePlyChrSelectGC__sub_8042C124(0, NULL);
+    }
+}
 
 void TAdSinglePlyChrSelectGC__sub_8042C124(s32 chan, OSContext *context) {
     s32 offset;
     s32 count;
     void (*callback)(s32);
 
-    for (offset = 0; modem_exi_state.recv.tail_length > 0; modem_exi_state.recv.tail_length -= 4) {
-        count = ModemMin(modem_exi_state.recv.tail_length, 4);
-        EXIImm(0, modem_exi_state.recv.tail + offset, count, EXI_READ, NULL);
+    for (offset = 0; modem_recv_state.tail_length > 0; modem_recv_state.tail_length -= 4) {
+        count = ModemMin(modem_recv_state.tail_length, 4);
+        EXIImm(0, modem_recv_state.tail + offset, count, EXI_READ, NULL);
         EXISync(0);
         offset += 4;
     }
-    if (modem_exi_state.recv.body_length > 0) {
-        DCInvalidateRange(modem_exi_state.recv.body, modem_exi_state.recv.body_length);
-        modem_exi_state.recv.body_length = 0;
+    if (modem_recv_state.body_length > 0) {
+        DCInvalidateRange(modem_recv_state.body, modem_recv_state.body_length);
+        modem_recv_state.body_length = 0;
     }
-    modem_exi_state.recv.received += modem_exi_state.recv.length;
-    modem_exi_state.recv.buffer += modem_exi_state.recv.length;
+    modem_recv_state.received += modem_recv_state.length;
+    modem_recv_state.buffer += modem_recv_state.length;
     EXIDeselect(0);
     ModemWriteRegister(1, lbl_805D7C90.f4);
     EXIUnlock(0);
-    if (modem_exi_state.recv.capacity - modem_exi_state.recv.received < lbl_805D7C90.f0 || modem_exi_state.recv.f10 == 1) {
-        modem_exi_state.recv.f10 = 0;
-        modem_exi_state.recv.f14 = 0;
-        if (modem_exi_state.recv.callback != NULL) {
-            callback = modem_exi_state.recv.callback;
-            modem_exi_state.recv.callback = NULL;
+    if (modem_recv_state.capacity - modem_recv_state.received < lbl_805D7C90.f0 || modem_recv_state.f10 == 1) {
+        modem_recv_state.f10 = 0;
+        modem_recv_state.f14 = 0;
+        if (modem_recv_state.callback != NULL) {
+            callback = modem_recv_state.callback;
+            modem_recv_state.callback = NULL;
             lbl_805D7C9C = 1;
-            callback(modem_exi_state.recv.received);
+            callback(modem_recv_state.received);
             lbl_805D7C9C = 0;
         }
-        modem_exi_state.recv.received = 0;
+        modem_recv_state.received = 0;
     }
 }
 
@@ -331,12 +378,12 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
                 TAdSinglePlyChrSelectGC__sub_8042DE20();
                 break;
             case 26:
-                if (modem_exi_state.recv.f34 == 0) {
-                    modem_exi_state.recv.f38 = 1;
+                if (modem_recv_state.f34 == 0) {
+                    modem_recv_state.f38 = 1;
                     lbl_805D7C90.f4 &= ~0x20;
                     ModemWriteRegister(1, lbl_805D7C90.f4);
                     EXIUnlock(0);
-                } else if (modem_exi_state.recv.f14 != 0) {
+                } else if (modem_recv_state.f14 != 0) {
                     TAdSinglePlyChrSelectGC__sub_8042BF6C(lbl_805D7C90.f0);
                 } else {
                     lbl_805D7C90.f4 &= ~0x20;
@@ -345,17 +392,17 @@ void TAdSinglePlyChrSelectGC__sub_8042C2E4(s32 chan, OSContext *context) {
                 }
                 break;
             case 25:
-                modem_exi_state.recv.available = ModemReadRegister(0xB) << 8;
-                modem_exi_state.recv.available += ModemReadRegister(0xC);
-                if (modem_exi_state.recv.available == 0 || modem_exi_state.recv.f14 == 0) {
+                modem_recv_state.available = ModemReadRegister(0xB) << 8;
+                modem_recv_state.available += ModemReadRegister(0xC);
+                if (modem_recv_state.available == 0 || modem_recv_state.f14 == 0) {
                     ModemWriteRegister(1, lbl_805D7C90.f4);
                     EXIUnlock(0);
                 } else {
-                    if (modem_exi_state.recv.capacity - modem_exi_state.recv.received < modem_exi_state.recv.available) {
-                        modem_exi_state.recv.available = modem_exi_state.recv.capacity - modem_exi_state.recv.received;
+                    if (modem_recv_state.capacity - modem_recv_state.received < modem_recv_state.available) {
+                        modem_recv_state.available = modem_recv_state.capacity - modem_recv_state.received;
                     }
-                    modem_exi_state.recv.f10 = 1;
-                    TAdSinglePlyChrSelectGC__sub_8042BF6C(modem_exi_state.recv.available);
+                    modem_recv_state.f10 = 1;
+                    TAdSinglePlyChrSelectGC__sub_8042BF6C(modem_recv_state.available);
                 }
                 break;
             case 30:
@@ -583,42 +630,96 @@ void TAdSinglePlyChrSelectGC__sub_8042DF4C(s32 chan, OSContext *context) {
     s32 count;
     void (*callback)(s32);
 
-    for (offset = 0; modem_exi_state.send.head_length > 0; modem_exi_state.send.head_length -= 4) {
-        count = ModemMin(modem_exi_state.send.head_length, 4);
-        EXIImm(0, modem_exi_state.send.head + offset, count, EXI_WRITE, NULL);
+    for (offset = 0; modem_send_state.head_length > 0; modem_send_state.head_length -= 4) {
+        count = ModemMin(modem_send_state.head_length, 4);
+        EXIImm(0, modem_send_state.head + offset, count, EXI_WRITE, NULL);
         EXISync(0);
         offset += 4;
     }
-    if (modem_exi_state.send.body_length > 0) {
-        EXIDma(0, modem_exi_state.send.body, modem_exi_state.send.body_length, EXI_WRITE,
+    if (modem_send_state.body_length > 0) {
+        EXIDma(0, modem_send_state.body, modem_send_state.body_length, EXI_WRITE,
                TAdSinglePlyChrSelectGC__sub_8042DF4C);
-        modem_exi_state.send.body_length = 0;
+        modem_send_state.body_length = 0;
         return;
     }
-    for (offset = 0; modem_exi_state.send.tail_length > 0; modem_exi_state.send.tail_length -= 4) {
-        count = ModemMin(modem_exi_state.send.tail_length, 4);
-        EXIImm(0, modem_exi_state.send.tail + offset, count, EXI_WRITE, NULL);
+    for (offset = 0; modem_send_state.tail_length > 0; modem_send_state.tail_length -= 4) {
+        count = ModemMin(modem_send_state.tail_length, 4);
+        EXIImm(0, modem_send_state.tail + offset, count, EXI_WRITE, NULL);
         EXISync(0);
         offset += 4;
     }
     EXIDeselect(0);
-    if (modem_exi_state.send.remaining > 0) {
-        modem_exi_state.send.data += 0x201 - lbl_805D7C90.f2;
+    if (modem_send_state.remaining > 0) {
+        modem_send_state.data += 0x201 - lbl_805D7C90.f2;
         lbl_805D7C90.f4 |= 0x10;
     } else {
-        modem_exi_state.send.busy = 0;
-        modem_exi_state.send.data = NULL;
+        modem_send_state.busy = 0;
+        modem_send_state.data = NULL;
         lbl_805D7C90.f4 &= ~0x10;
     }
     ModemWriteRegister(1, lbl_805D7C90.f4);
     EXIUnlock(0);
-    if (modem_exi_state.send.remaining == 0 && modem_exi_state.send.callback != NULL) {
-        callback = modem_exi_state.send.callback;
-        modem_exi_state.send.callback = NULL;
+    if (modem_send_state.remaining == 0 && modem_send_state.callback != NULL) {
+        callback = modem_send_state.callback;
+        modem_send_state.callback = NULL;
         lbl_805D7C9C = 1;
-        callback(modem_exi_state.send.length);
+        callback(modem_send_state.length);
         lbl_805D7C9C = 0;
     }
+}
+
+s32 TAdSinglePlyChrSelectGC__sub_8042E184(void) {
+    u16 space;
+
+    if (modem_send_state.busy == 1) {
+        return 1;
+    }
+    if (lbl_805D7C9C == 0) {
+        ModemLockExi();
+    }
+    space = ModemReadRegister(9) << 8;
+    space += ModemReadRegister(0xA);
+    if (lbl_805D7C9C == 0) {
+        EXIUnlock(0);
+    }
+    if (space < lbl_805D7C90.f2) {
+        return 0;
+    }
+    return 1;
+}
+
+s32 TAdSinglePlyChrSelectGC__sub_8042E320(const char *number, s32 mode, void (*callback)(s32 result)) {
+    char buf[0x40];
+    s32 result;
+
+    memset(&modem_connection_info, 0, sizeof(modem_connection_info));
+    if (mode <= 0 || mode > 3) {
+        return -2;
+    }
+    if (lbl_805D7C98 == 3) {
+        return -3;
+    }
+    modem_command_response_state.callback = callback;
+    switch (mode) {
+    case 1:
+        strcpy(buf, lbl_805D4920);
+        break;
+    case 2:
+        result = TAdSinglePlyChrSelectGC__sub_8042D49C(lbl_805D4928);
+        strcpy(buf, lbl_805D4930);
+        break;
+    case 3:
+        result = TAdSinglePlyChrSelectGC__sub_8042D49C(lbl_805D4938);
+        strcpy(buf, lbl_805D4930);
+        break;
+    }
+    strcat(buf, number);
+    strcat(buf, lbl_805D48AC);
+    lbl_805D7C98 = 2;
+    ModemLockExi();
+    TAdSinglePlyChrSelectGC__sub_8042D6A4(buf);
+    EXIUnlock(0);
+    return 1;
 }
 
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value) {
@@ -632,7 +733,7 @@ typedef char RecoveredGlobal_8042E768_lbl_805D1D20_size[sizeof(RecoveredGlobal_8
 
 s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
     char buf[0x80];
-    s32 pad;
+    s32 result;
     Names_8042E57C names = TAdSinglePlyChrSelectGC__modem_type_names;
     if (arg0 <= 0 || arg0 >= 5) {
         return -2;
@@ -640,13 +741,13 @@ s32 TAdSinglePlyChrSelectGC::send_at_ms_command(s32 arg0) {
     strcpy(buf, lbl_805D495C);
     strcat(buf, names.name[arg0]);
     strcat(buf, lbl_805D48AC);
-    TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
+    result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
 
 s32 TAdSinglePlyChrSelectGC::send_at_error_correction_cmd(s32 arg0) {
     char buf[0x80];
-    s32 pad;
+    s32 result;
     Names_8042E628 names = TAdSinglePlyChrSelectGC__modem_error_correction_names;
     if (arg0 <= 0 || arg0 > 3) {
         return -2;
@@ -654,13 +755,13 @@ s32 TAdSinglePlyChrSelectGC::send_at_error_correction_cmd(s32 arg0) {
     strcpy(buf, modem_error_correction_command_prefix);
     strcat(buf, names.name[arg0]);
     strcat(buf, lbl_805D48AC);
-    TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
+    result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
 
 s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
     char buf[0x80];
-    s32 pad;
+    s32 result;
     Names_8042E6C4 names = TAdSinglePlyChrSelectGC__modem_compression_names;
     if (arg0 <= 0 || arg0 > 4) {
         return -2;
@@ -668,7 +769,7 @@ s32 TAdSinglePlyChrSelectGC::send_at_compression_cmd(s32 arg0) {
     strcpy(buf, lbl_805D4980);
     strcat(buf, names.name[arg0]);
     strcat(buf, lbl_805D48AC);
-    TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
+    result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
 
@@ -683,14 +784,14 @@ s32 TAdSinglePlyChrSelectGC::copy_default_and_get_state() {
 s32 TAdSinglePlyChrSelectGC::send_atx_command(s32 arg0) {
     char buf[0x80];
     Names_8042E7B8 names = lbl_80480234;
-    s32 pad;
+    s32 result;
     if (arg0 <= 0 || arg0 > 2) {
         return -2;
     }
     strcpy(buf, lbl_805D4988);
     strcat(buf, names.name[arg0]);
     strcat(buf, lbl_805D48AC);
-    TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
+    result = TAdSinglePlyChrSelectGC__sub_8042D49C(buf);
     return 1;
 }
 
