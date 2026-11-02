@@ -17,6 +17,8 @@
 #include "pso/misc/TCharaMaking.h"
 #include "pso/misc/TLobby.h"
 
+#pragma readonly_strings on
+
 
 struct RecoveredGlobal_8028EC24_lbl_8051C07C {
     s8 value;
@@ -37,7 +39,6 @@ s32 init_menu_scene_lights(s32 *, s32);
 void *__nw__7TObjectFUl(s32);
 s32 init_and_create__15TChCrCharSelectFv(s32);
 }
-extern s32 lbl_80451290[];
 extern s32 default_scene_light_config[];
 extern s32 creation_menu_resource_descriptor[];
 extern s32 tl_camera;
@@ -74,7 +75,7 @@ void init_creation_menu_scene(void) {
         fn_80291178();
         fn_8028D940();
         load_floor_sound_bank(0);
-        play_area_music((char *)lbl_80451290);
+        play_area_music("CHARA.adx");
         if (TObjCMMainMenu::get_current_char_flag() != 0) {
             TObjCMMainMenu__sub_8028EC34();
             TObjCMMainMenu__sub_8028EC24();

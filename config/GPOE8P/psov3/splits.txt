@@ -9450,6 +9450,7 @@ pso/misc/TCharaMaking.cpp:
 
 pso/misc/TCharaMaking_8028E3F4.cpp:
 	.text       start:0x8028E3F4 end:0x8028E790
+	.rodata     start:0x80451280 end:0x80451290
 	.bss        start:0x80518880 end:0x8051C070
 
 pso/misc/TCharaMaking_8028E790.cpp:
@@ -9460,6 +9461,7 @@ pso/misc/TLobby_8028EA28.cpp:
 
 pso/object/TObjCMMainMenu_8028EA88.cpp:
 	.text       start:0x8028EA88 end:0x8028EC40
+	.rodata     start:0x80451290 end:0x804512A0
 
 pso/misc/CreationMotion.cpp:
 	.text       start:0x8028EC40 end:0x8028EC70
@@ -9998,8 +10000,9 @@ pso/unk/text_802AA8FC.cpp:
 
 pso/boss/TBoss6PlotFalz.cpp:
 	.text       start:0x802AACF4 end:0x802ACCC8
-	.rodata     start:0x804705D8 end:0x804705E0
+	.rodata     start:0x8046FDB8 end:0x804705E0
 	.data       start:0x804DE0C8 end:0x804DE210
+	.sdata      start:0x805D3E50 end:0x805D3E58
 	.sdata2     start:0x805DE088 end:0x805DE0E0
 
 pso/misc/TWindowCallBack.cpp:

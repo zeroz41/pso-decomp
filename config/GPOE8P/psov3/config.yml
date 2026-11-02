@@ -300,6 +300,7 @@ force_active:
   - TBoss6Mag__collision_body_parts
   - TBoss6Mine__ct
   - TBoss6PlotFalz__ct
+  - TBoss6PlotFalz__fade_amount
   - TBoss6PlotFalz__sub_8036964C
   - TBoss6RockChase__ct
   - TBoss6RockChase__data_805E03B8
@@ -6666,6 +6667,7 @@ force_active:
   - lbl_805D3B30
   - lbl_805D3B38
   - lbl_805D3CC8
+  - lbl_805D3E50
   - lbl_805D3F08
   - lbl_805D3FB0
   - lbl_805D3FF8

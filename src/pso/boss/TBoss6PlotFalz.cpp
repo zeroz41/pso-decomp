@@ -10,83 +10,6 @@ void set_constant_material(const NJS_ARGB *color);
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
-extern char lbl_8046FDB8[];
-extern char lbl_8046FDC8[];
-extern char lbl_8046FDDC[];
-extern char lbl_8046FDF4[];
-extern char lbl_8046FE08[];
-extern char lbl_8046FE1C[];
-extern char lbl_8046FE34[];
-extern char lbl_8046FE48[];
-extern char lbl_8046FE58[];
-extern char lbl_8046FE6C[];
-extern char lbl_8046FE7C[];
-extern char lbl_8046FE94[];
-extern char lbl_8046FEA8[];
-extern char lbl_8046FEB8[];
-extern char lbl_8046FED0[];
-extern char lbl_8046FEF0[];
-extern char lbl_8046FF0C[];
-extern char lbl_8046FF28[];
-extern char lbl_8046FF40[];
-extern char lbl_8046FF5C[];
-extern char lbl_8046FF78[];
-extern char lbl_8046FF94[];
-extern char lbl_8046FFB0[];
-extern char lbl_8046FFC4[];
-extern char lbl_8046FFDC[];
-extern char lbl_8046FFF4[];
-extern char lbl_8047000C[];
-extern char lbl_80470028[];
-extern char lbl_80470044[];
-extern char lbl_80470060[];
-extern char lbl_80470078[];
-extern char lbl_80470094[];
-extern char lbl_804700B0[];
-extern char lbl_804700CC[];
-extern char lbl_804700E8[];
-extern char lbl_80470104[];
-extern char lbl_80470120[];
-extern char lbl_8047013C[];
-extern char lbl_8047015C[];
-extern char lbl_80470178[];
-extern char lbl_80470194[];
-extern char lbl_804701B0[];
-extern char lbl_804701CC[];
-extern char lbl_804701E8[];
-extern char lbl_80470204[];
-extern char lbl_80470220[];
-extern char lbl_80470238[];
-extern char lbl_80470250[];
-extern char lbl_80470268[];
-extern char lbl_8047027C[];
-extern char lbl_80470294[];
-extern char lbl_804702AC[];
-extern char lbl_804702C8[];
-extern char lbl_804702E4[];
-extern char lbl_80470300[];
-extern char lbl_80470320[];
-extern char lbl_80470340[];
-extern char lbl_8047035C[];
-extern char lbl_80470378[];
-extern char lbl_80470394[];
-extern char lbl_804703B0[];
-extern char lbl_804703CC[];
-extern char lbl_804703E8[];
-extern char lbl_80470404[];
-extern char lbl_8047041C[];
-extern char lbl_80470438[];
-extern char lbl_80470454[];
-extern char lbl_80470470[];
-extern char lbl_80470490[];
-extern char lbl_804704A8[];
-extern char lbl_804704C4[];
-extern char lbl_804704E4[];
-extern char lbl_80470504[];
-extern char lbl_80470520[];
-extern char lbl_8047053C[];
-extern char lbl_8047055C[];
-extern char lbl_80470574[];
 extern const char *boss06_plotfalz_dat_model_names[15];
 extern const char *boss06_plotfalz_dat_motion_names[63];
 extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
@@ -105,6 +28,101 @@ extern BmlResourceDescriptor boss6_plot_falz_resource_descriptor;
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowCtrl.h"
 
+
+#pragma push
+#pragma readonly_strings on
+const char *boss06_plotfalz_dat_model_names[15] = {
+    "bossgc_laser.nj",
+    "bossgc_pf_mag.nj",
+    "bossgc_pf01_kirai.nj",
+    "bossgc_pf01_leg.nj",
+    "bossgc_pf02_body.nj",
+    "bossgc_pf02l_body.nj",
+    "bssgc_pf01_body.nj",
+    "flow_body.nj",
+    "flow_dark_body.nj",
+    "flow_sord.nj",
+    "flowen_aa_t_ok_head.nj",
+    "flowen_az_t_body.nj",
+    "op_flow_mark.nj",
+    "wxmS02_k_m_sp_rbuki.nj",
+    NULL,
+};
+const char *boss06_plotfalz_dat_motion_names[63] = {
+    "appear_bossgc_pf01_kirai.njm",
+    "bouend_bossgc_pf02_body.njm",
+    "bousou_bossgc_pf02_body.njm",
+    "dead_bossgc_pf_mag.njm",
+    "dead_bossgc_pf01_leg.njm",
+    "dead_bssgc_pf01_body.njm",
+    "dpb_bossgc_pf02_body.njm",
+    "end_bossgc_pf02_body.njm",
+    "flow_dark_body.njm",
+    "flowend1_flow_body.njm",
+    "flowend1_flow_sord.njm",
+    "flowend2_flow_body.njm",
+    "fukatu_bossgc_pf_mag.njm",
+    "grdwait_bossgc_pf01_leg.njm",
+    "grdwait_bssgc_pf01_body.njm",
+    "hoe_bssgc_pf01_body.njm",
+    "jump_bossgc_pf02_body.njm",
+    "jyut_a_bssgc_pf01_body.njm",
+    "jyut_b_bssgc_pf01_body.njm",
+    "jyut_c_bssgc_pf01_body.njm",
+    "jyut_d_bssgc_pf01_body.njm",
+    "jyut_e_bssgc_pf01_body.njm",
+    "kakusan_bssgc_pf01_body.njm",
+    "kakuside_bssgc_pf01_body.njm",
+    "kamae_bossgc_pf02_body.njm",
+    "kaming_bossgc_pf02_body.njm",
+    "kiri1_bossgc_pf02_body.njm",
+    "kiri2_bossgc_pf02_body.njm",
+    "kiri3_bossgc_pf02_body.njm",
+    "land_bossgc_pf01_leg.njm",
+    "land_bssgc_pf01_body.njm",
+    "op_bossgc_pf01_leg.njm",
+    "op_bossgc_pf02_body.njm",
+    "op_bssgc_pf01_body.njm",
+    "op_op_flow_mark.njm",
+    "op3_bossgc_pf01_leg.njm",
+    "op3_bssgc_pf01_body.njm",
+    "roll_bossgc_pf01_leg.njm",
+    "roll_bssgc_pf01_body.njm",
+    "sarch_bossgc_pf02_body.njm",
+    "sidetoup_bossgc_pf01_leg.njm",
+    "sidetoup_bssgc_pf01_body.njm",
+    "skwait2_bossgc_pf01_leg.njm",
+    "skysd_bssgc_pf01_body.njm",
+    "skywait_bossgc_pf01_leg.njm",
+    "skywait_bssgc_pf01_body.njm",
+    "sodatk_bssgc_pf01_body.njm",
+    "takeoff_bossgc_pf01_leg.njm",
+    "takeoff_bssgc_pf01_body.njm",
+    "tame_bossgc_pf_mag.njm",
+    "tinmoku_bossgc_pf_mag.njm",
+    "tlatk_bossgc_pf01_leg.njm",
+    "tlatk_bssgc_pf01_body.njm",
+    "uptoside_bssgc_pf01_body.njm",
+    "wait_bossgc_pf_mag.njm",
+    "wait_bossgc_pf02_body.njm",
+    "waitside_bssgc_pf01_body.njm",
+    "waitvsk_bossgc_pf02_body.njm",
+    "walk_bossgc_pf02_body.njm",
+    "walkgd_bossgc_pf02_body.njm",
+    "walkvsk_bossgc_pf02_body.njm",
+    "wxmS02_k_m_sp_rbuki.njm",
+    NULL,
+};
+BmlResourceDescriptor boss6_plot_falz_resource_descriptor = { "boss06_plotfalz_dat.bml", boss06_plotfalz_dat_model_names, boss06_plotfalz_dat_motion_names, 14, 62 };
+const char *lbl_805D3E50 = "TBoss6PlotFalz";
+f32 TBoss6PlotFalz__fade_amount = -1.0f;
+#pragma pop
+const Vec lbl_8047059C = { -10000.0f, 0.0f, 0.0f };
+const Vec lbl_804705A8 = { -10000.0f, 10.0f, 0.0f };
+const Vec lbl_804705B4 = { 0.0f, 0.0f, 0.0f };
+const Vec lbl_804705C0 = { 0.0f, 0.0f, 0.0f };
+const Vec lbl_804705CC = { -10000.0f, 0.0f, 0.0f };
+
 struct Color_802ABF44 { f32 a, b, c, d; };
 
 extern "C" {
@@ -113,7 +131,6 @@ s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 s16 get_entity_id(void *);
 u8 *get_player_by_client_id(s32);
 s32 get_field_3e0__12TBoss3VoloptFv(void *p);
-extern u8 lbl_8047059C[];
 extern u32 TBoss6PlotFalz__type1_instance;
 extern u32 TBoss6PlotFalz__type2_instance;
 int queue_destruction__7TObjectFv(void *);
@@ -457,7 +474,6 @@ void TBoss6PlotFalz::set_state(s32 arg1) {
 #define get_player_data__10TObjPlayerFi ((Player_802AB3E0 *(*)(int))get_player_data__10TObjPlayerFi)
 #define is_state_1f__14TBoss6PlotFalzFUi ((int (*)(Player_802AB3E0 *))is_state_1f__14TBoss6PlotFalzFUi)
 #define get_player_by_client_id ((u8 *(*)(u16))get_player_by_client_id)
-#define lbl_8047059C (*(RecoveredGlobal_802AB684_lbl_8047059C *)lbl_8047059C)
 
 struct Stack_802AB684 {
     s32 sp8;
@@ -465,8 +481,6 @@ struct Stack_802AB684 {
     u8 trailing_storage[0x4];
 };
 
-struct RecoveredGlobal_802AB684_lbl_8047059C { s32 value; u8 remaining[0x8]; };
-typedef char RecoveredGlobal_802AB684_lbl_8047059C_size[sizeof(RecoveredGlobal_802AB684_lbl_8047059C) == 0xC ? 1 : -1];
 
 struct Vec_802AB3E0 { f32 x, y, z; };
 
@@ -477,7 +491,7 @@ struct Vec_802AB6CC { f32 x, y, z; };
 extern "C" {
 void fn_803594B4(void *, s32, f32);
 s32 vector_length(void *);
-s32 subtract_vector(void *, void *);
+s32 subtract_vector(void *, const void *);
 void TBoss6PlotFalz__sub_802AB684(s32 arg0);
 void *spawn_particle_effect(void *pos, s32 id);
 int play_sound_effect(int, int, int, int);
@@ -485,7 +499,7 @@ int TBoss6Thanks__sub_8035D270();
 f64 atan2_float(f32, f32);
 s32 get_nth_view_player_id__11TCameraCtrlFl();
 s32 angle_diff_s16(s32, s32);
-s32 vec3_add_to(void *, void *);
+s32 vec3_add_to(void *, const void *);
 f32 vec3_dot(void *, void *);
 s32 normalize_vector(void *);
 extern const f64 lbl_804705E0[];
@@ -661,7 +675,7 @@ void TBoss6PlotFalz__sub_802AB684(s32 arg0) {
     typedef char spC_offset[(offsetof(Stack_802AB684, spC) == 0x4) ? 1 : -1];
     Stack_802AB684 stack;
     VecCopy((Vec *)(&stack.sp8), (const Vec *)(arg0));
-    subtract_vector(&stack.sp8, &lbl_8047059C.value);
+    subtract_vector(&stack.sp8, &lbl_8047059C);
     stack.spC = 0.0f;
     vector_length(&stack.sp8);
 }
@@ -753,7 +767,6 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r) {
 #undef get_player_data__10TObjPlayerFi
 #undef is_state_1f__14TBoss6PlotFalzFUi
 #undef get_player_by_client_id
-#undef lbl_8047059C
 f32 cos_table_lookup(s32);
 
 f32 TBoss6PlotFalz::cosine_ease(f32 t) {
@@ -824,28 +837,22 @@ struct Stack_802ABC64 {
     u8 sp4C;
 };
 
-struct RecoveredGlobal_802ABBC4_lbl_804705CC { s32 value; u8 remaining[0x8]; };
-typedef char RecoveredGlobal_802ABBC4_lbl_804705CC_size[sizeof(RecoveredGlobal_802ABBC4_lbl_804705CC) == 0xC ? 1 : -1];
 
-struct RecoveredGlobal_802ABC14_lbl_804705C0 { s32 value; u8 remaining[0x8]; };
-typedef char RecoveredGlobal_802ABC14_lbl_804705C0_size[sizeof(RecoveredGlobal_802ABC14_lbl_804705C0) == 0xC ? 1 : -1];
 
 extern "C" {
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 u32 create__11TBoss6Type1Fl(void *, int);
 u32 create__11TBoss6Type2Fl(void *, int);
-extern RecoveredGlobal_802ABBC4_lbl_804705CC lbl_804705CC;
-extern RecoveredGlobal_802ABC14_lbl_804705C0 lbl_804705C0;
 s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 s32 is_locally_controlled__10TObjPlayerFPv(s32);
-f32 xyz_distance(void *, void *);
+f32 xyz_distance(const void *, const void *);
 u32 create__10TBoss6TubeFPv();
 
 void TBoss6PlotFalz::release_object() { if (*(unsigned int*)((char*)this + 0x384) != 0) { queue_destruction__7TObjectFv(*(void**)((char*)this + 0x384)); *(int*)((char*)this + 0x384) = 0; } }
 
 s32 TBoss6PlotFalz::get_target_pos_a(s32 arg0, s32 arg1) {
     if ((u32) TBoss6PlotFalz__type2_instance == 0U) {
-        VecCopy((Vec *)(arg1), (const Vec *)(&lbl_804705CC.value));
+        VecCopy((Vec *)(arg1), &lbl_804705CC);
         return 0;
     }
     VecCopy((Vec *)(arg1), (const Vec *)(TBoss6PlotFalz__type2_instance + 0x38));
@@ -854,7 +861,7 @@ s32 TBoss6PlotFalz::get_target_pos_a(s32 arg0, s32 arg1) {
 
 s32 TBoss6PlotFalz::get_target_pos_b(s32 arg0, s32 arg1) {
     if ((u32) TBoss6PlotFalz__type1_instance == 0U) {
-        VecCopy((Vec *)(arg1), (const Vec *)(&lbl_804705C0.value));
+        VecCopy((Vec *)(arg1), &lbl_804705C0);
         return 0;
     }
     VecCopy((Vec *)(arg1), (const Vec *)(TBoss6PlotFalz__type1_instance + 0x38));
@@ -965,7 +972,6 @@ extern "C" {
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 }
 void set_chunk_blend(u32 x);
-extern f32 TBoss6PlotFalz__fade_amount;
 extern s32 game_difficulty_selection;
 extern "C" {
 bool is_normal_difficulty(void);
@@ -1088,7 +1094,6 @@ s32 get_bml_model(s32, s32);
 s32 alloc_tables__6TLobbyFll(s32, s32, s32);
 void *mem_alloc(u32 size);
 void build_tables__14TBoss6PlotFalzFPvPvi(Obj_8004AA80 *arg0, Rec_8004AA80 *arg1, s32 arg2);
-extern u8 lbl_804705B4[];
 extern s32 lbl_805D5868;
 extern s32 lbl_805D5870;
 void update_active_flag__14TBoss6PlotFalzFv(void);
@@ -1171,11 +1176,11 @@ void TBoss6PlotFalz::warp_nearby_players() {
     for (i = registered_player_count + lbl_805D5870; i < lbl_805D5868; i++) {
         p = (Obj_802AC3E8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p->sub != NULL && (p->sub->flags & 0x20000)
-            && !(xyz_distance(lbl_804705B4, &p->pos) > 150.0f)
-            && !(xyz_distance(lbl_8047059C, &p->pos) <= 300.0f)) {
+            && !(xyz_distance(&lbl_804705B4, &p->pos) > 150.0f)
+            && !(xyz_distance(&lbl_8047059C, &p->pos) <= 300.0f)) {
             VecCopy((Vec *)&v, (const Vec *)&p->pos);
-            subtract_vector(&v, lbl_804705B4);
-            vec3_add_to(&v, lbl_8047059C);
+            subtract_vector(&v, &lbl_804705B4);
+            vec3_add_to(&v, &lbl_8047059C);
             v.y = 7.5f;
             VecCopy((Vec *)&p->pos, (const Vec *)&v);
             ((TObjCollidable *)p)->refresh_collision_body_centers();
@@ -1203,7 +1208,6 @@ u8 *get_hit_data__14TBoss4DarkFalzFv(void *);
 void set_position_from__8TObjBaseFPv();
 }
 void reset_cameras_to_actor(void *, s32);
-extern const V_802AC538 lbl_804705A8;
 
 #pragma push
 #pragma fp_contract on
@@ -1219,7 +1223,7 @@ void place_players_in_warp_circle(void) {
     for (i = 0; i < registered_player_count; i++) {
         void *p = get_player_data__10TObjPlayerFi(i);
         if (p != NULL && get_field_3e0__12TBoss3VoloptFv(p) == 0x1F) {
-            V_802AC538 pos = lbl_804705A8;
+            Vec pos = lbl_804705A8;
             pos.x += 350.0f * sin_table_lookup(ang);
             pos.z += 350.0f * cos_table_lookup(ang);
             ((void (*)(void *, void *))set_position_from__8TObjBaseFPv)(p, &pos);
@@ -1393,7 +1397,6 @@ struct Boss_802AC86C { u8 pad[0x1C]; u16 f1C; u8 pad2[0x374 - 0x1E]; s32 f374; }
 void fn_802ACD60(void *);
 }
 s32 create_boss4_fade();
-extern s32 lbl_805D3E50;
 void build_6xA3_olga_flow_boss_actions(void *);
 extern "C" {
 
@@ -1560,7 +1563,4 @@ s32 TObjFish::get_phase() { return *(s32*)((char*)this + 0x378); }
 
 int TObjFish::get_fish_count() {  return obj_fish_count; }
 
-__declspec(section ".data") const char *boss06_plotfalz_dat_model_names[15] = { lbl_8046FDB8, lbl_8046FDC8, lbl_8046FDDC, lbl_8046FDF4, lbl_8046FE08, lbl_8046FE1C, lbl_8046FE34, lbl_8046FE48, lbl_8046FE58, lbl_8046FE6C, lbl_8046FE7C, lbl_8046FE94, lbl_8046FEA8, lbl_8046FEB8, NULL };
-__declspec(section ".data") const char *boss06_plotfalz_dat_motion_names[63] = { lbl_8046FED0, lbl_8046FEF0, lbl_8046FF0C, lbl_8046FF28, lbl_8046FF40, lbl_8046FF5C, lbl_8046FF78, lbl_8046FF94, lbl_8046FFB0, lbl_8046FFC4, lbl_8046FFDC, lbl_8046FFF4, lbl_8047000C, lbl_80470028, lbl_80470044, lbl_80470060, lbl_80470078, lbl_80470094, lbl_804700B0, lbl_804700CC, lbl_804700E8, lbl_80470104, lbl_80470120, lbl_8047013C, lbl_8047015C, lbl_80470178, lbl_80470194, lbl_804701B0, lbl_804701CC, lbl_804701E8, lbl_80470204, lbl_80470220, lbl_80470238, lbl_80470250, lbl_80470268, lbl_8047027C, lbl_80470294, lbl_804702AC, lbl_804702C8, lbl_804702E4, lbl_80470300, lbl_80470320, lbl_80470340, lbl_8047035C, lbl_80470378, lbl_80470394, lbl_804703B0, lbl_804703CC, lbl_804703E8, lbl_80470404, lbl_8047041C, lbl_80470438, lbl_80470454, lbl_80470470, lbl_80470490, lbl_804704A8, lbl_804704C4, lbl_804704E4, lbl_80470504, lbl_80470520, lbl_8047053C, lbl_8047055C, NULL };
 }
-BmlResourceDescriptor boss6_plot_falz_resource_descriptor = { lbl_80470574, boss06_plotfalz_dat_model_names, boss06_plotfalz_dat_motion_names, 14, 62 };
