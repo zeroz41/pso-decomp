@@ -2959,6 +2959,7 @@ force_active:
   - advance_toward_max__13TUnk_80494938Fv
   - advance_wait_next__11TBoss4Type3Fv
   - advance_wrap_offset__13TUnk_804B2578Fv
+  - adventure_map_variation_count_table
   - adx_error_message_buffer
   - adxf_open_file_buffer
   - alerted_state__14TObjEneBm5WolfFl
@@ -3642,6 +3643,9 @@ force_active:
   - boss7_dermt_slot_table
   - boss8_collision_segment_desc
   - boss_area_id_table
+  - boss_warp_area_id_table
+  - boss_warp_destination_table
+  - boss_warp_destination_table_b
   - boss_warp_model_names
   - boss_warp_motion_names
   - break_apart__15TObjEneMe1GiGueFv
@@ -5036,6 +5040,7 @@ force_active:
   - floor_lifecycle_callbacks_floors_19_20
   - floor_lifecycle_callbacks_floors_21_22
   - floor_map_registry
+  - floor_map_registry_id_table
   - floor_resource_callback_tables
   - floor_resource_callbacks_selector_00
   - floor_resource_callbacks_selector_01
@@ -6199,6 +6204,7 @@ force_active:
   - lbl_8044DB08
   - lbl_8044DB14
   - lbl_8044DB2C
+  - lbl_8044FCF0
   - lbl_804507A8
   - lbl_804507BC
   - lbl_804507D0
@@ -7428,6 +7434,7 @@ force_active:
   - on_update_equipped__14TItemProShieldFv
   - online_ending_hex_line_param
   - online_ending_quad_vertices
+  - online_floor_map_variation_dimension_table
   - onlineending_dat_model_names
   - onlineending_dat_motion_names
   - open__11TOFenceBaseFv

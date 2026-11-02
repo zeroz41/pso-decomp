@@ -7272,7 +7272,7 @@ pso/misc/TSceneSora.cpp:
 
 pso/misc/TLobby_80207644.cpp:
 	.text       start:0x80207644 end:0x80207D44
-	.rodata     start:0x8044BA48 end:0x8044BA50
+	.rodata     start:0x8044A9D0 end:0x8044BA50
 	.bss        start:0x80513920 end:0x805139F8
 	.sdata2     start:0x805DC610 end:0x805DC618
 
@@ -9262,13 +9262,15 @@ pso/misc/TWindowSubStatusDisp_80287570.cpp:
 
 pso/unk/text_80287AD8.cpp:
 	.text       start:0x80287AD8 end:0x80287C18
-	.rodata     start:0x8044FCD0 end:0x8044FCD8
+	.rodata     start:0x8044FCC8 end:0x8044FCE0
 
 pso/misc/TWindowTimer.cpp:
 	.text       start:0x80287C18 end:0x80288030
+	.rodata     start:0x8044FCE0 end:0x8044FCF0
 
 pso/misc/TWindowSubStatusDisp_80288030.cpp:
 	.text       start:0x80288030 end:0x80288298
+	.rodata     start:0x8044FCF0 end:0x8044FCF8
 
 pso/misc/TWindowUserSort.cpp:
 	.text       start:0x80288298 end:0x80288520

@@ -13,6 +13,8 @@
 #include "pso/misc/TWindowSubShortMail.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 
+#pragma readonly_strings on
+
 struct RecoveredGlobal_80287FBC_lbl_804D2E74 {
     s32 value;
     u8 remaining[0x10];
@@ -31,7 +33,6 @@ extern const f32 lbl_805DD890;
 extern RecoveredGlobal_80287FBC_lbl_804D2E74 window_timer_layout;
 extern s32 __vt__12TWindowTimer[];
 extern s32 TWindowTimer__name;
-extern s32 lbl_8044FCE8[];
 extern s32 lbl_805DD888;
 extern s32 lbl_805DD88C;
 s32 get_window_layout_position(s32);
@@ -54,7 +55,6 @@ void TWindowTimer::update_chat_parts() {
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 0x30))->copy_vec2((void*)window_layout_position);
 }
 
-extern s32 lbl_8044FCE0[];
 extern s32 lbl_805DD884;
 
 void TWindowTimer::draw(s32 arg1, s32 arg2) {
@@ -64,7 +64,7 @@ void TWindowTimer::draw(s32 arg1, s32 arg2) {
     text_builder_reset();
     text_builder_append((u8 *)&lbl_805DD884);
     append_padded_number(arg1, 3);
-    text_builder_append((u8 *)lbl_8044FCE0);
+    text_builder_append((u8 *)"\tC7:\tC3");
     append_padded_number(arg2, 3);
     set_text_entry_string((u8 *)array_entry, (u32)(get_shared_text_buffer()), 0x20);
     ((TWindowHelpItem *)array_entry)->reset_float_field();
@@ -79,7 +79,7 @@ void TWindowTimer::set_time(u32 secs) {
     hours = secs / 3600;
     secs %= 3600;
     if (hours > 9) {
-        text_builder_append((u8 *)lbl_8044FCE8);
+        text_builder_append((u8 *)"9'59\"59");
     } else {
         append_padded_number((hours), 1);
         text_builder_append((u8 *)&lbl_805DD888);
