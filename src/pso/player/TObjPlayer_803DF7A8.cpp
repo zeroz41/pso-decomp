@@ -8,10 +8,6 @@
 #include "pso/math/AngleLookup.h"
 
 
-struct RecoveredGlobal_803E1D1C_lbl_804FC780 {
-    s32 value;
-    u8 remaining[0x24];
-};
 
 
 
@@ -51,20 +47,22 @@ struct Faces_803E0ED4 { s32 v[6][4]; };
 
 extern "C" {
 s32 GXLoadPosMtxImm(void *, int);
-extern RecoveredGlobal_803E1D1C_lbl_804FC780 gx_pos_mtx_index_table;
+/* GX_PNMTX0..GX_PNMTX9 */
+s32 gx_pos_mtx_index_table[10] = {0, 3, 6, 9, 12, 15, 18, 21, 24, 27};
 extern s32 current_matrix;
 extern const f32 lbl_805E1038;
 extern const f32 lbl_805E103C;
-extern s32 tex_matrix_id_table[];
+/* GX_TEXMTX0..GX_TEXMTX9 */
+s32 tex_matrix_id_table[10] = {30, 33, 36, 39, 42, 45, 48, 51, 54, 57};
 void GXLoadTexMtxImm(void *mtx, u32 id, s32 type);
 void OSPanic(const char *, int, const char *, ...);
-extern char lbl_804FC7F8[];
-extern char lbl_805D46F0[4];
+extern char lbl_805D46F0[6]; /* "sorry"; .sdata not split into this unit yet */
 void calc_bounds_min_max__10TObjPlayerFPvPvPv(struct Vec_803E1B1C *pts, struct Vec_803E1B1C *mn, struct Vec_803E1B1C *mx);
 void Dolphin_GXInitTexObj(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8);
 void GXInitTexObjCI(TexObj_803E1D90 *, void *, u16, u16, s32, s32, s32, u8, u32);
 void GXLoadTexObj(TexObj_803E1D90 *, s32);
-extern s32 list_texture_map_table[];
+/* GX_TEXMAP0..GX_TEXMAP7, GX_TEXMAP_NULL */
+s32 list_texture_map_table[10] = {0, 1, 2, 3, 4, 5, 6, 7, 0xFF};
 extern TexObj_803E1D90 list_texture_tex_obj;
 extern Ctx_803E1D90 *current_render_context;
 extern const f32 lbl_805E1020;
@@ -417,9 +415,8 @@ extern s8 scene_fog_enable_flag;
 
 #pragma push
 #pragma scheduling off
-typedef char RecoveredGlobal_803E1D1C_lbl_804FC780_size[sizeof(RecoveredGlobal_803E1D1C_lbl_804FC780) == 0x28 ? 1 : -1];
 void load_current_pos_matrix(s32 arg0) {
-    GXLoadPosMtxImm((void *)current_matrix, (int) (*(s32 *)((s8 *)((u8 *)&gx_pos_mtx_index_table.value + (arg0 * 4)) + 0)));
+    GXLoadPosMtxImm((void *)current_matrix, gx_pos_mtx_index_table[arg0]);
 }
 #pragma pop
 
@@ -464,7 +461,7 @@ void TObjPlayer::reload_texture(s32 arg1, u32 arg2, void *arg3) {
     if ((arg2 & 0x40000000) != 0) {
         size = arg1;
     } else {
-        OSPanic(lbl_804FC7F8, 0x30, lbl_805D46F0);
+        OSPanic("nuReLoadTexture.c", 48, lbl_805D46F0); /* __FILE__ in the original */
     }
     TObjPlayer__sub_803DAE1C((s32)this, size, (u32)arg3);
 }

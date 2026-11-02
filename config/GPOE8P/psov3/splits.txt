@@ -5931,7 +5931,7 @@ pso/misc/TLazerFenceSw.cpp:
 pso/misc/TContainerAncient01.cpp:
 	.text       start:0x8018A584 end:0x8018BEE4
 	.rodata     start:0x804450B0 end:0x804450B8
-	.data       start:0x804B6D70 end:0x804B6F58
+	.data       start:0x804B6D70 end:0x804B7094
 	.sdata2     start:0x805DBD10 end:0x805DBD60
 
 pso/item/TObjContainerIdo_8018BEE4.cpp:
@@ -13804,6 +13804,7 @@ pso/unk/text_803C1780.cpp:
 
 pso/misc/TLobby_803C1A58.cpp:
 	.text       start:0x803C1A58 end:0x803C45E4
+	.data       start:0x804F9B80 end:0x804F9D80
 	.bss        start:0x80571480 end:0x80572000
 
 pso/misc/TLobby_803C45E4.cpp:
@@ -14186,6 +14187,7 @@ pso/object/TObjLight_803DF220.cpp:
 
 pso/player/TObjPlayer_803DF7A8.cpp:
 	.text       start:0x803DF7A8 end:0x803E1FC8
+	.data       start:0x804FC780 end:0x804FC80C
 	.bss        start:0x8058DB90 end:0x8058DBB0
 
 pso/unk/text_803E1FC8.cpp:

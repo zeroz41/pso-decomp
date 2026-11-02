@@ -2298,6 +2298,7 @@ force_active:
   - __dt__19TAdTrialAgreementGCFv
   - __dt__19TBoss1DragonColli_CFv
   - __dt__19TBoss3VoloptMonitorFv
+  - __dt__19TContainerAncient01Fv
   - __dt__19THunterGuildWarningFv
   - __dt__19TItemDisconnectCtrlFv
   - __dt__19TNECFontEORFunctionFv
@@ -2854,6 +2855,7 @@ force_active:
   - __vt__19TAdTrialAgreementGC
   - __vt__19TBoss1DragonColli_C
   - __vt__19TBoss3VoloptMonitor
+  - __vt__19TContainerAncient01
   - __vt__19TItemDisconnectCtrl
   - __vt__19TOChatSensorCapture
   - __vt__19TOComputerMachine01
@@ -3154,6 +3156,7 @@ force_active:
   - apply_hit_to_target__14TBoss7CrawfishFPvPv
   - apply_item_data__9TItemDropFPvPv
   - apply_item_flags__5TItemFP9TItemData
+  - apply_knockback_from_attacker__19TContainerAncient01FPUcf
   - apply_knockback_from_attacker__20TContainerAncient01RFPUcf
   - apply_landing_attack__12TBoss1DragonFi
   - apply_lightning_effect__26TBoss5GryphonLightningWingFv
@@ -3878,6 +3881,7 @@ force_active:
   - calc_digit_count__18TWindowInputNumberFv
   - calc_digit_transform__17TDuelEffectNumberFlPfPfl
   - calc_dir_angles__11TBoss6Type2FPvPvPvPv
+  - calc_distance_accuracy_penalty__19TContainerAncient01FPvPvPvf
   - calc_distance_accuracy_penalty__20TContainerAncient01RFPvPvPvf
   - calc_dominant_axis__12TTecZondeEffFv
   - calc_drop_item__9TItemDropFiPvi
@@ -12424,16 +12428,19 @@ force_active:
   - rebuild_parts__15TBoss3VoloptP02Fv
   - receive_attack__15TObjEneMe1GiGueFPviii
   - receive_direct_attack__15TBoss3VoloptP02FPv19DirectAttackPayloadPvll
+  - receive_direct_attack__19TContainerAncient01FPv19DirectAttackPayloadPvll
   - receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll
   - receive_physical_attack__15TBoss3VoloptP02FPvf
   - receive_physical_attack__15TObjEneMe1GiGueFPvf
   - receive_physical_attack__16TOTrapAncient02RFPvf
+  - receive_physical_attack__19TContainerAncient01FPvf
   - receive_physical_attack__19TObjEneEpsilonGuardFPvf
   - receive_physical_attack__20TContainerAncient01RFPvf
   - receive_physical_attack__21TObjContainerAbeEnemyFPvf
   - receive_physical_attack__9TBoss6MagFPvf
   - receive_state_request__12TBoss1DragonFPUc
   - receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv
+  - receive_weapon_special_attack__19TContainerAncient01FPvPv
   - receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv
   - receive_weapon_special_attack__20TContainerAncient01RFPvPv
   - recobox_motion_name_table
@@ -12776,6 +12783,7 @@ force_active:
   - render__19TBoss1DragonColli_CFv
   - render__19TBoss3VoloptMonitorFv
   - render__19TBoss8DragonColli_CFv
+  - render__19TContainerAncient01Fv
   - render__19TOComputerMachine01Fv
   - render__19TOMonumentAncient01Fv
   - render__19TOMonumentAncient02Fv
@@ -13018,6 +13026,7 @@ force_active:
   - roll_armor_bonuses__9TItemDropFv
   - roll_item_channel_below__FUll
   - roll_meseta_range__9TItemDropFPviiii
+  - roll_physical_accuracy__19TContainerAncient01FPvlf
   - roll_physical_accuracy__20TContainerAncient01RFPvlf
   - roll_rare_weapon_attributes__9TItemDropFiPvi
   - roll_shop_technique_level
@@ -13357,6 +13366,7 @@ force_active:
   - run_task__19TAdGameStartShineGCFv
   - run_task__19TAdTrialAgreementGCFv
   - run_task__19TBoss3VoloptMonitorFv
+  - run_task__19TContainerAncient01Fv
   - run_task__19THunterGuildWarningFv
   - run_task__19TItemDisconnectCtrlFv
   - run_task__19TNECFontEORFunctionFv
@@ -13511,6 +13521,7 @@ force_active:
   - select_forward_target__12TBoss1DragonFPv
   - select_item_icon__20TWindowSubStatusDispFPviUcUci
   - select_lobby_pigeon_model__13TUnk_804E0898Fv
+  - select_melee_contact_body__19TContainerAncient01FPvf
   - select_models__18TObjLazerFenceNormFv
   - select_next__26TWindowSubQuestBoardSelectFv
   - select_next_item__11TWindowMenuFv
@@ -14681,6 +14692,7 @@ force_active:
   - try_open__11TObjDoaEx01Fv
   - try_relocate_on_timer__15TObjEneDelDepthFv
   - try_spawn_ground_effect__16TObjEneMe3StelthFl
+  - try_start_action__19TContainerAncient01Fll
   - try_start_action__20TContainerAncient01RFll
   - try_trigger_action__17TObjEneMe1CanadinFv
   - turn_pose_to_target__14TObjEneBm5WolfFv
@@ -15558,6 +15570,7 @@ force_active:
   - vfunc_6__17TWindowMainMenu4PFv
   - vfunc_6__18TAdAgreementBaseGCFv
   - vfunc_6__18TAdTrialModemChkGCFv
+  - vfunc_6__19TContainerAncient01FPsl
   - vfunc_6__19TOMonumentAncient02FPsl
   - vfunc_6__20TContainerAncient01RFPsl
   - vfunc_6__20TObjEneMe1Gee_NEEDLEFv

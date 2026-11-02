@@ -7,6 +7,7 @@
 struct TContainerAncient01 : public TObjChara {
     virtual ~TContainerAncient01();
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
+    virtual s32 select_melee_contact_body(void *, f32);
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
     virtual f32 receive_physical_attack(void *, f32);
     void sub_8018B700();
