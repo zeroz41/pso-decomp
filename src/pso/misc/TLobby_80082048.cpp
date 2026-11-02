@@ -8,10 +8,6 @@
 #include "pso/player/TObjChara.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
-extern char lbl_80438E60[];
-extern char lbl_80438E74[];
-extern char lbl_80438E80[];
-extern char lbl_80438E94[];
 extern const char *bm_eff_ice_model_names[3];
 extern const char *bm_eff_ice_motion_names[2];
 extern BmlResourceDescriptor enemy_freeze_ice_resource_descriptor;
@@ -179,7 +175,7 @@ f32 TUnk_8048E1A4::receive_weapon_special_attack(void *, void *) {
     return lbl_805D9378;
 }
 
-__declspec(section ".data") const char *bm_eff_ice_model_names[3] = { lbl_80438E60, lbl_80438E74, NULL };
-__declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { lbl_80438E80, NULL };
-BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { lbl_80438E94, bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
+__declspec(section ".data") const char *bm_eff_ice_model_names[3] = { "ice_break_root.gj", "ice_root.gj", NULL };
+__declspec(section ".data") const char *bm_eff_ice_motion_names[2] = { "ice_break_root.njm", NULL };
+BmlResourceDescriptor enemy_freeze_ice_resource_descriptor = { "bm_eff_ice.bml", bm_eff_ice_model_names, bm_eff_ice_motion_names, 2, 1 };
 }

@@ -112,7 +112,6 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *, void *);
 s32 set_global_param__8TObjFishFl();
-extern char lbl_8043D298[];
 extern s32 slime_debug_label_table[];
 extern s32 lbl_80496368[];
 extern s32 slime_bml_resource;
@@ -153,7 +152,7 @@ void TObjEneSlime::render() {
     temp_r31 = defer_render__7TObjectFv();
     if (TObjPlayer::check_demo_mode() != 0) {
         temp_r30 = (this->state36C * 4) & 4;
-        debug_printf_at(0x130020, lbl_8043D298, (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + temp_r30) + 0)));
+        debug_printf_at(0x130020, "TYPE [0/1] : %s", (int) (*(s32 *)((s8 *)((u8 *)slime_debug_label_table + temp_r30) + 0)));
         TObjPlayer::toggle_particle_effect();
         push_matrix();
         temp_r30_2 = *(s32 *)((s8 *)((u8 *)lbl_80496368 + temp_r30) + 0);

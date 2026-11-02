@@ -178,8 +178,6 @@ void setup_split_screen(void);
 extern u32 quest_mission_manager;
 void process_async_file_reads(void);
 void update_sound_request_slots(void);
-extern char lbl_804468F8[];
-extern char lbl_80446908[];
 extern s32 TLobby__data_805D6148;
 extern s32 TLobby__data_805D614C;
 void run_offline_game_frame(void);
@@ -408,8 +406,8 @@ void run_offline_game_frame(void) {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20(lbl_804468F8, TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20(lbl_80446908, TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {
@@ -440,8 +438,8 @@ void run_offline_transfer_frame(void) {
     func_803DCDFC__Fv();
     controller_stuff();
     TKeyBoardControl::update_input_frame();
-    TLobby__sub_8007EB20(lbl_804468F8, TLobby__data_805D614C * 0xC);
-    TLobby__sub_8007EB20(lbl_80446908, TLobby__data_805D6148 * 4);
+    TLobby__sub_8007EB20("Condition E%d", TLobby__data_805D614C * 0xC);
+    TLobby__sub_8007EB20("Condition O%d", TLobby__data_805D6148 * 4);
     if (is_split_screen() != 0) {
         run_split_screen_frame();
     } else {

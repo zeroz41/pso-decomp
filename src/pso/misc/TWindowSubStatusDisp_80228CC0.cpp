@@ -5,7 +5,6 @@
 
 extern char *text_builder_write_cursor;
 char text_builder_buffer[0x100];
-extern s32 lbl_8044CB60[];
 extern s32 lbl_805DC790;
 extern s32 lbl_805DC794;
 
@@ -13,7 +12,7 @@ void TWindowSubStatusDisp::append_play_time(u32 arg0) {
     u32 h = arg0 / 3600U;
     u32 rem = arg0 % 3600U;
     if (h > 99U) {
-        text_builder_append((u8 *)lbl_8044CB60);
+        text_builder_append((u8 *)"99'59\"59");
         return;
     }
     append_padded_number(h, 2);

@@ -14,10 +14,6 @@ struct B_803489B8 { u8 pad0[4]; f32 f4; u8 pad8[0x14]; f32 f1C; u8 pad20[0x10]; 
 
 extern "C" {
 extern f32 lbl_805DFB1C;
-extern const f32 TWindowDD__data_805DFCD8;
-extern f32 lbl_805DFCDC;
-extern const f32 lbl_805DFCE0;
-extern const f32 lbl_805DFCE4;
 Src_80348A9C TWindowDD__data_805434E8[7][8];
 extern s32 *TWindowDD__player_name_buffers;
 extern s32 *TWindowDD__data_805D6E28;
@@ -70,7 +66,7 @@ void TWindowDD__sub_803489B8(A_803489B8 *arg0, B_803489B8 *arg1, s32 arg2) {
     f32 t0;
     f32 step;
     f32 sc;
-    half = TWindowDD__data_805DFCD8 * arg0->fC;
+    half = 0.5f * arg0->fC;
     sc = arg0->f2C;
     t0 = arg0->f4 + half;
     step = TWindowDD__data_805DFB20 * sc;
@@ -96,14 +92,14 @@ void TWindowDD__sub_80348A2C(void *arg0, void *arg1) {
   f32 temp_f4;
   s8 *new_var;
   f32 var_f0;
-  temp_f2 = TWindowDD__data_805DFCD8 * (*((f32 *) (((s8 *) arg0) + 8)));
+  temp_f2 = 0.5f * (*((f32 *) (((s8 *) arg0) + 8)));
   temp_f1 = temp_f2 * (*((f32 *) (((s8 *) arg0) + 0x28)));
   temp_f0 = (*((f32 *) (((s8 *) arg0) + 0))) + temp_f2;
   temp_f2_2 = (0, temp_f0 - temp_f1);
   temp_f4 = temp_f0 + temp_f1;
   if (temp_f1 < lbl_805DFB1C)
   {
-    var_f0 = (temp_f4 - temp_f2_2) / lbl_805DFCDC;
+    var_f0 = (temp_f4 - temp_f2_2) / 3.0f;
   }
   else
   {
@@ -138,7 +134,7 @@ void TWindowDD::copy_point_table(s32 idx) {
 #pragma push
 #pragma fp_contract on
 f32 TWindowDD__sub_80348AD4(f32 farg0, f32 farg1) {
-    return lbl_805DFCE0 / ((lbl_805DFCE4 * farg1) + farg0);
+    return (-1.0f) / ((0.299f * farg1) + farg0);
 }
 #pragma pop
 
@@ -175,8 +171,8 @@ void TWindowBase::calc_inner_rect(u8 *arg1) {
     *(f32 *)((s8 *)arg1 + 0x40) = y0;
     *(f32 *)((s8 *)arg1 + 0x44) = (x + w) - TWindowDD__data_805DFB58;
     *(f32 *)((s8 *)arg1 + 0x48) = (y + h) - ky;
-    *(f32 *)((s8 *)arg1 + 0x20) = TWindowDD__data_805DFCD8 * w + x;
-    *(f32 *)((s8 *)arg1 + 0x24) = TWindowDD__data_805DFCD8 * h + y;
+    *(f32 *)((s8 *)arg1 + 0x20) = 0.5f * w + x;
+    *(f32 *)((s8 *)arg1 + 0x24) = 0.5f * h + y;
 }
 #pragma pop
 

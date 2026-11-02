@@ -13,7 +13,6 @@ extern Rec_803D8098 *debug_text_record_cursor;
 extern f32 debug_text_scale;
 extern s32 debug_text_global_count;
 int sprintf(char *, const char *, ...);
-extern char lbl_805D46A0[6];
 extern const f32 lbl_805E0EB8;
 extern const f32 lbl_805E0EBC;
 void TObjNpcEnemy::set_global_count(s32 arg0) {
@@ -63,7 +62,7 @@ void print_float_padded(s32 arg0, s32 prec, f32 val) {
         *p++ = '-';
         val *= lbl_805E0EBC;
     }
-    sprintf(buf, lbl_805D46A0, 5, val);
+    sprintf(buf, "%0.*f", 5, val);
     n = strlen(buf);
     for (i = 0; i < n; i++) {
         if (buf[i] == '.') {

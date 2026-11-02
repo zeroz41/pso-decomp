@@ -225,8 +225,6 @@ u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3,
 extern "C" {
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *__nw__7TObjectFUl(s32, f32);
-extern u8 lbl_80446DF8[];
-extern u8 lbl_80446E04[];
 extern u8 photon_blast_leilla_params[];
 extern s32 __vt__13TPhotonLeilla[];
 extern s32 lbl_805D34F8;
@@ -298,10 +296,10 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
             construct_photon_magic_square_normal((u8 *)o, (s32)self, 4, (s32)&v, 0x78);
         }
         spawn_photon_blast_attachment_effects(self, 4);
-        play_cue_stream_file((s32)lbl_80446DF8);
+        play_cue_stream_file((s32)"reila2.adx");
     } else {
         spawn_photon_blast_opening_effects(4, F_801AC808(self, u16, 0x17C));
-        play_cue_stream_file((s32)lbl_80446E04);
+        play_cue_stream_file((s32)"reila.adx");
     }
     return self;
 }

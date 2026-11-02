@@ -45,7 +45,6 @@ void lzss_remove_ring_node(Lz_8013FCB0 *t, s32 p);
 void bswap_32__FPUl(u32 *);
 int sprintf(char *, const char *, ...);
 s32 TLobby__sub_8013F810(TLobby *lz, u32 *data, s32 len, u8 *out);
-extern char lbl_8043F168[];
 
 #pragma push
 #pragma opt_propagation off
@@ -205,7 +204,7 @@ s32 TLobby::lz_compress_packet(void *src, s32 size, s32 *hdr) {
     bswap_32__FPUl((u32 *)(out + 1));
     ((Lz_8013F99C *)this)->codesize += 8;
     t1 = TLobby__sub_803DF1CC();
-    sprintf(msg, lbl_8043F168, size, ((Lz_8013F99C *)this)->codesize, fn_803DF204(TLobby::calc_delta(t0, t1)));
+    sprintf(msg, "compless size  %d %d time %d", size, ((Lz_8013F99C *)this)->codesize, fn_803DF204(TLobby::calc_delta(t0, t1)));
     ::debug_print(msg);
     return ((Lz_8013F99C *)this)->codesize;
 }

@@ -112,8 +112,6 @@ extern "C" {
 u8 *load_gvm_texture_file(s32 arg0);
 extern u32 TObjNpcNFM00__shared_named_model_object;
 extern u32 TObjNpcNFM00__texture_gvm_handle;
-extern char lbl_8043FD20[];
-extern char lbl_8043FD34[];
 void * TObjNpcNFM00__create(void *arg0);
 void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1);
 void release_texture_list(void*);
@@ -332,7 +330,7 @@ void TObjNpcNFM00::free_resources() {
     }
 }
 void TObjNpcNFM00::load_assets() {
-    TObjNpcNFM00__shared_named_model_object = (u32)create_named_object((s32)lbl_8043FD20);
-    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)lbl_8043FD34);
+    TObjNpcNFM00__shared_named_model_object = (u32)create_named_object((s32)"npc_h00_data.rel");
+    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_h00_body.gvm");
 }
 }

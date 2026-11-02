@@ -533,8 +533,6 @@ extern s32 TOTrapSeabed01_class_name;
 u8 *TOTrapSeabed01__ct(TOTrapSeabed01 *arg0, s32 arg1, s32 arg2);
 void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
-extern u8 lbl_804720E8[];
-extern u8 lbl_80472100[];
 extern SeabedTrapResourceDescriptor seabed_trap_resource_descriptor;
 
 extern s32 trap_seabed01_param_index_table[];
@@ -635,14 +633,14 @@ void TOTrapSeabed01::load_resources() {
         p = load_resource_from_descriptor(p, 5, (void *)&seabed_trap_resource_descriptor, 0, 0, 0);
     }
     (*(u32 *)&TOTrapSeabed01__bml_resource) = (u32)p;
-    (*(u32 *)&TOTrapSeabed01__texture_file) = (u32)load_gvm_texture_file((s32)lbl_804720E8);
+    (*(u32 *)&TOTrapSeabed01__texture_file) = (u32)load_gvm_texture_file((s32)"obj_seabed_turigane.gvm");
     s32 n = (s32)find_object_node((NJS_OBJECT *)(get_bml_model((*(u32 *)&TOTrapSeabed01__bml_resource), 0)), 5);
     u32 t = (*(u32 *)&TOTrapSeabed01__texture_file);
     (*(s32 *)&TOTrapSeabed01__ginja_model) = n;
     lbl_805D681C = 0;
     seabed01_ginja_mesh_index = -1;
     if (t != 0U) {
-        seabed01_ginja_mesh_index = ((TObjDoorJung *)t)->find_entry_by_name((const char *)lbl_80472100);
+        seabed01_ginja_mesh_index = ((TObjDoorJung *)t)->find_entry_by_name("apk_o064_seaturigane03");
     }
 }
 

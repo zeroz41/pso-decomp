@@ -10,8 +10,6 @@
 extern "C" {
 s32 is_flag_set__14TBoss6PlotFalzFv();
 s32 is_ship_door_ready__12TBoss6ThanksFv();
-extern s32 lbl_804709E0[];
-extern s32 lbl_804709E8[];
 void end_cutscene_camera__14TBoss6PlotFalzFPv(void);
 int draw_empty_warp_overlay(void*);
 
@@ -30,9 +28,9 @@ void TBoss6EmptyWarp::run_task() {
         TBoss6EmptyWarp::init_warp();
         if (is_ship_door_ready__12TBoss6ThanksFv() != 0) {
             TBoss6Thanks::create();
-            play_area_music((char *)(lbl_804709E0));
+            play_area_music((char *)("T2.adx"));
         } else {
-            play_area_music((char *)(lbl_804709E8));
+            play_area_music((char *)("HALL.adx"));
         }
         queue_destruction__7TObjectFv((arg0));
     }

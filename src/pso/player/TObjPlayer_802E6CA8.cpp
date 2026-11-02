@@ -79,8 +79,6 @@ extern const float lbl_805DE9F0;
 extern const f32 lbl_805DE9FC;
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
-extern const f32 lbl_805DEA08;
-extern const f32 lbl_805DEA0C;
 s32 TObjPlayer__sub_802E76C8(u8 *arg0);
 void mem_free(void *p);
 void __dl__7TObjectFPv(void *);
@@ -425,7 +423,7 @@ s32 TObjPlayer__sub_802E76C8(u8 *arg0) {
             if (temp_f2 < lbl_805DE9FC) {
                 temp_f3 = *(f32 *)((s8 *)arg0 + 0);
                 temp_f4 = *(f32 *)((s8 *)arg0 + 8);
-                if ((temp_f3 <= lbl_805DEA00) && (temp_f3 >= lbl_805DEA04) && (temp_f4 <= lbl_805DEA08) && (temp_f4 >= lbl_805DEA0C)) {
+                if ((temp_f3 <= lbl_805DEA00) && (temp_f3 >= lbl_805DEA04) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
                     *(f32 *)((s8 *)arg0 + 0x10) = (f32) (temp_f1 * lbl_805DE9D0);
                     *(s32 *)((s8 *)arg0 + 0x28) = 2;
                 } else if (temp_f2 < (*(const f32 *)&lbl_805DE9F0)) {
