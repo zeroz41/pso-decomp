@@ -3,7 +3,6 @@
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A8640.h"
-#include "pso/npc/TObjNpcEnemy.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
@@ -15,25 +14,6 @@ struct RecoveredGlobal_80148038___vt__12TObjNpcARW00 {
     u8 remaining[0x174];
 };
 
-struct Npc_801480FC {
-    u8 pad0[0x60];
-    s32 f60;
-    u8 pad64[0x358 - 0x64];
-    f32 f358;
-    f32 f35C;
-    f32 f360;
-    f32 f364;
-    u8 pad368[0x384 - 0x368];
-    s32 f384;
-    u8 pad388[0x38C - 0x388];
-    s32 f38C;
-    u8 pad390[0x3A0 - 0x390];
-    s32 f3A0;
-    s32 f3A4;
-    s32 f3A8;
-    s32 f3AC;
-};
-
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcARW00[];
@@ -42,12 +22,6 @@ extern u32 TObjNpcARW00__static_model;
 extern u32 TObjNpcARW00__gvm_texture_handle;
 extern char lbl_8043F4A8[];
 extern char lbl_8043F4BC[];
-void debug_printf_at(s32, const char *, ...);
-extern char lbl_8043F4DC[];
-extern char lbl_8043F4F8[];
-extern char lbl_8043F514[];
-extern char lbl_8043F52C[];
-extern const f32 lbl_805DB1B8;
 void release_texture_list(void*);
 void __dl__7TObjectFPv(void *);
 
@@ -88,34 +62,6 @@ u8 *TObjNpcARW00__ct(u8 *arg0, s32 arg1, s32 arg2) {
 void TObjNpcARW00::play_voice() {
     s32 arg0 = (s32)this;
     play_sound_effect(0x40004C15, (void *)(arg0 + 0x38), 0, 0);
-}
-
-void TObjNpcBase::vfunc_92() {  }
-void TObjNpcBase::vfunc_91() {  }
-void TObjNpcBase::draw_debug_info() {
-    Npc_801480FC *o = (Npc_801480FC *)this;
-    o->f384 = o->f60;
-    o->f38C = 0;
-    if (lbl_805DB1B8 <= o->f358) {
-        o->f38C = 1;
-        o->f3A0 = o->f358 - lbl_805DB1B8;
-    } else {
-        o->f3A0 = o->f358;
-    }
-    if (lbl_805DB1B8 <= o->f35C) {
-        o->f38C = 1;
-        o->f3A4 = o->f35C - lbl_805DB1B8;
-    } else {
-        o->f3A4 = o->f35C;
-    }
-    o->f3A8 = o->f364;
-    o->f3AC = o->f360;
-    TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x1A001D, lbl_8043F4DC, o->f358);
-    debug_printf_at(0x1A001E, lbl_8043F4F8, o->f35C);
-    debug_printf_at(0x1A001F, lbl_8043F514, o->f3AC);
-    debug_printf_at(0x1A0020, lbl_8043F52C, o->f3A8);
-    TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
 }

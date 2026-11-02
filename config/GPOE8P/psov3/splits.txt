@@ -4354,33 +4354,15 @@ pso/npc/TObjNpcARM00.cpp:
 	.sbss       start:0x805D5728 end:0x805D5730
 
 pso/npc/TObjNpcARW00.cpp:
-	.text       start:0x80147F50 end:0x80148274
+	.text       start:0x80147F50 end:0x801480F4
 	.data       start:0x804A7B40 end:0x804A7CB8
 
-pso/unk/text_80148274.cpp:
-	.text       start:0x80148274 end:0x801482F8
-	.data       start:0x804A7CB8 end:0x804A7D24
-
-pso/unk/text_801482F8.cpp:
-	.text       start:0x801482F8 end:0x80148DCC
-	.rodata     start:0x8043F558 end:0x8043F560
-	.sdata2     start:0x805DB1C0 end:0x805DB1C4
-
-pso/player/TObjPlayer_80148DCC.cpp:
-	.text       start:0x80148DCC end:0x801490F4
-
-pso/npc/TObjNpcBase_801490F4.cpp:
-	.text       start:0x801490F4 end:0x80149128
-
-pso/npc/TObjNpcBase_80149128.cpp:
-	.text       start:0x80149128 end:0x80149154
-
 pso/npc/TObjNpcBase.cpp:
-	.text       start:0x80149154 end:0x80149374
-	.sdata2     start:0x805DB1E0 end:0x805DB1E4
-
-pso/misc/TNpcPlayer_80149374.cpp:
-	.text       start:0x80149374 end:0x8014946C
+	.text       start:0x801480F4 end:0x8014946C
+	.rodata     start:0x8043F4D0 end:0x8043F578
+	.data       start:0x804A7CB8 end:0x804A7E9C
+	.sdata      start:0x805D2D20 end:0x805D2D24
+	.sdata2     start:0x805DB1B8 end:0x805DB1E4
 
 pso/npc/TObjNpcBringer.cpp:
 	.text       start:0x8014946C end:0x8014952C

@@ -1284,6 +1284,7 @@ force_active:
   - TObjNpcARM00__model_resource
   - TObjNpcARM00__name
   - TObjNpcARM00__texture_list
+  - TObjNpcBase__name
   - TObjNpcBase__sub_80149368
   - TObjNpcCloakroomBase__ct
   - TObjNpcCloakroomBase__name
@@ -2760,6 +2761,7 @@ force_active:
   - __vt__11TObjDFYutai
   - __vt__11TObjInfoCol
   - __vt__11TObjMesBase
+  - __vt__11TObjNpcBase
   - __vt__11TObjNpcHosa
   - __vt__11TObjNpcMoja
   - __vt__11TObjTuitate
@@ -13685,6 +13687,7 @@ force_active:
   - replace_gvm_texture_directory
   - replace_owned_string__20TWindowSubStatusDispFPviiii
   - repositioning_state__14TObjEneBm5WolfFl
+  - request_action__11TObjNpcBaseFl
   - request_action__12TObjNpcEnemyFl
   - request_action__8TItemMagFl
   - request_aram_load_state__16TAdWarningBaseGCFPv
@@ -15269,6 +15272,8 @@ force_active:
   - sub_8012B1F0__13TUnk_804A4C78Fs
   - sub_8012B1F8__13TUnk_804A4C78Fv
   - sub_80140F44__11TMapCsnCtrlFv
+  - sub_80149358__11TObjNpcBaseFl
+  - sub_80149360__11TObjNpcBaseFl
   - sub_80156A68__14TObjCollidableFv
   - sub_80158604__13TObjMapObjectFv
   - sub_8015860C__6TOBindFv

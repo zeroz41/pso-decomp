@@ -1231,7 +1231,6 @@ pso/misc/TNeedleShoot_802A4754.cpp
 pso/misc/TNeedleShoot_802A4A44.cpp
 pso/misc/TNowLoading.cpp
 pso/misc/TNpcPlayer_800D87A8.cpp
-pso/misc/TNpcPlayer_80149374.cpp
 pso/misc/TNpcPlayer_8014DADC.cpp
 pso/misc/TNpcPlayer_80190E64.cpp
 pso/misc/TNpcPlayer_802C3CD0.cpp
@@ -1936,8 +1935,6 @@ pso/npc/TObjNpcAHM01.cpp
 pso/npc/TObjNpcARM00.cpp
 pso/npc/TObjNpcARW00.cpp
 pso/npc/TObjNpcBase.cpp
-pso/npc/TObjNpcBase_801490F4.cpp
-pso/npc/TObjNpcBase_80149128.cpp
 pso/npc/TObjNpcBringer.cpp
 pso/npc/TObjNpcCloakroomBase.cpp
 pso/npc/TObjNpcConnoisseur.cpp
@@ -2320,7 +2317,6 @@ pso/player/TObjPlayer_801306B0.cpp
 pso/player/TObjPlayer_80130778.cpp
 pso/player/TObjPlayer_8013085C.cpp
 pso/player/TObjPlayer_80130BF0.cpp
-pso/player/TObjPlayer_80148DCC.cpp
 pso/player/TObjPlayer_8014C610.cpp
 pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
@@ -2925,8 +2921,6 @@ pso/unk/text_80145804.cpp
 pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
-pso/unk/text_80148274.cpp
-pso/unk/text_801482F8.cpp
 pso/unk/text_8014952C.cpp
 pso/unk/text_8014AAC4.cpp
 pso/unk/text_8014AB24.cpp
