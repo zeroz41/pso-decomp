@@ -97,6 +97,7 @@ s32 CARDGetSectorSize(s32 chan, u32 *size);
 s32 CARDSetStatus(s32 chan, s32 fileNo, CARDStat_801E2048 *stat);
 s32 CARDClose(CARDFileInfo_801E15A4 *fileInfo);
 s32 CARDOpen(s32 chan, const char *fileName, CARDFileInfo_801E15A4 *fileInfo);
+s32 CARDCreate(s32 chan, const char *fileName, u32 size, CARDFileInfo_801E15A4 *fileInfo);
 s32 CARDReadAsync(CARDFileInfo_801E15A4 *fileInfo, void *addr, s32 length, s32 offset, void (*callback)(s32, s32));
 s32 CARDSetAttributes(s32 chan, s32 fileNo, u8 attr);
 s32 CARDWriteAsync(CARDFileInfo_801E15A4 *fileInfo, const void *addr, s32 length, s32 offset, void (*callback)(s32, s32));
@@ -937,6 +938,51 @@ s32 TAdPlayerLoadGC__sub_801E263C(s32 unused, s32 chan, u8 *workArea) {
     }
     TAdPlayerLoadGC__card_result_code = 0;
     return 0;
+}
+
+// Opens the card file, creating it with `size` bytes when CARDOpen reports CARD_RESULT_NOFILE.
+s32 TAdPlayerLoadGC__sub_801E26DC(s32 chan, const char *name, void *buf, u32 size) {
+    char fileName[32];
+    s32 result;
+    memset(fileName, 0, sizeof(fileName));
+    strncpy(fileName, name, sizeof(fileName));
+    lbl_805D5E3C = size;
+    result = CARDOpen(chan, name, &TAdPlayerLoadGC__data_80511EE8);
+    switch (result) {
+    case -3:
+        return -0xFF;
+    case -1:
+        return result;
+    case 0:
+        return result;
+    case -128:
+    case -10:
+    case -6:
+    case -2:
+    default:
+        return result;
+    case -4:
+        result = CARDCreate(chan, fileName, lbl_805D5E3C, &TAdPlayerLoadGC__data_80511EE8);
+        switch (result) {
+        case -7:
+            return result;
+        case -3:
+            return result;
+        case -1:
+            return result;
+        case 0:
+            return result;
+        case -2:
+        case -4:
+        case -6:
+        case -8:
+        case -9:
+        case -12:
+        case -128:
+        default:
+            return result;
+        }
+    }
 }
 
 RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 TAdPlayerLoadGC__banner_buffers;

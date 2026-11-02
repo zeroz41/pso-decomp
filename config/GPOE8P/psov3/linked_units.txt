@@ -1942,6 +1942,7 @@ pso/misc/pso_date.cpp
 pso/network/NetworkInfoCodec.cpp
 pso/network/NetworkInfoLoader.cpp
 pso/network/NetworkMessageTransport.cpp
+pso/network/NetworkPacketRuntime.cpp
 pso/network/NetworkTransport.cpp
 pso/network/TGameProtocol.cpp
 pso/network/TProtocol.cpp
@@ -2409,6 +2410,7 @@ pso/player/TObjPlayer_8013085C.cpp
 pso/player/TObjPlayer_80130BF0.cpp
 pso/player/TObjPlayer_80148DCC.cpp
 pso/player/TObjPlayer_8014C610.cpp
+pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
 pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80178150.cpp
@@ -2686,6 +2688,7 @@ pso/ui/TAdMultiSelGameModeGC_802D5098.cpp
 pso/ui/TAdPlayerLoadGC.cpp
 pso/ui/TAdPlayerLoadGC_80076BBC.cpp
 pso/ui/TAdPlayerLoadGC_800F9EF8.cpp
+pso/ui/TAdPlayerLoadGC_801E0C30.cpp
 pso/ui/TAdPlayerLoadGC_8033BB14.cpp
 pso/ui/TAdPlayerLoadGC_803F3CF4.cpp
 pso/ui/TAdPlyPltAnimCtrlGC.cpp

@@ -575,7 +575,8 @@ struct TObjPlayer : public TObjChara {
     void draw_model();
     void draw_if_visible();
     static void apply_status_effect(s32 a);
-    static void add_unique_pair_entry(u32 arg0, s32 arg1);
+    // Enters (target, body) in the hit pair table unless it is already there.
+    static void add_unique_pair_entry(TObjCollidable *target, s32 body);
     static void clear_item_table();
     static void init_all_slots();
     static s32 check_flag_pair(s32 arg0, s32 arg1);

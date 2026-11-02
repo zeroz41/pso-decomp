@@ -262,7 +262,7 @@ pso/boss/TBoss2Joint.cpp:
 
 pso/boss/TBoss2LaserLight.cpp:
 	.text       start:0x800371F0 end:0x800375C0
-	.sdata2     start:0x805D849C end:0x805D84A8
+	.sdata2     start:0x805D849C end:0x805D84B8
 
 pso/boss/TBoss2Mine_800375C0.cpp:
 	.text       start:0x800375C0 end:0x80038D0C
@@ -4783,7 +4783,7 @@ pso/player/TObjPlayer_801542CC.cpp:
 	.text       start:0x801542CC end:0x80156B18
 	.data       start:0x804AF8A0 end:0x804AF8D8
 	.bss        start:0x8050D460 end:0x8050DB50
-	.sdata2     start:0x805DB270 end:0x805DB27C
+	.sdata2     start:0x805DB270 end:0x805DB2A4
 
 pso/misc/TLobby_80156B18.cpp:
 	.text       start:0x80156B18 end:0x80156BBC
@@ -5792,6 +5792,7 @@ pso/object/TObjCityMainWarp_80186E24.cpp:
 pso/object/TObjCityMainWarp_80186F84.cpp:
 	.text       start:0x80186F84 end:0x80187824
 	.data       start:0x804B61DC end:0x804B61F8
+	.sdata2     start:0x805DBCA8 end:0x805DBCB8
 
 pso/object/TObjCityMainWarpChallenge.cpp:
 	.text       start:0x80187824 end:0x80187C98
@@ -9503,7 +9504,7 @@ pso/unk/text_8028EC70.cpp:
 
 pso/ui/TAdSinglePlyChrSelectGC_8028EF14.cpp:
 	.text       start:0x8028EF14 end:0x80290B3C
-	.rodata     start:0x804512A0 end:0x80451CD8
+	.rodata     start:0x804512A0 end:0x80451CE0
 	.data       start:0x804D3A08 end:0x804D40A8
 	.bss        start:0x8051C0E8 end:0x80540954
 	.sdata      start:0x805D3B70 end:0x805D3BC0

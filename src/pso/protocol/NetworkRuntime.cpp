@@ -66,7 +66,7 @@ void TLobby__sub_803F9FAC(u8 *obj);
 s32 TLobby__sub_803FA318(Obj_803FA664 *fsm, Msg_803FA664 *msg, u32 src);
 s32 TLobby__sub_803FA4A4(Obj_803FA664 *fsm, Msg_803FA664 *msg, u32 src);
 s16 TLobby__sub_803FA7B0(Obj_803FA664 *fsm, Msg_803FA664 *msg, u32 src);
-s32 TLobby__sub_803FABDC(Obj_803FA664 *fsm, Msg_803FA664 *msg, u32 src);
+B_803FADA0 *TLobby__sub_803FABDC(Obj_803FA664 *fsm);
 s32 verify_message_sequence__6TLobbyFPvPvUi(Obj_803FA664 *arg0, Msg_803FA664 *arg1, u32 arg2);
 void init_net_state_entry__6TLobbyFv(TLobby *obj);
 void TLobby__sub_803FD694(u8 *entry);
@@ -477,7 +477,7 @@ struct Proto_803F9FAC {
     void (*f1C)(TLobby *);
     void (*f20)(void);
     void (*f24)(s32);
-    s32 (*f28)(Obj_803FA664 *, Msg_803FA664 *, u32);
+    B_803FADA0 *(*f28)(Obj_803FA664 *);
     s16 (*f2C)(Obj_803FA664 *, Msg_803FA664 *, u32);
     s32 (*f30)(Obj_803FA664 *, Msg_803FA664 *, u32);
     s32 (*f34)(Obj_803FA664 *, Msg_803FA664 *, u32);
@@ -914,36 +914,10 @@ s16 NetIPv6CPParseConfigureOption(u32 *src, Sub_803FA664 *a, Sub_803FA664 *b, u8
 
 extern u8 lbl_804FD398[];
 
+#pragma defer_codegen on
 #pragma push
 #pragma dont_inline off
 #pragma inline_depth(4)
-inline s32 ipv6cp_option_type(s16 bit) {
-    if (bit < 8) {
-        return bit;
-    }
-    if (bit < 32) {
-        return bit + 120;
-    }
-    return 0;
-}
-
-void TLobby__sub_803FACD8(B_803FADA0 **pbuf, A_803FADA0 *opts, s16 mask) {
-    s16 i;
-    u8 len;
-    if (*pbuf == NULL) {
-        *pbuf = init_net_buffer_entry__6TLobbyFUs(0);
-        if (*pbuf == NULL) {
-            return;
-        }
-    }
-    for (i = 1; i < 32; i++) {
-        if (mask & (1 << i)) {
-            TLobby__sub_803FADA0(pbuf, opts, ipv6cp_option_type(i), len = lbl_804FD398[i], NULL);
-        }
-    }
-}
-#pragma pop
-
 void TLobby__sub_803FADA0(B_803FADA0 **arg0, A_803FADA0 *arg1, s32 arg2, s32 arg3, void *arg4) {
     u8 *p;
     B_803FADA0 *b;
@@ -975,6 +949,35 @@ void TLobby__sub_803FADA0(B_803FADA0 **arg0, A_803FADA0 *arg1, s32 arg2, s32 arg
     }
     b->len += arg3;
 }
+
+inline void TLobby__sub_803FACD8(B_803FADA0 **pbuf, A_803FADA0 *opts, s16 mask) {
+    s16 i;
+    u8 len;
+    if (*pbuf == NULL) {
+        *pbuf = init_net_buffer_entry__6TLobbyFUs(0);
+        if (*pbuf == NULL) {
+            return;
+        }
+    }
+    for (i = 1; i < 32; i++) {
+        if (mask & (1 << i)) {
+            TLobby__sub_803FADA0(pbuf, opts, i < 8 ? i : (i < 32 ? i + 120 : 0), len = lbl_804FD398[i], NULL);
+        }
+    }
+}
+
+B_803FADA0 *TLobby__sub_803FABDC(Obj_803FA664 *fsm) {
+    Sub_803FA664 *opts = fsm->p30;
+    B_803FADA0 *buf = NULL;
+    buf = init_net_buffer_entry__6TLobbyFUs(0);
+    if (buf == NULL) {
+        return NULL;
+    }
+    TLobby__sub_803FACD8(&buf, (A_803FADA0 *)&opts->h1C, opts->h1C);
+    return buf;
+}
+#pragma defer_codegen off
+#pragma pop
 
 s32 TLobby__sub_80405304(void *);
 
