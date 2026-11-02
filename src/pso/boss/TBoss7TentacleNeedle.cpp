@@ -320,9 +320,10 @@ u8 *TBoss7TentacleNeedle__ct(TBoss7TentacleNeedle *self, void *parent, V_802F0A5
     *(s32 *)((s8 *)self + 0x38) = 0;
     *(s32 *)((s8 *)self + 0x3C) = 0;
     s32 w0; s32 w1; s32 w2; s32 v[3];
-    w2 = ((s32 *)pos)[2];
+    w2 = ((s32 *)pos)[0];
+    w0 = w2;
     w1 = ((s32 *)pos)[1];
-    w0 = ((s32 *)pos)[0];
+    w2 = ((s32 *)pos)[2];
     v[0] = w0;
     v[1] = w1;
     v[2] = w2;
