@@ -5,6 +5,8 @@
 #include "pso/unk/text_8034AD38.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
+
+#pragma pool_data off
 struct Slot_8034AD38 { void *ctrl; u8 pad[0x18]; };
 
 struct TAdFloorLoadPrtGC_8034AD38 {
@@ -21,7 +23,7 @@ struct Ang_8034ADE0 { s32 x, y, z; };
 struct Slot_8034ADE0 { Vec_8034ADE0 pos; Ang_8034ADE0 ang; void *ctrl; };
 
 struct Prt_8034ADE0 {
-    s32 name;
+    const char *name;
     u8 pad4[0x18 - 4];
     void *vtable;
     Slot_8034ADE0 slots[32];
@@ -35,11 +37,37 @@ extern void *__vt__17TAdFloorLoadPrtGC[];
 extern s16 lbl_804F0070[];
 s32 __ct__7TObjectFP7TObject(void *);
 void *memset(void *, int, u32);
-extern Vec_8034ADE0 floor_load_particle_positions[];
-extern Ang_8034ADE0 TAdFloorLoadPrtGC__emitter_angles[];
-extern Vec_8034ADE0 lbl_80478B48[];
-extern Ang_8034ADE0 lbl_80478B54[];
-extern s32 lbl_805D4330;
+extern const Vec_8034ADE0 floor_load_particle_positions[12] = {
+    { 0.0f, 0.0f, 100.0f },
+    { 0.0f, 49.0f, 86.2f },
+    { 0.0f, 86.2f, 49.8f },
+    { 0.0f, 100.0f, 0.0f },
+    { 0.0f, 86.2f, -49.8f },
+    { 0.0f, 49.8f, -86.2f },
+    { 0.0f, 0.0f, -100.0f },
+    { 0.0f, -49.0f, -86.2f },
+    { 0.0f, -86.2f, -49.8f },
+    { 0.0f, -100.0f, 0.0f },
+    { 0.0f, -86.2f, 49.8f },
+    { 0.0f, -49.8f, 86.2f },
+};
+extern const Ang_8034ADE0 TAdFloorLoadPrtGC__emitter_angles[12] = {
+    { 0x0, 0x0, 0x0 },
+    { 0x1555, 0x0, 0x0 },
+    { 0x2AAA, 0x0, 0x0 },
+    { 0x4000, 0x0, 0x0 },
+    { 0x5555, 0x0, 0x0 },
+    { 0x6AAA, 0x0, 0x0 },
+    { 0x8000, 0x0, 0x0 },
+    { 0x9555, 0x0, 0x0 },
+    { 0xAAAA, 0x0, 0x0 },
+    { 0xC000, 0x0, 0x0 },
+    { 0xD555, 0x0, 0x0 },
+    { 0xEAAA, 0x0, 0x0 },
+};
+extern const Vec_8034ADE0 lbl_80478B48[1] = { { 0.0f, 0.0f, 0.0f } };
+extern const Ang_8034ADE0 lbl_80478B54[1] = { { 0x0, 0x0, 0x4000 } };
+const char *TAdFloorLoadPrtGC__class_name = "TAdFloorLoadPrtGC";
 Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0);
 }
 TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
@@ -60,20 +88,20 @@ TAdFloorLoadPrtGC::~TAdFloorLoadPrtGC() {
 #pragma push
 #pragma opt_common_subs off
 Prt_8034ADE0 *TAdFloorLoadPrtGC__ct(Prt_8034ADE0 *arg0) {
-    Ang_8034ADE0 *a;
-    Vec_8034ADE0 *p;
+    const Ang_8034ADE0 *a;
+    const Vec_8034ADE0 *p;
     s32 i;
     __ct__7TObjectFP7TObject(arg0);
     arg0->vtable = __vt__17TAdFloorLoadPrtGC;
-    arg0->name = lbl_805D4330;
+    arg0->name = TAdFloorLoadPrtGC__class_name;
     memset(arg0->slots, 0, sizeof(arg0->slots));
     arg0->bg = 0;
     for (i = 0; i < 12; i++) {
         VecCopy((Vec *)&arg0->slots[i].pos, (const Vec *)(p = &floor_load_particle_positions[i]));
-        copy_xyz(&arg0->slots[i].ang, a = &TAdFloorLoadPrtGC__emitter_angles[i]);
-        arg0->slots[i].ctrl = create_particle_controller_with_angles(p, a, 0x65, 1, 0x40);
+        copy_xyz(&arg0->slots[i].ang, (void *)(a = &TAdFloorLoadPrtGC__emitter_angles[i]));
+        arg0->slots[i].ctrl = create_particle_controller_with_angles((void *)p, (void *)a, 0x65, 1, 0x40);
     }
-    arg0->bg = create_particle_controller_with_angles(lbl_80478B48, lbl_80478B54, 0x2F, 1, 0x40);
+    arg0->bg = create_particle_controller_with_angles((void *)lbl_80478B48, (void *)lbl_80478B54, 0x2F, 1, 0x40);
     return arg0;
 }
 #pragma pop

@@ -4,6 +4,7 @@
 #include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/BmlResourceDescriptor.h"
 struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8
 {
   u32 value;
@@ -81,6 +82,78 @@ struct Rec_803592B8 {
     void *data;
 };
 
+// Per-NPC body BML descriptors: one model (<name>.nj), no motions.
+static const char *npc_delta_w_body_motion_names[1] = { NULL };
+static const char *npc_delta_w_body_model_names[2] = { "n_delta_w_body.nj", NULL };
+static BmlResourceDescriptor npc_delta_w_body_resource_descriptor = { "bm_n_delta_w_body.bml", npc_delta_w_body_model_names, npc_delta_w_body_motion_names, 1, 0 };
+static const char *npc_elly_t_body_motion_names[1] = { NULL };
+static const char *npc_elly_t_body_model_names[2] = { "n_elly_t_body.nj", NULL };
+static BmlResourceDescriptor npc_elly_t_body_resource_descriptor = { "bm_n_elly_t_body.bml", npc_elly_t_body_model_names, npc_elly_t_body_motion_names, 1, 0 };
+static const char *npc_karen_t_body_motion_names[1] = { NULL };
+static const char *npc_karen_t_body_model_names[2] = { "n_karen_t_body.nj", NULL };
+static BmlResourceDescriptor npc_karen_t_body_resource_descriptor = { "bm_n_karen_t_body.bml", npc_karen_t_body_model_names, npc_karen_t_body_motion_names, 1, 0 };
+static const char *npc_leo_w_body_motion_names[1] = { NULL };
+static const char *npc_leo_w_body_model_names[2] = { "n_leo_w_body.nj", NULL };
+static BmlResourceDescriptor npc_leo_w_body_resource_descriptor = { "bm_n_leo_w_body.bml", npc_leo_w_body_model_names, npc_leo_w_body_motion_names, 1, 0 };
+static const char *npc_michel_t_body_motion_names[1] = { NULL };
+static const char *npc_michel_t_body_model_names[2] = { "n_michel_t_body.nj", NULL };
+static BmlResourceDescriptor npc_michel_t_body_resource_descriptor = { "bm_n_michel_t_body.bml", npc_michel_t_body_model_names, npc_michel_t_body_motion_names, 1, 0 };
+static const char *npc_nol_t_body_motion_names[1] = { NULL };
+static const char *npc_nol_t_body_model_names[2] = { "n_nol_t_body.nj", NULL };
+static BmlResourceDescriptor npc_nol_t_body_resource_descriptor = { "bm_n_nol_t_body.bml", npc_nol_t_body_model_names, npc_nol_t_body_motion_names, 1, 0 };
+static const char *npc_paganini_t_body_motion_names[1] = { NULL };
+static const char *npc_paganini_t_body_model_names[2] = { "n_paganini_t_body.nj", NULL };
+static BmlResourceDescriptor npc_paganini_t_body_resource_descriptor = { "bm_n_paganini_t_body.bml", npc_paganini_t_body_model_names, npc_paganini_t_body_motion_names, 1, 0 };
+static const char *npc_gunsinei_body_motion_names[1] = { NULL };
+static const char *npc_gunsinei_body_model_names[2] = { "gunsinei_body.nj", NULL };
+static BmlResourceDescriptor npc_gunsinei_body_resource_descriptor = { "bm_gunsinei_body.bml", npc_gunsinei_body_model_names, npc_gunsinei_body_motion_names, 1, 0 };
+static const char *npc_kenkyuw2_body_motion_names[1] = { NULL };
+static const char *npc_kenkyuw2_body_model_names[2] = { "kenkyuw2_body.nj", NULL };
+static BmlResourceDescriptor npc_kenkyuw2_body_resource_descriptor = { "bm_kenkyuw2_body.bml", npc_kenkyuw2_body_model_names, npc_kenkyuw2_body_motion_names, 1, 0 };
+static const char *npc_ncchild_body_motion_names[1] = { NULL };
+static const char *npc_ncchild_body_model_names[2] = { "ncchild_body.nj", NULL };
+static BmlResourceDescriptor npc_ncchild_body_resource_descriptor = { "bm_ncchild_body.bml", npc_ncchild_body_model_names, npc_ncchild_body_motion_names, 1, 0 };
+static const char *npc_ncman_body_motion_names[1] = { NULL };
+static const char *npc_ncman_body_model_names[2] = { "ncman_body.nj", NULL };
+static BmlResourceDescriptor npc_ncman_body_resource_descriptor = { "bm_ncman_body.bml", npc_ncman_body_model_names, npc_ncman_body_motion_names, 1, 0 };
+static const char *npc_nctrunk_body_motion_names[1] = { NULL };
+static const char *npc_nctrunk_body_model_names[2] = { "nctrunk_body.nj", NULL };
+static BmlResourceDescriptor npc_nctrunk_body_resource_descriptor = { "bm_nctrunk_body.bml", npc_nctrunk_body_model_names, npc_nctrunk_body_motion_names, 1, 0 };
+static const char *npc_nctrunk2_body_motion_names[1] = { NULL };
+static const char *npc_nctrunk2_body_model_names[2] = { "nctrunk2_body.nj", NULL };
+static BmlResourceDescriptor npc_nctrunk2_body_resource_descriptor = { "bm_nctrunk2_body.bml", npc_nctrunk2_body_model_names, npc_nctrunk2_body_motion_names, 1, 0 };
+static const char *npc_ncwoman_body_motion_names[1] = { NULL };
+static const char *npc_ncwoman_body_model_names[2] = { "ncwoman_body.nj", NULL };
+static BmlResourceDescriptor npc_ncwoman_body_resource_descriptor = { "bm_ncwoman_body.bml", npc_ncwoman_body_model_names, npc_ncwoman_body_motion_names, 1, 0 };
+
+// {resource slot, descriptor} lists, terminated by slot -1 (load_resources picks one per area).
+static Rec_803592B8 lbl_804F17D8[] = {
+    { 0, &npc_michel_t_body_resource_descriptor },
+    { 1, &npc_karen_t_body_resource_descriptor },
+    { 2, &npc_leo_w_body_resource_descriptor },
+    { 3, &npc_paganini_t_body_resource_descriptor },
+    { 4, &npc_delta_w_body_resource_descriptor },
+    { 5, &npc_nol_t_body_resource_descriptor },
+    { 6, &npc_elly_t_body_resource_descriptor },
+    { 7, &npc_ncchild_body_resource_descriptor },
+    { 8, &npc_ncwoman_body_resource_descriptor },
+    { 9, &npc_ncman_body_resource_descriptor },
+    { 10, &npc_gunsinei_body_resource_descriptor },
+    { 11, &npc_nctrunk_body_resource_descriptor },
+    { 12, &npc_nctrunk2_body_resource_descriptor },
+    { 13, &npc_kenkyuw2_body_resource_descriptor },
+    { -1, NULL },
+};
+static Rec_803592B8 lbl_804F1850[] = {
+    { 4, &npc_delta_w_body_resource_descriptor },
+    { 11, &npc_nctrunk_body_resource_descriptor },
+    { -1, NULL },
+};
+static Rec_803592B8 lbl_804F1868[] = {
+    { 2, &npc_leo_w_body_resource_descriptor },
+    { -1, NULL },
+};
+
 extern "C" {
 s32 __ct__11TObjControlFP7TObject(int, int);
 s32 __nw__7TObjectFUl(int);
@@ -88,7 +161,6 @@ RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_8054
 extern s32 tl_04;
 s32 TLobby__sub_8001FE7C(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern Rec_803592B8 npc_delta_w_body_model_names[];
 typedef struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8;
 typedef char RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8_size[((sizeof(RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8)) == 0x38) ? (1) : (-1)];
 
@@ -468,7 +540,6 @@ void TObjNpcNgcBase::load_resources() {
     Rec_803592B8 *p;
     s32 i;
     void *obj;
-    Rec_803592B8 *tbl = npc_delta_w_body_model_names;
     for (i = 0; i < 14; i++) {
         ((u32 *)&TObjNpcNgcBase__data_805439A8)[i] = 0;
     }
@@ -476,14 +547,14 @@ void TObjNpcNgcBase::load_resources() {
     switch (get_current_floor_area()) {
     case AREA_PIONEER2_EP1:
     case AREA_PIONEER2_EP2:
-        p = &tbl[0x2A];
+        p = lbl_804F17D8;
         break;
     case AREA_CENTRAL_CONTROL_AREA: case AREA_JUNGLE_NORTH: case AREA_JUNGLE_EAST: case AREA_MOUNTAIN: case AREA_SEASIDE:
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
-        p = &tbl[0x39];
+        p = lbl_804F1850;
         break;
     case AREA_SEABED_UPPER: case AREA_SEABED_LOWER:
-        p = &tbl[0x3C];
+        p = lbl_804F1868;
         break;
     }
     if (p != NULL) {

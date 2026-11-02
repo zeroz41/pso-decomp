@@ -153,6 +153,8 @@ force_active:
   - TAdEp3Exist__sub_8036F590
   - TAdEp3Exist__sub_8036F5A4
   - TAdFadeGC__name
+  - TAdFloorLoadPrtGC__class_name
+  - TAdFloorLoadPrtGC__emitter_angles
   - TAdGuideTxtGC__class_name
   - TAdLdQuestPrtGC__class_name
   - TAdLoadNetworkGC__object_offset_table
@@ -4239,6 +4241,9 @@ force_active:
   - bm_obj_boss2_common_model_names
   - bm_obj_boss2_common_motion_names
   - bm_obj_boss2_common_resource_descriptor
+  - bm_obj_boss5_common_model_names
+  - bm_obj_boss5_common_motion_names
+  - bm_obj_boss5_common_resource_descriptor
   - bm_obj_boss7_common_model_names
   - bm_obj_boss7_common_motion_names
   - bm_obj_boss8_piller_model_names
@@ -4856,6 +4861,7 @@ force_active:
   - class_name__23TObjSeabedSuisoBrakable
   - class_name__9TObjHashi
   - class_starting_inventory_table
+  - class_technique_boost_table
   - classify_level_bracket_narrow__6TLobbyFl
   - classify_level_bracket_wide__6TLobbyFl
   - classify_tool_shop_level_bracket__Fl
@@ -5933,6 +5939,7 @@ force_active:
   - floor_lifecycle_callbacks_floors_11_12
   - floor_lifecycle_callbacks_floors_19_20
   - floor_lifecycle_callbacks_floors_21_22
+  - floor_load_particle_positions
   - floor_map_registry
   - floor_map_registry_id_table
   - floor_resource_callback_tables
@@ -6213,6 +6220,7 @@ force_active:
   - gather_player_contacts__10TObjPlayerFUlll
   - gb_advance_collision_body_parts
   - gba_joyboot_transfer_callback__Fll
+  - gcci_version_string
   - gcrna_audio_buffers
   - gcrna_error_callback
   - gcrna_error_context
@@ -7024,6 +7032,7 @@ force_active:
   - item_system_generation
   - item_texture_afs_work_buffer
   - item_texture_filename_buffer
+  - item_tool_factory_table
   - jisin_enter__11TBoss4Type2Fv
   - jisin_idle__11TBoss4Type2Fv
   - jisin_update__11TBoss4Type2Fv
@@ -7337,6 +7346,8 @@ force_active:
   - lbl_80478134
   - lbl_80478140
   - lbl_8047817C
+  - lbl_80478B48
+  - lbl_80478B54
   - lbl_8047B928
   - lbl_80480A70
   - lbl_80480D20

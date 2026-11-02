@@ -710,6 +710,8 @@ pso/boss/TBoss5GryphonSnarl.cpp:
 
 pso/unk/text_80066F10.cpp:
 	.text       start:0x80066F10 end:0x80066F5C
+	.rodata     start:0x80437FA0 end:0x80438128
+	.data       start:0x80488730 end:0x80488778
 
 pso/unk/text_80066F5C.cpp:
 	.text       start:0x80066F5C end:0x80067034
@@ -2462,6 +2464,8 @@ pso/unk/text_801036CC.cpp:
 pso/misc/TLobby_80103F5C.cpp:
 	.text       start:0x80103F5C end:0x801047B4
 	.ctors      start:0x80433F78 end:0x80433F7C
+	.rodata     start:0x8043E068 end:0x8043E0B0
+	.data       start:0x8049EE00 end:0x8049EE60
 
 pso/misc/TShopEquipmentSellWindow_801047B4.cpp:
 	.text       start:0x801047B4 end:0x80104860
@@ -6564,6 +6568,8 @@ pso/player/TObjPlayer_801D84CC.cpp:
 
 pso/unk/text_801D94C8.cpp:
 	.text       start:0x801D94C8 end:0x801D9514
+	.rodata     start:0x804493E8 end:0x80449568
+	.data       start:0x804C4A20 end:0x804C4A50
 
 pso/unk/text_801D9514.cpp:
 	.text       start:0x801D9514 end:0x801D95B8
@@ -11969,7 +11975,9 @@ pso/ui/TAdFloorLoadPrtGC.cpp:
 
 pso/unk/text_8034AD38.cpp:
 	.text       start:0x8034AD38 end:0x8034AF68
+	.rodata     start:0x80478A28 end:0x80478B78
 	.data       start:0x804F0028 end:0x804F0040
+	.sdata      start:0x805D4330 end:0x805D4338
 
 pso/misc/TWindowDD_8034AF68.cpp:
 	.text       start:0x8034AF68 end:0x8034B110
@@ -12215,7 +12223,10 @@ pso/player/TObjPlayer_80357734.cpp:
 
 pso/npc/TObjNpcNgcBase_80358AE8.cpp:
 	.text       start:0x80358AE8 end:0x803593C8
+	.rodata     start:0x804793F8 end:0x80479638
+	.data       start:0x804F1688 end:0x804F1878
 	.bss        start:0x805439A8 end:0x805439E0
+	.sdata      start:0x805D43B8 end:0x805D43F0
 
 pso/npc/TObjNpcNgcBase.cpp:
 	.text       start:0x803593C8 end:0x80359420
@@ -13613,6 +13624,7 @@ pso/misc/TLobby_803CFE68.cpp:
 
 pso/unk/text_803CFEA0.cpp:
 	.text       start:0x803CFEA0 end:0x803D0C28
+	.rodata     start:0x8047DAB8 end:0x8047DCF0
 
 pso/misc/TLobby_803D0C28.cpp:
 	.text       start:0x803D0C28 end:0x803D0C34

@@ -10,6 +10,23 @@
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TUnk_8049F770.h"
+#include "pso/item/TUnk_8049FE00.h"
+#include "pso/item/TUnk_8049FC90.h"
+#include "pso/item/TUnk_8049FA50.h"
+#include "pso/item/TUnk_8049F8E0.h"
+#include "pso/item/TUnk_8049FB08.h"
+#include "pso/item/TUnk_8049F998.h"
+#include "pso/item/TUnk_8049FD48.h"
+#include "pso/item/TUnk_8049FED0.h"
+#include "pso/item/TUnk_8049FF88.h"
+#include "pso/unk/TUnk_8049FBC0.h"
+#include "pso/item/TUnk_8049F828.h"
+#include "pso/enemy/TUnk_804E6FA8.h"
+#include "pso/item/TUnk_804F112C.h"
+#include "pso/unk/TUnk_804F0C48.h"
+#include "pso/item/TUnk_804F0D34.h"
+#include "pso/unk/TUnk_804F0FF0.h"
 
 struct In_8010440C { u8 pad0; u8 idx; };
 
@@ -21,7 +38,6 @@ struct Ent_80103F68 { u8 pad[0x24]; };
 #pragma auto_inline off
 #pragma dont_inline off
 
-struct Tbl_801044B8 { s32 v[17]; };
 
 extern "C" {
 void mem_free(void *p);
@@ -58,15 +74,40 @@ extern s32 TLobby__designated_client_id;
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *self, void *item);
 s32 get_item_id__5TItemFv();
 int get_item_field_6__10TObjPlayerFPv(void *p);
-extern void *item_tool_factory_table[];
 void *TLobby__sub_8010440C(In_8010440C *arg0);
 void *get_weapon_factory_for_item(In_80104438 *arg0);
 int is_quest_active(void);
 s32 TItemDropSub__sub_80107B74();
 }
 extern void *weapon_factory_table[];
+// Tool item factories, indexed by the tool type byte (TLobby__sub_8010440C).
+void *item_tool_factory_table[24] = {
+    (void *)TUnk_8049F770::create,
+    (void *)TUnk_8049FE00::create,
+    (void *)create_technique_disk_item,
+    (void *)create_sol_atomizer_item,
+    (void *)create_moon_atomizer_item,
+    (void *)create_star_atomizer_item,
+    (void *)create_status_cure_item,
+    (void *)create_telepipe_item,
+    (void *)TUnk_8049FED0::create,
+    (void *)TItemObject::create,
+    (void *)create_item_grinder,
+    (void *)create_material_item,
+    (void *)TUnk_8049F828::create,
+    (void *)TItemObject::create,
+    (void *)TItemObject::create,
+    (void *)create_add_slot_item,
+    (void *)TItemObject::create,
+    (void *)TItemObject::create,
+    (void *)TItemObject::create,
+    (void *)TItemObject::create,
+    (void *)TUnk_804F112C::create,
+    (void *)TUnk_804F0C48::create,
+    (void *)TUnk_804F0D34::create,
+    (void *)TUnk_804F0FF0::create,
+};
 
-extern Tbl_801044B8 item_drop_area_remap_table;
 void normalize_drop_area(s32 *p);
 extern "C" {
 void bswap_sync_item_state_header(G_SyncItemState_6x6D_Decompressed *header);
@@ -238,8 +279,8 @@ void normalize_drop_area(s32 *p) {
     } else if (p != NULL) {
         v = *p;
         if (v >= 0x13 && v < 0x24) {
-            Tbl_801044B8 t = item_drop_area_remap_table;
-            *p = t.v[(u32)(v - 0x13)];
+            s32 remap[17] = { 1, 2, 3, 4, 8, 5, 6, 7, 8, 9, 10, 9, 10, 3, 5, 8, 10 };
+            *p = remap[(u32)(v - 0x13)];
         }
     }
 }
