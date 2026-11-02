@@ -448,6 +448,7 @@ force_active:
   - TJudgmentSequence__sub_80215BA0
   - TJudgmentSequence__sub_80215BCC
   - TJudgmentSequence__sub_80215BF8
+  - TKeyBoardControl__pad_status_buffer
   - TKeyBoardControl__sub_8000F764
   - TKeyBoardControl__sub_8000F9E4
   - TKeyBoardControl__sub_80132598
@@ -456,6 +457,7 @@ force_active:
   - TKeyBoardControl__sub_803F0E8C
   - TKeyBoardControl__sub_803F107C
   - TKeyBoardControl_key_bit_table
+  - TKeyBoardControl_prev_pad_state
   - TKomorebi__ct
   - TKomorebi__resource_bundle
   - TKomorebi__resource_descriptor
@@ -1193,6 +1195,7 @@ force_active:
   - TObjNpcNHW01__model_object
   - TObjNpcNHW01__name
   - TObjNpcNHW01__texture_handle
+  - TObjNpcNgcBase__data_805439A8
   - TObjNpcNurseBase__name
   - TObjNpcNurseBase__shared_model_resource
   - TObjNpcSecretaryBase__name
@@ -3642,7 +3645,10 @@ force_active:
   - boss4_type3_state_name_wait_kill
   - boss4_type3_state_name_wait_next
   - boss4_type3_states
+  - boss5_gryphon_bone_capture_origin
+  - boss5_gryphon_camera_pos_vec
   - boss5_gryphon_descend_bezier_points
+  - boss5_gryphon_direction_vec
   - boss5_gryphon_snarl_effect_id_table
   - boss6_plot_falz_resource_descriptor
   - boss6_rock_chase_model_radius_table
@@ -5524,6 +5530,7 @@ force_active:
   - guide_button_texture_handle
   - guide_button_type_name
   - guild_return_position_table_by_episode
+  - gvrt_header_read_buffer
   - gx_blend_mode_table
   - gx_default_light_obj
   - gx_tlut_region_table
@@ -6095,8 +6102,10 @@ force_active:
   - key_cave_render_state
   - key_generic_sw_collision_body
   - keyboard_accent_composed_chars
+  - keyboard_control_pad_slots
   - keyboard_layout_mode_table
   - keyboard_pad_state_table
+  - keyboard_pad_status_buffer
   - keyboard_poll_key_codes
   - keyboard_repeat_key_codes
   - keyboard_task_object_dtor_chain
@@ -6613,6 +6622,7 @@ force_active:
   - lbl_80540BC8
   - lbl_805430E8
   - lbl_805432A8
+  - lbl_80543978
   - lbl_805439E0
   - lbl_80543A90
   - lbl_805470AC

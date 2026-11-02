@@ -11,6 +11,8 @@ extern "C" void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, G
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TMovie.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/NinjaTypes.h"
 
 
 struct RMode_803DCDFC {
@@ -377,3 +379,12 @@ void init_sin_cos_table(void) {
     }
 }
 #pragma pop
+
+extern "C" {
+Elem_803DD300 render_contexts[6];
+s32 lbl_8058D470[8];
+Mtx34 identity_matrix;
+NJS_ARGB model_material_color;
+f32 camera_clip_parameters[10];
+Cam_803DD300 lbl_8058D4F8;
+}

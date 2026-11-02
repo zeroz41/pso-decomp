@@ -84,7 +84,7 @@ struct Rec_803592B8 {
 extern "C" {
 s32 __ct__11TObjControlFP7TObject(int, int);
 s32 __nw__7TObjectFUl(int);
-extern RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
+RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8 TObjNpcNgcBase__data_805439A8;
 extern s32 tl_04;
 s32 TLobby__sub_8001FE7C(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);

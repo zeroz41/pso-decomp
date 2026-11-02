@@ -20,7 +20,7 @@ struct RecoveredGlobal_802D29AC_TLobby__data_80540BD0 {
 struct E_802D2A70 { u32 id; s32 count; };
 
 extern "C" {
-extern RecoveredGlobal_802D298C_TLobby__data_80540BD0 TLobby__trade_window_state;
+RecoveredGlobal_802D298C_TLobby__data_80540BD0 TLobby__trade_window_state;
 u8 *TLobby__sub_802D298C(void);
 u8 *TLobby__sub_802D299C(void);
 s32 *get_trade_window_state(void);

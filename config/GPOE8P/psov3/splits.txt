@@ -463,6 +463,7 @@ pso/object/TObjDFHorming.cpp:
 	.text       start:0x8004AB90 end:0x8004C19C
 	.rodata     start:0x804367C8 end:0x804371E0
 	.data       start:0x80484BB8 end:0x80484DF0
+	.bss        start:0x804FF1E8 end:0x804FF228
 	.sdata      start:0x805D2770 end:0x805D2774
 	.sdata2     start:0x805D8908 end:0x805D8938
 
@@ -562,6 +563,7 @@ pso/ui/TObjDFJisin.cpp:
 	.text       start:0x800507E8 end:0x80051B98
 	.rodata     start:0x804374E8 end:0x804374F0
 	.data       start:0x804858F8 end:0x80485AAC
+	.bss        start:0x804FF228 end:0x804FF2A0
 	.sdata      start:0x805D27B8 end:0x805D27CC
 	.sdata2     start:0x805D8AB0 end:0x805D8AB4
 
@@ -592,6 +594,7 @@ pso/boss/TBoss4Type1.cpp:
 	.ctors      start:0x80433F38 end:0x80433F3C
 	.rodata     start:0x80437628 end:0x80437630
 	.data       start:0x80485AE0 end:0x80485B08
+	.bss        start:0x804FF2A0 end:0x804FF5A0
 	.sdata2     start:0x805D8B28 end:0x805D8B2C
 
 pso/player/TObjPlayer_80055678.cpp:
@@ -642,6 +645,7 @@ pso/boss/Boss5GryphonBehavior.cpp:
 	.text       start:0x8005D880 end:0x80065BC0
 	.rodata     start:0x80437EB8 end:0x80437EC0
 	.data       start:0x80487848 end:0x80488668
+	.bss        start:0x804FF5A0 end:0x804FF5E8
 	.sbss       start:0x805D4DC0 end:0x805D4DC8
 	.sdata2     start:0x805D8D70 end:0x805D8E28
 
@@ -7828,6 +7832,7 @@ pso/unk/text_802264B8.cpp:
 
 pso/misc/TOTrapAncient01_80226534.cpp:
 	.text       start:0x80226534 end:0x802268F4
+	.bss        start:0x805145F0 end:0x80514C60
 
 pso/misc/TLobby_802268F4.cpp:
 	.text       start:0x802268F4 end:0x80227390
@@ -10349,6 +10354,7 @@ pso/misc/TWindowSubTradeMain_802D2808.cpp:
 
 pso/unk/text_802D298C.cpp:
 	.text       start:0x802D298C end:0x802D2B64
+	.bss        start:0x80540BD0 end:0x80540FB0
 
 pso/protocol/TradeSession.cpp:
 	.text       start:0x802D2B64 end:0x802D3924
@@ -12008,6 +12014,7 @@ pso/misc/TWindowSubInformationBoard.cpp:
 pso/unk/text_8034D3D0.cpp:
 	.text       start:0x8034D3D0 end:0x8034DAA0
 	.rodata     start:0x80478C48 end:0x80478C50
+	.bss        start:0x805436B8 end:0x80543778
 	.sdata2     start:0x805DFDE8 end:0x805DFDF0
 
 pso/unk/text_8034DAA0.cpp:
@@ -12124,6 +12131,7 @@ pso/boss/TBoss6Rock.cpp:
 
 pso/boss/TBoss6Rock_8035477C.cpp:
 	.text       start:0x8035477C end:0x80354A30
+	.bss        start:0x80543778 end:0x80543978
 
 pso/boss/TBoss6Rock_80354A30.cpp:
 	.text       start:0x80354A30 end:0x80354A44
@@ -12139,6 +12147,7 @@ pso/unk/text_80354BE4.cpp:
 pso/player/TObjPlayer_80354EC8.cpp:
 	.text       start:0x80354EC8 end:0x8035510C
 	.ctors      start:0x80434010 end:0x80434014
+	.bss        start:0x80543978 end:0x805439A8
 
 pso/ui/TAdPlyPltAnimCtrlGC.cpp:
 	.text       start:0x8035510C end:0x803554F0
@@ -12193,6 +12202,7 @@ pso/player/TObjPlayer_80357734.cpp:
 
 pso/npc/TObjNpcNgcBase_80358AE8.cpp:
 	.text       start:0x80358AE8 end:0x803593C8
+	.bss        start:0x805439A8 end:0x805439E0
 
 pso/npc/TObjNpcNgcBase.cpp:
 	.text       start:0x803593C8 end:0x80359420
@@ -13787,12 +13797,13 @@ pso/unk/text_803DCDB0.cpp:
 
 pso/unk/text_803DCDFC.cpp:
 	.text       start:0x803DCDFC end:0x803DD5E0
-	.bss        start:0x8058CE40 end:0x8058D380
+	.bss        start:0x8058CE40 end:0x8058D520
 	.sdata      start:0x805D46C8 end:0x805D46D0
 	.sdata2     start:0x805E0F80 end:0x805E0FB0
 
 pso/unk/text_803DD5E0.cpp:
 	.text       start:0x803DD5E0 end:0x803DE778
+	.bss        start:0x8058D528 end:0x8058D880
 
 pso/misc/TLobby_803DE778.cpp:
 	.text       start:0x803DE778 end:0x803DE7E0
@@ -13815,6 +13826,7 @@ pso/unk/text_803DE8BC.cpp:
 pso/system/ChunkMaterialState.cpp:
 	.text       start:0x803DE9C4 end:0x803DEE48
 	.data       start:0x804FC698 end:0x804FC6E4
+	.bss        start:0x8058D880 end:0x8058DB90
 	.sdata2     start:0x805E0FB0 end:0x805E0FC4
 
 pso/unk/text_803DEE48.cpp:

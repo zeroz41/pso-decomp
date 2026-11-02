@@ -32,7 +32,8 @@ extern RecoveredGlobal_80354948___vt__10TBoss6Rock __vt__10TBoss6Rock;
 extern RecoveredGlobal_80354948_TBoss6Rock__data_805437F8 TBoss6Rock__rock_point_table;
 extern s32 lbl_805D438C;
 void __dl__7TObjectFPv(s32);
-extern RecoveredGlobal_803548B4_TBoss6Rock__data_80543778 TBoss6Rock__instance_table;
+RecoveredGlobal_803548B4_TBoss6Rock__data_80543778 TBoss6Rock__instance_table;
+RecoveredGlobal_80354948_TBoss6Rock__data_805437F8 TBoss6Rock__rock_point_table;
 void *__nw__7TObjectFUl(int);
 int is_active__10TBoss6RockFv(void*);
 

@@ -410,7 +410,7 @@ void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void create__10TBoss4ZakoFl(void *);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-extern Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
+Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
 extern s32 game_difficulty_selection;
 
 s32 is_locally_controlled__10TObjPlayerFPv(void *);

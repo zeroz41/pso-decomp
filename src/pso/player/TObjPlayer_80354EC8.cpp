@@ -11,7 +11,8 @@ s32 __destroy_arr(void *, void *, int, int);
 extern u8 lbl_80543984[];
 void __register_global_object(void *, void *, void *);
 void __construct_array(void *, void *, void *, u32, u32);
-extern u8 lbl_80543978[];
+u8 lbl_80543978[0xC];
+u8 lbl_80543984[0x24];
 
 void TObjPlayer::finish_quest_thread() { TQuestThread::create_in_root(((int (*)())get_quest_thread_id__10TObjPlayerFPv)()); }
 
