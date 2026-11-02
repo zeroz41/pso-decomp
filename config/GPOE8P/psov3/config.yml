@@ -3269,6 +3269,7 @@ force_active:
   - begin_review__14CreationCameraFv
   - begin_state_1__13TUnk_804B5BA8Fv
   - berura_init_params
+  - bgm_adx_filename_table
   - bind_controller_devices
   - bind_network_info_cipher_pool__FPUll
   - biri_ball_model_names
@@ -5206,6 +5207,7 @@ force_active:
   - fn_803519FC
   - fn_80351A14
   - fn_8035D49C
+  - fn_8036A3CC
   - fn_803DB15C
   - fn_803DD3C8
   - fn_803F1804
@@ -7529,6 +7531,7 @@ force_active:
   - open_window__15TObjNewFloorWinFv
   - open_windows__22TAdMultiPlyChrSelectGCFv
   - open_yesno_dialog__17TWindowSubComCardFv
+  - option_name_table
   - pack_status_flags__20TWindowSubStatusDispFUl
   - pack_three_colors__9TItemDataFPUc
   - pack_weapon_trail_color__FPv

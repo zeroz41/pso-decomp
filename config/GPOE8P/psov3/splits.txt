@@ -12483,19 +12483,9 @@ pso/misc/TLobby_8036A37C.cpp:
 	.text       start:0x8036A37C end:0x8036A3CC
 
 pso/unk/text_8036A3CC.cpp:
-	.text       start:0x8036A3CC end:0x8036A4AC
-
-pso/object/TObjBgmColCtrl_8036A4AC.cpp:
-	.text       start:0x8036A4AC end:0x8036A514
-
-pso/unk/text_8036A514.cpp:
-	.text       start:0x8036A514 end:0x8036A5B4
-
-pso/unk/text_8036A5B4.cpp:
-	.text       start:0x8036A5B4 end:0x8036A620
-
-pso/unk/text_8036A620.cpp:
-	.text       start:0x8036A620 end:0x8036A6B0
+	.text       start:0x8036A3CC end:0x8036A6B0
+	.rodata     start:0x8047A410 end:0x8047AC40
+	.data       start:0x804F3458 end:0x804F35E0
 
 pso/boss/TBoss6EffFlowSoul.cpp:
 	.text       start:0x8036A6B0 end:0x8036A894
