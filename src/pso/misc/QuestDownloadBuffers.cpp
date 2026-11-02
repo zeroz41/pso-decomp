@@ -1,7 +1,9 @@
 #include "types.h"
 
-// Download-server work buffers. Defining them in either file that uses them (TQuestVmDownLoadServer_803E5668 or
-// _803E6970) changes codegen of an exact function there, so they belong to a TU whose code does not touch them.
+// Download-server work buffers, shared by TQuestVmDownLoadServer_803E5668 and _803E6970. Defined ahead of their
+// uses in either file they change codegen of an exact function there; defined after the last use (end of _803E5668,
+// after its own .bss) they compile identically, so the owner is open. They stay here because the two users disagree on
+// quest_download_text_buffer (s16[0x200] in _803E5668, a 0x400-byte u8 buffer in _803E6970; the symbol is 0x404).
 s32 quest_vm_download_server_file_info[0x11];
 u8 quest_download_slot_table[0x2C78];
 u8 quest_name_index_table[0x1000];
