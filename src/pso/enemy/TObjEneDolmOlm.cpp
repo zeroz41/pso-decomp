@@ -472,7 +472,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *mem_alloc(s32);
-s32 spawn_npc_enemy__6TLobbyFslllff(s16, s32, s32, void *, f32, f32);
 extern u32 dolm_olm_combat_stat_id_pair;
 extern u32 TObjEneDolmOlm__shared_handler_ids;
 extern u32 TObjEneDolmOlm__registered_object_ids;
@@ -1033,7 +1032,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         Desc_80302784 d = { *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430), TObjEneDolmOlm__param_table, 2, 0xC0000 };
         for (i = 0; i < 2; i++) {
             Ent_80302784 *e = &(*(Ent_80302784 **)((s8 *)TObjEneDolmOlm__resource_bundle + 0x42C))[i];
-            spawn_npc_enemy__6TLobbyFslllff(ids[i], e->f8, e->fC, &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
+            TLobby::spawn_npc_enemy(ids[i], e->f8, e->fC, &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
         }
     }
 }

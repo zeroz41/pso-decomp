@@ -389,7 +389,6 @@ s32 register_boss__6TLobbyFl(int);
 u8 *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *load_enemy_bml_resource_named(void *, void *);
 void *mem_alloc(u32 size);
-s32 spawn_npc_enemy__6TLobbyFslllff(int, s32, s32, Quad_8009241C *, f32, f32);
 extern Ids_8009241C lbl_80439D68[];
 extern Quad_8009241C lbl_80439D70[];
 extern s32 lbl_80439D80[];
@@ -686,7 +685,7 @@ void TObjEneBeast::load_resources() {
         Quad_8009241C q = lbl_80439D70[0];
         q.a = (s32)((Data_8009241C *)ene_beast_bml_resource)->f430;
         for (i = 0; i < 3; i++) {
-            spawn_npc_enemy__6TLobbyFslllff(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
+            TLobby::spawn_npc_enemy(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
                                             ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].fC, &q,
                                             ((Ent_8009241C *)beast_collision_body_table)[i].radius, 0.0f);
         }

@@ -2522,7 +2522,7 @@ void TObjEneGibbles::load_resources() {
     (*(s32 *)&TObjEneGibbles__ai_parameters) = dispatch_shared_handler_a__6TLobbyFl(0x3D);
     Spawn_802DB7C0 s = gibbles_resource_binding_desc;
     s.a = *(s32 *)((s8 *)TObjEneGibbles__resource_bundle + 0x430);
-    TLobby::spawn_npc_enemy((s16)0x44, (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8)), (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC)), (s32)(&s), (f32)(((f32 *)lbl_804E296C)[3]), (f32)TObjEneGibbles__data_805DE7E4);
+    TLobby::spawn_npc_enemy((s16)0x44, (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 8)), (s32)(*(s32 *)((s8 *)(*(u8 **)((s8 *)TObjEneGibbles__resource_bundle + 0x42C)) + 0xC)), &s, (f32)(((f32 *)lbl_804E296C)[3]), (f32)TObjEneGibbles__data_805DE7E4);
 }
 
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);

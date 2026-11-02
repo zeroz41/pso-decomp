@@ -246,7 +246,7 @@ void TObjEneDellBiter::load_resources() {
         DelbiterAttackDefinition attack = ene_dell_biter_attack_def;
         attack.motion = resource->motions;
         TLobby::spawn_npc_enemy((s16)0x46, resource->models->model, resource->models->m_c,
-            (s32)&attack, lbl_804E6B8C[0].radius, 0.0f);
+            &attack, lbl_804E6B8C[0].radius, 0.0f);
     }
 }
 

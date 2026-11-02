@@ -1661,7 +1661,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-void spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
 extern u8 lbl_8043BA28[];
 extern u8 lbl_8043BA44[];
 extern s32 game_difficulty_selection;
@@ -1795,13 +1794,13 @@ void TObjEneLappy::load_resources() {
         u8 *res = RES_800C17B8;
         Desc_800C17B8 d = lappy_resource_binding_desc;
         d.a = *(s32 *)(res + 0x430);
-        spawn_npc_enemy__6TLobbyFslllff(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
+        TLobby::spawn_npc_enemy(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
                                         *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, lbl_805D9F28, lbl_805D9F4C);
         if (TLobby::get_instance() == 0) {
-            spawn_npc_enemy__6TLobbyFslllff(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (*(u32 *)&rappy_alternate_texture_list), &d,
+            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (*(u32 *)&rappy_alternate_texture_list), &d,
                                             lbl_805D9F28, lbl_805D9F4C);
         } else {
-            spawn_npc_enemy__6TLobbyFslllff(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
+            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
                                             *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, lbl_805D9F28, lbl_805D9F4C);
         }
     }

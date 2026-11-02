@@ -570,7 +570,6 @@ s32 register_boss__6TLobbyFl(int);
 u8 *load_enemy_bml_resource_named(void *, void *);
 u8 *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void *mem_alloc(u32 size);
-void spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
 extern u8 lbl_8043AEDC[];
 extern u32 TObjEneShark__resource_node;
 extern u32 TObjEneShark__resource_buf;
@@ -857,7 +856,7 @@ void TLobby::load_shark_resources() {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
         Anim_800AC318 anim = { (s32)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
-            spawn_npc_enemy__6TLobbyFslllff(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
+            TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
                 7.5f, 0.0f);
         }
     }

@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/TParticleCtrl.h"
 #include "types.h"
+#include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
@@ -225,7 +226,6 @@ s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 u8 *load_enemy_bml_resource(void *);
-void spawn_npc_enemy__6TLobbyFslllff(s16, s32, s32, void *, f32, f32);
 extern const s32 lbl_8043BF30[];
 extern const s32 lbl_8043BF38[];
 extern const s32 lbl_8043BF40[];
@@ -4691,8 +4691,8 @@ void TObjEneBm5GibonU::load_resources() {
     sp.d = TObjEneBm5GibonU__spawn_params.d;
     m = (u8 *)(*(u32 *)&TObjEneBm5GibonU__model_archive);
     sp.a = *(s32 *)((s8 *)m + 0x430);
-    spawn_npc_enemy__6TLobbyFslllff(0xE, *(s32 *)((s8 *)(*(u8 **)((s8 *)m + 0x42C)) + 8), *(s32 *)((s8 *)(*(u8 **)((s8 *)m + 0x42C)) + 0xC), &sp, *(f32 *)((s8 *)gibon_collision_body_templates + 0xC), 0.0f);
-    spawn_npc_enemy__6TLobbyFslllff(0xF, *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u32 *)&TObjEneBm5GibonU__model_archive) + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u32 *)&TObjEneBm5GibonU__model_archive) + 0x42C)) + 0x1C), &sp, *(f32 *)((s8 *)gibon_collision_body_templates + 0x38), 0.0f);
+    TLobby::spawn_npc_enemy(0xE, *(s32 *)((s8 *)(*(u8 **)((s8 *)m + 0x42C)) + 8), *(s32 *)((s8 *)(*(u8 **)((s8 *)m + 0x42C)) + 0xC), &sp, *(f32 *)((s8 *)gibon_collision_body_templates + 0xC), 0.0f);
+    TLobby::spawn_npc_enemy(0xF, *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u32 *)&TObjEneBm5GibonU__model_archive) + 0x42C)) + 0x18), *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u32 *)&TObjEneBm5GibonU__model_archive) + 0x42C)) + 0x1C), &sp, *(f32 *)((s8 *)gibon_collision_body_templates + 0x38), 0.0f);
 }
 
 void TObjEneBm5GibonU::forward_hit(void* a1) { ((TObjEneBm5GibonU *)a1)->unlink_list_node((void ***)(this), (void **)((void*)((char*)this + 0x4))); }

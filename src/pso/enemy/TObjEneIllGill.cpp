@@ -1509,7 +1509,7 @@ void TObjEneIllGill::load_shared_resources() {
         IllGillSharedMotionSetup pos = lbl_8047A318;
         resource = illGillResource;
         pos.motions = resource->motions;
-        TLobby::spawn_npc_enemy((s16)0x43, (s32)(resource->models->model), (s32)(resource->models->m_c), (s32)&pos, illGillCollisionBody.radius, (f32)TObjEneIllGill__data_805E02BC);
+        TLobby::spawn_npc_enemy((s16)0x43, (s32)(resource->models->model), (s32)(resource->models->m_c), &pos, illGillCollisionBody.radius, (f32)TObjEneIllGill__data_805E02BC);
     }
 }
 

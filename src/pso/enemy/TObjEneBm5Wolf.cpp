@@ -3,6 +3,7 @@
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
+#include "pso/misc/TLobby.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
@@ -3686,7 +3687,6 @@ s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
 Wolf_800B86B4 *load_enemy_bml_resource_named(void *, void *);
 s32 load_enemy_bml_resource(u8 *arg0);
-s32 spawn_npc_enemy__6TLobbyFslllff(int, int, int, void *, f32, f32);
 extern s32 lbl_8043B3A8[];
 extern s32 lbl_8043B3B0[];
 extern s32 lbl_8043B3B8[];
@@ -3735,8 +3735,8 @@ void TObjEneBm5Wolf::load_resources() {
     {
     Spawn_800B86B4 sp = bm5_wolf_spawn_descriptor;
     sp.a = TObjEneBm5Wolf__bml_resource->x430;
-    spawn_npc_enemy__6TLobbyFslllff(9, TObjEneBm5Wolf__bml_resource->p42c[6], TObjEneBm5Wolf__bml_resource->p42c[3], &sp, TObjEneBm5Wolf__collider_params[3], (*(f32 *)&TObjEneBm5Wolf__data_805D9D78));
-    spawn_npc_enemy__6TLobbyFslllff(10, TObjEneBm5Wolf__bml_resource->p42c[2], TObjEneBm5Wolf__bml_resource->p42c[3], &sp, TObjEneBm5Wolf__collider_params[3], (*(f32 *)&TObjEneBm5Wolf__data_805D9D78));
+    TLobby::spawn_npc_enemy(9, TObjEneBm5Wolf__bml_resource->p42c[6], TObjEneBm5Wolf__bml_resource->p42c[3], &sp, TObjEneBm5Wolf__collider_params[3], (*(f32 *)&TObjEneBm5Wolf__data_805D9D78));
+    TLobby::spawn_npc_enemy(10, TObjEneBm5Wolf__bml_resource->p42c[2], TObjEneBm5Wolf__bml_resource->p42c[3], &sp, TObjEneBm5Wolf__collider_params[3], (*(f32 *)&TObjEneBm5Wolf__data_805D9D78));
     }
 }
 

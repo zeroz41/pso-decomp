@@ -2081,7 +2081,7 @@ void initialize_saver_resources(void) {
     lbl_805D504C = (f32 *)TLobby::dispatch_shared_handler_a(0x51);
     Init_800A715C init = saver_init_binding_desc;
     init.motions = (s32)RES->ents;
-    TLobby::spawn_npc_enemy((s16)0x1A, (s32)RES->sub->f8, (s32)RES->sub->fC, (s32)&init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
+    TLobby::spawn_npc_enemy((s16)0x1A, (s32)RES->sub->f8, (s32)RES->sub->fC, &init, (f32)saver_collision_body_part_table[3], (f32)0.0f);
 }
 Obj_800A73F8 *__dt__12TObjEneSaverFv(Obj_800A73F8 *arg0, s16 arg1) {
     s32 i;

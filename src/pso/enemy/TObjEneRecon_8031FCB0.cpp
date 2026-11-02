@@ -582,7 +582,7 @@ void TObjEneRecobox::load_resources() {
         Spawn_80320260 s = recobox_resource_binding_desc;
         box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
         s.a = box->f430;
-        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->f1C, (s32)&s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
+        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->f1C, &s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
     }
 }
 

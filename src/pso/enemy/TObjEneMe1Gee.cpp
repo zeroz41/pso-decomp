@@ -4014,7 +4014,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         Q_800CC950 sp8 = lbl_8043BE6C;
         sp8.a = TObjEneMe1Gee__resource_bundle->f430;
-        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->f42c->f8, TObjEneMe1Gee__resource_bundle->f42c->fc, (s32)&sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
+        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->f42c->f8, TObjEneMe1Gee__resource_bundle->f42c->fc, &sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
     }
 }
 

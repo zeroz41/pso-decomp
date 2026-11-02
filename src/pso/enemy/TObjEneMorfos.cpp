@@ -2238,7 +2238,7 @@ void TObjEneMorfos__sub_803350AC(void) {
         SpawnDesc_803350AC desc = lbl_804775C8;
         desc.w[0] = ((ResMgr_803350AC *)TObjEneMorfos__instance)->f430;
         TLobby::spawn_npc_enemy(0x4D, (s32)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f18,
-                                (s32)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f1C, (s32)&desc,
+                                (s32)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f1C, &desc,
                                 lbl_805DF880, TObjEneMorfos__data_805DF874);
     }
 }

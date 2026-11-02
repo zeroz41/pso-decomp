@@ -52,7 +52,7 @@ void spawn_lobby_npc_enemy(void) {
     stack.sp14 = *(s32 *)((s8 *)&lbl_80439B8C.value + 0xC);
     stack.sp8 = *(s32 *)((s8 *)lbl_805D4F20 + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)lbl_805D4F20 + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x14), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x28))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x2C))), (s32)((void *)&stack.sp8), (f32)((f32) (*(f32 *)((s8 *)((s32 *)TObjEneBalClawClaw__collision_body_template) + 0xC))), (f32)((f32) ((15.0f))));
+    TLobby::spawn_npc_enemy((s16)(0x14), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x28))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x2C))), &stack.sp8, (f32)((f32) (*(f32 *)((s8 *)((s32 *)TObjEneBalClawClaw__collision_body_template) + 0xC))), (f32)((f32) ((15.0f))));
 }
 
 #include <stddef.h>

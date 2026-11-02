@@ -450,7 +450,7 @@ struct TLobby : public TObject {
     static void clear_stale_entries(u8 *arg0);
     void*get_trade_obj_ptr();
     void prepare_trade_packet();
-    static void spawn_npc_enemy(s16 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0, f32 farg1);
+    static void spawn_npc_enemy(s16 arg0, s32 arg1, s32 arg2, void *arg3, f32 farg0, f32 farg1);
     int forward_npc_enemy();
     static unsigned char get_trade_mode();
     void set_ad_field(s32 v);
