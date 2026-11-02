@@ -783,6 +783,7 @@ force_active:
   - TOVS2Wreck05__ct
   - TOVS2Wreck06__ct
   - TOWreckAncientBrakable__name
+  - TOWreckAncientBrakable__sub_8017D444
   - TOWreckAncient__resource_descriptor
   - TObjAreaWarpEndingJung__ct
   - TObjBgmColCtrl__ct
@@ -14641,6 +14642,7 @@ force_active:
   - spawn_concentrate__12TPhotonGollaFPv
   - spawn_confusion_feedback_effect__Fll
   - spawn_dead_spot__10TObjPlayerFlllf
+  - spawn_debris__22TOWreckAncientBrakableFv
   - spawn_decorations_in_range__FPv
   - spawn_effect__19TContainerAncient01FPvPvPv
   - spawn_effects__19TBoss3VoloptMonitorFv

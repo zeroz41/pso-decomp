@@ -5742,15 +5742,9 @@ pso/misc/TOWreckAncientBrakable05.cpp:
 pso/unk/text_8017D39C.cpp:
 	.text       start:0x8017D39C end:0x8017D444
 
-pso/misc/TOWreckAncientBrakable_8017D444.cpp:
-	.text       start:0x8017D444 end:0x8017D5A4
-
-pso/misc/TOWreckAncientBrakable_8017D5A4.cpp:
-	.text       start:0x8017D5A4 end:0x8017D680
-
 pso/misc/TOWreckAncientBrakable.cpp:
-	.text       start:0x8017D680 end:0x8017D72C
-	.rodata     start:0x80443528 end:0x80443540
+	.text       start:0x8017D444 end:0x8017D72C
+	.rodata     start:0x80443528 end:0x80443614
 	.sdata      start:0x805D3210 end:0x805D3214
 
 pso/misc/TOWreckAncient07.cpp:
