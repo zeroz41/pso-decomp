@@ -10567,7 +10567,7 @@ pso/player/TObjPlayer_802E6CA8.cpp:
 
 pso/boss/Boss7DeRolLeCBehavior.cpp:
 	.text       start:0x802E7888 end:0x802ED928
-	.rodata     start:0x80473FA8 end:0x80473FB8
+	.rodata     start:0x80472CB0 end:0x80473FB8
 	.data       start:0x804E3FF8 end:0x804E45C4
 	.sdata2     start:0x805DEA30 end:0x805DEBA8
 

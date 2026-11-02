@@ -33,6 +33,182 @@
 #include "pso/boss/TBoss7PhotonBullet_802EF26C.h"
 #include <stddef.h>
 
+// Action step of a De Rol Le C attack pattern: action id and its duration in
+// seconds (the timer compares against b * 30).
+struct Ent_802E88F8 { s32 a; s32 b; };
+
+// Attack/effect parameter record passed to TObjEneDD::emit_effect /
+// setup_instance (type name inferred; same shape as TBoss1Dragon's).
+struct Boss7AttackParams {
+    s32 field_0;
+    f32 field_4;
+    f32 field_8;
+    f32 field_C;
+    s32 field_10;
+};
+
+extern const s32 lbl_80472CB0[21] = {0x18, 0x1a, 0x1c, 0x1d, 0x1e, 0x1f, 0x22, 0x45, 0x4a, 0x5f, 0x60, 0x61, 0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x68, 0x69, -1};
+extern const Vec lbl_80472D04[10] = {
+    {-175.0f, 7.0f, 25.0f},
+    {0.0f, 7.0f, 500.0f},
+    {175.0f, 7.0f, 25.0f},
+    {0.0f, 7.0f, -250.0f},
+    {0.0f, 7.0f, 25.0f},
+    {-205.0f, -100.0f, 25.0f},
+    {0.0f, -100.0f, 530.0f},
+    {205.0f, -100.0f, 25.0f},
+    {0.0f, -100.0f, -280.0f},
+    {0.0f, -100.0f, 25.0f}
+};
+extern const Boss7AttackParams lbl_80472D7C = {0, 0.0f, 8.0f, 5.0f, 1};
+extern const Boss7AttackParams boss7_laser_particle_params = {0, 120.0f, 16.0f, 20.0f, 1};
+extern const Ent_802E88F8 lbl_80472DA4[68] = {
+    {1, 0}, {3, 0}, {8, 0}, {15, 0}, {3, 0}, {40, 0}, {60, 0}, {50, 0},
+    {68, 0}, {57, 0}, {61, 0}, {41, 0}, {17, 0}, {63, 10}, {21, 0}, {17, 0},
+    {63, 7}, {21, 0}, {40, 0}, {59, 0}, {54, 0}, {68, 0}, {55, 0}, {41, 0},
+    {16, 0}, {18, 0}, {63, 10}, {22, 0}, {18, 0}, {63, 7}, {22, 0}, {58, 0},
+    {10, 0}, {40, 0}, {47, 0}, {61, 0}, {41, 0}, {61, 0}, {23, 0}, {24, 0},
+    {24, 0}, {25, 0}, {13, 0}, {40, 0}, {60, 0}, {50, 0}, {68, 0}, {55, 0},
+    {59, 0}, {58, 0}, {41, 0}, {16, 0}, {18, 0}, {63, 10}, {22, 0}, {10, 0},
+    {15, 0}, {17, 0}, {63, 10}, {21, 0}, {59, 0}, {5, 0}, {23, 0}, {24, 0},
+    {24, 0}, {25, 0}, {13, 0}, {69, 0},
+};
+extern const Ent_802E88F8 lbl_80472FC4[87] = {
+    {1, 0}, {3, 0}, {6, 0}, {16, 0}, {40, 0}, {58, 1}, {56, 0}, {68, 0},
+    {57, 0}, {59, 2}, {41, 0}, {15, 0}, {17, 0}, {63, 3}, {21, 0}, {17, 0},
+    {63, 3}, {21, 0}, {59, 3}, {17, 0}, {63, 1}, {21, 0}, {40, 0}, {59, 3},
+    {54, 0}, {59, 1}, {68, 0}, {55, 0}, {58, 1}, {41, 0}, {16, 0}, {18, 0},
+    {63, 3}, {22, 0}, {18, 0}, {63, 3}, {22, 0}, {58, 3}, {18, 0}, {63, 1},
+    {22, 0}, {10, 0}, {40, 0}, {47, 0}, {61, 2}, {41, 0}, {61, 3}, {23, 0},
+    {24, 0}, {24, 0}, {25, 0}, {13, 0}, {40, 0}, {60, 1}, {50, 0}, {68, 0},
+    {55, 0}, {60, 2}, {61, 2}, {41, 0}, {16, 0}, {18, 0}, {63, 2}, {22, 0},
+    {58, 4}, {18, 0}, {63, 2}, {22, 0}, {10, 0}, {15, 0}, {17, 0}, {63, 2},
+    {21, 0}, {59, 4}, {17, 0}, {63, 2}, {21, 0}, {59, 3}, {5, 0}, {61, 3},
+    {23, 0}, {24, 0}, {24, 0}, {25, 0}, {61, 3}, {13, 0}, {69, 0},
+};
+extern const Ent_802E88F8 lbl_8047327C[88] = {
+    {1, 0}, {3, 0}, {8, 0}, {15, 0}, {40, 0}, {59, 3}, {54, 0}, {59, 5},
+    {68, 0}, {55, 0}, {58, 3}, {41, 0}, {16, 0}, {18, 0}, {63, 3}, {22, 0},
+    {58, 4}, {18, 0}, {63, 3}, {22, 0}, {59, 3}, {40, 0}, {58, 5}, {54, 0},
+    {59, 1}, {68, 0}, {57, 0}, {59, 5}, {41, 0}, {15, 0}, {17, 0}, {63, 3},
+    {21, 0}, {59, 4}, {17, 0}, {63, 3}, {21, 0}, {58, 5}, {17, 0}, {63, 3},
+    {21, 0}, {59, 3}, {4, 0}, {40, 0}, {43, 0}, {61, 2}, {41, 0}, {60, 7},
+    {23, 0}, {24, 0}, {24, 0}, {25, 0}, {13, 0}, {40, 0}, {60, 1}, {50, 0},
+    {68, 0}, {55, 0}, {60, 2}, {61, 2}, {41, 0}, {16, 0}, {18, 0}, {63, 2},
+    {22, 0}, {58, 4}, {18, 0}, {63, 2}, {22, 0}, {10, 0}, {15, 0}, {17, 0},
+    {63, 2}, {21, 0}, {59, 4}, {17, 0}, {63, 2}, {21, 0}, {59, 2}, {5, 0},
+    {61, 5}, {23, 0}, {24, 0}, {24, 0}, {25, 0}, {61, 4}, {13, 0}, {69, 0},
+};
+extern const Ent_802E88F8 lbl_8047353C[97] = {
+    {1, 0}, {3, 0}, {6, 0}, {16, 0}, {40, 0}, {58, 3}, {56, 0}, {58, 5},
+    {68, 0}, {59, 5}, {57, 0}, {59, 3}, {41, 0}, {59, 4}, {17, 0}, {63, 2},
+    {21, 0}, {59, 5}, {17, 0}, {63, 2}, {21, 0}, {58, 3}, {17, 0}, {63, 0},
+    {21, 0}, {40, 0}, {59, 2}, {54, 0}, {59, 8}, {68, 0}, {55, 0}, {58, 8},
+    {41, 0}, {16, 0}, {18, 0}, {63, 2}, {22, 0}, {58, 4}, {18, 0}, {63, 2},
+    {22, 0}, {58, 5}, {18, 0}, {63, 0}, {22, 0}, {40, 0}, {43, 0}, {61, 4},
+    {41, 0}, {61, 9}, {23, 0}, {24, 0}, {24, 0}, {24, 0}, {25, 0}, {13, 0},
+    {40, 0}, {60, 1}, {50, 0}, {60, 8}, {68, 0}, {55, 0}, {41, 0}, {16, 0},
+    {18, 0}, {63, 2}, {22, 0}, {58, 4}, {18, 0}, {63, 2}, {22, 0}, {58, 4},
+    {10, 0}, {15, 0}, {17, 0}, {63, 2}, {21, 0}, {59, 4}, {17, 0}, {63, 2},
+    {21, 0}, {59, 2}, {5, 0}, {61, 4}, {62, 0}, {61, 8}, {62, 0}, {61, 9},
+    {62, 0}, {23, 0}, {24, 0}, {24, 0}, {24, 0}, {25, 0}, {61, 4}, {13, 0},
+    {69, 0},
+};
+extern const s32 lbl_80473844[90] = {
+    1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1,
+    0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
+    0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 2, 0, 2,
+    0, 1, 1, 2, 1, 0, 1, 1, 1, 0, 1, 2, 1, 2, 1,
+    1, 2, 1, 1, 2, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2,
+};
+extern const s32 lbl_804739AC[10] = {0x62, 0x63, 0x64, 0x65, 0x66, 0x67, 0x19, 0x19, 0x19, 0x19};
+extern const s32 lbl_804739D4[10] = {0x19, 0x1c, 0x1c, 0x1c, 0x1c, 0x19, 0x1c, 0x1c, 0x1c, 0x1c};
+extern const Vec lbl_804739FC[9] = {
+    {72.0f, 12.0f, 60.0f},
+    {65.0f, 12.0f, 45.0f},
+    {72.0f, 12.0f, 30.0f},
+    {65.0f, 12.0f, 15.0f},
+    {72.0f, 12.0f, 0.0f},
+    {65.0f, 12.0f, -15.0f},
+    {72.0f, 12.0f, -30.0f},
+    {65.0f, 12.0f, -45.0f},
+    {72.0f, 12.0f, -60.0f},
+};
+extern const Vec lbl_80473A68[9] = {
+    {-72.0f, 12.0f, 60.0f},
+    {-65.0f, 12.0f, 45.0f},
+    {-72.0f, 12.0f, 30.0f},
+    {-65.0f, 12.0f, 15.0f},
+    {-72.0f, 12.0f, 0.0f},
+    {-65.0f, 12.0f, -15.0f},
+    {-72.0f, 12.0f, -30.0f},
+    {-65.0f, 12.0f, -45.0f},
+    {-72.0f, 12.0f, -60.0f},
+};
+extern const Vec lbl_80473AD4[9] = {
+    {50.0f, 12.0f, 75.0f},
+    {37.5f, 12.0f, 65.0f},
+    {25.0f, 12.0f, 75.0f},
+    {12.5f, 12.0f, 65.0f},
+    {0.0f, 12.0f, 75.0f},
+    {-12.5f, 12.0f, 65.0f},
+    {-25.0f, 12.0f, 75.0f},
+    {-37.5f, 12.0f, 65.0f},
+    {-50.0f, 12.0f, 75.0f},
+};
+extern const Vec lbl_80473B40[9] = {
+    {50.0f, 12.0f, -95.0f},
+    {37.5f, 12.0f, -85.0f},
+    {25.0f, 12.0f, -95.0f},
+    {12.5f, 12.0f, -85.0f},
+    {0.0f, 12.0f, -95.0f},
+    {-12.5f, 12.0f, -85.0f},
+    {-25.0f, 12.0f, -95.0f},
+    {-37.5f, 12.0f, -85.0f},
+    {-50.0f, 12.0f, -95.0f},
+};
+extern const s32 lbl_80473BAC[9] = {0xc000, 0xc000, 0xc000, 0xc000, 0xc000, 0xc000, 0xc000, 0xc000, 0xc000};
+extern const s32 lbl_80473BD0[9] = {0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000, 0x4000};
+extern const s32 lbl_80473BF4[9] = {0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8000, 0x8000};
+extern const s32 lbl_80473C18[9] = {0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0};
+extern const CollisionBody lbl_80473C3C = {{0.0f, 0.0f, 0.0f}, 25.0f, 0.0f, 0, 0x8003, {0.0f, 0.0f, 0.0f}, 0.0f};
+extern const char lbl_80473C68[] = "boss2_b_derorure_body.nj";
+extern const char lbl_80473C84[] = "boss2_b_derorure_tentacle.nj";
+extern const char lbl_80473CA4[] = "boss2_b_helm_break.nj";
+extern const char lbl_80473CBC[] = "boss2_b_shell_break.nj";
+extern const char lbl_80473CD4[] = "ikada_h_hahen.gj";
+extern const char lbl_80473CE8[] = "hige_at01_tentacle.nj";
+extern const char lbl_80473D00[] = "beam02_boss2_b_body.njm";
+extern const char lbl_80473D18[] = "beamwait_boss2_b_body.njm";
+extern const char lbl_80473D34[] = "beam_a_boss2_b_body.njm";
+extern const char lbl_80473D4C[] = "beam_b_boss2_b_body.njm";
+extern const char lbl_80473D64[] = "beam_c_boss2_b_body.njm";
+extern const char lbl_80473D7C[] = "bite_lloop_boss2_b_body.njm";
+extern const char lbl_80473D98[] = "bite_rloop_boss2_b_body.njm";
+extern const char lbl_80473DB4[] = "ed_boss2_b_derorure_body.njm";
+extern const char lbl_80473DD4[] = "op_boss2_b_derorure_body.njm";
+extern const char lbl_80473DF4[] = "fd02_boss2_b_body.njm";
+extern const char lbl_80473E0C[] = "fjump_boss2_b_body.njm";
+extern const char lbl_80473E24[] = "forward_boss2_b_body.njm";
+extern const char lbl_80473E40[] = "lrjump_boss2_b_body.njm";
+extern const char lbl_80473E58[] = "l_bite_boss2_b_body.njm";
+extern const char lbl_80473E70[] = "rljump_boss2_b_body.njm";
+extern const char lbl_80473E88[] = "r_bite_boss2_b_body.njm";
+extern const char lbl_80473EA0[] = "scatter_boss2_b_body.njm";
+extern const char lbl_80473EBC[] = "tloop_boss2_b_tentacle.njm";
+extern const char lbl_80473ED8[] = "hige_down_hige_down_tentacle.njm";
+extern const char lbl_80473EFC[] = "hige_up_hige_up_tentacle.njm";
+extern const char lbl_80473F1C[] = "hige_wait_hige_wait_tentacle.njm";
+extern const char lbl_80473F40[] = "bm_boss7_de_rol_le_c.bml";
+extern const char lbl_80473F5C[] = "TBoss7DeRolLeC";
+extern const Vec lbl_80473F6C = {10000.0f, 10000.0f, 10000.0f};
+extern const Vec lbl_80473F78 = {0.0f, 0.0f, -600.0f};
+extern const Vec lbl_80473F84 = {0.0f, 0.0f, -275.0f};
+extern const Vec lbl_80473F90 = {0.0f, 0.0f, -520.0f};
+extern const Vec lbl_80473F9C = {0.0f, 0.0f, 0.0f};
+
+
 struct Vec_802E7888 { f32 x, y, z; };
 
 struct Ang_802E7888 { s32 x, y, z; };
@@ -332,17 +508,6 @@ void TBoss7DeRolLeC::set_flag_800() { *(u32*)((char*)this + 0x628) |= 0x800; }
 
 }
 
-struct RecoveredGlobal_802E7F30_lbl_804739AC
-{
-  s32 value;
-  u8 remaining[0x24];
-};
-
-struct RecoveredGlobal_802E7F30_lbl_804739D4
-{
-  s32 value;
-  u8 remaining[0x24];
-};
 
 struct RecoveredFields_802E7F30_temp_r3
 {
@@ -368,8 +533,6 @@ struct Fish_802E7B94 { u8 pad[0x6DC]; void* t[4]; };
 
 extern "C" {
 void queue_boss_effect__10TObjPlayerFPv(void* a0);
-extern const RecoveredGlobal_802E7F30_lbl_804739AC lbl_804739AC;
-extern const RecoveredGlobal_802E7F30_lbl_804739D4 lbl_804739D4;
 void TObjPlayer__sub_802E7F30(void *unused, s32 arg1);
 void TBoss7Tentacle__sub_802F0B80(void* p);
 void TObjFish__sub_802E7B40(Fish_802E7B40* o);
@@ -394,10 +557,6 @@ void TObjFish__sub_802E7B40(Fish_802E7B40* o) {
 typedef struct RecoveredFields_802E7F30_temp_r3 RecoveredFields_802E7F30_temp_r3;
 typedef struct RecoveredFields_802E7F30_temp_r3_2 RecoveredFields_802E7F30_temp_r3_2;
 typedef struct RecoveredFields_802E7F30_var_r3 RecoveredFields_802E7F30_var_r3;
-typedef struct RecoveredGlobal_802E7F30_lbl_804739AC RecoveredGlobal_802E7F30_lbl_804739AC;
-typedef struct RecoveredGlobal_802E7F30_lbl_804739D4 RecoveredGlobal_802E7F30_lbl_804739D4;
-typedef char RecoveredGlobal_802E7F30_lbl_804739AC_size[((sizeof(RecoveredGlobal_802E7F30_lbl_804739AC)) == 0x28) ? (1) : (-1)];
-typedef char RecoveredGlobal_802E7F30_lbl_804739D4_size[((sizeof(RecoveredGlobal_802E7F30_lbl_804739D4)) == 0x28) ? (1) : (-1)];
 
 void TObjFish__sub_802E7B94(Fish_802E7B94* o) {
     s32 i;
@@ -448,8 +607,8 @@ void TObjPlayer__sub_802E7EA0(void *arg0) {
     s32 i;
     effect = queue_boss_effect__10TObjPlayerFPv(0);
     for (i = 0; i != 10; i++) {
-        ((Saved_802E7EA0 *)arg0)->a[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, (&lbl_804739AC.value)[i]))->node->value;
-        ((Saved_802E7EA0 *)arg0)->b[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, (&lbl_804739D4.value)[i]))->node->value;
+        ((Saved_802E7EA0 *)arg0)->a[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]))->node->value;
+        ((Saved_802E7EA0 *)arg0)->b[i] = ((EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739D4[i]))->node->value;
     }
 }
 
@@ -463,12 +622,12 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
   if ((var_r31 >= 0) && (var_r31 < 0xA))
   {
     var_r3 = (u8 *) 0;
-    var_r4 = (s32 *)&lbl_804739AC.value;
+    var_r4 = (s32 *)lbl_804739AC;
     var_r31 *= 4;
     if (1)
     {
-      var_r4 = (s32 *)&lbl_804739AC.value;
-      var_r4 = (s32 *) (*((s32 *) (((s8 *)&lbl_804739AC.value) + var_r31)));
+      var_r4 = (s32 *)lbl_804739AC;
+      var_r4 = (s32 *) (*((s32 *) (((s8 *)lbl_804739AC) + var_r31)));
       temp_r3 = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (s32) var_r4);
     }
     if (temp_r3 != 0)
@@ -477,9 +636,9 @@ void TObjPlayer__sub_802E7F30(void *unused, s32 arg1) {
       ((RecoveredFields_802E7F30_var_r3 *) var_r3)->field_4 = 0;
     }
     var_r3 = (u8 *) 0;
-    var_r4 = (s32 *)&lbl_804739D4.value;
-    var_r4 = (s32 *)&lbl_804739D4.value;
-    var_r4 = (s32 *) (*((s32 *) (((s8 *)&lbl_804739D4.value) + var_r31)));
+    var_r4 = (s32 *)lbl_804739D4;
+    var_r4 = (s32 *)lbl_804739D4;
+    var_r4 = (s32 *) (*((s32 *) (((s8 *)lbl_804739D4) + var_r31)));
     temp_r3_2 = (u8 *) find_model_node(queue_boss_effect__10TObjPlayerFPv(0), (s32) var_r4);
     if (temp_r3_2 != 0)
     {
@@ -495,9 +654,9 @@ void TObjPlayer__sub_802E7FC0(void *arg0) {
     EffectRef_802E7EA0 *ref;
     effect = queue_boss_effect__10TObjPlayerFPv(0);
     for (i = 0; i != 10; i++) {
-        ref = (EffectRef_802E7EA0 *)find_model_node(effect, (&lbl_804739AC.value)[i]);
+        ref = (EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739AC[i]);
         ref->node->value = ((Saved_802E7EA0 *)arg0)->a[i];
-        ref = (EffectRef_802E7EA0 *)find_model_node(effect, (&lbl_804739D4.value)[i]);
+        ref = (EffectRef_802E7EA0 *)find_model_node(effect, lbl_804739D4[i]);
         ref->node->value = ((Saved_802E7EA0 *)arg0)->b[i];
     }
 }
@@ -519,8 +678,6 @@ struct Stack_802E8274 {
     f32 sp28;
 };
 
-struct RecoveredGlobal_802E8274_lbl_80472CB0 { s32 value; u8 remaining[0x50]; };
-typedef char RecoveredGlobal_802E8274_lbl_80472CB0_size[sizeof(RecoveredGlobal_802E8274_lbl_80472CB0) == 0x54 ? 1 : -1];
 
 struct RecoveredGlobal_802E8274_lbl_804E3BFC { s32 value; u8 remaining[0x2C]; };
 typedef char RecoveredGlobal_802E8274_lbl_804E3BFC_size[sizeof(RecoveredGlobal_802E8274_lbl_804E3BFC) == 0x30 ? 1 : -1];
@@ -554,7 +711,6 @@ f32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 s32 push_matrix();
 s32 pop_matrix();
-extern RecoveredGlobal_802E8274_lbl_80472CB0 lbl_80472CB0;
 extern RecoveredGlobal_802E8274_lbl_804E3BFC lbl_804E3BFC;
 extern s32 boss7_derolle_c_motion_id;
 extern s32 lbl_805D6920;
@@ -670,7 +826,7 @@ void TObjPlayer__sub_802E8274(void) {
         stack.sp1C = lbl_805DEA10;
         transform_point_by_current_matrix((void *)&stack.sp14, (void *)(lbl_805D6944 + 0xC));
     }
-    if ((s32) boss7_derolle_c_motion_id == (s32) *(s32 *)((s8 *)&lbl_80472CB0.value + (lbl_805D6920 * 4))) {
+    if ((s32) boss7_derolle_c_motion_id == lbl_80472CB0[lbl_805D6920]) {
         stack.sp8 = lbl_805DEA10;
         stack.spC = lbl_805DEA10;
         stack.sp10 = lbl_805DEA10;
@@ -957,7 +1113,6 @@ void set_state_and_send__14TBoss7DeRolLeCFl(u8 *arg0, s32 arg1);
 #define set_state_and_send__14TBoss7DeRolLeCFl ((s32 (*)(void *, int))set_state_and_send__14TBoss7DeRolLeCFl)
 s32 is_state_2__15TBoss7LaserPtclFv(void *);
 u8 *TBoss7LaserPtcl__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
-extern s32 boss7_laser_particle_params[];
 void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1);
 void TObjFish__sub_802ECE90(void *arg0, int idx, int arg);
 
@@ -970,8 +1125,6 @@ void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 fla
 s32 query_teammate_state__9TObjEneDDFv();
 int play_sound_effect(void*, void*, void*, void*);
 
-extern Vec_802EBBC8 lbl_80473F78;
-extern Vec_802EBBC8 lbl_80473F84;
 void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1);
 f32 random_ratio__9TObjCharaFv(void *);
 s32 get_random_scaled__9TObjEneDDFv(void *);
@@ -1012,7 +1165,6 @@ void *create_timed_particle_emitter_with_flags(void *pos, s32 id, s32 a, s32 b, 
 extern "C" {
 
 void TBoss7Tentacle__sub_802F0AD0(void *a0);
-extern Vec_802E8B50 lbl_80473F90[];
 
 void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2);
 
@@ -1040,7 +1192,6 @@ struct RecoveredGlobal_802EC468_lbl_804FF5E8 {
 };
 
 
-struct Ent_802E88F8 { s32 a; s32 b; };
 
 struct Fish_802E8AD4 { u8 pad[0x628]; u32 flags; };
 
@@ -1679,7 +1830,7 @@ void TObjFish::handle_death_state(u32 arg1) {
             restore_player_cameras();
         }
         if (((TObjMotion *)o)->is_passing_frame((f32)lbl_805DEA2C) != 0) {
-            Vec_802E8B50 v = lbl_80473F90[0];
+            Vec v = lbl_80473F90;
             create_timed_particle_emitter_with_flags(&v, 0x20C, 0, 0xA0, 0x40);
             play_sound_effect((void *)0x39614, 0, 0, 0);
         }
@@ -1895,7 +2046,7 @@ void TBoss7LaserPtcl__sub_802E8FCC(u8 *arg0, u32 arg1) {
                     (*(TUnk_804E4788 **)((s8 *)arg0 + 0x720))->push_ring_point((const Vec *)src);
                 }
             }
-            *(ByteBlock_14 *)(copy_storage_802E8FCC.bytes) = *(const ByteBlock_14 *)((s32) ((u8 *)((void *)((u8 *)boss7_laser_particle_params + -4))) + 4);
+            *(ByteBlock_14 *)(copy_storage_802E8FCC.bytes) = *(const ByteBlock_14 *)((s32) ((u8 *)((void *)((u8 *)&boss7_laser_particle_params + -4))) + 4);
             (*(f32 *)(copy_storage_802E8FCC.bytes + 0x4)) = *(f32 *)((s8 *)(*(f32 **)((s8 *)arg0 + 0x620)) + 0);
             TObjEneDD::setup_instance((s32)((void *)arg0), (s32)((int)src), (u8 *)copy_storage_802E8FCC.bytes, (s32)((int) (*(s32 *)((s8 *)arg0 + 0x718))));
             if ((u32) *(u32 *)((s8 *)arg0 + 0x7A8) != 0U) {
@@ -2993,11 +3144,11 @@ void TObjFish__sub_802EBBC8(u8 *arg0, u32 arg1) {
                 ((TObjFish *)arg0)->destroy_child();
             }
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEA2C) != 0) {
-                Vec_802EBBC8 v = lbl_80473F78;
+                Vec v = lbl_80473F78;
                 spawn_particle_effect_with_flags(&v, 0x20F, 0x40);
             }
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DEB80) != 0) {
-                Vec_802EBBC8 w = lbl_80473F84;
+                Vec w = lbl_80473F84;
                 spawn_particle_effect_with_flags(&w, 0x20F, 0x40);
                 play_sound_effect((void *) 0x39906, 0, 0, 0);
             }
@@ -3601,15 +3752,10 @@ void TObjFish__sub_802ECE90(void *arg0, int idx, int arg) {
     play_sound_effect((void *)0x39D11, &((Boss_802ECE90 *)arg0)->pads[idx], (void *)0, (void *)1);
 }
 
-struct RecoveredGlobal_802ED4AC_lbl_80472D04 {
-    s32 value;
-    u8 remaining[0x74];
-};
 
 struct Vec_802ED3E4 { f32 x, y, z; };
 
 extern "C" {
-extern RecoveredGlobal_802ED4AC_lbl_80472D04 lbl_80472D04;
 void compose_motion_node_matrix(void *arg0);
 s32 scale_matrix(int, f32, f32, f32);
 s32 push_matrix_from(void *);
@@ -3812,9 +3958,8 @@ void set_swim_direction__8TObjFishFPv(void *arg0) {
     *(f32 *)((s8 *)arg0 + 0x6F0) = (f32) lbl_805DEA6C;
 }
 
-typedef char RecoveredGlobal_802ED4AC_lbl_80472D04_size[sizeof(RecoveredGlobal_802ED4AC_lbl_80472D04) == 0x78 ? 1 : -1];
 void TObjFish__sub_802ED4AC(u8 *arg0, s32 arg1) {
-    VecCopy__FP3VecPC3Vec(arg0 + 0x38, (u8 *)&lbl_80472D04.value + (arg1 * 0xC));
+    VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *)&lbl_80472D04[arg1]);
     *(f32 *)((s8 *)arg0 + 0x6F0) = (f32) (*(const f32 *)&lbl_805DEA10);
     *(s32 *)((s8 *)arg0 + 0x64) = 0;
 }
@@ -3944,11 +4089,10 @@ f32 TBoss7PhotonBullet::get_target_pos_y() {
     return *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0xF)) + 4);
 }
 
-extern s32 lbl_80472D7C[];
 
 void TBoss7PhotonBullet::emit_hit_effect(void *arg1) {
     TBoss7PhotonBullet__sub_802ED5A0(this, 2);
-    TObjEneDD::emit_effect((void*)this, (int)arg1, (int)lbl_80472D7C);
+    TObjEneDD::emit_effect((void*)this, (int)arg1, (int)&lbl_80472D7C);
     ((void (*)(void *, void *))TBoss7PhotonBullet__sub_802ED5A0)(this, *(void **)((s8 *)this + 0x62C));
 }
 
