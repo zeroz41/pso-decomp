@@ -821,7 +821,7 @@ extern Params_800F0464 re4_sorcerer_spawn_descriptor;
 extern u8 lbl_8043D418[];
 extern Map_800F06B4 area_sound_remap_table_a[];
 extern Map_800F06B4 area_sound_remap_table_b[];
-extern Vec_800F0464 lbl_80501070;
+Vec_800F0464 lbl_80501070;
 extern void *lbl_805D2AF0;
 extern s32 lbl_805D52D0;
 extern s32 TObjEneRe4Sorcerer__attack_params;

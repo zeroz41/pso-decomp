@@ -36,7 +36,7 @@ struct VObj_18 : VBase_18 {
 };
 
 typedef struct EffTail_8002C06C {
-    s32 unk0;
+    const char *name;
     u8 pad4[0x14];
     s32 *vtbl;
     u8 pad1C[0xA4 - 0x1C];
@@ -51,15 +51,22 @@ typedef struct EffTail_8002C06C {
     f32 unkC8;
 } EffTail_8002C06C;
 
-struct Pair_8002BD38 { s32 a, b; };
+struct Pair_8002BD38 { f32 a; s32 b; };
 
 struct Vec_8002BD38 { f32 x, y, z; };
 
+#pragma readonly_strings on
+
+extern "C" {
+const char *TBoss1DragonEffTail__name = "TBoss1DragonEffTail";
+CollisionBody TBoss1DragonEffTail__collision_body_templates[17] = {
+    { { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f, 0, 0x8003 },
+};
+}
+
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
-extern u8 TBoss1DragonEffTail__collision_body_templates[];
 extern s32 __vt__19TBoss1DragonEffTail[];
-extern s32 TBoss1DragonEffTail__name;
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
@@ -70,7 +77,6 @@ s32 rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix(void);
 s32 pop_matrix(void);
-extern u8 lbl_80435454[];
 void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 
@@ -109,7 +115,7 @@ void run_task__19TBoss1DragonEffTailFv(u8 *boss1_dragon_eff_tail) {
         ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->m_c8 = 5.0f * sin_table_lookup(((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->rotation_y);
     }
     {
-        Pair_8002BD38 sp8 = *(Pair_8002BD38 *) lbl_80435454;
+        Pair_8002BD38 sp8 = { 3.0f, 1 };
         ((TBoss1Dragon *)(*(void **)((s8 *)boss1_dragon_eff_tail + 0xB0)))->reset_tail_hp();
         ((TBoss1DragonEffTail *)boss1_dragon_eff_tail)->call_vt16_with_default(&sp8, *(void **)((s8 *)boss1_dragon_eff_tail + 0xB8));
     }
@@ -150,7 +156,7 @@ EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 
     __ct__13TUnk_804928CCFP7TObjectP8TObjBasePC13CollisionBodyl(arg0, (void *)0, (void *)arg1, (void *)TBoss1DragonEffTail__collision_body_templates, 0x11);
     arg0->vtbl = ((s32 *)&__vt__19TBoss1DragonEffTail);
     data = TBoss1DragonEffTail__collision_body_templates;
-    arg0->unk0 = TBoss1DragonEffTail__name;
+    arg0->name = TBoss1DragonEffTail__name;
     for (i = 1; i < 0x11; i++) {
         copy_collision_body((CollisionBody *)&arg0->spheres[i], (const CollisionBody *)data);
     }

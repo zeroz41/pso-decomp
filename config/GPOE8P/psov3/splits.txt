@@ -209,6 +209,9 @@ pso/boss/TBoss1DragonEffBullet.cpp:
 
 pso/boss/TBoss1DragonEffTail.cpp:
 	.text       start:0x8002BD34 end:0x8002C140
+	.rodata     start:0x80435440 end:0x80435460
+	.data       start:0x80481C58 end:0x80481F44
+	.sdata      start:0x805D2678 end:0x805D2680
 	.sdata2     start:0x805D8148 end:0x805D815C
 
 pso/misc/TLobby_8002C140.cpp:
@@ -2166,6 +2169,7 @@ pso/enemy/TObjEneRe4Sorcerer_800EDB98.cpp:
 	.text       start:0x800EDB98 end:0x800F0810
 	.rodata     start:0x8043D410 end:0x8043D418
 	.data       start:0x80496EE0 end:0x804971BC
+	.bss        start:0x80501070 end:0x80501080
 	.sdata2     start:0x805DA788 end:0x805DA7F0
 
 pso/player/TObjPlayer_800F0810.cpp:
@@ -6451,6 +6455,7 @@ pso/unk/text_801A9CB8.cpp:
 
 pso/player/TObjPlayer_801AA220.cpp:
 	.text       start:0x801AA220 end:0x801AA3B4
+	.data       start:0x804C32C0 end:0x804C33C8
 
 pso/unk/text_801AA3B4.cpp:
 	.text       start:0x801AA3B4 end:0x801AA508
@@ -8798,7 +8803,7 @@ pso/misc/TWindowSubStatusDisp_80257BC0.cpp:
 
 pso/misc/TWindowSubStatusDisp_80257784.cpp:
 	.text       start:0x802580B0 end:0x802598E4
-	.rodata     start:0x8044EFF8 end:0x8044F000
+	.rodata     start:0x8044EE60 end:0x8044F000
 
 pso/misc/TWindowSubStatusDisp_802598E4.cpp:
 	.text       start:0x802598E4 end:0x8025995C
@@ -11573,6 +11578,7 @@ pso/ui/TAdEnterSerialAccessGC.cpp:
 	.rodata     start:0x804765D0 end:0x804765F8
 	.data       start:0x804EC9B0 end:0x804ECA0C
 	.bss        start:0x80543010 end:0x805430E8
+	.sbss       start:0x805D6C20 end:0x805D6C28
 	.sdata2     start:0x805DF508 end:0x805DF518
 
 pso/boss/TBoss6Kakusan.cpp:
@@ -11661,6 +11667,7 @@ pso/boss/TBoss5GryphonLightningHorn.cpp:
 
 pso/player/TObjPlayer_80326578.cpp:
 	.text       start:0x80326578 end:0x80327338
+	.rodata     start:0x80476760 end:0x80476770
 
 pso/unk/text_80327338.cpp:
 	.text       start:0x80327338 end:0x80327390
@@ -12238,6 +12245,7 @@ pso/ui/TAdLoadQuestCellGC.cpp:
 
 pso/unk/text_80349B8C.cpp:
 	.text       start:0x80349B8C end:0x80349EB0
+	.rodata     start:0x80478778 end:0x8047898C
 	.sdata2     start:0x805DFD18 end:0x805DFD1C
 
 pso/ui/TAdLoadQuestLineGC.cpp:

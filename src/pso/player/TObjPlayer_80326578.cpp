@@ -19,8 +19,6 @@ struct RecoveredGlobal_803268D8_lbl_804ECFB0 {
     u8 remaining[0xF4];
 };
 
-struct Rec_80326D54 { f32 a; s32 b; s32 c; s32 d; };
-
 struct Obj_80326D54 { u8 pad[0x1F8]; f32 x1F8; f32 x1FC; };
 
 extern "C" {
@@ -32,7 +30,6 @@ extern s32 lbl_804ECFB0[];
 u8 *TObjPlayer__sub_803268D8(u8 *arg0, u8 *arg1, s32 _w2);
 u8 *TItemTimerEvent__ct(void *, u32, s32, s32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-extern Rec_80326D54 lbl_80476760;
 extern const f32 lbl_805DF660;
 void TObjPlayer__sub_80326D54(Obj_80326D54 *arg0);
 void *__dt__13TUnk_804ECEB8Fv(void *arg0, s16 arg1);
@@ -310,9 +307,8 @@ void *__dt__13TUnk_804ED1A0Fv(void *arg0, s16 arg1) {
 void TObjPlayer__sub_80326D54(Obj_80326D54 *arg0) {
     switch (TObjPlayer::get_player_list()) {
     case 2: {
-        Rec_80326D54 r = lbl_80476760;
-        r.a = arg0->x1FC;
-        TItem::begin_offset_material_color((const NJS_ARGB *)&r);
+        NJS_ARGB color = { arg0->x1FC, 0.0f, 0.0f, 0.0f };
+        TItem::begin_offset_material_color(&color);
         break;
     }
     case 3:

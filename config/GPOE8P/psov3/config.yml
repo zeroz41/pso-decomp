@@ -137,6 +137,8 @@ force_active:
   - TAdDialingGC__sub_803284F8
   - TAdDialingMessageWindow__name
   - TAdEnterPasswordGC__sub_8032BC94
+  - TAdEnterSerialAccessGC__input_state
+  - TAdEnterSerialAccessGC__keyboard_control
   - TAdEnterSerialAccessGC__sub_8032190C
   - TAdEnterSerialAccessGC__sub_8032195C
   - TAdEnterSerialAccessGC__sub_80321B28
@@ -210,6 +212,8 @@ force_active:
   - TBGLightning__name
   - TBoss1DragonColli_C__ct
   - TBoss1DragonColli_sphere_chain_desc
+  - TBoss1DragonEffTail__collision_body_templates
+  - TBoss1DragonEffTail__name
   - TBoss1Dragon__ct
   - TBoss1Dragon__data_80434E80
   - TBoss1Dragon__data_80480CE0
@@ -6840,6 +6844,7 @@ force_active:
   - lbl_80501058
   - lbl_80501060
   - lbl_80501068
+  - lbl_80501070
   - lbl_805010E0
   - lbl_80501114
   - lbl_80506208
@@ -7860,6 +7865,7 @@ force_active:
   - particle_sprite_atlas_uv_rects
   - particle_texture_id_table
   - perform_action__14TItemProShieldFv
+  - photon_blast_entry_table
   - photon_blast_farlla_params
   - photon_blast_golla_params
   - photon_blast_motion_timing_tables
@@ -14272,6 +14278,7 @@ force_active:
   - state_wait__18TObjEneRe4SorcererFl
   - static_model_resource__19TObjStendGlassLobby
   - status_alphabet_metrics_table
+  - status_disp_item_icon_coord_table
   - stderr_buff
   - stdin_buff
   - stdout_buff

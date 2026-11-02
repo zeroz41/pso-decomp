@@ -17,6 +17,61 @@ struct RecoveredGlobal_80258100_lbl_804CF998 {
 
 extern unsigned char lbl_804CF998[];
 
+// Screen x, y of each item icon slot (indexed by get_entry_ptr).
+extern const f32 status_disp_item_icon_coord_table[51][2] = {
+    { 161.0f, 98.0f },
+    { 179.0f, 98.0f },
+    { 197.0f, 98.0f },
+    { 215.0f, 98.0f },
+    { 233.0f, 98.0f },
+    { 161.0f, 116.0f },
+    { 179.0f, 116.0f },
+    { 197.0f, 116.0f },
+    { 215.0f, 116.0f },
+    { 233.0f, 116.0f },
+    { 161.0f, 134.0f },
+    { 179.0f, 134.0f },
+    { 197.0f, 134.0f },
+    { 215.0f, 134.0f },
+    { 233.0f, 134.0f },
+    { 161.0f, 152.0f },
+    { 179.0f, 152.0f },
+    { 197.0f, 152.0f },
+    { 215.0f, 152.0f },
+    { 233.0f, 152.0f },
+    { 161.0f, 170.0f },
+    { 179.0f, 170.0f },
+    { 197.0f, 170.0f },
+    { 215.0f, 170.0f },
+    { 233.0f, 170.0f },
+    { 233.0f, 224.0f },
+    { 197.0f, 224.0f },
+    { 215.0f, 224.0f },
+    { 72.0f, 238.0f },
+    { 90.0f, 238.0f },
+    { 108.0f, 238.0f },
+    { 126.0f, 238.0f },
+    { 161.0f, 188.0f },
+    { 179.0f, 188.0f },
+    { 197.0f, 188.0f },
+    { 215.0f, 188.0f },
+    { 233.0f, 188.0f },
+    { 161.0f, 206.0f },
+    { 179.0f, 206.0f },
+    { 197.0f, 206.0f },
+    { 215.0f, 206.0f },
+    { 233.0f, 206.0f },
+    { 161.0f, 224.0f },
+    { 179.0f, 224.0f },
+    { 54.0f, 238.0f },
+    { 197.0f, 80.0f },
+    { 215.0f, 80.0f },
+    { 233.0f, 80.0f },
+    { 197.0f, 62.0f },
+    { 215.0f, 62.0f },
+    { 233.0f, 62.0f },
+};
+
 extern "C" {
 
 void* reset_entry__20TWindowSubStatusDispFPv(void* a0, s16 _w1);
@@ -653,8 +708,6 @@ void TWindowSubStatusDisp::init_display(s32 src, s32 arg2) {
     *(s32 *)((s8 *)this + 0x18) = arg2;
     *(u16 *)((s8 *)this + 0) = (u16) (*(u16 *)((s8 *)this + 0) | 0x45);
 }
-
-    extern unsigned char status_disp_item_icon_coord_table[];
 
 s32 replace_owned_string__20TWindowSubStatusDispFPviiii(void *arg0, s32 src, s32 buf, s32 mask, s32 copy) {
     u16 *flags = (u16 *)arg0;

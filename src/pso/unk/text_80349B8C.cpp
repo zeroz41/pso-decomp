@@ -5,33 +5,7 @@
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
-struct ByteBlock_60 { u8 bytes[0x60]; };
-
-struct RecoveredGlobal_80349E5C_lbl_8047890C {
-    s32 value;
-    u8 remaining[0x5C];
-};
-
-#pragma inline_depth(1)
-#pragma auto_inline off
-#pragma dont_inline off
-struct ByteBlock_20 { u8 bytes[0x20]; };
-
-struct RecoveredGlobal_80349DC8_lbl_804788B8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_80349DC8_lbl_804788D8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
-
-struct RecoveredGlobal_80349DC8_lbl_8047896C {
-    s32 value;
-    u8 remaining[0x20];
-};
-
+#pragma pool_data off
 struct Desc_80349C54 {
     f32 *pos;
     s32 *col;
@@ -42,19 +16,47 @@ struct Desc_80349C54 {
 struct Item_80349C54 {
     u32 count;
     s32 color;
-    f32 *pos;
-    f32 *size;
+    const f32 *pos;
+    const f32 *size;
 };
 
-extern RecoveredGlobal_80349E5C_lbl_8047890C TAdLoadQuestLineGC__rectangle_groups;
-extern RecoveredGlobal_80349DC8_lbl_804788B8 quest_line_color_quad_coordinates;
-extern RecoveredGlobal_80349DC8_lbl_804788D8 quest_line_quad_vertices;
-extern RecoveredGlobal_80349DC8_lbl_8047896C quest_line_color_entry_table;
-typedef char RecoveredGlobal_80349E5C_lbl_8047890C_size[sizeof(RecoveredGlobal_80349E5C_lbl_8047890C) == 0x60 ? 1 : -1];
+static const f32 lbl_80478778[6] = { 31.0f, 73.0f, 31.0f, 73.0f, 31.0f, 405.0f };
+static const f32 lbl_80478790[6] = { 28.0f, 1.0f, 1.0f, 333.0f, 28.0f, 1.0f };
+static const f32 lbl_804787A8[6] = { 459.0f, 73.0f, 486.0f, 73.0f, 459.0f, 405.0f };
+static const f32 lbl_804787C0[6] = { 28.0f, 1.0f, 1.0f, 333.0f, 28.0f, 1.0f };
+static const f32 lbl_804787D8[6] = { 543.0f, 73.0f, 543.0f, 73.0f, 543.0f, 405.0f };
+static const f32 lbl_804787F0[6] = { 19.0f, 1.0f, 1.0f, 333.0f, 19.0f, 1.0f };
+static const f32 lbl_80478808[6] = { 595.0f, 73.0f, 615.0f, 73.0f, 595.0f, 405.0f };
+static const f32 lbl_80478820[6] = { 19.0f, 1.0f, 1.0f, 333.0f, 19.0f, 1.0f };
+static const f32 lbl_80478838[4] = { 543.0f, 241.0f, 543.0f, 318.0f };
+static const f32 lbl_80478848[4] = { 19.0f, 1.0f, 19.0f, 1.0f };
+static const f32 lbl_80478858[4] = { 595.0f, 241.0f, 595.0f, 318.0f };
+static const f32 lbl_80478868[4] = { 19.0f, 1.0f, 19.0f, 1.0f };
+static const f32 lbl_80478878[4] = { 0.0f, 55.0f, 229.0f, 24.0f };
+static const f32 lbl_80478888[4] = { 213.0f, 1.0f, 411.0f, 1.0f };
+static const f32 lbl_80478898[4] = { 0.0f, 456.0f, 426.0f, 425.0f };
+static const f32 lbl_804788A8[4] = { 410.0f, 1.0f, 214.0f, 1.0f };
+static const f32 quest_line_color_quad_coordinates[8] = { 212.0f, 55.0f, 212.0f, 56.0f, 229.0f, 25.0f, 229.0f, 24.0f };
+static const f32 quest_line_quad_vertices[8] = { 409.0f, 456.0f, 409.0f, 457.0f, 426.0f, 426.0f, 426.0f, 425.0f };
+// TAdLoadQuestLineGC::m_name (lbl_805D4300 in TAdLoadQuestLineGC.cpp) points here.
+extern const char lbl_804788F8[] = "TAdLoadQuestLineGC";
 
-typedef char RecoveredGlobal_80349DC8_lbl_804788B8_size[sizeof(RecoveredGlobal_80349DC8_lbl_804788B8) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_80349DC8_lbl_804788D8_size[sizeof(RecoveredGlobal_80349DC8_lbl_804788D8) == 0x20 ? 1 : -1];
-typedef char RecoveredGlobal_80349DC8_lbl_8047896C_size[sizeof(RecoveredGlobal_80349DC8_lbl_8047896C) == 0x24 ? 1 : -1];
+// Each function copies its rectangle list to the stack before drawing it.
+struct QuestLineRects6 { Item_80349C54 items[6]; };
+struct QuestLineRects2 { Item_80349C54 items[2]; };
+
+static const QuestLineRects6 TAdLoadQuestLineGC__rectangle_groups = { {
+    { 3, 0x777777FF, lbl_80478778, lbl_80478790 },
+    { 3, 0x777777FF, lbl_804787A8, lbl_804787C0 },
+    { 3, 0x777777FF, lbl_804787D8, lbl_804787F0 },
+    { 3, 0x777777FF, lbl_80478808, lbl_80478820 },
+    { 2, 0x777777FF, lbl_80478838, lbl_80478848 },
+    { 2, 0x777777FF, lbl_80478858, lbl_80478868 },
+} };
+static const QuestLineRects2 quest_line_color_entry_table = { {
+    { 2, 0x777777FF, lbl_80478878, lbl_80478888 },
+    { 2, 0x777777FF, lbl_80478898, lbl_804788A8 },
+} };
 
 s32 draw_color_quad_2d(void *arg0, void *arg1p, int arg2) {
     f32 pos[8];
@@ -119,15 +121,13 @@ void draw_filled_rects_2d(void *arg0, void *arg1, int arg2) {
 }
 
 void init_quest_line_draw_colors(s32 arg0) {
-    ByteBlock_20 sp8;
-    sp8 = *(const ByteBlock_20 *)((s32) ((u8 *)&quest_line_color_entry_table.value - 4) + 4);
-    draw_filled_rects_2d((void *)arg0, (void *)((void *)&sp8), 2);
-    draw_color_quad_2d((void *)arg0, (void *)((void *)&quest_line_color_quad_coordinates.value), 0x777777FF);
-    draw_color_quad_2d((void *)arg0, (void *)((void *)&quest_line_quad_vertices.value), 0x777777FF);
+    QuestLineRects2 rects = quest_line_color_entry_table;
+    draw_filled_rects_2d((void *)arg0, &rects, 2);
+    draw_color_quad_2d((void *)arg0, (void *)quest_line_color_quad_coordinates, 0x777777FF);
+    draw_color_quad_2d((void *)arg0, (void *)quest_line_quad_vertices, 0x777777FF);
 }
 
 void fn_80349E5C(s32 arg0) {
-    ByteBlock_60 sp8;
-    sp8 = *(const ByteBlock_60 *)((s32) ((u8 *)&TAdLoadQuestLineGC__rectangle_groups.value - 4) + 4);
-    draw_filled_rects_2d((void *)arg0, (void *)((void *)&sp8), 6);
+    QuestLineRects6 rects = TAdLoadQuestLineGC__rectangle_groups;
+    draw_filled_rects_2d((void *)arg0, &rects, 6);
 }
