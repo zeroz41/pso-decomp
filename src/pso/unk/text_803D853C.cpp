@@ -7,19 +7,22 @@
 #include "types.h"
 
 #include "stdarg.h"
+// The game links the SDK's GXInitTexObj and GXSetVtxDesc under these names.
+#define GXInitTexObj Dolphin_GXInitTexObj
+#define GXSetVtxDesc Dolphin_GXSetVtxDesc
+#include <dolphin/gx.h>
+#undef GXInitTexObj
+#undef GXSetVtxDesc
+#include <dolphin/mtx.h>
+#include <string.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
 extern "C" {
 f32 PSMTXMultVecArray(s32, s32);
 extern s32 current_matrix;
-s32 PSMTXInverse(int, int);
-void PSMTXMultVec(const f32 (*m)[4], const Vec *src, Vec *dst);
 void rotate_matrix_z(void *, s32);
 void rotate_matrix_x(void *, s32);
 void rotate_matrix_y(void *, s32);
-void PSMTXCopy(void *src, void *dst);
-void PSMTXScale(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
-void PSMTXConcat(f32 (*a)[4], f32 (*b)[4], f32 (*ab)[4]);
 void scale_matrix(f32 (*m)[4], f32 sx, f32 sy, f32 sz);
 int vsprintf(char *s, const char *fmt, va_list ap);
 void debug_printf_at(s32 arg0, const char *fmt, ...);
@@ -31,6 +34,92 @@ void debug_printf_at(s32 arg0, const char *fmt, ...) {
     vsprintf(buf, fmt, ap);
     TObjEneMe1Gee::queue_debug_text(arg0, buf);
 }
+
+
+// One queued debug_printf_at line (written by the queue at 0x803D8098).
+struct DebugTextRecord {
+    s16 x;
+    s16 y;
+    u16 size;
+    s16 pad_6;
+    u32 color;
+    char *text;
+};
+extern DebugTextRecord *lbl_805D76D4;
+extern char *lbl_805D76D0;
+extern DebugTextRecord *debug_text_record_cursor;
+extern char *debug_text_pool_cursor;
+
+#pragma push
+#pragma use_lmw_stmw off
+#pragma dont_inline off
+#pragma inline_depth(4)
+static inline void put_debug_text_vertex(s32 x, s32 y, u32 color, s32 s, s32 t) {
+    GXPosition3s16(x, y, -1);
+    GXColor1u32(color);
+    GXTexCoord2s16(s, t);
+}
+
+void render_debug_text(u32 enabled) {
+    GC_Mtx texMtx;
+    Mtx44 proj;
+    GC_Mtx ident;
+    DebugTextRecord *r;
+
+    Dolphin_GXInitTexObj(&debug_font_texture_object, debug_font_texture_i4, 128, 128, GX_TF_I4, GX_CLAMP, GX_CLAMP, GX_FALSE);
+    GXInitTexObjLOD(&debug_font_texture_object, GX_NEAR, GX_NEAR, 0.0f, 0.0f, 0.0f, GX_FALSE, GX_FALSE, GX_ANISO_1);
+    GXLoadTexObj(&debug_font_texture_object, GX_TEXMAP0);
+    PSMTXScale(texMtx, 1.0f / 128.0f, 1.0f / 128.0f, 1.0f);
+    GXLoadTexMtxImm(texMtx, GX_TEXMTX0, GX_MTX2x4);
+    GXSetNumTexGens(1);
+    GXSetTexCoordGen2(GX_TEXCOORD0, GX_TG_MTX2x4, GX_TG_TEX0, GX_TEXMTX0, GX_FALSE, GX_PTIDENTITY);
+    C_MTXOrtho(proj, 0.0f, 480.0f, 0.0f, 640.0f, 0.0f, 100.0f);
+    GXSetProjection(proj, GX_ORTHOGRAPHIC);
+    PSMTXIdentity(ident);
+    GXLoadPosMtxImm(ident, GX_PNMTX0);
+    GXSetCurrentMtx(GX_PNMTX0);
+    GXSetNumTevStages(1);
+    GXSetTevOp(GX_TEVSTAGE0, GX_MODULATE);
+    GXSetTevOrder(GX_TEVSTAGE0, GX_TEXCOORD0, GX_TEXMAP0, GX_COLOR0A0);
+    GXSetNumChans(1);
+    GXSetChanCtrl(GX_COLOR0A0, GX_FALSE, GX_SRC_REG, GX_SRC_VTX, GX_LIGHT_NULL, GX_DF_CLAMP, GX_AF_NONE);
+    GXSetBlendMode(GX_BM_BLEND, GX_BL_SRCALPHA, GX_BL_INVSRCALPHA, GX_LO_CLEAR);
+    if (enabled == 1) {
+        GXClearVtxDesc();
+        Dolphin_GXSetVtxDesc(GX_VA_POS, GX_DIRECT);
+        Dolphin_GXSetVtxDesc(GX_VA_CLR0, GX_DIRECT);
+        Dolphin_GXSetVtxDesc(GX_VA_TEX0, GX_DIRECT);
+        GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_POS, GX_POS_XYZ, GX_S16, 0);
+        GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_CLR0, GX_CLR_RGBA, GX_RGBA8, 0);
+        GXSetVtxAttrFmt(GX_VTXFMT0, GX_VA_TEX0, GX_TEX_ST, GX_S16, 1);
+        for (r = lbl_805D76D4; r != debug_text_record_cursor; r++) {
+            u32 color;
+            s32 len;
+            s16 x;
+            s16 size;
+            s16 y;
+            s32 i;
+            x = r->x;
+            y = r->y;
+            size = r->size;
+            len = strlen(r->text);
+            color = r->color;
+            GXBegin(GX_QUADS, GX_VTXFMT0, len * 4);
+            for (i = 0; i < len; i++, x += size) {
+                char c = r->text[i];
+                s16 s = (c & 0xF) << 4;
+                s16 t = c & ~0xF;
+                put_debug_text_vertex(x, y, color, s, t);
+                put_debug_text_vertex(x + size, y, color, s + 16, t);
+                put_debug_text_vertex(x + size, y + size, color, s + 16, t + 16);
+                put_debug_text_vertex(x, y + size, color, s, t + 16);
+            }
+        }
+    }
+    debug_text_record_cursor = lbl_805D76D4;
+    debug_text_pool_cursor = lbl_805D76D0;
+}
+#pragma pop
 
 asm void vec3_add_to(Vec *dst, const Vec *src) {
 #include "orig_asm/pso/unk/text_803D853C/vec3_add_to.inc"
@@ -67,7 +156,7 @@ void get_current_matrix(void *m) {
     if (m == 0) {
         m = src;
     }
-    PSMTXCopy(src, m);
+    PSMTXCopy((MtxP)src, (MtxP)m);
 }
 #pragma pop
 
@@ -84,7 +173,7 @@ void TObjPlayer::invert_matrix_in_place(u32 arg0) {
     if (var_r3 == 0U) {
         var_r3 = (*(u32 *)&current_matrix);
     }
-    PSMTXInverse(var_r3, var_r3);
+    PSMTXInverse((MtxP)var_r3, (MtxP)var_r3);
 }
 #pragma pop
 
