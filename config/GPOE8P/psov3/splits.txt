@@ -1158,46 +1158,11 @@ pso/item/TItemDrop.cpp:
 pso/misc/TLobby_8007C550.cpp:
 	.text       start:0x8007C550 end:0x8007C5C0
 
-pso/boss/TObjBoss2Tunnel_8007C5C0.cpp:
-	.text       start:0x8007C5C0 end:0x8007CE14
-	.rodata     start:0x80438A88 end:0x80438A98
-
-pso/boss/TObjBoss2Tunnel_8007CE14.cpp:
-	.text       start:0x8007CE14 end:0x8007CF0C
-
-pso/boss/TObjBoss2Tunnel_8007CF0C.cpp:
-	.text       start:0x8007CF0C end:0x8007DD70
-	.sdata2     start:0x805D9234 end:0x805D9270
-
 pso/boss/TObjBoss2Tunnel.cpp:
-	.text       start:0x8007DD70 end:0x8007E0CC
-
-pso/boss/TObjBoss2Tunnel_8007E0CC.cpp:
-	.text       start:0x8007E0CC end:0x8007E100
-
-pso/boss/TObjBoss2Tunnel_8007E100.cpp:
-	.text       start:0x8007E100 end:0x8007E380
-
-pso/boss/TObjBoss2Tunnel_8007E380.cpp:
-	.text       start:0x8007E380 end:0x8007E3AC
-
-pso/boss/TObjBoss2Tunnel_8007E3AC.cpp:
-	.text       start:0x8007E3AC end:0x8007E418
-
-pso/boss/TObjBoss2Tunnel_8007E418.cpp:
-	.text       start:0x8007E418 end:0x8007E8D8
-
-pso/boss/TObjBoss2Tunnel_8007E8D8.cpp:
-	.text       start:0x8007E8D8 end:0x8007E918
-
-pso/boss/TObjBoss2Tunnel_8007E918.cpp:
-	.text       start:0x8007E918 end:0x8007E9EC
-
-pso/boss/TObjBoss2Tunnel_8007E9EC.cpp:
-	.text       start:0x8007E9EC end:0x8007EA74
-
-pso/boss/TObjBoss2Tunnel_8007EA74.cpp:
-	.text       start:0x8007EA74 end:0x8007EAF8
+	.text       start:0x8007C5C0 end:0x8007EAF8
+	.rodata     start:0x80438A68 end:0x80438A98
+	.sbss       start:0x805D4E88 end:0x805D4E98
+	.sdata2     start:0x805D9210 end:0x805D9298
 
 pso/quest/TQuestListVM_8007EAF8.cpp:
 	.text       start:0x8007EAF8 end:0x8007EB94

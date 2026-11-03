@@ -4,13 +4,15 @@
 #include "types.h"
 
 extern "C" {
-s32 TObjBoss2Tunnel__sub_8036EF44(void);
+s32 get_display_copy_filter(void);
 void TObjBoss2Tunnel__sub_8036EF4C(void);
 }
 
+void set_display_copy_filter(int sample_pattern);
+
 // --- C functions defined in TObjBoss2Tunnel_8036EF0C.cpp ---
 extern "C" {
-s32 TObjBoss2Tunnel__sub_8036EF44(void);
+s32 get_display_copy_filter(void);
 void TObjBoss2Tunnel__sub_8036EF4C(void);
 }
 // --- end of C functions

@@ -328,8 +328,7 @@ void TObjBoss2Tunnel__sub_802F2278(void);
 s32 TObjBoss2Tunnel__sub_802F22F4(void);
 void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 lbl_805DEC68;
-s32 TObjBoss2Tunnel__sub_8007DEE4(void *, f32, f32, f32, f32, f32);
-s32 advance_phase__15TObjBoss2TunnelFv(void *, void *);
+s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 f32 fabs_float(f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
 void __dl__7TObjectFPv(void *);
@@ -568,7 +567,7 @@ void TUnk_804E4B3C::update_phase_motion() {
                 *(f32 *)((s8 *)arg0 + 0x50) = 1.0f;
             }
             *(s32 *)((s8 *)arg0 + 0x4C) = 1;
-            TObjBoss2Tunnel__sub_8007DEE4(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 5.0f, 2.0f);
+            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 5.0f, 2.0f);
             *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
         }
         break;
@@ -576,10 +575,10 @@ void TUnk_804E4B3C::update_phase_motion() {
         if (TObjBoss2Tunnel::check_both((s32)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
             sp8 = fabs_float((f32) (*(f32 *)((s8 *)arg0 + 0x54)));
-            TObjBoss2Tunnel__sub_8007DEE4(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-update_position__15TObjBoss2TunnelFv(arg0 + 0x20)), 2.0f);
+            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), (f32) (*(f32 *)((s8 *)arg0 + 0x54)), (f32) (-update_position__15TObjBoss2TunnelFv(arg0 + 0x20)), 2.0f);
             return;
         }
-        if (advance_phase__15TObjBoss2TunnelFv(arg0 + 0x20, &sp8) != 0) {
+        if (((TObjBoss2Tunnel *)(arg0 + 0x20))->advance_phase(&sp8) != 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 2;
         }
         *(f32 *)((s8 *)arg0 + 0x54) = (f32) (sp8 * *(f32 *)((s8 *)arg0 + 0x50));
@@ -587,12 +586,12 @@ void TUnk_804E4B3C::update_phase_motion() {
     case 2:
         if (TObjBoss2Tunnel::check_both((s32)arg0) == 0) {
             *(s32 *)((s8 *)arg0 + 0x4C) = 3;
-            TObjBoss2Tunnel__sub_8007DEE4(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 0.0f, 2.0f);
+            init_piecewise_curve(arg0 + 0x20, 0.1f, (-0.1f), 150.0f, 0.0f, 2.0f);
             return;
         }
         break;
     case 3:
-        if (advance_phase__15TObjBoss2TunnelFv(arg0 + 0x20, &sp8) != 0) {
+        if (((TObjBoss2Tunnel *)(arg0 + 0x20))->advance_phase(&sp8) != 0) {
             *(f32 *)((s8 *)arg0 + 0x54) = 0.0f;
             *(s32 *)((s8 *)arg0 + 0x4C) = 0;
             return;

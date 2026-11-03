@@ -15,9 +15,9 @@ u8 *TQuestListVM::get_quest_bin() { return decrypted_quest_buffer; }
 
 void TQuestListVM::reset() { decrypted_quest_buffer = NULL; }
 
-extern s32 TQuestVmDownLoadServer__instance;
+extern TQuestVmDownLoadServer *TQuestVmDownLoadServer__instance;
 
-s32 TQuestVmDownLoadServer__sub_8007EB14(void) {
+TQuestVmDownLoadServer *TQuestVmDownLoadServer__sub_8007EB14(void) {
     return TQuestVmDownLoadServer__instance;
 }
 

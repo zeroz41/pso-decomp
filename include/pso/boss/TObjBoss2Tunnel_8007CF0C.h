@@ -4,6 +4,7 @@
 #include "types.h"
 
 extern "C" {
+s32 TObjBoss2Tunnel__sub_8007D1D0(void);
 void TObjBoss2Tunnel__sub_8007DB80(void);
 void TObjBoss2Tunnel__sub_8007DD24(void);
 void draw_snapshot_capture_overlay(void);

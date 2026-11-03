@@ -27,7 +27,7 @@ void TAdSinglePlyChrSelectGC__sub_801FFF14(void);
 s32 TAdSinglePlyChrSelectGC__sub_801FFF98(void *arg0);
 s32 TAdSinglePlyChrSelectGC__sub_802000C8(void *arg0_, void *arg1);
 void TAdSinglePlyChrSelectGC__sub_80200418(void);
-u32 TAdSinglePlyChrSelectGC__sub_80201204(u8 *arg0, u32 arg1);
+u32 calc_crc32_bitwise(u8 *arg0, u32 arg1);
 s32 all_players_loaded__23TAdSinglePlyChrSelectGCFv(void);
 void alloc_char_buffers__23TAdSinglePlyChrSelectGCFv(void);
 void alloc_char_records__23TAdSinglePlyChrSelectGCFi(s32 arg0);
