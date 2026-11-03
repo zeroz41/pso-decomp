@@ -766,18 +766,13 @@ pso/misc/TCameraCtrl_80067FC0.cpp:
 	.text       start:0x80067FC0 end:0x800687BC
 	.data       start:0x80488A28 end:0x80488A58
 
-pso/misc/TCameraCtrl_800687BC.cpp:
-	.text       start:0x800687BC end:0x8006A03C
-	.rodata     start:0x804381D0 end:0x804381D8
-	.sdata2     start:0x805D8FA8 end:0x805D8FC8
-
-pso/misc/TCameraCtrl_8006A03C.cpp:
-	.text       start:0x8006A03C end:0x8006A31C
-
 pso/misc/TCameraCtrl.cpp:
-	.text       start:0x8006A31C end:0x8006B3D8
+	.text       start:0x800687BC end:0x8006B3D8
+	.rodata     start:0x80438180 end:0x804381E0
 	.data       start:0x80488A58 end:0x80488AD8
 	.bss        start:0x804FF5E8 end:0x804FF7C0
+	.sdata      start:0x805D2838 end:0x805D2840
+	.sdata2     start:0x805D8FA8 end:0x805D8FF8
 
 pso/misc/TCameraCtrl_8006B3D8.cpp:
 	.text       start:0x8006B3D8 end:0x8006BA68

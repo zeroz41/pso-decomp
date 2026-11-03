@@ -406,10 +406,17 @@ force_active:
   - TBoss8Dragon__sub_8036AF50
   - TButterfly__ct
   - TCameraCtrl__sub_800677D4
+  - TCameraCtrl__sub_800689E8
+  - TCameraCtrl__sub_8006AA90
+  - TCameraCtrl__sub_8006B358
   - TCameraCtrl__sub_8006B798
   - TCameraCtrl__sub_8006CC30
   - TCameraCtrl__sub_8006E804
   - TCameraCtrl__sub_803D65F8
+  - TCameraCtrl__view_matrices
+  - TCameraCtrl__view_matrix
+  - TCameraCtrl__viewport_height
+  - TCameraCtrl__viewport_size
   - TChCrEffCtrlPl__name
   - TChCrEffTagStr__name
   - TChCrEffTag__name
@@ -3735,6 +3742,7 @@ force_active:
   - append_text__24TMessageWindowControllerFPCc
   - append_text_entry__19TWindowKeyBoardSoftFPUc
   - append_title_string__24TMessageWindowControllerFv
+  - apply__16CameraViewParamsFv
   - apply_armor_effect_flags__13TItemProArmorFv
   - apply_attack_params__16TObjEneRe7BeruraFiPv
   - apply_attack_stat_status__13TObjEneRe4BitFPv
@@ -4907,6 +4915,7 @@ force_active:
   - clamp_params_and_init__14TOTrapSeabed01Fv
   - clamp_state__12TObjDoorJungFv
   - clamp_to_ground__14TBoss6GravBallFv
+  - clamp_to_target_obstruction__11TCameraCtrlFv
   - class_name__10TBoss6Rock
   - class_name__11TOBiwaMushi
   - class_name__11TOBoss4Bird
@@ -5218,6 +5227,8 @@ force_active:
   - copy_udp_socket_event_record
   - copy_vec3__11TBoss6Type2Fii
   - copy_vec_array__11TBoss6Type2Fv
+  - copy_view_params__11TCameraCtrlFii
+  - copy_view_state__11TCameraCtrlFl
   - copy_with_guild_card_tag__13TPlyRecvLoginFPl
   - countModelNodes__12TBoss1DragonFP15DragonModelNode
   - count_active_players__14TBoss4DarkFalzFv
@@ -5348,6 +5359,7 @@ force_active:
   - current_floor_area_type
   - cursor_action_priority_table
   - curvecmp
+  - cycle_spectate_target__11TCameraCtrlFv
   - damage_hp__10TObjPlayerFii
   - damage_linked_entity__16TObjEneBm5GibonUFv
   - damage_linked_entity_type10__16TObjEneBm5GibonUFv
@@ -7481,6 +7493,8 @@ force_active:
   - lbl_8048802C
   - lbl_804880AC
   - lbl_804880B8
+  - lbl_80488A8C
+  - lbl_80488AC0
   - lbl_8048D0B0
   - lbl_8048D108
   - lbl_8048D278
@@ -7795,6 +7809,7 @@ force_active:
   - lbl_804FE1B8
   - lbl_804FE1D0
   - lbl_804FE1DC
+  - lbl_804FF67C
   - lbl_804FF82C
   - lbl_805007C8
   - lbl_8050093C
@@ -7891,6 +7906,7 @@ force_active:
   - lbl_805D280C
   - lbl_805D2810
   - lbl_805D2820
+  - lbl_805D283C
   - lbl_805D2990
   - lbl_805D2A50
   - lbl_805D2A58
@@ -13664,6 +13680,7 @@ force_active:
   - render__11TAdSEGAlogoFv
   - render__11TBoss4ZanzoFv
   - render__11TBreakUpMdlFv
+  - render__11TCameraCtrlFv
   - render__11TChCrEffTagFv
   - render__11TItemMagSubFv
   - render__11TLoadingCurFv
@@ -14193,10 +14210,13 @@ force_active:
   - reset_state_clear_status__16TObjEneMerillLiaFv
   - reset_state_fields__9TObjEneDDFv
   - reset_telepipe_record
+  - reset_view_flags__11TCameraCtrlFv
+  - reset_viewport_scissor__11TCameraCtrlFv
   - reset_visual_state__15TBoss3VoloptP02Fv
   - reset_windows__16TAdChrSelBSlotGCFPv
   - resolve_active_quest_result__22THunterGuildSeqOfflineFv
   - resolve_actor_sphere_contact__FPUcll
+  - resolve_anchor_obstruction__11TCameraCtrlFv
   - resolve_color__8TItemMagFv
   - resolve_indirect_node_record
   - resolve_indirect_object_record
@@ -14287,6 +14307,7 @@ force_active:
   - run_task__11TBoss4Type3Fv
   - run_task__11TBoss4ZanzoFv
   - run_task__11TBreakUpMdlFv
+  - run_task__11TCameraCtrlFv
   - run_task__11TChCrEffTagFv
   - run_task__11TItemMagSubFv
   - run_task__11TLoadingCurFv
@@ -14817,6 +14838,7 @@ force_active:
   - select_and_advance__20TShopItemTecSequenceFPv
   - select_attack_by_range__16TObjEneBm5GibonUFv
   - select_attack_target__18TObjEneRe4SorcererFiff
+  - select_camera_controller__Fl
   - select_death_direction__14TObjEneBm5WolfFPvPv
   - select_farthest_visible_player__16TObjEneDellBiterFv
   - select_forward_target__12TBoss1DragonFPv
@@ -15108,7 +15130,9 @@ force_active:
   - set_subs_visible__8TItemMagFl
   - set_symbol_chat_face_sprite__FPvUc
   - set_talk__12CursorActionFv
+  - set_target__11TCameraCtrlFii
   - set_target__13TUnk_804F1280FlP3VecPlllf
+  - set_target_coords__11TCameraCtrlFii
   - set_target_from_action__13TBoss5GryphonFPv
   - set_target_speed_z__17TObjEneMe1CanadinFv
   - set_target_state__11TBoss6Type2Fll
@@ -16100,6 +16124,7 @@ force_active:
   - update_action_hold_status__17TObjEneDarkGunnerFv
   - update_action_timer__11TBoss6Type1Fv
   - update_active__10TChallengeFv
+  - update_active_controller__11TCameraCtrlFv
   - update_active_flag__14TBoss6PlotFalzFv
   - update_ai__9TObjGrassFPv
   - update_ai_state__15TObjEneDelDepthFv
@@ -16546,7 +16571,9 @@ force_active:
   - update_player_battle_ctrl_state
   - update_player_hp_ratios__13TObjWarnChimeFv
   - update_player_window__6TLobbyFv
+  - update_pose_smoothing__11TCameraCtrlFv
   - update_position__11TAdRicoRingFv
+  - update_position__11TCameraCtrlFv
   - update_position__11TMainCursorFv
   - update_position__15TBoss7LaserPtclFv
   - update_position_flag__13TObjEneRe4BitFv
@@ -16610,6 +16637,7 @@ force_active:
   - update_selection_input__19TWindowSubMagPhotonFv
   - update_setup__23TAdSinglePlyChrSelectGCFv
   - update_shadow_attack__14TObjEneIllGillFv
+  - update_shake__11TCameraCtrlFv
   - update_shifta_deband_action__8TItemMagFv
   - update_ship_select_window__6TLobbyFv
   - update_shop_close__22THunterGuildSeqOfflineFPv
@@ -16717,9 +16745,11 @@ force_active:
   - update_target_depth__15TObjEneDelDepthFv
   - update_target_effect_timer__11TBoss4Type3Fv
   - update_target_follow__11TCameraCtrlFv
+  - update_target_from_state__11TCameraCtrlFv
   - update_target_from_state__12TBoss8DragonFv
   - update_target_info_window__11TWindowCtrlFv
   - update_target_position__10TBoss4ZakoFv
+  - update_target_smoothing__11TCameraCtrlFv
   - update_target_y__11TWindowMenuFv
   - update_technique_by_phase__11TTecGiBartaFv
   - update_technique_by_state__9TTecBartaFv
