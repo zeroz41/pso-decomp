@@ -12992,6 +12992,7 @@ PowerPC_EABI_Support/Runtime/Src/NMWException.cp:
 
 PowerPC_EABI_Support/Runtime/Src/ptmf.c:
 	.text       start:0x80396A20 end:0x80396A78
+	.rodata     start:0x8047B9F8 end:0x8047BA04
 
 PowerPC_EABI_Support/Runtime/Src/runtime.c:
 	.text       start:0x80396A78 end:0x803972B8

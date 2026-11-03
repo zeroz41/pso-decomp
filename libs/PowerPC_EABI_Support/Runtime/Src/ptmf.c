@@ -7,6 +7,8 @@ typedef struct PTMF {
 	} f_data;
 } PTMF;
 
+const PTMF __ptmf_null = { 0, 0, 0 };
+
 long __ptmf_test(PTMF* ptmf);
 void __ptmf_scall(...);
 
