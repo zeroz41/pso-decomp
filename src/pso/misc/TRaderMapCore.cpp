@@ -1005,13 +1005,13 @@ void TRaderMapCore::update_follow_projection(s32 mode) {
         view->z = ((Entry_801F9E9C *)this->player_marker_records)[this->m_134].z;
     }
     if (this->m_168 & 1) {
-        view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
+        view->rot = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
         if (get_current_floor_area() == AREA_DE_ROL_LE) {
             free_view->rot = 0;
-            this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->m_194;
+            this->m_174 = 0x8000 - ((TCameraCtrl *)camera_ctrl_instance)->yaw;
         } else {
             free_view->rot = 0x8000;
-            this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->m_194;
+            this->m_174 = -((TCameraCtrl *)camera_ctrl_instance)->yaw;
         }
     } else if (get_current_floor_area() == AREA_DE_ROL_LE) {
         view->rot = 0;

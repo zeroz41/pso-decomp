@@ -258,12 +258,12 @@ struct Vec_80068810 { f32 x, y, z; };
 
 struct Cam_80068810 {
     u8 pad0[0x94];
-    void *slots[4];
-    Vec_80068810 vecs[4];
+    void *view_yaw[4];
+    Vec_80068810 view_pos[4];
     u8 padd4[0x178 - 0xD4];
-    Vec_80068810 v178;
+    Vec_80068810 pos;
     u8 pad184[0x194 - 0x184];
-    void *f194;
+    void *yaw;
 };
 
 struct Vec_800696D0 { f32 x, y, z; };
@@ -409,7 +409,7 @@ typedef char RecoveredGlobal_80069E7C_TCameraCtrl__data_804FF628_size[((sizeof(R
 }
 
 
-struct O_8006A044 { u8 pad[0x1c0]; s32 id; f32 v; };
+struct O_8006A044 { u8 pad[0x1c0]; s32 shake_timer; f32 shake_amplitude; };
 
 struct Big_8006A13C { u8 pad[0x70]; u8 unk70[0x10]; };
 
@@ -428,7 +428,7 @@ struct Vec_8006AF9C { f32 x, y, z; };
 
 struct Obj_8006AF9C {
     u8 pad0[0x19c];
-    s32 f19c;
+    s32 fov;
 };
 
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
@@ -583,12 +583,12 @@ typedef char RecoveredGlobal_8006A5EC_TCameraCtrl__data_804FF628_size[((sizeof(R
 struct Cam_8006A6C4
 {
   u8 pad0[0x68];
-  f32 f68;
-  f32 f6C;
-  f32 f70;
+  f32 shake_offset_x;
+  f32 shake_offset_y;
+  f32 shake_offset_z;
   u8 pad74[0x1C0 - 0x74];
-  u32 f1C0;
-  f32 f1C4;
+  u32 shake_timer;
+  f32 shake_amplitude;
 };
 f32 sin_table_lookup(s32);
 }
@@ -662,7 +662,7 @@ struct Cam_8006B0D4 {
     f32 f38[10];
     u8 pad60[0x4];
     s16 f64;
-    Vec_8006B0D4 f68;
+    Vec_8006B0D4 shake_offset;
     f32 f74;
     f32 f78;
     f32 f7C;
@@ -670,26 +670,26 @@ struct Cam_8006B0D4 {
     u8 pad84[0x8];
     s32 f8C;
     s32 f90;
-    s32 f94[4];
-    Vec_8006B0D4 fA4[4];
-    Vec_8006B0D4 fD4[4];
-    Vec_8006B0D4 f104[4];
-    Vec_8006B0D4 f134[4];
-    s32 f164[4];
-    s32 f174;
-    Vec_8006B0D4 f178;
-    Vec_8006B0D4 f184;
-    s32 f190;
-    s32 f194;
-    s32 f198;
-    s32 f19C;
-    Vec_8006B0D4 f1A0;
-    Vec_8006B0D4 f1AC;
-    f32 f1B8;
-    f32 f1BC;
-    s32 f1C0;
+    s32 view_yaw[4];
+    Vec_8006B0D4 view_pos[4];
+    Vec_8006B0D4 split_pos[4];
+    Vec_8006B0D4 split_tgt[4];
+    Vec_8006B0D4 split_look[4];
+    s32 split_flags[4];
+    s32 flag;
+    Vec_8006B0D4 pos;
+    Vec_8006B0D4 tgt;
+    s32 pitch;
+    s32 yaw;
+    s32 roll;
+    s32 fov;
+    Vec_8006B0D4 eye;
+    Vec_8006B0D4 at;
+    f32 eye_rate;
+    f32 at_rate;
+    s32 shake_timer;
     u8 pad1C4[0x4];
-    Vec_8006B0D4 f1C8;
+    Vec_8006B0D4 look;
 };
 extern "C" {
 
@@ -800,44 +800,44 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent) {
     self->name = lbl_805D283C;
     self->f1C = 0;
     camera_ctrl_instance = arg0;
-    self->f19C = 0x3555;
+    self->fov = 0x3555;
     self->f90 = 0;
-    self->f174 = 0;
-    self->f1C8.x = 0.0f;
-    self->f1C8.y = 0.0f;
-    self->f1C8.z = 0.0f;
+    self->flag = 0;
+    self->look.x = 0.0f;
+    self->look.y = 0.0f;
+    self->look.z = 0.0f;
     for (i = 0; i < 4; i++) {
-        self->f94[i] = 0;
-        self->fA4[i].x = 0.0f;
-        self->fA4[i].y = 0.0f;
-        self->fA4[i].z = 0.0f;
-        self->f134[i].x = 0.0f;
-        self->f134[i].y = 0.0f;
-        self->f134[i].z = 0.0f;
-        self->f164[i] = 0;
+        self->view_yaw[i] = 0;
+        self->view_pos[i].x = 0.0f;
+        self->view_pos[i].y = 0.0f;
+        self->view_pos[i].z = 0.0f;
+        self->split_look[i].x = 0.0f;
+        self->split_look[i].y = 0.0f;
+        self->split_look[i].z = 0.0f;
+        self->split_flags[i] = 0;
     }
-    self->f178.x = 0.0f;
-    self->f178.y = 0.0f;
-    self->f178.z = 0.0f;
-    self->f1A0.x = 0.0f;
-    self->f1A0.y = 0.0f;
-    self->f1A0.z = 0.0f;
-    self->f184.x = 0.0f;
-    self->f184.y = 0.0f;
-    self->f184.z = 0.0f;
-    self->f1AC.x = 0.0f;
-    self->f1AC.y = 0.0f;
-    self->f1AC.z = 0.0f;
-    self->f190 = 0;
-    self->f194 = 0;
-    self->f198 = 0;
-    self->f1C0 = 0;
-    self->f1B8 = 0.0f;
-    self->f1BC = 0.0f;
+    self->pos.x = 0.0f;
+    self->pos.y = 0.0f;
+    self->pos.z = 0.0f;
+    self->eye.x = 0.0f;
+    self->eye.y = 0.0f;
+    self->eye.z = 0.0f;
+    self->tgt.x = 0.0f;
+    self->tgt.y = 0.0f;
+    self->tgt.z = 0.0f;
+    self->at.x = 0.0f;
+    self->at.y = 0.0f;
+    self->at.z = 0.0f;
+    self->pitch = 0;
+    self->yaw = 0;
+    self->roll = 0;
+    self->shake_timer = 0;
+    self->eye_rate = 0.0f;
+    self->at_rate = 0.0f;
     self->f8C = 0;
-    self->f68.x = 0.0f;
-    self->f68.y = 0.0f;
-    self->f68.z = 0.0f;
+    self->shake_offset.x = 0.0f;
+    self->shake_offset.y = 0.0f;
+    self->shake_offset.z = 0.0f;
     self->f20 = 0;
     self->f24 = 0;
     self->f28 = 0;
@@ -868,12 +868,12 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent) {
     }
     (*(Count_8006B0D4 *)TCameraCtrl__view_state).flag = 0;
     for (j = 0; j < 4; j++) {
-        self->fD4[j].x = 0.0f;
-        self->fD4[j].y = 0.0f;
-        self->fD4[j].z = 0.0f;
-        self->f104[j].x = 0.0f;
-        self->f104[j].y = 0.0f;
-        self->f104[j].z = 0.0f;
+        self->split_pos[j].x = 0.0f;
+        self->split_pos[j].y = 0.0f;
+        self->split_pos[j].z = 0.0f;
+        self->split_tgt[j].x = 0.0f;
+        self->split_tgt[j].y = 0.0f;
+        self->split_tgt[j].z = 0.0f;
     }
     lbl_804FF5E8[0] = 0.0f;
     lbl_804FF5E8[1] = 0.0f;
@@ -912,7 +912,7 @@ void TCameraCtrl::setup_default_view(void *arg1_arg) {
     if (0.0f == d.x && 0.0f == d.z) {
         pat->z += 1.0f;
     }
-    set_perspective_projection_from_fov(((Obj_8006AF9C *)this)->f19c, 1.1333334f, 1.0f, 21000.0f);
+    set_perspective_projection_from_fov(((Obj_8006AF9C *)this)->fov, 1.1333334f, 1.0f, 21000.0f);
     set_camera_look_at((u8 *)&eye, (u8 *)&at, (u8 *)TCameraCtrl__up_vector);
 }
 #undef self
@@ -986,11 +986,11 @@ void TCameraCtrl::calc_rotated_axes() {
     Vec right = {1.0f, 0.0f, 0.0f};
     Vec up = {0.0f, 1.0f, 0.0f};
     push_matrix_from((void *) (&(*(RecoveredGlobal_8006AC70_lbl_8058D490 *)&identity_matrix).value));
-    rotate_matrix_y(0, (void *)this->m_194);
+    rotate_matrix_y(0, (void *)this->yaw);
     rotate_vector_by_current_matrix((void *)&right, (void *)camera_right);
     pop_matrix();
     push_matrix_from((void *) (&(*(RecoveredGlobal_8006AC70_lbl_8058D490 *)&identity_matrix).value));
-    rotate_matrix_x(0, (void *)this->m_190);
+    rotate_matrix_x(0, (void *)this->pitch);
     rotate_vector_by_current_matrix((void *)&up, (void *) (&(*(RecoveredGlobal_8006AC70_lbl_804FF61C *)&camera_pitch_rotated_up_vector).value));
     pop_matrix();
 }
@@ -1145,11 +1145,11 @@ void TCameraCtrl::update_active_controller() {
       }
       update_shake();
     }
-    set_perspective_projection_from_fov(this->m_19c, 1.1333334f, 1.0f, 21000.0f);
+    set_perspective_projection_from_fov(this->fov, 1.1333334f, 1.0f, 21000.0f);
     PSO_VCALL_VObj_18_9639c7_m9(temp_r30);
     if (is_split_screen() == 0)
     {
-      *((s32 *) (((s8 *) ((u8 *)this)) + 0x94)) = this->m_194;
+      *((s32 *) (((s8 *) ((u8 *)this)) + 0x94)) = this->yaw;
     }
   }
 }
@@ -1172,13 +1172,13 @@ void TCameraCtrl::update_shake() {
   Cam_8006A6C4 *self = (Cam_8006A6C4 *) this;
   f32 amp;
   s32 k;
-  if (self->f1C0 != 0) {
-    self->f1C0--;
-    k = self->f1C0 * 40;
-    amp = self->f1C4 * (f32)self->f1C0;
-    self->f68 = 0.0f;
-    self->f6C = amp * sin_table_lookup((s32)(182.04445f * (f32)k));
-    self->f70 = 0.0f;
+  if (self->shake_timer != 0) {
+    self->shake_timer--;
+    k = self->shake_timer * 40;
+    amp = self->shake_amplitude * (f32)self->shake_timer;
+    self->shake_offset_x = 0.0f;
+    self->shake_offset_y = amp * sin_table_lookup((s32)(182.04445f * (f32)k));
+    self->shake_offset_z = 0.0f;
   }
 }
 void TCameraCtrl::select_active_controller(s8 arg0) {
@@ -1422,9 +1422,9 @@ void TCameraCtrl::set_shake_preset(s32 arg0) {
 void TCameraCtrl__sub_8006A044(s32 id, f32 v) {
     O_8006A044 *p;
     if ((*(O_8006A044 * *)&camera_ctrl_instance) != 0) {
-        (*(O_8006A044 * *)&camera_ctrl_instance)->v = v;
+        (*(O_8006A044 * *)&camera_ctrl_instance)->shake_amplitude = v;
         p = (*(O_8006A044 * *)&camera_ctrl_instance);
-        p->id = id;
+        p->shake_timer = id;
         start_pad_rumble_all(0x60, id);
     }
 }
@@ -1595,35 +1595,35 @@ void TCameraCtrl::update_pose_smoothing() {
     temp_r30 = (u8 *) (arg0 + (TCameraCtrl::get_camera_no() * 0xC));
     new_var = (temp_r30 + 0xD4);
     temp_r31 = new_var;
-    approach_camera_vector((void *) temp_r31, (u8 *)&this->unk_1A0, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
+    approach_camera_vector((void *) temp_r31, (u8 *)&this->eye_x, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
     VecCopy((Vec *)(arg0 + 0x178), (const Vec *)temp_r31);
     current = (temp_r30 + 0x104);
-    approach_camera_vector((void *) current, (u8 *)&this->m_1ac, this->m_1bc);
+    approach_camera_vector((void *) current, (u8 *)&this->at_x, this->at_rate);
     VecCopy((Vec *)(arg0 + 0x184), (const Vec *)current);
     return;
   }
-  approach_camera_vector((u8 *)&this->m_178, (u8 *)&this->unk_1A0, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
-  approach_camera_vector((u8 *)&this->m_184, (u8 *)&this->m_1ac, this->m_1bc);
+  approach_camera_vector((u8 *)&this->pos_x, (u8 *)&this->eye_x, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
+  approach_camera_vector((u8 *)&this->tgt_x, (u8 *)&this->at_x, this->at_rate);
 }
 
 void TCameraCtrl::update_position() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
 
-    this->m_178 = (f32) *(f32 *)&this->unk_1A0;
-    this->m_17c = (f32) this->m_1a4;
-    this->m_180 = (f32) *(f32 *)&this->unk_1A8;
-    this->m_184 = (f32) this->m_1ac;
-    *(f32 *)&this->unk_188 = (f32) *(f32 *)&this->unk_1B0;
-    this->m_18c = (f32) this->m_1b4;
-    this->m_1c8 = (f32) this->m_178;
-    *(f32 *)&this->unk_1CC = (f32) this->m_17c;
-    this->m_1d0 = (f32) this->m_180;
+    this->pos_x = (f32) this->eye_x;
+    this->pos_y = (f32) this->eye_y;
+    this->pos_z = (f32) this->eye_z;
+    this->tgt_x = (f32) this->at_x;
+    this->tgt_y = (f32) this->at_y;
+    this->tgt_z = (f32) this->at_z;
+    this->look_x = (f32) this->pos_x;
+    this->look_y = (f32) this->pos_y;
+    this->look_z = (f32) this->pos_z;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->m_178;
-        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->m_17c;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->m_180;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos_x;
+        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos_y;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos_z;
     }
 }
 
@@ -1631,23 +1631,23 @@ void TCameraCtrl::update_target_smoothing() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
     u8 *temp_r3_2;
-    this->m_178 = (f32) *(f32 *)&this->unk_1A0;
-    this->m_17c = (f32) this->m_1a4;
-    this->m_180 = (f32) *(f32 *)&this->unk_1A8;
-    this->m_1c8 = (f32) this->m_178;
-    *(f32 *)&this->unk_1CC = (f32) this->m_17c;
-    this->m_1d0 = (f32) this->m_180;
+    this->pos_x = (f32) this->eye_x;
+    this->pos_y = (f32) this->eye_y;
+    this->pos_z = (f32) this->eye_z;
+    this->look_x = (f32) this->pos_x;
+    this->look_y = (f32) this->pos_y;
+    this->look_z = (f32) this->pos_z;
     if (is_split_screen() != 0) {
         temp_r3 = arg0 + (TCameraCtrl::get_camera_no() * 0xC);
-        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->m_178;
-        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->m_17c;
-        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->m_180;
+        *(f32 *)((s8 *)temp_r3 + 0x134) = (f32) this->pos_x;
+        *(f32 *)((s8 *)temp_r3 + 0x138) = (f32) this->pos_y;
+        *(f32 *)((s8 *)temp_r3 + 0x13C) = (f32) this->pos_z;
     }
     temp_r3_2 = (u8 *)(*(u8 **)((s8 *)((u8 *)(&(*(RecoveredGlobal_80069A6C_camera_controller_registry *)&camera_controller_registry).value) + ((*(RecoveredGlobal_80069A6C_TCameraCtrl__data_804FF628 *)&TCameraCtrl__view_state).value * 4)) + 0));
     if ((temp_r3_2 != NULL) && !(*(s32 *)((s8 *)temp_r3_2 + 0x38) & 0x10)) {
-        *(f32 *)&this->unk_188 = (f32) *(f32 *)&this->unk_1B0;
+        this->tgt_y = (f32) this->at_y;
     }
-    approach_camera_vector((u8 *)&this->m_184, (u8 *)&this->m_1ac, this->m_1bc);
+    approach_camera_vector((u8 *)&this->tgt_x, (u8 *)&this->at_x, this->at_rate);
 }
 
 void TCameraCtrl::clamp_to_target_obstruction() {
@@ -1994,7 +1994,7 @@ void TCameraCtrl__sub_80068EF0(void) {
         GXSetScissorBoxOffset((s32) neg_w, (s32) neg_h);
         TCameraCtrl__sub_801E32D8(*(f32 *)((s8 *)&TCameraCtrl__data_804FF634 + 8), *(f32 *)((s8 *)&TCameraCtrl__data_804FF634 + 0xC));
         if ((void *) camera_ctrl_instance != NULL) {
-            set_perspective_projection_from_fov((s32) ((TCameraCtrl *) camera_ctrl_instance)->m_19c, 1.1333334f, 1.0f, 21000.0f);
+            set_perspective_projection_from_fov((s32) ((TCameraCtrl *) camera_ctrl_instance)->fov, 1.1333334f, 1.0f, 21000.0f);
         }
     }
 }
@@ -2155,14 +2155,14 @@ void TCameraCtrl::sync_split_view_slots(s32 arg0, s32 arg1) {
     if ((*(Cam_80068810 * *)&camera_ctrl_instance) != NULL) {
         id = (u16)TCameraCtrl::get_nth_view_player_id(arg0);
         if (id != 0xFFFF) {
-            (*(Cam_80068810 * *)&camera_ctrl_instance)->slots[id] = (*(Cam_80068810 * *)&camera_ctrl_instance)->f194;
-            VecCopy((Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->vecs[id]), (const Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->v178));
+            (*(Cam_80068810 * *)&camera_ctrl_instance)->view_yaw[id] = (*(Cam_80068810 * *)&camera_ctrl_instance)->yaw;
+            VecCopy((Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->view_pos[id]), (const Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->pos));
         }
     }
     if (arg1 != 0) {
         for (i = 0; i < 4; i++) {
-            (*(Cam_80068810 * *)&camera_ctrl_instance)->slots[i] = (*(Cam_80068810 * *)&camera_ctrl_instance)->f194;
-            VecCopy((Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->vecs[i]), (const Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->v178));
+            (*(Cam_80068810 * *)&camera_ctrl_instance)->view_yaw[i] = (*(Cam_80068810 * *)&camera_ctrl_instance)->yaw;
+            VecCopy((Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->view_pos[i]), (const Vec *)(&(*(Cam_80068810 * *)&camera_ctrl_instance)->pos));
         }
     }
 }

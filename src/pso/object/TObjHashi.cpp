@@ -193,7 +193,7 @@ s32 TObjHashiBase::update_object_view_visibility(f32 depth, f32 radius) {
     if (TMainTask::get_render_pass() == 1) {
         return visibility;
     }
-    if (xz_distance_squared((const Vec *)&camera_ctrl_instance->m_178, &position) < (radius * radius)) {
+    if (xz_distance_squared((const Vec *)&camera_ctrl_instance->pos_x, &position) < (radius * radius)) {
         visibility = 1;
         return 1;
     }
