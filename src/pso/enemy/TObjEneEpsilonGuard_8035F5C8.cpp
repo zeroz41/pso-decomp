@@ -550,15 +550,7 @@ struct W_8035FCEC;
 #define F(t, o) (*(t *)(arg0 + (o)))
 #define VO ((VObj_18_a39899 *)(arg0))
 #define GP ((u8 *)lbl_805D6F8C)
-#define transition_enemy_state__9TObjEneDDFl ((s32 (*)(void *, int))transition_enemy_state__9TObjEneDDFl)
-#define set_field_378__9TObjEneDDFl ((s32 (*)(void *, int))set_field_378__9TObjEneDDFl)
 s32 update_linked_position__12TObjEneDD_STFf(f32);
-#undef transition_enemy_state__9TObjEneDDFl
-#undef set_field_378__9TObjEneDDFl
-#define handle_guard_action_state__19TObjEneEpsilonGuardFPvi ((s32 (*)(void *, void *))handle_guard_action_state__19TObjEneEpsilonGuardFPvi)
-#define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
-#undef handle_guard_action_state__19TObjEneEpsilonGuardFPvi
-#undef transition_enemy_state__9TObjEneDDFl
 }
 
 
