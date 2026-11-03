@@ -453,6 +453,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TRaderMapCore_801FB6A8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TNpcPlayer_8034DFBC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TNpcPlayer_80190E64.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/TObjEnePanarmsAtkColli.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjSeabedSuisoBrakable.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TLogo_8001C134.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/quest/TQuestListVM_80073DC4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

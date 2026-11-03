@@ -2045,7 +2045,9 @@ pso/object/TObjFish_800E2FFC.cpp:
 
 pso/enemy/TObjEnePanarmsAtkColli.cpp:
 	.text       start:0x800E31C4 end:0x800E3A58
+	.rodata     start:0x8043CDD8 end:0x8043CDF0
 	.data       start:0x80495A80 end:0x80495BE0
+	.sdata      start:0x805D2AC0 end:0x805D2AC8
 	.sdata2     start:0x805DA5A0 end:0x805DA5B8
 
 pso/enemy/TObjEneMe3ShinowaMirage.cpp:
