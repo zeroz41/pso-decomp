@@ -11,7 +11,6 @@
 extern "C" {
 
 void *get_global_state__23TAdSinglePlyChrSelectGCFv();
-s16 init_sound_mode__6TLobbyFPv();
 s32 play_area_music();
 u32 create_menu__17TWindowOptionCtrlFv(void *);
 
@@ -36,7 +35,7 @@ void TWindowOptionCtrl::apply_selection_change() {
 void TWindowOptionCtrl::init_selection_indices() {
     s16 temp_r3;
 
-    temp_r3 = init_sound_mode__6TLobbyFPv();
+    temp_r3 = TLobby::init_sound_mode();
     *(s16 *)((s8 *)this + 0x1E) = temp_r3;
     *(s16 *)((s8 *)this + 0x20) = temp_r3;
 }

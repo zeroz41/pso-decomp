@@ -1315,7 +1315,6 @@ pso/misc/TOSwitchItem.cpp
 pso/misc/TOSwitchTimer.cpp
 pso/misc/TOSymbolchatColli.cpp
 pso/misc/TOTrap.cpp
-pso/misc/TOTrapAncient01_80226534.cpp
 pso/misc/TOTrapAncient02.cpp
 pso/misc/TOTrapAncient02R.cpp
 pso/misc/TOTrapChainSawEdge.cpp
@@ -1810,7 +1809,6 @@ pso/misc/TWindowSubStatusDisp_80255DF4.cpp
 pso/misc/TWindowSubStatusDisp_8025737C.cpp
 pso/misc/TWindowSubStatusDisp_80257784.cpp
 pso/misc/TWindowSubStatusDisp_80257BC0.cpp
-pso/misc/TWindowSubStatusDisp_802598E4.cpp
 pso/misc/TWindowSubStatusDisp_8025995C.cpp
 pso/misc/TWindowSubStatusDisp_80259DB0.cpp
 pso/misc/TWindowSubStatusDisp_8025A9B4.cpp
@@ -3017,7 +3015,6 @@ pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_8022350C.cpp
 pso/unk/text_80225CD8.cpp
-pso/unk/text_802264B8.cpp
 pso/unk/text_80228C54.cpp
 pso/unk/text_80228E98.cpp
 pso/unk/text_8022BE64.cpp

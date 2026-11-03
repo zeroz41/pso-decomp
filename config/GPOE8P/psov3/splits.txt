@@ -7480,16 +7480,10 @@ pso/player/TObjPlayer_8022602C.cpp:
 	.text       start:0x8022602C end:0x80226070
 
 pso/misc/TLobby_80226070.cpp:
-	.text       start:0x80226070 end:0x802264B8
+	.text       start:0x80226070 end:0x802268F4
 	.rodata     start:0x8044C850 end:0x8044C858
-	.sdata2     start:0x805DC740 end:0x805DC748
-
-pso/unk/text_802264B8.cpp:
-	.text       start:0x802264B8 end:0x80226534
-
-pso/misc/TOTrapAncient01_80226534.cpp:
-	.text       start:0x80226534 end:0x802268F4
 	.bss        start:0x805145F0 end:0x80514C60
+	.sdata2     start:0x805DC740 end:0x805DC748
 
 pso/misc/TLobby_802268F4.cpp:
 	.text       start:0x802268F4 end:0x80227390
@@ -8315,11 +8309,8 @@ pso/misc/TWindowSubStatusDisp_80257BC0.cpp:
 	.sdata2     start:0x805DCEF0 end:0x805DCEF4
 
 pso/misc/TWindowSubStatusDisp_80257784.cpp:
-	.text       start:0x802580B0 end:0x802598E4
+	.text       start:0x802580B0 end:0x8025995C
 	.rodata     start:0x8044EE60 end:0x8044F000
-
-pso/misc/TWindowSubStatusDisp_802598E4.cpp:
-	.text       start:0x802598E4 end:0x8025995C
 
 pso/misc/TWindowSubStatusDisp_8025995C.cpp:
 	.text       start:0x8025995C end:0x80259DB0

@@ -42,7 +42,7 @@ struct Quad_80256E0C { f32 x0, y0, x1, y1, u0, v0, u1, v1; };
 
 extern "C" {
 extern s32 lbl_804CF918[];
-void sub_80256BDC__13TUnk_804CF930Fs(u8 *arg0, s16 arg1);
+void sub_80256BDC__13TUnk_804CF930Fl(void *self, s32 arg1);
 void calc_bar_width__13TUnk_804CF930Fv(struct Bar_80256C00 *bar);
 f32 fabs_float(f32);
 extern const f32 lbl_805DCE58;
@@ -66,7 +66,7 @@ void *TUnk_804CF930::destroy(s16 arg1) {
 }
 
 typedef char RecoveredGlobal_80256BDC_lbl_804CF918_size[sizeof(RecoveredGlobal_80256BDC_lbl_804CF918) == 0x18 ? 1 : -1];
-void TUnk_804CF930::sub_80256BDC(s16 arg1) {
+void TUnk_804CF930::sub_80256BDC(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_80256BDC_lbl_804CF918 *)&lbl_804CF918).value;
     *(s16 *)((s8 *)arg0 + 0) = 0;
@@ -233,20 +233,18 @@ typedef char RecoveredGlobal_80257B4C_lbl_804CF948_size[sizeof(RecoveredGlobal_8
 typedef void *(*Ctor_80257D44)(void *, void *, s32);
 
 #define destroy__13TUnk_804CF930Fs ((s32 (*)(s32, s32 *))destroy__13TUnk_804CF930Fs)
-#define sub_80256BDC__13TUnk_804CF930Fs ((int (*)(void*, int))sub_80256BDC__13TUnk_804CF930Fs)
 #define calc_bar_width__13TUnk_804CF930Fv ((s32 (*)())calc_bar_width__13TUnk_804CF930Fv)
 #define step_gauge_bar_width ((void (*)(void *))step_gauge_bar_width)
 
 #define lbl_804CF930 (*(unsigned char (*)[1])&lbl_804CF930)
 extern const float lbl_805DCE58;
 
-void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC__13TUnk_804CF930Fs(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = lbl_805DCE58; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
+void*TUnk_804CF930::init_from(void*a1, int a2) { sub_80256BDC__13TUnk_804CF930Fl(this, a2); *(int*)((char*)this + 0x4) = (int)lbl_804CF930; *(float*)((char*)this + 0x1c) = lbl_805DCE58; *(float*)((char*)this + 0xc) = *(float*)((char*)a1 + 0x4); *(float*)((char*)this + 0x10) = *(float*)((char*)a1 + 0x8); *(float*)((char*)this + 0x8) = *(float*)((char*)a1 + 0xc); *(float*)((char*)this + 0x14) = *(float*)((char*)a1 + 0x18); *(int*)((char*)this + 0x18) = *(int*)((char*)a1 + 0x10); *(short*)((char*)this + 0x0) = *(int*)((char*)a1 + 0x14); *(float*)((char*)this + 0x20) = *(float*)((char*)a1 + 0x1c); *(float*)((char*)this + 0x24) = *(float*)((char*)a1 + 0x20); return this; }
 
 }
 
 #undef draw_status_gauge_bar__13TUnk_804CF930FPvPvff
 #undef destroy__13TUnk_804CF930Fs
-#undef sub_80256BDC__13TUnk_804CF930Fs
 #undef calc_bar_width__13TUnk_804CF930Fv
 #undef step_gauge_bar_width
 #undef lbl_804CF930

@@ -375,6 +375,7 @@ struct TLobby : public TObject {
     static void set_target_id(s32 arg0);
     static s32 is_camera_state_active();
     static void set_mode(s32 arg0);
+    static int init_sound_mode();
     static void set_menu_index_main(u8 *arg0);
     static void refresh_render_state();
     static void wait_for_sound_init();
