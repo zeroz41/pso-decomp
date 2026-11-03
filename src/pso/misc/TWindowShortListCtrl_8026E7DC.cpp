@@ -17,6 +17,9 @@
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/misc/CharacterAppearance.h"
+#include "pso/unk/text_8024ACEC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8026EA60_lbl_8050E208
@@ -64,7 +67,6 @@ struct Buf_8026E884 { s16 h[19]; };
 
 extern "C" {
 s32 canSetMenuCursorAction(s32, s32, u8, u8);
-s32 get_player_by_client_id(s32);
 void TMainCursor__sub_8013DFC4(u8 *arg0);
 extern s32 lbl_805DD380;
 s32 fn_8002AE08(int);
@@ -110,21 +112,18 @@ void TWindowShortListCtrl::set_displayed_item(s32 arg1) {
 }
 
 s32 TWindowShortListCtrl::is_technique_usable() {
-    u32 player;
-    u8 *temp_r31;
-
-    player = get_player_by_client_id((s32)((int) (this->m_24)));
-    if (player == 0U) {
+    TObjPlayer *player = get_player_by_client_id(m_24);
+    if (player == NULL) {
         return 0;
     }
-    temp_r31 = (unsigned char *) (player + 0x85C);
-    if (temp_r31 == NULL) {
+    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    if (appearance == NULL) {
         return 0;
     }
     if (is_technique_ready__8TTecCtrlFv() != 0) {
         return 1;
     }
-    return ((u32) *(u32 *)((s8 *)temp_r31 + 0x34) >> 4U) & 1;
+    return (appearance->classFlags >> 4) & 1;
 }
 
 void TWindowShortListCtrl__sub_8026E884(s16 *dst) {
@@ -154,7 +153,7 @@ void TWindowShortListCtrl::assign_item_to_palette(u32 arg0, u32 arg1) {
     u8 parameter;
     var_r31 = arg0;
     var_r3 = arg1;
-    player = get_player_by_client_id(var_r3);
+    player = (s32)get_player_by_client_id(var_r3);
     if (player != 0) {
         var_r29 = *(u32 *)((s8 *)player + 0x424);
         if (var_r29 != 0U) {
@@ -484,13 +483,13 @@ void run_task__20TWindowShortListCtrlFv(TWindowShortListCtrl *window_short_list_
 }
 
 void *__dt__20TWindowShortListCtrlFv(TWindowShortListCtrl *arg0, s16 arg1) {
-    s32 player;
+    TObjPlayer *player;
 
     if (arg0 != NULL) {
         *(void **)((s8 *)arg0 + 0x18) = __vt__20TWindowShortListCtrl;
         player = get_player_by_client_id((s32)(arg0->m_24));
-        if ((player != 0) && (has_player_active_menu__11TWindowCtrlFv(arg0->m_24) == 0) && (TWindowCtrl__sub_8024A1A8() == 0)) {
-            ((TObjPlayer *)player)->init_parts();
+        if ((player != NULL) && (has_player_active_menu__11TWindowCtrlFv(arg0->m_24) == 0) && (TWindowCtrl__sub_8024A1A8() == 0)) {
+            player->init_parts();
         }
         end_player_keyboard_hold(arg0->m_24);
         TWindowCtrl::clear_flag_8();
@@ -512,6 +511,46 @@ void *__dt__20TWindowShortListCtrlFv(TWindowShortListCtrl *arg0, s16 arg1) {
         }
     }
     return arg0;
+}
+
+// lbl_805D39E0: the class-name pointer ("TWindowShortListCtrl"); inferred name TWindowShortListCtrl_name
+extern const char *lbl_805D39E0;
+
+TWindowShortListCtrl::TWindowShortListCtrl(TObject *parent, s32 client_id) : TObject(parent) {
+    m_name = lbl_805D39E0;
+    m_24 = client_id;
+    TObjPlayer *player = get_player_by_client_id(m_24);
+    if (player == NULL) {
+        queue_destruction();
+        return;
+    }
+    CharacterAppearanceFields *appearance = (CharacterAppearanceFields *)player->name;
+    if (appearance == NULL) {
+        queue_destruction();
+        return;
+    }
+    m_1c = get_card_window_flags(m_24);
+    if (m_1c == 2 && is_technique_usable() == 0) {
+        m_1c++;
+        if (m_1c >= 4) {
+            m_1c -= 4;
+        }
+    }
+    if ((appearance->classFlags & 0x10) && m_1c == 3) {
+        m_1c++;
+        if (m_1c >= 4) {
+            m_1c -= 4;
+        }
+    }
+    sub_8026EA48();
+    m_1e = 0;
+    m_2c = 0;
+    m_30 = 0;
+    m_34 = 0;
+    m_38 = -1;
+    begin_player_keyboard_hold(m_24);
+    TWindowCtrl::set_flag_active();
+    player->reset_equip_slots();
 }
 
 void TWindowShortListCtrl::set_card_window_flags(s32 arg0, s32 arg1) {

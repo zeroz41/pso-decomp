@@ -5,12 +5,13 @@
 #include "pso/TObject.h"
 
 struct TWindowShortListCtrl : public TObject {
+    TWindowShortListCtrl(TObject *parent, s32 client_id);
     virtual ~TWindowShortListCtrl();
     void refresh_technique_rows(s32, void *);
     void cycle_list_page();
     void sub_8026EA48();
     virtual void run_task();
-    u8 m_1c;
+    s8 m_1c;
     u8 m_1d;
     s16 m_1e;
     void* m_20;
@@ -23,7 +24,7 @@ struct TWindowShortListCtrl : public TObject {
     void update_variant_a();
     void update_variant_b();
     void update_variant_c();
-    static s32 get_card_window_flags();
+    static s32 get_card_window_flags(s32 client_id);
     static s32 get_card_status_bits();
     void set_displayed_item(s32 arg1);
     s32 is_technique_usable();
