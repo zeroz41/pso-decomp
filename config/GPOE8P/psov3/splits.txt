@@ -993,45 +993,14 @@ pso/object/TObjCHTimeWin_80074C94.cpp:
 	.text       start:0x80074C94 end:0x80074E04
 	.data       start:0x8048D220 end:0x8048D238
 
-pso/unk/text_80074E04.cpp:
-	.text       start:0x80074E04 end:0x80074E48
-	.bss        start:0x804FF938 end:0x804FF968
-
-pso/unk/text_80074E48.cpp:
-	.text       start:0x80074E48 end:0x80074E74
-
-pso/object/TObjTombstone_80074E74.cpp:
-	.text       start:0x80074E74 end:0x80075764
-	.rodata     start:0x804387B8 end:0x804387C8
-	.sdata2     start:0x805D9174 end:0x805D91A0
-
-pso/object/TObjTombstone_80075764.cpp:
-	.text       start:0x80075764 end:0x80075854
-
-pso/object/TObjTombstone_80075854.cpp:
-	.text       start:0x80075854 end:0x80075920
-
 pso/object/TObjTombstone.cpp:
-	.text       start:0x80075920 end:0x80075DA8
-	.rodata     start:0x804387C8 end:0x80438818
-	.sdata2     start:0x805D91A8 end:0x805D91AC
-
-pso/object/TObjTombstone_80075DA8.cpp:
-	.text       start:0x80075DA8 end:0x800762F0
-
-pso/object/TObjTombstone_800762F0.cpp:
-	.text       start:0x800762F0 end:0x800764E0
-
-pso/object/TObjTombstone_800764E0.cpp:
-	.text       start:0x800764E0 end:0x80076614
-	.data       start:0x8048D238 end:0x8048D250
+	.text       start:0x80074E04 end:0x800766C4
+	.rodata     start:0x80438748 end:0x80438818
+	.data       start:0x8048D238 end:0x8048D348
+	.bss        start:0x804FF938 end:0x804FF968
 	.sdata      start:0x805D2898 end:0x805D28A0
-
-pso/misc/TLobby_80076614.cpp:
-	.text       start:0x80076614 end:0x8007666C
-
-pso/object/TObjTombstone_8007666C.cpp:
-	.text       start:0x8007666C end:0x800766C4
+	.sbss       start:0x805D4E48 end:0x805D4E50
+	.sdata2     start:0x805D9170 end:0x805D91C0
 
 pso/misc/TCameraCtrl_800766C4.cpp:
 	.text       start:0x800766C4 end:0x80076760
@@ -4728,14 +4697,13 @@ pso/misc/TOBind_801586B8.cpp:
 	.data       start:0x804AFC30 end:0x804AFCE4
 	.sdata2     start:0x805DB300 end:0x805DB310
 
-pso/misc/TOBoss4Rock_801589E8.cpp:
-	.text       start:0x801589E8 end:0x80159CEC
-	.rodata     start:0x80440390 end:0x804403A8
-	.sdata2     start:0x805DB310 end:0x805DB354
-
 pso/misc/TOBoss4.cpp:
-	.text       start:0x80159CEC end:0x80159E24
-	.data       start:0x804AFDB8 end:0x804AFDEC
+	.text       start:0x801589E8 end:0x80159E24
+	.rodata     start:0x80440288 end:0x804403A8
+	.data       start:0x804AFCE8 end:0x804AFDEC
+	.sdata      start:0x805D2EB0 end:0x805D2EC0
+	.sbss       start:0x805D58A8 end:0x805D58AC
+	.sdata2     start:0x805DB310 end:0x805DB354
 
 pso/misc/TOCakeshopCave01.cpp:
 	.text       start:0x80159E24 end:0x8015A2B8
@@ -12162,21 +12130,13 @@ pso/object/TObjKabochaLobby.cpp:
 	.sdata2     start:0x805DFF38 end:0x805DFF48
 
 pso/boss/TBoss6Rock.cpp:
-	.text       start:0x803537D4 end:0x8035477C
-	.rodata     start:0x80479290 end:0x80479298
-	.sdata2     start:0x805DFF54 end:0x805DFF60
-
-pso/boss/TBoss6Rock_8035477C.cpp:
-	.text       start:0x8035477C end:0x80354A30
+	.text       start:0x803537D4 end:0x80354BE4
+	.rodata     start:0x804791B8 end:0x804792AC
+	.data       start:0x804F1230 end:0x804F12D0
 	.bss        start:0x80543778 end:0x80543978
-
-pso/boss/TBoss6Rock_80354A30.cpp:
-	.text       start:0x80354A30 end:0x80354A44
-
-pso/boss/TBoss6Rock_80354A44.cpp:
-	.text       start:0x80354A44 end:0x80354BE4
-	.data       start:0x804F1230 end:0x804F1260
-	.sdata      start:0x805D4388 end:0x805D438C
+	.sdata      start:0x805D4388 end:0x805D4390
+	.sbss       start:0x805D6EF0 end:0x805D6F08
+	.sdata2     start:0x805DFF48 end:0x805DFFA8
 
 pso/unk/text_80354BE4.cpp:
 	.text       start:0x80354BE4 end:0x80354EC8

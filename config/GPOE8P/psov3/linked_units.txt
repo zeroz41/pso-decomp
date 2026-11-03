@@ -270,10 +270,8 @@ pso/boss/TBoss6Mag.cpp
 pso/boss/TBoss6MagMine.cpp
 pso/boss/TBoss6Mine.cpp
 pso/boss/TBoss6PlotFalz.cpp
+pso/boss/TBoss6Rock.cpp
 pso/boss/TBoss6RockChase.cpp
-pso/boss/TBoss6Rock_8035477C.cpp
-pso/boss/TBoss6Rock_80354A30.cpp
-pso/boss/TBoss6Rock_80354A44.cpp
 pso/boss/TBoss6SwordShot.cpp
 pso/boss/TBoss6Thanks.cpp
 pso/boss/TBoss6Thanks_8035D1F4.cpp
@@ -967,7 +965,6 @@ pso/misc/TLobby_80072048.cpp
 pso/misc/TLobby_800726F0.cpp
 pso/misc/TLobby_8007340C.cpp
 pso/misc/TLobby_80073DAC.cpp
-pso/misc/TLobby_80076614.cpp
 pso/misc/TLobby_80077B60.cpp
 pso/misc/TLobby_8007B858.cpp
 pso/misc/TLobby_8007C550.cpp
@@ -2110,11 +2107,6 @@ pso/object/TObjSuisouLobby.cpp
 pso/object/TObjTailsTailsMove.cpp
 pso/object/TObjTank.cpp
 pso/object/TObjTombstone.cpp
-pso/object/TObjTombstone_80075764.cpp
-pso/object/TObjTombstone_80075854.cpp
-pso/object/TObjTombstone_800762F0.cpp
-pso/object/TObjTombstone_800764E0.cpp
-pso/object/TObjTombstone_8007666C.cpp
 pso/object/TObjTradeCollision.cpp
 pso/object/TObjTreeLobby.cpp
 pso/object/TObjVoloptCage.cpp
@@ -2709,8 +2701,6 @@ pso/unk/text_80072230.cpp
 pso/unk/text_80074BD0.cpp
 pso/unk/text_80074C20.cpp
 pso/unk/text_80074C70.cpp
-pso/unk/text_80074E04.cpp
-pso/unk/text_80074E48.cpp
 pso/unk/text_80076BC4.cpp
 pso/unk/text_80076E84.cpp
 pso/unk/text_800779A0.cpp

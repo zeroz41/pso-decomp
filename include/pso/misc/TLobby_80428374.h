@@ -53,6 +53,7 @@ extern "C" {
 extern ModemSessionState lobby_net_session_state;
 s32 TLobby__sub_80428A38(void);
 s32 TLobby__sub_80428BB0(ModemRequest *req);
+void TLobby__sub_80428DC8(s16 type, s16 index, char *src, s16 *nstr, s16 *nint);
 s32 TLobby__sub_804290D4(s16 timeout);
 }
 
