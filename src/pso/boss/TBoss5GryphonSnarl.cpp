@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 
 #include "types.h"
+#include "pso/boss/TBoss8Dragon_8005D700.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TNowLoading.h"
@@ -19,7 +20,6 @@ s32 * TBoss5GryphonSnarl__effect_table;
 
 
 extern "C" {
-s32 TBoss8Dragon__sub_8005D700(void *self);
 extern s32 boss5_gryphon_snarl_effect_id_table[4];
 extern s32 *TBoss5GryphonSnarl__effect_table;
 extern const char *lbl_805D2820;
@@ -142,8 +142,8 @@ void TBoss5GryphonSnarl__sub_80066E84(void) {  }
 extern s32 lbl_805D4DD8;
 extern u32 boss5_common_texture_list;
 
-void TBoss5GryphonSnarl__sub_80066E88(void *self) {
-    switch (TBoss8Dragon__sub_8005D700(self)) {
+void TBoss5GryphonSnarl__sub_80066E88(void) {
+    switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         TBoss5GryphonSnarl__effect_table = boss5_gryphon_snarl_effect_id_table;
         break;

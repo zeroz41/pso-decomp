@@ -243,7 +243,6 @@ pso/boss/TBoss4ZakoDraw.cpp
 pso/boss/TBoss4ZakoDraw_8030AD38.cpp
 pso/boss/TBoss4ZakoDraw_8030AD58.cpp
 pso/boss/TBoss4Zanzo.cpp
-pso/boss/TBoss5Gryphon.cpp
 pso/boss/TBoss5GryphonColli.cpp
 pso/boss/TBoss5GryphonDemo.cpp
 pso/boss/TBoss5GryphonLightning.cpp

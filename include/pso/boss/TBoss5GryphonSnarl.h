@@ -24,14 +24,14 @@ typedef char TBoss5GryphonSnarlSize[sizeof(TBoss5GryphonSnarl) == 0x130 ? 1 : -1
 
 extern "C" {
 void TBoss5GryphonSnarl__sub_80066E84(void);
-void TBoss5GryphonSnarl__sub_80066E88(void *self);
+void TBoss5GryphonSnarl__sub_80066E88(void);
 void TLobby__sub_80066EC0(void);
 }
 
 // --- C functions defined in TBoss5GryphonSnarl.cpp ---
 extern "C" {
 void TBoss5GryphonSnarl__sub_80066E84(void);
-void TBoss5GryphonSnarl__sub_80066E88(void *self);
+void TBoss5GryphonSnarl__sub_80066E88(void);
 void TLobby__sub_80066EC0(void);
 }
 // --- end of C functions
