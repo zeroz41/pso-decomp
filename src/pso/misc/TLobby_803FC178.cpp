@@ -117,7 +117,9 @@ struct RecoveredGlobal_803FC178_lbl_805C02D0 {
     u8 *p18;
     u8 *p1C;
     char *p20;
-    u8 pad24[0x12];
+    u8 pad24[4];
+    s16 f28;
+    u8 pad2A[0xC];
     u8 f36;
     u8 f37;
     u16 f38;
@@ -1005,6 +1007,40 @@ s16 TLobby__sub_803FC820(Conn_804004DC *c, Hdr_803FC4B4 *hdr, B_803FADA0 *src) {
     reply = TLobby__sub_80401B20(lbl_805C02D0.p20, NetStringLength(lbl_805C02D0.p20));
     TLobby__sub_803FE6CC(c, code, hdr->flag, reply);
     return ret;
+}
+
+B_803FADA0 *TLobby__sub_803FCF44(Self_803FD74C *fsm) {
+    Chap_803FC728 *chap = (Chap_803FC728 *)fsm->f30;
+    s32 tick;
+    char name[] = "avetcp";
+    B_803FADA0 *buf;
+    u8 *p;
+    s16 i;
+    s16 len;
+
+    if (chap->name == NULL || chap->secret == NULL) {
+        return NULL;
+    }
+    buf = init_net_buffer_entry__6TLobbyFUs(0);
+    if (buf == NULL) {
+        return NULL;
+    }
+    p = buf->buf;
+    NetStoreTick(&tick);
+    lbl_805D7A9A = (tick & 0x1F) + 0x10;
+    *p++ = lbl_805D7A9A;
+    NetStoreTick(&tick);
+    for (i = 0; i < lbl_805D7A9A; i++) {
+        *p++ = tick;
+    }
+    NetCopyString((char *)p, name);
+    buf->len += lbl_805D7A9A + (u16)NetStringLength(name) + 1;
+    len = buf->len;
+    if (len > lbl_805C02D0.f28) {
+        len = lbl_805C02D0.f28;
+    }
+    NetMemcpy(lbl_805C02D0.p8, buf->buf, len);
+    return buf;
 }
 #pragma pop
 
