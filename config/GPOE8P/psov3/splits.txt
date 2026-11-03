@@ -1533,13 +1533,9 @@ pso/misc/TBreakUpMdl.cpp:
 	.data       start:0x8048F9E8 end:0x8048FA00
 	.sdata2     start:0x805D97C8 end:0x805D97D8
 
-pso/enemy/TObjEneDf2Bringer_80097100.cpp:
-	.text       start:0x80097100 end:0x800972B0
-	.rodata     start:0x8043A0F0 end:0x8043A0F8
-
-pso/enemy/TObjEneDf2Bringer_800972B0.cpp:
-	.text       start:0x800972B0 end:0x80099EF8
-	.rodata     start:0x8043A100 end:0x8043A108
+pso/enemy/TObjEneDf2Bringer.cpp:
+	.text       start:0x80097100 end:0x80099EF8
+	.rodata     start:0x8043A0F0 end:0x8043A108
 	.data       start:0x8048FA10 end:0x8048FE08
 
 pso/player/TObjPlayer_80099EF8.cpp:

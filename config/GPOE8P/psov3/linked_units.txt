@@ -427,8 +427,7 @@ pso/enemy/TObjEneDelDepthAccessors.cpp
 pso/enemy/TObjEneDellBiter.cpp
 pso/enemy/TObjEneDellBiterEffects.cpp
 pso/enemy/TObjEneDellBiter_800BC46C.cpp
-pso/enemy/TObjEneDf2Bringer_80097100.cpp
-pso/enemy/TObjEneDf2Bringer_800972B0.cpp
+pso/enemy/TObjEneDf2Bringer.cpp
 pso/enemy/TObjEneDimedian.cpp
 pso/enemy/TObjEneDolmOlm.cpp
 pso/enemy/TObjEneDubchik.cpp

@@ -14,6 +14,7 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     virtual void dispatch_action(u32 state, s32 reason);
     void set_effect_pos_above_self();
     void sub_80098DEC();
+    void sub_800994F8();
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();
