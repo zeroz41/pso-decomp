@@ -17,15 +17,15 @@ struct TOCtrlDubchik : public TObjEnemy {
     virtual s32 try_start_action(s32, s32);
     virtual s32 select_melee_contact_body(void *, f32);
     virtual void render();
-    f32 m_374;  // update_object_view_visibility's first argument
-    f32 m_378;  // ... and its second
-    f32 m_37c;
-    s32 m_380;    // the bobbing phase, advanced by 2184 per frame
-    f32 unk_384;  // the parts' vertical spread in render
-    f32 m_388;    // the effect part's scale in render
-    u32 m_38c;    // the spinning part's y rotation
-    Vec m_390;    // apply_actor_gravity's position; the shadow is drawn there
-    s32 m_39c;    // the last update_object_view_visibility result
+    f32 view_range;    // update_object_view_visibility's arguments
+    f32 model_radius;  // the model's bounding radius
+    f32 hover_height;  // apply_actor_gravity's height; 20 + sin(bob_phase), shrinks the shadow
+    s32 bob_phase;     // advanced by 2184 per frame
+    f32 part_spread;   // the parts' vertical spread in render
+    f32 effect_scale;  // the effect part's scale in render
+    u32 spin_angle;    // the spinning part's y rotation
+    Vec shadow_pos;    // apply_actor_gravity's position; the shadow is drawn there
+    s32 visible;       // the last update_object_view_visibility result
     void clear_part_offsets();
     void complete_and_destroy();
     void decay_timer_and_clear_flag();

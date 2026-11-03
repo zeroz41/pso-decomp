@@ -119,11 +119,6 @@ struct Pair_8015D518 { s32 a; s32 b; };
 // What receive_weapon_special_attack's second argument points at: its hit position at 0x1C.
 struct A_8015C9D4 { u8 pad[0x1C]; Vec pos; };
 
-struct Obj_8015D518 {
-    u8 pad0[0x326];
-    s16 f326;
-};
-
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
@@ -152,7 +147,7 @@ void *spawn_particle_effect(void *pos, s32 id);
 void TObjPlayer__sub_800A8C1C(u8 *arg0);
 s32 play_sound_effect(s32, void *, s32, s32);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, s32, Pair_8015D518, void *, s32, s32);
-f32 TOCtrlDubchik__vt21(Obj_8015D518 *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3);
+f32 TOCtrlDubchik__vt21(TOCtrlDubchik *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3);
 void *__dt__13TOCtrlDubchikFv(void *arg0, s16 arg1);
 void TLobby__sub_8001FE7C(void*, int);
 s32 free_collision_body_parts(void *);
@@ -167,8 +162,8 @@ void *__nw__7TObjectFUl(int);
 // it clears the two part offsets the constructor zeroes and render reads.
 // Name inferred from that role.
 void TOCtrlDubchik::clear_part_offsets() {
-    unk_384 = 0.0f;
-    m_388 = 0.0f;
+    part_spread = 0.0f;
+    effect_scale = 0.0f;
 }
 
 void TOCtrlDubchik__sub_8015C9D0(u8 *) {  }
@@ -224,39 +219,39 @@ void TOCtrlDubchik::complete_and_destroy() {
 }
 
 void TOCtrlDubchik::decay_timer_and_clear_flag() {
-    unk_384 -= 0.1f;
-    if (unk_384 < 0.0f) {
-        unk_384 = 0.0f;
+    part_spread -= 0.1f;
+    if (part_spread < 0.0f) {
+        part_spread = 0.0f;
         mode = 0;
         set_indexed_flags(0, 0x08000000);
     }
 }
 
 void TOCtrlDubchik::decay_timer_and_finish() {
-    m_388 -= 0.1f;
-    if (m_388 < 0.0f) {
-        m_388 = 0.0f;
+    effect_scale -= 0.1f;
+    if (effect_scale < 0.0f) {
+        effect_scale = 0.0f;
         mode = 5;
     }
 }
 
 void TOCtrlDubchik::update_spin() {
 
-    m_380 += 2184.0f;
-    m_37c = 20.0f + sin_table_lookup(m_380);
-    apply_actor_gravity(this, (s32 *)&m_390, m_37c);
-    m_38c += 0x147;
+    bob_phase += 2184.0f;
+    hover_height = 20.0f + sin_table_lookup(bob_phase);
+    apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
+    spin_angle += 0x147;
 }
 
 extern void *tl_05;
 
 void TOCtrlDubchik::sub_8015CCF4() {
-    m_380 += 2184.0f;
-    m_37c = 20.0f + sin_table_lookup(m_380);
-    apply_actor_gravity(this, (s32 *)&m_390, m_37c);
-    m_388 += 0.1f;
-    if (1.0f < m_388) {
-        m_388 = 1.0f;
+    bob_phase += 2184.0f;
+    hover_height = 20.0f + sin_table_lookup(bob_phase);
+    apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
+    effect_scale += 0.1f;
+    if (1.0f < effect_scale) {
+        effect_scale = 1.0f;
         mode = 3;
         clear_player_status_flag(0, 0x08000004);
         set_indexed_flags(0, 2);
@@ -264,12 +259,12 @@ void TOCtrlDubchik::sub_8015CCF4() {
 }
 
 void TOCtrlDubchik::update_bobbing() {
-    m_380 += 2184.0f;
-    m_37c = 20.0f + sin_table_lookup(m_380);
-    apply_actor_gravity(this, (s32 *)&m_390, m_37c);
-    unk_384 += 0.1f;
-    if (1.0f < unk_384) {
-        unk_384 = 1.0f;
+    bob_phase += 2184.0f;
+    hover_height = 20.0f + sin_table_lookup(bob_phase);
+    apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
+    part_spread += 0.1f;
+    if (1.0f < part_spread) {
+        part_spread = 1.0f;
         mode = 2;
     }
 }
@@ -277,9 +272,9 @@ void TOCtrlDubchik::update_bobbing() {
 void TOCtrlDubchik::sub_8015CE80() {
     s32 i;
     u8 *p;
-    m_380 += 2184.0f;
-    m_37c = 60.0f + sin_table_lookup(m_380);
-    apply_actor_gravity(this, (s32 *)&m_390, m_37c);
+    bob_phase += 2184.0f;
+    hover_height = 60.0f + sin_table_lookup(bob_phase);
+    apply_actor_gravity(this, (s32 *)&shadow_pos, hover_height);
     for (i = registered_player_count; i < registered_player_count + lbl_805D5870; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p != ((u8 *)this) && obj_testFlags30__14TObjCollidableFUl(p, 0x800) != 0 &&
@@ -338,8 +333,8 @@ void TOCtrlDubchik::render() {
     f32 shadow_scale;
     f32 scale[3];
 
-    m_39c = update_object_view_visibility(m_374, m_378);
-    if (m_39c == 1) {
+    visible = update_object_view_visibility(view_range, model_radius);
+    if (visible == 1) {
         push_matrix();
         post_translate_matrix(&position.x);
         rotate_matrix_y(NULL, rotation_y);
@@ -349,24 +344,24 @@ void TOCtrlDubchik::render() {
         draw_ginja_model((s32)node->model);
         push_matrix();
         node = node->child;
-        translate_matrix(0, node->pos[0], node->pos[1] + unk_384, node->pos[2]);
+        translate_matrix(0, node->pos[0], node->pos[1] + part_spread, node->pos[2]);
         draw_ginja_model((s32)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
-        translate_matrix(0, node->pos[0], node->pos[1] - unk_384, node->pos[2]);
+        translate_matrix(0, node->pos[0], node->pos[1] - part_spread, node->pos[2]);
         draw_ginja_model((s32)node->model);
         pop_matrix();
         push_matrix();
         node = node->sibling;
         post_translate_matrix(node->pos);
-        rotate_matrix_y(NULL, m_38c);
+        rotate_matrix_y(NULL, spin_angle);
         draw_ginja_model((s32)node->model);
         TParticleCtrl::begin_effect_render();
         push_matrix();
         node = node->child;
         post_translate_matrix(node->pos);
-        scale_matrix(NULL, m_388, 1.0f, m_388);
+        scale_matrix(NULL, effect_scale, 1.0f, effect_scale);
         draw_ginja_model((s32)node->model);
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -375,12 +370,12 @@ void TOCtrlDubchik::render() {
     }
     push_matrix();
     direction_to_rotation_xz((u8 *)&ground_normal, &rot_x, &rot_z);
-    translate_matrix(0, m_390.x, 0.3f + m_390.y, m_390.z);
+    translate_matrix(0, shadow_pos.x, 0.3f + shadow_pos.y, shadow_pos.z);
     rotate_matrix_z(NULL, rot_z);
     rotate_matrix_x(NULL, rot_x);
     rotate_matrix_y(NULL, rotation_y);
     rotate_matrix_x(NULL, -0x4000);
-    shadow_scale = 1.0f - 0.025f * (m_37c - 20.0f);
+    shadow_scale = 1.0f - 0.025f * (hover_height - 20.0f);
     scale[2] = 1.0f;
     scale[1] = shadow_scale;
     scale[0] = shadow_scale;
@@ -445,15 +440,15 @@ u8 *TOCtrlDubchik__ct(TOCtrlDubchik *ctrl_dubchik, s32 arg1, s32 arg2) {
     ctrl_dubchik->mode = 0;
     ctrl_dubchik->hp = 0x12C;
     ctrl_dubchik->hpmax = 0x12C;
-    *(f32 *)((s8 *)ctrl_dubchik + 0x374) = (f32) 400.0f;
-    ctrl_dubchik->m_378 = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)ctrl_dubchik->model + 4)) + 0x14);
-    ctrl_dubchik->m_37c = (f32) 60.0f;
-    ctrl_dubchik->m_380 = 0;
-    *(f32 *)((s8 *)ctrl_dubchik + 0x384) = (f32) 0.0f;
-    ctrl_dubchik->m_388 = (f32) 0.0f;
-    ctrl_dubchik->m_38c = 0;
-    VecCopy((Vec *)((u8 *)ctrl_dubchik + 0x390), (const Vec *)((u8 *)ctrl_dubchik + 0x50));
-    ctrl_dubchik->m_39c = 1;
+    ctrl_dubchik->view_range = (f32) 400.0f;
+    ctrl_dubchik->model_radius = (f32) *(f32 *)((s8 *)(*(void **)((s8 *)ctrl_dubchik->model + 4)) + 0x14);
+    ctrl_dubchik->hover_height = (f32) 60.0f;
+    ctrl_dubchik->bob_phase = 0;
+    ctrl_dubchik->part_spread = (f32) 0.0f;
+    ctrl_dubchik->effect_scale = (f32) 0.0f;
+    ctrl_dubchik->spin_angle = 0;
+    VecCopy(&ctrl_dubchik->shadow_pos, (const Vec *)((u8 *)ctrl_dubchik + 0x50));
+    ctrl_dubchik->visible = 1;
     return (u8 *)ctrl_dubchik;
 }
 
@@ -464,8 +459,8 @@ s32 TOCtrlDubchik::select_melee_contact_body(void *, f32) {
     return 0;
 }
 
-f32 TOCtrlDubchik__vt21(Obj_8015D518 *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3) {
-    if (arg0->f326 != 0) {
+f32 TOCtrlDubchik__vt21(TOCtrlDubchik *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3) {
+    if (arg0->mode != 0) {
         return receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(arg0, arg1, arg2, arg3, -1, -1);
     }
     return 0.0f;

@@ -29,15 +29,15 @@ struct Warp_80187438 {
     u8 pad44[0xAC - 0x44];
     f32 radius;
     u8 padb0[0xBC - 0xB0];
-    s32 fbc;
+    s32 dest_floor;
     u8 padc0[0xE4 - 0xC0];
     char names[4][0x18];
     s32 inside[4];
     s32 count;
     s32 n_inside;
-    s32 f15c;
+    s32 player_on_dest_floor;
     u8 pad160[4];
-    u32 window;
+    u32 player_list_window;
 };
 
 struct Player_80187438 {
@@ -174,7 +174,7 @@ void TObjCityMainWarpChallenge::run_task() {
 
 void TObjCityMainWarpChallenge::render() {
     u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)&this->m_bc == 0xE) {
+    if ((s32) *(s32 *)&this->dest_floor == 0xE) {
         if (xz_distance_squared((void *)(camera_ctrl_instance + 0x178), (u8 *)&this->position) > 160000.0f) {
             return;
         }
@@ -236,14 +236,14 @@ void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
     TLobby *player;
     f32 pos[2];
 
-    switch (self->m_de) {
+    switch (self->state) {
     case 0:
-        if (self->m_168 == 0) {
-            self->m_168 = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
-            if (self->m_168 != 0) {
-                forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
-                free_member__17TWindowSubComCardFv(self->m_168, 1);
-                ((TWindowSubShortMail *)self->m_168)->notify_warp_flag70();
+        if (self->yes_no_window == 0) {
+            self->yes_no_window = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
+            if (self->yes_no_window != 0) {
+                forward_slot_selection__16TAdChrSelASlotGCFPvPv(self->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x41), get_window_layout_position(0x36), 368.0f);
+                free_member__17TWindowSubComCardFv(self->yes_no_window, 1);
+                ((TWindowSubShortMail *)self->yes_no_window)->notify_warp_flag70();
                 begin_player_keyboard_hold(local_client_id);
                 request_active_window_close();
                 ((TWindowCtrl *)local_client_id)->suppress_slot();
@@ -251,36 +251,36 @@ void TObjCityMainWarp__sub_801875F8(TObjCityMainWarpChallenge *self) {
         }
         break;
     case 1:
-        if (self->m_168 == 0) {
-            self->m_168 = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
-            if (self->m_168 != 0) {
-                initialize_option_dialog(self->m_168, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
+        if (self->yes_no_window == 0) {
+            self->yes_no_window = TWindowMessageYesNo::create(self, (void *)local_client_id, (void *)0, (void *)0);
+            if (self->yes_no_window != 0) {
+                initialize_option_dialog(self->yes_no_window, (s32)TWindowSubStatusDisp::get_message_10(0x42), get_window_layout_position(0x36), 368.0f);
             }
         }
         break;
     }
-    if (self->m_164 == 0) {
+    if (self->player_list_window == 0) {
         pos[0] = 229.0f;
         pos[1] = 104.0f;
-        self->m_164 = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
-        if (self->m_164 != 0) {
-            ((TWindowSubTradeMain *)self->m_164)->set_visible();
-            ((TWindowSubTradeMain *)self->m_164)->set_close_flag();
+        self->player_list_window = TWindowSubStatusDisp::refresh_with_default_list(get_window_layout_position(0x34), (s32)pos);
+        if (self->player_list_window != 0) {
+            ((TWindowSubTradeMain *)self->player_list_window)->set_visible();
+            ((TWindowSubTradeMain *)self->player_list_window)->set_close_flag();
             for (i = 0; i < self->player_count; i++) {
-                TWindowSubStatusDisp::dispatch_without_flags((s32)self->m_164, (s32)self->player_names[i], i);
+                TWindowSubStatusDisp::dispatch_without_flags((s32)self->player_list_window, (s32)self->player_names[i], i);
             }
         }
         request_active_window_close();
     }
-    if (self->m_164 != 0) {
+    if (self->player_list_window != 0) {
         for (j = 0; j < self->player_count; j++) {
-            ((THunterGuildSeqOffline *)self->m_164)->advance_matching_entries(self->player_in_range[j] != 0, j);
+            ((THunterGuildSeqOffline *)self->player_list_window)->advance_matching_entries(self->player_in_range[j] != 0, j);
             color = 0xF0F0F0FF;
-            if (self->m_de == 1 && (player = (TLobby *)get_player_by_client_id(j)) != NULL &&
+            if (self->state == 1 && (player = (TLobby *)get_player_by_client_id(j)) != NULL &&
                 player->check_player_flag1() != 0) {
                 color = 0xFFFF00FF;
             }
-            fn_80248994(self->m_164, color, j);
+            fn_80248994(self->player_list_window, color, j);
         }
     }
 }
@@ -297,13 +297,13 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     old = self->count;
     self->count = 0;
     self->n_inside = 0;
-    self->f15c = 0;
+    self->player_on_dest_floor = 0;
     for (i = 0; i < 4; i++) {
         pl = (Player_80187438 *)get_player_by_client_id(i);
         if (pl != NULL) {
             room = ((TObjPlayer *)pl)->get_floor();
-            if (room == self->fbc) {
-                self->f15c = 1;
+            if (room == self->dest_floor) {
+                self->player_on_dest_floor = 1;
             }
             inside = 0;
             if (room == get_current_floor()) {
@@ -320,9 +320,9 @@ void TObjCityMainWarpChallenge::count_players_in_warp_radius() {
     for (i = self->count; i < 4; i++) {
         self->names[i][0] = 0;
     }
-    if (old != self->count && self->window != 0) {
-        ((TWindowBase *)self->window)->close();
-        self->window = 0;
+    if (old != self->count && self->player_list_window != 0) {
+        ((TWindowBase *)self->player_list_window)->close();
+        self->player_list_window = 0;
     }
     pl2 = (Player_80187438 *)get_player_by_client_id(local_client_id);
     if (pl2 != NULL && ((TObjPlayer *)pl2)->get_floor() == get_current_floor()) {
