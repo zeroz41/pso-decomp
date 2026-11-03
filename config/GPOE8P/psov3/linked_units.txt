@@ -480,6 +480,7 @@ pso/enemy/TObjEneMorfosArm_80335218.cpp
 pso/enemy/TObjEneMorfos_80337500.cpp
 pso/enemy/TObjEneNanoDrago.cpp
 pso/enemy/TObjEnePanarmsAtkColli.cpp
+pso/enemy/TObjEnePanarms_800DFB00.cpp
 pso/enemy/TObjEnePanarms_800DFB74.cpp
 pso/enemy/TObjEnePanarms_800F5E90.cpp
 pso/enemy/TObjEneRe2Flower.cpp

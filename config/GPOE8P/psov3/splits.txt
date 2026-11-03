@@ -1988,13 +1988,14 @@ pso/player/TObjPlayer_800DCC90.cpp:
 	.sdata2     start:0x805DA480 end:0x805DA48C
 
 pso/enemy/TObjEnePanarms_800DCEB8.cpp:
-	.text       start:0x800DCEB8 end:0x800DF6E0
-	.rodata     start:0x8043CD18 end:0x8043CD20
+	.text       start:0x800DCEB8 end:0x800DFB00
+	.ctors      start:0x80433F60 end:0x80433F64
+	.rodata     start:0x8043C948 end:0x8043CD20
+	.data       start:0x80494E80 end:0x80495458
 	.sdata2     start:0x805DA490 end:0x805DA4C4
 
-pso/enemy/TObjEnePanarms_800DF6E0.cpp:
-	.text       start:0x800DF6E0 end:0x800DFB74
-	.ctors      start:0x80433F60 end:0x80433F64
+pso/enemy/TObjEnePanarms_800DFB00.cpp:
+	.text       start:0x800DFB00 end:0x800DFB74
 
 pso/enemy/TObjEnePanarms_800DFB74.cpp:
 	.text       start:0x800DFB74 end:0x800DFBD0

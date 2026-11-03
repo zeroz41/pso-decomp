@@ -838,7 +838,7 @@ void TObjEnePanarms__sub_800E0A44(u8 *ene_panarms) {
 
 void TObjEnePanarms::apply_effect_if_flagged() {
     if (*(s32 *)&this->motion_flags & 0x10) {
-        TObjEnePanarms__sub_800E1C98(this, (s32)(*(s32 *)&this->unk_374));
+        TObjEnePanarms__sub_800E1C98(this, this->state);
     }
 }
 
@@ -1083,7 +1083,7 @@ void TObjEnePanarms::start_action() {
     temp_r4 = *(void * *)&this->unk_37C;
     *(s32 *)((s8 *)temp_r4 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r4 + 0x18) | 1);
     this->m_388 = 1;
-    if ((s32) *(s32 *)&this->unk_374 == 1) {
+    if (this->state == 1) {
         *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags | 1);
     } else {
         *(s32 *)&this->motion_flags = (s32) (*(s32 *)&this->motion_flags & 0xFFFFFFFE);
