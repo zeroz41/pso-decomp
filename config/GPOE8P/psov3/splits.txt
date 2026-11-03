@@ -3333,10 +3333,7 @@ pso/unk/text_801255EC.cpp:
 	.text       start:0x801255EC end:0x80125780
 
 pso/player/TObjPlayer_80125780.cpp:
-	.text       start:0x80125780 end:0x801258A0
-
-pso/unk/text_801258A0.cpp:
-	.text       start:0x801258A0 end:0x8012599C
+	.text       start:0x80125780 end:0x8012599C
 	.sdata2     start:0x805DAD60 end:0x805DAD64
 
 pso/system/ItemEffects.cpp:
@@ -9256,11 +9253,8 @@ pso/unk/text_8028D490.cpp:
 	.text       start:0x8028D490 end:0x8028D5D4
 
 pso/ui/TAdSinglePlyChrSelectGC_8028D5D4.cpp:
-	.text       start:0x8028D5D4 end:0x8028D714
+	.text       start:0x8028D5D4 end:0x8028D8B8
 	.bss        start:0x80518850 end:0x80518880
-
-pso/misc/TLobby_8028D714.cpp:
-	.text       start:0x8028D714 end:0x8028D8B8
 
 pso/unk/text_8028D8B8.cpp:
 	.text       start:0x8028D8B8 end:0x8028D9A8
@@ -10402,15 +10396,12 @@ pso/unk/text_802E52AC.cpp:
 	.text       start:0x802E52AC end:0x802E530C
 
 pso/object/TObjOnlineEndingHexLine.cpp:
-	.text       start:0x802E530C end:0x802E62A4
+	.text       start:0x802E530C end:0x802E62F8
+	.ctors      start:0x80433FD4 end:0x80433FD8
 	.rodata     start:0x80472C20 end:0x80472C28
 	.data       start:0x804E3A98 end:0x804E3B60
 	.bss        start:0x805412B0 end:0x805412C0
 	.sdata2     start:0x805DE958 end:0x805DE990
-
-pso/unk/text_802E62A4.cpp:
-	.text       start:0x802E62A4 end:0x802E62F8
-	.ctors      start:0x80433FD4 end:0x80433FD8
 
 pso/ui/TAdGameStartGC.cpp:
 	.text       start:0x802E62F8 end:0x802E6CA8

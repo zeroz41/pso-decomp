@@ -1076,7 +1076,6 @@ pso/misc/TLobby_8026B06C.cpp
 pso/misc/TLobby_8026DE30.cpp
 pso/misc/TLobby_80271E48.cpp
 pso/misc/TLobby_8028A7C8.cpp
-pso/misc/TLobby_8028D714.cpp
 pso/misc/TLobby_8028EA28.cpp
 pso/misc/TLobby_80291D94.cpp
 pso/misc/TLobby_80299A60.cpp
@@ -2829,7 +2828,6 @@ pso/unk/text_801250F8.cpp
 pso/unk/text_80125380.cpp
 pso/unk/text_80125428.cpp
 pso/unk/text_801255EC.cpp
-pso/unk/text_801258A0.cpp
 pso/unk/text_80125E30.cpp
 pso/unk/text_80125F60.cpp
 pso/unk/text_80126104.cpp
@@ -3186,7 +3184,6 @@ pso/unk/text_802E3AF4.cpp
 pso/unk/text_802E3BA8.cpp
 pso/unk/text_802E4A4C.cpp
 pso/unk/text_802E52AC.cpp
-pso/unk/text_802E62A4.cpp
 pso/unk/text_802EDCF0.cpp
 pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp
