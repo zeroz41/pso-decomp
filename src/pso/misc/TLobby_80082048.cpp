@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/misc/TUnk_8048E1A4.h"
+#include "pso/misc/TUnk_8048E1A4.h"
 #include "pso/misc/TLobby_80082048.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
@@ -120,10 +121,9 @@ typedef char RecoveredFields_8008213C_arg2_C_offset[offsetof(RecoveredFields_800
 typedef char RecoveredFields_8008213C_arg1_60_offset[offsetof(RecoveredFields_8008213C_arg1, field_60) == 0x60 ? 1 : -1];
 typedef char RecoveredFields_8008213C_arg1_A4_offset[offsetof(RecoveredFields_8008213C_arg1, field_A4) == 0xA4 ? 1 : -1];
 typedef char RecoveredFields_8008213C_temp_r3_10_offset[offsetof(RecoveredFields_8008213C_temp_r3, field_10) == 0x10 ? 1 : -1];
-u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
+}
+TUnk_8048E1A4::TUnk_8048E1A4(u8 *arg1, u8 *arg2) : TObjChara((TObject *)((void *)tl_05)) {
     u8 *temp_r3;
-    __ct__9TObjCharaFP7TObject(this, (void *)tl_05);
-    ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_18 = __vt__13TUnk_8048E1A4;
     ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_34 = get_bml_model((void *) ((*(s32 *)&freeze_shell_bml_resource)), 1);
     if (arg1 != NULL) {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_358 = get_entity_id(arg1);
@@ -160,8 +160,8 @@ u8 *TObjPlayer::construct_freeze_shell(u8 *arg1, u8 *arg2) {
         ((RecoveredFields_8008213C_arg0 *)((u8 *)this))->field_350 = 0;
         queue_destruction__7TObjectFv((this));
     }
-    return ((u8 *)this);
 }
+extern "C" {
 #pragma pop
 
 s32 TUnk_8048E1A4::select_melee_contact_body(void *, f32) { return 1; }

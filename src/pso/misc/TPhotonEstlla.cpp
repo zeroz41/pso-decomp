@@ -1,4 +1,5 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/misc/TPhotonEstlla.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"
@@ -262,61 +263,60 @@ extern s32 __vt__13TPhotonEstlla[];
 extern s32 lbl_805D34D8;
 extern u8 *photon_blast_shared_resource;
 
-u8 *TPhotonEstlla__ct(u8 *photon_estlla, u8 *arg1) {
+}
+TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     Stack_801AAB74 pos;
     u8 *e;
     void *p;
-    photon_base_ct(photon_estlla);
-    *(s32 **)((s8 *)photon_estlla + 0x18) = __vt__13TPhotonEstlla;
-    *(s32 *)((s8 *)photon_estlla + 0) = lbl_805D34D8;
-    *(s32 *)((s8 *)photon_estlla + 0x138) = 1;
-    VecCopy((Vec *)(photon_estlla + 0x38), (const Vec *)arg1);
-    ((TPhotonEstlla *)photon_estlla)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
-    e = (u8 *)find_entity_by_id(((TPhotonEstlla *)photon_estlla)->m_17c);
+    *(s32 *)((s8 *)this + 0) = lbl_805D34D8;
+    *(s32 *)((s8 *)this + 0x138) = 1;
+    VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)arg1);
+    this->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
+    e = (u8 *)find_entity_by_id(this->m_17c);
     if (e != NULL) {
-        ((TPhotonEstlla *)photon_estlla)->rotation_y = *(s32 *)((s8 *)e + 0x60);
+        this->rotation_y = *(s32 *)((s8 *)e + 0x60);
     }
-    *(s32 *)((s8 *)photon_estlla + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98);
-    ((TPhotonEstlla *)photon_estlla)->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
-    ((TObjMotion *)photon_estlla)->set_field_d8((s32) photon_estlla_param_table);
-    ((TObjMotion *)photon_estlla)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
-    ((TPhotonEstlla *)photon_estlla)->requested_action = 1;
-    ((TObjMotion *)photon_estlla)->set_animation(((TPhotonEstlla *)photon_estlla)->requested_action);
-    ((TObjMotion *)photon_estlla)->set_field_b8(((TPhotonEstlla *)photon_estlla)->requested_action);
-    *(s16 *)&((TPhotonEstlla *)photon_estlla)->m_190 = 1;
-    *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_194 = *(s32 *)((s8 *)arg1 + 0x10);
-    *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_198 = *(s32 *)((s8 *)arg1 + 0x14);
-    *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_19c = 0;
-    ((TPhotonEstlla *)photon_estlla)->m_134 = 0;
-    ((TPhotonEstlla *)photon_estlla)->enter_scene();
-    *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_1a0 = 0;
+    *(s32 *)((s8 *)this + 0x34) = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98);
+    this->texlist = *(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x9C);
+    ((TObjMotion *)this)->set_field_d8((s32) photon_estlla_param_table);
+    ((TObjMotion *)this)->set_field_dc(*(s32 *)((s8 *)photon_blast_shared_resource + 0x430));
+    this->requested_action = 1;
+    ((TObjMotion *)this)->set_animation(this->requested_action);
+    ((TObjMotion *)this)->set_field_b8(this->requested_action);
+    *(s16 *)&this->m_190 = 1;
+    *(s32 *)&this->m_194 = *(s32 *)((s8 *)arg1 + 0x10);
+    *(s32 *)&this->m_198 = *(s32 *)((s8 *)arg1 + 0x14);
+    *(s32 *)&this->m_19c = 0;
+    this->m_134 = 0;
+    this->enter_scene();
+    *(s32 *)&this->m_1a0 = 0;
     switch (get_current_floor_area()) {
     case AREA_DRAGON: case AREA_DE_ROL_LE: case AREA_VOL_OPT: case AREA_DARK_FALZ:
     case AREA_GAL_GRYPHON: case AREA_OLGA_FLOW: case AREA_BARBA_RAY: case AREA_GOL_DRAGON:
         p = (void *)__nw__7TObjectFUl(0xAC);
         if (p != NULL) {
-            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, photon_estlla, photon_estlla + 0x38, 1);
+            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, ((u8 *)this), ((u8 *)this) + 0x38, 1);
         }
         break;
     default:
         p = (void *)__nw__7TObjectFUl(0xAC);
         if (p != NULL) {
-            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, photon_estlla, photon_estlla + 0x38, 0);
+            ((u8 *(*)(void *, void *, void *, int)) TPhotonRainbow__ct)(p, ((u8 *)this), ((u8 *)this) + 0x38, 0);
         }
         break;
     }
-    sub_801AA6F8__13TPhotonEstllaFv(photon_estlla, *(u8 *)((s8 *)arg1 + 0x1C));
-    if (*(s32 *)&((TPhotonEstlla *)photon_estlla)->m_198 == 1) {
-        *(s32 *)((s8 *)photon_estlla + 0x154) |= 1;
+    sub_801AA6F8__13TPhotonEstllaFv(((u8 *)this), *(u8 *)((s8 *)arg1 + 0x1C));
+    if (*(s32 *)&this->m_198 == 1) {
+        *(s32 *)((s8 *)this + 0x154) |= 1;
     }
-    ((TPhotonEstlla *)photon_estlla)->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
-    if (*(s32 *)&((TPhotonEstlla *)photon_estlla)->m_194 == 0) {
-        ((TObjMotion *)photon_estlla)->set_field_b8(0);
-        ((TUnk_804C3248 *)photon_estlla)->begin_photon_summon_camera(0);
-        *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_194 = 1;
-        *(s16 *)&((TPhotonEstlla *)photon_estlla)->m_190 = 0;
-        *(s32 *)&((TPhotonEstlla *)photon_estlla)->m_19c = 1;
-        e = (u8 *)find_entity_by_id(((TPhotonEstlla *)photon_estlla)->m_17c);
+    this->m_150 = *(f32 *)((s8 *)arg1 + 0x20);
+    if (*(s32 *)&this->m_194 == 0) {
+        ((TObjMotion *)this)->set_field_b8(0);
+        ((TUnk_804C3248 *)this)->begin_photon_summon_camera(0);
+        *(s32 *)&this->m_194 = 1;
+        *(s16 *)&this->m_190 = 0;
+        *(s32 *)&this->m_19c = 1;
+        e = (u8 *)find_entity_by_id(this->m_17c);
         if (e != NULL) {
             pos.x = *(f32 *)((s8 *)e + 0x38);
             pos.y = 3e+01f + *(f32 *)((s8 *)e + 0x3C);
@@ -324,14 +324,12 @@ u8 *TPhotonEstlla__ct(u8 *photon_estlla, u8 *arg1) {
         }
         p = (void *)__nw__7TObjectFUl(0xD0);
         if (p != NULL) {
-            construct_photon_magic_square_normal((u8 *)p, (s32)photon_estlla, 1, (s32)&pos, 0x78);
+            construct_photon_magic_square_normal((u8 *)p, (s32)((u8 *)this), 1, (s32)&pos, 0x78);
         }
-        spawn_photon_blast_attachment_effects(photon_estlla, 1);
+        spawn_photon_blast_attachment_effects(((u8 *)this), 1);
         play_cue_stream_file((s32)lbl_80446D10);
     } else {
-        spawn_photon_blast_opening_effects(1, ((TPhotonEstlla *)photon_estlla)->m_17c);
+        spawn_photon_blast_opening_effects(1, this->m_17c);
         play_cue_stream_file((s32)lbl_80446D1C);
     }
-    return photon_estlla;
-}
 }

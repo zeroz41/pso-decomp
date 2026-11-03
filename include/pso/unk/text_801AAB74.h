@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u8 *TPhotonEstlla__ct(u8 *arg0, u8 *arg1);
+u8 *__ct__13TPhotonEstllaFPUc(u8 *arg0, u8 *arg1);
 }
 
 #endif

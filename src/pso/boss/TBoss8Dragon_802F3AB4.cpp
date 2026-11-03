@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/boss/TUnk_804E4BF0.h"
+#include "pso/boss/TUnk_804E4BF0.h"
 
 #include "pso/boss/TBoss8Dragon_802F3AB4.h"
 #include "pso/object/TObjDFHorming.h"
@@ -36,20 +37,11 @@ void TUnk_804E4BF0::render() {  }
 
 void TUnk_804E4BF0::run_task() {  }
 
-void *TUnk_804E4BF0::dt(s16 arg1) {
-    if (this != NULL) {
-        (*(s32 * *)((u8 *)this + 0x18)) = __vt__13TUnk_804E4BF0;
-        if (boss8_dragon_leader_part == this) {
-            boss8_dragon_leader_part = NULL;
-        }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
 }
-
+TUnk_804E4BF0::~TUnk_804E4BF0() {
+    if (boss8_dragon_leader_part == this) {
+        boss8_dragon_leader_part = NULL;
+    }
 }
 TUnk_804E4BF0::TUnk_804E4BF0(TObject *object, void *arg1p) : TObject(object) {
     if (boss8_dragon_leader_part == NULL) {

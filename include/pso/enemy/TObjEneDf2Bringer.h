@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEneDD_ST.h"
 
 struct TObjEneDf2Bringer : public TObjEneDD_ST {
+    TObjEneDf2Bringer(TObject *arg1, void *arg2);
     virtual ~TObjEneDf2Bringer();
     virtual s32 vfunc_104(f32);
     virtual void vfunc_88();

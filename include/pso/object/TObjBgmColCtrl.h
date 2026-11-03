@@ -5,6 +5,7 @@
 #include "pso/TObject.h"
 
 struct TObjBgmColCtrl : public TObject {
+    TObjBgmColCtrl(s32 parent);
     virtual ~TObjBgmColCtrl();
     u32 m_1c;
     static void play_lobby_theme_music();

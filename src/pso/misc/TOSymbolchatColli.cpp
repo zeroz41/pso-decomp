@@ -1,5 +1,6 @@
 #include "pso/render/render_util.h"
 #include "pso/misc/TOSymbolchatColli.h"
+#include "pso/misc/TOSymbolchatColli.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjMotion.h"
@@ -64,7 +65,7 @@ CollisionBody lbl_804B4550[1] = {
 };
 extern s32 __vt__17TOSymbolchatColli[];
 extern s32 lbl_805D3194;
-Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
+Obj_80178AD4 *__ct__17TOSymbolchatColliFP7TObjectl(Obj_80178AD4 *arg0, void *arg1, s32 arg2);
 s32 is_locally_controlled__10TObjPlayerFPv();
 void *find_entity_by_id(u16 id);
 void fn_8017866C(void *, s32, u16);
@@ -179,7 +180,7 @@ void run_task__17TOSymbolchatColliFv(Obj_80178890 *self) {
 void *TOSymbolchatColli::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x384);
     if (o != NULL) {
-        o = TOSymbolchatColli__ct((Obj_80178AD4 *)(o), (void *)tl_05, (s32)arg0);
+        o = __ct__17TOSymbolchatColliFP7TObjectl((Obj_80178AD4 *)(o), (void *)tl_05, (s32)arg0);
     }
     return o;
 }
@@ -208,20 +209,14 @@ TOSymbolchatColli::~TOSymbolchatColli() {
     ((TObjCollidable *)this)->unregister_object_by_id();
     free_collision_body_parts(this);
 }
-extern "C" {
-Obj_80178AD4 *TOSymbolchatColli__ct(Obj_80178AD4 *arg0, void *arg1, s32 arg2) {
+TOSymbolchatColli::TOSymbolchatColli(TObject *arg1, s32 arg2) : TObjChara(arg1) {
     s32 i;
-    __ct__9TObjCharaFP7TObject(arg0);
-    *(u8 **)((u8 *)arg0 + 0x18) = ((u8 *)&__vt__17TOSymbolchatColli);
-    *(s32 *)arg0 = lbl_805D3194;
-    arg0->v5(arg2);
-    init_collision_body_parts(arg0, lbl_804B4550, 1);
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((TOSymbolchatColli *)arg0)->init_collision_params();
+    *(s32 *)this = lbl_805D3194;
+    ((Obj_80178AD4 *)this)->v5(arg2);
+    init_collision_body_parts(((Obj_80178AD4 *)this), lbl_804B4550, 1);
+    ((TObjPlayer *)this)->register_object_by_id();
+    this->init_collision_params();
     for (i = 0; i < 4; i++) {
-        arg0->arr[i] = 0;
+        ((Obj_80178AD4 *)this)->arr[i] = 0;
     }
-    return arg0;
-}
-
 }

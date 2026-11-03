@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjDoaEx01.h"
 #include "pso/item/TObjContainerJungEx_8018D900.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
@@ -357,18 +358,12 @@ s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
-void *__dt__11TObjDoaEx01Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjDoaEx01;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__10TODoorBaseFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjDoaEx01::~TObjDoaEx01() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 extern void *tl_05;
 

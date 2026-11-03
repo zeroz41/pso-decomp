@@ -305,7 +305,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     Stack_801AB370 pos;
     u8 *e;
     void *p;
-    photon_base_ct(arg0);
+    __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C3564;
     *(s32 *)((s8 *)arg0 + 0) = lbl_805D34E0;
     *(s32 *)((s8 *)arg0 + 0x138) = 0;

@@ -1,6 +1,7 @@
 // ---- pso/misc/TLobby_80335E08 [0x80335E7C-0x80336054): separate TU (own .sdata2 pool 0x805DF8C8-0x805DF8E8)
 #include "types.h"
 #include "pso/misc/TUnk_804EE470.h"
+#include "pso/misc/TUnk_804EE470.h"
 #include "pso/ui/TUnk_804EE458.h"
 #include "pso/misc/TLobby_80335E08.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
@@ -113,15 +114,8 @@ void TUnk_804EE470::render() {
 }
 
 void TUnk_804EE470::run_task() {  }
-void *TUnk_804EE470::dt(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804EE470;
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
+TUnk_804EE470::~TUnk_804EE470() {
+
 }
 TUnk_804EE470::TUnk_804EE470(TObject *arg1) : TObject(arg1) {
     *(void * *)&this->unk_1C = arg1;

@@ -2,6 +2,7 @@
 #pragma auto_inline off
 #pragma dont_inline off
 #include "types.h"
+#include "pso/misc/TShopDeleteItemWindow.h"
 #include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopWindowBase.h"
@@ -103,7 +104,6 @@ struct VObj_80337980_80337910 : Base_80337980_80337910 {
     virtual void m4(int a, int b);
 };
 
-void *TShopDeleteItemWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3);
 void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void init__9TItemDataFv(void *);
@@ -371,24 +371,20 @@ void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1) {
 
 extern void *TShopDeleteItemWindow__name;
 
-void *TShopDeleteItemWindow__ct(void *shop_delete_item_window, void *arg1, void *arg2, void *arg3) {
-    __ct__15TShopWindowBaseFv(shop_delete_item_window);
-    *(s32 **)((s8 *)shop_delete_item_window + 0x18) = __vt__21TShopDeleteItemWindow;
-    *(void * *)&((TShopDeleteItemWindow *)shop_delete_item_window)->m_name = TShopDeleteItemWindow__name;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_20 = 0;
-    *(void **)((s8 *)shop_delete_item_window + 0x24) = arg3;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_5c = 1;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_54 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_60 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_28 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_2c = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_30 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_34 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_38 = 0;
-    ((TShopDeleteItemWindow *)shop_delete_item_window)->m_3c = 0;
-    *(void **)((s8 *)shop_delete_item_window + 0x64) = arg2;
-    init__9TItemDataFv((void *)((char *)shop_delete_item_window + 64));
-    return shop_delete_item_window;
 }
-
+TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+    *(void * *)&this->m_name = TShopDeleteItemWindow__name;
+    this->m_20 = 0;
+    *(void **)((s8 *)this + 0x24) = arg3;
+    this->m_5c = 1;
+    this->m_54 = 0;
+    this->m_60 = 0;
+    this->m_28 = 0;
+    this->m_2c = 0;
+    this->m_30 = 0;
+    this->m_34 = 0;
+    this->m_38 = 0;
+    this->m_3c = 0;
+    *(void **)((s8 *)this + 0x64) = arg2;
+    init__9TItemDataFv((void *)((char *)this + 64));
 }

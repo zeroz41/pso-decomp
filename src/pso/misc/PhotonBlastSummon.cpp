@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TUnk_804C3248.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/misc/PhotonBlastSummon.h"
 #include "pso/player/TObjPlayer_800D8A2C.h"
@@ -416,7 +417,7 @@ void *__dt__10TObjMotionFv(void *arg0, s16 arg1);
 
 void TCameraCtrl::update() { restore_player_cameras(); TCameraCtrl::release_photon_blast_camera(); }
 
-extern s32 lbl_804C3248[];
+extern s32 __vt__13TUnk_804C3248[];
 
 struct Vec_801A7B14
 {
@@ -481,7 +482,7 @@ void TUnk_804C3248::setup_photon_blast_camera() {
 
 void *destroy_photon_motion_object(void *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C3248;
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804C3248;
         ((TUnk_804C3248 *)arg0)->m_148 = 0;
         __dt__10TObjMotionFv(arg0, 0);
         if (arg1 > 0) {
@@ -493,35 +494,31 @@ void *destroy_photon_motion_object(void *arg0, s16 arg1) {
 
 extern void *tl_06;
 
-void *photon_base_ct(void *arg0) {
-    __ct__10TObjMotionFP7TObject(arg0, tl_06);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804C3248;
-    ((TUnk_804C3248 *)arg0)->m_134 = 0;
-    ((TUnk_804C3248 *)arg0)->m_100 = 0;
-    *(u32 *)((s8 *)arg0 + 0x138) = 0;
-    ((TUnk_804C3248 *)arg0)->m_150 = 1.0f;
-    *(u32 *)((s8 *)arg0 + 0x154) = 0;
-    ((TUnk_804C3248 *)arg0)->m_13c = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x140) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_144 = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_148 = 0;
-    *(u16 *)((s8 *)arg0 + 0x14C) = 0;
-    *(u32 *)((s8 *)arg0 + 0xFC) = 0;
-    *(f32 *)((s8 *)arg0 + 0x104) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_108 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x10C) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_110 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x114) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_118 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x11C) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_120 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x124) = 1.0f;
-    ((TUnk_804C3248 *)arg0)->m_128 = 0.0f;
-    *(f32 *)((s8 *)arg0 + 0x12C) = 0.0f;
-    ((TUnk_804C3248 *)arg0)->m_130 = 1.0f;
-    return arg0;
 }
-
+TUnk_804C3248::TUnk_804C3248() : TObjMotion((TObject *)tl_06) {
+    this->m_134 = 0;
+    this->m_100 = 0;
+    *(u32 *)((s8 *)this + 0x138) = 0;
+    this->m_150 = 1.0f;
+    *(u32 *)((s8 *)this + 0x154) = 0;
+    this->m_13c = 0.0f;
+    *(f32 *)((s8 *)this + 0x140) = 0.0f;
+    this->m_144 = 0.0f;
+    this->m_148 = 0;
+    *(u16 *)((s8 *)this + 0x14C) = 0;
+    *(u32 *)((s8 *)this + 0xFC) = 0;
+    *(f32 *)((s8 *)this + 0x104) = 0.0f;
+    this->m_108 = 0.0f;
+    *(f32 *)((s8 *)this + 0x10C) = 0.0f;
+    this->m_110 = 0.0f;
+    *(f32 *)((s8 *)this + 0x114) = 0.0f;
+    this->m_118 = 0.0f;
+    *(f32 *)((s8 *)this + 0x11C) = 0.0f;
+    this->m_120 = 0.0f;
+    *(f32 *)((s8 *)this + 0x124) = 1.0f;
+    this->m_128 = 0.0f;
+    *(f32 *)((s8 *)this + 0x12C) = 0.0f;
+    this->m_130 = 1.0f;
 }
 
 #pragma pop

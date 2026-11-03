@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjBgmColCtrl.h"
 #include "pso/misc/TLoadCtrl_80227390.h"
 #include "pso/object/TObjBgmColCtrl.h"
 #include "pso/map/FloorArea.h"
@@ -233,13 +234,10 @@ void TObjPlayer::set_camera_mode(s32 arg0) {
     }
 }
 
-void *TObjBgmColCtrl__ct(void *bgm_col_ctrl, s32 parent) {
-    __ct__7TObjectFP7TObject((int)bgm_col_ctrl, parent);
-    *(s32 **)((s8 *)bgm_col_ctrl + 0x18) = __vt__14TObjBgmColCtrl;
-    ((TObjBgmColCtrl *)bgm_col_ctrl)->m_name = TObjBgmColCtrl__name;
-    ((TObjBgmColCtrl *)bgm_col_ctrl)->m_1c = 3;
+TObjBgmColCtrl::TObjBgmColCtrl(s32 parent) : TObject((TObject *)parent) {
+    this->m_name = TObjBgmColCtrl__name;
+    this->m_1c = 3;
     TObjBgmColCtrl__current_theme_id = 0;
-    return bgm_col_ctrl;
 }
 
 TObjBgmColCtrl::~TObjBgmColCtrl() {
@@ -261,7 +259,7 @@ void TObjBgmColCtrl::create_controller() {
     TObjBgmColCtrl__instance = var_r0;
     ctrl = TObject::operator new(0x20);
     if (ctrl != NULL) {
-        TObjBgmColCtrl__ct(ctrl, tl_05);
+        __ct__14TObjBgmColCtrlFl(ctrl, tl_05);
     }
     create_bgm_col_zones();
 }

@@ -609,7 +609,7 @@ void step_photon_blast_sequence(PhotonBlastSequence_801A9870 *seq) {
         case 1:
             summon = (u8 *)TObject::operator new(0x1A4);
             if (summon != NULL) {
-                summon = TPhotonEstlla__ct(summon, (u8 *)&params);
+                summon = __ct__13TPhotonEstllaFPUc(summon, (u8 *)&params);
             }
             seq->summon = (TObject *)summon;
             break;

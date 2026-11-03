@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopItemListWindow.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
@@ -112,7 +113,6 @@ extern s32 lbl_805D6248;
 extern s32 lbl_805D624C;
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
-void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern void *tl_05;
 s32 get_entity_id(void *);
 s32 get_shop_text(s32 arg0);
@@ -174,10 +174,7 @@ typedef struct VBase_18_a93f07 VBase_18_a93f07;
 typedef struct VObj_18_a93f07 VObj_18_a93f07;
 
 void TShopItemTecSequence::open_sell_window() {
-    W_80220030 *o = (W_80220030 *)__nw__7TObjectFUl(0x3ac);
-    if (o != 0) {
-        o = (W_80220030 *)(TShopEquipmentSellWindow__ct((void *)o, (void *)tl_05, (void *)((S_80220030 *)this), (void *)(((S_80220030 *)this)->f24), (void *)(0x2d)));
-    }
+    W_80220030 *o = (W_80220030 *)new TShopEquipmentSellWindow((void *)tl_05, (void *)((S_80220030 *)this), (void *)(((S_80220030 *)this)->f24), (void *)(0x2d));
     o->cb0 = (void *)close__20TShopItemTecSequenceFPv;
     o->cb1 = (void *)select_and_advance__20TShopItemTecSequenceFPv;
     reset_controller_input_state();

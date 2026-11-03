@@ -23,7 +23,7 @@ void init_params__10TBoss2MineFlf(u8 *arg0, s32 arg1, f32 farg0);
 void update_pulse_state__10TBoss2MineFv(Mine_80038760 *self);
 void set_node_offsets__10TBoss2MineFv(O_80038908 *self);
 void *__dt__10TBoss2MineFv(void *arg0, s16 arg1);
-void* TBoss2Mine__ct(void* a0, int a1, int a2, int a3, int a4);
+void* __ct__10TBoss2MineFlssl(void* a0, int a1, int a2, int a3, int a4);
 extern s32 lbl_80482D04[];
 }
 
@@ -283,7 +283,7 @@ V(80)V(81)V(82)V(83)V(84)V(85)V(86)V(87)V(88)V(89)V(90)V(91)V(92)V(93)V(94)V(95)
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 f32 newton_sqrtf(s32, f32, f32, f32);
-void*TUnk_80482D04::create(int a1, int a2, int a3) { TBoss2Mine__ct(this, a1, a2, a3, 1); *(int*)((char*)this + 0x18) = (int)lbl_80482D04; *(int*)((char*)this + 0x3f0) = 0; *(int*)((char*)this + 0x3f4) = 0; *(float*)((char*)this + 0x3f8) = (0.0f); *(float*)((char*)this + 0x3fc) = (0.0f); *(float*)((char*)this + 0x400) = (0.0f); *(float*)((char*)this + 0x404) = (0.0f); *(float*)((char*)this + 0x408) = (0.0f); *(float*)((char*)this + 0x40c) = (0.0f); return this; }
+void*TUnk_80482D04::create(int a1, int a2, int a3) { __ct__10TBoss2MineFlssl(this, a1, a2, a3, 1); *(int*)((char*)this + 0x18) = (int)lbl_80482D04; *(int*)((char*)this + 0x3f0) = 0; *(int*)((char*)this + 0x3f4) = 0; *(float*)((char*)this + 0x3f8) = (0.0f); *(float*)((char*)this + 0x3fc) = (0.0f); *(float*)((char*)this + 0x400) = (0.0f); *(float*)((char*)this + 0x404) = (0.0f); *(float*)((char*)this + 0x408) = (0.0f); *(float*)((char*)this + 0x40c) = (0.0f); return this; }
 #pragma push
 #pragma fp_contract on
 void TUnk_80482EC0::vfunc_106(s32 arg1) {
@@ -414,7 +414,7 @@ void TBoss2Mine::set_launch_position_velocity(u8 *arg1, u8 *arg2) {
 #undef play_sound_effect
 #undef update_pulse_state__10TBoss2MineFv
 #define play_sound_effect ((s32 (*)(s32, u32, s16, s32))play_sound_effect)
-#define TBoss2Mine__ct ((void *(*)(void *, s32, s16, s16, s32))TBoss2Mine__ct)
+#define __ct__10TBoss2MineFlssl ((void *(*)(void *, s32, s16, s16, s32))__ct__10TBoss2MineFlssl)
 #define set_node_offsets__10TBoss2MineFv ((void (*)(void *))set_node_offsets__10TBoss2MineFv)
 
 struct Base_8003843C_80038140 { char pad[0x18]; };
@@ -632,7 +632,7 @@ void *TBoss2Mine::deleting_dtor(s16 arg1) {
 }
 
 void *TBoss2Mine__sub_800381B8(void *arg0, s32 arg1, s16 arg2, s16 arg3) {
-    TBoss2Mine__ct(arg0, arg1, arg2, arg3, 0);
+    __ct__10TBoss2MineFlssl(arg0, arg1, arg2, arg3, 0);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_80482EC0;
     return arg0;
 }
@@ -766,7 +766,7 @@ void TBoss2Mine::vfunc_105(s32) {  }
 }
 
 #undef play_sound_effect
-#undef TBoss2Mine__ct
+#undef __ct__10TBoss2MineFlssl
 #undef set_node_offsets__10TBoss2MineFv
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void *, void *))transition_enemy_state__9TObjEneDDFl)
 

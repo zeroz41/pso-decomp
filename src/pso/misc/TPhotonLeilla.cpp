@@ -234,7 +234,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     Vec_801AC808 v;
     u8 *o;
     u8 *owner;
-    photon_base_ct(self);
+    __ct__13TUnk_804C3248Fv(self);
     *(void **)((u8 *)self + 0x18) = __vt__13TPhotonLeilla;
     F_801AC808(self, s32, 0) = lbl_805D34F8;
     F_801AC808(self, s32, 0x138) = 4;

@@ -1,4 +1,5 @@
 #include "pso/render/render_util.h"
+#include "pso/object/TObjWarpBoss03.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/object/TObjWarpBoss03.h"
@@ -45,16 +46,11 @@ void TObjWarpBoss03::run_task() { { (void)(handle_area_selection()); return; } }
 
 extern s32 __vt__14TObjWarpBoss03[];
 
-void *__dt__14TObjWarpBoss03Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjWarpBoss03;
-        __dt__12TObjAreaWarpFv((u8 *)arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjWarpBoss03::~TObjWarpBoss03() {
+
+}
+extern "C" {
 
 extern void *TObjWarpBoss03__name;
 

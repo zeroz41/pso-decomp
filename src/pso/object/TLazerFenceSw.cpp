@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TLazerFenceSw.h"
+#include "pso/misc/TLazerFenceSw.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TMainTask.h"
 #include "pso/system/GinjaMaterial.h"
@@ -267,7 +269,7 @@ void TLazerFenceSw::run_task() {
 void *TLazerFenceSw::create() {
     void *o = TObject::operator new(0x118);
     if (o != NULL) {
-        o = TLazerFenceSw__ct(o, tl_05, this);
+        o = __ct__13TLazerFenceSwFP7TObjectPv(o, tl_05, this);
     }
     return o;
 }
@@ -333,42 +335,35 @@ void TLazerFenceSw::load_resources() {
 }
 #pragma pop
 
-void *__dt__13TLazerFenceSwFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TLazerFenceSw;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        ((CameraDistanceFade *)((s8 *)arg0 + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
-        __dt__5TOKeyFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
+TLazerFenceSw::~TLazerFenceSw() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+    ((CameraDistanceFade *)((s8 *)this + 0xF0))->CameraDistanceFade::~CameraDistanceFade();
+}
+extern "C" {
 #pragma push
 #pragma opt_common_subs off
-void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2) {
-    __ct__5TOKeyFP7TObject((TOKey *)arg0);
-    *(u8 **)((s8 *)arg0 + 0x18) = ((u8 *)&__vt__13TLazerFenceSw);
-    __ct__18CameraDistanceFadeFv((u8 *)arg0 + 0xF0);
-    *(s32 *)((s8 *)arg0 + 0) = (s32)TLazerFenceSw__class_name;
-    init_key__5TOKeyFPv(arg0, arg2);
-    if (*(s32 *)((s8 *)arg0 + 0x8C) < 0) {
-        *(s32 *)((s8 *)arg0 + 0x8C) = 0;
-    }
-    *(u16 *)((s8 *)arg0 + 0xE8) = lbl_80445CB8[*(s32 *)((s8 *)arg0 + 0x8C) % 4];
-    *(f32 *)((s8 *)arg0 + 0xB8) = 2.0f;
-    *(f32 *)((s8 *)arg0 + 0xEC) = 0.0f;
-    init_collision_body_parts(arg0, lazer_fence_sw_collision_body_part, 1);
-    *(s32 *)((s8 *)arg0 + 0x30) |= 0x40000000;
-    ((TObjPlayer *)arg0)->register_object_by_id();
-    ((CameraDistanceFade *)((u8 *)arg0 + 0xF0))->reset();
-    TLazerFenceSw__sub_8018A554((u8 *)arg0 + 0xF0, 2.9e+02f);
-    *(f32 *)((s8 *)arg0 + 0x110) = 0.0f;
-    *(s32 *)((s8 *)arg0 + 0x114) = 0;
-    return arg0;
 }
+TLazerFenceSw::TLazerFenceSw(TObject *arg1, void *arg2) : TOKey(arg1) {
+    __ct__18CameraDistanceFadeFv((u8 *)this + 0xF0);
+    *(s32 *)((s8 *)this + 0) = (s32)TLazerFenceSw__class_name;
+    init_key__5TOKeyFPv(this, arg2);
+    if (*(s32 *)((s8 *)this + 0x8C) < 0) {
+        *(s32 *)((s8 *)this + 0x8C) = 0;
+    }
+    *(u16 *)((s8 *)this + 0xE8) = lbl_80445CB8[*(s32 *)((s8 *)this + 0x8C) % 4];
+    *(f32 *)((s8 *)this + 0xB8) = 2.0f;
+    *(f32 *)((s8 *)this + 0xEC) = 0.0f;
+    init_collision_body_parts(this, lazer_fence_sw_collision_body_part, 1);
+    *(s32 *)((s8 *)this + 0x30) |= 0x40000000;
+    ((TObjPlayer *)this)->register_object_by_id();
+    ((CameraDistanceFade *)((u8 *)this + 0xF0))->reset();
+    TLazerFenceSw__sub_8018A554((u8 *)this + 0xF0, 2.9e+02f);
+    *(f32 *)((s8 *)this + 0x110) = 0.0f;
+    *(s32 *)((s8 *)this + 0x114) = 0;
+}
+extern "C" {
 #pragma pop
 
 }

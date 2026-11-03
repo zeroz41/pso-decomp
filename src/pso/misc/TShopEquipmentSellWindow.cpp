@@ -1,4 +1,5 @@
 #include "pso/item/TItemData.h"
+#include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowBase.h"
 #include "types.h"
@@ -171,7 +172,6 @@ void *__ct__18TWindowInputNumberFPvllls(void *, s32, s32, s32, s32, s16);
 s32 align_menu_entry_positions(u32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
 u32 create_window_menu(s32, s32, u16);
-void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 void *__dt__24TShopEquipmentSellWindowFv(TShopEquipmentSellWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void memset(void *, int, int);
@@ -473,29 +473,25 @@ void *__dt__24TShopEquipmentSellWindowFv(TShopEquipmentSellWindow *arg0, s16 arg
 
 extern void *TShopEquipmentSellWindow__class_name;
 
-void *TShopEquipmentSellWindow__ct(void *shop_equipment_sell_window, void *arg1, void *arg2, void *arg3, void *arg4) {
-    __ct__15TShopWindowBaseFv(shop_equipment_sell_window);
-    *(s32 **)((s8 *)shop_equipment_sell_window + 0x18) = __vt__24TShopEquipmentSellWindow;
-    *(void * *)&((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_name = TShopEquipmentSellWindow__class_name;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_370 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_374 = 0;
-    *(void **)((s8 *)shop_equipment_sell_window + 0x378) = arg4;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_20 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_37c = 1;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_380 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_384 = 0;
-    *(void **)((s8 *)shop_equipment_sell_window + 0x388) = arg2;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_38c = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_390 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_394 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_39c = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_398 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_3a0 = 0;
-    *(void **)((s8 *)shop_equipment_sell_window + 0x24) = arg3;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_3a4 = 0;
-    ((TShopEquipmentSellWindow *)shop_equipment_sell_window)->m_3a8 = 0;
-    memset((void *)((char *)shop_equipment_sell_window + 40), 0, 840);
-    return shop_equipment_sell_window;
 }
-
+TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4) : TShopWindowBase() {
+    *(void * *)&this->m_name = TShopEquipmentSellWindow__class_name;
+    this->m_370 = 0;
+    this->m_374 = 0;
+    *(void **)((s8 *)this + 0x378) = arg4;
+    this->m_20 = 0;
+    this->m_37c = 1;
+    this->m_380 = 0;
+    this->m_384 = 0;
+    *(void **)((s8 *)this + 0x388) = arg2;
+    this->m_38c = 0;
+    this->m_390 = 0;
+    this->m_394 = 0;
+    this->m_39c = 0;
+    this->m_398 = 0;
+    this->m_3a0 = 0;
+    *(void **)((s8 *)this + 0x24) = arg3;
+    this->m_3a4 = 0;
+    this->m_3a8 = 0;
+    memset((void *)((char *)this + 40), 0, 840);
 }

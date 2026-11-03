@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEneDD.h"
 
 struct TBoss2Mine : public TObjEneDD {
+    TBoss2Mine(s32 ene_dd, s16 arg2, s16 arg3, s32 arg4);
     virtual ~TBoss2Mine();
     void set_node_offsets();
     void init_params(s32, f32);

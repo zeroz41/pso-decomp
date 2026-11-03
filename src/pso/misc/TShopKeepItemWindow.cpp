@@ -3,6 +3,7 @@
 #pragma dont_inline off
 
 #include "types.h"
+#include "pso/misc/TShopKeepItemWindow.h"
 #include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopWindowBase.h"
@@ -334,25 +335,21 @@ void *__dt__19TShopKeepItemWindowFv(TShopKeepItemWindow *arg0, s16 arg1) {
 
 extern void *TShopKeepItemWindow__class_name;
 
-void *TShopKeepItemWindow__ct(TShopKeepItemWindow *shop_keep_item_window, void *arg1, void *arg2, void *arg3) {
-    __ct__15TShopWindowBaseFv(shop_keep_item_window);
-    *(s32 **)((s8 *)shop_keep_item_window + 0x18) = __vt__19TShopKeepItemWindow;
-    *(void * *)&shop_keep_item_window->m_name = TShopKeepItemWindow__class_name;
-    shop_keep_item_window->m_370 = 0;
-    shop_keep_item_window->m_374 = 0;
-    shop_keep_item_window->m_378 = 1;
-    shop_keep_item_window->m_37c = 0;
-    shop_keep_item_window->m_20 = 0;
-    *(void **)((s8 *)shop_keep_item_window + 0x380) = arg2;
-    shop_keep_item_window->m_384 = 0;
-    shop_keep_item_window->m_388 = 0;
-    shop_keep_item_window->m_390 = 0;
-    shop_keep_item_window->m_38c = 0;
-    *(void **)((s8 *)shop_keep_item_window + 0x24) = arg3;
-    shop_keep_item_window->m_394 = 0;
-    shop_keep_item_window->m_398 = 0;
-    memset((void *)((char *)shop_keep_item_window + 40), 0, 840);
-    return shop_keep_item_window;
 }
-
+TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+    *(void * *)&this->m_name = TShopKeepItemWindow__class_name;
+    this->m_370 = 0;
+    this->m_374 = 0;
+    this->m_378 = 1;
+    this->m_37c = 0;
+    this->m_20 = 0;
+    *(void **)((s8 *)this + 0x380) = arg2;
+    this->m_384 = 0;
+    this->m_388 = 0;
+    this->m_390 = 0;
+    this->m_38c = 0;
+    *(void **)((s8 *)this + 0x24) = arg3;
+    this->m_394 = 0;
+    this->m_398 = 0;
+    memset((void *)((char *)this + 40), 0, 840);
 }
