@@ -162,7 +162,6 @@ void * TObjCityMapWarp__ct(void *arg0);
 void TObjCityAreaWarp__vt13(TObjCityAreaWarp *arg0, s16 arg1);
 void * __dt__16TObjCityAreaWarpFv(void *arg0, s16 arg1);
 void *TObjCityAreaWarp__ct(TObjCityAreaWarp *arg0);
-s32 TObjCityMainWarp__vt14(s32 arg0);
 s32 TObjCityMainWarp__vt15(u8 *arg0);
 void * __dt__16TObjCityMainWarpFv(void *arg0, s16 arg1);
 void * TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2);
@@ -582,11 +581,11 @@ void run_task__16TObjCityMainWarpFv(TObjCityMainWarp *city_main_warp) {
     ((TObjAreaWarp *)city_main_warp)->handle_area_selection();
 }
 
-s32 TObjCityMainWarp__vt14(s32 arg0) {
+u8 TObjCityMainWarp::is_warp_enabled() {
     if ((get_game_play_mode() == 1) && (is_quest_active() == 0)) {
         return 0;
     }
-    return TObjAreaWarp::is_warp_enabled(arg0);
+    return TObjAreaWarp::is_warp_enabled();
 }
 
 void TObjCityMainWarp::vfunc_18(s32) {

@@ -49,7 +49,6 @@ typedef char TObjCityMainWarpChallenge_m_174[offsetof(TObjCityMainWarpChallenge,
 
 extern "C" {
 u8 *TObjCityMainWarpChallenge__ct(u8 *arg0);
-void *__dt__25TObjCityMainWarpChallengeFv(void *arg0, s16 arg1);
 }
 
 #endif

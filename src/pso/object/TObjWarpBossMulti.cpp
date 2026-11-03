@@ -414,9 +414,10 @@ void get_name__8TObjBaseFv();
 void interact__14TObjCollidableFl();
 void vfunc_14__12TObjWarpBaseFv();
 void open_confirm_window__12TObjAreaWarpFUs();
+void is_warp_enabled__12TObjAreaWarpFv();
 void vfunc_17__12TObjWarpBaseFv();
 void vfunc_18__12TObjWarpBaseFl(s32 arg0, s32 arg1);
-void confirm_area_transfer__12TObjAreaWarpFPvi(u8 *arg0, s32 arg1);
+void confirm_area_transfer__12TObjAreaWarpFl();
 void *boss_warp_model_names[4] = {
     (void *)&lbl_80446480, (void *)&lbl_80446494, (void *)&lbl_804464AC, (void *)0x0,
 };
@@ -470,10 +471,10 @@ s32 __vt__17TObjWarpBossMulti[21] = {
     (s32)&interact__14TObjCollidableFl,
     (s32)&vfunc_14__12TObjWarpBaseFv,
     (s32)&open_confirm_window__12TObjAreaWarpFUs,
-    (s32)&TObjAreaWarp::is_warp_enabled,
+    (s32)&is_warp_enabled__12TObjAreaWarpFv,
     (s32)&vfunc_17__12TObjWarpBaseFv,
     (s32)&vfunc_18__12TObjWarpBaseFl,
-    (s32)&confirm_area_transfer__12TObjAreaWarpFPvi,
+    (s32)&confirm_area_transfer__12TObjAreaWarpFl,
     (s32)&debug_print_area_num__17TObjWarpBossMultiFv
 };
 void *TObjWarpBossMulti::create() {

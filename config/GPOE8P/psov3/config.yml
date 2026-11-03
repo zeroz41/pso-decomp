@@ -2805,6 +2805,7 @@ force_active:
   - __dt__25TBoss6Demo10_TYPE1_APPEARFv
   - __dt__25TBoss6Demo20_TYPE2_APPEARFv
   - __dt__25THunterGuildSeqOnlineTaskFv
+  - __dt__25TObjCityMainWarpChallengeFv
   - __dt__25TObjEneDellBiter_Eff_RushFv
   - __dt__25TObjEneMe1Canadin_EffLineFv
   - __dt__26TBoss5GryphonLightningHornFv
@@ -3556,6 +3557,7 @@ force_active:
   - __vt__25TBoss6Demo10_TYPE1_APPEAR
   - __vt__25TBoss6Demo20_TYPE2_APPEAR
   - __vt__25THunterGuildSeqOnlineTask
+  - __vt__25TObjCityMainWarpChallenge
   - __vt__25TObjEneDellBiter_Eff_Rush
   - __vt__25TObjEneMe1Canadin_EffLine
   - __vt__26TBoss5GryphonLightningHorn
@@ -5278,6 +5280,7 @@ force_active:
   - count_flags__23TAdSinglePlyChrSelectGCFPv
   - count_if_within_range__13TUnk_804CC148Fv
   - count_matching_values__11TBoss6Type2Fll
+  - count_players_in_warp_radius__25TObjCityMainWarpChallengeFv
   - count_plist_strips_by_texture__FPvPvPv
   - count_selected_flags__23TAdSinglePlyChrSelectGCFv
   - count_slots__13TWindowSubMagFv
@@ -5429,6 +5432,7 @@ force_active:
   - debug_font_texture_i4
   - debug_font_texture_object
   - debug_print_area_num__17TObjWarpBossMultiFv
+  - debug_print_area_num__25TObjCityMainWarpChallengeFv
   - debug_print_item_box_info__21TObjContainerAbeEnemyFv
   - debug_print_ranges__8TOKurageFv
   - debug_render_overlay__9TMainTaskFv
@@ -14146,6 +14150,7 @@ force_active:
   - render__25TBoss5GryphonLightningEffFv
   - render__25TBoss6Demo10_TYPE1_APPEARFv
   - render__25TBoss6Demo20_TYPE2_APPEARFv
+  - render__25TObjCityMainWarpChallengeFv
   - render__25TObjEneDellBiter_Eff_RushFv
   - render__25TObjEneMe1Canadin_EffLineFv
   - render__26TBoss5GryphonLightningHornFv
@@ -14863,6 +14868,7 @@ force_active:
   - run_task__25TBoss6Demo10_TYPE1_APPEARFv
   - run_task__25TBoss6Demo20_TYPE2_APPEARFv
   - run_task__25THunterGuildSeqOnlineTaskFv
+  - run_task__25TObjCityMainWarpChallengeFv
   - run_task__25TObjEneDellBiter_Eff_RushFv
   - run_task__25TObjEneMe1Canadin_EffLineFv
   - run_task__26TBoss5GryphonLightningHornFv
@@ -16389,6 +16395,7 @@ force_active:
   - update_chair__11TMainCursorFv
   - update_challenge_4p_retry__20TObjChallenge4PRetryFv
   - update_challenge_retry__18TObjChallengeRetryFv
+  - update_challenge_state__25TObjCityMainWarpChallengeFv
   - update_chara_making__10TObjPlayerFv
   - update_charge__11TBoss6Type1Fv
   - update_charge_attack__14TObjEneIllGillFv

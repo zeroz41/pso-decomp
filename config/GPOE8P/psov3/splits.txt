@@ -5490,14 +5490,11 @@ pso/object/TObjCityMainWarp_80186E24.cpp:
 pso/object/TObjCityMainWarp_80186F84.cpp:
 	.text       start:0x80186F84 end:0x801871D0
 
-pso/object/TObjCityMainWarp_801871D0.cpp:
-	.text       start:0x801871D0 end:0x80187824
-	.data       start:0x804B61DC end:0x804B61F8
-	.sdata2     start:0x805DBCA8 end:0x805DBCB8
-
 pso/object/TObjCityMainWarpChallenge.cpp:
-	.text       start:0x80187824 end:0x80187C98
+	.text       start:0x801871D0 end:0x80187C98
 	.rodata     start:0x80444A68 end:0x80444A70
+	.data       start:0x804B6188 end:0x804B61F8
+	.sdata2     start:0x805DBCA8 end:0x805DBCD8
 
 pso/misc/TWindowSubTradeMain_80187C98.cpp:
 	.text       start:0x80187C98 end:0x80187D90

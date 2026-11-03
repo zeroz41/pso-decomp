@@ -11,7 +11,6 @@ extern "C" {
 void *TObjCityAreaWarp__ct(TObjCityAreaWarp *arg0);
 void TObjCityAreaWarp__vt13(TObjCityAreaWarp *arg0, s16 arg1);
 void *TObjCityMainWarp__ct(void *arg0, void *arg1, void *arg2);
-s32 TObjCityMainWarp__vt14(s32 arg0);
 s32 TObjCityMainWarp__vt15(u8 *arg0);
 void *TObjCityMapWarp__ct(void *arg0);
 void TObjCityMapWarp__vt13(TObjCityMapWarp *arg0, s32 arg1);
