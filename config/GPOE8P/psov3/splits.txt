@@ -10478,7 +10478,7 @@ pso/boss/TBoss7PhotonBullet_802EF26C.cpp:
 pso/boss/TBoss7TentacleNeedle.cpp:
 	.text       start:0x802EF800 end:0x802F0E24
 	.rodata     start:0x804740C8 end:0x804740E0
-	.data       start:0x804E4848 end:0x804E4860
+	.data       start:0x804E4830 end:0x804E4860
 	.bss        start:0x80541528 end:0x80541928
 	.sbss       start:0x805D6948 end:0x805D694C
 	.sdata2     start:0x805DEC00 end:0x805DEC64
