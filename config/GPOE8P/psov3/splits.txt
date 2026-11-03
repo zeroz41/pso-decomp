@@ -8783,7 +8783,10 @@ pso/misc/TWindowShortCut.cpp:
 
 pso/misc/TWindowShortListCtrl_8026E7DC.cpp:
 	.text       start:0x8026E7DC end:0x8026F6A4
-	.data       start:0x804D0B28 end:0x804D0B58
+	.rodata     start:0x8044F588 end:0x8044F5D0
+	.data       start:0x804D0B10 end:0x804D0B58
+	.sdata      start:0x805D39E0 end:0x805D39E8
+	.sdata2     start:0x805DD380 end:0x805DD388
 
 pso/misc/TWindowCtrl_8026F6A4.cpp:
 	.text       start:0x8026F6A4 end:0x8026F6DC

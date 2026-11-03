@@ -537,7 +537,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TRegister.cpp": {"mw_version": "GC/1.3"},
     "pso/misc/TPlyGuildCardTag_801E0284.cpp": {"mw_version": "GC/1.3"},
     "pso/misc/TPlyStartGame.cpp": {"mw_version": "GC/1.3"},
-    "pso/misc/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3"},
+    "pso/misc/TWindowShortListCtrl_8026E7DC.cpp": {"mw_version": "GC/1.3", "cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # Deferred inlining: functions come out in reverse source order and the
     # vtables before the switch tables in .data.
     "pso/misc/TMedicalCenterSequence.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},

@@ -1716,6 +1716,7 @@ pso/misc/TWindowShortCut.cpp
 pso/misc/TWindowShortListCtrl.cpp
 pso/misc/TWindowShortListCtrl_801A4FC0.cpp
 pso/misc/TWindowShortListCtrl_80221828.cpp
+pso/misc/TWindowShortListCtrl_8026E7DC.cpp
 pso/misc/TWindowShortListCtrl_80277D3C.cpp
 pso/misc/TWindowSimpleStatus.cpp
 pso/misc/TWindowSnapShot.cpp
