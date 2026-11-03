@@ -224,12 +224,9 @@ pso/unk/text_8002C190.cpp:
 	.text       start:0x8002C190 end:0x8002C214
 
 pso/boss/TObjBoss1Crater.cpp:
-	.text       start:0x8002C214 end:0x8002C6B4
+	.text       start:0x8002C214 end:0x8002C838
 	.rodata     start:0x80435588 end:0x80435590
 	.data       start:0x80481FD0 end:0x8048202C
-
-pso/boss/TObjBoss1Crater_8002C6B4.cpp:
-	.text       start:0x8002C6B4 end:0x8002C838
 	.sdata2     start:0x805D8168 end:0x805D8170
 
 pso/misc/TLobby_8002C838.cpp:
@@ -5411,16 +5408,12 @@ pso/object/TObjChip.cpp:
 	.sdata      start:0x805D3240 end:0x805D3244
 	.sdata2     start:0x805DBB78 end:0x805DBB9C
 
-pso/unk/text_80180D18.cpp:
-	.text       start:0x80180D18 end:0x801815F8
-	.rodata     start:0x80443B90 end:0x80443BA0
-	.data       start:0x804B5908 end:0x804B5954
-	.sdata2     start:0x805DBBA0 end:0x805DBBC4
-
 pso/system/CityTraffic.cpp:
-	.text       start:0x801815F8 end:0x801819FC
-	.rodata     start:0x80443BA0 end:0x80443BA8
+	.text       start:0x80180D18 end:0x801819FC
+	.rodata     start:0x80443B90 end:0x80443BA8
+	.data       start:0x804B5908 end:0x804B5954
 	.bss        start:0x8050DBE0 end:0x8050DC20
+	.sdata2     start:0x805DBBA0 end:0x805DBBC4
 
 pso/object/CityDoors.cpp:
 	.text       start:0x801819FC end:0x80182E7C
@@ -7409,10 +7402,7 @@ pso/misc/TLobby_8021B268.cpp:
 	.text       start:0x8021B268 end:0x8021B288
 
 pso/misc/TShopEquipmentGearSequence.cpp:
-	.text       start:0x8021B288 end:0x8021B438
-
-pso/misc/TShopEquipmentGearSequence_8021B438.cpp:
-	.text       start:0x8021B438 end:0x8021B974
+	.text       start:0x8021B288 end:0x8021B974
 	.data       start:0x804C9E70 end:0x804C9E90
 	.sbss       start:0x805D6220 end:0x805D6224
 	.sdata2     start:0x805DC6C8 end:0x805DC6D0
@@ -7534,16 +7524,12 @@ pso/misc/TShopWindowBase.cpp:
 pso/misc/TWindowSubStatusDisp.cpp:
 	.text       start:0x80223B88 end:0x80223B98
 
-pso/unk/text_80223B98.cpp:
-	.text       start:0x80223B98 end:0x8022448C
-	.rodata     start:0x8044C398 end:0x8044C478
-	.sdata2     start:0x805DC730 end:0x805DC734
-
 pso/misc/ShopToolStock.cpp:
-	.text       start:0x8022448C end:0x80224660
-	.rodata     start:0x8044C478 end:0x8044C488
+	.text       start:0x80223B98 end:0x80224660
+	.rodata     start:0x8044C398 end:0x8044C488
 	.bss        start:0x80513EF0 end:0x80513F30
 	.sbss       start:0x805D6260 end:0x805D6268
+	.sdata2     start:0x805DC730 end:0x805DC734
 
 pso/misc/ShopWeaponStock.cpp:
 	.text       start:0x80224660 end:0x802257EC
@@ -10848,11 +10834,8 @@ pso/misc/TLobby_8030A834.cpp:
 	.text       start:0x8030A834 end:0x8030A884
 
 pso/boss/TBoss4ZakoDraw.cpp:
-	.text       start:0x8030A884 end:0x8030A96C
+	.text       start:0x8030A884 end:0x8030AD38
 	.data       start:0x804E7650 end:0x804E7668
-
-pso/boss/TBoss4ZakoDraw_8030A96C.cpp:
-	.text       start:0x8030A96C end:0x8030AD38
 	.bss        start:0x80541E58 end:0x80542D60
 
 pso/boss/TBoss4ZakoDraw_8030AD38.cpp:

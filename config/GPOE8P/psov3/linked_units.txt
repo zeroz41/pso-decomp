@@ -239,7 +239,6 @@ pso/boss/TBoss4Type3_800D9960.cpp
 pso/boss/TBoss4Uro.cpp
 pso/boss/TBoss4Zako.cpp
 pso/boss/TBoss4ZakoDraw.cpp
-pso/boss/TBoss4ZakoDraw_8030A96C.cpp
 pso/boss/TBoss4ZakoDraw_8030AD38.cpp
 pso/boss/TBoss4ZakoDraw_8030AD58.cpp
 pso/boss/TBoss4Zanzo.cpp
@@ -334,7 +333,6 @@ pso/boss/TBoss8Dragon_80325D38.cpp
 pso/boss/TBoss8Dragon_80359A7C.cpp
 pso/boss/TBoss8Dragon_8036AEF8.cpp
 pso/boss/TObjBoss1Crater.cpp
-pso/boss/TObjBoss1Crater_8002C6B4.cpp
 pso/boss/TObjBoss1Floor.cpp
 pso/boss/TObjBoss2CeilJunk.cpp
 pso/boss/TObjBoss2CeilJunk_8003A81C.cpp
@@ -1468,7 +1466,6 @@ pso/misc/TShopArmorListWindow_8027870C.cpp
 pso/misc/TShopArmorListWindow_802787AC.cpp
 pso/misc/TShopDeleteItemWindow.cpp
 pso/misc/TShopEquipmentGearSequence.cpp
-pso/misc/TShopEquipmentGearSequence_8021B438.cpp
 pso/misc/TShopEquipmentGearSequence_8021E3A4.cpp
 pso/misc/TShopEquipmentListWindow.cpp
 pso/misc/TShopEquipmentListWindow_8010ED54.cpp
@@ -2909,7 +2906,6 @@ pso/unk/text_8017DC5C.cpp
 pso/unk/text_8017DFB0.cpp
 pso/unk/text_8017E0D0.cpp
 pso/unk/text_8017E900.cpp
-pso/unk/text_80180D18.cpp
 pso/unk/text_8018E258.cpp
 pso/unk/text_8018FA6C.cpp
 pso/unk/text_80192554.cpp
@@ -3043,7 +3039,6 @@ pso/unk/text_80222C28.cpp
 pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_8022350C.cpp
-pso/unk/text_80223B98.cpp
 pso/unk/text_80225CD8.cpp
 pso/unk/text_802264B8.cpp
 pso/unk/text_80228C54.cpp
