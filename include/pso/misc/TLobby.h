@@ -975,7 +975,7 @@ struct TLobby : public TObject {
     static void reset_read_state();
     static void clear_player_slot_tables(s32 n);
     void set_entry_params(s32 arg1, s32 arg2, s32 arg3);
-    static void set_read_params(int a0, int a1, int a2);
+    static void set_read_params(void *handle_ref, int sector_count, int destination);
     void draw_fullscreen_texture_quad();
     static void release_menu_font();
     static void load_font_texture();

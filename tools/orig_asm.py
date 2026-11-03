@@ -40,6 +40,17 @@ def encode(line: str) -> str:
     return f"opword 0x{word}"
 
 
+def outside_branch(line: str, fn: dict):
+    """The unnamed label a branch targets in another function, if it does."""
+    m = INSN.match(line)
+    branch = m and BRANCH.match(m.group(2).strip())
+    if branch and branch.group(1).startswith(".L_"):
+        target = int(branch.group(1)[3:], 16)
+        if not fn["start"] <= target < fn["end"]:
+            return branch.group(1)
+    return None
+
+
 def parse(asm: str) -> list:
     """The unit as ordered items: functions with their bodies, and labels between them."""
     items, fn, where = [], None, None
@@ -68,6 +79,10 @@ def parse(asm: str) -> list:
             fn["body"].append(f"entry {SYM.match(s).group(1)}")
         elif s.startswith("."):
             fn["error"] = f"unexpected directive {s!r}"
+        elif outside_branch(s, fn):
+            # As a raw word the branch would lose its relocation, which the original has.
+            fn["error"] = (f"branch to {outside_branch(s, fn)} outside the function: "
+                           "name that address as a label in symbols.txt")
         else:
             try:
                 fn["body"].append(encode(s))

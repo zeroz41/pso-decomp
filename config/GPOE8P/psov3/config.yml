@@ -866,7 +866,7 @@ force_active:
   - TObjBoss2Tunnel__sub_8003C1C8
   - TObjBoss2Tunnel__sub_8007DB80
   - TObjBoss2Tunnel__sub_8007EAE4
-  - TObjBoss2Tunnel__sub_802F1AE0
+  - __ct__13TUnk_804E4AD4FP7TObjectl
   - TObjBoss2Tunnel__sub_802F2278
   - TObjBoss2Tunnel__sub_802F22F4
   - TObjBoss2Tunnel__sub_802F2A2C
@@ -6333,7 +6333,7 @@ force_active:
   - fn_802E62A4
   - fn_802F1DAC
   - fn_802F1E54
-  - fn_802F1FB0
+  - __ct__13TUnk_804E4B24FP7TObjectlP3Vecf
   - fn_80303538__16TObjEneDellBiterFv
   - fn_80303AA0__16TObjEneDellBiterFl
   - fn_80303BC0__16TObjEneDellBiterFl
@@ -15776,7 +15776,7 @@ force_active:
   - sound_effect_range_w_enemy
   - sound_effect_range_w_env
   - sound_effect_range_weapon
-  - spawn__13TUnk_804E4B3CFll
+  - spawn__13TUnk_804E4B3CFlP3Vec
   - spawn_afterimages__11TBoss4Type2Fv
   - spawn_ambient_particles__15TBoss3VoloptP02Fv
   - spawn_ancient_trap__12TBoss8DragonFii
@@ -15836,8 +15836,8 @@ force_active:
   - spawn_recoil_dust__14TObjEneBm5WolfFiPv
   - spawn_recovery_effect__10TObjPlayerFv
   - spawn_scattered_lightning_strikes__FPUcl
-  - spawn_segment_row_a__21TunnelSceneControllerFv
-  - spawn_segment_row_b__21TunnelSceneControllerFv
+  - spawn_segment_row_a__13TUnk_804E4B3CFv
+  - spawn_segment_row_b__13TUnk_804E4B3CFv
   - spawn_slime_in_slot
   - spawn_slow_effect__10TObjPlayerFii
   - spawn_sub_objects__15TBoss3VoloptP02Fv

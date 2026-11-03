@@ -70,7 +70,7 @@ struct TBoss6Type2
     u8 unk_410[0x4];
     void * m_414;
     u32 m_418;
-    u8 _pad41C[0x4];
+    f32 state_progress;  // 1 - state_timer / state_duration
     u32 m_420;
     u32 m_424;
     u32 m_428;
@@ -86,8 +86,8 @@ struct TBoss6Type2
     s16 m_454;
     u8 unk_456[0x2];
     u32 m_458;
-    u8 unk_45C[0x4];
-    s32 m_460;
+    s32 state_duration;  // what state_timer was last set to
+    s32 state_timer;     // counts down to 0 in the state handlers
     u16 m_464;
     u16 m_466;
     u16 m_468;
@@ -213,7 +213,7 @@ struct TBoss6Type2
     void init_timers_and_copy_pos();
     void update_timer();
     void update_when_timer_zero();
-    static void start_death_sequence(u8 *arg0);
+    void start_death_sequence();
     void update_zako_spawn_timer();
     void reset_timers_and_spawn_particle();
     void update_zako_phase();
@@ -275,6 +275,20 @@ struct TBoss6Type2
     void send_state_action();
     void turn_toward_target();
     void apply_pending_effect();
+    // State-table handlers (lbl_804E00DC rows: enter / idle / update)
+    void update_attack_timer();
+    void update_death_sequence();
+    void sub_802BE648();
+    void sub_802BE6A0();
+    void sub_802BE738();
+    void sub_802BEB78();
+    void sub_802BEC28();
+    void sub_802BEE38();
+    void sub_802BF3F4();
+    void sub_802BF834();
+    void sub_802BF904();
+    void sub_802BFA1C();
+    void sub_802BFBE4();
 };
 
 typedef char TBoss6Type2_offset_position[(offsetof(TBoss6Type2, position) == 0x38) ? 1 : -1];

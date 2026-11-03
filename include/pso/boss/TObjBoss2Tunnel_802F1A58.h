@@ -4,13 +4,11 @@
 #include "types.h"
 
 extern "C" {
-u8 *TObjBoss2Tunnel__sub_802F1AE0(u8 *arg0, u8 *arg1, s32 arg2);
 void *__dt__13TUnk_804E4AD4Fv(void *arg0, s16 arg1);
 }
 
 // --- C functions defined in TObjBoss2Tunnel_802F1A58.cpp ---
 extern "C" {
-u8 *TObjBoss2Tunnel__sub_802F1AE0(u8 *arg0, u8 *arg1, s32 arg2);
 void *__dt__13TUnk_804E4AD4Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions

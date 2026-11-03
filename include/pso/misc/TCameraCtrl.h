@@ -72,7 +72,7 @@ struct TCameraCtrl : public TObject {
     f32 at_x;
     f32 at_y;
     f32 at_z;
-    u8 unk_1B8[0x4];
+    f32 eye_rate;  // rate pos_* approaches eye_* with (approach_camera_vector)
     // Rate tgt_* approaches at_* with.
     f32 at_rate;
     // Frames of screen shake left (set_shake_preset, update_shake).

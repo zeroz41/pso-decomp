@@ -15,7 +15,7 @@ struct TBoss7TentacleNeedle : public TObject {
     u8 _pad34[0x4];
     u32 m_38;
     u32 m_3c;
-    u32 m_40;
+    TObject *particle_emitter; // create_particle_emitter(pos, 0x212) in the ctor
     u8 unk_44[0x30];
     f32 m_74;
     u32 m_78;
@@ -44,7 +44,6 @@ void TBoss7Tentacle__sub_802F0B70(void *p);
 void TBoss7Tentacle__sub_802F0B80(void *p);
 void TObjPlayer__sub_802EFEC4(void);
 void TObjPlayer__sub_802F0D2C(void);
-void *__dt__20TBoss7TentacleNeedleFv(void *arg0, s16 arg1);
 void advance_needle_timer__20TBoss7TentacleNeedleFv(void *arg0);
 void damage_nearby_players__14TBoss7TentacleFPv(u8 *arg0);
 void fn_802EFEA8(void);

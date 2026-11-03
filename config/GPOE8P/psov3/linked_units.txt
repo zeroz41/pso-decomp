@@ -192,7 +192,6 @@ os/__start.c
 pad/Pad.c
 pso/audio/GcrnaError.cpp
 pso/audio/GcrnaStream.cpp
-pso/audio/SoundBankTables.cpp
 pso/boss/Boss5GryphonActionScripts.cpp
 pso/boss/Boss5GryphonBehavior.cpp
 pso/boss/Boss6Type1Appearance.cpp
@@ -1071,6 +1070,7 @@ pso/misc/TLobby_802230F8.cpp
 pso/misc/TLobby_80226070.cpp
 pso/misc/TLobby_802268F4.cpp
 pso/misc/TLobby_80228C84.cpp
+pso/misc/TLobby_8023F734.cpp
 pso/misc/TLobby_80242910.cpp
 pso/misc/TLobby_80243370.cpp
 pso/misc/TLobby_8024A148.cpp
@@ -1716,6 +1716,7 @@ pso/misc/TWindowShortCut.cpp
 pso/misc/TWindowShortListCtrl.cpp
 pso/misc/TWindowShortListCtrl_801A4FC0.cpp
 pso/misc/TWindowShortListCtrl_80221828.cpp
+pso/misc/TWindowShortListCtrl_8026E7DC.cpp
 pso/misc/TWindowShortListCtrl_80277D3C.cpp
 pso/misc/TWindowSimpleStatus.cpp
 pso/misc/TWindowSnapShot.cpp
@@ -3172,6 +3173,7 @@ pso/unk/text_802AEBA8.cpp
 pso/unk/text_802AF64C.cpp
 pso/unk/text_802B1AB4.cpp
 pso/unk/text_802B1C1C.cpp
+pso/unk/text_802BFBF4.cpp
 pso/unk/text_802C095C.cpp
 pso/unk/text_802C09E0.cpp
 pso/unk/text_802C39F8.cpp

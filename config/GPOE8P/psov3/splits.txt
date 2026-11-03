@@ -7916,11 +7916,6 @@ pso/ui/TAdMultiChgGameModeGC_8023EAC4.cpp:
 	.rodata     start:0x8044DD18 end:0x8044DD28
 	.data       start:0x804CCED0 end:0x804CCFB8
 
-pso/audio/SoundBankTables.cpp:
-	.rodata     start:0x8044DD28 end:0x8044E5B0
-	.data       start:0x804CCFB8 end:0x804CDA50
-	.sdata      start:0x805D3850 end:0x805D3870
-
 pso/unk/text_8023F160.cpp:
 	.text       start:0x8023F160 end:0x8023F1B8
 
@@ -7938,10 +7933,21 @@ pso/unk/text_8023F660.cpp:
 	.text       start:0x8023F660 end:0x8023F734
 
 pso/misc/TLobby_8023F734.cpp:
-	.text       start:0x8023F734 end:0x80242908
-	.ctors      start:0x80433FB4 end:0x80433FBC
+	.text       start:0x8023F734 end:0x802409AC
+	.ctors      start:0x80433FB4 end:0x80433FB8
+	.rodata     start:0x8044DD28 end:0x8044E5C0
+	.data       start:0x804CCFB8 end:0x804CDA50
+	.bss        start:0x805162E0 end:0x80517EE0
+	.sdata      start:0x805D3850 end:0x805D3870
+	.sdata2     start:0x805DC9C0 end:0x805DC9E0
+
+pso/misc/TLobby_802409AC.cpp:
+	.text       start:0x802409AC end:0x80242908
+	.ctors      start:0x80433FB8 end:0x80433FBC
+	.rodata     start:0x8044E5C0 end:0x8044E5C8
 	.data       start:0x804CDA50 end:0x804CDC88
-	.bss        start:0x805162E0 end:0x80518580
+	.bss        start:0x80517EE0 end:0x80518580
+	.sdata2     start:0x805DC9E0 end:0x805DCA00
 
 pso/misc/TWindowSubStatusDisp_80242908.cpp:
 	.text       start:0x80242908 end:0x80242910
@@ -8783,7 +8789,10 @@ pso/misc/TWindowShortCut.cpp:
 
 pso/misc/TWindowShortListCtrl_8026E7DC.cpp:
 	.text       start:0x8026E7DC end:0x8026F6A4
-	.data       start:0x804D0B28 end:0x804D0B58
+	.rodata     start:0x8044F588 end:0x8044F5D0
+	.data       start:0x804D0B10 end:0x804D0B58
+	.sdata      start:0x805D39E0 end:0x805D39E8
+	.sdata2     start:0x805DD380 end:0x805DD388
 
 pso/misc/TWindowCtrl_8026F6A4.cpp:
 	.text       start:0x8026F6A4 end:0x8026F6DC
@@ -10015,7 +10024,7 @@ pso/boss/TBoss6Type2_802BF558.cpp:
 pso/unk/text_802BFBF4.cpp:
 	.text       start:0x802BFBF4 end:0x802C095C
 	.ctors      start:0x80433FCC end:0x80433FD0
-	.data       start:0x804DFC50 end:0x804E07A0
+	.data       start:0x804DFC50 end:0x804E079C
 
 pso/unk/text_802C095C.cpp:
 	.text       start:0x802C095C end:0x802C09A8
@@ -10478,7 +10487,7 @@ pso/boss/TBoss7PhotonBullet_802EF26C.cpp:
 pso/boss/TBoss7TentacleNeedle.cpp:
 	.text       start:0x802EF800 end:0x802F0E24
 	.rodata     start:0x804740C8 end:0x804740E0
-	.data       start:0x804E4848 end:0x804E4860
+	.data       start:0x804E4830 end:0x804E4860
 	.bss        start:0x80541528 end:0x80541928
 	.sbss       start:0x805D6948 end:0x805D694C
 	.sdata2     start:0x805DEC00 end:0x805DEC64
@@ -12992,6 +13001,7 @@ PowerPC_EABI_Support/Runtime/Src/NMWException.cp:
 
 PowerPC_EABI_Support/Runtime/Src/ptmf.c:
 	.text       start:0x80396A20 end:0x80396A78
+	.rodata     start:0x8047B9F8 end:0x8047BA04
 
 PowerPC_EABI_Support/Runtime/Src/runtime.c:
 	.text       start:0x80396A78 end:0x803972B8
