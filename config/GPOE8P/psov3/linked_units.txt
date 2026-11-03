@@ -445,6 +445,7 @@ pso/enemy/TObjEneDolmOlm.cpp
 pso/enemy/TObjEneDubchik.cpp
 pso/enemy/TObjEneEpsilon.cpp
 pso/enemy/TObjEneEpsilonGuard_8035DD68.cpp
+pso/enemy/TObjEneEpsilonGuard_8035F5C8.cpp
 pso/enemy/TObjEneHoldEffect.cpp
 pso/enemy/TObjEneHoldEffect_800FD814.cpp
 pso/enemy/TObjEneHoldEffect_8036CDFC.cpp
@@ -3272,10 +3273,6 @@ pso/unk/text_8035C9E8.cpp
 pso/unk/text_8035D2EC.cpp
 pso/unk/text_8035D444.cpp
 pso/unk/text_8035D49C.cpp
-pso/unk/text_80362164.cpp
-pso/unk/text_80362264.cpp
-pso/unk/text_803622B0.cpp
-pso/unk/text_80362638.cpp
 pso/unk/text_803626A8.cpp
 pso/unk/text_80365348.cpp
 pso/unk/text_8036A3CC.cpp

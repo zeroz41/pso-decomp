@@ -1106,10 +1106,23 @@ force_active:
   - TObjEneDolmOlm__sub_80301C3C
   - TObjEneDolmOlm__sub_80302A34
   - TObjEneEpsilonGuard__ct
+  - TObjEneEpsilonGuard__debug_line_list
   - TObjEneEpsilonGuard__model_desc
   - TObjEneEpsilonGuard__resource_descriptor
   - TObjEneEpsilonGuard__sub_8035E578
   - TObjEneEpsilonGuard__sub_8035E8C0
+  - TObjEneEpsilonGuard__sub_8035F844
+  - TObjEneEpsilonGuard__sub_8035FA50
+  - TObjEneEpsilonGuard__sub_8035FAA8
+  - TObjEneEpsilonGuard__sub_8035FB44
+  - TObjEneEpsilonGuard__sub_8035FBBC
+  - TObjEneEpsilonGuard__sub_8035FC20
+  - TObjEneEpsilonGuard__sub_8035FCEC
+  - TObjEneEpsilonGuard__sub_8035FD50
+  - TObjEneEpsilonGuard__sub_80360BF8
+  - TObjEneEpsilonGuard__sub_803610D0
+  - TObjEneEpsilonGuard__sub_803616E4
+  - TObjEneEpsilonGuard__sub_80361C70
   - TObjEneEpsilonGuard__vt21
   - TObjEneEpsilonGuard__vt85
   - TObjEneIllGill_class_name
@@ -2040,6 +2053,7 @@ force_active:
   - __ct__18TOCapsuleMachine01FPv
   - __ct__18TOExplosiveMachineFv
   - __ct__18TOMonitorMachine01FPv
+  - __ct__18TObjEneEpsilonBodyFP7TObjectPv
   - __ct__18TObjItemNameSelectFP7TObject
   - __ct__18TObjSeabedSuiso_CHFP7TObjectPv
   - __ct__18TObjTailsTailsMoveFP10TObjPlayer
@@ -2687,6 +2701,7 @@ force_active:
   - __dt__18TObjChallengeRetryFv
   - __dt__18TObjCityAirCar_CarFv
   - __dt__18TObjCityDoor_LobbyFPvs
+  - __dt__18TObjEneEpsilonBodyFv
   - __dt__18TObjEneRe4SorcererFv
   - __dt__18TObjEnvSoundGlobalFv
   - __dt__18TObjItemNameSelectFv
@@ -3445,6 +3460,7 @@ force_active:
   - __vt__18TObjCityDoor_Guild
   - __vt__18TObjCityDoor_Lobby
   - __vt__18TObjEneBalClawClaw
+  - __vt__18TObjEneEpsilonBody
   - __vt__18TObjEneRe4Sorcerer
   - __vt__18TObjEnvSoundGlobal
   - __vt__18TObjItemNameSelect
@@ -3640,6 +3656,8 @@ force_active:
   - action__17TObjEneDf2BringerFPvi
   - action__17TObjEneMe1CanadinFl
   - action__18TObjEneBalClawClawFPv
+  - action__19TObjEneEpsilonGuardFPvi
+  - action_destroy__19TObjEneEpsilonGuardFl
   - activate_effect__13TUnk_804A4B80Fl
   - activate_effect__13TUnk_804F1320Fl
   - activate_effect__8TItemMagFl
@@ -3733,6 +3751,7 @@ force_active:
   - adxf_open_file_buffer
   - aim_toward_point__11TBoss6Type2FPv
   - alerted_state__14TObjEneBm5WolfFl
+  - all_children_gone__19TObjEneEpsilonGuardFv
   - alloc_boss4rock_buffer__6TLobbyFv
   - alloc_boss_target_slot__16TBoss3VoloptCoreFv
   - alloc_breakup_model__13TUnk_804E3BD8Fl
@@ -4015,6 +4034,7 @@ force_active:
   - area_music_filename_table
   - assert_light_id__9TObjLightFl
   - assign_char_data__23TAdSinglePlyChrSelectGCFPvPv
+  - assign_guard_targets__19TObjEneEpsilonGuardFv
   - assign_item_id__5TItemFv
   - assign_player_id__6TLobbyFv
   - at_end__24TMessageWindowControllerFv
@@ -5558,6 +5578,7 @@ force_active:
   - dispatch_action__13TObjEneRe4BitFUll
   - dispatch_action__16TObjEneDellBiterFUll
   - dispatch_action__17TObjEneDf2BringerFUll
+  - dispatch_action__18TObjEneEpsilonBodyFUll
   - dispatch_action_state__16TObjEneNanoDragoFv
   - dispatch_by_index__19TWindowKeyBoardSoftFv
   - dispatch_callback__Fv
@@ -5670,6 +5691,7 @@ force_active:
   - draw_cursor__19TWindowSubMagPhotonFi
   - draw_cursor__22TWindowSubCustomSelectFPUc
   - draw_debug_info__12TObjNpcEnemyFv
+  - draw_debug_line__19TObjEneEpsilonGuardFv
   - draw_dialing_status__12TAdDialingGCFv
   - draw_effect_chain__15TOTrapAncient02Fv
   - draw_empty_warp_overlay__Fv
@@ -5775,6 +5797,7 @@ force_active:
   - draw_window_frame_strips__11TWindowBaseFPvPv
   - draw_window_scanlines__FPUcPUc
   - draw_window_uv_sprite_part
+  - draw_with_fade__19TObjEneEpsilonGuardFPvi
   - draw_wrapped_text__19TWindowKeyBoardBaseFPvPv
   - drawing__11TItemMagSub
   - drawn_node__11TItemMagSub
@@ -6672,6 +6695,7 @@ force_active:
   - handle_fall_state__12TBoss1DragonFUl
   - handle_game_list_select__6TLobbyFv
   - handle_grid_navigation__22TWindowSubCustomSelectFv
+  - handle_guard_action_state__19TObjEneEpsilonGuardFPvi
   - handle_input__11TWindowChatFv
   - handle_input__23TShopJudgmentItemWindowFv
   - handle_input__28TWindowSubSymbolChatFaceTypeFv
@@ -6748,6 +6772,7 @@ force_active:
   - handle_type3__9TItemDropFPvPv
   - handle_verify_result__6TLobbyFUi
   - handle_warp_menu_input__6TLobbyFv
+  - handle_warp_state__19TObjEneEpsilonGuardFl
   - handle_window_input__22TMedicalCenterSequenceFv
   - handle_window_result__22TMedicalCenterSequenceFv
   - handle_withdraw_choice__18TCheckRoomSequenceFv
@@ -6965,6 +6990,7 @@ force_active:
   - init_params__16TObjEneDellBiterFv
   - init_params__17TObjEneBm3FlyNestFv
   - init_params__18TObjButterflyLobbyFv
+  - init_params__18TObjEneEpsilonBodyFv
   - init_params__19TBoss3VoloptMonitorFv
   - init_params__20TBoss3VoloptHiraisinFv
   - init_params_from_position__16TObjEneMerillLiaFv
@@ -7899,6 +7925,10 @@ force_active:
   - lbl_804EFC74
   - lbl_804EFC7C
   - lbl_804EFC90
+  - lbl_804F2230
+  - lbl_804F2250
+  - lbl_804F226C
+  - lbl_804F22C4
   - lbl_804F2B78
   - lbl_804F2B80
   - lbl_804F2B90
@@ -13682,6 +13712,7 @@ force_active:
   - receive_direct_attack__15TBoss3VoloptP02FPv19DirectAttackPayloadPvll
   - receive_direct_attack__15TOAttackableColFPv19DirectAttackPayloadPvll
   - receive_direct_attack__15TObjEneSlimeOneFPv19DirectAttackPayloadPvll
+  - receive_direct_attack__18TObjEneEpsilonBodyFPv19DirectAttackPayloadPvll
   - receive_direct_attack__19TContainerAncient01FPv19DirectAttackPayloadPvll
   - receive_direct_attack__20TContainerAncient01RFPv19DirectAttackPayloadPvll
   - receive_direct_attack__20TObjNpcCloakroomBaseFPv19DirectAttackPayloadPvll
@@ -13690,6 +13721,7 @@ force_active:
   - receive_physical_attack__15TOAttackableColFPvf
   - receive_physical_attack__15TObjEneMe1GiGueFPvf
   - receive_physical_attack__16TOTrapAncient02RFPvf
+  - receive_physical_attack__18TObjEneEpsilonBodyFPvf
   - receive_physical_attack__19TContainerAncient01FPvf
   - receive_physical_attack__19TObjEneEpsilonGuardFPvf
   - receive_physical_attack__20TContainerAncient01RFPvf
@@ -13700,11 +13732,13 @@ force_active:
   - receive_weapon_special_attack__13TUnk_8048E1A4FPvPv
   - receive_weapon_special_attack__15TOAttackableColFPvPv
   - receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv
+  - receive_weapon_special_attack__18TObjEneEpsilonBodyFPvPv
   - receive_weapon_special_attack__19TContainerAncient01FPvPv
   - receive_weapon_special_attack__19TObjEneEpsilonGuardFPvPv
   - receive_weapon_special_attack__20TContainerAncient01RFPvPv
   - recobox_boss_register_id
   - recobox_motion_name_table
+  - record_camera_angle_samples__19TObjEneEpsilonGuardFv
   - record_camera_path_point__13TObjEneMorfosFv
   - record_hit__22TObjFogCollisionPoisonFll
   - record_local_battle_placement
@@ -14090,6 +14124,7 @@ force_active:
   - render__18TObjCityDoor_GuildFv
   - render__18TObjCityDoor_LobbyFv
   - render__18TObjEneBalClawClawFv
+  - render__18TObjEneEpsilonBodyFv
   - render__18TObjEneRe4SorcererFv
   - render__18TObjEnvSoundGlobalFv
   - render__18TObjLaboDesignBaseFPv
@@ -14201,6 +14236,7 @@ force_active:
   - render_after_scene__9TMainTaskFv
   - render_animated_map_section__6TSceneFP20SceneMaterialSectionl
   - render_background_status__18TAdGameStartBackGCFv
+  - render_body_effect__18TObjEneEpsilonBodyFv
   - render_body_effects__11TBoss6Type2Fv
   - render_by_state__18TAdLoadQuestLineGCFv
   - render_clipout_and_fade__9TMainTaskFv
@@ -14789,6 +14825,7 @@ force_active:
   - run_task__18TObjCityDoor_GuildFv
   - run_task__18TObjCityDoor_LobbyFv
   - run_task__18TObjEneBalClawClawFv
+  - run_task__18TObjEneEpsilonBodyFv
   - run_task__18TObjEneRe4SorcererFv
   - run_task__18TObjEnvSoundGlobalFv
   - run_task__18TObjSeabedSuiso_CHFv
@@ -15179,6 +15216,8 @@ force_active:
   - set_grid_pos__11TBoss4Type2FPv
   - set_ground_height__13TBoss5GryphonFv
   - set_growth_flag__11TItemMagSubFv
+  - set_guard_part_colors__18TObjEneEpsilonBodyFP8NJS_ARGB
+  - set_guard_state__18TObjEneEpsilonBodyFv
   - set_handle_6x78_entry__FUsl
   - set_help_message__17TWindowSubComCardFl
   - set_hit_cooldown_for_player__14TOTrapChainSawFPv
@@ -16071,6 +16110,9 @@ force_active:
   - sub_8035B66C__13TUnk_804A7488Fv
   - sub_8035D8B0__9TBoss6DPBFv
   - sub_8035EA90__19TObjEneEpsilonGuardFv
+  - sub_8035F8A8__18TObjEneEpsilonBodyFv
+  - sub_803606A0__18TObjEneEpsilonBodyFl
+  - sub_80361D4C__18TObjEneEpsilonBodyFl
   - sub_803669B0__14TObjEneIllGillFv
   - sub_80369D68__15TObjSuisouLobbyFv
   - sub_8036DEDC__21TAdMultiChgGameModeGCFv
@@ -16194,8 +16236,10 @@ force_active:
   - tick_material_fmt2__6TSceneFv
   - tick_persistent_sound__15TObjIllGillKageFv
   - tick_state_410_timer__11TBoss6Type1Fv
+  - tick_stun_timer__19TObjEneEpsilonGuardFv
   - tick_timeout__14TBoss6PlotFalzFv
   - tick_timer__15TObjEneSlimeOneFv
+  - tick_timer_set_flag__19TObjEneEpsilonGuardFv
   - tick_trap_countdown__11TBoss6Type1Fv
   - title_pulse_color_table
   - title_scene_instance
@@ -16362,6 +16406,7 @@ force_active:
   - update_attack_effect__16TObjEneDellBiterFv
   - update_attack_jump__11TObjEneMojaFv
   - update_attack_parameters__16TObjEneNanoDragoFv
+  - update_attack_pattern__19TObjEneEpsilonGuardFPv
   - update_attack_state__11TBoss6Type1Fv
   - update_attack_state__11TBoss6Type2Fv
   - update_attack_switch__11TBoss6Type2Fv
@@ -16554,6 +16599,7 @@ force_active:
   - update_fade__12TChCrEffFadeFv
   - update_fade__13TObjLobbyMainFv
   - update_fade__18TObjButterflyLobbyFv
+  - update_fade__19TObjEneEpsilonGuardFl
   - update_fade_alphas__15TWindowCtrlMainFv
   - update_fade_by_distance__13TObjTombstoneFv
   - update_fade_in__13TObjLobbyMainFv
@@ -16598,6 +16644,7 @@ force_active:
   - update_ground_lightning_attack__13TBoss5GryphonFl
   - update_ground_pursuit__13TBoss5GryphonFl
   - update_growth_state__16TObjEneNanoDragoFv
+  - update_guard_flag__18TObjEneEpsilonBodyFv
   - update_guard_state__19TObjEneEpsilonGuardFv
   - update_head_down_attack_state__12TBoss1DragonFUl
   - update_heading__13TBoss5GryphonFl
@@ -16783,6 +16830,7 @@ force_active:
   - update_position__11TCameraCtrlFv
   - update_position__11TMainCursorFv
   - update_position__15TBoss7LaserPtclFv
+  - update_position__19TObjEneEpsilonGuardFv
   - update_position_flag__13TObjEneRe4BitFv
   - update_position_from_velocity__20TItemEffOrgaFlowShotFv
   - update_position_history__11TBoss2JointFv
@@ -17049,8 +17097,10 @@ force_active:
   - vfunc_104__17TObjEneDf2BringerFf
   - vfunc_105__12TBoss1DragonFv
   - vfunc_105__13TUnk_8049387CFv
+  - vfunc_105__18TObjEneEpsilonBodyFv
   - vfunc_106__13TUnk_8049387CFv
   - vfunc_106__16TObjEneDellBiterFv
+  - vfunc_106__18TObjEneEpsilonBodyFv
   - vfunc_106__18TObjEneRe4SorcererFv
   - vfunc_107__13TUnk_8049387CFv
   - vfunc_108__13TUnk_8049387CFv
@@ -17123,6 +17173,7 @@ force_active:
   - vfunc_28__17TObjEneBm3FlyNestFv
   - vfunc_28__17TObjEneDarkGunnerFv
   - vfunc_28__17TObjEneDf2BringerFv
+  - vfunc_28__18TObjEneEpsilonBodyFv
   - vfunc_28__18TObjEneRe4SorcererFv
   - vfunc_28__19TObjEneBm9MericarolFv
   - vfunc_28__19TObjEneEpsilonGuardFv
@@ -17191,6 +17242,7 @@ force_active:
   - vfunc_61__17TObjEneBm3FlyNestFv
   - vfunc_61__17TObjEneDarkGunnerFv
   - vfunc_61__17TObjEneDf2BringerFv
+  - vfunc_61__18TObjEneEpsilonBodyFv
   - vfunc_61__18TObjEneRe4SorcererFv
   - vfunc_61__19TObjEneBm9MericarolFv
   - vfunc_61__19TObjEneEpsilonGuardFv
@@ -17216,6 +17268,7 @@ force_active:
   - vfunc_62__17TObjEneBm3FlyNestFv
   - vfunc_62__17TObjEneDarkGunnerFv
   - vfunc_62__17TObjEneDf2BringerFv
+  - vfunc_62__18TObjEneEpsilonBodyFv
   - vfunc_62__18TObjEneRe4SorcererFv
   - vfunc_62__19TObjEneBm9MericarolFv
   - vfunc_62__19TObjEneEpsilonGuardFv
@@ -17242,6 +17295,7 @@ force_active:
   - vfunc_63__16TObjEneRe7BeruraFv
   - vfunc_63__17TObjEneBm3FlyNestFv
   - vfunc_63__17TObjEneDf2BringerFv
+  - vfunc_63__18TObjEneEpsilonBodyFv
   - vfunc_63__18TObjEneRe4SorcererFv
   - vfunc_63__19TObjEneBm9MericarolFv
   - vfunc_63__19TObjEneEpsilonGuardFv
@@ -17319,10 +17373,12 @@ force_active:
   - vfunc_88__16TObjEneRe7BeruraFv
   - vfunc_88__17TObjEneBm3FlyNestFv
   - vfunc_88__17TObjEneDf2BringerFv
+  - vfunc_88__18TObjEneEpsilonBodyFv
   - vfunc_88__18TObjEneRe4SorcererFv
   - vfunc_88__19TObjEneBm9MericarolFv
   - vfunc_88__19TObjEneEpsilonGuardFv
   - vfunc_89__13TObjEneBm3FlyFv
+  - vfunc_89__18TObjEneEpsilonBodyFv
   - vfunc_89__19TObjEneEpsilonGuardFv
   - vfunc_8__10TTecRaFoieFPv
   - vfunc_8__11TTecRaBartaFPv

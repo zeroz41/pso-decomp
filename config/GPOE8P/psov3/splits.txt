@@ -12355,25 +12355,10 @@ pso/enemy/TObjEneEpsilon.cpp:
 	.text       start:0x8035F5B8 end:0x8035F5C8
 
 pso/enemy/TObjEneEpsilonGuard_8035F5C8.cpp:
-	.text       start:0x8035F5C8 end:0x80362164
+	.text       start:0x8035F5C8 end:0x803626A8
 	.rodata     start:0x80479E88 end:0x80479EA0
-	.data       start:0x804F2488 end:0x804F24E8
-	.sdata2     start:0x805E0208 end:0x805E022C
-
-pso/unk/text_80362164.cpp:
-	.text       start:0x80362164 end:0x80362264
-
-pso/unk/text_80362264.cpp:
-	.text       start:0x80362264 end:0x803622B0
-
-pso/unk/text_803622B0.cpp:
-	.text       start:0x803622B0 end:0x80362384
-
-pso/unk/text_80362384.cpp:
-	.text       start:0x80362384 end:0x80362638
-
-pso/unk/text_80362638.cpp:
-	.text       start:0x80362638 end:0x803626A8
+	.data       start:0x804F2230 end:0x804F24E8
+	.sdata2     start:0x805E0208 end:0x805E0248
 
 pso/unk/text_803626A8.cpp:
 	.text       start:0x803626A8 end:0x80362E60
