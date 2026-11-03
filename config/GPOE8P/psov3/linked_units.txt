@@ -820,7 +820,6 @@ pso/misc/TCameraCtrl_8006C7C4.cpp
 pso/misc/TCameraCtrl_8006C8E4.cpp
 pso/misc/TCameraCtrl_8006CC30.cpp
 pso/misc/TCameraCtrl_800766C4.cpp
-pso/misc/TCameraCtrl_80082FCC.cpp
 pso/misc/TCameraCtrl_8013F25C.cpp
 pso/misc/TCameraCtrl_801A2FE0.cpp
 pso/misc/TCameraCtrl_801A3C24.cpp
@@ -2015,7 +2014,6 @@ pso/object/TObjFish_800E2FFC.cpp
 pso/object/TObjFogCollision.cpp
 pso/object/TObjFogCollisionPoison.cpp
 pso/object/TObjFogCollisionSwitch.cpp
-pso/object/TObjGoalWarpAncient.cpp
 pso/object/TObjGrass.cpp
 pso/object/TObjGrassWeb.cpp
 pso/object/TObjGyaranzoMissile.cpp
@@ -2696,7 +2694,6 @@ pso/unk/text_8008197C.cpp
 pso/unk/text_80081A30.cpp
 pso/unk/text_80081B7C.cpp
 pso/unk/text_80081BB0.cpp
-pso/unk/text_80082C30.cpp
 pso/unk/text_80086B64.cpp
 pso/unk/text_80086D50.cpp
 pso/unk/text_80086E28.cpp

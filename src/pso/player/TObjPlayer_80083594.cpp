@@ -1,3 +1,359 @@
+#pragma readonly_strings on
+#include "types.h"
+#include "pso/system/vector.h"
+
+struct GXColor_80083B8C { u8 r, g, b, a; };
+
+struct C_800845F8 { u8 pad[0x20]; s32 x20; };
+
+struct B_800845F8 { u8 pad[0xc]; C_800845F8 *c; };
+
+struct A_800845F8 { u8 pad[0x8]; B_800845F8 *b; };
+
+struct G_800845F8 { A_800845F8 *a; u8 pad[0x1c]; };
+
+extern "C" {
+void GXPixModeSync(void);
+void GXSetTexCopySrc(u16, u16, u16, u16);
+void GXSetTexCopyDst(u16, u16, s32, u8);
+void GXSetCopyClear(GXColor_80083B8C, u32);
+void GXCopyTex(void *, u8);
+void GXSetViewport(f32, f32, f32, f32, f32, f32);
+void GXSetScissor(u32, u32, u32, u32);
+void TObjPlayer__sub_80084744(void);
+void TObjPlayer__sub_80084754(void);
+extern G_800845F8 shared_capture_texture_list;
+}
+
+#include "pso/effect/TEffect.h"
+#include "pso/render/render_util.h"
+#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+
+#include "types.h"
+
+#include <stddef.h>
+#include "pso/player/TObjPlayer.h"
+#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+#include "pso/object/TObjFish.h"
+struct Stack_80082C30 {
+    f32 sp8;
+    f32 spC;
+    f32 sp10;
+    f32 sp14;
+    f32 sp18;
+    f32 sp1C;
+    f32 sp20;
+    f32 sp24;
+};
+
+struct V2_80082CDC { f32 x, y; };
+
+
+static GinjaTextureEntry effect_textures[54] = {
+    {"f008_white_npr01", 0, NULL},
+    {"f032_awa_apn01", 0, NULL},
+    {"f032_chun_npn01", 0, NULL},
+    {"f032_flash_apr01", 0, NULL},
+    {"f032_fog_npn01", 0, NULL},
+    {"f032_gunbullet_apr01", 0, NULL},
+    {"f032_kisekigreen_apn01", 0, NULL},
+    {"f032_kisekired_apn01", 0, NULL},
+    {"f032_kisekiviolet_apn01", 0, NULL},
+    {"f032_lens01_apn01", 0, NULL},
+    {"f032_lens02_apn01", 0, NULL},
+    {"f032_lens03_apn01", 0, NULL},
+    {"f032_lens04_apn01", 0, NULL},
+    {"f032_lens05_apn01", 0, NULL},
+    {"f032_lens06_apn01", 0, NULL},
+    {"f032_lens07_apn01", 0, NULL},
+    {"f032_mshield01_apn01", 0, NULL},
+    {"f032_mshield02_apn01", 0, NULL},
+    {"f032_netload_apr01", 0, NULL},
+    {"f032_redgray_apn01", 0, NULL},
+    {"f032_senkou_apr01", 0, NULL},
+    {"f032_sennkou_apr01", 0, NULL},
+    {"f032_shield01_apn01", 0, NULL},
+    {"f032_slow_apn01", 0, NULL},
+    {"f032_tama_apn01", 0, NULL},
+    {"f064_hane_apr01", 0, NULL},
+    {"f064_hitfirec_apr01", 0, NULL},
+    {"f064_hitfirered_apr01", 0, NULL},
+    {"f064_hitmark_apr01", 0, NULL},
+    {"f064_hitmarkblue_apr01", 0, NULL},
+    {"f064_impacte_apn01", 0, NULL},
+    {"f064_lens01resize_apn01", 0, NULL},
+    {"f064_megido_apr01", 0, NULL},
+    {"f064_monshou_apr01", 0, NULL},
+    {"f064_questloadapn16", 0, NULL},
+    {"f064_senblue_apn01", 0, NULL},
+    {"f064_shield02_apn01", 0, NULL},
+    {"f064_shield03_apn01", 0, NULL},
+    {"f064_shield04_apn01", 0, NULL},
+    {"f064_shield05_apn01", 0, NULL},
+    {"f128_bakuhatu_apn16", 0, NULL},
+    {"f128_blackfog_nln16", 0, NULL},
+    {"f128_feio_aln16", 0, NULL},
+    {"f128_fog_aln16", 0, NULL},
+    {"f128_granz_aln16", 0, NULL},
+    {"f128_hibana_aln16", 0, NULL},
+    {"f128_houden_apr16", 0, NULL},
+    {"f128_lightning_alr16", 0, NULL},
+    {"f128_smoke_apn16", 0, NULL},
+    {"f128_worm_alr16", 0, NULL},
+    {"f256_zonde_alr16", 0, NULL},
+    {"k016_happa_npr01", 0, NULL},
+    {"t032_heart_apn01", 0, NULL},
+    {"u064_glasshahen_npr01", 0, NULL},
+};
+
+GinjaTextureList shared_effect_texture_list = {effect_textures, 54};
+
+extern "C" {
+extern s32 lbl_805D63F0;
+extern const f32 lbl_805D93C0;
+extern const f32 lbl_805D93C4;
+extern const f32 lbl_805D93C8;
+extern const f32 lbl_805D93CC;
+extern const f32 lbl_805D93D0;
+extern const f32 lbl_805D93D4;
+extern const f32 lbl_805D93D8;
+extern const f32 lbl_805D93DC;
+void TObjPlayer__sub_80082C30(void);
+s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
+extern u8 controller_physical_port_bank[];
+extern const f32 lbl_805D93E0;
+extern const f32 lbl_805D93E4;
+extern const f32 lbl_805D93E8;
+extern GXColor_80083B8C lbl_805E1214;
+extern GXColor_80083B8C lbl_805E1218;
+}
+
+#pragma push
+#pragma opt_common_subs off
+#pragma opt_propagation off
+void TObjPlayer__sub_80082C30(void) {
+    typedef char sp8_offset[(offsetof(Stack_80082C30, sp8) == 0x0) ? 1 : -1];
+    typedef char spC_offset[(offsetof(Stack_80082C30, spC) == 0x4) ? 1 : -1];
+    typedef char sp10_offset[(offsetof(Stack_80082C30, sp10) == 0x8) ? 1 : -1];
+    typedef char sp14_offset[(offsetof(Stack_80082C30, sp14) == 0xC) ? 1 : -1];
+    typedef char sp18_offset[(offsetof(Stack_80082C30, sp18) == 0x10) ? 1 : -1];
+    typedef char sp1C_offset[(offsetof(Stack_80082C30, sp1C) == 0x14) ? 1 : -1];
+    typedef char sp20_offset[(offsetof(Stack_80082C30, sp20) == 0x18) ? 1 : -1];
+    typedef char sp24_offset[(offsetof(Stack_80082C30, sp24) == 0x1C) ? 1 : -1];
+    Stack_80082C30 stack;
+    TObjFish::set_global_param(lbl_805D63F0);
+    set_draw_texture_and_color(0, -1);
+    begin_screen_draw(1);
+    stack.sp8 = lbl_805D93C0;
+    stack.spC = lbl_805D93C4;
+    stack.sp10 = lbl_805D93C8 + lbl_805D93C0;
+    stack.sp14 = lbl_805D93CC + lbl_805D93C4;
+    stack.sp18 = lbl_805D93D0;
+    stack.sp1C = lbl_805D93D4;
+    stack.sp20 = lbl_805D93D8;
+    stack.sp24 = lbl_805D93D8;
+    draw_textured_quad_at_depth((&stack.sp8), lbl_805D93DC);
+    TWindowSubStatusDisp::get_player();
+}
+#pragma pop
+
+extern "C" void TObjPlayer__sub_80082CBC(void* effect) {
+    *(reinterpret_cast<u8*>(effect) + 0x1C) |= 0x4;
+}
+
+extern "C" void TObjPlayer__sub_80082CCC(void* effect) {
+    *(reinterpret_cast<u8*>(effect) + 0x1C) &= ~0x4;
+}
+void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
+    V2_80082CDC a;
+    V2_80082CDC b;
+    V2_80082CDC v;
+    void *cam;
+    GXSetCopyClear(lbl_805E1214, 0xFFFFFF);
+    switch (mode) {
+    case 0:
+        if (src != NULL) {
+            ((TWindowSubSymbolChatPartsSet *)(&v))->copy_vec2(src);
+            v.x -= lbl_805D93E0;
+            v.y -= lbl_805D93E4;
+        } else {
+            v.x = lbl_805D93C0;
+            v.y = lbl_805D93E8;
+        }
+        GXSetTexCopySrc(v.x, v.y, 0x100, 0xC0);
+        GXSetTexCopyDst(0x100, 0xC0, 4, 0);
+        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXPixModeSync();
+        cam = controller_physical_port_bank + 0x110;
+        a.x = lbl_805D93C0;
+        a.y = lbl_805D93E8;
+        b.x = lbl_805D93C8;
+        b.y = lbl_805D93C0;
+        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+            set_tev_swap_mode(0);
+        }
+        TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 1);
+        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+            init_tev_swap();
+        }
+        TObjPlayer__sub_80082C30();
+        GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
+        GXSetTexCopyDst(0x100, 0xC0, 4, 0);
+        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXPixModeSync();
+        break;
+    case 1:
+        GXSetCopyClear(lbl_805E1218, 0xFFFFFF);
+        GXSetTexCopySrc(0, 0, 0x280, 0x1E0);
+        GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
+        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXPixModeSync();
+        cam = controller_physical_port_bank + 0x110;
+        a.x = lbl_805D93C0;
+        a.y = lbl_805D93E8;
+        b.x = lbl_805D93C8;
+        b.y = lbl_805D93C0;
+        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+            set_tev_swap_mode(0);
+        }
+        TObjPlayer::draw_textured_screen_quad((u32)(-1), (f32 *)&a, (f32 *)&b, 0);
+        if (is_on_current_screen__11TCameraCtrlFv(cam, 0x100) != 0) {
+            init_tev_swap();
+        }
+        TObjPlayer__sub_80082C30();
+        GXSetTexCopySrc(0xC0, 0x90, 0x100, 0xC0);
+        GXSetTexCopyDst(0x100, 0xC0, 4, 0);
+        GXCopyTex((void *)shared_capture_texture_list.a->b->c->x20, 1);
+        GXPixModeSync();
+        break;
+    }
+}
+
+// ---- pso/misc/TCameraCtrl_80082FCC
+#include "pso/misc/TCameraCtrl_80082FCC.h"
+#include "pso/TMainTask.h"
+#include "pso/misc/TUnk_8048E5DC.h"
+
+#include <stddef.h>
+#include "pso/misc/TCameraCtrl.h"
+#include "pso/object/TObjFish.h"
+
+struct RecoveredGlobal_800830B0_main_task {
+    s32 value;
+    u8 remaining[0x30];
+};
+
+struct G_80082FCC { s32 value; s32 v4; f32 f8; f32 fC; };
+
+extern "C" {
+s32 is_split_screen();
+s32 TCameraCtrl__sub_80068EF0();
+s32 direction_to_pitch_yaw(void *, void *, void *);
+s32 GXSetZMode(int, int, int);
+s32 set_perspective_projection_from_fov(int, f32, f32, f32);
+void __dl__7TObjectFPv(void *);
+void __dt__7TObjectFv(void *, int);
+}
+void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
+extern u8 *camera_ctrl_instance;
+extern u32 camera_render_target_singleton;
+extern const f32 lbl_805D93D0;
+extern const f32 lbl_805D93D8;
+extern const f32 lbl_805D9404;
+extern const f32 lbl_805D9408;
+extern const f32 lbl_805D940C;
+extern const f32 lbl_805D9410;
+extern GXColor_80083B8C lbl_805E1210;
+extern G_80082FCC TCameraCtrl__data_804FF634;
+extern const f32 lbl_805D93EC;
+extern const f32 lbl_805D93F0;
+extern const f32 lbl_805D93F4;
+extern const f32 lbl_805D93F8;
+extern const f32 lbl_805D93FC;
+extern const f32 lbl_805D9400;
+void load_list_texture(s32 idx, s32 wrapS, s32 wrapT, s32 map);
+void calc_projection_screen_offset(f32 *arg0, f32 *arg1) {
+    f32 dx = TCameraCtrl__data_804FF634.f8;
+    f32 y = TCameraCtrl__data_804FF634.fC;
+    f32 dy;
+    dx -= lbl_805D93EC;
+    dy = y - lbl_805D93F0;
+    *arg0 = (lbl_805D93F4 * dx) / lbl_805D93F8;
+    *arg1 = (lbl_805D93FC * dy) / lbl_805D9400;
+}
+
+void TCameraCtrl::copy_position_vectors(void *first, void *second) {
+    VecCopy((Vec *)((char *)this + 32), (const Vec *)first);
+    VecCopy((Vec *)((char *)this + 44), (const Vec *)second);
+}
+
+void TCameraCtrl::update_single_screen() {
+    if ((is_split_screen() == 0) && ((u32) camera_render_target_singleton != 0U)) {
+        TObjFish::set_global_param(camera_render_target_singleton + 0x1C);
+        load_list_texture(0, 0, 0, 0);
+    }
+}
+
+void TUnk_8048E5DC::render() {  }
+void TUnk_8048E5DC::run_task() {  }
+
+extern s32 __vt__13TUnk_8048E5DC[];
+
+#pragma push
+#pragma opt_common_subs off
+typedef char RecoveredGlobal_800830B0_main_task_size[sizeof(RecoveredGlobal_800830B0_main_task) == 0x34 ? 1 : -1];
+void TUnk_8048E5DC::render_shadows() {
+    u8 *arg0 = (u8 *)this;
+    if (is_split_screen() == 0) {
+        TCameraCtrl::restore_full_screen_view();
+        GXSetViewport(lbl_805D93D0, lbl_805D93D0, lbl_805D9404, lbl_805D9408, lbl_805D93D0, lbl_805D93D8);
+        GXSetScissor(0, 0, 0x280, 0x1E0);
+        Vec up = {0.0f, 1.0f, 0.0f};
+        set_perspective_projection_from_fov((int) (((TCameraCtrl *)camera_ctrl_instance)->fov), lbl_805D940C, lbl_805D93D8, lbl_805D9410);
+        set_camera_look_at((u8 *)&this->m_20, (u8 *)&this->unk_2C, (u8 *)&up);
+        if ((void *) camera_ctrl_instance != NULL) {
+            Vec dir;
+            s32 pitch;
+            s32 yaw;
+            dir.x = *(f32 *)&this->unk_2C - this->m_20;
+            dir.y = this->m_30 - *(f32 *)&this->unk_24;
+            dir.z = *(f32 *)((s8 *)arg0 + 0x34) - this->m_28;
+            direction_to_pitch_yaw(&dir, &pitch, &yaw);
+            TCameraCtrl::calc_axes_from_angles((s32)camera_ctrl_instance, pitch, yaw);
+        }
+        TObjPlayer__sub_80084754();
+        ((TMainTask *)(&(*(RecoveredGlobal_800830B0_main_task *)&main_task).value))->render_scene_passes();
+        TObjPlayer__sub_80084744();
+        if ((void *) (*(u8 * *)&camera_render_target_singleton) != NULL) {
+            GXSetCopyClear(lbl_805E1210, 0xFFFFFF);
+            GXSetZMode((int) (1U), 7, 1);
+            GXSetTexCopySrc((int) (0U), 0, (int) (0x280U), (int) (0x1E0U));
+            GXSetTexCopyDst(0x280, 0x1E0, 4, 0);
+            GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&camera_render_target_singleton) + 0x1C)) + 8)) + 0xC)) + 0x20)), (int) (1U));
+            GXPixModeSync();
+        }
+        GXSetViewport(lbl_805D93D0, lbl_805D93D0, lbl_805D9404, lbl_805D9408, lbl_805D93D0, lbl_805D93D8);
+        GXSetScissor(0, 0, 0x280, 0x1E0);
+        TCameraCtrl__sub_80068EF0();
+        ((TCameraCtrl *)camera_ctrl_instance)->calc_rotated_axes();
+        ((TCameraCtrl *)camera_ctrl_instance)->setup_default_view(0);
+    }
+}
+#pragma pop
+
+void *TUnk_8048E5DC::dt(s16 arg1) {
+    if (this != NULL) {
+        *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_8048E5DC;
+        __dt__7TObjectFv(this, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(this);
+        }
+    }
+    return this;
+}
+
+// ---- pso/player/TObjPlayer_80083594
 #include "types.h"
 #include "pso/unk/text_800832EC.h"
 #include "pso/misc/TUnk_8048E5DC.h"
@@ -24,18 +380,11 @@
 #include "pso/system/main_loop.h"
 
 
-struct RecoveredGlobal_800832EC_lbl_8048E5DC {
-    s32 value;
-    u8 remaining[0x14];
-};
-
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-extern RecoveredGlobal_800832EC_lbl_8048E5DC __vt__13TUnk_8048E5DC;
-typedef char RecoveredGlobal_800832EC_lbl_8048E5DC_size[sizeof(RecoveredGlobal_800832EC_lbl_8048E5DC) == 0x18 ? 1 : -1];
 u8 *fn_800832EC(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__7TObjectFP7TObject((void *)arg0, (void *)arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &__vt__13TUnk_8048E5DC.value;
+    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_8048E5DC;
     ((TUnk_8048E5DC *)arg0)->m_38 = farg0;
     VecCopy((Vec *)(arg0 + 0x20), (const Vec *)(arg3));
     VecCopy((Vec *)(arg0 + 0x2C), (const Vec *)(arg4));
@@ -150,13 +499,6 @@ struct RecoveredGlobal_80083CEC_lbl_8048E5D0 {
     u8 remaining[0x8];
 };
 
-struct C_800845F8 { u8 pad[0x20]; s32 x20; };
-
-struct B_800845F8 { u8 pad[0xc]; C_800845F8 *c; };
-
-struct A_800845F8 { u8 pad[0x8]; B_800845F8 *b; };
-
-struct G_800845F8 { A_800845F8 *a; u8 pad[0x1c]; };
 
 struct Rect_80083F38 { u8 data[0x20]; };
 
@@ -167,8 +509,6 @@ struct G_800846C8 { void *a; u8 pad[0x1c]; };
 struct A_80084694 { u8 pad[0x8]; u32 f8; };
 
 struct G_80084694 { A_80084694 *a; u8 pad[0x1c]; };
-
-struct GXColor_80083B8C { u8 r, g, b, a; };
 
 struct Vec_80083D54 { f32 x, y, z; };
 
@@ -190,7 +530,6 @@ struct G_800842A4 { A_800842A4 *a; u8 pad[0x1c]; };
 
 extern "C" {
 extern RecoveredGlobal_80083CEC_lbl_8048E5D0 shadow_light_position;
-extern G_800845F8 shared_capture_texture_list;
 void translate_current_matrix_ps(f32, f32, f32);
 void rotate_current_matrix_x_ps(s32);
 void push_identity_matrix_ps();
@@ -392,8 +731,6 @@ s32 is_inactive__10TObjPlayerFv();
     extern unsigned char camera_capture_flags;
 void TObjPlayer__sub_80084614(void);
 void TObjPlayer__sub_8008463C(void);
-void TObjPlayer__sub_80084744(void);
-void TObjPlayer__sub_80084754(void);
 void TObjPlayer__sub_80084764(void);
 void TObjPlayer__sub_80084780(void);
 void **release_texture_list();
@@ -410,15 +747,8 @@ void **TObjPlayer__sub_80084694(void);
 s32 is_split_screen();
 s32 TCameraCtrl__sub_80068EF0();
 u8 get_display_copy_filter();
-s32 GXPixModeSync();
-s32 GXSetTexCopySrc(int, int, int, int);
-s32 GXSetTexCopyDst(int, int, int, int);
-void GXSetCopyClear(GXColor_80083B8C, u32);
 s32 Dolphin_GXSetCopyFilter(int, void *, int, void *);
-s32 GXCopyTex(void *, int);
 s32 GXSetProjection(void *, int);
-s32 GXSetViewport(f32, f32, f32, f32, f32, f32);
-s32 GXSetScissor(int, int, int, int);
 s32 pop_matrix();
 void TObjPlayer__sub_80083FA4(void);
 void C_MTXFrustum(void *, f32, f32, f32, f32, f32, f32);

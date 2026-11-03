@@ -1268,17 +1268,10 @@ pso/effect/TEffect.cpp:
 	.sbss       start:0x805D4ED8 end:0x805D4EDC
 	.sdata2     start:0x805D93B8 end:0x805D93C0
 
-pso/unk/text_80082C30.cpp:
-	.text       start:0x80082C30 end:0x80082FCC
-	.rodata     start:0x80438F08 end:0x80439348
-	.data       start:0x8048E318 end:0x8048E5A8
-
-pso/misc/TCameraCtrl_80082FCC.cpp:
-	.text       start:0x80082FCC end:0x800832EC
-
 pso/player/TObjPlayer_80083594.cpp:
-	.text       start:0x800832EC end:0x80084864
-	.rodata     start:0x80439358 end:0x80439370
+	.text       start:0x80082C30 end:0x80084864
+	.rodata     start:0x80438F08 end:0x80439370
+	.data       start:0x8048E318 end:0x8048E5A8
 	.sbss       start:0x805D4EE0 end:0x805D4EE4
 	.sdata2     start:0x805D9428 end:0x805D9430
 
@@ -5252,12 +5245,9 @@ pso/misc/TOVS2Wall01_8017BE08.cpp:
 	.sdata      start:0x805D31C0 end:0x805D31E8
 
 pso/object/TObjMapWarpAncient.cpp:
-	.text       start:0x8017CB60 end:0x8017D21C
+	.text       start:0x8017CB60 end:0x8017D2FC
 	.rodata     start:0x80443288 end:0x80443308
 	.sdata2     start:0x805DBAB8 end:0x805DBACC
-
-pso/object/TObjGoalWarpAncient.cpp:
-	.text       start:0x8017D21C end:0x8017D2FC
 
 pso/misc/TOWreckAncientBrakable05.cpp:
 	.text       start:0x8017D2FC end:0x8017D39C
