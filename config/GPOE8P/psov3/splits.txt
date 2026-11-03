@@ -1286,33 +1286,11 @@ pso/unk/text_80082C30.cpp:
 pso/misc/TCameraCtrl_80082FCC.cpp:
 	.text       start:0x80082FCC end:0x800832EC
 
-pso/unk/text_800832EC.cpp:
-	.text       start:0x800832EC end:0x80083360
-
-pso/player/TObjPlayer_80083360.cpp:
-	.text       start:0x80083360 end:0x8008350C
-
-pso/misc/TLobby_8008350C.cpp:
-	.text       start:0x8008350C end:0x80083550
-
-pso/misc/TParticleCtrl_80083550.cpp:
-	.text       start:0x80083550 end:0x80083594
-
 pso/player/TObjPlayer_80083594.cpp:
-	.text       start:0x80083594 end:0x800838C4
-	.rodata     start:0x80439358 end:0x80439360
-
-pso/misc/TScene_800838C4.cpp:
-	.text       start:0x800838C4 end:0x80083B38
-	.rodata     start:0x80439360 end:0x80439370
-	.sdata2     start:0x805D9428 end:0x805D9430
-
-pso/player/TObjPlayer_80083B38.cpp:
-	.text       start:0x80083B38 end:0x800847A8
+	.text       start:0x800832EC end:0x80084864
+	.rodata     start:0x80439358 end:0x80439370
 	.sbss       start:0x805D4EE0 end:0x805D4EE4
-
-pso/player/TObjPlayer_800847A8.cpp:
-	.text       start:0x800847A8 end:0x80084864
+	.sdata2     start:0x805D9428 end:0x805D9430
 
 pso/effect/TEffGuard.cpp:
 	.text       start:0x80084864 end:0x800849F8
@@ -2373,11 +2351,8 @@ pso/item/TItemBuff.cpp:
 pso/unk/text_80103674.cpp:
 	.text       start:0x80103674 end:0x801036CC
 
-pso/unk/text_801036CC.cpp:
-	.text       start:0x801036CC end:0x80103F5C
-
 pso/misc/TLobby_80103F5C.cpp:
-	.text       start:0x80103F5C end:0x801047B4
+	.text       start:0x801036CC end:0x801047B4
 	.ctors      start:0x80433F78 end:0x80433F7C
 	.rodata     start:0x8043E068 end:0x8043E0B0
 	.data       start:0x8049EE00 end:0x8049EE60

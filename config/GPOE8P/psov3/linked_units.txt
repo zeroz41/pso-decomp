@@ -959,7 +959,6 @@ pso/misc/TLobby_80077B60.cpp
 pso/misc/TLobby_8007B858.cpp
 pso/misc/TLobby_8007C550.cpp
 pso/misc/TLobby_80082048.cpp
-pso/misc/TLobby_8008350C.cpp
 pso/misc/TLobby_800F5CF0.cpp
 pso/misc/TLobby_800F7744.cpp
 pso/misc/TLobby_800F795C.cpp
@@ -1340,7 +1339,6 @@ pso/misc/TOWreckAncientBrakable.cpp
 pso/misc/TOWreckAncientBrakable05.cpp
 pso/misc/TPacket.cpp
 pso/misc/TParticleCtrl.cpp
-pso/misc/TParticleCtrl_80083550.cpp
 pso/misc/TParticleCtrl_80085EE4.cpp
 pso/misc/TParticleCtrl_800866F8.cpp
 pso/misc/TParticleCtrl_800867AC.cpp
@@ -1449,7 +1447,6 @@ pso/misc/TSaveChCr.cpp
 pso/misc/TScene.cpp
 pso/misc/TSceneSora.cpp
 pso/misc/TSceneSora_8029F428.cpp
-pso/misc/TScene_800838C4.cpp
 pso/misc/TScene_800F9D80.cpp
 pso/misc/TScene_801A7E40.cpp
 pso/misc/TScene_801FBA20.cpp
@@ -2139,10 +2136,7 @@ pso/player/TObjPlayer_80080750.cpp
 pso/player/TObjPlayer_80081B2C.cpp
 pso/player/TObjPlayer_80081FC8.cpp
 pso/player/TObjPlayer_800822D0.cpp
-pso/player/TObjPlayer_80083360.cpp
 pso/player/TObjPlayer_80083594.cpp
-pso/player/TObjPlayer_80083B38.cpp
-pso/player/TObjPlayer_800847A8.cpp
 pso/player/TObjPlayer_80084B84.cpp
 pso/player/TObjPlayer_8008DCF0_8008DCF0.cpp
 pso/player/TObjPlayer_8008DCF0_8008FC0C.cpp
@@ -2712,7 +2706,6 @@ pso/unk/text_80081A30.cpp
 pso/unk/text_80081B7C.cpp
 pso/unk/text_80081BB0.cpp
 pso/unk/text_80082C30.cpp
-pso/unk/text_800832EC.cpp
 pso/unk/text_80086B64.cpp
 pso/unk/text_80086D50.cpp
 pso/unk/text_80086E28.cpp
@@ -2771,7 +2764,6 @@ pso/unk/text_800FD8A0.cpp
 pso/unk/text_800FD930.cpp
 pso/unk/text_800FFE04.cpp
 pso/unk/text_80103674.cpp
-pso/unk/text_801036CC.cpp
 pso/unk/text_80104F4C.cpp
 pso/unk/text_801057A8.cpp
 pso/unk/text_80108860.cpp
