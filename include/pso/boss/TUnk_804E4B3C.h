@@ -18,11 +18,14 @@ public:
     void sub_802F273C();
     void update_dust_spawn();
     void update_spawn_timer(s32 arg1, s32 arg2, s32 arg3);
+    void double_scroll_speed();
     void advance_effect_timer();
     s32 unk_1C;
     u8 unk_20[0x34];
     f32 unk_54;
-    u8 unk_58[0x18];
+    f32 unk_58;
+    f32 unk_5C; // scroll speed (update_spawn_timer adds it to unk_58, advance_effect_timer raises it)
+    u8 unk_60[0x10];
     s32 unk_70;
     u8 unk_74[0xC];
     f32 unk_80;

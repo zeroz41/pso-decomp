@@ -380,7 +380,6 @@ pso/boss/TObjBoss7RaftSplash.cpp
 pso/boss/TObjBoss7RaftSplash_802F17B0.cpp
 pso/boss/TObjBoss7RaftSplash_802F1848.cpp
 pso/boss/TObjBoss7RaftSplash_802F18E8.cpp
-pso/boss/TObjBoss7TunnelCol.cpp
 pso/boss/TObjBoss8DemoRoom.cpp
 pso/boss/TObjBoss8DemoRoom_8036B654.cpp
 pso/boss/TObjBoss8Piller.cpp
@@ -3206,9 +3205,6 @@ pso/unk/text_802F0E24.cpp
 pso/unk/text_802F0F04.cpp
 pso/unk/text_802F190C.cpp
 pso/unk/text_802F19C0.cpp
-pso/unk/text_802F1D1C.cpp
-pso/unk/text_802F1F58.cpp
-pso/unk/text_802F1FB0.cpp
 pso/unk/text_802F2E7C.cpp
 pso/unk/text_802FE8CC.cpp
 pso/unk/text_802FE908.cpp
