@@ -68,9 +68,11 @@ struct TBoss6Type1 : public TObjEnemy {
     Boss6EffectPoint trail_points[3];
     u8 unknown_5FC[0x3C];
     Boss6EffectPoint effect_points[2];
-    void *m_650[2];
-    u8 m_658[0x14];
-    u8 m_66c[0x14];
+    // TObjFish__sub_800E3124 lists, one per model; render passes each to
+    // set_draw_callback_list before it draws that model.
+    void *draw_callback_lists[2];
+    u8 scroll_strips_u[0x14]; // scroll_strips_uv(8, 0) every frame
+    u8 scroll_strips_v[0x14]; // scroll_strips_uv(0, 0x22) every frame
     TObject *map_csn;
     static u8 *create_kakusan(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3, f32 farg0);
     void clear_slot_array();

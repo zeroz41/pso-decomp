@@ -155,7 +155,7 @@ struct Boss_802B79DC {
     u8 pad0[0x38];
     Vec_802B79DC pos;
     u8 pad44[0x60 - 0x44];
-    s32 f60;
+    s32 rotation_y;
     u8 pad64[0xA4 - 0x64];
     Ent_802B79DC *ents;
     u8 padA8[0x578 - 0xA8];
@@ -230,7 +230,7 @@ struct Boss_802B4EAC {
 struct T1_802B600C;
 struct Boss_802B8EE0 {
     u8 pad0[0x60];
-    s32 f60;
+    s32 rotation_y;
 };
 
 struct Atk_802B8EE0 {
@@ -307,7 +307,7 @@ struct Boss_802B81A4 {
     u8 pad400[0x444 - 0x400];
     Anim_802B81A4 anim[2];
     u8 pad47C[0x650 - 0x47C];
-    u32 f650[2];
+    u32 draw_callback_lists[2];
 };
 
 struct Blend_802B81A4 { s32 ids[2]; f32 ts[2]; };
@@ -898,12 +898,12 @@ TBoss6Type1::~TBoss6Type1() {
     TBoss6Type1__sub_802B4A70(this);
     TBoss6Type1__sub_802B4B14(this);
     TBoss6Type1__sub_802B4CF4((s32)this);
-    ((TBoss6PlotFalz *)m_66c)->free_buffer_pairs();
-    ((TBoss6PlotFalz *)m_658)->free_buffer_pairs();
+    ((TBoss6PlotFalz *)scroll_strips_v)->free_buffer_pairs();
+    ((TBoss6PlotFalz *)scroll_strips_u)->free_buffer_pairs();
     for (i = 0; i < 2; i++) {
-        if (m_650[i] != NULL) {
-            TObjFish::init_state_1(m_650[i]);
-            m_650[i] = NULL;
+        if (draw_callback_lists[i] != NULL) {
+            TObjFish::init_state_1(draw_callback_lists[i]);
+            draw_callback_lists[i] = NULL;
         }
     }
     free_collision_body_parts(this);
@@ -967,7 +967,7 @@ s32 TBoss6Type1::send_6xA4_action(s32 t, s32 *src) {
 #pragma opt_propagation off
 #pragma fp_contract on
 void TBoss6Type1__sub_802B909C(Boss_802B8EE0 *self, Atk_802B8EE0 *atk) {
-    s8 dir = (u8)((u32)self->f60 >> 8);
+    s8 dir = (u8)((u32)self->rotation_y >> 8);
     u8 kind;
     dir += lbl_805DE3E8 * (TBoss6Type1__data_805DE304 * (f32)rand() - TBoss6Type1__data_805DE30C);
     atk->b0 = dir;
@@ -990,7 +990,7 @@ void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk
     s8 w;
     s8 u;
     TBoss6Type1__sub_802B909C(self, atk);
-    base = (u8)((u32)self->f60 >> 8);
+    base = (u8)((u32)self->rotation_y >> 8);
     v = TBoss6Type1__data_805DE32C * (TBoss6Type1__data_805DE304 * (f32)rand()) + lbl_805DE3E0;
     if (TBoss6Type1__data_805DE304 * (f32)rand() < TBoss6Type1__data_805DE30C) {
         v = -v;
@@ -1389,7 +1389,7 @@ void TBoss6Type1::draw_part_motions() {
             p = TObjFish__sub_8001EDB0(arg0->f3FC, t);
         }
         id = get_bml_model(arg0->f3FC, id);
-        cb = arg0->f650[i];
+        cb = arg0->draw_callback_lists[i];
         a = &arg0->anim[i];
         if (cb != 0) {
             TObjFish::set_global_param(p);
