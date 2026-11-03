@@ -9973,33 +9973,22 @@ pso/misc/TPlayerFootStamp.cpp:
 	.data       start:0x804DE4F8 end:0x804DE510
 
 pso/misc/TPlayerFootStamp_802B01D8.cpp:
-	.text       start:0x802B01D8 end:0x802B02B0
+	.text       start:0x802B01D8 end:0x802B0228
 	.rodata     start:0x80470908 end:0x80470920
 
-pso/misc/TPlayerFootStamp_802B02B0.cpp:
-	.text       start:0x802B02B0 end:0x802B03F4
-
-pso/misc/TPlayerFootStamp_802B03F4.cpp:
-	.text       start:0x802B03F4 end:0x802B0770
-	.rodata     start:0x804709A0 end:0x804709A8
+pso/boss/TBoss6PlotFalz_802B0228.cpp:
+	.text       start:0x802B0228 end:0x802B0DCC
+	.ctors      start:0x80433FC4 end:0x80433FC8
+	.rodata     start:0x80470920 end:0x804709C0
+	.data       start:0x804DE540 end:0x804DE840
 	.sdata2     start:0x805DE218 end:0x805DE228
 
-pso/misc/TPlayerFootStamp_802B0770.cpp:
-	.text       start:0x802B0770 end:0x802B0808
-
-pso/misc/TPlayerFootStamp_802B0808.cpp:
-	.text       start:0x802B0808 end:0x802B0A44
-
-pso/unk/text_802B0A44.cpp:
-	.text       start:0x802B0A44 end:0x802B0E2C
-	.ctors      start:0x80433FC4 end:0x80433FC8
-	.data       start:0x804DE540 end:0x804DE840
-	.sdata2     start:0x805DE228 end:0x805DE22C
-
 pso/boss/TBoss6EmptyWarp_802B0E2C.cpp:
-	.text       start:0x802B0E2C end:0x802B1020
-	.rodata     start:0x804709E0 end:0x804709F8
-	.data       start:0x804DE860 end:0x804DE878
+	.text       start:0x802B0DCC end:0x802B1020
+	.rodata     start:0x804709C0 end:0x804709F8
+	.data       start:0x804DE840 end:0x804DE878
+	.sdata      start:0x805D3E90 end:0x805D3E98
+	.sdata2     start:0x805DE228 end:0x805DE22C
 
 pso/boss/TBoss6Tube_802B1020.cpp:
 	.text       start:0x802B1020 end:0x802B1564

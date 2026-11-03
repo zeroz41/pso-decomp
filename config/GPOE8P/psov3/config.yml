@@ -3667,6 +3667,8 @@ force_active:
   - advance_go_down__11TBoss4Type3Fv
   - advance_go_up__11TBoss4Type3Fv
   - advance_homing__11TBoss4Type3Fv
+  - advance_if_ready__14TBoss6PlotFalzFv
+  - advance_intro_timer__14TBoss6PlotFalzFv
   - advance_libera__11TBoss4Type3Fv
   - advance_light_magic__11TBoss4Type3Fv
   - advance_lobby_pigeon_path__13TUnk_804E0898Fv
@@ -3680,6 +3682,7 @@ force_active:
   - advance_past_disabled_menu_rows__11TWindowMenuFv
   - advance_phase__18TObjTailsTailsMoveFv
   - advance_phase_counter__11TBoss6Type2Fv
+  - advance_phase_if_ready__14TBoss6PlotFalzFv
   - advance_plot_to_state2__11TBoss6Type1Fv
   - advance_pose_turn__14TObjEneBm5WolfFPvi
   - advance_position__10TTecSlicerFv
@@ -3696,6 +3699,7 @@ force_active:
   - advance_text_entry_reveal__FPUc
   - advance_thanks_state__12TBoss4ThanksFv
   - advance_thanks_state__12TBoss6ThanksFv
+  - advance_timer__14TBoss6PlotFalzFv
   - advance_to_preparation_phase__20TShopArmorListWindowFv
   - advance_toward_max__13TUnk_80490470Fv
   - advance_toward_max__13TUnk_80494938Fv
@@ -4804,9 +4808,11 @@ force_active:
   - chcr_eff_wall_gradient_table
   - chcr_load_afs_busy_flag
   - check__10TObjBgmColFv
+  - check_action_7__14TBoss6PlotFalzFv
   - check_all_battle_flags__6TLobbyFv
   - check_all_players_active__13TObjTombstoneFv
   - check_all_players_ready__6TLobbyFv
+  - check_and_advance_state__14TBoss6PlotFalzFv
   - check_and_notify__15TBoss3VoloptP02Fv
   - check_any_player_in_range__12TObjRaderColFPv
   - check_attack_hits__19TObjEneBm9MericarolFv
@@ -5629,6 +5635,7 @@ force_active:
   - draw_debug_info__12TObjNpcEnemyFv
   - draw_dialing_status__12TAdDialingGCFv
   - draw_effect_chain__15TOTrapAncient02Fv
+  - draw_empty_warp_overlay__Fv
   - draw_entry__12TAdMultiOkGCFi
   - draw_entry_if_visible__19TWindowDD_WS_StringFPv
   - draw_entry_tab__20TWindowSubStatusDispFPv
@@ -5782,6 +5789,8 @@ force_active:
   - emit_zalure_support_effect__FPvi
   - empty_post_damage_hook__FPvPv
   - empty_state__14TObjEneBm5WolfFv
+  - empty_warp_overlay_vertices
+  - empty_warp_overlay_zero_vec
   - enable_fog__15TObjBoss2TunnelFPv
   - enable_fog__15TObjBoss2TunnelFv
   - enable_keyboard_polling__16TKeyBoardControlFl
@@ -5837,6 +5846,7 @@ force_active:
   - enlarge_flight_cutter_slicer__FPv
   - enlarge_s_rank_j_cutter_blade__FPv
   - ensure_field384__14TBoss6PlotFalzFv
+  - enter_active_state__14TBoss6PlotFalzFv
   - enter_appear__11TBoss4Type3Fv
   - enter_appear_state__15TObjEneDelDepthFv
   - enter_attack_cast__15TObjEneDelDepthFv
@@ -6009,6 +6019,7 @@ force_active:
   - find_target_pos__11TBoss4Type2FPvPv
   - find_uv_animation__6TSceneFPvPv
   - find_vertex_list__18TObjTailsTailsMoveFv
+  - finish_and_dispatch_next_phase__14TBoss6PlotFalzFv
   - finish_chr_select_scene_init__6TLobbyFv
   - finish_download__22TQuestVmDownLoadServerFv
   - finish_request__22TChCrLoadAfsTextureReqFPv
@@ -6847,6 +6858,7 @@ force_active:
   - init_gauge_entry__20TWindowSubStatusDispFv
   - init_geometry__13TUnk_804B2578Fv
   - init_gx_lighting_defaults__Fv
+  - init_hall_boss_scene__14TBoss6PlotFalzFv
   - init_hanger__13TUnk_80486924Fv
   - init_header__6TLobbyFv
   - init_header__9TWindowDDFv
@@ -6925,6 +6937,7 @@ force_active:
   - init_positions__10TEndingPicFv
   - init_positions__19TContainerAncient01Fv
   - init_projection_state__11TCameraCtrlFv
+  - init_proto1_adx__14TBoss6PlotFalzFv
   - init_queue_from_start__15TObjBoss2TunnelFv
   - init_range__11TBoss6Type2Fv
   - init_rare_item_data__9TItemDropFPvPv
@@ -7972,6 +7985,7 @@ force_active:
   - lbl_805D3B60
   - lbl_805D3CC8
   - lbl_805D3E50
+  - lbl_805D3E90
   - lbl_805D3F08
   - lbl_805D3FB0
   - lbl_805D3FF8
@@ -14184,6 +14198,7 @@ force_active:
   - reset_active_state__18TObjEneBalClawClawFPv
   - reset_all_tech_slots__10TObjPlayerFv
   - reset_and_invoke__6TLobbyFv
+  - reset_and_recreate__14TBoss6PlotFalzFv
   - reset_by_door__18TObjLazerFenceNormFv
   - reset_by_door__19TObjLazerFenceExtraFPv
   - reset_camera_if_fullscreen__6TLobbyFPv
@@ -14194,6 +14209,7 @@ force_active:
   - reset_effect_entries__18TAdChrMoveEffectGCFv
   - reset_effects__10TObjPlayerFv
   - reset_effects__11TBoss6Type1Fv
+  - reset_ending_state__14TBoss6PlotFalzFv
   - reset_entries_and_format_name__13TObjTombstoneFv
   - reset_field28__10TObjPlayerFv
   - reset_fields_1e__10TTecSlicerFv
@@ -15140,6 +15156,7 @@ force_active:
   - set_split_screen_name__6TLobbyFi
   - set_stat_scale__10TObjPlayerFPvf
   - set_state3__10TBoss4ZakoFv
+  - set_state4_if_ready__14TBoss6PlotFalzFv
   - set_state_0__13TUnk_804A6010Fv
   - set_state_0x34__11TBoss6Type2Fv
   - set_state_2__12TBoss8DragonFv
@@ -15662,6 +15679,7 @@ force_active:
   - step_line__23TObjOnlineEndingHexLineFv
   - step_placement_search__13TUnk_804C4498Fv
   - stop__13TUnk_804A7478Fv
+  - stop_adx_audio__14TBoss6PlotFalzFv
   - stop_effect__14TItemEquipBaseFUl
   - stop_if_advanced__6TMovieFv
   - store_challenge_seeds__6TLobbyFl
@@ -15825,6 +15843,13 @@ force_active:
   - sub_8028B944__12TChCrLoadAfsFv
   - sub_802A2DF4__18TChCrTagOccupationFv
   - sub_802A955C__16TEffIndirectCtrlFv
+  - sub_802B0228__14TBoss6PlotFalzFv
+  - sub_802B03F4__14TBoss6PlotFalzFv
+  - sub_802B0448__14TBoss6PlotFalzFv
+  - sub_802B06D0__14TBoss6PlotFalzFv
+  - sub_802B0808__14TBoss6PlotFalzFv
+  - sub_802B08F0__14TBoss6PlotFalzFv
+  - sub_802B0A34__14TBoss6PlotFalzFv
   - sub_802B245C__11TBoss6Type1Fv
   - sub_802B24B4__11TBoss6Type1Fv
   - sub_802B2724__11TBoss6Type1Fv
@@ -16031,6 +16056,7 @@ force_active:
   - tick_material_fmt2__6TSceneFv
   - tick_persistent_sound__15TObjIllGillKageFv
   - tick_state_410_timer__11TBoss6Type1Fv
+  - tick_timeout__14TBoss6PlotFalzFv
   - tick_trap_countdown__11TBoss6Type1Fv
   - title_pulse_color_table
   - title_scene_instance
@@ -16297,6 +16323,7 @@ force_active:
   - update_countdown_state__11TBoss6Type1Fv
   - update_customize_help_text__13TUnk_804D1160FPv
   - update_cut__11TBoss4Type3Fv
+  - update_cutscene_fade__14TBoss6PlotFalzFv
   - update_damage_recovery__14TObjEneIllGillFv
   - update_damage_threshold__12TBoss1DragonFv
   - update_dark_magic__11TBoss4Type3Fv
@@ -16595,6 +16622,7 @@ force_active:
   - update_phase2__12TBoss3VoloptFv
   - update_phase2_intro__12TBoss3VoloptFv
   - update_phase__11TBoss6Type1Fv
+  - update_phase__14TBoss6PlotFalzFv
   - update_phase_motion__13TUnk_804E4B3CFv
   - update_phase_timer__11TBoss4Type2Fv
   - update_phase_timer__11TBoss4Type3Fv
@@ -16605,6 +16633,7 @@ force_active:
   - update_player_battle_ctrl_state
   - update_player_hp_ratios__13TObjWarnChimeFv
   - update_player_window__6TLobbyFv
+  - update_plot_timer__14TBoss6PlotFalzFv
   - update_pose_smoothing__11TCameraCtrlFv
   - update_position__11TAdRicoRingFv
   - update_position__11TCameraCtrlFv

@@ -87,6 +87,17 @@ struct TBoss6PlotFalz : public TObjEnemy {
     s32 get_next_point(s16 *arg1, s16 *arg2);
     void run_phase_action();
     static void warp_nearby_players();
+    // Plot script state actions (installed in TBoss6PlotFalz__data_804DE66C).
+    void sub_802B0228();
+    void sub_802B03F4();
+    void sub_802B0448();
+    void stop_adx_audio();
+    void init_hall_boss_scene();
+    void sub_802B06D0();
+    void sub_802B0808();
+    void sub_802B08F0();
+    void init_proto1_adx();
+    void sub_802B0A34();
 };
 
 extern "C" {
