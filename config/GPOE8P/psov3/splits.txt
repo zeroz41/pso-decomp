@@ -5862,16 +5862,12 @@ pso/unk/text_801A0520.cpp:
 	.text       start:0x801A0520 end:0x801A069C
 	.data       start:0x804B9628 end:0x804B964C
 
-pso/unk/text_801A069C.cpp:
-	.text       start:0x801A069C end:0x801A0760
-
-pso/object/TObjWarpLobby_801A0760.cpp:
-	.text       start:0x801A0760 end:0x801A0B08
-	.rodata     start:0x80446868 end:0x80446870
-	.sdata2     start:0x805DC058 end:0x805DC074
-
 pso/object/TObjWarpLobby.cpp:
-	.text       start:0x801A0B08 end:0x801A0B94
+	.text       start:0x801A069C end:0x801A0B94
+	.rodata     start:0x80446750 end:0x80446870
+	.data       start:0x804B9710 end:0x804B97C0
+	.sdata      start:0x805D34A0 end:0x805D34A4
+	.sdata2     start:0x805DC058 end:0x805DC074
 
 pso/item/TObjContainerIdo_801A0B94.cpp:
 	.text       start:0x801A0B94 end:0x801A0C38

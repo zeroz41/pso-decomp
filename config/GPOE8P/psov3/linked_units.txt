@@ -2120,7 +2120,6 @@ pso/object/TObjWarpBossMulti.cpp
 pso/object/TObjWarpJungMain.cpp
 pso/object/TObjWarpJung_801A03D8.cpp
 pso/object/TObjWarpLobby.cpp
-pso/object/TObjWarpLobby_801A0760.cpp
 pso/object/TObjWeddingLobby.cpp
 pso/object/TObject.cpp
 pso/object/TObject_80019A50.cpp
@@ -2939,7 +2938,6 @@ pso/unk/text_80197FD0.cpp
 pso/unk/text_8019B0D4.cpp
 pso/unk/text_8019DBB4.cpp
 pso/unk/text_801A0520.cpp
-pso/unk/text_801A069C.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp

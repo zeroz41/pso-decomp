@@ -2302,6 +2302,7 @@ force_active:
   - __dt__13TObjTombstoneFv
   - __dt__13TObjTreeLobbyFv
   - __dt__13TObjWarnChimeFv
+  - __dt__13TObjWarpLobbyFv
   - __dt__13TParticleCtrlFv
   - __dt__13TPlyOnCreatedFv
   - __dt__13TQuestBgmCtrlFv
@@ -3106,6 +3107,7 @@ force_active:
   - __vt__13TObjTombstone
   - __vt__13TObjTreeLobby
   - __vt__13TObjWarnChime
+  - __vt__13TObjWarpLobby
   - __vt__13TParticleCtrl
   - __vt__13TQuestBgmCtrl
   - __vt__13TQuestColCtrl
@@ -4456,6 +4458,8 @@ force_active:
   - bm_obj_lobby_tree_model_names
   - bm_obj_lobby_tree_motion_names
   - bm_obj_lobby_tree_resource_descriptor
+  - bm_obj_lobby_warp_model_names
+  - bm_obj_lobby_warp_motion_names
   - bm_obj_meka_fish_0_model_names
   - bm_obj_meka_fish_0_motion_names
   - bm_obj_meka_fish_0_resource_descriptor
@@ -5496,6 +5500,7 @@ force_active:
   - debug_draw_key_id__13TLazerFenceSwFv
   - debug_font_texture_i4
   - debug_font_texture_object
+  - debug_print_area_num__13TObjWarpLobbyFv
   - debug_print_area_num__14TObjWarpBoss03Fv
   - debug_print_area_num__17TObjWarpBossMultiFv
   - debug_print_area_num__25TObjCityMainWarpChallengeFv
@@ -8129,6 +8134,7 @@ force_active:
   - lbl_805D3174
   - lbl_805D3188
   - lbl_805D32E8
+  - lbl_805D34A0
   - lbl_805D34A8
   - lbl_805D34C8
   - lbl_805D34F0
@@ -13974,6 +13980,7 @@ force_active:
   - render__13TObjRaderIconFv
   - render__13TObjTombstoneFv
   - render__13TObjTreeLobbyFv
+  - render__13TObjWarpLobbyFv
   - render__13TPhotonFarllaFv
   - render__13TQuestColCtrlFv
   - render__13TUnk_80484840Fv
@@ -14638,6 +14645,7 @@ force_active:
   - run_task__13TObjTombstoneFv
   - run_task__13TObjTreeLobbyFv
   - run_task__13TObjWarnChimeFv
+  - run_task__13TObjWarpLobbyFv
   - run_task__13TParticleCtrlFv
   - run_task__13TPhotonFarllaFv
   - run_task__13TQuestBgmCtrlFv
@@ -17540,6 +17548,8 @@ force_active:
   - wait_next_idle__11TBoss4Type2Fv
   - wander_around__16TObjEneNanoDragoFP3Vecf
   - warp_boss_handle_window__12TObjWarpBossFv
+  - warp_lobby_directory_label_table
+  - warp_lobby_resource_descriptor
   - warp_nearby_players__14TBoss6PlotFalzFv
   - warp_player__12TObjWarpBossFl
   - water_bomb_hit_nearby__FPUc
