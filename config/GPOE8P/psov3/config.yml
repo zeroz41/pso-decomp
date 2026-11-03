@@ -374,6 +374,16 @@ force_active:
   - TBoss7Crawfish__shared_resource
   - TBoss7LaserLight_name
   - TBoss7PhotonBullet__ct
+  - TBoss7Tentacle__needle_offsets
+  - TBoss7Tentacle__segment_offsets
+  - TBoss7Tentacle__sub_802EF954
+  - TBoss7Tentacle__sub_802F0608
+  - TBoss7Tentacle__sub_802F0918
+  - TBoss7Tentacle__sub_802F09B4
+  - TBoss7Tentacle__sub_802F09C8
+  - TBoss7Tentacle__sub_802F0A14
+  - TBoss7Tentacle__sub_802F0A2C
+  - TBoss7Tentacle__sub_802F0A44
   - TBoss8DragonDemo__sub_802F2CC4
   - TBoss8Dragon__sub_8005D9BC
   - TBoss8Dragon__sub_8005DC0C
@@ -2454,6 +2464,7 @@ force_active:
   - __dt__14TBoss6EffHyouiFv
   - __dt__14TBoss6GravBallFv
   - __dt__14TBoss7CrawfishFv
+  - __dt__14TBoss7TentacleFv
   - __dt__14TChCrEffCtrlPlFv
   - __dt__14TChCrEffTagStrFv
   - __dt__14TChCrTagPlBackFv
@@ -3208,6 +3219,7 @@ force_active:
   - __vt__14TBoss6EffHyoui
   - __vt__14TBoss6GravBall
   - __vt__14TBoss7Crawfish
+  - __vt__14TBoss7Tentacle
   - __vt__14TChCrEffCtrlPl
   - __vt__14TChCrEffTagStr
   - __vt__14TChCrTagPlBack
@@ -3693,6 +3705,7 @@ force_active:
   - advance_anim_frame__16TObjEneBm5GibonUFv
   - advance_anim_frame__18TObjEneRe4SorcererFv
   - advance_anim_time__13TUnk_804B5E48Flf
+  - advance_anim_time_wrapped__14TBoss7TentacleFf
   - advance_animation_state__10TEndingPicFv
   - advance_appear__11TBoss4Type3Fv
   - advance_bone_rotation__19TObjEZBoneRotPlayerFv
@@ -3720,7 +3733,9 @@ force_active:
   - advance_motion_row__Fv
   - advance_motion_state__12TObjEneSaverFv
   - advance_motion_timer__13TBoss5GryphonFv
+  - advance_needle_timer__20TBoss7TentacleNeedleFv
   - advance_past_disabled_menu_rows__11TWindowMenuFv
+  - advance_path_position__14TBoss7TentacleFv
   - advance_phase__18TObjTailsTailsMoveFv
   - advance_phase_counter__11TBoss6Type2Fv
   - advance_phase_if_ready__14TBoss6PlotFalzFv
@@ -3742,6 +3757,7 @@ force_active:
   - advance_thanks_state__12TBoss6ThanksFv
   - advance_timer__14TBoss6PlotFalzFv
   - advance_to_preparation_phase__20TShopArmorListWindowFv
+  - advance_toward_limit__14TBoss7TentacleFf
   - advance_toward_max__13TUnk_80490470Fv
   - advance_toward_max__13TUnk_80494938Fv
   - advance_wait_next__11TBoss4Type3Fv
@@ -4549,6 +4565,7 @@ force_active:
   - boss6_type2_zero_vec3_block
   - boss7_common_resource_descriptor
   - boss7_dermt_slot_table
+  - boss7_tentacle_needle_target_state
   - boss8_collision_segment_desc
   - boss_area_id_table
   - boss_warp_area_id_table
@@ -5433,6 +5450,7 @@ force_active:
   - damage_hp__10TObjPlayerFii
   - damage_linked_entity__16TObjEneBm5GibonUFv
   - damage_linked_entity_type10__16TObjEneBm5GibonUFv
+  - damage_nearby_players__14TBoss7TentacleFPv
   - damage_player_if_aligned__19TBoss3VoloptMonitorFv
   - damage_players_in_radius__FPUc
   - damage_players_in_range__15TBoss6RockChaseFv
@@ -7020,6 +7038,7 @@ force_active:
   - init_scale_global__10TObjPlayerFv
   - init_segment_angle_range__11TBoss6Type2Fv
   - init_segment_range__11TBoss6Type2Fv
+  - init_segments__14TBoss7TentacleFv
   - init_selection__16TAdChrSelASlotGCFv
   - init_sin_cos_table__Fv
   - init_size_tier_and_offsets__19TObjEneBm9MericarolFv
@@ -8001,6 +8020,7 @@ force_active:
   - lbl_80540B98
   - lbl_80540BBC
   - lbl_80540BC8
+  - lbl_80541528
   - lbl_80543000
   - lbl_80543010
   - lbl_80543050
@@ -8191,6 +8211,7 @@ force_active:
   - lbl_805D6868
   - lbl_805D6880
   - lbl_805D6910
+  - lbl_805D6948
   - lbl_805D6958
   - lbl_805D696C
   - lbl_805D6970
@@ -13959,6 +13980,7 @@ force_active:
   - render__14TBoss2TentacleFv
   - render__14TBoss4DarkFalzFv
   - render__14TBoss4ZakoDrawFv
+  - render__14TBoss7TentacleFv
   - render__14TChCrEffCtrlPlFv
   - render__14TChCrEffTagStrFv
   - render__14TChCrTagPlBackFv
@@ -14382,6 +14404,7 @@ force_active:
   - reset_sound_events__10TObjCameraFv
   - reset_state
   - reset_state__13TObjWarnChimeFv
+  - reset_state__14TBoss7TentacleFv
   - reset_state__15TFontSmallLobbyFv
   - reset_state__16TKeyBoardControlFi
   - reset_state__19TContainerAncient01Fv
@@ -14405,6 +14428,7 @@ force_active:
   - resolve_theme_index__13TObjLobbyMainFv
   - resource_bundle__16TObjWeddingLobby
   - respond_to_body_contact__FPUcUlPUc
+  - restart_particle_effect__14TBoss7TentacleFv
   - restart_primary_sequence__12TBoss1DragonFv
   - restorePosition__12TBoss1DragonFv
   - restoreTargetPosition__12TBoss1DragonFv
@@ -14654,6 +14678,7 @@ force_active:
   - run_task__14TBoss6EffHyouiFv
   - run_task__14TBoss6GravBallFv
   - run_task__14TBoss7CrawfishFv
+  - run_task__14TBoss7TentacleFv
   - run_task__14TChCrEffCtrlPlFv
   - run_task__14TChCrEffTagStrFv
   - run_task__14TEnemyTaskListFv
@@ -15360,6 +15385,7 @@ force_active:
   - setup_projection_tex_matrix__10TObjPlayerFv
   - setup_projection_texture__10TObjPlayerFlll
   - setup_sound__18TObjEnvSoundGlobalFv
+  - setup_state__14TBoss7TentacleFv
   - setup_state_helper__10TObjPlayerFv
   - setup_telepipe_field__9TTecLukerFv
   - setup_tex_gen__10TObjPlayerFv
@@ -16059,6 +16085,8 @@ force_active:
   - sub_802D7444__12TObjNpcEnemyFv
   - sub_802E0784__13TUnk_804E3008Fv
   - sub_802E1F14__12TAdTimeSetGCFv
+  - sub_802F09EC__14TBoss7TentacleFv
+  - sub_802F09FC__14TBoss7TentacleFv
   - sub_802F23FC__13TUnk_804E4B3CFv
   - sub_802F2400__13TUnk_804E4B3CFv
   - sub_802F273C__13TUnk_804E4B3CFv
@@ -16147,6 +16175,7 @@ force_active:
   - sweep_body_attack_spheres__12TBoss1DragonFv
   - sweep_death_body_attack__12TBoss1DragonFv
   - sweep_head_fall_spheres_late__12TBoss1DragonFv
+  - switch_state__14TBoss7TentacleFv
   - symbol_chat_face_uv_table
   - symbol_chat_part_size_table
   - symbol_chat_part_uv_table
@@ -16592,6 +16621,7 @@ force_active:
   - update_equipped__21TItemProArmorParticleFv
   - update_equipped__8TItemMagFv
   - update_exi_status__6TLobbyFv
+  - update_extend_amount__14TBoss7TentacleFv
   - update_extension__14TOTrapChainSawFv
   - update_extension__18TOTrapChainSawEdgeFv
   - update_facing__12TBoss8DragonFf
@@ -16857,6 +16887,7 @@ force_active:
   - update_resistance_rows__15TWindowHelpItemFPv
   - update_resta_action__8TItemMagFv
   - update_results_phase__19TPlayerBattleCtrl4PFv
+  - update_retract_state__14TBoss7TentacleFPv
   - update_return_phase__19TPlayerBattleCtrl4PFv
   - update_reverser_action__8TItemMagFv
   - update_rise__13TObjTombstoneFv
