@@ -568,6 +568,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # TODoorBase's vtable precedes its switch tables: deferred, written from
     # its last function back.
     "pso/misc/TODoorBase.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/misc/TOCtrlDubchik_8015CA74.cpp": {"cflags": _switch(cflags_pso, "-fp_contract on")},
     # TOBarrierEnergy01's vtable precedes its switch table too.
     "pso/misc/TOBarrierEnergy01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/misc/TODoorAncient01.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},

@@ -714,6 +714,8 @@ force_active:
   - TOChatSensorCapture__instance
   - TOChatSensor__ct
   - TOContainerAncientItemCommon__ct
+  - TOCtrlDubchik__ct
+  - TOCtrlDubchik__sub_8015C9D0
   - TODoorAncient01_name
   - TODoorAncient03_name
   - TODoorAncient04_name
@@ -5125,6 +5127,7 @@ force_active:
   - collect_targets_in_arc__15TBoss3VoloptP02Fv
   - collect_targets_in_front__15TBoss3VoloptP02Fv
   - commit_composition_text__19TWindowKeyBoardSoftFv
+  - complete_and_destroy__13TOCtrlDubchikFv
   - compute_follow_target__11TCameraCtrlFv
   - compute_random_dir_vec__11TBoss6Type2FlPUcll
   - compute_range_end__6TLobbyFlUl
@@ -5441,6 +5444,8 @@ force_active:
   - debug_text_record_cursor
   - debug_text_scale
   - decay_glow_and_calc_hp_ratio__9TBoss6MagFv
+  - decay_timer_and_clear_flag__13TOCtrlDubchikFv
+  - decay_timer_and_finish__13TOCtrlDubchikFv
   - decay_value_toward_floor__13TUnk_80490470Fv
   - decay_value_toward_floor__13TUnk_80494938Fv
   - decode_adx_stereo__FPSclPsPsPsPsss
@@ -15910,6 +15915,9 @@ force_active:
   - sub_80156A68__14TObjCollidableFv
   - sub_80158604__13TObjMapObjectFv
   - sub_8015860C__6TOBindFv
+  - sub_8015CA74__13TOCtrlDubchikFv
+  - sub_8015CCF4__13TOCtrlDubchikFv
+  - sub_8015CE80__13TOCtrlDubchikFv
   - sub_80168244__13TUnk_804B2578FUl
   - sub_80168280__13TUnk_804B2578FUl
   - sub_801682E4__13TUnk_804B2578Fl
@@ -16367,6 +16375,7 @@ force_active:
   - update_best_time__13TUnk_804B8E18Fv
   - update_blink_state__16TOCakeshopCave01Fl
   - update_block_jump_list__6TLobbyFv
+  - update_bobbing__13TOCtrlDubchikFv
   - update_bomb_drop__15TObjEneDelDepthFv
   - update_breakup__14TObjVoloptCageFv
   - update_breakup__15TBoss3VoloptP01Fv
@@ -16859,6 +16868,7 @@ force_active:
   - update_spawn_timer__13TUnk_804E4B3CFlll
   - update_spawning__20TContainerAncient01RFv
   - update_special_pose__11TItemMagSubFv
+  - update_spin__13TOCtrlDubchikFv
   - update_spinning_projectile_attack__12TBoss1DragonFUl
   - update_stat_comparison__15TWindowHelpItemFv
   - update_stat_disp2__15TWindowHelpItemFPv

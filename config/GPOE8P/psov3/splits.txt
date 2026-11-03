@@ -4793,12 +4793,13 @@ pso/player/TObjPlayer_8015C8D8.cpp:
 	.text       start:0x8015C8D8 end:0x8015C944
 
 pso/misc/TLobby_8015C944.cpp:
-	.text       start:0x8015C944 end:0x8015CA74
+	.text       start:0x8015C944 end:0x8015C9D0
 
 pso/misc/TOCtrlDubchik_8015CA74.cpp:
-	.text       start:0x8015CA74 end:0x8015D5D4
+	.text       start:0x8015C9D0 end:0x8015D5D4
 	.rodata     start:0x80440990 end:0x80440998
 	.data       start:0x804B0B98 end:0x804B0BB4
+	.sdata2     start:0x805DB3A8 end:0x805DB3D0
 
 pso/misc/TODoorBase.cpp:
 	.text       start:0x8015D5D4 end:0x8015DDE4
