@@ -85,19 +85,9 @@ pso/misc/TEndingPicStage.cpp:
 pso/menu/TAdEndText.cpp:
 	.text       start:0x8001A988 end:0x8001B424
 
-pso/unk/text_8001B424.cpp:
-	.text       start:0x8001B424 end:0x8001B4A0
-
-pso/ui/TAdRicoRingCtrl_8001B4A0.cpp:
-	.text       start:0x8001B4A0 end:0x8001BAC8
-	.data       start:0x80480A40 end:0x80480A58
-
-pso/menu/TAdRicoRing.cpp:
-	.text       start:0x8001BAC8 end:0x8001BE00
-	.data       start:0x80480A58 end:0x80480A70
-
 pso/ui/TAdRicoRingCtrl.cpp:
-	.text       start:0x8001BE00 end:0x8001BED8
+	.text       start:0x8001B424 end:0x8001BED8
+	.data       start:0x80480A40 end:0x80480A70
 
 pso/player/TObjPlayer_8001BED8.cpp:
 	.text       start:0x8001BED8 end:0x8001BEE8
@@ -5420,20 +5410,10 @@ pso/object/TObjCityMainWarpChallenge.cpp:
 pso/misc/TWindowSubTradeMain_80187C98.cpp:
 	.text       start:0x80187C98 end:0x80187D90
 
-pso/object/TObjGbAdvance_80187D90.cpp:
-	.text       start:0x80187D90 end:0x80187E18
-
-pso/object/TObjGbAdvance_80187E18.cpp:
-	.text       start:0x80187E18 end:0x80187ECC
-
-pso/object/TObjGbAdvance.cpp:
-	.text       start:0x80187ECC end:0x8018807C
-	.data       start:0x804B6280 end:0x804B62F0
-
 pso/object/TObjComputer.cpp:
-	.text       start:0x8018807C end:0x80188584
+	.text       start:0x80187D90 end:0x80188584
 	.rodata     start:0x80444B58 end:0x80444B90
-	.data       start:0x804B62F0 end:0x804B6334
+	.data       start:0x804B6280 end:0x804B6334
 
 pso/item/TObjContainerItem.cpp:
 	.text       start:0x80188584 end:0x8018A55C
@@ -5898,15 +5878,12 @@ pso/unk/text_801A5778.cpp:
 	.text       start:0x801A5778 end:0x801A57C4
 
 pso/misc/TKeyBoardControl_801A57C4.cpp:
-	.text       start:0x801A57C4 end:0x801A5AEC
-	.sdata2     start:0x805DC0B0 end:0x805DC0B4
-
-pso/player/TObjPlayer_801A5AEC.cpp:
-	.text       start:0x801A5AEC end:0x801A6A28
+	.text       start:0x801A57C4 end:0x801A6A28
 	.rodata     start:0x804469D8 end:0x80446A08
 	.data       start:0x804C2308 end:0x804C2438
 	.bss        start:0x8050E208 end:0x8050E578
 	.sdata      start:0x805D34C8 end:0x805D34D0
+	.sdata2     start:0x805DC0B0 end:0x805DC0B4
 
 pso/unk/text_801A6A28.cpp:
 	.text       start:0x801A6A28 end:0x801A6A5C

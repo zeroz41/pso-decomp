@@ -780,7 +780,6 @@ pso/menu/TAdGuideTxtGC.cpp
 pso/menu/TAdGuideTxtGC_802B17D4.cpp
 pso/menu/TAdMultiOkGC.cpp
 pso/menu/TAdPlyChrSelPlateGC.cpp
-pso/menu/TAdRicoRing.cpp
 pso/menu/TAdRicoRing_8001BEE8.cpp
 pso/menu/TAdTimeSetGC.cpp
 pso/menu/TChCrCharSelect.cpp
@@ -2016,9 +2015,6 @@ pso/object/TObjFish_800E2FFC.cpp
 pso/object/TObjFogCollision.cpp
 pso/object/TObjFogCollisionPoison.cpp
 pso/object/TObjFogCollisionSwitch.cpp
-pso/object/TObjGbAdvance.cpp
-pso/object/TObjGbAdvance_80187D90.cpp
-pso/object/TObjGbAdvance_80187E18.cpp
 pso/object/TObjGoalWarpAncient.cpp
 pso/object/TObjGrass.cpp
 pso/object/TObjGrassWeb.cpp
@@ -2281,7 +2277,6 @@ pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
 pso/player/TObjPlayer_8015C8D8.cpp
 pso/player/TObjPlayer_80178150.cpp
-pso/player/TObjPlayer_801A5AEC.cpp
 pso/player/TObjPlayer_801A7080.cpp
 pso/player/TObjPlayer_801A9BAC.cpp
 pso/player/TObjPlayer_801AA220.cpp
@@ -2564,7 +2559,6 @@ pso/ui/TAdPlyStatusGC_8033FD48.cpp
 pso/ui/TAdPsoPassSaveGC.cpp
 pso/ui/TAdRayGC.cpp
 pso/ui/TAdRicoRingCtrl.cpp
-pso/ui/TAdRicoRingCtrl_8001B4A0.cpp
 pso/ui/TAdSEGAlogo.cpp
 pso/ui/TAdSEGAlogo_8001BF4C.cpp
 pso/ui/TAdScrollWinGC.cpp
@@ -2651,7 +2645,6 @@ pso/unk/text_8000F740.cpp
 pso/unk/text_80019B78.cpp
 pso/unk/text_80019EB8.cpp
 pso/unk/text_8001A3BC.cpp
-pso/unk/text_8001B424.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
 pso/unk/text_8002C190.cpp
