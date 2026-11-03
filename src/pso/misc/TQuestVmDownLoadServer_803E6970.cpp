@@ -365,7 +365,7 @@ extern s32 lbl_805E10E0;
 extern s32 lbl_805D7888;
 s32 TQuestVmDownLoadServer__sub_803E7098(u8 *p, u16 code);
 extern u16 quest_download_char_code_table[];
-s32 TQuestVmDownLoadServer__sub_803EC69C(int);
+s32 TQuestVmDownLoadServer__sub_803EC69C(u32);
 extern RecoveredGlobal_803E8084_lbl_80590AC4 quest_name_index_table;
 void __VIRetraceHandler(void);
 Node_803EB894 *detach_node_chain__22TQuestVmDownLoadServerFPv(Node_803EB894 *p);
@@ -3084,6 +3084,32 @@ u16 TQuestVmDownLoadServer::jis_to_sjis(u16 arg0) {
         hi += 0xB1;
     }
     return (hi << 8) | lo;
+}
+
+s32 TQuestVmDownLoadServer__sub_803EC69C(u32 arg0) {
+    u8 hi;
+    u32 lo;
+    u32 tr;
+    u8 ld;
+    hi = ((u16)arg0) >> 8;
+    lo = (u8)arg0;
+    if (lo < 0x40 || lo > 0xFC || lo == 0x7F) {
+        return 0;
+    }
+    if (hi >= 0xE0) {
+        hi -= 0x40;
+    }
+    ld = ((hi - 0x81) << 1) + 0x21;
+    tr = (u8)lo;
+    if (tr >= 0x9F) {
+        ld++;
+        tr = lo - 0x7E;
+    } else if (tr >= 0x80) {
+        tr = lo - 0x20;
+    } else {
+        tr = lo - 0x1F;
+    }
+    return (ld << 8) | (u8)tr;
 }
 
 s32 TQuestVmDownLoadServer::is_valid_sjis_code(u16 arg0) {
