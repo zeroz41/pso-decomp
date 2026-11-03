@@ -659,11 +659,12 @@ pso/boss/TBoss8Dragon_8005D860.cpp:
 
 pso/boss/Boss5GryphonBehavior.cpp:
 	.text       start:0x8005D880 end:0x80065BC0
-	.rodata     start:0x80437EB8 end:0x80437EC0
+	.rodata     start:0x80437EB0 end:0x80437ED0
 	.data       start:0x80487848 end:0x80488668
 	.bss        start:0x804FF5A0 end:0x804FF5E8
+	.sdata      start:0x805D2800 end:0x805D2808
 	.sbss       start:0x805D4DC0 end:0x805D4DC8
-	.sdata2     start:0x805D8D70 end:0x805D8E28
+	.sdata2     start:0x805D8D60 end:0x805D8ED0
 
 pso/boss/TBoss5Gryphon.cpp:
 	.text       start:0x80065BC0 end:0x80065C90
@@ -12614,6 +12615,7 @@ os/OSMessage.c:
 
 os/OSMemory.c:
 	.text       start:0x8037340C end:0x803736EC
+	.data       start:0x804F4458 end:0x804F4468
 
 os/OSMutex.c:
 	.text       start:0x803736EC end:0x80373938
@@ -13070,6 +13072,9 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/string.c:
 	.text       start:0x8039D8E8 end:0x8039DDB4
 	.rodata     start:0x8047BBE8 end:0x8047BF78
 	.sdata      start:0x805D45F8 end:0x805D4600
+
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/float.c:
+	.sdata      start:0x805D4600 end:0x805D4628
 
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/strtoul.c:
 	.text       start:0x8039DDB4 end:0x8039F6B0
@@ -13609,6 +13614,7 @@ pso/audio/GcrnaStream.cpp:
 	.rodata     start:0x8047E220 end:0x8047E3C8
 	.data       start:0x804FA088 end:0x804FA4EC
 	.bss        start:0x8058C0E0 end:0x8058C960
+	.sbss       start:0x805D7680 end:0x805D76A0
 	.sdata2     start:0x805E0DC8 end:0x805E0DCC
 
 original_padding_804FA4EC:

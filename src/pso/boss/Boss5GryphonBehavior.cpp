@@ -229,8 +229,6 @@ void set_scripted_camera_pose(void *, void *, void *);
 s32 play_sound_effect(int, void *, int, int);
 void play_cue_stream_file(s32 name);
 extern Vec_80062BA0 lbl_80437DB8[];
-extern const f64 lbl_80437EB0;
-extern u8 lbl_80437EC0[];
 extern const f32 lbl_805D8D5C;
 extern const f32 lbl_805D8DD4;
 extern const f32 lbl_805D8E80;
@@ -1259,7 +1257,7 @@ s32 get_player_pos_in_arc__13TBoss5GryphonFPviiPvPv(Obj_8005D880 *arg0, s32 arg1
     if (dx * dx + dz * dz < lbl_805D8D60) {
         return 0;
     }
-    ang = angle_diff_s16((s32)(((const f64 *)&lbl_80437EB0)[0] * atan2_float(px - org->x, pz - org->z)), arg0->f60);
+    ang = angle_diff_s16((s32)(10430.38043493439 * atan2_float(px - org->x, pz - org->z)), arg0->f60);
     if (arg1 != 0) {
         if ((f32)(s32)(u16)ang > lbl_805D8D64) {
             return 0;
@@ -1730,7 +1728,7 @@ void TBoss8Dragon::fn_8005EBDC(u8 *arg1, u8 *arg2) {
     temp_r3 = ((s32 (*)(void *, void *, int))random_in_table_range__12TBoss8DragonFiii)(this, arg2, 0);
     switch (temp_r3) {
     case 0:
-        temp_r31 = (s32) (lbl_80437EB0 * atan2_float((f32) (*(f32 *)((s8 *)this + 0x38)), (f32) (*(f32 *)((s8 *)this + 0x40))));
+        temp_r31 = (s32) (10430.38043493439 * atan2_float((f32) (*(f32 *)((s8 *)this + 0x38)), (f32) (*(f32 *)((s8 *)this + 0x40))));
         temp_f31 = TBoss8Dragon__sub_8005EAD0((void *)this, (void *)arg2, 1);
         *(f32 *)((s8 *)arg1 + 4) = (f32) (temp_f31 * ((f32 (*)(int))sin_table_lookup)(temp_r31));
         *(f32 *)((s8 *)arg1 + 8) = (f32) (temp_f31 * ((f32 (*)(int))cos_table_lookup)(temp_r31));
@@ -2115,12 +2113,12 @@ void TBoss8Dragon::scale_size(f32 farg0, f32 farg1, f32 farg2) {
 }
 
 void TBoss8Dragon::fire_at_angle(s32 arg1) {
-    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (lbl_80437EB0 * atan2_float(-*(f32 *)&this->m_38, -this->m_40)));
+    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(-*(f32 *)&this->m_38, -this->m_40)));
 }
 
 void TBoss5Gryphon::update_heading(s32 arg1) {
     update_velocity__9TObjEneDDFv();
-    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (lbl_80437EB0 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)));
+    turn_toward_angle_limited__13TBoss5GryphonFPvii(this, arg1, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)));
 }
 
 void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 arg2) {
@@ -2135,7 +2133,7 @@ void turn_toward_angle_limited__13TBoss5GryphonFPvii(void *selfv, s32 arg1, s32 
 
 void TBoss8Dragon::update_facing(f32 farg0) {
     update_velocity__9TObjEneDDFv();
-    ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (lbl_80437EB0 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)), farg0);
+    ((s32 (*)(void *, s32, f32))move_along_angle__13TBoss5GryphonFPvif)(this, (s32) (10430.38043493439 * atan2_float(*(f32 *)((s8 *)this + 0x3A0), this->m_3a8)), farg0);
 }
 
 #pragma push
@@ -2414,7 +2412,7 @@ void TBoss5Gryphon::fn_80060020(u32 arg1) {
                 } while (hit == NULL || hit->p->y > lbl_805D8D70);
             }
             {
-                a2 = lbl_80437EB0 * atan2_float(v.x - self->pos.x, v.z - self->pos.z);
+                a2 = 10430.38043493439 * atan2_float(v.x - self->pos.x, v.z - self->pos.z);
                 w.x = lbl_805D8DD0 * sin_table_lookup(a2) + self->pos.x;
                 w.y = lbl_805D8DD0 + self->pos.y;
                 w.z = lbl_805D8DD0 * cos_table_lookup(a2) + self->pos.z;
@@ -3268,7 +3266,7 @@ void TBoss5Gryphon::fn_80061D34(s32 event) {
             ofs = 0x5000;
         }
         speed = this->motion->m_8;
-        a = (s32)(lbl_80437EB0 * atan2_float(this->position.x, this->position.z));
+        a = (s32)(10430.38043493439 * atan2_float(this->position.x, this->position.z));
         if (this->motion->m_4 > 0) {
             a += ofs;
             d = angle_diff_s16(this->rotation_y, a);
@@ -3446,7 +3444,7 @@ inline s32 initial_angle_800623E4(TBoss5Gryphon *self) {
     f32 initial_dx = motion->x;
     f32 initial_dz = motion->z - self->position.z;
     initial_dx -= self->position.x;
-    return (s32)(((const f64 *)&lbl_80437EB0)[0] * atan2_float(initial_dx, initial_dz));
+    return (s32)(10430.38043493439 * atan2_float(initial_dx, initial_dz));
 }
 
 #pragma push
@@ -3472,7 +3470,7 @@ void TBoss5Gryphon::move_to_motion_destination(s32 event) {
         turn_toward_angle_limited__13TBoss5GryphonFPvii(
             self, ((Motion_800623E4 *)self->motion)->turn_rate, self->m_6ec);
         move_along_angle__13TBoss5GryphonFPvif(
-            self, (s32)(((const f64 *)&lbl_80437EB0)[0] * atan2_float(dx, dz)),
+            self, (s32)(10430.38043493439 * atan2_float(dx, dz)),
             ((Motion_800623E4 *)self->motion)->speed);
         if (dx * dx + dz * dz < lbl_805D8E10) {
             self->advance_motion_entry();
@@ -3511,7 +3509,7 @@ void TBoss5Gryphon::circle_arena(s32 arg1) {
         if (((Obj_80062550 *)this)->pos.x * ((Obj_80062550 *)this)->pos.x + ((Obj_80062550 *)this)->pos.z * ((Obj_80062550 *)this)->pos.z > ((Obj_80062550 *)this)->f4bc->f10 * ((Obj_80062550 *)this)->f4bc->f10) {
             ofs = 0x5000;
         }
-        a = (s32)(((const f64 *)&lbl_80437EB0)[0] * atan2_float(((Obj_80062550 *)this)->pos.x, ((Obj_80062550 *)this)->pos.z));
+        a = (s32)(10430.38043493439 * atan2_float(((Obj_80062550 *)this)->pos.x, ((Obj_80062550 *)this)->pos.z));
         t = ((Obj_80062550 *)this)->f4bc;
         ang = a - ofs;
         if (t->f8 > 0) {
@@ -3763,11 +3761,11 @@ void TBoss5Gryphon::fn_80062BA0(u32 arg1) {
         F(s32, 0x6E0) = 0;
         F(f32, 0x6F4) = lbl_805D8D5C;
         p = (Vec_80062BA0 *)TBoss8Dragon__sub_80065F08();
-        F(s32, 0x60) = (s32)(lbl_80437EB0 * atan2_float(p->x - F(f32, 0x38), p->z - F(f32, 0x40)));
+        F(s32, 0x60) = (s32)(10430.38043493439 * atan2_float(p->x - F(f32, 0x38), p->z - F(f32, 0x40)));
         F(f32, 0x38) = p->x - lbl_805D8E80 * sin_table_lookup(F(s32, 0x60));
         F(f32, 0x3C) = lbl_805D8DD4;
         F(f32, 0x40) = p->z - lbl_805D8E80 * cos_table_lookup(F(s32, 0x60));
-        play_cue_stream_file((s32)lbl_80437EC0);
+        play_cue_stream_file((s32)"dradeath.adx");
         TWindowCtrl::init_all_slots();
         switch (TBoss8Dragon__sub_8005D700()) {
         case 0:
@@ -4990,7 +4988,8 @@ void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 void *__ct__17AreaAttackHistoryFl(void *, s32);
 void *TBoss5GryphonColli__ct(void *, void *);
-extern const char *boss5_gryphon_type_name_pointer;
+extern const char boss5_gryphon_type_name[];
+const char *boss5_gryphon_type_name_pointer = boss5_gryphon_type_name;
 extern u8 lbl_80437958[];
 
 TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) {
@@ -5119,6 +5118,10 @@ TBoss5Gryphon *TBoss5Gryphon__ct(TBoss5Gryphon *self, void *parent, void *data) 
 }
 #pragma pop
 
+__declspec(section ".sdata2") const f32 lbl_805D8D60 = 10000.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8D64 = 45056.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8D68 = 20480.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8D6C = 100.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8D70 = 6.0f;
 __declspec(section ".sdata2") const f32 lbl_805D8D74 = 0.5f;
 __declspec(section ".sdata2") const f32 lbl_805D8D78 = 250.0f;
@@ -5173,4 +5176,45 @@ extern const f32 lbl_805D8E20;
 __declspec(section ".sdata2") const f32 lbl_805D8E20 = 67.0f;
 extern const f32 lbl_805D8E24;
 __declspec(section ".sdata2") const f32 lbl_805D8E24 = 81.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8E28 = 16384.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E2C = 5120.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E30 = 230.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E34 = 0.25f;
+__declspec(section ".sdata2") const f32 lbl_805D8E38 = 1.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8E3C = 2.1f;
+__declspec(section ".sdata2") const f32 lbl_805D8E40 = 66.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8E44 = 6144.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E48 = 116.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8E4C = 300.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E50 = 120.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E54 = -4.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E58 = 3.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8E5C = 18.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E60 = 68.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E64 = 210.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E68 = 420.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E6C = 463.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E70 = 290.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E74 = 405.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E78 = 455.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E7C = 265.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E80 = 600.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E84 = 110.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E88 = -30.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E8C = 115.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E90 = 484.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E94 = 23.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E98 = 24.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8E9C = 20.5f;
+__declspec(section ".sdata2") const f32 lbl_805D8EA0 = 150.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EA4 = 0.15f;
+__declspec(section ".sdata2") const f32 lbl_805D8EA8 = 27.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EAC = 30.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EB0 = 28.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EB4 = 1.8f;
+__declspec(section ".sdata2") const f32 lbl_805D8EB8 = 70.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EBC = 14.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EC0 = 21.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EC4 = 8000.0f;
+__declspec(section ".sdata2") const f32 lbl_805D8EC8 = 1000.0f;
 }

@@ -16,6 +16,7 @@ PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/rand.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/scanf.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/string.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/strtoul.c
+PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/float.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/uart_console_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/wchar_io.c
 PowerPC_EABI_Support/MSL/MSL_C/MSL_Common_Embedded/Math/Double_precision/e_acos.c

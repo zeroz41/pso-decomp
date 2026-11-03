@@ -509,7 +509,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
-    "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0"},
+    "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},
     "pso/misc/TOExplosiveMachine.cpp": {"mw_version": "GC/2.0"},
     "pso/enemy/TObjEneSlimeTailAttack.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline on,deferred", "-fp_contract on", "-str reuse,readonly")},
@@ -961,6 +961,8 @@ if args.target == "psov3":
                             mw_version="GC/1.3", cflags=cflags_native_recovered),
                 Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/uart_console_io.c",
                             mw_version="GC/2.6", cflags=cflags_native_recovered),
+                Unit("PowerPC_EABI_Support/MSL/MSL_C/MSL_Common/Src/float.c",
+                            mw_version="GC/1.3", cflags=cflags_native_recovered),
             ],
         ),
         DolphinLib(

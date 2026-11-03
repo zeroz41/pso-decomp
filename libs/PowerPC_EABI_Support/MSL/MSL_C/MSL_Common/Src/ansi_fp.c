@@ -8,7 +8,6 @@
 #include "MSL_C/ctype.h"
 #include "limits.h"
 
-#define __double_max lbl_805D4608
 extern unsigned long __double_max[];
 #define DBL_MAX (*(double*)__double_max)
 #define HUGE_VALF_ (*(float*)__float_huge)

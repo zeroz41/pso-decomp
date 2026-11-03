@@ -346,14 +346,14 @@ extern struct lconv __lconv;
 extern double __dec2num(const decimal* d);
 extern float __float_huge[];
 extern float __float_nan[];
-extern unsigned long lbl_805D4610[];
-extern unsigned long lbl_805D4618[];
-extern unsigned long lbl_805D4620[];
+extern unsigned long __double_huge[];
+extern unsigned long __extended_min[];
+extern unsigned long __extended_max[];
 #define HUGE_VALF (*__float_huge)
 #define NAN (*__float_nan)
-#define HUGE_VAL (*(double*)lbl_805D4610)
-#define LDBL_MIN (*(double*)lbl_805D4618)
-#define LDBL_MAX (*(double*)lbl_805D4620)
+#define HUGE_VAL (*(double*)__double_huge)
+#define LDBL_MIN (*(double*)__extended_min)
+#define LDBL_MAX (*(double*)__extended_max)
 #define LDBL_MAX_EXP 1024
 #define LDBL_MANT_DIG 53
 #define DBL_MAX_10_EXP 308

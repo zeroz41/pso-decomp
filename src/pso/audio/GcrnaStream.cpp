@@ -26,13 +26,13 @@ extern u8 gcrna_volume_table[1000];
 extern u32 gcrna_pan_table[31];
 extern GcrnaStream gcrna_stream_pool[16];
 extern u8 *gcrna_audio_buffers[32];
-extern u32 gcrna_init_count;
-extern u32 gcrna_audio_buffer_count;
-extern u32 lbl_805D7688;
-extern u8 *gcrna_audio_allocation;
-extern s32 gcrna_uses_caller_buffer;
-extern u32 gcrna_aligned_audio_storage;
-extern s32 lbl_805D7694;
+u32 gcrna_init_count;
+u32 gcrna_audio_buffer_count;
+u32 lbl_805D7688;
+u8 *gcrna_audio_allocation;
+s32 gcrna_uses_caller_buffer;
+s32 lbl_805D7694;
+u32 gcrna_aligned_audio_storage;
 
 extern "C" const char *const volatile gcrna_version_pointer = "\nGCRNA Ver.0.97 Build:Jun 13 2002 19:01:27\n";
 
