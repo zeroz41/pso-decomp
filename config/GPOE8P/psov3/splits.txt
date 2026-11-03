@@ -10015,7 +10015,7 @@ pso/boss/TBoss6Type2_802BF558.cpp:
 pso/unk/text_802BFBF4.cpp:
 	.text       start:0x802BFBF4 end:0x802C095C
 	.ctors      start:0x80433FCC end:0x80433FD0
-	.data       start:0x804DFC50 end:0x804E07A0
+	.data       start:0x804DFC50 end:0x804E079C
 
 pso/unk/text_802C095C.cpp:
 	.text       start:0x802C095C end:0x802C09A8

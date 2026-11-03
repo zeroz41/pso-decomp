@@ -682,7 +682,7 @@ void TBoss6Type2::render_body_effects() {
     post_translate_matrix((const f32 *)((u8 *)this + 0x38));
     rotate_matrix_y(NULL, this->m_60);
     var_r31 = 0;
-    if ((0.0f == *(f32 *)&this->_pad41C) || (1.0f == *(f32 *)&this->_pad41C)) {
+    if ((0.0f == this->state_progress) || (1.0f == this->state_progress)) {
         var_r31 = 1;
     }
     if (var_r31 != 0) {
@@ -2342,11 +2342,11 @@ void TBoss6Type2::draw_body_models() {
             p1 = e->b;
             switch (i) {
             case 0:
-                a = 1.0f - *(f32 *)&this->_pad41C;
+                a = 1.0f - this->state_progress;
                 break;
             case 1:
             default:
-                a = *(f32 *)&this->_pad41C;
+                a = this->state_progress;
                 break;
             }
             if (zero != a) {
