@@ -68,7 +68,9 @@ struct TBoss6Type1 : public TObjEnemy {
     Boss6EffectPoint trail_points[3];
     u8 unknown_5FC[0x3C];
     Boss6EffectPoint effect_points[2];
-    u8 pad_650[0x30];
+    void *m_650[2];
+    u8 m_658[0x14];
+    u8 m_66c[0x14];
     TObject *map_csn;
     static u8 *create_kakusan(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3, f32 farg0);
     void clear_slot_array();
