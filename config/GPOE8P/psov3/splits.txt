@@ -5500,7 +5500,10 @@ pso/object/TObjCityMainWarp_80186E24.cpp:
 	.text       start:0x80186E24 end:0x80186F84
 
 pso/object/TObjCityMainWarp_80186F84.cpp:
-	.text       start:0x80186F84 end:0x80187824
+	.text       start:0x80186F84 end:0x801871D0
+
+pso/object/TObjCityMainWarp_801871D0.cpp:
+	.text       start:0x801871D0 end:0x80187824
 	.data       start:0x804B61DC end:0x804B61F8
 	.sdata2     start:0x805DBCA8 end:0x805DBCB8
 
