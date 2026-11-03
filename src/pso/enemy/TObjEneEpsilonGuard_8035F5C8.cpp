@@ -8,6 +8,7 @@
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/TObjEneEpsilonGuard.h"
 #include "pso/TObject.h"
 #include "pso/TParticleCtrl.h"
@@ -417,7 +418,6 @@ struct VObj_18_a39899 : VBase_18_a39899 {
 
 struct Dmg_803616E4 { s32 a; f32 b; };
 
-struct Vec_803616E4 { f32 x, y, z; };
 
 struct Induction_8035FAA8_var_r31 { u8 bytes[0x2]; };
 
@@ -459,7 +459,6 @@ void TObjEneEpsilonGuard__sub_80361C70(u8 *arg0, s32 arg1);
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
-u32 find_entity_by_id(s32);
 s32 is_state_flag_set__19TObjEneEpsilonGuardFv();
 void TObjEneEpsilonGuard__sub_8035F844(W_8035F844 *arg0, s32 arg1);
 void TObjEneEpsilonGuard__sub_8035DEC0();
@@ -471,7 +470,7 @@ s32 is_guard_ready__19TObjEneEpsilonGuardFv();
 s32 TObjEneEpsilonGuard__sub_8035FCEC(W_8035FCEC *arg0);
 f32 random_ratio__9TObjCharaFv(s32 arg0);
 s32 TObjEneEpsilonGuard__sub_8035DD74(u8 *arg0);
-void set_target__19TObjEneEpsilonGuardFlll(u32, V3_8035F970 *, s32, s32);
+void set_target__19TObjEneEpsilonGuardFlll(TObjCollidable *, V3_8035F970 *, s32, s32);
 f32 receive_weapon_special_attack__9TObjCharaFPvPv(void *, void *, void *);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 u16 get_entity_id(void *);
@@ -508,7 +507,6 @@ void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 
 
-s32 project_actor_to_ground(void *, void *, s32);
 void *get_player_by_client_id(s32 i);
 void *__nw__7TObjectFUl(u32);
 void create_fire_explosion_effect(void *, void *, s32, s32, f32);
@@ -555,7 +553,6 @@ s32 update_linked_position__12TObjEneDD_STFf(f32);
 
 
 
-extern "C" void free_collision_body_parts(TObjCollidable *actor);
 
 #include "pso/unk/text_80362264.h"
 
@@ -623,8 +620,8 @@ TObjEneEpsilonBody::TObjEneEpsilonBody(TObject *parent, void *set_data) : TObjEn
     enemy_init_validate_period(30);
     color_index = (s32)(4.0f * random_ratio()) % 4;
     copy_argb(&color, (NJS_ARGB *)&lbl_80479CAC[color_index]);
-    m_440 = m_450;
-    m_444 = m_454;
+    fire_phase_timer = fire_phase_frames;
+    guard_phase_timer = guard_phase_frames;
     m_448 = ((EpsilonBodySharedParams *)lbl_805D6F8C)->m_20;
     action_step = 0;
     action_timer = 0;
@@ -696,7 +693,7 @@ void TObjEneEpsilonBody::run_task() {
         play_persistent_sound(0x4003AD43, (s32)this, (u32)&position, 0, 0);
     }
     vfunc_88();
-    ((TObjEneEpsilonGuard *)this)->update_position();
+    update_position();
     submit_default_cursor_candidate();
     vfunc_100();
 }
@@ -733,10 +730,10 @@ void TObjEneEpsilonBody::dispatch_action(u32 arg1, s32 arg2) {
         TObjEneEpsilonGuard__sub_80360BF8((u8 *)arg0, (arg2));
         return;
     case 8:
-        ((TObjEneEpsilonGuard *)arg0)->update_fade((arg2));
+        ((TObjEneEpsilonBody *)arg0)->update_fade((arg2));
         return;
     case 9:
-        ((TObjEneEpsilonGuard *)arg0)->action_destroy((arg2));
+        ((TObjEneEpsilonBody *)arg0)->action_destroy((arg2));
     default:
         return;
     }
@@ -756,18 +753,17 @@ void TObjEneEpsilonBody::vfunc_62() {
 
 void TObjEneEpsilonBody::vfunc_61() {  }
 
-void TObjEneEpsilonGuard::update_position() {
-    u8 *arg0 = (u8 *)this;
-    *(f32 *)((s8 *)arg0 + 0x2FC) = (f32) *(f32 *)((s8 *)arg0 + 0x38);
-    *(f32 *)((s8 *)arg0 + 0x300) = (f32) (24.0f + *(f32 *)((s8 *)arg0 + 0x3C));
-    *(f32 *)((s8 *)arg0 + 0x304) = (f32) *(f32 *)((s8 *)arg0 + 0x40);
-    VecCopy__FP3VecPC3Vec((void *) (arg0 + 0x74), (void *) (arg0 + 0x2FC), arg0, 24.0f);
+void TObjEneEpsilonBody::update_position() {
+    m_2fc = position.x;
+    m_300 = 24.0f + position.y;
+    m_304 = position.z;
+    VecCopy(&center, body_center());
 }
 void TObjEneEpsilonBody::vfunc_88() {  }
 
 void TObjEneEpsilonBody::vfunc_89() {
     TObjEneDD::vfunc_89();
-    ((TObjEneEpsilonGuard *)this)->update_position();
+    update_position();
 }
 #undef handle_guard_action_state__19TObjEneEpsilonGuardFPvi
 #undef transition_enemy_state__9TObjEneDDFl
@@ -786,16 +782,16 @@ void TObjEneEpsilonBody::init_params() {
     if (this->move_speed <= 0.0f) {
         this->move_speed = (f32) 0.0f;
     }
-    this->m_450 = (s32) (20.0f + *(f32 *)((s8 *)arg0 + 0x35C));
-    if ((s32) this->m_450 < 5) {
-        this->m_450 = 5;
+    this->fire_phase_frames = (s32) (20.0f + *(f32 *)((s8 *)arg0 + 0x35C));
+    if ((s32) this->fire_phase_frames < 5) {
+        this->fire_phase_frames = 5;
     }
-    this->m_450 *= 30.0f;
-    this->m_454 = (s32) (20.0f + *(f32 *)((s8 *)arg0 + 0x360));
-    if (this->m_454 < 5) {
-        this->m_454 = 5;
+    this->fire_phase_frames *= 30.0f;
+    this->guard_phase_frames = (s32) (20.0f + *(f32 *)((s8 *)arg0 + 0x360));
+    if (this->guard_phase_frames < 5) {
+        this->guard_phase_frames = 5;
     }
-    this->m_454 *= 30.0f;
+    this->guard_phase_frames *= 30.0f;
 }
 #pragma pop
 
@@ -822,8 +818,8 @@ void TObjEneEpsilonBody::sub_80361D4C(s32 arg1) {
         VecCopy__FP3VecPC3Vec((u8 *)&this->position, (u8 *)&this->home_position);
         VecCopy__FP3VecPC3Vec((u8 *)&this->prev_position, (u8 *)&this->home_position);
         VecCopy__FP3VecPC3Vec((u8 *)&this->m_2fc, (u8 *)&this->home_position);
-        *(s32 *)((s8 *)arg0 + 0x440) = (s32) this->m_450;
-        this->m_444 = (s32) *(s32 *)((s8 *)arg0 + 0x454);
+        this->fire_phase_timer = (s32) this->fire_phase_frames;
+        this->guard_phase_timer = (s32) this->guard_phase_frames;
         return;
     case 3:
         if (!(this->flags & 0x80)) {
@@ -865,11 +861,11 @@ void TObjEneEpsilonGuard__sub_80361C70(u8 *arg0, s32 arg1) {
 #pragma push
 #pragma fp_contract on
 void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
-    f32 *d;
+    Vec *d;
     f32 *tgt;
     u8 *arg0;
     arg0 = (u8 *)arg0_;
-    d = (f32 *)(arg0 + 0x4FC);
+    d = (Vec *)(arg0 + 0x4FC);
     tgt = (f32 *)(arg0 + 0x508);
     switch (arg1) {
     case 4:
@@ -896,7 +892,7 @@ void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
         break;
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
-        ((TObjEneEpsilonGuard *)arg0)->tick_timer_set_flag();
+        ((TObjEneEpsilonBody *)arg0)->tick_timer_set_flag();
         if (!(F(s32, 0x438) & 0x80)) {
             ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();
             ((TObjEneDD *)arg0)->update_velocity();
@@ -937,8 +933,8 @@ void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
                 if (F(s32, 0x4F0) != 0xFFFF) {
                     if (TObjPlayer::is_valid_and_active((u32)(get_player_data__10TObjPlayerFi(F(s32, 0x4F0)))) != 0) {
                         VecCopy__FP3VecPC3Vec(d, arg0 + 0x38);
-                        d[1] += 10.0f;
-                        if (project_actor_to_ground(arg0, d, 0) != 0) {
+                        d->y += 10.0f;
+                        if (project_actor_to_ground((TObjChara *)arg0, d, 0) != 0) {
                             F(s32, 0x4E8) = 1;
                             F(s32, 0x4EC) = *(s32 *)(GP + 0x18);
                         }
@@ -947,19 +943,19 @@ void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
             }
             break;
         case 1: {
-            Vec_803616E4 b;
-            Vec_803616E4 a;
+            Vec b;
+            Vec a;
             f32 s;
             F(s32, 0x438) |= 0x100;
             VecCopy__FP3VecPC3Vec(&a, tgt);
             VecCopy__FP3VecPC3Vec(&b, d);
             subtract_vector(&a, d);
-            normalize_vector_xz((Vec *)(&a));
+            normalize_vector_xz(&a);
             s = *(f32 *)(GP + 4);
             b.x += a.x * s;
             b.y += 10.0f;
             b.z += a.z * s;
-            if (project_actor_to_ground(arg0, &b, 0) != 0 && csnVector(d, &b, 0x88E0) == 0) {
+            if (project_actor_to_ground((TObjChara *)arg0, &b, 0) != 0 && csnVector(d, &b, 0x88E0) == 0) {
                 VecCopy__FP3VecPC3Vec(d, &b);
             }
             F(s32, 0x4EC)--;
@@ -1095,7 +1091,7 @@ void action__19TObjEneEpsilonGuardFPvi(void *arg0, s32 arg1) {
         break;
     case 0:
         ((TObjMotion *)arg0)->advance_animation();
-        ((TObjEneEpsilonGuard *)arg0)->tick_stun_timer();
+        ((TObjEneEpsilonBody *)arg0)->tick_stun_timer();
         switch (*(s32 *)((s8 *)arg0 + 0x4E4)) {
         case 0:
             temp_r3 = *(s32 *)((s8 *)arg0 + 0x438);
@@ -1333,87 +1329,82 @@ void TObjEneEpsilonGuard__sub_80360BF8(u8 *arg0, s32 arg1) {
 }
 #pragma pop
 
-void TObjEneEpsilonGuard::update_fade(s32 arg1) {
-    s32 temp_r4;
-    switch (arg1) {
+void TObjEneEpsilonBody::update_fade(s32 reason) {
+    switch (reason) {
     case 4:
-        set_field_378__9TObjEneDDFl(this, 2);
-        this->vfunc_96();
-        ((TObjEneEpsilonBody *)this)->flags = (s32) (((TObjEneEpsilonBody *)this)->flags | 0x10);
-        temp_r4 = ((TObjEneEpsilonBody *)this)->flags;
-        ((TObjEneEpsilonBody *)this)->flags = (s32) (temp_r4 & ~0x243);
-        ((TObjEneEpsilonBody *)this)->set_guard_state();
-        *(s32 *)((s8 *)this + 0x4E4) = 0;
-        *(u32 *)((s8 *)this + 0x44C) = -0x22U;
+        set_field_378(2);
+        vfunc_96();
+        flags |= 0x10;
+        flags &= ~0x243;
+        set_guard_state();
+        action_step = 0;
+        flash_level = -0x22U;
         return;
     case 3:
-        if ((s32) *(s32 *)((s8 *)this + 0x4E4) == 2) {
-            transition_enemy_state__9TObjEneDDFl(this, 4);
+        if (action_step == 2) {
+            transition_enemy_state(4);
         }
         break;
     case 0:
         advance_animation();
-        switch (*(s32 *)((s8 *)this + 0x4E4)) {
+        switch (action_step) {
         case 0:
-            *(u32 *)((s8 *)this + 0x44C) = (u32) (*(u32 *)((s8 *)this + 0x44C) + 0x22);
-            if ((u32) *(u32 *)((s8 *)this + 0x44C) > 0xFFU) {
-                *(u32 *)((s8 *)this + 0x44C) = 0xFFU;
-                *(s32 *)((s8 *)this + 0x4E4) = 1;
+            flash_level += 0x22;
+            if (flash_level > 0xFFU) {
+                flash_level = 0xFFU;
+                action_step = 1;
             }
             break;
         case 1:
-            *(u32 *)((s8 *)this + 0x44C) = (u32) (*(u32 *)((s8 *)this + 0x44C) - 0x22);
-            if ((u32) *(u32 *)((s8 *)this + 0x44C) <= 0x22U) {
-                *(u32 *)((s8 *)this + 0x44C) = 0U;
-                *(s32 *)((s8 *)this + 0x4E4) = 2;
+            flash_level -= 0x22;
+            if (flash_level <= 0x22U) {
+                flash_level = 0U;
+                action_step = 2;
             }
             break;
         default:
-            *(u32 *)((s8 *)this + 0x44C) = 0U;
-            *(s32 *)((s8 *)this + 0x4E4) = 2;
+            flash_level = 0U;
+            action_step = 2;
             break;
         }
-        this->vfunc_89();
+        vfunc_89();
         return;
     case 5:
-        clear_attack_receipts__9TObjEneDDFv();
+        clear_attack_receipts();
         break;
     }
 }
 
-void TObjEneEpsilonGuard::action_destroy(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r4;
-    switch (arg1) {
+void TObjEneEpsilonBody::action_destroy(s32 reason) {
+    switch (reason) {
     case 4:
-        set_field_378__9TObjEneDDFl(arg0, 9);
-        ((TObjEneEpsilonBody *)(arg0))->vfunc_96();
-        ((TObjEneEpsilonBody *)this)->flags |= 0x800;
-        temp_r4 = ((TObjEneEpsilonBody *)this)->flags;
-        ((TObjEneEpsilonBody *)this)->flags = temp_r4 & ~0x243;
-        ((TObjEneEpsilonBody *)arg0)->set_guard_state();
-        ((TObjEnemy *)arg0)->refresh_and_send_entity_flags();
-        *(s32 *)((s8 *)arg0 + 0x4E4) = 0;
-        *(s32 *)((s8 *)arg0 + 0x4E8) = 0;
+        set_field_378(9);
+        vfunc_96();
+        flags |= 0x800;
+        flags &= ~0x243;
+        set_guard_state();
+        refresh_and_send_entity_flags();
+        action_step = 0;
+        action_timer = 0;
         break;
     case 3:
-        if (*(s32 *)((s8 *)arg0 + 0x4E4) == 1 && ((TObjEneEpsilonGuard *)arg0)->all_children_gone() != 0) {
-            queue_destruction__7TObjectFv(arg0);
+        if (action_step == 1 && ((TObjEneEpsilonGuard *)this)->all_children_gone() != 0) {
+            queue_destruction();
         }
         break;
     case 5:
         break;
     case 0:
-        if (*(s32 *)((s8 *)arg0 + 0x4E4) == 0) {
-            ((TObjMotion *)arg0)->advance_animation();
-            (*(s32 *)((s8 *)arg0 + 0x4E8))++;
-            if (*(s32 *)((s8 *)arg0 + 0x4E8) >= 0x14) {
-                ((TObjEneEpsilonBody *)(arg0))->vfunc_95();
-                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)(this->texlist), (s32)(arg0 + 0x2FC), (s32)(this->rotation_y));
-                play_sound_effect(0x4003AD4C, (u8 *)&this->m_2fc, 0, 0);
-                ((TObjPlayer *)(arg0 + 0x2FC))->trigger_dell_biter_events();
-                ((TObjEneEpsilonBody *)this)->flags |= 1;
-                *(s32 *)((s8 *)arg0 + 0x4E4) = 1;
+        if (action_step == 0) {
+            advance_animation();
+            action_timer++;
+            if (action_timer >= 0x14) {
+                vfunc_95();
+                TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA4, (s32)epsilon_guard_destroy_breakup_params, (s32)texlist, (s32)body_center(), (s32)rotation_y);
+                play_sound_effect(0x4003AD4C, (u8 *)&m_2fc, 0, 0);
+                ((TObjPlayer *)body_center())->trigger_dell_biter_events();
+                flags |= 1;
+                action_step = 1;
             }
         }
         break;
@@ -1639,17 +1630,17 @@ void TObjEneEpsilonBody::set_guard_state() {
     ((TObjMotion *)arg0)->advance_animation();
 }
 
-void TObjEneEpsilonGuard::tick_timer_set_flag() {
-    ((TObjEneEpsilonBody *)this)->m_440 = (s32) (((TObjEneEpsilonBody *)this)->m_440 - 1);
-    if ((s32) ((TObjEneEpsilonBody *)this)->m_440 <= 0) {
-        ((TObjEneEpsilonBody *)this)->flags = (s32) (((TObjEneEpsilonBody *)this)->flags | 8);
+void TObjEneEpsilonBody::tick_timer_set_flag() {
+    fire_phase_timer--;
+    if (fire_phase_timer <= 0) {
+        flags |= 8;
     }
 }
 
-void TObjEneEpsilonGuard::tick_stun_timer() {
-    *(s32 *)((s8 *)this + 0x444) = (s32) (*(s32 *)((s8 *)this + 0x444) - 1);
-    if ((s32) *(s32 *)((s8 *)this + 0x444) <= 0) {
-        ((TObjEneEpsilonBody *)this)->flags = (s32) (((TObjEneEpsilonBody *)this)->flags | 4);
+void TObjEneEpsilonBody::tick_stun_timer() {
+    guard_phase_timer--;
+    if (guard_phase_timer <= 0) {
+        flags |= 4;
     }
 }
 void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
@@ -1821,7 +1812,7 @@ void TObjEneEpsilonGuard__sub_8035FA50(W_8035FA50 *arg0) {
 s32 TObjEneEpsilonGuard::assign_guard_targets() {
     s32 i;
     s32 near;
-    u32 p;
+    TObjCollidable *p;
     for (i = 0; i < 4; i++) {
         p = find_entity_by_id(((Guard_8035F970 *)this)->h[i]);
         if (p != 0 && TObjEneEpsilonGuard__sub_8035DD74((u8 *)p) == 0) {
@@ -1862,7 +1853,7 @@ s16 TObjEneEpsilonBody::sub_8035F8A8() {
 
 
 void TObjEneEpsilonGuard__sub_8035F844(W_8035F844 *arg0, s32 arg1) {
-    u32 r;
+    TObjCollidable *r;
     if (arg1 < 0 || arg1 >= 4) {
         return;
     }

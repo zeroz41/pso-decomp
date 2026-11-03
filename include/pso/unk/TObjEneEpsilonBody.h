@@ -33,17 +33,22 @@ public:
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
+    void update_position();
+    void tick_stun_timer();
+    void tick_timer_set_flag();
+    void update_fade(s32 reason);
+    void action_destroy(s32 reason);
     TObject *warp_emitter;  // 0x430: particle emitter 0x220, created and moved by handle_warp_state
     TObject *emitter;       // 0x434: particle emitter 0x225 (TParticleCtrl enable/set_position)
     s32 flags;              // 0x438: state bits; set_guard_state picks the model from bit 2, update_guard_flag sets 0x80
-    u8 pad_43C[0x2];
+    s16 guarded;            // 0x43C: 1 while flags bit 2 shows the guarded model (set_guard_state)
     s16 color_index;        // 0x43E: index of the body colour lbl_80479CAC and of get_table_value_by_index
-    s32 m_440;
-    s32 m_444; // 0x444
+    s32 fire_phase_timer;   // 0x440: counts down in action 2; tick_timer_set_flag sets flags bit 8 at 0
+    s32 guard_phase_timer;  // 0x444: counts down in action 4; tick_stun_timer sets flags bit 4 at 0
     s32 m_448;
-    u8 pad_44C[0x4];
-    s32 m_450; // 0x450
-    s32 m_454;
+    u32 flash_level;        // 0x44C: 0..0xFF ramp of update_fade, the red of the action-8 model colour
+    s32 fire_phase_frames;  // 0x450: init_params, reloads fire_phase_timer
+    s32 guard_phase_frames; // 0x454: init_params, reloads guard_phase_timer
     f32 move_speed;  // 0x458: speed handed to enemy_turn_and_move_on_ground
     s32 turn_step;   // 0x45C: max turn step handed to turn_toward_target_direction
     s32 guard_rotation_y[4];  // per guard: the rotation_y it was spawned with
