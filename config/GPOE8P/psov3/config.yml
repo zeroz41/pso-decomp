@@ -15776,7 +15776,7 @@ force_active:
   - sound_effect_range_w_enemy
   - sound_effect_range_w_env
   - sound_effect_range_weapon
-  - spawn__13TUnk_804E4B3CFll
+  - spawn__13TUnk_804E4B3CFlP3Vec
   - spawn_afterimages__11TBoss4Type2Fv
   - spawn_ambient_particles__15TBoss3VoloptP02Fv
   - spawn_ancient_trap__12TBoss8DragonFii
@@ -15836,8 +15836,8 @@ force_active:
   - spawn_recoil_dust__14TObjEneBm5WolfFiPv
   - spawn_recovery_effect__10TObjPlayerFv
   - spawn_scattered_lightning_strikes__FPUcl
-  - spawn_segment_row_a__21TunnelSceneControllerFv
-  - spawn_segment_row_b__21TunnelSceneControllerFv
+  - spawn_segment_row_a__13TUnk_804E4B3CFv
+  - spawn_segment_row_b__13TUnk_804E4B3CFv
   - spawn_slime_in_slot
   - spawn_slow_effect__10TObjPlayerFii
   - spawn_sub_objects__15TBoss3VoloptP02Fv
