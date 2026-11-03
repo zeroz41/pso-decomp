@@ -33,37 +33,35 @@ public:
     virtual void vfunc_105();
     virtual void vfunc_106();
     virtual f32 receive_direct_attack(void *, DirectAttackPayload, void *, s32, s32);
-    TObject *m_430;
-    TObject *m_434;
-    s32 m_438; // 0x438
-    u8 unk_43C[0x2];
-    s16 m_43e; // 0x43E
+    TObject *warp_emitter;  // 0x430: particle emitter 0x220, created and moved by handle_warp_state
+    TObject *emitter;       // 0x434: particle emitter 0x225 (TParticleCtrl enable/set_position)
+    s32 flags;              // 0x438: state bits; set_guard_state picks the model from bit 2, update_guard_flag sets 0x80
+    u8 pad_43C[0x2];
+    s16 color_index;        // 0x43E: index of the body colour lbl_80479CAC and of get_table_value_by_index
     s32 m_440;
     s32 m_444; // 0x444
     s32 m_448;
-    u8 unk_44C[0x4];
+    u8 pad_44C[0x4];
     s32 m_450; // 0x450
     s32 m_454;
-    f32 m_458; // 0x458
-    u8 unk_45C[0x4];
+    f32 move_speed;  // 0x458: speed handed to enemy_turn_and_move_on_ground
+    s32 turn_step;   // 0x45C: max turn step handed to turn_toward_target_direction
     s32 guard_rotation_y[4];  // per guard: the rotation_y it was spawned with
     Vec guard_position[4];    // per guard: the position it was spawned at
-    NJS_ARGB m_4a0;
-    u8 unk_4B0[0x10];
-    TUnk_80494938 m_4c0;
+    NJS_ARGB color;  // 0x4A0: copied from lbl_80479CAC[color_index], written into the guard parts
+    u8 pad_4B0[0x10];
+    TUnk_80494938 fade;
     u16 guard_ids[4];  // entity ids of the four TObjEneEpsilonGuard it spawns
-    s32 m_4e4; // 0x4E4
-    s32 m_4e8;
+    s32 action_step;   // 0x4E4: sub-step of the current action
+    s32 action_timer;  // 0x4E8: per-action frame counter
     s32 m_4ec;
-    s32 m_4f0;
+    s32 target_player;  // 0x4F0: player index from get_player_data, 0xFFFF for none
     s32 m_4f4;
     f32 m_4f8; // 0x4F8
     f32 m_4fc;
     f32 m_500;
     f32 m_504;
-    f32 m_508;
-    f32 m_50c;
-    f32 m_510;
+    Vec target_position;  // 0x508: copied from the target player's position
 };
 typedef char TObjEneEpsilonBody_size[sizeof(TObjEneEpsilonBody) == 0x514 ? 1 : -1];
 

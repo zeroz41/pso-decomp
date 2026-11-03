@@ -21,16 +21,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void vfunc_28();
     void render();
     void run_task();
-    u8 unk_430[0x8];
-    s32 m_438; // 0x438
-    u8 unk_43C[0x4];
-    s32 m_440; // 0x440
-    void* m_460;
-    u8 _pad464[0x8];
-    u32 m_46c;
-    u16 m_470;
-    u8 _pad472[0x4A];
-    void* m_4bc;
+    u8 pad_430[0x74];
     void *create(void *arg1, void *arg2, void *arg3, void *arg4);
     void init_model_and_state();
     s32 all_children_gone();
@@ -43,7 +34,7 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
     static void load_assets();
-    u8 unk_4A4[0x34];
+    u8 pad_4A4[0x34];
     s32 is_guard_active();
     s32 is_state_flag_set();
     s32 is_guard_ready();
