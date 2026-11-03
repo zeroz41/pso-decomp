@@ -165,12 +165,11 @@ pso/misc/TLobby_8001D6A0.cpp:
 pso/ui/TAdSinglePlyChrSelectGC_8001ED80.cpp:
 	.text       start:0x8001ED80 end:0x8001ED90
 
-pso/object/TObjFish_8001ED90.cpp:
-	.text       start:0x8001ED90 end:0x8001EF5C
-
 pso/misc/TLobby_8001EF5C.cpp:
-	.text       start:0x8001EF5C end:0x80020898
+	.text       start:0x8001ED90 end:0x80020898
+	.rodata     start:0x80434AA0 end:0x80434E80
 	.data       start:0x80480CB0 end:0x80480CE0
+	.sdata2     start:0x805D7F10 end:0x805D7F18
 
 pso/player/TObjPlayer_80020898.cpp:
 	.text       start:0x80020898 end:0x800208B4

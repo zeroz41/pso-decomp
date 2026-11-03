@@ -680,6 +680,9 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TOMonumentAncient02.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-fp_contract on")},
     # Kurage addresses each debug label on its own (no shared .rodata base).
     "pso/misc/TOKurage.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly", "-fp_contract on", "-pool off")},
+    # The TBinModel ctor (0x8002058C) inlines its list helpers; "gvm" is in .sdata2 (readonly strings) and
+    # every literal gets its own lis/addi (no pool base).
+    "pso/misc/TLobby_8001EF5C.cpp": {"cflags": _switch(cflags_pso, "-inline on", "-str reuse,readonly", "-pool off")},
     "pso/misc/TOHealGeneral.cpp": {"cflags": _switch(cflags_pso, "-sdata 4", "-str reuse,readonly")},
     # The key subclasses address each of their texture names on its own
     # (no shared .rodata base): built -pool off.
@@ -736,7 +739,10 @@ MIDDLEWARE: List[Tuple[str, int, str, List[str], Dict[str, Dict[str, Any]]]] = [
         "pso/unk/text_803D31A4.cpp": {"cflags": _switch(cflags_middleware, "-str reuse,readonly")},
     }),
     # Sega's Ginja model library.
-    ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {}),
+    ("ginja", 0x803D6538, "GC/2.6", _switch(cflags_middleware, "-O3,p", "-opt nopeephole"), {
+        # Saves registers through _savegpr_N everywhere (no stmw in the unit).
+        "pso/unk/text_803E2D70.cpp": {"cflags": _switch(cflags_middleware, "-O3,p", "-opt nopeephole", "-use_lmw_stmw off")},
+    }),
     # mcFsGc ("Ver 1.10.00 Build:Sep 17 2002") with ACCESS's file transfer.
     ("mcfs", 0x803E5668, "GC/1.2.5", cflags_middleware, {
         # Epilogue order (mtlr before the restores) only 1.2.5n produces.

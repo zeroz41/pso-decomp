@@ -1,10 +1,14 @@
 #include "types.h"
+#include "pso/system/BmlResource.h"
+#include "pso/object/TObjFish_8001ED90.h"
 #include "pso/misc/TLobby_8001EF5C.h"
 #include "pso/system/memory.h"
+#include "pso/system/NinjaUtil.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TGStream.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/misc/TLobby_800FA2A0.h"
 
 struct Obj_8001F8D8 { u8 pad0[4]; s32 f4; s32 f8; s32 fc; u8 pad10[0x418 - 0x10]; s32 f418; u8 pad41c[0x434 - 0x41c]; s32 f434; s32 f438; s32 f43c; };
 
@@ -68,26 +72,35 @@ struct Lobby_8001FE7C {
 
 struct Lobby_8001FB6C;
 typedef struct Lobby_8001F018 Lobby_8001F018;
-struct Ent16_80020004 { u32 flags; u8 pad4[4]; void *a; void *b; };
+// One model of a TBinModel (inferred name; counted from the constructor's model list).
+struct BinModelSlot { u32 flags; u8 pad4[4]; void *a; void *b; };
 
-struct Ent8_80020004 { s32 x; void *data; };
+// One motion of a TBinModel (inferred name; counted from the constructor's motion list).
+struct BinMotionSlot { s32 x; void *data; };
 
-struct Lobby_80020004 {
+// Named after the "TBinModel: ..." / "TBinModel_NORMAL" debug strings its constructor (0x8002058C) and
+// load_resource_from_descriptor print. Field names below are inferred.
+struct TBinModel {
     u32 flags;
     s32 f4;
     s32 f8;
     s32 fC;
     s32 f10;
     s32 f14;
-    u8 pad18[0x41C - 0x18];
-    s32 f41C;
-    s32 f420;
-    s32 f424;
+    s32 handles[0x100];
+    s32 nHandles;
+    s32 on_loaded;      // called with on_loaded_arg by TLobby::set_flag_and_notify (0x41C)
+    s32 on_loaded_arg;
+    s32 load_buffer;    // when set, alloc_load_data__6TLobbyFPviii carves loads out of it (0x424)
     u8 pad428[4];
-    Ent16_80020004 *ents16;
-    Ent8_80020004 *ents8;
+    BinModelSlot *ents16;
+    BinMotionSlot *ents8;
     s32 nEnts16;
     s32 nEnts8;
+
+    void load_models(u32 *list);
+    void load_motions(u32 *list);
+    void request_motions(u32 *list);
 };
 
 struct Desc_80020004 { s32 name; u8 pad4[8]; s16 n16; s16 n8; };
@@ -136,32 +149,18 @@ struct Ctx_8001F128 {
 void reset_gstream_globals(void);
 extern "C" {
 s32 xmalloc__FUl(s32);
-extern s8 TLobby__tmp_buf_name[];
+extern char TLobby__tmp_buf_name[0x20];
+s32 strcmp(void *, void *);
 extern s32 lobby_download_buffer;
 extern s32 tmp_buf_in_use_flag;
 extern u32 bml_load_buffer;
-s32 debug_print__6TLobbyFle(s32 *, ...);
-extern s32 lbl_80434C48[];
 extern s32 lbl_805D4AD0;
-extern char lbl_80434C38[];
 void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1);
-extern s32 lbl_80434CC4[];
 s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes);
 s32 change_file_extension__6TLobbyFPvPvPv(char *arg0, char *arg1, char *arg2);
 s32 load_gvm_texture_archive(s32, s32);
-extern s32 lbl_80434B04[];
-extern s32 lbl_80434B24[];
-extern s32 lbl_805D7F10;
 s32 set_stream_state__6TLobbyFi(s32, s32);
-extern s32 lbl_80434D10[];
-extern s32 lbl_80434D30[];
-extern s32 lbl_80434D54[];
-extern s32 lbl_80434D74[];
-extern s32 lbl_80434D94[];
-s32 TLobby__sub_8001EDD8(void *, s32);
 s32 create_file_load_entry__6TLobbyFllUllPPv(void *, s32, void *, void *, void *);
-extern s32 lbl_80434C70[];
-extern s32 lbl_80434C98[];
 s32 TLobby__sub_800F9FF4(s32);
 void mem_free(void *p);
 s32 release_texture_list(void *);
@@ -170,33 +169,17 @@ void open__8TGStreamFPvPvi(void *, s32, s32);
 s32 get_gstream_file_size(void *);
 void destroy_gstream(void *, s32);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
-void debug_printf_nop(void *, ...);
 void *mem_alloc(u32 size);
 char *strncpy(char *dest, const char *src, unsigned long num);
 extern u8 *resource_decompress_buffer;
 extern u8 bml_load_state;
 extern s32 disc_read_filename;
 extern s32 lbl_805D2B10;
-extern s32 lbl_80434B70[];
-extern s32 lbl_80434DB8[];
-extern s32 lbl_80434DD4[];
-extern s32 lbl_80434DF4[];
-extern s32 lbl_80434E10[];
-extern s32 lbl_80434E2C[];
-Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, Desc_80020004 *desc, s32 arg3, s32 arg4, s32 arg5);
-extern s32 lbl_80434CE8[];
+TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer);
 s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3);
-u8 *tmp_buf_use_req__6TLobbyFPCc(const char *);
 s32 TLobby__sub_803CC4C0(u32);
 s32 TLobby__sub_803CC53C(void);
 u32 adxf_open__6TLobbyFUii(void *, s32);
-extern char lbl_80434B44[];
-extern s32 lbl_80434B50[];
-extern s32 lbl_80434B90[];
-extern s32 lbl_80434BB0[];
-extern s32 lbl_80434BD4[];
-extern s32 lbl_80434BF8[];
-extern s32 lbl_80434C18[];
 extern u32 lobby_bml_file_handle;
 extern u8 *lbl_805D4AE0;
 extern Rec_8001F128 *bml_header_record_ptr;
@@ -207,6 +190,65 @@ s32 TLobby__sub_801E38A0(s32, s32, s32, s32, u32 *);
 s32 load_nj_chunk_model_resource(s32, s32, s32);
 int xfree__FPv(void*);
 
+
+// ---- 0x8001ED90-0x8001EF5C (was TObjFish_8001ED90) ----
+extern "C" {
+int fn_8001ED90(void* p) { return (*(u32*)((char*)p + 0x0) >> 10) & 0x1; }
+
+AnimationMotion *get_bml_motion(BmlResource *resource, s32 index) {
+    return resource->motions[index].motion;
+}
+
+s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index) {
+    return resource->models[index].m_c;
+}
+
+s32 get_bml_model(BmlResource *resource, s32 index) {
+    return resource->models[index].model;
+}
+
+void TLobby__sub_8001EDD8(TBinModel *self, s32 item) {
+    self->handles[self->nHandles++] = item;
+}
+}
+
+void TLobby::tmp_buf_release_if_owner(const char *name) {
+    if (((s32) tmp_buf_in_use_flag == 0) && (strcmp(TLobby__tmp_buf_name, (void *)name) == 0)) {
+        tmp_buf_in_use_flag = 1;
+        TLobby__tmp_buf_name[0] = 0;
+    }
+}
+
+s32 TLobby::tmp_buf_release(const char *name) {
+    if (name != 0) {
+        if (tmp_buf_in_use_flag == 1) {
+            TLobby::debug_print("TmpBufRelease(%s) Bad Release", name);
+            return 0;
+        }
+        if (strcmp(TLobby__tmp_buf_name, (void *)name) != 0) {
+            TLobby::debug_print("TmpBufRelease(%s) keycode no-match(%s)", name, TLobby__tmp_buf_name);
+            return 0;
+        }
+    }
+    tmp_buf_in_use_flag = 1;
+    TLobby__tmp_buf_name[0] = 0;
+    return 1;
+}
+
+s32 TLobby::tmp_buf_is_free() {
+    return tmp_buf_in_use_flag;
+}
+s32 TLobby::tmp_buf_use_req(const char *name) {
+    if (tmp_buf_in_use_flag != 0) {
+        tmp_buf_in_use_flag = 0;
+        strncpy(TLobby__tmp_buf_name, name, 0x20);
+        return lobby_download_buffer;
+    }
+    TLobby::debug_print("TmpBufUseReq(%s) can't use");
+    return 0;
+}
+
+// ---- 0x8001EF5C-0x80020898 ----
 void TLobby::free_if_not_owner(void* a1) { if (*(unsigned int*)((char*)this + 0x424) == 0) { xfree__FPv(a1); } }
 
 s32 alloc_load_data__6TLobbyFPviii(void *arg0, s32 base, s32 arg2, s32 arg3) {
@@ -231,17 +273,17 @@ void TLobby::load_texture_sub(void *arg1, s32 arg2) {
     Lobby_8001F018 *arg0 = (Lobby_8001F018 *)this;
     char buf[0x20];
     s32 size;
-    change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)arg1, (char *)&lbl_805D7F10);
+    change_file_extension__6TLobbyFPvPvPv((char *)buf, (char *)arg1, "gvm");
     size = TGStream::load_sct_file((s32)buf, (s32)lobby_download_buffer);
     if (size > 0x40000) {
-        debug_print__6TLobbyFle(lbl_80434B04, buf);
+        TLobby::debug_print("LoadTextureSub: %s too large.", buf);
     } else if (size > 0) {
         load_gvm_texture_archive(lobby_download_buffer, arg0->entries[arg2].data);
         arg0->entries[arg2].flags |= 1;
     } else {
         arg0->entries[arg2].flags |= 2;
         if (!(arg0->flags & 4)) {
-            debug_print__6TLobbyFle(lbl_80434B24, buf);
+            TLobby::debug_print("LoadTextureSub: %s load failed.", buf);
         }
     }
 }
@@ -267,16 +309,16 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             break;
         }
         bml_load_entry_index = 0;
-        lobby_bml_read_buffer = tmp_buf_use_req__6TLobbyFPCc(lbl_80434B44);
+        lobby_bml_read_buffer = (u8 *)TLobby::tmp_buf_use_req("LoadBmlExec");
         lobby_bml_file_handle = adxf_open__6TLobbyFUii(arg1, 0);
         if (lobby_bml_file_handle == 0) {
-            debug_print__6TLobbyFle(lbl_80434B50, arg1);
+            TLobby::debug_print("LoadBmlExec: %s cannot open.", arg1);
             self->state = 0xB;
             return -1;
         }
         n = ((self->f434 + self->f438 + 1) * 64 + 0x7FF) / 2048;
         if (n > 0x4000) {
-            debug_printf_nop(lbl_80434B70, n);
+            debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", n);
         }
         lbl_805D4AE0 = (u8 *) bml_load_buffer;
         bml_header_record_ptr = (Rec_8001F128 *) (bml_load_buffer + 0x40);
@@ -315,7 +357,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
                 TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
                 break;
             default:
-                debug_print__6TLobbyFle(lbl_80434B90);
+                TLobby::debug_print("TBinModel: Illegal File Format");
                 break;
             }
             self->state = 3;
@@ -338,7 +380,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
                     bind_bml_model((Lobby_8001FBEC *) self, bml_header_record_ptr->rawSize, self->nmodel++, p);
                     TAdSinglePlyChrSelectGC::safe_free(p);
                 } else {
-                    debug_print__6TLobbyFle(lbl_80434BB0);
+                    TLobby::debug_print("TBinModel: Can't malloc(LOADMODEL)");
                 }
                 break;
             }
@@ -364,7 +406,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
                 TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
                 break;
             default:
-                debug_print__6TLobbyFle(lbl_80434B90);
+                TLobby::debug_print("TBinModel: Illegal File Format");
                 break;
             }
             self->state = 5;
@@ -390,7 +432,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
                     bind_bml_motion((Lobby_8001FB6C *) self, self->nmodel++, (void *) p);
                     TAdSinglePlyChrSelectGC::safe_free(p);
                 } else {
-                    debug_print__6TLobbyFle(lbl_80434BD4);
+                    TLobby::debug_print("TBinModel: Can't malloc(LOADMOTION)");
                 }
                 break;
             }
@@ -411,12 +453,12 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             }
         }
         if (bml_load_entry_index < self->f434) {
-            change_file_extension__6TLobbyFPvPvPv((char *)(0), (char *)bml_header_record_ptr, (char *)&lbl_805D7F10);
+            change_file_extension__6TLobbyFPvPvPv((char *)(0), (char *)bml_header_record_ptr, "gvm");
             lobby_bml_file_handle = adxf_open__6TLobbyFUii(bml_header_record_ptr, 0);
             if (lobby_bml_file_handle != 0) {
                 n = TLobby__sub_803CC53C();
                 if (n > 0x80) {
-                    debug_print__6TLobbyFle(lbl_80434BF8, bml_header_record_ptr, n << 11);
+                    TLobby::debug_print("LoadBmlExec: %s Too Large(%08x)", bml_header_record_ptr, n << 11);
                     bml_load_entry_index++;
                     bml_header_record_ptr++;
                 } else {
@@ -426,7 +468,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             } else {
                 self->entries[bml_load_entry_index].flags |= 2;
                 if (!(self->flags & 4)) {
-                    debug_print__6TLobbyFle(lbl_80434C18, bml_header_record_ptr);
+                    TLobby::debug_print("LoadBmlExec: %s load failed.", bml_header_record_ptr);
                 }
                 bml_load_entry_index++;
                 bml_header_record_ptr++;
@@ -456,11 +498,11 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
     case 9:
         self->state = 0xA;
     case 10:
-        TLobby::tmp_buf_release((const char *)lbl_80434B44);
+        TLobby::tmp_buf_release("LoadBmlExec");
         lbl_805D4AE0 = NULL;
         return 1;
     case 11:
-        TLobby::tmp_buf_release((const char *)lbl_80434B44);
+        TLobby::tmp_buf_release("LoadBmlExec");
         lbl_805D4AE0 = NULL;
         return -1;
     }
@@ -489,7 +531,7 @@ void check_bin_model_loaded__6TLobbyFPvPv(Obj_8001F8D8 *self, void * _w1) {
     if (self->f434 <= self->f4 && self->f438 <= self->f8 && self->f43c <= self->fc) {
         ((TLobby *)self)->set_flag_and_notify();
         self->f418 = 0;
-        TLobby::tmp_buf_release((const char *)lbl_80434C38);
+        TLobby::tmp_buf_release("TBinModel_REQ");
     }
 }
 
@@ -511,7 +553,7 @@ void load_bin_motion_callback(void *arg0) {
     spC = 0;
     temp_r3 = alloc_load_data__6TLobbyFPviii((void *)(*(void **)((s8 *)arg0 + 4)), lobby_download_buffer, (s32)&spC, (s32)&sp8);
     if (temp_r3 == 0) {
-        debug_print__6TLobbyFle(lbl_80434C48);
+        TLobby::debug_print("LoadBinMotionCallBack: Illegal format.");
     }
     **(s32 **)((s8 *)arg0 + 0) = temp_r3;
     temp_r4 = *(void **)((s8 *)arg0 + 4);
@@ -521,8 +563,8 @@ void load_bin_motion_callback(void *arg0) {
 
 struct Obj_8001F8D8;
 
-void TLobby::load_bin_model_callback() {
-    Lobby_8001FA1C *self = (Lobby_8001FA1C *)this;
+void load_bin_model_callback(void *request) {
+    Lobby_8001FA1C *self = (Lobby_8001FA1C *)request;
     char name[0x20];
     Params_8001FA1C params;
     u32 i;
@@ -540,13 +582,13 @@ void TLobby::load_bin_model_callback() {
             *slot = data;
             params.a = self->fC;
             params.b = self->f10;
-            change_file_extension__6TLobbyFPvPvPv((char *)name, (char *)self->f0, (char *)&lbl_805D7F10);
+            change_file_extension__6TLobbyFPvPvPv((char *)name, (char *)self->f0, "gvm");
             r = create_file_load_entry__6TLobbyFllUllPPv(name, *slot, (void *)increment_ref_and_set_flag__6TLobbyFPv, &params, &handle);
             if (r >= 0) {
-                TLobby__sub_8001EDD8(self->fC, handle);
+                TLobby__sub_8001EDD8((TBinModel *)self->fC, handle);
                 self->fC->f43C++;
             } else if (!(self->fC->f0 & 4)) {
-                debug_print__6TLobbyFle(lbl_80434C70, name, r);
+                TLobby::debug_print("LoadBinModelCallBack: %s ERROR(%+2d)", name, r);
             }
             break;
         case 0x4E4A434D:
@@ -554,7 +596,7 @@ void TLobby::load_bin_model_callback() {
             self->fC->f4++;
             break;
         default:
-            debug_print__6TLobbyFle(lbl_80434C98);
+            TLobby::debug_print("LoadBinModelCallBack: Illegal model format.");
             break;
         }
     }
@@ -569,7 +611,7 @@ s32 bind_bml_motion(struct Lobby_8001FB6C *self, s32 idx, void *bytes) {
     spC = 0;
     r = alloc_load_data__6TLobbyFPviii(self, (s32) bytes, (s32) &spC, (s32) &sp8);
     if (r == 0) {
-        debug_print__6TLobbyFle(lbl_80434CC4);
+        TLobby::debug_print("LoadBinMotionSub: Illegal format.");
         return 0;
     }
     self->entries[idx].data = r;
@@ -593,7 +635,7 @@ s32 bind_bml_model(Lobby_8001FBEC *arg0, u32 arg1, s32 arg2, s32 arg3) {
             arg0->entries[arg2].texture = data;
             break;
         default:
-            debug_print__6TLobbyFle(lbl_80434CE8, tag);
+            TLobby::debug_print("LoadBinModelSub: Illegal format %08x", tag);
             break;
         }
     }
@@ -609,16 +651,16 @@ s32 TLobby::load_bin_motion(s32 arg1, s32 arg2) {
     arg0->entries[arg2].data = 0;
     size = set_stream_state__6TLobbyFi(arg1, lobby_download_buffer);
     if (size == 0) {
-        debug_print__6TLobbyFle(lbl_80434D10, arg1);
+        TLobby::debug_print("LoadBinMotion: %s load failed.", arg1);
         return 0;
     }
     if (size > 0x40000) {
-        debug_print__6TLobbyFle(lbl_80434D30, size - 0x40000);
+        TLobby::debug_print("LoadBinMotion: tmpbuf overflow(%x)", size - 0x40000);
     }
     offset = 0;
     data = alloc_load_data__6TLobbyFPviii(arg0, lobby_download_buffer, (s32)&offset, (s32)&tag);
     if (data == 0) {
-        debug_print__6TLobbyFle(lbl_80434D54);
+        TLobby::debug_print("LoadBinMotion: Illegal format.");
     }
     arg0->entries[arg2].data = data;
     return 1;
@@ -630,11 +672,11 @@ s32 TLobby::load_bin_model(s32 arg1, s32 arg2) {
     ((Lobby_8001FD98 *)this)->entries[arg2].texture = NULL;
     size = ((TLobby *)arg1)->get_resource_file_size();
     if (size <= 0) {
-        debug_print__6TLobbyFle(lbl_80434D74, arg1);
+        TLobby::debug_print("LoadBinModel: %s load failed.", arg1);
         return 0;
     }
     if (size > 0x40000) {
-        debug_print__6TLobbyFle(lbl_80434D94, size - 0x40000);
+        TLobby::debug_print("LoadBinModel: tmpbuf overflow(%x)", size - 0x40000);
     }
     set_stream_state__6TLobbyFi(arg1, lobby_download_buffer);
     bind_bml_model((Lobby_8001FBEC *)(this), size, arg2, lobby_download_buffer);
@@ -654,7 +696,7 @@ Lobby_8001FE7C *TLobby__sub_8001FE7C(Lobby_8001FE7C *self, s16 del) {
                 for (i = 0; i < self->nHandles; i++) {
                     TLobby__sub_800F9FF4(self->handles[i]);
                 }
-                TLobby::tmp_buf_release_if_owner((const char *)lbl_80434C38);
+                TLobby::tmp_buf_release_if_owner("TBinModel_REQ");
             }
         }
         for (i = 0; i < self->nEnts16; i++) {
@@ -693,7 +735,7 @@ void TLobby::reset_battle_state() {
     *(s32 *)((s8 *)this + 0x428) = 0;
     lbl_805D4AD0 = 0;
 }
-Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, Desc_80020004 *desc, s32 arg3, s32 arg4, s32 arg5) {
+TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer) {
     Stream_80020004 st;
     char name[0x20];
     Hdr_80020004 *hdr;
@@ -708,13 +750,13 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
     u32 flags;
     ((TLobby *)self)->reset_battle_state();
     self->flags = kind | 0x100;
-    self->f41C = arg3;
-    self->f420 = arg4;
-    self->f424 = arg5;
+    self->on_loaded = on_loaded;
+    self->on_loaded_arg = on_loaded_arg;
+    self->load_buffer = load_buffer;
     self->nEnts16 = desc->n16;
     self->nEnts8 = desc->n8;
     if (self->nEnts16 > 0) {
-        self->ents16 = (Ent16_80020004 *)mem_alloc(self->nEnts16 * 16);
+        self->ents16 = (BinModelSlot *)mem_alloc(self->nEnts16 * 16);
         for (s32 i = 0; i < self->nEnts16; i++) {
             self->ents16[i].flags = 0;
             self->ents16[i].a = NULL;
@@ -722,7 +764,7 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
         }
     }
     if (self->nEnts8 > 0) {
-        self->ents8 = (Ent8_80020004 *)mem_alloc(self->nEnts8 * 8);
+        self->ents8 = (BinMotionSlot *)mem_alloc(self->nEnts8 * 8);
         for (s32 i = 0; i < self->nEnts8; i++) {
             self->ents8[i].data = NULL;
         }
@@ -733,14 +775,14 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
         lbl_805D4AD0 = 1;
         open__8TGStreamFPvPvi(&st, desc->name, 0);
         if (get_gstream_file_size(&st) <= 0) {
-            debug_print__6TLobbyFle(lbl_80434DB8, desc->name);
+            TLobby::debug_print("TBinModel: %s not found.", desc->name);
             self->nEnts16 = self->nEnts8 = 0;
             destroy_gstream(&st, -1);
             return self;
         }
         sectors = (((self->nEnts16 + self->nEnts8 + 1) << 6) + 0x7FF) / 2048;
         if (sectors > 0x4000) {
-            debug_printf_nop(lbl_80434B70, sectors);
+            debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", sectors);
         }
         hdr = (Hdr_80020004 *)bml_load_buffer;
         first = hdr->recs;
@@ -762,7 +804,7 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
         for (i = 0; i < self->nEnts16; i++, rec++) {
             size = rec->size;
             if (size > 0x40000) {
-                debug_print__6TLobbyFle(lbl_80434DD4, size - 0x40000);
+                TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", size - 0x40000);
             }
             switch (bml_load_state) {
             case 1:
@@ -776,7 +818,7 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
                     TAdSinglePlyChrSelectGC::safe_free(buf);
                     bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
                 } else {
-                    debug_print__6TLobbyFle(lbl_80434DF4, desc->name);
+                    TLobby::debug_print("TBinModel:%s Malloc failed.", desc->name);
                 }
                 break;
             default:
@@ -787,7 +829,7 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
                 break;
             }
             if (self->flags & 0x800) {
-                Ent16_80020004 *e = &self->ents16[i];
+                BinModelSlot *e = &self->ents16[i];
                 if (e->b != NULL) {
                     s32 tsize = rec->texSize;
                     if (tsize != 0) {
@@ -800,12 +842,12 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
                             self->ents16[i].flags |= 1;
                         } else {
                             self->ents16[i].flags |= 2;
-                            debug_print__6TLobbyFle(lbl_80434E10);
+                            TLobby::debug_print("TBinModel: Illegal Texture.");
                         }
                     } else {
                         e->flags |= 2;
                         if (!(self->flags & 4)) {
-                            debug_print__6TLobbyFle(lbl_80434E2C);
+                            TLobby::debug_print("TBinModel: Texture not exist.");
                         }
                     }
                 }
@@ -814,7 +856,7 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
         for (j = 0; j < self->nEnts8; j++, rec++) {
             s32 sz = rec->size;
             if (sz > 0x40000) {
-                debug_print__6TLobbyFle(lbl_80434DD4, sz - 0x40000);
+                TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", sz - 0x40000);
             }
             switch (bml_load_state) {
             case 1: {
@@ -853,4 +895,95 @@ Lobby_80020004 *load_resource_from_descriptor(Lobby_80020004 *self, s32 kind, De
         TLobby::add_named_entry((s32)self, desc->name);
     }
     return self;
+}
+
+// TBinModel helpers (inferred names): the original inlines one loop per list here; the inline copies of the
+// list parameter are what give the constructor its register assignment.
+inline void TBinModel::load_models(u32 *list) {
+    s32 i;
+    for (i = 0; *list != 0; list++, i++) {
+        ((TLobby *)this)->load_bin_model(*list, i);
+    }
+}
+
+inline void TBinModel::load_motions(u32 *list) {
+    s32 i;
+    u32 *p;
+    for (p = list, i = 0; *p != 0; p++, i++) {
+        ((TLobby *)this)->load_bin_motion(*p, i);
+    }
+}
+
+inline void TBinModel::request_motions(u32 *list) {
+    Params_8001FA1C req;
+    s32 handle;
+    s32 i;
+    for (i = 0; *list != 0; list++, i++) {
+        req.a = (Ctx_8001FA1C *)&ents8[i].data;
+        req.b = (s32)this;
+        create_named_entry__6TLobbyFiiUiiPv(*list, lobby_download_buffer, (u32)load_bin_motion_callback, &req, (void **)&handle);
+        TLobby__sub_8001EDD8(this, handle);
+    }
+}
+
+// TBinModel constructor (inferred: strings "TBinModel_NORMAL" / "TBinModel_REQ", operator new(0x440) at each caller).
+extern "C" {
+TBinModel *TLobby__sub_8002058C(TBinModel *self, s32 kind, u32 *models, u32 *motions, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer) {
+    Lobby_8001FA1C req;
+    s32 handle;
+    u32 *p;
+    s32 i;
+    ((TLobby *)self)->reset_battle_state();
+    self->flags = kind;
+    for (i = 0; i < 0x100; i++) {
+        self->handles[i] = 0;
+    }
+    self->on_loaded = on_loaded;
+    self->on_loaded_arg = on_loaded_arg;
+    self->load_buffer = load_buffer;
+    for (p = models; *p != 0; p++) {
+        self->nEnts16++;
+    }
+    if (self->nEnts16 > 0) {
+        self->ents16 = (BinModelSlot *)mem_alloc(self->nEnts16 * 16);
+        for (s32 i = 0; i < self->nEnts16; i++) {
+            self->ents16[i].flags = 0;
+            self->ents16[i].a = NULL;
+            self->ents16[i].b = NULL;
+        }
+    }
+    for (p = motions; *p != 0; p++) {
+        self->nEnts8++;
+    }
+    if (self->nEnts8 > 0) {
+        self->ents8 = (BinMotionSlot *)mem_alloc(self->nEnts8 * 8);
+        for (s32 i = 0; i < self->nEnts8; i++) {
+            self->ents8[i].data = NULL;
+        }
+    }
+    if (self->flags & 1) {
+        TLobby::tmp_buf_use_req("TBinModel_NORMAL");
+        self->load_models(models);
+        self->load_motions(motions);
+        TLobby::tmp_buf_release("TBinModel_NORMAL");
+        ((TLobby *)self)->set_flag_and_notify();
+    } else if (self->flags & 2) {
+        TLobby::tmp_buf_use_req("TBinModel_REQ");
+        if (self->nEnts16 * 2 + self->nEnts8 >= 0x100) {
+            TLobby::debug_print("TBinModel:Too Many Files.");
+        }
+        for (p = models, i = 0; *p != 0; p++, i++) {
+            req.f0 = *p;
+            req.f4 = (s32 *)&self->ents16[i].a;
+            req.f8 = (s32 *)&self->ents16[i].b;
+            req.fC = (Ctx_8001FA1C *)self;
+            req.f10 = (s32)&self->ents16[i];
+            req.f14 = ((TLobby *)*p)->get_resource_file_size();
+            create_named_entry__6TLobbyFiiUiiPv(*p, lobby_download_buffer, (u32)load_bin_model_callback, &req, (void **)&handle);
+            TLobby__sub_8001EDD8(self, handle);
+        }
+        self->request_motions(motions);
+    }
+    return self;
+}
 }

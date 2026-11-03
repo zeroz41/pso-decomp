@@ -30,7 +30,6 @@ extern "C" {
 s32 is_area_transfer_pending();
 s32 get_floor_map_selection(int, void *);
 s32 read_disc_file(void *, Rec_8020AD40 *);
-void debug_print__6TLobbyFle(void *, ...);
 void load_object_set_entries__6TLobbyFlPUcUl(s32, Rec_8020AD40 *, s32);
 }
 void advance_enemy_id_counter(s32 arg0);
@@ -43,7 +42,7 @@ extern s32 map_set_object_id_counter;
 extern s32 map_object_id_counter;
 extern s32 TLobby__data_805D6148;
 extern u8 lbl_8044BBB0[];
-extern u8 lbl_8044BBB8[];
+extern char lbl_8044BBB8[];
 extern u8 lbl_8044BBDC[];
 extern u8 lbl_8044BBE8[];
 extern Grp_8020AD40 *TLobby__data_805D6068;
@@ -61,12 +60,12 @@ s32 load_area_object_set(s32 arg0, s32 lobby, s32 arg2, s32 arg3) {
     s32 i;
     subs = TLobby__data_805D6068[lobby].subs;
     if (subs == NULL || TLobby__data_805D6068[lobby].count - 1 < arg2) {
-        debug_print__6TLobbyFle(lbl_8044BBB8);
+        TLobby::debug_print(lbl_8044BBB8);
         return 0;
     }
     items = subs[arg2].items;
     if (items == NULL || subs[arg2].count - 1 < arg3) {
-        debug_print__6TLobbyFle(lbl_8044BBB8);
+        TLobby::debug_print(lbl_8044BBB8);
         return 0;
     }
     id = items[arg3].id;

@@ -17,7 +17,6 @@ s32 dispatch_6x_subcommand(void *);
 extern u32 TLobby__protocol_instance;
 void *tmp_buf_use_req__6TLobbyFPCc(char *);
 void *alloc__22TQuestVmDownLoadServerFUl(void);
-void debug_print__6TLobbyFle(const char *, ...);
 char *strncpy(char *, const char *, u32);
 s32 load_gvm_texture_archive(void *, s32);
 extern char texture_pvm_not_found_format[];
@@ -144,7 +143,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
     }
     size = ((TLobby *)path)->get_resource_file_size();
     if (size <= 0) {
-        debug_print__6TLobbyFle(texture_pvm_not_found_format, name);
+        TLobby::debug_print(texture_pvm_not_found_format, name);
         return -1;
     }
     allocated = 0;
@@ -165,7 +164,7 @@ s32 TLobby::load_texture_pvm_file(const char *name, s32 arg1) {
         TLobby::tmp_buf_release((const char *)lbl_804497C4);
     }
     if (ret < 0) {
-        debug_print__6TLobbyFle(texture_pvm_load_error_format, name);
+        TLobby::debug_print(texture_pvm_load_error_format, name);
     }
     return ret;
 }
@@ -181,7 +180,7 @@ s32 TLobby::pso_load_texture() {
         }
         if (r == -1) {
             ret = -1;
-            debug_print__6TLobbyFle(pso_texture_load_error_format, **((s32 **)this));
+            TLobby::debug_print(pso_texture_load_error_format, **((s32 **)this));
             break;
         }
         TLobby::run_frame();

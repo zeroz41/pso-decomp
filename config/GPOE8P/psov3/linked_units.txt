@@ -954,6 +954,7 @@ pso/misc/TLobby.cpp
 pso/misc/TLobbyEventTheme.cpp
 pso/misc/TLobby_80019E24.cpp
 pso/misc/TLobby_8001D6A0.cpp
+pso/misc/TLobby_8001EF5C.cpp
 pso/misc/TLobby_8002C140.cpp
 pso/misc/TLobby_8002C838.cpp
 pso/misc/TLobby_8003A95C.cpp
@@ -2027,7 +2028,6 @@ pso/object/TObjEZBoneRotPlayer.cpp
 pso/object/TObjEZRopeBase.cpp
 pso/object/TObjEnvSoundGlobal.cpp
 pso/object/TObjEvtCollision.cpp
-pso/object/TObjFish_8001ED90.cpp
 pso/object/TObjFish_800E2FFC.cpp
 pso/object/TObjFogCollision.cpp
 pso/object/TObjFogCollisionPoison.cpp

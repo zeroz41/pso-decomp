@@ -21,6 +21,7 @@
 #include "pso/object/TObjButterflyLobby.h"
 #include "pso/object/TObjMapCsn.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/misc/TLobby.h"
 
 struct SurfaceAreaTable { s32 enabled[36]; };
 
@@ -365,10 +366,6 @@ extern s32 __vt__6TScene[];
 
 
 void bind_gvm_texture_list(s32 *, u32);
-
-
-
-s32 debug_print__6TLobbyFle(s32 *, ...);
 
 s32 collect_collision_groups(u32, s32);
 
@@ -866,7 +863,7 @@ void TScene::load_scene_data(s32 name) {
         collect_collision_groups(temp_csn, *scene_collision_data);
         return;
     }
-    debug_print__6TLobbyFle((s32 *)"TScene : CANNOT LOAD COLLISION DATA");
+    TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
 }
 
 void TScene::load_scene_rel_file(s32 arg0) {
@@ -1125,7 +1122,7 @@ void load_scene_collision_file(s32 name) {
                 collect_collision_groups(csn, *scene_collision_data);
                 return;
             }
-            debug_print__6TLobbyFle((s32 *)"TScene : CANNOT LOAD COLLISION DATA");
+            TLobby::debug_print("TScene : CANNOT LOAD COLLISION DATA");
             return;
         }
         scene_collision_data = NULL;
