@@ -3152,6 +3152,71 @@ s16 TLobby__sub_80402BB4(u8 *arg0, s32 timeout) {
     return 0;
 }
 
+extern const char lbl_805E1180[4];
+extern "C" void handle_request_timeout__6TLobbyFv(void);
+extern "C" B_803FADA0 *TLobby__sub_80403634(Self_803FD74C *fsm);
+struct Self_80402CE0;
+struct Timer_80402CE0 {
+    u8 pad0[0x10];
+    void (*callback)(void);
+    Self_80402CE0 *arg;
+    u8 pad18[4];
+};
+struct Self_80402CE0 {
+    u8 f0; u8 f1; u8 f2; u8 f3; u8 f4; u8 f5; u8 f6; u8 f7;
+    u8 pad8[4];
+    u8 *sub;
+    Timer_80402CE0 timer;
+    Proto_803FC318 *proto;
+    u8 *opts;
+};
+extern "C" void TLobby__sub_80402CE0(u8 *conn);
+
+void TLobby__sub_80402CE0(u8 *conn) {
+    Names_80403168 *g;
+    Proto_803FC318 *p;
+    Self_80402CE0 *fsm;
+    Timer_80402CE0 *timer;
+
+    g = &lbl_805C04D8;
+    p = (Proto_803FC318 *)g;
+    fsm = (Self_80402CE0 *)(conn + 0x38);
+    if (fsm->opts == NULL) {
+        timer = &fsm->timer;
+        p->name = lbl_805E1180;
+        p->proto = 0xC023;
+        p->h6 = 0xE;
+        p->b8 = 1;
+        p->bB = 0;
+        p->b9 = *(u8 *)((u8 *)g + 0x15A);
+        p->bA = *(u8 *)((u8 *)g + 0x15B);
+        p->timeout = *(u16 *)((u8 *)g + 0x15C) * 1000;
+        p->f10 = TLobby__sub_803FE84C;
+        p->f14 = TLobby__sub_803FE84C;
+        p->f18 = TLobby__sub_803FE84C;
+        p->f1C = TLobby__sub_803FE84C;
+        p->f20 = TLobby__sub_803FE84C;
+        p->f24 = TLobby__sub_803FE84C;
+        p->f28 = TLobby__sub_80403634;
+        p->f2C = TLobby__sub_803FE844;
+        p->f30 = TLobby__sub_803FE844;
+        p->f34 = TLobby__sub_803FE844;
+        p->f38 = TLobby__sub_803FE844;
+        fsm->sub = conn;
+        fsm->proto = p;
+        fsm->opts = (u8 *)g + 0x3C;
+        fsm->f4 = fsm->proto->b9;
+        fsm->f7 = fsm->proto->bA;
+        fsm->f5 = fsm->proto->bB;
+        fsm->f0 = 0;
+        fsm->f3 = fsm->f4;
+        fsm->f6 = fsm->f7;
+        timer->callback = handle_request_timeout__6TLobbyFv;
+        timer->arg = fsm;
+        TLobby__sub_80405298((N_80405298 *)timer, fsm->proto->timeout);
+    }
+}
+
 s32 TLobby::mark_ready() {
     u8 *arg0 = (u8 *)this;
     *(s8 *)((s8 *)arg0 + 0x38) = 2;
