@@ -275,8 +275,8 @@ struct View_800696D0 {
     Vec_800696D0 split_pos[4];
     Vec_800696D0 split_tgt[4];
     Vec_800696D0 split_look[4];
-    s32 split_flags[4];
-    s32 flag;
+    s32 split_obstructed[4]; // per view: obstructed below
+    s32 obstructed; // set by resolve_anchor_obstruction when csnVector(look, eye) hits; gates clamp_to_target_obstruction
     Vec_800696D0 pos;
     Vec_800696D0 tgt;
     u8 pad190[0x1A0 - 0x190];
@@ -294,8 +294,8 @@ struct View_800698C8 {
     Vec_800698C8 split_pos[4];
     Vec_800698C8 split_tgt[4];
     Vec_800698C8 split_look[4];
-    s32 split_flags[4];
-    s32 flag;
+    s32 split_obstructed[4];
+    s32 obstructed;
     Vec_800698C8 pos;
     Vec_800698C8 tgt;
     u8 pad190[0x1C8 - 0x190];
@@ -675,8 +675,8 @@ struct Cam_8006B0D4 {
     Vec_8006B0D4 split_pos[4];
     Vec_8006B0D4 split_tgt[4];
     Vec_8006B0D4 split_look[4];
-    s32 split_flags[4];
-    s32 flag;
+    s32 split_obstructed[4];
+    s32 obstructed;
     Vec_8006B0D4 pos;
     Vec_8006B0D4 tgt;
     s32 pitch;
@@ -802,7 +802,7 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent) {
     camera_ctrl_instance = arg0;
     self->fov = 0x3555;
     self->f90 = 0;
-    self->flag = 0;
+    self->obstructed = 0;
     self->look.x = 0.0f;
     self->look.y = 0.0f;
     self->look.z = 0.0f;
@@ -814,7 +814,7 @@ u8 *TCameraCtrl__ct(u8 *arg0, void *parent) {
         self->split_look[i].x = 0.0f;
         self->split_look[i].y = 0.0f;
         self->split_look[i].z = 0.0f;
-        self->split_flags[i] = 0;
+        self->split_obstructed[i] = 0;
     }
     self->pos.x = 0.0f;
     self->pos.y = 0.0f;
@@ -1595,14 +1595,14 @@ void TCameraCtrl::update_pose_smoothing() {
     temp_r30 = (u8 *) (arg0 + (TCameraCtrl::get_camera_no() * 0xC));
     new_var = (temp_r30 + 0xD4);
     temp_r31 = new_var;
-    approach_camera_vector((void *) temp_r31, (u8 *)&this->eye_x, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
+    approach_camera_vector((void *) temp_r31, (u8 *)&this->eye_x, this->eye_rate);
     VecCopy((Vec *)(arg0 + 0x178), (const Vec *)temp_r31);
     current = (temp_r30 + 0x104);
     approach_camera_vector((void *) current, (u8 *)&this->at_x, this->at_rate);
     VecCopy((Vec *)(arg0 + 0x184), (const Vec *)current);
     return;
   }
-  approach_camera_vector((u8 *)&this->pos_x, (u8 *)&this->eye_x, (f32) (*((f32 *) (((s8 *) arg0) + 0x1B8))));
+  approach_camera_vector((u8 *)&this->pos_x, (u8 *)&this->eye_x, this->eye_rate);
   approach_camera_vector((u8 *)&this->tgt_x, (u8 *)&this->at_x, this->at_rate);
 }
 
@@ -1654,14 +1654,14 @@ void TCameraCtrl::clamp_to_target_obstruction() {
     View_800698C8 *self = (View_800698C8 *)this;
     s32 n;
     Hit_800698C8 *hit;
-    s32 *flag;
+    s32 *obstructed;
     n = TCameraCtrl::get_camera_no();
     if (is_split_screen() != 0) {
-        flag = &self->split_flags[n];
+        obstructed = &self->split_obstructed[n];
     } else {
-        flag = &self->flag;
+        obstructed = &self->obstructed;
     }
-    if (*flag == 0) {
+    if (*obstructed == 0) {
         return;
     }
     if (is_split_screen() != 0) {
@@ -1697,15 +1697,15 @@ void TCameraCtrl::resolve_anchor_obstruction() {
     View_800696D0 *self = (View_800696D0 *)this;
     Vec_800696D0 d;
     s32 n;
-    s32 *flag;
+    s32 *obstructed;
     Hit_800696D0 *hit;
     if (is_split_screen() != 0) {
         n = TCameraCtrl::get_camera_no();
-        flag = &self->split_flags[n];
+        obstructed = &self->split_obstructed[n];
         hit = (Hit_800696D0 *)csnVector(&self->split_look[n], &self->eye, 0x901);
     } else {
         hit = (Hit_800696D0 *)csnVector(&self->look, &self->eye, 0x901);
-        flag = &self->flag;
+        obstructed = &self->obstructed;
     }
     if (hit != NULL) {
         if (is_split_screen() != 0) {
@@ -1731,7 +1731,7 @@ void TCameraCtrl::resolve_anchor_obstruction() {
             self->look.y = hit->point->y - d.y;
             self->look.z = hit->point->z - d.z;
         }
-        *flag = 1;
+        *obstructed = 1;
     } else {
         if (is_split_screen() != 0) {
             n = TCameraCtrl::get_camera_no();
@@ -1739,7 +1739,7 @@ void TCameraCtrl::resolve_anchor_obstruction() {
         } else {
             VecCopy((Vec *)&self->look, (const Vec *)&self->pos);
         }
-        *flag = 0;
+        *obstructed = 0;
     }
 }
 
