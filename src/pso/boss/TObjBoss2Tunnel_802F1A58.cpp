@@ -21,7 +21,7 @@
 #include <stddef.h>
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/boss/TObjBoss2Tunnel_802F2070.h"
-#include "pso/unk/text_802F1FB0.h"
+#include "pso/system/vector.h"
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 
@@ -29,7 +29,7 @@ struct Li_802F2348 { u8 pad[0x14]; Nd_802F2348 *head; };
 
 struct Vec_802F25AC { f32 x, y, z; };
 
-// count + index list; fn_802F1FB0 copies both into the effect object it builds
+// count + index list; the TUnk_804E4B24 constructor copies both into the segment it builds
 struct Boss2TunnelEffectEntry {
     s32 count;
     const s32 *indices;
@@ -64,10 +64,8 @@ s32 lbl_805D696C;
 s8 lbl_805D6970;
 
 
-struct RecoveredGlobal_802F1AE0_lbl_804E4AD4 { s32 value; u8 remaining[0x14]; };
-
 extern "C" {
-s32 get_bml_motion(void *, s32);
+AnimationMotion *get_bml_motion(void *, s32);
 s32 get_bml_model(void *, s32);
 u32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__13TUnk_804E4AD4[];
@@ -96,14 +94,11 @@ void *__dt__13TUnk_804E4AD4Fv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-u8 *TObjBoss2Tunnel__sub_802F1AE0(u8 *arg0, u8 *arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802F1AE0_lbl_804E4AD4 *)&__vt__13TUnk_804E4AD4).value;
-    *(s32 *)((s8 *)arg0 + 0x1C) = get_bml_model(boss7_common_bml_resource, arg2 + 0x11);
-    ((TUnk_804E4AD4 *)arg0)->motion = get_bml_motion(boss7_common_bml_resource, arg2);
-    ((TUnk_804E4AD4 *)arg0)->last_frame = (f32) ((f32) *(u32 *)((s8 *)(((TUnk_804E4AD4 *)arg0)->motion) + 4) - 1.0f);
-    *(f32 *)((s8 *)arg0 + 0x28) = 0.0f;
-    return arg0;
+TUnk_804E4AD4::TUnk_804E4AD4(TObject *parent, s32 kind) : TObject(parent) {
+    model = get_bml_model(boss7_common_bml_resource, kind + 0x11);
+    motion = get_bml_motion(boss7_common_bml_resource, kind);
+    last_frame = (f32)motion->frameCount - 1.0f;
+    frame = 0.0f;
 }
 
 }
@@ -281,32 +276,24 @@ void *__dt__13TUnk_804E4B24Fv(void *arg0, s16 arg1) {
 
 
 extern "C" {
-s32 VecCopy__FP3VecPC3Vec(void *, void *, int, int);
 s32 copy_position__16TBoss8DragonDemoFv(int, void *);
-u8 *fn_802F1FB0(u8 *arg0, u8 *arg1, s32 arg2, Vec *arg3, f32 farg0) {
-    s32 temp_r5;
-    s32 temp_r6;
-    u8 *temp_r31;
-    __ct__7TObjectFP7TObject(arg0, arg1);
-    temp_r5 = arg2 * 8;
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804E4B24;
-    temp_r6 = *(s32 *)((s8 *)arg1 + 0x10);
-    temp_r31 = (u8 *)boss2_tunnel_effect_name_table + temp_r5;
-    ((TUnk_804E4B24 *)arg0)->controller = temp_r6;
-    VecCopy__FP3VecPC3Vec(arg0 + 0x1C, (void *)arg3, (int)temp_r5, (int)temp_r6);
-    *(s32 *)((s8 *)arg0 + 0x28) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2C) = 0;
-    *(s32 *)((s8 *)arg0 + 0x30) = 0;
-    ((TUnk_804E4B24 *)arg0)->model_indices = (s32) *(s32 *)((s8 *)temp_r31 + 4);
-    *(s32 *)((s8 *)arg0 + 0x38) = (s32) *(s32 *)((s8 *)temp_r31 + 0);
-    ((TUnk_804E4B24 *)arg0)->kind = arg2;
-    *(f32 *)((s8 *)arg0 + 0x44) = farg0;
-    if (arg2 == 4) {
-        copy_position__16TBoss8DragonDemoFv((int) (((TUnk_804E4B24 *)arg0)->controller), arg0 + 0x1C);
+TUnk_804E4B24::TUnk_804E4B24(TObject *parent, s32 kind, Vec *pos, f32 half_length) : TObject(parent) {
+    Boss2TunnelEffectEntry *entry;
+    controller = (s32)parent->m_up;
+    entry = &boss2_tunnel_effect_name_table[kind];
+    VecCopy(&position, pos);
+    rotation_x = 0;
+    rotation_y = 0;
+    rotation_z = 0;
+    model_indices = entry->indices;
+    model_count = entry->count;
+    this->kind = kind;
+    this->half_length = half_length;
+    if (kind == 4) {
+        copy_position__16TBoss8DragonDemoFv(controller, &position);
         TObjBoss2Tunnel__sub_802F2278();
     }
-    ((TUnk_804E4B24 *)arg0)->update_collision();
-    return arg0;
+    update_collision();
 }
 
 }
@@ -384,10 +371,7 @@ void TUnk_804E4B3C::spawn_segment_row_b() {
 }
 
 void TUnk_804E4B3C::spawn(s32 kind, Vec *position) {
-    void *new_obj = (void *) __nw__7TObjectFUl(0x78);
-    if ((u32) new_obj != 0U) {
-        fn_802F1FB0((u8 *)new_obj, *(u8 **)((s8 *)this + 0x8C), kind, position, this->half_length);
-    }
+    new TUnk_804E4B24(effect_nodes, kind, position, half_length);
 }
 void TObjBoss2Tunnel__sub_802F2278(void) { (*(int *)&boss2_tunnel_state_flags) = ((*(int *)&boss2_tunnel_state_flags) | 0x8); }
 void TObjBoss2Tunnel::set_flag_0x200() { (*(int *)&boss2_tunnel_state_flags) = ((*(int *)&boss2_tunnel_state_flags) | 0x200); TObjBoss2Tunnel::clear_flags_0x3000(); }
@@ -663,18 +647,9 @@ void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent) {
             TObjBoss7RaftSplash__ct((void *) p, arg0, &lbl_804E4A44[i], TObjBoss2Tunnel__raft_splash_offset_table + i * 0xC, arg0 + 0x5C);
         }
     }
-    p = __nw__7TObjectFUl(0x2C);
-    if (p != 0) {
-        TObjBoss2Tunnel__sub_802F1AE0((u8 *) p, *(u8 **)((s8 *)arg0 + 0x90), 0);
-    }
-    p = __nw__7TObjectFUl(0x2C);
-    if (p != 0) {
-        TObjBoss2Tunnel__sub_802F1AE0((u8 *) p, *(u8 **)((s8 *)arg0 + 0x90), 1);
-    }
-    p = __nw__7TObjectFUl(0x2C);
-    if (p != 0) {
-        TObjBoss2Tunnel__sub_802F1AE0((u8 *) p, *(u8 **)((s8 *)arg0 + 0x90), 2);
-    }
+    new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 0);
+    new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 1);
+    new TUnk_804E4AD4(*(TObject **)((s8 *)arg0 + 0x90), 2);
     if (lbl_805D6970 == 0) {
         lbl_805D696C = 1;
         lbl_805D6970 = 1;

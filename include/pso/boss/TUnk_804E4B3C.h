@@ -37,7 +37,7 @@ public:
     f32 unk_80;
     f32 half_length;
     TObject *tunnel_col; // the TObjBoss7TunnelCol the constructor creates
-    void * effect_nodes; // parent of the segments spawn creates
+    TObject *effect_nodes; // parent of the segments spawn creates
     u8 pad_90[0x4];
 };
 typedef char TUnk_804E4B3C_size[sizeof(TUnk_804E4B3C) == 0x94 ? 1 : -1];
