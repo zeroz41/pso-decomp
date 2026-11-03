@@ -489,8 +489,6 @@ pso/enemy/TObjEneRe4Sorcerer_800EDB98.cpp
 pso/enemy/TObjEneRe4Sorcerer_801E3F14.cpp
 pso/enemy/TObjEneRe7Berura.cpp
 pso/enemy/TObjEneRe7BeruraPunch.cpp
-pso/enemy/TObjEneRe7Berura_80092CCC.cpp
-pso/enemy/TObjEneRe7Berura_8009358C.cpp
 pso/enemy/TObjEneRe7Berura_800967C0.cpp
 pso/enemy/TObjEneRe7Berura_803E4CE0.cpp
 pso/enemy/TObjEneRecon.cpp
@@ -2717,7 +2715,6 @@ pso/unk/text_8008C4F4.cpp
 pso/unk/text_80090464.cpp
 pso/unk/text_80090488.cpp
 pso/unk/text_80092AE0.cpp
-pso/unk/text_80092B10.cpp
 pso/unk/text_8009F410.cpp
 pso/unk/text_800A01C0.cpp
 pso/unk/text_800A02AC.cpp

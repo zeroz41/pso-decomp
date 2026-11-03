@@ -1479,20 +1479,9 @@ pso/player/TObjPlayer_80092A7C.cpp:
 pso/unk/text_80092AE0.cpp:
 	.text       start:0x80092AE0 end:0x80092B10
 
-pso/unk/text_80092B10.cpp:
-	.text       start:0x80092B10 end:0x80092CCC
-	.rodata     start:0x80439ED0 end:0x80439EE8
-
-pso/enemy/TObjEneRe7Berura_80092CCC.cpp:
-	.text       start:0x80092CCC end:0x8009358C
-	.rodata     start:0x80439EE8 end:0x80439EF0
-
-pso/enemy/TObjEneRe7Berura_8009358C.cpp:
-	.text       start:0x8009358C end:0x80094994
-	.rodata     start:0x80439EF0 end:0x80439EF8
-
 pso/enemy/TObjEneRe7Berura.cpp:
-	.text       start:0x80094994 end:0x80095E18
+	.text       start:0x80092B10 end:0x80095E18
+	.rodata     start:0x80439ED0 end:0x80439EF8
 	.data       start:0x8048F650 end:0x8048F930
 	.bss        start:0x805007C8 end:0x805008A4
 
