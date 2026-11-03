@@ -36,21 +36,12 @@ struct RecoveredGlobal_80360638_lbl_805439FC {
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneEpsilon.h"
+#include "pso/enemy/EnemyTargetCandidate.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
-struct Stack_8035F8F0 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
-};
 
-struct RecoveredGlobal_8035F8F0_lbl_80479E6C {
-    s32 value;
-    u8 remaining[0xC];
-};
 
 struct VBase_14_948132 { char pad[0x14]; };
 
@@ -221,6 +212,22 @@ struct Obj_803606A0 {
     s32 ang[4];
     Vec_803606A0 pts[4];
 };
+
+// .rodata 0x80479D00-0x80479E88 stays outside the unit: the claim must start 8-aligned, and with the
+// joint tables defined here sub_803606A0 would address them and its f64 literal off one section base,
+// which the original does not.
+// Joint index per guard slot and the joint-local point the guard angle is measured from (sub_803606A0).
+extern Tbl_803606A0 epsilon_guard_attack_offset_table;
+extern Vec_803606A0 lbl_80479D10;
+// 20 rows of per-guard attack flags (update_attack_pattern).
+extern Tbl_8035FFA8 epsilon_guard_attack_pattern_table;
+// Guard slot visiting order {2, 0, 1, 3} (TObjEneEpsilonGuard__sub_8035FD50).
+extern Tbl_803606A0 lbl_80479E5C;
+// Per-colour value {1, 2, 3, 5} (get_table_value_by_index).
+extern Tbl_803606A0 epsilon_guard_table_value_set;
+// Per-colour value {9, 7, 10, 11} (sub_8035F8A8).
+extern T_8035F8A8 lbl_80479E7C[];
+
 struct W_8035FA50;
 struct W_8035FBBC;
 struct Guard_8035F970;
@@ -418,12 +425,10 @@ extern "C" {
 f32 atan2_float(f32 y, f32 x);
 s32 matrix_mult_vec(int, void *, void *);
 s32 push_matrix_from(void *);
-extern Tbl_803606A0 epsilon_guard_attack_offset_table;
-extern Vec_803606A0 lbl_80479D10;
-extern const f64 lbl_80479E90[];
 extern u8 identity_matrix[];
 f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 extern const f32 lbl_805E0208;
+extern const f32 lbl_805E020C;
 s32 get_bml_model(s32, s32);
 extern s32 lbl_805D6FA0;
 s32 post_translate_matrix(void *);
@@ -448,7 +453,6 @@ void action__19TObjEneEpsilonGuardFPvi(void *arg0, s32 arg1);
 s32 draw_line_list(void *, int, int);
 extern RecoveredGlobal_80360638_lbl_804F22CC TObjEneEpsilonGuard__debug_line_list;
 extern RecoveredGlobal_80360638_lbl_805439FC lbl_805439FC;
-extern RecoveredGlobal_8035F8F0_lbl_80479E6C epsilon_guard_table_value_set;
 void TObjEneEpsilonGuard__sub_80361C70(u8 *arg0, s32 arg1);
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
@@ -459,7 +463,6 @@ extern const f32 lbl_805E0224;
 u32 find_entity_by_id(s32);
 s32 is_state_flag_set__19TObjEneEpsilonGuardFv();
 void TObjEneEpsilonGuard__sub_8035F844(W_8035F844 *arg0, s32 arg1);
-extern T_8035F8A8 lbl_80479E7C[];
 void TObjEneEpsilonGuard__sub_8035DEC0();
 void TObjEneEpsilonGuard__sub_8035FA50(W_8035FA50 *arg0);
 s32 is_guard_active__19TObjEneEpsilonGuardFv();
@@ -470,8 +473,6 @@ s32 TObjEneEpsilonGuard__sub_8035FCEC(W_8035FCEC *arg0);
 f32 random_ratio__9TObjCharaFv(s32 arg0);
 s32 TObjEneEpsilonGuard__sub_8035DD74(u8 *arg0);
 void set_target__19TObjEneEpsilonGuardFlll(u32, V3_8035F970 *, s32, s32);
-extern const f64 lbl_80479E88;
-extern Tbl_8035FFA8 epsilon_guard_attack_pattern_table[];
 extern const f32 lbl_805E0210;
 f32 receive_weapon_special_attack__9TObjCharaFPvPv(void *, void *, void *);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
@@ -511,7 +512,7 @@ s32 project_actor_to_ground(void *, void *, s32);
 void *get_player_by_client_id(s32 i);
 void *__nw__7TObjectFUl(u32);
 void create_fire_explosion_effect(void *, void *, s32, s32, f32);
-u32 TObjEneEpsilonGuard__sub_8035FD50(void *, s32);
+u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonGuard *self, s32 slot);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 void subtract_vector(void *, void *);
@@ -603,7 +604,6 @@ f32 TObjEneEpsilonBody::receive_direct_attack(void *attacker, DirectAttackPayloa
     return lbl_805E0208;
 }
 
-typedef char RecoveredGlobal_8035F8F0_lbl_80479E6C_size[sizeof(RecoveredGlobal_8035F8F0_lbl_80479E6C) == 0x10 ? 1 : -1];
 
 void TObjEneEpsilonGuard__sub_8035F844(W_8035F844 *arg0, s32 arg1) {
     u32 r;
@@ -626,21 +626,12 @@ s16 TObjEneEpsilonBody::sub_8035F8A8() {
 }
 
 s16 TObjEneEpsilonBody::get_table_value_by_index() {
-    typedef char sp8_offset[(offsetof(Stack_8035F8F0, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8035F8F0, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8035F8F0, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8035F8F0, sp14) == 0xC) ? 1 : -1];
-    Stack_8035F8F0 stack;
-    s16 temp_r7;
-    temp_r7 = this->m_43e;
-    stack.sp8 = *(s32 *)((s8 *)(&epsilon_guard_table_value_set.value) + 0);
-    stack.spC = *(s32 *)((s8 *)(&epsilon_guard_table_value_set.value) + 4);
-    stack.sp10 = *(s32 *)((s8 *)(&epsilon_guard_table_value_set.value) + 8);
-    stack.sp14 = *(s32 *)((s8 *)(&epsilon_guard_table_value_set.value) + 0xC);
-    if ((temp_r7 < 0) || (temp_r7 > 3)) {
+    s16 i = this->m_43e;
+    Tbl_803606A0 t = epsilon_guard_table_value_set;
+    if (i < 0 || i > 3) {
         return 0;
     }
-    return (s16) (&stack.sp8)[temp_r7];
+    return t.v[i];
 }
 
 int TObjEneEpsilonGuard__sub_8035F950(void* p) { return (*(u32*)((char*)p + 0x438) >> 11) & 0x1; }
@@ -657,7 +648,7 @@ s32 TObjEneEpsilonGuard::assign_guard_targets() {
             return 0;
         }
     }
-    near = random_ratio__9TObjCharaFv((s32)this) < lbl_80479E88;
+    near = random_ratio__9TObjCharaFv((s32)this) < 0.5;
     for (i = 0; i < 4; i++) {
         p = find_entity_by_id(((Guard_8035F970 *)this)->h[i]);
         if (p != 0) {
@@ -757,11 +748,73 @@ s32 TObjEneEpsilonGuard__sub_8035FCEC(W_8035FCEC *arg0) {
     return 1;
 }
 
+extern s32 registered_player_count;
+extern s32 lbl_805D5870;
+
+// Picks the player for guard slot `slot`: the up to four nearest players in
+// range with a clear path, sorted by distance and repeated to fill four slots.
+u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonGuard *self, s32 slot) {
+    Tbl_803606A0 order = lbl_80479E5C;
+    EnemyTargetCandidate list[4];
+    Vec d;
+    EnemyTargetCandidate tmp;
+    s32 n;
+    s32 id;
+    s32 extra;
+    s32 count;
+    s32 i;
+    s32 j;
+    s32 k;
+    TObjPlayer *player;
+    f32 dist;
+
+    list[0].id = 0xFFFF;
+    list[0].distance_squared = lbl_805E0208;
+    n = 0;
+    extra = self->vfunc_99();
+    count = registered_player_count;
+    if (extra != 0) {
+        count += lbl_805D5870;
+    }
+    for (id = 0; id < count; id++) {
+        player = TObjPlayer::get_player_data(id);
+        if (TObjPlayer::is_valid_and_active((u32)player) == 0) continue;
+        if (player->actorFlags & 0x2000800) continue;
+        VecCopy(&d, (Vec *)&player->m_2fc);
+        subtract_vector(&d, &self->m_2fc);
+        dist = d.x * d.x + d.z * d.z;
+        if (!(dist < lbl_805E020C)) continue;
+        if (check_path_obstructed(self, &player->m_2fc) == 1) continue;
+        list[n].distance_squared = dist;
+        list[n].id = id;
+        n++;
+        if (n >= 4) break;
+    }
+    if (n <= 0) {
+        return 0xFFFF;
+    }
+    if (n >= 2) {
+        for (i = 0; i < n - 1; i++) {
+            for (j = i + 1; j < n; j++) {
+                if (list[i].distance_squared > list[j].distance_squared) {
+                    tmp.copy_from(&list[i]);
+                    list[i].copy_from(&list[j]);
+                    list[j].copy_from(&tmp);
+                }
+            }
+        }
+    }
+    for (k = n; k < 4; k++) {
+        list[k].copy_from(&list[k % n]);
+    }
+    return list[order.v[slot % 4]].id;
+}
+
 struct W_8035F844;
 struct W_8035FC20;
 #define o ((Self_8035FFA8 *)arg0)
 void TObjEneEpsilonGuard::update_attack_pattern(void *arg0) {
-    Tbl_8035FFA8 t = epsilon_guard_attack_pattern_table[0];
+    Tbl_8035FFA8 t = epsilon_guard_attack_pattern_table;
     s32 *row;
     s32 i;
     if (o->flags & 0x400) {
@@ -820,7 +873,7 @@ void TObjEneEpsilonGuard::record_camera_angle_samples() {
     case 0x30:
     case 0x3A:
         get_camera_ctrl__9TObjEneDDFv(lbl_805439F0, (*(f32 * *)&epsilon_guard_camera_sample_read_ptr));
-        *(*(s32 * *)&epsilon_guard_angle_sample_write_ptr) = (s32)((*(const f64 *)&lbl_80479E90) * atan2_float(
+        *(*(s32 * *)&epsilon_guard_angle_sample_write_ptr) = (s32)(10430.38043493439 * atan2_float(
             (*(f32 * *)&epsilon_guard_camera_sample_read_ptr)[0] - (*(f32 * *)&epsilon_guard_camera_sample_end_ptr)[0],
             (*(f32 * *)&epsilon_guard_camera_sample_read_ptr)[2] - (*(f32 * *)&epsilon_guard_camera_sample_end_ptr)[2]));
         (*(f32 * *)&epsilon_guard_camera_sample_read_ptr) += 3;
@@ -967,7 +1020,7 @@ void TObjEneEpsilonBody::sub_803606A0(s32 i) {
         matrix_mult_vec(0, &v, &g6->pts[i]);
     }
     pop_matrix();
-    g6->ang[i] = (s32)(lbl_80479E90[0] * atan2_float(g6->pts[i].x - g6->pos.x, g6->pts[i].z - g6->pos.z));
+    g6->ang[i] = (s32)(10430.38043493439 * atan2_float(g6->pts[i].x - g6->pos.x, g6->pts[i].z - g6->pos.z));
 }
 
 #pragma push
@@ -1493,7 +1546,7 @@ void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1) {
                 F(s32, 0x4E4) = 1;
             } else {
                 F(s32, 0x4F4)++;
-                F(s32, 0x4F0) = TObjEneEpsilonGuard__sub_8035FD50(arg0, F(s32, 0x4F4));
+                F(s32, 0x4F0) = TObjEneEpsilonGuard__sub_8035FD50((TObjEneEpsilonGuard *)arg0, F(s32, 0x4F4));
                 if (F(s32, 0x4F0) != 0xFFFF) {
                     if (TObjPlayer::is_valid_and_active((u32)(get_player_data__10TObjPlayerFi(F(s32, 0x4F0)))) != 0) {
                         VecCopy__FP3VecPC3Vec(d, arg0 + 0x38);
