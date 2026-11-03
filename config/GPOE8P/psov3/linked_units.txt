@@ -779,7 +779,6 @@ pso/menu/TAdGuideTxtGC.cpp
 pso/menu/TAdGuideTxtGC_802B17D4.cpp
 pso/menu/TAdMultiOkGC.cpp
 pso/menu/TAdPlyChrSelPlateGC.cpp
-pso/menu/TAdRicoRing_8001BEE8.cpp
 pso/menu/TAdTimeSetGC.cpp
 pso/menu/TChCrCharSelect.cpp
 pso/menu/TChCrEffWall.cpp
@@ -1053,7 +1052,6 @@ pso/misc/TLobby_8020F00C.cpp
 pso/misc/TLobby_80211C1C.cpp
 pso/misc/TLobby_80211CE0.cpp
 pso/misc/TLobby_80211F0C.cpp
-pso/misc/TLobby_80215AE4.cpp
 pso/misc/TLobby_802173F0.cpp
 pso/misc/TLobby_8021B268.cpp
 pso/misc/TLobby_80221820.cpp
@@ -1073,7 +1071,6 @@ pso/misc/TLobby_8028A7C8.cpp
 pso/misc/TLobby_8028EA28.cpp
 pso/misc/TLobby_80291D94.cpp
 pso/misc/TLobby_80299A60.cpp
-pso/misc/TLobby_802A018C.cpp
 pso/misc/TLobby_802A0F3C.cpp
 pso/misc/TLobby_802A5120.cpp
 pso/misc/TLobby_802A6080.cpp
@@ -1406,8 +1403,6 @@ pso/misc/TQuestColCtrl.cpp
 pso/misc/TQuestColCtrl_80195CF0.cpp
 pso/misc/TQuestListChallenge.cpp
 pso/misc/TQuestListOnline.cpp
-pso/misc/TQuestListOnline_802150E8.cpp
-pso/misc/TQuestListOnline_80217464.cpp
 pso/misc/TQuestListOnline_80218160.cpp
 pso/misc/TQuestListOnline_8021824C.cpp
 pso/misc/TQuestListOnline_80218310.cpp
@@ -2110,8 +2105,6 @@ pso/player/TItemWeaponFist.cpp
 pso/player/TObjPlayer.cpp
 pso/player/TObjPlayerSet.cpp
 pso/player/TObjPlayer_80011014.cpp
-pso/player/TObjPlayer_8001BED8.cpp
-pso/player/TObjPlayer_8001BF10.cpp
 pso/player/TObjPlayer_80020898.cpp
 pso/player/TObjPlayer_8002E784.cpp
 pso/player/TObjPlayer_80036824.cpp
@@ -2419,6 +2412,7 @@ pso/slices/pso_carve_8020bf88.cpp
 pso/system/ChunkMaterialState.cpp
 pso/system/ChunkTextureStripCollector.cpp
 pso/system/CityTraffic.cpp
+pso/system/FlagWord.cpp
 pso/system/GinjaModelQueue.cpp
 pso/system/ItemEffects.cpp
 pso/system/LscStream.cpp

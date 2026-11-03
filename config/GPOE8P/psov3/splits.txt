@@ -89,14 +89,8 @@ pso/ui/TAdRicoRingCtrl.cpp:
 	.text       start:0x8001B424 end:0x8001BED8
 	.data       start:0x80480A40 end:0x80480A70
 
-pso/player/TObjPlayer_8001BED8.cpp:
-	.text       start:0x8001BED8 end:0x8001BEE8
-
-pso/menu/TAdRicoRing_8001BEE8.cpp:
-	.text       start:0x8001BEE8 end:0x8001BF10
-
-pso/player/TObjPlayer_8001BF10.cpp:
-	.text       start:0x8001BF10 end:0x8001BF4C
+pso/system/FlagWord.cpp:
+	.text       start:0x8001BED8 end:0x8001BF4C
 
 pso/ui/TAdSEGAlogo_8001BF4C.cpp:
 	.text       start:0x8001BF4C end:0x8001C060
@@ -7246,15 +7240,9 @@ pso/misc/THunterGuildSeqOffline_80213788.cpp:
 	.sdata2     start:0x805DC658 end:0x805DC660
 
 pso/player/THunterGuildSeqOnlineTask.cpp:
-	.text       start:0x80214BC4 end:0x802150E8
+	.text       start:0x80214BC4 end:0x80215BA0
 	.data       start:0x804C9828 end:0x804C9840
 	.sdata2     start:0x805DC660 end:0x805DC664
-
-pso/misc/TQuestListOnline_802150E8.cpp:
-	.text       start:0x802150E8 end:0x80215AE4
-
-pso/misc/TLobby_80215AE4.cpp:
-	.text       start:0x80215AE4 end:0x80215BA0
 
 pso/misc/TJudgmentSequence.cpp:
 	.text       start:0x80215BA0 end:0x80216084
@@ -7281,11 +7269,8 @@ pso/misc/TLobby_802173F0.cpp:
 pso/misc/TShopWindowBase_80217454.cpp:
 	.text       start:0x80217454 end:0x80217464
 
-pso/misc/TQuestListOnline_80217464.cpp:
-	.text       start:0x80217464 end:0x802178A0
-
 pso/misc/TQuestListOnline.cpp:
-	.text       start:0x802178A0 end:0x80218160
+	.text       start:0x80217464 end:0x80218160
 
 pso/misc/TQuestListOnline_80218160.cpp:
 	.text       start:0x80218160 end:0x8021824C
@@ -9496,13 +9481,10 @@ pso/player/TObjPlayer_8029F694.cpp:
 	.text       start:0x8029F694 end:0x8029F730
 
 pso/misc/TODoorLabo.cpp:
-	.text       start:0x8029F730 end:0x802A018C
+	.text       start:0x8029F730 end:0x802A031C
 	.rodata     start:0x80466038 end:0x80466040
 	.data       start:0x804DC820 end:0x804DC890
 	.sdata2     start:0x805DDDB8 end:0x805DDDC4
-
-pso/misc/TLobby_802A018C.cpp:
-	.text       start:0x802A018C end:0x802A031C
 
 pso/misc/TODoorFourLightBase.cpp:
 	.text       start:0x802A031C end:0x802A0A30
