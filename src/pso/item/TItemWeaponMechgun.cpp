@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A3260.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/item/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
@@ -38,29 +39,26 @@ void TUnk_804A3260::reserved_53() {
     ((TObjPlayer *)arg0)->draw_status_icons((u8 *)this->muzzle[0], (u8 *)this->muzzle[1]);
 }
 
-void *TItemWeaponMechgun__ct(void *arg0, s32 parent, void *item) {
-    __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)arg0), (void *)parent, (u8 *)item);
-    *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_804A3260;
-    ((TItemWeapon *)arg0)->set_weapon_flags(0x203);
-    *(void (**)())((s8 *)arg0 + 0x1EC) = &spawn_weapon_impact_effect;
-    ((TUnk_804A3260 *)arg0)->effectJoint = -1;
-    *(s32 *)((s8 *)arg0 + 0x214) = 0;
-    ((TUnk_804A3260 *)arg0)->effectScaleJoint = -1;
-    *(s32 *)((s8 *)arg0 + 0x21C) = 0;
+TUnk_804A3260::TUnk_804A3260(s32 parent, u8 *item) : TItemWeapon((TObject *)((void *)parent), item) {
+    ((TItemWeapon *)this)->set_weapon_flags(0x203);
+    *(void (**)())((s8 *)this + 0x1EC) = &spawn_weapon_impact_effect;
+    this->effectJoint = -1;
+    *(s32 *)((s8 *)this + 0x214) = 0;
+    this->effectScaleJoint = -1;
+    *(s32 *)((s8 *)this + 0x21C) = 0;
     switch ((s32) (*(u8 *)((s8 *)item + 2))) {
     case 6:
         break;
     case 5:
-        ((TUnk_804A3260 *)arg0)->effectJoint = 2;
+        this->effectJoint = 2;
         break;
     case 7:
-        ((TUnk_804A3260 *)arg0)->effectJoint = 2;
+        this->effectJoint = 2;
         break;
     }
     if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {
-        ((TObjPlayer *)arg0)->set_atp(-1);
+        ((TObjPlayer *)this)->set_atp(-1);
     }
-    return arg0;
 }
 
 u8 *create_mechgun_weapon(u8 *item) {
@@ -70,7 +68,7 @@ u8 *create_mechgun_weapon(u8 *item) {
         temp_r3 = (u8 *)(__nw__5TItemFUl(0x220));
         var_r0 = temp_r3;
         if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TItemWeaponMechgun__ct(temp_r3, tl_05, item));
+            var_r0 = (u8 *)(__ct__13TUnk_804A3260FlPUc(temp_r3, tl_05, item));
         }
         return var_r0;
     }

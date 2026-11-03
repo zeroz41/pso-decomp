@@ -85,7 +85,6 @@ s32 sndInit(u8 voices, u8 music, u8 sfx, u8 studios, u32 flags, u32 aram_size);
 int TLobby__sub_80227A70(void *p);
 void TLobby__sub_80227A90(void);
 void TLobby__sub_8022780C(void);
-void debug_print__6TLobbyFle(const char *fmt, ...);
 extern const SndHooks lbl_8044C858;
 extern u32 lbl_804CB838[6];
 extern void *lbl_80514C60[];
@@ -242,7 +241,7 @@ void TLobby__sub_8022780C(void) {
     for (i = 0; i < 2; i++) {
         lbl_804CB850[i] = adx_create_stream_player(2, lbl_80514C60[i], 0x2D1E4);
         if ((u32)lbl_804CB850[i] == 0U) {
-            debug_print__6TLobbyFle("can't create ADXT-BGM #%d", i);
+            TLobby::debug_print("can't create ADXT-BGM #%d", i);
         } else {
             ((TLobby *)lbl_804CB850[i])->set_field_6d(2);
         }
@@ -250,7 +249,7 @@ void TLobby__sub_8022780C(void) {
     for (i = 0; i < 1; i++) {
         lbl_804CB850[2 + i] = adx_create_stream_player(1, (&lbl_805D62D8)[i], 0xA924);
         if ((u32)lbl_804CB850[2 + i] == 0U) {
-            debug_print__6TLobbyFle("can't create ADXT-SE #%d", i);
+            TLobby::debug_print("can't create ADXT-SE #%d", i);
         }
     }
     lbl_805D62F8 = 0x5A3C8;

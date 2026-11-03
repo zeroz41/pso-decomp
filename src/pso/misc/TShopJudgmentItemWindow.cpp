@@ -1,4 +1,5 @@
 #include "pso/unk/text_80104FCC.h"
+#include "pso/misc/TShopJudgmentItemWindow.h"
 #include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TWindowBase.h"
 #include "types.h"
@@ -190,7 +191,6 @@ u32 create__22TWindowLoadItemTextureFPv(int, u16);
 extern u8 lbl_8044C1C0[];
 extern u8 lbl_8044C1CC[];
 extern s32 local_client_id;
-void *TShopJudgmentItemWindow__ct(TShopJudgmentItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1);
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
@@ -682,23 +682,20 @@ void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1)
 
 extern void *TShopJudgmentItemWindow__class_name;
 
-void *TShopJudgmentItemWindow__ct(TShopJudgmentItemWindow *shop_judgment_item_window, void *arg1, void *arg2, void *arg3) {
-    __ct__15TShopWindowBaseFv(shop_judgment_item_window);
-    *(s32 **)((s8 *)shop_judgment_item_window + 0x18) = __vt__23TShopJudgmentItemWindow;
-    *(void * *)&shop_judgment_item_window->m_name = TShopJudgmentItemWindow__class_name;
-    shop_judgment_item_window->m_144 = 0;
-    shop_judgment_item_window->m_148 = 0;
-    shop_judgment_item_window->m_150 = 0;
-    *(void **)((s8 *)shop_judgment_item_window + 0x24) = arg3;
-    shop_judgment_item_window->m_154 = 0;
-    shop_judgment_item_window->m_158 = 0;
-    shop_judgment_item_window->m_15c = 0;
-    shop_judgment_item_window->m_160 = 0;
-    shop_judgment_item_window->m_50 = 0;
-    *(void **)((s8 *)shop_judgment_item_window + 0x164) = arg2;
-    shop_judgment_item_window->m_16c = 0;
-    shop_judgment_item_window->m_170 = 0;
-    shop_judgment_item_window->m_174 = 0;
-    return shop_judgment_item_window;
 }
+TShopJudgmentItemWindow::TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+    *(void * *)&this->m_name = TShopJudgmentItemWindow__class_name;
+    this->m_144 = 0;
+    this->m_148 = 0;
+    this->m_150 = 0;
+    *(void **)((s8 *)this + 0x24) = arg3;
+    this->m_154 = 0;
+    this->m_158 = 0;
+    this->m_15c = 0;
+    this->m_160 = 0;
+    this->m_50 = 0;
+    *(void **)((s8 *)this + 0x164) = arg2;
+    this->m_16c = 0;
+    this->m_170 = 0;
+    this->m_174 = 0;
 }

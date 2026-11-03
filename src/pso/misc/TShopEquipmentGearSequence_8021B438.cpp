@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopEquipmentGearSequence_8021B438.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
@@ -88,7 +89,6 @@ extern s32 lbl_805D6218;
 extern s32 lbl_805D621C;
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
-void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 void enter_quest_list__26TShopEquipmentGearSequenceFv(void *);
 void open_gear_shop__26TShopEquipmentGearSequenceFv(void *);
 extern void *tl_05;
@@ -105,10 +105,7 @@ typedef struct VObj_18_a93f07 VObj_18_a93f07;
 #define PSO_VCALL_VObj_18_a93f07_m4(_self, _arg0, _arg1) (((VObj_18_a93f07 *)(_self))->m4((_arg0), (_arg1)))
 
 void TShopEquipmentGearSequence::open_sell_window() {
-    W_8021B438 *o = (W_8021B438 *)__nw__7TObjectFUl(0x3ac);
-    if (o != 0) {
-        o = (W_8021B438 *)(TShopEquipmentSellWindow__ct((void *)o, (void *)tl_05, (void *)((S_8021B438 *)this), (void *)(((S_8021B438 *)this)->f24), (void *)(0x2a)));
-    }
+    W_8021B438 *o = (W_8021B438 *)new TShopEquipmentSellWindow((void *)tl_05, (void *)((S_8021B438 *)this), (void *)(((S_8021B438 *)this)->f24), (void *)(0x2a));
     o->cb0 = (void *)enter_quest_list__26TShopEquipmentGearSequenceFv;
     o->cb1 = (void *)open_gear_shop__26TShopEquipmentGearSequenceFv;
     reset_controller_input_state();

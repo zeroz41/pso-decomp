@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/player/TUnk_804E71A0.h"
 #include "pso/unk/text_80307964.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
@@ -11,10 +12,9 @@ extern s32 game_difficulty_selection;
 extern void *tl_00;
 extern void *tl_04;
 extern s32 ending_movie_active_flag;
-u8 *init_ending_movie(u8 *object) {
+}
+TUnk_804E71A0::TUnk_804E71A0() : TObject((TObject *)tl_04) {
     void *p;
-    __ct__7TObjectFP7TObject(object, tl_04);
-    *(void **)(object + 0x18) = __vt__13TUnk_804E71A0;
     ending_movie_active_flag = 0;
     switch (game_difficulty_selection) {
     case 0:
@@ -32,7 +32,4 @@ u8 *init_ending_movie(u8 *object) {
         }
         break;
     }
-    return object;
-}
-
 }

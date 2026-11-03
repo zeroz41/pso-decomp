@@ -5,6 +5,7 @@
 
 class TUnk_8048E1A4 : public TObjChara {
 public:
+    TUnk_8048E1A4(u8 *arg1, u8 *arg2);
     virtual ~TUnk_8048E1A4();
     void freeze_shell_grow();
     s32 freeze_shell_hold();

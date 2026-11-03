@@ -73,7 +73,7 @@ s32 CARDUnmount();
 s32 read_disc_file(const char*, void*);
 extern Names_801E13C4 memory_card_banner_filenames;
 extern char lbl_804496A8[];
-s32 TAdSinglePlyChrSelectGC__sub_80201204(void *, s32, s32);
+s32 calc_crc32_bitwise(void *, s32, s32);
 int sprintf(char *, const char *, ...);
 char *strncpy(char *, const char *, u32);
 void *memcpy(void *, const void *, u32);
@@ -411,7 +411,7 @@ s32 TAdPlayerLoadGC__sub_801E1538(Src_801E17F4 *dst, u8 *buf) {
     u32 crc = h->crc;
     u32 calc;
     h->crc = 0;
-    calc = ((u32 (*)(void *, u32))TAdSinglePlyChrSelectGC__sub_80201204)(h, 0x2048);
+    calc = ((u32 (*)(void *, u32))calc_crc32_bitwise)(h, 0x2048);
     h->crc = crc;
     if (calc != crc) {
         return -0xE0;
@@ -503,7 +503,7 @@ s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1) 
         h->size = t;
         size = arg1->size;
         h->crc = 0;
-        h->crc = TAdSinglePlyChrSelectGC__sub_80201204(h, 0x2048, t);
+        h->crc = calc_crc32_bitwise(h, 0x2048, t);
     }
     memcpy(arg0, h, 0x2048);
     memcpy(arg0 + 0x2048, arg1->data, arg1->size);

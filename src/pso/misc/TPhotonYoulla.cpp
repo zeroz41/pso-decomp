@@ -146,7 +146,7 @@ void *__dt__13TPhotonYoullaFv(void *arg0, s16 arg1) {
 
 u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     u8 *temp_r3;
-    photon_base_ct(photon_youlla);
+    __ct__13TUnk_804C3248Fv(photon_youlla);
     *(s32 **)((s8 *)photon_youlla + 0x18) = __vt__13TPhotonYoulla;
     *(s32 *)((s8 *)photon_youlla + 0) = (s32) ((s32)lbl_805D3528);
     *(s32 *)((s8 *)photon_youlla + 0x138) = 5;

@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/misc/TButterfly.h"
+#include "pso/misc/TButterfly.h"
 #include "pso/misc/TButterfly_8017F364.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TButterfly.h"
@@ -14,24 +16,20 @@ void *__nw__7TObjectFUl(int);
 extern s32 __vt__10TButterfly[];
 extern void *TButterfly__name;
 
-void *TButterfly__ct(void *butterfly, void *arg1, void *arg2) {
-    __ct__8TObjBaseFP7TObject(butterfly);
-    *(s32 **)((s8 *)butterfly + 0x18) = __vt__10TButterfly;
-    *(void * *)&((TButterfly *)butterfly)->m_name = TButterfly__name;
-    VecCopy((Vec *)((char *)butterfly + 56), (const Vec *)((char *)arg2 + 12));
-    copy_xyz((char *)butterfly + 92, (void *)((char *)arg2 + 24));
-    VecCopy((Vec *)((char *)butterfly + 104), (const Vec *)((char *)arg2 + 36));
-    ((TButterfly *)butterfly)->init_motion();
-    return butterfly;
 }
+TButterfly::TButterfly(TObject *arg1, void *arg2) : TObjBase(arg1) {
+    *(void * *)&this->m_name = TButterfly__name;
+    VecCopy((Vec *)((char *)this + 56), (const Vec *)((char *)arg2 + 12));
+    copy_xyz((char *)this + 92, (void *)((char *)arg2 + 24));
+    VecCopy((Vec *)((char *)this + 104), (const Vec *)((char *)arg2 + 36));
+    this->init_motion();
+}
+extern "C" {
 
 extern void *tl_05;
 
 void *TButterfly__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xBC);
-    if (o != NULL) {
-        o = TButterfly__ct(o, tl_05, arg0);
-    }
+    void *o = (void *)new TButterfly((TObject *)tl_05, (void *)arg0);
     return o;
 }
 

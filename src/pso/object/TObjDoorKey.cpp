@@ -1,4 +1,7 @@
 #include "types.h"
+#include "pso/object/TObjDoorKey.h"
+#include "pso/object/TObjDoorKey.h"
+#include "pso/object/TObjDoorKey.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjEnvSoundGlobal.h"
 #include "pso/object/TObject_80019A50.h"
@@ -248,57 +251,47 @@ void TObjDoorKey::run_task() {
     o->m22();
 }
 
-void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TObjDoorKey;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        if ((u32) ((TObjDoorKey *)arg0)->m_f8 != 0U) {
-            queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8));
-            ((TObjDoorKey *)arg0)->m_f8 = 0U;
-        }
-        __dt__5TOKeyFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjDoorKey::~TObjDoorKey() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+    if ((u32) this->m_f8 != 0U) {
+        queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0xF8));
+        this->m_f8 = 0U;
+    }
+}
+extern "C" {
 
 extern void *tl_05;
 
-void *TObjDoorKey__ct(TObjDoorKey *door_key, void *arg1, void *arg2) {
-    __ct__5TOKeyFP7TObject(door_key);
-    *(u8 **)((s8 *)door_key + 0x18) = ((u8 *)&__vt__11TObjDoorKey);
-    *(s32 *)((s8 *)door_key + 0) = TObjDoorKey__class_name;
-    init_key__5TOKeyFPv(door_key, arg2);
-    door_key->m_e8 = 0;
-    door_key->m_f0 = 0;
-    *(s32 *)((s8 *)door_key + 0xEC) = 0x14;
-    *(s32 *)((s8 *)door_key + 0xF4) = 0;
-    *(s32 *)&door_key->m_f8 = 0;
-    door_key->m_id = (*(u16 *)&door_key_id_counter)++;
-    if (*(s32 *)&door_key->set_params[2] < 0) {
-        *(s32 *)&door_key->set_params[2] = 0;
-    }
-    if (*(s32 *)&door_key->set_params[2] > 9) {
-        *(s32 *)&door_key->set_params[2] = 9;
-    }
-    init_collision_body_parts(door_key, TObjDoorKey__collision_body_parts, 1);
-    *(s32 *)&door_key->actorFlags |= 0x40000000;
-    ((TObjPlayer *)door_key)->register_object_by_id();
-    Vec_80190020 pos = *(Vec_80190020 *)((s8 *)door_key + 0x38);
-    pos.y += lbl_805DBE0C;
-    *(s32 *)&door_key->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
-    door_key->cursor_action.set_use();
-    return door_key;
 }
+TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
+    *(s32 *)((s8 *)this + 0) = TObjDoorKey__class_name;
+    init_key__5TOKeyFPv(this, arg2);
+    this->m_e8 = 0;
+    this->m_f0 = 0;
+    *(s32 *)((s8 *)this + 0xEC) = 0x14;
+    *(s32 *)((s8 *)this + 0xF4) = 0;
+    *(s32 *)&this->m_f8 = 0;
+    this->m_id = (*(u16 *)&door_key_id_counter)++;
+    if (*(s32 *)&this->set_params[2] < 0) {
+        *(s32 *)&this->set_params[2] = 0;
+    }
+    if (*(s32 *)&this->set_params[2] > 9) {
+        *(s32 *)&this->set_params[2] = 9;
+    }
+    init_collision_body_parts(this, TObjDoorKey__collision_body_parts, 1);
+    *(s32 *)&this->actorFlags |= 0x40000000;
+    ((TObjPlayer *)this)->register_object_by_id();
+    Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
+    pos.y += lbl_805DBE0C;
+    *(s32 *)&this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
+    this->cursor_action.set_use();
+}
+extern "C" {
 
 void *TObjDoorKey__create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0xFC);
-    if (o != NULL) {
-        o = TObjDoorKey__ct((TObjDoorKey *)o, tl_05, arg0);
-    }
+    void *o = (void *)new TObjDoorKey((TObject *)tl_05, (void *)arg0);
     return o;
 }
 

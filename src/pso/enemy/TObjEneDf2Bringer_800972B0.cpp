@@ -1,6 +1,8 @@
 #include "pso/misc/SampledMotionPoints.h"
 #include "pso/enemy/TObjEneDf2Bringer.h"
 #include "pso/enemy/TObjEneDf2Bringer.h"
+#include "pso/enemy/TObjEneDf2Bringer.h"
+#include "pso/enemy/TObjEneDf2Bringer.h"
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
@@ -73,7 +75,7 @@ void vfunc_62__17TObjEneDf2BringerFv(u8 *arg0);
 void vfunc_63__17TObjEneDf2BringerFv(void* p);
 void vfunc_28__17TObjEneDf2BringerFv(void);
 void run_task__17TObjEneDf2BringerFv(u8 *arg0);
-void * TObjEneDf2Bringer__ct(void *arg0, void *arg1, void *arg2);
+void * __ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 }
 void bringer_render_node_callback(void);
 struct RecoveredGlobal_8031B170_lbl_804E8880
@@ -1441,7 +1443,7 @@ struct VObj_18_be4a70 : VBase_18_be4a70 {
 #define set_effect_pos_above_self__17TObjEneDf2BringerFv ((s32 (*)(void *))set_effect_pos_above_self__17TObjEneDf2BringerFv)
 extern const f32 lbl_805D9844;
 extern "C" {
-void *TObjEneDf2Bringer__ct(void *arg0, void *arg1, void *arg2);
+void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 void TLobby__sub_8001FE7C(void*, int);
 }
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
@@ -1660,10 +1662,7 @@ void TObjEneDf2Bringer::load_resources() {
 #undef TObjEneDf2Bringer__data_805D4FB4
 extern "C" {
 void *TObjEneDf2Bringer::create() {
-    void *o = __nw__7TObjectFUl(0x4C8);
-    if (o != NULL) {
-        o = TObjEneDf2Bringer__ct(o, tl_04, this);
-    }
+    void *o = (void *)new TObjEneDf2Bringer((TObject *)tl_04, (void *)this);
     return o;
 }
 
@@ -1698,17 +1697,16 @@ void TObjEneDf2Bringer::set_entry_value_clamped(s32 arg0, f32 farg0) {
 
 #undef TObjEneDf2Bringer__trail_buffer
 #undef TObjEneDf2Bringer__uv_scroll_buffer
-void *TObjEneDf2Bringer__ct(void *ene_df2_bringer, void *arg1, void *arg2) {
-    __ct__12TObjEneDD_STFP7TObject(ene_df2_bringer);
-    *(s32 **)((s8 *)ene_df2_bringer + 0x18) = __vt__17TObjEneDf2Bringer;
-    __ct__13TUnk_80490470Fv(((char *)ene_df2_bringer + 964));
-    __construct_array((void *)((char *)ene_df2_bringer + 992), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
-    *(void **)((s8 *)ene_df2_bringer + 0x0) = lbl_805D29A0;
-    invoke_initialization_hook__9TObjEneDDFPv(ene_df2_bringer, arg2);
-    TObjEneDf2Bringer__sub_800994F8(ene_df2_bringer);
-    ((TObjEneDf2Bringer *)ene_df2_bringer)->init_enemy();
-    return ene_df2_bringer;
 }
+TObjEneDf2Bringer::TObjEneDf2Bringer(TObject *arg1, void *arg2) : TObjEneDD_ST(arg1) {
+    __ct__13TUnk_80490470Fv(((char *)this + 964));
+    __construct_array((void *)((char *)this + 992), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
+    *(void **)((s8 *)this + 0x0) = lbl_805D29A0;
+    invoke_initialization_hook__9TObjEneDDFPv(this, arg2);
+    TObjEneDf2Bringer__sub_800994F8(this);
+    this->init_enemy();
+}
+extern "C" {
 
 void TObjEneDf2Bringer::init_enemy() {
     u8 *arg0 = (u8 *)this;

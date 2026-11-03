@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/enemy/TObjEneMe3Shinowa.h"
 
+struct TObjEneMe3ShinowaMirage;
+
 struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     virtual ~TObjEneMe3ShinowaReal();
     virtual void vfunc_114(s32);
@@ -20,7 +22,7 @@ struct TObjEneMe3ShinowaReal : public TObjEneMe3Shinowa {
     u8 _pad408[0x1C];
     u32 m_424;
     void spawn_mirages();
-    s32 get_or_create_mirage(s32 arg1);
+    TObjEneMe3ShinowaMirage *get_or_create_mirage(s32 index);
     void try_spawn_mirages();
     void *create();
     u8 unk_40C[0x28];

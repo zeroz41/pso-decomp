@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/object/TObjLazerFence4.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjLazerFence4.h"
@@ -258,18 +259,12 @@ void *TObjLazerFence4::create() {
     return o;
 }
 
-void *__dt__15TObjLazerFence4Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__15TObjLazerFence4;
-        ((TObjCollidable *)arg0)->unregister_object_by_id();
-        free_collision_body_parts(arg0);
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            TObject::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
+TObjLazerFence4::~TObjLazerFence4() {
+    ((TObjCollidable *)this)->unregister_object_by_id();
+    free_collision_body_parts(this);
+}
+extern "C" {
 
 #define self ((Fence_801935D8 *)arg0)
 void *TObjLazerFence4__ct(void *arg0, void *arg1, void *arg2) {

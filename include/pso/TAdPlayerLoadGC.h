@@ -18,6 +18,7 @@ public:
     static void unmount_card_and_clear_flags(s32 n);
     static void load_banner_files();
     static s32 get_load_result(void * _w0);
+    static s32 build_save_file_image(void *image, void *desc);
     static s32 probe_card_slot(s32 chan);
     static s32 find_card_file(s32 chan, const char *name);
     static s32 check_memcard_status(s32 arg0);

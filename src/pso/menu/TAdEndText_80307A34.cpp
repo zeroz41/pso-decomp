@@ -22,7 +22,7 @@ void TKeyBoardControl__sub_8000F91C(s32 arg0);
 void reset_controller_input_state(void);
 s32 set_copy_clear_color_argb(s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
-s32 init_ending_movie();
+s32 __ct__13TUnk_804E71A0Fv();
 }
 void process_async_file_reads(void);
 void set_screen_size(f32 farg0, f32 farg1);
@@ -71,7 +71,7 @@ void start_ending_sequence(void) {
     TLobby::update_keyboard_menu();
     TLobby::set_ending_callback();
     if (__nw__7TObjectFUl(0x1C) != 0U) {
-        init_ending_movie();
+        __ct__13TUnk_804E71A0Fv();
     }
     render_tick();
 }

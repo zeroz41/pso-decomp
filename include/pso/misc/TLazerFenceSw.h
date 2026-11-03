@@ -5,6 +5,7 @@
 #include "pso/misc/TOKey.h"
 
 struct TLazerFenceSw : public TOKey {
+    TLazerFenceSw(TObject *arg1, void *arg2);
     virtual ~TLazerFenceSw();
     virtual void trigger_deactivate_sound();
     virtual void trigger_activate_sound();

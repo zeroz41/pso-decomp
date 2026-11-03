@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/misc/TShopEquipmentSellWindow.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TShopEquipmentListWindow.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
@@ -110,7 +111,6 @@ s32 lbl_805D622C;
 s32 lbl_805D6230;
 s32 restore_player_state__13TShopSequenceFv(void *);
 void *__nw__7TObjectFUl(u32);
-void *TShopEquipmentSellWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 extern void *tl_05;
 u16 get_entity_id(void *);
 f32 get_scale__15TShopWindowBaseFv(void *);
@@ -167,10 +167,7 @@ typedef struct VBase_18_a93f07 VBase_18_a93f07;
 typedef struct VObj_18_a93f07 VObj_18_a93f07;
 
 void TShopEquipmentSequence::open_sell_window() {
-    W_8021D6D8 *o = (W_8021D6D8 *)__nw__7TObjectFUl(0x3ac);
-    if (o != 0) {
-        o = (W_8021D6D8 *)(TShopEquipmentSellWindow__ct((void *)o, (void *)tl_05, (void *)((S_8021D6D8 *)this), (void *)(((S_8021D6D8 *)this)->f24), (void *)(0x26)));
-    }
+    W_8021D6D8 *o = (W_8021D6D8 *)new TShopEquipmentSellWindow((void *)tl_05, (void *)((S_8021D6D8 *)this), (void *)(((S_8021D6D8 *)this)->f24), (void *)(0x26));
     o->cb0 = (void *)exit__22TShopEquipmentSequenceFPv;
     o->cb1 = (void *)init_window__22TShopEquipmentSequenceFPv;
     reset_controller_input_state();

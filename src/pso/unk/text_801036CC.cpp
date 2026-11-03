@@ -75,7 +75,6 @@ s32 test_flags_any(void *, s32);
 void TLobby__sub_801041D8(void);
 extern u16 *floor_item_next_sort_keys;
 extern s32 lbl_805D5440;
-void debug_print__6TLobbyFle(const char *, ...);
 void *memcpy(void *, const void *, u32);
 extern char lbl_8043E048[];
 void spawn_dropped_item_from_msg(void *, s32);
@@ -287,7 +286,7 @@ s32 remove_item_condition(s32 floor, s32 item_id) {
         }
         return 0;
     }
-    debug_print__6TLobbyFle(lbl_8043E048);
+    TLobby::debug_print(lbl_8043E048);
     return 0;
 }
 FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
@@ -322,7 +321,7 @@ FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
         }
         return NULL;
     }
-    debug_print__6TLobbyFle(lbl_8043E048);
+    TLobby::debug_print(lbl_8043E048);
     return NULL;
 }
 s32 insert_item_condition(FloorItem *item) {

@@ -141,7 +141,7 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void spawn_photon_blast_opening_effects(s32 arg0, s32 arg1);
-void *photon_base_ct(void *arg0);
+void *__ct__13TUnk_804C3248Fv(void *arg0);
 void sub_801AD4A8__12TPhotonMyllaFv(void* a0);
 void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
@@ -312,7 +312,7 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
     Vec_801AD970 v;
     u8 *o;
     u8 *owner;
-    photon_base_ct(self);
+    __ct__13TUnk_804C3248Fv(self);
     *(void **)((u8 *)self + 0x18) = __vt__12TPhotonMylla;
     F_801AD970(self, s32, 0) = lbl_805D3510;
     F_801AD970(self, s32, 0x138) = 5;

@@ -264,7 +264,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     u8 *temp_r3;
     s32 area;
     void *mem;
-    photon_base_ct(photon_rainbow);
+    __ct__13TUnk_804C3248Fv(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
     *(s32 *)((s8 *)photon_rainbow + 0) = lbl_805D3518;
     *(s32 *)((s8 *)photon_rainbow + 0x138) = 3;

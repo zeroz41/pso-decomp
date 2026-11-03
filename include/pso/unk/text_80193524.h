@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-void *TLazerFenceSw__ct(void *arg0, void *arg1, void *arg2);
+void *__ct__13TLazerFenceSwFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 void TLazerFenceSw__sub_80193C5C(void);
 void vfunc_16__13TLazerFenceSwFv(u8 *arg0);
 void vfunc_17__13TLazerFenceSwFv(u8 *arg0);

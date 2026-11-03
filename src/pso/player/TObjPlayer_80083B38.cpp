@@ -79,7 +79,7 @@ void TObjPlayer__sub_80083F38(void);
 void **TObjPlayer__sub_80084694(void);
 s32 is_split_screen();
 s32 TCameraCtrl__sub_80068EF0();
-u8 TObjBoss2Tunnel__sub_8036EF44();
+u8 get_display_copy_filter();
 s32 GXPixModeSync();
 s32 GXSetTexCopySrc(int, int, int, int);
 s32 GXSetTexCopyDst(int, int, int, int);
@@ -165,7 +165,7 @@ void end_shadow_map_pass() {
         GXCopyTex((void *) (*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)(((u8 **)lbl_8048E5C8)[0]) + 8)) + 0xC)) + 0x20)), 1);
         GXPixModeSync();
         temp_r31 = active_gx_render_mode;
-        Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (TObjBoss2Tunnel__sub_8036EF44()), temp_r31 + 0x32);
+        Dolphin_GXSetCopyFilter((int) (*(u8 *)((s8 *)temp_r31 + 0x19)), temp_r31 + 0x1A, (int) (get_display_copy_filter()), temp_r31 + 0x32);
         GXSetViewport(lbl_805D93D0, lbl_805D93D0, lbl_805D9404, lbl_805D9408, lbl_805D93D0, lbl_805D93D8);
         GXSetScissor(0, 0, 0x280, 0x1E0);
         GXSetProjection(scene_projection_state, 0);

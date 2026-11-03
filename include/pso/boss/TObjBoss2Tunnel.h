@@ -48,7 +48,7 @@ struct TObjBoss2Tunnel : public TObject {
     u32 m_bc;
     u8 _padC0[0x18];
     u32 m_d8;
-    void advance_phase();
+    s32 advance_phase(f32 *out);
     void update_position();
     f32 eval_piecewise_curve(f32 farg0);
     static void set_global_flag_200();

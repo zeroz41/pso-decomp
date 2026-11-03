@@ -103,7 +103,6 @@ struct TLobby : public TObject {
     static s32 load_bml_exec(u8 *arg0, u8 *arg1);
     static void free_chr_select_data();
     static void init_download_buffers();
-    void load_bin_model_callback();
     s32 load_bin_motion(s32 arg1, s32 arg2);
     void reset_battle_state();
     static s32 get_game_mode();
@@ -195,7 +194,7 @@ struct TLobby : public TObject {
     void bswap_packet();
     static s32 apply_table_entry(s16 arg0, void * _w1);
     void copy_short_fields(void *arg1);
-    static void debug_print(s32 arg0, ...);
+    static void debug_print(const char *fmt, ...);
     int compare_file_extension(const char *ext);
     static s32 get_class_type_name(s32 class_flags);
     static void update_menu_cursor();

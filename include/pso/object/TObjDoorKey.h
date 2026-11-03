@@ -5,6 +5,7 @@
 #include "pso/misc/TOKey.h"
 
 struct TObjDoorKey : public TOKey {
+    TObjDoorKey(TObject *arg1, void *arg2);
     virtual ~TObjDoorKey();
     virtual void trigger_activate_sound();
     virtual void update_armed_switch();
@@ -29,7 +30,7 @@ typedef char TObjDoorKey_size[sizeof(TObjDoorKey) == 0xFC ? 1 : -1];
 
 extern "C" {
 void *TObjDoorKey__create(void *arg0);
-void *TObjDoorKey__ct(TObjDoorKey *arg0, void *arg1, void *arg2);
+void *__ct__11TObjDoorKeyFP7TObjectPv(TObjDoorKey *arg0, void *arg1, void *arg2);
 void TObjDoorKey__sub_8018FAEC(void);
 void trigger_activate_sound__11TObjDoorKeyFv(u8 *arg0);
 void *TObjEnvSoundGlobal__create(void *arg0);

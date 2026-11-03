@@ -5,6 +5,7 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct TObjEnePanarms : public TObjEnemy {
+    TObjEnePanarms(TObject *parent, void *setData);
     virtual ~TObjEnePanarms();
     virtual void run_task();
     virtual void render();
@@ -13,13 +14,13 @@ struct TObjEnePanarms : public TObjEnemy {
     void vfunc_62();
     void vfunc_61();
     void set_random_action_timer(int minimum, int range);
-    u8 unk_374[0x4];
+    s32 state; // index into the TU's {enter, update} state table
     s32 m_378;
     u8 unk_37C[0x4];
     s32 m_380;
     u8 unk_384[0x4];
     s32 m_388;
-    u32 m_38c;
+    s32 m_38c;
     u32 m_390;
     u8 unk_394[0x4];
     s32 m_398;
@@ -43,11 +44,11 @@ struct TObjEnePanarms : public TObjEnemy {
     u8 unk_3E0[0x4];
     u32 m_3e4;
     u32 m_3e8;
-    u32 m_3ec;
-    u8 _pad3F0[0x4];
-    u32 m_3f4;
-    u32 m_3f8;
-    u32 m_3fc;
+    s32 attack_count; // bit 0 / bit 1 pick the next arm attack
+    s32 spin_count;
+    s32 max_hp; // the split starts at max_hp / 3
+    s32 has_split;
+    s32 move_count; // moves since the last split check
     void* m_400;
     u8 unk_404[0x4];
     s32 m_408;
@@ -58,8 +59,8 @@ struct TObjEnePanarms : public TObjEnemy {
     u8 unk_468[0x4];
     f32 m_46c;
     u8 unk_470[0x4];
-    u32 m_474;
-    u32 m_478;
+    s32 search_range; // range passed to find_nearest_visible_player while waiting hidden
+    u32 wait_frames; // state timer start value of the hidden wait
     int find_nearest_enemy_with_flag(s32 arg1, f32 farg0);
     static void spawn_npc_pair();
     void update_action_timer();
@@ -114,6 +115,19 @@ struct TObjEnePanarms : public TObjEnemy {
     void update_fall();
     void set_hidden_flags();
     void try_activate();
+    // State-table entries (enter, update) indexed by the state at +0x374; names from their table slots.
+    void enter_idle();
+    void enter_wait_hidden();
+    void update_wait_hidden();
+    void enter_move();
+    void update_move();
+    void enter_dead();
+    void update_dead();
+    void enter_arm_attack_0();
+    void enter_arm_attack_1();
+    void enter_split();
+    void enter_separated();
+    void enter_rejoin();
     static s32 find_combine_position(void *p);
     void turn_toward_target(s32 arg1);
     u16 turn_to_nearest_player(s32 arg1, s32 arg2);

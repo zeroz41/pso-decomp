@@ -6,11 +6,7 @@
 struct BmlResource;
 struct AnimationMotion;
 
-extern "C" {
-int fn_8001ED90(void *p);
-}
-
-// --- C functions defined in TObjFish_8001ED90.cpp ---
+// --- C functions defined in pso/misc/TLobby_8001EF5C.cpp (was TObjFish_8001ED90.cpp) ---
 extern "C" {
 int fn_8001ED90(void *p);
 // The index-th motion and texture list of a loaded BML archive.

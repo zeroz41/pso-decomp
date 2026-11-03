@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A535C.h"
 #include "pso/player/TObjPlayer_8012C3F4.h"
 #include "pso/player/TObjPlayer_8012C950.h"
 #include "pso/unk/text_80087278.h"
@@ -247,30 +248,23 @@ void TUnk_804A535C::reserved_53() {
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }
 
-extern s32 lbl_804A535C[];
+extern s32 __vt__13TUnk_804A535C[];
 
-void *__dt__13TUnk_804A535CFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A535C;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
+TUnk_804A535C::~TUnk_804A535C() {
+
 }
 
 extern "C" {
 
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
-extern s32 lbl_804A535C[];
+extern s32 __vt__13TUnk_804A535C[];
 struct VOff_8012C868_arg0_8012c868 { char pad_0[0x1F8]; char f_1F8[1]; };
 
 void *TUnk_804A535C::init_trade_action() {
     struct VOff_8012C868_arg0_8012c868 *self = (struct VOff_8012C868_arg0_8012c868 *)this;
     __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A535C;
+    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A535C;
     __ct__8FlagWordFv((self->f_1F8));
     ((FlagWord *)((char *)this + 376))->set(32);
     set_weapon_flags(515);
@@ -304,11 +298,6 @@ u8 *TObjPlayer::create_trade_action_state(s32 arg0) {
 
 }
 
-extern "C" {
-
-
-
-}
 TUnk_804A5340::~TUnk_804A5340() {
 
 }

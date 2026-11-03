@@ -189,12 +189,12 @@ void close_window__18TCheckRoomSequenceFPv(TCheckRoomSequence_8020F070 *self);
 int set_field_20__15TShopWindowBaseFl(void*, void*);
 int reset_controller_input_state(void *);
 void *__nw__7TObjectFUl(u32);
-void *TShopDeleteItemWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3);
+void *__ct__21TShopDeleteItemWindowFPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 void notify_quest_list_vm__18TCheckRoomSequenceFPv(u8 *arg0);
 void init_check__18TCheckRoomSequenceFUi(u32 arg0);
 extern void *tl_05;
 void open_delete_item_window__18TCheckRoomSequenceFPv(Seq_8020F268 *self);
-void *TShopGetItemWindow__ct(void *arg0, void *arg1, void *arg2, void *arg3);
+void *__ct__18TShopGetItemWindowFPvPvPv(void *arg0, void *arg1, void *arg2, void *arg3);
 void open_get_item_window__18TCheckRoomSequenceFPv(Seq_8020F2D8 *self);
 extern s32 lbl_805D6160;
 extern s32 TCheckRoomSequence__error_return_text_id;
@@ -241,7 +241,7 @@ s32 forward_trade_action_default__16TObjCityMainWarpFPviii(int, int, int, int);
 u32 create_window_menu(s32, int, u16);
 void handle_root_choice__18TCheckRoomSequenceFv(u8 *arg0);
 s32 get_room_table_entry__18TCheckRoomSequenceFi(s32);
-void *TShopKeepItemWindow__ct(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
+void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void init_check_params__18TCheckRoomSequenceFUi(u32 arg0);
 void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0);
 void handle_withdraw_choice__18TCheckRoomSequenceFv(u8 *arg0);
@@ -356,7 +356,7 @@ void handle_error_ack__18TCheckRoomSequenceFPv(u8 *arg0) {
 void open_delete_item_window__18TCheckRoomSequenceFPv(Seq_8020F268 *self) {
     void *o = __nw__7TObjectFUl(0x68);
     if (o != 0) {
-        o = TShopDeleteItemWindow__ct((void *)o, (void *)tl_05, (void *)self, (void *)self->f24);
+        o = __ct__21TShopDeleteItemWindowFPvPvPv((void *)o, (void *)tl_05, (void *)self, (void *)self->f24);
     }
     ((Obj_8020F268 *)o)->cb0 = notify_quest_list_vm__18TCheckRoomSequenceFPv;
     ((Obj_8020F268 *)o)->cb1 = init_check__18TCheckRoomSequenceFUi;
@@ -370,7 +370,7 @@ void open_delete_item_window__18TCheckRoomSequenceFPv(Seq_8020F268 *self) {
 void open_get_item_window__18TCheckRoomSequenceFPv(Seq_8020F2D8 *self) {
     void *o = __nw__7TObjectFUl(0x68);
     if (o != 0) {
-        o = TShopGetItemWindow__ct((void *)o, (void *)tl_05, (void *)self, (void *)self->f24);
+        o = __ct__18TShopGetItemWindowFPvPvPv((void *)o, (void *)tl_05, (void *)self, (void *)self->f24);
     }
     ((Obj_8020F2D8 *)o)->cb0 = notify_quest_list_vm__18TCheckRoomSequenceFPv;
     ((Obj_8020F2D8 *)o)->cb1 = init_check__18TCheckRoomSequenceFUi;
@@ -535,7 +535,7 @@ void open_deposit_item_window__18TCheckRoomSequenceFv(u8 *arg0) {
     mem = __nw__7TObjectFUl(0x39C);
     w = (Win_8020F8C0 *)mem;
     if (mem != NULL) {
-        w = (Win_8020F8C0 *)TShopKeepItemWindow__ct((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(s32 *)((s8 *)arg0 + 0x24)));
+        w = (Win_8020F8C0 *)__ct__19TShopKeepItemWindowFPvPvPv((TShopKeepItemWindow *)((void *)mem), (void *)tl_05, (void *)arg0, (void *)(*(s32 *)((s8 *)arg0 + 0x24)));
     }
     w->cb0 = (void *)finish_room_check__18TCheckRoomSequenceFPv;
     w->cb1 = (void *)init_check_params__18TCheckRoomSequenceFUi;

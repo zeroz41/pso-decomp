@@ -25,6 +25,7 @@ struct ProtectionTimer {
 };
 
 struct TObjPlayer : public TObjChara {
+    TObjPlayer(TObject *arg1, void *arg2);
     virtual ~TObjPlayer();
     virtual void reset_motion_fields();
     virtual const char *get_name();

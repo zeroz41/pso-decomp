@@ -5,6 +5,7 @@
 #include "pso/TShopWindowBase.h"
 
 struct TShopEquipmentSellWindow : public TShopWindowBase {
+    TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4);
     virtual ~TShopEquipmentSellWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);

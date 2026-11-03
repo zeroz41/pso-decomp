@@ -344,17 +344,8 @@ pso/boss/TObjBoss2Dust.cpp
 pso/boss/TObjBoss2DustCtrl.cpp
 pso/boss/TObjBoss2RaftSplash.cpp
 pso/boss/TObjBoss2RaftSplash_8003B0A0.cpp
+pso/boss/TObjBoss2Tunnel.cpp
 pso/boss/TObjBoss2Tunnel_8003B138.cpp
-pso/boss/TObjBoss2Tunnel_8007CE14.cpp
-pso/boss/TObjBoss2Tunnel_8007E0CC.cpp
-pso/boss/TObjBoss2Tunnel_8007E100.cpp
-pso/boss/TObjBoss2Tunnel_8007E380.cpp
-pso/boss/TObjBoss2Tunnel_8007E3AC.cpp
-pso/boss/TObjBoss2Tunnel_8007E418.cpp
-pso/boss/TObjBoss2Tunnel_8007E8D8.cpp
-pso/boss/TObjBoss2Tunnel_8007E918.cpp
-pso/boss/TObjBoss2Tunnel_8007E9EC.cpp
-pso/boss/TObjBoss2Tunnel_8007EA74.cpp
 pso/boss/TObjBoss2Tunnel_802F1A58.cpp
 pso/boss/TObjBoss2Tunnel_8036EF0C.cpp
 pso/boss/TObjBoss2Tunnel_803E2BAC.cpp
@@ -489,6 +480,7 @@ pso/enemy/TObjEneMorfosArm_80335218.cpp
 pso/enemy/TObjEneMorfos_80337500.cpp
 pso/enemy/TObjEneNanoDrago.cpp
 pso/enemy/TObjEnePanarmsAtkColli.cpp
+pso/enemy/TObjEnePanarms_800DFB00.cpp
 pso/enemy/TObjEnePanarms_800DFB74.cpp
 pso/enemy/TObjEnePanarms_800F5E90.cpp
 pso/enemy/TObjEneRe2Flower.cpp
@@ -954,6 +946,7 @@ pso/misc/TLobby.cpp
 pso/misc/TLobbyEventTheme.cpp
 pso/misc/TLobby_80019E24.cpp
 pso/misc/TLobby_8001D6A0.cpp
+pso/misc/TLobby_8001EF5C.cpp
 pso/misc/TLobby_8002C140.cpp
 pso/misc/TLobby_8002C838.cpp
 pso/misc/TLobby_8003A95C.cpp
@@ -2027,7 +2020,6 @@ pso/object/TObjEZBoneRotPlayer.cpp
 pso/object/TObjEZRopeBase.cpp
 pso/object/TObjEnvSoundGlobal.cpp
 pso/object/TObjEvtCollision.cpp
-pso/object/TObjFish_8001ED90.cpp
 pso/object/TObjFish_800E2FFC.cpp
 pso/object/TObjFogCollision.cpp
 pso/object/TObjFogCollisionPoison.cpp
@@ -2120,7 +2112,6 @@ pso/object/TObjWarpBossMulti.cpp
 pso/object/TObjWarpJungMain.cpp
 pso/object/TObjWarpJung_801A03D8.cpp
 pso/object/TObjWarpLobby.cpp
-pso/object/TObjWarpLobby_801A0760.cpp
 pso/object/TObjWeddingLobby.cpp
 pso/object/TObject.cpp
 pso/object/TObject_80019A50.cpp
@@ -2939,7 +2930,6 @@ pso/unk/text_80197FD0.cpp
 pso/unk/text_8019B0D4.cpp
 pso/unk/text_8019DBB4.cpp
 pso/unk/text_801A0520.cpp
-pso/unk/text_801A069C.cpp
 pso/unk/text_801A2710.cpp
 pso/unk/text_801A2B38.cpp
 pso/unk/text_801A3014.cpp

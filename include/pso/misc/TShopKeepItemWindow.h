@@ -5,6 +5,7 @@
 #include "pso/TShopWindowBase.h"
 
 struct TShopKeepItemWindow : public TShopWindowBase {
+    TShopKeepItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopKeepItemWindow();
     s32 handle_deposit_list_select();
     virtual void vfunc_11();
@@ -37,13 +38,13 @@ struct TShopKeepItemWindow : public TShopWindowBase {
 typedef char TShopKeepItemWindow_size[sizeof(TShopKeepItemWindow) == 0x39C ? 1 : -1];
 
 extern "C" {
-void *TShopKeepItemWindow__ct(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
+void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *arg0, void *arg1, void *arg2, void *arg3);
 void *__dt__19TShopKeepItemWindowFv(TShopKeepItemWindow *arg0, s16 arg1);
 }
 
 // --- C functions defined in TShopKeepItemWindow.cpp ---
 extern "C" {
-void *TShopKeepItemWindow__ct(TShopKeepItemWindow *shop_keep_item_window, void *arg1, void *arg2, void *arg3);
+void *__ct__19TShopKeepItemWindowFPvPvPv(TShopKeepItemWindow *shop_keep_item_window, void *arg1, void *arg2, void *arg3);
 void *__dt__19TShopKeepItemWindowFv(TShopKeepItemWindow *arg0, s16 arg1);
 }
 // --- end of C functions

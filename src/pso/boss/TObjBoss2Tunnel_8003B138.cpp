@@ -142,10 +142,9 @@ void render__15TObjBoss2TunnelFv(u8 *arg0);
 f32 sin_table_lookup(s32);
 s32 check_flag_or_state__15TObjBoss2TunnelFi(s32 arg0);
 s32 is_flag_set__15TObjBoss2TunnelFv(s32 _w0);
-void TObjBoss2Tunnel__sub_8007DEE4(void *, f32, f32, f32, f32, f32);
+void init_piecewise_curve(void *, f32, f32, f32, f32, f32);
 f32 fabs_float(f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
-s32 advance_phase__15TObjBoss2TunnelFv(void *, f32 *);
 struct S_8003C2E4;
 void copy_ring_buffer_window__15TObjBoss2TunnelFv(S_8003C2E4 *o);
 struct Obj_8003C374;
@@ -648,7 +647,7 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
                 o->f94 = (1.0f);
             }
             o->f64 = 1;
-            TObjBoss2Tunnel__sub_8007DEE4(o->f68, (0.1f), (-0.1f), (1.5e+02f), (5.0f), (2.0f));
+            init_piecewise_curve(o->f68, (0.1f), (-0.1f), (1.5e+02f), (5.0f), (2.0f));
             o->f98 = (0.0f);
         }
         break;
@@ -656,9 +655,9 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
         if (check_flag_or_state__15TObjBoss2TunnelFi(o) == 0) {
             o->f64 = 3;
             tmp = fabs_float(o->f98);
-            TObjBoss2Tunnel__sub_8007DEE4(o->f68, (0.1f), (-0.1f), o->f98, -update_position__15TObjBoss2TunnelFv(o->f68), (2.0f));
+            init_piecewise_curve(o->f68, (0.1f), (-0.1f), o->f98, -update_position__15TObjBoss2TunnelFv(o->f68), (2.0f));
         } else {
-            if (advance_phase__15TObjBoss2TunnelFv(o->f68, &tmp) != 0) {
+            if (((TObjBoss2Tunnel *)o->f68)->advance_phase(&tmp) != 0) {
                 o->f64 = 2;
             }
             o->f98 = tmp * o->f94;
@@ -667,11 +666,11 @@ void run_task__15TObjBoss2TunnelFv(Tunnel_8003B6E8 *o) {
     case 2:
         if (check_flag_or_state__15TObjBoss2TunnelFi(o) == 0) {
             o->f64 = 3;
-            TObjBoss2Tunnel__sub_8007DEE4(o->f68, (0.1f), (-0.1f), (1.5e+02f), (0.0f), (2.0f));
+            init_piecewise_curve(o->f68, (0.1f), (-0.1f), (1.5e+02f), (0.0f), (2.0f));
         }
         break;
     case 3:
-        if (advance_phase__15TObjBoss2TunnelFv(o->f68, &tmp) != 0) {
+        if (((TObjBoss2Tunnel *)o->f68)->advance_phase(&tmp) != 0) {
             o->f98 = (0.0f);
             o->f64 = 0;
         } else {

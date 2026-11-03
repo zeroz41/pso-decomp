@@ -1,4 +1,5 @@
 #include "pso/misc/SampledMotionPoints.h"
+#include "pso/enemy/TObjEneDolmOlm.h"
 #include "pso/render/reflection.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -408,7 +409,6 @@ void __dt__13TUnk_80493450Fv(void *, int);
 void __dt__13TUnk_80494938Fv(void *, int);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
-Ene_80302A34 *TObjEneDolmOlm__sub_80302A34(Ene_80302A34 *self, s16 flag);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 set_matrix_identity(int);
 s32 push_matrix();
@@ -486,7 +486,7 @@ void vfunc_100__14TObjEneDolmOlmFv(void *arg0);
 void vfunc_58__14TObjEneDolmOlmFv(void *arg0);
 void TLobby__sub_8001FE7C(void*, int);
 void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjEneDolmOlm__ct(u8 *, s32, s32);
+u8 *__ct__14TObjEneDolmOlmFll(u8 *, s32, s32);
 void *__nw__7TObjectFUl(int);
 void mem_free(void*);
 s32 get_mode__11TCameraCtrlFPv(void *);
@@ -835,34 +835,6 @@ s32 lbl_804E68D0[22] = {
     0x0, 0x8003, 0x0, 0x0,
     0x0, 0x0,
 };
-void *lbl_804E6928[103] = {
-    (void *)0x0, (void *)0x0, (void *)&TObjEneDolmOlm__sub_80302A34, (void *)&run_task__14TObjEneDolmOlmFv,
-    (void *)&render__14TObjEneDolmOlmFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__13TUnk_80493450Fv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__13TUnk_80493450Fv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__13TUnk_80493450Fv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__13TUnk_80493450Fv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__14TObjEneDolmOlmFv, (void *)&vfunc_59__14TObjEneDolmOlmFv,
-    (void *)&vfunc_60__14TObjEneDolmOlmFv, (void *)&vfunc_61__13TUnk_80493450Fv, (void *)&vfunc_62__13TUnk_80493450Fv, (void *)&vfunc_63__13TUnk_80493450Fv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEnemyFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__14TObjEneDolmOlmFv,
-    (void *)&beast_idle_update__13TUnk_80493450Fv, (void *)&update_turn_toward_target__13TUnk_80493450Fv, (void *)&beast_update_approach__13TUnk_80493450Fv, (void *)&beast_update_group_chase__13TUnk_80493450Fv,
-    (void *)&beast_update_attack__13TUnk_80493450Fv, (void *)&vfunc_89__13TUnk_80493450Fv, (void *)&beast_update_hurt__13TUnk_80493450Fv, (void *)&beast_update_dead__13TUnk_80493450Fv,
-    (void *)&beast_retire_corpse__13TUnk_80493450Fv, (void *)&vfunc_93__14TObjEneDolmOlmFv, (void *)&vfunc_94__14TObjEneDolmOlmFv, (void *)&vfunc_95__14TObjEneDolmOlmFv,
-    (void *)&vfunc_96__14TObjEneDolmOlmFv, (void *)&vfunc_97__14TObjEneDolmOlmFv, (void *)&vfunc_98__14TObjEneDolmOlmFv, (void *)&vfunc_99__13TUnk_80493450Fv,
-    (void *)&vfunc_100__14TObjEneDolmOlmFv, (void *)&vfunc_101__14TObjEneDolmOlmFv, (void *)&request_stand_action__14TObjEneDolmOlmFv,
-};
 
     extern int lbl_805D69E8;
 
@@ -873,7 +845,7 @@ typedef struct VBase_18_477421 VBase_18_477421;
 typedef struct VObj_18_477421 VObj_18_477421;
 
 s32 TObjEneDolmOlm__sub_80301C3C(void *arg0_);
-u8 *TObjEneDolmOlm__ct(u8 *arg0, s32 arg1, s32 arg2);
+u8 *__ct__14TObjEneDolmOlmFll(u8 *arg0, s32 arg1, s32 arg2);
 
 extern const u8 lbl_80474F08[0x14];
 __declspec(section ".rodata") const u8 lbl_80474F08[0x14] ATTRIBUTE_ALIGN(4) = "abgc01_wola_body.nj";
@@ -913,42 +885,40 @@ void TObjEneDolmOlm::load_params_from_table(s32 i) {
     self->f34 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].c;
     self->f24 = (*(G_80302D80 * *)&TObjEneDolmOlm__resource_bundle)->e[i].d;
 }
-u8 *TObjEneDolmOlm__ct(u8 *arg0, s32 arg1, s32 arg2) {
+}
+TObjEneDolmOlm::TObjEneDolmOlm(s32 arg1, s32 arg2) : TUnk_80493450((TObject *)arg1) {
     u32 col;
-
-    __ct__13TUnk_80493450FP7TObject(arg0, arg1);
-    *(void **)((s8 *)arg0 + 0x18) = lbl_804E6928;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3A8));
-    *(s32 *)((s8 *)arg0 + 0) = obj_ene_dolm_olm_class_name;
-    ((TObjEneDolmOlm *)arg0)->apply_set_data((void *)arg2);
-    ((TObjPlayer *)arg0)->init_position_vectors();
-    ((TObjEneDolmOlm *)arg0)->sub_80301148();
-    *(void * *)&((TObjEneDolmOlm *)arg0)->action_table = TObjEneDolmOlm__param_table;
-    ((TObjMotion *)arg0)->set_field_d8((s32)(*(void * *)&((TObjEneDolmOlm *)arg0)->action_table));
-    *(s32 *)((s8 *)arg0 + 0xDC) = *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430);
-    ((TObjEneDolmOlm *)arg0)->requested_action = 0;
-    ((TObjMotion *)arg0)->set_animation(((TObjEneDolmOlm *)arg0)->requested_action);
-    ((TObjMotion *)arg0)->set_field_b8(((TObjEneDolmOlm *)arg0)->requested_action);
-    init_collision_body_parts(arg0, (u8 *) lbl_804E68D0 + *(s32 *)&((TObjEneDolmOlm *)arg0)->variant * 0x2C, 1);
-    ((TObjEnemy *)arg0)->bind_enemy_combat_stats((u8 *)(((s32 *) dolm_olm_combat_stat_id_pair)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__shared_handler_ids)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__registered_object_ids)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant]));
-    *(u8 * *)&((TObjEneDolmOlm *)arg0)->movementParameters = (u8 *) lbl_804E6898 + *(s32 *)&((TObjEneDolmOlm *)arg0)->variant * 0x1C;
-    ((TObjEneDolmOlm *)arg0)->referenceHp = ((TObjEneDolmOlm *)arg0)->hp;
-    ((TObjEneDolmOlm *)arg0)->advance_position();
-    copy_position__20TBoss3VoloptHiraisinFv(arg0);
-    initialize_enemy_photon_effect(arg0);
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_2ac = 182.04445f * (360.0f * ((f32 (*)(void *)) random_ratio__9TObjCharaFv)(arg0));
-    *(s16 *)&((TObjEneDolmOlm *)arg0)->resetTimer = 0xF;
-    *(s16 *)&((TObjEneDolmOlm *)arg0)->timer = *(s16 *)&((TObjEneDolmOlm *)arg0)->resetTimer;
-    ((TObjEneDolmOlm *)arg0)->phase = 0;
-    ((TObjEneDolmOlm *)arg0)->m_374 = 0;
-    *(s16 *)&((TObjEneDolmOlm *)arg0)->m_376 = 0;
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_3e4 = 0;
-    VecCopy((Vec *)(arg0 + 0x3D8), (const Vec *)(arg0 + 0x38));
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_378 = 0;
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_37c = 0;
-    ((TObjChara *)arg0)->add_flags_2e4(2);
-    ((TObjEneDolmOlm *)arg0)->actorFlags |= 0x40000;
-    switch (*(s32 *)&((TObjEneDolmOlm *)arg0)->variant) {
+    __ct__13TUnk_80494938Fv((((u8 *)this) + 0x3A8));
+    *(s32 *)((s8 *)this + 0) = obj_ene_dolm_olm_class_name;
+    this->apply_set_data((void *)arg2);
+    ((TObjPlayer *)this)->init_position_vectors();
+    this->sub_80301148();
+    *(void * *)&this->action_table = TObjEneDolmOlm__param_table;
+    ((TObjMotion *)this)->set_field_d8((s32)(*(void * *)&this->action_table));
+    *(s32 *)((s8 *)this + 0xDC) = *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430);
+    this->requested_action = 0;
+    ((TObjMotion *)this)->set_animation(this->requested_action);
+    ((TObjMotion *)this)->set_field_b8(this->requested_action);
+    init_collision_body_parts(((u8 *)this), (u8 *) lbl_804E68D0 + *(s32 *)&this->variant * 0x2C, 1);
+    ((TObjEnemy *)this)->bind_enemy_combat_stats((u8 *)(((s32 *) dolm_olm_combat_stat_id_pair)[*(s32 *)&this->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__shared_handler_ids)[*(s32 *)&this->variant]), (u8 *)(((s32 *) TObjEneDolmOlm__registered_object_ids)[*(s32 *)&this->variant]));
+    *(u8 * *)&this->movementParameters = (u8 *) lbl_804E6898 + *(s32 *)&this->variant * 0x1C;
+    this->referenceHp = this->hp;
+    this->advance_position();
+    copy_position__20TBoss3VoloptHiraisinFv(((u8 *)this));
+    initialize_enemy_photon_effect(((u8 *)this));
+    *(s32 *)&this->m_2ac = 182.04445f * (360.0f * ((f32 (*)(void *)) random_ratio__9TObjCharaFv)(((u8 *)this)));
+    *(s16 *)&this->resetTimer = 0xF;
+    *(s16 *)&this->timer = *(s16 *)&this->resetTimer;
+    this->phase = 0;
+    this->m_374 = 0;
+    *(s16 *)&this->m_376 = 0;
+    *(s32 *)&this->m_3e4 = 0;
+    VecCopy((Vec *)(((u8 *)this) + 0x3D8), (const Vec *)(((u8 *)this) + 0x38));
+    *(s32 *)&this->m_378 = 0;
+    *(s32 *)&this->m_37c = 0;
+    ((TObjChara *)this)->add_flags_2e4(2);
+    this->actorFlags |= 0x40000;
+    switch (*(s32 *)&this->variant) {
     default:
         col = 0xFFDE20BD;
         break;
@@ -956,40 +926,32 @@ u8 *TObjEneDolmOlm__ct(u8 *arg0, s32 arg1, s32 arg2) {
         col = 0xFFCDDE62;
         break;
     }
-    ((VObj_14_fa0828 *) (arg0 + 0x3A8))->m3();
-    ((TObjEneDolmOlm *)arg0)->m_390 = 1;
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_3c4 = create__13TUnk_80494968FUlUl(0xA0303030, col);
-    *(s32 *)&((TObjEneDolmOlm *)arg0)->m_3c8 = create__13TUnk_80494968FUlUl(0xA0303030, col);
-    *(f32 *)&((TObjEneDolmOlm *)arg0)->m_398 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant][0];
-    *(f32 *)&((TObjEneDolmOlm *)arg0)->m_3a0 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant][1];
-    *(f32 *)((s8 *)arg0 + 0x39C) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant][2];
-    *(f32 *)((s8 *)arg0 + 0x3A4) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&((TObjEneDolmOlm *)arg0)->variant][3];
-    ((TObjEneDolmOlm *)arg0)->requested_action = 1;
-    *(f32 *)((s8 *)arg0 + 0x3D4) = 0.0f;
-    ((TObjEnemy *)arg0)->sub_8002AE64();
-    ((TObjEneDolmOlm *)arg0)->clear_lobby_object_state();
-    return arg0;
+    ((VObj_14_fa0828 *) (((u8 *)this) + 0x3A8))->m3();
+    this->m_390 = 1;
+    *(s32 *)&this->m_3c4 = create__13TUnk_80494968FUlUl(0xA0303030, col);
+    *(s32 *)&this->m_3c8 = create__13TUnk_80494968FUlUl(0xA0303030, col);
+    *(f32 *)&this->m_398 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][0];
+    *(f32 *)&this->m_3a0 = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][1];
+    *(f32 *)((s8 *)this + 0x39C) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][2];
+    *(f32 *)((s8 *)this + 0x3A4) = ((f32 **) TObjEneDolmOlm__behavior_params_by_variant)[*(s32 *)&this->variant][3];
+    this->requested_action = 1;
+    *(f32 *)((s8 *)this + 0x3D4) = 0.0f;
+    ((TObjEnemy *)this)->sub_8002AE64();
+    this->clear_lobby_object_state();
 }
-Ene_80302A34 *TObjEneDolmOlm__sub_80302A34(Ene_80302A34 *self, s16 flag) {
+TObjEneDolmOlm::~TObjEneDolmOlm() {
     s32 i;
-    if (self != NULL) {
-        self->vt = lbl_804E6928;
-        for (i = 0; i < 2; i++) {
-            if (self->obj[i] != NULL) {
-                queue_destruction__7TObjectFv(self->obj[i]);
-                self->obj[i] = 0;
-            }
-        }
-        ((TUnk_80493450 *)self)->unlink_enemy_group_relations();
-        free_collision_body_parts(self);
-        __dt__13TUnk_80494938Fv(self->sub, -1);
-        __dt__13TUnk_80493450Fv(self, 0);
-        if (flag > 0) {
-            __dl__7TObjectFPv(self);
+    for (i = 0; i < 2; i++) {
+        if (((Ene_80302A34 *)this)->obj[i] != NULL) {
+            queue_destruction__7TObjectFv(((Ene_80302A34 *)this)->obj[i]);
+            ((Ene_80302A34 *)this)->obj[i] = 0;
         }
     }
-    return self;
+    ((TUnk_80493450 *)this)->unlink_enemy_group_relations();
+    free_collision_body_parts(((Ene_80302A34 *)this));
+    __dt__13TUnk_80494938Fv(((Ene_80302A34 *)this)->sub, -1);
 }
+extern "C" {
 void TObjEneDolmOlm::load_shared_resources() {
     u8 *p;
     s32 i;
@@ -1075,7 +1037,7 @@ void * TObjEneDolmOlm__create(void *arg0) {
     }
     o2 = __nw__7TObjectFUl(0x3E8);
     if (o2 != NULL) {
-        o2 = ((void *(*)(void *, void *, void *))TObjEneDolmOlm__ct)(o2, o, arg0);
+        o2 = ((void *(*)(void *, void *, void *))__ct__14TObjEneDolmOlmFll)(o2, o, arg0);
     }
     return o2;
 }

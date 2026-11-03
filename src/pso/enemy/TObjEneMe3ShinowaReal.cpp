@@ -3,6 +3,8 @@
 #include "pso/enemy/TObjEneMe3Shinowa.h"
 #include "pso/enemy/TObjEneMe3ShinowaReal.h"
 #include "pso/enemy/TObjEneMe3ShinowaMirage.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct Obj_800E4554 { u8 pad0[0x1C]; u16 f1C; u8 pad1E[0xE]; s16 f2C; u8 pad2E[0x42C - 0x2E]; u16 slots[8]; };
 
@@ -106,10 +108,7 @@ struct Obj_800E46D4 : Base_800E46D4 {
 };
 
 extern "C" {
-s32 sub_800E7250__21TObjEneMe3ShinowaRealFv();
-s32 create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
-void *find_entity_by_id(u16 id);
-u16 get_entity_id();
+TObjEneMe3ShinowaMirage *create__23TObjEneMe3ShinowaMirageFPvPv(void *, s32, s32, s32);
 void TObjEneMe3Shinowa__ct(void *, void *);
 void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
 void fn_800E762C(void *);
@@ -118,14 +117,16 @@ extern s32 __vt__21TObjEneMe3ShinowaReal[];
 Obj_800E46D4 *TObjEneMe3ShinowaReal__ct(Obj_800E46D4 *arg0, void *arg1, void *arg2);
 u16 TObjEneMe3ShinowaReal__sub_800E45CC(void* p);
 void *__dt__21TObjEneMe3ShinowaRealFv(void *arg0, s16 arg1);
-int vfunc_62__17TObjEneMe3ShinowaFv(void*);
-int vfunc_63__17TObjEneMe3ShinowaFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__dt__17TObjEneMe3ShinowaFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
-int init_mirage__23TObjEneMe3ShinowaMirageFv(void);
 
-void TObjEneMe3ShinowaReal::spawn_mirages() { { int i; for (i = 0; i < 4; i++) { get_or_create_mirage((s32)((void*)((void*)i))); init_mirage__23TObjEneMe3ShinowaMirageFv(); } } }
+void TObjEneMe3ShinowaReal::spawn_mirages() {
+    int i;
+    for (i = 0; i < 4; i++) {
+        get_or_create_mirage(i)->init_mirage();
+    }
+}
 void TObjEneMe3ShinowaReal::vfunc_111() { this->try_spawn_mirages(); }
 
 void TObjEneMe3ShinowaReal::vfunc_107() {
@@ -139,18 +140,18 @@ void TObjEneMe3ShinowaReal::vfunc_107() {
     ((TObjEneDD *)arg0)->transition_enemy_state(4);
 }
 
-s32 TObjEneMe3ShinowaReal::get_or_create_mirage(s32 arg1) {
+TObjEneMe3ShinowaMirage *TObjEneMe3ShinowaReal::get_or_create_mirage(s32 index) {
     Obj_800E4554 *arg0 = (Obj_800E4554 *)this;
-    s32 r;
-    if (arg0->slots[arg1] == 0xFFFF) {
+    TObjEneMe3ShinowaMirage *r;
+    if (arg0->slots[index] == 0xFFFF) {
         u16 t = this->entity_id;
-        s32 n = arg1 + 1;
+        s32 n = index + 1;
         r = create__23TObjEneMe3ShinowaMirageFPvPv(arg0, (u16)(t + n), arg0->f2C + n, t);
         if (r != 0) {
-            arg0->slots[arg1] = get_entity_id();
+            arg0->slots[index] = get_entity_id(r);
         }
     } else {
-        r = (s32)find_entity_by_id(arg0->slots[arg1]);
+        r = (TObjEneMe3ShinowaMirage *)find_entity_by_id(arg0->slots[index]);
     }
     return r;
 }
@@ -160,13 +161,19 @@ u16 TObjEneMe3ShinowaReal__sub_800E45CC(void* p) { return *(u16*)((char*)p + 0x3
 void TObjEneMe3ShinowaReal::try_spawn_mirages() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x3C4) & 0x10) {
-        sub_800E7250__21TObjEneMe3ShinowaRealFv();
+        sub_800E7250();
         spawn_mirages();
     }
 }
 
-void TObjEneMe3ShinowaReal::vfunc_62() { this->try_spawn_mirages(); vfunc_62__17TObjEneMe3ShinowaFv(this); }
-void TObjEneMe3ShinowaReal::vfunc_63() { this->try_spawn_mirages(); vfunc_63__17TObjEneMe3ShinowaFv(this); }
+void TObjEneMe3ShinowaReal::vfunc_62() {
+    try_spawn_mirages();
+    TObjEneMe3Shinowa::vfunc_62();
+}
+void TObjEneMe3ShinowaReal::vfunc_63() {
+    try_spawn_mirages();
+    TObjEneMe3Shinowa::vfunc_63();
+}
 
 void *__dt__21TObjEneMe3ShinowaRealFv(void *arg0, s16 arg1) {
     if (arg0 != NULL) {

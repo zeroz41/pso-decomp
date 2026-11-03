@@ -27,7 +27,6 @@ struct Stream_800FDBA8 {
 extern "C" {
 s32 get_file_size__6TLobbyFv(void *);
 s32 is_split_screen();
-void debug_print__6TLobbyFle(const char *, ...);
 s32 TLobby__sub_803CC4C0(s32);
 s32 read_checked_align__6TLobbyFlll(s32);
 s32 strcmp(void *, void *);
@@ -202,7 +201,7 @@ s32 TGStream::load_sct_file(s32 name, s32 dst) {
     if (st.info != NULL && st.info->size != 0) {
         buf = (s32)TQuestVmDownLoadServer::alloc(((st.info->size + 0x7FF) / 2048) << 11);
         if (buf == 0) {
-            debug_print__6TLobbyFle("TGStream::gsSctLoadFile Malloc Failed.");
+            TLobby::debug_print("TGStream::gsSctLoadFile Malloc Failed.");
         }
         ((TGStream *)((s32 *)&st))->read_sectors_sync(sectors, buf);
         prs_decompress_buffer(buf, dst);

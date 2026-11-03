@@ -21,16 +21,20 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     void vfunc_28();
     void render();
     void run_task();
-    u8 pad_430[0x74];
+    u8 pad_430[0x10];
+    TObject *emitter;          // 0x440: queued for destruction with the guard
+    u8 pad_444[0x18];
+    TObjCollidable *collider;  // 0x45C: the second collision body (model_desc[1]), built in init_model_and_state
+    u8 pad_460[0xC];
+    s32 flags;                 // 0x46C: state bits; bit 4 while it follows the body
+    u16 body_id;               // 0x470: entity id of the TObjEneEpsilonBody that spawned it
+    u8 pad_472[0x32];
     void *create(void *arg1, void *arg2, void *arg3, void *arg4);
     void init_model_and_state();
     s32 all_children_gone();
     static void update_attack_pattern(void *arg0);
-    void tick_stun_timer();
-    void tick_timer_set_flag();
     static void record_camera_angle_samples();
     void draw_debug_line();
-    void update_position();
     static s32 create_damage_font(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
     static void free_shared_resources();
     static void load_assets();
@@ -49,8 +53,6 @@ struct TObjEneEpsilonGuard : public TObjEneEpsilon {
     s32 calc_angle_to_target();
     void set_orbit_destination(s32 arg1);
     s32 assign_guard_targets();
-    void action_destroy(s32 arg1);
-    void update_fade(s32 arg1);
     void handle_warp_state(s32 arg1);
 };
 

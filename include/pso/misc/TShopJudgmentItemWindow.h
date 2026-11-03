@@ -5,6 +5,7 @@
 #include "pso/TShopWindowBase.h"
 
 struct TShopJudgmentItemWindow : public TShopWindowBase {
+    TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopJudgmentItemWindow();
     virtual void vfunc_11();
     virtual void vfunc_8();

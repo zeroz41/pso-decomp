@@ -24,9 +24,8 @@ s32 TLanguage__read_cursor;
 extern "C" {
 u8 *TQuestVmDownLoadServer__sub_8007EBDC(s32, s32);
 u32 alloc__22TQuestVmDownLoadServerFUl();
-void debug_print__6TLobbyFle(void *, ...);
 void load_gvm_texture_archive(u32, u8 *);
-extern u8 texture_file_load_error_format[];
+extern char texture_file_load_error_format[];
 extern u8 lbl_8044983C[];
 struct Base_801E4B68_801E4874 { char pad[0x50]; };
 struct VObj_801E4B68_801E4874 : Base_801E4B68_801E4874 {
@@ -50,7 +49,7 @@ u8 *load_gvm_texture_file(s32 arg0) {
     TLobby::pump_frames();
     size = ((TLobby *)arg0)->get_resource_file_size();
     if (size <= 0) {
-        debug_print__6TLobbyFle(texture_file_load_error_format, arg0);
+        TLobby::debug_print(texture_file_load_error_format, arg0);
         return NULL;
     }
     if (((size + 0x7FF) / 2048) * 2048 > 0x40000) {

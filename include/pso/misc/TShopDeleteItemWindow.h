@@ -5,6 +5,7 @@
 #include "pso/TShopWindowBase.h"
 
 struct TShopDeleteItemWindow : public TShopWindowBase {
+    TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);
     virtual ~TShopDeleteItemWindow();
     virtual void vfunc_11();
     virtual void display_message(const char *text, s32 flags);

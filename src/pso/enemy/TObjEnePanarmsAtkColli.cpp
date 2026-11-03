@@ -7,6 +7,9 @@
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/misc/TLobby.h"
+
+// Stored in the object name field by the constructor.
+const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Entry_800E31C4 { s32 id; u8 data[0xC]; };
 
@@ -456,7 +459,7 @@ struct RecoveredFields_800E3970_arg0
 struct Vec_800E37E4 { f32 x, y, z; };
 
 struct Obj_800E37E4 {
-    s32 f0;
+    const char *name;
     u8 pad4[0x14];
     void *vt;
     u8 pad1C[0x1C];
@@ -483,7 +486,6 @@ extern f32 TObjEneMe3ShinowaMirage__data_805DA5C4;
 void TObjEneMe3ShinowaMirage__vt113(u8 *arg0, s32 arg1);
 int play_sound_effect(void *, void *, void *, void *);
 extern s32 __vt__22TObjEnePanarmsAtkColli[];
-extern s32 lbl_805D2AC0;
 void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *arg1, void *arg2, void *arg3, void *arg4);
 void *__dt__22TObjEnePanarmsAtkColliFv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
@@ -537,7 +539,7 @@ void *TObjEnePanarmsAtkColli__ct(Obj_800E37E4 *arg0, void *parent, void *arg2, v
     f32 scale;
     __ct__9TObjEnemyFP7TObject(self, parent);
     self->vt = __vt__22TObjEnePanarmsAtkColli;
-    self->f0 = lbl_805D2AC0;
+    self->name = TObjEnePanarmsAtkColli_class_name;
     VecCopy((Vec *)&self->pos, (const Vec *)arg2);
     VecCopy((Vec *)&self->scale, (const Vec *)arg3);
     self->type = (s32)arg4;

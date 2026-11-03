@@ -154,7 +154,7 @@ u8 TAdSinglePlyChrSelectGC::load_and_verify_character_save(char *desc) {
     TAdSinglePlyChrSelectGC__sub_801FBC3C(data);
     saved = *(s32 *)data;
     *(s32 *)data = 0;
-    res = TAdSinglePlyChrSelectGC__sub_80201204(data, 0x194B0);
+    res = calc_crc32_bitwise(data, 0x194B0);
     strncpy(((char *)this), (char *)(data + 0x193F0), 0x10);
     strncpy(desc, (char *)(data + 0x19400), 0x10);
     TAdSinglePlyChrSelectGC::safe_free((u32)data);
