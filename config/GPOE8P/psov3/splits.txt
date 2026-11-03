@@ -7916,11 +7916,6 @@ pso/ui/TAdMultiChgGameModeGC_8023EAC4.cpp:
 	.rodata     start:0x8044DD18 end:0x8044DD28
 	.data       start:0x804CCED0 end:0x804CCFB8
 
-pso/audio/SoundBankTables.cpp:
-	.rodata     start:0x8044DD28 end:0x8044E5B0
-	.data       start:0x804CCFB8 end:0x804CDA50
-	.sdata      start:0x805D3850 end:0x805D3870
-
 pso/unk/text_8023F160.cpp:
 	.text       start:0x8023F160 end:0x8023F1B8
 
@@ -7938,10 +7933,21 @@ pso/unk/text_8023F660.cpp:
 	.text       start:0x8023F660 end:0x8023F734
 
 pso/misc/TLobby_8023F734.cpp:
-	.text       start:0x8023F734 end:0x80242908
-	.ctors      start:0x80433FB4 end:0x80433FBC
+	.text       start:0x8023F734 end:0x802409AC
+	.ctors      start:0x80433FB4 end:0x80433FB8
+	.rodata     start:0x8044DD28 end:0x8044E5C0
+	.data       start:0x804CCFB8 end:0x804CDA50
+	.bss        start:0x805162E0 end:0x80517EE0
+	.sdata      start:0x805D3850 end:0x805D3870
+	.sdata2     start:0x805DC9C0 end:0x805DC9E0
+
+pso/misc/TLobby_802409AC.cpp:
+	.text       start:0x802409AC end:0x80242908
+	.ctors      start:0x80433FB8 end:0x80433FBC
+	.rodata     start:0x8044E5C0 end:0x8044E5C8
 	.data       start:0x804CDA50 end:0x804CDC88
-	.bss        start:0x805162E0 end:0x80518580
+	.bss        start:0x80517EE0 end:0x80518580
+	.sdata2     start:0x805DC9E0 end:0x805DCA00
 
 pso/misc/TWindowSubStatusDisp_80242908.cpp:
 	.text       start:0x80242908 end:0x80242910

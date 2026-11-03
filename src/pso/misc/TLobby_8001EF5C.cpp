@@ -323,7 +323,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
         lbl_805D4AE0 = (u8 *) bml_load_buffer;
         bml_header_record_ptr = (Rec_8001F128 *) (bml_load_buffer + 0x40);
         TLobby::read_checked_align((s32)lobby_bml_file_handle, (s32)n, (s32)((void *) bml_load_buffer));
-        TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lbl_805D4AE0);
+        TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (int)lbl_805D4AE0);
         self->state = 1;
     case 1:
         if (self->flags & 0x200) {
@@ -354,7 +354,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             case 0:
             case 1:
                 TLobby::read_checked_align((s32)lobby_bml_file_handle, (s32)n, (s32)lobby_bml_read_buffer);
-                TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
+                TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
                 break;
             default:
                 TLobby::debug_print("TBinModel: Illegal File Format");
@@ -403,7 +403,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
             case 0:
             case 1:
                 TLobby::read_checked_align((s32)lobby_bml_file_handle, (s32)n, (s32)lobby_bml_read_buffer);
-                TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
+                TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
                 break;
             default:
                 TLobby::debug_print("TBinModel: Illegal File Format");
@@ -463,7 +463,7 @@ s32 TLobby::load_bml_exec(u8 *arg0, u8 *arg1) {
                     bml_header_record_ptr++;
                 } else {
                     TLobby::read_checked_align((s32)lobby_bml_file_handle, (s32)n, (s32)lobby_bml_read_buffer);
-                    TLobby::set_read_params((int)&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
+                    TLobby::set_read_params(&lobby_bml_file_handle, (int)n, (int)lobby_bml_read_buffer);
                 }
             } else {
                 self->entries[bml_load_entry_index].flags |= 2;

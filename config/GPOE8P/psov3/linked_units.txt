@@ -192,7 +192,6 @@ os/__start.c
 pad/Pad.c
 pso/audio/GcrnaError.cpp
 pso/audio/GcrnaStream.cpp
-pso/audio/SoundBankTables.cpp
 pso/boss/Boss5GryphonActionScripts.cpp
 pso/boss/Boss5GryphonBehavior.cpp
 pso/boss/Boss6Type1Appearance.cpp
@@ -1071,6 +1070,7 @@ pso/misc/TLobby_802230F8.cpp
 pso/misc/TLobby_80226070.cpp
 pso/misc/TLobby_802268F4.cpp
 pso/misc/TLobby_80228C84.cpp
+pso/misc/TLobby_8023F734.cpp
 pso/misc/TLobby_80242910.cpp
 pso/misc/TLobby_80243370.cpp
 pso/misc/TLobby_8024A148.cpp
