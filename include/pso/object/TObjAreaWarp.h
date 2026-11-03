@@ -9,9 +9,9 @@ struct TObjAreaWarp : public TObjWarpBase {
     void handle_area_selection();
     virtual void confirm_area_transfer(s32);
     virtual void debug_print_area_num();
-    void open_confirm_window(u16 arg1);
+    virtual void open_confirm_window(u16 arg1);
     u16 find_active_player();
-    static s32 is_warp_enabled(s32 arg0);
+    virtual u8 is_warp_enabled();
 };
 
 #endif

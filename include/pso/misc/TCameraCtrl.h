@@ -52,25 +52,31 @@ struct TCameraCtrl : public TObject {
     int m_110;
     u8 unk_114[0x60];
     u32 m_174;
-    f32 m_178;
-    f32 m_17c;
-    f32 m_180;
-    f32 m_184;
-    u8 unk_188[0x4];
-    f32 m_18c;
-    u32 m_190;
-    u32 m_194;
-    u32 m_198;
-    u32 m_19c;
-    u8 unk_1A0[0x4];
-    f32 m_1a4;
-    u8 unk_1A8[0x4];
-    f32 m_1ac;
-    u8 unk_1B0[0x4];
-    f32 m_1b4;
+    // Camera position and the point it looks at; each frame they approach
+    // eye_* and at_* (approach_camera_vector), or snap to them.
+    f32 pos_x;
+    f32 pos_y;
+    f32 pos_z;
+    f32 tgt_x;
+    f32 tgt_y;
+    f32 tgt_z;
+    // View angles fed to rotate_matrix_x/y/z, and the field of view given to
+    // set_perspective_projection_from_fov (0x3555 = 75 degrees at reset).
+    u32 pitch;
+    u32 yaw;
+    u32 roll;
+    u32 fov;
+    f32 eye_x;
+    f32 eye_y;
+    f32 eye_z;
+    f32 at_x;
+    f32 at_y;
+    f32 at_z;
     u8 unk_1B8[0x4];
-    f32 m_1bc;
-    u32 m_1c0;
+    // Rate tgt_* approaches at_* with.
+    f32 at_rate;
+    // Frames of screen shake left (set_shake_preset, update_shake).
+    u32 shake_timer;
     static s32 get_camera_mode();
     void update_target_follow();
     void init_state();
@@ -139,9 +145,10 @@ struct TCameraCtrl : public TObject {
     void update_projection_params();
     static void concat_matrix(u32 arg0, u32 arg1);
     u8 unk_1C4[0x4];
-    f32 m_1c8;
-    u8 unk_1CC[0x4];
-    f32 m_1d0;
+    // Copy of pos_* taken whenever the position snaps.
+    f32 look_x;
+    f32 look_y;
+    f32 look_z;
     static void update();
     static void reset_view_state();
     static void select_active_controller(s8 arg0);

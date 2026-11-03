@@ -372,13 +372,11 @@ u8 * TObjAreaWarpQuest__ct(u8 *arg0, s32 arg1, s32 arg2);
 void * __dt__18TObjAreaWarpForestFv(void *arg0, s16 arg1);
 u8 * TObjAreaWarpForest__ct(u8 *arg0, s32 arg1, s32 arg2);
 void handle_6x94_inter_level_warp(Pkt_8019C988 *arg0);
-void confirm_area_transfer__12TObjAreaWarpFPvi(u8 *arg0, s32 arg1);
 u8 * __dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void * TObjAreaWarp__ct(void *arg0, void *parent, void *set);
 u8 * TObjMapWarpForest__ct(u8 *arg0, void *parent, void *set);
 s32 can_warp__11TObjMapWarpFlUs(void *, u16);
 void *__dt__11TObjMapWarpFv(void *arg0, s16 arg1);
-s32 vfunc_16__12TObjWarpBaseFv(s32);
 void *find_warp_player_in_range(void *self, u16 client_id, f32 range);
 void *__dt__12TObjWarpBaseFv(void *arg0, s16 arg1);
 int TAdStorySelectGC__sub_8019DC14(void);
@@ -658,7 +656,7 @@ void TObjWarpBase::vfunc_14() {
     }
 }
 
-u8 TObjWarpBase::vfunc_16() {
+u8 TObjWarpBase::is_warp_enabled() {
     void *player;
     u32 id = *(u16 *)((s8 *)this + 0xB8);
 
@@ -970,7 +968,7 @@ void TObjAreaWarp::open_confirm_window(u16 arg1) {
     }
 }
 
-s32 TObjAreaWarp::is_warp_enabled(s32 arg0) {
+u8 TObjAreaWarp::is_warp_enabled() {
     s32 var_r31;
     void *player;
 
@@ -987,7 +985,7 @@ loop_2:
         goto loop_2;
     }
 block_6:
-    return vfunc_16__12TObjWarpBaseFv(arg0);
+    return TObjWarpBase::is_warp_enabled();
 }
 
 void TObjAreaWarp::handle_area_selection() {
@@ -1047,8 +1045,8 @@ void TObjAreaWarp::handle_area_selection() {
     }
 }
 
-void confirm_area_transfer__12TObjAreaWarpFPvi(u8 *arg0, s32 arg1) {
-    ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&lbl_80515BA0.value, (int) (*(s32 *)((s8 *)arg0 + 0xBC)), (int) (get_floor_map_terrain(*(s32 *)((s8 *)arg0 + 0xBC))));
+void TObjAreaWarp::confirm_area_transfer(s32 arg1) {
+    ((s32 (*)(void *, int, int))set_area__6TLobbyFl)(&lbl_80515BA0.value, (int) (*(s32 *)((s8 *)this + 0xBC)), (int) (get_floor_map_terrain(*(s32 *)((s8 *)this + 0xBC))));
     ((s32 (*)(void))mark_area_change_pending)();
     ((TObjAreaWarpQuest *)(&lbl_80515BA0.value))->get_dest_area();
     ((s32 (*)(void))send_inter_level_warp_all__10TNpcPlayerFl)();
@@ -1135,7 +1133,7 @@ void TObjAreaWarpForest::run_task() {
   ((TObjAreaWarp *)arg0)->handle_area_selection();
 }
 
-void TObjAreaWarpForest::confirm_area_transfer(s32) { ((int (*)(void*))confirm_area_transfer__12TObjAreaWarpFPvi)(this); }
+void TObjAreaWarpForest::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
 void TObjAreaWarpForest::render() {
     Obj_8019C604 *self = (Obj_8019C604 *)this;

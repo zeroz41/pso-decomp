@@ -17,23 +17,23 @@ struct TObjCityMainWarpChallenge : public TObjAreaWarp {
     u32 m_b0;
     u32 m_b4;
     u8 _padB8[0x4];
-    s32 m_bc;
+    s32 dest_floor;
     u8 _padC0[0x10];
     u32 m_d0;
     u32 m_d4;
     u8 _padD8[0x4];
-    s16 m_dc;
-    s16 m_de;
+    s16 next_state;
+    s16 state;
     s16 m_e0;
     s16 m_e2;
     char player_names[4][0x18];
     s32 player_in_range[4];
     s32 player_count;
     s32 players_in_range;
-    s32 m_15c;
+    s32 player_on_dest_floor;
     u8 _pad160[0x4];
-    void *m_164;
-    void *m_168;
+    void *player_list_window;
+    void *yes_no_window;
     u32 m_16c;
     void update_state();
     void render();
@@ -49,7 +49,6 @@ typedef char TObjCityMainWarpChallenge_m_174[offsetof(TObjCityMainWarpChallenge,
 
 extern "C" {
 u8 *TObjCityMainWarpChallenge__ct(u8 *arg0);
-void *__dt__25TObjCityMainWarpChallengeFv(void *arg0, s16 arg1);
 }
 
 #endif

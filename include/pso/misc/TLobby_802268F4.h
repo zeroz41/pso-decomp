@@ -4,6 +4,9 @@
 #include "types.h"
 
 extern "C" {
+// sound-request flag mask, read from memory by TLobby_80226070 and TOTrapAncient01_80226534
+extern const u32 lbl_805DC748;
+void clear_sound_listener_position(void);
 int TLobby__sub_80226B64(void);
 void TLobby__sub_802272B4(void);
 void TLobby__sub_8022733C(void);

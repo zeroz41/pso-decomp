@@ -7,8 +7,8 @@
 struct TObjWarpBase : public TObjCollidable {
     virtual ~TObjWarpBase();
     virtual void vfunc_14();
-    virtual void vfunc_15() = 0;
-    virtual u8 vfunc_16();
+    virtual void open_confirm_window(u16) = 0;
+    virtual u8 is_warp_enabled();
     virtual void vfunc_17();
     virtual void vfunc_18(s32);
     static void free_globals();

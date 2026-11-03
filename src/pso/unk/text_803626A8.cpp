@@ -216,13 +216,11 @@ extern const f32 lbl_805E024C;
 extern const f32 lbl_805E0250;
 void TLobby__sub_8001FE7C(void *, int);
 void *__dt__13TUnk_804F26E0Fv(void *arg0, s16 arg1);
-void *TObjEneEpsilon__ct(void *arg0);
 void construct_srank_weapon(void *);
 void __construct_array(void *, void *, void *, int, int);
 void *__dt__13TUnk_804A4948Fv(void *arg0, s16 arg1);
 
-extern s32 __ct__15RenderFadeStateFv[];
-extern void *TObjEneEpsilon__class_name;
+extern const char *TObjEneEpsilon__class_name;
 
 typedef char RecoveredGlobal_803626A8_lbl_80479FBC_size[sizeof(RecoveredGlobal_803626A8_lbl_80479FBC) == 0xC ? 1 : -1];
 typedef char RecoveredGlobal_803626A8_lbl_8058D490_size[sizeof(RecoveredGlobal_803626A8_lbl_8058D490) == 0x30 ? 1 : -1];
@@ -318,13 +316,9 @@ u8 *__dt__14TObjEneEpsilonFv(u8 *arg0, s16 arg1) {
     return arg0;
 }
 
-void *TObjEneEpsilon__ct(void *ene_epsilon) {
-    __ct__12TObjEneDD_STFP7TObject(ene_epsilon);
-    *(s32 **)((s8 *)ene_epsilon + 0x18) = __vt__14TObjEneEpsilon;
-    __construct_array((void *)((char *)ene_epsilon + 960), __ct__15RenderFadeStateFv, __dt__15RenderFadeStateFv, 28, 4);
-    *(void * *)&((TObjEneEpsilon *)ene_epsilon)->m_name = TObjEneEpsilon__class_name;
-    ((TObjEneDD *)ene_epsilon)->check_state_flag_4();
-    return ene_epsilon;
+TObjEneEpsilon::TObjEneEpsilon(TObject *parent) : TObjEneDD_ST(parent) {
+    m_name = TObjEneEpsilon__class_name;
+    check_state_flag_4();
 }
 
 extern s32 lbl_804F26E0[];

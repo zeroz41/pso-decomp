@@ -108,7 +108,6 @@ struct Obj_801A0224 {
 
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
-int confirm_area_transfer__12TObjAreaWarpFPvi(void*);
 u8 *__dt__12TObjAreaWarpFv(u8 *arg0, s16 arg1);
 void *TObjAreaWarp__ct(void *arg0);
 int vfunc_14__12TObjWarpBaseFv(void*);
@@ -183,7 +182,7 @@ s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
     return 0;
 }
 
-void TObjWarpJungMain::confirm_area_transfer(s32) { confirm_area_transfer__12TObjAreaWarpFPvi(this); }
+void TObjWarpJungMain::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
 void TObjWarpJungMain::vfunc_14() { vfunc_14__12TObjWarpBaseFv(this); TWindowCtrl::clear_flag(); }
 
@@ -282,7 +281,7 @@ void TObjWarpJung::render() {
     }
 }
 
-void TObjWarpJung::confirm_area_transfer(s32) { confirm_area_transfer__12TObjAreaWarpFPvi(this); }
+void TObjWarpJung::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
 void TObjWarpJung::run_task() {
     u8 *arg0 = (u8 *)this;

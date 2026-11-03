@@ -33,7 +33,7 @@ s32 TOComputerMachine01::last_scroll_frame;
 void *TOComputerMachine01::screen_meshes[4];
 
 s32 TOComputerMachine01::update_object_view_visibility(f32 range, f32 radius) {
-    if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->m_178) < radius * radius) {
+    if (xz_distance_squared(&position, (Vec *)&camera_ctrl_instance->pos_x) < radius * radius) {
         visibility = 1;
         return visibility;
     }

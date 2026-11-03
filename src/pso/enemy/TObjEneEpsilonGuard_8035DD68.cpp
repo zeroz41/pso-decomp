@@ -1107,7 +1107,7 @@ extern s32 epsilon_guard_boss_stat_handle;
 extern s32 epsilon_guard_shared_handler_b;
 extern s32 epsilon_guard_registered_object_handle;
 extern u8 *lbl_805D6FA0;
-s32 TObjEneEpsilon__ct();
+s32 __ct__14TObjEneEpsilonFP7TObject();
 extern s32 TObjEneEpsilonGuard__class_name;
 void *TObjEneEpsilonGuard__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5, void *arg6);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
@@ -1407,7 +1407,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
 
 void *TObjEneEpsilonGuard__ct(void *ene_epsilon_guard, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5, void *arg6) {
     s32 i;
-    TObjEneEpsilon__ct();
+    __ct__14TObjEneEpsilonFP7TObject();
     *(void ***)((s8 *)ene_epsilon_guard + 0x18) = __vt__19TObjEneEpsilonGuard;
     __ct__13TUnk_80494938Fv(((u8 *)ene_epsilon_guard + 0x4BC));
     *(s32 *)((s8 *)ene_epsilon_guard + 0) = (s32) TObjEneEpsilonGuard__class_name;
