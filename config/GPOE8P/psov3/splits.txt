@@ -2068,29 +2068,17 @@ pso/player/TObjPlayer_800E80A4.cpp:
 	.text       start:0x800E80A4 end:0x800E80C0
 
 pso/enemy/TObjEneSlimeTailAttack.cpp:
-	.text       start:0x800E80C0 end:0x800EB778
-	.rodata     start:0x8043D288 end:0x8043D298
-	.data       start:0x804962F8 end:0x80496868
+	.text       start:0x800E80C0 end:0x800EC348
+	.ctors      start:0x80433F68 end:0x80433F6C
+	.rodata     start:0x8043D008 end:0x8043D2A8
+	.data       start:0x804962F8 end:0x80496C4C
 	.bss        start:0x80501010 end:0x80501050
+	.sdata      start:0x805D2AD8 end:0x805D2AE8
+	.sbss       start:0x805D52B0 end:0x805D52B8
 	.sdata2     start:0x805DA668 end:0x805DA760
 
-pso/unk/text_800EB778.cpp:
-	.text       start:0x800EB778 end:0x800EB910
-
-pso/enemy/TObjEneSlime.cpp:
-	.text       start:0x800EB910 end:0x800EBBC8
-	.rodata     start:0x8043D298 end:0x8043D2A8
-
-pso/enemy/TObjEneSlime_800EBBC8.cpp:
-	.text       start:0x800EBBC8 end:0x800EBD38
-	.data       start:0x80496B00 end:0x80496C4C
-
-pso/enemy/TObjEneSlime_800EBD38.cpp:
-	.text       start:0x800EBD38 end:0x800EBE2C
-
 pso/player/TObjPlayer_800EBE2C.cpp:
-	.text       start:0x800EBE2C end:0x800EC394
-	.ctors      start:0x80433F68 end:0x80433F6C
+	.text       start:0x800EC348 end:0x800EC394
 
 pso/enemy/TObjEneSlimeOne_800EC394.cpp:
 	.text       start:0x800EC394 end:0x800ECA40
