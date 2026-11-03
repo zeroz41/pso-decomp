@@ -2,6 +2,9 @@
 #include "pso/system/vector.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TLoadCtrl.h"
+#include "pso/misc/TLobby_802268F4.h"
+
+const u32 lbl_805DC748 = 1;
 
 struct RecoveredGlobal_8022727C_lbl_804CB850 {
     s32 value;
@@ -103,6 +106,18 @@ extern "C" {
 void TLobby__sub_8022644C(void);
 
 void TLobby::update_lobby_subsystems() { TLobby__sub_8022644C(); stop_cue_stream(); }
+
+// Dead-stripped from the DOL: no code of it survives. The TU's .sdata2 pool opens
+// with 0.0 (0x805DC74C) ahead of check_sound_admission_range's 90000/40/260/127
+// although that function loads 0.0 last, so a function before it used 0.0 first.
+// Minimal body: it clears the sound listener position (lbl_80514C50) the way
+// update_sound_request_slots does when there is neither a player nor a camera.
+// Name inferred from that role.
+void clear_sound_listener_position(void) {
+    lbl_80514C50[2] = 0.0f;
+    lbl_80514C50[1] = 0.0f;
+    lbl_80514C50[0] = 0.0f;
+}
 
 f32 xz_distance_squared(const Vec *a, const Vec *b);
 f32 newton_sqrtf(f32 x);
