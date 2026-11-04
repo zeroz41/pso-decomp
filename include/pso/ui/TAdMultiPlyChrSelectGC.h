@@ -58,6 +58,7 @@ struct TAdMultiPlyChrSelectGC : public TObject {
     static s32 count_ready();
     static void remove_selected_slot(s32 arg0);
     static void add_selected_slot();
+    s32 find_active_slot();
     static s32 get_clamped_cursor();
     static void reset_slot_selections();
     s32 get_field_20();

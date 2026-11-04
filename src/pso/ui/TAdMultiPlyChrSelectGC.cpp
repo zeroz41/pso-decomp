@@ -24,7 +24,7 @@ u8 *TAdMultiPlyChrSelectGC__ct(TAdMultiPlyChrSelectGC *arg0, u8 *arg1, s32 arg2)
 void __dl__7TObjectFPv(s32);
 s32 __dt__7TObjectFv(void *, int);
 u8 *__dt__22TAdMultiPlyChrSelectGCFv(u8 *arg0, s16 arg1);
-extern s32 TAdMultiPlyChrSelectGC__data_805D67D8;
+extern s32 multi_ply_chr_select_active_player;
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(O_802DFFE8 *self);
 void TAdMultiPlyChrSelectGC__sub_802E0024(O_802E0024 *self, s32 v);
 extern s32 lbl_805D68C8;
@@ -218,7 +218,7 @@ u8 *get_or_create__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1) {
 int TAdMultiPlyChrSelectGC::get_instance() {  return TAdMultiPlyChrSelectGC__selected_slot; }
 
 s32 TAdMultiPlyChrSelectGC__sub_802DFFE8(O_802DFFE8 *self) {
-    return self->tbl[TAdMultiPlyChrSelectGC__data_805D67D8][self->idx];
+    return self->tbl[multi_ply_chr_select_active_player][self->idx];
 }
 
 void TAdMultiPlyChrSelectGC::set_state_ready() { *(s32*)((char*)this + 0x4fc) = 1; }
@@ -226,7 +226,7 @@ s32 TAdMultiPlyChrSelectGC::get_cursor() { return *(s32*)((char*)this + 0x4ec); 
 void TAdMultiPlyChrSelectGC::set_state(s32 v) { *(s32*)((char*)this + 0x4f8) = v; }
 
 void TAdMultiPlyChrSelectGC__sub_802E0024(O_802E0024 *self, s32 v) {
-    self->tbl[TAdMultiPlyChrSelectGC__data_805D67D8][self->idx] = v;
+    self->tbl[multi_ply_chr_select_active_player][self->idx] = v;
 }
 
 s32 TAdMultiPlyChrSelectGC::get_card_index() { return *(s32*)((char*)this + 0x4e8); }
