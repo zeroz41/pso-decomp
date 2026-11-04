@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/misc/TWindowBase.h"
 
+struct TWindowKeyBoardSoft;
+
 struct TWindowMenuMainMenu : public TWindowBase {
     virtual ~TWindowMenuMainMenu();
     void handle_navigation_input();
@@ -11,6 +13,7 @@ struct TWindowMenuMainMenu : public TWindowBase {
     void handle_cancel();
     int get_menu_flag();
     int is_flag_set();
+    void draw_frame(TWindowKeyBoardSoft *frame);
     virtual void render();
     virtual void run_task();
     u8 _pad1C[0x4];
@@ -18,7 +21,7 @@ struct TWindowMenuMainMenu : public TWindowBase {
     u8 unk_22[0xA];
     s32 m_2c;
     u8 unk_30[0x24];
-    f32 m_54;
+    f32 depth; // (inferred) open_singleton depth argument and draw_frame quad depth
     u8 unk_58[0x8];
     u8 m_60;
     u8 m_61;

@@ -2,7 +2,7 @@
 #include "pso/ui/TAdDrawLineCtrl.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80132ED0.h"
-#include "pso/ui/TAdMultiPlyChrSelectGC_802C50EC.h"
+#include "pso/ui/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801334D4.h"
 

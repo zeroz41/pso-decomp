@@ -1069,31 +1069,31 @@ void TObjEneRe4Bit__sub_800ECC14(u8 *ene_panarms, s32 arg1) {
     s32 temp_r4;
     switch (arg1) {
     case 4:
-        ((TObjEnePanarms *)ene_panarms)->m_408 = 0;
+        ((TObjEneRe4Bit *)ene_panarms)->m_408 = 0;
         ((s32 (*)(void *))set_hold_flags__18TObjEneRe4SorcererFPv)(ene_panarms);
-        ((TObjEnePanarms *)ene_panarms)->m_3cc = (s32) (((TObjEnePanarms *)ene_panarms)->m_3cc | 0x400);
+        ((TObjEneRe4Bit *)ene_panarms)->pad_3cc = (s32) (((TObjEneRe4Bit *)ene_panarms)->pad_3cc | 0x400);
         play_sound_effect(((TObjEnemy *)(ene_panarms))->remap_sound_for_area((s32)(0x4003A815)), ene_panarms + 0x38, 0, 0);
         break;
     case 3:
-        if (((TObjEnePanarms *)ene_panarms)->m_3cc & 8) {
+        if (((TObjEneRe4Bit *)ene_panarms)->pad_3cc & 8) {
             play_sound_effect(((TObjEnemy *)(ene_panarms))->remap_sound_for_area((s32)(0x4003AD16)), ene_panarms + 0x38, 0, 0);
             ((TObjEneDD *)ene_panarms)->transition_enemy_state(1);
         }
         break;
     case 0:
-        ((TObjEnePanarms *)ene_panarms)->m_408 = (s32) (((TObjEnePanarms *)ene_panarms)->m_408 + 1);
-        if ((s32) ((TObjEnePanarms *)ene_panarms)->m_408 >= 0x384) {
-            temp_r4 = ((TObjEnePanarms *)ene_panarms)->m_3cc;
+        ((TObjEneRe4Bit *)ene_panarms)->m_408 = (s32) (((TObjEneRe4Bit *)ene_panarms)->m_408 + 1);
+        if ((s32) ((TObjEneRe4Bit *)ene_panarms)->m_408 >= 0x384) {
+            temp_r4 = ((TObjEneRe4Bit *)ene_panarms)->pad_3cc;
             if (!(temp_r4 & 0x10)) {
-                ((TObjEnePanarms *)ene_panarms)->m_3cc = (s32) (temp_r4 & 0xFFFFFBFF);
+                ((TObjEneRe4Bit *)ene_panarms)->pad_3cc = (s32) (temp_r4 & 0xFFFFFBFF);
                 ((s32 (*)(void *))set_state_flags__18TObjEneRe4SorcererFPv)(ene_panarms);
                 return;
             }
         }
         break;
     case 5:
-        ((TObjEnePanarms *)ene_panarms)->actorFlags = (s32) (((TObjEnePanarms *)ene_panarms)->actorFlags & 0xFFFFF7FF);
-        ((TObjEnePanarms *)ene_panarms)->hp = (s16) ((TObjEnePanarms *)ene_panarms)->hpmax;
+        ((TObjEneRe4Bit *)ene_panarms)->actorFlags = (s32) (((TObjEneRe4Bit *)ene_panarms)->actorFlags & 0xFFFFF7FF);
+        ((TObjEneRe4Bit *)ene_panarms)->hp = (s16) ((TObjEneRe4Bit *)ene_panarms)->hpmax;
         ((s32 (*)())TObjEneRe4Sorcerer__sub_800ED47C)();
         *(f32 *)((s8 *)ene_panarms + 0x3D8) = (f32) TObjEneRe4Bit__data_805DA770;
         break;

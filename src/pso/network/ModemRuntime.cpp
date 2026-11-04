@@ -186,7 +186,7 @@ extern char lbl_805D4928[7];
 extern char lbl_805D4930[5];
 extern char lbl_805D4938[7];
 extern char *modem_exi_ptr_table[22];
-s32 TAdSinglePlyChrSelectGC__sub_8042CD64(void);
+s32 modem_wait_ok_or_error(void);
 void TAdSinglePlyChrSelectGC__sub_8042D604(void);
 void TAdSinglePlyChrSelectGC__sub_8042E488(s32 value);
 
@@ -244,6 +244,20 @@ static inline u8 ModemReadRegister(u8 reg) {
 
     selected = EXISelect(0, 2, 4);
     EXIImm(0, &cmd, 2, EXI_WRITE, NULL);
+    EXISync(0);
+    EXIImm(0, &value, 1, EXI_READ, NULL);
+    EXISync(0);
+    EXIDeselect(0);
+    return value;
+}
+
+// Command 0x23 reads modem FIFO data; the byte after the opcode is the byte count.
+static inline u8 ModemReadFifoByte(void) {
+    u32 cmd = 0x23000100;
+    u8 value;
+
+    EXISelect(0, 2, 4);
+    EXIImm(0, &cmd, 4, EXI_WRITE, NULL);
     EXISync(0);
     EXIImm(0, &value, 1, EXI_READ, NULL);
     EXISync(0);
@@ -528,6 +542,46 @@ void TAdSinglePlyChrSelectGC__sub_8042C8D8(void) {
     }
 }
 
+// Polls the modem FIFO (register 5 holds the byte count, command 0x23 reads one byte) and
+// appends each byte to the response buffer until it sees "OK" (returns 1) or "ERROR" (returns -6).
+s32 modem_wait_ok_or_error(void) {
+    u8 count;
+    s32 i;
+    s32 saw_o;
+    s32 error_index;
+    const char *error;
+
+    saw_o = 0;
+    error_index = 0;
+    error = "ERROR";
+    for (;;) {
+        count = ModemReadRegister(5);
+        if (count == 0) {
+            OSYieldThread();
+            continue;
+        }
+        for (i = 0; i < count; i++) {
+            u8 c = ModemReadFifoByte();
+
+            modem_command_response_state.buf[modem_command_response_state.length++] = c;
+            if (c == error[error_index]) {
+                if (++error_index == 5) {
+                    return -6;
+                }
+            } else {
+                error_index = 0;
+            }
+            if (c == 0x4F) { // 'O'
+                saw_o = 1;
+            } else if (saw_o == 1 && c == 0x4B) { // 'K'
+                return 1;
+            } else {
+                saw_o = 0;
+            }
+        }
+    }
+}
+
 s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd) {
     u32 length;
     u32 i;
@@ -555,7 +609,7 @@ s32 TAdSinglePlyChrSelectGC__sub_8042D49C(char *cmd) {
     }
     ModemLockExi();
     TAdSinglePlyChrSelectGC__sub_8042D6A4(cmd);
-    result = TAdSinglePlyChrSelectGC__sub_8042CD64();
+    result = modem_wait_ok_or_error();
     EXIUnlock(0);
     return result;
 }

@@ -397,7 +397,7 @@ s32 TBoss4DarkFalz__sub_8004AF5C(u8 *arg0, s16 *arg1, s16 *arg2);
 void fn_803594B4(void *, s32, f32);
 
 void TBoss4DarkFalz__sub_8004B730(u8 *arg0, s32 arg1, f32 farg0);
-extern RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 TBoss4DarkFalz__data_80485108;
+extern RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 dark_falz_state_table;
 void release_all_players_control_lock(void);
 void *spawn_particle_effect(void *pos, s32 id);
 s32 TBoss4Thanks__sub_8035C96C();
@@ -470,7 +470,7 @@ void TBoss4DarkFalz::sub_8004B084() {
   MemberActionStorage_8004B084 member_action;
   Stack_8004B084 stack;
   u8 *temp_r6;
-  temp_r6 = (u8 *)&TBoss4DarkFalz__data_80485108.value;
+  temp_r6 = (u8 *)&dark_falz_state_table.value;
   temp_r6 = temp_r6 + ((this->m_37c) * 0x34);
   member_action.words[0] = *((s32 *) (((s8 *) temp_r6) + 0x28));
   member_action.words[1] = *((s32 *) (((s8 *) temp_r6) + 0x2C));
@@ -487,7 +487,7 @@ void TBoss4DarkFalz::sub_8004B0F8() {
   MemberActionStorage_8004B0F8 member_action;
   Stack_8004B0F8 stack;
   u8 *temp_r6;
-  temp_r6 = (u8 *) (&(*(RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108 *)&TBoss4DarkFalz__data_80485108).value);
+  temp_r6 = (u8 *) (&(*(RecoveredGlobal_8004B0F8_TBoss4DarkFalz__data_80485108 *)&dark_falz_state_table).value);
   temp_r6 = temp_r6 + ((this->m_37c) * 0x34);
   member_action.words[0] = *((s32 *) (((s8 *) temp_r6) + 0x1C));
   member_action.words[1] = *((s32 *) (((s8 *) temp_r6) + 0x20));
@@ -524,7 +524,7 @@ void TBoss4DarkFalz::change_state(s32 arg1) {
         return;
     }
     if (*(s32 *)&this->m_37c != -1) {
-        u8 *t = (u8 *)&TBoss4DarkFalz__data_80485108.value;
+        u8 *t = (u8 *)&dark_falz_state_table.value;
         t = t + *(s32 *)&this->m_37c * 0x34;
         Act_8004B20C f = ((Entry_8004B20C *)t)->leave;
         if (f) {
@@ -532,7 +532,7 @@ void TBoss4DarkFalz::change_state(s32 arg1) {
         }
     }
     *(s32 *)&this->m_37c = arg1;
-    u8 *t2 = (u8 *)&TBoss4DarkFalz__data_80485108.value;
+    u8 *t2 = (u8 *)&dark_falz_state_table.value;
     t2 = t2 + *(s32 *)&this->m_37c * 0x34;
     Act_8004B20C g = ((Entry_8004B20C *)t2)->enter;
     if (g) {

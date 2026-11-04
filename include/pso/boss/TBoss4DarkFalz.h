@@ -13,7 +13,7 @@ struct TBoss4DarkFalz : public TObjEnemy {
     u32 m_374;
     u32 m_378;
     u32 m_37c;
-    u8 unk_380[0x4];
+    s32 state_timer; // per-state countdown: init_timer sets 30, update_timer decrements and tests < 0
     s32 m_384;
     u32 m_388;
     u32 m_38c;
@@ -37,26 +37,26 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void set_code_25_4();
     void set_state();
     void update_fade_countdown();
-    static void request_action_e(s32 arg0);
+    void request_action_e();
     void start_phase();
     void enter_state_126();
     void init_state();
     void enter_state_142();
     void update_timer();
-    static void request_action_9(s32 arg0);
+    void request_action_9();
     void update_parts();
     void update_spawn_type2_countdown();
     void start_demo1();
-    static void spawn_ancient_trap(s32 arg0);
-    static void request_action_7(s32 arg0);
+    void spawn_ancient_trap();
+    void request_action_7();
     void spawn_type1();
     void update_intro_demo();
     void start_effect();
-    static void spawn_trap(s32 arg0);
-    static void check_timeout(s32 arg0);
+    void spawn_trap();
+    void check_timeout();
     void init_timer();
     void start_demo();
-    static void check_players_near_center(void *self);
+    void check_players_near_center();
     static void clear_uro_link_state();
     static void init_uro_link();
     static void *create_demo2(void *arg0, void *arg1, void *arg2, void *arg3);
@@ -81,10 +81,39 @@ struct TBoss4DarkFalz : public TObjEnemy {
     void begin_defeat_sequence();
     void update_countdown_shrink();
     void get_demo2_params(u16 *a, u16 *b, u16 *out);
+    void get_defeat_params(u16 *a, u16 *b, u16 *out);
+    s32 sub_8004D990();
     static u8 is_state_ready();
     static u8 is_active();
     void spawn_zako_rings();
     void enter_demo2_phase();
+    // State handlers installed in the state table dark_falz_state_table (TBoss4DarkFalz_8004C93C.cpp).
+    void update_ol_ending();
+    void update_type3();
+    void update_demo_warp3();
+    void update_get_ring();
+    void update_leader_get_ring();
+    void update_leader_die_type2();
+    void update_type2();
+    void update_leader_app_type2();
+    void update_leader_app_type1();
+    void enter_zako();
+    void update_demo_warp1();
+    void update_demo_warp0();
+    void update_leader_editor();
+};
+
+typedef void (TBoss4DarkFalz::*TBoss4DarkFalzHandler)();
+
+/* One state of the TBoss4DarkFalz state machine (16 records, names EDITOR .. OL ENDING).
+ * change_state calls leave on the old state and enter on the new one; run_task calls
+ * update_leader while m_378 is 0 (cleared for the floor leader) and update every frame. */
+struct TBoss4DarkFalzState {
+    const char *name;
+    TBoss4DarkFalzHandler enter;
+    TBoss4DarkFalzHandler leave;
+    TBoss4DarkFalzHandler update_leader;
+    TBoss4DarkFalzHandler update;
 };
 
 typedef char TBoss4DarkFalz_size[sizeof(TBoss4DarkFalz) == 0x39C ? 1 : -1];

@@ -11,6 +11,7 @@ struct TObjDFUsoTower : public TObjBase {
     virtual void render();
     virtual void run_task();
     u8 unk_94[0x4];
+    void sub_8004D9A0(s32 v);
 };
 
 typedef char TObjDFUsoTower_size[sizeof(TObjDFUsoTower) == 0x98 ? 1 : -1];

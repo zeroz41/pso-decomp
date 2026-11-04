@@ -176,7 +176,7 @@ void TAdDialingGC::update_selection() {
         *(s16 *)&this->m_30 = 0;
         return;
     }
-    TLobby__sub_803FB184((u8 *)&this->_pad2C);
+    NetGetLinkStatus((NetLinkStatus *)&this->_pad2C);
     if ((s16) *(s16 *)&this->m_68 != (s16) *(s16 *)&this->m_30) {
         *(s32 *)&this->m_24 = 0;
     }

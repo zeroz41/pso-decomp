@@ -3,6 +3,11 @@
 #include "types.h"
 #include "pso/object/TObjMotion.h"
 
+class TObjEneDubchik;
+
+// The part constructor: TObjEneDubchik::update_fall_apart news 0xFC bytes and calls it for each part.
+extern "C" u8 *TObjPlayer__sub_800AB7A0(u8 *part, s32 index, TObjEneDubchik *parent, NJS_TEXLIST *texlist, Vec *offset);
+
 class TUnk_80491478 : public TObjCollidable {
 public:
     virtual ~TUnk_80491478();
@@ -17,7 +22,7 @@ public:
     u8 unk_CC[0x4];
     s32 m_d0;
     u8 unk_D4[0x4];
-    s32 m_d8;
+    NJS_TEXLIST *m_d8;
     u8 unk_DC[0xC];
     f32 m_e8;
     u8 unk_EC[0x4];

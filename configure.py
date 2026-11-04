@@ -432,11 +432,17 @@ GAME_COMPILER = "GC/2.6"
 # entry is here because a function or data section matches only this way.
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/TObjEnePanarms_800DCEB8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/TAdRicoRingCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/TObjEneDD.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/TObjEneDubchik.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/misc/TShopKeepItemWindow.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/misc/TNpcPlayer.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    "pso/misc/TWindowMainMenu_802AD538.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TObjBoss2Tunnel.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
     "pso/enemy/TObjEneEpsilonGuard_8035F5C8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
     "pso/misc/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/boss/TBoss4DarkFalz_8004C93C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/TAdEnterSerialAccessGC_8032AD30.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TPhotonGolla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -444,6 +450,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/unk/text_80193018.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TBoss6Tube_802B16BC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TLobby_803360CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TLobby_801461EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TLoadCtrl_80227390.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8034AD38.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_80066F10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -496,6 +503,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneIllGill.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/TAdChrMoveEffectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/boss/TObjBoss2CeilJunk.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/TAdChrSelPlyPlateGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/TAdChrSelSlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/TObjContainerIdo_8018BEE4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TPlyPhotonChair.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -510,6 +518,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjEnvSoundGlobal.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
+    # -sdata 4: the 8-byte effect id pair lbl_80485B08 sits in .data, not .sdata.
+    "pso/boss/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
     # -sdata 4: the 8-byte name list lbl_80487858 sits in .data, not .sdata.
     "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},

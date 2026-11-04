@@ -45,6 +45,8 @@ struct TNpcPlayer : public TObject {
     void handle_action(s32 arg1);
     void request_chatter(u32 arg1);
     static void quick_sort(s32 arg0, s32 arg1, s32 arg2, s32 arg3);
+    static bool is_small_obstacle(f32 size);
+    static bool is_hp_low(f32 hp, f32 max_hp);
     void *dt(s16 arg1);
     s32 try_attack(s32 arg1, s32 arg2);
     s32 check_movement_progress();
@@ -61,7 +63,6 @@ struct TNpcPlayer : public TObject {
     void copy(void* q);
     static u8 *build_npc_player_record(s32 arg0);
     static void ensure_rock_singleton();
-    static void register_ply_char_data_global();
     s32 get_npc_state();
     s32 get_condition();
     s32 get_action_state();

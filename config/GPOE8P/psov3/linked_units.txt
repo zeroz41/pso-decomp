@@ -224,6 +224,8 @@ pso/boss/TBoss3Volopt_800D8ACC.cpp
 pso/boss/TBoss4CheckEmpty.cpp
 pso/boss/TBoss4CheckEmpty_8034A8B0.cpp
 pso/boss/TBoss4CheckEmpty_8034A8FC.cpp
+pso/boss/TBoss4DarkFalz_8004C93C.cpp
+pso/boss/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/TBoss4Fade.cpp
 pso/boss/TBoss4Thanks.cpp
 pso/boss/TBoss4Thanks_8035C8F0.cpp
@@ -476,6 +478,7 @@ pso/enemy/TObjEneMorfosArm_80335218.cpp
 pso/enemy/TObjEneMorfos_80337500.cpp
 pso/enemy/TObjEneNanoDrago.cpp
 pso/enemy/TObjEnePanarmsAtkColli.cpp
+pso/enemy/TObjEnePanarms_800DCEB8.cpp
 pso/enemy/TObjEnePanarms_800DFB00.cpp
 pso/enemy/TObjEnePanarms_800DFB74.cpp
 pso/enemy/TObjEnePanarms_800F5E90.cpp
@@ -994,6 +997,7 @@ pso/misc/TLobby_80156B18.cpp
 pso/misc/TLobby_8015ABD0.cpp
 pso/misc/TLobby_8015C944.cpp
 pso/misc/TLobby_80160804.cpp
+pso/misc/TLobby_801461EC.cpp
 pso/misc/TLobby_80191218.cpp
 pso/misc/TLobby_80191F80.cpp
 pso/misc/TLobby_801A2D90.cpp
@@ -1137,6 +1141,7 @@ pso/misc/TLobby_803DF1FC.cpp
 pso/misc/TLobby_803E2D50.cpp
 pso/misc/TLobby_803F8794.cpp
 pso/misc/TLobby_804048E8.cpp
+pso/misc/TLobby_80428374.cpp
 pso/misc/TLockOnCursor.cpp
 pso/misc/TLockOnCursor_8013D91C.cpp
 pso/misc/TLockOnCursor_8013E0D0.cpp
@@ -1200,6 +1205,7 @@ pso/misc/TNeedleShoot_802A4668.cpp
 pso/misc/TNeedleShoot_802A4754.cpp
 pso/misc/TNeedleShoot_802A4A44.cpp
 pso/misc/TNowLoading.cpp
+pso/misc/TNpcPlayer.cpp
 pso/misc/TNpcPlayer_800D87A8.cpp
 pso/misc/TNpcPlayer_8014DADC.cpp
 pso/misc/TNpcPlayer_80190E64.cpp
@@ -1469,6 +1475,7 @@ pso/misc/TShopGetItemWindow_8021F0A4.cpp
 pso/misc/TShopItemTecSequence.cpp
 pso/misc/TShopJudgmentItemWindow.cpp
 pso/misc/TShopJudgmentItemWindow_8026DF00.cpp
+pso/misc/TShopKeepItemWindow.cpp
 pso/misc/TShopSequence.cpp
 pso/misc/TShopWindowBase.cpp
 pso/misc/TShopWindowBase_80217454.cpp
@@ -1648,6 +1655,7 @@ pso/misc/TWindowMainMenu1P.cpp
 pso/misc/TWindowMainMenu4P.cpp
 pso/misc/TWindowMainMenu_8024E3CC.cpp
 pso/misc/TWindowMainMenu_80263B70.cpp
+pso/misc/TWindowMainMenu_802AD538.cpp
 pso/misc/TWindowMainMenu_802AE928.cpp
 pso/misc/TWindowMakeTeam.cpp
 pso/misc/TWindowMakeTeam_80131A5C.cpp
@@ -2704,9 +2712,6 @@ pso/unk/text_800A0814.cpp
 pso/unk/text_800A0884.cpp
 pso/unk/text_800A0994.cpp
 pso/unk/text_800A884C.cpp
-pso/unk/text_800A887C.cpp
-pso/unk/text_800AAC5C.cpp
-pso/unk/text_800AAF78.cpp
 pso/unk/text_800BC4C8.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp

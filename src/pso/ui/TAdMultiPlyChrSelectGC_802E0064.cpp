@@ -7,7 +7,7 @@ s32 TAdMultiPlyChrSelectGC__sub_802DFFE8();
 
 void TAdMultiPlyChrSelectGC::set_field_4ec(s32 v) { *(s32*)((char*)this + 0x4ec) = v; }
 
-    extern int TAdMultiPlyChrSelectGC__data_805D67D8;
+    extern int multi_ply_chr_select_active_player;
     extern int TAdMultiPlyChrSelectGC__selected_slot;
 
 void TAdMultiPlyChrSelectGC__sub_802E006C(u8 *arg0, s32 arg1, s32 arg2) {
@@ -15,7 +15,7 @@ void TAdMultiPlyChrSelectGC__sub_802E006C(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0x4F0) = arg2;
 }
 
-void TAdMultiPlyChrSelectGC::restore_selection() { TAdMultiPlyChrSelectGC__selected_slot = TAdMultiPlyChrSelectGC__data_805D67D8; }
+void TAdMultiPlyChrSelectGC::restore_selection() { TAdMultiPlyChrSelectGC__selected_slot = multi_ply_chr_select_active_player; }
 
 void TAdMultiPlyChrSelectGC::update_field_4E8() {
     *(s32 *)((s8 *)this + 0x4E8) = TAdMultiPlyChrSelectGC__sub_802DFFE8();

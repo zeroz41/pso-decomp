@@ -37,7 +37,9 @@ struct TObjEneRe4Bit : public TObjEneDD_ST {
     u32 m_3d0;
     u8 _pad3D4[0x8];
     void* m_3dc;
-    u8 _pad3E0[0x10];
+    u8 _pad3E0[0x8];
+    s32 pad_3cc; // true offset 0x3cc: state bits (0x8, 0x10, 0x400); m_3cc above sits at 0x3b0
+    u8 _pad3E8[0x4];
     u32 m_3f0;
     u8 _pad3F4[0x10];
     u32 m_404;

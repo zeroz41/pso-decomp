@@ -186,7 +186,7 @@ void draw_chunk_object(void *child);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 pop_matrix();
-extern s32 lbl_805D5094;
+extern s32 dubchik_texlist;
 extern s32 model_render_flags;
 
 void __dl__7TObjectFPv(void *);
@@ -199,7 +199,6 @@ s32 vec3_add_to(void *, void *);
 extern const f32 lbl_805D9B5C;
 extern const f32 lbl_805D9B60;
 f32 fabs_float(f32);
-extern const f32 lbl_805D9B10;
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 push_matrix_from(void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
@@ -221,56 +220,10 @@ u32 TObjPlayer__sub_800A4204(void *, void *, void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(int);
 extern s32 player_sub_800ab7a0_id_table[];
-extern void *lbl_805D5090;
+extern void *dubchik_resource;
 
-u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4);
-void TObjPlayer__sub_800AAFF0(void* p, f32 v);
 void __dt__7TObjectFv(void *, int);
 
-extern s32 lbl_805D5098;
-
-void TObjEneDubchik::init_level_stats(s32 arg1) {
-    s32 var_r0;
-
-    *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D5090 + 0x42C)) + 8);
-    if (arg1 == 0) {
-        var_r0 = *(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D5090 + 0x42C)) + 0xC);
-    } else {
-        var_r0 = lbl_805D5098;
-    }
-    this->texlist = var_r0;
-}
-
-void TObjPlayer__sub_800AAFF0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
-
-void TObjPlayer::clear_flag_04000000() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r6;
-    temp_r6 = (u8 *)this->bodies;
-    *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xF5FFFFFF);
-    ((TObjBase *)arg0)->obj_clearFlags30(0x04000000U);
-}
-
-void TObjPlayer::set_invuln_flags() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r5;
-    temp_r5 = (u8 *)this->bodies;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x0A000000);
-    obj_setFlags30(arg0, 0x04000000U);
-}
-
-s32 TObjEneDubchik::sub_800AB068() {
-    u8 *arg0 = (u8 *)this;
-  u8 *new_var;
-  f32 temp_f31;
-  ;
-  if ((fabs_float((*((f32 *) (((s8 *) arg0) + 0x38))) - (*((f32 *) (((s8 *) arg0) + 0x44)))) + fabs_float((*((f32 *) (((s8 *) arg0) + 0x40))) - (*((f32 *) (((s8 *) arg0) + 0x4C))))) > lbl_805D9B10)
-  {
-    VecCopy__FP3VecPC3Vec((void *) ((new_var = arg0) + 0x38), (u8 *)&this->prev_position);
-    return 1;
-  }
-  return 0;
-}
 
 s32 TUnk_80491460::try_hit_target(int arg1) {
     u8 *e = (u8 *)arg1;
@@ -372,7 +325,7 @@ s32 TObjPlayer::get_action_priority() {
     return (s32)((u32)__cntlzw(3 - *(s16 *)((s8 *)this + 0xAE)) >> 5);
 }
 void TObjPlayer::draw_model_no_fog() {
-    TObjFish::set_global_param(lbl_805D5094);
+    TObjFish::set_global_param(dubchik_texlist);
     TObjFish::set_global_param((*(s32 *)&this->action_table));
     push_matrix();
     post_translate_matrix((u8 *)&this->blend.frame[1]);
@@ -457,7 +410,7 @@ void *TUnk_80491478::destroy_with_particle_cleanup(s16 arg1) {
     return this;
 }
 
-u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4) {
+u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, TObjEneDubchik *arg2, NJS_TEXLIST *arg3, Vec *arg4) {
     Vec_800AB7A0 v;
     Vec_800AB7A0 out;
     void *obj;
@@ -470,7 +423,7 @@ u8 *TObjPlayer__sub_800AB7A0(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4) {
     ((TUnk_80491478 *)arg0)->m_ae = 0;
     t = player_sub_800ab7a0_id_table[arg1];
     ((TUnk_80491478 *)arg0)->m_d8 = arg3;
-    ((TUnk_80491478 *)arg0)->m_c8 = (s32)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)lbl_805D5090 + 0x42C)) + 0x18), (s32)t);
+    ((TUnk_80491478 *)arg0)->m_c8 = (s32)find_model_node(*(s32 *)((s8 *)(*(u8 **)((s8 *)dubchik_resource + 0x42C)) + 0x18), (s32)t);
     *(Vec_800AB7A0 **)((s8 *)arg0 + 0xCC) = &((Arr_800AB7A0 *)arg2)->arr[arg1];
     VecCopy__FP3VecPC3Vec(arg0 + 0xF0, (void *) VecCopy__FP3VecPC3Vec(arg0 + 0xDC, (void *)arg4));
     ((TUnk_80491478 *)arg0)->m_e8 = 3.0f + *(f32 *)((s8 *)arg2 + 0x3C);

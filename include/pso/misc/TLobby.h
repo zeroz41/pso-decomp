@@ -260,8 +260,8 @@ struct TLobby : public TObject {
     static void start_udp_test_game();
     s32 construct_entry_array();
     void bswap_udp_test_header();
-    void send_and_handle();
-    static void blocking_vsync(void* _w0);
+    static void send_and_handle();
+    static void blocking_vsync();
     static void reload_floor_scene();
     static void free_objects();
     static void run_lobby_frame();
@@ -699,7 +699,7 @@ struct TLobby : public TObject {
     static s32 parse_tlv_records(s32 arg0, u8 *arg1, u16 arg2);
     static s16 get_slot_id(s16 arg0);
     static void reset_boot_state();
-    s32 wait_timeout_loop();
+    s16 wait_timeout_loop();
     static void cancel_alarm_b();
     static s32 init_buffer_pool();
     static void reset_buffer_pool();
@@ -753,6 +753,7 @@ struct TLobby : public TObject {
     static s32 set_connect_mode(s32 arg0);
     static s32 get_task_count();
     void parse_dhcp_lease_times();
+    static s32 dhcp_handle_reply(s16 status, void *arg);
     static s32 validate_slot_buffers(s32 arg0, void *arg1, void *arg2, void *arg3);
     static void release_entry_by_id(u32 arg0);
     static u8 *find_entry_by_address(s32 arg0);

@@ -3,6 +3,18 @@
 
 #include "types.h"
 
+/* Boss parameter block 0x36 from TLobby::dispatch_shared_handler_a (read by TBoss4Type1.cpp and
+ * TObjDFHorming). move_seconds is clamped to 1..60 and scaled by 30.0 into a frame count; the two
+ * levels are the 4th (level) argument of the Ra Barta / Ra Foie create calls; power is cast to f32. */
+struct TBoss4Type2Params
+{
+    f32 move_seconds;
+    u8 pad_04[0x14];
+    s32 rafoie_level;
+    s32 rabarta_level;
+    s32 power;
+};
+
 struct TBoss4Type2
 {
     s32 sub_80057224();
@@ -136,6 +148,29 @@ struct TBoss4Type2
     void md_recover_enter();
     void md_recover_idle();
     void md_recover_update();
+    // State handlers installed in the TBoss4Type1.cpp state table (lbl_80485C48).
+    void sub_800525AC();
+    void sub_800528B8();
+    void init_timer();
+    void update_tech_charge();
+    void update_scale_state();
+    void init_child_and_set_timer();
+    void update_attack_countdown();
+    void update_state();
+    void set_motion_for_state();
+    void tick_countdown_set_state7();
+    void update_spawn_uro();
+    void start_motion_for_index();
+    void tick_state_398_timer();
+    void sub_80052EE8();
+    void sub_80052EEC();
+    void sub_80052EF8();
+    void update_state_transition();
+    void sub_8005307C();
+    void update_flag800_state();
+    void sub_800530C0();
+    void check_state_if_idle();
+    void sub_800531BC();
 };
 
 #endif

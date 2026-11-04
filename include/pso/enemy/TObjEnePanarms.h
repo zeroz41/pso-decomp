@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/misc/RenderFadeState.h"
 
 struct TObjEnePanarms : public TObjEnemy {
     TObjEnePanarms(TObject *parent, void *setData);
@@ -13,92 +14,40 @@ struct TObjEnePanarms : public TObjEnemy {
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();
-    void set_random_action_timer(int minimum, int range);
     s32 state; // index into the TU's {enter, update} state table
-    s32 m_378;
-    u8 unk_37C[0x4];
-    s32 m_380;
+    Vec move_velocity; // added to position every frame (0x378)
     u8 unk_384[0x4];
     s32 m_388;
     s32 m_38c;
-    u32 m_390;
-    u8 unk_394[0x4];
-    s32 m_398;
+    CollisionBody *collision_body_parts; // init_collision_body_parts / free_collision_body_parts
+    u32 particle_handles[2]; // released by destroy_handles
     u32 m_39c;
     void* m_3a0;
     u8 unk_3A4[0x4];
     f32 m_3a8;
-    u8 unk_3AC[0x4];
-    f32 m_3b0;
-    s32 action_timer;
-    u8 unk_3B8[0x4];
-    s32 m_3bc;
-    u8 unk_3C0[0x4];
-    s32 m_3c4;
-    u8 unk_3C8[0x4];
-    s32 m_3cc;
-    u8 unk_3D0[0x4];
-    s32 m_3d4;
-    u8 unk_3D8[0x4];
+    u8 unk_3AC[0xC];
+    u8 unk_3B8[0x18];
+    u8 unk_3D0[0xC];
     void* m_3dc;
     u8 unk_3E0[0x4];
-    u32 m_3e4;
+    u32 m_3e4; // the two TObjEnePanBARA halves (create_bara)
     u32 m_3e8;
     s32 attack_count; // bit 0 / bit 1 pick the next arm attack
     s32 spin_count;
     s32 max_hp; // the split starts at max_hp / 3
     s32 has_split;
     s32 move_count; // moves since the last split check
-    void* m_400;
-    u8 unk_404[0x4];
-    s32 m_408;
-    u8 unk_40C[0x50];
-    s32 m_45c;
-    u8 unk_460[0x4];
-    f32 m_464;
-    u8 unk_468[0x4];
-    f32 m_46c;
-    u8 unk_470[0x4];
+    RenderFadeState fades[4]; // one per camera (render)
+    f32 pad_470;
     s32 search_range; // range passed to find_nearest_visible_player while waiting hidden
-    u32 wait_frames; // state timer start value of the hidden wait
+    s32 wait_frames; // state timer start value of the hidden wait
     int find_nearest_enemy_with_flag(s32 arg1, f32 farg0);
     static void spawn_npc_pair();
-    void update_action_timer();
-    void init_attack_state();
-    void init_open_state();
-    void update_move_timer();
-    void start_phase3_timer12();
-    void start_phase2_timer150();
-    void update_attack();
-    void init_attack_state2();
-    void init_action();
-    void update_chase_target();
-    void init_state_2();
-    void apply_effect_if_flagged();
-    void update_hit_state();
-    void restore_from_linked_object();
-    void init_state_16();
-    void update_move_to_target();
-    void init_state_1();
-    void start_action();
-    void handle_split_flag();
-    void init_split();
-    void snap_to_parent_position();
-    void reset_state();
-    void spawn_periodic_particle();
-    void update_offset_from_parent();
-    void reset_split();
     static int do_action_2(void* p);
-    void init_state();
-    void update_linked_effect();
-    void draw();
-    static s32 create_bara(s32 arg0, s32 arg1);
-    int find_nearest_enemy_with_flag_alt_target(s32 arg1, f32 farg0);
+    static s32 create_bara(void *setData, s32 index);
     static s32 create(s32 arg0);
     void init(s16 action);
     int get_state_flag();
-    void attack_target_player(s32 arg1);
-    void draw_with_fade();
     void update_spin();
     void enter_down_state();
     void update_state_effect();
