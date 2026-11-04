@@ -4211,8 +4211,10 @@ pso/unk/text_8014618C.cpp:
 
 pso/misc/TLobby_801461EC.cpp:
 	.text       start:0x801461EC end:0x80147A80
+	.rodata     start:0x8043F3F0 end:0x8043F428
 	.data       start:0x804A7808 end:0x804A7850
 	.bss        start:0x8050C0A8 end:0x8050CF68
+	.sdata2     start:0x805DB1B0 end:0x805DB1B3
 
 pso/misc/TOBoss4Rock.cpp:
 	.text       start:0x80147A80 end:0x80147B30

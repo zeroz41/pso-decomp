@@ -35,20 +35,34 @@ struct ModemRequest {
 };
 
 struct ModemConfig {
-    u8 pad00[8];
+    s16 h0;
+    s16 h2;
+    s16 h4;
+    s16 h6;
     s16 numeric_result;
     u8 pad0A[2];
     char *prefix0;
     char *prefix1;
-    u8 pad14[8];
+    s32 w14;
+    s32 w18;
     char *result_ok;
     char *result_error;
     char *result_busy;
     char *result_no_dialtone;
     char *result_no_carrier;
     char *result_no_answer;
-    u8 pad34[4];
+    s32 w34;
     u8 terminator;
+    u8 pad39[3];
+    s32 w3C;
+    s32 w40;
+    s32 w44;
+    char *s48;
+    s32 w4C;
+    s32 w50;
+    s32 w54;
+    s32 init_count;
+    char *init_command; /* "AT+MS=V34\r" by default (connect_modem) */
 };
 
 // Modem dial-script session; the script substitutes %t, %u and %p with

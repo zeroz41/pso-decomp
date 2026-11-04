@@ -3693,7 +3693,7 @@ extern s32 system_save_card_channel;
 extern s32 card_load_followup_pending;
 void run_save_load_sequence__23TAdSinglePlyChrSelectGCFv(void);
 s32 TLobby__sub_80146D50(s32);
-s32 TLobby__sub_80146D68(s32);
+s32 get_account_entry(s32);
 void set_fresh_card_flag(void *arg0);
 void clear_all_story_flags();
 Card_80201354 *get_character_save_record(u32);
@@ -3860,7 +3860,7 @@ s32 init_fresh_character_card(void) {
     card->fC = 0;
     card->f0 = 0;
     card->f14 = 1;
-    memcpy(card->f18, TLobby__sub_80146D68(0), 0x1C);
+    memcpy(card->f18, get_account_entry(0), 0x1C);
     memcpy(card->f34, TLobby__sub_80146D50(0), 0x10);
     clear_all_story_flags();
     card->f248 = 0;
