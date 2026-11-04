@@ -155,7 +155,7 @@ struct TWindowSubStatusDisp : public TWindowBase {
     static s32 resolve_player_slot(s32 slot);
     void render_status_and_children();
     u8 *init_layout_entry_copy(u8 *arg1);
-    u8 *init_layout_entry_rect(u8 *arg1, s16 arg2);
+    u8 *init_layout_entry_rect(u8 *arg1, s32 arg2);
     void advance_state();
     void finalize_state();
     void setup_entry_msg_d1(s32 arg1);

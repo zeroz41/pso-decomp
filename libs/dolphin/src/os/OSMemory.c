@@ -1,6 +1,4 @@
 #define PSO_SDK_COMPACT_MATH
-#define OnReset OnReset_8037340C
-#define ResetFunctionInfo ResetFunctionInfo_804F4458
 
 #include <dolphin/types.h>
 #include <dolphin/os.h>
@@ -12,11 +10,12 @@
 #define ROUND(n, a) (((u32)(n) + (a)-1) & ~((a)-1))
 
 
-BOOL OnReset(BOOL final);
+static BOOL OnReset(BOOL final);
 
-
-
-extern OSResetFunctionInfo ResetFunctionInfo;
+static OSResetFunctionInfo ResetFunctionInfo = {
+    OnReset,
+    127,
+};
 
 u32 OSGetPhysicalMemSize(void) {
 #if DEBUG
@@ -38,7 +37,7 @@ u32 OSGetConsoleSimulatedMemSize(void) {
 #endif
 }
 
-BOOL OnReset(BOOL final) {
+static BOOL OnReset(BOOL final) {
     if (final != FALSE) {
         __MEMRegs[8] = 0xFF;
         __OSMaskInterrupts(OS_INTERRUPTMASK_MEM_RESET);

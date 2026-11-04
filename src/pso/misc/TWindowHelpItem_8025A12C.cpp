@@ -40,7 +40,7 @@ typedef struct Win_8025A354 {
 typedef struct Vec2_8025A354 { f32 x, y; } Vec2_8025A354;
 
 extern "C" {
-s32 sub_80256BDC__13TUnk_804CF930Fs(void *, void *);
+s32 sub_80256BDC__13TUnk_804CF930Fl(void *, void *);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 s32 strncpy(s32, u32, s32);
@@ -192,7 +192,7 @@ void *destroy__15TWindowHelpItemFPvs(void *arg0, s16 arg1) {
 
 typedef char RecoveredGlobal_8025A594_lbl_804CF9F8_size[sizeof(RecoveredGlobal_8025A594_lbl_804CF9F8) == 0x18 ? 1 : -1];
 u8 *TWindowHelpItem__sub_8025A594(u8 *arg0, s32 arg1, s32 arg2) {
-    sub_80256BDC__13TUnk_804CF930Fs((void *)arg0, (void *)arg2);
+    sub_80256BDC__13TUnk_804CF930Fl((void *)arg0, (void *)arg2);
     *(s32 **)((s8 *)arg0 + 4) = &(*(RecoveredGlobal_8025A594_lbl_804CF9F8 *)&lbl_804CF9F8).value;
     ((TWindowSubSymbolChatPartsSet *)(arg0 + 8))->copy_vec2((void *)(arg1 + 4));
     *(s32 *)((s8 *)arg0 + 0x10) = -1;

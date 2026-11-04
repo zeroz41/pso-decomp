@@ -20,8 +20,6 @@ struct V2_802E5B0C { f32 x, y; };
 struct Pkt_802E5EFC { s32 hdr; s32 idx; f32 val; };
 struct Self_802E5EFC { u8 pad[0x1c]; s32 timer; };
 
-typedef struct V4_802E62A4 { s32 a, b, c, d; } V4_802E62A4;
-
 struct Pos_802E57E0 { s16 x; s16 y; };
 
 struct Line_802E57E0 { u8 b[4]; };
@@ -40,11 +38,9 @@ void TObjOnlineEndingHexLine__sub_802E55A4(void *arg0, void *arg1);
 extern void *__vt__23TObjOnlineEndingHexLine[];
 extern s32 lbl_805D3FA4;
 Hex_802E57E0 *__ct__23TObjOnlineEndingHexLineFv(Hex_802E57E0 *arg0, s32 arg1, Pos_802E57E0 *arg2);
-V4_802E62A4 lbl_804E3A98[1] = {
-    { 0x3E800000, 0x3F800000, 0x00000000, 0x41200000 },
-};
-Param_802E5CB0 TObjOnlineEndingHexLine__hex_line_params = { 0.0f, 0.0f, 0, 0.0f };
-Param_802E5CB0 online_ending_hex_line_param = { 0.0f, 0.0f, 0, 0.0f };
+Param_802E5CB0 lbl_804E3A98 = { 0.25f, 1.0f, 0, 10.0f };
+Param_802E5CB0 TObjOnlineEndingHexLine__hex_line_params = lbl_804E3A98;
+Param_802E5CB0 online_ending_hex_line_param = lbl_804E3A98;
 u32 TObjOnlineEndingHexLine_corner_offsets[4] = { 0x00000000, 0x00150000, 0x00000013, 0x00150013 };
 u32 TObjOnlineEndingHexMove__default_move_params[4] = { 0, 0, 0, 0 };
 P2_802E530C TObjOnlineEndingHexLine__direction_table[18] = {
@@ -514,7 +510,7 @@ void * fn_802E6218(void *origin) {
 
 void fn_802E6260(void) {
     copy_move_params__23TObjOnlineEndingHexMoveFPvPv(&TObjOnlineEndingHexLine__hex_line_params,
-        ((void *(*)(void *, void *))copy_move_params__23TObjOnlineEndingHexMoveFPvPv)(&online_ending_hex_line_param, lbl_804E3A98));
+        ((void *(*)(void *, void *))copy_move_params__23TObjOnlineEndingHexMoveFPvPv)(&online_ending_hex_line_param, &lbl_804E3A98));
 }
 
 Param_802E5CB0 online_ending_hex_line_state;

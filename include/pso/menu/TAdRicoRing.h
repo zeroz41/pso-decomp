@@ -4,7 +4,7 @@
 #include "types.h"
 
 extern "C" {
-u8 *__ct__11TAdRicoRingFv(u8 *arg0);
+u8 *__ct__11TAdRicoRingFv(u8 *arg0, void *parent);
 }
 
 #endif

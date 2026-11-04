@@ -2,6 +2,7 @@
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TLanguage.h"
+#include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowMessage.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/TAdMultiChgGameModeGC.h"
@@ -96,7 +97,6 @@ s32 load_player_and_wait__23TAdSinglePlyChrSelectGCFv();
 int TKeyBoardControl__sub_8000F9CC(void*);
 void TLobby__sub_8022614C(s32 arg0);
 void update_music_stream_gain(s32 user);
-s32 init_sound_mode__6TLobbyFPv(void);
 void *__ct__12TAdBackTxtGCFv(void *, void *);
 void __ct__7TObjectFP7TObject(void *);
 void *__ct__9TAdBackGCFv(void *, void *);
@@ -289,7 +289,7 @@ void apply_settings__23TAdSinglePlyChrSelectGCFi(s32 arg0) {
     TLanguage::set_language(*(s8 *)((s8 *)temp_r3 + 7));
     update_music_stream_gain(*(s16 *)((s8 *)temp_r3 + 4));
     TLobby__sub_8022614C(*(s8 *)((s8 *)temp_r3 + 6));
-    init_sound_mode__6TLobbyFPv();
+    TLobby::init_sound_mode();
     fn_8023F160();
     fn_8023F18C();
     TAdMultiChgGameModeGC::init_change_mode();

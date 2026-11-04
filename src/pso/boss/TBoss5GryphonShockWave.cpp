@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/boss/TBoss8Dragon_8005D700.h"
 #include "pso/boss/TBoss5GryphonShockWave.h"
 #include "pso/boss/Boss5GryphonBehavior.h"
 #include "pso/object/TObject_80019A50.h"
@@ -10,7 +11,6 @@
 #include "pso/TParticleCtrl.h"
 
 extern "C" {
-s32 TBoss8Dragon__sub_8005D700(void *self);
 extern u8 lbl_80437F40[];
 void *gryphon_shockwave_particle_ids_ptr;
 s32 get_bml_motion(s32, s32);
@@ -102,7 +102,7 @@ TBoss5GryphonShockWave::TBoss5GryphonShockWave(TObject *arg1_parent, s32 arg2, u
 
 void TBoss8Dragon__sub_80066A4C(void) {  }
 void TBoss8Dragon::set_default_on_state0() {
-    switch (TBoss8Dragon__sub_8005D700(this)) {
+    switch (TBoss8Dragon__sub_8005D700()) {
     case 0:
         gryphon_shockwave_particle_ids_ptr = lbl_80437F40;
         break;
