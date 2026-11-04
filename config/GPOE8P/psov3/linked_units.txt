@@ -1205,6 +1205,7 @@ pso/misc/TNeedleShoot_802A4668.cpp
 pso/misc/TNeedleShoot_802A4754.cpp
 pso/misc/TNeedleShoot_802A4A44.cpp
 pso/misc/TNowLoading.cpp
+pso/misc/TNpcPlayer.cpp
 pso/misc/TNpcPlayer_800D87A8.cpp
 pso/misc/TNpcPlayer_8014DADC.cpp
 pso/misc/TNpcPlayer_80190E64.cpp
