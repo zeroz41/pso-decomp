@@ -1922,9 +1922,10 @@ pso/player/TObjPlayer_800DCC90.cpp:
 pso/enemy/TObjEnePanarms_800DCEB8.cpp:
 	.text       start:0x800DCEB8 end:0x800DFB00
 	.ctors      start:0x80433F60 end:0x80433F64
-	.rodata     start:0x8043C948 end:0x8043CD20
+	.rodata     start:0x8043C948 end:0x8043CD28
 	.data       start:0x80494E80 end:0x80495458
-	.sdata2     start:0x805DA490 end:0x805DA4C4
+	.sdata      start:0x805D2AB0 end:0x805D2AB4
+	.sdata2     start:0x805DA490 end:0x805DA520
 
 pso/enemy/TObjEnePanarms_800DFB00.cpp:
 	.text       start:0x800DFB00 end:0x800DFB74

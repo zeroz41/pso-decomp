@@ -15,6 +15,8 @@ void free_collision_body_parts(TObjCollidable *actor);
 void check_enemy_body_collisions(TObjCollidable *actor);
 // The registered actor with this entity id (players below 12), or NULL.
 TObjCollidable *find_entity_by_id(u16 id);
+// Gives the actor an entity id from the pool its actorFlags pick; returns it.
+u16 register_entity_by_id(void *ov);
 // The actor with this entity id if it can be hit on that collision body now,
 // else NULL.
 TObjChara *resolve_hittable_target(u16 actor_id, s16 collider);
