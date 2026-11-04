@@ -9965,17 +9965,12 @@ pso/menu/TAdPlyChrSelPlateGC.cpp:
 	.text       start:0x802C4FE8 end:0x802C50EC
 	.data       start:0x804E0A30 end:0x804E0A48
 
-pso/ui/TAdMultiPlyChrSelectGC_802C50EC.cpp:
-	.text       start:0x802C50EC end:0x802C6D64
-	.rodata     start:0x80471A88 end:0x80471D08
-	.data       start:0x804E0A48 end:0x804E0A58
-	.sdata2     start:0x805DE560 end:0x805DE56C
-
 pso/ui/TAdChrSelPlyPlateGC.cpp:
-	.text       start:0x802C6D64 end:0x802C6DD4
-
-pso/unk/text_802C6DD4.cpp:
-	.text       start:0x802C6DD4 end:0x802C6F88
+	.text       start:0x802C50EC end:0x802C6F88
+	.rodata     start:0x80471A88 end:0x80471D08
+	.data       start:0x804E0A48 end:0x804E0B28
+	.sdata      start:0x805D3EE0 end:0x805D3EE4
+	.sdata2     start:0x805DE560 end:0x805DE5A4
 
 pso/ui/TAdMultiPlyChrSelectGC_802C6F88.cpp:
 	.text       start:0x802C6F88 end:0x802C70AC

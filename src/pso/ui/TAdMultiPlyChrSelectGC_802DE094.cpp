@@ -8,6 +8,7 @@
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
+#include "pso/ui/TAdChrSelPlyPlateGC.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 
 struct Stack_802DE7D0 {
@@ -26,11 +27,6 @@ s32 play_sound_effect(s32, s32, s32, s32);
 u32 __nw__7TObjectFUl(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C561C(s32);
 s32 TAdMultiPlyChrSelectGC__sub_802C5688(s32);
-s32 is_multiplayer_character_slot_selected(s32);
-s32 TAdMultiPlyChrSelectGC__sub_802C6558();
-s32 TAdMultiPlyChrSelectGC__sub_802C65C0(s32);
-s32 TAdMultiPlyChrSelectGC__sub_802C6848(s32);
-s32 TAdMultiPlyChrSelectGC__sub_802C6920();
 u32 __ct__9TAdFadeGCFP7TObjectPv(u32, s32, s32);
 u32 create_choice_menu__22TAdMultiPlyChrSelectGCFv(void *);
 s32 TAdMultiPlyChrSelectGC__sub_802DC294(void *, s32);

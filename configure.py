@@ -499,6 +499,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneIllGill.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/ui/TAdChrMoveEffectGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
     "pso/boss/TObjBoss2CeilJunk.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-pool off")},
+    "pso/ui/TAdChrSelPlyPlateGC.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/ui/TAdChrSelSlotGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/item/TObjContainerIdo_8018BEE4.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TPlyPhotonChair.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
