@@ -224,6 +224,8 @@ pso/boss/TBoss3Volopt_800D8ACC.cpp
 pso/boss/TBoss4CheckEmpty.cpp
 pso/boss/TBoss4CheckEmpty_8034A8B0.cpp
 pso/boss/TBoss4CheckEmpty_8034A8FC.cpp
+pso/boss/TBoss4DarkFalz_8004C93C.cpp
+pso/boss/TBoss4DarkFalz_8004D8C8.cpp
 pso/boss/TBoss4Fade.cpp
 pso/boss/TBoss4Thanks.cpp
 pso/boss/TBoss4Thanks_8035C8F0.cpp

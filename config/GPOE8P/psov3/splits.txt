@@ -477,10 +477,14 @@ pso/boss/TBoss4Uro.cpp:
 	.text       start:0x8004C19C end:0x8004C1AC
 
 pso/boss/TBoss4DarkFalz_8004C93C.cpp:
-	.text       start:0x8004C1AC end:0x8004D9A8
+	.text       start:0x8004C1AC end:0x8004D8C8
 	.ctors      start:0x80433F34 end:0x80433F38
-	.rodata     start:0x80437290 end:0x80437298
-	.sdata2     start:0x805D8938 end:0x805D8940
+	.rodata     start:0x804371E0 end:0x804372B0
+	.data       start:0x80484F40 end:0x80485460
+	.sdata2     start:0x805D8938 end:0x805D8968
+
+pso/boss/TBoss4DarkFalz_8004D8C8.cpp:
+	.text       start:0x8004D8C8 end:0x8004D9A8
 
 pso/unk/text_8004D9A8.cpp:
 	.text       start:0x8004D9A8 end:0x8004E068

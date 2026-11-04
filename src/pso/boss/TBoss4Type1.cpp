@@ -288,7 +288,6 @@ s32 get_bml_model(s32, s32);
 void fn_8004AA04(void *);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
-void TBoss4DarkFalz__sub_8004D990(s32);
 void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
 s32 TBoss4Type3__sub_8005254C(u16);
 void TBoss4Type2__sub_80053504(TBoss4Type2 *arg0);
@@ -908,7 +907,7 @@ void TBoss4Type2::update_spawn_uro() {
             }
         }
     }
-    TBoss4DarkFalz__sub_8004D990(self->owner);
+    ((TBoss4DarkFalz *)self->owner)->sub_8004D990();
     if (self->timer == 0x106) {
         play_sound_effect(0x4003AD0F, s, 0, 1);
     }
@@ -1091,7 +1090,7 @@ void TBoss4Type2__sub_80053504(TBoss4Type2 *boss4_type2) {
 }
 
 void TBoss4Type2::check_state_transition() {
-    if (((s32 (*)(s32))TBoss4DarkFalz__sub_8004D990)(*(s32 *)((s8 *)this + 0x38C)) <= (s32) (0xC - *(s32 *)((s8 *)this + 0x3C4))) {
+    if (((TBoss4DarkFalz *)*(s32 *)((s8 *)this + 0x38C))->sub_8004D990() <= (s32) (0xC - *(s32 *)((s8 *)this + 0x3C4))) {
         send_state_to_target(5);
         return;
     }
