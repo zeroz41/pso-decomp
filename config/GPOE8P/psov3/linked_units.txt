@@ -2709,9 +2709,6 @@ pso/unk/text_800A0814.cpp
 pso/unk/text_800A0884.cpp
 pso/unk/text_800A0994.cpp
 pso/unk/text_800A884C.cpp
-pso/unk/text_800A887C.cpp
-pso/unk/text_800AAC5C.cpp
-pso/unk/text_800AAF78.cpp
 pso/unk/text_800BC4C8.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp

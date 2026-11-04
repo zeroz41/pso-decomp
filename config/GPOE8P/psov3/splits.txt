@@ -1594,30 +1594,17 @@ pso/enemy/TObjEneDimedian.cpp:
 pso/unk/text_800A884C.cpp:
 	.text       start:0x800A884C end:0x800A887C
 
-pso/unk/text_800A887C.cpp:
-	.text       start:0x800A887C end:0x800A894C
-
-pso/player/TObjPlayer_800A894C.cpp:
-	.text       start:0x800A894C end:0x800AAC5C
-	.rodata     start:0x8043AC68 end:0x8043AC78
-	.data       start:0x80491414 end:0x8049145C
-	.bss        start:0x805009A0 end:0x80500B00
-	.sdata2     start:0x805D9AD8 end:0x805D9AFC
-
-pso/unk/text_800AAC5C.cpp:
-	.text       start:0x800AAC5C end:0x800AAD28
-
-pso/unk/text_800AAD28.cpp:
-	.text       start:0x800AAD28 end:0x800AAF70
-
 pso/enemy/TObjEneDubchik.cpp:
-	.text       start:0x800AAF70 end:0x800AAF78
-
-pso/unk/text_800AAF78.cpp:
-	.text       start:0x800AAF78 end:0x800AAFBC
+	.text       start:0x800A887C end:0x800AB0EC
+	.rodata     start:0x8043AAC0 end:0x8043ACA4
+	.data       start:0x80491088 end:0x8049145C
+	.bss        start:0x805009A0 end:0x80500B00
+	.sdata      start:0x805D29F8 end:0x805D2A00
+	.sbss       start:0x805D5090 end:0x805D50A8
+	.sdata2     start:0x805D9AD8 end:0x805D9B58
 
 pso/player/TObjPlayer_800AAFBC.cpp:
-	.text       start:0x800AAFBC end:0x800AB970
+	.text       start:0x800AB0EC end:0x800AB970
 	.rodata     start:0x8043ACF8 end:0x8043AD00
 	.sdata2     start:0x805D9B68 end:0x805D9BA0
 

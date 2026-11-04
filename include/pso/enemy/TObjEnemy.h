@@ -42,7 +42,7 @@ struct TObjEnemy : public TObjChara {
     TObjEnemy* children;
     void* movementParameters;
     f32 parameters[5];
-    u32 variant;
+    s32 variant;
     u32 state36C;
     void* control;
     static s32 apply_by_index(s16 arg0);

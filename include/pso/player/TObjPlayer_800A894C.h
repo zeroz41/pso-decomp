@@ -12,7 +12,6 @@ void TObjPlayer__sub_800A93E4(void *arg0_);
 void TObjPlayer__sub_800A9C38(void *arg0_);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
 void TObjPlayer__sub_800AA330(void *_w0);
-void TObjPlayer__sub_800AA334(u8 *arg0);
 void TObjPlayer__sub_800AA82C(void);
 }
 
@@ -26,7 +25,6 @@ void TObjPlayer__sub_800A93E4(void *arg0_);
 void TObjPlayer__sub_800A9C38(void *arg0_);
 void TObjPlayer__sub_800A9E9C(void *arg0_);
 void TObjPlayer__sub_800AA330(void *_w0);
-void TObjPlayer__sub_800AA334(u8 *arg0);
 void TObjPlayer__sub_800AA82C(void);
 }
 // --- end of C functions

@@ -199,7 +199,6 @@ s32 vec3_add_to(void *, void *);
 extern const f32 lbl_805D9B5C;
 extern const f32 lbl_805D9B60;
 f32 fabs_float(f32);
-extern const f32 lbl_805D9B10;
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 push_matrix_from(void *);
 extern RecoveredGlobal_800ABA9C_lbl_8058D490 identity_matrix;
@@ -223,53 +222,8 @@ void *__nw__7TObjectFUl(int);
 extern s32 player_sub_800ab7a0_id_table[];
 extern void *dubchik_resource;
 
-void TObjPlayer__sub_800AAFF0(void* p, f32 v);
 void __dt__7TObjectFv(void *, int);
 
-extern s32 dubchik_variant_texlist;
-
-void TObjEneDubchik::init_level_stats(s32 arg1) {
-    s32 var_r0;
-
-    *(s32 *)&this->model = (s32) *(s32 *)((s8 *)(*(void **)((s8 *)dubchik_resource + 0x42C)) + 8);
-    if (arg1 == 0) {
-        var_r0 = *(s32 *)((s8 *)(*(void **)((s8 *)dubchik_resource + 0x42C)) + 0xC);
-    } else {
-        var_r0 = dubchik_variant_texlist;
-    }
-    this->texlist = var_r0;
-}
-
-void TObjPlayer__sub_800AAFF0(void* p, f32 v) { *(f32*)((char*)p + 0x8) = v; }
-
-void TObjPlayer::clear_flag_04000000() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r6;
-    temp_r6 = (u8 *)this->bodies;
-    *(s32 *)((s8 *)temp_r6 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r6 + 0x18) & 0xF5FFFFFF);
-    ((TObjBase *)arg0)->obj_clearFlags30(0x04000000U);
-}
-
-void TObjPlayer::set_invuln_flags() {
-    u8 *arg0 = (u8 *)this;
-    u8 *temp_r5;
-    temp_r5 = (u8 *)this->bodies;
-    *(s32 *)((s8 *)temp_r5 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r5 + 0x18) | 0x0A000000);
-    obj_setFlags30(arg0, 0x04000000U);
-}
-
-s32 TObjEneDubchik::sub_800AB068() {
-    u8 *arg0 = (u8 *)this;
-  u8 *new_var;
-  f32 temp_f31;
-  ;
-  if ((fabs_float((*((f32 *) (((s8 *) arg0) + 0x38))) - (*((f32 *) (((s8 *) arg0) + 0x44)))) + fabs_float((*((f32 *) (((s8 *) arg0) + 0x40))) - (*((f32 *) (((s8 *) arg0) + 0x4C))))) > lbl_805D9B10)
-  {
-    VecCopy__FP3VecPC3Vec((void *) ((new_var = arg0) + 0x38), (u8 *)&this->prev_position);
-    return 1;
-  }
-  return 0;
-}
 
 s32 TUnk_80491460::try_hit_target(int arg1) {
     u8 *e = (u8 *)arg1;

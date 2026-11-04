@@ -424,11 +424,9 @@ struct TObjPlayer : public TObjChara {
     s16 get_field_2c8();
     void set_flag_start_effect();
     void clear_state7_flag();
-    s32 try_apply_800a89b0();
     void render_model_and_set_attach_points();
     void update_timed_state();
     void run_synced_state_handler();
-    void update_synced_state();
     static void *create_dubchik(void *arg0);
     static void free_effect_resources();
     void clear_flag_04000000();
