@@ -19,7 +19,7 @@ s32 set_flag_start_effect__10TObjPlayerFv();
 extern RecoveredGlobal_800A887C_lbl_80491260 lbl_80491260;
 extern s32 breakup_model_ptr;
 typedef struct RecoveredGlobal_800A887C_lbl_80491260 RecoveredGlobal_800A887C_lbl_80491260;
-void TObjPlayer__sub_800A887C(u8 *arg0) {
+void dubchik_update_dying(u8 *arg0) {
   s16 temp_r3;
   set_flag_start_effect__10TObjPlayerFv();
   temp_r3 = (*((s16 *) (((s8 *) arg0) + 0x33C)) = (*((s16 *) (((s8 *) arg0) + 0x33C))) - 1);

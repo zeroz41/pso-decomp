@@ -144,7 +144,7 @@ extern s32 lbl_805D5870;
 extern char lbl_80440984[];
 void submit_cursor_candidate(void *, s32);
 void *spawn_particle_effect(void *pos, s32 id);
-void TObjPlayer__sub_800A8C1C(u8 *arg0);
+void dubchik_start_dying(u8 *arg0);
 s32 play_sound_effect(s32, void *, s32, s32);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, s32, Pair_8015D518, void *, s32, s32);
 f32 TOCtrlDubchik__vt21(TOCtrlDubchik *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3);
@@ -199,7 +199,7 @@ void TOCtrlDubchik::sub_8015CA74() {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && p != arg0 && check_value_equals__13TUnk_804B6C24Fl(p, lbl_805D29F8) != 0 &&
             *(s32 *)(p + 0x368) == 0 && *(s16 *)(arg0 + 0x28) == *(s16 *)(p + 0x28)) {
-            TObjPlayer__sub_800A8C1C(p);
+            dubchik_start_dying(p);
         }
     }
 }
