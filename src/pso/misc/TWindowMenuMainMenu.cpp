@@ -8,17 +8,16 @@
 struct W_802AE864 { u8 pad[0x124]; void *a[8]; };
 
 extern "C" {
-s32 draw_frame__19TWindowMenuMainMenuFv(void *, int);
 s32 setup_content_frame__15TWindowMainMenuFPv();
 extern s32 window_menu_main_menu_params[];
 extern s32 __vt__19TWindowMenuMainMenu[];
-extern s32 lbl_805D3E68;
+extern const char *TWindowMenuMainMenu__class_name;
 void __dl__7TObjectFPv(void *);
 
 void render__19TWindowMenuMainMenuFv(s32 arg0) {
     s32 temp_r3;
     temp_r3 = setup_content_frame__15TWindowMainMenuFPv();
-    draw_frame__19TWindowMenuMainMenuFv((void *)arg0, (int)temp_r3);
+    ((TWindowMenuMainMenu *)arg0)->draw_frame((TWindowKeyBoardSoft *)temp_r3);
     ((TWindowMainMenu *)arg0)->draw_entries_reversed((u8 *)temp_r3);
 }
 
@@ -66,7 +65,7 @@ u8 *TWindowMenuMainMenu__ct(TWindowMenuMainMenu *window_menu_main_menu, s32 arg1
     *(s32 **)((s8 *)window_menu_main_menu + 0x18) = __vt__19TWindowMenuMainMenu;
     p = (u8 *)window_menu_main_menu + 0x64;
     i = 0;
-    *(s32 *)((s8 *)window_menu_main_menu + 0) = lbl_805D3E68;
+    window_menu_main_menu->m_name = TWindowMenuMainMenu__class_name;
     window_menu_main_menu->m_60 = 4;
     window_menu_main_menu->m_61 = 0;
     window_menu_main_menu->m_62 = 0;

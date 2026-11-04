@@ -54,6 +54,7 @@ struct TWindowMainMenu : public TObject {
     void update_scaled_position();
     void draw_entries_reversed(u8 *arg1);
     void update_slide_position();
+    s32 is_not_split_screen();
     static void *create_menu(void *arg0, void *arg1);
     void open_menu_with_entry(s16 arg1);
     void try_open_battle_menu(s16 arg1);

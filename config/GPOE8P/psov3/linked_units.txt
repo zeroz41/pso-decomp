@@ -1655,6 +1655,7 @@ pso/misc/TWindowMainMenu1P.cpp
 pso/misc/TWindowMainMenu4P.cpp
 pso/misc/TWindowMainMenu_8024E3CC.cpp
 pso/misc/TWindowMainMenu_80263B70.cpp
+pso/misc/TWindowMainMenu_802AD538.cpp
 pso/misc/TWindowMainMenu_802AE928.cpp
 pso/misc/TWindowMakeTeam.cpp
 pso/misc/TWindowMakeTeam_80131A5C.cpp
