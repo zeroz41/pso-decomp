@@ -328,6 +328,7 @@ pso/boss/TBoss8Dragon_802F3EE4.cpp
 pso/boss/TBoss8Dragon_802F3F20.cpp
 pso/boss/TBoss8Dragon_802F42A0.cpp
 pso/boss/TBoss8Dragon_802F4324.cpp
+pso/boss/TBoss8Dragon_802F4380.cpp
 pso/boss/TBoss8Dragon_802F4480.cpp
 pso/boss/TBoss8Dragon_802FDDD4.cpp
 pso/boss/TBoss8Dragon_80324D3C.cpp
