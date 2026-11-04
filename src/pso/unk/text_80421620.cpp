@@ -4,6 +4,10 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
 
+#pragma inline_depth(1)
+#pragma auto_inline off
+#pragma dont_inline off
+
 struct RecoveredGlobal_804217E4_lbl_805C1C50 {
     s32 value;
     u8 remaining[0xF4];
@@ -1472,6 +1476,16 @@ extern u8 lbl_805C1E00[];
 s32 TLobby__sub_804250A8(s32);
 s32 TLobby__sub_80424FE0(void);
 
+// Closes the DHCP UDP socket (names inferred); returns the close result.
+static inline s32 dhcp_close_socket() {
+    s32 r = TLobby__sub_80421B3C(dhcp_socket);
+    dhcp_socket = -1;
+    if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
+        lbl_805D7B14 = TLobby__sub_804250A8(0);
+    }
+    return r;
+}
+
 s32 TLobby__sub_80423C04(void) {
     s32 now;
     P_8042315C opt;
@@ -1479,16 +1493,11 @@ s32 TLobby__sub_80423C04(void) {
     u32 dst[5];
     u32 src[5];
     s32 len;
-    u32 pad[3];
     s16 sock;
     TLobby::get_time_ms(&now);
     switch (lbl_805D7B0C) {
     case 0:
-        TLobby__sub_80421B3C(dhcp_socket);
-        dhcp_socket = -1;
-        if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
-            lbl_805D7B14 = TLobby__sub_804250A8(0);
-        }
+        dhcp_close_socket();
         opt.type = 4;
         opt.a = 0;
         opt.b = -1;
@@ -1516,15 +1525,10 @@ s32 TLobby__sub_80423C04(void) {
         src[1] = 0;
         dst[1] = -1;
         sock = dhcp_socket;
-        len = len > 300 ? len : 300;
-        buf.len = len;
+        buf.len = len > 300 ? len : 300;
         buf.data = (s32)lbl_805C1E00;
         if (TUdpSocket__sub_80421BAC(sock, src, dst, 0x43, NULL, 1, &buf) < 0) {
-            TLobby__sub_80421B3C(dhcp_socket);
-            dhcp_socket = -1;
-            if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
-                lbl_805D7B14 = TLobby__sub_804250A8(0);
-            }
+            dhcp_close_socket();
             lbl_805D7BA0 = 5;
             lbl_805D7B0C = -1;
             dhcp_state = -2;
@@ -1532,11 +1536,7 @@ s32 TLobby__sub_80423C04(void) {
             lbl_805D7B98 = now;
             lbl_805D7B9C--;
             if (lbl_805D7B9C <= 0) {
-                TLobby__sub_80421B3C(dhcp_socket);
-                dhcp_socket = -1;
-                if (dhcp_state == 1 || dhcp_state == 2 || dhcp_state == 6) {
-                    lbl_805D7B14 = TLobby__sub_804250A8(0);
-                }
+                dhcp_close_socket();
                 dhcp_state = 0;
                 lbl_805D7B0C = 0;
                 TLobby__sub_80425288(0xF, 0, NULL);
