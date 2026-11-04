@@ -699,7 +699,7 @@ struct TLobby : public TObject {
     static s32 parse_tlv_records(s32 arg0, u8 *arg1, u16 arg2);
     static s16 get_slot_id(s16 arg0);
     static void reset_boot_state();
-    s32 wait_timeout_loop();
+    s16 wait_timeout_loop();
     static void cancel_alarm_b();
     static s32 init_buffer_pool();
     static void reset_buffer_pool();

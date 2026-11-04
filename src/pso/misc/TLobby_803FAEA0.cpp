@@ -797,7 +797,7 @@ s32 TLobby::is_timed_out() {
 extern "C" {
 
 void TLobby__sub_803F8238(void);
-void TLobby__sub_804283C8(u32, void *);
+void modem_run_script(u32, void *);
 s32 TLobby__sub_804037F0(void);
 
 struct Sess_803FB6A0 { u8 pad[0x22]; s16 h22; u8 pad2[0x3C]; u32 w60; u8 pad3[0x6C]; };
@@ -821,7 +821,7 @@ s32 TLobby__sub_803FB6A0(void) {
     lbl_805D7A8A = 7;
     TLobby__sub_804037F0();
     if (sess->h22 != 0 && sess->w60 != 0 && NetStringLength((const char*)sess->w60) != 0) {
-        TLobby__sub_804283C8(sess->w60, sess);
+        modem_run_script(sess->w60, sess);
     }
     if (lbl_805D7A7E != 0) {
         TLobby__sub_803F8238();
