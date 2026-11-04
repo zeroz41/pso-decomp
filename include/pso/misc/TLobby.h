@@ -260,8 +260,8 @@ struct TLobby : public TObject {
     static void start_udp_test_game();
     s32 construct_entry_array();
     void bswap_udp_test_header();
-    void send_and_handle();
-    static void blocking_vsync(void* _w0);
+    static void send_and_handle();
+    static void blocking_vsync();
     static void reload_floor_scene();
     static void free_objects();
     static void run_lobby_frame();

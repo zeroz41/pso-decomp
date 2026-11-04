@@ -55,7 +55,7 @@ struct TKeyBoardControl : public TObject {
     static void init_char_select();
     static void dispatch_select_phase();
     static s32 get_ascii_key();
-    static void read_key_checked(u8 arg0);
+    static s32 read_key_checked(u8 arg0);
     static void update_input_frame();
     static void init_pad_state();
     s32 poll_key_state();

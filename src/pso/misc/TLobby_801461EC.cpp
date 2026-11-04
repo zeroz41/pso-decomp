@@ -1,6 +1,10 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
+#include "pso/misc/TLobby_803FAEA0.h"
+#include <string.h>
 #include "pso/system/memory.h"
+#include "pso/misc/TKeyBoardControl.h"
+#include "pso/system/ControllerInputState.h"
 
 struct RecoveredGlobal_80146CB8_lbl_8050CCE8 {
     s32 value;
@@ -38,9 +42,6 @@ struct RecoveredGlobal_80146D50_lbl_8050C784 {
 };
 
 extern "C" {
-s32 TLobby__sub_803FAFDC();
-s32 TLobby__sub_803FB184(void *);
-s32 TLobby__sub_803FB1A4(s16 *wait);
 s32 TLobby__sub_80407358();
 s32 TLobby__sub_8041509C();
 s16 TLobby__sub_80423064(s16 idx, s32 arg1);
@@ -53,34 +54,32 @@ void TLobby__sub_8014715C(void* p, void* q);
 s32 TLobby__sub_8040A3C0();
 extern s32 lbl_805D570C;
 s32 TLobby__sub_8014618C(void);
-void strncpy(s32, s32, s32);
-s32 memset(int, int, int);
 void TLobby__sub_8014672C(s32 *arg0);
-extern s32 lbl_805D56D8;
+extern s32 lobby_local_ip_addr;
 extern s32 lobby_dns_server_addr;
-extern s32 lbl_805D56E0;
+extern s32 lobby_dns_server_addr2;
 extern s32 lobby_connect_battle_flag;
 s32 TLobby__sub_80146588(s32 *arg0);
 u8 *TLobby__sub_80146D14(void);
-u8 *TLobby__sub_80146CA0(s32 arg0);
-s32 *TLobby__sub_80146D44(void);
+char *TLobby__sub_80146CA0(s32 arg0);
+char *TLobby__sub_80146D44(void);
 u8 *TLobby__sub_80146D50(s32 arg0);
 s32 TLobby__sub_801466F4(u32 arg0);
 s32 TLobby__sub_80145EE4(void);
-s32 TLobby__sub_80146314(s32 *);
+s32 connect_pppoe(s32 *);
 s32 TLobby__sub_801465C0(s32 *);
 void fn_80147A68(void);
 void TLobby__sub_804073B8(void);
 s16 run_connect_step__6TLobbyFv(void);
 s16 TLobby__sub_804150EC(void);
 s16 TLobby__sub_8042315C(s16, void *);
-extern s32 lbl_805D2D00;
+extern s32 lobby_net_session_id;
 extern s32 TLobby__connect_pending_flags;
 extern s32 lobby_connect_active_flag;
 s32 TLobby__sub_803F861C(void *info);
 s32 TLobby__sub_803F8470(u8 *data, s32 size);
 s32 TLobby__sub_801478C4(s32 arg0);
-s32 TLobby__sub_8014734C(s32 idx, s16 arg1);
+s32 connect_modem(s32 idx, s16 id);
 extern s32 actor_frame_tick;
 }
 s32 NetSetDefaultThreadPriority(s32 priority);
@@ -90,17 +89,19 @@ struct Sub_801465C0 {
     char name[0x124 - 0x1C];
 };
 
+struct PhoneNumber {
+    char number[0x20];
+};
+
 struct Acct_80146D7C {
     char host[0x80];
     char user[0x20];
-    char pass[0x20];
-    char dns1[0x20];
-    char dns2[0x20];
+    PhoneNumber phone[3]; /* dial-up numbers (TLobby__sub_80146CA0, connect_modem) */
     char f100[0x40];
     char f140[0x40];
     char f180[0x40];
-    u32 f1C0;
-    u32 f1C4;
+    u32 dns1; /* primary DNS server address (set_dns_servers) */
+    u32 dns2; /* secondary DNS server address */
     s32 valid;
 };
 struct Work_80146D7C {
@@ -163,11 +164,10 @@ s32 TLobby__sub_80147284();
 s32 init_struct(u8 *arg0);
 s32 init_work(s32 arg0, u8 *arg1);
 s32 get_network_config_buffer_size(s32 mode);
+s8 func_801A5E54();
 extern "C" {
 s32 TLobby__sub_804219D0(s32, s32, s32);
 s32 TLobby__sub_80421A50(s32, s32, s32);
-s8 func_801A5E54__Fv();
-s32 send_and_handle__6TLobbyFv();
 void xfree__FPv(void*);
 int xmalloc__FUl(void);
 
@@ -200,8 +200,8 @@ loop_1:
         return 0;
     }
     var_r31 += 1;
-    send_and_handle__6TLobbyFv();
-    if (func_801A5E54__Fv() != 0) {
+    TLobby::send_and_handle();
+    if (func_801A5E54() != 0) {
         return 1;
     }
     if (TLobby::query_link_status() == 1) {
@@ -225,20 +225,122 @@ void TLobby::set_battle_flag(s32 arg0) {
     TLobby__sub_80421A50(0, 0, arg0);
 }
 
+void get_link_state(s16 *state, s16 *reason);
+s32 TWindowShortListCtrl__check_controller_button(ControllerInputContext *, int);
+
+s32 connect_pppoe(s32 *out_value) {
+    NetConnectCfg cfg;
+    NetLinkStatus status;
+    s16 state;
+    s16 reason;
+    NetWaitParam stop;
+    NetWaitParam stop2;
+    s16 id;
+    s32 cancel;
+    s32 result;
+
+    id = TLobby::init_net_session();
+    TLobby__connect_pending_flags |= 4;
+    lobby_net_session_id = id;
+    if (id == -1) {
+        return 9;
+    }
+    cfg.flags = 5;
+    cfg.wait = 0;
+    cfg.wC = (char *)&lbl_8050CCE8 + 0x7C;
+    cfg.password = (char *)&lbl_8050CCE8 + 0xFC;
+    cfg.callback = 0;
+    cfg.h2 = 4;
+    cfg.h18 = 6;
+    cfg.h1A = 0;
+    cfg.h1C = 0;
+    cfg.h1E = 3;
+    cfg.h20 = 1;
+    cfg.h28 = 90;
+    cfg.h2A = 0;
+    cfg.h2C = 20;
+    cfg.phone_number = 0;
+    cfg.h24 = 0;
+    cfg.h26 = 0;
+    cfg.prefix = 0;
+    cfg.h34 = 4;
+    cfg.mtu = 1500;
+    cfg.start_tick = 0x12345678;
+    cfg.h3C = 0;
+    cfg.h3E = 0;
+    cfg.h40 = 1;
+    cfg.w44 = 0;
+    cfg.w48 = 0;
+    cfg.w4C = 0;
+    cfg.w50 = 0;
+    cfg.w54 = 0;
+    cfg.w58 = 0;
+    NetControl(1, 10);
+    NetLinkConnect(&cfg);
+    state = -1;
+    do {
+        cancel = 0;
+        if (TWindowShortListCtrl__check_controller_button(&controller_input_state.controllers[0], 2) != 0 ||
+            TKeyBoardControl::read_key_checked(0x4C) != 0) {
+            cancel = 1;
+            result = 0x10;
+        }
+        if (func_801A5E54() != 0) {
+            cancel = 1;
+            result = 0x11;
+        }
+        if (cancel != 0) {
+            stop.wait = 1;
+            NetLinkDisconnect(&stop);
+            lobby_net_session_id = -1;
+            return result;
+        }
+        get_link_state(&state, &reason);
+        if (state == 5 || state == 8 || state == 4) {
+            break;
+        }
+        TLobby::send_and_handle();
+    } while (state != 4);
+    if (state == 4) {
+        NetGetLinkStatus(&status);
+        lobby_local_ip_addr = status.w10;
+        *out_value = 0;
+        lobby_dns_server_addr = status.w18;
+        lobby_dns_server_addr2 = status.w1C;
+        lobby_connect_battle_flag = status.w10;
+        return 0;
+    }
+    stop2.wait = 1;
+    NetLinkDisconnect(&stop2);
+    switch (reason) {
+    case 3:
+        return 5;
+    case 2:
+        return 7;
+    case 6:
+        return 8;
+    case 0:
+    case 1:
+    case 7:
+    default:
+        return 4;
+    }
+}
+
 typedef char RecoveredGlobal_80146588_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146588_lbl_8050CCE8) == 0x12C ? 1 : -1];
 s32 TLobby__sub_80146588(s32 *arg0) {
-    lbl_805D56D8 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 4);
+    lobby_local_ip_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 4);
     *(s32 *)((s8 *)arg0 + 0) = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 8);
     lobby_connect_battle_flag = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x18);
     lobby_dns_server_addr = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x10);
-    lbl_805D56E0 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x14);
+    lobby_dns_server_addr2 = *(s32 *)((s8 *)(&(*(RecoveredGlobal_80146588_lbl_8050CCE8 *)&lbl_8050CCE8).value) + 0x14);
     return 0;
 }
 
 s32 TLobby__sub_801465C0(s32 *arg0) {
     s32 sp8;
 
-    if (TLobby__sub_80424E44((s16)lbl_805D2D00) != 0) {
+    if (TLobby__sub_80424E44((s16)lobby_net_session_id) != 0) {
         return 0xC;
     }
     Sub_801465C0 *sub = (Sub_801465C0 *)&lbl_8050CCE8;
@@ -248,9 +350,9 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
     if (*name != 0 && TLobby__sub_8042455C(name) < 0) {
         return 0xC;
     }
-    lbl_805D56D8 = 0;
+    lobby_local_ip_addr = 0;
     lbl_805D56E8 = 0;
-    if (TLobby__sub_80424D58((s16)lbl_805D2D00, 0, 0, lbl_8050C0C4, &lbl_805D56D8, arg0, &sp8, 3) != 0) {
+    if (TLobby__sub_80424D58((s16)lobby_net_session_id, 0, 0, lbl_8050C0C4, &lobby_local_ip_addr, arg0, &sp8, 3) != 0) {
         return 0xC;
     }
     if (TLobby__sub_8042489C(lbl_8050C0C4, &lobby_connect_battle_flag) != 0) {
@@ -260,7 +362,7 @@ s32 TLobby__sub_801465C0(s32 *arg0) {
         return 0xC;
     }
     fn_80147A60(lbl_805D56EC);
-    return validate_slot_buffers__6TLobbyFlPvPvPv(lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lbl_805D56E0) != 0 ? 0xC : 0;
+    return validate_slot_buffers__6TLobbyFlPvPvPv(lbl_8050C0C4, lbl_8050C684, &lobby_dns_server_addr, &lobby_dns_server_addr2) != 0 ? 0xC : 0;
 }
 
 s32 TLobby__sub_801466F4(u32 arg0) {
@@ -302,13 +404,11 @@ int TLobby::get_link_status_value() { return TLobby__sub_80145DB4(4); }
 extern u32 lbl_805D5700;
 extern s32 TLobby__net_session_mode;
 
-struct LinkState_801467C4 { u8 pad0[4]; s16 state; u8 pad6[0x32]; };
-
 }
 int get_link_status() {
-    LinkState_801467C4 link;
+    NetLinkStatus link;
     if (TLobby__net_session_mode == 0) {
-        if ((s16)TLobby__sub_803FB184(&link) < 0) {
+        if (NetGetLinkStatus(&link) < 0) {
             return 0;
         }
         switch (link.state) {
@@ -374,33 +474,33 @@ s32 TLobby__sub_80146908() {
 }
 void TLobby__sub_801469B8(void* p) { TLobby::flush_pending_flags(); }
 void TLobby::flush_pending_flags() {
-    struct { u8 pad0[4]; s16 f4; u8 pad6[0x3E]; } spC;
-    s16 sp8;
+    NetLinkStatus status;
+    NetWaitParam stop;
 
     TLobby__connect_pending_flags &= 0xFFFFFFFE;
     TLobby::teardown_boss2();
     if (TLobby__sub_80145EE4() != 0) {
         if (TLobby__connect_pending_flags & 0x10) {
-            TLobby__sub_80424CF4((void *)((s16) lbl_805D2D00), (void *)lbl_805D56D8, 3);
+            TLobby__sub_80424CF4((void *)((s16) lobby_net_session_id), (void *)lobby_local_ip_addr, 3);
             TLobby__connect_pending_flags &= 0xFFFFFFEF;
             TLobby__sub_80424CA8();
         }
     } else if (TLobby::is_state_active() != 0) {
-        if ((s32) lbl_805D2D00 != -1) {
-            TLobby__sub_80423064(((s16) lbl_805D2D00), 0);
-            sp8 = 0;
-            TLobby__sub_803FB1A4(&sp8);
+        if ((s32) lobby_net_session_id != -1) {
+            TLobby__sub_80423064(((s16) lobby_net_session_id), 0);
+            stop.wait = 0;
+            NetLinkDisconnect(&stop);
             do {
-                TLobby__sub_803FB184(&spC);
-                send_and_handle__6TLobbyFv();
-            } while (spC.f4 != 0);
+                NetGetLinkStatus(&status);
+                TLobby::send_and_handle();
+            } while (status.state != 0);
         }
         if (TLobby__connect_pending_flags & 4) {
             TLobby__sub_803FAFDC();
             TLobby__connect_pending_flags &= 0xFFFFFFFB;
         }
     }
-    lbl_805D2D00 = -1;
+    lobby_net_session_id = -1;
     if (TLobby__connect_pending_flags & 0x20) {
         TLobby__sub_8041509C();
         TLobby__connect_pending_flags &= 0xFFFFFFDF;
@@ -443,21 +543,21 @@ s32 TLobby::run_connect_sequence() {
             return 0xE;
         }
         if (TLobby__sub_80145EE4() != 0) {
-            lbl_805D2D00 = id;
+            lobby_net_session_id = id;
             r = TLobby__sub_801465C0(&sp8);
         } else if (TLobby::is_state_active() != 0) {
-            r = TLobby__sub_80146314(&sp8);
+            r = connect_pppoe(&sp8);
         } else {
-            lbl_805D2D00 = id;
+            lobby_net_session_id = id;
             r = TLobby__sub_80146588(&sp8);
         }
         if (r == 0) {
             s32 *m = (s32 *)&lbl_8050C0A8;
             m[0] = 4;
-            m[1] = lbl_805D56D8;
+            m[1] = lobby_local_ip_addr;
             m[2] = sp8;
             m[3] = 0;
-            if (TLobby__sub_8042315C((s16)lbl_805D2D00, &lbl_8050C0A8) == 0) {
+            if (TLobby__sub_8042315C((s16)lobby_net_session_id, &lbl_8050C0A8) == 0) {
                 TLobby::set_battle_flag(lobby_connect_battle_flag);
             } else {
                 return 0xD;
@@ -474,8 +574,8 @@ void TLobby::call_146CA0_with_5708() { TLobby__sub_80146CA0(lbl_805D5708); }
 typedef char RecoveredGlobal_80146CB8_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146CB8_lbl_8050CCE8) == 0x12C ? 1 : -1];
 
 typedef char RecoveredGlobal_80146CA0_lbl_8050C784_size[sizeof(RecoveredGlobal_80146CA0_lbl_8050C784) == 0x564 ? 1 : -1];
-u8 *TLobby__sub_80146CA0(s32 arg0) {
-    return (u8 *)&(*(RecoveredGlobal_80146CA0_lbl_8050C784 *)&lbl_8050C784).value + (arg0 << 5) + 0x438;
+char *TLobby__sub_80146CA0(s32 arg0) {
+    return (char *)&(*(RecoveredGlobal_80146CA0_lbl_8050C784 *)&lbl_8050C784).value + (arg0 << 5) + 0x438;
 }
 
 void TLobby::set_ppp_password(s32 arg0) {
@@ -483,8 +583,8 @@ void TLobby::set_ppp_password(s32 arg0) {
     TLobby__sub_8014618C();
     TLobby::is_state_active();
     temp_r31 = (u8 *)&lbl_8050CCE8.value + 0xFC;
-    memset((int)temp_r31, 0, 0x20);
-    strncpy((s32) temp_r31, arg0, 0x1F);
+    memset(temp_r31, 0, 0x20);
+    strncpy((char *)temp_r31, (const char *)arg0, 0x1F);
 }
 
 typedef char RecoveredGlobal_80146D14_lbl_8050CCE8_size[sizeof(RecoveredGlobal_80146D14_lbl_8050CCE8) == 0x12C ? 1 : -1];
@@ -495,8 +595,8 @@ u8 *TLobby__sub_80146D14(void) {
 }
 
 typedef char RecoveredGlobal_80146D44_lbl_8050CE14_size[sizeof(RecoveredGlobal_80146D44_lbl_8050CE14) == 0x154 ? 1 : -1];
-s32 *TLobby__sub_80146D44(void) {
-    return &lbl_8050CE14.value;
+char *TLobby__sub_80146D44(void) {
+    return (char *)&lbl_8050CE14.value;
 }
 
 typedef char RecoveredGlobal_80146D50_lbl_8050C784_size[sizeof(RecoveredGlobal_80146D50_lbl_8050C784) == 0x564 ? 1 : -1];
@@ -507,7 +607,6 @@ u8 *TLobby__sub_80146D50(s32 arg0) {
 void* TLobby__sub_80146D68(int a0) {  return (char*)lbl_8050C784 + a0 * 460; }
 #define A_80146D7C (*(Acct_80146D7C (*)[3])lbl_8050C784)
 #define C_80146D7C (*(Conn_80146D7C *)&lbl_8050CCE8)
-#define S_80146D7C ((char *(*)(char *, const char *, u32))strncpy)
 void TLobby::load_network_configs() {
     Work_80146D7C w;
     Info_80146D7C info;
@@ -518,46 +617,46 @@ void TLobby::load_network_configs() {
         lbl_8050CE0C[1] = 0;
     }
     if (init_work(1, (u8 *)&w) == 0) {
-        S_80146D7C(A_80146D7C[0].host, w.host, 0x7F);
-        S_80146D7C(A_80146D7C[0].user, w.user, 0x1F);
-        S_80146D7C(A_80146D7C[0].pass, w.pass, 0x1F);
-        S_80146D7C(A_80146D7C[0].dns1, w.dns1, 0x1F);
-        S_80146D7C(A_80146D7C[0].dns2, w.dns2, 0x1F);
-        S_80146D7C(A_80146D7C[0].f100, w.f16C, 0x3F);
-        S_80146D7C(A_80146D7C[0].f140, w.f18C, 0x3F);
-        S_80146D7C(A_80146D7C[0].f180, w.f1CC, 0x3F);
-        TLobby__sub_8014715C(&A_80146D7C[0].f1C0, &w.f164);
-        TLobby__sub_8014715C(&A_80146D7C[0].f1C4, &w.f168);
+        strncpy(A_80146D7C[0].host, w.host, 0x7F);
+        strncpy(A_80146D7C[0].user, w.user, 0x1F);
+        strncpy(A_80146D7C[0].phone[0].number, w.pass, 0x1F);
+        strncpy(A_80146D7C[0].phone[1].number, w.dns1, 0x1F);
+        strncpy(A_80146D7C[0].phone[2].number, w.dns2, 0x1F);
+        strncpy(A_80146D7C[0].f100, w.f16C, 0x3F);
+        strncpy(A_80146D7C[0].f140, w.f18C, 0x3F);
+        strncpy(A_80146D7C[0].f180, w.f1CC, 0x3F);
+        TLobby__sub_8014715C(&A_80146D7C[0].dns1, &w.f164);
+        TLobby__sub_8014715C(&A_80146D7C[0].dns2, &w.f168);
         A_80146D7C[0].valid = 1;
     } else {
         A_80146D7C[0].valid = 0;
     }
     if (init_work(2, (u8 *)&w) == 0) {
-        S_80146D7C(A_80146D7C[1].host, w.host, 0x7F);
-        S_80146D7C(A_80146D7C[1].user, w.user, 0x1F);
-        S_80146D7C(A_80146D7C[1].pass, w.pass, 0x1F);
-        S_80146D7C(A_80146D7C[1].dns1, w.dns1, 0x1F);
-        S_80146D7C(A_80146D7C[1].dns2, w.dns2, 0x1F);
-        S_80146D7C(A_80146D7C[1].f100, w.f16C, 0x3F);
-        S_80146D7C(A_80146D7C[1].f140, w.f18C, 0x3F);
-        S_80146D7C(A_80146D7C[1].f180, w.f1CC, 0x3F);
-        TLobby__sub_8014715C(&A_80146D7C[1].f1C0, &w.f164);
-        TLobby__sub_8014715C(&A_80146D7C[1].f1C4, &w.f168);
+        strncpy(A_80146D7C[1].host, w.host, 0x7F);
+        strncpy(A_80146D7C[1].user, w.user, 0x1F);
+        strncpy(A_80146D7C[1].phone[0].number, w.pass, 0x1F);
+        strncpy(A_80146D7C[1].phone[1].number, w.dns1, 0x1F);
+        strncpy(A_80146D7C[1].phone[2].number, w.dns2, 0x1F);
+        strncpy(A_80146D7C[1].f100, w.f16C, 0x3F);
+        strncpy(A_80146D7C[1].f140, w.f18C, 0x3F);
+        strncpy(A_80146D7C[1].f180, w.f1CC, 0x3F);
+        TLobby__sub_8014715C(&A_80146D7C[1].dns1, &w.f164);
+        TLobby__sub_8014715C(&A_80146D7C[1].dns2, &w.f168);
         A_80146D7C[1].valid = 1;
     } else {
         A_80146D7C[1].valid = 0;
     }
     if (init_work(0, (u8 *)&w) == 0) {
-        S_80146D7C(A_80146D7C[2].host, w.host, 0x7F);
-        S_80146D7C(A_80146D7C[2].user, w.user, 0x1F);
-        S_80146D7C(A_80146D7C[2].pass, w.pass, 0x1F);
-        S_80146D7C(A_80146D7C[2].dns1, w.dns1, 0x1F);
-        S_80146D7C(A_80146D7C[2].dns2, w.dns2, 0x1F);
-        S_80146D7C(A_80146D7C[2].f100, w.f16C, 0x3F);
-        S_80146D7C(A_80146D7C[2].f140, w.f18C, 0x3F);
-        S_80146D7C(A_80146D7C[2].f180, w.f1CC, 0x3F);
-        TLobby__sub_8014715C(&A_80146D7C[2].f1C0, &w.f164);
-        TLobby__sub_8014715C(&A_80146D7C[2].f1C4, &w.f168);
+        strncpy(A_80146D7C[2].host, w.host, 0x7F);
+        strncpy(A_80146D7C[2].user, w.user, 0x1F);
+        strncpy(A_80146D7C[2].phone[0].number, w.pass, 0x1F);
+        strncpy(A_80146D7C[2].phone[1].number, w.dns1, 0x1F);
+        strncpy(A_80146D7C[2].phone[2].number, w.dns2, 0x1F);
+        strncpy(A_80146D7C[2].f100, w.f16C, 0x3F);
+        strncpy(A_80146D7C[2].f140, w.f18C, 0x3F);
+        strncpy(A_80146D7C[2].f180, w.f1CC, 0x3F);
+        TLobby__sub_8014715C(&A_80146D7C[2].dns1, &w.f164);
+        TLobby__sub_8014715C(&A_80146D7C[2].dns2, &w.f168);
         A_80146D7C[2].valid = 1;
     } else {
         A_80146D7C[2].valid = 0;
@@ -571,17 +670,16 @@ void TLobby::load_network_configs() {
         C_80146D7C.f10 = info.fB4;
         C_80146D7C.f14 = info.fB8;
         C_80146D7C.f18 = info.fBC;
-        S_80146D7C(C_80146D7C.f7C, info.f8, 0x7F);
-        S_80146D7C(C_80146D7C.fFC, info.f88, 0x1F);
-        S_80146D7C(C_80146D7C.f1C, info.fC4, 0x1F);
-        S_80146D7C(C_80146D7C.f3C, info.f104, 0x3F);
+        strncpy(C_80146D7C.f7C, info.f8, 0x7F);
+        strncpy(C_80146D7C.fFC, info.f88, 0x1F);
+        strncpy(C_80146D7C.f1C, info.fC4, 0x1F);
+        strncpy(C_80146D7C.f3C, info.f104, 0x3F);
         C_80146D7C.f11C = info.f244;
         C_80146D7C.f120 = 1;
     }
 }
 #undef A_80146D7C
 #undef C_80146D7C
-#undef S_80146D7C
 void TLobby__sub_8014715C(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); }
 void TLobby::teardown_boss2() {
     if ((s32) lbl_805D570C != 0) {
@@ -602,26 +700,20 @@ struct RecoveredGlobal_80147A74_lbl_804EF500 {
     u8 remaining[0x94];
 };
 
-struct S_801472F8 { u8 pad0[4]; s16 a; s16 b; u8 rest[0x38]; };
-
 struct Req_801471A0 { s32 type; u32 addr; u8 pad[0x18]; };
 
-struct Cfg_801471A0 { u8 pad[0x558]; u32 dns1; u32 dns2; };
-
 extern RecoveredGlobal_80147A74_lbl_804EF500 ppp_password_buffer;
-s32 *get_ppp_password_buffer(void);
+char *get_ppp_password_buffer(void);
 extern "C" {
-void TLobby__sub_801472F8(s16 *arg0, s16 *arg1);
 void OSReport(const char *, ...);
 s16 init_net_tables__6TLobbyFv();
 s16 TLobby__sub_8040ADE8(Req_801471A0 *);
-extern char lbl_8043F3F0[];
-extern char lbl_8043F404[];
 s32 TLobby__sub_80147284(void);
+extern char lbl_8043F3F0[]; /* " pri_dns no ==> %d\n" */
+extern char lbl_8043F404[]; /* " sec_dns no ==> %d\n" */
 void TLobby__sub_80147978(void);
 
-#define lbl_8050C784 (*(Cfg_801471A0 *)lbl_8050C784)
-#define TLobby__sub_803FB184 ((s16 (*)(void *))TLobby__sub_803FB184)
+#define lbl_8050C784 (*(Acct_80146D7C (*)[3])lbl_8050C784)
 
 s32 TLobby::set_dns_servers() {
     Req_801471A0 req;
@@ -631,13 +723,13 @@ s32 TLobby::set_dns_servers() {
         lbl_805D570C = 1;
         req.type = 4;
         req.addr = lobby_dns_server_addr;
-        if (lbl_8050C784.dns1 != 0) {
-            req.addr = lbl_8050C784.dns1;
+        if (lbl_8050C784[2].dns1 != 0) {
+            req.addr = lbl_8050C784[2].dns1;
         }
         r1 = TLobby__sub_8040ADE8(&req);
-        req.addr = lbl_805D56E0;
-        if (lbl_8050C784.dns2 != 0) {
-            req.addr = lbl_8050C784.dns2;
+        req.addr = lobby_dns_server_addr2;
+        if (lbl_8050C784[2].dns2 != 0) {
+            req.addr = lbl_8050C784[2].dns2;
         }
         r2 = TLobby__sub_8040ADE8(&req);
         OSReport(lbl_8043F3F0, r1);
@@ -651,12 +743,12 @@ s32 TLobby::set_dns_servers() {
 }
 
 s32 TLobby__sub_80147284(void) {
-    s16 sp8;
+    NetWaitParam stop;
 
-    if ((s32) lbl_805D2D00 != -1) {
-        TLobby__sub_80423064((s16) lbl_805D2D00, 0);
-        sp8 = 1;
-        TLobby__sub_803FB1A4(&sp8);
+    if ((s32) lobby_net_session_id != -1) {
+        TLobby__sub_80423064((s16) lobby_net_session_id, 0);
+        stop.wait = 1;
+        NetLinkDisconnect(&stop);
     }
     TLobby::flush_pending_flag2();
     if (TLobby__connect_pending_flags & 4) {
@@ -664,17 +756,17 @@ s32 TLobby__sub_80147284(void) {
         TLobby__connect_pending_flags &= 0xFFFFFFFB;
     }
     TLobby::teardown_boss2();
-    lbl_805D2D00 = -1;
+    lobby_net_session_id = -1;
     return 0;
 }
 
-void TLobby__sub_801472F8(s16 *arg0, s16 *arg1) {
-    S_801472F8 s;
-    if (TLobby__sub_803FB184(&s) < 0) {
-        s.a = 0;
+void get_link_state(s16 *state, s16 *reason) {
+    NetLinkStatus status;
+    if (NetGetLinkStatus(&status) < 0) {
+        status.state = 0;
     }
-    *arg0 = s.a;
-    *arg1 = s.b;
+    *state = status.state;
+    *reason = status.h6;
 }
 
 s32 TLobby__sub_801478C4(s32 arg0) {
@@ -684,10 +776,10 @@ s32 TLobby__sub_801478C4(s32 arg0) {
     result = 4;
     count = TLobby__sub_80146724();
     for (lbl_805D5708 = 0; lbl_805D5708 < count; lbl_805D5708++) {
-        ((void *(*)(void *, s32, u32))memset)(name, 0, sizeof(name));
-        ((char *(*)(char *, const char *, u32))strncpy)(name, (const char *)TLobby__sub_80146CA0(lbl_805D5708), sizeof(name));
+        memset(name, 0, sizeof(name));
+        strncpy(name, TLobby__sub_80146CA0(lbl_805D5708), sizeof(name));
         if (name[0] != 0) {
-            result = TLobby__sub_8014734C(lbl_805D5708, arg0);
+            result = connect_modem(lbl_805D5708, arg0);
             if (TLobby__sub_801466F4(result) == 0) {
                 return result;
             }
@@ -712,8 +804,6 @@ struct Acct_8014797C {
     s32 valid;
 };
 #define lbl_8050C784 (*(Acct_8014797C (*)[3])lbl_8050C784)
-#define memset ((void *(*)(void *, s32, u32))memset)
-#define strncpy ((char *(*)(char *, const char *, u32))strncpy)
 void TLobby::init_account_entries() {
     memset(&lbl_8050C784[0], 0, sizeof(Acct_8014797C));
     memset(&lbl_8050C784[1], 0, sizeof(Acct_8014797C));
@@ -734,15 +824,12 @@ void TLobby::init_account_entries() {
     strncpy(lbl_8050CE34, lbl_8050C784[0].user, 0x1F);
 }
 #undef lbl_8050C784
-#undef memset
-#undef strncpy
 
 void fn_80147A60(int a0) { keyboard_buffer_cursor = a0; }
 
 void fn_80147A68(void) { keyboard_buffer_cursor = 0; }
 }
 typedef char RecoveredGlobal_80147A74_lbl_804EF500_size[sizeof(RecoveredGlobal_80147A74_lbl_804EF500) == 0x98 ? 1 : -1];
-s32 *get_ppp_password_buffer(void) {
-    return &ppp_password_buffer.value;
+char *get_ppp_password_buffer(void) {
+    return (char *)&ppp_password_buffer.value;
 }
-#undef TLobby__sub_803FB184

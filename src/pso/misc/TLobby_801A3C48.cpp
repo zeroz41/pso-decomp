@@ -316,10 +316,10 @@ void reload_lobby_floor_scene(void) {
     __dt__7TObjectFv(sp8, -1);
 }
 
-void TLobby::send_and_handle() { TLobby::blocking_vsync(this); }
+void TLobby::send_and_handle() { TLobby::blocking_vsync(); }
 
 typedef char RecoveredGlobal_801A400C_main_task_size[sizeof(RecoveredGlobal_801A400C_main_task) == 0x34 ? 1 : -1];
-void TLobby::blocking_vsync(void* _w0) {
+void TLobby::blocking_vsync() {
     TLoadCtrl::set_field1C(0);
     func_803DCDFC__Fv();
     if ((s32) lbl_805D5718 != 0) {

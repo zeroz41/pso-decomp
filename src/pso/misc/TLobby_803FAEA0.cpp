@@ -1,5 +1,6 @@
 #include "pso/network/NetworkTransport.h"
 #include "pso/misc/TLobby.h"
+#include "pso/misc/TLobby_803FAEA0.h"
 
 #include "types.h"
 #include "pso/protocol/NetworkRuntime.h"
@@ -390,11 +391,7 @@ void NetMemcpy(void *, void *, int);
 void TLobby__sub_803F7678(void);
 void TLobby__sub_803FD0C0(void);
 s32 TLobby__sub_803FAFDC(void);
-struct NetStatus_803FB358;
-s32 TLobby__sub_803FB358(NetStatus_803FB358 *status);
-s32 TLobby__sub_803FB1A4(s16 *wait);
-s32 TLobby__sub_803FB280(u8 *cfg);
-void TLobby__sub_803FB184(u8 *arg0);
+s16 TLobby__sub_803FB358(NetLinkStatus *status);
 void TLobby__sub_803FD85C(void *);
 s32 TLobby__sub_804062A0(s16);
 extern s32 lobby_timer_list_head;
@@ -414,7 +411,6 @@ void TLobby__sub_803F8958(void *);
 void TLobby__sub_803F87DC(void *);
 void TLobby__sub_803F89D8(void *);
 void TLobby__sub_80401CAC(Outer_80401CAC *o, u16 v);
-s32 TLobby__sub_803FAEA0(s32 cmd, s32 arg);
 u16 read_network_u16_be(u8 *p);
 extern u16 lbl_805D7A78;
 u32 TLobby__sub_80402AFC(u8 *p);
@@ -490,7 +486,7 @@ u32 lbl_805C0038[82];
 #define lbl_805BFF68 (*(RecoveredGlobal_803FB110_lbl_805BFF68 *)lbl_805BFF68)
 #define lbl_805C0038 ((u8 *)lbl_805C0038)
 
-s32 TLobby__sub_803FAEA0(s32 cmd, s32 arg) {
+s32 NetControl(s32 cmd, s32 arg) {
     switch (cmd) {
     case 1:
         TLobby__sub_804050DC(arg);
@@ -652,29 +648,12 @@ u8 *TLobby::copy_name_buffer(void *src) {
     return g->buf;
 }
 
-void TLobby__sub_803FB184(u8 *arg0) {
-    TLobby__sub_803FB358((NetStatus_803FB358 *)arg0);
+s16 NetGetLinkStatus(NetLinkStatus *status) {
+    return TLobby__sub_803FB358(status);
 }
 
-struct NetStatus_803FB358 {
-    s16 link_up;
-    s16 ppp_up;
-    s16 state;
-    s16 h6;
-    u32 w8;
-    s16 hC;
-    u8 padE[2];
-    u32 w10;
-    u32 w14;
-    u32 w18;
-    u32 w1C;
-    u32 w20;
-    u32 w24;
-    u8 addr[4][4];
-};
-
-s32 TLobby__sub_803FB1A4(s16 *wait) {
-    NetStatus_803FB358 status;
+s32 NetLinkDisconnect(NetWaitParam *param) {
+    NetLinkStatus status;
     s32 t;
 
     TLobby::lock_mutex(lbl_805C18A0.value);
@@ -687,7 +666,7 @@ s32 TLobby__sub_803FB1A4(s16 *wait) {
         lbl_805D7A8A = 0;
     }
     TUdpSocket::unlock_mutex(((s32 *)&lbl_805C18A0)[0]);
-    if (wait == NULL || *wait == 0) {
+    if (param == NULL || param->wait == 0) {
         return 0;
     }
     for (t = 0; t < 300000; t += 200) {
@@ -700,17 +679,17 @@ s32 TLobby__sub_803FB1A4(s16 *wait) {
     return -1;
 }
 
-s32 TLobby__sub_803FB280(u8 *cfg) {
-    NetStatus_803FB358 status;
+s32 NetLinkConnect(NetConnectCfg *cfg) {
+    NetLinkStatus status;
     s32 t;
 
     if (cfg == NULL) {
         return -1;
     }
-    if (NetApplyConnectionConfig(cfg) < 0) {
+    if (NetApplyConnectionConfig((u8 *)cfg) < 0) {
         return -1;
     }
-    if (*(s16 *)(cfg + 4) == 0) {
+    if (cfg->wait == 0) {
         return 0;
     }
     for (t = 0; t < 300000; t += 200) {
