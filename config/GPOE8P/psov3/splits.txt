@@ -7375,7 +7375,9 @@ pso/misc/TWindowShortListCtrl_80221828.cpp:
 
 pso/misc/TShopKeepItemWindow.cpp:
 	.text       start:0x80221844 end:0x8022236C
-	.data       start:0x804CA220 end:0x804CA240
+	.rodata     start:0x8044C1E8 end:0x8044C1FC
+	.data       start:0x804CA1F0 end:0x804CA240
+	.sdata      start:0x805D36E8 end:0x805D36F0
 	.sdata2     start:0x805DC710 end:0x805DC714
 
 pso/ui/TMessageWindowController.cpp:

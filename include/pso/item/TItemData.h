@@ -10,6 +10,7 @@ struct TItemData {
     void init();
     void bswap();
     static s32 is_usable(void *data);
+    static s32 lookup_item_def(void *data);
     static s32 is_wrapped(void *data);
     static s32 is_rare_item(void *data);
     static s32 is_custom_name_srank(void *data);

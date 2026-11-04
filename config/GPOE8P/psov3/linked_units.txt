@@ -1474,6 +1474,7 @@ pso/misc/TShopGetItemWindow_8021F0A4.cpp
 pso/misc/TShopItemTecSequence.cpp
 pso/misc/TShopJudgmentItemWindow.cpp
 pso/misc/TShopJudgmentItemWindow_8026DF00.cpp
+pso/misc/TShopKeepItemWindow.cpp
 pso/misc/TShopSequence.cpp
 pso/misc/TShopWindowBase.cpp
 pso/misc/TShopWindowBase_80217454.cpp
