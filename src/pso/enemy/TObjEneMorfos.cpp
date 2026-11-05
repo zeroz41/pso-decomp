@@ -2178,7 +2178,7 @@ void *TObjEneMorfos::create() {
 struct ModelRes_803350AC {
     u8 pad[0x18];
     u8 *f18;
-    u8 *f1C;
+    NJS_TEXLIST *texlist;
     u8 pad20[0x8];
     u8 *f28;
 };
@@ -2238,7 +2238,7 @@ void TObjEneMorfos__sub_803350AC(void) {
         SpawnDesc_803350AC desc = lbl_804775C8;
         desc.w[0] = ((ResMgr_803350AC *)TObjEneMorfos__instance)->f430;
         TLobby::spawn_npc_enemy(0x4D, (s32)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f18,
-                                (NJS_TEXLIST *)((ResMgr_803350AC *)TObjEneMorfos__instance)->res->f1C, &desc,
+                                ((ResMgr_803350AC *)TObjEneMorfos__instance)->res->texlist, &desc,
                                 lbl_805DF880, TObjEneMorfos__data_805DF874);
     }
 }

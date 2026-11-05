@@ -151,7 +151,7 @@ struct Node_803627DC {
     Node_803627DC *next;
 };
 
-struct Model_803627DC { u8 pad[8]; s32 f8; s32 fC; };
+struct Model_803627DC { u8 pad[8]; s32 f8; NJS_TEXLIST *texlist; };
 
 struct Res_803627DC { u8 pad[0x42C]; Model_803627DC *f42c; s32 f430; };
 
@@ -300,7 +300,7 @@ void TObjEneEpsilonGuard::load_assets() {
     {
         Quad_803627DC q = lbl_80479FAC;
         q.a = ((Res_803627DC *)lbl_805D6FA0)->f430;
-        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), (NJS_TEXLIST *)(((Res_803627DC *)lbl_805D6FA0)->f42c->fC), &q, (f32)lbl_805E024C, (f32)lbl_805E0250);
+        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), ((Res_803627DC *)lbl_805D6FA0)->f42c->texlist, &q, (f32)lbl_805E024C, (f32)lbl_805E0250);
     }
 }
 

@@ -3956,7 +3956,7 @@ struct Vec_800CC950 { f32 x, y, z; };
 
 struct Q_800CC950 { s32 a, b, c, d; };
 
-struct E_800CC950 { u8 pad[0x8]; s32 f8; s32 fc; };
+struct E_800CC950 { u8 pad[0x8]; s32 f8; NJS_TEXLIST *texlist; };
 
 struct D_800CC950 { u8 pad[0x42C]; E_800CC950 *f42c; s32 f430; };
 
@@ -4014,7 +4014,7 @@ void TObjEneMe1Gee::load_resources() {
     {
         Q_800CC950 sp8 = lbl_8043BE6C;
         sp8.a = TObjEneMe1Gee__resource_bundle->f430;
-        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->f42c->f8, (NJS_TEXLIST *)TObjEneMe1Gee__resource_bundle->f42c->fc, &sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
+        TLobby::spawn_npc_enemy((s16)0x10, TObjEneMe1Gee__resource_bundle->f42c->f8, TObjEneMe1Gee__resource_bundle->f42c->texlist, &sp8, 8.0f, (f32)TObjEneMe1Gee__data_805DA0C0);
     }
 }
 

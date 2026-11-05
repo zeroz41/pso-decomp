@@ -518,7 +518,7 @@ void *TObjEneRecobox__create(void *arg0) {
 extern "C" {
 struct V3_80320260 { f32 x, y, z; };
 struct Spawn_80320260 { s32 a, b, c, d; };
-struct Inner_80320260 { u8 pad[0x18]; s32 f18; s32 f1C; };
+struct Inner_80320260 { u8 pad[0x18]; s32 f18; NJS_TEXLIST *texlist; };
 struct Box_80320260 { u8 pad[0x42C]; Inner_80320260 *f42C; s32 f430; };
 struct Sub_80320260 { u8 pad[0xC]; f32 f0C; };
 
@@ -582,7 +582,7 @@ void TObjEneRecobox::load_resources() {
         Spawn_80320260 s = recobox_resource_binding_desc;
         box = (Box_80320260 *)(*(u32 *)&TObjEneRecobox__static_instance);
         s.a = box->f430;
-        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, (NJS_TEXLIST *)box->f42C->f1C, &s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
+        TLobby::spawn_npc_enemy((s16)0xD, box->f42C->f18, box->f42C->texlist, &s, (f32)(getf_80320260(sp)), (f32)lbl_805DF46C);
     }
 }
 

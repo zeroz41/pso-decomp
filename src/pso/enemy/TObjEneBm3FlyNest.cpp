@@ -726,7 +726,7 @@ struct Vec_800B41E8 { f32 x, y, z; };
 
 struct Res_800B41E8 { u8 pad[0x42C]; u8 *bodies; s32 motions; };
 
-struct Bodies_800B41E8 { u8 pad0[0xC]; s32 textures; u8 pad1[0x18 - 0x10]; s32 model; };
+struct Bodies_800B41E8 { u8 pad0[0xC]; NJS_TEXLIST *textures; u8 pad1[0x18 - 0x10]; s32 model; };
 
 struct Vec_800B4688 { f32 x, y, z; };
 
@@ -1975,7 +1975,7 @@ void TObjEneBm3FlyNest::load_resources() {
         Anim_800B41E8 anim = bm3_flynest_anim_binding;
         anim.motions = ((Res_800B41E8 *)lbl_805D5108)->motions;
         bodies = (Bodies_800B41E8 *)((Res_800B41E8 *)lbl_805D5108)->bodies;
-        TLobby::spawn_npc_enemy((s16)8, bodies->model, (NJS_TEXLIST *)bodies->textures, &anim, (f32)bm3_flynest_collider_params.radius, (f32)0.0f);
+        TLobby::spawn_npc_enemy((s16)8, bodies->model, bodies->textures, &anim, (f32)bm3_flynest_collider_params.radius, (f32)0.0f);
     }
 }
 
