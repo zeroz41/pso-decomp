@@ -12,6 +12,8 @@ public:
 public:
     void draw_fade();
     void start_fade(void *arg1);
+
+    u8 pad_1c[0x1C]; // every construction site allocates 0x38 bytes
 };
 
 #endif
