@@ -7,6 +7,11 @@
 #include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/item/TItem.h"
 
+#include "pso/system/MatrixOps.h"
+
+void TUnk_804A4138::update_idle() { *(s32*)((char*)this + 0x1fc) = 0; }
+void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, *(s32 *)((u8 *)this + 0x1FC)); } }
+
 extern "C" {
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
 #pragma push

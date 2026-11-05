@@ -6,12 +6,9 @@
 class TUnk_804A08B8 : public TItemWeapon {
 public:
     virtual ~TUnk_804A08B8();
-    void *init_vtable_804A08B8();
     virtual void emit_marker_effects();
+    virtual void vfunc_57();
+    TUnk_804A08B8(TObject *parent, u8 *item);
 };
-
-extern "C" {
-void *__dt__13TUnk_804A08B8Fv(void *arg0, s16 arg1);
-}
 
 #endif

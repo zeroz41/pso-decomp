@@ -502,7 +502,6 @@ struct TObjPlayer : public TObjChara {
     void set_action_type(s16 v);
     void*get_state_ptr();
     static int get_player_list();
-    void *enter_state_804A0BC0();
     s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
@@ -1158,6 +1157,8 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_vtable_804A08B8(u8 *arg0);
     static u8 *create_substate(u8 *arg0);
     static u8 *create_enter_state_804A0BC0(u8 *arg0);
+    // A weapon shot callback: news the shoot model that draws the shot.
+    static int create_item_shoot_model(int weapon, int origin, int end, f32 frames);
     static u8 *create_vtable_804a1288(u8 *arg0);
     static u8 *create_obj_80122C2C(u8 *arg0);
     static u8 *create_bringer_effect(u8 *arg0);

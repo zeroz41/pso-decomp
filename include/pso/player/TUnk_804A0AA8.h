@@ -6,7 +6,7 @@
 class TUnk_804A0AA8 : public TItemShootModel {
 public:
     virtual ~TUnk_804A0AA8();
-    void *init_item_shoot_model();
+    TUnk_804A0AA8(void *owner, const Vec *pos, const Vec *dir, f32 life);
     virtual void hook();
     virtual void render();
 };
