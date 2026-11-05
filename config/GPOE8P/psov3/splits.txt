@@ -1975,17 +1975,14 @@ pso/player/TObjPlayer_800F0810.cpp:
 	.sdata2     start:0x805DA7F0 end:0x805DA7F4
 
 pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp:
-	.text       start:0x800F0AE4 end:0x800F0CE8
+	.text       start:0x800F0AE4 end:0x800F0B4C
 	.rodata     start:0x8043D438 end:0x8043D450
 
-pso/enemy/TObjEneMe3StelthReal.cpp:
-	.text       start:0x800F0CE8 end:0x800F0EC4
-
-pso/enemy/TObjEneMe3Stelth_800F0EC4.cpp:
-	.text       start:0x800F0EC4 end:0x800F169C
+pso/enemy/StelthData.cpp:
+	.rodata     start:0x8043D450 end:0x8043D750
 
 pso/enemy/TObjEneMe3Stelth.cpp:
-	.text       start:0x800F169C end:0x800F58A4
+	.text       start:0x800F0B4C end:0x800F58A4
 	.rodata     start:0x8043D750 end:0x8043D760
 	.data       start:0x804976C8 end:0x80497A8C
 	.bss        start:0x805010E0 end:0x80501130

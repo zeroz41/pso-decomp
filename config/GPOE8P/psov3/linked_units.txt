@@ -398,6 +398,7 @@ pso/enemy/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
 pso/enemy/SaverLifecycle.cpp
 pso/enemy/SinowZoaData.cpp
+pso/enemy/StelthData.cpp
 pso/enemy/TEnemyTaskList.cpp
 pso/enemy/TObjEneBalClaw.cpp
 pso/enemy/TObjEneBalClawBody.cpp
@@ -453,9 +454,7 @@ pso/enemy/TObjEneMe3ShinowaReal.cpp
 pso/enemy/TObjEneMe3SinowZoa.cpp
 pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp
 pso/enemy/TObjEneMe3Stelth.cpp
-pso/enemy/TObjEneMe3StelthReal.cpp
 pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp
-pso/enemy/TObjEneMe3Stelth_800F0EC4.cpp
 pso/enemy/TObjEneMe3Stelth_802D70AC.cpp
 pso/enemy/TObjEneMe3Stelth_803DC82C.cpp
 pso/enemy/TObjEneMerillLia.cpp

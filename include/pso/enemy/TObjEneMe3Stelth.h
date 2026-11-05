@@ -64,4 +64,9 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void state_chase(s32 arg1);
 };
 
+extern "C" {
+void *TObjEneMe3Stelth__ct(void *arg0);
+void TObjEneMe3Stelth__sub_800F0C90(u8 *arg0);
+}
+
 #endif
