@@ -57,14 +57,14 @@ TAdLoadQuestGC::~TAdLoadQuestGC() {
 
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *);
+void __ct__7TObjectFP7TObject(void *, TObject *);
 
 extern s32 __vt__14TAdLoadQuestGC[];
 extern void *TAdLoadQuestGC__class_name;
 
-void *TAdLoadQuestGC__ct(void *ad_load_quest_gc) {
+void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent) {
     void *o;
-    __ct__7TObjectFP7TObject(ad_load_quest_gc);
+    __ct__7TObjectFP7TObject(ad_load_quest_gc, parent);
     *(s32 **)((s8 *)ad_load_quest_gc + 0x18) = __vt__14TAdLoadQuestGC;
     *(void * *)&((TAdLoadQuestGC *)ad_load_quest_gc)->m_name = TAdLoadQuestGC__class_name;
     get_or_create_cell__14TAdLoadQuestGCFii((s32)ad_load_quest_gc, 0);

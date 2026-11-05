@@ -23,7 +23,7 @@ s32 create_cost_window(s32 arg0);
 // --- end of C functions
 
 extern "C" {
-void *TAdLoadQuestGC__ct(void *ad_load_quest_gc);
+void *TAdLoadQuestGC__ct(void *ad_load_quest_gc, TObject *parent);
 void TAdLoadQuestGC__sub_8030984C(void);
 void TAdLoadQuestGC__sub_80309850(void);
 int TAdLoadQuestGC__sub_80309854(int a0);

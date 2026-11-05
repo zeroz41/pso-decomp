@@ -3,6 +3,7 @@
 #include "pso/misc/TLoadCtrl.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/main_loop.h"
+#include "pso/ui/TAdLoadQuestGC.h"
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
@@ -63,7 +64,6 @@ void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 s32 select_area_entrance(void *);
-void TAdLoadQuestGC__sub_80309850(void);
 void fn_8034AD2C(void);
 extern s32 lbl_80515BA0[];
 extern s32 tl_su;
@@ -74,12 +74,10 @@ s32 activate_camera_mode(s32 arg0);
 }
 void update_sound_request_slots(void);
 extern "C" {
-s32 TAdLoadQuestGC__ct(s32, void *);
 s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 extern u8 lbl_804349CC[];
 extern Vec_8001C620 lbl_804349D8;
 extern Vec_8001C620 lbl_804349E4;
-void TAdLoadQuestGC__sub_8030984C(void);
 void TNowLoading__sub_8001D4D0(void);
 void fn_8034AD28(void);
 void reset__11TCameraCtrlFv(void);
@@ -112,7 +110,7 @@ void TLoadCtrl::run_task() {
             case 1:
                 o = __nw__7TObjectFUl(0x20);
                 if ((u32)o != 0) {
-                    TAdLoadQuestGC__ct(o, self);
+                    TAdLoadQuestGC__ct((void *)o, this);
                 }
                 break;
             case 2:
