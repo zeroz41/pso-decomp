@@ -93,6 +93,7 @@ extern s32 game_difficulty_selection;
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"

@@ -1,4 +1,5 @@
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/BlobShadow.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/vector.h"

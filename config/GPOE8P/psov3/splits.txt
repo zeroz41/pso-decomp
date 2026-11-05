@@ -1970,13 +1970,16 @@ pso/enemy/TObjEneRe4Sorcerer_800EDB98.cpp:
 	.sdata2     start:0x805DA788 end:0x805DA7F0
 
 pso/player/TObjPlayer_800F0810.cpp:
-	.text       start:0x800F0810 end:0x800F0AE4
+	.text       start:0x800F0810 end:0x800F09E8
 	.bss        start:0x80501080 end:0x805010E0
-	.sdata2     start:0x805DA7F0 end:0x805DA7F4
+	.sdata2     start:0x805DA7F0 end:0x805DA7F8
 
-pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp:
-	.text       start:0x800F0AE4 end:0x800F0B4C
+pso/player/BlobShadow.cpp:
+	.text       start:0x800F09E8 end:0x800F0B4C
 	.rodata     start:0x8043D438 end:0x8043D450
+	.data       start:0x804976B0 end:0x804976C8
+	.sbss       start:0x805D52F8 end:0x805D5300
+	.sdata2     start:0x805DA7F8 end:0x805DA808
 
 pso/enemy/StelthData.cpp:
 	.rodata     start:0x8043D450 end:0x8043D750
@@ -1986,6 +1989,7 @@ pso/enemy/TObjEneMe3Stelth.cpp:
 	.rodata     start:0x8043D750 end:0x8043D760
 	.data       start:0x804976C8 end:0x80497A8C
 	.bss        start:0x805010E0 end:0x80501130
+	.sdata      start:0x805D2AF8 end:0x805D2B00
 	.sbss       start:0x805D5300 end:0x805D5318
 	.sdata2     start:0x805DA830 end:0x805DA838
 

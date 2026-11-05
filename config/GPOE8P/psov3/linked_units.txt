@@ -454,7 +454,7 @@ pso/enemy/TObjEneMe3ShinowaReal.cpp
 pso/enemy/TObjEneMe3SinowZoa.cpp
 pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp
 pso/enemy/TObjEneMe3Stelth.cpp
-pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp
+pso/player/BlobShadow.cpp
 pso/enemy/TObjEneMe3Stelth_802D70AC.cpp
 pso/enemy/TObjEneMe3Stelth_803DC82C.cpp
 pso/enemy/TObjEneMerillLia.cpp
