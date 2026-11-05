@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowMessage.h"
-#include "pso/unk/text_8026B260.h"
+#include "pso/misc/TWindowMessageQuest.h"
 #include "pso/misc/TLobby_8026B06C.h"
 #include "pso/misc/TLobby.h"
 

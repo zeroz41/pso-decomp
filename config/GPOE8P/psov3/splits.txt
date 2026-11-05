@@ -7057,13 +7057,10 @@ pso/misc/TLobby_8020D1BC.cpp:
 pso/unk/text_8020D2B4.cpp:
 	.text       start:0x8020D2B4 end:0x8020D7D4
 
-pso/misc/TSetManager_8020D7D4.cpp:
-	.text       start:0x8020D7D4 end:0x8020D8CC
+pso/misc/TSetManager.cpp:
+	.text       start:0x8020D7D4 end:0x8020D918
 	.data       start:0x804C9448 end:0x804C9490
 	.sbss       start:0x805D6150 end:0x805D6158
-
-pso/misc/TSetManager.cpp:
-	.text       start:0x8020D8CC end:0x8020D918
 
 pso/misc/TSetManager_8020D918.cpp:
 	.text       start:0x8020D918 end:0x8020DFD8
@@ -7143,12 +7140,9 @@ pso/misc/THunterGuildWarning_8021170C.cpp:
 pso/misc/THunterGuildWarning_80211718.cpp:
 	.text       start:0x80211718 end:0x802119F0
 
-pso/player/THunterGuildWarning.cpp:
-	.text       start:0x802119F0 end:0x80211AA4
-	.data       start:0x804C96A0 end:0x804C96B8
-
 pso/misc/THunterGuildWarning.cpp:
-	.text       start:0x80211AA4 end:0x80211B10
+	.text       start:0x802119F0 end:0x80211B10
+	.data       start:0x804C96A0 end:0x804C96B8
 
 pso/unk/text_80211B10.cpp:
 	.text       start:0x80211B10 end:0x80211C1C
@@ -8529,11 +8523,8 @@ pso/misc/TWindowMessageQuest_8026B118.cpp:
 	.sdata2     start:0x805DD260 end:0x805DD264
 
 pso/misc/TWindowMessageQuest.cpp:
-	.text       start:0x8026B208 end:0x8026B260
+	.text       start:0x8026B208 end:0x8026B2B4
 	.data       start:0x804D0790 end:0x804D07A8
-
-pso/unk/text_8026B260.cpp:
-	.text       start:0x8026B260 end:0x8026B2B4
 
 pso/misc/TWindowOptionCtrl_8026B2B4.cpp:
 	.text       start:0x8026B2B4 end:0x8026B2E4
@@ -8849,11 +8840,8 @@ pso/misc/TWindowSubMagPhoton.cpp:
 	.text       start:0x8027C22C end:0x8027CCC8
 
 pso/misc/TWindowSubQuestBoard.cpp:
-	.text       start:0x8027CCC8 end:0x8027D148
+	.text       start:0x8027CCC8 end:0x8027D1E8
 	.data       start:0x804D1830 end:0x804D1848
-
-pso/misc/TWindowSubQuestBoard_8027D148.cpp:
-	.text       start:0x8027D148 end:0x8027D1E8
 
 pso/misc/TWindowSubQuestBoard_8027D1E8.cpp:
 	.text       start:0x8027D1E8 end:0x8027D230
@@ -8912,10 +8900,7 @@ pso/misc/TWindowSubSymbolChatFaceType_80283A70.cpp:
 	.sdata2     start:0x805DD750 end:0x805DD788
 
 pso/misc/TWindowSubSymbolChatFaceType.cpp:
-	.text       start:0x80284194 end:0x802841FC
-
-pso/unk/text_802841FC.cpp:
-	.text       start:0x802841FC end:0x8028429C
+	.text       start:0x80284194 end:0x8028429C
 
 pso/misc/TWindowSubSymbolChatHelp.cpp:
 	.text       start:0x8028429C end:0x80284C04
@@ -8995,7 +8980,7 @@ pso/npc/TObjNpcKenkyu.cpp:
 	.sbss       start:0x805D64B8 end:0x805D64C0
 
 pso/npc/TObjNpcSoutokufu.cpp:
-	.text       start:0x802895A0 end:0x80289810
+	.text       start:0x802895A0 end:0x802897D0
 	.rodata     start:0x80450AF8 end:0x80450B38
 	.data       start:0x804D3318 end:0x804D34A8
 	.sdata      start:0x805D3B08 end:0x805D3B10
@@ -9003,14 +8988,8 @@ pso/npc/TObjNpcSoutokufu.cpp:
 	.sdata2     start:0x805DD8E8 end:0x805DD8F0
 
 pso/boss/TObjBoss5FloorStone.cpp:
-	.text       start:0x80289810 end:0x80289868
+	.text       start:0x802897D0 end:0x802898E8
 	.data       start:0x804D34A8 end:0x804D34C0
-
-pso/boss/TObjBoss5FloorStone_80289868.cpp:
-	.text       start:0x80289868 end:0x802898AC
-
-pso/boss/TObjBoss5FloorStone_802898AC.cpp:
-	.text       start:0x802898AC end:0x802898E8
 
 pso/misc/TODoorFourLightSpace.cpp:
 	.text       start:0x802898E8 end:0x8028A714
@@ -9036,18 +9015,9 @@ pso/boss/TBoss8Dragon_8028A8F8.cpp:
 pso/unk/text_8028A998.cpp:
 	.text       start:0x8028A998 end:0x8028AA14
 
-pso/unk/text_8028AA14.cpp:
-	.text       start:0x8028AA14 end:0x8028AA60
-
 pso/boss/TObjBoss5FloorGrass.cpp:
-	.text       start:0x8028AA60 end:0x8028AAB8
+	.text       start:0x8028AA14 end:0x8028AB38
 	.data       start:0x804D35D8 end:0x804D35F0
-
-pso/boss/TObjBoss5FloorGrass_8028AAB8.cpp:
-	.text       start:0x8028AAB8 end:0x8028AAFC
-
-pso/boss/TObjBoss5FloorGrass_8028AAFC.cpp:
-	.text       start:0x8028AAFC end:0x8028AB38
 
 pso/boss/TObjBoss5PillarDemo.cpp:
 	.text       start:0x8028AB38 end:0x8028ADDC
@@ -11047,11 +11017,8 @@ pso/unk/text_80324E10.cpp:
 	.text       start:0x80324E10 end:0x80324E90
 
 pso/boss/TBoss5GryphonLightning.cpp:
-	.text       start:0x80324E90 end:0x80324F4C
+	.text       start:0x80324E90 end:0x80325064
 	.data       start:0x804ECCF8 end:0x804ECD10
-
-pso/unk/text_80324F4C.cpp:
-	.text       start:0x80324F4C end:0x80325064
 	.sdata2     start:0x805DF5E0 end:0x805DF5E4
 
 pso/boss/TBoss5GryphonLightningEff.cpp:
@@ -11695,14 +11662,8 @@ pso/ui/TAdPsoPassSaveGC.cpp:
 	.data       start:0x804EFFA8 end:0x804EFFE0
 
 pso/boss/TBoss4CheckEmpty.cpp:
-	.text       start:0x8034A7CC end:0x8034A8B0
+	.text       start:0x8034A7CC end:0x8034A938
 	.data       start:0x804EFFE0 end:0x804EFFF8
-
-pso/boss/TBoss4CheckEmpty_8034A8B0.cpp:
-	.text       start:0x8034A8B0 end:0x8034A8FC
-
-pso/boss/TBoss4CheckEmpty_8034A8FC.cpp:
-	.text       start:0x8034A8FC end:0x8034A938
 
 pso/misc/TWindowSubStatusDisp_8034A938.cpp:
 	.text       start:0x8034A938 end:0x8034A998
@@ -11968,11 +11929,8 @@ pso/npc/TObjNpcNgcBase_80358AE8.cpp:
 	.sdata      start:0x805D43B8 end:0x805D43F0
 
 pso/npc/TObjNpcNgcBase.cpp:
-	.text       start:0x803593C8 end:0x80359420
+	.text       start:0x803593C8 end:0x803594EC
 	.data       start:0x804F1878 end:0x804F19F0
-
-pso/unk/text_80359420.cpp:
-	.text       start:0x80359420 end:0x803594EC
 
 pso/unk/text_803594EC.cpp:
 	.text       start:0x803594EC end:0x803595C0
@@ -12267,14 +12225,11 @@ pso/unk/text_8036A3CC.cpp:
 	.data       start:0x804F3458 end:0x804F35E0
 
 pso/boss/TBoss6EffFlowSoul.cpp:
-	.text       start:0x8036A6B0 end:0x8036A894
+	.text       start:0x8036A6B0 end:0x8036A92C
 	.rodata     start:0x8047AC40 end:0x8047AC60
 	.data       start:0x804F35E0 end:0x804F35F8
 	.sdata      start:0x805D44D0 end:0x805D44D8
 	.sdata2     start:0x805E0370 end:0x805E037C
-
-pso/unk/text_8036A894.cpp:
-	.text       start:0x8036A894 end:0x8036A92C
 
 pso/boss/TBoss6Type2_8036A92C.cpp:
 	.text       start:0x8036A92C end:0x8036A9EC

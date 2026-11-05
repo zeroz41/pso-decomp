@@ -5,6 +5,7 @@
 
 class TObjBoss5FloorGrass : public TObject {
 public:
+    TObjBoss5FloorGrass(TObject *parent);
     virtual ~TObjBoss5FloorGrass();
     virtual void run_task();
     virtual void render();
