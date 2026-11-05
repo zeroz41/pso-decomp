@@ -466,6 +466,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TLobby_803360CC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TLobby_801461EC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/misc/TLoadCtrl_80227390.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TLobby_80228818.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_8034AD38.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/unk/text_80066F10.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/npc/TObjNpcNgcBase_80358AE8.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},

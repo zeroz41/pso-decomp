@@ -14,7 +14,6 @@ struct L_8022884C { u8 pad[0x109c]; s32 count; s32 hi; s32 lo; };
 extern "C" {
 char *strcpy(char *dst, const char *src);
 void clear_work_buffer(u8 *arg0);
-extern char lbl_805DC788[4];
 u32 strlen(const char *s);
 s32 debug_printf_at(u32, void *, ...);
 void __ct__7TObjectFP7TObject(void *);
@@ -24,7 +23,6 @@ Obj_80515BA0::Obj_80515BA0() {
     init_range(0);
 }
 
-struct O_80228A74;
 
 #pragma push
 #pragma opt_propagation off
@@ -135,16 +133,11 @@ void clear_work_buffer(u8 *arg0) {
     *(s32 *)((s8 *)arg0 + 0x109C) = 0;
 }
 
-extern s32 lbl_804CC048[];
-
-void *TUnk_804CC048::construct(void *arg1, void *arg2, void *arg3) {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804CC048;
+TUnk_804CC048::TUnk_804CC048(TObject *parent, void *arg2, void *arg3) : TObject(parent) {
     *(void **)((s8 *)this + 0x10A0) = arg2;
-    this->m_10a4 = arg3;
-    memset((void *)((void *)((char *)this + 28)), 0, 4096);
-    this->m_109c = 0;
-    return this;
+    m_10a4 = arg3;
+    memset((char *)this + 0x1C, 0, 0x1000);
+    m_109c = 0;
 }
 void TLobby::trim_whitespace() {
     char *s = (char *)this;
@@ -153,7 +146,7 @@ void TLobby::trim_whitespace() {
     for (i = 0; i <= len && ((u8 *)s)[i] <= ' '; i++) {
     }
     if (i > len) {
-        strcpy(s, lbl_805DC788);
+        strcpy(s, "");
     } else {
         for (; ((u8 *)s)[len] <= ' '; len--) {
             s[len] = 0;
