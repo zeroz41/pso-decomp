@@ -10818,42 +10818,16 @@ pso/enemy/DelDepthMotion.cpp:
 pso/enemy/SinowZoaData.cpp:
 	.rodata     start:0x80475DF0 end:0x80476098
 
-pso/enemy/TObjEneMe3SinowZoa_80316690.cpp:
-	.text       start:0x80316690 end:0x80316898
-
-pso/enemy/TObjEneMe3SinowZoaReal.cpp:
-	.text       start:0x80316898 end:0x80316A74
-
-pso/enemy/TObjEneMe3SinowZoa_80316A74.cpp:
-	.text       start:0x80316A74 end:0x80317788
-	.rodata     start:0x80476098 end:0x804760A0
-
-pso/enemy/TObjEneMe3SinowZoa_80317788.cpp:
-	.text       start:0x80317788 end:0x80317828
-
-pso/enemy/TObjEneMe3SinowZoa_80317828.cpp:
-	.text       start:0x80317828 end:0x8031786C
-
 pso/enemy/TObjEneMe3SinowZoa.cpp:
-	.text       start:0x8031786C end:0x8031B124
-	.rodata     start:0x804760A0 end:0x804760A8
+	.text       start:0x80316690 end:0x8031B618
+	.rodata     start:0x80476098 end:0x804760A8
 	.data       start:0x804E87A8 end:0x804E8B88
+	.bss        start:0x80542FB0 end:0x80543000
+	.sdata      start:0x805D4120 end:0x805D4128
 	.sdata2     start:0x805DF320 end:0x805DF368
 
 pso/boss/Boss5GryphonActionScripts.cpp:
 	.data       start:0x804E8D58 end:0x804EC2B0
-
-pso/enemy/TObjEneMe3SinowZoa_8031B124.cpp:
-	.text       start:0x8031B124 end:0x8031B170
-
-pso/enemy/TObjEneMe3SinowZoa_8031B170.cpp:
-	.text       start:0x8031B170 end:0x8031B220
-
-pso/enemy/TObjEneMe3SinowZoaReal_8031B220.cpp:
-	.text       start:0x8031B220 end:0x8031B240
-
-pso/unk/text_8031B240.cpp:
-	.text       start:0x8031B240 end:0x8031B618
 
 pso/enemy/TObjEneReconBomb.cpp:
 	.text       start:0x8031B618 end:0x8031BC38

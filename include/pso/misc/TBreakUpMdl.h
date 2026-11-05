@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/TObject.h"
 
+class TUnk_8048FA00;
+
 struct TBreakUpMdl : public TObject {
     virtual ~TBreakUpMdl();
     u32 m_1c;
@@ -21,6 +23,7 @@ struct TBreakUpMdl : public TObject {
     u8 unk_3C[0x18];
     u8 *setup_pieces(s32 arg1, s32 arg2, f32 farg0);
     u8 *init_from_model(s32 arg1);
+    static TUnk_8048FA00 *init(void *mem, int model, int motion, f32 frames);
 };
 
 // The 0x10-byte breakup model built by init_from_model (vtable 0x8048FA00).

@@ -458,14 +458,7 @@ pso/enemy/TObjEneMe1GiGueMissile_802A4628.cpp
 pso/enemy/TObjEneMe1GiGue_802CDB1C.cpp
 pso/enemy/TObjEneMe3ShinowaReal.cpp
 pso/enemy/TObjEneMe3SinowZoa.cpp
-pso/enemy/TObjEneMe3SinowZoaReal.cpp
-pso/enemy/TObjEneMe3SinowZoaReal_8031B220.cpp
 pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp
-pso/enemy/TObjEneMe3SinowZoa_80316690.cpp
-pso/enemy/TObjEneMe3SinowZoa_80317788.cpp
-pso/enemy/TObjEneMe3SinowZoa_80317828.cpp
-pso/enemy/TObjEneMe3SinowZoa_8031B124.cpp
-pso/enemy/TObjEneMe3SinowZoa_8031B170.cpp
 pso/enemy/TObjEneMe3Stelth.cpp
 pso/enemy/TObjEneMe3StelthReal.cpp
 pso/enemy/TObjEneMe3Stelth_800F0AE4.cpp

@@ -55,6 +55,9 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     s32 check_floor_contact(void *arg1);
     void check_and_notify();
     static void set_entry_value_clamped(s32 arg0, f32 farg0);
+    // load_resources (inferred): the floor resource loader paired with free_resources
+    // in floor_resource_callbacks.
+    static void load_resources();
     static void free_resources();
     s32 advance_timer(f32 farg0);
     void copy_position_vector(void* q);

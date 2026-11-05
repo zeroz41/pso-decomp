@@ -11,10 +11,9 @@
 // addresses each object on its own, so it did not compile them itself.
 
 extern "C" {
-extern TObjMotionAction lbl_804E8880[];
 extern const TBoss3VoloptBreakupParams sinow_zoa_breakup_params = { 0x14, { 0.07f, 2.0f, 0.97f, 0.2f, 2.0f, 1.5f } };
 // TLobby kind ids for the two Sinow Zoa kinds, one list per TLobby table
-// TObjEneMe3SinowZoa__sub_8031B240 registers them with.
+// TObjEneMe3SinowZoa::load_resources registers them with.
 extern const s32 lbl_80475E0C[2] = { 0x43, 0x44 };
 extern const s32 lbl_80475E14[2] = { 0x43, 0x44 };
 extern const s32 lbl_80475E1C[2] = { 0x43, 0x44 };
