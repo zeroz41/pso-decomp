@@ -1,13 +1,10 @@
 #include "types.h"
 #include "pso/player/TUnk_804A1478.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/items/TItemWeapon.h"
-
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-extern s32 tl_05;
+#include "pso/item/TItem.h"
+#include "pso/TMainTask.h"
 
 void TUnk_804A1478::emit_marker_effects() {
     s32 item = (s32)this;
@@ -16,12 +13,13 @@ void TUnk_804A1478::emit_marker_effects() {
     }
 }
 
-extern s32 __vt__13TUnk_804A1478[];
+TUnk_804A1478::TUnk_804A1478(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-void *TUnk_804A1478::set_vtable_804A1478() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A1478;
-    return this;
+u8 *create_wand_weapon(u8 *arg0) {
+    if (arg0 != NULL) {
+        return (u8 *)new TUnk_804A1478(tl_05, arg0);
+    }
+    return NULL;
 }
 
-}
+TUnk_804A1478::~TUnk_804A1478() {}

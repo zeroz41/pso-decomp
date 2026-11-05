@@ -9,7 +9,11 @@ public:
     virtual void vfunc_60();
     virtual void update_idle();
     virtual void update_attack();
-    u8 unk_1F8[0x4];
+    TUnk_804A0FA0(TObject *parent, u8 *item);
+    f32 blade_scale;  // item index 5: eased to 1.0 on attack, 0.0 at idle (vfunc_60 scale)
 };
+
+// Factory
+u8 *create_dagger_weapon(u8 *arg0);
 
 #endif

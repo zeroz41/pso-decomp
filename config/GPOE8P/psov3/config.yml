@@ -5243,7 +5243,7 @@ force_active:
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
   - construct_city_air_car
   - construct_city_vertical_model__FPUcll
-  - construct_dagger_weapon__FPUcPUcPUc
+  - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array
   - construct_entry_array__6TLobbyFv
   - construct_facing__11TTecGiBartaFPvPvPvPv

@@ -506,8 +506,6 @@ struct TObjPlayer : public TObjChara {
     s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
-    void *init_substate_a();
-    void cast_foie();
     void*init_state();
     s16 get_stage_strike_count();
     void *init_and_configure();

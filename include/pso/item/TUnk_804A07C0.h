@@ -9,4 +9,9 @@ public:
     TUnk_804A07C0(TObject *parent, u8 *item);
 };
 
+// Factory
+extern "C" {
+u8 *TObjPlayer__sub_80121318(u8 *arg0);
+}
+
 #endif
