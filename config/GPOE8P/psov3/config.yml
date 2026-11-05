@@ -990,11 +990,11 @@ force_active:
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
   - TObjEneBalClawClaw__ct
-  - TObjEneBalClawClaw__sub_80090824
+  - sub_80090824__18TObjEneBalClawClawFv
   - TObjEneBalClawClaw__sub_80090ECC
   - TObjEneBalClawClaw__sub_80091134
   - TObjEneBalClawClaw__sub_80091200
-  - TObjEneBalClawClaw__sub_800914A4
+  - sub_800914A4__18TObjEneBalClawClawFv
   - __ct__18TObjEneBalClawClawFP7TObjectP14TObjEneBalClawllP3Vecll
   - __ct__18TObjEneBalClawClawFP7TObjectPv
   - TObjEneBeast__boss4_rock_handler_ids
@@ -5561,7 +5561,7 @@ force_active:
   - deform_indirect_texture_wave__FlllllUc
   - deldepth_actions
   - deleting_dtor__15TObjEneMe1GiGueFPvs
-  - deleting_dtor__18TObjEneBalClawClawFPvs
+  - __dt__18TObjEneBalClawClawFv
   - deliver_chain_hits__11TTecGiZondeFv
   - deliver_delayed_weapon_hit
   - deliver_partner_action__10TNpcPlayerFv

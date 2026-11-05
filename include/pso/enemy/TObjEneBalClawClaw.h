@@ -14,6 +14,8 @@ struct TObjEneBalClawClaw : public TObjEneBalClaw {
     void sub_80090D3C();
     void sub_80090798();
     virtual void vfunc_58();
+    void sub_80090824();
+    void sub_800914A4();
     void sub_80090418(s32);
     void update_state();
     void *create(void *arg1, void *arg2, void *arg3, void *arg4, void *arg5);
@@ -34,13 +36,8 @@ typedef char TObjEneBalClawClaw_size[sizeof(TObjEneBalClawClaw) == 0x428 ? 1 : -
 
 extern "C" {
 s32 TObjEneBalClawClaw__ct(void *arg0);
-void TObjEneBalClawClaw__sub_80090824(void);
 void TObjEneBalClawClaw__sub_80090A10(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
-void TObjEneBalClawClaw__sub_800914A4(void);
-void run_task__18TObjEneBalClawClawFv(u8 *arg0);
 void action__18TObjEneBalClawClawFPv(u8 *arg0);
-void *deleting_dtor__18TObjEneBalClawClawFPvs(void *arg0, s16 arg1);
-void render__18TObjEneBalClawClawFv(u8 *arg0);
 int reset_active_state__18TObjEneBalClawClawFPv(void *p);
 void run_active_state__18TObjEneBalClawClawFv(u8 *arg0);
 void spawn_lobby_npc_enemy(void);

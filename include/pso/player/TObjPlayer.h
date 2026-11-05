@@ -416,7 +416,6 @@ struct TObjPlayer : public TObjChara {
     void run_death_sequence();
     int reset_enemy_state();
     void update_move_to_target();
-    int get_flag_0x388_b24();
     void init_position_vectors();
     void trigger_targets_action();
     s16 get_field_2c8();

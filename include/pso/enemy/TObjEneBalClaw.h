@@ -10,6 +10,7 @@ struct TObjEneBalClaw : public TObjEnemyCustom {
     virtual ~TObjEneBalClaw();
     void set_attack_distance_flag();
     void clear_attack_flag();
+    int get_flag_0x388_b24();
     virtual void vfunc_62();
     virtual void vfunc_61();
     virtual void vfunc_59();
@@ -35,7 +36,6 @@ typedef char TObjEneBalClaw_size[sizeof(TObjEneBalClaw) == 0x3C0 ? 1 : -1];
 extern "C" {
 void TObjEneBalClawClaw__sub_8008DC14(void);
 void TObjEneBalClaw__sub_8008D68C(void);
-void *__dt__14TObjEneBalClawFv(void *arg0, s16 arg1);
 }
 
 #endif

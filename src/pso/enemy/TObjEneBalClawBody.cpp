@@ -547,7 +547,7 @@ TObjEneBalClawBody::~TObjEneBalClawBody() {
     if (parts[3] != NULL) {
         parts[3]->queue_destruction();
     }
-    if (((TObjPlayer *)this)->get_flag_0x388_b24() != 0) {
+    if (get_flag_0x388_b24() != 0) {
         for (i = 0; i < m_3d8; i++) {
             child = find_entity_by_id(child_ids[i]);
             if (child != NULL) {
@@ -573,7 +573,7 @@ void TObjEneBalClawBody::run_task() {
         sub_8008FC0C();
         return;
     }
-    if ((m_388 & 0x02000000) && ((TObjPlayer *)this)->get_flag_0x388_b24() == 0) {
+    if ((m_388 & 0x02000000) && get_flag_0x388_b24() == 0) {
         update_if_active(2);
     } else {
         sub_8008FC10();
@@ -647,7 +647,7 @@ void TObjEneBalClawBody::sub_8008FC10() {
     if (F(s16, 0x326) != 0 && F(s16, 0x326) != 8) {
         F(s32, 0x3D4)++;
     }
-    if (((TObjPlayer *)((u8 *)this))->get_flag_0x388_b24() != 0) {
+    if (get_flag_0x388_b24() != 0) {
         switch (F(s16, 0x326)) {
         case 0:
         case 1:
@@ -802,7 +802,7 @@ void TObjPlayer__sub_8008F910(u8 *arg0) {
         break;
     case 0:
         *(s32 *)((s8 *)arg0 + 0x30) &= ~0x200000;
-        *(s16 *)((s8 *)arg0 + 0xB8) = ((TObjPlayer *)arg0)->get_flag_0x388_b24() != 0 ? 3 : 8;
+        *(s16 *)((s8 *)arg0 + 0xB8) = ((TObjEneBalClaw *)arg0)->get_flag_0x388_b24() != 0 ? 3 : 8;
         *(s32 *)((s8 *)arg0 + 0x37C) = 1;
     case 1: {
         ((TObjMotion *)arg0)->advance_animation();
@@ -824,7 +824,7 @@ void TObjPlayer__sub_8008F910(u8 *arg0) {
             *(s16 *)((s8 *)arg0 + 0x33E) = *(s16 *)((s8 *)arg0 + 0x32C);
             *(s32 *)((s8 *)arg0 + 0x30) &= ~0x200;
             *(s32 *)((s8 *)arg0 + 0x388) &= ~1;
-            if (((TObjPlayer *)arg0)->get_flag_0x388_b24() == 0) {
+            if (((TObjEneBalClaw *)arg0)->get_flag_0x388_b24() == 0) {
                 var_r3 = fn_80090464(arg0, 0);
                 if (var_r3 <= 0) {
                     var_r3 = 0xA;
@@ -852,7 +852,7 @@ void TObjPlayer::run_death_sequence() {
     case 0:
         ((TObjPlayer *)arg0)->refresh_lobby_state();
         *(s32 *)((s8 *)arg0 + 0x388) &= ~0x20000;
-        if (((TObjPlayer *)arg0)->get_flag_0x388_b24() != 0) {
+        if (((TObjEneBalClaw *)arg0)->get_flag_0x388_b24() != 0) {
             this->requested_action = 4;
             this->m_37c = 1;
             for (i = 0; i < ((P_8008F730 *)arg0)->n; i++) {
@@ -908,7 +908,7 @@ void TObjPlayer::run_death_sequence() {
 void TObjPlayer__sub_8008F1DC(void *arg0) {
     switch (o->state) {
     case 0:
-        if (((TObjPlayer *)o)->get_flag_0x388_b24() != 0) {
+        if (((TObjEneBalClaw *)o)->get_flag_0x388_b24() != 0) {
             RESET(o);
             return;
         }
@@ -1027,7 +1027,7 @@ void TObjPlayer__sub_8008F1DC(void *arg0) {
 void TObjPlayer__sub_8008EDE8(P_8008EDE8 *arg0) {
     switch (arg0->state) {
     case 0:
-        if (((TObjPlayer *)arg0)->get_flag_0x388_b24() == 0) {
+        if (((TObjEneBalClaw *)arg0)->get_flag_0x388_b24() == 0) {
             RESET(arg0);
             return;
         }
@@ -1308,7 +1308,7 @@ void TObjEneBalClawBody::render() {
 }
 
 void TObjEneBalClawBody::vfunc_60() {
-    update_if_active(((TObjPlayer *)this)->get_flag_0x388_b24() ? 9 : 2);
+    update_if_active(get_flag_0x388_b24() ? 9 : 2);
 }
 
 extern "C" {
@@ -1320,7 +1320,7 @@ void TObjPlayer__sub_8008E310(P_8008E310 *arg0_) {
     f32 lim;
     switch (arg0_->state) {
     case 0:
-        if (((TObjPlayer *)arg0_)->get_flag_0x388_b24() != 0) {
+        if (((TObjEneBalClaw *)arg0_)->get_flag_0x388_b24() != 0) {
             ((TObjPlayer *)arg0_)->reset_enemy_state();
             return;
         }
@@ -1410,7 +1410,7 @@ void TObjPlayer__sub_8008E310(P_8008E310 *arg0_) {
             TObjPlayer__sub_8008E934(arg0_, 1);
             ((TObjMotion *)arg0_)->advance_animation();
         }
-        if (((TObjPlayer *)arg0_)->get_flag_0x388_b24() == 0) {
+        if (((TObjEneBalClaw *)arg0_)->get_flag_0x388_b24() == 0) {
             for (s32 i = 0; i < arg0_->count; i++) {
                 e = (E_8008E310 *)find_entity_by_id(arg0_->ids[i]);
                 if (e != NULL) {
@@ -1436,7 +1436,7 @@ void TObjPlayer__sub_8008E254(void *arg0_) {
     case -1:
         break;
     case 0:
-        if (((TObjPlayer *)arg0_)->get_flag_0x388_b24() == 0) {
+        if (((TObjEneBalClaw *)arg0_)->get_flag_0x388_b24() == 0) {
             ((TObjPlayer *)arg0_)->reset_enemy_state();
             return;
         }
@@ -1499,7 +1499,7 @@ void TObjPlayer::update_move_to_target() {
         break;
     case 0: {
         self->f30 &= ~0x100;
-        self->fB8 = ((TObjPlayer *)self)->get_flag_0x388_b24() != 0 ? 1 : 6;
+        self->fB8 = ((TObjEneBalClaw *)self)->get_flag_0x388_b24() != 0 ? 1 : 6;
         Vec d = self->pos;
         subtract_vector(&d, &self->target->pos);
         ((TObjEnemyCustom *)self)->pick_open_direction((f32 *)&d, 60.0f, 30.0f);

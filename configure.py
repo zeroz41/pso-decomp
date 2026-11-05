@@ -453,6 +453,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # Functions in reverse source order (0x8008DC18-0x80090448 is written last-to-first) and the four 8-byte
     # .bss arrays 0x805007A8-0x805007C0 reached through one lis/addi pool base in the ctor, not r13.
     "pso/enemy/TObjEneBalClawBody.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
+    "pso/enemy/TObjEneBalClawClaw.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/misc/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/TBoss4DarkFalz_8004C93C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/TObjEneLappy.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
