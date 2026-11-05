@@ -1,5 +1,6 @@
 #include "pso/TMainTask.h"
 #include "types.h"
+#include "pso/misc/TLobby_800FD78C.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/vector.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -550,7 +551,7 @@ void init_offline_game_scene(void) {
     TObjPlayer__sub_801B1C8C();
     set_current_floor_area(0);
     TScene::set_scene(0);
-    ((TLobby *)(&lbl_80515BA0))->init_range(0);
+    ((Obj_80515BA0 *)(&lbl_80515BA0))->init_range(0);
     TLobby::reset_keyboard_state();
     apply_phase_keyboard_mode();
     run_load_callback_table(&offline_game_scene_callbacks, 0x180);

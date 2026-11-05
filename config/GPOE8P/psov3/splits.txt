@@ -7283,9 +7283,22 @@ pso/misc/TLoadCtrl_80227390.cpp:
 	.sbss       start:0x805D62D8 end:0x805D62E0
 
 pso/misc/TLobby_80227A2C.cpp:
-	.text       start:0x80227A2C end:0x80228BEC
-	.ctors      start:0x80433FA0 end:0x80433FAC
-	.bss        start:0x80514F58 end:0x80515BC8
+	.text       start:0x80227A2C end:0x80227AA0
+	.ctors      start:0x80433FA0 end:0x80433FA4
+
+pso/misc/TLobby_80227AA0.cpp:
+	.text       start:0x80227AA0 end:0x80228154
+	.ctors      start:0x80433FA4 end:0x80433FA8
+	.bss        start:0x80514F58 end:0x80515BA0
+	.sdata2     start:0x805DC768 end:0x805DC770
+
+pso/misc/TLobby_80228154.cpp:
+	.text       start:0x80228154 end:0x80228818
+	.ctors      start:0x80433FA8 end:0x80433FAC
+	.bss        start:0x80515BA0 end:0x80515BC8
+
+pso/misc/TLobby_80228818.cpp:
+	.text       start:0x80228818 end:0x80228BEC
 
 pso/misc/TWindowKeyBoardSoft_80228BEC.cpp:
 	.text       start:0x80228BEC end:0x80228C30

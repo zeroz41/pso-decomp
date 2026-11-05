@@ -916,6 +916,7 @@ pso/misc/TLazerFenceSw.cpp
 pso/misc/TLevelSelect.cpp
 pso/misc/TLoadCtrl.cpp
 pso/misc/TLoadCtrl_80227390.cpp
+pso/misc/TLobby_80227AA0.cpp
 pso/misc/TLoadingCur.cpp
 pso/misc/TLoadingCur_801A6DE0.cpp
 pso/misc/TLobby.cpp

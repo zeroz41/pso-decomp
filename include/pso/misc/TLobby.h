@@ -166,7 +166,6 @@ struct TLobby : public TObject {
     static void init_download_state();
     void link_into_list();
     static void set_ending_callback();
-    void init_range(s32 arg1);
     static void clear_object_count();
     static void reset_floor_items();
     static void free_boss_rocks();
@@ -383,8 +382,6 @@ struct TLobby : public TObject {
     static void wait_for_sound_init();
     void clear_ready_flag_unless_locked();
     void set_area(s32 arg1);
-    static s32 init_range_zero_global();
-    s32 init_range_zero();
     void add_token(const char *src);
     void trim_whitespace();
     static void refresh_player_status();
