@@ -431,6 +431,13 @@ GAME_COMPILER = "GC/2.6"
 # keeps an object until its source changes) or with other switches. Every
 # entry is here because a function or data section matches only this way.
 GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
+    # -str readonly: the string literals of these files sit in .rodata.
+    "pso/misc/TLobby_80103F5C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TPhotonEstlla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TPhotonFarlla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/misc/TPhotonMylla.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjOnlineEnding_802E4B80.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/ui/TAdPlayerLoadGC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/TObjEneDelDepth.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/TObjEnePanarms_800DCEB8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/ui/TAdRicoRingCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

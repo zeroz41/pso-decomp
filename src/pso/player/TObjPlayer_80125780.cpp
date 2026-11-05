@@ -13,8 +13,6 @@ extern s32 tl_05;
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 }
 extern const f32 lbl_805DAD50;
-extern const f32 lbl_805DAD58;
-extern const f32 lbl_805DAD5C;
 
 void TObjPlayer::draw_faust_loaded_projectile() {
     void *temp_r31;
@@ -25,15 +23,15 @@ void TObjPlayer::draw_faust_loaded_projectile() {
         if ((temp_r3 != NULL) && ((s32) *(s32 *)((s8 *)this + 0x234) == 0)) {
             temp_r31 = *(void **)((s8 *)temp_r3 + 0x2C);
             if (temp_r31 != NULL) {
-                *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) lbl_805DAD58;
-                *(f32 *)((s8 *)temp_r31 + 0x24) = (f32) lbl_805DAD58;
-                *(f32 *)((s8 *)temp_r31 + 0x28) = (f32) lbl_805DAD58;
+                *(f32 *)((s8 *)temp_r31 + 0x20) = 0.1f;
+                *(f32 *)((s8 *)temp_r31 + 0x24) = 0.1f;
+                *(f32 *)((s8 *)temp_r31 + 0x28) = 0.1f;
                 *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) & 0xFFFFFFFB);
                 draw_ginja_object(*(void **)((s8 *)this + 0x188));
                 *(s32 *)((s8 *)temp_r31 + 0) = (s32) (*(s32 *)((s8 *)temp_r31 + 0) | 4);
-                *(f32 *)((s8 *)temp_r31 + 0x20) = (f32) lbl_805DAD5C;
-                *(f32 *)((s8 *)temp_r31 + 0x24) = (f32) lbl_805DAD5C;
-                *(f32 *)((s8 *)temp_r31 + 0x28) = (f32) lbl_805DAD5C;
+                *(f32 *)((s8 *)temp_r31 + 0x20) = 1.0f;
+                *(f32 *)((s8 *)temp_r31 + 0x24) = 1.0f;
+                *(f32 *)((s8 *)temp_r31 + 0x28) = 1.0f;
             }
         }
     }
@@ -68,9 +66,9 @@ void *__dt__13TUnk_804A2564Fv(void *arg0, s16 arg1) {
 u8 *construct_panzer_faust(u8 *arg0, u8 *arg1, s32 _w2) {
     __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
     *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A2564;
-    *(f32 *)((s8 *)arg0 + 0x200) = (f32) lbl_805DAD58;
-    ((TUnk_804A2564 *)arg0)->m_1fc = (f32) lbl_805DAD58;
-    *(f32 *)((s8 *)arg0 + 0x1F8) = (f32) lbl_805DAD58;
+    *(f32 *)((s8 *)arg0 + 0x200) = 0.1f;
+    ((TUnk_804A2564 *)arg0)->m_1fc = 0.1f;
+    *(f32 *)((s8 *)arg0 + 0x1F8) = 0.1f;
     ((TUnk_804A2564 *)arg0)->m_234 = 0;
     *(f32 *)((s8 *)arg0 + 0x1E4) = (f32) lbl_805DAD50;
     ((TItemWeapon *)arg0)->set_weapon_flags(0x8000);

@@ -387,11 +387,8 @@ void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
 char *strncpy(char *, const char *, unsigned long);
-extern u8 lbl_80472BC0[];
-extern u8 lbl_80472BD0[];
 extern void *TObjOnlineEnding__name;
 extern u32 lbl_805D68F4;
-extern const f32 lbl_805DE950;
 #pragma push
 #pragma opt_common_subs off
 #define SELF ((Obj_802E4FFC *)arg0)
@@ -445,15 +442,15 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
             SELF->count++;
         }
     }
-    SELF->f150 = lbl_805DE950;
+    SELF->f150 = (-0.3f);
     restore_player_cameras();
     switch (SELF->f9C) {
     case 0:
-        play_area_music((char *)lbl_80472BC0);
+        play_area_music((char *)"ENDING_LOOP.adx");
         break;
     default:
     case 1:
-        play_area_music((char *)lbl_80472BD0);
+        play_area_music((char *)"CUBE_ENDING_LOOP.adx");
         break;
     }
     fn_802E6260();

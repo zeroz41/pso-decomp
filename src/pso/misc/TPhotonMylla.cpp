@@ -147,8 +147,6 @@ void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *TPhotonYoulla__ct(TPhotonYoulla *arg0, u8 *arg1);
 void play_cue_stream_file(s32 name);
 extern YPkt_801AD970 photon_mylla_packet_template;
-extern u8 lbl_80446E80[];
-extern u8 lbl_80446E8C[];
 extern u8 lbl_804C39D8[];
 extern s32 __vt__12TPhotonMylla[];
 extern s32 lbl_805D3510;
@@ -391,10 +389,10 @@ void *TPhotonMylla__ct(Mylla_801AD970 *self, Pkt_801AD970 *pkt) {
             TPhotonMagicSquare__ct((u8 *)o, (s32)self, 5, (s32)&v, 0xAA, (f32)lbl_805DC200);
         }
         spawn_photon_blast_attachment_effects(self, 5);
-        play_cue_stream_file((s32)lbl_80446E80);
+        play_cue_stream_file((s32)"maila2.adx");
     } else {
         spawn_photon_blast_opening_effects(5, F_801AD970(self, u16, 0x17C));
-        play_cue_stream_file((s32)lbl_80446E8C);
+        play_cue_stream_file((s32)"maila.adx");
     }
     return self;
 }

@@ -256,8 +256,6 @@ s32 sub_801AA6F8__13TPhotonEstllaFv(void *, int);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 
-extern u8 lbl_80446D10[];
-extern u8 lbl_80446D1C[];
 extern u8 photon_estlla_param_table[];
 extern s32 __vt__13TPhotonEstlla[];
 extern s32 lbl_805D34D8;
@@ -327,9 +325,9 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
             construct_photon_magic_square_normal((u8 *)p, (s32)((u8 *)this), 1, (s32)&pos, 0x78);
         }
         spawn_photon_blast_attachment_effects(((u8 *)this), 1);
-        play_cue_stream_file((s32)lbl_80446D10);
+        play_cue_stream_file((s32)"estla2.adx");
     } else {
         spawn_photon_blast_opening_effects(1, this->m_17c);
-        play_cue_stream_file((s32)lbl_80446D1C);
+        play_cue_stream_file((s32)"estla.adx");
     }
 }

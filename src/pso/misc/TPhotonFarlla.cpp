@@ -265,8 +265,6 @@ s32 sub_801AAE6C__13TPhotonFarllaFv(void *, int);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 
-extern u8 lbl_80446D40[];
-extern u8 lbl_80446D4C[];
 extern s32 lbl_805D34E0;
 extern u8 *photon_blast_shared_resource;
 
@@ -369,10 +367,10 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
             construct_photon_magic_square_normal((u8 *)p, (s32)arg0, 0, (s32)&pos, 0x78);
         }
         spawn_photon_blast_attachment_effects(arg0, 0);
-        play_cue_stream_file((s32)lbl_80446D40);
+        play_cue_stream_file((s32)"farla2.adx");
     } else {
         spawn_photon_blast_opening_effects(0, ((TPhotonFarlla *)arg0)->m_17c);
-        play_cue_stream_file((s32)lbl_80446D4C);
+        play_cue_stream_file((s32)"farla.adx");
     }
     return arg0;
 }

@@ -111,11 +111,6 @@ struct Ctrl_80181310 { u8 pad0[0x24]; s32 counter; Rec_80181310 recs[5]; };
 extern "C" {
 void *__nw__7TObjectFUl(u32);
 s32 rand(void);
-extern const f32 lbl_805DBBCC;
-extern const f32 lbl_805DBBD0;
-extern const f32 lbl_805DBBD4;
-extern const f32 lbl_805DBBD8;
-extern const f32 lbl_805DBBDC;
 void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self);
 }
 
@@ -177,7 +172,6 @@ extern "C" {
 void __ct__7TObjectFP7TObject(void *);
 extern u8 __vt__19TObjCityAirCar_Ctrl[];
 extern s32 TObjCityAirCar_Ctrl__name;
-extern const f32 lbl_805DBBC8;
 extern s32 city_traffic_path_motion_index_table[];
 extern s32 city_aircar_model_indices[];
 s32 alloc_tables__6TLobbyFll(s32, s32, s32, Ent_801817AC *);
@@ -185,7 +179,6 @@ void subtract_vector(Vec_801817AC *, Vec_801817AC *);
 extern s32 city_traffic_car_chunk_index_table[];
 extern Lob_801817AC *city_air_car_model_resource;
 extern void **city_air_car_model_handle;
-extern const f32 lbl_805DBBC4;
 }
 
 struct E_801819CC { s32 a; s32 b; };
@@ -230,11 +223,11 @@ void measure_traffic_path_lengths(void) {
     m = (Motion_801817AC *) get_city_common_motion(city_traffic_path_motion_index_table[i]);
     f32 frame;
     f32 end = (m->count - 1);
-    frame = lbl_805DBBC8;
+    frame = 0.0f;
     f32 total = frame;
     bind_motion_context((NJS_MOTION *)m, frame);
     sample_motion_node_transform((void *)(get_city_common_model(city_aircar_model_indices[i])), (void *)&prev, (void *)&a, (void *)&b, (void *)&q);
-    for (frame += lbl_805DBBC4; frame < end; frame += lbl_805DBBC4)
+    for (frame += 0.5f; frame < end; frame += 0.5f)
     {
       bind_motion_context((NJS_MOTION *)m, frame);
       sample_motion_node_transform((void *)(get_city_common_model(city_aircar_model_indices[i])), (void *)&cur, (void *)&a2, (void *)&b2, (void *)&q2);
@@ -311,7 +304,7 @@ Obj_801815F8 *construct_traffic_manager(Obj_801815F8 *arg0) {
     arg0->vptr = __vt__19TObjCityAirCar_Ctrl;
     arg0->f00 = TObjCityAirCar_Ctrl__name;
     arg0->f1C = 0;
-    arg0->f20 = lbl_805DBBC8;
+    arg0->f20 = 0.0f;
     arg0->f24 = 0x14;
     for (i = 0; i < 5; i++) {
         r = &arg0->recs[i];
@@ -357,11 +350,11 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
             }
         }
         if (count < 2 && --timer <= 0) {
-            timer = lerp__9TDeadSpotFff(lbl_805DBBCC, lbl_805DBBD0);
+            timer = lerp__9TDeadSpotFff(180.0f, 900.0f);
             if (i == 0 || i == 1) {
-                type = floor_to_float(lbl_805DBBD4 * (lbl_805DBBD8 * rand()));
+                type = floor_to_float(5.0f * (3.0517578e-5f * rand()));
             } else {
-                type = (s32)floor_to_float(lbl_805DBBDC * (lbl_805DBBD8 * rand())) + 1;
+                type = (s32)floor_to_float(4.0f * (3.0517578e-5f * rand())) + 1;
             }
             if (i == 1 || i == 2) {
                 self->counter++;
@@ -373,10 +366,10 @@ void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self) {
                     }
                 }
             }
-            speed = air_car_lane_speed_scale_table[i] * lerp__9TDeadSpotFff(2.0f, lbl_805DBBD4);
+            speed = air_car_lane_speed_scale_table[i] * lerp__9TDeadSpotFff(2.0f, 5.0f);
             if (count > 0) {
                 last = r->objs[count - 1];
-                if (fn_80181204(last) < lbl_805DBBC4 * air_car_lane_spacing_table[i]) {
+                if (fn_80181204(last) < 0.5f * air_car_lane_spacing_table[i]) {
                     speed = fn_801811FC(last);
                 }
             }
@@ -399,7 +392,7 @@ u8 *construct_city_air_car(TObjCityAirCar_Car *city_air_car_car, void *parent, s
     __ct__8TObjBaseFP7TObject(city_air_car_car);
     *(s32 **)((s8 *)city_air_car_car + 0x18) = &__vt__18TObjCityAirCar_Car.value;
     *(s32 *)((s8 *)city_air_car_car + 0) = (s32) TObjCityAirCar_Car__name;
-    *(f32 *)((s8 *)city_air_car_car + 0x90) = (f32) lbl_805DBBC8;
+    *(f32 *)((s8 *)city_air_car_car + 0x90) = 0.0f;
     *(s32 *)((s8 *)city_air_car_car + 0x98) = arg2;
     city_air_car_car->m_9c = arg3;
     city_air_car_car->m_94 = farg0;
@@ -439,9 +432,9 @@ s32 TObjCityAirCar_Car::update_path_motion() {
     ok = sample_aircar_path_position(self->path, &b, 2.0f + self->frame);
     VecCopy((Vec *)&self->pos, (const Vec *)&b);
     vec3_add_to(&self->pos, &a);
-    self->pos.x *= lbl_805DBBC4;
-    self->pos.y *= lbl_805DBBC4;
-    self->pos.z *= lbl_805DBBC4;
+    self->pos.x *= 0.5f;
+    self->pos.y *= 0.5f;
+    self->pos.z *= 0.5f;
     ang = 10430.38043493439 * atan2_float(b.x - a.x, b.z - a.z);
     d = angle_diff_s16(self->heading, ang);
     self->heading = ang;

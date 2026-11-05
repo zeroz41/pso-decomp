@@ -1647,7 +1647,7 @@ pso/enemy/TObjEneDD.cpp:
 	.text       start:0x800B9194 end:0x800BBE90
 	.rodata     start:0x8043B698 end:0x8043B6A0
 	.data       start:0x80492558 end:0x804928A0
-	.sdata2     start:0x805D9EA0 end:0x805D9EA4
+	.sdata2     start:0x805D9E90 end:0x805D9EB0
 
 pso/player/TObjPlayer_800BBE90.cpp:
 	.text       start:0x800BBE90 end:0x800BC3C4
@@ -2291,7 +2291,7 @@ pso/unk/text_80103674.cpp:
 pso/misc/TLobby_80103F5C.cpp:
 	.text       start:0x801036CC end:0x801047B4
 	.ctors      start:0x80433F78 end:0x80433F7C
-	.rodata     start:0x8043E068 end:0x8043E0B0
+	.rodata     start:0x8043E048 end:0x8043E0B0
 	.data       start:0x8049EE00 end:0x8049EE60
 
 pso/misc/TShopEquipmentSellWindow_801047B4.cpp:
@@ -3246,7 +3246,7 @@ pso/unk/text_801255EC.cpp:
 
 pso/player/TObjPlayer_80125780.cpp:
 	.text       start:0x80125780 end:0x8012599C
-	.sdata2     start:0x805DAD60 end:0x805DAD64
+	.sdata2     start:0x805DAD58 end:0x805DAD64
 
 pso/system/ItemEffects.cpp:
 	.text       start:0x8012599C end:0x80125D7C
@@ -5319,7 +5319,7 @@ pso/system/CityTraffic.cpp:
 	.rodata     start:0x80443B90 end:0x80443BA8
 	.data       start:0x804B5908 end:0x804B5954
 	.bss        start:0x8050DBE0 end:0x8050DC20
-	.sdata2     start:0x805DBBA0 end:0x805DBBC4
+	.sdata2     start:0x805DBBA0 end:0x805DBBE0
 
 pso/object/CityDoors.cpp:
 	.text       start:0x801819FC end:0x80182E7C
@@ -5370,7 +5370,7 @@ pso/misc/TWindowSubTradeMain_80187C98.cpp:
 
 pso/object/TObjComputer.cpp:
 	.text       start:0x80187D90 end:0x80188584
-	.rodata     start:0x80444B58 end:0x80444B90
+	.rodata     start:0x80444B48 end:0x80444B90
 	.data       start:0x804B6280 end:0x804B6334
 
 pso/item/TObjContainerItem.cpp:
@@ -5841,7 +5841,7 @@ pso/misc/TKeyBoardControl_801A57C4.cpp:
 	.data       start:0x804C2308 end:0x804C2438
 	.bss        start:0x8050E208 end:0x8050E578
 	.sdata      start:0x805D34C8 end:0x805D34D0
-	.sdata2     start:0x805DC0B0 end:0x805DC0B4
+	.sdata2     start:0x805DC0B0 end:0x805DC0C0
 
 pso/unk/text_801A6A28.cpp:
 	.text       start:0x801A6A28 end:0x801A6A5C
@@ -5918,12 +5918,12 @@ pso/player/TObjPlayer_801AA5C0.cpp:
 
 pso/misc/TPhotonEstlla.cpp:
 	.text       start:0x801AA664 end:0x801AADE8
-	.rodata     start:0x80446D08 end:0x80446D10
+	.rodata     start:0x80446D08 end:0x80446D28
 	.sdata2     start:0x805DC138 end:0x805DC154
 
 pso/misc/TPhotonFarlla.cpp:
 	.text       start:0x801AADE8 end:0x801AB608
-	.rodata     start:0x80446D38 end:0x80446D40
+	.rodata     start:0x80446D38 end:0x80446D58
 	.data       start:0x804C3518 end:0x804C35A8
 	.sdata2     start:0x805DC158 end:0x805DC184
 
@@ -5968,7 +5968,7 @@ pso/player/TObjPlayer_801AD47C.cpp:
 
 pso/misc/TPhotonMylla.cpp:
 	.text       start:0x801AD4A8 end:0x801ADC6C
-	.rodata     start:0x80446E78 end:0x80446E80
+	.rodata     start:0x80446E78 end:0x80446E98
 
 pso/misc/TPhotonPilla.cpp:
 	.text       start:0x801ADC6C end:0x801AE48C
@@ -7692,6 +7692,7 @@ pso/misc/TTecResta.cpp:
 pso/misc/TTecReverser.cpp:
 	.text       start:0x80239D8C end:0x8023A434
 	.data       start:0x804CCBF8 end:0x804CCC68
+	.sdata2     start:0x805DC910 end:0x805DC918
 
 pso/unk/text_8023A434.cpp:
 	.text       start:0x8023A434 end:0x8023A4CC
@@ -9671,6 +9672,7 @@ pso/misc/TWindowSnapShot_802A7D68.cpp:
 
 pso/misc/TWindowSnapShot.cpp:
 	.text       start:0x802A7DDC end:0x802A8140
+	.sdata2     start:0x805DE018 end:0x805DE020
 
 pso/effect/TEffIndirectCtrl.cpp:
 	.text       start:0x802A8140 end:0x802A9588
@@ -10120,7 +10122,7 @@ pso/ui/TUnk_804E24F0.cpp:
 
 pso/ui/TAdPlayerLoadGC.cpp:
 	.text       start:0x802D655C end:0x802D7070
-	.rodata     start:0x804725E8 end:0x804725F0
+	.rodata     start:0x804725E0 end:0x804725F0
 	.data       start:0x804E25E8 end:0x804E2680
 	.bss        start:0x80540FB0 end:0x80540FF0
 
@@ -10263,10 +10265,10 @@ pso/unk/text_802E4A4C.cpp:
 
 pso/object/TObjOnlineEnding_802E4B80.cpp:
 	.text       start:0x802E4B80 end:0x802E52AC
-	.rodata     start:0x80472BB8 end:0x80472BC0
+	.rodata     start:0x80472BB8 end:0x80472BE8
 	.data       start:0x804E3578 end:0x804E3A98
 	.sbss       start:0x805D68F0 end:0x805D68F4
-	.sdata2     start:0x805DE930 end:0x805DE950
+	.sdata2     start:0x805DE930 end:0x805DE958
 
 pso/unk/text_802E52AC.cpp:
 	.text       start:0x802E52AC end:0x802E530C
@@ -11505,7 +11507,7 @@ pso/boss/Boss6Type2Appearance.cpp:
 	.rodata     start:0x80477F10 end:0x80478088
 	.data       start:0x804EFA08 end:0x804EFA38
 	.sdata      start:0x805D42A8 end:0x805D42B0
-	.sdata2     start:0x805DFA70 end:0x805DFA90
+	.sdata2     start:0x805DFA70 end:0x805DFA98
 
 pso/boss/Boss6Type2Death.cpp:
 	.text       start:0x8033DCD8 end:0x8033E910

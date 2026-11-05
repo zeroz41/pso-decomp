@@ -75,7 +75,6 @@ s32 func_801A5E54__Fv(void);
 s32 PADRecalibrate(u32);
 extern u32 pad_recalibration_counters[];
 extern s8 pad_recalibration_hold_frames[4];
-extern const f32 lbl_805DC0B4;
 void update_pad_recalibration(void);
 f64 atan2_float(f32, f32);
 f32 newton_sqrtf(f32);
@@ -87,8 +86,6 @@ void reset_system();
 extern u8 controller_physical_port_bank[];
 extern s32 lbl_805D34C8;
 extern u8 *camera_ctrl_instance;
-extern const f32 lbl_805DC0B8;
-extern const f32 lbl_805DC0BC;
 extern const f32 lbl_805DC0C0;
 extern const f32 lbl_805DC0C4;
 extern const f32 lbl_805DC0C8;
@@ -323,7 +320,7 @@ void update_pad_recalibration(void) {
     for (i = 0; i < 4; i++) {
         if ((((Pad_801A5C4C *)&controller_input_state)[i].hold & 0x608) == 0x608) {
             pad_recalibration_counters[i]++;
-            if ((f32)pad_recalibration_counters[i] >= lbl_805DC0B4) {
+            if ((f32)pad_recalibration_counters[i] >= 9.0e1f) {
                 pad_recalibration_counters[i] = 0;
                 PADRecalibrate(masks.m[i]);
             }
@@ -408,19 +405,19 @@ void controller_stuff(void) {
                     pad->cx = gx;
                     gy = -src->cy;
                     pad->cy = gy;
-                    if (lbl_805DC0B8 < fx && fx <= lbl_805DC0BC) {
+                    if ((-31.0f) < fx && fx <= 31.0f) {
                         fx = lbl_805DC0C0;
                         pad->sx = 0;
                     }
-                    if (lbl_805DC0B8 < fy && fy <= lbl_805DC0BC) {
+                    if ((-31.0f) < fy && fy <= 31.0f) {
                         fy = lbl_805DC0C0;
                         pad->sy = 0;
                     }
-                    if (lbl_805DC0B8 < gx && gx <= lbl_805DC0BC) {
+                    if ((-31.0f) < gx && gx <= 31.0f) {
                         gx = lbl_805DC0C0;
                         pad->cx = 0;
                     }
-                    if (lbl_805DC0B8 < gy && gy <= lbl_805DC0BC) {
+                    if ((-31.0f) < gy && gy <= 31.0f) {
                         gy = lbl_805DC0C0;
                         pad->cy = 0;
                     }
