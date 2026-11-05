@@ -10010,26 +10010,16 @@ pso/ui/TAdChrSelBSlotGC_8030FE74.cpp:
 	.data       start:0x804E7D18 end:0x804E7D30
 
 pso/ui/TAdChrSelBSlotGC_80310050.cpp:
+	.bss        start:0x80542E90 end:0x80542FB0
 	.text       start:0x80310050 end:0x803100A4
+	.sdata2     start:0x805DF240 end:0x805DF248
 
 pso/ui/TAdChrSelBSlotGC_803100A4.cpp:
 	.text       start:0x803100A4 end:0x8031012C
 
-pso/misc/TPlayerBattleCtrl4P_8031012C.cpp:
-	.text       start:0x8031012C end:0x80311800
-	.rodata     start:0x80475B88 end:0x80475B90
-	.bss        start:0x80542E90 end:0x80542EB0
-	.sdata2     start:0x805DF240 end:0x805DF248
-
-pso/misc/TPlayerBattleCtrl4P_80311800.cpp:
-	.text       start:0x80311800 end:0x80311E4C
-
 pso/misc/TPlayerBattleCtrl4P.cpp:
-	.text       start:0x80311E4C end:0x803123F4
-	.bss        start:0x80542EB0 end:0x80542FB0
-
-pso/misc/TPlayerBattleCtrl4P_803123F4.cpp:
-	.text       start:0x803123F4 end:0x80312BDC
+	.text       start:0x8031012C end:0x80312C50
+	.rodata     start:0x80475B88 end:0x80475B90
 	.data       start:0x804E7D30 end:0x804E80C0
 	.sbss       start:0x805D6AB0 end:0x805D6AC0
 
@@ -10037,9 +10027,6 @@ pso/enemy/DelDepthData.cpp:
 	.rodata     start:0x80475BD8 end:0x80475DD8
 	.sdata      start:0x805D4118 end:0x805D4120
 	.sbss       start:0x805D6AC0 end:0x805D6AD8
-
-pso/misc/TPlayerBattleCtrl4P_80312BDC.cpp:
-	.text       start:0x80312BDC end:0x80312C50
 
 pso/unk/text_80312C50.cpp:
 	.text       start:0x80312C50 end:0x803130BC

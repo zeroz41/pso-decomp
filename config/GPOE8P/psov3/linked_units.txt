@@ -1303,10 +1303,6 @@ pso/misc/TPhotonRainbow.cpp
 pso/misc/TPhotonYoulla.cpp
 pso/misc/TPlayerBattleCtrl4P.cpp
 pso/misc/TPlayerBattleCtrl4P_801C4F70.cpp
-pso/misc/TPlayerBattleCtrl4P_8031012C.cpp
-pso/misc/TPlayerBattleCtrl4P_80311800.cpp
-pso/misc/TPlayerBattleCtrl4P_803123F4.cpp
-pso/misc/TPlayerBattleCtrl4P_80312BDC.cpp
 pso/misc/TPlayerFootStamp_802B01D8.cpp
 pso/misc/TPlyCharData.cpp
 pso/misc/TPlyCharData_8007214C.cpp
