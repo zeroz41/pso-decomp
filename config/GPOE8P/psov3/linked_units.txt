@@ -2108,6 +2108,7 @@ pso/player/TObjPlayerSet.cpp
 pso/player/TObjPlayer_80011014.cpp
 pso/player/TObjPlayer_80020898.cpp
 pso/player/TObjPlayer_8002E784.cpp
+pso/player/TObjPlayer_8002EF8C.cpp
 pso/player/TObjPlayer_80036824.cpp
 pso/player/TObjPlayer_80052374.cpp
 pso/player/TObjPlayer_80055678.cpp

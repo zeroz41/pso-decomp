@@ -32,7 +32,6 @@ struct Model_8002E3D4 { u8 pad[0x2C]; s32 f2C; u8 pad30[0x58 - 0x30]; Mesh_8002E
 struct Holder_8002E3D4 { u8 pad[0x42C]; Model_8002E3D4 *model; };
 
 extern "C" {
-s32 rand();
 s32 create_particle__17TObjBoss2CeilJunkFv(void *, s32);
 void TObjLight__sub_801337F8(s32);
 s32 rotate_matrix_z(int, int);
@@ -60,8 +59,6 @@ extern const f32 lbl_805D8234;
 extern const f32 lbl_805D8238;
 extern const f32 lbl_805D823C;
 extern const f32 lbl_805D8240;
-extern const f32 lbl_805D8244;
-extern const f32 lbl_805D8248;
 extern const f32 lbl_805D824C;
 extern const f32 lbl_805D8250;
 extern const f32 lbl_805D8254;
@@ -75,22 +72,12 @@ void TObjPlayer__sub_8002ED48(TUnk_8048FA00 *model, s32 n);
 
 TUnk_8048FA00 *shared_breakup_model;
 TUnk_8048FA00 *lbl_805D4B8C;
-f32 lbl_805D4B90;
-void __sinit_TObjPlayer_8002E784_cpp(void);
-s32 TObjPlayer::calc_random_scaled() {
-    return (s32) (lbl_805D8248 * (lbl_805D8244 * (f32) rand()));
-}
-
-void __sinit_TObjPlayer_8002E784_cpp(void) {
-    lbl_805D4B90 = lbl_805D8258;
-}
-
-__declspec(section ".ctors") static void *const __sinit_TObjPlayer_8002E784_cpp_ref = (void *)__sinit_TObjPlayer_8002E784_cpp;
+f32 lbl_805D4B90 = lbl_805D8258;
 
 #pragma push
 #pragma opt_common_subs off
 #pragma fp_contract on
-s32 TObjPlayer__sub_8002EDCC(u8 *arg0) {
+s32 TObjPlayer__sub_8002EDCC(BreakupPiece *piece) {
     f32 temp_f1;
     f32 temp_f2;
     f32 temp_f3;
@@ -99,44 +86,44 @@ s32 TObjPlayer__sub_8002EDCC(u8 *arg0) {
     s32 temp_r31;
     s32 var_r30;
     var_r30 = 0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x28);
-    temp_r31 = *(s32 *)((s8 *)arg0 + 0x1C);
+    temp_r0 = piece->state;
+    temp_r31 = piece->spin;
     switch (temp_r0) {
     case 0:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - lbl_805D8250);
-        vec3_add_to(arg0, arg0 + 0xC);
-        temp_f1 = *(f32 *)((s8 *)arg0 + 0x10);
+        piece->vel.y = (piece->vel.y - lbl_805D8250);
+        vec3_add_to(&piece->pos, &piece->vel);
+        temp_f1 = piece->vel.y;
         if (temp_f1 < lbl_805D822C) {
-            temp_f2 = *(f32 *)((s8 *)arg0 + 4);
+            temp_f2 = piece->pos.y;
             if (temp_f2 < lbl_805D8264) {
-                temp_f3 = *(f32 *)((s8 *)arg0 + 0);
-                temp_f4 = *(f32 *)((s8 *)arg0 + 8);
+                temp_f3 = piece->pos.x;
+                temp_f4 = piece->pos.z;
                 if ((temp_f3 <= lbl_805D8268) && (temp_f3 >= lbl_805D826C) && (temp_f4 <= 76.0f) && (temp_f4 >= (-75.0f))) {
-                    *(f32 *)((s8 *)arg0 + 0x10) = (f32) (temp_f1 * lbl_805D8230);
-                    *(s32 *)((s8 *)arg0 + 0x28) = 2;
+                    piece->vel.y = (temp_f1 * lbl_805D8230);
+                    piece->state = 2;
                 } else if (temp_f2 < lbl_805D8258) {
                     var_r30 = 1;
-                    *(s32 *)((s8 *)arg0 + 0x28) = 1;
+                    piece->state = 1;
                 }
             }
         }
-        *(s32 *)((s8 *)arg0 + 0x18) = (s32) (*(s32 *)((s8 *)arg0 + 0x18) + temp_r31);
-        *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) + (temp_r31 * 2));
+        piece->ang_x = (piece->ang_x + temp_r31);
+        piece->ang_z = (piece->ang_z + (temp_r31 * 2));
         break;
     case 2:
-        *(f32 *)((s8 *)arg0 + 0x10) = (f32) (*(f32 *)((s8 *)arg0 + 0x10) - lbl_805D8250);
-        vec3_add_to(arg0, arg0 + 0xC);
-        *(f32 *)((s8 *)arg0 + 0x24) = (f32) (*(f32 *)((s8 *)arg0 + 0x24) - lbl_805D8254);
-        if (*(f32 *)((s8 *)arg0 + 0x24) < lbl_805D822C) {
-            *(f32 *)((s8 *)arg0 + 0x24) = (f32) lbl_805D822C;
-            *(s32 *)((s8 *)arg0 + 0x28) = 3;
+        piece->vel.y = (piece->vel.y - lbl_805D8250);
+        vec3_add_to(&piece->pos, &piece->vel);
+        piece->alpha = (piece->alpha - lbl_805D8254);
+        if (piece->alpha < lbl_805D822C) {
+            piece->alpha = lbl_805D822C;
+            piece->state = 3;
         }
-        *(s32 *)((s8 *)arg0 + 0x18) = (s32) (*(s32 *)((s8 *)arg0 + 0x18) + temp_r31);
-        *(s32 *)((s8 *)arg0 + 0x20) = (s32) (*(s32 *)((s8 *)arg0 + 0x20) + (temp_r31 * 2));
+        piece->ang_x = (piece->ang_x + temp_r31);
+        piece->ang_z = (piece->ang_z + (temp_r31 * 2));
         break;
     case 1:
-        *(f32 *)((s8 *)arg0 + 4) = (f32) ((lbl_805D8250 * *(f32 *)((s8 *)arg0 + 0x10)) + *(f32 *)((s8 *)arg0 + 4));
-        *(f32 *)((s8 *)arg0 + 8) = (f32) (*(f32 *)((s8 *)arg0 + 8) + *(f32 *)((s8 *)arg0 + 0x14));
+        piece->pos.y = ((lbl_805D8250 * piece->vel.y) + piece->pos.y);
+        piece->pos.z = (piece->pos.z + piece->vel.z);
         break;
     }
     return var_r30;
@@ -227,7 +214,7 @@ void TUnk_804820A8::run_task() {
     i = 0;
     do {
         piece = &m_pieces[i];
-        if (TObjPlayer__sub_8002EDCC((u8 *)piece) != 0) {
+        if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
                 create_particle__17TObjBoss2CeilJunkFv(piece, 0x171);
             }
@@ -337,7 +324,7 @@ void TUnk_80482090::run_task() {
     i = 0;
     do {
         piece = &m_pieces[i];
-        if (TObjPlayer__sub_8002EDCC((u8 *)piece) != 0) {
+        if (TObjPlayer__sub_8002EDCC(piece) != 0) {
             if ((i % 2) == 0) {
                 create_particle__17TObjBoss2CeilJunkFv(piece, 0x170);
             }
