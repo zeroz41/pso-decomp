@@ -612,9 +612,7 @@ pso/item/TItemProShield_80076B5C.cpp
 pso/item/TItemProShield_8010A650.cpp
 pso/item/TItemProUnit.cpp
 pso/item/TItemReverseTech.cpp
-pso/item/TItemReverseTechBG.cpp
 pso/item/TItemReverseTechCtrl.cpp
-pso/item/TItemReverseTechPart1.cpp
 pso/item/TItemShoot.cpp
 pso/item/TItemShootGun.cpp
 pso/item/TItemShootGun_8011B598.cpp

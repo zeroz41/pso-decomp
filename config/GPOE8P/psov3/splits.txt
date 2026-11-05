@@ -2601,19 +2601,11 @@ pso/item/TItemLockCountCtrl_80119238.cpp:
 	.text       start:0x80119060 end:0x80119600
 	.bss        start:0x80506228 end:0x80506244
 
-pso/item/TItemReverseTechBG.cpp:
-	.text       start:0x80119600 end:0x80119DA0
-	.data       start:0x804A03E0 end:0x804A0410
-	.sdata2     start:0x805DAC08 end:0x805DAC4C
-
-pso/item/TItemReverseTechPart1.cpp:
-	.text       start:0x80119DA0 end:0x8011A00C
-	.rodata     start:0x8043E700 end:0x8043E708
-	.data       start:0x804A0410 end:0x804A0428
-
 pso/item/TItemReverseTech.cpp:
-	.text       start:0x8011A00C end:0x8011A5A8
-	.data       start:0x804A0428 end:0x804A0440
+	.text       start:0x80119600 end:0x8011A5A8
+	.rodata     start:0x8043E700 end:0x8043E708
+	.data       start:0x804A03E0 end:0x804A0440
+	.sdata2     start:0x805DAC08 end:0x805DAC4C
 
 pso/item/TItemReverseTechCtrl.cpp:
 	.text       start:0x8011A5A8 end:0x8011A780
