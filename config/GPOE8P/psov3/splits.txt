@@ -106,13 +106,10 @@ pso/misc/TLogo_8001C134.cpp:
 	.text       start:0x8001C134 end:0x8001C1C4
 	.rodata     start:0x804349A0 end:0x804349A8
 
-pso/ui/TAdSoniclogo_8001C1C4.cpp:
-	.text       start:0x8001C1C4 end:0x8001C2E4
+pso/ui/TAdSoniclogo.cpp:
+	.text       start:0x8001C1C4 end:0x8001C388
 	.data       start:0x80480BB0 end:0x80480BC8
 	.sdata2     start:0x805D7E78 end:0x805D7E7C
-
-pso/ui/TAdSoniclogo.cpp:
-	.text       start:0x8001C2E4 end:0x8001C388
 
 pso/unk/text_8001C388.cpp:
 	.text       start:0x8001C388 end:0x8001C5A0
@@ -226,15 +223,12 @@ pso/boss/TBoss8Dragon_8002CC48.cpp:
 	.rodata     start:0x804355D0 end:0x804355D8
 	.sdata2     start:0x805D8178 end:0x805D8200
 
-pso/unk/text_8002E090.cpp:
-	.text       start:0x8002E090 end:0x8002E174
-
-pso/unk/text_8002E174.cpp:
-	.text       start:0x8002E174 end:0x8002E784
+pso/boss/TObjBoss1Rock.cpp:
+	.text       start:0x8002E090 end:0x8002E3D4
 	.rodata     start:0x804355E8 end:0x804355F0
 
 pso/player/TObjPlayer_8002E784.cpp:
-	.text       start:0x8002E784 end:0x8002EFE8
+	.text       start:0x8002E3D4 end:0x8002EFE8
 	.ctors      start:0x80433F28 end:0x80433F2C
 	.rodata     start:0x80435620 end:0x80435628
 	.sbss       start:0x805D4B88 end:0x805D4B98
@@ -1160,18 +1154,9 @@ pso/unk/text_8007ECF0.cpp:
 	.rodata     start:0x80438AC8 end:0x80438AE0
 	.sdata2     start:0x805D9298 end:0x805D92C0
 
-pso/unk/text_8007F4B8.cpp:
-	.text       start:0x8007F4B8 end:0x8007F574
-
-pso/unk/text_8007F574.cpp:
-	.text       start:0x8007F574 end:0x8007F644
-	.sdata2     start:0x805D92C0 end:0x805D92CC
-
 pso/misc/TDLGraph.cpp:
-	.text       start:0x8007F644 end:0x8007F7DC
-
-pso/misc/TDLGraph_8007F7DC.cpp:
-	.text       start:0x8007F7DC end:0x8007F85C
+	.text       start:0x8007F4B8 end:0x8007F85C
+	.sdata2     start:0x805D92C0 end:0x805D92CC
 
 pso/misc/TDLGraph_8007F85C.cpp:
 	.text       start:0x8007F85C end:0x8007F8D0

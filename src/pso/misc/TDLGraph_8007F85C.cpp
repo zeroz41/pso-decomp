@@ -5,7 +5,6 @@
 
 extern "C" {
 extern void *lbl_8048DF94[];
-void *TDLGraph__ct(void *, void *);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_clipout;
@@ -13,7 +12,7 @@ extern void *tl_clipout;
 void *TDLGraph::create() {
     void *o = __nw__7TObjectFUl(0x64);
     if (o != NULL) {
-        o = TDLGraph__ct(o, tl_clipout);
+        o = TDLGraph__ct((TDLGraph *)o, (TObject *)tl_clipout);
     }
     return o;
 }

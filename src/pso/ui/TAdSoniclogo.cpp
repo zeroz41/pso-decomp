@@ -1,41 +1,67 @@
-#include "types.h"
-#include "pso/object/TObject_80019A50.h"
-#include "pso/ui/TAdSoniclogo.h"
 #include "pso/TAdSoniclogo.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+#include "types.h"
+#include "pso/TLogo.h"
+#include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/TAdSoniclogo.h"
 
 extern "C" {
-
-void __ct__7TObjectFP7TObject(void *);
-void *__nw__7TObjectFUl(int);
-
-extern s32 __vt__12TAdSoniclogo[];
-extern void *TAdSoniclogo__class_name;
-extern u32 TAdSoniclogo__state;
-extern u32 TLogo__exit_requested_flag;
+s32 render_logo_with_default(void *, int, int, f32);
+extern void *sonic_logo_object;
+extern int TAdSoniclogo__state;
+extern int TLogo__exit_requested_flag;
+extern const char *TAdSoniclogo__class_name;
 extern void *tl_00;
-extern s32 request_destroy__12TAdSoniclogoFv[];
+int queue_destruction__7TObjectFv(void);
 
-void *__ct__12TAdSoniclogoFv(void *ad_soniclogo) {
+void TAdSoniclogo::request_destroy() { queue_destruction__7TObjectFv(); TAdSoniclogo__state = 1; }
+
+}
+
+s32 get_logo_texture_e_handle(void);
+
+void TAdSoniclogo::render() {
+    render_logo_with_default(sonic_logo_object, 16, -1, -150.0f);
+}
+void TAdSoniclogo::run_task() {
+    switch (TAdSoniclogo__state) {
+    case 0:
+        break;
+    case 1:
+        if (++m_wait_frames > 0x3c) {
+            void *p;
+            TAdSoniclogo__state = 2;
+            p = TObject::operator new(0x28);
+            if (p != 0) {
+                ((THunterGuildSeqOffline *)p)->init(tl_00, (void *)TLogo::request_exit);
+            }
+        }
+        break;
+    case 2:
+        break;
+    }
+}
+TAdSoniclogo::~TAdSoniclogo() {}
+
+TAdSoniclogo::TAdSoniclogo(TObject *parent) : TObject(parent) {
     void *o;
-    __ct__7TObjectFP7TObject(ad_soniclogo);
-    *(s32 **)((s8 *)ad_soniclogo + 0x18) = __vt__12TAdSoniclogo;
-    *(void * *)&((TAdSoniclogo *)ad_soniclogo)->m_name = TAdSoniclogo__class_name;
-    *(u32 *)((s8 *)ad_soniclogo + 0x1C) = 0;
+    m_name = TAdSoniclogo__class_name;
+    m_wait_frames = 0;
     TAdSoniclogo__state = 0;
     TLogo__exit_requested_flag = 0;
     TAdSinglePlyChrSelectGC::init_logo_state(1);
-    o = __nw__7TObjectFUl(0x28);
+    o = TObject::operator new(0x28);
     if (o != NULL) {
-        ((TLobby *)o)->init_fade(tl_00, request_destroy__12TAdSoniclogoFv);
+        ((TLobby *)o)->init_fade(tl_00, (void *)request_destroy);
     }
-    return ad_soniclogo;
 }
+
+extern "C" {
 
 void TLogo__sub_8001C360(void) {  }
 
-    extern int sonic_logo_object;
-void TLogo__sub_8001C364(void) { sonic_logo_object = get_logo_texture_e_handle(); }
+void TLogo__sub_8001C364(void) { sonic_logo_object = (void *)get_logo_texture_e_handle(); }
 
 }

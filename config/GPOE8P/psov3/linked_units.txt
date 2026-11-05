@@ -876,7 +876,6 @@ pso/misc/TCheckRoomSequence_80222FC0.cpp
 pso/misc/TCineCtrl.cpp
 pso/misc/TContainerAncient01.cpp
 pso/misc/TDLGraph.cpp
-pso/misc/TDLGraph_8007F7DC.cpp
 pso/misc/TDLGraph_8007F85C.cpp
 pso/misc/TDeadSpot.cpp
 pso/misc/TDuelEffectNumber.cpp
@@ -2598,7 +2597,6 @@ pso/ui/TAdSinglePlyChrSelectGC_8033A8EC.cpp
 pso/ui/TAdSinglePlyChrSelectGC_8033C640.cpp
 pso/ui/TAdSnAkPassConfirmGC.cpp
 pso/ui/TAdSoniclogo.cpp
-pso/ui/TAdSoniclogo_8001C1C4.cpp
 pso/ui/TAdStorySelectGC.cpp
 pso/ui/TAdStorySelectGC_8019DC14.cpp
 pso/ui/TAdStorySelectGC_802C3284.cpp
@@ -2647,8 +2645,6 @@ pso/unk/text_8001A3BC.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
 pso/unk/text_8002C190.cpp
-pso/unk/text_8002E090.cpp
-pso/unk/text_8002E174.cpp
 pso/unk/text_8003AFBC.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
@@ -2686,8 +2682,6 @@ pso/unk/text_8007A7A0.cpp
 pso/unk/text_8007A7B8.cpp
 pso/unk/text_8007B370.cpp
 pso/unk/text_8007C0CC.cpp
-pso/unk/text_8007F4B8.cpp
-pso/unk/text_8007F574.cpp
 pso/unk/text_8007F8D0.cpp
 pso/unk/text_8007FA24.cpp
 pso/unk/text_8007FA94.cpp
@@ -3309,3 +3303,4 @@ pso/unk/text_8042EE4C.cpp
 si/SIBios.c
 si/SISamplingRate.c
 vi/vi.c
+pso/boss/TObjBoss1Rock.cpp

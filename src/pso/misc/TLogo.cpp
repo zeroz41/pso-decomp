@@ -43,7 +43,7 @@ void TKeyBoardControl__sub_8000F9CC(s32 arg0);
 u32 __ct__10TAdADXlogoFP7TObject(void *, void *);
 void queue_destruction__7TObjectFv(void *arg0);
 u32 __ct__11TAdSEGAlogoFv(void *, void *);
-u32 __ct__12TAdSoniclogoFv(void *, void *);
+u32 __ct__12TAdSoniclogoFP7TObject(void *, void *);
 u32 __nw__7TObjectFUl(int);
 u32 TAdVIConfigGC__ct(void *, void *);
 s32 check_progressive_ready__5TLogoFv();
@@ -166,7 +166,7 @@ void run_task__5TLogoFv(u8 *ad_seg_alogo) {
             *(u32 *)((s8 *)ad_seg_alogo + 0x2C) = 0U;
             var_r0_7 = __nw__7TObjectFUl(0x20);
             if (var_r0_7 != 0U) {
-                var_r0_7 = __ct__12TAdSoniclogoFv((void *)var_r0_7, ad_seg_alogo);
+                var_r0_7 = __ct__12TAdSoniclogoFP7TObject((void *)var_r0_7, ad_seg_alogo);
             }
             *(u32 *)((s8 *)ad_seg_alogo + 0x30) = var_r0_7;
             *(u32 *)((s8 *)ad_seg_alogo + 0x20) = 5U;

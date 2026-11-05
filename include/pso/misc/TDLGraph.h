@@ -30,13 +30,11 @@ struct TDLGraph : public TObject {
 
 typedef char TDLGraph_size[sizeof(TDLGraph) == 0x64 ? 1 : -1];
 
-extern "C" {
-u8 *__dt__8TDLGraphFv(u8 *arg0, s16 arg1);
-}
-
 // --- C functions defined in TDLGraph.cpp ---
 extern "C" {
+void fn_8007F560(void *p, void *q);
 u8 *__dt__8TDLGraphFv(u8 *arg0, s16 arg1);
+void *TDLGraph__ct(TDLGraph *dl_graph, TObject *parent);
 }
 // --- end of C functions
 
