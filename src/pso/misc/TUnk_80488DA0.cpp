@@ -42,17 +42,6 @@ extern Ctl_8006C964 controller_input_state;
 int __ct__13TUnk_80488A28Fv(void);
 void __dl__7TObjectFPv(void *);
 
-extern s32 __vt__13TUnk_80488D70[];
-
-void *TUnk_80488D70::init_subobject() {
-    ((void (*)(void *))__ct__13TUnk_80488A28Fv)(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_80488D70;
-    this->m_38 = 4;
-    return this;
-}
-
-void TUnk_80488D70::run_task() {  }
-
 extern unsigned char __vt__13TUnk_80488DA0[];
 
 void * TCameraCtrl__vt6(void) {

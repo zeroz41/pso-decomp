@@ -795,7 +795,6 @@ pso/misc/TCameraCtrl_8006B3D8.cpp
 pso/misc/TCameraCtrl_8006BCD8.cpp
 pso/misc/TCameraCtrl_8006C254.cpp
 pso/misc/TCameraCtrl_8006C7C4.cpp
-pso/misc/TCameraCtrl_8006C8E4.cpp
 pso/misc/TCameraCtrl_8006CC30.cpp
 pso/misc/TCameraCtrl_800766C4.cpp
 pso/misc/TCameraCtrl_8013F25C.cpp
@@ -1051,10 +1050,10 @@ pso/misc/TLobby_8028EA28.cpp
 pso/misc/TLobby_80291D94.cpp
 pso/misc/TLobby_80299A60.cpp
 pso/misc/TLobby_802A0F3C.cpp
+pso/misc/TLobby_802A5120.cpp
 pso/misc/TUnk_804887F8.cpp
 pso/misc/TUnk_80488B38.cpp
 pso/misc/TUnk_80488DA0.cpp
-pso/misc/TLobby_802A5120.cpp
 pso/misc/TLobby_802A6080.cpp
 pso/misc/TLobby_802A7290.cpp
 pso/misc/TWindowSnapShot_802A7D68.cpp
