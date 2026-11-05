@@ -4779,12 +4779,9 @@ pso/object/CitySeason.cpp:
 pso/unk/text_80184C2C.cpp:
 	.text       start:0x80184C2C end:0x80185248
 
-pso/object/TObjLaboMapWarp_80185248.cpp:
-	.text       start:0x80185248 end:0x801867F4
+pso/object/TObjLaboMapWarp.cpp:
+	.text       start:0x80185248 end:0x80186C44
 	.rodata     start:0x80444A20 end:0x80444A28
-
-pso/object/TObjCityMainWarp_801867F4.cpp:
-	.text       start:0x801867F4 end:0x80186C44
 
 pso/object/TObjCityMainWarp_80186C44.cpp:
 	.text       start:0x80186C44 end:0x80186E24
