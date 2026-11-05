@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TOWreckAncient06.h"
-#include "pso/unk/text_8017D8F0.h"
+#include "pso/player/TObjPlayer.h"
 
 extern "C" {
 
@@ -27,6 +27,23 @@ void *__dt__16TOWreckAncient06Fv(void *arg0, s16 arg1) {
         }
     }
     return arg0;
+}
+
+}
+
+extern "C" {
+u32 init_collision_body_parts(void *, s32, s32);
+u8 *TOWreckAncient__ct(u8 *arg0, s32 arg1);
+extern s32 TOWreckAncient__collision_body_templates[];
+extern s32 TOWreckAncient06__name;
+u8 *TOWreckAncient06__ct(u8 *wreck_ancient, s32 arg1) {
+    TOWreckAncient__ct(wreck_ancient, 6);
+    *(s32 **)((s8 *)wreck_ancient + 0x18) = __vt__16TOWreckAncient06;
+    *(s32 *)((s8 *)wreck_ancient + 0) = (s32) TOWreckAncient06__name;
+    ((TOWreckAncient06 *)(wreck_ancient))->apply_object_set_data((void *)arg1);
+    init_collision_body_parts(wreck_ancient, (s32) &TOWreckAncient__collision_body_templates[66], 1);
+    ((TObjPlayer *)wreck_ancient)->register_object_by_id();
+    return wreck_ancient;
 }
 
 }

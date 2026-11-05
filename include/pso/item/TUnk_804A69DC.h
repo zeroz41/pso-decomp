@@ -21,4 +21,8 @@ public:
     s32 m_204;
 };
 
+extern "C" {
+void *__dt__13TUnk_804A69DCFv(void *arg0, s16 arg1);
+}
+
 #endif

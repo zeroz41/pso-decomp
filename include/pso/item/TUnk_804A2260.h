@@ -13,4 +13,8 @@ public:
     u8 unk_1F8[0x4];
 };
 
+extern "C" {
+u8 *TObjPlayer__sub_801250F8(u8 *player, u8 *arg1, s32 _w2);
+}
+
 #endif

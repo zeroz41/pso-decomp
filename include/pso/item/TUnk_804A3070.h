@@ -10,4 +10,6 @@ public:
     u8 *construct_agito(s32, void *);
 };
 
+u8 *create_agito_weapon(u8 *arg0);
+
 #endif

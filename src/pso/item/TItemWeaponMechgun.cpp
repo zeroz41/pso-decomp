@@ -3,8 +3,8 @@
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/item/TItemWeaponMechgun.h"
 #include "pso/unk/text_80120D50.h"
-#include "pso/item/TUnk_804A3260.h"
 #include "pso/player/TObjPlayer.h"
+
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
@@ -73,4 +73,8 @@ u8 *create_mechgun_weapon(u8 *item) {
         return var_r0;
     }
     return NULL;
+}
+
+TUnk_804A3260::~TUnk_804A3260() {
+
 }
