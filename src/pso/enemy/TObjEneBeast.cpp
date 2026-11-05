@@ -686,7 +686,7 @@ void TObjEneBeast::load_resources() {
         q.a = (s32)((Data_8009241C *)ene_beast_bml_resource)->f430;
         for (i = 0; i < 3; i++) {
             TLobby::spawn_npc_enemy(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
-                                            ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].fC, &q,
+                                            (NJS_TEXLIST *)((Data_8009241C *)ene_beast_bml_resource)->f42c[i].fC, &q,
                                             ((Ent_8009241C *)beast_collision_body_table)[i].radius, 0.0f);
         }
     }

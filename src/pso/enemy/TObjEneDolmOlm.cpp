@@ -994,7 +994,7 @@ void TObjEneDolmOlm::load_shared_resources() {
         Desc_80302784 d = { *(s32 *)((s8 *)TObjEneDolmOlm__resource_bundle + 0x430), TObjEneDolmOlm__param_table, 2, 0xC0000 };
         for (i = 0; i < 2; i++) {
             Ent_80302784 *e = &(*(Ent_80302784 **)((s8 *)TObjEneDolmOlm__resource_bundle + 0x42C))[i];
-            TLobby::spawn_npc_enemy(ids[i], e->f8, e->fC, &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
+            TLobby::spawn_npc_enemy(ids[i], e->f8, (NJS_TEXLIST *)e->fC, &d, ((Row_80302784 *) lbl_804E68D0)[i].fC, 0.0f);
         }
     }
 }

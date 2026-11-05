@@ -47,7 +47,7 @@ void TObjEneBalClawClaw::spawn_child_enemy() {
     stack.sp14 = *(s32 *)((s8 *)&lbl_80439B5C.value + 0xC);
     stack.sp8 = *(s32 *)((s8 *)lbl_805D4F20 + 0x430);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)lbl_805D4F20 + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x13), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x18))), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x1C))), &stack.sp8, (f32)((f32) (*(f32 *)((s8 *)&lbl_8048EEE0.value + 0xC))), (f32)lbl_805D9618);
+    TLobby::spawn_npc_enemy((s16)(0x13), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x18))), (NJS_TEXLIST *)((int) (*(s32 *)((s8 *)temp_r5 + 0x1C))), &stack.sp8, (f32)((f32) (*(f32 *)((s8 *)&lbl_8048EEE0.value + 0xC))), (f32)lbl_805D9618);
 }
 
 void TObjEneBalClawClaw__sub_8008DC90(void) {  }

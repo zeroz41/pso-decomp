@@ -856,7 +856,7 @@ void TLobby::load_shark_resources() {
         s16 ids[3] = { 0x2F, 0x30, 0x31 };
         Anim_800AC318 anim = { (s32)RES->motions, TObjEneShark__action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
-            TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, RES->bodies[i].textures, &anim,
+            TLobby::spawn_npc_enemy(ids[i], RES->bodies[i].model, (NJS_TEXLIST *)RES->bodies[i].textures, &anim,
                 7.5f, 0.0f);
         }
     }

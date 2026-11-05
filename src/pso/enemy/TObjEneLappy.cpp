@@ -1795,13 +1795,13 @@ void TObjEneLappy::load_resources() {
         Desc_800C17B8 d = lappy_resource_binding_desc;
         d.a = *(s32 *)(res + 0x430);
         TLobby::spawn_npc_enemy(5, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8),
-                                        *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, lbl_805D9F28, lbl_805D9F4C);
+                                        (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0xC), &d, lbl_805D9F28, lbl_805D9F4C);
         if (TLobby::get_instance() == 0) {
-            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (*(u32 *)&rappy_alternate_texture_list), &d,
+            TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 8), (NJS_TEXLIST *)(*(u32 *)&rappy_alternate_texture_list), &d,
                                             lbl_805D9F28, lbl_805D9F4C);
         } else {
             TLobby::spawn_npc_enemy(6, *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x18),
-                                            *(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, lbl_805D9F28, lbl_805D9F4C);
+                                            (NJS_TEXLIST *)*(s32 *)(*(u8 **)(RES_800C17B8 + 0x42C) + 0x1C), &d, lbl_805D9F28, lbl_805D9F4C);
         }
     }
 }

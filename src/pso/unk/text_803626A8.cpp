@@ -300,7 +300,7 @@ void TObjEneEpsilonGuard::load_assets() {
     {
         Quad_803627DC q = lbl_80479FAC;
         q.a = ((Res_803627DC *)lbl_805D6FA0)->f430;
-        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->fC), &q, (f32)lbl_805E024C, (f32)lbl_805E0250);
+        TLobby::spawn_npc_enemy((s16)0x4E, (s32)(((Res_803627DC *)lbl_805D6FA0)->f42c->f8), (NJS_TEXLIST *)(((Res_803627DC *)lbl_805D6FA0)->f42c->fC), &q, (f32)lbl_805E024C, (f32)lbl_805E0250);
     }
 }
 

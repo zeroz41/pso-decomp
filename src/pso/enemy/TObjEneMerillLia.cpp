@@ -1736,7 +1736,7 @@ void TObjEneMerillLia__sub_800D6D64(void) {
         motions.motions = ((BmlResource *)TObjEneMerillLia__entry_params_resource)->motions;
         for (i = 0; i < 2; i++) {
             TLobby::spawn_npc_enemy(ids[i], ((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].model,
-                ((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].m_c, &motions,
+                (NJS_TEXLIST *)((BmlResource *)TObjEneMerillLia__entry_params_resource)->models[i].m_c, &motions,
                 ((CollisionPartRecord *)lbl_804946A4)[i].radius, TObjEneMerillLia__data_805DA300);
         }
     }
