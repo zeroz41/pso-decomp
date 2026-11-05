@@ -1881,12 +1881,9 @@ pso/enemy/TObjEneMe3ShinowaReal.cpp:
 	.text       start:0x800E4490 end:0x800E47DC
 
 pso/enemy/TObjEneMe3Shinowa.cpp:
-	.text       start:0x800E47DC end:0x800E7A70
+	.text       start:0x800E47DC end:0x800E80A4
 	.data       start:0x80495BE0 end:0x80495F3C
 	.sdata2     start:0x805DA5D8 end:0x805DA634
-
-pso/enemy/TObjEneMe3ShinowaMirage_800E7A70.cpp:
-	.text       start:0x800E7A70 end:0x800E80A4
 
 pso/player/TObjPlayer_800E80A4.cpp:
 	.text       start:0x800E80A4 end:0x800E80C0
