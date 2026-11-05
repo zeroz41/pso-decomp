@@ -8,15 +8,6 @@ Nothing from the game is included here. You need your own copy of the game to bu
 
 ## Progress
 
-<!-- progress -->
-| | Matched | Linked |
-|:--|--:|--:|
-| Code | 95.74% | 81.07% |
-| Data | 87.23% | 69.34% |
-| Functions | 27,358 of 27,572 | |
-| Units | | 2,943 of 4,345 |
-<!-- /progress -->
-
 [![Code matched]][progress page] [![Data matched]][progress page] [![Functions matched]][progress page]<br>
 [![Code linked]][progress page] [![Data linked]][progress page] [![Units linked]][progress page]
 
