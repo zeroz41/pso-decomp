@@ -2447,11 +2447,8 @@ pso/item/TItemLoad_8010FAB4.cpp:
 pso/item/TItemLoad_8010FB74.cpp:
 	.text       start:0x8010FB74 end:0x8010FC28
 
-pso/item/TItemLoad_8010FC28.cpp:
-	.text       start:0x8010FC28 end:0x8010FD2C
-
-pso/item/TItemLoad_8010FD2C.cpp:
-	.text       start:0x8010FD2C end:0x8010FDF0
+pso/item/TUnk_8049F42C.cpp:
+	.text       start:0x8010FC28 end:0x8010FDF0
 
 pso/item/TItemLoad_8010FDF0.cpp:
 	.text       start:0x8010FDF0 end:0x8010FF68
