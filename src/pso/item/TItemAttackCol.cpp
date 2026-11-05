@@ -209,7 +209,7 @@ void TItemAttackCol::vfunc_6(s32 *a) {
         }
         if (this->m_e4 & 0x200) {
             VObj_802E3C4C *p = (VObj_802E3C4C *)find_item_by_id(this->m_ac);
-            u8 *b = (u8 *)get_player_by_client_id(this->m_a8);
+            u8 *b = (u8 *)get_player_by_client_id(this->client_id);
             if (p != NULL) {
                 p->m59(b, a[0], o->fB8, this->m_b4, a[1]);
             }
@@ -367,7 +367,7 @@ s32 TUnk_804E355C::resolve_attack_col_hit(u8 *arg1) {
     s32 temp_r0;
     f32 var_f31;
     temp_r30 = (u8 *)(*(u8 **)((s8 *)arg1 + 0));
-    player = (u8 *)(get_player_by_client_id(this->m_a8));
+    player = (u8 *)(get_player_by_client_id(this->client_id));
     item = (u32)find_item_by_id((this->m_ac));
     temp_r31 = *(s32 *)((s8 *)(*(u8 **)((s8 *)arg1 + 0)) + 0xA4) + (*(s32 *)((s8 *)arg1 + 4) * 0x2C);
     if ((player != NULL) && (item != 0U) && (((VObj_18_f2ea1e *)(temp_r30))->m19(player, temp_r31, 0, *(f32 *)((s8 *)arg0 + 0xB0)) != 0)) {

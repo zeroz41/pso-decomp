@@ -2534,7 +2534,7 @@ void enemy_spawn_zalure_effect__9TObjCharaFv(void);
 void recalc_stats__9TObjCharaFv(void);
 void vfunc_74__9TObjEnemyFl(void);
 void vfunc_75__9TObjCharaFf(void);
-void vfunc_76__9TObjCharaFv(void);
+void vfunc_76__9TObjCharaFf(void);
 void vfunc_77__9TObjCharaFv(void);
 void vfunc_78__9TObjCharaFl(void);
 void vfunc_79__9TObjEneDDFPl(void);
@@ -2638,7 +2638,7 @@ void *lbl_804922F8[107] = {
     (void *)recalc_stats__9TObjCharaFv,
     (void *)vfunc_74__9TObjEnemyFl,
     (void *)vfunc_75__9TObjCharaFf,
-    (void *)vfunc_76__9TObjCharaFv,
+    (void *)vfunc_76__9TObjCharaFf,
     (void *)vfunc_77__9TObjCharaFv,
     (void *)vfunc_78__9TObjCharaFl,
     (void *)vfunc_79__9TObjEneDDFPl,

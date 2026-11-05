@@ -506,7 +506,7 @@ void enemy_spawn_zalure_effect__9TObjCharaFv();
 void recalc_stats__9TObjCharaFv();
 void vfunc_74__9TObjCharaFl();
 void vfunc_75__9TObjCharaFf();
-void vfunc_76__9TObjCharaFv();
+void vfunc_76__9TObjCharaFf();
 void vfunc_77__9TObjCharaFv();
 void vfunc_78__9TObjCharaFl();
 void vfunc_80__21TObjContainerAbeEnemyFv();
@@ -1293,7 +1293,7 @@ void *__vt__21TObjContainerAbeEnemy[83] = {
     (void *)recalc_stats__9TObjCharaFv,
     (void *)vfunc_74__9TObjCharaFl,
     (void *)vfunc_75__9TObjCharaFf,
-    (void *)vfunc_76__9TObjCharaFv,
+    (void *)vfunc_76__9TObjCharaFf,
     (void *)vfunc_77__9TObjCharaFv,
     (void *)vfunc_78__9TObjCharaFl,
     (void *)TObjContainerAbeEnemy__vt77,

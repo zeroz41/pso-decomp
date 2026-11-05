@@ -566,7 +566,7 @@ pso/item/TItemEffLavis.cpp
 pso/item/TItemEffNeedle.cpp
 pso/item/TItemEffOrgaFlowShot.cpp
 pso/item/TItemEffPG.cpp
-pso/item/TItemEffPG_8034FF4C.cpp
+pso/item/TItemEffPG_8034FE28.cpp
 pso/item/TItemEffShield.cpp
 pso/item/TItemEffShield_8010A390.cpp
 pso/item/TItemEffectWeapon.cpp

@@ -8,7 +8,7 @@
 extern "C" {
 
 int is_quest_active(void);
-int subtract_photon_blast_charge(void*);
+int subtract_photon_blast_charge(void*, f32);
 int add_photon_blast_chain_charge(void*);
 int set__8FlagWordFUl(void*, int);
 
@@ -26,7 +26,7 @@ void TObjPlayer::get_pos(s32 arg1) {
     this->get_anim_node_position(0x3A, (Vec *)arg1);
 }
 
-void TObjPlayer::vfunc_76() { subtract_photon_blast_charge((char*)this + 0x4ac); }
+void TObjPlayer::vfunc_76(f32 charge) { subtract_photon_blast_charge((char*)this + 0x4ac, charge); }
 
 void TObjPlayer::vfunc_77() { add_photon_blast_chain_charge((char*)this + 0x4ac); }
 

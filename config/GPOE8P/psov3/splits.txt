@@ -11098,11 +11098,8 @@ pso/item/TItemEffPG.cpp:
 	.sdata2     start:0x805DFE08 end:0x805DFE14
 
 pso/item/TItemEffPG_8034FE28.cpp:
-	.text       start:0x8034FE28 end:0x8034FF4C
-
-pso/item/TItemEffPG_8034FF4C.cpp:
-	.text       start:0x8034FF4C end:0x803501BC
-	.rodata     start:0x80478CB8 end:0x80478CC8
+	.text       start:0x8034FE28 end:0x803501BC
+	.rodata     start:0x80478CB8 end:0x80478CD0
 	.sdata      start:0x805D4350 end:0x805D4358
 
 pso/item/TUnk_804F0C48.cpp:

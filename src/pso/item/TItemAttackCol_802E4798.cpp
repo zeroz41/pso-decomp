@@ -34,7 +34,7 @@ s32 TUnk_804E355C::try_add_hit_target(void *arg1_arg) {
     if (((TUnk_804E355C *)arg0)->m_a0 >= 8) {
         return 0;
     }
-    if (((TUnk_804E355C *)arg0)->m_a8 == get_entity_id(arg1->obj)) {
+    if (((TUnk_804E355C *)arg0)->client_id == get_entity_id(arg1->obj)) {
         return 0;
     }
     ok = 1;
@@ -137,7 +137,7 @@ u8 *construct_attack_collision(u8 *arg0, s32 arg1, u8 *arg2) {
     memset(arg0 + 0x60, 0, 0x40);
     ((TUnk_804E355C *)arg0)->m_a0 = 0;
     ((TUnk_804E355C *)arg0)->m_a4 = (s32) *(s32 *)((s8 *)arg2 + 0x10);
-    ((TUnk_804E355C *)arg0)->m_a8 = (u16) *(u16 *)((s8 *)arg2 + 0x14);
+    ((TUnk_804E355C *)arg0)->client_id = (u16) *(u16 *)((s8 *)arg2 + 0x14);
     *(s16 *)((s8 *)arg0 + 0xAA) = (s16) *(s16 *)((s8 *)arg2 + 0x16);
     ((TUnk_804E355C *)arg0)->m_ac = (s32) *(s32 *)((s8 *)arg2 + 0x18);
     *(f32 *)((s8 *)arg0 + 0xB0) = (f32) *(f32 *)((s8 *)arg2 + 0x1C);

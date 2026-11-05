@@ -92,7 +92,7 @@ struct TObjPlayer : public TObjChara {
     void sub_801BD240();
     u8 sub_801A1DDC();
     void vfunc_77();
-    void vfunc_76();
+    void vfunc_76(f32 charge);
     void vfunc_75(f32);
     int vfunc_67(f32 damage_scale);
     void render_shadows();

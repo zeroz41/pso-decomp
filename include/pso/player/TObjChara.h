@@ -111,7 +111,8 @@ public:
     virtual void recalc_stats();
     virtual s32 vfunc_74(s32);
     virtual void vfunc_75(f32);
-    virtual void vfunc_76();
+    // Spends photon blast charge; TObjPlayer forwards it to subtract_photon_blast_charge (param name inferred).
+    virtual void vfunc_76(f32 charge);
     virtual void vfunc_77();
     virtual void vfunc_78(s32);
     void request_box_item_drop(void *, s16);

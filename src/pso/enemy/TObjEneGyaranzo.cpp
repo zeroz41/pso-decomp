@@ -905,7 +905,7 @@ extern "C" {
 void vfunc_77__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_76__9TObjCharaFv();
+void vfunc_76__9TObjCharaFf();
 }
 extern "C" {
 void vfunc_75__9TObjCharaFf();
@@ -1103,7 +1103,7 @@ void *gyaranzo_actor_vtable_ops[83] = {
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__15TObjEnemyCustomFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
+    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__15TObjEnemyCustomFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv,
 };
 #define bm_ene_gyaranzo_resource_descriptor ((s32 *)bm_ene_gyaranzo_resource_descriptor)
