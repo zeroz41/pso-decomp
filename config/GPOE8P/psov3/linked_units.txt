@@ -210,7 +210,6 @@ pso/boss/TBoss2Fin.cpp
 pso/boss/TBoss2Joint.cpp
 pso/boss/TBoss2LaserLight.cpp
 pso/boss/TBoss2Mine.cpp
-pso/boss/TBoss2Mine_800375C0.cpp
 pso/boss/TBoss2PhotonBullet_80038DCC.cpp
 pso/boss/TBoss2Tentacle.cpp
 pso/boss/TBoss3Volopt.cpp
@@ -237,7 +236,6 @@ pso/boss/TBoss4Type3_800505A8.cpp
 pso/boss/TBoss4Type3_800524E8.cpp
 pso/boss/TBoss4Type3_800D7A20.cpp
 pso/boss/TBoss4Type3_800D9960.cpp
-pso/boss/TBoss4Uro.cpp
 pso/boss/TBoss4Zako.cpp
 pso/boss/TBoss4ZakoDraw.cpp
 pso/boss/TBoss4ZakoDraw_8030AD38.cpp
@@ -921,7 +919,6 @@ pso/misc/TLoadingCur.cpp
 pso/misc/TLoadingCur_801A6DE0.cpp
 pso/misc/TLobby.cpp
 pso/misc/TLobbyEventTheme.cpp
-pso/misc/TLobby_80019E24.cpp
 pso/misc/TLobby_8001D6A0.cpp
 pso/misc/TLobby_8001EF5C.cpp
 pso/misc/TLobby_8002C140.cpp
@@ -1220,7 +1217,6 @@ pso/misc/TOContainerAncientEnemyRare.cpp
 pso/misc/TOContainerAncientItemCommon.cpp
 pso/misc/TOContainerAncientItemNone.cpp
 pso/misc/TOContainerAncientItemNone_8015BF38.cpp
-pso/misc/TOContainerAncientItemRare.cpp
 pso/misc/TOCtrlDubchik_8015CA74.cpp
 pso/misc/TODoorAncient01.cpp
 pso/misc/TODoorAncient03.cpp
@@ -2497,7 +2493,6 @@ pso/ui/TAdPsoPassSaveGC.cpp
 pso/ui/TAdRayGC.cpp
 pso/ui/TAdRicoRingCtrl.cpp
 pso/ui/TAdSEGAlogo.cpp
-pso/ui/TAdSEGAlogo_8001BF4C.cpp
 pso/ui/TAdScrollWinGC.cpp
 pso/ui/TAdScrollWinGC_8026A5F8.cpp
 pso/ui/TAdScrollWinGC_803274D0.cpp
@@ -2510,7 +2505,6 @@ pso/ui/TAdSelectGameModeGC_801A2F7C.cpp
 pso/ui/TAdSelectTxtGC.cpp
 pso/ui/TAdSelectTxtSubGC.cpp
 pso/ui/TAdSinglePlyChrSelectGC.cpp
-pso/ui/TAdSinglePlyChrSelectGC_8001C5E8.cpp
 pso/ui/TAdSinglePlyChrSelectGC_8001ED80.cpp
 pso/ui/TAdSinglePlyChrSelectGC_8007B7E4.cpp
 pso/ui/TAdSinglePlyChrSelectGC_8007EB94.cpp
@@ -2579,12 +2573,9 @@ pso/unk/TUnk_804A6CC8.cpp
 pso/unk/TUnk_804CC870.cpp
 pso/unk/text_8000F740.cpp
 pso/unk/text_80019B78.cpp
-pso/unk/text_80019EB8.cpp
 pso/unk/text_8001A3BC.cpp
 pso/unk/text_8001C388.cpp
 pso/unk/text_8002B164.cpp
-pso/unk/text_8002C190.cpp
-pso/unk/text_8003AFBC.cpp
 pso/unk/text_8004AA04.cpp
 pso/unk/text_8004D9A8.cpp
 pso/unk/text_8004F1FC.cpp
@@ -2787,7 +2778,6 @@ pso/unk/text_8014AAC4.cpp
 pso/unk/text_8014AB24.cpp
 pso/unk/text_8014B8A4.cpp
 pso/unk/text_8014B904.cpp
-pso/unk/text_8015C048.cpp
 pso/unk/text_8015C534.cpp
 pso/unk/text_8015C680.cpp
 pso/unk/text_80165940.cpp

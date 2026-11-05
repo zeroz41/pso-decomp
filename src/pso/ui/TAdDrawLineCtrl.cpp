@@ -2,13 +2,15 @@
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/render/render_util.h"
-
-
 #include "types.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
-
+#include "pso/item/TItemLoad_8010FDF0.h"
+#include "pso/item/TItemMag.h"
+#include "pso/misc/TLobby.h"
+#include "pso/TItemLoad.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 void *__ct__15TAdDrawLineCtrlFP7TObjectPvf(void *arg0, void *arg1, void *arg2, f32 farg0);
@@ -80,4 +82,25 @@ u8 *create_draw_line_ctrl__13TAdMcSelectGCFiif(s32 arg0, s32 arg1, f32 farg0) {
         return var_r0;
     }
     return NULL;
+}
+
+struct RecoveredGlobal_80019E60_lbl_804340D8 { char value[0x13]; };
+typedef char RecoveredGlobal_80019E60_lbl_804340D8_size[sizeof(RecoveredGlobal_80019E60_lbl_804340D8) == 0x13 ? 1 : -1];
+
+extern RecoveredGlobal_80019E60_lbl_804340D8 lbl_804340D8;
+extern u32 item_loader_instance;
+
+void TLobby::free_item_loader() {
+    if ((u32) item_loader_instance != 0U) {
+        delete (RelocatedFile *)item_loader_instance;
+        item_loader_instance = 0U;
+        lbl_805D49D8 = 0;
+    }
+}
+void TLobby::load_draw_line_task() {
+    RelocatedFile *file = new RelocatedFile(lbl_804340D8.value, 0x4800);
+    item_loader_instance = (u32)file;
+    if (file != NULL) {
+        lbl_805D49D8 = (s32)file->get_root();
+    }
 }

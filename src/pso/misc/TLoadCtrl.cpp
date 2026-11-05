@@ -1,10 +1,32 @@
 #include "types.h"
-#include "pso/system/main_loop.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/misc/TLoadCtrl.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/main_loop.h"
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLobby.h"
+
+extern u8 lbl_805D4A78;
+
+u8 TAdSinglePlyChrSelectGC::get_chr_select_state() {
+    return lbl_805D4A78;
+}
+
+extern s32 guild_card_save_file_block_count;
+
+s32 TAdSinglePlyChrSelectGC__sub_8001C5F0(void) {
+    return guild_card_save_file_block_count;
+}
+
+extern u32 TLoadCtrl__instance;
+
+void TLoadCtrl::set_field1C(s32 arg0) {
+    if ((void *) TLoadCtrl__instance != NULL) {
+        *(s32 *)((s8 *)TLoadCtrl__instance + 0x1C) = arg0;
+    }
+}
 
 struct Base_8001C8B8_8001C61C { char pad[0x18]; };
 struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
@@ -35,7 +57,6 @@ u8 *TLoadCtrl__ct(TLoadCtrl *arg0, s32 arg1);
 u8 * __dt__7TObjectFv(void *, s16);
 void queue_destruction__7TObjectFv(void *arg0);
 void __dl__7TObjectFPv(s32);
-extern u32 TLoadCtrl__instance;
 u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1);
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);

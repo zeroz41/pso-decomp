@@ -1,19 +1,52 @@
 #include "types.h"
+#include "pso/misc/TOContainerAncientItemRare.h"
+#include "pso/player/TUnk_804B08BC.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_8015C048.h"
+#include "pso/unk/text_8015C534.h"
 #include "pso/misc/TLobby_8030A6A8.h"
 #include "pso/object/TObjChip.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_8015C534.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/player/TUnk_804B08BC.h"
 #include "pso/misc/TOContainerAncientItemCommon.h"
 #include "pso/object/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/item/TObjContainerItem.h"
+
+extern "C" {
+
+void __dl__7TObjectFPv(void *);
+
+extern s32 __vt__26TOContainerAncientItemRare[];
+
+void *__dt__26TOContainerAncientItemRareFv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TOContainerAncientItemRare;
+        ((TUnk_804B08BC *)arg0)->destroy_ancient_container(0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
+
+}
+
+extern s32 lbl_805D2F00;
+struct Ids_8015C234 { s32 f0; s32 a; s32 b; };
+
+extern Ids_8015C234 *ancient_container_fragment_texture_lists;
+u8 *TOContainerAncientItemRare__ct(u8 *container_ancient_item_rare, s32 arg1) {
+    init_ancient_container(container_ancient_item_rare, arg1);
+    *(s32 **)((s8 *)container_ancient_item_rare + 0x18) = __vt__26TOContainerAncientItemRare;
+    *(s32 *)((s8 *)container_ancient_item_rare + 0) = (s32) lbl_805D2F00;
+    ((TOContainerAncientItemRare *)container_ancient_item_rare)->texlist = ancient_container_fragment_texture_lists->f0;
+    return container_ancient_item_rare;
+}
 
 struct Desc_8015C234 {
     u8 pad0[0xC];
@@ -35,8 +68,6 @@ struct Obj_8015C234 {
     u8 pad44[0x326 - 0x44];
     s16 f326;
 };
-struct Ids_8015C234 { s32 f0; s32 a; s32 b; };
-
 struct Obj_8015C48C { u8 pad[0x326]; s16 a326; u8 pad2[0x364 - 0x328]; s32 a364; };
 
 extern "C" {
@@ -54,8 +85,6 @@ s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 void play_container_break_sound(s32 arg0);
 extern Desc_8015C234 fish_break_debris_desc;
 extern Desc_8015C234 lbl_8044074C;
-extern s32 lbl_805D2F00;
-extern Ids_8015C234 *ancient_container_fragment_texture_lists;
 extern u8 *tl_05;
 struct Base_8015C098 { char pad[0x18]; };
 struct VObj_8015C098 : Base_8015C098 {

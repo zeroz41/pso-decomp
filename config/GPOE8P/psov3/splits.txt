@@ -42,17 +42,11 @@ pso/unk/text_80019B78.cpp:
 	.text       start:0x80019B78 end:0x80019BD8
 
 pso/ui/TAdDrawLineCtrl.cpp:
-	.text       start:0x80019BD8 end:0x80019E24
+	.text       start:0x80019BD8 end:0x80019EB8
 	.data       start:0x80480908 end:0x80480920
 
-pso/misc/TLobby_80019E24.cpp:
-	.text       start:0x80019E24 end:0x80019EB8
-
-pso/unk/text_80019EB8.cpp:
-	.text       start:0x80019EB8 end:0x80019EF8
-
 pso/ui/TAdDrawLineTask.cpp:
-	.text       start:0x80019EF8 end:0x8001A3BC
+	.text       start:0x80019EB8 end:0x8001A3BC
 	.rodata     start:0x80434110 end:0x80434118
 	.data       start:0x80480920 end:0x80480938
 	.sdata2     start:0x805D7DD8 end:0x805D7DDC
@@ -92,15 +86,12 @@ pso/ui/TAdRicoRingCtrl.cpp:
 pso/system/FlagWord.cpp:
 	.text       start:0x8001BED8 end:0x8001BF4C
 
-pso/ui/TAdSEGAlogo_8001BF4C.cpp:
-	.text       start:0x8001BF4C end:0x8001C060
+pso/ui/TAdSEGAlogo.cpp:
+	.text       start:0x8001BF4C end:0x8001C134
 	.rodata     start:0x80434848 end:0x804349A0
 	.data       start:0x80480A70 end:0x80480BB0
 	.sdata      start:0x805D2620 end:0x805D2628
 	.sdata2     start:0x805D7E70 end:0x805D7E78
-
-pso/ui/TAdSEGAlogo.cpp:
-	.text       start:0x8001C060 end:0x8001C134
 
 pso/misc/TLogo_8001C134.cpp:
 	.text       start:0x8001C134 end:0x8001C1C4
@@ -120,11 +111,8 @@ pso/unk/text_8001C388.cpp:
 pso/ui/TAdBackGC.cpp:
 	.text       start:0x8001C5A0 end:0x8001C5E8
 
-pso/ui/TAdSinglePlyChrSelectGC_8001C5E8.cpp:
-	.text       start:0x8001C5E8 end:0x8001C60C
-
 pso/misc/TLoadCtrl.cpp:
-	.text       start:0x8001C60C end:0x8001CAD4
+	.text       start:0x8001C5E8 end:0x8001CAD4
 
 pso/misc/TLoadingCur.cpp:
 	.text       start:0x8001CAD4 end:0x8001D198
@@ -201,11 +189,8 @@ pso/boss/TBoss1DragonEffTail.cpp:
 pso/misc/TLobby_8002C140.cpp:
 	.text       start:0x8002C140 end:0x8002C190
 
-pso/unk/text_8002C190.cpp:
-	.text       start:0x8002C190 end:0x8002C214
-
 pso/boss/TObjBoss1Crater.cpp:
-	.text       start:0x8002C214 end:0x8002C838
+	.text       start:0x8002C190 end:0x8002C838
 	.rodata     start:0x80435588 end:0x80435590
 	.data       start:0x80481FD0 end:0x8048202C
 	.sdata2     start:0x805D8168 end:0x805D8170
@@ -265,14 +250,11 @@ pso/boss/TBoss2LaserLight.cpp:
 	.data       start:0x80482C58 end:0x80482C88
 	.sdata2     start:0x805D8498 end:0x805D84B8
 
-pso/boss/TBoss2Mine_800375C0.cpp:
-	.text       start:0x800375C0 end:0x80038D0C
+pso/boss/TBoss2Mine.cpp:
+	.text       start:0x800375C0 end:0x80038DCC
 	.rodata     start:0x80435AD0 end:0x80435B08
 	.data       start:0x80482C88 end:0x80482D04
 	.sdata2     start:0x805D84B8 end:0x805D8510
-
-pso/boss/TBoss2Mine.cpp:
-	.text       start:0x80038D0C end:0x80038DCC
 
 pso/boss/TBoss2PhotonBullet_80038DCC.cpp:
 	.text       start:0x80038DCC end:0x8003933C
@@ -316,12 +298,9 @@ pso/boss/TObjBoss2DustCtrl.cpp:
 	.sbss       start:0x805D4BF0 end:0x805D4BF4
 
 pso/boss/TObjBoss2RaftSplash.cpp:
-	.text       start:0x8003AED4 end:0x8003AFBC
-	.data       start:0x804833A0 end:0x804833B8
-
-pso/unk/text_8003AFBC.cpp:
-	.text       start:0x8003AFBC end:0x8003B07C
+	.text       start:0x8003AED4 end:0x8003B07C
 	.rodata     start:0x80435E88 end:0x80435E90
+	.data       start:0x804833A0 end:0x804833B8
 	.sdata2     start:0x805D85D0 end:0x805D85D8
 
 pso/boss/TObjBoss2CeilJunk_8003B07C.cpp:
@@ -468,15 +447,12 @@ pso/unk/text_8004AA04.cpp:
 	.text       start:0x8004AA04 end:0x8004AB90
 
 pso/object/TObjDFHorming.cpp:
-	.text       start:0x8004AB90 end:0x8004C19C
+	.text       start:0x8004AB90 end:0x8004C1AC
 	.rodata     start:0x804367C8 end:0x804371E0
 	.data       start:0x80484BB8 end:0x80484F3C
 	.bss        start:0x804FF1E8 end:0x804FF228
 	.sdata      start:0x805D2770 end:0x805D2774
 	.sdata2     start:0x805D8908 end:0x805D8938
-
-pso/boss/TBoss4Uro.cpp:
-	.text       start:0x8004C19C end:0x8004C1AC
 
 pso/boss/TBoss4DarkFalz_8004C93C.cpp:
 	.text       start:0x8004C1AC end:0x8004D8C8
@@ -4523,14 +4499,8 @@ pso/misc/TOContainerAncientItemNone.cpp:
 pso/misc/TOContainerAncientItemNone_8015BF38.cpp:
 	.text       start:0x8015BF38 end:0x8015BFF0
 
-pso/misc/TOContainerAncientItemRare.cpp:
-	.text       start:0x8015BFF0 end:0x8015C048
-
-pso/unk/text_8015C048.cpp:
-	.text       start:0x8015C048 end:0x8015C098
-
 pso/misc/TOContainerAncientItemCommon.cpp:
-	.text       start:0x8015C098 end:0x8015C4CC
+	.text       start:0x8015BFF0 end:0x8015C4CC
 
 pso/player/TObjPlayer_8015C4CC.cpp:
 	.text       start:0x8015C4CC end:0x8015C534
