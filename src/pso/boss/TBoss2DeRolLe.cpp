@@ -21,6 +21,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TBreakUpMdl.h"
+#include "pso/unk/TUnk_80482090.h"
 #include "pso/TBoss2Tentacle.h"
 #include "pso/TObjEZRopeBase.h"
 #include "pso/TObject.h"
@@ -5120,7 +5121,6 @@ extern const f32 lbl_805D844C;
 void TBoss2DeRolLe__sub_800360A8(void *arg0);
 s32 advance_action_sequence__13TBoss2DeRolLeFPv(void *);
 void queue_destruction__7TObjectFv(void *arg0);
-s32 construct_piece_controller__10TObjPlayerFPvii(int, void *, int);
 void advance_phase_wrap__13TBoss2DeRolLeFPv(u8 *arg0);
 void update_projectile_spawns__13TBoss2DeRolLeFPv(u8 *arg0);
 s32 update_particle_ctrls__13TBoss2DeRolLeFPv(void *);
@@ -5255,7 +5255,6 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
   s32 temp_r0_3;
   s32 temp_r30;
   s32 temp_r3;
-  u32 temp_r3_2;
   if (((TObjEneDD *)arg0)->get_target_info() != 0)
   {
     (((VObj_18_bd2ad6 *)(arg0))->m103());
@@ -5272,11 +5271,7 @@ void run_task__13TBoss2DeRolLeFPv(u8 *arg0) {
   {
     *((s32 *) (((s8 *) arg0) + 0x3C0)) = (s32) (temp_r3 & 0xFFFFFF7F);
     *((s32 *) (((s8 *) arg0) + 0x3C0)) = (s32) ((*((s32 *) (((s8 *) arg0) + 0x3C0))) | 0x40);
-    temp_r3_2 = ((u32)__nw__7TObjectFUl(0x500));
-    if (temp_r3_2 != 0U)
-    {
-      construct_piece_controller__10TObjPlayerFPvii((int) temp_r3_2, (void *) arg0, (int) (*((s32 *) (((s8 *) arg0) + 0x618))));
-    }
+    new TUnk_80482090((TObject *) arg0, *((u32 *) (((s8 *) arg0) + 0x618)));
   }
   if ((is_main_phase_15__9TObjEneDDFv() != 0) && (((s32) (*((s32 *) (((s8 *) arg0) + 0x3C8)))) == 0))
   {

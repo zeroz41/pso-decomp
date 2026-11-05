@@ -233,7 +233,8 @@ pso/boss/TObjBoss1Rock.cpp:
 pso/player/TObjPlayer_8002E784.cpp:
 	.text       start:0x8002E3D4 end:0x8002EFE8
 	.ctors      start:0x80433F28 end:0x80433F2C
-	.rodata     start:0x80435620 end:0x80435628
+	.rodata     start:0x804355F0 end:0x80435628
+	.data       start:0x80482090 end:0x804820D8
 	.sbss       start:0x805D4B88 end:0x805D4B98
 	.sdata2     start:0x805D8270 end:0x805D8278
 

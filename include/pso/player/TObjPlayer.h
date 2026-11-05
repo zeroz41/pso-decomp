@@ -385,7 +385,6 @@ struct TObjPlayer : public TObjChara {
     void bswap_stats();
     static void clear_target_ref();
     static void create_breakup_model();
-    void *deleting_dtor(s16 arg1);
     static s32 calc_random_scaled();
     static f32 get_scale_factor();
     static int get_battle_param(int a0);
