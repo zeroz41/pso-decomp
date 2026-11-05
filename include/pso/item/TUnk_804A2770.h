@@ -10,7 +10,7 @@ public:
 };
 
 extern "C" {
-void *TObjPlayer__sub_80125F24(void *arg0);
+void *TObjPlayer__sub_80125F24(void *weapon, s32 parent, void *item);
 }
 
 #endif

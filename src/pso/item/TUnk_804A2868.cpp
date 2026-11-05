@@ -12,25 +12,11 @@ struct Obj_80125FB8 { u8 pad[0x1f8]; s32 a; };
 struct Out_80125FB8 { u8 pad0[0x10]; s32 f10; u8 pad1[0x74 - 0x14]; void *f74; s32 f78; };
 
 extern "C" {
-u8 * TObjPlayer__sub_80125F24(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 extern s32 lbl_804A2868[];
 void TObjPlayer__sub_80125FB8(Obj_80125FB8 *self, Out_80125FB8 *o);
-u8 *TObjPlayer::create_obj_80125F60(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TObjPlayer__sub_80125F24(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
-    }
-    return NULL;
-}
 
 
 void TObjPlayer__sub_80125FB8(Obj_80125FB8 *self, Out_80125FB8 *o) {

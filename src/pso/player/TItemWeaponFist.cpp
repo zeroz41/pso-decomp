@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/item/TUnk_804A2A58.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
 #include "pso/player/TUnk_804A2B98.h"
@@ -7,29 +8,11 @@
 #include "pso/item/TItemProShield.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
+#include "pso/unk/text_80126A34.h"
+#include "pso/TMainTask.h"
 
 // ---- pso/unk/text_80126740
 
-
-extern "C" {
-u8 * baranz_launcher_ct(void *, s32, void *);
-u8 *__nw__5TItemFUl(s32);
-}
-extern s32 tl_05;
-
-u8 *create_baranz_launcher(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(baranz_launcher_ct(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
-    }
-    return NULL;
-}
 
 void TUnk_804A2B98::vfunc_58() {
     ((PlayerAttackState *)((u8 *)this->owner + 0x7CC))->set_evp(1.0f);
@@ -38,12 +21,6 @@ void TUnk_804A2B98::vfunc_58() {
 // ---- pso/player/TObjPlayer_801267C4
 
 extern "C" {
-
-
-
-
-
-
 
 
 void TUnk_804A2B98::vfunc_57() {
@@ -136,7 +113,6 @@ s32 knuckle_marker_joint_table[18] = {
 extern "C" {
 
 
-
 void TUnk_804A2B98::reserved_53() {
     s32 arg0 = (s32)this;
     if (get_item_index() == 3) {
@@ -150,4 +126,15 @@ void TUnk_804A2B98::reserved_53() {
 TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(577);
 }
+}
+
+u8 *create_knuckle_weapon(u8 *arg0) {
+    if (arg0 != NULL) {
+        return (u8 *)new TUnk_804A2B98(tl_05, arg0);
+    }
+    return NULL;
+}
+
+TUnk_804A2B98::~TUnk_804A2B98() {
+
 }

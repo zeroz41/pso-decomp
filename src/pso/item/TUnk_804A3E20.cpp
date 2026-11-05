@@ -5,6 +5,8 @@
 #include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_80128A70.h"
+#include "pso/player/TUnk_804A3F20.h"
 
 extern "C" {
 
@@ -46,5 +48,28 @@ extern "C" {
 int construct_srank_weapon(void);
 
 void*TUnk_804A3E20::init_shot_state() { construct_srank_weapon(); *(int*)((char*)this + 0x18) = (int)lbl_804A3E20; *(float *)&(*(s32 *)((u8 *)this + 0x204)) = 1.0f; *(float*)((char*)this + 0x200) = 1.0f; *(float *)&(*(s32 *)((u8 *)this + 0x1FC)) = 1.0f; return this; }
+
+}
+
+
+extern "C" {
+u8 * init_shot_state__13TUnk_804A3E20Fv(void *, s32, void *);
+u8 *__nw__5TItemFUl(s32);
+extern s32 tl_05;
+
+u8 *TObjPlayer::create_shot_state(u8 *arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != NULL) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(init_shot_state__13TUnk_804A3E20Fv(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
+}
+
 
 }
