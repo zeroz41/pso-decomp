@@ -701,13 +701,9 @@ pso/misc/TCameraCtrl_80067654.cpp:
 	.data       start:0x804887C8 end:0x804887F8
 	.sdata2     start:0x805D8F28 end:0x805D8F38
 
-pso/misc/TCameraCtrl_8006782C.cpp:
-	.text       start:0x8006782C end:0x80067C88
-	.sdata2     start:0x805D8F38 end:0x805D8F60
-
-pso/misc/TCameraCtrl_80067C88.cpp:
-	.text       start:0x80067C88 end:0x80067CE8
-	.sdata2     start:0x805D8F60 end:0x805D8F64
+pso/misc/TUnk_804887F8.cpp:
+	.text       start:0x8006782C end:0x80067CE8
+	.sdata2     start:0x805D8F38 end:0x805D8F64
 
 pso/misc/TCameraCtrl_80067CE8.cpp:
 	.text       start:0x80067CE8 end:0x80067F44

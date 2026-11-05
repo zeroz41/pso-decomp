@@ -4,10 +4,10 @@
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804887F8.h"
 #include "pso/misc/TUnk_80488E00.h"
-
 #include <stddef.h>
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
+
 struct Stack_80067AB0 {
     f32 sp8;
     f32 spC;
@@ -159,5 +159,13 @@ void *__dt__13TUnk_804887F8Fv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
+
+}
+
+extern "C" {
+
+void*TUnk_804887F8::init() { TCameraCtrl::construct_view_controller(this); *(int*)((char*)this + 0x18) = (int)lbl_804887F8; this->m_38 = 21; this->m_58 = 0.65f; this->m_114 = 0; (*(int *)((u8 *)this + 0x110)) = 0; return this; }
+
+void TUnk_80488E00::vfunc_14(s32 v) { this->m_10c = v; }
 
 }

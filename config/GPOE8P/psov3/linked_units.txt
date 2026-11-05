@@ -787,8 +787,6 @@ pso/misc/TBreakUpMdl.cpp
 pso/misc/TButterfly.cpp
 pso/misc/TCameraCtrl.cpp
 pso/misc/TCameraCtrl_80067654.cpp
-pso/misc/TCameraCtrl_8006782C.cpp
-pso/misc/TCameraCtrl_80067C88.cpp
 pso/misc/TCameraCtrl_80067CE8.cpp
 pso/misc/TCameraCtrl_80067F44.cpp
 pso/misc/TCameraCtrl_80067F8C.cpp
@@ -1053,6 +1051,9 @@ pso/misc/TLobby_8028A7C8.cpp
 pso/misc/TLobby_8028EA28.cpp
 pso/misc/TLobby_80291D94.cpp
 pso/misc/TLobby_80299A60.cpp
+pso/misc/TUnk_804887F8.cpp
+pso/misc/TUnk_80488B38.cpp
+pso/misc/TUnk_80488DA0.cpp
 pso/misc/TLobby_802A0F3C.cpp
 pso/misc/TLobby_802A5120.cpp
 pso/misc/TLobby_802A6080.cpp
