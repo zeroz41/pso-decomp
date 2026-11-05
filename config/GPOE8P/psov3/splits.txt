@@ -8055,10 +8055,7 @@ pso/misc/TWindowSubMag_80255E14.cpp:
 	.text       start:0x80255E14 end:0x80255E3C
 
 pso/misc/TWindowInputNumber.cpp:
-	.text       start:0x80255E3C end:0x80256170
-
-pso/misc/TWindowInputNumber_80256170.cpp:
-	.text       start:0x80256170 end:0x80256B94
+	.text       start:0x80255E3C end:0x80256B94
 	.rodata     start:0x8044EE28 end:0x8044EE40
 	.sdata2     start:0x805DCE18 end:0x805DCE58
 
@@ -8678,12 +8675,9 @@ pso/misc/TWindowSubShortCutList.cpp:
 	.text       start:0x8027E278 end:0x8027E620
 
 pso/misc/TWindowSubShortMail_8027E620.cpp:
-	.text       start:0x8027E620 end:0x8027FCE4
+	.text       start:0x8027E620 end:0x8027FD88
 	.data       start:0x804D1A58 end:0x804D1ACC
 	.sdata2     start:0x805DD6C8 end:0x805DD6DC
-
-pso/unk/text_8027FCE4.cpp:
-	.text       start:0x8027FCE4 end:0x8027FD88
 
 pso/unk/text_8027FD88.cpp:
 	.text       start:0x8027FD88 end:0x80281198
@@ -8897,11 +8891,8 @@ pso/menu/TChCrLoadGmNjReq.cpp:
 	.data       start:0x804D3728 end:0x804D3740
 	.sdata      start:0x805D3B58 end:0x805D3B60
 
-pso/unk/text_8028C8A8.cpp:
-	.text       start:0x8028C8A8 end:0x8028C8E0
-
 pso/ui/TAdSinglePlyChrSelectGC_8028C8E0.cpp:
-	.text       start:0x8028C8E0 end:0x8028D088
+	.text       start:0x8028C8A8 end:0x8028D088
 
 pso/misc/TChCrLoadReq.cpp:
 	.text       start:0x8028D088 end:0x8028D490
@@ -9143,14 +9134,11 @@ pso/unk/text_8029A97C.cpp:
 	.text       start:0x8029A97C end:0x8029AA34
 
 pso/misc/TChCrEffTag.cpp:
-	.text       start:0x8029AA34 end:0x8029ACA8
+	.text       start:0x8029AA34 end:0x8029ACF8
 	.rodata     start:0x804652D8 end:0x804652E0
 	.data       start:0x804DBF40 end:0x804DBF58
 	.sdata      start:0x805D3D08 end:0x805D3D0C
 	.sdata2     start:0x805DDC90 end:0x805DDCAC
-
-pso/misc/TChCrEffTag_8029ACA8.cpp:
-	.text       start:0x8029ACA8 end:0x8029ACF8
 
 pso/menu/TChCrEffWall.cpp:
 	.text       start:0x8029ACF8 end:0x8029AED0
@@ -9174,16 +9162,12 @@ pso/misc/TODoorJungleMain.cpp:
 	.sbss       start:0x805D65B8 end:0x805D65C0
 	.sdata2     start:0x805DDCD0 end:0x805DDCF4
 
-pso/unk/text_8029BA3C.cpp:
-	.text       start:0x8029BA3C end:0x8029BAC8
-	.sdata2     start:0x805DDCF8 end:0x805DDD08
-
 pso/ui/TAdBackTxtGC.cpp:
-	.text       start:0x8029BAC8 end:0x8029BCB4
+	.text       start:0x8029BA3C end:0x8029BCB4
 	.rodata     start:0x80465430 end:0x804654A0
 	.data       start:0x804DC098 end:0x804DC0F4
 	.sdata      start:0x805D3D28 end:0x805D3D30
-	.sdata2     start:0x805DDD08 end:0x805DDD0C
+	.sdata2     start:0x805DDCF8 end:0x805DDD0C
 
 pso/ui/TAdRayGC.cpp:
 	.text       start:0x8029BCB4 end:0x8029C030

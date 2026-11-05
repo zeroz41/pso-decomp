@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/TChCrLoadGmNjReq.h"
 #include "pso/misc/TLobby_801E2F94.h"
 #include "pso/menu/TChCrLoadGmNjReq.h"
 #include "pso/misc/TLobby_8028D714.h"
@@ -8,6 +9,18 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/TChCrLoadAfs.h"
 #include "pso/misc/TCharaMaking.h"
+
+struct Obj_8028C8A8 { u8 pad[0x6c]; s32 f6c; };
+
+extern s32 chr_select_slot_state;
+
+void TChCrLoadGmNjReq::sub_8028C8A8() {
+    Obj_8028C8A8 *o = (Obj_8028C8A8 *)this;
+    if (chr_select_slot_state < 0 || chr_select_slot_state > 1) return;
+    if (o->f6c == 0) return;
+    chr_select_slot_state--;
+    o->f6c = 0;
+}
 
 struct Cm_8028CB6C { u8 pad[0x3E]; s16 f3e; };
 

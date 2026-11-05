@@ -10,7 +10,7 @@ struct TWindowSubMag;
 #include "pso/misc/TWindowSubQuestBoard.h"
 #include "pso/misc/TWindowSubSymbolChat_8028239C.h"
 #include "pso/misc/TWindowSubTechnique.h"
-#include "pso/unk/text_8027FCE4.h"
+#include "pso/misc/TWindowSubShortMail.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/object/TObject_80019A50.h"

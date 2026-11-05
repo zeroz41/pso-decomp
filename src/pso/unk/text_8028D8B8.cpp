@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/menu/TChCrEffWall.h"
-#include "pso/misc/TChCrEffTag_8029ACA8.h"
+#include "pso/misc/TChCrEffTag.h"
 #include "pso/unk/text_8028D8B8.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 

@@ -3,6 +3,7 @@
 #include "types.h"
 #include <stddef.h>
 #include "pso/misc/TChCrEffTag_8029AC44.h"
+#include "pso/misc/TChCrEffTag.h"
 
 struct Stack_8029AA74 {
     f32 sp8;
@@ -105,7 +106,7 @@ extern s32 __vt__11TChCrEffTag[];
 
 extern void *TChCrEffTag__name;
 
-void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag) {
+void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag, void *parent) {
     __ct__7TObjectFP7TObject(ch_cr_eff_tag);
     *(s32 **)((s8 *)ch_cr_eff_tag + 0x18) = __vt__11TChCrEffTag;
     *(void * *)&((TChCrEffTag *)ch_cr_eff_tag)->m_name = TChCrEffTag__name;
@@ -119,4 +120,19 @@ void *__ct__11TChCrEffTagFv(void *ch_cr_eff_tag) {
 
 extern char lbl_80465298[];
 void *TChCrEffTag__name = lbl_80465298;
+}
+
+extern "C" {
+
+void *__nw__7TObjectFUl(int);
+
+    void TChCrEffTag::set_eff_tag(int a0) { TChCrEffTag__selected_heading = a0; }
+}
+
+void *create_TChCrEffTag(void *ch_cr_eff_tag) {
+    void *o = __nw__7TObjectFUl(0x2C);
+    if (o != NULL) {
+        o = __ct__11TChCrEffTagFv(o, ch_cr_eff_tag);
+    }
+    return o;
 }
