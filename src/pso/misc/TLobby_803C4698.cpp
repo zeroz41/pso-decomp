@@ -52,7 +52,10 @@ s32 strlen(const char *);
 char number_format_digit_buffer[0x20];
 RecoveredGlobal_803C5850_lbl_80572020 adx_error_message_buffer;
 extern const char lbl_805E0D28[2];
-extern const s32 adx_signed_nibbles[16];
+// Sign-extend the low four bits in the same way as the high nibble.
+extern const s32 adx_signed_nibbles[16] = {
+    0, 1, 2, 3, 4, 5, 6, 7, -8, -7, -6, -5, -4, -3, -2, -1,
+};
 f64 cos(f64);
 void calc_adx_predictor_coeffs(s32 cutoff, s32 rate, s16 *k0, s16 *k1);
 s32 set_callback_params__6TLobbyFll();
