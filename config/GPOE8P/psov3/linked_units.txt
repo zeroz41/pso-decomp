@@ -600,8 +600,6 @@ pso/item/TItemList_801D3780.cpp
 pso/item/TItemList_801D57B0.cpp
 pso/item/TItemLoad.cpp
 pso/item/TItemLoad_8010F2AC.cpp
-pso/item/TItemLoad_8010F3D8.cpp
-pso/item/TItemLoad_8010F484.cpp
 pso/item/TItemLoad_8010F52C.cpp
 pso/item/TItemLoad_8010F9EC.cpp
 pso/item/TItemLoad_8010FAB4.cpp
@@ -662,6 +660,8 @@ pso/item/TObjContainerIdo.cpp
 pso/item/TObjContainerIdo_8018BEE4.cpp
 pso/item/TObjContainerIdo_801A0B94.cpp
 pso/item/TObjContainerItem.cpp
+pso/item/TUnk_8049F3F4.cpp
+pso/item/TUnk_8049F42C.cpp
 pso/item/TObjContainerJung.cpp
 pso/item/TObjItemLight.cpp
 pso/item/TUnk_8049F770.cpp
