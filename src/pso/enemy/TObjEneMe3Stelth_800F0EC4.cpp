@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjMotion.h"
@@ -241,7 +243,6 @@ struct Ent_800F0F84 { u8 pad0[0x18]; u32 f18; };
 
 extern "C" {
 s32 is_split_screen();
-s32 play_sound_effect(int, void *, int, int);
 extern const Quad_800F1440 me3_stelth_offset_vec;
 extern const f32 lbl_805DA828;
 extern const f32 lbl_805DA82C;
@@ -266,7 +267,6 @@ extern s32 game_difficulty_selection;
 extern const f32 TObjEneMe3Stelth__data_805DA820;
 extern const f32 TObjEneMe3Stelth__data_805DA824;
 void TObjEneMe3Stelth__sub_800F1098(u8 *arg0, s32 arg1);
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 s32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, void *, void *, void *, s32, s32);
 u16 get_entity_id(void *);
 void handle_direct_attack__16TObjEneMe3StelthFPvPviPv(Obj_800F0EC4 *arg0, void *arg1, Pair_800F0EC4 arg2, void *arg3);
@@ -279,7 +279,7 @@ s32 TObjEneMe3Stelth__sub_800F0F84(u8 *arg0, Vec_800F0F84 *arg1);
 #define F(T, o) (*(T *)(arg0 + (o)))
 
 void handle_direct_attack__16TObjEneMe3StelthFPvPviPv(Obj_800F0EC4 *actor, void *arg1, Pair_800F0EC4 arg2, void *arg3) {
-    if (actor->f3C0 == 1 && get_entity_id(arg1) < 0x1000 && random_ratio__9TObjCharaFv((s32)actor) <= actor->f3E0) {
+    if (actor->f3C0 == 1 && get_entity_id(arg1) < 0x1000 && ((TObjChara *)actor)->random_ratio() <= actor->f3E0) {
         ((TObjEneDD *)actor)->transition_enemy_state(0x12);
     } else if (actor->f326 == 2) {
         ((TObjEneDD *)actor)->transition_enemy_state(6);

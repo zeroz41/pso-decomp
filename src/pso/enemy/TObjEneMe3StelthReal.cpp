@@ -94,14 +94,9 @@ struct VObj_18_be4a70 : VBase_18_be4a70 {
     virtual s32 m85(s16, s32);
 };
 
-struct RecoveredGlobal_800F0DF0___vt__20TObjEneMe3StelthReal {
-    s32 value;
-    u8 remaining[0x1CC];
-};
-
 extern "C" {
 s32 invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-s32 TObjEneMe3Stelth__ct();
+void *TObjEneMe3Stelth__ct(void *arg0);
 extern s32 __vt__20TObjEneMe3StelthReal[];
 extern s32 lbl_805D2AFC;
 u8 *TObjEneMe3StelthReal__ct(TObjEneMe3StelthReal *arg0, s32 arg1, s32 arg2);
@@ -113,7 +108,6 @@ int vfunc_63__16TObjEneMe3StelthFv(void*);
 void __dl__7TObjectFPv(void *);
 void *__dt__16TObjEneMe3StelthFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
-f32 random_ratio__9TObjCharaFv();
 
 void TObjEneMe3StelthReal::vfunc_111() {  }
 
@@ -122,7 +116,7 @@ extern const f32 lbl_805DA81C;
 void TObjEneMe3StelthReal::vfunc_107() {
     EneStelth_800F0CE8 *self = (EneStelth_800F0CE8 *)this;
     *(s32 *)((s8 *)this + 0x3EC) = *(s32 *)((s8 *)this + 0x3EC) + 1;
-    if ((*(s32 *)((s8 *)this + 0x3EC) >= 2) || (random_ratio__9TObjCharaFv() < lbl_805DA81C)) {
+    if ((*(s32 *)((s8 *)this + 0x3EC) >= 2) || (random_ratio() < lbl_805DA81C)) {
         ((TObjEneDD *)self)->transition_enemy_state(9);
         return;
     }
@@ -145,10 +139,9 @@ void *__dt__20TObjEneMe3StelthRealFv(void *arg0, s16 arg1) {
 
 extern void *tl_04;
 
-typedef char RecoveredGlobal_800F0DF0___vt__20TObjEneMe3StelthReal_size[sizeof(RecoveredGlobal_800F0DF0___vt__20TObjEneMe3StelthReal) == 0x1D0 ? 1 : -1];
 u8 *TObjEneMe3StelthReal__ct(TObjEneMe3StelthReal *ene_me3_stelth_real, s32 arg1, s32 arg2) {
-    TObjEneMe3Stelth__ct();
-    *(s32 **)((s8 *)ene_me3_stelth_real + 0x18) = &(*(RecoveredGlobal_800F0DF0___vt__20TObjEneMe3StelthReal *)&__vt__20TObjEneMe3StelthReal).value;
+    TObjEneMe3Stelth__ct(ene_me3_stelth_real);
+    *(s32 **)((s8 *)ene_me3_stelth_real + 0x18) = __vt__20TObjEneMe3StelthReal;
     *(s32 *)((s8 *)ene_me3_stelth_real + 0) = (s32) lbl_805D2AFC;
     invoke_initialization_hook__9TObjEneDDFPv((void *)ene_me3_stelth_real, (void *)arg2);
     ((TObjEneMe3Stelth *)ene_me3_stelth_real)->setup_move_bounds();

@@ -13,6 +13,8 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/enemy/TObjEneMe3StelthReal.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/map/CsnQuery.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneEpsilon.h"
 #include "pso/misc/TRaderMapCore.h"
@@ -74,7 +76,6 @@ void exec__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1);
 s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 s32 get_flag_b4__9TObjEneDDFv(void *);
-s32 play_sound_effect(s32, void *, s32, s32, s32);
 
 s32 is_split_screen();
 extern const f32 lbl_805DA828;
@@ -98,7 +99,7 @@ void exec__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
         temp_r7 = *(s32 *)((s8 *)arg0 + 0x3CC) | 1;
         *(s32 *)((s8 *)arg0 + 0x3CC) = temp_r7;
         *(s32 *)((s8 *)arg0 + 0x424) = 0;
-        play_sound_effect(0x3B23B, arg0 + 0x38, 0, 0, temp_r7);
+        play_sound_effect(0x3B23B, arg0 + 0x38, 0, 0);
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x424) == 3) {
@@ -862,9 +863,7 @@ struct SObj_800F2270 : SBase_800F2270 {
 struct Vec_800F2270 { f32 x, y, z; };
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(void *);
 s32 clear_attack_receipts__9TObjEneDDFv(void *);
-#define play_sound_effect ((s32 (*)(s32, void *, s32, s32))play_sound_effect)
 extern const f32 lbl_805DA858;
 void TObjEneMe3Stelth__sub_800F290C(u8 *arg0, s32 arg1);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -878,8 +877,6 @@ extern const f32 lbl_805DA82C;
 extern const f32 TObjEneMe3Stelth__data_805DA844;
 extern const f32 TObjEneMe3Stelth__data_805DA850;
 extern const f32 lbl_805DA854;
-u32 csnVectorUnder(void *, void *, int);
-u32 csnVector(void *, void *, int);
 s32 update_linked_position__12TObjEneDD_STFf(void *, f32);
 #define set_field_378__9TObjEneDDFl ((s32 (*)(void *, int))set_field_378__9TObjEneDDFl)
 s32 TObjEneMe3Stelth__sub_800F0F84(void *, void *);
@@ -904,8 +901,8 @@ void TObjEneMe3Stelth__sub_800F2270(u8 *arg0, s32 arg1);
 #define S ((SObj_800F2270 *)(arg0 + 0x404))
 void TObjEneMe3Stelth__sub_800F2270(u8 *arg0, s32 arg1) {
     Vec_800F2270 v;
-    Vec_800F2270 p;
-    Vec_800F2270 q;
+    Vec p;
+    Vec q;
     s32 arr[3];
     s32 i;
     s32 ang;
@@ -923,9 +920,9 @@ void TObjEneMe3Stelth__sub_800F2270(u8 *arg0, s32 arg1) {
             I(0x3C0) = 1;
             I(0x3CC) |= 0x40000;
             ((TObjCollidable *)arg0)->set_indexed_flags(0, 0x8000000);
-            if (random_ratio__9TObjCharaFv(arg0) <= R(0x3D8)) {
+            if (((TObjChara *)arg0)->random_ratio() <= R(0x3D8)) {
                 if (sub_800F47D4__16TObjEneMe3StelthFv(arg0) != 0) {
-                    if (random_ratio__9TObjCharaFv(arg0) > *(f32 *)((s8 *)TObjEneMe3Stelth__behavior_params_by_variant[I(0x3C8)] + 0x14)) {
+                    if (((TObjChara *)arg0)->random_ratio() > *(f32 *)((s8 *)TObjEneMe3Stelth__behavior_params_by_variant[I(0x3C8)] + 0x14)) {
                         transition_enemy_state__9TObjEneDDFl(arg0, 0x10);
                     } else {
                         transition_enemy_state__9TObjEneDDFl(arg0, 0xB);
@@ -960,8 +957,8 @@ void TObjEneMe3Stelth__sub_800F2270(u8 *arg0, s32 arg1) {
                     if (P(0x390) == NULL) {
                         break;
                     }
-                    arr[0] = (s32)(TObjEneMe3Stelth__data_805DA84C * random_ratio__9TObjCharaFv(arg0)) - 1;
-                    arr[1] = (s32)(TObjEneMe3Stelth__data_805DA850 * random_ratio__9TObjCharaFv(arg0)) - 1;
+                    arr[0] = (s32)(TObjEneMe3Stelth__data_805DA84C * ((TObjChara *)arg0)->random_ratio()) - 1;
+                    arr[1] = (s32)(TObjEneMe3Stelth__data_805DA850 * ((TObjChara *)arg0)->random_ratio()) - 1;
                     if (arr[1] <= arr[0]) {
                         arr[1]++;
                     }
@@ -976,8 +973,8 @@ void TObjEneMe3Stelth__sub_800F2270(u8 *arg0, s32 arg1) {
                         q.x += p.x - *(f32 *)((s8 *)(P(0x390)) + 0x38);
                         q.z += p.z - *(f32 *)((s8 *)(P(0x390)) + 0x40);
                         if (TObjEneMe3Stelth__sub_800F0F84(arg0, &q) == 0 &&
-                            csnVector(P(0x390) + 0x38, &q, 0x88E0) == 0 &&
-                            csnVectorUnder(&p, arg0 + 0x120, 0x15) != 0 &&
+                            csnVector((Vec *)(P(0x390) + 0x38), &q, 0x88E0) == 0 &&
+                            csnVectorUnder(&p, (u32 *)(arg0 + 0x120), 0x15) != 0 &&
                             ((TScene *)(&p))->find_section_at_position() == *(s16 *)((s8 *)arg0 + 0x28)) {
                             VecCopy((Vec *)(arg0 + 0x38), (const Vec *)&p);
                             I(0x60) = ang + 0xC000;
@@ -1071,7 +1068,7 @@ void TObjEneMe3Stelth__sub_800F290C(u8 *arg0, s32 arg1) {
         break;
     case 3:
         if (get_flag_b4__9TObjEneDDFv(arg0) != 0) {
-            if (*(s32 *)((s8 *)arg0 + 0x3C0) == 1 && random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3E0)) {
+            if (*(s32 *)((s8 *)arg0 + 0x3C0) == 1 && ((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0)) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 0x12);
             } else {
                 transition_enemy_state__9TObjEneDDFl(arg0, *(s32 *)((s8 *)arg0 + 0x378));
@@ -1901,10 +1898,8 @@ s32 TObjEneMe3Stelth__sub_800F0C90(void *);
 extern const f32 lbl_805DA878;
 f64 atan2_float(f32, f32);
 #define get_flag_b4__9TObjEneDDFv ((s32 (*)())get_flag_b4__9TObjEneDDFv)
-u32 csnVecterUnder(void *, int);
 #define test_body_collision__16TObjEneMe3StelthFlf ((s32 (*)(void *, int, f32))test_body_collision__16TObjEneMe3StelthFlf)
 s32 approach_angle_limited(int, int, int);
-#define play_sound_effect ((s32 (*)(int, void *, int, int))play_sound_effect)
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 set_matrix_identity(int);
 extern s32 TObjEneMe3Stelth__trail_buffer;
@@ -2005,13 +2000,13 @@ void run_walk_state__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
         return;
     case 3:
         if ((s32) *(s32 *)((s8 *)arg0 + 0x424) == 3) {
-            if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 0) && (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3DC))) {
+            if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 0) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3DC))) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 0x11);
                 return;
             }
-            if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3D8)) {
+            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3D8)) {
                 if (sub_800F47D4__16TObjEneMe3StelthFv(arg0) != 0) {
-                    if (random_ratio__9TObjCharaFv(arg0) > TObjEneMe3Stelth__behavior_params_by_variant[*(s32 *)((s8 *)arg0 + 0x3C8)][5]) {
+                    if (((TObjChara *)arg0)->random_ratio() > TObjEneMe3Stelth__behavior_params_by_variant[*(s32 *)((s8 *)arg0 + 0x3C8)][5]) {
                         transition_enemy_state__9TObjEneDDFl(arg0, 0x10);
                         return;
                     }
@@ -2021,7 +2016,7 @@ void run_walk_state__16TObjEneMe3StelthFPvi(u8 *arg0, s32 arg1) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 0x10);
                 return;
             }
-            if (random_ratio__9TObjCharaFv(arg0) <= *(f32 *)((s8 *)arg0 + 0x3E4)) {
+            if (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E4)) {
                 transition_enemy_state__9TObjEneDDFl(arg0, 0xC);
                 return;
             }
@@ -2195,7 +2190,7 @@ void TObjEneMe3Stelth__sub_800F348C(u8 *arg0, s32 arg1) {
                     v.x += F(f32, 0x3A0) * t;
                     v.y += TObjEneMe3Stelth__data_805DA844;
                     v.z += F(f32, 0x3A8) * t;
-                    if (csnVecterUnder(&v, 0x15) != 0) {
+                    if (csnVecterUnder((s32)&v, 0x15) != 0) {
                         if (F(s16, 0x28) == ((TScene *)(&v))->find_section_at_position()) {
                             F(s32, 0x424) = 3;
                             F(f32, 0x434) = (F(f32, 0x3AC) - TObjEneMe3Stelth__data_805DA844) / lbl_805DA870;
@@ -2492,7 +2487,7 @@ void TObjEneMe3Stelth::state_chase(s32 arg1) {
             *(s32 *)((s8 *)((u8 *)this) + 0x428) = temp_r0;
             if ((temp_r0 <= 0) && (((VObj_18_bb4b7f *)(this))->m104() != 0)) {
                 *(s32 *)((s8 *)((u8 *)this) + 0x428) = 0x3C;
-                if (random_ratio__9TObjCharaFv(this) <= lbl_805DA88C) {
+                if (random_ratio() <= lbl_805DA88C) {
                     transition_enemy_state__9TObjEneDDFl(this, 7);
                     break;
                 }
@@ -3122,7 +3117,6 @@ s32 check_enemy_body_collisions(void *);
 s32 check_object_collisions__14TObjCollidableFv(void *);
 void free_collision_body_parts(void *);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
-#define play_sound_effect ((void (*)(s32, void *, s32, s32))play_sound_effect)
 void __dl__7TObjectFPv(void *);
 #define sin_table_lookup ((f32 (*)(s32))sin_table_lookup)
 #define cos_table_lookup ((f32 (*)(s32))cos_table_lookup)
@@ -3513,7 +3507,7 @@ void attack_and_unequip__16TObjEneMe3StelthFPv(Stelth_800F4A90 *self) {
                     ((TObjPlayer *)t)->get_hand_joint_position((s32)self->f3F8);
                     spawn_particle_effect(self->f3F8, 0x1D0);
                 }
-            } else if (near != 0 && random_ratio__9TObjCharaFv(self) <= lbl_805DA8A0) {
+            } else if (near != 0 && ((TObjChara *)self)->random_ratio() <= lbl_805DA8A0) {
                 TObjEneDD__sub_800BA438(self, self->target);
             }
         }
@@ -3611,7 +3605,7 @@ void TObjEneMe3Stelth::vfunc_62() {
     u8 *arg0 = (u8 *)this;
     if (*(s32 *)((s8 *)arg0 + 0x3CC) & 1) {
         clear_attack_receipts__9TObjEneDDFv(arg0);
-        if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 1) && (((f32 (*)(s32))random_ratio__9TObjCharaFv)((s32) arg0) <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
+        if (((s32) *(s32 *)((s8 *)arg0 + 0x3C0) == 1) && (((TObjChara *)arg0)->random_ratio() <= *(f32 *)((s8 *)arg0 + 0x3E0))) {
             transition_enemy_state__9TObjEneDDFl(arg0, (void*)(0x12));
         }
     } else if ((s16) *(s16 *)((s8 *)arg0 + 0x326) != 0xE) {
