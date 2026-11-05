@@ -1,5 +1,5 @@
-#ifndef PSO_UNK_TEXT_802F19C0_H
-#define PSO_UNK_TEXT_802F19C0_H
+#ifndef PSO_UNK_TEXT_802F190C_H
+#define PSO_UNK_TEXT_802F190C_H
 
 #include "types.h"
 

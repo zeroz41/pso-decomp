@@ -2,7 +2,7 @@
 #include "pso/item/TItemEffPG_8034FF4C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"
-#include "pso/unk/text_802E4A4C.h"
+#include "pso/item/TItemAttackCol_802E4798.h"
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/item/TItemEffPG.h"
 #include "pso/item/TItemAttackCol.h"

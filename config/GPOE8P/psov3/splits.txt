@@ -9376,11 +9376,8 @@ pso/misc/TLobby_802A7290.cpp:
 pso/misc/pso_const_ids3.cpp:
 	.text       start:0x802A7798 end:0x802A7848
 
-pso/misc/TLobby_802A7848.cpp:
-	.text       start:0x802A7848 end:0x802A7D68
-
 pso/misc/TWindowSnapShot_802A7D68.cpp:
-	.text       start:0x802A7D68 end:0x802A7DDC
+	.text       start:0x802A7848 end:0x802A7DDC
 
 pso/misc/TWindowSnapShot.cpp:
 	.text       start:0x802A7DDC end:0x802A8140
@@ -9820,13 +9817,10 @@ pso/player/TObjPlayer_802D5B78.cpp:
 	.text       start:0x802D5B78 end:0x802D5C0C
 
 pso/player/TObjPlayer_802D5C0C.cpp:
-	.text       start:0x802D5C0C end:0x802D5F44
+	.text       start:0x802D5C0C end:0x802D6348
 	.rodata     start:0x80472590 end:0x8047259C
-	.sdata2     start:0x805DE7A0 end:0x805DE7A4
-
-pso/unk/text_802D5F44.cpp:
-	.text       start:0x802D5F44 end:0x802D6348
 	.data       start:0x804E1BB0 end:0x804E1E08
+	.sdata2     start:0x805DE7A0 end:0x805DE7A4
 
 pso/ui/TUnk_804E24F0.cpp:
 	.text       start:0x802D6348 end:0x802D655C
@@ -9970,10 +9964,7 @@ pso/item/TItemEffOrgaFlowShot.cpp:
 	.text       start:0x802E4748 end:0x802E4798
 
 pso/item/TItemAttackCol_802E4798.cpp:
-	.text       start:0x802E4798 end:0x802E4A4C
-
-pso/unk/text_802E4A4C.cpp:
-	.text       start:0x802E4A4C end:0x802E4B80
+	.text       start:0x802E4798 end:0x802E4B80
 
 pso/object/TObjOnlineEnding_802E4B80.cpp:
 	.text       start:0x802E4B80 end:0x802E530C
@@ -10090,10 +10081,7 @@ pso/boss/TObjBoss7RaftSplash_802F18E8.cpp:
 	.text       start:0x802F18E8 end:0x802F190C
 
 pso/unk/text_802F190C.cpp:
-	.text       start:0x802F190C end:0x802F19C0
-
-pso/unk/text_802F19C0.cpp:
-	.text       start:0x802F19C0 end:0x802F1A58
+	.text       start:0x802F190C end:0x802F1A58
 
 pso/boss/TObjBoss2Tunnel_802F1A58.cpp:
 	.text       start:0x802F1A58 end:0x802F2C90
@@ -10220,11 +10208,8 @@ pso/misc/TOJungleDesign_802FEEB4.cpp:
 	.data       start:0x804E6580 end:0x804E663C
 	.sdata2     start:0x805DEF20 end:0x805DEF28
 
-pso/unk/text_802FF028.cpp:
-	.text       start:0x802FF028 end:0x802FF0A0
-
 pso/ui/TAdMultiSaveGC_802FF0A0.cpp:
-	.text       start:0x802FF0A0 end:0x802FF14C
+	.text       start:0x802FF028 end:0x802FF14C
 
 pso/ui/TAdMultiSaveGC_802FF14C.cpp:
 	.text       start:0x802FF14C end:0x802FF5F8
