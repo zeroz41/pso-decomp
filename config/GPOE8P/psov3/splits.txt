@@ -7201,10 +7201,7 @@ pso/ui/TMessageWindowController.cpp:
 	.sdata2     start:0x805DC718 end:0x805DC728
 
 pso/unk/text_80222C28.cpp:
-	.text       start:0x80222C28 end:0x80222D24
-
-pso/misc/TLobby_80222D24.cpp:
-	.text       start:0x80222D24 end:0x80222DE8
+	.text       start:0x80222C28 end:0x80222DE8
 	.rodata     start:0x8044C298 end:0x8044C300
 	.data       start:0x804CA288 end:0x804CA2A0
 
@@ -7455,10 +7452,7 @@ pso/misc/TTecMegid.cpp:
 	.sdata2     start:0x805DC880 end:0x805DC888
 
 pso/unk/text_80235A20.cpp:
-	.text       start:0x80235A20 end:0x80235A8C
-
-pso/unk/text_80235A8C.cpp:
-	.text       start:0x80235A8C end:0x80235B24
+	.text       start:0x80235A20 end:0x80235B24
 
 pso/misc/TTecMegid_80235B24.cpp:
 	.text       start:0x80235B24 end:0x80235C44
@@ -7655,10 +7649,7 @@ pso/unk/text_802432F0.cpp:
 	.data       start:0x804CDC88 end:0x804CDCA8
 
 pso/misc/TLobby_80243370.cpp:
-	.text       start:0x80243370 end:0x802433DC
-
-pso/misc/TKeyBoardControl_802433DC.cpp:
-	.text       start:0x802433DC end:0x80243408
+	.text       start:0x80243370 end:0x80243408
 
 pso/misc/TWindowHelpItem_80243408.cpp:
 	.text       start:0x80243408 end:0x802437C4
@@ -7742,10 +7733,7 @@ pso/misc/TWindowChatSymbol.cpp:
 	.text       start:0x80248668 end:0x802486A8
 
 pso/misc/TWindowChatSymbol_802486A8.cpp:
-	.text       start:0x802486A8 end:0x80248840
-
-pso/unk/text_80248840.cpp:
-	.text       start:0x80248840 end:0x80248940
+	.text       start:0x802486A8 end:0x80248940
 	.sdata2     start:0x805DCBA0 end:0x805DCBA8
 
 pso/misc/TWindowOptionCtrl_80248940.cpp:
@@ -10268,11 +10256,8 @@ pso/boss/TBoss8DragonEffBullet.cpp:
 	.sdata2     start:0x805DEF00 end:0x805DEF08
 
 pso/boss/TBoss8DragonEffTail.cpp:
-	.text       start:0x802FE48C end:0x802FE8CC
+	.text       start:0x802FE48C end:0x802FE908
 	.sdata2     start:0x805DEF08 end:0x805DEF1C
-
-pso/unk/text_802FE8CC.cpp:
-	.text       start:0x802FE8CC end:0x802FE908
 
 pso/unk/text_802FE908.cpp:
 	.text       start:0x802FE908 end:0x802FE9E0
@@ -11149,13 +11134,10 @@ pso/misc/TLobby_803360CC.cpp:
 	.sdata2     start:0x805DF8E8 end:0x805DF90C
 
 pso/unk/text_803369C8.cpp:
-	.text       start:0x80336874 end:0x80336E00
+	.text       start:0x80336874 end:0x80336E6C
 	.rodata     start:0x80477830 end:0x80477858
 	.data       start:0x804EEF80 end:0x804EEF98
 	.sdata2     start:0x805DF910 end:0x805DF978
-
-pso/misc/TLobby_80336E00.cpp:
-	.text       start:0x80336E00 end:0x80336E6C
 
 pso/boss/TBoss6Type2_80336E6C.cpp:
 	.text       start:0x80336E6C end:0x80337348
@@ -12131,13 +12113,9 @@ pso/boss/TBoss6RockChase.cpp:
 	.sdata2     start:0x805E03B8 end:0x805E03E8
 
 pso/misc/TWindowSubStatusDisp_8036D774.cpp:
-	.text       start:0x8036D774 end:0x8036DBC4
-	.rodata     start:0x8047AD00 end:0x8047AD08
+	.text       start:0x8036D774 end:0x8036DC80
+	.rodata     start:0x8047AD00 end:0x8047AD30
 	.sdata2     start:0x805E03E8 end:0x805E0420
-
-pso/misc/TLobby_8036DBC4.cpp:
-	.text       start:0x8036DBC4 end:0x8036DC80
-	.rodata     start:0x8047AD08 end:0x8047AD30
 
 pso/boss/TBoss6Type2_8036DC80.cpp:
 	.text       start:0x8036DC80 end:0x8036DE10
@@ -13132,12 +13110,9 @@ pso/misc/TLobby_803D0C28.cpp:
 	.text       start:0x803D0C28 end:0x803D0C34
 
 pso/unk/text_803D0C34.cpp:
-	.text       start:0x803D0C34 end:0x803D0EB8
+	.text       start:0x803D0C34 end:0x803D0F1C
 	.bss        start:0x80581EA8 end:0x80583058
 	.sbss       start:0x805D7610 end:0x805D7614
-
-pso/misc/TLobby_803D0EB8.cpp:
-	.text       start:0x803D0EB8 end:0x803D0F1C
 
 pso/system/LscStream.cpp:
 	.text       start:0x803D0F1C end:0x803D1D28

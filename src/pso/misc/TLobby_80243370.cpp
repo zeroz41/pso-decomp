@@ -2,6 +2,7 @@
 #include "pso/misc/TLobby_80243370.h"
 #include "pso/system/memory.h"
 #include "pso/misc/TLobby.h"
+#include "pso/misc/TKeyBoardControl.h"
 
 extern "C" {
 int TAdPlayerLoadGC__sub_801E263C(void*, void*, void*, void*);
@@ -13,6 +14,17 @@ void TLobby__sub_802433A8(void) {
         xfree((void *)(*(u32 *)&player_data_load_buffer));
         (*(u32 *)&player_data_load_buffer) = 0U;
     }
+}
+
+}
+
+extern "C" {
+
+s32 xmalloc__FUl(s32);
+
+
+void TKeyBoardControl::alloc_buffer() {
+    player_data_load_buffer = xmalloc__FUl(0x14000);
 }
 
 }

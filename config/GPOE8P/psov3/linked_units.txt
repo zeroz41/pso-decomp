@@ -902,7 +902,7 @@ pso/misc/TJudgmentSequence_8021E4C4.cpp
 pso/misc/TKeyBoardControl_8000F764.cpp
 pso/misc/TKeyBoardControl_80131C58.cpp
 pso/misc/TKeyBoardControl_801A57C4.cpp
-pso/misc/TKeyBoardControl_802433DC.cpp
+pso/misc/TLobby_80243370.cpp
 pso/misc/TKeyBoardControl_8025CB70.cpp
 pso/misc/TKeyBoardControl_8025EC04.cpp
 pso/misc/TKeyBoardControl_80290CB0.cpp
@@ -1042,14 +1042,13 @@ pso/misc/TLobby_80211F0C.cpp
 pso/misc/TLobby_802173F0.cpp
 pso/misc/TLobby_8021B268.cpp
 pso/misc/TLobby_80221820.cpp
-pso/misc/TLobby_80222D24.cpp
+pso/unk/text_80222C28.cpp
 pso/misc/TLobby_802230F8.cpp
 pso/misc/TLobby_80226070.cpp
 pso/misc/TLobby_802268F4.cpp
 pso/misc/TLobby_80228C84.cpp
 pso/misc/TLobby_8023F734.cpp
 pso/misc/TLobby_80242910.cpp
-pso/misc/TLobby_80243370.cpp
 pso/misc/TLobby_8024A148.cpp
 pso/misc/TLobby_8026B06C.cpp
 pso/misc/TLobby_8026DE30.cpp
@@ -1079,7 +1078,7 @@ pso/misc/TLobby_80329600.cpp
 pso/misc/TLobby_8032BD20.cpp
 pso/misc/TLobby_80335E7C.cpp
 pso/misc/TLobby_803360CC.cpp
-pso/misc/TLobby_80336E00.cpp
+pso/unk/text_803369C8.cpp
 pso/misc/TLobby_803382E4.cpp
 pso/misc/TLobby_80338E9C.cpp
 pso/misc/TLobby_8033A810.cpp
@@ -1089,7 +1088,7 @@ pso/misc/TLobby_8034C23C.cpp
 pso/misc/TLobby_8035D540.cpp
 pso/misc/TLobby_8036A37C.cpp
 pso/misc/TLobby_8036B204.cpp
-pso/misc/TLobby_8036DBC4.cpp
+pso/misc/TWindowSubStatusDisp_8036D774.cpp
 pso/misc/TLobby_8036F81C.cpp
 pso/misc/TLobby_803C45E4.cpp
 pso/misc/TLobby_803C4698.cpp
@@ -1110,7 +1109,7 @@ pso/misc/TLobby_803CE200.cpp
 pso/misc/TLobby_803CE478.cpp
 pso/misc/TLobby_803CFE68.cpp
 pso/misc/TLobby_803D0C28.cpp
-pso/misc/TLobby_803D0EB8.cpp
+pso/unk/text_803D0C34.cpp
 pso/unk/text_803D31A4.cpp
 pso/misc/TLobby_803D3B84.cpp
 pso/misc/TLobby_803D439C.cpp
@@ -1804,7 +1803,6 @@ pso/misc/TWindowSubStatusDisp_802A4DE8.cpp
 pso/misc/TWindowSubStatusDisp_80327390.cpp
 pso/misc/TWindowSubStatusDisp_80338740.cpp
 pso/misc/TWindowSubStatusDisp_8034A938.cpp
-pso/misc/TWindowSubStatusDisp_8036D774.cpp
 pso/misc/TWindowSubStatusDisp_803DEE6C.cpp
 pso/misc/TWindowSubSymbolChat.cpp
 pso/misc/TWindowSubSymbolChatFaceType.cpp
@@ -2927,7 +2925,6 @@ pso/unk/text_8020EEFC.cpp
 pso/unk/text_80211B10.cpp
 pso/unk/text_80211C3C.cpp
 pso/unk/text_80211D58.cpp
-pso/unk/text_80222C28.cpp
 pso/unk/text_80222DE8.cpp
 pso/unk/text_802233F8.cpp
 pso/unk/text_8022350C.cpp
@@ -2944,7 +2941,6 @@ pso/unk/text_80231BF4.cpp
 pso/unk/text_80232830.cpp
 pso/unk/text_802333D4.cpp
 pso/unk/text_80235A20.cpp
-pso/unk/text_80235A8C.cpp
 pso/unk/text_80236EE8.cpp
 pso/unk/text_8023A434.cpp
 pso/unk/text_8023B454.cpp
@@ -2959,7 +2955,6 @@ pso/unk/text_802437C4.cpp
 pso/unk/text_80244238.cpp
 pso/unk/text_8024450C.cpp
 pso/unk/text_80246CE8.cpp
-pso/unk/text_80248840.cpp
 pso/unk/text_80248994.cpp
 pso/unk/text_80248A14.cpp
 pso/unk/text_80249004.cpp
@@ -3075,7 +3070,6 @@ pso/unk/text_802F0F04.cpp
 pso/unk/text_802F190C.cpp
 pso/unk/text_802F19C0.cpp
 pso/unk/text_802F2E7C.cpp
-pso/unk/text_802FE8CC.cpp
 pso/unk/text_802FE908.cpp
 pso/unk/text_802FE9E0.cpp
 pso/unk/text_802FEA38.cpp
@@ -3104,7 +3098,6 @@ pso/unk/text_8032AACC.cpp
 pso/unk/text_8032AC9C.cpp
 pso/unk/text_8032B318.cpp
 pso/unk/text_8032DA60.cpp
-pso/unk/text_803369C8.cpp
 pso/unk/text_803374F0.cpp
 pso/unk/text_80338F3C.cpp
 pso/unk/text_8033BAB4.cpp
@@ -3163,7 +3156,6 @@ pso/unk/text_803CE1D8.cpp
 pso/unk/text_803CE1F4.cpp
 pso/unk/text_803CE240.cpp
 pso/unk/text_803CFEA0.cpp
-pso/unk/text_803D0C34.cpp
 pso/unk/text_803D2F1C.cpp
 pso/unk/text_803D39F8.cpp
 pso/unk/text_803D43A8.cpp

@@ -5,7 +5,7 @@
 #include "types.h"
 #include "pso/TMainTask.h"
 #include "pso/unk/text_80198A2C.h"
-#include "pso/unk/text_80235A8C.h"
+#include "pso/unk/text_80235A20.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
