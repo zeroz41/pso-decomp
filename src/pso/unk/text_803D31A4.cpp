@@ -1,5 +1,13 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
+#include "stdarg.h"
+#include "pso/misc/TLobby.h"
+
+extern s32 lobby_callback_tables_refcount;
+
+void TLobby__sub_803D3194(void) {
+    lobby_callback_tables_refcount -= 1;
+}
 
 struct RecoveredGlobal_803D31A4_lbl_8058B6B8 {
     s32 value;
@@ -19,9 +27,6 @@ struct P_803D346C { void (*fn)(s32); s32 arg; };
 struct P_803D3860 { void (*fn)(s32, u8 *); s32 arg; };
 
 struct Cb_803D3678 { s32 fn; s32 arg; };
-
-#include "stdarg.h"
-#include "pso/misc/TLobby.h"
 
 extern "C" {
 s32 memset(void *, int, int);
@@ -214,4 +219,16 @@ void TLobby__sub_803D38B4(const char *fmt, ...) {
     }
 }
 
+}
+
+void TLobby__sub_803D3988(void) {
+    if (((s32 (*)(s32)) *(s32 (**)(s32))((s8 *)&lbl_805D7664 + 0)) != NULL) {
+        (*(s32 (**)(s32))((s8 *)&lbl_805D7664 + 0))(*(s32 *)((s8 *)&lbl_805D7664 + 4));
+    }
+}
+
+void TLobby__sub_803D39C0(void) {
+    if (((s32 (*)(s32)) *(s32 (**)(s32))((s8 *)&lbl_805D766C + 0)) != NULL) {
+        (*(s32 (**)(s32))((s8 *)&lbl_805D766C + 0))(*(s32 *)((s8 *)&lbl_805D766C + 4));
+    }
 }

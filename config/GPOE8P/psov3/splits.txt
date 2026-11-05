@@ -6923,11 +6923,8 @@ pso/misc/TLobby_8020DFD8.cpp:
 	.text       start:0x8020DFD8 end:0x8020E08C
 
 pso/unk/text_8020E08C.cpp:
-	.text       start:0x8020E08C end:0x8020E3BC
+	.text       start:0x8020E08C end:0x8020E400
 	.bss        start:0x80513A40 end:0x80513D34
-
-pso/misc/TLobby_8020E3BC.cpp:
-	.text       start:0x8020E3BC end:0x8020E400
 
 pso/misc/TLobby_8020E400.cpp:
 	.text       start:0x8020E400 end:0x8020E700
@@ -7425,12 +7422,9 @@ pso/unk/text_80232830.cpp:
 	.rodata     start:0x8044D5C8 end:0x8044D5D0
 
 pso/unk/TUnk_804CC870.cpp:
-	.text       start:0x80232934 end:0x80232EC0
+	.text       start:0x80232934 end:0x80233120
 	.data       start:0x804CC870 end:0x804CC8A0
 	.sdata2     start:0x805DC840 end:0x805DC858
-
-pso/unk/text_80232EC0.cpp:
-	.text       start:0x80232EC0 end:0x80233120
 
 pso/misc/TTecGrants.cpp:
 	.text       start:0x80233120 end:0x802333D4
@@ -8267,11 +8261,8 @@ pso/misc/TWindowSubStatusDisp_80268738.cpp:
 	.text       start:0x80268738 end:0x80268794
 
 pso/misc/TWindowChoiceSetting.cpp:
-	.text       start:0x80268794 end:0x80269004
+	.text       start:0x80268794 end:0x80269064
 	.rodata     start:0x8044F3A8 end:0x8044F3B8
-
-pso/unk/text_80269004.cpp:
-	.text       start:0x80269004 end:0x80269064
 
 pso/misc/TWindowSubComCard_80269064.cpp:
 	.text       start:0x80269064 end:0x802690B4
@@ -8859,12 +8850,9 @@ pso/boss/TObjBoss5FloorGrass.cpp:
 	.data       start:0x804D35D8 end:0x804D35F0
 
 pso/boss/TObjBoss5PillarDemo.cpp:
-	.text       start:0x8028AB38 end:0x8028ADDC
+	.text       start:0x8028AB38 end:0x8028AE9C
 	.data       start:0x804D35F0 end:0x804D3608
 	.sdata2     start:0x805DD908 end:0x805DD90C
-
-pso/unk/text_8028ADDC.cpp:
-	.text       start:0x8028ADDC end:0x8028AE9C
 
 pso/boss/TObjBoss5PillarSmoke.cpp:
 	.text       start:0x8028AE9C end:0x8028AEA4
@@ -10073,14 +10061,11 @@ pso/unk/text_802E4A4C.cpp:
 	.text       start:0x802E4A4C end:0x802E4B80
 
 pso/object/TObjOnlineEnding_802E4B80.cpp:
-	.text       start:0x802E4B80 end:0x802E52AC
+	.text       start:0x802E4B80 end:0x802E530C
 	.rodata     start:0x80472BB8 end:0x80472BE8
 	.data       start:0x804E3578 end:0x804E3A98
 	.sbss       start:0x805D68F0 end:0x805D68F4
 	.sdata2     start:0x805DE930 end:0x805DE958
-
-pso/unk/text_802E52AC.cpp:
-	.text       start:0x802E52AC end:0x802E530C
 
 pso/object/TObjOnlineEndingHexLine.cpp:
 	.text       start:0x802E530C end:0x802E62F8
@@ -13192,16 +13177,10 @@ pso/unk/text_803D2F1C.cpp:
 	.text       start:0x803D2F1C end:0x803D3194
 	.data       start:0x804F9E60 end:0x804FA020
 
-pso/misc/TLobby_803D3194.cpp:
-	.text       start:0x803D3194 end:0x803D31A4
-
 pso/unk/text_803D31A4.cpp:
-	.text       start:0x803D31A4 end:0x803D3988
+	.text       start:0x803D3194 end:0x803D39F8
 	.rodata     start:0x8047DEF0 end:0x8047DF90
 	.bss        start:0x8058B480 end:0x8058B6F0
-
-pso/misc/TLobby_803D3988.cpp:
-	.text       start:0x803D3988 end:0x803D39F8
 
 pso/unk/text_803D39F8.cpp:
 	.text       start:0x803D39F8 end:0x803D3B84

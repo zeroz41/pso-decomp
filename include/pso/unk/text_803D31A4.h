@@ -17,4 +17,13 @@ void TLobby__sub_803D346C(s32 arg0);
 }
 // --- end of C functions
 
+extern "C" {
+void TLobby__sub_803D3194(void);
+}
+
+extern "C" {
+void TLobby__sub_803D3988(void);
+void TLobby__sub_803D39C0(void);
+}
+
 #endif

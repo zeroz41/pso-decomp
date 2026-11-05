@@ -2,7 +2,6 @@
 #include "pso/boss/TObjBoss5Pillar.h"
 #include "pso/boss/TObjBoss5PillarDemo.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_8028ADDC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 
