@@ -755,9 +755,6 @@ pso/misc/TBreakUpMdl.cpp
 pso/misc/TButterfly.cpp
 pso/misc/TCameraCtrl.cpp
 pso/misc/TCameraCtrl_80067654.cpp
-pso/misc/TCameraCtrl_80067CE8.cpp
-pso/misc/TCameraCtrl_80067F44.cpp
-pso/misc/TCameraCtrl_80067F8C.cpp
 pso/misc/TCameraCtrl_80067FC0.cpp
 pso/misc/TCameraCtrl_8006B3D8.cpp
 pso/misc/TCameraCtrl_8006BCD8.cpp
@@ -3027,3 +3024,4 @@ pso/item/TUnk_804A4548.cpp
 pso/item/TUnk_804A4648.cpp
 pso/item/TUnk_804A4848.cpp
 pso/item/TUnk_804A4948.cpp
+pso/misc/TUnk_80488838.cpp

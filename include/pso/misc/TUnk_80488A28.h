@@ -10,7 +10,7 @@ public:
     virtual ~TUnk_80488A28();
     void set_target(u32);
     virtual void vfunc_6();
-    virtual void vfunc_7();
+    virtual void reset_state(); // slot 7: TUnk_80488838 puts TCameraCtrl::reset_state here
     virtual void vfunc_8(void *);
     virtual void vfunc_9(u8 *, u8 *);
     virtual void vfunc_10();

@@ -705,18 +705,12 @@ pso/misc/TUnk_804887F8.cpp:
 	.text       start:0x8006782C end:0x80067CE8
 	.sdata2     start:0x805D8F38 end:0x805D8F64
 
-pso/misc/TCameraCtrl_80067CE8.cpp:
-	.text       start:0x80067CE8 end:0x80067F44
-	.sdata2     start:0x805D8F68 end:0x805D8F7C
-
-pso/misc/TCameraCtrl_80067F44.cpp:
-	.text       start:0x80067F44 end:0x80067F8C
-
-pso/misc/TCameraCtrl_80067F8C.cpp:
-	.text       start:0x80067F8C end:0x80067FC0
+pso/misc/TUnk_80488838.cpp:
+	.text       start:0x80067CE8 end:0x8006809C
+	.sdata2     start:0x805D8F68 end:0x805D8F80
 
 pso/misc/TCameraCtrl_80067FC0.cpp:
-	.text       start:0x80067FC0 end:0x800687BC
+	.text       start:0x8006809C end:0x800687BC
 	.data       start:0x80488A28 end:0x80488A58
 
 pso/misc/TCameraCtrl.cpp:
@@ -6776,15 +6770,15 @@ pso/misc/TLobby_80226070.cpp:
 	.text       start:0x80226070 end:0x802268F4
 	.rodata     start:0x8044C850 end:0x8044C858
 	.bss        start:0x805145F0 end:0x80514C60
-	.bss        start:0x80514C60 end:0x80514F58
 	.sdata2     start:0x805DC740 end:0x805DC748
-	.sdata2     start:0x805DC748 end:0x805DC760
 
 pso/misc/TLobby_802268F4.cpp:
 	.text       start:0x802268F4 end:0x80227A2C
 	.rodata     start:0x8044C890 end:0x8044C8D0
 	.data       start:0x804CB838 end:0x804CB85C
+	.bss        start:0x80514C60 end:0x80514F58
 	.sbss       start:0x805D62D8 end:0x805D62E0
+	.sdata2     start:0x805DC748 end:0x805DC760
 
 pso/misc/TLobby_80227A2C.cpp:
 	.text       start:0x80227A2C end:0x80227AA0
@@ -10007,9 +10001,7 @@ pso/ui/TAdChrSelBSlotGC_8030FE74.cpp:
 	.data       start:0x804E7D18 end:0x804E7D30
 
 pso/ui/TAdChrSelBSlotGC_80310050.cpp:
-	.bss        start:0x80542E90 end:0x80542FB0
 	.text       start:0x80310050 end:0x803100A4
-	.sdata2     start:0x805DF240 end:0x805DF248
 
 pso/ui/TAdChrSelBSlotGC_803100A4.cpp:
 	.text       start:0x803100A4 end:0x8031012C
@@ -10018,7 +10010,9 @@ pso/misc/TPlayerBattleCtrl4P.cpp:
 	.text       start:0x8031012C end:0x80312C50
 	.rodata     start:0x80475B88 end:0x80475B90
 	.data       start:0x804E7D30 end:0x804E80C0
+	.bss        start:0x80542E90 end:0x80542FB0
 	.sbss       start:0x805D6AB0 end:0x805D6AC0
+	.sdata2     start:0x805DF240 end:0x805DF248
 
 pso/enemy/DelDepthData.cpp:
 	.rodata     start:0x80475BD8 end:0x80475DD8

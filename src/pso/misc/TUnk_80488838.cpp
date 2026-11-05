@@ -1,6 +1,10 @@
 #include "types.h"
 #include "pso/misc/TUnk_80488838.h"
 #include "pso/misc/TUnk_80488E00.h"
+#include "pso/misc/TCameraCtrl_80067CE8.h"
+#include "pso/misc/TCameraCtrl_80067FC0.h"
+#include "pso/misc/TUnk_80488DA0.h"
+#include "pso/system/ControllerInputState.h"
 
 struct Stack_80067EE0 {
     f32 sp8;
@@ -125,4 +129,30 @@ void target_player0__11TCameraCtrlFi(s32 arg0) {
     }
 }
 
+void TCameraCtrl::reset_state() { *(float *)&this->m_70 = 25.0f; *(int *)&this->unk_2C = 0; *(int *)&this->m_34 = 0; target_player0__11TCameraCtrlFi((s32)this); reset_behind_player(); }
+
+void TUnk_80488838::run_task() { target_player0__11TCameraCtrlFi((s32)this); this->update_orbit_camera(); }
+
+extern s32 __vt__13TUnk_80488838[];
+void __dl__7TObjectFPv(void *);
+
+void *__dt__13TUnk_80488838Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80488838;
+        __dt__13TUnk_80488A28Fv(arg0, (s16)(0));
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
 }
+}
+
+TUnk_80488838::TUnk_80488838() : TUnk_80488A28() {
+    m_38 = 0;
+    controller = &controller_input_state.controllers[0];
+    reset_state();
+}
+
+
+void TUnk_80488DA0::set_target_pos(void*q) { this->target.x = *(f32*)((char*)q + 0x0); this->target.y = *(f32*)((char*)q + 0x4); this->target.z = *(f32*)((char*)q + 0x8); }
