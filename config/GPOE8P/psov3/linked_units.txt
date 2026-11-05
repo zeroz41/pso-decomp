@@ -422,7 +422,6 @@ pso/enemy/TObjEneDelDepth.cpp
 pso/enemy/TObjEneDelDepthAccessors.cpp
 pso/enemy/TObjEneDellBiter.cpp
 pso/enemy/TObjEneDellBiterEffects.cpp
-pso/enemy/TObjEneDellBiter_800BC46C.cpp
 pso/enemy/TObjEneDf2Bringer.cpp
 pso/enemy/TObjEneDimedian.cpp
 pso/enemy/TObjEneDolmOlm.cpp
@@ -2053,7 +2052,6 @@ pso/player/TObjPlayer_80099EF8.cpp
 pso/player/TObjPlayer_800AAFBC.cpp
 pso/player/TObjPlayer_800ACA60.cpp
 pso/player/TObjPlayer_800BBE90.cpp
-pso/player/TObjPlayer_800BC40C.cpp
 pso/player/TObjPlayer_800C25A0.cpp
 pso/player/TObjPlayer_800C4714.cpp
 pso/player/TObjPlayer_800D7BFC.cpp
@@ -2502,7 +2500,6 @@ pso/unk/text_800A0814.cpp
 pso/unk/text_800A0884.cpp
 pso/unk/text_800A0994.cpp
 pso/unk/text_800A884C.cpp
-pso/unk/text_800BC4C8.cpp
 pso/unk/text_800C2A88.cpp
 pso/unk/text_800C2CE0.cpp
 pso/unk/text_800C3088.cpp
@@ -2977,6 +2974,7 @@ pso/item/TUnk_804A1478.cpp
 pso/item/TUnk_804A1570.cpp
 pso/item/TUnk_804A0CB8.cpp
 pso/item/TUnk_804A1E28.cpp
+pso/player/TUnk_804928CC.cpp
 pso/item/TUnk_804A1F20.cpp
 pso/item/TUnk_804A0EA8.cpp
 pso/item/TUnk_804A0FA0.cpp

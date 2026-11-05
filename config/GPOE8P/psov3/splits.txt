@@ -1605,15 +1605,9 @@ pso/player/TObjPlayer_800BBE90.cpp:
 pso/boss/TBoss1Dragon_800BC3C4.cpp:
 	.text       start:0x800BC3C4 end:0x800BC40C
 
-pso/player/TObjPlayer_800BC40C.cpp:
-	.text       start:0x800BC40C end:0x800BC46C
+pso/player/TUnk_804928CC.cpp:
+	.text       start:0x800BC40C end:0x800BC53C
 	.data       start:0x804928A0 end:0x80492928
-
-pso/enemy/TObjEneDellBiter_800BC46C.cpp:
-	.text       start:0x800BC46C end:0x800BC4C8
-
-pso/unk/text_800BC4C8.cpp:
-	.text       start:0x800BC4C8 end:0x800BC53C
 
 pso/boss/TBoss8Dragon_800BC53C.cpp:
 	.text       start:0x800BC53C end:0x800BC778
