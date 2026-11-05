@@ -1771,18 +1771,9 @@ pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp:
 	.rodata     start:0x8043C6F8 end:0x8043C700
 	.data       start:0x80494938 end:0x80494964
 
-pso/player/TObjPlayer_800D7690.cpp:
-	.text       start:0x800D7690 end:0x800D7824
-
-pso/unk/text_800D7824.cpp:
-	.text       start:0x800D7824 end:0x800D7950
-
-pso/unk/text_800D7950.cpp:
-	.text       start:0x800D7950 end:0x800D79A8
+pso/unk/TUnk_80494968.cpp:
+	.text       start:0x800D7690 end:0x800D7A20
 	.data       start:0x80494968 end:0x80494988
-
-pso/unk/text_800D79A8.cpp:
-	.text       start:0x800D79A8 end:0x800D7A20
 
 pso/boss/TBoss4Type3_800D7A20.cpp:
 	.text       start:0x800D7A20 end:0x800D7A2C
