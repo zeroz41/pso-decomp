@@ -2722,73 +2722,14 @@ pso/item/WeaponSpecialSelection.cpp:
 	.text       start:0x8011E248 end:0x8011E2AC
 
 pso/item/WeaponAttackActions.cpp:
-	.text       start:0x8011E2AC end:0x8011F578
-	.rodata     start:0x8043E858 end:0x8043E860
+	.text       start:0x8011E2AC end:0x80120908
+	.rodata     start:0x8043E858 end:0x8043E868
 	.sdata2     start:0x805DAC88 end:0x805DAC94
 
-pso/player/TObjPlayer_8011F578.cpp:
-	.text       start:0x8011F578 end:0x8011F63C
-
-pso/unk/text_8011F63C.cpp:
-	.text       start:0x8011F63C end:0x8011F6C4
-
-pso/player/TObjPlayer_8011F6C4.cpp:
-	.text       start:0x8011F6C4 end:0x8011F710
-
-pso/unk/text_8011F710.cpp:
-	.text       start:0x8011F710 end:0x8011FBCC
-
-pso/player/TObjPlayer_8011FBCC.cpp:
-	.text       start:0x8011FBCC end:0x8011FC24
-
-pso/unk/text_8011FC24.cpp:
-	.text       start:0x8011FC24 end:0x80120150
-	.rodata     start:0x8043E860 end:0x8043E868
-
-pso/unk/text_80120150.cpp:
-	.text       start:0x80120150 end:0x80120500
-
-pso/player/TObjPlayer_80120500.cpp:
-	.text       start:0x80120500 end:0x80120568
-
-pso/unk/text_80120568.cpp:
-	.text       start:0x80120568 end:0x801207E8
-
-pso/player/TObjPlayer_801207E8.cpp:
-	.text       start:0x801207E8 end:0x80120908
-
-pso/unk/text_80120908.cpp:
-	.text       start:0x80120908 end:0x80120C10
-	.sdata2     start:0x805DACA8 end:0x805DACB0
-
-pso/unk/text_80120C5C.cpp:
-	.text       start:0x80120C10 end:0x80120CF8
-
 pso/item/TItemWeapon.cpp:
-	.text       start:0x80120CF8 end:0x80120FC4
+	.text       start:0x80120908 end:0x80121278
 	.data       start:0x804A06C8 end:0x804A07C0
-	.sdata2     start:0x805DACB0 end:0x805DACB4
-
-pso/player/TObjPlayer_80120FC4.cpp:
-	.text       start:0x80120FC4 end:0x80121010
-
-pso/player/TObjPlayer_80121010.cpp:
-	.text       start:0x80121010 end:0x8012105C
-
-pso/player/TObjPlayer_8012105C.cpp:
-	.text       start:0x8012105C end:0x80121178
-
-pso/player/TObjPlayer_80121178.cpp:
-	.text       start:0x80121178 end:0x80121180
-
-pso/unk/text_80121180.cpp:
-	.text       start:0x80121180 end:0x801211F0
-
-pso/player/TObjPlayer_801211F0.cpp:
-	.text       start:0x801211F0 end:0x8012121C
-
-pso/player/TObjPlayer_8012121C.cpp:
-	.text       start:0x8012121C end:0x80121278
+	.sdata2     start:0x805DACA8 end:0x805DACB4
 
 pso/item/TUnk_804A07C0.cpp:
 	.text       start:0x80121278 end:0x80121370

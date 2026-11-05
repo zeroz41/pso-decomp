@@ -495,9 +495,9 @@ struct TObjPlayer : public TObjChara {
     void draw_status_icons(void* a1, void* a2);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
-    int is_status_subsystem_ready();
+    s16 is_status_subsystem_ready();
     void*get_extended_state();
-    int query_extended_state();
+    f32 query_extended_state();
     void test_flag30_bit0x100000();
     void set_action_type(s16 v);
     void*get_state_ptr();
