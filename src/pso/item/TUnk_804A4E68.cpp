@@ -11,6 +11,7 @@
 #include "pso/misc/TTecBarta.h"
 #include "pso/misc/TTecFoie.h"
 #include "pso/map/FloorArea.h"
+#include "pso/TMainTask.h"
 
 extern "C" {
 
@@ -18,7 +19,7 @@ int rotate_matrix_z(void*, void*);
 int get_player_list__10TObjPlayerFv(void*);
 
 void TUnk_804A4E68::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 0) { rotate_matrix_z((void*)0, *(void**)((char*)this + 0x1f8)); } }
-void TUnk_804A4E68::update_idle() { *(s32*)((char*)this + 0x1f8) = 0; }
+void TUnk_804A4E68::update_idle() { rotation_z = 0; }
 
 }
 
@@ -59,14 +60,14 @@ void TUnk_804A4E68::update_attack() {
         if (ok == 1) {
             if (flag == 0) {
                 if (speed < flo) {
-                    *(s32 *)&this->unk_1F8 = lo;
+                    rotation_z = lo;
                 } else if (flo <= speed && speed <= fhi) {
-                    *(s32 *)&this->unk_1F8 = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
+                    rotation_z = (s32)((speed - flo) * ((f32)(hi - lo) / (fhi - flo)) + (f32)lo);
                 } else {
-                    *(s32 *)&this->unk_1F8 = hi;
+                    rotation_z = hi;
                 }
             } else {
-                *(s32 *)&this->unk_1F8 = hi;
+                rotation_z = hi;
             }
         }
     }
@@ -75,23 +76,10 @@ void TUnk_804A4E68::update_attack() {
 
 }
 
-extern s32 __vt__13TUnk_804A4E68[];
-
 TUnk_804A4E68::~TUnk_804A4E68() {}
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-extern s32 __vt__13TUnk_804A4E68[];
-
-void *TUnk_804A4E68::init_vtable_and_clear_field1f8() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A4E68;
-    *(u32 *)&this->unk_1F8 = 0;
-    return this;
-}
-
+TUnk_804A4E68::TUnk_804A4E68(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    rotation_z = 0;
 }
 
 struct Owner_8012B9B4 { u8 pad[0x38]; f32 pos[3]; u8 pad44[0x60 - 0x44]; s32 f60; };
@@ -111,9 +99,7 @@ struct Self_8012B9B4 {
 
 extern "C" {
 s32 get_current_floor();
-u8 * init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
 void send_activate_effect__5TItemFl(void *, s32);
 s32 get_extended_state__10TObjPlayerFv(void *);
 s16 get_captured_target_collider_index(void *p);
@@ -122,15 +108,8 @@ s32 get_captured_target_count(s32 *arg0);
 s32 rand(void);
 
 u8 *TObjPlayer::create_vtable_clear_field1f8(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804A4E68(tl_05, arg0);
     }
     return NULL;
 }

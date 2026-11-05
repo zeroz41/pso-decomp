@@ -30,7 +30,6 @@ struct Self_8012B9B4 {
 
 extern "C" {
 s32 get_current_floor();
-u8 * init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 void send_activate_effect__5TItemFl(void *, s32);

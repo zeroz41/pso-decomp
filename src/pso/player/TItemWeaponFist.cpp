@@ -135,7 +135,6 @@ s32 knuckle_marker_joint_table[18] = {
 
 extern "C" {
 
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
 
 
 void TUnk_804A2B98::reserved_53() {
@@ -148,13 +147,7 @@ void TUnk_804A2B98::reserved_53() {
     }
 }
 
-extern s32 __vt__13TUnk_804A2B98[];
-
-void *TUnk_804A2B98::init_vtable_and_flags() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A2B98;
+TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(577);
-    return this;
 }
-
 }

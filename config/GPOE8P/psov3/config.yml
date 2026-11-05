@@ -7163,10 +7163,10 @@ force_active:
   - init_variant_a__10TObjPlayerFv
   - init_vertex_table__17TObjEneBm3FlyNestFv
   - init_vtable_1f8__13TUnk_804ED390FlPv
-  - init_vtable_804A63F0__13TUnk_804A63F0Fv
+  - __ct__13TUnk_804A63F0FP7TObjectPUc
   - init_vtable_804F2A10__13TUnk_804F2A10Fv
-  - init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv
-  - init_vtable_and_handlers__13TUnk_804A5150Fv
+  - __ct__13TUnk_804A4E68FP7TObjectPUc
+  - __ct__13TUnk_804A5150FP7TObjectPUc
   - init_vtable_variant__13TUnk_804ECEB8FlPv
   - init_warp__23TAdSinglePlyChrSelectGCFv
   - init_warp_params__17TObjWarpBossMultiFv

@@ -11,7 +11,7 @@ public:
     virtual void vfunc_57();
     virtual void vfunc_58();
     virtual void vfunc_60();
-    void *init_vtable_and_flags();
+    TUnk_804A2B98(TObject *parent, u8 *item);
 };
 
 #endif
