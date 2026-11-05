@@ -1277,7 +1277,7 @@ pso/misc/TOKeyAncient03.cpp
 pso/misc/TOKeyCave01.cpp
 pso/misc/TOKeyCol.cpp
 pso/misc/TOKeyGenericSw.cpp
-pso/misc/TOKeyJungleMain.cpp
+pso/misc/TOKeyJungleMain_801F4738.cpp
 pso/misc/TOKeyMachine01.cpp
 pso/misc/TOKurage.cpp
 pso/misc/TOLightMachine01.cpp
@@ -1952,6 +1952,7 @@ pso/object/LobbyPigeonPath.cpp
 pso/object/LobbyPigeonTheme.cpp
 pso/object/ObjectFactoryTables.cpp
 pso/object/TLazerFenceSw.cpp
+pso/object/TOKeyJungleMain.cpp
 pso/object/TObjAreaWarpEndingJung.cpp
 pso/object/TObjAreaWarpQuest.cpp
 pso/object/TObjAreaWarp_80307B70.cpp

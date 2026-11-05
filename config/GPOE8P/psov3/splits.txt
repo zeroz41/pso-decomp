@@ -6783,7 +6783,7 @@ pso/unk/text_801F45FC.cpp:
 pso/unk/text_801F469C.cpp:
 	.text       start:0x801F469C end:0x801F4738
 
-pso/misc/TOKeyJungleMain.cpp:
+pso/misc/TOKeyJungleMain_801F4738.cpp:
 	.text       start:0x801F4738 end:0x801F4790
 
 pso/unk/text_801F4790.cpp:
@@ -9421,9 +9421,13 @@ pso/misc/TOGrassJungle.cpp:
 	.sbss       start:0x805D65D8 end:0x805D65E0
 	.sdata2     start:0x805DDD28 end:0x805DDD38
 
+pso/object/TOKeyJungleMain.cpp:
+	.text       start:0x8029CF68 end:0x8029D504
+	.rodata     start:0x80465A40 end:0x80465A48
+
 pso/object/TObjFish.cpp:
-	.text       start:0x8029CF68 end:0x8029E764
-	.rodata     start:0x80465A40 end:0x80465E08
+	.text       start:0x8029D504 end:0x8029E764
+	.rodata     start:0x80465A48 end:0x80465E08
 	.data       start:0x804DC640 end:0x804DC7B4
 
 pso/map/FloorArea_8029E764.cpp:
