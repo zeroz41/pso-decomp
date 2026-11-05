@@ -216,18 +216,14 @@ void TUnk_80482090::render() {
 }
 
 void TUnk_80482090::run_task() {
-    u8 *arg0 = (u8 *)this;
     u8 *boss2_ceil_junk;
     s32 var_r29;
     Boss2 *self;
-    self = (Boss2 *)arg0;
-    {
-        s32 *ctr = (s32 *)(arg0 + 0x1C);
-        *ctr += 1;
-        if (*ctr >= 0xA0) {
-            queue_destruction__7TObjectFv((arg0));
-            return;
-        }
+    self = (Boss2 *)this;
+    m_1c += 1;
+    if (m_1c >= 0xA0) {
+        queue_destruction__7TObjectFv(this);
+        return;
     }
     var_r29 = 0;
     do {
@@ -486,7 +482,7 @@ void *TObjPlayer::deleting_dtor(s16 arg1) {
 void *TUnk_804820C0::init_base() {
     __ct__7TObjectFP7TObject(this);
     *(s32 **)((s8 *)this + 0x18) = lbl_804820C0;
-    *(u32 *)&this->unk_1C = 0;
+    m_1c = 0;
     return this;
 }
 

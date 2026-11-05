@@ -219,13 +219,16 @@ pso/boss/TObjBoss1Floor.cpp:
 	.text       start:0x8002CB40 end:0x8002CC48
 
 pso/boss/TBoss8Dragon_8002CC48.cpp:
-	.text       start:0x8002CC48 end:0x8002E090
+	.text       start:0x8002CC48 end:0x8002DF7C
 	.rodata     start:0x804355D0 end:0x804355D8
 	.sdata2     start:0x805D8178 end:0x805D8200
 
 pso/boss/TObjBoss1Rock.cpp:
-	.text       start:0x8002E090 end:0x8002E3D4
-	.rodata     start:0x804355E8 end:0x804355F0
+	.text       start:0x8002DF7C end:0x8002E3D4
+	.rodata     start:0x804355D8 end:0x804355F0
+	.data       start:0x80482078 end:0x80482090
+	.sdata      start:0x805D26A0 end:0x805D26A8
+	.sdata2     start:0x805D8200 end:0x805D8228
 
 pso/player/TObjPlayer_8002E784.cpp:
 	.text       start:0x8002E3D4 end:0x8002EFE8
@@ -1156,6 +1159,7 @@ pso/unk/text_8007ECF0.cpp:
 
 pso/misc/TDLGraph.cpp:
 	.text       start:0x8007F4B8 end:0x8007F85C
+	.data       start:0x8048DF70 end:0x8048DF88
 	.sdata2     start:0x805D92C0 end:0x805D92CC
 
 pso/misc/TDLGraph_8007F85C.cpp:

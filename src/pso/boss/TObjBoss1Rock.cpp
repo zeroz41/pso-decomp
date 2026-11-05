@@ -1,118 +1,108 @@
-#include "types.h"
-#include "pso/object/TObject_80019A50.h"
+#pragma readonly_strings on
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/boss/TObjBoss1Rock.h"
+
+#include "types.h"
+#include <stdlib.h>
+#include "pso/object/TObjFish.h"
+#include "pso/render/model_render_state.h"
 #include "pso/system/ChunkMaterialState.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/boss/TBoss8Dragon_8002CC48.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_8002E174.h"
 
+struct Ent_8002DF7C { u8 pad0[8]; void *object; u8 padc[4]; };
 
-extern "C" {
-s32 vec3_add_to(void *, void *);
-extern const f32 lbl_805D8204;
-extern const f32 lbl_805D8208;
-extern const f32 lbl_805D820C;
-extern const f32 lbl_805D8210;
-extern const f32 lbl_805D8214;
-extern const f32 lbl_805D8218;
-#pragma push
-#pragma opt_common_subs off
-#pragma opt_propagation off
-void TObjBoss1Rock::run_task() {
-    u8 *arg0 = (u8 *)this;
-    f32 temp_f2;
-    this->m_3c = (this->m_3c + 1);
-    if ((s32) this->m_3c > 0x28) {
-        *(f32 *)((s8 *)arg0 + 0x40) = (f32) (*(f32 *)((s8 *)arg0 + 0x40) - lbl_805D8204);
-        if (*(f32 *)((s8 *)arg0 + 0x40) < lbl_805D8208) {
-            *(f32 *)((s8 *)arg0 + 0x40) = (f32) lbl_805D8208;
-            queue_destruction__7TObjectFv(arg0);
-        }
-    }
-    vec3_add_to((u8 *)&this->m_1c, (u8 *)&this->m_28);
-    temp_f2 = *(f32 *)((s8 *)arg0 + 0x20);
-    if (temp_f2 < lbl_805D8208) {
-        *(f32 *)((s8 *)arg0 + 0x20) = (f32) (temp_f2 * lbl_805D820C);
-        *(f32 *)&this->unk_2C = (f32) (*(f32 *)&this->unk_2C * lbl_805D8210);
-        *(f32 *)&this->m_28 = (f32) (*(f32 *)&this->m_28 * lbl_805D8214);
-        this->m_30 = (f32) (this->m_30 * lbl_805D8214);
-    }
-    *(f32 *)&this->unk_2C = (f32) (*(f32 *)&this->unk_2C + lbl_805D8218);
-    this->m_34 = (this->m_34 + 0x60);
-    this->m_38 = (this->m_38 + 0x110);
-}
-#pragma pop
+struct Res_8002DF7C { u8 pad0[0x42C]; Ent_8002DF7C *ents; };
 
-}
+extern Res_8002DF7C *lbl_805D4B50;
+extern s32 dragon_common_texture_list;
 
+const char *TObjBoss1Rock__name = "TObjBoss1Rock";
 
-extern "C" {
-s32 rand(void);
-extern s32 lbl_805D26A0;
-extern const f32 lbl_805D8200;
-extern const f32 lbl_805D821C;
-extern const f32 lbl_805D8220;
-void *__dt__13TObjBoss1RockFv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-extern s32 __vt__13TObjBoss1Rock[];
-
-void *__dt__13TObjBoss1RockFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjBoss1Rock;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-void TObjBoss1Rock::sub_8002E1CC(u8 *arg1, u8 *arg2, s32 arg3) {
-    *(s32 *)&this->m_name = (s32) lbl_805D26A0;
-    VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)arg1);
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)arg2);
-    this->m_34 = (s32) (lbl_805D821C * (lbl_805D8220 * (f32) rand()));
-    this->m_38 = (s32) (lbl_805D821C * (lbl_805D8220 * (f32) rand()));
-    this->m_3c = 0;
-    *(f32 *)((s8 *)((u8 *)this) + 0x40) = (f32) lbl_805D8200;
-    this->m_44 = (f32) lbl_805D8200;
-    *(f32 *)((s8 *)((u8 *)this) + 0x48) = (f32) lbl_805D8200;
-    this->m_4c = (f32) lbl_805D8200;
-    if (arg3 == 0) {
-        this->m_50 = 2;
-        return;
-    }
-    this->m_50 = 1;
-}
-
-}
-
-extern "C" {
-void __ct__7TObjectFP7TObject(void *);
-void TObjBoss1Rock__sub_8002E3CC(void);
-void TObjBoss1Rock__sub_8002E3D0(void);
-
-void *TObjBoss1Rock::construct(void *arg1, void *arg2, void *arg3, void *arg4) {
-    __ct__7TObjectFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TObjBoss1Rock;
-    sub_8002E1CC((u8 *)arg2, (u8 *)arg3, (s32)arg4);
-    return this;
-}
-
-extern const f32 lbl_805D8224;
-}
-
-TObjBoss1Rock::TObjBoss1Rock(TObject *object, void *arg2, void *arg3) : TObject(object) {
-    s32 flag;
-    if (lbl_805D8220 * (f32)rand() > lbl_805D8224) {
-        flag = 0;
+void TObjBoss1Rock::render() {
+    if (m_color.a < 1.0f) {
+        saved_model_render_flags = model_render_flags;
+        model_render_flags = saved_model_render_flags | 0x810;
+        set_chunk_material_override_pair(0xFF00, 0x800);
+        set_constant_material(&m_color);
+        push_matrix();
+        TObjFish::set_global_param(dragon_common_texture_list);
+        post_translate_matrix(&m_position.x);
+        rotate_matrix_y(NULL, m_rotation_y);
+        rotate_matrix_x(NULL, m_rotation_x);
+        draw_chunk_object(lbl_805D4B50->ents[m_model_index].object);
+        pop_matrix();
+        set_chunk_material_override_pair(0xFF00, 0);
+        model_render_flags = saved_model_render_flags;
     } else {
-        flag = 1;
+        push_matrix();
+        TObjFish::set_global_param(dragon_common_texture_list);
+        post_translate_matrix(&m_position.x);
+        rotate_matrix_y(NULL, m_rotation_y);
+        rotate_matrix_x(NULL, m_rotation_x);
+        draw_chunk_object(lbl_805D4B50->ents[m_model_index].object);
+        pop_matrix();
     }
-    sub_8002E1CC((u8 *)arg2, (u8 *)arg3, (s32)flag);
 }
 
+void TObjBoss1Rock::run_task() {
+    m_frames++;
+    if (m_frames > 40) {
+        m_color.a -= 0.08f;
+        if (m_color.a < 0.0f) {
+            m_color.a = 0.0f;
+            queue_destruction();
+        }
+    }
+    vec3_add_to(&m_position, &m_velocity);
+    if (m_position.y < 0.0f) {
+        m_position.y *= -1.0f;
+        m_velocity.y *= -0.4f;
+        m_velocity.x *= 0.7f;
+        m_velocity.z *= 0.7f;
+    }
+    m_velocity.y += -0.5f;
+    m_rotation_y += 0x60;
+    m_rotation_x += 0x110;
+}
 
-void TObjBoss1Rock__sub_8002E3CC(void) {  }
-void TObjBoss1Rock__sub_8002E3D0(void) {  }
+TObjBoss1Rock::~TObjBoss1Rock() {}
+
+void TObjBoss1Rock::sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind) {
+    m_name = TObjBoss1Rock__name;
+    VecCopy(&m_position, pos);
+    VecCopy(&m_velocity, vel);
+    m_rotation_y = (s32)(65536.0f * (3.0517578125e-05f * (f32)rand()));
+    m_rotation_x = (s32)(65536.0f * (3.0517578125e-05f * (f32)rand()));
+    m_frames = 0;
+    m_color.a = 1.0f;
+    m_color.r = 1.0f;
+    m_color.g = 1.0f;
+    m_color.b = 1.0f;
+    if (kind == 0) {
+        m_model_index = 2;
+    } else {
+        m_model_index = 1;
+    }
+}
+
+TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel, s32 kind) : TObject(parent) {
+    sub_8002E1CC(pos, vel, kind);
+}
+
+TObjBoss1Rock::TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel) : TObject(parent) {
+    s32 kind;
+    if (3.0517578125e-05f * (f32)rand() > 0.8f) {
+        kind = 0;
+    } else {
+        kind = 1;
+    }
+    sub_8002E1CC(pos, vel, kind);
+}
+
+void TObjBoss1Rock__sub_8002E3CC(void) {}
+void TObjBoss1Rock__sub_8002E3D0(void) {}

@@ -4,11 +4,11 @@
 #include "pso/TLogo.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
+#include "pso/ui/TAdBackGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TAdSoniclogo.h"
 
 extern "C" {
-s32 render_logo_with_default(void *, int, int, f32);
 extern void *sonic_logo_object;
 extern int TAdSoniclogo__state;
 extern int TLogo__exit_requested_flag;
