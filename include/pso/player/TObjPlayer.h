@@ -92,7 +92,7 @@ struct TObjPlayer : public TObjChara {
     void sub_801BD240();
     u8 sub_801A1DDC();
     void vfunc_77();
-    void vfunc_76();
+    void vfunc_76(f32 charge);
     void vfunc_75(f32);
     int vfunc_67(f32 damage_scale);
     void render_shadows();
@@ -495,19 +495,16 @@ struct TObjPlayer : public TObjChara {
     void draw_status_icons(void* a1, void* a2);
     void set_model_param(s16 v);
     void set_model_id(s16 v);
-    int is_status_subsystem_ready();
+    s16 is_status_subsystem_ready();
     void*get_extended_state();
-    int query_extended_state();
+    f32 query_extended_state();
     void test_flag30_bit0x100000();
     void set_action_type(s16 v);
     void*get_state_ptr();
     static int get_player_list();
-    void *enter_state_804A0BC0();
     s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
-    void *init_substate_a();
-    void cast_foie();
     void*init_state();
     s16 get_stage_strike_count();
     void *init_and_configure();
@@ -607,8 +604,8 @@ struct TObjPlayer : public TObjChara {
     void set_flag_200000();
     int check_flag_4();
     void*set_invisible();
-    int clear_flag_4000_callback();
-    int set_flag_4000();
+    void clear_flag_4000_callback();
+    void set_flag_4000();
     int clear_flag_4000();
     void set_battle_flag(s32 v);
     s32 get_anim_id();
@@ -1160,6 +1157,8 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_vtable_804A08B8(u8 *arg0);
     static u8 *create_substate(u8 *arg0);
     static u8 *create_enter_state_804A0BC0(u8 *arg0);
+    // A weapon shot callback: news the shoot model that draws the shot.
+    static int create_item_shoot_model(int weapon, int origin, int end, f32 frames);
     static u8 *create_vtable_804a1288(u8 *arg0);
     static u8 *create_obj_80122C2C(u8 *arg0);
     static u8 *create_bringer_effect(u8 *arg0);

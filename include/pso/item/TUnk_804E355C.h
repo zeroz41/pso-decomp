@@ -31,7 +31,7 @@ public:
     u8 unk_5C[0x44];
     s32 m_a0;
     s32 m_a4;
-    u16 m_a8;
+    u16 client_id; // compared with get_entity_id() and passed to get_player_by_client_id()
     u8 unk_AA[0x2];
     s32 m_ac;
     u8 unk_B0[0x4];

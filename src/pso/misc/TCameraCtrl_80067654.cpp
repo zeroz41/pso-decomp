@@ -29,7 +29,7 @@ extern s32 __vt__13TUnk_804887C8[];
 void __dl__7TObjectFPv(void *);
 
 void TUnk_80488A28::vfunc_6() {  }
-void TUnk_80488A28::vfunc_7() {  }
+void TUnk_80488A28::reset_state() {  }
 void TUnk_80488A28::vfunc_9(u8 *, u8 *) {  }
 void TUnk_80488A28::vfunc_8(void *) {  }
 void TUnk_80488A28::vfunc_10() {  }

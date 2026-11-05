@@ -9,23 +9,9 @@
 struct Obj_80128128 { u8 pad[0x200]; f32 c; };
 
 extern "C" {
-u8 * construct_state_variant__13TUnk_804A3830Fv(void *, s32, void *);
 u8 *__nw__5TItemFUl(s32);
 extern s32 tl_05;
 
-u8 *TObjPlayer::create_state_variant(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(construct_state_variant__13TUnk_804A3830Fv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
-    }
-    return NULL;
-}
 void TUnk_804A3928::update_idle() {
     Obj_80128128 *self = (Obj_80128128 *)this;
     if (0.08f < self->c) {
@@ -68,5 +54,23 @@ extern "C" {
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 
 void*TUnk_804A3928::init_shot_params() { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)this + 0x18) = (int)__vt__13TUnk_804A3928; *(float *)&this->unk_200 = 1.0f; *(float *)&(this->m_1fc) = 1.0f; *(float*)((char*)this + 0x1f8) = 1.0f; return this; }
+
+}
+
+extern "C" {
+u8 * init_shot_params__13TUnk_804A3928Fv(void *, s32, s32);
+u8 *TObjPlayer::create_shot_params_state(s32 arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != 0) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x204));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(init_shot_params__13TUnk_804A3928Fv(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
+}
 
 }

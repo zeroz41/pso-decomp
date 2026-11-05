@@ -14,7 +14,7 @@ public:
 };
 
 extern "C" {
-void *baranz_launcher_ct(void *a0);
+void *baranz_launcher_ct(void *a0, TObject *parent, void *item);
 }
 
 #endif

@@ -13,7 +13,7 @@ s32 TObjPlayer__sub_801BF60C(u8 *arg0);
 int TObjPlayer__sub_801BF640(void *p);
 void *TObjPlayer__sub_801BF660(void *arg0);
 void TObjPlayer__sub_801BF690(u8 *arg0);
-u8 is_timer_running(u8 *arg0);
+s32 is_timer_running(u8 *p);
 }
 
 #endif

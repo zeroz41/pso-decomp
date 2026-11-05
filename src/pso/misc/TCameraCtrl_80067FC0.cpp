@@ -9,23 +9,6 @@
 #include "pso/misc/TUnk_80488E00.h"
 #include "pso/misc/TCameraCtrl.h"
 
-struct B_80068018 { u8 pad[0x18]; };
-
-struct O_80068018 : B_80068018 {
-    virtual void v0();
-    virtual void v1();
-    virtual void v2();
-    virtual void v3();
-    virtual void v4();
-    virtual void v5();
-    u8 pad2[0x38 - 0x1c];
-    s32 x38;
-    u8 pad3[0x6c - 0x3c];
-    void *x6c;
-};
-
-struct G_80068018 { u8 pad[0x20]; u8 sub[1]; };
-
 struct Vec_8006835C { f32 x, y, z; };
 
 struct View_8006835C {
@@ -70,8 +53,6 @@ struct Hit_8006809C { u8 pad0[4]; void *pos; };
 
 struct Cam_8006809C { u8 pad0[0x1C]; Obj_8006809C *obj; u8 pad20[0x60 - 0x20]; Vec_8006835C out; };
 
-extern G_80068018 controller_input_state;
-extern s32 __vt__13TUnk_80488838[];
 extern "C" {
 Vec_8006835C *get_target__11TCameraCtrlFv(void *);
 void direction_to_pitch_yaw(u8 *arg0, s32 *arg1, s32 *arg2);
@@ -109,28 +90,10 @@ extern const f32 lbl_805D8F8C;
 extern const f32 lbl_805D8F90;
 extern s32 __vt__13TUnk_80488A28[];
 extern const f32 lbl_805D8FA0;
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 
-void *__dt__13TUnk_80488838Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TUnk_80488838;
-        __dt__13TUnk_80488A28Fv(arg0, (s16)(0));
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
 }
 void set_camera_look_at(u8 *eye, u8 *target, u8 *up);
-TUnk_80488838::TUnk_80488838() : TUnk_80488A28() {
-    ((O_80068018 *)this)->x38 = 0;
-    ((O_80068018 *)this)->x6c = controller_input_state.sub;
-    ((O_80068018 *)this)->v5();
-}
-
-void TUnk_80488DA0::set_target_pos(void*q) { this->target.x = *(f32*)((char*)q + 0x0); this->target.y = *(f32*)((char*)q + 0x4); this->target.z = *(f32*)((char*)q + 0x8); }
 
 #pragma push
 #pragma fp_contract on

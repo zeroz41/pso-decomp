@@ -12,12 +12,12 @@ public:
     virtual void vfunc_57();
     virtual void vfunc_58();
     virtual void vfunc_60();
-    u8 unk_1F8[0x4];
-    s16 m_1fc;
-    u8 unk_1FE[0x2];
+    TUnk_804A1E28(TObject *parent, u8 *item);
+    s32 scale_step;   // 0..7, index into the cane's x/y/z scale tables (vfunc_60)
+    s16 cached_tp;    // owner TP last seen by update_weapon; -1 to resync
+    s16 scale_state;  // 1: stepping up, 2: stepping down, 0/3: at rest
 };
 
 u8 *create_sorcerers_cane(u8 *arg0);
-u8 *sorcerers_cane_ct(u8 *arg0, u8 *arg1, s32 _w2);
 
 #endif

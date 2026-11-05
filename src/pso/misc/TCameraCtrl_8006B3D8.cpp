@@ -96,6 +96,14 @@ const NpcCameraDestination fixed_npc_camera_destination_table[20] = {
     {-10039.4f, 43.3f, -176.9f, -10063.5f, 53.8f, -212.1f},
     {-9953.2f, 42.4f, -168.1f, -9924.0f, 50.0f, -183.9f},
 };
+struct E_8006BAC8 { f32 x; f32 y; f32 z; };
+
+struct O_8006BAC8 { u8 pad[0xd4]; E_8006BAC8 arr[1]; };
+
+struct E_8006BAB4 { f32 x; f32 y; f32 z; };
+
+struct O_8006BAB4 { u8 pad[0x104]; E_8006BAB4 arr[1]; };
+
 extern "C" {
 void *__dt__13TUnk_80488A28Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
@@ -105,8 +113,8 @@ u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1);
 void set_active_camera_pose(void *, void *);
 s32 approach_camera_vector(void *, void *, f32);
 s32 activate_camera_mode(int);
-s32 TCameraCtrl__sub_8006BAB4(void *, void *);
-s32 TCameraCtrl__sub_8006BAC8(void *, void *);
+E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
+E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const s32 __vt__13TUnk_80488AD8[];
 extern u32 camera_ctrl_instance;
@@ -179,9 +187,9 @@ u8 *TCameraCtrl::init_conversation_camera(s32 i, s32 arg2, s32 arg3) {
   activate_camera_mode(9);
   if (is_split_screen() != 0)
   {
-    new_var = (void *) TCameraCtrl__sub_8006BAC8((void *) (*(s32 *)&camera_ctrl_instance), (void *) i);
+    new_var = (void *) TCameraCtrl__sub_8006BAC8((O_8006BAC8 *)camera_ctrl_instance, i);
     VecCopy((Vec *)(((u8 *)this) + 0x1C), (const Vec *)new_var);
-    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((void *) TCameraCtrl__sub_8006BAB4((void *) (*(s32 *)&camera_ctrl_instance), (void *) i)));
+    VecCopy((Vec *)(((u8 *)this) + 0x28), (const Vec *)((void *) TCameraCtrl__sub_8006BAB4((O_8006BAB4 *)camera_ctrl_instance, i)));
   }
   else
   {
@@ -296,4 +304,27 @@ u8 *__dt__13TUnk_80488B08Fv(u8 *arg0, s16 arg1) {
         }
     }
     return arg0;
+}
+
+extern "C" {
+int __ct__13TUnk_80488A28Fv(void);
+extern unsigned char TCameraCtrl__override_flags;
+
+void *TCameraCtrl__sub_8006BA68(void *a0) {
+    __ct__13TUnk_80488A28Fv();
+    *(int *)((char *)a0 + 0x18) = (int)&lbl_80488B08.value;
+    ((TUnk_80488B08 *)a0)->m_38 = 4;
+    TCameraCtrl__fixed_npc_camera_active = 0;
+    return a0;
+}
+
+E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
+    return &self->arr[i];
+}
+
+E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
+    return &self->arr[i];
+}
+
+s32 TCameraCtrl__sub_8006BADC(void) { return TCameraCtrl__override_flags; }
 }

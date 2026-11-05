@@ -1,9 +1,23 @@
-// ---- pso/unk/text_80130C2C
 #include "types.h"
+#include "pso/player/TObjPlayer_80130BF0.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/item/TUnk_804A6BD0.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/item/TItemEquipVariant_80130D84.h"
+#include "pso/player/TObjPlayer_80130DDC.h"
+#include "pso/unk/text_80130E48.h"
+
+extern "C" {
+
+int post_translate_matrix(void*);
+int get_player_list__10TObjPlayerFv(void*);
+}
+
+void yasminkov_3000r_node_callback(void* p) { if (get_player_list__10TObjPlayerFv(p) == 1) { post_translate_matrix((char*)p + 0x1f8); } }
+
+// ---- pso/unk/text_80130C2C
 typedef struct Obj_80130CD8 { u8 pad[0x200]; f32 f200; s32 f204; } Obj_80130CD8;
 
 struct Vec_80130C2C { f32 x, y, z; };
@@ -20,7 +34,6 @@ struct Pl_80130C2C {
 };
 
 extern "C" {
-
 
 
 f32 sin_table_lookup(s32);
@@ -80,10 +93,6 @@ void TUnk_804A6BD0::update_weapon() {
 }
 
 // ---- pso/item/TItemEquipVariant_80130D84
-#include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_80130D84.h"
-#include "pso/player/TObjPlayer.h"
 
 extern s32 lbl_804A6BD0[];
 
@@ -99,10 +108,6 @@ void *__dt__13TUnk_804A6BD0Fv(void *arg0, s16 arg1) {
 }
 
 // ---- pso/player/TObjPlayer_80130DDC
-#include "types.h"
-#include "pso/player/TObjPlayer_80130DDC.h"
-#include "pso/item/TUnk_804A6BD0.h"
-#include "pso/item/TItem.h"
 
 extern "C" {
 
@@ -111,7 +116,24 @@ int __ct__11TItemWeaponFP7TObjectPUc(void);
     extern unsigned char spawn_weapon_impact_effect[];
 
     
-    
-void* yasminkov_3000r_ct(void* a0) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6BD0; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6BD0 *)a0)->m_1fc = 0.0f; *(float*)((char*)a0 + 0x1f8) = 0.0f; ((TUnk_804A6BD0 *)a0)->m_204 = 0; return a0; }
+void *yasminkov_3000r_ct(void *a0, s32 parent, void *item) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6BD0; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6BD0 *)a0)->m_1fc = 0.0f; *(float*)((char*)a0 + 0x1f8) = 0.0f; ((TUnk_804A6BD0 *)a0)->m_204 = 0; return a0; }
 
+}
+
+extern "C" {
+u8 *__nw__5TItemFUl(s32);
+}
+extern s32 tl_05;
+u8 *create_yasminkov_3000r(u8 *arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != NULL) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(yasminkov_3000r_ct(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
 }

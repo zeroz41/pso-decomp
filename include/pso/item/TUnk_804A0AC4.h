@@ -7,11 +7,8 @@ class TUnk_804A0AC4 : public TItemWeapon {
 public:
     virtual ~TUnk_804A0AC4();
     virtual void emit_marker_effects();
-    void*init_state_34();
+    TUnk_804A0AC4(TObject *parent, u8 *item);
+    u8 pad_1f8[0x204 - 0x1F8];  // size from create_state_34; not touched in this TU
 };
-
-extern "C" {
-void *__dt__13TUnk_804A0AC4Fv(void *arg0, s16 arg1);
-}
 
 #endif

@@ -3,20 +3,22 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+#include "pso/TMainTask.h"
 
-extern s32 __vt__13TUnk_804A1950[];
+void TUnk_804A1950::emit_marker_effects() {
+    s32 item = (s32)this;
+    if (((TItemWeapon *)this)->get_attack_stage() == 0) {
+        ((TObjPlayer *)tl_05)->spawn_cane_effect((TItem*)item, 1);
+    }
+}
 
 TUnk_804A1950::~TUnk_804A1950() {}
 
-extern "C" {
+TUnk_804A1950::TUnk_804A1950(TObject *parent, u8 *item) : TItemWeapon(parent, item) {}
 
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-
-void *TUnk_804A1950::set_vtable() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A1950;
-    return this;
-}
-
+u8 *TObjPlayer::create_set_vtable_state(u8 *arg0) {
+    if (arg0 != NULL) {
+        return (u8 *)new TUnk_804A1950(tl_05, arg0);
+    }
+    return NULL;
 }

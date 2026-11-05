@@ -4,12 +4,12 @@
 #include "types.h"
 
 extern "C" {
-void *TItemReverseTechPart1__ct(void *arg0);
+void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1, void *parent, void *texture_archive);
 }
 
 // --- C functions defined in TItemReverseTechPart1.cpp ---
 extern "C" {
-void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1);
+void *TItemReverseTechPart1__ct(void *item_reverse_tech_part1, void *parent, void *texture_archive);
 }
 // --- end of C functions
 

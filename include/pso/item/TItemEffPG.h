@@ -9,7 +9,7 @@ struct TItemEffPG : public TUnk_804E355C {
     virtual s32 vfunc_7();
     u8 unk_C4[0x4];
     f32 m_c8;
-    u8 unk_CC[0x4];
+    f32 required_charge; // inferred: compared with the player's photon blast charge, then spent
     u32 m_d0;
     u8 *create();
     virtual void run_task();

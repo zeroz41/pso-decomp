@@ -5243,7 +5243,7 @@ force_active:
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
   - construct_city_air_car
   - construct_city_vertical_model__FPUcll
-  - construct_dagger_weapon__FPUcPUcPUc
+  - __ct__13TUnk_804A0FA0FP7TObjectPUc
   - construct_entry_array
   - construct_entry_array__6TLobbyFv
   - construct_facing__11TTecGiBartaFPvPvPvPv
@@ -5252,7 +5252,7 @@ force_active:
   - construct_global_arrays__6TLobbyFv
   - construct_grants_flash
   - construct_guardianna__13TUnk_804EDC28FlPv
-  - construct_handgun_weapon__FPUclPUc
+  - __ct__13TUnk_804A2C90FP7TObjectPUc
   - construct_item_follow_effect__FPUcllll
   - construct_lobby_players
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
@@ -16576,7 +16576,7 @@ force_active:
   - turn_toward_player__11TBoss4Type3Fl
   - turn_toward_target__12TObjEneSaverFv
   - tv_render_mode_obj
-  - twin_psychogun_ct
+  - __ct__13TUnk_804A66D8FP7TObjectPUc
   - udp_socket_slots
   - ultimate_area_gsl_filename_table
   - unicode_to_UTF8

@@ -701,26 +701,16 @@ pso/misc/TCameraCtrl_80067654.cpp:
 	.data       start:0x804887C8 end:0x804887F8
 	.sdata2     start:0x805D8F28 end:0x805D8F38
 
-pso/misc/TCameraCtrl_8006782C.cpp:
-	.text       start:0x8006782C end:0x80067C88
-	.sdata2     start:0x805D8F38 end:0x805D8F60
+pso/misc/TUnk_804887F8.cpp:
+	.text       start:0x8006782C end:0x80067CE8
+	.sdata2     start:0x805D8F38 end:0x805D8F64
 
-pso/misc/TCameraCtrl_80067C88.cpp:
-	.text       start:0x80067C88 end:0x80067CE8
-	.sdata2     start:0x805D8F60 end:0x805D8F64
-
-pso/misc/TCameraCtrl_80067CE8.cpp:
-	.text       start:0x80067CE8 end:0x80067F44
-	.sdata2     start:0x805D8F68 end:0x805D8F7C
-
-pso/misc/TCameraCtrl_80067F44.cpp:
-	.text       start:0x80067F44 end:0x80067F8C
-
-pso/misc/TCameraCtrl_80067F8C.cpp:
-	.text       start:0x80067F8C end:0x80067FC0
+pso/misc/TUnk_80488838.cpp:
+	.text       start:0x80067CE8 end:0x8006809C
+	.sdata2     start:0x805D8F68 end:0x805D8F80
 
 pso/misc/TCameraCtrl_80067FC0.cpp:
-	.text       start:0x80067FC0 end:0x800687BC
+	.text       start:0x8006809C end:0x800687BC
 	.data       start:0x80488A28 end:0x80488A58
 
 pso/misc/TCameraCtrl.cpp:
@@ -732,13 +722,13 @@ pso/misc/TCameraCtrl.cpp:
 	.sdata2     start:0x805D8FA8 end:0x805D8FF8
 
 pso/misc/TCameraCtrl_8006B3D8.cpp:
-	.text       start:0x8006B3D8 end:0x8006BA68
+	.text       start:0x8006B3D8 end:0x8006BAE4
 	.rodata     start:0x804381E0 end:0x804383D0
 	.data       start:0x80488AD8 end:0x80488AF0
 	.sdata2     start:0x805D8FF8 end:0x805D9008
 
-pso/misc/TCameraCtrl_8006BA68.cpp:
-	.text       start:0x8006BA68 end:0x8006BCD8
+pso/misc/TUnk_80488B38.cpp:
+	.text       start:0x8006BAE4 end:0x8006BCD8
 	.data       start:0x80488B38 end:0x80488B68
 	.sdata2     start:0x805D9008 end:0x805D9014
 
@@ -754,12 +744,12 @@ pso/misc/TCameraCtrl_8006C254.cpp:
 	.sdata2     start:0x805D9028 end:0x805D9034
 
 pso/misc/TCameraCtrl_8006C7C4.cpp:
-	.text       start:0x8006C7C4 end:0x8006C8E4
+	.text       start:0x8006C7C4 end:0x8006C92C
 	.data       start:0x80488D70 end:0x80488DA0
 	.sdata2     start:0x805D9038 end:0x805D903C
 
-pso/misc/TCameraCtrl_8006C8E4.cpp:
-	.text       start:0x8006C8E4 end:0x8006CCEC
+pso/misc/TUnk_80488DA0.cpp:
+	.text       start:0x8006C92C end:0x8006CCEC
 	.rodata     start:0x80438520 end:0x80438528
 	.data       start:0x80488DA0 end:0x80488DD0
 	.sdata2     start:0x805D9040 end:0x805D904C
@@ -1185,12 +1175,9 @@ pso/effect/TEF_LensFlare.cpp:
 	.text       start:0x80081278 end:0x8008197C
 	.data       start:0x8048E130 end:0x8048E164
 
-pso/unk/text_8008197C.cpp:
-	.text       start:0x8008197C end:0x80081A30
+pso/effect/TEF_PvrWave.cpp:
+	.text       start:0x8008197C end:0x80081B2C
 	.data       start:0x8048E168 end:0x8048E180
-
-pso/unk/text_80081A30.cpp:
-	.text       start:0x80081A30 end:0x80081B2C
 
 pso/player/TObjPlayer_80081B2C.cpp:
 	.text       start:0x80081B2C end:0x80081B7C
@@ -1618,15 +1605,9 @@ pso/player/TObjPlayer_800BBE90.cpp:
 pso/boss/TBoss1Dragon_800BC3C4.cpp:
 	.text       start:0x800BC3C4 end:0x800BC40C
 
-pso/player/TObjPlayer_800BC40C.cpp:
-	.text       start:0x800BC40C end:0x800BC46C
+pso/player/TUnk_804928CC.cpp:
+	.text       start:0x800BC40C end:0x800BC53C
 	.data       start:0x804928A0 end:0x80492928
-
-pso/enemy/TObjEneDellBiter_800BC46C.cpp:
-	.text       start:0x800BC46C end:0x800BC4C8
-
-pso/unk/text_800BC4C8.cpp:
-	.text       start:0x800BC4C8 end:0x800BC53C
 
 pso/boss/TBoss8Dragon_800BC53C.cpp:
 	.text       start:0x800BC53C end:0x800BC778
@@ -1771,18 +1752,9 @@ pso/enemy/TObjEneMe3SinowZoa_800D72A4.cpp:
 	.rodata     start:0x8043C6F8 end:0x8043C700
 	.data       start:0x80494938 end:0x80494964
 
-pso/player/TObjPlayer_800D7690.cpp:
-	.text       start:0x800D7690 end:0x800D7824
-
-pso/unk/text_800D7824.cpp:
-	.text       start:0x800D7824 end:0x800D7950
-
-pso/unk/text_800D7950.cpp:
-	.text       start:0x800D7950 end:0x800D79A8
+pso/unk/TUnk_80494968.cpp:
+	.text       start:0x800D7690 end:0x800D7A20
 	.data       start:0x80494968 end:0x80494988
-
-pso/unk/text_800D79A8.cpp:
-	.text       start:0x800D79A8 end:0x800D7A20
 
 pso/boss/TBoss4Type3_800D7A20.cpp:
 	.text       start:0x800D7A20 end:0x800D7A2C
@@ -1897,12 +1869,9 @@ pso/enemy/TObjEneMe3ShinowaReal.cpp:
 	.text       start:0x800E4490 end:0x800E47DC
 
 pso/enemy/TObjEneMe3Shinowa.cpp:
-	.text       start:0x800E47DC end:0x800E7A70
+	.text       start:0x800E47DC end:0x800E80A4
 	.data       start:0x80495BE0 end:0x80495F3C
 	.sdata2     start:0x805DA5D8 end:0x805DA634
-
-pso/enemy/TObjEneMe3ShinowaMirage_800E7A70.cpp:
-	.text       start:0x800E7A70 end:0x800E80A4
 
 pso/player/TObjPlayer_800E80A4.cpp:
 	.text       start:0x800E80A4 end:0x800E80C0
@@ -2447,11 +2416,8 @@ pso/unk/text_8010F210.cpp:
 pso/item/TItemLoad_8010F2AC.cpp:
 	.text       start:0x8010F2AC end:0x8010F3D8
 
-pso/item/TItemLoad_8010F3D8.cpp:
-	.text       start:0x8010F3D8 end:0x8010F484
-
-pso/item/TItemLoad_8010F484.cpp:
-	.text       start:0x8010F484 end:0x8010F52C
+pso/item/TUnk_8049F3F4.cpp:
+	.text       start:0x8010F3D8 end:0x8010F52C
 
 pso/item/TItemLoad_8010F52C.cpp:
 	.text       start:0x8010F52C end:0x8010F9EC
@@ -2466,11 +2432,8 @@ pso/item/TItemLoad_8010FAB4.cpp:
 pso/item/TItemLoad_8010FB74.cpp:
 	.text       start:0x8010FB74 end:0x8010FC28
 
-pso/item/TItemLoad_8010FC28.cpp:
-	.text       start:0x8010FC28 end:0x8010FD2C
-
-pso/item/TItemLoad_8010FD2C.cpp:
-	.text       start:0x8010FD2C end:0x8010FDF0
+pso/item/TUnk_8049F42C.cpp:
+	.text       start:0x8010FC28 end:0x8010FDF0
 
 pso/item/TItemLoad_8010FDF0.cpp:
 	.text       start:0x8010FDF0 end:0x8010FF68
@@ -2623,19 +2586,11 @@ pso/item/TItemLockCountCtrl_80119238.cpp:
 	.text       start:0x80119060 end:0x80119600
 	.bss        start:0x80506228 end:0x80506244
 
-pso/item/TItemReverseTechBG.cpp:
-	.text       start:0x80119600 end:0x80119DA0
-	.data       start:0x804A03E0 end:0x804A0410
-	.sdata2     start:0x805DAC08 end:0x805DAC4C
-
-pso/item/TItemReverseTechPart1.cpp:
-	.text       start:0x80119DA0 end:0x8011A00C
-	.rodata     start:0x8043E700 end:0x8043E708
-	.data       start:0x804A0410 end:0x804A0428
-
 pso/item/TItemReverseTech.cpp:
-	.text       start:0x8011A00C end:0x8011A5A8
-	.data       start:0x804A0428 end:0x804A0440
+	.text       start:0x80119600 end:0x8011A5A8
+	.rodata     start:0x8043E700 end:0x8043E708
+	.data       start:0x804A03E0 end:0x804A0440
+	.sdata2     start:0x805DAC08 end:0x805DAC4C
 
 pso/item/TItemReverseTechCtrl.cpp:
 	.text       start:0x8011A5A8 end:0x8011A780
@@ -2755,297 +2710,112 @@ pso/item/WeaponSpecialSelection.cpp:
 	.text       start:0x8011E248 end:0x8011E2AC
 
 pso/item/WeaponAttackActions.cpp:
-	.text       start:0x8011E2AC end:0x8011F578
-	.rodata     start:0x8043E858 end:0x8043E860
+	.text       start:0x8011E2AC end:0x80120908
+	.rodata     start:0x8043E858 end:0x8043E868
 	.sdata2     start:0x805DAC88 end:0x805DAC94
 
-pso/player/TObjPlayer_8011F578.cpp:
-	.text       start:0x8011F578 end:0x8011F63C
-
-pso/unk/text_8011F63C.cpp:
-	.text       start:0x8011F63C end:0x8011F6C4
-
-pso/player/TObjPlayer_8011F6C4.cpp:
-	.text       start:0x8011F6C4 end:0x8011F710
-
-pso/unk/text_8011F710.cpp:
-	.text       start:0x8011F710 end:0x8011FBCC
-
-pso/player/TObjPlayer_8011FBCC.cpp:
-	.text       start:0x8011FBCC end:0x8011FC24
-
-pso/unk/text_8011FC24.cpp:
-	.text       start:0x8011FC24 end:0x80120150
-	.rodata     start:0x8043E860 end:0x8043E868
-
-pso/unk/text_80120150.cpp:
-	.text       start:0x80120150 end:0x80120500
-
-pso/player/TObjPlayer_80120500.cpp:
-	.text       start:0x80120500 end:0x80120568
-
-pso/unk/text_80120568.cpp:
-	.text       start:0x80120568 end:0x801207E8
-
-pso/player/TObjPlayer_801207E8.cpp:
-	.text       start:0x801207E8 end:0x80120908
-
-pso/unk/text_80120908.cpp:
-	.text       start:0x80120908 end:0x80120C10
-	.sdata2     start:0x805DACA8 end:0x805DACB0
-
-pso/unk/text_80120C5C.cpp:
-	.text       start:0x80120C10 end:0x80120CF8
-
 pso/item/TItemWeapon.cpp:
-	.text       start:0x80120CF8 end:0x80120FC4
+	.text       start:0x80120908 end:0x80121278
 	.data       start:0x804A06C8 end:0x804A07C0
-	.sdata2     start:0x805DACB0 end:0x805DACB4
-
-pso/player/TObjPlayer_80120FC4.cpp:
-	.text       start:0x80120FC4 end:0x80121010
-
-pso/player/TObjPlayer_80121010.cpp:
-	.text       start:0x80121010 end:0x8012105C
-
-pso/player/TObjPlayer_8012105C.cpp:
-	.text       start:0x8012105C end:0x80121178
-
-pso/player/TObjPlayer_80121178.cpp:
-	.text       start:0x80121178 end:0x80121180
-
-pso/unk/text_80121180.cpp:
-	.text       start:0x80121180 end:0x801211F0
-
-pso/player/TObjPlayer_801211F0.cpp:
-	.text       start:0x801211F0 end:0x8012121C
-
-pso/player/TObjPlayer_8012121C.cpp:
-	.text       start:0x8012121C end:0x80121278
+	.sdata2     start:0x805DACA8 end:0x805DACB4
 
 pso/item/TUnk_804A07C0.cpp:
-	.text       start:0x80121278 end:0x80121318
+	.text       start:0x80121278 end:0x80121370
 	.data       start:0x804A07C0 end:0x804A08B8
 
-pso/unk/text_80121318.cpp:
-	.text       start:0x80121318 end:0x80121370
-
-pso/player/TObjPlayer_80121370.cpp:
-	.text       start:0x80121370 end:0x80121420
-
 pso/item/TUnk_804A08B8.cpp:
-	.text       start:0x80121420 end:0x801214B4
-
-pso/unk/text_801214B4.cpp:
-	.text       start:0x801214B4 end:0x8012157C
+	.text       start:0x80121370 end:0x8012150C
+	.data       start:0x804A08B8 end:0x804A09B0
 
 pso/item/TUnk_804A09B0.cpp:
-	.text       start:0x8012157C end:0x80121630
+	.text       start:0x8012150C end:0x80121688
 	.data       start:0x804A09B0 end:0x804A0AA8
 	.sdata2     start:0x805DACB8 end:0x805DACBC
 
-pso/unk/text_80121630.cpp:
-	.text       start:0x80121630 end:0x80121688
-
-pso/player/TObjPlayer_80121688.cpp:
-	.text       start:0x80121688 end:0x8012175C
-
-pso/unk/text_8012175C.cpp:
-	.text       start:0x8012175C end:0x801217CC
-
-pso/player/TObjPlayer_801217CC.cpp:
-	.text       start:0x801217CC end:0x80121820
-
 pso/item/TUnk_804A0AC4.cpp:
-	.text       start:0x80121820 end:0x801218D4
-
-pso/unk/text_801218D4.cpp:
-	.text       start:0x801218D4 end:0x8012192C
-
-pso/player/TObjPlayer_8012192C.cpp:
-	.text       start:0x8012192C end:0x80121AEC
-	.rodata     start:0x8043E868 end:0x8043E870
-	.data       start:0x804A0AA8 end:0x804A0AC4
-
-pso/unk/text_80121AEC.cpp:
-	.text       start:0x80121AEC end:0x80121B64
-
-pso/player/TObjPlayer_80121B64.cpp:
-	.text       start:0x80121B64 end:0x80121B98
+	.text       start:0x80121688 end:0x80121984
+	.data       start:0x804A0AA8 end:0x804A0BC0
+	.sdata2     start:0x805DACC0 end:0x805DACC8
 
 pso/item/TUnk_804A0BC0.cpp:
-	.text       start:0x80121B98 end:0x80121C50
+	.text       start:0x80121984 end:0x80121CB8
+	.rodata     start:0x8043E868 end:0x8043E870
 	.data       start:0x804A0BC0 end:0x804A0CB8
-
-pso/unk/text_80121C50.cpp:
-	.text       start:0x80121C50 end:0x80121CA8
-
-pso/player/TObjPlayer_80121CA8.cpp:
-	.text       start:0x80121CA8 end:0x80121CB8
-
-pso/unk/text_80121CB8.cpp:
-	.text       start:0x80121CB8 end:0x80121D88
-
-pso/player/TObjPlayer_80121D88.cpp:
-	.text       start:0x80121D88 end:0x80121E94
-
-pso/unk/text_80121E94.cpp:
-	.text       start:0x80121E94 end:0x80121F00
+	.sdata2     start:0x805DACC8 end:0x805DACD0
 
 pso/item/TUnk_804A0CB8.cpp:
-	.text       start:0x80121F00 end:0x80121FBC
+	.text       start:0x80121CB8 end:0x80122014
 	.data       start:0x804A0CB8 end:0x804A0DB0
-
-pso/unk/text_80121FBC.cpp:
-	.text       start:0x80121FBC end:0x80122014
+	.sdata2     start:0x805DACD0 end:0x805DACD8
 
 pso/item/TUnk_804A0DB0.cpp:
 	.text       start:0x80122014 end:0x801221A0
 	.data       start:0x804A0DB0 end:0x804A0EA8
 	.sdata2     start:0x805DACD8 end:0x805DACE0
 
-pso/unk/text_801221A0.cpp:
-	.text       start:0x801221A0 end:0x8012227C
-
-pso/player/TObjPlayer_8012227C.cpp:
-	.text       start:0x8012227C end:0x801222DC
-
 pso/item/TUnk_804A0EA8.cpp:
-	.text       start:0x801222DC end:0x80122388
+	.text       start:0x801221A0 end:0x801223E0
 	.data       start:0x804A0EA8 end:0x804A0FA0
 
-pso/unk/TUnk_804A0FA0.cpp:
-	.text       start:0x80122388 end:0x801225F8
+pso/item/TUnk_804A0FA0.cpp:
+	.text       start:0x801223E0 end:0x80122600
 	.data       start:0x804A0FA0 end:0x804A1098
 	.sdata2     start:0x805DACE0 end:0x805DACF0
 
-pso/player/TObjPlayer_801225F8.cpp:
-	.text       start:0x801225F8 end:0x80122768
+pso/item/TUnk_804A1098.cpp:
+	.text       start:0x80122600 end:0x80122924
 	.rodata     start:0x8043E870 end:0x8043E878
+	.data       start:0x804A1098 end:0x804A1190
 	.sdata2     start:0x805DACF0 end:0x805DACF8
 
-pso/unk/text_80122768.cpp:
-	.text       start:0x80122768 end:0x801227E0
-
-pso/player/TObjPlayer_801227E0.cpp:
-	.text       start:0x801227E0 end:0x80122814
-
-pso/item/TUnk_804A1098.cpp:
-	.text       start:0x80122814 end:0x801228CC
-	.data       start:0x804A1098 end:0x804A1190
-
-pso/unk/text_801228CC.cpp:
-	.text       start:0x801228CC end:0x80122924
-
-pso/player/TObjPlayer_80122924.cpp:
-	.text       start:0x80122924 end:0x80122958
-
 pso/item/TUnk_804A1190.cpp:
-	.text       start:0x80122958 end:0x801229EC
+	.text       start:0x80122924 end:0x80122A44
 	.data       start:0x804A1190 end:0x804A1288
 
-pso/unk/text_801229EC.cpp:
-	.text       start:0x801229EC end:0x80122A44
-
-pso/player/TObjPlayer_80122A44.cpp:
-	.text       start:0x80122A44 end:0x80122A88
-
 pso/item/TUnk_804A1288.cpp:
-	.text       start:0x80122A88 end:0x80122B1C
+	.text       start:0x80122A44 end:0x80122B74
 	.data       start:0x804A1288 end:0x804A1380
 
-pso/unk/text_80122B1C.cpp:
-	.text       start:0x80122B1C end:0x80122B74
+pso/item/TUnk_804A1380.cpp:
+	.text       start:0x80122B74 end:0x80122CDC
+	.data       start:0x804A1380 end:0x804A1478
 
-pso/player/TObjPlayer_80122B74.cpp:
-	.text       start:0x80122B74 end:0x80122C2C
-
-pso/unk/text_80122C2C.cpp:
-	.text       start:0x80122C2C end:0x80122C84
-
-pso/item/TItemEquipVariant_80122C84.cpp:
-	.text       start:0x80122C84 end:0x80122CDC
-
-pso/player/TObjPlayer_80122CDC.cpp:
-	.text       start:0x80122CDC end:0x80122D74
-
-pso/unk/text_80122D74.cpp:
-	.text       start:0x80122D74 end:0x80122DCC
-
-pso/item/TItemEquipVariant_80122DCC.cpp:
-	.text       start:0x80122DCC end:0x80122E24
+pso/item/TUnk_804A1478.cpp:
+	.text       start:0x80122CDC end:0x80122E24
 	.data       start:0x804A1478 end:0x804A1570
 
-pso/player/TObjPlayer_80122E24.cpp:
-	.text       start:0x80122E24 end:0x80122E60
-
 pso/item/TUnk_804A1570.cpp:
-	.text       start:0x80122E60 end:0x80123044
+	.text       start:0x80122E24 end:0x80123044
 	.data       start:0x804A1570 end:0x804A1668
 	.sdata2     start:0x805DACF8 end:0x805DAD08
 
-pso/player/TObjPlayer_80123044.cpp:
-	.text       start:0x80123044 end:0x801230D4
-
-pso/unk/text_801230D4.cpp:
-	.text       start:0x801230D4 end:0x8012312C
-
-pso/item/TItemEquipVariant_8012312C.cpp:
-	.text       start:0x8012312C end:0x801231DC
+pso/item/TUnk_804A1668.cpp:
+	.text       start:0x80123044 end:0x80123184
 	.data       start:0x804A1668 end:0x804A1760
 
-pso/player/TObjPlayer_801231DC.cpp:
-	.text       start:0x801231DC end:0x80123224
+pso/item/TUnk_804A1760.cpp:
+	.text       start:0x80123184 end:0x8012327C
+	.data       start:0x804A1760 end:0x804A1858
 
-pso/unk/text_80123224.cpp:
-	.text       start:0x80123224 end:0x801232C0
+pso/item/TUnk_804A1858.cpp:
+	.text       start:0x8012327C end:0x801233F4
+	.data       start:0x804A1858 end:0x804A1950
 	.sdata2     start:0x805DAD08 end:0x805DAD0C
 
-pso/player/TObjPlayer_801232C0.cpp:
-	.text       start:0x801232C0 end:0x80123344
-
-pso/unk/text_80123344.cpp:
-	.text       start:0x80123344 end:0x8012339C
-
-pso/item/TItemEquipVariant_8012339C.cpp:
-	.text       start:0x8012339C end:0x801233F4
-	.data       start:0x804A1858 end:0x804A1950
-
-pso/player/TObjPlayer_801233F4.cpp:
-	.text       start:0x801233F4 end:0x80123438
-
 pso/item/TUnk_804A1950.cpp:
-	.text       start:0x80123438 end:0x801234CC
+	.text       start:0x801233F4 end:0x80123524
 	.data       start:0x804A1950 end:0x804A1A48
 
-pso/unk/text_801234CC.cpp:
-	.text       start:0x801234CC end:0x80123524
-
-pso/player/TObjPlayer_80123524.cpp:
-	.text       start:0x80123524 end:0x8012375C
-
 pso/item/TUnk_804A1A48.cpp:
-	.text       start:0x8012375C end:0x8012380C
+	.text       start:0x80123524 end:0x80123864
 	.data       start:0x804A1A48 end:0x804A1B40
 
-pso/unk/text_8012380C.cpp:
-	.text       start:0x8012380C end:0x80123864
-
-pso/player/TObjPlayer_80123864.cpp:
-	.text       start:0x80123864 end:0x801238AC
-
 pso/item/TUnk_804A1B40.cpp:
-	.text       start:0x801238AC end:0x801239A8
+	.text       start:0x80123864 end:0x801239A8
 	.data       start:0x804A1B40 end:0x804A1C38
 
-pso/player/TObjPlayer_801239A8.cpp:
-	.text       start:0x801239A8 end:0x80123A38
-
-pso/unk/text_80123A38.cpp:
-	.text       start:0x80123A38 end:0x80123A90
-
-pso/item/TItemEquipVariant_80123A90.cpp:
-	.text       start:0x80123A90 end:0x80123AE8
+pso/item/TUnk_804A1C38.cpp:
+	.text       start:0x801239A8 end:0x80123AE8
 	.data       start:0x804A1C38 end:0x804A1D30
 
 pso/item/TUnk_804A1D30.cpp:
@@ -3053,24 +2823,15 @@ pso/item/TUnk_804A1D30.cpp:
 	.data       start:0x804A1D30 end:0x804A1E28
 	.sdata2     start:0x805DAD10 end:0x805DAD1C
 
-pso/unk/text_80123CA8.cpp:
-	.text       start:0x80123CA8 end:0x80123E2C
+pso/item/TUnk_804A1E28.cpp:
+	.text       start:0x80123CA8 end:0x80123F88
 	.rodata     start:0x8043E878 end:0x8043E940
+	.data       start:0x804A1E28 end:0x804A1F20
 	.sdata2     start:0x805DAD20 end:0x805DAD24
 
-pso/item/TUnk_804A1E28.cpp:
-	.text       start:0x80123E2C end:0x80123F70
-	.data       start:0x804A1E28 end:0x804A1F20
-
-pso/player/TObjPlayer_80123F70.cpp:
-	.text       start:0x80123F70 end:0x80123FD4
-
 pso/item/TUnk_804A1F20.cpp:
-	.text       start:0x80123FD4 end:0x80124068
+	.text       start:0x80123F88 end:0x801240C0
 	.data       start:0x804A1F20 end:0x804A2018
-
-pso/unk/text_80124068.cpp:
-	.text       start:0x80124068 end:0x801240C0
 
 pso/item/SpecialProjectileWeapons.cpp:
 	.text       start:0x801240C0 end:0x80124760
@@ -3092,393 +2853,159 @@ pso/unk/text_80124C90.cpp:
 	.text       start:0x80124C90 end:0x80124FBC
 	.sdata2     start:0x805DAD38 end:0x805DAD3C
 
-pso/player/TObjPlayer_80124FBC.cpp:
-	.text       start:0x80124FBC end:0x801250A0
-
 pso/item/TUnk_804A2260.cpp:
-	.text       start:0x801250A0 end:0x801251AC
+	.text       start:0x80124FBC end:0x801251B4
 	.data       start:0x804A2260 end:0x804A2358
 
-pso/player/TObjPlayer_801251AC.cpp:
-	.text       start:0x801251AC end:0x801252C0
-
 pso/item/TUnk_804A2358.cpp:
-	.text       start:0x801252C0 end:0x80125380
+	.text       start:0x801251B4 end:0x801253D8
 	.data       start:0x804A2358 end:0x804A2450
 
-pso/unk/text_80125380.cpp:
-	.text       start:0x80125380 end:0x801253D8
-
-pso/player/TObjPlayer_801253D8.cpp:
-	.text       start:0x801253D8 end:0x80125428
+pso/item/TUnk_804A2450.cpp:
+	.text       start:0x801253D8 end:0x801254D8
+	.data       start:0x804A2450 end:0x804A2548
 	.sdata2     start:0x805DAD48 end:0x805DAD4C
 
-pso/unk/text_80125428.cpp:
-	.text       start:0x80125428 end:0x80125480
-
-pso/item/TItemEquipVariant_80125480.cpp:
-	.text       start:0x80125480 end:0x801254D8
-	.data       start:0x804A2450 end:0x804A2548
-
-pso/player/TObjPlayer_801254D8.cpp:
-	.text       start:0x801254D8 end:0x80125550
-
 pso/player/TUnk_804A2548.cpp:
-	.text       start:0x80125550 end:0x801255EC
-
-pso/unk/text_801255EC.cpp:
-	.text       start:0x801255EC end:0x80125780
-
-pso/player/TObjPlayer_80125780.cpp:
-	.text       start:0x80125780 end:0x8012599C
+	.text       start:0x801254D8 end:0x8012599C
 	.sdata2     start:0x805DAD58 end:0x805DAD64
 
-pso/system/ItemEffects.cpp:
-	.text       start:0x8012599C end:0x80125D7C
-	.data       start:0x804A2660 end:0x804A2678
-
 pso/item/TUnk_804A2678.cpp:
-	.text       start:0x80125D7C end:0x80125E30
-	.data       start:0x804A2678 end:0x804A2770
-
-pso/unk/text_80125E30.cpp:
-	.text       start:0x80125E30 end:0x80125E88
-
-pso/player/TObjPlayer_80125E88.cpp:
-	.text       start:0x80125E88 end:0x80125ECC
+	.text       start:0x8012599C end:0x80125E88
+	.data       start:0x804A2660 end:0x804A2770
 
 pso/item/TUnk_804A2770.cpp:
-	.text       start:0x80125ECC end:0x80125F60
+	.text       start:0x80125E88 end:0x80125FB8
 	.data       start:0x804A2770 end:0x804A2868
 
 pso/item/TUnk_804A2868.cpp:
-	.text       start:0x80125F60 end:0x80126104
+	.text       start:0x80125FB8 end:0x80126104
 	.sdata2     start:0x805DAD68 end:0x805DAD6C
 
-pso/unk/text_80126104.cpp:
-	.text       start:0x80126104 end:0x80126278
+pso/item/TUnk_804A2960.cpp:
+	.text       start:0x80126104 end:0x80126460
 	.sdata2     start:0x805DAD70 end:0x805DAD74
 
-pso/player/TObjPlayer_80126278.cpp:
-	.text       start:0x80126278 end:0x801262DC
-
-pso/item/TUnk_804A2960.cpp:
-	.text       start:0x801262DC end:0x80126460
-
-pso/player/TObjPlayer_80126460.cpp:
-	.text       start:0x80126460 end:0x8012654C
-
-pso/unk/text_8012654C.cpp:
-	.text       start:0x8012654C end:0x8012665C
-
-pso/player/TObjPlayer_8012665C.cpp:
-	.text       start:0x8012665C end:0x80126680
-
 pso/item/TUnk_804A2A58.cpp:
-	.text       start:0x80126680 end:0x80126740
+	.text       start:0x80126460 end:0x80126798
 	.data       start:0x804A2A58 end:0x804A2B50
 
 pso/player/TItemWeaponFist.cpp:
-	.text       start:0x80126740 end:0x80126A34
-	.data       start:0x804A2B50 end:0x804A2B98
+	.text       start:0x80126798 end:0x80126AE4
+	.data       start:0x804A2B50 end:0x804A2C90
 	.sdata2     start:0x805DAD80 end:0x805DAD98
 
-pso/unk/text_80126A34.cpp:
-	.text       start:0x80126A34 end:0x80126A8C
-
-pso/item/TItemEquipVariant_80126A8C.cpp:
-	.text       start:0x80126A8C end:0x80126AE4
-	.data       start:0x804A2B98 end:0x804A2C90
-
-pso/player/TObjPlayer_80126AE4.cpp:
-	.text       start:0x80126AE4 end:0x80126B6C
-
-pso/unk/text_80126B6C.cpp:
-	.text       start:0x80126B6C end:0x80126C80
-
-pso/item/TItemEquipVariant_80126C80.cpp:
-	.text       start:0x80126C80 end:0x80126D30
+pso/item/TUnk_804A2C90.cpp:
+	.text       start:0x80126AE4 end:0x80126D30
+	.data       start:0x804A2C90 end:0x804A2E80
 
 pso/item/TUnk_804A2E80.cpp:
-	.text       start:0x80126D30 end:0x80126E50
+	.text       start:0x80126D30 end:0x80126EA8
 	.sdata2     start:0x805DAD98 end:0x805DADA0
 
-pso/unk/text_80126E50.cpp:
-	.text       start:0x80126E50 end:0x80126EA8
-
 pso/item/TUnk_804A2F78.cpp:
-	.text       start:0x80126EA8 end:0x80126FE4
+	.text       start:0x80126EA8 end:0x8012703C
 	.data       start:0x804A2F78 end:0x804A3070
 	.sdata2     start:0x805DADA0 end:0x805DADB0
 
-pso/unk/text_80126FE4.cpp:
-	.text       start:0x80126FE4 end:0x8012703C
-
-pso/player/TObjPlayer_8012703C.cpp:
-	.text       start:0x8012703C end:0x801270D4
-	.sdata2     start:0x805DADB0 end:0x805DADB8
-
 pso/item/TUnk_804A3070.cpp:
-	.text       start:0x801270D4 end:0x801271FC
+	.text       start:0x8012703C end:0x801271FC
 	.data       start:0x804A3070 end:0x804A3168
-	.sdata2     start:0x805DADB8 end:0x805DADBC
-
-pso/player/TObjPlayer_801271FC.cpp:
-	.text       start:0x801271FC end:0x8012725C
-	.sdata2     start:0x805DADC0 end:0x805DADC8
+	.sdata2     start:0x805DADB0 end:0x805DADBC
 
 pso/item/TUnk_804A3168.cpp:
-	.text       start:0x8012725C end:0x8012736C
+	.text       start:0x801271FC end:0x8012736C
 	.data       start:0x804A3168 end:0x804A3260
-	.sdata2     start:0x805DADC8 end:0x805DADCC
-
-pso/player/TObjPlayer_8012736C.cpp:
-	.text       start:0x8012736C end:0x801273B0
+	.sdata2     start:0x805DADC0 end:0x805DADCC
 
 pso/item/TItemWeaponMechgun.cpp:
-	.text       start:0x801273B0 end:0x80127694
+	.text       start:0x8012736C end:0x80127694
 	.rodata     start:0x8043E958 end:0x8043E960
 	.data       start:0x804A3260 end:0x804A3358
 	.sdata2     start:0x805DADD0 end:0x805DADD8
 
-pso/unk/text_80127694.cpp:
-	.text       start:0x80127694 end:0x801277A4
-
-pso/player/TObjPlayer_801277A4.cpp:
-	.text       start:0x801277A4 end:0x801277EC
-
-pso/unk/text_801277EC.cpp:
-	.text       start:0x801277EC end:0x80127844
-
-pso/item/TItemEquipVariant_80127844.cpp:
-	.text       start:0x80127844 end:0x8012789C
+pso/item/TUnk_804A3358.cpp:
+	.text       start:0x80127694 end:0x8012789C
 	.data       start:0x804A3358 end:0x804A3450
 
-pso/player/TObjPlayer_8012789C.cpp:
-	.text       start:0x8012789C end:0x80127978
-
 pso/item/TUnk_804A3450.cpp:
-	.text       start:0x80127978 end:0x80127A24
-
-pso/unk/text_80127A24.cpp:
-	.text       start:0x80127A24 end:0x80127A7C
-
-pso/player/TObjPlayer_80127A7C.cpp:
-	.text       start:0x80127A7C end:0x80127AE8
+	.text       start:0x8012789C end:0x80127A7C
 
 pso/item/TUnk_804A3548.cpp:
-	.text       start:0x80127AE8 end:0x80127B88
-
-pso/unk/text_80127B88.cpp:
-	.text       start:0x80127B88 end:0x80127CCC
+	.text       start:0x80127A7C end:0x80127BE0
 
 pso/item/TUnk_804A3640.cpp:
-	.text       start:0x80127CCC end:0x80127D6C
+	.text       start:0x80127BE0 end:0x80127DC4
 	.data       start:0x804A3640 end:0x804A3738
 
-pso/unk/text_80127D6C.cpp:
-	.text       start:0x80127D6C end:0x80127DC4
-
-pso/player/TObjPlayer_80127DC4.cpp:
-	.text       start:0x80127DC4 end:0x80127E54
+pso/item/TUnk_804A3738.cpp:
+	.text       start:0x80127DC4 end:0x80127F8C
 	.sdata2     start:0x805DADD8 end:0x805DADDC
 
-pso/item/TUnk_804A3738.cpp:
-	.text       start:0x80127E54 end:0x80127EE8
-
-pso/unk/text_80127EE8.cpp:
-	.text       start:0x80127EE8 end:0x80128008
-
 pso/item/TUnk_804A3830.cpp:
-	.text       start:0x80128008 end:0x801280D0
+	.text       start:0x80127F8C end:0x80128128
 	.data       start:0x804A3830 end:0x804A3928
 
 pso/item/TUnk_804A3928.cpp:
-	.text       start:0x801280D0 end:0x80128268
+	.text       start:0x80128128 end:0x801282C0
 	.data       start:0x804A3928 end:0x804A3A20
 	.sdata2     start:0x805DADE0 end:0x805DADEC
 
-pso/unk/text_80128268.cpp:
-	.text       start:0x80128268 end:0x801282C0
+pso/item/TUnk_804A3A20.cpp:
+	.text       start:0x801282C0 end:0x801283B8
 
-pso/player/TObjPlayer_801282C0.cpp:
-	.text       start:0x801282C0 end:0x80128308
+pso/item/TUnk_804A3B20.cpp:
+	.text       start:0x801283B8 end:0x801284F0
 
-pso/unk/text_80128308.cpp:
-	.text       start:0x80128308 end:0x80128360
+pso/item/TUnk_804A3C20.cpp:
+	.text       start:0x801284F0 end:0x80128630
 
-pso/item/TItemEquipVariant_80128360.cpp:
-	.text       start:0x80128360 end:0x801283B8
-
-pso/player/TObjPlayer_801283B8.cpp:
-	.text       start:0x801283B8 end:0x80128440
-
-pso/unk/text_80128440.cpp:
-	.text       start:0x80128440 end:0x80128498
-
-pso/item/TItemEquipVariant_80128498.cpp:
-	.text       start:0x80128498 end:0x801284F0
-
-pso/player/TObjPlayer_801284F0.cpp:
-	.text       start:0x801284F0 end:0x80128580
-
-pso/unk/text_80128580.cpp:
-	.text       start:0x80128580 end:0x801285D8
-
-pso/item/TItemEquipVariant_801285D8.cpp:
-	.text       start:0x801285D8 end:0x80128630
-
-pso/player/TObjPlayer_80128630.cpp:
-	.text       start:0x80128630 end:0x80128678
-
-pso/unk/text_80128678.cpp:
-	.text       start:0x80128678 end:0x801286D0
-
-pso/item/TItemEquipVariant_801286D0.cpp:
-	.text       start:0x801286D0 end:0x80128728
+pso/item/TUnk_804A3D20.cpp:
+	.text       start:0x80128630 end:0x80128728
 
 pso/item/TUnk_804A3E20.cpp:
-	.text       start:0x80128728 end:0x80128848
+	.text       start:0x80128728 end:0x801288A0
 	.sdata2     start:0x805DADF0 end:0x805DADF8
 
-pso/unk/text_80128848.cpp:
-	.text       start:0x80128848 end:0x8012896C
-
-pso/player/TObjPlayer_8012896C.cpp:
-	.text       start:0x8012896C end:0x801289C0
-
-pso/unk/text_801289C0.cpp:
-	.text       start:0x801289C0 end:0x80128A18
-
-pso/item/TItemEquipVariant_80128A18.cpp:
-	.text       start:0x80128A18 end:0x80128A70
-
-pso/player/TObjPlayer_80128A70.cpp:
-	.text       start:0x80128A70 end:0x80128A74
-
-pso/player/TObjPlayer_80128AE4.cpp:
-	.text       start:0x80128A74 end:0x80128B48
-
-pso/player/TObjPlayer_80128B48.cpp:
-	.text       start:0x80128B48 end:0x80128BD0
-
-pso/player/TObjPlayer_80128BD0.cpp:
-	.text       start:0x80128BD0 end:0x80128BD4
-
-pso/unk/text_80128BD4.cpp:
-	.text       start:0x80128BD4 end:0x80128C38
-
-pso/player/TObjPlayer_80128C38.cpp:
-	.text       start:0x80128C38 end:0x80128CE8
-
-pso/unk/text_80128CE8.cpp:
-	.text       start:0x80128CE8 end:0x80128E80
-
-pso/player/TObjPlayer_80128E80.cpp:
-	.text       start:0x80128E80 end:0x80128F08
+pso/item/TUnk_804A3F20.cpp:
+	.text       start:0x801288A0 end:0x80128A70
 
 pso/item/TUnk_804A403C.cpp:
-	.text       start:0x80128F08 end:0x80128FF0
+	.text       start:0x80128A70 end:0x80129124
+	.data       start:0x804A4020 end:0x804A403C
 	.sdata2     start:0x805DADF8 end:0x805DADFC
 
-pso/unk/text_80128FF0.cpp:
-	.text       start:0x80128FF0 end:0x80129048
-
-pso/player/TObjPlayer_80129048.cpp:
-	.text       start:0x80129048 end:0x80129170
-	.data       start:0x804A4020 end:0x804A403C
-
-pso/unk/text_80129170.cpp:
-	.text       start:0x80129170 end:0x80129308
+pso/item/TUnk_804A4138.cpp:
+	.text       start:0x80129124 end:0x801293FC
 	.rodata     start:0x8043E960 end:0x8043E968
 	.sdata2     start:0x805DAE00 end:0x805DAE18
-
-pso/player/TObjPlayer_80129308.cpp:
-	.text       start:0x80129308 end:0x8012934C
-
-pso/unk/text_8012934C.cpp:
-	.text       start:0x8012934C end:0x801293A4
-
-pso/item/TItemEquipVariant_801293A4.cpp:
-	.text       start:0x801293A4 end:0x801293FC
 
 pso/item/SRankSlicerWeapons.cpp:
 	.text       start:0x801293FC end:0x8012981C
 	.data       start:0x804A4238 end:0x804A4438
 	.sdata2     start:0x805DAE18 end:0x805DAE40
 
-pso/player/TObjPlayer_8012981C.cpp:
-	.text       start:0x8012981C end:0x80129878
-
-pso/unk/text_80129878.cpp:
-	.text       start:0x80129878 end:0x801299DC
-
-pso/player/TObjPlayer_801299DC.cpp:
-	.text       start:0x801299DC end:0x80129AB0
+pso/item/TUnk_804A444C.cpp:
+	.text       start:0x8012981C end:0x80129B60
 	.sdata2     start:0x805DAE40 end:0x805DAE44
 
-pso/unk/text_80129AB0.cpp:
-	.text       start:0x80129AB0 end:0x80129B08
-
-pso/item/TItemEquipVariant_80129B08.cpp:
-	.text       start:0x80129B08 end:0x80129B60
-
-pso/player/TObjPlayer_80129B60.cpp:
-	.text       start:0x80129B60 end:0x80129D18
+pso/item/TUnk_804A4548.cpp:
+	.text       start:0x80129B60 end:0x80129DD4
 	.sdata2     start:0x805DAE48 end:0x805DAE60
 
-pso/unk/text_80129D18.cpp:
-	.text       start:0x80129D18 end:0x80129D70
-
-pso/player/TObjPlayer_80129D70.cpp:
-	.text       start:0x80129D70 end:0x80129D7C
-
-pso/item/TItemEquipVariant_80129D7C.cpp:
-	.text       start:0x80129D7C end:0x80129DD4
-
-pso/unk/text_80129DD4.cpp:
-	.text       start:0x80129DD4 end:0x80129F2C
-
-pso/player/TObjPlayer_80129F2C.cpp:
-	.text       start:0x80129F2C end:0x80129F98
-
-pso/unk/text_80129F98.cpp:
-	.text       start:0x80129F98 end:0x80129FF0
-
-pso/item/TItemEquipVariant_80129FF0.cpp:
-	.text       start:0x80129FF0 end:0x8012A048
-
-pso/unk/text_8012A048.cpp:
-	.text       start:0x8012A048 end:0x8012A114
+pso/item/TUnk_804A4648.cpp:
+	.text       start:0x80129DD4 end:0x8012A048
 
 pso/item/TUnk_804A4748.cpp:
-	.text       start:0x8012A114 end:0x8012A1CC
+	.text       start:0x8012A048 end:0x8012A224
 
-pso/unk/text_8012A1CC.cpp:
-	.text       start:0x8012A1CC end:0x8012A224
+pso/item/TUnk_804A4848.cpp:
+	.text       start:0x8012A224 end:0x8012A470
 
-pso/player/TObjPlayer_8012A224.cpp:
-	.text       start:0x8012A224 end:0x8012A35C
-
-pso/item/TItemEquipVariant_8012A35C.cpp:
-	.text       start:0x8012A35C end:0x8012A3B4
-
-pso/player/TObjPlayer_8012A3B4.cpp:
-	.text       start:0x8012A3B4 end:0x8012A418
-
-pso/unk/text_8012A418.cpp:
-	.text       start:0x8012A418 end:0x8012A78C
-	.sdata2     start:0x805DAE60 end:0x805DAE68
-
-pso/player/TObjPlayer_8012A78C.cpp:
-	.text       start:0x8012A78C end:0x8012A82C
-
-pso/item/TItemEquipVariant_8012A82C.cpp:
-	.text       start:0x8012A82C end:0x8012A884
-
-pso/unk/text_8012A884.cpp:
-	.text       start:0x8012A884 end:0x8012AA0C
+pso/item/TUnk_804A4948.cpp:
+	.text       start:0x8012A470 end:0x8012AA0C
 	.data       start:0x804A4948 end:0x804A4A88
+	.sdata2     start:0x805DAE60 end:0x805DAE68
 
 pso/item/TUnk_804A4A88.cpp:
 	.text       start:0x8012AA0C end:0x8012ABCC
@@ -3620,51 +3147,21 @@ pso/item/TUnk_804A68C8.cpp:
 	.data       start:0x804A68C8 end:0x804A69C0
 	.sdata2     start:0x805DAFF0 end:0x805DB000
 
-pso/player/TObjPlayer_80130290.cpp:
-	.text       start:0x80130290 end:0x80130368
-
-pso/unk/text_80130368.cpp:
-	.text       start:0x80130368 end:0x80130520
+pso/item/TUnk_804A69DC.cpp:
+	.text       start:0x80130290 end:0x801307E4
+	.data       start:0x804A69C0 end:0x804A69DC
 	.sdata2     start:0x805DB000 end:0x805DB004
 
-pso/player/TObjPlayer_80130520.cpp:
-	.text       start:0x80130520 end:0x80130658
-
-pso/item/TUnk_804A69DC.cpp:
-	.text       start:0x80130658 end:0x80130720
-
-pso/unk/text_80130720.cpp:
-	.text       start:0x80130720 end:0x80130778
-
-pso/player/TObjPlayer_80130778.cpp:
-	.text       start:0x80130778 end:0x8013085C
-	.data       start:0x804A69C0 end:0x804A69DC
-
-pso/player/TObjPlayer_8013085C.cpp:
-	.text       start:0x8013085C end:0x80130898
-
 pso/item/TUnk_804A6AD8.cpp:
-	.text       start:0x80130898 end:0x80130B98
+	.text       start:0x801307E4 end:0x80130BF0
 	.sdata2     start:0x805DB008 end:0x805DB01C
 
-pso/unk/text_80130B98.cpp:
-	.text       start:0x80130B98 end:0x80130BF0
-
-pso/player/TObjPlayer_80130BF0.cpp:
-	.text       start:0x80130BF0 end:0x80130C2C
-
 pso/item/TUnk_804A6BD0.cpp:
-	.text       start:0x80130C2C end:0x80130E48
+	.text       start:0x80130BF0 end:0x80130EA0
 	.sdata2     start:0x805DB020 end:0x805DB034
 
-pso/unk/text_80130E48.cpp:
-	.text       start:0x80130E48 end:0x80130EA0
-
-pso/unk/text_80130EA0.cpp:
-	.text       start:0x80130EA0 end:0x80130EF8
-
 pso/unk/TUnk_804A6CC8.cpp:
-	.text       start:0x80130EF8 end:0x801311D8
+	.text       start:0x80130EA0 end:0x801311D8
 	.sdata2     start:0x805DB038 end:0x805DB050
 
 pso/object/TUnk_804A6DC0.cpp:
@@ -5135,12 +4632,9 @@ pso/object/CitySeason.cpp:
 pso/unk/text_80184C2C.cpp:
 	.text       start:0x80184C2C end:0x80185248
 
-pso/object/TObjLaboMapWarp_80185248.cpp:
-	.text       start:0x80185248 end:0x801867F4
+pso/object/TObjLaboMapWarp.cpp:
+	.text       start:0x80185248 end:0x80186C44
 	.rodata     start:0x80444A20 end:0x80444A28
-
-pso/object/TObjCityMainWarp_801867F4.cpp:
-	.text       start:0x801867F4 end:0x80186C44
 
 pso/object/TObjCityMainWarp_80186C44.cpp:
 	.text       start:0x80186C44 end:0x80186E24
@@ -5806,56 +5300,26 @@ pso/unk/text_801BC688.cpp:
 	.text       start:0x801BC688 end:0x801BC81C
 
 pso/player/TObjPlayer_801BC81C.cpp:
-	.text       start:0x801BC81C end:0x801BCB70
-
-pso/player/TObjPlayer_801BCC30.cpp:
-	.text       start:0x801BCB70 end:0x801BCC54
-
-pso/player/TObjPlayer_801BCC54.cpp:
-	.text       start:0x801BCC54 end:0x801BCD28
-
-pso/player/TObjPlayer_801BCD28.cpp:
-	.text       start:0x801BCD28 end:0x801BCD58
+	.text       start:0x801BC81C end:0x801BCD58
 
 pso/player/TObjPlayer_801BCD58.cpp:
 	.text       start:0x801BCD58 end:0x801BCDC4
 
 pso/player/TObjPlayer_801BCDC4.cpp:
-	.text       start:0x801BCDC4 end:0x801BCE1C
-
-pso/player/TObjPlayer_801BCE1C.cpp:
-	.text       start:0x801BCE1C end:0x801BCE90
-
-pso/player/TObjPlayer_801BCE90.cpp:
-	.text       start:0x801BCE90 end:0x801BCF04
+	.text       start:0x801BCDC4 end:0x801BCF04
 
 pso/player/TObjPlayer_801BCF04.cpp:
 	.text       start:0x801BCF04 end:0x801BCFBC
 
 pso/player/TObjPlayer_801BCFBC.cpp:
-	.text       start:0x801BCFBC end:0x801BD0C0
-
-pso/unk/text_801BD0C0.cpp:
-	.text       start:0x801BD0C0 end:0x801BD2B8
+	.text       start:0x801BCFBC end:0x801BD318
 	.rodata     start:0x80446F70 end:0x80446F78
 
-pso/player/TObjPlayer_801BD2B8.cpp:
-	.text       start:0x801BD2B8 end:0x801BD314
-
-pso/player/TObjPlayer_801BD314.cpp:
-	.text       start:0x801BD314 end:0x801BD318
-
-pso/unk/text_801BD318.cpp:
-	.text       start:0x801BD318 end:0x801BD384
-
 pso/player/TObjPlayer_801BD384.cpp:
-	.text       start:0x801BD384 end:0x801BD928
+	.text       start:0x801BD318 end:0x801BD928
 
 pso/player/TObjPlayer_801BD928.cpp:
-	.text       start:0x801BD928 end:0x801BDBB4
-
-pso/unk/text_801BDBB4.cpp:
-	.text       start:0x801BDBB4 end:0x801BDD8C
+	.text       start:0x801BD928 end:0x801BDD8C
 
 pso/player/TObjPlayer_801BDD8C.cpp:
 	.text       start:0x801BDD8C end:0x801BDDDC
@@ -5863,85 +5327,16 @@ pso/player/TObjPlayer_801BDD8C.cpp:
 pso/player/TObjPlayer_801BDDDC.cpp:
 	.text       start:0x801BDDDC end:0x801BDE60
 
-pso/unk/text_801BDE60.cpp:
-	.text       start:0x801BDE60 end:0x801BDF5C
-
 pso/player/TObjPlayer_801BDF5C.cpp:
-	.text       start:0x801BDF5C end:0x801BDFC4
-
-pso/unk/text_801BDFC4.cpp:
-	.text       start:0x801BDFC4 end:0x801BE03C
-
-pso/player/TObjPlayer_801BE03C.cpp:
-	.text       start:0x801BE03C end:0x801BE104
-
-pso/unk/text_801BE104.cpp:
-	.text       start:0x801BE104 end:0x801BE1C0
+	.text       start:0x801BDE60 end:0x801BEC44
 	.ctors      start:0x80433F8C end:0x80433F90
 	.bss        start:0x8050E920 end:0x80511C80
-
-pso/player/TObjPlayer_801BE1C0.cpp:
-	.text       start:0x801BE1C0 end:0x801BE388
-
-pso/unk/text_801BE388.cpp:
-	.text       start:0x801BE388 end:0x801BE3B4
-
-pso/player/TObjPlayer_801BE3B4.cpp:
-	.text       start:0x801BE3B4 end:0x801BE66C
-
-pso/player/TObjPlayer_801BE66C.cpp:
-	.text       start:0x801BE66C end:0x801BE778
-
-pso/player/TObjPlayer_801BE778.cpp:
-	.text       start:0x801BE778 end:0x801BEB0C
-
-pso/player/TObjPlayer_801BEB0C.cpp:
-	.text       start:0x801BEB0C end:0x801BEC44
 
 pso/misc/TPlyPhotonChair_801BEC44.cpp:
 	.text       start:0x801BEC44 end:0x801BEC98
 
 pso/player/TObjPlayer.cpp:
-	.text       start:0x801BEC98 end:0x801BF548
-
-pso/player/TObjPlayer_801BF548.cpp:
-	.text       start:0x801BF548 end:0x801BF6B0
-
-pso/player/TObjPlayer_801BF6B0.cpp:
-	.text       start:0x801BF6B0 end:0x801BF8EC
-
-pso/player/TObjPlayer_801BF8EC.cpp:
-	.text       start:0x801BF8EC end:0x801BF918
-
-pso/player/TObjPlayer_801BF918.cpp:
-	.text       start:0x801BF918 end:0x801BF978
-
-pso/player/TObjPlayer_801BF978.cpp:
-	.text       start:0x801BF978 end:0x801BFA98
-
-pso/player/TObjPlayer_801BFA98.cpp:
-	.text       start:0x801BFA98 end:0x801BFAD4
-
-pso/player/TObjPlayer_801BFAD4.cpp:
-	.text       start:0x801BFAD4 end:0x801BFB1C
-
-pso/player/TObjPlayer_801BFB1C.cpp:
-	.text       start:0x801BFB1C end:0x801BFBCC
-
-pso/player/TObjPlayer_801BFBCC.cpp:
-	.text       start:0x801BFBCC end:0x801BFE1C
-
-pso/player/TObjPlayer_801BFE1C.cpp:
-	.text       start:0x801BFE1C end:0x801BFE40
-
-pso/player/TObjPlayer_801BFE40.cpp:
-	.text       start:0x801BFE40 end:0x801BFE50
-
-pso/player/TObjPlayer_801BFE50.cpp:
-	.text       start:0x801BFE50 end:0x801BFED4
-
-pso/player/TObjPlayer_801BFED4.cpp:
-	.text       start:0x801BFED4 end:0x801C0064
+	.text       start:0x801BEC98 end:0x801C0064
 
 pso/misc/pso_const_ids5.cpp:
 	.text       start:0x801C0064 end:0x801C00C4
@@ -7200,15 +6595,12 @@ pso/misc/TLobby_80226070.cpp:
 	.sdata2     start:0x805DC740 end:0x805DC748
 
 pso/misc/TLobby_802268F4.cpp:
-	.text       start:0x802268F4 end:0x80227390
-	.bss        start:0x80514C60 end:0x80514F58
-	.sdata2     start:0x805DC748 end:0x805DC760
-
-pso/misc/TLoadCtrl_80227390.cpp:
-	.text       start:0x80227390 end:0x80227A2C
+	.text       start:0x802268F4 end:0x80227A2C
 	.rodata     start:0x8044C890 end:0x8044C8D0
 	.data       start:0x804CB838 end:0x804CB85C
+	.bss        start:0x80514C60 end:0x80514F58
 	.sbss       start:0x805D62D8 end:0x805D62E0
+	.sdata2     start:0x805DC748 end:0x805DC760
 
 pso/misc/TLobby_80227A2C.cpp:
 	.text       start:0x80227A2C end:0x80227AA0
@@ -9781,12 +9173,9 @@ pso/misc/TWindowSubTradeMain_802D3924.cpp:
 pso/misc/TLobby_802D3970.cpp:
 	.text       start:0x802D3970 end:0x802D3AB8
 
-pso/ui/TAdSinglePlyChrSelectGC_802D3AB8.cpp:
-	.text       start:0x802D3AB8 end:0x802D49A8
-	.rodata     start:0x80472588 end:0x80472590
-
 pso/ui/TAdSinglePlyChrSelectGC.cpp:
-	.text       start:0x802D49A8 end:0x802D5098
+	.text       start:0x802D3AB8 end:0x802D5098
+	.rodata     start:0x80472588 end:0x80472590
 	.data       start:0x804E1A60 end:0x804E1BB0
 	.sbss       start:0x805D68A0 end:0x805D68A8
 
@@ -10439,31 +9828,18 @@ pso/ui/TAdChrSelBSlotGC_80310050.cpp:
 pso/ui/TAdChrSelBSlotGC_803100A4.cpp:
 	.text       start:0x803100A4 end:0x8031012C
 
-pso/misc/TPlayerBattleCtrl4P_8031012C.cpp:
-	.text       start:0x8031012C end:0x80311800
-	.rodata     start:0x80475B88 end:0x80475B90
-	.bss        start:0x80542E90 end:0x80542EB0
-	.sdata2     start:0x805DF240 end:0x805DF248
-
-pso/misc/TPlayerBattleCtrl4P_80311800.cpp:
-	.text       start:0x80311800 end:0x80311E4C
-
 pso/misc/TPlayerBattleCtrl4P.cpp:
-	.text       start:0x80311E4C end:0x803123F4
-	.bss        start:0x80542EB0 end:0x80542FB0
-
-pso/misc/TPlayerBattleCtrl4P_803123F4.cpp:
-	.text       start:0x803123F4 end:0x80312BDC
+	.text       start:0x8031012C end:0x80312C50
+	.rodata     start:0x80475B88 end:0x80475B90
 	.data       start:0x804E7D30 end:0x804E80C0
+	.bss        start:0x80542E90 end:0x80542FB0
 	.sbss       start:0x805D6AB0 end:0x805D6AC0
+	.sdata2     start:0x805DF240 end:0x805DF248
 
 pso/enemy/DelDepthData.cpp:
 	.rodata     start:0x80475BD8 end:0x80475DD8
 	.sdata      start:0x805D4118 end:0x805D4120
 	.sbss       start:0x805D6AC0 end:0x805D6AD8
-
-pso/misc/TPlayerBattleCtrl4P_80312BDC.cpp:
-	.text       start:0x80312BDC end:0x80312C50
 
 pso/unk/text_80312C50.cpp:
 	.text       start:0x80312C50 end:0x803130BC
@@ -10513,77 +9889,11 @@ pso/enemy/TObjEneReconBomb.cpp:
 pso/enemy/TObjEneRecon_8031BC38.cpp:
 	.text       start:0x8031BC38 end:0x8031BCB8
 
-pso/enemy/TObjEneRecon_8031BCB8.cpp:
-	.text       start:0x8031BCB8 end:0x8031BD64
-
-pso/enemy/TObjEneRecon_8031BD64.cpp:
-	.text       start:0x8031BD64 end:0x8031BDF4
-
-pso/enemy/TObjEneRecon_8031BDF4.cpp:
-	.text       start:0x8031BDF4 end:0x8031BE8C
-
-pso/enemy/TObjEneRecon_8031BE8C.cpp:
-	.text       start:0x8031BE8C end:0x8031C124
-
-pso/enemy/TObjEneRecon_8031C124.cpp:
-	.text       start:0x8031C124 end:0x8031C18C
-
-pso/enemy/TObjEneRecon_8031C18C.cpp:
-	.text       start:0x8031C18C end:0x8031C190
-
-pso/enemy/TObjEneRecon_8031C190.cpp:
-	.text       start:0x8031C190 end:0x8031C23C
-
-pso/enemy/TObjEneRecon_8031C23C.cpp:
-	.text       start:0x8031C23C end:0x8031C250
-
-pso/enemy/TObjEneRecon_8031C250.cpp:
-	.text       start:0x8031C250 end:0x8031D780
-	.rodata     start:0x80476108 end:0x80476118
-	.sdata2     start:0x805DF3D8 end:0x805DF3E8
-
-pso/enemy/TObjEneRecon_8031D780.cpp:
-	.text       start:0x8031D780 end:0x8031D898
-
-pso/enemy/TObjEneRecon_8031D898.cpp:
-	.text       start:0x8031D898 end:0x8031DB34
-
-pso/enemy/TObjEneRecon_8031DB34.cpp:
-	.text       start:0x8031DB34 end:0x8031DBD8
-
-pso/unk/text_8031DBD8.cpp:
-	.text       start:0x8031DBD8 end:0x8031DCCC
-
-pso/enemy/TObjEneRecon_8031DCCC.cpp:
-	.text       start:0x8031DCCC end:0x8031DD14
-
-pso/enemy/TObjEneRecon_8031DD14.cpp:
-	.text       start:0x8031DD14 end:0x8031DD40
-
-pso/enemy/TObjEneRecon_8031DD40.cpp:
-	.text       start:0x8031DD40 end:0x8031DD7C
-
-pso/enemy/TObjEneRecon_8031DD7C.cpp:
-	.text       start:0x8031DD7C end:0x8031DFD0
-
-pso/enemy/TObjEneRecon_8031DFD0.cpp:
-	.text       start:0x8031DFD0 end:0x8031E574
-	.data       start:0x804EC3F0 end:0x804EC668
-
-pso/enemy/TObjEneRecon_8031E574.cpp:
-	.text       start:0x8031E574 end:0x8031E650
-
-pso/enemy/TObjEneRecon_8031E650.cpp:
-	.text       start:0x8031E650 end:0x8031E69C
-
-pso/enemy/TObjEneRecon_8031E69C.cpp:
-	.text       start:0x8031E69C end:0x8031E708
-
-pso/enemy/TObjEneRecon_8031E708.cpp:
-	.text       start:0x8031E708 end:0x8031E7F0
-
 pso/enemy/TObjEneRecon.cpp:
-	.text       start:0x8031E7F0 end:0x8031E800
+	.text       start:0x8031BCB8 end:0x8031E800
+	.rodata     start:0x80476108 end:0x80476118
+	.data       start:0x804EC3F0 end:0x804EC668
+	.sdata2     start:0x805DF3D8 end:0x805DF3E8
 
 pso/enemy/TObjEneRecon_8031E800.cpp:
 	.text       start:0x8031E800 end:0x8031E88C
@@ -11463,11 +10773,8 @@ pso/item/TItemEffPG.cpp:
 	.sdata2     start:0x805DFE08 end:0x805DFE14
 
 pso/item/TItemEffPG_8034FE28.cpp:
-	.text       start:0x8034FE28 end:0x8034FF4C
-
-pso/item/TItemEffPG_8034FF4C.cpp:
-	.text       start:0x8034FF4C end:0x803501BC
-	.rodata     start:0x80478CB8 end:0x80478CC8
+	.text       start:0x8034FE28 end:0x803501BC
+	.rodata     start:0x80478CB8 end:0x80478CD0
 	.sdata      start:0x805D4350 end:0x805D4358
 
 pso/item/TUnk_804F0C48.cpp:
@@ -11957,11 +11264,8 @@ pso/misc/TLobby_8036B204.cpp:
 	.sbss       start:0x805D7008 end:0x805D700C
 
 pso/boss/TObjBoss8DemoRoom.cpp:
-	.text       start:0x8036B514 end:0x8036B654
+	.text       start:0x8036B514 end:0x8036B748
 	.data       start:0x804F3670 end:0x804F3688
-
-pso/boss/TObjBoss8DemoRoom_8036B654.cpp:
-	.text       start:0x8036B654 end:0x8036B748
 
 pso/unk/text_8036B748.cpp:
 	.text       start:0x8036B748 end:0x8036B7E8

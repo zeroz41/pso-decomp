@@ -1,8 +1,37 @@
-// ---- pso/unk/text_80130898
 #include "types.h"
+#include "pso/player/TUnk_804A69C0.h"
+#include "pso/items/TItemWeapon.h"
+#include "pso/item/TItemShootModel_dtor.h"
+#include "pso/player/TObjPlayer_80130778.h"
+#include "pso/item/TUnk_804A6AD8.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_8013085C.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/item/TUnk_804A6AD8.h"
+#include "pso/item/TItemEquipVariant_80120CF8.h"
+#include "pso/item/TItemEquipVariant_80130AC4.h"
+#include "pso/player/TObjPlayer_80130B1C.h"
+#include "pso/unk/text_80130B98.h"
+
+extern "C" {
+
+void draw_weapon_at_joint(s32 arg0, s8 arg1);
+
+
+}
+
+
+void TUnk_804A6AD8::reserved_53() { draw_weapon_model(); get_joint_position(3, (char*)this + 0x208); get_joint_position(1, (char*)this + 0x220); draw_weapon_at_joint((s32)this, (s8)((void*)35)); get_joint_position(3, (char*)this + 0x214); get_joint_position(1, (char*)this + 0x22c); }
+
+extern "C" {
+
+int post_translate_matrix(void*);
+int get_player_list__10TObjPlayerFv(void*);
+}
+
+void yasminkov_9000m_node_callback(void* p) { if (get_player_list__10TObjPlayerFv(p) == 2) { post_translate_matrix((char*)p + 0x1fc); } }
+
+// ---- pso/unk/text_80130898
 
 struct PlB_80130974 { char pad[0x18]; };
 
@@ -66,9 +95,6 @@ s32 spawn_weapon_casing__10TObjPlayerFlUlUlUlUl(int, void *, void *, void *, voi
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 extern s32 tl_05;
-
-
-
 
 
 #pragma push
@@ -136,10 +162,6 @@ void TUnk_804A6AD8::yasminkov_9000m_eject_casing(s32 arg1, s32 arg2) {
 }
 
 // ---- pso/item/TItemEquipVariant_80130AC4
-#include "types.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_80130AC4.h"
-#include "pso/player/TObjPlayer.h"
 
 extern s32 lbl_804A6AD8[];
 
@@ -155,11 +177,6 @@ void *__dt__13TUnk_804A6AD8Fv(void *arg0, s16 arg1) {
 }
 
 // ---- pso/player/TObjPlayer_80130B1C
-#include "types.h"
-#include "pso/player/TObjPlayer_80130B1C.h"
-#include "pso/item/TUnk_804A6AD8.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/item/TItem.h"
 
 extern "C" {
 
@@ -168,7 +185,24 @@ int __ct__11TItemWeaponFP7TObjectPUc(void);
     extern unsigned char spawn_weapon_impact_effect[];
 
     
-    
-void* yasminkov_9000m_ct(void* a0) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6AD8; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; ((TItemWeapon *)a0)->set_weapon_flags(515); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804A6AD8 *)a0)->m_204 = 0.0f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6AD8 *)a0)->m_1fc = 0.0f; return a0; }
+void *yasminkov_9000m_ct(void *a0, s32 parent, s32 item) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6AD8; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; ((TItemWeapon *)a0)->set_weapon_flags(515); *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804A6AD8 *)a0)->m_204 = 0.0f; *(float*)((char*)a0 + 0x200) = 0.0f; ((TUnk_804A6AD8 *)a0)->m_1fc = 0.0f; return a0; }
 
+}
+
+extern "C" {
+u8 *__nw__5TItemFUl(s32);
+}
+extern s32 tl_05;
+u8 *create_yasminkov_9000m(s32 arg0) {
+    u8 *temp_r3;
+    u8 *var_r0;
+    if (arg0 != 0) {
+        temp_r3 = (u8 *)(__nw__5TItemFUl(0x238));
+        var_r0 = temp_r3;
+        if (var_r0 != NULL) {
+            var_r0 = (u8 *)(yasminkov_9000m_ct(temp_r3, tl_05, arg0));
+        }
+        return var_r0;
+    }
+    return NULL;
 }

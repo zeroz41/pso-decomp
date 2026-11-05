@@ -1,12 +1,33 @@
 #include "types.h"
+#include "pso/unk/text_80130EA0.h"
+#include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_80130EF8.h"
 #include "pso/unk/TUnk_804A6CC8.h"
-#include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/unk/text_801310A8.h"
 #include "pso/object/TUnk_804A6DC0.h"
 #include "pso/item/TItem.h"
+
+extern "C" {
+
+s32 scale_current_matrix(s32);
+s32 post_translate_matrix(s32);
+}
+
+void yasminkov_2000h_node_callback(s32 arg0) {
+    s32 player_list;
+
+    player_list = TObjPlayer::get_player_list();
+    switch (player_list) {
+    case 1:
+        post_translate_matrix(arg0 + 0x20C);
+        return;
+    case 2:
+        scale_current_matrix(arg0 + 0x1FC);
+        return;
+    }
+}
 
 struct Obj_80131070 { u8 pad[0x208]; s32 state; };
 
@@ -100,12 +121,9 @@ void *__dt__13TUnk_804A6CC8Fv(void *arg0, s16 arg1) {
 
 extern "C" {
 u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
 int __ct__11TItemWeaponFP7TObjectPUc(void);
 extern unsigned char spawn_weapon_impact_effect[];
     
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 
 }
 

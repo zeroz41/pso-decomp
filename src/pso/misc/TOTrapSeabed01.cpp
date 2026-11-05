@@ -746,7 +746,7 @@ void enemy_spawn_zalure_effect__9TObjCharaFv();
 void find_target_player__6TOTrapFv();
 void vfunc_78__9TObjCharaFl();
 void vfunc_77__9TObjCharaFv();
-void vfunc_76__9TObjCharaFv();
+void vfunc_76__9TObjCharaFf();
 void vfunc_75__9TObjCharaFf();
 void get_center__9TObjCharaFv();
 void get_actor_level_index__9TObjCharaFv();
@@ -865,7 +865,7 @@ void *__vt__14TOTrapSeabed01[91] = {
     (void *)&recalc_stats__9TObjCharaFv,
     (void *)&vfunc_74__9TObjCharaFl,
     (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFv,
+    (void *)&vfunc_76__9TObjCharaFf,
     (void *)&vfunc_77__9TObjCharaFv,
     (void *)&vfunc_78__9TObjCharaFl,
     (void *)&find_target_player__6TOTrapFv,

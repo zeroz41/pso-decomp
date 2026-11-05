@@ -6,7 +6,6 @@
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/system/vector.h"
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/animation/ActorAnimationState.h"
@@ -24,12 +23,6 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/enemy/TObjEneMe3ShinowaMirage.h"
 #include "pso/enemy/TObjEneSaver.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/enemy/TObjEneMe3Shinowa.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/object/TObjMotion.h"
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "pso/TParticleCtrl.h"
@@ -46,7 +39,13 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TTecResta.h"
 #include "pso/misc/TTecSifta.h"
 #include "pso/object/TObjFish.h"
-#include "pso/player/TObjPlayer.h"
+#include "pso/enemy/TObjEneMe3ShinowaMirage_800E7A70.h"
+
+extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
+extern "C" void has_flag_0x800__9TObjCharaFv();
+extern "C" void test_flag30_512__9TObjCharaFv();
+extern "C" void test_flag_1000__9TObjCharaFv();
+extern "C" void test_flag_256__9TObjCharaFv();
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -534,7 +533,7 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern const f64 TObjEneMe3ShinowaMirage__data_8043CFE0;
-extern s32 TObjEneMe3ShinowaMirage__data_805D52AC;
+extern void *TObjEneMe3ShinowaMirage__data_805D52AC;
 extern const f32 TObjEneMe3ShinowaMirage__data_805DA5B8;
 extern const f32 TObjEneMe3ShinowaMirage__data_805DA5E4;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1);
@@ -699,10 +698,6 @@ struct RecoveredGlobal_800E4D7C_lbl_80500FF4 {
     u8 remaining[0x8];
 };
 
-struct RecoveredGlobal_800F4758_lbl_8050110C {
-    s32 value;
-    u8 remaining[0x10];
-};
 
 struct Stack_800E6BB8 {
     s32 sp8;
@@ -1350,7 +1345,6 @@ typedef struct VObj_18_4a41ce VObj_18_4a41ce;
 
 struct Info_800E6F0C;
 
-typedef char RecoveredGlobal_800F4758_lbl_8050110C_size[sizeof(RecoveredGlobal_800F4758_lbl_8050110C) == 0x14 ? 1 : -1];
 
 struct E71ACBase_800e71ac_800E71A8 { char pad[0x14]; };
 
@@ -1406,9 +1400,6 @@ struct VObj_18_c44252 : VBase_18_c44252 {
     virtual s32 m23(void *, f32);
 };
 
-
-
-
 struct Node_800E75AC { u8 pad[0x2c]; void *child; };
 
 struct Sub_800E750C { f32 f0; u8 pad4[4]; f32 f8; f32 fC; f32 f10; s32 f14; s32 f18; };
@@ -1418,7 +1409,6 @@ struct Obj_800E750C { u8 pad0[0x60]; s32 f60; u8 pad1[0xA4 - 0x64]; Sub_800E750C
 struct Obj_800E750C;
 
 struct E_800E728C { u8 pad[0x60]; s32 f60; u8 pad64[0x390 - 0x64]; s32 f390; u8 pad394[0x3AC - 0x394]; f32 f3ac; u8 pad3b0[0x3C4 - 0x3B0]; s32 f3c4; };
-
 
 struct VBase_800E7884 { u8 pad[0x14]; };
 
@@ -1476,6 +1466,9 @@ s32 is_split_screen();
 void queue_destruction__7TObjectFv(void *arg0);
 }
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
+struct VB_800E7A98 { u8 pad[0xC]; };
+struct VO_800E7A98 : VB_800E7A98 { virtual ~VO_800E7A98(); };
+
 extern "C" {
 s32 enemy_validate_retained_target(void *, int);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
@@ -1525,14 +1518,14 @@ s32 push_matrix_from(void *);
 
 extern RecoveredGlobal_800E4D7C_TObjEneMe3ShinowaMirage__data_80500FC0 TObjEneMe3ShinowaMirage__data_80500FC0;
 extern Info_800E6F0C *TObjEneMe3ShinowaMirage__mirage_info_table[];
-extern u8 *TObjEneMe3ShinowaMirage__data_805D5298;
-extern s32 TObjEneMe3ShinowaMirage__data_805D52A0;
-extern s32 TObjEneMe3ShinowaMirage__data_805D52A4;
-extern s32 TObjEneMe3ShinowaMirage__data_805D52A8;
+extern void *TObjEneMe3ShinowaMirage__data_805D5298;
+extern VO_800E7A98 *TObjEneMe3ShinowaMirage__data_805D52A0;
+extern void *TObjEneMe3ShinowaMirage__data_805D52A4;
+extern void *TObjEneMe3ShinowaMirage__data_805D52A8;
 extern s32 __vt__17TObjEneMe3Shinowa[];
 extern u8 shinowa_mirage_breakup_params[];
 extern Vec lbl_8043CF94;
-extern RecoveredGlobal_800F4758_lbl_8050110C lbl_80500FEC;
+extern void *lbl_80500FEC[];
 extern RecoveredGlobal_800E4D7C_lbl_80500FF4 lbl_80500FF4;
 extern s32 *lbl_80501000[];
 extern void *lbl_805D2AC8;
@@ -1767,7 +1760,7 @@ extern "C" {
 void vfunc_77__9TObjCharaFv();
 }
 extern "C" {
-void vfunc_76__9TObjCharaFv();
+void vfunc_76__9TObjCharaFf();
 }
 extern "C" {
 void vfunc_75__9TObjCharaFf();
@@ -1948,7 +1941,7 @@ void *__vt__23TObjEneMe3ShinowaMirage[119] = {
     (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
     (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
     (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFv, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
+    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
     (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
     (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&dispatch_action__23TObjEneMe3ShinowaMirageFPvUii,
     (void *)&vfunc_88__17TObjEneMe3ShinowaFv, (void *)&vfunc_89__17TObjEneMe3ShinowaFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
@@ -3119,7 +3112,7 @@ void TObjEneMe3ShinowaMirage__sub_800E6F0C(Obj_800E6F0C *self) {
 void TObjEneMe3Shinowa::sub_800E6F64() {
     u8 *arg0 = (u8 *)this;
     if (sub_800E6FE0__17TObjEneMe3ShinowaFv(arg0) != 0) {
-        *(s32 **)((s8 *)arg0 + 0x24) = &lbl_80500FEC.value;
+        *(s32 **)((s8 *)arg0 + 0x24) = (s32 *)lbl_80500FEC;
         initialize_enemy_state__9TObjEneDDFl(arg0, 0x1b);
         *(s32 *)((s8 *)arg0 + 0x3c0) = 1;
         return;
@@ -3451,4 +3444,57 @@ void *TObjEneMe3Shinowa__ct(void *ene_me3_shinowa) {
     *(void * *)&((TObjEneMe3Shinowa *)ene_me3_shinowa)->m_name = lbl_805D2AC8;
     return ene_me3_shinowa;
 }
+}
+
+
+
+
+extern "C" {
+extern const f32 TObjEneMe3ShinowaMirage__data_805DA5C4;
+s32 TLobby__sub_8001FE7C(void *, s32);
+void mem_free(void *p);
+int create__21TObjEneMe3ShinowaRealFv(void*);
+
+void TObjEneMe3ShinowaMirage::set_slot_min_clamped_value(s32 arg0, f32 farg0) {
+  u8 *new_var;
+  f32 var_f1;
+  var_f1 = farg0;
+  if (var_f1 < TObjEneMe3ShinowaMirage__data_805DA5C4)
+  {
+    var_f1 = TObjEneMe3ShinowaMirage__data_805DA5C4;
+  }
+  new_var = (u8 *)shinowa_mirage_motion_param_table;
+  new_var = new_var + (arg0 * 0x10);
+  *((f32 *) (((s8 *) new_var) + 8)) = var_f1;
+}
+
+void TObjEneMe3ShinowaMirage::free_shared_resources() {
+    if (TObjEneMe3ShinowaMirage__data_805D52A8 != 0) {
+        delete (SampledMotionPoints *)TObjEneMe3ShinowaMirage__data_805D52A8;
+        TObjEneMe3ShinowaMirage__data_805D52A8 = 0;
+    }
+    if (TObjEneMe3ShinowaMirage__data_805D52A4 != 0) {
+        delete (SampledMotionPoints *)TObjEneMe3ShinowaMirage__data_805D52A4;
+        TObjEneMe3ShinowaMirage__data_805D52A4 = 0;
+    }
+    if (TObjEneMe3ShinowaMirage__data_805D52AC != 0) {
+        delete (SampledMotionPoints *)TObjEneMe3ShinowaMirage__data_805D52AC;
+        TObjEneMe3ShinowaMirage__data_805D52AC = 0;
+    }
+    if (TObjEneMe3ShinowaMirage__data_805D52A0 != 0) {
+        delete TObjEneMe3ShinowaMirage__data_805D52A0;
+        TObjEneMe3ShinowaMirage__data_805D52A0 = 0;
+    }
+    if (lbl_80500FEC[0] != 0) {
+        mem_free(lbl_80500FEC[0]);
+        lbl_80500FEC[0] = 0;
+    }
+    if (TObjEneMe3ShinowaMirage__data_805D5298 != 0) {
+        TLobby__sub_8001FE7C(TObjEneMe3ShinowaMirage__data_805D5298, 1);
+        TObjEneMe3ShinowaMirage__data_805D5298 = 0;
+    }
+}
+
+int TObjEneMe3ShinowaMirage__sub_800E7B74(void* p) { return create__21TObjEneMe3ShinowaRealFv(p); }
+
 }

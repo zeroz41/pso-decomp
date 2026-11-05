@@ -820,7 +820,7 @@ void handle_6x9A_update_entity_stat(Pkt_80010C54 *pkt);
 void sub_80010DE8__9TObjCharaFUsUcUc(Obj_80010DE8 *self, u16 a, u8 b, u8 c);
 void vfunc_78__9TObjCharaFl(void);
 void vfunc_77__9TObjCharaFv(void);
-void vfunc_76__9TObjCharaFv(void);
+void vfunc_76__9TObjCharaFf(void);
 void vfunc_75__9TObjCharaFf(void);
 u16 fn_80010F4C(void* p);
 void record_attack_source(Obj_80010F54 *self, s32 id);
@@ -1434,7 +1434,7 @@ void TObjChara::vfunc_78(s32) {  }
 
 void TObjChara::vfunc_77() {  }
 
-void TObjChara::vfunc_76() {  }
+void TObjChara::vfunc_76(f32) {  }
 
 void TObjChara::vfunc_75(f32) {  }
 
@@ -1956,7 +1956,7 @@ void *__vt__9TObjChara[] = {
     (void *)recalc_stats__9TObjCharaFv,
     (void *)vfunc_74__9TObjCharaFl,
     (void *)vfunc_75__9TObjCharaFf,
-    (void *)vfunc_76__9TObjCharaFv,
+    (void *)vfunc_76__9TObjCharaFf,
     (void *)vfunc_77__9TObjCharaFv,
     (void *)vfunc_78__9TObjCharaFl,
 };

@@ -14,6 +14,8 @@ public:
 };
 
 extern "C" {
+// The weapon's hit callback (hit_callback).
+void TObjPlayer__sub_80128A74(s32 a, u32 b, s32 c, s32 d);
 void *__dt__13TUnk_804A403CFv(void *arg0, s16 arg1);
 }
 

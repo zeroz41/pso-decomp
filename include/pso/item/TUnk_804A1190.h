@@ -7,7 +7,12 @@ class TUnk_804A1190 : public TItemWeapon {
 public:
     virtual ~TUnk_804A1190();
     virtual void emit_marker_effects();
-    void *destruct_and_set_vtable();
+    TUnk_804A1190(TObject *parent, u8 *item);
 };
+
+// Factory
+extern "C" {
+u8 *TObjPlayer__sub_801229EC(u8 *arg0);
+}
 
 #endif
