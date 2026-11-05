@@ -548,7 +548,6 @@ pso/item/TItemDisconnectCtrl_80105BE8.cpp
 pso/item/TItemDrop.cpp
 pso/item/TItemDropSub.cpp
 pso/item/TItemDropSub_80107B74.cpp
-pso/item/TItemDropSub_80107BF0.cpp
 pso/item/TItemDropSub_80107C40.cpp
 pso/item/TItemDrop_800F93F0.cpp
 pso/item/TItemDrop_800F9C00.cpp
@@ -622,7 +621,6 @@ pso/item/TItemMagSub.cpp
 pso/item/TItemMag_8001A468.cpp
 pso/item/TItemMenuCtrl.cpp
 pso/item/TItemMenuCtrl_801059E8.cpp
-pso/item/TItemMenuCtrl_80115A28.cpp
 pso/item/TItemMenuCtrl_80115A78.cpp
 pso/item/TItemMenuCtrl_80115AF0.cpp
 pso/item/TItemMoney.cpp
@@ -876,7 +874,6 @@ pso/misc/TFontSmallHelp.cpp
 pso/misc/TFontSmallLobby_801C013C.cpp
 pso/misc/TFontSmallLobby_801D62D0.cpp
 pso/misc/TForceOperate.cpp
-pso/misc/TGameProtocol.cpp
 pso/misc/THunterGuildSeqOffline.cpp
 pso/misc/THunterGuildSeqOffline_801F3718.cpp
 pso/misc/THunterGuildSeqOffline_80211FEC.cpp
@@ -1206,7 +1203,6 @@ pso/misc/TOCapsuleAncient01.cpp
 pso/misc/TOCapsuleLabo.cpp
 pso/misc/TOCapsuleMachine01.cpp
 pso/misc/TOChatSensor.cpp
-pso/misc/TOChatSensorFolder.cpp
 pso/misc/TOChatSensor_8015AC80.cpp
 pso/misc/TOChatSensor_8015B214.cpp
 pso/misc/TOComputerMachine01.cpp
@@ -1975,7 +1971,6 @@ pso/object/TObjDoorKey.cpp
 pso/object/TObjDoor_8018E358.cpp
 pso/object/TObjDoor_801F3754.cpp
 pso/object/TObjEZBoneRotBase.cpp
-pso/object/TObjEZBoneRotPlayer.cpp
 pso/object/TObjEZRopeBase.cpp
 pso/object/TObjEnvSoundGlobal.cpp
 pso/object/TObjEvtCollision.cpp
@@ -2266,7 +2261,6 @@ pso/player/TObjPlayer_801C00C4.cpp
 pso/player/TObjPlayer_801C0808.cpp
 pso/player/TObjPlayer_801C1FF8.cpp
 pso/player/TObjPlayer_801C5558.cpp
-pso/player/TObjPlayer_801C5AB8.cpp
 pso/player/TObjPlayer_801C721C.cpp
 pso/player/TObjPlayer_801D3554.cpp
 pso/player/TObjPlayer_801D4890.cpp
@@ -2632,7 +2626,6 @@ pso/unk/text_80090488.cpp
 pso/unk/text_80092AE0.cpp
 pso/unk/text_8009F410.cpp
 pso/unk/text_800A01C0.cpp
-pso/unk/text_800A02AC.cpp
 pso/unk/text_800A0798.cpp
 pso/unk/text_800A0814.cpp
 pso/unk/text_800A0884.cpp
@@ -2677,7 +2670,6 @@ pso/unk/text_80104F4C.cpp
 pso/unk/text_801057A8.cpp
 pso/unk/text_80108860.cpp
 pso/unk/text_801094D8.cpp
-pso/unk/text_801095EC.cpp
 pso/unk/text_8010EF14.cpp
 pso/unk/text_8010F168.cpp
 pso/unk/text_8010F210.cpp
@@ -2790,7 +2782,6 @@ pso/unk/text_8018E258.cpp
 pso/unk/text_8018FA6C.cpp
 pso/unk/text_80192554.cpp
 pso/unk/text_80193018.cpp
-pso/unk/text_8019608C.cpp
 pso/unk/text_80196214.cpp
 pso/unk/text_801963A8.cpp
 pso/unk/text_80196508.cpp

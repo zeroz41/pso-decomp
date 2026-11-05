@@ -1472,11 +1472,8 @@ pso/unk/text_800A01C0.cpp:
 	.text       start:0x800A01C0 end:0x800A0210
 
 pso/enemy/TObjEneDarkGunner.cpp:
-	.text       start:0x800A0210 end:0x800A02AC
+	.text       start:0x800A0210 end:0x800A0320
 	.data       start:0x80490458 end:0x80490470
-
-pso/unk/text_800A02AC.cpp:
-	.text       start:0x800A02AC end:0x800A0320
 
 pso/player/TUnk_80490470.cpp:
 	.text       start:0x800A0320 end:0x800A0798
@@ -2197,13 +2194,10 @@ pso/object/TObjWaitEntryHairMoveSim.cpp:
 	.data       start:0x8049CBA8 end:0x8049DCBC
 
 pso/object/TObjEZBoneRotBase.cpp:
-	.text       start:0x800FE834 end:0x800FEE2C
+	.text       start:0x800FE834 end:0x800FEFCC
 	.rodata     start:0x8043DF10 end:0x8043DF18
 	.data       start:0x8049DCD8 end:0x8049DCF0
 	.sdata2     start:0x805DAA40 end:0x805DAA54
-
-pso/object/TObjEZBoneRotPlayer.cpp:
-	.text       start:0x800FEE2C end:0x800FEFCC
 
 pso/player/TObjPlayer_800FEFCC.cpp:
 	.text       start:0x800FEFCC end:0x800FF580
@@ -2318,11 +2312,8 @@ pso/item/TItemDropSub_80107B74.cpp:
 	.text       start:0x80107B74 end:0x80107B90
 
 pso/item/TItemDropSub.cpp:
-	.text       start:0x80107B90 end:0x80107BF0
+	.text       start:0x80107B90 end:0x80107C40
 	.data       start:0x8049EFA0 end:0x8049EFB8
-
-pso/item/TItemDropSub_80107BF0.cpp:
-	.text       start:0x80107BF0 end:0x80107C40
 
 pso/item/TItemDropSub_80107C40.cpp:
 	.text       start:0x80107C40 end:0x80107C9C
@@ -2386,11 +2377,8 @@ pso/unk/text_801094D8.cpp:
 	.text       start:0x801094D8 end:0x80109568
 
 pso/item/TItemEffLandHit.cpp:
-	.text       start:0x80109568 end:0x801095EC
+	.text       start:0x80109568 end:0x80109670
 	.data       start:0x8049F0A0 end:0x8049F0B8
-
-pso/unk/text_801095EC.cpp:
-	.text       start:0x801095EC end:0x80109670
 
 pso/item/TItemEffLavis.cpp:
 	.text       start:0x80109670 end:0x80109798
@@ -2538,11 +2526,8 @@ pso/item/TItemMagSub.cpp:
 	.sdata2     start:0x805DABC0 end:0x805DABE8
 
 pso/item/TItemMenuCtrl.cpp:
-	.text       start:0x801159C8 end:0x80115A28
+	.text       start:0x801159C8 end:0x80115A78
 	.data       start:0x8049F5D0 end:0x8049F5E8
-
-pso/item/TItemMenuCtrl_80115A28.cpp:
-	.text       start:0x80115A28 end:0x80115A78
 
 pso/item/TItemMenuCtrl_80115A78.cpp:
 	.text       start:0x80115A78 end:0x80115AF0
@@ -4458,11 +4443,8 @@ pso/misc/TLobby_8015ABD0.cpp:
 	.text       start:0x8015ABD0 end:0x8015ABD8
 
 pso/system/TOChatSensorFolder.cpp:
-	.text       start:0x8015ABD8 end:0x8015AC38
+	.text       start:0x8015ABD8 end:0x8015AC80
 	.data       start:0x804AFF90 end:0x804AFFA8
-
-pso/misc/TOChatSensorFolder.cpp:
-	.text       start:0x8015AC38 end:0x8015AC80
 
 pso/misc/TOChatSensor_8015AC80.cpp:
 	.text       start:0x8015AC80 end:0x8015B014
@@ -5364,11 +5346,8 @@ pso/misc/TQuestColCtrl.cpp:
 	.text       start:0x80195F1C end:0x8019608C
 	.data       start:0x804B86E0 end:0x804B86F8
 
-pso/unk/text_8019608C.cpp:
-	.text       start:0x8019608C end:0x801960C4
-
 pso/object/TObjQuestColApcINW.cpp:
-	.text       start:0x801960C4 end:0x80196214
+	.text       start:0x8019608C end:0x80196214
 
 pso/unk/text_80196214.cpp:
 	.text       start:0x80196214 end:0x80196280
@@ -6042,12 +6021,9 @@ pso/player/TObjPlayer_801C5558.cpp:
 	.text       start:0x801C5558 end:0x801C57D0
 
 pso/misc/TForceOperate.cpp:
-	.text       start:0x801C57D0 end:0x801C5D14
-	.sdata2     start:0x805DC320 end:0x805DC334
-
-pso/player/TObjPlayer_801C5AB8.cpp:
-	.text       start:0x801C5D14 end:0x801C5FF8
+	.text       start:0x801C57D0 end:0x801C5FF8
 	.rodata     start:0x80447120 end:0x80447128
+	.sdata2     start:0x805DC320 end:0x805DC334
 
 pso/misc/TPlyOnCountOver_801C5FF8.cpp:
 	.text       start:0x801C5FF8 end:0x801C60CC
@@ -6484,11 +6460,8 @@ pso/unk/text_801E416C.cpp:
 	.text       start:0x801E416C end:0x801E4260
 
 pso/network/TGameProtocol.cpp:
-	.text       start:0x801E4260 end:0x801E4374
+	.text       start:0x801E4260 end:0x801E43E4
 	.data       start:0x804C5260 end:0x804C57DC
-
-pso/misc/TGameProtocol.cpp:
-	.text       start:0x801E4374 end:0x801E43E4
 
 pso/misc/TLobby_801E43E4.cpp:
 	.text       start:0x801E43E4 end:0x801E483C
