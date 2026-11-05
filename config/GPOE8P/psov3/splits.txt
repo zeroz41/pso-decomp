@@ -12208,6 +12208,7 @@ pso/misc/TLobby_803C45E4.cpp:
 
 pso/misc/TLobby_803C4698.cpp:
 	.text       start:0x803C4698 end:0x803C5AA0
+	.rodata     start:0x8047C568 end:0x8047C5A8
 	.bss        start:0x80572000 end:0x80572120
 	.sdata2     start:0x805E0CE8 end:0x805E0D28
 
