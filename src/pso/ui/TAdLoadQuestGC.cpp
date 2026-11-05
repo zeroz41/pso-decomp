@@ -1,5 +1,4 @@
 #include "pso/ui/TAdLoadQuestGC.h"
-#include "pso/ui/TAdLoadQuestGC_80309854.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TCameraCtrl.h"
 
@@ -7,7 +6,6 @@
 #include "pso/ui/TAdLoadQuestCellGC.h"
 #include "pso/ui/TAdLoadQuestLineGC.h"
 #include "pso/unk/text_8034A090.h"
-#include "pso/ui/TAdLoadQuestGC_80309788.h"
 #include "pso/ui/TAdLdQuestPrtGC.h"
 
 extern "C" {

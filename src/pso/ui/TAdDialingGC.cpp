@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/ui/TAdDialingGC.h"
 #include "pso/unk/text_8014618C.h"
-#include "pso/ui/TAdDialingGC_80328DB0.h"
 #include "pso/misc/TLobby.h"
 
 extern "C" {
@@ -60,7 +59,7 @@ s32 __ct__7TObjectFP7TObject();
 
 extern const char *lbl_805D41B0;
 
-void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc) {
+void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc, TObject *parent) {
     __ct__7TObjectFP7TObject();
     *(s32 **)((s8 *)ad_dialing_gc + 0x18) = __vt__12TAdDialingGC;
     *(s32 *)((s8 *)ad_dialing_gc + 0) = (s32) ((s32)lbl_805D41B0);

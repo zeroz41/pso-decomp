@@ -20,10 +20,8 @@
 #include "pso/misc/TWindowSubItem.h"
 #include "pso/unk/text_801F43B4.h"
 #include "pso/TShopWindowBase.h"
-#include "pso/misc/TQuestListOnline_8021824C.h"
 #include "pso/misc/TShopWindowBase.h"
 #include "pso/misc/TPlyJoinLobbyEntry.h"
-#include "pso/misc/TQuestListOnline_80218310.h"
 #include "pso/quest/TQuestListVM.h"
 
 struct S217 { char pad[0x38]; void *f38; };

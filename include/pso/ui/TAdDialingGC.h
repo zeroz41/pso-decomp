@@ -44,4 +44,8 @@ struct TAdDialingGC : public TObject {
 };
 
 typedef char TAdDialingGC_size[sizeof(TAdDialingGC) == 0xA8 ? 1 : -1];
+extern "C" {
+void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc, TObject *parent);
+}
+
 #endif

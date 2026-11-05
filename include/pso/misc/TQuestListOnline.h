@@ -69,4 +69,9 @@ typedef char QuestListOnline_selected_index[(offsetof(TQuestListOnline,selected_
 typedef char QuestListOnline_selected_entry[(offsetof(TQuestListOnline,selected_entry)==0x4C)?1:-1];
 typedef char QuestListOnline_selection_stage[(offsetof(TQuestListOnline,selection_stage)==0x68)?1:-1];
 typedef char QuestListOnline_sequence[(offsetof(TQuestListOnline,sequence)==0x6C)?1:-1];
+extern "C" {
+void *__dt__16TQuestListOnlineFv(TQuestListOnline *arg0, s16 arg1);
+void *TQuestListOnline__ct(TQuestListOnline *arg0, void *arg1, void *arg2, void *arg3);
+}
+
 #endif
