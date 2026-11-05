@@ -861,7 +861,7 @@ s32 select_enemy_destination(Obj_800182A0 *self, Vec_800182A0 *arg1, int flags);
 s32 check_path_obstructed(u8 *arg0, Vec_80018428 *arg1);
 s32 copy_position_if_valid__10TObjPlayerFii(s32 arg0, s32 arg1);
 void enemy_turn_half_toward_dest(Obj_80018570 *self);
-void enemy_turn_toward_dest(Obj_80018660 *self, s32 turn);
+s32 enemy_turn_toward_dest(Obj_80018660 *self, s32 turn);
 u8 * vfunc_18__9TObjCharaFPUc(u8 *arg0, u8 *arg1);
 u8 * update_actor_ground_y__9TObjCharaFv(u8 *arg0);
 void* get_center__9TObjCharaFv(void* p);
@@ -4285,14 +4285,14 @@ s32 TObjEnemy::turn_toward_direction(s32 max_step, Vec *direction) {
     return angle_difference_abs(this->rotation_y, target_angle);
 }
 
-void enemy_turn_toward_dest(Obj_80018660 *self, s32 turn) {
+s32 enemy_turn_toward_dest(Obj_80018660 *self, s32 turn) {
     Vec_80018660 d;
     s32 a;
     VecCopy__FP3VecPC3Vec((s32)&d, (s32)&self->dest);
     subtract_vector(&d, &self->pos);
     a = (s32)(TObjPlayer__data_804340B8 * ((f64 (*)(f32, f32))atan2_float)(d.x, d.z));
     self->angle = approach_angle_limited(self->angle, a, turn);
-    angle_difference_abs(self->angle, a);
+    return angle_difference_abs(self->angle, a);
 }
 
 f32 calc_xz_distance_sq(s32 arg0, u32 arg1, void *arg2) {
