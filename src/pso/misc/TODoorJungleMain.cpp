@@ -33,7 +33,6 @@ BmlResourceDescriptor bm_o_jungle_doormain_resource_descriptor = {
 CollisionBody TODoorJungleMain_collision_body_parts[1] = {
     {{0.0f, 0.0f, 0.0f}, 20.0f, 80.0f, 1, 0x10003},
 };
-extern const s32 TOKeyJungleMain__data_804653C8[3];
 extern s32 TODoorJungleMain__name;
 extern Vec_8029B640 lbl_804653E8;
 extern Vec_8029B640 lbl_804653F4;

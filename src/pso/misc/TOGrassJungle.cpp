@@ -7,14 +7,13 @@
 #include "pso/misc/TMotorcycle.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TOKeyJungleMain.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/map/FloorArea.h"
 
 extern char lbl_80465938[];
 extern char lbl_80465950[];
 extern char lbl_80465964[];
+extern char lbl_8046597C[];
 extern const char *bm_o_grass_jungle_model_names[3];
 extern BmlResourceDescriptor ograss_jungle_resource_descriptor;
 extern const char *bm_o_grass_jungle_motion_names[1];
@@ -76,10 +75,10 @@ void TOGrassJungle::load_resources() {
 __declspec(section ".data") const char *bm_o_grass_jungle_model_names[3] = { lbl_80465938, lbl_80465950, NULL };
 BmlResourceDescriptor ograss_jungle_resource_descriptor = { lbl_80465964, bm_o_grass_jungle_model_names, bm_o_grass_jungle_motion_names, 2, 0 };
 __declspec(section ".sdata") const char *bm_o_grass_jungle_motion_names[1] = { NULL };
+const char *grass_jungle_class_name = lbl_8046597C;
 
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__13TOGrassJungle[];
-extern s32 grass_jungle_class_name;
 struct Base_8029CD90 { char pad[0x18]; };
 struct VObj_8029CD90 : Base_8029CD90 {
     virtual void m0();
@@ -93,7 +92,6 @@ struct VObj_8029CD90 : Base_8029CD90 {
     virtual s32 m8(f32, f32);
 };
 
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 s32 rotate_matrix_y(s32, s32);
@@ -133,24 +131,6 @@ u8 *TOGrassJungle__ct(TOGrassJungle *grass_jungle, s32 parent, s32 arg2) {
         grass_jungle->m_90 = 1;
     }
     return (u8 *)grass_jungle;
-}
-
-void TOKeyJungleMain::play_activate_sound() {
-    s32 arg0 = (s32)this;
-    s32 var_r31;
-    s32 area;
-
-    var_r31 = 0x4AD12;
-    area = get_current_floor_area();
-    switch (area) {
-    case AREA_SEASIDE_NIGHT:
-        var_r31 = 0x4004AD12;
-        break;
-    case AREA_TOWER:
-        var_r31 = 0x4004AD12;
-        break;
-    }
-    play_sound_effect(var_r31, arg0 + 0x38, 0, 0);
 }
 
 }
