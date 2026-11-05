@@ -7553,10 +7553,7 @@ pso/ui/TAdMultiChgGameModeGC_8023EAC4.cpp:
 	.data       start:0x804CCED0 end:0x804CCFB8
 
 pso/unk/text_8023F160.cpp:
-	.text       start:0x8023F160 end:0x8023F1B8
-
-pso/unk/text_8023F1B8.cpp:
-	.text       start:0x8023F1B8 end:0x8023F3F8
+	.text       start:0x8023F160 end:0x8023F3F8
 	.sdata2     start:0x805DC9B8 end:0x805DC9C0
 
 pso/unk/text_8023F3F8.cpp:
@@ -8025,14 +8022,10 @@ pso/misc/TWindowSubStatusDisp_8025737C.cpp:
 	.sdata2     start:0x805DCED0 end:0x805DCEF0
 
 pso/misc/TWindowSubStatusDisp_80257BC0.cpp:
-	.text       start:0x80257BC0 end:0x802580B0
-	.rodata     start:0x8044EE58 end:0x8044EE60
+	.text       start:0x80257BC0 end:0x8025995C
+	.rodata     start:0x8044EE58 end:0x8044F000
 	.data       start:0x804CF960 end:0x804CF994
 	.sdata2     start:0x805DCEF0 end:0x805DCEF4
-
-pso/misc/TWindowSubStatusDisp_80257784.cpp:
-	.text       start:0x802580B0 end:0x8025995C
-	.rodata     start:0x8044EE60 end:0x8044F000
 
 pso/misc/TWindowSubStatusDisp_8025995C.cpp:
 	.text       start:0x8025995C end:0x80259DB0
@@ -8861,11 +8854,8 @@ pso/unk/text_8028D490.cpp:
 	.text       start:0x8028D490 end:0x8028D5D4
 
 pso/ui/TAdSinglePlyChrSelectGC_8028D5D4.cpp:
-	.text       start:0x8028D5D4 end:0x8028D8B8
+	.text       start:0x8028D5D4 end:0x8028D9A8
 	.bss        start:0x80518850 end:0x80518880
-
-pso/unk/text_8028D8B8.cpp:
-	.text       start:0x8028D8B8 end:0x8028D9A8
 
 pso/object/TObjCMMainMenu_8028D9A8.cpp:
 	.text       start:0x8028D9A8 end:0x8028DC40
@@ -9052,11 +9042,8 @@ pso/unk/text_802993F0.cpp:
 pso/unk/text_80299420.cpp:
 	.text       start:0x80299420 end:0x8029945C
 
-pso/unk/text_8029945C.cpp:
-	.text       start:0x8029945C end:0x80299488
-
 pso/object/TObjCMIcon_80299488.cpp:
-	.text       start:0x80299488 end:0x8029997C
+	.text       start:0x8029945C end:0x8029997C
 	.rodata     start:0x80465198 end:0x804651A0
 	.bss        start:0x805409E0 end:0x80540A34
 	.sbss       start:0x805D65A8 end:0x805D65AC
@@ -12954,10 +12941,7 @@ pso/system/AdxStreamRuntime.cpp:
 	.sdata2     start:0x805E0D50 end:0x805E0D70
 
 pso/unk/text_803CBCA0.cpp:
-	.text       start:0x803CBCA0 end:0x803CBCF8
-
-pso/unk/text_803CBCF8.cpp:
-	.text       start:0x803CBCF8 end:0x803CBDE0
+	.text       start:0x803CBCA0 end:0x803CBDE0
 
 pso/misc/TKeyBoardControl_803CBDE0.cpp:
 	.text       start:0x803CBDE0 end:0x803CBE88

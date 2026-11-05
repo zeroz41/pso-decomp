@@ -13,4 +13,8 @@ void fn_803CBCA0(void);
 }
 // --- end of C functions
 
+extern "C" {
+void __OSCallResetFunctions(void);
+}
+
 #endif

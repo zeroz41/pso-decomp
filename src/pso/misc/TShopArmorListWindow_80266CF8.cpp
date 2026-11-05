@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowMenuIconLine.h"
-#include "pso/misc/TWindowSubStatusDisp_80257784.h"
+#include "pso/misc/TWindowSubStatusDisp_80257BC0.h"
 #include "pso/misc/TShopArmorListWindow.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 
