@@ -1,12 +1,42 @@
 #include "types.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/GinjaMaterial.h"
+#include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjDoorJung.h"
+#include "pso/object/TObjLazerFenceExtra.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLazerFenceNorm.h"
-#include "pso/object/TObjLazerFenceExtra.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
+
+extern "C" {
+void push_matrix();
+void post_translate_matrix(void *);
+void draw_ginja_model_with_motion(s32, s32, f32);
+extern u16 lbl_80445B7C[];
+extern s32 lazer_fence_norm_texture_list;
+void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
+    Obj_80192554 *arg0 = (Obj_80192554 *)this;
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        ((TObjDoorJung *)(arg0->fC8[i]))->free_children((void *)lbl_80445B7C[arg0->fAC]);
+    }
+    TObjFish::set_global_param(lazer_fence_norm_texture_list);
+    push_matrix();
+    post_translate_matrix(arg0->f38);
+    rotate_matrix_y(NULL, this->rotation_y);
+    draw_ginja_object((void *)this->m_d8);
+    TParticleCtrl::begin_effect_render();
+    draw_ginja_model_with_motion(arg0->fC0, this->m_c4, arg0->fB8);
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
+}
+
+}
 
 struct LazerFenceExtraBase_801925F8 { char pad[0x18]; };
 struct LazerFenceExtraVObj_801925F8 : LazerFenceExtraBase_801925F8 {
@@ -34,11 +64,9 @@ void update_wait_switch__19TObjLazerFenceExtraFv(TObjLazerFenceExtra_801926D0 *s
 u8 is_current_floor_switch_set(u16);
 void post_translate_matrix(void *);
 void draw_ginja_object(void *);
-void rotate_matrix_y(int, void *);
 void push_matrix(void);
 s32 pop_matrix(void);
 
-extern void *lazer_fence_norm_texture_list;
 
 static const f32 lbl_805DBE58[1] = {0.0f};
 
@@ -46,7 +74,7 @@ void TObjLazerFenceExtra::render_lazer_fence_model() {
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
-    rotate_matrix_y(0, *(void * *)&this->rotation_y);
+    rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object(*(void * *)&this->m_d8);
     pop_matrix();
 }
@@ -223,7 +251,6 @@ struct Obj_80192B5C { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x
 
 extern "C" {
 void draw_ginja_model_with_motion(s32, s32, f32);
-extern u16 lbl_80445B7C[];
 void TObjLazerFenceNorm::draw_animated_beam() {
     s32 i;
     for (i = 0; i < 4; i++) {
@@ -232,7 +259,7 @@ void TObjLazerFenceNorm::draw_animated_beam() {
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix(((Obj_80192B5C *)this)->f38);
-    rotate_matrix_y(0, (void *)((Obj_80192B5C *)this)->f60);
+    rotate_matrix_y(NULL, ((Obj_80192B5C *)this)->f60);
     draw_ginja_object((void *)((Obj_80192B5C *)this)->fBC);
     TParticleCtrl::begin_effect_render();
     draw_ginja_model_with_motion(((Obj_80192B5C *)this)->fC0, ((Obj_80192B5C *)this)->fC4, ((Obj_80192B5C *)this)->fB8);
@@ -265,7 +292,7 @@ void TObjLazerFenceNorm::draw_model() {
     TObjFish::set_global_param((s32)lazer_fence_norm_texture_list);
     push_matrix();
     post_translate_matrix((void *)((char *)this + 56));
-    rotate_matrix_y(0, *(void * *)&this->rotation_y);
+    rotate_matrix_y(NULL, this->rotation_y);
     draw_ginja_object(this->m_bc);
     pop_matrix();
 }
@@ -350,7 +377,6 @@ void *__dt__18TObjLazerFenceNormFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern void *tl_05;
 
 typedef char RecoveredGlobal_80192E70_lbl_804B7FB0_size[sizeof(RecoveredGlobal_80192E70_lbl_804B7FB0) == 0x108 ? 1 : -1];
 typedef char RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm_size[sizeof(RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm) == 0x38 ? 1 : -1];

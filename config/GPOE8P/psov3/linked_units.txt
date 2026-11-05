@@ -635,7 +635,6 @@ pso/item/TItemReverseTech.cpp
 pso/item/TItemReverseTechBG.cpp
 pso/item/TItemReverseTechCtrl.cpp
 pso/item/TItemReverseTechPart1.cpp
-pso/item/TItemReverseTech_8011A1E8.cpp
 pso/item/TItemShoot.cpp
 pso/item/TItemShootGun.cpp
 pso/item/TItemShootGun_8011B598.cpp
@@ -1388,7 +1387,6 @@ pso/misc/TQuestVmDownLoadServer_8006FC34.cpp
 pso/misc/TQuestVmDownLoadServer_8007EBDC.cpp
 pso/misc/TQuestVmDownLoadServer_80080788.cpp
 pso/misc/TQuestVmDownLoadServer_800F9CE4.cpp
-pso/misc/TQuestVmDownLoadServer_800FA8A4.cpp
 pso/misc/TQuestVmDownLoadServer_801F9010.cpp
 pso/misc/TQuestVmDownLoadServer_8033BC88.cpp
 pso/misc/TQuestVmDownLoadServer_8033C22C.cpp
@@ -2546,7 +2544,6 @@ pso/ui/TFontSmallTask.cpp
 pso/ui/TLanguage_80132A5C.cpp
 pso/ui/TMessageWindowController.cpp
 pso/ui/TObjBagWarnWin.cpp
-pso/ui/TObjBagWarnWin_8006EED4.cpp
 pso/ui/TObjBagWarnWin_8006EF24.cpp
 pso/ui/TObjCMHexTile.cpp
 pso/ui/TObjDFJisin.cpp
@@ -2778,8 +2775,6 @@ pso/unk/text_8017866C.cpp
 pso/unk/text_8017B8A0.cpp
 pso/unk/text_8017E900.cpp
 pso/unk/text_8018E258.cpp
-pso/unk/text_8018FA6C.cpp
-pso/unk/text_80192554.cpp
 pso/unk/text_80193018.cpp
 pso/unk/text_80196214.cpp
 pso/unk/text_801963A8.cpp

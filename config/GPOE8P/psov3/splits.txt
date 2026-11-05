@@ -783,7 +783,7 @@ pso/unk/text_8006EBC4.cpp:
 	.text       start:0x8006EBC4 end:0x8006EC20
 
 pso/ui/TObjBagWarnWin.cpp:
-	.text       start:0x8006EC20 end:0x8006EED4
+	.text       start:0x8006EC20 end:0x8006EF24
 	.data       start:0x80488E68 end:0x80488E80
 	.sdata2     start:0x805D90B8 end:0x805D90D0
 
@@ -795,9 +795,6 @@ pso/item/ChallengeHunterLoadouts.cpp:
 
 pso/item/ChallengeRangerLoadouts.cpp:
 	.data       start:0x8048B1F8 end:0x8048C348
-
-pso/ui/TObjBagWarnWin_8006EED4.cpp:
-	.text       start:0x8006EED4 end:0x8006EF24
 
 pso/ui/TObjBagWarnWin_8006EF24.cpp:
 	.text       start:0x8006EF24 end:0x8006EF80
@@ -2122,13 +2119,10 @@ pso/unk/text_800FA7E0.cpp:
 pso/misc/TLobby_800FA848.cpp:
 	.text       start:0x800FA848 end:0x800FA8A4
 
-pso/misc/TQuestVmDownLoadServer_800FA8A4.cpp:
-	.text       start:0x800FA8A4 end:0x800FAB94
-	.data       start:0x8049C700 end:0x8049C718
-
 pso/misc/TFogCtrl.cpp:
-	.text       start:0x800FAB94 end:0x800FBD74
+	.text       start:0x800FA8A4 end:0x800FBD74
 	.rodata     start:0x8043DA60 end:0x8043DA70
+	.data       start:0x8049C700 end:0x8049C718
 	.sdata2     start:0x805DA948 end:0x805DA978
 
 pso/misc/TWindowSubStatusDisp_800FBD74.cpp:
@@ -2640,11 +2634,8 @@ pso/item/TItemReverseTechPart1.cpp:
 	.data       start:0x804A0410 end:0x804A0428
 
 pso/item/TItemReverseTech.cpp:
-	.text       start:0x8011A00C end:0x8011A1E8
+	.text       start:0x8011A00C end:0x8011A5A8
 	.data       start:0x804A0428 end:0x804A0440
-
-pso/item/TItemReverseTech_8011A1E8.cpp:
-	.text       start:0x8011A1E8 end:0x8011A5A8
 
 pso/item/TItemReverseTechCtrl.cpp:
 	.text       start:0x8011A5A8 end:0x8011A780
@@ -5221,11 +5212,8 @@ pso/object/TObjDoorJung.cpp:
 	.data       start:0x804B78B8 end:0x804B790C
 	.sdata2     start:0x805DBDF8 end:0x805DBE00
 
-pso/unk/text_8018FA6C.cpp:
-	.text       start:0x8018FA6C end:0x8018FAEC
-
 pso/object/TObjDoorKey.cpp:
-	.text       start:0x8018FAEC end:0x801902D8
+	.text       start:0x8018FA6C end:0x801902D8
 	.data       start:0x804B7910 end:0x804B7A6C
 	.sdata      start:0x805D3340 end:0x805D3344
 
@@ -5275,11 +5263,8 @@ pso/misc/TKomorebi.cpp:
 	.sbss       start:0x805D5C20 end:0x805D5C28
 	.sdata2     start:0x805DBE48 end:0x805DBE58
 
-pso/unk/text_80192554.cpp:
-	.text       start:0x80192554 end:0x801925F8
-
 pso/object/TObjLazerFenceNorm.cpp:
-	.text       start:0x801925F8 end:0x80193018
+	.text       start:0x80192554 end:0x80193018
 	.rodata     start:0x80445BB0 end:0x80445BB8
 	.sdata2     start:0x805DBE58 end:0x805DBE68
 

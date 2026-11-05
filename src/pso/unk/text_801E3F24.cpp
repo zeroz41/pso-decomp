@@ -2,6 +2,7 @@
 #include "pso/unk/text_801E3F24.h"
 #include "pso/system/debug_print.h"
 #include "pso/map/FloorArea.h"
+#include "pso/object/TObjDoorKey.h"
 
 struct Ent_801E3FA4 {
     u16 id;
@@ -20,7 +21,6 @@ extern char pso_data2_receive_log_format[];
 extern u8 subcommand_area_masks[];
 extern Ent_801E3FA4 pso_command_dispatch_table[];
 void dispatch_6x_subcommand(Msg_801E3FA4 *arg0);
-s32 TObjDoorKey__sub_8018FAEC(u16, u16);
 s32 bswap_switch_activate_token__6TLobbyFv();
 
 void TObjPlayer__sub_801E3F24(s32 arg0) {

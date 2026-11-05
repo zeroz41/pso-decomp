@@ -31,7 +31,7 @@ typedef char TObjDoorKey_size[sizeof(TObjDoorKey) == 0xFC ? 1 : -1];
 extern "C" {
 void *TObjDoorKey__create(void *arg0);
 void *__ct__11TObjDoorKeyFP7TObjectPv(TObjDoorKey *arg0, void *arg1, void *arg2);
-void TObjDoorKey__sub_8018FAEC(void);
+void TObjDoorKey__sub_8018FAEC(u16 id, u16);
 void trigger_activate_sound__11TObjDoorKeyFv(u8 *arg0);
 void *TObjEnvSoundGlobal__create(void *arg0);
 void *__dt__11TObjDoorKeyFv(void *arg0, s16 arg1);
