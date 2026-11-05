@@ -366,7 +366,6 @@ pso/boss/TObjBoss7RaftSplash_802F17B0.cpp
 pso/boss/TObjBoss7RaftSplash_802F1848.cpp
 pso/boss/TObjBoss7RaftSplash_802F18E8.cpp
 pso/boss/TObjBoss8DemoRoom.cpp
-pso/boss/TObjBoss8DemoRoom_8036B654.cpp
 pso/boss/TObjBoss8Piller.cpp
 pso/boss/TObjBoss8PillerCtrl.cpp
 pso/boss/TObjBoss8Piller_8030ADBC.cpp

@@ -11595,11 +11595,8 @@ pso/misc/TLobby_8036B204.cpp:
 	.sbss       start:0x805D7008 end:0x805D700C
 
 pso/boss/TObjBoss8DemoRoom.cpp:
-	.text       start:0x8036B514 end:0x8036B654
+	.text       start:0x8036B514 end:0x8036B748
 	.data       start:0x804F3670 end:0x804F3688
-
-pso/boss/TObjBoss8DemoRoom_8036B654.cpp:
-	.text       start:0x8036B654 end:0x8036B748
 
 pso/unk/text_8036B748.cpp:
 	.text       start:0x8036B748 end:0x8036B7E8
