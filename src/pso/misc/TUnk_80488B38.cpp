@@ -14,14 +14,6 @@
 #include "pso/misc/TUnk_80488D70.h"
 #include "pso/misc/TScene.h"
 
-struct E_8006BAC8 { f32 x; f32 y; f32 z; };
-
-struct O_8006BAC8 { u8 pad[0xd4]; E_8006BAC8 arr[1]; };
-
-struct E_8006BAB4 { f32 x; f32 y; f32 z; };
-
-struct O_8006BAB4 { u8 pad[0x104]; E_8006BAB4 arr[1]; };
-
 struct Vec_8006BB1C { f32 x, y, z; };
 
 struct Pad_8006BB1C {
@@ -44,33 +36,12 @@ struct Obj_8006BB1C {
 };
 
 extern "C" {
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i);
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 extern Pad_8006BB1C controller_input_state;
-void* TCameraCtrl__sub_8006BA68(void* a0);
-unsigned char TCameraCtrl__sub_8006BADC(void);
 void *TCameraCtrl__vt4(void);
 void *__dt__13TUnk_80488B38Fv(void *arg0, s16 arg1);
-int __ct__13TUnk_80488A28Fv(void);
 void __dl__7TObjectFPv(void *);
-
-    extern unsigned char lbl_80488B08[];
-    extern int TCameraCtrl__fixed_npc_camera_active;
-void* TCameraCtrl__sub_8006BA68(void* a0) { __ct__13TUnk_80488A28Fv(); *(int*)((char*)a0 + 0x18) = (int)lbl_80488B08; ((TUnk_80488B08 *)a0)->m_38 = 4; TCameraCtrl__fixed_npc_camera_active = 0; return a0; }
-
-    extern unsigned char TCameraCtrl__override_flags;
-
-E_8006BAB4 *TCameraCtrl__sub_8006BAB4(O_8006BAB4 *self, s32 i) {
-    return &self->arr[i];
-}
-
-E_8006BAC8 *TCameraCtrl__sub_8006BAC8(O_8006BAC8 *self, s32 i) {
-    return &self->arr[i];
-}
-
-unsigned char TCameraCtrl__sub_8006BADC(void) {  return TCameraCtrl__override_flags; }
 
 void *TCameraCtrl__vt4(void) {
     void *o = (void *)new TUnk_80488B38();
