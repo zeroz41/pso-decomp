@@ -995,8 +995,8 @@ force_active:
   - TObjEneBalClawClaw__sub_80091134
   - TObjEneBalClawClaw__sub_80091200
   - TObjEneBalClawClaw__sub_800914A4
-  - TObjEneBalClawClaw__sub_80091B98
-  - TObjEneBalClawClaw__sub_80091C58
+  - __ct__18TObjEneBalClawClawFP7TObjectP14TObjEneBalClawllP3Vecll
+  - __ct__18TObjEneBalClawClawFP7TObjectPv
   - TObjEneBeast__boss4_rock_handler_ids
   - TObjEneBeast__ct
   - TObjEneBm3FlyNest__attachment_sample_origin

@@ -408,7 +408,6 @@ pso/enemy/TEnemyTaskList.cpp
 pso/enemy/TObjEneBalClaw.cpp
 pso/enemy/TObjEneBalClawBody.cpp
 pso/enemy/TObjEneBalClawClaw.cpp
-pso/enemy/TObjEneBalClawClaw_8008DC18.cpp
 pso/enemy/TObjEneBeast.cpp
 pso/enemy/TObjEneBeast_800C4E08.cpp
 pso/enemy/TObjEneBm3Fly.cpp
@@ -2122,9 +2121,6 @@ pso/player/TObjPlayer_80081FC8.cpp
 pso/player/TObjPlayer_800822D0.cpp
 pso/player/TObjPlayer_80083594.cpp
 pso/player/TObjPlayer_80084B84.cpp
-pso/player/TObjPlayer_8008DCF0_8008DCF0.cpp
-pso/player/TObjPlayer_8008DCF0_8008FC0C.cpp
-pso/player/TObjPlayer_8008DCF0_8008FFE4.cpp
 pso/player/TObjPlayer_80090448.cpp
 pso/player/TObjPlayer_80092A7C.cpp
 pso/player/TObjPlayer_80099EF8.cpp

@@ -8,6 +8,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneBalClawClaw.h"
+#include "pso/TObjControl.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -1192,31 +1193,13 @@ void TObjEneBalClawClaw::run_task() {
 }
 
 void *TObjEneBalClawClaw::create(void *arg1, void *arg2, void *arg3, void *arg4, void *arg5) {
-    void *o;
-    void *o2;
-    o = __nw__7TObjectFUl(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = __nw__7TObjectFUl(0x428);
-    if (o2 != NULL) {
-        o2 = TObjEneBalClawClaw__sub_80091B98((u8 *)o2, (s32)o, (u8 *)this, (s32)arg1, (s32)arg2, (u8 *)arg3, (s32)arg4, (s32)arg5);
-    }
-    return o2;
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneBalClawClaw(control, this, (s32)arg1, (s32)arg2, (Vec *)arg3, (s32)arg4, (s32)arg5);
 }
 
 void *TObjEneBalClawClaw::create() {
-    void *o;
-    void *o2;
-    o = __nw__7TObjectFUl(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = __nw__7TObjectFUl(0x428);
-    if (o2 != NULL) {
-        o2 = TObjEneBalClawClaw__sub_80091C58((u8 *)o2, (s32)o, (u8 *)this);
-    }
-    return o2;
+    TObjControl *control = new TObjControl((TObject *)tl_04);
+    return new TObjEneBalClawClaw(control, this);
 }
 
 void *deleting_dtor__18TObjEneBalClawClawFPvs(void *arg0, s16 arg1) {
@@ -1266,37 +1249,33 @@ s32 TObjEneBalClawClaw__ct(void *arg0) {
 }
 #undef self
 #pragma pop
-u8 *TObjEneBalClawClaw__sub_80091B98(u8 *ene_bal_claw_claw, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5, s32 arg6, s32 _w7) {
-    TObjEneBalClaw__ct((TObjEneBalClaw *)ene_bal_claw_claw);
-    *(s32 **)((s8 *)ene_bal_claw_claw + 0x18) = &(*(RecoveredGlobal_80091B98_lbl_8048F148 *)__vt__18TObjEneBalClawClaw).value;
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->entity_id = arg3;
-    *(s16 *)((s8 *)ene_bal_claw_claw + 0x2C) = arg4;
-    *(s16 *)((s8 *)ene_bal_claw_claw + 0x28) = (s16) *(s16 *)((s8 *)arg2 + 0x28);
-    *(s16 *)((s8 *)ene_bal_claw_claw + 0x2A) = (s16) *(s16 *)((s8 *)arg2 + 0x2A);
-    VecCopy((Vec *)(ene_bal_claw_claw + 0x38), (const Vec *)(arg5));
-    VecCopy((Vec *)(ene_bal_claw_claw + 0x50), (const Vec *)(arg2 + 0x50));
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->rotation_z = 0;
-    *(s32 *)((s8 *)ene_bal_claw_claw + 0x5C) = 0;
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->rotation_y = arg6;
-    TObjEneBalClawClaw__ct(ene_bal_claw_claw);
-    *(s32 *)((s8 *)ene_bal_claw_claw + 0x80) = 0;
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_3b8 = (s32) *(s32 *)((s8 *)arg2 + 0x3B8);
-    *(f32 *)((s8 *)ene_bal_claw_claw + 0x3BC) = (f32) *(f32 *)((s8 *)arg2 + 0x3BC);
-    ((TObjEneBalClawClaw *)ene_bal_claw_claw)->m_3b4 = (f32) *(f32 *)((s8 *)arg2 + 0x3B4);
-    sub_80090798__18TObjEneBalClawClawFv(ene_bal_claw_claw);
-    return ene_bal_claw_claw;
 }
 
-typedef char RecoveredGlobal_80091C58_lbl_8048F148_size[sizeof(RecoveredGlobal_80091C58_lbl_8048F148) == 0x14C ? 1 : -1];
-u8 *TObjEneBalClawClaw__sub_80091C58(u8 *ene_bal_claw_claw, s32 arg1, u8 *arg1_arg) {
-    TObjEneBalClaw__ct((TObjEneBalClaw *)(ene_bal_claw_claw));
-    *(s32 **)((s8 *)ene_bal_claw_claw + 0x18) = &(*(RecoveredGlobal_80091C58_lbl_8048F148 *)__vt__18TObjEneBalClawClaw).value;
-    ((TObjEneBalClawClaw *)(ene_bal_claw_claw))->apply_set_data(arg1_arg);
-    TObjEneBalClawClaw__ct(ene_bal_claw_claw);
-    if (*(s16 *)((s8 *)arg1_arg + 0xA) != 0) {
-        ((TObjEnemyCustom *)ene_bal_claw_claw)->sub_800C7860();
+// Spawned by the body (TObjEneBalClawClaw::create): takes the body's room, group, home and wobble state.
+TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s32 id, s32 index, Vec *pos,
+                                       s32 rot_y, s32)
+    : TObjEneBalClaw(parent) {
+    entity_id = id;
+    set_index = index;
+    room = body->room;
+    set_group = body->set_group;
+    VecCopy(&position, pos);
+    VecCopy(&home_position, &body->home_position);
+    rotation_z = 0;
+    rotation_x = 0;
+    rotation_y = rot_y;
+    TObjEneBalClawClaw__ct(this);
+    set_entry = NULL;
+    m_3b8 = body->m_3b8;
+    m_3bc = body->m_3bc;
+    m_3b4 = body->m_3b4;
+    sub_80090798();
+}
+
+TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, void *set_data) : TObjEneBalClaw(parent) {
+    apply_set_data(set_data);
+    TObjEneBalClawClaw__ct(this);
+    if (*(s16 *)((s8 *)set_data + 0xA) != 0) {
+        sub_800C7860();
     }
-    return ene_bal_claw_claw;
-}
-
 }

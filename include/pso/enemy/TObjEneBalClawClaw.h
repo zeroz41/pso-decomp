@@ -5,6 +5,8 @@
 #include "pso/enemy/TObjEneBalClaw.h"
 
 struct TObjEneBalClawClaw : public TObjEneBalClaw {
+    TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s32 id, s32 index, Vec *pos, s32 rot_y, s32);
+    TObjEneBalClawClaw(TObject *parent, void *set_data);
     virtual ~TObjEneBalClawClaw();
     virtual void run_task();
     virtual void render();
@@ -36,8 +38,6 @@ void TObjEneBalClawClaw__sub_80090824(void);
 void TObjEneBalClawClaw__sub_80090A10(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
 void TObjEneBalClawClaw__sub_800914A4(void);
 void run_task__18TObjEneBalClawClawFv(u8 *arg0);
-u8 *TObjEneBalClawClaw__sub_80091B98(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, u8 *arg5, s32 arg6, s32 _w7);
-u8 *TObjEneBalClawClaw__sub_80091C58(u8 *arg0, s32 arg1, u8 *arg1_arg);
 void action__18TObjEneBalClawClawFPv(u8 *arg0);
 void *deleting_dtor__18TObjEneBalClawClawFPvs(void *arg0, s16 arg1);
 void render__18TObjEneBalClawClawFv(u8 *arg0);

@@ -1388,30 +1388,13 @@ pso/enemy/TObjEneBalClaw.cpp:
 	.sdata      start:0x805D2968 end:0x805D296C
 	.sdata2     start:0x805D9600 end:0x805D9614
 
-pso/enemy/TObjEneBalClawClaw_8008DC18.cpp:
-	.text       start:0x8008DC18 end:0x8008DCF0
-
-pso/player/TObjPlayer_8008DCF0_8008DCF0.cpp:
-	.text       start:0x8008DCF0 end:0x8008EB98
-	.rodata     start:0x80439B70 end:0x80439B78
-
-pso/player/TObjPlayer_8008DCF0.cpp:
-	.text       start:0x8008EB98 end:0x8008FC0C
-	.sdata2     start:0x805D9620 end:0x805D9624
-
-pso/player/TObjPlayer_8008DCF0_8008FC0C.cpp:
-	.text       start:0x8008FC0C end:0x8008FFE4
-	.data       start:0x8048F058 end:0x8048F08C
-	.sdata2     start:0x805D9670 end:0x805D9680
-
-pso/player/TObjPlayer_8008DCF0_8008FFE4.cpp:
-	.text       start:0x8008FFE4 end:0x80090110
-
 pso/enemy/TObjEneBalClawBody.cpp:
-	.text       start:0x80090110 end:0x80090178
-
-pso/enemy/TObjEneBalClawBody_80090178.cpp:
-	.text       start:0x80090178 end:0x80090448
+	.text       start:0x8008DC18 end:0x80090448
+	.rodata     start:0x80439B40 end:0x80439B78
+	.data       start:0x8048EDE8 end:0x8048F08C
+	.bss        start:0x805007A8 end:0x805007C8
+	.sdata      start:0x805D2970 end:0x805D2974
+	.sdata2     start:0x805D9618 end:0x805D9688
 
 pso/player/TObjPlayer_80090448.cpp:
 	.text       start:0x80090448 end:0x80090464
