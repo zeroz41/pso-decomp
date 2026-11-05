@@ -1,16 +1,14 @@
 #include "types.h"
 #include "pso/ui/TAdDialingGC.h"
-
-struct RecoveredGlobal_80328D50___vt__12TAdDialingGC {
-    s32 value;
-    u8 remaining[0x14];
-};
+#include "pso/unk/text_8014618C.h"
+#include "pso/ui/TAdDialingGC_80328DB0.h"
+#include "pso/misc/TLobby.h"
 
 extern "C" {
+extern s32 __vt__12TAdDialingGC[];
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
-extern RecoveredGlobal_80328D50___vt__12TAdDialingGC __vt__12TAdDialingGC;
-extern s32 TAdDialingGC__instance;
+extern TAdDialingGC *TAdDialingGC__instance;
 u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1);
 int TAdDialingGC__sub_80328B20(void*);
 
@@ -36,10 +34,9 @@ void TAdDialingGC::run_task() {
     update_selection();
     this->m_24 = (this->m_24 + 1);
 }
-typedef char RecoveredGlobal_80328D50___vt__12TAdDialingGC_size[sizeof(RecoveredGlobal_80328D50___vt__12TAdDialingGC) == 0x18 ? 1 : -1];
 u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1) {
     if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &__vt__12TAdDialingGC.value;
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__12TAdDialingGC;
         TAdDialingGC__instance = 0;
         __dt__7TObjectFv(arg0, 0);
         if (arg1 > 0) {
@@ -47,6 +44,42 @@ u8 *__dt__12TAdDialingGCFv(u8 *arg0, s16 arg1) {
         }
     }
     return arg0;
+}
+
+}
+
+#pragma readonly_strings on
+
+extern "C" {
+const char *lbl_805D41B0 = "TAdDialingGC";
+}
+
+extern "C" {
+
+s32 __ct__7TObjectFP7TObject();
+
+extern const char *lbl_805D41B0;
+
+void *TAdDialingGC__ct(TAdDialingGC *ad_dialing_gc) {
+    __ct__7TObjectFP7TObject();
+    *(s32 **)((s8 *)ad_dialing_gc + 0x18) = __vt__12TAdDialingGC;
+    *(s32 *)((s8 *)ad_dialing_gc + 0) = (s32) ((s32)lbl_805D41B0);
+    TAdDialingGC__instance = ad_dialing_gc;
+    if (TLobby::is_state_active() != 0) {
+        ad_dialing_gc->m_1c = 1;
+    } else if (TLobby__sub_8014618C() == 1) {
+        ad_dialing_gc->m_1c = 2;
+    } else {
+        ad_dialing_gc->m_1c = 0;
+    }
+    ad_dialing_gc->m_20 = 0;
+    ad_dialing_gc->m_24 = 0;
+    ad_dialing_gc->m_28 = 0;
+    ad_dialing_gc->m_30 = 0;
+    ad_dialing_gc->m_68 = 0;
+    ad_dialing_gc->m_a0 = 0;
+    ad_dialing_gc->m_a4 = 0;
+    return ad_dialing_gc;
 }
 
 }

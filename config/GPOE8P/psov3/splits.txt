@@ -7236,17 +7236,8 @@ pso/misc/TShopWindowBase_80217454.cpp:
 	.text       start:0x80217454 end:0x80217464
 
 pso/misc/TQuestListOnline.cpp:
-	.text       start:0x80217464 end:0x80218160
-
-pso/misc/TQuestListOnline_80218160.cpp:
-	.text       start:0x80218160 end:0x8021824C
+	.text       start:0x80217464 end:0x802183B4
 	.data       start:0x804C9D18 end:0x804C9D4C
-
-pso/misc/TQuestListOnline_8021824C.cpp:
-	.text       start:0x8021824C end:0x80218310
-
-pso/misc/TQuestListOnline_80218310.cpp:
-	.text       start:0x80218310 end:0x802183B4
 
 pso/misc/TWindowSubComCard.cpp:
 	.text       start:0x802183B4 end:0x802183F8
@@ -7622,11 +7613,8 @@ pso/unk/text_80235A8C.cpp:
 	.text       start:0x80235A8C end:0x80235B24
 
 pso/misc/TTecMegid_80235B24.cpp:
-	.text       start:0x80235B24 end:0x80235BDC
+	.text       start:0x80235B24 end:0x80235C44
 	.data       start:0x804CCA90 end:0x804CCAA8
-
-pso/unk/text_80235BDC.cpp:
-	.text       start:0x80235BDC end:0x80235C44
 
 pso/object/TObjLight_80235C44.cpp:
 	.text       start:0x80235C44 end:0x80236D60
@@ -7694,11 +7682,8 @@ pso/misc/TTecSifta.cpp:
 	.sdata      start:0x805D3820 end:0x805D3828
 	.sdata2     start:0x805DC940 end:0x805DC948
 
-pso/misc/TSlicerHistory_8023B220.cpp:
-	.text       start:0x8023B220 end:0x8023B388
-
 pso/misc/TSlicerHistory.cpp:
-	.text       start:0x8023B388 end:0x8023B454
+	.text       start:0x8023B220 end:0x8023B454
 
 pso/unk/text_8023B454.cpp:
 	.text       start:0x8023B454 end:0x8023B590
@@ -10630,14 +10615,8 @@ pso/misc/TWindowCost.cpp:
 	.data       start:0x804E7530 end:0x804E7548
 
 pso/ui/TAdLoadQuestGC.cpp:
-	.text       start:0x803095E8 end:0x80309788
+	.text       start:0x803095E8 end:0x80309890
 	.data       start:0x804E7548 end:0x804E7560
-
-pso/ui/TAdLoadQuestGC_80309788.cpp:
-	.text       start:0x80309788 end:0x80309854
-
-pso/ui/TAdLoadQuestGC_80309854.cpp:
-	.text       start:0x80309854 end:0x80309890
 
 pso/unk/text_80309890.cpp:
 	.text       start:0x80309890 end:0x803098DC
@@ -11107,10 +11086,7 @@ pso/ui/TAdDialingGC_80328B20.cpp:
 	.text       start:0x80328B20 end:0x80328C94
 
 pso/ui/TAdDialingGC.cpp:
-	.text       start:0x80328C94 end:0x80328DB0
-
-pso/ui/TAdDialingGC_80328DB0.cpp:
-	.text       start:0x80328DB0 end:0x80328E50
+	.text       start:0x80328C94 end:0x80328E50
 	.rodata     start:0x80476798 end:0x804767A8
 	.sdata      start:0x805D41B0 end:0x805D41B8
 

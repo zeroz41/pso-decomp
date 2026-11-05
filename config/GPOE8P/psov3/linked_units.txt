@@ -1396,9 +1396,6 @@ pso/misc/TQuestColCtrl.cpp
 pso/misc/TQuestColCtrl_80195CF0.cpp
 pso/misc/TQuestListChallenge.cpp
 pso/misc/TQuestListOnline.cpp
-pso/misc/TQuestListOnline_80218160.cpp
-pso/misc/TQuestListOnline_8021824C.cpp
-pso/misc/TQuestListOnline_80218310.cpp
 pso/misc/TQuestThreadBoard.cpp
 pso/misc/TQuestVmDownLoadServer.cpp
 pso/misc/TQuestVmDownLoadServer_8006FC34.cpp
@@ -1466,7 +1463,6 @@ pso/misc/TShopSequence.cpp
 pso/misc/TShopWindowBase.cpp
 pso/misc/TShopWindowBase_80217454.cpp
 pso/misc/TSlicerHistory.cpp
-pso/misc/TSlicerHistory_8023B220.cpp
 pso/misc/TSlicerHistory_8023BDD0.cpp
 pso/misc/TSwitch.cpp
 pso/misc/TTecAnti.cpp
@@ -2446,7 +2442,6 @@ pso/ui/TAdChrSelSlotGC.cpp
 pso/ui/TAdDialingGC.cpp
 pso/ui/TAdDialingGC_801A4C90.cpp
 pso/ui/TAdDialingGC_80328210.cpp
-pso/ui/TAdDialingGC_80328DB0.cpp
 pso/ui/TAdDialingGC_80328E50.cpp
 pso/ui/TAdDialingGC_80328E90.cpp
 pso/ui/TAdDialingMessageWindow.cpp
@@ -2481,8 +2476,6 @@ pso/ui/TAdLoadNetworkGC.cpp
 pso/ui/TAdLoadNetworkGC_803084AC.cpp
 pso/ui/TAdLoadQuestCellGC.cpp
 pso/ui/TAdLoadQuestGC.cpp
-pso/ui/TAdLoadQuestGC_80309788.cpp
-pso/ui/TAdLoadQuestGC_80309854.cpp
 pso/ui/TAdLoadQuestLineGC.cpp
 pso/ui/TAdLoadQuestPrtTxtGC.cpp
 pso/ui/TAdMcCheckGC.cpp
@@ -3005,7 +2998,6 @@ pso/unk/text_80232EC0.cpp
 pso/unk/text_802333D4.cpp
 pso/unk/text_80235A20.cpp
 pso/unk/text_80235A8C.cpp
-pso/unk/text_80235BDC.cpp
 pso/unk/text_80236EE8.cpp
 pso/unk/text_8023A434.cpp
 pso/unk/text_8023B454.cpp
