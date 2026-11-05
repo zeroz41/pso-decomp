@@ -6,19 +6,16 @@ extern "C" {
 
 int TCameraCtrl__sub_8006B370(f32 farg0);
 
-void TLobby::init_range(s32 flags) {
-    s32 temp_r5;
-
-    *(s32 *)&this->m_flags = flags;
-    temp_r5 = flags + 1;
-    *(s32 *)&this->m_prev = temp_r5;
-    *(s32 *)&this->m_next = temp_r5;
-    *(s32 *)&this->m_up = 0;
-    *(s32 *)&this->m_down = 0;
-    *(s32 *)((s8 *)this + 0x18) = 0;
-    *(s32 *)&this->m_name = -1;
-    *(s32 *)((s8 *)this + 0x1C) = 0;
-    *(s32 *)((s8 *)this + 0x20) = 0;
+void Obj_80515BA0::init_range(s32 floor) {
+    current_floor = floor;
+    f8 = floor + 1;
+    next_floor = floor + 1;
+    current_map = 0;
+    f14 = 0;
+    next_map = 0;
+    previous_floor = -1;
+    f1C = 0;
+    state_flags = 0;
 }
 
 u8 fn_800FD7C0(void *arg0) {

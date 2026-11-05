@@ -474,7 +474,6 @@ extern u8 *camera_ctrl_instance;
 extern s32 saved_model_render_flags;
 
 struct G_80025C68 { u8 *value; u8 remaining[0x8]; };
-struct Vec_80024314 { f32 x, y, z; };
 struct Vec_80025710 { f32 x; f32 y; f32 z; };
 extern "C" {
 f32 vec3_dot(void *, void *);
@@ -2770,8 +2769,8 @@ void TBoss1Dragon::update_burrow_inward_run(u32 arg1, s32 arg2) {
 #pragma fp_contract on
 void update_dive_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
     f32 factor;
-    Vec_80024314 pos;
-    Vec_80024314 vel;
+    Vec pos;
+    Vec vel;
     s32 r;
     s32 a;
     f32 k;
@@ -2918,7 +2917,7 @@ void update_dive_state__12TBoss1DragonFv(u8 *arg0, u32 arg1) {
             vel.x = sn * s;
             vel.y = rand_range__9TObjEneDDFff(arg0, 10.0f, (4.0f));
             vel.z = cs * s;
-            mem = (u8 *)new TObjBoss1Rock((TObject *)(void *)tl_05, (void *)(void *)&pos, (void *)(void *)&vel);
+            mem = (u8 *)new TObjBoss1Rock((TObject *)(void *)tl_05, &pos, &vel);
             F(f32, 0x5DC) = F(f32, 0x5DC) + F(f32, 0x888);
             ((TObjEneDD *)arg0)->move_with_wall_stop(F(f32, 0x3A0), F(f32, 0x3A8), F(f32, 0x884));
             F(f32, 0x5D8) = F(f32, 0x3C) + F(f32, 0x5DC);

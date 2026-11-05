@@ -11,6 +11,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 
@@ -387,11 +388,8 @@ void play_area_music(char *name);
 void *fn_802E6218(void *arg0);
 void fn_802E6260();
 char *strncpy(char *, const char *, unsigned long);
-extern u8 lbl_80472BC0[];
-extern u8 lbl_80472BD0[];
 extern void *TObjOnlineEnding__name;
 extern u32 lbl_805D68F4;
-extern const f32 lbl_805DE950;
 #pragma push
 #pragma opt_common_subs off
 #define SELF ((Obj_802E4FFC *)arg0)
@@ -445,15 +443,15 @@ void *TObjOnlineEnding__ct(void *arg0, void *parent) {
             SELF->count++;
         }
     }
-    SELF->f150 = lbl_805DE950;
+    SELF->f150 = (-0.3f);
     restore_player_cameras();
     switch (SELF->f9C) {
     case 0:
-        play_area_music((char *)lbl_80472BC0);
+        play_area_music((char *)"ENDING_LOOP.adx");
         break;
     default:
     case 1:
-        play_area_music((char *)lbl_80472BD0);
+        play_area_music((char *)"CUBE_ENDING_LOOP.adx");
         break;
     }
     fn_802E6260();
@@ -485,4 +483,23 @@ void TBoss4DarkFalz::free_global_instance() {
     }
 }
 
+}
+
+extern "C" {
+s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
+extern u32 lbl_805D68F4;
+
+void fn_802E52AC() {
+    s32 r;
+    if (lbl_805D68F4 == 0) {
+        r = (int)::operator new(0x440);
+        if (r != 0) {
+            r = load_resource_from_descriptor(r, 5, lbl_804E35E8, 0, 0, 0);
+        }
+        lbl_805D68F4 = r;
+        if (lbl_805D68F4 == 0) {
+            return;
+        }
+    }
+}
 }

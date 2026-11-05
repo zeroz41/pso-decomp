@@ -2875,7 +2875,7 @@ void TObjEneRe7Berura::load_static_resources() {
     {
         Atk_800959F8 atk = ene_re7_berura_attack_def;
         atk.w[0] = (s32)RES->f430;
-        TLobby::spawn_npc_enemy(0x15, *(s32 *)(RES->f42C + 8), *(s32 *)(RES->f42C + 0xC), &atk, lbl_805D9788, TObjEneRe7Berura__data_805D972C);
+        TLobby::spawn_npc_enemy(0x15, *(s32 *)(RES->f42C + 8), (NJS_TEXLIST *)*(s32 *)(RES->f42C + 0xC), &atk, lbl_805D9788, TObjEneRe7Berura__data_805D972C);
     }
 }
 

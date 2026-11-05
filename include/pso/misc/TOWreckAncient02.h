@@ -21,4 +21,8 @@ void *TOWreckAncient02__create(void *arg0);
 }
 // --- end of C functions
 
+extern "C" {
+u8 *TOWreckAncient02__ct(u8 *wreck_ancient, s32 arg1);
+}
+
 #endif

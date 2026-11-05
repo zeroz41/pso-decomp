@@ -23,7 +23,6 @@
 #include "pso/misc/TWindowSubSymbolChatHelp.h"
 #include "pso/misc/TWindowSubSymbolChat_802838C4.h"
 #include "pso/misc/TWindowSubSymbolChat_80283954.h"
-#include "pso/unk/text_802841FC.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowMessageYesNo.h"
 #include "pso/misc/TWindowSubSymbolChatFaceType.h"

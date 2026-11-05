@@ -6,7 +6,6 @@
 extern "C" {
 void TObjBoss1Rock__sub_8002E3CC(void);
 void TObjBoss1Rock__sub_8002E3D0(void);
-void *__dt__13TObjBoss1RockFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80482090Fv(void *arg0, s16 arg1);
 }
 

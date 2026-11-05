@@ -726,7 +726,7 @@ struct Vec_800B41E8 { f32 x, y, z; };
 
 struct Res_800B41E8 { u8 pad[0x42C]; u8 *bodies; s32 motions; };
 
-struct Bodies_800B41E8 { u8 pad0[0xC]; s32 textures; u8 pad1[0x18 - 0x10]; s32 model; };
+struct Bodies_800B41E8 { u8 pad0[0xC]; NJS_TEXLIST *textures; u8 pad1[0x18 - 0x10]; s32 model; };
 
 struct Vec_800B4688 { f32 x, y, z; };
 

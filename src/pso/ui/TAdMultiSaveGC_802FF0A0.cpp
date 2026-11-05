@@ -4,13 +4,31 @@
 #include "pso/TMainTask.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
+extern "C" {
+u8 * TObjFish__sub_8001EDB0(void *, int);
+extern u8 *admultisave_shared_model_resource;
+u8 * get_bml_model(void *, int);
+u8 *fn_802FF028(s32 arg0) {
+    if ((void *) admultisave_shared_model_resource != NULL) {
+        return TObjFish__sub_8001EDB0(admultisave_shared_model_resource, arg0);
+    }
+    return NULL;
+}
+u8 *fn_802FF064(s32 arg0) {
+    if ((void *) admultisave_shared_model_resource != NULL) {
+        return get_bml_model(admultisave_shared_model_resource, arg0);
+    }
+    return NULL;
+}
+
+}
+
 struct RecoveredGlobal_802FF0D8_lbl_804E6570 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_802FF0D8_lbl_804E6570_size[sizeof(RecoveredGlobal_802FF0D8_lbl_804E6570) == 0x10 ? 1 : -1];
 
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_802FF0D8_lbl_804E6570 TAdMultiSaveGC__shared_resource_desc;
-extern u32 admultisave_shared_model_resource;
 void TLobby__sub_8001FE7C(void*, int);
 
 void TAdMultiSaveGC::free_window() {

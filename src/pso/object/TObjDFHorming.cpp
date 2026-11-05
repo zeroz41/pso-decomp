@@ -1,9 +1,21 @@
-#pragma readonly_strings on
 #include "types.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/boss/TBoss4Type3.h"
+#include "pso/object/TObjDFHorming.h"
+#include "pso/enemy/TObjEnemy.h"
+#include <stddef.h>
+#include "pso/boss/TBoss3Volopt.h"
+#include "pso/misc/TLobby.h"
+#include "pso/misc/TWindowCtrl.h"
+#include "pso/boss/TBoss4Type2.h"
+#include "pso/boss/TBoss4Uro.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+#pragma readonly_strings on
 
 struct Vec_8004AB90 { f32 x, y, z; };
 
@@ -208,17 +220,12 @@ void TBoss4DarkFalz::push_players_out_of_zone(s32 arg0, s32 arg1) {
 
 }
 
-#include "pso/player/TObjPlayer.h"
-#include "pso/boss/TBoss4Type3.h"
-#include "pso/object/TObjDFHorming.h"
-#include "pso/enemy/TObjEnemy.h"
 
 extern "C" {
 
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
 s32 rand(void);
-extern s32 registered_player_count;
 
 void play_sound_effect(s32, s32, s32, s32);
 s32 rand();
@@ -299,10 +306,6 @@ u16 TBoss4Type3::pick_random_target_player() {
 
 }
 
-#include <stddef.h>
-#include "pso/boss/TBoss3Volopt.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TWindowCtrl.h"
 struct Stack_8004B084 {
     s32 sp8;
     s32 spC;
@@ -846,9 +849,6 @@ void TBoss4DarkFalz::update_roar_sound_timer() {
 #pragma dont_inline on
 #pragma auto_inline off
 #pragma fp_contract off
-#include "pso/boss/TBoss4Type2.h"
-#include "pso/boss/TBoss4Uro.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 
 typedef struct Msg_8004BFA4 {
@@ -889,7 +889,6 @@ s32 create_boss4_fade();
 extern s32 dark_falz_form_index;
 extern s32 lbl_805D4D6C;
 extern s32 lbl_805D4D70;
-extern s32 game_difficulty_selection;
 
 extern "C" {
 s32 TBoss4DarkFalz__ct(s32 a0, s32 arg1, s32 a2);
@@ -1092,3 +1091,6 @@ s32 TBoss4DarkFalz::create(s32 arg0) {
 }
 }
 
+s32 TBoss4Uro::get_phase() { return *(s32 *)&this->_pad37c; }
+
+int TBoss4Uro::get_instance_count() {  return darkfalz_dat_resource; }

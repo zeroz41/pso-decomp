@@ -146,7 +146,6 @@ void set_boss_buf_entry__6TLobbyFii(s32, u16);
 s32 test_flags_any(void *, s32);
 extern s32 lbl_805D5440;
 void *memcpy(void *, const void *, u32);
-extern char lbl_8043E048[];
 void spawn_dropped_item_from_msg(void *, s32);
 s32 get_sync_counter__6TLobbyFi(u16);
 s32 bswap_player_packet__6TLobbyFv();
@@ -353,7 +352,7 @@ s32 remove_item_condition(s32 floor, s32 item_id) {
         }
         return 0;
     }
-    TLobby::debug_print(lbl_8043E048);
+    TLobby::debug_print("ItemCondition AreaOffset Lost");
     return 0;
 }
 FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
@@ -388,7 +387,7 @@ FloorItemEntry *find_item_condition(s32 floor, s32 item_id) {
         }
         return NULL;
     }
-    TLobby::debug_print(lbl_8043E048);
+    TLobby::debug_print("ItemCondition AreaOffset Lost");
     return NULL;
 }
 s32 insert_item_condition(FloorItem *item) {

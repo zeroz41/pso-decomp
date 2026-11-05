@@ -286,12 +286,12 @@ void TObjEneDelDepth::load_assets() {
     {
         DelDepthAnimationBinding info = deldepth_anim_binding;
         info.motions = TObjEneDelDepth__shared_resource->motions;
-        TLobby::spawn_npc_enemy((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, TObjEneDelDepth__shared_resource->models[0].m_c, &info, TObjEneDelDepth_collision_body_parts[0].radius, (f32)TObjEneDelDepth__data_805DF258);
+        TLobby::spawn_npc_enemy((s16)0x47, TObjEneDelDepth__shared_resource->models[0].model, (NJS_TEXLIST *)TObjEneDelDepth__shared_resource->models[0].m_c, &info, TObjEneDelDepth_collision_body_parts[0].radius, (f32)TObjEneDelDepth__data_805DF258);
     }
     {
         DelDepthAnimationBinding info = deldepth_anim_binding_b;
         info.motions = TObjEneDelDepth__shared_resource->motions;
-        TLobby::spawn_npc_enemy((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, TObjEneDelDepth__shared_resource->models[1].m_c, &info, TObjEneDelDepth_collision_body_parts[0].radius, (f32)TObjEneDelDepth__data_805DF258);
+        TLobby::spawn_npc_enemy((s16)0x48, TObjEneDelDepth__shared_resource->models[1].model, (NJS_TEXLIST *)TObjEneDelDepth__shared_resource->models[1].m_c, &info, TObjEneDelDepth_collision_body_parts[0].radius, (f32)TObjEneDelDepth__data_805DF258);
     }
     TObjEneDelDepth__tune_params = (DelDepthParameters *)dispatch_shared_handler_a__6TLobbyFl(0x30);
 }

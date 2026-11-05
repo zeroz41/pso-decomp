@@ -14,8 +14,6 @@
 #include "pso/misc/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
-struct RecoveredGlobal_8008DB6C___vt__14TObjEneBalClaw { s32 value; u8 remaining[0x148]; };
-typedef char RecoveredGlobal_8008DB6C___vt__14TObjEneBalClaw_size[sizeof(RecoveredGlobal_8008DB6C___vt__14TObjEneBalClaw) == 0x14C ? 1 : -1];
 
 struct Ent_8008D68C { s16 *plist; s16 model_index; s16 part_index; s16 a; s16 b; s16 c; s16 d; };
 
@@ -78,8 +76,6 @@ struct O_8008D700 { u8 pad0[0x30]; u32 flags; u8 pad34[0x378]; f32 f3ac; f32 f3b
 struct Obj_8008D79C { u8 pad0[0x388]; s32 flags; u8 pad38C[0x3B8 - 0x38C]; s32 f3B8; f32 f3BC; };
 
 extern "C" {
-u8 *__ct__15TObjEnemyCustomFP7TObject(u8 *arg0);
-extern s32 __vt__14TObjEneBalClaw[];
 extern s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
 f32 sin_table_lookup(s32);
@@ -231,23 +227,18 @@ void TObjEneBalClaw__sub_8008D924(void) {
 
 }
 TObjEneBalClaw::~TObjEneBalClaw() {
-    __dt__13TUnk_80490470Fv((s8 *)this + 0x390, -1);
+}
+
+TObjEneBalClaw::TObjEneBalClaw(TObject *parent) : TObjEnemyCustom(parent) {
+    m_name = balclaw_class_name;
+    add_flags_2e4(8);
+    actorFlags |= 0x40000;
+    m_3b8 = 0;
+    m_3bc = 0.0f;
+    clear_attack_flag();
+    m_388 |= 0x20000;
 }
 extern "C" {
-
-u8 *TObjEneBalClaw__ct(TObjEneBalClaw *ene_bal_claw) {
-    __ct__15TObjEnemyCustomFP7TObject((u8 *)ene_bal_claw);
-    *(s32 **)((s8 *)ene_bal_claw + 0x18) = &(*(RecoveredGlobal_8008DB6C___vt__14TObjEneBalClaw *)&__vt__14TObjEneBalClaw).value;
-    __ct__13TUnk_80490470Fv(((u8 *)ene_bal_claw + 0x390));
-    ene_bal_claw->m_name = balclaw_class_name;
-    ((TObjChara *)ene_bal_claw)->add_flags_2e4(8);
-    ene_bal_claw->actorFlags = (s32) (ene_bal_claw->actorFlags | 0x40000);
-    ene_bal_claw->m_3b8 = 0;
-    ene_bal_claw->m_3bc = 0.0f;
-    ene_bal_claw->clear_attack_flag();
-    ene_bal_claw->m_388 = (s32) (ene_bal_claw->m_388 | 0x20000);
-    return (u8 *)ene_bal_claw;
-}
 
 void TObjEneBalClaw::vfunc_61() {  }
 void TObjEneBalClaw::vfunc_59() {  }

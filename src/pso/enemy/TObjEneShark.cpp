@@ -548,7 +548,7 @@ struct Anim_800AC318 { s32 motions; void *actions; s32 initial_action; s32 count
 
 struct Pair_800AC318 { s32 a; s32 b; };
 
-struct Bodies_800AC318 { s32 a; s32 b; s32 model; s32 textures; };
+struct Bodies_800AC318 { s32 a; s32 b; s32 model; NJS_TEXLIST *textures; };
 
 struct Res_800AC318 { u8 pad[0x42C]; Bodies_800AC318 *bodies; Pair_800AC318 *motions; };
 

@@ -1,10 +1,33 @@
 #include "types.h"
-#include "pso/system/main_loop.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC_8001C5E8.h"
 #include "pso/misc/TLoadCtrl.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/main_loop.h"
+#include "pso/ui/TAdLoadQuestGC.h"
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLobby.h"
+
+extern u8 lbl_805D4A78;
+
+u8 TAdSinglePlyChrSelectGC::get_chr_select_state() {
+    return lbl_805D4A78;
+}
+
+extern s32 guild_card_save_file_block_count;
+
+s32 TAdSinglePlyChrSelectGC__sub_8001C5F0(void) {
+    return guild_card_save_file_block_count;
+}
+
+extern u32 TLoadCtrl__instance;
+
+void TLoadCtrl::set_field1C(s32 arg0) {
+    if ((void *) TLoadCtrl__instance != NULL) {
+        *(s32 *)((s8 *)TLoadCtrl__instance + 0x1C) = arg0;
+    }
+}
 
 struct Base_8001C8B8_8001C61C { char pad[0x18]; };
 struct VObj_8001C8B8_8001C61C : Base_8001C8B8_8001C61C {
@@ -35,14 +58,12 @@ u8 *TLoadCtrl__ct(TLoadCtrl *arg0, s32 arg1);
 u8 * __dt__7TObjectFv(void *, s16);
 void queue_destruction__7TObjectFv(void *arg0);
 void __dl__7TObjectFPv(s32);
-extern u32 TLoadCtrl__instance;
 u8 *__dt__9TLoadCtrlFv(u8 *arg0, s16 arg1);
 bool TLoadCtrl__sub_8001C60C(void);
 void TNowLoading__sub_8001D4D4(void);
 u8 *TCameraCtrl__ct(u8 *arg0, void *parent);
 void TLoadCtrl__sub_80226DA0(s32 index);
 s32 select_area_entrance(void *);
-void TAdLoadQuestGC__sub_80309850(void);
 void fn_8034AD2C(void);
 extern s32 lbl_80515BA0[];
 extern s32 tl_su;
@@ -53,12 +74,10 @@ s32 activate_camera_mode(s32 arg0);
 }
 void update_sound_request_slots(void);
 extern "C" {
-s32 TAdLoadQuestGC__ct(s32, void *);
 s32 __ct__14TAdFloorLoadGCFP7TObjectPv(s32, void *, int);
 extern u8 lbl_804349CC[];
 extern Vec_8001C620 lbl_804349D8;
 extern Vec_8001C620 lbl_804349E4;
-void TAdLoadQuestGC__sub_8030984C(void);
 void TNowLoading__sub_8001D4D0(void);
 void fn_8034AD28(void);
 void reset__11TCameraCtrlFv(void);
@@ -91,7 +110,7 @@ void TLoadCtrl::run_task() {
             case 1:
                 o = __nw__7TObjectFUl(0x20);
                 if ((u32)o != 0) {
-                    TAdLoadQuestGC__ct(o, self);
+                    TAdLoadQuestGC__ct((void *)o, this);
                 }
                 break;
             case 2:

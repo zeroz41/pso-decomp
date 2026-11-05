@@ -5,20 +5,25 @@
 #include "pso/enemy/TObjEneBalClaw.h"
 
 struct TObjEneBalClawBody : public TObjEneBalClaw {
+    TObjEneBalClawBody(TObject *parent, void *set_data);
     virtual ~TObjEneBalClawBody();
-    void sub_8008FC10();
+    virtual void run_task();
     virtual void render();
+    virtual void vfunc_60();
+    virtual void vfunc_58();
+    void sub_8008DC90();
+    void sub_8008FC0C();
+    void sub_8008FC10();
     void sub_8008FF50();
     void update_dragon_boss_state();
-    virtual void vfunc_58();
-    u32 m_3dc;
-    u32 m_3e0;
-    u32 m_3e4;
-    u32 m_3e8;
-    u8 unk_3D0[0x8];
-    s16 m_3d8;
-    u8 unk_3DA[0x2A];
-    static void *create(void *arg0);
+    static void *create(void *set_data);
+    u8 pad_3c0[0x4];
+    u32 child_ids[4];      // entity ids; the dtor destroys the first m_3d8 of them
+    u8 pad_3d4[0x4];
+    s16 m_3d8;             // how many of child_ids are in use (the ctor sets 4)
+    u8 pad_3da[0x2];
+    TObject *parts[4];     // queue_destruction'd by the dtor
+    u8 pad_3ec[0x18];
 };
 
 typedef char TObjEneBalClawBody_size[sizeof(TObjEneBalClawBody) == 0x404 ? 1 : -1];

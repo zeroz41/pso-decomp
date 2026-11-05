@@ -36,7 +36,7 @@ struct RecoveredFields_8031E708_temp_r5
 {
   u8 unknown_0[0x8];
   s32 field_8;
-  s32 field_C;
+  NJS_TEXLIST *texlist;
 };
 
 extern "C" {
@@ -88,7 +88,7 @@ void TObjEneRecon::load_resources() {
   stack.sp14 = *((s32 *) (((s8 *)&recon_anim_binding.value) + 0xC));
   stack.sp8 = ((RecoveredFields_8031E708_TObjEneRecon__data_805D6B00 *) TObjEneRecon__recobox_static_instance)->field_430;
   temp_r5 = (u8 *) ((RecoveredFields_8031E708_TObjEneRecon__data_805D6B00 *) TObjEneRecon__recobox_static_instance)->field_42C;
-  TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_C), &stack.sp8, (f32)((f32) (*((f32 *) (((s8 *)&TObjEneRecon__collision_body_template.value) + 0xC)))), (f32)((f32) TObjEneRecon__data_805DF3C0));
+  TLobby::spawn_npc_enemy((s16)(0xC), (s32)((int) ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->field_8), ((RecoveredFields_8031E708_temp_r5 *) temp_r5)->texlist, &stack.sp8, (f32)((f32) (*((f32 *) (((s8 *)&TObjEneRecon__collision_body_template.value) + 0xC)))), (f32)((f32) TObjEneRecon__data_805DF3C0));
 }
 
 }

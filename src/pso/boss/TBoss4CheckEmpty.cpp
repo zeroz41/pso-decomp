@@ -1,4 +1,5 @@
 #include "pso/TBoss4CheckEmpty.h"
+#include "pso/TMainTask.h"
 #include "pso/misc/TLoadCtrl_80227390.h"
 #include "pso/object/TObject_80019A50.h"
 
@@ -11,6 +12,7 @@ s32 is_door_open_and_ready__12TBoss4ThanksFv();
 }
 void init_music_sequencer(s32 program);
 extern s32 lbl_804789DC[];
+extern const char *TBoss4CheckEmpty__name;
 void TBoss4CheckEmpty::render() {  }
 void TBoss4CheckEmpty::run_task() {
     u8 *arg0 = (u8 *)this;
@@ -30,3 +32,12 @@ void TBoss4CheckEmpty::run_task() {
     }
 }
 TBoss4CheckEmpty::~TBoss4CheckEmpty() {}
+
+TBoss4CheckEmpty::TBoss4CheckEmpty(TObject *parent) : TObject(parent) {
+    m_name = TBoss4CheckEmpty__name;
+    m_wait_frames = 0;
+}
+
+void *TBoss4CheckEmpty::create() {
+    return new TBoss4CheckEmpty(tl_02);
+}

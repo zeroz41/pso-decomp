@@ -10,6 +10,33 @@
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TLobby.h"
 
+extern "C" {
+s32 isV2Mode__12TBoss1DragonFv(void);
+s32 load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource(u8 *arg0);
+u8 *load_gvm_texture_file(s32 arg0);
+extern u8 dragon_common_texture_filename[];
+extern u8 lbl_8043552C[];
+extern u8 dragon_common_alternate_texture_filename[];
+extern u8 dragon_ground_resource_descriptor[];
+extern s32 lbl_805D4B50;
+extern s32 dragon_common_texture_list;
+void load_dragon_ground_assets(void);
+void load_dragon_ground_assets(void) {
+    switch (isV2Mode__12TBoss1DragonFv()) {
+    case 0:
+        lbl_805D4B50 = load_enemy_bml_resource(dragon_ground_resource_descriptor);
+        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
+        break;
+    case 1:
+        lbl_805D4B50 = load_enemy_bml_resource_named(dragon_ground_resource_descriptor, lbl_8043552C);
+        dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
+        break;
+    }
+}
+
+}
+
 struct VBase_18_5c1903 { char pad[0x18]; };
 
 struct VObj_18_5c1903 : VBase_18_5c1903 {
@@ -121,8 +148,6 @@ s32 pop_matrix();
 void __dl__7TObjectFPv(void *);
 void queue_destruction__7TObjectFv(void *);
 
-extern u8 *lbl_805D4B50;
-extern s32 dragon_common_texture_list;
 extern s32 model_render_flags;
 
 void TObjBoss1Crater::render() {

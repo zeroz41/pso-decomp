@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby_802A7848.h"
+#include "pso/misc/TWindowSnapShot_802A7D68.h"
 #include "pso/misc/TLockOnCursor_8013D91C.h"
 #include "pso/misc/TPlayerFootStamp_802B01D8.h"
 #include "pso/misc/TPlyJoinLobbyEntry.h"

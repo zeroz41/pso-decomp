@@ -10,4 +10,8 @@ public:
     virtual void emit_marker_effects();
 };
 
+extern "C" {
+void *__dt__13TUnk_804A08B8Fv(void *arg0, s16 arg1);
+}
+
 #endif

@@ -1,7 +1,7 @@
 #include "pso/TChCrCharSelect.h"
 #include "pso/menu/TChCrCharSelect.h"
 #include "pso/unk/text_802993F0.h"
-#include "pso/unk/text_8029945C.h"
+#include "pso/object/TObjCMIcon_80299488.h"
 #include "pso/TChCrEffTag.h"
 
 TChCrCharSelect::~TChCrCharSelect() {}

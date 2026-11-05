@@ -1,6 +1,6 @@
 #include "pso/TShopWindowBase.h"
 #include "pso/TObject.h"
-#include "pso/misc/TLobby_80222D24.h"
+#include "pso/unk/text_80222C28.h"
 #include "pso/misc/TShopWindowBase.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TShopSequence.h"

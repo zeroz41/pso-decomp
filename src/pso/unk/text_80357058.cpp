@@ -6,7 +6,6 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"
 #include "pso/render/render_util.h"
-#include "pso/unk/text_802E4A4C.h"
 #include "pso/unk/text_80357058.h"
 
 #include "pso/item/TUnk_804E355C.h"

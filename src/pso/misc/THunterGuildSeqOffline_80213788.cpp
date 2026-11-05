@@ -3,7 +3,7 @@
 #include "pso/misc/TShopGenerator.h"
 #include "pso/misc/THunterGuildSeqOffline_80213788.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TQuestListOnline_80218310.h"
+#include "pso/misc/TQuestListOnline.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/misc/TWindowSubComCard_80244774.h"
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"

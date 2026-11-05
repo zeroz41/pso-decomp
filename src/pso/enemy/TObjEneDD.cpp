@@ -93,6 +93,7 @@ extern s32 game_difficulty_selection;
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/BlobShadow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
@@ -109,7 +110,6 @@ extern "C" {
 s32 minimap_render_dot(void *, int, int, int);
 s32 scale_current_matrix(void *);
 extern const f32 TObjEneDD__data_805D9E8C;
-extern const f32 lbl_805D9E90;
 int bind_enemy_combat_stats__9TObjEnemyFPUcPUcPUc(void*);
 int transform_to_view__11TCameraCtrlFii(void*);
 int apply_split_screen_view_matrix__11TCameraCtrlFv(void*);
@@ -121,7 +121,6 @@ extern int model_render_flags;
 #include "pso/enemy/TObjEneDD.h"
 extern "C" {
 f32 random_ratio__9TObjCharaFv();
-extern f32 lbl_805D9E94;
 }
 #include "types.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -137,8 +136,6 @@ struct Part_800BA084 { u8 pad[0x2c]; };
 struct Obj_800BA084 { u8 pad[0xa4]; Part_800BA084 *parts; s32 count; };
 extern "C" {
 f32 random_ratio__9TObjCharaFv();
-extern f32 lbl_805D9E98;
-extern f32 lbl_805D9E9C;
 }
 #include "types.h"
 #include "pso/enemy/TObjEneDD_800BA138.h"
@@ -424,7 +421,6 @@ struct Stack_800BB218
 extern "C" {
 f32 fabs_float(f32);
 s32 csnVector(void *, void *, int);
-extern const f32 lbl_805D9EA4;
 u8 *csnVectorUnder(f32 *, void *, s32);
 s32 VecCopy__FP3VecPC3Vec(void *, void *, s32);
 typedef struct Stack_800BB218 Stack_800BB218;
@@ -690,7 +686,6 @@ s32 subtractive_rng_seed(void *, int);
 s32 vfunc_79__9TObjEnemyFPl();
 int fn_800FD8A0(void*);
 extern s32 area_random_seed;
-extern const f32 lbl_805D9EA8;
 extern void *lbl_805D2A30;
 struct Base_800BBDD4 { char pad[0x18]; };
 struct VObj_800BBDD4 : Base_800BBDD4 {
@@ -737,7 +732,7 @@ TObjEneDD::TObjEneDD(TObject *parent) : TObjEnemy(parent) {
     m_name = (const char *)lbl_805D2A30;
     *(u32 *)((s8 *)this + 0x374) = 0;
     *(u32 *)((s8 *)this + 0x378) = 0;
-    *(f32 *)((s8 *)this + 0x37C) = lbl_805D9EA8;
+    *(f32 *)((s8 *)this + 0x37C) = 5.0f;
     *(u32 *)((s8 *)this + 0x380) = 0;
     *(u32 *)((s8 *)this + 0x384) = 0;
     *(u32 *)((s8 *)this + 0x388) = 0;
@@ -1049,7 +1044,7 @@ s32 TBoss5Gryphon::enemy_probe_wall_ahead(f32 farg0, f32 farg1, f32 farg2) {
   f32 temp_f30;
   temp_f30 = farg0 * farg2;
   temp_f31 = farg1 * farg2;
-  if ((fabs_float(temp_f30) < lbl_805D9EA4) && (fabs_float(temp_f31) < lbl_805D9EA4))
+  if ((fabs_float(temp_f30) < 0.01f) && (fabs_float(temp_f31) < 0.01f))
   {
     return farg0 * 0;
   }
@@ -1536,7 +1531,7 @@ s32 TObjEneDD::vfunc_99() {
 }
 
 f32 TObjEneDD::calc_elapsed_scaled() {
-    return lbl_805D9E98 * (random_ratio__9TObjCharaFv() - lbl_805D9E9C);
+    return 2.0f * (random_ratio__9TObjCharaFv() - 0.5f);
 }
 
 f32 TObjEneDD::rand_range(f32 farg0, f32 farg1) {
@@ -1544,7 +1539,7 @@ f32 TObjEneDD::rand_range(f32 farg0, f32 farg1) {
 }
 
 s32 TObjEneDD::get_random_scaled() {
-    return (s32) (lbl_805D9E94 * random_ratio__9TObjCharaFv());
+    return (s32) (65535.0f * random_ratio__9TObjCharaFv());
 }
 
 void TObjEneDD::initialize_enemy_state(s32 parameter) {
@@ -1583,7 +1578,7 @@ void TObjEneDD::draw_oriented_shadow(s32 arg1, s32 arg2, u32 arg3) {
     direction_to_rotation_xz((u8 *)arg1, (&stack.sp8), (&stack.sp10));
     push_matrix();
     post_translate_matrix((void *)arg0);
-    translate_matrix(0, TObjEneDD__data_805D9E8C, lbl_805D9E90, TObjEneDD__data_805D9E8C);
+    translate_matrix(0, TObjEneDD__data_805D9E8C, 0.3f, TObjEneDD__data_805D9E8C);
     rotate_matrix_z(0, stack.sp10);
     rotate_matrix_x(0, stack.sp8);
     rotate_matrix_y(0, (void *)arg2);

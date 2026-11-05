@@ -1,9 +1,14 @@
-// ---- pso/unk/text_80126740
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80126740.h"
 #include "pso/player/TUnk_804A2B98.h"
 #include "pso/player/PlayerAttackParams.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/item/TItemProShield.h"
+#include "pso/items/TItemWeapon.h"
+#include "pso/unk/text_80120908.h"
+
+// ---- pso/unk/text_80126740
 
 
 extern "C" {
@@ -31,9 +36,6 @@ void TUnk_804A2B98::vfunc_58() {
 }
 
 // ---- pso/player/TObjPlayer_801267C4
-#include "types.h"
-#include "pso/player/TObjPlayer.h"
-#include "pso/player/PlayerAttackParams.h"
 
 extern "C" {
 
@@ -70,9 +72,6 @@ void TUnk_804A2B98::vfunc_57() {
 }
 
 // ---- pso/unk/text_8012685C
-#include "types.h"
-#include "pso/item/TItem.h"
-#include "pso/player/TObjPlayer.h"
 
 struct Stack_8012685C {
     f32 sp8;
@@ -83,8 +82,6 @@ struct Stack_8012685C {
     f32 sp1C;
 };
 
-#include "pso/item/TItemProShield.h"
-#include "pso/items/TItemWeapon.h"
 
 extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
@@ -94,7 +91,6 @@ s16 get_validated_attack_stage(u8 *arg0);
 extern s32 knuckle_second_hand_pass;
 
 extern s32 knuckle_marker_joint_table[];
-extern s32 tl_05;
 void TUnk_804A2B98::vfunc_60() {
     Stack_8012685C stack;
     if ((TObjPlayer::get_player_list() == 0) && (get_item_index() == 3) && ((s32) knuckle_second_hand_pass != 0)) {
@@ -136,3 +132,22 @@ s32 knuckle_marker_joint_table[18] = {
     0x09, 0x12, 0x30, 0x30, 0x12, 0x12, 0x30, 0x30, 0x30,
     0x23, 0x30, 0x30, 0x23, 0x30, 0x12, 0x30, 0x12, 0x12,
 };
+
+extern "C" {
+
+
+
+void TUnk_804A2B98::reserved_53() {
+    s32 arg0 = (s32)this;
+    if (get_item_index() == 3) {
+        knuckle_second_hand_pass = 0;
+        ((TItemWeapon *)arg0)->draw_weapon_model();
+        knuckle_second_hand_pass = 1;
+        draw_weapon_at_joint(arg0, 0x23);
+    }
+}
+
+TUnk_804A2B98::TUnk_804A2B98(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(577);
+}
+}

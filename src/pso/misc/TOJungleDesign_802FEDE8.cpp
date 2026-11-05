@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_802FF028.h"
+#include "pso/ui/TAdMultiSaveGC.h"
 #include "pso/misc/TOJungleDesign.h"
 #pragma fp_contract on
 

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TCharaMaking_8028E790.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/unk/text_8028D8B8.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/misc/TCharaMaking.h"
 #include "pso/TChCrCharSelect.h"

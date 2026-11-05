@@ -1,7 +1,7 @@
 #include "pso/system/LscStream.h"
 #include "pso/misc/TLobby_803C4698.h"
 #include "pso/misc/TLobby_803CC0B4.h"
-#include "pso/misc/TLobby_803D3194.h"
+#include "pso/unk/text_803D31A4.h"
 #include "pso/system/AdxStreamRuntime.h"
 #include "pso/system/RefCountedWorkBuffer.h"
 #include "pso/system/SjMemoryBuffer.h"

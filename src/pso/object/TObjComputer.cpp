@@ -161,7 +161,6 @@ extern RecoveredGlobal_80187DC8_lbl_804B6228 bm_obj_gba_resource_descriptor;
 extern u32 TObjGbAdvance__data_805D5B74;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
-extern char lbl_80444B48[];
 }
 
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -301,7 +300,7 @@ void TObjComputer::debug_draw_label() {
     *(s32 *)&this->set_params[1] = *(s32 *)&this->set_params[1] % 2;
     *(s32 *)&this->m_bc = get_bml_model((void *)TObjComputer__model_archive, TObjComputer__data_805DBCD8[*(s32 *)&this->set_params[1]]);
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130021, lbl_80444B48);
+    debug_printf_at(0x130021, "<- MODEL SELECT");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 

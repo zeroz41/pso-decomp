@@ -18,6 +18,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/BlobShadow.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 

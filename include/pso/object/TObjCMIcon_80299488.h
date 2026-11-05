@@ -23,4 +23,8 @@ void run_task__10TObjCMIconFv(s32 arg0);
 }
 // --- end of C functions
 
+extern "C" {
+void fn_8029945C(u8 *arg0);
+}
+
 #endif

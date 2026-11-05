@@ -12,4 +12,9 @@ public:
     u8 unk_200[0x4];
 };
 
+extern "C" {
+void *__dt__13TUnk_804A2960Fv(void *arg0, s16 arg1);
+u8 *freeze_curse_timer_ct(u8 *arg0, s16 arg1, s32 arg2, f32 farg0);
+}
+
 #endif

@@ -41,4 +41,5 @@ struct TWindowSubShortMail : public TObject {
 };
 
 typedef char TWindowSubShortMail_size[sizeof(TWindowSubShortMail) == 0x60 ? 1 : -1];
+u8 *construct_status_category_window(u8 *arg0, s32 arg1, s32 arg2);
 #endif

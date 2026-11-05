@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby_803D3988.h"
+#include "pso/unk/text_803D31A4.h"
 #include "pso/system/Mfci.h"
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, s32 *, s32);

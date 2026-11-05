@@ -7,6 +7,7 @@
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/boss/TBoss2Joint.h"
+#include "pso/player/TUnk_804820A8.h"
 #include "pso/boss/TBoss2LaserLight.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -337,9 +338,7 @@ struct Obj_80036ACC {
     u8 pad2[0x38C - 0x32E];
     u32 f38C;
 };
-void TObjPlayer__sub_8002EA64(void *, void *, void *);
 void reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
-void *__nw__7TObjectFUl(u32);
 void TBoss2Joint__vt102(Obj_80036ACC *self) {
     self->f38C = self->f38C | 1;
     reload_stats_keep_hp_tp__9TObjEneDDFv(self,
@@ -348,12 +347,7 @@ void TBoss2Joint__vt102(Obj_80036ACC *self) {
         register_object__6TLobbyFl(((Ent_80036ACC *)lbl_80482A60)->b));
     self->f32C = 0x4E20;
     self->f2B8 = 0x4E20;
-    {
-        void *o = __nw__7TObjectFUl(0x364);
-        if (o != NULL) {
-            TObjPlayer__sub_8002EA64(o, self, (u8 *)self + 0x38);
-        }
-    }
+    new TUnk_804820A8((TObject *)self, (const Vec *)((u8 *)self + 0x38));
 }
 
 void TBoss2Joint::vfunc_93() {

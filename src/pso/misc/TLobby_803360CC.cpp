@@ -25,7 +25,7 @@ struct TCameraCtrl;
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/misc/TLobby_80335E08.h"
-#include "pso/misc/TLobby_80336E00.h"
+#include "pso/unk/text_803369C8.h"
 
 NJS_TEXNAME title_texture_entries[21] = {
     {(void *)"f256_ad", 0, 0},

@@ -1881,7 +1881,7 @@ void play_cue_stream_file(s32 name);
 int TLobby__sub_802272B4(void*);
 int TLobby__sub_8022733C(void*);
 void set_area__6TLobbyFl(void *, int, int);
-Card_801EB10C * construct__13TUnk_804CC048FPvPvPv(void *, void *, void *, void *);
+Card_801EB10C * __ct__13TUnk_804CC048FP7TObjectPvPv(void *, void *, void *, void *);
 }
 u8 is_floor_switch_set(u32 id, s16 floor);
 extern "C" {
@@ -3585,7 +3585,7 @@ void qst_op_send_mail(void) {
     ((TLobby *)((s32)&tag))->init_guild_card_tag();
     card = (Card_801EB10C *)__nw__7TObjectFUl(0x10A8);
     if (card != NULL) {
-        card = construct__13TUnk_804CC048FPvPvPv(card, 0, 0, 0);
+        card = __ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0);
     }
     strncpy(buf, (int)src, 0x3FF);
     ((TLobby *)buf)->trim_whitespace();
@@ -3895,7 +3895,7 @@ void qst_op_set_cmode_rank_override(void) {
     char *src = *(char **)&qst_args[1];
     card = (Card_801EBD40 *)__nw__7TObjectFUl(0x10A8);
     if (card != NULL) {
-        card = ((Card_801EBD40 *)construct__13TUnk_804CC048FPvPvPv(card, 0, 0, 0));
+        card = ((Card_801EBD40 *)__ct__13TUnk_804CC048FP7TObjectPvPv(card, 0, 0, 0));
     }
     strncpy(buf, (int)src, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();
@@ -5287,7 +5287,7 @@ void qst_op_nop_A0_debug(void) {
     void *s = *(void **)&qst_args[1];
     o = (VObj_18 *)((void * (*)(u32, void *))__nw__7TObjectFUl)(0x10A8, qst_args);
     if (o != NULL) {
-        o = ((VObj_18 * (*)(void *, void *, void *, void *))construct__13TUnk_804CC048FPvPvPv)(o, 0, 0, 0);
+        o = ((VObj_18 * (*)(void *, void *, void *, void *))__ct__13TUnk_804CC048FP7TObjectPvPv)(o, 0, 0, 0);
     }
     buf[0x1FF] = 0;
     ((void (*)(void *, void *, int))strncpy)(buf, s, 0x1FF);
@@ -6103,7 +6103,7 @@ void qst_op_list(void) {
     text = *(char **)&qst_args[1];
     list = (List_801F1A0C *)__nw__7TObjectFUl(0x10A8);
     if (list != 0) {
-        list = (List_801F1A0C *)((void * (*)(void *, void *, void *, void *))construct__13TUnk_804CC048FPvPvPv)(list, 0, 0, 0);
+        list = (List_801F1A0C *)((void * (*)(void *, void *, void *, void *))__ct__13TUnk_804CC048FP7TObjectPvPv)(list, 0, 0, 0);
     }
     ((char * (*)(char *, const char *, u32))strncpy)(buf, text, 0x1FF);
     ((TLobby *)buf)->trim_whitespace();

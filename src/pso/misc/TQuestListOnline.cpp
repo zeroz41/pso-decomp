@@ -19,6 +19,10 @@
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubItem.h"
 #include "pso/unk/text_801F43B4.h"
+#include "pso/TShopWindowBase.h"
+#include "pso/misc/TShopWindowBase.h"
+#include "pso/misc/TPlyJoinLobbyEntry.h"
+#include "pso/quest/TQuestListVM.h"
 
 struct S217 { char pad[0x38]; void *f38; };
 
@@ -35,7 +39,6 @@ extern s32 lbl_8044BEB0[];
 extern u8 *TQuestListOnline__selected_quest_info;
 extern s32 online_quest_list_state;
 s32 is_flag_set__6TLobbyFv();
-
 
 s32 TQuestListOnline::get_list_state() {
     if ((void *) TQuestListOnline__instance == NULL) {
@@ -272,8 +275,6 @@ extern s32 online_quest_list_state;
 extern T_80217B30 TQuestListOnline__bin_download_state;
 extern T_80217B30 TQuestListOnline__dat_download_state;
 extern s32 TQuestListOnline__decompression_cursor;
-extern s32 quest_bin_decompressed_size;
-extern s32 online_quest_list_decompressed_size;
 void TQuestListOnline::invoke_callback_30_and_queue_destruction() {
     s32 (*temp_r12)();
 
@@ -511,4 +512,94 @@ void TQuestListOnline::build_list_window() {
         selected_index = 0;
         set_field_20__15TShopWindowBaseFl(this, 3);
     }
+}
+
+struct Obj_802181B0 { u8 pad[0x20]; u32 state; };
+
+void TQuestListOnline::request_menu() { ((TProtocol *)TLobby__protocol_instance)->send_quest_menu_request(); online_quest_bin_data = 0; quest_bin_decompressed_size = 0; online_quest_dat_buffer = 0; online_quest_list_decompressed_size = 0; set_field_20((s32)((void*)12)); }
+
+void TQuestListOnline::vfunc_11() {
+    Obj_802181B0 *arg0 = (Obj_802181B0 *)this;
+    switch (this->state) {
+    case 0: ((TQuestListOnline*)arg0)->request_menu(); break;
+    case 1: ((TQuestListOnline*)arg0)->build_list_window(); break;
+    case 2: ((TQuestListOnline*)arg0)->show_info_window(); break;
+    case 3: ((TQuestListOnline*)arg0)->handle_list_selection(); break;
+    case 8: ((TQuestListOnline*)arg0)->handle_quest_confirm(); break;
+    case 4: ((TQuestListOnline*)arg0)->begin_buffer_request(); break;
+    case 5: ((TQuestListOnline*)arg0)->request_download_buffer(); break;
+    case 6: ((TQuestListOnline*)arg0)->decompress_quest_list_buffers(); break;
+    case 9: ((TQuestListOnline*)arg0)->invoke_callback_28_and_queue_destruction(); break;
+    case 10: ((TQuestListOnline*)arg0)->invoke_callback_2c_and_queue_destruction(); break;
+    case 7: ((TQuestListOnline*)arg0)->invoke_callback_30_and_queue_destruction(); break;
+    case 11: ((TQuestListOnline*)arg0)->invoke_callback_34_and_queue_destruction(); break;
+    case 12: return;
+    }
+}
+
+extern "C" {
+
+s32 __dl__7TObjectFPv(void *);
+
+extern s32 __vt__16TQuestListOnline[];
+
+void *__dt__16TQuestListOnlineFv(TQuestListOnline *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = __vt__16TQuestListOnline;
+        if ((u32) arg0->list_window != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x38)))->close();
+            arg0->list_window = 0U;
+        }
+        if ((u32) arg0->description_window != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x3C)))->close();
+            arg0->description_window = 0U;
+        }
+        if ((u32) arg0->info_window != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x40)))->close();
+            arg0->info_window = 0U;
+        }
+        if ((u32) arg0->confirm_window != 0U) {
+            ((TWindowBase *)(*(void **)((s8 *)arg0 + 0x44)))->close();
+            arg0->confirm_window = 0U;
+        }
+        TQuestListOnline__instance = 0;
+        __dt__15TShopWindowBaseFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
+
+}
+
+extern "C" {
+
+extern s32 __vt__16TQuestListOnline[];
+extern void *TQuestListOnline__class_name;
+struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
+
+void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *arg1, void *arg2, void *arg3) {
+    struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;
+    __ct__15TShopWindowBaseFv(quest_list_online);
+    *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
+    __ct__13GameListEntryFv((s32)self->f_4C);
+    *(void * *)&quest_list_online->m_name = TQuestListOnline__class_name;
+    quest_list_online->list_window = 0;
+    quest_list_online->description_window = 0;
+    quest_list_online->info_window = 0;
+    quest_list_online->confirm_window = 0;
+    quest_list_online->sequence = arg2;
+    quest_list_online->selected_index = 0;
+    *(u32 *)((s8 *)quest_list_online + 0x28) = 0;
+    *(u32 *)((s8 *)quest_list_online + 0x2C) = 0;
+    *(u32 *)((s8 *)quest_list_online + 0x34) = 0;
+    quest_list_online->selection_stage = 0;
+    *(void **)((s8 *)quest_list_online + 0x24) = arg3;
+    memset(self->f_4C, 0, 28);
+    ((TShopWindowBase *)quest_list_online)->set_field_20(0);
+    TQuestListOnline__instance = quest_list_online;
+    return quest_list_online;
+}
+
 }

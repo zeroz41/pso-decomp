@@ -1,5 +1,4 @@
 #include "types.h"
-#include "pso/unk/text_80359420.h"
 #include "pso/npc/TObjNpcNgcBase_80358AE8.h"
 #include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

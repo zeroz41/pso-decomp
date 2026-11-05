@@ -7,7 +7,7 @@ class TUnk_804A63F0 : public TItemWeapon {
 public:
     virtual ~TUnk_804A63F0();
     virtual void emit_marker_effects();
-    void *init_vtable_804A63F0();
+    TUnk_804A63F0(TObject *parent, u8 *item);
 };
 
 #endif

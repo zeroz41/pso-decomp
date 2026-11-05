@@ -10,4 +10,8 @@ public:
     void*init_state_34();
 };
 
+extern "C" {
+void *__dt__13TUnk_804A0AC4Fv(void *arg0, s16 arg1);
+}
+
 #endif

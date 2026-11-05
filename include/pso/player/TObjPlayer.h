@@ -385,7 +385,6 @@ struct TObjPlayer : public TObjChara {
     void bswap_stats();
     static void clear_target_ref();
     static void create_breakup_model();
-    void *deleting_dtor(s16 arg1);
     static s32 calc_random_scaled();
     static f32 get_scale_factor();
     static int get_battle_param(int a0);
@@ -416,9 +415,6 @@ struct TObjPlayer : public TObjChara {
     void run_death_sequence();
     int reset_enemy_state();
     void update_move_to_target();
-    void update_me1_gigue_state();
-    void update_control_state();
-    int get_flag_0x388_b24();
     void init_position_vectors();
     void trigger_targets_action();
     s16 get_field_2c8();

@@ -16,4 +16,8 @@ void *__dt__17TWindowChatSymbolFv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 
+extern "C" {
+u8 *construct_symbol_chat_selection(u8 *arg0);
+}
+
 #endif

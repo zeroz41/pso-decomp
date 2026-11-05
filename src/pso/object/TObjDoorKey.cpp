@@ -1,7 +1,5 @@
 #include "types.h"
 #include "pso/object/TObjDoorKey.h"
-#include "pso/object/TObjDoorKey.h"
-#include "pso/object/TObjDoorKey.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/object/TObjEnvSoundGlobal.h"
 #include "pso/object/TObject_80019A50.h"
@@ -12,7 +10,6 @@
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/object/TObjDoorKey.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
@@ -20,6 +17,27 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+
+struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
+
+extern "C" {
+s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
+extern s32 TObjDoorKey__class_name;
+extern Obj_8018FA6C *tl_05;
+Obj_8018FA6C *fn_8018FA6C(u16 id) {
+    Obj_8018FA6C *next = tl_05->children;
+    Obj_8018FA6C *cur;
+    while (tl_05->children != 0 && next != 0) {
+        cur = next;
+        next = cur->next;
+        if (check_value_equals__13TUnk_804B6C24Fl(cur, TObjDoorKey__class_name) != 0 && cur->id == id) {
+            return cur;
+        }
+    }
+    return 0;
+}
+
+}
 
 extern char lbl_80445650[];
 extern char lbl_8044566C[];
@@ -105,7 +123,6 @@ extern CollisionBody TObjDoorKey__collision_body_parts[];
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__11TObjDoorKey[];
-extern s32 TObjDoorKey__class_name;
 extern const f32 lbl_805DBE0C;
 void TLobby__sub_8001FE7C(void*, int);
 int update_armed_switch__5TOKeyFv(void*);
@@ -114,13 +131,12 @@ int submit_cursor_candidate(void*, int);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__5TOKeyFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
-void *fn_8018FA6C();
 int is_not_split_screen__13TRaderMapCoreFv(void *);
 
-void TObjDoorKey__sub_8018FAEC(void) {
-    void *temp_r3;
+void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
+    Obj_8018FA6C *temp_r3;
 
-    temp_r3 = fn_8018FA6C();
+    temp_r3 = fn_8018FA6C(id);
     if (temp_r3 != NULL) {
         *(s32 *)((s8 *)temp_r3 + 0xE8) = 1;
     }
@@ -262,7 +278,6 @@ TObjDoorKey::~TObjDoorKey() {
 }
 extern "C" {
 
-extern void *tl_05;
 
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {

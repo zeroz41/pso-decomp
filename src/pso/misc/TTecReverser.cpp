@@ -65,7 +65,6 @@ Entry_80239E44 revival_particle_table[3] = {
     {0x23, 1, 0x36, 0},
     {0x2D, 1, 0x37, 0},
 };
-extern const f32 lbl_805DC910;
 Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239E44 *player, void *parent);
 void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_8044DBB0[];
@@ -228,7 +227,7 @@ Obj_80239E44 *construct_revival_particle_effect(Obj_80239E44 *self, Player_80239
         if (i == 0) {
             Vec_80239E44 v;
             VecCopy((Vec *)&v, (const Vec *)&self->pos);
-            v.y += lbl_805DC910;
+            v.y += 20.0f;
             self->parts[i] = create_timed_particle_emitter(&v, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);
         } else {
             self->parts[i] = create_timed_particle_emitter(&self->pos, revival_particle_table[i].c, revival_particle_table[i].a, revival_particle_table[i].b);

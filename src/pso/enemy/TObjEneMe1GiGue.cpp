@@ -86,7 +86,7 @@ struct VObj_802CD5C0_802CD390 : Base_802CD5C0_802CD390 {
     virtual void m0(int);
 };
 
-struct Mdl_802CD62C { u8 pad[8]; s32 a; s32 b; };
+struct Mdl_802CD62C { u8 pad[8]; s32 a; NJS_TEXLIST *texlist; };
 
 struct Obj_802CD62C { u8 pad[0x42C]; Mdl_802CD62C *mdl; s32 v430; };
 
@@ -2078,7 +2078,7 @@ void TObjEneMe1GiGue::load_resources() {
     {
     Spawn_802CD62C sp = gigue_spawn_descriptor;
     sp.w[0] = ((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->v430;
-    TLobby::spawn_npc_enemy((s16)0x41, (s32)(((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->mdl->a), (s32)(((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->mdl->b), &sp, (f32)(getf_802CD62C(q)), (f32)15.0f);
+    TLobby::spawn_npc_enemy((s16)0x41, (s32)(((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->mdl->a), ((Obj_802CD62C *)TObjEneMe1GiGue__data_805D6838)->mdl->texlist, &sp, (f32)(getf_802CD62C(q)), (f32)15.0f);
     }
 }
 #pragma pop

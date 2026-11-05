@@ -2,11 +2,12 @@
 #include "pso/unk/text_803D0C34.h"
 
 #include "stdarg.h"
-typedef void (*RecoveredCallback_c88e8900640a)(s32, u8 *);
-
 #include "pso/system/GcciRequests.h"
 #include "pso/misc/TLobby.h"
 #include "string.h"
+#include "pso/system/MiddlewareInterruptLock.h"
+
+typedef void (*RecoveredCallback_c88e8900640a)(s32, u8 *);
 
 extern s32 dvd_synchronous_read_enabled;
 extern "C" {
@@ -92,3 +93,23 @@ GcciRequest dvd_request_table[40];
 char dvd_default_path_buffer[0x100] ATTRIBUTE_ALIGN(8);
 }
 u8 log_printf_buffer[0x100];
+
+extern s32 lobby_log_callback_arg;
+
+void TLobby::set_callback(u32 arg0, s32 arg1) {
+    if (arg0 == 0U) {
+        log_printf_callback = 0U;
+        lobby_log_callback_arg = 0;
+        return;
+    }
+    log_printf_callback = (RecoveredCallback_c88e8900640a)arg0;
+    lobby_log_callback_arg = arg1;
+}
+
+void TLobby::notify_dvd_read() {
+    middleware_interrupt_lock_leave();
+}
+
+void TLobby::enter_lock() {
+    middleware_interrupt_lock_enter();
+}

@@ -22,4 +22,8 @@ void *__dt__16TOWreckAncient04Fv(void *arg0, s16 arg1);
 }
 // --- end of C functions
 
+extern "C" {
+u8 *TOWreckAncient04__ct(u8 *wreck_ancient, s32 arg1);
+}
+
 #endif

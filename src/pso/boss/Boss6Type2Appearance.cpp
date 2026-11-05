@@ -295,7 +295,6 @@ O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1) {
 
 #include "pso/misc/TCameraCtrl.h"
 
-extern const f32 lbl_805DFA90;
 extern "C" {
 s32 get_bml_motion(int, int);
 s32 TObjFish__sub_8001EDB0(int, int);
@@ -379,7 +378,7 @@ typedef char RecoveredGlobal_8033DCA8_lbl_80477F2C_size[sizeof(RecoveredGlobal_8
 typedef char RecoveredGlobal_8033DCA8_lbl_804EFA08_size[sizeof(RecoveredGlobal_8033DCA8_lbl_804EFA08) == 0xC ? 1 : -1];
 void initialize_boss6_type2_appear_particle_origin(void) {
     *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 0) = (f32) *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 0);
-    *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 4) = (f32) (lbl_805DFA90 + *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 4));
+    *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 4) = (f32) (50.0f + *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 4));
     *(f32 *)((s8 *)&boss6_type2_appear_offset_particle_origin.value + 8) = (f32) *(f32 *)((s8 *)&boss6_type2_appear_origin.value + 8);
 }
 extern "C" {

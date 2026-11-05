@@ -990,13 +990,13 @@ force_active:
   - TObjEZRopeBase__name
   - TObjEneBalClawClaw__collision_body_template
   - TObjEneBalClawClaw__ct
-  - TObjEneBalClawClaw__sub_80090824
+  - sub_80090824__18TObjEneBalClawClawFv
   - TObjEneBalClawClaw__sub_80090ECC
   - TObjEneBalClawClaw__sub_80091134
   - TObjEneBalClawClaw__sub_80091200
-  - TObjEneBalClawClaw__sub_800914A4
-  - TObjEneBalClawClaw__sub_80091B98
-  - TObjEneBalClawClaw__sub_80091C58
+  - sub_800914A4__18TObjEneBalClawClawFv
+  - __ct__18TObjEneBalClawClawFP7TObjectP14TObjEneBalClawllP3Vecll
+  - __ct__18TObjEneBalClawClawFP7TObjectPv
   - TObjEneBeast__boss4_rock_handler_ids
   - TObjEneBeast__ct
   - TObjEneBm3FlyNest__attachment_sample_origin
@@ -5561,7 +5561,7 @@ force_active:
   - deform_indirect_texture_wave__FlllllUc
   - deldepth_actions
   - deleting_dtor__15TObjEneMe1GiGueFPvs
-  - deleting_dtor__18TObjEneBalClawClawFPvs
+  - __dt__18TObjEneBalClawClawFv
   - deliver_chain_hits__11TTecGiZondeFv
   - deliver_delayed_weapon_hit
   - deliver_partner_action__10TNpcPlayerFv
@@ -7163,10 +7163,10 @@ force_active:
   - init_variant_a__10TObjPlayerFv
   - init_vertex_table__17TObjEneBm3FlyNestFv
   - init_vtable_1f8__13TUnk_804ED390FlPv
-  - init_vtable_804A63F0__13TUnk_804A63F0Fv
+  - __ct__13TUnk_804A63F0FP7TObjectPUc
   - init_vtable_804F2A10__13TUnk_804F2A10Fv
-  - init_vtable_and_clear_field1f8__13TUnk_804A4E68Fv
-  - init_vtable_and_handlers__13TUnk_804A5150Fv
+  - __ct__13TUnk_804A4E68FP7TObjectPUc
+  - __ct__13TUnk_804A5150FP7TObjectPUc
   - init_vtable_variant__13TUnk_804ECEB8FlPv
   - init_warp__23TAdSinglePlyChrSelectGCFv
   - init_warp_params__17TObjWarpBossMultiFv

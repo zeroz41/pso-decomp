@@ -13,4 +13,8 @@ public:
     s32 m_1fc;
 };
 
+extern "C" {
+void *baranz_launcher_ct(void *a0);
+}
+
 #endif

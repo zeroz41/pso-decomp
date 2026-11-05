@@ -12,4 +12,8 @@ public:
 };
 typedef char TUnk_804A2548_size[sizeof(TUnk_804A2548) == 0xC8 ? 1 : -1];
 
+extern "C" {
+void *__dt__13TUnk_804A2548Fv(void *arg0, s16 arg1);
+}
+
 #endif

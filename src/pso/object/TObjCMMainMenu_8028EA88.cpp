@@ -9,7 +9,7 @@
 #include "pso/ui/TAdBackTxtGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_8029A914.h"
-#include "pso/unk/text_8028D8B8.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/unk/text_802910EC.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/object/TObjCMMainMenu.h"

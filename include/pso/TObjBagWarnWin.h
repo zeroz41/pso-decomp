@@ -13,4 +13,8 @@ public:
     static void *create(void *arg0);
 };
 
+extern "C" {
+void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent);
+}
+
 #endif

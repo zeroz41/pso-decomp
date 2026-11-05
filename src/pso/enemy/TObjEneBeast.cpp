@@ -367,7 +367,7 @@ extern "C" void test_flag_256__13TUnk_80493450Fv();
 #include "pso/enemy/TObjEnePanarms.h"
 
 struct Ent_8009241C { u8 pad0[0xC]; f32 radius; u8 pad10[0x2C - 0x10]; };
-struct Mdl_8009241C { u8 pad0[8]; s32 f8; s32 fC; };
+struct Mdl_8009241C { u8 pad0[8]; s32 f8; NJS_TEXLIST *texlist; };
 struct Mot_8009241C { u8 pad0[4]; s32 f4; };
 struct Data_8009241C { u8 pad0[0x42C]; Mdl_8009241C *f42c; Mot_8009241C *f430; };
 struct Quad_8009241C { s32 a; s32 b; s32 c; s32 d; };
@@ -686,7 +686,7 @@ void TObjEneBeast::load_resources() {
         q.a = (s32)((Data_8009241C *)ene_beast_bml_resource)->f430;
         for (i = 0; i < 3; i++) {
             TLobby::spawn_npc_enemy(ids.id[i], ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].f8,
-                                            ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].fC, &q,
+                                            ((Data_8009241C *)ene_beast_bml_resource)->f42c[i].texlist, &q,
                                             ((Ent_8009241C *)beast_collision_body_table)[i].radius, 0.0f);
         }
     }

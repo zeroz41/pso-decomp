@@ -299,7 +299,6 @@ extern const f32 lbl_805DE7CC;
 extern const f32 lbl_805DE7D0;
 void run_task__15TAdSubPlyItemGCFv(Self_802D6E7C *self);
 extern u8 level_text_buffer[];
-extern u8 lbl_804725E0[];
 s32 sprintf(void *, const void *, ...);
 typedef struct S_802D6D88 { u8 pad0[0x43C]; s32 f[4]; } S_802D6D88;
 
@@ -327,7 +326,7 @@ void render__15TAdSubPlyItemGCFv(Item_802D6BEC *self) {
 
 u8 *format_level_text__15TAdSubPlyItemGCFii(s32 arg0, s32 arg1) {
     memset(level_text_buffer, 0, 0x40);
-    sprintf(level_text_buffer, lbl_804725E0, arg1);
+    sprintf(level_text_buffer, "LV%d", arg1);
     return level_text_buffer;
 }
 

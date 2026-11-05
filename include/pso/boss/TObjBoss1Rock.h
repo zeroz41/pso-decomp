@@ -3,27 +3,26 @@
 
 #include "types.h"
 #include "pso/TObject.h"
+#include "pso/system/NinjaTypes.h"
+#include "pso/system/vector.h"
 
+// A rock thrown up by the Dragon (Boss 1): it flies on m_velocity, bounces off
+// the ground and fades out once it has lived 40 frames.
 struct TObjBoss1Rock : public TObject {
-    TObjBoss1Rock(TObject *arg1, void *arg2, void *arg3);
+    TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel, s32 kind);
+    TObjBoss1Rock(TObject *parent, const Vec *pos, const Vec *vel);
     virtual ~TObjBoss1Rock();
-    void sub_8002E1CC(u8 *, u8 *, s32);
-    void* m_1c;
-    u8 _pad20[0x8];
-    void* m_28;
-    u8 unk_2C[0x4];
-    f32 m_30;
-    u32 m_34;
-    u32 m_38;
-    u32 m_3c;
-    u8 unk_40[0x4];
-    f32 m_44;
-    u8 unk_48[0x4];
-    f32 m_4c;
-    u32 m_50;
-    virtual void render();
     virtual void run_task();
-    void *construct(void *arg1, void *arg2, void *arg3, void *arg4);
+    virtual void render();
+    void sub_8002E1CC(const Vec *pos, const Vec *vel, s32 kind);
+
+    Vec m_position;
+    Vec m_velocity;
+    s32 m_rotation_y;
+    s32 m_rotation_x;
+    s32 m_frames;
+    NJS_ARGB m_color;    // a falls to 0 as the rock fades
+    s32 m_model_index;   // entry of the dragon ground model table: 1, or 2 when kind is 0
 };
 
 typedef char TObjBoss1Rock_size[sizeof(TObjBoss1Rock) == 0x54 ? 1 : -1];

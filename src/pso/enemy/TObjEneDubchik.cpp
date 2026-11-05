@@ -613,7 +613,7 @@ extern "C" void TObjPlayer__sub_800AA82C(void) {
         d.a = dubchik_resource->f430;
         for (j = 0; j < 2; j++) {
             Mdl_800AA82C *e = &dubchik_resource->mdl[j];
-            TLobby::spawn_npc_enemy(ids.v[j], e->f8, e->fC, &d, 5.0f, 0.0f);
+            TLobby::spawn_npc_enemy(ids.v[j], e->f8, (NJS_TEXLIST *)e->fC, &d, 5.0f, 0.0f);
         }
     }
 }

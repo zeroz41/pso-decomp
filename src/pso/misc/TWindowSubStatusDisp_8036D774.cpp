@@ -4,16 +4,17 @@
 #include "pso/render/render_util.h"
 
 #include "pso/misc/TWindowCtrlMain.h"
-
-
-struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
-
 #include <stddef.h>
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/misc/TLobby.h"
+#include "pso/misc/TLanguage.h"
+#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+
+struct Desc_8036D774 { f32 *pos; u32 *col; s32 a; s32 n; };
 
 extern "C" {
 extern s32 TBGMulti__textures;
@@ -161,6 +162,37 @@ void TWindowSubStatusDisp::draw_split_screen_hud() {
             split_screen_hud_animation_frame = 0;
         }
     }
+}
+
+}
+
+#pragma readonly_strings on
+#pragma pool_data off
+
+extern "C" {
+u8 *load_gvm_texture_file(s32 arg0);
+void set_global_param__8TObjFishFl();
+extern s32 split_screen_hud_animation_frame;
+s32 release_texture_list(void*);
+
+void TLobby::free_singleton_805D7018() {
+    if ((u32) TBGMulti__textures != 0U) {
+        release_texture_list((void*)TBGMulti__textures);
+        TAdSinglePlyChrSelectGC::safe_free(TBGMulti__textures);
+        TBGMulti__textures = 0U;
+    }
+}
+void TBGMulti__ct(void) {
+    s32 sp8[4];
+    if (TCameraCtrl::get_camera_id() == 3) {
+        sp8[0] = TLobby::tmp_buf_use_req("TBGMulti");
+        TLanguage::draw_string((void *)"f128_gr.gvp", sp8, 0x4D);
+        TLobby::tmp_buf_release("TBGMulti");
+        (*(s32 *)&TBGMulti__textures) = (s32)load_gvm_texture_file((s32)"bg_multi.gvm");
+        set_global_param__8TObjFishFl();
+        TLanguage::set_entry_index(0, 0x4D);
+    }
+    split_screen_hud_animation_frame = 0x384;
 }
 
 }

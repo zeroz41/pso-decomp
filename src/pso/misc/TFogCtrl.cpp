@@ -1,20 +1,127 @@
-#include "pso/math/FloatRounding.h"
 #include "types.h"
+#include "pso/TObject.h"
+#include "pso/misc/TFogCtrl_EOR.h"
 #include "pso/misc/TFogCtrl.h"
+#include "pso/misc/TQuestVmDownLoadServer.h"
+#include "pso/ui/TAdEnterSerialAccessGC.h"
+#include "pso/math/FloatRounding.h"
 #include "pso/unk/text_803E1FC8.h"
 #include "pso/unk/text_803E2008.h"
 #include "pso/unk/text_803E2070.h"
 #include <stddef.h>
 #include "pso/map/FloorArea.h"
-
 #include "pso/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFogCollisionPoison.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/map/FloorArea.h"
+
+struct RecoveredGlobal_800FA95C_lbl_8049C700 {
+    s32 value;
+    u8 remaining[0x14];
+};
+
+extern "C" {
+void *__nw__7TObjectFUl(int);
+extern u32 fog_ctrl_instance;
+s32 request_fog__8TFogCtrlFPvii(u8 *arg0, s32 arg1, s32 arg2);
+extern s32 TFogCtrl__fog_instance_table[];
+void __ct__7TObjectFP7TObject(void *, void *);
+extern s32 __vt__12TFogCtrl_EOR[];
+extern s32 lbl_805D2B1C;
+s32 TFogCtrl__sub_800FAC84(void *p);
+void queue_destruction__7TObjectFv(void *arg0);
+int update_all__8TFogCtrlFv(void*);
+
+s32 TQuestVmDownLoadServer::get_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
+s32 TQuestVmDownLoadServer::poll_serial_access() { return TAdEnterSerialAccessGC::parse_serial_value(); }
+void TFogCtrl_EOR::run_task() { update_all__8TFogCtrlFv(this); }
+
+}
+TFogCtrl_EOR::~TFogCtrl_EOR() {
+
+}
+
+
+typedef char RecoveredGlobal_800FA95C_lbl_8049C700_size[sizeof(RecoveredGlobal_800FA95C_lbl_8049C700) == 0x18 ? 1 : -1];
+u8 *TFogCtrl_EOR::init_object() {
+    u8 *arg0 = (u8 *)this;
+    __ct__7TObjectFP7TObject(arg0, &end_of_render_root);
+    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_800FA95C_lbl_8049C700 *)&__vt__12TFogCtrl_EOR).value;
+    *(s32 *)&this->m_name = (s32) lbl_805D2B1C;
+    return arg0;
+}
+
+void TQuestVmDownLoadServer::destroy_instance() {
+    if ((u32) fog_ctrl_instance != 0U) {
+        queue_destruction__7TObjectFv((void *)fog_ctrl_instance);
+    }
+    fog_ctrl_instance = 0U;
+}
+void TFogCtrl::create_instance() {
+    void *o;
+    o = __nw__7TObjectFUl(0x1C);
+    if (o != NULL) {
+        o = ((TFogCtrl_EOR *)o)->init_object();
+    }
+    (*(void * *)&fog_ctrl_instance) = o;
+}
+s32 TFogCtrl::update_all(s32 arg0, s32 arg1) {
+    s32 var_r29 = 0;
+    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    s32 var_r31 = 0;
+    do {
+        u32 v = (u32)var_r30[var_r31];
+        if (v != 0U) {
+            request_fog__8TFogCtrlFPvii((u8 *)v, arg0, arg1);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+    return 1;
+}
+s32 TFogCtrl::apply_all(s32 arg0, s32 arg1) {
+    s32 var_r29 = 0;
+    s32 *var_r30 = TFogCtrl__fog_instance_table;
+    s32 var_r31 = 0;
+    do {
+        u32 v = (u32)var_r30[var_r31];
+        if (v != 0U) {
+            ((TFogCtrl *)v)->select_fog(arg0, arg1);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+    return 1;
+}
+
+s32 TFogCtrl::update_first_active_fog() {
+    s32 i;
+    for (i = 0; i < 4; i++) {
+        if ((void *)((s32 *)&TFogCtrl__fog_instance_table)[i] != NULL) {
+            return TFogCtrl__sub_800FAC84((void *)((s32 *)&TFogCtrl__fog_instance_table)[i]);
+        }
+    }
+    return 0;
+}
+
+s32 TFogCtrl::update_all(s32 arg0) {
+    s32 var_r29;
+    s32 var_r31;
+    s32 temp_r3;
+    var_r29 = 0;
+    var_r31 = 0;
+    do {
+        temp_r3 = *(TFogCtrl__fog_instance_table + var_r31);
+        if ((u32) temp_r3 != 0U) {
+            ((TFogCtrl *)temp_r3)->restore_fog(arg0);
+        }
+        var_r29 += 1;
+        var_r31 += 1;
+    } while (var_r29 != 4);
+    return 1;
+}
 
 struct RecoveredGlobal_800FAD08_TFogCtrl__data_80501188 {
     s32 value;
@@ -193,13 +300,12 @@ void create_area_fog_ctrl(void);
 void mem_free(void *p);
 void *mem_alloc(u32 size);
 void __dl__7TObjectFPv(s32);
-u32 __nw__7TObjectFUl(int);
+void *__nw__7TObjectFUl(int);
 u8 * __dt__7TObjectFv(void *, s16);
 void GXInitFogAdjTable(GXFogAdjTable_800FAE1C *, s32, void *);
 void GXSetFogRangeAdj(s32, s32, GXFogAdjTable_800FAE1C *);
 f32 sin_table_lookup(s32);
 
-extern s32 TFogCtrl__fog_instance_table[];
 extern RecoveredGlobal_800FB8A0___vt__8TFogCtrl __vt__8TFogCtrl;
 extern u8 lbl_8043DA20[];
 extern u8 lbl_8043DA30[];
@@ -769,14 +875,14 @@ void create_area_fog_ctrl(void) {
     s32 *var_r4;
     s32 var_r31;
     s32 var_r5;
-    u32 temp_r3;
-    u32 temp_r3_2;
+    void *temp_r3;
+    void *temp_r3_2;
     if (is_split_screen() != 0) {
         var_r31 = 0;
         do {
             var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
             temp_r3 = __nw__7TObjectFUl(0x1C8);
-            if (temp_r3 != 0U) {
+            if (temp_r3 != NULL) {
                 var_r4 = (s32 *)tl_02;
                 var_r5 = var_r31;
                 ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3, (int)var_r4, (int)var_r5);
@@ -786,7 +892,7 @@ void create_area_fog_ctrl(void) {
     } else {
         var_r3 = (s32 *)((u8 *)((s32 *)0x1C8));
         temp_r3_2 = __nw__7TObjectFUl(0x1C8);
-        if (temp_r3_2 != 0U) {
+        if (temp_r3_2 != NULL) {
             var_r4 = (s32 *)tl_02;
             var_r5 = 0;
             ((s32 (*)(int, int, int))__ct__8TFogCtrlFP7TObjectl)((int)temp_r3_2, (int)var_r4, 0);

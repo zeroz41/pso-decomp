@@ -315,7 +315,7 @@ void TObjEneNanoDrago::load_resources() {
     binding = nano_drago_anim_binding;
     binding.motions = nano_drago_entry_params_resource->motions;
     modelEntries = nano_drago_entry_params_resource->models;
-    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, modelEntries[0].m_c, &binding, (f32)((f32) (15.0f)), (f32)((f32) (0.0f)));
+    TLobby::spawn_npc_enemy((s16)(0x22), modelEntries[0].model, (NJS_TEXLIST *)modelEntries[0].m_c, &binding, (f32)((f32) (15.0f)), (f32)((f32) (0.0f)));
 }
 void TObjEneNanoDrago::free_resources() {
     if ((u32) nano_drago_entry_params_resource != 0U) {

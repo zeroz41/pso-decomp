@@ -46,7 +46,6 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     u32 m_3d0;
     u8 unk_3D4[0x30];
     void* m_404;
-    static void destroy_resources();
     s32 try_spawn_ground_effect(s32 arg1);
     void play_hit_effect();
     static void spawn_attack(s16 arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0, f32 farg1);
@@ -63,5 +62,10 @@ struct TObjEneMe3Stelth : public TObjEneDD_ST {
     void update_state_fade_in(s32 arg1);
     void state_chase(s32 arg1);
 };
+
+extern "C" {
+void *TObjEneMe3Stelth__ct(void *arg0);
+void TObjEneMe3Stelth__sub_800F0C90(u8 *arg0);
+}
 
 #endif

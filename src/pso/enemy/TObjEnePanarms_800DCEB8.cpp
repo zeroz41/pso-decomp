@@ -211,7 +211,7 @@ f64 atan2_float(f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
 f32 vector_length(void *);
 Obj_800DF634 *load_resource_from_descriptor(Obj_800DF634 *, s32, void *, s32, s32, s32);
-s32 spawn_npc_enemy__6TLobbyFsllPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
+s32 spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(s32, s32, s32, void *, s32, const void *, f32, f32);
 f32 random_ratio__9TObjCharaFv(s32 arg0);
 void TObjEnePanarms__sub_800E1D38(void *arg0);
 s32 refresh_lobby_state__10TObjPlayerFv();
@@ -323,7 +323,7 @@ void TObjEnePanarms::load_and_spawn_npc() {
     if (o != NULL) {
         S_800DF634 sp = panarms_npc_spawn_descriptor[0];
         sp.a = o->f430;
-        spawn_npc_enemy__6TLobbyFsllPvff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, 12.5f, 0.0f);
+        spawn_npc_enemy__6TLobbyFslP11NJS_TEXLISTPvff(0x23, *(s32 *)(o->f42C + 8), *(s32 *)(o->f42C + 0xC), &sp, panarms_npc_spawn_descriptor[0].a, panarms_npc_spawn_descriptor, 12.5f, 0.0f);
         TObjEnePanarms::spawn_npc_pair();
     }
 }

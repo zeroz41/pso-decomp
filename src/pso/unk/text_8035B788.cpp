@@ -13,7 +13,7 @@ extern const char *bm_ene_npc_nights_motion_names[3];
 extern BmlResourceDescriptor nights_npc_resource_descriptor;
 struct Rec_8035B788 { s32 a, b, c, d; };
 
-struct Inner_8035B788 { u8 pad[8]; s32 x8; s32 xc; };
+struct Inner_8035B788 { u8 pad[8]; s32 x8; NJS_TEXLIST *texlist; };
 
 struct Obj_8035B788 { u8 pad[0x42C]; Inner_8035B788 *x42c; s32 x430; };
 
@@ -31,12 +31,12 @@ void fn_8035B788(void) {
     {
         Rec_8035B788 r = lbl_804798CC;
         r.a = o->x430;
-        TLobby::spawn_npc_enemy((s16)0x11, o->x42c->x8, o->x42c->xc, &r, 10.0f, 0.0f);
+        TLobby::spawn_npc_enemy((s16)0x11, o->x42c->x8, o->x42c->texlist, &r, 10.0f, 0.0f);
     }
     {
         Rec_8035B788 r = lbl_804798DC;
         r.a = lbl_805D6F50->x430;
-        TLobby::spawn_npc_enemy((s16)0x12, lbl_805D6F50->x42c->x8, lbl_805D6F50->x42c->xc, &r, 10.0f, 0.0f);
+        TLobby::spawn_npc_enemy((s16)0x12, lbl_805D6F50->x42c->x8, lbl_805D6F50->x42c->texlist, &r, 10.0f, 0.0f);
     }
 }
 

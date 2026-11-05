@@ -3,11 +3,67 @@
 
 #include "types.h"
 
+struct Ent_8023FCC0 {
+    u32 h[4];
+    s32 k[4];
+    s32 pad20;
+};
+
+// The sound control object (sound_control_state, set up by init_sound_aux_effects).
+// SoundControlState: name inferred from the global sound_control_state; no symbol or string names it.
+class SoundControlState {
+public:
+    SoundControlState();
+    ~SoundControlState();
+
+    u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
+    u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
+    f32 reverb_coloration;
+    f32 reverb_mix;
+    f32 reverb_time;
+    f32 reverb_damping;
+    f32 reverb_pre_delay;
+    f32 reverb_crosstalk;
+    u8 chorus[0x90];              // MusyX SND_AUX_CHORUS work area
+    u32 chorus_base_delay;        // SND_AUX_CHORUS.baseDelay
+    u32 chorus_variation;
+    u32 chorus_period;
+    f32 reverb_level;             // SoundRequestOwner::reverb: voices send it (send_sound_request_reverb)
+    s32 f280;
+    s32 age;
+    s32 group_state;
+    u8 pad_28C[0x290 - 0x28C];
+    s32 f290;
+    s32 f294;
+    s32 load_state;
+    s32 next_group_state;
+    u8 pad_2A0[0x2A4 - 0x2A0];
+    f32 f2A4;
+    s32 f2A8;
+    s32 f2AC;
+    s32 route_pos;
+    s16 *route;
+    s32 depth;
+    s32 f2BC;
+    s32 stack[16];
+    s32 tick;
+    u32 elapsed;
+    u32 ms;
+    u8 pad_30C[4];
+    Ent_8023FCC0 ents[(0xC14 - 0x310) / 0x24];
+    u8 padC10[4];
+    void *bank_file_handles[4];
+    s32 bank_file_sizes[4];
+    u8 pad_C34[0xC3C - 0xC34];
+};
+
+extern SoundControlState sound_control_state;
+
+
 extern "C" {
 void TLobby__sub_8023F754(s32 arg0, s32 arg1);
 s32 TLobby__sub_8023F880(s32 arg0);
-int TLobby__sub_802401C8(void);
-void *TLobby__sub_80240808(void *arg0, s16 arg1);
+int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(void *p);
 void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
@@ -41,7 +97,6 @@ s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1);
 s32 remove_com_card_by_id__6TLobbyFUi(u32 arg0);
 void remove_com_card_entry__6TLobbyFi(s32 arg0);
 void reset_sound_group_fade__6TLobbyFv(void);
-void reset_sound_owner_state(u8 *arg0);
 s32 reset_sound_state__6TLobbyFPv(u8 *arg0);
 void reset_state_805D63DC__6TLobbyFv(void *);
 void reset_state__6TLobbyFPv(void *p);
@@ -66,8 +121,7 @@ s32 tick_sound_voice(struct SoundRequestVoice *v);
 extern "C" {
 void TLobby__sub_8023F754(s32 arg0, s32 arg1);
 s32 TLobby__sub_8023F880(s32 arg0);
-int TLobby__sub_802401C8(void);
-void *TLobby__sub_80240808(void *arg0, s16 arg1);
+int TLobby__sub_802401C8(SoundControlState *self);
 void TLobby__sub_802409E4(void *p);
 void TLobby__sub_802409F0(struct SoundRequestVoice *v);
 void TLobby__sub_80240F38(void);
@@ -98,7 +152,6 @@ s32 pop_sound_groups__6TLobbyFPvi(void *p, s32 arg1);
 s32 remove_com_card_by_id__6TLobbyFUi(u32 arg0);
 void remove_com_card_entry__6TLobbyFi(s32 arg0);
 void reset_sound_group_fade__6TLobbyFv(void);
-void reset_sound_owner_state(u8 *arg0);
 s32 reset_sound_state__6TLobbyFPv(u8 *arg0);
 void reset_state_805D63DC__6TLobbyFv(void *);
 void reset_state__6TLobbyFPv(void *p);

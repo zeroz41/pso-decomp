@@ -2,7 +2,6 @@
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/TObjBoss5FloorStone.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -71,7 +70,6 @@ void TObjNpcSoutokufu::load_shared_resource() {
 TObjNpcSoutokufu::~TObjNpcSoutokufu() {}
 extern "C" {
 
-extern s32 boss5_common_texture_list;
 
 typedef char RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu_size[sizeof(RecoveredGlobal_80289680___vt__16TObjNpcSoutokufu) == 0x178 ? 1 : -1];
 u8 *TObjNpcSoutokufu__ct(u8 *player, s32 arg1, s32 arg2) {
@@ -106,13 +104,5 @@ void TBoss8Dragon::trigger_switches_in_range(void *arg0, void *arg1, void *arg2)
         }
     }
 }
-
-void TObjBoss5FloorStone::render() {
-    if (TObjPlayer::is_any_teammate_in_state() == 0) {
-        ((TObjBoss5FloorStone *)boss5_common_texture_list)->render_impl((void*)(*(s32 *)((s8 *)(*(void **)((s8 *)lbl_805D4DD8 + 0x42C)) + 0x58)));
-    }
-}
-
-void TObjBoss5FloorStone::run_task() {  }
 
 }

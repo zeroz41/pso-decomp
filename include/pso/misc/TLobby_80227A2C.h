@@ -14,7 +14,6 @@ int TLobby__sub_80227AF8(void *p);
 int TLobby__sub_80227D38(void);
 void TLobby__sub_8022804C(void);
 void TLobby__sub_8022809C(void);
-void TLobby__sub_80228118(void);
 void apply_clamped_field_27c__6TLobbyFv(void);
 void clear_work_buffer(u8 *arg0);
 int free__6TLobbyFPv(void *p);

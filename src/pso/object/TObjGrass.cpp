@@ -82,7 +82,7 @@ struct Quad_800BF66C { s32 a; void *b; s32 c; s32 d; };
 
 struct Ent8_800BF66C { s32 f0; s32 f4; };
 
-struct Model_800BF66C { s32 f0; s32 f4; s32 f8; s32 fC; };
+struct Model_800BF66C { s32 f0; s32 f4; s32 f8; NJS_TEXLIST *texlist; };
 
 struct Data_800BF66C { u8 pad[0x42C]; Model_800BF66C *f42c; Ent8_800BF66C *f430; };
 
@@ -1722,7 +1722,7 @@ void TObjGrass::load_resources() {
     {
     Quad_800BF66C q = grass_spawn_descriptor;
     q.a = (s32) ((Data_800BF66C *)TObjGrass__resource_bundle)->f430;
-    TLobby::spawn_npc_enemy((s16)0x35, (s32)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), (s32)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->fC), &q, (f32)((1e+01f)), (f32)((0.0f)));
+    TLobby::spawn_npc_enemy((s16)0x35, (s32)(((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->f8), ((Data_800BF66C *)TObjGrass__resource_bundle)->f42c->texlist, &q, (f32)((1e+01f)), (f32)((0.0f)));
     }
 }
 

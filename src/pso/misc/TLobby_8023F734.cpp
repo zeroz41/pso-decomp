@@ -700,60 +700,18 @@ s32 resolve_sound_effect_bank(Owner_8023FBBC *owner, s32 kind, s32 bank, s32 ind
 #pragma pop
 
 
-struct Ent_8023FCC0 {
-    u32 h[4];
-    s32 k[4];
-    s32 pad20;
-};
-
-// The sound control object (sound_control_state, set up by init_sound_aux_effects).
-struct Obj_8023FCC0 {
-    u8 reverb[0x1C4];             // MusyX SND_AUX_REVERBHI work area
-    u8 reverb_temp_disable;       // SND_AUX_REVERBHI.tempDisable
-    f32 reverb_coloration;
-    f32 reverb_mix;
-    f32 reverb_time;
-    f32 reverb_damping;
-    f32 reverb_pre_delay;
-    f32 reverb_crosstalk;
-    u8 chorus[0x90];              // MusyX SND_AUX_CHORUS work area
-    u32 chorus_base_delay;        // SND_AUX_CHORUS.baseDelay
-    u32 chorus_variation;
-    u32 chorus_period;
-    f32 reverb_level;             // SoundRequestOwner::reverb: voices send it (send_sound_request_reverb)
-    s32 f280;
-    s32 age;
-    s32 group_state;
-    u8 pad_28C[0x298 - 0x28C];
-    s32 load_state;
-    s32 next_group_state;
-    u8 pad_2A0[0x2B0 - 0x2A0];
-    s32 route_pos;
-    s16 *route;
-    s32 depth;
-    s32 f2BC;
-    s32 stack[16];
-    s32 tick;
-    u32 elapsed;
-    u32 ms;
-    u8 pad_30C[4];
-    Ent_8023FCC0 ents[(0xC14 - 0x310) / 0x24];
-    u8 padC10[4];
-    void *bank_file_handles[4];
-    s32 bank_file_sizes[4];
-};
 
 extern "C" {
 void *adxf_open_afs__6TLobbyFii(int, int);
 
-s32 TLobby__sub_8023FFB8(Obj_8023FCC0 *self, int id);
+s32 TLobby__sub_8023FFB8(SoundControlState *self, int id);
 s32 TLobby__sub_803CC4C0(void *handle);
 u32 sndPushGroup(void *prj_data, u16 gid, void *samples, void *sdir, void *pool);
 
 u8 is_ready__6TLobbyFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x298) == 1);
 }
-void TLobby__sub_8023FCC0(Obj_8023FCC0 *self) {
+void TLobby__sub_8023FCC0(SoundControlState *self) {
     s32 i;
     s32 j;
     s32 pos;
@@ -847,7 +805,7 @@ void fade_voice_channels__6TLobbyFi(s32 arg0) {
         ((void (*)(void*, s32))start_voice_fade)(&lbl_805162EC[i], arg0);
     }
 }
-s32 TLobby__sub_8023FFB8(Obj_8023FCC0 *self, int id) {
+s32 TLobby__sub_8023FFB8(SoundControlState *self, int id) {
     s32 i;
     s32 ret;
     if (self->ents[id].h[3] != 0) {
@@ -925,11 +883,11 @@ s32 sndPopGroup();
 s32 OSGetTick();
 }
 extern "C" {
-s32 update_sound_frame(Obj_8023FCC0 *self);
+s32 update_sound_frame(SoundControlState *self);
 
-int TLobby__sub_802401C8(void) { return 0; }
+int TLobby__sub_802401C8(SoundControlState *self) { return 0; }
 
-s32 update_sound_frame(Obj_8023FCC0 *self) {
+s32 update_sound_frame(SoundControlState *self) {
     s32 t;
     s32 i;
     s32 j;
@@ -974,7 +932,7 @@ void sndSetAuxProcessingCallbacks(u8 studio, void *auxA, void *userA, u8 midiA, 
 s32 TLobby__sub_801E3E9C(s32 id, const char *name, void *buf, s32 size);
 }
 
-s32 init_sound_aux_effects(Obj_8023FCC0 *self) {
+s32 init_sound_aux_effects(SoundControlState *self) {
     s32 i;
     s32 result;
     u32 size;
@@ -1129,32 +1087,27 @@ s32 validate_and_set_selection__6TLobbyFPvi(void *arg0, s32 arg1) {
 #pragma pop
 
 
-void *TLobby__sub_80240808(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 *)((s8 *)arg0 + 0x294) = 0;
-        *(s32 *)((s8 *)arg0 + 0x290) = 0;
-        *(s32 *)((s8 *)arg0 + 0x288) = -1;
-        if (arg1 > 0) {
-            ::operator delete(arg0);
-        }
-    }
-    return arg0;
 }
 
-void reset_sound_owner_state(u8 *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x2BC) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2B8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x294) = 0;
-    *(s32 *)((s8 *)arg0 + 0x290) = 0;
-    *(s32 *)((s8 *)arg0 + 0x284) = 0;
-    *(s32 *)((s8 *)arg0 + 0x288) = -1;
-    *(s32 *)((s8 *)arg0 + 0x298) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2B0) = -1;
-    *(s32 *)((s8 *)arg0 + 0x2B4) = 0;
-    *(s32 *)((s8 *)arg0 + 0x2A8) = 0;
-    *(f32 *)((s8 *)arg0 + 0x2A4) = 4.0f;
-    *(s32 *)((s8 *)arg0 + 0x2AC) = 0x1E240;
+SoundControlState::~SoundControlState() {
+    f294 = 0;
+    f290 = 0;
+    group_state = -1;
 }
+
+SoundControlState::SoundControlState() {
+    f2BC = 0;
+    depth = 0;
+    f294 = 0;
+    f290 = 0;
+    age = 0;
+    group_state = -1;
+    load_state = 0;
+    route_pos = -1;
+    route = NULL;
+    f2A8 = 0;
+    f2A4 = 4.0f;
+    f2AC = 123456;
 }
 
 u16 calculate_crc16_ccitt(const u8* bytes, s32 count) {

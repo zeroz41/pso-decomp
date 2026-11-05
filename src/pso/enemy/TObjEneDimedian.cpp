@@ -787,7 +787,7 @@ void TLobby::load_dimedian_resources() {
         Anim_800A8118 anim = { (s32)RES_800A8118->motions, dimedian_action_table, 2, 0xC0000 };
         for (i = 0; i < 3; i++) {
             u8 *b = *(u8 **)((s8 *)(*(u8 **)&dimedian_resource_ptr) + 0x42C) + i * 0x10;
-            TLobby::spawn_npc_enemy(ids[i], *(s32 *)((s8 *)b + 8), *(s32 *)((s8 *)b + 0xC), &anim,
+            TLobby::spawn_npc_enemy(ids[i], *(s32 *)((s8 *)b + 8), (NJS_TEXLIST *)*(s32 *)((s8 *)b + 0xC), &anim,
                 dimedian_collision_body_table[i].radius, 0.0f);
         }
     }

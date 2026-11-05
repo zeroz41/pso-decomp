@@ -9,6 +9,7 @@
 #include "pso/enemy/TObjEneDellBiter.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/enemy/TObjEneDD_800BB804.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -218,6 +219,18 @@ void TBoss8DragonEffTail::free_statics() {
     }
     TLobby__sub_8001FE7C(boss8_eff_tail_bml_resource, 1);
     boss8_eff_tail_bml_resource = 0;
+}
+
+}
+
+extern "C" {
+extern char bm_obj_boss1_common_j_resource_descriptor[];
+extern char lbl_80474C64[];
+extern s32 boss8_eff_tail_bml_resource;
+u8 *load_gvm_texture_file(s32 arg0);
+void fn_802FE8CC(void) {
+    boss8_eff_tail_bml_resource = load_enemy_bml_resource((u8 *)bm_obj_boss1_common_j_resource_descriptor);
+    dragon_tail_gvm_texture_handle = (s32)load_gvm_texture_file((s32)lbl_80474C64);
 }
 
 }

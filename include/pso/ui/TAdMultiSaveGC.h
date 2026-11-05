@@ -27,4 +27,9 @@ void *TAdMultiSaveGC__ct(TAdMultiSaveGC *arg0);
 void *__dt__14TAdMultiSaveGCFv(TAdMultiSaveGC *arg0, s16 arg1);
 }
 
+extern "C" {
+u8 *fn_802FF028(s32 arg0);
+u8 *fn_802FF064(s32 arg0);
+}
+
 #endif

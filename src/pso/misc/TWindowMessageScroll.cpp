@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowMessageScroll.h"
 #include "pso/misc/TWindowMessageQuest.h"
-#include "pso/unk/text_8026B260.h"
 #include "pso/misc/TWindowBase.h"
 
 #include "pso/misc/TLobby.h"

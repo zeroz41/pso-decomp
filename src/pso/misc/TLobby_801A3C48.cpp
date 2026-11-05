@@ -1,6 +1,7 @@
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowMessage.h"
 #include "types.h"
+#include "pso/misc/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/TAdPlayerLoadGC.h"
@@ -779,9 +780,9 @@ void run_online_lobby_scene(void) {
         reset_state_flags__6TLobbyFv();
         if (TLobby__sub_801A3E8C() != 0) {
             TLobby::load_set_gsl_files();
-            ((TLobby *)lbl_80515BA0)->init_range(0);
+            ((Obj_80515BA0 *)lbl_80515BA0)->init_range(0);
         } else {
-            ((TLobby *)lbl_80515BA0)->init_range(0xF);
+            ((Obj_80515BA0 *)lbl_80515BA0)->init_range(0xF);
             ((TLobby *)lbl_80515BA0)->set_value(0);
             set_current_floor_area(0xF);
             TScene::set_scene(0);

@@ -11,6 +11,7 @@
 #include "pso/object/TObjLight_80133568.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_800F0810.h"
+#include "pso/player/BlobShadow.h"
 #include "pso/player/TObjChara.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
