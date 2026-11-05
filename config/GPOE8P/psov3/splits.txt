@@ -9988,77 +9988,11 @@ pso/enemy/TObjEneReconBomb.cpp:
 pso/enemy/TObjEneRecon_8031BC38.cpp:
 	.text       start:0x8031BC38 end:0x8031BCB8
 
-pso/enemy/TObjEneRecon_8031BCB8.cpp:
-	.text       start:0x8031BCB8 end:0x8031BD64
-
-pso/enemy/TObjEneRecon_8031BD64.cpp:
-	.text       start:0x8031BD64 end:0x8031BDF4
-
-pso/enemy/TObjEneRecon_8031BDF4.cpp:
-	.text       start:0x8031BDF4 end:0x8031BE8C
-
-pso/enemy/TObjEneRecon_8031BE8C.cpp:
-	.text       start:0x8031BE8C end:0x8031C124
-
-pso/enemy/TObjEneRecon_8031C124.cpp:
-	.text       start:0x8031C124 end:0x8031C18C
-
-pso/enemy/TObjEneRecon_8031C18C.cpp:
-	.text       start:0x8031C18C end:0x8031C190
-
-pso/enemy/TObjEneRecon_8031C190.cpp:
-	.text       start:0x8031C190 end:0x8031C23C
-
-pso/enemy/TObjEneRecon_8031C23C.cpp:
-	.text       start:0x8031C23C end:0x8031C250
-
-pso/enemy/TObjEneRecon_8031C250.cpp:
-	.text       start:0x8031C250 end:0x8031D780
-	.rodata     start:0x80476108 end:0x80476118
-	.sdata2     start:0x805DF3D8 end:0x805DF3E8
-
-pso/enemy/TObjEneRecon_8031D780.cpp:
-	.text       start:0x8031D780 end:0x8031D898
-
-pso/enemy/TObjEneRecon_8031D898.cpp:
-	.text       start:0x8031D898 end:0x8031DB34
-
-pso/enemy/TObjEneRecon_8031DB34.cpp:
-	.text       start:0x8031DB34 end:0x8031DBD8
-
-pso/unk/text_8031DBD8.cpp:
-	.text       start:0x8031DBD8 end:0x8031DCCC
-
-pso/enemy/TObjEneRecon_8031DCCC.cpp:
-	.text       start:0x8031DCCC end:0x8031DD14
-
-pso/enemy/TObjEneRecon_8031DD14.cpp:
-	.text       start:0x8031DD14 end:0x8031DD40
-
-pso/enemy/TObjEneRecon_8031DD40.cpp:
-	.text       start:0x8031DD40 end:0x8031DD7C
-
-pso/enemy/TObjEneRecon_8031DD7C.cpp:
-	.text       start:0x8031DD7C end:0x8031DFD0
-
-pso/enemy/TObjEneRecon_8031DFD0.cpp:
-	.text       start:0x8031DFD0 end:0x8031E574
-	.data       start:0x804EC3F0 end:0x804EC668
-
-pso/enemy/TObjEneRecon_8031E574.cpp:
-	.text       start:0x8031E574 end:0x8031E650
-
-pso/enemy/TObjEneRecon_8031E650.cpp:
-	.text       start:0x8031E650 end:0x8031E69C
-
-pso/enemy/TObjEneRecon_8031E69C.cpp:
-	.text       start:0x8031E69C end:0x8031E708
-
-pso/enemy/TObjEneRecon_8031E708.cpp:
-	.text       start:0x8031E708 end:0x8031E7F0
-
 pso/enemy/TObjEneRecon.cpp:
-	.text       start:0x8031E7F0 end:0x8031E800
+	.text       start:0x8031BCB8 end:0x8031E800
+	.rodata     start:0x80476108 end:0x80476118
+	.data       start:0x804EC3F0 end:0x804EC668
+	.sdata2     start:0x805DF3D8 end:0x805DF3E8
 
 pso/enemy/TObjEneRecon_8031E800.cpp:
 	.text       start:0x8031E800 end:0x8031E88C
