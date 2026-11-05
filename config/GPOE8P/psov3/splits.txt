@@ -5300,56 +5300,26 @@ pso/unk/text_801BC688.cpp:
 	.text       start:0x801BC688 end:0x801BC81C
 
 pso/player/TObjPlayer_801BC81C.cpp:
-	.text       start:0x801BC81C end:0x801BCB70
-
-pso/player/TObjPlayer_801BCC30.cpp:
-	.text       start:0x801BCB70 end:0x801BCC54
-
-pso/player/TObjPlayer_801BCC54.cpp:
-	.text       start:0x801BCC54 end:0x801BCD28
-
-pso/player/TObjPlayer_801BCD28.cpp:
-	.text       start:0x801BCD28 end:0x801BCD58
+	.text       start:0x801BC81C end:0x801BCD58
 
 pso/player/TObjPlayer_801BCD58.cpp:
 	.text       start:0x801BCD58 end:0x801BCDC4
 
 pso/player/TObjPlayer_801BCDC4.cpp:
-	.text       start:0x801BCDC4 end:0x801BCE1C
-
-pso/player/TObjPlayer_801BCE1C.cpp:
-	.text       start:0x801BCE1C end:0x801BCE90
-
-pso/player/TObjPlayer_801BCE90.cpp:
-	.text       start:0x801BCE90 end:0x801BCF04
+	.text       start:0x801BCDC4 end:0x801BCF04
 
 pso/player/TObjPlayer_801BCF04.cpp:
 	.text       start:0x801BCF04 end:0x801BCFBC
 
 pso/player/TObjPlayer_801BCFBC.cpp:
-	.text       start:0x801BCFBC end:0x801BD0C0
-
-pso/unk/text_801BD0C0.cpp:
-	.text       start:0x801BD0C0 end:0x801BD2B8
+	.text       start:0x801BCFBC end:0x801BD318
 	.rodata     start:0x80446F70 end:0x80446F78
 
-pso/player/TObjPlayer_801BD2B8.cpp:
-	.text       start:0x801BD2B8 end:0x801BD314
-
-pso/player/TObjPlayer_801BD314.cpp:
-	.text       start:0x801BD314 end:0x801BD318
-
-pso/unk/text_801BD318.cpp:
-	.text       start:0x801BD318 end:0x801BD384
-
 pso/player/TObjPlayer_801BD384.cpp:
-	.text       start:0x801BD384 end:0x801BD928
+	.text       start:0x801BD318 end:0x801BD928
 
 pso/player/TObjPlayer_801BD928.cpp:
-	.text       start:0x801BD928 end:0x801BDBB4
-
-pso/unk/text_801BDBB4.cpp:
-	.text       start:0x801BDBB4 end:0x801BDD8C
+	.text       start:0x801BD928 end:0x801BDD8C
 
 pso/player/TObjPlayer_801BDD8C.cpp:
 	.text       start:0x801BDD8C end:0x801BDDDC
@@ -5357,85 +5327,16 @@ pso/player/TObjPlayer_801BDD8C.cpp:
 pso/player/TObjPlayer_801BDDDC.cpp:
 	.text       start:0x801BDDDC end:0x801BDE60
 
-pso/unk/text_801BDE60.cpp:
-	.text       start:0x801BDE60 end:0x801BDF5C
-
 pso/player/TObjPlayer_801BDF5C.cpp:
-	.text       start:0x801BDF5C end:0x801BDFC4
-
-pso/unk/text_801BDFC4.cpp:
-	.text       start:0x801BDFC4 end:0x801BE03C
-
-pso/player/TObjPlayer_801BE03C.cpp:
-	.text       start:0x801BE03C end:0x801BE104
-
-pso/unk/text_801BE104.cpp:
-	.text       start:0x801BE104 end:0x801BE1C0
+	.text       start:0x801BDE60 end:0x801BEC44
 	.ctors      start:0x80433F8C end:0x80433F90
 	.bss        start:0x8050E920 end:0x80511C80
-
-pso/player/TObjPlayer_801BE1C0.cpp:
-	.text       start:0x801BE1C0 end:0x801BE388
-
-pso/unk/text_801BE388.cpp:
-	.text       start:0x801BE388 end:0x801BE3B4
-
-pso/player/TObjPlayer_801BE3B4.cpp:
-	.text       start:0x801BE3B4 end:0x801BE66C
-
-pso/player/TObjPlayer_801BE66C.cpp:
-	.text       start:0x801BE66C end:0x801BE778
-
-pso/player/TObjPlayer_801BE778.cpp:
-	.text       start:0x801BE778 end:0x801BEB0C
-
-pso/player/TObjPlayer_801BEB0C.cpp:
-	.text       start:0x801BEB0C end:0x801BEC44
 
 pso/misc/TPlyPhotonChair_801BEC44.cpp:
 	.text       start:0x801BEC44 end:0x801BEC98
 
 pso/player/TObjPlayer.cpp:
-	.text       start:0x801BEC98 end:0x801BF548
-
-pso/player/TObjPlayer_801BF548.cpp:
-	.text       start:0x801BF548 end:0x801BF6B0
-
-pso/player/TObjPlayer_801BF6B0.cpp:
-	.text       start:0x801BF6B0 end:0x801BF8EC
-
-pso/player/TObjPlayer_801BF8EC.cpp:
-	.text       start:0x801BF8EC end:0x801BF918
-
-pso/player/TObjPlayer_801BF918.cpp:
-	.text       start:0x801BF918 end:0x801BF978
-
-pso/player/TObjPlayer_801BF978.cpp:
-	.text       start:0x801BF978 end:0x801BFA98
-
-pso/player/TObjPlayer_801BFA98.cpp:
-	.text       start:0x801BFA98 end:0x801BFAD4
-
-pso/player/TObjPlayer_801BFAD4.cpp:
-	.text       start:0x801BFAD4 end:0x801BFB1C
-
-pso/player/TObjPlayer_801BFB1C.cpp:
-	.text       start:0x801BFB1C end:0x801BFBCC
-
-pso/player/TObjPlayer_801BFBCC.cpp:
-	.text       start:0x801BFBCC end:0x801BFE1C
-
-pso/player/TObjPlayer_801BFE1C.cpp:
-	.text       start:0x801BFE1C end:0x801BFE40
-
-pso/player/TObjPlayer_801BFE40.cpp:
-	.text       start:0x801BFE40 end:0x801BFE50
-
-pso/player/TObjPlayer_801BFE50.cpp:
-	.text       start:0x801BFE50 end:0x801BFED4
-
-pso/player/TObjPlayer_801BFED4.cpp:
-	.text       start:0x801BFED4 end:0x801C0064
+	.text       start:0x801BEC98 end:0x801C0064
 
 pso/misc/pso_const_ids5.cpp:
 	.text       start:0x801C0064 end:0x801C00C4

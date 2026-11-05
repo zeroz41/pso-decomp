@@ -604,8 +604,8 @@ struct TObjPlayer : public TObjChara {
     void set_flag_200000();
     int check_flag_4();
     void*set_invisible();
-    int clear_flag_4000_callback();
-    int set_flag_4000();
+    void clear_flag_4000_callback();
+    void set_flag_4000();
     int clear_flag_4000();
     void set_battle_flag(s32 v);
     s32 get_anim_id();
