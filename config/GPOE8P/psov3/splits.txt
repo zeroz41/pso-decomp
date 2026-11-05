@@ -10830,6 +10830,9 @@ pso/enemy/DelDepthMotion.cpp:
 	.rodata     start:0x80475DE8 end:0x80475DF0
 	.data       start:0x804E8760 end:0x804E87A8
 
+pso/enemy/SinowZoaData.cpp:
+	.rodata     start:0x80475DF0 end:0x80476098
+
 pso/enemy/TObjEneMe3SinowZoa_80316690.cpp:
 	.text       start:0x80316690 end:0x80316898
 

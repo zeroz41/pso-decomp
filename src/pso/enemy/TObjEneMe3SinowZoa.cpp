@@ -12,6 +12,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
+#include "pso/enemy/SinowZoaData.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -874,51 +875,6 @@ extern "C" {
 void is_target_in_attack_range__9TObjCharaFv();
 }
 extern "C" {
-extern u8 lbl_80475E2C[];
-}
-extern "C" {
-extern u8 lbl_80475E3C[];
-}
-extern "C" {
-extern u8 lbl_80475E54[];
-}
-extern "C" {
-extern u8 lbl_80475E68[];
-}
-extern "C" {
-extern u8 lbl_80475E84[];
-}
-extern "C" {
-extern u8 lbl_80475E9C[];
-}
-extern "C" {
-extern u8 lbl_80475EB4[];
-}
-extern "C" {
-extern u8 lbl_80475EC8[];
-}
-extern "C" {
-extern u8 lbl_80475EE0[];
-}
-extern "C" {
-extern u8 lbl_80475EF4[];
-}
-extern "C" {
-extern u8 lbl_80475F10[];
-}
-extern "C" {
-extern u8 lbl_80475F24[];
-}
-extern "C" {
-extern u8 lbl_80475F38[];
-}
-extern "C" {
-extern u8 lbl_80475F54[];
-}
-extern "C" {
-extern u8 lbl_80475F64[];
-}
-extern "C" {
 void receive_physical_attack__9TObjCharaFPvf();
 }
 extern "C" {
@@ -990,22 +946,22 @@ void *sinow_zoa_collision_parts[11] = {
     (void *)0x0, (void *)0x0, (void *)0x0,
 };
 __declspec(section ".data") void *lbl_804E87F0[2] = {
-    (void *)&lbl_80475E2C, (void *)0x0,
+    (void *)&sinow_zoa_model, (void *)0x0,
 };
 void *lbl_804E87F8[16] = {
-    (void *)&lbl_80475E3C, (void *)&lbl_80475E54, (void *)&lbl_80475E68, (void *)&lbl_80475E84,
-    (void *)&lbl_80475E9C, (void *)&lbl_80475EB4, (void *)&lbl_80475EC8, (void *)&lbl_80475EE0,
-    (void *)&lbl_80475EF4, (void *)&lbl_80475F10, (void *)&lbl_80475F24, (void *)0x0,
-    (void *)&lbl_80475F38, (void *)&lbl_804E87F0, (void *)&lbl_804E87F8, (void *)0x1000b,
+    (void *)&sinow_zoa_t_wait_motion, (void *)&sinow_zoa_apper_motion, (void *)&sinow_zoa_backstep_motion, (void *)&sinow_zoa_bareta_motion,
+    (void *)&sinow_zoa_damage_motion, (void *)&sinow_zoa_death_motion, (void *)&sinow_zoa_f_attack_motion, (void *)&sinow_zoa_sword_motion,
+    (void *)&sinow_zoa_transform_motion, (void *)&sinow_zoa_wait_motion, (void *)&sinow_zoa_walk_motion, (void *)0x0,
+    (void *)&sinow_zoa_bml, (void *)&lbl_804E87F0, (void *)&lbl_804E87F8, (void *)0x1000b,
 };
 __declspec(section ".data") void *lbl_804E8838[2] = {
-    (void *)&lbl_80475F54, (void *)0x0,
+    (void *)&sinow_zoa_low_model, (void *)0x0,
 };
 void *lbl_804E8840[16] = {
-    (void *)&lbl_80475E3C, (void *)&lbl_80475E54, (void *)&lbl_80475E68, (void *)&lbl_80475E84,
-    (void *)&lbl_80475E9C, (void *)&lbl_80475EB4, (void *)&lbl_80475EC8, (void *)&lbl_80475EE0,
-    (void *)&lbl_80475EF4, (void *)&lbl_80475F10, (void *)&lbl_80475F24, (void *)0x0,
-    (void *)&lbl_80475F64, (void *)&lbl_804E8838, (void *)&lbl_804E8840, (void *)0x1000b,
+    (void *)&sinow_zoa_t_wait_motion, (void *)&sinow_zoa_apper_motion, (void *)&sinow_zoa_backstep_motion, (void *)&sinow_zoa_bareta_motion,
+    (void *)&sinow_zoa_damage_motion, (void *)&sinow_zoa_death_motion, (void *)&sinow_zoa_f_attack_motion, (void *)&sinow_zoa_sword_motion,
+    (void *)&sinow_zoa_transform_motion, (void *)&sinow_zoa_wait_motion, (void *)&sinow_zoa_walk_motion, (void *)0x0,
+    (void *)&sinow_zoa_low_bml, (void *)&lbl_804E8838, (void *)&lbl_804E8840, (void *)0x1000b,
 };
 void *lbl_804E8880[52] = {
     (void *)0x10000, (void *)0x0, (void *)0x3f000000, (void *)0x80000000,

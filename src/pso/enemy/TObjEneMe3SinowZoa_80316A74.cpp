@@ -7,6 +7,7 @@
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
+#include "pso/enemy/SinowZoaData.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
@@ -152,16 +153,6 @@ s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
-extern char lbl_80475FD4[];
-extern char lbl_80475FE4[];
-extern char lbl_80475FF4[];
-extern char lbl_80476004[];
-extern char lbl_80476010[];
-extern char lbl_80476028[];
-extern char lbl_80476040[];
-extern char lbl_80476058[];
-extern char lbl_80476070[];
-extern char lbl_80476084[];
 extern u32 *lbl_80542FF0[];
 extern s32 model_render_flags;
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F0;
@@ -450,23 +441,23 @@ void TObjEneMe3SinowZoa::vfunc_115() {
     f32 frame;
     if (((TObjEneDD *)arg0)->get_target_info() != 0) {
         if (((TObjEneMe3SinowZoa *)arg0)->sub_8031A4D0() != 0) {
-            debug_printf_at(pack_debug_text_position(0, 2), lbl_80475FD4);
+            debug_printf_at(pack_debug_text_position(0, 2), sinow_zoa_debug_stelth_enable);
         } else {
-            debug_printf_at(pack_debug_text_position(0, 2), lbl_80475FE4);
+            debug_printf_at(pack_debug_text_position(0, 2), sinow_zoa_debug_stelth_disable);
         }
         if (is_outside_visible_range__18TObjEneMe3SinowZoaFv(arg0) != 0) {
-            debug_printf_at(pack_debug_text_position(0xF, 2), lbl_80475FF4);
+            debug_printf_at(pack_debug_text_position(0xF, 2), sinow_zoa_debug_appear_ground);
         } else {
-            debug_printf_at(pack_debug_text_position(0xF, 2), lbl_80476004);
+            debug_printf_at(pack_debug_text_position(0xF, 2), sinow_zoa_debug_appear_roof);
         }
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 4), lbl_80476010);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 3), lbl_80476028);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 6), lbl_80476040);
-        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 5), lbl_80476058);
+        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 4), (char *)sinow_zoa_debug_tecniq_attack);
+        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 3), (char *)sinow_zoa_debug_stelth_on);
+        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 6), (char *)sinow_zoa_debug_stelth_off);
+        TObjEneMe1Gee::queue_debug_text(pack_debug_text_position(0, 5), (char *)sinow_zoa_debug_warp);
         if (sub_8031A454__18TObjEneMe3SinowZoaFv(arg0) != 0) {
-            debug_printf_at(pack_debug_text_position(0, 9), lbl_80476070);
+            debug_printf_at(pack_debug_text_position(0, 9), sinow_zoa_debug_tex_spigell);
         } else {
-            debug_printf_at(pack_debug_text_position(0, 9), lbl_80476084);
+            debug_printf_at(pack_debug_text_position(0, 9), sinow_zoa_debug_tex_berill);
         }
     }
     flag = sub_8031A454__18TObjEneMe3SinowZoaFv(arg0);

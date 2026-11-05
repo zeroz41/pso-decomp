@@ -403,6 +403,7 @@ pso/enemy/DelDepthData.cpp
 pso/enemy/DelDepthMotion.cpp
 pso/enemy/EnemyFactoryTables.cpp
 pso/enemy/SaverLifecycle.cpp
+pso/enemy/SinowZoaData.cpp
 pso/enemy/TEnemyTaskList.cpp
 pso/enemy/TObjEneBalClaw.cpp
 pso/enemy/TObjEneBalClawBody.cpp
