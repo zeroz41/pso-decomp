@@ -378,6 +378,7 @@ pso/boss/TUnk_80484A94.cpp
 pso/boss/TUnk_80484AFC.cpp
 pso/camera/CreationCamera.cpp
 pso/effect/TDPBShower.cpp
+pso/effect/TEF_PvrWave.cpp
 pso/effect/TEffClitical.cpp
 pso/effect/TEffGuard.cpp
 pso/effect/TEffHit.cpp
@@ -2605,8 +2606,6 @@ pso/unk/text_8007C0CC.cpp
 pso/unk/text_8007F8D0.cpp
 pso/unk/text_8007FA24.cpp
 pso/unk/text_8007FA94.cpp
-pso/unk/text_8008197C.cpp
-pso/unk/text_80081A30.cpp
 pso/unk/text_80081B7C.cpp
 pso/unk/text_80081BB0.cpp
 pso/unk/text_80086B64.cpp

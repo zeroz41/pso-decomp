@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/unk/text_80081A30.h"
+#include "pso/effect/TEF_PvrWave.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct Tex_80081A30 {
@@ -29,12 +29,25 @@ struct Wave_80081A30 {
 };
 
 extern "C" {
+Scene_80081A30 *TScene__sub_80081B24(void);
+}
+
+TEF_PvrWave::~TEF_PvrWave() {
+    TexList_80081A30 *list;
+    list = TScene__sub_80081B24()->texList;
+    list->entries[((Wave_80081A30 *)this)->index].c = ((Wave_80081A30 *)this)->saved.c;
+    list->entries[((Wave_80081A30 *)this)->index].b = ((Wave_80081A30 *)this)->saved.b;
+    list->entries[((Wave_80081A30 *)this)->index].a = ((Wave_80081A30 *)this)->saved.a;
+    ((TAdSinglePlyChrSelectGC *)(((Wave_80081A30 *)this)->wave))->destroy_and_free(1);
+}
+
+extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 void *construct_texture_wave(void *, void *);
 extern u8 __vt__11TEF_PvrWave[];
 extern void *TEF_PvrWave__class_name;
 Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *parent, void *image, s32 size, s32 index);
-extern s32 TScene__data_805D5FCC;
+extern Scene_80081A30 *TScene__data_805D5FCC;
 
 Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *parent, void *image, s32 size, s32 index) {
     void *p;
@@ -49,7 +62,7 @@ Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *p
     }
     self->wave = p;
     ((TAdSinglePlyChrSelectGC *)(self->wave))->init_image_buffer((u8 *)image, (s32)size);
-    list = ((Scene_80081A30 *)TScene__sub_80081B24())->texList;
+    list = TScene__sub_80081B24()->texList;
     self->saved.c = list->entries[index].c;
     self->saved.b = list->entries[index].b;
     self->saved.a = list->entries[index].a;
@@ -59,7 +72,7 @@ Wave_80081A30 *construct_pvr_wave__6TSceneFPvPvPvii(Wave_80081A30 *self, void *p
     return self;
 }
 
-s32 TScene__sub_80081B24(void) {
+Scene_80081A30 *TScene__sub_80081B24(void) {
     return TScene__data_805D5FCC;
 }
 
