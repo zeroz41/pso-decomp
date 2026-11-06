@@ -5,19 +5,11 @@
 #include "pso/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012D7EC.h"
 #include "pso/unk/TUnk_804A5B20.h"
 #include "pso/player/TObjPlayer_8012D8E4.h"
-
-struct RecoveredGlobal_8012D6BC_lbl_804A05A8 {
-    s32 value;
-    u8 remaining[0x1C];
-};
+#include "pso/TMainTask.h"
 
 extern "C" {
-u8 * TItemTimerEvent__ct(void *, s16, s32);
-extern RecoveredGlobal_8012D6BC_lbl_804A05A8 lbl_804A05A8;
-u8 *slow_curse_timer_ct(u8 *arg0, s16 arg1, s32 arg2, f32 farg0);
 struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
 struct Self_8012D708 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012D708 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
 struct Vec_8012D708 { f32 x, y, z; };
@@ -48,7 +40,6 @@ s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 }
 void enlarge_flight_cutter_slicer(void *arg0);
-typedef char RecoveredGlobal_8012D6BC_lbl_804A05A8_size[sizeof(RecoveredGlobal_8012D6BC_lbl_804A05A8) == 0x20 ? 1 : -1];
 
 void TUnk_804A5A28::emit_marker_effects() {
     Tec_8012D708 tec;
@@ -71,52 +62,17 @@ void TUnk_804A5A28::emit_marker_effects() {
     TItemAttacker::spawn_item_timer((TObject *)TTecSlicer::create((u16*)&tec), (ItemTimerCallback)enlarge_flight_cutter_slicer, 3);
 }
 
-extern s32 __vt__13TUnk_804A5A28[];
-
 TUnk_804A5A28::~TUnk_804A5A28() {}
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-extern s32 __vt__13TUnk_804A5A28[];
-
-void *TUnk_804A5A28::init_variant_2_5a28() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A5A28;
+TUnk_804A5A28::TUnk_804A5A28(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
-    return this;
 }
 
-}
-
-extern "C" {
-u8 * init_variant_2_5a28__13TUnk_804A5A28Fv(void *, s32, void *);
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
-u8 *TObjPlayer::create_variant_2_5a28(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_variant_2_5a28__13TUnk_804A5A28Fv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+u8 *TObjPlayer::create_variant_2_5a28(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A5A28(tl_05, item);
     }
     return NULL;
-}
-
-}
-
-extern "C" {
-
-s32 scale_current_matrix(void *);
-u8 get_item_index__5TItemFv();
-s32 post_translate_matrix(void *);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
 }
 
 

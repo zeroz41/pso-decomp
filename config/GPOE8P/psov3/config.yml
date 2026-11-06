@@ -1497,7 +1497,7 @@ force_active:
   - TObjPlayer__sub_8012AF50
   - TObjPlayer__sub_8012B0F8
   - TObjPlayer__sub_8012C4E4
-  - TObjPlayer__sub_8012D620
+  - __ct__13TUnk_804A5930FP7TObjectPUc
   - TObjPlayer__sub_8013A788
   - TObjPlayer__sub_8015434C
   - TObjPlayer__sub_80154E28
@@ -5264,7 +5264,7 @@ force_active:
   - __ct__13TUnk_804A4338FP7TObjectPUc
   - construct_self_effect__8TTecAntiFPvPvPviPv
   - construct_self_recovery__9TTecRestaFPvPviPv
-  - construct_shot_weapon__FPvlPv
+  - __ct__13TUnk_804A5C18FP7TObjectPUc
   - __ct__13TUnk_804A5B20FP7TObjectPUc
   - __ct__13TUnk_804A5838FP7TObjectPUc
   - construct_targeted__10TTecRaFoieFPvPvPvPvi
@@ -7159,8 +7159,8 @@ force_active:
   - init_timer__18TChallenge4PResultFv
   - init_timer_event__13TUnk_804A0608Fv
   - init_trade_action__13TUnk_804A535CFv
-  - init_variant_2_5a28__13TUnk_804A5A28Fv
-  - init_variant_a__10TObjPlayerFv
+  - __ct__13TUnk_804A5A28FP7TObjectPUc
+  - __ct__13TUnk_804A5F18FP7TObjectPUc
   - init_vertex_table__17TObjEneBm3FlyNestFv
   - init_vtable_1f8__13TUnk_804ED390FlPv
   - __ct__13TUnk_804A63F0FP7TObjectPUc
@@ -13812,7 +13812,7 @@ force_active:
   - project_to_screen__13TObjTombstoneFPvPfP3Vec
   - prs_read_control_bit
   - prune_weapon_attributes__9TItemDropFPvPv
-  - psycho_wand_ct__FPUcPUcl
+  - __ct__13TUnk_804A4F60FP7TObjectPUc
   - psycho_wand_roll_extra__13TUnk_804A4F60Fv
   - publish_light__15TEndingPicStageFv
   - push_actors_out__12TBoss3VoloptFl
@@ -17743,7 +17743,7 @@ force_active:
   - write_quest_data_named__22TQuestVmDownLoadServerFv
   - write_ring_buffer__6TLobbyFPUcl
   - write_telepipe_record__FPUcUssPUcl
-  - yasminkov_2000h_ct__FPvll
+  - __ct__13TUnk_804A6CC8FP7TObjectPUc
   - yasminkov_9000m_eject_casing__13TUnk_804A6AD8FP12WeaponVectorl
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data

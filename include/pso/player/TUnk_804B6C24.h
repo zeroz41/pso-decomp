@@ -21,11 +21,13 @@ public:
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual f32 receive_weapon_special_attack(void *, void *);
     virtual int calc_distance_accuracy_penalty(void *, void *, void *, float);
+    virtual s32 select_melee_contact_body(void *target, f32 range);
     virtual void render();
     virtual void run_task();
     u8 unk_334[0x4];
     f32 m_338;
-    u8 unk_33C[0x24];
+    f32 melee_range_sq; // 0x33C: squared reach tested by select_melee_contact_body (inferred name)
+    u8 unk_340[0x20];
     s32 m_360;
     s32 m_364;
 };

@@ -1,146 +1,95 @@
 #include "types.h"
-#include "pso/unk/text_80130EA0.h"
+#include "pso/unk/TUnk_804A6CC8.h"
+#include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/text_80130EF8.h"
-#include "pso/unk/TUnk_804A6CC8.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/unk/text_801310A8.h"
-#include "pso/object/TUnk_804A6DC0.h"
-#include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_80109344.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/TMainTask.h"
 
-extern "C" {
-
-s32 scale_current_matrix(s32);
-s32 post_translate_matrix(s32);
-}
-
-void yasminkov_2000h_node_callback(s32 arg0) {
-    s32 player_list;
-
-    player_list = TObjPlayer::get_player_list();
-    switch (player_list) {
+void TUnk_804A6CC8::vfunc_60() {
+    switch (TObjPlayer::get_player_list()) {
     case 1:
-        post_translate_matrix(arg0 + 0x20C);
+        post_translate_matrix(&slide.x);
         return;
     case 2:
-        scale_current_matrix(arg0 + 0x1FC);
+        scale_current_matrix(&scale.x);
         return;
     }
 }
 
-struct Obj_80131070 { u8 pad[0x208]; s32 state; };
-
-extern "C" {
-
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
-extern s32 tl_05;
-
 void TUnk_804A6CC8::update_idle() {
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)((u8 *)this) + 0x1F8);
-    if (temp_r0 == 1) {
-        *(s32 *)((s8 *)((u8 *)this) + 0x1F8) = (s32) (u8) (temp_r0 == 0);
-        this->m_204 = (f32) 1e-05f;
-        *(f32 *)((s8 *)((u8 *)this) + 0x200) = (f32) 1e-05f;
-        this->m_1fc = (f32) 1e-05f;
+    if (shown == 1) {
+        shown = !shown;
+        scale.x = scale.y = scale.z = 1e-05f;
     }
 }
+
 void TUnk_804A6CC8::update_attack() {
-    u8 *arg0 = (u8 *)this;
-    s32 temp_r0;
-    temp_r0 = *(s32 *)((s8 *)arg0 + 0x1F8);
-    if (temp_r0 == 0) {
-        *(s32 *)((s8 *)arg0 + 0x1F8) = (s32) (u8) (temp_r0 == 0);
-        this->m_204 = (f32) 1.0f;
-        *(f32 *)((s8 *)arg0 + 0x200) = (f32) 1.0f;
-        this->m_1fc = (f32) 1.0f;
+    if (shown == 0) {
+        shown = !shown;
+        scale.x = scale.y = scale.z = 1.0f;
     }
 }
-#pragma push
-#pragma opt_common_subs off
+
 void TUnk_804A6CC8::update_weapon() {
-    f32 buffer_14[3];
-    s32 buffer_8[3];
-    s32 temp_r31;
-    switch (*(s32 *)((s8 *)((u8 *)this) + 0x208)) {
+    WeaponVector dir;
+    s32 angle[3];
+    s32 a;
+
+    switch (slide_state) {
     case 1:
-        this->m_210 = (f32) (this->m_210 - 0.46666667f);
-        if (this->m_210 <= 0.0f) {
-            this->m_210 = (f32) 0.0f;
-            *(s32 *)((s8 *)((u8 *)this) + 0x208) = 0;
-            break;
+        slide.y -= 0.46666667f;
+        if (slide.y <= 0.0f) {
+            slide.y = 0.0f;
+            slide_state = 0;
         }
         break;
     case 2:
-        this->m_210 += 0.46666667f;
-        if (1.4f <= this->m_210) {
-            this->m_210 = (f32) 1.4f;
-            *(s32 *)((s8 *)((u8 *)this) + 0x208) = 3;
-            break;
+        slide.y += 0.46666667f;
+        if (1.4f <= slide.y) {
+            slide.y = 1.4f;
+            slide_state = 3;
         }
         break;
     case 3:
-        *(s32 *)((s8 *)((u8 *)this) + 0x208) = 1;
-        temp_r31 = *(s32 *)((s8 *)this->owner + 0x60) - 0x4000;
-        buffer_14[0] = sin_table_lookup(temp_r31);
-        buffer_14[1] = 1.0f;
-        buffer_14[2] = cos_table_lookup(temp_r31);
-        buffer_8[0] = 0x4000;
-        buffer_8[1] = *(s32 *)((s8 *)this->owner + 0x60);
-        buffer_8[2] = 0;
-        TObjPlayer::launch_weapon_casing(tl_05, (u32) this, 3, (u32) &buffer_14[0], (u32) &buffer_8[0]);
+        slide_state = 1;
+        a = owner->rotation_y - 0x4000;
+        dir.x = sin_table_lookup(a);
+        dir.y = 1.0f;
+        dir.z = cos_table_lookup(a);
+        angle[0] = 0x4000;
+        angle[1] = owner->rotation_y;
+        angle[2] = 0;
+        TObjPlayer::launch_weapon_casing((s32)tl_05, (u32)this, 3, (u32)&dir, (u32)angle);
         break;
     }
 }
-#pragma pop
 
 void TUnk_804A6CC8::emit_marker_effects() {
-    Obj_80131070 *self = (Obj_80131070 *)this;
     u8 buf[0x18];
-    self->state = 2;
-    ((TItemWeapon *)self)->get_gun_point(buf);
+
+    slide_state = 2;
+    get_gun_point(buf);
     spawn_particle_effect(buf, 9);
 }
 
+TUnk_804A6CC8::~TUnk_804A6CC8() {}
+
+TUnk_804A6CC8::TUnk_804A6CC8(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    shot_callback = NULL;
+    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    shot_speed = 20.0f;
+    shown = 0;
+    scale.x = scale.y = scale.z = 1e-05f;
+    slide_state = 0;
+    slide.x = slide.y = slide.z = 0.0f;
 }
 
-extern s32 lbl_804A6CC8[];
-
-void *__dt__13TUnk_804A6CC8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A6CC8;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-extern "C" {
-u8 *__nw__5TItemFUl(s32);
-int __ct__11TItemWeaponFP7TObjectPUc(void);
-extern unsigned char spawn_weapon_impact_effect[];
-    
-
-}
-
-    // lbl_804A6CC8 declared above (s32[])
-    
-void* yasminkov_2000h_ct(void* a0, s32 _w1, s32 _w2) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)lbl_804A6CC8; *(int*)((char*)a0 + 0x1f0) = 0; *(int*)((char*)a0 + 0x1ec) = (int)spawn_weapon_impact_effect; *(float*)((char*)a0 + 0x1e4) = 2e+01f; *(int*)((char*)a0 + 0x1f8) = 0; ((TUnk_804A6CC8 *)a0)->m_204 = 1e-05f; *(float*)((char*)a0 + 0x200) = 1e-05f; ((TUnk_804A6CC8 *)a0)->m_1fc = 1e-05f; *(int*)((char*)a0 + 0x208) = 0; *(float*)((char*)a0 + 0x214) = 0.0f; ((TUnk_804A6CC8 *)a0)->m_210 = 0.0f; ((TUnk_804A6CC8 *)a0)->m_20c = 0.0f; return a0; }
-
-u8 *create_yasminkov_2000h(s32 arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != 0) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x218));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((u8 *)yasminkov_2000h_ct(temp_r3, tl_05, arg0)));
-        }
-        return var_r0;
+u8 *create_yasminkov_2000h(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A6CC8(tl_05, item);
     }
     return NULL;
 }

@@ -385,7 +385,7 @@ void get_actor_level_index__9TObjCharaFv();
 void update_actor_ground_y__9TObjCharaFv();
 void vfunc_18__9TObjCharaFPUc();
 void is_actor_cadence_frame__9TObjCharaFl();
-void is_within_range__10TObjPlayerFl();
+void select_melee_contact_body__13TUnk_804B6C24FPvf();
 void calc_distance_accuracy_penalty__13TUnk_804B6C24FPvPvPvf();
 void receive_physical_attack__21TObjContainerAbeEnemyFPvf();
 void receive_direct_attack__13TUnk_804B6C24FPv19DirectAttackPayloadPvll();
@@ -1167,7 +1167,7 @@ void *__vt__21TObjContainerAbeEnemy[83] = {
     (void *)update_actor_ground_y__9TObjCharaFv,
     (void *)vfunc_18__9TObjCharaFPUc,
     (void *)is_actor_cadence_frame__9TObjCharaFl,
-    (void *)is_within_range__10TObjPlayerFl,
+    (void *)select_melee_contact_body__13TUnk_804B6C24FPvf,
     (void *)calc_distance_accuracy_penalty__13TUnk_804B6C24FPvPvPvf,
     (void *)receive_physical_attack__21TObjContainerAbeEnemyFPvf,
     (void *)receive_direct_attack__13TUnk_804B6C24FPv19DirectAttackPayloadPvll,
@@ -1423,9 +1423,8 @@ f32 TUnk_804B6C24::receive_direct_attack(void *arg1, DirectAttackPayload payload
     }
     return lbl_805DBCF4;
 }
-s32 TObjPlayer::is_within_range(s32 arg1) {
-    u8 *arg0 = (u8 *)this;
-    return xyz_distance_squared((Vec *)(arg1 + 0x38), (Vec *)&this->position) < *(f32 *)((s8 *)arg0 + 0x33C);
+s32 TUnk_804B6C24::select_melee_contact_body(void *target, f32) {
+    return xyz_distance_squared(&((TObjBase *)target)->position, &position) < melee_range_sq;
 }
 
 }
@@ -1442,7 +1441,7 @@ u8 *init_container_base(u8 *arg0, s32 arg1, s32 arg2) {
     ((TUnk_804B6C24 *)(arg0))->apply_object_set_data((void *)arg2);
     *(f32 *)((s8 *)arg0 + 0x334) = (f32) lbl_805DBD00;
     ((TUnk_804B6C24 *)arg0)->m_338 = (f32) lbl_805DBD04;
-    *(f32 *)((s8 *)arg0 + 0x33C) = (f32) lbl_805DBD00;
+    ((TUnk_804B6C24 *)arg0)->melee_range_sq = (f32) lbl_805DBD00;
     if (((TUnk_804B6C24 *)arg0)->scale.x > lbl_805DBCF4) {
         ((TUnk_804B6C24 *)arg0)->m_360 = 1;
     } else {

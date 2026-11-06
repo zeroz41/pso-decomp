@@ -514,12 +514,7 @@ struct TObjPlayer : public TObjChara {
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
     void *init_state(s32 arg1, void *arg2);
-    void update_weapon_kill_count();
     s16 get_kill_count();
-    void apply_frame_camera_shake();
-    void update_approach_value();
-    void cast_shifta_deband();
-    void *init_variant_a();
     void *init_from_item(void *arg1, void *arg2);
     void *initialize_effect_object();
     void draw_if_visible();
@@ -1186,7 +1181,6 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_state_0(u8 *arg0);
     static u8 *create_vtable_804A63F0(u8 *arg0);
     static u8 *create_position_state(u8 *arg0);
-    s32 is_within_range(s32 arg1);
     static void clear_photon_blast_slots();
     void place_on_area_entry();
     void release_child_object();

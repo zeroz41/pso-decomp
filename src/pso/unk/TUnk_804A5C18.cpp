@@ -1,228 +1,131 @@
 #include "types.h"
+#include "pso/unk/TUnk_804A5C18.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/system/MatrixOps.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/unk/TUnk_804A5C18.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer_80109344.h"
 #include "pso/unk/text_8011B620.h"
-#include "pso/unk/text_80120D50.h"
-#include "pso/unk/text_8012DF60.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012E190.h"
 #include "pso/item/TItem.h"
+#include "pso/TMainTask.h"
 
-extern "C" {
+void TUnk_804A5C18::vfunc_60() {
+    s32 node;
+    s32 angle;
 
-u8 get_item_index__5TItemFv(void *);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
-
-void TObjPlayer::apply_frame_camera_shake() {
-    s32 player_list;
-    s32 var_r30;
-
-    player_list = TObjPlayer::get_player_list();
-    if (get_item_index__5TItemFv(this) != 6) {
-        if (player_list == (s32) this->m_21c) {
-            translate_matrix(0, 0.0f, this->m_224, 0.0f);
+    node = TObjPlayer::get_player_list();
+    if (get_item_index() != 6) {
+        if (node == slide_node) {
+            translate_matrix(0, 0.0f, slide_offset, 0.0f);
         }
-        var_r30 = *(s32 *)&this->unk_220;
+        angle = barrel_angle;
     } else {
-        if (player_list == (s32) this->m_21c) {
-            rotate_matrix_x(0, -*(s32 *)&this->unk_220);
+        if (node == slide_node) {
+            rotate_matrix_x(NULL, -barrel_angle);
         }
-        var_r30 = (s32) (*(s32 *)&this->unk_220 * 2) / 3;
+        angle = (barrel_angle * 2) / 3;
     }
-    if ((player_list == (s32) this->m_20c) || (player_list == (s32) this->m_214)) {
-        rotate_matrix_z(0, var_r30);
+    if (node == barrel_nodes[0] || node == barrel_nodes[2]) {
+        rotate_matrix_z(NULL, angle);
     }
-    if ((player_list == (s32) *(s32 *)&this->unk_210) || (player_list == (s32) *(s32 *)&this->unk_218)) {
-        rotate_matrix_z(0, -var_r30);
+    if (node == barrel_nodes[1] || node == barrel_nodes[3]) {
+        rotate_matrix_z(NULL, -angle);
     }
 }
 
-}
+extern "C" s32 basic_shot_angle_table[];
 
-struct VBase_8012DE24 { char pad[0x18]; };
-
-struct VObj_8012DE24 : VBase_8012DE24 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual s32 m49(s32 *, s32, s32, s32);
-};
-
-struct Self_8012DE24 {
-    u8 pad[0x1F8];
-    s32 icons[5];
-};
-
-extern "C" {
-extern s32 basic_shot_angle_table[];
 void TUnk_804A5C18::emit_marker_effects() {
-    s32 sp8[3];
+    s32 pos[3];
     s32 i;
+
+    // signed i but an unsigned != loop test (cmpwi i,0 / cmplwi i,5), as in the tree
     for (i = 0; (u32)i != 5U; i++) {
-        ((TItemWeapon *)(((u8 *)this)))->get_joint_position(((struct Self_8012DE24 *)((u8 *)this))->icons[i], sp8);
-        ((VObj_8012DE24 *)((u8 *)this))->m49(sp8, i, basic_shot_angle_table[i], 1);
+        get_joint_position(muzzle_joints[i], pos);
+        launch_shot((u8 *)pos, i, basic_shot_angle_table[i], 1);
         if (i == 0) {
-            spawn_particle_effect(sp8, 9);
+            spawn_particle_effect(pos, 9);
         }
     }
 }
 
-}
-
-void TObjPlayer::update_approach_value() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)&this->unk_220 < 0x2000) {
-        TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x220), 0x2D8, 0x2000);
+void TUnk_804A5C18::update_idle() {
+    if (barrel_angle < 0x2000) {
+        TObjPlayer::add_angle_clamped(&barrel_angle, 0x2D8, 0x2000);
     }
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x224), (f32)(-0.4f), (f32)(-1.2f));
+    TItemEffOrgaFlowShot::approach_value(&slide_offset, -0.4f, -1.2f);
 }
 
 void TUnk_804A5C18::update_attack() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32) this->m_220 > 0) {
-        TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x220), -0x2000, 0);
+    if (barrel_angle > 0) {
+        TObjPlayer::add_angle_clamped(&barrel_angle, -0x2000, 0);
     }
-    TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x224), (f32)0.6f, (f32)0.0f);
+    TItemEffOrgaFlowShot::approach_value(&slide_offset, 0.6f, 0.0f);
 }
 
-extern "C" {
-u8 *__nw__5TItemFUl(s32);
-}
-extern s32 tl_05;
-extern u8 lbl_804A5C18[];
-
-void *construct_shot_weapon(void *arg0, s32 parent, void *item) {
-    __ct__11TItemWeaponFP7TObjectPUc((TItemWeapon *)((u8 *)arg0), (void *)parent, (u8 *)item);
-    *(void **)((s8 *)arg0 + 0x18) = lbl_804A5C18;
-    ((TItemWeapon *)arg0)->set_weapon_flags(2);
-    *(void **)((s8 *)arg0 + 0x1F0) = (void *)create_gun_shot;
-    *(void **)((s8 *)arg0 + 0x1EC) = (void *)spawn_weapon_impact_effect;
-    *(f32 *)((s8 *)arg0 + 0x1E4) = (f32) 15.0f;
-    ((TUnk_804A5C18 *)arg0)->m_220 = 0x2000;
-    *(f32 *)((s8 *)arg0 + 0x224) = (f32) 0.0f;
-    ((TUnk_804A5C18 *)arg0)->m_214 = -1;
-    *(s32 *)((s8 *)arg0 + 0x218) = -1;
-    ((TUnk_804A5C18 *)arg0)->m_220 = -1;
-    switch ((s32) (*(u8 *)((s8 *)item + 2))) {
+TUnk_804A5C18::TUnk_804A5C18(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(2);
+    shot_callback = (WeaponShotCallback)create_gun_shot;
+    impact_callback = (WeaponHitCallback)spawn_weapon_impact_effect;
+    shot_speed = 15.0f;
+    barrel_angle = 0x2000;
+    slide_offset = 0.0f;
+    barrel_nodes[2] = -1;
+    barrel_nodes[3] = -1;
+    barrel_angle = -1;  // the original stores 0x220 again here, not slide_node
+    switch (item[2]) {
     case 5:
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 9;
-        ((TUnk_804A5C18 *)arg0)->m_1fc = 4;
-        *(s32 *)((s8 *)arg0 + 0x200) = 8;
-        ((TUnk_804A5C18 *)arg0)->m_204 = 3;
-        *(s32 *)((s8 *)arg0 + 0x208) = 7;
-        ((TUnk_804A5C18 *)arg0)->m_20c = 1;
-        *(s32 *)((s8 *)arg0 + 0x210) = 5;
+        muzzle_joints[0] = 9;
+        muzzle_joints[1] = 4;
+        muzzle_joints[2] = 8;
+        muzzle_joints[3] = 3;
+        muzzle_joints[4] = 7;
+        barrel_nodes[0] = 1;
+        barrel_nodes[1] = 5;
         break;
     case 6:
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 0xA;
-        ((TUnk_804A5C18 *)arg0)->m_1fc = 8;
-        *(s32 *)((s8 *)arg0 + 0x200) = 4;
-        ((TUnk_804A5C18 *)arg0)->m_204 = 7;
-        *(s32 *)((s8 *)arg0 + 0x208) = 3;
-        ((TUnk_804A5C18 *)arg0)->m_20c = 5;
-        *(s32 *)((s8 *)arg0 + 0x210) = 1;
-        ((TUnk_804A5C18 *)arg0)->m_21c = 9;
+        muzzle_joints[0] = 10;
+        muzzle_joints[1] = 8;
+        muzzle_joints[2] = 4;
+        muzzle_joints[3] = 7;
+        muzzle_joints[4] = 3;
+        barrel_nodes[0] = 5;
+        barrel_nodes[1] = 1;
+        slide_node = 9;
         break;
     case 7:
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 0x13;
-        ((TUnk_804A5C18 *)arg0)->m_1fc = 0xE;
-        *(s32 *)((s8 *)arg0 + 0x200) = 0xA;
-        ((TUnk_804A5C18 *)arg0)->m_204 = 6;
-        *(s32 *)((s8 *)arg0 + 0x208) = 2;
-        ((TUnk_804A5C18 *)arg0)->m_20c = 3;
-        *(s32 *)((s8 *)arg0 + 0x210) = 0xB;
-        ((TUnk_804A5C18 *)arg0)->m_214 = 7;
-        *(s32 *)((s8 *)arg0 + 0x218) = 0xF;
-        ((TUnk_804A5C18 *)arg0)->m_21c = 1;
+        muzzle_joints[0] = 19;
+        muzzle_joints[1] = 14;
+        muzzle_joints[2] = 10;
+        muzzle_joints[3] = 6;
+        muzzle_joints[4] = 2;
+        barrel_nodes[0] = 3;
+        barrel_nodes[1] = 11;
+        barrel_nodes[2] = 7;
+        barrel_nodes[3] = 15;
+        slide_node = 1;
         break;
     default:
-        *(s32 *)((s8 *)arg0 + 0x1F8) = 7;
-        ((TUnk_804A5C18 *)arg0)->m_1fc = 3;
-        *(s32 *)((s8 *)arg0 + 0x200) = 5;
-        ((TUnk_804A5C18 *)arg0)->m_204 = 2;
-        *(s32 *)((s8 *)arg0 + 0x208) = 6;
-        ((TUnk_804A5C18 *)arg0)->m_20c = 1;
-        *(s32 *)((s8 *)arg0 + 0x210) = 4;
+        muzzle_joints[0] = 7;
+        muzzle_joints[1] = 3;
+        muzzle_joints[2] = 5;
+        muzzle_joints[3] = 2;
+        muzzle_joints[4] = 6;
+        barrel_nodes[0] = 1;
+        barrel_nodes[1] = 4;
         break;
     }
-    if ((u8) *(u8 *)((s8 *)item + 2) >= 5U) {
-        ((TObjPlayer *)arg0)->set_atp(-1);
+    if (item[2] >= 5) {
+        ((TObjPlayer *)this)->set_atp(-1);
     }
-    return arg0;
 }
 
 u8 *create_shot_weapon(u8 *item) {
-    u8 *temp_r3;
-    u8 *var_r0;
     if (item != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x22C));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(construct_shot_weapon(temp_r3, tl_05, item));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804A5C18(tl_05, item);
     }
     return NULL;
 }
 
-void *__dt__13TUnk_804A5C18Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = (s32 *)lbl_804A5C18;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5C18::~TUnk_804A5C18() {}
