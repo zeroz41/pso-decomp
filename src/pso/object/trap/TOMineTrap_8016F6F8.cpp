@@ -5,6 +5,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/trap/TOMine.h"
 #include "pso/object/trap/TOMineTrap.h"
+#include "pso/object/trap/TOMineDisp.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
@@ -26,7 +27,6 @@ void *__nw__7TObjectFUl(u32);
 extern s32 enable_v2_features;
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
 s32 is_split_screen();
-void *TOMineDisp__ct(void *, void *, u16);
 extern s32 local_client_id;
 }
 
@@ -291,27 +291,20 @@ s32 TOMineTrap::can_trigger(u32 arg1) {
 }
 
 void TOMine::spawn_disp_objects() {
-    u8 *obj;
+    TOMineDisp *disp;
     u16 i;
-    u8 *arg0 = (u8 *)this;
     if (is_split_screen() == 0) {
-        obj = (u8 *)__nw__7TObjectFUl(0xAC);
-        if (obj != NULL) {
-            obj = (u8 *)TOMineDisp__ct(obj, arg0, (u16)local_client_id);
-        }
-        if (obj != NULL) {
-            VecCopy((Vec *)(obj + 0x50), (const Vec *)(arg0 + 0x50));
-            VecCopy((Vec *)(obj + 0x38), (const Vec *)(arg0 + 0x38));
+        disp = new TOMineDisp(this, local_client_id);
+        if (disp != NULL) {
+            VecCopy(&disp->home_position, &home_position);
+            VecCopy(&disp->position, &position);
         }
     } else {
         for (i = 0; i != 4; i++) {
-            obj = (u8 *)__nw__7TObjectFUl(0xAC);
-            if (obj != NULL) {
-                obj = (u8 *)TOMineDisp__ct(obj, arg0, i);
-            }
-            if (obj != NULL) {
-                VecCopy((Vec *)(obj + 0x50), (const Vec *)(arg0 + 0x50));
-                VecCopy((Vec *)(obj + 0x38), (const Vec *)(arg0 + 0x38));
+            disp = new TOMineDisp(this, i);
+            if (disp != NULL) {
+                VecCopy(&disp->home_position, &home_position);
+                VecCopy(&disp->position, &position);
             }
         }
     }

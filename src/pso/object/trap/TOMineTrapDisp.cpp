@@ -1,6 +1,5 @@
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/object/trap/TOMineDisp_8016EF68.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/trap/TOMineTrapDisp.h"
 #include "pso/system/vector.h"
@@ -21,11 +20,6 @@ const char *TOMineTrapDisp__name = "TOMineTrapDisp";
 }
 
 
-struct RecoveredGlobal_8016EF68___vt__14TOMineTrapDisp {
-    s32 value;
-    u8 remaining[0x30];
-};
-
 struct VBase_8016EFB4 { u8 pad[0x18]; };
 
 struct VObj_8016EFB4 : VBase_8016EFB4 {
@@ -41,8 +35,6 @@ struct VObj_8016EFB4 : VBase_8016EFB4 {
 };
 
 extern "C" {
-s32 TOMineDisp__ct(void *, void *, void *);
-extern RecoveredGlobal_8016EF68___vt__14TOMineTrapDisp __vt__14TOMineTrapDisp;
 extern const char *TOMineTrapDisp__name;
 s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
@@ -57,7 +49,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DB854;
 extern const f32 lbl_805DB858;
-typedef char RecoveredGlobal_8016EF68___vt__14TOMineTrapDisp_size[sizeof(RecoveredGlobal_8016EF68___vt__14TOMineTrapDisp) == 0x34 ? 1 : -1];
 }
 
 #pragma defer_codegen on
@@ -118,14 +109,9 @@ void TOMineDisp::render() {
     pop_matrix();
 }
 
-extern "C" {
-u8 *TOMineTrapDisp__ct(u8 *mine_trap_disp, s32 arg1, s32 arg2, s16 arg3) {
-    TOMineDisp__ct((void *)mine_trap_disp, (void *)arg1, (void *)arg2);
-    *(s32 **)((s8 *)mine_trap_disp + 0x18) = &__vt__14TOMineTrapDisp.value;
-    *(s32 *)((s8 *)mine_trap_disp + 0) = (s32) ((s32)TOMineTrapDisp__name);
-    ((TOMineTrapDisp *)mine_trap_disp)->m_ac = arg3;
-    return mine_trap_disp;
-}
+TOMineTrapDisp::TOMineTrapDisp(TObject *parent, u16 client, u16 owner) : TOMineDisp(parent, client) {
+    m_name = TOMineTrapDisp__name;
+    m_ac = owner;
 }
 
 TOMineTrapDisp::~TOMineTrapDisp() {

@@ -5,6 +5,7 @@
 #include "pso/object/trap/TOMineDisp.h"
 
 struct TOMineTrapDisp : public TOMineDisp {
+    TOMineTrapDisp(TObject *parent, u16 client, u16 owner);
     virtual ~TOMineTrapDisp();
     virtual void run_task();
     u16 m_ac;
