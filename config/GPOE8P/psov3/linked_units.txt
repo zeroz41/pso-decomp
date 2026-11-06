@@ -846,7 +846,7 @@ pso/misc/TLanguage.cpp
 pso/misc/TLanguage_801A5694.cpp
 pso/misc/TLanguage_801E4874.cpp
 pso/misc/TLanguage_803DAF68.cpp
-pso/misc/TLazerFenceSw.cpp
+pso/misc/TContainerAncient01_8018A55C.cpp
 pso/misc/TLevelSelect.cpp
 pso/misc/TLoadCtrl.cpp
 pso/misc/TLobby_80227A2C.cpp

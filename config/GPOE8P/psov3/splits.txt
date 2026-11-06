@@ -4721,7 +4721,7 @@ pso/item/TObjContainerItem.cpp:
 	.data       start:0x804B6338 end:0x804B66F4
 	.sdata      start:0x805D32D8 end:0x805D3300
 
-pso/misc/TLazerFenceSw.cpp:
+pso/misc/TContainerAncient01_8018A55C.cpp:
 	.text       start:0x8018A55C end:0x8018A584
 
 pso/misc/TContainerAncient01.cpp:
