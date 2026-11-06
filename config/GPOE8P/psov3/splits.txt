@@ -10214,7 +10214,7 @@ pso/unk/TLobby_80328F7C.cpp:
 	.rodata     start:0x804767D0 end:0x80477090
 	.data       start:0x804ED690 end:0x804ED7D0
 	.bss        start:0x805430E8 end:0x80543468
-	.sbss       start:0x805D6C80 end:0x805D6C84
+	.sbss       start:0x805D6C80 end:0x805D6C88
 
 pso/system/data/pso_const_ids.cpp:
 	.text       start:0x80329478 end:0x80329600
@@ -10233,28 +10233,28 @@ pso/ui/frontend/TAdLicAgreementGC.cpp:
 	.data       start:0x804ED940 end:0x804ED974
 
 pso/ui/frontend/TAdMcSelectGC.cpp:
-	.text       start:0x80329D80 end:0x8032A0A4
+	.text       start:0x80329D80 end:0x8032A1D0
+	.rodata     start:0x804770F8 end:0x80477118
 	.data       start:0x804ED978 end:0x804ED990
+	.sdata      start:0x805D41C8 end:0x805D41CC
+	.sbss       start:0x805D6C88 end:0x805D6C8C
 	.sdata2     start:0x805DF718 end:0x805DF724
-
-pso/ui/frontend/TAdMcSelectGC_8032A0A4.cpp:
-	.text       start:0x8032A0A4 end:0x8032A1D0
 
 pso/ui/frontend/TAdMcSelectCursorGC.cpp:
 	.text       start:0x8032A1D0 end:0x8032A6F4
-	.rodata     start:0x80477148 end:0x80477150
+	.rodata     start:0x80477118 end:0x80477150
 	.data       start:0x804ED990 end:0x804ED9BC
-	.sbss       start:0x805D6C90 end:0x805D6C94
+	.sdata      start:0x805D41D0 end:0x805D41D4
+	.sbss       start:0x805D6C90 end:0x805D6C98
 	.sdata2     start:0x805DF728 end:0x805DF748
 
 pso/ui/frontend/TAdMcSelectMcGC.cpp:
-	.text       start:0x8032A6F4 end:0x8032A964
-	.rodata     start:0x80477170 end:0x80477178
-	.sdata2     start:0x805DF748 end:0x805DF75C
-
-pso/ui/frontend/TAdMcSelectMcGC_8032A964.cpp:
-	.text       start:0x8032A964 end:0x8032AACC
+	.text       start:0x8032A6F4 end:0x8032AACC
+	.rodata     start:0x80477150 end:0x80477178
 	.data       start:0x804ED9C0 end:0x804ED9EC
+	.sdata      start:0x805D41D8 end:0x805D41DC
+	.sbss       start:0x805D6C98 end:0x805D6C9C
+	.sdata2     start:0x805DF748 end:0x805DF764
 
 pso/unk/text_8032AACC.cpp:
 	.text       start:0x8032AACC end:0x8032AC94

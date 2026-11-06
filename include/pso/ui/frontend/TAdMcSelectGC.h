@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+struct TAdMcSelectCursorGC;
+
 struct TAdMcSelectGC : public TObject {
     virtual ~TAdMcSelectGC();
     virtual void render();
@@ -22,7 +24,7 @@ struct TAdMcSelectGC : public TObject {
     static void *create(void *arg0);
     static void open();
     static void close();
-    static int get_mc_count();
+    static TAdMcSelectCursorGC *get_mc_count();
     s32 get_slot_index();
     void set_field_13c(s32 v);
     void set_field_0x1c(s32 v);

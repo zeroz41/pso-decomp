@@ -2242,9 +2242,7 @@ pso/ui/frontend/TAdLoadQuestPrtTxtGC.cpp
 pso/ui/frontend/TAdMcCheckGC.cpp
 pso/ui/frontend/TAdMcSelectCursorGC.cpp
 pso/ui/frontend/TAdMcSelectGC.cpp
-pso/ui/frontend/TAdMcSelectGC_8032A0A4.cpp
 pso/ui/frontend/TAdMcSelectMcGC.cpp
-pso/ui/frontend/TAdMcSelectMcGC_8032A964.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC_8023E7A8.cpp
 pso/ui/frontend/TAdMultiChgGameModeGC_8023EAC4.cpp

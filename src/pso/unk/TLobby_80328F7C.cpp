@@ -306,6 +306,7 @@ void check_valid_state__6TLobbyFi(s32 arg0);
 s32 is_handle_valid__10TObjPlayerFv();
 
 s32 lbl_805D6C80;
+s32 lbl_805D6C84;
 
 s32 TLobby::get_cell_address(s32 arg1, s32 arg2) {
     struct VObj_80328F7C *o = (struct VObj_80328F7C *)this;
@@ -443,8 +444,6 @@ void *TUnk_804ED7D0::init_vtable8() {
     *(s32 **)((s8 *)this + 0x8) = lbl_804ED7D0;
     return this;
 }
-
-extern s32 lbl_805D6C84;
 
 void TLobby::init_player_forward() {
     __ct__8FlagWordFv((&lbl_805D6C84));
