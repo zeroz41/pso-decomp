@@ -12,7 +12,7 @@ struct AnimationMotion;
 // the node -1 and keeps one Vec per entry in the array it is given).
 struct TObjFishNodeEntry {
     s32 node;
-    u8 pad_04[0xC];
+    Vec offset; // inferred: a float triple per node (TBoss6Type2 sets y -5.0 / 1.0)
 };
 
 // One model of the Dark Falz death scene: its model, texture list and motion.

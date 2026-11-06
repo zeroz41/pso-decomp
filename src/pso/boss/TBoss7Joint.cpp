@@ -18,16 +18,18 @@ struct RecoveredGlobal_802EEC60___vt__11TBoss7Joint {
 
 struct J_802EEB88 { u8 pad[0x38C]; u8 sub; };
 
+// The joint's one collision body (init_params copies it), then its class name.
+extern const CollisionBody lbl_80473FB8 = { { 0.0f, 0.0f, 0.0f }, 50.0f, 0.0f, 0, 0x8003 };
+const char *TBoss7Joint__name = "TBoss7Joint";
+
 extern "C" {
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 extern s32 __vt__11TBoss7Joint[];
-extern s32 lbl_805D3FC0;
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, int, int, int);
-extern s32 lbl_80473FB8[];
 extern s32 boss7_joint_params[];
 struct VOff_802EE9A4_arg0_802EE9A4 { char pad_0[0x2FC]; char f_2FC[1]; };
 
@@ -94,7 +96,7 @@ typedef char RecoveredGlobal_802EEC60___vt__11TBoss7Joint_size[sizeof(RecoveredG
 #pragma opt_common_subs off
 s32 TBoss7Joint::init_params() {
     init_position_vectors();
-    copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), (const CollisionBody *)lbl_80473FB8);
+    copy_collision_body((CollisionBody *)(&((J_802EEB88 *)this)->sub), &lbl_80473FB8);
     set_collision_body(&((J_802EEB88 *)this)->sub);
     transform_part_positions();
     reset_hp__9TObjEneDDFPUcPUcPUc(this, register_boss__6TLobbyFl(0x10), dispatch_shared_handler_b__6TLobbyFl(0xF), register_object__6TLobbyFl(0x10));
@@ -112,7 +114,7 @@ s32 TBoss7Joint::init_params() {
 u8 *TBoss7Joint__ct(u8 *boss7_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5) {
     __ct__9TObjEneDDFP7TObject(boss7_joint);
     *(s32 **)((s8 *)boss7_joint + 0x18) = &(*(RecoveredGlobal_802EEC60___vt__11TBoss7Joint *)&__vt__11TBoss7Joint).value;
-    *(s32 *)((s8 *)boss7_joint + 0) = (s32) lbl_805D3FC0;
+    *(const char **)((s8 *)boss7_joint + 0) = TBoss7Joint__name;
     ((TObjEneDD *)boss7_joint)->init_common_from(arg1);
     ((TBoss7Joint *)boss7_joint)->entity_id = arg2;
     *(s16 *)((s8 *)boss7_joint + 0x2C) = arg3;

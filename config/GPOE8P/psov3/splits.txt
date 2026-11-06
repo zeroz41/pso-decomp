@@ -8974,6 +8974,10 @@ pso/boss/TBoss6Type1.cpp:
 	.sbss       start:0x805D6728 end:0x805D6740
 	.sdata2     start:0x805DE2D0 end:0x805DE3C4
 
+pso/boss/Boss6Type2Data.cpp:
+	.rodata     start:0x80471050 end:0x80471350
+	.sdata      start:0x805D3EB8 end:0x805D3EBC
+
 pso/boss/TBoss6Type2.cpp:
 	.text       start:0x802B97E0 end:0x802BE588
 	.rodata     start:0x80471350 end:0x804713D0
@@ -9419,6 +9423,8 @@ pso/boss/TBoss7Joint_802EE6E0.cpp:
 
 pso/boss/TBoss7Joint.cpp:
 	.text       start:0x802EE9A4 end:0x802EED20
+	.rodata     start:0x80473FB8 end:0x80473FF0
+	.sdata      start:0x805D3FC0 end:0x805D3FC4
 	.sdata2     start:0x805DEBB0 end:0x805DEBC0
 
 pso/boss/TBoss7LaserLight.cpp:
@@ -9571,7 +9577,16 @@ pso/boss/TBoss8DragonEffBullet.cpp:
 
 pso/boss/TBoss8DragonEffTail.cpp:
 	.text       start:0x802FE48C end:0x802FE908
+	.rodata     start:0x80474BA8 end:0x80474BC4
+	.data       start:0x804E5EA8 end:0x804E6194
+	.sdata      start:0x805D4020 end:0x805D4024
+	.sbss       start:0x805D69C8 end:0x805D69D0
 	.sdata2     start:0x805DEF08 end:0x805DEF1C
+
+pso/boss/ObjBoss1CommonJResource.cpp:
+	.rodata     start:0x80474BC8 end:0x80474C7B
+	.data       start:0x804E61F0 end:0x804E6218
+	.sdata      start:0x805D4028 end:0x805D402C
 
 pso/unk/text_802FE908.cpp:
 	.text       start:0x802FE908 end:0x802FE9E0

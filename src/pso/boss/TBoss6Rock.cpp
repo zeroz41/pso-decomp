@@ -5,6 +5,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
+#include "pso/boss/Boss6Type2Data.h"
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/boss/TBoss6Rock.h"
 #include "pso/boss/TBoss6Type2.h"
@@ -37,9 +38,8 @@ extern "C" {
 f32 normalize_vector(Vec *v);
 // TBoss6PlotFalz.cpp; same declaration as TBoss6Type1/TBoss6Type2 use.
 void TBoss6PlotFalz__sub_802AC724(void *player, void *pos);
-// TBoss6Type2.cpp: the arena radius and centre.
+// TBoss6Type2.cpp: the arena radius (its centre is declared in Boss6Type2Data.h).
 extern const f32 lbl_805DE3F0;
-extern const Vec TBoss6Type2__data_8047105C;
 // query_teammate_state__9TObjEneDDFv() is a static the header declares as a
 // member; every caller (28) uses this name until that is fixed.
 int query_teammate_state__9TObjEneDDFv(void);
@@ -321,7 +321,7 @@ void TBoss6Rock__sub_80354188(void) {
             if (n >= 32) {
                 return;
             }
-            Vec p = TBoss6Type2__data_8047105C;
+            Vec p = boss6_arena_center;
             p.x += r * sin_table_lookup(angle);
             p.z += r * cos_table_lookup(angle);
             VecCopy(&TBoss6Rock__rock_point_table[n], &p);
