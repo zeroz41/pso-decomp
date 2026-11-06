@@ -13,14 +13,13 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
 
 extern const f32 lbl_805DE9F0;
 extern "C" {
 
 s32 subtract_vector(void *, void *);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-f32 atan2_float(f32 y, f32 x);
 
 }
 
@@ -36,7 +35,6 @@ typedef TBoss7LaserPtclVector Vec_8035AAEC;
 struct Ang_8035AAEC { s32 x, y, z; };
 extern "C" {
 
-f32 atan2_float(f32 y, f32 x);
 void vec3_add_to(void *, void *);
 void normalize_vector(void *);
 }
@@ -55,7 +53,6 @@ struct Ptcl_8035AD68 {
 };
 
 extern "C" {
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss7LaserPtcl[];
 extern s32 TBoss7LaserPtcl__class_name;

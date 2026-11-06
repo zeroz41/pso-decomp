@@ -35,6 +35,9 @@
 #include "pso/unk/TUnk_804B8E00.h"
 #include <stddef.h>
 #include "pso/render/render_util.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 struct RecoveredGlobal_801982D4_lbl_804B8DAC { s32 value; u8 remaining[0x20]; };
 typedef char RecoveredGlobal_801982D4_lbl_804B8DAC_size[sizeof(RecoveredGlobal_801982D4_lbl_804B8DAC) == 0x24 ? 1 : -1];
 #pragma inline_depth(1)
@@ -44,7 +47,6 @@ struct Vec_80198504 { f32 x, y, z; };
 extern "C" {
 s32 get_bml_model(void *, s32);
 s32 draw_chunk_object(s32);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -56,7 +58,6 @@ s32 rotate_matrix_x(int, int);
 extern "C" {
 struct Vec_80198E84;
 extern Vec_80198E84 gogo_ball_sync_state[];
-s32 play_sound_effect(int, void *, int, int);
 void *__nw__7TObjectFUl(s32);
 struct Sys_80198A2C;
 extern Sys_80198A2C gogo_ball_configuration;
@@ -77,7 +78,6 @@ struct RecoveredGlobal_80198960_lbl_8050DD58 {
 };
 extern "C" {
 s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 typedef char RecoveredGlobal_80198960_lbl_804B8DAC_size[sizeof(RecoveredGlobal_80198960_lbl_804B8DAC) == 0x24 ? 1 : -1];
@@ -90,7 +90,6 @@ struct Vec_80199674;
 struct Vec_8019978C;
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 extern Sys_80198A2C gogo_ball_configuration;
 extern Vec_80198E84 gogo_ball_sync_state[];
 void TWindowTimer__sub_8019A6F8(void*);
@@ -101,7 +100,6 @@ extern s32 gogo_ball_bml_resource;
 extern void* language_lobby_texture_descriptor[];
 extern Pair_80198F14 gogo_ball_team_scores[];
 void bswap_6x79_gogo_ball__12TWindowTimerFi(s32);
-s32 rotate_matrix_y(int, int);
 void TObjPlayer__sub_801994DC(s32,void*,void*,s32,void*,f32);
 int TWindowTimer__sub_8019A770(void*);
 f32 xyz_distance(Vec_80199674*,void*);
@@ -131,8 +129,6 @@ struct Pad_80198A2C { u8 pad0[0x10]; s16 buttons; };
 struct Sys_80198A2C { u8 pad0[0x48]; u16 mode; };
 extern "C" {
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *spawn_particle_effect(void *pos, s32 id);
-s32 play_sound_effect(int, void *, int, int);
 void *lbl_804B8A10[210] = {
     (void *)0xbf000000, (void *)0x3f600000, (void *)0x0, (void *)0x40600000,
     (void *)0x40200000, (void *)0x8d480ff, (void *)0x0, (void *)0x41a00000,
@@ -273,12 +269,9 @@ struct Fx_801994DC {
 struct Col_801994DC { f32 r, g, b, a; };
 struct Ang_801994DC { s32 x, y, z; };
 extern "C" {
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u32 blob_shadow_texture_list;
@@ -331,7 +324,6 @@ s32 scale_matrix(int, f32, f32, f32);
 s32 rotate_matrix_about_axis(int, void *, int);
 s32 translate_matrix_vec3(int, void *);
 f32 vec_squared_length(void *);
-s32 push_matrix_from(void *);
 void set_chunk_material_override_pair(s32, s32);
 s32 draw_chunk_object(s32);
 extern u8 identity_matrix[];
@@ -392,7 +384,6 @@ void add_gogo_ball_three_point_score(s32 i);
 void add_gogo_ball_one_point_score(s32 i);
 void init_6x40_walk_packet(void *cmd);
 extern "C" {
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 void TWindowTimer__sub_8019A098(void);
 void rotate_vec_xz(void *, void *, s32);

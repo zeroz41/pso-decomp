@@ -18,6 +18,9 @@
 #include "pso/technique/TTecZarua.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
 
 typedef char PanarmsActionTimerOffset[offsetof(TObjEnePanBARA, action_timer) == 0x3B4 ? 1 : -1];
 
@@ -322,16 +325,12 @@ s32 project_actor_to_ground(void *, void *, int);
 void submit_cursor_candidate(void *, s32);
 u8 * get_player_by_client_id(s32);
 void minimap_render_dot(void *, s32, s32, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 defer_render__7TObjectFv(void *);
 void __dl__7TObjectFPv(void *);
 s32 __nw__7TObjectFUl(s32);
 void __destroy_arr(void *, void *, s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, void *);
 s32 normalize_vector(void *);

@@ -16,6 +16,7 @@
 #include "pso/unk/text_8019AD50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjTuitate.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -57,7 +58,6 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
@@ -143,7 +143,6 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);

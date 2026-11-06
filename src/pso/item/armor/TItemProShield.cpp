@@ -12,6 +12,8 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_803D96A8.h"
 
 // What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
 struct ShieldSoundCue {
@@ -25,12 +27,10 @@ struct ShieldSoundCue {
 extern "C" {
 // Defined in files that have no headers yet.
 void *lookup_item_pmt_record(u8 *item);
-s32 play_sound_effect(s32 id, Vec *position, s32 a, s32 b);
 s32 play_shield_sound_cue(ShieldSoundCue *cue);
 s32 add_actor_hp(TObjPlayer *actor, s16 amount);
 s32 add_actor_tp(TObjPlayer *actor, s32 amount);
 s16 obj_getS16_2BA(TObjPlayer *actor);
-s32 push_matrix_from(void *src);
 void TObjPlayer__sub_8036414C(void);
 void TObjPlayer__sub_80364198(void);
 // The item file helpers (TItemDrop_800F93F0.cpp).

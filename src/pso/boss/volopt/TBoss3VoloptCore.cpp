@@ -13,6 +13,15 @@
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
 
 // The actors check_target_collision hits, with slot 25 as it is called here:
 // the base declares apply_knockback_from_attacker(u8 *) without the strength.
@@ -40,25 +49,11 @@ extern "C" {
 extern s32 local_client_id;
 extern u32 model_render_flags;
 void *find_entity_by_id(u16 id);
-TObjPlayer *get_player_by_client_id(s32 client_id);
 void minimap_render_dot(f32 *pos, s32 color, s32, s32);
 void play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
-void play_sound_effect(u32 id, f32 *pos, s32, s32);
-s32 angle_difference_abs(s32 a, s32 b);
-s32 approach_angle_limited(s32 angle, s32 target, s32 step);
 TObject *create_particle_emitter(Vec *pos, s32 id);
-f32 cos_table_lookup(s32 angle);
-void push_matrix(void);
-void pop_matrix(void);
 void set_matrix_identity(s32 matrix, f32 scale);
-void rotate_matrix_x(s32 matrix, s32 angle);
-void rotate_matrix_y(s32 matrix, s32 angle);
-void scale_matrix(s32 matrix, f32 x, f32 y, f32 z);
-void post_translate_matrix(f32 *pos);
 void rotate_vector_by_matrix(s32 matrix, Vec *src, Vec *dst);
-void vec3_add_to(Vec *dst, Vec *add);
-void subtract_vector(Vec *dst, Vec *sub);
-void draw_chunk_object(void *object);
 void free_collision_body_parts(TObjEnemyCustom *object);
 void init_collision_body_parts(TObjEnemyCustom *object, TBoss3VoloptCoreBodyPart *parts, s32 count);
 void obj_setFlags30(TObjEnemyCustom *object, u32 flags);

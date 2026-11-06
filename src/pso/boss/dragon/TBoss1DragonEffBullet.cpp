@@ -6,6 +6,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
 
 struct RecoveredGlobal_8002BCE0_lbl_80435410 {
     s32 value;
@@ -43,14 +45,11 @@ s32 isV2Mode__12TBoss1DragonFv(void);
 extern RecoveredGlobal_8002BCE0_lbl_80435410 lbl_80435410;
 extern RecoveredGlobal_8002BCE0_lbl_8043541C lbl_8043541C;
 s32 *dragon_fireball_particle_ids;
-s32 play_sound_effect(int, void *, int, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
 extern s32 __vt__21TBoss1DragonEffBullet[];
 extern s32 TBoss1DragonEffBullet__name;
 void queue_destruction__7TObjectFv(void *);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 
 void TBoss1DragonEffBullet::render() {  }
 

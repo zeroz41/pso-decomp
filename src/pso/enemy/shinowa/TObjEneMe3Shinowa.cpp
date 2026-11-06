@@ -40,6 +40,14 @@
 #include "pso/technique/TTecSifta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaMirage_800E7A70.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 extern "C" void has_flag_0x800__9TObjCharaFv();
@@ -520,17 +528,11 @@ extern "C" const u32 lbl_805DA624[1];
 #define lbl_805DA624 (*(const f32 *)lbl_805DA624)
 
 extern "C" {
-f64 atan2_float(f32, f32);
 u32 csnVecterUnder(void *, int);
-s32 spawn_particle_effect(void *, int);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
-s32 approach_angle_limited(int, int, int);
 s32 play_sound_effect(void *, void *, int, int);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
-s32 set_matrix_identity(int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern const f64 TObjEneMe3ShinowaMirage__data_8043CFE0;
 extern void *TObjEneMe3ShinowaMirage__data_805D52AC;
@@ -539,7 +541,6 @@ extern const f32 TObjEneMe3ShinowaMirage__data_805DA5E4;
 void TObjEneMe3ShinowaMirage__sub_800E5F64(u8 *arg0, s32 arg1);
 struct Tgt_800E54E8 { u16 id; u8 pad[6]; };
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void *create_particle_emitter(void *, s32);
 s32 enemy_set_target_id(void *, u16);
 s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 }
@@ -553,8 +554,6 @@ extern const f32 lbl_805DA5BC;
 extern const f32 TObjEneMe3ShinowaReal__data_805DA5CC;
 void TObjEneMe3ShinowaReal__sub_800E5950(u8 *arg0, s32 arg1);
 s32 move_to_shot_position__9TObjEneDDFfff(void *, void *, f32, f32, f32);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 extern const f32 lbl_805DA5D4;
 void TObjEneMe3ShinowaMirage__sub_800E5CE4(u8 *arg0, s32 arg1);
 struct Base_800E7034_800E47DC { char pad[0x18]; };
@@ -1461,8 +1460,6 @@ struct Mirage_800E7884 {
 struct Game_800E7884 { u8 pad[0x42C]; u8 *mdl; s32 f430; };
 
 s32 get_main_phase();
-f32 random_ratio__9TObjCharaFv(s32);
-s32 is_split_screen();
 void queue_destruction__7TObjectFv(void *arg0);
 }
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
@@ -1514,7 +1511,6 @@ void __dl__7TObjectFPv(void *);
 s32 create__10TTecDebandFlll(void *, void *, s32);
 void compose_motion_node_matrix(void *arg0);
 s32 translate_matrix(int, f32, f32, f32);
-s32 push_matrix_from(void *);
 
 extern RecoveredGlobal_800E4D7C_TObjEneMe3ShinowaMirage__data_80500FC0 TObjEneMe3ShinowaMirage__data_80500FC0;
 extern Info_800E6F0C *TObjEneMe3ShinowaMirage__mirage_info_table[];
@@ -1863,13 +1859,7 @@ extern "C" {
 void update_action_hold_status__9TObjCharaFv();
 }
 extern "C" {
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-}
-extern "C" {
 void update_actor_ground_y__9TObjCharaFv();
-}
-extern "C" {
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 }
 extern "C" {
 s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);

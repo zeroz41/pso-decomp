@@ -9,6 +9,8 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 struct Base_8016E9F4_8016E998 { char pad[0x18]; };
 struct VObj_8016E9F4_8016E998 : Base_8016E9F4_8016E998 {
@@ -34,8 +36,6 @@ extern u32 TOLightMachine01__shared_bml_archive;
 extern s32 light_machine_ginja_model_handle;
 extern s32 light_machine_ginja_param;
 s32 __ct__8TObjBaseFP7TObject(void *, int);
-s32 rand();
-f32 sin_table_lookup(s32);
 extern s32 __vt__16TOLightMachine01[];
 extern s32 TOLightMachine01__name;
 extern s32 tl_05;

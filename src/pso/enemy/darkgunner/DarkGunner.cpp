@@ -10,6 +10,17 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunner.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/map/CsnQuery.h"
 extern "C" void update_movement_status__17TObjEneDarkGunnerFv();
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -123,11 +134,9 @@ s32 minimap_render_dot(void *, s32, s32, s32);
 void TObjPlayer__sub_800A16C4(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 update_if_active__15TObjEnemyCustomFl(void *, s32);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 TObjPlayer__sub_800A3210(s32 i, s32 _w1, s32 _w2);
 u8 *TObjPlayer__sub_800A4204(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3, s32 arg4);
 s32 submit_cursor_candidate(void *, s32);
-s32 play_sound_effect(int, void *, int, int);
 void * __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_800A1FEC(void *arg0);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
@@ -228,7 +237,6 @@ f32 atan2_float(f32, f32);
 int TObjFish__sub_8001EDB0(void*, void*);
 int get_bml_model(void*);
 void TLobby__sub_8001FE7C(void*, int);
-u8 * csnVector(void *, Vec_800A34E8 *, s32);
 void * __dt__13TUnk_80490470Fv(void *, s16);
 s32 trigger_targets_action__10TObjPlayerFv();
 u8 * TObjEneDarkGunCenter__ct(u8 *arg0, s32 arg1, s32 arg2);
@@ -254,25 +262,18 @@ u8 * __ct__12TEneEffHamonFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, f32 farg0);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 s32 __ct__9TObjEnemyFP7TObject(void *);
-s32 angle_diff_s16(s32, s32);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, int);
 void free_if_valid__10TObjPlayerFl(void*);
 s32 __dl__7TObjectFPv(void *);
-s32 rand();
 s32 vec3_add_to(void *, void *);
 s32 matrix_mult_vec(int, void *, void *);
 f32 vector_length(void *);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
-s32 subtract_vector(void *, void *);
-s32 push_matrix_from(void *);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(s32);
-void draw_chunk_object(void *child);
 
 extern s32 __vt__20TObjEneDarkGunCenter[];
 
@@ -998,17 +999,14 @@ struct VObj_18_800A28A4 : VBase_18_800A2F94 {
 extern "C" {
 extern s32 saved_model_render_flags;
 extern u32 model_render_flags;
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void set_chunk_material_override_pair(s32 first, s32 second);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-f32 sin_table_lookup(s32 angle);
 f32 fabs_float(f32 x);
 extern s32 lbl_805D5020;
 extern s32 lbl_805D5024;
 extern s32 lbl_805D5028;
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
-TParticleCtrl *create_particle_emitter(void *pos, s32 id);
 }
 
 

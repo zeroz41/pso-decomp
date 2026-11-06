@@ -17,13 +17,16 @@
 #include "pso/enemy/dellbiter/TObjEneDellBiter.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 #pragma readonly_strings on
 
 extern "C" {
 
 s32 is_player_entity_id();
-void *find_entity_by_id(u16 id);
 s32 apply_hit_if_active__13TUnk_804928CCFPvPf();
 f32 random_ratio__9TObjCharaFv();
 u16 get_entity_id(void *);
@@ -68,7 +71,6 @@ struct Pair_80096150 { s32 a; s32 b; };
 extern "C" {
 
 u8 * csnVector(s32, s32, s32);
-void *find_entity_by_id(u16 id);
 s32 TObjEneRe7Berura__sub_80094D98();
 
 void TObjEneRe7Berura__sub_80094C68(TObjEneRe7Berura *self);
@@ -87,11 +89,8 @@ struct VObjHang_80095EA0 {
     virtual s32 m7();
 };
 
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 defer_render__7TObjectFv(void *);
 
@@ -273,11 +272,7 @@ extern s32 __vt__21TObjEneRe7BeruraPunch[];
 extern const char *lbl_805D2990;
 u8 *TObjEneRe7BeruraPunch__ct(u8 *arg0, s32 arg1, s32 arg2);
 void queue_destruction__7TObjectFv(void *);
-void *create_particle_emitter(void *pos, s32 id);
-void *find_entity_by_id(u16 id);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void vec3_add_to(void *, void *);
 
 struct BeruraBase_800962F4 { char pad[0x14]; };

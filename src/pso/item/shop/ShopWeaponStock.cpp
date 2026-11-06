@@ -5,6 +5,8 @@
 #include "pso/unk/text_8020EEFC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 
 struct SRock_80224544_8022448C;
 
@@ -100,7 +102,6 @@ s32 memset(void *, int, int);
 extern RecoveredGlobal_8022559C_lbl_80513F50 shop_weapon_stock_generated_flags;
 extern G_80225550 shop_weapon_stock_buffers;
 void get_shop_weapon_stock_item(C14_80225550 *dst, s32 idx, s32 tbl);
-s32 is_split_screen(void);
 s32 mem_alloc(s32);
 void mem_free(void *p);
 extern u32 lobby_weapon_random_tables_ptr;
@@ -116,7 +117,6 @@ extern char lbl_8044C7F0[];
 extern char lbl_8044C80C[];
 extern s32 shop_difficulty_tier;
 u8 get_entry_field16__9TItemDataFv(void *);
-s32 rand();
 extern s32 section_id_favored_grind_table[];
 extern s32 lbl_805D6238;
 void roll_shop_weapon_grind(Item_80225064 *it);

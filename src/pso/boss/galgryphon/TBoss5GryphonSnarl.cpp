@@ -9,6 +9,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
 
@@ -26,8 +27,6 @@ extern const char *lbl_805D2820;
 extern s32 boss5_gryphon_bml_resource;
 extern s32 boss5_gryphon_texture_list;
 void TBoss8Dragon__sub_8006402C(s32 instance, Vec *pos, f32 radius, f32 scale);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 get_bml_model(s32, s32);
 void attach_particle_model(void *, s32, s32, s32, s32, f32);
 

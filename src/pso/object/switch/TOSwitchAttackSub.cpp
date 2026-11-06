@@ -8,10 +8,10 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/switch/TOSwitchAttack.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 f32 horizontal_distance_squared(const f32*, const f32*);
-void *get_player_by_client_id(s32 i);
 u8 is_current_floor_switch_set(int);
 extern u8* camera_ctrl_instance;
 extern void* local_client_id;

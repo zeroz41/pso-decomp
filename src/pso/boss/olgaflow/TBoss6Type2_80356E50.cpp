@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Type2_80356E50.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include <stdlib.h>
 
 extern "C" {
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
@@ -15,7 +16,6 @@ void TBoss6Type2__sub_80356E50(s32 arg0, s32 arg1, s32 force) {
 
 struct Pkt_80356F28 { u8 b[0x40]; };
 
-s32 rand(void);
 extern const u8 lbl_805E0018;
 extern const u8 lbl_805E0019;
 extern const f32 lbl_805E001C;

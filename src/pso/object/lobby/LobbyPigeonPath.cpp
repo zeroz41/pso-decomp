@@ -15,6 +15,12 @@
 #include "pso/object/TUnk_804E0910.h"
 #include "pso/object/TUnk_804E08D4.h"
 #include "pso/object/TUnk_804E0898.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 struct Vec_802C0CAC { f32 x, y, z; };
 
 struct Entry_802C0CAC { s32 a; union { f32 pa; s32 b; }; union { f32 pb; s32 c; }; f32 d; s32 e; };
@@ -95,9 +101,6 @@ extern const Ent_802C0F3C lobby_pigeon_path_profiles[3] = {
 extern const Vec_802C0F3C lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
 extern const f64 lbl_80471960[1] = {10430.38043493439};
 
-extern "C" {
-f64 atan2_float(f32, f32);
-}
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0);
 extern "C" {
@@ -244,16 +247,13 @@ u8 *TObjPathObj__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 get_bml_model(void *, s32);
 s32 get_bml_motion(void *, s32);
 
-s32 rand();
 extern s32 lobby_pigeon_vtable[];
 extern void* lobby_pigeon_bml_archive;
 LobbyPigeon* construct_lobby_pigeon(LobbyPigeon* self, void* parent, const void* source);
 
 void draw_line_strip__10TObjPlayerFPviif(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 s32 rotate_matrix_z(s32, s32);
 void scale_matrix(void *, f32, f32, f32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -533,7 +533,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 debug_draw_line(s32 *, s32 *, s32, s32);
 
 u8 * load_gvm_texture_file(s32);
-s32 play_sound_effect(int, void *, int, int);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 
@@ -550,8 +549,6 @@ void * __dt__13TUnk_804E0988Fv(void *arg0, s16 arg1);
 u8 *TObjPlayer__sub_802C2F04(u8 *arg0, s32 arg1, const void* _w2);
 void *__dt__11TObjPathObjFv(void *arg0, s16 arg1);
 void matrix_mult_vec(void *, void *, void *);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void set_matrix_identity(u8 *arg0);
 
 s32 release_texture_list(void*);
 

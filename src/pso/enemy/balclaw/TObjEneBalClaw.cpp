@@ -13,6 +13,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/TLobby.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/math/AngleLookup.h"
 
 
 struct Ent_8008D68C { s16 *plist; s16 model_index; s16 part_index; s16 a; s16 b; s16 c; s16 d; };
@@ -78,7 +79,6 @@ struct Obj_8008D79C { u8 pad0[0x388]; s32 flags; u8 pad38C[0x3B8 - 0x38C]; s32 f
 extern "C" {
 extern s32 balclaw_last_shared_update_frame;
 extern s32 actor_frame_tick;
-f32 sin_table_lookup(s32);
 void TLobby__sub_8001FE7C(void*, int);
 void __dl__7TObjectFPv(void *);
 void *__dt__15TObjEnemyCustomFv(void *arg0, s16 arg1);

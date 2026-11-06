@@ -6,6 +6,8 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
 
 struct RecoveredGlobal_802FE378_lbl_80474B68 {
     s32 value;
@@ -48,7 +50,6 @@ struct RecoveredFields_802FE0E4_arg0 {
 };
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 subtract_vector(void *, void *);
 extern RecoveredGlobal_802FE378_lbl_80474B68 lbl_80474B68;
@@ -56,8 +57,6 @@ extern RecoveredGlobal_802FE378_lbl_80474B74 lbl_80474B74;
 extern RecoveredGlobal_802FE378_lbl_80474B80 lbl_80474B80;
 extern s32 __vt__21TBoss8DragonEffBullet[];
 extern s32 TBoss8DragonEffBullet__name;
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 u8 *get_enemy_entity(u16 arg0);
 void TBoss8Dragon__sub_802FB220(void *o, int x, u32 a);
 

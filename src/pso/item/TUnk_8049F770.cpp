@@ -3,9 +3,9 @@
 #include "pso/item/TUnk_8049F770.h"
 #include "pso/item/armor/TItemProShield.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 add_actor_hp(u8 *arg0, s16 arg1);
 s32 get_item_index__5TItemFv(void *);
 extern s32 game_difficulty_selection;
 }

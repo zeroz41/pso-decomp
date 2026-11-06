@@ -2,11 +2,11 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/quest/TObjQuestColApc.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Obj_80196448 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0xac - 0x44]; f32 radius; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 obj_isState3_324__9TObjCharaFv(void *);
 void TObjQuestColBase__ct(void *);
 

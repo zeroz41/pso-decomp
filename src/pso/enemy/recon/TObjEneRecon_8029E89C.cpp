@@ -8,6 +8,7 @@
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/object/key/TOKeyMachine01.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Vec_8029EA4C { f32 x, y, z; };
 
@@ -30,7 +31,6 @@ extern const f32 lbl_805DDD94;
 s32 reflect_matrix_in_plane(s32, s32 *);
 s32 push_matrix();
 extern const f32 lbl_805DDD90;
-void *get_player_by_client_id(s32 i);
 s32 reset_ind_tev_stages__13TParticleCtrlFPv();
 
 s32 TObjEneRecon::render_player_marker(u16 arg0, s32 arg1) {

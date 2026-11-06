@@ -11,6 +11,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
 
 
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };
@@ -72,7 +73,6 @@ void TObjPlayer__sub_80052390(void);
 void push_matrix(void);
 void post_translate_matrix(const f32 *);
 u8 fn_8035C2B4(void);
-s32 play_sound_effect(s32, s32, s32, s32);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
 u8 fn_8035C2B4(void) {

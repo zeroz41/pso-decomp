@@ -9,6 +9,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -143,7 +144,6 @@ extern const f32 lbl_805DE704;
 void run_task__19TObjEneBm9MericarolFv(u8 *arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjEneBm9Mericarol__sub_802D073C(s32 arg0);
-f32 random_ratio__9TObjCharaFv(s32);
 extern const f32 lbl_805DE6F4;
 extern const f32 lbl_805DE714;
 extern const f32 lbl_805DE728;
@@ -156,7 +156,6 @@ void TObjEneBm9Mericarol__sub_802D01D8(u8 *actor, s32 arg1);
 void TObjEneBm9Mericarol__sub_802D05BC(u8 *arg0, s32 arg1);
 void dispatch_state_handler__19TObjEneBm9MericarolFiUii(s32 arg0, u32 arg1, s32 arg2);
 s32 obj_isState2_324__9TObjCharaFv(s32);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 is_valid_target__9TObjEneDDFv(s32);
 f32 horizontal_distance_squared(void *, void *);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -279,9 +278,7 @@ extern "C" void select_melee_contact_body__9TObjCharaFPvf();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__9TObjCharaFv();
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_movement_status__9TObjCharaFv();
@@ -759,7 +756,6 @@ void *TObjEneBm9Mericarol::create(void *arg0) {
 struct MotionEntry_802D1130 { s32 flags; s32 index; f32 speed; s32 pad; };
 struct MotionPair_802D1130 { s32 id; s32 motion; };
 struct SpawnPos_802D1130 { MotionPair_802D1130 *motions; s32 w[3]; };
-s32 is_split_screen();
 void TObjPlayer__sub_800F0928(void);
 extern const s32 lbl_804722E8[];
 extern const s32 lbl_804722F4[];

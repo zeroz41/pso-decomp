@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
 u32 get_enemy_entity();
-s32 is_split_screen();
 
 extern u32 boss8_dragon_leader_part;
 

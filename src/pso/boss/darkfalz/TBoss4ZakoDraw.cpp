@@ -10,6 +10,10 @@
 #include "pso/boss/darkfalz/TBoss4ZakoDraw.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D96A8.h"
 
 void set_constant_material(const NJS_ARGB *color);
 
@@ -34,7 +38,6 @@ struct Ent_8030AC7C { u8 pad[0xc]; s32 f0c; s32 f10; };
 struct Tbl_8030AC7C { s32 count; Ent_8030AC7C ents[96]; u8 pad[0x784 - 4 - 96 * 0x14]; };
 
 extern "C" {
-s32 is_split_screen();
 u8 *get_bml_model(s32, s32);
 s32 set_viewport_scissor__11TCameraCtrlFiPv(int, int);
 void TObjPlayer__sub_8030A9B0();
@@ -47,10 +50,7 @@ extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;
 extern s32 TBoss4ZakoDraw__draw_buffer_index;
 u8 *get_bml_model(s32, s32);
 void TObjPlayer__sub_80052390(f32);
-void rotate_matrix_y(int, int);
-void rotate_matrix_x(int, int);
 void push_matrix(void);
-void pop_matrix(void);
 void post_translate_matrix(void *);
 void draw_chunk_object(int);
 extern RecoveredGlobal_8030ABF4_lbl_80541E58 boss4_zako_draw_buffers;

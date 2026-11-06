@@ -21,6 +21,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_803242C0 {
     f32 sp8;
@@ -70,23 +77,16 @@ struct Tmp_80324A00 { s32 a; u8 pad4[2]; s16 b; u8 pad8[8]; };
 
 extern "C" {
 f32 vector_length(void *);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 render_shadows__9TObjEnemyFv();
 s32 VecCopy__FP3VecPC3Vec(s32, s32);
 s32 project_actor_to_ground(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 f32 subtract_vector(void *, void *);
 f32 normalize_vector(void *);
-int get_player_data__10TObjPlayerFi(int a0);
-s32 play_sound_effect(int, void *, int, int);
-f64 atan2_float(f32, f32);
-s32 approach_angle_limited(s32, s32, s32);
 f64 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
-void *create_particle_emitter(void *pos, s32 id);
 s32 init_collision_body_parts(void *, void *, int);
 static u32 TBoss6Mine__collision_body_template[11] = {
     0, 0, 0, 0x41700000, 0, 0, 0x801B, 0, 0, 0, 0,
@@ -96,7 +96,6 @@ extern s32 lbl_805D4178;
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void TBoss6Type1__sub_802B5DD4(void *);
 int post_translate_matrix(void*);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 int rotate_matrix_x(void*, void*);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void free_collision_body_parts(void *);
@@ -342,7 +341,6 @@ void TBoss6Mine::state_0() {
 #pragma pop
 
 int query_teammate_state__9TObjEneDDFv(void);
-void submit_cursor_candidate(void *obj, s32 id);
 void add_radar_scaled_marker(void *pos, u32 color, s32 a2, s32 a3, f32 scale);
 
 void TBoss6Mine::run_task() {

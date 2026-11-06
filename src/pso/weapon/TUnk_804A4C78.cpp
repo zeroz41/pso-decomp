@@ -6,10 +6,9 @@
 #include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/system/task/TMainTask.h"
+#include <stdlib.h>
 
 extern "C" {
-
-s32 rand();
 
 
 s32 TObjPlayer::is_rand_below_threshold() {

@@ -12,6 +12,8 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
 
 struct RecoveredGlobal_80194528___vt__9TObjLight {
     s32 value;
@@ -75,10 +77,8 @@ f32 xyz_distance_squared(void *, void *);
 void register_actor_light(s32, void *);
 f32 horizontal_distance_squared(void *, void *);
 Actor_80193FE8 *get_player_by_client_id(s32);
-f32 sin_table_lookup(s32);
 void matrix_mult_vec(void *, void *, void *);
 f32 vector_length(void *);
-void rotate_matrix_y(void *, s32);
 void rotate_matrix_z(void *, s32);
 void normalize_vector(void *);
 extern const Vec_80193FE8 lbl_80445D44;

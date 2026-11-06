@@ -30,23 +30,21 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 extern "C" {
-u16 get_entity_id(void *obj);
-void obj_setFlags30(void *obj, u32 flags);
-s32 play_sound_effect(s32 id, void *pos, s32 a2, s32 a3);
 f32 normalize_vector(Vec *v);
-void vec3_add_to(Vec *a, const Vec *b);
-void matrix_mult_vec(s32 matrix, const Vec *in, Vec *out);
-s32 rotate_matrix_y(s32 matrix, s32 angle);
 s32 push_matrix();
 s32 post_translate_matrix(const void *pos);
 void *find_entity_by_id(u16 id);
 void init_collision_body_parts(void *obj, void *parts, s32 count);
 void free_collision_body_parts(void *obj);
-s32 submit_cursor_candidate(void *obj, s32 a1);
 s32 minimap_render_dot(void *pos, s32 color, s32 a2, s32 a3);
-f32 fabs_float(f32 x);
 void *__construct_array(void *array, void *ctor, void *dtor, u32 size, u32 count);
 extern Mtx34 identity_matrix;
 extern s32 registered_player_count;

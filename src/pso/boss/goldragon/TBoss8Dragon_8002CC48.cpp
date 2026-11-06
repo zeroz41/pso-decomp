@@ -1,5 +1,12 @@
 #include "pso/system/vector.h"
 #include "pso/system/NinjaTypes.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include <stdlib.h>
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/render/MaterialColorFade.h"
@@ -115,7 +122,6 @@ extern "C" {
 s32 get_state__12TBoss8DragonFv(void);
 f32 lerp__9TDeadSpotFff(f32 farg0, f32 farg1);
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 extern s32 __vt__22TObjBoss1MokoHill_Solo[];
 extern s32 TObjBoss1MokoHill_Solo__name;
 extern const f32 lbl_805D8180;
@@ -159,24 +165,18 @@ extern const f32 lbl_805D81E4;
 extern const f32 lbl_805D81F4;
 extern const f32 lbl_805D81F8;
 
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void push_matrix(void);
-s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void set_chunk_material_override_pair(s32, s32, s32, s32);
-void draw_chunk_object(void *);
 void queue_destruction__7TObjectFv();
 void *__nw__7TObjectFUl(int);
 void mem_free(void *p);
 void *mem_alloc(u32);
-f32 newton_sqrtf(f32);
 f32 calc_nearest_crater_distance(void *);
 f32 horizontal_distance_squared(void *, void *);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32, f32);
 s32 update_scale__15TObjBoss2TunnelFv(void *, f32);
-void rotate_matrix_y(int, int);
-void rotate_matrix_x(int, int);
 u8 *TObjBoss1MokoHill_SoloM__ct(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3);
 void update_dragon_trail_uvs(Obj_8002D4C0 *self);
 s32 TBoss8Dragon__sub_8002DAEC(void *arg0);

@@ -9,6 +9,7 @@
 #include "pso/object/ambient/TObjMistCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80087278.h"
 
 
 struct RecoveredGlobal_802AF7C0___vt__12TObjMistCtrl {
@@ -31,7 +32,6 @@ struct TPlayerFootStamp_802AF8BC {
 };
 
 extern "C" {
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__12TObjMistCtrl[];
 extern s32 lbl_805D3E80;

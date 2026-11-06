@@ -8,6 +8,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern char lbl_80445DB8[];
 extern char lbl_80445DC8[];
@@ -44,7 +46,6 @@ s32 get_bml_model(void *, int);
 void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
 extern u32 TMotorcycle__bml_resource;
@@ -52,7 +53,6 @@ extern u32 TMotorcycle__texture_list;
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 * load_gvm_texture_file(s32);
 extern RecoveredGlobal_801950B8_lbl_80445E18 lbl_80445E18;
-f32 fabs_float(f32);
 s32 init_collision_body_parts(void *, void *, int);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern s32 lbl_80445DF4[];

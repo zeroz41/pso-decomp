@@ -23,6 +23,7 @@
 #include "pso/render/ModelDrawContext.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D8F74.h"
 
 const char *bm_obj_warp_jung_model_names[3] = { "fe_obj_warp_dodai.gj", "fe_obj_warp_jogo_light.gj", NULL };
 __declspec(section ".data") const char *bm_obj_warp_jung_motion_names[2] = { "fe_obj_warp_jogo_light.njm", NULL };
@@ -52,7 +53,6 @@ extern const char lbl_80446738[];
 
 extern "C" {
 s32 PPCSync();
-s32 rotate_matrix_y(s32, s32);
 s32 get_localized_text_entry(s32, s32);
 s32 request_active_window_close();
 s32 align_menu_entry_positions(u32);

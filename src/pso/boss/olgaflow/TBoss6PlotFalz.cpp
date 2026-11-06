@@ -1,4 +1,10 @@
 #include "pso/system/NinjaTypes.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
 void set_constant_material(const NJS_ARGB *color);
 #include "types.h"
 #include "pso/render/NinjaUtil.h"
@@ -143,7 +149,6 @@ extern s32 model_render_flags;
 extern s32 plot_falz_phase;
 extern s32 registered_player_count;
 void set_chunk_material_override_pair(int, int, s32, s32);
-s32 rand(void);
 }
 
 #define get_player_data__10TObjPlayerFi ((Player_802AAE78 *(*)(s32))get_player_data__10TObjPlayerFi)
@@ -493,12 +498,9 @@ void fn_803594B4(void *, s32, f32);
 s32 vector_length(void *);
 s32 subtract_vector(void *, const void *);
 void TBoss6PlotFalz__sub_802AB684(s32 arg0);
-void *spawn_particle_effect(void *pos, s32 id);
-int play_sound_effect(int, int, int, int);
 int TBoss6Thanks__sub_8035D270();
 f64 atan2_float(f32, f32);
 s32 get_nth_view_player_id__11TCameraCtrlFl();
-s32 angle_diff_s16(s32, s32);
 s32 vec3_add_to(void *, const void *);
 f32 vec3_dot(void *, void *);
 s32 normalize_vector(void *);
@@ -659,7 +661,6 @@ void TBoss6PlotFalz::apply_fade_alpha(s32 arg1, f32 farg0) {
         fn_803594B4(temp_r3, arg1, var_f1);
     }
 }
-f32 sin_table_lookup(s32);
 #pragma push
 #pragma fp_contract on
 s32 TBoss6PlotFalz::rand_vary_count(s32 arg0, f32 farg0) {
@@ -767,7 +768,6 @@ s32 TBoss6PlotFalz__sub_802AB6CC(void *arg0, f32 r) {
 #undef get_player_data__10TObjPlayerFi
 #undef is_state_1f__14TBoss6PlotFalzFUi
 #undef get_player_by_client_id
-f32 cos_table_lookup(s32);
 
 f32 TBoss6PlotFalz::cosine_ease(f32 t) {
     if (t < 0.0f) {
@@ -1349,7 +1349,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 __ct__9TObjEnemyFP7TObject();
-u16 register_entity_by_id(void *ov);
 s32 TBoss6PlotFalz__ct(s32, s32, s32);
 void TItemEffOrgaFlowShot__sub_80357204(void);
 int TLobby__sub_8001FE7C(void*, void*);

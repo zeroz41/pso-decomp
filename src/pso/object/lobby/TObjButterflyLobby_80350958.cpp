@@ -11,6 +11,9 @@
 #include "pso/unk/TLobbyEventTheme.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/unk/text_803516F8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 extern char lbl_80478D80[];
 extern char lbl_80478D98[];
@@ -55,10 +58,7 @@ struct Butterfly_80350BC4 {
 
 extern "C" {
 u32 csnVector(void *, void *, int);
-s32 rand();
-f32 sin_table_lookup(int);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
 extern u8 identity_matrix[];
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);

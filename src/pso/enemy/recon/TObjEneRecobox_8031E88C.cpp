@@ -14,6 +14,10 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -146,9 +150,6 @@ struct Holder_8031EA70 { u8 pad[0x460]; Fade_8031EA70 arr[4]; };
 
 extern "C" {
 s32 get_target_info__9TObjEneDDFv();
-s32 debug_printf_at(s32, const char *, ...);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern char lbl_804763D4[];
@@ -161,7 +162,6 @@ extern char lbl_80476440[];
 extern s32 debug_chunk_object;
 extern const f32 TObjEneRecon__data_805DF438;
 extern const f32 lbl_805DF43C;
-s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 update__15RenderFadeStateFv(int);

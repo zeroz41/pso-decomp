@@ -2,10 +2,10 @@
 #include "pso/enemy/flower/TObjEneRe2Flower_800C3BA8.h"
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 obj_isState2_324__9TObjCharaFv(void *);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 is_valid_target__9TObjEneDDFv(void *);
 f32 horizontal_distance_squared(void *, void *);
 extern const f32 lbl_805D9FF4;

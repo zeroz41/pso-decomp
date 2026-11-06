@@ -12,6 +12,9 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct VBase_80092B10 { char pad[0x18]; };
 struct VObj_80092B10 : VBase_80092B10 {
@@ -844,8 +847,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 check_death_trigger__16TObjEneRe7BeruraFv();
 s32 is_over_limit__16TObjEneRe7BeruraFv(void *);
 s32 TObjEneRe7Berura__sub_8009518C(O_8009518C *);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 extern const f32 TObjEneRe7Berura__data_805D9724;
 extern const f32 TObjEneRe7Berura__data_805D972C;
 extern const f32 TObjEneRe7Berura__data_805D9740;
@@ -857,7 +858,6 @@ void TObjEneRe7Berura__sub_800940E8(TObjEneRe7Berura *arg0, s32 arg1);
 f32 random_ratio__9TObjCharaFv(s32);
 s32 get_field_3D4_shifted__16TObjEneRe7BeruraFPv(void *);
 s32 enemy_validate_retained_target(u8 *arg0);
-s32 pop_matrix(void);
 void TObjEneDD__sub_800BA378(s32 arg0, u8 *arg1);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 void set_matrix_identity(u8 *arg0);
@@ -877,7 +877,6 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern const f32 lbl_805D976C;
 void TObjEneRe7Berura__sub_8009472C(u8 *arg0, s32 arg1);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void *create_particle_emitter(void *, s32);
 s32 launch__21TObjEneRe7BeruraPunchFll(s32, s32, void *, void *);
 s32 vec3_add_to(void *, void *);
 struct T16_800959F8 { s32 f0; s32 f4; f32 f8; s32 fC; };
@@ -2042,10 +2041,7 @@ void __construct_array(void *, void *, void *, int, int);
 void compose_motion_node_matrix(void *arg0);
 s32 matrix_mult_vec(int, void *, void *);
 void copy_matrix__10TObjPlayerFUlUl(int, void *);
-s32 subtract_vector(void *, void *);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 concat_matrix__10TObjPlayerFUlUl(s32, s32);
-s32 pop_matrix();
 s32 set_global_param__8TObjFishFl(s32, void *);
 }
 void *destroy_buffer_pair(void *arg0, s16 arg1);

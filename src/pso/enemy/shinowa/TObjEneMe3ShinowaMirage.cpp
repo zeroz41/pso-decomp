@@ -9,6 +9,9 @@
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaMirage.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/enemy/shinowa/TObjEneMe3Shinowa.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
 
 struct Base_800e3a88_800E3A58 { char pad[0x14]; };
 struct VObj_800e3a88_800E3A58 : Base_800e3a88_800E3A58 {
@@ -273,18 +276,14 @@ int transition_enemy_state__9TObjEneDDFl(void*, int);
 s32 draw_model__23TObjEneMe3ShinowaMirageFv();
 s32 queue_destruction__7TObjectFv(void *);
 void run_task__17TObjEneMe3ShinowaFv(u8 *arg0);
-void *find_entity_by_id(u16 id);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 s32 create_particle_emitter(s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern const f32 TObjEneMe3ShinowaReal__data_805DA5CC;
 extern const f32 lbl_805DA5D0;
 f32 random_ratio__9TObjCharaFv(void *);
 s32 enemy_clear_target__12TObjEneDD_STFUs(void *);
 s32 transform_relative_position__9TObjEneDDFPv(void *, void *);
 s32 is_player_entity_id(u16);
-s32 play_sound_effect(s32, void *, int, int);
 extern const f32 lbl_805DA5D4;
 void *__dt__23TObjEneMe3ShinowaMirageFv(void *arg0, s16 arg1);
 s32 enemy_set_target_id(void *, int);

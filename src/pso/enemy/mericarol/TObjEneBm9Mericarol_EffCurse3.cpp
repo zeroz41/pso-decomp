@@ -11,6 +11,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_80087278.h"
 
 struct VBase_18_477421
 {
@@ -37,8 +38,6 @@ extern "C" {
 s32 subtract_vector(void *, void *);
 s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
-
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 
 #pragma push
 #pragma fp_contract on

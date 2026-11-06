@@ -6,6 +6,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/Language.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct C_8015ACE4 { u8 pad0[0xA4]; s8 buf[0x20]; };
@@ -19,14 +21,11 @@ struct Packet_8015AD54 {
 
 extern "C" {
 u8 is_current_floor_switch_set(int);
-f32 newton_sqrtf(f32);
 void *strncpy(void *, void *, s32);
-s32 get_current_floor(void);
 s32 find_chat_keyword(void *, void *, s32);
 void *__nw__7TObjectFUl(u32);
 extern void *quest_mission_manager;
 extern void *tl_00;
-void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;
 

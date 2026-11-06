@@ -2,15 +2,14 @@
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 extern "C" {
-f32   newton_sqrtf(f32);
-f32 atan2_float(f32 y, f32 x);
 void  push_matrix(void);
 void  post_translate_matrix(Vec*);
 void  rotate_matrix_by_node_angles(void*, s32);
-void  draw_ginja_object(void*);
-s32 pop_matrix(void);
 extern const char* TItemShootModel__class_name;
 extern const f32   lbl_805DAC60;
 extern const f64   lbl_8043E7A0[];

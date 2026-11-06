@@ -6,6 +6,7 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Hit_802E4798 { u8 *obj; s32 idx; };
 
@@ -112,7 +113,6 @@ void *TUnk_804E355C::destroy_attack_collision(s16 arg1) {
 extern "C" {
 s32 memset(void *, int, int);
 s32 get_type__10TObjPlayerFPv(void *);
-void *get_player_by_client_id(s32 i);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern const f32 lbl_805DE914;
 u8 *construct_attack_collision(u8 *arg0, s32 arg1, u8 *arg2);

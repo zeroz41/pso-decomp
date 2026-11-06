@@ -3,6 +3,11 @@
 #include "pso/object/ending/TObjOnlineEndingHexMove.h"
 #include "types.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/render/render_util.h"
 
 struct Param_802E5CB0 { f32 a; f32 b; s32 c; f32 d; };
 typedef char Param_802E5CB0_size[sizeof(Param_802E5CB0) == 0x10 ? 1 : -1];
@@ -70,14 +75,7 @@ extern s32 local_client_id;
 extern s32 lbl_805D3FA0;
 extern s32 __vt__23TObjOnlineEndingHexMove[];
 
-int rand(void);
-f32 fabs_float(f32);
-s32 angle_difference_abs(int, int);
-s32 angle_diff_s16(s32, s32);
-u32 get_player_by_client_id(int);
 s32 bswap_6x92__14TAdGameStartGCFPv(void *);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 s32 draw_color_lines(Desc_802E55B8 *, s32, s32, f32);
 s32 is_on_current_screen__11TCameraCtrlFv(void *, s32);
 void send_6x92__14TAdGameStartGCFPv(void *p);

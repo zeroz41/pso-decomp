@@ -5,6 +5,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/enemy/TNeedleShoot.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
 
 
 struct VBase_18_174c10 { char pad[0x18]; };
@@ -37,7 +38,6 @@ struct VObj_18_174c10 : VBase_18_174c10 {
 struct Pair_802A4AEC { s32 a; f32 b; };
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 
 void*TNeedleShoot::get_shoot_data() { return (char*)this + 0x28; }
 

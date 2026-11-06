@@ -15,6 +15,12 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 struct RecoveredGlobal_80167878_lbl_804B1F80 {
     s32 value;
@@ -174,8 +180,6 @@ struct Obj_801682E4 { u8 pad0[0xC0]; f32 f0C0; f32 f0C4; f32 f0C8; u8 pad1[0x2C]
 extern "C" {
 
 s32 memset(void *, int, int);
-s32 obj_setFlags30(void *, s32);
-s32 get_current_floor();
 void * get_bml_motion(s32, s32);
 void TLobby__sub_8001FE7C(void*, int);
 Big_8016775C * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
@@ -193,7 +197,6 @@ void reset_state(u8 *arg0);
 void sub_801682E4__13TUnk_804B2578Fl(Obj_801682E4 *o, s32 arg1);
 void init_base__27TOHangceilingCave01KeyQuickFll(void *);
 void set_scale__13TUnk_804B2578Ff(void *, f32);
-void * get_player_by_client_id(s32);
 u8 *load_gvm_texture_file(s32 arg0);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u8 is_current_floor_switch_set(int);
@@ -597,11 +600,8 @@ void TUnk_804B2578::sub_80168488() {
 s32 TOHangceilingCave01__create(u8 *arg0);
 bool sub_801688C0__13TUnk_804B2578Fv(u8 *arg0);
 s32 push_matrix(void);
-s32 pop_matrix(void);
 f32 post_translate_matrix(void *);
 s32 rotate_matrix_y(int, int);
-void draw_ginja_object(void *child);
-void draw_ginja_model(s32 model);
 s32 draw_ginja_model_with_motion(void *, void *, f32);
 struct VBase_80168588 { char pad[0x18]; };
 struct VObj_80168588 : VBase_80168588 {
@@ -634,7 +634,6 @@ struct VObj_18_26a62c : VBase_18_26a62c {
 };
 
 bool sub_801688C0__13TUnk_804B2578Fv(u8 *);
-void *spawn_particle_effect(void *pos, s32 id);
 f32 xz_distance_squared(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 extern s32 camera_ctrl_instance;
@@ -864,9 +863,7 @@ struct RecoveredGlobal_80168C6C_lbl_804B2578 {
 
 extern "C" {
 s32 __ct__9TObjCharaFP7TObject(void *);
-s32 init_collision_body_parts(void *, void *, int);
 extern s32 lbl_804B2578[];
-s32 free_collision_body_parts(void *);
 
 void *TOHangceilingCave01KeyQuick::destroy_hanging_object(s16 arg1) {
     if (this != NULL) {

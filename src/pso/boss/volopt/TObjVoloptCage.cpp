@@ -18,6 +18,12 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include <stdlib.h>
 
 // TBreakUpMdl.h still derives TBreakUpMdl from TObject; the real class keeps
 // its vtable at +0xC, which only this view of it can delete through.
@@ -30,15 +36,6 @@ public:
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-void rotate_matrix_y(s32 matrix, s32 angle);
-s32 rand(void);
-void play_sound_effect(s32 id, const Vec *pos, s32 a2, s32 a3);
-TObjPlayer *get_player_by_client_id(s32 id);
-s32 obj_setFlags30(TObjBase *actor, s32 flags);
-void send_6x2C_impose_hold(TObjPlayer *player, const Vec *pos, s32 a2, s32 a3, f32 time);
-void submit_cursor_candidate(TObjVoloptCage *cage, s32 a1);
-void init_collision_body_parts(TObjCollidable *actor, const CollisionBody *bodies, s32 count);
-void free_collision_body_parts(TObjCollidable *actor);
 void create_breakup_mdl__12TBoss3VoloptFlllll(TBreakUpMdlPieces *model, VoloptBreakUpParams *params, s32 textures,
                                               Vec *pos, s32 angle);
 s32 check_flag__10TObjPlayerFl(void *player, s32 flag);

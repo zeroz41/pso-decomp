@@ -13,10 +13,10 @@
 #include "pso/system/TLoadCtrl_80227390.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/unk/text_801F43B4.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 extern s32 local_client_id;
-TObjPlayer *get_player_by_client_id(s32 client_id);
 s32 unhide_room_set_objects(s32 floor, s32, s32);
 void TLobby__sub_8020C07C(s32 floor, s16, s16, s32 mask, s32 set);
 void TObjPlayer__sub_801BA42C(void);

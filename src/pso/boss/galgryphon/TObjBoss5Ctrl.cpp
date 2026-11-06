@@ -1,13 +1,13 @@
 #include "pso/boss/galgryphon/TObjBoss5Ctrl.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/boss/galgryphon/TObjBoss5PillarDemo.h"
+#include "pso/system/SoundEffect.h"
+#include <stdlib.h>
 #pragma fp_contract on
 
 extern s32 boss5_ctrl_instance;
 
 extern "C" {
-s32 play_sound_effect(int, int, int, int);
-s32 rand();
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_current_floor(f32, f32, f32);
 s32 is_room_enemy_set_cleared(s32, s32);

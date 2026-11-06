@@ -8,6 +8,11 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/balclaw/TObjEneBalClawClaw.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -22,19 +27,14 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include <stddef.h>
 extern "C" {
 void obj_clearFlags30__8TObjBaseFUl(void *, u32);
-void obj_setFlags30(void *, u32);
 s32 post_translate_matrix(void *);
 s32 draw_chunk_object(s32);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 rotate_matrix_y(s32, s32);
-s32 translate_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 set_global_param__8TObjFishFl(s32);
 s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
-void play_sound_effect(int, void *, int, int);
 }
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -113,13 +113,11 @@ extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 push_matrix_from(void *);
 extern RecoveredGlobal_80091E08_lbl_8058D490 identity_matrix;
 void mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
 void set_matrix_identity(u8 *arg0);
 extern void *beast_claw_trail_instance;
 extern void *boss4_type3_instance;
-s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 update__15RenderFadeStateFv(void *);
 extern s32 saved_model_render_flags;
@@ -500,10 +498,8 @@ extern "C" void vfunc_58__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *player);
 extern "C" void update_actor_ground_y__9TObjCharaFv();
 extern "C" void vfunc_83__12TObjEneBeastFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void vfunc_93__12TObjEneBeastFv();
 extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
@@ -740,8 +736,6 @@ struct VObj_800927DC : VBase_800927DC {
     virtual void m80();
 };
 
-f32 random_ratio__9TObjCharaFv(s32 arg0);
-void obj_setFlags30(void *, u32);
 void __ct__13TUnk_80493450FP7TObject(void *, void *);
 // init_collision_body_parts: declared once above (s32 return, int arg)
 void __construct_array(void *, void *, void *, int, int);

@@ -15,6 +15,12 @@
 #include "pso/object/warp/TObjCityDoor_Warp.h"
 #include "pso/object/city/TObjCityDoor_Med.h"
 #include "pso/object/lobby/TObjCityDoor_Lobby.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 struct RecoveredGlobal_8018289C_lbl_80443F4C
 {
@@ -162,9 +168,7 @@ s32 get_city_common_model(s32);
 extern "C" {
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 extern const f32 lbl_805DBBE0;
 extern const f32 lbl_805DBBE4;
 s32 TLobby__sub_8001FE7C(s32, s32);
@@ -245,12 +249,9 @@ typedef struct {
     Vec_80181BAC verts[10];
 } Obj_80181BAC;
 
-f32 newton_sqrtf(f32);
 void vec3_add_to(Vec_80181BAC *, Vec_80181BAC *);
 void mult_vec_array__10TObjPlayerFUll(s32, Vec_80181BAC *, Vec_80181BAC *, s32);
-void set_matrix_identity(u8 *arg0);
 s32 push_matrix(void);
-s32 pop_matrix(void);
 extern Vec_80181BAC city_door_lobby_collision_vertices[];
 extern const f32 lbl_805DBBE8[1];
 extern const f32 lbl_805DBBEC;
@@ -322,7 +323,6 @@ s32 TObjCityDoor_Lobby::build_door_collision_triangles() {
 #undef self
 #pragma pop
 
-s32 is_split_screen(void);
 Obj_80181F10 *TObjCityDoor_Lobby__ct(Obj_80181F10 *, void *, s32);
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
@@ -485,7 +485,6 @@ void run_task__16TObjCityDoor_MedFv(void *arg0);
 void render__16TObjCityDoor_MedFv(u8 *arg0);
 s32 get_city_common_motion(s32);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 
 extern const f32 lbl_805DBBF4;
 
@@ -1007,7 +1006,6 @@ void city_door_play_close_sound__13TUnk_804B5BA8Fv(s32 arg0);
 void begin_state_1__13TUnk_804B5BA8Fv(void *arg0);
 void check_ground_or_fall__13TUnk_804B5BA8Fv(void *arg0);
 void dispatch_state__13TUnk_804B5BA8Fv(void *arg0);
-void *get_player_by_client_id(s32 i);
 s32 get_field_3e0__12TBoss3VoloptFv();
 
 void TUnk_804B5BA8::vfunc_22() {

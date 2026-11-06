@@ -15,24 +15,23 @@
 #include "pso/system/vector.h"
 #include "pso/unk/text_80086D50.h"
 #include "pso/unk/text_80087278.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D853C.h"
+#include "pso/math/MatrixVector.h"
 
 
 extern "C" {
-s32 play_sound_effect(s32 id, Vec *pos, s32 a2, s32 flags);
-void obj_setFlags30(TObject *obj, u32 mask);
 void *find_entity_by_id(u16 id);
-void submit_cursor_candidate(TObject *obj, s32 a1);
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
-void push_matrix(void);
-s32 pop_matrix(void);
-void set_matrix_identity(void *mtx);
-void rotate_matrix_y(void *mtx, s32 angle);
-void matrix_mult_vec(void *mtx, const Vec *src, Vec *dst);
 void scroll_ginja_mesh_uvs(void *mesh, s16 du, s16 dv, u16 cmd, s32 rewrite);
 void PPCSync(void);
-int rand(void);
 void release_texture_list(GinjaTextureList *list);
 
 

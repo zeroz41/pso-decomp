@@ -11,6 +11,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -104,15 +109,8 @@ u32 dragon_tail_gvm_texture_handle;
 extern "C" {
 extern s32 __vt__19TBoss8DragonEffTail[];
 EffTail_8002C06C *TBoss8DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 vec3_add_to(s32, s32, s32);
 void matrix_mult_vec(s32, void *, void *);
-void set_matrix_identity(u8 *arg0);
-void rotate_matrix_y(s32, s32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-void push_matrix(void);
-s32 pop_matrix(void);
 s32 TLobby__sub_8001FE7C(s32, s32);
 s32 release_texture_list(void*);
 void __dl__7TObjectFPv(void *);

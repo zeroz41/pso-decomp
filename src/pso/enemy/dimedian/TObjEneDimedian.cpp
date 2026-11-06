@@ -24,6 +24,9 @@
 #include "pso/enemy/beast/TObjEneBeast.h"
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803E2D70.h"
 
 struct VBase_14_800A7BEC { char pad[0x14]; };
 
@@ -112,20 +115,17 @@ extern "C" {
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 TObjPlayer__sub_800A0554(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern s32 dimedian_type3_object;
 extern s32 lbl_805D5088;
 
-s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 update__15RenderFadeStateFv(void *);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 TObjPlayer__sub_8023DEE0(int, int, int, int);
-s32 draw_chunk_object(void *);
 extern s32 dimedian_resource_handles[];
 extern s32 dimedian_last_draw_tick[];
 extern s32 actor_frame_tick;
@@ -600,9 +600,7 @@ extern "C" void vfunc_58__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv();
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();
-extern "C" void vfunc_37__9TObjCharaFv();
 extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" void update_attack_stat_status__9TObjCharaFv();
 extern "C" void update_defense_stat_status__9TObjCharaFv();
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();

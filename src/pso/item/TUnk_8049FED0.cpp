@@ -7,13 +7,10 @@
 #include "pso/item/TItemTimerEvent.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 // Written from the last function back (deferred code generation), which puts
 // TUnk_8049FEB8's vtable before this class's.
-
-extern "C" {
-void *get_player_by_client_id(s32 i);
-}
 
 TUnk_8049FED0 *TUnk_8049FED0::create(u8 *item) {
     if (item != NULL) {

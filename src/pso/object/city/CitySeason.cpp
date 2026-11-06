@@ -26,6 +26,9 @@
 #include "pso/object/city/TObjCity_Season_SonicAdv2.h"
 #include "pso/object/city/TObjCity_Season_Board.h"
 #include "pso/object/city/TObjCity_Season_FireWorkCtrl.h"
+#include "pso/unk/text_803D8F74.h"
+#include <stdlib.h>
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 struct RecoveredGlobal_80184B44_lbl_804440B0 { s32 value; u8 remaining[0x28]; };
 extern "C" {
@@ -85,7 +88,6 @@ typedef struct Self_80183134 {
     f32 time;
 } Self_80183134;
 
-s32 rand(void);
 extern const f32 lbl_805DBC18[1];
 extern const f32 lbl_805DBC1C[1];
 extern const f32 lbl_805DBC20[1];
@@ -270,7 +272,6 @@ struct V4_8018355C { s32 a; s32 b; s32 c; s32 d; };
 extern "C" {
 s32 TLobby__sub_80184C54();
 u32 __nw__7TObjectFUl(int);
-s32 rand();
 f32 vec3_dot(void *, void *);
 f32 subtract_vector(void *, void *);
 extern RecoveredGlobal_80183604_lbl_804FF5E8 lbl_804FF5E8;
@@ -446,7 +447,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 scroll_strip_uvs(s32, s16, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 extern u32 lbl_805D5B38;
@@ -878,7 +878,6 @@ struct RecoveredGlobal_80183FC0_lbl_8050DC50 {
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 extern s32 TObjCity_Season_21_21__name;
 extern RecoveredGlobal_80184054_lbl_8050DC38 city_season_easter_egg_model_table;
@@ -1100,7 +1099,6 @@ extern "C" {
 
 s32 post_translate_matrix(void *);
 
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
@@ -1184,7 +1182,6 @@ typedef char RecoveredGlobal_801844C8_lbl_804B5DA0_size[sizeof(RecoveredGlobal_8
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 extern s32 __vt__24TObjCity_Season_XmasTree[];
 extern s32 TObjCity_Season_XmasTree__name;
@@ -1201,7 +1198,6 @@ struct VObj_8018455c_80184408 : VBase_8018455c_80184408 {
 
 s32 post_translate_matrix(void *);
 
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
@@ -1287,7 +1283,6 @@ typedef char RecoveredGlobal_801846E0_lbl_804B5DD8_size[sizeof(RecoveredGlobal_8
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 extern s32 __vt__30TObjCity_Season_ValentineHeart[];
 extern s32 TObjCity_Season_ValentineHeart__name;
@@ -1303,7 +1298,6 @@ struct VObj_8018455c_80184620 : VBase_8018455c_80184620 {
 };
 
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 
@@ -1393,7 +1387,6 @@ struct Obj_80184A08 { u8 pad[0xB0]; f32 t; };
 
 extern "C" {
 
-void *create_particle_emitter(void *pos, s32 id);
 int get_anim_frame__13TUnk_804B5E48Fv(void* a0);
 extern s32 __vt__25TObjCity_Season_EasterEgg[];
 extern s32 TObjCity_Season_EasterEgg__name;

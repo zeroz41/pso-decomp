@@ -7,6 +7,7 @@
 #include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Stored in the object name field by the constructor.
 const char *TObjEnePanarmsAtkColli_class_name = "TObjEnePanarmsAtkColli";
@@ -104,7 +105,6 @@ Obj_800E31C4 *fn_800E31C4(Obj_800E31C4 *self, Entry_800E31C4 *list, Vec_800E31C4
 extern Pair_800E32C0 lbl_8043CDF8[];
 extern Pair_800E3374 lbl_8043CDF0[];
 void fn_800E3374(Obj_800E3374 *arg0, V_800E3374 *arg1);
-int get_player_data__10TObjPlayerFi(int a0);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void fn_800E35C8(Obj_800E35C8 *arg0);

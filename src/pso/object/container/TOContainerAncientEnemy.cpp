@@ -10,6 +10,13 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 struct RecoveredGlobal_8015BD68_lbl_804B00C8 {
     s32 value;
@@ -43,11 +50,8 @@ struct O_8015BAE0 { u8 pad[0x1C]; u16 id; u8 pad1e[0x80 - 0x1E]; u32 f80; s32 f8
 struct Pk_8015BAE0 { u8 pad[2]; u16 id; s32 a; s32 b; s32 c; };
 
 extern "C" {
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_model(s32 model);
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 init_collision_body_parts(void *, void *, int);
@@ -57,16 +61,12 @@ extern s32 __vt__23TOContainerAncientEnemy[];
 extern s32 lbl_805D2F08;
 extern s32 tl_05;
 u8 *TOContainerAncientEnemy__ct(u8 *arg0, s32 arg1);
-void submit_cursor_candidate(Obj_8015BCC0 *self, s32 x);
-void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80440830[];
 extern const f32 lbl_805DB3A0;
-s32 get_current_floor();
 void byteswap_and_send__6TLobbyFv(void *, int);
 extern s32 local_client_id;
 extern const f32 lbl_805DB39C;
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
-void *spawn_particle_effect(void *pos, s32 id);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void play_container_break_sound(s32 arg0);

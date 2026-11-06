@@ -10,6 +10,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
+#include <stdlib.h>
 
 struct Item_80105EA4 { u8 type; u8 b1; u8 b2; };
 
@@ -428,7 +429,6 @@ s32 fn_8010F210(void *);
 void *mem_alloc(u32 size);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 __cvt_fp2unsigned(f32);
-s32 rand();
 extern s32 __vt__9TItemDrop[];
 extern RecoveredGlobal_80107840_lbl_8049EF88 lbl_8049EF88;
 extern s32 item_drop_class_name;

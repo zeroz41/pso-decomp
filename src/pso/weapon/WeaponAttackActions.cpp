@@ -35,6 +35,7 @@
 #include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
+#include <stdlib.h>
 
 // ---- pso/item/WeaponAttackActions
 
@@ -110,9 +111,7 @@ u8 *find_entity_by_id(s32);
 void *TObjPlayer__sub_802E449C(void *a0);
 s32 rotate_matrix_y(int, void *);
 s32 subtract_vector(void *, void *);
-s32 push_matrix_from(void *);
 s32 transform_point_by_current_matrix(void *, void *);
-s32 pop_matrix();
 extern s32 identity_matrix[];
 extern const f32 lbl_805DAC94;
 u32 __nw__7TObjectFUl(u32);
@@ -363,7 +362,6 @@ s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 void * __ct__17TItemEffectWeaponFll(void *, u32, u32);
 void * __nw__15TItemHeapObjectFUl(s32);
 u32 __cvt_fp2unsigned(f32);
-s32 rand(void);
 s32 vec3_add_to(void *, void *);
 f32 normalize_vector(void *);
 f32 xyz_distance(void *, void *);

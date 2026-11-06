@@ -2,13 +2,13 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/object/quest/TObjQuestColApcIN.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Pl_801962B4 { u8 pad0[0x38]; f32 pos[3]; };
 
 struct Col_801962B4 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x68]; f32 fAC; u8 padB0[0xC]; f32 fBC; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 void TObjQuestColBase__ct(void *);
 

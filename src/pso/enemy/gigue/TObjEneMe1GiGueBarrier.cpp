@@ -13,6 +13,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
 
 
 #pragma readonly_strings on
@@ -46,14 +48,12 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
 };
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
 u16 get_entity_id(void *);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
 extern const char *lbl_805D4198;
 extern s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
 s32 defer_render__7TObjectFv(void *);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void);

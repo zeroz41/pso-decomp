@@ -4,6 +4,7 @@
 #include "pso/weapon/TUnk_804A1E28.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 // Eight x/y/z scales, indexed by scale_step.
 struct RecoveredGlobal_80123CA8_lbl_8043E878 {
@@ -18,8 +19,6 @@ struct RecoveredGlobal_80123CA8_lbl_8043E8D8 {
 };
 
 extern "C" {
-s32 add_actor_tp(u8 *arg0, s32 arg1);
-s16 get_actor_tp(u8 *p);
 s32 scale_current_matrix(void *, int);
 }
 const RecoveredGlobal_80123CA8_lbl_8043E878 lbl_8043E878 = {

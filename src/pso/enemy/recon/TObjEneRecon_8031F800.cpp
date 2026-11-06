@@ -2,6 +2,8 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
 
 struct Vec_8031F8C4 { f32 x, y, z; };
 
@@ -29,13 +31,10 @@ struct Recon_8031F8C4 {
 
 extern "C" {
 extern const f32 lbl_805DF44C;
-void play_sound_effect(s32, void *, s32, s32);
 u32 create__12TObjEneReconFPvPvPvPvPv(void *, u16, s32, Vec_8031F8C4 *, Vec_8031F8C4 *);
 s32 alloc_child_id__12TObjEneReconFv(void *);
 s32 remap_area_sound_id__14TObjEneRecoboxFUl(s32, s32, s32);
 Vec_8031F8C4 *get_field_38_ptr__12TObjEneReconFv(void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern Vec_8031F8C4 lbl_804762E4;
 extern const f32 lbl_805DF450;
 extern const f32 lbl_805DF454;

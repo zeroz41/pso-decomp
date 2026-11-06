@@ -19,6 +19,13 @@
 #include "pso/render/render_util.h"
 #include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/map/CsnQuery.h"
 
 struct SubBase { char pad[0x14]; };
 
@@ -432,17 +439,14 @@ extern "C" {
 
 f32 atan2_float(f32 y, f32 x);
 s32 matrix_mult_vec(int, void *, void *);
-s32 push_matrix_from(void *);
 extern u8 identity_matrix[];
 f32 receive_physical_attack__9TObjCharaFPvf(void *, void *, f32);
 extern BmlResource *lbl_805D6FA0;
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 draw_chunk_object();
-s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 set_field_378__9TObjEneDDFl(void *, s32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
@@ -474,10 +478,8 @@ void set_target__19TObjEneEpsilonGuardFlll(TObjCollidable *, V3_8035F970 *, s32,
 f32 receive_weapon_special_attack__9TObjCharaFPvPv(void *, void *, void *);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
 u16 get_entity_id(void *);
-void play_sound_effect(s32, void *, s32, s32);
 void handle_guard_action_state__19TObjEneEpsilonGuardFPvi(W_80361508 *self, s32 arg1);
 void queue_destruction__7TObjectFv(void *);
-void *create_particle_emitter(void *pos, s32 id);
 void TObjEneEpsilonGuard__sub_803610D0(u8 *arg0, s32 arg1);
 extern u8 epsilon_guard_destroy_breakup_params[];
 extern s32 lbl_805D6FA4;
@@ -499,7 +501,6 @@ extern Vec4_80360D9C lbl_80479CAC[];
 s32 check_path_obstructed(void *, void *);
 int get_player_data__10TObjPlayerFi(int a0);
 void obj_setFlags30(void *, s32);
-u32 csnVector(void *, void *, s32);
 }
 
 s16 obj_getS16_118(u8 *p);
@@ -507,12 +508,9 @@ void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
 extern "C" {
 
 
-void *get_player_by_client_id(s32 i);
 void *__nw__7TObjectFUl(u32);
 void create_fire_explosion_effect(void *, void *, s32, s32, f32);
 u32 TObjEneEpsilonGuard__sub_8035FD50(TObjEneEpsilonGuard *self, s32 slot);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void subtract_vector(void *, void *);
 extern s32 tl_07;
 void TObjEneEpsilonGuard__sub_803616E4(void *arg0_, s32 arg1);

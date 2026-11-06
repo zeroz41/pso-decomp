@@ -2,6 +2,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_802F3348.h"
 #include "pso/unk/TLobby_8007C550.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/math/AngleLookup.h"
 
 struct Vec_802F33C8 { f32 x, y, z; };
 
@@ -13,8 +14,6 @@ extern u8 *boss8_dragon_leader_part;
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 void subtractive_rng_seed(void *, s32);
 void spawn_attack_object__12TBoss8DragonFllll(void *, Vec_802F33C8 *, u16, s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 TBoss8Dragon__sub_802F3348(s32 arg0) {
     if ((void *) boss8_dragon_leader_part == NULL) {
         return 0;

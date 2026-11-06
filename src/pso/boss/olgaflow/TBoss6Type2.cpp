@@ -26,6 +26,11 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/boss/darkfalz/TObjDFTenchuFuru_80051D5C.h"
+#include "pso/system/SoundEffect.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct TBoss6Type2_802BD014;
@@ -209,9 +214,7 @@ void draw_model_blend_motion(void *arg0, void *arg1, f32 farg0);
 extern "C" {
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 u8 * get_player_data__10TObjPlayerFi(s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 void spawn__15TBoss6RockChaseFll(void *, void *);
-s32 rand(void);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 s32 TObjFish__sub_8001EDB0(s32, s32);
@@ -241,8 +244,6 @@ s32 TBoss6Type2__ct(s32 arg0_, s32 arg1, s32 arg2_);
 void TBoss6Type2__sub_802BD938(u8 *arg0, u8 *arg1);
 
 f64 atan2_float(f32, f32);
-s32 angle_difference_abs(int, int);
-s32 approach_angle_limited(s32, s32, s32);
 struct Stack_802B9D90
 {
   s32 sp8;
@@ -539,11 +540,7 @@ u16 obj_getArrU16_FC(void *obj, s32 i);
 u16 get_entity_id(void *);
 s32 is_split_screen();
 void request_follow_camera_offsets(void *arg0, void *arg1, u16 arg2);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
-s32 angle_diff_s16(s32, s32);
 s32 mem_free(s32 *);
 s32 * mem_alloc(s32);
 s32 project_actor_to_ground(void *, void *, int);

@@ -9,6 +9,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/render/render_util.h"
+#include "pso/unk/text_803D8F74.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
 
 struct Rec_800B8B08 { u8 vec[0x18]; s32 f18; u32 flags; };
 
@@ -69,9 +72,6 @@ struct Grass_800B8EFC {
 
 extern "C" {
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *src);
-s32 pop_matrices(s32 arg0);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 void queue_destruction__7TObjectFv(void *arg0);
 u8 *csnVectorUnder(void *, void *, int);
@@ -79,7 +79,6 @@ s32 vec3_add_to(void *, void *);
 extern s32 actor_frame_tick;
 s32 __ct__10TObjMotionFP7TObject(void *, s32);
 void *mem_alloc(u32 size);
-s32 rand(void);
 s32 rotate_vector_by_matrix(int, void *, void *);
 extern s32 cgrass_action_desc[];
 extern s32 __vt__10TObjCGrass[];

@@ -12,6 +12,9 @@
 #include "pso/item/TItem.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
+#include "pso/system/task/TObject_80019A50.h"
 
 struct RecoveredGlobal_801D401C_lbl_804C4498 { s32 value; u8 remaining[0x14]; };
 typedef char RecoveredGlobal_801D401C_lbl_804C4498_size[sizeof(RecoveredGlobal_801D401C_lbl_804C4498) == 0x18 ? 1 : -1];
@@ -92,7 +95,6 @@ void __ct__7TObjectFP7TObject(void *, void *);
 s32 check_player_action_allowed(void);
 s32 fn_801D4270(s32);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFv(void);
-s32 queue_destruction__7TObjectFv(void *);
 void remove_list_entry_by_id(s32 arg0);
 void sub_801D5884__13TUnk_804C4498FUc(void *p, u8 v);
 u8 *run_item_count_update__9TItemListFv(void *);
@@ -110,10 +112,7 @@ void send_6x29_delete_item__10TObjPlayerFPvii(void *, s32, s32);
 void *get_player_by_client_id(u16);
 void *get_ptr_0x44__9TItemListFPv(void *);
 s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv();
-s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern Shape_801D3C38 placement_search_collision_body;
 extern Body_801D3E20 placement_search_collision_probe;
 extern const f32 lbl_805DC3CC;

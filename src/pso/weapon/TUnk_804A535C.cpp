@@ -25,6 +25,9 @@
 #include "pso/item/TItemEquipVariant_8012C810.h"
 #include "pso/item/TItem.h"
 #include "pso/weapon/shoot/TItemShootModel_dtor.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
 
 struct Ent_8012C384 { u8 pad[0x1c]; u8 f1c[0x10]; };
 
@@ -32,7 +35,6 @@ struct Mylla_8012C384 { u8 pad[0xa4]; Ent_8012C384 *ents; s32 count; };
 
 extern "C" {
 Mylla_8012C384 *find_entity_by_id(u32);
-s32 play_sound_effect(s32, s32, s32, s32);
 
 void rocket_punch_target_impact(void *self, u32 a, u32 b, s32 idx) {
     Mylla_8012C384 *m;
@@ -56,8 +58,6 @@ void rocket_punch_wall_impact(u32 arg0, u32 arg1, u32 arg2, u32 arg3) {
 extern "C" {
 
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_x(int, int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 is_owner_alive__15TItemShootModelFv();
 

@@ -13,6 +13,11 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
 
@@ -52,7 +57,6 @@ struct Ctl_800C5B10 { u8 pad[8]; void *field_8; };
 extern "C" {
 s32 check_path_obstructed(void *, void *);
 f32 get_collision_body_radius(void *, s32);
-s32 pop_matrix();
 f32 fabs_float(f32);
 f64 atan2_float(f32, f32);
 s32 link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
@@ -61,11 +65,8 @@ s32 approach_angle_limited(int, int, int);
 s32 project_actor_to_ground(void *, void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 s32 vec3_add_to(void *, void *);
-s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 subtract_vector(void *, void *);
-s32 push_matrix_from(void *);
-s32 pop_matrices(int);
 extern Vec scratch_vec;
 extern Vec lbl_8050BF00;
 extern u8 identity_matrix[];
@@ -75,12 +76,10 @@ s32 apply_actor_gravity(void *, int, f32);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
 s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
-void *spawn_particle_effect(void *pos, s32 id);
 int unlink_enemy_group_relations__13TUnk_80493450Fv(void*);
 int send_entity_set_flags__9TObjEnemyFv(void*);
 s32 obj_setFlags30(void *, s32);
 s32 update_movement_status__9TObjCharaFv(void *);
-s32 submit_cursor_candidate(void *, int);
 s32 update_action_hold_status__9TObjCharaFv(void *);
 u16 get_entity_id(void *);
 int queue_destruction__7TObjectFv(void*);
@@ -90,7 +89,6 @@ s32 test_elt_flag__13TUnk_80493450Fll(void *, int, int);
 s32 enemy_turn_toward_dest(void *, s32);
 s32 get_current_floor(void);
 u8 *get_enemy_entity(u16 arg0);
-TObjPlayer *get_player_by_client_id(s32 i);
 f32 enemy_backstep_from_point(void *, void *, f32);
 s32 angle_difference_abs(s32, s32);
 void TUnk_80493450::sub_800C4E08() {

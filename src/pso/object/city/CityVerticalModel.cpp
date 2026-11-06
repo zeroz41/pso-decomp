@@ -7,6 +7,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TUnk_804B5C08.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803D8F74.h"
 extern const f32 lbl_805DBC00;
 
 struct VBase_18_26a62c
@@ -43,7 +44,6 @@ struct RecoveredGlobal_801830BC_lbl_804B5C08 {
 
 extern "C" {
 void vfunc_13__13TUnk_804B5C08Fl(void* a0);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_ginja_object();

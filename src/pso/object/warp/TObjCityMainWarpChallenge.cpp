@@ -20,6 +20,10 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D853C.h"
 
 void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
 
@@ -57,9 +61,7 @@ struct CityMainWarpChalVObj_80187824 : CityMainWarpChalBase_80187824 {
 struct Warp_80187B50 { u8 pad[0x144]; s32 arr[4]; };
 
 extern "C" {
-s32 get_current_floor(void);
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 char *strcpy(char *, const char *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
@@ -72,7 +74,6 @@ void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;
 s32 register_entity_by_id(void *, int, f32);
@@ -80,7 +81,6 @@ s32 TObjAreaWarp__ct();
 extern s32 __vt__25TObjCityMainWarpChallenge[];
 extern s32 lbl_805D32B8;
 extern u8 *city_common_model_archive;
-void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80444A44[];
 extern char lbl_80444A58[];
 s32 post_translate_matrix(void *);

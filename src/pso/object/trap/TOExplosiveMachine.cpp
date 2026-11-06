@@ -14,13 +14,13 @@
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
 void *load_resource_from_descriptor(void *, s32, BmlResourceDescriptor *, s32, s32, s32);
 void TLobby__sub_8001FE7C(void *, s32);
-f32 horizontal_distance_squared(const Vec *, const Vec *);
 s32 post_translate_matrix(const Vec *);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 void *get_bml_model(void *, s32);

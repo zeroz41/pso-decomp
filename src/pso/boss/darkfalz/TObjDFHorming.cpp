@@ -14,6 +14,11 @@
 #include "pso/boss/darkfalz/TBoss4Type2.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
 
 #pragma readonly_strings on
 
@@ -225,10 +230,6 @@ extern "C" {
 
 s16 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s16);
-s32 rand(void);
-
-void play_sound_effect(s32, s32, s32, s32);
-s32 rand();
 
 int TBoss4DarkFalz__sub_8004C1AC(void);
 s32 TBoss4DarkFalz__sub_8004C1B4(void);
@@ -402,14 +403,11 @@ void fn_803594B4(void *, s32, f32);
 void TBoss4DarkFalz__sub_8004B730(u8 *arg0, s32 arg1, f32 farg0);
 extern RecoveredGlobal_8004B084_TBoss4DarkFalz__data_80485108 dark_falz_state_table;
 void release_all_players_control_lock(void);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 TBoss4Thanks__sub_8035C96C();
 
 void TBoss4DarkFalz__sub_8004B5A0(void);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void create__10TBoss4ZakoFl(void *);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 Desc_8004BD58 TBoss4DarkFalz__data_804FF1E8;
 extern s32 game_difficulty_selection;
 
@@ -881,7 +879,6 @@ extern s32 dark_falz_controller_instance;
 u8 *__dt__14TBoss4DarkFalzFv(u8 *arg0, s16 arg1);
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 s32 __ct__9TObjEnemyFP7TObject();
-u16 register_entity_by_id(void *ov);
 void *fn_8030A83C(void *arg0);
 }
 void init_music_sequencer(s32 program);

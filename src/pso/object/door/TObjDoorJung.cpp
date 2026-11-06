@@ -10,6 +10,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 
 const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
@@ -66,9 +68,7 @@ void free_children__12TObjDoorJungFPv(s32, u16);
 void PPCSync();
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
 extern s32 actor_frame_tick;
 
 void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);

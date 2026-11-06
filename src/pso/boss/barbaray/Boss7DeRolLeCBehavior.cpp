@@ -32,6 +32,11 @@
 #include "pso/system/vector.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet_802EF26C.h"
 #include <stddef.h>
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 // Action step of a De Rol Le C attack pattern: action id and its duration in
 // seconds (the timer compares against b * 30).
@@ -737,7 +742,6 @@ extern "C" {
 f32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 s32 push_matrix();
-s32 pop_matrix();
 extern s32 boss7_derolle_c_motion_id;
 extern s32 lbl_805D6920;
 extern s32 lbl_805D6924;
@@ -1146,8 +1150,6 @@ void TObjFish__sub_802E95F8(u8 *arg0, u32 arg1, s32 arg2);
 s32 restore_player_cameras();
 s32 activate_camera_mode(s32 arg0);
 u8 *get_scripted_camera_playback();
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 query_teammate_state__9TObjEneDDFv();
 int play_sound_effect(void*, void*, void*, void*);
 
@@ -1157,8 +1159,6 @@ s32 get_random_scaled__9TObjEneDDFv(void *);
 
 s32 TBoss7Tentacle__sub_802F0904(s32);
 void TBoss7Tentacle__sub_802F0AF0(s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802E83E8(u8 *, u32);
 void TObjFish__sub_802E8528(void* o, u32 k);
@@ -1194,7 +1194,6 @@ void TBoss7Tentacle__sub_802F0AD0(void *a0);
 void handle_tentacle_attack_state__8TObjFishFPvUii(Fish_802E9ADC *o, u32 arg1, s32 arg2);
 
 void TObjFish__sub_802E979C(Fish_802E979C *o, u32 k, s32 dir);
-void *create_particle_emitter(void *pos, s32 id);
 
 void TBoss7Tentacle__sub_802F0B58(u8 *arg0);
 void TObjBoss2Tunnel__sub_802F22C4(void);
@@ -1461,7 +1460,6 @@ extern RecoveredGlobal_802EC468_lbl_804FF5E8 lbl_804FF5E8;
 struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x730]; u16 targets[4]; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void *TBoss7TentacleNeedle__ct(void *o, void *boss, void *pos);
 }
 
@@ -3777,7 +3775,6 @@ struct Vec_802ED3E4 { f32 x, y, z; };
 extern "C" {
 void compose_motion_node_matrix(void *arg0);
 s32 scale_matrix(int, f32, f32, f32);
-s32 push_matrix_from(void *);
 extern u8 identity_matrix[];
 s32 TBoss7Joint_get_shell_max_hp(void);
 

@@ -5,9 +5,9 @@
 
 #include "pso/technique/TechniqueChargeEmitter.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_80087278.h"
 extern "C" {
 extern u32 fire_technique_charge_effect_ids[];
-void *spawn_particle_effect(void *pos, s32 id);
 void queue_destruction__7TObjectFv(void*);
 void TObjLight__updateFireTechniqueCharge(TechniqueChargeEmitter* state);
 void *__dt__13TUnk_804CC794Fv(void *arg0, s16 arg1);

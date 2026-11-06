@@ -22,6 +22,11 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -55,9 +60,7 @@ extern "C" {
 
 void TObjLight__sub_801337F8(s32);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *, void *, f32);
 extern s32 current_scene_light;
@@ -387,7 +390,6 @@ extern "C" {
 f32 sample_acceleration_curve(void *, f32);
 s32 init_acceleration_curve(void *, f32, f32, f32, f32);
 s32 get_random_scaled__9TObjEneDDFv(void *);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 
 void rotate_vec_xz(void *, void *, s32);
 u8 *TBoss1DragonEffBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -406,7 +408,6 @@ s32 isV2Mode__12TBoss1DragonFv(void);
 u8 *__nw__7TObjectFUl(s32);
 u8 *__ct__16TBoss1DragonDemoFv(u8 *arg0, s32 arg1, s32 arg2, f32 farg0);
 s32 play_sound_effect(s32, s32, s32, s32);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 s32 play_cue_stream_file(void *, int);
 u32 spawn_particle_effect_with_rotation(void *, void *, void *, int);
 s32 queue_destruction__7TObjectFv(void *);
@@ -438,8 +439,6 @@ void calc_target_vector__12TBoss1DragonFPv(u8 *arg0);
 void TObjEneEpsilon__sub_800B9384(u8 *arg0, s32 arg1, f32 farg0);
 s32 enemy_validate_retained_target();
 s32 update_velocity__9TObjEneDDFv(void *);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 
 extern s32 TBoss1Dragon__data_804FE17C[3];
 
@@ -528,7 +527,6 @@ void TBoss1Dragon__sub_800277D8(u8 *arg0);
 extern const f32 TBoss1Dragon__gravity_accel;
 void compose_motion_node_matrix(void *arg0);
 s32 matrix_mult_vec(int, void *, void *);
-s32 push_matrix_from(void *);
 extern u8 identity_matrix[];
 f32 TBoss1Dragon__sub_80027010(Obj_80027010 *arg0, f32 farg0, f32 farg1, f32 farg2);
 f32 random_ratio__9TObjCharaFv(void);
@@ -4660,7 +4658,6 @@ void update_from_data__12TBoss1DragonFv(void) {
 }
 
 struct Vec_80027B78 { f32 x, y, z; };
-void draw_chunk_object(void *child);
 extern s32 lbl_805D28BC;
 #pragma push
 #pragma fp_contract on

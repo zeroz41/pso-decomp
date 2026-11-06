@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/object/switch/TOSwitchTimer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 u8 is_current_floor_switch_set(u16 id);
-s32 get_current_floor(void);
 }
 
 void TOSwitchTimer::sub_801782A0() {

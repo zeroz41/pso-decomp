@@ -2,6 +2,7 @@
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/math/AngleLookup.h"
 
 struct Craw_80308D1C {
     u8 pad0[0x60];
@@ -15,8 +16,6 @@ struct Craw_80308D1C {
 extern "C" {
 u16 find_nearest_visible_player(void *, void *, f32);
 f32 atan2_float(f32 y, f32 x);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void normalize_vector(void *);
 extern const f64 lbl_804755B0[];
 extern const f32 lbl_805DF0D0;

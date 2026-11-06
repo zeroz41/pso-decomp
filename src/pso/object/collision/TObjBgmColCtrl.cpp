@@ -14,6 +14,7 @@
 #include "pso/object/collision/TObjBgmCol.h"
 #include "pso/object/collision/TObjBgmCol_8017E7F0.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 
 #pragma defer_codegen on
@@ -42,7 +43,6 @@ u32 __ct__7TObjectFP7TObject(int, int);
 extern u32 TObjBgmColCtrl__instance;
 extern s32 tl_05;
 s32 is_active__14TObjBgmColCtrlFv();
-void *get_player_by_client_id(s32 i);
 int get_quest_bgm_issued_flag(void);
 
 extern s32 local_client_id;

@@ -14,6 +14,10 @@
 #include "pso/unk/TUnk_804949D8.h"
 #include "pso/unk/TUnk_804949F4.h"
 #include "types.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 class TDeadSpot : public TObject {
 public:
@@ -86,8 +90,6 @@ struct Mark_800D8314 {
 };
 
 extern "C" {
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DA380;
 void __ct__7TObjectFP7TObject(void *, void *);
@@ -106,12 +108,9 @@ Ground_800D8314 *csnVecterUnder(void *, s32);
 }
 void direction_to_rotation_yx(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-s32 rand();
 s32 fn_803D8DE0(int, void *, void *, int);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 rotate_matrix_x(int, int);
-s32 push_matrix();
 extern void *__vt__9TDeadSpot[];
 extern s32 lbl_805D2A98;
 extern const f32 lbl_805DA3A0;

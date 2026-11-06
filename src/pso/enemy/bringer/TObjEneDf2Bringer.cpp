@@ -8,6 +8,11 @@
 #include "pso/effect/TBreakUpMdl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/math/MatrixVector.h"
 
 struct RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00_size[sizeof(RecoveredGlobal_80096F54_TBreakUpMdl__data_8048FA00) == 0x10 ? 1 : -1];
@@ -62,7 +67,6 @@ struct Bringer_80097100 : VObj_18_26a62c {
 extern "C" {
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void rotate_matrix_y(s32, s32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern Vec lbl_8043A0E0;
 extern const f32 lbl_805D97D8;
@@ -875,7 +879,6 @@ s32 update__15RenderFadeStateFv(void *);
 s32 scroll_strip_uvs(int, int, int);
 s32 defer_render__7TObjectFv(void *);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern Vec lbl_8043A0D4[];
 extern s32 TObjEneDf2Bringer__uv_scroll_buffer;
@@ -896,8 +899,6 @@ s32 enemy_validate_retained_target(void *);
 u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 subtract_vector(void *, void *);
 extern Prm_8009813C *TObjEneDf2Bringer__data_805D4FB4;
 extern const f32 TObjEneDf2Bringer__data_805D97E0;
@@ -921,7 +922,6 @@ extern const f32 lbl_805D9804;
 extern const f32 TObjEneDf2Bringer__data_805D9808;
 #define update_attack_child__17TObjEneDf2BringerFPv ((s32 (*)(void *))update_attack_child__17TObjEneDf2BringerFPv)
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
 extern s32 TObjEneDf2Bringer__trail_buffer;
 extern const f32 lbl_805D980C;
 #define update_flag_0x3C0__17TObjEneDf2BringerFPv ((s32 (*)(void *))update_flag_0x3C0__17TObjEneDf2BringerFPv)
@@ -1172,9 +1172,7 @@ struct Obj_80098EFC {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 rotate_xz_pair_by_angle(f32 *, f32 *, s32, f32, f32);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 vec3_add_to(f32 *, void *);
 extern const f32 lbl_805D9830;
 #define play_persistent_sound ((s32 (*)(void *, void *, void *, int, int))play_persistent_sound)

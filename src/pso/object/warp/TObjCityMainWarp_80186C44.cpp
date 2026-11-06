@@ -5,6 +5,7 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Pkt_80186CC8 { u8 cmd; u8 size; u16 id; u16 value; u16 pad; };
 
@@ -23,7 +24,6 @@ struct Obj_80186DA0 {
 
 extern "C" {
 u8 is_current_floor_switch_set(int);
-void *get_player_by_client_id(s32 i);
 void end_player_keyboard_hold(s32 arg0);
 void obj_clear_flag30_20000(void *arg0);
 void obj_set_flag_20000(void *arg0);

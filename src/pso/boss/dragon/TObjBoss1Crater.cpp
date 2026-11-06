@@ -11,6 +11,11 @@
 #include "pso/unk/TLobby.h"
 #include "pso/boss/dragon/ObjBoss1CommonResource.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
@@ -129,7 +134,6 @@ extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 s32 isV2Mode__12TBoss1DragonFv();
 void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
-s32 rand();
 extern s32 __vt__15TObjBoss1Crater[];
 Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3);
 f32 TBoss1Dragon__sub_80027634(u32);
@@ -138,10 +142,7 @@ s32 TObjBoss1Crater__sub_8002C7E4(void *);
 void attack_target_list_remove(u8 *arg0, s32 arg1);
 extern "C" {
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 void __dl__7TObjectFPv(void *);
 void queue_destruction__7TObjectFv(void *);
 
@@ -270,7 +271,6 @@ struct Ent_8002C730 { u8 pad0[0x38]; f32 f38; u8 pad3c[4]; f32 f40; };
 struct Obj_8002C730 { f32 x; u8 pad[4]; f32 z; };
 
 extern "C" {
-f32 newton_sqrtf(f32);
 f32 calc_nearest_crater_distance(Obj_8002C730 *self);
 void *__nw__7TObjectFUl(int);
 void *get_instance__12TBoss1DragonFv(void);

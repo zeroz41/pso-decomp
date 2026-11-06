@@ -9,6 +9,11 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct RecoveredGlobal_802CE428___vt__22TObjEneMe1GiGueMissile {
     s32 value;
@@ -19,10 +24,7 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 get_bml_motion(void *, int);
 s32 get_bml_model(void *, int);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 f32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 int TObjEneMe1GiGue_barrier_count;
@@ -33,7 +35,6 @@ extern s32 __vt__22TObjEneMe1GiGueMissile[];
 extern s32 lbl_805D3F20;
 extern const f32 lbl_805DE6DC;
 u8 *TObjEneMe1GiGueMissile__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, f32 farg0, f32 farg1);
-void *find_entity_by_id(u16 id);
 s32 TObjPlayer__sub_802A445C(void *, int);
 extern const f32 lbl_805DE6E0;
 void TObjEneMe1GiGue__sub_802CE4E8(void);
@@ -51,7 +52,6 @@ struct VEnt_802CE088 : VBase_802CE088 {
     virtual void m20();
     virtual f32 m21(void *src, Hit_802CE088 *hit, s32 a, s32 b, s32 c);
 };
-void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(void *, void *);
 void obj_setFlags30(void *, int);
 void create_fire_explosion_effect(void *, f32, void *, int, void *);

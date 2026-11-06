@@ -80,9 +80,7 @@ struct TObjLazerFenceExtra_801926D0 {
 
 u8 is_current_floor_switch_set(u16);
 void post_translate_matrix(void *);
-void draw_ginja_object(void *);
 void push_matrix(void);
-s32 pop_matrix(void);
 
 static const f32 lbl_805DBE58[1] = {0.0f};
 

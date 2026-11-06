@@ -13,6 +13,11 @@
 #include "pso/enemy/epsilon/TObjEneEpsilon.h"
 #include "pso/enemy/shinowa/TObjEneMe3ShinowaReal.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 struct VBase_18_9c7b63
 {
@@ -599,10 +604,7 @@ typedef struct Ene_802CF6AC { u8 pad0[0xA4]; u8 *fa4; u8 padA8[0x488 - 0xA8]; s3
 
 extern "C" {
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 TObjEneBm9Mericarol__sub_802D093C(void *);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 f32 vec3_add_to(void *, void *);
 extern const f32 lbl_805DE70C;
 extern const f32 lbl_805DE710;
@@ -633,10 +635,7 @@ s32 obj_is_hit_receivable();
 u8 *get_battle_param__10TObjPlayerFi(s32);
 s32 TObjEneBm9Mericarol__sub_802D0940(void *);
 s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
-s32 set_matrix_identity(int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern u8 *mericarol_phase_param_table[];
 extern s32 TBoss4Type3_shared_instance;

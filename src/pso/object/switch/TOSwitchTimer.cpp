@@ -5,6 +5,7 @@
 #include "pso/object/switch/TOSwitchTimer.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -28,7 +29,6 @@ void __dl__7TObjectFPv(s32);
 extern RecoveredGlobal_8017858C___vt__13TOSwitchTimer __vt__13TOSwitchTimer;
 s32 __ct__8TObjBaseFP7TObject(void *);
 extern const char *lbl_805D3188;
-s32 play_sound_effect(s32, s32, s32, s32);
 u8 is_current_floor_switch_set(u16);
 void *__nw__7TObjectFUl(int);
 

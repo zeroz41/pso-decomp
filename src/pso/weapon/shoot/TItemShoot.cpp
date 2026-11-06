@@ -7,17 +7,17 @@
 #include "pso/system/task/TObject.h"
 #include "pso/weapon/shoot/TItemShootParticle.h"
 #include "pso/system/vector.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
 
 extern "C" void disallow_rendering__7TObjectFv(TObject *arg0);
 extern "C" void allow_rendering__7TObjectFv(TObject *arg0);
 extern "C" void queue_destruction__7TObjectFv(void *arg0);
-extern "C" void  vec3_add_to(Vec*, Vec*);
 
 
-extern "C" void  subtract_vector(Vec*, const Vec*);
-extern "C" f32   vector_length(Vec*);
 extern "C" void  normalize_vector(Vec*);
-extern "C" f32 atan2_float(f32 y, f32 x);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" void* get_item_id__5TItemFv(void*);
 extern "C" TObject*    tl_05;

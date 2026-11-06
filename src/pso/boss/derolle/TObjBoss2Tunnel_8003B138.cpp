@@ -8,6 +8,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TUnk_804835D8.h"
 #include "pso/player/TObjPlayer_8002E784.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 #pragma defer_codegen on
 
 struct Base_8003B138 { char pad[0x18]; };
@@ -128,22 +135,17 @@ extern const f32 lbl_805D85B0;
 struct O_8003C21C;
 u8 * sub_8003C21C__15TObjBoss2TunnelFv(O_8003C21C *self);
 s32 rotate_matrix_z(s32, s32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
 extern Vec_8003B2EC boss2_tunnel_render_zero_vec[];
 extern s32 boss2_tunnel_model_index_table[];
 extern s32 boss2_tunnel_model_order_table[];
 extern Models_8003B2EC *boss2_tunnel_instance;
 extern Fog_8003B2EC **lbl_805D4BEC;
 void render__15TObjBoss2TunnelFv(u8 *arg0);
-f32 sin_table_lookup(s32);
 s32 check_flag_or_state__15TObjBoss2TunnelFi(s32 arg0);
 s32 is_flag_set__15TObjBoss2TunnelFv(s32 _w0);
 void init_piecewise_curve(void *, f32, f32, f32, f32, f32);
-f32 fabs_float(f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
 struct S_8003C2E4;
 void copy_ring_buffer_window__15TObjBoss2TunnelFv(S_8003C2E4 *o);
@@ -153,9 +155,7 @@ struct Obj_8003C2A0;
 void shift_queue_push_next__15TObjBoss2TunnelFPv(Obj_8003C2A0 *self);
 void * init__13TUnk_804835D8Fv(void *arg0);
 f32 rand_signed_unit(void);
-int rand(void);
 void *__ct__13TObjBoss2DustFv(void *, void *, Vec_8003B6E8 *);
-void play_sound_effect(int, void *, int, int);
 void play_persistent_sound(int, void *, int, int, int);
 void enable_fog__15TObjBoss2TunnelFv(void);
 void enable_fog__15TObjBoss2TunnelFPv(TObjBoss2Tunnel *arg0);

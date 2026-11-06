@@ -16,16 +16,16 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 
 // Written last-to-first: the unit is built with -inline off,deferred, which emits the functions
 // (and pools their constants) in reverse order.
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 is_player_entity_id(u16);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, s32);
-s32 rand();
 s32 fill_value_array(int);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__26TObjEneDf2Bringer_Eff_Rush[];

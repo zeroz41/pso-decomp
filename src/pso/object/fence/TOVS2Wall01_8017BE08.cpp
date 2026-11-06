@@ -1,4 +1,6 @@
 #include "types.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 struct TObjGoalWarpAncient;
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/base/TObjChara.h"
@@ -86,11 +88,8 @@ extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 s32 TOVS2Wall01__sub_8017B9AC(void *);
 s32 update__15RenderFadeStateFv(void *);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -98,7 +97,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void __ct__9TObjCharaFP7TObject(void *, void *);
-void obj_setFlags30(void *, s32);
 void activate_and_dispatch__15RenderFadeStateFv(void *, s32, f32);
 extern s32 __vt__11TOVS2Wall01[];
 extern BmlResource *TOVS2Wall01__bml_resource;

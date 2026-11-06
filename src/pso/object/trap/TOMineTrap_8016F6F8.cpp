@@ -9,6 +9,9 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
 
 struct Trap_8016F704 { u8 pad0[0x38]; f32 pos[3]; u8 pad44[0x84 - 0x44]; s32 delay; u8 pad88[0x2A8 - 0x88]; void *target; u8 pad2AC[0x34C - 0x2AC]; f32 range; u8 pad350[0x35C - 0x350]; u16 targetId; };
 
@@ -19,7 +22,6 @@ f32 horizontal_distance_squared(void *, void *);
 extern u8 lobby_rule_settings[];
 u16 get_entity_id(void *);
 u8 *TOMineTrap__ct(u8 *, u8 *, s32, s32);
-void *get_player_by_client_id(s32 i);
 void *__nw__7TObjectFUl(u32);
 extern s32 enable_v2_features;
 s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2);
@@ -104,12 +106,10 @@ s32 get_main_phase();
 s32 play_sound_effect(s32, s32, s32, s32);
 extern s8 mine_trap_effect_table[];
 extern s8 mine_trap_keymachine_table[];
-void *spawn_particle_effect(void *pos, s32 id);
 extern f32 lbl_805DB864;
 extern f32 lbl_805DB85C;
 extern const f32 TOMineTrap__data_805DB868;
 void TOMineTrap__sub_80170CD4(void* p);
-f32 sin_table_lookup(s32);
 extern const f32 lbl_805DB884;
 extern const f32 lbl_805DB888;
 f32 atan2_float(f32 y, f32 x);

@@ -17,6 +17,12 @@
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 extern "C" {
 __declspec(section ".data") const char *fe_obj_hako_i_rail_model_names[3] = { "fe_obj_hako_i_rail.gj", "fe_obj_hako_ido.gj", NULL };
@@ -106,11 +112,8 @@ struct VMem_8018C06C {
 u8 *TObjContainerIdo__ct(u8 *arg0, s32 arg1, s32 arg2);
 void render__16TObjContainerIdoFv(u8 *arg0);
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *);
 s32 rotate_matrix_x(s32, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 void *__nw__7TObjectFUl(int);
 
 extern u32 TObjContainerIdo__model_resource;
@@ -176,12 +179,8 @@ struct Ido_8018C18C {
 };
 u8 is_current_floor_switch_set(u16);
 f32 xyz_distance(void *, void *);
-s32 push_matrix_from(void *);
 void rotate_vector_by_matrix(int, void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void play_sound_effect(s32, void *, s32, s32);
-s32 rand();
-void *spawn_particle_effect(void *pos, s32 id);
 int update__15RenderFadeStateFv(void*);
 extern u8 identity_matrix[];
 

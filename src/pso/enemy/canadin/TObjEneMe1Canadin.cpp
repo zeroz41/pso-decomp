@@ -39,6 +39,15 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include <stdlib.h>
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 #define VIRT(n) virtual void m##n() = 0;
 #define F_8009C510(off) (*(f32 *)(arg0 + (off)))
@@ -575,11 +584,9 @@ struct VObj_18_26a62c : VBase_18_26a62c {
 extern "C" {
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 defer_render__7TObjectFv(void *);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void fn_8009BD00(void);
 extern s32 lbl_8043A268[];
@@ -600,21 +607,18 @@ f32 subtract_vector(void *, void *);
 extern const f64 lbl_8043A3C8;
 void TObjEneMe1Canadin__sub_8009C91C(void *arg0, s32 arg1);
 s32 queue_destruction__7TObjectFv(void *);
-void *create_particle_emitter(void *, s32);
 void noop__17TObjEneMe1CanadinFv(void);
 void advance_state_5_to_4__17TObjEneMe1CanadinFPv(void *arg0);
 void TObjEneMe1Canadin_EffDischarge__ct(void *, void *, void *, void *);
 u8 *TObjEneMe1Canadin_EffLine__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 void TObjEneEpsilon__sub_800B92F8(u8 *arg0, s32 arg1, f32 farg0);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 void * __nw__7TObjectFUl(int);
 extern const s32 canadin_formation_reset_vec4[];
 extern u8 TObjEneMe1Canadin__map_core_default_vec4[];
 void TObjEneMe1Canadin__sub_8009D320(void *arg0, s32 arg1);
 u32 __cvt_fp2unsigned(f32);
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
-void draw_chunk_object(void *child);
 extern s32 lbl_8043A398[];
 extern s32 lbl_8043A3A8[];
 extern s32 lbl_8043A3BC[];
@@ -1483,14 +1487,9 @@ s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void clear_attack_receipts__9TObjEneDDFv();
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
-s32 approach_angle_limited(s32, s32, s32);
-void *find_entity_by_id(u16 id);
-void free_collision_body_parts(void *);
-void *get_player_by_client_id(s32 i);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void __dt__7TObjectFv(void *, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 rand();
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 void vec3_add_to(void *, void *);

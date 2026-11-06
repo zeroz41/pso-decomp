@@ -6,6 +6,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 
 #include "types.h"
+#include "pso/system/SoundEffect.h"
 
 struct Stack_80351DA8 {
     f32 sp8;
@@ -50,7 +51,6 @@ struct Wing_80351C18 {
 extern "C" {
 s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
-s32 play_sound_effect(int, void *, int, int);
 s32 TBoss5GryphonLightning__ct(f32);
 extern u8 __vt__26TBoss5GryphonLightningWing[];
 extern const char *lbl_805D4368;

@@ -8,6 +8,7 @@
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
 #include "pso/render/render_util.h"
 #include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/system/SoundEffect.h"
 
 
 const char *lbl_805D3E90 = "TBoss6EmptyWarp";
@@ -82,7 +83,6 @@ void *TBoss6EmptyWarp__ct(void *boss6_empty_warp) {
     return boss6_empty_warp;
 }
 
-s32 play_sound_effect(s32, s32, s32, s32);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_02;

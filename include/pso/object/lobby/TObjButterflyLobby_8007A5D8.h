@@ -3,10 +3,10 @@
 
 #include "types.h"
 #include <dolphin/mtx.h>
+#include "pso/map/CsnQuery.h"
 
 extern "C" {
 // The first map collision on the segment from `from` to `to` (NULL if none).
-void *csnVector(const Vec *from, const Vec *to, u32 mask);
 }
 
 #endif

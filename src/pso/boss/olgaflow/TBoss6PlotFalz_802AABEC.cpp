@@ -2,10 +2,9 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-
-s32 is_split_screen();
 
 extern s32 TBoss6PlotFalz__instance;
 

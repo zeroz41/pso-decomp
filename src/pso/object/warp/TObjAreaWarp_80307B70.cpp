@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/object/warp/TObjAreaWarp.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 u16 get_entity_id();
 
 u16 TObjAreaWarp::find_active_player() {

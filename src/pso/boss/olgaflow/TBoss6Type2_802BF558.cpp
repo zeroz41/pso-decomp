@@ -2,6 +2,7 @@
 #include "pso/object/trap/TOTrapAncient01_80226534.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/system/SoundEffect.h"
 
 typedef struct S_802BF6CC {
     u8 pad0[0x374];
@@ -14,7 +15,6 @@ typedef struct S_802BF6CC {
 } S_802BF6CC;
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 extern s32 lbl_805D6750;
 extern u8 lbl_805D6754;
 extern const f32 lbl_805DE3F4;

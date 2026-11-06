@@ -13,6 +13,10 @@
 #include "pso/boss/galgryphon/TBoss5Gryphon.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibon/TObjEneBm5GibonU.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -194,12 +198,9 @@ s32 get_target_info__9TObjEneDDFv();
 s32 pack_debug_text_position(s32, s32);
 Ene_800D17E8 *find_enemy_by_id__16TObjEneBm5GibonUFi(s32 id);
 s32 debug_draw_line(void *, void *, u32, u32);
-s32 debug_printf_at(s32, const char *, ...);
 s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 translate_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern char lbl_8043C07C[];
@@ -1638,7 +1639,6 @@ extern s32 game_difficulty_selection;
 u8 check_hit_sphere__16TObjEneBm5GibonUFPvif(Ene_800CCB74 *arg0, s32 arg1, f32 scale);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 Hit_800CCC6C *csnVectorUnder(Vec_800CCC6C *, void *, s32);
-void *spawn_particle_effect(void *, s32);
 s32 fn_800D88E4(void *);
 void TObjEneBm5GibonU__sub_800D02F8(Gibon_800D02F8 *g, s32 arg1);
 void TObjEneBm5GibonU__sub_800CFE30(u8 *arg0, s32 arg1);
@@ -1686,8 +1686,6 @@ void fn_80044330(void *);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
 void rotate_vector_by_matrix(s32, void *, void *);
 void subtract_vector(void *, void *);
-s32 push_matrix_from(void *src);
-s32 pop_matrices(s32 arg0);
 extern u8 identity_matrix[];
 extern s32 tl_07;
 void TObjEneBm5GibonU__sub_800CF7CC(u8 *arg0, s32 arg1);

@@ -15,6 +15,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 
 struct RecoveredGlobal_802F4098_main_task { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_802F4098_main_task_size[sizeof(RecoveredGlobal_802F4098_main_task) == 0x34 ? 1 : -1];
@@ -62,9 +64,6 @@ extern const f32 TBoss8Dragon__data_805DED64;
 s32 isFading__15RenderFadeStateCFv(int);
 s32 TObjLight__sub_801337F8(void *);
 s32 has_enough_enemies__12TBoss8DragonFv();
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);

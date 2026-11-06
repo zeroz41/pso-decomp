@@ -8,6 +8,8 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma readonly_strings on
 
@@ -71,7 +73,6 @@ s32 get_bml_model(void *, int);
 void *__nw__7TObjectFUl(u32);
 void vec3_add_to(Vec_8017D448 *, Vec_8017D448 *);
 void rotate_vector_by_matrix(int, Vec_8017D448 *, Vec_8017D448 *);
-void rotate_matrix_y(int, int);
 extern u8 identity_matrix[];
 extern void *wreck_ancient_brakable_bml_resource;
 extern s32 tl_05;
@@ -109,7 +110,6 @@ void TOWreckAncientBrakable::spawn_debris() {
 
 extern "C" {
 
-s32 play_sound_effect(s32, void *, s32, s32);
 u8 is_current_floor_switch_set(u16);
 
 void TOWreckAncientBrakable::run_task() {

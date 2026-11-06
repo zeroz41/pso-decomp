@@ -13,6 +13,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/technique/TTecSlicer.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/map/CsnQuery.h"
 #pragma defer_codegen on
 
 struct RecoveredGlobal_8012DBF4_lbl_804A5B20 {
@@ -37,7 +38,6 @@ extern const f32 lbl_805DF630;
 extern const f32 lbl_805DF634;
 extern const f32 lbl_805DF644;
 u8 *__ct__26TBoss5GryphonLightningHornFv(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
-s32 *csnVecterUnder(s32 origin, s32 mask);
 s32 __nw__7TObjectFUl(int);
 extern const f32 lbl_805D8D48;
 void init_slicer_launch_state(void *arg0);

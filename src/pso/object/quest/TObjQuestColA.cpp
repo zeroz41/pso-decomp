@@ -4,13 +4,13 @@
 #include "pso/object/quest/TObjQuestColBase.h"
 #include "pso/object/quest/TObjQuestCol.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 
 void *TObjQuestColA__ct(void *arg0);
 void enable_action_input__10TObjPlayerFPv(void *p);
 void TObjQuestColBase__ct(void *);
-void *get_player_by_client_id(s32 i);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 check_flag_100__10TObjPlayerFPv();
 

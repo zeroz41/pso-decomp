@@ -15,6 +15,8 @@
 #include "pso/object/warp/TObjGoalWarpAncient.h"
 #include "pso/object/warp/TObjMapWarpAncient_8017D0DC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D853C.h"
 
 const char *bm_o_warp_ancient_model_names[7] = {
     "dd_obj3_swarp_ksita.gj", "de_obj2_swarp_beam.gj", "de_obj1_swarp_beam_n.gj", "fd_obj1_swarp_gawa.gj",
@@ -63,7 +65,6 @@ extern "C" {
 
 
 
-s32 is_split_screen();
 s32 queue_destruction__7TObjectFv(void *);
 s32 register_warp_object__19TObjGoalWarpAncientFPv(int);
 s32 register_warp__19TObjGoalWarpAncientFPv(int);
@@ -73,7 +74,6 @@ s32 init__13TAdVIConfigGCFf(int, void *, f32);
 extern s32 __vt__19TObjGoalWarpAncient[];
 
 s32 debug_print_area_num__12TObjAreaWarpFv();
-void debug_printf_at(s32 id, const char *fmt, ...);
 const char lbl_80443288[] = "<- GOAL (POSITIVE: START)";
 const char lbl_804432A4[] = "<- START (NEGATIVE: GOAL)";
 s32 draw_debug_destinations__11TObjMapWarpFv();

@@ -2,13 +2,13 @@
 #include "pso/boss/darkfalz/TBoss4Type3_800524E8.h"
 #include "pso/boss/darkfalz/TBoss4Type3.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
 
 struct Player_8005254C { u8 pad[0x30]; u32 flags; };
 
 extern "C" {
 extern const f32 lbl_805D8AE0;
-void *get_player_by_client_id(s32 i);
-f32 cos_table_lookup(s32);
 
 extern const f32 lbl_805D8AE4;
 extern const f32 lbl_805D8AF0;

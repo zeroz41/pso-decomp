@@ -16,6 +16,7 @@
 #include "pso/object/warp/TObjAreaWarpQuest.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_80087278.h"
 
 #pragma readonly_strings on
 
@@ -100,7 +101,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void queue_destruction__7TObjectFv(void *);
-s32 spawn_particle_effect(void *, int);
 s32 play_effect_default__10TObjPlayerFii(void *, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
 void *__nw__7TObjectFUl(int);

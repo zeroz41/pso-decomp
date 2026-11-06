@@ -38,11 +38,14 @@
 #include "pso/enemy/recon/TObjEneRecobox_8031FCB0.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 s32 TObjFish__sub_8001EDB0(u32, s32);
 s32 get_bml_model(u32, s32);
-s32 scale_matrix(s32, f32, f32, f32);
 s32 push_matrix();
 extern u8 *TObjEneRecon__recobox_static_instance;
 extern const f32 lbl_805DF3B8;
@@ -436,10 +439,8 @@ u8 TObjEneRecon__sub_8031C250(T_8031C250 *self);
 s16 get_attack_params_atp_min(void *p);
 int get_player_data__10TObjPlayerFi(int a0);
 u16 get_entity_id(void *);
-void *spawn_particle_effect(void *pos, s32 id);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 f32 horizontal_distance_squared(void *, void *);
-void play_sound_effect(s32, void *, s32, s32);
 s32 is_valid_and_active__10TObjPlayerFUl();
 s32 TObjEneRecon__sub_8031DA90(u8 *arg0);
 f32 approach_value__12TObjEneReconFff(void *, f32, f32);
@@ -611,7 +612,6 @@ void clear_attack_receipts__9TObjEneDDFv(void);
 void noop__12TBoss8DragonFv(void *);
 void set_flag2__12TObjEneReconFv(void *, f32, f32, f32);
 void TObjEneRecon__sub_8031C624(u8 *arg0, s32 arg1);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void TBoss8Dragon__sub_800BB7D8(void *, int, f32);
 void TBoss8Dragon__sub_800BB7DC(void *);
 s32 project_actor_to_ground(void *, void *, void *);
@@ -2094,7 +2094,6 @@ struct VObj_18_be4a70 : VBase_18_be4a70 {
 };
 
 void obj_setFlags30(void *, u32);
-void *create_particle_emitter(void *pos, s32 id);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, void *, int, void *);
 s32 initialize_enemy_state__9TObjEneDDFl(void *, int);

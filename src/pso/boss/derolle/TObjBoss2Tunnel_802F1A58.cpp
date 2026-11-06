@@ -22,6 +22,9 @@
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel_802F2070.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 
 struct Nd_802F2348 { u8 pad[0xC]; Nd_802F2348 *next; };
 
@@ -177,7 +180,6 @@ extern "C" {
 s32 copy_position__16TBoss8DragonDemoFv(int, void *);
 s32 draw_ginja_object(int);
 s32 is_in_camera_range__18TObjBoss7TunnelColFv(void *);
-s32 push_matrix();
 extern u8 *boss7_common_bml_resource;
 extern u8 *boss7_common_texture_list;
 
@@ -308,7 +310,6 @@ s32 TObjBoss2Tunnel__sub_802F22F4(void);
 void queue_destruction__7TObjectFv(void *arg0);
 extern const f32 lbl_805DEC68;
 s32 init_piecewise_curve(void *, f32, f32, f32, f32, f32);
-f32 fabs_float(f32);
 f32 update_position__15TObjBoss2TunnelFv(void *);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
@@ -324,8 +325,6 @@ void draw_particle_effect(void *a0);
 void draw_tunnel_segment(u8 *arg0);
 void fn_802F1DAC(u8 *arg0);
 void fn_802F1E54(u8 *arg0);
-s32 is_split_screen();
-s32 get_current_floor();
 s32 reset_floats__15TObjBoss2TunnelFv(void *);
 s32 reset_floats__15TObjBoss2TunnelFl(void *);
 s32 is_room_enemy_set_cleared(s32, int);
@@ -335,7 +334,6 @@ extern u8 TObjBoss2Tunnel__raft_splash_offset_table[];
 void *TObjBoss2Tunnel__sub_802F2A2C(void *arg0p, s32 parent);
 f32 rand_signed_unit();
 u8 *__ct__13TObjBoss7DustFv(u8 *arg0, s32 arg1, s32 arg2);
-s32 rand();
 extern s32 tl_05;
 s32 TObjBoss2Tunnel__sub_802F2070(void);
 

@@ -17,6 +17,11 @@
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 struct TItemEquipBase;
 #include "pso/weapon/shoot/TItemShootParticle.h"
 
@@ -57,8 +62,6 @@ typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 :
 
 extern "C" {
 
-s32 rotate_matrix_z(s32, s32);
-void draw_ginja_object(void *child);
 void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
@@ -74,11 +77,8 @@ s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
 s32 set_model_fade_alpha__10TObjPlayerFf();
 void TObjPlayer__sub_80364198(void);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 extern s32 model_render_flags;
-s32 get_current_floor();
 s32 is_item_area_enabled();
 s32 create_ex__9TTecMegidFllll(void *, s32 *, s32, s32);
 s32 __nw__7TObjectFUl(s32);
@@ -106,7 +106,6 @@ void run_task__13TUnk_804A2018Fv(void *arg0);
 void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
 u8 *TObjPlayer__sub_80124708(u8 *arg0);
-s32 rotate_matrix_x(int, int);
 
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
 typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);

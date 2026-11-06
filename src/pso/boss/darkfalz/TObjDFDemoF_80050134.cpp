@@ -8,6 +8,7 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/boss/darkfalz/TBoss4Uro.h"
 #include "pso/camera/TCameraCtrl.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 
@@ -42,7 +43,6 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 void set_scripted_camera_pose(void *, void *, void *);
 void __ct__8TObjBaseFP7TObject(void *, void *);
-void play_sound_effect(s32, void *, s32, s32);
 extern s32 TObjDFDemoF__name;
 void vfunc_6__8TObjBaseFPsl();
 void get_name__8TObjBaseFv();

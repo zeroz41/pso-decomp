@@ -6,6 +6,14 @@
 #include "pso/object/TUnk_8049442C.h"
 #include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/map/CsnQuery.h"
 
 
 CollisionBody gyaranzo_missile_collision_body_b = {{0.0f, 0.0f, 0.0f}, 0.0f, 0.0f, 0, 0x8001, {0.0f, 0.0f, 0.0f}, 0.0f};
@@ -40,13 +48,9 @@ extern "C" {
 u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern f32 identity_matrix[12];
 extern s32 gyaranzo_bml_resource;
 extern s32 tl_04;
-s32 rand();
 s32 matrix_mult_vec(int, int, int);
 s32 rotate_matrix_x(int, int);
 extern s32 __vt__19TObjGyaranzoMissile[];
@@ -55,14 +59,12 @@ extern f32 TObjGyaranzoMissile__speed_scale;
 u8 *TObjGyaranzoMissile__ct(u8 *arg0, u8 *arg1, u8 *arg2, s16 arg3);
 void queue_destruction__7TObjectFv(void *);
 Obj_800D47B4 *get_battle_param__10TObjPlayerFi(s32);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void init_all_slots__10TObjPlayerFv(void *);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(void *, void *, int, int);
 extern Parm_800D47B4 lbl_8043C464[];
-u32 csnVector(void *, void *, int);
 Target_800D4990 *find_active_entity_by_id(u16);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
@@ -70,18 +72,14 @@ void direction_to_rotation_xy(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 project_actor_to_ground(void *, void *, int);
 int vec3_add_to(void *, void *);
-f32 vector_length(void *);
-int subtract_vector(void *, void *);
 extern const f32 TObjGyaranzoMissile__max_range;
 extern s32 gyaranzo_missile_volley_end_time;
 void *__dt__19TObjGyaranzoMissileFv(void *arg0, s16 arg1);
-f32 sin_table_lookup(int);
 s32 post_translate_matrix(void *);
 void free_collision_body_parts(void *);
 s32 TObjFish__sub_8001EDB0(void *, int);
 s32 get_bml_model(void *, int);
 s32 draw_chunk_object();
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 void __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();

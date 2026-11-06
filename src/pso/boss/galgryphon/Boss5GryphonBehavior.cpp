@@ -16,6 +16,15 @@
 #include "pso/boss/galgryphon/TBoss5GryphonSnarl.h"
 #include "pso/boss/galgryphon/TBoss5GryphonDemo.h"
 #include "pso/system/PadRumble.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -217,8 +226,6 @@ void set_flag_4e4__12TBoss8DragonFPv(void* p);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 void * spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 void * __nw__7TObjectFUl(u32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 u8 *__ct__22TBoss5GryphonShockWaveFP7TObjectlPUcPUcls(u8 *arg0, u8 *arg1_parent, s32 arg2, u8 *arg3, u8 *arg4, s32 arg5, s16 arg6);
 extern s32 lbl_80437938[];
 extern const f32 lbl_805D8D50;
@@ -234,7 +241,6 @@ f64 atan2_float(f32, f32);
 s32 restore_player_cameras(void);
 s32 activate_camera_mode(s32 arg0);
 void set_scripted_camera_pose(void *, void *, void *);
-s32 play_sound_effect(int, void *, int, int);
 void play_cue_stream_file(s32 name);
 extern Vec_80062BA0 lbl_80437DB8[];
 extern const f32 lbl_805D8D5C;
@@ -251,7 +257,6 @@ void move_along_angle__13TBoss5GryphonFPvif(void *arg0, s32 arg1, f32 farg0);
 void TBoss8Dragon__sub_800646F0(s32 arg0);
 s32 subtractive_rng_seed(void *, s32);
 s32 is_alive__8TObjBaseFv(void *);
-u32 get_player_by_client_id(s32);
 s32 fn_80351DA8(void *, void *, void *, int, int);
 extern const f32 lbl_805D8D88;
 extern const f32 lbl_805D8DBC;
@@ -264,7 +269,6 @@ extern const f32 lbl_805D8DD8;
 extern const f32 lbl_805D8DDC;
 extern const f32 lbl_805D8DE0;
 extern const f32 lbl_805D8DE4;
-s32 rand();
 extern f32 gryphon_action_probability_table_a[];
 extern f32 gryphon_action_probability_table_b[];
 extern const f32 lbl_805D8D98;
@@ -602,7 +606,6 @@ s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 s32 TObjLight__sub_801337F8(void *);
-s32 angle_diff_s16(s32, s32);
 s32 draw__10TObjMotionFv(void *);
 u8 * find_entity_by_id();
 void free_collision_body_parts(void *);
@@ -615,13 +618,8 @@ void * __ct__25TBoss5GryphonLightningEffFv(void *, void *, void *, s32, f32, f32
 s32 spawn_lightning_wing__12TBoss8DragonFiiiiii(s32 arg0, s32 arg1, s32 mid, s32 arg3, s32 arg4, s32 arg5);
 void __destroy_arr(void *, void *, int, int);
 f32 vec3_dot(void *, void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_z(int, int);
 void subtract_vector(void *, void *);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void set_material_alpha_compare_reference(s32 reference);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
@@ -719,7 +717,6 @@ s32 is_split_screen();
 void TBoss8Dragon__sub_8005DF60(TBoss5Gryphon *self);
 }
 extern "C" {
-void set_matrix_identity(u8 *mtx);
 void matrix_mult_vec(s32 mtx, void *in, void *out);
 }
 extern "C" {

@@ -22,13 +22,12 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 extern "C" {
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
-BmlResource *load_resource_from_descriptor(void *self, s32 kind, const BmlResourceDescriptor *desc, s32, s32, s32);
-void TLobby__sub_8001FE7C(BmlResource *self, s16 del);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 extern TCameraCtrl *camera_ctrl_instance;
 }
 

@@ -12,19 +12,24 @@
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Ten_802F08A8;
 extern "C" {
-f64 atan2_float(f32, f32);
 s32 approach_angle_limited(s32, s32, s32);
-s32 play_sound_effect(int, void *, int, int);
 void TBoss7Tentacle__sub_802F0608(TBoss7Tentacle *tentacle, f32 len);
-f32 sin_table_lookup(s32);
-s32 set_matrix_identity(int);
 s32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
-void pop_matrix(void);
 struct RecoveredGlobal_802EFB1C_lbl_80541918 {
     s32 value;
     u8 remaining[0xC];
@@ -107,17 +112,13 @@ typedef struct Anim_802F0BE8 { u8 pad0[4]; u32 n; } Anim_802F0BE8;
 
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 attach_particle_model(int, int, int, int, int, f32);
-void *spawn_particle_effect(void *pos, s32 id);
 f32 horizontal_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 s32 notify_fish_obj__10TObjPlayerFPv(int);
 s32 queue_boss_effect__10TObjPlayerFPv(int);
 s32 TObjPlayer__sub_802E80A0();
 void draw_effect__10TObjPlayerFv(void *);
-s32 rand(void);
-s32 rotate_matrix_y(int, int);
 void rotate_matrix_by_node_angles(void *, int);
 s32 scale_current_matrix(void *);
 void post_translate_matrix(void *);
@@ -141,8 +142,6 @@ extern const char *boss7_tentacle_needle_name_ptr;
 struct Ten_802F01D0 { u8 pad0[0x50]; V_802F0A5C v[14]; };
 
 void __ct__7TObjectFP7TObject(void *, void *);
-void *create_particle_emitter(void *pos, s32 id);
-f32 newton_sqrtf(f32);
 void copy_model_node(u8 *dst, u8 *src);
 
 struct Arr_802EFD08 { u8 pad[0x44]; s32 a[12]; };

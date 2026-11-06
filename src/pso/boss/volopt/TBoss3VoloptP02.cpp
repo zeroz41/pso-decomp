@@ -40,25 +40,24 @@
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/render_util.h"
 
 extern "C" {
 void *find_entity_by_id(u16 id);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 extern s32 model_render_flags;
 void free_collision_body_parts(void *);
 void init_collision_body_parts(void *, void *, s32);
 s32 play_persistent_sound(s32, void *, void *, s16, s32);
-s32 rand(void);
 extern s32 actor_frame_tick;
 s32 minimap_render_dot(void *, s32, s16, s32);
 s32 submit_cursor_candidate(void *, int);
-s32 play_sound_effect(s32, void *, s16, s32);
-u16 get_entity_id(void *);
-f32 atan2_float(f32, f32);
-f32 fabs_float(f32);
-s32 angle_difference_abs(s32, s32);
 void subtract_vector(void *, void *);
 extern s32 registered_player_count;
 u16 TObjRoomId__sub_801A1DB8(void);
@@ -69,12 +68,9 @@ s32 TCameraCtrl__sub_8006A044(int, f32);
 s32 set_scripted_camera_pose(void *, void *, void *);
 u8 *get_scripted_camera_playback(s16);
 s32 TObjPlayer__sub_801BA42C();
-s32 approach_angle_limited(s32, s32, s32);
 u8 *get_player_by_client_id(s32);
-s32 matrix_mult_vec(int, void *, void *);
 extern u8 identity_matrix[];
 void TBoss3Volopt__sub_800FD344(s32 arg0, s32 arg1, s32 arg2, void *arg3, void *arg4);
-void obj_setFlags30(void *, s32);
 }
 
 void reset_status_effect_row(u8 *row);

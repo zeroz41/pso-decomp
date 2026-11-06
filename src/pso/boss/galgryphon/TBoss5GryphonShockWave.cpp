@@ -9,6 +9,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 extern u8 lbl_80437F40[];
@@ -18,7 +19,6 @@ s32 get_bml_model(s32, s32);
 s32 attach_particle_model(s32, s32, s32, s32, s32, f32);
 s32 spawn_particle_effect_with_flags(void *, s32, s32);
 u32 spawn_continuous_particle_effect_with_flags(void *, s32, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, s32, s32, void *, f32);
 s32 spawn_gryphon_tornado(s32, s32, void *, u16);
 extern s32 boss5_gryphon_bml_resource;

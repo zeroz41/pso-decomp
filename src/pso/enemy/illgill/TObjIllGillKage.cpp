@@ -4,6 +4,7 @@
 #include "pso/enemy/illgill/TObjIllGillKage.h"
 #include "pso/system/task/TObject.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_803655F8___vt__15TObjIllGillKage { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_803655F8___vt__15TObjIllGillKage_size[sizeof(RecoveredGlobal_803655F8___vt__15TObjIllGillKage) == 0x34 ? 1 : -1];
@@ -18,7 +19,6 @@ extern const char *TObjIllGillKage__class_name;
 u8 *TObjIllGillKage__ct(u8 *arg0, s32 arg1, u32 arg2);
 void *__dt__15TObjIllGillKageFv(void *arg0, s16 arg1);
 s32 is_locally_controlled__10TObjPlayerFPv();
-void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 s32 obj_testFlags30__14TObjCollidableFUl(s32, s32);
 

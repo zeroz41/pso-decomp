@@ -15,7 +15,6 @@
 #include "pso/system/task/TMainTask.h"
 
 extern "C" {
-s32 get_current_floor();
 s32 get_captured_target_entry(void *, s32);
 }
 

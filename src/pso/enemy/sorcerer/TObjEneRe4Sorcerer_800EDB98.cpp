@@ -2,6 +2,10 @@
 #include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -29,11 +33,8 @@ s32 post_translate_matrix(void *);
 s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 s32 get_target_info__9TObjEneDDFv();
 s32 scroll_strip_uvs(int, int, int);
-s32 rotate_matrix_y(int, int);
 s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
-void draw_chunk_object(void *child);
 
 extern u32 TObjEneRe4Sorcerer__uv_scroll_buffer;
 extern s32 model_render_flags;
@@ -808,8 +809,6 @@ void * __nw__7TObjectFUl(int);
 s32 create_ex__11TTecGiBartaFPvPvPv(void *, void *, s32, s32);
 void __destroy_arr(void *, void *, u32, u32);
 void __construct_array(void *, void *, void *, int, int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 

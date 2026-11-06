@@ -41,6 +41,11 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 // The original TU was built with deferred codegen: functions below are in reverse
 // address order, and the pool (three {3, 2} initializers, then the float literals
@@ -386,12 +391,10 @@ void TObjAreaWarpQuest__sub_8019DCD8(void *, s32);
 f32 get_static_field4_as_float__12TObjWarpJungFv(f32);
 s32 TObjWarpJung__sub_801A0404(s32);
 int check_flag_100__10TObjPlayerFPv(void *p);
-void * get_player_by_client_id(s32);
 void send_6x21_inter_level_warp(void *obj, s32 value);
 void send_6x55_intra_map_warp(u16 id, void *pos, s32 c);
 s32 init__23TAdSinglePlyChrSelectGCFv();
 s32 get_floor_map_terrain(s32);
-s32 play_sound_effect(s32, s32, s32, s32);
 void set_area__6TLobbyFl(void *, int, int);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
@@ -410,14 +413,9 @@ void strncpy(s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 matrix_mult_vec(int, void *, void *);
 void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
-s32 rotate_matrix_y(s32, s32);
 void rotate_matrix_x(int, s32);
-s32 push_matrix_from(void *);
 void push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
-void draw_ginja_model(s32 model);
 void draw_ginja_model_with_motion(s32, s32, f32);
 
 extern s32 __vt__12TObjAreaWarp[];

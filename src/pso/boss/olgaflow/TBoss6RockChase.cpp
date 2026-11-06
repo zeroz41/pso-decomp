@@ -7,6 +7,9 @@
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include <stddef.h>
@@ -83,7 +86,6 @@ struct Param_8036D1B4 { u8 pad[0xC]; f32 v; };
 
 extern "C" {
 s32 __nw__7TObjectFUl(int);
-s32 rand();
 extern const f32 lbl_805E03D0;
 extern const f32 lbl_805E03D8;
 extern const f32 lbl_805E03E4;
@@ -102,11 +104,9 @@ extern const f32 lbl_805E03D4;
 extern const f32 lbl_805E03DC;
 extern const f32 lbl_805E03E0;
 s32 query_teammate_state__9TObjEneDDFv(void);
-s32 play_sound_effect(int, void *, int, int);
 extern const f32 lbl_805E03C0;
 extern const f32 lbl_805E03C4;
 extern const f32 lbl_805E03C8;
-int get_player_data__10TObjPlayerFi(int a0);
 Param_8036D1B4 *dispatch_shared_handler_a__6TLobbyFl(s32);
 f32 vector_length(void *);
 int subtract_vector(void *, void *);

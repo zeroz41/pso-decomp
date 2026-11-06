@@ -11,6 +11,8 @@
 #include "pso/object/trap/TOMine.h"
 #include "pso/object/trap/TOMineTrap.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 #pragma readonly_strings on
 
@@ -46,10 +48,8 @@ s32 is_locally_controlled__10TObjPlayerFPv(void);
 f32 horizontal_distance_squared(void *, void *);
 void get_player_state__6TOMineFv(void *, u16);
 s32 fn_80171314(void *);
-void *get_player_by_client_id(s32 i);
 extern const f32 lbl_805DB850;
 s32 get_camera_mode__11TCameraCtrlFv();
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];

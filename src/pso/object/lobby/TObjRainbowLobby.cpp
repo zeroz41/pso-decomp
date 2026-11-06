@@ -11,12 +11,11 @@
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/TLobbyEventTheme.h"
+#include "pso/system/BmlResourceLoad.h"
 
 #pragma readonly_strings on
 
 extern "C" {
-void TLobby__sub_8001FE7C(BmlResource *resource, s32 del);
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
 // Defined (returning u8) in the lobby-event module; the original callers test
 // the full register.
 }

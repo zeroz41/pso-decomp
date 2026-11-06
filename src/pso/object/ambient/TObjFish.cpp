@@ -19,6 +19,9 @@
 #include "pso/object/key/TOKeyJungleMain.h"
 #include "pso/map/FloorArea.h"
 #include "pso/unk/TLobbyEventTheme.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 
 struct VBase_18_26a62c;
 struct SVec_8029D5C8;
@@ -42,7 +45,6 @@ s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 set_global_param__8TObjFishFl();
 void __dl__7TObjectFPv(void *);
@@ -290,7 +292,6 @@ struct Ent_8029E170 {
 
 extern "C" {
 
-int rand(void);
 extern const f32 lbl_805DDD60;
 extern const f32 lbl_805DDD64;
 extern const f32 lbl_805DDD70;
@@ -355,7 +356,6 @@ s32 TObjFish::init_fish_school(void *arg1_arg, s32 arg2, s32 arg3) {
 #define init_fish_school__8TObjFishFPvll ((s32 (*)(void *, void *, int, int))init_fish_school__8TObjFishFPvll)
 
 extern "C" {
-s32 is_split_screen(void);
 u8 *TObjFish__create(u8 *arg0);
 s32 __ct__8TObjBaseFP7TObject();
 extern s32 lbl_805D3D58;

@@ -12,6 +12,8 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/mericarol/TObjEneBm9Mericarol.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/MatrixVector.h"
 
 const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
 
@@ -102,7 +104,6 @@ extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
 u32 csnVector(void *, void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-void *find_entity_by_id(u16 id);
 void TObjEneBm9Mericarol__sub_802CED40(void *p);
 s32 vec3_add_to(void *, void *);
 
@@ -194,7 +195,6 @@ void TObjEneBm9Mericarol_Bomb::run_task() {
 extern "C" {
 
 s16 get_entity_id(void *);
-f32 vector_length(Vec *);
 s32 normalize_vector(Vec *);
 
 }

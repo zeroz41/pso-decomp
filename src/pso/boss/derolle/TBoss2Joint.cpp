@@ -14,6 +14,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_80087278.h"
 
 struct TBJ_8003688C { char pad[0x18]; };
 struct VTbj_8003688C : TBJ_8003688C {
@@ -213,7 +214,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 vfunc_94__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv(void *);
 extern const f32 lbl_805D8258;
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);

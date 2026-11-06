@@ -1,5 +1,6 @@
 #include "pso/boss/goldragon/TObjBoss8Piller.h"
 #include "pso/system/vector.h"
+#include <stdlib.h>
 
 TObjBoss8Piller::~TObjBoss8Piller() {}
 
@@ -17,7 +18,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern BmlResourceDescriptor bm_obj_boss8_piller_resource_descriptor;
 extern u32 TObjBoss8Piller__shared_resource;
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 extern RecoveredGlobal_8030AF60___vt__15TObjBoss8Piller __vt__15TObjBoss8Piller;
 extern s32 TObjBoss8Piller__class_name;
 void TLobby__sub_8001FE7C(void*, int);

@@ -13,6 +13,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
 typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];
@@ -71,11 +73,9 @@ int TBoss6Thanks__sub_8035CB40(void);
 u8 *__dt__12TBoss6ThanksFv(u8 *arg0, s16 arg1);
 void TBoss6Thanks__sub_8035CCAC(s32 arg0);
 extern Ent_8035CB88 boss6_thanks_particle_emitter_table[];
-int get_player_data__10TObjPlayerFi(int a0);
 f32 xyz_distance(void *, void *);
 extern const f32 lbl_805E0198;
 u8 fn_8035CAE0(void);
-s32 play_sound_effect(s32, s32, s32, s32);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
 
 u8 fn_8035CAE0(void) {

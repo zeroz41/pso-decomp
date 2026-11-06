@@ -3,6 +3,7 @@
 #include "pso/render/RenderFadeState.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredGlobal_802F4380_main_task { s32 value; u8 remaining[0x30]; };
 typedef char RecoveredGlobal_802F4380_main_task_size[sizeof(RecoveredGlobal_802F4380_main_task) == 0x34 ? 1 : -1];
@@ -121,7 +122,6 @@ extern "C" {
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 defer_render__7TObjectFv(void *);
-s32 is_split_screen();
 
 void TBoss8Dragon__sub_802F4380(TBoss8Dragon *self) {
     s32 view = 0;

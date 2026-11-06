@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+#include "pso/math/AngleLookup.h"
 
 struct RecoveredGlobal_8033FE30_lbl_80478554 {
     s32 value;
@@ -8,8 +9,6 @@ struct RecoveredGlobal_8033FE30_lbl_80478554 {
 };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern RecoveredGlobal_8033FE30_lbl_80478554 lbl_80478554;
 extern const f32 lbl_805DFAFC;
 extern const f32 lbl_805DFB00;

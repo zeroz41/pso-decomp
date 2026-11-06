@@ -13,6 +13,7 @@
 #include "pso/unk/text_80153A7C.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 #pragma readonly_strings on
 
@@ -48,7 +49,6 @@ extern void *tl_05;
 
 extern "C" {
 
-s32 is_split_screen();
 s32 init_base__22TObjFogCollisionPoisonFPUcs(void *, void *, u16);
 void *__nw__7TObjectFUl(int);
 extern s32 __vt__22TObjFogCollisionPoison[];

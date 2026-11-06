@@ -20,6 +20,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
 
@@ -41,7 +42,6 @@ struct Obj_8002CA38 { u8 pad[0x28]; u32 slot[4]; };
 
 extern "C" {
 extern s32 TObjBoss1Floor__name;
-void *get_player_by_client_id(s32 i);
 void run_task__14TObjBoss1FloorFv(Floor_8002C968 *self);
 int TBoss8Dragon__sub_8002D5F8(void);
 void TObjBoss1Floor__sub_8002CB40(void);

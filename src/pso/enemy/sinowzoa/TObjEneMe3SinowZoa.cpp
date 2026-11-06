@@ -47,6 +47,10 @@
 #include "pso/render/NinjaUtil.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/render/render_util.h"
 
 // load_resources fills these per kind (0 and 1) from TLobby::register_boss,
 // TLobby::dispatch_shared_handler_b, TLobby::register_object and
@@ -222,9 +226,7 @@ s32 sub_8031A454__18TObjEneMe3SinowZoaFv(void *);
 s32 is_outside_visible_range__18TObjEneMe3SinowZoaFv(void *);
 void debug_printf_at(s32 id, const char *fmt, ...);
 s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern s32 model_render_flags;
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F0;
@@ -239,7 +241,6 @@ void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void print_float_padded(s32 arg0, s32 prec, f32 val);
 void move_with_wall_slide(u8 *arg0);
 extern "C" {
-s32 push_matrix_from(void *);
 void create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
 s32 matrix_mult_vec(int, void *, void *);
 extern u8 identity_matrix[];
@@ -262,7 +263,6 @@ extern "C" {
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 
 extern const f32 TObjEneMe3SinowZoa__data_805DF31C;
@@ -281,7 +281,6 @@ struct Vec_803181A8 { f32 x, y, z; };
 
 extern "C" {
 s32 transition_enemy_state__9TObjEneDDFl(void *, int);
-void play_sound_effect(s32, void *, s32, s32);
 struct VBase_14_948132 { char pad[0x14]; };
 
 struct VObj_14_948132 : VBase_14_948132 {
@@ -668,7 +667,6 @@ u32 get_item_field_6__10TObjPlayerFPv(void *);
 f32 fabs_float(f32);
 void queue_destruction__7TObjectFv(void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 get_item_id__5TItemFv();
 }
 void enemy_turn_and_move_on_ground(u8 *arg0, s32 arg1, f32 farg0);
@@ -684,8 +682,6 @@ s32 init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, int, int);
 s32 TObjEneMe3SinowZoa__sub_800D72A4(void *);
 s32 TBoss3Volopt__sub_800D8D88(void *, f32);
 f32 * TBoss3Volopt__sub_800F059C(void *);
-s32 check_enemy_body_collisions(void *);
-void free_collision_body_parts(void *);
 void send_6x26_unequip_item__10TObjPlayerFPvPv(void *, s32);
 void create__10TTecDebandFlll(void *, void *, int);
 void create__9TTecJelinFllll(void *, void *, void *, int);
@@ -719,11 +715,7 @@ void vfunc_88__18TObjEneMe3SinowZoaFv(void *arg0);
 void vfunc_61__18TObjEneMe3SinowZoaFv(void);
 void vfunc_28__18TObjEneMe3SinowZoaFv(void);
 void run_task__18TObjEneMe3SinowZoaFv(u8 *arg0);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void compose_motion_node_matrix(void *arg0);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F0;
 extern const f32 TObjEneMe3SinowZoa__data_805DF2F4;
@@ -939,8 +931,6 @@ struct Zoa_8031786C {
 
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 defer_render__7TObjectFv(void *);
-s32 rotate_matrix_y(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 extern u8 saved_model_draw_color[];
@@ -1198,7 +1188,6 @@ struct VObj_18_347dfc : VBase_18_347dfc {
     virtual s32 m102(f32);
 };
 f64 atan2_float(f32, f32);
-s32 approach_angle_limited(int, int, int);
 
 struct VBase_14_6ea8ee { char pad[0x14]; };
 struct VObj_14_6ea8ee : VBase_14_6ea8ee {

@@ -4,9 +4,9 @@
 #include "pso/system/task/TObject_80019A50.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 void __ct__7TObjectFP7TObject(void *, void *);
 s32 is_active__14TBoss6PlotFalzFv();
 extern s32 lbl_8047AC70[];

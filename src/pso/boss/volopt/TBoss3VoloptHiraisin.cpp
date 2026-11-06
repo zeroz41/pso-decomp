@@ -13,20 +13,18 @@
 #include "pso/system/vector.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 extern "C" {
-s32 play_sound_effect(s32 id, Vec *pos, s32 a2, s32 flags);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
-void obj_setFlags30(TObject *obj, u32 mask);
-void submit_cursor_candidate(TObject *obj, s32 a1);
 s32 minimap_render_dot(Vec *pos, s32 color, s16 a2, s32 a3);
 void init_collision_body_parts(TObject *obj, void *parts, s32 count);
 void free_collision_body_parts(TObject *obj);
-void push_matrix(void);
-s32 pop_matrix(void);
-void post_translate_matrix(const f32 *pos);
-void rotate_matrix_y(void *mtx, s32 angle);
-void scale_matrix(void *mtx, f32 x, f32 y, f32 z);
 
 TUnk_8048FA00 *init_from_model__11TBreakUpMdlFl(TUnk_8048FA00 *obj, s32 model);
 void trigger_dell_biter_events__10TObjPlayerFv(Vec *pos);

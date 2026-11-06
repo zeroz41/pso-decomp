@@ -9,14 +9,14 @@
 #include "pso/technique/TTecSlicer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
 
 s32 scale_current_matrix(void *);
 u8 get_item_index__5TItemFv();
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
 }
 
 void TUnk_804A5B20::vfunc_60() {
@@ -61,7 +61,6 @@ extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;
 extern const f32 lbl_805DAF54;
 void init_slicer_launch_state(void *arg0);
-u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 f32 query_extended_state__10TObjPlayerFv(void *);

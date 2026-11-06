@@ -2,6 +2,7 @@
 #include "pso/system/vector.h"
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_8002CC48.h"
+#include <stdlib.h>
 
 struct Stack_8003AED4 {
     s32 sp8;
@@ -30,7 +31,6 @@ struct RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash { s32 value; u8 rema
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 extern RecoveredGlobal_8003AFBC___vt__19TObjBoss2RaftSplash __vt__19TObjBoss2RaftSplash;
 extern s32 lbl_805D2700;
 u8 *TObjBoss2RaftSplash__ct(u8 *object, u8 *arg1, u8 *arg2, u8 *arg3, s32 arg4) {

@@ -9,6 +9,11 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/lappy/TObjEneLappy.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void test_flag_256__12TObjEneLappyFv();
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -426,7 +431,6 @@ void sub_800C20B0__12TObjEneLappyFv(void *arg0);
 #define sub_800C20B0__12TObjEneLappyFv (*(s32 (*)())&sub_800C20B0__12TObjEneLappyFv)
 s32 play_sound_effect(s32, u32, s32, s32);
 void vfunc_63__12TObjEneLappyFv(u8 *arg0);
-void *get_player_by_client_id(s32 i);
 void vfunc_62__12TObjEneLappyFv(u8 *arg0);
 void vfunc_61__12TObjEneLappyFv(void *arg0);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
@@ -442,9 +446,7 @@ s32 draw_motion_model__10TObjMotionFv(void *);
 s32 draw__10TObjMotionFv(void *);
 s32 end_effect_render__13TParticleCtrlFv();
 s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 f32 post_translate_matrix(void *);
 s32 set_global_param__8TObjFishFl(int);
 s32 draw_chunk_object(int);
@@ -456,7 +458,6 @@ void TObjPlayer__sub_800BFF54(void * _w0);
 void sub_800C20C0__12TObjEneLappyFv(void *arg0);
 #define sub_800C20C0__12TObjEneLappyFv (*(s32 (*)())&sub_800C20C0__12TObjEneLappyFv)
 u8 *find_active_entity_by_id(u16);
-s32 submit_cursor_candidate(void *, int);
 s32 minimap_render_dot(void *, int, int, int);
 void run_task__12TObjEneLappyFv(u8 *arg0);
 void apply_variant_speeds__12TObjEneLappyFv(Obj_800BFCD4 *self);
@@ -471,8 +472,6 @@ u32 csnVector(void *, void *, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(s32, void *, void *);
-s32 push_matrix_from(void *);
-s32 pop_matrices(s32);
 extern f32 identity_matrix[3][4];
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 enemy_turn_toward_dest(void *, void *);
@@ -483,8 +482,6 @@ s32 enemy_backstep_from_point(void *, void *, f32);
 f32 update_enemy_wander_move(void *, void *, int, f32);
 f64 atan2_float(f32, f32);
 s32 queue_destruction__7TObjectFv(void *);
-s32 spawn_particle_effect(void *, int);
-s32 angle_difference_abs(int, int);
 s32 lerp_angle_half__Fll(int, int);
 s32 play_persistent_sound(s32, void *, void *, int, int);
 s32 update_action_hold_status__12TObjEneLappyFv(s32 arg0);

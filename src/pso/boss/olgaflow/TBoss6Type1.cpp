@@ -21,6 +21,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern const Vec boss6_map_csn_offset;
 extern const Vec boss6_map_csn_scale;
@@ -361,7 +366,6 @@ s32 TBoss6Type1__sub_802B5FF4(u8 *arg0);
 s32 TBoss6Type1__sub_802B600C(T1_802B600C *arg0, f32 _w1);
 void randomize_attack__11TBoss6Type1FPvPv(Boss_802B8EE0 *self, Atk_802B8EE0 *atk);
 void send_flow_action_if_idle__11TBoss6Type1FPvc(TBoss6Type1 *arg0, s8 arg1);
-s32 rand();
 extern u8 boss6_type1_random_action_table[];
 extern const f32 TBoss6Type1__data_805DE304;
 extern const f32 lbl_805DE3D8;
@@ -442,7 +446,6 @@ extern const f32 lbl_805DE2F0;
 extern const f32 lbl_805DE2EC;
 Blk_802B8624 *copy_block__11TBoss6Type1FPvPv(Blk_802B8624 *d, Blk_802B8624 *s);
 void TBoss6Type1__sub_802B5DD4(Obj_802B5DD4 *self);
-void *create_particle_emitter(void *pos, s32 id);
 extern Tbl_802B4BA8 TBoss6Type1__effect_slot_table[];
 extern u8 lbl_80471014[];
 s32 get_bml_motion(s32, s32);
@@ -461,7 +464,6 @@ extern const f32 TBoss6Type1__data_805DE32C;
 extern const f32 TBoss6Type1__data_805DE360;
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 void post_translate_matrix(Vec *pos);
 void rotate_matrix_x(int matrix, int angle);
@@ -480,7 +482,6 @@ f32 atan2_float(f64, f64);
 extern const f64 TBoss6Type1__data_80471038;
 void request_follow_camera_offsets(void *, void *, int);
 extern const Vec_802B57D4 lbl_80470FC0;
-s32 angle_diff_s16(s32, s32);
 extern const f32 lbl_805DE2DC;
 extern const f32 lbl_805DE2E8;
 extern const s8 lbl_805DE2C8[2];
@@ -549,8 +550,6 @@ extern "C" {
 u8 * TBoss6Type1__sub_802B96C0(s32 arg0, s32 arg1);
 s32 render_shadows__9TObjEnemyFv();
 extern const f32 lbl_805DE3D0;
-s32 angle_difference_abs(int, int);
-s32 approach_angle_limited(int, int, int);
 s32 TBoss6Type1__ct(s32, s32, s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 s32 __nw__7TObjectFUl(s32);
@@ -587,7 +586,6 @@ struct Boss_802B7530 {
 };
 
 f32 vec3_dot(void *, void *);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 extern const f32 lbl_805DE398;
 extern const f32 lbl_805DE39C;
 extern const f32 lbl_805DE3A0;

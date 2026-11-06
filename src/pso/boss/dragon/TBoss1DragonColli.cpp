@@ -3,6 +3,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/dragon/TBoss1DragonColli_C.h"
+#include "pso/unk/text_803D96A8.h"
 class TBoss1DragonColli : public TObject {
 public:
     TObject *objects[3];
@@ -89,7 +90,6 @@ s32 free_collision_body_parts(void *);
 int set_matrix_identity(void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-int pop_matrix(void);
 s32 __dl__7TObjectFPv(void *);
 
 u8 *TBoss1DragonColli__ct(u8 *object, s32 arg1) {

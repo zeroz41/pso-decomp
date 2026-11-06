@@ -10,13 +10,9 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/BmlResourceLoad.h"
 
 #pragma readonly_strings on
-
-extern "C" {
-void TLobby__sub_8001FE7C(BmlResource *resource, s32 del);
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
-}
 
 const char *bm_obj_lobby_kabocha_motion_names[1] = { NULL };
 __declspec(section ".data") const char *bm_obj_lobby_kabocha_model_names[2] = { "lobby_kabocya_s.gj", NULL };

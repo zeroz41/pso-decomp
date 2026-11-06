@@ -3,13 +3,13 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/text_8035C9E8.h"
 #include "pso/boss/darkfalz/TBoss4Thanks.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 fn_8035C2B4();
 int is_door_0x97_open__12TBoss4ThanksFv(void*);
 u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
 void *__nw__7TObjectFUl(int);
-s32 is_split_screen();
 
 extern void *tl_02;
 

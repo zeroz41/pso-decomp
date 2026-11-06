@@ -21,6 +21,12 @@
 #include "pso/unk/text_80184C2C.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
 
 struct VBase_18_26a62c { char pad[0x18]; };
 
@@ -40,7 +46,6 @@ struct Rec16_80180D18 { s32 f0; s32 f4; s32 f8; s32 fc; };
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_z(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
@@ -82,12 +87,7 @@ struct Car_80181074 {
 };
 
 extern "C" {
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 update_technique_slot__10TTecRaFoieFl(s32, int, int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
-f64 atan2_float(f32, f32);
-s32 angle_diff_s16(s32, s32);
 s32 vec3_add_to(void *, void *);
 }
 
@@ -110,7 +110,6 @@ struct Ctrl_80181310 { u8 pad0[0x24]; s32 counter; Rec_80181310 recs[5]; };
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
-s32 rand(void);
 void run_task__19TObjCityAirCar_CtrlFv(Ctrl_80181310 *self);
 }
 

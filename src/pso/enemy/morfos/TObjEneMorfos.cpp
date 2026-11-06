@@ -4,6 +4,11 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
@@ -363,8 +368,6 @@ f32 random_ratio__9TObjCharaFv(s32);
 f32 atan2_float(f32, f32);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 extern int TObjEneMorfos__param_table;
 extern const f32 TObjEneMorfos__data_805DF86C;
 extern const f32 TObjEneMorfos__data_805DF874;
@@ -372,7 +375,6 @@ extern const f32 lbl_805DF87C;
 extern const f32 lbl_805DF890;
 void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
-void spawn_particle_effect(void *, int);
 s32 play_sound_effect(s32, u32, s16, s32);
 void * __nw__7TObjectFUl(int);
 extern const f32 TObjEneMorfos__data_805DF884;
@@ -394,7 +396,6 @@ extern const f32 TObjEneMorfos__data_805DF870;
 void render__13TObjEneMorfosFv(u8 *arg0);
 u8 * get_player_data__10TObjPlayerFi(int);
 s32 queue_destruction__7TObjectFv(void *);
-void *create_particle_emitter(void *pos, s32 id);
 s32 is_alive__8TObjBaseFv(void *);
 s32 check_value_in_range__13TObjEneMorfosFPvUsUsUs(void *, int, int, int);
 s32 TObjEneMorfos__sub_803344F0(void *arg0);
@@ -682,10 +683,8 @@ void * TObjEneMorfos__ct(void *arg0, void *arg1, void *arg2);
 void TObjEneMorfosArm__sub_8033542C(void);
 s32 __destroy_arr(void *, void *, int, int);
 void __construct_array(void *, void *, void *, int, int);
-s32 rotate_matrix_y(int, int);
 void subtract_vector(void *, void *);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void vfunc_6__8TObjBaseFPsl();
 void vfunc_103__9TObjEneDDFPUc();

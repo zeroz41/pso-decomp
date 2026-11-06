@@ -11,6 +11,13 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/fly/TObjEneBm3FlyNest.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -731,8 +738,6 @@ struct Bodies_800B41E8 { u8 pad0[0xC]; NJS_TEXLIST *textures; u8 pad1[0x18 - 0x1
 
 
 
-s32 is_split_screen();
-f32 atan2_float(f32 y, f32 x);
 void queue_destruction__7TObjectFv(void *);
 s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
@@ -742,7 +747,6 @@ void TLobby__sub_8001FE7C(void*, int);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 get_flag_b4__9TObjEneDDFv(void *);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
-void *spawn_particle_effect(void *pos, s32 id);
 void render_with_state_debug__17TObjEneBm3FlyNestFv(u8 *arg0);
 void render__17TObjEneBm3FlyNestFv(u8 *arg0);
 void handle_attachment_sample__17TObjEneBm3FlyNestFi(s32 arg0);
@@ -798,16 +802,10 @@ void __dt__7TObjectFv(void *, int);
 void __destroy_arr(void *, void *, u32, u32);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
-void debug_printf_at(s32, const char *, ...);
 s32 vec3_add_to(void *, void *);
-void rotate_matrix_y(s32, s32);
-s32 subtract_vector(void *, void *);
-void translate_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(s32);
-void draw_chunk_object(void *child);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 
 void vfunc_6__8TObjBaseFPsl();
@@ -891,9 +889,7 @@ void select_melee_contact_body__9TObjCharaFPvf();
 void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void try_start_action__9TObjCharaFll();
 void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 void update_actor_ground_y__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 void update_flag30_timer__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();

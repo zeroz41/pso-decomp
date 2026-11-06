@@ -1,5 +1,10 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/sorcerer/TObjEneRe4Bit.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 struct Obj_800ED4BC;
 
 #include "types.h"
@@ -291,7 +296,6 @@ extern "C" {
 void set_state_flags__18TObjEneRe4SorcererFPv(u8 *arg0);
 void set_hold_flags__18TObjEneRe4SorcererFPv(u8 *arg0);
 void TObjEneRe4Sorcerer__sub_800ED47C(void* p);
-s32 play_sound_effect(s32, void *, int, int);
 extern const f32 TObjEneRe4Bit__data_805DA770;
 void TObjEneRe4Bit__sub_800ECC14(u8 *arg0, s32 arg1);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
@@ -304,12 +308,9 @@ void TObjEneRe4Bit__sub_800ECE04(TObjEneRe4Bit *arg0, s32 arg1);
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 defer_render__7TObjectFv(void *);
 int scale_matrix(int, f32, f32, f32);
-int rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 int push_matrix();
-s32 pop_matrix(void);
 int post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 extern Vec re4_bit_render_vec;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -532,7 +533,6 @@ extern const f32 lbl_805DA77C;
 extern const f32 lbl_805DA780;
 u8 *TObjEneRe4Bit__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, s16 arg5, s16 arg6);
 void *__dt__13TObjEneRe4BitFv(void *arg0, s16 arg1);
-void free_collision_body_parts(void *);
 void *__dt__13TUnk_80490470Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);

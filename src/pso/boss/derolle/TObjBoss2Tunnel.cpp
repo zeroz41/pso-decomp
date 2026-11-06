@@ -48,6 +48,7 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
+#include "pso/math/AngleLookup.h"
 
 struct Stack_8007CBC4 {
     s32 sp8;
@@ -136,7 +137,6 @@ s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 extern u32 camera_ctrl_instance;
 s32 verify_snapshot_checksum__15TObjBoss2TunnelFv();
 void set_depth_buffer_settings_1__Fv(void);
-void restore_saved_depth_alpha_state(void);
 void draw_projected_quads__15TObjBoss2TunnelFPvi(Vtx_8007D828 *, s32);
 extern s32 lbl_805D63F0;
 s32 TAdPlayerLoadGC__sub_801E0FA4(s32);
@@ -176,16 +176,11 @@ struct AccelerationCurve {
 };
 extern "C" {
 f32 sample_acceleration_curve(AccelerationCurve *c, f32 t);
-f32 newton_sqrtf(f32);
 void init_acceleration_curve(AccelerationCurve *c, f32 a, f32 d, f32 length, f32 speed);
 void __dl__FPv(void);
 s32 reset_floats__15TObjBoss2TunnelFv();
 int reset_coords__15TObjBoss2TunnelFv();
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 get_view_matrix__11TCameraCtrlFv();
-s32 angle_diff_s16(s32, s32);
-s32 approach_angle_limited(s32, s32, s32);
 int vec3_add_to(void*, void*);
 int TCameraCtrl__sub_8006B370(f32 farg0);
 f32 vec_squared_length();

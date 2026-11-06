@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/system/vector.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 typedef struct Vec_80325D58 { f32 x; f32 y; f32 z; } Vec_80325D58;
 
 extern "C" {
-f32 newton_sqrtf(f32);
 f32 vec3_dot(void *, void *);
 void normalize_vector(void *);
 extern const f32 lbl_805DF630;

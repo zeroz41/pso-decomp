@@ -7,6 +7,7 @@
 #include "pso/enemy/gee/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -23,7 +24,6 @@ struct RecoveredGlobal_802A4CC4_lbl_804DCFF8 {
 
 extern "C" {
 s32 TObjPlayer__sub_802A445C(void *, s32);
-void *find_entity_by_id(u16 id);
 s32 update_lifetime__22TObjEneMe1GiGueMissileFv(void *);
 u16 get_entity_id(void *);
 u8 * TNeedleShoot__ct(void *, s32, void *, void *);

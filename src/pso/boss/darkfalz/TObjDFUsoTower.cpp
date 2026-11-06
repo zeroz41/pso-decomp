@@ -4,6 +4,8 @@
 #include "pso/boss/darkfalz/TOBoss4.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
+#include <stdlib.h>
 
 struct RecoveredGlobal_80052200_lbl_804858A8 {
     s32 value;
@@ -16,13 +18,11 @@ struct RecoveredGlobal_80052200___vt__14TObjDFUsoTower {
 };
 
 extern "C" {
-s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 * __ct__8TObjBaseFP7TObject(void *);
 extern RecoveredGlobal_80052200_lbl_804858A8 lbl_804858A8;
 extern s32 __vt__14TObjDFUsoTower[];
 extern s32 TObjDFUsoTower__name;
 extern const f32 lbl_805D8A30;
-s32 rand();
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 

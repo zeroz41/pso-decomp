@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/boss/olgaflow/TBoss6Type2_8036DC80.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct E_8036DDE8 { s32 f0; u8 pad[0x28]; };
 
@@ -31,7 +32,6 @@ s8 boss6_type2_player_snapshot_table[176] = {
     0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0,
 };
-void *get_player_by_client_id(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 u16 get_entity_id();
 

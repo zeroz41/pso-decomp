@@ -3,6 +3,8 @@
 #include "pso/boss/olgaflow/TBoss6EffHyoui.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/olgaflow/TBoss6Type2.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct T2_802BE6D4 { u8 pad0[0x45C]; s32 f45C; s32 f460; };
 
@@ -28,8 +30,6 @@ extern u8 lbl_805D675C;
 extern const f32 lbl_805DE3F8;
 extern f32 lbl_805DE4DC;
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void *get_player_by_client_id(s32 i);
-s32 play_sound_effect(int, void *, int, int);
 s32 spawn_flow_soul__11TBoss6Type2Fiii(s32 arg0, s32 arg1, s32 arg2);
 extern const f32 lbl_805DE404;
 extern s32 lbl_805D6780;

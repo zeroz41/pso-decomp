@@ -19,6 +19,11 @@
 #include "pso/system/BmlResource.h"
 
 #include <stddef.h>
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D96A8.h"
 // Same layout as DelDepthAnimationBinding: the motion-binding block TLobby::spawn_npc_enemy takes.
 struct BalClawClawAnimationBinding {
     void *motions;
@@ -156,14 +161,10 @@ void clear_attack_flag__14TObjEneBalClawFv(void *);
 u8 *get_enemy_entity(u16 arg0);
 void update_follow_parent__18TObjEneBalClawClawFPv(Obj_80090A70 *arg0);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_x(s32, s32);
 s32 draw_chunk_object(s32);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
-s32 rotate_matrix_y(s32, s32);
-s32 translate_matrix(s32, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 set_global_param__8TObjFishFl(s32);
 s32 defer_render__7TObjectFv(void *);
 
@@ -290,7 +291,6 @@ extern "C" {
 
 void queue_destruction__7TObjectFv(void *);
 void TObjPlayer__sub_800A04F0(void *);
-void play_sound_effect(int, void *, int, int);
 void TObjEneBalClawClaw__sub_80091134(Claw_80091134 *self);
 s32 check_path_obstructed(void *, void *);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);

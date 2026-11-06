@@ -6,6 +6,10 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_80087278.h"
 
 struct RecoveredGlobal_80177C80___vt__14TOSwitchAttack {
     s32 value;
@@ -58,13 +62,7 @@ s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__14TOSwitchAttack[];
 extern s32 lbl_805D3178;
 u8 *TOSwitchAttack__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 get_current_floor();
-u16 get_entity_id(void *);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 f32 horizontal_distance_squared(void *, void *);
-void *resolve_hittable_target(u16 actorId, s16 collider);
-void *find_entity_by_id(u16 id);
-void play_sound_effect(s32, void *, s32, s32);
 u8 is_current_floor_switch_set(u16);
 void TOSwitchAttack__sub_80177C20(void);
 void TOSwitchAttack__sub_80177C24(void);

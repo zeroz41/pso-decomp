@@ -7,12 +7,12 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803D8F74.h"
 
 extern "C" {
 
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 
 s32 TObjEneRecobox::render_trap_model_if_visible() {

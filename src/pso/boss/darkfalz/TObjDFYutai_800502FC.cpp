@@ -5,6 +5,9 @@
 #include "pso/system/vector.h"
 #include "pso/boss/darkfalz/TObjDFYutai.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
 
 typedef struct Vec_800502FC {
     f32 x, y, z;
@@ -33,9 +36,6 @@ typedef struct Obj_800502FC {
 extern "C" {
 extern const f32 lbl_805D8A30;
 extern const f32 lbl_805D8A34;
-void *get_player_by_client_id(s32 i);
-void scale_matrix(s32, f32, f32, f32);
-void rotate_matrix_y(s32, s32);
 void push_matrix();
 void post_translate_matrix(void *);
 

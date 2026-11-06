@@ -4,6 +4,10 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -128,7 +132,6 @@ extern const f32 lbl_805D8CC8;
 extern const f32 lbl_805D8CE4;
 void vt6__9TBoss4UroFv(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
-void *spawn_particle_effect(void *pos, s32 id);
 extern const f32 lbl_805D8CB8;
 extern const f32 lbl_805D8CC0;
 void vt2__11TBoss4BishiFv(u8 *arg0);
@@ -137,8 +140,6 @@ f32 random_ratio__9TObjCharaFv(s32 arg0);
 
 s32 get_instance__14TBoss4DarkFalzFv();
 s32 get_position_ptr__10TObjPlayerFv(s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern const f32 lbl_805D8CF4;
 extern const f32 lbl_805D8CF8;
 extern const f32 lbl_805D8CFC;
@@ -166,7 +167,6 @@ extern const f32 lbl_805D8CEC;
 extern const f32 lbl_805D8CF0;
 s32 get_phase__9TBoss4UroFv(void *);
 
-void submit_cursor_candidate(void *, s32);
 void minimap_render_dot(void *, s32, s32, s32);
 extern const f32 lbl_805D8CD0;
 extern const f32 TBoss4Zako__data_805D8CD4;
@@ -319,7 +319,6 @@ struct O_8005D6B0 { u8 pad[0x374]; s32 f374; };
 f32 *dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 get_instance_count__9TBoss4UroFv();
 
-void *create_particle_emitter(void *pos, s32 id);
 s32 init_collision_body_parts(void *, void *, int);
 extern u32 TBoss4Zako_collision_body_parts[];
 extern s32 __vt__10TBoss4Zako[];
@@ -343,7 +342,6 @@ void add_radar_scaled_marker(void *, s32, s32, s32, f32);
 extern const f32 lbl_805D8CD0, lbl_805D8CD8, lbl_805D8CE0, lbl_805D8D28, lbl_805D8D2C;
 
 u8 *VecCopy__FP3VecPC3Vec(void *, void *);
-void *get_player_by_client_id(s32);
 void TBoss4Uro__sub_8005D6D4(void *arg0);
 void fn_8005D6E4(void *arg0);
 void *__dt__10TBoss4ZakoFv(void *, s16);

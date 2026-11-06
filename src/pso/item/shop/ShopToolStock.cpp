@@ -6,6 +6,8 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020EEFC.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
 struct SRock_80224544_8022448C;
 
 
@@ -49,7 +51,6 @@ typedef struct Hdr_8022525C
 } Hdr_8022525C;
 
 extern "C" {
-s32 is_split_screen(void);
 s32 mem_alloc(s32);
 void mem_free(void *p);
 void sort_shop_items(s32, s32, s32);
@@ -106,7 +107,6 @@ const s32 shop_technique_pool_table[19] = {
 extern "C" {
 s32 memset(void *, int, int);
 void init__9TItemDataFv(void *);
-s32 rand();
 void roll_shop_technique_level(Obj_80223EE0 *arg0, s32 arg1);
 void push_shop_pool_entry(void *, u8);
 s32 TLobby__sub_80223DD8(Item_802242F8 *, s32);

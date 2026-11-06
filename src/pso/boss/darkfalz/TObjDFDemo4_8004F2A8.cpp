@@ -12,6 +12,11 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 typedef struct Rec_8004F2A8 {
     s32 a;
@@ -50,15 +55,9 @@ struct Self_8004F3D4
 };
 
 extern "C" {
-void rotate_matrix_y(s32, s32);
-void push_matrix();
-void post_translate_matrix(void *);
 extern const f32 lbl_805D89F4;
 extern const f32 lbl_805D89F8;
 void set_scripted_camera_pose(void *, void *, void *);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
-void play_sound_effect(s32, void *, s32, s32);
 extern Vec_8004F3D4 lbl_804373F4[];
 extern Vec_8004F3D4 boss4_type2_effect_offset_vec[];
 extern const f32 lbl_805D89FC;

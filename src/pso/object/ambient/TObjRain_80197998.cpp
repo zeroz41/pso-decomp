@@ -1,5 +1,7 @@
 #include "types.h"
 #include "pso/object/ambient/TObjRain.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 
 struct Vec_80197998 { f32 x, y, z; };
@@ -25,9 +27,6 @@ struct Cam_80197998 {
 };
 
 extern "C" {
-int rand(void);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern Cam_80197998 *camera_ctrl_instance;
 #pragma push
 #pragma fp_contract on

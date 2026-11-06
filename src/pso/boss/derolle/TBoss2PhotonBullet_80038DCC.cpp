@@ -15,6 +15,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_80087278.h"
 
 
 struct VBase_18_39be15 { char pad[0x18]; };
@@ -54,7 +55,6 @@ const char *TBoss2PhotonBullet__name = "TBoss2PhotonBullet";
 extern "C" {
 void queue_destruction__7TObjectFv(void *);
 f32 TBoss2DeRolLe__sub_80034CF8(void);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805D8268;
 extern const f32 lbl_805D826C;

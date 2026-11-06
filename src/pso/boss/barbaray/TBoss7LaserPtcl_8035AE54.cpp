@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/unk/text_80087278.h"
 
 struct RecoveredGlobal_8035AE54_lbl_804F1C88 {
     s32 value;
@@ -9,7 +10,6 @@ struct RecoveredGlobal_8035AE54_lbl_804F1C88 {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect(void *pos, s32 id);
 extern s32 __vt__13TUnk_804F1C88[];
 u8 *TBoss7LaserPtcl__sub_8035AE54(u8 *arg0, s32 arg1, s32 arg2);
 void TBoss7LaserPtcl__sub_8035AF0C(void);

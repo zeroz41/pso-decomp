@@ -15,6 +15,9 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012E7D8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
@@ -49,7 +52,6 @@ extern "C" {
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 void TUnk_804A5D10::render() {
@@ -98,7 +100,6 @@ struct RecoveredGlobal_8012E414_lbl_804A5D10 {
 
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 extern RecoveredGlobal_8012E414_lbl_804A5D10 __vt__13TUnk_804A5D10;
 
 #pragma push
@@ -142,8 +143,6 @@ struct Vec_8012E5A0 { f32 x, y, z; };
 struct Ang_8012E5A0 { s32 x, y, z; };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern s32 tl_05;
 
 void TUnk_804A5D28::update_weapon() {

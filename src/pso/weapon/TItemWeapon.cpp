@@ -25,6 +25,7 @@
 #include "pso/player/TObjPlayer_8012105C.h"
 #include "pso/unk/text_80121180.h"
 #include "pso/player/TObjPlayer_8012121C.h"
+#include "pso/unk/text_803E2D70.h"
 
 // ---- pso/unk/text_80120908
 
@@ -49,8 +50,6 @@ void draw_weapon_at_joint(s32 arg0, s8 arg1);
 void set_shadow_material_state(void);
 extern "C" {
 s32 set_model_fade_alpha__10TObjPlayerFf();
-s32 pop_matrix();
-void draw_chunk_object(void *child);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern s16 TObjPlayer__weapon_node_ids[];
 extern s16 weapon_node_material_index;

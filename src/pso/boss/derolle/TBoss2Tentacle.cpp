@@ -8,6 +8,16 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/dragon/TBoss1Dragon.h"
 #include "pso/system/BmlResource.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 struct V3_80039DE0 { f32 x, y, z; };
 
@@ -70,20 +80,13 @@ extern V3_80039DE0 TBoss2Tentacle__segment_points[];
 extern s32 TBoss2Tentacle__segment_point_defaults[];
 void TBoss2Tentacle__sub_8003A0AC(void);
 extern DragonMotion *TBoss2Tentacle__motion_data;
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern DragonModelNode tentacle_model_nodes[];
 extern s32 *lbl_805D4BD0;
 extern s32 lbl_805D4BD8;
 void render__14TBoss2TentacleFv(u8 *arg0);
-f64 atan2_float(f32, f32);
 s32 emit_effect_and_step__13TBoss2DeRolLeFPvPv(void *, void *);
 void *get_instance__13TBoss2DeRolLeFv(void);
 void TBoss2Tentacle__sub_8003998C(void);
@@ -92,18 +95,12 @@ void TBoss2Tentacle__sub_80039D50(void* p);
 void TBoss2Tentacle__sub_80039D64(void* a0);
 void TBoss2Tentacle__sub_80039DBC(void* p);
 void TBoss2Tentacle__sub_80039DD4(void* p);
-s32 approach_angle_limited(s32, s32, s32);
-s32 play_sound_effect(int, void *, int, int);
-f32 sin_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
-s32 set_matrix_identity(int);
 s32 subtract_vector(void *, void *);
 extern int TBoss2Tentacle__rest_angles[];
 extern s32 boss2_tentacle_angle_limit_table[];
 void run_task__14TBoss2TentacleFv(u8 *arg0);
-s32 rand();
 extern s32 TBoss2Tentacle__name;
-f32 newton_sqrtf(f32);
 void TBoss2Tentacle__sub_80039990(void);
 void TBoss2Tentacle__sub_80039994(Obj_80039994 *o, f32 len);
 void TBoss2Tentacle__sub_80039D98(void* p);

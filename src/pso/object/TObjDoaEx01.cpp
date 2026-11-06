@@ -16,6 +16,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
 
 __declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
 __declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
@@ -52,7 +53,6 @@ struct Obj_8018DBCC {
 extern "C" {
 u8 * TObjFish__sub_8001EDB0(void *, int);
 u8 * get_bml_model(void *, int);
-void play_sound_effect(s32, void *, s32, s32);
 
 #pragma push
 #pragma opt_common_subs off

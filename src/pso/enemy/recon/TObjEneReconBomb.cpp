@@ -14,6 +14,9 @@
 #include "pso/enemy/recon/TObjEneRecobox.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
 
 #pragma readonly_strings on
 
@@ -93,7 +96,6 @@ s32 fn_8031B618(Obj_8031B618 *arg0);
 int get_player_data__10TObjPlayerFi(int a0);
 u32 csnVector(void *, void *, int);
 s32 project_actor_to_ground(void *, void *, void *);
-s32 play_sound_effect(s32, void *, int, int);
 s32 TObjEneRecon__sub_8031C250(u32);
 s32 vec3_add_to(void *, void *);
 extern s32 lbl_805D5868;
@@ -107,10 +109,7 @@ s32 rotate_matrix_x(int, void *);
 s32 push_matrix();
 s32 scale_current_matrix(void *);
 s32 find_nearest_visible_player(void *, int, f32);
-void *get_player_by_client_id(s32 i);
 extern u32 recon_bomb_bml_resource;
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 s32 calc_scaled_value__12TObjEneReconFv(int);
 f32 TObjEneRecon__sub_8031C2BC(int);
 f32 TObjEneRecon__sub_8031C2C8(int);

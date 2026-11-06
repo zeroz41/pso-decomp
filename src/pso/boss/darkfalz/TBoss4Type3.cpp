@@ -13,6 +13,14 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TUnk_80486924.h"
 #include "pso/unk/TLobby.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -165,14 +173,8 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
-s32 play_sound_effect(int, void *, int, int);
 f64 atan2_float(f32, f32);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
-s32 angle_diff_s16(int, int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 pick_random_target_player__11TBoss4Type3Fv(void);
 s32 TBoss4Type3__sub_8005254C(u16);
 struct Stack_80055918
@@ -406,7 +408,6 @@ int toggle_particle_effect__10TObjPlayerFv(void*);
 s32 clear_render_callback__8TObjFishFv(s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-s32 approach_angle_limited(s32, s32, s32);
 void free_collision_body_parts(void *);
 s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 void __dl__7TObjectFPv(void *);
@@ -414,13 +415,8 @@ void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
 s32 create__9TTecMegidFllll(void *, Vec_80058848 *, u8 *, s32);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
-s32 rand();
 s32 matrix_mult_vec(int, void *, void *);
 void set_matrix_identity(u8 *arg0);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix();
-s32 pop_matrix();
-f32 post_translate_matrix(void *);
 f32 xyz_distance(Vec_80056C30 *, Vec_80056C30 *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 

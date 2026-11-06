@@ -4,11 +4,11 @@
 
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Vec_80359EF0 { s32 x, y, z; };
 
 extern "C" {
-void *create_particle_emitter(void *pos, s32 id);
 void *__ct__7TObjectFP7TObject(void *, void *);
 extern s32 __vt__15TBoss6CrushPtcl[];
 extern s32 TBoss6CrushPtcl__name;

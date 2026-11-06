@@ -6,9 +6,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/effect/item/TItemEffectWeapon.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen(void);
 u8 * __ct__15TEffStarLight2DFPvPvP7TObject(void *, s32, s32, s32);
 u8 *__nw__7TObjectFUl(s32);
 int set__8FlagWordFUl(void*);

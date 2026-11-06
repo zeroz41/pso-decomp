@@ -5,6 +5,11 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
 
 typedef struct TBoss6Tube_802B1020 {
     u8 pad[0x28];
@@ -13,21 +18,16 @@ typedef struct TBoss6Tube_802B1020 {
 } TBoss6Tube_802B1020;
 
 extern "C" {
-f32 fabs_float(f32);
-s32 rand(void);
 void TBoss6Tube__sub_802B129C(u8 *arg0);
 s32 TBoss6Tube__previous_scroll_phase;
 f32 TBoss6Tube__scroll_delta;
 void get_bml_model(s32, s32);
 s32 query_teammate_state__9TObjEneDDFv(void);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void push_matrix(void);
-s32 pop_matrix(void);
 void draw_ginja_object(void);
 extern s32 lbl_80470A54[];
 extern s32 boss6_tube_bml_resource;
 extern s32 boss6_tube_texture_list;
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
 void TBoss6Tube::render() {

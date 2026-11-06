@@ -8,6 +8,11 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnQuery.h"
 
 struct D_800D40FC { u8 pad[0x18]; s32 arr[1]; };
 
@@ -71,23 +76,17 @@ s32 project_actor_to_ground(void *, void *, int);
 s32 obj_is_hit_receivable();
 void queue_destruction__7TObjectFv(void *arg0);
 u8 *get_battle_param__10TObjPlayerFi(s32);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16 id);
 void check_enemy_body_collisions(void *arg0);
 s32 play_sound_effect(void *, void *, int, int);
 extern Hit_800D4200 lbl_8043C440[];
 
-s32 rotate_matrix_y(s32, s32);
-s32 pop_matrix();
-s32 push_matrix_from(void *src);
 void rotate_vector_by_matrix(int, void *, void *);
-u32 csnVector(void *, void *, int);
 extern u8 identity_matrix[];
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
-void draw_chunk_object(void *child);
 s32 push_matrix();
 
 void TObjEneGyaranzo::vfunc_61() {  }
@@ -256,8 +255,6 @@ u16 get_entity_id(void *);
 s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern RecoveredGlobal_800D4668_lbl_80494400 gyaranzo_missile_collision_body;
 extern s32 lbl_8049442C[];
 
@@ -268,13 +265,11 @@ u8 *TObjGyaranzoMissile__sub_800D4668(u8 *arg0, u8 *arg1, u8 *arg2, s32 arg3, s3
 
 void queue_destruction__7TObjectFv(void *);
 
-void *spawn_particle_effect(void *pos, s32 id);
 s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void *find_entity_by_id(u16);
 void check_enemy_body_collisions(void *);
 s32 play_sound_effect(void *, void *, int, int);
 
-u32 csnVector(void *, void *, int);
 }
 s32 get_gyaranzo_missile_int_parameter(s32 i);
 extern "C" {

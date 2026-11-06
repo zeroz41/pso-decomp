@@ -1,6 +1,8 @@
 #include "types.h"
 #include "pso/item/shop/TShopGenerator.h"
 #include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 {
     s32 value;
@@ -51,8 +53,6 @@ f32 vec3_dot(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 f32 normalize_vector(void *);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern RecoveredGlobal_8021DC30_lbl_8044C140 shop_service_facing_vec;
 extern RecoveredGlobal_8021DC30_lbl_8058D490 identity_matrix;
 bool is_player_in_service_range__14TShopGeneratorFPUcf(u8 *arg0, u8 *arg1, f32 farg0);
@@ -63,7 +63,6 @@ s8 get_chr_select_state__23TAdSinglePlyChrSelectGCFv(void);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 int is_flag_400_set__10TObjPlayerFPv(void *p);
 int check_flag_100__10TObjPlayerFPv(void *p);
-void *get_player_by_client_id(s32 i);
 s32 TAdPlayerLoadGC__sub_801E1B50(s32);
 extern u8 controller_input_state[];
 extern s32 local_client_id;

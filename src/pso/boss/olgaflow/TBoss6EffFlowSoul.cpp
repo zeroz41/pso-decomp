@@ -10,6 +10,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/effect/particle/TParticleCtrl_800874F4.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 extern s32 __vt__17TBoss6EffFlowSoul[];
@@ -29,7 +30,6 @@ struct Soul_8036A6B0 {
     s32 age;
 };
 
-void *get_player_by_client_id(s32 i);
 s32 is_state_1f__14TBoss6PlotFalzFUi(u32 arg0);
 void subtract_vector(Vec_8036A6B0 *, Vec_8036A6B0 *);
 void vec3_add_to(Vec_8036A6B0 *, Vec_8036A6B0 *);

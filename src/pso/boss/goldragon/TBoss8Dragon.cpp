@@ -13,6 +13,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnQuery.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -304,15 +311,11 @@ extern s32 local_client_id;
 extern s32 TBoss8Dragon__data_805D69B8;
 extern const f32 lbl_805DEEE4;
 void run_task__12TBoss8DragonFv(u8 *arg0);
-s32 *csnVecterUnder(s32 origin, s32 mask);
 void TBoss8Dragon__sub_802F48DC(TBoss8Dragon *dragon, Vec *target);
 struct Dragon_802F8578;
 void TBoss8Dragon__sub_802F8578(struct Dragon_802F8578 *, u32);
 void spawn_effect__12TBoss8DragonFii(s32 arg0, s32 arg1);
 s32 update_linked_position__12TBoss8DragonFv(void *);
-s32 rand(void);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern u8 *TBoss8Dragon__data_80541DDC[];
 extern const f32 TBoss8Dragon__data_805DED9C;
 extern const f32 TBoss8Dragon__data_805DEDA4;
@@ -391,7 +394,6 @@ void handle_spiral_state__12TBoss8DragonFPvUi(u8 *arg0, u32 arg1);
 f32 newton_sqrtf(f32);
 s32 is_valid_target__9TObjEneDDFv(void);
 f32 horizontal_distance_squared(void *, void *);
-u32 get_player_by_client_id(s32);
 extern const f32 TBoss8Dragon__data_805DEDA8;
 extern const f32 TBoss8Dragon__data_805DEDB0;
 extern const f32 lbl_805DEED8;
@@ -1470,7 +1472,6 @@ s32 __dt__17AreaAttackHistoryFv(s32 arg0, s16 arg1);
 void *__dt__15RenderFadeStateFv(void *arg0, s16 arg1);
 u8 *get_enemy_entity(u16 arg0);
 void free_collision_body_parts(void *);
-void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
 s32 check_flag_100__10TObjPlayerFPv();
 s32 start_freeze__10TObjPlayerFv(int);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -1522,16 +1523,13 @@ s32 eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, int, int, void *, f32);
 void __destroy_arr(void *, void *, u32, u32);
 s32 mult_vec_array__10TObjPlayerFUll(int, void *, int, int);
 f32 vec3_dot(void *, void *);
-s32 rotate_matrix_y(s32, s32);
 s32 rotate_matrix_z(s32, s32);
 void subtract_vector(void *, void *);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
-void draw_chunk_object(void *child);
 
 extern u8 TBoss8Dragon__body_effect_parameters[];
 extern s32 TBoss8Dragon__data_80541DC8[];

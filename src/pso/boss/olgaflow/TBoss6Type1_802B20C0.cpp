@@ -5,6 +5,8 @@
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
+#include "pso/system/SoundEffect.h"
+#include <stdlib.h>
 
 struct TBoss6Type1Action {
     const char *name;
@@ -95,7 +97,6 @@ struct RecoveredGlobal_802B3BEC_lbl_80470CE0 {
 
 typedef char RecoveredGlobal_802B3BEC_lbl_80470CE0_size[sizeof(RecoveredGlobal_802B3BEC_lbl_80470CE0) == 0xC ? 1 : -1];
 
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 TBoss6Type1__sub_802B4A9C(void *);
 void TBoss6Type1__sub_802B4B04(u8 *arg0);
 void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2);
@@ -113,7 +114,6 @@ s32 TBoss6Type1__sub_802B8A70(void *);
 void TBoss6Type1__sub_802B8BB4(u8 *arg0);
 int TBoss6Type1__sub_802B8E1C(void*);
 int send_flow_action_if_idle__11TBoss6Type1FPvc(void*, void*);
-s32 rand(void);
 
 extern RecoveredGlobal_802B3BEC_lbl_80470CE0 lbl_80470CE0;
 

@@ -17,11 +17,11 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
 
 extern "C" {
-void rotate_vector_by_matrix(s32 matrix, const Vec *src, Vec *dst);
-void vec3_add_to(Vec *v, const Vec *add);
-void subtract_vector(Vec *v, const Vec *sub);
 void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(TObjChara *actor);
 u16 get_entity_id(TObject *object);

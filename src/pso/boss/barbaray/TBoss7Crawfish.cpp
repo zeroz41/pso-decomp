@@ -14,6 +14,8 @@
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
 
 struct Stack_80308B38 {
     s32 sp8;
@@ -83,7 +85,6 @@ struct Pair_8030895C { s32 id; f32 v; };
 
 extern "C" {
 s32 obj_isState2_324__9TObjCharaFv(int);
-int rand(void);
 extern s32 game_difficulty_selection;
 extern const f32 TBoss7Crawfish__data_805DF0DC;
 extern const f32 lbl_805DF0E0;
@@ -108,7 +109,6 @@ int change_state__14TBoss7CrawfishFl(void*, int);
 int scale_current_matrix(void*);
 int post_translate_matrix(void*);
 int push_matrix(void);
-s32 pop_matrix(void);
 
 
 s32 TBoss7Crawfish::sub_80308688() {

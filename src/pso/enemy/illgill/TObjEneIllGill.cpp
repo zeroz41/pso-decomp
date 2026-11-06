@@ -15,6 +15,11 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/illgill/TObjEneIllGill.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 extern "C" void render__15TObjIllGillKageFv();
 #include "pso/render/TUnk_80494938.h"
 
@@ -56,12 +61,7 @@ extern s32 tl_05;
 extern const f32 TObjEneIllGill__data_805E02BC;
 extern const f32 TObjEneIllGill__data_805E02D8;
 s32 obj_setFlags30(void *, int);
-s32 play_sound_effect(int, void *, int, int);
 
-s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, s32);
-s32 push_matrix_from(void *);
-s32 pop_matrices(s32 arg0);
 u16 get_entity_id(void *);
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 void enemy_turn_toward_dest(void *, s32);
@@ -92,7 +92,6 @@ extern const f32 lbl_805E0308;
 void move_with_wall_slide(u8 *arg0);
 
 extern "C" {
-void *spawn_particle_effect(void *pos, s32 id);
 extern const f32 TObjEneIllGill__data_805E02DC;
 extern const f32 lbl_805E02E0;
 extern const f32 lbl_805E02E4;
@@ -1300,7 +1299,6 @@ void TObjEneIllGill::vfunc_28() {
 void select_actor_lighting(s32 obj);
 
 void push_matrix(void);
-s32 pop_matrix(void);
 void post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

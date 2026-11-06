@@ -11,6 +11,13 @@
 #include "pso/enemy/epsilon/TObjEneEpsilonBody.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -405,7 +412,6 @@ s32 is_main_phase_15__9TObjEneDDFv();
 
 void render__19TObjEneEpsilonGuardFv(u8 *);
 void TObjEneEpsilonGuard__sub_8035E578(u8 *, s32);
-void play_sound_effect(int, void *, int, int);
 extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
 const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
@@ -414,10 +420,7 @@ s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 get_mode__11TCameraCtrlFPv(void *);
 s32 update__15RenderFadeStateFv(void *);
-s32 rotate_matrix_y(int, int);
-s32 translate_matrix(int, f32, f32, f32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
@@ -434,7 +437,6 @@ s32 VecCopy__FP3VecPC3Vec(void *);
 s32 obj_is_hit_receivable();
 void queue_destruction__7TObjectFv(void *arg0);
 VObj_8035EA90 *get_battle_param__10TObjPlayerFi(s32);
-void *create_particle_emitter(void *pos, s32 id);
 extern CollisionBody TObjEneEpsilonGuard__model_desc[];
 
 struct Base_8035E3B8_8035DD68 { char pad[0x18]; };
@@ -467,7 +469,6 @@ struct VObj_8035E3B8_8035DD68 : Base_8035E3B8_8035DD68 {
 };
 
 int TObjEneEpsilonGuard__sub_8035DD68(void* p);
-s32 scale_matrix(int, f32, f32, f32);
 int TObjEneEpsilonGuard__sub_8035F95C(void *p);
 int TObjEneEpsilonGuard__sub_8035F968(void);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
@@ -1081,8 +1082,6 @@ struct VObj_18_b345b0 : VBase_18_b345b0 {
 extern "C" {
 void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 extern s32 epsilon_guard_boss_stat_handle;

@@ -20,9 +20,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby_80207644.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
-s32 is_split_screen();
 s32 is_main_phase_15__9TObjEneDDFv();
 }
 s32 get_story_flag(s32);
@@ -177,7 +181,6 @@ void TObjAreaWarp__ct(void *);
 void *__dt__11TObjMapWarpFv(void *arg0, s16 arg1);
 void TObjMapWarp__ct(void *);
 int vfunc_14__12TObjWarpBaseFv(void*);
-s32 play_sound_effect(s32, s32, s32, s32);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 s32 align_menu_entry_positions(int);
@@ -185,10 +188,8 @@ s32 create_window_menu(s32, s32, s32);
 s32 get_window_layout_position(s32);
 void * init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 get_game_play_mode();
-void debug_printf_at(s32 id, const char *fmt, ...);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 set_global_param__8TObjFishFl(s32);
 s32 draw_ginja_object(s32);
@@ -860,9 +861,7 @@ struct Obj_80186B34 { u8 pad[0x38]; u8 pos[0xAC - 0x38]; f32 range; };
 struct Bits_80186A3C { s32 v[36]; };
 
 extern "C" {
-s32 get_current_floor();
 f32 xz_distance_squared(s32, s32);
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 get_main_phase();
 extern s32 lbl_805D55C0;

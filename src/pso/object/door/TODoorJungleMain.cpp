@@ -10,6 +10,13 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/render/GinjaMaterial.h"
 
 struct Vec_8029B640 { s32 x, y, z; };
 struct Ids_8029B428 {
@@ -72,8 +79,6 @@ void TODoorJungleMain::vfunc_6(s16 *arg1, s32 arg2) {
     }
 }
 
-s32 get_current_floor(void);
-void *get_player_by_client_id(s32 i);
 }
 s32 is_any_player_near(s32 arg0);
 s32 is_any_player_near(s32 arg0) {
@@ -208,10 +213,8 @@ extern s32 __vt__16TODoorJungleMain[];
 void *get_bml_model(u32, int);
 s32 rotate_matrix_y(int, int);
 int push_matrix(void *);
-s32 pop_matrix(void);
 int post_translate_matrix(void *);
 void *set_global_param__8TObjFishFl(void *);
-void draw_ginja_object(void *child);
 s32 draw_ginja_model_with_motion(void *, int, f32);
 }
 struct Door_8029B524 {
@@ -228,14 +231,10 @@ struct Door_8029B524 {
 struct Mtx_8029B640 { f32 m[12]; };
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 extern s32 game_difficulty_selection;
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 s32 minimap_render_gate(void *, u32, u16, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 matrix_mult_vec(void *, void *, void *);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-void set_matrix_identity(u8 *arg0);
 
 #pragma pop
 

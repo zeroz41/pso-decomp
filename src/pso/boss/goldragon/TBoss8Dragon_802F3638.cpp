@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3638.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen();
 u8 *get_enemy_entity(u16 entity_id);
 extern TBoss8Dragon *boss8_dragon_leader_part;
 

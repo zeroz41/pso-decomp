@@ -3,6 +3,7 @@
 #include "pso/object/trap/TOTrapSeabed01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Sounds_802C9C18 { s32 a[2]; s32 b[2]; s32 c[2]; s32 d[2]; };
 
@@ -10,7 +11,6 @@ extern "C" {
 u16 get_entity_id(void *);
 void obj_clear_flag30_20000(void *arg0);
 s32 check_player_flag1__6TLobbyFv();
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 play_sound_effect(s32, void *, s32, s32);
 extern Sounds_802C9C18 lbl_804720B8;

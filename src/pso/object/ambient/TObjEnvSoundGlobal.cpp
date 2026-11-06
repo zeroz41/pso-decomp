@@ -6,6 +6,7 @@
 #include "pso/object/ambient/TObjEnvSoundGlobal.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal {
     s32 value;
@@ -78,7 +79,6 @@ extern void *tl_05;
 typedef char RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal_size[sizeof(RecoveredGlobal_80190484___vt__18TObjEnvSoundGlobal) == 0x34 ? 1 : -1];
 
 
-f32 fabs_float(f32);
 void disallow_rendering__7TObjectFv(TObject *arg0);
 extern s32 __vt__14TObjEnvSoundEx[];
 extern s32 TObjEnvSoundEx__class_name;
@@ -154,7 +154,6 @@ extern "C" {
 
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void byteswap_event_packet__6TLobbyFi(s32 arg0);
-s32 get_current_floor(void);
 }
 s32 set_floor_event_flags(s32 arg0, s32 arg1, s32 arg2);
 s32 activate_first_floor_event(s32 idx, s32 id);

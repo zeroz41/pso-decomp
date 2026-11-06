@@ -15,6 +15,12 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 class TObjEneMe1Gee_NEEDLE;
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -872,9 +878,6 @@ void destroy_subobj__13TObjEneMe1GeeFPv(void* p, void * _w1);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 u8 *TObjEneMe1Gee_NEEDLE__ct(TObjEneMe1Gee_NEEDLE *arg0, s32 arg1, u8 *from, u8 *to, f32 farg0, f32 farg1);
 void matrix_mult_vec(void *, Vec_800CA454 *, Vec_800CA454 *);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *src);
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern const u8 TObjEneMe1Gee__data_8043BDC0[];
 extern Vec_800CA454 lbl_8043BE7C[];
@@ -1873,13 +1876,8 @@ void run_task__13TObjEneMe1GeeFv(u8 *arg0);
 void * __dt__13TObjEneMe1GeeFv(void *arg0, s16 arg1);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void TBoss3Volopt__sub_800D8D88(s32);
-s32 approach_angle_limited(s32, s32, s32);
-void *find_entity_by_id(u16 id);
-void free_collision_body_parts(void *);
-void *get_player_by_client_id(s32 i);
 void __dl__7TObjectFPv(void *);
 s32 push_matrix();
-void draw_chunk_object(void *child);
 
 extern s32 TObjEneMe1Gee__render_node_index;
 extern s32 TObjEneMe1Gee__data_805D51C4;

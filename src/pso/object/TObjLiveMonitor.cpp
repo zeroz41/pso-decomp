@@ -9,6 +9,8 @@
 #include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 struct O_8030B370 { u8 pad[0x24]; u32 a; s32 t; };
 
@@ -18,7 +20,6 @@ const s32 lbl_804757E0[2] = { 0xF44E8, 0xF44E9 };
 extern "C" {
 
 s32 is_split_screen();
-s32 rand();
 
 #pragma push
 #pragma fp_contract on
@@ -177,8 +178,6 @@ s32 angle_diff_s16(int);
 u8 *get_player_by_client_id(s32);
 u32 TBoss8Dragon__sub_802F3348(int);
 s32 TBoss8Dragon__sub_802FCCBC(int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 
 f32 calc_random_ratio__10TObjPlayerFv(void *);
 

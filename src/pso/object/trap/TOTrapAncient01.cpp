@@ -16,6 +16,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixTransforms.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 struct RecoveredGlobal_80179E34_lbl_804B4834
 {
@@ -127,7 +132,6 @@ void receive_physical_attack__6TOTrapFPvf(void *, void *, f32);
 u16 get_entity_id(void *);
 void obj_clear_flag30_20000(void *arg0);
 s32 check_player_flag1__6TLobbyFv();
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
@@ -154,20 +158,15 @@ extern const f32 lbl_805DBA74;
 VObj_801797D4 *get_battle_param__10TObjPlayerFi(s32);
 s32 obj_is_hit_receivable(void *);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
-void submit_cursor_candidate(void *, s32);
 void play_persistent_sound(s32, void *, void *, s32, s32);
 extern s32 lbl_805D3530;
 extern const f32 lbl_805DBA48;
 s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 void update__15RenderFadeStateFv(void *);
-s32 rand(void);
 int rotate_matrix_y(int, int);
 int push_matrix();
-int pop_matrix();
 int post_translate_matrix(void *);
-int draw_ginja_model(int);
-void translate_matrix(s32, f32, f32, f32);
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;

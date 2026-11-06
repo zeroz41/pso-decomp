@@ -4,6 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
 
 struct Stack_800D8F78 {
     s32 sp8;
@@ -18,7 +19,6 @@ extern "C" {
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 s32 spawn_particle_effect(void *, int, f32);
 extern const f32 lbl_805DA3C0;
-s32 play_sound_effect(int, void *, int, int);
 s32 TBreakUpMdl__ct(void*, s32, s32, s32, s32, s32, s32);
 void* __nw__7TObjectFUl(s32);
 

@@ -14,6 +14,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 static const f32 lbl_805DC888[1] = {1.0f};
 static const f32 lbl_805DC88C[1] = {0.0f};
@@ -63,7 +65,6 @@ void queue_destruction__7TObjectFv(void *arg0);
 void publish_actor_light_scalars(u32 arg0, f32 farg0, f32 farg1);
 void publish_light_direction_color(u32 id, void *dir, void *color);
 s32 approach_vector_fixed_distance(void *, void *, void *, f32);
-void *get_player_by_client_id(s32 i);
 extern Base_80235C44 TObjLight__scene_light_state;
 
 #pragma push
@@ -289,10 +290,7 @@ struct Proxy_80236A20 { u8 pad[0xA4]; Sub_80236A20 *a4; };
 struct Self_80236A20 { u8 pad[0x128]; Proxy_80236A20 *proxy; f32 f12c; };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 int get_player_data__10TObjPlayerFi(int a0);
-
-void *find_entity_by_id(u16 id);
 
 f32 vector_length(void *);
 extern const f64 lbl_8044D8D0[];

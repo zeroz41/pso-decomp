@@ -9,6 +9,14 @@
 #include "pso/enemy/slime/TObjEneSlimeOne.h"
 #include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 #include "pso/enemy/slime/TObjEneSlimeWaterBomb.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -69,14 +77,9 @@ s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 void normalize_vector(void *);
 f32 random_ratio__9TObjCharaFv(void *);
-s32 play_sound_effect(int, void *, int, int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 TObjEneSlimeOne__sub_800EAD84(Obj_800EAD84 *arg0);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void render__15TObjEneSlimeOneFv(TObjEneSlimeOne *arg0);
 s32 TObjFish__sub_8001EDB0(s32, s32);
@@ -269,8 +272,6 @@ f32 * dispatch_shared_handler_a__6TLobbyFl(s32);
 u8 * get_bml_motion(s32, s32);
 s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 void transform_to_view__11TCameraCtrlFii(s32, s32);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
 void TObjPlayer__sub_800E80C0(u8 *arg0);
 S_800E80E8 * TObjPlayer__sub_800E80E8(S_800E80E8 *dst, S_800E80E8 *src);
 void TObjPlayer__sub_800E8128(void);
@@ -302,7 +303,6 @@ extern "C" {
 
 
 void free_collision_body_parts(void *);
-s32 get_player_by_client_id(void *);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(s32);
 s32 scale_matrix(int, f32, f32, f32);
@@ -460,7 +460,6 @@ void is_actor_cadence_frame__9TObjCharaFl();
 void is_target_in_attack_range__9TObjCharaFv();
 
 void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-s32 submit_cursor_candidate(void *, s32);
 s32 minimap_render_dot(void *, s32, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 
@@ -767,7 +766,6 @@ struct Slot_800EB984 { s32 state; void *obj; };
 struct Obj_800EB984 { u8 pad[0x3b8]; Slot_800EB984 slots[4]; };
 
 extern "C" {
-void debug_printf_at(s32 id, const char *fmt, ...);
 s32 set_global_param__8TObjFishFl();
 extern u32 model_render_flags;
 

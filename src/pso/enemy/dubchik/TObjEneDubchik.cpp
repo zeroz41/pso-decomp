@@ -29,6 +29,14 @@
 #include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/lappy/TObjEneLappy_800F5DE0.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Vec_800A9C38 { f32 x, y, z; };
 struct VBase_800AA704 { u8 pad[0xC]; };
@@ -120,10 +128,8 @@ s32 TObjPlayer__sub_800AAF98(void *, s32);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 s32 enemy_turn_toward_dest(void *, s32);
 void queue_destruction__7TObjectFv(void *arg0);
-void *create_particle_emitter(void *pos, s32 id);
 s32 __ct__13TUnk_80491460FPvlll(void *, void *, s32, void *, s32);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv();
-s32 play_sound_effect(s32, void *, int, int);
 void *__nw__7TObjectFUl(int);
 void TObjPlayer__sub_800A8FB4(void *arg0_);
 
@@ -211,7 +217,6 @@ void obj_setFlags30(void *, u32);
 void dubchik_start_dying(u8 *arg0);
 s32 find_active_entity_by_id(u16);
 void TObjPlayer__sub_800AA330(void *);
-s32 submit_cursor_candidate(void *, s32);
 s32 minimap_render_dot(void *, s32, s32, s32);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 extern void *tl_04;
@@ -227,12 +232,8 @@ void TObjPlayer__sub_800A8C4C(u8 *arg0);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 f32 random_ratio__9TObjCharaFv(s32 arg0);
@@ -401,7 +402,6 @@ struct Ene_800A93E4 {
 };
 
 s32 mult_vec_array__10TObjPlayerFUll(int, u32, void *, int);
-void set_matrix_identity(u8 *arg0);
 
 
 

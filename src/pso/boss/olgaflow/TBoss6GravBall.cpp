@@ -3,6 +3,8 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
@@ -36,8 +38,6 @@ s32 project_actor_to_ground(void *, void *, int);
 
 
 u16 get_entity_id(void *);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void vec3_add_to(void *, void *);
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 
@@ -237,7 +237,6 @@ extern s32 __vt__14TBoss6GravBall[];
 extern s32 TBoss6GravBall__name;
 
 s32 play_persistent_sound(int, void *, void *, int, int);
-s32 play_sound_effect(int, void *, int, int);
 s32 get_state__14TBoss6GravBallFv(int);
 s32 fn_80323134(void *);
 s32 destroy_part__14TBoss6GravBallFl(void *, int);

@@ -9,6 +9,8 @@
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D96A8.h"
 
 #pragma readonly_strings on
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
@@ -104,7 +106,6 @@ struct Obj_800663DC {
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 void *mem_alloc(u32 size);
-u16 register_entity_by_id(void *ov);
 int refresh_collision_body_centers__14TObjCollidableFv(void*);
 extern s32 gryphon_demo_collision_body_desc[];
 extern s32 lbl_804886AC[];
@@ -113,11 +114,9 @@ extern const char *lbl_805D2808;
 void TBoss5GryphonDemo__sub_8006626C(void* p);
 int matrix_mult_vec(void*, void*, void*);
 int post_translate_matrix(void*);
-s32 free_collision_body_parts(void *);
 int set_matrix_identity(void*);
 int rotate_matrix_y(void*, s32);
 int push_matrix(void*);
-int pop_matrix(void);
 s32 __dl__7TObjectFPv(void *);
 
 void TBoss5GryphonColli_C::render() {  }

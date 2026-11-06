@@ -10,6 +10,13 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -89,7 +96,6 @@ s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 minimap_render_dot(void *, int, int, int);
 void vec3_add_to(void *, void *);
 void subtract_vector(void *, void *);
@@ -195,14 +201,9 @@ void * create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
 u8 * TObjDFRecBall__ct(u8 *arg0, u8 *arg1, u8 *arg2, u8 *arg3);
 void * create__13TObjDFRecBallFPvPvPv(void *arg0, void *arg1, void *arg2);
 s32 TBoss4Type3__sub_8005254C(s16);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 f32 vector_length(Vec_80050EB4 *);
 f32 xyz_distance(Vec_80050D74 *, Vec_80050D74 *);
 
@@ -742,7 +743,6 @@ void *__vt__13TObjDFRecover[] = {
     (void *)render__7TObjectFv,
     (void *)render_shadows__7TObjectFv,
 };
-s32 play_sound_effect(int, int, int, int);
 }
 
 #pragma push
@@ -874,7 +874,6 @@ extern "C" {
 s32 matrix_mult_vec(int, void *, void *);
 f32 rotate_matrix_by_node_angles(void *, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(void *);
 f32 post_translate_matrix(void *);
 extern RecoveredGlobal_80051AD0_lbl_804858B4 dark_falz_jisin_zero_vec;

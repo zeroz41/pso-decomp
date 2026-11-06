@@ -18,12 +18,13 @@
 #include "pso/player/TObjPlayer_80130778.h"
 #include "pso/weapon/TUnk_804A6AD8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 
 s32 post_translate_matrix(void *);
 s32 is_owner_alive__15TItemShootModelFv();
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 
@@ -56,7 +57,6 @@ void *TUnk_804A69C0::init_shoot_model() {
 }
 
 extern "C" {
-s32 get_current_floor();
 s32 update_technique_slot__10TTecRaFoieFl(int, int, int);
 s32 play_sound_effect(int, int, int, int);
 s32 init_shoot_model__13TUnk_804A69C0Fv(int, void *, void *, void *, f32);

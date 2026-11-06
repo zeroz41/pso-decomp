@@ -12,6 +12,12 @@
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -46,7 +52,6 @@ void translate_matrix_vec3(int, void *);
 void set_matrix_identity(int);
 int rotate_matrix_y(void *, void *);
 int push_matrix(void);
-int pop_matrix(void);
 extern const f32 lbl_805D8B20;
 extern const f32 lbl_805D8B24;
 extern const f32 lbl_805D8B28;
@@ -278,23 +283,17 @@ void TBoss4Type2__sub_80054FC0(void *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
-void *spawn_particle_effect(void *, s32);
-void *create_particle_emitter(void *pos, s32 id);
 int toggle_particle_effect__10TObjPlayerFv(void*);
 s32 clear_render_callback__8TObjFishFv(s32);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
-s32 angle_diff_s16(s32, s32);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-s32 play_sound_effect(int, void *, int, int);
 void __dl__7TObjectFPv(void *);
 s32 __nw__7TObjectFUl(s32);
 void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void *level);
 void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void vec3_add_to(Vec_80053440 *, Vec_80053440 *);
 void subtract_vector(Vec_80053D4C *, Vec_80053D4C *);
 void normalize_vector(void *);

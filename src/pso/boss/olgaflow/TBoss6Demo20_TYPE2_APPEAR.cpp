@@ -17,6 +17,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/olgaflow/TBoss6Demo20_TYPE2_APPEAR.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
 struct RecoveredGlobal_8033DCA8_lbl_80477F2C { s32 value; u8 remaining[8]; };
 struct RecoveredGlobal_8033DCA8_lbl_804EFA08 { s32 value; u8 remaining[8]; };
 extern const RecoveredGlobal_8033DCA8_lbl_80477F2C boss6_type2_appear_origin;
@@ -187,8 +189,6 @@ s32 __dl__7TObjectFPv(void *);
 s32 refresh_players_equipment__14TBoss6PlotFalzFPv();
 extern s32 __vt__25TBoss6Demo20_TYPE2_APPEAR[];
 O_8033D9E4 *__dt__25TBoss6Demo20_TYPE2_APPEARFv(O_8033D9E4 *arg0, s16 arg1);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void play_sound_effect(int, void *, int, int);
 
 extern const Ent_8033D6DC boss6_type2_appear_particle_schedule[];
 

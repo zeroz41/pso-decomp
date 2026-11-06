@@ -14,13 +14,13 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/technique/TTecGiFoie.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
 
 extern "C" {
 void disallow_rendering__7TObjectFv(TObject *arg0);
-void *create_particle_emitter(void *pos, s32 id);
 }
 int get_item_system_generation(void);
 extern "C" {

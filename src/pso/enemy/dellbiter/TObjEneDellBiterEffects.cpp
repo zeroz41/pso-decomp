@@ -5,20 +5,17 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
 
 extern "C" {
-u32 csnVector(void *, void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void *create_particle_controller_with_angles(void *, void *, s32, s32, u16);
 }
 
 extern "C" {
-u16 get_entity_id(void *);
 s32 is_player_entity_id(u16);
-f32 subtract_vector(void *, void *);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, s32);
 }

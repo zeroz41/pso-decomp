@@ -5,6 +5,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 u8 *get_enemy_entity(u16 arg0);
@@ -15,7 +16,6 @@ s32 post_translate_matrix(void *);
 s32 scale_matrix(int, f32, f32, f32);
 s32 draw_model_motion(int, int, f32);
 s32 push_matrix();
-s32 is_split_screen();
 
 extern u8 *TObjBoss8Piller__shared_resource;
 

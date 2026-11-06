@@ -40,6 +40,9 @@
 #include "pso/unk/text_801F43B4.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/object/ruins/TOCapsuleAncient01.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/BmlResourceLoad.h"
+#include <stdlib.h>
 #pragma readonly_strings on
 
 // Camera offsets for the follow camera, from TLobby's shared parameter tables.
@@ -61,21 +64,17 @@ struct VoloptShutterNode {
 };
 
 extern "C" {
-void *find_entity_by_id(u16 id);
 f32 random_ratio__9TObjCharaFv(TObject *actor);
 f32 fabs_float(f32 x);
 f32 newton_sqrtf(f32 x);
 s32 get_current_floor(void);
 s16 get_actor_hp(u8 *p);
 s32 play_persistent_sound(u32 id, TObject *source, f32 *pos, s32, s32);
-int rand(void);
 u16 find_nearest_visible_player(TObject *self, s32 flags, f32 range);
 s32 is_local_client_floor_leader();
 void request_follow_camera_offsets(Vec *position, Vec *target, s32 id, f32 blend);
 u16 get_entity_id(void *object);
 void obj_setFlags30(void *object, s32 flags);
-void TLobby__sub_8001FE7C(void *resource, s32 flags);
-void *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
 u16 TObjRoomId__sub_801A1DB8(u16 id);
 void TObjPlayer__sub_801BA42C(void);
 extern s32 door_vo_ship_class_name;

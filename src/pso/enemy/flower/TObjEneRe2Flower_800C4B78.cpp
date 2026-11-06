@@ -16,6 +16,7 @@
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_80087278.h"
 
 typedef struct Vec_800C4A5C {
     f32 x, y, z;
@@ -85,7 +86,6 @@ void release_texture_list(void *);
 void mem_free(void *);
 s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 
 extern const char lbl_8043BC48[0x1C] = "TObjEneRe2Flower_EffCurse3";
 s32 lbl_805D2A58 = (s32)lbl_8043BC48;

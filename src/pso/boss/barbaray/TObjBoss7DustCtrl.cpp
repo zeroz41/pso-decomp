@@ -6,6 +6,7 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "types.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
 
@@ -32,7 +33,6 @@ typedef struct Dust_802F127C {
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
 void matrix_mult_vec(s32, Vec_802F127C *, Out_802F127C *);
-void rotate_matrix_x(s32, s32);
 void push_matrix(void);
 Vec_802F127C TObjBoss7DustCtrl__helix_points[6];
 Rot_802F127C TObjBoss7DustCtrl__rotation_pairs[10];

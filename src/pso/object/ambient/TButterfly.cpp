@@ -4,6 +4,9 @@
 #include "pso/system/vector.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 struct Base_8017E978 { char pad[0x18]; };
 struct VObj_8017E978 : Base_8017E978 { virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3(); virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7(); virtual s32 m8(f32, f32); };
@@ -30,11 +33,8 @@ struct Butterfly_8017EA74 {
 };
 
 extern "C" {
-s32 rand();
-f32 sin_table_lookup(s16);
 void vec3_add_to(Vec_8017EA74 *, Vec_8017EA74 *);
 void rotate_vector_by_matrix(void *, Vec_8017EA74 *, Vec_8017EA74 *);
-void rotate_matrix_y(void *, s32);
 extern u8 identity_matrix[];
 s32 TObjFish__sub_8001EDB0(s32, s32);
 void __dl__7TObjectFPv(void *);

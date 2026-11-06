@@ -46,22 +46,29 @@
 
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/item/TItem.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 extern "C" {
 f64 atan2_float(f32, f32);
-s32 spawn_particle_effect(void *, int);
 s32 approach_angle_limited(int, int, int);
-s32 play_sound_effect(int, void *, int, int);
 void * __nw__7TObjectFUl(int);
 extern const f64 TObjEneDellBiter__data_80475328;
 extern DelbiterMovementParameters *TObjEneDellBiter__movement_params;
 s32 turn_toward_angle_limited__15TObjBoss2TunnelFlllll(int, int, int, int, int);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 s32 fill_value_array(int);
 s32 enemy_validate_retained_target(void *);
 u32 enemy_probe_wall_ahead__13TBoss5GryphonFfff(void *, f32, f32, f32);
-f32 subtract_vector(void *, void *);
 s16 get_attack_params_atp_min(void *p);
 s32 obj_is_hit_receivable(void *);
 u16 get_entity_id(void *);
@@ -72,7 +79,6 @@ s32 get_mode__11TCameraCtrlFPv(void *);
 u32 csnLookAt(void *, void *);
 s32 *csnVectorUnder(Vec *arg0, u32 *arg1, s32 arg2);
 s32 rotate_xz_pair_by_angle(void *, void *, int);
-void *create_particle_emitter(void *pos, s32 id);
 s32 TObjPlayer__sub_800A04F0(void *);
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 void enemy_set_target_id(void *, u16);
@@ -82,29 +88,20 @@ s32 attack_target_history_add(s32, void *);
 void fn_800D8830(void *owner, void *pos);
 s32 TObjEneGibbles__sub_800D8988(s32);
 f32 horizontal_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 void TObjPlayer__sub_8023DEE0(s16 *p, s16 a, s16 b, u16 id);
 }
 void restore_render_scissor(s32 arg0);
 extern "C" {
 
-s32 debug_printf_at(s32, const char *, ...);
-s32 vec3_add_to(void *, void *);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
-s32 rotate_matrix_x(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 
 extern s32 TObjEneDellBiter__shared_handler_param;
 extern u32 TObjEneDellBiter__shared_model_resource;
 extern s32 TObjEneDellBiter__demo_script_step;
 extern s32 TObjEneDellBiter__demo_rotate_x_angle;
 extern s32 TObjEneDellBiter__demo_script_cursor;
-void free_collision_body_parts(void *);
 extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
 extern DelbiterContactAttack lbl_8047528C[];
@@ -131,7 +128,6 @@ extern void *tl_04;
 
 extern "C" {
 s32 is_split_screen();
-s32 init_collision_body_parts(void *, void *, int);
 void *__nw__7TObjectFUl(int);
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();

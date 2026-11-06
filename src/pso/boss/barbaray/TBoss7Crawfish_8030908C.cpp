@@ -13,6 +13,7 @@
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_8030946C_lbl_804E7370 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8030946C_lbl_804E7370_size[sizeof(RecoveredGlobal_8030946C_lbl_804E7370) == 0x10 ? 1 : -1];
@@ -38,7 +39,6 @@ extern const f32 TBoss7Crawfish__data_805DF0DC;
 extern const f32 lbl_805DF100;
 int TBoss7Crawfish__sub_80308BEC(void *p);
 void TLobby__sub_8001FE7C(void*, int);
-s32 submit_cursor_candidate(void *, int);
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);

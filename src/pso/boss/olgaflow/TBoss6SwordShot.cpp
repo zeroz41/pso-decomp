@@ -9,6 +9,8 @@
 #include "types.h"
 
 #include <stddef.h>
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
 extern "C" {
 void *__dt__15TBoss6SwordShotFv(void *arg0, s16 arg1);
 void run_task__15TBoss6SwordShotFv(u8 *arg0);
@@ -68,8 +70,6 @@ s32 query_teammate_state__9TObjEneDDFv();
 extern const f32 lbl_805E0010;
 extern const f32 lbl_805E0014;
 void clear_bit__15TBoss6SwordWaveFPvUc(W_80356D10 *arg0, u8 arg1);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
-void *spawn_particle_effect(void *pos, s32 id);
 u8 TBoss6SwordWave__sub_80356D08(u32 arg1, u32 arg2);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
@@ -79,14 +79,12 @@ extern const f32 lbl_805DFFFC;
 extern const f32 lbl_805E0000;
 extern const f32 lbl_805E0004;
 extern const f32 lbl_805E0008;
-f32 atan2_float(f32 y, f32 x);
 s32 get_point__10TBoss6RockFllPf(s32, void *, void *);
 s32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
 s32 subtract_vector(void *, void *);
 s32 normalize_vector(void *);
 extern s32 lbl_805E000C;
-int get_player_data__10TObjPlayerFi(int a0);
 s32 is_active__14TBoss6PlotFalzFv();
 }
 struct Pair_803561C4 { s32 a; f32 b; };

@@ -9,6 +9,7 @@
 #include "pso/enemy/recon/TObjEneRecon.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct Stack_80332594 {
     s32 sp8;
@@ -48,7 +49,6 @@ struct O_803323D8 {
 extern "C" {
 extern s32 actor_frame_tick;
 extern const f32 TObjEneMorfos__data_805DF870;
-s32 rotate_matrix_y(int, int);
 void push_matrix(void);
 int post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);

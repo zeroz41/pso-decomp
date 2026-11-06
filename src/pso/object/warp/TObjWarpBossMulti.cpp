@@ -27,6 +27,11 @@
 #include "pso/object/TObjLuker.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 const char *TObjWarpBoss__name = "TObjWarpBoss";
 const char *TObjWarpBossMulti__name = "TObjWarpBossMulti";
@@ -211,7 +216,6 @@ struct Obj_8019F578 {
 extern "C" {
 s32 check_player_flag1__6TLobbyFv(void);
 s32 get_message_10__20TWindowSubStatusDispFl(s32);
-void *get_player_by_client_id(s32 i);
 s32 fn_80248994(void *, u32, int);
 void *refresh_with_default_list__20TWindowSubStatusDispFll(s32, void *);
 void request_active_window_close(void);
@@ -233,7 +237,6 @@ extern s32 __vt__12TObjWarpBoss[];
 extern "C" {
 extern u8 lbl_80446480[];
 void queue_destruction__7TObjectFv(void *);
-u16 register_entity_by_id(void *ov);
 void *TObjAreaWarp__ct(void *arg0);
 s32 get_boss_warp_destination(void);
 extern const f32 lbl_805DC000;
@@ -373,18 +376,15 @@ extern const f32 lbl_805DC02C;
 
 void *init__13TAdVIConfigGCFf(void *, void *, f32);
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *child);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 void allow_rendering__7TObjectFv(TObject *arg0);
 int check_flag_100__10TObjPlayerFPv(void *p);
 void disallow_rendering__7TObjectFv(TObject *arg0);
 f32 xz_distance_squared(s32, void *);
 s32 get_current_floor();
 u8 is_current_floor_switch_set(int);
-void *find_entity_by_id(u16);
 void end_player_keyboard_hold(s32 arg0);
 s32 bswap_6x6A_packet__19TWindowSubTradeMainFv();
 s32 align_menu_entry_positions(u32);
@@ -393,7 +393,6 @@ void obj_clear_flag30_20000(void *arg0);
 void obj_set_flag_20000(void *arg0);
 void play_effect_default__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 send_code_45_1__10TObjPlayerFl();
-s32 play_sound_effect(s32, void *, s32, s32);
 char *strcpy(char *, const char *);
 s32 is_locally_controlled__10TObjPlayerFPv(u32);
 

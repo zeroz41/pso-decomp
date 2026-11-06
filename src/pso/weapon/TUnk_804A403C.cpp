@@ -19,6 +19,7 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/SoundEffect.h"
 
 struct Elem_80128A74 { u8 pad[0x1c]; u8 f1c[0x2c - 0x1c]; };
 
@@ -28,7 +29,6 @@ struct Obj_80128E08 { u8 pad[0x184]; void *f184; void *f188; u8 pad2[0x1fc - 0x1
 
 extern "C" {
 Obj_80128A74 *find_entity_by_id(s32);
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 test_flags_any(void *p, s32 n);
 
 void TObjPlayer__sub_80128A70(void) {  }

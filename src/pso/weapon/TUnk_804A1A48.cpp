@@ -7,6 +7,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct Sp8Type_80123524 { s32 a; s32 b; s32 c; s32 d; };
 
@@ -17,7 +18,6 @@ s32 post_translate_matrix(Sp8Type_80123524 *);
 s32 draw_weapon_at_joint(void *, s32, void *);
 s32 warn_if_gauge_low__10TObjPlayerFv(s32);
 s32 set_model_fade_alpha__10TObjPlayerFf();
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 
 extern s32 model_render_flags;

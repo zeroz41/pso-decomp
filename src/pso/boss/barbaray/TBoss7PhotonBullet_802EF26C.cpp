@@ -9,6 +9,7 @@
 #include "pso/unk/text_800BC4C8.h"
 #include "pso/boss/barbaray/TBoss7PhotonBullet.h"
 #include "pso/player/TUnk_804928CC.h"
+#include "pso/unk/text_80087278.h"
 extern "C" void render__15TBoss7PhotonPadFv();
 
 #include "pso/boss/barbaray/TBoss7Joint.h"
@@ -71,7 +72,6 @@ struct Bullet_802EF2AC {
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
-void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern void *__vt__18TBoss7PhotonBullet[];
 s32 project_actor_to_ground(void *, void *, void *);
 extern const f32 lbl_805DEA00;

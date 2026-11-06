@@ -1,9 +1,9 @@
 #include "pso/object/switch/TSwitch.h"
 
 #include "types.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 get_current_floor(void);
 s32 memcpy(void *, void *, void *);
 s32 memset(void *, int, int);
 }

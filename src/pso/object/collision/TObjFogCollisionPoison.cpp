@@ -8,6 +8,7 @@
 #include "pso/render/TFogCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D853C.h"
 
 struct RecoveredGlobal_80153084_lbl_804AF7B0 {
     s32 value;
@@ -53,7 +54,6 @@ extern s32 lbl_805D2E84;
 void __dt__7TObjectFv(void *, int);
 void __dl__7TObjectFPv(void *);
 void vfunc_14__22TObjFogCollisionSwitchFv(void *self);
-void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80440078[];
 s16 get_actor_hp(s32);
 s32 get_entity_id(s32);

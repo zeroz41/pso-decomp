@@ -6,6 +6,7 @@
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/barbaray/TBoss7Joint.h"
 #include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/system/SoundEffect.h"
 
 extern "C" {
 extern const f32 lbl_805DE9F0;
@@ -13,7 +14,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 s32 reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
-s32 play_sound_effect(int, void *, int, int);
 u32 __nw__7TObjectFUl(int);
 s32 TObjPlayer__sub_802E72DC(void *, void *, void *, int);
 s32 vfunc_93__9TObjEneDDFv(void *);

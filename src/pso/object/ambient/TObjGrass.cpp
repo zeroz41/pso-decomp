@@ -26,6 +26,10 @@
 #include "pso/object/ambient/TObjFish.h"
 
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 s32 lbl_805D5140;
@@ -279,7 +283,6 @@ struct E1C_800BF924 { u8 pad[0x1C]; };
 struct E2C_800BF924 { u8 pad[0x2C]; };
 
 extern "C" {
-void *spawn_particle_effect(void *pos, s32 id);
 s32 apply_actor_gravity(void *, s32, f32);
 s32 minimap_render_dot(void *, s32, s32, s32);
 s32 play_persistent_sound(s32, void *, void *, s32, s32);
@@ -292,9 +295,6 @@ f32 step_toward_destination__10TObjPlayerFPvPvf(void *, Vec_800BE75C, f32);
 s32 obj_setFlags30(void *, u32);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, s32);
-s32 push_matrix_from(void *);
-s32 pop_matrices(int);
 extern u8 identity_matrix[];
 u16 find_nearest_visible_player(void *, int, f32);
 s32 check_path_obstructed(void *, void *);
@@ -328,7 +328,6 @@ s32 mult_vec_array__10TObjPlayerFUll(int, int, void *, int);
 s32 scale_matrix(int, f32, f32, f32);
 void set_matrix_identity(u8 *arg0);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern s32 enable_v2_features;
 f32 enemy_move_toward(void *, s32, void *, s32, f32);
@@ -451,7 +450,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-void draw_chunk_object(void *child);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

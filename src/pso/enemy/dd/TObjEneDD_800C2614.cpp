@@ -7,6 +7,7 @@
 #include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/SoundEffect.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -17,7 +18,6 @@ struct Prm_800C2628 { f32 a, b, c, d, e; };
 
 extern "C" {
 s32 noop__9TObjEneDDFv(void *, s32);
-s32 play_sound_effect(s32, void *, s32, s32);
 extern Prm_800C2628 enemy_dd_attack_param_block;
 extern Prm_800C2628 lbl_8043BBA0;
 extern f32 *const lbl_805D5170;

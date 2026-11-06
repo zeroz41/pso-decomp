@@ -15,6 +15,8 @@
 #include "pso/boss/darkfalz/TObjDFDemoF.h"
 #include "pso/object/ending/TObjOnlineEnding.h"
 #include "pso/boss/darkfalz/TObjDFUsoTower.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern const char dark_falz_state_name_editor[] = "EDITOR";
 extern const char dark_falz_state_name_wait_casket[] = "WAIT_CASKET";
@@ -312,7 +314,6 @@ extern "C" {
 extern RecoveredGlobal_8004CBC0_lbl_80485448 lbl_80485448;
 void *create__11TBoss4Type2Fl(void *);
 void normalize_vector(Vec_8004C940 *);
-s32 play_sound_effect(s32, s32, s32, s32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 is_timer_expired__14TBoss4DarkFalzFv();
 
@@ -502,7 +503,6 @@ void TBoss4DarkFalz::update_demo_warp1() {
 struct V_8004D1E4 { f32 x, y, z; };
 
 extern "C" {
-int get_player_data__10TObjPlayerFi(int a0);
 f32 horizontal_distance_squared(void *, void *);
 extern s32 registered_player_count;
 void TBoss4DarkFalz__sub_8004B8F8(TBoss4DarkFalz *arg0);

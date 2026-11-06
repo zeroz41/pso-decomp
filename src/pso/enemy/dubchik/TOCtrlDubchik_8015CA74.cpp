@@ -19,6 +19,11 @@
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_800F0810.h"
 #include "pso/render/BlobShadow.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
 
 struct VBase_18_65b835 { char pad[0x18]; };
 
@@ -127,7 +132,6 @@ s32 exchange_object_state__9TObjEnemyFls(void *, void *, int);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8015D314_lbl_804B0A10 bm_fs_obj_zombie_con_resource_descriptor;
 extern u32 TOCtrlDubchik__shared_resource;
-void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 s32 try_start_action__9TObjCharaFll(void *, void *, void *);
 s32 roll_physical_accuracy__9TObjCharaFPvlf(void *, void *, void *, f32);
 s32 __ct__9TObjEnemyFP7TObject(void *);
@@ -136,17 +140,12 @@ extern RecoveredGlobal_8015D3CC_lbl_804B0A20 TOCtrlDubchik__collision_body;
 extern s32 __vt__13TOCtrlDubchik[];
 extern s32 lbl_805D2F1C;
 u8 *TOCtrlDubchik__ct(TOCtrlDubchik *arg0, s32 arg1, s32 arg2);
-f32 sin_table_lookup(s32);
-int get_player_data__10TObjPlayerFi(int a0);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern char lbl_80440984[];
-void submit_cursor_candidate(void *, s32);
-void *spawn_particle_effect(void *pos, s32 id);
 void dubchik_start_dying(u8 *arg0);
-s32 play_sound_effect(s32, void *, s32, s32);
 f32 receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(void *, s32, Pair_8015D518, void *, s32, s32);
 f32 TOCtrlDubchik__vt21(TOCtrlDubchik *arg0, s32 arg1, Pair_8015D518 arg2, void *arg3);
 void *__dt__13TOCtrlDubchikFv(void *arg0, s16 arg1);

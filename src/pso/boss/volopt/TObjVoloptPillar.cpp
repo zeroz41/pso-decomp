@@ -23,16 +23,15 @@
 #include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D853C.h"
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 s32 obj_is_hit_receivable(TObjChara *actor);
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-void rotate_matrix_x(s32 matrix, s32 angle);
-void scale_matrix(s32 matrix, f32 x, f32 y, f32 z);
-void matrix_mult_vec(s32 matrix, const Vec *src, Vec *dst);
-void play_sound_effect(s32 id, const Vec *pos, s32 a2, s32 a3);
 extern GC_Mtx identity_matrix;
 }
 

@@ -8,15 +8,13 @@
 #include "pso/item/TItem.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_80109344.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/math/AngleLookup.h"
 
 struct Obj_80131334 { u8 pad[0x1f8]; s32 state; };
 
 extern "C" {
     
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
-
-int post_translate_matrix(void*);
 int get_player_list__10TObjPlayerFv(void*);
 }
 

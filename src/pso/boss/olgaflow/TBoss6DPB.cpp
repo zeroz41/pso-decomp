@@ -10,6 +10,7 @@
 #include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct V_8035D8B0 { s32 a; f32 b; s32 c; };
 
@@ -72,7 +73,6 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035DB70___vt__9TBoss6DPB __vt__9TBoss6DPB;
 extern s32 TBoss6DPB__class_name;
 
-int get_player_data__10TObjPlayerFi(int a0);
 f32 vector_length(void *);
 void subtract_vector(void *, void *);
 

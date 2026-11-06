@@ -11,6 +11,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_801711D0_lbl_804B2F2C { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_801711D0_lbl_804B2F2C_size[sizeof(RecoveredGlobal_801711D0_lbl_804B2F2C) == 0x10 ? 1 : -1];
@@ -46,8 +48,6 @@ u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_801711D0_lbl_804B2F2C mine_resource_desc;
 extern u32 lbl_805D5A50;
 u16 find_nearest_visible_player(void *, int, f32);
-void *get_player_by_client_id(s32 i);
-void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
@@ -63,7 +63,6 @@ extern const f32 lbl_805DB85C;
 Obj_80171278 *TOMine__ct(Obj_80171278 *arg0);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
 void TLobby__sub_8001FE7C(void*, int);
-s32 submit_cursor_candidate(void *, int);
 int submit_target_to_player_cursor(void*);
 void __dl__7TObjectFPv(void *);
 

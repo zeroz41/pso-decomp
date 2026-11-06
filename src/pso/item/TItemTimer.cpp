@@ -10,6 +10,8 @@
 #include "pso/item/TUnk_804A0588.h"
 #include "pso/item/TUnk_804A0568.h"
 #include "pso/player/TObjPlayer.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
 
 extern "C" {
 void queue_destruction__7TObjectFv(void*);
@@ -71,7 +73,6 @@ extern "C" {
 void TItemTimer__sub_8011D598(u8 *arg0, s32 arg1, s32 arg2);
 u8 *TItemTimer__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 s32 add_actor_tp(u8 *arg0, s32 arg1);
 s32 set_owner_id__13TParticleCtrlFUs(s32, s32);
 s32 is_item_area_enabled();
@@ -82,7 +83,6 @@ s32 get_entity_id(s32);
 s32 obj_isState2_324__9TObjCharaFv(void *);
 s32 obj_isState3_324__9TObjCharaFv(s32);
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
-s32 rand();
 
 extern s32 __vt__10TItemTimer[];
 extern s32 lbl_805D2C88;

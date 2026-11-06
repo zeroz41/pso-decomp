@@ -13,6 +13,9 @@
 #include "pso/enemy/shark/TObjEneShark.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -164,7 +167,6 @@ struct Owner_800ABDD8
 extern "C" {
 s32 post_translate_matrix(void *);
 s32 draw_chunk_object(s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 extern s32 model_render_flags;
 void __dl__7TObjectFPv(void *);
@@ -187,13 +189,11 @@ extern u32 TObjEneShark__attack_motion_3_trail;
 extern u32 shark_attack4_trail_buffer;
 void vfunc_93__12TObjEneSharkFv(Obj_800ABB38 *o);
 void *__nw__7TObjectFUl(int);
-s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 update__15RenderFadeStateFv(void *);
 s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 defer_render__7TObjectFv(void *);
-s32 translate_matrix(s32, f32, f32, f32);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
@@ -677,9 +677,7 @@ extern "C" void vfunc_58__13TUnk_80493450Fv();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void try_start_action__9TObjCharaFll();
 extern "C" void update_action_hold_status__13TUnk_80493450Fv();
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *player);
 extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_object_view_visibility__8TObjBaseFff();
@@ -965,7 +963,6 @@ struct Shark_800AC6B0 : VObj_800AC6B0 {
 };
 
 extern "C" {
-f32 random_ratio__9TObjCharaFv(s32 arg0);
 
 void __ct__13TUnk_80493450FP7TObject(void *);
 }

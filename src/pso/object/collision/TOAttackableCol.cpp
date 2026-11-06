@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
 
 #pragma readonly_strings on
 
@@ -58,7 +60,6 @@ void TOAttackableCol__sub_80157310(void *_w0);
 u8 is_current_floor_switch_set(int);
 volatile int is_locally_controlled__10TObjPlayerFPv(void *);
 u16 get_entity_id(void *);
-void *spawn_particle_effect(void *pos, s32 id);
 extern u32 quest_mission_manager;
 extern u32 quest_area_manager;
 extern s32 tl_00;
@@ -73,7 +74,6 @@ void TOAttackableCol__sub_80157C20(void* p, s32 v);
 s32 TOAttackableCol__sub_80157C28(void* p);
 void *__dt__15TOAttackableColFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 int bswap_header__6TLobbyFv(void*);
 int clear_player_status_flag__14TObjCollidableFlUl(void*, int, int);

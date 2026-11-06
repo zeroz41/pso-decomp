@@ -15,6 +15,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Ent_8033CB4C
 {
@@ -39,8 +41,6 @@ struct Fish_8033CB4C
 };
 
 extern "C" {
-void *create_particle_emitter(void *pos, s32 id);
-s32 play_sound_effect(int, int, int, int);
 extern const f32 lbl_805DFA48;
 extern const f32 lbl_805DFA4C;
 s32 get_bml_motion(s32, s32);

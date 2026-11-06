@@ -8,10 +8,10 @@
 #include "pso/boss/darkfalz/TObjDFTenchuFuru.h"
 #include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 
-void *get_player_by_client_id(s32 i);
 s32 push_matrix();
 s32 post_translate_matrix(s32 *);
 }

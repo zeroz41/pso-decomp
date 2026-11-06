@@ -11,6 +11,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/enemy/AttackTargetHistory.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/math/MatrixVector.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -70,14 +75,7 @@ extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 extern s32 __vt__19TBoss1DragonEffTail[];
 EffTail_8002C06C *TBoss1DragonEffTail__ct(EffTail_8002C06C *arg0, s32 arg1, s32 arg2);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 matrix_mult_vec(int, void *, void *);
-void set_matrix_identity(u8 *arg0);
-s32 rotate_matrix_y(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
-s32 push_matrix(void);
-s32 pop_matrix(void);
 void __dl__7TObjectFPv(void *);
 int fill_value_array(void*);
 

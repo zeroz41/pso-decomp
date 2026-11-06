@@ -12,6 +12,10 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/moja/TObjEneMoja.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
@@ -23,12 +27,8 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 s32 spawn_dead_spot_scale15(void *, int);
-s32 play_sound_effect(s32, void *, int, int);
 s32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix(void);
 extern u8 identity_matrix[];
 extern const f32 lbl_805D9BF8;
 void TObjPlayer::clamp_stat_354() {
@@ -495,7 +495,6 @@ s32 get_entity_id(void *);
 s32 get_current_floor();
 u32 csnVector(void *, void *, int);
 u8 *get_enemy_entity(u16);
-void *get_player_by_client_id(s32 i);
 s32 subtract_vector(void *, void *);
 extern s32 lbl_8043B0B4[];
 extern s32 registered_player_count;
@@ -505,7 +504,6 @@ s32 TObjPlayer__sub_800ACA0C(void *);
 
 void update_attack_jump__11TObjEneMojaFv(Obj_800ACFE8 *);
 struct Moja_800AE450;
-s32 submit_cursor_candidate(void *, int);
 s32 minimap_render_dot(void *, int, int, int, f32);
 extern const f32 lbl_805D9BDC;
 
@@ -538,8 +536,6 @@ extern s32 lbl_805D5868;
 extern const f32 lbl_805D9C00;
 extern const f32 lbl_805D9C08;
 extern const f32 lbl_805D9C0C;
-
-void pop_matrices(s32);
 
 extern const f32 lbl_805D9C3C;
 extern const f32 lbl_805D9C40;

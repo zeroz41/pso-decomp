@@ -7,6 +7,11 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803E2D70.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -66,20 +71,12 @@ void *TObjEZRopeBase__ct(void *);
 extern u8 ezrope_chunk_material_color_table[];
 extern s32 TObjHMS_EZRope_Player__name;
 void *TObjHMS_EZRope_Player__ct(void *arg0, void *arg1, void *arg2, void *arg3);
-f32 fabs_float(f32);
-f32 atan2_float(f32, f32);
 f32 get_scale_factor__10TObjPlayerFv(f32);
-s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, int);
 s32 subtract_vector(void *, void *);
-s32 rotate_matrix_x(int, int);
 s32 normalize_vector(void *);
-s32 push_matrix();
-s32 pop_matrix();
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
-void draw_chunk_object(void *child);
 extern const f64 lbl_8043DF40;
 extern u8 lbl_8048DEF4[];
 extern s32 saved_model_render_flags;

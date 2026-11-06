@@ -12,6 +12,9 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -390,13 +393,9 @@ void vfunc_95__14TObjEneDolmOlmFv(s32 arg0);
 s32 TObjPlayer__sub_800D92BC(void *, int);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern RecoveredGlobal_80300FC0_lbl_8058D490 identity_matrix;
 void vfunc_94__14TObjEneDolmOlmFv(u8 *arg0);
 s32 check_path_obstructed(void *, void *);
-s32 pop_matrices(int);
 void check_path_ahead__14TObjEneDolmOlmFlf(u8 *arg0, s32 arg1, f32 farg0);
 s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 s32 submit_cursor_candidate(void *, int);
@@ -438,7 +437,6 @@ s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 defer_render__7TObjectFv(void *);
 s32 translate_matrix(int, f32, f32, f32);
-s32 draw_chunk_object(void *);
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;

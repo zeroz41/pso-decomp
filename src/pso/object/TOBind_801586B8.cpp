@@ -11,6 +11,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 extern char lbl_80440220[];
 extern char lbl_80440234[];
@@ -35,7 +36,6 @@ extern u32 TOBind__static_model_resource;
 u8 *get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(int, int);
 s32 get_bml_model(int, int);
-s32 init_collision_body_parts(void *, void *, int);
 s32 __ct__14TObjCollidableFP7TObject(void *, int);
 extern s32 __vt__6TOBind[];
 extern s32 lbl_805D2EA8;
@@ -56,7 +56,6 @@ struct BindObj_801586B8 : BindBase_801586B8 {
 void TLobby__sub_8001FE7C(void*, int);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 free_collision_body_parts(void *);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 __dl__7TObjectFPv(void *);

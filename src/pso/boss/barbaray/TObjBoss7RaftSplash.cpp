@@ -4,6 +4,7 @@
 
 #include "types.h"
 #include "pso/object/ambient/TObjFish.h"
+#include <stdlib.h>
 
 struct Stack_802F15D4 {
     s32 sp8;
@@ -16,7 +17,6 @@ extern "C" {
 u16 TCameraCtrl__sub_8006A5DC();
 extern const f32 lbl_805DEC68;
 void __ct__7TObjectFP7TObject(void *, void *);
-s32 rand(void);
 extern RecoveredGlobal_802F16CC___vt__19TObjBoss7RaftSplash __vt__19TObjBoss7RaftSplash;
 extern s32 lbl_805D3FE8;
 s32 spawn_particle__8TObjFishFllf(f32);

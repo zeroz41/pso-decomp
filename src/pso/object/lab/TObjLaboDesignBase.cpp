@@ -3,6 +3,8 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -46,10 +48,8 @@ s16 update_object_view_visibility__8TObjBaseFff(void *, f32, f32);
 extern s32 camera_ctrl_instance;
 f32 rotate_matrix_by_node_angles(void *, void *);
 s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-void draw_ginja_model(s32 model);
 void draw_node_tree__18TObjLaboDesignBaseFiPv(s32 arg0, u8 *arg1);
 s32 init_collision_body_parts(void *, int, int);
 s32 __ct__14TObjCollidableFP7TObject();

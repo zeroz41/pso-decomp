@@ -1,5 +1,6 @@
 #include "types.h"
 #include "pso/enemy/TNeedleShoot.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 
 struct Vec_802A47C8 {
@@ -41,8 +42,6 @@ struct TNeedleShoot_802A47C8 {
 };
 
 extern "C" {
-f32 fabs_float(f32);
-f32 atan2_float(f32, f32);
 void init_collision_body_parts(void *, void *, int);
 void *__ct__14TObjCollidableFP7TObject(void *, void *);
 void *__nw__7TObjectFUl(u32);

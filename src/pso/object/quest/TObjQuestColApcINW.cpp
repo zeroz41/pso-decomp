@@ -6,6 +6,7 @@
 #include "pso/object/quest/TObjQuestColApcINW.h"
 #include "pso/object/quest/TObjQuestColBase.h"
 #include "pso/object/quest/TObjQuestCol.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern u8 quest_col_apc_warp_target_pos[];
 extern s32 quest_collision_warp_pending;
@@ -21,7 +22,6 @@ struct Col_801960F8 { u8 pad0[0xAC]; f32 fAC; u8 padB0[0xC]; f32 fBC; f32 fC0[3]
 
 extern "C" {
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 extern s32 local_client_id;
 void TObjQuestColBase__ct(void *);
 

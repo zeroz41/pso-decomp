@@ -5,6 +5,7 @@
 #include "types.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
 
@@ -33,7 +34,6 @@ typedef struct Out_8003AD54 { f32 x, y, z; u32 c; } Out_8003AD54;
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int, f32);
 void matrix_mult_vec(s32, Vec_8003AB7C *, Out_8003AB7C *);
-void rotate_matrix_x(s32, s32);
 void push_matrix(void);
 Vec_8003AB7C boss2_dust_points[6];
 s32 boss2_dust_rotation_table[20];

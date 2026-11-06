@@ -5,6 +5,7 @@
 #include "pso/object/trap/TOTrap.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct Obj_80178CF8 {
     u8 pad[0x38];
@@ -26,16 +27,13 @@ struct Obj_80178E10 { u8 pad0[0x2A8]; u8 *target; u8 pad1[0x7A]; s16 state; u8 p
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(int);
 s32 get_entity_id(u32);
-void *get_player_by_client_id(s32 i);
 
-s32 submit_cursor_candidate(void *, s32);
 extern u32 trap_scale_factor_table[];
 extern s32 game_difficulty_selection;
 s32 fn_80171314(void *);
 u16 find_nearest_visible_player(void *, int, f32);
 s32 calc_attach_pos__9TObjCharaFv();
 f32 horizontal_distance_squared(void *, void *);
-void send_6x2C_impose_hold(void *, void *, s32, int, f32);
 struct Base_80178EF8_80178BC0 { char pad[0x18]; };
 struct VObj_80178EF8_80178BC0 : Base_80178EF8_80178BC0 {
 #define VM(n) virtual void m##n();

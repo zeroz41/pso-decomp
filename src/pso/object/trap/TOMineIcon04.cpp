@@ -7,6 +7,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
 
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -54,7 +57,6 @@ struct Icon_80171E7C {
 };
 
 extern "C" {
-s32 play_sound_effect(int, void *, int, int);
 void vfunc_80__12TOMineIcon04Fv(s32 arg0);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
@@ -69,7 +71,6 @@ void *TOMineIcon04__ct(void *arg0, void *arg1, void *arg2);
 int vfunc_82__12TOMineIcon04Fv(void* p);
 void vfunc_84__12TOMineIcon04Fv(void);
 void *__dt__12TOMineIcon04Fv(void *arg0, s16 arg1);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 free_collision_body_parts(void *);
 s32 __dl__7TObjectFPv(void *);
 void *__dt__6TOMineFv(void *arg0, s16 arg1);
@@ -148,9 +149,7 @@ void spawn_effect__10TOMineTrapFv();
 void receive_physical_attack__6TOMineFPvf();
 void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 void update_actor_ground_y__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 void update_flag30_timer__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();

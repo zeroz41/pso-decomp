@@ -16,6 +16,15 @@
 #include "pso/camera/TCameraCtrl.h"
 
 #include "pso/render/TUnk_80494938.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 
 extern "C" s32 TObjPlayer__sub_800DC420(void *self, s32 i);
 extern "C" f32 TObjPlayer__sub_800DC434(s32 arg0, s32 arg1);
@@ -25,10 +34,7 @@ extern "C" f32 lbl_805D5264;
 extern "C" f32 lbl_805D5268;
 extern "C" s32 lbl_805D526C;
 extern "C" s32 lbl_805D5270;
-extern "C" s32 push_matrix_from(void *);
-extern "C" s32 pop_matrix(void);
 extern "C" s32 scale_matrix(int, f32, f32, f32);
-extern "C" s32 rotate_matrix_y(int, int);
 extern "C" s32 translate_matrix(int, f32, f32, f32);
 extern "C" Mtx34 identity_matrix;
 extern "C" s32 registered_player_count;
@@ -36,12 +42,10 @@ extern "C" void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 head
 extern "C" s32 lbl_805D5870;
 extern "C" f32 atan2_float(f32, f32);
 extern "C" void vec3_add_to(void *, void *);
-extern "C" s32 matrix_mult_vec(int, Vec *, void *);
 extern "C" Vec lbl_8043C8E4;
 extern "C" Vec find_open_direction_zero_vec;
 extern "C" const f64 lbl_8043C900[];
 extern "C" s16 get_entity_id(void *);
-extern "C" s32 angle_difference_abs(s32, s32);
 extern "C" void subtract_vector(void *, void *);
 
 #include <stddef.h>
@@ -75,8 +79,6 @@ extern "C" u16 find_nearest_visible_player(void *, s32, f32);
 extern "C" s32 apply_actor_gravity(void *, int, f32);
 extern "C" f32 atan2_float(f32 y, f32 x);
 extern "C" s32 check_enemy_body_collisions(void *);
-extern "C" s32 play_sound_effect(int, void *, int, int);
-extern "C" void rotate_vector_by_matrix(int, void *, void *);
 
 extern "C" u32 get_player_by_client_id(s32);
 extern "C" s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
@@ -90,10 +92,7 @@ extern "C" void TObjPlayer__sub_800DCD04(void *, void *, int, void *, s32, int);
 extern "C" void *find_entity_by_id(u16 id);
 extern "C" u32 __nw__7TObjectFUl(u32);
 extern "C" void enemy_turn_toward_dest(void *, s32);
-extern "C" f32 sin_table_lookup(s32);
-extern "C" f32 cos_table_lookup(s32);
 extern "C" s32 enemy_turn_half_toward_dest(void *);
-extern "C" void *spawn_particle_effect(void *pos, s32 id);
 extern "C" s32 construct_beam_effect__10TObjPlayerFPvPvPviPv(u32, void *, void *, u8, void *);
 extern "C" s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 extern "C" s32 check_path_obstructed(void *, Vec *);
@@ -131,8 +130,6 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 extern "C" s32 is_split_screen();
 extern "C" s32 restore_scene_lighting();
 extern "C" s32 select_actor_lighting(void *);
-extern "C" s32 push_matrix();
-extern "C" s32 pop_matrix();
 extern "C" s32 draw_chunk_object(int);
 extern "C" s32 saved_model_render_flags;
 extern "C" s32 model_render_flags;

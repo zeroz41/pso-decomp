@@ -21,6 +21,8 @@
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
 #include <dolphin/base/PPCArch.h>
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 // Written from its last function back: the unit is built -inline off,deferred
 // (configure.py), which emits the functions in reverse and puts the vtable
@@ -29,9 +31,6 @@
 #pragma readonly_strings on
 
 extern "C" {
-void TLobby__sub_8001FE7C(BmlResource *resource, s32 del);
-BmlResource *load_resource_from_descriptor(void *resource, s32 kind, BmlResourceDescriptor *descriptor, s32, s32, s32);
-AnimationMotion *get_bml_motion(BmlResource *resource, s32 index);
 void draw_ginja_model_with_motion(s32 model, AnimationMotion *motion, f32 frame);
 extern s32 actor_frame_tick;
 }

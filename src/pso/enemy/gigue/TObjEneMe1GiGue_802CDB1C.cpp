@@ -14,26 +14,26 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/unk/text_80086B64.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/map/CsnQuery.h"
 
 struct Vec_802CDEB4 { f32 x, y, z; };
 
 struct Vec_802CDB1C { f32 x, y, z; };
 
 extern "C" {
-f32 atan2_float(f32 y, f32 x);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 s32 matrix_mult_vec(void *, Vec_802CDEB4 *, void *);
-s32 rotate_matrix_y(void *, s32);
 s32 rotate_matrix_x(void *, s32);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern u8 identity_matrix[];
 extern f32 lbl_805D6844;
 extern f32 lbl_805D6848;
-u32 csnVector(void *, void *, s32);
-void *spawn_particle_effect(void *pos, s32 id);
 TObjChara *find_active_entity_by_id(u16);
-s32 play_sound_effect(s32, void *, s32, s32);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern s32 local_client_id;

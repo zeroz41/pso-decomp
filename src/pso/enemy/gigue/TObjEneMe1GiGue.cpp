@@ -9,6 +9,13 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gigue/TObjEneMe1GiGue.h"
 #include "pso/map/FloorArea.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -532,9 +539,6 @@ extern f32 lbl_805D684C;
 extern s32 lbl_805D6850;
 extern s32 lbl_805D6854;
 extern "C" {
-s32 push_matrix_from(void *src);
-s32 pop_matrix(void);
-s32 rotate_matrix_y(int, int);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 extern RecoveredGlobal_802CB03C_lbl_8058D490 identity_matrix;
 int get_player_data__10TObjPlayerFi(int a0);
@@ -547,7 +551,6 @@ extern Vec_802CAD98 lbl_80472280;
 extern Vec_802CAD98 lbl_8047228C;
 extern const f64 TObjEneMe1GiGue__data_80472298;
 s16 get_entity_id(void *);
-s32 angle_difference_abs(s32, s32);
 void subtract_vector(Vec_802CB170 *, Vec_802CB170 *);
 s32 update_action_hold_status__9TObjCharaFv();
 s32 *csnVectorUnder(s32, s32, s32, s32);
@@ -704,7 +707,6 @@ s32 apply_actor_gravity(void *, int, f32);
 s32 calc_velocity_toward_destination(void *, void *, void *, f32);
 #define update_if_active__15TObjEnemyCustomFl ((s32 (*)(void *, s32, s32))update_if_active__15TObjEnemyCustomFl)
 s32 sub_8004292C__15TObjEnemyCustomFv(void *);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(void *, void *, s32, s32);
 s32 play_area_sound_effect__12TBoss3VoloptFv(void *, s32);
@@ -850,8 +852,6 @@ void move_with_wall_slide(u8 *arg0);
 extern "C" {
 void enemy_set_heading_velocity(f32 speed, TObjEnemy *enemy, s32 heading);
 s32 enemy_turn_toward_dest(void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 u16 find_nearest_visible_player(void *, int, f32);
 #define update_if_active__15TObjEnemyCustomFl ((s32 (*)(void *, int))update_if_active__15TObjEnemyCustomFl)
 s32 find_target_in_range__15TObjEnemyCustomFf(void *, f32);
@@ -1808,8 +1808,6 @@ void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
 #define rotate_matrix_y ((void (*)(s32, s32))rotate_matrix_y)
-void push_matrix(void);
-void draw_chunk_object(void *child);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 

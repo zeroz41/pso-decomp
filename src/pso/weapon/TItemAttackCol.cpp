@@ -14,6 +14,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 struct VBase_18_f2ea1e { char pad[0x18]; };
 
 struct VObj_18_f2ea1e : VBase_18_f2ea1e {
@@ -161,7 +162,6 @@ extern "C" {
 s32 has_game_join_id__13TUnk_804E355CFv(void *);
 s32 play_weapon_hit_sound(void *);
 void apply_camera_shake__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
-void *get_player_by_client_id(s32 i);
 extern const f32 lbl_805DE914;
 extern const f32 lbl_805DE928;
 extern const float lbl_805DE918;

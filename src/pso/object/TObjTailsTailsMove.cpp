@@ -2,10 +2,10 @@
 #include "pso/object/TObjTailsTailsMove.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/AngleLookup.h"
 
 extern "C" {
 const char *TObjTailsTailsMove_name = "TObjTailsTailsMove";
-f32 sin_table_lookup(s32);
 }
 
 #pragma push

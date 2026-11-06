@@ -12,6 +12,11 @@
 #include "pso/object/trap/TOTrapAncient02R.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_80083594.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -96,17 +101,12 @@ extern "C" {
 u16 find_nearest_visible_player(void *, int, f32);
 s32 get_current_floor(void);
 f32 atan2_float(f32 y, f32 x);
-void *spawn_particle_effect(void *pos, s32 id);
 f32 get_collision_body_radius(void *, s32);
 void submit_cursor_candidate(void *, s32);
 void *get_player_by_client_id(s32 i);
-void play_sound_effect(s32, void *, s32, s32);
 void * __nw__7TObjectFUl(int);
 void rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
 void subtract_vector(void *, void *);
-s32 push_matrix_from(void *src);
-s32 pop_matrix();
 extern Vec_8017A3C0 scratch_vec[];
 extern Vec_8017A3C0 lbl_8050BF00[];
 extern u8 identity_matrix[];
@@ -351,7 +351,6 @@ s32 dispatch_input_to_instance__18TAdEnterPasswordGCFi(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
-void draw_ginja_model(s32 model);
 
 extern u32 TOTrapAncient02__shared_resource;
 extern s32 __vt__15TOTrapAncient02[];

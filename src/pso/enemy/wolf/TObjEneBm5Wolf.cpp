@@ -10,6 +10,11 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/wolf/TObjEneBm5Wolf.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -95,8 +100,6 @@ f32 atan2_float(f64, f64);
 void approach_target__14TObjEneBm5WolfFPvf(void *arg0, f32 farg0);
 s32 transition_enemy_state__9TObjEneDDFl(void *, s32);
 s32 approach_angle_limited(int, int, int);
-f32 sin_table_lookup(s32 angle);
-f32 cos_table_lookup(s32 angle);
 void *find_entity_by_id(u16 id);
 void advance_pose_turn__14TObjEneBm5WolfFPvi(Wolf_800B7DDC *s, s32 target);
 }
@@ -1092,12 +1095,9 @@ void draw_blob_shadow(s32 arg0);
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
 s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 rotate_matrix_z(s32, s32);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 TObjEneBm5Wolf__spawn_timer;
 s32 TObjEneBm5Wolf__data_805D5128;
@@ -1171,7 +1171,6 @@ struct Ent8_800B4824 { s32 f0; u8 *f4; };
 
 s32 pack_debug_text_position(s32 arg0, s32 arg1);
 s32 debug_draw_line(void *, void *, int, int);
-s32 debug_printf_at(s32, const char *, ...);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern char lbl_8043B584[];
 extern char lbl_8043B590[];

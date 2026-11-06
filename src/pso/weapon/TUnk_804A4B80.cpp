@@ -9,6 +9,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItemEquipVariant_8012AEA8.h"
 #include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -189,7 +190,6 @@ struct Pl_8012AC68 : PlB_8012AC68 {
 
 extern "C" {
 s32 send_activate_effect__5TItemFl(void *, int);
-s32 get_current_floor();
 u32 *copy_attack_targets(u32 *dst, u32 *src);
 s32 get_captured_target_collider_index(s32);
 s32 get_captured_target_entry(void *, s32);

@@ -6,10 +6,9 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
-
-s32 push_matrix();
 
 extern void *lbl_805D4DD8;
 extern s32 boss5_common_texture_list;

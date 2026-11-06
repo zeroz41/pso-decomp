@@ -11,6 +11,10 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 struct Node_8018E358 { s32 pad0; void *f4; };
 struct Glob_8018E358 { s32 f0; s32 pad4; s32 pad8; Node_8018E358 *a; Node_8018E358 *b; };
@@ -64,14 +68,10 @@ struct Door_8018F15C {
 };
 
 extern "C" {
-void rotate_matrix_y(int, int);
 void push_matrix();
-s32 pop_matrix(void);
 void post_translate_matrix(void *);
-void draw_ginja_object(void *);
 void draw_ginja_model_with_motion(int, int, void *, f32);
 void TObjDoor__sub_8018E8BC(void);
-f32 sin_table_lookup(s32);
 void update_anim__8TObjDoorFPv(void *arg0);
 f32 xyz_distance_squared(u8 *arg0, u8 *arg1);
 s32 project_world_to_screen(int, void *, void *);

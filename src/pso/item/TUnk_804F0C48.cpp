@@ -5,6 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/item/TItemData.h"
+#include <stdlib.h>
 
 // What the item can turn into: item codes with their weights out of 256.
 struct ItemChoice { u8 code[3]; u8 weight; };
@@ -13,7 +14,6 @@ struct ItemChoiceList { s32 count; ItemChoice *choices; };
 
 extern "C" {
 ItemChoiceList *get_item_pmt_entry__10TObjPlayerFUc(u8);
-s32 rand(void);
 }
 
 void TUnk_804F0C48::apply_use_effect() {

@@ -25,6 +25,11 @@
 #include "pso/object/ambient/TObjFish_800E2FFC.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Stack_800DDFDC
 {
@@ -189,12 +194,10 @@ struct Obj_800DD8AC { u8 pad0[0xB0]; u32 flags; u8 padb4[0xC0 - 0xB4]; f32 fc0; 
 extern "C" {
 s32 obj_setFlags30(void *, int);
 int TObjEnePanarms__sub_800E1D94(void *);
-void *spawn_particle_effect(void *pos, s32 id);
 s32 spawn_continuous_particle_with_direction(void *, void *, int, int);
 f32 sin_table_lookup(int);
 f32 cos_table_lookup(int);
 void *spawn_directional_particle(void *pos, void *dir, s32 id);
-s32 play_sound_effect(s32, void *, s32, s32);
 void set_field_b8__10TObjMotionFs(void *, int);
 s32 TObjEnePanarms__sub_800DFB44(s32);
 void TObjEnePanarms__sub_800E1E14(u8 *arg0);
@@ -222,7 +225,6 @@ s32 check_ground_along_path__14TObjEnePanarmsFPvPvPvff(void *arg0, Vec_800DE6A8 
 u32 csnLookAt(void *, void *);
 f32 horizontal_distance_squared(void *, void *);
 s32 try_warp_to_position__14TObjEnePanarmsFPvPv(u8 *arg0, Vec_800DEB48 *arg1);
-void *create_particle_emitter(void *pos, s32 id);
 s32 TObjEnePanarms__sub_800DE494(void *);
 int TObjEnePanarms__sub_800DFBC4(void *p);
 void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
@@ -236,7 +238,6 @@ void TLobby__sub_8001FE7C(void*, int);
 int post_translate_matrix(void*);
 int rotate_matrix_y(void*, void*);
 int push_matrix(void*);
-int pop_matrix(void);
 typedef struct { f32 x, y, z; } Vec_800DEDC4;
 void draw_blob_shadow(s32 arg0);
 }
@@ -275,7 +276,6 @@ void update__15RenderFadeStateFv(RenderFadeState *);
 s32 defer_render__7TObjectFv(void *);
 extern s32 model_render_flags;
 extern s32 saved_model_render_flags;
-s32 submit_cursor_candidate(void *, s32);
 s32 minimap_render_dot(void *, s32, s32, s32);
 }
 

@@ -7,11 +7,9 @@
 #include "pso/weapon/shoot/TItemShoot.h"
 #include "pso/effect/item/TItemEffNeedle.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
-
-s32 rotate_matrix_z(s32, s32);
-s32 rotate_matrix_x(s32, s32);
 
 void TUnk_804A5150::update_idle() { TObjPlayer::add_angle_clamped(&rotation_x, (s32)((void*)-910), (s32)((void*)-7281)); TObjPlayer::add_angle_clamped(&rotation_z, (s32)((void*)-910), (s32)((void*)-9102)); }
 

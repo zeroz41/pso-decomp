@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/boss/galgryphon/TBoss5GryphonTornado.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 extern "C" {
-void *get_player_by_client_id(s32 i);
 extern const f32 lbl_805DFFA8;
 void TBoss5GryphonTornado::sub_803554F0(u8 *boss2_tunnel) {
     u8 *arg0 = (u8 *)this;

@@ -10,12 +10,12 @@
 #include "pso/boss/goldragon/TObjBoss8DemoRoom_8036B654.h"
 #include "pso/network/protocol/subcommand_validation.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
 u32 TBoss8Dragon__sub_802F3348(s32);
 s32 TBoss8Dragon__sub_802FCCBC();
-s32 push_matrix();
 
 extern void *TObjBoss8DemoRoom__shared_resource_object;
 

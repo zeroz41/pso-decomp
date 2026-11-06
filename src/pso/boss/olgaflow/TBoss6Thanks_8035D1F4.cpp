@@ -3,13 +3,13 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/text_8035D2EC.h"
 #include "pso/boss/olgaflow/TBoss6Thanks.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
 s32 fn_8035CAE0();
 int check_ship_door__12TBoss6ThanksFv(void*);
 u8 *TBoss6Thanks__ct(TBoss6Thanks *arg0, u8 *arg1);
 void *__nw__7TObjectFUl(int);
-s32 is_split_screen();
 
 extern void *tl_02;
 

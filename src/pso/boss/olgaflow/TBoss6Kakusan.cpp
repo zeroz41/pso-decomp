@@ -10,6 +10,9 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 
@@ -66,7 +69,6 @@ struct VObj_80322438 : Base_80322438 {
 
 extern "C" {
 u8 *__nw__7TObjectFUl(s32);
-void *create_particle_emitter(void *pos, s32 id);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
@@ -77,7 +79,6 @@ s32 query_teammate_state__9TObjEneDDFv();
 }
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 is_active__14TBoss6PlotFalzFv();
 int TBoss6Kakusan__sub_8032263C(void);
 void vec3_add_to(void *, void *);
@@ -87,7 +88,6 @@ extern s32 TBoss6Kakusan__homing_start_frame;
 extern u8 boss6_kakusan_homing_start_initialized;
 extern s32 boss6_kakusan_homing_end_frame;
 extern u8 TBoss6Kakusan__homing_end_frame_initialized;
-int get_player_data__10TObjPlayerFi(int a0);
 
 #pragma push
 #pragma opt_propagation off

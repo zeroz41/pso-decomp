@@ -4,13 +4,13 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/collision/TObjCollision.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_8006754C___vt__13TObjCollision { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_8006754C___vt__13TObjCollision_size[sizeof(RecoveredGlobal_8006754C___vt__13TObjCollision) == 0x38 ? 1 : -1];
 
 extern "C" {
-f32 fabs_float(f32);
 u32 init_collision_body_parts(void *, s32, s32);
 extern s32 __vt__13TObjCollision[];
 extern s32 lbl_805D2830;

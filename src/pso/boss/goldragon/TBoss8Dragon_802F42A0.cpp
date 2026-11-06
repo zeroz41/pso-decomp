@@ -1,14 +1,13 @@
 #include "types.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
 
 extern "C" {
 
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_z(int, int);
-s32 rotate_matrix_x(int, int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 draw__10TObjMotionFv(void *, int);
 

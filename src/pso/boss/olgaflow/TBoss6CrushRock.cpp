@@ -1,6 +1,8 @@
 #include "pso/boss/olgaflow/TBoss6CrushRock.h"
 #include "pso/system/vector.h"
 #include "pso/boss/olgaflow/TBoss6Rock.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
 
 TBoss6CrushRock::~TBoss6CrushRock() {}
 
@@ -20,12 +22,9 @@ s32 get_bml_model(int, void *);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 int TBoss6Rock__sub_80353A04(void);
 int TBoss6Rock__sub_80353A0C(void);
-s32 rand();
 extern RecoveredGlobal_8035A1A4___vt__15TBoss6CrushRock __vt__15TBoss6CrushRock;
 extern s32 TBoss6CrushRock__name;
 void *__nw__7TObjectFUl(int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern s32 tl_02;
 extern s32 TBoss6PlotFalz__instance;
 

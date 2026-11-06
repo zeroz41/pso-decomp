@@ -1,6 +1,12 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/enemy/fly/TObjEneBm3Fly.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD.h"
@@ -152,10 +158,8 @@ s32 is_main_phase_15__9TObjEneDDFv();
 s32 clear_global_flag_400__9TObjEneDDFv();
 s32 toggle_particle_effect__10TObjPlayerFv();
 s32 end_effect_render__13TParticleCtrlFv();
-s32 rotate_matrix_y(s32, s32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
-s32 pop_matrix();
 s32 set_global_param__8TObjFishFl(s32);
 extern Vec lbl_8043B10C;
 extern const f32 lbl_805D9E84;
@@ -174,7 +178,6 @@ void set_alpha_ref_override(u8 scene);
 void spawn_landing_dead_spot(s32 point, s32 delay);
 extern "C" {
 void *find_entity_by_id(u16 id);
-s32 play_sound_effect(s32, void *, s32, s32);
 #define clamp_flight_height__13TObjEneBm3FlyFv (*(s32 (*)(void *))&clamp_flight_height__13TObjEneBm3FlyFv)
 #define update_dd_flag__13TObjEneBm3FlyFPv (*(s32 (*)(void *, f32, f32, f32))&update_dd_flag__13TObjEneBm3FlyFPv)
 void TObjEneBm3Fly__vt103(void);
@@ -182,7 +185,6 @@ void TObjEneBm3Fly__vt104(TObjEneBm3Fly *arg0);
 void action__13TObjEneBm3FlyFPvi(u8 *arg0, s32 arg1);
 s32 TBoss8Dragon__sub_800BB7D8(void *, s32, f32);
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 s32 queue_destruction__7TObjectFv();
 
 f32 AttackParams::get_damage_radius() { return damage_radius; }
@@ -844,8 +846,6 @@ f32 calc_scaled_value__15TObjBoss2TunnelFlf(int, int, f32, f32);
 void sub_800B1634__13TObjEneBm3FlyFv(u8 *arg0);
 f32 approach_value__13TObjEneBm3FlyFff(f32 farg0, f32 farg1);
 s32 update_linked_position__12TObjEneDD_STFf(f32);
-f32 sin_table_lookup(int);
-f32 cos_table_lookup(int);
 void TObjEneBm3Fly__sub_800B02C8(TObjEneBm3Fly *arg0, s32 arg1);
 struct Fly_800B1684;
 void choose_attack__13TObjEneBm3FlyFPv(Fly_800B1684 *s);
@@ -1918,7 +1918,6 @@ s32 dispatch_shared_handler_a__6TLobbyFl(int);
 s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
-void *create_particle_emitter(void *pos, s32 id);
 s32 init_from_model__11TBreakUpMdlFl(int, void *);
 void TObjEneBm3Fly__sub_800B0B20(u8 *arg0, s32 arg1);
 void vfunc_61__13TObjEneBm3FlyFv(void);

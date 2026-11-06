@@ -5,13 +5,13 @@
 #include "pso/boss/dragon/TObjBoss1Floor.h"
 #include "pso/boss/dragon/TObjBoss1MokoHill_Solo.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/system/MatrixStack.h"
 
 extern "C" {
 
 void TObjBoss1Floor__sub_8002CB40(void);
 void TObjBoss1Floor__sub_8002CB78(void);
 s32 update_dragon_trail_uvs(void *);
-s32 push_matrix();
 s32 set_chunk_material_override_pair(int, int, void *, void *);
 
 void TObjBoss1Floor__sub_8002CB40(void) {  }

@@ -8,6 +8,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct VBase_18_551843 { char pad[0x18]; };
@@ -95,7 +96,6 @@ extern const f32 lbl_805DBEFC;
 extern const f32 lbl_805DBF00;
 extern s32 quest_col_base_class_name;
 extern u16 quest_collision_next_id;
-void *get_player_by_client_id(s32 i);
 
 extern s32 local_client_id;
 

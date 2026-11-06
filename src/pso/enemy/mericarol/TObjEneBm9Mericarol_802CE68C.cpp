@@ -17,6 +17,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/math/MatrixTransforms.h"
 struct Stack_802CE68C {
     s32 sp8;
     s32 spC;
@@ -118,12 +120,10 @@ s32 push_matrix();
 extern Vec lbl_8047249C;
 extern const f32 lbl_805DE700;
 extern const f32 lbl_805DE704;
-s32 is_split_screen();
 s32 get_camera_mode__11TCameraCtrlFv();
 s32 is_main_phase_15__9TObjEneDDFv();
 s32 update__15RenderFadeStateFv(void *);
 s32 defer_render__7TObjectFv(void *);
-s32 translate_matrix(int, f32, f32, f32);
 extern Vec lbl_80472490;
 extern s32 saved_model_render_flags;
 extern s32 lbl_805D686C;

@@ -1,6 +1,7 @@
 #include "pso/boss/galgryphon/TBoss5GryphonLightning.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "types.h"
+#include "pso/unk/text_80087278.h"
 
 TBoss5GryphonLightning::~TBoss5GryphonLightning() {
     if (m_44 != nullptr) { queue_destruction__7TObjectFv(m_44); m_44 = nullptr; }
@@ -39,7 +40,6 @@ struct Self_80324F4C {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 int VecCopy__FP3VecPC3Vec(void *, void *);
-void *spawn_continuous_particle_effect_with_flags(void *, s32, s32);
 extern s32 __vt__22TBoss5GryphonLightning[];
 extern s32 lbl_805D4180;
 

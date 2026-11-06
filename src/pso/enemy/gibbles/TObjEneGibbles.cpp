@@ -9,6 +9,11 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gibbles/TObjEneGibbles.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -122,7 +127,6 @@ void check_enemy_body_collisions(void *arg0);
 s32 submit_cursor_candidate(void *, int);
 u32 get_player_by_client_id(void *);
 s32 minimap_render_dot(void *, int, int, int);
-s32 play_sound_effect(int, void *, int, int);
 void TObjEneGibbles__sub_802D7DAC(s32 arg0);
 void TObjEneGibbles__sub_802D9644(void *, int, f32);
 extern const f32 TObjEneGibbles__data_805DE7E4;
@@ -130,7 +134,6 @@ extern const f32 lbl_805DE838;
 void TObjEneGibbles__sub_802D8E8C(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 * csnVectorUnder(s32 *, s32, s32, f32);
-void *spawn_particle_effect(void *pos, s32 id);
 extern const f32 TObjEneGibbles__data_805DE7E8;
 extern const f32 TObjEneGibbles__data_805DE7EC;
 extern const f32 lbl_805DE7F0;
@@ -152,11 +155,6 @@ s32 update__15RenderFadeStateFv(void *);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
 s32 defer_render__7TObjectFv(void *);
-void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 void draw_model__14TObjEneGibblesFPv(TObjEneGibbles *arg0);
 f32 subtract_vector(void *, void *);
 s32 check_path_obstructed(void *, void *);

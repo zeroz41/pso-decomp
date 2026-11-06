@@ -7,6 +7,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include <stdlib.h>
 
 #pragma readonly_strings on
 
@@ -93,7 +94,6 @@ void __ct__8TObjBaseFP7TObject(void *, s32);
 extern s32 __vt__16TOSparkMachine01[];
 extern const char *lbl_805D3174;
 extern s32 tl_05;
-s32 rand(void);
 void begin_effect_render__13TParticleCtrlFv(void *);
 void rotate_matrix_y(int, int);
 void push_matrix();

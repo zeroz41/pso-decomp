@@ -1,6 +1,7 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/boss/barbaray/TBoss7Crawfish.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 struct Pair_80308F8C { void *a; s32 b; };
 
@@ -19,7 +20,6 @@ struct Craw_80308F8C {
 };
 
 extern "C" {
-void *create_particle_emitter(void *pos, s32 id);
 
 extern const f32 lbl_805DF0F8;
 

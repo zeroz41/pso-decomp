@@ -3,6 +3,7 @@
 #include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/math/AngleLookup.h"
 
 struct Ent_8023DD0C { u8 type; u8 pad[3]; u32 f4; };
 
@@ -31,8 +32,6 @@ s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id);
 void set_ginja_texture_wrap_repeat(Tbl_8023DD60 *t);
 void DCFlushRangeNoSync(void *, u32);
 void scroll_ginja_mesh_uvs(Model_8023DDC8 *self, s16 du, s16 dv, u16 cmd, s32 rewrite);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 
 s32 has_texture_scroll_entry(Tbl_8023DD0C *t, u16 id) {
     s32 found = 0;

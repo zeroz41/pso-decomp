@@ -7,6 +7,7 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/ui/frontend/TAdLdQuestPrtGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_80323214_lbl_80476658 {
     s32 value;
@@ -26,7 +27,6 @@ struct T_80323320 { u8 pad[0xD4]; s32 arr[9]; };
 extern "C" {
 extern RecoveredGlobal_80323214_lbl_80476658 TBoss6GravBall__emitter_id_table;
 void TBoss6GravBall__sub_80323320(T_80323320 *self);
-void *get_player_by_client_id(s32 i);
 void fn_80323134(Obj_80323134 *arg0);
 
 void fn_80323134(Obj_80323134 *arg0) {

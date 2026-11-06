@@ -20,6 +20,9 @@
 #include "pso/ui/hud/TNowLoading.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
 #pragma readonly_strings on
 
 typedef struct Rec_8004E918 {
@@ -50,10 +53,6 @@ typedef struct Obj_8004EA2C {
 extern "C" {
 void render__11TObjDFDemo2Fv(Obj_8004E918 *arg0);
 void run_task__11TObjDFDemo2Fv(Obj_8004EA2C *arg0);
-s32 play_sound_effect(s32, void *, s32, s32);
-s32 rotate_matrix_y(s32, s32);
-s32 push_matrix();
-s32 post_translate_matrix(void *);
 struct Ent_8004EB78 { s32 a; s32 b; s32 c; };
 struct Obj_8004EB78 {
     s32 vt0;

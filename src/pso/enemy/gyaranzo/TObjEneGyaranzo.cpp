@@ -8,6 +8,11 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/gyaranzo/TObjEneGyaranzo.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -150,9 +155,7 @@ struct Outer_800D2900 { u8 pad[0x42c]; Inner_800D2900 *p42c; };
 
 extern "C" {
 f32 random_ratio__9TObjCharaFv(s32);
-s32 spawn_particle_effect(void *, int);
 u8 * TObjGyaranzoMissile__sub_800D4668(void *, void *, void *, s32, s32);
-s32 play_sound_effect(int, void *, int, int);
 s32 render_anim_model_at_pos__15TObjEnemyCustomFv(void *);
 void * __nw__7TObjectFUl(int);
 extern const f32 lbl_805DA268;
@@ -741,15 +744,12 @@ s32 restore_scene_lighting();
 s32 select_actor_lighting(void *);
 s32 free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, void *, int);
-s32 submit_cursor_candidate(void *, s32);
 s32 minimap_render_dot(void *, s32, s32, s32);
 s32 defer_render__7TObjectFv(void *);
 s32 __dl__7TObjectFPv(void *);
 void __destroy_arr(void *, void *, int, int);
 s32 __construct_array(void *, void *, void *, int, int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 s32 draw_chunk_object(int);
 

@@ -25,6 +25,15 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjControl.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 
 // TObjEneBalClawBody, the Bal Claw's body (the "TObjEneBalClawBody" class name).
 // One TU from 0x8008DC18 to 0x80090448: the .sdata2 pool 0x805D9618-0x805D9688 is shared by all of it.
@@ -236,11 +245,7 @@ extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 s32 TObjPlayer__sub_8008E098(Obj_8008E098 *self);
 void vec3_add_to(Vec *, Vec *);
-void matrix_mult_vec(void *, Vec *, Vec *);
-void set_matrix_identity(u8 *arg0);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 void calc_slot_offset_position__10TObjPlayerFPviPvPv(Obj_8008E18C *self, s32 slot, Vec *out, s32 *angle_out);
 void apply_actor_gravity(TObjEnemy *arg0, s32 *arg1, f32 farg0);
 }
@@ -249,12 +254,8 @@ extern "C" {
 s32 check_path_obstructed(void *, void *);
 f32 xz_distance_squared(void *, void *);
 void TObjPlayer__sub_8008DD14(Obj_8008DD14 *self);
-s32 subtract_vector(void *, void *);
 s16 get_actor_hp(u8 *p);
 void queue_destruction__7TObjectFv(void *arg0);
-void *spawn_particle_effect(void *pos, s32 id);
-void *create_particle_emitter(void *pos, s32 id);
-s32 play_sound_effect(int, void *, int, int);
 void TObjPlayer__sub_8008E310(P_8008E310 *arg0);
 void TObjPlayer__sub_8008E254(void *arg0);
 void TObjEneBalClawClaw__sub_80090A10(u8 *arg0, u8 *arg1, s32 arg2, s16 arg3);
@@ -276,10 +277,8 @@ struct VObj390V_8008e74c_8008DCF0 : VObj390_8008e74c_8008DCF0 {
 
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_x(s32, s32);
-void draw_chunk_object(void *child);
 void restore_scene_lighting(void);
 void select_actor_lighting(s32 obj);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 defer_render__7TObjectFv(void *);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
@@ -432,7 +431,6 @@ s32 fn_80090464(void *, int);
 void TObjPlayer__sub_8008F910(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 TObjPlayer__sub_800A04F0(void *);
-s32 play_sound_effect(int, void *, int, int);
 s32 update_enemy_wander_move(void *, Vec *, int, f32);
 s32 reset_enemy_state__10TObjPlayerFv();
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -447,8 +445,6 @@ s32 obj_setFlags30(void *, int);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
 T_8008F1DC *find_active_entity_by_id(u16);
 void send_6x2F_change_player_hp(s32 arg0, s32 arg1, s32 arg2);
-s32 push_matrix_from(void *src);
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 extern u8 identity_matrix[];
 void TObjPlayer__sub_8008F1DC(void *arg0);

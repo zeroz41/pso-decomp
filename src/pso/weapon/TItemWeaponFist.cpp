@@ -10,6 +10,7 @@
 #include "pso/unk/text_80120908.h"
 #include "pso/unk/text_80126A34.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/unk/text_80087278.h"
 
 // ---- pso/unk/text_80126740
 
@@ -62,7 +63,6 @@ struct Stack_8012685C {
 
 extern "C" {
 s32 reflect_matrix_in_plane(s32, f32 *, f32);
-void *spawn_particle_effect(void *pos, s32 id);
 s16 get_validated_attack_stage(u8 *arg0);
 }
 extern s32 knuckle_second_hand_pass;

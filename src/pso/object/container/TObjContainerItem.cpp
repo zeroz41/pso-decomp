@@ -47,6 +47,11 @@
 #include "pso/unk/text_8018A150.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjChip.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/unk/text_803D853C.h"
 
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
@@ -328,24 +333,18 @@ s32 push_matrix(void);
 void post_translate_matrix(const void *);
 extern BmlResource *container_breakup_model_archive;
 extern s32 lbl_805D5B8C;
-void debug_printf_at(s32 id, const char *fmt, ...);
 extern const f32 lbl_805DBCF8;
 u32 init_collision_body_parts(void *, void *, s32);
-void *load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 u8 *load_gvm_texture_file(s32 arg0);
-s32 get_current_floor();
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 dispatch_fish_event__6TLobbyFPv(void *a0);
 void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void TObjContainerAbeEnemy__vt77(const Obj_8018860C *self);
-void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
 extern void *__vt__21TObjContainerAbeEnemy[];
 u8 *TObjContainerAbeEnemy__ct(u8 *arg0, s32 arg1, s32 arg2);
 void TObjContainerBase__vt77(const Obj_80188B3C *self);
@@ -367,7 +366,6 @@ extern s32 __vt__18TObjContainerEnemy[];
 extern const f32 lbl_805DBD0C;
 extern s32 __vt__17TObjContainerItem[];
 u8 *TObjContainerItem__ct(u8 *arg0, s32 arg1, s32 arg2);
-s32 play_sound_effect(int, void *, int, int);
 void run_task__13TUnk_804B6C24Fv();
 void render__13TUnk_804B6C24Fv();
 void render_shadows__7TObjectFv();
@@ -397,11 +395,9 @@ void vfunc_29__9TObjCharaFv();
 void is_target_in_attack_range__9TObjCharaFv();
 void update_poison_status__9TObjCharaFv();
 void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 void update_flag30_timer__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
 void update_shock_clock__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 void vfunc_43__9TObjCharaFv();
 void apply_poison_status__9TObjCharaFv();

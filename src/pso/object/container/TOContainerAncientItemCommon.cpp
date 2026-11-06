@@ -16,6 +16,8 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/container/TObjContainerItem.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 extern "C" {
 
@@ -71,13 +73,11 @@ struct Obj_8015C234 {
 struct Obj_8015C48C { u8 pad[0x326]; s16 a326; u8 pad2[0x364 - 0x328]; s32 a364; };
 
 extern "C" {
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 int is_quest_active(void);
 s32 __nw__7TObjectFUl(int);
 extern s32 enable_v2_features;
-void submit_cursor_candidate(Obj_8015C48C *self, s32 x);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);

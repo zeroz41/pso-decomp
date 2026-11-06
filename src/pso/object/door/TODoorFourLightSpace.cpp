@@ -15,6 +15,9 @@
 #include "pso/object/seabed/TObjSeabedSuisoBrakable.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/render/GinjaMaterial.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -57,11 +60,8 @@ extern s32 __vt__20TODoorFourLightSpace[];
 u8 *TODoorFourLightSpace__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(u16);
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 s32 set_global_param__8TObjFishFl();
-void draw_ginja_model(s32);
 struct Base_802898E8 { char pad[0x18]; };
 struct VObj_802898E8 : Base_802898E8 {
     virtual void m0();
@@ -78,7 +78,6 @@ struct VObj_802898E8 : Base_802898E8 {
 void *__dt__20TODoorFourLightSpaceFv(void *arg0, s16 arg1);
 void fn_802898E8(void);
 void fn_802898EC(void);
-void draw_ginja_object(void *child);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);

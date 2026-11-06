@@ -5,6 +5,7 @@
 #include "pso/object/collision/TObjRaderCol.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_801976F4___vt__12TObjRaderCol {
     s32 value;
@@ -20,7 +21,6 @@ s32 __ct__8TObjBaseFP7TObject(void *);
 extern s32 __vt__12TObjRaderCol[];
 extern s32 lbl_805D3410;
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 void check_any_player_in_range__12TObjRaderColFPv(Col_8019750C *arg0);
 extern s32 local_client_id;
 void __dl__7TObjectFPv(void *);

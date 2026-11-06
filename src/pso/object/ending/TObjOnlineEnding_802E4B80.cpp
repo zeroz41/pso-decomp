@@ -12,6 +12,10 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 
@@ -216,7 +220,6 @@ struct Obj_802E4C70 {
 };
 
 extern "C" {
-void *get_player_by_client_id(s32 i);
 s32 activate_camera_mode(s32);
 void set_active_camera_pose_from_params(u8 *arg0);
 void queue_destruction__7TObjectFv(void *arg0);
@@ -224,10 +227,7 @@ extern Vec_802E4E44 lbl_80472B9C;
 extern Vec_802E4E44 lbl_80472BA8;
 u32 calc_text_width(char *s);
 s32 render_status_line__15TAdSubPlyItemGCFi(void *, int, f32, f32, f32);
-s32 scale_matrix(int, f32, f32, f32);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 extern const f32 online_ending_scene_scale;

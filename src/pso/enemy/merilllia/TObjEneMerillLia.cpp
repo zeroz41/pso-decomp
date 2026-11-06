@@ -11,6 +11,12 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/darkfalz/TOBoss4Rock.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -455,9 +461,6 @@ void TObjEneMerillLia__sub_800D501C(s32 arg0);
 void TObjPlayer__sub_800D92BC(s32 point, s32 delay);
 f32 vec3_add_to(void *, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
-s32 rotate_matrix_y(int, int);
-s32 push_matrix_from(void *);
-s32 pop_matrix();
 extern RecoveredGlobal_800D5060_lbl_8058D490 identity_matrix;
 extern const f32 TObjEneMerillLia__data_805DA300;
 extern const f32 lbl_805DA304;
@@ -469,8 +472,6 @@ extern const f32 lbl_805DA338;
 s32 copy_position__20TBoss3VoloptHiraisinFv(void *);
 s32 get_current_floor();
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
-s32 submit_cursor_candidate(void *, int);
 extern const f32 TObjEneMerillLia__data_805DA2F4;
 void run_task__16TObjEneMerillLiaFv(u8 *arg0);
 void restore_scene_lighting(void);
@@ -479,7 +480,6 @@ s32 defer_render__7TObjectFv(void *);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805DA314;
@@ -511,9 +511,7 @@ extern const f32 lbl_805DA320;
 void beast_update_approach__16TObjEneMerillLiaFv(u8 *arg0);
 void attach_particle_model(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 s32 *csnVectorUnder(s32 arg0, u32 *arg1, s32 arg2);
-void *spawn_particle_effect(void *pos, s32 id);
 void fn_800D88E4(void *pos);
-s32 rand(void);
 extern s32 actor_frame_tick;
 extern const f32 lbl_805DA2F0;
 extern const f32 lbl_805DA2F8;
@@ -530,7 +528,6 @@ void link_chain_nodes__10TObjPlayerFPvPvPv(void *, void *, void *);
 s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 s32 subtract_vector(void *, void *);
-s32 pop_matrices(int);
 extern Vec_800D5BCC scratch_vec;
 extern Vec_800D5BCC lbl_8050BF00;
 void TObjEneMerillLia__sub_800D5BCC(u8 *arg0);

@@ -24,6 +24,13 @@
 #include "pso/object/container/TObjContainerItem.h"
 #include "pso/object/container/TObjContainerJung.h"
 #include "pso/system/BmlResourceDescriptor.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/GinjaMaterial.h"
 
 #pragma readonly_strings on
 
@@ -89,10 +96,7 @@ s32 __dl__7TObjectFPv(void *);
 #pragma pop
 
 s32 post_translate_matrix(void *);
-void draw_ginja_object(void *);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
-s32 pop_matrix();
 void *__nw__7TObjectFUl(int);
 
 #pragma push
@@ -112,11 +116,7 @@ struct Pkt_8018CB44 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-void debug_printf_at(s32 id, const char *fmt, ...);
-s32 get_current_floor();
 extern s32 local_client_id;
-
-s32 scale_matrix(s32, f32, f32, f32);
 
 void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
     u8 *arg0 = (u8 *)this;
@@ -149,7 +149,6 @@ struct Obj_8018C9F0 {
     s32 f370;
 };
 
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void play_container_break_sound(s32 arg0);
@@ -260,7 +259,6 @@ s32 get_model__19TObjContainerJungExFl(s32);
 s32 TObjContainerJung__sub_8018D3B8(s32);
 s32 get_model_by_index__17TObjContainerJungFl(s32);
 s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 
@@ -361,7 +359,6 @@ u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 
 extern s32 __vt__19TObjContainerJungEx[];
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 }
 void play_container_break_sound(s32 arg0);
 extern "C" {
@@ -370,11 +367,8 @@ void *__nw__7TObjectFUl(int);
 extern void *tl_05;
 void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self);
 s32 post_translate_matrix(void *);
-s32 scale_matrix(s32, f32, f32, f32);
 
 s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 __dl__7TObjectFPv(void *);
 s32 set_global_param__8TObjFishFl();
@@ -531,12 +525,9 @@ u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 
 extern s32 __vt__17TObjContainerJung[];
-s32 scale_matrix(s32, f32, f32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 }
 void play_container_break_sound(s32 arg0);
 extern "C" {
@@ -545,7 +536,6 @@ extern void *tl_05;
 void TObjContainerJung__vt77(const Obj_8018D4DC *self);
 s32 TLobby__sub_8001FE7C(s32, s32);
 s32 free_collision_body_parts(void *);
-s32 submit_cursor_candidate(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 
 s32 TObjContainerJung__sub_8018D3B8(s32) {

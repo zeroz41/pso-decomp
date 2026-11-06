@@ -10,6 +10,7 @@
 #include "pso/object/door/TODoorAncient01.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/object/ambient/TObjFish.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct VBase_18_721d61 { char pad[0x18]; };
 
@@ -99,7 +100,6 @@ extern s32 __vt__19TODoorFourLightBase[];
 extern s32 TODoorFourLightBase__class_name;
 Door_802A0994 *TODoorFourLightBase__ct(Door_802A0994 *arg0, void *arg1, s32 arg2);
 u8 is_current_floor_switch_set(int);
-s32 rotate_matrix_y(int, int);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
 void render__19TODoorFourLightBaseFv(TODoorFourLightBase *arg0);
 void *__dt__19TODoorFourLightBaseFv(void *arg0, s16 arg1);

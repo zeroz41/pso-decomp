@@ -4,10 +4,10 @@
 #include "pso/technique/TTecGiBarta.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/system/task/TMainTask.h"
+#include <stdlib.h>
 
 extern "C" {
 
-s32 rand();
 int rotate_matrix_x(void*, void*);
 
 void TUnk_804A1098::emit_marker_effects() {

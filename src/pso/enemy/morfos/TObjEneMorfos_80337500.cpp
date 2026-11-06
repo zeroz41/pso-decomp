@@ -12,23 +12,20 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/task/TMainTask.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/map/CsnQuery.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
 #pragma dont_inline off
 extern "C" {
-s32 *csnVecterUnder(s32 origin, s32 mask);
 f32 xz_distance_squared(void *, void *);
-void subtract_vector(void *, void *);
 extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
-s16 get_entity_id(void *);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
-f32 fabs_float(f32);
-u32 csnVector(void *, void *, int);
-void vec3_add_to(void *, void *);
 }
 
 void TUnk_804EF130::hit_target_in_range(TObjChara *target, TObjCollidable *owner) {

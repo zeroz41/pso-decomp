@@ -1,5 +1,9 @@
 #include "types.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
 static const f32 TContainerAncient01__data_805DBD10[1] = {1.0f};
 static const f32 TContainerAncient01__data_805DBD14[1] = {0.0f};
 #include "types.h"
@@ -214,19 +218,16 @@ f32 receive_physical_attack__20TContainerAncient01RFPvf(u8 *arg0);
 
 extern s32 TContainerAncient01__open_effect_table[];
 s32 obj_testFlags30__14TObjCollidableFUl(void *, s32);
-s32 get_current_floor();
 f32 horizontal_distance_squared(void *, void *);
 
 void TContainerAncient01__sub_8018A584(Obj_8018A584 *self, f32 range);
 
 void *get_player_by_client_id(s32 i);
-s32 play_sound_effect(int, void *, int, int);
 
 extern s32 registered_player_count;
 
 s32 TContainerAncient01__sub_8018BE90(void);
 
-void *spawn_particle_effect(void *pos, s32 id);
 extern s32 TContainerAncient01__effect_id_table[];
 void TContainerAncient01__sub_8018B180(Obj_8018B180 *self, f32 range);
 
@@ -238,7 +239,6 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 pop_matrix();
 
@@ -317,9 +317,7 @@ extern "C" void reset_motion_fields__9TObjCharaFv();
 extern "C" void reset_pose__9TObjCharaFv();
 extern "C" void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 extern "C" void update_action_hold_status__9TObjCharaFv();
-extern "C" s32 vfunc_37__9TObjCharaFv(u8 *arg0);
 extern "C" void update_actor_ground_y__9TObjCharaFv();
-extern "C" s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
 extern "C" s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
 extern "C" void update_flag30_timer__9TObjCharaFv();
 extern "C" void update_movement_status__9TObjCharaFv();
@@ -907,7 +905,6 @@ extern s32 TContainerAncient01__bml_resource;
 s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
 s32 reset_state__19TContainerAncient01Fv();
 

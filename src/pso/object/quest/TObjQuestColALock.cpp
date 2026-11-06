@@ -5,6 +5,7 @@
 #include "pso/object/quest/TObjQuestCol.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 
 struct RecoveredGlobal_8019677C_lbl_80445E84 {
     s32 value;
@@ -26,8 +27,6 @@ u8 *TObjQuestColALock__ct(TObjQuestColALock *arg0, s32 arg1);
 void *__dt__17TObjQuestColALockFv(void *arg0, s16 arg1);
 s32 free_collision_body_parts(void *);
 void enable_action_input__10TObjPlayerFPv(void *p);
-s32 submit_cursor_candidate(void *, s32);
-void *get_player_by_client_id(s32 i);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);
 s32 __dl__7TObjectFPv(void *);
 u8 *__dt__16TObjQuestColBaseFv(u8 *arg0, s16 arg1);

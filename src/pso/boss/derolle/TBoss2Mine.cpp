@@ -14,11 +14,16 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct Mine_80038760; struct O_80038908;
 extern "C" {
 s32 transition_enemy_state__9TObjEneDDFl(void *, int);
-s32 play_sound_effect(int, void *, int, int);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void init_params__10TBoss2MineFlf(u8 *arg0, s32 arg1, f32 farg0);
 void update_pulse_state__10TBoss2MineFv(Mine_80038760 *self);
@@ -38,8 +43,6 @@ const Vec lbl_80435AD0 = { 2.0f, 1.0f, 2.0f };
 const Col_80038200 boss2_mine_render_color = { 0, 0.0f, 0.0f, 0.0f };
 
 extern "C" {
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 void init_launch__10TBoss2MineFPvPvii(u8 *arg0, u8 *arg1, s32 arg2, s32 arg3);
 s32 subtract_vector(void *, void *);
 s32 vec3_add_to(void *, void *);
@@ -599,17 +602,13 @@ struct Mine_80038200 : Base_80038200 {
 extern "C" {
 f32 TBoss2DeRolLe__sub_80034CEC(void);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void TObjEneDD__sub_800BA5A4(void *p, void *a1);
 extern RecoveredGlobal_800384C8_lbl_80435AB0 boss2_mine_collision_desc;
 void scale_matrix(s32, f32, f32, f32);
-void rotate_matrix_y(s32, s32);
 void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 void rotate_matrix_x(s32, s32);
 void push_matrix(void);
-s32 pop_matrix(void);
 void post_translate_matrix(void *);
-void draw_chunk_object(void *);
 extern void *lbl_805D28BC;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;

@@ -9,6 +9,9 @@
 #include "pso/object/trap/TOTrapChainSaw.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/unk/text_803D96A8.h"
 extern "C" void vfunc_28__20TOTrapChainSawDamageFv();
 extern "C" void vfunc_16__18TOTrapChainSawEdgeFv();
 extern "C" void vfunc_25__18TOTrapChainSawEdgeFv();
@@ -189,7 +192,6 @@ f32 fabs_float(f32);
 s32 TOTrapAncient02R__sub_80154D78(void *);
 void free_collision_body_parts(void *);
 s32 init_collision_body_parts(void *, int, int);
-void *get_player_by_client_id(s32 i);
 s32 play_persistent_sound(void *, void *, void *, int, int);
 u8 is_current_floor_switch_set(u16);
 void __dl__7TObjectFPv(void *);
@@ -231,10 +233,8 @@ void decode_params__14TOTrapChainSawFv(void *arg0);
 void * __dt__14TOTrapChainSawFv(void *arg0, s16 arg1);
 u8 * __ct__14TOTrapChainSawFP7TObjectPv(u8 *arg0, s32 arg1, s32 arg2);
 void TOTrapChainSawDamage__sub_802C9C00(u8 *arg0, s32 arg1);
-void debug_printf_at(s32, const char *, ...);
 void rotate_matrix_y(int, void *);
 void push_matrix(void);
-s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void set_model_node_callback(s32 arg0);
 void draw_ginja_model_with_motion(void *, void *, f32);

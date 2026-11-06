@@ -12,6 +12,7 @@
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/ui/window/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
+#include <stdlib.h>
 
 
 struct Ent_80325248 { u8 b[0xC]; };
@@ -48,7 +49,6 @@ struct L1_80325070 { u8 pad[8]; L2_80325070 *a; u8 pad2[8]; L2_80325070 *b; };
 
 extern "C" {
 void run_task__12TTecZondeEffFv(void *);
-s32 rand(void);
 void eval_bezier_curve__12TBoss8DragonFPviiPvf(void *, void *, s32, void *, f32);
 void subtract_vector(void *, void *);
 extern s32 __vt__25TBoss5GryphonLightningEff[];

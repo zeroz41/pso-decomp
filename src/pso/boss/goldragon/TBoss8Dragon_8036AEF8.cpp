@@ -8,6 +8,7 @@
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
+#include "pso/math/AngleLookup.h"
 
 struct RecoveredGlobal_8036AF40_lbl_804F3610 {
     s32 value;
@@ -27,8 +28,6 @@ extern s32 lbl_804F3610[];
 extern s32 lbl_805D63F0;
 s32 lbl_805D7000;
 void TLobby__sub_8036B1AC(Obj_8036B1AC *arg0);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 
 s32 **TBoss8Dragon__sub_8036AEF8(s32 **arg0, s16 arg1) {
     if (arg0 != NULL) {

@@ -11,6 +11,7 @@
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
 
 
 #pragma readonly_strings on
@@ -32,7 +33,6 @@ u16 get_entity_id(void *);
 extern const char *TObjEneMorfosArm__name;
 extern u32 TObjEneMorfosArm__parent_morfos_instance;
 s32 post_translate_matrix(void *);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 
 void TObjEneMorfosArm::render() {

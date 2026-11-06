@@ -4,6 +4,7 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -57,7 +58,6 @@ void fn_800A0798(void *);
 void fn_800A0884(void *);
 void TObjEneDarkGunCenter__sub_800A0B18(void);
 u8 *get_enemy_entity(u16);
-void *get_player_by_client_id(s32 i);
 void run_task__20TObjEneDarkGunCenterFv(Gun_800A0B20 *self);
 void TObjEneDarkGunCenter__sub_800A0E7C(void);
 void TObjEneDarkGunCenter__sub_800A0E80(void);

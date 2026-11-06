@@ -24,15 +24,14 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/unk/text_803D853C.h"
 
 extern "C" {
 s32 push_matrix(void);
 void post_translate_matrix(const Vec *v);
-void rotate_matrix_x(s32 matrix, s32 angle);
-void matrix_mult_vec(s32 matrix, const Vec *src, Vec *dst);
-void vec3_add_to(Vec *v, const Vec *add);
-void subtract_vector(Vec *v, const Vec *sub);
-void play_sound_effect(s32 id, const Vec *pos, s32 a2, s32 a3);
 void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(TObjChara *actor);
 extern GC_Mtx identity_matrix;

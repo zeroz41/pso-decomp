@@ -6,6 +6,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include <stdlib.h>
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/effect/particle/TParticleCtrl_800874F4.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -258,9 +266,7 @@ void select_melee_contact_body__9TObjCharaFPvf();
 void trigger_switch_attack__9TObjCharaFv(s32 arg0);
 void try_start_action__9TObjCharaFll();
 void update_action_hold_status__9TObjCharaFv();
-s32 vfunc_37__9TObjCharaFv(u8 *player);
 void update_actor_ground_y__9TObjCharaFv();
-s32 update_attack_stat_status__9TObjCharaFv(u8 *player);
 s32 update_defense_stat_status__9TObjCharaFv(u8 *player);
 void update_flag30_timer__9TObjCharaFv();
 void update_movement_status__9TObjCharaFv();
@@ -329,34 +335,26 @@ int copy_vec3__11TBoss6Type2Fii(s32 _w0, s32 _w1);
 extern void *TBoss6Type2__instance_slots[];
 void TBoss6Type2__sub_8032F2F0(void* p, void* q);
 
-void *create_particle_emitter(void *pos, s32 id);
-
 void spawn_mag_mine_at__13TBoss6MagMineFPvPv(void *, void *);
 void set_path_points__11TBoss6Type2FPvPvi(O_8032F360 *arg0, V3_8032F360 *arg1, s32 arg2);
 void TBoss6Type2__sub_802BD378(void *, s32, void *, void *);
 s32 TBoss6Type2__sub_8032FB84(O_8032FB84 *arg0);
 
-s32 angle_difference_abs(s32, s32);
 s32 TBoss6Type2__sub_8032EAB8(void *arg0, s32 arg1);
-f32 atan2_float(f32, f32);
 f32 TBoss5GryphonLightningWing__sub_80324CEC(f32);
 
 s32 calc_dir_angles__11TBoss6Type2FPvPvPvPv(void *arg0, s32 *arg1, s32 *arg2, Vec_8032EF34 *arg3);
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 s32 is_active__11TBoss6Type2Fv(int);
 u8 *get_player_by_client_id(s32);
 f32 sin_table_lookup(void *);
 f32 cos_table_lookup(void *);
 f32 xyz_distance(void *, void *);
 
-s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, s32);
 void send_6xAD_grid_positions__11TBoss6Type2FUcll(s32, void *, s32);
-s32 rand(void);
 
 void TBoss6Type2__sub_8032E708(void* p, s32 v);
 s32 is_local_client_floor_leader();
-f32 fabs_float(f32);
 
 void TBoss6Type2__sub_8032E708(void* p, s32 v) { *(s32*)((char*)p + 0x40c) = v; }
 void TBoss6Type2::set_action_field_0x408(s16 v) { *(s16*)((char*)this + 0x408) = v; }
@@ -1157,7 +1155,6 @@ f32 fn_80330240(O_80330240 *arg0, void *att, P_80330240 arg2, void *coll, void *
     }
     return receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll(arg0, att, arg2, coll, tech, arg5);
 }
-s32 play_sound_effect(int, void *, int, int);
 s32 TBoss6Type2__sub_802BD340(int);
 f32 receive_physical_attack__9TObjCharaFPvf();
 
@@ -1190,8 +1187,6 @@ void spawn_ground_effect__10TObjPlayerFPv(u8 *arg0) {
     *(f32 *)((s8 *)arg0 + 0x3BC) = (f32) (0.0f);
 }
 void TBoss6PlotFalz__sub_802AC008(f32, f32);
-s32 pop_matrix(void);
-s32 rotate_matrix_y(int, int);
 s32 rotate_matrix_x(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);

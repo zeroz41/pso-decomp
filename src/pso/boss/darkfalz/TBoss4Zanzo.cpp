@@ -33,6 +33,13 @@
 #include "pso/technique/TTecResta.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/AngleLookup.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/render_util.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 
 struct Arr_800579A0 { u8 pad[0x42C]; s32 f42C[8]; };
@@ -80,16 +87,12 @@ extern u32 boss4_type3_radar_marker_colors[];
 extern const f32 TBoss4Type3__data_805D8C40;
 u32 spawn_particle_effect(void *, int);
 u32 create_particle_emitter(void *, int);
-s32 play_sound_effect(int, void *, int, int);
 f64 atan2_float(f32, f32);
 u8 * dispatch_shared_handler_a__6TLobbyFl(s32);
 
 void TBoss4Type2__sub_80057128(void *arg0);
-s32 angle_diff_s16(int, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
 s32 create__11TTecRaBartaFPvPvPvPv(void *, void *, void *, s32);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 extern s32 boss4_type2_attack_pattern_table[];
 extern s32 game_difficulty_selection;
 s32 TBoss4Type2__sub_80054DA8();
@@ -469,17 +472,12 @@ int toggle_particle_effect__10TObjPlayerFv(void*);
 s32 clear_render_callback__8TObjFishFv(s32);
 s32 __ct__11TObjControlFP7TObject(s32, s32);
 void __dt__9TObjEnemyFv(void *, s32);
-s32 approach_angle_limited(s32, s32, s32);
 void free_collision_body_parts(void *);
-Ply_80059ABC * get_player_by_client_id(u16);
 s32 TObjEneRe4Sorcerer__sub_801E3F1C(f32, f32);
 void __dl__7TObjectFPv(void *);
 void * __nw__7TObjectFUl(int);
 void __ct__7TObjectFP7TObject(void *);
-s32 rand();
-s32 matrix_mult_vec(int, void *, void *);
 s32 set_matrix_identity(int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 f32 post_translate_matrix(void *);
 f32 xyz_distance(Vec_80056C30 *, Vec_80056C30 *);
@@ -1568,7 +1566,6 @@ void TBoss4Type2::advance_afterimage() {
 
 void TUnk_80486924::render() { this->init_hanger(); }
 
-void submit_cursor_candidate(void *, int);
 void TBoss4Type2::update_main() {
     u8 *arg0 = (u8 *)this;
     void (TBoss4Type2::*fn)();

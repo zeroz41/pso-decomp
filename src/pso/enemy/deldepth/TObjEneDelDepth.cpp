@@ -26,12 +26,18 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/AngleLookup.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/render_util.h"
+#include "pso/unk/text_803D96A8.h"
 
 extern "C" {
 f64 atan2_float(f32, f32);
 
-s32 angle_difference_abs(s32, s32);
-s32 approach_angle_limited(s32, s32, s32);
 s32 project_actor_to_ground(void *, void *, void *);
 f32 vec3_add_to(void *, void *);
 f32 vector_length(void *);
@@ -41,12 +47,8 @@ extern const f32 TObjEneDelDepth__data_805DF280;
 extern const f32 lbl_805DF288;
 extern const f32 lbl_805DF28C;
 extern const f32 lbl_805DF290;
-void submit_cursor_candidate(void *, s32);
 void minimap_render_dot(void *, s32, s32, s32);
-f32 cos_table_lookup(s32);
-f32 sin_table_lookup(s32);
 f32 fabs_float(f32);
-s32 play_sound_effect(int, void *, int, int);
 u16 find_nearest_visible_player(void *, int, f32);
 
 TObjChara *get_battle_param__10TObjPlayerFi(s32);
@@ -79,19 +81,12 @@ void create__11TTecRaBartaFPvPvPvPv(void *source, void *origin, void *pos, void 
 void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 void restore_render_scissor(s32 arg0);
 extern "C" {
-s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_zyx(void *m, s32 x, s32 y, s32 z);
 void scale_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, s32);
 s32 rotate_matrix_z(int, int);
-void translate_matrix(u32 arg0, f32 x, f32 y, f32 z);
 s32 rotate_matrix_x(int, void *);
-s32 push_matrix_from(void *);
 s32 push_matrix();
-s32 pop_matrix();
 s32 scale_current_matrix(void *, f32, f32, f32);
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 
 extern const f32 TObjEneDelDepth__data_805DF26C;
 extern const float TObjEneDelDepth__data_805DF278;

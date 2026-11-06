@@ -4,10 +4,10 @@
 #include "pso/boss/darkfalz/TObjDFDemo4.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
 
 extern "C" {
 s32 clear_render_callback__8TObjFishFv(int);
-s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 post_translate_matrix(void *);
 void TObjDFDemo4::sub_8004F1FC() {

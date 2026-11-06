@@ -5,6 +5,8 @@
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 #pragma readonly_strings on
 
@@ -25,7 +27,6 @@ void mem_free(void *p);
 extern s32 item_buffer_temp_mode;
 extern s32 item_buff_buffer;
 void TItemBuff__ct(void);
-void *find_entity_by_id(u16 id);
 extern const char *TItemAttacker__name;
 void TItemAttacker__sub_8010349C(u32 arg0);
 int get_item_chunk_buffer(int a0);
@@ -109,8 +110,6 @@ struct Tbl_801031CC { u8 pad[0x1c]; Rec_801031CC r[1]; };
 extern "C" {
 u8 *__ct__13TItemAttackerFllll(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 f32 horizontal_distance_squared(void *, void *);
-void *resolve_hittable_target(u16 actorId, s16 collider);
-void *get_player_by_client_id(s32 i);
 void deliver_delayed_weapon_hit(u8 *arg0) {
     u8 *temp_r3;
     u8 *temp_r30;

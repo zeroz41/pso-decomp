@@ -6,6 +6,10 @@
 #include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_803D96A8.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };
 
@@ -59,7 +63,6 @@ extern s32 __vt__10TObjRoomId[];
 extern s32 lbl_805D34B0;
 u8 *TObjRoomId__ct(u8 *arg0, s32 arg1, s32 arg2);
 u16 TObjRoomId__sub_801A1DB8(u16 x);
-void *get_player_by_client_id(s32 i);
 f32 horizontal_distance_squared(f32 *a, f32 *b);
 s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range);
 void draw_debug_line__10TObjRoomIdFUllll(void *, int, int, void *);
@@ -71,16 +74,12 @@ extern u8 lbl_804468C4[];
 extern u8 lbl_804468D0[];
 extern u8 lbl_804468DC[];
 void render__10TObjRoomIdFv(RoomId_801A18EC *self);
-s32 push_matrix_from(void *);
-void rotate_matrix_y(int, s32);
 s32 matrix_mult_vec(int, void *, void *);
-s32 pop_matrices(s32 arg0);
 f32 vec3_dot(Vec_801A1A60 *, Vec_801A1A60 *);
 void *__dt__10TObjRoomIdFv(void *arg0, s16 arg1);
 void *create__10TObjRoomIdFPv(void *arg0);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
-s32 is_split_screen();
 
 s32 is_player_in_range__10TObjRoomIdFPvUsf(Obj_801A1888 *self, u16 id, f32 range) {
     Obj_801A1888 *p = (Obj_801A1888 *)get_player_by_client_id(id);

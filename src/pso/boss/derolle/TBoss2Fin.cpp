@@ -3,26 +3,23 @@
 #include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "types.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/unk/text_803E2D70.h"
 
 struct G_800367C4;
 struct Vec_800363B4 { f32 x, y, z; };
 struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
 struct Ang_800363B4 { s32 yaw; u8 pad4[0xC]; };
 extern "C" {
-f32 fabs_float(f32);
-f32 atan2_float(f32, f32);
 f32 get_scale_factor__10TObjPlayerFv(f32);
 s32 TObjLight__sub_801337F8(s32);
-s32 scale_matrix(int, f32, f32, f32);
 f32 vector_length(void *);
 void translate_matrix_vec3(u8 *arg0, u8 *arg1);
-s32 rotate_matrix_y(int, int);
 s32 subtract_vector(void *, void *);
-s32 rotate_matrix_x(int, int);
 s32 normalize_vector(void *);
-s32 push_matrix();
-s32 pop_matrix();
-void draw_chunk_object(void *child);
 extern G_800367C4 *lbl_805D4BA4;
 extern s32 current_scene_light;
 extern const f32 lbl_805D8260;

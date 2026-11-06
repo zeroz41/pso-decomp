@@ -6,6 +6,8 @@
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct Vec_80124C90 { f32 x, y, z; };
 
@@ -31,9 +33,7 @@ void create_lavis_shot(void *, void *, void *, f32);
 f32 *get_weapon_range_record(void *, s32);
 f32 query_extended_state__10TObjPlayerFv(void *);
 void *get_captured_target_entry(void *, s32);
-void *resolve_hittable_target(u16 actorId, s16 collider);
 void vec3_add_to(void *, void *);
-s32 rotate_matrix_y(int, int);
 s32 transform_point_by_current_matrix(void *, void *);
 f32 xyz_distance(void *, void *);
 extern u8 identity_matrix[];

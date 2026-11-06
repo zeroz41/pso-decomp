@@ -12,6 +12,9 @@
 #include "pso/ui/window/TWindowCtrl.h"
 #include "pso/ui/chat/TWindowSubShortMail.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 void initialize_option_dialog(void *dialog, s32 message, s32 position, f32 width);
 
@@ -40,9 +43,7 @@ struct Player_80187438 {
 };
 
 extern "C" {
-s32 get_current_floor(void);
 f32 xz_distance_squared(void *, void *);
-void *get_player_by_client_id(s32 i);
 char *strcpy(char *, const char *);
 extern s32 local_client_id;
 s32 is_local_client_floor_leader(s32);
@@ -55,7 +56,6 @@ void begin_player_keyboard_hold(s32 arg0);
 s32 get_window_layout_position(s32);
 s32 free_member__17TWindowSubComCardFv(void *, int);
 s32 forward_slot_selection__16TAdChrSelASlotGCFPvPv(void *, s32, s32, f32);
-s32 play_sound_effect(s32, void *, s32, s32);
 extern void *city_common_model_archive;
 s32 get_main_phase();
 extern s32 city_main_warp_destination_id;

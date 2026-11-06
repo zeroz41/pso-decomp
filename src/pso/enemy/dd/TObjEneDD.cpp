@@ -6,6 +6,8 @@
 #include "pso/system/MatrixOps.h"
 #include "pso/render/render_util.h"
 #include "pso/math/MatrixTransforms.h"
+#include "pso/player/TObjPlayer_801542CC.h"
+#include "pso/math/AngleLookup.h"
 extern "C" {
 void enemy_clear_target__12TObjEneDD_STFUs(void *);
 u16 enemy_find_nearest_player_in_range(u8 *self, f32 range);
@@ -17,7 +19,6 @@ u32 csnLookAt(void *, void *);
 s32 push_matrix(void);
 void post_translate_matrix(void *);
 int rotate_matrix_y(void *, void *);
-void *find_entity_by_id(u16 id);
 }
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
@@ -39,8 +40,6 @@ extern "C" {
 s32 enemy_tick_target_acquisition__12TObjEneDD_STFPllf(u8 *arg0, s32 *counter, s32 limit, f32 scale);
 void select_nearest_target__12TObjEneDD_STFf(s32 arg0);
 s32 transform_relative_position__9TObjEneDDFPv(void *, int);
-f32 sin_table_lookup(s32);
-f32 cos_table_lookup(s32);
 s32 calc_shot_position__13TBoss5GryphonFPUcfff(void *, s32, f32, f32, f32);
 f64 atan2_float(f32, f32);
 u16 set_squared_value__9TObjEneDDFf(void *, f32);
@@ -241,7 +240,6 @@ struct O_800BA8A8 { u8 pad[0xa4]; E_800BA8A8 *entries; s32 count; };
 extern "C" {
 s32 is_alive__8TObjBaseFv(void *arg0);
 int TObjEneDD__sub_800BA804(u16 arg0);
-void check_enemy_body_collisions(void *arg0);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 }
 void set_collider_contact_low(u8 *arg0);
@@ -271,7 +269,6 @@ extern "C" {
 int matrix_mult_vec(void *, void *, void *);
 void set_part_position__9TObjEneDDFPvPvi(Obj_800BA9BC *self, Vec_800BA9BC *v, s32 i);
 void update_local_colliders_from_world(Obj_800BAA2C *arg0, V3_800BAA2C *arg1);
-CollisionBody *init_collision_body_parts(TObjCollidable *, CollisionBody *, s32);
 }
 #include "pso/system/vector.h"
 #include "types.h"

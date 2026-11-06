@@ -4,6 +4,7 @@
 #include "pso/object/collision/TObjEvtCollision.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_80190DE4___vt__16TObjEvtCollision {
@@ -20,7 +21,6 @@ void disallow_rendering__7TObjectFv(TObject *arg0);
 extern s32 __vt__16TObjEvtCollision[];
 extern s32 TObjEvtCollision__class_name;
 u8 *TObjEvtCollision__ct(TObjEvtCollision *arg0, s32 arg1, s32 arg2);
-s32 get_current_floor();
 void queue_destruction__7TObjectFv(void *arg0);
 extern s32 local_client_id;
 void *TObjEvtCollision__create(void *arg0);
@@ -29,7 +29,6 @@ u32 get_player_by_client_id(s32);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
 f32 xyz_distance_squared(s32, s32);
-s32 is_split_screen();
 
 s32 TObjEvtCollision::is_any_player_in_range(f32 farg0) {
     s32 arg0 = (s32)this;
