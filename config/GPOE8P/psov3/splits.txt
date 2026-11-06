@@ -186,14 +186,22 @@ pso/boss/TBoss1DragonEffTail.cpp:
 	.sdata      start:0x805D2678 end:0x805D2680
 	.sdata2     start:0x805D8148 end:0x805D815C
 
+pso/boss/ObjBoss1CommonResource.cpp:
+	.rodata     start:0x80435460 end:0x8043555F
+	.data       start:0x80481FA0 end:0x80481FCC
+	.sdata      start:0x805D2680 end:0x805D2684
+
 pso/misc/TLobby_8002C140.cpp:
 	.text       start:0x8002C140 end:0x8002C190
 
 pso/boss/TObjBoss1Crater.cpp:
 	.text       start:0x8002C190 end:0x8002C838
-	.rodata     start:0x80435588 end:0x80435590
+	.rodata     start:0x80435560 end:0x80435590
 	.data       start:0x80481FD0 end:0x8048202C
-	.sdata2     start:0x805D8168 end:0x805D8170
+	.bss        start:0x804FE1E8 end:0x804FE238
+	.sdata      start:0x805D2688 end:0x805D268C
+	.sbss       start:0x805D4B50 end:0x805D4B5C
+	.sdata2     start:0x805D8160 end:0x805D8170
 
 pso/misc/TLobby_8002C838.cpp:
 	.text       start:0x8002C838 end:0x8002CB40

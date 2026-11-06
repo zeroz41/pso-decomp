@@ -9,33 +9,38 @@
 #include "pso/boss/TObjBoss1Crater_8002C6B4.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TLobby.h"
+#include "pso/boss/ObjBoss1CommonResource.h"
+#include "pso/boss/TBoss4Type2_800874F4.h"
 
 extern "C" {
 s32 isV2Mode__12TBoss1DragonFv(void);
-s32 load_enemy_bml_resource_named(void *, void *);
+s32 load_enemy_bml_resource_named(void *, const char *);
 s32 load_enemy_bml_resource(u8 *arg0);
 u8 *load_gvm_texture_file(s32 arg0);
-extern u8 dragon_common_texture_filename[];
-extern u8 lbl_8043552C[];
-extern u8 dragon_common_alternate_texture_filename[];
-extern u8 dragon_ground_resource_descriptor[];
-extern s32 lbl_805D4B50;
-extern s32 dragon_common_texture_list;
+s32 lbl_805D4B50;
+s32 dragon_common_texture_list;
+s32 TObjBoss1Crater__instance_count;
 void load_dragon_ground_assets(void);
 void load_dragon_ground_assets(void) {
     switch (isV2Mode__12TBoss1DragonFv()) {
     case 0:
-        lbl_805D4B50 = load_enemy_bml_resource(dragon_ground_resource_descriptor);
+        lbl_805D4B50 = load_enemy_bml_resource((u8 *)&dragon_ground_resource_descriptor);
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_texture_filename);
         break;
     case 1:
-        lbl_805D4B50 = load_enemy_bml_resource_named(dragon_ground_resource_descriptor, lbl_8043552C);
+        lbl_805D4B50 = load_enemy_bml_resource_named(&dragon_ground_resource_descriptor, dragon_common_alternate_bml_filename);
         dragon_common_texture_list = (s32)load_gvm_texture_file((s32)dragon_common_alternate_texture_filename);
         break;
     }
 }
 
 }
+
+struct Arg_8002C288 { s32 a; f32 b; f32 c; s32 d[2]; };
+
+// run_task's hit-check argument (kind, radius, height) and the pair it passes next to it; the ct reads the height.
+extern const Arg_8002C288 lbl_80435560 = { 1, 50.0f, 20.0f, { 0, 1 } };
+const char *TObjBoss1Crater__name = "TObjBoss1Crater";
 
 struct VBase_18_5c1903 { char pad[0x18]; };
 
@@ -78,7 +83,7 @@ struct Src_8002C3FC { u8 pad[0xAC]; s32 fAC; u8 padB0[0xC8 - 0xB0]; s32 fC8; };
 struct Sub_8002C544 { u8 pad[0xC]; f32 fC; };
 
 struct Crater_8002C544 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 0x4];
     s32 *vt;
     u8 pad1c[0x38 - 0x1C];
@@ -87,15 +92,14 @@ struct Crater_8002C544 {
     u8 pad64[0xA4 - 0x64];
     Sub_8002C544 *fA4;
     u8 padA8[0xB0 - 0xA8];
-    s32 fB0;
+    TParticleCtrl *fB0;
     void *fB4;
     s32 fB8[4];
     s32 fC8;
 };
 
-struct V3_8002C544 { f32 x, y, z; };
+Crater_8002C544 *TObjBoss1Crater__instance_list[20];
 
-struct Arg_8002C288 { s32 a; f32 b; s32 c[3]; };
 
 struct VBase_8002C288 { u8 pad[0x18]; };
 
@@ -124,16 +128,9 @@ struct Crater_8002C288 : VBase_8002C288 {
 extern "C" {
 void TBoss1Dragon__sub_8002AB6C(u8 *arg0);
 s32 isV2Mode__12TBoss1DragonFv();
-s32 create_particle_emitter(void *, int, f32);
 void __ct__13TUnk_804928CCFP7TObjectP8TObjBase(void *);
 s32 rand();
-extern const V3_8002C544 lbl_80435560;
 extern s32 __vt__15TObjBoss1Crater[];
-extern Crater_8002C544 *TObjBoss1Crater__instance_list[];
-extern s32 TObjBoss1Crater__name;
-extern s32 TObjBoss1Crater__instance_count;
-extern const f32 lbl_805D8160;
-extern const f32 lbl_805D8164;
 Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *arg2, void *arg3);
 f32 TBoss1Dragon__sub_80027634(u32);
 s32 TObjBoss1Crater__sub_8002C7E4(void *);
@@ -172,11 +169,11 @@ void TObjBoss1Crater::run_task() {
         return;
     }
     {
-        Arg_8002C288 arg = *(Arg_8002C288 *)&lbl_80435560;
+        Arg_8002C288 arg = lbl_80435560;
         arg.b = TBoss1Dragon__sub_80027634(self->fAC);
         arg.a = self->fC8;
         n = TObjBoss1Crater__sub_8002C7E4(self->fB4);
-        if (self->m12((u8 *)&lbl_80435560 + 0xC, &arg, self->fB4) != 0) {
+        if (self->m12((void *)lbl_80435560.d, &arg, self->fB4) != 0) {
             s32 m = TObjBoss1Crater__sub_8002C7E4(self->fB4);
             for (s32 j = n; j < m; j++) {
                 self->fB8[j] = 0x3C;
@@ -234,13 +231,12 @@ Crater_8002C544 *TObjBoss1Crater__ct(Crater_8002C544 *self, void *arg1, void *ar
     s32 i;
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase(self);
     self->vt = ((s32 *)&__vt__15TObjBoss1Crater);
-    r = lbl_80435560.z;
+    r = lbl_80435560.c;
     self->f0 = TObjBoss1Crater__name;
     self->fA4->fC = r;
     VecCopy((Vec *)self->pos, (const Vec *)arg3);
-    r = lbl_805D8164 * (f32)rand();
-    self->f60 = (s32)(lbl_805D8160 * r);
-    self->fB0 = create_particle_emitter(self->pos, 0x40, r);
+    self->f60 = (s32)(65536.0f * ((1.0f / 32768.0f) * (f32)rand()));
+    self->fB0 = create_particle_emitter(self->pos, 0x40);
     p = ::operator new(0x10);
     if (p != NULL) {
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 4);
