@@ -705,6 +705,7 @@ pso/map/FloorArea_8029E764.cpp
 pso/map/FloorLifecycleTables.cpp
 pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
+pso/ui/frontend/TAdEndText.cpp
 pso/ui/frontend/TAdEndText_80307A34.cpp
 pso/ui/frontend/TAdEndText_80399904.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
