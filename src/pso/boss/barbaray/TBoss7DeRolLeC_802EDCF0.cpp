@@ -2,7 +2,7 @@
 #include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
 #include "pso/enemy/dd/TObjEneDD_800B9A34.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/boss/barbaray/TBoss7DeRolLeC_802EDCF0.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/object/ambient/TObjFish.h"
 
@@ -28,7 +28,6 @@ s32 free_if_positive__13TBoss2DeRolLeFis(s32 arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern s32 TBoss7DeRolLeC__vtable[];
-extern u32 boss7_joint_state;
 u8 *__dt__14TBoss7DeRolLeCFv(u8 *arg0, s16 arg1) {
     Obj_802EDCF0 *o = (Obj_802EDCF0 *) arg0;
     s32 i;

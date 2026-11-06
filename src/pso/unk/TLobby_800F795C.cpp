@@ -3,7 +3,7 @@
 #include "pso/map/FloorResourceCallbacks.h"
 #include "pso/boss/dragon/TBoss1DragonDemo.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
-#include "pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.h"
+#include "pso/boss/barbaray/TBoss7DeRolLeC.h"
 #include "pso/boss/goldragon/TBoss8Dragon_802F3AB4.h"
 #include "pso/enemy/saver/SaverLifecycle.h"
 #include "pso/enemy/darkgunner/TObjEneDarkGunCenter.h"

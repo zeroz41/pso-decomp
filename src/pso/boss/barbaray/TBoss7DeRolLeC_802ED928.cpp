@@ -2,7 +2,6 @@
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/boss/barbaray/TBoss7DeRolLeC_802ED928.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/barbaray/TBoss7DeRolLeC.h"

@@ -295,10 +295,11 @@ pso/boss/barbaray/TBoss7Crawfish.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C10.cpp
 pso/boss/barbaray/TBoss7Crawfish_80308C84.cpp
 pso/boss/barbaray/TBoss7Crawfish_8030908C.cpp
-pso/boss/barbaray/TBoss7DeRolLeC.cpp
+pso/boss/barbaray/TBoss7DeRolLeC_8035A628.cpp
 pso/boss/barbaray/TBoss7DeRolLeC_802EE4E0.cpp
 pso/boss/barbaray/TBoss7Joint.cpp
 pso/boss/barbaray/TBoss7Joint_802EE6E0.cpp
+pso/boss/barbaray/TBoss7Joint_802EE814.cpp
 pso/boss/barbaray/TBoss7LaserLight.cpp
 pso/boss/barbaray/TBoss7LaserPtcl.cpp
 pso/boss/barbaray/TBoss7LaserPtcl_8035AE54.cpp

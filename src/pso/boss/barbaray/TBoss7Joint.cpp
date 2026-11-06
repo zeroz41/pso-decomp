@@ -1,6 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "types.h"
-#include "pso/boss/barbaray/Boss7DeRolLeCBehavior.h"
 #include "pso/boss/dragon/TBoss1DragonColli.h"
 #include "pso/enemy/dd/TObjEneDD_800BB804.h"
 #include "pso/system/vector.h"

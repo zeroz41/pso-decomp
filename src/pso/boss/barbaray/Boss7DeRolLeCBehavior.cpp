@@ -722,10 +722,6 @@ struct RecoveredGlobal_802E80F4_main_task {
     u8 remaining[0x30];
 };
 
-struct RecoveredGlobal_802E80F4_lbl_805412C0 {
-    s32 value;
-    u8 remaining[0x264];
-};
 
 struct RecoveredGlobal_802E80F4_lbl_8058D4C0 {
     s32 value;
@@ -740,25 +736,15 @@ extern "C" {
 f32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 s32 push_matrix();
-extern s32 boss7_derolle_c_motion_id;
-extern s32 lbl_805D6920;
-extern s32 lbl_805D6924;
-extern s32 lbl_805D6928;
-extern s32 lbl_805D692C;
-extern s32 lbl_805D6930;
-extern s32 lbl_805D6934;
 extern s32 lbl_805D6944;
 void TObjPlayer__sub_802E8274(void);
 s32 get_mode__11TCameraCtrlFPv(void *);
 void TObjPlayer__sub_802E7FC0(void *arg0);
 extern RecoveredGlobal_802E80F4_lbl_8050BEC0 saved_model_draw_color;
-extern RecoveredGlobal_802E80F4_lbl_805412C0 boss7_derolle_light_pool;
 extern RecoveredGlobal_802E80F4_lbl_8058D4C0 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern u8 *lbl_805D693C;
-extern s32 *lbl_805D6940;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -768,7 +754,6 @@ int TObjFish__sub_8001EDB0(void*, void*);
 int get_bml_model(void*, void*);
 int set_global_param__8TObjFishFl(void);
 
-    extern int lbl_805D6918;
 void TObjPlayer::notify_fish_obj(void* a0) { get_bml_motion((void*)lbl_805D6918, a0); }
 
 void queue_boss_effect__10TObjPlayerFPv(void* a0) { get_bml_model((void*)lbl_805D6918, a0); }
@@ -779,7 +764,6 @@ void TObjPlayer::draw_effect() { TObjFish__sub_8001EDB0((void*)lbl_805D6918, (vo
 
 typedef char RecoveredGlobal_802E80F4_lbl_8050BEC0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8050BEC0) == 0x20 ? 1 : -1];
 typedef char RecoveredGlobal_802E80F4_main_task_size[sizeof(RecoveredGlobal_802E80F4_main_task) == 0x34 ? 1 : -1];
-typedef char RecoveredGlobal_802E80F4_lbl_805412C0_size[sizeof(RecoveredGlobal_802E80F4_lbl_805412C0) == 0x268 ? 1 : -1];
 typedef char RecoveredGlobal_802E80F4_lbl_8058D4C0_size[sizeof(RecoveredGlobal_802E80F4_lbl_8058D4C0) == 0x10 ? 1 : -1];
 void TBoss7DeRolLeC::render() {
     s32 *var_r30;
@@ -803,7 +787,7 @@ void TBoss7DeRolLeC::render() {
         push_matrix();
         if (this->unk_7AC != 0) {
             if (this->unk_628 & 0x40) {
-                *(s32 **)((s8 *)lbl_805D693C + 0x2C) = &boss7_derolle_light_pool.value;
+                *(s32 **)((s8 *)lbl_805D693C + 0x2C) = &boss7_derolle_light_pool[0].type;
             } else {
                 *(s32 **)((s8 *)lbl_805D693C + 0x2C) = (s32 *) lbl_805D6940;
             }
@@ -4087,8 +4071,6 @@ struct PktB_802ED62C { u8 hdr[2]; u16 a; s16 b; s16 c; };
 struct Elem_802ED73C { u8 pad0[0x18]; s32 flags; u8 pad1C[0x2C - 0x1C]; };
 
 extern "C" {
-void TBoss7Joint__sub_802EE7B8(void *);
-void TBoss7Joint__sub_802EE800(void *);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
 s32 register_boss__6TLobbyFl(s32);
