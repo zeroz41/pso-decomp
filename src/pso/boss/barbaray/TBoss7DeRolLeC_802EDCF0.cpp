@@ -24,7 +24,6 @@ struct Obj_802EDCF0 {
 
 extern "C" {
 s32 __dt__7TObjectFv(void *, int);
-s32 free_if_positive__13TBoss2DeRolLeFis(s32 arg0, s16 arg1);
 void mem_free(void *p);
 s32 __dl__7TObjectFPv(void *);
 extern s32 TBoss7DeRolLeC__vtable[];
@@ -72,9 +71,9 @@ u8 *__dt__14TBoss7DeRolLeCFv(u8 *arg0, s16 arg1) {
         }
         ((TObjFish *)arg0)->destroy_child();
         __dt__7TObjectFv(arg0 + 0x690, -1);
-        free_if_positive__13TBoss2DeRolLeFis((s32)(arg0 + 0x670), -1);
-        free_if_positive__13TBoss2DeRolLeFis((s32)(arg0 + 0x650), -1);
-        free_if_positive__13TBoss2DeRolLeFis((s32)(arg0 + 0x630), -1);
+        ((TUnk_80036250 *)(arg0 + 0x670))->~TUnk_80036250();
+        ((TUnk_80036250 *)(arg0 + 0x650))->~TUnk_80036250();
+        ((TUnk_80036250 *)(arg0 + 0x630))->~TUnk_80036250();
         __dt__12TObjEneDD_STFv(arg0, 0);
         if (arg1 > 0) {
             __dl__7TObjectFPv(arg0);

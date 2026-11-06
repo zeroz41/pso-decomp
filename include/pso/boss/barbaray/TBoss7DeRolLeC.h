@@ -4,6 +4,7 @@
 #include "types.h"
 #include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/system/task/TObject.h"
+#include "pso/boss/derolle/TUnk_80036250.h"
 #include <dolphin/mtx.h>
 
 struct TBoss7DeRolLeC : public TObjEneDD_ST {
@@ -36,7 +37,10 @@ struct TBoss7DeRolLeC : public TObjEneDD_ST {
     u16 unk_38C;
     u8 pad_38E[0x29A];
     s32 unk_628;                  // state flags (0x4, 0x8, 0x40, 0x80, 0x8000 tested)
-    u8 pad_62C[0x64];             // 0x630/0x650/0x670: three 0x20 blocks (TBoss2DeRolLe::init_resources / free_if_positive)
+    u8 pad_62C[0x4];
+    TUnk_80036250 motion_x;       // drives position.x (TObjFish__sub_802EB270)
+    TUnk_80036250 motion_y;       // drives position.y
+    TUnk_80036250 motion_z;       // drives position.z
     TObject unk_690;              // embedded task group: the ctor builds it with TObject(TObject *), run_task/render walk it
     s32 unk_6AC;
     u8 pad_6B0[0x4];

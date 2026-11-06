@@ -1155,7 +1155,6 @@ void TObjFish__sub_802EBE50(void* o, u32 k);
 void TBoss7DeRolLeC__dispatch_state(u8 *arg0, u32 arg1, u32 arg2);
 f32 fabs_float(f32);
 s32 advance_scalar_motion_profile(void *);
-void set_move_params__13TBoss2DeRolLeFPvffff(u8 *arg0, f32 farg0, f32 farg1, f32 farg2, f32 farg3);
 f32 calc_elapsed_scaled__9TObjEneDDFv(void *);
 void spawn_particle_201__8TObjFishFii(s32 arg1, s32 arg2);
 
@@ -2757,7 +2756,7 @@ void TObjFish__sub_802EA4D8(u8 *arg0, u32 arg1) {
                     *(f32 *)((s8 *)arg0 + 0x74C) -= lbl_805DEA74;
                     if (*(f32 *)((s8 *)arg0 + 0x74C) <= lbl_805DEA10) {
                         *(f32 *)((s8 *)arg0 + 0x750) = lbl_805DEA18;
-                        set_move_params__13TBoss2DeRolLeFPvffff(arg0 + 0x670, lbl_805DEA98, fabs_float(lbl_805DEB08 - *(f32 *)((s8 *)arg0 + 0x40)), lbl_805DEA74, lbl_805DEB0C);
+                        ((TUnk_80036250 *)(arg0 + 0x670))->set_move_params(lbl_805DEA98, fabs_float(lbl_805DEB08 - *(f32 *)((s8 *)arg0 + 0x40)), lbl_805DEA74, lbl_805DEB0C);
                         *(f32 *)((s8 *)arg0 + 0x74C) = *(f32 *)((s8 *)arg0 + 0x40);
                     } else {
                         *(f32 *)((s8 *)arg0 + 0x40) += *(f32 *)((s8 *)arg0 + 0x74C);
@@ -2873,7 +2872,7 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
                 if (self->frame >= lbl_805DEB30) {
                     self->step = 4;
                     self->vx = lbl_805DEB34 * self->dir;
-                    set_move_params__13TBoss2DeRolLeFPvffff(self->mover, lbl_805DEA98, fabs_float(lbl_805DEAAC - self->z), lbl_805DEA74, lbl_805DEB0C);
+                    ((TUnk_80036250 *)self->mover)->set_move_params(lbl_805DEA98, fabs_float(lbl_805DEAAC - self->z), lbl_805DEA74, lbl_805DEB0C);
                     self->f680 = -(lbl_805DEA14 * self->vy);
                     self->vy = self->z;
                     ((TObjFish *)self)->destroy_child();
