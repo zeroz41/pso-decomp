@@ -6,7 +6,6 @@
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/misc/TShopWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
@@ -15,7 +14,7 @@
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TShopKeepItemWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -88,7 +87,7 @@ s32 get_bank_deposit_capacity_for_item(TItemData *item, s32 slot);
 
 const char *TShopKeepItemWindow__class_name = "TShopKeepItemWindow";
 
-TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+TShopKeepItemWindow::TShopKeepItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
     m_name = TShopKeepItemWindow__class_name;
     this->m_370 = 0;
     this->entry_count = 0;

@@ -3,9 +3,11 @@
 
 #include "types.h"
 
+class TObject;
+
 extern "C" {
 s32 TChCrTagName__vt4(u8 *arg0);
-u8 *__ct__12TChCrTagNameFv(u8 *arg0, s32 arg1, s32 _w2);
+u8 *__ct__12TChCrTagNameFv(u8 *self, TObject *parent, void *arg);
 void *create__12TChCrTagNameFPv(void *arg0);
 void create_all__12TChCrTagNameFv(void);
 int draw_tag_sprites__12TChCrTagNameFPv(void *p);

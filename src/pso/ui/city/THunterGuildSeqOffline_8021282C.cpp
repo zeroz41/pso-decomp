@@ -5,7 +5,7 @@
 #include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/city/THunterGuildWarning.h"

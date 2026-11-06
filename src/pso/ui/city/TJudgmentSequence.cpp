@@ -7,7 +7,7 @@ struct TShopJudgmentItemWindow;
 #include "pso/unk/text_8026934C.h"
 #include "pso/ui/city/TShopSequence.h"
 
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct Base_80215BF8_80215BA0 { char pad[0x18]; };
 struct VObj_80215BF8_80215BA0 : Base_80215BF8_80215BA0 {

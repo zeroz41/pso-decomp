@@ -1,21 +1,14 @@
 #include "types.h"
 #include "pso/unk/TLobby_80140FF4.h"
 #include "pso/unk/TLobby.h"
+#include "pso/map/TMapCsnCtrl.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
-void *TMapCsnCtrl__ct(void *, void *);
-void *__nw__7TObjectFUl(int);
-
-extern void *tl_05;
 extern void *map_csn_ctrl_instance;
 
 void TLobby::create_map_csn_ctrl() {
-    void *o;
-    o = __nw__7TObjectFUl(0x81C);
-    if (o != NULL) {
-        o = TMapCsnCtrl__ct(o, tl_05);
-    }
-    map_csn_ctrl_instance = o;
+    map_csn_ctrl_instance = new TMapCsnCtrl(tl_05);
 }
 
 void* TLobby__sub_80141030(void* p) { return (char*)p + 0xac; }

@@ -19,8 +19,7 @@
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubItem.h"
 #include "pso/unk/text_801F43B4.h"
-#include "pso/TShopWindowBase.h"
-#include "pso/misc/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/quest/TQuestListVM.h"
 
@@ -581,7 +580,7 @@ struct VOff_80218310_arg0 { char pad_0[0x4C]; char f_4C[1]; };
 
 void *TQuestListOnline__ct(TQuestListOnline *quest_list_online, void *arg1, void *arg2, void *arg3) {
     struct VOff_80218310_arg0 *self = (struct VOff_80218310_arg0 *)quest_list_online;
-    __ct__15TShopWindowBaseFv(quest_list_online);
+    __ct__15TShopWindowBaseFP7TObject(quest_list_online, (TObject *)arg1);
     *(s32 **)((s8 *)quest_list_online + 0x18) = __vt__16TQuestListOnline;
     __ct__13GameListEntryFv((s32)self->f_4C);
     *(void * *)&quest_list_online->m_name = TQuestListOnline__class_name;

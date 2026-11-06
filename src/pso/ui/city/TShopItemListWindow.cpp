@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopItemListWindow.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
@@ -115,7 +115,6 @@ struct Win_8021F9EC {
 
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-void *__ct__15TShopWindowBaseFv(void *arg0);
 extern s32 __vt__19TShopItemListWindow[];
 extern s32 TShopItemListWindow__class_name;
 u8 *TShopItemListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -137,7 +136,6 @@ void *create_item_list_window(s32, s32, u16);
 void *create_cost_window(u16);
 void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 
 void TShopItemListWindow::display_message(const char *text, s32 flags) {
     struct VObj_8021F134 *temp_r3;
@@ -358,7 +356,7 @@ void *__dt__19TShopItemListWindowFv(TShopItemListWindow *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow_size[sizeof(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow) == 0x30 ? 1 : -1];
 u8 *TShopItemListWindow__ct(u8 *shop_item_list_window, s32 arg1, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFv((shop_item_list_window));
+    __ct__15TShopWindowBaseFP7TObject(shop_item_list_window, (TObject *)arg1);
     *(s32 **)((s8 *)shop_item_list_window + 0x18) = &(*(RecoveredGlobal_8021FDC8___vt__19TShopItemListWindow *)&__vt__19TShopItemListWindow).value;
     *(s32 *)((s8 *)shop_item_list_window + 0) = (s32) TShopItemListWindow__class_name;
     ((TShopItemListWindow *)shop_item_list_window)->m_24 = arg3;

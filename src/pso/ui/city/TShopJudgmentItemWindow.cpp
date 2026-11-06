@@ -7,7 +7,7 @@
 #include "pso/ui/city/TShopArmorListWindow.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowSubShortCutList.h"
 #include "pso/ui/city/TShopJudgmentItemWindow.h"
@@ -195,9 +195,7 @@ void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1)
 s32 play_sound_effect(s32, s32, s32, s32);
 s32 sub_802239EC__13TShopSequenceFv(void *);
 s32 sub_80223A48__15TShopWindowBaseFv(void *);
-void *__ct__15TShopWindowBaseFv(void *arg0);
 void __dl__7TObjectFPv(void *);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 void queue_destruction__7TObjectFv(void *arg0);
 
 void TShopJudgmentItemWindow::display_message(const char *text, s32 flags) {
@@ -683,7 +681,7 @@ void *__dt__23TShopJudgmentItemWindowFv(TShopJudgmentItemWindow *arg0, s16 arg1)
 extern void *TShopJudgmentItemWindow__class_name;
 
 }
-TShopJudgmentItemWindow::TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+TShopJudgmentItemWindow::TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
     *(void * *)&this->m_name = TShopJudgmentItemWindow__class_name;
     this->m_144 = 0;
     this->m_148 = 0;

@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPEQUIPMENTSELLWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopEquipmentSellWindow : public TShopWindowBase {
     TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4);

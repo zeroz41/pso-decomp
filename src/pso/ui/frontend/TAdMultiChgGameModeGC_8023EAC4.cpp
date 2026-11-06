@@ -2,6 +2,7 @@
 #include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TLogo.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);
@@ -27,7 +28,6 @@ void *__ct__12TLevelSelectFv(void *);
 void *__ct__16TAdStorySelectGCFv(void *, s32);
 void *__ct__21TAdMultiChgGameModeGCFv(void *, s32);
 void *__ct__21TAdMultiSelGameModeGCFv(void *, s32, s32);
-void *__ct__5TLogoFv(void *, s32);
 extern s32 multi_chg_game_mode_state;
 extern s32 tl_01;
 extern s32 tl_02;
@@ -234,10 +234,7 @@ void TAdMultiChgGameModeGC::create_mode_scene() {
         game_mode_scene_instance = (s32)p;
         break;
     case 19:
-        p = __nw__7TObjectFUl(0x38);
-        if (p != NULL) {
-            p = __ct__5TLogoFv(p, tl_01);
-        }
+        p = new TLogo((TObject *)tl_01);
         game_mode_scene_instance = (s32)p;
         break;
     case 20:

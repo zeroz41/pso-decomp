@@ -20,11 +20,9 @@ s32 get_entity_id(u32);
 u32 create_message_window__24TMessageWindowControllerFlll(void *, s32, s32, s32);
 u32 create_window__24TMessageWindowControllerFll(void *, s32, s32);
 u8 * __ct__24TMessageWindowControllerFv(void *);
-void *__ct__15TShopWindowBaseFv(void *arg0);
 extern RecoveredGlobal_802238D8___vt__13TShopSequence __vt__13TShopSequence;
 extern s32 TShopSequence__class_name;
-u8 *TShopSequence__ct(u8 *arg0);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
+u8 *TShopSequence__ct(u8 *self, TObject *parent);
 s32 __dl__7TObjectFPv(void *);
 s32 load_character_from_card__23TAdSinglePlyChrSelectGCFi(s32);
 s32 activate_body_collision__10TObjPlayerFv();
@@ -128,10 +126,10 @@ void *__dt__13TShopSequenceFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-u8 *TShopSequence__ct(u8 *shop_window_base) {
+u8 *TShopSequence__ct(u8 *shop_window_base, TObject *parent) {
     s32 temp_r3;
     s32 var_r0;
-    __ct__15TShopWindowBaseFv(shop_window_base);
+    __ct__15TShopWindowBaseFP7TObject(shop_window_base, parent);
     *(s32 **)((s8 *)shop_window_base + 0x18) = &__vt__13TShopSequence.value;
     *(s32 *)((s8 *)shop_window_base + 0) = (s32) TShopSequence__class_name;
     temp_r3 = (int)::operator new(0x210);

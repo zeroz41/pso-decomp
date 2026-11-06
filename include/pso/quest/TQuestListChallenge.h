@@ -2,7 +2,7 @@
 #define PSO_QUEST_TQUESTLISTCHALLENGE_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TQuestListChallenge : public TShopWindowBase {
     virtual ~TQuestListChallenge();

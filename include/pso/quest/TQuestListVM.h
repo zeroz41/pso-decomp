@@ -2,7 +2,7 @@
 #define PSO_QUEST_TQUESTLISTVM_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 class TObjBase;
 class TQuestListVM;

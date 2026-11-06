@@ -1,7 +1,7 @@
 #ifndef PSO_QUEST_TQUESTLISTOFFLINE_H
 #define PSO_QUEST_TQUESTLISTOFFLINE_H
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 class TQuestListOffline : public TShopWindowBase {
 public:

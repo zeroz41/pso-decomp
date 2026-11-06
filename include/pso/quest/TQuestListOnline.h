@@ -1,7 +1,7 @@
 #ifndef PSO_QUEST_TQUESTLISTONLINE_H
 #define PSO_QUEST_TQUESTLISTONLINE_H
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TQuestListOnline : public TShopWindowBase {
     virtual ~TQuestListOnline();

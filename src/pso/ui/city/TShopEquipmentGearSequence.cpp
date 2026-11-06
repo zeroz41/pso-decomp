@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/city/TShopEquipmentGearSequence.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
 #include "pso/ui/window/TWindowBase.h"

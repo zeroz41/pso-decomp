@@ -194,7 +194,6 @@ struct Win_8021C160 : VObj_8021C160 {
 
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-void *__ct__15TShopWindowBaseFv(void *arg0);
 void TLobby__sub_80225238(int a0, int a1);
 extern s32 __vt__24TShopEquipmentListWindow[];
 extern s32 TShopEquipmentListWindow__class_name;
@@ -231,7 +230,6 @@ void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
 void __dl__7TObjectFPv(void *);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 void TShopEquipmentListWindow::display_message(const char *text, s32 flags) {
@@ -600,7 +598,7 @@ void *__dt__24TShopEquipmentListWindowFv(TShopEquipmentListWindow *arg0, s16 arg
 typedef char RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow_size[sizeof(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow) == 0x30 ? 1 : -1];
 u8 *TShopEquipmentListWindow__ct(u8 *shop_equipment_list_window, s32 arg1, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFv((shop_equipment_list_window));
+    __ct__15TShopWindowBaseFP7TObject(shop_equipment_list_window, (TObject *)arg1);
     *(s32 **)((s8 *)shop_equipment_list_window + 0x18) = &(*(RecoveredGlobal_8021C7C0___vt__24TShopEquipmentListWindow *)&__vt__24TShopEquipmentListWindow).value;
     *(s32 *)((s8 *)shop_equipment_list_window + 0) = (s32) TShopEquipmentListWindow__class_name;
     ((TShopEquipmentListWindow *)shop_equipment_list_window)->m_24 = arg3;

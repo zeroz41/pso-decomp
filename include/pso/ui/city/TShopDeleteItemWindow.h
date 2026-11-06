@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPDELETEITEMWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopDeleteItemWindow : public TShopWindowBase {
     TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3);

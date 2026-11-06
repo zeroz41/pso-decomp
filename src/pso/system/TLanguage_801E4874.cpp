@@ -3,7 +3,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/system/TLanguage.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/misc/TGStream.h"
+#include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

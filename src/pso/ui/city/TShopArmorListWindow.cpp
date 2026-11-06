@@ -195,7 +195,6 @@ struct Win_8021AE18 {
 
 extern "C" {
 s32 sub_8022397C__15TShopWindowBaseFv(void *);
-void *__ct__15TShopWindowBaseFv(void *arg0);
 extern s32 __vt__20TShopArmorListWindow[];
 extern s32 TShopArmorListWindow__class_name;
 u8 *TShopArmorListWindow__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -231,7 +230,6 @@ void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 s32 align_menu_entry_positions(u32);
 void __dl__7TObjectFPv(void *);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 
 void TShopArmorListWindow::display_message(const char *text, s32 flags) {
@@ -597,7 +595,7 @@ void *__dt__20TShopArmorListWindowFv(TShopArmorListWindow *arg0, s16 arg1) {
 typedef char RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow_size[sizeof(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow) == 0x30 ? 1 : -1];
 u8 *TShopArmorListWindow__ct(u8 *shop_armor_list_window, s32 arg1, s32 arg2, s32 arg3) {
     s32 sp8;
-    __ct__15TShopWindowBaseFv((shop_armor_list_window));
+    __ct__15TShopWindowBaseFP7TObject(shop_armor_list_window, (TObject *)arg1);
     *(s32 **)((s8 *)shop_armor_list_window + 0x18) = &(*(RecoveredGlobal_8021B1CC___vt__20TShopArmorListWindow *)&__vt__20TShopArmorListWindow).value;
     *(s32 *)((s8 *)shop_armor_list_window + 0) = (s32) TShopArmorListWindow__class_name;
     ((TShopArmorListWindow *)shop_armor_list_window)->m_24 = arg3;

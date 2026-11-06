@@ -3,14 +3,13 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
-#include "pso/misc/TShopWindowBase.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopGetItemWindow.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/city/TShopArmorListWindow.h"
@@ -387,7 +386,7 @@ void *__dt__18TShopGetItemWindowFv(TShopGetItemWindow *arg0, s16 arg1) {
 extern void *TShopGetItemWindow__class_name;
 
 }
-TShopGetItemWindow::TShopGetItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+TShopGetItemWindow::TShopGetItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
     *(void * *)&this->m_name = TShopGetItemWindow__class_name;
     this->m_20 = 0;
     *(void **)((s8 *)this + 0x24) = arg3;

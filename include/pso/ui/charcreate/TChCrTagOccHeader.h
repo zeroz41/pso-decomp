@@ -1,6 +1,6 @@
 #ifndef PSO_UI_CHARCREATE_TCHCRTAGOCCHEADER_H
 #define PSO_UI_CHARCREATE_TCHCRTAGOCCHEADER_H
-#include "pso/TChCrTag.h"
+#include "pso/ui/charcreate/TChCrTag.h"
 #include "types.h"
 
 class TChCrTagOccHeader : public TChCrTag {

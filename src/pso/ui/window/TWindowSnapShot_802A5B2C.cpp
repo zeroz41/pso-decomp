@@ -3,7 +3,7 @@
 #include "pso/ui/window/TWindowSnapShot_802A5B2C.h"
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowSnapShot.h"
-#include "pso/misc/TGStream.h"
+#include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_802A5F24_lbl_804DD098 {

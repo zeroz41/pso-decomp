@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 
 #include <stddef.h>
 #include "pso/ui/charcreate/TChCrTagPlGraphic.h"
@@ -68,13 +69,11 @@ struct RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic {
 };
 
 extern "C" {
-u8 * __ct__8TChCrTagFP7TObjectPv(void *, s32);
 extern RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic __vt__17TChCrTagPlGraphic;
-u8 *__ct__17TChCrTagPlGraphicFv(u8 *arg0, s32 arg1, s32 _w2);
+u8 *__ct__17TChCrTagPlGraphicFv(u8 *self, TObject *parent, void *arg);
 void render__17TChCrTagPlGraphicFv(void* p);
 void run_task__17TChCrTagPlGraphicFv(void* p);
 void TChCrTagPlGraphic__sub_802A3230(u8 *tag);
-void update_fade__8TChCrTagFPv(u8 *arg0);
 void *__nw__7TObjectFUl(int);
 void restore_saved_depth_alpha_state(void);
 int set_depth_buffer_settings_1__Fv(void*);
@@ -133,7 +132,6 @@ void TChCrTagPlGraphic__sub_802A3230(u8 *tag) {
 
 void run_task__17TChCrTagPlGraphicFv(void* p) { update_fade__8TChCrTagFPv((u8 *)p); TChCrTagPlGraphic__sub_802A3230((u8 *)p); }
 
-extern void *tl_03;
 
 typedef char RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic_size[sizeof(RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic) == 0x20 ? 1 : -1];
 
@@ -155,9 +153,9 @@ s32 TChCrTagPlGraphic::vt4() {
 
 TChCrTagPlGraphic::~TChCrTagPlGraphic() {}
 
-u8 *__ct__17TChCrTagPlGraphicFv(u8 *ch_cr_tag, s32 arg1, s32 _w2) {
+u8 *__ct__17TChCrTagPlGraphicFv(u8 *ch_cr_tag, TObject *parent, void *arg) {
     u8 *temp_r5;
-    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, arg1);
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, parent, arg);
     *(s32 **)((s8 *)ch_cr_tag + 0x18) = &__vt__17TChCrTagPlGraphic.value;
     *(s32 *)((s8 *)ch_cr_tag + 0) = (s32) ch_cr_tag_pl_graphic_class_name;
     *(f32 *)((s8 *)ch_cr_tag + 0x28) = 0.13333334f;
@@ -175,7 +173,7 @@ u8 *__ct__17TChCrTagPlGraphicFv(u8 *ch_cr_tag, s32 arg1, s32 _w2) {
 void *TChCrTagPlGraphic::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x50);
     if (o != NULL) {
-        o = __ct__17TChCrTagPlGraphicFv((u8 *)o, (s32)tl_03, (s32)arg0);
+        o = __ct__17TChCrTagPlGraphicFv((u8 *)o, tl_03, arg0);
     }
     return o;
 }

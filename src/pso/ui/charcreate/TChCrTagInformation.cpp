@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TChCrTag.h"
+#include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/unk/text_80309890.h"
 #include "pso/unk/text_803098DC.h"
 #include "pso/ui/charcreate/TChCrTagInformation.h"

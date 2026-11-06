@@ -2,7 +2,7 @@
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/window/TWindow.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/quest/TQuestListOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
@@ -44,8 +44,6 @@ struct Win_80217344 {
 void queue_destruction__7TObjectFv(void *);
 void vfunc_11__17TQuestListOfflineFv(QuestList_802171BC *self);
 void * close_shop_subwindows__17TQuestListOfflineFs(void *arg0, s16 arg1);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
-void __ct__15TShopWindowBaseFv(void *, s32);
 void __dl__7TObjectFPv(void *);
 
 extern s32 TQuestListOffline__class_name;
@@ -208,7 +206,7 @@ void *TQuestListOffline::close_shop_subwindows(s16 arg1) {
 }
 
 void *TQuestListOffline__ct(Win_80217344 *self, s32 shop_window_base, s32 arg2, s32 arg3) {
-    __ct__15TShopWindowBaseFv(self, shop_window_base);
+    __ct__15TShopWindowBaseFP7TObject(self, (TObject *)shop_window_base);
     self->vt = (void *)((void * *)lbl_804C9C9C);
     self->f0 = TQuestListOffline__class_name;
     self->f34 = arg2;

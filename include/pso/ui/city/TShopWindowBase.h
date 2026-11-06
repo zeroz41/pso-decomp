@@ -1,11 +1,11 @@
-#ifndef PSO_TSHOPWINDOWBASE_H
-#define PSO_TSHOPWINDOWBASE_H
+#ifndef PSO_UI_CITY_TSHOPWINDOWBASE_H
+#define PSO_UI_CITY_TSHOPWINDOWBASE_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TShopWindowBase : public TObject {
 public:
-    TShopWindowBase();
+    TShopWindowBase(TObject *parent);
     virtual ~TShopWindowBase();
     virtual void vfunc_6();
     virtual void display_message(const char *text, s32 flags);
@@ -22,5 +22,11 @@ public:
 public:
     void confirm_and_close_if_valid();
 };
+
+// The derived windows' constructors are still C functions and call these by symbol.
+extern "C" {
+void *__ct__15TShopWindowBaseFP7TObject(void *self, TObject *parent);
+void *__dt__15TShopWindowBaseFv(void *self, s16 flag);
+}
 
 #endif

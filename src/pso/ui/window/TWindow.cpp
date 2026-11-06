@@ -6,7 +6,7 @@
 #include "pso/unk/text_801F3774.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/quest/TQuestListOffline.h"

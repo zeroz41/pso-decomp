@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/unk/TLobby.h"
@@ -120,7 +120,6 @@ s32 lbl_805D64AC;
 s32 TQuestListChallenge__active_instance;
 s32 get_selected_quest_text__19TQuestListChallengeFv(void);
 s32 get_game_play_mode();
-s32 __ct__15TShopWindowBaseFv();
 extern s32 TQuestListChallenge__active_instance;
 extern void *__vt__19TQuestListChallenge[];
 u8 *TQuestListChallenge__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
@@ -156,7 +155,6 @@ s32 prepare_offline_quest_filenames(s32, s32);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 u8 *TObjNpcKenkyu__ct(u8 *arg0, s32 arg1, s32 arg2);
 s32 __dl__7TObjectFPv(void *);
-void *__dt__15TShopWindowBaseFv(void *self, s16 m);
 void *__nw__7TObjectFUl(int);
 void queue_destruction__7TObjectFv(void *arg0);
 
@@ -388,7 +386,7 @@ typedef char RecoveredGlobal_80289200_lbl_80450A20_size[sizeof(RecoveredGlobal_8
 u8 *TQuestListChallenge__ct(u8 *shop_window_base, s32 arg1, s32 arg2, s32 arg3) {
     s32 temp_r3;
     s32 var_r3;
-    __ct__15TShopWindowBaseFv();
+    __ct__15TShopWindowBaseFP7TObject(shop_window_base, (TObject *)arg1);
     *(s32 **)((s8 *)shop_window_base + 0x18) = &(*(RecoveredGlobal_80289200___vt__19TQuestListChallenge *)&__vt__19TQuestListChallenge).value;
     *(s32 *)((s8 *)shop_window_base + 0) = (s32) (*(s32 *)&TQuestListChallenge__name);
     if ((void *) (*(u8 * *)&TQuestListChallenge__active_instance) != NULL) {

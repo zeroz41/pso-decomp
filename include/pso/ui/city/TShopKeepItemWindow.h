@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPKEEPITEMWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/item/TItemData.h"
 
 struct TItem;

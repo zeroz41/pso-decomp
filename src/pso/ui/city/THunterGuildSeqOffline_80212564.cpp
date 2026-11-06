@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 
 struct Base_802125BC_80212564 { char pad[0x18]; };

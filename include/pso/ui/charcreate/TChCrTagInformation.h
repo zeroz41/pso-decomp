@@ -2,7 +2,7 @@
 #define PSO_UI_CHARCREATE_TCHCRTAGINFORMATION_H
 
 #include "types.h"
-#include "pso/TChCrTag.h"
+#include "pso/ui/charcreate/TChCrTag.h"
 
 struct TChCrTagInformation : public TChCrTag {
     virtual ~TChCrTagInformation();

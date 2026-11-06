@@ -3,7 +3,6 @@
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "types.h"
-#include "pso/misc/TShopWindowBase.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80222C28.h"
@@ -13,7 +12,7 @@
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/city/TShopEquipmentSellWindow.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/item/TItem.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/unk/TLobby.h"
@@ -474,7 +473,7 @@ void *__dt__24TShopEquipmentSellWindowFv(TShopEquipmentSellWindow *arg0, s16 arg
 extern void *TShopEquipmentSellWindow__class_name;
 
 }
-TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4) : TShopWindowBase() {
+TShopEquipmentSellWindow::TShopEquipmentSellWindow(void *arg1, void *arg2, void *arg3, void *arg4) : TShopWindowBase((TObject *)arg1) {
     *(void * *)&this->m_name = TShopEquipmentSellWindow__class_name;
     this->m_370 = 0;
     this->m_374 = 0;

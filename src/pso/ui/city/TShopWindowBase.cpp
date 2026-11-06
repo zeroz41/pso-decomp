@@ -1,7 +1,6 @@
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/system/task/TObject.h"
 #include "pso/unk/text_80222C28.h"
-#include "pso/misc/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/city/TShopSequence.h"
 
@@ -22,7 +21,6 @@ extern "C" {
 s32 get_entity_id(void *);
 s32 test_flag_4c__23TAdSinglePlyChrSelectGCFv(void *, int);
 extern RecoveredGlobal_802239EC_lbl_8050E208 controller_input_state;
-void __ct__7TObjectFP7TObject(void *);
 
 void TShopWindowBase::vfunc_11() {  }
 
@@ -80,8 +78,7 @@ void TShopWindowBase::run_task() {
     }
 }
 
-extern s32 __vt__15TShopWindowBase[];
-extern void *TShopWindowBase__class_name;
+extern const char *TShopWindowBase__class_name;
 
 }
 TShopWindowBase::~TShopWindowBase() {
@@ -89,13 +86,10 @@ TShopWindowBase::~TShopWindowBase() {
 }
 
 
-void *__ct__15TShopWindowBaseFv(void *shop_window_base) {
-    __ct__7TObjectFP7TObject(shop_window_base);
-    *(s32 **)((s8 *)shop_window_base + 0x18) = __vt__15TShopWindowBase;
-    *(void * *)&((TShopWindowBase *)shop_window_base)->m_name = TShopWindowBase__class_name;
-    *(u32 *)((s8 *)shop_window_base + 0x1C) = 0;
-    *(u32 *)((s8 *)shop_window_base + 0x20) = 0;
-    *(u32 *)((s8 *)shop_window_base + 0x24) = 0;
-    return shop_window_base;
+TShopWindowBase::TShopWindowBase(TObject *parent) : TObject(parent) {
+    m_name = TShopWindowBase__class_name;
+    *(u32 *)((s8 *)this + 0x1C) = 0;
+    *(u32 *)((s8 *)this + 0x20) = 0;
+    *(u32 *)((s8 *)this + 0x24) = 0;
 }
 

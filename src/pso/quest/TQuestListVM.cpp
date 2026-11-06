@@ -5,7 +5,7 @@
 #include "pso/quest/TQuestListVM.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/system/task/TObject.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/TLobby.h"
@@ -68,7 +68,7 @@ void TWindowMenuIconLine::disable_cancel() {
     state_flags |= 8;
 }
 
-TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player) {
+TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player) : TShopWindowBase(parent) {
     m_name = TQuestListVM_class_name;
     entry_count = 0;
     resume_state = 0;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/quest/TQuestListVM.h"
 

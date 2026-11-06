@@ -6,7 +6,7 @@
 #include "pso/unk/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
 #include "pso/network/TProtocol.h"
-#include "pso/misc/TGStream.h"
+#include "pso/system/TGStream.h"
 #include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"

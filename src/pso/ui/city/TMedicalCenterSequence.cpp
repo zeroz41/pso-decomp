@@ -1,7 +1,7 @@
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/hud/TRaderMapCore.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TMedicalCenterSequence.h"

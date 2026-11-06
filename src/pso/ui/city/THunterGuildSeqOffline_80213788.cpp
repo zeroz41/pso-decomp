@@ -9,7 +9,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/window/TWindowAddition.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include <stddef.h>

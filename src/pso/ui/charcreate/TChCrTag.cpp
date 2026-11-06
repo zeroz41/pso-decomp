@@ -1,7 +1,6 @@
 #include "types.h"
-#include "pso/TChCrTag.h"
+#include "pso/ui/charcreate/TChCrTag.h"
 #include "pso/system/task/TObject.h"
-#include "pso/misc/TChCrTag.h"
 #include "pso/system/task/TObject_80019A50.h"
 
 extern "C" void render__8TChCrTagFv();

@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/charcreate/TChCrTagOccHeader.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTagOccupation.h"
@@ -23,11 +24,10 @@ extern "C" {
 s32 get_selected_char__15TChCrCharSelectFv();
 s32 TChCrTagOccHeader__vt4(Hdr_802A2C30 *arg0);
 void run_task__17TChCrTagOccHeaderFv(u8 *arg0);
-s32 update_fade__8TChCrTagFPv();
 
 void TChCrTagOccHeader::run_task() {
     u8 *arg0 = (u8 *)this;
-    update_fade__8TChCrTagFPv();
+    update_fade__8TChCrTagFPv(arg0);
     *(s32 *)((s8 *)arg0 + 0x3C) = (s32) (*(s32 *)((s8 *)arg0 + 0x3C) + 1);
 }
 s32 TChCrTagOccHeader__vt4(Hdr_802A2C30 *arg0) {
@@ -47,7 +47,6 @@ s32 TChCrTagOccHeader__vt4(Hdr_802A2C30 *arg0) {
 }
 
 extern void *__vt__17TChCrTagOccHeader[];
-void *__dt__8TChCrTagFv(void *, s16);
 void __dl__7TObjectFPv(void *);
 void *__dt__17TChCrTagOccHeaderFv(void *self, s16 m) {
     if (self != NULL) {
@@ -71,18 +70,15 @@ void *__vt__17TChCrTagOccHeader[] = {
     0,
 };
 
-#define update_fade__8TChCrTagFPv (*(void (*)())&update_fade__8TChCrTagFPv)
 #define get_selected_char__15TChCrCharSelectFv (*(s32 (*)(void *))&get_selected_char__15TChCrCharSelectFv)
 
-u8 * __ct__8TChCrTagFP7TObjectPv(void *, s32);
-void *__ct__17TChCrTagOccHeaderFv(void *arg0);
 
 extern const f32 lbl_805DDECC;
 extern const f32 lbl_805DDED0;
 extern void *chcr_tag_occ_header_class_name;
 
-void *__ct__17TChCrTagOccHeaderFv(void *ch_cr_tag_occ_header) {
-    ((void (*)(void *))__ct__8TChCrTagFP7TObjectPv)(ch_cr_tag_occ_header);
+void *__ct__17TChCrTagOccHeaderFv(void *ch_cr_tag_occ_header, TObject *parent, void *arg) {
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_occ_header, parent, arg);
     *(void ***)((s8 *)ch_cr_tag_occ_header + 0x18) = __vt__17TChCrTagOccHeader;
     *(void * *)&((TChCrTagOccHeader *)ch_cr_tag_occ_header)->m_name = chcr_tag_occ_header_class_name;
     *(f32 *)((s8 *)ch_cr_tag_occ_header + 0x28) = lbl_805DDECC;
@@ -94,12 +90,11 @@ void *__ct__17TChCrTagOccHeaderFv(void *ch_cr_tag_occ_header) {
 
 void *__nw__7TObjectFUl(int);
 }
-extern void *tl_03;
 
 void *create_ch_cr_tag_occ_header(void *arg0) {
     void *o = __nw__7TObjectFUl(0x40);
     if (o != NULL) {
-        o = ((void *(*)(void *, void *, void *))__ct__17TChCrTagOccHeaderFv)(o, tl_03, arg0);
+        o = __ct__17TChCrTagOccHeaderFv(o, tl_03, arg0);
     }
     return o;
 }
@@ -158,7 +153,6 @@ extern const f32 lbl_805DDF08;
 extern const f32 lbl_805DDF0C;
 extern const f32 lbl_805DDF10;
 extern const f32 lbl_805DDF14;
-u8 *__ct__18TChCrTagOccupationFv(u8 *arg0, s32 arg1, s32 _w2);
 int TChCrTagOccupation__vt4(Obj_802A2F78 *self);
 #pragma push
 #pragma fp_contract on
@@ -214,8 +208,8 @@ void *__dt__18TChCrTagOccupationFv(void *self, s16 m) {
 #pragma fp_contract on
 typedef char RecoveredGlobal_802A300C___vt__18TChCrTagOccupation_size[sizeof(RecoveredGlobal_802A300C___vt__18TChCrTagOccupation) == 0x20 ? 1 : -1];
 
-u8 *__ct__18TChCrTagOccupationFv(u8 *ch_cr_tag, s32 arg1, s32 _w2) {
-    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, arg1);
+u8 *__ct__18TChCrTagOccupationFv(u8 *ch_cr_tag, TObject *parent, void *arg) {
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag, parent, arg);
     *(s32 **)((s8 *)ch_cr_tag + 0x18) = (s32 *)__vt__18TChCrTagOccupation;
     *(s32 *)((s8 *)ch_cr_tag + 0) = (s32) chcr_tag_occupation_class_name;
     *(f32 *)((s8 *)ch_cr_tag + 0x28) = (f32) lbl_805DDF00;
@@ -231,7 +225,7 @@ u8 *__ct__18TChCrTagOccupationFv(u8 *ch_cr_tag, s32 arg1, s32 _w2) {
 void *TChCrTagOccupation::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x44);
     if (o != NULL) {
-        o = __ct__18TChCrTagOccupationFv((u8 *)o, (s32)tl_03, (s32)arg0);
+        o = __ct__18TChCrTagOccupationFv((u8 *)o, tl_03, arg0);
     }
     return o;
 }
@@ -251,4 +245,3 @@ void *__vt__18TChCrTagOccupation[8] = {
 }
 
 #undef get_selected_char__15TChCrCharSelectFv
-#undef update_fade__8TChCrTagFPv

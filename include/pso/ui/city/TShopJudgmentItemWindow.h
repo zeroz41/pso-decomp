@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPJUDGMENTITEMWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopJudgmentItemWindow : public TShopWindowBase {
     TShopJudgmentItemWindow(void *arg1, void *arg2, void *arg3);

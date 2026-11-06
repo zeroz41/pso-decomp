@@ -5,9 +5,8 @@
 #include "pso/ui/city/TShopDeleteItemWindow.h"
 #include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/ui/window/TWindowBase.h"
-#include "pso/misc/TShopWindowBase.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/window/TWindowAddition.h"
 #include "pso/ui/window/TWindowSubComCardList.h"
 #include "pso/ui/window/TWindowMenu.h"
@@ -372,7 +371,7 @@ void *__dt__21TShopDeleteItemWindowFv(TShopDeleteItemWindow *arg0, s16 arg1) {
 extern void *TShopDeleteItemWindow__name;
 
 }
-TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase() {
+TShopDeleteItemWindow::TShopDeleteItemWindow(void *arg1, void *arg2, void *arg3) : TShopWindowBase((TObject *)arg1) {
     *(void * *)&this->m_name = TShopDeleteItemWindow__name;
     this->m_20 = 0;
     *(void **)((s8 *)this + 0x24) = arg3;

@@ -5,7 +5,7 @@
 #include "pso/system/memory.h"
 #include "pso/render/NinjaUtil.h"
 #include "pso/unk/TLobby.h"
-#include "pso/misc/TGStream.h"
+#include "pso/system/TGStream.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/unk/TLobby_800FA2A0.h"
@@ -109,7 +109,6 @@ struct Rec_80020004 { char name[0x20]; s32 size; u8 pad24[8]; s32 texSize; u8 pa
 
 struct Hdr_80020004 { u8 pad0[8]; u8 compressed; s8 small; u8 padA[0x36]; Rec_80020004 recs[1]; };
 
-struct Stream_80020004 { u8 pad[0x30]; };
 
 typedef struct Ent_8001FBEC {
     s32 flags;
@@ -165,9 +164,6 @@ s32 TLobby__sub_800F9FF4(s32);
 void mem_free(void *p);
 s32 release_texture_list(void *);
 Lobby_8001FE7C *TLobby__sub_8001FE7C(Lobby_8001FE7C *self, s16 del);
-void open__8TGStreamFPvPvi(void *, s32, s32);
-s32 get_gstream_file_size(void *);
-void destroy_gstream(void *, s32);
 u32 prs_decompress_buffer(s32 arg0, s32 arg1);
 void *mem_alloc(u32 size);
 char *strncpy(char *dest, const char *src, unsigned long num);
@@ -543,7 +539,6 @@ void increment_ref_and_set_flag__6TLobbyFPv(void *arg0) {
     *(*(s32 **)((s8 *)arg0 + 4)) |= 1;
 }
 }
-void align_gstream_read_offset(void *, s32);
 void load_bin_motion_callback(void *arg0) {
     s32 spC;
     s32 sp8;
@@ -736,7 +731,6 @@ void TLobby::reset_battle_state() {
     lbl_805D4AD0 = 0;
 }
 TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_80020004 *desc, s32 on_loaded, s32 on_loaded_arg, s32 load_buffer) {
-    Stream_80020004 st;
     char name[0x20];
     Hdr_80020004 *hdr;
     s32 blk;
@@ -773,109 +767,109 @@ TBinModel *load_resource_from_descriptor(TBinModel *self, s32 kind, Desc_8002000
     if (flags & 1) {
         TLobby::pump_frames();
         lbl_805D4AD0 = 1;
-        open__8TGStreamFPvPvi(&st, desc->name, 0);
-        if (get_gstream_file_size(&st) <= 0) {
-            TLobby::debug_print("TBinModel: %s not found.", desc->name);
-            self->nEnts16 = self->nEnts8 = 0;
-            destroy_gstream(&st, -1);
-            return self;
-        }
-        sectors = (((self->nEnts16 + self->nEnts8 + 1) << 6) + 0x7FF) / 2048;
-        if (sectors > 0x4000) {
-            debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", sectors);
-        }
-        hdr = (Hdr_80020004 *)bml_load_buffer;
-        first = hdr->recs;
-        ((TGStream *)(&st))->read_data((s32)hdr, (s32)(sectors << 11));
-        switch (hdr->compressed) {
-        case 0x50:
-            bml_load_state = 1;
-            break;
-        default:
-            bml_load_state = 0;
-            break;
-        }
-        blk = 0x800;
-        if (hdr->small != 0) {
-            blk = 0x20;
-            self->flags |= 0x800;
-        }
-        rec = first;
-        for (i = 0; i < self->nEnts16; i++, rec++) {
-            size = rec->size;
-            if (size > 0x40000) {
-                TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", size - 0x40000);
+        {
+            TGStream st((void *)desc->name, 0);
+            if (st.get_file_size() <= 0) {
+                TLobby::debug_print("TBinModel: %s not found.", desc->name);
+                self->nEnts16 = self->nEnts8 = 0;
+                return self;
             }
-            switch (bml_load_state) {
-            case 1:
-                buf = (s32)TQuestVmDownLoadServer::alloc(size + 0x800);
-                if (buf != 0) {
-                    disc_read_filename = desc->name;
-                    ((TGStream *)(&st))->read_data((s32)((void *)buf), (s32)size);
-                    align_gstream_read_offset(&st, blk);
-                    disc_read_filename = lbl_805D2B10;
-                    prs_decompress_buffer(buf, (s32)resource_decompress_buffer);
-                    TAdSinglePlyChrSelectGC::safe_free(buf);
-                    bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
-                } else {
-                    TLobby::debug_print("TBinModel:%s Malloc failed.", desc->name);
-                }
+            sectors = (((self->nEnts16 + self->nEnts8 + 1) << 6) + 0x7FF) / 2048;
+            if (sectors > 0x4000) {
+                debug_printf_nop("TOO LARGE BMLHEAD SIZE(%08x)", sectors);
+            }
+            hdr = (Hdr_80020004 *)bml_load_buffer;
+            first = hdr->recs;
+            st.read_data((s32)hdr, (s32)(sectors << 11));
+            switch (hdr->compressed) {
+            case 0x50:
+                bml_load_state = 1;
                 break;
             default:
-                ((TGStream *)(&st))->read_data((s32)resource_decompress_buffer, (s32)size);
-                align_gstream_read_offset(&st, blk);
-                disc_read_filename = lbl_805D2B10;
-                bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
+                bml_load_state = 0;
                 break;
             }
-            if (self->flags & 0x800) {
-                BinModelSlot *e = &self->ents16[i];
-                if (e->b != NULL) {
-                    s32 tsize = rec->texSize;
-                    if (tsize != 0) {
-                        s32 tbuf = (s32)TQuestVmDownLoadServer::alloc(tsize + 0x800);
-                        ((TGStream *)(&st))->read_data((s32)((void *)tbuf), (s32)tsize);
-                        align_gstream_read_offset(&st, blk);
-                        prs_decompress_buffer(tbuf, (s32)resource_decompress_buffer);
-                        TAdSinglePlyChrSelectGC::safe_free(tbuf);
-                        if (load_gvm_texture_archive((s32)resource_decompress_buffer, (s32)self->ents16[i].b) > 0) {
-                            self->ents16[i].flags |= 1;
-                        } else {
-                            self->ents16[i].flags |= 2;
-                            TLobby::debug_print("TBinModel: Illegal Texture.");
-                        }
+            blk = 0x800;
+            if (hdr->small != 0) {
+                blk = 0x20;
+                self->flags |= 0x800;
+            }
+            rec = first;
+            for (i = 0; i < self->nEnts16; i++, rec++) {
+                size = rec->size;
+                if (size > 0x40000) {
+                    TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", size - 0x40000);
+                }
+                switch (bml_load_state) {
+                case 1:
+                    buf = (s32)TQuestVmDownLoadServer::alloc(size + 0x800);
+                    if (buf != 0) {
+                        disc_read_filename = desc->name;
+                        st.read_data((s32)((void *)buf), (s32)size);
+                        st.align_read_offset(blk);
+                        disc_read_filename = lbl_805D2B10;
+                        prs_decompress_buffer(buf, (s32)resource_decompress_buffer);
+                        TAdSinglePlyChrSelectGC::safe_free(buf);
+                        bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
                     } else {
-                        e->flags |= 2;
-                        if (!(self->flags & 4)) {
-                            TLobby::debug_print("TBinModel: Texture not exist.");
+                        TLobby::debug_print("TBinModel:%s Malloc failed.", desc->name);
+                    }
+                    break;
+                default:
+                    st.read_data((s32)resource_decompress_buffer, (s32)size);
+                    st.align_read_offset(blk);
+                    disc_read_filename = lbl_805D2B10;
+                    bind_bml_model((Lobby_8001FBEC *)(self), size, i, (s32)((s32)resource_decompress_buffer));
+                    break;
+                }
+                if (self->flags & 0x800) {
+                    BinModelSlot *e = &self->ents16[i];
+                    if (e->b != NULL) {
+                        s32 tsize = rec->texSize;
+                        if (tsize != 0) {
+                            s32 tbuf = (s32)TQuestVmDownLoadServer::alloc(tsize + 0x800);
+                            st.read_data((s32)((void *)tbuf), (s32)tsize);
+                            st.align_read_offset(blk);
+                            prs_decompress_buffer(tbuf, (s32)resource_decompress_buffer);
+                            TAdSinglePlyChrSelectGC::safe_free(tbuf);
+                            if (load_gvm_texture_archive((s32)resource_decompress_buffer, (s32)self->ents16[i].b) > 0) {
+                                self->ents16[i].flags |= 1;
+                            } else {
+                                self->ents16[i].flags |= 2;
+                                TLobby::debug_print("TBinModel: Illegal Texture.");
+                            }
+                        } else {
+                            e->flags |= 2;
+                            if (!(self->flags & 4)) {
+                                TLobby::debug_print("TBinModel: Texture not exist.");
+                            }
                         }
                     }
                 }
             }
+            for (j = 0; j < self->nEnts8; j++, rec++) {
+                s32 sz = rec->size;
+                if (sz > 0x40000) {
+                    TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", sz - 0x40000);
+                }
+                switch (bml_load_state) {
+                case 1: {
+                    s32 mb = (s32)TQuestVmDownLoadServer::alloc(sz + 0x800);
+                    st.read_data((s32)((void *)mb), (s32)sz);
+                    st.align_read_offset(blk);
+                    prs_decompress_buffer(mb, (s32)resource_decompress_buffer);
+                    TAdSinglePlyChrSelectGC::safe_free(mb);
+                    bind_bml_motion((struct Lobby_8001FB6C *)self, j, resource_decompress_buffer);
+                    break;
+                }
+                default:
+                    st.read_data((s32)resource_decompress_buffer, (s32)sz);
+                    st.align_read_offset(blk);
+                    bind_bml_motion((struct Lobby_8001FB6C *)self, j, resource_decompress_buffer);
+                    break;
+                }
+            }
         }
-        for (j = 0; j < self->nEnts8; j++, rec++) {
-            s32 sz = rec->size;
-            if (sz > 0x40000) {
-                TLobby::debug_print("TBinModel: tmpbuf overflow(%x)", sz - 0x40000);
-            }
-            switch (bml_load_state) {
-            case 1: {
-                s32 mb = (s32)TQuestVmDownLoadServer::alloc(sz + 0x800);
-                ((TGStream *)(&st))->read_data((s32)((void *)mb), (s32)sz);
-                align_gstream_read_offset(&st, blk);
-                prs_decompress_buffer(mb, (s32)resource_decompress_buffer);
-                TAdSinglePlyChrSelectGC::safe_free(mb);
-                bind_bml_motion((struct Lobby_8001FB6C *)self, j, resource_decompress_buffer);
-                break;
-            }
-            default:
-                ((TGStream *)(&st))->read_data((s32)resource_decompress_buffer, (s32)sz);
-                align_gstream_read_offset(&st, blk);
-                bind_bml_motion((struct Lobby_8001FB6C *)self, j, resource_decompress_buffer);
-                break;
-            }
-        }
-        destroy_gstream(&st, -1);
         if (!(self->flags & 0x800)) {
             rec = hdr->recs;
             for (s32 i = 0; i < self->nEnts16; i++, rec++) {

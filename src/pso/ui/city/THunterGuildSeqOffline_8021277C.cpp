@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"

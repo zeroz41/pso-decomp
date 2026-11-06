@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPITEMLISTWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopItemListWindow : public TShopWindowBase {
     virtual ~TShopItemListWindow();

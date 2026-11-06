@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTagPlBack.h"
 
@@ -6,9 +7,7 @@ extern "C" {
 
 int TChCrTagPlBack__vt4(void);
 int render__14TChCrTagPlBackFv(void* p);
-void *__dt__8TChCrTagFv(void *self, s16 arg1);
 void __dl__7TObjectFPv(void *);
-void update_fade__8TChCrTagFPv(u8 *arg0);
 void render_shadows__7TObjectFv(void *);
 void *__dt__14TChCrTagPlBackFv(void *self, s16 arg1);
 extern void *__vt__14TChCrTagPlBack[6];
@@ -31,14 +30,13 @@ void *__vt__14TChCrTagPlBack[6] = {
     (void *)render__14TChCrTagPlBackFv, (void *)render_shadows__7TObjectFv,
 };
 
-void *__ct__14TChCrTagPlBackFv(void *arg0);
-void __ct__8TChCrTagFP7TObjectPv(void *);
+void *__ct__14TChCrTagPlBackFv(void *self, TObject *parent, void *arg);
 
 extern const f32 lbl_805DDFE4;
 extern const f32 lbl_805DDFE8;
 
-void *__ct__14TChCrTagPlBackFv(void *ch_cr_tag_pl_back) {
-    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_pl_back);
+void *__ct__14TChCrTagPlBackFv(void *ch_cr_tag_pl_back, TObject *parent, void *arg) {
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_pl_back, parent, arg);
     *(void ***)((s8 *)ch_cr_tag_pl_back + 0x18) = __vt__14TChCrTagPlBack;
     ((TChCrTagPlBack *)ch_cr_tag_pl_back)->m_name = TChCrTagPlBack__name;
     *(f32 *)((s8 *)ch_cr_tag_pl_back + 0x28) = lbl_805DDFE4;
@@ -48,11 +46,9 @@ void *__ct__14TChCrTagPlBackFv(void *ch_cr_tag_pl_back) {
     return ch_cr_tag_pl_back;
 }
 
-#define __ct__14TChCrTagPlBackFv (*(void * (*)(void *, void *, void *))&__ct__14TChCrTagPlBackFv)
 
 void *__nw__7TObjectFUl(int);
 
-extern void *tl_03;
 
 void *TChCrTagPlBack::create(void *arg0) {
     void *o = __nw__7TObjectFUl(0x3C);
@@ -80,5 +76,3 @@ void TChCrTagPlBack::get_position_offset(void *arg1) {
 }
 
 }
-
-#undef __ct__14TChCrTagPlBackFv

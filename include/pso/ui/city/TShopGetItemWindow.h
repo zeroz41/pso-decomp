@@ -2,7 +2,7 @@
 #define PSO_UI_CITY_TSHOPGETITEMWINDOW_H
 
 #include "types.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 
 struct TShopGetItemWindow : public TShopWindowBase {
     TShopGetItemWindow(void *arg1, void *arg2, void *arg3);

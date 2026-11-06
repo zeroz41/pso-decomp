@@ -1,4 +1,5 @@
-#include "pso/TChCrTag.h"
+#include "pso/ui/charcreate/TChCrTag.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/charcreate/TChCrTagName.h"
 class TChCrTagName : public TChCrTag {
@@ -79,7 +80,6 @@ struct TChCrTagName_802A208C : VBase_802A208C {
 };
 
 extern "C" {
-u8 * __ct__8TChCrTagFP7TObjectPv(void *, s32);
 extern void *__vt__12TChCrTagName[];
 __declspec(section ".rodata") extern const char lbl_804663F8[] = "TChCrTagName";
 const char *TChCrTagName__class_name = lbl_804663F8;
@@ -95,7 +95,6 @@ int TChCrTagName__sub_802A226C(TChCrTagName_802A226C *self);
 f32 sin_table_lookup(s32);
 extern vec2f lbl_80466430[];
 struct TChCrTagName_802A226C; int TChCrTagName__sub_802A226C(TChCrTagName_802A226C *);
-s32 update_fade__8TChCrTagFPv();
 void *__nw__7TObjectFUl(int);
 
 #pragma push
@@ -283,12 +282,11 @@ void update_slide_in__12TChCrTagNameFPv(u8 *arg0) {
 }
 
 void run_task__12TChCrTagNameFv(void *ch_cr_tag_name) {
-    update_fade__8TChCrTagFPv();
+    update_fade__8TChCrTagFPv((u8 *)ch_cr_tag_name);
     update_slide_in__12TChCrTagNameFPv((u8 *)ch_cr_tag_name);
     *(s32 *)((s8 *)ch_cr_tag_name + 0x44) = (s32) (*(s32 *)((s8 *)ch_cr_tag_name + 0x44) + 1);
 }
 
-extern void *tl_03;
 
 #pragma push
 #pragma fp_contract on
@@ -312,8 +310,8 @@ s32 TChCrTagName__vt4(u8 *arg0) {
 }
 TChCrTagName::~TChCrTagName() {}
 
-u8 *__ct__12TChCrTagNameFv(u8 *ch_cr_tag_name, s32 arg1, s32 _w2) {
-    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_name, arg1);
+u8 *__ct__12TChCrTagNameFv(u8 *ch_cr_tag_name, TObject *parent, void *arg) {
+    __ct__8TChCrTagFP7TObjectPv(ch_cr_tag_name, parent, arg);
     *(s32 **)((s8 *)ch_cr_tag_name + 0x18) = (s32 *)__vt__12TChCrTagName;
     *(s32 *)((s8 *)ch_cr_tag_name + 0) = (s32) TChCrTagName__class_name;
     *(f32 *)((s8 *)ch_cr_tag_name + 0x28) = (f32) (0.033333335f);
@@ -331,7 +329,7 @@ u8 *__ct__12TChCrTagNameFv(u8 *ch_cr_tag_name, s32 arg1, s32 _w2) {
 void *create__12TChCrTagNameFPv(void *arg0) {
     void *o = __nw__7TObjectFUl(0x50);
     if (o != NULL) {
-        o = __ct__12TChCrTagNameFv((u8 *)o, (s32)tl_03, (s32)arg0);
+        o = __ct__12TChCrTagNameFv((u8 *)o, tl_03, arg0);
     }
     return o;
 }

@@ -4,14 +4,9 @@
 #include "types.h"
 
 struct TChCrTagInformation;
+class TObject;
 extern "C" {
-void *TChCrTagInformation__ct(TChCrTagInformation *arg0);
+void *TChCrTagInformation__ct(TChCrTagInformation *self, TObject *parent, void *arg);
 }
-
-// --- C functions defined in TChCrTagInformation_802A1FAC.cpp ---
-extern "C" {
-void *TChCrTagInformation__ct(TChCrTagInformation *ch_cr_tag_information);
-}
-// --- end of C functions
 
 #endif

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/ui/TLogo_8001C134.h"
-#include "pso/TLogo.h"
+#include "pso/ui/TLogo.h"
 
     extern unsigned char texture_logo_e_descriptor[];
 extern u32 logo_texture_e_handle;

@@ -8,7 +8,7 @@
 #include "pso/ui/city/TShopSequence.h"
 #include "pso/ui/city/TShopItemTecSequence.h"
 #include "pso/ui/window/TWindowMenu.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/ui/city/TCheckRoomSequence.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/ui/hud/TRaderMapCore.h"

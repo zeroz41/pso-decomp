@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TPlyGuildCardTag_8013ABCC.h"
-#include "pso/TShopWindowBase.h"
+#include "pso/ui/city/TShopWindowBase.h"
 #include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 
