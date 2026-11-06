@@ -10,7 +10,7 @@ class TItemEffectWeapon;
 struct WeaponVector { f32 x,y,z; };
 
 // What TItemWeapon::init_weapon_effect_descriptor fills in (slot 59; name from the 0x80362DE8 override); layout from the overrides at 0x80362DE8 (TUnk_804F27E0) and
-// 0x803631E8 (TUnk_804F28E0). The caller is not decompiled yet.
+// 0x803631E8 (TUnk_804F28E0), 0x80125FB8 (TUnk_804A2868), 0x80126180 (TUnk_804A2960). The caller is not decompiled yet.
 struct Desc_8011E5C4 {
     u8 pad_0[0x10];
     s32 pad_10;
@@ -19,12 +19,14 @@ struct Desc_8011E5C4 {
     NJS_OBJECT *model;   // the weapon's second_model
     u8 pad_48[0x4C - 0x48];
     f32 pad_4c;
-    u8 pad_50[0x58 - 0x50];
+    s32 pad_50;
+    u8 pad_54[0x58 - 0x54];
     s32 pad_58;
     u8 pad_5c[0x60 - 0x5C];
     u8 color[0x10];      // get_weapon_color
     void *pad_70;
     void *pad_74;
+    s32 pad_78;
 };
 
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };

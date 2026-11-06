@@ -2887,11 +2887,13 @@ pso/item/TUnk_804A2770.cpp:
 
 pso/item/TUnk_804A2868.cpp:
 	.text       start:0x80125FB8 end:0x80126104
+	.data       start:0x804A2868 end:0x804A2960
 	.sdata2     start:0x805DAD68 end:0x805DAD6C
 
 pso/item/TUnk_804A2960.cpp:
 	.text       start:0x80126104 end:0x80126460
-	.sdata2     start:0x805DAD70 end:0x805DAD74
+	.data       start:0x804A2960 end:0x804A2A58
+	.sdata2     start:0x805DAD70 end:0x805DAD78
 
 pso/item/TUnk_804A2A58.cpp:
 	.text       start:0x80126460 end:0x80126798
@@ -10328,11 +10330,11 @@ pso/ui/TAdGuideButtonGC.cpp:
 	.sbss       start:0x805D6D00 end:0x805D6D08
 	.sdata2     start:0x805DF7B8 end:0x805DF7D8
 
-pso/unk/text_8032DA60.cpp:
-	.text       start:0x8032DA60 end:0x8032DA84
-
 pso/item/TItemWpnCardEffect.cpp:
-	.text       start:0x8032DA84 end:0x8032E4C8
+	.text       start:0x8032DA60 end:0x8032E4C8
+	.rodata     start:0x80477390 end:0x804773B0
+	.data       start:0x804EDC28 end:0x804EDD68
+	.sdata      start:0x805D4218 end:0x805D421C
 	.sdata2     start:0x805DF7D8 end:0x805DF7EC
 
 pso/player/TObjPlayer_8032E4C8.cpp:

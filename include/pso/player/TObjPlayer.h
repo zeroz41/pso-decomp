@@ -1060,7 +1060,6 @@ struct TObjPlayer : public TObjChara {
     static int get_max_children(void*);
     static void alloc_and_init(s32 arg0, s32 arg1, s32 arg2);
     static void create_and_init_effect(s32 arg0, u32 *arg1, s32 arg2);
-    void destroy_effect_objects();
     static void start_guardianna_hit_card(s32 arg0, u32 *arg1, s32 arg2);
     static void create_aux_object(s32 arg0, u32 *arg1, s32 arg2);
     static void create_network_object(s32 arg0, u32 *arg1, s32 arg2);
