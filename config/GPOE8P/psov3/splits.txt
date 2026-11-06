@@ -9012,7 +9012,7 @@ pso/boss/olgaflow/TBoss6Type1.cpp:
 	.rodata     start:0x80471040 end:0x80471050
 	.data       start:0x804DF4E0 end:0x804DF950
 	.sbss       start:0x805D6728 end:0x805D6740
-	.sdata2     start:0x805DE2D0 end:0x805DE3C4
+	.sdata2     start:0x805DE2C8 end:0x805DE3F0
 
 pso/boss/olgaflow/Boss6Type2Data.cpp:
 	.rodata     start:0x80471050 end:0x80471350
