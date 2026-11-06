@@ -7,7 +7,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/unk/text_80086FE0.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Stack_8001CAD4 {
     s32 sp8;

@@ -18,7 +18,7 @@ struct Stack_80082688 {
 };
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 struct Stack_800823E0 {
     f32 sp8;

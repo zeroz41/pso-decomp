@@ -1,6 +1,6 @@
 #include "pso/packet_classes.h"
 #include <stddef.h>
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/protocol.h"
 
 typedef char LobbyExitSize[(sizeof(TRecvExit<true>) == 8) ? 1 : -1];

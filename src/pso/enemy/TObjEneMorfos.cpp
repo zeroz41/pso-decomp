@@ -21,7 +21,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TUnk_80490470.h"
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>

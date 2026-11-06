@@ -20,7 +20,7 @@ typedef char RecoveredGlobal_80082080_lbl_8048E194_size[sizeof(RecoveredGlobal_8
 #include "pso/misc/TLobby.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct RecoveredFields_8008213C_arg0 {
     u8 unknown_0[0x18];
     s32 * field_18;

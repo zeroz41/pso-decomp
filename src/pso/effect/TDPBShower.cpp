@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_8035D7D0___vt__10TDPBShower {
     s32 value;

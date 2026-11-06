@@ -4,7 +4,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC_8028D5D4.h"
 #include "pso/camera/CreationCamera.h"
 #include "pso/misc/TCharaMaking.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/TSaveChCr.h"
 
 struct RecoveredGlobal_8028E9A4___vt__12TCharaMaking { s32 value; u8 remaining[0x18]; };

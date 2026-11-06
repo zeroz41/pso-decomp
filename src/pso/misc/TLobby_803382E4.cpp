@@ -8,7 +8,7 @@
 
 #include "pso/misc/TLobby.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

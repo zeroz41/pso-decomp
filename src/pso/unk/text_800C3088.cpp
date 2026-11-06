@@ -5,7 +5,7 @@
 #include "pso/unk/text_800C3A60.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe2Flower.h"
 #include "pso/misc/TNowLoading.h"

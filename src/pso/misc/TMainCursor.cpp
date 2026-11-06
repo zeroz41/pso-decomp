@@ -6,7 +6,7 @@
 #include "pso/misc/TMainCursor_8013AE18.h"
 #include "pso/misc/TMainCursor_8013B690.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
@@ -17,7 +17,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TLockOnCursor.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TPlyPhotonChair.h"
 #include "pso/map/FloorArea.h"
 

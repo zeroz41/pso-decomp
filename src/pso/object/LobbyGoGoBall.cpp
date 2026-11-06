@@ -16,7 +16,7 @@
 #include "pso/misc/TUnk_804B8DD0.h"
 #include "pso/misc/TWindowTimer.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/unk/text_80198960.h"

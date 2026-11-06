@@ -7,7 +7,7 @@
 #include "pso/enemy/TObjEneBm9Mericarol_EffCurse3.h"
 #include "pso/enemy/TObjEneBm9Mericarol.h"
 #include "pso/enemy/TObjEneBm9Mericarol_Bomb.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneEpsilon.h"

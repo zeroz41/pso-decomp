@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/TItemEffEquip.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TItemEffEquip.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct VBase_18_7128e8 { char pad[0x18]; };
 

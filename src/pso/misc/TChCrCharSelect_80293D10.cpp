@@ -1,9 +1,8 @@
 #include "types.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
 extern "C" {
 
-void *__ct__15TChCrCharSelectFv(void *, void *);
 void *__nw__7TObjectFUl(int);
 
 void *TChCrCharSelect::create(void *object) {

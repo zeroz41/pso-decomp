@@ -1,6 +1,6 @@
 #include "pso/protocol/protocol_types.h"
 #include "pso/map/FloorLifecycleTables.h"
-#include "pso/TAdStorySelectGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
 #include "pso/THeap.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

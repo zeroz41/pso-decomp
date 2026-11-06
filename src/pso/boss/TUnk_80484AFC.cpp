@@ -23,7 +23,7 @@
 #include "pso/object/TObjButterflyLobby_8007A5D8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 s32 push_matrix(void);

@@ -3,9 +3,8 @@
 #include "pso/boss/TObjBoss2DustCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel_8003B138.h"
 #include "pso/misc/TLobby_8003A95C.h"
-#include "pso/TObjBoss2Dust.h"
+#include "pso/boss/TObjBoss2Dust.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TObjBoss2DustCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 
 

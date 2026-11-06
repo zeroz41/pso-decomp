@@ -29,7 +29,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/boss/TObjBoss1Crater.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss1DragonEffTail.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"

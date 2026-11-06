@@ -1,5 +1,4 @@
-#include "pso/TEndingPic.h"
-#include "pso/misc/TEndingPic.h"
+#include "pso/system/TEndingPic.h"
 #include "pso/misc/TEndingPicStage.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 

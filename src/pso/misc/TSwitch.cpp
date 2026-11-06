@@ -1,5 +1,4 @@
-#include "pso/TSwitch.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 
 #include "types.h"
 

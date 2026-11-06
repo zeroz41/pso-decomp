@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/unk/text_801A3BB8.h"
 extern "C" {
 u8 TPlyCharData__global_destructor_registration[0xC];

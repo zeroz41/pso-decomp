@@ -1,3 +1,3 @@
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 TPlyGuildCardTag::TPlyGuildCardTag() {}

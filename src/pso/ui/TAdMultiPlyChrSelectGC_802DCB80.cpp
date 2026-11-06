@@ -6,7 +6,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_802A1144.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/misc/TWindowSubComCard.h"
 
 struct Obj_802DCCA4 { u8 pad[0x2C]; s32 f2C; };

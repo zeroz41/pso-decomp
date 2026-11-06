@@ -5,7 +5,7 @@
 #include "pso/macros.h"
 #include "pso/protocol.h"
 #include "pso/TMath.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 #define bswap16(var) bswap_16(as(u16 *, var))
 #define bswap32(var) bswap_32(as(u32 *, var))

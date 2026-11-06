@@ -1,16 +1,18 @@
 #ifndef PSO_BOSS_TBOSS4FADE_H
 #define PSO_BOSS_TBOSS4FADE_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *__ct__10TBoss4FadeFv(void *boss4_fade);
-}
+class TBoss4Fade : public TObject {
+public:
+    virtual ~TBoss4Fade();
+    virtual void run_task();
+    virtual void render();
+};
 
-// --- C functions defined in TBoss4Fade.cpp ---
 extern "C" {
 void *__ct__10TBoss4FadeFv(void *boss4_fade);
 }
-// --- end of C functions
 
 #endif

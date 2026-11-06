@@ -2,8 +2,8 @@
 
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/TProtocol.h"
+#include "pso/effect/TParticleCtrl.h"
+#include "pso/network/TProtocol.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"

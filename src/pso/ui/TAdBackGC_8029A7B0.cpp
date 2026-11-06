@@ -1,4 +1,4 @@
-#include "pso/TAdBackGC.h"
+#include "pso/ui/TAdBackGC.h"
 #include "pso/system/ModelDrawContext.h"
 #include "pso/ui/TAdBackGC_8029A7B0.h"
 #include "pso/render/render_util.h"
@@ -8,7 +8,6 @@
 #include "pso/TMainTask.h"
 
 extern "C" {
-s32 draw_title_background_layer(void *, int, int, f32);
 s32 defer_render__7TObjectFv();
 extern s32 chr_select_ad_pic_2_texture_descriptor[];
 void __ct__7TObjectFP7TObject(void *);

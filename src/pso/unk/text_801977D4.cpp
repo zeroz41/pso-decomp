@@ -2,7 +2,7 @@
 #include "pso/misc/TLobby_801E2F94.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/TObjRain.h"
+#include "pso/object/TObjRain.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 struct Vec_80197904 { f32 x, y, z; };

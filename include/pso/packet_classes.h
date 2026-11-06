@@ -7,10 +7,10 @@
 #include "pso/forward.h"
 #include "pso/protocol.h"
 #include "pso/TMenuList.h"
-#include "pso/TPlyCharData.h"
-#include "pso/TPlyClientConfig.h"
-#include "pso/TPlyGuildCardTag.h"
-#include "pso/TPlySmth.h"
+#include "pso/player/TPlyCharData.h"
+#include "pso/player/TPlyClientConfig.h"
+#include "pso/player/TPlyGuildCardTag.h"
+#include "pso/player/TPlySmth.h"
 
 struct game_command_header {
     char command;

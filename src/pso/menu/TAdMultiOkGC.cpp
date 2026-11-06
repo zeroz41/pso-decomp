@@ -1,5 +1,4 @@
-#include "pso/TAdMultiOkGC.h"
-#include "pso/menu/TAdMultiOkGC.h"
+#include "pso/ui/TAdMultiOkGC.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/render/render_util.h"

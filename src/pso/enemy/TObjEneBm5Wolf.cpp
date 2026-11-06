@@ -15,7 +15,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss5Gryphon.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

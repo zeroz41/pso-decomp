@@ -1,6 +1,5 @@
-#include "pso/TODummyKeyCave01Sound.h"
+#include "pso/object/TODummyKeyCave01Sound.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/system/TODummyKeyCave01Sound.h"
 
 #include "types.h"
 

@@ -59,7 +59,7 @@ void TChCrTagPlGraphic::draw_class_illustration() {
 
 
 #include "types.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 
 struct RecoveredGlobal_802A3454___vt__17TChCrTagPlGraphic {

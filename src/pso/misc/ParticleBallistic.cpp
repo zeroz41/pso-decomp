@@ -1,7 +1,6 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel_8007E418.h"
 #include "pso/misc/ParticleBallistic.h"
-#include "pso/misc/TParticleCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_8048E790.h"

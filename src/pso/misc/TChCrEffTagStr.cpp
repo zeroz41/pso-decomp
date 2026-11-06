@@ -1,5 +1,4 @@
-#include "pso/TChCrEffTagStr.h"
-#include "pso/misc/TChCrEffTagStr.h"
+#include "pso/ui/TChCrEffTagStr.h"
 #include "pso/render/render_util.h"
 
 

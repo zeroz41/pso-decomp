@@ -1,5 +1,4 @@
-#include "pso/TChCrEffWall.h"
-#include "pso/menu/TChCrEffWall.h"
+#include "pso/ui/TChCrEffWall.h"
 #include "pso/render/render_util.h"
 
 #include "pso/misc/TWindowCtrlMain.h"

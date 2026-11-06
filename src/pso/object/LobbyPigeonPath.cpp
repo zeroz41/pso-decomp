@@ -1534,7 +1534,7 @@ s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32
 
 #pragma push
 
-#include "pso/TAdStorySelectGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
 #include "pso/object/TObjMotion.h"
 
 struct Base_802C3188 { char pad[0x18]; };

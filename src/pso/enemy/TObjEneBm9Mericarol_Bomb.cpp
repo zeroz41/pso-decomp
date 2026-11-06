@@ -5,7 +5,7 @@
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/enemy/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/unk/text_800BC4C8.h"
 #include "pso/object/TObject_80019A50.h"

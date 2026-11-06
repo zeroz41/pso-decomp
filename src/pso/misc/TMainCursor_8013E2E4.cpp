@@ -2,7 +2,7 @@
 #include "pso/system/FlagWord.h"
 #include "pso/misc/TMainCursor_8013E2E4.h"
 #include "pso/misc/TMainCursor.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/TWindowActionPalette.h"
 

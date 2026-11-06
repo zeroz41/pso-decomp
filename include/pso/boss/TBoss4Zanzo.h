@@ -1,7 +1,15 @@
 #ifndef PSO_BOSS_TBOSS4ZANZO_H
 #define PSO_BOSS_TBOSS4ZANZO_H
 
+#include "pso/TObject.h"
 #include "types.h"
+
+class TBoss4Zanzo : public TObject {
+public:
+    virtual ~TBoss4Zanzo();
+    virtual void render();
+    virtual void run_task();
+};
 
 extern "C" {
 u8 *TBoss4Type2__ct(u8 *arg0, s32 parent, s32 *arg2);

@@ -1,4 +1,3 @@
-#include "pso/TObjBoss5Ctrl.h"
 #include "pso/boss/TObjBoss5Ctrl.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/boss/TObjBoss5PillarDemo.h"
@@ -9,7 +8,7 @@ extern s32 boss5_ctrl_instance;
 extern "C" {
 s32 play_sound_effect(int, int, int, int);
 s32 rand();
-s32 __ct__7TObjectFP7TObject(void *);
+s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 get_current_floor(f32, f32, f32);
 s32 is_room_enemy_set_cleared(s32, s32);
 u32 create__19TObjBoss5FloorStoneFv();
@@ -35,11 +34,11 @@ TObjBoss5Ctrl::~TObjBoss5Ctrl() {
     boss5_ctrl_instance = 0;
 }
 
-void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl) {
+void *TObjBoss5Ctrl__ct(void *boss5_pillar_ctrl, void *parent) {
     f32 temp_f2;
     f32 temp_f3;
 
-    __ct__7TObjectFP7TObject(boss5_pillar_ctrl);
+    __ct__7TObjectFP7TObject(boss5_pillar_ctrl, parent);
     *(void **)((s8 *)boss5_pillar_ctrl + 0x18) = __vt__13TObjBoss5Ctrl;
     *(s32 *)((s8 *)boss5_pillar_ctrl + 0) = (s32) lbl_805D2828;
     *(u32 *)((s8 *)boss5_pillar_ctrl + 0x1C) = 0U;

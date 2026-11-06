@@ -2,7 +2,7 @@
 
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLanguage_801E4874.h"
@@ -10,7 +10,7 @@
 #include "pso/misc/TLobby_80160804.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/misc/TOBoss4Rock.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"

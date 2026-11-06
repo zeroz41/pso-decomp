@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TAdBackGC.h"
+#include "pso/ui/TAdBackGC.h"
 #include "pso/TObjCMHairMenu.h"
 
 struct Fan_8029A6EC { f32 *pos; u32 *col; s32 first; s32 count; };

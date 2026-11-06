@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TLobby_80134DA0.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 

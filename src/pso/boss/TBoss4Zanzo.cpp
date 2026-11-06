@@ -11,11 +11,10 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/boss/TUnk_80486924.h"
-#include "pso/TBoss4Zanzo.h"
 #include <stddef.h>
 #include "pso/TObjBs4CutAtk.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type3.h"

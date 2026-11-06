@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/misc/TChatMessage_801DF918.h"
 #include "pso/unk/text_801DB998.h"
 

@@ -13,7 +13,7 @@
 #include "pso/misc/TWindowMenuIconLine.h"
 #include "pso/misc/TQuestListOnline.h"
 #include <stddef.h>
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowSubComCard.h"

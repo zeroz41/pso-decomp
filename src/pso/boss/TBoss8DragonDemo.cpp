@@ -1,6 +1,5 @@
-#include "pso/TBoss8DragonDemo.h"
-#include "pso/boss/TBoss8DragonColli.h"
 #include "pso/boss/TBoss8DragonDemo.h"
+#include "pso/boss/TBoss8DragonColli.h"
 #include "pso/misc/TCameraCtrl_800687BC.h"
 #include "pso/object/TObject_80019A50.h"
 

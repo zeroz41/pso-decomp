@@ -5,7 +5,7 @@
 #include "pso/enemy/TObjEneHoldEffect.h"
 #include "pso/TObject.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct Vec_8036CF30 { f32 x, y, z; };
 
 struct Hold_8036CF30 {

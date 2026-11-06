@@ -1,9 +1,8 @@
 #include "types.h"
-#include "pso/TObjBoss5Ctrl.h"
+#include "pso/boss/TObjBoss5Ctrl.h"
 
 extern "C" {
 
-void *TObjBoss5Ctrl__ct(void *, void *);
 void *__nw__7TObjectFUl(int);
 
 extern void *tl_01;

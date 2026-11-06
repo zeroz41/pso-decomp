@@ -10,7 +10,7 @@
 #include "pso/misc/TWindowKeyBoardHard.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 
 extern "C" {

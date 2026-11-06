@@ -1,4 +1,4 @@
-#include "pso/TAdGuideTxtGC.h"
+#include "pso/ui/TAdGuideTxtGC.h"
 #include "pso/TMainTask.h"
 #include "pso/ui/MenuText.h"
 

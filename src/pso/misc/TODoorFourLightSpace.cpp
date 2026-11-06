@@ -8,7 +8,7 @@
 #include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorFourLightRuins.h"
 #include "pso/misc/TODoorFourLightSpace.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/misc/TRaderMapCore.h"

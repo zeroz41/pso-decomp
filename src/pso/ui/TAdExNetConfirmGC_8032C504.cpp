@@ -7,7 +7,7 @@
 #include "pso/ui/TAdWarningBaseGC.h"
 #include "pso/unk/text_80145A94.h"
 
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/misc/TLobby.h"
 
 struct Base_8032C504 { char pad[0x18]; };

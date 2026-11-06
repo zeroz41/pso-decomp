@@ -4,7 +4,7 @@
 #include "pso/misc/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/ModelDrawContext.h"
-#include "pso/TChCrLoadAfs.h"
+#include "pso/ui/TChCrLoadAfs.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjLuker.h"

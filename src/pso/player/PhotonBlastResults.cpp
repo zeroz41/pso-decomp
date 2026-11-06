@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

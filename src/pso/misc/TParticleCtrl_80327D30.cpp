@@ -14,7 +14,7 @@
 
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_804ED598.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #pragma defer_codegen on

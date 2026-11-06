@@ -20,7 +20,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 
 #include "pso/misc/TTecZonde.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 
 #include "pso/misc/TTecFoie.h"

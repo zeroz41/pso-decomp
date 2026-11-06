@@ -2,7 +2,7 @@
 #define PSO_ENEMY_TOBJENEBM9MERICAROL_BOMB_H
 #include "types.h"
 #include "pso/player/TUnk_804928CC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 class TObjEneBm9Mericarol;
 

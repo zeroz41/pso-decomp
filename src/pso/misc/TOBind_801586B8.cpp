@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOBind.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

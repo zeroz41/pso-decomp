@@ -2,7 +2,7 @@
 #include "pso/misc/TParticleCtrl_800867E4.h"
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct Stack_8008683C {
     s32 sp8;
     s32 spC;

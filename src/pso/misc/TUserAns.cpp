@@ -3,7 +3,7 @@
 #include "pso/misc/TRecvPort.h"
 #include "pso/misc/TUserAns.h"
 #include "pso/system/byteswap.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 extern "C" {
 

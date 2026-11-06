@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TTecRaBarta.h"
 #include "types.h"
 #include "pso/misc/TTecRaBarta.h"

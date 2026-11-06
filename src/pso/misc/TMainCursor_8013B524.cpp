@@ -6,7 +6,7 @@
 #include "pso/misc/TMainCursor_8013B524.h"
 #include "pso/misc/TMainCursor_8013E1C8.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TMainCursor.h"
 #include "pso/misc/TPlyPhotonChair.h"
 

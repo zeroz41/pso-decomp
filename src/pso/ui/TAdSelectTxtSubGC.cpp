@@ -1,7 +1,6 @@
-#include "pso/TAdSelectTxtSubGC.h"
+#include "pso/ui/TAdSelectTxtSubGC.h"
 #include "pso/npc/TObjNpcHosa.h"
 #include "pso/system/ModelDrawContext.h"
-#include "pso/ui/TAdSelectTxtSubGC.h"
 
 #include "types.h"
 #include "pso/TMainTask.h"

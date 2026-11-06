@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/object/TObjDFDemo5.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Uro.h"

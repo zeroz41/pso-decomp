@@ -3,7 +3,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TNowLoading.h"

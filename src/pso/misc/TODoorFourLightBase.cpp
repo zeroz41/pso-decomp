@@ -6,7 +6,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorFourLightBase.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"

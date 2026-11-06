@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TODoorAncient04.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/misc/TOBoss4Rock.h"
 #include "pso/object/TObjFish.h"

@@ -7,7 +7,7 @@
 #include "pso/boss/TUnk_80482EC0.h"
 #include "pso/boss/TUnk_80482D04.h"
 #include "pso/boss/TBoss2Mine.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneDD.h"

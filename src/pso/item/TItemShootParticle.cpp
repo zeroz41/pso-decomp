@@ -3,7 +3,7 @@
 #include "pso/object/TObject_8001A448.h"
 #include "pso/item/TItemShootParticle.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct TItemShootParticle_8011B77C { u8 pad[0x18]; void *vt; u8 pad1c[0x58 - 0x1c]; u32 parts[2]; };
 

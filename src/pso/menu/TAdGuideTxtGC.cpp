@@ -1,9 +1,8 @@
 #include "types.h"
 #include "pso/ui/TAdDrawLineCtrl.h"
-#include "pso/menu/TAdGuideTxtGC.h"
+#include "pso/ui/TAdGuideTxtGC.h"
 #include "pso/misc/TWindowSubStatusDisp_80144B14.h"
 #include "pso/TObject.h"
-#include "pso/TAdGuideTxtGC.h"
 
 struct Base_802b1a70_802B1990 { char pad[0x18]; };
 struct VObj_802b1a70_802B1990 : Base_802b1a70_802B1990 {

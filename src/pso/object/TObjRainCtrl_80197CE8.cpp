@@ -1,13 +1,12 @@
 #include "types.h"
-#include "pso/TObjRainCtrl.h"
+#include "pso/object/TObjRainCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 
 extern "C" {
 
-s32 TObjRainCtrl__ct(void *, s32);
 void *__nw__7TObjectFUl(s32);
 
-extern s32 tl_particle;
+extern void *tl_particle;
 
 void TObjRainCtrl::create() {
     void *temp_r3;

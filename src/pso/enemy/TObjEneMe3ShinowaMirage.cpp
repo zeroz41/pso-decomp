@@ -4,7 +4,7 @@
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/enemy/TObjEneMe3ShinowaReal.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEneMe3ShinowaMirage.h"
 #include "pso/enemy/TObjEneDD.h"

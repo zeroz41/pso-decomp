@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 struct Range_802937E8 { s32 min; s32 max; };
 
 extern Range_802937E8 char_select_class_group_range_table[];

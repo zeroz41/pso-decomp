@@ -21,7 +21,7 @@ struct RecoveredGlobal_801F9720_TRaderMapCore__data_80513708 {
 
 #include <stddef.h>
 #include "pso/THeap.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFish.h"

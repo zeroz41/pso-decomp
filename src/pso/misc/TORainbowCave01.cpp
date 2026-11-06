@@ -1,7 +1,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TORainbowCave01.h"
 #include "pso/network/client_id.h"
 #include "pso/object/TObjFish.h"

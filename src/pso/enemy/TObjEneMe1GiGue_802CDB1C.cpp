@@ -3,7 +3,7 @@
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TUnk_804E14E8.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/misc/TNowLoading.h"

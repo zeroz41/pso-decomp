@@ -9,7 +9,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/TBoss4ZakoDraw.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 void set_constant_material(const NJS_ARGB *color);
 

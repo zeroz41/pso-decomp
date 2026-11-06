@@ -10,7 +10,7 @@
 #include "pso/item/TObjContainerAbeEnemy.h"
 #include "pso/map/FloorArea.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"

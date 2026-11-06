@@ -9,10 +9,10 @@
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowMessageYesNo.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
-#include "pso/TAdMultiSelGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiSelGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdChrSelASlotGC.h"
@@ -22,7 +22,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 
 struct RecoveredGlobal_802D4730_lbl_804C89BC { s32 value; u8 remaining[0x74]; };
 typedef char RecoveredGlobal_802D4730_lbl_804C89BC_size[sizeof(RecoveredGlobal_802D4730_lbl_804C89BC) == 0x78 ? 1 : -1];

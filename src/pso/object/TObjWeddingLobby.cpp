@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjWeddingLobby.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"

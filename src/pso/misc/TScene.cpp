@@ -8,7 +8,7 @@
 #include "pso/misc/TSceneMaterial.h"
 #include "pso/TMainTask.h"
 #include "pso/effect/TEffIndirectCtrl.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

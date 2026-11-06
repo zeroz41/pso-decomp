@@ -5,7 +5,7 @@
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/misc/TTecFoie.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_802302A0___vt__8TTecFoie { s32 value; u8 remaining[0x24]; };
 typedef char RecoveredGlobal_802302A0___vt__8TTecFoie_size[sizeof(RecoveredGlobal_802302A0___vt__8TTecFoie) == 0x28 ? 1 : -1];

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TOBarrierEnergy01.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/misc/TLobby_80156B18.h"

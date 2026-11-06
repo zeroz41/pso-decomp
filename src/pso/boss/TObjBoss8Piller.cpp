@@ -1,4 +1,3 @@
-#include "pso/TObjBoss8Piller.h"
 #include "pso/boss/TObjBoss8Piller.h"
 #include "pso/system/vector.h"
 

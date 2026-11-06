@@ -1,6 +1,5 @@
-#include "pso/TAdGameStartBackGC.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/ui/TAdGameStartBackGC.h"
+#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/player/TUnk_804E70A8.h"
 

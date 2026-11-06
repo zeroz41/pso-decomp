@@ -1,22 +1,21 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/TAdMultiSelGameModeGC.h"
+#include "pso/ui/TAdMultiSelGameModeGC.h"
 #include "pso/ui/TAdDrawLineCtrl.h"
 #include "pso/enemy/TObjEneDolmOlm.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_80132ED0.h"
-#include "pso/ui/TAdMultiSelGameModeGC.h"
 #include "pso/misc/TWindowSubComCardList.h"
 
 #include "types.h"
-#include "pso/TAdMultiChgGameModeGC.h"
-#include "pso/TAdStorySelectGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801334D4.h"
-#include "pso/TAdSelectTxtGC.h"
+#include "pso/ui/TAdSelectTxtGC.h"
 #include "pso/misc/TWindowMenu.h"
 
 struct Self_80300770 {

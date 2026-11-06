@@ -5,7 +5,7 @@
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/object/TObjOnlineEnding.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"

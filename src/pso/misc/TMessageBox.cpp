@@ -1,6 +1,6 @@
 #include "pso/packet_classes.h"
 #include "pso/misc/TMessageBox.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 extern "C" {
 

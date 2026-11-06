@@ -1,4 +1,3 @@
-#include "pso/TBoss6DPB.h"
 #include "pso/boss/TBoss6DPB.h"
 #include "pso/effect/TDPBShower.h"
 #include "pso/object/TObject_80019A50.h"

@@ -1,6 +1,5 @@
-#include "pso/TPlyItem.h"
-#include "pso/item/TItemList.h"
 #include "pso/player/TPlyItem.h"
+#include "pso/item/TItemList.h"
 #include "pso/item/TItem.h"
 
 #include "types.h"
@@ -122,7 +121,6 @@ TPlyItem::~TPlyItem() {
 
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TItemList.h"
 #include "pso/misc/TOSwitchItem.h"
 
 extern "C" {

@@ -1,7 +1,7 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemEffHeaven.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/SoundEffect.h"

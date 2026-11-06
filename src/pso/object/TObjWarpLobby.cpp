@@ -9,7 +9,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/misc/TWindowSubComCardList.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/object/TObjCityMainWarp.h"

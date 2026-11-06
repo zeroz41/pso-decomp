@@ -2,7 +2,7 @@
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801F43B4.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TRaderMapCore.h"
 

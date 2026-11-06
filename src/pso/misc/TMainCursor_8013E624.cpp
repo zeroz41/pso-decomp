@@ -19,7 +19,7 @@ s32 TMainCursor::delete_this(s16 arg1) {
 
 }
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/player/TObjPlayer.h"
 

@@ -2,7 +2,7 @@
 #include "pso/TMainTask.h"
 #include "pso/menu/TAdEndText_80307A34.h"
 #include "pso/system/main_loop.h"
-#include "pso/TAdEndText.h"
+#include "pso/ui/TAdEndText.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLobby.h"

@@ -8,7 +8,7 @@
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 extern u8 lbl_80437F40[];

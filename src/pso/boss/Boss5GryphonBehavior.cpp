@@ -14,7 +14,7 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/boss/TBoss5Gryphon.h"
 #include "pso/boss/TBoss5GryphonSnarl.h"
-#include "pso/TBoss5GryphonDemo.h"
+#include "pso/boss/TBoss5GryphonDemo.h"
 #include "pso/system/PadRumble.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -23,9 +23,9 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/TObjMotion.h"
 
 #include <stddef.h>
-#include "pso/TObjBoss5Ctrl.h"
+#include "pso/boss/TObjBoss5Ctrl.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type2.h"

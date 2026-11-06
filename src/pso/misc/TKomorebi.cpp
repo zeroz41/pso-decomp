@@ -7,7 +7,7 @@
 #include "pso/object/TObjLazerFenceExtra.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjFish.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjMotion.h"

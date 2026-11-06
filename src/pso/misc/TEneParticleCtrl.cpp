@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TEneParticleCtrl.h"

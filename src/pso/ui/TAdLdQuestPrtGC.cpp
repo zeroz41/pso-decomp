@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/ui/TAdLdQuestPrtGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/ControllerInputState.h"
 #include "pso/unk/text_80086E28.h"
 

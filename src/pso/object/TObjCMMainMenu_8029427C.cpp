@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TChCrEffFade.h"
+#include "pso/ui/TChCrEffFade.h"
 #include "pso/object/TObjCMMainMenu.h"
 
 extern "C" {

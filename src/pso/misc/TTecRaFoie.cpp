@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TTecRaFoie.h"
 #include "pso/misc/TUnk_804CCB28.h"
 #include "pso/system/ChunkMaterialState.h"

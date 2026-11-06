@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
     extern int TChCrCharSelect__selected_char_index;
 int TChCrCharSelect::get_selected_char() {  return TChCrCharSelect__selected_char_index; }

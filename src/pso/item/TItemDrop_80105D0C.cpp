@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/system/memory.h"
 #include "pso/item/TItemDrop.h"
-#include "pso/TFontSmallTask.h"
+#include "pso/ui/TFontSmallTask.h"
 #include "pso/item/TItemData.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

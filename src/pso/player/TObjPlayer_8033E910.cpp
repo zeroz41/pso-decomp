@@ -5,7 +5,7 @@
 #include "pso/render/render_util.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TParticleCtrl_80327D30.h"
 
 #pragma inline_depth(1)

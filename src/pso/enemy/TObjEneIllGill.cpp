@@ -3,7 +3,7 @@
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "types.h"
 #include "pso/TObject.h"
-#include "pso/TObjControl.h"
+#include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjIllGillKage.h"
@@ -32,7 +32,7 @@ extern "C" void render__15TObjIllGillKageFv();
 #include "pso/object/TObjFish.h"
 
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct IllGillEffectRotation { s32 x, y, z; };
 
@@ -105,7 +105,6 @@ extern const f32 lbl_805E02E8;
 u16 find_nearest_visible_player(void *, int, f32 *, f32);
 s32 check_path_obstructed(void *, void *);
 s32 obj_is_hit_receivable(void *);
-s32 get_enemy_entity(u16);
 extern s32 registered_player_count;
 extern s32 lbl_805D5870;
 extern const f32 lbl_805E02EC;
@@ -715,7 +714,7 @@ void TObjEneIllGill::update_weapon_attack() {
             this->target = NULL;
         }
     } else if (temp_r3 < 0x4000U) {
-        this->target = (u8 *)get_enemy_entity(temp_r3);
+        this->target = get_enemy_entity(temp_r3);
     } else {
         this->targetId = 0xFFFFU;
         this->target = NULL;
@@ -1291,7 +1290,7 @@ void TObjEneIllGill::vfunc_28() {
             return;
         }
         if (t < 0x4000) {
-            target = (u8 *)get_enemy_entity(t);
+            target = get_enemy_entity(t);
             obj_clearFlags30(0x04040000);
         }
     }

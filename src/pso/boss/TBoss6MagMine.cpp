@@ -18,7 +18,7 @@ struct Mine_80368C14 { u8 pad[0x38]; Vec_80368C14 pos; };
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct VBase_18_5673ef { char pad[0x18]; };
 

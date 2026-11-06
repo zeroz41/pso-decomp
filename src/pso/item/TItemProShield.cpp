@@ -11,7 +11,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 // What play_shield_sound_cue reads (TObjPlayer::reset_status_block clears it).
 struct ShieldSoundCue {

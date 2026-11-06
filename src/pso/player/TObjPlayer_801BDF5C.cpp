@@ -17,7 +17,7 @@
 #include "pso/player/TObjPlayer_801BFED4.h"
 #include "pso/unk/text_801BE104.h"
 #include "pso/system/FlagWord.h"
-#include "pso/misc/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/system/memory.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TPlyPhotonChair.h"

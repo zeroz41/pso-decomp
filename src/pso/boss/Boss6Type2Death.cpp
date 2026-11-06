@@ -19,7 +19,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct O_8033E5A8 {
     u8 pad0[0x18];

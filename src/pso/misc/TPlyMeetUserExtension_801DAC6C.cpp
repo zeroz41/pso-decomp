@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/misc/TRecvPsoRegistConnect.h"
 #include "pso/misc/TPlyMeetUserExtension_801DAC6C.h"
 #include "pso/unk/text_801DF280.h"

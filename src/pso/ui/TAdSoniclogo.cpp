@@ -1,4 +1,4 @@
-#include "pso/TAdSoniclogo.h"
+#include "pso/ui/TAdSoniclogo.h"
 
 #include "types.h"
 #include "pso/TLogo.h"
@@ -6,7 +6,6 @@
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdBackGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/TAdSoniclogo.h"
 
 extern "C" {
 extern void *sonic_logo_object;

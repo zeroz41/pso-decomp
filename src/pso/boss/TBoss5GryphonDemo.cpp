@@ -1,4 +1,4 @@
-#include "pso/TBoss5GryphonDemo.h"
+#include "pso/boss/TBoss5GryphonDemo.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss5GryphonColli_C.h"

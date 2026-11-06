@@ -26,7 +26,7 @@ struct Quad_80262038 {
 
 #include <stddef.h>
 #include "pso/misc/TKeyBoardControl.h"
-#include "pso/TWindowEffectLight.h"
+#include "pso/ui/TWindowEffectLight.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/misc/TWindowSubMag.h"
 struct RecoveredGlobal_8026088C_lbl_8050E208 {

@@ -8,8 +8,8 @@
 #include "pso/unk/text_803D96A8.h"
 
 #include "pso/system/vector.h"
-#include "pso/TLevelSelect.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/ui/TLevelSelect.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/npc/TObjNpcEnemy.h"

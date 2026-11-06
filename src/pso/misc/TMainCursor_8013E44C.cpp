@@ -24,7 +24,7 @@ int TMainCursor__sub_8013E40C(TMainCursor *main_cursor, u16 arg1) {
 
 }
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/TWindowActionPalette.h"
 

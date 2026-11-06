@@ -3,7 +3,7 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049C658.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/item/TItemDrop.h"
 
 extern "C" {

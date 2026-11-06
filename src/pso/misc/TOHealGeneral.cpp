@@ -2,7 +2,7 @@
 #include "pso/misc/TOHealGeneral.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/map/FloorArea.h"

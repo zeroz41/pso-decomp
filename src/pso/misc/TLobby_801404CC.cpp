@@ -9,9 +9,9 @@
 
 #include "types.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TObjBoss5Ctrl.h"
-#include "pso/TObjRainCtrl.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/boss/TObjBoss5Ctrl.h"
+#include "pso/object/TObjRainCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/object/TObjBgmColCtrl.h"

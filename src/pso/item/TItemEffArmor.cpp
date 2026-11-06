@@ -16,9 +16,9 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 u16 get_entity_id(void *);

@@ -7,7 +7,7 @@
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 extern const char* TItemEffCane__class_name;

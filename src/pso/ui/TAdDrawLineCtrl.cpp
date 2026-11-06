@@ -9,7 +9,7 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/item/TItemMag.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {

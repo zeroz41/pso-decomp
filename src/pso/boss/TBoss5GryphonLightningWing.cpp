@@ -4,7 +4,6 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/TBoss5GryphonLightning.h"
-#include "pso/TBoss5GryphonLightningWing.h"
 
 #include "types.h"
 

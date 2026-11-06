@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TWindowSetLevelUp.h"
+#include "pso/ui/TWindowSetLevelUp.h"
 #include "pso/misc/TWindowCtrl.h"
 
 extern "C" {

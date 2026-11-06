@@ -5,7 +5,7 @@
 #include "pso/object/TObject_80019A50.h"
 
 extern "C" void render__8TChCrTagFv();
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
 struct VBase_18_c1c33b { char pad[0x18]; };
 

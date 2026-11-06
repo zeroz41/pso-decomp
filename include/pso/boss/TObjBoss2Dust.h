@@ -1,16 +1,18 @@
 #ifndef PSO_BOSS_TOBJBOSS2DUST_H
 #define PSO_BOSS_TOBJBOSS2DUST_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2);
-}
+class TObjBoss2Dust : public TObject {
+public:
+    virtual ~TObjBoss2Dust();
+    virtual void run_task();
+    virtual void render();
+};
 
-// --- C functions defined in TObjBoss2Dust.cpp ---
 extern "C" {
 u8 *__ct__13TObjBoss2DustFv(u8 *object, s32 arg1, s32 arg2);
 }
-// --- end of C functions
 
 #endif

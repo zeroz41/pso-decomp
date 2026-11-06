@@ -4,7 +4,7 @@
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 extern "C" {
 

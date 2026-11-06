@@ -15,7 +15,7 @@ extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #include "pso/enemy/TObjEneRe4Bit.h"
 #include "pso/object/TObjFish.h"

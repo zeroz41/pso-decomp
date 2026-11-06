@@ -2,7 +2,7 @@
 #include "pso/object/TObjTreeLobby.h"
 #include "pso/object/TQuestDamageTask.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

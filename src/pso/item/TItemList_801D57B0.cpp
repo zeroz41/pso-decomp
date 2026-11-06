@@ -4,7 +4,6 @@
 #include "pso/object/TObject_8001A448.h"
 #include "pso/item/TUnk_804C4468.h"
 #include "pso/item/TUnk_804C4498.h"
-#include "pso/TItemList.h"
 
 struct Arr_801D5868 { s32 n; s32 e[1]; };
 struct Ent_801D598C { u8 d[0x10]; };

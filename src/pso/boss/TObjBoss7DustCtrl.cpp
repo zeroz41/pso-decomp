@@ -1,9 +1,8 @@
-#include "pso/TObjBoss7DustCtrl.h"
 #include "pso/boss/TObjBoss7DustCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "types.h"
@@ -69,14 +68,14 @@ void boss7_dust_draw_at(s32 *arg0, s32 arg1) {
 }
 
 s32 lbl_805D6958;
-void TObjBoss7DustCtrl__sub_802F125C(void) {
-    s32 temp_r0;
+s32 TObjBoss7DustCtrl__sub_802F125C(void) {
+    s32 index = lbl_805D6958;
 
-    temp_r0 = lbl_805D6958 + 1;
-    lbl_805D6958 = temp_r0;
-    if (temp_r0 >= 0xA) {
+    lbl_805D6958 = index + 1;
+    if (index + 1 >= 0xA) {
         lbl_805D6958 = 0;
     }
+    return index;
 }
 #pragma push
 #pragma opt_propagation off

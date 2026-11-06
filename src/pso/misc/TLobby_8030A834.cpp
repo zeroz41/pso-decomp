@@ -2,7 +2,7 @@
 #include "pso/misc/TLobby_8030A834.h"
 #include "pso/misc/TLobby.h"
 #include "pso/TBoss4ZakoDraw.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

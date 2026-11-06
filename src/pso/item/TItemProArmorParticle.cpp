@@ -4,7 +4,7 @@
 #include "types.h"
 #include "pso/item/TItemProArmorParticle.h"
 #include "pso/TItemEffArmorParticle.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/item/TItemTimerEvent.h"

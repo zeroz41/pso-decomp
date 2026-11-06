@@ -5,7 +5,7 @@
 #include "pso/misc/TLobby_80131794.h"
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/system/byteswap.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TGStream.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"

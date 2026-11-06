@@ -8,7 +8,7 @@
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/boss/TBoss3VoloptP02.h"

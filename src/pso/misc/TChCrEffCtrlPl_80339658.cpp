@@ -1,4 +1,4 @@
-#include "pso/TChCrEffCtrlPl.h"
+#include "pso/ui/TChCrEffCtrlPl.h"
 #include "pso/render/render_util.h"
 
 

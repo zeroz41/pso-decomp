@@ -26,8 +26,8 @@ struct RecoveredGlobal_8032BB34___vt__18TAdEnterPasswordGC {
 };
 
 #include <stddef.h>
-#include "pso/TAdMultiChgGameModeGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
 #include "pso/misc/TWindowSubComCard.h"

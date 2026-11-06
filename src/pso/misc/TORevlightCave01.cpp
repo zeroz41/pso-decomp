@@ -1,7 +1,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/misc/TORevlightCave01.h"
 #include "pso/object/TObjFish.h"

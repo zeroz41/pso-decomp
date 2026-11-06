@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/TMainTask.h"
 
 void TUnk_804A0AA8::render() {

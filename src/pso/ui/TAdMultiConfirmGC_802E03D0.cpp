@@ -6,7 +6,7 @@
 #include "pso/boss/TObjBoss5Pillar_8028B714.h"
 #include "pso/ui/TAdMultiConfirmGC_802E03D0.h"
 #include "pso/ui/TUnk_804E3008.h"
-#include "pso/TChCrLoadAfs.h"
+#include "pso/ui/TChCrLoadAfs.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TNpcPlayer.h"
 #include "pso/player/TObjPlayer.h"

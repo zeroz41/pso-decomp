@@ -2,7 +2,7 @@
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/misc/TLobby_801A2D90.h"
 #include "pso/misc/TLobby_8030A6A8.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/object/TObjLaboMapWarp_80185248.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TKeyBoardControl.h"

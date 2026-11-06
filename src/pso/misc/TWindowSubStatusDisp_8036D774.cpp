@@ -6,7 +6,7 @@
 #include "pso/misc/TWindowCtrlMain.h"
 #include <stddef.h>
 #include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

@@ -10,7 +10,7 @@
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"

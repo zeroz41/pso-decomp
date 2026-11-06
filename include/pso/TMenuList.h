@@ -4,7 +4,7 @@
 #include "pso/forward.h"
 #include "pso/protocol.h"
 #include "pso/macros.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "types.h"
 
 #define TMenuListEntry(name, members) \

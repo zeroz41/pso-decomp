@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803E21B8.h"
 #include "pso/unk/text_803E20B0.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma scheduling off

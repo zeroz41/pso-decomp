@@ -7,7 +7,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TSceneSora.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

@@ -14,7 +14,7 @@
 #include "pso/player/TUnk_804F2A10.h"
 #include "pso/player/TUnk_804F29F8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 #pragma defer_codegen on
 

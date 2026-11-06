@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 void bswap_cmd_88_body(void *p);
 extern "C" {

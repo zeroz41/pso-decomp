@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/TBoss6EffHyoui.h"
+#include "pso/boss/TBoss6EffHyoui.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/boss/TBoss6Type2.h"
 

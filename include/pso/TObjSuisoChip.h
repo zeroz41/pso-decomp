@@ -1,6 +1,6 @@
 #ifndef PSO_TOBJSUISOCHIP_H
 #define PSO_TOBJSUISOCHIP_H
-#include "pso/TObjChip.h"
+#include "pso/object/TObjChip.h"
 #include "types.h"
 
 class TObjBase;

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjKabochaLobby.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/system/BmlResource.h"

@@ -1,5 +1,4 @@
-#include "pso/TChCrLoadGmNjReq.h"
-#include "pso/menu/TChCrLoadGmNjReq.h"
+#include "pso/ui/TChCrLoadGmNjReq.h"
 
 extern "C" void TLobby__sub_8001FE7C(void*, int);
 

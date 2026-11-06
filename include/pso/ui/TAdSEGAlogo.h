@@ -1,16 +1,21 @@
 #ifndef PSO_UI_TADSEGALOGO_H
 #define PSO_UI_TADSEGALOGO_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo);
-}
+class TAdSEGAlogo : public TObject {
+public:
+    virtual void render();
+    virtual ~TAdSEGAlogo();
+    virtual void run_task();
+public:
+    static void destroy_and_mark_done();
+    static void request_destroy();
+};
 
-// --- C functions defined in TAdSEGAlogo.cpp ---
 extern "C" {
 void *__ct__11TAdSEGAlogoFv(void *ad_seg_alogo);
 }
-// --- end of C functions
 
 #endif

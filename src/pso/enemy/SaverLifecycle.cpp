@@ -17,7 +17,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 
 #include "pso/player/TUnk_80490470.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

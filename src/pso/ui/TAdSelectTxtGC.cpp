@@ -1,8 +1,7 @@
 #include "types.h"
-#include "pso/TAdSelectTxtGC.h"
+#include "pso/ui/TAdSelectTxtGC.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_8023E480.h"
-#include "pso/ui/TAdSelectTxtGC.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 

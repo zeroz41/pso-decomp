@@ -1,16 +1,19 @@
 #ifndef PSO_UI_TADTITLETEXGC_H
 #define PSO_UI_TADTITLETEXGC_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc);
-}
+class TAdTitleTexGC : public TObject {
+public:
+    virtual ~TAdTitleTexGC();
+    void sub_802A4D74(s32, u8 *, u8 *);
+    virtual void run_task();
+    virtual void render();
+};
 
-// --- C functions defined in TAdTitleTexGC.cpp ---
 extern "C" {
 void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc);
 }
-// --- end of C functions
 
 #endif

@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/TObjEneEpsilonGuard.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"

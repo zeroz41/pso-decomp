@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/TObject.h"
 #include "pso/misc/TFogCtrl.h"
 #include "pso/object/TObjFish.h"

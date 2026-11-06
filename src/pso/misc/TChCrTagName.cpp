@@ -22,7 +22,7 @@ struct Tag_802A265C {
 };
 
 #include "pso/TMath.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 struct VBase_802A2500 { char pad[0x18]; };
 

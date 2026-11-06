@@ -25,7 +25,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss4Type3.h"

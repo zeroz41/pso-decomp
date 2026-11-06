@@ -4,7 +4,7 @@
 #include "pso/TObject.h"
 #include "pso/misc/TCameraCtrl_8006CC30.h"
 #include "pso/misc/TLobby.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/misc/TUnk_804C8678.h"
 #include "pso/network/client_id.h"
 #include "pso/object/CursorAction.h"

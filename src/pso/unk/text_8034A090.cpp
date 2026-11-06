@@ -2,7 +2,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_8034A090.h"
 #include "pso/ui/TAdLoadQuestPrtTxtGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 
 struct Vec3_8034A090 {

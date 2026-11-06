@@ -7,7 +7,7 @@
 #include "pso/unk/text_803E2D70.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/object/TObjFish.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/reflection.h"

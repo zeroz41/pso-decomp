@@ -3,7 +3,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneDf2Bringer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TBreakUpMdl.h"
 #include "pso/object/TObjFish.h"
@@ -130,7 +130,6 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TUnk_8048FE7C.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type3.h"
 
 #include "pso/enemy/TUnk_8048FE08.h"

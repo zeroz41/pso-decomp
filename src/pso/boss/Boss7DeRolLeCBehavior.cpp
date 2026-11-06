@@ -8,7 +8,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/boss/TBoss7PhotonBullet.h"
 #include "pso/TBoss7Tentacle.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Type2.h"

@@ -1,7 +1,5 @@
-#include "pso/TObjLiveMonitorSmall.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
-#include "pso/ui/TObjLiveMonitor.h"
-#include "pso/TObjLiveMonitor.h"
+#include "pso/object/TObjLiveMonitor.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"

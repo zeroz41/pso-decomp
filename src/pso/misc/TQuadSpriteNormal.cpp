@@ -3,7 +3,7 @@
 
 #include "pso/system/vector.h"
 #include "pso/unk/TUnk_804C57F0.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

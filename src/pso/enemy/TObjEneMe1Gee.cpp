@@ -22,7 +22,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/TObjMotion.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

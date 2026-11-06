@@ -10,7 +10,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 
 struct RecoveredGlobal_8035C83C___vt__12TBoss4Thanks { s32 value; u8 remaining[0x14]; };

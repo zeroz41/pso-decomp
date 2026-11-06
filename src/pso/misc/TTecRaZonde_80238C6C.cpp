@@ -9,7 +9,7 @@
 #include <stddef.h>
 
 #include "pso/misc/TTecResta.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOKeyMachine01.h"
 #include "pso/misc/TScene.h"
 #include "pso/misc/TTecAnti.h"

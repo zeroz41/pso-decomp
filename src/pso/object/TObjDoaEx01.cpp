@@ -10,7 +10,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjDoorJung.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjDoaEx01_8018DFFC.h"
 #include "pso/misc/TODoorBase.h"
 #include "pso/system/BmlResourceDescriptor.h"

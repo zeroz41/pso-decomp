@@ -1,11 +1,10 @@
-#include "pso/TObjTagChallenge.h"
-#include "pso/menu/TObjTagChallenge.h"
+#include "pso/object/TObjTagChallenge.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TWindowCtrl.h"
+#include "pso/ui/TObjNewFloorWin.h"
 
 extern "C" {
 s32 TWindowCtrlMain__sub_8024CE58(void);
-void fn_800740DC(void);
 }
 
 void TObjTagChallenge::run_task() {

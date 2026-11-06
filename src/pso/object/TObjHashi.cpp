@@ -9,7 +9,7 @@
 #include "pso/object/TObjHashiVersus2.h"
 #include "pso/TMainTask.h"
 #include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjInfoCol.h"
 #include "pso/protocol/subcmd_6x.h"

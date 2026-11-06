@@ -16,8 +16,8 @@
 #include "pso/map/FloorArea.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80087278.h"
-#include "pso/TItemLoad.h"
-#include "pso/TItemLockCountCtrl.h"
+#include "pso/item/TItemLoad.h"
+#include "pso/item/TItemLockCountCtrl.h"
 
 // A loaded item model as TItemLoad::find_node_by_id hands it out.
 struct ItemModelResource {

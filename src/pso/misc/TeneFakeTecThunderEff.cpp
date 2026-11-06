@@ -1,5 +1,5 @@
 #include "pso/system/ChunkMaterialState.h"
-#include "pso/TEneEffHamon.h"
+#include "pso/enemy/TEneEffHamon.h"
 #include "pso/misc/TeneFakeTecThunderEff.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/system/vector.h"

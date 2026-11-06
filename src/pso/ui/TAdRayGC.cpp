@@ -1,5 +1,4 @@
 #pragma readonly_strings on
-#include "pso/TAdRayGC.h"
 #include "pso/ui/TAdRayGC.h"
 
 #include "types.h"

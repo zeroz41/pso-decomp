@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/unk/text_8016F1C0.h"
 #include "pso/misc/TOMineDisp.h"

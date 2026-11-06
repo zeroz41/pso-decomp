@@ -12,7 +12,7 @@
 #include "pso/misc/TUnk_804C3248.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TPhotonYoulla.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"

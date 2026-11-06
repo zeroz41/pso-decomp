@@ -4,7 +4,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjChara.h"
 #include "pso/misc/TPhotonLine.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 typedef struct Vec_801ACD14 { f32 x, y, z; } Vec_801ACD14;

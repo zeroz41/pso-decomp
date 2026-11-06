@@ -3,7 +3,7 @@
 #include "pso/boss/TBoss4Type2.h"
 
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Vec_80359EF0 { s32 x, y, z; };
 

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/boss/TBoss7Crawfish.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Craw_80308D1C {
     u8 pad0[0x60];

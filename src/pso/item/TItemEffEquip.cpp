@@ -1,12 +1,10 @@
 #include "pso/player/TObjPlayer_80011014.h"
-#include "pso/TItemEffEquip.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/TItemEffEquip.h"
+#include "pso/effect/TItemEffEquip.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TUnk_8049F038.h"
 #include "pso/TObject.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/boss/TBoss1DragonColli.h"
-#include "pso/item/TItemEffEquip.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/object/TObject_8001A448.h"
 #include "pso/unk/text_80087278.h"
@@ -42,7 +40,7 @@ struct Obj_80108C90 {
 void __ct__14TObjCollidableFP7TObject(void *, void *);
 extern u8 lbl_8043E1A0[];
 
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #pragma defer_codegen on
 
 extern "C" {

@@ -41,7 +41,7 @@ struct RecoveredGlobal_800D7F60_lbl_804949F4 {
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct Stack_800D7CF4 {
     f32 sp8;
     f32 spC;

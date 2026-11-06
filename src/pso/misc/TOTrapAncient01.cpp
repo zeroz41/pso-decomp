@@ -8,7 +8,7 @@
 #include "pso/misc/TOTrapAncient02R.h"
 #include "pso/misc/TOTrap.h"
 #include "pso/misc/TOTrapAncient01.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TMotorcycle.h"
 #include "pso/misc/TRaderMapCore.h"

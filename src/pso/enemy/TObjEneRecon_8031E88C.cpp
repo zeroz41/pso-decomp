@@ -8,7 +8,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRecobox.h"
 #include "pso/enemy/TObjEneRecon.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/RenderFadeState.h"

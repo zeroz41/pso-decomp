@@ -2,7 +2,7 @@
 #include "pso/packet_classes.h"
 #include "pso/misc/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/misc/TPlyRecvLogin.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 struct ByteBlock_20 { u8 bytes[0x20]; };
 

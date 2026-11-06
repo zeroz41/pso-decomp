@@ -5,7 +5,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/misc/TOContainerAncientEnemy.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"

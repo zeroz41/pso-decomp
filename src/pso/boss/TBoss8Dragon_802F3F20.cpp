@@ -6,7 +6,7 @@
 #include "pso/system/MaterialAlphaCompare.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneDD.h"

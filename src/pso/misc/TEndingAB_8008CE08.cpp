@@ -1,5 +1,5 @@
-#include "pso/TEndingAB.h"
-#include "pso/menu/TAdEndText.h"
+#include "pso/system/TEndingAB.h"
+#include "pso/ui/TAdEndText.h"
 #include "pso/misc/TEndingAB_8008CE08.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 

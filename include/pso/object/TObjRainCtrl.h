@@ -1,16 +1,19 @@
 #ifndef PSO_OBJECT_TOBJRAINCTRL_H
 #define PSO_OBJECT_TOBJRAINCTRL_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *TObjRainCtrl__ct(void *rain_ctrl);
-}
+class TObjRainCtrl : public TObject {
+public:
+    virtual ~TObjRainCtrl();
+    virtual void run_task();
+public:
+    static void create();
+};
 
-// --- C functions defined in TObjRainCtrl.cpp ---
 extern "C" {
-void *TObjRainCtrl__ct(void *rain_ctrl);
+void *TObjRainCtrl__ct(void *rain_ctrl, void *parent);
 }
-// --- end of C functions
 
 #endif

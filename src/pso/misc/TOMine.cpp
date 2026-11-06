@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/misc/TOMine.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOMineTrap.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

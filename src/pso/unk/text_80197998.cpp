@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TObjRain.h"
+#include "pso/object/TObjRain.h"
 
 
 struct Vec_80197998 { f32 x, y, z; };

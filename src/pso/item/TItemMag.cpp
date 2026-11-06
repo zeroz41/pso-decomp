@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "pso/TItemAttacker.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemAttacker.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/item/TItem.h"

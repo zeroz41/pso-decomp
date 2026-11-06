@@ -16,7 +16,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/enemy/TObjEneLappy.h"
@@ -671,7 +671,6 @@ s32 spawn_slime_in_slot(Obj_800EB7BC *origin, s32 arg1, Vec_800EB654 *arg2, Vec_
 #include "pso/object/TObjFish.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneSlime.h"
-#include "pso/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 #define CAT2(a,b) a##b

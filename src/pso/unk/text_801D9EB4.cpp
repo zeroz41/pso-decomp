@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TQuestListOnline.h"
 
 void TProtocol::handle_cmd_AC(packet &pkt) {

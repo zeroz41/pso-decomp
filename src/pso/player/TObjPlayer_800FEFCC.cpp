@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/system/vector.h"
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

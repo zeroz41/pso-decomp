@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjFish_8001ED90.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_8001ED80.h"
-#include "pso/TChCrLoadGmNjReq.h"
+#include "pso/ui/TChCrLoadGmNjReq.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 

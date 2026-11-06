@@ -9,7 +9,7 @@
 #include "pso/misc/TCameraCtrl.h"
 
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct Vec_8008C5E8 { s32 x, y, z; };
 
 extern "C" {

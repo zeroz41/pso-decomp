@@ -15,7 +15,7 @@ extern "C" void render__15TBoss7PhotonPadFv();
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_802EF514___vt__18TBoss7PhotonBullet { s32 value; u8 remaining[0x58]; };
 typedef char RecoveredGlobal_802EF514___vt__18TBoss7PhotonBullet_size[sizeof(RecoveredGlobal_802EF514___vt__18TBoss7PhotonBullet) == 0x5C ? 1 : -1];

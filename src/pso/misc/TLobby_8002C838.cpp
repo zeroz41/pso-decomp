@@ -19,7 +19,7 @@
 #include "pso/misc/TScene.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Obj_8002CACC { s32 f0; u8 pad4[0x14]; void *vt; f32 f1c; f32 f20; f32 f24; s32 f28[4]; };
 

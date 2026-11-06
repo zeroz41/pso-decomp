@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 void TProtocol::send_quest_menu_closed() {
     packet_header header;

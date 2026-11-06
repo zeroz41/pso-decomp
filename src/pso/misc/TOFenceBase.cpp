@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TOFenceBase.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/MatrixOps.h"

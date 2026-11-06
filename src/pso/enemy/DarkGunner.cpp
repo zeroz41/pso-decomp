@@ -26,12 +26,12 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjGyaranzoMissile.h"
-#include "pso/misc/TEneEffHamon.h"
+#include "pso/enemy/TEneEffHamon.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/enemy/SaverLifecycle.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #pragma readonly_strings on
 
 struct VBase_18_800A2F94 { char pad[0x18]; };

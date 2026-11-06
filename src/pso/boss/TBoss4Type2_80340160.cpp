@@ -10,7 +10,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/boss/TBoss4Type2_8033FEEC.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 void *TObjFish__sub_8034029C(TBoss6Demo15_TYPE2_WAIT *, TObjFish *);

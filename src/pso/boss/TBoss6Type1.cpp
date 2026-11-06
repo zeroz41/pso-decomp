@@ -14,7 +14,7 @@
 #include "pso/boss/TBoss6Type1.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjMapCsn.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/unk/text_802AA8FC.h"
 #include "pso/unk/text_803D96A8.h"

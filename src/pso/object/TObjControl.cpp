@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TUnk_80493450.h"
-#include "pso/TObjControl.h"
+#include "pso/object/TObjControl.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"

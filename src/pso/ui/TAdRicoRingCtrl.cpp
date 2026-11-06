@@ -5,10 +5,9 @@
 #include "pso/ui/TAdRicoRingCtrl.h"
 
 #include <stddef.h>
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/TObjCMHairMenu.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/menu/TAdRicoRing.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D96A8.h"

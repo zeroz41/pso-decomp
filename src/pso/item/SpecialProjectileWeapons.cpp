@@ -20,8 +20,8 @@
 struct TItemEquipBase;
 #include "pso/item/TItemShootParticle.h"
 
-#include "pso/TItemAttacker.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/item/TItemAttacker.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TItemMag.h"
 #include "pso/object/TObjCamera.h"
 

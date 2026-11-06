@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/misc/TRegister.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"

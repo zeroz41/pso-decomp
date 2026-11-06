@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/misc/TWindowCtrlMain.h"
 #include "pso/misc/TKeyBoardControl_80131C58.h"
 #include "pso/misc/TLoadCtrl_80227390.h"

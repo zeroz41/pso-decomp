@@ -10,7 +10,7 @@
 #include "pso/enemy/TObjEnePanarms.h"
 #include "dolphin/mtx.h"
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/RenderFadeState.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TTecJelin.h"

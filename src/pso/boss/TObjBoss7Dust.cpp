@@ -1,10 +1,9 @@
-#include "pso/TObjBoss7Dust.h"
 #include "pso/boss/TObjBoss7Dust.h"
 #include "pso/unk/text_802F0E24.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
-#include "pso/TObjBoss7DustCtrl.h"
+#include "pso/boss/TObjBoss7DustCtrl.h"
 
 struct RecoveredGlobal_802F119C___vt__13TObjBoss7Dust {
     s32 value;
@@ -13,7 +12,6 @@ struct RecoveredGlobal_802F119C___vt__13TObjBoss7Dust {
 
 extern "C" {
 s32 __ct__7TObjectFP7TObject(void *, void *);
-s32 TObjBoss7DustCtrl__sub_802F125C();
 extern RecoveredGlobal_802F119C___vt__13TObjBoss7Dust __vt__13TObjBoss7Dust;
 extern s32 lbl_805D3FE4;
 void TObjBoss2Tunnel__sub_802F2C4C(void);

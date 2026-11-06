@@ -9,7 +9,7 @@
 #include "pso/enemy/TObjEneMe1Canadin_EffDischarge.h"
 
 #include "pso/enemy/TObjEneMe1Canadin_EffLine.h"
-#include "pso/TTecZondeEff.h"
+#include "pso/technique/TTecZondeEff.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"

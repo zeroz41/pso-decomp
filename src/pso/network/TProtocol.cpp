@@ -13,11 +13,10 @@
 #include "pso/macros.h"
 #include "pso/TMainTask.h"
 #include "pso/TMenuList.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/TPlyDispData.h"
 #include "pso/TPlyInventory.h"
 #include "pso/TObject.h"
-#include "pso/TProtocol.h"
 #include "pso/TSocket.h"
 
 extern packet *server_packet;

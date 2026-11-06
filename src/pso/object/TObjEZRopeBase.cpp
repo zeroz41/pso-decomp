@@ -1,8 +1,7 @@
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 #include "pso/TObject.h"
 #include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
-#include "pso/object/TObjEZRopeBase.h"
 #include "pso/player/TObjPlayer_800FEFCC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 

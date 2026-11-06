@@ -8,7 +8,7 @@
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/misc/TTecSlicer.h"
 #include "pso/item/TUnk_804A5A28.h"
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/item/TItemHeapObject.h"
 #include "pso/TMainTask.h"
 

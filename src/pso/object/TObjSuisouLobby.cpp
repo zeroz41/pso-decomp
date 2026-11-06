@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjSuisouLobby.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/misc/TLobbyEventTheme.h"
 #include "pso/math/MatrixVector.h"

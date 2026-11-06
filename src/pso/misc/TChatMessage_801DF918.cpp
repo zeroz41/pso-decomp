@@ -1,6 +1,6 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TChatMessage_801DF918.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/system/byteswap.h"
 #include <stddef.h>

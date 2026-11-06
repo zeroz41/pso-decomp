@@ -57,4 +57,10 @@ typedef char NumberMaximumOffset[offsetof(TWindowInputNumber, maximum) == 0x68 ?
 typedef char NumberInitialOffset[offsetof(TWindowInputNumber, value) == 0x6C ? 1 : -1];
 typedef char NumberScaleOffset[offsetof(TWindowInputNumber, scaleX) == 0x74 ? 1 : -1];
 
+extern "C" {
+void *__dt__18TWindowInputNumberFv(void *arg0, s16 arg1);
+struct TWindowInputNumber;
+void render__18TWindowInputNumberFv(TWindowInputNumber *arg0);
+}
+
 #endif

@@ -1,5 +1,4 @@
-#include "pso/misc/TGameProtocol.h"
-#include "pso/TGameProtocol.h"
+#include "pso/network/TGameProtocol.h"
 #include "pso/quest/TQuestThread.h"
 #include "pso/misc/TPacket.h"
 #include "pso/boss/TBoss3Volopt.h"

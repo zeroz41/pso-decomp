@@ -1,5 +1,4 @@
-#include "pso/TObjDFYutai.h"
-#include "pso/ui/TObjDFYutai.h"
+#include "pso/boss/TObjDFYutai.h"
 
 TObjDFYutai::~TObjDFYutai() {}
 

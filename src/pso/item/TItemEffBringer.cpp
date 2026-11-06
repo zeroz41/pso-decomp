@@ -1,5 +1,5 @@
 #include "pso/TItemEffBringer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss4Type2.h"
 

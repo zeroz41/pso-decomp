@@ -12,7 +12,7 @@ struct Obj_800ED4BC;
 #include "pso/enemy/TObjEneRe4Bit.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRe4Sorcerer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 

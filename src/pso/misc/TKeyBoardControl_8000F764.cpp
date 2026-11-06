@@ -8,7 +8,7 @@
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"

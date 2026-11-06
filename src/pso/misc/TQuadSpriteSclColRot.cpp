@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TQuadSpriteSclColRot.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObjFish.h"

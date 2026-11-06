@@ -1,4 +1,4 @@
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/system/vector.h"
 
 #include "types.h"

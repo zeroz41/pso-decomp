@@ -3,7 +3,7 @@
 
 #include "pso/misc/TWindowCtrlMain_8024EEF8.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
 #include "pso/render/render_util.h"

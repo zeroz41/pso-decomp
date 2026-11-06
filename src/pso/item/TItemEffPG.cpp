@@ -18,7 +18,7 @@
 #include "pso/item/TUnk_804F0C08.h"
 
 #include "pso/item/TItemEffPG.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 
 struct RecoveredGlobal_8034FCF0_lbl_804F0BF0 {

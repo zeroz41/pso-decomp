@@ -19,12 +19,12 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjGyaranzoMissile.h"
-#include "pso/misc/TEneEffHamon.h"
+#include "pso/enemy/TEneEffHamon.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/enemy/SaverLifecycle.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/MaterialColorFade.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct VBase_18_4a35f9 { char pad[0x18]; };
 

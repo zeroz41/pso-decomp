@@ -2,7 +2,7 @@
 #include "pso/unk/text_8023F3F8.h"
 #include "pso/TObject.h"
 #include "pso/TMainTask.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/misc/TKeyBoardControl.h"

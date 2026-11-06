@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 
 struct Base_802F1848 { char pad[0x18]; };

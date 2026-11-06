@@ -1,6 +1,5 @@
-#include "pso/TObjBoss7RaftSplash.h"
-#include "pso/boss/TBoss8Dragon_8002CC48.h"
 #include "pso/boss/TObjBoss7RaftSplash.h"
+#include "pso/boss/TBoss8Dragon_8002CC48.h"
 #include "pso/system/vector.h"
 
 #include "types.h"

@@ -1,5 +1,5 @@
 #pragma readonly_strings on
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "types.h"

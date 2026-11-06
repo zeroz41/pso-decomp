@@ -6,7 +6,7 @@
 #include "pso/ui/TAdMultiChgGameModeGC_8036DE10.h"
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"
 
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/ui/Language.h"

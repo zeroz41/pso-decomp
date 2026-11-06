@@ -1,6 +1,6 @@
 #ifndef PSO_BOSS_TBOSS2FIN_H
 #define PSO_BOSS_TBOSS2FIN_H
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 #include "types.h"
 
 class TBoss2Fin : public TObjEZRopeBase {

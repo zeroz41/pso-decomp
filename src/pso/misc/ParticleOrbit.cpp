@@ -1,6 +1,5 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/ParticleOrbit.h"
-#include "pso/misc/TParticleCtrl.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TUnk_8048E778.h"

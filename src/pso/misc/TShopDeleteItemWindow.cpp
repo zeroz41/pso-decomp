@@ -22,7 +22,7 @@
 #include "pso/misc/TShopArmorListWindow.h"
 #include "pso/misc/TShopGetItemWindow.h"
 #include "pso/misc/TShopJudgmentItemWindow_8026DF00.h"
-#include "pso/misc/TWindowSetLevelUp.h"
+#include "pso/ui/TWindowSetLevelUp.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/unk/text_80222C28.h"
 

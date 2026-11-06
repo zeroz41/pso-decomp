@@ -20,7 +20,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 extern "C" TObjEnemy *__ct__9TObjEnemyFP7TObject(void *, void *);
 struct Stack_803242C0 {
     f32 sp8;

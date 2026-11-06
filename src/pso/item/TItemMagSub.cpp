@@ -4,7 +4,7 @@
 #include "pso/item/TItemMagSub.h"
 #include <string.h>
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/item/TItem.h"

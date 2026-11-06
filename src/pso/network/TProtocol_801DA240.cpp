@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TLobby_801DEFC4.h"
 #include "pso/misc/TLobby.h"
 #include <stddef.h>

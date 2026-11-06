@@ -1,11 +1,10 @@
 #include "types.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/misc/TRecvPsoRegistConnect.h"
 #include "pso/misc/TLobby_801DA7DC.h"
 #include "pso/misc/TLobby_801DEFC4.h"
 #include "pso/misc/TPlyGuildCardTag_8007B434.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TPlySmth.h"
 #include "pso/protocol.h"
 
 struct Base_801DA7DC { char pad[0x18]; };

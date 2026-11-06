@@ -6,7 +6,7 @@
 #include "pso/system/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/GinjaTexture.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

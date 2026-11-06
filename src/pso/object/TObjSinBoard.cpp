@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/misc/TLobby.h"

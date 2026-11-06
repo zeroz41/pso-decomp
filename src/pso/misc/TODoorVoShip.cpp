@@ -2,7 +2,7 @@
 
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TKeyBoardControl_8000F764.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjFish_8001ED90.h"

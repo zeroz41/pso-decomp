@@ -1,3 +1,3 @@
-#include "pso/TSlicerHistory.h"
+#include "pso/technique/TSlicerHistory.h"
 
 TSlicerHistory::~TSlicerHistory() {}

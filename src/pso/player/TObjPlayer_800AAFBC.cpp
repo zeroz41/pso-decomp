@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneLappy.h"

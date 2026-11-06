@@ -13,7 +13,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEneRe7Berura.h"

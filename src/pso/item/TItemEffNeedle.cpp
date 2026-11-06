@@ -4,7 +4,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemEffNeedle.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/misc/TParticleCtrl_800867E4.h"

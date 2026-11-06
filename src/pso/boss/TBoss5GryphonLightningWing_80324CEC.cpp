@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/boss/TBoss5GryphonLightningWing_80324CEC.h"
-#include "pso/TBoss5GryphonLightningWing.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 
 extern "C" {
 

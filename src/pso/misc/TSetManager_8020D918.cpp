@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TSetManager.h"
+#include "pso/system/TSetManager.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TScene.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
@@ -56,11 +56,10 @@ extern char lbl_8044BC2C[];
 extern Map_8020D9A0 *TLobby__data_805D6068;
 s32 load_map_decoration_rows(s32 map, s32 grp, s32 room);
 extern "C" {
-void* TSetManager__ct(void*, s32);
 void* __nw__7TObjectFUl(u32);
 void mem_free(void*);
 
-extern s32 tl_02;
+extern void *tl_02;
 
 void TSetManager::create() {
     void* obj = __nw__7TObjectFUl(0x20);

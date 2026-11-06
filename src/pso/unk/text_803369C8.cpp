@@ -2,7 +2,7 @@
 #include "pso/unk/text_803369C8.h"
 #include "pso/unk/TUnk_804EEF80.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TLobby_80335E08.h"
 #include "pso/misc/TWindowSubStatusDisp.h"

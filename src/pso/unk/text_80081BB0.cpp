@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/boss/TBoss8Dragon_80065C90.h"

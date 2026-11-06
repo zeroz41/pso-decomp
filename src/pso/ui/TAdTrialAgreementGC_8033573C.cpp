@@ -18,7 +18,7 @@
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TUnk_804EE470.h"

@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/misc/TPlyMeetUserExtension.h"
-#include "pso/misc/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 #include "pso/network/TProtocol_801E08CC.h"
 #include "pso/unk/text_801DF280.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 struct RecoveredFields_801DF394_arg0
 {

@@ -74,7 +74,7 @@ struct RecoveredFields_8032F174_arg0
 
 #include "pso/object/TObjFish.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss6PlotFalz.h"

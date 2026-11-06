@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowCtrl_8024A054.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/misc/TWindowCtrl.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 
 extern "C" {
 extern struct Obj054_8024A054 *TWindowCtrl__active_window;

@@ -17,7 +17,7 @@ extern "C" { void setup_photon_blast_camera__13TUnk_804C3248Fv(u8 *); }
 #pragma push
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct Stack_801A7310 {
     s8 sp8;
     s8 sp9;

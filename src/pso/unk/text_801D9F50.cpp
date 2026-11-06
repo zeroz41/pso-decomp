@@ -1,6 +1,5 @@
 #include "types.h"
 #include "pso/network/TProtocol.h"
-#include "pso/TProtocol.h"
 
 void TProtocol::handle_cmd_AB(packet &pkt) {
     void *protocol = &pkt;

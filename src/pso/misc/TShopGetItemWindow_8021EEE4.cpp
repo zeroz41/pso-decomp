@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TShopGetItemWindow.h"
-#include "pso/TFontSmallTask.h"
+#include "pso/ui/TFontSmallTask.h"
 #include "pso/misc/TRaderMapCore.h"
 
 #define CAT2(a,b) a##b

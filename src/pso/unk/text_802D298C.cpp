@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 struct RecoveredGlobal_802D298C_TLobby__data_80540BD0 {
     s32 value;

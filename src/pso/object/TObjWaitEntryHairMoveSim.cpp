@@ -2,7 +2,7 @@
 #include "pso/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/TObjEZBoneRotPlayer.h"
+#include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
 extern void* __vt__12T_OWEHMS_Exp[6];

@@ -1,6 +1,5 @@
 #include "types.h"
-#include "pso/misc/TChCrEffCtrlPl.h"
-#include "pso/TChCrEffCtrlPl.h"
+#include "pso/ui/TChCrEffCtrlPl.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 
 extern "C" {

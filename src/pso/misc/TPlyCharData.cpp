@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/misc/TPlyDispConfig.h"
 #include "pso/system/memory.h"
 

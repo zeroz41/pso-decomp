@@ -3,7 +3,7 @@
 #include "pso/object/TObjResultWin.h"
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"
 #include "pso/TShopWindowBase.h"
-#include "pso/TObjNewFloorWin.h"
+#include "pso/ui/TObjNewFloorWin.h"
 #include "pso/quest/TQuestListVM.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/misc/TWindowSubComCard.h"
@@ -12,7 +12,6 @@
 struct TObjNewFloorWin_80073DCC { u8 pad[0x1C]; s32 state; void *window; s32 timer24; s32 timer28; };
 
 extern "C" {
-s32 fn_800740DC();
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);
 s32 create_window_menu(s32 arg0, s32 arg1, s32 arg2);
 u32 check_room_seq_4__16TAdChrSelASlotGCFl(s32);

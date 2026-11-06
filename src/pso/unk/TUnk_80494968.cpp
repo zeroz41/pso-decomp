@@ -5,7 +5,7 @@
 #include "pso/render/render_util.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_800D7950.h"
-#include "pso/misc/TAttackTrace.h"
+#include "pso/effect/TAttackTrace.h"
 
 typedef struct Ent_800D76E8 {
     f32 ax, ay, az;

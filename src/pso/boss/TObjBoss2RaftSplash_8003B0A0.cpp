@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/TObjBoss2RaftSplash.h"
 

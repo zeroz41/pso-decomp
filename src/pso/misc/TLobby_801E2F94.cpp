@@ -16,7 +16,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

@@ -20,7 +20,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TObjEneDD_ST.h"
 #include <stddef.h>
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEnePanarms.h"

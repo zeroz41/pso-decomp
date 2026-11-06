@@ -6,7 +6,7 @@
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/ui/TAdLdQuestPrtGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_80323214_lbl_80476658 {
     s32 value;

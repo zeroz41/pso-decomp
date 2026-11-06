@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 extern "C" {
 

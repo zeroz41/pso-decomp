@@ -77,7 +77,7 @@ extern s32 tl_06;
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 extern "C" int check_value_equals__13TUnk_804B6C24Fl(TParticleCtrl*, const char*);
 extern "C" const char* TParticleCtrl__class_name_descriptor;
 

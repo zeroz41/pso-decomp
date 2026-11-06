@@ -16,7 +16,7 @@
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjFish.h"
 #include "pso/map/FloorArea.h"

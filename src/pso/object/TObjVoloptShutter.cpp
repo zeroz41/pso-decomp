@@ -2,7 +2,7 @@
 
 #include "pso/object/TObjVoloptShutter.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

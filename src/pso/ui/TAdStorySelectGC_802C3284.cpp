@@ -1,4 +1,4 @@
-#include "pso/TAdStorySelectGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
 #include "pso/ui/TAdDrawLineCtrl.h"
 #include "pso/misc/TLobby_80132ED0.h"
 #include "pso/object/TObject_80019A50.h"
@@ -8,9 +8,9 @@
 #include "pso/object/TObjPathObj.h"
 
 #include "types.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdSelectGameModeGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 

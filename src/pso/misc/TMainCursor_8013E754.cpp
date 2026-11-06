@@ -6,7 +6,7 @@ void TMainCursor::set_target_id_at_60(u8 arg1) {
     ((TMainCursor *)(arg0 + 0x60))->set_target_id(arg1);
 }
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"

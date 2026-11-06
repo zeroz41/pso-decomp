@@ -3,7 +3,7 @@
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/TSetManager.h"
+#include "pso/system/TSetManager.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"

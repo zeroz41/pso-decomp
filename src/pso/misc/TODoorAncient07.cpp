@@ -2,7 +2,7 @@
 
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOBoss4Rock.h"
 #include "pso/misc/TLanguage_801E4874.h"
 #include "pso/boss/TBoss1Dragon.h"

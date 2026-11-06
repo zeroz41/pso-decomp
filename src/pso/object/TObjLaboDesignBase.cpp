@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/TMainTask.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma inline_depth(1)

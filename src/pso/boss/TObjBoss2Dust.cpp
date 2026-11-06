@@ -1,4 +1,3 @@
-#include "pso/TObjBoss2Dust.h"
 #include "pso/boss/TObjBoss2Dust.h"
 #include "pso/system/vector.h"
 

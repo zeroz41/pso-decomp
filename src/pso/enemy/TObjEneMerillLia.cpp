@@ -24,7 +24,7 @@ struct Obj_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; u8 pad44[0x2A8 - 0x44]; void *
 struct Pl_800D5614 { u8 pad0[0x38]; u8 pos[0xC]; };
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEneLappy.h"

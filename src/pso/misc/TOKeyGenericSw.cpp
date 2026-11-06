@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/map/FloorArea.h"
 #include "pso/misc/TContainerAncient01.h"

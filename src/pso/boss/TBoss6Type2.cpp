@@ -6,7 +6,7 @@
 #include "pso/boss/TBoss6Mag.h"
 #include "pso/boss/TBoss6Type2.h"
 #include <stddef.h>
-#include "pso/TBoss6EffHyoui.h"
+#include "pso/boss/TBoss6EffHyoui.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss6PlotFalz.h"
@@ -22,7 +22,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/TBoss6SwordWave.h"
 #include "pso/enemy/TObjEneDD.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/MatrixStack.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/ui/TObjDFTenchuFuru_80051D5C.h"

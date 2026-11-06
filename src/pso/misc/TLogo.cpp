@@ -17,7 +17,7 @@ public:
 
 #include "pso/TMainTask.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TWindowCtrlMain.h"

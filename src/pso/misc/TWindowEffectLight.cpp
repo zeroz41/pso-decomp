@@ -1,10 +1,9 @@
-#include "pso/TWindowEffectLight.h"
-#include "pso/misc/TWindowEffectLight.h"
+#include "pso/ui/TWindowEffectLight.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/render/render_util.h"
 
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TWindowKeyBoardSoft.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"

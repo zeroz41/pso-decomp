@@ -4,7 +4,7 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/enemy/TObjEneDD_800BB804.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TUnk_80482C58.h"
 #include "pso/boss/TBoss2Joint.h"
 #include "pso/player/TUnk_804820A8.h"

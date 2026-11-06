@@ -1,5 +1,4 @@
-#include "pso/TAdEndText.h"
-#include "pso/menu/TAdEndText.h"
+#include "pso/ui/TAdEndText.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_800F9B84.h"
 

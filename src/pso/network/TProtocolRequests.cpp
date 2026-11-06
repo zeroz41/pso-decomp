@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TChatMessage.h"
 #include "pso/misc/TPlyGuildCardTag_8007B434.h"
 #include "pso/unk/text_801DF280.h"

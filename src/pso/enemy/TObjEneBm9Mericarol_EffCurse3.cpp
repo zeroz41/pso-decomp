@@ -10,7 +10,7 @@
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct VBase_18_477421
 {

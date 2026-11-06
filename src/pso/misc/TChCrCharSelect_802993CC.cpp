@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/menu/CreationInput.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/object/TObjCMProportion.h"
 
 

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjParticleLobby.h"
 #include "pso/TMainTask.h"
 #include "pso/boss/TBoss4Type2.h"

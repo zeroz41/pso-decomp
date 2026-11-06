@@ -1,5 +1,4 @@
-#include "pso/TChCrEffFade.h"
-#include "pso/misc/TChCrEffFade.h"
+#include "pso/ui/TChCrEffFade.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_80293D84.h"
 

@@ -810,7 +810,7 @@ s32 TItemData::get_max_stack_size() {
 #undef lookup_item_def__9TItemDataFPv
 #undef init__9TItemDataFv
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/TItemMenuCtrl.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItemMag.h"

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/TAdSelectGameModeGC_802C4748.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(u32);

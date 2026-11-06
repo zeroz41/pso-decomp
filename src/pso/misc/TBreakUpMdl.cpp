@@ -14,7 +14,7 @@
 #include "pso/system/memory.h"
 #include "pso/enemy/TObjEneDf2Bringer.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/object/TObjFish.h"

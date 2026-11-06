@@ -4,7 +4,7 @@
 #include "pso/item/TUnk_8049F148.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/map/FloorArea.h"
 

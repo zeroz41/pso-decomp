@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TUnk_8048E728.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Part_8008673C { u8 pad[0xAC]; u8 from_backup; };
 

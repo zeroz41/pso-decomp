@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 struct Vec_800FF8CC {
     f32 x, y, z;

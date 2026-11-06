@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/TObject.h"
-#include "pso/TWindowSetLevelUp.h"
+#include "pso/ui/TWindowSetLevelUp.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowCtrl.h"
 #include "pso/object/TObjFish.h"

@@ -15,7 +15,7 @@
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/misc/TLazerFenceSw.h"
 #include "pso/object/TObjLazerFence4.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TOAirconCave01.h"

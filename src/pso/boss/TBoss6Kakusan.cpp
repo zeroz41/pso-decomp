@@ -9,7 +9,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdLdQuestPrtGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_80322994___vt__13TBoss6Kakusan { s32 value; u8 remaining[0x14]; };
 

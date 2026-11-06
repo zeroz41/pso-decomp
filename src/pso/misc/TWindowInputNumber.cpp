@@ -4,7 +4,6 @@
 #include "pso/misc/TWindowSubMag.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowCtrl_8024A054.h"
-#include "pso/misc/TWindowInputNumber.h"
 #include "pso/misc/TWindowSubStatusDisp_802598E4.h"
 #include "pso/misc/TWindowChoiceSetting.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"

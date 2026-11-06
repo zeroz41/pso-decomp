@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/misc/TParticleCtrl_800867E4.h"

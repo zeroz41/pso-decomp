@@ -3,7 +3,7 @@
 #include "pso/object/TObjVoloptPillar.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/object/TObjChip.h"

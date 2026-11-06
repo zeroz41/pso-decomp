@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 struct VBase_18_1a504b { char pad[0x18]; };

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/TUnk_804CC148.h"
-#include "pso/TTecCtrl.h"
+#include "pso/technique/TTecCtrl.h"
 #include "pso/misc/TechniqueBoost.h"
 
 struct Slot_8022C5CC { s16 id; u16 flags; f32 amount; };

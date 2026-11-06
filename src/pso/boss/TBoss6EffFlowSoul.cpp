@@ -8,7 +8,7 @@
 #include "pso/boss/TBoss6Type2.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 
 extern "C" {

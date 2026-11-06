@@ -1,6 +1,6 @@
 #include "pso/ui/UISpriteConstants.h"
 #include "types.h"
-#include "pso/TChCrEffWall.h"
+#include "pso/ui/TChCrEffWall.h"
 
 extern "C" {
 s32 draw_ui_sprite(f32, f32);

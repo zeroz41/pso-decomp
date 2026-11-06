@@ -7,7 +7,7 @@
 #include "pso/ui/TAdLoadNetworkGC.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct V_803084AC { f32 x, y, z; };
 
 struct Net_803084AC { u8 pad0[0x20]; void *obj[5]; V_803084AC pos; };

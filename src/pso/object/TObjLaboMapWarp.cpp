@@ -8,7 +8,7 @@
 #include "pso/object/TObjCityMainWarp.h"
 #include "pso/object/TObjCityMapWarp.h"
 #include "pso/object/TObjLaboMapWarp.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowCtrl.h"

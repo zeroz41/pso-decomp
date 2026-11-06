@@ -5,7 +5,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/misc/TPhotonConcentrate.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjChara.h"
 #include "pso/object/TObjMotion.h"

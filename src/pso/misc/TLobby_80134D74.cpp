@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 extern void *TLobby__protocol_instance;
 

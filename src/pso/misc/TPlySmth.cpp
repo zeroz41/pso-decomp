@@ -1,6 +1,5 @@
 #include "pso/packet_classes.h"
-#include "pso/misc/TPlySmth.h"
-#include "pso/TPlySmth.h"
+#include "pso/player/TPlySmth.h"
 
 struct ByteBlock_8 { u8 bytes[0x8]; };
 

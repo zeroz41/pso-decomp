@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdEnterBaseGC_8032B38C.h"
 #include "pso/ui/TAdEnterPasswordGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/misc/TWindowSubComCard.h"

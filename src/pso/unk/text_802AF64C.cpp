@@ -4,7 +4,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMistCtrl.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Vec_802AF64C { f32 x, y, z; };
 

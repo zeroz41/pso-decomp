@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjParticle.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/object/TObject_80019A50.h"

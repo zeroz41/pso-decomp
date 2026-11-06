@@ -4,7 +4,7 @@
 #include <string.h>
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/TObjItemNameSelect.h"
 #include "pso/TObjItemOKWindow.h"

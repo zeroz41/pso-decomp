@@ -9,7 +9,7 @@
 
 
 #include "pso/misc/TLobby.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"

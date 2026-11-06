@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowCtrlMain.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include <stddef.h>
-#include "pso/TChCrEffFade.h"
+#include "pso/ui/TChCrEffFade.h"
 
 struct V2_80293D84 {
     f32 x;

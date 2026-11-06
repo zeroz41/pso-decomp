@@ -6,7 +6,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneMe3SinowZoaReal.h"
 #include "pso/player/TObjPlayer_803E4954.h"

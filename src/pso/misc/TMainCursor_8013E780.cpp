@@ -11,7 +11,7 @@ s32 init_gc_tag();
 
 int TMainCursor::set_target_index_at_60(void* _w1) { return set_target_index__11TMainCursorFs((void*)((char*)this + 0x60), _w1); }
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLockOnCursor.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"

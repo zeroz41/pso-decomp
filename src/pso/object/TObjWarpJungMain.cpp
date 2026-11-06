@@ -5,7 +5,7 @@
 #include "pso/object/TObjWarpJung.h"
 #include "pso/object/TObjWarpJungMain.h"
 #include "pso/object/TObjDoorJung.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowCtrl.h"

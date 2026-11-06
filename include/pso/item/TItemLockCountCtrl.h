@@ -1,16 +1,31 @@
 #ifndef PSO_ITEM_TITEMLOCKCOUNTCTRL_H
 #define PSO_ITEM_TITEMLOCKCOUNTCTRL_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *TItemLockCountCtrl__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
-}
+class TItemLockCountCtrl : public TObject {
+public:
+ u8 _pad1C[0x20 - 0x1C];
+ void* m_20;
+public:
+    virtual ~TItemLockCountCtrl();
+public:
+    static void free_all();
+    static void init_effect_table();
+    static void create_instance();
+public:
+    static void apply_unit_immunity(int arg0);
+    static void set_battle_ctrl_flag30(int arg0);
+    static void unlock_effect(u16 client, u32 effect);
+    static void lock_effect(u16 client, u32 effect);
+};
 
-// --- C functions defined in TItemLockCountCtrl.cpp ---
+// Callbacks the controller stores at +0x24/+0x28 (TItemTimerEvent::notify_if_active(int) and check_battle_ctrl(int)).
+typedef void (*TItemLockCountCallback)(int);
+
 extern "C" {
-void *TItemLockCountCtrl__ct(void *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
+void *TItemLockCountCtrl__ct(void *arg0, s32 arg1, s32 arg2, TItemLockCountCallback arg3, TItemLockCountCallback arg4);
 }
-// --- end of C functions
 
 #endif

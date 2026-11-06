@@ -23,8 +23,8 @@
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
-#include "pso/TObjControl.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/object/TObjControl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 // TObjEneBalClawBody, the Bal Claw's body (the "TObjEneBalClawBody" class name).
 // One TU from 0x8008DC18 to 0x80090448: the .sdata2 pool 0x805D9618-0x805D9688 is shared by all of it.

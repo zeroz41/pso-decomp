@@ -12,7 +12,7 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjOnlineEnding.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern const f32 lbl_805DE9F0;
 extern "C" {

@@ -1,5 +1,4 @@
-#include "pso/TSetManager.h"
-#include "pso/misc/TSetManager.h"
+#include "pso/system/TSetManager.h"
 #include "types.h"
 
 extern "C" {
@@ -34,13 +33,13 @@ TSetManager::~TSetManager() {}
 
 extern "C" {
 
-void __ct__7TObjectFP7TObject(void *);
+void __ct__7TObjectFP7TObject(void *, void *);
 
 extern s32 __vt__11TSetManager[];
 extern void *lbl_805D3638;
 
-void *TSetManager__ct(void *set_manager) {
-    __ct__7TObjectFP7TObject(set_manager);
+void *TSetManager__ct(void *set_manager, void *parent) {
+    __ct__7TObjectFP7TObject(set_manager, parent);
     *(s32 **)((s8 *)set_manager + 0x18) = __vt__11TSetManager;
     *(void * *)&((TSetManager *)set_manager)->m_name = lbl_805D3638;
     *(u32 *)((s8 *)set_manager + 0x1C) = 0;

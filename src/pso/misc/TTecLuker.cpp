@@ -7,7 +7,7 @@ extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);
 #include "pso/misc/TUnk_804CC990.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TTecLuker.h"
 #include "pso/effect/TUnk_804CC148.h"
 #include "pso/object/TObjMotion.h"
@@ -40,7 +40,7 @@ struct RecoveredGlobal_80233D18_lbl_804CC9D4 {
 };
 
 #include "pso/effect/TechniqueChargeEmitter.h"
-#include "pso/TItemList.h"
+#include "pso/item/TItemList.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowCtrl.h"

@@ -15,7 +15,7 @@ void draw_ginja_object(int);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 

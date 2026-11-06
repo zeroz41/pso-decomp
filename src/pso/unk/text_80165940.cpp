@@ -3,7 +3,7 @@
 #include "pso/misc/TOKeyAncient03.h"
 #include "pso/misc/TOKeyCave01.h"
 #include "pso/misc/TOKeyMachine01.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/system/BmlResource.h"
 #include "pso/map/FloorArea.h"
 typedef struct Key_80165940 {

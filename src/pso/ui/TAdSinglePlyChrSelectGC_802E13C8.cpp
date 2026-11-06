@@ -5,14 +5,14 @@
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowMessage.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/misc/TWindowOptionCtrl.h"
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/menu/T_ATS_DrawCalendar.h"
-#include "pso/TAdTimeSetGC.h"
+#include "pso/ui/TAdTimeSetGC.h"
 
 extern "C" {
 s32 TAdSinglePlyChrSelectGC__sub_802E1868(void);

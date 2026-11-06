@@ -1,6 +1,6 @@
 #include "pso/TItemShootGun.h"
 #include "pso/TItemShoot.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/unk/text_80087278.h"
 
 u32 TItemShootGun::create(s32 owner, s32 pos, s32 endpoint, f32 life) {

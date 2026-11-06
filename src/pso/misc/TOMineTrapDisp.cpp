@@ -6,7 +6,7 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TOMineDisp.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TOMine.h"
 #include "pso/misc/TOMineTrap.h"

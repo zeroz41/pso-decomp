@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 
 struct V3_8023E834 { s32 x; s32 y; s32 z; };
 

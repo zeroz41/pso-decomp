@@ -55,7 +55,7 @@ void TMainCursor::init_slot(s32 i) {
     TMainCursor__sub_8013E8A0((void*)(&((Obj_8013E870 *)this)->recs[i]));
 }
 
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
 
 int TMainCursor__sub_8013E8A0(void* p) { return TObjPlayer__sub_8013DEF8(p); }

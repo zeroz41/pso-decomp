@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TUnk_8049F3F4.h"
 #include "pso/item/TItemLoad_8010F3D8.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 extern "C" {
 

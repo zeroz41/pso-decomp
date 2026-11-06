@@ -2,7 +2,7 @@
 #include "pso/misc/TLobby_801E43E4.h"
 #include "pso/player/TObjPlayer_801C0808.h"
 #include "pso/system/byteswap.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"

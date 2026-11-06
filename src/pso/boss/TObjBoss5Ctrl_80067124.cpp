@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TObjBoss5Ctrl.h"
+#include "pso/boss/TObjBoss5Ctrl.h"
 #include "pso/boss/TObjBoss5PillarCtrl.h"
 
 extern void *boss5_ctrl_instance;

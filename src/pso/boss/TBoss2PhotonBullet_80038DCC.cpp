@@ -14,7 +14,7 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 
 struct VBase_18_39be15 { char pad[0x18]; };

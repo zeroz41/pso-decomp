@@ -4,7 +4,7 @@
 #include "pso/item/TUnk_804A4238.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TTecSlicer.h"
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/TMainTask.h"
 
 struct Owner_801293FC { u8 pad[0x60]; s32 f60; };

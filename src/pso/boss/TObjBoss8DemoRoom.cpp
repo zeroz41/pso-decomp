@@ -1,6 +1,5 @@
-#include "pso/TObjBoss8DemoRoom.h"
-#include "pso/misc/TOComputerMachine01_8023DD0C.h"
 #include "pso/boss/TObjBoss8DemoRoom.h"
+#include "pso/misc/TOComputerMachine01_8023DD0C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"

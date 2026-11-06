@@ -8,7 +8,7 @@
 #include "pso/item/TItem.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TUnk_804A69DC.h"
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
 #include "pso/unk/text_80120908.h"

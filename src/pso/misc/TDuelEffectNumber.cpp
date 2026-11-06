@@ -1,5 +1,4 @@
-#include "pso/TDuelEffectNumber.h"
-#include "pso/misc/TDuelEffectNumber.h"
+#include "pso/effect/TDuelEffectNumber.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObject_80019A50.h"
 

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/TAdStorySelectGC_8019DC14.h"
-#include "pso/TAdStorySelectGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
 #include "pso/object/TObjMapForceWarp.h"
 
 extern "C" {

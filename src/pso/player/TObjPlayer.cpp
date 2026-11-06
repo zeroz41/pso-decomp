@@ -5,7 +5,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TPlayerLobbyMarker.h"
 #include "pso/player/TObjPlayer_801BF548.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer_801BF6B0.h"
 #include "pso/player/TObjPlayer_801BF8EC.h"

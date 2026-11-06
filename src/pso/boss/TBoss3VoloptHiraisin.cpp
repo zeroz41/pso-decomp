@@ -11,7 +11,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/unk/text_803E2D70.h"
 
 extern "C" {

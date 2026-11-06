@@ -2,7 +2,7 @@
 #include "pso/render/render_util.h"
 
 #include "pso/misc/TChCrTagInformation.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/TObjCMAssignMenu.h"
 
 struct V2_802A1C04 { f32 x; f32 y; };

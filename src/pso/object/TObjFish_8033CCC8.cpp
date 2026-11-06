@@ -17,7 +17,7 @@
 #include "pso/object/TObjFish_800E2FFC.h"
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/object/TObjFish.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 // Frame window -> effect point that carries the smoke emitter.
 struct FishSpawnEntry {

@@ -2,7 +2,7 @@
 #include "pso/misc/TWindowBase.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC_802DCD14.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdChrMoveEffectGC.h"
 

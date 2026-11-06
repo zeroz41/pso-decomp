@@ -2,7 +2,7 @@
 #include "pso/enemy/TObjEneHoldEffect.h"
 #include "pso/enemy/TObjEneHoldEffect.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 

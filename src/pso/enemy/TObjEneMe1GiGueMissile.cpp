@@ -4,7 +4,7 @@
 #include "pso/enemy/TObjEneMe1GiGue.h"
 #include "pso/map/FloorArea.h"
 
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNeedleShoot.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"

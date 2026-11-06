@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/object/TObjDFHorming.h"

@@ -1,8 +1,7 @@
-#include "pso/TAdSEGAlogo.h"
+#include "pso/ui/TAdSEGAlogo.h"
 #include "types.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/ui/TAdSEGAlogo.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/TLobby.h"
 

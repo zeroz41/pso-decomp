@@ -14,7 +14,7 @@
 #include "pso/enemy/TObjEneDubchik.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptP01.h"
 #include "pso/system/BmlResourceDescriptor.h"
@@ -26,7 +26,7 @@
 #include "pso/object/TObjFish.h"
 #include "pso/player/TUnk_80491478.h"
 #include "pso/unk/text_800A887C.h"
-#include "pso/TObjControl.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/enemy/TObjEneLappy_800F5DE0.h"
 

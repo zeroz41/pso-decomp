@@ -7,7 +7,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

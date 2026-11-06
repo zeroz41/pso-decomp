@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/effect/TUnk_804CCC68.h"
 #include "pso/unk/TUnk_804CCA78.h"

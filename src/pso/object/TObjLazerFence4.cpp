@@ -4,7 +4,7 @@
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjLazerFence4.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/GinjaMaterial.h"

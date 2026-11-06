@@ -1,13 +1,12 @@
 #include "types.h"
-#include "pso/TChCrLoadGmNjReq.h"
+#include "pso/ui/TChCrLoadGmNjReq.h"
 #include "pso/misc/TLobby_801E2F94.h"
-#include "pso/menu/TChCrLoadGmNjReq.h"
 #include "pso/misc/TLobby_8028D714.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_8028C8E0.h"
 #include "pso/misc/TChCrLoadReq.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TChCrLoadAfs.h"
+#include "pso/ui/TChCrLoadAfs.h"
 #include "pso/misc/TCharaMaking.h"
 
 struct Obj_8028C8A8 { u8 pad[0x6c]; s32 f6c; };

@@ -1,7 +1,6 @@
-#include "pso/TParticleCtrl.h"
-#include "pso/TBoss6EffHyoui.h"
-#include "pso/boss/TBoss4Type2_800874F4.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss6EffHyoui.h"
+#include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/object/TObject_80019A50.h"
 
 #include "types.h"

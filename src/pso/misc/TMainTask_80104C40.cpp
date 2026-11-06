@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/FlagWord.h"
 #include "pso/item/TItemDisconnectCtrl.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/item/TItemDrop.h"
 #include "pso/misc/TLobby.h"
 #include "pso/player/TObjPlayer.h"

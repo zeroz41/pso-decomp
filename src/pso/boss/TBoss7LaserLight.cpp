@@ -6,7 +6,7 @@
 
 #include "types.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjLight.h"
 #include "pso/system/vector.h"

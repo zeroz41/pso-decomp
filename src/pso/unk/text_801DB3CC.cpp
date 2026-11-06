@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/unk/text_801DF280.h"
 
 struct TRecvServerTime {

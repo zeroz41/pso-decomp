@@ -7,7 +7,7 @@
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/enemy/StelthData.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/SoundEffect.h"
 #include "pso/player/TObjChara.h"
 #include "pso/enemy/TObjEneDD.h"

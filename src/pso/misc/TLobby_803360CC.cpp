@@ -14,9 +14,9 @@ struct TCameraCtrl;
 #include "pso/unk/TUnk_804EEF80.h"
 
 #include "pso/TObject.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/TItemReverseTechCtrl.h"
+#include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/enemy/TObjEneDolmOlm.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

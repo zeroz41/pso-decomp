@@ -8,7 +8,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC_801334D4.h"
 #include "pso/unk/text_8036F764.h"
 
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
 #include "pso/ui/TAdScrollWinGC.h"

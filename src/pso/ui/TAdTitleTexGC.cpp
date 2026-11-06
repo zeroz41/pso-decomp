@@ -1,6 +1,5 @@
-#include "pso/TAdTitleTexGC.h"
-#include "pso/misc/TLobby_80132ED0.h"
 #include "pso/ui/TAdTitleTexGC.h"
+#include "pso/misc/TLobby_80132ED0.h"
 
 #include "types.h"
 #include "pso/TMainTask.h"

@@ -1,6 +1,6 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
-#include "pso/TObjControl.h"
+#include "pso/object/TObjControl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/map/CsnQuery.h"
@@ -118,7 +118,7 @@ inline f32 xz_length_squared(Vec *v) { return v->x * v->x + v->z * v->z; }
 #pragma pop
 
 #include "pso/misc/TLobby.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3VoloptMonitor.h"
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/enemy/TObjEneMe3SinowZoa.h"

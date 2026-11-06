@@ -1,7 +1,7 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/TObject.h"

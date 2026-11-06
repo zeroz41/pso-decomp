@@ -1,8 +1,7 @@
-#include "pso/TAdTitleGC.h"
+#include "pso/ui/TAdTitleGC.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/ModelDrawContext.h"
 #include "pso/ui/TAdDrawLineCtrl.h"
-#include "pso/ui/TAdTitleGC.h"
 #include "pso/unk/text_802A0A30.h"
 #include "pso/render/render_util.h"
 

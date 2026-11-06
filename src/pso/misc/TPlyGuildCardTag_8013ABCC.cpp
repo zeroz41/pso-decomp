@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TPlyGuildCardTag_8013ABCC.h"
 #include "pso/TShopWindowBase.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/quest/TQuestListVM.h"
 
     extern int item_drop_server_seed;

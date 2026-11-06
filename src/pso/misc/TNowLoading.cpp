@@ -7,7 +7,7 @@
 
 #include <stddef.h>
 #include "pso/misc/TLobby.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Stack_8001D19C {
     f32 sp8;

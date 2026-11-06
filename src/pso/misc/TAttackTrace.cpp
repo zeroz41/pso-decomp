@@ -1,5 +1,4 @@
-#include "pso/TAttackTrace.h"
-#include "pso/misc/TAttackTrace.h"
+#include "pso/effect/TAttackTrace.h"
 
 TAttackTrace::~TAttackTrace() {}
 

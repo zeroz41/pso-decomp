@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/TAdMultiConfirmGC.h"
 
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
 
 typedef struct Obj_802FF87C {

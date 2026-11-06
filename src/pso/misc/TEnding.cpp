@@ -5,7 +5,7 @@
 #include "pso/misc/TEndingAB_8008CE08.h"
 #include "pso/misc/TEndingC_8008D00C.h"
 #include "pso/misc/TMainTask_80104C40.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdRicoRingCtrl.h"

@@ -2,8 +2,8 @@
 #include "pso/render/render_util.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/TProtocol.h"
+#include "pso/effect/TParticleCtrl.h"
+#include "pso/network/TProtocol.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/map/FloorArea.h"
 #include "pso/math/MatrixTransforms.h"

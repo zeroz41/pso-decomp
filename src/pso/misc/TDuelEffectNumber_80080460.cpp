@@ -5,7 +5,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/TDuelEffectString.h"
-#include "pso/TDuelEffectNumber.h"
+#include "pso/effect/TDuelEffectNumber.h"
 #include "pso/render/render_util.h"
 #pragma fp_contract on
 

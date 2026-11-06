@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneRe2Flower_EffCurse3.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/TObjMotion.h"

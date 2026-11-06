@@ -34,7 +34,7 @@ struct AltChunkObject {
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);

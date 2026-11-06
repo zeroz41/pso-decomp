@@ -9,8 +9,8 @@
 TAdSelectGameModeGC::~TAdSelectGameModeGC() {}
 
 #include "types.h"
-#include "pso/TAdMultiChgGameModeGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"

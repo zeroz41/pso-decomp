@@ -4,7 +4,7 @@
 #include "pso/misc/TWindowShortListCtrl_801A4FC0.h"
 #include "pso/ui/TObjBagWarnWin_8006EF24.h"
 #include "pso/misc/TUnk_804C2298.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/misc/TCheckMemoryCard.h"
 #include "pso/misc/TLobby.h"

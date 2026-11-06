@@ -8,7 +8,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjGyaranzoMissile.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
 

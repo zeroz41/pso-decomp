@@ -1,5 +1,4 @@
-#include "pso/misc/TOChatSensorFolder.h"
-#include "pso/TOChatSensorFolder.h"
+#include "pso/object/TOChatSensorFolder.h"
 #include "types.h"
 
 extern void *TOChatSensorFolder__instance;

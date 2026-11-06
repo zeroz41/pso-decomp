@@ -1,4 +1,3 @@
-#include "pso/TObjRain.h"
 #include "pso/object/TObjRain.h"
 
 #include "types.h"

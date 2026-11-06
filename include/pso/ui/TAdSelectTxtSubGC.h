@@ -1,18 +1,20 @@
 #ifndef PSO_UI_TADSELECTTXTSUBGC_H
 #define PSO_UI_TADSELECTTXTSUBGC_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *TObjNpcHosa__create(void *arg0);
-int TObjNpcHosa__sub_802A39B0(void);
-}
+class TAdSelectTxtSubGC : public TObject {
+public:
+    virtual ~TAdSelectTxtSubGC();
+    void render_status();
+    virtual void run_task();
+    virtual void render();
+};
 
-// --- C functions defined in TAdSelectTxtSubGC.cpp ---
 extern "C" {
 void *TObjNpcHosa__create(void *arg0);
 int TObjNpcHosa__sub_802A39B0(void);
 }
-// --- end of C functions
 
 #endif

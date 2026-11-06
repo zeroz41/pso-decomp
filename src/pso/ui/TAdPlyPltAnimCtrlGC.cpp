@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/TAdPlyPltAnimCtrlGC.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/TMainTask.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/player/TObjPlayer.h"

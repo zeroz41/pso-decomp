@@ -11,7 +11,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_802F1D1C.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/unk/text_802F1F58.h"
 #include "pso/boss/TObjBoss2Tunnel_802F1A58.h"

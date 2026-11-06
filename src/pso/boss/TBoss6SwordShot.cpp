@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/TBoss6SwordShot.h"
 #include "pso/TObject.h"
 #include "pso/system/vector.h"

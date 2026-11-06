@@ -10,7 +10,7 @@
 
 #include "pso/item/TUnk_804E355C.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss6Rock.h"
 #include "pso/boss/TBoss6Type2.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

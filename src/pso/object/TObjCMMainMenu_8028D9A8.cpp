@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/object/TObjCMMainMenu_8028D9A8.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/object/TObjCMMainMenu.h"

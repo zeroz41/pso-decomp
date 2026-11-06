@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TDuelEffectNumber.h"
+#include "pso/effect/TDuelEffectNumber.h"
 
 struct RecoveredGlobal_80080438_lbl_80438DD4 {
     s32 value;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/PadRumble.h"
 #include "pso/TObject.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"

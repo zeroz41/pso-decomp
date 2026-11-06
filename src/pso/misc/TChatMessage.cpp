@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/misc/TChatMessage.h"
 #include "pso/system/byteswap.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 extern "C" {
 

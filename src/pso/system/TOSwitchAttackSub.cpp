@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/TOSwitchAttackSub.h"
 #include "pso/object/TObject_80019A50.h"
 #include "types.h"

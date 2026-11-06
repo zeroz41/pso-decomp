@@ -2,7 +2,7 @@
 #include "pso/ui/TAdMultiChgGameModeGC_8023F4E4.h"
 #include "pso/unk/text_8023F160.h"
 #include "pso/system/main_loop.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
 
 extern s32 multi_chg_game_mode_state;

@@ -4,7 +4,7 @@
 #include "pso/player/TObjPlayer_801BF548.h"
 #include "pso/player/TObjPlayer_801BF918.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 
 extern const f32 TObjPlayer__data_805DC278;
 

@@ -7,7 +7,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/misc/TWindowMessageYesNo.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TWindowSubComCard.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
 

@@ -7,7 +7,7 @@
 #include "pso/system/byteswap.h"
 #include "pso/misc/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TItemList.h"
+#include "pso/item/TItemList.h"
 #include "pso/enemy/TObjEneBm5Wolf.h"
 #include "pso/misc/TFontSmallLobby.h"
 #include "pso/misc/TMainCursor.h"

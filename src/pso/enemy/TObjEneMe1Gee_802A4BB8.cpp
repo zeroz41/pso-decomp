@@ -6,7 +6,7 @@
 #include "pso/misc/TNeedleShoot.h"
 #include "pso/misc/TObjEneMe1Gee_NEEDLE.h"
 #include "pso/enemy/TObjEneMe1Gee.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #pragma readonly_strings on
 

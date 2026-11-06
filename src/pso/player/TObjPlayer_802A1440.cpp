@@ -4,7 +4,6 @@
 #include "pso/player/TObjPlayer_802A1440.h"
 #include "pso/ui/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TAdSelectTxtGC.h"
 #include "pso/misc/TLobby.h"
 
 struct P_802A1544 { u8 pad0[0x408]; s8 v[0x14]; };

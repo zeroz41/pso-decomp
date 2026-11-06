@@ -5,7 +5,7 @@
 #include "pso/player/TObjChara.h"
 #include "pso/misc/TPhotonLeilla.h"
 #include "pso/misc/TPhotonLaser.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 
 #pragma readonly_strings on

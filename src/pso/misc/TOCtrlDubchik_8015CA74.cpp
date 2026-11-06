@@ -14,7 +14,7 @@
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/GinjaMaterial.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_800F0810.h"

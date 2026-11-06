@@ -1,7 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby_80207644.h"
 #include "pso/ui/TAdStorySelectGC.h"
-#include "pso/TAdStorySelectGC.h"
 
 extern s32 story_select_pending_state;
 

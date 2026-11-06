@@ -3,7 +3,7 @@
 #include "pso/item/TItemLoad_801105AC.h"
 #include "pso/item/TUnk_8049F42C.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 extern char lbl_8043E3A8[];
 extern char lbl_8043E3B8[];

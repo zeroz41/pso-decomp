@@ -2,7 +2,7 @@
 #include "pso/render/render_util.h"
 
 #include "pso/misc/TWindowCtrlMain.h"
-#include "pso/TBoss4Fade.h"
+#include "pso/boss/TBoss4Fade.h"
 struct E_8035959C { s32 a; s32 b; f32 c; };
 
 struct O_8035959C { u8 pad[0x1c]; s32 idx; E_8035959C e[2]; };

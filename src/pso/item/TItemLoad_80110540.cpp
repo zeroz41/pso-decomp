@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItemLoad_80110540.h"
 #include "pso/object/TObject_8001A448.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 extern "C" {
 

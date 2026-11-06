@@ -2,7 +2,7 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80325F7C.h"
 #include "pso/system/vector.h"
-#include "pso/TBoss5GryphonLightningWing.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 #include "pso/TBoss5GryphonLightningHorn.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

@@ -71,7 +71,7 @@ TBoss1DragonColli::~TBoss1DragonColli() {
     }
 }
 
-#include "pso/TBoss1DragonDemo.h"
+#include "pso/boss/TBoss1DragonDemo.h"
 #include "pso/misc/TLobby.h"
 
 #pragma inline_depth(1)

@@ -1,22 +1,21 @@
 #include "types.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/TItemLockCountCtrl.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
 void *__nw__7TObjectFUl(int);
 
-extern unsigned char notify_if_active__15TItemTimerEventFi[];
-extern unsigned char check_battle_ctrl__15TItemTimerEventFi[];
+void notify_if_active__15TItemTimerEventFi(int);
+void check_battle_ctrl__15TItemTimerEventFi(int);
 extern void *item_timer_event_instance;
 
 void TItemLockCountCtrl::create_instance() {
     void *o;
     o = __nw__7TObjectFUl(0x2C);
     if (o != NULL) {
-        o = TItemLockCountCtrl__ct((void *)o, 0, 12, (s32)notify_if_active__15TItemTimerEventFi, (s32)check_battle_ctrl__15TItemTimerEventFi);
+        o = TItemLockCountCtrl__ct((void *)o, 0, 12, notify_if_active__15TItemTimerEventFi, check_battle_ctrl__15TItemTimerEventFi);
     }
     item_timer_event_instance = o;
 }

@@ -7,7 +7,7 @@
 #include "pso/misc/TOHangceilingCave01Normal.h"
 #include "pso/misc/TUnk_804B2578.h"
 #include "pso/misc/TOHangceilingCave01.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOFenceAncient01.h"
 #include "pso/misc/TOFenceAncient04.h"
 #include "pso/object/TObjFish.h"

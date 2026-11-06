@@ -1,4 +1,4 @@
-#include "pso/misc/TPlyClientConfig.h"
+#include "pso/player/TPlyClientConfig.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

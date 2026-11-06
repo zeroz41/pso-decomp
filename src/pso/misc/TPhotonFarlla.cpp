@@ -13,7 +13,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/misc/TPhotonFarlla.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"

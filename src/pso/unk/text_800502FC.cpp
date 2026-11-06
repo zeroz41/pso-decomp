@@ -3,7 +3,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/TObjDFYutai.h"
+#include "pso/boss/TObjDFYutai.h"
 #include "pso/player/TObjPlayer.h"
 
 typedef struct Vec_800502FC {

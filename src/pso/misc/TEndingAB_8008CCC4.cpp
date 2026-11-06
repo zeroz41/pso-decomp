@@ -1,9 +1,8 @@
 #include "types.h"
-#include "pso/TEndingAB.h"
+#include "pso/system/TEndingAB.h"
 
 extern "C" {
 
-s32 TEndingAB__sub_8008CCC0(s32);
 
     extern const float lbl_805D9584;
     extern const float lbl_805D9588;
@@ -28,7 +27,7 @@ void TEndingAB::render() {
     if ((s32) TEndingAB__fade_sequence_state != 0) {
         TEndingAB::set_fish_global_param();
         ((TEndingAB *)arg0)->draw_overlay();
-        TEndingAB__sub_8008CCC0(arg0);
+        TEndingAB__sub_8008CCC0((TEndingAB *)arg0);
     }
 }
 

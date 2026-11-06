@@ -11,7 +11,7 @@
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/TODummyKeyCave01Sound.h"
+#include "pso/object/TODummyKeyCave01Sound.h"
 #include "pso/map/FloorArea.h"
 #include "pso/enemy/TObjEneMe3Stelth.h"
 #include "pso/enemy/TObjEneRe7Berura.h"

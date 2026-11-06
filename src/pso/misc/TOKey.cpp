@@ -7,7 +7,7 @@
 #include "pso/misc/TOKey.h"
 #include "pso/map/FloorArea.h"
 #include "pso/misc/TLobby_801E43E4.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/network/client_id.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
@@ -20,7 +20,7 @@
 #include "pso/system/SoundEffect.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/vector.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/unk/text_803D853C.h"
 
 extern "C" {

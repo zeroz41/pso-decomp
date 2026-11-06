@@ -1,7 +1,7 @@
 #include "types.h"
 #include <stdlib.h>
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOHangerMachine01.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer_801542CC.h"

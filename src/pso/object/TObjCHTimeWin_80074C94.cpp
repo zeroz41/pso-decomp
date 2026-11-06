@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObjCHTimeWin_80074C94.h"
-#include "pso/TObjCHTimeWin.h"
+#include "pso/ui/TObjCHTimeWin.h"
 #include "pso/misc/TWindowCtrl.h"
 
 extern "C" {

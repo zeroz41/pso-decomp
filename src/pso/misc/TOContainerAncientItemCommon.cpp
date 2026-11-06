@@ -14,7 +14,7 @@
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/misc/TOContainerAncientItemCommon.h"
 #include "pso/object/TObjFish.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TObjContainerItem.h"
 
 extern "C" {

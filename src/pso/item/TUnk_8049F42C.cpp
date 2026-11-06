@@ -4,7 +4,6 @@
 #include "pso/item/TItemLoad_8010FC28.h"
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049F42C.h"
-#include "pso/TItemLoad.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800F7DAC.h"
 

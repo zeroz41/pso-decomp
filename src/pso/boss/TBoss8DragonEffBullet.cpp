@@ -5,7 +5,7 @@
 
 #include "pso/boss/TObjBoss2Tunnel.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_802FE378_lbl_80474B68 {
     s32 value;

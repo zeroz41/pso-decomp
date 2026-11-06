@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/TItemEffEquip.h"
+#include "pso/effect/TItemEffEquip.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 void TItemEffEquip::release_effect() {
     if (((u32) this->m_1c != 0U) && ((s32) *(s32 *)((s8 *)this + 0x24) != -1)) {

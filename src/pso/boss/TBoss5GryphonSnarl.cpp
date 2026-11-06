@@ -8,7 +8,7 @@
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #pragma readonly_strings on
 

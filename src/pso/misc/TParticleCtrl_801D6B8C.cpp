@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/TObject_80019A50.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 

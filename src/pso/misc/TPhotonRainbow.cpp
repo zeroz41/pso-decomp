@@ -2,7 +2,7 @@
 #include "pso/misc/TPhotonRainbow.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/misc/TPhotonRainbow_801AE640.h"
 #include "pso/system/vector.h"

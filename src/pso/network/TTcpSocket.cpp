@@ -3,14 +3,14 @@
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/macros.h"
 #include "pso/TMainTask.h"
 #include "pso/TObject.h"
 #include "pso/TSocket.h"
-#include "pso/TTcpSocket.h"
+#include "pso/network/TTcpSocket.h"
 #include "pso/misc/TUdpSocket.h"
 #include "pso/misc/TLobby.h"
 

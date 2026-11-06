@@ -1,7 +1,7 @@
 #include "pso/menu/CreationInput.h"
 #include "types.h"
 #include "pso/misc/TChCrCharSelect_802938E4.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
 extern "C" {
 

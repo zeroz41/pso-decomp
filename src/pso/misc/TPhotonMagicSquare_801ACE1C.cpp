@@ -11,7 +11,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TPhotonMagicSquare.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 

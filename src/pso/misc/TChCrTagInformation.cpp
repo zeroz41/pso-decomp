@@ -3,7 +3,7 @@
 #include "pso/unk/text_80309890.h"
 #include "pso/unk/text_803098DC.h"
 #include "pso/misc/TChCrTagInformation.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
 struct Tag_802A1E8C {
     u8 pad[0x24];

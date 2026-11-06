@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/TObjLiveMonitorSmall.h"
-#include "pso/TObjLiveMonitor.h"
+#include "pso/object/TObjLiveMonitorSmall.h"
+#include "pso/object/TObjLiveMonitor.h"
 
 extern "C" {
 s32 is_split_screen();

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/FlagWord.h"
-#include "pso/TAdRicoRing.h"
+#include "pso/ui/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
 typedef void (*Fn_801Fn)(void);
 struct Ent_8010F0C0 { Fn_801Fn a; Fn_801Fn b; };

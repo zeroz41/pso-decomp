@@ -8,7 +8,7 @@
 #include "pso/map/FloorArea.h"
 class TChCrTagPlBack;
 #include "pso/misc/TWindowComCard.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TWindowBase.h"
 #include "pso/misc/TUnk_804D0658.h"

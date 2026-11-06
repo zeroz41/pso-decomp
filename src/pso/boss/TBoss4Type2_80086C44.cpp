@@ -2,7 +2,7 @@
 #include "types.h"
 #include "pso/boss/TBoss4Type2_80086C44.h"
 #include "pso/boss/TBoss4Type2.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Ent_800868C4 { u8 data[0x98]; };
 

@@ -1,4 +1,4 @@
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 #include "pso/misc/TPlyGuildCardTag_8007B7EC.h"
 #include "pso/misc/TPlyPhotonChair.h"
 #include "pso/player/TObjPlayer.h"

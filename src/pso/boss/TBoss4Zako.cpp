@@ -299,7 +299,7 @@ void render__9TBoss4UroFv(void);
 #include "pso/enemy/TObjEneLappy.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #pragma readonly_strings on
 

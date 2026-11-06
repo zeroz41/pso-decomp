@@ -2,7 +2,7 @@
 #include "pso/boss/TBoss8Dragon_8036AEF8.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/system/memory.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"

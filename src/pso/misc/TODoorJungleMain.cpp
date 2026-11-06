@@ -4,7 +4,7 @@
 #include "pso/misc/TODoorBase.h"
 #include "pso/misc/TODoorJungleMain.h"
 #include "pso/misc/TOKeyJungleMain.h"
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/object/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"

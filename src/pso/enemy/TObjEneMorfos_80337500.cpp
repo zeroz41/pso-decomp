@@ -6,7 +6,7 @@
 #include "pso/enemy/TObjEneMorfos.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/unk/text_80086B64.h"
 
 #include "pso/player/TObjChara.h"

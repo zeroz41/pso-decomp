@@ -3,7 +3,7 @@
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include <stddef.h>
 #include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneMe3ShinowaReal.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/misc/TFogCtrl.h"

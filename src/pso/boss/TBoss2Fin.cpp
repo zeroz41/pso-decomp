@@ -1,6 +1,6 @@
 #include "pso/boss/TBoss2Fin.h"
 #include "pso/system/vector.h"
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 #include "pso/object/TObjFish.h"
 #include "types.h"
 

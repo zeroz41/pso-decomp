@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/TFontSmallTask.h"
+#include "pso/ui/TFontSmallTask.h"
 #include "pso/enemy/TObjEneEpsilonGuard.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOCtrlDubchik.h"

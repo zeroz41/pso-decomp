@@ -4,8 +4,8 @@
 #include "pso/misc/TLobby_8028D714.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/menu/TChCrEffWall.h"
-#include "pso/misc/TChCrEffTag.h"
+#include "pso/ui/TChCrEffWall.h"
+#include "pso/ui/TChCrEffTag.h"
 
 u8 is_selection_done__23TAdSinglePlyChrSelectGCFPv(void *arg0) {
     return (u8) (*(s32 *)((s8 *)arg0 + 0x2C) == 2);

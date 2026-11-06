@@ -1,16 +1,20 @@
 #ifndef PSO_BOSS_TBOSS6CRUSHROCK_H
 #define PSO_BOSS_TBOSS6CRUSHROCK_H
 
+#include "pso/TObject.h"
 #include "types.h"
 
-extern "C" {
-u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
-}
+class TBoss6CrushRock : public TObject {
+public:
+    virtual ~TBoss6CrushRock();
+    virtual void run_task();
+    virtual void render();
+public:
+    static s32 is_falz_alive();
+};
 
-// --- C functions defined in TBoss6CrushRock.cpp ---
 extern "C" {
 u8 *__ct__15TBoss6CrushRockFv(u8 *object, s32 arg1, s32 arg2, s32 arg3);
 }
-// --- end of C functions
 
 #endif

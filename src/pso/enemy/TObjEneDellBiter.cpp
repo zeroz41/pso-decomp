@@ -5,7 +5,7 @@
 #include "pso/unk/TUnk_80494968.h"
 #include "pso/render/reflection.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/enemy/AttackTargetHistory.h"

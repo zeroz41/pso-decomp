@@ -2,7 +2,7 @@
 #include "pso/item/TUnk_804A5A28.h"
 #include "pso/item/TItem.h"
 #include "pso/misc/TTecSlicer.h"
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/unk/TUnk_804A5B20.h"

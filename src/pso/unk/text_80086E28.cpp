@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80086E28.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/ui/TAdLoadQuestPrtTxtGC.h"
 struct Rec_80086E28 { u8 pad[0x98]; };
 

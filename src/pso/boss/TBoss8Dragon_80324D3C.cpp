@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/TBoss5GryphonLightningWing.h"
+#include "pso/boss/TBoss5GryphonLightningWing.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 extern "C" {
 

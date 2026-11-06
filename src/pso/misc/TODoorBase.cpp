@@ -2,11 +2,11 @@
 #include "pso/misc/TODoorBase.h"
 #include "pso/misc/TOTrapAncient01_80226534.h"
 #include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/TSwitch.h"
+#include "pso/object/TSwitch.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/SoundEffect.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 // This unit is compiled with deferred code generation (its vtable comes ahead
 // of its switch tables), which emits the functions in reverse: the file is

@@ -95,7 +95,7 @@ typedef char RecoveredGlobal_803589F8_lbl_804F15C8_size[sizeof(RecoveredGlobal_8
 #include "pso/misc/TNowLoading.h"
 #include "pso/item/TItem.h"
 #include "pso/map/FloorArea.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct RecoveredGlobal_80358048_lbl_804F166C {
     s32 value;

@@ -9,7 +9,7 @@
 #include "pso/system/TUnk_804A2660.h"
 #include "dolphin/mtx.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TItemMag.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/misc/TTecGiFoie.h"

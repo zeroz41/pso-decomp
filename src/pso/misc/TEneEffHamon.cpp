@@ -3,19 +3,12 @@
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/MaterialColorFade.h"
 #include "pso/boss/TBoss2DeRolLe.h"
-#include "pso/misc/TEneEffHamon.h"
+#include "pso/enemy/TEneEffHamon.h"
 #include "pso/system/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TeneFakeTecThunderEff.h"
-class TEneEffHamon : public TObject {
-public:
-    virtual ~TEneEffHamon();
-    virtual void run_task();
-    virtual void render();
-};
-
 #include "types.h"
 #include "pso/misc/TWindowDD.h"
 #include "pso/object/TObjFish.h"

@@ -15,7 +15,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
 #include "pso/misc/TWindowMessage.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/boss/TObjBoss2Tunnel.h"

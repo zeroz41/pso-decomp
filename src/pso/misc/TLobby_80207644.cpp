@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TAdStorySelectGC.h"
+#include "pso/ui/TAdStorySelectGC.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/map/FloorArea.h"
 

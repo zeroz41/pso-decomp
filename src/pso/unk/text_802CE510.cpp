@@ -1,5 +1,5 @@
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/unk/text_800D8830.h"
 #include "pso/boss/TBoss8Dragon_80065C90.h"

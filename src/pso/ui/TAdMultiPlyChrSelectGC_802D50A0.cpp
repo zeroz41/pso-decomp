@@ -4,7 +4,7 @@
 #include "pso/ui/TAdMultiPlyChrSelectGC_802D50A0.h"
 #include "pso/unk/text_80120908.h"
 #include "pso/ui/TAdMultiPlyChrSelectGC.h"
-#include "pso/TAdMultiSelGameModeGC.h"
+#include "pso/ui/TAdMultiSelGameModeGC.h"
 
 extern "C" {
 void copy_vec2__28TWindowSubSymbolChatPartsSetFPv(void *);

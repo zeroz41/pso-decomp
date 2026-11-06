@@ -4,7 +4,7 @@
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/TItemData.h"
 #include "pso/misc/TWindowSubStatusDisp.h"

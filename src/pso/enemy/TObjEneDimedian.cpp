@@ -9,7 +9,7 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneDimedian.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneLappy.h"

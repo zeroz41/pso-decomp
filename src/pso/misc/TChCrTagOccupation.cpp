@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/TChCrTagOccHeader.h"
 #include "pso/TObject.h"
-#include "pso/TChCrTagOccupation.h"
+#include "pso/ui/TChCrTagOccupation.h"
 extern "C" void render__18TChCrTagOccupationFv();
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 
 extern "C" {
 

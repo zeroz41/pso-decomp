@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/misc/TTecGiFoie.h"
 extern "C" void *__dt__13TUnk_804CC148Fv(void *, s16);

@@ -4,7 +4,7 @@
 #include "pso/system/ModelDrawContext.h"
 
 #include "pso/misc/TNowLoading.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 struct Pd_8028ACE8 { u8 pad[0x1C]; s32 count; void **a; void **b; };
 

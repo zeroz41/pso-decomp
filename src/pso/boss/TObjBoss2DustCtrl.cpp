@@ -1,10 +1,9 @@
-#include "pso/TObjBoss2DustCtrl.h"
 #include "pso/boss/TObjBoss2DustCtrl.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

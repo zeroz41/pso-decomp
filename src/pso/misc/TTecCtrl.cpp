@@ -1,11 +1,9 @@
-#include "pso/TTecCtrl.h"
-#include "pso/misc/TTecCtrl.h"
-#include "pso/misc/TTecZondeEff.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/technique/TTecZondeEff.h"
 
 TTecCtrl::~TTecCtrl() {}
 
 #include "types.h"
-#include "pso/TTecZondeEff.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8022F068_lbl_804CC934 {

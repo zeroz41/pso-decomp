@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/TAdMultiSaveGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TMainTask.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 

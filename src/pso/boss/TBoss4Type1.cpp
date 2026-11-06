@@ -8,7 +8,7 @@
 #include "pso/boss/TBoss4Type1.h"
 #include "pso/unk/text_8004AA04.h"
 #include "pso/misc/TLobby.h"
-#include "pso/TObjControl.h"
+#include "pso/object/TObjControl.h"
 #include "pso/TMainTask.h"
 #include "pso/system/vector.h"
 #include "pso/object/TObjFish_800E2FFC.h"
@@ -25,7 +25,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/object/TObjFish.h"
 
 #include "pso/TObjDFTenchuFuru.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4DarkFalz.h"
 #include "pso/boss/TBoss4Uro.h"

@@ -6,7 +6,7 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804CC870.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/vector.h"

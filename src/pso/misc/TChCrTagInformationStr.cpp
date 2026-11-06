@@ -1,5 +1,4 @@
-#include "pso/TChCrTagInformationStr.h"
-#include "pso/misc/TChCrTagInformationStr.h"
+#include "pso/ui/TChCrTagInformationStr.h"
 
 TChCrTagInformationStr::~TChCrTagInformationStr() {}
 

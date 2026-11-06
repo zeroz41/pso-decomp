@@ -17,7 +17,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/system/vector.h"
 
 #include "pso/object/TObjDoorJung.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TOTrapAncient02.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/object/TObjFish.h"

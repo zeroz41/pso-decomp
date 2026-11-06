@@ -1,9 +1,9 @@
 #pragma readonly_strings on
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemEffFlame.h"
-#include "pso/TItemAttacker.h"
+#include "pso/item/TItemAttacker.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_801542CC.h"

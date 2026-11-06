@@ -19,7 +19,7 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 #include "pso/system/vector.h"
 #include "pso/enemy/TObjEneRecon.h"
 #include "pso/TObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 #include "pso/enemy/TUnk_80494938.h"
 extern "C" void test_flag_256__13TUnk_80493450Fv();

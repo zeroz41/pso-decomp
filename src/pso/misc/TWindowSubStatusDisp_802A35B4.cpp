@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/TAdSelectTxtSubGC.h"
+#include "pso/ui/TAdSelectTxtSubGC.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/object/TObjFish.h"
 

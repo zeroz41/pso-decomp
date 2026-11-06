@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEneDellBiter_Eff_Rush.h"
 #include "pso/unk/TObjEneDellBiter_Eff_TpAbsorb1.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjChara.h"

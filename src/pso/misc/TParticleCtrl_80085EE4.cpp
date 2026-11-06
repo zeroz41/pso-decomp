@@ -9,7 +9,7 @@
 #include "pso/misc/TUnk_8048E778.h"
 #include "pso/misc/TUnk_8048E6DC.h"
 #include "pso/misc/TUnk_8048E6A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TWindowSubStatusDisp.h"
 #include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/object/TObjFish.h"

@@ -13,7 +13,7 @@
 #include "pso/unk/text_803D853C.h"
 
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 #include "pso/misc/TRaderMapCore.h"

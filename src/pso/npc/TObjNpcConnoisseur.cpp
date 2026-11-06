@@ -3,7 +3,7 @@
 #include "pso/npc/TObjNpcExpertBase.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/TFontSmallTask.h"
+#include "pso/ui/TFontSmallTask.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"

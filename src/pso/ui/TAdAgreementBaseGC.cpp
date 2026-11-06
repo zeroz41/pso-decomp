@@ -7,7 +7,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801334D4.h"
 
-#include "pso/TLevelSelect.h"
+#include "pso/ui/TLevelSelect.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdEnterSerialAccessGC.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

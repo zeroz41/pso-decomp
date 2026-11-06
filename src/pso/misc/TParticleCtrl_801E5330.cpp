@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TParticleCtrl_801E5330.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/effect/TEffect.h"
 
 // One quad-sprite particle kind; create_quad_sprites builds sprite_type's

@@ -3,7 +3,7 @@
 #include "pso/item/TItemLoad_8010FDF0.h"
 #include "pso/misc/item_pmt.h"
 #include "types.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 extern "C" void*    item_pmt;
 extern "C" void*    item_pmt_tbl;

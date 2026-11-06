@@ -13,7 +13,7 @@
 #include "pso/math/FloatRounding.h"
 #include "pso/TObject.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #include "pso/animation/MotionContext.h"

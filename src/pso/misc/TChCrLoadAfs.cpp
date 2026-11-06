@@ -1,9 +1,8 @@
 #include "pso/math/FloatRounding.h"
 #include "types.h"
-#include "pso/misc/TChCrLoadAfs.h"
+#include "pso/ui/TChCrLoadAfs.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/TChCrLoadAfs.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"
 

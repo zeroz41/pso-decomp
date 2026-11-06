@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/misc/TEndingPicStage.h"
-#include "pso/menu/TAdEndText.h"
+#include "pso/ui/TAdEndText.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804C4540.h"

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/menu/TAdEndText.h"
+#include "pso/ui/TAdEndText.h"
 #include "pso/misc/TMovie.h"
 #include "pso/misc/TKeyBoardControl.h"
 #include "pso/misc/TLobby.h"

@@ -2,7 +2,7 @@
 #include "pso/object/TObject_80019A50.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TBoss6CrushRock.h"
+#include "pso/boss/TBoss6CrushRock.h"
 #include "pso/object/TObjFish.h"
 
 extern "C" {

@@ -1,7 +1,7 @@
 #include "pso/TItemShootGun.h"
 #include "types.h"
 #include "pso/TItemShoot.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/item/TItem.h"
 
 struct WeaponColor {

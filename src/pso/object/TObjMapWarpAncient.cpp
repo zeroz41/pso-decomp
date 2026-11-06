@@ -7,7 +7,7 @@
 #include "pso/object/TObjGoalWarpAncient_8017CB60.h"
 #include "pso/system/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/object/TObjAreaWarp.h"
 #include "pso/object/TObjFish.h"

@@ -4,7 +4,7 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjLazerFenceExtra.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"

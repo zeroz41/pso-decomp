@@ -8,7 +8,7 @@
 #include "pso/misc/TWindowSubComCardList.h"
 #include "pso/misc/TWindowMenu.h"
 #include "pso/ui/TAdMultiSaveGC.h"
-#include "pso/TAdMultiChgGameModeGC.h"
+#include "pso/ui/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"

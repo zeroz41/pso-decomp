@@ -9,7 +9,7 @@
 
 #include <stddef.h>
 #include "pso/item/TItemAttackCol.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/item/TItemProShield.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"

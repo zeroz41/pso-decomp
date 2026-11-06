@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/misc/TChCrCharSelect_802937D4.h"
 #include "pso/object/TObject_80019A50.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
-#include "pso/TChCrCharSelect.h"
+#include "pso/ui/TChCrCharSelect.h"
 #include "pso/misc/TCharaMaking.h"
 
 extern "C" {

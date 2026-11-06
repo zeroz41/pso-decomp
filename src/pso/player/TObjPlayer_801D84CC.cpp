@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/item/TItem.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/system/vector.h"
 #include "pso/misc/TLobby.h"

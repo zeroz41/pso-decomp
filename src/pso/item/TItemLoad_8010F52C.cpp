@@ -5,7 +5,7 @@
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049F41C.h"
 #include "pso/item/TUnk_8049F40C.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 #include "pso/misc/TLobby.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 

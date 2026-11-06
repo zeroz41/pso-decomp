@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/network/TProtocol_801DA140.h"
 
 extern "C" void bswap__17TSendDownloadHeadFv(TSendDownloadHead *);

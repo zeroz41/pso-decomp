@@ -1,9 +1,8 @@
-#include "pso/TChCrEffTag.h"
-#include "pso/misc/TChCrEffTagStr.h"
+#include "pso/ui/TChCrEffTag.h"
+#include "pso/ui/TChCrEffTagStr.h"
 #include "types.h"
 #include <stddef.h>
 #include "pso/misc/TChCrEffTag_8029AC44.h"
-#include "pso/misc/TChCrEffTag.h"
 
 struct Stack_8029AA74 {
     f32 sp8;

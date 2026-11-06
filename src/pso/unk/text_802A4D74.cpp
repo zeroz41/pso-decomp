@@ -1,6 +1,6 @@
 #include "pso/ui/MenuText.h"
 #include "types.h"
-#include "pso/TAdTitleTexGC.h"
+#include "pso/ui/TAdTitleTexGC.h"
 #include "pso/TObjWarpString.h"
 
 

@@ -12,7 +12,7 @@
 #include "pso/misc/TContainerAncient01.h"
 #include "pso/misc/TContainerAncient01R.h"
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"

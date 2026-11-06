@@ -43,10 +43,10 @@ const char *TObjBs4CutAtk_name = TObjBs4CutAtk_type_name;
 const char *TBoss4Type3_name = TBoss4Type3_type_name;
 typedef TBoss4Type3Handler Type3Handler;
 struct Type3MotionView { s32 kind, flags, motions[3]; };
-#include "pso/TBoss4Zanzo.h"
+#include "pso/boss/TBoss4Zanzo.h"
 #include <stddef.h>
 #include "pso/TObjBs4CutAtk.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss4Uro.h"
 #include "pso/boss/TBoss6PlotFalz.h"

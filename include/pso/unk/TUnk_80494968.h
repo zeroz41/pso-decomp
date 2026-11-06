@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_80494968_H
 #define PSO_UNK_TUNK_80494968_H
 #include "types.h"
-#include "pso/TAttackTrace.h"
+#include "pso/effect/TAttackTrace.h"
 
 class TUnk_80494968 : public TAttackTrace {
 public:

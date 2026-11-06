@@ -12,7 +12,7 @@
 #include "pso/misc/TLobby.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 
 typedef char Thanks_current_motion[offsetof(TBoss6Thanks,current_motion)==0x20?1:-1];
 typedef char Thanks_frame0[offsetof(TBoss6Thanks,frame0)==0x28?1:-1];

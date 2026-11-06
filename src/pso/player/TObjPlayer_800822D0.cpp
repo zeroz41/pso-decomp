@@ -1,4 +1,4 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_800822D0.h"
 #include "pso/player/TObjChara.h"

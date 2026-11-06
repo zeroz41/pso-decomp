@@ -3,7 +3,7 @@
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/object/TObjFish.h"
 #include "pso/object/TObjMotion.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 struct S_8004F5F8 {
     u8 pad0[0x18];
     void *vt;

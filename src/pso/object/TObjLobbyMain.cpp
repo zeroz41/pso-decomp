@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/object/TObjLobbyMain.h"
 #include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/animation/ActorAnimationState.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss4Type2_800874F4.h"

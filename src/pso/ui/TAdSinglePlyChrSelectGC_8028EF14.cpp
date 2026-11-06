@@ -9,7 +9,7 @@
 #include "pso/misc/CharacterShape.h"
 #include "pso/misc/CharacterCreationTextureCache.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEnePanarms.h"
 #include "pso/misc/TCharaMaking.h"
 #include "pso/misc/TQuestVmDownLoadServer.h"

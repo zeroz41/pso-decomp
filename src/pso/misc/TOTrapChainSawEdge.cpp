@@ -16,7 +16,7 @@ extern "C" void vfunc_25__17TOTrapChainSawKeyFv();
 extern "C" void update_extension__14TOTrapChainSawFv();
 
 #include "pso/object/TObjMapObject.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TLobby.h"
 #include "pso/misc/TOKey.h"
 #include "pso/misc/TRaderMapCore.h"

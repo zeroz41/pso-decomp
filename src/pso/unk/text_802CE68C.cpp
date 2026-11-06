@@ -9,7 +9,7 @@
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/enemy/TObjEneBm9Mericarol.h"
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/enemy/TObjEneRe7Berura.h"

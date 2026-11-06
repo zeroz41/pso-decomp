@@ -14,7 +14,7 @@
 #include "pso/misc/TWindowMenu.h"
 #include <stddef.h>
 #include "pso/TObject.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include "pso/misc/THunterGuildSeqOffline.h"
 #include "pso/misc/TLobby.h"
 #include "pso/quest/TQuestListVM.h"

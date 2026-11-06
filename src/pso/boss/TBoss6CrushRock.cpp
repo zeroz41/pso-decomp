@@ -1,4 +1,3 @@
-#include "pso/TBoss6CrushRock.h"
 #include "pso/boss/TBoss6CrushRock.h"
 #include "pso/system/vector.h"
 #include "pso/boss/TBoss6Rock.h"

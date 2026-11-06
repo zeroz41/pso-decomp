@@ -2,7 +2,7 @@
 #pragma fp_contract on
 
 #include "pso/object/TObjVoloptCage.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
 #include "pso/boss/TBoss3VoloptHiraisin.h"
 #include "pso/math/AngleLookup.h"

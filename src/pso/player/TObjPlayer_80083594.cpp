@@ -365,7 +365,7 @@ void *TUnk_8048E5DC::dt(s16 arg1) {
 #include "pso/system/memory.h"
 #include "pso/player/TUnk_8048E5F4.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/TParticleCtrl.h"
 #include "pso/misc/TCameraCtrl.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
