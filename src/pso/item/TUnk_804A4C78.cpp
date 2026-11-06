@@ -5,8 +5,7 @@
 #include "pso/system/FlagWord.h"
 #include "pso/items/TItemWeapon.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012B198.h"
+#include "pso/TMainTask.h"
 
 extern "C" {
 
@@ -58,41 +57,16 @@ void TUnk_804A4C78::reserved_53() {
 
 }
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *, s32, u8 *);
-
-extern s32 __vt__13TUnk_804A4C78[];
-
-void *TObjPlayer__sub_8012B0F8(void *player, s32 parent, u8 *item) {
-    __ct__11TItemWeaponFP7TObjectPUc(player, parent, item);
-    *(s32 **)((s8 *)player + 0x18) = __vt__13TUnk_804A4C78;
-    ((TItemWeapon *)player)->set_weapon_flags(513);
-    return player;
+TUnk_804A4C78::TUnk_804A4C78(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(513);
 }
 
-}
-
-extern "C" {
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
-u8 *TObjPlayer::create_obj_8012B140(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TObjPlayer__sub_8012B0F8(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+u8 *TObjPlayer::create_obj_8012B140(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A4C78(tl_05, item);
     }
     return NULL;
 }
-
-}
-
-extern s32 __vt__13TUnk_804A4C78[];
 
 TUnk_804A4C78::~TUnk_804A4C78() {}
 

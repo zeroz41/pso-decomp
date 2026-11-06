@@ -38,7 +38,7 @@ u32 baranz_launcher_create_shot(void *player, s32 arg1, s32 arg2, f32 farg0) {
 }
 
 // Baranz Launcher (inferred)
-void TUnk_804A2A58::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_y((void*)0, *(void* *)&this->unk_1F8); } }
+void TUnk_804A2A58::vfunc_60() { if (get_player_list__10TObjPlayerFv(this) == 1) { rotate_matrix_y((void*)0, *(void **)&rotation_y); } }
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {
@@ -99,8 +99,8 @@ void TUnk_804A2A58::emit_marker_effects() {
     u8 *arg0 = (u8 *)this;
     s32 sp8;
     s32 temp_r4;
-    temp_r4 = this->m_1fc;
-    this->m_1fc = (temp_r4 + 0x2AAA);
+    temp_r4 = spin_speed;
+    spin_speed = (temp_r4 + 0x2AAA);
     if (is_model_shown__5TItemFv(arg0, temp_r4) != 0) {
         ((TItemWeapon *)arg0)->get_joint_position(2, &sp8);
         ((VObj_18 *)(arg0))->m49(&sp8, 0, 0x4FA, 1);
@@ -118,10 +118,10 @@ void TUnk_804A2A58::emit_marker_effects() {
 void TUnk_804A2A58::update_weapon() {
     s32 temp_r4;
 
-    temp_r4 = this->m_1fc;
+    temp_r4 = spin_speed;
     if (temp_r4 > 0) {
-        this->m_1fc = (temp_r4 - 0x888);
-        *(s32 *)((s8 *)this + 0x1F8) = (s32) (*(s32 *)((s8 *)this + 0x1F8) - 0x888);
+        spin_speed = (temp_r4 - 0x888);
+        rotation_y -= 0x888;
     }
 }
 
@@ -129,33 +129,22 @@ TUnk_804A2A58::~TUnk_804A2A58() {
 
 }
 
-extern "C" {
+extern "C" const float lbl_805DAD78;
 
-int __ct__11TItemWeaponFP7TObjectPUc(void);
-
-    extern unsigned char __vt__13TUnk_804A2A58[];
-    extern const float lbl_805DAD78;
-void *baranz_launcher_ct(void *a0, TObject *parent, void *item) { __ct__11TItemWeaponFP7TObjectPUc(); *(int*)((char*)a0 + 0x18) = (int)__vt__13TUnk_804A2A58; ((TItemWeapon *)a0)->set_weapon_flags(2); *(int*)((char*)a0 + 0x1f0) = (int)baranz_launcher_create_shot; ((TUnk_804A2A58 *)a0)->m_1fc = 0; *(int*)((char*)a0 + 0x1f8) = 0; *(float*)((char*)a0 + 0x1e4) = lbl_805DAD78; return a0; }
-
+TUnk_804A2A58::TUnk_804A2A58(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(2);
+    shot_callback = (WeaponShotCallback)baranz_launcher_create_shot;
+    spin_speed = 0;
+    rotation_y = 0;
+    shot_speed = lbl_805DAD78;
 }
 
 // ---- pso/unk/text_80126740
 
 
-extern "C" {
-u8 *__nw__5TItemFUl(s32);
-}
-
-u8 *create_baranz_launcher(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(baranz_launcher_ct(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+u8 *create_baranz_launcher(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A2A58(tl_05, item);
     }
     return NULL;
 }

@@ -2,17 +2,16 @@
 #define PSO_ITEM_TUNK_804A3928_H
 #include "types.h"
 #include "pso/items/TItemWeapon.h"
+#include <dolphin/mtx/GeoTypes.h>
 
 class TUnk_804A3928 : public TItemWeapon {
 public:
+    TUnk_804A3928(TObject *parent, u8 *item);
     virtual ~TUnk_804A3928();
     virtual void vfunc_60();
     virtual void update_idle();
     virtual void update_attack();
-    void*init_shot_params();
-    u8 unk_1F8[0x4];
-    s32 m_1fc;
-    u8 unk_200[0x4];
+    Vec scale; // scale_current_matrix of model 0; update_idle/update_attack ease z
 };
 
 #endif

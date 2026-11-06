@@ -505,18 +505,12 @@ struct TObjPlayer : public TObjChara {
     s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
-    void*init_state();
     s16 get_stage_strike_count();
-    void *init_and_configure();
     void draw_faust_loaded_projectile();
-    void *init_state_vt2678();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
-    void *init_state(s32 arg1, void *arg2);
     s16 get_kill_count();
-    void *init_from_item(void *arg1, void *arg2);
-    void *initialize_effect_object();
     void draw_if_visible();
     static void apply_status_effect(s32 a);
     // Enters (target, body) in the hit pair table unless it is already there.

@@ -5,16 +5,14 @@
 
 class TUnk_804A2A58 : public TItemWeapon {
 public:
+    TUnk_804A2A58(TObject *parent, u8 *item);
     virtual ~TUnk_804A2A58();
     virtual void update_weapon();
     virtual void emit_marker_effects();
     virtual void vfunc_60();
-    u8 unk_1F8[0x4];
-    s32 m_1fc;
+    s32 rotation_y; // rotate_matrix_y angle of the barrel, wound back by update_weapon
+    s32 spin_speed; // barrel spin added per shot, decays in update_weapon
 };
 
-extern "C" {
-void *baranz_launcher_ct(void *a0, TObject *parent, void *item);
-}
 
 #endif

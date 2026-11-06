@@ -13,6 +13,7 @@
 #include "pso/item/TItemMag.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/misc/TTecGiFoie.h"
+#include "pso/TMainTask.h"
 
 extern "C" s32 is_item_area_enabled(s32 area);
 
@@ -29,7 +30,6 @@ u32 __nw__7TObjectFUl(s32 a0 = 0);
 s32 get_owner_client__5TItemFv(void *);
 s32 __nw__15TItemHeapObjectFUl(s32);
 s32 ct__13TUnk_804A0688Fv(s32, u32, s32, s32);
-extern s32 tl_05;
 void run_task__13TUnk_804A2660Fv(void *arg0);
 s8 get_mode__5TItemFv();
 void __dl__7TObjectFPv(void *);
@@ -113,10 +113,10 @@ void TUnk_804A2678::emit_marker_effects() {
         ((TObjPlayer *)this)->update_active_game_effect();
     }
 }
-void TUnk_804A2678::vfunc_58() { *(s32*)((char*)this + 0x1f8) = -1; }
+void TUnk_804A2678::vfunc_58() { floor_area = -1; }
 void TUnk_804A2678::vfunc_57() {
     s32 temp_r3;
-    *(s32 *)&this->unk_1F8 = -1;
+    floor_area = -1;
     if ((u32) *(u32 *)((s8 *)this + 0x174) != 0U) {
         temp_r3 = __nw__15TItemHeapObjectFUl(0x2C);
         if (temp_r3 != 0) {
@@ -129,8 +129,8 @@ void TUnk_804A2678::vfunc_57() {
 void TUnk_804A2678::update_weapon() {
     s32 area;
     area = get_current_floor_area();
-    if ((area != (s32) *(s32 *)&this->unk_1F8) && (((TItem *)this)->is_model_shown() != 0)) {
-        *(s32 *)&this->unk_1F8 = area;
+    if ((area != floor_area) && (((TItem *)this)->is_model_shown() != 0)) {
+        floor_area = area;
         if (is_item_area_enabled(area) != 0) {
             spawn_item_follow_effect((s32)tl_05, (u32)this, 1, 0x1AE);
             spawn_item_follow_effect((s32)tl_05, (u32)this, 2, 0x1AE);
@@ -142,38 +142,15 @@ TUnk_804A2678::~TUnk_804A2678() {
 
 }
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-extern s32 __vt__13TUnk_804A2678[];
-
-void *TObjPlayer::init_state_vt2678() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A2678;
-    ((TItemWeapon *)this)->set_weapon_flags(34);
-    set_effect_state(10);
-    *(u32 *)&this->unk_1F8 = -1;
-    return this;
+TUnk_804A2678::TUnk_804A2678(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(34);
+    ((TObjPlayer *)this)->set_effect_state(10);
+    floor_area = -1;
 }
 
-}
-
-extern "C" {
-u8 * init_state_vt2678__10TObjPlayerFv(void *, s32, void *);
-u8 *__nw__5TItemFUl(s32);
-u8 *TObjPlayer::create_state_vt2678(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1FC));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_state_vt2678__10TObjPlayerFv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+u8 *TObjPlayer::create_state_vt2678(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A2678(tl_05, item);
     }
     return NULL;
-}
-
 }

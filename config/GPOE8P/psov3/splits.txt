@@ -3140,6 +3140,7 @@ pso/player/TUnk_804A5D28.cpp:
 
 pso/item/TUnk_804A5E20.cpp:
 	.text       start:0x8012E83C end:0x8012EAA8
+	.rodata     start:0x8043E9C0 end:0x8043E9D8
 	.data       start:0x804A5E20 end:0x804A5F18
 
 pso/item/TUnk_804A5F18.cpp:

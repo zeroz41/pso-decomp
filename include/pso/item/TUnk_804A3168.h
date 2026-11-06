@@ -5,13 +5,11 @@
 
 class TUnk_804A3168 : public TItemWeapon {
 public:
+    TUnk_804A3168(TObject *parent, u8 *item);
     virtual ~TUnk_804A3168();
     virtual void emit_marker_effects();
 };
 
-extern "C" {
-u8 *TObjPlayer__sub_801272B4(void *self_, s32 a, void *b);
-u8 *TObjPlayer__sub_80127314(u8 *arg0);
-}
+extern "C" u8 *TObjPlayer__sub_80127314(u8 *item);
 
 #endif

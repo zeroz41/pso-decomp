@@ -1488,14 +1488,14 @@ force_active:
   - TObjPlayer__sub_800FF1FC
   - TObjPlayer__sub_800FF220
   - TObjPlayer__sub_800FF244
-  - TObjPlayer__sub_80123904
+  - __ct__13TUnk_804A1B40FP7TObjectPUc
   - TObjPlayer__sub_8012417C
   - TObjPlayer__sub_80124694
-  - TObjPlayer__sub_801250F8
+  - __ct__13TUnk_804A2260FP7TObjectPUc
   - TObjPlayer__sub_80125FD8
-  - TObjPlayer__sub_801272B4
+  - __ct__13TUnk_804A3168FP7TObjectPUc
   - TObjPlayer__sub_8012AF50
-  - TObjPlayer__sub_8012B0F8
+  - __ct__13TUnk_804A4C78FP7TObjectPUc
   - TObjPlayer__sub_8012C4E4
   - __ct__13TUnk_804A5930FP7TObjectPUc
   - TObjPlayer__sub_8013A788
@@ -5235,9 +5235,9 @@ force_active:
   - construct__13TUnk_8049F41CFPvii
   - construct__13TUnk_804EF8C0Fv
   - construct__9TTecJelinFPviiii
-  - construct_agito__13TUnk_804A3070FlPv
+  - __ct__13TUnk_804A3070FP7TObjectPUc
   - construct_area__11TTecRaBartaFPvPvPv
-  - construct_cane_weapon__FPUcPUcPUc
+  - __ct__13TUnk_804A68C8FP7TObjectPUc
   - construct_card_tags__17TWindowGetComCardFv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFPv
   - construct_card_window_array__23TAdSinglePlyChrSelectGCFi
@@ -5496,7 +5496,7 @@ force_active:
   - cri_copyright_string
   - ct_init_placement_ring__9TItemListFPUclPUcPUcSc
   - ct_shoot_model__10TObjPlayerFPv
-  - ct_variant__13TUnk_804A5058Fv
+  - __ct__13TUnk_804A5058FP7TObjectPUc
   - cull_sections__6TSceneFv
   - current_floor_area_type
   - cursor_action_priority_table
@@ -6021,7 +6021,7 @@ force_active:
   - enter_state8__15TObjEneDelDepthFv
   - enter_state_3__11TBoss4BishiFPv
   - enter_state_513__13TUnk_804A1570Fv
-  - enter_state_515__13TUnk_804A5648Fv
+  - __ct__13TUnk_804A5648FP7TObjectPUc
   - enter_state_804F27E0__13TUnk_804F27E0FlPv
   - enter_timed_state__13TUnk_804F0810FlPv
   - environment_sound_tables_by_area
@@ -7008,7 +7008,7 @@ force_active:
   - init_effect__13TUnk_804E4B3CFv
   - init_effect_object__13TUnk_804EDD20Fv
   - init_effect_slot_1__11TBoss6Type1Fv
-  - init_effect_state__13TUnk_804A6108Fv
+  - __ct__13TUnk_804A6108FP7TObjectPUc
   - init_enemy__16TObjEneRe7BeruraFv
   - init_enemy__17TObjEneDf2BringerFv
   - init_enemy__18TObjEneRe4SorcererFv
@@ -7020,7 +7020,7 @@ force_active:
   - init_follow_target__10TNpcPlayerFv
   - init_forward__19TItemDisconnectCtrlFv
   - init_fresh_character_slot
-  - init_from_item__10TObjPlayerFPvPv
+  - __ct__13TUnk_804A62F8FP7TObjectPUc
   - init_from_table_entry__9TObjGrassFl
   - init_gauge_entry__20TWindowSubStatusDispFv
   - init_geometry__13TUnk_804B2578Fv
@@ -7101,7 +7101,7 @@ force_active:
   - init_player_forward__6TLobbyFv
   - init_player_scale_state__FP10TObjPlayer
   - init_player_window_effect__6TLobbyFv
-  - init_position_state__13TUnk_804A64E8Fv
+  - __ct__13TUnk_804A64E8FP7TObjectPUc
   - init_positions__10TEndingPicFv
   - init_positions__19TContainerAncient01Fv
   - init_projection_state__11TCameraCtrlFv
@@ -7130,20 +7130,20 @@ force_active:
   - init_spin_params__10TBoss6RockFv
   - init_split_effect__15TObjEneSlimeOneFv
   - init_state_1536__13TUnk_804ED0A8FlPv
-  - init_state_1f8__13TUnk_804A5740Fv
-  - init_state_2__13TUnk_804A5E20Fv
+  - __ct__13TUnk_804A5740FP7TObjectPUc
+  - __ct__13TUnk_804A5E20FP7TObjectPUc
   - init_state_34_alt__13TUnk_804F14A8FlPv
   - init_state_513__13TUnk_804E1BB0FlPv
   - init_state_90__11TBoss6Type1Fv
   - init_state__10TNpcPlayerFv
-  - init_state__10TObjPlayerFlPv
-  - init_state__10TObjPlayerFv
+  - __ct__13TUnk_804A5550FP7TObjectPUc
+  - __ct__13TUnk_804A1D30FP7TObjectPUc
   - init_state__11TBoss6Type1Fv
   - init_state__13TObjEneMe1GeeFv
   - init_state__15TObjEneDelDepthFv
   - init_state__15TObjEneSlimeOneFv
-  - init_state_object__13TUnk_804A4A88Fv
-  - init_state_vector__13TUnk_804A0DB0Fv
+  - __ct__13TUnk_804A4A88FP7TObjectPUc
+  - __ct__13TUnk_804A0DB0FP7TObjectPUc
   - init_state_vectors__19TContainerAncient01Fv
   - init_state_zero__12TBoss8DragonFPv
   - init_sub__13TLockOnCursorFPv
@@ -7181,7 +7181,7 @@ force_active:
   - initialize__16TItemWeaponRifleFlPUc
   - initialize_battle__19TPlayerBattleCtrl4PFv
   - initialize_boss6_type2_appear_particle_origin__Fv
-  - initialize_effect_object__10TObjPlayerFv
+  - __ct__13TUnk_804A65E0FP7TObjectPUc
   - initialize_fmt1_materials__6TSceneFv
   - initialize_fmt2_materials__6TSceneFv
   - initialize_from_placement__13TObjRaderIconFv
