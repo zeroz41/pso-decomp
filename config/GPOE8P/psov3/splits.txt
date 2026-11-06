@@ -4956,7 +4956,7 @@ pso/unk/text_80197FD0.cpp:
 pso/object/TObjSinBoard.cpp:
 	.text       start:0x8019806C end:0x8019A790
 	.rodata     start:0x80445F90 end:0x80446088
-	.data       start:0x804B8A10 end:0x804B8DD0
+	.data       start:0x804B8A10 end:0x804B8F58
 	.sdata      start:0x805D3430 end:0x805D3440
 	.sdata2     start:0x805DBF40 end:0x805DBF9C
 
