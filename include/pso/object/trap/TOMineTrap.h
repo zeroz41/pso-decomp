@@ -16,7 +16,7 @@ struct TOMineTrap : public TOMine {
     u32 m_378;
     u8 _pad37C[0x2];
     u16 m_37e;
-    u32 m_380;
+    s32 m_380;
     u16 get_trap_type();
     static int get_trap_count();
     static void set_instance(int a0);

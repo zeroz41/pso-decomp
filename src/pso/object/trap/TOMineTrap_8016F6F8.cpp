@@ -97,8 +97,6 @@ struct VObj_18_1da615 : VBase_18_1da615 {
     virtual s32 m23(void *, f32);
 };
 
-struct Pair_80170DD8 { s32 a; s32 b; };
-
 extern "C" {
 s32 is_locally_controlled__10TObjPlayerFPv(u32 a0);
 s32 get_localized_text_entry(s32 arg0, s32 arg1);
@@ -230,7 +228,7 @@ s32 create_placed_trap__10TOMineTrapFUiss(u32 arg0, s16 arg1, s16 arg2) {
     return (s32)obj;
 }
 
-void*TOMineTrap::get_mine_data_ptr() { return (char*)this + 0x334; }
+void *TOMineTrap::get_mine_data_ptr() { return &float_position; }
 
 extern s32 __vt__10TOMineTrap[];
 
@@ -323,7 +321,7 @@ void TOMine::apply_object_set_data(void *set_data) {
     u8 *arg0 = (u8 *)this;
     TObjBase::apply_object_set_data(set_data);
     this->spawn_disp_objects();
-    VecCopy((Vec *)(arg0 + 0x334), (const Vec *)(arg0 + 0x38));
+    VecCopy(&float_position, &position);
 }
 void TOMine::vfunc_85() {  }
 const char *TOMine::get_name() { return (const char *)get_localized_text_entry(16, 16); }
@@ -547,21 +545,21 @@ void TOMine::update_float_height() {
     f32 temp_f1;
     f32 temp_f4;
     if (!(this->m_340 & 2)) {
-        temp_f4 = *(f32 *)((s8 *)arg0 + 0x338);
-        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (temp_f4 + ((lbl_805DB884 * ((lbl_805DB888 + this->home_position.y) - temp_f4)) + (*(const f32 *)&TOMineTrap__data_805DB868)));
+        temp_f4 = float_position.y;
+        float_position.y = (f32) (temp_f4 + ((lbl_805DB884 * ((lbl_805DB888 + this->home_position.y) - temp_f4)) + (*(const f32 *)&TOMineTrap__data_805DB868)));
         temp_f1 = lbl_805DB888 + this->home_position.y;
-        if (temp_f1 <= *(f32 *)((s8 *)arg0 + 0x338)) {
-            *(f32 *)((s8 *)arg0 + 0x338) = temp_f1;
+        if (temp_f1 <= float_position.y) {
+            float_position.y = temp_f1;
             this->m_340 = (s32) (this->m_340 | 2);
         }
     } else {
         *(s32 *)&this->rotation_x = (s32) (*(s32 *)&this->rotation_x + 0x800);
-        *(f32 *)((s8 *)arg0 + 0x338) = (f32) (*(f32 *)((s8 *)arg0 + 0x338) + sin_table_lookup(*(s32 *)&this->rotation_x));
+        float_position.y = (f32) (float_position.y + sin_table_lookup(*(s32 *)&this->rotation_x));
     }
 }
 #pragma pop
 
-void TOMineTrap::sync_position() { VecCopy((Vec *)((char*)this + 0x38), (const Vec *)((char*)this + 0x334)); refresh_collision_body_centers(); }
+void TOMineTrap::sync_position() { VecCopy(&position, &float_position); refresh_collision_body_centers(); }
 void TOMine::detonate() {
     s32 i;
     u8 *obj;
@@ -573,9 +571,9 @@ void TOMine::detonate() {
     for (i = 0; i < 0x10; i++) {
         obj = get_battle_param__10TObjPlayerFi(i);
         if (TObjPlayer::is_valid_and_active((u32)obj) != 0) {
-            Pair_80170DD8 pair = *(Pair_80170DD8 *)(((u8 *)this) + 0x354);
+            DirectAttackPayload pair = attack;
             f32 r = ((VObj_18_1da615 *)obj)->m21(this, &pair, 0, -1, -1);
-            if (*(s32 *)&this->m_354 < 5) {
+            if (attack.kind < 5) {
                 ((VObj_18_1da615 *)obj)->m23(this, lbl_805DB874 * r);
             }
         }

@@ -250,7 +250,7 @@ f32 TOMineTrap__vt20(Obj_8016F5B4 *arg0, u32 arg1) {
 void TOMineTrap::vfunc_82() {
     Obj_8016F64C *arg0 = (Obj_8016F64C *)this;
     u32 r;
-    switch (this->m_354) {
+    switch (this->attack.kind) {
     default:
         r = (u32)spawn_particle_effect(arg0->sub, 0x45);
         if (r != 0U) {

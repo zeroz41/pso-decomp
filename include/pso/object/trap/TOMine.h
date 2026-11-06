@@ -31,14 +31,12 @@ struct TOMine : public TObjChara {
     virtual void apply_knockback_from_attacker(u8 *, f32);
     virtual s32 try_start_action(s32, s32);
     virtual s32 roll_physical_accuracy(void *, s32, f32);
-    void* m_334;
-    u8 _pad338[0x8];
+    Vec float_position; // copied from position on spawn; y bobs in update_float_height
     u32 m_340;
     u32 m_344;
     u8 unk_348[0x8];
-    f32 m_350;
-    u32 m_354;
-    u8 _pad358[0x4];
+    f32 m_350;                // trigger radius (squared against horizontal_distance_squared)
+    DirectAttackPayload attack; // passed by value to receive_direct_attack
     u16 m_35c;
     u8 _pad35E[0x12];
     u32 m_370;
