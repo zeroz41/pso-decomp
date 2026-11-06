@@ -8,7 +8,7 @@
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/misc/TTecSlicer.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
-#include "pso/item/TItemEquipVariant_8012DCEC.h"
+#include "pso/TMainTask.h"
 
 extern "C" {
 
@@ -19,8 +19,6 @@ s32 rotate_matrix_z(s32, s32);
 s32 rotate_matrix_x(s32, s32);
 }
 
-extern const f32 lbl_805DAF34;
-
 void TUnk_804A5B20::vfunc_60() {
     s32 player_list;
 
@@ -29,30 +27,25 @@ void TUnk_804A5B20::vfunc_60() {
         player_list = TObjPlayer::get_player_list();
         switch (player_list) {
         case 1:
-            rotate_matrix_x(0, *(s32 *)&this->unk_1F8);
+            rotate_matrix_x(0, rotation);
             return;
         case 2:
-            scale_current_matrix((u8 *)&this->m_1fc);
+            scale_current_matrix(&scale);
             return;
         }
         break;
     case 7:
         switch (TObjPlayer::get_player_list()) {
         case 4:
-            post_translate_matrix((u8 *)&this->m_1fc);
+            post_translate_matrix(&scale);
             return;
         case 2:
-            rotate_matrix_z(0, *(s32 *)&this->unk_1F8);
+            rotate_matrix_z(0, rotation);
             break;
         }
         break;
     }
 }
-
-struct RecoveredGlobal_8012DBF4_lbl_804A5B20 {
-    s32 value;
-    u8 remaining[0xF4];
-};
 
 typedef struct SlicerLaunchData_8012D9C8 {
     u16 player; u16 pad;
@@ -67,8 +60,6 @@ extern const f32 lbl_805DAF38;
 extern const f32 lbl_805DAF3C;
 extern const f32 lbl_805DAF50;
 extern const f32 lbl_805DAF54;
-u8 *__nw__5TItemFUl(s32);
-u8 * __ct__11TItemWeaponFP7TObjectPUc(void *, void *);
 void init_slicer_launch_state(void *arg0);
 u16 get_entity_id(void *);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);
@@ -76,32 +67,27 @@ s16 get_validated_attack_stage(u8 *arg0);
 f32 query_extended_state__10TObjPlayerFv(void *);
 void get_weapon_color__11TItemWeaponFPv(f32 *, void *);
 }
-extern s32 tl_05;
-u8 *create_slicer_weapon(u8 *arg0);
 extern const f32 lbl_805DAF40;
 extern const f32 lbl_805DAF44;
 extern const f32 lbl_805DAF48;
 extern const f32 lbl_805DAF4C;
-extern RecoveredGlobal_8012DBF4_lbl_804A5B20 lbl_804A5B20;
-u8 *construct_slicer_weapon(u8 *arg0, u8 *arg1, u8 *arg2);
-void launch_slicer_shot(u8 *weapon);
 
-void launch_slicer_shot(u8 *weapon) {
+void TUnk_804A5B20::emit_marker_effects() {
     f32 tmp[4];
     SlicerLaunchData_8012D9C8 launch;
     init_slicer_launch_state(&launch);
-    launch.player = get_entity_id(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner);
-    launch.weapon = ((TItem *)weapon)->get_item_id();
-    launch.textures = *(void **)((s8 *)weapon + 0x24);
-    launch.model = *(void **)((s8 *)weapon + 0x188);
-    launch.kind = TObjPlayer__sub_801D2F4C((s16 *)(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner + 0x7CC));
-    launch.stage = get_validated_attack_stage(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner + 0x7CC);
-    launch.multiplier = query_extended_state__10TObjPlayerFv(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner);
-    get_weapon_color__11TItemWeaponFPv(tmp, weapon);
+    launch.player = get_entity_id(owner);
+    launch.weapon = get_item_id();
+    launch.textures = *(void **)((s8 *)this + 0x24);
+    launch.model = *(void **)((s8 *)this + 0x188);
+    launch.kind = TObjPlayer__sub_801D2F4C((s16 *)((u8 *)owner + 0x7CC));
+    launch.stage = get_validated_attack_stage((u8 *)owner + 0x7CC);
+    launch.multiplier = query_extended_state__10TObjPlayerFv(owner);
+    get_weapon_color__11TItemWeaponFPv(tmp, this);
     copy_argb((NJS_ARGB *)launch.color, (NJS_ARGB *)tmp);
-    launch.facing = *(s32 *)((s8 *)(*(u8 * *)&((TUnk_804A5B20 *)weapon)->owner) + 0x60);
-    ((TItemWeapon *)weapon)->get_joint_position(1, launch.first);
-    ((TItemWeapon *)weapon)->get_joint_position(2, launch.second);
+    launch.facing = owner->rotation_y;
+    get_joint_position(1, launch.first);
+    get_joint_position(2, launch.second);
     TTecSlicer::create((u16*)&launch);
 }
 
@@ -131,70 +117,45 @@ void TUnk_804A5B20::update_idle() {
 }
 
 void TUnk_804A5B20::update_attack() {
-    u8 *arg0 = (u8 *)this;
-  switch ((s32) get_item_index__5TItemFv())
-  {
+    switch ((s32)get_item_index__5TItemFv()) {
     case 5:
-      TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x204), (f32)((f32) lbl_805DAF50), (f32)((f32) lbl_805DAF38));
-      if (lbl_805DAF38 <= (this->m_204))
-    {
-      TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x1F8), -0x2AAA, 0);
-    }
-    case 6:
-      return;
-    return;
-    case 7:
-      TItemEffOrgaFlowShot::approach_value((f32 *)(arg0 + 0x204), (f32)((f32) lbl_805DAF54), (f32)((f32) lbl_805DAF3C));
-      TObjPlayer::add_angle_clamped((s32 *)(arg0 + 0x1F8), 0x2AAA, 0);
-      break;
-  }
-}
-
-typedef char RecoveredGlobal_8012DBF4_lbl_804A5B20_size[sizeof(RecoveredGlobal_8012DBF4_lbl_804A5B20) == 0xF8 ? 1 : -1];
-u8 *construct_slicer_weapon(u8 *arg0, u8 *arg1, u8 *arg2) {
-    __ct__11TItemWeaponFP7TObjectPUc(arg0, arg1);
-    *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A5B20.value;
-    ((TItemWeapon *)arg0)->set_weapon_flags(2);
-    *(s32 *)((s8 *)arg0 + 0x1F8) = 0;
-    switch ((s32) (*(u8 *)((s8 *)arg2 + 2))) {
-    case 6:
-        break;
-    case 5:
-        ((TUnk_804A5B20 *)arg0)->m_1fc = (f32) lbl_805DAF38;
-        *(f32 *)((s8 *)arg0 + 0x200) = (f32) lbl_805DAF38;
-        ((TUnk_804A5B20 *)arg0)->m_204 = (f32) lbl_805DAF38;
-        break;
-    case 7:
-        ((TUnk_804A5B20 *)arg0)->m_1fc = (f32) lbl_805DAF3C;
-        *(f32 *)((s8 *)arg0 + 0x200) = (f32) lbl_805DAF3C;
-        ((TUnk_804A5B20 *)arg0)->m_204 = (f32) lbl_805DAF3C;
-        break;
-    }
-    return arg0;
-}
-
-u8 *create_slicer_weapon(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
-    if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x208));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(construct_slicer_weapon((u8 *)temp_r3, (u8 *)tl_05, (u8 *)arg0));
+        TItemEffOrgaFlowShot::approach_value(&scale.z, lbl_805DAF50, lbl_805DAF38);
+        if (lbl_805DAF38 <= scale.z) {
+            TObjPlayer::add_angle_clamped(&rotation, -0x2AAA, 0);
         }
-        return var_r0;
+    case 6:
+        return;
+    case 7:
+        TItemEffOrgaFlowShot::approach_value(&scale.z, lbl_805DAF54, lbl_805DAF3C);
+        TObjPlayer::add_angle_clamped(&rotation, 0x2AAA, 0);
+        break;
+    }
+}
+
+TUnk_804A5B20::TUnk_804A5B20(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
+    set_weapon_flags(2);
+    rotation = 0;
+    switch (item[2]) {
+    case 6:
+        break;
+    case 5:
+        scale.x = lbl_805DAF38;
+        scale.y = lbl_805DAF38;
+        scale.z = lbl_805DAF38;
+        break;
+    case 7:
+        scale.x = lbl_805DAF3C;
+        scale.y = lbl_805DAF3C;
+        scale.z = lbl_805DAF3C;
+        break;
+    }
+}
+
+u8 *create_slicer_weapon(u8 *item) {
+    if (item != NULL) {
+        return (u8 *)new TUnk_804A5B20(tl_05, item);
     }
     return NULL;
 }
 
-
-void *__dt__13TUnk_804A5B20Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = &lbl_804A5B20.value;
-        __dt__11TItemWeaponFv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A5B20::~TUnk_804A5B20() {}

@@ -2955,6 +2955,7 @@ pso/item/TUnk_804A3640.cpp:
 
 pso/item/TUnk_804A3738.cpp:
 	.text       start:0x80127DC4 end:0x80127F8C
+	.data       start:0x804A3738 end:0x804A3830
 	.sdata2     start:0x805DADD8 end:0x805DADDC
 
 pso/item/TUnk_804A3830.cpp:
@@ -3056,6 +3057,7 @@ pso/item/TUnk_804A4C78.cpp:
 
 pso/item/TUnk_804A4D70.cpp:
 	.text       start:0x8012B200 end:0x8012B618
+	.data       start:0x804A4D70 end:0x804A4E68
 	.sdata2     start:0x805DAE80 end:0x805DAEA8
 
 pso/item/TUnk_804A4E68.cpp:
@@ -3107,6 +3109,7 @@ pso/item/TUnk_804A5740.cpp:
 pso/item/TUnk_804A5838.cpp:
 	.text       start:0x8012D034 end:0x8012D468
 	.rodata     start:0x8043E998 end:0x8043E9A0
+	.data       start:0x804A5838 end:0x804A5930
 	.sdata2     start:0x805DAF00 end:0x805DAF1C
 
 pso/item/TUnk_804A5930.cpp:
@@ -3120,6 +3123,7 @@ pso/item/TUnk_804A5A28.cpp:
 
 pso/item/TUnk_804A5B20.cpp:
 	.text       start:0x8012D900 end:0x8012DD44
+	.data       start:0x804A5B20 end:0x804A5C18
 
 pso/unk/TUnk_804A5C18.cpp:
 	.text       start:0x8012DD44 end:0x8012E1E8
@@ -3185,15 +3189,17 @@ pso/item/TUnk_804A68C8.cpp:
 
 pso/item/TUnk_804A69DC.cpp:
 	.text       start:0x80130290 end:0x801307E4
-	.data       start:0x804A69C0 end:0x804A69DC
+	.data       start:0x804A69C0 end:0x804A6AD8
 	.sdata2     start:0x805DB000 end:0x805DB004
 
 pso/item/TUnk_804A6AD8.cpp:
 	.text       start:0x801307E4 end:0x80130BF0
+	.data       start:0x804A6AD8 end:0x804A6BD0
 	.sdata2     start:0x805DB008 end:0x805DB01C
 
 pso/item/TUnk_804A6BD0.cpp:
 	.text       start:0x80130BF0 end:0x80130EA0
+	.data       start:0x804A6BD0 end:0x804A6CC8
 	.sdata2     start:0x805DB020 end:0x805DB034
 
 pso/unk/TUnk_804A6CC8.cpp:

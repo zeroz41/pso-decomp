@@ -528,7 +528,7 @@ force_active:
   - TItemTexLoad_class_name
   - TItemTexLoad_name
   - TItemTimer__sub_8011D598
-  - TItemWeaponPartisan__ct
+  - __ct__13TUnk_804A4D70FP7TObjectPUc
   - TItem__name
   - TJudgmentSequence__sub_80215BA0
   - TJudgmentSequence__sub_80215BCC
@@ -5265,8 +5265,8 @@ force_active:
   - construct_self_effect__8TTecAntiFPvPvPviPv
   - construct_self_recovery__9TTecRestaFPvPviPv
   - construct_shot_weapon__FPvlPv
-  - construct_slicer_weapon__FPUcPUcPUc
-  - construct_soul_eater_weapon__FPUcPUcl
+  - __ct__13TUnk_804A5B20FP7TObjectPUc
+  - __ct__13TUnk_804A5838FP7TObjectPUc
   - construct_targeted__10TTecRaFoieFPvPvPvPvi
   - construct_tec_barta_facing__FP9TTecBartaPvPvPvPv
   - construct_variant_b__9TWindowDDFPv
@@ -17744,7 +17744,7 @@ force_active:
   - write_ring_buffer__6TLobbyFPUcl
   - write_telepipe_record__FPUcUssPUcl
   - yasminkov_2000h_ct__FPvll
-  - yasminkov_9000m_eject_casing__13TUnk_804A6AD8Fll
+  - yasminkov_9000m_eject_casing__13TUnk_804A6AD8FP12WeaponVectorl
 # --- force_active (END) ---
 # False pointers: packed data words whose values happen to land on code/data
 # addresses. dtk would emit a relocation and export the target symbol.

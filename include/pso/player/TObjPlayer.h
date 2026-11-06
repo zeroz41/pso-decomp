@@ -514,7 +514,6 @@ struct TObjPlayer : public TObjChara {
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
     void *init_state(s32 arg1, void *arg2);
-    void trigger_megid_special();
     void update_weapon_kill_count();
     s16 get_kill_count();
     void apply_frame_camera_shake();
