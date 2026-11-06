@@ -114,7 +114,7 @@ extern const Ent_802E88F8 lbl_8047353C[97] = {
     {62, 0}, {23, 0}, {24, 0}, {24, 0}, {24, 0}, {25, 0}, {61, 4}, {13, 0},
     {69, 0},
 };
-extern const s32 lbl_80473844[90] = {
+extern const s32 lbl_80473844[10][9] = {
     1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1,
     0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1,
     0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
@@ -206,12 +206,21 @@ extern const Vec lbl_80473F6C = {10000.0f, 10000.0f, 10000.0f};
 extern const Vec lbl_80473F78 = {0.0f, 0.0f, -600.0f};
 extern const Vec lbl_80473F84 = {0.0f, 0.0f, -275.0f};
 extern const Vec lbl_80473F90 = {0.0f, 0.0f, -520.0f};
-extern const Vec lbl_80473F9C = {0.0f, 0.0f, 0.0f};
+struct Ang_802E7888 { s32 x, y, z; };
 
+extern const Ang_802E7888 lbl_80473F9C = {0, 0, 0};
+
+extern s32 game_difficulty_selection;
+
+Vec lbl_804E3BF0 = {2.5f, 2.5f, 2.5f};
+Vec lbl_804E3BFC[4] = {{0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 4.0f}, {0.0f, 0.0f, 13.0f}};
+// Action sequences per difficulty, then the crawfish spawn positions and
+// y angles per spawn pattern variant.
+const Ent_802E88F8 *lbl_804E3C2C[4] = {lbl_80472DA4, lbl_80472FC4, lbl_8047327C, lbl_8047353C};
+const Vec *lbl_804E3C3C[4] = {lbl_804739FC, lbl_80473A68, lbl_80473AD4, lbl_80473B40};
+const s32 *lbl_804E3C4C[4] = {lbl_80473BAC, lbl_80473BD0, lbl_80473BF4, lbl_80473C18};
 
 struct Vec_802E7888 { f32 x, y, z; };
-
-struct Ang_802E7888 { s32 x, y, z; };
 
 struct Obj_802E7888 {
     u8 pad0[0x7B0];
@@ -250,7 +259,7 @@ void TObjFish::destroy_child() {
 }
 
 extern "C" {
-s32 TBoss7DeRolLeC__try_spawn_pattern_crawfish(void *, s32, s32);
+void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 variant, s32 index);
 void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *arg0, u32 arg1, s32 arg2);
 }
 
@@ -572,6 +581,26 @@ extern "C" {
 void *memset(void *, int, unsigned long);
 u16 get_entity_id(void *);
 s16 TObjFish__sub_802E7CC4(void *self);
+void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
+}
+
+// Spawns the crawfish of step `index` of the boss's current spawn pattern when
+// the difficulty's table asks for one (2 = the other kind, flag bit 0 clear).
+void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 variant, s32 index) {
+    s32 kind = lbl_80473844[lbl_804E3C2C[game_difficulty_selection][self->m_6d0].b][index];
+    if (kind != 0) {
+        const Vec *positions = lbl_804E3C3C[variant];
+        const s32 *angles = lbl_804E3C4C[variant];
+        s32 flag;
+        if (kind == 1) {
+            flag = 1;
+        } else {
+            flag = 0;
+        }
+        Ang_802E7888 angle = lbl_80473F9C;
+        angle.y = angles[index];
+        TObjFish__sub_802E7D70(self, TObjFish__sub_802E7CC4(self), &positions[index], &angle, flag);
+    }
 }
 
 
@@ -679,8 +708,6 @@ struct Stack_802E8274 {
 };
 
 
-struct RecoveredGlobal_802E8274_lbl_804E3BFC { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_802E8274_lbl_804E3BFC_size[sizeof(RecoveredGlobal_802E8274_lbl_804E3BFC) == 0x30 ? 1 : -1];
 
 struct RecoveredGlobal_802E80F4_lbl_8050BEC0 {
     s32 value;
@@ -711,7 +738,6 @@ f32 subtract_vector(void *, void *);
 s32 transform_point_by_current_matrix(void *, void *);
 s32 push_matrix();
 s32 pop_matrix();
-extern RecoveredGlobal_802E8274_lbl_804E3BFC lbl_804E3BFC;
 extern s32 boss7_derolle_c_motion_id;
 extern s32 lbl_805D6920;
 extern s32 lbl_805D6924;
@@ -836,7 +862,7 @@ void TObjPlayer__sub_802E8274(void) {
     }
     if ((s32) boss7_derolle_c_motion_id == 0x33) {
         push_matrix();
-        mult_vec_array__10TObjPlayerFUll(0, (void *)&lbl_804E3BFC.value, (void *)lbl_805D692C, 4);
+        mult_vec_array__10TObjPlayerFUll(0, lbl_804E3BFC, (void *)lbl_805D692C, 4);
         pop_matrix();
         subtract_vector((void *)(lbl_805D692C + 0xC), (void *)lbl_805D692C);
     }
@@ -1133,7 +1159,6 @@ s32 TBoss7Tentacle__sub_802F0904(s32);
 void TBoss7Tentacle__sub_802F0AF0(s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-extern s32 game_difficulty_selection;
 void TObjFish__sub_802E85E0(u8 *arg0, u32 arg1, s32 arg2);
 void TObjFish__sub_802E83E8(u8 *, u32);
 void TObjFish__sub_802E8528(void* o, u32 k);
@@ -1197,14 +1222,9 @@ struct Fish_802E8AD4 { u8 pad[0x628]; u32 flags; };
 
 typedef char RecoveredGlobal_802EC468_lbl_804FF5E8_size[sizeof(RecoveredGlobal_802EC468_lbl_804FF5E8) == 0x28 ? 1 : -1];
 
-struct RecoveredGlobal_802EC7F0_lbl_804E3C2C {
-    s32 value;
-    u8 remaining[0x2C];
-};
 
 struct Ply_802ECAA4 { u8 pad[0x326]; s16 state; };
 
-typedef char RecoveredGlobal_802EC7F0_lbl_804E3C2C_size[sizeof(RecoveredGlobal_802EC7F0_lbl_804E3C2C) == 0x30 ? 1 : -1];
 
 struct VBase_802ECBDC { char pad[0x18]; };
 
@@ -1436,7 +1456,6 @@ void TObjFish__sub_802ECC44(Fish_802ECC44 *self);
 s32 spawn_default_particle__8TObjFishFv(s32, s32);
 s32 TObjFish__sub_802F18E8(void *);
 
-extern Ent_802E88F8 *lbl_804E3C2C[];
 extern RecoveredGlobal_802EC468_lbl_804FF5E8 lbl_804FF5E8;
 
 struct Boss_802E83E8 { u8 pad[0x728]; s32 timer; s32 count; u8 pad730[0x7CC - 0x730]; u16 targets[4]; };
@@ -1707,7 +1726,7 @@ void TBoss7DeRolLeC__handle_crawfish_spawn_state(u8 *self, u32 event, s32 varian
         if (index < *(s32 *)((s8 *)self + 0x72C)) {
             if (*(s32 *)((s8 *)self + 0x730) <= 0) {
                 *(s32 *)((s8 *)self + 0x728) = index + 1;
-                TBoss7DeRolLeC__try_spawn_pattern_crawfish(self, variant, index);
+                TBoss7DeRolLeC__try_spawn_pattern_crawfish((TBoss7DeRolLeC *)self, variant, index);
                 *(s32 *)((s8 *)self + 0x730) = 5;
             } else {
                 (*(s32 *)((s8 *)self + 0x730))--;
@@ -3512,7 +3531,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
     do {
         var_r30 = 0;
         this->m_6d0 = (this->m_6d0 + 1);
-        var_r4 = *(s32 *)((s8 *)(*(s32 *)((s8 *)((u8 *)(&(*(RecoveredGlobal_802EC7F0_lbl_804E3C2C *)&lbl_804E3C2C).value) + (game_difficulty_selection * 4)) + 0) + (this->m_6d0 * 8)) + 0);
+        var_r4 = lbl_804E3C2C[game_difficulty_selection][this->m_6d0].a;
         switch (var_r4) {
         case 0x1E:
             if (calc_elapsed_scaled__9TObjEneDDFv(this) > lbl_805DEA10) {
