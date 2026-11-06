@@ -3365,10 +3365,7 @@ pso/ui/window/TWindowActionPalette_8013DF4C.cpp:
 	.text       start:0x8013DF4C end:0x8013DF5C
 
 pso/ui/hud/TMainCursor_8013DF5C.cpp:
-	.text       start:0x8013DF5C end:0x8013E0D0
-
-pso/ui/hud/TLockOnCursor_8013E0D0.cpp:
-	.text       start:0x8013E0D0 end:0x8013E134
+	.text       start:0x8013DF5C end:0x8013E134
 
 pso/ui/hud/TMainCursor_8013E17C.cpp:
 	.text       start:0x8013E134 end:0x8013E1C8
@@ -3416,10 +3413,7 @@ pso/ui/hud/TLockOnCursor_8013EE00.cpp:
 	.text       start:0x8013EE00 end:0x8013EE68
 
 pso/ui/hud/TLockOnCursor_8013EE68.cpp:
-	.text       start:0x8013EE68 end:0x8013EEC8
-
-pso/ui/hud/TLockOnCursor_8013EEC8.cpp:
-	.text       start:0x8013EEC8 end:0x8013F104
+	.text       start:0x8013EE68 end:0x8013F104
 
 pso/ui/hud/TMainCursor_8013F104.cpp:
 	.text       start:0x8013F104 end:0x8013F25C
@@ -3429,7 +3423,9 @@ pso/camera/TCameraCtrl_8013F25C.cpp:
 
 pso/ui/TLogo.cpp:
 	.text       start:0x8013F264 end:0x8013F810
+	.rodata     start:0x8043F130 end:0x8043F168
 	.data       start:0x804A72D8 end:0x804A7358
+	.sdata      start:0x805D2CC8 end:0x805D2CD0
 
 pso/unk/text_8013F810.cpp:
 	.text       start:0x8013F810 end:0x8013FFA8
@@ -8498,12 +8494,14 @@ pso/ui/charcreate/TChCrEffTag.cpp:
 	.text       start:0x8029AA34 end:0x8029ACF8
 	.rodata     start:0x804652D8 end:0x804652E0
 	.data       start:0x804DBF40 end:0x804DBF58
-	.sdata      start:0x805D3D08 end:0x805D3D0C
+	.sdata      start:0x805D3D08 end:0x805D3D10
 	.sdata2     start:0x805DDC90 end:0x805DDCAC
 
 pso/ui/charcreate/TChCrEffWall.cpp:
 	.text       start:0x8029ACF8 end:0x8029AED0
+	.rodata     start:0x804652E0 end:0x80465330
 	.data       start:0x804DBF58 end:0x804DBFD0
+	.sdata      start:0x805D3D10 end:0x805D3D18
 	.sdata2     start:0x805DDCB0 end:0x805DDCB8
 
 pso/ui/charcreate/TChCrEffTagStr.cpp:
@@ -8662,8 +8660,9 @@ pso/unk/text_802A2A00.cpp:
 
 pso/ui/charcreate/TChCrTagOccupation.cpp:
 	.text       start:0x802A2BD8 end:0x802A3138
-	.rodata     start:0x80466488 end:0x80466490
+	.rodata     start:0x80466460 end:0x80466490
 	.data       start:0x804DCC38 end:0x804DCC78
+	.sdata      start:0x805D3DB0 end:0x805D3DB8
 
 pso/ui/charcreate/TChCrTagPlGraphic.cpp:
 	.text       start:0x802A3138 end:0x802A35B4

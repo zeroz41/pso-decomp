@@ -1062,14 +1062,12 @@ pso/unk/TLobby_804048E8.cpp
 pso/unk/TLobby_80428374.cpp
 pso/ui/hud/TLockOnCursor.cpp
 pso/ui/hud/TLockOnCursor_8013D91C.cpp
-pso/ui/hud/TLockOnCursor_8013E0D0.cpp
 pso/ui/hud/TLockOnCursor_8013EA08.cpp
 pso/ui/hud/TLockOnCursor_8013EB80.cpp
 pso/ui/hud/TLockOnCursor_8013ED0C.cpp
 pso/ui/hud/TLockOnCursor_8013EDC4.cpp
 pso/ui/hud/TLockOnCursor_8013EE00.cpp
 pso/ui/hud/TLockOnCursor_8013EE68.cpp
-pso/ui/hud/TLockOnCursor_8013EEC8.cpp
 pso/ui/TLogo.cpp
 pso/ui/TLogo_8001C134.cpp
 pso/ui/TLogo_8030818C.cpp

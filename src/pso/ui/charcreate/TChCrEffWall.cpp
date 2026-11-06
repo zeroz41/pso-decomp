@@ -6,7 +6,7 @@
 #include "types.h"
 #include "pso/camera/TCameraCtrl.h"
 
-struct Ent_8029ACF8 { u8 b[8]; };
+struct Ent_8029ACF8 { f32 x, y; };
 
 struct Args_8029ACF8 { void *a; void *b; s32 c; s32 d; };
 
@@ -14,10 +14,14 @@ extern "C" {
 void * __ct__12TChCrEffWallFP7TObject(void *, void * = 0);
 void *__nw__7TObjectFUl(int);
 void TCameraCtrl__sub_80068EF0(void);
-void draw_default_sprite__12TChCrEffWallFv(s32, Ent_8029ACF8 *, f32);
-extern Ent_8029ACF8 creation_effwall_sprite_position_table[6];
-extern Ent_8029ACF8 creation_effwall_sprite_size_table[2];
-extern void *TChCrEffWall__name;
+void draw_default_sprite__12TChCrEffWallFv(s32, const Ent_8029ACF8 *, f32);
+const char *TChCrEffWall__name = "TChCrEffWall";
+extern const Ent_8029ACF8 creation_effwall_sprite_position_table[6] = {
+    {0.0f, 0.0f}, {0.0f, 256.0f}, {256.0f, 0.0f}, {256.0f, 128.0f}, {256.0f, 256.0f}, {256.0f, 384.0f},
+};
+extern const Ent_8029ACF8 creation_effwall_sprite_size_table[2] = {
+    {384.0f, 0.0f}, {384.0f, 256.0f},
+};
 
 void *chcr_eff_wall_gradient_table[4] = {
     (void *)0x0, (void *)0xff181818, (void *)0xff181818, (void *)0x0,
@@ -59,7 +63,7 @@ void TChCrEffWall::render() {
 TChCrEffWall::~TChCrEffWall() {}
 }
 TChCrEffWall::TChCrEffWall(TObject *object) : TObject(object) {
-    *(void * *)&this->m_name = TChCrEffWall__name;
+    m_name = TChCrEffWall__name;
 }
 
 void *fn_8029AE88(void *arg0) {
