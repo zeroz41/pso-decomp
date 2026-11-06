@@ -1916,7 +1916,6 @@ pso/object/TObjFogCollision.cpp
 pso/object/TObjFogCollisionPoison.cpp
 pso/object/TObjFogCollisionSwitch.cpp
 pso/object/TObjGrass.cpp
-pso/object/TObjGrassWeb.cpp
 pso/object/TObjGyaranzoMissile.cpp
 pso/object/TObjGyaranzoMissile_800D40D8.cpp
 pso/object/TObjHashi.cpp

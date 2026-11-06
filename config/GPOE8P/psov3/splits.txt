@@ -1618,13 +1618,10 @@ pso/player/TUnk_804928CC.cpp:
 pso/boss/TBoss8Dragon_800BC53C.cpp:
 	.text       start:0x800BC53C end:0x800BC778
 
-pso/object/TObjGrassWeb.cpp:
-	.text       start:0x800BC778 end:0x800BCA2C
-
 pso/object/TObjGrass.cpp:
-	.text       start:0x800BCA2C end:0x800BFBBC
+	.text       start:0x800BC778 end:0x800BFBBC
 	.rodata     start:0x8043B6A0 end:0x8043B7D8
-	.data       start:0x80492928 end:0x80492A88
+	.data       start:0x80492928 end:0x80492BD4
 	.bss        start:0x80500BB8 end:0x80500BE0
 	.sdata      start:0x805D2A38 end:0x805D2A40
 	.sbss       start:0x805D5140 end:0x805D5160
