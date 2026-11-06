@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 
+const char* TDuelEffectNumber__class_name = "TDuelEffectNumber";
+
 struct RecoveredGlobal_800800EC_lbl_80438D7C {
     s32 value;
     u8 remaining[0x30];
@@ -22,7 +24,6 @@ struct Obj_8007FF28 {
 extern "C" {
 s32 __cvt_fp2unsigned(f32);
 void fn_8007FE78(Obj_8007FF28 *self, s32 arg1, void *arg2, f32 farg0, f32 farg1, f32 farg2);
-extern const char TDuelEffectNumber__class_name_string[] = "TDuelEffectNumber";
 extern const RecoveredGlobal_800800EC_lbl_80438D7C duel_number_uv_table = {0, {0x43, 0x2A, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x42, 0xAA, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}};
 void sub_8007FF28__17TDuelEffectNumberFl(Obj_8007FF28 *self, s32 arg1);
 f32 get_scale__15TWindowCtrlMainFv(s32);

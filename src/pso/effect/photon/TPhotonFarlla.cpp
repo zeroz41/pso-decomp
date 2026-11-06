@@ -1,4 +1,7 @@
 #include "pso/system/NinjaTypes.h"
+
+const char *TPhotonFarlla__class_name = "TPhotonFarlla";
+
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "types.h"
 #include "pso/ui/hud/TRaderMapCore.h"
@@ -265,7 +268,6 @@ s32 sub_801AAE6C__13TPhotonFarllaFv(void *, int);
 u8 *construct_photon_magic_square_normal(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4);
 extern "C" {
 
-extern s32 lbl_805D34E0;
 extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -305,7 +307,7 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C3564;
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D34E0;
+    *(const char **)((s8 *)arg0 + 0) = TPhotonFarlla__class_name;
     *(s32 *)((s8 *)arg0 + 0x138) = 0;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)arg1);
     ((TPhotonFarlla *)arg0)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);

@@ -1161,21 +1161,27 @@ pso/unk/text_8007FA24.cpp:
 
 pso/effect/TDuelEffectCtrl.cpp:
 	.text       start:0x8007FA94 end:0x8007FE78
+	.rodata     start:0x80438D30 end:0x80438D68
 	.data       start:0x8048DFA0 end:0x8048DFC4
+	.sdata      start:0x805D28D8 end:0x805D28E0
 
 pso/effect/TDuelEffectNumber.cpp:
 	.text       start:0x8007FE78 end:0x80080290
 	.rodata     start:0x80438D68 end:0x80438DC0
 	.data       start:0x8048DFC8 end:0x8048DFE0
+	.sdata      start:0x805D28E0 end:0x805D28E8
 	.sdata2     start:0x805D92D8 end:0x805D9308
 
 pso/effect/TDuelEffectNumber_80080290.cpp:
 	.text       start:0x80080290 end:0x80080460
+	.rodata     start:0x80438DC0 end:0x80438E20
+	.sdata      start:0x805D28E8 end:0x805D28F0
 
 pso/effect/TDuelEffectNumber_80080460.cpp:
 	.text       start:0x80080460 end:0x80080750
 	.rodata     start:0x80438E20 end:0x80438E28
 	.data       start:0x8048DFE0 end:0x8048DFF8
+	.sdata2     start:0x805D9310 end:0x805D9338
 
 pso/player/TObjPlayer_80080750.cpp:
 	.text       start:0x80080750 end:0x80080788
@@ -1221,7 +1227,10 @@ pso/player/TObjPlayer_800822D0.cpp:
 
 pso/effect/TEffClitical.cpp:
 	.text       start:0x80082308 end:0x8008271C
-	.data       start:0x8048E2E8 end:0x8048E300
+	.rodata     start:0x80438EA8 end:0x80438ED8
+	.data       start:0x8048E2E0 end:0x8048E300
+	.bss        start:0x80500610 end:0x80500620
+	.sdata      start:0x805D2900 end:0x805D2908
 	.sdata2     start:0x805D93A8 end:0x805D93B4
 
 pso/effect/TEffect.cpp:
@@ -1268,6 +1277,7 @@ pso/enemy/canadin/TObjEneMe1CanadinLeader.cpp:
 
 pso/effect/particle/TParticleCtrl.cpp:
 	.text       start:0x80085798 end:0x80085EE4
+	.rodata     start:0x804393D0 end:0x804393F0
 	.data       start:0x8048E6A8 end:0x8048E710
 	.sdata2     start:0x805D9478 end:0x805D94BC
 
@@ -2296,13 +2306,16 @@ pso/item/drop/TItemDropSub_80107C40.cpp:
 
 pso/effect/item/TItemEffArmor.cpp:
 	.text       start:0x80107C9C end:0x80108254
-	.rodata     start:0x8043E170 end:0x8043E178
+	.rodata     start:0x8043E140 end:0x8043E178
 	.data       start:0x8049EFB8 end:0x8049EFE8
+	.sdata      start:0x805D2B88 end:0x805D2B90
 	.sdata2     start:0x805DAAE8 end:0x805DAB0C
 
 pso/effect/item/TItemEffBringer.cpp:
 	.text       start:0x80108254 end:0x8010853C
+	.rodata     start:0x8043E178 end:0x8043E190
 	.data       start:0x8049EFE8 end:0x8049F004
+	.sdata      start:0x805D2B90 end:0x805D2B98
 	.sdata2     start:0x805DAB10 end:0x805DAB20
 
 pso/player/TObjPlayer_8010853C.cpp:
@@ -2310,7 +2323,9 @@ pso/player/TObjPlayer_8010853C.cpp:
 
 pso/effect/item/TItemEffCane.cpp:
 	.text       start:0x801086B8 end:0x80108854
+	.rodata     start:0x8043E190 end:0x8043E1A0
 	.data       start:0x8049F008 end:0x8049F020
+	.sdata      start:0x805D2B98 end:0x805D2BA0
 
 pso/player/TObjPlayer_80108854.cpp:
 	.text       start:0x80108854 end:0x80108860
@@ -2329,7 +2344,9 @@ pso/effect/item/TItemEffEquip_80108920.cpp:
 
 pso/effect/item/TItemEffEquip.cpp:
 	.text       start:0x80108974 end:0x80108D2C
+	.rodata     start:0x8043E1A0 end:0x8043E1E0
 	.data       start:0x8049F020 end:0x8049F070
+	.sdata      start:0x805D2BA0 end:0x805D2BA8
 
 pso/effect/item/TItemEffFlame.cpp:
 	.text       start:0x80108D2C end:0x8010900C
@@ -2354,11 +2371,15 @@ pso/unk/text_801094D8.cpp:
 
 pso/effect/item/TItemEffLandHit.cpp:
 	.text       start:0x80109568 end:0x80109670
+	.rodata     start:0x8043E208 end:0x8043E218
 	.data       start:0x8049F0A0 end:0x8049F0B8
+	.sdata      start:0x805D2BB8 end:0x805D2BC0
 
 pso/effect/item/TItemEffLavis.cpp:
 	.text       start:0x80109670 end:0x80109798
+	.rodata     start:0x8043E218 end:0x8043E228
 	.data       start:0x8049F0B8 end:0x8049F0D4
+	.sdata      start:0x805D2BC0 end:0x805D2BC8
 	.sdata2     start:0x805DAB40 end:0x805DAB44
 
 pso/weapon/shoot/TItemShootModel_dtor.cpp:
@@ -5282,19 +5303,22 @@ pso/player/TObjPlayer_801AA5C0.cpp:
 
 pso/effect/photon/TPhotonEstlla.cpp:
 	.text       start:0x801AA664 end:0x801AADE8
-	.rodata     start:0x80446D08 end:0x80446D28
+	.rodata     start:0x80446CD8 end:0x80446D28
+	.sdata      start:0x805D34D8 end:0x805D34E0
 	.sdata2     start:0x805DC138 end:0x805DC154
 
 pso/effect/photon/TPhotonFarlla.cpp:
 	.text       start:0x801AADE8 end:0x801AB608
-	.rodata     start:0x80446D38 end:0x80446D58
+	.rodata     start:0x80446D28 end:0x80446D58
 	.data       start:0x804C3518 end:0x804C35A8
+	.sdata      start:0x805D34E0 end:0x805D34E8
 	.sdata2     start:0x805DC158 end:0x805DC184
 
 pso/effect/photon/TPhotonGolla.cpp:
 	.text       start:0x801AB608 end:0x801AC0D8
-	.rodata     start:0x80446DA0 end:0x80446DC0
+	.rodata     start:0x80446D58 end:0x80446DC0
 	.data       start:0x804C35A8 end:0x804C3638
+	.sdata      start:0x805D34E8 end:0x805D34F0
 	.sdata2     start:0x805DC188 end:0x805DC1AC
 
 pso/player/TObjPlayer_801AC0D8.cpp:
@@ -5309,7 +5333,8 @@ pso/effect/photon/TPhotonLaser.cpp:
 
 pso/effect/photon/TPhotonLeilla.cpp:
 	.text       start:0x801AC43C end:0x801ACA6C
-	.rodata     start:0x80446DE8 end:0x80446E10
+	.rodata     start:0x80446DD8 end:0x80446E10
+	.sdata      start:0x805D34F8 end:0x805D3500
 	.sdata2     start:0x805DC1C0 end:0x805DC1D8
 
 pso/player/TObjPlayer_801ACA6C.cpp:
@@ -5317,7 +5342,9 @@ pso/player/TObjPlayer_801ACA6C.cpp:
 
 pso/effect/photon/TPhotonLine.cpp:
 	.text       start:0x801ACAF0 end:0x801ACE1C
+	.rodata     start:0x80446E10 end:0x80446E20
 	.data       start:0x804C37D8 end:0x804C3940
+	.sdata      start:0x805D3500 end:0x805D3508
 	.sdata2     start:0x805DC1D8 end:0x805DC1DC
 
 pso/effect/photon/TPhotonMagicSquare_801ACE1C.cpp:
@@ -5336,8 +5363,9 @@ pso/effect/photon/TPhotonMylla.cpp:
 
 pso/effect/photon/TPhotonPilla.cpp:
 	.text       start:0x801ADC6C end:0x801AE48C
-	.rodata     start:0x80446ED8 end:0x80446EF8
+	.rodata     start:0x80446E98 end:0x80446EF8
 	.data       start:0x804C3A38 end:0x804C3B10
+	.sdata      start:0x805D3518 end:0x805D3520
 	.sdata2     start:0x805DC228 end:0x805DC25C
 
 pso/player/TObjPlayer_801AE48C.cpp:

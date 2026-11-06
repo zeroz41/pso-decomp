@@ -1,4 +1,7 @@
 #include "types.h"
+
+const char *TPhotonLine__class_name = "TPhotonLine";
+
 #include "pso/effect/photon/TPhotonLine.h"
 #include "pso/system/vector.h"
 #include "pso/object/base/TObjMotion.h"
@@ -17,7 +20,7 @@ struct Params_801ACD14 {
 };
 
 struct Line_801ACD14 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x38 - 0x1C];
@@ -63,7 +66,6 @@ CollisionBody photon_line_collision_body_part[1] = {
     { { 0.0f, 0.0f, 0.0f }, 30.0f, 30.0f, 1, 0x8007, { 0.0f, 0.0f, 0.0f }, 0.0f },
 };
 extern s32 __vt__11TPhotonLine[];
-extern s32 lbl_805D3500;
 Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *parent, u16 arg3);
 s32 check_path_obstructed(void *, Vec_801ACD14 *);
 u16 get_entity_id(void *);
@@ -130,7 +132,7 @@ Line_801ACD14 *TPhotonLine__ct(Line_801ACD14 *self, Params_801ACD14 *p, void *pa
     s32 i;
     __ct__9TObjCharaFP7TObject(self, parent);
     self->vt18 = ((s32 *)&__vt__11TPhotonLine);
-    self->f0 = lbl_805D3500;
+    self->f0 = TPhotonLine__class_name;
     VecCopy((Vec *)&self->f50, (const Vec *)(VecCopy((Vec *)((Vec *)&self->f38), (const Vec *)((const Vec *)&p->pos))));
     VecCopy((Vec *)&self->f334, (const Vec *)&p->dir);
     self->f334.x *= p->scale;

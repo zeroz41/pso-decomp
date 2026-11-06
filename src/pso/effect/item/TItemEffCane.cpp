@@ -9,9 +9,7 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 
-extern "C" {
-extern const char* TItemEffCane__class_name;
-}
+const char *TItemEffCane__class_name = "TItemEffCane";
 
 void TItemEffCane::run_task() {
     f32 position[3];

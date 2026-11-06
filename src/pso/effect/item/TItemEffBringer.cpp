@@ -6,10 +6,12 @@
 #include "types.h"
 #include "dolphin/mtx.h"
 
+const char *TItemEffBringer__class_name = "TItemEffBringer";
+
 struct Vec_8010834C { f32 x, y, z; };
 
 struct Bringer_8010834C {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt;
     u8 pad1C[0x2C - 0x1C];
@@ -31,9 +33,7 @@ void subtract_vector(Vec*, Vec*);
 void transform_point_by_current_matrix(void *, void *);
 void push_matrix(void);
 s32 pop_matrix(void);
-extern const f64 lbl_8043E188[];
 extern void *__vt__15TItemEffBringer[];
-extern s32 TItemEffBringer__class_name;
 void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *src, s32 arg3, f32 farg0);
 void *spawn_particle_effect(void *pos, s32 id);
 }
@@ -76,7 +76,7 @@ void *__ct__15TItemEffBringerFv(Bringer_8010834C *self, u32 arg1, Vec_8010834C *
     VecCopy((Vec *)&w, (const Vec *)src);
     subtract_vector((Vec*)((Vec *)&w), (Vec*)((Vec *)&out));
     pop_matrix();
-    r = sin_table_lookup(self->f2C - (s32)(lbl_8043E188[0] * atan2_float(w.x, w.z)));
+    r = sin_table_lookup(self->f2C - (s32)((65536.0 / (2.0 * 3.141592f)) * atan2_float(w.x, w.z)));
     if (r < 0.0f) {
         r *= -1.0f;
     }

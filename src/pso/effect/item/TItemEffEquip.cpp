@@ -12,6 +12,12 @@
 #include "pso/object/base/TObjMotion.h"
 #include "pso/item/TUnk_8049F038.h"
 
+// The collision sphere TUnk_8049F038 copies into its own body (radius 3).
+extern const CollisionBody lbl_8043E1A0 = {
+    { 0.0f, 0.0f, 0.0f }, 3.0f, 0.0f, 0, 0x31F0B, { 0.0f, 0.0f, 0.0f }, 0.0f
+};
+const char *TItemEffEquip__class_name = "TItemEffEquip";
+
 struct Equip_Self { u8 pad0[0x18]; void *vt; void *m_1c; void *m_20; };
 extern "C" {
 extern void *__vt__13TItemEffEquip[];
@@ -38,7 +44,6 @@ struct Obj_80108C90 {
     u8 sub[0x10];
 };
 void __ct__14TObjCollidableFP7TObject(void *, void *);
-extern u8 lbl_8043E1A0[];
 
 #include "pso/weapon/TItemAttacker.h"
 #pragma defer_codegen on
@@ -47,11 +52,10 @@ extern "C" {
 
 s32 play_sound_effect(s32, s32, s32, s32);
 void *__nw__7TObjectFUl(int);
-struct Equip_80108A20 { s32 x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
+struct Equip_80108A20 { const char *x0; u8 pad4[0x18 - 4]; void *vt; void *src; s32 x20; void *x24; };
 s32 __ct__7TObjectFP7TObject(void *, void *);
 extern s32 retire_equipment_effect[];
 extern s32 TItemEffEquip__sub_801088F8[];
-extern s32 TItemEffEquip__class_name;
 Obj_80108C90 *__ct__13TUnk_8049F038FP7TObjectsl(Obj_80108C90 *self, void *parent, s16 a, s32 b);
 
 #define self ((Equip_80108A20 *)arg0)
@@ -207,7 +211,7 @@ extern "C" {
 TUnk_8049F038::TUnk_8049F038(TObject *parent, s16 a, s32 b) : TObjCollidable(parent) {
     ((Obj_80108C90 *)this)->f_AC = a;
     ((Obj_80108C90 *)this)->f_B0 = b;
-    copy_collision_body((CollisionBody *)(((Obj_80108C90 *)this)->sub), (const CollisionBody *)lbl_8043E1A0);
+    copy_collision_body((CollisionBody *)(((Obj_80108C90 *)this)->sub), &lbl_8043E1A0);
     if (get_entity_id(this) == 0xFFFF) {
         set_entity_id(pop_free_entity_id());
     }

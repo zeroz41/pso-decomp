@@ -54,7 +54,7 @@ typedef struct Packet_801AB6A0 {
     Vec_801AB6A0 origin;
     Vec_801AB6A0 target;
     Vec_801AB6A0 direction;
-    u8 pad24[0xC];
+    f32 pad_24[3];
     void *owner;
     u32 angle;
 } Packet_801AB6A0;
@@ -149,7 +149,10 @@ void subtract_vector(void *, void *);
 void normalize_vector(void *);
 s32 push_matrix_from(void *src);
 s32 pop_matrices(s32 arg0);
-extern const Packet_801AB6A0 photon_golla_concentrate_packet;
+const char *TPhotonGolla__class_name = "TPhotonGolla";
+extern const Packet_801AB6A0 photon_golla_concentrate_packet = {
+    { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 500.0f, 5.0f, 30.0f }, NULL, 0
+};
 extern u8 identity_matrix[];
 
 Target_801AB868 *get_battle_param__10TObjPlayerFi(s32);
@@ -430,7 +433,6 @@ void *find_entity_by_id(u16 id);
 s32 init_collision_body_parts(void *, void *, int);
 void sub_801AB688__12TPhotonGollaFv(void *);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
-extern s32 lbl_805D34E8;
 extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -470,7 +472,7 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
     void *p;
     __ct__13TUnk_804C3248Fv(arg0);
     *(u8 **)((s8 *)arg0 + 0x18) = (u8 *)lbl_804C35F4;
-    *(s32 *)((s8 *)arg0 + 0) = lbl_805D34E8;
+    *(const char **)((s8 *)arg0 + 0) = TPhotonGolla__class_name;
     *(s32 *)((s8 *)arg0 + 0x138) = 2;
     VecCopy((Vec *)(arg0 + 0x38), (const Vec *)arg1);
     *(u16 *)((s8 *)arg0 + 0x158) = *(u16 *)((s8 *)arg1 + 0xC);

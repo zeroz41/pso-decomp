@@ -1,4 +1,7 @@
 #include "pso/system/NinjaTypes.h"
+
+const char *TPhotonLeilla__class_name = "TPhotonLeilla";
+
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "types.h"
@@ -227,7 +230,6 @@ void TPhotonRainbow__ct(void *, void *, void *, s32);
 u8 *__nw__7TObjectFUl(s32, f32);
 extern u8 photon_blast_leilla_params[];
 extern s32 __vt__13TPhotonLeilla[];
-extern s32 lbl_805D34F8;
 extern Game_801AC808 *photon_blast_shared_resource;
 
 void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
@@ -236,7 +238,7 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     u8 *owner;
     __ct__13TUnk_804C3248Fv(self);
     *(void **)((u8 *)self + 0x18) = __vt__13TPhotonLeilla;
-    F_801AC808(self, s32, 0) = lbl_805D34F8;
+    F_801AC808(self, const char *, 0) = TPhotonLeilla__class_name;
     F_801AC808(self, s32, 0x138) = 4;
     VecCopy((Vec *)&self->pos, (const Vec *)pkt);
     F_801AC808(self, u16, 0x17C) = pkt->owner;

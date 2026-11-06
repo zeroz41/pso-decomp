@@ -8,6 +8,7 @@ class TDuelEffectCtrl : public TObject {
 public:
     TDuelEffectCtrl(TObject* parent, u8 state);
     virtual ~TDuelEffectCtrl();
+    void update_duel_end_effect();
     void update_duel_start_countdown();
     virtual void run_task();
     virtual void render();

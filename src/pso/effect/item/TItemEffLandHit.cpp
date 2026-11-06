@@ -7,6 +7,8 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 
+const char *TItemEffLandHit__class_name = "TItemEffLandHit";
+
 void TItemEffLandHit::run_task() {
     if (this->m_38) {
         queue_destruction__7TObjectFv(this);
@@ -23,7 +25,6 @@ struct RecoveredGlobal_801095EC___vt__15TItemEffLandHit {
 extern "C" {
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_801095EC___vt__15TItemEffLandHit __vt__15TItemEffLandHit;
-extern s32 TItemEffLandHit__class_name;
 typedef char RecoveredGlobal_801095EC___vt__15TItemEffLandHit_size[sizeof(RecoveredGlobal_801095EC___vt__15TItemEffLandHit) == 0x18 ? 1 : -1];
 u8 *TItemEffLandHit__ct(u8 *item_eff_land_hit, u8 *arg1, u8 *item, u8 *arg3, u8 *arg4) {
     __ct__7TObjectFP7TObject(item_eff_land_hit, arg1);

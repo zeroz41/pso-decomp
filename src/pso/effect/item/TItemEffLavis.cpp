@@ -1,6 +1,6 @@
 #include "pso/effect/item/TItemEffLavis.h"
 
-extern const char* TItemEffLavis__class_name;
+const char *TItemEffLavis__class_name = "TItemEffLavis";
 
 void TItemEffLavis::hook() {}
 TItemEffLavis::~TItemEffLavis() {}

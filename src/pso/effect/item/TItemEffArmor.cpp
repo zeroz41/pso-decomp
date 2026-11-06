@@ -144,7 +144,7 @@ struct Vec_80108020 { f32 x, y, z; };
 struct Parm_80108020 { u8 pad[0x1c]; f32 f1C; f32 f20; };
 
 struct Self_80108020 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     s32 f1C;
@@ -172,16 +172,17 @@ void *__nw__7TObjectFUl(u32);
 void *create_particle_emitter(void *pos, s32 id);
 
 void construct_actor_light_task(void *, void *, void *, s32, u8 *, f32, s32);
-extern u8 lbl_8043E140[];
-extern Vec_80108020 lbl_8043E160[];
 extern void *__vt__13TItemEffArmor[];
 extern Parm_80108020 default_scene_light_config;
-extern s32 TItemEffArmor__class_name;
 extern s32 tl_07;
 
 Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b);
 
 }
+
+// The armour glow colour: copied into the effect and handed to its actor light.
+extern const NJS_ARGB lbl_8043E140 = { 1.0f, 0.5f, 1.0f, 1.0f };
+const char *TItemEffArmor__class_name = "TItemEffArmor";
 
 #pragma defer_codegen on
 
@@ -222,12 +223,12 @@ Self_80108020 *TItemEffArmor__ct(Self_80108020 *self, u8 *obj, f32 a, f32 b) {
     self->f60 = default_scene_light_config.f1C;
     self->f64 = (1.0f - self->f5C) / 14.5f;
     self->f1C = (s32)create_particle_emitter(self->f6C + 0x38, 0x1BA);
-    copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)lbl_8043E140);
+    copy_argb((NJS_ARGB *)self->v38, (NJS_ARGB *)&lbl_8043E140);
     {
-        Vec_80108020 v = lbl_8043E160[0];
+        Vec_80108020 v = { 0.0f, 1.0f, 0.0f };
         p = __nw__7TObjectFUl(0x64);
         if (p != NULL) {
-            construct_actor_light_task(p, lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);
+            construct_actor_light_task(p, (void *)&lbl_8043E140, &v, 0x3A, obj, 0.2f, tl_07);
         }
     }
     return self;

@@ -44,7 +44,15 @@ struct Self_801ADDDC {
     s32 started;
 };
 
-typedef struct Packet_801ADD10 { Vec pos; u32 w[9]; } Packet_801ADD10;
+// The TPhotonLaser construction packet (TPhotonLaser__ct reads pos, dir and scale).
+typedef struct Packet_801ADD10 {
+    Vec pos;
+    u8 padC[0x18 - 0xC];
+    Vec dir;
+    f32 pad_24;
+    f32 scale;
+    f32 pad_2C;
+} Packet_801ADD10;
 
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
@@ -63,7 +71,10 @@ extern s32 model_render_flags;
 void TPhotonLaser__ct(void *, void *, void *, u16);
 void *__nw__7TObjectFUl(u32);
 void vec3_add_to(void *, void *);
-extern Packet_801ADD10 photon_pilla_laser_packet;
+const char *TPhotonPilla__class_name = "TPhotonPilla";
+extern const Packet_801ADD10 photon_pilla_laser_packet = {
+    { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
+};
 extern void *photon_pilla_laser_offset_table[];
 
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
@@ -221,7 +232,6 @@ s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void sub_801ADC7C__12TPhotonPillaFv(void *, u8);
 u8 *TPhotonRainbow__ct(void *, void *, void *, s32);
-extern s32 lbl_805D3518;
 extern u8 *photon_blast_shared_resource;
 
 extern "C" void vfunc_6__8TObjBaseFPsl();
@@ -266,7 +276,7 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     void *mem;
     __ct__13TUnk_804C3248Fv(photon_rainbow);
     *(u8 **)((s8 *)photon_rainbow + 0x18) = (u8 *)lbl_804C3ACC;
-    *(s32 *)((s8 *)photon_rainbow + 0) = lbl_805D3518;
+    *(const char **)((s8 *)photon_rainbow + 0) = TPhotonPilla__class_name;
     *(s32 *)((s8 *)photon_rainbow + 0x138) = 3;
     VecCopy((Vec *)(photon_rainbow + 0x38), (const Vec *)arg1);
     ((TPhotonPilla *)photon_rainbow)->m_17c = *(u16 *)((s8 *)arg1 + 0xC);

@@ -43,7 +43,13 @@ struct Stack_801AA930 {
 #pragma dont_inline off
 struct Vec_801AA710 { f32 x, y, z; };
 
-struct Packet_801AA710 { u32 w[8]; };
+// The TPhotonLine construction packet (TPhotonLine__ct reads pos, dir and scale).
+struct Packet_801AA710 {
+    Vec_801AA710 pos;
+    Vec_801AA710 dir;
+    f32 scale;
+    f32 pad_1C;
+};
 
 struct Self_801AA710 {
     u8 pad0[0x38];
@@ -89,7 +95,10 @@ s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix_from(void *);
 s32 pop_matrices(s32 arg0);
-extern const Packet_801AA710 photon_estlla_line_packet_init;
+const char *TPhotonEstlla__class_name = "TPhotonEstlla";
+extern const Packet_801AA710 photon_estlla_line_packet_init = {
+    { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 10.0f, 0.0f
+};
 extern u8 identity_matrix[];
 
 s32 scroll_strip_uvs(void *, s16, int);
@@ -126,9 +135,9 @@ void TPhotonEstlla::spawn_line() {
     pop_matrices(1);
     {
         Packet_801AA710 packet = photon_estlla_line_packet_init;
-        *(Vec_801AA710 *)&packet.w[0] = self->pos;
-        *(Vec_801AA710 *)&packet.w[3] = direction;
-        *(f32 *)&packet.w[7] = this->m_150;
+        packet.pos = self->pos;
+        packet.dir = direction;
+        packet.pad_1C = this->m_150;
         line = __nw__7TObjectFUl(0x378);
         if (line) {
             TPhotonLine__ct((void *)line, &packet, self, this->m_17c);
@@ -258,7 +267,6 @@ extern "C" {
 
 extern u8 photon_estlla_param_table[];
 extern s32 __vt__13TPhotonEstlla[];
-extern s32 lbl_805D34D8;
 extern u8 *photon_blast_shared_resource;
 
 }
@@ -266,7 +274,7 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
     Stack_801AAB74 pos;
     u8 *e;
     void *p;
-    *(s32 *)((s8 *)this + 0) = lbl_805D34D8;
+    m_name = TPhotonEstlla__class_name;
     *(s32 *)((s8 *)this + 0x138) = 1;
     VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)arg1);
     this->m_17c = *(u16 *)((s8 *)arg1 + 0xC);
