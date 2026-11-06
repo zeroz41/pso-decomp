@@ -236,7 +236,11 @@ pso/boss/TBoss2DeRolLe.cpp:
 
 pso/boss/TBoss2Fin.cpp:
 	.text       start:0x800363B4 end:0x80036824
+	.rodata     start:0x80435A38 end:0x80435A58
 	.data       start:0x80482A38 end:0x80482A50
+	.bss        start:0x804FE590 end:0x804FE5D8
+	.sdata      start:0x805D26B8 end:0x805D26C0
+	.sdata2     start:0x805D8450 end:0x805D8468
 
 pso/player/TObjPlayer_80036824.cpp:
 	.text       start:0x80036824 end:0x8003688C
@@ -258,6 +262,7 @@ pso/boss/TBoss2Mine.cpp:
 
 pso/boss/TBoss2PhotonBullet_80038DCC.cpp:
 	.text       start:0x80038DCC end:0x8003933C
+	.rodata     start:0x80435B08 end:0x80435B78
 	.data       start:0x80483238 end:0x804832AC
 	.sdata      start:0x805D26D8 end:0x805D26E0
 	.sdata2     start:0x805D8510 end:0x805D8528
@@ -9428,7 +9433,9 @@ pso/boss/TBoss7LaserLight.cpp:
 
 pso/boss/TBoss7PhotonBullet_802EF26C.cpp:
 	.text       start:0x802EF26C end:0x802EF800
+	.rodata     start:0x80474008 end:0x80474070
 	.data       start:0x804E47B8 end:0x804E482C
+	.sdata      start:0x805D3FD0 end:0x805D3FD8
 	.sdata2     start:0x805DEBE0 end:0x805DEBFC
 
 pso/boss/TBoss7TentacleNeedle.cpp:

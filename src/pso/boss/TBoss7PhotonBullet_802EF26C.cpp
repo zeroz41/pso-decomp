@@ -42,6 +42,18 @@ struct VObj_18_39be15 : VBase_18_39be15 {
 };
 
 struct V2_802EF2AC { s32 x; f32 y; };
+struct Ent_802EF74C { s32 a; s32 b; s32 c; f32 d; };
+
+// The bullet level table, the two hit-check arguments and the class names, in their original .rodata order.
+extern const Ent_802EF74C boss7_photon_bullet_level_table[3] = {
+    { 3, 1, 0x3000, 3.5f },
+    { 5, 1, 0x2000, 5.0f },
+    { 5, 1, 0x4000, 5.0f },
+};
+extern const V2_802EF2AC lbl_80474038[1] = { { 0, 3.0f } };
+extern const s32 lbl_80474040[2] = { 0x40400000, 1 }; // 3.0f as raw bits, then 1
+const char *TBoss7PhotonPad__name = "TBoss7PhotonPad";
+const char *TBoss7PhotonBullet__name = "TBoss7PhotonBullet";
 
 struct Bullet_802EF2AC {
     u8 pad0[0x38];
@@ -61,10 +73,7 @@ extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *, void *);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 extern void *__vt__18TBoss7PhotonBullet[];
-extern s32 lbl_805D3FD4;
 s32 project_actor_to_ground(void *, void *, void *);
-extern V2_802EF2AC lbl_80474038[];
-extern s32 lbl_80474040[];
 extern const f32 lbl_805DEA00;
 extern const f32 lbl_805DEA04;
 void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0);
@@ -110,7 +119,7 @@ void run_task__18TBoss7PhotonBulletFv(Bullet_802EF2AC *arg0) {
     if (arg0->pos[0] <= lbl_805DEA00 && arg0->pos[0] >= lbl_805DEA04) {
         V2_802EF2AC v = lbl_80474038[0];
         v.y = TBoss7PhotonBullet::get_target_pos_y();
-        if (((VObj_18_39be15 *)(arg0))->m14(lbl_80474040, &v) != 0) {
+        if (((VObj_18_39be15 *)(arg0))->m14((s32 *)lbl_80474040, &v) != 0) {
             queue_destruction__7TObjectFv(arg0);
             return;
         }
@@ -137,7 +146,7 @@ void *__dt__18TBoss7PhotonBulletFv(void *arg0, s16 arg1) {
 u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0) {
     __ct__13TUnk_804928CCFP7TObjectP8TObjBase((arg0), (arg1), (arg2));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_802EF514___vt__18TBoss7PhotonBullet *)&__vt__18TBoss7PhotonBullet).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D3FD4;
+    *(const char **)((s8 *)arg0 + 0) = TBoss7PhotonBullet__name;
     VecCopy__FP3VecPC3Vec(arg0 + 0x38, (void *) (VecCopy__FP3VecPC3Vec(arg0 + 0xC0, (void *)arg3)));
     VecCopy__FP3VecPC3Vec(arg0 + 0xB4, (void *)arg4);
     *(f32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0xA4)) + 0xC) = (f32) (3.0f);
@@ -158,7 +167,6 @@ u8 *TBoss7PhotonBullet__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32
 
 }
 
-struct Ent_802EF74C { s32 a; s32 b; s32 c; f32 d; };
 
 typedef struct Pad_802EF604 {
     u8 pad0[0x10];
@@ -173,9 +181,7 @@ typedef struct Pad_802EF604 {
 } Pad_802EF604;
 
 extern "C" {
-extern Ent_802EF74C boss7_photon_bullet_level_table[];
 extern void *__vt__15TBoss7PhotonPad[];
-extern s32 lbl_805D3FD0;
 
 u32 __nw__7TObjectFUl(int);
 
@@ -218,7 +224,7 @@ void *__dt__15TBoss7PhotonPadFv(void *self, s16 arg1) {
 }
 }
 TBoss7PhotonPad::TBoss7PhotonPad(s32 arg1, s32 arg2, s32 arg3, s32 arg4) : TObject((TObject *)arg1) {
-    *(s32 *)((s8 *)this + 0) = lbl_805D3FD0;
+    *(const char **)((s8 *)this + 0) = TBoss7PhotonPad__name;
     *(s32 *)((s8 *)this + 0x1C) = arg2;
     *(s32 *)((s8 *)this + 0x2C) = arg4;
     VecCopy__FP3VecPC3Vec(((u8 *)this) + 0x20, (void *)arg3);

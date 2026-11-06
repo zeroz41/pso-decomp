@@ -5050,17 +5050,6 @@ struct VObj_18_bd2ad6 : VBase_18_bd2ad6 {
     virtual s32 m103();
 };
 
-struct Stack_800365C8 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-
-struct RecoveredGlobal_800365C8_lbl_80435A44 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
 struct Self_80035420 {
     u8 pad0[0x18];
     void *vtable;
@@ -5112,7 +5101,6 @@ typedef struct Node_80035D24 {
 extern "C" {
 void init_float_block__13TBoss2DeRolLeFPv(u8 *arg0);
 void VecCopy__FP3VecPC3Vec(void *, void *);
-extern const f32 lbl_805D8458;
 f32 newton_sqrtf(f32);
 extern const f32 TBoss2DeRolLe__data_805D8288;
 extern const f32 TBoss2DeRolLe__data_805D82A0;
@@ -5134,7 +5122,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 void *__nw__7TObjectFUl(int);
 extern const f32 TBoss2DeRolLe__data_805D82A0;
 void run_task__13TBoss2DeRolLeFPv(u8 *arg0);
-extern RecoveredGlobal_800365C8_lbl_80435A44 lbl_80435A44;
 s32 __dt__7TObjectFv(void *, int);
 void queue_destruction__7TObjectFv(void *arg0);
 s32 free_if_positive__13TBoss2DeRolLeFis(s32 arg0, s16 arg1);
@@ -5160,12 +5147,9 @@ s32 normalize_vector(void *);
 s32 push_matrix();
 s32 pop_matrix();
 void draw_chunk_object(void *child);
-extern const f64 lbl_80435A50[];
 extern u32 lbl_805D4BA4;
 extern s32 current_scene_light;
 extern const f32 lbl_805D8260;
-extern const f32 TBoss2Fin__data_805D8450;
-extern const f32 lbl_805D8454;
 s32 dispatch_shared_handler_a__6TLobbyFl(s32);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
@@ -6214,7 +6198,6 @@ void TBoss2DeRolLe__sub_80036358(void* p) { *(u8*)((char*)p + 0x0) = 19; *(u8*)(
 void update_and_send__13TBoss2DeRolLeFPv(void* p) { swap_endian__13TBoss2DeRolLeFPv(p); send_subcommand(p); }
 void TBoss2DeRolLe__sub_800363A0(void* p) { *(u8*)((char*)p + 0x0) = 20; *(u8*)((char*)p + 0x1) = 3; }
 
-typedef char RecoveredGlobal_800365C8_lbl_80435A44_size[sizeof(RecoveredGlobal_800365C8_lbl_80435A44) == 0xC ? 1 : -1];
 
 }
 

@@ -3,24 +3,12 @@
 #include "pso/TObjEZRopeBase.h"
 #include "pso/object/TObjFish.h"
 #include "types.h"
-#include <stddef.h>
 
 struct G_800367C4;
-struct Stack_800365C8 {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-};
-struct RecoveredGlobal_800365C8_lbl_80435A44 {
-    s32 value;
-    u8 remaining[0x8];
-};
 struct Vec_800363B4 { f32 x, y, z; };
 struct Seg_800363B4 { s8 n; u8 pad1[0xF]; void *model1; void *model2; };
 struct Ang_800363B4 { s32 yaw; u8 pad4[0xC]; };
 extern "C" {
-extern const f32 lbl_805D8458;
-extern RecoveredGlobal_800365C8_lbl_80435A44 lbl_80435A44;
 f32 fabs_float(f32);
 f32 atan2_float(f32, f32);
 f32 get_scale_factor__10TObjPlayerFv(f32);
@@ -35,14 +23,15 @@ s32 normalize_vector(void *);
 s32 push_matrix();
 s32 pop_matrix();
 void draw_chunk_object(void *child);
-extern const f64 lbl_80435A50[];
 extern G_800367C4 *lbl_805D4BA4;
 extern s32 current_scene_light;
 extern const f32 lbl_805D8260;
-extern const f32 TBoss2Fin__data_805D8450;
-extern const f32 lbl_805D8454;
 
 }
+
+const char *TBoss2Fin__name = "TBoss2Fin";
+// The direction run_task hands to the rope update.
+extern const Vec lbl_80435A44 = { 0.0f, 0.0f, -2.0f };
 
 void TBoss2Fin::render() {
     u8 *arg0 = (u8*)this;
@@ -62,19 +51,19 @@ void TBoss2Fin::render() {
             translate_matrix_vec3((u8 *)(0), (u8 *)pt);
             VecCopy((Vec *)&v, (const Vec *)(pt + 1));
             subtract_vector(&v, pt);
-            if (TBoss2Fin__data_805D8450 == vector_length(&v)) {
-                v.x = TBoss2Fin__data_805D8450;
-                v.y = lbl_805D8454;
-                v.z = TBoss2Fin__data_805D8450;
+            if (0.0f == vector_length(&v)) {
+                v.x = 0.0f;
+                v.y = -1.0f;
+                v.z = 0.0f;
             } else {
                 normalize_vector(&v);
             }
             yaw = 0;
-            if (TBoss2Fin__data_805D8450 != fabs_float(v.x) + fabs_float(v.z)) {
-                yaw = lbl_80435A50[0] * atan2_float(-v.x, -v.z);
+            if (0.0f != fabs_float(v.x) + fabs_float(v.z)) {
+                yaw = (65536.0 / (2.0 * 3.141592f)) * atan2_float(-v.x, -v.z);
                 rotate_matrix_y(0, yaw);
             }
-            rotate_matrix_x(0, lbl_80435A50[0] * get_scale_factor__10TObjPlayerFv(-v.y));
+            rotate_matrix_x(0, (65536.0 / (2.0 * 3.141592f)) * get_scale_factor__10TObjPlayerFv(-v.y));
             rotate_matrix_y(0, ang->yaw - yaw);
             push_matrix();
             scale_matrix(0, lbl_805D8260, lbl_805D8260, lbl_805D8260);
@@ -95,15 +84,9 @@ void TBoss2Fin::render() {
 
 void TBoss2Fin::run_task() {
     s32 arg0 = (s32)this;
-    typedef char sp8_offset[(offsetof(Stack_800365C8, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_800365C8, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_800365C8, sp10) == 0x8) ? 1 : -1];
-    Stack_800365C8 stack;
     ((TBoss2Fin *)arg0)->init_link_points();
-    stack.sp8 = *(s32 *)((s8 *)&lbl_80435A44.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_80435A44.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_80435A44.value + 8);
-    ((TObjEZRopeBase *)arg0)->sub_800FF788((void *)&stack.sp8);
+    Vec dir = lbl_80435A44;
+    ((TObjEZRopeBase *)arg0)->sub_800FF788((void *)&dir);
 }
 
 void TBoss2Fin::init_link_points() {
@@ -111,18 +94,21 @@ void TBoss2Fin::init_link_points() {
     *(s32 *)((s8 *)arg0 + 0x30) = 0;
     VecCopy((Vec *)(arg0 + 0x34), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x80)));
     VecCopy((Vec *)(arg0 + 0x54), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x80)));
-    *(f32 *)((s8 *)arg0 + 0x58) = (f32) (*(f32 *)((s8 *)arg0 + 0x58) - lbl_805D8458);
-    *(f32 *)((s8 *)arg0 + 0x5C) = (f32) (*(f32 *)((s8 *)arg0 + 0x5C) + lbl_805D8458);
+    *(f32 *)((s8 *)arg0 + 0x58) -= 7.07f;
+    *(f32 *)((s8 *)arg0 + 0x5C) += 7.07f;
     *(s32 *)((s8 *)arg0 + 0x40) = 0;
     VecCopy((Vec *)(arg0 + 0x44), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x84)));
     VecCopy((Vec *)(arg0 + 0x64), (const Vec *)(*(u8 **)((s8 *)arg0 + 0x84)));
-    *(f32 *)((s8 *)arg0 + 0x68) = (f32) (*(f32 *)((s8 *)arg0 + 0x68) - lbl_805D8458);
-    *(f32 *)((s8 *)arg0 + 0x6C) = (f32) (*(f32 *)((s8 *)arg0 + 0x6C) + lbl_805D8458);
+    *(f32 *)((s8 *)arg0 + 0x68) -= 7.07f;
+    *(f32 *)((s8 *)arg0 + 0x6C) += 7.07f;
 }
 
 TBoss2Fin::~TBoss2Fin() {}
 
 struct E_800367C4 { s8 type; f32 a; f32 b; f32 c; s32 d; s32 e; };
+
+// The entries init_effect_table fills (two of type 6, then a -1 terminator).
+E_800367C4 TBoss2Fin__effect_table[3];
 
 struct In_800367C4 { u8 pad[0x8]; s32 f8; u8 pad2[0xC]; s32 f18; };
 
@@ -131,7 +117,7 @@ struct G_800367C4 { u8 pad[0x42c]; In_800367C4 *in; };
 struct Rec_80036718 { f32 a, b, c, d; };
 
 struct Obj_80036718 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x14];
     void *vt;
     u8 pad1c[0x30 - 0x1C];
@@ -142,12 +128,8 @@ struct Obj_80036718 {
 };
 
 extern "C" {
-extern E_800367C4 lbl_804FE590[];
-extern const f32 lbl_805D8460;
 void *TObjEZRopeBase__ct(void *);
 extern u8 __vt__9TBoss2Fin[];
-extern s32 TBoss2Fin__name;
-extern const f32 lbl_805D845C;
 Obj_80036718 *__ct__9TBoss2FinFv(Obj_80036718 *self, s32 arg1, s32 arg2, s32 arg3);
 void TBoss2Fin__sub_800367C0(void);
 
@@ -161,26 +143,26 @@ Obj_80036718 *__ct__9TBoss2FinFv(Obj_80036718 *self, s32 arg1, s32 arg2, s32 arg
     self->f84 = arg3;
     p = self->recs;
     for (i = 0; i < 2; i++, p++) {
-        p->a = lbl_805D845C;
-        p->b = TBoss2Fin__data_805D8450;
-        p->c = TBoss2Fin__data_805D8450;
-        p->d = TBoss2Fin__data_805D8450;
+        p->a = 10.0f;
+        p->b = 0.0f;
+        p->c = 0.0f;
+        p->d = 0.0f;
     }
-    p->a = lbl_805D8454;
+    p->a = -1.0f;
     ((TBoss2Fin *)self)->init_link_points();
-    ((TObjEZRopeBase *)self)->sub_800FF8CC((void *)((u8 *)&lbl_804FE590), (void *)self->f30, (s32)self->recs);
+    ((TObjEZRopeBase *)self)->sub_800FF8CC((void *)TBoss2Fin__effect_table, (void *)self->f30, (s32)self->recs);
     return self;
 }
 
 void TBoss2Fin__sub_800367C0(void) {  }
 void TBoss2Fin::init_effect_table() {
-    E_800367C4 *p = lbl_804FE590;
+    E_800367C4 *p = TBoss2Fin__effect_table;
     s32 i;
     for (i = 0; i < 2; i++) {
         p->type = 6;
-        p->a = TBoss2Fin__data_805D8450;
-        p->b = TBoss2Fin__data_805D8450;
-        p->c = lbl_805D8460;
+        p->a = 0.0f;
+        p->b = 0.0f;
+        p->c = -5.0f;
         p->d = lbl_805D4BA4->in->f18;
         p->e = lbl_805D4BA4->in->f8;
         p++;
