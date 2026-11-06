@@ -1902,11 +1902,15 @@ pso/enemy/TObjEneRe4Bit.cpp:
 	.bss        start:0x80501050 end:0x80501070
 
 pso/enemy/TObjEneRe4Sorcerer_800EDB98.cpp:
-	.text       start:0x800EDB98 end:0x800F0810
+	.text       start:0x800EDB98 end:0x800F05A0
 	.rodata     start:0x8043D410 end:0x8043D418
 	.data       start:0x80496EE0 end:0x804971BC
 	.bss        start:0x80501070 end:0x80501080
 	.sdata2     start:0x805DA788 end:0x805DA7F0
+
+pso/enemy/AreaSoundRemap.cpp:
+	.text       start:0x800F05A0 end:0x800F0810
+	.data       start:0x804971C0 end:0x804976B0
 
 pso/player/TObjPlayer_800F0810.cpp:
 	.text       start:0x800F0810 end:0x800F09E8

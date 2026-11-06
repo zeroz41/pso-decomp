@@ -2,6 +2,7 @@
 #define PSO_ENEMY_TOBJENERE4SORCERER_800EDB98_H
 
 #include "types.h"
+#include "pso/enemy/AreaSoundRemap.h"
 
 struct TObjEneRe4Sorcerer;
 extern "C" {
@@ -16,7 +17,6 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(u8 *arg0, s32 arg1);
 void TObjEneRe4Sorcerer__sub_800EF214(s32 arg0);
 void TObjEneRe4Sorcerer__sub_800EFE30(void);
 void TObjEneRe4Sorcerer__vt85(s32 arg0p, u32 arg1, s32 arg1p);
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void render__18TObjEneRe4SorcererFv(u8 *arg0);
 void run_task__18TObjEneRe4SorcererFv(u8 *arg0);
 s32 select_attack_target__18TObjEneRe4SorcererFiff(s32 arg0, f32 farg0, f32 farg1);
@@ -36,7 +36,6 @@ void TObjEneRe4Sorcerer__sub_800EEFE4(u8 *ene_re4_sorcerer, s32 arg1);
 void TObjEneRe4Sorcerer__sub_800EF214(s32 arg0);
 void TObjEneRe4Sorcerer__sub_800EFE30(void);
 void TObjEneRe4Sorcerer__vt85(s32 arg0p, u32 arg1, s32 arg1p);
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 void render__18TObjEneRe4SorcererFv(u8 *ene_re7_berura);
 void run_task__18TObjEneRe4SorcererFv(u8 *arg0);
 s32 select_attack_target__18TObjEneRe4SorcererFiff(s32 arg0, f32 farg0, f32 farg1);

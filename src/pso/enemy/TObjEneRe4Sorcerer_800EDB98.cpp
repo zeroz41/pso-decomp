@@ -627,7 +627,6 @@ typedef struct { f32 x, y, z; } Vec_800F0464;
 
 struct Params_800F0464 { s32 a, b, c, d; };
 
-struct Map_800F06B4 { s32 base; s32 start; };
 
 struct VBase_14_fa0828 { char pad[0x14]; };
 
@@ -795,7 +794,6 @@ void run_task__18TObjEneRe4SorcererFv(u8 *arg0);
 Obj_800F0054 * __dt__18TObjEneRe4SorcererFv(Obj_800F0054 *arg0, s16 arg1);
 void * TObjEneRe4Sorcerer__ct(void *arg0, void *arg1, void *arg2);
 void TBoss3Volopt__sub_800F059C(void);
-s32 remap_area_sound_id(s32 arg0, s32 arg1);
 }
 void calc_wall_clamped_destination(void *arg0, void *arg1, f32 dx, f32 dz, f32 dist);
 s32 tick_period_counter(s32 arg0, s32 *arg1, s32 arg2);
@@ -819,8 +817,6 @@ extern s32 __dt__15RenderFadeStateFv[];
 extern s32 __ct__15RenderFadeStateFv[];
 extern Params_800F0464 re4_sorcerer_spawn_descriptor;
 extern u8 lbl_8043D418[];
-extern Map_800F06B4 area_sound_remap_table_a[];
-extern Map_800F06B4 area_sound_remap_table_b[];
 Vec_800F0464 lbl_80501070;
 extern void *lbl_805D2AF0;
 extern s32 lbl_805D52D0;
@@ -2457,73 +2453,4 @@ void TObjEneRe4Sorcerer::load_resources() {
 }
 
 void TBoss3Volopt__sub_800F059C(void) {  }
-
-s32 TBoss3Volopt::remap_area_sound_id(s32 arg0) {
-    s32 masked;
-    s32 result;
-    s32 area;
-    area = get_current_floor_area();
-    if (TLobby::get_instance() != 0) {
-        if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
-            return arg0;
-        }
-    } else if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
-        return arg0;
-    }
-    masked = arg0 & 0x8FFFFF00;
-    if (TLobby::get_instance() != 0) {
-        if (area == AREA_VR_TEMPLE_ALPHA || area == AREA_VR_TEMPLE_BETA) {
-            result = 0x3AB42;
-        } else if (area == AREA_VR_SPACESHIP_ALPHA || area == AREA_VR_SPACESHIP_BETA) {
-            result = 0x4003AB3D;
-        } else if (area == AREA_SEASIDE_NIGHT) {
-            result = 0x4003B22A;
-        } else if (area == AREA_TOWER) {
-            result = 0x4003A359;
-        }
-    } else {
-        result = 0x30043;
-        result |= masked;
-    }
-    return result;
-}
-
-s32 remap_area_sound_id(s32 arg0, s32 arg1) {
-    s32 area;
-    s32 base;
-    s32 start;
-    area = get_current_floor_area();
-    if (TLobby::get_instance() != 0) {
-        if (area != AREA_VR_TEMPLE_ALPHA && area != AREA_VR_TEMPLE_BETA && area != AREA_VR_SPACESHIP_ALPHA && area != AREA_VR_SPACESHIP_BETA && area != AREA_SEASIDE_NIGHT && area != AREA_TOWER) {
-            return arg0;
-        }
-    } else {
-        if (area != AREA_BATTLE1 && area != AREA_BATTLE2) {
-            return arg0;
-        }
-    }
-    if ((u32) arg0 == 0x4003B241U) {
-        return 0x4003B23E;
-    }
-    if (((u32) (arg0 & 0xBFFF00FF) >> 16 << 16) != 0x30000) {
-        return arg0;
-    }
-    if (TLobby::get_instance() != 0) {
-        base = area_sound_remap_table_b[arg1].base;
-    } else {
-        base = area_sound_remap_table_a[arg1].base;
-    }
-    if (base < 0) {
-        return arg0;
-    }
-    if (TLobby::get_instance() != 0) {
-        start = area_sound_remap_table_b[arg1].start;
-    } else {
-        start = area_sound_remap_table_a[arg1].start;
-    }
-    {
-        s32 r = base + (arg0 - start);
-        return r | (arg0 & 0x8FFFFF00);
-    }
-}
 }

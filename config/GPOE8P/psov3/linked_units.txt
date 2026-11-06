@@ -387,6 +387,7 @@ pso/effect/TEffect.cpp
 pso/effect/TUnk_804CCC68.cpp
 pso/encryption/PSOV3Encryption.cpp
 pso/encryption/PSOV3EncryptionTCP.cpp
+pso/enemy/AreaSoundRemap.cpp
 pso/enemy/BringerEffects.cpp
 pso/enemy/CanadinEffects.cpp
 pso/enemy/DarkGunner.cpp
