@@ -10565,8 +10565,10 @@ pso/boss/Boss6Type1Appearance.cpp:
 
 pso/object/TObjFish_8033CCC8.cpp:
 	.text       start:0x8033CCC8 end:0x8033D324
-	.rodata     start:0x80477F08 end:0x80477F10
-	.sdata2     start:0x805DFA64 end:0x805DFA70
+	.rodata     start:0x80477E48 end:0x80477F10
+	.data       start:0x804EF9D8 end:0x804EFA08
+	.sdata      start:0x805D42A0 end:0x805D42A8
+	.sdata2     start:0x805DFA58 end:0x805DFA70
 
 pso/boss/Boss6Type2Appearance.cpp:
 	.text       start:0x8033D324 end:0x8033DCD8

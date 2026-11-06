@@ -563,6 +563,10 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/TBoss8Dragon.cpp": {"mw_version": "GC/2.0"},
     "pso/effect/TEffIndirectCtrl.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/object/TObjDFDemo1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    # -sdata 4: the 8-byte motion id table 0x804EF9D8 sits in .data, the 4-byte class name in .sdata.
+    # deferred: the ctor addresses .data from one base with the vtable at +0x14, and the .sdata2
+    # pool order only comes out with the functions emitted last to first.
+    "pso/object/TObjFish_8033CCC8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
     # GC/1.3.2: the container files 0x8018807C-0x8018D900, the CRC-32 pair
     # (`xoris/xori 0xFFFF`; 2.x always emits `li -1; xor`), and five others.
     # TObjCamera: 1.3.2 copies CameraSoundEvent member by member unscheduled.
