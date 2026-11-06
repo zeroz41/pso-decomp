@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 #include <stddef.h>
 struct Stack_800724F0 {
@@ -7,7 +7,7 @@ struct Stack_800724F0 {
     s32 spC;
 };
 
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 struct Stack_80072448 {
     s32 sp8;

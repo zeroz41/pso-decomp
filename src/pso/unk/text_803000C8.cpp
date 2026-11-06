@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TLobby_80291D94.h"
-#include "pso/misc/TPlyJoinLobbyEntry.h"
+#include "pso/unk/TLobby_80291D94.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/unk/text_803000C8.h"
 extern "C" {
 s32 is_split_screen(void);

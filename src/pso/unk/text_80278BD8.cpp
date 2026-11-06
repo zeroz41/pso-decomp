@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/misc/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/unk/text_80278BD8.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TShopJudgmentItemWindow.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/city/TShopJudgmentItemWindow.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Wn_80278DA4 { u8 pad0[0x20]; s16 f20; u8 pad22[0x50]; s16 f72; };

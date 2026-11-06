@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/TUnk_804CCA78.h"
-#include "pso/misc/TLobby_80226070.h"
+#include "pso/unk/TLobby_80226070.h"
 #include "pso/unk/text_80235A20.h"
 
 struct RecoveredGlobal_80235A20_lbl_804CCA78 { s32 value; u8 remaining[0x14]; };

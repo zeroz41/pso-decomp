@@ -1,7 +1,7 @@
-#include "pso/TMemberCheck.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/misc/TWindowSubComCard_80244774.h"
-#include "pso/misc/TLobby.h"
+#include "pso/system/TMemberCheck.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 

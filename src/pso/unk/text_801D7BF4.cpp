@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TMainCursor.h"
+#include "pso/ui/hud/TMainCursor.h"
 
 typedef struct Bank_801D7BF4 { s32 pad; s32 a[4]; s32 b[4]; } Bank_801D7BF4;
 

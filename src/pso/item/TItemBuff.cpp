@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/item/TItemAttacker.h"
+#include "pso/weapon/TItemAttacker.h"
 #include "pso/item/TItemBuff.h"
 
 extern "C" {

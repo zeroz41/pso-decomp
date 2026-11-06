@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include <stddef.h>
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 
 // An actor's attack parameters (TObjChara::m_318, read with
 // get_attack_params_atp_min/_atp_max and TObjPlayer__sub_800194E8). An

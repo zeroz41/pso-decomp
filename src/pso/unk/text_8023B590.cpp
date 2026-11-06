@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TTecSlicer.h"
+#include "pso/technique/TTecSlicer.h"
 
 struct O_8023B590 { s16 h[10]; s8 b[10]; s8 count; };
 

@@ -6,7 +6,7 @@
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 
 struct TItemData;
 
@@ -505,29 +505,12 @@ struct TObjPlayer : public TObjChara {
     s32 get_tp();
     void set_effect_state(s32 v);
     void set_atp(s16 v);
-    void*init_state();
     s16 get_stage_strike_count();
-    void *init_and_configure();
     void draw_faust_loaded_projectile();
-    void *init_state_vt2678();
-    void cast_jellen_zalure();
-    void *init_substate_b();
-    void create_foie_effect();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    void start_srank_regen_timer();
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
-    void *construct_weapon_variant(s32 arg1, void *arg2);
-    void *init_state(s32 arg1, void *arg2);
-    void trigger_megid_special();
-    void update_weapon_kill_count();
     s16 get_kill_count();
-    void apply_frame_camera_shake();
-    void update_approach_value();
-    void cast_shifta_deband();
-    void *init_variant_a();
-    void *init_from_item(void *arg1, void *arg2);
-    void *initialize_effect_object();
     void draw_if_visible();
     static void apply_status_effect(s32 a);
     // Enters (target, body) in the hit pair table unless it is already there.
@@ -941,7 +924,7 @@ struct TObjPlayer : public TObjChara {
     void find_first_inventory_entry(int a1);
     void destroy_subobjects(int a1);
     void destroy_subobjects_recursive();
-    void start_inventory_update(int a1);
+    void *start_inventory_update(int key);
     void count_owned_items();
     void collect_item_owners_recursive();
     void collect_alive_owners();
@@ -1065,7 +1048,6 @@ struct TObjPlayer : public TObjChara {
     static int get_max_children(void*);
     static void alloc_and_init(s32 arg0, s32 arg1, s32 arg2);
     static void create_and_init_effect(s32 arg0, u32 *arg1, s32 arg2);
-    void destroy_effect_objects();
     static void start_guardianna_hit_card(s32 arg0, u32 *arg1, s32 arg2);
     static void create_aux_object(s32 arg0, u32 *arg1, s32 arg2);
     static void create_network_object(s32 arg0, u32 *arg1, s32 arg2);
@@ -1193,7 +1175,6 @@ struct TObjPlayer : public TObjChara {
     static u8 *create_state_0(u8 *arg0);
     static u8 *create_vtable_804A63F0(u8 *arg0);
     static u8 *create_position_state(u8 *arg0);
-    s32 is_within_range(s32 arg1);
     static void clear_photon_blast_slots();
     void place_on_area_entry();
     void release_child_object();
@@ -1236,7 +1217,6 @@ struct TObjPlayer : public TObjChara {
     static void notify_fish_obj(void* a0);
     static void draw_effect();
     void draw_trail_pair();
-    s32 apply_area_attack_hits(u8 *arg1, s32 arg2, u32 arg3, f32 farg0);
     void update_aim_and_fire();
     void set_flag_and_notify();
     static void update_particle_by_phase();

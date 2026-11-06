@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TWindowCtrl.h"
-#include "pso/misc/TWindowDD.h"
-#include "pso/misc/TWindowSubSymbolChat.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/ui/window/TWindowDD.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 
 struct TPlyGuildCardTag { u32 a; u32 b; TPlyGuildCardTag(u16, u32); };
 

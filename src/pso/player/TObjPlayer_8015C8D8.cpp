@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/player/TObjChara.h"
-#include "pso/misc/CameraDistanceFade.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/camera/CameraDistanceFade.h"
 #include "pso/player/TUnk_804B6C24.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOAirconCave01.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/cave/TOAirconCave01.h"
 
 extern "C" {
 

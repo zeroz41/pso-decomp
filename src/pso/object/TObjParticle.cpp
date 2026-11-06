@@ -1,17 +1,18 @@
 #include "types.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/object/TObjParticle.h"
-#include "pso/system/NinjaUtil.h"
-#include "pso/object/TObject_80019A50.h"
-#include "pso/object/TObject_8001A448.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/task/TObject_8001A448.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjParticle.h"
-#include "pso/TObject.h"
-#include "pso/boss/TBoss4Type2.h"
-#include "pso/misc/TNowLoading.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/ui/hud/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct P_8019527C { u8 pad[0x90]; u32 f90; };
 
@@ -41,7 +42,6 @@ struct Part_80195400 {
 };
 
 extern "C" {
-s32 is_split_screen(void);
 u8 *__nw__7TObjectFUl(s32);
 extern s32 tl_05;
 s32 spawn_particle_effect_with_rotation(void *, void *, s32, u16);

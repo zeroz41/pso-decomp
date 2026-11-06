@@ -2,7 +2,7 @@
 #define PSO_UNK_TEXT_800C7FEC_H
 
 #include "types.h"
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 // Floor resource callbacks: reset_camera_override on load,
 // restore_cameras_if_overridden on release.

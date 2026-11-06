@@ -1,4 +1,4 @@
-#include "pso/system/AdxmThreadStorage.h"
+#include "pso/audio/AdxmThreadStorage.h"
 #include "pso/unk/text_803CBCA0.h"
 
 #include "types.h"

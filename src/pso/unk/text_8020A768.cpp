@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/misc/TLobby_80131794.h"
-#include "pso/misc/TLobby_80207DA8.h"
+#include "pso/unk/TLobby_80131794.h"
+#include "pso/unk/TLobby_80207DA8.h"
 #include "pso/unk/text_800F8A18.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_8020A768.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TLobby_80207644.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_80207644.h"
 struct Ent_8020A768 { s16 a; s16 b; u8 pad[0x48 - 4]; };
 
 struct Name_8020A768 { char s[0x20]; };

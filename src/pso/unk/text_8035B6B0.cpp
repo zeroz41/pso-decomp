@@ -2,7 +2,7 @@
 #include "pso/unk/text_8035B6B0.h"
 
 #include <stddef.h>
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct Stack_8035B6B0 {
     s32 sp8;
     s32 spC;

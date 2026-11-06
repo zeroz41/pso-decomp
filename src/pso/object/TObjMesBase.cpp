@@ -1,13 +1,14 @@
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
-#include "pso/misc/TMotorcycle.h"
+#include "pso/object/TMotorcycle.h"
 #include "pso/object/TObjMesBase.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/quest/TQuestThread.h"
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Mc_80194EC4 { u8 pad0[0x68]; f32 f68; u8 pad6C[0x50]; s32 fBC; };
 
@@ -20,7 +21,6 @@ extern void* quest_mission_manager;
 extern void* quest_area_manager;
 extern void* tl_00;
 void* __nw__7TObjectFUl(unsigned long);
-f32 fabs_float(f32);
 void debug_printf_at(int, void *, ...);
 extern s32 lbl_80445DF4[];
 extern u8 lbl_80445E08[];

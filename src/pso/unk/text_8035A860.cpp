@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_8035A860.h"
-#include "pso/misc/TUnk_804F1C58.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/unk/TUnk_804F1C58.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 struct RecoveredGlobal_8035A860_lbl_804F1C58 {
     s32 value;

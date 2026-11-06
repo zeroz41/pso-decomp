@@ -1,11 +1,11 @@
 #include "pso/map/FloorResourceCallbacks.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8013F810.h"
 #include "pso/unk/text_803DF204.h"
 
 #include "types.h"
 #include "pso/system/debug_print.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct L_8013FF20 { u8 pad0[0x1012]; s16 a[0x1000]; u8 pad1[0x5016 - 0x3012]; s16 b[0x1101]; };
 

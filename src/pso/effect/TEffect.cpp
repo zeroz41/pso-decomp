@@ -1,8 +1,8 @@
 #pragma readonly_strings on
 #include "pso/effect/TEffect.h"
-#include "pso/TMainTask.h"
-#include "pso/misc/TLobby.h"
-#include "pso/system/GinjaTexture.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TLobby.h"
+#include "pso/render/GinjaTexture.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F9B84.h"

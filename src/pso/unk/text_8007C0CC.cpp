@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby_8007C550.h"
+#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_8007C0CC.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Crypt_8007C438 { s32 pos; u32 k[0x38]; };
 

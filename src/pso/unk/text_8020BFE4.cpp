@@ -1,8 +1,8 @@
 #include "pso/enemy/EnemyFactoryTables.h"
-#include "pso/object/ObjectFactoryTables.h"
+#include "pso/object/base/ObjectFactoryTables.h"
 
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct QuestEnemyRow_8020C1F0 { u16 type; s16 flags; u8 reserved[8]; s16 room; u8 tail[58]; };
 

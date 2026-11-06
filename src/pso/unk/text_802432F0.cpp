@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/TAdPlayerLoadGC.h"
-#include "pso/ui/TAdPlayerLoadGC_801E0C30.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/unk/text_802432F0.h"
 
 s32 lbl_804CDC88[8] = { 0, 1, 2, 3, 4, 5, 6, 7 };

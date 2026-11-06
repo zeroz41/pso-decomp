@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_80293D84.h"
-#include "pso/misc/TWindowCtrlMain.h"
-#include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 #include <stddef.h>
-#include "pso/TChCrEffFade.h"
+#include "pso/ui/charcreate/TChCrEffFade.h"
 
 struct V2_80293D84 {
     f32 x;

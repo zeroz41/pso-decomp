@@ -1,15 +1,15 @@
 #include "types.h"
 #include "pso/unk/text_803369C8.h"
 #include "pso/unk/TUnk_804EEF80.h"
-#include "pso/TMainTask.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TLobby_80335E08.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby_80335E08.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct TitlePulseQuad {
     f32 x0, y0, x1, y1;

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_801A5778.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 s32 fn_803DAFA8(void *, void *);

@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby_8030A6A8.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80222C28.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/Language.h"
 
 struct RecoveredGlobal_80222C54_lbl_8044C330

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FD48.h"
 
 extern "C" {

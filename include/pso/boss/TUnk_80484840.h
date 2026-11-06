@@ -2,7 +2,7 @@
 #define PSO_BOSS_TUNK_80484840_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
 struct VoloptLineColor {

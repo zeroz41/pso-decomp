@@ -2,7 +2,7 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DAF30.h"
 #include "pso/unk/text_803DAFA8.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Obj_803DB20C { u8 pad[0x1c]; void *p; };
 
 struct Tex_803DB15C { u32 fmt; u32 pad4; u32 pad8; u32 w; u32 h; u32 sz; u32 flags; };

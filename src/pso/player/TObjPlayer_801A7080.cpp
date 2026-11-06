@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TUnk_804C3248.h"
+#include "pso/unk/TUnk_804C3248.h"
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TOKeyMachine01.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/key/TOKeyMachine01.h"
 
 struct RecoveredGlobal_801A7310_TCameraCtrl__data_804FF628 {
     s32 value;

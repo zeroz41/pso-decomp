@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_8020B3E4_TLobby__data_80513C80 {
     s32 value;

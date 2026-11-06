@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer_80052374.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
 
 struct C_80052390 { f32 a, b, c, d; };

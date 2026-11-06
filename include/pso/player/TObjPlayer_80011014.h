@@ -17,7 +17,7 @@ void TObjPlayer__sub_8001951C(void *p);
 s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 void activate_switch_attacks__10TObjPlayerFii(s32 arg0, s32 arg1);
 s32 add_actor_hp(u8 *arg0, s16 arg1);
-s32 add_actor_tp(u8 *arg0, s32 arg1);
+s32 add_actor_tp(u8 *arg0, s16 arg1);
 void add_id_to_slots__10TObjPlayerFiUs(s32 arg0, u16 arg1);
 void apply_actor_gravity(TObjEnemy *enemy, s32 *arg1, f32 farg0);
 void assign_slots_from_list(void *arg0, s32 arg1);

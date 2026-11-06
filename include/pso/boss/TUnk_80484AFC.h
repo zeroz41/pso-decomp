@@ -2,7 +2,7 @@
 #define PSO_BOSS_TUNK_80484AFC_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include <dolphin/mtx.h>
 
 // A homing missile of Vol Opt: it steers towards a player and explodes on

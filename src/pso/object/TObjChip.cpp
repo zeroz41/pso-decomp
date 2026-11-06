@@ -1,7 +1,11 @@
-#include "pso/system/ChunkMaterialState.h"
-#include "pso/TObject.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/system/task/TObject.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
+#include "pso/system/MatrixOps.h"
+#include <stdlib.h>
+#include "pso/unk/text_803E2D70.h"
+#include "pso/unk/text_803D96A8.h"
 class TObjChip : public TObject {
 public:
     virtual void render_shadows();
@@ -15,8 +19,8 @@ void draw_ginja_object(int);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
-#include "pso/TParticleCtrl.h"
-#include "pso/object/TObjFish.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Base_801809C4_801809B4 { char pad[0x18]; };
@@ -194,21 +198,17 @@ extern void *__vt__8TObjChip[];
 u8 *__ct__8TObjChipFP7TObjectP19TObjChipSpawnParams(u8 *arg0, u8 *arg1, u8 *arg2);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 s32 push_matrix();
-s32 pop_matrix();
 s32 post_translate_matrix(void *);
-void draw_chunk_object(void *child);
 void matrix_mult_vec(int, Vec_8018085C *, Vec_8018085C *);
 void project_world_to_screen(int, Vec_8018085C *, Out_8018085C *, Vec_8018085C *);
 extern Vec_8018085C camera_right;
 s32 vfunc_10__8TObjChipFP3Vec(s32 arg0, Vec_8018085C *arg1, f32 farg0, f32 farg1);
-int rand(void);
 s32 spawn_chips__8TObjChipFPv(u8 *arg0, u8 *arg1);
 s32 init_chips__8TObjChipFv(u8 *arg0);
 void tick_chips__8TObjChipFv(u8 *arg0);
 }
 void rotate_matrix_yxz(s32 matrix, s32 arg1, s32 arg2, s32 arg3);
 extern "C" {
-s32 scale_matrix(int, f32, f32, f32);
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;

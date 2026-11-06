@@ -2,7 +2,7 @@
 #include "pso/system/debug_print.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 
 u8 *TObjChara::get_stats() { return m_2b0; }
 

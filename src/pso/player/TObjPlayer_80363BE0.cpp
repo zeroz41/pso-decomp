@@ -3,10 +3,10 @@
 #include "pso/player/TUnk_804F2A10.h"
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/boss/TBoss2DeRolLe.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/player/TObjPlayer_80363BE0.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
@@ -14,7 +14,7 @@
 #include "pso/player/TUnk_804F2A10.h"
 #include "pso/player/TUnk_804F29F8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 #pragma defer_codegen on
 

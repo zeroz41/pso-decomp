@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_802E10D8.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TCharaMaking.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
 #include "pso/system/BmlResourceLoader.h"
 
 

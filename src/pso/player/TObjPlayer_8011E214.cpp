@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/items/TItemWeapon.h"
+#include "pso/weapon/TItemWeapon.h"
 
 void TObjPlayer::set_flag_10000() {
     set_state_flags(0x10000);

@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 
 void TProtocol::send_lobby_name_request() {
     packet_header header;

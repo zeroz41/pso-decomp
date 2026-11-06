@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_800F7DAC.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
-#include "pso/misc/TScene.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 

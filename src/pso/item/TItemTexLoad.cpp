@@ -1,8 +1,8 @@
 #include "pso/item/TItemTexLoad.h"
-#include "pso/object/TObjFish_8001ED90.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/player/TObjPlayer_8023E480.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 void prs_decompress_alloc(void*, s32, s32);

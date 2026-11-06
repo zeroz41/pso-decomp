@@ -1,0 +1,119 @@
+#include "pso/render/ChunkMaterialState.h"
+#include "types.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/object/trap/TOMineTrapDisp.h"
+#include "pso/system/vector.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/trap/TOMineDisp.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/trap/TOMine.h"
+#include "pso/object/trap/TOMineTrap.h"
+#include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+
+#pragma readonly_strings on
+
+extern "C" {
+const char *TOMineTrapDisp__name = "TOMineTrapDisp";
+}
+
+
+struct VBase_8016EFB4 { u8 pad[0x18]; };
+
+struct VObj_8016EFB4 : VBase_8016EFB4 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual s32 m8(f32, f32);
+};
+
+extern "C" {
+extern const char *TOMineTrapDisp__name;
+s32 is_locally_controlled__10TObjPlayerFPv(void);
+f32 horizontal_distance_squared(void *, void *);
+void get_player_state__6TOMineFv(void *, u16);
+s32 fn_80171314(void *);
+extern const f32 lbl_805DB850;
+s32 get_camera_mode__11TCameraCtrlFv();
+s32 push_matrix();
+s32 post_translate_matrix(void *);
+extern u8 chunk_material_color_half_alpha_f32[];
+extern s32 saved_model_render_flags;
+extern s32 model_render_flags;
+extern const f32 lbl_805DB854;
+extern const f32 lbl_805DB858;
+}
+
+#pragma defer_codegen on
+
+TOMineDisp::~TOMineDisp() {
+
+}
+
+void TOMineDisp::run_task() {
+    void *mine = this->m_up;
+    u8 *p;
+    switch (this->m_a4) {
+    case 0:
+        p = (u8 *)get_player_by_client_id(this->m_a8);
+        if (p != NULL && is_locally_controlled__10TObjPlayerFPv() != 0 && fn_80171314(p) != 0) {
+            if (horizontal_distance_squared(((u8 *)this) + 0x38, p + 0x38) <= lbl_805DB850 ||
+                ((TObjBase *)p)->get_room() == this->get_room()) {
+                this->m_a4 = 2;
+            }
+        }
+        break;
+    case 3:
+        break;
+    case 2:
+        get_player_state__6TOMineFv(mine, this->m_a8);
+        VecCopy((Vec *)(((u8 *)this) + 0x38), (const Vec *)(((TOMineTrap *)mine)->get_mine_data_ptr()));
+        break;
+    }
+}
+
+void TOMineDisp::render() {
+    s32 temp_r31;
+    s32 temp_r4;
+    u16 id = TCameraCtrl::get_nth_view_player_id(get_camera_mode__11TCameraCtrlFv());
+    if (id != this->m_a8) {
+        return;
+    }
+    if (*(s32 *)&this->m_a4 != 2) {
+        return;
+    }
+    if (((VObj_8016EFB4 *)((u8 *)this))->m8(lbl_805DB854, lbl_805DB858) == 0) {
+        return;
+    }
+    push_matrix();
+    temp_r31 = *(s32 *)&this->m_up;
+    post_translate_matrix(((u8 *)this) + 0x38);
+    rotate_matrix_y(0, this->rotation_y);
+    ((TOMine *)temp_r31)->free_parts();
+    TParticleCtrl::begin_effect_render();
+    temp_r4 = model_render_flags;
+    saved_model_render_flags = temp_r4;
+    model_render_flags = temp_r4 | 0x20;
+    ((void (*)(void *, s32))set_constant_material)(((u8 *)this) + 0x94, temp_r4);
+    ((TOMine *)temp_r31)->free_sub_objects();
+    set_constant_material((const NJS_ARGB *)chunk_material_color_half_alpha_f32);
+    model_render_flags = saved_model_render_flags;
+    TParticleCtrl::end_effect_render();
+    pop_matrix();
+}
+
+TOMineTrapDisp::TOMineTrapDisp(TObject *parent, u16 client, u16 owner) : TOMineDisp(parent, client) {
+    m_name = TOMineTrapDisp__name;
+    m_ac = owner;
+}
+
+TOMineTrapDisp::~TOMineTrapDisp() {
+
+}

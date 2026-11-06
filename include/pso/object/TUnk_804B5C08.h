@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TUNK_804B5C08_H
 #define PSO_OBJECT_TUNK_804B5C08_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_804B5C08 : public TObjBase {
 public:

@@ -1,14 +1,14 @@
 #include "types.h"
 #include "pso/unk/TUnk_80494E10.h"
-#include "pso/system/NinjaUtil.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/enemy/TObjEneNanoDrago.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "pso/unk/TUnk_80494E10.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/object/TObjGyaranzoMissile.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 struct D_800DC420 { u8 pad[0x18]; s32 arr[1]; };
 

@@ -2,7 +2,7 @@
 #include <dolphin/mtx.h>
 #include "pso/unk/text_8035BFF8.h"
 #include "types.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 extern "C" {
 s32 VecCopy__FP3VecPC3Vec(void *);

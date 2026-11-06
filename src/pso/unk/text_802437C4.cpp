@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/TWindowEffectLight.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowEffectLight.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 struct Win_802437C4 {
     u8 pad0[0x20];
     s16 id;

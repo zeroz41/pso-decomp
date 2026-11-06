@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8026A328.h"
-#include "pso/THeap.h"
+#include "pso/system/THeap.h"
 
 extern s32 TAdScrollWinGC__chat_log_heap;
 extern u32 chat_last_line_buffer;

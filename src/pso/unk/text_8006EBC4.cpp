@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8006EBC4.h"
-#include "pso/misc/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
 s32 __ct__16TObjBagWarnWin4PFv(int, void *);

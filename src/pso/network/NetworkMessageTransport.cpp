@@ -1,12 +1,12 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "types.h"
 #include "pso/network/EthernetReceiveFilter.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TUdpSocket.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TLobby_80429598.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TUdpSocket.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby_80429598.h"
 
 struct RecoveredGlobal_80428374_lbl_805D0A40 {
     s32 value;

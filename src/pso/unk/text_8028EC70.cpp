@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_8028EC70.h"
-#include "pso/misc/TCharaMaking.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline on

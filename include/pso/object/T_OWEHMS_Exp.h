@@ -1,6 +1,6 @@
 #ifndef PSO_OBJECT_T_OWEHMS_EXP_H
 #define PSO_OBJECT_T_OWEHMS_EXP_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 struct TObjPlayer;
 
 class T_OWEHMS_Exp : public TObject {

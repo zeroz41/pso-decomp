@@ -7,16 +7,16 @@
 
 #include "pso/render/render_util.h"
 #include <dolphin/gx.h>
-#include "pso/enemy/TObjEneMe3Stelth_803DC82C.h"
+#include "pso/enemy/stelth/TObjEneMe3Stelth_803DC82C.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/player/TObjPlayer_803DC834.h"
 #include "pso/render/model_render_state.h"
-#include "pso/system/ChunkMaterialState.h"
-#include "pso/system/MaterialAlphaCompare.h"
-#include "pso/system/ModelDrawContext.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/render/MaterialAlphaCompare.h"
+#include "pso/render/ModelDrawContext.h"
 
 #define RAD_TO_ANGLE (32768.0 / 3.141592f)
 

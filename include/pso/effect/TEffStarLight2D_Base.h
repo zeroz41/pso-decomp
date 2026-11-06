@@ -1,7 +1,7 @@
 #ifndef PSO_TEFFSTARLIGHT2D_BASE_H
 #define PSO_TEFFSTARLIGHT2D_BASE_H
 
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TEffStarLight2D;
 

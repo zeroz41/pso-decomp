@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_8020B5CC.h"
-#include "pso/THeap.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
+#include "pso/system/THeap.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
 struct Ent_8020BB18 { u8 pad0[2]; s16 a; u8 pad1[0x3C]; u32 f40; };
 
 struct Src_8020B970 { s16 f0; u8 pad2[6]; u16 f8; s16 fA; s16 fC; u8 padE[0x44 - 0xE]; };

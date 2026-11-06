@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TUNK_804F0D1C_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 /* Plays one of the event tracks; only one exists at a time, and it removes
    itself once the quest takes over the music. */

@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/item/TItem.h"
-#include "pso/TPlyCharData.h"
+#include "pso/player/TPlyCharData.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TLobby.h"
-#include "pso/object/TObjFish.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/PlayerClassStats.h"
 #include "pso/map/FloorArea.h"
@@ -152,7 +152,7 @@ void TObjPlayer__sub_801D8864(void) {  }
 void TObjPlayer::free_shared_lobby_data() { TLobby::free_nodes_with_id(player_ending_motion_object); player_ending_motion_object = 0; TObjPlayer::free_shared_data(); }
 }
 
-#include "pso/boss/TBoss4DarkFalz.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

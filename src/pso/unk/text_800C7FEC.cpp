@@ -1,9 +1,9 @@
-#include "pso/protocol/protocol_types.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_800C7FEC.h"
-#include "pso/misc/TCameraCtrl_800687BC.h"
-#include "pso/misc/TLobby.h"
+#include "pso/camera/TCameraCtrl_800687BC.h"
+#include "pso/unk/TLobby.h"
 #include "pso/object/TObjControl.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 
 static s32 camera_override_active;

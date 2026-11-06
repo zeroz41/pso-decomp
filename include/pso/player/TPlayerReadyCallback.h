@@ -1,6 +1,6 @@
 #ifndef PSO_PLAYER_TPLAYERREADYCALLBACK_H
 #define PSO_PLAYER_TPLAYERREADYCALLBACK_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 struct TObjPlayer;
 class TPlayerReadyCallback : public TObject {
 public:

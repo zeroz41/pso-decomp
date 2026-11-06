@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_8011C000.h"
-#include "pso/item/TItemDrop_80105D0C.h"
+#include "pso/item/drop/TItemDrop_80105D0C.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemDrop.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TOSwitchItem.h"
+#include "pso/item/drop/TItemDrop.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/object/switch/TOSwitchItem.h"
 
 struct Tbl_8011C914 { u8 pad[0x2c]; u8 *p; };
 

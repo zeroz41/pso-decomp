@@ -1,21 +1,22 @@
 #include "types.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/misc/TWindowSubComCardList.h"
-#include "pso/TObject.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/system/task/TObject.h"
 #include "pso/object/TObjLuker.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
-#include "pso/misc/TTecLuker.h"
-#include "pso/misc/TWindowCtrl.h"
-#include "pso/misc/TWindowSubTradeMain.h"
-#include "pso/object/TObjAreaWarpQuest.h"
-#include "pso/ui/TAdChrSelASlotGC.h"
-#include "pso/misc/TLobby_80207644.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/technique/TTecLuker.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/object/warp/TObjAreaWarpQuest.h"
+#include "pso/ui/frontend/TAdChrSelASlotGC.h"
+#include "pso/unk/TLobby_80207644.h"
+#include "pso/unk/text_80087278.h"
 
 #pragma readonly_strings on
 
@@ -100,7 +101,6 @@ f32 horizontal_distance_squared(void *, void *);
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 check_flag_100__10TObjPlayerFPv(void *);
 void queue_destruction__7TObjectFv(void *);
-s32 spawn_particle_effect(void *, int);
 s32 play_effect_default__10TObjPlayerFii(void *, int);
 s32 play_persistent_sound(int, void *, void *, int, int);
 void *__nw__7TObjectFUl(int);

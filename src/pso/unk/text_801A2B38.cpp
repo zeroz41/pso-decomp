@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TOContainerAncientEnemyRare.h"
-#include "pso/object/TObjRaderHideCol.h"
+#include "pso/object/container/TOContainerAncientEnemyRare.h"
+#include "pso/object/collision/TObjRaderHideCol.h"
 #include "pso/unk/text_8015C048.h"
 #include "pso/item/TObjItemLight.h"
-#include "pso/object/TObjBgmCol_8017E7F0.h"
-#include "pso/object/TObjRaderCol.h"
+#include "pso/object/collision/TObjBgmCol_8017E7F0.h"
+#include "pso/object/collision/TObjRaderCol.h"
 #include "pso/unk/text_801A2B38.h"
 
 extern "C" {

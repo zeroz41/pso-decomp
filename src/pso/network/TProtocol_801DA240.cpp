@@ -1,6 +1,6 @@
-#include "pso/TProtocol.h"
-#include "pso/misc/TLobby_801DEFC4.h"
-#include "pso/misc/TLobby.h"
+#include "pso/network/TProtocol.h"
+#include "pso/unk/TLobby_801DEFC4.h"
+#include "pso/unk/TLobby.h"
 #include <stddef.h>
 typedef char TradeResultCallbackOffset[(offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D4_trade_result_packet) == 0xBC9C) ? 1 : -1];
 typedef char TradeAdvanceCallbackOffset[(offsetof(TProtocol, m_recv_handlers) + offsetof(recv_packet_handlers, handle_D1_advance_trade_state_packet) == 0xBCA0) ? 1 : -1];

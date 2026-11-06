@@ -1,5 +1,5 @@
-#include "pso/effect/TechniqueChargeEmitter.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/technique/TechniqueChargeEmitter.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_802333D4.h"
 #include "pso/player/TObjPlayer.h"

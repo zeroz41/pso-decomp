@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803E29B0.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 extern "C" {
 void TParticleCtrl__sub_803E2A1C(void *, void *);
 }

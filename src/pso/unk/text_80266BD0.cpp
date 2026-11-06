@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80266BD0.h"
-#include "pso/boss/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 extern const u8 lbl_8044F34C[][2];
 

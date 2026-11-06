@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/object/TObjEZBoneRotPlayer_800FE834.h"
-#include "pso/TObjEZBoneRotPlayer.h"
-#include "pso/TObjEZBoneRotBase.h"
-#include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
+#include "pso/object/TObjEZBoneRotBase.h"
+#include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TObjEZRopeBase.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/TObjEZRopeBase.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/math/AngleLookup.h"
 
 struct EZBoneRotKey {
     s32 bone;
@@ -90,7 +90,6 @@ void TObjEZBoneRotPlayer::advance_bone_rotation() {
 }
 
 extern "C" {
-f32 sin_table_lookup(s32);
 
 void TObjEZBoneRotPlayer::calc_bone_offsets_recursive(void *arg1, s32 arg2, s32 arg3) {
     s32 k;

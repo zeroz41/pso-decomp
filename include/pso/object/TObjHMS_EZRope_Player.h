@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TOBJHMS_EZROPE_PLAYER_H
 #define PSO_OBJECT_TOBJHMS_EZROPE_PLAYER_H
 #include "types.h"
-#include "pso/TObjEZRopeBase.h"
+#include "pso/object/TObjEZRopeBase.h"
 
 class TObjHMS_EZRope_Player : public TObjEZRopeBase {
 public:

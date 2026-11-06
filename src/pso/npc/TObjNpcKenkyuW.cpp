@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
@@ -13,10 +13,10 @@ struct RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW {
 };
 
 #include "pso/technique/TechniqueContact.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
 

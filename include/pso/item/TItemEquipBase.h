@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/player/PlayerAttackParams.h"
 
 class TItemHeapObject;

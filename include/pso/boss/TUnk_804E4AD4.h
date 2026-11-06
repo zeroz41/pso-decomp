@@ -1,7 +1,7 @@
 #ifndef PSO_BOSS_TUNK_804E4AD4_H
 #define PSO_BOSS_TUNK_804E4AD4_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/animation/ActorAnimationState.h"
 
 class TUnk_804E4AD4 : public TObject {

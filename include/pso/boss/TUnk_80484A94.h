@@ -2,7 +2,7 @@
 #define PSO_BOSS_TUNK_80484A94_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include <dolphin/mtx.h>
 
 struct TObjEnemy;

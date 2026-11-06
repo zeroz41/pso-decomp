@@ -1,12 +1,12 @@
-#include "pso/enemy/TObjEneNanoDrago.h"
+#include "pso/enemy/nanodrago/TObjEneNanoDrago.h"
 #include "types.h"
-#include "pso/system/NinjaUtil.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/player/TUnk_80494E48.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/object/TObjGyaranzoMissile.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 
 struct Vec_800DCD04 { f32 x, y, z; };
  extern const Vec_800DCD04 lbl_8043C920 = {0.0f, 0.0f, 0.0f};

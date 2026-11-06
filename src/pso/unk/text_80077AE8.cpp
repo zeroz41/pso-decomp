@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80077AE8.h"
 #include "pso/unk/text_80077B34.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern u32 lbl_805D4E58;
 

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/effect/TEF_PvrWave.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Tex_80081A30 {
     u32 a;

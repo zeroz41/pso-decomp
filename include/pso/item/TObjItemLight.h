@@ -2,7 +2,7 @@
 #define PSO_ITEM_TOBJITEMLIGHT_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjItemLight : public TObjBase {
     virtual ~TObjItemLight();

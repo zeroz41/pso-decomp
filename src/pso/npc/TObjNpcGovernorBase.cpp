@@ -1,15 +1,15 @@
 #include "types.h"
 #include "pso/npc/TObjNpcGovernorBase.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcHFW00.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #include "pso/system/BmlResourceDescriptor.h"
 

@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_802233F8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
 s32 get_entity_id(void *);

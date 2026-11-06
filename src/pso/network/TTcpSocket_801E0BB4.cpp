@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/network/TTcpSocket_801E0BB4.h"
-#include "pso/TTcpSocket.h"
+#include "pso/network/TTcpSocket.h"
 
 extern "C" {
 

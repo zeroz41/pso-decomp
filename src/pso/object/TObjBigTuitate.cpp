@@ -2,20 +2,21 @@
 #include "pso/object/TObjBigTuitate.h"
 #include "pso/object/TObjTuitate.h"
 #include "pso/render/render_util.h"
-#include "pso/object/TObject_80019A50.h"
-#include "pso/player/TObjPlayer_800D7BFC.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/render/RenderFadeState_800D7BFC.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjFish.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjBigTuitate.h"
-#include "pso/misc/RenderFadeState.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/object/TObjMapCsn.h"
+#include "pso/render/RenderFadeState.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/map/TObjMapCsn.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_8019AD50.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/object/TObjTuitate.h"
+#include "pso/unk/text_803D8F74.h"
 
 struct FadeBase_8019AA18 { char pad[0x14]; };
 
@@ -57,7 +58,6 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);
@@ -143,7 +143,6 @@ s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
 s32 isFading__15RenderFadeStateCFv(void *);
 s32 matrix_mult_vec(int, void *, void *);
-void rotate_matrix_y(int, int);
 void push_matrix(void);
 void post_translate_matrix(void *);
 void set_global_param__8TObjFishFl(void);

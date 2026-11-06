@@ -1,6 +1,6 @@
-#include "pso/item/TItemEffCane.h"
+#include "pso/effect/item/TItemEffCane.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 void TObjPlayer::create_item_eff_cane(TItem* item, s32 attachment, s32 effect_id) {
     if (this != NULL && item != NULL &&

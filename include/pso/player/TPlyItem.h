@@ -1,16 +1,16 @@
 #ifndef PSO_PLAYER_TPLYITEM_H
 #define PSO_PLAYER_TPLYITEM_H
 
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
-extern "C" {
-void *TPlyItem__ct(void *ply_item);
-}
+class TPlyItem : public TObject {
+public:
+    virtual ~TPlyItem();
+};
 
-// --- C functions defined in TPlyItem.cpp ---
 extern "C" {
 void *TPlyItem__ct(void *ply_item);
 }
-// --- end of C functions
 
 #endif

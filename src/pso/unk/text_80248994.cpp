@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/misc/TWindowSubItem.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Obj_80248994 { u8 pad[0x76]; s16 count; };
 

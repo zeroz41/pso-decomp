@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TUnk_804B08BC.h"
 #include "pso/player/TObjPlayer.h"
 

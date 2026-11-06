@@ -1,4 +1,4 @@
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "types.h"
 #include "pso/map/FloorArea.h"
 #include "pso/effect/TEffect.h"
@@ -6,13 +6,13 @@
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/TUnk_804CC870.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/object/TObjFish.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80232B24.h"
 #include "pso/unk/TUnk_804CC888.h"
-#include "pso/misc/TLobby_80226070.h"
+#include "pso/unk/TLobby_80226070.h"
 #include "pso/player/TObjPlayer.h"
 
 // ---- pso/unk/text_80232934

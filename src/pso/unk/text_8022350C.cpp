@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TCameraCtrl_8006B3D8.h"
+#include "pso/camera/TCameraCtrl_8006B3D8.h"
 #include "pso/unk/text_8022350C.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_8022350C_lbl_8044C350 {
     s32 value;

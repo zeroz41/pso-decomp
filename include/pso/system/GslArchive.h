@@ -16,7 +16,8 @@ typedef char GslArchiveOffsetOffset[offsetof(GslArchiveEntry, archive_offset) ==
 typedef char GslArchiveFileSizeOffset[offsetof(GslArchiveEntry, file_size) == 0x24 ? 1 : -1];
 typedef char GslArchiveDecodedSizeOffset[offsetof(GslArchiveEntry, decoded_size) == 0x28 ? 1 : -1];
 
-GslArchiveEntry *find_gsl_entry(void *name);
+// The second argument is unused (callers pass 0 and 1).
+GslArchiveEntry *find_gsl_entry(void *name, s32 unused);
 extern "C" {
 void open_gsl_archive(char *name);
 void close_gsl_archive(void);

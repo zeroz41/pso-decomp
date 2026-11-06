@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Obj_803D4540 {
     u8 pad[8];
     u32 flags;

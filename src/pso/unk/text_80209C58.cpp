@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Hdr_80209C58 { s32 type; s32 size; s32 id; s32 x; };
 
 extern "C" {

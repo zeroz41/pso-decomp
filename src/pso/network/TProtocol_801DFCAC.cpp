@@ -1,10 +1,10 @@
-#include "pso/packet_classes.h"
-#include "pso/misc/TPlyCharData.h"
-#include "pso/misc/TPlyCharData_8007214C.h"
+#include "pso/network/protocol/packet_classes.h"
+#include "pso/player/TPlyCharData.h"
+#include "pso/player/TPlyCharData_8007214C.h"
 #include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/system/memory.h"
 #include <stddef.h>
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 typedef char SendActionSize[(sizeof(TSendAction<0>) == 12) ? 1 : -1];
 typedef char SendActionTagOffset[(offsetof(TSendAction<0>, tag) == 4) ? 1 : -1];
 typedef char NamedActionSize[(sizeof(TSendAction<1>) == 0x1C) ? 1 : -1];

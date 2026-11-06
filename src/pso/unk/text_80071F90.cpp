@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/TPlyDispData.h"
-#include "pso/misc/TPlyDispConfig_80071F1C.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/player/TPlyDispConfig_80071F1C.h"
 #include "pso/unk/text_80072004.h"
 struct Elem_80071F90 { s32 v; };
 

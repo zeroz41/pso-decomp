@@ -2,7 +2,7 @@
 #define PSO_ITEM_TUNK_804F0D34_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/item/TItemObject.h"
 
 // The tool that starts a quest's event music (create_quest_bgm_object).

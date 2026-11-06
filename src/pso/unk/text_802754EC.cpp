@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/unk/text_802754EC.h"
 
 extern "C" {

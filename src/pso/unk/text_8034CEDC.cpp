@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/unk/text_8034CEDC.h"
-#include "pso/misc/TWindowSubComCardList.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/object/TObjCityMainWarp.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
 extern "C" {
 s32 align_menu_entry_positions(int);
 int forward_trade_action_default__16TObjCityMainWarpFPviii(void *p, int a1, int a2, int a3);

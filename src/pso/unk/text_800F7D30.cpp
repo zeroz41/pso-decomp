@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_800F7D30.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 u32 prs_decompress(int, int, int, int);

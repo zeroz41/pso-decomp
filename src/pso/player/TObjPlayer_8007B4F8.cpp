@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

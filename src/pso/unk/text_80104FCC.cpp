@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/player/TObjChara.h"
-#include "pso/misc/TLobby.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/unk/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"

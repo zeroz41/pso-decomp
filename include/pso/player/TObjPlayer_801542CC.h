@@ -2,7 +2,7 @@
 #define PSO_PLAYER_TOBJPLAYER_801542CC_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct Vec;
 class TObjChara;

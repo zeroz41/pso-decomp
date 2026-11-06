@@ -1,0 +1,177 @@
+#ifndef PSO_CAMERA_TCAMERACTRL_H
+#define PSO_CAMERA_TCAMERACTRL_H
+
+#include "types.h"
+#include "pso/system/task/TObject.h"
+
+struct TCameraCtrl : public TObject {
+    virtual ~TCameraCtrl();
+    void setup_default_view(void *);
+    void calc_rotated_axes();
+    void update_target_from_state();
+    void update_active_controller();
+    void update_shake();
+    virtual void render();
+    virtual void run_task();
+    u8 m_1c;
+    u8 _pad1D[0x3];
+    u32 m_20;
+    u32 m_24;
+    u32 m_28;
+    u8 unk_2C[0x4];
+    s32 m_30;
+    u32 m_34;
+    u8 unk_38[0x4];
+    f32 m_3c;
+    u8 unk_40[0x4];
+    f32 m_44;
+    u8 unk_48[0x4];
+    f32 m_4c;
+    u8 unk_50[0x4];
+    s32 m_54;
+    u8 unk_58[0xC];
+    u16 m_64;
+    u8 unk_66[0xA];
+    f32 m_70;
+    u8 unk_74[0x18];
+    u32 m_8c;
+    u32 m_90;
+    u8 unk_94[0x48];
+    f32 m_dc;
+    u8 unk_E0[0x4];
+    f32 m_e4;
+    u8 unk_E8[0x4];
+    f32 m_ec;
+    u8 unk_F0[0x4];
+    s32 m_f4;
+    u8 unk_F8[0x4];
+    s32 m_fc;
+    u8 unk_100[0x4];
+    s32 m_104;
+    u8 unk_108[0x8];
+    int m_110;
+    u8 unk_114[0x60];
+    u32 m_174;
+    // Camera position and the point it looks at; each frame they approach
+    // eye_* and at_* (approach_camera_vector), or snap to them.
+    f32 pos_x;
+    f32 pos_y;
+    f32 pos_z;
+    f32 tgt_x;
+    f32 tgt_y;
+    f32 tgt_z;
+    // View angles fed to rotate_matrix_x/y/z, and the field of view given to
+    // set_perspective_projection_from_fov (0x3555 = 75 degrees at reset).
+    u32 pitch;
+    u32 yaw;
+    u32 roll;
+    u32 fov;
+    f32 eye_x;
+    f32 eye_y;
+    f32 eye_z;
+    f32 at_x;
+    f32 at_y;
+    f32 at_z;
+    f32 eye_rate;  // rate pos_* approaches eye_* with (approach_camera_vector)
+    // Rate tgt_* approaches at_* with.
+    f32 at_rate;
+    // Frames of screen shake left (set_shake_preset, update_shake).
+    u32 shake_timer;
+    static s32 get_camera_mode();
+    void update_target_follow();
+    void init_state();
+    void reset_behind_player();
+    void reset_state();
+    void*get_target_ptr();
+    static void copy_vec_to_default(u8 *arg0);
+    static void sync_split_view_slots(s32 arg0, s32 arg1);
+    static s32 get_split_screen_view_index(u16 id);
+    static u16 get_nth_view_player_id(s32 n);
+    static f32 get_split_offset(s32 arg0);
+    static void set_fullscreen_viewport();
+    static void set_split_viewport(s32 arg0, s32 arg1);
+    static f32 get_fov();
+    static f32 get_view_scale();
+    void copy_view_state(s32 src);
+    static void restore_full_screen_view();
+    static s32 get_camera_target_id(s32 arg0);
+    static void apply_split_screen_view_matrix();
+    static s32 *get_view_matrix();
+    static void create();
+    static void reset_default_view();
+    static void init_default_view();
+    static void reset_viewport_scissor();
+    void*get_target();
+    void resolve_anchor_obstruction();
+    void clamp_to_target_obstruction();
+    void update_target_smoothing();
+    void update_position();
+    void update_pose_smoothing();
+    static s32 release_photon_blast_camera();
+    static void reset_view_flags();
+    void*get_params();
+    static void set_shake_preset(s32 arg0);
+    static void cycle_spectate_target();
+    static void update_active_player();
+    static void update_battle_camera();
+    static void create(s32 arg0, s32 arg1, s32 arg2);
+    void *destroy(s16 arg1);
+    void cache_target_and_forward(s32 arg1);
+    static void reset_to_local_player();
+    static void set_override_position_and_angle(u8 *arg0, s16 arg1);
+    static void set_fixed_position_and_target(u8 *arg0, u8 *arg1);
+    void set_pos_target(void *arg1, void *arg2, s32 arg3);
+    void rotate_heading_by_stick();
+    static void set_active_camera_flag();
+    void calc_follow_position();
+    void compute_follow_target();
+    void update_follow_camera();
+    void *deleting_dtor(s16 arg1);
+    static void *construct_view_controller(void *arg0);
+    s32 set_field_100(s32 v);
+    static short get_screen_width();
+    static short get_screen_height();
+    static s32 should_update();
+    void copy_position_vectors(void *arg1, void *arg2);
+    static void update_single_screen();
+    static int get_mode();
+    static s32 get_camera_no();
+    static void set_mode(int a0);
+    u8 is_on_current_screen();
+    static void update_camera_state(f32 _w0, f32 _w1, f32 _w2);
+    static void look_at_position(f32 farg0, f32 farg1, f32 farg2);
+    static s32 translate_view_negated(f32 x, f32 y, f32 z);
+    static void set_clamped_offsets(f32 farg0, f32 farg1);
+    void update_projection_params();
+    static void concat_matrix(u32 arg0, u32 arg1);
+    u8 unk_1C4[0x4];
+    // Copy of pos_* taken whenever the position snaps.
+    f32 look_x;
+    f32 look_y;
+    f32 look_z;
+    static void update();
+    static void reset_view_state();
+    static void select_active_controller(s8 arg0);
+    static void calc_axes_from_angles(s32 arg0, s32 arg1, s32 arg2);
+    static int get_instance();
+    static int get_camera_id();
+    static void set_target_coords(int a0, int a1);
+    int reset_battle_camera();
+    u8 *init_conversation_camera(s32 arg1, s32 arg2, s32 arg3);
+    static s32 clamp_distance(s32 arg0, s32 arg1, s32 arg2);
+    static void free_entries();
+    static void load_camera_banks();
+    void update_follow_motion_state();
+    static s32 init_projection_state();
+    static void set_target(int a0, int a1);
+};
+
+typedef char TCameraCtrl_size[sizeof(TCameraCtrl) == 0x1D4 ? 1 : -1];
+// The camera's right axis, which screen tests offset points along.
+extern f32 camera_right[3];
+
+extern "C" {
+int is_quest_active(void);
+}
+
+#endif

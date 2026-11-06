@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/UISprite.h"
 #include "pso/unk/text_8029A97C.h"
-#include "pso/TChCrEffTag.h"
+#include "pso/ui/charcreate/TChCrEffTag.h"
 
 struct Stack_8029A97C {
     f32 sp8;

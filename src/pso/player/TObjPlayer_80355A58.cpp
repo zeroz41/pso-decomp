@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/player/TUnk_804F1320.h"
+#include "pso/weapon/TUnk_804F1320.h"
 #include "pso/item/TItemEquipBase.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemMag.h"
+#include "pso/item/mag/TItemMag.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 

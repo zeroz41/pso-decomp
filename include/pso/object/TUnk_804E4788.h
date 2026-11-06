@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TUNK_804E4788_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
 class TParticleCtrl;

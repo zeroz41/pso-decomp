@@ -2,7 +2,8 @@
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 struct Base_8011E140_8011DA9C { char pad[0x18]; };
 struct VObj_8011E140_8011DA9C : Base_8011E140_8011DA9C {
@@ -38,7 +39,6 @@ void *__dt__13TUnk_804A0688Fv(void *arg0, s16 arg1);
 void *__dt__15TItemTimerEventFv(void *arg0, s16 arg1);
 s32 test_action_mask__10TObjPlayerFl(s32, s32);
 s32 is_item_area_enabled();
-s32 TObjectV8047c128_subtract_hp(u8 *arg0, s16 arg1);
 void __dt__15TItemHeapObjectFv(void *, int);
 s32 fn_8011E1D4();
 void __dl__15TItemHeapObjectFPv(void *);

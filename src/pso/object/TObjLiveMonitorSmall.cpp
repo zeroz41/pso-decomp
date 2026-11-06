@@ -1,20 +1,17 @@
-#include "pso/TObjLiveMonitorSmall.h"
 #include "pso/object/TObjLiveMonitorSmall.h"
-#include "pso/ui/TObjLiveMonitor.h"
-#include "pso/TObjLiveMonitor.h"
+#include "pso/object/TObjLiveMonitor.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TObjLiveCameraCtrl.h"
+#include "pso/camera/TObjLiveCameraCtrl.h"
 #include "pso/player/TObjPlayer_8023E480.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-s32 is_split_screen();
 s32 TObjPlayer__sub_80084500();
 s32 free_children__12TObjDoorJungFPv(void *, u16);
 s32 TObjLiveMonitor__sub_8030C050(s32);
-s32 push_matrix();
-s32 pop_matrix();
 s32 draw_ginja_model(void *);
 void *get_bml_model(s32, s32);
 void *__nw__7TObjectFUl(s32);

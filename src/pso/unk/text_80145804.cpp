@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_80144AC8.h"
 #include "pso/unk/text_80145804.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TLanguage.h"
-#include "pso/object/TObjFish.h"
+#include "pso/unk/TLobby.h"
+#include "pso/system/TLanguage.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 typedef struct Rect_80145804 { u8 pad[0x24]; } Rect_80145804;
 

@@ -1,13 +1,13 @@
-#include "pso/protocol/protocol_types.h"
-#include "pso/misc/TWindowMessage.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/item/TItemMag.h"
-#include "pso/TMainTask.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/quest/QuestVm.h"
 #include "pso/quest/BattleRules.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/TObjItemNameSelect.h"
+#include "pso/item/TObjItemNameSelect.h"
 
 extern "C" {
 void qst_call_stack_push(s32 value);
@@ -17,42 +17,43 @@ int qst_label_address(int label);
 #include "pso/quest/QuestOpcodeTables.h"
 #include "types.h"
 #include "pso/camera/CreationCamera.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/system/date.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/TAdPlayerLoadGC.h"
-#include "pso/TAdStorySelectGC.h"
-#include "pso/TItemMenuCtrl.h"
-#include "pso/boss/TBoss4DarkFalz.h"
-#include "pso/boss/TBoss4Type2.h"
-#include "pso/boss/TBoss6PlotFalz.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdStorySelectGC.h"
+#include "pso/item/TItemMenuCtrl.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/boss/olgaflow/TBoss6PlotFalz.h"
 #include "pso/item/TItem.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/menu/TQuestBgmCtrl.h"
-#include "pso/misc/TCheckRoomSequence.h"
-#include "pso/misc/THunterGuildSeqOffline.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TNpcPlayer.h"
-#include "pso/misc/TOChatSensor.h"
-#include "pso/misc/TOSymbolchatColli.h"
-#include "pso/misc/TPlayerBattleCtrl4P.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/TTecLuker.h"
-#include "pso/misc/TWindowCtrl.h"
-#include "pso/object/TObjAreaWarpQuest.h"
-#include "pso/object/TObjCityMainWarp.h"
-#include "pso/object/TObjDoor.h"
-#include "pso/system/TOChatSensorCapture.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/TChallenge4PResult.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/quest/TQuestBgmCtrl.h"
+#include "pso/ui/city/TCheckRoomSequence.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
+#include "pso/unk/TLobby.h"
+#include "pso/npc/TNpcPlayer.h"
+#include "pso/object/switch/TOChatSensor.h"
+#include "pso/object/collision/TOSymbolchatColli.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/technique/TTecLuker.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/warp/TObjAreaWarpQuest.h"
+#include "pso/object/warp/TObjCityMainWarp.h"
+#include "pso/object/door/TObjDoor.h"
+#include "pso/object/switch/TOChatSensorCapture.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/challenge/TChallenge4PResult.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/TObjSinBoard.h"
 #include "pso/object/TObjTombstone.h"
-#include "pso/TObject.h"
-#include "pso/object/TQuestDamageTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/quest/TQuestDamageTask.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TBoss1Dragon.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/dragon/TBoss1Dragon.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/ui/Language.h"
 
 extern "C" {
@@ -1491,10 +1492,7 @@ void * create_quest_col_alock(Spawn_801E8AE8 *, s32 *);
 void * fn_80196814(Spawn_801E8E4C *, s32 *);
 void * create_quest_col(Spawn_801E8F54 *, s32 *);
 }
-void load_memcard_file(void);
 extern "C" {
-void TLobby__sub_80197F74(void);
-void fn_80197FD0(void *arg0, void *arg1);
 s32 sub_801A1DDC__10TObjPlayerFv();
 int clear_quest_state__6TLobbyFv(void*);
 int reset_quest_counter__6TLobbyFv(void*);
@@ -3701,13 +3699,13 @@ int qst_op_turn_off_bgm_p2(void* p) { return TLobby__sub_8022733C(p); }
 void qst_op_nop_F8EF(void) {  }
 
 void qst_op_call_image_data() {
-    s32 quest_vm_down_load_server;
+    s32 size;
     u32 temp_r3;
-    quest_vm_down_load_server = qst_args[0];
+    size = qst_args[0];
     temp_r3 = ((int)((u32 (*)(void *))qst_label_address)((void *)((s32) (u16) qst_args[1])));
     if (temp_r3 != 0U) {
         prs_decompress_buffer((s32) temp_r3, resource_decompress_buffer);
-        fn_80197FD0((void *)resource_decompress_buffer, (void *)quest_vm_down_load_server);
+        fn_80197FD0((void *)resource_decompress_buffer, size);
     }
 }
 

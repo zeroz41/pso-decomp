@@ -1,7 +1,7 @@
 #ifndef PSO_AUDIO_GCRNA_STREAM_H
 #define PSO_AUDIO_GCRNA_STREAM_H
 
-#include "pso/system/SjRingBuffer.h"
+#include "pso/audio/SjRingBuffer.h"
 #include "pso/audio/GcrnaError.h"
 
 struct GcrnaStream {

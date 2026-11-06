@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8019B0D4.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8019B0D4_lbl_804B8FE0 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8019B0D4_lbl_804B8FE0_size[sizeof(RecoveredGlobal_8019B0D4_lbl_804B8FE0) == 0x10 ? 1 : -1];

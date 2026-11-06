@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 typedef s32 (*RecoveredCallback_4873a87e26d6)(s32, s32 *, s32);
 struct RecoveredGlobal_803D39F8_lbl_8047E0C8 {

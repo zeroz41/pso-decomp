@@ -1,6 +1,6 @@
 // Adapted from pso-gc-reference (mrb0nk500) for GPOE8P (MWCC 2.6)
 
-#include "pso/THeap.h"
+#include "pso/system/THeap.h"
 #include <string.h>
 
 THeap *obj_heap;

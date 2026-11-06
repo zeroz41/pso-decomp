@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_80278460.h"
-#include "pso/misc/TWindowSubItem.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct Wn_80278460 { u8 pad0[0x20]; s16 f20; u8 pad22[0x54]; s16 f76; };
 

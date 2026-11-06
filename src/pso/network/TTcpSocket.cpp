@@ -1,18 +1,18 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #pragma readonly_strings on
 #include "types.h"
 #include "pso/system/byteswap.h"
 #include "pso/system/main_loop.h"
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include <stdio.h>
 #include <string.h>
 #include "pso/macros.h"
-#include "pso/TMainTask.h"
-#include "pso/TObject.h"
-#include "pso/TSocket.h"
-#include "pso/TTcpSocket.h"
-#include "pso/misc/TUdpSocket.h"
-#include "pso/misc/TLobby.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/network/TSocket.h"
+#include "pso/network/TTcpSocket.h"
+#include "pso/network/TUdpSocket.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_80078378_lbl_8048D3B8 {
     s32 value;

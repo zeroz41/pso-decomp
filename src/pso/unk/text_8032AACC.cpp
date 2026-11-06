@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/text_8032AACC.h"
-#include "pso/ui/TAdEnterSerialAccessGC.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdEnterSerialAccessGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Pos_8032AACC { f32 x, y; };
 

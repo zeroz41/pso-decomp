@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/TItemLoad.h"
+#include "pso/item/TItemLoad.h"
 
 extern "C" {
 

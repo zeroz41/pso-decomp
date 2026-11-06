@@ -1,27 +1,27 @@
 #include "pso/boss/TUnk_80484A94.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/system/NinjaUtil.h"
-#include "pso/boss/TBoss3Volopt.h"
-#include "pso/boss/TBoss4Type2.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/object/TObjGyaranzoMissile.h"
-#include "pso/object/TObjVoloptCage.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
+#include "pso/boss/volopt/TObjVoloptCage.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/TObjButterflyLobby_8007A5D8.h"
+#include "pso/object/lobby/TObjButterflyLobby_8007A5D8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include "pso/math/MatrixVector.h"
 
 extern "C" {
-void rotate_vector_by_matrix(s32 matrix, const Vec *src, Vec *dst);
-void vec3_add_to(Vec *v, const Vec *add);
-void subtract_vector(Vec *v, const Vec *sub);
 void play_persistent_sound(s32 id, void *owner, const Vec *pos, s32 a3, s32 flags);
 s32 obj_is_hit_receivable(TObjChara *actor);
 u16 get_entity_id(TObject *object);

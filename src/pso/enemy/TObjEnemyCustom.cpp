@@ -1,37 +1,34 @@
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEnemyCustom.h"
 #include "pso/map/CsnQuery.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/math/MatrixVector.h"
-#include "pso/object/TObjFish.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/system/GinjaTextureMatrices.h"
-#include "pso/system/NinjaUtil.h"
+#include "pso/render/GinjaTextureMatrices.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/unk/text_803E2D70.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/system/MatrixOps.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D853C.h"
 
 // Matrix-stack, vector and animation helpers and unowned globals without a usable header:
 // text_803D96A8.h/text_803D853C.h/MatrixTransforms.h/TObjMotion.h includers declare these with
 // conflicting private prototypes, the globals have no owning unit yet, and the
 // MSL headers are not on this unit's include path (rand).
 extern "C" {
-int rand(void);
 // TNpcPlayer_800D87A8.h declares it without the id its definition passes through.
 TObjBase *find_active_entity_by_id(u16 id);
-s32 push_matrix(void);
-void post_translate_matrix(const f32 *offset);
-void matrix_mult_vec(s32 matrix, const Vec *src, Vec *dst);
-void vec3_add_to(Vec *dst, const Vec *add);
-f32 vec3_dot(const Vec *a, const Vec *b);
-void vec3_cross(const Vec *a, const Vec *b, Vec *out);
 extern Mtx34 identity_matrix;
 extern s32 local_client_id;
 extern s32 TLobby__designated_client_id;

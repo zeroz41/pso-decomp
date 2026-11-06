@@ -1,14 +1,14 @@
 #include "types.h"
 #include "pso/npc/TObjNpcNHW01.h"
 #include "pso/npc/TObjNpcNurseBase.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
 #include "pso/npc/TUnk_804A8640.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 #pragma readonly_strings on
 

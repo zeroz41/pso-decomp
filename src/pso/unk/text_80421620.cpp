@@ -1,8 +1,8 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "pso/network/SocketEvents.h"
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off
@@ -24,7 +24,7 @@ struct RecoveredGlobal_80421844_lbl_805C1C50 {
 };
 
 #include <stddef.h>
-#include "pso/misc/TUdpSocket.h"
+#include "pso/network/TUdpSocket.h"
 struct Stack_80421AD8 {
     s16 sp1C;
     s16 sp1E;

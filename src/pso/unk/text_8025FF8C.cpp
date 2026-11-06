@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TKeyBoardControl_8025CB70.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8025CB70.h"
 #include "pso/unk/text_8025FF8C.h"
 #include "pso/ui/Language.h"
 

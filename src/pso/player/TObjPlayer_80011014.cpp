@@ -1,17 +1,17 @@
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/player/BlobShadow.h"
+#include "pso/render/BlobShadow.h"
 #include "pso/unk/text_803D8F74.h"
 #include "pso/player/PlayerAttackParams.h"
 #include "pso/system/vector.h"
 #include "pso/system/byteswap.h"
-#include "pso/protocol/protocol_types.h"
-#include "pso/misc/TLobby_801E43E4.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby_801E43E4.h"
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -19,15 +19,15 @@ extern "C" void test_flag_256__9TObjCharaFv();
 extern "C" void apply_switch_attack__9TObjCharaFv();
 #include "pso/item/TItem.h"
 extern "C" void apply_anti_technique__9TObjCharaFl();
-#include "pso/enemy/TObjEneLappy.h"
+#include "pso/enemy/lappy/TObjEneLappy.h"
 #include "pso/player/DamageBookkeeping.h"
 #include "dolphin/mtx.h"
 #include <stddef.h>
 #include "pso/effect/TEffClitical.h"
 
-#include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOCtrlDubchik.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/unk/TLobby.h"
+#include "pso/enemy/dubchik/TOCtrlDubchik.h"
 #include "pso/map/FloorArea.h"
 
 struct VBase_800172CC { u8 pad[0x18]; };

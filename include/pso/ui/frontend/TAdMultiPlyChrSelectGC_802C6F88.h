@@ -1,0 +1,10 @@
+#ifndef PSO_UI_FRONTEND_TADMULTIPLYCHRSELECTGC_802C6F88_H
+#define PSO_UI_FRONTEND_TADMULTIPLYCHRSELECTGC_802C6F88_H
+
+#include "types.h"
+
+extern "C" {
+int TAdMultiPlyChrSelectGC__sub_802C6FA8(void);
+}
+
+#endif

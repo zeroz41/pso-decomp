@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_800D8A2C.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern s32 player_particle_effect_enabled;
 

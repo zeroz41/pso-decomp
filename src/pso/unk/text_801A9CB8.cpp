@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/TUnk_804C349C.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TFogCtrl.h"
-#include "pso/misc/TLobby.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/TFogCtrl.h"
+#include "pso/unk/TLobby.h"
 
 struct Rec_801AA17C {
     s32 kinds[4];

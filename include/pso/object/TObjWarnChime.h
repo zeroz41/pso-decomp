@@ -1,6 +1,6 @@
 #ifndef PSO_OBJECT_TOBJWARNCHIME_H
 #define PSO_OBJECT_TOBJWARNCHIME_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TObjWarnChime : public TObject {

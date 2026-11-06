@@ -1,4 +1,4 @@
-#include "pso/TProtocol.h"
+#include "pso/network/TProtocol.h"
 #include <stddef.h>
 typedef char ProtocolConnectedOffset[(offsetof(TProtocol, m_connected) == 0x1910) ? 1 : -1];
 typedef char PacketHeaderSize[(sizeof(packet_header) == 4) ? 1 : -1];

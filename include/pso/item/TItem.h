@@ -3,9 +3,9 @@
 
 #include "types.h"
 #include <stddef.h>
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 
 struct TItemData;
 struct TObjPlayer;

@@ -1,13 +1,12 @@
 #pragma fp_contract on
 
 #include "pso/boss/TUnk_80484888.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/math/AngleLookup.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_80086D50.h"
-
-extern "C" s32 rand(void);
+#include <stdlib.h>
 
 void TUnk_80484888::run_task() {
     pending += rate;

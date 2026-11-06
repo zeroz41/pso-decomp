@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80076E84.h"
-#include "pso/misc/TWindowSubSymbolChat.h"
+#include "pso/ui/chat/TWindowSubSymbolChat.h"
 
 struct Pkt_80076E98 { u8 pad[4]; s32 f4; u32 f8; };
 

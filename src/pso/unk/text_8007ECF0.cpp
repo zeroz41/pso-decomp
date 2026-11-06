@@ -1,10 +1,10 @@
 #include "pso/ui/MenuText.h"
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_8007ECF0.h"
-#include "pso/misc/TDLGraph.h"
-#include "pso/TObjWarpString.h"
+#include "pso/render/TDLGraph.h"
+#include "pso/object/warp/TObjWarpString.h"
 
 struct E_8007F3F8 { s32 a; f32 f; };
 

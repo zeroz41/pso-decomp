@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby_8007C550.h"
+#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_800F7DAC.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/quest/TQuestListVM.h"
 
 extern "C" {

@@ -4,7 +4,7 @@
 #include "pso/unk/text_801F45FC.h"
 
 #include <stddef.h>
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Induction_80219EE8_var_r31 { u8 bytes[0x8]; };
 
 struct Pair_80219F64 { s32 a; s32 b; };

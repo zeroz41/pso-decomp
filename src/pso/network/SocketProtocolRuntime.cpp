@@ -1,7 +1,7 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include "pso/network/UdpRuntime.h"
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct P_8041FDA0 { s32 a; s32 b; };
 

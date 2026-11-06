@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/protocol/protocol_types.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "pso/unk/text_8020E700.h"
 #include "pso/unk/text_8020EEFC.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TLobby_8020E400.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/TLobby_8020E400.h"
 #include "pso/item/TItemData.h"
 
 #pragma inline_depth(1)

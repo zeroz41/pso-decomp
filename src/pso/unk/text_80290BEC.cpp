@@ -1,11 +1,11 @@
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "types.h"
 #include "pso/unk/text_80290BEC.h"
 #include "pso/system/main_loop.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
-#include "pso/misc/TKeyBoardControl.h"
-#include "pso/misc/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_80290BEC_main_task {
     s32 value;

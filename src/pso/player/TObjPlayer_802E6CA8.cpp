@@ -1,13 +1,13 @@
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/system/NinjaUtil.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
 #include "pso/player/TUnk_804E3BD8.h"
 #include "pso/player/TUnk_804E3BC0.h"
 #include "pso/player/TUnk_804E3BA8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/unk/text_80087278.h"
 
 struct VB_802E74E4 { u8 pad[0xC]; };

@@ -1,22 +1,20 @@
 #pragma fp_contract on
 
 #include "pso/boss/TUnk_80484840.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_803D96A8.h"
+#include "pso/system/MatrixStack.h"
+#include "pso/unk/text_803D8F74.h"
+#include "pso/system/MatrixOps.h"
+#include "pso/math/MatrixTransforms.h"
+#include <stdlib.h>
+#include "pso/unk/text_803D853C.h"
 
 extern "C" {
-s32 push_matrix(void);
-void rotate_matrix_x(s32 matrix, s32 angle);
-void rotate_matrix_y(s32 matrix, s32 angle);
-void matrix_mult_vec(s32 matrix, const Vec *src, Vec *dst);
-void vec3_add_to(Vec *v, const Vec *add);
-void subtract_vector(Vec *v, const Vec *sub);
-f32 vector_length(const Vec *v);
-s32 rand(void);
 void draw_line_list(VoloptLineList *lines, s32 count, u32 flags);
 }
 

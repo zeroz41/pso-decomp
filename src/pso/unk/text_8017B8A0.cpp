@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/misc/TOVS2Wall01_8017BCC8.h"
-#include "pso/misc/TOVS2Wall01_8017C7A4.h"
+#include "pso/object/fence/TOVS2Wall01_8017BCC8.h"
+#include "pso/object/fence/TOVS2Wall01_8017C7A4.h"
 #include "pso/unk/text_8017B8A0.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TOTrapAncient02R.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOVS2Wall01.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/trap/TOTrapAncient02R.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/fence/TOVS2Wall01.h"
 
 struct Obj_8017B8A0 {
     u8 pad[0x18];

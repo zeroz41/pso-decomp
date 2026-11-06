@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJTUITATE_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjTuitate : public TObjCollidable {
     virtual ~TObjTuitate();

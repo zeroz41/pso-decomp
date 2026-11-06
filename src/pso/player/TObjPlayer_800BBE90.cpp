@@ -1,10 +1,10 @@
 #include "pso/system/vector.h"
 #include "types.h"
-#include "pso/boss/TBoss8Dragon_800BC53C.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 struct VBase { char pad[0x18]; };
 
@@ -136,7 +136,7 @@ struct VObj_800bbe90 : Base_800bbe90 {
 
 
 void TUnk_804928CC::apply_hit_if_active(void *arg1, f32 *arg2) {
-    ((VObj_800bbe90*)arg1)->m20(this->m_ac, 1.0f);
+    ((VObj_800bbe90*)arg1)->m20(this->owner, 1.0f);
     if (obj_isState2_324__9TObjCharaFv(arg1) == 0) {
         this->area_attack_apply_recoil(arg1, *arg2);
     }

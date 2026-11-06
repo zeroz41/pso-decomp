@@ -5,7 +5,7 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 #pragma readonly_strings on

@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_804E4B24_H
 #define PSO_UNK_TUNK_804E4B24_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 class TUnk_804E4B24 : public TObject {

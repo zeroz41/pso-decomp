@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_802F0E24.h"
-#include "pso/misc/TLobby.h"
-#include "pso/TParticleCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof((arr)[0]))

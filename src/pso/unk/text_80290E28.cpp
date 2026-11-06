@@ -1,16 +1,16 @@
 #include "pso/system/NinjaTypes.h"
 #pragma opt_lifetimes off
 #include "types.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/boss/TBoss2DeRolLe.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/MaterialColorFade.h"
+#include "pso/boss/derolle/TBoss2DeRolLe.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_80290E28.h"
 #include "pso/unk/text_80290D1C.h"
 
 #include <stddef.h>
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 struct Stack_80290E28 {
     s32 sp8;
     s32 spC;

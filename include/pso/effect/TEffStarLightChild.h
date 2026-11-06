@@ -1,8 +1,8 @@
 #ifndef PSO_TEFFSTARLIGHTCHILD_H
 #define PSO_TEFFSTARLIGHTCHILD_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
-#include "pso/misc/TLobby_801E2F94.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 class TEffStarLightChild : public TObject {
 public:

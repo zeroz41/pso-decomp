@@ -2,9 +2,9 @@
 #include "types.h"
 #include "pso/unk/text_802910EC.h"
 #include "pso/unk/text_80290D1C.h"
-#include "pso/misc/TLobby.h"
-#include "pso/TObjCMIcon.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/charcreate/TObjCMIcon.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/ui/Language.h"
 
 #pragma inline_depth(1)

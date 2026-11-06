@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/enemy/DarkGunner.h"
+#include "pso/enemy/darkgunner/DarkGunner.h"
 #include "pso/object/TObjControl.h"
 typedef struct Obj_800A0884 {
     u8 pad0[0x37C];

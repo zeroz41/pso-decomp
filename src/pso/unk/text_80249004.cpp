@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80249004.h"
 #include "pso/unk/text_80268384.h"
-#include "pso/misc/TUnk_804CE7E8.h"
+#include "pso/ui/window/TUnk_804CE7E8.h"
 
 struct RecoveredGlobal_80249004_lbl_804CE7E8 {
     s32 value;

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TPlyPhotonChair.h"
+#include "pso/player/TPlyPhotonChair.h"
 
 struct VBase_18_26c590
 {

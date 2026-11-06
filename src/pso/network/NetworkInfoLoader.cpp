@@ -1,12 +1,12 @@
 #include "types.h"
-#include "pso/ui/TAdPlayerLoadGC_803F339C.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 #include "pso/unk/text_803F4D10.h"
 
 #pragma scheduling off
 
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoCodec.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 
 typedef struct Ent_803F47BC {
     char name[0x20];

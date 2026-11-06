@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/misc/TWindowSubComCard_80244774.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
-#include "pso/object/TObjResultWin.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TObjResultWin.h"
 #include "pso/unk/text_8024450C.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 extern "C" {
 s32 __nw__7TObjectFUl(int);

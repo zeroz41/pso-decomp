@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TShopJudgmentItemWindow.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/city/TShopJudgmentItemWindow.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

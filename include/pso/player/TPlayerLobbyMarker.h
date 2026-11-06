@@ -1,6 +1,6 @@
 #ifndef PSO_PLAYER_TPLAYERLOBBYMARKER_H
 #define PSO_PLAYER_TPLAYERLOBBYMARKER_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 struct TObjPlayer;
 class TPlayerLobbyMarker : public TObject {
 public:

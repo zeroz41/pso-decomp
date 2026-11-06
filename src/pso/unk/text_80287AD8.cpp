@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
-#include "pso/misc/TWindowTimer.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TWindowTimer.h"
 
 #pragma readonly_strings on
 struct Obj_80287BE8 { u8 pad[0x30]; f32 f30; f32 f34; u8 pad2[8]; f32 f40; f32 f44; };

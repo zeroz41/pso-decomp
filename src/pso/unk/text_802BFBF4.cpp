@@ -2,7 +2,7 @@
 // handler}. The handlers are pointers to members, so CodeWarrior builds the table in
 // __sinit from a per-handler template (the 97 0xC objects at 0x804DFC50).
 #include "types.h"
-#include "pso/boss/TBoss6Type2.h"
+#include "pso/boss/olgaflow/TBoss6Type2.h"
 
 extern "C" {
 extern u8 lbl_804713D0[];

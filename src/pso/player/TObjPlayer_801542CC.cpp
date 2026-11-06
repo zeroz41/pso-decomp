@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
-#include "pso/player/TObjChara.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/enemy/TUnk_80493450.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/collision/ActorBodyContact.h"
 #include "pso/math/AngleLookup.h"
 
@@ -103,9 +103,9 @@ struct Obj_801547E0;
     }
 struct Vec_80155294 { f32 x, y, z; };
 
-#include "pso/protocol/subcmd_6x.h"
-#include "pso/TObject.h"
-#include "pso/misc/TLobby.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 union ObjectSavedState_801548A8 {
     u32 word;
     struct { s16 flags; s16 source; } halves;

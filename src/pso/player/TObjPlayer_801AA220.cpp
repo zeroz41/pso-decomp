@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TPhotonMagicSquare.h"
+#include "pso/effect/photon/TPhotonMagicSquare.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
 
 extern "C" {
 

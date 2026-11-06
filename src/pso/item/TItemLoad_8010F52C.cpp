@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/item/TItemLoad_8010FC28.h"
 #include "pso/item/TItemLoad_8010F52C.h"
-#include "pso/object/TObjFish_8001ED90.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049F41C.h"
 #include "pso/item/TUnk_8049F40C.h"
-#include "pso/TItemLoad.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/item/TItemLoad.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 u8 lbl_80506208[32];

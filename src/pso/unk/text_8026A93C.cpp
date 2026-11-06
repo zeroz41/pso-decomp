@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TWindowMessageLog_8026AA38.h"
+#include "pso/ui/window/TWindowMessageLog_8026AA38.h"
 #include "pso/unk/text_8026A93C.h"
-#include "pso/misc/TWindowMessageLog.h"
-#include "pso/misc/TWindowCtrl.h"
+#include "pso/ui/window/TWindowMessageLog.h"
+#include "pso/ui/window/TWindowCtrl.h"
 
 extern "C" {
 u8 *__nw__7TObjectFUl(s32);

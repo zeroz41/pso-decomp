@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TPlayerBattleCtrl4P.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TLobby_8030A6A8.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_80211D58.h"
-#include "pso/THunterGuildWarning.h"
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/ui/city/THunterGuildWarning.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 extern "C" {
 s32 get_nth_view_player_id__11TCameraCtrlFl(s32);
 s32 TWindowShortListCtrl__check_controller_button(void *, s32);

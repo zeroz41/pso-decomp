@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/math/AngleLookup.h"
 
 extern "C" {

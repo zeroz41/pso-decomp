@@ -1,15 +1,15 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 #include "pso/unk/text_8026C664.h"
-#include "pso/misc/TLobby_8001D6A0.h"
-#include "pso/misc/TWindowSubStatusDisp_8024FBA8.h"
+#include "pso/unk/TLobby_8001D6A0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_8024FBA8.h"
 #include "pso/unk/text_8026C7AC.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/object/TObjFish.h"
-#include "pso/misc/TWindowCtrl_8024A054.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowCtrl_8024A054.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
-#include "pso/misc/TWindowSubComCardList_8026CB08.h"
-#include "pso/misc/TWindowSubComCardList.h"
+#include "pso/ui/window/TWindowSubComCardList_8026CB08.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
 
 struct Stack_8026C708
 {

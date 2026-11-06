@@ -1,14 +1,14 @@
 #include "pso/camera/CreationCamera.h"
 #include "pso/camera/CameraViewParams.h"
 #include "pso/math/AngleLookup.h"
-#include "pso/menu/CreationInput.h"
-#include "pso/misc/CharacterAppearance.h"
-#include "pso/misc/CharacterCreationModels.h"
-#include "pso/misc/TLobby.h"
-#include "pso/object/TObjCMMainMenu.h"
-#include "pso/object/TObjCMProportion.h"
+#include "pso/ui/charcreate/CreationInput.h"
+#include "pso/ui/charcreate/CharacterAppearance.h"
+#include "pso/ui/charcreate/CharacterCreationModels.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/charcreate/TObjCMMainMenu.h"
+#include "pso/ui/charcreate/TObjCMProportion.h"
 #include "pso/render/render_util.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 
 // Per class, the range (in tens of units) the review camera's look-at height
 // is picked from by the character's height setting.

@@ -1,7 +1,7 @@
 #ifndef PSO_PLAYER_TUNK_80491460_H
 #define PSO_PLAYER_TUNK_80491460_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 class TUnk_80491460 : public TObject {
 public:

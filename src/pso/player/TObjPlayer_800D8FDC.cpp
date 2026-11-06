@@ -1,14 +1,14 @@
-#include "pso/misc/SampledMotionPoints.h"
+#include "pso/unk/SampledMotionPoints.h"
 #include "pso/math/FloatRounding.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "types.h"
-#include "pso/misc/TDeadSpot.h"
+#include "pso/object/TDeadSpot.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/system/memory.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 s32 __nw__7TObjectFUl(s32);

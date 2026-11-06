@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/misc/TLobby_80131794.h"
-#include "pso/misc/TLobby_80207DA8.h"
-#include "pso/misc/TLobby_8020B03C.h"
-#include "pso/misc/TLobby_8030A6A8.h"
+#include "pso/unk/TLobby_80131794.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/unk/TLobby_8020B03C.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_8020AD40.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct Stack_8020AF0C {
     s32 sp8;

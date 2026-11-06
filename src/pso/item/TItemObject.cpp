@@ -1,16 +1,20 @@
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemObject.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItemData.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TMainCursor.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcmd_6x.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/render/render_util.h"
 
 #pragma readonly_strings on
 
@@ -19,12 +23,8 @@ const char *TItemObject_name = "TItemObject";
 }
 
 extern "C" {
-s16 get_entity_id(TObjPlayer *);
-f32 horizontal_distance_squared(void *, void *);
 s32 sub_801A1DDC__10TObjPlayerFv(void *);
-void *get_player_by_client_id(s32 i);
 void send_nearby_player_ids(TObjPlayer *self, f32 range);
-void *spawn_particle_effect(void *pos, s32 id);
 void *TObjPlayer__sub_80116620(void *, s32);
 void send_star_atomizer_targets(TObjPlayer *player);
 }

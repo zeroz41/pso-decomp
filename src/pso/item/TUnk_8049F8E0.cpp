@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049F8E0.h"
-#include "pso/misc/TMainCursor.h"
+#include "pso/ui/hud/TMainCursor.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

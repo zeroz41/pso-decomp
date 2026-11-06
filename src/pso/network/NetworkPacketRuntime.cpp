@@ -1,13 +1,13 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkPacketPool.h"
 #include <stddef.h>
 #include "pso/network/NetworkTransport.h"
 #include "pso/network/NetworkDispatch.h"
 
 #include "types.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TUdpSocket.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TUdpSocket.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Pkt_804249F0 {
     u8 f0;

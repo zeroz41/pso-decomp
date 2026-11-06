@@ -2,7 +2,7 @@
 #define PSO_UI_UI_SPRITE_H
 #include "types.h"
 #include "pso/ui/UISpriteConstants.h"
-#include "pso/TMath.h"
+#include "pso/math/TMath.h"
 
 struct UISpriteTint {
     f32 alpha;

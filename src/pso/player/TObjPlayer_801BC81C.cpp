@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BC81C.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801BCC30.h"
-#include "pso/player/TObjChara.h"
-#include "pso/misc/TLobby.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_801BCD28.h"
 
 extern "C" {

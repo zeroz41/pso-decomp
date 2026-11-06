@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8010F168.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 typedef struct Slot_8010F210 { u32 a; u32 b; } Slot_8010F210;
 
 extern "C" {

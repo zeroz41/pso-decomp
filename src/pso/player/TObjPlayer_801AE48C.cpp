@@ -2,8 +2,8 @@
 #include "pso/player/TObjPlayer_801AE48C.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern u8 *photon_blast_shared_resource;
 extern u32 pilla_photon_buffer_pair;

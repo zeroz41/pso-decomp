@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjDFHorming.h"
+#include "pso/boss/darkfalz/TObjDFHorming.h"
 
 typedef struct Vec_8005063C {
     f32 x, y, z;

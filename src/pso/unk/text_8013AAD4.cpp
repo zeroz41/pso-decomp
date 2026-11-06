@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8013AAD4.h"
-#include "pso/TPlyGuildCardTag.h"
+#include "pso/player/TPlyGuildCardTag.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

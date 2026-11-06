@@ -1,7 +1,7 @@
 #include "pso/system/MiddlewareInterruptLock.h"
 
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 #pragma readonly_strings on
 

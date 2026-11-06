@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TFontSmallLobby.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 

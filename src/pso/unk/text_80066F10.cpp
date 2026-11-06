@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/enemy/TObjEneDD_800BB804.h"
-#include "pso/boss/TBoss8Dragon_8005D700.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/enemy/dd/TObjEneDD_800BB804.h"
+#include "pso/boss/goldragon/TBoss8Dragon_8005D700.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_80066F10.h"
 #include "pso/system/BmlResourceDescriptor.h"
 

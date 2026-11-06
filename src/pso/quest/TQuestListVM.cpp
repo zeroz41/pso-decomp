@@ -3,22 +3,22 @@
 #include <string.h>
 #include "types.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/TAdPlayerLoadGC.h"
-#include "pso/TObject.h"
-#include "pso/TShopWindowBase.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
-#include "pso/misc/TShopJudgmentItemWindow_8026DF00.h"
-#include "pso/misc/TWindowMenu.h"
-#include "pso/misc/TWindowMenuIconLine.h"
-#include "pso/misc/TWindowMessage.h"
-#include "pso/misc/TWindowSubComCard_80265410.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/city/TShopWindowBase.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/unk/TLobby.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
+#include "pso/ui/city/TShopJudgmentItemWindow_8026DF00.h"
+#include "pso/ui/window/TWindowMenu.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer_80011014.h"
 #include "pso/ui/Language.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/ui/TObjBagWarnWin_8006EF24.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 
 // A file read from a memory card.
 struct CardFileRead {
@@ -68,7 +68,7 @@ void TWindowMenuIconLine::disable_cancel() {
     state_flags |= 8;
 }
 
-TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player) {
+TQuestListVM::TQuestListVM(TObject *parent, TShopWindowBase *owner, TObjBase *player) : TShopWindowBase(parent) {
     m_name = TQuestListVM_class_name;
     entry_count = 0;
     resume_state = 0;

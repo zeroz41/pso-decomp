@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_80074BD0.h"
 #include "pso/unk/text_80074C70.h"
-#include "pso/misc/TLobby.h"
-#include "pso/TProtocol.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TProtocol.h"
 struct Lobby_80074C20 { u8 pad[0xBC88]; void *cb; };
 
 extern Lobby_80074C20 *TLobby__protocol_instance;

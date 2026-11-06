@@ -2,7 +2,7 @@
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemProShield.h"
+#include "pso/item/armor/TItemProShield.h"
 
 struct Pl_80117F14 { u8 pad0[0x38]; f32 pos[3]; };
 

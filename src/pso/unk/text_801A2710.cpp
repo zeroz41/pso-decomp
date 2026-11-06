@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/object/TObjInfoCol.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/collision/TObjInfoCol.h"
 #include "pso/unk/text_801A2710.h"
 #include "pso/system/vector.h"
 

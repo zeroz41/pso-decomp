@@ -1,0 +1,10 @@
+#ifndef PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_8001C5E8_H
+#define PSO_UI_FRONTEND_TADSINGLEPLYCHRSELECTGC_8001C5E8_H
+
+#include "types.h"
+
+extern "C" {
+s32 TAdSinglePlyChrSelectGC__sub_8001C5F0(void);
+}
+
+#endif

@@ -1,17 +1,17 @@
 #include "pso/player/PlayerAttackParams.h"
 #include "types.h"
-#include "pso/enemy/TObjEneEpsilon_800B92AC.h"
+#include "pso/enemy/epsilon/TObjEneEpsilon_800B92AC.h"
 #include "pso/unk/text_800C3088.h"
 #include "pso/unk/text_800C3A60.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/system/vector.h"
-#include "pso/TParticleCtrl.h"
-#include "pso/enemy/TObjEneDD.h"
-#include "pso/enemy/TObjEneRe2Flower.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/misc/TTecMegid.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/enemy/flower/TObjEneRe2Flower.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/technique/TTecMegid.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/TObjEneDD_ST.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 
 #include <stddef.h>
 struct Stack_800C32DC {
@@ -300,7 +300,7 @@ void fn_800C32DC(u8 *owner, s32 arg1) {
 
 }
 
-#include "pso/enemy/TObjEneEpsilon.h"
+#include "pso/enemy/epsilon/TObjEneEpsilon.h"
 
 struct VBase_18 { char pad[0x18]; };
 struct VObj_18 : VBase_18 {

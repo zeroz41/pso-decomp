@@ -2,10 +2,10 @@
 #include "pso/map/CsnQuery.h"
 #include "pso/unk/text_80325F7C.h"
 #include "pso/system/vector.h"
-#include "pso/TBoss5GryphonLightningWing.h"
-#include "pso/TBoss5GryphonLightningHorn.h"
-#include "pso/boss/TBoss8Dragon.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningWing.h"
+#include "pso/boss/galgryphon/TBoss5GryphonLightningHorn.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 struct Vec_80325F7C { f32 x, y, z; };
 
 struct Ray_80325F7C { Vec_80325F7C o; Vec_80325F7C d; };

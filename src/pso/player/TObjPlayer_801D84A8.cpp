@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObjWarpBossMulti.h"
+#include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TUnk_804C4540.h"
 #include "pso/map/FloorArea.h"

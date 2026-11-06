@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_800779A0.h"
 #include "pso/unk/text_80077A70.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Elem_80077A28 { u8 data[0xD4]; };
 

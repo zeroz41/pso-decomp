@@ -1,7 +1,7 @@
 #ifndef PSO_PLAYER_TUNK_804928CC_H
 #define PSO_PLAYER_TUNK_804928CC_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_804928CC : public TObjCollidable {
 public:
@@ -19,7 +19,7 @@ public:
     virtual void area_attack_receive_direct(void *, f32 *, void *);
     virtual void apply_hit_if_active(void *, f32 *);
     void sub_800BC3E8(u8 *);
-    u32 m_ac;
+    u32 owner;   // the actor that fired this hitbox (a TObjBase *; sub_800BC3E8 stores it and copies its room)
 };
 typedef char TUnk_804928CC_size[sizeof(TUnk_804928CC) == 0xB0 ? 1 : -1];
 

@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMDISCONNECTCTRL_H
 #define PSO_ITEM_TITEMDISCONNECTCTRL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // Set when the item lists stop agreeing with the other clients (an id that
 // cannot be assigned or is already taken); TItemDisconnectCtrl leaves the

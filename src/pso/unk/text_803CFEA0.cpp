@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/system/GcciRequests.h"
 
 extern const char gcci_version_string[] = "\nGCCI Ver.1.07 Build:Jun 13 2002 19:00:24\n";

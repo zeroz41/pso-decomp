@@ -1,12 +1,13 @@
 #include "types.h"
-#include "pso/player/TObjPlayer_80055678.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 
-void TObjPlayer__sub_80055678(void) {  }
-void TObjPlayer__sub_8005567C(void) {  }
-void TObjPlayer__sub_80055680(void) {  }
-void TObjPlayer__sub_80055684(void) {  }
-void TObjPlayer__sub_80055688(void) {  }
-void TObjPlayer__sub_8005568C(void) {  }
-void TObjPlayer__sub_80055690(void) {  }
+// TBoss4Type1's status-ailment slots, all empty: Dark Falz's first form ignores them.
+void TBoss4Type1::apply_poison_status() {  }
+void TBoss4Type1::apply_paralysis() {  }
+void TBoss4Type1::apply_slow_status() {  }
+void TBoss4Type1::apply_confusion_status() {  }
+void TBoss4Type1::apply_movement_ailment(s32) {  }
+void TBoss4Type1::apply_shock_status() {  }
+void TBoss4Type1::clear_harmful_statuses() {  }
 void*TObjPlayer::get_position_ptr() { return (char*)this + 0x38; }

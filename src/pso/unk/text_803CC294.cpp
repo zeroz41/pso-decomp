@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby_803CD804.h"
-#include "pso/system/AdxStreamRuntime.h"
+#include "pso/unk/TLobby_803CD804.h"
+#include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/text_803CC294.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct RecoveredGlobal_803CC500_lbl_8047C910 {
     s32 value;

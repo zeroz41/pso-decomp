@@ -1,22 +1,27 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjComputer.h"
 #include "pso/object/TObjGbAdvance.h"
 #include "pso/object/TObjMesBase.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/item/TObjContainerAbeEnemy.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/container/TObjContainerAbeEnemy.h"
 #include "pso/map/FloorArea.h"
 
-#include "pso/TParticleCtrl.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOKeyAncient01.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/key/TOKeyAncient01.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/TObjFish.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/unk/text_80087278.h"
+#include "pso/unk/text_803D853C.h"
+#include "pso/render/GinjaMaterial.h"
 
 #define CAT2(a, b) a##b
 #define CAT(a, b) CAT2(a, b)
@@ -33,7 +38,7 @@ struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 
 struct Obj_801884A0 {
-    s32 unk0;
+    const char *unk0;
     u8 pad4[0x18 - 0x4];
     void *vtbl;
     u8 pad1C[0x30 - 0x1C];
@@ -99,40 +104,26 @@ s32 push_matrix();
 s32 post_translate_matrix(void *);
 s32 rotate_matrix_y(s32, s32);
 void draw_ginja_box_tree(void);
-s32 pop_matrix();
 extern void *container_breakup_model_archive;
 extern s32 lbl_805D5B8C;
-void debug_printf_at(s32 id, const char *fmt, ...);
 extern char lbl_80444EF4[];
 extern const f32 lbl_805DBCF8;
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
-extern s32 obj_computer_collision_body_parts[];
 extern s32 __vt__12TObjComputer[];
-extern s32 lbl_805D32CC;
-extern u32 TObjComputer__model_archive;
-extern s16 TObjComputer__data_805DBCD8[2];
-extern const f32 lbl_805DBCEC;
 void *TObjComputer__ct(void *arg0, void *parent, void *row);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
 s32 scroll_ginja_mesh_uvs(void *, s32, s32, u16, s32);
 s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
-void draw_ginja_object(void *child);
 extern u32 actor_frame_tick;
-extern const f32 lbl_805DBCE4;
 s32 get_current_floor();
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
-void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
-extern s32 fe_obj_tanmatu02_resource_descriptor[];
-extern s32 fs_obj_tanmatu02_resource_descriptor[];
-extern u32 TObjComputer__texture_gvm_handle;
-extern s16 computer_uv_scroll_phase;
 void load_computer_resources(void);
 void play_container_break_sound(s32 arg0);
 extern "C" {
@@ -146,32 +137,49 @@ void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
 s32 free_collision_body_parts(void *);
 s32 vfunc_14__11TObjMesBaseFv();
-s32 submit_cursor_candidate(void *, s32);
 s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
-extern const f32 lbl_805DBCDC;
-extern const f32 lbl_805DBCE0;
 extern s32 __vt__13TObjGbAdvance[];
-extern s32 lbl_805D32D0;
 
-struct RecoveredGlobal_80187DC8_lbl_804B6228 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80187DC8_lbl_804B6228_size[sizeof(RecoveredGlobal_80187DC8_lbl_804B6228) == 0x10 ? 1 : -1];
-
-extern RecoveredGlobal_80187DC8_lbl_804B6228 bm_obj_gba_resource_descriptor;
-extern u32 TObjGbAdvance__data_805D5B74;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 
+const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
+const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
+BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {
+    "fe_obj_tanmatu02.bml", fe_obj_tanmatu02_model_names, fe_obj_tanmatu02_motion_names, 2, 0,
+};
+const char *bm_obj_gba_model_names[5] = {
+    "gba_white_body.gj", "gba_white_disp.gj", "gba_white_footsw.gj", "gba_white_scan.gj", NULL,
+};
+const char *bm_obj_gba_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_gba_resource_descriptor = {
+    "bm_obj_gba.bml", bm_obj_gba_model_names, bm_obj_gba_motion_names, 4, 0,
+};
+const char *fs_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
+const char *fs_obj_tanmatu02_motion_names[1] = {NULL};
+BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
+    "fs_obj_tanmatu02.bml", fs_obj_tanmatu02_model_names, fs_obj_tanmatu02_motion_names, 2, 0,
+};
+const char *TObjComputer__class_name = "TObjComputer";
+const char *TObjGbAdvance__class_name = "TObjGbAdvance";
+const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
+
+u32 TObjComputer__model_archive;
+u32 TObjComputer__texture_gvm_handle;
+s16 computer_uv_scroll_phase;
+u32 TObjGbAdvance__data_805D5B74;
+
+CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern f32 lbl_805DBCE8;
 
 void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     Obj_801884A0 *self = (Obj_801884A0 *)arg0;
     TObjMesBase__ct((TObjMesBase *)self, (s32)parent, (s32)row);
     self->vtbl = __vt__12TObjComputer;
-    self->unk0 = lbl_805D32CC;
+    self->unk0 = TObjComputer__class_name;
     if (self->selector < 0) {
         self->selector = 0;
     }
@@ -184,11 +192,11 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
         queue_destruction__7TObjectFv(self);
         return self;
     }
-    init_collision_body_parts(self, obj_computer_collision_body_parts, 1);
+    init_collision_body_parts(self, &obj_computer_collision_body_parts, 1);
     ((TObjPlayer *)self)->actorFlags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjComputer *)self)->cursor_action.set_use();
-    ((TObjPlayer *)self)->frame = lbl_805DBCEC;
+    ((TObjPlayer *)self)->frame = 0.0f;
     self->unkC4 = 0;
     return self;
 }
@@ -205,7 +213,7 @@ void load_computer_resources(void) {
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fs_obj_tanmatu02.gvm");
@@ -214,7 +222,7 @@ void load_computer_resources(void) {
     default:
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fe_obj_computer.gvm");
@@ -248,17 +256,17 @@ void TObjComputer::vfunc_14() {
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
-    *(f32 *)&this->_padC0 = (f32) (*(f32 *)&this->_padC0 + lbl_805DBCE8);
+    this->uv_scroll_time += 0.2f;
 }
 
 void TObjComputer::clear_ref_if_destroyed() {
     clear_ref_if_destroyed__11TObjMesBaseFv();
-    *(f32 *)&this->_padC0 = (f32) (*(f32 *)&this->_padC0 + lbl_805DBCE8);
+    this->uv_scroll_time += 0.2f;
 }
 
 void TObjComputer::render() {
     u8 *arg0 = (u8 *)this;
-    if (((V_TOC_801881D4 *)arg0)->m8(lbl_805DBCDC, lbl_805DBCE0) != 0) {
+    if (((V_TOC_801881D4 *)arg0)->m8(400.0f, 20.0f) != 0) {
         draw_model();
     }
 }
@@ -274,7 +282,7 @@ s32 TObjComputer::draw_model() {
     rotate_matrix_y(0, self->yaw60);
     if (TObjComputer__data_805DBCD8[self->kind88] == 1) {
         u32 tick = actor_frame_tick;
-        if (tick != self->tick_c4 && self->time_c0 >= lbl_805DBCE4) {
+        if (tick != self->tick_c4 && self->time_c0 >= 1.0f) {
             self->tick_c4 = tick;
             scroll_ginja_mesh_uvs(*(void **)((s8 *)self->model->sub2c + 4), 0, (s32)self->time_c0, (*(u16 *)&computer_uv_scroll_phase), 1);
             PPCSync();
@@ -307,7 +315,7 @@ void TObjComputer::debug_draw_label() {
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TObjMesBase__ct((TObjMesBase *)arg0, arg1, arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjGbAdvance;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32D0;
+    *(const char **)((s8 *)arg0 + 0) = TObjGbAdvance__class_name;
     init_collision_body_parts(arg0, &gb_advance_collision_body_parts, 1);
     ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
@@ -328,7 +336,7 @@ void TObjGbAdvance::vfunc_14() {
 }
 
 void TObjGbAdvance::render() {
-    if (((V_TOC_801881D4 *)this)->m8(lbl_805DBCDC, lbl_805DBCE0) != 0) {
+    if (((V_TOC_801881D4 *)this)->m8(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(TObjFish__sub_8001EDB0((void *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&this->position);
@@ -347,7 +355,7 @@ void TObjGbAdvance::load_resource_instance() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_gba_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_gba_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjGbAdvance__data_805D5B74) = var_r0;
 }

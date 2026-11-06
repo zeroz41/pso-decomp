@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/boss/TBoss6Zanzo.h"
+#include "pso/boss/olgaflow/TBoss6Zanzo.h"
 #include "pso/unk/text_80320358.h"
 #include "pso/system/memory.h"
-#include "pso/misc/TScene.h"
+#include "pso/system/scene/TScene.h"
 
 struct S_80320358 {
     void *a;

@@ -1,4 +1,4 @@
-#include "pso/misc/SampledMotionPoints.h"
+#include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/vector.h"
 
 extern Vec TObjEneMe3ShinowaMirage_motion_trail_points[2];

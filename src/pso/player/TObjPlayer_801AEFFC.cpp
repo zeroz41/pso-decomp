@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {
@@ -57,7 +57,7 @@ void TObjPlayer::apply_switch_attack() {
 
 }
 
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 void TObjPlayer::update_movement_effects() {
     s32 player = (s32)this;

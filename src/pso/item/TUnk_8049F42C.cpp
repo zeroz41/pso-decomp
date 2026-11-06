@@ -1,10 +1,9 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLoad_8010FC28.h"
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049F42C.h"
-#include "pso/TItemLoad.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_800F7DAC.h"
 

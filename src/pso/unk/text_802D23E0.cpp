@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TWindowSubTradeMain.h"
-#include "pso/misc/TLobby.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
+#include "pso/unk/TLobby.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

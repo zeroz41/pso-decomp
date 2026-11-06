@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/boss/TBoss1DragonColli.h"
+#include "pso/boss/dragon/TBoss1DragonColli.h"
 struct Obj_8002B164 { u8 pad[0x1c]; void *colli[3]; };
 
 extern "C" {

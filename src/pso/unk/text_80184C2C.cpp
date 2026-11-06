@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_800F5BC0.h"
 #include "pso/unk/text_80184C2C.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcEnemy.h"
-#include "pso/object/TObjLaboMapWarp.h"
+#include "pso/object/warp/TObjLaboMapWarp.h"
 
 struct Obj_80185160 { u8 pad[0x8C]; s32 dest; };
 

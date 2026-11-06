@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/TObject.h"
-#include "pso/TItemShootModel.h"
+#include "pso/system/task/TObject.h"
+#include "pso/weapon/shoot/TItemShootModel.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

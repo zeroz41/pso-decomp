@@ -1,7 +1,7 @@
 #include "pso/item/TItemMenuCtrl_80115A28.h"
-#include "pso/TItemMenuCtrl.h"
+#include "pso/item/TItemMenuCtrl.h"
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer.h"
 
 extern void * TItemMenuCtrl__instance;

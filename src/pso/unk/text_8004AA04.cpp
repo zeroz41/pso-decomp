@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/system/NinjaUtil.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_800F5BC0.h"
-#include "pso/boss/TBoss3Volopt.h"
-#include "pso/boss/TBoss4Uro.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/darkfalz/TBoss4Uro.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 struct Obj_8004AA04 { s32 count; u8 pad[0xC]; void **items; };
 
 typedef struct Rec_8004AA80 {

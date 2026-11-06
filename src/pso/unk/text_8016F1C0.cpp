@@ -1,15 +1,10 @@
-#include "pso/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
-#include "pso/unk/text_8016F1C0.h"
-#include "pso/misc/TOMineDisp.h"
+#include "pso/object/trap/TOMineDisp.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TWindowCtrl.h"
-#include "pso/misc/TOMineTrap.h"
-
-struct RecoveredGlobal_8016F1C0___vt__10TOMineDisp {
-    s32 value;
-    u8 remaining[0x30];
-};
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/trap/TOMineTrap.h"
+#include "pso/object/trap/TOMineTrapDisp.h"
 
 struct VB_8016F320 { char pad[0x18]; };
 
@@ -20,9 +15,6 @@ struct VO_8016F320 : VB_8016F320 {
 };
 
 extern "C" {
-s32 __ct__8TObjBaseFP7TObject();
-extern RecoveredGlobal_8016F1C0___vt__10TOMineDisp __vt__10TOMineDisp;
-extern s32 TOMineDisp__name;
 extern const f32 lbl_805DB85C;
 void *get_shared_text_buffer(void);
 s32 get_trap_type__10TOMineTrapFv(s32);
@@ -33,54 +25,45 @@ void text_builder_append(const char *);
 void text_builder_reset(void);
 extern const char lbl_804421F0[];
 extern "C" {
-u32 TOMineTrapDisp__ct(u32, s32, u16, s32);
-u32 __nw__7TObjectFUl(s32);
 s32 is_split_screen();
 
 extern s32 local_client_id;
 
-typedef char RecoveredGlobal_8016F1C0___vt__10TOMineDisp_size[sizeof(RecoveredGlobal_8016F1C0___vt__10TOMineDisp) == 0x34 ? 1 : -1];
-u8 *TOMineDisp__ct(TOMineDisp *mine_disp, s32 arg1, s16 arg2) {
-    __ct__8TObjBaseFP7TObject();
-    *(s32 **)((s8 *)mine_disp + 0x18) = &__vt__10TOMineDisp.value;
-    *(s32 *)((s8 *)mine_disp + 0) = (s32) TOMineDisp__name;
-    mine_disp->m_a8 = arg2;
-    *(f32 *)((s8 *)mine_disp + 0x94) = (f32) lbl_805DB85C;
-    mine_disp->m_98 = (f32) lbl_805DB85C;
-    *(f32 *)((s8 *)mine_disp + 0x9C) = (f32) lbl_805DB85C;
-    mine_disp->m_a0 = (f32) lbl_805DB85C;
-    mine_disp->m_a4 = 0;
-    mine_disp->m_90 = 0;
-    return (u8 *)mine_disp;
+}
+
+TOMineDisp::TOMineDisp(TObject *parent, u16 client) : TObjBase(parent) {
+    m_name = TOMineDisp__name;
+    m_a8 = client;
+    color.a = lbl_805DB85C;
+    color.r = lbl_805DB85C;
+    color.g = lbl_805DB85C;
+    color.b = lbl_805DB85C;
+    m_a4 = 0;
+    m_90 = 0;
 }
 
 void TOMineTrap::spawn_disp_objects() {
-    u32 mine_trap_disp;
+    TOMineTrapDisp *disp;
     u16 i;
-    s32 arg0 = (s32)this;
 
     if (is_split_screen() == 0) {
-        mine_trap_disp = __nw__7TObjectFUl(0xB0);
-        if (mine_trap_disp != 0U) {
-            mine_trap_disp = TOMineTrapDisp__ct(mine_trap_disp, arg0, (u16) local_client_id, get_trap_type__10TOMineTrapFv(arg0));
-        }
-        if (mine_trap_disp != 0U) {
-            VecCopy((Vec *)(mine_trap_disp + 0x50), (const Vec *)(arg0 + 0x50));
-            VecCopy((Vec *)(mine_trap_disp + 0x38), (const Vec *)(arg0 + 0x38));
+        disp = new TOMineTrapDisp(this, local_client_id, get_trap_type());
+        if (disp != NULL) {
+            VecCopy(&disp->home_position, &home_position);
+            VecCopy(&disp->position, &position);
         }
     } else {
         for (i = 0; i != 4; i++) {
-            mine_trap_disp = __nw__7TObjectFUl(0xB0);
-            if (mine_trap_disp != 0U) {
-                mine_trap_disp = TOMineTrapDisp__ct(mine_trap_disp, arg0, i, get_trap_type__10TOMineTrapFv(arg0));
-            }
-            if (mine_trap_disp != 0U) {
-                VecCopy((Vec *)(mine_trap_disp + 0x50), (const Vec *)(arg0 + 0x50));
-                VecCopy((Vec *)(mine_trap_disp + 0x38), (const Vec *)(arg0 + 0x38));
+            disp = new TOMineTrapDisp(this, i, get_trap_type());
+            if (disp != NULL) {
+                VecCopy(&disp->home_position, &home_position);
+                VecCopy(&disp->position, &position);
             }
         }
     }
 }
+
+extern "C" {
 s32 TOMineTrap::show_owner_message(s32 arg0, u32 arg1) {
     char *name;
     VO_8016F320 *p;
@@ -250,7 +233,7 @@ f32 TOMineTrap__vt20(Obj_8016F5B4 *arg0, u32 arg1) {
 void TOMineTrap::vfunc_82() {
     Obj_8016F64C *arg0 = (Obj_8016F64C *)this;
     u32 r;
-    switch (this->m_354) {
+    switch (this->attack.kind) {
     default:
         r = (u32)spawn_particle_effect(arg0->sub, 0x45);
         if (r != 0U) {

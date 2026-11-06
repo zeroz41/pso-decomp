@@ -1,12 +1,12 @@
 #include "pso/object/TObjWarnChime.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/SoundEffect.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
+#include "pso/player/TObjPlayer_80011014.h"
 
 extern "C" {
-void play_sound_effect(s32, s32, s32, s32);
-s16 get_actor_hp(u8 *p);
-void* get_player_by_client_id(s32);
 extern const char TObjWarnChime_class_name[] = "TObjWarnChime";
 const char* TObjWarnChime_name = TObjWarnChime_class_name;
 }

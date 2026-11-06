@@ -1,11 +1,10 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
-#include "pso/misc/TNpcPlayer_802C3CD0.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/npc/TNpcPlayer_802C3CD0.h"
 #include "pso/player/TObjPlayer_802A1440.h"
-#include "pso/ui/TAdSelectTxtGC.h"
+#include "pso/ui/frontend/TAdSelectTxtGC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TAdSelectTxtGC.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct P_802A1544 { u8 pad0[0x408]; s8 v[0x14]; };
 

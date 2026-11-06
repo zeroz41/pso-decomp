@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_TUNK_804909C4_H
 #define PSO_ENEMY_TUNK_804909C4_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_804909C4 : public TObjCollidable {
 public:

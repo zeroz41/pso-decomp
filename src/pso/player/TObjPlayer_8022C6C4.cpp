@@ -1,28 +1,28 @@
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/TTecCtrl.h"
-#include "pso/object/TObjLight.h"
+#include "pso/system/task/TObject.h"
+#include "pso/technique/TTecCtrl.h"
+#include "pso/object/ambient/TObjLight.h"
 #include "pso/player/TObjPlayer_8022C6C4.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 extern "C" void render__8TTecCtrlFv();
 extern "C" void run_task__8TTecCtrlFv();
 
-#include "pso/misc/TLockOnCursor.h"
-#include "pso/misc/TTecAnti.h"
-#include "pso/misc/TTecBarta.h"
-#include "pso/misc/TTecFoie.h"
-#include "pso/misc/TTecGiBarta.h"
-#include "pso/misc/TTecGiFoie.h"
-#include "pso/misc/TTecGiZonde.h"
-#include "pso/misc/TTecGrants.h"
-#include "pso/misc/TTecLuker.h"
-#include "pso/misc/TTecMegid.h"
-#include "pso/misc/TTecRaBarta.h"
-#include "pso/misc/TTecRaFoie.h"
-#include "pso/misc/TTecRaZonde.h"
-#include "pso/misc/TTecReverser.h"
-#include "pso/misc/TTecSifta.h"
+#include "pso/ui/hud/TLockOnCursor.h"
+#include "pso/technique/TTecAnti.h"
+#include "pso/technique/TTecBarta.h"
+#include "pso/technique/TTecFoie.h"
+#include "pso/technique/TTecGiBarta.h"
+#include "pso/technique/TTecGiFoie.h"
+#include "pso/technique/TTecGiZonde.h"
+#include "pso/technique/TTecGrants.h"
+#include "pso/technique/TTecLuker.h"
+#include "pso/technique/TTecMegid.h"
+#include "pso/technique/TTecRaBarta.h"
+#include "pso/technique/TTecRaFoie.h"
+#include "pso/technique/TTecRaZonde.h"
+#include "pso/technique/TTecReverser.h"
+#include "pso/technique/TTecSifta.h"
 
 typedef struct Owner_8022CDE8 {
     u8 pad0[0x424];
@@ -90,7 +90,6 @@ extern const f32 lbl_805DC7E4;
 void launch_technique__10TObjPlayerFv(s32 tech, s32 unused, Player_8022D27C *pl);
 s32 is_locally_controlled__10TObjPlayerFPv(void *);
 void *__nw__7TObjectFUl(u32);
-Params_8022C738 *get_technique_base_params(void);
 void *construct_actor_light__9TObjLightFlllllfffl(void *, Col_8022C738 *, Vec_8022C738 *, s32, void *, s32, f32, f32, f32);
 void *__ct__13TUnk_804CC794Fll(void *, void *, s32);
 void *__ct__13TUnk_804CC948Fll(void *, void *, s32);
@@ -194,7 +193,7 @@ s32 TObjPlayer::get_level_tier(s32 arg0) {
         }                                                                                        \
     }
 void create_technique_charge_light(u32 kind, void *owner) {
-    Params_8022C738 *p = get_technique_base_params();
+    Params_8022C738 *p = (Params_8022C738 *)get_technique_base_params(kind);
     s32 base = p->f12 + p->f20 + 50;
     switch (kind) {
     case 1:

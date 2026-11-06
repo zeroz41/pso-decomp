@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TUnk_8048E1A4.h"
+#include "pso/unk/TUnk_8048E1A4.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

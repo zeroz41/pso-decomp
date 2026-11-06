@@ -1,16 +1,16 @@
 #include "types.h"
 #include "pso/unk/text_8035C9E8.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOSwitchItem.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
 void *get_player_data__10TObjPlayerFi(int);
 void *get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(void *);
 }
-extern u8 lbl_80479B4C[][3];
+extern u8 boss4_thanks_listed_item_table[][3];
 s32 any_player_has_listed_item(void) {
     s32 n = TLobby::get_game_mode();
     s32 i;
@@ -19,7 +19,7 @@ s32 any_player_has_listed_item(void) {
         if (pl != NULL && TBoss4Type3__sub_8005254C(get_entity_id(pl)) != 0) {
             s32 j;
             for (j = 0; j < 3; j++) {
-                u8 *e = lbl_80479B4C[j];
+                u8 *e = boss4_thanks_listed_item_table[j];
                 s32 k;
                 for (k = 0; k < 13; k++) {
                     void *it = ((TObjPlayer *)pl)->get_equipped_item(k);

@@ -7,28 +7,27 @@
 #include "pso/object/TObjHashi.h"
 #include "pso/object/TObjHashiVersus1.h"
 #include "pso/object/TObjHashiVersus2.h"
-#include "pso/TMainTask.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TSwitch.h"
-#include "pso/object/TObjFish.h"
-#include "pso/object/TObjInfoCol.h"
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/switch/TSwitch.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/object/collision/TObjInfoCol.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/system/BmlResource.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/system/GinjaMaterial.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/system/MatrixStack.h"
-#include "pso/system/NinjaUtil.h"
+#include "pso/render/NinjaUtil.h"
 #include "pso/unk/text_803D853C.h"
 #include "pso/unk/text_803D8F74.h"
+#include "pso/system/BmlResourceLoad.h"
+#include "pso/object/ambient/TObjFish_8001ED90.h"
 
 extern "C" {
 // The BML resource loader and its deleting destructor (TLobby_8001EF5C) and
 // a model's texture list (TObjFish_8001ED90), still named after their units.
-BmlResource *load_resource_from_descriptor(void *self, s32 kind, const BmlResourceDescriptor *desc, s32, s32, s32);
-void TLobby__sub_8001FE7C(BmlResource *self, s16 del);
-s32 TObjFish__sub_8001EDB0(BmlResource *resource, s32 index);
 extern TCameraCtrl *camera_ctrl_instance;
 }
 
