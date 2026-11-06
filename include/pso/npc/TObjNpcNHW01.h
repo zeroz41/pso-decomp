@@ -12,18 +12,11 @@ struct TObjNpcNHW01 : public TUnk_804A8640 {
 
 typedef char TObjNpcNHW01_size[sizeof(TObjNpcNHW01) == 0x3B8 ? 1 : -1];
 
-extern "C" {
-u8 *TObjNpcNHW01__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcNurseBase__create(void *arg0);
-void *__dt__12TObjNpcNHW01Fv(void *arg0, s16 arg1);
-}
+class TObjControl;
 
-// --- C functions defined in TObjNpcNHW01.cpp ---
 extern "C" {
-u8 *TObjNpcNHW01__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcNurseBase__create(void *arg0);
-void *__dt__12TObjNpcNHW01Fv(void *arg0, s16 arg1);
+void *TObjNpcNHW01__create(void *set_data);
+TObjNpcNHW01 *TObjNpcNHW01__ct(TObjNpcNHW01 *npc, TObjControl *control, void *set_data);
 }
-// --- end of C functions
 
 #endif

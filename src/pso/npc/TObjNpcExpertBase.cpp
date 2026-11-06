@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/npc/TObjNpcExpertBase.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -57,7 +57,7 @@ TObjNpcExpertBase::~TObjNpcExpertBase() {}
 extern "C" {
 typedef char RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase_size[sizeof(RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcExpertBase__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80149BB4___vt__17TObjNpcExpertBase *)&__vt__17TObjNpcExpertBase).value;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcExpertBase__name;
     ((TObjNpcExpertBase *)(player))->apply_set_data((void *)arg2);

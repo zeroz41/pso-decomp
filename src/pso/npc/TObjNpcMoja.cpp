@@ -3,6 +3,10 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/npc/TObjNpcMoja.h"
+#include "pso/math/MatrixVector.h"
+#include "pso/unk/text_803D96A8.h"
+#include "pso/enemy/berura/TObjEneRe7Berura.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/base/TObjChara.h"
@@ -12,10 +16,7 @@ extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
-#include "pso/npc/TObjNpcNFM00.h"
-#include "pso/unk/TLobby.h"
 
-#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct VBase_8014C780 { char pad[0x18]; };
 struct VObj_8014C780 : VBase_8014C780 {
@@ -107,17 +108,10 @@ struct VObj_8014C780 : VBase_8014C780 {
     virtual s32 m85(s32, s32);
 };
 
-s32 create_named_object(s32 arg0);
 extern "C" {
-u8 *load_gvm_texture_file(s32 arg0);
-extern u32 TObjNpcNFM00__shared_named_model_object;
-extern u32 TObjNpcNFM00__texture_gvm_handle;
-void * TObjNpcNFM00__create(void *arg0);
 void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1);
-void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void *TObjNpcMoja__ct(void *, void *, void *);
-u8 *TObjNpcNFM00__ct(u8 *arg0, s32 arg1, s32 arg2);
 void __dl__7TObjectFPv(void *);
 void *__dt__11TObjNpcBaseFv(void *arg0, s16 arg1);
 void *__nw__7TObjectFUl(int);
@@ -250,10 +244,55 @@ void *__vt__11TObjNpcMoja[95] = {
     (void *)&request_action__11TObjNpcMojaFl, (void *)&debug_draw_talk__11TObjNpcBaseFv, (void *)&play_voice__11TObjNpcBaseFv, (void *)&vfunc_91__11TObjNpcBaseFv,
     (void *)&vfunc_92__11TObjNpcBaseFv, (void *)&draw_debug_info__11TObjNpcBaseFv, (void *)0x0,
 };
-extern s32 TObjNpcMoja__name;
+const char *TObjNpcMoja__name = "TObjNpcMoja";
 extern u8 *lbl_805D50D8;
 
 extern void *tl_04;
+
+void TObjNpcMoja::request_action(s32) {
+    if ((s16) this->mode != 2) {
+        this->requested_action = 0;
+        return;
+    }
+    this->requested_action = 1;
+}
+
+// draw_if_visible is slot 4 (render) of TObjNpcMoja's vtable; inferred to be TObjNpcMoja::render.
+extern "C" {
+
+s32 rotate_matrix_y(s32, s32);
+
+extern s32 model_render_flags;
+
+struct Base_8014C610 { char pad[0x18]; };
+struct VObj_8014C610 : Base_8014C610 {
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void m6();
+    virtual void m7();
+    virtual s32 m8(f32, f32);
+};
+
+void TObjPlayer::draw_if_visible() {
+    u8 *arg0 = (u8 *)this;
+    if ((((VObj_8014C610 *)arg0)->m8(*(f32 *)&this->unk_398, *(f32 *)((s8 *)arg0 + 0x39C)) != 0) && ((s32) *(s32 *)&this->unk_390 == 1)) {
+        model_render_flags |= 1;
+        TObjFish::set_global_param(this->texlist);
+        push_matrix_from(0);
+        translate_matrix_vec3((u8 *)(0), (u8 *)&this->position);
+        rotate_matrix_y(0, this->rotation_y);
+        ((TObjMotion *)arg0)->draw();
+        pop_matrix();
+        model_render_flags &= 0xFFFFFFFE;
+        ((TObjEnemy *)arg0)->draw_ground_shadow(0, 0);
+    }
+}
+
+}
 
 void *TObjNpcMoja::create(void *arg2v) {
     void *o;
@@ -285,7 +324,7 @@ void *dt__11TObjNpcMojaFPvs(void *arg0, s16 arg1) {
 void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
     TObjNpcBase__ct(self, parent);
     *(u8 **)(self + 0x18) = (u8 *)__vt__11TObjNpcMoja;
-    *(s32 *)(self + 0) = TObjNpcMoja__name;
+    ((TObjNpcMoja *)self)->m_name = TObjNpcMoja__name;
     ((VObj_8014C780 *)self)->m79(arg2);
     ((TObjPlayer *)self)->init_position_vectors();
     ((VObj_8014C780 *)self)->m85(0, 1);
@@ -304,33 +343,4 @@ void *TObjNpcMoja__ct(void *selfv, void *parent, void *arg2v) {
 #undef self
 #undef arg2
 
-void * TObjNpcNFM00__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = __nw__7TObjectFUl(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = __nw__7TObjectFUl(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcNFM00__ct((u8 *)o2, (s32)o, (s32)arg0);
-    }
-    return o2;
-}
-
-void TObjNpcNFM00::free_resources() {
-    if ((u32) TObjNpcNFM00__texture_gvm_handle != 0U) {
-        release_texture_list((void*)TObjNpcNFM00__texture_gvm_handle);
-        TAdSinglePlyChrSelectGC::safe_free(TObjNpcNFM00__texture_gvm_handle);
-        TObjNpcNFM00__texture_gvm_handle = 0U;
-    }
-    if ((u32) TObjNpcNFM00__shared_named_model_object != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcNFM00__shared_named_model_object));
-        TObjNpcNFM00__shared_named_model_object = 0U;
-    }
-}
-void TObjNpcNFM00::load_assets() {
-    TObjNpcNFM00__shared_named_model_object = (u32)create_named_object((s32)"npc_h00_data.rel");
-    TObjNpcNFM00__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_h00_body.gvm");
-}
 }

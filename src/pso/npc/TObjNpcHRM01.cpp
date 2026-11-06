@@ -1,92 +1,58 @@
 #include "types.h"
 #include "pso/npc/TObjNpcHRM01.h"
-#include "pso/system/TLanguage_801E4874.h"
-#include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_8014B8A4.h"
-#include "pso/npc/TUnk_804A9F50.h"
-#include "pso/unk/TLobby.h"
-#include "pso/npc/TObjNpcBase.h"
-#include "pso/npc/TObjNpcLappy.h"
+#include "pso/object/TObjControl.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/render/GinjaTexture.h"
+#include "pso/system/TLanguage_801E4874.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/unk/text_800F9B84.h"
 
 #pragma readonly_strings on
 
-extern "C" {
 const char *TObjNpcHRM01__name = "TObjNpcHRM01";
 u32 TObjNpcHRM01__shared_object_resource;
 u32 TObjNpcHRM01__body_texture_gvm_handle;
+
+extern "C" s32 __vt__12TObjNpcHRM01[];
+
+void *TObjNpcHRM01__create(void *set_data) {
+    TObjControl *control = new TObjControl(tl_04);
+    void *npc = TObject::operator new(sizeof(TObjNpcHRM01));
+    if (npc != NULL) {
+        npc = TObjNpcHRM01__ct((TObjNpcHRM01 *)npc, control, set_data);
+    }
+    return npc;
 }
 
-struct RecoveredGlobal_8014B59C___vt__12TObjNpcHRM01 {
-    s32 value;
-    u8 remaining[0x174];
-};
-
-extern "C" {
-extern s32 __vt__12TObjNpcHRM01[];
-void release_texture_list(void*);
-void *__ct__11TObjControlFP7TObject(void *, void *);
-u8 *TObjNpcLappy__ct(u8 *self, void *parent, s32 arg2);
-void __dl__7TObjectFPv(void *);
-void *__nw__7TObjectFUl(int);
-
 void TObjNpcHRM01::free_shared_objects() {
-    if ((u32) TObjNpcHRM01__body_texture_gvm_handle != 0U) {
-        release_texture_list((void*)TObjNpcHRM01__body_texture_gvm_handle);
+    if (TObjNpcHRM01__body_texture_gvm_handle != 0) {
+        release_texture_list((GinjaTextureList *)TObjNpcHRM01__body_texture_gvm_handle);
         TAdSinglePlyChrSelectGC::safe_free(TObjNpcHRM01__body_texture_gvm_handle);
-        TObjNpcHRM01__body_texture_gvm_handle = 0U;
+        TObjNpcHRM01__body_texture_gvm_handle = 0;
     }
-    if ((u32) TObjNpcHRM01__shared_object_resource != 0U) {
-        TLobby::free_nodes_with_id((u32)((void*)TObjNpcHRM01__shared_object_resource));
-        TObjNpcHRM01__shared_object_resource = 0U;
+    if (TObjNpcHRM01__shared_object_resource != 0) {
+        TLobby::free_nodes_with_id(TObjNpcHRM01__shared_object_resource);
+        TObjNpcHRM01__shared_object_resource = 0;
     }
 }
 
 void TObjNpcHRM01::load_resources() {
-    TObjNpcHRM01__shared_object_resource = (u32)create_named_object((s32)"npc_d01_data.rel");
+    TObjNpcHRM01__shared_object_resource = create_named_object((s32)"npc_d01_data.rel");
     TObjNpcHRM01__body_texture_gvm_handle = (u32)load_gvm_texture_file((s32)"n_d01_e_body.gvm");
 }
 
-}
 TObjNpcHRM01::~TObjNpcHRM01() {}
-extern "C" {
 
-typedef char RecoveredGlobal_8014B59C___vt__12TObjNpcHRM01_size[sizeof(RecoveredGlobal_8014B59C___vt__12TObjNpcHRM01) == 0x178 ? 1 : -1];
-u8 *TObjNpcHRM01__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
-    *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014B59C___vt__12TObjNpcHRM01 *)&__vt__12TObjNpcHRM01).value;
-    *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHRM01__name;
-    ((TObjNpcHRM01 *)(player))->apply_set_data((void *)arg2);
-    ((TObjPlayer *)player)->init_position_vectors();
-    *(s32 *)((s8 *)player + 0x34) = (s32) *(*(s32 * *)&TObjNpcHRM01__shared_object_resource);
-    ((TObjNpcHRM01 *)player)->texlist = (s32) (*(s32 *)&TObjNpcHRM01__body_texture_gvm_handle);
-    ((TObjNpcBase *)player)->setup_common();
-    return player;
-}
-
-void TObjNpcLappy::request_action(s32) {
-    if ((s16) this->mode != 2) {
-        this->requested_action = 0;
-        return;
-    }
-    this->requested_action = 1;
-}
-
-extern void *tl_04;
-
-void * TObjNpcLappy__create(void *arg0) {
-    void *o;
-    void *o2;
-    o = __nw__7TObjectFUl(0x20);
-    if (o != NULL) {
-        o = __ct__11TObjControlFP7TObject(o, tl_04);
-    }
-    o2 = __nw__7TObjectFUl(0x3B8);
-    if (o2 != NULL) {
-        o2 = TObjNpcLappy__ct((u8 *)o2, o, (s32)arg0);
-    }
-    return o2;
-}
-
+TObjNpcHRM01 *TObjNpcHRM01__ct(TObjNpcHRM01 *npc, TObjControl *control, void *set_data) {
+    npc->construct_male_npc_base();
+    *(s32 **)((u8 *)npc + 0x18) = __vt__12TObjNpcHRM01;
+    npc->m_name = TObjNpcHRM01__name;
+    npc->apply_set_data(set_data);
+    ((TObjPlayer *)npc)->init_position_vectors();
+    npc->model = *(void **)TObjNpcHRM01__shared_object_resource;
+    npc->texlist = TObjNpcHRM01__body_texture_gvm_handle;
+    npc->setup_common();
+    return npc;
 }

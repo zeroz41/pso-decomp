@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/object/base/TObjMotion.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcKenkyuW.h"
 #include "pso/system/vector.h"
 #include "pso/player/TObjPlayer.h"
@@ -115,7 +115,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW_size[sizeof(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW *)&__vt__14TObjNpcKenkyuW).value;
     ((TObject *)player)->m_name = TObjNpcKenkyuW__name;
     ((TObjNpcKenkyuW *)(player))->apply_set_data((void *)arg2);

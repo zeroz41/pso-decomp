@@ -3,7 +3,7 @@
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/npc/TObjNpcARW00.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/unk/TLobby.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -55,7 +55,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_80147E2C___vt__12TObjNpcARM00_size[sizeof(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00) == 0x178 ? 1 : -1];
 u8 *TObjNpcARM00__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_80147E2C___vt__12TObjNpcARM00 *)&__vt__12TObjNpcARM00).value;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcARM00__name;
     ((TObjNpcARM00 *)(player))->apply_set_data((void *)arg2);

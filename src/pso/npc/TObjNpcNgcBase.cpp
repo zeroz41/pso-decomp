@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcNgcBase.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcLappy.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -28,7 +28,7 @@ s32 get_bml_model(void *, int);
 extern s32 TObjNpcNgcBase__name;
 void fn_803594B4(O_803594B4 *self, s32 v, f32 f);
 u8 *TObjNpcNgcBase__ct(u8 *player, s32 arg1, s32 arg2, s32 arg3) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = __vt__14TObjNpcNgcBase;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcNgcBase__name;
     ((TObjNpcNgcBase *)(player))->apply_set_data((void *)arg2);

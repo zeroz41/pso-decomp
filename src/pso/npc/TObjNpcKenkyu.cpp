@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcKenkyu.h"
 #include "pso/npc/TObjNpcSoutokufu.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
@@ -65,7 +65,7 @@ extern void *tl_04;
 
 typedef char RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu_size[sizeof(RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyu__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802894A8___vt__13TObjNpcKenkyu *)&__vt__13TObjNpcKenkyu).value;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcKenkyu__name;
     ((TObjNpcKenkyu *)(player))->apply_set_data((void *)arg2);

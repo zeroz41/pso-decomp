@@ -2,7 +2,7 @@
 #include "pso/npc/TObjNpcGovernorBase.h"
 #include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TObjNpcHFW00.h"
 #include "pso/unk/TLobby.h"
@@ -76,7 +76,7 @@ extern "C" {
 
 typedef char RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase_size[sizeof(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase) == 0x178 ? 1 : -1];
 u8 *TObjNpcGovernorBase__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_8014AC6C___vt__19TObjNpcGovernorBase *)&__vt__19TObjNpcGovernorBase).value;
     ((TObject *)player)->m_name = TObjNpcGovernorBase__name;
     ((TObjNpcGovernorBase *)(player))->apply_set_data((void *)arg2);

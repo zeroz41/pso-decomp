@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/npc/TObjNpcHosa2.h"
-#include "pso/unk/text_8014B8A4.h"
+#include "pso/npc/TUnk_804A9F50.h"
 #include "pso/npc/TUnk_804A9F50.h"
 #include "pso/system/BmlResourceDescriptor.h"
 #include "pso/npc/TObjNpcBase.h"
@@ -62,7 +62,7 @@ TObjNpcHosa2::~TObjNpcHosa2() {}
 extern "C" {
 typedef char RecoveredGlobal_802FED58___vt__12TObjNpcHosa2_size[sizeof(RecoveredGlobal_802FED58___vt__12TObjNpcHosa2) == 0x178 ? 1 : -1];
 u8 *TObjNpcHosa2__ct(u8 *player, s32 arg1, s32 arg2) {
-    construct_male_npc_base((player));
+    ((TUnk_804A9F50 *)player)->construct_male_npc_base();
     *(s32 **)((s8 *)player + 0x18) = &(*(RecoveredGlobal_802FED58___vt__12TObjNpcHosa2 *)&__vt__12TObjNpcHosa2).value;
     *(s32 *)((s8 *)player + 0) = (s32) TObjNpcHosa2__name;
     ((TObjNpcHosa2 *)(player))->apply_set_data((void *)arg2);

@@ -1828,8 +1828,7 @@ pso/npc/TObjNpcHosa2.cpp
 pso/npc/TObjNpcKenkyu.cpp
 pso/npc/TObjNpcKenkyu2.cpp
 pso/npc/TObjNpcLappy.cpp
-pso/npc/TObjNpcLappy_8014B828.cpp
-pso/npc/TObjNpcLappy_8014B840.cpp
+pso/npc/TUnk_804A9F50.cpp
 pso/npc/TObjNpcMaleBase.cpp
 pso/npc/TObjNpcMaleChild.cpp
 pso/npc/TObjNpcMaleDwarf.cpp
@@ -2055,7 +2054,6 @@ pso/player/TObjPlayer_8011BADC.cpp
 pso/player/TObjPlayer_8011C000.cpp
 pso/player/TObjPlayer_8011CEC0.cpp
 pso/player/TObjPlayer_8011E214.cpp
-pso/player/TObjPlayer_8014C610.cpp
 pso/player/TObjPlayer_801542CC.cpp
 pso/player/TObjPlayer_8015C4CC.cpp
 pso/player/TObjPlayer_8015C8D8.cpp
@@ -2501,8 +2499,6 @@ pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
 pso/npc/TObjNpcBringer_8014952C.cpp
-pso/unk/text_8014B8A4.cpp
-pso/npc/TObjNpcMaleBase_8014B904.cpp
 pso/unk/text_8015C534.cpp
 pso/system/TLanguage_8015C680.cpp
 pso/object/key/TODummyKeyCave01_80165940.cpp

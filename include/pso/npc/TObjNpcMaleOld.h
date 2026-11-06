@@ -12,18 +12,11 @@ struct TObjNpcMaleOld : public TUnk_804A9F50 {
 
 typedef char TObjNpcMaleOld_size[sizeof(TObjNpcMaleOld) == 0x3B8 ? 1 : -1];
 
-extern "C" {
-u8 *TObjNpcMaleOld__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcMaleTall__create(void *arg0);
-void *__dt__14TObjNpcMaleOldFv(void *arg0, s16 arg1);
-}
+class TObjControl;
 
-// --- C functions defined in TObjNpcMaleOld.cpp ---
 extern "C" {
-u8 *TObjNpcMaleOld__ct(u8 *player, s32 arg1, s32 arg2);
-void *TObjNpcMaleTall__create(void *arg0);
-void *__dt__14TObjNpcMaleOldFv(void *arg0, s16 arg1);
+void *TObjNpcMaleOld__create(void *set_data);
+TObjNpcMaleOld *TObjNpcMaleOld__ct(TObjNpcMaleOld *npc, TObjControl *control, void *set_data);
 }
-// --- end of C functions
 
 #endif
