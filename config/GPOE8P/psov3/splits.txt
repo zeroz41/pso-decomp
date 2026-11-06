@@ -6476,9 +6476,15 @@ pso/ui/city/THunterGuildSeqOffline_80213788.cpp:
 	.sdata2     start:0x805DC658 end:0x805DC660
 
 pso/ui/city/THunterGuildSeqOnlineTask.cpp:
-	.text       start:0x80214BC4 end:0x80215BA0
+	.text       start:0x80214BC4 end:0x802156A0
+	.rodata     start:0x8044BCB8 end:0x8044BD30
 	.data       start:0x804C9828 end:0x804C9840
-	.sdata2     start:0x805DC660 end:0x805DC664
+	.sdata      start:0x805D3660 end:0x805D366C
+	.sdata2     start:0x805DC660 end:0x805DC67C
+
+pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp:
+	.text       start:0x802156A0 end:0x80215BA0
+	.rodata     start:0x8044BD30 end:0x8044BD50
 
 pso/ui/city/TJudgmentSequence.cpp:
 	.text       start:0x80215BA0 end:0x80216084
@@ -7891,8 +7897,10 @@ pso/unk/TLobby_80271E48.cpp:
 
 pso/ui/window/TWindowSubComCard_80271E7C.cpp:
 	.text       start:0x80271E7C end:0x802752D8
-	.rodata     start:0x8044F6F0 end:0x8044F6F8
+	.rodata     start:0x8044F698 end:0x8044F6F8
 	.data       start:0x804D1008 end:0x804D1148
+	.sdata      start:0x805D3A10 end:0x805D3A14
+	.sdata2     start:0x805DD4F8 end:0x805DD540
 
 pso/ui/window/TWindowSubComCardList_802752D8.cpp:
 	.text       start:0x802752D8 end:0x80275360

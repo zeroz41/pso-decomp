@@ -1991,6 +1991,7 @@ pso/player/PhotonBlastResults.cpp
 pso/player/PlayerClassStats.cpp
 pso/player/PlayerTaskEffects.cpp
 pso/ui/city/THunterGuildSeqOnlineTask.cpp
+pso/ui/city/THunterGuildSeqOnlineTask_802156A0.cpp
 pso/weapon/TItemWeaponFist.cpp
 pso/player/TObjPlayer.cpp
 pso/player/TObjPlayerSet.cpp
