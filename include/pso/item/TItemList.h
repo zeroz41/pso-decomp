@@ -8,7 +8,7 @@ class TItemList : public TObject {
 public:
     virtual ~TItemList();
 public:
-    static u8 is_item_valid(s32 arg0);
+    static s32 is_item_valid(s32 arg0);
     void *dt(s16 arg1);
     void *init_items();
     void *init_array();
@@ -42,6 +42,21 @@ void remove_equipped_item__10TObjPlayerFPvii(void *inventory, s32 player, void *
 s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *keys, s32 count);
 }
 void decrement_placement_search_pending(void *p, void *a1);
+
+// State of the inventory walks below a TObjPlayer's item root: the entry points
+// (TObjPlayer_801D4890.cpp) set it, the recursive walks read and advance it.
+extern s32 inventory_walk_visit_count;
+extern s32 inventory_walk_progress_count;
+extern s32 item_reduce_target_player;
+extern u8 item_reduce_owner_match_field_ec;
+extern u8 reduce_owner_match_id;
+extern s32 *TObjPlayer__owner_field_write_cursor;
+extern s32 *player_owner_collect_cursor;
+extern u8 *player_item_collect_cursor;
+extern s32 owned_item_export_cursor;
+extern s32 inventory_update_field_d8_key;
+extern s32 inventory_search_item_data;
+
 extern "C" {
 void *reset_position__9TItemListFPv(void *a0);
 }
