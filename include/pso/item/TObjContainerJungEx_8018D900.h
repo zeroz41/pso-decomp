@@ -3,14 +3,9 @@
 
 #include "types.h"
 
+// Defined in TObjContainerJung.cpp.
 extern "C" {
-u8 *TObjContainerJungEx__sub_8018D900(s32 arg0);
+s32 TObjContainerJungEx__sub_8018D900(s32 index);
 }
-
-// --- C functions defined in TObjContainerJungEx_8018D900.cpp ---
-extern "C" {
-u8 *TObjContainerJungEx__sub_8018D900(s32 arg0);
-}
-// --- end of C functions
 
 #endif

@@ -39,7 +39,7 @@ const char *fe_obj_hako02_model_names[5] = {
     "fe_obj_hako02.gj", "fe_obj_hako02_hahen1.gj", "fe_obj_hako02_hahen2.gj", "fe_obj_hako02_light.gj", NULL,
 };
 const char *fe_obj_hako02_motion_names[1] = { NULL };
-// Loaded by TObjContainerJungEx::load_resource_instance (0x8018D9B0, TObjDoaEx01's unit).
+// Loaded by TObjContainerJungEx::load_resource_instance.
 BmlResourceDescriptor fe_obj_hako02_resource_descriptor = {
     "fe_obj_hako02.bml", fe_obj_hako02_model_names, fe_obj_hako02_motion_names, 4, 0,
 };
@@ -51,6 +51,7 @@ CollisionBody container_jung_collision_desc = {
 const char *TObjContainerJung__name = "TObjContainerJung";
 s32 TObjContainerJung__bml_model_resource;
 s32 TObjContainerJung__bml_aux_handle;
+void *TObjContainerJungEx__resource_bundle;
 
 extern const TObjChipParams container_jung_debris_desc = {
     { 0.5f, 0.03f, 0.3f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 4, 0x32 }, { 0.0f, 0.8f }, 0, 0, 0x16,
@@ -300,7 +301,7 @@ void TObjContainerJungEnemy::load_models() {
         this->m_36c = get_model__19TObjContainerJungExFl(1);
         this->m_370 = get_model__19TObjContainerJungExFl(2);
         this->m_374 = get_model__19TObjContainerJungExFl(3);
-        this->texlist = (s32)TObjContainerJungEx__sub_8018D900(0);
+        this->texlist = TObjContainerJungEx__sub_8018D900(0);
         return;
     }
 }
@@ -401,7 +402,7 @@ void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self) {
     a.pos[2] = pz;
     a.pad_38[0] = py;
     a.model = get_model__19TObjContainerJungExFl(1);
-    a.textures = (s32)TObjContainerJungEx__sub_8018D900(0);
+    a.textures = TObjContainerJungEx__sub_8018D900(0);
     TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
     f32 qy;
@@ -414,7 +415,7 @@ void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self) {
     b.pos[2] = qz;
     b.pad_38[0] = qy;
     b.model = get_model__19TObjContainerJungExFl(2);
-    b.textures = (s32)TObjContainerJungEx__sub_8018D900(0);
+    b.textures = TObjContainerJungEx__sub_8018D900(0);
     spawn_particle_effect_with_flags((void *)&self->pos, 0x45, 0x40);
     spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
@@ -708,4 +709,34 @@ u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2) {
     *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + container_jung_collision_desc.offset.y);
     return arg0;
 }
+}
+
+s32 TObjContainerJungEx__sub_8018D900(s32 index) {
+    if (TObjContainerJungEx__resource_bundle != NULL) {
+        return TObjFish__sub_8001EDB0(TObjContainerJungEx__resource_bundle, index);
+    }
+    return 0;
+}
+
+u8 *TObjContainerJungEx::get_model(s32 index) {
+    if (TObjContainerJungEx__resource_bundle != NULL) {
+        return get_bml_model(TObjContainerJungEx__resource_bundle, index);
+    }
+    return NULL;
+}
+
+void TObjContainerJungEx::free_data() {
+    if (TObjContainerJungEx__resource_bundle != NULL) {
+        TLobby__sub_8001FE7C((s32)TObjContainerJungEx__resource_bundle, 1);
+        TObjContainerJungEx__resource_bundle = NULL;
+    }
+}
+
+void TObjContainerJungEx::load_resource_instance() {
+    void *memory = ::operator new(0x440);
+    void *bundle = memory;
+    if (bundle != NULL) {
+        bundle = load_resource_from_descriptor(memory, 5, &fe_obj_hako02_resource_descriptor, 0, 0, 0);
+    }
+    TObjContainerJungEx__resource_bundle = bundle;
 }

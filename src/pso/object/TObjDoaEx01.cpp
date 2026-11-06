@@ -1,10 +1,8 @@
 #include "types.h"
 #include "pso/object/TObjDoaEx01.h"
-#include "pso/item/TObjContainerJungEx_8018D900.h"
 #include "pso/object/TObjMapObject.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoaEx01.h"
-#include "pso/item/TObjContainerJungEx.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/misc/MaterialColorFade.h"
@@ -28,9 +26,6 @@ const char *TObjDoaEx01__name = "TObjDoaEx01";
 s32 TObjDoaEx01__resource_bundle;
 u8 *TObjDoaEx01__alpha_model_node;
 u8 *TObjDoaEx01__alpha_model_sibling;
-
-struct RecoveredGlobal_8018D9B0_lbl_804B7158 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8018D9B0_lbl_804B7158_size[sizeof(RecoveredGlobal_8018D9B0_lbl_804B7158) == 0x10 ? 1 : -1];
 
 struct O_8018DB94 { u8 pad[0xac]; s32 state; f32 pos; f32 max; f32 speed; };
 
@@ -56,45 +51,9 @@ struct Obj_8018DBCC {
 
 extern "C" {
 u8 * TObjFish__sub_8001EDB0(void *, int);
-extern u32 TObjContainerJungEx__resource_bundle;
 u8 * get_bml_model(void *, int);
-u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8018D9B0_lbl_804B7158 fe_obj_hako02_resource_descriptor;
-
 void play_sound_effect(s32, void *, s32, s32);
 
-void TLobby__sub_8001FE7C(void*, int);
-
-u8 *TObjContainerJungEx__sub_8018D900(s32 arg0) {
-    if ((void *) (*(u8 * *)&TObjContainerJungEx__resource_bundle) != NULL) {
-        return TObjFish__sub_8001EDB0((*(u8 * *)&TObjContainerJungEx__resource_bundle), arg0);
-    }
-    return NULL;
-}
-
-u8 *TObjContainerJungEx::get_model(s32 arg0) {
-    if ((void *) (*(u8 * *)&TObjContainerJungEx__resource_bundle) != NULL) {
-        return get_bml_model((*(u8 * *)&TObjContainerJungEx__resource_bundle), arg0);
-    }
-    return NULL;
-}
-
-void TObjContainerJungEx::free_data() {
-    if ((u32) TObjContainerJungEx__resource_bundle != 0U) {
-        TLobby__sub_8001FE7C((void*)TObjContainerJungEx__resource_bundle, 1);
-        TObjContainerJungEx__resource_bundle = 0U;
-    }
-}
-void TObjContainerJungEx::load_resource_instance() {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x440);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &fe_obj_hako02_resource_descriptor.value, 0, 0, 0));
-    }
-    (*(s32 *)&TObjContainerJungEx__resource_bundle) = var_r0;
-}
 #pragma push
 #pragma opt_common_subs off
 #pragma opt_propagation off

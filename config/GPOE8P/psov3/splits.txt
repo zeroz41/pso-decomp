@@ -4738,15 +4738,15 @@ pso/item/TObjContainerIdo_8018BEE4.cpp:
 	.sdata2     start:0x805DBD60 end:0x805DBD94
 
 pso/item/TObjContainerJung.cpp:
-	.text       start:0x8018C948 end:0x8018D900
+	.text       start:0x8018C948 end:0x8018DA00
 	.rodata     start:0x80445148 end:0x80445450
 	.data       start:0x804B7120 end:0x804B7194
 	.sdata      start:0x805D3310 end:0x805D3324
-	.sbss       start:0x805D5BA0 end:0x805D5BA8
+	.sbss       start:0x805D5BA0 end:0x805D5BB0
 	.sdata2     start:0x805DBD98 end:0x805DBDA0
 
 pso/object/TObjDoaEx01.cpp:
-	.text       start:0x8018D900 end:0x8018E258
+	.text       start:0x8018DA00 end:0x8018E258
 	.rodata     start:0x80445450 end:0x804454A0
 	.data       start:0x804B7578 end:0x804B7618
 	.sdata      start:0x805D3328 end:0x805D3330
