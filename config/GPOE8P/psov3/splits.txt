@@ -1447,7 +1447,7 @@ pso/enemy/BringerEffects.cpp:
 pso/enemy/TObjEneMe1Canadin.cpp:
 	.text       start:0x8009AB4C end:0x8009F7AC
 	.rodata     start:0x8043A390 end:0x8043A398
-	.data       start:0x8048FEB0 end:0x80490238
+	.data       start:0x8048FEB0 end:0x80490410
 	.bss        start:0x80500930 end:0x80500970
 	.sbss       start:0x805D4FD8 end:0x805D4FDC
 	.sdata2     start:0x805D9888 end:0x805D9938
@@ -9176,6 +9176,7 @@ pso/enemy/TObjEneBm9Mericarol.cpp:
 pso/enemy/TObjEneBm9Mericarol_Bomb.cpp:
 	.text       start:0x802D134C end:0x802D1AB8
 	.rodata     start:0x804724E8 end:0x804724F0
+	.data       start:0x804E18A8 end:0x804E1908
 	.sdata2     start:0x805DE758 end:0x805DE778
 
 pso/enemy/TObjEneBm9Mericarol_EffCurse3.cpp:
@@ -9938,7 +9939,7 @@ pso/enemy/SinowZoaData.cpp:
 pso/enemy/TObjEneMe3SinowZoa.cpp:
 	.text       start:0x80316690 end:0x8031B618
 	.rodata     start:0x80476098 end:0x804760A8
-	.data       start:0x804E87A8 end:0x804E8B88
+	.data       start:0x804E87A8 end:0x804E8D58
 	.bss        start:0x80542FB0 end:0x80543000
 	.sdata      start:0x805D4120 end:0x805D4128
 	.sdata2     start:0x805DF320 end:0x805DF368

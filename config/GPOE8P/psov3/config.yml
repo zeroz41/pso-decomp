@@ -1145,7 +1145,7 @@ force_active:
   - TObjEneLappy__model_filename_table
   - TObjEneLappy__resource_list
   - TObjEneLappy__resource_name_table
-  - TObjEneMe1CanadinLeader__ct
+  - __ct__23TObjEneMe1CanadinLeaderFP7TObjectPv
   - TObjEneMe1CanadinLeader__sub_8009E258
   - TObjEneMe1CanadinLeader__sub_8009E27C
   - TObjEneMe1CanadinLeader__sub_8009E31C
@@ -1153,17 +1153,17 @@ force_active:
   - TObjEneMe1CanadinLeader__sub_8009E350
   - TObjEneMe1CanadinLeader__sub_8009E36C
   - TObjEneMe1CanadinLeader__sub_8009E4AC
-  - TObjEneMe1CanadinLeader__vt103
-  - TObjEneMe1CanadinLeader__vt104
-  - TObjEneMe1CanadinLeader__vt105
-  - TObjEneMe1CanadinLeader__vt106
-  - TObjEneMe1CanadinLeader__vt107
-  - TObjEneMe1CanadinLeader__vt108
-  - TObjEneMe1CanadinLeader__vt109
-  - TObjEneMe1CanadinLeader__vt110
-  - TObjEneMe1CanadinLeader__vt111
-  - TObjEneMe1CanadinLeader__vt114
-  - TObjEneMe1CanadinLeader__vt115
+  - vfunc_105__23TObjEneMe1CanadinLeaderFv
+  - vfunc_106__23TObjEneMe1CanadinLeaderFv
+  - vfunc_107__23TObjEneMe1CanadinLeaderFv
+  - vfunc_108__23TObjEneMe1CanadinLeaderFv
+  - vfunc_109__23TObjEneMe1CanadinLeaderFv
+  - vfunc_110__23TObjEneMe1CanadinLeaderFl
+  - vfunc_111__23TObjEneMe1CanadinLeaderFl
+  - vfunc_112__23TObjEneMe1CanadinLeaderFl
+  - vfunc_113__23TObjEneMe1CanadinLeaderFv
+  - vfunc_116__23TObjEneMe1CanadinLeaderFv
+  - vfunc_117__23TObjEneMe1CanadinLeaderFUl
   - TObjEneMe1Canadin__render_point_cursor
   - TObjEneMe1Canadin__sub_8009BFF8
   - TObjEneMe1Canadin__sub_8009C178
@@ -1216,7 +1216,7 @@ force_active:
   - TObjEneMe1GiGue__sub_802CDAE8
   - TObjEneMe1GiGue_barrier_count
   - TObjEneMe3ShinowaReal__ct
-  - TObjEneMe3SinowZoaReal__ct
+  - __ct__22TObjEneMe3SinowZoaRealFP7TObjectPv
   - TObjEneMe3SinowZoa__sub_80317B50
   - TObjEneMe3SinowZoa__sub_80317F90
   - TObjEneMe3SinowZoa__sub_803182F8

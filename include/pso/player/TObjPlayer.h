@@ -1230,7 +1230,6 @@ struct TObjPlayer : public TObjChara {
     static void notify_fish_obj(void* a0);
     static void draw_effect();
     void draw_trail_pair();
-    s32 apply_area_attack_hits(u8 *arg1, s32 arg2, u32 arg3, f32 farg0);
     void update_aim_and_fire();
     void set_flag_and_notify();
     static void update_particle_by_phase();

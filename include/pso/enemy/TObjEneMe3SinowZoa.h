@@ -3,10 +3,14 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEneDD_ST.h"
+#include "pso/enemy/TUnk_80494938.h"
 
 struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
+    TObjEneMe3SinowZoa(TObject *parent);
     virtual ~TObjEneMe3SinowZoa();
+    virtual f32 receive_direct_attack(void *source, DirectAttackPayload payload, void *collider, s32, s32);
     virtual s32 vfunc_104(f32);
+    virtual void dispatch_action(u32 state, s32 reason);
     void sub_8031AC74();
     void sub_80319E74(s32);
     virtual void run_task();
@@ -21,7 +25,7 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void vfunc_95();
     virtual void vfunc_96();
     virtual void vfunc_89();
-    virtual void vfunc_105();
+    virtual void sub_8031A6A0();
     virtual u8 is_target_in_range();
     virtual void vfunc_107();
     virtual void vfunc_108();
@@ -30,19 +34,18 @@ struct TObjEneMe3SinowZoa : public TObjEneDD_ST {
     virtual void vfunc_111();
     virtual void vfunc_112();
     virtual void action(s32);
+    virtual void action();
     virtual void vfunc_115();
     void vfunc_63();
     void vfunc_62();
     void vfunc_61();
     void vfunc_28();
-    u8 unk_374[0x30];
-    u32 m_3c0;
-    u8 _pad3C4[0x8];
-    u32 m_3cc;
-    u8 unk_3D0[0x10];
-    u32 m_3e0;
-    u8 unk_3E4[0x30];
-    void* m_414;
+    u8 pad_374[0x94];
+    Vec unk_408; // filled with the target player's hand joint position, then a particle spawn point
+    TUnk_80494938 fade;
+    u8 pad_430[0x24];
+    TObject *unk_454; // queued for destruction in the dtor; writer not in this TU
+    TObject *unk_458; // queued for destruction in the dtor; writer not in this TU
     void state_knockback(s32 arg1);
     void handle_state_substate(s32 arg1);
     void state_chase_target(s32 arg1);

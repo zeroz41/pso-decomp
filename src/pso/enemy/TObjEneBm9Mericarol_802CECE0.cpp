@@ -6,6 +6,7 @@
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/enemy/TObjEneBm9Mericarol_EffCurse3.h"
 #include "pso/enemy/TObjEneBm9Mericarol.h"
+#include "pso/enemy/TObjEneBm9Mericarol_Bomb.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss8Dragon.h"
 #include "pso/enemy/TObjEneDD.h"
@@ -649,7 +650,6 @@ extern const f32 lbl_805DE704;
 void TObjEneBm9Mericarol__sub_802CEDA0(u8 *arg0, s32 arg1);
 s32 TObjPlayer__sub_802CE68C(void *, void *, int);
 s32 try_set_mode8_if_flag2__19TObjEneBm9MericarolFv();
-s32 TObjEneBm9Mericarol__sub_802D1880(void *, void *, void *, void *, s32, f32, f32);
 s32 enemy_set_target_id(void *, u16);
 u16 set_squared_value__9TObjEneDDFf(void *, f32);
 u16 enemy_find_nearest_player_in_range(void *, f32);
@@ -1214,7 +1214,6 @@ void TObjPlayer__sub_802CFB64(u8 *player, s32 arg1) {
 }
 #define PHASE(o) ((TObjEneBm9Mericarol *)o)->get_phase()
 void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
-    u32 obj;
     s32 cmp;
     f32 lim;
     u8 *arg0 = (u8 *)this;
@@ -1239,12 +1238,9 @@ void TObjEneBm9Mericarol::handle_shot_state(s32 arg1) {
         ((TObjMotion *)arg0)->advance_animation();
         if (((TObjMotion *)arg0)->is_passing_frame(lbl_805DE710) != 0) {
             TObjPlayer__sub_802CE68C(arg0, arg0 + 0x460, 0x43);
-            obj = __nw__7TObjectFUl(0x118);
-            if (obj != 0) {
-                ((s32 (*)(void *, void *, void *, void *, f32, f32, s32))TObjEneBm9Mericarol__sub_802D1880)((void *)obj, arg0, arg0 + 0x460, (void *)(this->m_390 + 0x38),
-                    *(f32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0x8), *(f32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0xC),
-                    ((f32 (*)(void *))random_ratio__9TObjCharaFv)(arg0) <= (f32)*(s32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0x2C) / lbl_805DE720);
-            }
+            new TObjEneBm9Mericarol_Bomb(this, (Vec *)(arg0 + 0x460), (Vec *)(this->m_390 + 0x38),
+                *(f32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0x8), *(f32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0xC),
+                ((f32 (*)(void *))random_ratio__9TObjCharaFv)(arg0) <= (f32)*(s32 *)((s8 *)mericarol_phase_param_table[PHASE(arg0)] + 0x2C) / lbl_805DE720);
             play_sound_effect(((TObjEnemy *)(arg0))->remap_sound_for_area((s32)(0x3A307)), arg0 + 0x460, 0, 0);
         }
         ((TObjEneDD_ST *)arg0)->enemy_copy_target_destination();

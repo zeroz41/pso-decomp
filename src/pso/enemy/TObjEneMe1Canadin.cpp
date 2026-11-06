@@ -1,9 +1,10 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/math/FloatRounding.h"
 #include "pso/enemy/TObjEneMe1Canadin.h"
+#include "pso/TMainTask.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/system/vector.h"
-extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/enemy/TObjEneEpsilon.h"
@@ -21,10 +22,6 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TObjEneDD_800BB804.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-extern "C" void has_flag_0x800__9TObjCharaFv();
-extern "C" void test_flag30_512__9TObjCharaFv();
-extern "C" void test_flag_1000__9TObjCharaFv();
-extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
@@ -593,7 +590,6 @@ extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 extern const f32 lbl_805D9E84;
 extern const f32 lbl_805D9E88;
-void render__17TObjEneMe1CanadinFv(u8 *arg0);
 f64 atan2_float(f32, f32);
 void rotate_xz_pair_by_angle(f32 *arg0, f32 *arg1, s32 arg2);
 void TObjEneMe1Canadin__sub_8009E930(u8 *arg0);
@@ -622,124 +618,8 @@ void draw_chunk_object(void *child);
 extern s32 lbl_8043A398[];
 extern s32 lbl_8043A3A8[];
 extern s32 lbl_8043A3BC[];
-void render_canadin_model_with_debug_type__17TObjEneMe1CanadinFv(u8 *arg0);
 struct VBase_18 { char pad[0x18]; };
 
-struct VObj_18 : VBase_18 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual s32 m81();
-    virtual void m82();
-    virtual s32 m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual s32 m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
-    virtual void m105();
-    virtual void m106();
-    virtual void m107();
-    virtual void m108();
-    virtual void m109();
-    virtual void m110();
-    virtual void m111();
-    virtual s32 m112();
-};
 
 struct Stack_8009AA64 {
     s32 sp8;
@@ -760,118 +640,7 @@ struct Obj_8009B638 { u8 pad[0x46c]; s32 step; };
 
 struct Obj_8009B1CC { u8 pad0[0x390]; void *key; u8 pad1[0x13C]; s32 count; u8 *items[8]; };
 
-struct LeaderBase_8009AB4C { char pad[0x18]; };
 
-struct Leader_8009AB4C : LeaderBase_8009AB4C {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
-    virtual void m105();
-    virtual void m106();
-    virtual s32 m107();
-};
 
 struct Fields_8009AB4C {
     u8 pad0[0x24];
@@ -1231,121 +1000,7 @@ struct VObj_8009c7d8 : VBase_8009c7d8 {
 #undef VM
 };
 
-struct CanadinBase_8009E0AC { char pad[0x18]; };
 
-struct Canadin_8009E0AC : CanadinBase_8009E0AC {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
-    virtual void m105();
-    virtual void m106();
-    virtual void m107();
-    virtual void m108(s32);
-    virtual void m109(s32);
-    virtual void m110(s32);
-};
 
 struct Base_Sub_8009DE90 { char pad[0x14]; };
 
@@ -1645,9 +1300,6 @@ struct VBase_8009ED5C_8009ECE0 {
     virtual void m98();
 };
 
-struct RecoveredGlobal_8009F2E0___vt__17TObjEneMe1Canadin { s32 value; u8 remaining[0x1D4]; };
-
-typedef char RecoveredGlobal_8009F2E0___vt__17TObjEneMe1Canadin_size[sizeof(RecoveredGlobal_8009F2E0___vt__17TObjEneMe1Canadin) == 0x1D8 ? 1 : -1];
 
 struct VBase_8009F004 { char pad[0x18]; };
 
@@ -1783,26 +1435,12 @@ f32 newton_sqrtf(f32);
 bool is_vec_xz_cross_negative(u8 *arg0, u8 *arg1);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
 void * __dt__26TObjEneDf2Bringer_Eff_RushFv(void *arg0, s16 arg1);
-void TObjEneMe1CanadinLeader__vt110(Leader_8009AB4C *obj, s32 mode);
-u8 TObjEneMe1CanadinLeader__vt107(void *arg0);
-void TObjEneMe1CanadinLeader__vt111(void *arg0);
-s32 TObjEneMe1CanadinLeader__vt114(Obj_8009B1CC *arg0);
-void TObjEneMe1CanadinLeader__vt115(Leader_8009B274 *self, u32 id);
-s32 TObjEneMe1CanadinLeader__vt106(Obj_8009B3C0 *self);
-void TObjEneMe1CanadinLeader__vt105(Leader_8009B43C *self);
-void TObjEneMe1CanadinLeader__vt103(Obj_8009B638 *self);
-void TObjEneMe1CanadinLeader__vt104(void *arg0);
-void run_task__23TObjEneMe1CanadinLeaderFv(u8 *arg0);
-void * __dt__23TObjEneMe1CanadinLeaderFv(void *arg0, s16 arg1);
-void * TObjEneMe1CanadinLeader__ct(void *, void *, void *);
-void update_if_ready__17TObjEneMe1CanadinFv(void* p);
 void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C510(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009CC74(void *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009DE90(void *argv0, s32 arg1);
-void dispatch_state__17TObjEneMe1CanadinFPvUii(Canadin_8009E0AC *self, u32 which, s32 arg);
 void fn_8009E1D4(u8 *arg0, s32 arg1);
 void TObjEneMe1CanadinLeader__sub_8009E258(u8 *arg0);
 void TObjEneMe1CanadinLeader__sub_8009E27C(void* p);
@@ -1823,25 +1461,15 @@ struct Canadin_8009E504 {
     s32 timer;
     s32 pos;
 };
-int vfunc_104__17TObjEneMe1CanadinFf(void* p);
 s32 TObjEneMe1Canadin__sub_8009E76C(u8 *arg0);
 s32 TObjEneMe1Canadin__sub_8009E860(Canadin_8009E860 *self, f32 *out, f32 _w2);
-int vfunc_89__17TObjEneMe1CanadinFv(void* p);
 void TObjEneMe1Canadin__sub_8009EB14(u8 *arg0, f32 height);
 void TObjEneMe1Canadin__sub_8009EB98(u8 *arg0, f32 farg0);
-void vfunc_101__17TObjEneMe1CanadinFPUc(void *arg0);
 void calc_move_vector__17TObjEneMe1CanadinFiPv(s32 arg0, void *arg1);
-void vfunc_88__17TObjEneMe1CanadinFv(void *arg0);
-void vfunc_61__17TObjEneMe1CanadinFv(void);
-void vfunc_62__17TObjEneMe1CanadinFv(void* p);
-void vfunc_63__17TObjEneMe1CanadinFv(void *arg0);
-void vfunc_28__17TObjEneMe1CanadinFv(void);
-void * __dt__17TObjEneMe1CanadinFv(void *arg0, s16 arg1);
 void * __ct__26TObjEneMe1Canadin_EffLightFP7TObjectl(void *, void *, s32);
 void TObjEneEpsilon__sub_800B92AC(u8 *arg0, s32 arg1, f32 farg0);
 int select_and_apply_target__12TObjEneDD_STFf(void*);
 s32 set_target_player__12TObjEneDD_STFPv(void *);
-void *__dt__12TObjEneDD_STFv(void *arg0, s16 arg1);
 void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 s32 get_camera_ctrl__9TObjEneDDFv(void *, int);
 s32 update_camera_sequence__9TObjEneDDFv();
@@ -1854,8 +1482,6 @@ void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 u32 vfunc_101__9TObjEneDDFPUc();
 s32 collect_enemy_target_candidates(void *, Entry_8009E860 *);
 void clear_attack_receipts__9TObjEneDDFv();
-void invoke_initialization_hook__9TObjEneDDFPv(void *, void *);
-void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 void TBoss3Volopt__sub_800D8D88(s32 arg0);
 s32 trigger_dell_biter_events__10TObjPlayerFv(void *, f32);
 s32 approach_angle_limited(s32, s32, s32);
@@ -1863,7 +1489,6 @@ void *find_entity_by_id(u16 id);
 void free_collision_body_parts(void *);
 void *get_player_by_client_id(s32 i);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
-void __dl__7TObjectFPv(void *);
 void __dt__7TObjectFv(void *, int);
 s32 __ct__7TObjectFP7TObject(void *, void *);
 s32 rand();
@@ -1873,7 +1498,6 @@ void vec3_add_to(void *, void *);
 s32 matrix_mult_vec(int, void *, int);
 s32 rotate_vector_by_matrix(int, int, int);
 
-extern s32 __vt__17TObjEneMe1Canadin[];
 extern RecoveredGlobal_8009E4AC_lbl_8043A2A0 canadin_formation_fade_start_color;
 extern const CanadinBehaviorParams canadin_behavior_params;
 extern u8 canadin_projectile_param_block[];
@@ -1889,215 +1513,7 @@ extern s32 *lbl_805D4FEC;
 extern s32 *lbl_805D4FF0;
 extern const f32 lbl_805D9860;
 int is_target_android(void *p);
-extern void *tl_04;
 
-extern "C" {
-void vfunc_6__8TObjBaseFPsl();
-}
-extern "C" {
-void vfunc_103__9TObjEneDDFPUc();
-}
-extern "C" {
-void vfunc_79__9TObjEneDDFPl();
-}
-extern "C" {
-void vfunc_84__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_85__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_86__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_90__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_91__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_92__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_93__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_94__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_95__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_96__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_97__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_98__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_99__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_100__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_102__9TObjEneDDFv();
-}
-extern "C" {
-void vfunc_83__12TObjEneDD_STFv();
-}
-extern "C" {
-void TObjEneMe1CanadinLeader__vt108(u8 *arg0, s32 arg1);
-}
-extern "C" {
-void TObjEneMe1CanadinLeader__vt109(TObjEneMe1Canadin *self, s32 mode);
-}
-extern "C" {
-void vfunc_29__9TObjCharaFv();
-}
-extern "C" {
-void recalc_stats__9TObjCharaFv();
-}
-extern "C" {
-void consume_timer_field__9TObjCharaFl();
-}
-extern "C" {
-void vfunc_67__9TObjCharaFf();
-}
-extern "C" {
-void vfunc_66__9TObjCharaFv();
-}
-extern "C" {
-void get_anim_node_position__9TObjCharaFlP3Vec();
-}
-extern "C" {
-void vfunc_60__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_59__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_58__9TObjCharaFv();
-}
-extern "C" {
-void apply_slow_status__9TObjCharaFv();
-}
-extern "C" {
-void update_shock_clock__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_43__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_18__9TObjCharaFPUc();
-}
-extern "C" {
-void interact__14TObjCollidableFl();
-}
-extern "C" {
-void vfunc_74__9TObjEnemyFl();
-}
-extern "C" {
-void apply_hit_message_flags__9TObjEnemyFPv();
-}
-extern "C" {
-void add_actor_exp__9TObjCharaFl();
-}
-extern "C" {
-void apply_action_hold_status__9TObjCharaFf();
-}
-extern "C" {
-void apply_anti_technique__9TObjCharaFl();
-}
-extern "C" {
-void apply_attack_stat_status__9TObjCharaFPv();
-}
-extern "C" {
-void apply_confusion_status__9TObjCharaFv();
-}
-extern "C" {
-void apply_knockback_from_attacker__9TObjCharaFPUcf();
-}
-extern "C" {
-void apply_movement_ailment__9TObjCharaFl();
-}
-extern "C" {
-void apply_object_set_data__8TObjBaseFPv();
-}
-extern "C" {
-void apply_paralysis__9TObjCharaFv();
-}
-extern "C" {
-void apply_poison_status__9TObjCharaFv();
-}
-extern "C" {
-void apply_set_data__9TObjEnemyFPv();
-}
-extern "C" {
-void apply_shock_status__9TObjCharaFv();
-}
-extern "C" {
-void apply_switch_attack__9TObjCharaFv();
-}
-extern "C" {
-void calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf();
-}
-extern "C" {
-void classify_actor_view_detail__8TObjBaseFfff();
-}
-extern "C" {
-void clear_all_status_effects__9TObjCharaFv();
-}
-extern "C" {
-void clear_harmful_statuses__9TObjCharaFv();
-}
-extern "C" {
-void cure_paralysis__9TObjCharaFv();
-}
-extern "C" {
-void cure_poison_ailment__9TObjCharaFv();
-}
-extern "C" {
-void enemy_spawn_jellen_effect__9TObjCharaFv();
-}
-extern "C" {
-void enemy_spawn_zalure_effect__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_78__9TObjCharaFl();
-}
-extern "C" {
-void vfunc_77__9TObjCharaFv();
-}
-extern "C" {
-void vfunc_76__9TObjCharaFf();
-}
-extern "C" {
-void vfunc_75__9TObjCharaFf();
-}
-extern "C" {
-void clear_lobby_object_state__9TObjEnemyFv();
-}
-extern "C" {
-void get_center__9TObjCharaFv();
-}
-extern "C" {
-void get_actor_level_index__9TObjCharaFv();
-}
-extern "C" {
-void get_name__9TObjEnemyFv();
-}
-extern "C" {
-void get_pos__9TObjCharaFl();
-}
-extern "C" {
-void is_actor_cadence_frame__9TObjCharaFl();
-}
-extern "C" {
-void is_target_in_attack_range__9TObjCharaFv();
-}
 extern "C" {
 extern u8 lbl_8043A1B0[];
 }
@@ -2140,64 +1556,6 @@ extern u8 lbl_8043A2F8[];
 extern "C" {
 extern u8 lbl_8043A308[];
 }
-extern "C" {
-void receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll();
-}
-extern "C" {
-void receive_physical_attack__9TObjCharaFPvf();
-}
-extern "C" {
-void receive_weapon_special_attack__9TObjCharaFPvPv();
-void apply_defense_stat_status__9TObjCharaFPv();
-}
-extern "C" {
-void render_shadows__9TObjEnemyFv(u8 *arg0);
-}
-extern "C" {
-void reset_motion_fields__9TObjCharaFv();
-}
-extern "C" {
-void reset_pose__9TObjCharaFv();
-}
-extern "C" {
-void roll_physical_accuracy__9TObjCharaFPvlf();
-}
-extern "C" {
-void select_melee_contact_body__9TObjCharaFPvf();
-}
-extern "C" {
-void trigger_switch_attack__9TObjCharaFv(s32 arg0);
-}
-extern "C" {
-void try_start_action__9TObjCharaFll();
-}
-extern "C" {
-void update_action_hold_status__9TObjCharaFv();
-}
-extern "C" {
-s32 vfunc_37__9TObjCharaFv(u8 *arg0);
-}
-extern "C" {
-void update_actor_ground_y__9TObjCharaFv();
-}
-extern "C" {
-s32 update_attack_stat_status__9TObjCharaFv(u8 *arg0);
-}
-extern "C" {
-s32 update_defense_stat_status__9TObjCharaFv(u8 *arg0);
-}
-extern "C" {
-void update_flag30_timer__9TObjCharaFv();
-}
-extern "C" {
-void update_movement_status__9TObjCharaFv();
-}
-extern "C" {
-void update_object_view_visibility__8TObjBaseFff();
-}
-extern "C" {
-void update_poison_status__9TObjCharaFv();
-}
 extern void *bm_ene_me1_mb_model_names[3];
 extern void *bm_ene_me1_mb_motion_names[7];
 void *canadin_setup_param_block[7] = {
@@ -2232,38 +1590,6 @@ void *canadin_leader_fade_sequence_table[5] = {
     (void *)&lbl_8043A2B0, (void *)&lbl_8043A2CC, (void *)&lbl_8043A2D8, (void *)&lbl_8043A2F8,
     (void *)&lbl_8043A308,
 };
-void *__vt__23TObjEneMe1CanadinLeader[118] = {
-    (void *)0x0, (void *)0x0, (void *)&__dt__23TObjEneMe1CanadinLeaderFv, (void *)&run_task__23TObjEneMe1CanadinLeaderFv,
-    (void *)&render__17TObjEneMe1CanadinFv, (void *)&render_shadows__9TObjEnemyFv, (void *)&vfunc_6__8TObjBaseFPsl, (void *)&apply_object_set_data__8TObjBaseFPv,
-    (void *)&reset_motion_fields__9TObjCharaFv, (void *)&get_center__9TObjCharaFv, (void *)&update_object_view_visibility__8TObjBaseFff, (void *)&classify_actor_view_detail__8TObjBaseFfff,
-    (void *)&get_name__9TObjEnemyFv, (void *)&interact__14TObjCollidableFl, (void *)&add_actor_exp__9TObjCharaFl, (void *)&consume_timer_field__9TObjCharaFl,
-    (void *)&get_actor_level_index__9TObjCharaFv, (void *)&update_actor_ground_y__9TObjCharaFv, (void *)&vfunc_18__9TObjCharaFPUc, (void *)&is_actor_cadence_frame__9TObjCharaFl,
-    (void *)&select_melee_contact_body__9TObjCharaFPvf, (void *)&calc_distance_accuracy_penalty__9TObjCharaFPvPvPvf, (void *)&receive_physical_attack__9TObjCharaFPvf, (void *)&receive_direct_attack__9TObjCharaFPv19DirectAttackPayloadPvll,
-    (void *)&receive_weapon_special_attack__9TObjCharaFPvPv, (void *)&apply_knockback_from_attacker__9TObjCharaFPUcf, (void *)&try_start_action__9TObjCharaFll, (void *)&roll_physical_accuracy__9TObjCharaFPvlf,
-    (void *)&vfunc_28__17TObjEneMe1CanadinFv, (void *)&vfunc_29__9TObjCharaFv, (void *)&is_target_in_attack_range__9TObjCharaFv, (void *)&test_flag_256__9TObjCharaFv,
-    (void *)&test_flag30_512__9TObjCharaFv, (void *)&has_flag_0x800__9TObjCharaFv, (void *)&test_flag_1000__9TObjCharaFv, (void *)&update_poison_status__9TObjCharaFv,
-    (void *)&update_action_hold_status__9TObjCharaFv, (void *)&vfunc_37__9TObjCharaFv, (void *)&update_flag30_timer__9TObjCharaFv, (void *)&update_movement_status__9TObjCharaFv,
-    (void *)&update_shock_clock__9TObjCharaFv, (void *)&update_attack_stat_status__9TObjCharaFv, (void *)&update_defense_stat_status__9TObjCharaFv, (void *)&vfunc_43__9TObjCharaFv,
-    (void *)&apply_poison_status__9TObjCharaFv, (void *)&apply_paralysis__9TObjCharaFv, (void *)&apply_slow_status__9TObjCharaFv, (void *)&apply_confusion_status__9TObjCharaFv,
-    (void *)&apply_movement_ailment__9TObjCharaFl, (void *)&apply_shock_status__9TObjCharaFv, (void *)&clear_harmful_statuses__9TObjCharaFv, (void *)&apply_attack_stat_status__9TObjCharaFPv,
-    (void *)&apply_defense_stat_status__9TObjCharaFPv, (void *)&cure_poison_ailment__9TObjCharaFv, (void *)&cure_paralysis__9TObjCharaFv, (void *)&clear_all_status_effects__9TObjCharaFv,
-    (void *)&apply_action_hold_status__9TObjCharaFf, (void *)&apply_anti_technique__9TObjCharaFl, (void *)&vfunc_58__9TObjCharaFv, (void *)&vfunc_59__9TObjCharaFv,
-    (void *)&vfunc_60__9TObjCharaFv, (void *)&vfunc_61__17TObjEneMe1CanadinFv, (void *)&vfunc_62__17TObjEneMe1CanadinFv, (void *)&vfunc_63__17TObjEneMe1CanadinFv,
-    (void *)&reset_pose__9TObjCharaFv, (void *)&get_anim_node_position__9TObjCharaFlP3Vec, (void *)&vfunc_66__9TObjCharaFv, (void *)&vfunc_67__9TObjCharaFf,
-    (void *)&get_pos__9TObjCharaFl, (void *)&apply_switch_attack__9TObjCharaFv, (void *)&enemy_spawn_jellen_effect__9TObjCharaFv, (void *)&trigger_switch_attack__9TObjCharaFv,
-    (void *)&enemy_spawn_zalure_effect__9TObjCharaFv, (void *)&recalc_stats__9TObjCharaFv, (void *)&vfunc_74__9TObjEnemyFl, (void *)&vfunc_75__9TObjCharaFf,
-    (void *)&vfunc_76__9TObjCharaFf, (void *)&vfunc_77__9TObjCharaFv, (void *)&vfunc_78__9TObjCharaFl, (void *)&vfunc_79__9TObjEneDDFPl,
-    (void *)&apply_hit_message_flags__9TObjEnemyFPv, (void *)&apply_set_data__9TObjEnemyFPv, (void *)&clear_lobby_object_state__9TObjEnemyFv, (void *)&vfunc_83__12TObjEneDD_STFv,
-    (void *)&vfunc_84__9TObjEneDDFv, (void *)&vfunc_85__9TObjEneDDFv, (void *)&vfunc_86__9TObjEneDDFv, (void *)&dispatch_state__17TObjEneMe1CanadinFPvUii,
-    (void *)&vfunc_88__17TObjEneMe1CanadinFv, (void *)&vfunc_89__17TObjEneMe1CanadinFv, (void *)&vfunc_90__9TObjEneDDFv, (void *)&vfunc_91__9TObjEneDDFv,
-    (void *)&vfunc_92__9TObjEneDDFv, (void *)&vfunc_93__9TObjEneDDFv, (void *)&vfunc_94__9TObjEneDDFv, (void *)&vfunc_95__9TObjEneDDFv,
-    (void *)&vfunc_96__9TObjEneDDFv, (void *)&vfunc_97__9TObjEneDDFv, (void *)&vfunc_98__9TObjEneDDFv, (void *)&vfunc_99__9TObjEneDDFv,
-    (void *)&vfunc_100__9TObjEneDDFv, (void *)&vfunc_101__17TObjEneMe1CanadinFPUc, (void *)&vfunc_102__9TObjEneDDFv, (void *)&vfunc_103__9TObjEneDDFPUc,
-    (void *)&vfunc_104__17TObjEneMe1CanadinFf, (void *)&TObjEneMe1CanadinLeader__vt103, (void *)&TObjEneMe1CanadinLeader__vt104, (void *)&TObjEneMe1CanadinLeader__vt105,
-    (void *)&TObjEneMe1CanadinLeader__vt106, (void *)&TObjEneMe1CanadinLeader__vt107, (void *)&TObjEneMe1CanadinLeader__vt108, (void *)&TObjEneMe1CanadinLeader__vt109,
-    (void *)&TObjEneMe1CanadinLeader__vt110, (void *)&TObjEneMe1CanadinLeader__vt111, (void *)&update_if_ready__17TObjEneMe1CanadinFv, (void *)&render_canadin_model_with_debug_type__17TObjEneMe1CanadinFv,
-    (void *)&TObjEneMe1CanadinLeader__vt114, (void *)&TObjEneMe1CanadinLeader__vt115,
-};
 s32 lbl_80500930[3];
 s32 lbl_8050093C[3];
 s32 lbl_80500948[3];
@@ -2289,114 +1615,6 @@ void *__dt__26TObjEneDf2Bringer_Eff_RushFv(void *arg0, s16 arg1);
 
 
 
-struct VBase_18_1e038c { char pad[0x18]; };
-struct VObj_18_1e038c : VBase_18_1e038c {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
-    virtual void m20();
-    virtual void m21();
-    virtual void m22();
-    virtual void m23();
-    virtual void m24();
-    virtual void m25();
-    virtual void m26();
-    virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34();
-    virtual void m35();
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
-    virtual void m39();
-    virtual void m40();
-    virtual void m41();
-    virtual void m42();
-    virtual void m43();
-    virtual void m44();
-    virtual void m45();
-    virtual void m46();
-    virtual void m47();
-    virtual void m48();
-    virtual void m49();
-    virtual void m50();
-    virtual void m51();
-    virtual void m52();
-    virtual void m53();
-    virtual void m54();
-    virtual void m55();
-    virtual void m56();
-    virtual void m57();
-    virtual void m58();
-    virtual void m59();
-    virtual void m60();
-    virtual void m61();
-    virtual void m62();
-    virtual void m63();
-    virtual void m64();
-    virtual void m65();
-    virtual void m66();
-    virtual void m67();
-    virtual void m68();
-    virtual void m69();
-    virtual void m70();
-    virtual void m71();
-    virtual void m72();
-    virtual void m73();
-    virtual void m74();
-    virtual void m75();
-    virtual void m76();
-    virtual void m77();
-    virtual void m78();
-    virtual void m79();
-    virtual void m80();
-    virtual void m81();
-    virtual void m82();
-    virtual void m83();
-    virtual void m84();
-    virtual void m85();
-    virtual void m86();
-    virtual void m87();
-    virtual void m88();
-    virtual void m89();
-    virtual void m90();
-    virtual void m91();
-    virtual void m92();
-    virtual void m93();
-    virtual void m94();
-    virtual void m95();
-    virtual void m96();
-    virtual void m97();
-    virtual void m98();
-    virtual void m99();
-    virtual void m100();
-    virtual void m101();
-    virtual void m102();
-    virtual void m103();
-    virtual void m104();
-};
 
 extern s32 TObjEneMe1CanadinLeader__class_name;
 
@@ -2592,20 +1810,11 @@ void TObjEneMe1Canadin::load_resources() {
 }
 
 void *TObjEneMe1Canadin::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x4CC);
-    if (o != NULL) {
-        o = ((TObjEneMe1Canadin *)o)->init(tl_04, arg0, 0);
-    }
-    return o;
+    return new TObjEneMe1Canadin(tl_04, arg0, 0);
 }
 
 void *TObjEneMe1CanadinLeader::create_canadin(void *arg0, void *arg1, void *arg2, void *arg3) {
-    void *o;
-    o = __nw__7TObjectFUl(0x4CC);
-    if (o != NULL) {
-        o = TObjEneMe1Canadin__ct((u8 *)o, (s32)tl_04, (u8 *)arg0, (s32)arg1, (s32)arg2, (s32)arg3);
-    }
-    return o;
+    return new TObjEneMe1Canadin(tl_04, (TObjEneMe1Canadin *)arg0, (Vec *)arg1, (s32)arg2, (s32)arg3);
 }
 
 // Floor teardown: frees the two breakup models and the Canadin archive.
@@ -2625,38 +1834,30 @@ void TObjEneMe1Canadin::free_resources() {
 }
 
 extern "C" {
-void *TObjEneMe1Canadin::init(void *arg1, void *arg2, void *arg3) {
-    __ct__12TObjEneDD_STFP7TObject(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__17TObjEneMe1Canadin;
-    __ct__13TUnk_80494938Fv(((char *)this + 972));
+TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, void *set_data, s32 kind) : TObjEneDD_ST(parent) {
     *(void **)((s8 *)this + 0x0) = TObjEneMe1Canadin__class_name;
-    invoke_initialization_hook__9TObjEneDDFPv(this, arg2);
+    invoke_initialization_hook(set_data);
     *(u32 *)((s8 *)this + 0x3C8) = 0;
     update_by_field_0x354();
     *(void **)((s8 *)this + 0x3C0) = this;
-    *(void **)((s8 *)this + 0x3C4) = arg3;
+    *(s32 *)((s8 *)this + 0x3C4) = kind;
     setup_enemy();
-    return this;
 }
 }
 
 extern "C" {
-u8 *TObjEneMe1Canadin__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, s32 arg5) {
-    __ct__12TObjEneDD_STFP7TObject(arg0);
-    *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8009F2E0___vt__17TObjEneMe1Canadin *)&__vt__17TObjEneMe1Canadin).value;
-    __ct__13TUnk_80494938Fv((arg0 + 0x3CC));
-    *(s32 *)((s8 *)arg0 + 0) = (s32) (*(s32 *)&TObjEneMe1Canadin__class_name);
-    *(u8 **)((s8 *)arg0 + 0x3C0) = arg2;
-    ((TObjEneDD *)arg0)->init_common_from((u8 *)(*(u8 **)((s8 *)arg0 + 0x3C0)));
-    *(s16 *)((s8 *)arg0 + 0x1C) = arg4;
-    *(s16 *)((s8 *)arg0 + 0x2C) = arg5;
-    ((s32 (*)(void *, void *))calc_move_vector__17TObjEneMe1CanadinFiPv)((void *) (*(u8 **)((s8 *)arg0 + 0x3C0)), arg0 + 0x38);
-    VecCopy((Vec *)(arg0 + 0x38), (const Vec *)(arg3));
-    *(s32 *)((s8 *)arg0 + 0x60) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)arg0 + 0x3C0)) + 0x60);
-    *(s32 *)((s8 *)arg0 + 0x3C8) = 0;
-    *(s32 *)((s8 *)arg0 + 0x3C4) = 1;
-    ((TObjEneMe1Canadin *)arg0)->setup_enemy();
-    return arg0;
+TObjEneMe1Canadin::TObjEneMe1Canadin(TObject *parent, TObjEneMe1Canadin *leader, Vec *pos, s32 id, s32 sub_id) : TObjEneDD_ST(parent) {
+    *(s32 *)((s8 *)this + 0) = (s32) (*(s32 *)&TObjEneMe1Canadin__class_name);
+    *(TObjEneMe1Canadin **)((s8 *)this + 0x3C0) = leader;
+    init_common_from((u8 *)(*(u8 **)((s8 *)this + 0x3C0)));
+    *(s16 *)((s8 *)this + 0x1C) = id;
+    *(s16 *)((s8 *)this + 0x2C) = sub_id;
+    ((s32 (*)(void *, void *))calc_move_vector__17TObjEneMe1CanadinFiPv)((void *) (*(u8 **)((s8 *)this + 0x3C0)), &position);
+    VecCopy(&position, pos);
+    *(s32 *)((s8 *)this + 0x60) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)this + 0x3C0)) + 0x60);
+    *(s32 *)((s8 *)this + 0x3C8) = 0;
+    *(s32 *)((s8 *)this + 0x3C4) = 1;
+    setup_enemy();
 }
 }
 
@@ -2740,20 +1941,14 @@ void TObjEneMe1Canadin::setup_enemy() {
 }
 
 extern "C" {
-void *__dt__17TObjEneMe1CanadinFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__17TObjEneMe1Canadin;
-        if (*(void **)((s8 *)arg0 + 0x4A0) != NULL) { ((void (*)(void *))queue_destruction__7TObjectFv)(*(void **)((s8 *)arg0 + 0x4A0)); *(s32 *)((s8 *)arg0 + 0x4A0) = 0; }
-        ((void (*)(void *))queue_destruction__7TObjectFv)(*(void **)((s8 *)arg0 + 0x408));
-        *(s32 *)((s8 *)arg0 + 0x408) = 0;
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3CC, -1);
-        __dt__12TObjEneDD_STFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TObjEneMe1Canadin::~TObjEneMe1Canadin() {
+    if (unk_4A0 != NULL) {
+        unk_4A0->queue_destruction();
+        unk_4A0 = NULL;
     }
-    return arg0;
+    eff_light->queue_destruction();
+    eff_light = NULL;
+    free_collision_body_parts(this);
 }
 }
 
@@ -3203,7 +2398,7 @@ s32 fn_8009E300(u8 *arg0) {
 }
 
 extern "C" {
-void TObjEneMe1Canadin::vfunc_117() {  }
+void TObjEneMe1Canadin::vfunc_117(u32) {  }
 }
 
 extern "C" {
@@ -3258,58 +2453,58 @@ void fn_8009E1D4(u8 *arg0, s32 arg1) {
 }
 
 extern "C" {
-void dispatch_state__17TObjEneMe1CanadinFPvUii(Canadin_8009E0AC *self, u32 which, s32 arg) {
+void TObjEneMe1Canadin::dispatch_action(u32 which, s32 arg) {
     switch (which) {
     case 0:
-        ((TObjEneMe1Canadin *)self)->handle_state(arg);
+        handle_state(arg);
         break;
     case 1:
-        TObjEneMe1Canadin__sub_8009DE90(self, arg);
+        TObjEneMe1Canadin__sub_8009DE90(this, arg);
         break;
     case 2:
-        ((TObjEneMe1Canadin *)self)->action(arg);
+        action(arg);
         break;
     case 3:
-        self->m108(arg);
+        vfunc_110(arg);
         break;
     case 4:
-        self->m109(arg);
+        vfunc_111(arg);
         break;
     case 5:
-        ((TObjEneMe1Canadin *)self)->move(arg);
+        move(arg);
         break;
     case 6:
-        TObjEneMe1Canadin__sub_8009D320(self, arg);
+        TObjEneMe1Canadin__sub_8009D320(this, arg);
         break;
     case 7:
-        TObjEneMe1Canadin__sub_8009CC74(self, arg);
+        TObjEneMe1Canadin__sub_8009CC74(this, arg);
         break;
     case 8:
-        TObjEneMe1Canadin__sub_8009C91C(self, arg);
+        TObjEneMe1Canadin__sub_8009C91C(this, arg);
         break;
     case 9:
-        ((TObjEneMe1Canadin *)self)->run_task(arg);
+        run_task(arg);
         break;
     case 10:
-        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C2EC)(self, arg);
+        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C2EC)(this, arg);
         break;
     case 11:
-        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C178)(self, arg);
+        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C178)(this, arg);
         break;
     case 12:
-        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C510)(self, arg);
+        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009C510)(this, arg);
         break;
     case 13:
-        self->m110(arg);
+        vfunc_112(arg);
         break;
     case 14:
-        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009BFF8)(self, arg);
+        ((void (*)(void *, s32))TObjEneMe1Canadin__sub_8009BFF8)(this, arg);
         break;
     case 16:
-        ((TObjEneMe1Canadin *)self)->update_walk_animation(arg);
+        update_walk_animation(arg);
         break;
     case 17:
-        ((TObjEneMe1Canadin *)self)->update_by_state(arg);
+        update_by_state(arg);
         break;
     }
 }
@@ -4513,75 +3708,61 @@ void TObjEneMe1Canadin::render_canadin_model_with_debug_type() {
 
 extern "C" {
 void *TObjEneMe1CanadinLeader::create(void *arg0) {
-    void *o = __nw__7TObjectFUl(0x4F8);
-    if (o != NULL) {
-        o = TObjEneMe1CanadinLeader__ct(o, tl_04, arg0);
-    }
-    return o;
+    return new TObjEneMe1CanadinLeader(tl_04, arg0);
 }
 }
 
 extern "C" {
-void *TObjEneMe1CanadinLeader__ct(void *arg0, void *a, void *b) {
+TObjEneMe1CanadinLeader::TObjEneMe1CanadinLeader(TObject *parent, void *set_data) : TObjEneMe1Canadin(parent, set_data, 2) {
     s32 i;
     List_8009B7C0 *l;
 
-    ((TObjEneMe1Canadin *)arg0)->init(a, b, (void *)2);
-    *(void ***)((s8 *)arg0 + 0x18) = __vt__23TObjEneMe1CanadinLeader;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjEneMe1CanadinLeader__class_name;
-    ((VObj_18_1e038c *)(arg0))->m104();
-    *(f32 *)((s8 *)arg0 + 0x3E8) += 10.0f;
-    l = (List_8009B7C0 *)arg0;
+    *(s32 *)((s8 *)this + 0) = (s32) TObjEneMe1CanadinLeader__class_name;
+    vfunc_106();
+    *(f32 *)((s8 *)this + 0x3E8) += 10.0f;
+    l = (List_8009B7C0 *)this;
     l->cap = 8;
     l->n = 0;
     for (i = 0; i < 8; i++) {
         l->items[i] = 0;
     }
-    *(s32 *)((s8 *)arg0 + 0x4F4) = 0;
-    initialize_enemy_state__9TObjEneDDFl(arg0, 0x1D);
-    return arg0;
+    *(s32 *)((s8 *)this + 0x4F4) = 0;
+    initialize_enemy_state__9TObjEneDDFl(this, 0x1D);
 }
 }
 
 extern "C" {
-void *__dt__23TObjEneMe1CanadinLeaderFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(void ***)((s8 *)arg0 + 0x18) = __vt__23TObjEneMe1CanadinLeader;
-        ((void (*)(void *, int))__dt__17TObjEneMe1CanadinFv)(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TObjEneMe1CanadinLeader::~TObjEneMe1CanadinLeader() {
 }
 }
 
 extern "C" {
-void run_task__23TObjEneMe1CanadinLeaderFv(u8 *pv) {
+void TObjEneMe1CanadinLeader::run_task() {
     if (TObjPlayer::check_demo_mode() != 0) {
-        ((VObj_18 *)(pv))->m112();
+        update_if_ready();
         return;
     }
-    if (((VObj_18 *)(pv))->m81() != 4) {
-        ((VObj_18 *)(pv))->m83();
-        TObjEneMe1CanadinLeader::update_fade_sequence(pv);
-        TObjEneMe1CanadinLeader::update_formation_state(pv);
+    if (vfunc_83() != 4) {
+        vfunc_85();
+        update_fade_sequence(this);
+        update_formation_state(this);
     }
-    ((TObjEneMe1Canadin *)pv)->copy_pos();
-    ((TObjEnemy *)pv)->submit_default_cursor_candidate();
-    ((VObj_18 *)(pv))->m98();
+    copy_pos();
+    submit_default_cursor_candidate();
+    vfunc_100();
 }
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt104(void *arg0) {
-    *(s32 *)((s8 *)arg0 + 0x34) = lbl_805D4FD0->models[1].model;
-    *(s32 *)((s8 *)arg0 + 0x24) = lbl_805D4FD0->models[1].m_c;
+void TObjEneMe1CanadinLeader::vfunc_106() {
+    *(s32 *)((s8 *)this + 0x34) = lbl_805D4FD0->models[1].model;
+    *(s32 *)((s8 *)this + 0x24) = lbl_805D4FD0->models[1].m_c;
 }
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt103(Obj_8009B638 *self) {
+void TObjEneMe1CanadinLeader::vfunc_105() {
+    Obj_8009B638 *self = (Obj_8009B638 *)this;
     switch (self->step) {
     case 0:
     case 1:
@@ -4597,7 +3778,7 @@ void TObjEneMe1CanadinLeader__vt103(Obj_8009B638 *self) {
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt105(Leader_8009B43C *self) {
+void TObjEneMe1CanadinLeader::vfunc_107() {
     s32 id;
     s32 sub;
     s32 angle;
@@ -4605,6 +3786,7 @@ void TObjEneMe1CanadinLeader__vt105(Leader_8009B43C *self) {
     s32 i;
     s32 j;
     Vec_8009B43C v;
+    Leader_8009B43C *self = (Leader_8009B43C *)this;
     n = (s32)ceil_to_float((f32)self->max / (f32)self->info->f2C);
     if (n < 1) {
         n = 1;
@@ -4636,7 +3818,8 @@ void TObjEneMe1CanadinLeader__vt105(Leader_8009B43C *self) {
 }
 
 extern "C" {
-s32 TObjEneMe1CanadinLeader__vt106(Obj_8009B3C0 *self) {
+s32 TObjEneMe1CanadinLeader::vfunc_108() {
+    Obj_8009B3C0 *self = (Obj_8009B3C0 *)this;
     s32 i;
     if (self->flags & 0x40) {
         self->flags &= ~0x40;
@@ -4651,7 +3834,8 @@ s32 TObjEneMe1CanadinLeader__vt106(Obj_8009B3C0 *self) {
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt115(Leader_8009B274 *self, u32 id) {
+void TObjEneMe1CanadinLeader::vfunc_117(u32 id) {
+    Leader_8009B274 *self = (Leader_8009B274 *)this;
     s32 i;
     for (i = 0; i < self->count; i++) {
         if (self->ids[i] == id) {
@@ -4679,11 +3863,12 @@ void TObjEneMe1CanadinLeader__vt115(Leader_8009B274 *self, u32 id) {
 }
 
 extern "C" {
-s32 TObjEneMe1CanadinLeader__vt114(Obj_8009B1CC *arg0) {
+int TObjEneMe1CanadinLeader::vfunc_116() {
+    Obj_8009B1CC *self = (Obj_8009B1CC *)this;
     s32 n = 0;
     s32 i;
-    for (i = 0; i < arg0->count; i++) {
-        if ((void *)fn_8009E300(arg0->items[i]) == arg0->key) {
+    for (i = 0; i < self->count; i++) {
+        if ((void *)fn_8009E300(self->items[i]) == self->key) {
             n++;
         }
     }
@@ -4695,15 +3880,15 @@ s32 TObjEneMe1CanadinLeader__vt114(Obj_8009B1CC *arg0) {
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt111(void *arg0) {
-    *lbl_805D4FE4 = *(s32 *)((s8 *)arg0 + 0x4B4);
-    *lbl_805D4FE8 = *(s32 *)((s8 *)arg0 + 0x4B4);
+void TObjEneMe1CanadinLeader::vfunc_113() {
+    *lbl_805D4FE4 = *(s32 *)((s8 *)this + 0x4B4);
+    *lbl_805D4FE8 = *(s32 *)((s8 *)this + 0x4B4);
 }
 }
 
 extern "C" {
-u8 TObjEneMe1CanadinLeader__vt107(void *arg0) {
-    return (u8) (*(s32 *)((s8 *)arg0 + 0x4D0) <= 0);
+int TObjEneMe1CanadinLeader::vfunc_109() {
+    return (u8) (*(s32 *)((s8 *)this + 0x4D0) <= 0);
 }
 }
 
@@ -4782,7 +3967,8 @@ void TObjEneMe1CanadinLeader::update_formation_state(void *arg0) {
 
 extern "C" {
 #define self ((Obj_8009AD18 *)arg0)
-void TObjEneMe1CanadinLeader__vt108(u8 *arg0, s32 arg1) {
+void TObjEneMe1CanadinLeader::vfunc_110(s32 arg1) {
+    u8 *arg0 = (u8 *)this;
     s32 k;
     s32 i;
     s32 j;
@@ -4852,24 +4038,24 @@ void TObjEneMe1CanadinLeader__vt108(u8 *arg0, s32 arg1) {
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt109(TObjEneMe1Canadin *self, s32 mode) {
+void TObjEneMe1CanadinLeader::vfunc_111(s32 mode) {
     switch (mode) {
     case 4:
-        advance_state_5_to_4__17TObjEneMe1CanadinFPv(self);
-        self->set_field_378(4);
-        self->vfunc_96();
+        advance_state_5_to_4__17TObjEneMe1CanadinFPv(this);
+        set_field_378(4);
+        vfunc_96();
         break;
     case 3:
-        if (((Obj_8009AD18 *)self)->flags3C8 & 4) {
-            self->vfunc_105();
+        if (((Obj_8009AD18 *)this)->flags3C8 & 4) {
+            vfunc_105();
         }
         break;
     case 0:
-        self->advance_animation();
-        self->update_linked_position(200.0f);
-        TObjEneMe1Canadin::update_move(self);
-        self->update_hover_height();
-        self->vfunc_89();
+        advance_animation();
+        update_linked_position(200.0f);
+        TObjEneMe1Canadin::update_move(this);
+        update_hover_height();
+        vfunc_89();
         break;
     case 5:
         break;
@@ -4878,10 +4064,10 @@ void TObjEneMe1CanadinLeader__vt109(TObjEneMe1Canadin *self, s32 mode) {
 }
 
 extern "C" {
-void TObjEneMe1CanadinLeader__vt110(Leader_8009AB4C *obj, s32 mode) {
+void TObjEneMe1CanadinLeader::vfunc_112(s32 mode) {
     s32 i;
     Fields_8009AB4C *self;
-    self = (Fields_8009AB4C *)obj;
+    self = (Fields_8009AB4C *)this;
     switch (mode) {
     case 4:
         TBoss3Volopt::create_breakup_mdl((s32)lbl_805D4FDC, 0, (s32)self->field24, (s32)self->pos2FC, (s32)self->angle);
@@ -4893,7 +4079,7 @@ void TObjEneMe1CanadinLeader__vt110(Leader_8009AB4C *obj, s32 mode) {
         ((TObjPlayer *)self)->refresh_lobby_state();
         break;
     case 0:
-        if (obj->m107() != 0) {
+        if (vfunc_109() != 0) {
             ((TObjEnemy *)self)->send_entity_set_flags();
             queue_destruction__7TObjectFv(self);
         }
