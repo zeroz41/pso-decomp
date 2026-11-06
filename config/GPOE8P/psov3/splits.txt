@@ -255,7 +255,10 @@ pso/player/TObjPlayer_80036824.cpp:
 
 pso/boss/TBoss2Joint.cpp:
 	.text       start:0x8003688C end:0x80037178
+	.rodata     start:0x80435A58 end:0x80435A98
 	.data       start:0x80482A50 end:0x80482AB0
+	.sdata      start:0x805D26C0 end:0x805D26C8
+	.sdata2     start:0x805D8468 end:0x805D8498
 
 pso/boss/TBoss2LaserLight.cpp:
 	.text       start:0x80037178 end:0x800375C0

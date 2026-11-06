@@ -136,10 +136,6 @@ struct RecoveredGlobal_80036FC8___vt__11TBoss2Joint {
     u8 remaining[0x1A4];
 };
 
-struct RecoveredGlobal_80036A90_lbl_80435A68 {
-    s32 value;
-    u8 remaining[0x1C];
-};
 
 
 typedef struct Vec_80037074 {
@@ -219,22 +215,12 @@ typedef struct Param_80036EA8 {
 
 extern "C" {
 void TBoss2Joint__sub_80036940(void *);
-extern const f32 lbl_80435A58[4];
-extern const u32 lbl_805D8468;
-extern const f32 lbl_805D8470;
-extern const f32 lbl_805D8478;
 s32 add_radar_scaled_marker(void *, int, int, int, f32);
-extern const f32 lbl_805D848C;
 s32 vfunc_94__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv(void *);
 extern const f32 lbl_805D8258;
-extern const f32 lbl_805D847C;
-extern const f32 lbl_805D8480;
 void initialize_enemy_state__9TObjEneDDFl(void *, s32);
 extern s32 __vt__11TBoss2Joint[];
-extern s32 TBoss2Joint__name;
-extern RecoveredGlobal_80036A90_lbl_80435A68 TBoss2Joint__joint_offset_vec4_table;
-extern const f32 TBoss2Joint__data_805D8474;
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -242,12 +228,20 @@ s32 register_boss__6TLobbyFl(s32);
 s32 TBoss2Joint_get_shell_max_hp(void);
 void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
-extern const f32 lbl_805D846C;
-extern const f32 lbl_805D8490;
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
 void free_collision_body_parts(void *);
 void __dl__7TObjectFPv(void *);
+
+// Fade source colour of sub_80036940 (only g, r, b are read).
+static const f32 lbl_80435A58[4] = {1.0f, 1.0f, 1.0f, 1.0f};
+// Colours init_joint_offset copies into unk_3AC, indexed by its argument.
+static const NJS_ARGB TBoss2Joint__joint_offset_vec4_table[2] = {
+    {1.0f, 0.0f, 1.0f, 1.0f},
+    {1.0f, 0.0f, 1.0f, 0.0f},
+};
+const char *TBoss2Joint__name = "TBoss2Joint";
+static const u32 lbl_805D8468 = 0x00FFFFFF;
 
 __declspec(section ".data") void *TBoss2Joint__param_table[2] = {
     (void *)0x10, (void *)0x10,
@@ -300,22 +294,22 @@ void TBoss2Joint__sub_80036940(void *arg) {
     Joint_80036EA8 *self = (Joint_80036EA8 *)arg;
     f32 t;
     if (self->unk38C & 1) {
-        self->unk3A4 = lbl_805D846C;
+        self->unk3A4 = 0.0f;
         self->unk3A0 = 0;
         return;
     }
     self->unk3A0 = 0xFF000000;
     t = self->unk3A8;
-    if (t > lbl_805D846C) {
-        f32 a = lbl_805D8470 * t;
-        f32 b = lbl_805D8470 * (TBoss2Joint__data_805D8474 - t);
+    if (t > 0.0f) {
+        f32 a = 255.0f * t;
+        f32 b = 255.0f * (1.0f - t);
         f32 *c = (f32 *)self->unk3AC;
         self->unk3A0 |= ((u32)(lbl_80435A58[1] * b + c[1] * a) << 16) & 0xFF0000;
         self->unk3A0 |= ((u32)(lbl_80435A58[2] * b + c[2] * a) << 8) & 0xFF00;
         self->unk3A0 |= (u8)(u32)(lbl_80435A58[3] * b + c[3] * a);
-        self->unk3A8 -= lbl_805D8478;
-        if (self->unk3A8 < lbl_805D846C) {
-            self->unk3A8 = lbl_805D846C;
+        self->unk3A8 -= 0.05f;
+        if (self->unk3A8 < 0.0f) {
+            self->unk3A8 = 0.0f;
         }
     } else {
         self->unk3A0 |= lbl_805D8468;
@@ -323,10 +317,9 @@ void TBoss2Joint__sub_80036940(void *arg) {
 }
 #pragma pop
 
-typedef char RecoveredGlobal_80036A90_lbl_80435A68_size[sizeof(RecoveredGlobal_80036A90_lbl_80435A68) == 0x20 ? 1 : -1];
 void TBoss2Joint::init_joint_offset(s32 arg1) {
-    this->m_3a8 = (f32) TBoss2Joint__data_805D8474;
-    copy_argb((NJS_ARGB *)((u8 *)&this->unk_3AC), (NJS_ARGB *)((u8 *)&TBoss2Joint__joint_offset_vec4_table.value + (arg1 * 0x10)));
+    this->m_3a8 = 1.0f;
+    copy_argb((NJS_ARGB *)((u8 *)&this->unk_3AC), (NJS_ARGB *)&TBoss2Joint__joint_offset_vec4_table[arg1]);
 }
 
 struct Ent_80036ACC { s32 a; s32 b; };
@@ -361,13 +354,13 @@ void TBoss2Joint::vfunc_93() {
 void TBoss2Joint::vfunc_88() {
     u8 *arg0 = (u8 *)this;
     u8 *temp_r3;
-    if (*(f32 *)((s8 *)arg0 + 0x3C) < (lbl_805D8258 - lbl_805D847C)) {
+    if (*(f32 *)((s8 *)arg0 + 0x3C) < (lbl_805D8258 - 50.0f)) {
         vfunc_94__9TObjEneDDFv(arg0);
         temp_r3 = (u8 *)this->bodies;
         *(s32 *)((s8 *)temp_r3 + 0x18) = (s32) (*(s32 *)((s8 *)temp_r3 + 0x18) & 0xFFFFFFF9);
     } else {
         vfunc_93__9TObjEneDDFv(arg0);
-        if (*(f32 *)((s8 *)arg0 + 0x3C) >= lbl_805D8480) {
+        if (*(f32 *)((s8 *)arg0 + 0x3C) >= 30.0f) {
             this->vfunc_97();
         } else {
             this->vfunc_98();
@@ -383,9 +376,6 @@ void TBoss2Joint::update_position_history() {
 }
 void TBoss2Joint::vfunc_61() {  }
 
-extern const f32 lbl_805D8484;
-extern const f32 lbl_805D8488;
-
 void TBoss2Joint::vfunc_62() {
     s32 temp_r31;
     struct TBJ_8003688C *self = (struct TBJ_8003688C *)this;
@@ -399,7 +389,7 @@ void TBoss2Joint::vfunc_62() {
             ((VTbj_8003688C *)self)->m102();
         }
     } else {
-        spawn_offset_particle__13TBoss2DeRolLeFiff((s32)(((u8 *)this) + 0x38), (f32)lbl_805D8484, (f32)lbl_805D8488);
+        spawn_offset_particle__13TBoss2DeRolLeFiff((s32)(((u8 *)this) + 0x38), 15.0f, 12.0f);
         apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(*(s32 *)((s8 *)self + 0x10), temp_r31, ((TBoss2Joint *)self)->m_2d4);
     }
     ((TBoss2Joint *)self)->hp = (s16) ((TBoss2Joint *)self)->hpmax;
@@ -423,7 +413,7 @@ void TBoss2Joint::run_task() {
         update_position_history();
         this->vfunc_88();
         ((TObjEnemy *)arg0)->submit_default_cursor_candidate();
-        add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, lbl_805D848C);
+        add_radar_scaled_marker((u8 *)&this->position, -0x5DB4, 1, 1, 1.2f);
     }
 }
 
@@ -443,7 +433,6 @@ typedef char RecoveredGlobal_80036FC8___vt__11TBoss2Joint_size[sizeof(RecoveredG
 
 #pragma push
 #pragma opt_propagation off
-struct RecoveredGlobal_80036A90_lbl_80435A68;
 
 s32 TBoss2Joint::init_params() {
     Param_80036EA8 *prm;
@@ -459,23 +448,23 @@ s32 TBoss2Joint::init_params() {
     ((TObjEneDD *)self)->check_state_flag_2();
     self->unk350 = prm->unk18;
     self->unk33E = self->hp2B8;
-    self->unk37C = lbl_805D8490;
+    self->unk37C = 3.0f;
     self->m94();
     self->unk326 = 0;
     self->m85(self->unk326, 4);
     self->unk38C = 0;
     self->unk394 = TBoss2Joint_get_shell_max_hp();
     self->unk3A0 = -1;
-    self->unk3A4 = TBoss2Joint__data_805D8474;
-    self->unk3A8 = lbl_805D846C;
-    copy_argb((NJS_ARGB *)self->unk3AC, (NJS_ARGB *)&TBoss2Joint__joint_offset_vec4_table);
+    self->unk3A4 = 1.0f;
+    self->unk3A8 = 0.0f;
+    copy_argb((NJS_ARGB *)self->unk3AC, (NJS_ARGB *)TBoss2Joint__joint_offset_vec4_table);
 }
 #pragma pop
 
 u8 *TBoss2Joint__ct(u8 *boss2_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5, s32 arg6) {
     __ct__9TObjEneDDFP7TObject(boss2_joint);
     *(s32 **)((s8 *)boss2_joint + 0x18) = &(*(RecoveredGlobal_80036FC8___vt__11TBoss2Joint *)&__vt__11TBoss2Joint).value;
-    *(s32 *)((s8 *)boss2_joint + 0) = (s32) TBoss2Joint__name;
+    *(const char **)((s8 *)boss2_joint + 0) = TBoss2Joint__name;
     ((TObjEneDD *)boss2_joint)->init_common_from(arg1);
     ((TBoss2Joint *)boss2_joint)->entity_id = arg2;
     *(s16 *)((s8 *)boss2_joint + 0x2C) = arg3;

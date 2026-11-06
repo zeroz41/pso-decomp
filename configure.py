@@ -585,6 +585,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/TBoss7PhotonBullet_802EF26C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TBoss2PhotonBullet_80038DCC.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TBoss2Fin.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/TBoss2Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TObjBoss1Crater.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/ObjBoss1CommonResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/Boss6Type2Data.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

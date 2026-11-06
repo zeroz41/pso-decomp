@@ -6,6 +6,7 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/TBoss4Type1.h"
+#include "pso/unk/text_8004AA04.h"
 #include "pso/misc/TLobby.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
@@ -230,7 +231,8 @@ struct S_80054938 {
     u8 pad0[0x18];
     void *vt;
     u8 pad1c[0x378 - 0x1c];
-    u8 f378[0x1c];
+    ModelNodeTables model_nodes;
+    u8 pad38c[0x394 - 0x38C];
     s32 f394;
     u8 pad398[0x3f8 - 0x398];
     void *parts[13];
@@ -285,7 +287,6 @@ f32 atan2_float(f32 y, f32 x);
 s32 get_bml_motion(s32, s32);
 s32 TObjFish__sub_8001EDB0(s32, s32);
 s32 get_bml_model(s32, s32);
-void fn_8004AA04(void *);
 s32 TBoss4DarkFalz__sub_8004AF5C(s32, s16 *, s16 *);
 void TBoss4DarkFalz__sub_8004B4F0(void *, void *);
 void *create__16TObjDFBeamCursorFPvPv(void *arg0, void *arg1);
@@ -1584,7 +1585,7 @@ S_80054938 *__dt__11TBoss4Type1Fv(S_80054938 *o, s16 flag) {
     s32 j;
     if (o != 0) {
         o->vt = __vt__11TBoss4Type1;
-        fn_8004AA04(o->f378);
+        fn_8004AA04(&o->model_nodes);
         for (i = 0; i < 13; i++) {
             if (o->parts[i] != 0) {
                 TParticleCtrl::release(o->parts[i]);
@@ -1659,7 +1660,7 @@ struct Self_80054A1C {
     u8 pad32e[0x33E - 0x32E];
     s16 f33E;
     u8 pad340[0x378 - 0x340];
-    u8 f378[0x38C - 0x378];
+    ModelNodeTables model_nodes;
     s32 f38C;
     s32 f390;
     s32 f394;
@@ -1687,11 +1688,10 @@ struct Self_80054A1C {
     u8 v484[0xC];
 };
 
-void init_model_node_tables(void *, void *, int);
 s32 TObjFish__sub_800E3124(u8 *list, s32 vecs);
 s32 init_collision_body_parts(void *, void *, int);
 extern s32 boss4_type1_emitter_id_table[];
-extern u8 boss4_type1_model_node_table[];
+extern const ModelNodeSpec boss4_type1_model_node_table[];
 extern s32 TBoss4Type1__name;
 extern const f32 lbl_805D8B84;
 Self_80054A1C *TBoss4Type1__ct(Self_80054A1C *self, s32 arg1, s32 *arg2);
@@ -1735,7 +1735,7 @@ Self_80054A1C *TBoss4Type1__ct(Self_80054A1C *self, s32 parent, s32 *arg2) {
     for (; j < 13; j++) {
         self->a3F8[j] = 0;
     }
-    init_model_node_tables(self->f378, boss4_type1_model_node_table, 7);
+    init_model_node_tables(&self->model_nodes, boss4_type1_model_node_table, 7);
     self->f3A4 = 0;
     self->f3A0 = 0;
     self->f3AC = 1;
