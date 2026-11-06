@@ -548,7 +548,11 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/object/TObjBigTuitate.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     # GC/2.0: compiler-expanded struct copies take 2.0's registers.
     # -sdata 4: the 8-byte effect id pair lbl_80485B08 sits in .data, not .sdata.
-    "pso/boss/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-sdata 4")},
+    # -inline off,deferred: the ctor reaches the compiler-made vtable off the TU's pooled
+    # .data base (addi r0,r28,1860), so the vtable existed before the functions were
+    # compiled; with the source last-to-first every function lands at its address.
+    # -fp_contract on: four functions need fused multiply-adds, none differ with it on.
+    "pso/boss/TBoss4Type1.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4", "-fp_contract on")},
     # -sdata 4: the 8-byte name list lbl_80487858 sits in .data, not .sdata.
     "pso/boss/Boss5GryphonBehavior.cpp": {"mw_version": "GC/2.0", "cflags": _switch(cflags_pso, "-str reuse,readonly", "-sdata 4")},
     "pso/enemy/TObjEneGyaranzo.cpp": {"mw_version": "GC/2.0"},

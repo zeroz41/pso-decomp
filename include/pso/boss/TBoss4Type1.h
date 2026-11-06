@@ -2,9 +2,26 @@
 #define PSO_BOSS_TBOSS4TYPE1_H
 
 #include "types.h"
+#include "pso/enemy/TObjEnemy.h"
+#include "pso/unk/text_8004AA04.h"
 
-struct TBoss4Type1
+struct TBoss4DarkFalz;
+
+struct TBoss4Type1 : public TObjEnemy
 {
+    TBoss4Type1(TObject *parent, s32 *params);
+    virtual ~TBoss4Type1();
+    virtual void run_task();
+    virtual void render();
+    virtual void apply_poison_status();
+    virtual void apply_paralysis();
+    virtual void apply_slow_status();
+    virtual void apply_confusion_status();
+    virtual void apply_movement_ailment(s32);
+    virtual void apply_shock_status();
+    virtual void clear_harmful_statuses();
+    virtual void vfunc_62();
+    virtual void vfunc_63();
     void sub_80053440();
     void sub_80053670();
     void snapshot_position();
@@ -14,49 +31,36 @@ struct TBoss4Type1
     void push_players_out_of_colliders();
     void sub_80053D4C();
     void update_follow_camera_offsets();
-    u8 _pad1C[0x8];
-    u32 m_24;
-    u8 _pad28[0xC];
-    u32 m_34;
-    void* m_38;
-    u8 _pad3C[0x8];
-    void* m_44;
-    u8 _pad48[0x8];
-    void* m_50;
-    u8 _pad54[0xC];
-    u32 m_60;
-    u8 _pad64[0x10];
-    void* m_74;
-    u8 _pad78[0x230];
-    u32 m_2a8;
-    u8 _pad2AC[0x50];
-    void* m_2fc;
-    u8 _pad300[0x2C];
-    s16 m_32c;
-    u8 _pad32E[0x10];
-    u16 m_33e;
-    u8 _pad340[0x38];
-    void* m_378;
-    u8 _pad37C[0x10];
-    u32 m_38c;
-    u32 m_390;
-    u32 m_394;
-    u8 _pad398[0x8];
-    u32 m_3a0;
-    u32 m_3a4;
-    u32 m_3a8;
-    u32 m_3ac;
-    u8 _pad3B0[0x14];
-    u32 m_3c4;
-    u32 m_3c8;
-    u32 m_3cc;
-    u32 m_3d0;
-    u32 m_3d4;
-    u32 m_3d8;
-    u8 _pad3DC[0xA4];
-    u32 m_480;
-    void* m_484;
     static s32 create(s32 arg0);
+    s32 state;                    // index into the lbl_80485C48 state table
+    ModelNodeTables model_nodes;
+    TBoss4DarkFalz *owner;        // params[0], the Dark Falz that spawns it; run_task waits on it
+    s32 unk_390;                  // TBoss4Uro::get_instance_count() at spawn
+    s32 unk_394;                  // init_collision_body_parts(lbl_80485E2C, 3)
+    u8 pad_398[0x8];
+    s32 unk_3a0;
+    s32 unk_3a4;
+    s32 unk_3a8;
+    s32 unk_3ac;
+    u8 pad_3b0[0x14];
+    s32 unk_3c4;                  // shared boss param 0x39 +0x18, clamped to 1..6
+    s32 unk_3c8;
+    s32 move_frames;              // boss param move_seconds (1..60, else 25) times 30
+    s32 unk_3d0;
+    s32 unk_3d4;
+    s32 unk_3d8;                  // half the starting hp
+    f32 unk_3dc;
+    f32 hp_ratio;                 // run_task: hp / referenceHp
+    u8 pad_3e4[0x8];
+    f32 unk_3ec;
+    u8 pad_3f0[0x8];
+    void *parts[13];              // particle effects, released by the dt
+    void *fx[3];                  // TObjFish__sub_800E3124(lbl_804860F0, unk_438[i])
+    Vec unk_438[3][2];
+    void *unk_480;                // TObjFish__sub_800E3124(lbl_80486120, unk_484)
+    Vec unk_484[2];
 };
+
+typedef char TBoss4Type1_size[sizeof(TBoss4Type1) == 0x49C ? 1 : -1];
 
 #endif
