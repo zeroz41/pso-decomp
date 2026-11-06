@@ -896,7 +896,10 @@ pso/unk/TLobby_8007340C.cpp:
 
 pso/ui/window/TWindowSubComCard_8007341C.cpp:
 	.text       start:0x8007341C end:0x800739D4
+	.rodata     start:0x804385E0 end:0x80438640
+	.data       start:0x8048D150 end:0x8048D168
 	.bss        start:0x804FF838 end:0x804FF938
+	.sdata2     start:0x805D9118 end:0x805D9140
 
 pso/ui/window/TObjDeadListWin.cpp:
 	.text       start:0x800739D4 end:0x80073DAC
