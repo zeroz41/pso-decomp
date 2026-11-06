@@ -13,7 +13,7 @@ TUnk_804928CC::TUnk_804928CC(TObject *parent, TObjBase *owner,
                            const CollisionBody *parts, s32 count)
     : TObjCollidable(parent) {
     init_collision_body_parts(this, parts, count);
-    m_ac = (u32)owner;
+    this->owner = (u32)owner;
 }
 
 TUnk_804928CC::TUnk_804928CC(TObject *parent, TObjBase *owner)
@@ -22,6 +22,6 @@ TUnk_804928CC::TUnk_804928CC(TObject *parent, TObjBase *owner)
     if (owner != NULL) {
         sub_800BC3E8((u8 *)owner);
     } else {
-        m_ac = 0;
+        this->owner = 0;
     }
 }

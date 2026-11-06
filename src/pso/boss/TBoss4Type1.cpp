@@ -1641,4 +1641,3 @@ void TBoss4Type2::sub_800525AC() {
 }
 
 }
-

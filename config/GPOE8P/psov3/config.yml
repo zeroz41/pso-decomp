@@ -6893,7 +6893,7 @@ force_active:
   - hide_part__9TObjLukerFPvUs
   - hide_title_layers_and_release
   - hit_object_in_radius__10TObjPlayerFPvPvPv
-  - hit_target_in_range__13TObjEneMorfosFPvPvPv
+  - hit_target_in_range__13TUnk_804EF130FP9TObjCharaP14TObjCollidable
   - hold_captured_player__12TBoss1DragonFv
   - hook__13TItemEffLavisFv
   - hook__13TUnk_804A2148Fv

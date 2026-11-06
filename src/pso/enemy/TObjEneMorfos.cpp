@@ -12,6 +12,7 @@ extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/enemy/TObjEneDD_ST.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/enemy/TObjEneMorfos.h"
+#include "pso/enemy/TUnk_804EF130.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
@@ -373,7 +374,6 @@ void TObjEneMorfos__sub_80333AD0(u8 *arg0, s32 arg1);
 s32 get_flag_b4__9TObjEneDDFv();
 void spawn_particle_effect(void *, int);
 s32 play_sound_effect(s32, u32, s16, s32);
-u8 * TObjEneMorfos__sub_80337824(void *, void *, s32, s32);
 void * __nw__7TObjectFUl(int);
 extern const f32 TObjEneMorfos__data_805DF884;
 extern const f32 lbl_805DF88C;
@@ -1250,7 +1250,6 @@ void TObjEneMorfos__sub_80332FD4(TObjEneMorfos *arg0, s32 arg1) {
 #define D (*(D_80333290 * *)&TObjEneMorfos__param_table)
 void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
     s32 old;
-    void *p;
     s32 n;
     s32 i;
     u8 *pl;
@@ -1327,10 +1326,7 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
         case 3:
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF88C) != 0) {
                 play_sound_effect(0x4003AD24, (u32)(arg0 + 0x38), 0, 0);
-                p = __nw__7TObjectFUl(0xFC);
-                if (p != NULL) {
-                    TObjEneMorfos__sub_80337824(p, arg0 + 0x498, (u16)(F(0x60, s32) + 0x8000), (s32)arg0);
-                }
+                new TUnk_804EF130((Vec *)(arg0 + 0x498), (u16)(F(0x60, s32) + 0x8000), (TObjEneMorfos *)arg0);
                 F(0x4B0, s32) = 4;
             }
             break;
@@ -1367,7 +1363,6 @@ void TObjEneMorfos::state_rotating_projectile_burst(s32 arg1) {
 #pragma pop
 
 void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
-    u8 *temp_r3;
     switch (arg1) {
     case 4:
         ((TObjEneDD *)(arg0))->vfunc_96();
@@ -1408,10 +1403,7 @@ void TObjEneMorfos__sub_80333690(TObjEneMorfos *arg0, s32 arg1) {
         case 2:
             if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805DF88C) != 0) {
                 play_sound_effect(0x4003AD24, (u32)((u8 *)arg0 + 0x38), 0, 0);
-                temp_r3 = (u8 *)(__nw__7TObjectFUl(0xFC));
-                if (temp_r3 != NULL) {
-                    TObjEneMorfos__sub_80337824(temp_r3, (u8 *)arg0 + 0x498, (s32) (u16) (arg0->m_4bc + 0x8000), (s32) arg0);
-                }
+                new TUnk_804EF130((Vec *)((u8 *)arg0 + 0x498), (u16)(arg0->m_4bc + 0x8000), arg0);
                 *(s32 *)((s8 *)arg0 + 0x4B0) = 3;
             }
             break;

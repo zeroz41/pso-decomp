@@ -6089,7 +6089,7 @@ s32 TBoss1Dragon::get_instance() {
 }
 
 void TUnk_80481B34::apply_hit_if_active(void *arg1, f32 *) {
-    ((TObjChara *)(((u8 *)arg1)))->receive_physical_attack((void *)this->m_ac, (1.0f));
+    ((TObjChara *)(((u8 *)arg1)))->receive_physical_attack((void *)this->owner, (1.0f));
     TBoss1Dragon__sub_8002AB6C(((u8 *)arg1));
 }
 
@@ -6105,7 +6105,7 @@ void TUnk_80481B34::area_attack_receive_direct(void *self_arg, f32 *arg2, void *
         e = (CollisionBody *)((u8 *)self->bodies + off);
         if (e->flags & 0x04000000) {
             DirectAttackPayload sp8 = *(DirectAttackPayload *)arg3;
-            self->receive_direct_attack((void *)this->m_ac, sp8, e, -1, -1);
+            self->receive_direct_attack((void *)this->owner, sp8, e, -1, -1);
             TBoss1Dragon__sub_8002AB6C((u8 *)self);
             return;
         }

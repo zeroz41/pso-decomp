@@ -24,6 +24,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/enemy/TUnk_80494938.h"
 #include <stddef.h>
 #include "types.h"
+#include "pso/enemy/TUnk_804E14E8.h"
 #include "pso/system/NinjaUtil.h"
 
 struct V_802CAAF0 { s32 x; s32 y; };
@@ -45,12 +46,9 @@ struct Tgt_802CB170;
 struct Vec_802CAD98;
 struct Vec_802CB8F0;
 
-struct IV3_802CB824 { s32 x, y, z; };
-
 extern "C" {
 void __ct__15RenderFadeStateFv(void *);
 void * __nw__7TObjectFUl(int);
-void TObjPlayer__sub_802CDEB4(void *, void *, u16, void *, s32, s32, u16);
 void TObjEneMe1GiGue__sub_802CB824(void *obj, s32 arg1);
 f32 receive_weapon_special_attack__15TObjEneMe1GiGueFPvPv(u8 *arg0);
 f32 receive_attack__15TObjEneMe1GiGueFPviii(S_802CAAF0 *arg0, s32 arg1, V_802CAAF0 arg2, s32 arg3);
@@ -927,19 +925,15 @@ void TObjEneMe1GiGue::sub_802CB6D4() {
 
 #define arg0 ((u8 *)arg0_)
 void TObjEneMe1GiGue__sub_802CB824(void *arg0_, s32 arg1) {
-    void *p;
     u8 *slot = arg0 + arg1 * 2;
     if (find_entity_by_id(*(u16 *)(slot + 0x3C4)) != 0) {
-        IV3_802CB824 v;
+        GiGueShotAngles v;
         v.x = 0;
         v.y = *(s32 *)(arg0 + 0x60) + ((arg1 & 1) ? -0x2000 : 0x2000);
         v.z = 0;
-        p = __nw__7TObjectFUl(0x10C);
-        if (p != 0) {
-            f32 lim = get_gigue_float_parameter((s32)((s32)arg0), 5);
-            TObjPlayer__sub_802CDEB4(p, arg0 + 0x3A8, *(u16 *)(slot + 0x3C4), &v, arg1 * 3,
-                                     random_ratio__9TObjCharaFv(arg0) <= lim, *(u16 *)(arg0 + 0x1C));
-        }
+        new TUnk_804E14E8((Vec *)(arg0 + 0x3A8), *(u16 *)(slot + 0x3C4), &v, arg1 * 3,
+                          random_ratio__9TObjCharaFv(arg0) <= get_gigue_float_parameter((s32)arg0, 5),
+                          *(u16 *)(arg0 + 0x1C));
     }
 }
 #undef arg0

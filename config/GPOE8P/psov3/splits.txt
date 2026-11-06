@@ -9157,6 +9157,7 @@ pso/enemy/TObjEneMe1GiGue.cpp:
 pso/enemy/TObjEneMe1GiGue_802CDB1C.cpp:
 	.text       start:0x802CDB1C end:0x802CE088
 	.rodata     start:0x804722A8 end:0x804722D0
+	.data       start:0x804E14E8 end:0x804E1520
 	.sdata2     start:0x805DE6C0 end:0x805DE6CC
 
 pso/enemy/TObjEneMe1GiGueMissile.cpp:
@@ -9191,8 +9192,9 @@ pso/enemy/TObjEneBm9Mericarol.cpp:
 
 pso/enemy/TObjEneBm9Mericarol_Bomb.cpp:
 	.text       start:0x802D134C end:0x802D1AB8
-	.rodata     start:0x804724E8 end:0x804724F0
+	.rodata     start:0x804724C8 end:0x804724F0
 	.data       start:0x804E18A8 end:0x804E1908
+	.sdata      start:0x805D3F30 end:0x805D3F38
 	.sdata2     start:0x805DE758 end:0x805DE778
 
 pso/enemy/TObjEneBm9Mericarol_EffCurse3.cpp:
@@ -10448,6 +10450,7 @@ pso/unk/text_803374F0.cpp:
 pso/enemy/TObjEneMorfos_80337500.cpp:
 	.text       start:0x80337500 end:0x80337910
 	.rodata     start:0x80477B70 end:0x80477B78
+	.data       start:0x804EF130 end:0x804EF168
 	.sdata2     start:0x805DF988 end:0x805DF998
 
 pso/misc/TShopDeleteItemWindow.cpp:

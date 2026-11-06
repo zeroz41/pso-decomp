@@ -130,7 +130,7 @@ void TBoss1DragonEffTail::area_attack_apply_recoil(void *target, f32) {
 }
 
 void TBoss1DragonEffTail::apply_hit_if_active(void *arg1, f32 *) {
-    ((VObj_18 *)(((u8 *)arg1)))->m20(this->m_ac, 1.0f);
+    ((VObj_18 *)(((u8 *)arg1)))->m20(this->owner, 1.0f);
     if (TObjEneDD::check_v2_mode() != 0) {
         TBoss1Dragon__sub_8002AB6C((((u8 *)arg1)));
     }

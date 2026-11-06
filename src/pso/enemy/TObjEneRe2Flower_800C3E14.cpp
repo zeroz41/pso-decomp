@@ -422,7 +422,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
     s32 ok;
     result = 0;
     flags = 0;
-    if (this->m_ac == 0) {
+    if (this->owner == 0) {
         return 0;
     }
     TObjPlayer::init_all_slots();
@@ -440,7 +440,7 @@ s32 TObjEneRe2Flower_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2, vo
             if (p == 0) {
                 break;
             }
-            if (obj_is_hit_receivable((void *)p) != 0 && (u32)p != this->m_ac &&
+            if (obj_is_hit_receivable((void *)p) != 0 && (u32)p != this->owner &&
                 is_area_attack_target_eligible((s32)this, *(s32 *)((s8 *)p + 0x30)) != 0 &&
                 !(fabs_float(*(f32 *)&(this->m_b8) - *(f32 *)((s8 *)p + 0x300)) > lbl_805DA000)) {
                 ok = 1;

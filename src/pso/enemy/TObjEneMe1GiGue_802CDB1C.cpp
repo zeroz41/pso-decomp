@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/NinjaUtil.h"
 #include "pso/enemy/TUnk_804E14E8.h"
@@ -8,205 +9,160 @@
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjChara.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/TMainTask.h"
+#include "pso/unk/text_80086B64.h"
 
 struct Vec_802CDEB4 { f32 x, y, z; };
 
-struct Ang_802CDEB4 { s32 x; s32 y; s32 z; };
-
-struct Rot_802CDEB4 { s32 a; s32 b; };
-
 struct Vec_802CDB1C { f32 x, y, z; };
-
-struct Hit_802CDB1C { s32 kind; f32 power; };
-
-struct VBase_802CDB1C { u8 pad[0x18]; };
-
-struct VEnt_802CDB1C : VBase_802CDB1C {
-    virtual void m0(); virtual void m1(); virtual void m2(); virtual void m3();
-    virtual void m4(); virtual void m5(); virtual void m6(); virtual void m7();
-    virtual void m8(); virtual void m9(); virtual void m10(); virtual void m11();
-    virtual void m12(); virtual void m13(); virtual void m14(); virtual void m15();
-    virtual void m16(); virtual void m17(); virtual void m18(); virtual void m19();
-    virtual void m20();
-    virtual void m21(void *src, Hit_802CDB1C *hit, s32 a, s32 b, s32 c);
-};
-
-struct Shot_802CDB1C {
-    u8 pad0[0xAC];
-    Vec_802CDB1C pos;
-    Vec_802CDB1C prev;
-    Vec_802CDB1C vel;
-    u8 padD0[0xEC - 0xD0];
-    s32 timer;
-    Vec_802CDB1C *start;
-    f32 speed;
-    void *ptcl0;
-    void *ptcl1;
-    s32 state;
-    s32 f104;
-    u16 target_id;
-    u16 src_id;
-};
 
 extern "C" {
 f32 atan2_float(f32 y, f32 x);
 void *spawn_particle_effect_with_rotation(void *pos, void *dir, s32 id, int e);
-u8 *find_entity_by_id(s16);
-s32 __ct__14TObjCollidableFP7TObject(void *, s32);
 s32 matrix_mult_vec(void *, Vec_802CDEB4 *, void *);
 s32 rotate_matrix_y(void *, s32);
 s32 rotate_matrix_x(void *, s32);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
-extern s32 lbl_804E14E8[];
 extern u8 identity_matrix[];
-extern s32 tl_04;
 extern f32 lbl_805D6844;
 extern f32 lbl_805D6848;
-u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6);
-void queue_destruction__7TObjectFv(void *);
 u32 csnVector(void *, void *, s32);
 void *spawn_particle_effect(void *pos, s32 id);
-VEnt_802CDB1C *find_active_entity_by_id(u16);
+TObjChara *find_active_entity_by_id(u16);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
 extern s32 local_client_id;
 extern const f32 lbl_805D684C;
 extern s32 lbl_805D6854;
-void TObjPlayer__sub_802CDB1C(u8 *arg0);
-void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1);
-void __dl__7TObjectFPv(void *);
 
-u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6) {
-    Vec_802CDEB4 *pos;
-    __ct__14TObjCollidableFP7TObject(arg0, tl_04);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
-    ((TUnk_804E14E8 *)arg0)->m_108 = arg2;
-    *(s16 *)((s8 *)arg0 + 0x10A) = arg6;
-    *(s32 *)((s8 *)arg0 + 0x104) = arg5;
-    ((TUnk_804E14E8 *)arg0)->m_f0 = arg1;
-    ((TUnk_804E14E8 *)arg0)->m_e8 = 0.0f;
+}
+
+TUnk_804E14E8::TUnk_804E14E8(Vec *start, u16 target_id, GiGueShotAngles *angles, s32 delay, s32 double_hit, u16 src_id)
+    : TObjCollidable(tl_04) {
+    Vec *target;
+    this->target_id = target_id;
+    this->src_id = src_id;
+    this->double_hit = double_hit;
+    this->start = start;
+    m_e8 = 0.0f;
     push_matrix_from(identity_matrix);
     {
         Vec_802CDEB4 v = {0.0f, 0.0f, lbl_805D6844};
-        rotate_matrix_y(0, arg3->b);
-        rotate_matrix_x(0, arg3->a);
-        matrix_mult_vec(0, &v, arg0 + 0xC4);
+        rotate_matrix_y(0, angles->y);
+        rotate_matrix_x(0, angles->x);
+        matrix_mult_vec(0, &v, &vel);
     }
     pop_matrix();
-    *(s32 *)((s8 *)arg0 + 0xEC) = arg4;
-    pos = (Vec_802CDEB4 *)(find_entity_by_id(arg2) + 0x2FC);
+    timer = delay;
+    target = (Vec *)((u8 *)find_entity_by_id(target_id) + 0x2FC);
     {
-    Ang_802CDEB4 ang;
+    ParticleAngles ang;
     ang.x = 0;
-    ang.y = (s32)(10430.38043493439 * atan2_float(pos->x - arg1->x, pos->z - arg1->z)) + 0x4000;
-    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(pos->y - arg1->y, vec_xz_distance((Vec *)pos, (Vec *)arg1)));
-    ((TUnk_804E14E8 *)arg0)->m_f8 = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x201, 2);
-    *(s32 *)((s8 *)arg0 + 0xFC) = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x202, 2);
+    ang.y = (s32)(10430.38043493439 * atan2_float(target->x - start->x, target->z - start->z)) + 0x4000;
+    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(target->y - start->y, vec_xz_distance(target, start)));
+    ptcl0 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x201, 2);
+    ptcl1 = (TParticleCtrl *)spawn_particle_effect_with_rotation(start, &ang, 0x202, 2);
     }
-    *(f32 *)((s8 *)arg0 + 0xF4) = lbl_805D6848;
-    if (xz_distance_squared((Vec *)pos, (Vec *)arg1) < 22500.0f) {
-        *(f32 *)((s8 *)arg0 + 0xF4) *= 2.0f;
+    speed = lbl_805D6848;
+    if (xz_distance_squared(target, start) < 22500.0f) {
+        speed *= 2.0f;
     }
-    ((TUnk_804E14E8 *)arg0)->m_100 = 0;
-    return arg0;
+    state = 0;
 }
-void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
-        if (*(void **)((s8 *)arg0 + 0xF8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8)); ((TUnk_804E14E8 *)arg0)->m_f8 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xFC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xFC)); *(s32 *)((s8 *)arg0 + 0xFC) = 0; }
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+
+TUnk_804E14E8::~TUnk_804E14E8() {
+    if (ptcl0 != NULL) {
+        ptcl0->queue_destruction();
+        ptcl0 = NULL;
     }
-    return arg0;
+    if (ptcl1 != NULL) {
+        ptcl1->queue_destruction();
+        ptcl1 = NULL;
+    }
 }
+
+extern "C" {
 #pragma push
 #pragma opt_common_subs off
-#define self ((Shot_802CDB1C *)arg0)
-void TObjPlayer__sub_802CDB1C(u8 *arg0) {
+void TUnk_804E14E8::run_task() {
     u8 *src;
-    VEnt_802CDB1C *tgt;
+    TObjChara *tgt;
     Vec_802CDB1C v;
-    src = ((u8 *(*)(u16))find_entity_by_id)(self->src_id);
+    src = (u8 *)find_entity_by_id(src_id);
     if (src == NULL) {
-        queue_destruction__7TObjectFv(self);
+        queue_destruction();
         return;
     }
-    tgt = find_active_entity_by_id(self->target_id);
-    switch (self->state) {
+    tgt = find_active_entity_by_id(target_id);
+    switch (state) {
     case 0:
-        self->timer--;
-        if (self->timer <= 0) {
-            self->timer = 0;
-            VecCopy((Vec *)&self->pos, (const Vec *)self->start);
-            self->state = 1;
+        timer--;
+        if (timer <= 0) {
+            timer = 0;
+            VecCopy((Vec *)&pos, start);
+            state = 1;
             if (get_current_floor_area() == AREA_TOWER) {
-                play_sound_effect(0x4003A313, &self->pos, 0, 0);
+                play_sound_effect(0x4003A313, &pos, 0, 0);
                 return;
             }
-            play_sound_effect(0x3A820, &self->pos, 0, 0);
+            play_sound_effect(0x3A820, &pos, 0, 0);
             return;
         }
-        if (self->ptcl0 != NULL) {
-            ((TParticleCtrl *)(self->ptcl0))->enable();
+        if (ptcl0 != NULL) {
+            ptcl0->enable();
         }
-        if (self->ptcl1 != NULL) {
-            ((TParticleCtrl *)(self->ptcl1))->enable();
+        if (ptcl1 != NULL) {
+            ptcl1->enable();
         }
         return;
     case 1:
-        self->timer++;
-        if (self->timer >= 0x5A) {
-            queue_destruction__7TObjectFv(self);
+        timer++;
+        if (timer >= 0x5A) {
+            queue_destruction();
             return;
         }
         if (tgt != NULL) {
             VecCopy((Vec *)&v, (const Vec *)((u8 *)tgt + 0x2FC));
-            subtract_vector(&v, &self->pos);
-            vec_set_length((Vec *)&v, self->speed);
-            self->speed += lbl_805D684C;
-            vec3_add_to(&self->vel, &v);
-            vec_set_length((Vec *)&self->vel, lbl_805D6844);
+            subtract_vector(&v, &pos);
+            vec_set_length((Vec *)&v, speed);
+            speed += lbl_805D684C;
+            vec3_add_to(&vel, &v);
+            vec_set_length((Vec *)&vel, lbl_805D6844);
         }
-        VecCopy((Vec *)&self->prev, (const Vec *)&self->pos);
-        vec3_add_to(&self->pos, &self->vel);
-        if (self->ptcl0 != NULL) {
-            ((TParticleCtrl *)self->ptcl0)->set_position(&self->pos);
+        VecCopy((Vec *)&prev, (const Vec *)&pos);
+        vec3_add_to(&pos, &vel);
+        if (ptcl0 != NULL) {
+            ptcl0->set_position(&pos);
         }
-        if (self->ptcl1 != NULL) {
-            ((TParticleCtrl *)self->ptcl1)->set_position(&self->pos);
+        if (ptcl1 != NULL) {
+            ptcl1->set_position(&pos);
         }
-        if (csnVector(&self->prev, &self->pos, -1) != 0) {
-            queue_destruction__7TObjectFv(self);
+        if (csnVector(&prev, &pos, -1) != 0) {
+            queue_destruction();
             return;
         }
-        if (tgt != NULL && !(*(s32 *)((s8 *)tgt + 0x30) & 0x04000A00) &&
-            xyz_distance_squared((Vec *)&self->pos, (Vec *)((u8 *)tgt + 0x2FC)) <= lbl_805D6844 * lbl_805D6844) {
-            Hit_802CDB1C h = {1, (f32)lbl_805D6854};
-            {
-                Hit_802CDB1C h1 = h;
-                tgt->m21(src, &h1, 0, -1, -1);
-            }
-            if (self->f104 == 1) {
-                h.kind = 0x12;
-                Hit_802CDB1C h2 = h;
-                tgt->m21(src, &h2, 0, -1, -1);
+        if (tgt != NULL && !(tgt->actorFlags & 0x04000A00) &&
+            xyz_distance_squared((Vec *)&pos, (Vec *)((u8 *)tgt + 0x2FC)) <= lbl_805D6844 * lbl_805D6844) {
+            DirectAttackPayload hit = {1, (f32)lbl_805D6854};
+            tgt->receive_direct_attack(src, hit, 0, -1, -1);
+            if (double_hit == 1) {
+                hit.kind = 0x12;
+                tgt->receive_direct_attack(src, hit, 0, -1, -1);
             }
             spawn_particle_effect((u8 *)tgt + 0x2FC, 0x8E);
-            if (local_client_id == self->target_id) {
+            if (local_client_id == target_id) {
                 ((TObjEneMe1GiGue *)src)->apply_hit_shake((u32)tgt);
             }
-            queue_destruction__7TObjectFv(self);
+            queue_destruction();
         }
         break;
     }
 }
-#undef self
 #pragma pop
 
 

@@ -13,6 +13,8 @@
 #include "pso/enemy/TObjEneBm9Mericarol.h"
 #include "pso/boss/TObjBoss2Tunnel.h"
 
+const char *TObjEneBm9Mericarol_Bomb__class_name = "TObjEneBm9Mericarol_Bomb";
+
 extern "C" {
 s32 obj_is_hit_receivable(u32);
 f32 fabs_float(f32);
@@ -27,7 +29,7 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
     s32 ok;
     hit = 0;
     mask = 0;
-    if (this->m_ac == 0) {
+    if (this->owner == 0) {
         return 0;
     }
     TObjPlayer::init_all_slots();
@@ -45,9 +47,9 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
             if (obj == 0) {
                 break;
             }
-            if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->m_ac &&
+            if (obj_is_hit_receivable(obj) != 0 && (u32)obj != this->owner &&
                 is_area_attack_target_eligible(this, *(u32 *)((s8 *)obj + 0x30)) != 0 &&
-                !(fabs_float(unk_B8 - *(f32 *)((s8 *)obj + 0x300)) > 3e+01f)) {
+                !(fabs_float(pos.y - *(f32 *)((s8 *)obj + 0x300)) > 3e+01f)) {
                 ok = 1;
                 if (object != 0 && attack_target_history_add((s32)object, obj) == 0) {
                     ok = 0;
@@ -63,9 +65,8 @@ s32 TObjEneBm9Mericarol_Bomb::area_attack_deliver_direct(void *recoil, s32 arg2,
 }
 
 void TObjEneBm9Mericarol_Bomb::render() {
-    u8 *arg0 = (u8 *)this;
-    if ((s32) *(s32 *)((s8 *)arg0 + 0x10C) != 0) {
-        ((TObjEneDD *)(arg0 + 0x38))->draw_oriented_shadow((s32)(arg0 + 0xD8), 0, (u32)0);
+    if (shadow_visible != 0) {
+        ((TObjEneDD *)&position)->draw_oriented_shadow((s32)&shadow_pos, 0, (u32)0);
     }
 }
 
@@ -108,81 +109,80 @@ s32 vec3_add_to(void *, void *);
 #pragma push
 #pragma opt_common_subs off
 void TObjEneBm9Mericarol_Bomb::run_task() {
-    u8 *arg0 = (u8 *)this;
     Vec_802D14F4 v;
     Rot_802D14F4 r1;
     Rot_802D14F4 r2;
     Hit_802D14F4 *hit;
     f32 d;
-    switch (this->m_100) {
+    switch (state) {
     case 0:
-        (*(s32 *)&this->unk_FC)++;
-        if ((f32) *(s32 *)&this->unk_FC >= 1.5e+02f) {
+        age++;
+        if ((f32)age >= 1.5e+02f) {
             queue_destruction();
             return;
         }
-        this->m_f8 -= 0.15f;
-        VecCopy((Vec *)&v, (const Vec *)&this->m_b4);
-        vec3_add_to(&v, (u8 *)&this->m_cc);
-        v.y += this->m_f8 - 3.0f;
-        if (csnVector((u8 *)&this->m_b4, &v, 0x1EFF) != 0) {
+        fall_speed -= 0.15f;
+        VecCopy((Vec *)&v, &pos);
+        vec3_add_to(&v, &look_ahead);
+        v.y += fall_speed - 3.0f;
+        if (csnVector(&pos, &v, 0x1EFF) != 0) {
             queue_destruction();
             return;
         }
-        this->m_b4 += *(f32 *)&this->unk_C0;
-        this->unk_B8 += this->m_c4;
-        this->m_bc += *(f32 *)((s8 *)arg0 + 0xC8);
-        hit = (Hit_802D14F4 *)csnVecterUnder((s32)&this->m_b4, 0x16EF);
+        pos.x += velocity.x;
+        pos.y += velocity.y;
+        pos.z += velocity.z;
+        hit = (Hit_802D14F4 *)csnVecterUnder((s32)&pos, 0x16EF);
         if (hit != NULL) {
-            *(f32 *)((s8 *)arg0 + 0x3C) = *(f32 *)((s8 *)hit->tri + 4);
-            VecCopy((Vec *)(arg0 + 0xD8), (const Vec *)(hit->tri + 0xC));
-            *(s32 *)&this->unk_10C = 1;
+            position.y = *(f32 *)((s8 *)hit->tri + 4);
+            VecCopy(&shadow_pos, (const Vec *)(hit->tri + 0xC));
+            shadow_visible = 1;
         } else {
-            *(s32 *)&this->unk_10C = 0;
+            shadow_visible = 0;
         }
-        *(f32 *)((s8 *)arg0 + 0x38) = this->m_b4;
-        *(f32 *)((s8 *)arg0 + 0x40) = this->m_bc;
-        d = this->unk_B8 - *(f32 *)((s8 *)arg0 + 0x3C);
+        position.x = pos.x;
+        position.z = pos.z;
+        d = pos.y - position.y;
         if (d > 2e+01f) {
-            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) |= 4;
-            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) &= ~2;
+            bodies->flags |= 4;
+            bodies->flags &= ~2;
         } else {
-            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) &= ~4;
-            *(s32 *)((s8 *)(*(u8 * *)&this->bodies) + 0x18) |= 2;
+            bodies->flags &= ~4;
+            bodies->flags |= 2;
         }
-        *(f32 *)((s8 *)(*(u8 * *)&this->bodies) + 4) = d;
-        if (((VObj_18_64db54 *)(arg0))->m14((u8 *)&this->m_e4, (u8 *)&this->unk_F0) != 0) {
-            TObjEneBm9Mericarol__sub_802CED40(find_entity_by_id(*(u16 *)((s8 *)arg0 + 0xB0)));
-            if (*(s32 *)((s8 *)arg0 + 0xF0) == 0 && this->m_108 != 0) {
-                *(s32 *)((s8 *)arg0 + 0xF0) = 0x12;
-                this->vfunc_16((u8 *)&this->m_e4, (u8 *)&this->unk_F0);
+        bodies->offset.y = d;
+        if (((VObj_18_64db54 *)this)->m14((u8 *)&this->attack_power, (u8 *)&this->attack_type) != 0) {
+            TObjEneBm9Mericarol__sub_802CED40(find_entity_by_id(owner_id));
+            if (attack_type == 0 && this->m_108 != 0) {
+                attack_type = 0x12;
+                this->vfunc_16((u8 *)&this->attack_power, (u8 *)&this->attack_type);
             }
             queue_destruction();
             return;
         }
     case 1:
     default:
-        if (this->m_110 == NULL) {
+        if (effect == NULL) {
             r1.x = 0;
             r1.y = this->m_ec + 0x4000;
             r1.z = 0;
-            this->m_110 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_b4, &r1, 0x207, 0x40);
-            if (this->m_110 != NULL) {
-                this->m_110->enable();
+            effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r1, 0x207, 0x40);
+            if (effect != NULL) {
+                effect->enable();
             }
         } else {
-            this->m_110->set_position(&this->m_b4);
+            effect->set_position(&pos);
         }
-        if (this->unk_114 == NULL) {
+        if (phase_effect == NULL) {
             r2.x = 0;
             r2.y = this->m_ec + 0x4000;
             r2.z = 0;
-            this->unk_114 = (TParticleCtrl *)spawn_particle_effect_with_rotation(&this->m_b4, &r2, *(s32 *)&this->unk_104, 0x40);
-            if (this->unk_114 != NULL) {
-                this->unk_114->enable();
+            phase_effect = (TParticleCtrl *)spawn_particle_effect_with_rotation(&pos, &r2, phase_effect_id, 0x40);
+            if (phase_effect != NULL) {
+                phase_effect->enable();
             }
         } else {
-            this->unk_114->set_position(&this->m_b4);
+            phase_effect->set_position(&pos);
         }
         break;
     }
@@ -196,87 +196,86 @@ extern "C" {
 s16 get_entity_id(void *);
 f32 vector_length(Vec *);
 s32 normalize_vector(Vec *);
-extern const char *lbl_805D3F30;
 
 }
 
 TObjEneBm9Mericarol_Bomb::~TObjEneBm9Mericarol_Bomb() {
-    if (m_110 != NULL) {
-        m_110->queue_destruction();
-        m_110 = NULL;
+    if (effect != NULL) {
+        effect->queue_destruction();
+        effect = NULL;
     }
-    if (unk_114 != NULL) {
-        unk_114->queue_destruction();
-        unk_114 = NULL;
+    if (phase_effect != NULL) {
+        phase_effect->queue_destruction();
+        phase_effect = NULL;
     }
 }
 
 #pragma push
 #pragma fp_contract on
 
-TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *pos, Vec *target, f32 farg0, f32 farg1, s32 arg4)
+TObjEneBm9Mericarol_Bomb::TObjEneBm9Mericarol_Bomb(TObjEneBm9Mericarol *owner, Vec *start, Vec *target, f32 farg0, f32 farg1, s32 arg4)
     : TUnk_804928CC(owner, owner) {
     Vec d;
     f32 k;
-    m_name = lbl_805D3F30;
+    m_name = TObjEneBm9Mericarol_Bomb__class_name;
     if (TObjEneDD::check_v2_mode() != 0) {
-        *(s32 *)((s8 *)this + 0xF0) = 5;
+        attack_type = 5;
     } else {
         switch (owner->get_phase()) {
         case 1:
-            *(s32 *)((s8 *)this + 0xF0) = 2;
+            attack_type = 2;
             break;
         case 2:
-            *(s32 *)((s8 *)this + 0xF0) = 3;
+            attack_type = 3;
             break;
         case 0:
         default:
             m_108 = arg4;
-            *(s32 *)((s8 *)this + 0xF0) = 0;
+            attack_type = 0;
             break;
         }
     }
     m_f4 = farg0;
     switch (owner->get_phase()) {
     case 1:
-        *(s32 *)((s8 *)this + 0x104) = 0x20A;
+        phase_effect_id = 0x20A;
         break;
     case 2:
-        *(s32 *)((s8 *)this + 0x104) = 0x209;
+        phase_effect_id = 0x209;
         break;
     case 0:
     default:
-        *(s32 *)((s8 *)this + 0x104) = 0x208;
+        phase_effect_id = 0x208;
         break;
     }
-    *(f32 *)((s8 *)bodies + 0xC) = 2.0f;
-    *(s16 *)((s8 *)this + 0xB0) = get_entity_id(owner);
-    VecCopy((Vec *)&m_b4, pos);
-    VecCopy(&position, (Vec *)&m_b4);
-    *(f32 *)((s8 *)this + 0xD8) = 0.0f;
-    m_dc = 0.0f;
-    *(f32 *)((s8 *)this + 0xE0) = 0.0f;
-    d.x = target->x - pos->x;
-    d.y = 12.0f + (target->y - pos->y);
-    d.z = target->z - pos->z;
+    bodies->radius = 2.0f;
+    owner_id = get_entity_id(owner);
+    VecCopy(&pos, start);
+    VecCopy(&position, &pos);
+    shadow_pos.x = 0.0f;
+    shadow_pos.y = 0.0f;
+    shadow_pos.z = 0.0f;
+    d.x = target->x - start->x;
+    d.y = 12.0f + (target->y - start->y);
+    d.z = target->z - start->z;
     if (0.0f != vector_length(&d)) {
         normalize_vector(&d);
     }
-    *(f32 *)((s8 *)this + 0xC0) = d.x * farg1;
+    velocity.x = d.x * farg1;
     k = 3.0f + farg1;
-    m_c4 = d.y * farg1;
-    *(f32 *)((s8 *)this + 0xC8) = d.z * farg1;
-    m_cc = d.x * k;
-    *(f32 *)((s8 *)this + 0xD0) = d.y * k;
-    m_d4 = d.z * k;
-    m_e4 = 0.0f;
-    *(s32 *)((s8 *)this + 0xE8) = 1;
-    m_f8 = 0.0f;
-    *(s32 *)((s8 *)this + 0xFC) = 0;
-    m_100 = 0;
-    m_110 = NULL;
-    unk_114 = NULL;
-    *(s32 *)((s8 *)this + 0x10C) = 1;
+    velocity.y = d.y * farg1;
+    velocity.z = d.z * farg1;
+    look_ahead.x = d.x * k;
+    look_ahead.y = d.y * k;
+    look_ahead.z = d.z * k;
+    attack_power = 0.0f;
+    attack_flags = 1;
+    fall_speed = 0.0f;
+    age = 0;
+    state = 0;
+    effect = NULL;
+    phase_effect = NULL;
+    shadow_visible = 1;
 }
 
 #pragma pop

@@ -136,7 +136,7 @@ struct VObj_800bbe90 : Base_800bbe90 {
 
 
 void TUnk_804928CC::apply_hit_if_active(void *arg1, f32 *arg2) {
-    ((VObj_800bbe90*)arg1)->m20(this->m_ac, 1.0f);
+    ((VObj_800bbe90*)arg1)->m20(this->owner, 1.0f);
     if (obj_isState2_324__9TObjCharaFv(arg1) == 0) {
         this->area_attack_apply_recoil(arg1, *arg2);
     }
