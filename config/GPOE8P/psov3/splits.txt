@@ -10933,17 +10933,14 @@ pso/item/TUnk_804F0FF0.cpp:
 	.data       start:0x804F0FF0 end:0x804F10A4
 
 pso/system/scene/TEndingPic.cpp:
-	.text       start:0x80352BB8 end:0x803531FC
+	.text       start:0x80352BB8 end:0x80353018
 	.data       start:0x804F10A8 end:0x804F10C0
 
-pso/item/TUnk_804F112C_803531FC.cpp:
-	.text       start:0x803531FC end:0x80353380
-
-pso/item/TUnk_804F112C_80353380.cpp:
-	.text       start:0x80353380 end:0x80353414
-
-pso/item/TUnk_804F112C_80353414.cpp:
-	.text       start:0x80353414 end:0x8035346C
+pso/item/TUnk_804F112C.cpp:
+	.text       start:0x80353018 end:0x8035346C
+	.rodata     start:0x80479100 end:0x80479170
+	.data       start:0x804F10C0 end:0x804F11E0
+	.sdata2     start:0x805DFF30 end:0x805DFF38
 
 pso/object/lobby/TObjKabochaLobby.cpp:
 	.text       start:0x8035346C end:0x803537D4

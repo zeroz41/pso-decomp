@@ -2810,8 +2810,7 @@ pso/unk/text_8034AD38.cpp
 pso/unk/text_8034CEDC.cpp
 pso/unk/text_8034D3D0.cpp
 pso/unk/text_8034DAA0.cpp
-pso/item/TUnk_804F112C_80353380.cpp
-pso/item/TUnk_804F112C_80353414.cpp
+pso/item/TUnk_804F112C.cpp
 pso/unk/text_80354BE4.cpp
 pso/boss/galgryphon/TBoss5GryphonTornado_803554F0.cpp
 pso/unk/text_80355970.cpp
