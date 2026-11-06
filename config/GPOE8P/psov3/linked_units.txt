@@ -1248,6 +1248,7 @@ pso/effect/photon/TPhotonMylla.cpp
 pso/effect/photon/TPhotonPilla.cpp
 pso/effect/photon/TPhotonRainbow.cpp
 pso/effect/photon/TPhotonYoulla.cpp
+pso/player/TObjPlayer_802790CC.cpp
 pso/player/TPlayerBattleCtrl4P.cpp
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp
