@@ -3622,71 +3622,90 @@ pso/npc/TObjNpcExpertBase.cpp:
 	.sdata      start:0x805D2D68 end:0x805D2D70
 	.sbss       start:0x805D5750 end:0x805D5758
 
-pso/npc/TObjNpcFemaleBase_80149C44.cpp:
-	.text       start:0x80149C44 end:0x80149C7C
-
-pso/npc/TObjNpcFemaleBase_80149C7C.cpp:
-	.text       start:0x80149C7C end:0x80149D40
+pso/npc/TUnk_804A8640.cpp:
+	.text       start:0x80149C44 end:0x80149D40
+	.rodata     start:0x8043F810 end:0x8043F830
 	.data       start:0x804A8640 end:0x804A87B8
+	.sbss       start:0x805D5758 end:0x805D5760
 
 pso/npc/TObjNpcFemaleBase.cpp:
-	.text       start:0x80149D40 end:0x8014A008
-	.data       start:0x804A87D0 end:0x804A8948
+	.text       start:0x80149D40 end:0x80149F18
+	.rodata     start:0x8043F830 end:0x8043F868
+	.data       start:0x804A87B8 end:0x804A8948
+	.sdata      start:0x805D2D70 end:0x805D2D78
+	.sbss       start:0x805D5760 end:0x805D5768
 
 pso/npc/TObjNpcFemaleChild.cpp:
-	.text       start:0x8014A008 end:0x8014A1E0
-	.data       start:0x804A8960 end:0x804A8AD8
+	.text       start:0x80149F18 end:0x8014A0F0
+	.rodata     start:0x8043F868 end:0x8043F8A0
+	.data       start:0x804A8948 end:0x804A8AD8
+	.sdata      start:0x805D2D78 end:0x805D2D80
+	.sbss       start:0x805D5768 end:0x805D5770
 
 pso/npc/TObjNpcFemaleDwarf.cpp:
-	.text       start:0x8014A1E0 end:0x8014A3B8
-	.data       start:0x804A8AF0 end:0x804A8C68
+	.text       start:0x8014A0F0 end:0x8014A2C8
+	.rodata     start:0x8043F8A0 end:0x8043F8E0
+	.data       start:0x804A8AD8 end:0x804A8C68
+	.sdata      start:0x805D2D80 end:0x805D2D88
+	.sbss       start:0x805D5770 end:0x805D5778
 
 pso/npc/TObjNpcFemaleFat.cpp:
-	.text       start:0x8014A3B8 end:0x8014A590
-	.data       start:0x804A8C80 end:0x804A8DF8
+	.text       start:0x8014A2C8 end:0x8014A4A0
+	.rodata     start:0x8043F8E0 end:0x8043F918
+	.data       start:0x804A8C68 end:0x804A8DF8
+	.sdata      start:0x805D2D88 end:0x805D2D90
+	.sbss       start:0x805D5778 end:0x805D5780
 
 pso/npc/TObjNpcFemaleMacho.cpp:
-	.text       start:0x8014A590 end:0x8014A768
-	.data       start:0x804A8E10 end:0x804A8F88
+	.text       start:0x8014A4A0 end:0x8014A678
+	.rodata     start:0x8043F918 end:0x8043F950
+	.data       start:0x804A8DF8 end:0x804A8F88
+	.sdata      start:0x805D2D90 end:0x805D2D98
+	.sbss       start:0x805D5780 end:0x805D5788
 
 pso/npc/TObjNpcFemaleOld.cpp:
-	.text       start:0x8014A768 end:0x8014A940
-	.data       start:0x804A8FA0 end:0x804A9118
+	.text       start:0x8014A678 end:0x8014A850
+	.rodata     start:0x8043F950 end:0x8043F990
+	.data       start:0x804A8F88 end:0x804A9118
+	.sdata      start:0x805D2D98 end:0x805D2DA0
+	.sbss       start:0x805D5788 end:0x805D5790
 
 pso/npc/TObjNpcFemaleTall.cpp:
-	.text       start:0x8014A940 end:0x8014AA48
-	.data       start:0x804A9130 end:0x804A92A8
+	.text       start:0x8014A850 end:0x8014AA28
+	.rodata     start:0x8043F990 end:0x8043F9C8
+	.data       start:0x804A9118 end:0x804A92A8
+	.sdata      start:0x805D2DA0 end:0x805D2DA8
+	.sbss       start:0x805D5790 end:0x805D5798
 
-pso/npc/TObjNpcFemaleTall_8014AA48.cpp:
-	.text       start:0x8014AA48 end:0x8014AA60
-
-pso/npc/TObjNpcFemaleTall_8014AA60.cpp:
-	.text       start:0x8014AA60 end:0x8014AAC4
-
-pso/unk/text_8014AAC4.cpp:
-	.text       start:0x8014AAC4 end:0x8014AB24
+pso/npc/TUnk_804A92A8.cpp:
+	.text       start:0x8014AA28 end:0x8014AB24
 	.rodata     start:0x8043F9C8 end:0x8043F9E8
-
-pso/npc/TObjNpcGovernorBase_8014AB24.cpp:
-	.text       start:0x8014AB24 end:0x8014AB8C
+	.data       start:0x804A92A8 end:0x804A9420
+	.sbss       start:0x805D5798 end:0x805D57A0
 
 pso/npc/TObjNpcGovernorBase.cpp:
-	.text       start:0x8014AB8C end:0x8014ADF4
+	.text       start:0x8014AB24 end:0x8014ACFC
 	.rodata     start:0x8043F9E8 end:0x8043FA28
 	.data       start:0x804A9420 end:0x804A95B0
 	.sdata      start:0x805D2DA8 end:0x805D2DB0
 	.sbss       start:0x805D57A0 end:0x805D57A8
 
 pso/npc/TObjNpcHFW00.cpp:
-	.text       start:0x8014ADF4 end:0x8014AFC8
+	.text       start:0x8014ACFC end:0x8014AED0
+	.rodata     start:0x8043FA28 end:0x8043FA60
+	.data       start:0x804A95B0 end:0x804A9728
+	.sdata      start:0x805D2DB0 end:0x805D2DB8
+	.sbss       start:0x805D57A8 end:0x805D57B0
 
 pso/npc/TObjNpcHFW01.cpp:
-	.text       start:0x8014AFC8 end:0x8014B10C
-	.rodata     start:0x8043FA60 end:0x8043FA70
+	.text       start:0x8014AED0 end:0x8014B0A4
+	.rodata     start:0x8043FA60 end:0x8043FA98
+	.data       start:0x804A9728 end:0x804A98A0
 	.sdata      start:0x805D2DB8 end:0x805D2DC0
+	.sbss       start:0x805D57B0 end:0x805D57B8
 
 pso/npc/TObjNpcHHM00.cpp:
-	.text       start:0x8014B10C end:0x8014B2E0
+	.text       start:0x8014B0A4 end:0x8014B2E0
 	.rodata     start:0x8043FA98 end:0x8043FAD0
 	.data       start:0x804A98A0 end:0x804A9A18
 	.sdata      start:0x805D2DC0 end:0x805D2DC8

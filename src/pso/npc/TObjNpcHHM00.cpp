@@ -19,6 +19,8 @@ u32 TObjNpcHHM00__model_object;
 u32 TObjNpcHHM00__body_texture_gvm_handle;
 }
 
+extern void *tl_04;
+
 struct RecoveredGlobal_8014B1F4___vt__12TObjNpcHHM00 {
     s32 value;
     u8 remaining[0x174];
@@ -30,6 +32,20 @@ void release_texture_list(void*);
 void *__ct__11TObjControlFP7TObject(void *, void *);
 void __dl__7TObjectFPv(void *);
 void *__nw__7TObjectFUl(int);
+
+void * TObjNpcHHM00__create(void *arg0) {
+    void *o;
+    void *o2;
+    o = __nw__7TObjectFUl(0x20);
+    if (o != NULL) {
+        o = __ct__11TObjControlFP7TObject(o, tl_04);
+    }
+    o2 = __nw__7TObjectFUl(0x3B8);
+    if (o2 != NULL) {
+        o2 = TObjNpcHHM00__ct((u8 *)o2, (s32)o, (s32)arg0);
+    }
+    return o2;
+}
 
 void TObjNpcHHM00::free_resources() {
     if ((u32) TObjNpcHHM00__body_texture_gvm_handle != 0U) {
@@ -51,8 +67,6 @@ void TObjNpcHHM00::load_resources() {
 }
 TObjNpcHHM00::~TObjNpcHHM00() {}
 extern "C" {
-
-extern void *tl_04;
 
 typedef char RecoveredGlobal_8014B1F4___vt__12TObjNpcHHM00_size[sizeof(RecoveredGlobal_8014B1F4___vt__12TObjNpcHHM00) == 0x178 ? 1 : -1];
 u8 *TObjNpcHHM00__ct(u8 *player, s32 arg1, s32 arg2) {

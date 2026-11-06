@@ -1809,16 +1809,14 @@ pso/npc/TObjNpcEnemy.cpp
 pso/npc/TObjNpcEnemy_802D7070.cpp
 pso/npc/TObjNpcExpertBase.cpp
 pso/npc/TObjNpcFemaleBase.cpp
-pso/npc/TObjNpcFemaleBase_80149C44.cpp
-pso/npc/TObjNpcFemaleBase_80149C7C.cpp
+pso/npc/TUnk_804A8640.cpp
+pso/npc/TUnk_804A92A8.cpp
 pso/npc/TObjNpcFemaleChild.cpp
 pso/npc/TObjNpcFemaleDwarf.cpp
 pso/npc/TObjNpcFemaleFat.cpp
 pso/npc/TObjNpcFemaleMacho.cpp
 pso/npc/TObjNpcFemaleOld.cpp
 pso/npc/TObjNpcFemaleTall.cpp
-pso/npc/TObjNpcFemaleTall_8014AA48.cpp
-pso/npc/TObjNpcFemaleTall_8014AA60.cpp
 pso/npc/TObjNpcGovernorBase.cpp
 pso/npc/TObjNpcHFW00.cpp
 pso/npc/TObjNpcHFW01.cpp
@@ -2507,8 +2505,6 @@ pso/unk/text_80145A44.cpp
 pso/unk/text_80145A94.cpp
 pso/unk/text_8014618C.cpp
 pso/npc/TObjNpcBringer_8014952C.cpp
-pso/unk/text_8014AAC4.cpp
-pso/npc/TObjNpcGovernorBase_8014AB24.cpp
 pso/unk/text_8014B8A4.cpp
 pso/npc/TObjNpcMaleBase_8014B904.cpp
 pso/unk/text_8015C534.cpp

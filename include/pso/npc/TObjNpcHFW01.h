@@ -13,17 +13,8 @@ struct TObjNpcHFW01 : public TUnk_804A92A8 {
 typedef char TObjNpcHFW01_size[sizeof(TObjNpcHFW01) == 0x3B8 ? 1 : -1];
 
 extern "C" {
-u8 *TObjNpcHFW01__ct(u8 *arg0, s32 arg1, s32 arg2);
-void *TObjNpcHHM00__create(void *arg0);
-void *__dt__12TObjNpcHFW01Fv(void *arg0, s16 arg1);
-}
-
-// --- C functions defined in TObjNpcHFW01.cpp ---
-extern "C" {
+void *TObjNpcHFW01__create(void *arg0);
 u8 *TObjNpcHFW01__ct(u8 *player, s32 arg1, s32 arg2);
-void *TObjNpcHHM00__create(void *arg0);
-void *__dt__12TObjNpcHFW01Fv(void *arg0, s16 arg1);
 }
-// --- end of C functions
 
 #endif
