@@ -515,7 +515,7 @@ force_active:
   - TItemEquipBase__sub_80119168
   - TItemEquipBase__sub_8011919C
   - TItemEquipBase__sub_801191D0
-  - TItemList__sub_801D39C8
+  - __ct__13TUnk_804C4468FP7TObjectlP8TObjBasePC3VecSc
   - TItemList__sub_801D58C8
   - TItemLockCountCtrl__sub_80119238
   - TItemLockCountCtrl__sub_8011926C
@@ -5258,7 +5258,7 @@ force_active:
   - construct_nug2000_bazooka__13TUnk_804E71F8FlPv
   - construct_panzer_faust__FPUcPUcl
   - construct_particle_obj__13TParticleCtrlFll
-  - construct_placement_search_base__FPUcPUcPUcPUcSc
+  - __ct__13TUnk_804C4498FP7TObjectP8TObjBasePC3VecSc
   - construct_rappys_fan__13TUnk_804F0908FlPv
   - __ct__13TUnk_804A4238FP7TObjectPUc
   - __ct__13TUnk_804A4338FP7TObjectPUc
@@ -5494,7 +5494,7 @@ force_active:
   - creation_stick_range
   - creation_stick_zero
   - cri_copyright_string
-  - ct_init_placement_ring__9TItemListFPUclPUcPUcSc
+  - __ct__13TUnk_804C4480FP7TObjectlP8TObjBasePC3VecSc
   - ct_shoot_model__10TObjPlayerFPv
   - __ct__13TUnk_804A5058FP7TObjectPUc
   - cull_sections__6TSceneFv

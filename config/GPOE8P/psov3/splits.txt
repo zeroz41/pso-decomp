@@ -5509,14 +5509,10 @@ pso/unk/TLobby_801D3518.cpp:
 pso/player/TObjPlayer_801D3554.cpp:
 	.text       start:0x801D3554 end:0x801D3780
 
-pso/item/TItemList_801D3780.cpp:
-	.text       start:0x801D3780 end:0x801D40D4
-	.rodata     start:0x80447168 end:0x80447170
-	.data       start:0x804C4498 end:0x804C44B0
-
 pso/player/TPlyItem.cpp:
-	.text       start:0x801D40D4 end:0x801D57B0
-	.data       start:0x804C44B0 end:0x804C44C8
+	.text       start:0x801D3780 end:0x801D57B0
+	.rodata     start:0x80447168 end:0x80447170
+	.data       start:0x804C4468 end:0x804C44C8
 
 pso/item/TItemList_801D57B0.cpp:
 	.text       start:0x801D57B0 end:0x801D59DC

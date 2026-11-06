@@ -13,13 +13,10 @@ public:
     void *init_items();
     void *init_array();
     static void *create_node(void *arg0, void *arg1, void *arg2, s8 arg3);
-    void *destroy(s16 arg1);
     int copy_item_data();
     void lookup_entry_by_count(s32 arg1);
     u8 get_item_count();
-    void run_item_count_update();
-public:
-    u8 *ct_init_placement_ring(u8 *arg1, s32 arg2, u8 *arg3, u8 *arg4, s8 arg5);
+    void *run_item_count_update();
 };
 
 class TItemList;
@@ -42,6 +39,11 @@ void remove_equipped_item__10TObjPlayerFPvii(void *inventory, s32 player, void *
 s32 TObjPlayer__sub_801D49F4(void *inventory, s32 player, s32 *keys, s32 count);
 }
 void decrement_placement_search_pending(void *p, void *a1);
+
+extern "C" {
+// new TUnk_804C4480(tl_07, list, source, pos, 0) (TPlyItem.cpp)
+void *TItemList__sub_801D3B00(void *list, void *source, void *pos, s8 arg);
+}
 
 // State of the inventory walks below a TObjPlayer's item root: the entry points
 // (TObjPlayer_801D4890.cpp) set it, the recursive walks read and advance it.

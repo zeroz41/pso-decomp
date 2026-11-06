@@ -557,7 +557,6 @@ pso/item/TItemEquipBase.cpp
 pso/item/TItemEquipBase_8022F1C0.cpp
 pso/item/TItemHeapObject.cpp
 pso/item/TItemList_8010ED0C.cpp
-pso/item/TItemList_801D3780.cpp
 pso/item/TItemList_801D57B0.cpp
 pso/item/TItemLoad.cpp
 pso/item/TItemLoad_8010F2AC.cpp
