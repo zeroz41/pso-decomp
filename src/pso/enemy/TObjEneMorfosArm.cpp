@@ -4,19 +4,13 @@
 #include "pso/enemy/TObjEneMorfos.h"
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 
 void TObjEneMorfosArm__sub_8033542C(void) {  }
 
 extern s32 TObjEneMorfosArm__parent_morfos_instance;
 
 void *TObjEneMorfosArm::create(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x104);
-    if (o != NULL) {
-        o = TObjEneMorfosArm__ct((TObjEneMorfosArm *)((u8 *)o), (s32)((s32)arg0), (u8 *)((u8 *)arg1));
-    }
-    return o;
+    return new TObjEneMorfosArm((TObject *)arg0, arg1);
 }
 
 void TObjEneMorfosArm::init_global() {

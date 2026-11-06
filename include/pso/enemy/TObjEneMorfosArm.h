@@ -5,6 +5,7 @@
 #include "pso/object/TObjMotion.h"
 
 struct TObjEneMorfosArm : public TObjMotion {
+    TObjEneMorfosArm(TObject *parent, void *owner);
     virtual ~TObjEneMorfosArm();
     u32 m_fc;
     u16 m_100;

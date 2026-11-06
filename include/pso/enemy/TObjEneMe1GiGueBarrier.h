@@ -5,6 +5,7 @@
 #include "pso/object/TObjMotion.h"
 
 struct TObjEneMe1GiGueBarrier : public TObjMotion {
+    TObjEneMe1GiGueBarrier(TObject *parent, void *owner);
     virtual ~TObjEneMe1GiGueBarrier();
     u32 m_fc;
     u16 m_100;

@@ -14,8 +14,6 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 
-// The hand-written constructors below call the base one by its symbol.
-extern "C" u8 *__ct__10TObjMotionFP7TObject(u8 *self);
 
 #pragma readonly_strings on
 
@@ -31,8 +29,6 @@ TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
 
 
 
-struct RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier { s32 value; u8 remaining[0x34]; };
-typedef char RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier_size[sizeof(RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier) == 0x38 ? 1 : -1];
 
 struct VBase_18_ca64a0 { char pad[0x18]; };
 
@@ -50,16 +46,12 @@ struct VObj_18_ca64a0 : VBase_18_ca64a0 {
 };
 
 extern "C" {
-void *__nw__7TObjectFUl(int);
 s32 play_sound_effect(int, void *, int, int);
 s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
 u16 get_entity_id(void *);
-s32 set_field_d8__10TObjMotionFl(void *, void *, int);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
-extern s32 __vt__22TObjEneMe1GiGueBarrier[];
 extern const char *lbl_805D4198;
 extern s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
-u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *arg0, s32 arg1, u8 *arg2);
 s32 defer_render__7TObjectFv(void *);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
@@ -140,38 +132,30 @@ TObjEneMe1GiGueBarrier::~TObjEneMe1GiGueBarrier() {
 }
 
 
-u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *ene_me1_gi_gue_barrier, s32 arg1, u8 *arg2) {
-    u8 *temp_r5;
-    __ct__10TObjMotionFP7TObject((u8 *)ene_me1_gi_gue_barrier);
-    *(s32 **)((s8 *)ene_me1_gi_gue_barrier + 0x18) = &(*(RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier *)&__vt__22TObjEneMe1GiGueBarrier).value;
-    *(s32 *)((s8 *)ene_me1_gi_gue_barrier + 0) = (s32) ((s32)lbl_805D4198);
-    *(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC) = arg2;
-    ene_me1_gi_gue_barrier->m_100 = get_entity_id(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC));
-    VecCopy((Vec *)((u8 *)ene_me1_gi_gue_barrier + 0x38), (const Vec *)((void *) (((TObjEneMe1GiGueBarrier *)((s32) *(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->update_and_get_pos())));
-    ene_me1_gi_gue_barrier->rotation_y = ((TObjEneMe1GiGueBarrier *)(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->get_timer();
-    ene_me1_gi_gue_barrier->m_108 = ((TObjEneMe1GiGueBarrier *)(*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)))->get_field_44c();
-    TObjEneMe1GiGueBarrier__sub_802CABF4((*(u8 **)((s8 *)ene_me1_gi_gue_barrier + 0xFC)));
-    ene_me1_gi_gue_barrier->m_104 = 0;
-    *(s32 *)((s8 *)ene_me1_gi_gue_barrier + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x42C)) + 0x28);
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x42C));
-    ene_me1_gi_gue_barrier->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0x2C);
-    set_field_d8__10TObjMotionFl((void *)ene_me1_gi_gue_barrier, TObjEneMe1GiGueBarrier__animation_definitions, (int)temp_r5);
-    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x430)));
-    ene_me1_gi_gue_barrier->requested_action = 0;
-    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_animation((ene_me1_gi_gue_barrier->requested_action));
-    ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_b8(ene_me1_gi_gue_barrier->requested_action);
-    return (u8 *)ene_me1_gi_gue_barrier;
+TObjEneMe1GiGueBarrier::TObjEneMe1GiGueBarrier(TObject *parent, void *owner) : TObjMotion(parent) {
+    u8 *resource;
+    m_name = lbl_805D4198;
+    m_fc = (u32)owner;
+    m_100 = get_entity_id((void *)m_fc);
+    VecCopy(&position, (const Vec *)((TObjEneMe1GiGueBarrier *)m_fc)->update_and_get_pos());
+    rotation_y = ((TObjEneMe1GiGueBarrier *)m_fc)->get_timer();
+    m_108 = ((TObjEneMe1GiGueBarrier *)m_fc)->get_field_44c();
+    TObjEneMe1GiGueBarrier__sub_802CABF4((void *)m_fc);
+    m_104 = 0;
+    model = *(void **)(*(u8 **)(TObjEneMe1GiGueBarrier__barrier_resource_object + 0x42C) + 0x28);
+    resource = *(u8 **)(TObjEneMe1GiGueBarrier__barrier_resource_object + 0x42C);
+    texlist = *(s32 *)(resource + 0x2C);
+    set_field_d8((s32)TObjEneMe1GiGueBarrier__animation_definitions);
+    set_field_dc(*(s32 *)(TObjEneMe1GiGueBarrier__barrier_resource_object + 0x430));
+    requested_action = 0;
+    set_animation(requested_action);
+    set_field_b8(requested_action);
 }
 
 void TObjEneMe1GiGueBarrier__sub_80325CC0(void) {  }
 
 void *TObjEneMe1GiGueBarrier::create(void *arg0, void *arg1) {
-    void *o;
-    o = __nw__7TObjectFUl(0x10C);
-    if (o != NULL) {
-        o = TObjEneMe1GiGueBarrier__ct((TObjEneMe1GiGueBarrier *)((u8 *)o), (s32)((s32)arg0), (u8 *)((u8 *)arg1));
-    }
-    return o;
+    return new TObjEneMe1GiGueBarrier((TObject *)arg0, arg1);
 }
 
 void TObjEneMe1GiGueBarrier::init_global() {

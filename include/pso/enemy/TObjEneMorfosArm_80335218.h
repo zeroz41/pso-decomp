@@ -5,7 +5,6 @@
 
 struct TObjEneMorfosArm;
 extern "C" {
-u8 *TObjEneMorfosArm__ct(TObjEneMorfosArm *arg0, s32 arg1, u8 *arg2);
 void *__dt__16TObjEneMorfosArmFv(void *arg0, s16 arg1);
 }
 

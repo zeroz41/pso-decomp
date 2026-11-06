@@ -1200,7 +1200,7 @@ force_active:
   - TObjEneMe1Gee__sub_800CBC1C
   - TObjEneMe1Gee__sub_800CBDBC
   - TObjEneMe1GiGueBarrier__barrier_resource_object
-  - TObjEneMe1GiGueBarrier__ct
+  - __ct__22TObjEneMe1GiGueBarrierFP7TObjectPv
   - TObjEneMe1GiGueMissile__ct
   - TObjEneMe1GiGue__ct
   - TObjEneMe1GiGue__model_filename_table
