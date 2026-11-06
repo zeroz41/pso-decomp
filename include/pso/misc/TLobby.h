@@ -845,7 +845,7 @@ struct TLobby : public TObject {
     void init_lookup_tables();
     static void clear_global_array(void* _w0);
     static void free_buffers();
-    static void **free_global_buffer();
+    static void free_global_buffer();
     static void reload_offline_area();
     static void rebuild_area_keep_players();
     static void teardown_scene();

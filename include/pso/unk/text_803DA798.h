@@ -16,7 +16,6 @@ void TObjPlayer__sub_803DAC1C(s32 arg0);
 void TObjPlayer__sub_803DAD24(void);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2);
-s32 TObjPlayer__sub_803DAE98(TObjPlayer *arg0, s32 _w1);
 }
 s32 set_texture_num(s32 i);
 

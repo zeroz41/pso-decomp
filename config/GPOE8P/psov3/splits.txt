@@ -4971,21 +4971,13 @@ pso/object/TObjRainCtrl.cpp:
 	.text       start:0x80197D28 end:0x80197E54
 	.data       start:0x804B89C0 end:0x804B89D8
 
-pso/unk/text_80197E54.cpp:
-	.text       start:0x80197E54 end:0x80197F74
-
-pso/unk/text_80197F74.cpp:
-	.text       start:0x80197F74 end:0x80197FD0
-
-pso/unk/text_80197FD0.cpp:
-	.text       start:0x80197FD0 end:0x8019806C
-	.bss        start:0x8050DD18 end:0x8050DD50
-
 pso/object/TObjSinBoard.cpp:
-	.text       start:0x8019806C end:0x801982D4
+	.text       start:0x80197E54 end:0x801982D4
 	.rodata     start:0x80445F90 end:0x80445FF0
 	.data       start:0x804B89D8 end:0x804B8A10
+	.bss        start:0x8050DD18 end:0x8050DD50
 	.sdata      start:0x805D3430 end:0x805D3438
+	.sbss       start:0x805D5C58 end:0x805D5C5C
 
 pso/object/LobbyGoGoBall.cpp:
 	.text       start:0x801982D4 end:0x8019A790
@@ -5038,16 +5030,13 @@ pso/object/TObjWarpBoss03.cpp:
 	.sdata2     start:0x805DC030 end:0x805DC03C
 
 pso/object/TObjWarpJungMain.cpp:
-	.text       start:0x8019FB8C end:0x801A03D8
-	.rodata     start:0x804466E0 end:0x80446718
+	.text       start:0x8019FB8C end:0x801A069C
+	.rodata     start:0x80446678 end:0x80446718
+	.data       start:0x804B9628 end:0x804B9664
+	.bss        start:0x8050DDC8 end:0x8050DDE0
 	.sdata      start:0x805D3498 end:0x805D34A0
-
-pso/object/TObjWarpJung_801A03D8.cpp:
-	.text       start:0x801A03D8 end:0x801A0520
-
-pso/unk/text_801A0520.cpp:
-	.text       start:0x801A0520 end:0x801A069C
-	.data       start:0x804B9628 end:0x804B964C
+	.sbss       start:0x805D5CA8 end:0x805D5CC8
+	.sdata2     start:0x805DC040 end:0x805DC058
 
 pso/object/TObjWarpLobby.cpp:
 	.text       start:0x801A069C end:0x801A0B94

@@ -47,6 +47,7 @@ int qst_label_address(int label);
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/TChallenge4PResult.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/object/TObjSinBoard.h"
 #include "pso/object/TObjTombstone.h"
 #include "pso/TObject.h"
 #include "pso/object/TQuestDamageTask.h"
@@ -1491,10 +1492,7 @@ void * create_quest_col_alock(Spawn_801E8AE8 *, s32 *);
 void * fn_80196814(Spawn_801E8E4C *, s32 *);
 void * create_quest_col(Spawn_801E8F54 *, s32 *);
 }
-void load_memcard_file(void);
 extern "C" {
-void TLobby__sub_80197F74(void);
-void fn_80197FD0(void *arg0, void *arg1);
 s32 sub_801A1DDC__10TObjPlayerFv();
 int clear_quest_state__6TLobbyFv(void*);
 int reset_quest_counter__6TLobbyFv(void*);
@@ -3701,13 +3699,13 @@ int qst_op_turn_off_bgm_p2(void* p) { return TLobby__sub_8022733C(p); }
 void qst_op_nop_F8EF(void) {  }
 
 void qst_op_call_image_data() {
-    s32 quest_vm_down_load_server;
+    s32 size;
     u32 temp_r3;
-    quest_vm_down_load_server = qst_args[0];
+    size = qst_args[0];
     temp_r3 = ((int)((u32 (*)(void *))qst_label_address)((void *)((s32) (u16) qst_args[1])));
     if (temp_r3 != 0U) {
         prs_decompress_buffer((s32) temp_r3, resource_decompress_buffer);
-        fn_80197FD0((void *)resource_decompress_buffer, (void *)quest_vm_down_load_server);
+        fn_80197FD0((void *)resource_decompress_buffer, size);
     }
 }
 
