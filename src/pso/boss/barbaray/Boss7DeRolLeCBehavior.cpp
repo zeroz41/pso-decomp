@@ -585,14 +585,14 @@ void TObjFish__sub_802E7B94(Fish_802E7B94* o) {
 extern "C" {
 void *memset(void *, int, unsigned long);
 u16 get_entity_id(void *);
-s16 TObjFish__sub_802E7CC4(void *self);
+s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self);
 void TObjFish__sub_802E7D70(TBoss7DeRolLeC *self, s16 slot, const Vec *position, Ang_802E7888 *angle, s32 flags);
 }
 
 // Spawns the crawfish of step `index` of the boss's current spawn pattern when
 // the difficulty's table asks for one (2 = the other kind, flag bit 0 clear).
 void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 variant, s32 index) {
-    s32 kind = lbl_80473844[lbl_804E3C2C[game_difficulty_selection][self->m_6d0].b][index];
+    s32 kind = lbl_80473844[lbl_804E3C2C[game_difficulty_selection][self->action_index].b][index];
     if (kind != 0) {
         const Vec *positions = lbl_804E3C3C[variant];
         const s32 *angles = lbl_804E3C4C[variant];
@@ -609,16 +609,14 @@ void TBoss7DeRolLeC__try_spawn_pattern_crawfish(TBoss7DeRolLeC *self, s32 varian
 }
 
 
-struct Boss_802E7CC4 { u8 pad[0x7A4]; TObject *group; };
-
-s16 TObjFish__sub_802E7CC4(void *self) {
+s16 TObjFish__sub_802E7CC4(TBoss7DeRolLeC *self) {
     u8 used[36];
     u16 base;
     TObject *child;
     s16 i;
     memset(used, 0, sizeof(used));
     base = get_entity_id(self) + 11;
-    for (child = ((Boss_802E7CC4 *)self)->group->m_down; child != NULL; child = child->m_next) {
+    for (child = self->crawfish_parent->m_down; child != NULL; child = child->m_next) {
         used[get_entity_id(child) - base] = 1;
     }
     for (i = 35; i >= 0; i--) {
@@ -803,14 +801,14 @@ void TBoss7DeRolLeC::render() {
         TObjEneDD::clear_global_flag_400();
         TParticleCtrl::begin_effect_render();
         push_matrix();
-        if ((u32) *(u32 *)((s8 *)((u8 *)this) + 0x7AC) != 0U) {
-            if (*(s32 *)((s8 *)((u8 *)this) + 0x628) & 0x40) {
+        if (this->unk_7AC != 0) {
+            if (this->unk_628 & 0x40) {
                 *(s32 **)((s8 *)lbl_805D693C + 0x2C) = &boss7_derolle_light_pool.value;
             } else {
                 *(s32 **)((s8 *)lbl_805D693C + 0x2C) = (s32 *) lbl_805D6940;
             }
             TObjPlayer::draw_effect();
-            ((TObjPlayer *)(*(u32 *)((s8 *)((u8 *)this) + 0x7AC)))->draw_node_tree_if_visible();
+            ((TObjPlayer *)(this->unk_7AC))->draw_node_tree_if_visible();
         }
         pop_matrix();
         TParticleCtrl::end_effect_render();
@@ -819,17 +817,17 @@ void TBoss7DeRolLeC::render() {
         chunk_polygon_flags_or_mask = saved_chunk_polygon_flags_or_mask;
         model_render_flags = saved_model_render_flags;
         TObjPlayer__sub_802E7FC0(this);
-        ((TObject *)(((u8 *)this) + 0x690))->render_nodes();
+        this->unk_690.render_nodes();
     }
 }
 
 void TBoss7DeRolLeC::sub_802E8234() {
     boss7_derolle_c_motion_id = 0;
-    lbl_805D6924 = *(s32 *)((s8 *)((u8 *)this) + 0x628);
+    lbl_805D6924 = this->unk_628;
     lbl_805D6920 = 0;
     lbl_805D6928 = (long) (((u8 *)this) + 0x3EC);
-    lbl_805D6930 = *(s32 *)((s8 *)((u8 *)this) + 0x6D8);
-    lbl_805D6934 = *(s32 *)((s8 *)((u8 *)this) + 0x6D4);
+    lbl_805D6930 = this->unk_6D8;
+    lbl_805D6934 = this->unk_6D4;
     lbl_805D692C = (long) (((u8 *)this) + 0x4DC);
     lbl_805D6944 = (long) (((u8 *)this) + 0x7B4);
 }
@@ -1692,7 +1690,7 @@ void TObjFish__sub_802E8990(u8 *boss7_de_rol_le_c, u32 arg1) {
         return;
     case 0:
         ((TObjMotion *)boss7_de_rol_le_c)->advance_animation();
-        if (((TObject *)(*(s32 *)((s8 *)boss7_de_rol_le_c + 0x7A4)))->get_node_count() == 0) {
+        if (((TBoss7DeRolLeC *)boss7_de_rol_le_c)->crawfish_parent->get_node_count() == 0) {
             ((TBoss7DeRolLeC *)boss7_de_rol_le_c)->advance_action_sequence();
         }
         return;
@@ -3528,8 +3526,8 @@ void TBoss7DeRolLeC::advance_action_sequence() {
     s32 var_r4;
     do {
         var_r30 = 0;
-        this->m_6d0 = (this->m_6d0 + 1);
-        var_r4 = lbl_804E3C2C[game_difficulty_selection][this->m_6d0].a;
+        this->action_index = (this->action_index + 1);
+        var_r4 = lbl_804E3C2C[game_difficulty_selection][this->action_index].a;
         switch (var_r4) {
         case 0x1E:
             if (calc_elapsed_scaled__9TObjEneDDFv(this) > lbl_805DEA10) {
@@ -3539,7 +3537,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x1F:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 5;
             } else {
                 var_r4 = 9;
@@ -3553,42 +3551,42 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             }
             break;
         case 0x21:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 3;
             } else {
                 var_r4 = 0xB;
             }
             break;
         case 0x23:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 4;
             } else {
                 var_r4 = 0xA;
             }
             break;
         case 0x24:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 0xF;
             } else {
                 var_r4 = 0x10;
             }
             break;
         case 0x25:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 0x11;
             } else {
                 var_r4 = 0x12;
             }
             break;
         case 0x26:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 0x13;
             } else {
                 var_r4 = 0x14;
             }
             break;
         case 0x27:
-            if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C4) == 0) {
+            if (this->unk_6C4 == 0) {
                 var_r4 = 0x15;
             } else {
                 var_r4 = 0x16;
@@ -3596,7 +3594,7 @@ void TBoss7DeRolLeC::advance_action_sequence() {
             break;
         case 0x45:
             var_r30 = 1;
-            this->m_6d0 = 1;
+            this->action_index = 1;
             break;
         }
     } while (var_r30 != 0);
@@ -3652,7 +3650,7 @@ u8 TBoss7DeRolLeC::sub_802ECB10() {
     s32 var_r4;
 
     var_r4 = 0;
-    if (((s32) this->m_718 <= 0) && !(*(s32 *)((s8 *)this + 0x628) & 4)) {
+    if ((this->unk_6FC <= 0) && !(this->unk_628 & 4)) {
         var_r4 = 1;
     }
     return (u8)var_r4;
@@ -4137,15 +4135,15 @@ void TBoss7DeRolLeC::set_state_and_send(s32 arg1) {
         TBoss7Joint__sub_802EE800(&pa);
         pa.a = this->entity_id;
         pa.b = arg1;
-        pa.c = (s16)this->m_6d0;
-        pa.d = this->m_38c;
+        pa.c = (s16)this->action_index;
+        pa.d = this->unk_38C;
         ((TBoss7Joint *)(&pa))->broadcast_state();
         return;
     }
     TBoss7Joint__sub_802EE7B8(&pb);
     pb.a = this->entity_id;
     pb.b = arg1;
-    pb.c = (s16)this->m_6d0;
+    pb.c = (s16)this->action_index;
     ((TBoss7Joint *)(&pb))->update_and_send_60();
 }
 
@@ -4200,13 +4198,13 @@ void TBoss7DeRolLeC::vfunc_62() {
     s32 temp_r4;
     temp_r4 = this->hpmax - this->hp;
     if (*(s32 *)((s8 *)arg0 + 0x628) & 8) {
-        this->m_718 = (s32) (this->m_718 - temp_r4);
+        this->unk_6FC = this->unk_6FC - temp_r4;
         TObjFish__sub_802EC468((int) (*(s32 *)&this->bodies + 0x1C), lbl_805DEA44, lbl_805DEA48);
         TObjFish::set_effect_target_position(arg0, (void *)0x3B213, arg0 + 0x50C);
     } else {
-        this->m_71c = (s32) (this->m_71c - temp_r4);
-        if ((s32) this->m_71c < 0) {
-            this->m_71c = 0;
+        this->unk_700 = this->unk_700 - temp_r4;
+        if (this->unk_700 < 0) {
+            this->unk_700 = 0;
             ((TObjFish *)arg0)->set_hooked_effect_target();
         }
     }
