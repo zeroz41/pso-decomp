@@ -838,7 +838,6 @@ pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp
 pso/unk/TLobby_80243370.cpp
 pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp
-pso/ui/keyboard/TKeyBoardControl_8025EC04.cpp
 pso/ui/keyboard/TKeyBoardControl_80290CB0.cpp
 pso/ui/keyboard/TKeyBoardControl_803CBDE0.cpp
 pso/ui/keyboard/TKeyBoardControl_803F0C50.cpp
@@ -1431,7 +1430,6 @@ pso/ui/window/TWindowCallBack.cpp
 pso/ui/window/TWindowChallengeResult.cpp
 pso/ui/chat/TWindowChat.cpp
 pso/ui/chat/TWindowChatSymbol.cpp
-pso/ui/chat/TWindowChatSymbol_802486A8.cpp
 pso/ui/chat/TWindowChat_800774C0.cpp
 pso/ui/chat/TWindowChat_8025CB10.cpp
 pso/ui/window/TWindowCheckBox.cpp
@@ -1541,9 +1539,6 @@ pso/ui/window/TWindowKeyBoardHard.cpp
 pso/ui/window/TWindowKeyBoardHard_801A529C.cpp
 pso/ui/window/TWindowKeyBoardHard_801FBA48.cpp
 pso/ui/window/TWindowKeyBoardHard_8025EB68.cpp
-pso/ui/window/TWindowKeyBoardHard_802601D4.cpp
-pso/ui/window/TWindowKeyBoardHard_8026038C.cpp
-pso/ui/window/TWindowKeyBoardSoft.cpp
 pso/ui/window/TWindowKeyBoardSoft_80080798.cpp
 pso/ui/window/TWindowKeyBoardSoft_80228BEC.cpp
 pso/ui/window/TWindowKeyBoardSoft_8024E68C.cpp
@@ -1735,7 +1730,6 @@ pso/ui/chat/TWindowSubSymbolChatFaceType.cpp
 pso/ui/chat/TWindowSubSymbolChatFaceType_80283A70.cpp
 pso/ui/chat/TWindowSubSymbolChatHelp.cpp
 pso/ui/chat/TWindowSubSymbolChatPartsSet.cpp
-pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.cpp
 pso/ui/chat/TWindowSubSymbolChat_80076F88.cpp
 pso/ui/chat/TWindowSubSymbolChat_8007763C.cpp
 pso/ui/chat/TWindowSubSymbolChat_80281814.cpp
@@ -2666,7 +2660,6 @@ pso/unk/text_8025373C.cpp
 pso/unk/text_80253974.cpp
 pso/unk/text_80255A38.cpp
 pso/unk/text_8025CD10.cpp
-pso/unk/text_8025FF8C.cpp
 pso/ui/window/TWindowLockOn_80262C3C.cpp
 pso/unk/text_80263A20.cpp
 pso/unk/text_80266BD0.cpp

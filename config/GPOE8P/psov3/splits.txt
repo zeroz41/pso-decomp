@@ -7127,17 +7127,11 @@ pso/ui/chat/TWindowChat.cpp:
 	.data       start:0x804CE2D0 end:0x804CE2E8
 	.sdata      start:0x805D38A0 end:0x805D38A8
 
-pso/ui/chat/TWindowSubSymbolChatPartsSet_80247EFC.cpp:
-	.text       start:0x80247EFC end:0x80248668
-	.rodata     start:0x8044E7D8 end:0x8044EAC0
-	.data       start:0x804CE2E8 end:0x804CE7A0
-	.sdata      start:0x805D38A8 end:0x805D38B0
-
 pso/ui/chat/TWindowChatSymbol.cpp:
-	.text       start:0x80248668 end:0x802486A8
-
-pso/ui/chat/TWindowChatSymbol_802486A8.cpp:
-	.text       start:0x802486A8 end:0x80248940
+	.text       start:0x80247EFC end:0x80248940
+	.rodata     start:0x8044E7D8 end:0x8044EAC0
+	.data       start:0x804CE2E8 end:0x804CE7B4
+	.sdata      start:0x805D38A8 end:0x805D38B0
 	.sdata2     start:0x805DCBA0 end:0x805DCBA8
 
 pso/ui/window/TWindowOptionCtrl_80248940.cpp:
@@ -7530,35 +7524,23 @@ pso/ui/keyboard/TKeyBoardControl_8025CB70.cpp:
 pso/unk/text_8025CD10.cpp:
 	.text       start:0x8025CD10 end:0x8025CD44
 
-pso/ui/window/TWindowKeyBoardSoft.cpp:
-	.text       start:0x8025CD44 end:0x8025E8B4
-	.rodata     start:0x8044F088 end:0x8044F098
-	.sdata2     start:0x805DD038 end:0x805DD064
-
 pso/ui/window/TWindowKeyBoardBase.cpp:
-	.text       start:0x8025E8B4 end:0x8025EB68
+	.text       start:0x8025CD44 end:0x8025EB68
+	.rodata     start:0x8044F070 end:0x8044F0A8
+	.data       start:0x804CFA70 end:0x804CFAB8
+	.sdata      start:0x805D3920 end:0x805D3928
+	.sdata2     start:0x805DD038 end:0x805DD064
 
 pso/ui/window/TWindowKeyBoardHard_8025EB68.cpp:
 	.text       start:0x8025EB68 end:0x8025EC04
 
-pso/ui/keyboard/TKeyBoardControl_8025EC04.cpp:
-	.text       start:0x8025EC04 end:0x8025FF8C
-	.data       start:0x804CFAD0 end:0x804CFDC4
-	.sbss       start:0x805D6450 end:0x805D6458
-
-pso/unk/text_8025FF8C.cpp:
-	.text       start:0x8025FF8C end:0x8025FFF4
-
 pso/ui/window/TWindowKeyBoardHard.cpp:
-	.text       start:0x8025FFF4 end:0x802601D4
+	.text       start:0x8025EC04 end:0x80260450
+	.rodata     start:0x8044F0A8 end:0x8044F0BC
+	.data       start:0x804CFAD0 end:0x804CFDC4
+	.sdata      start:0x805D3928 end:0x805D3938
+	.sbss       start:0x805D6450 end:0x805D6458
 	.sdata2     start:0x805DD068 end:0x805DD074
-
-pso/ui/window/TWindowKeyBoardHard_802601D4.cpp:
-	.text       start:0x802601D4 end:0x8026038C
-	.sdata      start:0x805D3928 end:0x805D392C
-
-pso/ui/window/TWindowKeyBoardHard_8026038C.cpp:
-	.text       start:0x8026038C end:0x80260450
 
 pso/ui/keyboard/TKeyBoardControl.cpp:
 	.text       start:0x80260450 end:0x8026262C
