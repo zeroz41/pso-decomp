@@ -8719,7 +8719,7 @@ pso/npc/TObjNpcHosa.cpp:
 pso/npc/TObjNpcKenkyuW.cpp:
 	.text       start:0x802A3BF8 end:0x802A4540
 	.rodata     start:0x80466628 end:0x80466664
-	.data       start:0x804DCE40 end:0x804DCE58
+	.data       start:0x804DCE40 end:0x804DCFD0
 	.bss        start:0x80540A38 end:0x80540AC0
 	.sdata      start:0x805D3DD0 end:0x805D3DD8
 	.sbss       start:0x805D6658 end:0x805D6660

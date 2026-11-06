@@ -90,7 +90,6 @@ TechniqueContactList *TObjPlayer__sub_802A3DE8(Obj_802A3DE8 *self, void *src);
 void *find_entity_by_id(u16 id);
 TechniqueContactList *TObjPlayer__sub_802A3FDC(Obj_802A3FDC *self, void *src);
 void TLobby__sub_8001FE7C(void*, int);
-void __dl__7TObjectFPv(void *);
 
 void TObjNpcKenkyuW::destroy_instance() {
     if ((u32) TObjNpcKenkyuW__model_resource != 0U) {
@@ -110,16 +109,10 @@ void TObjNpcKenkyuW::load_resource_instance() {
     (*(s32 *)&TObjNpcKenkyuW__model_resource) = var_r0;
 }
 
-void *__dt__14TObjNpcKenkyuWFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__14TObjNpcKenkyuW;
-        __dt__13TUnk_804A9F50Fv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
 }
+TObjNpcKenkyuW::~TObjNpcKenkyuW() {}
+extern "C" {
+
 typedef char RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW_size[sizeof(RecoveredGlobal_802A3CD8___vt__14TObjNpcKenkyuW) == 0x178 ? 1 : -1];
 u8 *TObjNpcKenkyuW__ct(u8 *player, s32 arg1, s32 arg2) {
     construct_male_npc_base((player));
