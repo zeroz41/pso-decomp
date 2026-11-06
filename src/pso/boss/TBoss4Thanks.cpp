@@ -51,21 +51,26 @@ s32 TObjFish__sub_8001EDB0(void *, s32);
 s32 get_bml_model(void *, s32);
 void __ct__7TObjectFP7TObject(void *, void *);
 extern RecoveredGlobal_8035C83C___vt__12TBoss4Thanks __vt__12TBoss4Thanks;
-extern s32 TBoss4Thanks__class_name;
 u8 *TBoss4Thanks__ct(u8 *arg0, u8 *arg1);
 u8 * __dt__7TObjectFv(void *, s16);
 void __dl__7TObjectFPv(s32);
 u8 *__dt__12TBoss4ThanksFv(u8 *arg0, s16 arg1);
 void TBoss4Thanks__sub_8035C480(s32 arg0);
-extern u8 TBoss4Thanks__data_80479B40[];
-extern Ent_8035C35C boss4_thanks_emitter_table[];
+const char *TBoss4Thanks__class_name = "TBoss4Thanks";
+// Position of the emitters and of the proximity check (x, y, z).
+extern const f32 boss4_thanks_position[3] = {-9860.0f, 29.0f, -238.9f};
+// Equipment any_player_has_listed_item() (text_8035C9E8, this TU's code) looks for: {type, group, index}.
+extern const u8 boss4_thanks_listed_item_table[3][3] = {{0x00, 0x9D, 0x00}, {0x00, 0x9E, 0x00}, {0x00, 0x9F, 0x00}};
+extern const Ent_8035C35C boss4_thanks_emitter_table[4] = {
+    {0x8D, 0x00, 0x32}, {0xA7, 0x1E, 0x6E}, {0x1FD, 0x32, 0x5A}, {0x1C2, 0x46, 0x78},
+};
 void *get_player_data__10TObjPlayerFi(s32);
 s32 get_entity_id(void *);
 s32 TBoss4Type3__sub_8005254C(s32);
-f32 xyz_distance(void *, void *);
+f32 xyz_distance(void *, const void *);
 void TObjPlayer__sub_80052390(void);
 void push_matrix(void);
-void post_translate_matrix(void *);
+void post_translate_matrix(const f32 *);
 u8 fn_8035C2B4(void);
 s32 play_sound_effect(s32, s32, s32, s32);
 int dispatch_by_main_phase__14TBoss4DarkFalzFUs(void*);
@@ -84,10 +89,10 @@ void TBoss4Thanks::update_particle_emitters() {
     Obj_8035C35C *o = (Obj_8035C35C *)this;
     s32 i;
     for (i = 0; i < 4; i++) {
-        Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
+        const Ent_8035C35C *e = &boss4_thanks_emitter_table[i];
         if (o->x30 >= e->lo && o->x30 <= e->hi) {
             if (o->p[i] == NULL) {
-                o->p[i] = create_particle_emitter(TBoss4Thanks__data_80479B40, e->id);
+                o->p[i] = create_particle_emitter((void *)boss4_thanks_position, e->id);
                 if (o->p[i] != NULL) {
                     ((TParticleCtrl *)(o->p[i]))->set_flags(0x40);
                 }
@@ -130,7 +135,7 @@ int TBoss4Thanks::is_player_nearby(void *arg0) {
     for (i = 0; i < n; i++) {
         p = (u8 *)get_player_data__10TObjPlayerFi(i);
         if (p != NULL && TBoss4Type3__sub_8005254C(get_entity_id(p)) != 0 &&
-            xyz_distance(p + 0x38, TBoss4Thanks__data_80479B40) <= lim) {
+            xyz_distance(p + 0x38, boss4_thanks_position) <= lim) {
             return 1;
         }
     }
@@ -153,7 +158,7 @@ void TBoss4Thanks::render() {
     TObjPlayer__sub_80052390();
     push_matrix();
     set_motion_packed_rotation();
-    post_translate_matrix(TBoss4Thanks__data_80479B40);
+    post_translate_matrix(boss4_thanks_position);
     TObjFish::set_global_param(texture_list);
     draw_model_motion((void *)model, (void *)motions[current_motion], motion_frame);
     clear_motion_packed_rotation();

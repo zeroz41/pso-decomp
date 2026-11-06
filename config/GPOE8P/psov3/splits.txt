@@ -11128,7 +11128,8 @@ pso/boss/TObjBoss8PillerCtrl.cpp:
 
 pso/boss/TBoss4Thanks.cpp:
 	.text       start:0x8035C2B4 end:0x8035C8F0
-	.rodata     start:0x80479B88 end:0x80479B98
+	.rodata     start:0x80479B30 end:0x80479B98
+	.sdata      start:0x805D4438 end:0x805D4440
 	.sdata2     start:0x805E0180 end:0x805E0198
 
 pso/boss/TBoss4Thanks_8035C8F0.cpp:
