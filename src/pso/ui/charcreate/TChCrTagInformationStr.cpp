@@ -5,6 +5,10 @@ TChCrTagInformationStr::~TChCrTagInformationStr() {}
 #include "types.h"
 
 extern "C" {
+
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/render/render_util.h"
+#include "pso/ui/MenuText.h"
 s32 queue_destruction__7TObjectFv();
 extern s32 char_creation_tag_info_selected_index;
 extern const f32 TChCrTagInformationStr__data_805DF108;
@@ -14,6 +18,60 @@ extern const f32 lbl_805DF128;
 extern const f32 lbl_805DF12C;
 s32 __ct__7TObjectFP7TObject();
 void *__nw__7TObjectFUl(int);
+s32 get_localized_text_entry(int, int);
+f32 sin_table_lookup(s32);
+f32 cos_table_lookup(s32);
+void TCameraCtrl__sub_80068EF0(void);
+extern const f32 lbl_805DF10C;
+extern const f32 lbl_805DF114;
+extern const f32 lbl_805DF118;
+extern const f32 lbl_805DF11C;
+extern const f32 lbl_805DF120;
+extern s32 __vt__22TChCrTagInformationStr[];
+extern s32 TChCrTagInformationStr__class_name;
+void TChCrTagInformationStr::render() {
+    u8 *arg0 = (u8 *)this;
+    f32 fade;
+    f32 scale;
+    f32 t2;
+    u32 color1;
+    u32 color2;
+    s32 i;
+    const char *entry;
+    s32 j;
+    s32 k;
+    f32 radius;
+
+    if (TChCrTagInformationStr__data_805DF108 == *(f32 *)((s8 *)arg0 + 0x30)) {
+        return;
+    }
+    TCameraCtrl::restore_full_screen_view();
+    set_depth_buffer_settings_1();
+    fade = *(f32 *)((s8 *)arg0 + 0x30);
+    f32 pos[2] = {315.0f, 280.0f};
+    t2 = fade * fade;
+    color1 = ((u32)(lbl_805DF10C * t2) << 24) | 0x00FFFFFF;
+    t2 = lbl_805DF110 - t2;
+    color2 = ((u32)(lbl_805DF114 * *(f32 *)((s8 *)arg0 + 0x30) * sin_table_lookup((s32)(lbl_805DF118 * fade))) << 24) | 0x00FFFFFF;
+    scale = lbl_805DF11C * t2;
+    for (i = 0; i < 7; i++) {
+        entry = (const char *)get_localized_text_entry(*(s32 *)((s8 *)arg0 + 0x24), *(s32 *)((s8 *)arg0 + 0x28) + i);
+        draw_menu_text(pos[0], pos[1], entry, color1);
+        if (t2 > TChCrTagInformationStr__data_805DF108) {
+            for (j = 1; j < 5; j++) {
+                radius = (f32)j * scale;
+                for (k = 0; k < 0x1000000; k += 0x1000000 / (4 * j)) {
+                    f32 rp_sin = radius * sin_table_lookup(k);
+                    f32 rp_cos = radius * cos_table_lookup(k);
+                    draw_menu_text(pos[0] + rp_sin, pos[1] + rp_cos, entry, color2);
+                }
+            }
+        }
+        pos[1] = pos[1] + lbl_805DF120;
+    }
+    restore_saved_depth_alpha_state();
+    TCameraCtrl__sub_80068EF0();
+}
 
 void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
     void *o;
@@ -24,8 +82,6 @@ void *TChCrTagInformationStr::create(void *arg0, void *arg1) {
     return o;
 }
 
-extern s32 __vt__22TChCrTagInformationStr[];
-extern s32 TChCrTagInformationStr__class_name;
 
 #pragma push
 #pragma opt_common_subs off

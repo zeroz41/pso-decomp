@@ -3,12 +3,13 @@
 #include "pso/audio/AdxStreamRuntime.h"
 #include "pso/unk/TLobby.h"
 #include <string.h>
+AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 offset, s32 length, s32 stream);
+s32 set_range__6TLobbyFPvii(u8 *file, s32 min_bytes, s32 capacity);
 
 static char lsc_repeat_filename[0x28];
 
 extern "C" {
-AdxStreamFile *adxstm_open_fname_range_ex_rt__6TLobbyFPviiii(const char *name, s32 mode, s32 offset, s32 length, s32 stream);
-s32 set_range__6TLobbyFPvii(u8 *file, s32 min_bytes, s32 capacity);
+
 
 void lsc_poll(LscStream *lsc_stream) {
     LscQueueEntry *entry;
