@@ -183,7 +183,6 @@ struct VObj_18 : VBase_18 {
 
 extern "C" {
 s32 test_flags_any(void *p, s32 n);
-void vfunc_60__13TUnk_804A535CFv(Obj_8012C714 *self);
 
 void TUnk_804A535C::emit_marker_effects() {
     s32 temp_r31;

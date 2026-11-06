@@ -24,6 +24,37 @@
 #include "pso/item/TObjContainerItem.h"
 #include "pso/item/TObjContainerJung.h"
 
+#pragma readonly_strings on
+
+const char *TObjContainerJung__name = "TObjContainerJung";
+s32 TObjContainerJung__bml_model_resource;
+s32 TObjContainerJung__bml_aux_handle;
+
+extern const TObjChipParams container_jung_debris_desc = {
+    { 0.5f, 0.03f, 0.3f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 6.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 4, 0x32 }, { 0.0f, 0.8f }, 0, 0, 0x16,
+};
+extern const TObjChipParams container_jung_spawn_params = {
+    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 6.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 4, 0x32 }, { 0.0f, 0.7f }, 0, 0, 0x16,
+};
+
+const char *TObjContainerJungEx__name = "TObjContainerJungEx";
+
+extern const TObjChipParams container_jung_ex_spawn_params_a = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f, 5.0f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 0.6f }, 0, 0, 0x16,
+};
+extern const TObjChipParams container_jung_ex_spawn_params_b = {
+    { 0.5f, 0.07f, 0.26f }, { 0.0f, 0.0f, 0.0f }, { 4.0f, 4.5f, 4.0f }, { 0x200, 0x100, 0x200 }, { 6, 0x32 }, { 0.0f, 0.5f }, 0, 0, 0x16,
+};
+
+const char *TObjContainerJungEnemy__name = "TObjContainerJungEnemy";
+
+extern const TObjChipParams lbl_80445398 = {
+    { 0.5f, 0.03f, 0.2f }, { 0.0f, 0.0f, 0.0f }, { 3.0f, 5.0f, 3.0f }, { 0x800, 0x100, 0x800 }, { 7, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+};
+extern const TObjChipParams lbl_804453E4 = {
+    { 0.5f, 0.03f, 0.19f }, { 0.0f, 0.0f, 0.0f }, { 3.5f, 5.0f, 3.5f }, { 0x400, 0x100, 0x400 }, { 5, 0x32 }, { 0.0f, 1.0f }, 0, 0, 0x16,
+};
+
 extern "C" {
 u32 init_collision_body_parts(void *, s32, s32);
 
@@ -59,8 +90,6 @@ extern "C" {
 void queue_destruction__7TObjectFv(void *arg0);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 void debug_printf_at(s32 id, const char *fmt, ...);
-extern char lbl_80445430[];
-extern char lbl_8044543C[];
 s32 get_current_floor();
 extern s32 local_client_id;
 
@@ -85,16 +114,6 @@ void TObjContainerJungEnemy::vfunc_6(s16 *arg1, s32 arg2) {
 }
 
 struct Vec_8018C9F0 { f32 x, y, z; };
-struct Spawn_8018C9F0 {
-    u8 pad0[0xC];
-    Vec_8018C9F0 pos;
-    u8 pad18[0x20];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
-};
 struct Obj_8018C9F0 {
     u8 pad0[0x24];
     s32 f24;
@@ -111,40 +130,38 @@ void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
 void play_container_break_sound(s32 arg0);
-extern Spawn_8018C9F0 lbl_80445398;
-extern Spawn_8018C9F0 lbl_804453E4;
 
 #pragma push
 #pragma opt_propagation off
 extern "C" {
 void TObjContainerJungEnemy__vt77(const Obj_8018C9F0 *self) {
     if (self->f326 != 1) {
-        Spawn_8018C9F0 a = lbl_80445398;
+        TObjChipParams a = lbl_80445398;
         f32 za;
         f32 ya;
         f32 xa;
         xa = self->pos.x;
         ya = self->pos.y;
         za = self->pos.z;
-        a.pos.x = xa;
-        a.pos.y = ya;
-        a.pos.z = za;
-        a.f38 = ya;
-        a.f40 = self->f36c;
-        a.f44 = self->f24;
-        Spawn_8018C9F0 b = lbl_804453E4;
+        a.pos[0] = xa;
+        a.pos[1] = ya;
+        a.pos[2] = za;
+        a.pad_38[0] = ya;
+        a.model = self->f36c;
+        a.textures = self->f24;
+        TObjChipParams b = lbl_804453E4;
         f32 zb;
         f32 yb;
         f32 xb;
         xb = self->pos.x;
         yb = self->pos.y;
         zb = self->pos.z;
-        b.pos.x = xb;
-        b.pos.y = yb;
-        b.pos.z = zb;
-        b.f38 = yb;
-        b.f40 = self->f370;
-        b.f44 = self->f24;
+        b.pos[0] = xb;
+        b.pos[1] = yb;
+        b.pos[2] = zb;
+        b.pad_38[0] = yb;
+        b.model = self->f370;
+        b.textures = self->f24;
         spawn_particle_effect_with_flags((void *)&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         void *o = __nw__7TObjectFUl(0x234);
@@ -182,8 +199,8 @@ void TObjContainerJungEnemy::debug_print_item_box_info() {
     Obj_8018CBF0 *self = (Obj_8018CBF0 *)this;
     ((TObjContainerJungEnemy *)self)->load_models();
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130020, lbl_80445430, this->set_params[0]);
-    debug_printf_at(0x130021, lbl_8044543C);
+    debug_printf_at(0x130020, "EVT NO : %d", this->set_params[0]);
+    debug_printf_at(0x130021, "MODEL SELECT");
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
 }
 
@@ -222,7 +239,6 @@ u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 extern RecoveredGlobal_8018CEDC_lbl_804B7168 container_jung_collision_desc;
 extern s32 __vt__22TObjContainerJungEnemy[];
-extern s32 TObjContainerJungEnemy__name;
 s32 get_model__19TObjContainerJungExFl(s32);
 s32 TObjContainerJung__sub_8018D3B8(s32);
 s32 get_model_by_index__17TObjContainerJungFl(s32);
@@ -326,16 +342,6 @@ struct RecoveredGlobal_8018D314___vt__19TObjContainerJungEx {
 
 struct Vec_8018CFD4 { f32 x, y, z; };
 
-struct Spawn_8018CFD4 {
-    u8 pad0[0xC];
-    Vec_8018CFD4 pos;
-    u8 pad18[0x38 - 0x18];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
-};
 
 struct Obj_8018CFD4 { u8 pad[0x38]; Vec_8018CFD4 pos; };
 
@@ -344,15 +350,12 @@ u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 
 extern s32 __vt__19TObjContainerJungEx[];
-extern s32 TObjContainerJungEx__name;
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 }
 void play_container_break_sound(s32 arg0);
 extern "C" {
 s32 get_model__19TObjContainerJungExFl(s32);
 void *__nw__7TObjectFUl(int);
-extern Spawn_8018CFD4 container_jung_ex_spawn_params_a;
-extern Spawn_8018CFD4 container_jung_ex_spawn_params_b;
 extern void *tl_05;
 void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self);
 s32 post_translate_matrix(void *);
@@ -376,32 +379,32 @@ void *TObjContainerJungEx::create(void *arg0) {
 #pragma push
 #pragma opt_propagation off
 void TObjContainerJungEx__vt77(const Obj_8018CFD4 *self) {
-    Spawn_8018CFD4 a = container_jung_ex_spawn_params_a;
+    TObjChipParams a = container_jung_ex_spawn_params_a;
     f32 pz;
     f32 py;
     f32 px;
     px = self->pos.x;
     py = self->pos.y;
     pz = self->pos.z;
-    a.pos.x = px;
-    a.pos.y = py;
-    a.pos.z = pz;
-    a.f38 = py;
-    a.f40 = get_model__19TObjContainerJungExFl(1);
-    a.f44 = (s32)TObjContainerJungEx__sub_8018D900(0);
-    Spawn_8018CFD4 b = container_jung_ex_spawn_params_b;
+    a.pos[0] = px;
+    a.pos[1] = py;
+    a.pos[2] = pz;
+    a.pad_38[0] = py;
+    a.model = get_model__19TObjContainerJungExFl(1);
+    a.textures = (s32)TObjContainerJungEx__sub_8018D900(0);
+    TObjChipParams b = container_jung_ex_spawn_params_b;
     f32 qz;
     f32 qy;
     f32 qx;
     qx = self->pos.x;
     qy = self->pos.y;
     qz = self->pos.z;
-    b.pos.x = qx;
-    b.pos.y = qy;
-    b.pos.z = qz;
-    b.f38 = qy;
-    b.f40 = get_model__19TObjContainerJungExFl(2);
-    b.f44 = (s32)TObjContainerJungEx__sub_8018D900(0);
+    b.pos[0] = qx;
+    b.pos[1] = qy;
+    b.pos[2] = qz;
+    b.pad_38[0] = qy;
+    b.model = get_model__19TObjContainerJungExFl(2);
+    b.textures = (s32)TObjContainerJungEx__sub_8018D900(0);
     spawn_particle_effect_with_flags((void *)&self->pos, 0x45, 0x40);
     spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
     void *o = __nw__7TObjectFUl(0x234);
@@ -509,16 +512,6 @@ struct RecoveredGlobal_8018D85C___vt__17TObjContainerJung {
 
 struct Vec_8018D4DC { f32 x, y, z; };
 
-struct Spawn_8018D4DC {
-    u8 pad0[0xC];
-    Vec_8018D4DC pos;
-    u8 pad18[0x20];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
-};
 
 struct Obj_8018D4DC {
     u8 pad0[0x38];
@@ -529,16 +522,13 @@ struct Obj_8018D4DC {
 
 extern "C" {
 u8 * get_bml_model(void *, int);
-extern s32 TObjContainerJung__bml_model_resource;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 extern RecoveredGlobal_8018D47C_lbl_804B7134 TObjContainerJung__resource_descriptor;
-extern s32 TObjContainerJung__bml_aux_handle;
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 
 extern s32 __vt__17TObjContainerJung[];
-extern s32 TObjContainerJung__name;
 s32 scale_matrix(s32, f32, f32, f32);
 s32 rotate_matrix_y(s32, s32);
 s32 push_matrix();
@@ -549,8 +539,6 @@ void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 void play_container_break_sound(s32 arg0);
 extern "C" {
 void *__nw__7TObjectFUl(int);
-extern Spawn_8018D4DC container_jung_debris_desc;
-extern Spawn_8018D4DC container_jung_spawn_params;
 extern void *tl_05;
 void TObjContainerJung__vt77(const Obj_8018D4DC *self);
 s32 TLobby__sub_8001FE7C(s32, s32);
@@ -600,32 +588,32 @@ void TObjContainerJung::load_resources() {
 void TObjContainerJung__vt77(const Obj_8018D4DC *self) {
     void *o;
     if (self->f326 != 1) {
-        Spawn_8018D4DC a = container_jung_debris_desc;
+        TObjChipParams a = container_jung_debris_desc;
         f32 pz;
         f32 py;
         f32 px;
         px = self->pos.x;
         py = self->pos.y;
         pz = self->pos.z;
-        a.pos.x = px;
-        a.pos.y = py;
-        a.pos.z = pz;
-        a.f38 = py;
-        a.f40 = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 1);
-        a.f44 = TObjContainerJung__bml_aux_handle;
-        Spawn_8018D4DC b = container_jung_spawn_params;
+        a.pos[0] = px;
+        a.pos[1] = py;
+        a.pos[2] = pz;
+        a.pad_38[0] = py;
+        a.model = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 1);
+        a.textures = TObjContainerJung__bml_aux_handle;
+        TObjChipParams b = container_jung_spawn_params;
         f32 qz;
         f32 qy;
         f32 qx;
         qx = self->pos.x;
         qy = self->pos.y;
         qz = self->pos.z;
-        b.pos.x = qx;
-        b.pos.y = qy;
-        b.pos.z = qz;
-        b.f38 = qy;
-        b.f40 = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 2);
-        b.f44 = TObjContainerJung__bml_aux_handle;
+        b.pos[0] = qx;
+        b.pos[1] = qy;
+        b.pos[2] = qz;
+        b.pad_38[0] = qy;
+        b.model = (s32) get_bml_model((void *) TObjContainerJung__bml_model_resource, 2);
+        b.textures = TObjContainerJung__bml_aux_handle;
         spawn_particle_effect_with_flags((void *)&self->pos, 0x45, 0x40);
         spawn_particle_effect_with_flags((void *)&self->pos, 0x46, 0x40);
         o = __nw__7TObjectFUl(0x234);

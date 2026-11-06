@@ -510,14 +510,10 @@ struct TObjPlayer : public TObjChara {
     void *init_and_configure();
     void draw_faust_loaded_projectile();
     void *init_state_vt2678();
-    void cast_jellen_zalure();
-    void *init_substate_b();
-    void create_foie_effect();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
     void start_srank_regen_timer();
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
-    void *construct_weapon_variant(s32 arg1, void *arg2);
     void *init_state(s32 arg1, void *arg2);
     void trigger_megid_special();
     void update_weapon_kill_count();

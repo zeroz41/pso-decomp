@@ -3,15 +3,17 @@
 #include "types.h"
 #include "pso/items/TItemWeapon.h"
 
+// The Harisen Battle Fan weapon class (vtable 0x804A2E80): emit_marker_effects
+// flattens the model, update_weapon grows it back. Made by
+// TObjPlayer::create_shot_effect_state.
 class TUnk_804A2E80 : public TItemWeapon {
 public:
-    virtual ~TUnk_804A2E80();
-    void*init_shot_effect();
-    virtual void update_weapon();
+    virtual void vfunc_60();
     virtual void emit_marker_effects();
-    u8 unk_1F8[0x4];
-    f32 m_1fc;
-    u8 unk_200[0x4];
+    virtual void update_weapon();
+    virtual ~TUnk_804A2E80();
+    TUnk_804A2E80(TObject *parent, u8 *item);
+    WeaponVector scale;  // model scale (scale_current_matrix); y is animated
 };
 
 #endif

@@ -31,82 +31,6 @@ TItemTimer::~TItemTimer() {}
 #include "pso/TObject.h"
 #include "pso/boss/TBoss3Volopt.h"
 
-struct VBase18_8011d87c_8011D414 { char pad[0x18]; };
-struct VObj18_8011d87c_8011D414 : VBase18_8011d87c_8011D414 {
-    virtual void vpad0();
-    virtual void vpad1();
-    virtual void vpad2();
-    virtual void vpad3();
-    virtual void vpad4();
-    virtual void vpad5();
-    virtual void vpad6();
-    virtual void vpad7();
-    virtual void vpad8();
-    virtual void vpad9();
-    virtual void vpad10();
-    virtual void vpad11();
-    virtual void vpad12();
-    virtual void vpad13();
-    virtual void vpad14();
-    virtual void vpad15();
-    virtual void vpad16();
-    virtual void vpad17();
-    virtual void vpad18();
-    virtual void vpad19();
-    virtual void vpad20();
-    virtual void vpad21();
-    virtual void vpad22();
-    virtual void vpad23();
-    virtual void vpad24();
-    virtual void vpad25();
-    virtual void vpad26();
-    virtual void vpad27();
-    virtual void vpad28();
-    virtual void vpad29();
-    virtual void vpad30();
-    virtual s32 vf84();
-    virtual void vpad32();
-    virtual void vpad33();
-    virtual void vpad34();
-    virtual void vpad35();
-    virtual void vpad36();
-    virtual void vpad37();
-    virtual void vpad38();
-    virtual void vpad39();
-    virtual void vpad40();
-    virtual void vpad41();
-    virtual void vpad42();
-    virtual void vpad43();
-    virtual void vpad44();
-    virtual void vpad45();
-    virtual void vfC0(int);
-    virtual void vpad47();
-    virtual void vpad48();
-    virtual void vpad49();
-    virtual void vpad50();
-    virtual void vpad51();
-    virtual void vpad52();
-    virtual void vpad53();
-    virtual void vpad54();
-    virtual void vpad55();
-    virtual void vpad56();
-    virtual void vpad57();
-    virtual void vpad58();
-    virtual void vpad59();
-    virtual void vpad60();
-    virtual void vpad61();
-    virtual void vpad62();
-    virtual void vpad63();
-    virtual void vpad64();
-    virtual void vpad65();
-    virtual void vpad66();
-    virtual void vpad67();
-    virtual void vpad68();
-    virtual void vpad69();
-    virtual void vpad70();
-    virtual void vpad71();
-    virtual void vf128(int);
-};
 struct Base_8011D94C_8011D414 { char pad[0x18]; };
 struct VObj_8011D94C_8011D414 : Base_8011D94C_8011D414 {
     virtual void m0();   virtual void m1();   virtual void m2();   virtual void m3();
@@ -251,11 +175,11 @@ void TUnk_804A05C8::vfunc_6() {
 void TUnk_804A05E8::vfunc_6() {
 
     if (obj_isState2_324__9TObjCharaFv(*(void * *)&this->m_28) == 0) {
-        if (((VObj18_8011d87c_8011D414 *) this->m_28)->vf84() == 0) {
+        if (((TObjPlayer *)this->m_28)->has_flag_0x800() == 0) {
             ((TBoss3Volopt *)(this->m_28))->get_field_3e0();
             if ((is_item_area_enabled() == 1) && ((lbl_805DAC78 * (f32) rand()) < *(f32 *)&this->unk_2C)) {
-                ((VObj18_8011d87c_8011D414 *) this->m_28)->vfC0(0);
-                ((VObj18_8011d87c_8011D414 *) this->m_28)->vf128(0);
+                ((TObjPlayer *)this->m_28)->apply_movement_ailment(0);
+                ((TObjPlayer *)this->m_28)->vfunc_74(0);
             }
         }
     }

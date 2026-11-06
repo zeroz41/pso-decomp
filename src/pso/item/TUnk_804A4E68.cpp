@@ -82,21 +82,6 @@ TUnk_804A4E68::TUnk_804A4E68(TObject *parent, u8 *item) : TItemWeapon(parent, it
     rotation_z = 0;
 }
 
-struct Owner_8012B9B4 { u8 pad[0x38]; f32 pos[3]; u8 pad44[0x60 - 0x44]; s32 f60; };
-
-struct Self_8012B9B4 {
-    u8 pad0[0xF0];
-    Owner_8012B9B4 *owner;
-    u8 padF4[0x1FC - 0xF4];
-    u8 icon[0xC];
-    s32 f208;
-    s16 f20C;
-    s16 f20E;
-    u8 pad210[0x264 - 0x210];
-    s32 f264;
-    f32 f268[3];
-};
-
 extern "C" {
 s32 get_current_floor();
 u8 *__nw__5TItemFUl(s32);

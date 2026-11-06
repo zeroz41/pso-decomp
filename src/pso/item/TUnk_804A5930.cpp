@@ -111,31 +111,9 @@ struct RecoveredGlobal_8012D6BC_lbl_804A05A8 {
 extern "C" {
 u8 * TItemTimerEvent__ct(s32, u32, s32, s32);
 extern RecoveredGlobal_8012D6BC_lbl_804A05A8 lbl_804A05A8;
-struct Owner_8012D708 { u8 pad[0x60]; s32 f60; };
-struct Self_8012D708 { u8 pad0[0x24]; s32 f24; u8 pad28[0xF0 - 0x28]; Owner_8012D708 *owner; u8 padF4[0x188 - 0xF4]; s32 f188; };
-struct Vec_8012D708 { f32 x, y, z; };
-struct Tec_8012D708 {
-    s16 id;
-    u8 pad2[2];
-    s32 f4;
-    s32 f8;
-    s32 fC;
-    s16 f10;
-    s16 f12;
-    f32 f14;
-    f32 f18;
-    f32 f1C;
-    f32 f20;
-    f32 f24;
-    s32 f28;
-    u8 pad2C[4];
-    Vec_8012D708 pos;
-    Vec_8012D708 dir;
-};
 
 s16 get_entity_id(void *);
 f32 query_extended_state__10TObjPlayerFv(void *);
-struct SlicerState_801295FC;
 void init_slicer_launch_state(void *arg0);
 s16 get_validated_attack_stage(u8 *arg0);
 s16 TObjPlayer__sub_801D2F4C(s16 *arg0);

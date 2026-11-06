@@ -3,15 +3,17 @@
 #include "types.h"
 #include "pso/items/TItemWeapon.h"
 
+// The Madam's Umbrella weapon class (vtable 0x804A67D0): the canopy opens while
+// idle and closes during an attack; vfunc_57 starts a regeneration timer.
 class TUnk_804A67D0 : public TItemWeapon {
 public:
-    virtual ~TUnk_804A67D0();
+    virtual void vfunc_60();
+    virtual void vfunc_57();
     virtual void update_idle();
-    void*init_fields();
     virtual void update_attack();
-    u8 unk_1F8[0x4];
-    s32 m_1fc;
-    u8 unk_200[0x4];
+    virtual ~TUnk_804A67D0();
+    TUnk_804A67D0(TObject *parent, u8 *item);
+    WeaponVector scale;  // canopy scale (scale_current_matrix)
 };
 
 #endif

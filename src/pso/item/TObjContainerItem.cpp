@@ -48,61 +48,11 @@
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjChip.h"
 
-struct Base_TOC_801881D4 { char pad[0x18]; };
-struct V_TOC_801881D4 : Base_TOC_801881D4 {
-    PADV4
-    PADV4
-    virtual s32 m8(f32, f32);
-};
 struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
-struct Obj_801884A0 {
-    s32 unk0;
-    u8 pad4[0x18 - 0x4];
-    void *vtbl;
-    u8 pad1C[0x30 - 0x1C];
-    u32 flags30;
-    u8 pad34[0x88 - 0x34];
-    s32 selector;
-    u8 pad8C[0x98 - 0x8C];
-    u8 aux98[0xBC - 0x98];
-    void *model;
-    f32 unkC0;
-    s32 unkC4;
-};
-struct Model_8018807C {
-    u32 flags0;
-    u8 pad0[8 - 4];
-    u8 pos8[0x14 - 8];
-    u8 angles14[0x2C - 0x14];
-    u8 *sub2c;
-};
-struct Computer_8018807C {
-    u8 pad0[0x38];
-    u8 pos38[0x60 - 0x38];
-    s32 yaw60;
-    u8 pad1[0x88 - 0x64];
-    s32 kind88;
-    u8 pad2[0xBC - 0x8C];
-    Model_8018807C *model;
-    f32 time_c0;
-    u32 tick_c4;
-};
 struct Obj_80188768 { u8 pad0[0x1C]; u16 f1C; u8 pad1[0x62]; u32 f80; s32 f84; };
 struct Pkt_80188768 { u16 a; u16 b; s32 c; s32 d; s32 e; };
 struct Vec_8018860C { f32 x, y, z; };
-struct ChipParam_8018860C {
-    u32 x00;
-    u32 x04;
-    u32 x08;
-    Vec_8018860C pos;
-    u8 pad18[0x20];
-    f32 y2;
-    u32 pad3C;
-    s32 res;
-    s32 x44;
-    u32 x48;
-};
 struct Obj_8018860C {
     u8 pad[0x38];
     Vec_8018860C pos;
@@ -114,16 +64,6 @@ struct RecoveredGlobal_801889B8___vt__21TObjContainerAbeEnemy {
     u8 remaining[0x148];
 };
 struct Obj_80188C8C { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]; s16 state; };
-struct Spawn_80188B3C {
-    u8 pad0[0xC];
-    f32 x, y, z;
-    u8 pad18[0x38 - 0x18];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
-};
 struct Obj_80188B3C { u8 pad[0x38]; f32 x, y, z; };
 struct RecoveredGlobal_80188DC0___vt__17TObjContainerBase {
     s32 value;
@@ -132,16 +72,6 @@ struct RecoveredGlobal_80188DC0___vt__17TObjContainerBase {
 struct RecoveredGlobal_801897A4___vt__18TObjContainerEnemy {
     s32 value;
     u8 remaining[0x148];
-};
-struct Spawn_8018990C {
-    u8 pad0[0xC];
-    u8 pos[0xC];
-    u8 pad18[0x38 - 0x18];
-    f32 f38;
-    u8 pad3c[4];
-    s32 f40;
-    s32 f44;
-    u8 pad48[4];
 };
 struct Obj_8018990C { u8 pad[0x38]; f32 x, y, z; u8 pad44[0x326 - 0x44]; s16 f326; };
 struct RecoveredGlobal_8018925C___vt__19TObjContainerNoItem {

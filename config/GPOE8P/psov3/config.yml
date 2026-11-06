@@ -5271,7 +5271,7 @@ force_active:
   - construct_tec_barta_facing__FP9TTecBartaPvPvPvPv
   - construct_variant_b__9TWindowDDFPv
   - construct_weapon_casing__10TObjPlayerFPUcPUcPUcPUcPUc
-  - construct_weapon_variant__10TObjPlayerFlPv
+  - __ct__13TUnk_804A5458FP7TObjectPUc
   - construct_with_index__22TObjFogCollisionPoisonFPUcl
   - construct_with_vtable__13TUnk_8049F40CFPvii
   - consume_counter__14TOTrapChainSawFPv
@@ -7013,7 +7013,7 @@ force_active:
   - init_enemy__17TObjEneDf2BringerFv
   - init_enemy__18TObjEneRe4SorcererFv
   - init_field_d4__16TODoorLaboNormalFv
-  - init_fields__13TUnk_804A67D0Fv
+  - __ct__13TUnk_804A67D0FP7TObjectPUc
   - init_fields__13TUnk_804F0AF8FlPv
   - init_floor_encounter_sections__6TLobbyFv
   - init_follow_particle_ctrl__10TObjPlayerFv
@@ -15482,7 +15482,7 @@ force_active:
   - set_min_clamped_entry_value__16TObjEneDellBiterFlf
   - set_mode_floats__13TUnk_804ED298FlPv
   - set_mode_index_from_state__13TObjLobbyMainFv
-  - set_mode_vector__13TUnk_804A6200Fv
+  - __ct__13TUnk_804A6200FP7TObjectPUc
   - set_model__11TItemMagSubFPvUlPv
   - set_model__19TBoss3VoloptMonitorFl
   - set_motion_by_state__18TObjEneRe4SorcererFPv
@@ -15543,7 +15543,7 @@ force_active:
   - set_stat_scale__10TObjPlayerFPvf
   - set_state3__10TBoss4ZakoFv
   - set_state4_if_ready__14TBoss6PlotFalzFv
-  - set_state_0__13TUnk_804A6010Fv
+  - __ct__13TUnk_804A6010FP7TObjectPUc
   - set_state_0x34__11TBoss6Type2Fv
   - set_state_2__12TBoss8DragonFv
   - set_state__15TObjEneSlimeOneFl

@@ -11,7 +11,6 @@ extern "C" {
 void vfunc_60__11TItemWeaponFv(void);
 void vfunc_59__11TItemWeaponFv(void);
 void vfunc_58__11TItemWeaponFv(void);
-void vfunc_57__11TItemWeaponFv(void);
 void update_idle__11TItemWeaponFv(void);
 }
 

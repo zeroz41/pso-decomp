@@ -10,6 +10,7 @@ struct TItemEquipBase;
 
 #include "pso/misc/TTecSlicer.h"
 #include "pso/TItemAttacker.h"
+#include "pso/item/WeaponAttackActions.h"
 
  extern void *s_rank_j_cutter_weapon_vtable[64]; extern void *s_rank_slicer_weapon_vtable[64];
 struct Owner_801293FC { u8 pad[0x60]; s32 f60; };
@@ -259,12 +260,8 @@ void *__dt__13TUnk_804A4338Fv(void *arg0, s16 arg1) {
 }
 
 extern "C" s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
-extern "C" void vfunc_60__11TItemWeaponFv();
-extern "C" void vfunc_59__11TItemWeaponFv();
-extern "C" void vfunc_58__11TItemWeaponFv();
 extern "C" void update_weapon__11TItemWeaponFv();
 extern "C" void reserved_53__11TItemWeaponFv();
-extern "C" void update_idle__11TItemWeaponFv();
 extern "C" void update_attack__11TItemWeaponFv();
 extern "C" void activate_effect__11TItemWeaponFl();
 extern "C" void update_owned__11TItemWeaponFv();

@@ -34,7 +34,6 @@ struct RecoilWeaponView : TItemWeapon {
 
 typedef struct MegidWeaponRenderView { u8 pad[0x200]; s32 f200; } MegidWeaponRenderView;
 
-struct StarLightPosition { f32 x, y, z; };
 
 struct WeaponStarLightParameterWords { u32 w[5]; };
 
@@ -58,37 +57,23 @@ typedef char StarLightFollowerExtent[sizeof(StarLightFollowerView) == 0x2C ? 1 :
 extern "C" {
 s32 launch_rare_weapon_special__10TObjPlayerFPvlf(void *, void *, int, f32);
 
-void emit_marker_effects__13TUnk_804A2164Fv(RecoilWeaponView *arg0);
 s32 rotate_matrix_z(s32, s32);
 void draw_ginja_object(void *child);
-void update_weapon__13TUnk_804A2164Fv(void *arg0);
 void *__dt__13TUnk_804A2164Fv(void *arg0, s16 arg1);
 void __ct__11TItemWeaponFP7TObjectPUc(void *);
 u8 *__nw__5TItemFUl(s32);
-void __dl__7TObjectFPv(void *);
 void *__dt__15TItemShootModelFv(void *self, s16 flag);
 void increment_burst_counter(u8 *arg0);
 s32 get_burst_counter(void* p);
-s32 get_owner_client__5TItemFv(void *);
-s32 __nw__15TItemHeapObjectFUl(s32);
-s32 init_vtable__13TUnk_804A0668Fv(s32, u32, s32, s32);
 s32 post_translate_matrix(void *);
 s32 draw_weapon_at_joint(void *, s32, void *);
-s32 warn_if_gauge_low__10TObjPlayerFv(s32);
-s32 set_model_fade_alpha__10TObjPlayerFf();
-void TObjPlayer__sub_80364198(void);
 s32 rotate_matrix_y(int, int);
 s32 push_matrix();
 s32 pop_matrix();
 extern s32 model_render_flags;
-void reserved_53__13TUnk_804A204CFv(void *arg0);
 s32 get_current_floor();
 s32 is_item_area_enabled();
-void update_weapon__13TUnk_804A204CFv(void *arg0);
-s32 create_ex__9TTecMegidFllll(void *, s32 *, s32, s32);
-void emit_marker_effects__13TUnk_804A204CFv(void *arg0);
 s32 __nw__7TObjectFUl(s32);
-void create_icon__10TObjPlayerFiii(s32 arg0, s32 arg1, s32 arg2);
 }
 s32 drill_launcher_create_shot(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 
@@ -100,90 +85,25 @@ int get_item_system_generation(void);
 u8 *spawn_star_light_2d(s32 arg0, s32 arg1, s32 arg2);
 extern "C" {
 StarLightFollowerView *__ct__13TUnk_804A2018FP7TObjectll(StarLightFollowerView *self, void *parent, s32 a, s32 b);
-void __dt__7TObjectFv(void *, int);
 void *TObjPlayer__sub_8012417C(void *arg0, s16 arg1);
-s8 get_mode__5TItemFv();
 
-void queue_destruction__7TObjectFv(void *arg0);
-void run_task__13TUnk_804A2018Fv(void *arg0);
 void *__dt__13TUnk_804A204CFv(void *arg0, s16 arg1);
 void *TObjPlayer__sub_80124694(TObjPlayer *arg0);
 u8 *TObjPlayer__sub_80124708(u8 *arg0);
 s32 is_owner_alive__15TItemShootModelFv();
 s32 rotate_matrix_x(int, int);
 
-void hook__13TUnk_804A2148Fv(void);
 void __ct__15TItemShootModelFPvPC3VecPC3Vecf(void *);
 u32 spawn_shoot_particle__10TObjPlayerFUlllf(s32, s32, s32, f32);
 typedef u8 *(*Fn_80124694_3)(void *, s32, void *);
 typedef s32 (*Fn_80124810_5)(s32, s32, s32, s32, f32);
 
-extern "C" void render__7TObjectFv();
-extern "C" void render_shadows__7TObjectFv();
 
 }
 extern "C" {
 
 
 
-void render__13TUnk_804A2148Fv(u8 *);
-extern "C" s8 get_attach_slot__14TItemEquipBaseFv(TItemEquipBase *arg0);
-extern "C" void vfunc_59__11TItemWeaponFv();
-extern "C" void vfunc_58__11TItemWeaponFv();
-extern "C" void vfunc_57__11TItemWeaponFv();
-extern "C" void reserved_53__11TItemWeaponFv();
-extern "C" void update_idle__11TItemWeaponFv();
-extern "C" void update_attack__11TItemWeaponFv();
-extern "C" void activate_effect__11TItemWeaponFl();
-extern "C" void update_owned__11TItemWeaponFv();
-extern "C" void on_model_loaded__11TItemWeaponFv();
-extern "C" void on_unequip__11TItemWeaponFv();
-extern "C" u8 get_motion_type__11TItemWeaponFv(void *p);
-extern "C" void write_item_data__11TItemWeaponFP9TItemData();
-extern "C" void snap_to_owner__5TItemFv();
-extern "C" void update_in_inventory__5TItemFv();
-extern "C" int feed__5TItemFP9TItemData(void);
-extern "C" void add_slot__5TItemFv();
-extern "C" int update_object_view_visibility__5TItemFff(void *p);
-extern "C" void vfunc_6__8TObjBaseFPsl();
-extern "C" void add_equip_stats__14TItemEquipBaseFl();
-extern "C" void on_equip__11TItemWeaponFv();
-extern "C" void apply_object_set_data__8TObjBaseFPv();
-extern "C" void apply_owner_bonuses__11TItemWeaponFv();
-extern "C" void classify_actor_view_detail__8TObjBaseFfff();
-extern "C" void deliver_hit__11TItemWeaponFlPUcllf();
-extern "C" void perform_action__11TItemWeaponFv();
-extern "C" void use__5TItemFv();
-extern "C" void render__5TItemFv();
-extern "C" void render_equipped_shadow__11TItemWeaponFv();
-extern "C" void render_equipped__11TItemWeaponFv();
-extern "C" void equip__14TItemEquipBaseFv();
-extern "C" void get_attack_flags__11TItemWeaponFv();
-extern "C" void get_center__11TItemWeaponFv();
-extern "C" void launch_shot__11TItemWeaponFPUclll();
-extern "C" void request_equipped_model__11TItemWeaponFv();
-extern "C" void get_name__5TItemFv();
-extern "C" void reset_motion_fields__14TObjCollidableFv();
-extern "C" void remove_equip_stats__14TItemEquipBaseFl();
-extern "C" void render_shadows__5TItemFv();
-extern "C" void remove_owner_bonuses__11TItemWeaponFv();
-extern "C" void release_model__11TItemWeaponFv();
-extern "C" int get_slot_count__5TItemFv(void);
-extern "C" int add_amount__5TItemFl(void);
-extern "C" int remove_amount__5TItemFl(void);
-extern "C" int get_amount__5TItemFv(void);
-extern "C" void run_task__10TItemShootFv();
-extern "C" void run_task__5TItemFv();
-extern "C" void set_attach_slot__14TItemEquipBaseFSc();
-extern "C" void subtract_equip_stats__14TItemEquipBaseFPvPsPs();
-extern "C" void subtract_item_stat_bonus__14TItemEquipBaseFllPs();
-extern "C" void interact__5TItemFl();
-extern "C" void unequip__14TItemEquipBaseFv();
-extern "C" void update_equipped__11TItemWeaponFv();
-extern "C" void destroy__14TItemEquipBaseFv();
-extern "C" void refresh_special__11TItemWeaponFv();
-extern "C" void is_identified__11TItemWeaponFv();
-extern "C" void render_equipped_deferred__11TItemWeaponFv();
 extern void *__vt__13TUnk_804A204C[];
 extern void *__vt__13TUnk_804A2148[];
 extern void *__vt__13TUnk_804A2164[];
