@@ -7,6 +7,7 @@
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/window/TWindowActionPalette_801C1890.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 typedef struct Rec_801D40D4 {
@@ -34,9 +35,6 @@ typedef struct List_801D4744 {
 } List_801D4744;
 
 extern "C" {
-u8 get_item_type__5TItemFv(void *, int);
-s32 is_item_equipped(void *, int);
-s32 start_inventory_update__10TObjPlayerFi(void *, void *);
 u8 *get_ptr_4__10TObjPlayerFv();
 void mem_free(void *p);
 void *mem_alloc(u32 size);
@@ -219,18 +217,16 @@ s32 TObjPlayer__sub_801D4368(TObjPlayer *arg0) {
 
 void TObjPlayer__sub_801D45B0(s32 *arg0, s32 arg1) {
     s32 temp_r4;
-    u8 player;
     *arg0 = 0;
-    temp_r4 = get_item_type__5TItemFv((void *)arg1, (int)arg1) << 0x19;
+    temp_r4 = ((TItem *)arg1)->get_item_type() << 0x19;
     *arg0 |= temp_r4;
-    if (get_item_type__5TItemFv((void *)arg1, (int)temp_r4) == 1) {
+    if (((TItem *)arg1)->get_item_type() == 1) {
         *arg0 |= (((TItem *)arg1)->get_item_group() << 0x11) & 0x01FE0000;
     } else {
         *arg0 |= (((TItem *)arg1)->get_item_group() << 8) & 0xFF00;
     }
-    player = ((TItem *)arg1)->get_item_index();
-    *arg0 |= player;
-    if (is_item_equipped((void *)arg1, (int)player) == 0) {
+    *arg0 |= ((TItem *)arg1)->get_item_index();
+    if (is_item_equipped((TItem *)arg1) == 0) {
         *arg0 |= 0x10000;
     }
 }
@@ -285,28 +281,28 @@ void TObjPlayer::sort_by_key() {
 
 void TObjPlayer__sub_801D47D8(void* p, void* q) { *(u32*)((char*)p + 0x0) = *(u32*)((char*)q + 0x0); *(u32*)((char*)p + 0x4) = *(u32*)((char*)q + 0x4); }
 s32 TObjPlayer__sub_801D47EC(s32 arg0, s32 arg1, s32 arg2) {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    s32 temp_r3_3;
-    s32 temp_r3_4;
-    temp_r3 = start_inventory_update__10TObjPlayerFi((void *)arg0, (void *)arg1);
-    if (temp_r3 == 0) {
+    TObjPlayer *node_a;
+    TObjPlayer *node_b;
+    s32 item_a;
+    s32 item_b;
+    node_a = (TObjPlayer *)((TObjPlayer *)arg0)->start_inventory_update(arg1);
+    if (node_a == NULL) {
         return 0;
     }
-    temp_r3_2 = start_inventory_update__10TObjPlayerFi((void *)arg0, (void *)arg2);
-    if (temp_r3_2 == 0) {
+    node_b = (TObjPlayer *)((TObjPlayer *)arg0)->start_inventory_update(arg2);
+    if (node_b == NULL) {
         return 0;
     }
-    temp_r3_3 = ((TObjPlayer *)temp_r3)->get_owner_if_alive();
-    if (temp_r3_3 == 0) {
+    item_a = node_a->get_owner_if_alive();
+    if (item_a == 0) {
         return 0;
     }
-    temp_r3_4 = ((TObjPlayer *)temp_r3_2)->get_owner_if_alive();
-    if (temp_r3_4 == 0) {
+    item_b = node_b->get_owner_if_alive();
+    if (item_b == 0) {
         return 0;
     }
-    ((TObjPlayer *)temp_r3)->set_field_1c(temp_r3_4);
-    ((TObjPlayer *)temp_r3_2)->set_field_1c(temp_r3_3);
+    node_a->set_field_1c(item_b);
+    node_b->set_field_1c(item_a);
     return 1;
 }
 

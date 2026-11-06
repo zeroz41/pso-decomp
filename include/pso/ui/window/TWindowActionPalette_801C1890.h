@@ -4,6 +4,7 @@
 #include "types.h"
 
 struct TObjPlayer;
+struct TItem;
 extern "C" {
 s32 TLobby__sub_801C19D0(void *p);
 void TObjPlayer__sub_801C18E0(void *p);
@@ -40,7 +41,7 @@ u16 get_lock_target_id(void *p);
 void init_6x21_inter_level_warp_packet(u8 *arg0);
 extern "C" {
 void is_action_channel_active(s32 *arg0, s32 arg1);
-u8 is_item_equipped(TObjPlayer *arg0);
+s32 is_item_equipped(TItem *item);
 void set_photon_blast_kind(void *p, s16 v);
 int test_photon_blast_modifier(void *p);
 }

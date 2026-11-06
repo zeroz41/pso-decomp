@@ -93,14 +93,12 @@ void *TObjPlayer::reset_lobby_settings() {
     return this;
 }
 
-u8 is_item_equipped(TObjPlayer *player) {
-  unsigned int var_r31;
-  var_r31 = 0;
-  if ((((TItem *)player)->test_item_flags(4) != 0U) && (((TItem *)player)->test_item_flags(8) != 0U))
-  {
-    var_r31 = 1;
-  }
-  return var_r31;
+s32 is_item_equipped(TItem *item) {
+    u8 equipped = 0;
+    if (item->test_item_flags(4) != 0U && item->test_item_flags(8) != 0U) {
+        equipped = 1;
+    }
+    return equipped;
 }
 
 void TObjPlayer__sub_801C1AC8(void *self) {

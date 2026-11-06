@@ -153,7 +153,7 @@ public:
     u32 m_1b8;
     u8 unk_1BC[0x4];
     s32 m_1c0;
-    u8 unk_1C4[0x4];
+    TObject *unk_1C4;
     int m_1c8;
     u8 unk_1CC[0x2];
     s16 m_1ce;

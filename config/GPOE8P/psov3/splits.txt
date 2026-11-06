@@ -5518,13 +5518,7 @@ pso/unk/text_801D40D4.cpp:
 	.text       start:0x801D40D4 end:0x801D4890
 
 pso/player/TObjPlayer_801D4890.cpp:
-	.text       start:0x801D4890 end:0x801D4AEC
-
-pso/unk/TLobby_801D4AEC.cpp:
-	.text       start:0x801D4AEC end:0x801D4CB8
-
-pso/player/TObjPlayer_801D4CB8.cpp:
-	.text       start:0x801D4CB8 end:0x801D4F44
+	.text       start:0x801D4890 end:0x801D4F44
 
 pso/player/TPlyItem.cpp:
 	.text       start:0x801D4F44 end:0x801D5220

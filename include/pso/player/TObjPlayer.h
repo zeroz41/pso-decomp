@@ -924,7 +924,7 @@ struct TObjPlayer : public TObjChara {
     void find_first_inventory_entry(int a1);
     void destroy_subobjects(int a1);
     void destroy_subobjects_recursive();
-    void start_inventory_update(int a1);
+    void *start_inventory_update(int key);
     void count_owned_items();
     void collect_item_owners_recursive();
     void collect_alive_owners();
