@@ -20,7 +20,7 @@
 #include "pso/player/TObjPlayer_800A894C.h"
 #include "pso/player/TObjPlayer_800D8FDC.h"
 #include "pso/unk/text_80090488.h"
-#include "pso/unk/text_8009F410.h"
+#include "pso/enemy/TObjEneMe1Canadin.h"
 #include "pso/unk/text_8035B6B0.h"
 #include "pso/unk/text_8035B750.h"
 #include "pso/unk/text_8035B788.h"
@@ -203,7 +203,6 @@ extern "C" {
 void load_resources__12TBoss1DragonFv();
 void TBoss8Dragon__sub_80065C90();
 void TObjEneBalClaw__sub_8008D924();
-void fn_8009F554();
 void TObjPlayer__sub_800A2DCC();
 void load_resources__11TObjEneMojaFv();
 void TObjEneMerillLia__sub_800D6D64();
@@ -330,7 +329,7 @@ FloorResourceCallbacks floor_resource_callbacks_selectors_06_07[9] = {
     { TObjPlayer__sub_800AA82C, TObjPlayer::free_effect_resources },
     { TLobby::load_gyaranzo_resources, TObjEneGyaranzo::free_static_instances },
     { TObjEneMe3ShinowaMirage__sub_800E7B94, TObjEneMe3ShinowaMirage::free_shared_resources },
-    { fn_8009F554, fn_8009F410 },
+    { TObjEneMe1Canadin::load_resources, TObjEneMe1Canadin::free_resources },
     { TOCtrlDubchik::load_shared_resource, TOCtrlDubchik::destroy_instance },
     { reset_camera_override, restore_cameras_if_overridden },
     { 0, 0 },

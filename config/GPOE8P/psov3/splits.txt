@@ -1432,24 +1432,12 @@ pso/enemy/BringerEffects.cpp:
 	.sdata2     start:0x805D9850 end:0x805D9888
 
 pso/enemy/TObjEneMe1Canadin.cpp:
-	.text       start:0x8009AB4C end:0x8009F410
+	.text       start:0x8009AB4C end:0x8009F7AC
 	.rodata     start:0x8043A390 end:0x8043A398
 	.data       start:0x8048FEB0 end:0x80490238
-	.bss        start:0x80500930 end:0x80500960
+	.bss        start:0x80500930 end:0x80500970
 	.sbss       start:0x805D4FD8 end:0x805D4FDC
-	.sdata2     start:0x805D98C0 end:0x805D98D0
-
-pso/unk/text_8009F410.cpp:
-	.text       start:0x8009F410 end:0x8009F4A0
-
-pso/enemy/TObjEneMe1CanadinLeader_8009F4A0.cpp:
-	.text       start:0x8009F4A0 end:0x8009F504
-
-pso/enemy/TObjEneMe1Canadin_8009F504.cpp:
-	.text       start:0x8009F504 end:0x8009F554
-
-pso/unk/text_8009F554.cpp:
-	.text       start:0x8009F554 end:0x8009F7AC
+	.sdata2     start:0x805D9888 end:0x805D9938
 
 pso/enemy/CanadinEffects.cpp:
 	.text       start:0x8009F7AC end:0x800A01C0

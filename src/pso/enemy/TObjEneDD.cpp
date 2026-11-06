@@ -826,11 +826,11 @@ void TObjEneDD::copy_resource_desc(u8 *arg1) {
     *(s16 *)((s8 *)((u8 *)this) + 0xE) = (s16) *(s16 *)((s8 *)arg1 + 0xE);
 }
 
-void load_enemy_bml_resource_named(s32 arg0, s32 arg1) {
+s32 load_enemy_bml_resource_named(s32 arg0, s32 arg1) {
     s32 sp8;
     ((TObjEneDD *)(&sp8))->copy_resource_desc((u8 *)arg0);
     sp8 = arg1;
-    load_enemy_bml_resource((u8 *)&sp8);
+    return load_enemy_bml_resource((u8 *)&sp8);
 }
 
 void TObjEneDD::vfunc_79(s32 *state) {

@@ -68,6 +68,8 @@ struct TObjEneMe1Canadin : public TObjEneDD_ST {
     void setup_enemy();
     void *init(void *arg1, void *arg2, void *arg3);
     static void *create(void *arg0);
+    static void load_resources();
+    static void free_resources();
     u8 unk_4AE[0x1E];
 };
 
@@ -86,7 +88,7 @@ void TObjEneMe1CanadinLeader__vt104(void *arg0);
 u8 TObjEneMe1CanadinLeader__vt107(void *arg0);
 void TObjEneMe1CanadinLeader__vt108(u8 *arg0, s32 arg1);
 void TObjEneMe1CanadinLeader__vt111(void *arg0);
-u8 *TObjEneMe1Canadin__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s16 arg4, s16 arg5);
+u8 *TObjEneMe1Canadin__ct(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, s32 arg4, s32 arg5);
 void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1);
