@@ -14,6 +14,22 @@
 #include "pso/object/TObjMapWarpAncient.h"
 #include "pso/object/TObjGoalWarpAncient.h"
 #include "pso/object/TObjMapWarpAncient_8017D0DC.h"
+#include "pso/system/BmlResourceDescriptor.h"
+
+const char *bm_o_warp_ancient_model_names[7] = {
+    "dd_obj3_swarp_ksita.gj", "de_obj2_swarp_beam.gj", "de_obj1_swarp_beam_n.gj", "fd_obj1_swarp_gawa.gj",
+    "fd_obj2_swarp_nsita_1.gj", "fe_obj3_swarp_naka.gj", NULL,
+};
+const char *bm_o_warp_ancient_motion_names[4] = {
+    "de_obj2_swarp_beam.njm", "de_obj1_swarp_beam_n.njm", "fe_obj3_swarp_naka.njm", NULL,
+};
+BmlResourceDescriptor bm_o_warp_ancient_resource_descriptor = {
+    "bm_o_warp_ancient.bml", bm_o_warp_ancient_model_names, bm_o_warp_ancient_motion_names, 6, 3,
+};
+const char *TObjMapWarpAncient__class_name = "TObjMapWarpAncient";
+const char *TObjGoalWarpAncient__class_name = "TObjGoalWarpAncient";
+u32 ancient_warp_shared_resource;
+s32 goal_warp_ancient_gvm_texture;
 
 struct VBase8017CB60_8017CB60_more_8017cca4_0 { char pad[0x18]; };
 struct VObj8017CB60_8017CB60_more_8017cca4_0 : VBase8017CB60_8017CB60_more_8017cca4_0 {
@@ -55,7 +71,6 @@ s32 TObjGoalWarpAncient__sub_8017D2D4(int);
 s32 TObjAreaWarp__ct(void *, void *, void *);
 s32 init__13TAdVIConfigGCFf(int, void *, f32);
 extern s32 __vt__19TObjGoalWarpAncient[];
-extern s32 TObjGoalWarpAncient__class_name;
 
 s32 debug_print_area_num__12TObjAreaWarpFv();
 void debug_printf_at(s32 id, const char *fmt, ...);
@@ -161,7 +176,7 @@ u8 *TObjGoalWarpAncient__ct(TObjGoalWarpAncient *goal_warp_ancient, s32 arg1, s3
     s32 var_r0;
     TObjAreaWarp__ct((void *)goal_warp_ancient, (void *)arg1, (void *)arg2);
     *(s32 **)((s8 *)goal_warp_ancient + 0x18) = &(*(RecoveredGlobal_8017CDB4___vt__19TObjGoalWarpAncient *)&__vt__19TObjGoalWarpAncient).value;
-    *(s32 *)((s8 *)goal_warp_ancient + 0) = (s32) TObjGoalWarpAncient__class_name;
+    *(s32 *)((s8 *)goal_warp_ancient + 0) = (s32)TObjGoalWarpAncient__class_name;
     *(f32 *)((s8 *)goal_warp_ancient + 0xC8) = (f32) 0.0f;
     *(f32 *)((s8 *)goal_warp_ancient + 0xC4) = (f32) 0.0f;
     goal_warp_ancient->m_e8 = TObjGoalWarpAncient__sub_8017D2D4(1);
@@ -282,13 +297,12 @@ void *__dt__18TObjMapWarpAncientFv(void *arg0, s16 arg1) {
     return arg0;
 }
 
-extern s32 TObjMapWarpAncient__class_name;
 
 
 u8 *TObjMapWarpAncient__ct(TObjMapWarpAncient *map_warp_ancient, void *parent, void *set) {
     TObjMapWarp__ct();
     *(s32 **)((s8 *)map_warp_ancient + 0x18) = __vt__18TObjMapWarpAncient;
-    *(s32 *)((s8 *)map_warp_ancient + 0) = (s32) TObjMapWarpAncient__class_name;
+    *(s32 *)((s8 *)map_warp_ancient + 0) = (s32)TObjMapWarpAncient__class_name;
     *(f32 *)((s8 *)map_warp_ancient + 0xFC) = (f32) 0.0f;
     map_warp_ancient->m_100 = TObjGoalWarpAncient__sub_8017D2D4(2);
     map_warp_ancient->m_104 = TObjGoalWarpAncient__sub_8017D2D4(0);
@@ -300,8 +314,6 @@ u8 *TObjMapWarpAncient__ct(TObjMapWarpAncient *map_warp_ancient, void *parent, v
     return (u8 *)map_warp_ancient;
 }
 
-extern u32 ancient_warp_shared_resource;
-extern s32 goal_warp_ancient_gvm_texture;
 
 void TObjMapWarpAncient::free_globals() {
     TObjPlayer::free_if_valid(goal_warp_ancient_gvm_texture);
@@ -317,48 +329,22 @@ void TObjMapWarpAncient::free_globals() {
 // ---- pso/object/TObjGoalWarpAncient
 #include "pso/misc/TLanguage_801E4874.h"
 
-struct RecoveredGlobal_8019A9B8_lbl_80446184 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A9B8_lbl_804B8F60 {
-    s32 value;
-    u8 remaining[0xC];
-};
-
-struct RecoveredGlobal_8019A880_lbl_804B8F70 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
-struct RecoveredGlobal_8019A880___vt__8TObjTank {
-    s32 value;
-    u8 remaining[0x38];
-};
-
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80443308;
-extern RecoveredGlobal_8019A9B8_lbl_804B8F60 bm_o_warp_ancient_resource_descriptor;
 int get_bml_motion(void*, void*);
 int TObjFish__sub_8001EDB0(void*, void*);
 int get_bml_model(void*, void*);
 
-typedef char RecoveredGlobal_8019A880_lbl_804B8F70_size[sizeof(RecoveredGlobal_8019A880_lbl_804B8F70) == 0x2C ? 1 : -1];
-typedef char RecoveredGlobal_8019A880___vt__8TObjTank_size[sizeof(RecoveredGlobal_8019A880___vt__8TObjTank) == 0x3C ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_80446184_size[sizeof(RecoveredGlobal_8019A9B8_lbl_80446184) == 0x10 ? 1 : -1];
-typedef char RecoveredGlobal_8019A9B8_lbl_804B8F60_size[sizeof(RecoveredGlobal_8019A9B8_lbl_804B8F60) == 0x10 ? 1 : -1];
 void TObjGoalWarpAncient::load_resources() {
     s32 temp_r3;
     s32 var_r0;
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_warp_ancient_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 0x1, &bm_o_warp_ancient_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&ancient_warp_shared_resource) = var_r0;
-    (*(u8 * *)&goal_warp_ancient_gvm_texture) = load_gvm_texture_file((s32) &lbl_80443308.value);
+    (*(u8 * *)&goal_warp_ancient_gvm_texture) = load_gvm_texture_file((s32)"de_obj2_swarp_beam_r.gvm");
 }
 
 void TObjGoalWarpAncient::register_warp_object(void* a0) { TObjFish__sub_8001EDB0((void*)ancient_warp_shared_resource, a0); }

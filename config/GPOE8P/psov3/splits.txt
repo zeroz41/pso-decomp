@@ -4565,7 +4565,10 @@ pso/misc/TOVS2Wall01_8017BE08.cpp:
 
 pso/object/TObjMapWarpAncient.cpp:
 	.text       start:0x8017CB60 end:0x8017D2FC
-	.rodata     start:0x80443288 end:0x80443308
+	.rodata     start:0x80443168 end:0x80443328
+	.data       start:0x804B52C8 end:0x804B5304
+	.sdata      start:0x805D31E8 end:0x805D31F0
+	.sbss       start:0x805D5AF0 end:0x805D5AF8
 	.sdata2     start:0x805DBAB8 end:0x805DBACC
 
 pso/misc/TOWreckAncientBrakable05.cpp:
@@ -5002,9 +5005,9 @@ pso/unk/text_8019B0D4.cpp:
 
 pso/object/TObjAreaWarpEndingJung.cpp:
 	.text       start:0x8019B124 end:0x8019DBB4
-	.rodata     start:0x804463C8 end:0x804463D0
+	.rodata     start:0x804462E0 end:0x804463D0
 	.data       start:0x804B91E0 end:0x804B91F8
-	.sdata      start:0x805D3460 end:0x805D3464
+	.sdata      start:0x805D3458 end:0x805D3484
 	.sdata2     start:0x805DBFC8 end:0x805DC000
 
 pso/unk/text_8019DBB4.cpp:
@@ -5032,7 +5035,8 @@ pso/object/TObjWarpBoss03.cpp:
 
 pso/object/TObjWarpJungMain.cpp:
 	.text       start:0x8019FB8C end:0x801A03D8
-	.rodata     start:0x80446708 end:0x80446718
+	.rodata     start:0x804466E0 end:0x80446718
+	.sdata      start:0x805D3498 end:0x805D34A0
 
 pso/object/TObjWarpJung_801A03D8.cpp:
 	.text       start:0x801A03D8 end:0x801A0520

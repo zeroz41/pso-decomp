@@ -55,14 +55,7 @@ s32 align_menu_entry_positions(u32);
 s32 forward_trade_action_default__16TObjCityMainWarpFPviii(u32, s32, s32, s32);
 u32 create_window_menu(s32, s32, s16);
 s32 get_window_layout_position(s32);
-extern s32 jungle_warp_destination_text_ids[];
 void TObjWarpJungMain__vt13(TObjWarpJungMain *arg0, s16 arg1);
-struct RecoveredGlobal_8019FCFC_lbl_804B9658 {
-    s32 value;
-    u8 remaining[0x8];
-};
-
-typedef char RecoveredGlobal_8019FCFC_lbl_804B9658_size[sizeof(RecoveredGlobal_8019FCFC_lbl_804B9658) == 0xC ? 1 : -1];
 
 struct VObjBase_801A0070_more_8019fe60_1 { char pad[0x18]; };
 
@@ -79,7 +72,7 @@ struct VObj_801A0070_more_8019fe60_1 : VObjBase_801A0070_more_8019fe60_1 {
 };
 
 struct Obj_8019FF24 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x38 - 0x1C];
@@ -93,7 +86,7 @@ struct Obj_8019FF24 {
 };
 
 struct Obj_801A0224 {
-    s32 f0;
+    const char *f0;
     u8 pad4[0x18 - 4];
     void *vt18;
     u8 pad1C[0x38 - 0x1C];
@@ -124,14 +117,17 @@ s32 get_game_play_mode(void);
 
 extern s32 __vt__12TObjWarpJung[];
 extern s32 __vt__16TObjWarpJungMain[];
-extern RecoveredGlobal_8019FCFC_lbl_804B9658 jungle_warp_destination_ids;
-extern s32 lbl_805D3498;
-extern s32 lbl_805D349C;
 extern const f32 lbl_805DC048;
 extern const f32 lbl_805DC04C;
 extern const f32 lbl_805DC050;
 extern const f32 lbl_805DC054;
 extern void *tl_05;
+
+const char *TObjWarpJung__name = "TObjWarpJung";
+const char *TObjWarpJungMain__name = "TObjWarpJungMain";
+// Text ids (group 9) of the three menu entries, and the area each one warps to.
+extern s32 jungle_warp_destination_text_ids[3];
+extern s32 jungle_warp_destination_ids[3];
 
 void TObjWarpJungMain::render() {
     VObj_18_8019FB8C *arg0 = (VObj_18_8019FB8C *)this;
@@ -176,7 +172,7 @@ s32 TObjWarpJungMain__vt16(TObjWarpJungMain *warp_jung_main) {
     u8 *window_menu;
     window_menu = (u8 *)(*(u8 **)((s8 *)warp_jung_main + 0xB0));
     if ((window_menu != NULL) && (((TWindowMenu *)window_menu)->is_decided() != 0)) {
-        warp_jung_main->m_bc = (s32) *(s32 *)((s8 *)&jungle_warp_destination_ids.value + (((TWindowMenu *)(*(u8 **)((s8 *)warp_jung_main + 0xB0)))->get_selected_value() * 4));
+        warp_jung_main->m_bc = jungle_warp_destination_ids[((TWindowMenu *)(*(u8 **)((s8 *)warp_jung_main + 0xB0)))->get_selected_value()];
         return 1;
     }
     return 0;
@@ -226,7 +222,7 @@ void *__dt__16TObjWarpJungMainFv(void *arg0, s16 arg1) {
 Obj_8019FF24 *TObjWarpJungMain__ct(Obj_8019FF24 *self) {
     TObjAreaWarp__ct(self);
     self->vt18 = __vt__16TObjWarpJungMain;
-    self->f0 = lbl_805D349C;
+    self->f0 = TObjWarpJungMain__name;
     self->fC4 = lbl_805DC04C;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 0) {
@@ -307,7 +303,7 @@ void *__dt__12TObjWarpJungFv(void *arg0, s16 arg1) {
 Obj_801A0224 *TObjWarpJung__ct(Obj_801A0224 *self) {
     TObjAreaWarp__ct(self);
     self->vt18 = __vt__12TObjWarpJung;
-    self->f0 = lbl_805D3498;
+    self->f0 = TObjWarpJung__name;
     self->fC4 = lbl_805DC04C;
     self->f8C = fabs_float(self->f8C % 2);
     if (get_game_play_mode() == 1 && self->f8C == 1) {
