@@ -19,11 +19,12 @@ extern "C" u8 *__ct__10TObjMotionFP7TObject(u8 *self);
 
 extern "C" {
 const char *TObjEneMorfosArm__name = "TObjEneMorfosArm";
+TObjMotionAction morfos_arm_motion_params[1] = {
+    { MOTION_MODE_ONCE, 0, 0, 0.7f, 0x4 },
+};
 }
 
 
-struct RecoveredGlobal_80335354_lbl_804EE3B0 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80335354_lbl_804EE3B0_size[sizeof(RecoveredGlobal_80335354_lbl_804EE3B0) == 0x10 ? 1 : -1];
 
 struct RecoveredGlobal_80335354___vt__16TObjEneMorfosArm { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_80335354___vt__16TObjEneMorfosArm_size[sizeof(RecoveredGlobal_80335354___vt__16TObjEneMorfosArm) == 0x38 ? 1 : -1];
@@ -33,7 +34,6 @@ void *TObjEneMorfosArm__sub_803326B4(void *p);
 s32 TObjEneMorfosArm__sub_803326BC(void *);
 u16 get_entity_id(void *);
 s32 set_field_d8__10TObjMotionFl(void *, void *, int);
-extern RecoveredGlobal_80335354_lbl_804EE3B0 morfos_arm_motion_params;
 extern s32 __vt__16TObjEneMorfosArm[];
 extern const char *TObjEneMorfosArm__name;
 extern u32 TObjEneMorfosArm__parent_morfos_instance;
@@ -90,7 +90,7 @@ u8 *TObjEneMorfosArm__ct(TObjEneMorfosArm *ene_morfos_arm, s32 arg1, u8 *arg2) {
     *(s32 *)((s8 *)ene_morfos_arm + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x42C)) + 8);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x42C));
     ene_morfos_arm->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0xC);
-    set_field_d8__10TObjMotionFl((void *)ene_morfos_arm, &morfos_arm_motion_params.value, (int)temp_r5);
+    set_field_d8__10TObjMotionFl((void *)ene_morfos_arm, morfos_arm_motion_params, (int)temp_r5);
     ((TObjMotion *)ene_morfos_arm)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMorfosArm__parent_morfos_instance) + 0x430)));
     ene_morfos_arm->requested_action = 0;
     ((TObjMotion *)ene_morfos_arm)->set_animation((ene_morfos_arm->requested_action));

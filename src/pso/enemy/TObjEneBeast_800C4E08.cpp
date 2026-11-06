@@ -14,6 +14,8 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
 
+extern const Vec lbl_8043BC68 = { 0.0f, 0.0f, 0.0f };
+
 #define BEAST_HUNTER_NEAR_EXIT_DISTANCE_SQ 10000.0f
 #define BEAST_HUNTER_NEAR_ENTER_DISTANCE_SQ 2500.0f
 #define BEAST_OTHER_NEAR_EXIT_DISTANCE_SQ 22500.0f

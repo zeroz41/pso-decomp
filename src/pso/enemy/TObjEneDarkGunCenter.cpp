@@ -58,7 +58,6 @@ void fn_800A0884(void *);
 void TObjEneDarkGunCenter__sub_800A0B18(void);
 u8 *get_enemy_entity(u16);
 void *get_player_by_client_id(s32 i);
-extern const f64 lbl_8043A488[];
 void run_task__20TObjEneDarkGunCenterFv(Gun_800A0B20 *self);
 void TObjEneDarkGunCenter__sub_800A0E7C(void);
 void TObjEneDarkGunCenter__sub_800A0E80(void);
@@ -254,7 +253,7 @@ void TObjEneDarkGunCenter::run_task() {
             id = find_nearest_visible_player(self, 0, 1000.0f);
             if (id != 0xFFFF) {
                 self->target = (u8 *)get_player_by_client_id(id);
-                ang = (s32)(lbl_8043A488[0] * atan2_float(*(f32 *)(self->target + 0x40) - self->f40, *(f32 *)(self->target + 0x38) - self->f38)) + 0x4000;
+                ang = (s32)(10430.38043493439 * atan2_float(*(f32 *)(self->target + 0x40) - self->f40, *(f32 *)(self->target + 0x38) - self->f38)) + 0x4000;
                 for (i = 0; i < self->count; i++) {
                     e = get_enemy_entity(self->ids[i]);
                     if (e != NULL) {

@@ -22,11 +22,14 @@ extern "C" u8 *__ct__10TObjMotionFP7TObject(u8 *self);
 extern "C" {
 const char *lbl_805D4198 = "TObjEneMe1GiGueBarrier";
 s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
+TObjMotionAction TObjEneMe1GiGueBarrier__animation_definitions[3] = {
+    { MOTION_MODE_ONCE, 0, 6, 1.0f, 0x1 },
+    { MOTION_MODE_LOOP, 0, 7, 1.0f, 0x0 },
+    { MOTION_MODE_ONCE, 0, 8, 1.0f, 0x1 },
+};
 }
 
 
-struct RecoveredGlobal_80325BCC_lbl_804ECD40 { s32 value; u8 remaining[0x2C]; };
-typedef char RecoveredGlobal_80325BCC_lbl_804ECD40_size[sizeof(RecoveredGlobal_80325BCC_lbl_804ECD40) == 0x30 ? 1 : -1];
 
 struct RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier { s32 value; u8 remaining[0x34]; };
 typedef char RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier_size[sizeof(RecoveredGlobal_80325BCC___vt__22TObjEneMe1GiGueBarrier) == 0x38 ? 1 : -1];
@@ -53,7 +56,6 @@ s32 is_active_state__22TObjEneMe1GiGueBarrierFv(int);
 u16 get_entity_id(void *);
 s32 set_field_d8__10TObjMotionFl(void *, void *, int);
 void TObjEneMe1GiGueBarrier__sub_802CABF4(void *p);
-extern RecoveredGlobal_80325BCC_lbl_804ECD40 TObjEneMe1GiGueBarrier__animation_definitions;
 extern s32 __vt__22TObjEneMe1GiGueBarrier[];
 extern const char *lbl_805D4198;
 extern s32 TObjEneMe1GiGueBarrier__barrier_resource_object;
@@ -153,7 +155,7 @@ u8 *TObjEneMe1GiGueBarrier__ct(TObjEneMe1GiGueBarrier *ene_me1_gi_gue_barrier, s
     *(s32 *)((s8 *)ene_me1_gi_gue_barrier + 0x34) = (s32) *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x42C)) + 0x28);
     temp_r5 = (u8 *)(*(u8 **)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x42C));
     ene_me1_gi_gue_barrier->texlist = (s32) *(s32 *)((s8 *)temp_r5 + 0x2C);
-    set_field_d8__10TObjMotionFl((void *)ene_me1_gi_gue_barrier, &TObjEneMe1GiGueBarrier__animation_definitions.value, (int)temp_r5);
+    set_field_d8__10TObjMotionFl((void *)ene_me1_gi_gue_barrier, TObjEneMe1GiGueBarrier__animation_definitions, (int)temp_r5);
     ((TObjMotion *)ene_me1_gi_gue_barrier)->set_field_dc((int) (*(s32 *)((s8 *)(*(u8 * *)&TObjEneMe1GiGueBarrier__barrier_resource_object) + 0x430)));
     ene_me1_gi_gue_barrier->requested_action = 0;
     ((TObjMotion *)ene_me1_gi_gue_barrier)->set_animation((ene_me1_gi_gue_barrier->requested_action));
