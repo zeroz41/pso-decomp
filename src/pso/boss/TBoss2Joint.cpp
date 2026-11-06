@@ -13,6 +13,7 @@
 #include "pso/enemy/TObjEneDD.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/player/TObjPlayer_801542CC.h"
 
 struct TBJ_8003688C { char pad[0x18]; };
 struct VTbj_8003688C : TBJ_8003688C {
@@ -131,13 +132,6 @@ struct VObj_18 : VBase_18 {
     virtual s32 m86();
 };
 
-struct RecoveredGlobal_80036FC8___vt__11TBoss2Joint {
-    s32 value;
-    u8 remaining[0x1A4];
-};
-
-
-
 typedef struct Vec_80037074 {
     f32 x, y, z;
 } Vec_80037074;
@@ -219,8 +213,6 @@ s32 add_radar_scaled_marker(void *, int, int, int, f32);
 s32 vfunc_94__9TObjEneDDFv(void *);
 s32 vfunc_93__9TObjEneDDFv(void *);
 extern const f32 lbl_805D8258;
-void initialize_enemy_state__9TObjEneDDFl(void *, s32);
-extern s32 __vt__11TBoss2Joint[];
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 register_object__6TLobbyFl(s32);
 s32 dispatch_shared_handler_b__6TLobbyFl(s32);
@@ -230,8 +222,6 @@ void reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 void init_model__9TObjEneDDFP13CollisionBodyl(void *, void *, s32);
 void spawn_offset_particle__13TBoss2DeRolLeFiff(s32 arg0, f32 farg0, f32 farg1);
 s32 apply_hp_damage_with_sound__13TBoss2DeRolLeFPvi(s32, s32, u16);
-void free_collision_body_parts(void *);
-void __dl__7TObjectFPv(void *);
 
 // Fade source colour of sub_80036940 (only g, r, b are read).
 static const f32 lbl_80435A58[4] = {1.0f, 1.0f, 1.0f, 1.0f};
@@ -257,6 +247,17 @@ void *lbl_80482A60[20] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
 };
 #define TBoss2Joint__param_table (*(Param_80036EA8 *)TBoss2Joint__param_table)
+
+void TBoss2Joint::render() {  }
+void TBoss2Joint::vfunc_105(s32 reason) {  }
+
+void TBoss2Joint::dispatch_action(u32 state, s32 reason) {
+    switch (state) {
+    case 0:
+        vfunc_105(reason);
+        break;
+    }
+}
 
 void TBoss2Joint__sub_8003688C(u8 *arg0) {
   u32 temp_r5;
@@ -323,24 +324,18 @@ void TBoss2Joint::init_joint_offset(s32 arg1) {
 }
 
 struct Ent_80036ACC { s32 a; s32 b; };
-struct Obj_80036ACC {
-    u8 pad0[0x2B8];
-    s16 f2B8;
-    u8 pad1[0x32C - 0x2BA];
-    s16 f32C;
-    u8 pad2[0x38C - 0x32E];
-    u32 f38C;
-};
 void reload_stats_keep_hp_tp__9TObjEneDDFv(void *, int, int, int);
-void TBoss2Joint__vt102(Obj_80036ACC *self) {
-    self->f38C = self->f38C | 1;
-    reload_stats_keep_hp_tp__9TObjEneDDFv(self,
+// Breaks the shell: marks it broken, reloads the stats and throws the 19
+// breakup pieces. Its slot passes a float that the shell does not use.
+s32 TBoss2Joint::vfunc_104(f32) {
+    m_38c |= 1;
+    reload_stats_keep_hp_tp__9TObjEneDDFv(this,
         register_boss__6TLobbyFl(((Ent_80036ACC *)&TBoss2Joint__param_table)->b),
         dispatch_shared_handler_b__6TLobbyFl(((Ent_80036ACC *)lbl_80482A58)->b),
         register_object__6TLobbyFl(((Ent_80036ACC *)lbl_80482A60)->b));
-    self->f32C = 0x4E20;
-    self->f2B8 = 0x4E20;
-    new TUnk_804820A8((TObject *)self, (const Vec *)((u8 *)self + 0x38));
+    hp = 0x4E20;
+    hpmax = 0x4E20;
+    new TUnk_804820A8(this, &position);
 }
 
 void TBoss2Joint::vfunc_93() {
@@ -417,19 +412,9 @@ void TBoss2Joint::run_task() {
     }
 }
 
-void *__dt__11TBoss2JointFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__11TBoss2Joint;
-        free_collision_body_parts(arg0);
-        __dt__9TObjEneDDFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
+TBoss2Joint::~TBoss2Joint() {
+    free_collision_body_parts(this);
 }
-
-typedef char RecoveredGlobal_80036FC8___vt__11TBoss2Joint_size[sizeof(RecoveredGlobal_80036FC8___vt__11TBoss2Joint) == 0x1A8 ? 1 : -1];
 
 #pragma push
 #pragma opt_propagation off
@@ -461,19 +446,18 @@ s32 TBoss2Joint::init_params() {
 }
 #pragma pop
 
-u8 *TBoss2Joint__ct(u8 *boss2_joint, u8 *arg1, s16 arg2, s16 arg3, s32 arg4, s32 arg5, s32 arg6) {
-    __ct__9TObjEneDDFP7TObject(boss2_joint);
-    *(s32 **)((s8 *)boss2_joint + 0x18) = &(*(RecoveredGlobal_80036FC8___vt__11TBoss2Joint *)&__vt__11TBoss2Joint).value;
-    *(const char **)((s8 *)boss2_joint + 0) = TBoss2Joint__name;
-    ((TObjEneDD *)boss2_joint)->init_common_from(arg1);
-    ((TBoss2Joint *)boss2_joint)->entity_id = arg2;
-    *(s16 *)((s8 *)boss2_joint + 0x2C) = arg3;
-    *(s32 *)((s8 *)boss2_joint + 0x390) = arg4;
-    *(s32 *)((s8 *)boss2_joint + 0x398) = arg5;
-    *(s32 *)((s8 *)boss2_joint + 0x39C) = arg6;
-    initialize_enemy_state__9TObjEneDDFl(boss2_joint, 0x2D);
-    ((TBoss2Joint *)boss2_joint)->init_params();
-    return boss2_joint;
+TBoss2Joint::TBoss2Joint(TObject *parent, u16 entity_id, s32 set_index, const Vec *anchor, s32 joint_node,
+                         s32 color_target)
+    : TObjEneDD(parent) {
+    m_name = TBoss2Joint__name;
+    init_common_from((u8 *)parent);
+    this->entity_id = entity_id;
+    this->set_index = set_index;
+    this->anchor = anchor;
+    this->joint_node = joint_node;
+    this->color_target = color_target;
+    initialize_enemy_state(0x2D);
+    init_params();
 }
 
 void TBoss2Joint::apply_poison_status() {  }

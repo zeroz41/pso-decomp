@@ -251,12 +251,12 @@ pso/boss/TBoss2Fin.cpp:
 	.sdata2     start:0x805D8450 end:0x805D8468
 
 pso/player/TObjPlayer_80036824.cpp:
-	.text       start:0x80036824 end:0x8003688C
+	.text       start:0x80036824 end:0x80036848
 
 pso/boss/TBoss2Joint.cpp:
-	.text       start:0x8003688C end:0x80037178
+	.text       start:0x80036848 end:0x80037178
 	.rodata     start:0x80435A58 end:0x80435A98
-	.data       start:0x80482A50 end:0x80482AB0
+	.data       start:0x80482A50 end:0x80482C58
 	.sdata      start:0x805D26C0 end:0x805D26C8
 	.sdata2     start:0x805D8468 end:0x805D8498
 

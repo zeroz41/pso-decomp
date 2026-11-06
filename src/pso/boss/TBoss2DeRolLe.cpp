@@ -5524,7 +5524,6 @@ void reset_fields_3d0__13TBoss2DeRolLeFPv(void *p);
 void init_float_block__13TBoss2DeRolLeFPv(u8 *arg0);
 s32 init_resources__13TBoss2DeRolLeFi(s32 arg0);
 void *__ct__9TBoss2FinFv(void *, void *, void *, void *);
-void *TBoss2Joint__ct(void *, void *, u16, int, void *, s32, s32);
 void *TBoss2LaserLight__ct(void *, void *, void *);
 void *create__13TUnk_80482D04Fiii(void *, void *, u16, int);
 void *TBoss2Mine__sub_800381B8(void *, void *, u16, int);
@@ -5833,10 +5832,7 @@ void *TBoss2DeRolLe__ct(void *arg0, void *arg1, void *arg2) {
         for (j = 0; j < 10; j++) {
             VecCopy__FP3VecPC3Vec(&self->v540[j], &locals.v);
             self->f5B8[j] = -1;
-            p = __nw__7TObjectFUl(0x3BC);
-            if (p != NULL) {
-                p = TBoss2Joint__ct(p, self, a++, b++, &self->v540[j], ((s32 *)derolle_segment_joint_node_offsets)[j], ((s32 *)boss2_derolle_segment_color_targets)[j]);
-            }
+            p = new TBoss2Joint((TObject *)self, a++, b++, (const Vec *)&self->v540[j], ((s32 *)derolle_segment_joint_node_offsets)[j], ((s32 *)boss2_derolle_segment_color_targets)[j]);
             self->f5E0[j] = p;
         }
     }
