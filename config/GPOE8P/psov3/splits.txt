@@ -8604,6 +8604,7 @@ pso/ui/charcreate/TChCrTagName.cpp:
 
 pso/unk/text_802A2A00.cpp:
 	.text       start:0x802A2A00 end:0x802A2BD8
+	.sdata2     start:0x805DDEA8 end:0x805DDECC
 
 pso/ui/charcreate/TChCrTagOccupation.cpp:
 	.text       start:0x802A2BD8 end:0x802A3138
