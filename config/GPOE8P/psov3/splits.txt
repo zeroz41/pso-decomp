@@ -10048,7 +10048,10 @@ pso/unk/text_80320358.cpp:
 
 pso/boss/TBoss6Zanzo.cpp:
 	.text       start:0x803204B0 end:0x80320AE0
+	.rodata     start:0x80476460 end:0x80476480
 	.data       start:0x804EC968 end:0x804EC980
+	.sdata      start:0x805D4140 end:0x805D4148
+	.sdata2     start:0x805DF470 end:0x805DF478
 
 pso/boss/TBoss6Type1_80320AE0.cpp:
 	.text       start:0x80320AE0 end:0x80320B38

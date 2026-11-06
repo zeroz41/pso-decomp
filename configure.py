@@ -605,6 +605,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/boss/ObjBoss1CommonJResource.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TBoss7Joint.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/boss/TBoss4Thanks.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/boss/TBoss6Zanzo.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     # TBoss7TentacleNeedle's vtable precedes TBoss7Tentacle's although every Needle virtual comes
     # first in .text: deferred, written from the unit's last function back.
     "pso/boss/TBoss7TentacleNeedle.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},

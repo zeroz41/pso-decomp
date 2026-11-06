@@ -30,13 +30,13 @@ struct Src_803209F0 { s32 a; u8 *p; };
 
 struct Obj_803209F0 { s32 f0; u8 pad[0x14]; void *vt; Src_803209F0 *arr; Src_803209F0 *last; s32 n; s32 m; };
 
+const char *TBoss6Zanzo__name = "TBoss6Zanzo";
+
 extern "C" {
 void VecCopy__FP3VecPC3Vec(void *, void *);
 void mem_free(void *);
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0);
 void *mem_alloc(u32 size);
-extern s32 TBoss6Zanzo__name;
-int TBoss6Zanzo__sub_803205C4(void*);
 int set_depth_buffer_settings_1__Fv(void*);
 
 s32 fn_803204B0(void* p) { return *(s32*)((char*)p + 0x4); }
@@ -79,7 +79,7 @@ void TBoss6Zanzo__sub_803205A0(s32 *arg0, s32 *arg1) {
     *(ByteBlock_C *)((s32) arg0 + 4) = *(const ByteBlock_C *)((s32) arg1 + 4);
 }
 
-void TBoss6Zanzo::render() { set_depth_buffer_settings_1__Fv(this); TBoss6Zanzo__sub_803205C4(this); restore_saved_depth_alpha_state(); }
+void TBoss6Zanzo::render() { set_depth_buffer_settings_1__Fv(this); sub_803205C4(); restore_saved_depth_alpha_state(); }
 
 void run_task__11TBoss6ZanzoFv(Obj_803208CC *arg0) {
     Src_80320534 *base;
@@ -109,7 +109,7 @@ TBoss6Zanzo::~TBoss6Zanzo() {
 TBoss6Zanzo::TBoss6Zanzo(TObject *object, s32 arg2, s32 arg3) : TObject(object) {
     Src_803209F0 *p;
     Src_803209F0 *end;
-    ((Obj_803209F0 *)this)->f0 = TBoss6Zanzo__name;
+    m_name = TBoss6Zanzo__name;
     ((Obj_803209F0 *)this)->n = arg2;
     if (((Obj_803209F0 *)this)->n < 2) {
         ((Obj_803209F0 *)this)->n = 2;
