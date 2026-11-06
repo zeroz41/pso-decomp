@@ -1,12 +1,12 @@
 #include "pso/system/NinjaTypes.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
-#include "pso/TPlyOnCountOver.h"
-#include "pso/system/FlagWord.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/network/TPlyOnCountOver.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TPlyOnCreated.h"
+#include "pso/network/TPlyOnCreated.h"
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerSoul.h"
 #include "pso/player/TPlayerReadyCallback.h"
@@ -77,7 +77,7 @@ extern s32 tl_06;
 
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/player/TPlayerParticleOwner.h"
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 extern "C" int check_value_equals__13TUnk_804B6C24Fl(TParticleCtrl*, const char*);
 extern "C" const char* TParticleCtrl__class_name_descriptor;
 
@@ -276,17 +276,17 @@ typedef char RecoveredGlobal_801C6FF8_lbl_804C4008_size[sizeof(RecoveredGlobal_8
 
 }
 
-#include "pso/TPlyOnCountOver.h"
+#include "pso/network/TPlyOnCountOver.h"
 
-#include "pso/TPlyOnCreated.h"
+#include "pso/network/TPlyOnCreated.h"
 
 #include "types.h"
-#include "pso/THeap.h"
-#include "pso/item/TItemMag.h"
-#include "pso/misc/TForceOperate.h"
-#include "pso/misc/TMainCursor.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/object/TObjFish.h"
+#include "pso/system/THeap.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/player/TForceOperate.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/map/FloorArea.h"
 
 extern "C" {

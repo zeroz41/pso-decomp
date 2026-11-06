@@ -1,7 +1,7 @@
 #ifndef PSO_PLAYER_TUNK_804B6C24_H
 #define PSO_PLAYER_TUNK_804B6C24_H
 #include "types.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 
 class TUnk_804B6C24 : public TObjChara {
 public:

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/TUnk_804C349C.h"
 #include "pso/player/TObjPlayer.h"
 

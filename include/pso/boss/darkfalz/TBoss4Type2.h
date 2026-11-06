@@ -1,0 +1,176 @@
+#ifndef PSO_BOSS_DARKFALZ_TBOSS4TYPE2_H
+#define PSO_BOSS_DARKFALZ_TBOSS4TYPE2_H
+
+#include "types.h"
+
+/* Boss parameter block 0x36 from TLobby::dispatch_shared_handler_a (read by TBoss4Type1.cpp and
+ * TObjDFHorming). move_seconds is clamped to 1..60 and scaled by 30.0 into a frame count; the two
+ * levels are the 4th (level) argument of the Ra Barta / Ra Foie create calls; power is cast to f32. */
+struct TBoss4Type2Params
+{
+    f32 move_seconds;
+    u8 pad_04[0x14];
+    s32 rafoie_level;
+    s32 rabarta_level;
+    s32 power;
+};
+
+struct TBoss4Type2
+{
+    s32 sub_80057224();
+    void sub_80056FEC(s32);
+    void sub_80056F90(s32, s32);
+    void sub_80056998();
+    u8 _pad1C[0x8];
+    u32 m_24;
+    u8 _pad28[0x8];
+    u32 m_30;
+    u32 m_34;
+    void* m_38;
+    u8 _pad3C[0x8];
+    void* m_44;
+    u8 _pad48[0x8];
+    void* m_50;
+    u8 _pad54[0xC];
+    u32 m_60;
+    u8 _pad64[0x10];
+    void* m_74;
+    u8 _pad78[0x230];
+    u32 m_2a8;
+    u8 _pad2AC[0x50];
+    void* m_2fc;
+    u8 _pad300[0x2C];
+    s16 m_32c;
+    u8 _pad32E[0x10];
+    u16 m_33e;
+    u8 _pad340[0x34];
+    u32 m_374;
+    void* m_378;
+    u8 _pad37C[0x10];
+    u32 m_38c;
+    u32 m_390;
+    u32 m_394;
+    u32 m_398;
+    u8 _pad39C[0x4];
+    u32 m_3a0;
+    u32 m_3a4;
+    u32 m_3a8;
+    u8 _pad3AC[0x8];
+    void* m_3b4;
+    u8 _pad3B8[0xC];
+    u16 m_3c4;
+    u8 _pad3C6[0x2];
+    u32 m_3c8;
+    u32 m_3cc;
+    u8 _pad3D0[0x8];
+    u32 m_3d8;
+    u8 _pad3DC[0x4];
+    u32 m_3e0;
+    u32 m_3e4;
+    u8 _pad3E8[0x4];
+    u32 m_3ec;
+    u8 _pad3F0[0x8];
+    void* m_3f8;
+    u8 _pad3FC[0x14];
+    void* m_410;
+    u8 _pad414[0x8];
+    u32 m_41c;
+    u32 m_420;
+    u32 m_424;
+    u32 m_428;
+    u8 _pad42C[0x8];
+    u32 m_434;
+    u32 m_438;
+    u32 m_43c;
+    u32 m_440;
+    u32 m_444;
+    u32 m_448;
+    u32 m_44c;
+    u32 m_450;
+    u32 m_454;
+    u32 m_458;
+    u32 m_45c;
+    u32 m_460;
+    u32 m_464;
+    void* m_468;
+    void check_state_transition();
+    void calc_target_position();
+    void apply_packed_state(u32 arg1);
+    void send_darkfalz_code(s32 arg1, s32 arg2, s32 arg3);
+    void send_state_to_target(s32 arg1);
+    void calc_scaled_field(s32 arg1, s32 arg2);
+    void set_motion_index(s32 arg1);
+    static u8 is_active();
+    void scroll_strips();
+    static void *create_zanzo(void *arg0, void *arg1);
+    void spawn_bishi_around_players();
+    void apply_resta_heal();
+    void set_grid_pos(void *arg1);
+    void calc_grid_target_position();
+    void send_attack_code(s32 arg1, s32 arg2);
+    void set_attack_pattern_by_index(s32 arg1);
+    void update_phase_timer();
+    void advance_afterimage();
+    void update_main();
+    static s32 create(s32 arg0);
+    static s32 pick_weighted_random(s32 n, f32 *w, s32 *t);
+    void calc_scale_slot_indices(s32 *a, s32 *b);
+    void set_state(s32 arg1);
+    void spawn_afterimages();
+    void choose_next_action();
+    static void *create_jisin(void *arg0, void *arg1);
+    void change_action(s32 action);
+    void appear_enter();
+    void appear_idle();
+    void appear_update();
+    void wait_next_idle();
+    void dead_enter();
+    void dead_idle();
+    void dead_update();
+    void move_enter();
+    void move_idle();
+    void move_update();
+    void jisin_enter();
+    void jisin_idle();
+    void jisin_update();
+    void beam_enter();
+    void beam_idle();
+    void beam_update();
+    void tenchu_enter();
+    void tenchu_idle();
+    void tenchu_update();
+    void md_stop1_enter();
+    void md_stop_idle();
+    void md_stop_update();
+    void md_stop2_enter();
+    void md_stop3_enter();
+    void md_stop4_enter();
+    void md_recover_enter();
+    void md_recover_idle();
+    void md_recover_update();
+    // State handlers installed in the TBoss4Type1.cpp state table (lbl_80485C48).
+    void sub_800525AC();
+    void sub_800528B8();
+    void init_timer();
+    void update_tech_charge();
+    void update_scale_state();
+    void init_child_and_set_timer();
+    void update_attack_countdown();
+    void update_state();
+    void set_motion_for_state();
+    void tick_countdown_set_state7();
+    void update_spawn_uro();
+    void start_motion_for_index();
+    void tick_state_398_timer();
+    void sub_80052EE8();
+    void sub_80052EEC();
+    void sub_80052EF8();
+    void update_state_transition();
+    void sub_8005307C();
+    void update_flag800_state();
+    void sub_800530C0();
+    void check_state_if_idle();
+    void sub_800531BC();
+};
+
+#endif

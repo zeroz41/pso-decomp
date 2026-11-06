@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FF88.h"
 #include "pso/player/TObjPlayer_80011014.h"
 

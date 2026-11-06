@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayer_801E2D1C.h"
-#include "pso/misc/TCameraCtrl_803D6538.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
 
 
 extern "C" {

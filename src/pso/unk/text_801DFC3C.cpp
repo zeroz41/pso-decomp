@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/misc/TPlyCharData_801E0A04.h"
+#include "pso/player/TPlyCharData_801E0A04.h"
 #include "pso/unk/text_801DF280.h"
 #include "pso/unk/text_801DFC3C.h"
 #include "pso/system/byteswap.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct Obj_801DFC3C { u8 pad[0x600]; u32 w[30]; };
 

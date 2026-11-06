@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 s32 TObjPlayer__sub_801C19C8(f32);

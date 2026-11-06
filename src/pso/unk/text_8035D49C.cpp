@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/items/TItemWeapon.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/unk/text_8035D49C.h"
 #include "pso/player/TObjPlayer.h"
 

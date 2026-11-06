@@ -1,0 +1,90 @@
+#ifndef PSO_UNK_TUNK_804DDD28_H
+#define PSO_UNK_TUNK_804DDD28_H
+#include "types.h"
+
+class TUnk_804DDD28 {
+public:
+    u8 unk_0[0x4];
+    u32 m_4;
+    virtual ~TUnk_804DDD28();
+    virtual u8 *vfunc_3(s16);
+    virtual int vfunc_4();
+    virtual int vfunc_5(s32);
+    virtual int vfunc_6(s32, s32, s32);
+    virtual int vfunc_7(s32, s32);
+    virtual int vfunc_8(s32, s32);
+    virtual int vfunc_9(s32, s32, s32);
+    virtual int vfunc_10();
+    virtual int vfunc_11();
+    virtual int vfunc_12();
+    virtual int vfunc_13();
+    virtual void vfunc_14();
+    virtual int vfunc_15();
+    virtual int vfunc_16();
+    virtual int vfunc_17();
+    virtual int vfunc_18();
+    virtual int vfunc_19();
+    virtual int vfunc_20();
+    virtual int vfunc_21();
+    virtual int vfunc_22();
+    virtual int vfunc_23();
+    virtual int vfunc_24();
+    virtual int vfunc_25();
+    virtual int vfunc_26();
+    virtual int vfunc_27();
+    virtual int vfunc_28();
+    virtual int vfunc_29();
+    virtual int vfunc_30();
+    virtual int vfunc_31();
+    virtual int vfunc_32();
+    virtual int vfunc_33();
+    virtual int vfunc_34();
+    virtual int vfunc_35();
+    virtual int vfunc_36();
+    virtual int vfunc_37();
+    virtual int vfunc_38();
+    virtual int vfunc_39();
+    virtual int vfunc_40();
+    virtual int vfunc_41();
+    virtual int vfunc_42();
+    virtual int vfunc_43();
+    virtual int vfunc_44();
+    virtual int vfunc_45();
+    virtual int vfunc_46();
+    virtual int vfunc_47();
+    virtual int vfunc_48();
+    virtual int vfunc_49();
+    virtual int vfunc_50();
+    virtual int vfunc_51();
+    virtual int vfunc_52();
+    virtual int vfunc_53();
+    virtual int vfunc_54();
+    virtual int vfunc_55();
+    virtual int vfunc_56();
+    virtual int vfunc_57();
+    virtual int vfunc_58();
+    virtual int vfunc_59();
+    virtual int vfunc_60();
+    virtual int vfunc_61();
+    virtual int vfunc_62();
+    virtual int vfunc_63();
+    virtual int vfunc_64();
+    virtual int vfunc_65();
+    virtual int vfunc_66();
+    virtual int vfunc_67();
+    virtual int vfunc_68();
+    virtual int vfunc_69();
+    virtual int vfunc_70();
+    virtual int vfunc_71();
+    virtual int vfunc_72();
+    virtual int vfunc_73();
+    virtual int vfunc_74();
+    virtual int vfunc_75();
+    virtual int vfunc_76();
+    virtual int vfunc_77(s32);
+    void copy_motion_pair(void*);
+    s32 load_action_motion_pairs(s32, s32, s32);
+    void sub_802A7318();
+};
+
+#endif

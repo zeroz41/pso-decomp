@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMLOCKCOUNTCTRL_H
 #define PSO_ITEM_TITEMLOCKCOUNTCTRL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TItemLockCountCtrl : public TObject {

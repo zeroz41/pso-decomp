@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TCMCHARACTER_H
 #define PSO_OBJECT_TCMCHARACTER_H
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/CharacterCreationModels.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/ui/charcreate/CharacterCreationModels.h"
 class TCMCharacter : public TObjMotion {
 public:
     virtual ~TCMCharacter();

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8035966C.h"
-#include "pso/misc/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 
 extern "C" {
 s32 __nw__7TObjectFUl(int);

@@ -1,9 +1,9 @@
 #include "types.h"
 
 #include <stddef.h>
-#include "pso/object/TObjFish.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/system/GinjaTexture.h"
+#include "pso/render/GinjaTexture.h"
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;

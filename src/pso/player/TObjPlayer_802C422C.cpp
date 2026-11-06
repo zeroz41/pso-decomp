@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_802C422C.h"
-#include "pso/ui/TAdSelectGameModeGC_802C4748.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC_802C4748.h"
 #include "pso/system/date.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TAdSelectGameModeGC.h"
-#include "pso/TPlyOnCreated.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSelectGameModeGC.h"
+#include "pso/network/TPlyOnCreated.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/Language.h"
 
 extern "C" {

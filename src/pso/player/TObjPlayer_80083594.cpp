@@ -27,15 +27,15 @@ extern G_800845F8 shared_capture_texture_list;
 
 #include "pso/effect/TEffect.h"
 #include "pso/render/render_util.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 #include "types.h"
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TWindowSubSymbolChatPartsSet.h"
-#include "pso/object/TObjFish.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
+#include "pso/object/ambient/TObjFish.h"
 struct Stack_80082C30 {
     f32 sp8;
     f32 spC;
@@ -231,13 +231,13 @@ void TObjPlayer::copy_screen_to_texture(s32 mode, void *src) {
 }
 
 // ---- pso/misc/TCameraCtrl_80082FCC
-#include "pso/misc/TCameraCtrl_80082FCC.h"
-#include "pso/TMainTask.h"
-#include "pso/misc/TUnk_8048E5DC.h"
+#include "pso/camera/TCameraCtrl_80082FCC.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/unk/TUnk_8048E5DC.h"
 
 #include <stddef.h>
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/object/TObjFish.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 
 struct RecoveredGlobal_800830B0_main_task {
     s32 value;
@@ -356,7 +356,7 @@ void *TUnk_8048E5DC::dt(s16 arg1) {
 // ---- pso/player/TObjPlayer_80083594
 #include "types.h"
 #include "pso/unk/text_800832EC.h"
-#include "pso/misc/TUnk_8048E5DC.h"
+#include "pso/unk/TUnk_8048E5DC.h"
 #include "pso/system/vector.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_80083360.h"
@@ -365,18 +365,18 @@ void *TUnk_8048E5DC::dt(s16 arg1) {
 #include "pso/system/memory.h"
 #include "pso/player/TUnk_8048E5F4.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer_80083594.h"
 #include "pso/unk/text_803D96A8.h"
 #include <stddef.h>
-#include "pso/misc/TOTrapAncient02.h"
-#include "pso/object/TObjFish.h"
-#include "pso/misc/TScene_800838C4.h"
-#include "pso/misc/TScene.h"
+#include "pso/object/trap/TOTrapAncient02.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/system/scene/TScene_800838C4.h"
+#include "pso/system/scene/TScene.h"
 #include "pso/system/main_loop.h"
 
 

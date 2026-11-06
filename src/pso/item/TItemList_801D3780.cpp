@@ -4,13 +4,13 @@
 #include "pso/item/TUnk_804C4468.h"
 #include "pso/system/vector.h"
 #include "pso/item/TUnk_804C4480.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 #include "pso/item/TItemList.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/enemy/TObjEneDD.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_801D401C_lbl_804C4498 { s32 value; u8 remaining[0x14]; };

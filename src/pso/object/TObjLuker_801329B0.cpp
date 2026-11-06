@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby_80132ED0.h"
+#include "pso/unk/TLobby_80132ED0.h"
 #include "pso/object/TObjLuker_801329B0.h"
 #include "pso/object/TObjLuker.h"
 

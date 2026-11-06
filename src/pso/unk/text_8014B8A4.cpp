@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8014B8A4.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 
 struct RecoveredGlobal_8014B8A4_lbl_804A9F50 {

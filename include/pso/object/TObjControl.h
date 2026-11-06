@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TOBJCONTROL_H
 #define PSO_OBJECT_TOBJCONTROL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TObjControl : public TObject {

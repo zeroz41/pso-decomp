@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/misc/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
 #include "pso/unk/text_802789E0.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TShopJudgmentItemWindow.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/city/TShopJudgmentItemWindow.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
 void *get_player_by_client_id(s32 i);

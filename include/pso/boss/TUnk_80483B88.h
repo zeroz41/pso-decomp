@@ -2,7 +2,7 @@
 #define PSO_BOSS_TUNK_80483B88_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 class TUnk_80483B88 : public TObject {
 public:

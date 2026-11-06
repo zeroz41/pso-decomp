@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/unk/text_8011BA54.h"
+#include "pso/player/TObjPlayer_8011BA54.h"
 #include "pso/unk/text_8011BE50.h"
-#include "pso/item/TItemShootParticle.h"
-#include "pso/TObject.h"
+#include "pso/weapon/shoot/TItemShootParticle.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 s32 spawn_shoot_particle__10TObjPlayerFUlllf(u32, s32, s32, f32);

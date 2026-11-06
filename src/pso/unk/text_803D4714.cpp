@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Strm_803D4770;
 struct StrmVt_803D4770 {
     void *pad[6];

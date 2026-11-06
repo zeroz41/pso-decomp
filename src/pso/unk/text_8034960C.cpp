@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8034960C.h"
-#include "pso/TObjCMHairMenu.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 struct Desc_80349844 {
     f32 *pos;
     s32 *col;

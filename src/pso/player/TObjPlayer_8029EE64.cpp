@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/TMainTask.h"
-#include "pso/misc/TScene.h"
-#include "pso/misc/TUnk_804DC7C4.h"
-#include "pso/misc/TSceneSora.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/unk/TUnk_804DC7C4.h"
+#include "pso/system/scene/TSceneSora.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 

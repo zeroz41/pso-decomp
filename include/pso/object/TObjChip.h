@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJCHIP_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
 // What TObjChip::construct_debris copies into a new debris chip.

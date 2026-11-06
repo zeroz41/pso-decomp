@@ -5,7 +5,7 @@
 #include "pso/effect/TEffStarLight2D.h"
 #include "pso/effect/TEffStarLightChild.h"
 #include "types.h"
-#include "pso/misc/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/system/vector.h"
 

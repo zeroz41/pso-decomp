@@ -6,7 +6,7 @@
 #include "pso/unk/text_803E2008.h"
 #include "pso/unk/text_803E2D70.h"
 #include "pso/system/memory.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma scheduling off

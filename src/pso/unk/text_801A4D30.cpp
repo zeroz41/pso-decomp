@@ -1,13 +1,13 @@
 #include "types.h"
-#include "pso/misc/TWindowMessage.h"
-#include "pso/misc/TWindowBase.h"
-#include "pso/misc/TWindowShortListCtrl_801A4FC0.h"
-#include "pso/ui/TObjBagWarnWin_8006EF24.h"
-#include "pso/misc/TUnk_804C2298.h"
-#include "pso/ui/TAdMultiChgGameModeGC.h"
+#include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TWindowShortListCtrl_801A4FC0.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/TUnk_804C2298.h"
+#include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/TAdPlayerLoadGC.h"
-#include "pso/misc/TCheckMemoryCard.h"
-#include "pso/misc/TLobby.h"
+#include "pso/system/save/TCheckMemoryCard.h"
+#include "pso/unk/TLobby.h"
 typedef struct Vec_801A4D30 {
     s32 x, y, z;
 } Vec_801A4D30;

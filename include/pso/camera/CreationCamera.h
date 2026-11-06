@@ -2,7 +2,7 @@
 #define PSO_CAMERA_CREATION_CAMERA_H
 
 #include "types.h"
-#include "pso/misc/TUnk_80488A28.h"
+#include "pso/unk/TUnk_80488A28.h"
 #include <stddef.h>
 
 // What the character creation camera is doing (creation_camera_mode).

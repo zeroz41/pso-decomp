@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 
 #define CAT2(a,b) a##b

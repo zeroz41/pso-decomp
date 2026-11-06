@@ -1,5 +1,5 @@
 #include "pso/boss/TUnk_80484870.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/system/vector.h"
 #include "pso/render/render_util.h"

@@ -3,7 +3,7 @@
 
 #include "stdarg.h"
 #include "pso/system/GcciRequests.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "string.h"
 #include "pso/system/MiddlewareInterruptLock.h"
 

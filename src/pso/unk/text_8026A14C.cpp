@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 #include "pso/unk/text_8026A14C.h"
-#include "pso/THeap.h"
+#include "pso/system/THeap.h"
 #include "pso/ui/Language.h"
 
 extern "C" {

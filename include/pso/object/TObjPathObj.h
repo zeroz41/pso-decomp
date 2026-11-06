@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJPATHOBJ_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjPathObj : public TObjBase {
     virtual ~TObjPathObj();

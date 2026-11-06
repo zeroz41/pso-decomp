@@ -2,7 +2,7 @@
 #define PSO_PLAYER_TUNK_804820C0_H
 #include "types.h"
 #include <dolphin/mtx.h>
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // One flying piece of the De Rol Le breakup effects (TUnk_80482090, TUnk_804820A8).
 // TObjPlayer__sub_8002EDCC moves it: state 0 falls (vel.y -= 0.2, angles spin), 1 sinks, 2 fades alpha, 3 done.

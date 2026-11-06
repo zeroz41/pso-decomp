@@ -1,7 +1,7 @@
 #include "pso/enemy/AreaSoundRemap.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 #include "pso/map/FloorArea.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct AreaSoundRemapEntry {
     s32 base;

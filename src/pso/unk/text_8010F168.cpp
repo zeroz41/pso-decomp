@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/unk/text_8010F168.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"

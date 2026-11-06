@@ -57,14 +57,32 @@ alignment. Many are still provisional and move as units are folded together or s
 
 ## Source layout
 
-- `src/pso/<category>/` holds the game's units. Categories (`player`, `enemy`, `boss`, `object`, `item`, `ui`,
-  `menu`, `npc`, `network`, `protocol`, `system`, ...) are this project's organization, not the original
-  directory structure, which is unknown.
+- `src/pso/<category>/` holds the game's units, sorted by the class that owns their code. The original directory
+  structure is unknown; this is the project's own organization:
+
+  | Folder | Contents |
+  |---|---|
+  | `player/`, `npc/` | the player character and its data; town and quest NPCs |
+  | `enemy/<monster>/` | one folder per monster family; `enemy/` itself holds the shared enemy code and factories |
+  | `boss/<boss>/` | one folder per boss fight (`dragon`, `derolle`, `volopt`, `darkfalz`, `barbaray`, `goldragon`, `galgryphon`, `olgaflow`) |
+  | `weapon/`, `weapon/shoot/` | weapons, and the ranged weapons with their projectiles |
+  | `item/` | items and their tables; `mag/`, `armor/`, `drop/`, `shop/` |
+  | `technique/` | techniques |
+  | `object/` | map objects: `base/` (the object hierarchy), function families (`door/`, `key/`, `switch/`, `trap/`, `container/`, `warp/`, `fence/`, `wreck/`, `collision/`, `quest/`, `lobby/`, `city/`), area decor (`cave/`, `mine/`, `ruins/`, `jungle/`, `seabed/`, `lab/`), `ambient/` and `ending/` |
+  | `effect/` | visual effects; `photon/`, `particle/`, `item/`, `enemy/`, `sprite/` |
+  | `camera/`, `map/`, `render/`, `audio/`, `math/` | cameras, map and set data, rendering helpers, sound, math |
+  | `quest/`, `quest/challenge/` | the quest script engine and quest lists; challenge mode |
+  | `network/`, `network/protocol/` | sockets, encryption and sessions; packet layouts and validation |
+  | `ui/` | `window/` (in-game windows), `chat/`, `hud/`, `frontend/` (title and adventure screens), `charcreate/`, `city/` (shops and counters), `keyboard/`, `font/` |
+  | `system/` | `task/` (the task tree), `scene/`, `save/`, `movie/`, `data/` |
+  | `unk/` | ranges whose owner is not known yet |
+
 - `include/pso/<category>/<Class>.h` declares a class: its fields, its virtual functions in slot order and its
-  methods.
+  methods. A class's header sits in the same folder as its units.
 - A unit is named after the class whose code it holds. `<Class>.cpp` is a class whose code forms one range;
   `<Class>_<address>.cpp` is one range of a class spread across several units; `unk/text_<address>.cpp` is a
-  range whose owner is not known yet.
+  range whose owner is not known yet. A weak inline copy of a base class's method lives in the unit of the class
+  that first calls it, so a unit can hold some code of another class.
 - `src/musyx/` is the MusyX sound library, one unit per original source file.
 - `libs/` holds the Dolphin SDK, MSL and the PowerPC runtime, and MetroTRK, adapted from other GameCube
   decompilations to the versions this game links. [third_party/](../third_party/) lists their origins.

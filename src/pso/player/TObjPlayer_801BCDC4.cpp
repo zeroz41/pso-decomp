@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801BE778.h"
 #include "pso/map/FloorArea.h"
 

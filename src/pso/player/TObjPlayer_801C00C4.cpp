@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801C00C4.h"
-#include "pso/misc/TUnk_804DDD28.h"
+#include "pso/unk/TUnk_804DDD28.h"
 #include "pso/player/TObjPlayer.h"
 
 struct O_801C010C { u8 pad[0x5c]; u8 arr[1]; };

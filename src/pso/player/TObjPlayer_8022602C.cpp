@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/TObjEneDD.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 
 extern "C" {
 

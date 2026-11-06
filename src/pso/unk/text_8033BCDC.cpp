@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/misc/TLobby_80132ED0.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 
 struct ComCardText_8033BCDC {
     s32 group;

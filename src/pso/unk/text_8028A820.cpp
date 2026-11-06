@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8028A820.h"
 #include "pso/map/FloorArea.h"
 extern "C" {

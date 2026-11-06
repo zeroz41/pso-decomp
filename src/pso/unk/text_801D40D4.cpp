@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TLobby_8030A6A8.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC_801FBF54.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/unk/TLobby_8030A6A8.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/unk/text_801D40D4.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 typedef struct Rec_801D40D4 {
     u8 pad0[4];

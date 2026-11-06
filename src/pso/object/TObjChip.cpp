@@ -1,6 +1,6 @@
-#include "pso/system/ChunkMaterialState.h"
-#include "pso/TObject.h"
-#include "pso/misc/MaterialColorFade.h"
+#include "pso/render/ChunkMaterialState.h"
+#include "pso/system/task/TObject.h"
+#include "pso/render/MaterialColorFade.h"
 #include "pso/system/vector.h"
 class TObjChip : public TObject {
 public:
@@ -15,8 +15,8 @@ void draw_ginja_object(int);
 void set_color_blend_mode(int, int, int, int, s32, s32);
 }
 
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/object/TObjFish.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Base_801809C4_801809B4 { char pad[0x18]; };

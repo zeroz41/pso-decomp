@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TWindowCtrl.h"
+#include "pso/ui/window/TWindowCtrl.h"
 struct Self_8017866C { u8 pad[0x36C]; u8 *items[3]; };
 
 extern "C" {

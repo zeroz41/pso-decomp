@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TOSwitchTimer.h"
+#include "pso/object/switch/TOSwitchTimer.h"
 
 #include <stddef.h>
-#include "pso/misc/TOChatSensor.h"
+#include "pso/object/switch/TOChatSensor.h"
 #include "pso/player/TObjPlayer.h"
 struct Stack_801781D8 {
     s32 sp8;

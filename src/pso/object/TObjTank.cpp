@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/object/TObjTank.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/object/TObjTank.h"
-#include "pso/object/TObjFish.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 extern "C" void *__ct__14TObjCollidableFP7TObject(void *, s32);
 
 struct RecoveredGlobal_8019A9B8_lbl_80446184 {

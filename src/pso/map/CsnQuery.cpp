@@ -2,7 +2,7 @@
 #include "pso/system/vector.h"
 #include "pso/map/CsnQuery.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/object/TObjMapCsn.h"
+#include "pso/map/TObjMapCsn.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

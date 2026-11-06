@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/quest/TQuestListVM_8007EAF8.h"
 #include "pso/player/TObjPlayer_80354EC8.h"
-#include "pso/ui/TAdPlyPltAnimCtrlGC.h"
+#include "pso/ui/frontend/TAdPlyPltAnimCtrlGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/quest/TQuestThread.h"
 
@@ -29,7 +29,7 @@ void TObjPlayer::destroy_static_array() {
 
 __declspec(section ".ctors") static void *const __sinit_TObjPlayer_80354EC8_80354EC8_cpp_ref = (void *)TObjPlayer__sub_80354EEC;
 
-#include "pso/misc/TWindowSubSymbolChatPartsSet.h"
+#include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"
 
 extern "C" {
 

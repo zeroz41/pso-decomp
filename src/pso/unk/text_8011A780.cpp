@@ -1,18 +1,18 @@
 #include "types.h"
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcmd_6x.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/text_801036CC.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TLobby_80105A2C.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/unk/TLobby_80105A2C.h"
 #include "pso/unk/text_8011A780.h"
 #include "pso/map/FloorArea.h"
 
 #include <stddef.h>
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/item/TItemData.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
-#include "pso/misc/TLobby_80207644.h"
+#include "pso/unk/TLobby_80207644.h"
 
 // G_PickUpItem_6x59::G_PickUpItem_6x59() on a command built here.
 extern "C" void *__ct__17G_PickUpItem_6x59Fv(void *cmd);

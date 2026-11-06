@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
-#include "pso/misc/TPlyCharData_8007214C.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/player/TPlyCharData_8007214C.h"
 #include "pso/player/TObjPlayer_801AA508.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/system/memory.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TTecLuker.h"
+#include "pso/technique/TTecLuker.h"
 
 struct E_801C2154 { u8 pad[7]; char v; u8 pad2[0x14]; };
 

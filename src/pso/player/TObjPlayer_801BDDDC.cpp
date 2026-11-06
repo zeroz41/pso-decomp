@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_801C1FF8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 

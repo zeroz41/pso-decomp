@@ -2,11 +2,11 @@
 #include "pso/npc/TObjNpcSoutokufu.h"
 #include "pso/unk/text_8014B8A4.h"
 #include "pso/npc/TUnk_804A9F50.h"
-#include "pso/boss/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcLappy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 #pragma readonly_strings on

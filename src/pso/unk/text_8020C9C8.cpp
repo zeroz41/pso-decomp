@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Set_8020C9C8 {
     s16 f0;
     s16 flags;

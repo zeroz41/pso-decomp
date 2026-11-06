@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_8026AC50.h"
-#include "pso/THeap.h"
+#include "pso/system/THeap.h"
 extern "C" {
 void __dt__5THeapFv(void *, s32);
 extern u32 chat_log_lines[];

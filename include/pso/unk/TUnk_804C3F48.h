@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_804C3F48_H
 #define PSO_UNK_TUNK_804C3F48_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 class TUnk_804C3F48 : public TObject {
 public:

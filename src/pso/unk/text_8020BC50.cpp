@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct Rec_8020BCE4 { u8 pad[0xA]; u16 fA; u8 pad2[0x3C]; };
 
 struct Ent_8020BC50 { u8 pad1[0x40]; u32 f40; };

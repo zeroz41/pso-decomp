@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/math/MatrixVector.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/object/TObjFish.h"
+#include "pso/enemy/berura/TObjEneRe7Berura.h"
+#include "pso/object/ambient/TObjFish.h"
 
 extern "C" {
 

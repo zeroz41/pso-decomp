@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/enemy/TObjEneSlimeTailAttack.h"
+#include "pso/enemy/slime/TObjEneSlimeTailAttack.h"
 
 extern "C" {
 s32 find_nearest_hittable_enemy__10TObjPlayerFiPvf(void *, int, f32);

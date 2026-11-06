@@ -1,16 +1,16 @@
 #include "pso/map/FloorArea.h"
 #include "pso/item/TItemObject.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/item/TItemData.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TMainCursor.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/ui/hud/TMainCursor.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/protocol/subcmd_6x.h"
+#include "pso/network/protocol/subcmd_6x.h"
 
 #pragma readonly_strings on
 

@@ -15,7 +15,7 @@ extern "C" {
 extern "C" {
 extern "C" {
 extern "C" {
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 
 extern "C" {
 

@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TUnk_80493450.h"
 #include "pso/object/TObjControl.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TObject.h"
-#include "pso/misc/TLobby.h"
+#include "pso/system/task/TObject.h"
+#include "pso/unk/TLobby.h"
 
 struct Ply_800F7118 {
     u8 pad0[0x28];

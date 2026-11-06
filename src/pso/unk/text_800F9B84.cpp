@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_800F9B84.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_800F9B84_lbl_8050113C {
     s32 value;

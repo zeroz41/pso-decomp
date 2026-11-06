@@ -1,7 +1,7 @@
 #ifndef PSO_TEFFECT_H
 #define PSO_TEFFECT_H
-#include "pso/TObject.h"
-#include "pso/system/GinjaMaterialState.h"
+#include "pso/system/task/TObject.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/system/NinjaTypes.h"
 #include <dolphin/mtx.h>
 

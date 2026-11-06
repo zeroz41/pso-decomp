@@ -6,9 +6,9 @@
 #include "dolphin/exi.h"
 #include "dolphin/os.h"
 #include "dolphin/os/OSReset.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TUdpSocket.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TUdpSocket.h"
 
 struct RecoveredGlobal_80428374_lbl_805D0A40 {
     s32 value;

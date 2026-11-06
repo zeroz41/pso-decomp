@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMTEXLOAD_H
 #define PSO_ITEM_TITEMTEXLOAD_H
-#include "pso/TObject.h"
-#include "pso/system/GinjaMaterialState.h"
+#include "pso/system/task/TObject.h"
+#include "pso/render/GinjaMaterialState.h"
 #include "pso/item/TItemData.h"
 
 class TItemTexLoad : public TObject {

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer_80105874.h"
 #include "pso/unk/text_80103674.h"
 #include "pso/unk/text_8010F168.h"
@@ -7,7 +7,7 @@
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemBuff.h"
 #include "pso/item/TItemData.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct RecoveredGlobal_801058AC_lbl_8049EE60 {
     s32 value;

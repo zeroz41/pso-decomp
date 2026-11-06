@@ -1,12 +1,12 @@
 #include "types.h"
-#include "pso/misc/TLobby_801E43E4.h"
+#include "pso/unk/TLobby_801E43E4.h"
 #include "pso/player/TObjPlayer_801C0808.h"
 #include "pso/system/byteswap.h"
-#include "pso/ui/TAdRicoRing.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TWindowActionPalette.h"
+#include "pso/ui/frontend/TAdRicoRing.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/window/TWindowActionPalette.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/protocol/protocol_types.h"
+#include "pso/network/protocol/protocol_types.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

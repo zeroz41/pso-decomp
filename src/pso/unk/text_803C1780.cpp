@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803C1780.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 typedef void (*RecoveredCallback_1268626c296b)(void *);
 struct Obj_803C1A24 { u8 pad[0xAC]; void *fac; };

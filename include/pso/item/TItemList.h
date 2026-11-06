@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMLIST_H
 #define PSO_ITEM_TITEMLIST_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TItemList : public TObject {

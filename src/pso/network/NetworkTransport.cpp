@@ -1,10 +1,10 @@
-#include "pso/protocol/NetworkRuntime.h"
+#include "pso/network/NetworkRuntime.h"
 #include "pso/network/NetworkTransport.h"
 
 #include "types.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TUdpSocket.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/TUdpSocket.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_803F76F4_lbl_805A9008 {
     s32 value;

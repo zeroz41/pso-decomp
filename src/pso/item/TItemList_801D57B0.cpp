@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItemList.h"
 #include "pso/item/TItemList_801D57B0.h"
-#include "pso/object/TObject_8001A448.h"
+#include "pso/system/task/TObject_8001A448.h"
 #include "pso/item/TUnk_804C4468.h"
 #include "pso/item/TUnk_804C4498.h"
 

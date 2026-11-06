@@ -1,10 +1,10 @@
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/unk/text_8016F1C0.h"
-#include "pso/misc/TOMineDisp.h"
+#include "pso/object/trap/TOMineDisp.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TWindowCtrl.h"
-#include "pso/misc/TOMineTrap.h"
+#include "pso/ui/window/TWindowCtrl.h"
+#include "pso/object/trap/TOMineTrap.h"
 
 struct RecoveredGlobal_8016F1C0___vt__10TOMineDisp {
     s32 value;

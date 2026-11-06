@@ -2,7 +2,7 @@
 #define PSO_PLAYER_TOBJPLAYERSET_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjPlayerSet : public TObjBase {
     virtual ~TObjPlayerSet();

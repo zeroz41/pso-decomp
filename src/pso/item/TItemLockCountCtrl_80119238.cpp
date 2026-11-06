@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_8011085C.h"
 #include "pso/item/TItemLockCountCtrl_80119238.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/enemy/TObjEneDD_ST.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 #include "pso/item/TItemLockCountCtrl.h"
 
 struct Base_801193D8 { char pad[0x18]; };

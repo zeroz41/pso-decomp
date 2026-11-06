@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80349B8C.h"
-#include "pso/TObjCMHairMenu.h"
+#include "pso/ui/charcreate/TObjCMHairMenu.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMREVERSETECHCTRL_H
 #define PSO_ITEM_TITEMREVERSETECHCTRL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TItemReverseTechCtrl : public TObject {

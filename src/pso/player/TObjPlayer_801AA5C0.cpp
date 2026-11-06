@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/player/TObjPlayer_801AA5C0.h"
 #include "pso/player/TObjPlayer.h"
 struct O_801AA64C { u16 a; u16 b; };

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803D619C.h"
-#include "pso/boss/TBoss8Dragon.h"
+#include "pso/boss/goldragon/TBoss8Dragon.h"
 
 f32 lbl_805D76A8;
 

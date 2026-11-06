@@ -1,5 +1,5 @@
 #include "pso/boss/TUnk_804848A0.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 
 // Deferred code generation emits the functions in reverse order.
 

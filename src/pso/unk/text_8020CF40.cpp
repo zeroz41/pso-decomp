@@ -1,5 +1,5 @@
-#include "pso/object/ObjectFactoryTables.h"
-#include "pso/misc/TLobby_8020CFC8.h"
+#include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/unk/TLobby_8020CFC8.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"

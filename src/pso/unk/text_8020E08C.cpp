@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TQuestVmDownLoadServer.h"
+#include "pso/unk/TLobby.h"
+#include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/unk/text_8020E08C.h"
 
 struct ObjRow_8020E08C { s16 type; s16 flags; u8 pad04[4]; u16 id; u8 tail[0x44 - 0xA]; };

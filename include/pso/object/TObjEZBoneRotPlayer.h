@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TOBJEZBONEROTPLAYER_H
 #define PSO_OBJECT_TOBJEZBONEROTPLAYER_H
 
-#include "pso/TObjEZBoneRotBase.h"
+#include "pso/object/TObjEZBoneRotBase.h"
 #include "types.h"
 
 class TObjEZBoneRotPlayer : public TObjEZBoneRotBase {

@@ -1,7 +1,7 @@
 #ifndef PSO_BOSS_TUNK_804999E8_H
 #define PSO_BOSS_TUNK_804999E8_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // Base of the screen fade tasks: alpha moves towards its end value and the
 // fade fills the screen with color.

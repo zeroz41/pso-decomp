@@ -2,7 +2,7 @@
 #include "types.h"
 #include <string.h>
 #include "pso/unk/text_8036A3CC.h"
-#include "pso/object/TObjBgmColCtrl.h"
+#include "pso/object/collision/TObjBgmColCtrl.h"
 
 struct Inst_8036A3CC { u8 pad0[0x1155C]; u32 flags[2]; };
 

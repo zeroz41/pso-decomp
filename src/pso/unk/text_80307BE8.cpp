@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/THunterGuildSeqOffline.h"
+#include "pso/ui/city/THunterGuildSeqOffline.h"
 
 extern "C" {
 s32 get_current_floor();

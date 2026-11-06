@@ -1,9 +1,9 @@
-#include "pso/effect/TechniqueChargeEmitter.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/technique/TechniqueChargeEmitter.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/unk/text_8022F258.h"
 #include "types.h"
-#include "pso/misc/TechniqueBoost.h"
+#include "pso/technique/TechniqueBoost.h"
 #include "pso/player/TObjPlayer.h"
 extern u32 dark_technique_charge_effect_ids[];
 extern "C" {

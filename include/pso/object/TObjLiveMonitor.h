@@ -1,7 +1,7 @@
 #ifndef PSO_OBJECT_TOBJLIVEMONITOR_H
 #define PSO_OBJECT_TOBJLIVEMONITOR_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TObjLiveMonitor : public TObject {

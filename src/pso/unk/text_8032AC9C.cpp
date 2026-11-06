@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/TAdEnterBaseGC.h"
+#include "pso/ui/frontend/TAdEnterBaseGC.h"
 #include "pso/unk/text_8032AACC.h"
 #include "pso/unk/text_8032AC9C.h"
 struct P2_8032AC9C { f32 x, y; };

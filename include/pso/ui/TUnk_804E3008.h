@@ -1,7 +1,7 @@
 #ifndef PSO_UI_TUNK_804E3008_H
 #define PSO_UI_TUNK_804E3008_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_804E3008 : public TObjMotion {
 public:

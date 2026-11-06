@@ -5,9 +5,9 @@
 #include <string.h>
 #include "pso/macros.h"
 #include "pso/forward.h"
-#include "pso/TSocket.h"
-#include "pso/TObject.h"
-#include "pso/PSOV3EncryptionTCP.h"
+#include "pso/network/TSocket.h"
+#include "pso/system/task/TObject.h"
+#include "pso/network/PSOV3EncryptionTCP.h"
 
 EXTERN_OBJECT_NAME(TTcpSocket);
 extern TTcpSocket *tcp_socket_table[16];

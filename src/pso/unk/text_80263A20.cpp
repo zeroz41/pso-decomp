@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TWindowSubComCard_80244774.h"
+#include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/unk/text_80263A20.h"
-#include "pso/misc/TWindowLockOn.h"
-#include "pso/misc/TWindowSubTradeMain.h"
+#include "pso/ui/window/TWindowLockOn.h"
+#include "pso/enemy/morfos/TWindowSubTradeMain.h"
 
 struct RecoveredGlobal_80263A20_lbl_8050E208 {
     s32 value;

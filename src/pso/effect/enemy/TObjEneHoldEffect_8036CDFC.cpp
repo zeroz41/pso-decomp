@@ -1,0 +1,98 @@
+#include "types.h"
+#include "pso/effect/enemy/TObjEneHoldEffect_8036CDFC.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/system/vector.h"
+#include "pso/effect/enemy/TObjEneHoldEffect.h"
+#include "pso/system/task/TObject.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+struct Vec_8036CF30 { f32 x, y, z; };
+
+struct Hold_8036CF30 {
+    u8 pad0[0x38];
+    Vec_8036CF30 pos;
+    u8 pad44[0x4C];
+    void *x90;
+    u16 x94;
+};
+
+struct Hold_8036CE20 {
+    u8 pad0[0x38];
+    Vec_8036CF30 pos;
+    u8 pad44[0x4C];
+    void *x90;
+    u16 x94;
+    u8 pad96[2];
+    s32 x98;
+    s32 x9c;
+};
+
+extern "C" {
+s32 obj_testFlags30__14TObjCollidableFUl(void *, int);
+void *get_player_by_client_id(int);
+void subtract_vector(Vec_8036CF30 *, void *);
+void normalize_vector(Vec_8036CF30 *);
+extern u8 *camera_ctrl_instance;
+s32 is_split_screen(void);
+void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o);
+
+#pragma push
+#pragma opt_common_subs off
+u8 validate_attack_target_count(s32 *count) {
+    s32 valid = 0;
+    if (*count >= 0 && *count <= 10) {
+        valid = 1;
+    }
+    return valid;
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
+void run_task__17TObjEneHoldEffectFv(Hold_8036CE20 *o) {
+    void *p = get_player_by_client_id(o->x94);
+    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
+        obj_testFlags30__14TObjCollidableFUl(p, 0x800) == 0 && o->x90 != NULL &&
+        ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
+        if (o->x98 == 0x20F && is_split_screen() == 0) {
+            Vec_8036CF30 d;
+            Vec_8036CF30 out;
+            VecCopy((Vec *)&d, (const Vec *)&o->pos);
+            subtract_vector(&d, camera_ctrl_instance + 0x178);
+            normalize_vector(&d);
+            out.x = o->pos.x - 5.0f * d.x;
+            out.y = o->pos.y;
+            out.z = o->pos.z - 5.0f * d.z;
+            ((TParticleCtrl *)o->x90)->set_position(&out);
+        } else {
+            ((TParticleCtrl *)o->x90)->set_position(&o->pos);
+        }
+    }
+    if (o->x9c-- < 0) {
+        queue_destruction__7TObjectFv(o);
+    }
+}
+#pragma pop
+
+#pragma push
+#pragma fp_contract on
+void TObjEneHoldEffect::render() {
+    Hold_8036CF30 *o = (Hold_8036CF30 *)this;
+    void *p = get_player_by_client_id(o->x94);
+    if (p != NULL && ((TObject *)p)->all_parents_unqueued_for_destruction() != 0 &&
+        obj_testFlags30__14TObjCollidableFUl(p, 0x800) == 0 && o->x90 != NULL &&
+        ((TObject *)(o->x90))->all_parents_unqueued_for_destruction() != 0) {
+        Vec_8036CF30 d;
+        Vec_8036CF30 out;
+        VecCopy((Vec *)&d, (const Vec *)&o->pos);
+        subtract_vector(&d, camera_ctrl_instance + 0x178);
+        normalize_vector(&d);
+        out.x = o->pos.x - 5.0f * d.x;
+        out.y = o->pos.y;
+        out.z = o->pos.z - 5.0f * d.z;
+        ((TParticleCtrl *)o->x90)->set_position(&out);
+    }
+}
+#pragma pop
+
+}

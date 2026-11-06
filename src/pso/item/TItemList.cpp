@@ -6,7 +6,7 @@
 TItemList::~TItemList() {}
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 extern "C" {
 void TItemList__sub_801D5A0C(s32 *arg0);

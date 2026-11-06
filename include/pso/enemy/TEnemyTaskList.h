@@ -1,6 +1,6 @@
 #ifndef PSO_ENEMY_TENEMYTASKLIST_H
 #define PSO_ENEMY_TENEMYTASKLIST_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 struct TObjEnemy;

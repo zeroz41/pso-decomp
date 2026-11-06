@@ -1,9 +1,9 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TContainerAncient01.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TTecLuker.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/object/container/TContainerAncient01.h"
+#include "pso/unk/TLobby.h"
+#include "pso/technique/TTecLuker.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 

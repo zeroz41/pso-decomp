@@ -1,0 +1,124 @@
+#include "pso/ui/window/TObjBagWarnWin.h"
+#include "pso/ui/window/TWindowBase.h"
+#include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
+#include "pso/unk/text_8006EF80.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/window/TWindowAddition.h"
+#include "pso/map/FloorArea.h"
+#include "types.h"
+#include "pso/unk/TLobby.h"
+
+struct Sub_8006EC20 {
+    u8 pad[0x1C];
+    s16 v1C;
+};
+
+struct Ctrl_8006EC20 {
+    u8 pad0[0x38];
+    f32 f38;
+    u8 pad3C[4];
+    f32 f40;
+    u8 pad44[0xD00 - 0x44];
+    Sub_8006EC20 *pD00;
+};
+
+extern "C" {
+s32 TWindowCtrlMain__sub_8024CE58();
+void *get_player_by_client_id(s32 i);
+s32 TLobby__sub_80211C3C();
+extern s32 local_client_id;
+s32 append_line__14TWindowMessageFii(u32, void *, s32);
+u32 create__14TWindowMessageFPvll(s32, void *, s32);
+s32 get_window_layout_position(s32);
+s32 strncpy(void *, s32, s32);
+extern u8 TObjBagWarnWin__message_window_size[];
+
+s32 TObjBagWarnWin::should_show_warning(void *arg0) {
+    Ctrl_8006EC20 *ctrl;
+    if (TLobby__sub_80211C3C() != 3) {
+        return 0;
+    }
+    if (fn_8006EF80() != 0) {
+        return 0;
+    }
+    ctrl = (Ctrl_8006EC20 *)get_player_by_client_id(local_client_id);
+    if (ctrl == NULL) {
+        return 0;
+    }
+    switch (get_current_floor_area()) {
+    case AREA_PIONEER2_EP1:
+        if (ctrl->f38 <= -100.0f || ctrl->f38 >= 330.0f) {
+            return 0;
+        }
+        break;
+    case AREA_PIONEER2_EP2:
+        if (ctrl->f38 <= -40.0f || ctrl->f40 <= -175.0f) {
+            return 0;
+        }
+        break;
+    }
+    ctrl = (Ctrl_8006EC20 *)get_player_by_client_id(local_client_id);
+    if (ctrl == NULL || ctrl->pD00->v1C < 30) {
+        return 0;
+    }
+    return 1;
+}
+
+void TObjBagWarnWin::run_task() {
+    u8 *arg0 = (u8 *)this;
+    s32 temp_r0;
+    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) == 0U) {
+        if (TWindowCtrlMain__sub_8024CE58() != 0) {
+            if (TObjBagWarnWin::should_show_warning(arg0) != 0) {
+                temp_r0 = *(s32 *)((s8 *)arg0 + 0xA0) - 1;
+                *(s32 *)((s8 *)arg0 + 0xA0) = temp_r0;
+                if (temp_r0 < 0) {
+                    *(s32 *)((s8 *)arg0 + 0xA0) = 0;
+                }
+            } else {
+                *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+            }
+            if ((s32) *(s32 *)((s8 *)arg0 + 0xA0) == 0) {
+                open_message_window();
+            }
+        }
+    } else if (TObjBagWarnWin::should_show_warning(arg0) == 0) {
+        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->close();
+        *(u32 *)((s8 *)arg0 + 0x1C) = 0U;
+        *(s32 *)((s8 *)arg0 + 0xA0) = 0x1E;
+    }
+}
+void TObjBagWarnWin::open_message_window() {
+    u8 *arg0 = (u8 *)this;
+    *(u32 *)((s8 *)arg0 + 0x1C) = create__14TWindowMessageFPvll(get_window_layout_position(0x38), TObjBagWarnWin__message_window_size, 1);
+    if ((u32) *(u32 *)((s8 *)arg0 + 0x1C) != 0U) {
+        ((TWindowBase *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_depth(70200.0f);
+        if (TCameraCtrl::get_camera_id() == 4) {
+            ((TWindowAddition *)(*(u32 *)((s8 *)arg0 + 0x1C)))->set_position_xy(0.8f, 0.8f);
+        }
+        strncpy(arg0 + 0x20, TQuestVmDownLoadServer__sub_8006EF6C(0x59), 0x7F);
+        *(s8 *)((s8 *)arg0 + 0x9F) = 0;
+        append_line__14TWindowMessageFii(*(u32 *)((s8 *)arg0 + 0x1C), arg0 + 0x20, 0);
+    }
+}
+TObjBagWarnWin::~TObjBagWarnWin() {}
+
+}
+
+extern "C" {
+
+void __ct__7TObjectFP7TObject(void *, void *);
+
+extern s32 __vt__14TObjBagWarnWin[];
+extern void *lbl_805D2848;
+
+void *__ct__14TObjBagWarnWinFv(void *bag_warn_win, void *parent) {
+    __ct__7TObjectFP7TObject(bag_warn_win, parent);
+    *(s32 **)((s8 *)bag_warn_win + 0x18) = __vt__14TObjBagWarnWin;
+    *(void * *)&((TObjBagWarnWin *)bag_warn_win)->m_name = lbl_805D2848;
+    *(u32 *)((s8 *)bag_warn_win + 0x1C) = 0;
+    *(u32 *)((s8 *)bag_warn_win + 0xA0) = 0;
+    return bag_warn_win;
+}
+
+}

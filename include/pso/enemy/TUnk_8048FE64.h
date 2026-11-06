@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_TUNK_8048FE64_H
 #define PSO_ENEMY_TUNK_8048FE64_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 // A point the Bringer's TP drain sends from each hit player to the Bringer: it moves from start

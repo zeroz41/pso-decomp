@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/protocol/protocol_types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/network/protocol/protocol_types.h"
+#include "pso/unk/TLobby.h"
 struct Entry_802C3A50 {
     u8 a;
     u8 b;

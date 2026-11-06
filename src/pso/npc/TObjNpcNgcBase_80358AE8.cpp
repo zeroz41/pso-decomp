@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TObjNpcNgcBase_80358AE8.h"
 #include "pso/npc/TObjNpcNgcBase.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
 #include "pso/system/BmlResourceDescriptor.h"
 struct RecoveredGlobal_803591D0_TObjNpcNgcBase__data_805439A8

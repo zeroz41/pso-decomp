@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TLobby_800F9690.h"
-#include "pso/misc/TLobby_800F9A60.h"
+#include "pso/unk/TLobby_800F9690.h"
+#include "pso/unk/TLobby_800F9A60.h"
 #include "pso/unk/text_800F9990.h"
 
 extern "C" {

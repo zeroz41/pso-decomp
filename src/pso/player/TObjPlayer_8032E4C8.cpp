@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer_8032E4C8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TUnk_804EDD44.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 
 void start_guardianna_wall_card(s32 arg0, s32 arg1, s32 arg2) {
     new TUnk_804EDD44(tl_05, (f32 *)arg1, (f32 *)arg2, -0x100, arg0);

@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJMESBASE_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjMesBase : public TObjCollidable {
     virtual ~TObjMesBase();

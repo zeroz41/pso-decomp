@@ -1,10 +1,10 @@
 #include "types.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/quest/TQuestThread.h"
-#include "pso/object/TObject_8001A448.h"
-#include "pso/object/TObjQuestCol2.h"
+#include "pso/system/task/TObject_8001A448.h"
+#include "pso/object/quest/TObjQuestCol2.h"
 #include "pso/player/TObjPlayerSet.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_80195720___vt__13TObjPlayerSet {
     s32 value;

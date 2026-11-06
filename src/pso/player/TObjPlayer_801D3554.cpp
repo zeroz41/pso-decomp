@@ -2,7 +2,7 @@
 #include "pso/item/TItemList_801D3780.h"
 #include "pso/item/TItemList_801D57B0.h"
 #include "pso/player/TObjPlayer_801D3554.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 #pragma inline_depth(1)

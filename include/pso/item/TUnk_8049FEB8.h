@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TUNK_8049FEB8_H
 #define PSO_ITEM_TUNK_8049FEB8_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 struct TObjPlayer;
 

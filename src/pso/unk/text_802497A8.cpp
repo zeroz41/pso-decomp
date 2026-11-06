@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowComCard.h"
-#include "pso/misc/TWindowDuelResult.h"
-#include "pso/misc/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowComCard.h"
+#include "pso/ui/window/TWindowDuelResult.h"
+#include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/object/TObjLuker.h"
 struct Txt_802497A8 { u16 flags; u8 pad2[6]; f32 x; u8 padC[4]; f32 w; };
 

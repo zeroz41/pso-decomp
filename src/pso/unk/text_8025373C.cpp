@@ -1,10 +1,10 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
-#include "pso/misc/TWindowHelpItem_80255AB4.h"
+#include "pso/ui/window/TWindowHelpItem_80255AB4.h"
 #include "pso/unk/text_8025373C.h"
 #include "pso/item/TItemData.h"
-#include "pso/misc/TWindowHelpItem.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 struct Base_8025373C { char pad[4]; };
 
 struct VEntry_8025373C : Base_8025373C {

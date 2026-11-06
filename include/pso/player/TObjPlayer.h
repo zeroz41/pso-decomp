@@ -6,7 +6,7 @@
 #include "pso/player/PlayerClassFlags.h"
 #include "pso/player/PlayerScaleState.h"
 #include "pso/player/RenderMaterialState.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 
 struct TItemData;
 

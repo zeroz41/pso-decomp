@@ -1,6 +1,6 @@
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/item/TItemReverseTech_8011A1E8.h"
-#include "pso/misc/TKeyBoardControl.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
 
 struct ReverseTechCode {
     s8 *keys;

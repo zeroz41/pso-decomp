@@ -119,9 +119,9 @@ TPlyItem::~TPlyItem() {
     TItemList__sub_801D5B10((char*)this + 0x20, -1);
 }
 
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TOSwitchItem.h"
+#include "pso/object/switch/TOSwitchItem.h"
 
 extern "C" {
 

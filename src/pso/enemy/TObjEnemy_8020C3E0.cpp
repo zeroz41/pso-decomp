@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct Rec_8020C458 { u8 p0[2]; s16 flags; u8 p1[0x44]; };
 

@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049FED0.h"
 #include "pso/item/TUnk_8049FEB8.h"
 #include "pso/item/TItemTimerEvent.h"

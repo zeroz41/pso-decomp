@@ -1,5 +1,5 @@
 #pragma readonly_strings on
-#include "pso/TObjTailsTailsMove.h"
+#include "pso/object/TObjTailsTailsMove.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer.h"
 

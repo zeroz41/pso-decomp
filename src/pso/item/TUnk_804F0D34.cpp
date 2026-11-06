@@ -4,12 +4,12 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TItemObject.h"
 #include "pso/item/TUnk_804F0D34.h"
-#include "pso/misc/TLoadCtrl_80227390.h"
-#include "pso/object/TObjBgmColCtrl_8017E8E4.h"
+#include "pso/system/TLoadCtrl_80227390.h"
+#include "pso/object/collision/TObjBgmColCtrl_8017E8E4.h"
 #include "pso/object/TUnk_804F0D1C.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"

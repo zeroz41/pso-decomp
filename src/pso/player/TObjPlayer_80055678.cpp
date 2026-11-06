@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TBoss4Type1.h"
+#include "pso/boss/darkfalz/TBoss4Type1.h"
 
 // TBoss4Type1's status-ailment slots, all empty: Dark Falz's first form ignores them.
 void TBoss4Type1::apply_poison_status() {  }

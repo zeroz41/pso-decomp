@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowMessage.h"
-#include "pso/misc/TWindowMessagePage.h"
-#include "pso/misc/TWindowHelpItem.h"
+#include "pso/ui/window/TWindowMessage.h"
+#include "pso/ui/window/TWindowMessagePage.h"
+#include "pso/ui/window/TWindowHelpItem.h"
 struct Line_80269454 { u32 flags; u32 f4; };
 
 struct Entry_80269454 { u16 flags; };

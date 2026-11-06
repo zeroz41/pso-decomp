@@ -1,8 +1,8 @@
 #ifndef PSO_ITEM_TUNK_804EDD44_H
 #define PSO_ITEM_TUNK_804EDD44_H
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/system/task/TObject.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_804EDD44 : public TObject {
 public:

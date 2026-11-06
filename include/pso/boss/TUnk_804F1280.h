@@ -1,7 +1,7 @@
 #ifndef PSO_BOSS_TUNK_804F1280_H
 #define PSO_BOSS_TUNK_804F1280_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx.h>
 
 // The second object of a TBoss6Rock (TBoss6Rock::marker, made by

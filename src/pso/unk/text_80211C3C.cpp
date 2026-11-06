@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80211C3C.h"
-#include "pso/misc/TKeyBoardControl_8000F764.h"
-#include "pso/misc/TQuestListOnline.h"
+#include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
+#include "pso/quest/TQuestListOnline.h"
 
 extern "C" {
 extern s32 TLobby__designated_client_id;

@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TLanguage_801E4874.h"
+#include "pso/system/TLanguage_801E4874.h"
 #include "pso/unk/text_8019DBB4.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8019DBB4_lbl_80446470 {
     s32 value;

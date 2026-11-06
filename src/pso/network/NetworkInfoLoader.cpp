@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/TAdPlayerLoadGC_803F339C.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
 #include "pso/unk/text_803F4D10.h"
 
 #pragma scheduling off

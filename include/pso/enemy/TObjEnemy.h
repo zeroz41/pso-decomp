@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_TOBJENEMY_H
 #define PSO_ENEMY_TOBJENEMY_H
 #include "types.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 struct TObjEnemy : public TObjChara {
     TObjEnemy(TObject *parent);
     void refresh_and_send_entity_flags();

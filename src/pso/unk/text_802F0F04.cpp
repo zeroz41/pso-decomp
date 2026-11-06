@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/boss/TObjBoss2Tunnel_802F2070.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel_802F2070.h"
 #include "pso/unk/text_802F0F04.h"
-#include "pso/object/TObjAreaWarpForest.h"
+#include "pso/object/warp/TObjAreaWarpForest.h"
 
 extern "C" {
 

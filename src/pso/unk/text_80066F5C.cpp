@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/misc/TScene_800838C4.h"
-#include "pso/system/GinjaMaterial.h"
+#include "pso/system/scene/TScene_800838C4.h"
+#include "pso/render/GinjaMaterial.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/TObjBoss5FloorStone.h"
+#include "pso/boss/galgryphon/TObjBoss5FloorStone.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TScene.h"
-#include "pso/object/TObjFish.h"
+#include "pso/system/scene/TScene.h"
+#include "pso/object/ambient/TObjFish.h"
 
 extern "C" {
 s32 rotate_matrix_by_node_angles(void *, int);

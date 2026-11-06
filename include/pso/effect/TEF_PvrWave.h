@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TEF_PVRWAVE_H
 #define PSO_UNK_TEF_PVRWAVE_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 class TEF_PvrWave : public TObject {
 public:

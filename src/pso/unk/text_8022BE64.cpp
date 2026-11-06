@@ -6,7 +6,7 @@
 #include "pso/effect/TUnk_804CC148.h"
 
 #include "pso/system/vector.h"
-#include "pso/misc/TTecReverser.h"
+#include "pso/technique/TTecReverser.h"
 
 struct V3_8022BEAC { s32 x; s32 y; s32 z; };
 

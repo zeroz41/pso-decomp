@@ -1,7 +1,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/map/FloorArea.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/map/FloorArea.h"
 
 #pragma readonly_strings on

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_80290B3C.h"
 #include "pso/item/TUnk_8049C658.h"
-#include "pso/item/TItemDrop.h"
+#include "pso/item/drop/TItemDrop.h"
 struct Hdr_80290B3C {
     u32 off;
     u32 count;

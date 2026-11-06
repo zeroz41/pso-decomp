@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TWindowSubComCard.h"
-#include "pso/misc/TWindowSubComCardList.h"
-#include "pso/misc/TWindowSubComCard_80265410.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubComCard.h"
+#include "pso/ui/window/TWindowSubComCardList.h"
+#include "pso/ui/window/TWindowSubComCard_80265410.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

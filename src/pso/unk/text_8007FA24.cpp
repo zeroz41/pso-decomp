@@ -2,7 +2,7 @@
 #include "pso/unk/text_8014618C.h"
 #include "pso/unk/text_8007F8D0.h"
 #include "pso/unk/text_8007FA24.h"
-#include "pso/ui/TAdTrialModemChkGC.h"
+#include "pso/ui/frontend/TAdTrialModemChkGC.h"
 
 struct RecoveredGlobal_8007FA24_lbl_8048DF88
 {

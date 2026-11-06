@@ -1,7 +1,7 @@
 #ifndef PSO_PLAYER_TUNK_80491478_H
 #define PSO_PLAYER_TUNK_80491478_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TObjEneDubchik;
 

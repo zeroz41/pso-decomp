@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLoad.h"
 #include "pso/item/TItemLoad_8010FC28.h"
 #include "pso/system/memory.h"

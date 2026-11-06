@@ -5,7 +5,7 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_8014A368_lbl_804A8C70 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8014A368_lbl_804A8C70_size[sizeof(RecoveredGlobal_8014A368_lbl_804A8C70) == 0x10 ? 1 : -1];

@@ -1,16 +1,16 @@
 extern "C" void *__ct__12TObjEneDD_STFP7TObject(void *);
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/TMainTask.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/enemy/TObjEneEpsilon.h"
-#include "pso/misc/TBreakUpMdl.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/enemy/epsilon/TObjEneEpsilon.h"
+#include "pso/effect/TBreakUpMdl.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/enemy/TObjEnemy.h"
-#include "pso/enemy/TObjEneEpsilonGuard.h"
-#include "pso/enemy/TObjEneDD_ST.h"
-#include "pso/unk/TUnk_804F26E0.h"
+#include "pso/enemy/epsilon/TObjEneEpsilonGuard.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
+#include "pso/weapon/TUnk_804F26E0.h"
 #include "pso/system/BmlResourceDescriptor.h"
 
 extern char lbl_80479EA0[];
@@ -30,9 +30,9 @@ extern const char *bm_ene_epsilon_motion_names[5];
 extern BmlResourceDescriptor TObjEneEpsilonGuard__resource_descriptor;
 
 #include <stddef.h>
-#include "pso/enemy/TObjEneDD.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/player/PlayerAttackParams.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/item/TItem.h"
 struct Stack_803626A8 {
     s32 sp8;

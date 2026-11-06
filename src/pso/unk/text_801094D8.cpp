@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_801095EC.h"
 #include "pso/unk/text_801094D8.h"
-#include "pso/item/TItemAttacker.h"
+#include "pso/weapon/TItemAttacker.h"
 extern "C" {
 void *__nw__7TObjectFUl(u32);
 }

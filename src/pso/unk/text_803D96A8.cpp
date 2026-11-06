@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/system/GinjaModelQueue.h"
+#include "pso/render/GinjaModelQueue.h"
 #include "pso/unk/text_803D96A8.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/math/AngleLookup.h"
 
 struct Q_803D98E4 { f32 x, y, z, w; };

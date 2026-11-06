@@ -1,5 +1,5 @@
 #include "pso/quest/QuestOpcodeTables.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 void qst_op_va_start();

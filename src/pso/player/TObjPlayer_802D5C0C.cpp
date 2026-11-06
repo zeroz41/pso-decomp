@@ -1,14 +1,14 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/player/TUnk_804E23F0.h"
-#include "pso/items/TItemWeapon.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/weapon/TUnk_804E23F0.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 #include <stddef.h>
 #include "pso/item/TItemEquipBase.h"
-#include "pso/object/TObjMotion.h"
-#include "pso/unk/TUnk_804E1BB0.h"
+#include "pso/object/base/TObjMotion.h"
+#include "pso/weapon/TUnk_804E1BB0.h"
 
 namespace P802D5C0C {
 

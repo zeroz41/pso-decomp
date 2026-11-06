@@ -1,5 +1,5 @@
 #include "pso/enemy/EnemyFactoryTables.h"
-#include "pso/misc/TLobby_8020CCD0.h"
+#include "pso/unk/TLobby_8020CCD0.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"

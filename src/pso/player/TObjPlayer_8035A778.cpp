@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
+#include "pso/enemy/berura/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/TObjEneRe7Berura.h"
-#include "pso/misc/TLobby_801E2F94.h"
+#include "pso/enemy/berura/TObjEneRe7Berura.h"
+#include "pso/unk/TLobby_801E2F94.h"
 
 extern "C" {
 

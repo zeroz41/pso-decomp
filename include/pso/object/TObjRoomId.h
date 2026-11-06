@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJROOMID_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjRoomId : public TObjBase {
     virtual ~TObjRoomId();

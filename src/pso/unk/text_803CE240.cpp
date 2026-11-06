@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_803CE240.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct VObj_803C9E38;
 

@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct SelCurSpriteUV {
     f32 u0;

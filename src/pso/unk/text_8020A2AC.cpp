@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_80209584.h"
 #include "pso/unk/text_8020A2AC.h"
-#include "pso/misc/TRaderMapCore.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/hud/TRaderMapCore.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {
 s32 run_step__9TItemDropFl(int, void *);

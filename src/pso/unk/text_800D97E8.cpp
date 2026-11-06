@@ -1,8 +1,8 @@
-#include "pso/misc/SampledMotionPoints.h"
+#include "pso/unk/SampledMotionPoints.h"
 #include "pso/system/NinjaTypes.h"
 #include "pso/unk/text_803D853C.h"
 #include "types.h"
-#include "pso/misc/TCameraCtrl_803D6538.h"
+#include "pso/camera/TCameraCtrl_803D6538.h"
 #include "pso/unk/text_803D96A8.h"
 extern "C" {
 void push_matrix(void);

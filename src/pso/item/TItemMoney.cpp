@@ -3,7 +3,7 @@
 #include "types.h"
 #include "pso/item/TItemMoney.h"
 #include "pso/item/TItemData.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 
 const char *TItemMoney__name = "TItemMoney";
 

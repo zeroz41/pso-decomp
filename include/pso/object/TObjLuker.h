@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJLUKER_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjLuker : public TObjBase {
     virtual ~TObjLuker();

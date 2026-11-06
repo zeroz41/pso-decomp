@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/system/TGStream.h"
 #include "pso/unk/text_800FA464.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 struct AsyncFileReadRequest {
     u32 flags;
     u8 pad04[4];

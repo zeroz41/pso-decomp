@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/render/render_util.h"
 #include "pso/player/TObjPlayer_803E4954.h"
 #include "pso/unk/text_802F190C.h"
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/object/TObjFish.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Obj_8003B1FC { u8 pad[0x14]; Obj_8003B1FC *child; u8 pad2[0x3c - 0x18]; u8 xf[0xC]; };

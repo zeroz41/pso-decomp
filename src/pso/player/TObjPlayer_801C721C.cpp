@@ -1,6 +1,6 @@
-#include "pso/protocol/protocol_types.h"
+#include "pso/network/protocol/protocol_types.h"
 #include "types.h"
-#include "pso/misc/TLobby_801E43E4.h"
+#include "pso/unk/TLobby_801E43E4.h"
 #include "pso/player/TObjPlayer_801C721C.h"
 #include "pso/system/byteswap.h"
 #include "pso/player/TObjPlayer.h"

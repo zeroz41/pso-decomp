@@ -6,11 +6,11 @@ extern "C" void get_render_mode_for_tv_format(GXRenderModeObj_803DD430 *rmode, G
 
 
 #include "types.h"
-#include "pso/system/ModelDrawContext.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/unk/text_803DCDFC.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/misc/TKeyBoardControl.h"
-#include "pso/misc/TMovie.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/ui/keyboard/TKeyBoardControl.h"
+#include "pso/system/movie/TMovie.h"
 #include "pso/system/MatrixOps.h"
 #include "pso/system/NinjaTypes.h"
 

@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/unk/text_8035B788.h"
 #include "pso/system/BmlResourceDescriptor.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern char lbl_80479870[];
 extern char lbl_80479884[];

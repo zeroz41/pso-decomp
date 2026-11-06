@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_8011BEF0.h"
-#include "pso/item/TItemShootParticle.h"
-#include "pso/TItemShoot.h"
+#include "pso/weapon/shoot/TItemShootParticle.h"
+#include "pso/weapon/shoot/TItemShoot.h"
 
 extern "C" {
 

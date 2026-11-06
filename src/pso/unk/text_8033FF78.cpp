@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/system/vector.h"
-#include "pso/boss/TBoss6Demo15_TYPE2_WAIT.h"
-#include "pso/boss/TBoss6PlotFalz.h"
-#include "pso/misc/TLobby.h"
+#include "pso/boss/olgaflow/TBoss6Demo15_TYPE2_WAIT.h"
+#include "pso/boss/olgaflow/TBoss6PlotFalz.h"
+#include "pso/unk/TLobby.h"
 struct O_80340040 { u8 pad[0x60]; void *o[10]; };
 
 struct Vec_8033FF78 { f32 x, y, z; };

@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/TAdGameStartLineGC.h"
-#include "pso/object/TObjFish.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/frontend/TAdGameStartLineGC.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
 
 extern "C" {
 extern void *lbl_805D6C18;

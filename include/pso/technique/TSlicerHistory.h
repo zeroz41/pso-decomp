@@ -1,7 +1,7 @@
 #ifndef PSO_TECHNIQUE_TSLICERHISTORY_H
 #define PSO_TECHNIQUE_TSLICERHISTORY_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TSlicerHistory : public TObject {

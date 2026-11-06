@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowMenuIconLine.h"
-#include "pso/misc/TWindowSubEquip_80279044.h"
-#include "pso/misc/TWindowSubStatusDisp_802671F0.h"
+#include "pso/ui/window/TWindowMenuIconLine.h"
+#include "pso/ui/window/TWindowSubEquip_80279044.h"
+#include "pso/ui/window/TWindowSubStatusDisp_802671F0.h"
 #include "pso/unk/text_80278964.h"
 
 extern "C" {

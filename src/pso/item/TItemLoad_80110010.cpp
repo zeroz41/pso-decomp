@@ -4,7 +4,7 @@
 #include "pso/system/memory.h"
 #include "pso/item/TUnk_8049F3F4.h"
 #include "pso/item/TUnk_8049F42C.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 struct Base_801104C4_80110010 { char pad[0x18]; };
 struct VObj_801104C4_80110010 : Base_801104C4_80110010 {

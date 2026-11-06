@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/misc/TLobby_8007C550.h"
+#include "pso/unk/TLobby_8007C550.h"
 #include "pso/unk/text_80209584.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct Hdr_802095EC { s32 type; s32 size; s32 id; s32 x; };
 

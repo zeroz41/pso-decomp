@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TechniqueBoost.h"
+#include "pso/technique/TechniqueBoost.h"
 
 void TechniqueBoostTable::set(s32 index, TechniqueBoost *boost) {
     if (index < 6) {

@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/items/TItemWeapon.h"
-#include "pso/ui/TAdVIConfigGC_80308200.h"
-#include "pso/player/TUnk_804E71F8.h"
+#include "pso/weapon/TItemWeapon.h"
+#include "pso/ui/frontend/TAdVIConfigGC_80308200.h"
+#include "pso/weapon/TUnk_804E71F8.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/ui/TAdVIConfigGC.h"
+#include "pso/ui/frontend/TAdVIConfigGC.h"
 
 struct T_80308328 { u8 pad0[0x40]; u32 flags; u8 pad44[0xC]; s32 f50; u8 pad54[0x1C]; void *f70; void *f74; s32 f78; s32 f7c; };
 

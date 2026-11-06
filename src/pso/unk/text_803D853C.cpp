@@ -16,7 +16,7 @@
 #include <dolphin/mtx.h>
 #include <string.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/enemy/TObjEneMe1Gee.h"
+#include "pso/enemy/gee/TObjEneMe1Gee.h"
 #include <stdio.h>
 #include "pso/unk/text_803D8030.h"
 #include "pso/npc/TObjNpcEnemy_803D8090.h"

@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
-#include "pso/misc/TFontSmallLobby.h"
+#include "pso/system/data/FlagWord.h"
+#include "pso/ui/font/TFontSmallLobby.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/player/TObjPlayerSet.h"
 #include "pso/player/TUnk_804B6C24.h"
-#include "pso/misc/TLobby_80227A2C.h"
-#include "pso/TMainTask.h"
+#include "pso/unk/TLobby_80227A2C.h"
+#include "pso/system/task/TMainTask.h"
 
 extern "C" {
 

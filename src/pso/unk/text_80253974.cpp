@@ -1,11 +1,11 @@
 #include "pso/item/MagStats.h"
 #include "types.h"
 #include "pso/unk/text_80253974.h"
-#include "pso/misc/TWindowBase.h"
+#include "pso/ui/window/TWindowBase.h"
 #include "pso/item/TItemData.h"
-#include "pso/item/TItemMag.h"
-#include "pso/misc/TWindowHelpItem.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/item/mag/TItemMag.h"
+#include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 class Win_80253D10;
 typedef void (Win_80253D10::*PM_80253D10)();

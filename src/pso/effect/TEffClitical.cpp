@@ -1,7 +1,7 @@
 #include "pso/effect/TEffClitical.h"
-#include "pso/misc/MaterialColorFade.h"
-#include "pso/object/TObject_80019A50.h"
-#include "pso/system/ChunkMaterialState.h"
+#include "pso/render/MaterialColorFade.h"
+#include "pso/system/task/TObject_80019A50.h"
+#include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/render/render_util.h"
 #include "pso/unk/text_803D96A8.h"
@@ -18,8 +18,8 @@ struct Stack_80082688 {
 };
 
 #include <stddef.h>
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/object/TObjFish.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/object/ambient/TObjFish.h"
 struct Stack_800823E0 {
     f32 sp8;
     f32 spC;

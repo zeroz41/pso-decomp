@@ -1,4 +1,4 @@
-#include "pso/system/GinjaTexture.h"
+#include "pso/render/GinjaTexture.h"
 
 extern "C" {
 extern GinjaTextureError lbl_8058D470;

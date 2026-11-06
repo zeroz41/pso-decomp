@@ -1,7 +1,7 @@
 #ifndef PSO_ITEM_TITEMREVERSETECHBG_H
 #define PSO_ITEM_TITEMREVERSETECHBG_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TItemReverseTechBG : public TObject {

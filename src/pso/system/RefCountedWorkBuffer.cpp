@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/RefCountedWorkBuffer.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 

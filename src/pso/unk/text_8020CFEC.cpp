@@ -1,4 +1,4 @@
-#include "pso/object/ObjectFactoryTables.h"
+#include "pso/object/base/ObjectFactoryTables.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"

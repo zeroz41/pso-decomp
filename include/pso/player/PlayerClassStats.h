@@ -1,8 +1,8 @@
 #ifndef PSO_PLAYER_CLASS_STATS_H
 #define PSO_PLAYER_CLASS_STATS_H
-#include "pso/TPlyDispData.h"
+#include "pso/player/TPlyDispData.h"
 
-#include "pso/TPlyInventory.h"
+#include "pso/player/TPlyInventory.h"
 
 struct PlayerProfessionStatFactors { f32 hp; f32 tp; };
 

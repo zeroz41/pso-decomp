@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TEXT_80120D50_H
 #define PSO_UNK_TEXT_80120D50_H
 
-#include "pso/items/TItemWeapon.h"
+#include "pso/weapon/TItemWeapon.h"
 
 extern "C" {
 // TItemWeapon's constructor under its own symbol, for the derived classes

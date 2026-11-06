@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/npc/TObjNpcBringer.h"
-#include "pso/unk/text_8014952C.h"
+#include "pso/npc/TObjNpcBringer_8014952C.h"
 
 extern "C" {
 

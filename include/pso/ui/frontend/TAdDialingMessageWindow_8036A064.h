@@ -1,0 +1,10 @@
+#ifndef PSO_UI_FRONTEND_TADDIALINGMESSAGEWINDOW_8036A064_H
+#define PSO_UI_FRONTEND_TADDIALINGMESSAGEWINDOW_8036A064_H
+
+#include "types.h"
+
+extern "C" {
+void *__dt__13TUnk_804F3428Fv(void *arg0, s16 arg1);
+}
+
+#endif

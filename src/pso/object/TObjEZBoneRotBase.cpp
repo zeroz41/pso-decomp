@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/object/TObjEZBoneRotPlayer_800FE834.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
-#include "pso/TObjEZBoneRotBase.h"
+#include "pso/object/TObjEZBoneRotBase.h"
 #include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/object/TObjEZRopeBase.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 
 struct EZBoneRotKey {

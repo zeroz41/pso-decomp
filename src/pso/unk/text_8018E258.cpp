@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObjDoor.h"
+#include "pso/object/door/TObjDoor.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

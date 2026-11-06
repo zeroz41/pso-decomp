@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItemLockCountCtrl.h"
 #include "pso/item/TItemLockCountCtrl_8011E184.h"
-#include "pso/items/TItemWeapon.h"
+#include "pso/weapon/TItemWeapon.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

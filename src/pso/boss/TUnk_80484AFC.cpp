@@ -1,18 +1,18 @@
 #pragma fp_contract on
 
 #include "pso/boss/TUnk_80484AFC.h"
-#include "pso/system/NinjaUtil.h"
-#include "pso/boss/TBoss3Volopt.h"
-#include "pso/boss/TBoss3VoloptP02.h"
-#include "pso/boss/TBoss4Type2.h"
-#include "pso/misc/TNowLoading.h"
-#include "pso/object/TObjFish.h"
-#include "pso/object/TObjGyaranzoMissile.h"
+#include "pso/render/NinjaUtil.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3VoloptP02.h"
+#include "pso/boss/darkfalz/TBoss4Type2.h"
+#include "pso/ui/hud/TNowLoading.h"
+#include "pso/object/ambient/TObjFish.h"
+#include "pso/enemy/gyaranzo/TObjGyaranzoMissile.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/render/render_util.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/system/BmlResource.h"
-#include "pso/system/GinjaTextureMatrices.h"
+#include "pso/render/GinjaTextureMatrices.h"
 #include "pso/system/vector.h"
 #include "pso/unk/text_800870BC.h"
 #include "pso/unk/text_80087278.h"
@@ -20,10 +20,10 @@
 #include "pso/unk/text_803E2D70.h"
 #include <stdlib.h>
 #include "pso/player/TObjPlayer_801AF2F0.h"
-#include "pso/object/TObjButterflyLobby_8007A5D8.h"
+#include "pso/object/lobby/TObjButterflyLobby_8007A5D8.h"
 #include "pso/player/TObjPlayer_801542CC.h"
 #include "pso/unk/text_803D8F74.h"
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
 s32 push_matrix(void);

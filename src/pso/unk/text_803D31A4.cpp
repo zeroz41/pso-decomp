@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/unk/text_803D31A4.h"
 #include "stdarg.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern s32 lobby_callback_tables_refcount;
 

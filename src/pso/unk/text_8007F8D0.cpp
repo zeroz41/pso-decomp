@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TScene.h"
+#include "pso/system/scene/TScene.h"
 #pragma pool_data off
 
 extern "C" {

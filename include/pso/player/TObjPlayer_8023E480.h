@@ -2,7 +2,7 @@
 #define PSO_PLAYER_TOBJPLAYER_8023E480_H
 
 #include "types.h"
-#include "pso/system/GinjaMaterialState.h"
+#include "pso/render/GinjaMaterialState.h"
 
 extern "C" {
 s32 bind_gvm_texture_list(const char *name, GinjaTextureList *texlist);

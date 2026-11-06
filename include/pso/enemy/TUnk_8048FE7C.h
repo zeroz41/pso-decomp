@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_TUNK_8048FE7C_H
 #define PSO_ENEMY_TUNK_8048FE7C_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include <dolphin/mtx/GeoTypes.h>
 
 // The Bringer's expanding ring: radius grows from 10 to max_radius, then the ring fades out.

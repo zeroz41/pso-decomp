@@ -1,9 +1,9 @@
 #include "pso/object/TObjEZRopeBase.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/object/TObjHMS_EZRope_Player.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
-#include "pso/player/TObjPlayer_800FEFCC.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/object/TObjHMS_EZRope_Player_800FEFCC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" void run_task__21TObjHMS_EZRope_PlayerFv();
 extern "C" void render_shadows__7TObjectFv();

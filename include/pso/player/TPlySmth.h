@@ -3,7 +3,7 @@
 
 #include "types.h"
 #include "pso/macros.h"
-#include "pso/protocol.h"
+#include "pso/network/protocol/protocol.h"
 
 class TPlySmth {
 public:

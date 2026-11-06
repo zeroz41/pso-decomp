@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TPlayerBattleCtrl4P.h"
+#include "pso/player/TPlayerBattleCtrl4P.h"
 
 extern "C" {
 TObjPlayer *get_player_by_client_id(s32 id);

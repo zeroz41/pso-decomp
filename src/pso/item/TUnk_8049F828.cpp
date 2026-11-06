@@ -1,6 +1,6 @@
-#include "pso/item/TItemMag.h"
+#include "pso/item/mag/TItemMag.h"
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TUnk_8049F828.h"
 #include "pso/player/TObjPlayer.h"
 

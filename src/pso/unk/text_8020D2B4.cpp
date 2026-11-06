@@ -1,11 +1,11 @@
-#include "pso/object/ObjectFactoryTables.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/object/base/ObjectFactoryTables.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/map/FloorArea.h"
 
 #include "types.h"
-#include "pso/system/TSetManager.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/map/TSetManager.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/FloorArea.h"
 

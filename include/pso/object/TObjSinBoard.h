@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJSINBOARD_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 struct TObjSinBoard : public TObjBase {
     TObjSinBoard(TObject *parent, void *set_data);

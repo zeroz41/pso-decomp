@@ -2,8 +2,8 @@
 #include "pso/unk/text_803DA798.h"
 #include "pso/unk/text_803DD5E0.h"
 #include "pso/system/memory.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
-#include "pso/misc/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
 
 struct S_803DDD78 { s8 a, b; };

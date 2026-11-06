@@ -1,13 +1,13 @@
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
-#include "pso/misc/TRaderMapCore.h"
+#include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/system/vector.h"
 #include "pso/item/TItem.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TUnk_804F0A00.h"
-#include "pso/player/TUnk_804F0AF8.h"
-#include "pso/player/TUnk_804F0908.h"
-#include "pso/player/TUnk_804F0810.h"
+#include "pso/weapon/TUnk_804F0A00.h"
+#include "pso/weapon/TUnk_804F0AF8.h"
+#include "pso/weapon/TUnk_804F0908.h"
+#include "pso/weapon/TUnk_804F0810.h"
 
 struct Base_8034EFDC { char pad[0x18]; };
 struct VObj_8034EFDC : Base_8034EFDC {

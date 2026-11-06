@@ -2,7 +2,7 @@
 #define PSO_MISC_TEFFINDIRECTCTRL_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // Scene-side handle of an indirect effect: its constructor registers a TEffIndirectCtrl for `kind`
 // (register_indirect_effect_ctrl). Class name is the placeholder of the vtable it installs (0x804DDF04).

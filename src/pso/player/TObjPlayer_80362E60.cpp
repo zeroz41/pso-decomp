@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/items/TItemWeapon.h"
-#include "pso/player/TUnk_804F27E0.h"
+#include "pso/weapon/TItemWeapon.h"
+#include "pso/weapon/TUnk_804F27E0.h"
 
 struct VBase_18_f1aa6a { char pad[0x18]; };
 

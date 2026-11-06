@@ -2,7 +2,7 @@
 #include "pso/player/TObjPlayer_801BC404.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TLevelSelect.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/system/vector.h"
 
 extern "C" {

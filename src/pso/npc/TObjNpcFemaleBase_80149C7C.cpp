@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/npc/TUnk_804A8640.h"
 #include "pso/npc/TObjNpcFemaleBase_80149C7C.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/player/TObjPlayer.h"
 

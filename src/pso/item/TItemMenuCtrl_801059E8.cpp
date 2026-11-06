@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TItemMenuCtrl.h"
+#include "pso/item/TItemMenuCtrl.h"
 
 extern "C" {
 

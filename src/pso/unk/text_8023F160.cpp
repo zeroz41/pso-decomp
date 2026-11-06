@@ -1,13 +1,13 @@
 #include "types.h"
 #include "pso/unk/text_8023F160.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/player/TObjPlayer_801A5AEC.h"
-#include "pso/misc/TWindowCtrlMain.h"
+#include "pso/ui/window/TWindowCtrlMain.h"
 #include "pso/system/main_loop.h"
-#include "pso/misc/TCameraCtrl.h"
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/misc/TLobby.h"
-#include "pso/TObject.h"
+#include "pso/camera/TCameraCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/unk/TLobby.h"
+#include "pso/system/task/TObject.h"
 
 struct RecoveredGlobal_8023F1B8_lbl_804CCDA8 {
     s32 value;

@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_804B8E00_H
 #define PSO_UNK_TUNK_804B8E00_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // Gogo-ball round controller: creates the timer window, spawns the goal markers on the beat.
 class TUnk_804B8E00 : public TObject {

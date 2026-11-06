@@ -2,7 +2,7 @@
 #include "pso/item/TUnk_804A0668.h"
 #include "pso/item/TUnk_804A0688.h"
 #include "pso/item/TItemTimerEvent.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 
 struct Base_8011E140_8011DA9C { char pad[0x18]; };
 struct VObj_8011E140_8011DA9C : Base_8011E140_8011DA9C {

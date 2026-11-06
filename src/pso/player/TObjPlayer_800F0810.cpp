@@ -1,10 +1,10 @@
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer_800F0810.h"
-#include "pso/system/ModelDrawContext.h"
+#include "pso/render/ModelDrawContext.h"
 #include "pso/render/render_util.h"
 
-#include "pso/enemy/TObjEneDD_ST.h"
+#include "pso/enemy/dd/TObjEneDD_ST.h"
 
 /* Ninja chunk strips, model and object used to override the material of the next drawn model. */
 struct AltChunkStrips {
@@ -34,7 +34,7 @@ struct AltChunkObject {
 
 #include <stddef.h>
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 extern "C" {
 void set_chunk_material_override_pair(s32 arg0, s32 arg1);

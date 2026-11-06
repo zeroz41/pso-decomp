@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/player/TObjPlayer_801D4CB8.h"
 #include "pso/player/TObjPlayer.h"
 
@@ -48,7 +48,7 @@ s32 TObjPlayer::count_items_by_id(s32 arg1) {
 
 }
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 struct VB_801D4E94 { u8 pad[0x18]; };
 

@@ -3,9 +3,9 @@
 
 #include "types.h"
 #include "pso/macros.h"
-#include "pso/protocol.h"
-#include "pso/TPlyInventory.h"
-#include "pso/TPlyDispData.h"
+#include "pso/network/protocol/protocol.h"
+#include "pso/player/TPlyInventory.h"
+#include "pso/player/TPlyDispData.h"
 
 class TPlyCharData {
 public:

@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/item/TItem.h"
-#include "pso/unk/TUnk_804F0C48.h"
+#include "pso/item/TUnk_804F0C48.h"
 #include "pso/player/TObjPlayer.h"
 
 #include "pso/item/TItemData.h"

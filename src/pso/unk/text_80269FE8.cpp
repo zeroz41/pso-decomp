@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/misc/TLobby_80269C6C.h"
+#include "pso/unk/TLobby_80269C6C.h"
 #include "pso/unk/text_80269FE8.h"
 extern "C" {
 s32 __nw__7TObjectFUl(int);

@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/item/TItemLoad_80110540.h"
-#include "pso/object/TObject_8001A448.h"
+#include "pso/system/task/TObject_8001A448.h"
 #include "pso/item/TItemLoad.h"
 
 extern "C" {

@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJDOAEX01_H
 
 #include "types.h"
-#include "pso/misc/TODoorBase.h"
+#include "pso/object/door/TODoorBase.h"
 
 struct TObjDoaEx01 : public TODoorBase {
     virtual ~TObjDoaEx01();

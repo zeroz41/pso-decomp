@@ -1,8 +1,8 @@
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 #include "types.h"
 #include "pso/player/TObjPlayer_800822D0.h"
-#include "pso/player/TObjChara.h"
-#include "pso/misc/TUnk_8048E1A4.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/unk/TUnk_8048E1A4.h"
 #include "pso/player/TObjPlayer.h"
 
 void TUnk_8048E1A4::apply_knockback_from_attacker(u8 *, f32) {  }

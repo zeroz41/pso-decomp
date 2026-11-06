@@ -1,8 +1,8 @@
-#include "pso/TItemTimer.h"
-#include "pso/player/TObjChara.h"
+#include "pso/item/TItemTimer.h"
+#include "pso/object/base/TObjChara.h"
 #include "pso/item/TUnk_804A0668.h"
-#include "pso/player/TUnk_804A0648.h"
-#include "pso/player/TUnk_804A0628.h"
+#include "pso/item/TUnk_804A0648.h"
+#include "pso/item/TUnk_804A0628.h"
 #include "pso/item/TUnk_804A0608.h"
 #include "pso/item/TUnk_804A05E8.h"
 #include "pso/item/TUnk_804A05C8.h"
@@ -28,8 +28,8 @@ void TItemTimer::run_task() {
 TItemTimer::~TItemTimer() {}
 
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/boss/TBoss3Volopt.h"
+#include "pso/system/task/TObject.h"
+#include "pso/boss/volopt/TBoss3Volopt.h"
 
 struct Base_8011D94C_8011D414 { char pad[0x18]; };
 struct VObj_8011D94C_8011D414 : Base_8011D94C_8011D414 {

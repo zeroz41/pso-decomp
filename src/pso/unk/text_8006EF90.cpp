@@ -1,8 +1,8 @@
-#include "pso/item/ChallengeStageLoadouts.h"
+#include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/unk/text_8006EF90.h"
 
 #include "types.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 extern "C" {
 s32 is_flag_set__6TLobbyFv(void);

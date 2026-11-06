@@ -1,6 +1,6 @@
-#include "pso/ui/TAdEnterBaseGC.h"
-#include "pso/misc/TLobby_80132ED0.h"
-#include "pso/misc/TWindowSubStatusDisp_80144B14.h"
+#include "pso/ui/frontend/TAdEnterBaseGC.h"
+#include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/window/TWindowSubStatusDisp_80144B14.h"
 
 extern const f32 lbl_804771D8[];
 

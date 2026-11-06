@@ -2,7 +2,7 @@
 #define PSO_QUEST_TQUESTTHREAD_H
 
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/quest/QuestVm.h"
 
 class TUnk_804C8678;

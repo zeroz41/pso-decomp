@@ -1,6 +1,6 @@
 #ifndef PSO_TADPLAYERLOADGC_H
 #define PSO_TADPLAYERLOADGC_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TAdPlayerLoadGC : public TObject {

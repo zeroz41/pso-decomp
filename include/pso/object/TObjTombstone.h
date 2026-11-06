@@ -2,7 +2,7 @@
 #define PSO_OBJECT_TOBJTOMBSTONE_H
 
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 // The challenge-mode drop chances of a tombstone (inferred: quest opcode
 // qst_op_set_cmode_grave_rates passes its registers to TObjTombstone__sub_80074E74,

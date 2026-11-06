@@ -1,6 +1,6 @@
 #include "pso/unk/text_8011A780.h"
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemDisconnectCtrl_80105BE8.h"
 #include "pso/item/TItemDisconnectCtrl.h"
 #include "pso/player/TObjPlayer.h"

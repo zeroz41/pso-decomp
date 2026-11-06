@@ -1,11 +1,11 @@
-#include "pso/item/ChallengeStageLoadouts.h"
+#include "pso/quest/challenge/ChallengeStageLoadouts.h"
 #include "pso/unk/text_80071B30.h"
 #include "pso/system/vector.h"
 
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TBoss4DarkFalz.h"
-#include "pso/misc/TLobby.h"
+#include "pso/boss/darkfalz/TBoss4DarkFalz.h"
+#include "pso/unk/TLobby.h"
 
 struct Vec_80071BC0 { f32 x, y, z; };
 

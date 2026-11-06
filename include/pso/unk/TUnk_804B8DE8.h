@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_804B8DE8_H
 #define PSO_UNK_TUNK_804B8DE8_H
 #include "types.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 
 // Gogo ball, spawned by TUnk_804B8DD0::update_effects.
 class TUnk_804B8DE8 : public TObject {

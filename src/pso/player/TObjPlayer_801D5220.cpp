@@ -1,8 +1,8 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/item/TItem.h"
-#include "pso/misc/TOSwitchItem.h"
+#include "pso/object/switch/TOSwitchItem.h"
 
 typedef struct ItemNode_801D563C {
     u8 pad0[0xC];

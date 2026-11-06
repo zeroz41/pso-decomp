@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/unk/text_80338F3C.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 struct RecoveredGlobal_80338F3C_lbl_804EF4CC {
     s32 value;

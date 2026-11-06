@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/system/vector.h"
-#include "pso/misc/TTecZonde.h"
+#include "pso/technique/TTecZonde.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/items/TItemWeapon.h"
-#include "pso/player/TUnk_804F14A8.h"
+#include "pso/weapon/TItemWeapon.h"
+#include "pso/weapon/TUnk_804F14A8.h"
 #include "pso/player/TUnk_804F166C.h"
 #include "pso/map/FloorArea.h"
 
@@ -92,10 +92,10 @@ struct RecoveredGlobal_803589F8_lbl_804F15C8 { s32 value; u8 remaining[0xA0]; };
 typedef char RecoveredGlobal_803589F8_lbl_804F15C8_size[sizeof(RecoveredGlobal_803589F8_lbl_804F15C8) == 0xA4 ? 1 : -1];
 
 #include <stddef.h>
-#include "pso/misc/TNowLoading.h"
+#include "pso/ui/hud/TNowLoading.h"
 #include "pso/item/TItem.h"
 #include "pso/map/FloorArea.h"
-#include "pso/effect/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl.h"
 
 struct RecoveredGlobal_80358048_lbl_804F166C {
     s32 value;

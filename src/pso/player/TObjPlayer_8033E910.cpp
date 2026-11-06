@@ -1,12 +1,12 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_8033E910.h"
-#include "pso/ui/TAdMcCheckGC.h"
-#include "pso/misc/TUnk_804EFA88.h"
+#include "pso/ui/frontend/TAdMcCheckGC.h"
+#include "pso/unk/TUnk_804EFA88.h"
 #include "pso/render/render_util.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/effect/TParticleCtrl.h"
-#include "pso/misc/TParticleCtrl_80327D30.h"
+#include "pso/effect/particle/TParticleCtrl.h"
+#include "pso/effect/particle/TParticleCtrl_80327D30.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

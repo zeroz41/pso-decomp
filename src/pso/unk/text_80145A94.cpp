@@ -3,13 +3,13 @@
 #include "pso/unk/text_803F4D84.h"
 #include "pso/network/NetworkInfoLoader.h"
 #include "pso/network/NetworkInfoRequests.h"
-#include "pso/ui/TAdPlayerLoadGC_803F18B8.h"
-#include "pso/ui/TAdPlayerLoadGC_803F3CF4.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_803F18B8.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC_803F3CF4.h"
 #include "pso/unk/text_80145A94.h"
 #include "pso/unk/text_8042EE4C.h"
 #include "pso/system/main_loop.h"
 #include "pso/system/memory.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct Ids_80145A94 { s32 v[2]; };
 

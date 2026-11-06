@@ -1,23 +1,23 @@
 #include <global_types.h>
 #include "pso/network/TProtocol_801DFCAC.h"
-#include "pso/misc/TPlyJoinLobbyEntry.h"
+#include "pso/network/TPlyJoinLobbyEntry.h"
 #include "pso/network/TProtocol.h"
 #include "pso/unk/text_801DFC3C.h"
 #include "pso/system/byteswap.h"
-#include "pso/misc/TLobby.h"
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/unk/TLobby.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include <string.h>
 #include <stdio.h>
 #include <stddef.h>
 #include "pso/forward.h"
 #include "pso/macros.h"
-#include "pso/TMainTask.h"
-#include "pso/TMenuList.h"
+#include "pso/system/task/TMainTask.h"
+#include "pso/ui/TMenuList.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/TPlyDispData.h"
-#include "pso/TPlyInventory.h"
-#include "pso/TObject.h"
-#include "pso/TSocket.h"
+#include "pso/player/TPlyDispData.h"
+#include "pso/player/TPlyInventory.h"
+#include "pso/system/task/TObject.h"
+#include "pso/network/TSocket.h"
 
 extern packet *server_packet;
 extern const char *port_map_copyright;

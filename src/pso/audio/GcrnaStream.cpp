@@ -1,7 +1,7 @@
 #include "pso/audio/GcrnaStream.h"
 #include "pso/audio/GcrnaError.h"
 #include <dolphin/os/OSAlloc.h>
-#include "pso/misc/TLobby_803D43C8.h"
+#include "pso/unk/TLobby_803D43C8.h"
 
 #define OS_CORE_CLOCK (*(u32 *)0x800000FC)
 

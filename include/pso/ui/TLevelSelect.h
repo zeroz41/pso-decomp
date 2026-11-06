@@ -1,7 +1,7 @@
 #ifndef PSO_UI_TLEVELSELECT_H
 #define PSO_UI_TLEVELSELECT_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TLevelSelect : public TObject {

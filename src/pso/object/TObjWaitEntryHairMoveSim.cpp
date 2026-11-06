@@ -1,7 +1,7 @@
 #include "pso/object/T_OWEHMS_Exp.h"
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/object/TObjWaitEntryHairMoveSim.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/object/TObjEZBoneRotPlayer.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
@@ -107,8 +107,8 @@ public:
     virtual void run_task();
 };
 
-#include "pso/TObjTailsTailsMove.h"
-#include "pso/misc/TCharaMaking.h"
+#include "pso/object/TObjTailsTailsMove.h"
+#include "pso/ui/charcreate/TCharaMaking.h"
 
 struct Ent_800FE698 { s8 a; s8 b; s8 c; s8 d; u8 pad[0xC]; };
 

@@ -1,6 +1,6 @@
 #ifndef PSO_PLAYER_TPLAYERLEVELFEEDBACK_H
 #define PSO_PLAYER_TPLAYERLEVELFEEDBACK_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 struct TObjPlayer;
 class TPlayerLevelFeedback : public TObject {
 public:

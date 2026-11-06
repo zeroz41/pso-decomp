@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/enemy/TObjEneRe2Flower_EffCurse3.h"
+#include "pso/enemy/flower/TObjEneRe2Flower_EffCurse3.h"
 
-#include "pso/enemy/TObjEneDD.h"
-#include "pso/enemy/TObjEneRe2Flower.h"
+#include "pso/enemy/dd/TObjEneDD.h"
+#include "pso/enemy/flower/TObjEneRe2Flower.h"
 #include "pso/player/TObjPlayer.h"
 
 struct Pair_800C2E64 { s32 a, b; };

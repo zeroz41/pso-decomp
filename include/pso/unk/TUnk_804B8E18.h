@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_804B8E18_H
 #define PSO_UNK_TUNK_804B8E18_H
 #include "types.h"
-#include "pso/player/TObjChara.h"
+#include "pso/object/base/TObjChara.h"
 
 // The gogo ball in play, spawned by TUnk_804B8E00::run_task on the beat.
 class TUnk_804B8E18 : public TObjChara {

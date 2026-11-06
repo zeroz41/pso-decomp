@@ -3,19 +3,19 @@
 #include "pso/npc/TObjNpcBase.h"
 #include "pso/npc/TObjNpcFemaleBase.h"
 #include "pso/npc/TObjNpcMoja.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjChara.h"
-#include "pso/boss/TBoss3VoloptHiraisin.h"
+#include "pso/object/base/TObjChara.h"
+#include "pso/boss/volopt/TBoss3VoloptHiraisin.h"
 extern "C" void has_flag_0x800__9TObjCharaFv();
 extern "C" void test_flag30_512__9TObjCharaFv();
 extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 
 #include "pso/npc/TObjNpcNFM00.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
-#include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct VBase_8014C780 { char pad[0x18]; };
 struct VObj_8014C780 : VBase_8014C780 {

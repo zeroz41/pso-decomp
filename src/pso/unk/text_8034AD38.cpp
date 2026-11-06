@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/ui/TAdFloorLoadPrtGC.h"
-#include "pso/object/TObject_80019A50.h"
+#include "pso/ui/frontend/TAdFloorLoadPrtGC.h"
+#include "pso/system/task/TObject_80019A50.h"
 #include "pso/unk/text_80086E28.h"
 #include "pso/unk/text_8034AD38.h"
 #include "pso/system/vector.h"

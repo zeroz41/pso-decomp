@@ -1,7 +1,7 @@
 #ifndef PSO_TECHNIQUE_TTECCTRL_H
 #define PSO_TECHNIQUE_TTECCTRL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TTecCtrl : public TObject {

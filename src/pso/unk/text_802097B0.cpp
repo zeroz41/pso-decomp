@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_802097B0.h"
-#include "pso/item/TItemDrop_80105D0C.h"
-#include "pso/misc/TLobby_8020A350.h"
-#include "pso/misc/TLobby_8020A568.h"
-#include "pso/misc/TLobby.h"
+#include "pso/item/drop/TItemDrop_80105D0C.h"
+#include "pso/unk/TLobby_8020A350.h"
+#include "pso/unk/TLobby_8020A568.h"
+#include "pso/unk/TLobby.h"
 #include "pso/system/EventShuffleTable.h"
 struct Ent_802098AC { f32 a, b, c; u32 d, e, f, g; };
 

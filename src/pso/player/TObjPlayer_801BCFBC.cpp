@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/misc/TPlyPhotonChair.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/player/TPlyPhotonChair.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/map/FloorArea.h"
 #include "pso/player/TObjPlayer_801BD314.h"
 

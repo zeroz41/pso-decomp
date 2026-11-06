@@ -1,10 +1,10 @@
 #include "pso/system/vector.h"
 #include "types.h"
-#include "pso/boss/TBoss8Dragon_800BC53C.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/boss/goldragon/TBoss8Dragon_800BC53C.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/player/TUnk_804928CC.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
 
 struct VBase { char pad[0x18]; };
 

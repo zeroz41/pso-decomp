@@ -1,9 +1,9 @@
 #include "types.h"
 #include "pso/unk/text_8035C9E8.h"
 #include "pso/item/TItem.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TLobby.h"
-#include "pso/misc/TOSwitchItem.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/unk/TLobby.h"
+#include "pso/object/switch/TOSwitchItem.h"
 #include "pso/player/TObjPlayer.h"
 extern "C" {
 void *get_player_data__10TObjPlayerFi(int);

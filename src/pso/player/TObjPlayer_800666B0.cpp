@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/player/TObjPlayer_800666B0.h"
-#include "pso/boss/TBoss5GryphonShockWave.h"
+#include "pso/boss/galgryphon/TBoss5GryphonShockWave.h"
 
 struct O_800666C4 { s16 a; s16 b; s32 arr[4]; };
 

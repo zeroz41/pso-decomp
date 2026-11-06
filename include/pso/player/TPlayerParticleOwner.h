@@ -1,6 +1,6 @@
 #ifndef PSO_PLAYER_TPLAYERPARTICLEOWNER_H
 #define PSO_PLAYER_TPLAYERPARTICLEOWNER_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 class TParticleCtrl;
 struct TObjPlayer;
 class TPlayerParticleOwner : public TObject {

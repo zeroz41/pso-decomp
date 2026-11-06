@@ -1,11 +1,11 @@
 #include "types.h"
 #include "pso/object/TObjMesBase.h"
-#include "pso/misc/TMotorcycle.h"
+#include "pso/object/TMotorcycle.h"
 #include "pso/object/TObjMesBase.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 #include "pso/quest/TQuestThread.h"
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "pso/npc/TObjNpcEnemy.h"
 #include "pso/player/TObjPlayer.h"
 

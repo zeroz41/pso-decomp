@@ -1,7 +1,7 @@
 #ifndef PSO_ENEMY_TUNK_804E14E8_H
 #define PSO_ENEMY_TUNK_804E14E8_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TParticleCtrl;
 

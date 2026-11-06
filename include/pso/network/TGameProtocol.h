@@ -1,7 +1,7 @@
 #ifndef PSO_NETWORK_TGAMEPROTOCOL_H
 #define PSO_NETWORK_TGAMEPROTOCOL_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TGameProtocol : public TObject {

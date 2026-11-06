@@ -1,9 +1,9 @@
 #include "types.h"
-#include "pso/misc/TLobby_80131794.h"
-#include "pso/misc/TLobby_80207DA8.h"
-#include "pso/misc/TLobby_8030A6A8.h"
+#include "pso/unk/TLobby_80131794.h"
+#include "pso/unk/TLobby_80207DA8.h"
+#include "pso/unk/TLobby_8030A6A8.h"
 #include "pso/unk/text_8020AB50.h"
-#include "pso/misc/TLobby.h"
+#include "pso/unk/TLobby.h"
 
 struct E3_8020AB50 { s32 a; s32 name; s32 c; };
 

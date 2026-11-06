@@ -1,8 +1,8 @@
 #include "types.h"
-#include "pso/TObject.h"
-#include "pso/TMainTask.h"
+#include "pso/system/task/TObject.h"
+#include "pso/system/task/TMainTask.h"
 #include "pso/macros.h"
-#include "pso/misc/TPlyPhotonChair.h"
+#include "pso/player/TPlyPhotonChair.h"
 
 struct PhotonChairSeat {
     u16 m_0;

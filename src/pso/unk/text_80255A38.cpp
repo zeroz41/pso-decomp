@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TWindowHelpItem.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
+#include "pso/ui/window/TWindowHelpItem.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
 
 #pragma inline_depth(1)
 #pragma auto_inline off

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/player/TObjPlayer_803083B0.h"
-#include "pso/player/TUnk_804E71F8.h"
+#include "pso/weapon/TUnk_804E71F8.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/item/TItem.h"
 

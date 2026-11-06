@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemLoad.h"
-#include "pso/ui/TAdRicoRing.h"
+#include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

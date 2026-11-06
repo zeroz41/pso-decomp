@@ -1,7 +1,7 @@
 #ifndef PSO_PLAYER_TPLYITEM_H
 #define PSO_PLAYER_TPLYITEM_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TPlyItem : public TObject {

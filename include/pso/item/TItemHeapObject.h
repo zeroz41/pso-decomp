@@ -1,6 +1,6 @@
 #ifndef PSO_ITEM_TITEMHEAPOBJECT_H
 #define PSO_ITEM_TITEMHEAPOBJECT_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 class TItemHeapObject : public TObject {
 public:
     TItemHeapObject(TObject* parent);

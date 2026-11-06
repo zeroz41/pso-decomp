@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/misc/TLobby.h"
-#include "pso/protocol.h"
+#include "pso/unk/TLobby.h"
+#include "pso/network/protocol/protocol.h"
 
 struct VBase_18_44382c { char pad[0x18]; };
 

@@ -1,7 +1,7 @@
 #ifndef PSO_TECHNIQUE_TTECZONDEEFF_H
 #define PSO_TECHNIQUE_TTECZONDEEFF_H
 
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TTecZondeEff : public TObject {

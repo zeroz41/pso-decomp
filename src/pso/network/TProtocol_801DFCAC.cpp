@@ -1,6 +1,6 @@
-#include "pso/packet_classes.h"
+#include "pso/network/protocol/packet_classes.h"
 #include "pso/player/TPlyCharData.h"
-#include "pso/misc/TPlyCharData_8007214C.h"
+#include "pso/player/TPlyCharData_8007214C.h"
 #include "pso/network/TProtocol_801DFCAC.h"
 #include "pso/system/memory.h"
 #include <stddef.h>

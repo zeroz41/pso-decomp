@@ -1,6 +1,6 @@
 #include "types.h"
-#include "pso/enemy/TObjEneRecon.h"
-#include "pso/enemy/TObjEneDD.h"
+#include "pso/enemy/recon/TObjEneRecon.h"
+#include "pso/enemy/dd/TObjEneDD.h"
 struct Obj_8031EF14 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };
 
 struct Obj_8031F0F0 { u8 pad[0x410]; s32 count; u8 pad2[4]; u16 ids[6]; };

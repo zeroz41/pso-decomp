@@ -1,11 +1,11 @@
 #include "types.h"
-#include "pso/system/FlagWord.h"
+#include "pso/system/data/FlagWord.h"
 #include "pso/item/TItemMenuCtrl_80115AF0.h"
-#include "pso/TItemMenuCtrl.h"
-#include "pso/item/TItemEffOrgaFlowShot.h"
+#include "pso/item/TItemMenuCtrl.h"
+#include "pso/effect/item/TItemEffOrgaFlowShot.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/boss/TObjBoss2Tunnel.h"
-#include "pso/item/TItemEffectWeapon.h"
+#include "pso/boss/derolle/TObjBoss2Tunnel.h"
+#include "pso/effect/item/TItemEffectWeapon.h"
 
 extern "C" {
 s32 is_split_screen(void);

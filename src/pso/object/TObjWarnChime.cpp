@@ -1,6 +1,6 @@
 #include "pso/object/TObjWarnChime.h"
-#include "pso/item/TItemProShield.h"
-#include "pso/misc/TCameraCtrl.h"
+#include "pso/item/armor/TItemProShield.h"
+#include "pso/camera/TCameraCtrl.h"
 #include "pso/player/TObjPlayer.h"
 
 extern "C" {

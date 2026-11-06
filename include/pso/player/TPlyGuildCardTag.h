@@ -2,7 +2,7 @@
 #define PSO_PLAYER_TPLYGUILDCARDTAG_H
 
 #include "pso/forward.h"
-#include "pso/protocol.h"
+#include "pso/network/protocol/protocol.h"
 #include "types.h"
 
 /* TPlyGuildCardTag - Guild card identification tag.

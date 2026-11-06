@@ -1,6 +1,6 @@
 #ifndef PSO_TSHOPWINDOWBASE_H
 #define PSO_TSHOPWINDOWBASE_H
-#include "pso/TObject.h"
+#include "pso/system/task/TObject.h"
 #include "types.h"
 
 class TShopWindowBase : public TObject {

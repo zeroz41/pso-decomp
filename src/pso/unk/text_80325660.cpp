@@ -1,7 +1,7 @@
 #include "types.h"
-#include "pso/misc/TWindowSubStatusDisp_803DEE6C.h"
-#include "pso/misc/TWindowSubStatusDisp.h"
-#include "pso/object/TObjFish.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/ambient/TObjFish.h"
 struct Ent_80325660 { u8 b[0x20]; };
 
 struct Obj_80325660 { u8 pad[0x20]; u32 count; u8 pad2[4]; Ent_80325660 ents[12]; u32 col[4]; };

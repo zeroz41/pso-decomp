@@ -1,7 +1,7 @@
 #ifndef PSO_UNK_TUNK_80494E10_H
 #define PSO_UNK_TUNK_80494E10_H
 #include "types.h"
-#include "pso/object/TObjMotion.h"
+#include "pso/object/base/TObjMotion.h"
 
 class TUnk_80494E10 : public TObjCollidable {
 public:
