@@ -44,7 +44,7 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 action_timer;
     s32 m_414;
     u8 unk_418[0x4];
-    u8 m_41c;
+    s8 m_41c;
     u8 unk_41D[0x1B];
     s32 m_438;
     u8 unk_43C[0x4];
@@ -75,8 +75,10 @@ struct TBoss6Type1 : public TObjEnemy {
     f32 m_4e8;
     u8 unk_4EC[0x1C];
     s32 m_508;
-    u8 unk_50C[0xC0];
-    Vec sound_pos;
+    u8 unk_50C[0x6C];
+    // Model node positions, filled through the node callback list at 0x654 (TBoss6Type1__ct passes
+    // this array to TObjFish__sub_800E3124); node 7 is where the boss's sounds play from.
+    Vec node_points[8];
     Boss6EffectPoint trail_points[3];
     u8 unknown_5FC[0x3C];
     Boss6EffectPoint effect_points[2];
@@ -86,7 +88,7 @@ struct TBoss6Type1 : public TObjEnemy {
     u8 scroll_strips_u[0x14]; // scroll_strips_uv(8, 0) every frame
     u8 scroll_strips_v[0x14]; // scroll_strips_uv(0, 0x22) every frame
     TObject *map_csn;
-    static u8 *create_kakusan(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3, f32 farg0);
+    static u8 *create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
     void clear_slot_array();
     void release_effect_slot(s32 arg1);
     void spawn_effect_slot(s32 arg1);
@@ -213,6 +215,10 @@ struct TBoss6Type1 : public TObjEnemy {
 };
 extern "C" {
 void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss);
+// Spreads the mines on rings around node 0 in a shuffled order (inferred: the mine attack).
+void TBoss6Type1__sub_802B6504(TBoss6Type1 *boss);
+// Fires five kakusan shots from body nodes across the boss's front (inferred).
+void TBoss6Type1__sub_802B6944(TBoss6Type1 *boss);
 // Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
 void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
 }

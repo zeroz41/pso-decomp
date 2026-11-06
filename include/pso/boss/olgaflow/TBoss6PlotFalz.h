@@ -6,6 +6,10 @@
 
 extern "C" {
 s32 TBoss6PlotFalz__sub_802ABADC(void);
+// Nonzero when the game runs on Normal difficulty (game_difficulty_selection == 0).
+s32 is_normal_difficulty(void);
+// One step of the boss's pseudo-random sequence: returns the next value of seed.
+s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 }
 
 struct TBoss6PlotFalz : public TObjEnemy {

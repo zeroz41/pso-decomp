@@ -12,6 +12,7 @@
 #include "pso/object/base/TObjChara.h"
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/boss/olgaflow/TBoss6Type1.h"
+#include "pso/boss/darkfalz/TOBoss4Rock.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/map/TObjMapCsn.h"
 #include "pso/effect/particle/TParticleCtrl.h"
@@ -379,7 +380,6 @@ extern const f32 lbl_805DE388;
 extern const f32 lbl_805DE38C;
 void TBoss6Type1__sub_802B6C30(Boss_802B6C30 *self);
 s32 TObjFish__sub_8001EDB0(s32, s32);
-s32 get_bml_model(s32, s32);
 void clear_render_callback__8TObjFishFv(u32);
 void draw_model_motion(void *arg0, void *arg1, f32 farg0);
 // init_collision_body_parts copies these 7 spheres in TBoss6Type1__ct.
@@ -1388,7 +1388,7 @@ void TBoss6Type1::draw_part_motions() {
             id = t;
             p = TObjFish__sub_8001EDB0(arg0->f3FC, t);
         }
-        id = get_bml_model(arg0->f3FC, id);
+        id = get_bml_model((BmlResource *)arg0->f3FC, id);
         cb = arg0->draw_callback_lists[i];
         a = &arg0->anim[i];
         if (cb != 0) {
@@ -2025,6 +2025,42 @@ void TBoss6Type1::damage_players_in_range() {
         }
     }
 }
+
+// Model nodes the five kakusan shots of TBoss6Type1__sub_802B6944 leave from.
+extern const s32 lbl_80470F70[5];
+
+// Fires five kakusan shots from body nodes, fanned across the boss's front (inferred). Off Normal
+// difficulty each shot is given the next player slot, starting at the slot in m_41c.
+void TBoss6Type1__sub_802B6944(TBoss6Type1 *boss) {
+    f32 side = -92.5f;
+    s32 first = boss->m_41c & 3;
+    u16 target = first;
+    f32 height = 5.0f * first;
+    for (s32 i = 0; i < 5; i++) {
+        Vec pos = boss->node_points[lbl_80470F70[i]];
+        Vec dir;
+        dir.x = side * cos_table_lookup(-boss->rotation_y);
+        dir.y = height;
+        dir.z = side * sin_table_lookup(-boss->rotation_y);
+        subtract_vector(&dir, &pos);
+        f32 len = ((f32 (*)(void *))vector_length)(&dir);
+        if (len <= 0.00001f) {
+            dir.x = len = 1.0f;
+        }
+        f32 scale = 7.5f / len;
+        dir.x *= scale;
+        dir.y *= scale;
+        dir.z *= scale;
+        if (is_normal_difficulty()) {
+            TBoss6Type1::create_kakusan(boss, &pos, &dir, 0xFFFF, 7.5f);
+        } else {
+            TBoss6Type1::create_kakusan(boss, &pos, &dir, target, 7.5f);
+        }
+        target = (target + 1) & 3;
+        side += 46.25f;
+    }
+    play_sound_effect(0x4003A10B, &boss->node_points[7], 0, 0);
+}
 #pragma push
 #pragma fp_contract on
 void TBoss6Type1::spawn_grav_ball() {
@@ -2055,6 +2091,7 @@ void TBoss6Type1::spawn_grav_ball() {
     TBoss6Type1::create_grav_ball(this, &v);
 }
 #pragma pop
+
 #pragma push
 #pragma opt_common_subs off
 void TBoss6Type1::increase_field_clamped_max() {
@@ -2080,13 +2117,13 @@ void TBoss6Type1::reset_param() {
 }
 #pragma push
 #pragma fp_contract on
-// Draws bml model 0 at sound_pos, turned to face the viewing player and scaled by m_4dc.
+// Draws bml model 0 at node_points[7], turned to face the viewing player and scaled by m_4dc.
 void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
     if (boss->m_4dc != 0.0f) {
         s32 fish = TObjFish__sub_8001EDB0(boss->bml_resource, 0);
-        s32 model = get_bml_model(boss->bml_resource, 0);
+        s32 model = get_bml_model((BmlResource *)boss->bml_resource, 0);
         s32 pitch = 0;
-        Vec pos = boss->sound_pos;
+        Vec pos = boss->node_points[7];
         s32 yaw = boss->rotation_y + 0x8000;
         static f32 s_min_width = 0.15f;
         static f32 s_max_width = 0.625f;
@@ -2104,7 +2141,7 @@ void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
         if (player != NULL) {
             Vec from;
             Vec to;
-            VecCopy(&from, &boss->sound_pos);
+            VecCopy(&from, &boss->node_points[7]);
             VecCopy(&to, &player->position);
             to.y += 14.0f;
             subtract_vector(&to, &from);

@@ -551,7 +551,6 @@ s32 __nw__7TObjectFUl(s32);
 int pick_random_active_player__14TBoss6PlotFalzFv(void*);
 s32 is_state_1f__14TBoss6PlotFalzFUi(void *);
 f32 TBoss6PlotFalz__sub_802AB684(void *);
-s32 is_normal_difficulty();
 void TBoss6PlotFalz__sub_802AC724(void *, void *);
 void world_to_grid_pos__11TBoss6Type2FPvPvPv(f32 *arg0, s8 *arg1, s8 *arg2);
 void grid_to_world_pos__11TBoss6Type2FccPv(s8 arg0, s8 arg1, f32 *arg2);

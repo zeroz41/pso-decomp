@@ -843,7 +843,6 @@ extern "C" {
 void TBoss4DarkFalz__sub_8004B4F0(void *arg0p, void *arg1p);
 u32 create__11TBoss6Type1Fl(void *, int);
 u32 create__11TBoss6Type2Fl(void *, int);
-s32 TBoss6Type1__sub_802ABDEC(s32 seed);
 s32 is_locally_controlled__10TObjPlayerFPv(s32);
 f32 xyz_distance(const void *, const void *);
 u32 create__10TBoss6TubeFPv();
@@ -974,7 +973,6 @@ void TBoss6PlotFalz__sub_802AC008(f32 farg0, f32 farg1);
 void set_chunk_blend(u32 x);
 extern s32 game_difficulty_selection;
 extern "C" {
-bool is_normal_difficulty(void);
 void TBoss6PlotFalz::update_camera_target() {
     if (TBoss6PlotFalz__fade_amount > 0.0f) {
         chunk_polygon_flags_and_mask = saved_chunk_polygon_flags_and_mask;
@@ -1037,8 +1035,11 @@ void TBoss6PlotFalz::apply_fade_material_color(f32 farg0, f32 farg1, f32 farg2, 
 }
 #pragma pop
 
-bool is_normal_difficulty(void) {
-    return game_difficulty_selection == 0;
+s32 is_normal_difficulty(void) {
+    if (game_difficulty_selection == 0) {
+        return 1;
+    }
+    return 0;
 }
 
 #undef set_chunk_material_override_pair

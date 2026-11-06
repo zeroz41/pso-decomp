@@ -5,6 +5,24 @@
 #include <dolphin/mtx.h>
 #include "pso/enemy/TObjEnemy.h"
 
+// What TBoss6Type1's mine attack (TBoss6Type1__sub_802B6504) hands TBoss6Mine::create: a 0x40-byte object
+// set entry copied from the mag mine's (TBoss4DarkFalz__sub_8004B4F0) followed by the mine's own spawn data.
+// TBoss6Mine__ct reads 0x40-0x60 and passes the whole record to apply_set_data. Names inferred from those uses.
+struct TBoss6MineSetData {
+    s16 set_index; // TBoss6PlotFalz::get_next_point writes its set_index + counter here
+    u8 pad_02[0x4];
+    s16 entity_id; // ...and its entity_id + counter here
+    s16 unk_08;
+    u8 pad_0A[0x6];
+    Vec position;
+    u8 pad_1C[0x24];
+    TObjEnemy *owner;
+    Vec origin;
+    Vec offset;
+    s32 heading;
+    s32 seed;
+};
+
 struct TBoss6Mine : public TObjEnemy {
     virtual ~TBoss6Mine();
     virtual void run_task();
@@ -13,11 +31,11 @@ struct TBoss6Mine : public TObjEnemy {
     virtual void render_shadows();
     virtual void render();
     u32 m_374;
-    u32 m_378;
+    TObjEnemy *owner;
     s32 heading;
     s32 state;
     u32 m_384;
-    u32 m_388;
+    s32 seed; // state of next_random_float's sequence
     s32 state_frames;
     u32 m_390;
     u32 m_394;
@@ -35,7 +53,7 @@ struct TBoss6Mine : public TObjEnemy {
     void draw();
     void update_facing_angles();
     s32 is_far_from_origin();
-    static s32 create(s32 arg0);
+    static TBoss6Mine *create(TBoss6MineSetData *set_data);
     static f32 next_random_float(s32 *arg0);
     void explode_damage_players();
     void state_0();
@@ -48,10 +66,11 @@ struct TBoss6Mine : public TObjEnemy {
     void state_7();
 };
 
+typedef char TBoss6MineSetData_size[sizeof(TBoss6MineSetData) == 0x64 ? 1 : -1];
 typedef char TBoss6Mine_size[sizeof(TBoss6Mine) == 0x3D0 ? 1 : -1];
 
 extern "C" {
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2);
+s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data);
 void *__dt__10TBoss6MineFv(void *arg0, s16 arg1);
 void explode_damage_players__10TBoss6MineFv(u8 *arg0);
 }

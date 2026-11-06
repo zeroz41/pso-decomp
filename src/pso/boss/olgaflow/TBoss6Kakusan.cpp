@@ -71,7 +71,7 @@ s32 __ct__7TObjectFP7TObject(void *, void *);
 f32 vector_length(void *);
 extern s32 __vt__13TBoss6Kakusan[];
 extern s32 TBoss6Kakusan__name;
-u8 *TBoss6Kakusan__ct(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4, f32 farg0);
+u8 *TBoss6Kakusan__ct(u8 *arg0, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed);
 void queue_destruction__7TObjectFv(void *);
 s32 query_teammate_state__9TObjEneDDFv();
 }
@@ -250,22 +250,22 @@ TBoss6Kakusan::~TBoss6Kakusan() {
 
 #pragma push
 #pragma opt_common_subs off
-u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4, f32 farg0) {
+u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
     f32 temp_f2;
     u32 temp_r3;
-    __ct__7TObjectFP7TObject((void *)boss6_kakusan, (void *)arg1);
+    __ct__7TObjectFP7TObject((void *)boss6_kakusan, parent);
     *(s32 **)((s8 *)boss6_kakusan + 0x18) = &(*(RecoveredGlobal_80322994___vt__13TBoss6Kakusan *)&__vt__13TBoss6Kakusan).value;
     *(s32 *)((s8 *)boss6_kakusan + 0) = (s32) TBoss6Kakusan__name;
-    ((TBoss6Kakusan *)boss6_kakusan)->m_20 = arg4;
-    ((TBoss6Kakusan *)boss6_kakusan)->m_24 = farg0;
+    ((TBoss6Kakusan *)boss6_kakusan)->m_20 = target_client;
+    ((TBoss6Kakusan *)boss6_kakusan)->m_24 = speed;
     if (((TBoss6Kakusan *)boss6_kakusan)->m_24 <= 0.0f) {
         ((TBoss6Kakusan *)boss6_kakusan)->m_24 = 1.0f;
     }
-    VecCopy((Vec *)(boss6_kakusan + 0x3C), (const Vec *)(arg3));
+    VecCopy((Vec *)(boss6_kakusan + 0x3C), dir);
     if (vector_length(boss6_kakusan + 0x3C) <= 1e-05f) {
         *(f32 *)((s8 *)boss6_kakusan + 0x40) = 1.0f;
     }
-    VecCopy((Vec *)(boss6_kakusan + 0x30), (const Vec *)(arg2));
+    VecCopy((Vec *)(boss6_kakusan + 0x30), pos);
     VecCopy((Vec *)(boss6_kakusan + 0x48), (const Vec *)(boss6_kakusan + 0x30));
     temp_f2 = *(f32 *)((s8 *)(TLobby::dispatch_shared_handler_a(0x2B)) + 4);
     ((TBoss6Kakusan *)boss6_kakusan)->m_1c = (s32) temp_f2;
@@ -286,13 +286,13 @@ u8 *TBoss6Kakusan__ct(u8 *boss6_kakusan, s32 arg1, u8 *arg2, u8 *arg3, s16 arg4,
 }
 #pragma pop
 
-u8 *TBoss6Type1::create_kakusan(s32 arg0, u8 *arg1, u8 *arg2, s16 arg3, f32 farg0) {
+u8 *TBoss6Type1::create_kakusan(TObject *parent, Vec *pos, Vec *dir, u16 target_client, f32 speed) {
     u8 *boss6_kakusan;
     u8 *var_r0;
     boss6_kakusan = (u8 *)(__nw__7TObjectFUl(0x58));
     var_r0 = boss6_kakusan;
     if (var_r0 != NULL) {
-        var_r0 = (u8 *)(TBoss6Kakusan__ct(boss6_kakusan, arg0, arg1, arg2, arg3, farg0));
+        var_r0 = (u8 *)(TBoss6Kakusan__ct(boss6_kakusan, parent, pos, dir, target_client, speed));
     }
     return var_r0;
 }

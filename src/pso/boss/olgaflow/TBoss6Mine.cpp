@@ -351,7 +351,7 @@ void TBoss6Mine::run_task() {
         return;
     }
     if (TBoss6PlotFalz__sub_802ABADC() == 0) {
-        this->m_378 = 0;
+        this->owner = NULL;
         queue_destruction();
         return;
     }
@@ -394,7 +394,7 @@ void TBoss6Mine::run_task() {
 TBoss6Mine::~TBoss6Mine() {
     if (*(void **)((s8 *)this + 0x3CC) != NULL) { TParticleCtrl::release(*(void **)((s8 *)this + 0x3CC)); this->emitter = 0; }
     free_collision_body_parts(this);
-    if (*(void **)((s8 *)this + 0x378) != NULL) { TBoss6Type1__sub_802B5DD4(*(void **)((s8 *)this + 0x378)); }
+    if (this->owner != NULL) { TBoss6Type1__sub_802B5DD4(this->owner); }
 }
 extern "C" {
 
@@ -404,7 +404,7 @@ extern s32 tl_04;
 #pragma fp_contract on
 #define VecCopyP ((u8 *(*)(void *, void *))VecCopy__FP3VecPC3Vec)
 #define THIS self
-s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
+s32 TBoss6Mine__ct(s32 arg0, s32 parent, TBoss6MineSetData *set_data) {
     u8 *self;
     Tmp_80324A00 tmp;
     f32 f;
@@ -412,13 +412,13 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
     __ct__9TObjEnemyFP7TObject((TObjEnemy *)arg0, (void*)parent);
     *(s32 **)((s8 *)THIS + 0x18) = __vt__10TBoss6Mine;
     *(s32 *)((s8 *)THIS + 0) = lbl_805D4178;
-    ((TBoss3Volopt *)THIS)->m_378 = *(s32 *)((s8 *)arg2 + 0x40);
-    VecCopyP(THIS + 0x38, (u8 *)arg2 + 0x44);
-    VecCopyP(THIS + 0x3BC, (u8 *)arg2 + 0x50);
-    ((TBoss3Volopt *)THIS)->state = *(s32 *)((s8 *)arg2 + 0x5C);
-    ((TBoss3Volopt *)THIS)->m_388 = *(s32 *)((s8 *)arg2 + 0x60);
+    ((TBoss6Mine *)THIS)->owner = set_data->owner;
+    VecCopyP(THIS + 0x38, &set_data->origin);
+    VecCopyP(THIS + 0x3BC, &set_data->offset);
+    ((TBoss6Mine *)THIS)->heading = set_data->heading;
+    ((TBoss6Mine *)THIS)->seed = set_data->seed;
     ((TObjChara *)THIS)->add_flags_2e4(8);
-    ((TBoss3Volopt *)THIS)->apply_set_data((void *)arg2);
+    ((TBoss3Volopt *)THIS)->apply_set_data(set_data);
     if (exchange_object_state__9TObjEnemyFls(THIS, &tmp, 1) != 0) {
         tmp.a = 0;
         tmp.b = 0;
@@ -463,7 +463,7 @@ s32 TBoss6Mine__ct(s32 arg0, s32 parent, s32 arg2) {
 }
 #pragma pop
 
-s32 TBoss6Mine::create(s32 arg0) {
+TBoss6Mine *TBoss6Mine::create(TBoss6MineSetData *set_data) {
     s32 var_r31;
     s32 var_r4;
 
@@ -473,9 +473,9 @@ s32 TBoss6Mine::create(s32 arg0) {
         if (var_r4 != 0) {
             var_r4 = __ct__11TObjControlFP7TObject(var_r4, tl_04);
         }
-        var_r31 = TBoss6Mine__ct(var_r31, var_r4, arg0);
+        var_r31 = TBoss6Mine__ct(var_r31, var_r4, set_data);
     }
-    return var_r31;
+    return (TBoss6Mine *)var_r31;
 }
 
 }

@@ -96,7 +96,6 @@ struct RecoveredGlobal_802B3BEC_lbl_80470CE0 {
 typedef char RecoveredGlobal_802B3BEC_lbl_80470CE0_size[sizeof(RecoveredGlobal_802B3BEC_lbl_80470CE0) == 0xC ? 1 : -1];
 
 s32 play_sound_effect(s32, void *, s32, s32);
-s32 is_normal_difficulty();
 s32 TBoss6Type1__sub_802B4A9C(void *);
 void TBoss6Type1__sub_802B4B04(u8 *arg0);
 void TBoss6Type1__sub_802B5140(s32 arg0, s32 arg1, s32 arg2);
@@ -106,8 +105,6 @@ s32 calc_grid_cell_position__11TBoss6Type1FPvPv(void *, void *);
 s32 is_timer_expired__11TBoss6Type1Fv();
 s32 is_field4b0_delta_reached__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6060(u8 *arg0);
-int TBoss6Type1__sub_802B6504(void*);
-s32 TBoss6Type1__sub_802B6944(void *);
 s32 damage_players_in_range__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6C30(void *);
 s32 TBoss6Type1__sub_802B73AC();
@@ -603,7 +600,7 @@ void TBoss6Type1::sub_802B31E4() {
         if (*(f32 *)((s8 *)arg0 + 0x4DC) > 0.0f) {
             var_r3 = 0x4003AD0D;
         }
-        play_persistent_sound((s32)var_r3, (s32)arg0, (u32)&arg0->sound_pos, 0, 1);
+        play_persistent_sound((s32)var_r3, (s32)arg0, (u32)&arg0->node_points[7], 0, 1);
     }
     if (*(f32 *)((s8 *)arg0 + 0x4DC) > 0.0f) {
         TBoss6Type1__sub_802B4B04(((u8 *)arg0));
@@ -620,7 +617,7 @@ void TBoss6Type1::sub_802B31E4() {
 
 void TBoss6Type1::sub_802B3320() {
     action_timer = m_40c = m_49c + laser_fire_time + 30;
-    play_sound_effect(0x4003A608, &sound_pos, 0, 0);
+    play_sound_effect(0x4003A608, &node_points[7], 0, 0);
     release_effect_slot(0);
     spawn_effect_slot(1);
     spawn_effect_slot(2);
