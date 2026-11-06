@@ -19,6 +19,7 @@ extern "C" void test_flag_256__9TObjCharaFv();
 
 #include <stddef.h>
 #include "pso/boss/TBoss4Type2.h"
+#include "pso/player/TObjPlayer_801AF2F0.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/misc/TWindowSubSymbolChatPartsSet.h"
 #include "pso/object/TObjFish.h"
@@ -273,7 +274,7 @@ void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, 
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
-s32 TBoss4Type2__sub_80054FC0(void *, f32);
+void TBoss4Type2__sub_80054FC0(void *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
@@ -285,7 +286,6 @@ void *__dt__9TObjEnemyFv(TObjEnemy *arg0, s16 arg1);
 s32 angle_diff_s16(s32, s32);
 void free_collision_body_parts(void *);
 s32 project_actor_to_ground(void *, void *, int);
-s32 submit_cursor_candidate(void *, s32);
 s32 add_radar_scaled_marker(void *, s32, s16, s32, f32);
 s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 s32 play_sound_effect(int, void *, int, int);
@@ -495,7 +495,7 @@ extern const f32 lbl_805D8B88;
 }
 
 extern "C" {
-void TBoss4Type2__sub_80055300(void) { ((int (*)(s32, f32))TBoss4Type2__sub_80054FC0)(0, lbl_805D8B20); }
+void TBoss4Type2__sub_80055300(void) { TBoss4Type2__sub_80054FC0(NULL, lbl_805D8B20); }
 
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
     s32 *var_r31;
