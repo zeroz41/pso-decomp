@@ -5,7 +5,7 @@
 #include "pso/system/PadRumble.h"
 #include "pso/ui/keyboard/TKeyBoardControl_803DE9C4.h"
 #include "pso/object/ambient/TObjFish.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"

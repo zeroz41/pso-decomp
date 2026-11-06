@@ -8,7 +8,7 @@ struct Base_8033C4E0_8033C420 { char pad[0x18]; };
 struct VObj_8033C4E0_8033C420 : Base_8033C4E0_8033C420 { virtual void m0(int); };
 
 #include <stddef.h>
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 struct Stack_8033C424 {

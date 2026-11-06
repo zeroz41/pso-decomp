@@ -1,14 +1,14 @@
 #include "types.h"
 #include "pso/ui/window/TWindowBase.h"
 #include "pso/ui/frontend/TAdDrawLineCtrl.h"
-#include "pso/ui/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdSubPlyItemGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
 #include "pso/ui/window/TWindowSubComCard_80244774.h"
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
-#include "pso/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"
@@ -62,7 +62,6 @@ u32 TAdChrSel__global_slot_data;
 u8 *get_or_create_slot_window__22TAdMultiPlyChrSelectGCFii(s32 arg0, s32 arg1);
 s32 __ct__19TAdPlyChrSelPlateGCFv(int, void *, void *);
 s32 __ct__15TAdChrSelSlotGCFP7TObject(int, void *);
-s32 __ct__15TAdSubPlyItemGCFv(int, void *);
 s32 __ct__20TAdChrSelMovePlateGCFv(int, void *);
 extern RecoveredGlobal_8030DE58_lbl_80475808 chr_sel_a_slot_plate_layout;
 extern RecoveredGlobal_8030DE58_lbl_80475848 chr_sel_a_slot_plate_layout_b;
@@ -673,12 +672,12 @@ void TAdChrSelASlotGC::close_windows() {
     switch (*(s32 *)&this->_pad20) {
     case 0:
         ((TAdPlyChrSelPlateGC *)(*(s32 *)&this->unk_34))->reset_selection_slots();
-        TAdSubPlyItemGC__sub_802D6D88(*(s32 *)&this->unk_3C);
+        TAdSubPlyItemGC__sub_802D6D88((s32)this->player_items);
         break;
     case 1:
         ((TAdPlyChrSelPlateGC *)(*(s32 *)&this->unk_34))->reset_selection_slots();
         ((TAdPlyChrSelPlateGC *)(this->m_38))->reset_selection_slots();
-        TAdSubPlyItemGC__sub_802D6D88(*(s32 *)&this->unk_3C);
+        TAdSubPlyItemGC__sub_802D6D88((s32)this->player_items);
         TAdSubPlyItemGC__sub_802D6D88(this->m_40);
         break;
     case 2:
@@ -746,33 +745,19 @@ void TAdChrSelASlotGC::run_task() {
 void TAdChrSelASlotGC::create_children(s32 arg1) {
     u8 *arg0 = (u8 *)this;
     s32 temp_r3;
-    s32 temp_r3_10;
     s32 temp_r3_11;
-    s32 object;
     s32 temp_r3_13;
-    s32 temp_r3_14;
-    s32 temp_r3_2;
     s32 temp_r3_3;
-    s32 temp_r3_4;
     s32 temp_r3_5;
-    s32 temp_r3_6;
     s32 temp_r3_7;
     s32 temp_r3_8;
-    s32 temp_r3_9;
     s32 var_r0;
-    s32 var_r0_10;
     s32 var_r0_11;
-    s32 var_r0_12;
     s32 var_r0_13;
-    s32 var_r0_14;
-    s32 var_r0_2;
     s32 var_r0_3;
-    s32 var_r0_4;
     s32 var_r0_5;
-    s32 var_r0_6;
     s32 var_r0_7;
     s32 var_r0_8;
-    s32 var_r0_9;
     temp_r3 = ((s32)__nw__7TObjectFUl(0x128));
     var_r0 = temp_r3;
     if (var_r0 != 0) {
@@ -781,24 +766,14 @@ void TAdChrSelASlotGC::create_children(s32 arg1) {
     *(s32 *)&this->_pad2C = var_r0;
     switch (arg1) {
     case 0:
-        temp_r3_2 = ((s32)__nw__7TObjectFUl(0x24));
-        var_r0_2 = temp_r3_2;
-        if (var_r0_2 != 0) {
-            var_r0_2 = (s32)__ct__15TAdPlayerLoadGCFv((void *)temp_r3_2, (arg0), (void *)(0));
-        }
-        this->m_30 = var_r0_2;
+        this->m_30 = (u32)new TAdPlayerLoadGC(this, 0);
         temp_r3_3 = ((s32)__nw__7TObjectFUl(0x3B4));
         var_r0_3 = temp_r3_3;
         if (var_r0_3 != 0) {
             var_r0_3 = __ct__19TAdPlyChrSelPlateGCFv(temp_r3_3, arg0, &chr_sel_a_slot_plate_layout.value);
         }
         *(s32 *)&this->unk_34 = var_r0_3;
-        temp_r3_4 = ((s32)__nw__7TObjectFUl(0x48C));
-        var_r0_4 = temp_r3_4;
-        if (var_r0_4 != 0) {
-            var_r0_4 = __ct__15TAdSubPlyItemGCFv(temp_r3_4, arg0);
-        }
-        *(s32 *)&this->unk_3C = var_r0_4;
+        this->player_items = new TAdSubPlyItemGC(this);
         temp_r3_5 = ((s32)__nw__7TObjectFUl(0x208));
         var_r0_5 = temp_r3_5;
         if (var_r0_5 != 0) {
@@ -807,12 +782,7 @@ void TAdChrSelASlotGC::create_children(s32 arg1) {
         *(s32 *)&this->unk_44 = var_r0_5;
         return;
     case 1:
-        temp_r3_6 = ((s32)__nw__7TObjectFUl(0x24));
-        var_r0_6 = temp_r3_6;
-        if (var_r0_6 != 0) {
-            var_r0_6 = (s32)__ct__15TAdPlayerLoadGCFv((void *)temp_r3_6, (arg0), (void *)(1));
-        }
-        this->m_30 = var_r0_6;
+        this->m_30 = (u32)new TAdPlayerLoadGC(this, 1);
         temp_r3_7 = ((s32)__nw__7TObjectFUl(0x3B4));
         var_r0_7 = temp_r3_7;
         if (var_r0_7 != 0) {
@@ -825,18 +795,8 @@ void TAdChrSelASlotGC::create_children(s32 arg1) {
             var_r0_8 = __ct__19TAdPlyChrSelPlateGCFv(temp_r3_8, arg0, &chr_sel_a_slot_plate_layout_b.value);
         }
         this->m_38 = var_r0_8;
-        temp_r3_9 = ((s32)__nw__7TObjectFUl(0x48C));
-        var_r0_9 = temp_r3_9;
-        if (var_r0_9 != 0) {
-            var_r0_9 = __ct__15TAdSubPlyItemGCFv(temp_r3_9, arg0);
-        }
-        *(s32 *)&this->unk_3C = var_r0_9;
-        temp_r3_10 = ((s32)__nw__7TObjectFUl(0x48C));
-        var_r0_10 = temp_r3_10;
-        if (var_r0_10 != 0) {
-            var_r0_10 = __ct__15TAdSubPlyItemGCFv(temp_r3_10, arg0);
-        }
-        this->m_40 = var_r0_10;
+        this->player_items = new TAdSubPlyItemGC(this);
+        this->m_40 = (s32)new TAdSubPlyItemGC(this);
         temp_r3_11 = ((s32)__nw__7TObjectFUl(0x208));
         var_r0_11 = temp_r3_11;
         if (var_r0_11 != 0) {
@@ -845,24 +805,14 @@ void TAdChrSelASlotGC::create_children(s32 arg1) {
         *(s32 *)&this->unk_44 = var_r0_11;
         return;
     case 2:
-        object = ((s32)__nw__7TObjectFUl(0x24));
-        var_r0_12 = object;
-        if (var_r0_12 != 0) {
-            var_r0_12 = (s32)__ct__15TAdPlayerLoadGCFv((void *)object, (arg0), (void *)(1));
-        }
-        this->m_30 = var_r0_12;
+        this->m_30 = (u32)new TAdPlayerLoadGC(this, 1);
         temp_r3_13 = ((s32)__nw__7TObjectFUl(0x3B4));
         var_r0_13 = temp_r3_13;
         if (var_r0_13 != 0) {
             var_r0_13 = __ct__19TAdPlyChrSelPlateGCFv(temp_r3_13, arg0, &chr_sel_a_slot_plate_layout_b.value);
         }
         this->m_38 = var_r0_13;
-        temp_r3_14 = ((s32)__nw__7TObjectFUl(0x48C));
-        var_r0_14 = temp_r3_14;
-        if (var_r0_14 != 0) {
-            var_r0_14 = __ct__15TAdSubPlyItemGCFv(temp_r3_14, arg0);
-        }
-        this->m_40 = var_r0_14;
+        this->m_40 = (s32)new TAdSubPlyItemGC(this);
         return;
     }
 }
@@ -876,7 +826,7 @@ void TAdChrSelASlotGC::init(s32 arg1) {
     this->m_30 = 0;
     *(s32 *)&this->unk_34 = 0;
     this->m_38 = 0;
-    *(s32 *)&this->unk_3C = 0;
+    this->player_items = 0;
     this->m_40 = 0;
     *(s32 *)&this->unk_44 = 0;
     this->m_48 = 0;

@@ -18,7 +18,7 @@
 #include "pso/ui/window/TWindowSubMag.h"
 #include "pso/object/warp/TObjWarpBossMulti.h"
 #include "pso/quest/challenge/TChallenge4PResult.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdRicoRing.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"

@@ -15,7 +15,7 @@ struct TCameraCtrl;
 
 #include "pso/system/task/TObject.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/item/TItemReverseTechCtrl.h"
 #include "pso/enemy/dolmolm/TObjEneDolmOlm.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"

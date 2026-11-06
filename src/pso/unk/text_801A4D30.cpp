@@ -5,7 +5,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/unk/TUnk_804C2298.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/unk/TLobby.h"
 typedef struct Vec_801A4D30 {

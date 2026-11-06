@@ -9,7 +9,7 @@
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/ui/frontend/TAdMultiSaveGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"

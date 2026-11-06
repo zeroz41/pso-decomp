@@ -7,7 +7,7 @@
 #include "pso/system/TMCFormatSequence_801F6554.h"
 #include "pso/ui/window/TWindowMenu.h"
 #include "pso/system/TMCFormatSequence.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 

@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TAdSubPlyItemGC;
+
 struct TAdChrSelBSlotGC : public TObject {
     virtual ~TAdChrSelBSlotGC();
     void sub_8030FE04();
@@ -29,7 +31,7 @@ struct TAdChrSelBSlotGC : public TObject {
     static int get_global_slot_data();
     u8 unk_28[0x4];
     s32 m_2c;
-    u8 unk_30[0x4];
+    TAdSubPlyItemGC *player_items;
     void * m_34;
     u8 unk_38[0x4];
     s32 m_3c;

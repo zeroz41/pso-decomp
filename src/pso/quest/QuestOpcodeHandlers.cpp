@@ -20,7 +20,7 @@ int qst_label_address(int label);
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/system/date.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/item/TItemMenuCtrl.h"
 #include "pso/boss/darkfalz/TBoss4DarkFalz.h"

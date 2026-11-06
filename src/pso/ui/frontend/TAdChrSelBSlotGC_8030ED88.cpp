@@ -6,7 +6,7 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC_8030ED88.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/frontend/TAdChrSelMovePlateGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlyChrSelPlateGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"

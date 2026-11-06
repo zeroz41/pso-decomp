@@ -8,7 +8,7 @@
 #include "pso/ui/window/TUnk_804CF0B8.h"
 #include "pso/ui/window/TWindowFukidasi.h"
 
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/window/TWindowSubStatusDisp.h"

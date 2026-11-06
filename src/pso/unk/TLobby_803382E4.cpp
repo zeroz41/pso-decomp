@@ -7,7 +7,7 @@
 #include "pso/unk/text_803E2D70.h"
 
 #include "pso/unk/TLobby.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/camera/TCameraCtrl.h"

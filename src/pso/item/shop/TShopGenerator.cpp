@@ -10,7 +10,7 @@ struct RecoveredGlobal_8021E110_TShopGenerator__data_80513ED0 {
 };
 
 #include <stddef.h>
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/TMedicalCenterMes.h"
 #include "pso/object/base/TObjMotion.h"
 struct Stack_8021DC30 {

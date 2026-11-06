@@ -4,7 +4,7 @@
 #include "pso/unk/TLobby_800FD78C.h"
 #include "pso/system/debug_print.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdStorySelectGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/effect/particle/TParticleCtrl.h"

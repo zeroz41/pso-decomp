@@ -11,7 +11,7 @@
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
 #include "pso/ui/frontend/TAdMultiSelGameModeGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/TLevelSelect.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 #include "pso/ui/window/TWindowSubComCard.h"

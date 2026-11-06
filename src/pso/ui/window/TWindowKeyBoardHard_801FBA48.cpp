@@ -9,7 +9,7 @@
 #include "pso/system/main_loop.h"
 #include "pso/ui/window/TWindowKeyBoardHard.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/effect/particle/TParticleCtrl.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 

@@ -16,7 +16,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/effect/particle/TParticleCtrl.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/render/TDLGraph.h"

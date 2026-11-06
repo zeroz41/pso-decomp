@@ -10,7 +10,7 @@
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/system/main_loop.h"
 #include "pso/camera/TCameraCtrl.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/city/THunterGuildSeqOffline.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/unk/TLobby.h"

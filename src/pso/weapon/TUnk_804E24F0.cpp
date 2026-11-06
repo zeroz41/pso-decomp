@@ -6,7 +6,7 @@
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/weapon/TItemWeapon.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/effect/item/TItemEffOrgaFlowShot.h"
 

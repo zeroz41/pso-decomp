@@ -6405,7 +6405,7 @@ force_active:
   - format_drop_table_filename
   - format_enemy_text__13TObjTombstoneFv
   - format_label__13TObjTombstoneFv
-  - format_level_text__15TAdSubPlyItemGCFii
+  - format_level_text__15TAdSubPlyItemGCFi
   - format_player_name__13TObjTombstoneFv
   - format_quoted_name__13TObjTombstoneFv
   - format_status_strings__14TAdPlyStatusGCFPv

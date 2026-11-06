@@ -934,7 +934,7 @@ void TLobby::reset_state_byte() {
 
 #pragma push
 
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/charcreate/TObjCMHairMenu.h"
 #include "pso/camera/TCameraCtrl.h"
 

@@ -2,7 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/frontend/TAdTrialAgreementGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdScrollWinGC.h"
 
 struct Base_80335648 { char pad[0x18]; };

@@ -1,7 +1,7 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_800F9EF8.h"
 #include "pso/item/TUnk_8049C658.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/item/drop/TItemDrop.h"
 
 extern "C" {

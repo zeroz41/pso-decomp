@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/save/TCheckMemoryCard.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 extern "C" {

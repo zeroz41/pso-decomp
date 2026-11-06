@@ -2,7 +2,7 @@
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/system/date.h"
 #include "pso/system/memory.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
 struct RecoveredGlobal_801E14E8_TAdPlayerLoadGC__data_80511ED0 {

@@ -2,7 +2,7 @@
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/ui/window/TObjBagWarnWin_8006EF24.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 

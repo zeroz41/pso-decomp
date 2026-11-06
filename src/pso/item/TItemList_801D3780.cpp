@@ -7,7 +7,7 @@
 #include "pso/object/base/TObjMotion.h"
 
 #include "pso/item/TItemList.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/enemy/dd/TObjEneDD.h"
 #include "pso/item/TItem.h"
 #include "pso/unk/TLobby.h"

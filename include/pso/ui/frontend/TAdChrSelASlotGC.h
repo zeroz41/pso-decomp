@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TAdSubPlyItemGC;
+
 struct TAdChrSelASlotGC : public TObject {
     TAdChrSelASlotGC(TObject *arg1, void *arg2);
     virtual ~TAdChrSelASlotGC();
@@ -50,7 +52,7 @@ struct TAdChrSelASlotGC : public TObject {
     void forward_slot_selection(void* a1, void* a2);
     u8 unk_34[0x4];
     s32 m_38;
-    u8 unk_3C[0x4];
+    TAdSubPlyItemGC *player_items;
     s32 m_40;
     u8 unk_44[0x4];
     u32 m_48;

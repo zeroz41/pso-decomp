@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 
 extern s32 card_load_sequence_state;
 

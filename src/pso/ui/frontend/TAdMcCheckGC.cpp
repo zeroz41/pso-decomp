@@ -4,7 +4,7 @@
 #include "pso/system/task/TObject_80019A50.h"
 #include "pso/ui/frontend/TAdMcCheckGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdChrSelASlotGC.h"
 
 struct RecoveredGlobal_8033F1C4___vt__12TAdMcCheckGC {

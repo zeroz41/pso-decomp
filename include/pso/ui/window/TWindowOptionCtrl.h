@@ -4,6 +4,8 @@
 #include "types.h"
 #include "pso/system/task/TObject.h"
 
+class TAdPlayerLoadGC;
+
 struct TWindowOptionCtrl : public TObject {
     virtual ~TWindowOptionCtrl();
     u8 m_1c;
@@ -21,7 +23,7 @@ struct TWindowOptionCtrl : public TObject {
     u32 m_40;
     u32 m_44;
     u32 m_48;
-    u32 m_4c;
+    TAdPlayerLoadGC *player_load; // memory-card watcher made by the ctor
     static void set_params(void *arg0, s16 arg1, s8 arg2);
     void apply_selection_change();
     void init_selection_indices();

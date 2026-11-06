@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_803F339C.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 
 struct S_803F3328 { u8 pad0[4]; s32 state; u8 card[0x80]; };
 typedef struct Slot_803F3478 {

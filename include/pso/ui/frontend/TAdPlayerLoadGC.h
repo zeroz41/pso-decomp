@@ -1,12 +1,17 @@
-#ifndef PSO_TADPLAYERLOADGC_H
-#define PSO_TADPLAYERLOADGC_H
+#ifndef PSO_UI_FRONTEND_TADPLAYERLOADGC_H
+#define PSO_UI_FRONTEND_TADPLAYERLOADGC_H
 #include "pso/system/task/TObject.h"
 #include "types.h"
 
+// Memory-card watcher of the character-select screens: run_task steps through the probe,
+// mount and file checks of slot A and, depending on mode, of slot B.
 class TAdPlayerLoadGC : public TObject {
 public:
-    virtual ~TAdPlayerLoadGC();
+    TAdPlayerLoadGC(TObject *parent, int mode);
+    // render is declared first: it is the class's key function, so the vtable is emitted
+    // with it (ahead of run_task's switch table), as in the original data.
     virtual void render();
+    virtual ~TAdPlayerLoadGC();
     virtual void run_task();
 public:
     static s32 get_instance();
@@ -41,6 +46,19 @@ public:
     static s32 take_network_info_poll_result(s32 arg0, s32 *arg1);
 public:
     static s32 request_card_open(s32 arg0, const char *arg1);
+
+    u32 state;
+    int mode; // 0, 1 or 2, given by the creator; from state 12 on, mode 1 also watches slot B
 };
+typedef char TAdPlayerLoadGCExtent[sizeof(TAdPlayerLoadGC) == 0x24 ? 1 : -1];
+
+int get_player_load_state(void);
+void set_character_select_b_slot_state(int a0);
+
+// --- C functions defined in TAdPlayerLoadGC.cpp ---
+extern "C" {
+void *__dt__13TUnk_804E24F0Fv(void *arg0, s16 arg1);
+}
+// --- end of C functions
 
 #endif

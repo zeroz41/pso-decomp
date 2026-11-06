@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/system/save/TSaveChCr.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/frontend/TAdPlayerLoadGC_801E0C30.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
 #include "pso/system/task/TObject_80019A50.h"

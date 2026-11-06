@@ -1,5 +1,5 @@
 #include "types.h"
-#include "pso/ui/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowOptionCtrl_8026C52C.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
 
@@ -12,7 +12,6 @@ extern s32 __vt__17TWindowOptionCtrl[];
 extern void *lbl_805D39A8;
 
 void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
-    void *o;
     __ct__7TObjectFP7TObject(window_option_ctrl);
     *(s32 **)((s8 *)window_option_ctrl + 0x18) = __vt__17TWindowOptionCtrl;
     *(void * *)&window_option_ctrl->m_name = lbl_805D39A8;
@@ -25,11 +24,7 @@ void *TWindowOptionCtrl__ct(TWindowOptionCtrl *window_option_ctrl) {
     window_option_ctrl->m_40 = 0;
     window_option_ctrl->m_44 = 0;
     window_option_ctrl->m_48 = 0;
-    o = __nw__7TObjectFUl(0x24);
-    if (o != NULL) {
-        o = __ct__15TAdPlayerLoadGCFv(o, window_option_ctrl, (void *)(2));
-    }
-    *(void **)((s8 *)window_option_ctrl + 0x4C) = o;
+    window_option_ctrl->player_load = new TAdPlayerLoadGC(window_option_ctrl, 2);
     window_option_ctrl->init_selection_indices();
     window_option_ctrl->m_24 = 4;
     window_option_ctrl->m_1d = 0;

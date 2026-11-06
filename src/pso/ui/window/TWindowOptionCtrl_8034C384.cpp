@@ -5,7 +5,7 @@
 #include "pso/unk/TUnk_804F01A8.h"
 #include "pso/ui/window/TWindowMessageYesNo.h"
 #include "pso/ui/window/TWindowOptionCtrl.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/boss/derolle/TObjBoss2Tunnel.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"

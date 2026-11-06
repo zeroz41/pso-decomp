@@ -22,7 +22,7 @@ typedef char RecoveredGlobal_8036E8DC_lbl_804C89BC_size[sizeof(RecoveredGlobal_8
 
 
 #include <stddef.h>
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/unk/TLobby.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 struct Stack_8036EA24 {

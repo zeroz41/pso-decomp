@@ -1,6 +1,6 @@
 #include "types.h"
 #include "pso/ui/window/TWindowSubComCard.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/save/TCheckMemoryCard.h"
 #include "pso/quest/TQuestVmDownLoadServer.h"
 

@@ -5,7 +5,7 @@
 #include "pso/ui/frontend/TAdChrSelBSlotGC_8030E354.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/chat/TWindowSubSymbolChatPartsSet.h"

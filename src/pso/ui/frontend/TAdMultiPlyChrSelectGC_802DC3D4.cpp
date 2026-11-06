@@ -5,7 +5,7 @@
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC_802DC3D4.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC_801FBF54.h"
 #include "pso/ui/frontend/TAdMultiPlyChrSelectGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/ui/window/TWindowSubComCard.h"
 #include "pso/ui/frontend/TAdChrMoveEffectGC.h"
 

@@ -5,7 +5,7 @@
 #include "pso/system/memory.h"
 #include "pso/ui/window/TWindowMessage.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/camera/TCameraCtrl.h"
 #include "pso/unk/TLobby.h"

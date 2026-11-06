@@ -3,7 +3,7 @@
 #include <string.h>
 #include "types.h"
 #include "pso/quest/TQuestListVM.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/task/TObject.h"
 #include "pso/ui/city/TShopWindowBase.h"
 #include "pso/camera/TCameraCtrl.h"

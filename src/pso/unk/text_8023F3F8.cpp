@@ -3,7 +3,7 @@
 #include "pso/system/task/TObject.h"
 #include "pso/system/task/TMainTask.h"
 #include "pso/ui/frontend/TAdMultiChgGameModeGC.h"
-#include "pso/TAdPlayerLoadGC.h"
+#include "pso/ui/frontend/TAdPlayerLoadGC.h"
 #include "pso/system/main_loop.h"
 #include "pso/ui/keyboard/TKeyBoardControl.h"
 #include "pso/ui/keyboard/TKeyBoardControl_8000F764.h"
