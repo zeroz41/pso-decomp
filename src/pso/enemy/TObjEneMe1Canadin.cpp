@@ -1434,7 +1434,6 @@ u16 get_entity_id(void *);
 f32 newton_sqrtf(f32);
 bool is_vec_xz_cross_negative(u8 *arg0, u8 *arg1);
 void *create_timed_particle_emitter(void *owner, s32 id, s32 b, s32 c);
-void * __dt__26TObjEneDf2Bringer_Eff_RushFv(void *arg0, s16 arg1);
 void TObjEneMe1Canadin__sub_8009BFF8(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C178(u8 *arg0, s32 arg1);
 void TObjEneMe1Canadin__sub_8009C2EC(u8 *arg0, s32 arg1);
@@ -1501,8 +1500,6 @@ s32 rotate_vector_by_matrix(int, int, int);
 extern RecoveredGlobal_8009E4AC_lbl_8043A2A0 canadin_formation_fade_start_color;
 extern const CanadinBehaviorParams canadin_behavior_params;
 extern u8 canadin_projectile_param_block[];
-extern s32 bringer_rush_effect_vtable[];
-extern s32 bringer_rush_effect_name;
 extern void *TObjEneMe1Canadin__class_name;
 extern BmlResource *lbl_805D4FD0;
 extern TUnk_8048FA00 *lbl_805D4FDC;
@@ -1596,7 +1593,6 @@ s32 lbl_80500948[3];
 s32 lbl_80500954[3];
 Vec lbl_80500960;
 
-void *__dt__26TObjEneDf2Bringer_Eff_RushFv(void *arg0, s16 arg1);
 
 
 #define self ((Obj_8009AD18 *)arg0)
@@ -1729,9 +1725,6 @@ extern int fold_flush_2;
 
 
 }
-void bringer_effect_cleanup_noop(void);
-u8 * construct_bringer_rush_effect(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, f32 farg0);
-u8 *construct_bringer_rush_effect(u8 *arg0, s32 arg1, u8 *arg2, s32 arg3, f32 farg0);
 
 extern "C" {
 extern const char lbl_8043A3D0[];

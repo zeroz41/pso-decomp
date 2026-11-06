@@ -1437,11 +1437,14 @@ pso/enemy/TObjEneDf2Bringer.cpp:
 	.data       start:0x8048FA10 end:0x8048FE08
 
 pso/player/TObjPlayer_80099EF8.cpp:
-	.text       start:0x80099EF8 end:0x80099F0C
+	.text       start:0x80099EF8 end:0x80099F00
 
 pso/enemy/BringerEffects.cpp:
-	.text       start:0x80099F0C end:0x8009AB4C
-	.rodata     start:0x8043A178 end:0x8043A180
+	.text       start:0x80099F00 end:0x8009AB4C
+	.rodata     start:0x8043A128 end:0x8043A180
+	.data       start:0x8048FE08 end:0x8048FEB0
+	.bss        start:0x805008B8 end:0x80500930
+	.sdata      start:0x805D29A8 end:0x805D29B0
 	.sdata2     start:0x805D9850 end:0x805D9888
 
 pso/enemy/TObjEneMe1Canadin.cpp:
@@ -1577,7 +1580,7 @@ pso/enemy/TObjEneBm3Fly.cpp:
 pso/enemy/TObjEneBm3FlyNest.cpp:
 	.text       start:0x800B23A0 end:0x800B4820
 	.rodata     start:0x8043B378 end:0x8043B3A8
-	.data       start:0x80491DA0 end:0x804920B4
+	.data       start:0x80491DA0 end:0x804920D0
 	.bss        start:0x80500B00 end:0x80500B40
 	.sbss       start:0x805D50F8 end:0x805D511C
 	.sdata2     start:0x805D9CF8 end:0x805D9D70

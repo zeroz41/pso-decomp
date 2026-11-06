@@ -3,21 +3,10 @@
 
 #include "types.h"
 
-extern "C" {
-void *__dt__13TUnk_8048FE08Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048FE64Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048FE7CFv(void *arg0, s16 arg1);
-void *__dt__26TObjEneDf2Bringer_Eff_RushFv(void *arg0, s16 arg1);
-u8 *fn_8009A398(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3);
-}
-
-// --- C functions defined in BringerEffects.cpp ---
-extern "C" {
-void *__dt__13TUnk_8048FE08Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048FE64Fv(void *arg0, s16 arg1);
-void *__dt__13TUnk_8048FE7CFv(void *arg0, s16 arg1);
-u8 *fn_8009A398(u8 *arg0, s32 arg1, u8 *arg2, u8 *arg3);
-}
-// --- end of C functions
+// The ring vertex directions and colors TUnk_8048FE7C reads; TObjEneDf2Bringer fills them at load.
+void init_bringer_effect_tables(void);
+void bringer_effect_cleanup_noop(void);
+// Builds a TObjEneDf2Bringer_Eff_Rush in TObject::operator new(0x34)'s memory (see BringerEffects.cpp).
+u8 *construct_bringer_rush_effect(u8 *rush, s32 parent, u8 *source, s32 recipient, f32 speed);
 
 #endif

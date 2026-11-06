@@ -1,3 +1,4 @@
+#define TOBJECT_OUT_OF_LINE_HELPERS
 #include "pso/enemy/TObjEnemy.h"
 #include "pso/enemy/TObjEneRe7Berura_803E4CE0.h"
 #include "pso/player/TObjPlayer_803E4954.h"
@@ -728,9 +729,7 @@ struct Res_800B41E8 { u8 pad[0x42C]; u8 *bodies; s32 motions; };
 
 struct Bodies_800B41E8 { u8 pad0[0xC]; NJS_TEXLIST *textures; u8 pad1[0x18 - 0x10]; s32 model; };
 
-struct Vec_800B4688 { f32 x, y, z; };
 
-struct Vec_800B4388 { f32 x, y, z; };
 
 s32 is_split_screen();
 f32 atan2_float(f32 y, f32 x);
@@ -770,7 +769,6 @@ void run_task__17TObjEneBm3FlyNestFv(u8 *arg0);
 Obj_800B3E40 * TObjEneBm3FlyNest__sub_800B3E40(Obj_800B3E40 *self, s16 flag);
 void * TObjEneBm3FlyNest__ct(void *, void *, void *);
 int TObjEneBm3FlyNest__sub_800B4158(void);
-void * __dt__26TObjEneBm3FlyNest_CarryFlyFv(void *arg0, s16 arg1);
 u8 * __ct__26TObjEneBm3FlyNest_CarryFlyFP7TObjectlllll(u8 *self, void *parent, s32 a, s32 b, s32 unused, s32 c, s32 d);
 s32 is_main_phase_15__9TObjEneDDFv();
 void get_camera_ctrl__9TObjEneDDFv(s32, s32);
@@ -969,7 +967,6 @@ extern char lbl_8043B348[];
 extern char lbl_8043B358[];
 extern char lbl_8043B368[];
 extern const f64 lbl_8043B398[];
-extern s32 __vt__26TObjEneBm3FlyNest_CarryFly[];
 typedef struct Ctl_800B47C4 {
     f32 *pv;
     s32 *pc;
@@ -983,7 +980,7 @@ __declspec(section ".data") s32 lbl_80500B24[2];
 Ctl_800B47C4 lbl_80500B2C;
 #define TObjEneBm3FlyNest__attachment_sample_origin (*(RecoveredGlobal_800B2948_lbl_80500B00 *)TObjEneBm3FlyNest__attachment_sample_origin)
 extern s32 debug_chunk_object;
-extern s32 TObjEneBm3FlyNest_CarryFly__name;
+extern const char *TObjEneBm3FlyNest_CarryFly__name;
 s32 lbl_805D50F8;
 s32 lbl_805D50FC;
 s32 lbl_805D5100;
@@ -1979,127 +1976,116 @@ void TObjEneBm3FlyNest::load_resources() {
     }
 }
 
-void TObjEneBm3FlyNest::render_parts() {
-    u8 *arg0 = (u8 *)this;
+void TObjEneBm3FlyNest_CarryFly::render() {
     ((s32 (*)(s32, void *))set_global_param__8TObjFishFl)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 0xC), (*(u8 * *)&lbl_805D5108));
     push_matrix();
-    if (*(s32 *)&this->set_index == 0) {
-        post_translate_matrix(*(void * *)&this->actorFlags);
+    if (state == 0) {
+        post_translate_matrix(origin);
     } else {
-        post_translate_matrix(this->model);
+        post_translate_matrix(target);
     }
-    post_translate_matrix((u8 *)&this->entity_id);
-    ((s32 (*)(s32, s32))rotate_matrix_y)(0, *(s32 *)((s8 *)arg0 + 0x40));
+    post_translate_matrix(&offset);
+    rotate_matrix_y(0, angle);
     set_motion_packed_rotation();
-    draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), (void *)(*(s32 *)&this->prev_position.y), this->prev_position.z);
+    draw_model_motion((void *)(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x42C)) + 8)), motion, frame);
     clear_motion_packed_rotation();
     pop_matrix();
 }
 
 #pragma push
 #pragma fp_contract on
-#pragma fp_contract on
-void update_monest_carrier(u8 *self) {
+void TObjEneBm3FlyNest_CarryFly::run_task() {
     f32 lim;
     f32 v;
     f32 spd;
 
-    lim = (f32) (*(u32 *)((s8 *)(((TObjEneBm3FlyNest_CarryFly *)self)->m_48) + 4) - 1);
-    *(f32 *)((s8 *)self + 0x4C) += 0.8f;
-    if (*(f32 *)((s8 *)self + 0x4C) > lim) {
-        *(f32 *)((s8 *)self + 0x4C) -= lim;
+    lim = (f32) (*(u32 *)(motion + 4) - 1);
+    frame += 0.8f;
+    if (frame > lim) {
+        frame -= lim;
     }
-    switch (*(s32 *)((s8 *)self + 0x2C)) {
+    switch (state) {
     case 0:
-        if (*((TObjEneBm3FlyNest_CarryFly *)self)->m_38 == ((TObjEneBm3FlyNest_CarryFly *)self)->m_28) {
-            Vec_800B4388 tmp;
-            *(s32 *)((s8 *)self + 0x2C) = 1;
-            VecCopy((Vec *)&tmp, (const Vec *)(self + 0x1C));
-            ((s32 (*)(void *, s32))vec3_add_to)(&tmp, ((TObjEneBm3FlyNest_CarryFly *)self)->m_30);
-            VecCopy((Vec *)(self + 0x50), (const Vec *)&tmp);
-            ((s32 (*)(void *, s32))subtract_vector)(self + 0x50, *(s32 *)((s8 *)self + 0x34));
-            *(f32 *)((s8 *)self + 0x54) -= 5.0f;
-            VecCopy((Vec *)(self + 0x1C), (const Vec *)(self + 0x50));
-            *(f32 *)((s8 *)self + 0x5C) = normalize_vector_xz((Vec *)(self + 0x50));
-            if (*(f32 *)((s8 *)self + 0x5C) <= 0.01f) {
-                ((s32 (*)(void *))queue_destruction__7TObjectFv)(self);
+        if (*arrived == index) {
+            Vec tmp;
+            state = 1;
+            VecCopy(&tmp, &offset);
+            vec3_add_to(&tmp, origin);
+            VecCopy(&velocity, &tmp);
+            subtract_vector(&velocity, target);
+            velocity.y -= 5.0f;
+            VecCopy(&offset, &velocity);
+            distance = normalize_vector_xz(&velocity);
+            if (distance <= 0.01f) {
+                queue_destruction();
                 break;
             }
-            ((TObjEneBm3FlyNest_CarryFly *)self)->m_60 = (-120.0f) / (*(f32 *)((s8 *)self + 0x5C) * *(f32 *)((s8 *)self + 0x5C));
-            *(f32 *)((s8 *)self + 0x64) = 30.0f;
+            arc = (-120.0f) / (distance * distance);
+            height = 30.0f;
         }
-        play_persistent_sound((s32)(((s32 (*)(s32, s32))copy_target_state__17TObjEneBm3FlyNestFPv)(*(s32 *)((s8 *)self + 0x10), 0x4003A828)), (s32)self, (u32)(((TObjEneBm3FlyNest_CarryFly *)self)->m_30), 0, 0);
+        play_persistent_sound(copy_target_state__17TObjEneBm3FlyNestFPv(m_up, 0x4003A828), (s32)this, (u32)origin, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 1:
-        ((TObjEneBm3FlyNest_CarryFly *)self)->m_20 += 1.0f;
-        if (((TObjEneBm3FlyNest_CarryFly *)self)->m_20 > 0.0f) {
-            *(s32 *)((s8 *)self + 0x2C) = 2;
-            *(f32 *)((s8 *)self + 0x54) = 0.5f * *(f32 *)((s8 *)self + 0x5C);
+        offset.y += 1.0f;
+        if (offset.y > 0.0f) {
+            state = 2;
+            velocity.y = 0.5f * distance;
         }
-        play_persistent_sound((s32)(((s32 (*)(s32, s32))copy_target_state__17TObjEneBm3FlyNestFPv)(*(s32 *)((s8 *)self + 0x10), 0x4003A828)), (s32)self, (u32)(((TObjEneBm3FlyNest_CarryFly *)self)->m_30), 0, 0);
+        play_persistent_sound(copy_target_state__17TObjEneBm3FlyNestFPv(m_up, 0x4003A828), (s32)this, (u32)origin, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     case 2:
-        spd = *(f32 *)((s8 *)self + 0x5C);
-        v = *(f32 *)((s8 *)self + 0x54);
+        spd = distance;
+        v = velocity.y;
         v = v - 0.05f * spd;
         if (v < 0.5f * -spd) {
-            spawn_particle_effect((void *)(*(s32 *)((s8 *)self + 0x34)), 0xC8);
-            ((s32 (*)(s32, s32, s32, s32))play_sound_effect)(((s32 (*)(s32, s32))copy_target_state__17TObjEneBm3FlyNestFPv)(*(s32 *)((s8 *)self + 0x10), 0x4003AB27), *(s32 *)((s8 *)self + 0x34), 0, 0);
+            spawn_particle_effect(target, 0xC8);
+            ((s32 (*)(s32, void *, s32, s32))play_sound_effect)(copy_target_state__17TObjEneBm3FlyNestFPv(m_up, 0x4003AB27), target, 0, 0);
             TObjPlayer::play_effect_if_v2(-0x400);
-            ((s32 (*)(void *))queue_destruction__7TObjectFv)(self);
+            queue_destruction();
             break;
         }
-        ((TObjEneBm3FlyNest_CarryFly *)self)->m_20 = ((TObjEneBm3FlyNest_CarryFly *)self)->m_60 * (v * v) + *(f32 *)((s8 *)self + 0x64);
-        *(f32 *)((s8 *)self + 0x54) = v;
-        v += 0.5f * *(f32 *)((s8 *)self + 0x5C);
-        *(f32 *)((s8 *)self + 0x1C) = ((TObjEneBm3FlyNest_CarryFly *)self)->m_50 * v;
-        *(f32 *)((s8 *)self + 0x24) = ((TObjEneBm3FlyNest_CarryFly *)self)->m_58 * v;
-        play_persistent_sound((s32)(((s32 (*)(s32, s32))copy_target_state__17TObjEneBm3FlyNestFPv)(*(s32 *)((s8 *)self + 0x10), 0x4003A828)), (s32)self, (u32)(*(s32 *)((s8 *)self + 0x34)), 0, 0);
+        offset.y = arc * (v * v) + height;
+        velocity.y = v;
+        v += 0.5f * distance;
+        offset.x = velocity.x * v;
+        offset.z = velocity.z * v;
+        play_persistent_sound(copy_target_state__17TObjEneBm3FlyNestFPv(m_up, 0x4003A828), (s32)this, (u32)target, 0, 0);
         TObjPlayer::play_effect_if_v2(-0x400);
         break;
     }
 }
 #pragma pop
 
-void *__dt__26TObjEneBm3FlyNest_CarryFlyFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__26TObjEneBm3FlyNest_CarryFly;
-        __dt__7TObjectFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
+TObjEneBm3FlyNest_CarryFly::~TObjEneBm3FlyNest_CarryFly() {}
 
 }
 TObjEneBm3FlyNest_CarryFly::TObjEneBm3FlyNest_CarryFly(TObject *parent, s32 a, s32 b, s32 unused, s32 c, s32 d) : TObject(parent) {
-    Vec_800B4688 v;
-    *(s32 *)((s8 *)this + 0) = TObjEneBm3FlyNest_CarryFly__name;
-    this->m_30 = a;
-    *(s32 *)((s8 *)this + 0x34) = b;
-    *(s32 *)((s8 *)this + 0x38) = c;
-    this->m_28 = d;
-    VecCopy((Vec *)&v, (const Vec *)(*(void **)((s8 *)this + 0x30)));
-    subtract_vector(&v, *(void **)((s8 *)this + 0x34));
+    Vec v;
+    m_name = TObjEneBm3FlyNest_CarryFly__name;
+    origin = (Vec *)a;
+    target = (Vec *)b;
+    arrived = (s32 *)c;
+    index = d;
+    VecCopy(&v, origin);
+    subtract_vector(&v, target);
     ((TObjBoss2Tunnel *)(&v))->update_scale();
-    this->m_40 = (s32) (lbl_8043B398[0] * atan2_float(v.x, v.z));
-    *(f32 *)((s8 *)this + 0x1C) = 6.0f * v.x;
-    this->m_20 = 6.0f;
-    *(f32 *)((s8 *)this + 0x24) = 6.0f * v.z;
-    *(s32 *)((s8 *)this + 0x48) = *(s32 *)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x430)) + 0x54);
-    *(f32 *)((s8 *)this + 0x4C) = (f32) (this->m_28 * 2);
-    *(f32 *)((s8 *)this + 0x3C) = 1.0f;
-    *(s32 *)((s8 *)this + 0x44) = 0;
-    this->m_50 = 0.0f;
-    *(f32 *)((s8 *)this + 0x54) = 0.0f;
-    this->m_58 = 0.0f;
-    *(f32 *)((s8 *)this + 0x5C) = 0.0f;
-    *(f32 *)((s8 *)this + 0x64) = 0.0f;
-    this->m_60 = 0.0f;
-    *(s32 *)((s8 *)this + 0x2C) = 0;
+    angle = (s32) (lbl_8043B398[0] * atan2_float(v.x, v.z));
+    offset.x = 6.0f * v.x;
+    offset.y = 6.0f;
+    offset.z = 6.0f * v.z;
+    motion = *(u8 **)((s8 *)(*(u8 **)((s8 *)(*(u8 * *)&lbl_805D5108) + 0x430)) + 0x54);
+    frame = (f32) (index * 2);
+    unk_3C = 1.0f;
+    unk_44 = 0;
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
+    velocity.z = 0.0f;
+    distance = 0.0f;
+    height = 0.0f;
+    arc = 0.0f;
+    state = 0;
 }
 
 void TObjEneBm3FlyNest::init_vertex_table() {

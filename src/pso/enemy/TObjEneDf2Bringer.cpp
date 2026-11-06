@@ -736,7 +736,8 @@ struct Vec_80097820 { f32 x, y, z; };
 #include "pso/misc/TLobby.h"
 #include "pso/item/TItem.h"
 
-u8 *construct_bringer_rush_effect(u8 *, s32, u8 *, s32, f32);
+#include "pso/enemy/BringerEffects.h"
+#include "pso/enemy/TUnk_8048FE64.h"
 #include "pso/misc/TNowLoading.h"
 #include "pso/object/TObjFish.h"
 #pragma defer_codegen on
@@ -1192,7 +1193,6 @@ extern const f32 lbl_805D9838;
 extern const f32 lbl_805D983C;
 void check_can_act__10TObjPlayerFii(void *, s16);
 s16 get_actor_tp(u8 *p);
-u8 *fn_8009A398(void *, void *, void *, void *);
 #define __nw__7TObjectFUl ((void * (*)(int))__nw__7TObjectFUl)
 extern const f32 lbl_805D9828;
 struct Base_80098E4C_80098DB0 { char pad[0x18]; };
@@ -1554,7 +1554,6 @@ void *__ct__17TObjEneDf2BringerFP7TObjectPv(void *arg0, void *arg1, void *arg2);
 void TLobby__sub_8001FE7C(void*, int);
 }
 #define transition_enemy_state__9TObjEneDDFl ((int (*)(void*, void*))transition_enemy_state__9TObjEneDDFl)
-void bringer_effect_cleanup_noop(void);
 extern "C" {
 void __construct_array(void *, void *, void *, int, int);
 }
@@ -1638,7 +1637,6 @@ s32 register_object__6TLobbyFl(int);
 s32 dispatch_shared_handler_b__6TLobbyFl(int);
 s32 register_boss__6TLobbyFl(int);
 }
-void init_bringer_effect_tables(void);
 extern "C" {
 u32 load_enemy_bml_resource_named(void *, void *);
 s32 load_enemy_bml_resource(u8 *arg0);
@@ -1858,11 +1856,7 @@ void TObjEneDf2Bringer::init_enemy() {
         p = __ct__17AreaAttackHistoryFl((u8 *)p, 8);
     }
     *(void **)((s8 *)arg0 + 0x49C) = p;
-    p = __nw__7TObjectFUl(0xD4);
-    if (p != NULL) {
-        p = ((TUnk_8048FE08 *)p)->init((int)arg0, (int)arg0, *(s32 *)((s8 *)arg0 + 0x49C));
-    }
-    *(void **)((s8 *)arg0 + 0x4A0) = p;
+    *(void **)((s8 *)arg0 + 0x4A0) = new TUnk_8048FE08((TObject *)arg0, (TObjBase *)arg0, *(AreaAttackHistory **)((s8 *)arg0 + 0x49C));
     *(s32 *)((s8 *)arg0 + 0x4A4) = create__13TUnk_80494968FUlUl(0xFF5050FF, 0x80000080);
     *(s32 *)((s8 *)arg0 + 0x4A8) = 0;
     *(s32 *)((s8 *)arg0 + 0x4AC) = 0;
@@ -2106,7 +2100,6 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
     s32 total;
     s32 i;
     s32 dmg;
-    void *o;
     count = TLobby::get_game_mode();
     total = 0;
     for (i = 0; i < count; i++) {
@@ -2117,10 +2110,7 @@ s32 attack_visible_players__17TObjEneDf2BringerFPv(Obj_80098EFC *self) {
                 dmg = floor_to_float(lbl_805D9828 * (f32)get_actor_tp((u8 *)player));
                 check_can_act__10TObjPlayerFii(player, dmg);
                 total += dmg;
-                o = __nw__7TObjectFUl(0x54);
-                if (o != 0) {
-                    fn_8009A398(o, self, player->field2FC, self->field474);
-                }
+                new TUnk_8048FE64((TObject *)self, (const Vec *)player->field2FC, (const Vec *)self->field474);
             }
         }
     }
@@ -2701,9 +2691,8 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
             } else {
                 if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D97E8) != 0) {
                     Vec_80097820 v = *(Vec_80097820 *)((s8 *)arg0 + 0x38);
-                    void *o;
                     v.y += lbl_805D97E8;
-                    o = new TUnk_8048FE7C((TObject *)arg0, (u8 *)&v, lbl_805D97EC);
+                    new TUnk_8048FE7C((TObject *)arg0, (const Vec *)&v, lbl_805D97EC);
                 }
                 if (((TObjMotion *)arg0)->is_passing_frame((f32)lbl_805D97F0) != 0) {
                     F_8009(0x4B4, s32) = attack_visible_players__17TObjEneDf2BringerFPv(arg0);
@@ -2769,7 +2758,7 @@ void TObjEneDf2Bringer__sub_80097820(u8 *arg0, s32 arg1) {
                 } else if (F_8009(0x4B4, s32) > 70) {
                     spd *= lbl_805D9804;
                 }
-                ((TObjEneDf2Bringer *)(F_8009(0x4A0, void *)))->setup_dir_shot(arg0 + 0x468, F_8009(0x4B8, s32), spd);
+                F_8009(0x4A0, TUnk_8048FE08 *)->setup_dir_shot((const Vec *)(arg0 + 0x468), F_8009(0x4B8, s32), spd);
             }
             if ((e = F_8009(0x4C4, void *)) == 0) {
                 F_8009(0x4C4, u32) = create_particle_emitter(arg0 + 0x38, 0xED);

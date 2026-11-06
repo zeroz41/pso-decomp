@@ -47,8 +47,6 @@ struct TObjEneDf2Bringer : public TObjEneDD_ST {
     void *create();
     static void load_resources();
     u8 unk_490[0x38];
-    void setup_dir_shot(const void *arg1, s32 arg2, f32 farg0);
-    void update_projectile_motion();
 };
 
 typedef char TObjEneDf2Bringer_size[sizeof(TObjEneDf2Bringer) == 0x4C8 ? 1 : -1];

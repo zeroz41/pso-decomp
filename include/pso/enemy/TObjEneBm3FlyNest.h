@@ -48,7 +48,6 @@ struct TObjEneBm3FlyNest : public TObjEneDD {
     static void free_fly();
     static void *create(void *arg0);
     static void load_resources();
-    void render_parts();
     static void init_vertex_table();
     u8 unk_4BC[0x20];
 };
@@ -75,7 +74,6 @@ void run_task__17TObjEneBm3FlyNestFv(u8 *arg0);
 void state_dying__17TObjEneBm3FlyNestFPvi(u8 *actor, s32 arg1);
 void state_spawn__17TObjEneBm3FlyNestFPvi(void *arg0, s32 arg1);
 void state_wait__17TObjEneBm3FlyNestFPvi(void *arg0, s32 arg1);
-void update_monest_carrier(u8 *self);
 void update_state__17TObjEneBm3FlyNestFPvi(void *arg0, s32 arg1);
 }
 

@@ -612,6 +612,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/enemy/TObjEneNanoDrago.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
     "pso/enemy/TObjEneDellBiter.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/enemy/TObjEneDellBiterEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
+    # The Bringer twin: its four vtables come out in ascending key-function order.
+    "pso/enemy/BringerEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The Vol Opt fade tasks: deferred like the units above, but nothing is
     # inlined (the inline TUnk_804999E8 destructor and TObject::queue_destruction
     # stay calls).
