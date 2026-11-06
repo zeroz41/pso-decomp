@@ -5,6 +5,7 @@
 #include "pso/object/TObjMotion.h"
 
 struct TObjSinBoard : public TObjBase {
+    TObjSinBoard(TObject *parent, void *set_data);
     virtual ~TObjSinBoard();
     virtual void render();
     virtual void run_task();
@@ -13,9 +14,7 @@ struct TObjSinBoard : public TObjBase {
 typedef char TObjSinBoard_size[sizeof(TObjSinBoard) == 0x90 ? 1 : -1];
 
 extern "C" {
-void *TObjSinBoard__create(void *arg0);
-u8 *TObjSinBoard__ct(u8 *arg0, s32 parent, s32 arg2);
-void *__dt__12TObjSinBoardFv(void *arg0, s16 arg1);
+void *TObjSinBoard__create(void *set_data);
 }
 
 #endif

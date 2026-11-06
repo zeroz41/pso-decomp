@@ -1575,7 +1575,7 @@ force_active:
   - TObjResultWin_name
   - TObjRoomId__ct
   - TObjSinBoard__class_name
-  - TObjSinBoard__ct
+  - __ct__12TObjSinBoardFP7TObjectPv
   - TObjSinBoard__texture_name
   - TObjSinBoard__texture_surface
   - TObjSoloPlayWin_class_name

@@ -1856,6 +1856,7 @@ pso/npc/TObjNpcSoutokufu.cpp
 pso/object/CityDoors.cpp
 pso/object/CitySeason.cpp
 pso/object/CityVerticalModel.cpp
+pso/object/LobbyGoGoBall.cpp
 pso/object/LobbyPigeonPath.cpp
 pso/object/LobbyPigeonTheme.cpp
 pso/object/ObjectFactoryTables.cpp
