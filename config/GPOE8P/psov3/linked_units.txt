@@ -161,6 +161,7 @@ musyx/runtime/stream.c
 musyx/runtime/synth.c
 musyx/runtime/synth_ac.c
 musyx/runtime/synth_adsr.c
+musyx/runtime/synth_dbtab.c
 musyx/runtime/synth_vsamples.c
 musyx/runtime/synthdata.c
 musyx/runtime/synthmacros.c
