@@ -17,7 +17,7 @@
 #include "pso/object/TUnk_804E0898.h"
 struct Vec_802C0CAC { f32 x, y, z; };
 
-struct Entry_802C0CAC { s32 a; union { s32 b; f32 pa; }; union { s32 c; f32 pb; }; f32 d; s32 e; };
+struct Entry_802C0CAC { s32 a; union { f32 pa; s32 b; }; union { f32 pb; s32 c; }; f32 d; s32 e; };
 
 struct Obj_802C0CAC {
     u8 pad0[0xA8];
@@ -48,6 +48,53 @@ struct Obj_802C0A74 {
     s32 fC8;
 };
 
+struct Entry_802C1660 { s32 a; f32 b; f32 c; f32 d; s32 e; };
+struct Entry_802C1E34 { s32 a; f32 b; f32 c; f32 d; s32 e; };
+struct Entry_802C2548 { s32 a; f32 b; f32 c; f32 d; s32 e; s32 f; };
+struct Q_802C2958 { s32 a; s32 b; s32 c; s32 d; };
+struct Entry_802C2C48 { s32 a; f32 b; f32 c; f32 d; s32 e; };
+struct Vec_802C0F3C { f32 x, y, z; };
+typedef Entry_802C0CAC Ent_802C0F3C;
+typedef struct { f32 x, y, z; } Vec_802C17FC;
+
+// TObjPathObj's class name.
+const char *lbl_805D3EC0 = "TObjPathObj";
+
+// Path profiles: {motion, pathSpeed, animationSpeed, lookAhead, turnStep}
+// (PigeonMovement's fields); turnStep 182 is one degree in 0x10000 units.
+extern const Entry_802C2C48 seabed_dolphin_path_profiles[5] = {
+    {0, 0.2f, 0.6f, 0.1f, 182},
+    {1, 0.2f, 0.6f, 0.1f, 182},
+    {2, 0.2f, 0.6f, 0.1f, 182},
+    {3, 0.2f, 0.6f, 0.1f, 182},
+    {4, 0.2f, 0.6f, 0.1f, 182},
+};
+extern u8 lbl_804E0888[];
+extern const Q_802C2958 seabed_dolphin_anim_binding[1] = {{0, (s32)lbl_804E0888, 0, 0x10000}};
+extern const Entry_802C2548 jungle_ebi_path_profiles[3] = {
+    {1, 0.01f, 0.6f, 0.1f, 182, 5},
+    {2, 0.01f, 0.6f, 0.1f, 182, 5},
+    {3, 0.01f, 0.6f, 0.1f, 364, 5},
+};
+extern const Entry_802C1E34 lobby_pigeon_path_parameters[3] = {
+    {1, 0.1f, 0.6f, 0.1f, 364},
+    {2, 0.1f, 0.6f, 0.1f, 364},
+    {3, 0.1f, 0.6f, 0.1f, 546},
+};
+extern const Entry_802C1660 jungle_seagull_path_profiles[3] = {
+    {1, 0.1f, 0.6f, 0.1f, 364},
+    {2, 0.1f, 0.6f, 0.1f, 364},
+    {3, 0.1f, 0.6f, 0.1f, 546},
+};
+extern const Vec_802C17FC lbl_80471908 = {0.0f, 0.0f, 0.0f};
+extern const Ent_802C0F3C lobby_pigeon_path_profiles[3] = {
+    {1, 0.1f, 2.0f, 0.1f, 364},
+    {2, 0.1f, 2.0f, 0.1f, 364},
+    {3, 0.1f, 2.0f, 0.1f, 546},
+};
+extern const Vec_802C0F3C lobby_pigeon_zero_vec = {0.0f, 0.0f, 0.0f};
+extern const f64 lbl_80471960[1] = {10430.38043493439};
+
 extern "C" {
 f64 atan2_float(f32, f32);
 }
@@ -55,8 +102,6 @@ void direction_to_rotation_xz(u8 *arg0, s32 *arg1, s32 *arg2);
 s32 sample_clamped_path_position(void *arg0, s32 arg1, void *arg2, s32 arg3, f32 farg0);
 extern "C" {
 f32 subtract_vector(Vec_802C0CAC *, Vec_802C0CAC *);
-extern Entry_802C0CAC lobby_pigeon_path_profiles[];
-extern const f64 lbl_80471960[];
 
 s32 approach_angle_limited(s32, s32, s32);
 s32 angle_diff_s16(s32, s32);
@@ -235,7 +280,6 @@ struct RecoveredGlobal_8019A880___vt__8TObjTank {
 
 struct Vec_802C1660 { f32 x, y, z; };
 
-struct Entry_802C1660 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 
 struct Obj_802C1660 {
     u8 pad0[0x98];
@@ -286,7 +330,6 @@ struct RecoveredGlobal_802C1B9C_lbl_804E081C {
 
 struct Vec_802C1E34 { f32 x, y, z; };
 
-struct Entry_802C1E34 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 
 struct Obj_802C1E34 {
     u8 pad0[0x98];
@@ -339,7 +382,6 @@ typedef struct RecoveredGlobal_802C20E8_lbl_804E0910 RecoveredGlobal_802C20E8_lb
 
 struct Vec_802C2548 { f32 x, y, z; };
 
-struct Entry_802C2548 { s32 a; f32 b; f32 c; f32 d; s32 e; s32 f; };
 
 struct Ent_802C1FD0 { s32 a; f32 b; f32 c; s32 d; s32 e; };
 struct Sub_802C1FD0 { s32 a; u32 n; };
@@ -395,13 +437,11 @@ typedef struct RecoveredGlobal_802C27FC_lbl_80471848 RecoveredGlobal_802C27FC_lb
 
 typedef struct RecoveredGlobal_802C27FC_lbl_804E094C RecoveredGlobal_802C27FC_lbl_804E094C;
 
-struct Q_802C2958 { s32 a; s32 b; s32 c; s32 d; };
 
 struct Obj_802C2958 { u8 pad[0x430]; s32 f430; };
 
 struct Vec_802C2C48 { f32 x, y, z; };
 
-struct Entry_802C2C48 { s32 a; f32 b; f32 c; f32 d; s32 e; };
 
 struct Sub_802C2DEC { s32 a; u32 n; };
 struct Pl_802C2DEC {
@@ -459,11 +499,9 @@ typedef struct RecoveredGlobal_802C2F04_lbl_804717D4 RecoveredGlobal_802C2F04_lb
 
 typedef struct RecoveredGlobal_802C2F04_lbl_804E0988 RecoveredGlobal_802C2F04_lbl_804E0988;
 
-struct Vec_802C0F3C { f32 x, y, z; };
 
 struct Mtx_802C0F3C { f32 m[3][4]; };
 
-typedef Entry_802C0CAC Ent_802C0F3C;
 
 struct Cnt_802C0F3C { s32 f0; s32 n; };
 
@@ -483,7 +521,6 @@ struct Obj_802C0F3C {
     s32 dc;
 };
 
-typedef struct { f32 x, y, z; } Vec_802C17FC;
 
 typedef struct { f32 m[3][4]; } Mtx_802C17FC;
 
@@ -518,14 +555,6 @@ void set_matrix_identity(u8 *arg0);
 
 s32 release_texture_list(void*);
 
-extern Entry_802C2C48 seabed_dolphin_path_profiles[];
-extern u8 seabed_dolphin_anim_binding[];
-extern Entry_802C2548 jungle_ebi_path_profiles[];
-extern Entry_802C1E34 lobby_pigeon_path_parameters[];
-extern Entry_802C1660 jungle_seagull_path_profiles[];
-extern Vec_802C17FC lbl_80471908;
-extern Ent_802C0F3C lobby_pigeon_path_profiles[];
-extern Vec_802C0F3C lobby_pigeon_zero_vec;
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_80471978;
 extern RecoveredGlobal_802C1B9C_lbl_80471990 lbl_80471990;
 extern RecoveredGlobal_8019A9B8_lbl_80446184 lbl_804719A4;
@@ -1092,7 +1121,7 @@ struct Vec_802C1660;
 s32 TUnk_804E094C::update_path_follow_rotation(void *, f32) {
     s32 r;
     Obj_802C22A4 *self = (Obj_802C22A4 *)this;
-    Entry_802C2548 *e;
+    const Entry_802C2548 *e;
     s32 old;
     s32 diff;
     Vec_802C22A4 a;
@@ -1296,7 +1325,7 @@ void TObjPlayer::load_seabed_dolphin() {
     seabed_dolphin_texture_handle = ((s32 (*)(void *))load_gvm_texture_file)(lbl_804719B8);
     Q_802C2958 q = *(Q_802C2958 *)seabed_dolphin_anim_binding;
     q.a = (*(Obj_802C2958 * *)&seabed_dolphin_bml_archive)->f430;
-    TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (NJS_TEXLIST *)seabed_dolphin_texture_handle, &q, (f32)((16.0f)), (f32)((1e+01f)));
+    TLobby::spawn_npc_enemy((s16)0x40, (s32)(((s32 (*)(void *, s32, s32, s32, s32, const void *))get_bml_model)((*(Obj_802C2958 * *)&seabed_dolphin_bml_archive), 0, ((Q_802C2958 *)seabed_dolphin_anim_binding)->c, ((Q_802C2958 *)seabed_dolphin_anim_binding)->b, ((Q_802C2958 *)seabed_dolphin_anim_binding)->a, seabed_dolphin_anim_binding)), (NJS_TEXLIST *)seabed_dolphin_texture_handle, &q, (f32)((16.0f)), (f32)((1e+01f)));
 }
 
 s32 TUnk_804E0988::sub_802C2A10() {
@@ -1405,7 +1434,7 @@ void TUnk_804E0988::vfunc_14() {
 
 void TUnk_804E0988::vfunc_13(s32) {
     Pl_802C2DEC *arg0 = (Pl_802C2DEC *)this;
-    Entry_802C2C48 *e = seabed_dolphin_path_profiles;
+    const Entry_802C2C48 *e = seabed_dolphin_path_profiles;
     f32 ox;
     e += arg0->idx;
     ox = arg0->x;
@@ -1549,7 +1578,6 @@ struct RecoveredGlobal_802C320C___vt__11TObjPathObj {
 extern "C" {
 s32 __ct__8TObjBaseFP7TObject(void *, void *);
 extern s32 __vt__11TObjPathObj[];
-extern s32 lbl_805D3EC0;
 void TObjPathObj::render() {
     u8 *arg0 = (u8 *)this;
     if ((TMainTask::get_render_pass() != 1) && (((VObj_18 *)(arg0))->m8(*(f32 *)&this->unk_90, this->m_94) != 0)) {

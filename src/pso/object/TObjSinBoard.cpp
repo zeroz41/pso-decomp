@@ -173,9 +173,9 @@ void TUnk_804B8DD0::render() {
     bml_model = (u8 *)(get_bml_model((void *)gogo_ball_bml_resource, 1));
     if (bml_model != NULL) {
         if ((s32) this->m_28 != 0) {
-            TObjFish::set_global_param((int) (*(s32 *)((s8 *)lobby_gvm_texture_handles + 0x1C)));
+            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[7]));
         } else {
-            TObjFish::set_global_param((int) (*(s32 *)((s8 *)lobby_gvm_texture_handles + 0x20)));
+            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[8]));
         }
         push_matrix();
         post_translate_matrix((u8 *)&this->unk_1C);
@@ -368,11 +368,11 @@ s32 post_translate_matrix(void *);
 typedef char RecoveredGlobal_80198960_lbl_804B8DAC_size[sizeof(RecoveredGlobal_80198960_lbl_804B8DAC) == 0x24 ? 1 : -1];
 typedef char RecoveredGlobal_80198960_lbl_8050DD58_size[sizeof(RecoveredGlobal_80198960_lbl_8050DD58) == 0x54 ? 1 : -1];
 void TUnk_804B8DE8::render() {
-    if ((((u32) gogo_ball_bml_resource != 0U) || ((u32) *(u32 *)((s8 *)lobby_gvm_texture_handles + 0x10) != 0U)) && ((u16) *(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 6)) {
+    if ((((u32) gogo_ball_bml_resource != 0U) || ((u32) lobby_gvm_texture_handles[4] != 0U)) && ((u16) *(u16 *)((s8 *)&gogo_ball_configuration + 0x48) != 6)) {
         if ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x50) == 1) {
-            TObjFish::set_global_param((int) (*(u32 *)((s8 *)lobby_gvm_texture_handles + 0x10)));
+            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[4]));
         } else {
-            TObjFish::set_global_param((int) (*(u32 *)((s8 *)lobby_gvm_texture_handles + 0x14)));
+            TObjFish::set_global_param((int) (lobby_gvm_texture_handles[5]));
         }
         push_matrix();
         post_translate_matrix(((u8 *)this) + 0x1C);
@@ -514,6 +514,8 @@ void *lbl_804B8D94[3] = {
 void *lbl_804B8DA0[3] = {
     (void *)0xc3fa0000, (void *)0x41a00000, (void *)0x0,
 };
+// The lobby GVM texture lists TLanguage::load_lobby_textures loads.
+s32 lobby_gvm_texture_handles[9] = {0};
 struct Color_80199A44 { f32 a, r, g, b; };
 const Color_80199A44 fish_draw_color[1] = {{0.2f, 0.0f, 0.0f, 0.0f}};
 // spawn_particle_effect_with_rotation takes x/y/z angles (0x8000 = half turn).

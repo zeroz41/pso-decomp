@@ -1344,8 +1344,8 @@ force_active:
   - TObjLaboDesignBase__ct
   - TObjLaboMapWarp__ct
   - TObjLazerFence4__ct
-  - TObjLazerFenceExtra__ct
-  - TObjLazerFenceNorm__ct
+  - __ct__19TObjLazerFenceExtraFP7TObjectPv
+  - __ct__18TObjLazerFenceNormFP7TObjectPv
   - TObjLight__ct
   - TObjLight__data_80506370
   - TObjLight__data_8050637C

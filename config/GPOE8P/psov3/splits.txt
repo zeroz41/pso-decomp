@@ -4781,7 +4781,7 @@ pso/misc/TKomorebi.cpp:
 pso/object/TObjLazerFenceNorm.cpp:
 	.text       start:0x80192554 end:0x801930E8
 	.rodata     start:0x80445A30 end:0x80445BE0
-	.data       start:0x804B7F20 end:0x804B80B8
+	.data       start:0x804B7F20 end:0x804B8128
 	.sdata      start:0x805D33A0 end:0x805D33A8
 	.sbss       start:0x805D5C28 end:0x805D5C30
 	.sdata2     start:0x805DBE58 end:0x805DBE68
@@ -4956,7 +4956,7 @@ pso/unk/text_80197FD0.cpp:
 pso/object/TObjSinBoard.cpp:
 	.text       start:0x8019806C end:0x8019A790
 	.rodata     start:0x80445F90 end:0x80446088
-	.data       start:0x804B8A10 end:0x804B8DAC
+	.data       start:0x804B8A10 end:0x804B8DD0
 	.sdata      start:0x805D3430 end:0x805D3440
 	.sdata2     start:0x805DBF40 end:0x805DBF9C
 
@@ -9010,7 +9010,8 @@ pso/object/LobbyPigeonTheme.cpp:
 
 pso/object/LobbyPigeonPath.cpp:
 	.text       start:0x802C0A74 end:0x802C3284
-	.rodata     start:0x80471968 end:0x80471978
+	.rodata     start:0x804717C8 end:0x80471978
+	.sdata      start:0x805D3EC0 end:0x805D3EC4
 	.sbss       start:0x805D6798 end:0x805D67B8
 	.sdata2     start:0x805DE4F8 end:0x805DE528
 
