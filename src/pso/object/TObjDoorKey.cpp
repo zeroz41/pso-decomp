@@ -17,12 +17,33 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
+#include "pso/unk/text_803D853C.h"
+
+const char *abeno_fs_obj001_fosuno_model_names[4] = { "abeno_fs_obj001_fosuno.gj", "abesu_fs_obj001_fosu.gj", "abesu_fs_obj001_fotutu.gj", NULL };
+const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
+BmlResourceDescriptor TObjDoorKey__resource_descriptor = { "abeno_fs_obj001_fosuno.bml", abeno_fs_obj001_fosuno_model_names, abeno_fs_obj001_fosuno_motion_names, 3, 0 };
+CollisionBody TObjDoorKey__collision_body_parts[] = {
+    {{0.0f, 10.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
+};
+/* beam colour (a, r, g, b) per key id */
+NJS_ARGB door_key_beam_color_table[10] = {
+    { 1.0f, 0.8235294f, 0.09803922f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.8235294f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.8235294f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.5019608f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.5019608f, 0.8235294f },
+    { 1.0f, 0.7058824f, 0.9019608f, 0.09803922f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
+    { 1.0f, 1.0f, 1.0f, 1.0f },
+};
+const char *TObjDoorKey__class_name = "TObjDoorKey";
 
 struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
 
 extern "C" {
 s32 check_value_equals__13TUnk_804B6C24Fl(void *, s32);
-extern s32 TObjDoorKey__class_name;
 extern Obj_8018FA6C *tl_05;
 Obj_8018FA6C *fn_8018FA6C(u16 id) {
     Obj_8018FA6C *next = tl_05->children;
@@ -30,7 +51,7 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
     while (tl_05->children != 0 && next != 0) {
         cur = next;
         next = cur->next;
-        if (check_value_equals__13TUnk_804B6C24Fl(cur, TObjDoorKey__class_name) != 0 && cur->id == id) {
+        if (check_value_equals__13TUnk_804B6C24Fl(cur, (s32)TObjDoorKey__class_name) != 0 && cur->id == id) {
             return cur;
         }
     }
@@ -39,13 +60,6 @@ Obj_8018FA6C *fn_8018FA6C(u16 id) {
 
 }
 
-extern char lbl_80445650[];
-extern char lbl_8044566C[];
-extern char lbl_80445684[];
-extern char lbl_804456A0[];
-extern const char *abeno_fs_obj001_fosuno_model_names[4];
-extern BmlResourceDescriptor TObjDoorKey__resource_descriptor;
-extern const char *abeno_fs_obj001_fosuno_motion_names[1];
 
 struct TObjDoorKeyBase_8018FAEC { char pad[0x18]; };
 struct TObjDoorKeyVObj_8018FAEC : TObjDoorKeyBase_8018FAEC {
@@ -94,13 +108,10 @@ struct Vec_80190020 { f32 x, y, z; };
 
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
-void debug_printf_at(int, void *, ...);
-extern u8 lbl_804456C8[];
 extern const f32 lbl_805DBE08;
 s32 get_bml_model(s32, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-extern u8 lbl_804456D8[];
 extern s32 TObjDoorKey__ginja_model_table[];
 extern u32 door_key_resource_handle;
 extern s32 TObjDoorKey__texture_handle;
@@ -112,14 +123,12 @@ void rotate_matrix_y(int, int);
 void push_matrix();
 void post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
-extern NJS_ARGB door_key_beam_color_table[10];
 extern s32 actor_frame_tick;
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void play_sound_effect(int, void *, int, int);
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
 s32 init_collision_body_parts(void *, void *, int);
-extern CollisionBody TObjDoorKey__collision_body_parts[];
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__11TObjDoorKey[];
@@ -219,7 +228,7 @@ void TObjDoorKey::debug_draw_key_id() {
     VecCopy((Vec *)&arg0->f74, (const Vec *)arg0->f38);
     arg0->f78 = arg0->f78 + lbl_805DBE08;
     TObjNpcEnemy::set_global_count(0xFF00FF);
-    debug_printf_at(0x130022, lbl_804456C8, arg0->f8C);
+    debug_printf_at(0x130022, "PLATE NUM : %d", arg0->f8C);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
     if (arg0->f8C < 0) {
         arg0->f8C = 0;
@@ -281,7 +290,7 @@ extern "C" {
 
 }
 TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
-    *(s32 *)((s8 *)this + 0) = TObjDoorKey__class_name;
+    *(const char **)((s8 *)this + 0) = TObjDoorKey__class_name;
     init_key__5TOKeyFPv(this, arg2);
     this->m_e8 = 0;
     this->m_f0 = 0;
@@ -326,7 +335,7 @@ void TObjDoorKey::load_resources() {
         r = load_resource_from_descriptor(r, 5, &TObjDoorKey__resource_descriptor, 0, 0, 0);
     }
     (*(s32 *)&door_key_resource_handle) = r;
-    TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((s32)lbl_804456D8);
+    TObjDoorKey__texture_handle = (s32)load_gvm_texture_file((s32)"fe_obj_switch.gvm");
     TObjDoorKey__ginja_model_table[0] = get_bml_model((*(s32 *)&door_key_resource_handle), 1);
     TObjDoorKey__ginja_model_table[1] = get_bml_model((*(s32 *)&door_key_resource_handle), 2);
     s32 t = get_bml_model((*(s32 *)&door_key_resource_handle), 0);
@@ -347,23 +356,4 @@ void * TObjEnvSoundGlobal__create(void *rader_map_core) {
     return o;
 }
 
-__declspec(section ".data") const char *abeno_fs_obj001_fosuno_model_names[4] = { lbl_80445650, lbl_8044566C, lbl_80445684, NULL };
-BmlResourceDescriptor TObjDoorKey__resource_descriptor = { lbl_804456A0, abeno_fs_obj001_fosuno_model_names, abeno_fs_obj001_fosuno_motion_names, 3, 0 };
-__declspec(section ".sdata") const char *abeno_fs_obj001_fosuno_motion_names[1] = { NULL };
-CollisionBody TObjDoorKey__collision_body_parts[] = {
-    {{0.0f, 10.0f, 0.0f}, 7.0f, 50.0f, 0, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f}
-};
-/* beam colour (a, r, g, b) per key id */
-NJS_ARGB door_key_beam_color_table[10] = {
-    { 1.0f, 0.8235294f, 0.09803922f, 0.09803922f },
-    { 1.0f, 0.09803922f, 0.09803922f, 0.8235294f },
-    { 1.0f, 0.8235294f, 0.8235294f, 0.09803922f },
-    { 1.0f, 0.09803922f, 0.8235294f, 0.8235294f },
-    { 1.0f, 0.8235294f, 0.09803922f, 0.8235294f },
-    { 1.0f, 0.8235294f, 0.5019608f, 0.09803922f },
-    { 1.0f, 0.09803922f, 0.5019608f, 0.8235294f },
-    { 1.0f, 0.7058824f, 0.9019608f, 0.09803922f },
-    { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
-    { 1.0f, 1.0f, 1.0f, 1.0f },
-};
 }

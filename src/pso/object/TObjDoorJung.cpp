@@ -1,4 +1,5 @@
 #include "types.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
 #include "pso/object/TObjDoorJung.h"
@@ -10,10 +11,14 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
 
-struct RecoveredGlobal_8018F9CC_lbl_804B788C {
-    s32 value;
-    u8 remaining[0x28];
+
+const char *bm_obj_beamdoa_model_names[3] = {"fe_obj_beamdoa.gj", "fe_obj_beamdoa_singo.gj", NULL};
+const char *bm_obj_beamdoa_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_beamdoa_resource_descriptor = {
+    "bm_obj_beamdoa.bml", bm_obj_beamdoa_model_names, bm_obj_beamdoa_motion_names, 2, 0,
 };
+CollisionBody TObjDoorJung__collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *TObjDoorJung__class_name = "TObjDoorJung";
 
 struct RecoveredGlobal_8018F9CC___vt__12TObjDoorJung {
     s32 value;
@@ -32,9 +37,7 @@ struct Jung_8018F808 { u8 pad0[0xC8]; s32 fC8; u8 padCC[4]; u32 fD0; s32 fD4; };
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
 void *__ct__10TODoorBaseFP7TObject(void *a0);
-extern RecoveredGlobal_8018F9CC_lbl_804B788C TObjDoorJung__collision_desc;
 extern s32 __vt__12TObjDoorJung[];
-extern s32 TObjDoorJung__class_name;
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
 u8 is_current_floor_switch_set(int);
 /* Ninja object node of the door model: model pointer, transform, then child and sibling links. */
@@ -84,11 +87,6 @@ void TObjDoorJung::free_buffers() {
     }
 }
 
-struct DoorJungPartNames {
-    const char *names[4];
-};
-extern const DoorJungPartNames lbl_80445640;
-extern u8 bm_obj_beamdoa_resource_descriptor[];
 s32 load_resource_from_descriptor(s32 buffer, s32 kind, void *descriptor, s32 a3, s32 a4, s32 a5);
 s32 TObjFish__sub_8001EDB0(void *bml, s32 index);
 
@@ -100,7 +98,7 @@ void TObjDoorJung__sub_8018F4AC(void) {
 
     handle = (int)::operator new(0x440);
     if (handle != 0) {
-        handle = load_resource_from_descriptor(handle, 5, bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
+        handle = load_resource_from_descriptor(handle, 5, &bm_obj_beamdoa_resource_descriptor, 0, 0, 0);
     }
     TObjDoorJung__resource_handle = (void *)handle;
     lbl_805D5BD4 = TObjFish__sub_8001EDB0(TObjDoorJung__resource_handle, 0);
@@ -112,11 +110,11 @@ void TObjDoorJung__sub_8018F4AC(void) {
     TObjDoorJung__child_table[3] = node->child->child->child->model;
     door_jung_child_list = model->child->sibling->model;
     lbl_805D5BDC = 0;
-    DoorJungPartNames parts = lbl_80445640;
-    lbl_805D5BE4 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[0]);
-    lbl_805D5BE8 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[1]);
-    lbl_805D5BEC = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[2]);
-    lbl_805D5BF0 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts.names[3]);
+    const char *parts[4] = {"ts032_beamdoa_singo_aka", "ts032_beamdoa_singo_ao", "ts064_beamdoa_aka", "ts064_beamdoa_ao"};
+    lbl_805D5BE4 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts[0]);
+    lbl_805D5BE8 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts[1]);
+    lbl_805D5BEC = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts[2]);
+    lbl_805D5BF0 = ((TObjDoorJung *)lbl_805D5BD4)->find_entry_by_name(parts[3]);
     if (lbl_805D5BEC != -1) {
         scene = (void *)::operator new(0x14);
         if (scene != NULL) {
@@ -224,14 +222,13 @@ TObjDoorJung::~TObjDoorJung() {
     free_collision_body_parts(this);
 }
 extern "C" {
-typedef char RecoveredGlobal_8018F9CC_lbl_804B788C_size[sizeof(RecoveredGlobal_8018F9CC_lbl_804B788C) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018F9CC___vt__12TObjDoorJung_size[sizeof(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung) == 0x58 ? 1 : -1];
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
     *(s32 **)((s8 *)arg0 + 0x18) = &(*(RecoveredGlobal_8018F9CC___vt__12TObjDoorJung *)&__vt__12TObjDoorJung).value;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDoorJung__class_name;
+    *(const char **)((s8 *)arg0 + 0) = TObjDoorJung__class_name;
     ((TObjDoorJung *)(arg0))->apply_object_set_data((void *)arg2);
-    init_collision_body_parts(arg0, &TObjDoorJung__collision_desc.value, 1);
+    init_collision_body_parts(arg0, &TObjDoorJung__collision_desc, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoorJung *)(arg0))->init_door_switch_binding();

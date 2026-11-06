@@ -36,6 +36,21 @@ struct Csn_801946D0 {
     Vec_801946D0 verts[8];
 };
 
+// Corner indices of the 8 side triangles of the collision box (two per side face).
+s8 map_csn_box_triangle_indices[24] = {
+    2, 1, 0, 0, 3, 2, 6, 2, 3, 3, 7, 6,
+    5, 6, 7, 7, 4, 5, 1, 5, 4, 4, 0, 1,
+};
+
+// Normal of each side triangle: +z, +x, -z, -x faces.
+Vec_801946D0 map_csn_box_face_normals[8] = {
+    {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f},
+    {0.0f, 0.0f, -1.0f}, {0.0f, 0.0f, -1.0f}, {-1.0f, 0.0f, 0.0f}, {-1.0f, 0.0f, 0.0f},
+};
+
+// Collision flags by the set data's collision kind (1..5).
+s32 map_csn_collision_flag_table[5] = {0, 0x8000, 0x8900, 0x800, 0x2000};
+
 extern "C" {
 s32 __dl__7TObjectFPv(void *);
 extern RecoveredGlobal_80194988___vt__10TObjMapCsn __vt__10TObjMapCsn;
@@ -47,14 +62,11 @@ s32 translate_matrix_vec3(int, void *);
 s32 rotate_vector_by_matrix(int, void *, void *);
 s32 rotate_matrix_y(int, int);
 s32 pop_matrix();
-extern s8 map_csn_box_triangle_indices[];
-extern Vec_801946D0 map_csn_box_face_normals[];
 extern s32 identity_matrix[];
 s32 __nw__7TObjectFUl(s32);
 
 void TObjMapCsn::render() {  }
 
-extern s32 map_csn_collision_flag_table[];
 
 void TObjMapCsn::update_state() {
     s32 temp_r0;

@@ -10,6 +10,54 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/object/TObjLazerFenceNorm.h"
 #include "pso/ui/TAdSinglePlyChrSelectGC.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/map/FloorArea.h"
+
+
+extern "C" {
+__declspec(section ".data") const char *fe_obj_lazer2_4m_model_names[9] = {
+    "fe_obj_lazer2_4m.gj", "fe_obj_lazer2_4m_moto.gj", "fe_obj_lazer2_6m.gj", "fe_obj_lazer2_6m_moto.gj",
+    "fe_obj_lazer4_4m.gj", "fe_obj_lazer4_4m_moto.gj", "fe_obj_lazer4_6m.gj", "fe_obj_lazer4_6m_moto.gj", NULL,
+};
+__declspec(section ".data") const char *fe_obj_lazer2_4m_motion_names[5] = {
+    "fe_obj_lazer2_4m.njm", "fe_obj_lazer2_6m.njm", "fe_obj_lazer4_4m.njm", "fe_obj_lazer4_6m.njm", NULL,
+};
+BmlResourceDescriptor lazer_fence_norm_episode1_resource_descriptor = {
+    "fe_obj_lazer2_4m.bml", fe_obj_lazer2_4m_model_names, fe_obj_lazer2_4m_motion_names, 8, 4,
+};
+__declspec(section ".data") const char *fe_obj_lazer2_2_model_names[9] = {
+    "fe_obj_lazer2_4m.gj", "fe_obj_lazer2_4m_moto.gj", "fe_obj_lazer2_6m.gj", "fe_obj_lazer2_6m_moto.gj",
+    "fe_obj_lazer4_4m.gj", "fe_obj_lazer4_4m_moto.gj", "fe_obj_lazer4_6m.gj", "fe_obj_lazer4_6m_moto.gj", NULL,
+};
+__declspec(section ".data") const char *fe_obj_lazer2_2_motion_names[5] = {
+    "fe_obj_lazer2_4m.njm", "fe_obj_lazer2_6m.njm", "fe_obj_lazer4_4m.njm", "fe_obj_lazer4_6m.njm", NULL,
+};
+}
+BmlResourceDescriptor lazer_fence_norm_episode2_resource_descriptor = {
+    "fe_obj_lazer2_2.bml", fe_obj_lazer2_2_model_names, fe_obj_lazer2_2_motion_names, 8, 4,
+};
+
+const u16 lbl_80445B7C[] = {0, 1, 2, 3};
+
+const char *obj_lazer_fence_norm_class_name = "TObjLazerFenceNorm";
+const char *lazer_fence_extra_class_name = "TObjLazerFenceExtra";
+
+// Two sets (set data's size flag), each a box across the fence and a post at each end.
+CollisionBody laser_fence_collision_body_parts[2][3] = {
+    {
+        {{0.0f, 0.0f, 0.0f}, 28.0f, 4.0f, 1, 0x20010003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{0.0f, 0.0f, 20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{0.0f, 0.0f, -20.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    },
+    {
+        {{0.0f, 0.0f, 0.0f}, 35.0f, 4.0f, 1, 0x20010003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{0.0f, 0.0f, 30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+        {{0.0f, 0.0f, -30.0f}, 3.0f, 3.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
+    },
+};
+
+s32 lazer_fence_norm_texture_list;
+s32 lazer_fence_norm_bml_resource;
 
 struct Obj_80192554 { u8 pad0[0x38]; u8 f38[0x24]; s32 f5C; s32 f60; u8 pad64[0x48]; s32 fAC; u8 padB0[8]; f32 fB8; s32 fBC; s32 fC0; s32 fC4; s32 fC8[4]; };
 
@@ -17,8 +65,6 @@ extern "C" {
 void push_matrix();
 void post_translate_matrix(void *);
 void draw_ginja_model_with_motion(s32, s32, f32);
-extern u16 lbl_80445B7C[];
-extern s32 lazer_fence_norm_texture_list;
 void TObjLazerFenceExtra::draw_lazer_fence_extra_model() {
     Obj_80192554 *arg0 = (Obj_80192554 *)this;
     s32 i;
@@ -124,17 +170,13 @@ struct VObj_80192874 : VBase_80192874 {
     virtual void m5(void *);
 };
 
-struct Ent_80192874 { u8 b[0x84]; };
 
 extern "C" {
 s32 get_bml_motion(s32, s32);
 Node_80192A3C *get_bml_model(s32, s32);
-extern s32 lazer_fence_norm_bml_resource;
 void init_collision_body_parts(void *, void *, s32);
 void __ct__14TObjCollidableFP7TObject(void *, void *);
-extern Ent_80192874 laser_fence_collision_body_parts[];
 extern s32 __vt__19TObjLazerFenceExtra[];
-extern s32 lazer_fence_extra_class_name;
 void *TObjLazerFenceExtra__ct(void *arg0, void *arg1, void *arg2);
 void *TObjLazerFenceExtra__create(void *arg0);
 void *__dt__19TObjLazerFenceExtraFv(void *arg0, s16 arg1);
@@ -175,7 +217,7 @@ void *TObjLazerFenceExtra__ct(void *arg0, void *arg1, void *arg2) {
     s32 i;
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     *(s32 **)((s8 *)self + 0x18) = __vt__19TObjLazerFenceExtra;
-    *(s32 *)((s8 *)self + 0) = lazer_fence_extra_class_name;
+    *(const char **)((s8 *)self + 0) = lazer_fence_extra_class_name;
     ((VObj_80192874 *)self)->m5(arg2);
     *(s32 *)((s8 *)self + 0xB4) = 0;
     *(f32 *)((s8 *)self + 0xB8) = lbl_805DBE58[0];
@@ -329,10 +371,6 @@ void TObjLazerFenceNorm::reset_by_door() {
     }
 }
 
-struct RecoveredGlobal_80192E70_lbl_804B7FB0 {
-    s32 value;
-    u8 remaining[0x104];
-};
 
 struct RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm {
     s32 value;
@@ -342,7 +380,6 @@ struct RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm {
 extern "C" {
 
 extern s32 __vt__18TObjLazerFenceNorm[];
-extern s32 obj_lazer_fence_norm_class_name;
 
 void TLobby__sub_8001FE7C(void*, int);
 s32 release_texture_list(void*);
@@ -378,14 +415,13 @@ void *__dt__18TObjLazerFenceNormFv(void *arg0, s16 arg1) {
 }
 
 
-typedef char RecoveredGlobal_80192E70_lbl_804B7FB0_size[sizeof(RecoveredGlobal_80192E70_lbl_804B7FB0) == 0x108 ? 1 : -1];
 typedef char RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm_size[sizeof(RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm) == 0x38 ? 1 : -1];
 u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *lazer_fence_norm, s32 arg1, s32 arg2) {
     u32 temp_r4;
     u32 temp_r6;
     __ct__14TObjCollidableFP7TObject(lazer_fence_norm, (void *)arg1);
     *(s32 **)((s8 *)lazer_fence_norm + 0x18) = &(*(RecoveredGlobal_80192E70___vt__18TObjLazerFenceNorm *)&__vt__18TObjLazerFenceNorm).value;
-    *(s32 *)((s8 *)lazer_fence_norm + 0) = (s32) obj_lazer_fence_norm_class_name;
+    *(const char **)((s8 *)lazer_fence_norm + 0) = obj_lazer_fence_norm_class_name;
     ((TObjLazerFenceNorm *)(lazer_fence_norm))->apply_object_set_data((void *)arg2);
     lazer_fence_norm->m_b4 = 0;
     *(f32 *)((s8 *)lazer_fence_norm + 0xB8) = lbl_805DBE58[0];
@@ -427,4 +463,38 @@ void TObjLazerFenceNorm::free_resources() {
     }
 }
 
+}
+
+extern "C" {
+void *load_resource_from_descriptor(void *, int, BmlResourceDescriptor *, int, int, int);
+u8 *load_gvm_texture_file(s32 arg0);
+}
+void load_lazer_fence_norm_resources(void) {
+    void *obj;
+    switch (get_current_floor_area()) {
+    case AREA_CENTRAL_CONTROL_AREA:
+    case AREA_JUNGLE_NORTH:
+    case AREA_JUNGLE_EAST:
+    case AREA_MOUNTAIN:
+    case AREA_SEASIDE:
+    case AREA_SEABED_UPPER:
+    case AREA_SEABED_LOWER:
+    case AREA_SEASIDE_NIGHT:
+    case AREA_TOWER:
+        obj = ::operator new(0x440);
+        if (obj != 0) {
+            obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode2_resource_descriptor, 0, 0, 0);
+        }
+        lazer_fence_norm_bml_resource = (s32)obj;
+        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((s32)"fe_obj_lazer2_2.gvm");
+        break;
+    default:
+        obj = ::operator new(0x440);
+        if (obj != 0) {
+            obj = load_resource_from_descriptor(obj, 5, &lazer_fence_norm_episode1_resource_descriptor, 0, 0, 0);
+        }
+        lazer_fence_norm_bml_resource = (s32)obj;
+        lazer_fence_norm_texture_list = (s32)load_gvm_texture_file((s32)"fe_obj_lazer2.gvm");
+        break;
+    }
 }

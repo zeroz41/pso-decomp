@@ -3211,6 +3211,8 @@ pso/misc/TLobby_8013292C.cpp:
 
 pso/object/TObjLuker_801329B0.cpp:
 	.text       start:0x801329B0 end:0x80132A5C
+	.rodata     start:0x8043E9F0 end:0x8043EAE8
+	.data       start:0x804A6EE0 end:0x804A6F10
 
 pso/ui/TLanguage_80132A5C.cpp:
 	.text       start:0x80132A5C end:0x80132ED0
@@ -4667,8 +4669,9 @@ pso/misc/TWindowSubTradeMain_80187C98.cpp:
 
 pso/object/TObjComputer.cpp:
 	.text       start:0x80187D90 end:0x80188584
-	.rodata     start:0x80444B48 end:0x80444B90
-	.data       start:0x804B6280 end:0x804B6334
+	.rodata     start:0x80444A70 end:0x80444B90
+	.data       start:0x804B61F8 end:0x804B6334
+	.sdata      start:0x805D32C0 end:0x805D32D8
 
 pso/item/TObjContainerItem.cpp:
 	.text       start:0x80188584 end:0x8018A55C
@@ -4717,13 +4720,16 @@ pso/object/TObjDoor_8018E358.cpp:
 
 pso/object/TObjDoorJung.cpp:
 	.text       start:0x8018F458 end:0x8018FA6C
-	.data       start:0x804B78B8 end:0x804B790C
+	.rodata     start:0x80445598 end:0x80445650
+	.data       start:0x804B7870 end:0x804B790C
+	.sdata      start:0x805D3338 end:0x805D3340
 	.sdata2     start:0x805DBDF8 end:0x805DBE00
 
 pso/object/TObjDoorKey.cpp:
 	.text       start:0x8018FA6C end:0x801902D8
+	.rodata     start:0x80445650 end:0x804456F0
 	.data       start:0x804B7910 end:0x804B7A6C
-	.sdata      start:0x805D3340 end:0x805D3344
+	.sdata      start:0x805D3340 end:0x805D3348
 
 pso/object/TObjEnvSoundGlobal.cpp:
 	.text       start:0x801902D8 end:0x80190BFC
@@ -4772,14 +4778,12 @@ pso/misc/TKomorebi.cpp:
 	.sdata2     start:0x805DBE48 end:0x805DBE58
 
 pso/object/TObjLazerFenceNorm.cpp:
-	.text       start:0x80192554 end:0x80193018
-	.rodata     start:0x80445BB0 end:0x80445BB8
+	.text       start:0x80192554 end:0x801930E8
+	.rodata     start:0x80445A30 end:0x80445BE0
+	.data       start:0x804B7F20 end:0x804B80B8
+	.sdata      start:0x805D33A0 end:0x805D33A8
+	.sbss       start:0x805D5C28 end:0x805D5C30
 	.sdata2     start:0x805DBE58 end:0x805DBE68
-
-pso/unk/text_80193018.cpp:
-	.text       start:0x80193018 end:0x801930E8
-	.rodata     start:0x80445BB8 end:0x80445BE0
-	.data       start:0x804B7F20 end:0x804B7FB0
 
 pso/object/TObjLazerFence4.cpp:
 	.text       start:0x801930E8 end:0x801936E0
@@ -4804,6 +4808,7 @@ pso/object/TObjLight.cpp:
 
 pso/object/TObjMapCsn.cpp:
 	.text       start:0x80194670 end:0x80194AEC
+	.data       start:0x804B8448 end:0x804B84D4
 	.sdata2     start:0x805DBEC0 end:0x805DBECC
 
 pso/object/TObjMesBase.cpp:

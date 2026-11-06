@@ -2523,7 +2523,6 @@ pso/unk/text_8017866C.cpp
 pso/unk/text_8017B8A0.cpp
 pso/unk/text_8017E900.cpp
 pso/unk/text_8018E258.cpp
-pso/unk/text_80193018.cpp
 pso/unk/text_80196214.cpp
 pso/unk/text_801963A8.cpp
 pso/unk/text_80196508.cpp

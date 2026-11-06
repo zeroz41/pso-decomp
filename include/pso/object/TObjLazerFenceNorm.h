@@ -33,4 +33,7 @@ u8 *TObjLazerFenceNorm__ct(TObjLazerFenceNorm *arg0, s32 arg1, s32 arg2);
 void *__dt__18TObjLazerFenceNormFv(void *arg0, s16 arg1);
 }
 
+// Loads the fence models (episode 2 areas get fe_obj_lazer2_2); undone by TObjLazerFenceNorm::free_resources.
+void load_lazer_fence_norm_resources(void);
+
 #endif

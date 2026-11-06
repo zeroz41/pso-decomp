@@ -1,6 +1,7 @@
 #include "pso/render/render_util.h"
 #include "pso/system/NinjaTypes.h"
 #include "types.h"
+#include "pso/system/BmlResourceDescriptor.h"
 #include "pso/object/TObjComputer.h"
 #include "pso/object/TObjGbAdvance.h"
 #include "pso/object/TObjMesBase.h"
@@ -33,7 +34,7 @@ struct Obj_80188884 { u8 pad0[0x38]; u8 pos[0x28]; s32 id; u8 pad1[0x326 - 0x64]
 struct Obj_80188814 { u8 pad0[0x38]; u8 pos[0x4c]; s32 id; };
 
 struct Obj_801884A0 {
-    s32 unk0;
+    const char *unk0;
     u8 pad4[0x18 - 0x4];
     void *vtbl;
     u8 pad1C[0x30 - 0x1C];
@@ -108,9 +109,7 @@ extern const f32 lbl_805DBCF8;
 s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
-extern s32 obj_computer_collision_body_parts[];
 extern s32 __vt__12TObjComputer[];
-extern s32 lbl_805D32CC;
 extern u32 TObjComputer__model_archive;
 extern s16 TObjComputer__data_805DBCD8[2];
 extern const f32 lbl_805DBCEC;
@@ -129,8 +128,6 @@ extern const f32 lbl_805DBCF4;
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
-extern s32 fe_obj_tanmatu02_resource_descriptor[];
-extern s32 fs_obj_tanmatu02_resource_descriptor[];
 extern u32 TObjComputer__texture_gvm_handle;
 extern s16 computer_uv_scroll_phase;
 void load_computer_resources(void);
@@ -152,17 +149,33 @@ s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 extern const f32 lbl_805DBCDC;
 extern const f32 lbl_805DBCE0;
 extern s32 __vt__13TObjGbAdvance[];
-extern s32 lbl_805D32D0;
 
-struct RecoveredGlobal_80187DC8_lbl_804B6228 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_80187DC8_lbl_804B6228_size[sizeof(RecoveredGlobal_80187DC8_lbl_804B6228) == 0x10 ? 1 : -1];
-
-extern RecoveredGlobal_80187DC8_lbl_804B6228 bm_obj_gba_resource_descriptor;
 extern u32 TObjGbAdvance__data_805D5B74;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
 
+const char *fe_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
+const char *fe_obj_tanmatu02_motion_names[1] = {NULL};
+BmlResourceDescriptor fe_obj_tanmatu02_resource_descriptor = {
+    "fe_obj_tanmatu02.bml", fe_obj_tanmatu02_model_names, fe_obj_tanmatu02_motion_names, 2, 0,
+};
+const char *bm_obj_gba_model_names[5] = {
+    "gba_white_body.gj", "gba_white_disp.gj", "gba_white_footsw.gj", "gba_white_scan.gj", NULL,
+};
+const char *bm_obj_gba_motion_names[1] = {NULL};
+BmlResourceDescriptor bm_obj_gba_resource_descriptor = {
+    "bm_obj_gba.bml", bm_obj_gba_model_names, bm_obj_gba_motion_names, 4, 0,
+};
+const char *fs_obj_tanmatu02_model_names[3] = {"fe_obj_tanmatu02.gj", "fs_obj_tanmatu01.gj", NULL};
+const char *fs_obj_tanmatu02_motion_names[1] = {NULL};
+BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
+    "fs_obj_tanmatu02.bml", fs_obj_tanmatu02_model_names, fs_obj_tanmatu02_motion_names, 2, 0,
+};
+const char *TObjComputer__class_name = "TObjComputer";
+const char *TObjGbAdvance__class_name = "TObjGbAdvance";
+
+CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
 extern f32 lbl_805DBCE8;
@@ -171,7 +184,7 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     Obj_801884A0 *self = (Obj_801884A0 *)arg0;
     TObjMesBase__ct((TObjMesBase *)self, (s32)parent, (s32)row);
     self->vtbl = __vt__12TObjComputer;
-    self->unk0 = lbl_805D32CC;
+    self->unk0 = TObjComputer__class_name;
     if (self->selector < 0) {
         self->selector = 0;
     }
@@ -184,7 +197,7 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
         queue_destruction__7TObjectFv(self);
         return self;
     }
-    init_collision_body_parts(self, obj_computer_collision_body_parts, 1);
+    init_collision_body_parts(self, &obj_computer_collision_body_parts, 1);
     ((TObjPlayer *)self)->actorFlags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjComputer *)self)->cursor_action.set_use();
@@ -205,7 +218,7 @@ void load_computer_resources(void) {
     case AREA_SEASIDE_NIGHT: case AREA_TOWER:
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &fs_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fs_obj_tanmatu02.gvm");
@@ -214,7 +227,7 @@ void load_computer_resources(void) {
     default:
         p = ::operator new(0x440);
         if (p != NULL) {
-            p = load_resource_from_descriptor(p, 5, fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
+            p = load_resource_from_descriptor(p, 5, &fe_obj_tanmatu02_resource_descriptor, 0, 0, 0);
         }
         TObjComputer__model_archive = (u32) p;
         TObjComputer__texture_gvm_handle = (u32)load_gvm_texture_file((s32)"fe_obj_computer.gvm");
@@ -307,7 +320,7 @@ void TObjComputer::debug_draw_label() {
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2) {
     TObjMesBase__ct((TObjMesBase *)arg0, arg1, arg2);
     *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjGbAdvance;
-    *(s32 *)((s8 *)arg0 + 0) = (s32) lbl_805D32D0;
+    *(const char **)((s8 *)arg0 + 0) = TObjGbAdvance__class_name;
     init_collision_body_parts(arg0, &gb_advance_collision_body_parts, 1);
     ((TObjGbAdvance *)arg0)->actorFlags = (s32) (((TObjGbAdvance *)arg0)->actorFlags | 0x40000000);
     ((TObjPlayer *)arg0)->register_object_by_id();
@@ -347,7 +360,7 @@ void TObjGbAdvance::load_resource_instance() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_gba_resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &bm_obj_gba_resource_descriptor, 0, 0, 0));
     }
     (*(s32 *)&TObjGbAdvance__data_805D5B74) = var_r0;
 }
