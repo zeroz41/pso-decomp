@@ -23,8 +23,30 @@
 #include "pso/item/TObjContainerJungEx.h"
 #include "pso/item/TObjContainerItem.h"
 #include "pso/item/TObjContainerJung.h"
+#include "pso/system/BmlResourceDescriptor.h"
 
 #pragma readonly_strings on
+
+const char *bm_obj_hako01_model_names[5] = {
+    "fe_obj_hako01.gj", "fe_obj_hako01_hahen1.gj", "fe_obj_hako01_hahen2.gj", "fe_obj_hako01_light.gj", NULL,
+};
+const char *bm_obj_hako01_motion_names[1] = { NULL };
+BmlResourceDescriptor TObjContainerJung__resource_descriptor = {
+    "bm_obj_hako01.bml", bm_obj_hako01_model_names, bm_obj_hako01_motion_names, 4, 0,
+};
+
+const char *fe_obj_hako02_model_names[5] = {
+    "fe_obj_hako02.gj", "fe_obj_hako02_hahen1.gj", "fe_obj_hako02_hahen2.gj", "fe_obj_hako02_light.gj", NULL,
+};
+const char *fe_obj_hako02_motion_names[1] = { NULL };
+// Loaded by TObjContainerJungEx::load_resource_instance (0x8018D9B0, TObjDoaEx01's unit).
+BmlResourceDescriptor fe_obj_hako02_resource_descriptor = {
+    "fe_obj_hako02.bml", fe_obj_hako02_model_names, fe_obj_hako02_motion_names, 4, 0,
+};
+
+CollisionBody container_jung_collision_desc = {
+    { 0.0f, 6.0f, 0.0f }, 9.0f, 9.0f, 0, 0x38003, { 0.0f, 0.0f, 0.0f }, 0.0f,
+};
 
 const char *TObjContainerJung__name = "TObjContainerJung";
 s32 TObjContainerJung__bml_model_resource;
@@ -224,11 +246,6 @@ void TObjContainerJungEnemy::vfunc_81() {
 }
 }
 
-struct RecoveredGlobal_8018CEDC_lbl_804B7168 {
-    s32 value;
-    u8 remaining[0x28];
-};
-
 struct RecoveredGlobal_8018CEDC___vt__22TObjContainerJungEnemy {
     s32 value;
     u8 remaining[0x148];
@@ -237,7 +254,6 @@ struct RecoveredGlobal_8018CEDC___vt__22TObjContainerJungEnemy {
 extern "C" {
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
-extern RecoveredGlobal_8018CEDC_lbl_804B7168 container_jung_collision_desc;
 extern s32 __vt__22TObjContainerJungEnemy[];
 s32 get_model__19TObjContainerJungExFl(s32);
 s32 TObjContainerJung__sub_8018D3B8(s32);
@@ -311,7 +327,6 @@ void *__dt__22TObjContainerJungEnemyFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8018CEDC_lbl_804B7168_size[sizeof(RecoveredGlobal_8018CEDC_lbl_804B7168) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018CEDC___vt__22TObjContainerJungEnemy_size[sizeof(RecoveredGlobal_8018CEDC___vt__22TObjContainerJungEnemy) == 0x14C ? 1 : -1];
 u8 *TObjContainerJungEnemy__ct(u8 *arg0, s32 arg1, s32 _w2) {
     init_container_base(arg0, arg1);
@@ -320,20 +335,15 @@ u8 *TObjContainerJungEnemy__ct(u8 *arg0, s32 arg1, s32 _w2) {
     ((TObjContainerJungEnemy *)arg0)->load_models();
     ((TObjContainerJungEnemy *)arg0)->mode = 0;
     ((TObjContainerJungEnemy *)arg0)->actorFlags = (s32) (((TObjContainerJungEnemy *)arg0)->actorFlags | 0x60000000);
-    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc.value, 1);
+    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + *(f32 *)((s8 *)&container_jung_collision_desc.value + 4));
+    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + container_jung_collision_desc.offset.y);
     return arg0;
 }
 
 }
-
-struct RecoveredGlobal_8018D314_lbl_804B7168 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct RecoveredGlobal_8018D314___vt__19TObjContainerJungEx {
     s32 value;
@@ -480,7 +490,6 @@ void *__dt__19TObjContainerJungExFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8018D314_lbl_804B7168_size[sizeof(RecoveredGlobal_8018D314_lbl_804B7168) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018D314___vt__19TObjContainerJungEx_size[sizeof(RecoveredGlobal_8018D314___vt__19TObjContainerJungEx) == 0x14C ? 1 : -1];
 u8 *TObjContainerJungEx__ct(u8 *arg0, s32 arg1, s32 _w2) {
     init_container_base(arg0, arg1);
@@ -488,22 +497,15 @@ u8 *TObjContainerJungEx__ct(u8 *arg0, s32 arg1, s32 _w2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjContainerJungEx__name;
     ((TObjContainerJungEx *)arg0)->mode = 0;
     ((TObjContainerJungEx *)arg0)->actorFlags = (s32) (((TObjContainerJungEx *)arg0)->actorFlags | 0x60000000);
-    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc.value, 1);
+    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + *(f32 *)((s8 *)&container_jung_collision_desc.value + 4));
+    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + container_jung_collision_desc.offset.y);
     return arg0;
 }
 }
 
-struct RecoveredGlobal_8018D47C_lbl_804B7134 { s32 value; u8 remaining[0xC]; };
-typedef char RecoveredGlobal_8018D47C_lbl_804B7134_size[sizeof(RecoveredGlobal_8018D47C_lbl_804B7134) == 0x10 ? 1 : -1];
-
-struct RecoveredGlobal_8018D85C_lbl_804B7168 {
-    s32 value;
-    u8 remaining[0x28];
-};
 
 struct RecoveredGlobal_8018D85C___vt__17TObjContainerJung {
     s32 value;
@@ -524,7 +526,6 @@ extern "C" {
 u8 * get_bml_model(void *, int);
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
-extern RecoveredGlobal_8018D47C_lbl_804B7134 TObjContainerJung__resource_descriptor;
 u32 init_collision_body_parts(void *, s32, s32);
 u8 * init_container_base(void *, s32);
 
@@ -577,7 +578,7 @@ void TObjContainerJung::load_resources() {
     temp_r3 = (int)::operator new(0x440);
     var_r0 = temp_r3;
     if (var_r0 != 0) {
-        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor.value, 0, 0, 0));
+        var_r0 = (long) (load_resource_from_descriptor((void *) temp_r3, 5, &TObjContainerJung__resource_descriptor, 0, 0, 0));
     }
     (*(u8 * *)&TObjContainerJung__bml_model_resource) = (unsigned char *) ((void *) var_r0);
     TObjContainerJung__bml_aux_handle = TObjFish__sub_8001EDB0((void *) var_r0, 0);
@@ -693,7 +694,6 @@ void *__dt__17TObjContainerJungFv(void *arg0, s16 arg1) {
     }
     return arg0;
 }
-typedef char RecoveredGlobal_8018D85C_lbl_804B7168_size[sizeof(RecoveredGlobal_8018D85C_lbl_804B7168) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018D85C___vt__17TObjContainerJung_size[sizeof(RecoveredGlobal_8018D85C___vt__17TObjContainerJung) == 0x14C ? 1 : -1];
 u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2) {
     init_container_base(arg0, arg1);
@@ -701,11 +701,11 @@ u8 *TObjContainerJung__ct(u8 *arg0, s32 arg1, s32 _w2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjContainerJung__name;
     ((TObjContainerJung *)arg0)->mode = 0;
     ((TObjContainerJung *)arg0)->actorFlags = (s32) (((TObjContainerJung *)arg0)->actorFlags | 0x60000000);
-    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc.value, 1);
+    init_collision_body_parts(arg0, (s32) &container_jung_collision_desc, 1);
     ((TObjPlayer *)arg0)->register_object_by_id();
     VecCopy((Vec *)(arg0 + 0x74), (const Vec *)(arg0 + 0x38));
     VecCopy((Vec *)(arg0 + 0x2FC), (const Vec *)(arg0 + 0x38));
-    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + *(f32 *)((s8 *)&container_jung_collision_desc.value + 4));
+    *(f32 *)((s8 *)arg0 + 0x78) = (f32) (*(f32 *)((s8 *)arg0 + 0x78) + container_jung_collision_desc.offset.y);
     return arg0;
 }
 }

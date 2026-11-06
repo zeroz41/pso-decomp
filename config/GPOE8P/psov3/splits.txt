@@ -4725,8 +4725,9 @@ pso/item/TObjContainerIdo_8018BEE4.cpp:
 
 pso/item/TObjContainerJung.cpp:
 	.text       start:0x8018C948 end:0x8018D900
-	.rodata     start:0x80445228 end:0x80445450
-	.sdata      start:0x805D3318 end:0x805D3324
+	.rodata     start:0x80445148 end:0x80445450
+	.data       start:0x804B7120 end:0x804B7194
+	.sdata      start:0x805D3310 end:0x805D3324
 	.sbss       start:0x805D5BA0 end:0x805D5BA8
 	.sdata2     start:0x805DBD98 end:0x805DBDA0
 
