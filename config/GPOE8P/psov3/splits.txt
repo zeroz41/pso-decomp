@@ -11431,9 +11431,10 @@ pso/boss/olgaflow/TBoss6Type2_8036DC80.cpp:
 pso/ui/frontend/TAdMultiChgGameModeGC_8036DE10.cpp:
 	.text       start:0x8036DE10 end:0x8036EF0C
 	.ctors      start:0x80434014 end:0x80434018
+	.rodata     start:0x8047AD30 end:0x8047B8A8
 	.data       start:0x804F37A8 end:0x804F3A38
 	.sbss       start:0x805D7020 end:0x805D7024
-	.sdata2     start:0x805E0428 end:0x805E043C
+	.sdata2     start:0x805E0420 end:0x805E043C
 
 pso/boss/derolle/TObjBoss2Tunnel_8036EF0C.cpp:
 	.text       start:0x8036EF0C end:0x8036EF84
