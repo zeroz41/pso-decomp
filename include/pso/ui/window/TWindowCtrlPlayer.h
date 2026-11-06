@@ -25,8 +25,4 @@ struct TWindowCtrlPlayer : public TObject {
 
 typedef char TWindowCtrlPlayer_size[sizeof(TWindowCtrlPlayer) == 0x40 ? 1 : -1];
 
-extern "C" {
-void *__dt__17TWindowCtrlPlayerFv(TWindowCtrlPlayer *arg0, s16 arg1);
-}
-
 #endif

@@ -1,7 +1,8 @@
 #include "types.h"
 #include "pso/ui/frontend/TAdChrSelBSlotGC.h"
 #include "pso/system/task/TObject_80019A50.h"
-#include "pso/ui/frontend/TAdChrSelBSlotGC_8030FE74.h"
+
+extern const char *TAdChrSelBSlotGC__name;
 
 
 TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
@@ -69,4 +70,10 @@ TAdChrSelBSlotGC::~TAdChrSelBSlotGC() {
         queue_destruction__7TObjectFv(*(void **)((s8 *)this + 0x7C));
         this->m_7c = 0U;
     }
+}
+
+TAdChrSelBSlotGC::TAdChrSelBSlotGC(TObject *parent) : TObject(parent) {
+    m_name = TAdChrSelBSlotGC__name;
+    sub_8030FE04();
+    create_children();
 }

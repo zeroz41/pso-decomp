@@ -5,15 +5,9 @@
 extern "C" {
 s32 are_split_screen_battle_players_tied(void *);
 extern s32 TLobby__battle_ctrl_default_value;
-void *TAdChrSelBSlotGC__ct(void *, void *);
-void *__nw__7TObjectFUl(int);
 
 void *TAdChrSelBSlotGC::create(void *ad_chr_sel_b_slot_gc) {
-    void *o = __nw__7TObjectFUl(0x80);
-    if (o != NULL) {
-        o = TAdChrSelBSlotGC__ct(o, ad_chr_sel_b_slot_gc);
-    }
-    return o;
+    return new TAdChrSelBSlotGC((TObject *)ad_chr_sel_b_slot_gc);
 }
 
     extern int TAdChrSelBSlotGC__global_state;
