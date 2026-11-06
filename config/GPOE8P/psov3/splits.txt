@@ -4706,6 +4706,8 @@ pso/object/TObjComputer.cpp:
 	.rodata     start:0x80444A70 end:0x80444B90
 	.data       start:0x804B61F8 end:0x804B6334
 	.sdata      start:0x805D32C0 end:0x805D32D8
+	.sbss       start:0x805D5B68 end:0x805D5B78
+	.sdata2     start:0x805DBCD8 end:0x805DBCF0
 
 pso/item/TObjContainerItem.cpp:
 	.text       start:0x80188584 end:0x8018A55C
@@ -4739,8 +4741,10 @@ pso/item/TObjContainerJung.cpp:
 
 pso/object/TObjDoaEx01.cpp:
 	.text       start:0x8018D900 end:0x8018E258
-	.rodata     start:0x80445498 end:0x804454A0
+	.rodata     start:0x80445450 end:0x804454A0
 	.data       start:0x804B7578 end:0x804B7618
+	.sdata      start:0x805D3328 end:0x805D3330
+	.sbss       start:0x805D5BB0 end:0x805D5BC0
 	.sdata2     start:0x805DBDA0 end:0x805DBDC0
 
 pso/unk/text_8018E258.cpp:
@@ -4748,8 +4752,9 @@ pso/unk/text_8018E258.cpp:
 
 pso/object/TObjDoor_8018E358.cpp:
 	.text       start:0x8018E358 end:0x8018F458
-	.rodata     start:0x80445580 end:0x80445598
+	.rodata     start:0x804454A0 end:0x80445598
 	.data       start:0x804B7618 end:0x804B7870
+	.sdata      start:0x805D3330 end:0x805D3338
 	.sbss       start:0x805D5BC0 end:0x805D5BD0
 	.sdata2     start:0x805DBDC0 end:0x805DBDF4
 
@@ -4757,14 +4762,19 @@ pso/object/TObjDoorJung.cpp:
 	.text       start:0x8018F458 end:0x8018FA6C
 	.rodata     start:0x80445598 end:0x80445650
 	.data       start:0x804B7870 end:0x804B790C
+	.bss        start:0x8050DC98 end:0x8050DCA8
 	.sdata      start:0x805D3338 end:0x805D3340
+	.sbss       start:0x805D5BD0 end:0x805D5BF8
 	.sdata2     start:0x805DBDF8 end:0x805DBE00
 
 pso/object/TObjDoorKey.cpp:
 	.text       start:0x8018FA6C end:0x801902D8
 	.rodata     start:0x80445650 end:0x804456F0
 	.data       start:0x804B7910 end:0x804B7A6C
+	.bss        start:0x8050DCA8 end:0x8050DCB8
 	.sdata      start:0x805D3340 end:0x805D3348
+	.sbss       start:0x805D5BF8 end:0x805D5C08
+	.sdata2     start:0x805DBE00 end:0x805DBE10
 
 pso/object/TObjEnvSoundGlobal.cpp:
 	.text       start:0x801902D8 end:0x80190BFC

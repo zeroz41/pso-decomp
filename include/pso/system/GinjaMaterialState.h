@@ -25,10 +25,14 @@ typedef struct GinjaSurfaceState {
   u32 format;
   u8 reserved8[0x14];
   u32 flags;
+  u32 reserved20;
+  s32 ref_count; /* +0x24: textures sharing this surface; freed at 0 (name inferred) */
 } GinjaSurfaceState;
 typedef struct GinjaTextureState {
   u8 reserved0[12];
   GinjaSurfaceState *surface;
+  s32 ref_count; /* +0x10: decremented on release, entry cleared at 0 (name inferred) */
+  u32 reserved14;
 } GinjaTextureState;
 typedef struct GinjaTextureEntry {
   char *name;

@@ -15,7 +15,7 @@ struct TObjWarpJung : public TObjAreaWarp {
     static void render_warp(s32 model_index);
     static s32 update_warp_display();
     u8 unk_AC[0x18];
-    f32 m_c4;
+    f32 beam_frame; /* beam motion frame: += 4.0 per tick, wraps past frameCount - 1 (name inferred) */
 };
 
 typedef char TObjWarpJung_size[sizeof(TObjWarpJung) == 0xC8 ? 1 : -1];

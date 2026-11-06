@@ -517,6 +517,8 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     "pso/misc/TODoorJungleMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjDoorJung.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjDoorKey.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjDoaEx01.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/object/TObjDoor_8018E358.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjMapWarpAncient.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjAreaWarpEndingJung.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/object/TObjWarpJungMain.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},

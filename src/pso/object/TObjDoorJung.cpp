@@ -20,6 +20,17 @@ BmlResourceDescriptor bm_obj_beamdoa_resource_descriptor = {
 CollisionBody TObjDoorJung__collision_desc = {{0.0f, 20.0f, 0.0f}, 10.0f, 30.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
 const char *TObjDoorJung__class_name = "TObjDoorJung";
 
+s32 TObjDoorJung__child_table[4];
+void *TObjDoorJung__resource_handle;
+s32 lbl_805D5BD4;
+s32 door_jung_child_list;
+s32 lbl_805D5BDC;
+void *TObjDoorJung__door_scene_buffer;
+s32 lbl_805D5BE4;
+s32 lbl_805D5BE8;
+s32 lbl_805D5BEC;
+s32 lbl_805D5BF0;
+
 struct RecoveredGlobal_8018F9CC___vt__12TObjDoorJung {
     s32 value;
     u8 remaining[0x54];
@@ -58,17 +69,7 @@ s32 push_matrix();
 s32 pop_matrix();
 s32 post_translate_matrix(void *);
 void draw_ginja_object(void *child);
-extern s32 TObjDoorJung__child_table[];
 extern s32 actor_frame_tick;
-extern void *TObjDoorJung__resource_handle;
-extern s32 lbl_805D5BD4;
-extern s32 door_jung_child_list;
-extern s32 lbl_805D5BDC;
-extern void *TObjDoorJung__door_scene_buffer;
-extern s32 lbl_805D5BE4;
-extern s32 lbl_805D5BE8;
-extern s32 lbl_805D5BEC;
-extern s32 lbl_805D5BF0;
 
 void *__dt__12TObjDoorJungFv(void *arg0, s16 arg1);
 s32 TLobby__sub_8001FE7C(void *, s16);

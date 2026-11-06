@@ -244,7 +244,7 @@ void TObjWarpJung::render() {
         rotate_matrix_y(0, rotation_y);
         TObjWarpJung::render_warp(0);
         TParticleCtrl::begin_effect_render();
-        TObjWarpJung::render_warp_effect(1, (s32)m_c4);
+        TObjWarpJung::render_warp_effect(1, (s32)beam_frame);
         TParticleCtrl::end_effect_render();
         pop_matrix();
     }
@@ -253,9 +253,9 @@ void TObjWarpJung::render() {
 void TObjWarpJung::confirm_area_transfer(s32 arg1) { TObjAreaWarp::confirm_area_transfer(arg1); }
 
 void TObjWarpJung::run_task() {
-    m_c4 += 4.0f;
-    if (m_c4 > (f32)(warp_jung_beam_motion->frameCount - 1)) {
-        m_c4 = 0.0f;
+    beam_frame += 4.0f;
+    if (beam_frame > (f32)(warp_jung_beam_motion->frameCount - 1)) {
+        beam_frame = 0.0f;
     }
     handle_area_selection();
 }

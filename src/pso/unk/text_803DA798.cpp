@@ -3,6 +3,7 @@
 #include <stddef.h>
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/system/GinjaTexture.h"
 struct RecoveredFields_803DA84C_arg0 {
     u8 unknown_0[0x14];
     u32 field_14;
@@ -49,7 +50,6 @@ extern "C" {
 void TObjPlayer__sub_803DAC1C(s32 arg0);
 s32 fn_803DB20C(void *);
 extern u8 *current_render_context;
-s32 TObjPlayer__sub_803DAE98(TObjPlayer *arg0, s32 _w1);
 s32 TObjPlayer__sub_803DA84C(u8 *arg0, s32 arg1, s32 arg2, s32 arg3);
 s32 TObjPlayer__sub_803DAD28(u32 arg0);
 s32 TObjPlayer__sub_803DA8B4(u8 *arg0, s32 arg1);
@@ -241,7 +241,7 @@ s32 TObjPlayer__sub_803DAB9C(s32 arg0, s32 arg1) {
 #pragma push
 #pragma scheduling off
 void TObjPlayer__sub_803DAC1C(s32 arg0) {
-    TObjPlayer__sub_803DAE98((TObjPlayer *)((u8 *)((void *) (record_array_ptr + (arg0 * 0x18)))), record_array_ptr);
+    TObjPlayer__sub_803DAE98(&((GinjaTextureState *)record_array_ptr)[arg0]);
 }
 #pragma pop
 
@@ -329,29 +329,23 @@ s32 TObjPlayer__sub_803DAE1C(s32 arg0, s32 arg1, u32 arg2) {
 #pragma scheduling off
 #pragma peephole off
 #pragma scheduling off
-s32 TObjPlayer__sub_803DAE98(TObjPlayer *player, s32 _w1) {
-    s32 temp_r3;
-    s32 temp_r3_2;
-    u8 *temp_r3_3;
-    u8 *temp_r4;
-    if ((void *) player->m_next == NULL) {
+s32 TObjPlayer__sub_803DAE98(GinjaTextureState *texture) {
+    GinjaSurfaceState *surface;
+    if (texture->surface == NULL) {
         return -1;
     }
-    temp_r3 = *(s32 *)((s8 *)player + 0x10);
-    if (temp_r3 > 0) {
-        *(s32 *)((s8 *)player + 0x10) = (temp_r3 - 1);
+    if (texture->ref_count > 0) {
+        texture->ref_count--;
     }
-    temp_r4 = (u8 *)player->m_next;
-    temp_r3_2 = *(s32 *)((s8 *)temp_r4 + 0x24);
-    if (temp_r3_2 > 0) {
-        *(s32 *)((s8 *)temp_r4 + 0x24) = (temp_r3_2 - 1);
-        temp_r3_3 = (u8 *)player->m_next;
-        if ((s32) *(s32 *)((s8 *)temp_r3_3 + 0x24) == 0) {
-            fn_803DB20C(temp_r3_3 + 4);
+    surface = texture->surface;
+    if (surface->ref_count > 0) {
+        surface->ref_count--;
+        if (texture->surface->ref_count == 0) {
+            fn_803DB20C(&texture->surface->format);
             *(s32 *)((s8 *)current_render_context + 0x14) = -1;
         }
     }
-    player->release_empty_ref_entry();
+    ((TObjPlayer *)texture)->release_empty_ref_entry();
     return 1;
 }
 #pragma pop

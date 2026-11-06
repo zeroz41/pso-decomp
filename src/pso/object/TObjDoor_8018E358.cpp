@@ -5,6 +5,8 @@
 #include "pso/system/vector.h"
 #include "pso/object/TObjDoorJung.h"
 #include "pso/object/TObjMotion.h"
+#include "pso/system/BmlResourceDescriptor.h"
+#include "pso/system/NinjaTypes.h"
 #include "pso/TParticleCtrl.h"
 #include "pso/object/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
@@ -15,7 +17,6 @@ struct Glob_8018E358 { s32 f0; s32 pad4; s32 pad8; Node_8018E358 *a; Node_8018E3
 struct Door_8018E358 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x50]; f32 fB4; };
 
 struct DoorMotionHeader;
-struct Color_8018E40C { f32 a; f32 r; f32 g; f32 b; };
 
 struct Node_8018E40C { s32 pad0; void *f4; };
 
@@ -23,7 +24,6 @@ struct Glob_8018E40C { s32 f0; s32 pad4; Node_8018E40C *c; Node_8018E40C *a; Nod
 
 struct Door_8018E40C { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x50]; f32 fB4; u8 padB8[0xC]; f32 fC4; u8 padC8[8]; s32 fD0; };
 
-struct Color_8018E5F4 { f32 a; f32 r; f32 g; f32 b; };
 
 struct Node_8018E5F4 { s32 pad0; void *f4; };
 
@@ -31,7 +31,6 @@ struct Glob_8018E5F4 { s32 f0; s32 pad4; Node_8018E5F4 *c; Node_8018E5F4 *a; Nod
 
 struct Door_8018E5F4 { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x50]; f32 fB4; u8 padB8[0xC]; f32 fC4; u8 padC8[8]; s32 fD0; };
 
-struct Color_8018E74C { f32 a; f32 r; f32 g; f32 b; };
 
 struct Node_8018E74C { s32 pad0; void *f4; };
 
@@ -41,7 +40,7 @@ struct Door_8018E74C { u8 pad0[0x38]; u8 f38[0x28]; s32 f60; u8 pad64[0x50]; f32
 
 struct Door_8018F15C;
 struct Door_8018F15C {
-    s32 f0;
+    const char *name;
     u8 pad4[0x18 - 0x4];
     void *vt;
     u8 pad1c[0x30 - 0x1C];
@@ -71,7 +70,6 @@ s32 pop_matrix(void);
 void post_translate_matrix(void *);
 void draw_ginja_object(void *);
 void draw_ginja_model_with_motion(int, int, void *, f32);
-extern Glob_8018E358 TObjDoor__model_resource_ptrs[];
 void TObjDoor__sub_8018E8BC(void);
 f32 sin_table_lookup(s32);
 void update_anim__8TObjDoorFPv(void *arg0);
@@ -91,7 +89,6 @@ extern u32 door_resource_handle;
 u8 *TObjDoorJung__ct(u8 *arg0, s32 arg1, s32 arg2);
 void *TObjDoorJung__create(void *arg0);
 void update_opening_glow__8TObjDoorFPv(u8 *arg0);
-extern DoorMotionHeader* TObjDoor__motion_table[];
 extern s32 saved_model_render_flags;
 extern s32 model_render_flags;
 void render__8TObjDoorFPv(Door_8018E40C *arg0);
@@ -112,7 +109,6 @@ u8 is_current_floor_switch_set(u16);
 extern s32 TObjDoor__data_805D5BC8;
 s32 init_collision_body_parts(void *, void *, s32);
 s32 __ct__14TObjCollidableFP7TObject(void *, void *);
-extern s32 TObjDoor__name;
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2);
 void draw_closed_glow__8TObjDoorFPv(TObjDoor* door);
 struct DoorMotionHeader { void* rows; u32 frameCount; };
@@ -123,43 +119,34 @@ void update_timer__8TObjDoorFPv(void *arg0);
 extern "C" void update_locked_pulse__8TObjDoorFPv(TObjDoor *door);
 extern "C" void draw_closing__8TObjDoorFPv(Door_8018E358 *arg0);
 extern "C" void draw_model__8TObjDoorFPv(Door_8018E358 *arg0);
-extern "C" u8 lbl_804454A0[];
-extern "C" u8 lbl_804454B8[];
-extern "C" u8 lbl_804454D4[];
-extern "C" u8 lbl_804454F0[];
-extern "C" u8 lbl_8044550C[];
-extern "C" u8 lbl_80445524[];
-extern "C" u8 lbl_80445538[];
-extern "C" u8 lbl_80445558[];
-extern void *fe_obj_doa_kanban_model_names[6];
-extern void *fe_obj_doa_kanban_motion_names[3];
-void *fe_obj_doa_kanban_model_names[6] = {
-    (void *)&lbl_804454A0, (void *)&lbl_804454B8, (void *)&lbl_804454D4, (void *)&lbl_804454F0,
-    (void *)&lbl_8044550C, (void *)0x0,
+const char *fe_obj_doa_kanban_model_names[6] = {
+    "fe_obj_doa_kanban.gj", "fs_obj_doa_shingo_omote.gj", "fs_obj_doa_shingo_ura.gj", "taiki_fe_obj_doa_laz_oya.gj",
+    "taiki_fe_obj_doa_oya.gj", NULL,
 };
-void *fe_obj_doa_kanban_motion_names[3] = {
-    (void *)&lbl_80445524, (void *)&lbl_80445538, (void *)0x0,
+const char *fe_obj_doa_kanban_motion_names[3] = {"fe_obj_doa_oya.njm", "taiki_fe_obj_doa_laz_oya.njm", NULL};
+BmlResourceDescriptor door_resource_descriptor = {
+    "fe_obj_doa_kanban.bml", fe_obj_doa_kanban_model_names, fe_obj_doa_kanban_motion_names, 5, 2,
 };
-void *door_resource_descriptor[4] = {
-    (void *)&lbl_80445558, (void *)&fe_obj_doa_kanban_model_names, (void *)&fe_obj_doa_kanban_motion_names, (void *)0x50002,
+CollisionBody TObjDoor__collision_desc = {{0.0f, 0.0f, 0.0f}, 10.0f, 40.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+/* label colour (a, r, g, b) per door id */
+NJS_ARGB TObjDoor__label_color_table[10] = {
+    { 1.0f, 0.8235294f, 0.09803922f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.8235294f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.8235294f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.8235294f },
+    { 1.0f, 0.8235294f, 0.5019608f, 0.09803922f },
+    { 1.0f, 0.09803922f, 0.5019608f, 0.8235294f },
+    { 1.0f, 0.7058824f, 0.9019608f, 0.09803922f },
+    { 1.0f, 0.8235294f, 0.09803922f, 0.39215687f },
+    { 1.0f, 1.0f, 1.0f, 1.0f },
 };
-void *TObjDoor__collision_desc[11] = {
-    (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x41200000,
-    (void *)0x42200000, (void *)0x1, (void *)0x10003, (void *)0x0,
-    (void *)0x0, (void *)0x0, (void *)0x0,
-};
-void *TObjDoor__label_color_table[40] = {
-    (void *)0x3f800000, (void *)0x3f52d2d3, (void *)0x3dc8c8c9, (void *)0x3dc8c8c9,
-    (void *)0x3f800000, (void *)0x3dc8c8c9, (void *)0x3dc8c8c9, (void *)0x3f52d2d3,
-    (void *)0x3f800000, (void *)0x3f52d2d3, (void *)0x3f52d2d3, (void *)0x3dc8c8c9,
-    (void *)0x3f800000, (void *)0x3dc8c8c9, (void *)0x3f52d2d3, (void *)0x3f52d2d3,
-    (void *)0x3f800000, (void *)0x3f52d2d3, (void *)0x3dc8c8c9, (void *)0x3f52d2d3,
-    (void *)0x3f800000, (void *)0x3f52d2d3, (void *)0x3f008081, (void *)0x3dc8c8c9,
-    (void *)0x3f800000, (void *)0x3dc8c8c9, (void *)0x3f008081, (void *)0x3f52d2d3,
-    (void *)0x3f800000, (void *)0x3f34b4b5, (void *)0x3f66e6e7, (void *)0x3dc8c8c9,
-    (void *)0x3f800000, (void *)0x3f52d2d3, (void *)0x3dc8c8c9, (void *)0x3ec8c8c9,
-    (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f800000, (void *)0x3f800000,
-};
+const char *TObjDoor__name = "TObjDoor";
+
+/* .bss 0x8050DC78-0x8050DC94 stays unclaimed: an 8-byte motion table would go to .sbss */
+extern DoorMotionHeader *TObjDoor__motion_table[];
+extern Glob_8018E358 TObjDoor__model_resource_ptrs[];
+
 void *lbl_804B7718[3] = {
     (void *)0x0, (void *)0xffffffff, (void *)&update_locked_pulse__8TObjDoorFPv,
 };
@@ -210,9 +197,6 @@ void *lbl_804B77F0[18] = {
     (void *)0x0, (void *)0x0, (void *)0x0, (void *)0x0,
     (void *)0x0, (void *)0x0,
 };
-#define door_resource_descriptor ((u8 *)door_resource_descriptor)
-#define TObjDoor__collision_desc ((u8 *)TObjDoor__collision_desc)
-#define TObjDoor__label_color_table ((Color_8018E40C *)TObjDoor__label_color_table)
 
 void draw_model__8TObjDoorFPv(Door_8018E358 *arg0) {
     TObjFish::set_global_param(TObjDoor__resource_param);
@@ -240,9 +224,9 @@ void render__8TObjDoorFPv(Door_8018E40C *arg0) {
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    Color_8018E40C color = TObjDoor__label_color_table[arg0->fD0];
+    NJS_ARGB color = TObjDoor__label_color_table[arg0->fD0];
     color.a = arg0->fC4;
-    set_constant_material((const NJS_ARGB *)(((f32 *)&color)));
+    set_constant_material(&color);
     Glob_8018E40C *g0 = ((Glob_8018E40C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
@@ -283,9 +267,9 @@ s32 draw_closed__8TObjDoorFPv(Door_8018E5F4 *arg0) {
     TParticleCtrl::begin_effect_render();
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    Color_8018E5F4 color = ((Color_8018E5F4 *)TObjDoor__label_color_table)[arg0->fD0];
+    NJS_ARGB color = TObjDoor__label_color_table[arg0->fD0];
     color.a = arg0->fC4;
-    set_constant_material((const NJS_ARGB *)((&color)));
+    set_constant_material(&color);
     Glob_8018E5F4 *g0 = ((Glob_8018E5F4 *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
@@ -318,9 +302,9 @@ s32 draw_locked__8TObjDoorFPv(Door_8018E74C *arg0) {
     draw_ginja_model_with_motion(((Glob_8018E74C *)&TObjDoor__model_resource_ptrs)->f4, (int) ((DoorMotionHeader * *)&TObjDoor__motion_table)[1], TObjDoor__model_resource_ptrs, arg0->fB8);
     saved_model_render_flags = model_render_flags;
     model_render_flags |= 0x10;
-    Color_8018E74C color = ((Color_8018E74C *)TObjDoor__label_color_table)[arg0->fD0];
+    NJS_ARGB color = TObjDoor__label_color_table[arg0->fD0];
     color.a = arg0->fC4;
-    set_constant_material((const NJS_ARGB *)((&color)));
+    set_constant_material(&color);
     Glob_8018E74C *g0 = ((Glob_8018E74C *)&TObjDoor__model_resource_ptrs);
     ((TObjDoorJung *)(g0->c->f4))->free_children((void *)((u16)arg0->fD0));
     draw_ginja_object(g0->c);
@@ -534,7 +518,7 @@ extern "C" {
 void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
     __ct__14TObjCollidableFP7TObject(arg0, arg1);
     d->vt = __vt__8TObjDoor;
-    d->f0 = TObjDoor__name;
+    d->name = TObjDoor__name;
     ((TObjPlayer *)d)->apply_object_set_data(arg2);
     d->fAC = 0;
     d->fB8 = (0.0f);
@@ -552,7 +536,7 @@ void *TObjDoor__ct(void *arg0, void *arg1, void *arg2) {
     if (d->fBC > 1) {
         d->fBC = 1;
     }
-    init_collision_body_parts(d, TObjDoor__collision_desc, 1);
+    init_collision_body_parts(d, &TObjDoor__collision_desc, 1);
     d->f30 |= 0x40000000;
     ((TObjPlayer *)d)->register_object_by_id();
     return d;
@@ -578,7 +562,7 @@ extern "C" const char lbl_80445588[] = "fe_obj_door.gvm";
 void TObjDoor::load_resources() {
     s32 p = (int)::operator new(0x440);
     if (p != 0) {
-        p = (s32)load_resource_from_descriptor((void *)p, 5, door_resource_descriptor, 0, 0, 0);
+        p = (s32)load_resource_from_descriptor((void *)p, 5, &door_resource_descriptor, 0, 0, 0);
     }
     door_resource_handle = p;
     TObjDoor__resource_param = (s32)load_gvm_texture_file((s32)lbl_80445588);

@@ -40,6 +40,12 @@ NJS_ARGB door_key_beam_color_table[10] = {
 };
 const char *TObjDoorKey__class_name = "TObjDoorKey";
 
+s32 TObjDoorKey__ginja_model_table[4];
+u32 door_key_resource_handle;
+s32 TObjDoorKey__texture_handle;
+s16 door_key_id_counter;
+s32 TObjDoorKey__data_805D5C04;
+
 struct Obj_8018FA6C { u8 pad0[0x6]; u16 id; u8 pad8[0x4]; Obj_8018FA6C *next; u8 pad10[0x4]; Obj_8018FA6C *children; };
 
 extern "C" {
@@ -108,15 +114,9 @@ struct Vec_80190020 { f32 x, y, z; };
 
 extern "C" {
 void debug_draw_key_id__5TOKeyFv();
-extern const f32 lbl_805DBE08;
 s32 get_bml_model(s32, int);
 s32 load_resource_from_descriptor(s32, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
-extern s32 TObjDoorKey__ginja_model_table[];
-extern u32 door_key_resource_handle;
-extern s32 TObjDoorKey__texture_handle;
-extern s16 door_key_id_counter;
-extern s32 TObjDoorKey__data_805D5C04;
 void scroll_ginja_mesh_uvs(void *, int, int, int, int);
 void PPCSync();
 void rotate_matrix_y(int, int);
@@ -132,7 +132,6 @@ s32 init_collision_body_parts(void *, void *, int);
 s32 init_key__5TOKeyFPv(void *, void *);
 void *__ct__5TOKeyFP7TObject(TOKey *arg0);
 extern s32 __vt__11TObjDoorKey[];
-extern const f32 lbl_805DBE0C;
 void TLobby__sub_8001FE7C(void*, int);
 int update_armed_switch__5TOKeyFv(void*);
 s32 free_collision_body_parts(void *);
@@ -151,12 +150,10 @@ void TObjDoorKey__sub_8018FAEC(u16 id, u16) {
     }
 }
 
-extern const f32 lbl_805DBE00;
-extern const f32 lbl_805DBE04;
 
 void TObjDoorKey::render() {
 
-    if (((TObjDoorKeyVObj_8018FAEC*)this)->m8(lbl_805DBE00, lbl_805DBE04) == 0) {
+    if (((TObjDoorKeyVObj_8018FAEC*)this)->m8(400.0f, 20.0f) == 0) {
         if ((u32) this->m_f8 != 0U) {
             ((TParticleCtrl *)(this->m_f8))->enable();
         }
@@ -226,7 +223,7 @@ void TObjDoorKey::debug_draw_key_id() {
     Key_8018FD9C *arg0 = (Key_8018FD9C *)this;
     debug_draw_key_id__5TOKeyFv();
     VecCopy((Vec *)&arg0->f74, (const Vec *)arg0->f38);
-    arg0->f78 = arg0->f78 + lbl_805DBE08;
+    arg0->f78 += 8.0f;
     TObjNpcEnemy::set_global_count(0xFF00FF);
     debug_printf_at(0x130022, "PLATE NUM : %d", arg0->f8C);
     TObjNpcEnemy::set_global_count(0xF0F0F0FF);
@@ -308,7 +305,7 @@ TObjDoorKey::TObjDoorKey(TObject *arg1, void *arg2) : TOKey(arg1) {
     *(s32 *)&this->actorFlags |= 0x40000000;
     ((TObjPlayer *)this)->register_object_by_id();
     Vec_80190020 pos = *(Vec_80190020 *)((s8 *)this + 0x38);
-    pos.y += lbl_805DBE0C;
+    pos.y += 10.0f;
     *(s32 *)&this->m_f8 = (s32)spawn_continuous_particle_effect_with_flags(&pos, 0x60, 0x40);
     this->cursor_action.set_use();
 }

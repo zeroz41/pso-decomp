@@ -110,9 +110,6 @@ s32 get_bml_model(void *, s32);
 u32 init_collision_body_parts(void *, void *, s32);
 void *TObjMesBase__ct(TObjMesBase *arg0, s32 arg1, s32 arg2);
 extern s32 __vt__12TObjComputer[];
-extern u32 TObjComputer__model_archive;
-extern s16 TObjComputer__data_805DBCD8[2];
-extern const f32 lbl_805DBCEC;
 void *TObjComputer__ct(void *arg0, void *parent, void *row);
 void *load_resource_from_descriptor(void *, int, void *, int, int, int);
 u8 *load_gvm_texture_file(s32 arg0);
@@ -121,15 +118,12 @@ s32 PPCSync();
 s32 rotate_matrix_by_node_angles(void *, u32);
 void draw_ginja_object(void *child);
 extern u32 actor_frame_tick;
-extern const f32 lbl_805DBCE4;
 s32 get_current_floor();
 extern s32 local_client_id;
 extern const f32 lbl_805DBCF4;
 void *spawn_particle_effect_with_flags(void *pos, s32 id, s32 flags);
 u8 *__ct__8TObjChipFP7TObjectP14TObjChipParams(u8 *arg0, u8 *arg1, u8 *arg2);
 }
-extern u32 TObjComputer__texture_gvm_handle;
-extern s16 computer_uv_scroll_phase;
 void load_computer_resources(void);
 void play_container_break_sound(s32 arg0);
 extern "C" {
@@ -146,11 +140,8 @@ s32 vfunc_14__11TObjMesBaseFv();
 s32 submit_cursor_candidate(void *, s32);
 s32 clear_ref_if_destroyed__11TObjMesBaseFv();
 
-extern const f32 lbl_805DBCDC;
-extern const f32 lbl_805DBCE0;
 extern s32 __vt__13TObjGbAdvance[];
 
-extern u32 TObjGbAdvance__data_805D5B74;
 s32 TObjFish__sub_8001EDB0(void *, s32);
 u8 *TObjGbAdvance__ct(u8 *arg0, s32 arg1, s32 arg2);
 }
@@ -174,11 +165,16 @@ BmlResourceDescriptor fs_obj_tanmatu02_resource_descriptor = {
 };
 const char *TObjComputer__class_name = "TObjComputer";
 const char *TObjGbAdvance__class_name = "TObjGbAdvance";
+const s16 TObjComputer__data_805DBCD8[2] = {1, 0};
+
+u32 TObjComputer__model_archive;
+u32 TObjComputer__texture_gvm_handle;
+s16 computer_uv_scroll_phase;
+u32 TObjGbAdvance__data_805D5B74;
 
 CollisionBody obj_computer_collision_body_parts = {{0.0f, 7.0f, 0.0f}, 7.0f, 7.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 CollisionBody gb_advance_collision_body_parts = {{0.0f, 20.0f, -10.0f}, 5.0f, 5.0f, 1, 0x30003, {0.0f, 0.0f, 0.0f}, 0.0f};
 
-extern f32 lbl_805DBCE8;
 
 void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     Obj_801884A0 *self = (Obj_801884A0 *)arg0;
@@ -201,7 +197,7 @@ void *TObjComputer__ct(void *arg0, void *parent, void *row) {
     ((TObjPlayer *)self)->actorFlags |= 0x40000000;
     ((TObjPlayer *)self)->register_object_by_id();
     ((TObjComputer *)self)->cursor_action.set_use();
-    ((TObjPlayer *)self)->frame = lbl_805DBCEC;
+    ((TObjPlayer *)self)->frame = 0.0f;
     self->unkC4 = 0;
     return self;
 }
@@ -261,17 +257,17 @@ void TObjComputer::vfunc_14() {
     if ((s32) this->messageLabel != 0) {
         submit_cursor_candidate(this, -1);
     }
-    *(f32 *)&this->_padC0 = (f32) (*(f32 *)&this->_padC0 + lbl_805DBCE8);
+    this->uv_scroll_time += 0.2f;
 }
 
 void TObjComputer::clear_ref_if_destroyed() {
     clear_ref_if_destroyed__11TObjMesBaseFv();
-    *(f32 *)&this->_padC0 = (f32) (*(f32 *)&this->_padC0 + lbl_805DBCE8);
+    this->uv_scroll_time += 0.2f;
 }
 
 void TObjComputer::render() {
     u8 *arg0 = (u8 *)this;
-    if (((V_TOC_801881D4 *)arg0)->m8(lbl_805DBCDC, lbl_805DBCE0) != 0) {
+    if (((V_TOC_801881D4 *)arg0)->m8(400.0f, 20.0f) != 0) {
         draw_model();
     }
 }
@@ -287,7 +283,7 @@ s32 TObjComputer::draw_model() {
     rotate_matrix_y(0, self->yaw60);
     if (TObjComputer__data_805DBCD8[self->kind88] == 1) {
         u32 tick = actor_frame_tick;
-        if (tick != self->tick_c4 && self->time_c0 >= lbl_805DBCE4) {
+        if (tick != self->tick_c4 && self->time_c0 >= 1.0f) {
             self->tick_c4 = tick;
             scroll_ginja_mesh_uvs(*(void **)((s8 *)self->model->sub2c + 4), 0, (s32)self->time_c0, (*(u16 *)&computer_uv_scroll_phase), 1);
             PPCSync();
@@ -341,7 +337,7 @@ void TObjGbAdvance::vfunc_14() {
 }
 
 void TObjGbAdvance::render() {
-    if (((V_TOC_801881D4 *)this)->m8(lbl_805DBCDC, lbl_805DBCE0) != 0) {
+    if (((V_TOC_801881D4 *)this)->m8(400.0f, 20.0f) != 0) {
         TObjFish::set_global_param(TObjFish__sub_8001EDB0((void *)TObjGbAdvance__data_805D5B74, 0));
         push_matrix();
         post_translate_matrix(&this->position);

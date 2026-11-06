@@ -19,6 +19,16 @@
 #include "pso/misc/TODoorAncient01.h"
 #include "pso/map/FloorArea.h"
 
+__declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { "fs_obj_ex_doa01.gj", NULL };
+__declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { "fs_obj_ex_doa01.njm", NULL };
+BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { "fs_obj_ex_doa01.bml", fs_obj_ex_doa01_model_names, fs_obj_ex_doa01_motion_names, 1, 1 };
+CollisionBody TObjDoaEx01__collision_body_parts = {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f};
+const char *TObjDoaEx01__name = "TObjDoaEx01";
+
+s32 TObjDoaEx01__resource_bundle;
+u8 *TObjDoaEx01__alpha_model_node;
+u8 *TObjDoaEx01__alpha_model_sibling;
+
 struct RecoveredGlobal_8018D9B0_lbl_804B7158 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8018D9B0_lbl_804B7158_size[sizeof(RecoveredGlobal_8018D9B0_lbl_804B7158) == 0x10 ? 1 : -1];
 
@@ -210,15 +220,12 @@ s32 scale_current_matrix(void *);
 s32 post_translate_matrix(void *);
 extern u8 chunk_material_color_half_alpha_f32[];
 extern s32 saved_model_render_flags;
-extern u8 *TObjDoaEx01__alpha_model_node;
-extern u8 *TObjDoaEx01__alpha_model_sibling;
 extern s32 model_render_flags;
 s32 get_bml_motion(s32, s32);
 
 s32 rotate_matrix_y(s32, s32);
 s32 set_global_param__8TObjFishFl();
 s32 draw_ginja_model_with_motion(s32, s32, f32);
-extern s32 TObjDoaEx01__resource_bundle;
 
 struct TObjDoaEx01_base { char pad[0x18]; };
 struct TObjDoaEx01_VObj : TObjDoaEx01_base {
@@ -326,19 +333,10 @@ void TObjDoaEx01::render() {
 
 }
 
-extern char lbl_80445450[];
-extern char lbl_80445464[];
-extern char lbl_80445478[];
-extern const char *fs_obj_ex_doa01_model_names[2];
-extern const char *fs_obj_ex_doa01_motion_names[2];
-extern BmlResourceDescriptor TObjDoaEx01__resource_descriptor;
 
 struct RecoveredGlobal_8018E1E0_lbl_804B7588 { s32 value; u8 remaining[0xC]; };
 typedef char RecoveredGlobal_8018E1E0_lbl_804B7588_size[sizeof(RecoveredGlobal_8018E1E0_lbl_804B7588) == 0x10 ? 1 : -1];
 
-struct RecoveredGlobal_8018E064_lbl_804B7598 {
-    CollisionBody value;
-};
 
 struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
     s32 value;
@@ -348,10 +346,8 @@ struct RecoveredGlobal_8018E064___vt__11TObjDoaEx01 {
 extern "C" {
 u8 * load_resource_from_descriptor(void *, s32, void *, s32, s32, s32);
 s32 init_collision_body_parts(void *, void *, int);
-extern RecoveredGlobal_8018E064_lbl_804B7598 TObjDoaEx01__collision_body_parts;
 void *__ct__10TODoorBaseFP7TObject(void *a0);
 extern s32 __vt__11TObjDoaEx01[];
-extern s32 TObjDoaEx01__name;
 
 void TLobby__sub_8001FE7C(void*, int);
 s32 free_collision_body_parts(void *);
@@ -367,7 +363,6 @@ extern "C" {
 
 extern void *tl_05;
 
-typedef char RecoveredGlobal_8018E064_lbl_804B7598_size[sizeof(RecoveredGlobal_8018E064_lbl_804B7598) == 0x2C ? 1 : -1];
 typedef char RecoveredGlobal_8018E064___vt__11TObjDoaEx01_size[sizeof(RecoveredGlobal_8018E064___vt__11TObjDoaEx01) == 0x54 ? 1 : -1];
 u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     __ct__10TODoorBaseFP7TObject((arg0));
@@ -375,7 +370,7 @@ u8 *TObjDoaEx01__ct(u8 *arg0, s32 arg1, s32 arg2) {
     *(s32 *)((s8 *)arg0 + 0) = (s32) TObjDoaEx01__name;
     ((TObjDoaEx01 *)(arg0))->apply_object_set_data((void *)arg2);
     ((TObjDoaEx01 *)(arg0))->init_door_switch_binding();
-    init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts.value, 1);
+    init_collision_body_parts(arg0, &TObjDoaEx01__collision_body_parts, 1);
     ((TObjCollidable *)arg0)->refresh_collision_body_centers();
     ((TObjPlayer *)arg0)->register_object_by_id();
     ((TObjDoaEx01 *)arg0)->animation_frame = (f32) 0.0f;
@@ -418,11 +413,4 @@ void TObjDoaEx01::load_resources() {
     TObjDoaEx01__alpha_model_sibling = (u8 *)*(s32 *)((s8 *)temp_r3_2 + 0x30);
 }
 
-__declspec(section ".data") const char *fs_obj_ex_doa01_model_names[2] = { lbl_80445450, NULL };
-__declspec(section ".data") const char *fs_obj_ex_doa01_motion_names[2] = { lbl_80445464, NULL };
-BmlResourceDescriptor TObjDoaEx01__resource_descriptor = { lbl_80445478, fs_obj_ex_doa01_model_names, fs_obj_ex_doa01_motion_names, 1, 1 };
 }
-
-RecoveredGlobal_8018E064_lbl_804B7598 TObjDoaEx01__collision_body_parts = {
-    {{0.0f, 20.0f, -5.0f}, 10.0f, 20.0f, 1, 0x10003, {0.0f, 0.0f, 0.0f}, 0.0f},
-};
