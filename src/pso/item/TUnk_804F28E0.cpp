@@ -2,7 +2,6 @@
 #include "types.h"
 #include "pso/misc/TRaderMapCore.h"
 #include "pso/boss/TBoss2DeRolLe.h"
-#include "pso/item/TItemEffectWeapon_803631A0.h"
 #include "pso/math/MatrixTransforms.h"
 #include "pso/unk/text_80087278.h"
 #include "pso/items/TItemWeapon.h"
@@ -11,34 +10,27 @@
 #include "pso/item/TItemEffectWeapon_803632B4.h"
 #include "pso/item/TItemEffOrgaFlowShot.h"
 #include "pso/item/TItemEffectWeapon.h"
-
-struct Obj_803631E8 {
-    u8 pad0[0x10]; s32 i10; u8 pad14[0x2C]; u32 flags; s32 i44; u8 pad48[4]; f32 f4C; u8 pad50[0x10]; u8 v60[0x10]; void *fn70;
-};
-
-struct Src_803631E8 { u8 pad[0x188]; s32 i188; };
+#include "pso/TMainTask.h"
 
 extern "C" {
 void get_weapon_color__11TItemWeaponFPv(void *, void *);
-
-void s_rank_launcher_collider_block(Src_803631E8 *arg0, Obj_803631E8 *arg1);
 }
 
-void s_rank_launcher_slide_node(void *arg0) {
+void TUnk_804F28E0::vfunc_60() {
     if (TObjPlayer::get_player_list() == 1) {
-        translate_matrix(0, 0.0f, *(f32 *)((s8 *)arg0 + 0x1FC), 0.0f);
+        translate_matrix(0, 0.0f, pad_1fc, 0.0f);
     }
 }
 
-void s_rank_launcher_collider_block(Src_803631E8 *weapon, Obj_803631E8 *arg1) {
+void TUnk_804F28E0::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {
     u8 sp8[16];
-    arg1->flags |= 0x39C;
-    get_weapon_color__11TItemWeaponFPv(sp8, weapon);
-    copy_argb((NJS_ARGB *)arg1->v60, (NJS_ARGB *)sp8);
-    arg1->i44 = weapon->i188;
-    arg1->i10 = 4;
-    arg1->f4C = 2.0f;
-    arg1->fn70 = (void *)TObjPlayer::forward_item_effect_callback;
+    desc->flags |= 0x39C;
+    get_weapon_color__11TItemWeaponFPv(sp8, this);
+    copy_argb((NJS_ARGB *)desc->color, (NJS_ARGB *)sp8);
+    desc->model = second_model;
+    desc->pad_10 = 4;
+    desc->pad_4c = 2.0f;
+    desc->pad_70 = (void *)TObjPlayer::forward_item_effect_callback;
 }
 
 void TUnk_804F28E0::emit_marker_effects() {
@@ -62,26 +54,18 @@ void TUnk_804F28E0::update_attack() {
 }
 
 extern "C" {
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
-int construct_srank_weapon(void);
-
-    extern unsigned char lbl_804F28E0[];
-    
-void*TUnk_804F28E0::init(s32 _w1, void *_w2) { construct_srank_weapon(); *(int*)((char*)this + 0x18) = (int)lbl_804F28E0; ((TItemWeapon *)this)->set_weapon_flags(2); *(float*)((char*)this + 0x1fc) = 0.0f; return this; }
+TUnk_804F28E0::TUnk_804F28E0(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+    set_weapon_flags(2);
+    pad_1fc = 0.0f;
+}
 u8 *TItemEffectWeapon::create_instance() {
     u8 *arg0 = (u8 *)this;
-    u8 *temp_r3;
-    u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(((u8 *)((TUnk_804F28E0 *)temp_r3)->init(tl_05, arg0)));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804F28E0(tl_05, arg0);
     }
     return NULL;
 }
 
 }
+
+TUnk_804F28E0::~TUnk_804F28E0() {}

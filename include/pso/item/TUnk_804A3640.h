@@ -5,9 +5,9 @@
 
 class TUnk_804A3640 : public TItemWeapon {
 public:
+    TUnk_804A3640(TObject *parent, u8 *item);
     virtual ~TUnk_804A3640();
     virtual void emit_marker_effects();
-    void *init_with_id_2();
 };
 
 #endif

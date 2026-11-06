@@ -9,6 +9,24 @@ struct TItemData;
 class TItemEffectWeapon;
 struct WeaponVector { f32 x,y,z; };
 
+// What TItemWeapon::init_weapon_effect_descriptor fills in (slot 59; name from the 0x80362DE8 override); layout from the overrides at 0x80362DE8 (TUnk_804F27E0) and
+// 0x803631E8 (TUnk_804F28E0). The caller is not decompiled yet.
+struct Desc_8011E5C4 {
+    u8 pad_0[0x10];
+    s32 pad_10;
+    u8 pad_14[0x40 - 0x14];
+    u32 flags;
+    NJS_OBJECT *model;   // the weapon's second_model
+    u8 pad_48[0x4C - 0x48];
+    f32 pad_4c;
+    u8 pad_50[0x58 - 0x50];
+    s32 pad_58;
+    u8 pad_5c[0x60 - 0x5C];
+    u8 color[0x10];      // get_weapon_color
+    void *pad_70;
+    void *pad_74;
+};
+
 struct WeaponMotionRecord { u32 unknown; u32 frame_count; };
 
 // A weapon's item parameter record (lookup_item_pmt_record).
@@ -60,7 +78,7 @@ struct TItemWeapon : public TItemEquipBase {
     virtual void update_weapon();
     virtual void vfunc_57();
     virtual void vfunc_58();
-    virtual void vfunc_59();
+    virtual void init_weapon_effect_descriptor(Desc_8011E5C4 *desc);
     virtual void vfunc_60();
     virtual void deliver_hit(s32 arg1, u8 *arg2, s32 arg3, s32 arg4, f32 farg0);
 

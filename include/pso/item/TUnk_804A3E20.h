@@ -3,12 +3,16 @@
 #include "types.h"
 #include "pso/unk/TUnk_804A4948.h"
 
+// The S-rank Harisen weapon class (vtable 0x804A3E20), the S-rank form of
+// TUnk_804A2E80: vfunc_62 flattens the fan, update_weapon grows it back.
 class TUnk_804A3E20 : public TUnk_804A4948 {
 public:
-    virtual ~TUnk_804A3E20();
-    void*init_shot_state();
+    virtual void vfunc_60();
+    virtual void vfunc_62();
     virtual void update_weapon();
-    u8 unk_1C[0x1EC];
+    virtual ~TUnk_804A3E20();
+    TUnk_804A3E20(TObject *parent, u8 *item);
+    WeaponVector scale;  // model scale (scale_current_matrix); y is animated
 };
 
 #endif

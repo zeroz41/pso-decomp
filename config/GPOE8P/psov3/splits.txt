@@ -2960,55 +2960,72 @@ pso/item/TUnk_804A3928.cpp:
 	.sdata2     start:0x805DADE0 end:0x805DADEC
 
 pso/item/TUnk_804A3A20.cpp:
-	.text       start:0x801282C0 end:0x801283B8
+	.text       start:0x801282C0 end:0x801283BC
+	.data       start:0x804A3A20 end:0x804A3B20
 
 pso/item/TUnk_804A3B20.cpp:
-	.text       start:0x801283B8 end:0x801284F0
+	.text       start:0x801283BC end:0x801284F0
+	.data       start:0x804A3B20 end:0x804A3C20
 
 pso/item/TUnk_804A3C20.cpp:
 	.text       start:0x801284F0 end:0x80128630
+	.data       start:0x804A3C20 end:0x804A3D20
 
 pso/item/TUnk_804A3D20.cpp:
 	.text       start:0x80128630 end:0x80128728
+	.data       start:0x804A3D20 end:0x804A3E20
 
 pso/item/TUnk_804A3E20.cpp:
 	.text       start:0x80128728 end:0x801288A0
+	.data       start:0x804A3E20 end:0x804A3F20
 	.sdata2     start:0x805DADF0 end:0x805DADF8
 
 pso/item/TUnk_804A3F20.cpp:
 	.text       start:0x801288A0 end:0x80128A70
+	.data       start:0x804A3F20 end:0x804A4020
 
 pso/item/TUnk_804A403C.cpp:
 	.text       start:0x80128A70 end:0x80129124
-	.data       start:0x804A4020 end:0x804A403C
+	.data       start:0x804A4020 end:0x804A4138
 	.sdata2     start:0x805DADF8 end:0x805DADFC
 
 pso/item/TUnk_804A4138.cpp:
 	.text       start:0x80129124 end:0x801293FC
 	.rodata     start:0x8043E960 end:0x8043E968
+	.data       start:0x804A4138 end:0x804A4238
 	.sdata2     start:0x805DAE00 end:0x805DAE18
 
-pso/item/SRankSlicerWeapons.cpp:
-	.text       start:0x801293FC end:0x8012981C
-	.data       start:0x804A4238 end:0x804A4438
-	.sdata2     start:0x805DAE18 end:0x805DAE40
+pso/item/TUnk_804A4238.cpp:
+	.text       start:0x801293FC end:0x80129648
+	.data       start:0x804A4238 end:0x804A4338
+	.sdata2     start:0x805DAE18 end:0x805DAE30
+
+pso/item/TUnk_804A4338.cpp:
+	.text       start:0x80129648 end:0x8012981C
+	.data       start:0x804A4338 end:0x804A4438
+	.sdata2     start:0x805DAE30 end:0x805DAE40
 
 pso/item/TUnk_804A444C.cpp:
 	.text       start:0x8012981C end:0x80129B60
+	.data       start:0x804A4438 end:0x804A4548
 	.sdata2     start:0x805DAE40 end:0x805DAE44
 
 pso/item/TUnk_804A4548.cpp:
 	.text       start:0x80129B60 end:0x80129DD4
+	.data       start:0x804A4548 end:0x804A4648
 	.sdata2     start:0x805DAE48 end:0x805DAE60
 
 pso/item/TUnk_804A4648.cpp:
 	.text       start:0x80129DD4 end:0x8012A048
+	.data       start:0x804A4648 end:0x804A4748
 
 pso/item/TUnk_804A4748.cpp:
 	.text       start:0x8012A048 end:0x8012A224
+	.data       start:0x804A4748 end:0x804A4848
 
 pso/item/TUnk_804A4848.cpp:
 	.text       start:0x8012A224 end:0x8012A470
+	.data       start:0x804A4848 end:0x804A4948
 
 pso/item/TUnk_804A4948.cpp:
 	.text       start:0x8012A470 end:0x8012AA0C
@@ -11165,19 +11182,22 @@ pso/enemy/TObjEneEpsilonGuard_8035F5C8.cpp:
 	.sdata2     start:0x805E0208 end:0x805E0248
 
 pso/unk/text_803626A8.cpp:
-	.text       start:0x803626A8 end:0x80362E60
+	.text       start:0x803626A8 end:0x80362DE8
 	.data       start:0x804F24E8 end:0x804F252C
 	.bss        start:0x80543A18 end:0x80543A24
 
 pso/player/TObjPlayer_80362E60.cpp:
-	.text       start:0x80362E60 end:0x803631A0
+	.text       start:0x80362DE8 end:0x803631A0
+	.data       start:0x804F27E0 end:0x804F28E0
+	.sdata2     start:0x805E0260 end:0x805E0268
 
 pso/item/TUnk_804F28E0.cpp:
-	.text       start:0x803631A0 end:0x803633B4
+	.text       start:0x803631A0 end:0x8036340C
+	.data       start:0x804F28E0 end:0x804F29E0
 	.sdata2     start:0x805E0268 end:0x805E027C
 
 pso/item/TItemEffectWeapon.cpp:
-	.text       start:0x803633B4 end:0x80363AF4
+	.text       start:0x8036340C end:0x80363AF4
 	.rodata     start:0x80479FD8 end:0x80479FF8
 	.data       start:0x804F29E0 end:0x804F29F8
 	.sdata      start:0x805D4470 end:0x805D4478

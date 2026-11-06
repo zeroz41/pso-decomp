@@ -431,7 +431,7 @@ u8 *TItemWeapon::trace_from_owner(u8 *point) {
 
 void TItemWeapon::vfunc_60() {  }
 
-void TItemWeapon::vfunc_59() {  }
+void TItemWeapon::init_weapon_effect_descriptor(Desc_8011E5C4 *desc) {}
 
 void TItemWeapon::vfunc_58() {  }
 

@@ -17,7 +17,6 @@
 #include "pso/object/TObjMotion.h"
 #include "pso/player/TObjPlayer.h"
 #include "pso/unk/text_80120908.h"
-#include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/item/TItem.h"
 #include "pso/TMainTask.h"
 
@@ -153,59 +152,23 @@ void TUnk_804A403C::reserved_53() {
     *(s32 *)((s8 *)arg0 + 0xF4) = temp_r31;
 }
 
-extern s32 lbl_804A403C[];
+TUnk_804A403C::~TUnk_804A403C() {}
 
-void *__dt__13TUnk_804A403CFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A403C;
-        __dt__13TUnk_804A4948Fv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
-
-extern "C" {
-
-void construct_srank_weapon(void *);
-
-struct VOff_80128F60_arg0_80128f60 { char pad_0[0x1FC]; char f_1FC[1]; };
-
-void *TUnk_804A403C::init_event_callbacks() {
-    struct VOff_80128F60_arg0_80128f60 *self = (struct VOff_80128F60_arg0_80128f60 *)this;
-    construct_srank_weapon(this);
-    *(s32 **)((s8 *)this + 0x18) = lbl_804A403C;
-    __ct__8FlagWordFv((self->f_1FC));
+TUnk_804A403C::TUnk_804A403C(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
     ((FlagWord *)((char *)this + 376))->set(32);
     set_weapon_flags(515);
     impact_callback = (WeaponHitCallback)TObjPlayer::notify_hit_target;
     hit_callback = (WeaponHitCallback)TObjPlayer__sub_80128A74;
     shot_callback = (WeaponShotCallback)TObjPlayer::spawn_shot_effect;
     shot_speed = 10.0f;
-    ((FlagWord *)(self->f_1FC))->reset();
-    return this;
+    flags.reset();
 }
-
-}
-
-extern "C" {
-u8 * init_event_callbacks__13TUnk_804A403CFv(void *, TObject *, s32);
 
 u8 *TObjPlayer::create_event_callbacks_state(s32 arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
     if (arg0 != 0) {
-        temp_r3 = (u8 *)(TItem::operator new(0x218));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_event_callbacks__13TUnk_804A403CFv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804A403C(tl_05, (u8 *)arg0);
     }
     return NULL;
-}
-
 }
 
 TUnk_804A4020::~TUnk_804A4020() {

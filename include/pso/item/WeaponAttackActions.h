@@ -9,7 +9,6 @@ u32 pack_weapon_trail_color(void *weapon);
 // written as data.
 extern "C" {
 void vfunc_60__11TItemWeaponFv(void);
-void vfunc_59__11TItemWeaponFv(void);
 void vfunc_58__11TItemWeaponFv(void);
 void update_idle__11TItemWeaponFv(void);
 }

@@ -5,6 +5,7 @@
 
 class TUnk_804A3C20 : public TUnk_804A4948 {
 public:
+    TUnk_804A3C20(TObject *parent, u8 *item);
     virtual ~TUnk_804A3C20();
     virtual void reserved_53();
 };

@@ -5,9 +5,9 @@
 
 class TUnk_804A3B20 : public TUnk_804A4948 {
 public:
+    TUnk_804A3B20(TObject *parent, u8 *item);
     virtual ~TUnk_804A3B20();
     virtual void vfunc_62();
-    void *init_state_vtable();
 };
 
 #endif

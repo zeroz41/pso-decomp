@@ -5,9 +5,9 @@
 
 class TUnk_804F26E0 : public TUnk_804A4948 {
 public:
+    TUnk_804F26E0(TObject *parent, u8 *item);
     virtual ~TUnk_804F26E0();
     virtual void vfunc_62();
-    u8 unk_1C[0xD8];
 };
 
 #endif

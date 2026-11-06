@@ -511,7 +511,6 @@ struct TObjPlayer : public TObjChara {
     void draw_faust_loaded_projectile();
     void *init_state_vt2678();
     static void notify_hit_target(u32 arg0, u32 arg1, u32 arg2, u32 arg3);
-    void start_srank_regen_timer();
     static s32 is_rand_below_threshold();
     s32 get_hp_by_flag();
     void *init_state(s32 arg1, void *arg2);

@@ -19,7 +19,6 @@ void *mem_alloc(u32 size);
 extern u32 saved_model_render_flags;
 extern u32 model_render_flags;
 
-void *__dt__13TUnk_804F28E0Fv(void *arg0, s16 arg1);
 void TItemEffectWeapon__sub_8036340C(void);
 void TItemEffectWeapon__sub_80363410(void);
 
@@ -28,19 +27,6 @@ void mem_free(void *p);
 void* memcpy(void* destination, const void* source, size_t size);
 f32 xyz_distance(const f32 *a, const f32 *b);
 f32 normalize_vector(f32 *v);
-
-extern s32 lbl_804F28E0[];
-
-void *__dt__13TUnk_804F28E0Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804F28E0;
-        __dt__13TUnk_804A4948Fv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
 
 void TItemEffectWeapon__sub_8036340C(void) {  }
 void TItemEffectWeapon__sub_80363410(void) {  }

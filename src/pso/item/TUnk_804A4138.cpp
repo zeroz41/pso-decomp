@@ -2,15 +2,13 @@
 #include "pso/player/TUnk_804A4138.h"
 #include "pso/player/TObjChara.h"
 #include "pso/player/TObjPlayer.h"
-#include "pso/player/TObjPlayer_80129308.h"
-#include "pso/item/TItemEquipVariant_801293A4.h"
-#include "pso/item/TItemEquipVariant_8012A82C.h"
 #include "pso/item/TItem.h"
 
 #include "pso/system/MatrixOps.h"
+#include "pso/TMainTask.h"
 
-void TUnk_804A4138::update_idle() { *(s32*)((char*)this + 0x1fc) = 0; }
-void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, *(s32 *)((u8 *)this + 0x1FC)); } }
+void TUnk_804A4138::update_idle() { rotation = 0; }
+void TUnk_804A4138::vfunc_60() { if (TObjPlayer::get_player_list() == 0) { rotate_matrix_z(NULL, rotation); } }
 
 extern "C" {
 s32 test_action_mask__10TObjPlayerFl(void *, s32);
@@ -66,49 +64,15 @@ void TUnk_804A4138::update_attack() {
 
 }
 
-extern "C" {
-
-void construct_srank_weapon(void *);
-
-extern s32 lbl_804A4138[];
-
-void *TObjPlayer__sub_80129308(void *weapon, s32 parent, void *item) {
-    construct_srank_weapon(weapon);
-    *(s32 **)((s8 *)weapon + 0x18) = lbl_804A4138;
-    *(u32 *)((s8 *)weapon + 0x1FC) = 0;
-    return weapon;
+TUnk_804A4138::TUnk_804A4138(TObject *parent, u8 *item) : TUnk_804A4948(parent, item) {
+    rotation = 0;
 }
 
-}
-
-extern "C" {
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
 u8 *TObjPlayer::create_state_8012934c(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x200));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(TObjPlayer__sub_80129308(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804A4138(tl_05, arg0);
     }
     return NULL;
 }
 
-}
-
-extern s32 lbl_804A4138[];
-
-void *__dt__13TUnk_804A4138Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804A4138;
-        __dt__13TUnk_804A4948Fv(arg0, 0);
-        if (arg1 > 0) {
-            TItem::operator delete(arg0);
-        }
-    }
-    return arg0;
-}
+TUnk_804A4138::~TUnk_804A4138() {}

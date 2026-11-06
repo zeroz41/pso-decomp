@@ -5,6 +5,7 @@
 #include "pso/misc/TTecGiZonde.h"
 #include "pso/item/TItemEquipVariant_80120CF8.h"
 #include "pso/item/TItem.h"
+#include "pso/TMainTask.h"
 
 struct Self_80127BE0 { u8 pad[0xF0]; s32 fF0; };
 
@@ -13,8 +14,6 @@ struct Item_80127BE0 { u16 a; s16 b; };
 struct Tec_80127BE0 { s32 kind; u16 a; s16 b; u8 rest[0x58]; };
 
 extern "C" {
-u8 *__nw__5TItemFUl(s32);
-extern s32 tl_05;
 s16 is_status_subsystem_ready__10TObjPlayerFv(s32);
 s32 get_extended_state__10TObjPlayerFv(s32);
 Item_80127BE0 *get_captured_target_entry(s32, s32);
@@ -55,38 +54,15 @@ void TUnk_804A3640::emit_marker_effects() {
 
 }
 
-extern s32 __vt__13TUnk_804A3640[];
-
 TUnk_804A3640::~TUnk_804A3640() {}
 
-extern "C" {
-
-void __ct__11TItemWeaponFP7TObjectPUc(void *);
-
-
-void *TUnk_804A3640::init_with_id_2() {
-    __ct__11TItemWeaponFP7TObjectPUc(this);
-    *(s32 **)((s8 *)this + 0x18) = __vt__13TUnk_804A3640;
+TUnk_804A3640::TUnk_804A3640(TObject *parent, u8 *item) : TItemWeapon(parent, item) {
     set_weapon_flags(2);
-    return this;
 }
 
-}
-
-extern "C" {
-u8 * init_with_id_2__13TUnk_804A3640Fv(void *, s32, void *);
 u8 *TObjPlayer::create_with_id_2(u8 *arg0) {
-    u8 *temp_r3;
-    u8 *var_r0;
     if (arg0 != NULL) {
-        temp_r3 = (u8 *)(__nw__5TItemFUl(0x1F8));
-        var_r0 = temp_r3;
-        if (var_r0 != NULL) {
-            var_r0 = (u8 *)(init_with_id_2__13TUnk_804A3640Fv(temp_r3, tl_05, arg0));
-        }
-        return var_r0;
+        return (u8 *)new TUnk_804A3640(tl_05, arg0);
     }
     return NULL;
-}
-
 }

@@ -5260,8 +5260,8 @@ force_active:
   - construct_particle_obj__13TParticleCtrlFll
   - construct_placement_search_base__FPUcPUcPUcPUcSc
   - construct_rappys_fan__13TUnk_804F0908FlPv
-  - construct_s_rank_j_cutter_weapon__FPvlPv
-  - construct_s_rank_slicer_weapon__FPvlPv
+  - __ct__13TUnk_804A4238FP7TObjectPUc
+  - __ct__13TUnk_804A4338FP7TObjectPUc
   - construct_self_effect__8TTecAntiFPvPvPviPv
   - construct_self_recovery__9TTecRestaFPvPviPv
   - construct_shot_weapon__FPvlPv

@@ -272,7 +272,7 @@ extern "C" void add_slot__5TItemFv();
 extern "C" int update_object_view_visibility__5TItemFff(void *p);
 extern "C" void vfunc_6__8TObjBaseFPsl();
 extern "C" void vfunc_60__11TItemWeaponFv();
-extern "C" void vfunc_59__11TItemWeaponFv();
+extern "C" void init_weapon_effect_descriptor__11TItemWeaponFP13Desc_8011E5C4();
 extern "C" void vfunc_58__11TItemWeaponFv();
 extern "C" void vfunc_57__11TItemWeaponFv();
 extern "C" void update_weapon__11TItemWeaponFv();
@@ -346,7 +346,7 @@ void *lbl_804E1BB0[62] = {
     (void *)&on_equip__11TItemWeaponFv, (void *)&on_unequip__11TItemWeaponFv, (void *)&request_equipped_model__11TItemWeaponFv, (void *)&release_model__11TItemWeaponFv,
     (void *)&apply_owner_bonuses__11TItemWeaponFv, (void *)&remove_owner_bonuses__11TItemWeaponFv, (void *)&on_model_loaded__11TItemWeaponFv, (void *)&launch_shot__11TItemWeaponFPUclll,
     (void *)&emit_marker_effects__11TItemWeaponFv, (void *)&update_attack__11TItemWeaponFv, (void *)&update_idle__11TItemWeaponFv, (void *)&reserved_53__13TUnk_804E1BB0Fv,
-    (void *)&update_weapon__11TItemWeaponFv, (void *)&vfunc_57__11TItemWeaponFv, (void *)&vfunc_58__11TItemWeaponFv, (void *)&vfunc_59__11TItemWeaponFv,
+    (void *)&update_weapon__11TItemWeaponFv, (void *)&vfunc_57__11TItemWeaponFv, (void *)&vfunc_58__11TItemWeaponFv, (void *)&init_weapon_effect_descriptor__11TItemWeaponFP13Desc_8011E5C4,
     (void *)&vfunc_60__11TItemWeaponFv, (void *)&deliver_hit__11TItemWeaponFlPUcllf,
 };
 void *lbl_804E1CA8[63] = {
