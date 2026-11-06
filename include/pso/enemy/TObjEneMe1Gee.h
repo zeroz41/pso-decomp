@@ -3,10 +3,12 @@
 
 #include "types.h"
 #include "pso/enemy/TObjEneDD_ST.h"
+#include "pso/enemy/TUnk_80494938.h"
 
 struct TObjEneMe1Gee : public TObjEneDD_ST {
     virtual ~TObjEneMe1Gee();
     virtual s32 vfunc_104(f32);
+    virtual void dispatch_action(u32 state, s32 reason);
     void init_state();
     virtual void vfunc_88();
     virtual u8 *vfunc_101(u8 *);
@@ -48,32 +50,16 @@ struct TObjEneMe1Gee : public TObjEneDD_ST {
     u32 m_390;
     u8 unk_394[0xC];
     f32 m_3a0;
-    u32 m_3c0;
-    u32 m_3c4;
-    u32 m_3c8;
-    void* m_3cc;
-    u8 _pad3D0[0x10];
+    u8 pad_3a4[0x20];
     u32 m_3e0;
-    u8 _pad3E4[0x20];
-    u32 m_404;
-    u32 m_408;
-    u8 _pad40C[0x4];
-    u32 m_410;
-    void* m_414;
-    u8 _pad418[0x8];
-    void* m_420;
-    u8 _pad424[0xC];
-    u32 m_430;
-    u32 m_434;
-    u8 _pad438[0x40];
-    u32 m_478;
-    u32 m_47c;
-    u8 _pad480[0xC];
-    u16 m_48c;
+    u32 pad_3c8;
+    TUnk_80494938 fade;
+    u8 pad_3e8[0x7C];
+    TObject *unk_464;
+    u8 pad_468[0x28];
     static void load_resources();
     static void cache_result_805D6660();
     static void queue_debug_text(s32 arg0, char *arg1);
-    u8 unk_472[0x1E];
     static void advance_camera_ctrl_step();
     void state_orbit(s32 arg1);
     void handle_event(s32 arg1);

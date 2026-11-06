@@ -1714,7 +1714,7 @@ pso/unk/text_800C7FEC.cpp:
 pso/enemy/TObjEneMe1Gee.cpp:
 	.text       start:0x800C811C end:0x800CCB24
 	.rodata     start:0x8043BE90 end:0x8043BE98
-	.data       start:0x80493780 end:0x80493AC8
+	.data       start:0x80493780 end:0x80493CA0
 	.bss        start:0x80500E38 end:0x80500E78
 	.sdata2     start:0x805DA0D8 end:0x805DA154
 

@@ -70,7 +70,7 @@ void vfunc_114__13TObjEneMe1GeeFv(void* p);
 void vfunc_115__13TObjEneMe1GeeFv(u8 *arg0);
 void vfunc_62__13TObjEneMe1GeeFv(void* p);
 void vfunc_63__13TObjEneMe1GeeFv(u8 *arg0);
-void TObjEneMe1Gee__vt85(Ene_800CB3A4 *arg0, u32 arg1, s32 arg2);
+void dispatch_action__13TObjEneMe1GeeFUll(Ene_800CB3A4 *arg0, u32 arg1, s32 arg2);
 void vfunc_88__13TObjEneMe1GeeFv(void *arg0);
 void vfunc_101__13TObjEneMe1GeeFPUc(void *arg0);
 void vfunc_112__13TUnk_8049387CFl(u8 *arg0, s32 arg1);
@@ -90,7 +90,7 @@ extern s32 gee_resource_bundle_ptr;
 #define vfunc_115__13TObjEneMe1GeeFv ((void (*)())vfunc_115__13TObjEneMe1GeeFv)
 #define vfunc_62__13TObjEneMe1GeeFv ((void (*)())vfunc_62__13TObjEneMe1GeeFv)
 #define vfunc_63__13TObjEneMe1GeeFv ((void (*)())vfunc_63__13TObjEneMe1GeeFv)
-#define TObjEneMe1Gee__vt85 ((void (*)())TObjEneMe1Gee__vt85)
+#define dispatch_action__13TObjEneMe1GeeFUll ((void (*)())dispatch_action__13TObjEneMe1GeeFUll)
 #define vfunc_88__13TObjEneMe1GeeFv ((void (*)())vfunc_88__13TObjEneMe1GeeFv)
 #define vfunc_89__13TObjEneMe1GeeFv ((void (*)())vfunc_89__13TObjEneMe1GeeFv)
 #define vfunc_101__13TObjEneMe1GeeFPUc ((void (*)())vfunc_101__13TObjEneMe1GeeFPUc)
@@ -269,7 +269,7 @@ void *me1_gee_dispatch_table[118] = {
     (void *)enemy_spawn_zalure_effect__9TObjCharaFv, (void *)recalc_stats__9TObjCharaFv, (void *)vfunc_74__9TObjEnemyFl, (void *)vfunc_75__9TObjCharaFf,
     (void *)vfunc_76__9TObjCharaFf, (void *)vfunc_77__9TObjCharaFv, (void *)vfunc_78__9TObjCharaFl, (void *)vfunc_79__9TObjEneDDFPl,
     (void *)apply_hit_message_flags__9TObjEnemyFPv, (void *)apply_set_data__9TObjEnemyFPv, (void *)clear_lobby_object_state__9TObjEnemyFv, (void *)vfunc_83__12TObjEneDD_STFv,
-    (void *)vfunc_84__9TObjEneDDFv, (void *)vfunc_85__9TObjEneDDFv, (void *)vfunc_86__9TObjEneDDFv, (void *)TObjEneMe1Gee__vt85,
+    (void *)vfunc_84__9TObjEneDDFv, (void *)vfunc_85__9TObjEneDDFv, (void *)vfunc_86__9TObjEneDDFv, (void *)dispatch_action__13TObjEneMe1GeeFUll,
     (void *)vfunc_88__13TObjEneMe1GeeFv, (void *)vfunc_89__13TObjEneMe1GeeFv, (void *)vfunc_90__9TObjEneDDFv, (void *)vfunc_91__9TObjEneDDFv,
     (void *)vfunc_92__9TObjEneDDFv, (void *)vfunc_93__9TObjEneDDFv, (void *)vfunc_94__9TObjEneDDFv, (void *)vfunc_95__9TObjEneDDFv,
     (void *)vfunc_96__9TObjEneDDFv, (void *)vfunc_97__9TObjEneDDFv, (void *)vfunc_98__9TObjEneDDFv, (void *)vfunc_99__9TObjEneDDFv,
@@ -293,7 +293,7 @@ static f32 gee_camera_ctrl_vec[4];
 #undef vfunc_115__13TObjEneMe1GeeFv
 #undef vfunc_62__13TObjEneMe1GeeFv
 #undef vfunc_63__13TObjEneMe1GeeFv
-#undef TObjEneMe1Gee__vt85
+#undef dispatch_action__13TObjEneMe1GeeFUll
 #undef vfunc_88__13TObjEneMe1GeeFv
 #undef vfunc_89__13TObjEneMe1GeeFv
 #undef vfunc_101__13TObjEneMe1GeeFPUc
@@ -3133,7 +3133,7 @@ void TObjEneMe1Gee__sub_800CAFD8(u8 *ene_me1_gee, s32 arg1) {
         ((RecoveredFields_800CAFD8_arg0 *)ene_me1_gee)->field_30 = (s32) (((RecoveredFields_800CAFD8_arg0 *)ene_me1_gee)->field_30 | 0x01000000);
         ((TObjEneMe1Gee *)(ene_me1_gee))->vfunc_95();
         ((RecoveredFields_800CAFD8_arg0 *)ene_me1_gee)->field_47C = 1;
-        ((TUnk_80494938 *)(ene_me1_gee + 0x3CC))->start_fade_in();
+        ((TObjEneMe1Gee *)ene_me1_gee)->fade.start_fade_in();
         ((void (*)(void *, void *))VecCopy__FP3VecPC3Vec)(&stack.sp8, ene_me1_gee + 0x38);
         stack.spC += 150.0f;
         ((RecoveredFields_800CAFD8_arg0 *)ene_me1_gee)->field_3F8 = stack.spC;
@@ -3181,7 +3181,7 @@ void TObjEneMe1Gee::state_move(s32 arg1) {
         temp_r4 = this->actorFlags & 0xFEFFFFFF;
         this->actorFlags = temp_r4;
         *(s32 *)((s8 *)((u8 *)this) + 0x47C) = 1;
-        ((TUnk_80494938 *)(((u8 *)this) + 0x3CC))->start_fade_in();
+        fade.start_fade_in();
         ((TBoss3Volopt *)(((u8 *)this) + 0x38))->play_area_sound_effect();
         return;
     case 3:
@@ -3235,58 +3235,58 @@ void TObjEneMe1Gee::state_attack_loop(s32 arg1) {
     }
 }
 
-void TObjEneMe1Gee__vt85(Ene_800CB3A4 *arg0, u32 arg1, s32 mode) {
-    switch (arg1) {
+void TObjEneMe1Gee::dispatch_action(u32 state, s32 mode) {
+    switch (state) {
     case 0:
-        ((TObjEneMe1Gee *)arg0)->state_attack_loop(mode);
+        state_attack_loop(mode);
         break;
     case 1:
-        ((TObjEneMe1Gee *)arg0)->state_move(mode);
+        state_move(mode);
         break;
     case 2:
-        ((void (*)(void *, s32))TObjEneMe1Gee__sub_800CAFD8)(arg0, mode);
+        ((void (*)(void *, s32))TObjEneMe1Gee__sub_800CAFD8)(this, mode);
         break;
     case 3:
-        ((TObjEneMe1Gee *)arg0)->state_hover(mode);
+        state_hover(mode);
         break;
     case 4:
-        arg0->v108(mode);
+        vfunc_110(mode);
         break;
     case 5:
-        arg0->v109(mode);
+        vfunc_111(mode);
         break;
     case 6:
-        ((TObjEneMe1Gee *)arg0)->state_attack(mode);
+        state_attack(mode);
         break;
     case 7:
-        TObjEneMe1Gee__sub_800CA454(arg0, mode);
+        TObjEneMe1Gee__sub_800CA454(this, mode);
         break;
     case 8:
-        TObjEneMe1Gee__sub_800C9DF8(arg0, mode);
+        TObjEneMe1Gee__sub_800C9DF8(this, mode);
         break;
     case 9:
-        TObjEneMe1Gee__sub_800C9A94(arg0, mode);
+        TObjEneMe1Gee__sub_800C9A94(this, mode);
         break;
     case 10:
-        ((void (*)(void *, s32))run_task__13TObjEneMe1GeeFPvi)(arg0, mode);
+        ((void (*)(void *, s32))run_task__13TObjEneMe1GeeFPvi)(this, mode);
         break;
     case 12:
-        ((void (*)(void *, s32))TObjEneMe1Gee__sub_800C9580)(arg0, mode);
+        ((void (*)(void *, s32))TObjEneMe1Gee__sub_800C9580)(this, mode);
         break;
     case 13:
-        TObjEneMe1Gee__sub_800C96B4((Gee_800C96B4 *)(arg0), mode);
+        TObjEneMe1Gee__sub_800C96B4((Gee_800C96B4 *)this, mode);
         break;
     case 14:
-        arg0->v110(mode);
+        vfunc_112(mode);
         break;
     case 15:
-        ((TObjEneMe1Gee *)arg0)->state_return_home(mode);
+        state_return_home(mode);
         break;
     case 17:
-        ((TObjEneMe1Gee *)arg0)->handle_event(mode);
+        handle_event(mode);
         break;
     case 18:
-        ((TObjEneMe1Gee *)arg0)->state_orbit(mode);
+        state_orbit(mode);
         break;
     }
 }
@@ -3740,18 +3740,12 @@ void run_task__13TObjEneMe1GeeFv(u8 *arg0) {
     ((TObjEneMe1Gee *)(arg0))->vfunc_100();
 }
 
-void *__dt__13TObjEneMe1GeeFv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = __vt__13TObjEneMe1Gee;
-        if (*(void **)((s8 *)arg0 + 0x464) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0x464)); *(s32 *)((s8 *)arg0 + 0x464) = 0; }
-        free_collision_body_parts(arg0);
-        __dt__13TUnk_80494938Fv((s8 *)arg0 + 0x3CC, -1);
-        __dt__12TObjEneDD_STFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
+TObjEneMe1Gee::~TObjEneMe1Gee() {
+    if (unk_464 != NULL) {
+        unk_464->queue_destruction();
+        unk_464 = NULL;
     }
-    return arg0;
+    free_collision_body_parts(this);
 }
 
 #pragma push
