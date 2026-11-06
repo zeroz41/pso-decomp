@@ -1727,8 +1727,8 @@ pso/ui/window/TWindowSubStatusDisp_80281198.cpp
 pso/ui/window/TWindowSubStatusDisp_80287570.cpp
 pso/ui/window/TWindowSubStatusDisp_80288030.cpp
 pso/ui/window/TWindowSubStatusDisp_802A35B4.cpp
-pso/ui/window/TWindowSubStatusDisp_802A4DE8.cpp
-pso/ui/window/TWindowSubStatusDisp_80327390.cpp
+pso/ui/frontend/TAdTitleTexGC.cpp
+pso/ui/frontend/TAdScrollWinGC.cpp
 pso/ui/window/TWindowSubStatusDisp_80338740.cpp
 pso/ui/window/TWindowSubStatusDisp_8034A938.cpp
 pso/ui/window/TWindowSubStatusDisp_803DEE6C.cpp
@@ -2311,10 +2311,7 @@ pso/ui/frontend/TAdPsoPassSaveGC.cpp
 pso/ui/frontend/TAdRayGC.cpp
 pso/ui/frontend/TAdRicoRingCtrl.cpp
 pso/ui/frontend/TAdSEGAlogo.cpp
-pso/ui/frontend/TAdScrollWinGC.cpp
 pso/ui/frontend/TAdScrollWinGC_8026A5F8.cpp
-pso/ui/frontend/TAdScrollWinGC_803274D0.cpp
-pso/ui/frontend/TAdScrollWinGC_80327504.cpp
 pso/ui/frontend/TAdSelectCurGC.cpp
 pso/ui/frontend/TAdSelectCurGC_802AEA38.cpp
 pso/ui/frontend/TAdSelectCurGC_802AED98.cpp
@@ -2352,7 +2349,6 @@ pso/ui/frontend/TAdStorySelectGC_8019DC14.cpp
 pso/ui/frontend/TAdStorySelectGC_802C3284.cpp
 pso/ui/frontend/TAdSubPlyItemGC.cpp
 pso/ui/frontend/TAdTitleGC.cpp
-pso/ui/frontend/TAdTitleTexGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC.cpp
 pso/ui/frontend/TAdTrialAgreementGC_8033573C.cpp
 pso/ui/frontend/TAdTrialModemChkGC.cpp
@@ -2734,7 +2730,6 @@ pso/unk/text_8029EC3C.cpp
 pso/unk/text_8029EE2C.cpp
 pso/unk/text_802A0A30.cpp
 pso/unk/text_802A1020.cpp
-pso/ui/frontend/TAdTitleTexGC_802A4D74.cpp
 pso/technique/TTecKafun_802A9588.cpp
 pso/boss/olgaflow/TBoss6PlotFalz_802AABEC.cpp
 pso/unk/text_802AE978.cpp
@@ -2776,10 +2771,8 @@ pso/unk/text_80309890.cpp
 pso/unk/text_803098DC.cpp
 pso/unk/text_80312C50.cpp
 pso/unk/text_80320358.cpp
-pso/ui/frontend/TAdGameStartShadowGC_80320B38.cpp
 pso/unk/text_80320DE8.cpp
 pso/boss/galgryphon/TBoss5GryphonLightning_80324E10.cpp
-pso/unk/text_80325660.cpp
 pso/unk/text_80325F7C.cpp
 pso/unk/text_80327338.cpp
 pso/unk/text_80327844.cpp

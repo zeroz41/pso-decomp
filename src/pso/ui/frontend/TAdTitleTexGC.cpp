@@ -1,5 +1,36 @@
 #include "pso/ui/frontend/TAdTitleTexGC.h"
 #include "pso/unk/TLobby_80132ED0.h"
+#include "pso/ui/MenuText.h"
+#include "pso/object/warp/TObjWarpString.h"
+#include "pso/ui/window/TWindowSubStatusDisp_803DEE6C.h"
+#include "pso/ui/window/TWindowSubStatusDisp.h"
+#include "pso/object/ambient/TObjFish.h"
+
+#pragma push
+#pragma opt_common_subs off
+void TAdTitleTexGC::sub_802A4D74(s32 arg1, u8 *arg2, u8 *arg3) {
+    u8 *arg0 = (u8 *)this;
+    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x1C), 1.0f + *(f32 *)((s8 *)arg0 + 0x20), (const char *)arg2, arg1);
+    draw_menu_text(22.0f + *(f32 *)((s8 *)arg0 + 0x3C), 1.0f + *(f32 *)((s8 *)arg0 + 0x40), (const char *)arg3, arg1);
+}
+
+#pragma pop
+
+extern s32 lbl_805D6668;
+
+void TAdTitleTexGC::render_status_pair(s32 arg1) {
+    s32 arg0 = (s32)this;
+    begin_screen_draw(1);
+    TObjFish::set_global_param(lbl_805D6668);
+    set_draw_texture_and_color(0, arg1);
+    draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), 0.1f);
+    TWindowSubStatusDisp::get_player();
+    begin_screen_draw(1);
+    TObjFish::set_global_param(lbl_805D6668);
+    set_draw_texture_and_color(0, arg1);
+    draw_textured_quad_at_depth((f32 *)(arg0 + 0x3C), 0.1f);
+    TWindowSubStatusDisp::get_player();
+}
 
 #include "types.h"
 #include "pso/system/task/TMainTask.h"
@@ -20,19 +51,14 @@ struct Obj_802A4EF4 {
 };
 
 extern "C" {
-extern const f32 lbl_805DDF8C;
-extern const f32 lbl_805DDF90;
-extern const f32 lbl_805DDF94;
-extern const f32 lbl_805DDF98;
 void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0);
 void __ct__7TObjectFP7TObject(void *);
-s32 render_status_pair__20TWindowSubStatusDispFl(void *, s32);
 
 void TAdTitleTexGC::render() {
     s32 temp_r31;
 
     if (TMainTask::get_render_pass() != 1) {
-        render_status_pair__20TWindowSubStatusDispFl(this, (*(s32 *)((s8 *)this + 0x7C) << 0x18) | 0xFF0000 | 0xFFFF);
+        render_status_pair((*(s32 *)((s8 *)this + 0x7C) << 0x18) | 0xFF0000 | 0xFFFF);
         sub_802A4D74((s32)((*(s32 *)((s8 *)this + 0x7C) << 0x18) | 0xFF0000 | 0xFFFF), (u8 *)(get_localized_text_entry(0x28, 0)), (u8 *)(get_localized_text_entry(0x28, 1)));
     }
 }
@@ -42,12 +68,12 @@ void update_title_tex_positions__13TAdTitleTexGCFPv(Obj_802A4EF4 *arg0) {
     s32 i;
     for (i = 0; i < 3; i++) {
         s32 t = 0x14 - arg0->f80;
-        sp[i].x = ((lbl_805DDF8C - arg0->a[i].x) * (f32)(t * t)) / lbl_805DDF90;
-        sp[i].y = lbl_805DDF94;
+        sp[i].x = ((640.0f - arg0->a[i].x) * (f32)(t * t)) / 400.0f;
+        sp[i].y = 0.0f;
         arg0->b[i].x = arg0->a[i].x + sp[i].x;
         arg0->b[i].y = arg0->a[i].y + sp[i].y;
-        arg0->b[i].x2 = lbl_805DDF98 + arg0->b[i].x;
-        arg0->b[i].y2 = lbl_805DDF98 + arg0->b[i].y;
+        arg0->b[i].x2 = 20.0f + arg0->b[i].x;
+        arg0->b[i].y2 = 20.0f + arg0->b[i].y;
     }
 }
 
@@ -70,18 +96,7 @@ void TAdTitleTexGC::run_task() {
 }
 
 extern s32 __vt__13TAdTitleTexGC[];
-extern const f32 lbl_805DDF9C;
 extern void *TAdTitleTexGC__name;
-extern const f32 lbl_805DDFA0;
-extern const f32 lbl_805DDFA4;
-extern const f32 lbl_805DDFA8;
-extern const f32 lbl_805DDFAC;
-extern const f32 lbl_805DDFB0;
-extern const f32 lbl_805DDFB4;
-extern const f32 lbl_805DDFB8;
-extern const f32 lbl_805DDFBC;
-extern const f32 lbl_805DDFC0;
-
 TAdTitleTexGC::~TAdTitleTexGC() {}
 void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc) {
     __ct__7TObjectFP7TObject(ad_title_tex_gc);
@@ -89,20 +104,20 @@ void *__ct__13TAdTitleTexGCFv(void *ad_title_tex_gc) {
     *(void * *)&((TAdTitleTexGC *)ad_title_tex_gc)->m_name = TAdTitleTexGC__name;
     *(u32 *)((s8 *)ad_title_tex_gc + 0x7C) = 51;
     *(u32 *)((s8 *)ad_title_tex_gc + 0x80) = -1;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x34) = lbl_805DDF9C;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x38) = lbl_805DDFA0;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x2C) = lbl_805DDFA4;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x30) = lbl_805DDFA8;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x4C) = lbl_805DDFAC;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x50) = lbl_805DDFA8;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x54) = lbl_805DDFB0;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x58) = lbl_805DDFA0;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x84) = lbl_805DDFB4;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x88) = lbl_805DDFB8;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x8C) = lbl_805DDFBC;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x90) = lbl_805DDFB8;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x94) = lbl_805DDFC0;
-    *(f32 *)((s8 *)ad_title_tex_gc + 0x98) = lbl_805DDFB8;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x34) = 0.8203125f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x38) = 0.3828125f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x2C) = 0.7421875f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x30) = 0.3046875f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x4C) = 0.828125f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x50) = 0.3046875f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x54) = 0.90625f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x58) = 0.3828125f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x84) = 205.0f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x88) = 421.0f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x8C) = 348.0f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x90) = 421.0f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x94) = 432.0f;
+    *(f32 *)((s8 *)ad_title_tex_gc + 0x98) = 421.0f;
     return ad_title_tex_gc;
 }
 

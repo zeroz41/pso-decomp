@@ -6,8 +6,8 @@ struct E_80306AC8 { u8 pad[0x1c]; u32 flags; u8 pad2[0xc4 - 0x20]; };
 struct O_80306AC8 { E_80306AC8 e[12]; u8 pad[0x97c - 12 * 0xc4]; s32 count; };
 extern "C" {
 void release_texture_list(void *);
-extern unsigned char multi_confirm_texture_archive_name[];
-void *multi_confirm_texture_entries[3] = { multi_confirm_texture_archive_name, 0, 0 };
+const char multi_confirm_texture_archive_name[] = "f064_multiconfirm";
+void *multi_confirm_texture_entries[3] = { (void *)multi_confirm_texture_archive_name, 0, 0 };
 struct MultiConfirmTextureList { void *entries; u32 count; };
 __declspec(section ".data") MultiConfirmTextureList multi_confirm_texture_descriptor = { multi_confirm_texture_entries, 1 };
 }
@@ -76,145 +76,36 @@ typedef struct { u32 c[12]; } Col_80307034;
 extern "C" {
 s32 TWindowShortListCtrl__check_controller_button(void *, int);
 s32 play_sound_effect(int, void *, int, int);
-extern Ports_80306DF4 multi_ok_player_port_index_table;
 extern Pad_80306DF4 controller_physical_port_bank[];
 s32 multi_confirm_texture_list;
 void __ct__7TObjectFP7TObject(void *, void *);
 extern void *__vt__12TAdMultiOkGC[];
-extern Pos_80307034 ad_multi_ok_layout_table;
-extern Col_80307034 multi_ok_button_colors;
-extern const char *lbl_805D4080;
 Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg);
 }
-int multi_confirm_cancel_requested(void* p) { return *(u32*)((char*)p + 0x980) & 0x1; }
-extern "C" {
+const char *TAdMultiOkGC__name = "TAdMultiOkGC";
+// The unit was built with -inline off,deferred: the functions are written
+// last-to-first, which gives the original address order.
+void load_multi_confirm_textures(void) { multi_confirm_texture_list = (int)&multi_confirm_texture_descriptor; TLobby__sub_8023E4B4((s32)multi_confirm_texture_archive_name, (s32)&multi_confirm_texture_descriptor); }
 
-s32 are_all_entries_finished(O_80306AC8 *self) {
-    s32 i;
-    for (i = 0; i < self->count; i++) {
-        if (!(self->e[i].flags & 4)) return 0;
-    }
-    return 1;
-}
-
-#pragma push
-#pragma fp_contract on
-void TAdMultiOkGC::draw_entry(int arg1) {
-    E_80306B04 *e;
-    s32 i;
-    f32 base;
-    e = (E_80306B04 *)this;
-    if (e[arg1].flags & 2) {
-        begin_screen_draw(1);
-        TObjFish::set_global_param(multi_confirm_texture_list);
-        e += arg1;
-        base = 0.0050000004f * (f32)arg1;
-        for (i = 0; i < 5; i++) {
-            set_draw_texture_and_color(0, e->vals[i]);
-            if (e->t - (i - 1) >= 0) {
-                f32 t = 0.001f * (f32)i + 0.01f;
-                draw_textured_quad_at_depth((f32 *)&e->q[i], t + base);
-            }
-        }
-        TWindowSubStatusDisp::get_player();
-    }
-}
-#pragma pop
-
-void TAdMultiOkGC::render() {
-    Ok_80306C10 *o = (Ok_80306C10 *)this;
-    s32 i;
-    if (TMainTask::get_render_pass() != 1) {
-        set_additive_blend();
-        for (i = 0; i < o->count; i++) {
-            draw_entry(i);
-        }
-        set_default_alpha_blend();
-    }
-}
-#pragma push
-#pragma fp_contract on
-void TAdMultiOkGC::update_entry_animation(int arg1) {
-    E_80306C70 *e;
-    s32 i;
-    s32 d;
-    f32 f;
-    e = &((O_80306C70 *)this)->e[arg1];
-    if (e->flags & 2) {
-        e->t++;
-        for (i = 0; i < 5; i++) {
-            d = e->t - (i - 1);
-            if (e->flags & 1) {
-                if (d > 10) {
-                    e->flags |= 4;
-                } else if (d >= 0) {
-                    f = 3.0f - 0.2f * (f32)d;
-                    e->q[i].a = -32.0f * f + e->x;
-                    e->q[i].b = -16.0f * f + e->y;
-                    e->q[i].c = 32.0f * f + e->x;
-                    e->q[i].d = 16.0f * f + e->y;
-                }
-            } else if (d > 5) {
-                e->flags &= ~2;
-            } else if (d >= 0) {
-                f = 1.0f - 0.2f * (f32)d;
-                e->q[i].a = -32.0f * f + e->x;
-                e->q[i].b = -16.0f * f + e->y;
-                e->q[i].c = 32.0f * f + e->x;
-                e->q[i].d = 16.0f * f + e->y;
-            }
-        }
-    }
-}
-#pragma pop
-
-void TAdMultiOkGC::handle_player_buttons(int arg1) {
-    O_80306DF4 *o = (O_80306DF4 *)this;
-    Ports_80306DF4 ports = multi_ok_player_port_index_table;
-    if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 4) != 0) {
-        E_80306DF4 *e = &o->e[arg1];
-        if (e->flags & 4) {
-            e->t = -1;
-            e->flags &= ~1;
-            e->flags &= ~4;
-            play_sound_effect(0x52F16, 0, 0, 0);
-        } else if (!(e->flags & 2)) {
-            e->t = -1;
-            e->flags |= 1;
-            e->flags |= 2;
-            play_sound_effect(0x52D01, 0, 0, 0);
-        }
-    } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 2) != 0) {
-        if (!(o->e[arg1].flags & 2)) {
-            o->flags |= 1;
-            play_sound_effect(0x52F16, 0, 0, 0);
-        }
+void free_multi_confirm_textures(void) {
+    if ((u32) multi_confirm_texture_list != 0U) {
+        release_texture_list((void*)multi_confirm_texture_list);
+        multi_confirm_texture_list = 0U;
     }
 }
 
-void TAdMultiOkGC::run_task() {
-    Ok_80306F84 *o = (Ok_80306F84 *)this;
-    s32 i;
-    for (i = 0; i < o->count; i++) {
-        handle_player_buttons(i);
-        update_entry_animation(i);
-    }
-}
-}
-
-TAdMultiOkGC::~TAdMultiOkGC() {}
 #pragma push
 #pragma fp_contract on
 
 Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_80307034 *cfg) {
     __ct__7TObjectFP7TObject(self, parent);
     self->vt = __vt__12TAdMultiOkGC;
-    Pos_80307034 pos = ad_multi_ok_layout_table;
-    Col_80307034 cols = multi_ok_button_colors;
+    Pos_80307034 pos = { 136.0f, 332.0f, 304.0f, 85.0f, 332.0f, 203.0f, 60.0f, 332.0f, 152.0f };
+    Col_80307034 cols = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
     s32 n;
     s32 i;
     s32 k;
-    self->name = lbl_805D4080;
+    self->name = TAdMultiOkGC__name;
     self->count = cfg->count;
     self->f980 = 0;
     if (self->count < 2) {
@@ -262,10 +153,123 @@ Ok_80307034 *__ct__12TAdMultiOkGCFv(Ok_80307034 *self, void *parent, Cfg_8030703
 }
 #pragma pop
 
-void free_multi_confirm_textures(void) {
-    if ((u32) multi_confirm_texture_list != 0U) {
-        release_texture_list((void*)multi_confirm_texture_list);
-        multi_confirm_texture_list = 0U;
+TAdMultiOkGC::~TAdMultiOkGC() {}
+
+extern "C" {
+
+void TAdMultiOkGC::run_task() {
+    Ok_80306F84 *o = (Ok_80306F84 *)this;
+    s32 i;
+    for (i = 0; i < o->count; i++) {
+        handle_player_buttons(i);
+        update_entry_animation(i);
     }
 }
-void load_multi_confirm_textures(void) { multi_confirm_texture_list = (int)&multi_confirm_texture_descriptor; TLobby__sub_8023E4B4((s32)multi_confirm_texture_archive_name, (s32)&multi_confirm_texture_descriptor); }
+
+void TAdMultiOkGC::handle_player_buttons(int arg1) {
+    O_80306DF4 *o = (O_80306DF4 *)this;
+    Ports_80306DF4 ports = { 0, 1, 2, 3 };
+    if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 4) != 0) {
+        E_80306DF4 *e = &o->e[arg1];
+        if (e->flags & 4) {
+            e->t = -1;
+            e->flags &= ~1;
+            e->flags &= ~4;
+            play_sound_effect(0x52F16, 0, 0, 0);
+        } else if (!(e->flags & 2)) {
+            e->t = -1;
+            e->flags |= 1;
+            e->flags |= 2;
+            play_sound_effect(0x52D01, 0, 0, 0);
+        }
+    } else if (TWindowShortListCtrl__check_controller_button(controller_physical_port_bank[ports.v[o->port[arg1]]].btn, 2) != 0) {
+        if (!(o->e[arg1].flags & 2)) {
+            o->flags |= 1;
+            play_sound_effect(0x52F16, 0, 0, 0);
+        }
+    }
+}
+
+#pragma push
+#pragma fp_contract on
+void TAdMultiOkGC::update_entry_animation(int arg1) {
+    E_80306C70 *e;
+    s32 i;
+    s32 d;
+    f32 f;
+    e = &((O_80306C70 *)this)->e[arg1];
+    if (e->flags & 2) {
+        e->t++;
+        for (i = 0; i < 5; i++) {
+            d = e->t - (i - 1);
+            if (e->flags & 1) {
+                if (d > 10) {
+                    e->flags |= 4;
+                } else if (d >= 0) {
+                    f = 3.0f - 0.2f * (f32)d;
+                    e->q[i].a = -32.0f * f + e->x;
+                    e->q[i].b = -16.0f * f + e->y;
+                    e->q[i].c = 32.0f * f + e->x;
+                    e->q[i].d = 16.0f * f + e->y;
+                }
+            } else if (d > 5) {
+                e->flags &= ~2;
+            } else if (d >= 0) {
+                f = 1.0f - 0.2f * (f32)d;
+                e->q[i].a = -32.0f * f + e->x;
+                e->q[i].b = -16.0f * f + e->y;
+                e->q[i].c = 32.0f * f + e->x;
+                e->q[i].d = 16.0f * f + e->y;
+            }
+        }
+    }
+}
+#pragma pop
+
+void TAdMultiOkGC::render() {
+    Ok_80306C10 *o = (Ok_80306C10 *)this;
+    s32 i;
+    if (TMainTask::get_render_pass() != 1) {
+        set_additive_blend();
+        for (i = 0; i < o->count; i++) {
+            draw_entry(i);
+        }
+        set_default_alpha_blend();
+    }
+}
+
+#pragma push
+#pragma fp_contract on
+void TAdMultiOkGC::draw_entry(int arg1) {
+    E_80306B04 *e;
+    s32 i;
+    f32 base;
+    e = (E_80306B04 *)this;
+    if (e[arg1].flags & 2) {
+        begin_screen_draw(1);
+        TObjFish::set_global_param(multi_confirm_texture_list);
+        e += arg1;
+        base = 0.0050000004f * (f32)arg1;
+        for (i = 0; i < 5; i++) {
+            set_draw_texture_and_color(0, e->vals[i]);
+            if (e->t - (i - 1) >= 0) {
+                f32 t = 0.001f * (f32)i + 0.01f;
+                draw_textured_quad_at_depth((f32 *)&e->q[i], t + base);
+            }
+        }
+        TWindowSubStatusDisp::get_player();
+    }
+}
+#pragma pop
+
+s32 are_all_entries_finished(O_80306AC8 *self) {
+    s32 i;
+    for (i = 0; i < self->count; i++) {
+        if (!(self->e[i].flags & 4)) return 0;
+    }
+    return 1;
+}
+
+}
+
+int multi_confirm_cancel_requested(void* p) { return *(u32*)((char*)p + 0x980) & 0x1; }

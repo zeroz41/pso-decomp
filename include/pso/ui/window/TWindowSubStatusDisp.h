@@ -131,7 +131,6 @@ struct TWindowSubStatusDisp : public TWindowBase {
     int forward_render();
     int update_subwindow();
     void fill_card_text_entries(s32 arg1);
-    void render_status_pair(s32 arg1);
     static s32 query_status_field(void *arg0, s8 arg1);
     static s32 get_flag_or_zero(void *arg0, s8 arg1);
     void *destroy_with_free(s16 arg1);

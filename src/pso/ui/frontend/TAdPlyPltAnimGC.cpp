@@ -48,21 +48,14 @@ struct RecoveredGlobal_803560F0_lbl_804F142C {
 
 extern "C" {
 extern s32 player_prate_texture_list_ptr;
-extern const f32 lbl_805DFFC8;
-extern const f32 lbl_805DFFCC;
 extern const V2_80355D5C lbl_80479350[];
-extern const f32 lbl_805DFFD0;
 void start_anim_rect__19TAdPlyPltAnimCtrlGCFPvPv(Obj_80355D5C *o, V2_80355D5C *p);
 extern Pos_80355DE0 ply_plt_anim_target_position_table[];
 extern u32 ply_plt_anim_duration_table[];
-extern const f32 lbl_805DFFD4;
-extern const f32 lbl_805DFFD8;
 extern RecoveredGlobal_803560F0_lbl_804F142C TAdPlyPltAnimGC__instances;
 extern void *__vt__15TAdPlyPltAnimGC[];
 void __ct__7TObjectFP7TObject(void *, void *);
 extern s32 lbl_805D43A0;
-extern const f32 lbl_805DFFDC;
-extern const f32 lbl_805DFFE0;
 s32 __nw__7TObjectFUl(int);
 void release_texture_list(void*);
 
@@ -75,7 +68,7 @@ void TAdPlyPltAnimGC::render() {
         begin_screen_draw(1);
         TObjFish::set_global_param(player_prate_texture_list_ptr);
         set_draw_texture_and_color(0, (*(u8 *)((s8 *)arg0 + 0x6C) << 0x18) | 0xFF0000 | 0xFFFF);
-        draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), (lbl_805DFFCC * (f32) *(s32 *)((s8 *)arg0 + 0x70)) + lbl_805DFFC8);
+        draw_textured_quad_at_depth((f32 *)(arg0 + 0x1C), (0.001f * (f32) *(s32 *)((s8 *)arg0 + 0x70)) + 0.99f);
         TWindowSubStatusDisp::get_player();
         set_default_alpha_blend();
     }
@@ -99,8 +92,8 @@ void start_anim_rect__19TAdPlyPltAnimCtrlGCFPvPv(Obj_80355D5C *o, V2_80355D5C *p
     o->b = p->y;
     o->c = p->x + lbl_80479350[0].x;
     o->d = p->y + lbl_80479350[0].y;
-    o->e = lbl_805DFFD0 * (o->c - o->a) + o->a;
-    o->f = lbl_805DFFD0 * (o->d - o->b) + o->b;
+    o->e = 0.5f * (o->c - o->a) + o->a;
+    o->f = 0.5f * (o->d - o->b) + o->b;
     ((TAdPlyPltAnimCtrlGC *)o)->set_anim_state(1);
 }
 #pragma pop
@@ -112,12 +105,12 @@ void TAdPlyPltAnimGC::run_task() {
     if (o->active != 0) {
         o->time++;
         if (o->time < ply_plt_anim_duration_table[o->idx] + 1) {
-            f32 dx = (ply_plt_anim_target_position_table[o->idx].x - lbl_805DFFD4) / (f32)ply_plt_anim_duration_table[o->idx];
-            f32 dy = (ply_plt_anim_target_position_table[o->idx].y - lbl_805DFFD4) / (f32)ply_plt_anim_duration_table[o->idx];
+            f32 dx = (ply_plt_anim_target_position_table[o->idx].x - 1.0f) / (f32)ply_plt_anim_duration_table[o->idx];
+            f32 dy = (ply_plt_anim_target_position_table[o->idx].y - 1.0f) / (f32)ply_plt_anim_duration_table[o->idx];
             o->x64 = ply_plt_anim_target_position_table[o->idx].x - dx * (f32)o->time;
             o->x68 = ply_plt_anim_target_position_table[o->idx].y - dy * (f32)o->time;
-            f32 r = lbl_805DFFD4 / (f32)ply_plt_anim_duration_table[o->idx];
-            o->x6c = lbl_805DFFD8 * (lbl_805DFFD4 - r * (f32)o->time);
+            f32 r = 1.0f / (f32)ply_plt_anim_duration_table[o->idx];
+            o->x6c = 255.0f * (1.0f - r * (f32)o->time);
         } else {
             o->x6c = 0;
         }
@@ -148,15 +141,15 @@ s32 TAdPlyPltAnimGC__ct(int arg0, void *arg1, void *arg2) {
     ((TAdPlyPltAnimGC_8035601C *)arg0)->x0 = lbl_805D43A0;
     ((TAdPlyPltAnimGC_8035601C *)arg0)->x78 = -1;
     ((TAdPlyPltAnimGC_8035601C *)arg0)->x74 = 0;
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x2c = lbl_805DFFDC;
+    ((TAdPlyPltAnimGC_8035601C *)arg0)->x2c = 0.0f;
     {
         f32 y0 = (f32)(s32)arg2 * lbl_80479350[0].y;
-        ((TAdPlyPltAnimGC_8035601C *)arg0)->x30 = y0 * lbl_805DFFE0;
+        ((TAdPlyPltAnimGC_8035601C *)arg0)->x30 = y0 / 256.0f;
     }
-    ((TAdPlyPltAnimGC_8035601C *)arg0)->x34 = lbl_80479350[0].x * lbl_805DFFE0;
+    ((TAdPlyPltAnimGC_8035601C *)arg0)->x34 = lbl_80479350[0].x / 256.0f;
     {
         f32 y1 = (f32)(s32)arg2 * lbl_80479350[0].y + lbl_80479350[0].y;
-        ((TAdPlyPltAnimGC_8035601C *)arg0)->x38 = y1 * lbl_805DFFE0;
+        ((TAdPlyPltAnimGC_8035601C *)arg0)->x38 = y1 / 256.0f;
     }
     ((TAdPlyPltAnimGC_8035601C *)arg0)->x6c = 0xFF;
     ((TAdPlyPltAnimGC_8035601C *)arg0)->x70 = (s32)arg2;

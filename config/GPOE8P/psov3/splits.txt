@@ -8755,18 +8755,11 @@ pso/enemy/gee/TObjEneMe1Gee_NEEDLE_802A4BB8.cpp:
 	.sdata      start:0x805D3DE0 end:0x805D3DE8
 	.sbss       start:0x805D6660 end:0x805D6668
 
-pso/ui/frontend/TAdTitleTexGC_802A4D74.cpp:
-	.text       start:0x802A4D74 end:0x802A4DE8
-	.sdata2     start:0x805DDF80 end:0x805DDF88
-
-pso/ui/window/TWindowSubStatusDisp_802A4DE8.cpp:
-	.text       start:0x802A4DE8 end:0x802A4E6C
-	.sdata2     start:0x805DDF88 end:0x805DDF8C
-
 pso/ui/frontend/TAdTitleTexGC.cpp:
-	.text       start:0x802A4E6C end:0x802A5120
+	.text       start:0x802A4D74 end:0x802A5120
 	.rodata     start:0x80466708 end:0x80466710
 	.data       start:0x804DD048 end:0x804DD060
+	.sdata2     start:0x805DDF80 end:0x805DDFC4
 
 pso/unk/TLobby_802A5120.cpp:
 	.text       start:0x802A5120 end:0x802A5450
@@ -9744,8 +9737,9 @@ pso/item/TUnk_804E6FA8.cpp:
 
 pso/ui/frontend/TAdMultiOkGC.cpp:
 	.text       start:0x80306ABC end:0x80307300
-	.rodata     start:0x80475420 end:0x80475428
+	.rodata     start:0x80475338 end:0x80475428
 	.data       start:0x804E7060 end:0x804E708C
+	.sdata      start:0x805D4080 end:0x805D4088
 	.sbss       start:0x805D6A48 end:0x805D6A4C
 	.sdata2     start:0x805DF040 end:0x805DF074
 
@@ -9754,6 +9748,7 @@ pso/ui/frontend/TAdGameStartBackGC.cpp:
 	.rodata     start:0x80475440 end:0x80475448
 	.data       start:0x804E7090 end:0x804E70A8
 	.sbss       start:0x805D6A50 end:0x805D6A54
+	.sdata2     start:0x805DF078 end:0x805DF0A4
 
 pso/player/TObjPlayer_80307618.cpp:
 	.text       start:0x80307618 end:0x80307964
@@ -10062,14 +10057,11 @@ pso/boss/olgaflow/TBoss6Zanzo.cpp:
 pso/boss/olgaflow/TBoss6Type1_80320AE0.cpp:
 	.text       start:0x80320AE0 end:0x80320B38
 
-pso/ui/frontend/TAdGameStartShadowGC_80320B38.cpp:
-	.text       start:0x80320B38 end:0x80320BA8
-	.sdata2     start:0x805DF478 end:0x805DF47C
-
 pso/ui/frontend/TAdGameStartShadowGC.cpp:
-	.text       start:0x80320BA8 end:0x80320DE8
+	.text       start:0x80320B38 end:0x80320DE8
 	.rodata     start:0x80476498 end:0x804764A0
 	.data       start:0x804EC980 end:0x804EC998
+	.sdata2     start:0x805DF478 end:0x805DF498
 
 pso/unk/text_80320DE8.cpp:
 	.text       start:0x80320DE8 end:0x80320EAC
@@ -10148,13 +10140,10 @@ pso/unk/TLobby_803255F8.cpp:
 	.text       start:0x803255F8 end:0x80325660
 	.rodata     start:0x804766F0 end:0x80476708
 
-pso/unk/text_80325660.cpp:
-	.text       start:0x80325660 end:0x803256F0
-	.sdata2     start:0x805DF600 end:0x805DF604
-
 pso/ui/frontend/TAdChrSelMovePlateGC.cpp:
-	.text       start:0x803256F0 end:0x80325950
+	.text       start:0x80325660 end:0x80325950
 	.data       start:0x804ECD28 end:0x804ECD40
+	.sdata2     start:0x805DF600 end:0x805DF61C
 
 pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp:
 	.text       start:0x80325950 end:0x80325D38
@@ -10184,19 +10173,12 @@ pso/player/TObjPlayer_80326578.cpp:
 pso/unk/text_80327338.cpp:
 	.text       start:0x80327338 end:0x80327390
 
-pso/ui/window/TWindowSubStatusDisp_80327390.cpp:
-	.text       start:0x80327390 end:0x803273F0
-	.sdata2     start:0x805DF698 end:0x805DF69C
-
 pso/ui/frontend/TAdScrollWinGC.cpp:
-	.text       start:0x803273F0 end:0x803274D0
-
-pso/ui/frontend/TAdScrollWinGC_803274D0.cpp:
-	.text       start:0x803274D0 end:0x80327504
-
-pso/ui/frontend/TAdScrollWinGC_80327504.cpp:
-	.text       start:0x80327504 end:0x80327844
-	.rodata     start:0x80476790 end:0x80476798
+	.text       start:0x80327390 end:0x80327844
+	.rodata     start:0x80476770 end:0x80476798
+	.sdata      start:0x805D41A8 end:0x805D41AC
+	.sbss       start:0x805D6C68 end:0x805D6C6C
+	.sdata2     start:0x805DF698 end:0x805DF6C4
 
 pso/unk/text_80327844.cpp:
 	.text       start:0x80327844 end:0x803278B0
@@ -10769,8 +10751,10 @@ pso/ui/frontend/TAdLoadQuestPrtTxtGC.cpp:
 
 pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.cpp:
 	.text       start:0x8034A090 end:0x8034A63C
-	.rodata     start:0x804789A8 end:0x804789B0
+	.rodata     start:0x80478990 end:0x804789B0
 	.data       start:0x804EFF80 end:0x804EFFA4
+	.sdata      start:0x805D4308 end:0x805D4310
+	.sdata2     start:0x805DFD20 end:0x805DFD5C
 
 pso/ui/frontend/TAdPsoPassSaveGC.cpp:
 	.text       start:0x8034A63C end:0x8034A7CC
@@ -11002,6 +10986,7 @@ pso/ui/frontend/TAdPlyPltAnimGC.cpp:
 	.text       start:0x80355C74 end:0x80356190
 	.rodata     start:0x80479368 end:0x80479378
 	.data       start:0x804F1440 end:0x804F1458
+	.sdata2     start:0x805DFFC8 end:0x805DFFE4
 
 pso/ui/frontend/TAdPlyPltAnimGC_80356190.cpp:
 	.text       start:0x80356190 end:0x803561C4

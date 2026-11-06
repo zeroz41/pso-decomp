@@ -29,5 +29,7 @@ struct TAdScrollWinGC : public TObject {
     virtual void run_task();
 };
 
+extern const char *TAdScrollWinGC__class_name;
+
 typedef char TAdScrollWinGC_size[sizeof(TAdScrollWinGC) == 0x54 ? 1 : -1];
 #endif

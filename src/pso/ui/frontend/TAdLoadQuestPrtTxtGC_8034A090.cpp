@@ -31,23 +31,7 @@ struct T_8034A198 {
 
 extern "C" {
 TAdLoadQuestPrtTxtGC *quest_load_prt_txt_by_slot[3] = {NULL, NULL, NULL};
-extern const f32 lbl_805DFD20;
-extern const f32 lbl_805DFD24;
-extern const f32 lbl_805DFD28;
-extern const f32 lbl_805DFD2C;
-extern const f32 lbl_805DFD30;
-extern const f32 lbl_805DFD34;
-extern const f32 lbl_805DFD38;
-extern const f32 lbl_805DFD3C;
-extern const f32 lbl_805DFD40;
-extern const f32 lbl_805DFD44;
-extern const f32 lbl_805DFD48;
-extern const f32 lbl_805DFD4C;
-extern const f32 lbl_805DFD50;
-extern const f32 lbl_805DFD54;
-extern const f32 lbl_805DFD58;
-// Points at the "TAdLoadQuestPrtTxtGC" class-name string.
-extern const char *lbl_805D4308;
+const char *TAdLoadQuestPrtTxtGC__name = "TAdLoadQuestPrtTxtGC";
 
 void TAdLoadQuestPrtTxtGC::run_task() {
     TAdLoadQuestPrtTxtGC_8034A090 *self = (TAdLoadQuestPrtTxtGC_8034A090 *)this;
@@ -62,13 +46,13 @@ void TAdLoadQuestPrtTxtGC::run_task() {
             if (self->timer > i * 0x14 && self->timer < i * 0x14 + 0x28) {
                 if (self->particles[i] != NULL) {
                     ((TParticleCtrl *)(self->particles[i]))->clear_active_flag();
-                    self->pos[i].x += lbl_805DFD20;
+                    self->pos[i].x += 15.6f;
                     ((TParticleCtrl *)self->particles[i])->set_position(&self->pos[i]);
                 }
             } else {
                 if (self->particles[i] != NULL) {
                     ((TParticleCtrl *)(self->particles[i]))->enable();
-                    self->pos[i].x = lbl_805DFD24;
+                    self->pos[i].x = 0.0f;
                     ((TParticleCtrl *)self->particles[i])->set_position(&self->pos[i]);
                 }
             }
@@ -101,7 +85,7 @@ TAdLoadQuestPrtTxtGC::~TAdLoadQuestPrtTxtGC() {
 TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(parent) {
     s32 i;
     s32 j;
-    m_name = lbl_805D4308;
+    m_name = TAdLoadQuestPrtTxtGC__name;
     this->slot = slot;
     m_224 = 0;
     for (i = 0; i < 32; i++) {
@@ -111,9 +95,9 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
     case 0:
         particle_count = 22;
         for (i = 0; i < particle_count; i++) {
-            particle_pos[i].x = lbl_805DFD28;
-            particle_pos[i].y = lbl_805DFD30 * i + lbl_805DFD2C;
-            particle_pos[i].z = lbl_805DFD34;
+            particle_pos[i].x = 8.0f;
+            particle_pos[i].y = 16.0f * i + 72.0f;
+            particle_pos[i].z = 0.002020202f;
             particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 15, 1);
             if (particles[i] != NULL) {
                 particles[i]->set_flags(0xC0);
@@ -124,12 +108,12 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
     case 1:
         particle_count = 19;
         for (i = 0; i < particle_count; i++) {
-            f32 x = i > 9 ? lbl_805DFD38 : lbl_805DFD3C;
-            f32 y = i > 9 ? lbl_805DFD40 : lbl_805DFD44;
+            f32 x = i > 9 ? 462.0f : 50.0f;
+            f32 y = i > 9 ? 445.0f : 35.0f;
             s32 column = i > 9 ? i - 9 : i;
-            particle_pos[i].x = lbl_805DFD30 * column + x;
+            particle_pos[i].x = 16.0f * column + x;
             particle_pos[i].y = y;
-            particle_pos[i].z = lbl_805DFD48;
+            particle_pos[i].z = 0.0022222223f;
             particles[i] = (TParticleCtrl *)create_particle(&particle_pos[i], 8, 1);
             if (particles[i] != NULL) {
                 particles[i]->set_flags(0xC0);
@@ -139,12 +123,12 @@ TAdLoadQuestPrtTxtGC::TAdLoadQuestPrtTxtGC(TObject *parent, s32 slot) : TObject(
     case 2:
         particle_count = 32;
         for (i = 0; i < 8; i++) {
-            f32 y = lbl_805DFD50 * i + lbl_805DFD4C;
+            f32 y = 40.0f * i + 99.0f;
             for (j = 0; j < 4; j++) {
                 s32 n = i * 4 + j;
-                particle_pos[n].x = lbl_805DFD30 * j + lbl_805DFD54;
+                particle_pos[n].x = 16.0f * j + 555.0f;
                 particle_pos[n].y = y;
-                particle_pos[n].z = lbl_805DFD58;
+                particle_pos[n].z = 0.1f;
                 particles[n] = (TParticleCtrl *)create_particle(&particle_pos[n], 8, 1);
                 // The original tests particles[i] here, not the particle just created.
                 if (particles[i] != NULL) {
