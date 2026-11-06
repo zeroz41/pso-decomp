@@ -39,11 +39,6 @@ s32 is_alive__8TObjBaseFv(s32);
 extern u8 *camera_ctrl_instance;
 
 void *spawn_continuous_particle_effect_with_flags(void *parent, s32 idx, s32 flags);
-s32 __ct__7TObjectFP7TObject();
-void __dl__7TObjectFPv(void *);
-void __dt__7TObjectFv(void *, int);
-
-extern s32 lbl_804E1908[];
 
 #pragma push
 #pragma fp_contract on
@@ -72,30 +67,19 @@ void TObjEneBm9Mericarol_EffCurse3::run_task() {
 typedef struct VBase_18_477421 VBase_18_477421;
 #pragma pop
 
-void *TObjEneBm9Mericarol_EffCurse3::destroy(s16 arg1) {
-    if (this != NULL) {
-        *(s32 **)((s8 *)this + 0x18) = lbl_804E1908;
-        if (*(void * *)&this->unk_24 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->unk_24); *(s32 *)&this->unk_24 = 0; }
-        __dt__7TObjectFv(this, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(this);
-        }
-    }
-    return this;
 }
 
-extern s32 lbl_805D3F38;
+TObjEneBm9Mericarol_EffCurse3::~TObjEneBm9Mericarol_EffCurse3() {
+    if (*(void * *)&this->unk_24 != NULL) { queue_destruction__7TObjectFv(*(void * *)&this->unk_24); *(s32 *)&this->unk_24 = 0; }
+}
 
-void *TObjEneBm9Mericarol_EffCurse3::construct(s32 arg1, s32 arg2) {
-    __ct__7TObjectFP7TObject();
-    *(s32 **)((s8 *)this + 0x18) = lbl_804E1908;
-    *(s32 *)&this->m_name = (s32) lbl_805D3F38;
+const char *TObjEneBm9Mericarol_EffCurse3__class_name = "TObjEneBm9Mericarol_EffCurse3";
+
+TObjEneBm9Mericarol_EffCurse3::TObjEneBm9Mericarol_EffCurse3(TObject *parent, s32 target) : TObject(parent) {
+    m_name = TObjEneBm9Mericarol_EffCurse3__class_name;
     *(s32 *)((s8 *)this + 0x1C) = 0;
-    this->m_20 = arg2;
+    this->m_20 = target;
     if (is_alive__8TObjBaseFv(this->m_20) != 0) {
         *(s32 *)&this->unk_24 = (s32)spawn_continuous_particle_effect_with_flags((void *)(this->m_20 + 0x38), 0x20D, 0x40);
     }
-    return this;
-}
-
 }

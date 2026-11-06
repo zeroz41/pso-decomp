@@ -451,11 +451,14 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # -sdata 4: the 8-byte kind tables 0x80542FBC-0x80542FDC sit in .bss, not .sbss.
     "pso/enemy/TObjEneMe3SinowZoa.cpp": {"cflags": _switch(cflags_pso, "-inline on,deferred", "-str reuse,readonly", "-sdata 4")},
     "pso/boss/TObjBoss2Tunnel.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-opt nopropagation", "-pool off", "-sdata 4")},
+    "pso/enemy/TObjEneMe1GiGue_802CDB1C.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/TObjEneBm9Mericarol_EffCurse3.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
+    "pso/enemy/TObjEneEpsilonGuard_8035DD68.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
     "pso/enemy/TObjEneEpsilonGuard_8035F5C8.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
     # Functions in reverse source order (0x8008DC18-0x80090448 is written last-to-first) and the four 8-byte
     # .bss arrays 0x805007A8-0x805007C0 reached through one lis/addi pool base in the ctor, not r13.
     "pso/enemy/TObjEneBalClawBody.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-sdata 4")},
-    "pso/enemy/TObjEneBalClawClaw.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/TObjEneBalClawClaw.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     "pso/misc/TPlyFollowParticleCtrl.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/player/TObjPlayer_8002E784.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
     "pso/boss/TBoss4DarkFalz_8004C93C.cpp": {"cflags": _switch(cflags_pso, "-str reuse,readonly")},
@@ -594,7 +597,7 @@ GAME_EXCEPTIONS: Dict[str, Dict[str, Any]] = {
     # native vtables before the switch tables and functions in address order.
     "pso/enemy/TObjEneNanoDrago.cpp": {"cflags": _switch(cflags_pso, "-inline deferred")},
     "pso/enemy/TObjEneDellBiter.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
-    "pso/enemy/TObjEneDellBiterEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred")},
+    "pso/enemy/TObjEneDellBiterEffects.cpp": {"cflags": _switch(cflags_pso, "-inline off,deferred", "-str reuse,readonly")},
     # The Vol Opt fade tasks: deferred like the units above, but nothing is
     # inlined (the inline TUnk_804999E8 destructor and TObject::queue_destruction
     # stay calls).

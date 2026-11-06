@@ -59,8 +59,6 @@ s32 rotate_matrix_y(void *, s32);
 s32 rotate_matrix_x(void *, s32);
 s32 push_matrix_from(void *);
 s32 pop_matrix();
-extern Vec_802CDEB4 lbl_804722A8;
-extern const f64 lbl_804722C8[];
 extern s32 lbl_804E14E8[];
 extern u8 identity_matrix[];
 extern s32 tl_04;
@@ -74,7 +72,6 @@ VEnt_802CDB1C *find_active_entity_by_id(u16);
 s32 play_sound_effect(s32, void *, s32, s32);
 s32 vec3_add_to(void *, void *);
 s32 subtract_vector(void *, void *);
-extern Hit_802CDB1C lbl_804722B4[];
 extern s32 local_client_id;
 extern const f32 lbl_805D684C;
 extern s32 lbl_805D6854;
@@ -82,6 +79,52 @@ void TObjPlayer__sub_802CDB1C(u8 *arg0);
 void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1);
 void __dl__7TObjectFPv(void *);
 
+u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6) {
+    Vec_802CDEB4 *pos;
+    __ct__14TObjCollidableFP7TObject(arg0, tl_04);
+    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
+    ((TUnk_804E14E8 *)arg0)->m_108 = arg2;
+    *(s16 *)((s8 *)arg0 + 0x10A) = arg6;
+    *(s32 *)((s8 *)arg0 + 0x104) = arg5;
+    ((TUnk_804E14E8 *)arg0)->m_f0 = arg1;
+    ((TUnk_804E14E8 *)arg0)->m_e8 = 0.0f;
+    push_matrix_from(identity_matrix);
+    {
+        Vec_802CDEB4 v = {0.0f, 0.0f, lbl_805D6844};
+        rotate_matrix_y(0, arg3->b);
+        rotate_matrix_x(0, arg3->a);
+        matrix_mult_vec(0, &v, arg0 + 0xC4);
+    }
+    pop_matrix();
+    *(s32 *)((s8 *)arg0 + 0xEC) = arg4;
+    pos = (Vec_802CDEB4 *)(find_entity_by_id(arg2) + 0x2FC);
+    {
+    Ang_802CDEB4 ang;
+    ang.x = 0;
+    ang.y = (s32)(10430.38043493439 * atan2_float(pos->x - arg1->x, pos->z - arg1->z)) + 0x4000;
+    ang.z = 0x4000 - (s32)(10430.38043493439 * atan2_float(pos->y - arg1->y, vec_xz_distance((Vec *)pos, (Vec *)arg1)));
+    ((TUnk_804E14E8 *)arg0)->m_f8 = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x201, 2);
+    *(s32 *)((s8 *)arg0 + 0xFC) = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x202, 2);
+    }
+    *(f32 *)((s8 *)arg0 + 0xF4) = lbl_805D6848;
+    if (xz_distance_squared((Vec *)pos, (Vec *)arg1) < 22500.0f) {
+        *(f32 *)((s8 *)arg0 + 0xF4) *= 2.0f;
+    }
+    ((TUnk_804E14E8 *)arg0)->m_100 = 0;
+    return arg0;
+}
+void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1) {
+    if (arg0 != NULL) {
+        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
+        if (*(void **)((s8 *)arg0 + 0xF8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8)); ((TUnk_804E14E8 *)arg0)->m_f8 = 0; }
+        if (*(void **)((s8 *)arg0 + 0xFC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xFC)); *(s32 *)((s8 *)arg0 + 0xFC) = 0; }
+        __dt__14TObjCollidableFv(arg0, 0);
+        if (arg1 > 0) {
+            __dl__7TObjectFPv(arg0);
+        }
+    }
+    return arg0;
+}
 #pragma push
 #pragma opt_common_subs off
 #define self ((Shot_802CDB1C *)arg0)
@@ -144,8 +187,7 @@ void TObjPlayer__sub_802CDB1C(u8 *arg0) {
         }
         if (tgt != NULL && !(*(s32 *)((s8 *)tgt + 0x30) & 0x04000A00) &&
             xyz_distance_squared((Vec *)&self->pos, (Vec *)((u8 *)tgt + 0x2FC)) <= lbl_805D6844 * lbl_805D6844) {
-            Hit_802CDB1C h = lbl_804722B4[0];
-            h.power = (f32)lbl_805D6854;
+            Hit_802CDB1C h = {1, (f32)lbl_805D6854};
             {
                 Hit_802CDB1C h1 = h;
                 tgt->m21(src, &h1, 0, -1, -1);
@@ -167,52 +209,5 @@ void TObjPlayer__sub_802CDB1C(u8 *arg0) {
 #undef self
 #pragma pop
 
-void *__dt__13TUnk_804E14E8Fv(void *arg0, s16 arg1) {
-    if (arg0 != NULL) {
-        *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
-        if (*(void **)((s8 *)arg0 + 0xF8) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xF8)); ((TUnk_804E14E8 *)arg0)->m_f8 = 0; }
-        if (*(void **)((s8 *)arg0 + 0xFC) != NULL) { queue_destruction__7TObjectFv(*(void **)((s8 *)arg0 + 0xFC)); *(s32 *)((s8 *)arg0 + 0xFC) = 0; }
-        __dt__14TObjCollidableFv(arg0, 0);
-        if (arg1 > 0) {
-            __dl__7TObjectFPv(arg0);
-        }
-    }
-    return arg0;
-}
-u8 *TObjPlayer__sub_802CDEB4(u8 *arg0, Vec_802CDEB4 *arg1, s16 arg2, Rot_802CDEB4 *arg3, s32 arg4, s32 arg5, s16 arg6) {
-    Vec_802CDEB4 *pos;
-    __ct__14TObjCollidableFP7TObject(arg0, tl_04);
-    *(s32 **)((s8 *)arg0 + 0x18) = lbl_804E14E8;
-    ((TUnk_804E14E8 *)arg0)->m_108 = arg2;
-    *(s16 *)((s8 *)arg0 + 0x10A) = arg6;
-    *(s32 *)((s8 *)arg0 + 0x104) = arg5;
-    ((TUnk_804E14E8 *)arg0)->m_f0 = arg1;
-    ((TUnk_804E14E8 *)arg0)->m_e8 = 0.0f;
-    push_matrix_from(identity_matrix);
-    {
-        Vec_802CDEB4 v = lbl_804722A8;
-        v.z = lbl_805D6844;
-        rotate_matrix_y(0, arg3->b);
-        rotate_matrix_x(0, arg3->a);
-        matrix_mult_vec(0, &v, arg0 + 0xC4);
-    }
-    pop_matrix();
-    *(s32 *)((s8 *)arg0 + 0xEC) = arg4;
-    pos = (Vec_802CDEB4 *)(find_entity_by_id(arg2) + 0x2FC);
-    {
-    Ang_802CDEB4 ang;
-    ang.x = 0;
-    ang.y = (s32)(lbl_804722C8[0] * atan2_float(pos->x - arg1->x, pos->z - arg1->z)) + 0x4000;
-    ang.z = 0x4000 - (s32)(lbl_804722C8[0] * atan2_float(pos->y - arg1->y, vec_xz_distance((Vec *)pos, (Vec *)arg1)));
-    ((TUnk_804E14E8 *)arg0)->m_f8 = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x201, 2);
-    *(s32 *)((s8 *)arg0 + 0xFC) = (s32)spawn_particle_effect_with_rotation(arg1, &ang, 0x202, 2);
-    }
-    *(f32 *)((s8 *)arg0 + 0xF4) = lbl_805D6848;
-    if (xz_distance_squared((Vec *)pos, (Vec *)arg1) < 22500.0f) {
-        *(f32 *)((s8 *)arg0 + 0xF4) *= 2.0f;
-    }
-    ((TUnk_804E14E8 *)arg0)->m_100 = 0;
-    return arg0;
-}
 
 }

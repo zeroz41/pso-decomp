@@ -17,6 +17,8 @@ extern "C" void test_flag_1000__9TObjCharaFv();
 extern "C" void test_flag_256__9TObjCharaFv();
 #include "pso/TParticleCtrl.h"
 #include "pso/boss/TBoss3Volopt.h"
+#include "pso/boss/TBoss3VoloptP01.h"
+#include "pso/object/TObjFish_8001ED90.h"
 
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/RenderFadeState.h"
@@ -404,7 +406,8 @@ s32 is_main_phase_15__9TObjEneDDFv();
 void render__19TObjEneEpsilonGuardFv(u8 *);
 void TObjEneEpsilonGuard__sub_8035E578(u8 *, s32);
 void play_sound_effect(int, void *, int, int);
-extern u8 epsilon_guard_breakup_params[];
+extern const TBoss3VoloptBreakupParams epsilon_guard_breakup_params = { 0x14, { 0.05f, 1.2f, 0.9f, 0.12f, 0.55f, 0.5f } };
+const char *TObjEneEpsilonGuard__class_name = "TObjEneEpsilonGuard";
 extern s32 lbl_805D6FA8;
 struct G_8035E430;
 s32 is_split_screen();
@@ -733,7 +736,7 @@ void TObjEneEpsilonGuard::handle_break_state(s32 arg1) {
         ((G_8035E430 *)this)->x434++;
         if (((G_8035E430 *)this)->x434 >= 0x14) {
             ((VO_8035E430 *)((G_8035E430 *)this))->m94();
-            TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA8, (s32)epsilon_guard_breakup_params, (s32)(((G_8035E430 *)this)->x24), (s32)(((G_8035E430 *)this)->x38), (s32)(((G_8035E430 *)this)->x60));
+            TBoss3Volopt::create_breakup_mdl((s32)lbl_805D6FA8, (s32)&epsilon_guard_breakup_params, (s32)(((G_8035E430 *)this)->x24), (s32)(((G_8035E430 *)this)->x38), (s32)(((G_8035E430 *)this)->x60));
             play_sound_effect(0x4003AD4C, ((G_8035E430 *)this)->x2FC, 0, 0);
             ((TObjPlayer *)(((G_8035E430 *)this)->x2FC))->trigger_dell_biter_events();
             ((G_8035E430 *)this)->x430 = 1;
@@ -1080,17 +1083,13 @@ void TObjEneEpsilonGuard__vt85(TObjEneEpsilonGuard *arg0, s32 arg1, s32 arg2);
 void run_task__19TObjEneEpsilonGuardFv(u8 *arg0);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
-s32 get_bml_motion(void *, int);
-s32 TObjFish__sub_8001EDB0(void *, int);
-s32 get_bml_model(void *, int);
 s32 reset_hp__9TObjEneDDFPUcPUcPUc(void *, s32, s32, s32);
 s32 initialize_enemy_state__9TObjEneDDFl(void *, int);
 extern s32 epsilon_guard_boss_stat_handle;
 extern s32 epsilon_guard_shared_handler_b;
 extern s32 epsilon_guard_registered_object_handle;
-extern u8 *lbl_805D6FA0;
+extern BmlResource *lbl_805D6FA0;
 s32 __ct__14TObjEneEpsilonFP7TObject();
-extern s32 TObjEneEpsilonGuard__class_name;
 void *TObjEneEpsilonGuard__ct(void *arg0, void *arg1, void *arg2, void *arg3, void *arg4, void *arg5, void *arg6);
 void *__dt__13TUnk_80494938Fv(void *arg0, s16 arg1);
 s32 __dl__7TObjectFPv(void *);
@@ -1346,7 +1345,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     *(s32 *)((s8 *)arg0 + 0x24) = TObjFish__sub_8001EDB0(lbl_805D6FA0, 0);
     init_model(TObjEneEpsilonGuard__model_desc, 1);
     ((TObjMotion *)arg0)->set_field_d8((s32)lbl_804F2024);
-    ((TObjMotion *)arg0)->set_field_dc(*(s32 *)((s8 *)lbl_805D6FA0 + 0x430));
+    ((TObjMotion *)arg0)->set_field_dc((s32)lbl_805D6FA0->motions);
     *(s16 *)((s8 *)arg0 + 0xB8) = 0;
     ((TObjMotion *)arg0)->set_animation(*(s16 *)((s8 *)arg0 + 0xB8));
     ((TObjMotion *)arg0)->set_field_b8(*(s16 *)((s8 *)arg0 + 0xB8));
@@ -1360,7 +1359,7 @@ void TObjEneEpsilonGuard::init_model_and_state() {
     *(s32 *)((s8 *)arg0 + 0x46C) |= 0x10;
     ((VObj_18_b345b0 *)(arg0))->m93();
     *(s32 *)((s8 *)arg0 + 0x444) = get_bml_model(lbl_805D6FA0, 3);
-    *(s32 *)((s8 *)arg0 + 0x448) = get_bml_motion(lbl_805D6FA0, 3);
+    *(s32 *)((s8 *)arg0 + 0x448) = (s32)get_bml_motion(lbl_805D6FA0, 3);
     *(f32 *)((s8 *)arg0 + 0x454) = 0.0f;
     *(s32 *)((s8 *)arg0 + 0x450) = 0;
     *(s32 *)((s8 *)arg0 + 0x430) = 0;
@@ -1381,7 +1380,7 @@ void *TObjEneEpsilonGuard__ct(void *ene_epsilon_guard, void *arg1, void *arg2, v
     __ct__14TObjEneEpsilonFP7TObject();
     *(void ***)((s8 *)ene_epsilon_guard + 0x18) = __vt__19TObjEneEpsilonGuard;
     __ct__13TUnk_80494938Fv(((u8 *)ene_epsilon_guard + 0x4BC));
-    *(s32 *)((s8 *)ene_epsilon_guard + 0) = (s32) TObjEneEpsilonGuard__class_name;
+    ((TObject *)ene_epsilon_guard)->m_name = TObjEneEpsilonGuard__class_name;
     *(s16 *)((s8 *)ene_epsilon_guard + 0x470) = ((s16 (*)(void *))get_entity_id)(arg2);
     ((TObjEneDD *)ene_epsilon_guard)->init_common_from((u8 *)arg2);
     *(s16 *)((s8 *)ene_epsilon_guard + 0x1C) = (s16)(s32)arg3;

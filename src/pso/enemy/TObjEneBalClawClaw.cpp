@@ -16,25 +16,22 @@
 #include "pso/enemy/TObjEneBeast.h"
 #include "pso/enemy/TObjEneRe7Berura.h"
 #include "pso/misc/TLobby.h"
+#include "pso/system/BmlResource.h"
 
 #include <stddef.h>
-struct Stack_8009048C {
-    s32 sp8;
-    s32 spC;
-    s32 sp10;
-    s32 sp14;
+// Same layout as DelDepthAnimationBinding: the motion-binding block TLobby::spawn_npc_enemy takes.
+struct BalClawClawAnimationBinding {
+    void *motions;
+    void *actions;
+    u32 unknown08;
+    u16 actionCount;
+    u16 unknown0E;
 };
 
-struct RecoveredGlobal_8009048C_lbl_80439B8C {
-    s32 value;
-    u8 remaining[0x10];
-};
-
-extern RecoveredGlobal_8009048C_lbl_80439B8C lbl_80439B8C;
 extern void *TObjEneBalClawClaw__collision_body_template[11];
-extern u8 *lbl_805D4F20;
+extern BmlResource *lbl_805D4F20;
 void spawn_lobby_npc_enemy(void);
-typedef char RecoveredGlobal_8009048C_lbl_80439B8C_size[sizeof(RecoveredGlobal_8009048C_lbl_80439B8C) == 0x14 ? 1 : -1];
+
 
 #include <stddef.h>
 struct VBase_14_0d3ae4 { char pad[0x14]; };
@@ -413,7 +410,6 @@ struct VObj_18_b31a3c : VBase_18_b31a3c {
 };
 extern "C" {
 s32 init_collision_body_parts(void *, void *, int);
-extern s32 lbl_805D2978;
 extern s32 lbl_805D4F28;
 extern s32 lbl_805D4F2C;
 extern s32 lbl_805D4F30;
@@ -443,6 +439,8 @@ void *TObjEneBalClawClaw__collision_body_template[11] = {
 
 extern void *tl_04;
 }
+
+const char *balclaw_claw_class_name = "TObjEneBalClawClaw";
 #define update_collisions__10TObjPlayerFv (*(s32 (*)(void *))&update_collisions__10TObjPlayerFv)
 #define update_enemy_wander_move (*(s32 (*)(void *, void *, int, void *, f32))&update_enemy_wander_move)
 #define update_if_active__15TObjEnemyCustomFl (*(s32 (*)(void *, int))&update_if_active__15TObjEnemyCustomFl)
@@ -493,8 +491,8 @@ TObjEneBalClawClaw::TObjEneBalClawClaw(TObject *parent, TObjEneBalClaw *body, s3
 #define self ((u8 *)arg0)
 
 s32 TObjEneBalClawClaw__ct(void *arg0) {
-    *(s32 *)((s8 *)self + 0) = lbl_805D2978;
-    *(s32 *)((s8 *)self + 0xDC) = *(s32 *)((s8 *)lbl_805D4F20 + 0x430);
+    ((TObject *)self)->m_name = balclaw_claw_class_name;
+    *(s32 *)((s8 *)self + 0xDC) = (s32)lbl_805D4F20->motions;
     *(u8 **)((s8 *)self + 0xD8) = (u8 *)balclaw_claw_model_node_desc;
     ((TObjMotion *)self)->set_field_d8((s32)(*(u8 **)((s8 *)self + 0xD8)));
     init_collision_body_parts(self, TObjEneBalClawClaw__collision_body_template, 1);
@@ -1165,17 +1163,9 @@ void TObjEneBalClawClaw::update_chase_state() {
 }
 
 void spawn_lobby_npc_enemy(void) {
-    typedef char sp8_offset[(offsetof(Stack_8009048C, sp8) == 0x0) ? 1 : -1];
-    typedef char spC_offset[(offsetof(Stack_8009048C, spC) == 0x4) ? 1 : -1];
-    typedef char sp10_offset[(offsetof(Stack_8009048C, sp10) == 0x8) ? 1 : -1];
-    typedef char sp14_offset[(offsetof(Stack_8009048C, sp14) == 0xC) ? 1 : -1];
-    Stack_8009048C stack;
-    u8 *temp_r5;
-    stack.sp8 = *(s32 *)((s8 *)&lbl_80439B8C.value + 0);
-    stack.spC = *(s32 *)((s8 *)&lbl_80439B8C.value + 4);
-    stack.sp10 = *(s32 *)((s8 *)&lbl_80439B8C.value + 8);
-    stack.sp14 = *(s32 *)((s8 *)&lbl_80439B8C.value + 0xC);
-    stack.sp8 = *(s32 *)((s8 *)lbl_805D4F20 + 0x430);
-    temp_r5 = (u8 *)(*(u8 **)((s8 *)lbl_805D4F20 + 0x42C));
-    TLobby::spawn_npc_enemy((s16)(0x14), (s32)((int) (*(s32 *)((s8 *)temp_r5 + 0x28))), (NJS_TEXLIST *)((int) (*(s32 *)((s8 *)temp_r5 + 0x2C))), &stack.sp8, (f32)((f32) (*(f32 *)((s8 *)((s32 *)TObjEneBalClawClaw__collision_body_template) + 0xC))), (f32)((f32) ((15.0f))));
+    BalClawClawAnimationBinding binding = {lbl_805D4F20->motions, balclaw_claw_model_node_desc, 1, 7, 0};
+    BmlModelEntry *models;
+    models = lbl_805D4F20->models;
+    TLobby::spawn_npc_enemy(0x14, models[2].model, (NJS_TEXLIST *)models[2].m_c, &binding,
+                            *(f32 *)((u8 *)TObjEneBalClawClaw__collision_body_template + 0xC), 15.0f);
 }

@@ -5,9 +5,8 @@
 
 class TObjEneBm9Mericarol_EffCurse3 : public TObject {
 public:
+    TObjEneBm9Mericarol_EffCurse3(TObject *parent, s32 target);
     virtual ~TObjEneBm9Mericarol_EffCurse3();
-    void *construct(s32, s32);
-    void *destroy(s16);
     virtual void run_task();
     u8 unk_1C[0x4];
     s32 m_20;

@@ -45,7 +45,6 @@ extern "C" {
 s32 *csnVecterUnder(s32 origin, s32 mask);
 f32 xz_distance_squared(void *, void *);
 void subtract_vector(void *, void *);
-extern P_80337500 lbl_80477B70[];
 extern const f32 morfos_projectile_speed;
 extern const f32 morfos_param_table_speed_copy;
 void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *arg1, V_80337500 *arg2);
@@ -73,8 +72,7 @@ void hit_target_in_range__13TObjEneMorfosFPvPvPv(O_80337500 *arg0, V_80337500 *a
     subtract_vector(&v, arg0->b8);
     if (arg1 != 0 && arg1 != arg2 && !(*(s32 *)((u8 *)arg1 + 0x30) & 0x04000A00)) {
         if (!(xz_distance_squared(&v, (u8 *)arg1 + 0x2FC) > (1.5f * morfos_projectile_speed) * (1.5f * morfos_projectile_speed))) {
-            P_80337500 tmp = lbl_80477B70[0];
-            tmp.f = morfos_param_table_speed_copy;
+            P_80337500 tmp = {0, morfos_param_table_speed_copy};
             P_80337500 p = tmp;
             arg1->m21(arg2, &p, 0, -1, -1);
         }

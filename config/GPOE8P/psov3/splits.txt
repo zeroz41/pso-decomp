@@ -1389,7 +1389,9 @@ pso/unk/text_80090488.cpp:
 
 pso/enemy/TObjEneBalClawClaw.cpp:
 	.text       start:0x8009048C end:0x80091CCC
+	.rodata     start:0x80439B78 end:0x80439B9C
 	.data       start:0x8048F090 end:0x8048F2C8
+	.sdata      start:0x805D2978 end:0x805D297C
 	.sdata2     start:0x805D9688 end:0x805D96D8
 
 pso/enemy/TObjEneBeast.cpp:
@@ -9133,7 +9135,7 @@ pso/enemy/TObjEneMe1GiGue.cpp:
 
 pso/enemy/TObjEneMe1GiGue_802CDB1C.cpp:
 	.text       start:0x802CDB1C end:0x802CE088
-	.rodata     start:0x804722C0 end:0x804722C8
+	.rodata     start:0x804722A8 end:0x804722D0
 	.sdata2     start:0x805DE6C0 end:0x805DE6CC
 
 pso/enemy/TObjEneMe1GiGueMissile.cpp:
@@ -9173,6 +9175,9 @@ pso/enemy/TObjEneBm9Mericarol_Bomb.cpp:
 
 pso/enemy/TObjEneBm9Mericarol_EffCurse3.cpp:
 	.text       start:0x802D1AB8 end:0x802D1C84
+	.rodata     start:0x804724F0 end:0x80472510
+	.data       start:0x804E1908 end:0x804E1920
+	.sdata      start:0x805D3F38 end:0x805D3F3C
 	.sdata2     start:0x805DE778 end:0x805DE780
 
 pso/unk/text_802D1C84.cpp:
@@ -9685,7 +9690,9 @@ pso/enemy/TObjEneRecon_80302DB0.cpp:
 
 pso/enemy/TObjEneDellBiterEffects.cpp:
 	.text       start:0x80302DBC end:0x803032EC
+	.rodata     start:0x804750E0 end:0x80475138
 	.data       start:0x804E6AF8 end:0x804E6B6C
+	.sdata      start:0x805D4070 end:0x805D4078
 	.sdata2     start:0x805DEFA0 end:0x805DEFB8
 
 pso/enemy/TObjEneDellBiter.cpp:
@@ -10418,6 +10425,7 @@ pso/unk/text_803374F0.cpp:
 
 pso/enemy/TObjEneMorfos_80337500.cpp:
 	.text       start:0x80337500 end:0x80337910
+	.rodata     start:0x80477B70 end:0x80477B78
 	.sdata2     start:0x805DF988 end:0x805DF998
 
 pso/misc/TShopDeleteItemWindow.cpp:
@@ -11166,9 +11174,10 @@ pso/boss/TBoss6DPB.cpp:
 
 pso/enemy/TObjEneEpsilonGuard_8035DD68.cpp:
 	.text       start:0x8035DCC0 end:0x8035F5B8
-	.rodata     start:0x80479C80 end:0x80479C90
+	.rodata     start:0x80479C50 end:0x80479C90
 	.data       start:0x804F2008 end:0x804F2230
 	.bss        start:0x805439E0 end:0x805439F0
+	.sdata      start:0x805D4458 end:0x805D445C
 	.sbss       start:0x805D6F78 end:0x805D6F80
 	.sdata2     start:0x805E01D8 end:0x805E0204
 

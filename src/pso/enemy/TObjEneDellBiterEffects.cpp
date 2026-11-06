@@ -11,10 +11,6 @@ u32 csnVector(void *, void *, s32);
 f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 void *create_particle_controller_with_angles(void *, void *, s32, s32, u16);
-extern const char *TObjEneDellBiter_Eff_TpAbsorb1__class_name;
-extern u8 lbl_8047511C[];
-extern s32 lbl_80475124[];
-extern DelbiterParticleAngles lbl_8047512C;
 }
 
 extern "C" {
@@ -25,8 +21,18 @@ f32 sin_table_lookup(s32);
 f32 cos_table_lookup(s32);
 s32 is_vec_xz_cross_negative(void *, void *);
 s32 rotate_xz_pair_by_angle(void *, void *, s32);
-extern const char *TObjEneDellBiter_Eff_Rush__name;
 }
+
+// The first argument of TUnk_804928CC::call_vt13_with_default (contents {3.0f, 3}; fields unknown).
+struct DelbiterTpAbsorbHitParams {
+    f32 unk_0;
+    s32 unk_4;
+};
+
+const char *TObjEneDellBiter_Eff_Rush__name = "TObjEneDellBiter_Eff_Rush";
+const char *TObjEneDellBiter_Eff_TpAbsorb1__class_name = "TObjEneDellBiter_Eff_TpAbsorb1";
+extern const DelbiterTpAbsorbHitParams lbl_8047511C = {3.0f, 3};
+extern const DirectAttackPayload lbl_80475124 = {0, 20.0f};
 
 #pragma fp_contract on
 
@@ -81,7 +87,6 @@ void TObjEneDellBiter_Eff_Rush::render() {}
 TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     TObject *parent, TObjBase *owner, const Vec *origin, s32 angle, AreaAttackHistory *history, f32 attack_power)
     : TUnk_804928CC(parent, owner) {
-    DelbiterParticleAngles angles;
     m_name = TObjEneDellBiter_Eff_TpAbsorb1__class_name;
     power = attack_power;
     distance = 0.0f;
@@ -92,10 +97,7 @@ TObjEneDellBiter_Eff_TpAbsorb1::TObjEneDellBiter_Eff_TpAbsorb1(
     direction.z = cos_table_lookup(angle);
     attack_history = history;
     bodies->shape = 1;
-    angles.y = lbl_8047512C.y;
-    angles.x = lbl_8047512C.x;
-    angles.z = lbl_8047512C.z;
-    angles.y = angle - 0x4000;
+    DelbiterParticleAngles angles = {0, angle - 0x4000, 0x4000};
     effect = (TParticleCtrl *)create_particle_controller_with_angles(&position, &angles, 0x210, 0x32, 2);
     effect->clear_active_flag();
 }
@@ -140,9 +142,9 @@ void TObjEneDellBiter_Eff_TpAbsorb1::run_task() {
             queue_destruction();
             return;
         }
-        attack.kind = lbl_80475124[0];
+        attack.kind = lbl_80475124.kind;
         attack.power = power;
-        call_vt13_with_default(lbl_8047511C, &attack, (s32)attack_history);
+        call_vt13_with_default((void *)&lbl_8047511C, &attack, (s32)attack_history);
         return;
     }
     queue_destruction();

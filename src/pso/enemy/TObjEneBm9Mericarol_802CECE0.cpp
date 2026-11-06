@@ -925,7 +925,6 @@ void TObjEneBm9Mericarol__sub_802CF4F8(u8 *ene_bm9_mericarol, s32 arg1) {
   s32 temp_r0;
   s32 temp_r3;
   s32 temp_r4;
-  u32 temp_r3_2;
   switch (arg1)
   {
     case 4:
@@ -953,11 +952,7 @@ void TObjEneBm9Mericarol__sub_802CF4F8(u8 *ene_bm9_mericarol, s32 arg1) {
       temp_r3 = ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->find_nearby_target();
       if (temp_r3 != 0)
       {
-        temp_r3_2 = __nw__7TObjectFUl(0x28);
-        if (temp_r3_2 != 0U)
-        {
-          ((TObjEneBm9Mericarol_EffCurse3 *)temp_r3_2)->construct((s32)((void *) ene_bm9_mericarol), (s32)((int) temp_r3));
-        }
+        new TObjEneBm9Mericarol_EffCurse3((TObject *)ene_bm9_mericarol, temp_r3);
         ((TObjEneBm9Mericarol *)ene_bm9_mericarol)->m_390 = temp_r3;
         *((s32 *) (((s8 *) ene_bm9_mericarol) + 0x494)) = 1;
         play_sound_effect((s32)((void *) ((s32)((TObjEnemy *)((void *)((void *) ene_bm9_mericarol)))->remap_sound_for_area((s32)(0x3A808)))), ene_bm9_mericarol + 0x38, 0, 0);
