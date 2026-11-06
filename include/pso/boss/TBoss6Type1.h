@@ -5,6 +5,17 @@
 #include "pso/enemy/TObjEnemy.h"
 
 struct Boss6EffectPoint { f32 x, y, z; };
+// One of the two part-motion players at 0x444 (render blends prev_motion_id/prev_frame into
+// motion_id/frame by blend; names inferred from that use).
+struct Boss6PartMotion {
+    s32 motion_id;
+    f32 frame;
+    f32 frame_step;
+    f32 blend;
+    u8 pad_10[0x4];
+    s32 prev_motion_id;
+    f32 prev_frame;
+};
 struct TBoss6Type1 : public TObjEnemy {
     virtual ~TBoss6Type1();
     void set_action_state(s32);
@@ -25,7 +36,7 @@ struct TBoss6Type1 : public TObjEnemy {
     u32 m_374;
     u8 unk_378[0x80];
     s32 m_3f8;
-    s32 m_3fc;
+    s32 bml_resource; // BML archive handle passed to get_bml_motion / get_bml_model, name inferred
     void* trail_point_receiver;
     void* effect_point_receiver;
     u8 unk_408[0x4];
@@ -38,9 +49,9 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 m_438;
     u8 unk_43C[0x4];
     s32 m_440;
-    u8 unk_444[0x38];
+    Boss6PartMotion part_motions[2];
     s32 m_47c;
-    u8 unk_480[0x4];
+    s32 sweep_damage; // base damage of the swept-arm hit test (TBoss6Type1__sub_802B715C), name inferred
     s32 m_484;
     u8 unk_488[0x4];
     s32 m_48c;
@@ -54,7 +65,8 @@ struct TBoss6Type1 : public TObjEnemy {
     s32 m_4ac;
     u8 unk_4B0[0x4];
     f32 m_4b4;
-    u8 unk_4B8[0x1C];
+    u8 unk_4B8[0x10];
+    Vec prev_effect_point; // effect_points[1] of the previous frame, name inferred
     f32 m_4d4;
     f32 m_4d8;
     f32 m_4dc;
@@ -201,6 +213,8 @@ struct TBoss6Type1 : public TObjEnemy {
 };
 extern "C" {
 void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss);
+// Swept-arm hit test of the motion-14 sweep (frames 10.5-15): damages players inside the arm's triangle.
+void TBoss6Type1__sub_802B715C(TBoss6Type1 *self);
 }
 
 typedef char Boss6EffectPoint_size[(sizeof(Boss6EffectPoint)==0xC)?1:-1];

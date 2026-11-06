@@ -110,7 +110,6 @@ int TBoss6Type1__sub_802B6504(void*);
 s32 TBoss6Type1__sub_802B6944(void *);
 s32 damage_players_in_range__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B6C30(void *);
-s32 TBoss6Type1__sub_802B715C();
 s32 TBoss6Type1__sub_802B73AC();
 s32 update_beam_attack__11TBoss6Type1Fv();
 s32 TBoss6Type1__sub_802B8A70(void *);
@@ -628,13 +627,9 @@ void TBoss6Type1::sub_802B3320() {
 }
 
 void TBoss6Type1::update_attack_timer2() {
-    s32 temp_r0;
-
-    TBoss6Type1__sub_802B715C();
-    interpolate_pos_to_target(*(s32 *)((s8 *)this + 0x410), this->m_40c);
-    temp_r0 = *(s32 *)((s8 *)this + 0x410) - 1;
-    *(s32 *)((s8 *)this + 0x410) = temp_r0;
-    if (temp_r0 < 0) {
+    TBoss6Type1__sub_802B715C(this);
+    interpolate_pos_to_target(action_timer, m_40c);
+    if (--action_timer < 0) {
         set_action_state(1);
     }
 }

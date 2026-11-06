@@ -4,6 +4,7 @@
 #define TOBJECT_OUT_OF_LINE_HELPERS
 #include "types.h"
 #include "pso/system/vector.h"
+#include "pso/system/SoundEffect.h"
 #include "pso/boss/TBoss4Type2.h"
 #include "pso/boss/TBoss6PlotFalz.h"
 #include "pso/misc/TLobby.h"
@@ -469,7 +470,6 @@ void scale_matrix(int matrix, f32 x, f32 y, f32 z);
 void rotate_vector_by_matrix(int matrix, const Vec *in, Vec *out);
 extern Tbl_802B79DC TBoss6Type1__part_position_sources[];
 extern Entry_802B865C boss6_type1_action_table[];
-s32 play_sound_effect(int, void *, int, int, void *);
 
 u8 *fn_8035648C(s32 arg0, s32 arg1, s32 arg2, f32 farg0);
 extern f32 TBoss6Type1__sword_shot_hit_radii[];
@@ -1174,7 +1174,7 @@ void handle_6xA4_olga_flow_boss_actions(void *arg) {
 void TBoss6Type1::vfunc_62() {
     this->actorFlags = (s32) (this->actorFlags & 0xFFFFFDFF);
     this->m_4d4 = TBoss6Type1__data_805DE2E4;
-    play_sound_effect(0x39E01, ((u8 *)this) + 0x584, 0, 1, this);
+    ((void (*)(s32, void *, s32, s32, void *))play_sound_effect)(0x39E01, ((u8 *)this) + 0x584, 0, 1, this);
 }
 #pragma pop
 
@@ -1418,9 +1418,9 @@ void TBoss6Type1::load_params_from_table() {
     if ((f32) this->m_47c <= TBoss6Type1__data_805DE2D0) {
         this->m_47c = (s32) *(s32 *)((s8 *)&TBoss6Type1__param_table.value + 0);
     }
-    *(s32 *)&this->unk_480 = (s32) *(f32 *)((s8 *)temp_r3 + 8);
-    if ((f32) *(s32 *)&this->unk_480 <= TBoss6Type1__data_805DE2D0) {
-        *(s32 *)&this->unk_480 = (s32) *(s32 *)((s8 *)&TBoss6Type1__param_table.value + 4);
+    this->sweep_damage = (s32) *(f32 *)((s8 *)temp_r3 + 8);
+    if ((f32) this->sweep_damage <= TBoss6Type1__data_805DE2D0) {
+        this->sweep_damage = (s32) *(s32 *)((s8 *)&TBoss6Type1__param_table.value + 4);
     }
     this->m_484 = (s32) *(f32 *)((s8 *)temp_r3 + 0xC);
     if ((f32) this->m_484 <= TBoss6Type1__data_805DE2D0) {
@@ -1682,7 +1682,7 @@ void TBoss6Type1::update_beam_attack() {
     {
     f32 end = lbl_805DE398 + self->f468;
     if (t >= lbl_805DE398 && t < end) {
-        ((s32 (*)(int, void *, int, int))play_sound_effect)(0x40039209, &self->b, 0, 0);
+        play_sound_effect(0x40039209, &self->b, 0, 0);
     }
     }
     ((TBoss6Type1 *)self)->init_parts();
@@ -1747,7 +1747,7 @@ void TBoss6Type1::update_beam_attack() {
         VecCopy((Vec *)&self->f56C, (const Vec *)&c);
     }
     {
-        ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003B00A, &c, 0, 0);
+        play_sound_effect(0x4003B00A, &c, 0, 0);
         TBoss6PlotFalz::apply_radial_effect_to_players(&c, 0xC0, 0xF, TBoss6Type1__data_805DE318);
     }
 }
@@ -1796,12 +1796,68 @@ void TBoss6Type1__sub_802B73AC(Boss_802B73AC *self) {
         }
         fn_8035648C((s32)self, (s32)&p, flag, sc);
         if (flag != 0) {
-            ((s32 (*)(int, void *, int, int))play_sound_effect)(0x4003B210, &p, 0, 0);
+            play_sound_effect(0x4003B210, &p, 0, 0);
             TBoss6PlotFalz::apply_radial_effect_to_players(&p, 0xC0, 0xF, TBoss6Type1__data_805DE318);
         }
     }
 }
 #pragma pop
+// Swept-arm hit test: damages every player inside the triangle the arm tip (effect_points[1])
+// swept since the previous frame, between frames 10.5 and 15 of motion set 14.
+void TBoss6Type1__sub_802B715C(TBoss6Type1 *self) {
+    f32 frame = self->part_motions[0].frame;
+    u32 motion = self->part_motions[0].motion_id;
+    Vec *tip = (Vec *)&self->effect_points[1];
+    s32 i;
+    s32 n;
+    Vec v[2];
+    Vec *corner[4];
+    f32 side[3];
+    Vec cross;
+    s32 inside;
+    s32 j;
+
+    if (motion == get_bml_motion(self->bml_resource, TBoss6Type1__motion_set_table[14].ids[0]) &&
+        !(frame < 10.5f || frame > 15.0f)) {
+        f32 end = 10.5f + self->part_motions[0].frame_step;
+        if (frame >= 10.5f && frame < end) {
+            play_sound_effect(0x40038A0E, &self->effect_points[0], 0, 0);
+        }
+        self->update_effect_points();
+        n = TLobby::get_game_mode();
+        for (i = 0; i < n; i++) {
+            inside = 1;
+            TObjPlayer *p = TObjPlayer::get_player_data(i);
+            if (((TBoss6PlotFalz *)p)->is_active() != 0) {
+                corner[0] = corner[3] = &self->position;
+                corner[1] = &self->prev_effect_point;
+                corner[2] = tip;
+                for (j = 0; j < 3; j++) {
+                    VecCopy(&v[0], corner[j + 1]);
+                    subtract_vector(&v[0], corner[j]);
+                    VecCopy(&v[1], &p->position);
+                    subtract_vector(&v[1], corner[j]);
+                    v[0].y = 0.0f;
+                    v[1].y = 0.0f;
+                    vec3_cross(&v[0], &v[1], &cross);
+                    side[j] = cross.y;
+                    if (j > 0 && ((side[j - 1] < 0.0f && side[j] >= 0.0f) || (side[j - 1] > 0.0f && side[j] <= 0.0f))) {
+                        inside = 0;
+                        break;
+                    }
+                }
+                if (inside != 0) {
+                    s32 damage = TBoss6PlotFalz::rand_vary_count(self->sweep_damage, 0.1f);
+                    DirectAttackPayload hit;
+                    hit.kind = 0;
+                    hit.power = (f32)damage;
+                    p->receive_direct_attack(self, hit, 0, -1, -1);
+                }
+            }
+        }
+    }
+    VecCopy(&self->prev_effect_point, tip);
+}
 #pragma push
 #pragma fp_contract on
 #pragma inline_depth(1)
@@ -2027,8 +2083,8 @@ void TBoss6Type1::reset_param() {
 // Draws bml model 0 at sound_pos, turned to face the viewing player and scaled by m_4dc.
 void TBoss6Type1__sub_802B626C(TBoss6Type1 *boss) {
     if (boss->m_4dc != 0.0f) {
-        s32 fish = TObjFish__sub_8001EDB0(boss->m_3fc, 0);
-        s32 model = get_bml_model(boss->m_3fc, 0);
+        s32 fish = TObjFish__sub_8001EDB0(boss->bml_resource, 0);
+        s32 model = get_bml_model(boss->bml_resource, 0);
         s32 pitch = 0;
         Vec pos = boss->sound_pos;
         s32 yaw = boss->rotation_y + 0x8000;
