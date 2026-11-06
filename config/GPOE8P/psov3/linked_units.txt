@@ -1129,8 +1129,7 @@ pso/npc/TNpcPlayer_800D87A8.cpp
 pso/npc/TNpcPlayer_8014DADC.cpp
 pso/npc/TNpcPlayer_80190E64.cpp
 pso/npc/TNpcPlayer_802C3CD0.cpp
-pso/npc/TNpcPlayer_8034DC20.cpp
-pso/npc/TNpcPlayer_8034DFBC.cpp
+pso/npc/TNpcPlayer_8034DAA0.cpp
 pso/object/cave/TOAirconCave01.cpp
 pso/object/cave/TOAirconCave02.cpp
 pso/object/collision/TOAttackableCol.cpp
@@ -1412,7 +1411,6 @@ pso/technique/TTecRaFoie.cpp
 pso/technique/TTecRaZonde_80238C6C.cpp
 pso/technique/TTecResta.cpp
 pso/technique/TTecReverser.cpp
-pso/technique/TTecReverser_8034DED4.cpp
 pso/technique/TTecSifta.cpp
 pso/technique/TTecSlicer.cpp
 pso/technique/TTecSlicer_8023B5C8.cpp
@@ -2132,7 +2130,6 @@ pso/player/TObjPlayer_8032E4C8.cpp
 pso/player/TObjPlayer_80337348.cpp
 pso/player/TObjPlayer_8033E910.cpp
 pso/player/TObjPlayer_8033FE28.cpp
-pso/player/TObjPlayer_8034DF2C.cpp
 pso/player/TObjPlayer_8034EFDC.cpp
 pso/player/TObjPlayer_80351748.cpp
 pso/player/TObjPlayer_80354EC8.cpp
@@ -2790,7 +2787,6 @@ pso/ui/frontend/TAdLoadQuestPrtTxtGC_8034A090.cpp
 pso/unk/text_8034AD38.cpp
 pso/unk/text_8034CEDC.cpp
 pso/unk/text_8034D3D0.cpp
-pso/unk/text_8034DAA0.cpp
 pso/item/TUnk_804F112C.cpp
 pso/unk/text_80354BE4.cpp
 pso/boss/galgryphon/TBoss5GryphonTornado_803554F0.cpp

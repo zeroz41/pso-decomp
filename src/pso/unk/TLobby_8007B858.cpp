@@ -2,6 +2,7 @@
 #include "pso/unk/TLobby_8007B858.h"
 #include "pso/system/TLanguage.h"
 #include "pso/npc/TNpcPlayer.h"
+#include "pso/unk/TUnk_804F07C8.h"
 #include "pso/map/TSetManager.h"
 #include "pso/unk/TLobby.h"
 #include "pso/unk/TLobbyEventTheme.h"
@@ -113,10 +114,7 @@ void TLobby::create_tasks() {
     }
     TRaderMapCore::create();
     restore_floor_telepipes();
-    tmp = __nw__7TObjectFUl(0x20);
-    if (tmp != 0U) {
-        ((TNpcPlayer *)tmp)->construct_party_area((void *)tl_06);
-    }
+    new TUnk_804F07C8((TObject *)tl_06);
     new TSwitch((TObject *)tl_00);
     TQuestColCtrl::init();
     if (get_current_floor_area() == AREA_LOBBY) {

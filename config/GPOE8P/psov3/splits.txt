@@ -10839,21 +10839,9 @@ pso/unk/text_8034D3D0.cpp:
 	.bss        start:0x805436B8 end:0x80543778
 	.sdata2     start:0x805DFDE8 end:0x805DFDF0
 
-pso/unk/text_8034DAA0.cpp:
-	.text       start:0x8034DAA0 end:0x8034DC20
-	.data       start:0x804F07E0 end:0x804F0810
-
-pso/npc/TNpcPlayer_8034DC20.cpp:
-	.text       start:0x8034DC20 end:0x8034DED4
-
-pso/technique/TTecReverser_8034DED4.cpp:
-	.text       start:0x8034DED4 end:0x8034DF2C
-
-pso/player/TObjPlayer_8034DF2C.cpp:
-	.text       start:0x8034DF2C end:0x8034DFBC
-
-pso/npc/TNpcPlayer_8034DFBC.cpp:
-	.text       start:0x8034DFBC end:0x8034EFDC
+pso/npc/TNpcPlayer_8034DAA0.cpp:
+	.text       start:0x8034DAA0 end:0x8034EFDC
+	.data       start:0x804F0280 end:0x804F0810
 	.sdata2     start:0x805DFDF0 end:0x805DFDF8
 
 pso/player/TObjPlayer_8034EFDC.cpp:
