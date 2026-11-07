@@ -153,6 +153,10 @@ inline s32 read_start_history_5ED4(AdxEncoder *enc) {
     return i;
 }
 
+inline Strm_803C5B50 *adxenc_get_output(AdxEncoder *enc) {
+    return enc->output;
+}
+
 /* Encoder step: state 1 primes the history and writes the ADX header, state 2 encodes (inferred). */
 void TLobby__sub_803C5ED4(AdxEncoder *enc) {
     s16 coef2;
@@ -162,7 +166,7 @@ void TLobby__sub_803C5ED4(AdxEncoder *enc) {
     s32 n;
 
     if (enc->state == 1) {
-        out = enc->output;
+        out = adxenc_get_output(enc);
         if (read_start_history_5ED4(enc) < enc->channels) {
             return;
         }
