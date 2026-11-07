@@ -82,7 +82,7 @@ extern char lbl_804496B8[];
 s32 build_save_file_image__15TAdPlayerLoadGCFPvPv(u8 *arg0, Src_801E17F4 *arg1);
 s32 CARDGetStatus(s32, s32, CARDStat_801E2048 *);
 int strncmp(const char *, const char *, u32);
-void fn_801E283C(u32, Date_801E21A8 *);
+void fill_date_from_seconds(u32, Date_801E21A8 *);
 int strcmp(const char *s1, const char *s2);
 s32 get_card_file_info__15TAdPlayerLoadGCFiPvPv(s32 chan, const char *name, Info_801E21A8 *info);
 s32 CARDGetSerialNo();
@@ -834,7 +834,7 @@ check:
             info->f6 = 0;
             info->f7 = 0;
             info->f8 = 0;
-            fn_801E283C(st.time, &date);
+            fill_date_from_seconds(st.time, &date);
             info->year = date.year;
             info->mon = date.mon;
             info->mday = date.mday;

@@ -18,7 +18,7 @@ s32 adxf_get_fsize_byte__6TLobbyFv();
 s32 adxf_open__6TLobbyFUii(s32, s32);
 s32 all_parents_unqueued_for_destruction__7TObjectFv();
 void restore_saved_depth_alpha_state(void);
-void fn_801E2C50(void);
+void noop_after_system_reset(void);
 s8 func_801A5E54__Fv();
 void func_803DCDFC__Fv(void);
 void system_reset(void);
@@ -67,7 +67,7 @@ void TLobby::run_frame() {
     ((TObject *)tl_su)->debug_update();
     if (TQuestVmDownLoadServer::is_ready() != 0) {
         system_reset();
-        fn_801E2C50();
+        noop_after_system_reset();
     }
     restore_saved_depth_alpha_state();
     if (func_801A5E54__Fv() != 0) {

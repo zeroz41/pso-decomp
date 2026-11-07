@@ -67,7 +67,7 @@ int VIWaitForRetrace(void);
 int VIFlush(void);
 int VISetBlack(int);
 
-void fn_801E2C50(void) {  }
+void noop_after_system_reset(void) {  }
 }
 void reset_system(void) { VISetBlack(1); VIFlush(); VIWaitForRetrace(); OSResetSystem(1, 0, 0); }
 void system_reset(void) { VISetBlack(1); VIFlush(); VIWaitForRetrace(); OSResetSystem(1, 0, 1); }
