@@ -322,6 +322,7 @@ extern RecoveredGlobal_803EE2E4_lbl_8058DC98 lbl_8058DC98;
 extern RecoveredGlobal_803E6ACC_lbl_805A0470 lbl_805A0470;
 extern RecoveredGlobal_803E6ACC_lbl_805A0498 quest_download_entry_table;
 extern RecoveredGlobal_803E6ACC_lbl_805A05D0 lbl_805A05D0;
+extern s32 quest_download_state;
 extern s32 lbl_805D7848;
 extern s32 *lbl_805D78B8;
 extern s32 *lbl_805D78BC;
@@ -4275,7 +4276,7 @@ void TQuestVmDownLoadServer__sub_803EE870(s32 slot, s32 mode) {
     Node_803EB794 *end;
     Node_803EB794 *next;
     if ((p = quest_download_slot_chain_table[slot].chain) != NULL) {
-        if (mode == 1 && (lbl_805D78E8 == 1 || lbl_805D7834 >= 3)) {
+        if (mode == 1 && (lbl_805D78E8 == 1 || quest_download_state >= 3)) {
             end = advance_nodes__22TQuestVmDownLoadServerFPvi(lbl_805D78A0, lbl_805D7898);
             while (p != NULL) {
                 if (p == end) {
