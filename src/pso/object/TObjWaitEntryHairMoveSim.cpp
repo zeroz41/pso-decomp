@@ -155,14 +155,14 @@ extern void *lbl_8049CD08[24];
 extern void *lbl_8049CD68[8];
 extern void *lbl_8049CD88[16];
 extern void *lbl_8049CDC8[8];
-extern void *lbl_8049CDE8[16];
-extern void *lbl_8049CE28[20];
-extern void *lbl_8049CE78[28];
-extern void *lbl_8049CEE8[20];
-extern void *lbl_8049CF38[16];
-extern void *lbl_8049CF78[24];
-extern void *lbl_8049CFD8[12];
-extern void *lbl_8049D008[12];
+extern void *hair_bone_rotation_bone_list_08[16];
+extern void *hair_bone_rotation_bone_list_09[20];
+extern void *hair_bone_rotation_bone_list_10[28];
+extern void *hair_bone_rotation_bone_list_11[20];
+extern void *hair_bone_rotation_bone_list_12[16];
+extern void *hair_bone_rotation_bone_list_13[24];
+extern void *hair_bone_rotation_bone_list_14[12];
+extern void *hair_bone_rotation_bone_list_15[12];
 extern void *lbl_8049D038[20];
 extern void *lbl_8049D088[16];
 extern void *lbl_8049D0C8[12];
@@ -195,14 +195,14 @@ extern void *hair_bone_rotation_desc_04[5];
 extern void *hair_bone_rotation_desc_05[5];
 extern void *hair_bone_rotation_desc_06[5];
 extern void *hair_bone_rotation_desc_07[5];
-extern void *lbl_8049D718[5];
-extern void *lbl_8049D72C[5];
-extern void *lbl_8049D740[5];
-extern void *lbl_8049D754[5];
-extern void *lbl_8049D768[5];
-extern void *lbl_8049D77C[5];
-extern void *lbl_8049D790[5];
-extern void *lbl_8049D7A4[5];
+extern void *hair_bone_rotation_desc_08[5];
+extern void *hair_bone_rotation_desc_09[5];
+extern void *hair_bone_rotation_desc_10[5];
+extern void *hair_bone_rotation_desc_11[5];
+extern void *hair_bone_rotation_desc_12[5];
+extern void *hair_bone_rotation_desc_13[5];
+extern void *hair_bone_rotation_desc_14[5];
+extern void *hair_bone_rotation_desc_15[5];
 extern void *lbl_8049D7B8[5];
 extern void *lbl_8049D7CC[5];
 extern void *lbl_8049D7E0[5];
@@ -280,20 +280,20 @@ void *lbl_8049CDC8[8] = {
     (void *)0x1, (void *)0x3f800000, (void *)0x0, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CDE8[16] = {
+void *hair_bone_rotation_bone_list_08[16] = {
     (void *)0x5, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x6, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x7, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CE28[20] = {
+void *hair_bone_rotation_bone_list_09[20] = {
     (void *)0x1, (void *)0x3f800000, (void *)0x3e800000, (void *)0x0,
     (void *)0x2, (void *)0x3f800000, (void *)0x3e800000, (void *)0x0,
     (void *)0x3, (void *)0x3f800000, (void *)0xbe800000, (void *)0x0,
     (void *)0x4, (void *)0x3f800000, (void *)0xbe800000, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CE78[28] = {
+void *hair_bone_rotation_bone_list_10[28] = {
     (void *)0x3, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x4, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x5, (void *)0x0, (void *)0x3f800000, (void *)0x0,
@@ -302,20 +302,20 @@ void *lbl_8049CE78[28] = {
     (void *)0xa, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CEE8[20] = {
+void *hair_bone_rotation_bone_list_11[20] = {
     (void *)0x1, (void *)0x3f800000, (void *)0x0, (void *)0x3f800000,
     (void *)0x2, (void *)0x3f800000, (void *)0x0, (void *)0x3f800000,
     (void *)0x3, (void *)0x3f800000, (void *)0x0, (void *)0x3f800000,
     (void *)0x4, (void *)0x3f800000, (void *)0x0, (void *)0x3f800000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CF38[16] = {
+void *hair_bone_rotation_bone_list_12[16] = {
     (void *)0x3, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x4, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x5, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CF78[24] = {
+void *hair_bone_rotation_bone_list_13[24] = {
     (void *)0x3, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x4, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0x5, (void *)0x0, (void *)0x3f800000, (void *)0x0,
@@ -323,12 +323,12 @@ void *lbl_8049CF78[24] = {
     (void *)0x9, (void *)0x0, (void *)0x3f800000, (void *)0x0,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049CFD8[12] = {
+void *hair_bone_rotation_bone_list_14[12] = {
     (void *)0x3, (void *)0x0, (void *)0x3f800000, (void *)0x3e800000,
     (void *)0x4, (void *)0x0, (void *)0x3f800000, (void *)0x3e800000,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
 };
-void *lbl_8049D008[12] = {
+void *hair_bone_rotation_bone_list_15[12] = {
     (void *)0x1, (void *)0x3f800000, (void *)0x3ee66666, (void *)0xbee66666,
     (void *)0x2, (void *)0x3f800000, (void *)0xbee66666, (void *)0x3ee66666,
     (void *)0xffffffff, (void *)0x0, (void *)0x0, (void *)0x0,
@@ -513,37 +513,37 @@ void *hair_bone_rotation_desc_07[5] = {
     (void *)0x600, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
     (void *)&lbl_8049CDC8,
 };
-void *lbl_8049D718[5] = {
+void *hair_bone_rotation_desc_08[5] = {
     (void *)0x400, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CDE8,
+    (void *)&hair_bone_rotation_bone_list_08,
 };
-void *lbl_8049D72C[5] = {
+void *hair_bone_rotation_desc_09[5] = {
     (void *)0x1800, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CE28,
+    (void *)&hair_bone_rotation_bone_list_09,
 };
-void *lbl_8049D740[5] = {
+void *hair_bone_rotation_desc_10[5] = {
     (void *)0x400, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CE78,
+    (void *)&hair_bone_rotation_bone_list_10,
 };
-void *lbl_8049D754[5] = {
+void *hair_bone_rotation_desc_11[5] = {
     (void *)0x280, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CEE8,
+    (void *)&hair_bone_rotation_bone_list_11,
 };
-void *lbl_8049D768[5] = {
+void *hair_bone_rotation_desc_12[5] = {
     (void *)0x400, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CF38,
+    (void *)&hair_bone_rotation_bone_list_12,
 };
-void *lbl_8049D77C[5] = {
+void *hair_bone_rotation_desc_13[5] = {
     (void *)0x400, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CF78,
+    (void *)&hair_bone_rotation_bone_list_13,
 };
-void *lbl_8049D790[5] = {
+void *hair_bone_rotation_desc_14[5] = {
     (void *)0x800, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049CFD8,
+    (void *)&hair_bone_rotation_bone_list_14,
 };
-void *lbl_8049D7A4[5] = {
+void *hair_bone_rotation_desc_15[5] = {
     (void *)0x1800, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
-    (void *)&lbl_8049D008,
+    (void *)&hair_bone_rotation_bone_list_15,
 };
 void *lbl_8049D7B8[5] = {
     (void *)0x1400, (void *)0x1000, (void *)0x2000, (void *)0x3f8ccccd,
@@ -650,14 +650,14 @@ void *hair_effect_selection_table[164] = {
     (void *)0x5ffff01, (void *)&hair_bone_rotation_desc_05, (void *)0x0, (void *)0x0,
     (void *)0x5ffff02, (void *)&hair_bone_rotation_desc_06, (void *)0x0, (void *)0x0,
     (void *)0x5ffff03, (void *)&hair_bone_rotation_desc_07, (void *)0x0, (void *)0x0,
-    (void *)0x6ff00ff, (void *)&lbl_8049D718, (void *)0x0, (void *)0x0,
-    (void *)0x602ffff, (void *)&lbl_8049D72C, (void *)0x0, (void *)0x0,
-    (void *)0x603ffff, (void *)&lbl_8049D740, (void *)0x0, (void *)0x0,
-    (void *)0x6ff03ff, (void *)&lbl_8049D754, (void *)0x0, (void *)0x0,
-    (void *)0x6ff05ff, (void *)&lbl_8049D768, (void *)0x0, (void *)0x0,
-    (void *)0x6ff06ff, (void *)&lbl_8049D77C, (void *)0x0, (void *)0x0,
-    (void *)0x609ffff, (void *)&lbl_8049D790, (void *)0x0, (void *)0x0,
-    (void *)0x701ffff, (void *)&lbl_8049D7A4, (void *)0x0, (void *)0x0,
+    (void *)0x6ff00ff, (void *)&hair_bone_rotation_desc_08, (void *)0x0, (void *)0x0,
+    (void *)0x602ffff, (void *)&hair_bone_rotation_desc_09, (void *)0x0, (void *)0x0,
+    (void *)0x603ffff, (void *)&hair_bone_rotation_desc_10, (void *)0x0, (void *)0x0,
+    (void *)0x6ff03ff, (void *)&hair_bone_rotation_desc_11, (void *)0x0, (void *)0x0,
+    (void *)0x6ff05ff, (void *)&hair_bone_rotation_desc_12, (void *)0x0, (void *)0x0,
+    (void *)0x6ff06ff, (void *)&hair_bone_rotation_desc_13, (void *)0x0, (void *)0x0,
+    (void *)0x609ffff, (void *)&hair_bone_rotation_desc_14, (void *)0x0, (void *)0x0,
+    (void *)0x701ffff, (void *)&hair_bone_rotation_desc_15, (void *)0x0, (void *)0x0,
     (void *)0x7ff05ff, (void *)&lbl_8049D7B8, (void *)0x0, (void *)0x0,
     (void *)0x7ff07ff, (void *)&lbl_8049D7CC, (void *)0x0, (void *)0x0,
     (void *)0x709ffff, (void *)&lbl_8049D7E0, (void *)0x0, (void *)0x0,
