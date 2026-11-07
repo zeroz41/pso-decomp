@@ -1873,25 +1873,18 @@ pso/object/ambient/TObjFish_800E2FFC.cpp:
 	.bss        start:0x80500FB0 end:0x80500FC0
 
 pso/enemy/panarms/TObjEnePanarmsAtkColli.cpp:
-	.text       start:0x800E31C4 end:0x800E3A58
+	.text       start:0x800E31C4 end:0x800E3970
 	.rodata     start:0x8043CDD8 end:0x8043CDF0
 	.data       start:0x80495A80 end:0x80495BE0
 	.sdata      start:0x805D2AC0 end:0x805D2AC8
 	.sdata2     start:0x805DA5A0 end:0x805DA5B8
 
-pso/enemy/shinowa/TObjEneMe3ShinowaMirage.cpp:
-	.text       start:0x800E3A58 end:0x800E4490
-	.rodata     start:0x8043CFA0 end:0x8043CFA8
-	.sdata2     start:0x805DA5C8 end:0x805DA5CC
-
-pso/enemy/shinowa/TObjEneMe3ShinowaReal.cpp:
-	.text       start:0x800E4490 end:0x800E47DC
-
 pso/enemy/shinowa/TObjEneMe3Shinowa.cpp:
-	.text       start:0x800E47DC end:0x800E80A4
+	.text       start:0x800E3970 end:0x800E80A4
+	.rodata     start:0x8043CFA0 end:0x8043D008
 	.data       start:0x80495BE0 end:0x80495F3C
 	.bss        start:0x80500FC0 end:0x80501010
-	.sdata2     start:0x805DA5D8 end:0x805DA634
+	.sdata2     start:0x805DA5B8 end:0x805DA668
 
 pso/player/TObjPlayer_800E80A4.cpp:
 	.text       start:0x800E80A4 end:0x800E80C0

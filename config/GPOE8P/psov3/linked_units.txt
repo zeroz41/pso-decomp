@@ -451,7 +451,7 @@ pso/enemy/gigue/TObjEneMe1GiGueBarrier.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile.cpp
 pso/enemy/gigue/TObjEneMe1GiGueMissile_802A4628.cpp
 pso/enemy/gigue/TObjEneMe1GiGue_802CDB1C.cpp
-pso/enemy/shinowa/TObjEneMe3ShinowaReal.cpp
+pso/enemy/shinowa/TObjEneMe3Shinowa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa.cpp
 pso/enemy/sinowzoa/TObjEneMe3SinowZoa_800D72A4.cpp
 pso/enemy/stelth/TObjEneMe3Stelth.cpp
