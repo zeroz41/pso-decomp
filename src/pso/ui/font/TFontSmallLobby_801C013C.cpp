@@ -95,23 +95,23 @@ void TFontSmallLobby::send_font_state_msg() { TFontSmallLobby__sub_801C01BC(this
 
 void TFontSmallLobby__sub_801C04C8(void* p) { *(u8*)((char*)p + 0x0) = 123; *(u8*)((char*)p + 0x1) = 1; }
 
-void fn_801C04DC(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
+void send_6x7B_disable_stealth_suit_effect(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
 
-void fn_801C0510(void* p) { *(u8*)((char*)p + 0x0) = 122; *(u8*)((char*)p + 0x1) = 1; }
+void init_packet_6x7A_enable_stealth_suit_effect(void* p) { *(u8*)((char*)p + 0x0) = 122; *(u8*)((char*)p + 0x1) = 1; }
 
 void TLobby::cleanup_small_font() { TFontSmallLobby__sub_801C01BC(this); send_subcommand((u8 *)this); }
 
-void fn_801C0558(void* p) { *(u8*)((char*)p + 0x0) = 28; *(u8*)((char*)p + 0x1) = 1; }
+void init_packet_6x1C_disable_pk_mode_for_player(void* p) { *(u8*)((char*)p + 0x0) = 28; *(u8*)((char*)p + 0x1) = 1; }
 
-void fn_801C056C(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
+void send_6x1C_disable_pk_mode_for_player(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
 
-void fn_801C05A0(void* p) { *(u8*)((char*)p + 0x0) = 27; *(u8*)((char*)p + 0x1) = 1; }
+void init_packet_6x1B_enable_pk_mode_for_player(void* p) { *(u8*)((char*)p + 0x0) = 27; *(u8*)((char*)p + 0x1) = 1; }
 
-void fn_801C05B4(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
+void send_6x1B_enable_pk_mode_for_player(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
 
-void fn_801C05E8(void* p) { *(u8*)((char*)p + 0x0) = 35; *(u8*)((char*)p + 0x1) = 1; }
+void init_packet_6x23_set_player_visible(void* p) { *(u8*)((char*)p + 0x0) = 35; *(u8*)((char*)p + 0x1) = 1; }
 
-void fn_801C05FC(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
+void send_6x23_set_player_visible(void* p) { TFontSmallLobby__sub_801C01BC(p); send_subcommand((u8 *)p); }
 
 void fn_801C0630(void* p) { *(u8*)((char*)p + 0x0) = 34; *(u8*)((char*)p + 0x1) = 1; }
 
