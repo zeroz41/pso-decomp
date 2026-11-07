@@ -1215,7 +1215,6 @@ void TObjFish__sub_802E8990(u8 *arg0, u32 arg1);
 void TObjFish__sub_802E8E34(u8 *arg0, u32 arg1);
 void TObjFish__sub_802E8EEC(u8 *arg0, u32 arg1, s32);
 void TObjFish__sub_802E9458(u8 *arg0, u32 arg1);
-void TObjFish__sub_802EB270(u8 *, u32, s32, s32);
 void TObjFish__sub_802EBE50(void* o, u32 k);
 void TBoss7DeRolLeC__dispatch_state(u8 *arg0, u32 arg1, u32 arg2);
 f32 fabs_float(f32);
@@ -1490,7 +1489,7 @@ s32 play_persistent_sound(s32 id, s32 a1, u32 src, s32 a3, s32 flags);
 #define TObjFish__sub_802E7B40 ((s32 (*)(void *))TObjFish__sub_802E7B40)
 #define TObjFish__sub_802E7B94 ((s32 (*)(void *))TObjFish__sub_802E7B94)
 void TObjFish__sub_802E8AD4(Fish_802E8AD4* o, u32 k);
-void TObjFish__sub_802EC32C(void);
+void TObjFish__sub_802EC32C(TBoss7DeRolLeC *self);
 void TObjFish__sub_802EC468(s32 arg0, f32 farg0, f32 farg1);
 void TBoss7DeRolLeC__sub_802EC994(void* p);
 void fn_802EC9A4(void *arg0, void *arg1);
@@ -3050,6 +3049,215 @@ void TObjFish__sub_802EAAC8(u8 *arg0, u32 arg1, s32 arg2, s32 arg3) {
 #undef self
 #pragma pop
 
+// Moves the body from point unk_6C0 of lbl_80472D04 to point unk_6C4 (states 3, 5,
+// 6, 8, 9, 0xB, 0xC, 0xE, 0x28, 0x29 of dispatch_state): one TUnk_80036250 profile
+// per axis, unk_74C/unk_758/unk_750 the x/y/z direction signs, unk_744/unk_754/unk_748
+// the start position.
+#pragma push
+#pragma fp_contract on
+void TBoss7DeRolLeC::sub_802EB270(u32 event, s32 mode, s32 next_mode) {
+    f32 d;
+    f32 z_speed;
+    f32 z_accel;
+    f32 speed;
+    f32 accel;
+    s32 done;
+
+    switch (event) {
+    case 4:
+        ((TObjMotion *)this)->set_field_b8(1);
+        TObjFish__sub_802ECBDC((Fish_802ECBDC *)this);
+        unk_628 &= ~4;
+        unk_628 |= 0x100;
+        unk_6C0 = mode;
+        unk_6C4 = next_mode;
+        TObjFish__sub_802ED4AC((u8 *)this, unk_6C0);
+        unk_728 = 0;
+        unk_744 = position.x;
+        unk_754 = position.y;
+        unk_748 = position.z;
+        d = lbl_80472D04[unk_6C4].x - lbl_80472D04[unk_6C0].x;
+        if (lbl_805DEA10 < d) {
+            unk_74C = lbl_805DEA18;
+        } else if (d < lbl_805DEA10) {
+            unk_74C = lbl_805DEA70;
+        } else {
+            unk_74C = lbl_805DEA10;
+        }
+        d = lbl_80472D04[unk_6C4].y - lbl_80472D04[unk_6C0].y;
+        if (lbl_805DEA10 < d) {
+            unk_758 = lbl_805DEA18;
+        } else if (d < lbl_805DEA10) {
+            unk_758 = lbl_805DEA70;
+        } else {
+            unk_758 = lbl_805DEA10;
+        }
+        d = lbl_80472D04[unk_6C4].z - lbl_80472D04[unk_6C0].z;
+        if (lbl_805DEA10 < d) {
+            unk_750 = lbl_805DEA18;
+        } else if (d < lbl_805DEA10) {
+            unk_750 = lbl_805DEA70;
+        } else {
+            unk_750 = lbl_805DEA10;
+        }
+        if (unk_6C4 < 5) {
+            speed = lbl_805DEA58;
+            accel = lbl_805DEA78;
+            if (unk_750 > lbl_805DEA10) {
+                z_accel = accel;
+                z_speed = lbl_805DEAA4;
+            } else {
+                z_speed = lbl_805DEA98;
+                z_accel = lbl_805DEA74;
+            }
+        } else {
+            speed = lbl_805DEA90;
+            accel = lbl_805DEB5C;
+            if (unk_750 > lbl_805DEA10) {
+                z_accel = accel;
+                z_speed = lbl_805DEA50;
+            } else {
+                z_speed = lbl_805DEA54;
+                z_accel = lbl_805DEB60;
+            }
+        }
+        motion_x.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].x - position.x), accel);
+        motion_y.init_params(speed, fabs_float(lbl_80472D04[unk_6C4].y - position.y), accel);
+        if (unk_750 > lbl_805DEA10) {
+            motion_z.init_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel);
+        } else {
+            motion_z.set_move_params(z_speed, fabs_float(lbl_80472D04[unk_6C4].z - position.z), z_accel, lbl_805DEB0C);
+        }
+        if (lbl_805DEA10 != unk_750) {
+            unk_6C8 = 0;
+        } else {
+            unk_6C8 = 1;
+        }
+        unk_6CC = 0;
+        if (unk_750 > lbl_805DEA10) {
+            if (lbl_805DEA10 != unk_74C) {
+                unk_6D0 = 1;
+            } else {
+                unk_6D0 = 3;
+            }
+        } else {
+            if (lbl_805DEA10 != unk_74C) {
+                unk_6D0 = 0;
+            } else {
+                unk_6D0 = 2;
+            }
+        }
+        if (lbl_805DEA10 != unk_758) {
+            unk_72C = 4;
+            if (unk_758 > lbl_805DEA10) {
+                TObjFish__sub_802E7B40(this);
+                TObjFish::set_effect_target_position(this, (void *)0x39902, unk_50C);
+                unk_628 &= ~0x400;
+            } else {
+                TObjFish__sub_802E7B94(this);
+                TObjFish::set_effect_target_position(this, (void *)0x39E01, unk_50C);
+                unk_628 |= 0x400;
+            }
+        } else {
+            switch (unk_6C0) {
+            case 1:
+            case 6:
+                unk_72C = 2;
+                break;
+            case 3:
+            case 8:
+                unk_72C = 0;
+                break;
+            default:
+                switch (unk_6C4) {
+                case 1:
+                case 6:
+                    unk_72C = 1;
+                    break;
+                case 3:
+                case 8:
+                    unk_72C = 3;
+                    break;
+                default:
+                    unk_72C = 3;
+                    break;
+                }
+                break;
+            }
+        }
+    case 2:
+        if (unk_728 == 1) {
+            set_state_and_send(2);
+        }
+        break;
+    case 9:
+        if (unk_728 == 1) {
+            if (unk_628 & 0x800) {
+                unk_628 &= ~0x800;
+                switch (unk_6C4) {
+                case 0:
+                    set_state_and_send(0xF);
+                    break;
+                case 2:
+                    set_state_and_send(0x10);
+                    break;
+                case 1:
+                default:
+                    advance_action_sequence();
+                    break;
+                }
+            } else {
+                advance_action_sequence();
+            }
+        }
+        break;
+    case 0:
+        ((TObjMotion *)this)->advance_animation();
+        TObjFish__sub_802EC32C(this);
+        done = 0;
+        switch (unk_72C) {
+        case 0:
+            done = ((TObjFish *)this)->update_phase_rising();
+            break;
+        case 1:
+            done = ((TObjFish *)this)->update_anim_state();
+            position.z = unk_748 + motion_z.travelled;
+            break;
+        case 2:
+            done = ((TObjFish *)this)->update_phase_settling();
+            position.z = unk_748 - motion_z.travelled;
+            break;
+        case 3:
+            done = ((TObjFish *)this)->update_tail_anim_state();
+            position.z = unk_748 - motion_z.travelled;
+            break;
+        case 4:
+            done = 0;
+            if (((TObjFish *)this)->is_all_parts_done()) {
+                play_speed += lbl_805DEA7C;
+                if (play_speed > lbl_805DEB64) {
+                    done = 1;
+                }
+            } else if (unk_758 < lbl_805DEA10) {
+                play_speed = lbl_805DEB68;
+            }
+            position.z = unk_748 - motion_z.travelled;
+            break;
+        }
+        if (done) {
+            unk_728 = 1;
+        }
+        position.x = motion_x.travelled * unk_74C + unk_744;
+        position.y = motion_y.travelled * unk_758 + unk_754;
+        position.z = motion_z.travelled * unk_750 + unk_748;
+        break;
+    case 5:
+        unk_6C0 = unk_6C4;
+        break;
+    }
+}
+#pragma pop
+
 #pragma push
 #pragma opt_common_subs off
 void TObjFish__sub_802EB90C(Fish_802EB90C *arg0, u32 arg1) {
@@ -3266,37 +3474,37 @@ void TBoss7DeRolLeC__dispatch_state(u8 *arg0, u32 arg1, u32 arg2) {
         TObjFish__sub_802EB90C((Fish_802EB90C *)(arg0), arg2);
         return;
     case 0x3:
-        TObjFish__sub_802EB270(arg0, arg2, 0, 1);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 0, 1);
         return;
     case 0x4:
         TObjFish__sub_802EAAC8(arg0, arg2, 0, 2);
         return;
     case 0x5:
-        TObjFish__sub_802EB270(arg0, arg2, 0, 3);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 0, 3);
         return;
     case 0x6:
-        TObjFish__sub_802EB270(arg0, arg2, 1, 2);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 1, 2);
         return;
     case 0x8:
-        TObjFish__sub_802EB270(arg0, arg2, 1, 0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 1, 0);
         return;
     case 0x9:
-        TObjFish__sub_802EB270(arg0, arg2, 2, 3);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 2, 3);
         return;
     case 0xA:
         TObjFish__sub_802EAAC8(arg0, arg2, 2, 0);
         return;
     case 0xB:
-        TObjFish__sub_802EB270(arg0, arg2, 2, 1);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 2, 1);
         return;
     case 0xC:
-        TObjFish__sub_802EB270(arg0, arg2, 3, 0);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 3, 0);
         return;
     case 0xD:
         TObjFish__sub_802EA4D8(arg0, arg2);
         return;
     case 0xE:
-        TObjFish__sub_802EB270(arg0, arg2, 3, 2);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 3, 2);
         return;
     case 0x11:
         TObjFish__sub_802E9DBC(arg0, arg2, 0);
@@ -3347,58 +3555,58 @@ void TBoss7DeRolLeC__dispatch_state(u8 *arg0, u32 arg1, u32 arg2) {
     case 0x29:
         temp_r6 = *(s32 *)((s8 *)arg0 + 0x6C0);
         if (temp_r6 < 5) {
-            TObjFish__sub_802EB270(arg0, arg2, temp_r6, temp_r6 + 5);
+            ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, temp_r6, temp_r6 + 5);
             return;
         }
-        TObjFish__sub_802EB270(arg0, arg2, temp_r6, temp_r6 - 5);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, temp_r6, temp_r6 - 5);
         return;
     case 0x2A:
-        TObjFish__sub_802EB270(arg0, arg2, 6, 7);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 6, 7);
         return;
     case 0x2B:
-        TObjFish__sub_802EB270(arg0, arg2, 7, 8);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 7, 8);
         return;
     case 0x2C:
-        TObjFish__sub_802EB270(arg0, arg2, 8, 5);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 8, 5);
         return;
     case 0x2D:
-        TObjFish__sub_802EB270(arg0, arg2, 5, 6);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 5, 6);
         return;
     case 0x2E:
-        TObjFish__sub_802EB270(arg0, arg2, 6, 5);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 6, 5);
         return;
     case 0x2F:
-        TObjFish__sub_802EB270(arg0, arg2, 5, 8);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 5, 8);
         return;
     case 0x30:
-        TObjFish__sub_802EB270(arg0, arg2, 8, 7);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 8, 7);
         return;
     case 0x31:
-        TObjFish__sub_802EB270(arg0, arg2, 7, 6);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 7, 6);
         return;
     case 0x32:
-        TObjFish__sub_802EB270(arg0, arg2, 6, 9);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 6, 9);
         return;
     case 0x33:
-        TObjFish__sub_802EB270(arg0, arg2, 9, 8);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 9, 8);
         return;
     case 0x34:
-        TObjFish__sub_802EB270(arg0, arg2, 8, 9);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 8, 9);
         return;
     case 0x35:
-        TObjFish__sub_802EB270(arg0, arg2, 9, 6);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 9, 6);
         return;
     case 0x36:
-        TObjFish__sub_802EB270(arg0, arg2, 5, 9);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 5, 9);
         return;
     case 0x37:
-        TObjFish__sub_802EB270(arg0, arg2, 9, 7);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 9, 7);
         return;
     case 0x38:
-        TObjFish__sub_802EB270(arg0, arg2, 7, 9);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 7, 9);
         return;
     case 0x39:
-        TObjFish__sub_802EB270(arg0, arg2, 9, 5);
+        ((TBoss7DeRolLeC *)arg0)->sub_802EB270(arg2, 9, 5);
         return;
     case 0x3A:
         TBoss7DeRolLeC__handle_crawfish_spawn_state(arg0, arg2, 0);
@@ -3443,7 +3651,7 @@ void TObjFish::spawn_via_trap(s32 arg0, s32 arg1, s32 arg2) {
 
 void TObjFish::set_effect_target_position(void* p, void* a1, void* a2) { play_sound_effect(a1, a2, (void*)0, (void*)0); }
 
-void TObjFish__sub_802EC32C(void) {  }
+void TObjFish__sub_802EC32C(TBoss7DeRolLeC *) {  }
 
 void TBoss7DeRolLeC::update_projectile_spawns() {
     u8 *arg0 = (u8 *)this;
@@ -3826,9 +4034,9 @@ s32 TBoss7Joint_get_shell_max_hp(void);
 
 #pragma push
 #pragma opt_common_subs off
-u8 TObjFish::update_phase_rising() {
+u32 TObjFish::update_phase_rising() {
     f32 var_f2;
-    s32 var_r3;
+    u8 var_r3;
     advance_scalar_motion_profile(((u8 *)this) + 0x630);
     if (advance_scalar_motion_profile(((u8 *)this) + 0x650) == 3) {
         *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
@@ -3867,8 +4075,8 @@ u8 TObjFish::update_phase_rising() {
 
 #pragma push
 #pragma fp_contract on
-u8 TObjFish::update_tail_anim_state() {
-    s32 var_r3;
+u32 TObjFish::update_tail_anim_state() {
+    u8 var_r3;
     advance_scalar_motion_profile(((u8 *)this) + 0x670);
     if (((s32)advance_scalar_motion_profile(((u8 *)this) + 0x650)) == 3) {
         *(s32 *)((s8 *)((u8 *)this) + 0x6CC) = 1;
@@ -3893,7 +4101,7 @@ u8 TObjFish::update_tail_anim_state() {
     if (((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6C8) == 2) && ((s32) *(s32 *)((s8 *)((u8 *)this) + 0x6CC) == 1)) {
         var_r3 = 1;
     }
-    return (u8) var_r3;
+    return var_r3;
 }
 #pragma pop
 

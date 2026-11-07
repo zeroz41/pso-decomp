@@ -57,8 +57,8 @@ struct TObjFish : public TObjBase {
     void set_hooked_effect_target();
     void apply_damage_and_set_effect(s32 arg1);
     void pick_random_target();
-    u8 update_phase_rising();
-    u8 update_tail_anim_state();
+    u32 update_phase_rising();
+    u32 update_tail_anim_state();
     u32 update_phase_settling();
     u32 update_anim_state();
     s32 is_all_parts_done();
