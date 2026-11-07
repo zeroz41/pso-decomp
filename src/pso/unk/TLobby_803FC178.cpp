@@ -2433,6 +2433,85 @@ void TLobby__sub_8040059C(u8 *conn) {
 }
 #pragma pop
 
+struct LcpCfg_80400744 {
+    u32 accm;
+    s16 f4;
+    s16 auth;
+    u32 magic;
+    u16 mru;
+    s16 fE;
+};
+
+s16 TLobby__sub_80400744(LcpEntry_8040059C *fsm, LcpCfg_80400744 *cfg) {
+    LcpOpts_8040059C *opts;
+    LcpSide_8040059C *ho;
+    u16 auth;
+
+    TLobby__sub_803FE600((O_803FE600 *)fsm);
+    ((TLobby *)fsm)->set_flags_and_state();
+    *fsm->sub = 1;
+    if (*fsm->sub >= 1) {
+        opts = fsm->opts;
+        if ((s16)cfg->mru >= 0x80 && (s16)cfg->mru <= 0x1000) {
+            opts->local.want.mask |= 2;
+            opts->local.want.mru = cfg->mru;
+        }
+        opts->local.want.accm = cfg->accm;
+        if (opts->local.want.accm != 0xFFFFFFFF) {
+            opts->local.want.mask |= 4;
+            opts->local.mask |= 4;
+        } else {
+            opts->local.want.mask &= ~4;
+            opts->local.mask &= ~4;
+        }
+        auth = cfg->auth;
+        if ((auth & 0x80) || auth == 4) {
+            ((TLobby *)&opts->remote)->configure_mode_by_type(auth & 0x7F);
+            if (lbl_805D7A90 & 2) {
+                ((TLobby *)&opts->local)->configure_mode_by_type(cfg->auth & 0x7F);
+            }
+        } else {
+            ((TLobby *)&opts->remote)->configure_mode_by_type(auth);
+            ((TLobby *)&opts->local)->configure_mode_by_type(cfg->auth);
+        }
+        if (cfg->magic != 0) {
+            opts->local.want.mask |= 0x20;
+        } else {
+            opts->local.want.mask &= ~0x20;
+        }
+        opts->local.want.magic = cfg->magic;
+        if (cfg->fE == 0) {
+            opts->local.mask |= 0x80;
+        } else {
+            opts->local.mask &= ~0x80;
+        }
+        if (cfg->f4 == 0) {
+            opts->local.mask |= 0x100;
+        } else {
+            opts->local.mask &= ~0x100;
+        }
+        ho = &opts->remote;
+        if (cfg->magic != 0) {
+            ho->want.mask |= 0x20;
+        } else {
+            ho->want.mask &= ~0x20;
+        }
+        ho->want.magic = cfg->magic;
+        if (cfg->fE == 0) {
+            ho->mask |= 0x80;
+        } else {
+            ho->mask &= ~0x80;
+        }
+        if (cfg->f4 == 0) {
+            ho->mask |= 0x100;
+        } else {
+            ho->mask &= ~0x100;
+        }
+        TLobby__sub_803FD958((u8 *)fsm);
+    }
+    return 0;
+}
+
 void TLobby__sub_80400988(void) {
 
 }
@@ -3700,7 +3779,6 @@ s32 TLobby__sub_80403BA8(u8 *arg0, u8 *arg1, s32 arg2) {
 }
 
 void TLobby__sub_803F808C(void);
-s16 TLobby__sub_80400744(int, void *);
 
 s32 TLobby__sub_80403C60(u8 *arg0) {
     s16 wait_for_connection__6TLobbyFPv(int);
@@ -3710,7 +3788,7 @@ s32 TLobby__sub_80403C60(u8 *arg0) {
 
     TLobby__sub_803F808C();
     temp_r31 = (u8 *)lbl_805C0038 + 4;
-    if (TLobby__sub_80400744((int) (temp_r31), (void *) (arg0)) != 0) {
+    if (TLobby__sub_80400744((LcpEntry_8040059C *)temp_r31, (LcpCfg_80400744 *)arg0) != 0) {
         return -0x11;
     }
     if (wait_for_connection__6TLobbyFPv((int) (temp_r31)) != 0) {
