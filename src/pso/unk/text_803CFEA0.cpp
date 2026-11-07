@@ -27,8 +27,8 @@ struct DVDFileInfo_803D0AE8 {
 };
 
 extern "C" {
-extern s32 lbl_805D7608;
-extern RecoveredCallback_4873a87e26d6 lbl_805D760C;
+extern s32 fileio_error_context;
+extern RecoveredCallback_4873a87e26d6 fileio_error_callback;
 s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2);
 s32 DVDOpen(const char *, DVDFileInfo_803D0AE8 *);
 s32 DVDClose(DVDFileInfo_803D0AE8 *);
@@ -46,8 +46,8 @@ extern GcciRequest dvd_request_table[40];
 s32 TLobby::get_handle_field_20() {
     u8 *arg0 = (u8 *)this;
     if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) lbl_805D760C) != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
@@ -57,15 +57,15 @@ void TLobby__sub_803CFEF4(File_803D0654 *file, s32 unit) {
     s32 old;
     s32 offset;
     if (file == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0040302:handl is null.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0040302:handl is null.", 0);
         }
         return;
     }
     old = file->unit;
     if (old % 32 != 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0040303:invalidate size.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0040303:invalidate size.", 0);
         }
         return;
     }
@@ -79,8 +79,8 @@ void TLobby__sub_803CFEF4(File_803D0654 *file, s32 unit) {
 s32 TLobby::get_field10_or_report() {
     u8 *arg0 = (u8 *)this;
     if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) lbl_805D760C) != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0040301:handl is null.", 0);
+        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0040301:handl is null.", 0);
         }
         return 0;
     }
@@ -90,8 +90,8 @@ s32 TLobby::get_field10_or_report() {
 s32 TLobby::get_handle_value_checked() {
     S_803D0014 *arg0 = (S_803D0014 *)this;
     if (arg0 == 0) {
-        if ((*(RecoveredCallback_803D0014 *)&lbl_805D760C) != 0) {
-            (*(RecoveredCallback_803D0014 *)&lbl_805D760C)(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if ((*(RecoveredCallback_803D0014 *)&fileio_error_callback) != 0) {
+            (*(RecoveredCallback_803D0014 *)&fileio_error_callback)(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
@@ -117,8 +117,8 @@ void TLobby__sub_803D006C(void *arg) {
     s32 result;
 
     if (r == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return;
     }
@@ -131,8 +131,8 @@ void TLobby__sub_803D006C(void *arg) {
     result = DVDCancel(r->block);
     dvd_active_request.unknown08 = 0;
     if (result < 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092917:DVDCancel failed.", (s32)r);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)r);
         }
         return;
     }
@@ -147,8 +147,8 @@ void TLobby__sub_803D006C(void *arg) {
             elapsed = -1 - start + now;
         }
         if (elapsed > 2000) {
-            if (lbl_805D760C != NULL) {
-                lbl_805D760C(lbl_805D7608, (s32 *)"E0092918:DVDCancel time out.", (s32)r);
+            if (fileio_error_callback != NULL) {
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)r);
             }
             break;
         }
@@ -230,20 +230,20 @@ s32 TLobby__sub_803D0214(void *arg, s32 count, void *buf) {
     s32 result;
 
     if (r == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
     if (count < 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (s32)r);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092913:nsct < 0.(gcCiReqRd)", (s32)r);
         }
         return 0;
     }
     if (buf == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (s32)r);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092914:buf is null.(gcCiReqRd)", (s32)r);
         }
         return 0;
     }
@@ -294,8 +294,8 @@ s32 TLobby__sub_803D0214(void *arg, s32 count, void *buf) {
 s32 TLobby::get_handle_field_1c() {
     u8 *arg0 = (u8 *)this;
     if (arg0 == NULL) {
-        if (((s32 (*)(s32, s32 *, s32)) lbl_805D760C) != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (((s32 (*)(s32, s32 *, s32)) fileio_error_callback) != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
@@ -304,8 +304,8 @@ s32 TLobby::get_handle_field_1c() {
 
 s32 TLobby__sub_803D0654(struct File_803D0654 *arg0, s32 arg1, s32 arg2) {
     if (arg0 == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
         return 0;
     }
@@ -337,8 +337,8 @@ void TLobby__sub_803D0714(void *arg) {
     }
     rr = (GcciRequest *)arg;
     if (rr == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092912:handl is null.", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092912:handl is null.", 0);
         }
     } else {
         if (*(s8 *)&rr->state == 1 || *(s8 *)&rr->state == 0) {
@@ -350,8 +350,8 @@ void TLobby__sub_803D0714(void *arg) {
         result = DVDCancel(rr->block);
         dvd_active_request.unknown08 = 0;
         if (result < 0) {
-            if (lbl_805D760C != NULL) {
-                lbl_805D760C(lbl_805D7608, (s32 *)"E0092917:DVDCancel failed.", (s32)rr);
+            if (fileio_error_callback != NULL) {
+                fileio_error_callback(fileio_error_context, (s32 *)"E0092917:DVDCancel failed.", (s32)rr);
             }
             goto close_req;
         }
@@ -368,8 +368,8 @@ void TLobby__sub_803D0714(void *arg) {
                 elapsed = neg1 + now;
             }
             if (elapsed > 2000) {
-                if (lbl_805D760C != NULL) {
-                    lbl_805D760C(lbl_805D7608, (s32 *)"E0092918:DVDCancel time out.", (s32)rr);
+                if (fileio_error_callback != NULL) {
+                    fileio_error_callback(fileio_error_context, (s32 *)"E0092918:DVDCancel time out.", (s32)rr);
                 }
                 break;
             }
@@ -406,21 +406,21 @@ GcciRequest *TLobby__sub_803D08E0(const char *name, s32 arg1, s32 mode) {
     char path[0x100];
 
     if (name == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092908:fname is null.(gcCiOpen)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092908:fname is null.(gcCiOpen)", 0);
         }
         return NULL;
     }
     if (mode != 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092909:rw is illigal.(gcCiOpen)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092909:rw is illigal.(gcCiOpen)", 0);
         }
         return NULL;
     }
     r = dvd_find_free_request();
     if (r == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092910:not enough handle resource.(gcCiOpen)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092910:not enough handle resource.(gcCiOpen)", 0);
         }
         return NULL;
     }
@@ -433,8 +433,8 @@ GcciRequest *TLobby__sub_803D08E0(const char *name, s32 arg1, s32 mode) {
         }
     }
     if (DVDOpen(path, (DVDFileInfo_803D0AE8 *)r->block) == 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092911:DVDOpen fail.(gcCiOpen)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092911:DVDOpen fail.(gcCiOpen)", 0);
         }
         memset(r, 0, sizeof(GcciRequest));
         return NULL;
@@ -465,8 +465,8 @@ s32 TLobby::get_dvd_file_size(const char *name) {
     DVDFileInfo_803D0AE8 info;
     char path[0x100];
     if (name == NULL) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0092901:fname is null.(gcCiGetFileSize)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0092901:fname is null.(gcCiGetFileSize)", 0);
         }
         return 0;
     }
@@ -479,8 +479,8 @@ s32 TLobby::get_dvd_file_size(const char *name) {
         }
     }
     if (DVDOpen(path, &info) == 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0040201:can't open a file.(gcCiGetFileSize)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0040201:can't open a file.(gcCiGetFileSize)", 0);
         }
         return 0;
     }
@@ -489,8 +489,8 @@ s32 TLobby::get_dvd_file_size(const char *name) {
         size = 0x7FFFFFFF;
     }
     if (DVDClose(&info) == 0) {
-        if (lbl_805D760C != NULL) {
-            lbl_805D760C(lbl_805D7608, (s32 *)"E0040202:can't close a file.(gcCiGetFileSize)", 0);
+        if (fileio_error_callback != NULL) {
+            fileio_error_callback(fileio_error_context, (s32 *)"E0040202:can't close a file.(gcCiGetFileSize)", 0);
         }
         return 0;
     }
