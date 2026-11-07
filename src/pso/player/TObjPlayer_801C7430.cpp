@@ -4626,6 +4626,77 @@ void TObjPlayer::enter_technique_cast() {
     ((void (*)(void *, s16, s16))set_action_state__10TObjPlayerFPvss)(self, 8, ((TObjPlayer *)self)->get_status());
 }
 
+void handle_6x47_cast_technique(u8* self) {
+    void init_cast_technique_cmd__10TNpcPlayerFv(u8*);
+    void byteswap_positions__10TNpcPlayerFv(u8*);
+    s32 validate_6x47_cast_technique__FPUc(u8*);
+    s32 reset_volopt_state__10TObjPlayerFv(void*);
+    s32 test_action_mask__10TObjPlayerFl(void*, s32);
+    s32 get_player_by_client_id(u16);
+    void* copy_tech_params__10TObjPlayerFPvPv(void*, void*);
+    void run_action_state_phase__10TObjPlayerFisi(void*, s16, s32);
+    void set_technique_id__10TObjPlayerFs(void*, s32);
+    void set_technique_id__10TObjPlayerFUc(void*, u8);
+    s32 check_technique_level__10TObjPlayerFllUc(void*, s32, s32);
+    void clamp_and_set_unit_value__10TObjPlayerFiUci(void*, s32, s32);
+    void TObjPlayer__sub_801D21CC(void*, void*);
+    s32 get_valid_technique__10TObjPlayerFv(void*);
+    s32 is_valid_technique_slot__10TObjPlayerFUc(u8);
+    void set_tech_level__10TObjPlayerFs(void*, s32);
+    void* get_technique_data__10TObjPlayerFPv(void*);
+    u8 buf[8];
+    u32 arr[7];
+    u8* p;
+    s32 i;
+    s32 lim;
+    s8 n;
+    u32* d;
+    u32* s;
+    s32 c;
+    s8 e;
+
+    init_cast_technique_cmd__10TNpcPlayerFv(buf);
+    TObjPlayer__sub_801D21CC(buf, self);
+    byteswap_positions__10TNpcPlayerFv(buf);
+    if (validate_6x47_cast_technique__FPUc(buf) == 0) {
+        return;
+    }
+    p = (u8*)get_player_by_client_id(*(u16*)(buf + 2));
+    if (p == NULL) {
+        return;
+    }
+    if (reset_volopt_state__10TObjPlayerFv(p) == 0) {
+        return;
+    }
+    if (test_action_mask__10TObjPlayerFl(p, 0x8200) != 0) {
+        return;
+    }
+    c = *(s8*)(buf + 4);
+    set_technique_id__10TObjPlayerFs(p + 0x428, *(s8*)(buf + 4));
+    e = buf[6];
+    n = (s8)get_valid_technique__10TObjPlayerFv(p + 0x428);
+    if (is_valid_technique_slot__10TObjPlayerFUc((u8)n) == 0) {
+        n = 0;
+    }
+    if (e == 0xe) {
+        e += n;
+    }
+    if (check_technique_level__10TObjPlayerFllUc(p + 0x428, c, e & 0xff) == 0) {
+        e = 0;
+    }
+    set_technique_id__10TObjPlayerFUc(p + 0x428, (u8)e);
+    clamp_and_set_unit_value__10TObjPlayerFiUci(p, (u8)e, c);
+    lim = *(s8*)(buf + 7);
+    set_tech_level__10TObjPlayerFs(p + 0x428, lim);
+    d = (u32*)get_technique_data__10TObjPlayerFPv(p + 0x428);
+    s = arr;
+    for (i = 0; i < lim; i++) {
+        copy_tech_params__10TObjPlayerFPvPv(d++, s++);
+    }
+    run_action_state_phase__10TObjPlayerFisi(p, 8, 0);
+}
+
+
 void handle_6x8D_set_technique_level_override(void *arg0) {
     Msg_801CD6BC m;
     u8 *p;

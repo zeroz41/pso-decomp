@@ -1188,6 +1188,27 @@ void TObjEnePanBARA::attack_target_player(s32 arg1) {
         }
     }
 }
+
+extern f32 lbl_8043CD80[];
+
+s32 TObjEnePanarms__sub_800E1774(void * self_) {
+    f32 vec[3];
+    s32 pos;
+    s32 ret;
+
+    if ((s32)((TObjEnePanarms *)self_)->get_state_flag() != 0) {
+        ret = TObjEnePanarms__sub_800E2FB4(*(O_800E2FB4 **)(((u8*)self_) + 0x3a0)) == 0
+            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = ((TObjEnePanBARA *)self_)->find_nearest_enemy_with_flag_alt_target((s32)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
+            && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(TObjEnePanarms__data_8043CDD0 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
+        return (u8)ret;
+    } else {
+        ret = TObjEnePanarms__sub_800E2FB4(*(O_800E2FB4 **)(((u8*)self_) + 0x3a0)) == 0
+            && (*(s32*)(((u8*)self_) + 0x3b8) = pos = (u16)find_nearest_visible_player(self_, (Vec_800E0A44 *)vec, lbl_8043CD80[*(s32 *)((u8 *)self_ + 0x380)])) != 0xffff
+            && angle_difference_abs(*(s32*)(((u8*)self_) + 0x60), (s32)(TObjEnePanarms__data_8043CDD0 * ((f64 (*)(f32, f32))atan2_float)(vec[0], vec[2]))) < 0x400;
+        return (u8)ret;
+    }
+}
+
 #pragma pop
 
 #pragma push

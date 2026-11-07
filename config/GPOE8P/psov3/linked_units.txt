@@ -705,6 +705,7 @@ pso/map/FloorArea_8029E764.cpp
 pso/map/FloorLifecycleTables.cpp
 pso/math/MatrixTransforms.cpp
 pso/math/MatrixVector.cpp
+pso/ui/frontend/TAdEndText.cpp
 pso/ui/frontend/TAdEndText_80307A34.cpp
 pso/ui/frontend/TAdEndText_80399904.cpp
 pso/ui/frontend/TAdGuideTxtGC.cpp
@@ -966,6 +967,7 @@ pso/unk/TLobby_8020D0B0.cpp
 pso/unk/TLobby_8020D1BC.cpp
 pso/unk/TLobby_8020DFD8.cpp
 pso/effect/TUnk_80494968.cpp
+pso/unk/text_80184C2C.cpp
 pso/unk/text_8020E08C.cpp
 pso/unk/TLobby_8020E400.cpp
 pso/unk/TLobby_8020ED20.cpp
@@ -1017,6 +1019,7 @@ pso/unk/TLobby_80329600.cpp
 pso/unk/TLobby_8032BD20.cpp
 pso/unk/TLobby_80335E7C.cpp
 pso/unk/TLobby_803360CC.cpp
+pso/unk/text_802A2A00.cpp
 pso/unk/text_803369C8.cpp
 pso/unk/TLobby_803382E4.cpp
 pso/unk/TLobby_80338E9C.cpp
@@ -1245,6 +1248,7 @@ pso/effect/photon/TPhotonMylla.cpp
 pso/effect/photon/TPhotonPilla.cpp
 pso/effect/photon/TPhotonRainbow.cpp
 pso/effect/photon/TPhotonYoulla.cpp
+pso/player/TObjPlayer_802790CC.cpp
 pso/player/TPlayerBattleCtrl4P.cpp
 pso/player/TPlayerBattleCtrl4P_801C4F70.cpp
 pso/player/TPlayerFootStamp.cpp

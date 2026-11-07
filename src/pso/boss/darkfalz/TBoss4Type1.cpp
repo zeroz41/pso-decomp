@@ -279,7 +279,7 @@ void set_pos_from_scaled_offset__11TBoss4Type2FPvPvPv(S_80054224 *o, void *src, 
 u8 * TBoss4Type2__sub_80054384(void *self, s32 i, s32 j);
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss);
 void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0);
-void TBoss4Type2__sub_80054FC0(void *center, f32 min_dist);
+void TBoss4Type2__sub_80054FC0(u8 *center, f32 min_dist);
 void TBoss4Type2__sub_80055300(void);
 Vec_80053E40 * get_position_ptr__10TObjPlayerFv(void *);
 void * create__9TBoss4UroFi(Params_80052CDC *);
@@ -506,6 +506,126 @@ void create_all_tenchu_furu__11TBoss4Type2Fi(s32 arg0) {
         var_r30 += 1;
         var_r31 = (s32 *)((u8 *)var_r31 + (0xC));
     } while (var_r30 < 0x40);
+}
+
+s32 is_split_screen(void);
+extern const f32 lbl_805D8B8C;
+extern const f32 lbl_805D8B90;
+extern const f32 lbl_805D8B94;
+extern const f32 lbl_805D8B98;
+extern s32 local_client_id;
+int rand(void);
+
+extern "C" void TBoss4Type2__sub_80054FC0(u8 *arg0, f32 arg1) {
+  u8 *out;
+  s32 total;
+  s32 cnt;
+  s32 i;
+  s32 k;
+  s32 ang;
+  s32 j;
+  u8 *arr[4];
+  s32 tries;
+  f32 f24;
+  f32 zero;
+  Vec_80053914 w;
+  Vec_80053914 v;
+  out = (u8 *) (&TBoss4Type2__tenchu_furu_array);
+  for (total = 0; total < 0x40; total++, out += 0xc)
+  {
+    VecCopy__FP3VecPC3Vec((Vec_80053914 *) out, lbl_80485AE0);
+  }
+
+  total = 0;
+  out = (u8 *) (&TBoss4Type2__tenchu_furu_array);
+  cnt = 0;
+  if (is_split_screen())
+  {
+    cnt = TLobby::get_game_mode();
+    if (cnt > 4)
+    {
+      cnt = 4;
+    }
+    for (i = 0; i < cnt; i++)
+    {
+      arr[i] = (u8 *) get_player_data__10TObjPlayerFi(i);
+      if (arr[i] == 0)
+      {
+        break;
+      }
+    }
+
+  }
+  else
+  {
+    arr[0] = (u8 *) get_player_by_client_id(local_client_id);
+    if (arr[0] != 0)
+    {
+      cnt = 1;
+    }
+  }
+  f24 = lbl_805D8B8C;
+  for (k = 0; k < cnt; k++)
+  {
+    total++;
+    ((Vec_80053914 *) out)->x = *((f32 *) (arr[k] + 0x38));
+    ((Vec_80053914 *) out)->z = *((f32 *) (arr[k] + 0x40));
+    out += 0xc;
+    for (ang = 0, j = 0; j < 8; j++, ang += 0x2000)
+    {
+      ((Vec_80053914 *) out)->x = (*((f32 *) (arr[k] + 0x38))) + (f24 * sin_table_lookup(ang));
+      (*((Vec_80053914 *) out)).z = (*((f32 *) (arr[k] + 0x40))) + (f24 * cos_table_lookup(ang));
+      out += 0xc;
+      total++;
+    }
+
+  }
+
+  tries = 0;
+  while ((tries < 0x100) && (total < 0x40))
+  {
+    w.x = lbl_805D8B4C * ((lbl_805D8B90 * ((f32) rand())) - lbl_805D8B60);
+    w.z = lbl_805D8B4C * ((lbl_805D8B90 * ((f32) rand())) - lbl_805D8B60);
+    w.y = lbl_805D8B20;
+    if (((w.x * w.x) + (w.z * w.z)) >= lbl_805D8B94)
+    {
+      goto next;
+    }
+    if (arg0 != 0)
+    {
+      VecCopy__FP3VecPC3Vec(&v, arg0);
+      subtract_vector((Vec_80053D4C *) (&v), (Vec_80053D4C *) (&w));
+      v.y = lbl_805D8B20;
+      if (vector_length(&v) <= arg1)
+      {
+        goto next;
+      }
+    }
+    u8 *p;
+    s32 found;
+    s32 m;
+    found = 0;
+    p = (u8 *) (&TBoss4Type2__tenchu_furu_array);
+    for (m = 0; m < total; m++)
+    {
+      if (xyz_distance(&w, (Vec_80053914 *) p) <= lbl_805D8B98)
+      {
+        found = 1;
+        break;
+      }
+      p += 0xc;
+    }
+
+    if (found == 0)
+    {
+      ((Vec_80053914 *) out)->x = w.x;
+      ((Vec_80053914 *) out)->z = w.z;
+      out += 0xc;
+      total++;
+    }
+    next:
+    tries++;
+  }
 }
 
 void TBoss4Type2__sub_80054DA8(TBoss4Type2 *boss) {
