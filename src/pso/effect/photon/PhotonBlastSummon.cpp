@@ -390,7 +390,7 @@ void spawn_photon_blast_attachment_effects(struct Self_801A7680 *self, s32 kind)
                 rot[1] = 0;
                 rot[2] = 0;
             }
-            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, id, a, b, (u16)flags);
+            self->effects[i].obj = create_timed_particle_emitter_with_angles(&self->pos, rot, id, a, b, flags & 0xFFFF);
             self->effects[i].flag = def->unkC;
             copy_xyz(self->effects[i].angles, angles);
         }
