@@ -637,7 +637,7 @@ void TLobby__sub_803F97E8(int);
 s32 TLobby__sub_803FC684(u8 *, u8 *, u8 *);
 extern u8 lbl_805C0038[];
 extern s16 lbl_805D7A7C;
-s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
+s16 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len);
 s16 TLobby__sub_8040DC8C(u8 *arg0, u8 *arg1);
 s32 TLobby__sub_804217E4(void);
 s32 TLobby__sub_80421814(void);
@@ -4208,7 +4208,7 @@ s32 TLobby::build_dns_query_aaaa(u8 *name, s16 len) {
     Q_8040B6E4 *q = (Q_8040B6E4 *)this;
     Hdr_8040B6E4 *h;
     u8 *body;
-    s32 n;
+    s16 n;
     s16 total;
     QT_8040B6E4 qt;
     h = q->pkt->hdr;
@@ -4222,7 +4222,7 @@ s32 TLobby::build_dns_query_aaaa(u8 *name, s16 len) {
     h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = 0x1C;
-    body += (s16)n;
+    body += n;
     qt.cls = 1;
     total = n + 0xC;
     NetMemcpy(body, &qt, 4);
@@ -4237,7 +4237,7 @@ s32 TLobby::build_dns_query_a(u8 *name, s16 len) {
     Q_8040B790 *q = (Q_8040B790 *)this;
     Hdr_8040B790 *h;
     u8 *body;
-    s32 n;
+    s16 n;
     s16 total;
     QT_8040B790 qt;
     h = q->pkt->hdr;
@@ -4251,7 +4251,7 @@ s32 TLobby::build_dns_query_a(u8 *name, s16 len) {
     h->ar = 0;
     n = TLobby__sub_8040B838(body, name, len);
     qt.type = 1;
-    body += (s16)n;
+    body += n;
     qt.cls = 1;
     total = n + 0xC;
     NetMemcpy(body, &qt, 4);
@@ -4714,12 +4714,12 @@ void TLobby__sub_8040C74C(SubA_8040C540 *a) {
 }
 #pragma pop
 
-s32 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len) {
+s16 TLobby__sub_8040B838(u8 *dst, u8 *src, s16 len) {
     u8 *label;
     s16 i;
     u8 n;
     u8 c;
-    s32 ret;
+    s16 ret;
 
     label = dst++;
     n = 0;
