@@ -5,7 +5,9 @@
 #include "pso/render/MaterialColorFade.h"
 #include "pso/boss/derolle/TBoss2DeRolLe.h"
 #include "pso/math/MatrixTransforms.h"
-#include "pso/player/TObjPlayer_801ADC6C.h"
+#include "pso/player/TObjPlayer_801AE48C.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/unk/TLobby.h"
 #include "pso/render/ChunkMaterialState.h"
 #include "pso/unk/text_803D96A8.h"
 #include "pso/system/vector.h"
@@ -64,7 +66,6 @@ extern Color_801ADDDC model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *pilla_photon_buffer_pair;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -72,6 +73,7 @@ void TPhotonLaser__ct(void *, void *, void *, u16);
 void *__nw__7TObjectFUl(u32);
 void vec3_add_to(void *, void *);
 const char *TPhotonPilla__class_name = "TPhotonPilla";
+void *pilla_photon_buffer_pair;
 extern const Packet_801ADD10 photon_pilla_laser_packet = {
     { 0.0f, 0.0f, 0.0f }, { 0 }, { 0.0f, -1.0f, 0.0f }, 300.0f, 30.0f, 30.0f
 };
@@ -82,11 +84,6 @@ s32 spawn_photon_blast_attachment_effects(void *, s32);
 u8 *TPhotonMagicSquare__ct(u8 *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4, f32 farg0);
 void *find_entity_by_id(u16 id);
 u32 get_entity_id();
-
-    extern int lbl_805D5D50;
-void TObjPlayer__sub_801ADC6C(void) { lbl_805D5D50 = 0; }
-
-void TObjPlayer__sub_801ADC78(void) {  }
 
 void TPhotonPilla::sub_801ADC7C() { this->m_180 = 0.0f; *(float*)((char*)this + 0x184) = 0.0f; this->m_188 = 0.0f; *(float*)((char*)this + 0x18c) = 0.0f; }
 
@@ -349,4 +346,21 @@ u8 *TPhotonPilla__ct(u8 *photon_rainbow, u8 *arg1) {
     return photon_rainbow;
 }
 
+}
+
+void TObjPlayer::free_buffer_pair() {
+    if (pilla_photon_buffer_pair != NULL) {
+        destroy_buffer_pair(pilla_photon_buffer_pair, 1);
+    }
+    pilla_photon_buffer_pair = NULL;
+}
+void create_pilla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));
+    }
+    pilla_photon_buffer_pair = (void *)var_r0;
 }

@@ -6,7 +6,8 @@
 
 struct TPhotonYoulla : public TUnk_804C3248 {
     virtual ~TPhotonYoulla();
-    void sub_801AE72C();
+    // The ctor passes byte +0x1C of its spawn record; the body ignores it.
+    void sub_801AE72C(u8);
     u8 unk_158[0x24];
     u16 m_17c;
     u8 _pad17E[0x2];

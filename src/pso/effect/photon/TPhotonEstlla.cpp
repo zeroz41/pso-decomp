@@ -6,6 +6,8 @@
 #include "pso/player/TObjPlayer_801AA664.h"
 #include "pso/effect/photon/TPhotonEstlla.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/unk/TLobby.h"
 #include "pso/ui/hud/TRaderMapCore.h"
 #include "pso/render/MaterialColorFade.h"
 #include "pso/unk/TUnk_804C3248.h"
@@ -112,7 +114,7 @@ extern Color_801AA818 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *estlla_photon_blast_model;
+void *estlla_photon_blast_model;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -338,4 +340,22 @@ TPhotonEstlla::TPhotonEstlla(u8 *arg1) : TUnk_804C3248() {
         spawn_photon_blast_opening_effects(1, this->m_17c);
         play_cue_stream_file((s32)"estla.adx");
     }
+}
+
+void TObjPlayer::destroy_global_buffer() {
+    if (estlla_photon_blast_model != NULL) {
+        destroy_buffer_pair(estlla_photon_blast_model, 1);
+    }
+    estlla_photon_blast_model = NULL;
+}
+
+void create_estlla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98)) + 0x2C), 0));
+    }
+    estlla_photon_blast_model = (void *)var_r0;
 }

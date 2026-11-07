@@ -18,6 +18,9 @@ const char *TPhotonLeilla__class_name = "TPhotonLeilla";
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/player/TObjPlayer.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/unk/TLobby.h"
+#include "pso/player/TObjPlayer_801ACA6C.h"
 #include "pso/unk/TLobby_802268F4.h"
 #include "pso/map/FloorArea.h"
 
@@ -75,7 +78,7 @@ extern Color_801AC45C model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *leilla_photon_buffer_pair;
+void *leilla_photon_buffer_pair;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -305,4 +308,22 @@ void *TPhotonLeilla__ct(Leilla_801AC808 *self, Pkt_801AC808 *pkt) {
     }
     return self;
 }
+}
+
+void TObjPlayer::destroy_buffer_pair_instance() {
+    if (leilla_photon_buffer_pair != NULL) {
+        destroy_buffer_pair(leilla_photon_buffer_pair, 1);
+    }
+    leilla_photon_buffer_pair = NULL;
+}
+
+void create_leilla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8)) + 0x2C), 0));
+    }
+    leilla_photon_buffer_pair = (void *)var_r0;
 }

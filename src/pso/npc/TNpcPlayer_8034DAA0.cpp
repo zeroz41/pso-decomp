@@ -34,7 +34,7 @@ E_8034E02C npc_partner_dialogue_state[25] = { 0 };
 
 struct Vec2i_8034DAA0 {
     s32 x;
-    s32 y;
+    f32 y;
 };
 
 struct Base_8034DAA0 {
@@ -102,52 +102,27 @@ s32 obj_getS16_2BA(Player_8034DAA0 *);
 void obj_setFlags30(void *, u32);
 s32 get_field_2b8__14TItemProShieldFv(Player_8034DAA0 *);
 void set_tp__10TObjPlayerFs(Player_8034DAA0 *, s32);
-extern Vec2i_8034DAA0 lbl_80478C90[];
-extern Vec2i_8034DAA0 lbl_80478C98[];
-extern Vec2i_8034DAA0 lbl_80478CA0[];
-extern Vec2i_8034DAA0 lbl_80478CA8[];
 
 }
 
-
-struct RecoveredGlobal_8034DE10_lbl_80478C70 {
-    s32 value;
-    u8 remaining[0x14];
-};
-
-struct RecoveredGlobal_8034DE70_lbl_80478C50 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 struct RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 {
     s32 value;
     u8 remaining[0x9FC];
 };
 
-struct RecoveredGlobal_801A51C0_lbl_80446980 {
-    s32 value;
-    u8 remaining[0x14];
-};
 
 
 
 extern "C" {
-extern RecoveredGlobal_8034DE10_lbl_80478C70 party_position_table;
-extern RecoveredGlobal_8034DE70_lbl_80478C50 npc_lobby_entry_positions;
 s32 copy__10TNpcPlayerFPv(void *, void *, int);
 extern RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90 TNpcPlayer__template_table;
-extern RecoveredGlobal_801A51C0_lbl_80446980 lbl_80478C88;
-extern RecoveredGlobal_801A51C0_lbl_80446980 lbl_80478C68;
 s32 __dt__7TObjectFv(void *, int);
 s32 is_script_controlled__10TObjPlayerFv();
 s32 __dl__7TObjectFPv(void *);
 void construct_partner__10TNpcPlayerFPviisPv(void *, u16, u16, s32, void *);
 void *__nw__7TObjectFUl(u32);
 extern void *tl_00;
-typedef char RecoveredGlobal_8034DE10_lbl_80478C70_size[sizeof(RecoveredGlobal_8034DE10_lbl_80478C70) == 0x18 ? 1 : -1];
-
-typedef char RecoveredGlobal_801A51C0_lbl_80446980_size[sizeof(RecoveredGlobal_801A51C0_lbl_80446980) == 0x18 ? 1 : -1];
 
 typedef struct VBase_18_dac7f3 VBase_18_dac7f3;
 typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
@@ -156,7 +131,6 @@ typedef struct VObj_18_dac7f3 VObj_18_dac7f3;
 
 
 
-typedef char RecoveredGlobal_8034DE70_lbl_80478C50_size[sizeof(RecoveredGlobal_8034DE70_lbl_80478C50) == 0x18 ? 1 : -1];
 
 
 typedef char RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90_size[sizeof(RecoveredGlobal_8034DEA0_TNpcPlayer__data_804ABC90) == 0xA00 ? 1 : -1];
@@ -312,7 +286,6 @@ extern struct Slot_8034EDC4 partner_dialogue_table[];
 extern s32 TNpcPlayer__data_805D5864;
 void init_partner_dialogue(void);
 void set_partner_common_remark(s32 kind, const char *text);
-extern const f64 lbl_80478CB0[];
 void quest_player_look_at_partner(u16 src);
 void notify_partner_room_cleared(s32 arg0);
 void quest_player_face_actor(u16 src, u16 dst);
@@ -739,7 +712,7 @@ void quest_player_look_at_partner(u16 src) {
     if (obj_testFlags30__14TObjCollidableFUl(a, 0x100000) != 0) {
         flag = 1;
     }
-    heading = (s32) (lbl_80478CB0[0] * atan2_float(c->x - a->x, c->z - a->z));
+    heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
     pkt.id = src;
     VecCopy((Vec *)&pkt.x, (const Vec *)&a->x);
     pkt.arg = heading;
@@ -766,7 +739,7 @@ void quest_player_face_actor(u16 src, u16 dst) {
     }
     ((TNpcPlayer *)(&pkt))->init_6x3E_packet();
     obj_testFlags30__14TObjCollidableFUl(a, 0x100000);
-    heading = (s32) (lbl_80478CB0[0] * atan2_float(c->x - a->x, c->z - a->z));
+    heading = (s32) ((65536.0 / (2.0 * 3.141592f)) * atan2_float(c->x - a->x, c->z - a->z));
     pkt.id = src;
     VecCopy((Vec *)&pkt.x, (const Vec *)&a->x);
     pkt.arg = heading;
@@ -796,7 +769,7 @@ void TNpcPlayer::send_warp_toward_player(u16 arg0, f32 *arg1) {
     P_8034E054 *me = (P_8034E054 *)get_player_by_client_id(local_client_id);
     if (me == NULL || arg0 == 0) return;
     if (((TNpcPlayer *)npc)->get_action_flags() != 0xFFFF) {
-        send_6x55_intra_map_warp(arg0, arg1, (lbl_80478CB0[0] * atan2_float(arg1[0] - me->x, arg1[2] - me->z)));
+        send_6x55_intra_map_warp(arg0, arg1, ((65536.0 / (2.0 * 3.141592f)) * atan2_float(arg1[0] - me->x, arg1[2] - me->z)));
     }
 }
 
@@ -858,20 +831,26 @@ void TNpcPlayer::copy_entry_by_index(s32 arg1) {
     copy__10TNpcPlayerFPv((void *) ((u8 *)&TNpcPlayer__template_table.value + temp_r5), (void *)arg0, (int)temp_r5);
 }
 
+// Indexed by TLobby::get_instance(); the yaw tables' names are inferred from their accessors.
+static const Vec npc_lobby_entry_positions[2] = {{214.0f, 0.0f, -236.0f}, {214.0f, 0.0f, -236.0f}};
+static const s32 npc_lobby_entry_yaws[2] = {0x8000, 0x8000};
+static const Vec party_position_table[2] = {{200.0f, 0.0f, 320.0f}, {30.0f, 0.0f, 212.0f}};
+static const s32 party_yaw_table[2] = {0xE400, 0xC000};
+
 u8 *TNpcPlayer::get_lobby_entry_ptr() {
-    return (u8 *)&npc_lobby_entry_positions.value + (TLobby::get_instance() * 0xC);
+    return (u8 *)&npc_lobby_entry_positions[TLobby::get_instance()];
 }
 
 s32 TNpcPlayer__sub_8034DE40(void) {
-    return *(s32 *)((s8 *)&lbl_80478C68.value + (TLobby::get_instance() * 4));
+    return npc_lobby_entry_yaws[TLobby::get_instance()];
 }
 
 u8 *get_party_position(void) {
-    return (u8 *)&party_position_table.value + (TLobby::get_instance() * 0xC);
+    return (u8 *)&party_position_table[TLobby::get_instance()];
 }
 
 s32 get_party_yaw(void) {
-    return *(s32 *)((s8 *)&lbl_80478C88.value + (TLobby::get_instance() * 4));
+    return party_yaw_table[TLobby::get_instance()];
 }
 
 TUnk_804F07C8::TUnk_804F07C8(TObject *parent) : TObject(parent) {
@@ -947,22 +926,22 @@ void TLobby__sub_8034DAA0(s32 arg0, u32 arg1) {
         obj_setFlags30(p, 0x10);
         break;
     case 6: {
-        Vec2i_8034DAA0 v = lbl_80478C90[0];
+        Vec2i_8034DAA0 v = {9, 20.0f};
         p->v49(&v);
         break;
     }
     case 7: {
-        Vec2i_8034DAA0 v = lbl_80478C98[0];
+        Vec2i_8034DAA0 v = {10, 20.0f};
         p->v50(&v);
         break;
     }
     case 8: {
-        Vec2i_8034DAA0 v = lbl_80478CA0[0];
+        Vec2i_8034DAA0 v = {11, 20.0f};
         p->v49(&v);
         break;
     }
     case 9: {
-        Vec2i_8034DAA0 v = lbl_80478CA8[0];
+        Vec2i_8034DAA0 v = {12, 20.0f};
         p->v50(&v);
         break;
     }

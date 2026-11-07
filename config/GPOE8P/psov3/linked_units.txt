@@ -2022,10 +2022,7 @@ pso/player/TObjPlayer_801A9BAC.cpp
 pso/player/TObjPlayer_801AA220.cpp
 pso/player/TObjPlayer_801AA508.cpp
 pso/player/TObjPlayer_801AA5C0.cpp
-pso/player/TObjPlayer_801AC0D8.cpp
-pso/player/TObjPlayer_801ACA6C.cpp
 pso/player/TObjPlayer_801AD47C.cpp
-pso/player/TObjPlayer_801AE48C.cpp
 pso/player/TObjPlayer_801AEB84.cpp
 pso/player/TObjPlayer_801AEE10.cpp
 pso/player/TObjPlayer_801AEFFC.cpp

@@ -9,6 +9,8 @@
 #include "pso/player/TObjPlayer.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 
+const char *TObjNpcARW00__name = "TObjNpcARW00";
+
 struct RecoveredGlobal_80148038___vt__12TObjNpcARW00 {
     s32 value;
     u8 remaining[0x174];
@@ -17,11 +19,8 @@ struct RecoveredGlobal_80148038___vt__12TObjNpcARW00 {
 extern "C" {
 s32 play_sound_effect(int, void *, int, int);
 extern s32 __vt__12TObjNpcARW00[];
-extern s32 TObjNpcARW00__name;
 extern u32 TObjNpcARW00__static_model;
 extern u32 TObjNpcARW00__gvm_texture_handle;
-extern char lbl_8043F4A8[];
-extern char lbl_8043F4BC[];
 void release_texture_list(void*);
 void __dl__7TObjectFPv(void *);
 
@@ -38,8 +37,8 @@ void TObjNpcARW00::free_resources() {
 }
 
 void TObjNpcARW00::load_resources() {
-    TObjNpcARW00__static_model = (u32)create_named_object((s32)lbl_8043F4A8);
-    TObjNpcARW00__gvm_texture_handle = (u32)load_gvm_texture_file((s32)lbl_8043F4BC);
+    TObjNpcARW00__static_model = (u32)create_named_object((s32)"npc_f00_data.rel");
+    TObjNpcARW00__gvm_texture_handle = (u32)load_gvm_texture_file((s32)"n_f00_w_body.gvm");
 }
 
 }

@@ -52,7 +52,6 @@ struct Self_801AAF00 {
 };
 
 extern u8 *photon_blast_shared_resource;
-extern u32 estlla_photon_blast_model;
 extern "C" {
 s32 scroll_strip_uvs(void *, s16, int);
 s32 clear_render_context__10TObjPlayerFv(void *);
@@ -63,30 +62,14 @@ extern Color_801AAF00 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *farlla_photon_blast_model_buffers;
+void *farlla_photon_blast_model_buffers;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 u32 get_entity_id();
 
-void TObjPlayer::destroy_global_buffer() {
-    if ((u32) estlla_photon_blast_model != 0U) {
-        destroy_buffer_pair((void *)estlla_photon_blast_model, 1);
-    }
-    estlla_photon_blast_model = 0U;
-}
 }
 
-void create_estlla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(void **)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x98)) + 0x2C), 0));
-    }
-    (*(s32 *)&estlla_photon_blast_model) = var_r0;
-}
 
 void TPhotonFarlla::sub_801AAE6C() { this->m_184 = 0.0f; *(float*)((char*)this + 0x188) = 0.0f; this->m_18c = 0.0f; *(float*)((char*)this + 0x190) = 0.0f; }
 
@@ -378,3 +361,21 @@ u8 *TPhotonFarlla__ct(u8 *arg0, u8 *arg1) {
 }
 }
 #pragma pop
+
+void TObjPlayer::destroy_buffers() {
+    if (farlla_photon_blast_model_buffers != NULL) {
+        destroy_buffer_pair(farlla_photon_blast_model_buffers, 1);
+    }
+    farlla_photon_blast_model_buffers = NULL;
+}
+
+void create_farlla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8), 0));
+    }
+    farlla_photon_blast_model_buffers = (void *)var_r0;
+}

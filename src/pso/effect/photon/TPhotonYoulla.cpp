@@ -57,7 +57,6 @@ extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
 void *find_entity_by_id(u16 id);
-void sub_801AE72C__13TPhotonYoullaFv(void *, u8);
 s32 spawn_photon_blast_attachment_effects(void *, s32);
 extern u8 photon_blast_youlla_params[];
 extern s32 __vt__13TPhotonYoulla[];
@@ -65,11 +64,8 @@ extern const char *lbl_805D3528;
 extern u8 *photon_blast_shared_resource;
 void __dl__7TObjectFPv(void *);
 
-extern const f32 lbl_805DC264;
-extern const f32 lbl_805DC268;
-extern const f32 lbl_805DC26C;
-extern const f32 lbl_805DC270;
-extern const f32 lbl_805DC274;
+
+void TPhotonYoulla::sub_801AE72C(u8) { *(float *)&this->m_184 = 0.0f; *(float*)((char*)this + 0x188) = 0.0f; this->m_18c = 0.0f; *(float *)&this->unk_190 = 0.0f; }
 
 void TPhotonYoulla::render() {
     Self_801AE744 *self = (Self_801AE744 *)this;
@@ -108,7 +104,7 @@ void TPhotonYoulla::run_task() {
     if (((s32) *(s32 *)&this->m_1a4 == 0x32) && ((s32) *(s32 *)&this->m_1a0 == 0)) {
         *(s32 *)&this->m_1a0 = 1;
     }
-    if ((lbl_805DC264 == (f32) *(s32 *)&this->m_1a4) && ((s16) this->requested_action == 1)) {
+    if ((100.0f == (f32) *(s32 *)&this->m_1a4) && ((s16) this->requested_action == 1)) {
         spawn_photon_blast_attachment_effects(this, 6);
         *(s32 *)&this->m_1a4 = 0;
         set_field_b8(0);
@@ -119,13 +115,13 @@ void TPhotonYoulla::run_task() {
     *(s16 *)((s8 *)this + 0x14C) = (s16) (*(s16 *)((s8 *)this + 0x14C) + 0xF);
     *(s16 *)((s8 *)this + 0x14C) = (s16) (u8) *(s16 *)((s8 *)this + 0x14C);
     *(s32 *)&this->m_1a4 = (s32) (*(s32 *)&this->m_1a4 + 1);
-    if ((f32) *(s32 *)&this->m_1a4 > lbl_805DC268) {
+    if ((f32) *(s32 *)&this->m_1a4 > 116.0f) {
         temp_f1 = *(f32 *)&this->m_184;
-        if (temp_f1 > lbl_805DC26C) {
-            *(f32 *)&this->m_184 = (f32) (temp_f1 - lbl_805DC270);
+        if (temp_f1 > -1.0f) {
+            *(f32 *)&this->m_184 = (f32) (temp_f1 - 0.15f);
         }
     }
-    if (lbl_805DC274 == (f32) *(s32 *)&this->m_1a4) {
+    if (123.0f == (f32) *(s32 *)&this->m_1a4) {
         queue_destruction__7TObjectFv(this);
     }
 }
@@ -168,7 +164,7 @@ u8 *TPhotonYoulla__ct(TPhotonYoulla *photon_youlla, u8 *arg1) {
     photon_youlla->m_198 = (s32) *(s32 *)((s8 *)arg1 + 0x10);
     photon_youlla->m_19c = (s32) *(s32 *)((s8 *)arg1 + 0x14);
     photon_youlla->m_1a0 = 0;
-    sub_801AE72C__13TPhotonYoullaFv(photon_youlla, *(u8 *)((s8 *)arg1 + 0x1C));
+    photon_youlla->sub_801AE72C(*(u8 *)((s8 *)arg1 + 0x1C));
     photon_youlla->m_1a4 = 0;
     if ((s32) photon_youlla->m_198 == 0) {
         ((TObjMotion *)photon_youlla)->set_field_b8(0);

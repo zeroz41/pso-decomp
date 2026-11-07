@@ -18,6 +18,8 @@
 #include "pso/enemy/panarms/TObjEnePanarms.h"
 #include "pso/enemy/berura/TObjEneRe7Berura.h"
 #include "pso/unk/TLobby.h"
+#include "pso/unk/text_800F5BC0.h"
+#include "pso/player/TObjPlayer_801AC0D8.h"
 #include "pso/object/ambient/TObjFish.h"
 #include "pso/ui/frontend/TAdSinglePlyChrSelectGC.h"
 #include "pso/map/FloorArea.h"
@@ -115,7 +117,6 @@ typedef struct Golla_801AB868 {
 } Golla_801AB868;
 
 extern u8 *photon_blast_shared_resource;
-extern u32 farlla_photon_blast_model_buffers;
 extern "C" {
 void *spawn_particle_effect(void *pos, s32 id);
 void *find_entity_by_id(u16 id);
@@ -136,7 +137,7 @@ extern Color_801ABAA0 model_material_color;
 extern s32 saved_model_render_flags;
 extern s32 saved_chunk_polygon_flags_and_mask;
 extern s32 saved_chunk_polygon_flags_or_mask;
-extern void *golla_photon_blast_buffer_pair;
+void *golla_photon_blast_buffer_pair;
 extern s32 chunk_polygon_flags_or_mask;
 extern s32 chunk_polygon_flags_and_mask;
 extern s32 model_render_flags;
@@ -161,25 +162,7 @@ f32 vec3_dot(void *, void *);
 u16 get_entity_id(void *);
 }
 
-void *destroy_buffer_pair(void *arg0, s16 arg1);
 
-void TObjPlayer::destroy_buffers() {
-    if ((u32) farlla_photon_blast_model_buffers != 0U) {
-        destroy_buffer_pair((void *)farlla_photon_blast_model_buffers, 1);
-    }
-    farlla_photon_blast_model_buffers = 0U;
-}
-
-void create_farlla_photon_blast_model(void) {
-    s32 temp_r3;
-    s32 var_r0;
-    temp_r3 = (int)::operator new(0x14);
-    var_r0 = temp_r3;
-    if (var_r0 != 0) {
-        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 8), 0));
-    }
-    (*(s32 *)&farlla_photon_blast_model_buffers) = var_r0;
-}
 
 void TPhotonGolla::sub_801AB688() { this->m_15c = 0.0f; *(float*)((char*)this + 0x160) = 0.0f; this->m_164 = 0.0f; *(float*)((char*)this + 0x168) = 0.0f; }
 
@@ -548,4 +531,22 @@ u8 *TPhotonGolla__ct(u8 *arg0, u8 *arg1) {
 }
 #pragma pop
 
+}
+
+void TObjPlayer::destroy_static_buffer_pair() {
+    if (golla_photon_blast_buffer_pair != NULL) {
+        destroy_buffer_pair(golla_photon_blast_buffer_pair, 1);
+    }
+    golla_photon_blast_buffer_pair = NULL;
+}
+
+void create_golla_photon_blast_model(void) {
+    s32 temp_r3;
+    s32 var_r0;
+    temp_r3 = (int)::operator new(0x14);
+    var_r0 = temp_r3;
+    if (var_r0 != 0) {
+        var_r0 = (long) (((TLobby *)temp_r3)->alloc_tables(*(s32 *)((s8 *)(*(u8 **)((s8 *)photon_blast_shared_resource + 0x42C)) + 0x48), 0));
+    }
+    golla_photon_blast_buffer_pair = (void *)var_r0;
 }
