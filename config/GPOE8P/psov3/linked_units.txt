@@ -850,6 +850,7 @@ pso/ui/TLevelSelect.cpp
 pso/system/TLoadCtrl.cpp
 pso/unk/TLobby_80227A2C.cpp
 pso/unk/TLobby_80227AA0.cpp
+pso/unk/TLobby_80228154.cpp
 pso/unk/TLobby_80228818.cpp
 pso/ui/hud/TLoadingCur.cpp
 pso/ui/hud/TLoadingCur_801A6DE0.cpp

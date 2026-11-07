@@ -151,7 +151,7 @@ void TLobby__sub_80228154(Sprite_80228154 *sprite, s32 frame_index, s32 flags, f
         quad.u0 = quad.v1;
     }
     depth = -1.0f / depth;
-    begin_screen_draw((flags & 0x20) == 0x20);
+    begin_screen_draw(0x20 == (flags & 0x20));
     set_draw_texture_and_color(frame->texture, color.packed);
     draw_textured_quad_at_depth(&quad.x0, depth);
     TWindowSubStatusDisp::get_player();
