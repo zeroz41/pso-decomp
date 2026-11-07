@@ -833,6 +833,7 @@ pso/ui/city/THunterGuildWarning_80211700.cpp
 pso/ui/city/THunterGuildWarning_8021170C.cpp
 pso/ui/city/TJudgmentSequence.cpp
 pso/ui/city/TJudgmentSequence_8021E4C4.cpp
+pso/ui/keyboard/TKeyBoardControl.cpp
 pso/ui/keyboard/TKeyBoardControl_8000F764.cpp
 pso/ui/keyboard/TKeyBoardControl_80131C58.cpp
 pso/ui/keyboard/TKeyBoardControl_801A57C4.cpp

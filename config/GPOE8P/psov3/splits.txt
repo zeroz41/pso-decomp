@@ -7474,7 +7474,7 @@ pso/ui/keyboard/TKeyBoardControl.cpp:
 	.rodata     start:0x8044F258 end:0x8044F268
 	.data       start:0x804CFDE0 end:0x804D0004
 	.sbss       start:0x805D6458 end:0x805D6460
-	.sdata2     start:0x805DD078 end:0x805DD0C8
+	.sdata2     start:0x805DD078 end:0x805DD0D8
 
 pso/ui/window/TWindowSubMag_802627D8.cpp:
 	.text       start:0x802627D8 end:0x802628C0
